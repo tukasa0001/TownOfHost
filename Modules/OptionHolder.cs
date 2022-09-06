@@ -426,9 +426,9 @@ namespace TownOfHost
             // MapDleks = CustomOption.Create(100405, Color.white, "AddedDleks", false, RandomMapMode)
             //     .SetGameMode(CustomGameMode.All);
 
-            AirshipRandomSpawn = CustomOption.Create(100608, Color.white, "AirshipRandomSpawn", false, isHeader: true)
+            AirshipRandomSpawn = CustomOption.Create(101300, Color.white, "AirshipRandomSpawn", false, isHeader: true)
                 .SetGameMode(CustomGameMode.All);
-            AirshipAdditionalSpawn = CustomOption.Create(100609, Color.white, "AirshipAdditionalSpawn", false, AirshipRandomSpawn)
+            AirshipAdditionalSpawn = CustomOption.Create(101301, Color.white, "AirshipAdditionalSpawn", false, AirshipRandomSpawn)
                 .SetGameMode(CustomGameMode.All);
 
             // 投票モード
