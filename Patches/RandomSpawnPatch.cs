@@ -19,7 +19,7 @@ namespace TownOfHost
         Communications = new(-13.3f, 1.3f),
         Cockpit = new(-23.5f, -1.6f),
         Armory = new(-10.3f, -5.9f),
-        Kitchin = new(-7.0f, -11.9f),
+        Kitchen = new(-7.0f, -11.9f),
         ViewingDeck = new(-13.7f, -12.6f),
         Security = new(5.8f, -10.8f),
         Electrical = new(16.3f, -8.8f),
@@ -78,7 +78,7 @@ namespace TownOfHost
             {
                 Brig,
                 Engine,
-                Kitchin,
+                Kitchen,
                 CargoBay,
                 Records,
                 MainHall
