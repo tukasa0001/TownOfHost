@@ -254,6 +254,8 @@ TieMode.Random,Random,ランダム,,
 DisableDevices,Disable Devices,デバイスを無効化,禁用设备,禁用裝置
 DisableAdmin,Disable Admin,アドミン無効化,禁用管理员,禁用管理室地圖
 WhichDisableAdmin,Unavailable Admins,無効なアドミン,禁用哪个管理员,管理室地圖分區禁用
+AirshipRandomSpawn,Random spawn(Airship),ランダムスポーン(エアシップ),,
+AirshipAdditionalSpawn,Additional spawn(Airship),追加スポーン位置(エアシップ),,
 
 ## モード説明
 HideAndSeekInfo,"HideAndSeek:\nNo one can call emergency meeting, Crewmates (Blue) can win only by completing tasks\nand Impostors (Red) can win only by killing all the Crewmates.",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。\nインポスターは赤、クルーは青に体の色が変更される。,躲猫猫:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利；\n内鬼的皮肤颜色将变为红色，船员变为蓝色，以示区分。,"躲貓貓:\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色。"
