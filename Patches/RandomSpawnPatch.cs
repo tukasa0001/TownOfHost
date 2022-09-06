@@ -13,22 +13,22 @@ namespace TownOfHost
         private static Vector2
         MeetingRoom = new(17.1f, 14.9f),
         GapRoom = new(12.1f, 8.7f),
-        Brig = new(-8.9f, 12.2f),
+        Brig = new(-0.7f, 8.5f),
         Vault = new(-8.9f, 12.2f),
-        Engine = new(-0.7f, -1.4f),
+        Engine = new(-0.7f, -1.0f),
         Communications = new(-13.3f, 1.3f),
         Cockpit = new(-23.5f, -1.6f),
         Armory = new(-10.3f, -5.9f),
-        Kitchen = new(-7.0f, -11.9f),
+        Kitchen = new(-7.0f, -11.5f),
         ViewingDeck = new(-13.7f, -12.6f),
         Security = new(5.8f, -10.8f),
         Electrical = new(16.3f, -8.8f),
         Medical = new(29.0f, -6.2f),
-        CargoBay = new(33.5f, -1.9f),
+        CargoBay = new(33.5f, -1.5f),
         Lounge = new(28.9f, 5.1f),
-        Records = new(20.0f, 10.1f),
+        Records = new(20.0f, 10.5f),
         Showers = new(21.2f, -0.8f),
-        MainHall = new(15.5f, -0.4f);
+        MainHall = new(15.5f, 0.0f);
 
         [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.SnapTo), typeof(Vector2))]
         [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.SnapTo), typeof(Vector2), typeof(ushort))]
