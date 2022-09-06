@@ -426,6 +426,11 @@ namespace TownOfHost
             // MapDleks = CustomOption.Create(100405, Color.white, "AddedDleks", false, RandomMapMode)
             //     .SetGameMode(CustomGameMode.All);
 
+            AirshipRandomSpawn = CustomOption.Create(100608, Color.white, "AirshipRandomSpawn", false, isHeader: true)
+                .SetGameMode(CustomGameMode.All);
+            AirshipAdditionalSpawn = CustomOption.Create(100609, Color.white, "AirshipAdditionalSpawn", false, AirshipRandomSpawn)
+                .SetGameMode(CustomGameMode.All);
+
             // 投票モード
             VoteMode = CustomOption.Create(100500, Color.white, "VoteMode", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
@@ -462,10 +467,6 @@ namespace TownOfHost
             GhostCanSeeOtherVotes = CustomOption.Create(100604, Color.white, "GhostCanSeeOtherVotes", true)
                 .SetGameMode(CustomGameMode.All);
             GhostIgnoreTasks = CustomOption.Create(100607, Color.white, "GhostIgnoreTasks", false)
-                .SetGameMode(CustomGameMode.All);
-            AirshipRandomSpawn = CustomOption.Create(100608, Color.white, "AirshipRandomSpawn", false)
-                .SetGameMode(CustomGameMode.All);
-            AirshipAdditionalSpawn = CustomOption.Create(100609, Color.white, "AirshipAdditionalSpawn", false, AirshipRandomSpawn)
                 .SetGameMode(CustomGameMode.All);
             HideGameSettings = CustomOption.Create(100606, Color.white, "HideGameSettings", false)
                 .SetGameMode(CustomGameMode.All);
