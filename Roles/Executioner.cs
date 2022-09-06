@@ -19,6 +19,7 @@ namespace TownOfHost
         public static byte WinnerID;
 
         private static CustomOption CanTargetImpostor;
+        private static CustomOption CanTargetNeutralKiller;
         private static CustomOption ChangeRolesAfterTargetKilled;
 
 
@@ -39,6 +40,7 @@ namespace TownOfHost
         {
             SetupRoleOptions(Id, CustomRoles.Executioner);
             CanTargetImpostor = CustomOption.Create(Id + 10, Color.white, "ExecutionerCanTargetImpostor", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
+            CanTargetNeutralKiller = CustomOption.Create(Id + 12, Color.white, "ExecutionerCanTargetNeutralKiller", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
             ChangeRolesAfterTargetKilled = CustomOption.Create(Id + 11, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ChangeRoles, ChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
         }
         public static void Init()
@@ -56,6 +58,7 @@ namespace TownOfHost
             {
                 if (playerId == target.PlayerId) continue;
                 else if (!CanTargetImpostor.GetBool() && target.Is(RoleType.Impostor)) continue;
+                else if (!CanTargetNeutralKiller.GetBool() && target.IsNeutralKiller()) continue;
                 if (target.Is(CustomRoles.GM)) continue;
 
                 targetList.Add(target);
