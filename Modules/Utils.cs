@@ -75,10 +75,6 @@ namespace TownOfHost
         public static void TargetDies(PlayerControl killer, PlayerControl target, PlayerState.DeathReason deathReason)
         {
             if (!target.Data.IsDead || GameStates.IsMeeting) return;
-            // Logger.Info("target dies", "TargetDies");
-            // if (PlayerControl.GameOptions.MapId == 2) Logger.Info($"{IsActive(SystemTypes.Laboratory)}", "IsReactor");
-            // else Logger.Info($"{IsActive(SystemTypes.Reactor)}", "IsReactor");
-
             foreach (var seer in PlayerControl.AllPlayerControls)
             {
                 if (KillFlashCheck(killer, target, seer, deathReason) == false) continue;
@@ -101,15 +97,12 @@ namespace TownOfHost
         public static async void KillFlash(this GameOptionsData opt, PlayerControl player)
         {
             //キルフラッシュ(ブラックアウト+リアクターフラッシュ)の処理
-            // Logger.Info(player.GetRealName(), "KillFlash");
-
             bool ReactorCheck = false; //リアクターフラッシュの確認
             if (PlayerControl.GameOptions.MapId == 2) ReactorCheck = IsActive(SystemTypes.Laboratory);
             else ReactorCheck = IsActive(SystemTypes.Reactor);
 
             int Duration = (int)Math.Floor(Options.KillFlashDuration.GetFloat() * 1000); //100~400(ms)
             if (ReactorCheck) Duration = Math.Min(Duration + 100, 400); //リアクター中はブラックアウトを長くする
-            // Logger.Info($"{Duration}", "Duration");
 
             //実行
             PlayerState.IsBlackOut[player.PlayerId] = true; //ブラックアウト
@@ -121,7 +114,6 @@ namespace TownOfHost
         }
         public static void BlackOut(this GameOptionsData opt, PlayerControl player, bool IsBlackOut)
         {
-            // Logger.Info($"{opt.ImpostorLightMod}/{opt.CrewLightMod}", "before");
             opt.ImpostorLightMod = Main.DefaultImpostorVision;
             opt.CrewLightMod = Main.DefaultCrewmateVision;
             if (IsBlackOut)
@@ -129,7 +121,6 @@ namespace TownOfHost
                 opt.ImpostorLightMod = 0.0f;
                 opt.CrewLightMod = 0.0f;
             }
-            // Logger.Info($"{opt.ImpostorLightMod}/{opt.CrewLightMod}", "after");
             return;
         }
         public static string GetOnOff(bool value) => value ? "ON" : "OFF";

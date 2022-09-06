@@ -319,7 +319,6 @@ namespace TownOfHost
         {
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost) return;
 
-
             PlayerControl killer = __instance; //読み替え変数
             if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
             {
