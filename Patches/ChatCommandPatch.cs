@@ -385,6 +385,18 @@ namespace TownOfHost
                     }
                     break;
 
+                case "/h":
+                case "/help":
+                    subArgs = args.Length < 2 ? "" : args[1];
+                    switch (subArgs)
+                    {
+                        case "n":
+                        case "now":
+                            Utils.ShowActiveSettingsHelp(player.PlayerId);
+                            break;
+                    }
+                    break;
+
                 case "/m":
                 case "/myrole":
                     var role = player.GetCustomRole();
