@@ -52,21 +52,25 @@ namespace TownOfHost
         {
             playerIdList.Add(playerId);
 
-            List<PlayerControl> targetList = new();
-            var rand = new System.Random();
-            foreach (var target in PlayerControl.AllPlayerControls)
+            //ターゲット割り当て
+            if (AmongUsClient.Instance.AmHost)
             {
-                if (playerId == target.PlayerId) continue;
-                else if (!CanTargetImpostor.GetBool() && target.Is(RoleType.Impostor)) continue;
-                else if (!CanTargetNeutralKiller.GetBool() && target.IsNeutralKiller()) continue;
-                if (target.Is(CustomRoles.GM)) continue;
+                List<PlayerControl> targetList = new();
+                var rand = new System.Random();
+                foreach (var target in PlayerControl.AllPlayerControls)
+                {
+                    if (playerId == target.PlayerId) continue;
+                    else if (!CanTargetImpostor.GetBool() && target.Is(RoleType.Impostor)) continue;
+                    else if (!CanTargetNeutralKiller.GetBool() && target.IsNeutralKiller()) continue;
+                    if (target.Is(CustomRoles.GM)) continue;
 
-                targetList.Add(target);
+                    targetList.Add(target);
+                }
+                var SelectedTarget = targetList[rand.Next(targetList.Count)];
+                Target.Add(playerId, SelectedTarget.PlayerId);
+                SendRPC(playerId, SelectedTarget.PlayerId, "SetTarget");
+                Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()}:{SelectedTarget.GetNameWithRole()}", "Executioner");
             }
-            var SelectedTarget = targetList[rand.Next(targetList.Count)];
-            Target.Add(playerId, SelectedTarget.PlayerId);
-            SendRPC(playerId, SelectedTarget.PlayerId, "SetTarget");
-            Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()}:{SelectedTarget.GetNameWithRole()}", "Executioner");
         }
         public static bool IsEnable() => playerIdList.Count > 0;
         public static void SendRPC(byte executionerId, byte targetId = 0x73, string Progress = "")
