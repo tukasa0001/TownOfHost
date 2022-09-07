@@ -16,7 +16,7 @@ namespace TownOfHost
         {
             if (Main.currentWinner == CustomWinner.Egoist && CustomRoles.Egoist.IsEnable()) //横取り勝利
             {
-                winner = new();
+                winner.Clear();
                 foreach (var id in playerIdList)
                 {
                     var teamEgo = Utils.GetPlayerById(id);
