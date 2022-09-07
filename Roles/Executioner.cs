@@ -63,10 +63,14 @@ namespace TownOfHost
 
                 targetList.Add(target);
             }
-            var SelectedTarget = targetList[rand.Next(targetList.Count)];
-            Target.Add(playerId, SelectedTarget.PlayerId);
-            SendRPC(playerId, SelectedTarget.PlayerId, "SetTarget");
-            Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()}:{SelectedTarget.GetNameWithRole()}", "Executioner");
+            //ターゲット割り当て
+            if (AmongUsClient.Instance.AmHost)
+            {
+                var SelectedTarget = targetList[rand.Next(targetList.Count)];
+                Target.Add(playerId, SelectedTarget.PlayerId);
+                SendRPC(playerId, SelectedTarget.PlayerId, "SetTarget");
+                Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()}:{SelectedTarget.GetNameWithRole()}", "Executioner");
+            }
         }
         public static bool IsEnable() => playerIdList.Count > 0;
         public static void SendRPC(byte executionerId, byte targetId = 0x73, string Progress = "")
