@@ -207,6 +207,19 @@ namespace TownOfHost
                         return false;
                     }
                     break;
+                //Sheriff が Foxを切れる場合を除き、キルキャンセル + 追加キルクールダウン
+                case CustomRoles.Fox:
+                    if (killer.Is(CustomRoles.Arsonist)) break;
+                    if (killer.Is(CustomRoles.Sheriff) && Options.FoxCanDieToSheriff.GetBool()) break;
+                    else
+                    {
+                        //                        Main.BlockKilling[killer.PlayerId] = true;
+                        Utils.CustomSyncAllSettings();
+                        Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown / 2; //キルクール可変にするならココ
+                        killer.CustomSyncSettings();
+                        killer.RpcGuardAndKill(target);
+                        return false;
+                    }
             }
 
             //キル時の特殊判定

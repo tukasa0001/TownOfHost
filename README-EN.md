@@ -40,15 +40,15 @@ Note that if a player other than the host plays with this mod installed, the fol
 ### Hotkeys
 
 #### Host Only
-| HotKey              | Function                       | Usable Scene    |
-| ------------------- | ------------------------------ | --------------- |
-| `Shift`+`L`+`Enter` | Force End Game                 | In Game         |
-| `Shift`+`M`+`Enter` | Skip meeting to end            | In Game         |
-| `Ctrl`+`N`          | Show active role descriptions  | Lobby&In Game   |
-| `C`                 | Cancel game start              | In Countdown    |
-| `Shift`             | Start the game immediately     | In Countdown    |
-| `Ctrl`+`Delete`     | Set default all options        | In TOH Settings |
-| `Ctrl`+`RMB`        | Execute clicked player         | In Meeting      |
+| HotKey              | Function                      | Usable Scene    |
+| ------------------- | ----------------------------- | --------------- |
+| `Shift`+`L`+`Enter` | Force End Game                | In Game         |
+| `Shift`+`M`+`Enter` | Skip meeting to end           | In Game         |
+| `Ctrl`+`N`          | Show active role descriptions | Lobby&In Game   |
+| `C`                 | Cancel game start             | In Countdown    |
+| `Shift`             | Start the game immediately    | In Countdown    |
+| `Ctrl`+`Delete`     | Set default all options       | In TOH Settings |
+| `Ctrl`+`RMB`        | Execute clicked player        | In Meeting      |
 
 #### MOD Client Only
 | HotKey      | Function                                                               | Usable Scene |
@@ -115,7 +115,7 @@ For example: `welcome:This room is using TownOfHost.`
 | [SerialKiller](#SerialKiller)       | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |
 | [Sniper](#Sniper)                   | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
 | [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |
-| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |
+| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 | [Fox](#Fox)                       |
 | [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |
 | [Witch](#Witch)                     | [Trapper](#Trapper)               |                                   |
 | [Mafia](#Mafia)                     |                                   |                                   |
@@ -143,11 +143,11 @@ The target swaps after a configurable amount of time.<br>
 
 #### Game Options
 
-| Name                                     |
-| ---------------------------------------- |
-| Time To Swap Bounty(s)                   |
-| Kill Cooldown After Killing Bounty(s)    |
-| Kill Cooldown After Killing Others(s)    |
+| Name                                  |
+| ------------------------------------- |
+| Time To Swap Bounty(s)                |
+| Kill Cooldown After Killing Bounty(s) |
+| Kill Cooldown After Killing Others(s) |
 
 ### FireWorks
 
@@ -182,9 +182,9 @@ While lights out they can move faster, and yet their name looks red by everyone.
 
 #### Game Options
 
-| Name                 |
-| -------------------- |
-| acceleration valued  |
+| Name                |
+| ------------------- |
+| acceleration valued |
 
 #### Game Options
 
@@ -546,10 +546,10 @@ Defined amount of tasks boosts the player speed of someone alive.<br>
 
 #### Game Options
 
-| Name                 |
-| -------------------- |
-| Acceleration valued  |
-| Tasks that trigger   |
+| Name                |
+| ------------------- |
+| Acceleration valued |
+| Tasks that trigger  |
 
 ### Trapper
 
@@ -679,6 +679,30 @@ The SchrodingerCats have no tasks and by default, no victory condition. Only aft
 | SchrodingerCat In No Team Can Win With Crewmates |
 | Team To Change After Exiled                      |
 
+### Fox
+
+制作・考案者 : hawk<br>
+
+Team : Neutral<br>
+Decision : Crewmate<br>
+Victory Conditions : Survive To The End Of The Game<br>
+
+If survive to the end of the game, Fox wins alone.<br>
+However, Neutral wins are preferred (excluding Jackal wins), and the Imposters can win by sabotage.<br>
+Crewmates cannot win by task while Fox is alive.<br>
+If all Crewmates have completed their tasks and eliminated the Fox, the task wins, regardless of the number of Imposters remaining.<br>
+
+The Fox cannot be killed by another player, but the Sheriff can kill the Fox depending on the setting.<br>
+Players who attack the Fox will have additional kill cooldowns up to half of the set value.<br>
+
+Fox has limited visibility and cannot recover any sabotage.<br>
+
+#### Settings
+
+| Settings Name                                    |
+| ------------------------------------------------ |
+| Fox Can Die To Sheriff-------------------------- |
+
 ### Terrorist
 
 Create and original idea by 空き瓶/EmptyBottle<br>
@@ -739,9 +763,9 @@ Reference source : [SuperNewRoles](https://github.com/ykundesu/SuperNewRoles), [
 
 Various devices can be disabled (currently admin only, MiraHQ not supported)
 
-| Settings Name         |
-| --------------------- |
-| Disable Admin         |
+| Settings Name          |
+| ---------------------- |
+| Disable Admin          |
 | ・ Which Disable admin |
 ## SabotageTimeControl
 

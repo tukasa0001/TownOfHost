@@ -131,6 +131,17 @@ namespace TownOfHost
                     }
                 }
             }
+            if (Main.currentWinner == CustomWinner.Fox && CustomRoles.Fox.IsEnable())
+            { //Fox単独勝利
+                winner = new();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.PlayerId == Main.WonFoxID)
+                    {
+                        winner.Add(p);
+                    }
+                }
+            }
             TeamEgoist.SoloWin(winner);
             ///以降追加勝利陣営 (winnerリセット無し)
             //Opportunist
@@ -264,6 +275,11 @@ namespace TownOfHost
                 //特殊勝利
                 case CustomWinner.Terrorist:
                     __instance.Foreground.material.color = Color.red;
+                    break;
+                case CustomWinner.Fox:
+                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(CustomRoles.Fox);
+                    CustomWinnerText = Utils.GetRoleName(CustomRoles.Fox);
+                    CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Fox);
                     break;
                 //引き分け処理
                 case CustomWinner.Draw:

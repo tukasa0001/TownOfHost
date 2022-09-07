@@ -33,6 +33,7 @@ namespace TownOfHost
                     if (CheckAndEndGameForEveryoneDied(__instance, statistics)) return false;
                     if (CheckAndEndGameForImpostorWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForJackalWin(__instance, statistics)) return false;
+                    if (CheckAndEndGameForFox(__instance, statistics)) return false;
                     if (CheckAndEndGameForCrewmateWin(__instance, statistics)) return false;
                 }
             }
@@ -75,9 +76,15 @@ namespace TownOfHost
         {
             if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
             {
-                __instance.enabled = false;
-                ResetRoleAndEndGame(GameOverReason.HumansByTask, false);
-                return true;
+                foreach (PlayerControl player in PlayerControl.AllPlayerControls)
+                {
+                    if (!CustomRoles.Fox.IsEnable() || (player.Is(CustomRoles.Fox) && (player.Data.IsDead || player.Data.Disconnected)))
+                    {
+                        __instance.enabled = false;
+                        ResetRoleAndEndGame(GameOverReason.HumansByTask, false);
+                        return true;
+                    }
+                }
             }
             return false;
         }
@@ -101,6 +108,10 @@ namespace TownOfHost
             if (statistics.TeamImpostorsAlive >= statistics.TotalAlive - statistics.TeamImpostorsAlive &&
                 statistics.TeamJackalAlive <= 0)
             {
+                foreach (PlayerControl player in PlayerControl.AllPlayerControls)
+                {
+                    if (player.Is(CustomRoles.Fox) && !player.Data.IsDead && !player.Data.Disconnected) return false;
+                }
                 if (Options.IsStandardHAS && statistics.TotalAlive - statistics.TeamImpostorsAlive != 0) return false;
                 __instance.enabled = false;
                 var endReason = TempData.LastDeathReason switch
@@ -119,6 +130,10 @@ namespace TownOfHost
             if (statistics.TeamJackalAlive >= statistics.TotalAlive - statistics.TeamJackalAlive &&
                 statistics.TeamImpostorsAlive <= 0)
             {
+                foreach (PlayerControl player in PlayerControl.AllPlayerControls)
+                {
+                    if (player.Is(CustomRoles.Fox) && !player.Data.IsDead && !player.Data.Disconnected) return false;
+                }
                 if (Options.IsStandardHAS && statistics.TotalAlive - statistics.TeamJackalAlive != 0) return false;
                 __instance.enabled = false;
                 var endReason = TempData.LastDeathReason switch
@@ -128,7 +143,7 @@ namespace TownOfHost
                     _ => GameOverReason.ImpostorByVote,
                 };
 
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, SendOption.Reliable, -1);
                 writer.Write((byte)CustomWinner.Jackal);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPC.JackalWin();
@@ -143,6 +158,10 @@ namespace TownOfHost
         {
             if (statistics.TeamImpostorsAlive == 0 && statistics.TeamJackalAlive == 0)
             {
+                foreach (PlayerControl player in PlayerControl.AllPlayerControls)
+                {
+                    if (player.Is(CustomRoles.Fox) && !player.Data.IsDead && !player.Data.Disconnected) return false;
+                }
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.HumansByVote, false);
                 return true;
@@ -223,6 +242,38 @@ namespace TownOfHost
             return false;
         }
 
+        private static bool CheckAndEndGameForFox(ShipStatus __instance, PlayerStatistics statistics)
+        {
+            foreach (PlayerControl player in PlayerControl.AllPlayerControls)
+            {
+                if (player.Is(CustomRoles.Fox) && !player.Data.IsDead && !player.Data.Disconnected)
+                {
+                    if ((statistics.TeamImpostorsAlive >= statistics.TotalAlive - statistics.TeamImpostorsAlive && statistics.TeamJackalAlive <= 0)
+                        || (statistics.TeamJackalAlive >= statistics.TotalAlive - statistics.TeamJackalAlive && statistics.TeamImpostorsAlive <= 0)
+                        || (statistics.TeamImpostorsAlive == 0 && statistics.TeamJackalAlive == 0))
+                    {
+                        if (Options.IsStandardHAS && statistics.TotalAlive - statistics.TeamImpostorsAlive != 0) return false;
+                        if (Options.IsStandardHAS && statistics.TotalAlive - statistics.TeamJackalAlive != 0) return false;
+
+                        __instance.enabled = false;
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, SendOption.Reliable, -1);
+                        writer.Write((byte)CustomWinner.Fox);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        RPC.FoxWin();
+                        ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                        return true;
+                    }
+                }
+            }
+            /*            if (Main.currentWinner == CustomWinner.Fox && Main.CustomWinTrigger)
+                        {
+                            __instance.enabled = false;
+                            ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                            return true;
+                        }
+            */
+            return false;
+        }
 
         private static void EndGameForSabotage(ShipStatus __instance)
         {

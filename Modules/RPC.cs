@@ -282,6 +282,9 @@ namespace TownOfHost
                     case CustomWinner.Jackal:
                         JackalWin();
                         break;
+                    case CustomWinner.Fox:
+                        FoxWin();
+                        break;
 
                     default:
                         if (Main.currentWinner != CustomWinner.Default)
@@ -332,6 +335,11 @@ namespace TownOfHost
         public static void EveryoneDied()
         {
             Main.currentWinner = CustomWinner.None;
+            CustomWinTrigger(0);
+        }
+        public static void FoxWin()
+        {
+            Main.currentWinner = CustomWinner.Fox;
             CustomWinTrigger(0);
         }
         public static void ForceEndGame()

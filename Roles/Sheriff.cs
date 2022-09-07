@@ -146,6 +146,7 @@ namespace TownOfHost
                 CustomRoles.Jackal => CanKillJackal.GetBool(),
                 CustomRoles.JSchrodingerCat => CanKillJShrodingerCat.GetBool(),
                 CustomRoles.SchrodingerCat => true,
+                CustomRoles.Fox => Options.FoxCanDieToSheriff.GetBool(),
                 _ => cRole.GetRoleType() switch
                 {
                     RoleType.Impostor => true,

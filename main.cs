@@ -120,6 +120,7 @@ namespace TownOfHost
         public static byte WonTerroristID;
         public static byte WonExecutionerID;
         public static byte WonArsonistID;
+        public static byte WonFoxID;
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static string nickName = "";
@@ -227,6 +228,7 @@ namespace TownOfHost
                     {CustomRoles.EgoSchrodingerCat, "#5600ff"},
                     {CustomRoles.Jackal, "#00b4eb"},
                     {CustomRoles.JSchrodingerCat, "#00b4eb"},
+                    {CustomRoles.Fox, "#c000a0"},
                     //HideAndSeek
                     {CustomRoles.HASFox, "#e478ff"},
                     {CustomRoles.HASTroll, "#00ff00"},
@@ -351,6 +353,7 @@ namespace TownOfHost
         Executioner,
         Jackal,
         JSchrodingerCat,//ジャッカル陣営のシュレディンガーの猫
+        Fox,
         //HideAndSeek
         HASFox,
         HASTroll,
@@ -375,6 +378,7 @@ namespace TownOfHost
         Arsonist = CustomRoles.Arsonist,
         Egoist = CustomRoles.Egoist,
         Jackal = CustomRoles.Jackal,
+        Fox = CustomRoles.Fox,
         HASTroll = CustomRoles.HASTroll,
     }
     public enum AdditionalWinners

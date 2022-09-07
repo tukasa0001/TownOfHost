@@ -330,6 +330,9 @@ namespace TownOfHost
                 case CustomRoles.JSchrodingerCat:
                     opt.SetVision(player, Options.JackalHasImpostorVision.GetBool());
                     break;
+                case CustomRoles.Fox:
+                    opt.CrewLightMod /= 3; //Foxの視界を可変にするならここ
+                    break;
 
 
                 InfinityVent:

@@ -106,6 +106,7 @@ namespace TownOfHost
         public static CustomOption JackalCanVent;
         public static CustomOption JackalCanUseSabotage;
         public static CustomOption JackalHasImpostorVision;
+        public static CustomOption FoxCanDieToSheriff;
 
         // HideAndSeek
         public static CustomOption AllowCloseDoors;
@@ -359,6 +360,8 @@ namespace TownOfHost
             JackalCanVent = CustomOption.Create(50911, Color.white, "JackalCanVent", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
             JackalCanUseSabotage = CustomOption.Create(50912, Color.white, "JackalCanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
             JackalHasImpostorVision = CustomOption.Create(50913, Color.white, "JackalHasImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            SetupRoleOptions(55000, CustomRoles.Fox);
+            FoxCanDieToSheriff = CustomOption.Create(55001, Color.white, "FoxCanDieToSheriff", false, CustomRoleSpawnChances[CustomRoles.Fox]);
 
             // Attribute
             EnableLastImpostor = CustomOption.Create(80000, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)

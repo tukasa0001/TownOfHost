@@ -7,6 +7,15 @@ namespace TownOfHost
     {
         public static bool Prefix(GameData __instance)
         {
+            foreach (PlayerControl player in PlayerControl.AllPlayerControls)
+            {
+                if (CustomRoles.Fox.IsEnable() && player.Is(CustomRoles.Fox) && !player.Data.IsDead && !player.Data.Disconnected)
+                {
+                    __instance.TotalTasks = 88659;
+                    __instance.CompletedTasks = 0;
+                    return false;
+                }
+            }
             __instance.TotalTasks = 0;
             __instance.CompletedTasks = 0;
             foreach (var p in __instance.AllPlayers)

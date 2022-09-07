@@ -75,6 +75,14 @@ namespace TownOfHost
             {
                 if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
             }
+            if (player.Is(CustomRoles.Fox))
+            {
+                if (systemType == SystemTypes.Electrical || systemType == SystemTypes.Comms || systemType == SystemTypes.Reactor
+                    || systemType == SystemTypes.Laboratory || systemType == SystemTypes.LifeSupp)
+                {
+                    return false;
+                }
+            }
             return true;
         }
         public static void Postfix(ShipStatus __instance)
