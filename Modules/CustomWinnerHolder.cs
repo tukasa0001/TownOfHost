@@ -11,6 +11,9 @@ namespace TownOfHost
         // 勝者のチームが格納されます。
         // リザルトの背景色の決定などに使用されます。
         public static CustomWinner WinnerTeam;
+        // 追加勝利するプレイヤーのチームが格納されます。
+        // リザルトの表示に使用されます。
+        public static List<CustomWinner> AdditionalWinnerTeams;
         // 勝者の役職が格納され、この変数に格納されている役職のプレイヤーは全員勝利となります。
         // チームとなる第三陣営の処理に最適です。
         public static List<CustomRoles> WinnerRoles;
@@ -21,6 +24,7 @@ namespace TownOfHost
         public static void Reset()
         {
             WinnerTeam = CustomWinner.Default;
+            AdditionalWinnerTeams = new();
             WinnerRoles = new();
             WinnerIds = new();
         }
@@ -28,6 +32,10 @@ namespace TownOfHost
         public static MessageWriter WriteTo(MessageWriter writer)
         {
             writer.Write((int)WinnerTeam);
+
+            writer.Write(AdditionalWinnerTeams.Count);
+            foreach (var wt in AdditionalWinnerTeams)
+                writer.Write((int)wt);
 
             writer.Write(WinnerRoles.Count);
             foreach (var wr in WinnerRoles)
@@ -42,6 +50,11 @@ namespace TownOfHost
         public static void ReadFrom(MessageReader reader)
         {
             WinnerTeam = (CustomWinner)reader.ReadInt32();
+
+            AdditionalWinnerTeams = new();
+            int AdditionalWinnerTeamsCount = reader.ReadInt32();
+            for (int i = 0; i < AdditionalWinnerTeamsCount; i++)
+                AdditionalWinnerTeams.Add((CustomWinner)reader.ReadInt32());
 
             WinnerRoles = new();
             int WinnerRolesCount = reader.ReadInt32();
