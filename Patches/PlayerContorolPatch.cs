@@ -598,6 +598,7 @@ namespace TownOfHost
                 }
                 //ターゲットのリセット
                 BountyHunter.FixedUpdate(player);
+                EvilTracker.FixedUpdate(player);
                 if (GameStates.IsInTask && player.IsAlive() && Options.LadderDeath.GetBool())
                 {
                     FallFromLadder.FixedUpdate(player);

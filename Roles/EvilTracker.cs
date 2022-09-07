@@ -190,21 +190,18 @@ namespace TownOfHost
                 Utils.NotifyRoles();
             }
         }
-        public static void FixedUpdate()
+        public static void FixedUpdate(PlayerControl pc)
         {
             bool DoNotifyRoles = false;
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            if (!pc.Is(CustomRoles.EvilTracker)) return;
+            var target = pc.GetTarget();
+            //EvilTrackerのターゲット削除
+            if (pc != target && target != null && (target.Data.IsDead || target.Data.Disconnected))
             {
-                if (!pc.Is(CustomRoles.EvilTracker)) continue;
-                var target = pc.GetTarget();
-                //EvilTrackerのターゲット削除
-                if (pc != target && target != null && (target.Data.IsDead || target.Data.Disconnected))
-                {
-                    Target[pc.PlayerId] = null;
-                    pc.RemoveTarget();
-                    Logger.Info($"{pc.GetNameWithRole()}のターゲットが無効だったため、ターゲットを削除しました", "EvilTracker");
-                    DoNotifyRoles = true;
-                }
+                Target[pc.PlayerId] = null;
+                pc.RemoveTarget();
+                Logger.Info($"{pc.GetNameWithRole()}のターゲットが無効だったため、ターゲットを削除しました", "EvilTracker");
+                DoNotifyRoles = true;
             }
             if (DoNotifyRoles) Utils.NotifyRoles();
         }

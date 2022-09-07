@@ -37,7 +37,6 @@ namespace TownOfHost
                     Logger.Info("キル能力解禁", "HideAndSeek");
                 }
             }
-            if (CustomRoles.EvilTracker.IsEnable()) EvilTracker.FixedUpdate();
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RepairSystem))]
