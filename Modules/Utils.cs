@@ -49,6 +49,11 @@ namespace TownOfHost
                         var LifeSuppSystemType = ShipStatus.Instance.Systems[type].Cast<LifeSuppSystemType>();
                         return LifeSuppSystemType != null && LifeSuppSystemType.IsActive;
                     }
+                case SystemTypes.Comms:
+                    {
+                        var HudOverrideSystemType = ShipStatus.Instance.Systems[type].Cast<HudOverrideSystemType>();
+                        return HudOverrideSystemType != null && HudOverrideSystemType.IsActive;
+                    }
                 default:
                     return false;
             }
