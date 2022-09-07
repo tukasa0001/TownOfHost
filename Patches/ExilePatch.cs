@@ -65,6 +65,7 @@ namespace TownOfHost
                         if (GetValue && exiled.PlayerId == targetId)
                         {
                             CustomWinnerHolder.WinnerIds.Add(executioner);
+                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Executioner);
                         }
                     }
                     DecidedWinner = true;
