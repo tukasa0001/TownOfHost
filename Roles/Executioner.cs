@@ -52,20 +52,20 @@ namespace TownOfHost
         {
             playerIdList.Add(playerId);
 
-            List<PlayerControl> targetList = new();
-            var rand = new System.Random();
-            foreach (var target in PlayerControl.AllPlayerControls)
-            {
-                if (playerId == target.PlayerId) continue;
-                else if (!CanTargetImpostor.GetBool() && target.Is(RoleType.Impostor)) continue;
-                else if (!CanTargetNeutralKiller.GetBool() && target.IsNeutralKiller()) continue;
-                if (target.Is(CustomRoles.GM)) continue;
-
-                targetList.Add(target);
-            }
             //ターゲット割り当て
             if (AmongUsClient.Instance.AmHost)
             {
+                List<PlayerControl> targetList = new();
+                var rand = new System.Random();
+                foreach (var target in PlayerControl.AllPlayerControls)
+                {
+                    if (playerId == target.PlayerId) continue;
+                    else if (!CanTargetImpostor.GetBool() && target.Is(RoleType.Impostor)) continue;
+                    else if (!CanTargetNeutralKiller.GetBool() && target.IsNeutralKiller()) continue;
+                    if (target.Is(CustomRoles.GM)) continue;
+
+                    targetList.Add(target);
+                }
                 var SelectedTarget = targetList[rand.Next(targetList.Count)];
                 Target.Add(playerId, SelectedTarget.PlayerId);
                 SendRPC(playerId, SelectedTarget.PlayerId, "SetTarget");
