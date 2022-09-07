@@ -63,7 +63,6 @@ namespace TownOfHost
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
         public static ConfigEntry<float> LastKillCooldown { get; private set; }
-        public static HashSet<AdditionalWinners> additionalwinners = new();
         public static GameOptionsData RealOptionsData;
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<(byte, byte), string> LastNotifyNames;
@@ -146,8 +145,6 @@ namespace TownOfHost
             TownOfHost.Logger.Disable("ReceiveRPC");
             TownOfHost.Logger.Disable("SwitchSystem");
             //TownOfHost.Logger.isDetail = true;
-
-            additionalwinners = new HashSet<AdditionalWinners>();
 
             AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
