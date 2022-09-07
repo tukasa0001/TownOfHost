@@ -152,5 +152,6 @@ namespace TownOfHost
         public static bool IsInTask => InGame && !MeetingHud.Instance;
         public static bool IsMeeting => InGame && MeetingHud.Instance;
         public static bool IsCountDown => GameStartManager.InstanceExists && GameStartManager.Instance.startState == GameStartManager.StartingStates.Countdown;
+        public static bool IsComms => ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>().IsActive;
     }
 }
