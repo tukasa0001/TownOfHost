@@ -22,7 +22,6 @@ namespace TownOfHost
             PlayerControl.GameOptions.killCooldown = Options.DefaultKillCooldown;
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
-            Main.additionalwinners = new HashSet<AdditionalWinners>();
             var winner = new List<PlayerControl>();
             //勝者リスト作成
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
@@ -97,14 +96,14 @@ namespace TownOfHost
                 if (pc.Is(CustomRoles.Opportunist) && !pc.Data.IsDead && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw && CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist)
                 {
                     winner.Add(pc);
-                    Main.additionalwinners.Add(AdditionalWinners.Opportunist);
+                    CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
                 }
                 //SchrodingerCat
                 if (Options.CanBeforeSchrodingerCatWinTheCrewmate.GetBool())
                     if (pc.Is(CustomRoles.SchrodingerCat) && CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
                     {
                         winner.Add(pc);
-                        Main.additionalwinners.Add(AdditionalWinners.SchrodingerCat);
+                        CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.SchrodingerCat);
                     }
             }
 
@@ -139,7 +138,7 @@ namespace TownOfHost
                     else if (role == CustomRoles.HASFox && CustomWinnerHolder.WinnerTeam != CustomWinner.HASTroll && !pc.Data.IsDead)
                     {
                         winner.Add(pc);
-                        Main.additionalwinners.Add(AdditionalWinners.HASFox);
+                        CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.HASFox);
                     }
                 }
             }
@@ -231,7 +230,7 @@ namespace TownOfHost
                     break;
             }
 
-            foreach (var additionalwinners in Main.additionalwinners)
+            foreach (var additionalwinners in CustomWinnerHolder.AdditionalWinnerTeams)
             {
                 var addWinnerRole = (CustomRoles)additionalwinners;
                 AdditionalWinnerText += "＆" + Helpers.ColorString(Utils.GetRoleColor(addWinnerRole), Utils.GetRoleName(addWinnerRole));
