@@ -88,6 +88,7 @@ namespace TownOfHost
                 }
             }
             TeamEgoist.SoloWin(winner);
+
             ///以降追加勝利陣営 (winnerリセット無し)
             //Opportunist
             foreach (var pc in PlayerControl.AllPlayerControls)
@@ -104,15 +105,6 @@ namespace TownOfHost
                     {
                         winner.Add(pc);
                         Main.additionalwinners.Add(AdditionalWinners.SchrodingerCat);
-                    }
-                if (CustomWinnerHolder.WinnerTeam == CustomWinner.Jester)
-                    foreach (var ExecutionerTarget in Main.ExecutionerTarget)
-                    {
-                        if (Main.ExiledJesterID == ExecutionerTarget.Value && pc.PlayerId == ExecutionerTarget.Key)
-                        {
-                            winner.Add(pc);
-                            Main.additionalwinners.Add(AdditionalWinners.Executioner);
-                        }
                     }
             }
 

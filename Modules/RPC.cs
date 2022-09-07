@@ -169,13 +169,10 @@ namespace TownOfHost
                         Main.LoversPlayers.Add(Utils.GetPlayerById(reader.ReadByte()));
                     break;
                 case CustomRPC.SetExecutionerTarget:
-                    byte executionerId = reader.ReadByte();
-                    byte targetId = reader.ReadByte();
-                    Main.ExecutionerTarget[executionerId] = targetId;
+                    Executioner.ReceiveRPC(reader, SetTarget: true);
                     break;
                 case CustomRPC.RemoveExecutionerTarget:
-                    byte Key = reader.ReadByte();
-                    Main.ExecutionerTarget.Remove(Key);
+                    Executioner.ReceiveRPC(reader, SetTarget: false);
                     break;
                 case CustomRPC.SendFireWorksState:
                     FireWorks.ReceiveRPC(reader);
@@ -293,6 +290,9 @@ namespace TownOfHost
                 case CustomRoles.Sniper:
                     Sniper.Add(targetId);
                     break;
+                case CustomRoles.Executioner:
+                    Executioner.Add(targetId);
+                    break;
                 case CustomRoles.Sheriff:
                     Sheriff.Add(targetId);
                     break;
@@ -328,13 +328,6 @@ namespace TownOfHost
             }
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void SendExecutionerTarget(byte executionerId, byte targetId)
-        {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetExecutionerTarget, Hazel.SendOption.Reliable, -1);
-            writer.Write(executionerId);
-            writer.Write(targetId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
         public static void SendRpcLogger(uint targetNetId, byte callId, int targetClientId = -1)
         {
             if (!Main.AmDebugger.Value) return;
@@ -356,13 +349,6 @@ namespace TownOfHost
             else if ((rpcName = Enum.GetName(typeof(CustomRPC), callId)) != null) { }
             else rpcName = callId.ToString();
             return rpcName;
-        }
-        public static void RemoveExecutionerKey(byte Key)
-        {
-            if (!AmongUsClient.Instance.AmHost) return;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveExecutionerTarget, Hazel.SendOption.Reliable, -1);
-            writer.Write(Key);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void SetCurrentDousingTarget(byte arsonistId, byte targetId)
         {

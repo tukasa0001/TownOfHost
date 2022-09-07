@@ -310,8 +310,7 @@ namespace TownOfHost
                             pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), "▲");
                         break;
                     case CustomRoles.Executioner:
-                        if (Main.ExecutionerTarget.TryGetValue(seer.PlayerId, out var targetId) && target.PlayerId == targetId) //targetがValue
-                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Executioner), "♦");
+                        pva.NameText.text += Executioner.TargetMark(seer, target);
                         break;
                     case CustomRoles.Egoist:
                     case CustomRoles.Jackal:

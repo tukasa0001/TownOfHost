@@ -192,7 +192,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.SKMadmate) hasTasks = false;
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Executioner && ForRecompute
-                        && Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection() == 0) hasTasks = false;
+                        && Executioner.ChangeRolesAfterTargetKilled.GetSelection() == 0) hasTasks = false;
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
                     if (cRole == CustomRoles.Arsonist) hasTasks = false;
@@ -378,6 +378,11 @@ namespace TownOfHost
                 text += String.Format("\n{0}:{1}", GetString("LadderDeathChance"), Options.LadderDeathChance.GetString());
             }
             if (Options.IsStandardHAS) text += String.Format("\n{0}:{1}", GetString("StandardHAS"), GetOnOff(Options.StandardHAS.GetBool()));
+            if (Options.AirshipRandomSpawn.GetBool())
+            {
+                text += String.Format("\n{0}:{1}", GetString("AirshipRandomSpawn"), GetOnOff(Options.AirshipRandomSpawn.GetBool()));
+                text += String.Format("\n{0}:{1}", GetString("AirshipAdditionalSpawn"), GetOnOff(Options.AirshipAdditionalSpawn.GetBool()));
+            }
             if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", GetString("NoGameEnd"), GetOnOff(Options.NoGameEnd.GetBool()));
             SendMessage(text, PlayerId);
         }
@@ -676,8 +681,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Executioner)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
-                    || seer.Is(CustomRoles.Egoist) //seerがエゴイスト
-                    || seer.Is(CustomRoles.Jackal) //seerがジャッカル
+                    || seer.IsNeutralKiller() //seerがキル出来る第三陣営
                     || IsActive(SystemTypes.Electrical)
                     || NoCache
                     || ForceLoop
@@ -769,12 +773,7 @@ namespace TownOfHost
                             var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
                             TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
                         }
-                        foreach (var ExecutionerTarget in Main.ExecutionerTarget)
-                        {
-                            if ((seer.PlayerId == ExecutionerTarget.Key || seer.Data.IsDead) && //seerがKey or Dead
-                            target.PlayerId == ExecutionerTarget.Value) //targetがValue
-                                TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>♦</color>";
-                        }
+                        TargetMark += Executioner.TargetMark(seer, target);
 
                         string TargetDeathReason = "";
                         if (seer.Is(CustomRoles.Doctor) && //seerがDoctor

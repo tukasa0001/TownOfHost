@@ -58,6 +58,15 @@ namespace TownOfHost
                 {
                     CustomWinnerHolder.WinnerTeam = CustomWinner.Jester;
                     CustomWinnerHolder.WinnerIds.Add(exiled.PlayerId);
+                    //吊られたJesterをターゲットにしているExecutionerも追加勝利
+                    foreach (var executioner in Executioner.playerIdList)
+                    {
+                        var GetValue = Executioner.Target.TryGetValue(executioner, out var targetId);
+                        if (GetValue && exiled.PlayerId == targetId)
+                        {
+                            CustomWinnerHolder.WinnerIds.Add(executioner);
+                        }
+                    }
                     DecidedWinner = true;
                 }
                 if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
@@ -65,18 +74,7 @@ namespace TownOfHost
                     Utils.CheckTerroristWin(exiled);
                     DecidedWinner = true;
                 }
-                foreach (var kvp in Main.ExecutionerTarget)
-                {
-                    var executioner = Utils.GetPlayerById(kvp.Key);
-                    if (executioner == null) continue;
-                    if (executioner.Data.IsDead || executioner.Data.Disconnected) continue; //Keyが死んでいたらor切断していたらこのforeach内の処理を全部スキップ
-                    if (kvp.Value == exiled.PlayerId && AmongUsClient.Instance.AmHost && !DecidedWinner)
-                    {
-                        //RPC送信開始
-                        CustomWinnerHolder.WinnerTeam = CustomWinner.Executioner;
-                        CustomWinnerHolder.WinnerIds.Add(kvp.Key);
-                    }
-                }
+                Executioner.CheckExileTarget(exiled, DecidedWinner);
                 if (exiled.Object.Is(CustomRoles.TimeThief))
                     exiled.Object.ResetVotingTime();
                 if (exiled.Object.Is(CustomRoles.SchrodingerCat) && Options.SchrodingerCatExiledTeamChanges.GetBool())
@@ -108,8 +106,8 @@ namespace TownOfHost
                 player?.RpcExileV2();
                 if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.LoversSuicide)
                     player?.ResetVotingTime();
-                if (Main.ExecutionerTarget.ContainsValue(x.Key))
-                    player?.ChangeExecutionerRole();
+                if (Executioner.Target.ContainsValue(x.Key))
+                    Executioner.ChangeRoleByTarget(player);
             });
             Main.AfterMeetingDeathPlayers.Clear();
             FallFromLadder.Reset();

@@ -254,6 +254,8 @@ TieMode.Random,Random,ランダム,,
 DisableDevices,Disable Devices,デバイスを無効化,禁用设备,禁用裝置
 DisableAdmin,Disable Admin,アドミン無効化,禁用管理员,禁用管理室地圖
 WhichDisableAdmin,Unavailable Admins,無効なアドミン,禁用哪个管理员,管理室地圖分區禁用
+AirshipRandomSpawn,Random spawn(Airship),ランダムスポーン(エアシップ),,
+AirshipAdditionalSpawn,Additional spawn(Airship),追加スポーン位置(エアシップ),,
 
 ## モード説明
 HideAndSeekInfo,"HideAndSeek:\nNo one can call emergency meeting, Crewmates (Blue) can win only by completing tasks\nand Impostors (Red) can win only by killing all the Crewmates.",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。\nインポスターは赤、クルーは青に体の色が変更される。,躲猫猫:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利；\n内鬼的皮肤颜色将变为红色，船员变为蓝色，以示区分。,"躲貓貓:\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色。"
@@ -315,6 +317,7 @@ MayorNumOfUseButton,Number Of Mobile Emergency Button,メイヤーが使える�
 CanBeforeSchrodingerCatWinTheCrewmate,SchrodingerCat In No Team Can Win With Crewmates,役職変化前であれば、クルー陣営と勝利できる,薛定谔的猫未加入其他阵营前可以跟随船员阵营获胜,薛定諤的貓的陣營轉變前可以和船員一起贏
 SchrodingerCatExiledTeamChanges,Team To Change After Exiled,吊られた際、陣営が変化する,薛定谔的猫被放逐时会加入其他阵营,薛定諤的貓被丟出時陣營會改變
 ExecutionerCanTargetImpostor,Executioner Can Target Impostor,インポスターもターゲットにできる,内鬼阵营玩家可以成为处刑人的目标,劊子手的目標可以是狼人陣營的玩家
+ExecutionerCanTargetNeutralKiller,Executioner Can Target Neutral Killer,キルできる第三陣営もターゲットにできる,独立阵营玩家可以成为处刑人的目标,劊子手的目標可以是中立陣營的玩家
 ExecutionerChangeRolesAfterTargetKilled,Role After Target Dies,ターゲットがキルされた後に変化する役職,处刑人目标死亡后将变为的职业,劊子手的目標被殺後轉變的職業
 SerialKillerCooldown,SerialKiller Kill Cooldown,シリアルキラーのキルクール,嗜血杀手击杀冷却,連環殺手殺人冷卻
 SerialKillerLimit,Time Limit To Suicide(s),自殺までの秒数,嗜血杀手自杀倒计时,連環殺手自殺倒數
