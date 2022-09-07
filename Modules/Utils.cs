@@ -643,8 +643,7 @@ namespace TownOfHost
                     var arrows = "";
                     foreach (var arrow in Main.targetArrows)
                     {
-                        var target = GetPlayerById(arrow.Key.Item2);
-                        if (arrow.Key.Item1 == seer.PlayerId && !target.Data.IsDead && target.Is(CustomRoles.Snitch))
+                        if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2] && GetPlayerById(arrow.Key.Item2).Is(CustomRoles.Snitch))
                         {
                             //自分用の矢印で対象が死んでない時
                             arrows += arrow.Value;
