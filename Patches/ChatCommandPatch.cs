@@ -180,6 +180,16 @@ namespace TownOfHost
                         }
                         break;
 
+                    case "/m":
+                    case "/myrole":
+                        canceled = true;
+                        var role = PlayerControl.LocalPlayer.GetCustomRole();
+                        if (GameStates.IsInGame && !role.IsVanilla())
+                        {
+                            HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString(role.ToString()) + GetString($"{role}InfoLong"));
+                        }
+                        break;
+
                     case "/t":
                     case "/template":
                         canceled = true;
@@ -372,6 +382,15 @@ namespace TownOfHost
                         default:
                             Utils.ShowActiveSettings(player.PlayerId);
                             break;
+                    }
+                    break;
+
+                case "/m":
+                case "/myrole":
+                    var role = player.GetCustomRole();
+                    if (GameStates.IsInGame && !role.IsVanilla())
+                    {
+                        Utils.SendMessage(GetString(role.ToString()) + GetString($"{role}InfoLong"), player.PlayerId);
                     }
                     break;
 
