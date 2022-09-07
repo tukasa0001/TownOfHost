@@ -9,11 +9,15 @@ namespace TownOfHost
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameEnd))]
     class EndGamePatch
     {
+        public static Dictionary<byte, string> SummaryText = new();
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ref EndGameResult endGameResult)
         {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             GameStates.InGame = false;
 
+            SummaryText = new();
+            foreach (var id in Main.AllPlayerCustomRoles.Keys)
+                SummaryText[id] = Utils.SummaryTexts(id, disableColor: false);
             Logger.Info("-----------ゲーム終了-----------", "Phase");
             PlayerControl.GameOptions.killCooldown = Options.DefaultKillCooldown;
             //winnerListリセット
@@ -105,14 +109,14 @@ namespace TownOfHost
                     winner.Add(lp);
                 }
             }
-            if (Main.currentWinner == CustomWinner.Executioner && CustomRoles.Executioner.IsEnable())
+            if (Main.currentWinner == CustomWinner.Executioner && Executioner.IsEnable())
             { //Executioner単独勝利
                 winner = new();
-                foreach (var p in PlayerControl.AllPlayerControls)
+                foreach (var executioner in Executioner.playerIdList)
                 {
-                    if (p.PlayerId == Main.WonExecutionerID)
+                    if (executioner == Executioner.WinnerID)
                     {
-                        winner.Add(p);
+                        winner.Add(Utils.GetPlayerById(executioner));
                     }
                 }
             }
@@ -127,7 +131,9 @@ namespace TownOfHost
                     }
                 }
             }
+            //Egoist単独勝利
             TeamEgoist.SoloWin(winner);
+
             ///以降追加勝利陣営 (winnerリセット無し)
             //Opportunist
             foreach (var pc in PlayerControl.AllPlayerControls)
@@ -145,15 +151,17 @@ namespace TownOfHost
                         winner.Add(pc);
                         Main.additionalwinners.Add(AdditionalWinners.SchrodingerCat);
                     }
-                if (Main.currentWinner == CustomWinner.Jester)
-                    foreach (var ExecutionerTarget in Main.ExecutionerTarget)
-                    {
-                        if (Main.ExiledJesterID == ExecutionerTarget.Value && pc.PlayerId == ExecutionerTarget.Key)
-                        {
-                            winner.Add(pc);
-                            Main.additionalwinners.Add(AdditionalWinners.Executioner);
-                        }
-                    }
+            }
+            foreach (var executioner in Executioner.playerIdList)
+            {
+                if (Main.currentWinner != CustomWinner.Jester) break; //ジェスター以外ならループを抜ける
+
+                var GetValue = Executioner.Target.TryGetValue(executioner, out var targetId);
+                if (GetValue && Main.ExiledJesterID == targetId)
+                {
+                    winner.Add(Utils.GetPlayerById(executioner));
+                    Main.additionalwinners.Add(AdditionalWinners.Executioner);
+                }
             }
 
             //HideAndSeek専用
@@ -305,13 +313,13 @@ namespace TownOfHost
             Dictionary<byte, CustomRoles> cloneRoles = new(Main.AllPlayerCustomRoles);
             foreach (var id in Main.winnerList)
             {
-                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> " + Utils.SummaryTexts(id, disableColor: false);
+                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> " + EndGamePatch.SummaryText[id];
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                roleSummaryText += $"\n　 " + Utils.SummaryTexts(id, disableColor: false);
+                roleSummaryText += $"\n　 " + EndGamePatch.SummaryText[id];
             }
             TMPro.TMP_Text roleSummaryTextMesh = roleSummary.GetComponent<TMPro.TMP_Text>();
             roleSummaryTextMesh.alignment = TMPro.TextAlignmentOptions.TopLeft;

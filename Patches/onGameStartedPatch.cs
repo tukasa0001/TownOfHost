@@ -28,7 +28,6 @@ namespace TownOfHost
             Main.CursedPlayers = new Dictionary<byte, PlayerControl>();
             Main.isCurseAndKill = new Dictionary<byte, bool>();
             Main.AirshipMeetingTimer = new Dictionary<byte, float>();
-            Main.ExecutionerTarget = new Dictionary<byte, byte>();
             Main.SKMadmateNowCount = 0;
             Main.isCursed = false;
             Main.PuppeteerList = new Dictionary<byte, byte>();
@@ -47,6 +46,8 @@ namespace TownOfHost
             Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
 
             Main.introDestroyed = false;
+
+            AirshipRandomSpawnPatch.NumOfTP = new();
 
             Main.DiscussionTime = Main.RealOptionsData.DiscussionTime;
             Main.VotingTime = Main.RealOptionsData.VotingTime;
@@ -75,6 +76,8 @@ namespace TownOfHost
                 Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
                 Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
                 pc.cosmetics.nameText.text = pc.name;
+
+                AirshipRandomSpawnPatch.NumOfTP.Add(pc.PlayerId, 0);
             }
             Main.VisibleTasksCount = true;
             if (__instance.AmHost)
@@ -98,6 +101,7 @@ namespace TownOfHost
             TimeThief.Init();
             Mare.Init();
             Egoist.Init();
+            Executioner.Init();
             Sheriff.Init();
             AntiBlackout.Reset();
         }
@@ -333,19 +337,7 @@ namespace TownOfHost
                                 Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
                             break;
                         case CustomRoles.Executioner:
-                            List<PlayerControl> targetList = new();
-                            rand = new Random();
-                            foreach (var target in PlayerControl.AllPlayerControls)
-                            {
-                                if (pc == target) continue;
-                                else if (!Options.ExecutionerCanTargetImpostor.GetBool() && target.GetCustomRole().IsImpostor()) continue;
-
-                                targetList.Add(target);
-                            }
-                            var Target = targetList[rand.Next(targetList.Count)];
-                            Main.ExecutionerTarget.Add(pc.PlayerId, Target.PlayerId);
-                            RPC.SendExecutionerTarget(pc.PlayerId, Target.PlayerId);
-                            Logger.Info($"{pc.GetNameWithRole()}:{Target.GetNameWithRole()}", "Executioner");
+                            Executioner.Add(pc.PlayerId);
                             break;
                         case CustomRoles.Egoist:
                             Egoist.Add(pc.PlayerId);
@@ -428,13 +420,9 @@ namespace TownOfHost
                         if (pc == player) continue;
                         sender.RpcSetRole(pc, RoleTypes.Scientist, playerCID);
                     }
-                    //他視点でDesyncする人の役職を科学者にするループ
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        if (pc == player) continue;
-                        if (pc.PlayerId == 0) player.SetRole(RoleTypes.Scientist); //ホスト視点用
-                        else sender.RpcSetRole(player, RoleTypes.Scientist, pc.GetClientId());
-                    }
+                    //他視点でDesyncする人の役職を科学者にする
+                    player.SetRole(RoleTypes.Scientist); //ホスト視点用
+                    sender.RpcSetRole(player, RoleTypes.Scientist);
                 }
                 else
                 {

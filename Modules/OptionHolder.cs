@@ -55,14 +55,6 @@ namespace TownOfHost
             "Rate0", /*"Rate10", "Rate20", "Rate30", "Rate40", "Rate50",
             "Rate60", "Rate70", "Rate80", "Rate90", */"Rate100",
         };
-        public static readonly string[] ExecutionerChangeRoles =
-        {
-            CustomRoles.Crewmate.ToString(), CustomRoles.Jester.ToString(), CustomRoles.Opportunist.ToString(),
-        };
-        public static readonly CustomRoles[] CRoleExecutionerChangeRoles =
-        {
-            CustomRoles.Crewmate, CustomRoles.Jester, CustomRoles.Opportunist,
-        };
 
         // 各役職の詳細設定
         public static CustomOption EnableGM;
@@ -99,8 +91,6 @@ namespace TownOfHost
         public static CustomOption ArsonistCooldown;
         public static CustomOption CanBeforeSchrodingerCatWinTheCrewmate;
         public static CustomOption SchrodingerCatExiledTeamChanges;
-        public static CustomOption ExecutionerCanTargetImpostor;
-        public static CustomOption ExecutionerChangeRolesAfterTargetKilled;
         public static CustomOption JackalKillCooldown;
         public static CustomOption JackalCanVent;
         public static CustomOption JackalCanUseSabotage;
@@ -144,9 +134,14 @@ namespace TownOfHost
         public static CustomOption VoteMode;
         public static CustomOption WhenSkipVote;
         public static CustomOption WhenNonVote;
+        public static CustomOption WhenTie;
         public static readonly string[] voteModes =
         {
             "Default", "Suicide", "SelfVote", "Skip"
+        };
+        public static readonly string[] tieModes =
+        {
+            "TieMode.Default", "TieMode.All", "TieMode.Random"
         };
         public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetSelection();
         public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetSelection();
@@ -184,6 +179,8 @@ namespace TownOfHost
         public static CustomOption GhostCanSeeOtherVotes;
         public static CustomOption GhostIgnoreTasks;
         public static CustomOption HideGameSettings;
+        public static CustomOption AirshipRandomSpawn;
+        public static CustomOption AirshipAdditionalSpawn;
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -243,7 +240,7 @@ namespace TownOfHost
 
         public static float GetRoleChance(CustomRoles role)
         {
-            return CustomRoleSpawnChances.TryGetValue(role, out var option) ? option.GetSelection() / 10f : roleSpawnChances[role];
+            return CustomRoleSpawnChances.TryGetValue(role, out var option) ? option.GetSelection()/* / 10f */ : roleSpawnChances[role];
         }
         public static void Load()
         {
@@ -343,9 +340,7 @@ namespace TownOfHost
             CanBeforeSchrodingerCatWinTheCrewmate = CustomOption.Create(50410, Color.white, "CanBeforeSchrodingerCatWinTheCrewmate", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
             SchrodingerCatExiledTeamChanges = CustomOption.Create(50411, Color.white, "SchrodingerCatExiledTeamChanges", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
             Egoist.SetupCustomOption();
-            SetupRoleOptions(50700, CustomRoles.Executioner);
-            ExecutionerCanTargetImpostor = CustomOption.Create(50710, Color.white, "ExecutionerCanTargetImpostor", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
-            ExecutionerChangeRolesAfterTargetKilled = CustomOption.Create(50711, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ExecutionerChangeRoles, ExecutionerChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
+            Executioner.SetupCustomOption();
             //Jackalは1人固定
             SetupSingleRoleOptions(50900, CustomRoles.Jackal, 1);
             JackalKillCooldown = CustomOption.Create(50910, Color.white, "JackalKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Jackal]);
@@ -424,12 +419,19 @@ namespace TownOfHost
             // MapDleks = CustomOption.Create(100405, Color.white, "AddedDleks", false, RandomMapMode)
             //     .SetGameMode(CustomGameMode.All);
 
+            AirshipRandomSpawn = CustomOption.Create(101300, Color.white, "AirshipRandomSpawn", false, isHeader: true)
+                .SetGameMode(CustomGameMode.All);
+            AirshipAdditionalSpawn = CustomOption.Create(101301, Color.white, "AirshipAdditionalSpawn", false, AirshipRandomSpawn)
+                .SetGameMode(CustomGameMode.All);
+
             // 投票モード
             VoteMode = CustomOption.Create(100500, Color.white, "VoteMode", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
             WhenSkipVote = CustomOption.Create(100501, Color.white, "WhenSkipVote", voteModes[0..3], voteModes[0], VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
             WhenNonVote = CustomOption.Create(100502, Color.white, "WhenNonVote", voteModes, voteModes[0], VoteMode)
+                .SetGameMode(CustomGameMode.Standard);
+            WhenTie = CustomOption.Create(100503, Color.white, "WhenTie", tieModes, tieModes[0], VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
 
             // 全員生存時の会議時間
