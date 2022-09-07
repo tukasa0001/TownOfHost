@@ -131,7 +131,9 @@ namespace TownOfHost
                     }
                 }
             }
+            //Egoist単独勝利
             TeamEgoist.SoloWin(winner);
+
             ///以降追加勝利陣営 (winnerリセット無し)
             //Opportunist
             foreach (var pc in PlayerControl.AllPlayerControls)

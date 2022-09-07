@@ -173,7 +173,10 @@ namespace TownOfHost
                             if (killer.Is(CustomRoles.Sheriff))
                                 target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
                             if (killer.Is(CustomRoles.Egoist))
+                            {
+                                TeamEgoist.Add(target.PlayerId);
                                 target.RpcSetCustomRole(CustomRoles.EgoSchrodingerCat);
+                            }
                             if (killer.Is(CustomRoles.Jackal))
                                 target.RpcSetCustomRole(CustomRoles.JSchrodingerCat);
 
