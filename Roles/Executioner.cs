@@ -20,7 +20,7 @@ namespace TownOfHost
 
         private static CustomOption CanTargetImpostor;
         private static CustomOption CanTargetNeutralKiller;
-        private static CustomOption ChangeRolesAfterTargetKilled;
+        public static CustomOption ChangeRolesAfterTargetKilled;
 
 
         /// <summary>

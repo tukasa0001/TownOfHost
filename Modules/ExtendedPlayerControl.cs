@@ -675,19 +675,6 @@ namespace TownOfHost
                 CustomRoles.Egoist or
                 CustomRoles.Jackal;
         }
-        public static void ChangeExecutionerRole(this PlayerControl target)
-        {
-            byte Executioner = 0x73;
-            Main.ExecutionerTarget.Do(x =>
-            {
-                if (x.Value == target.PlayerId)
-                    Executioner = x.Key;
-            });
-            Utils.GetPlayerById(Executioner).RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]);
-            Main.ExecutionerTarget.Remove(Executioner);
-            RPC.RemoveExecutionerKey(Executioner);
-            Utils.NotifyRoles();
-        }
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>
