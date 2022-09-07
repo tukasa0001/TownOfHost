@@ -31,7 +31,7 @@ namespace TownOfHost
 
             PassiveButton passiveDiscordButton = discordButton.GetComponent<PassiveButton>();
             passiveDiscordButton.OnClick = new Button.ButtonClickedEvent();
-            passiveDiscordButton.OnClick.AddListener((UnityEngine.Events.UnityAction)(() => Application.OpenURL("https://discord.gg/W5ug6hXB9V")));
+            passiveDiscordButton.OnClick.AddListener((UnityEngine.Events.UnityAction)(() => Application.OpenURL(Main.DiscordInviteUrl)));
 
             var discordText = discordButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
             __instance.StartCoroutine(Effects.Lerp(0.1f, new System.Action<float>((p) =>
@@ -46,6 +46,7 @@ namespace TownOfHost
             {
                 buttonSpriteDiscord.color = discordText.color = discordColor;
             });
+            discordButton.gameObject.SetActive(Main.ShowDiscordButton);
             //以下アップデートがあれば実行
             if (!ModUpdater.hasUpdate) return;
             //アップデートボタンを生成

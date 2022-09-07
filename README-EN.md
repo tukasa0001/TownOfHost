@@ -182,6 +182,12 @@ While lights out they can move faster, and yet their name looks red by everyone.
 
 #### Game Options
 
+| Name                 |
+| -------------------- |
+| acceleration valued  |
+
+#### Game Options
+
 | Name                            |
 | ------------------------------- |
 | Mare Player Speed In Lights Out |
@@ -208,7 +214,7 @@ Unless taking a kill by deadline, they murder themselves instantly.<br>
 | Name                          |
 | ----------------------------- |
 | SerialKiller Kill Cooldown(s) |
-| Time Limit To Suiside(s)      |
+| Time Limit To Suicide(s)      |
 
 ### ShapeMaster
 
@@ -536,13 +542,14 @@ Create and idea by よっキング<br>
 Team : Crewmates<br>
 Basis : Crewmate<br>
 
-Finishing all the tasks boosts the player speed of someone alive.<br>
+Defined amount of tasks boosts the player speed of someone alive.<br>
 
 #### Game Options
 
 | Name                 |
 | -------------------- |
-| Boosted Player Speed |
+| Acceleration valued  |
+| Tasks that trigger   |
 
 ### Trapper
 
@@ -577,7 +584,7 @@ Basis : Impostor<br>
 Victory Condition : Douse and ignite all the living players<br>
 
 When an arsonist tries to use the kill button, they douse oil onto the crewmates.<br>
-To win as Arsonist, you must douse all fellow players and vent to win.<br>
+To win as Arsonist, you must douse all Fallow players and vent to win.<br>
 To douse, you must stand next to a player after pressing kill until the orange triangle is filled in.<br>
 
 * As a measure against blackout, after death, the Arsonist can only see the motion of committing suicide at each meeting. There is no corpse. <br>
@@ -594,7 +601,7 @@ To douse, you must stand next to a player after pressing kill until the orange t
 Create by そうくん<br>
 Original idea by しゅー<br>
 
-Team : Neutral<br>
+Team : Egoist<br>
 Basis : Shapeshifter<br>
 Victory Condition : Satisfy the Impostor victory condition after all the Impostors die.<br>
 

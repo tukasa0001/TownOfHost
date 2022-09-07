@@ -68,22 +68,7 @@ namespace TownOfHost
                     Utils.CheckTerroristWin(exiled);
                     DecidedWinner = true;
                 }
-                foreach (var kvp in Main.ExecutionerTarget)
-                {
-                    var executioner = Utils.GetPlayerById(kvp.Key);
-                    if (executioner == null) continue;
-                    if (executioner.Data.IsDead || executioner.Data.Disconnected) continue; //Keyが死んでいたらor切断していたらこのforeach内の処理を全部スキップ
-                    if (kvp.Value == exiled.PlayerId && AmongUsClient.Instance.AmHost && !DecidedWinner)
-                    {
-                        //RPC送信開始
-                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                        writer.Write((byte)CustomWinner.Executioner);
-                        writer.Write(kvp.Key);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer); //終了
-
-                        RPC.ExecutionerWin(kvp.Key);
-                    }
-                }
+                Executioner.CheckExileTarget(exiled, DecidedWinner);
                 if (exiled.Object.Is(CustomRoles.TimeThief))
                     exiled.Object.ResetVotingTime();
                 if (exiled.Object.Is(CustomRoles.SchrodingerCat) && Options.SchrodingerCatExiledTeamChanges.GetBool())
@@ -115,6 +100,8 @@ namespace TownOfHost
                 player?.RpcExileV2();
                 if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.LoversSuicide)
                     player?.ResetVotingTime();
+                if (Executioner.Target.ContainsValue(x.Key))
+                    Executioner.ChangeRoleByTarget(player);
             });
             Main.AfterMeetingDeathPlayers.Clear();
             FallFromLadder.Reset();

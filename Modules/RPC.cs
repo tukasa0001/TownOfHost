@@ -83,9 +83,10 @@ namespace TownOfHost
                 case CustomRPC.VersionCheck:
                     try
                     {
-                        string version = reader.ReadString();
+                        Version version = Version.Parse(reader.ReadString());
                         string tag = reader.ReadString();
-                        Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag);
+                        string forkId = 3 <= version.Major ? reader.ReadString() : Main.OriginalForkId;
+                        Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag, forkId);
                     }
                     catch
                     {
@@ -168,13 +169,10 @@ namespace TownOfHost
                         Main.LoversPlayers.Add(Utils.GetPlayerById(reader.ReadByte()));
                     break;
                 case CustomRPC.SetExecutionerTarget:
-                    byte executionerId = reader.ReadByte();
-                    byte targetId = reader.ReadByte();
-                    Main.ExecutionerTarget[executionerId] = targetId;
+                    Executioner.ReceiveRPC(reader, SetTarget: true);
                     break;
                 case CustomRPC.RemoveExecutionerTarget:
-                    byte Key = reader.ReadByte();
-                    Main.ExecutionerTarget.Remove(Key);
+                    Executioner.ReceiveRPC(reader, SetTarget: false);
                     break;
                 case CustomRPC.SendFireWorksState:
                     FireWorks.ReceiveRPC(reader);
@@ -229,8 +227,9 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck, SendOption.Reliable);
             writer.Write(Main.PluginVersion);
             writer.Write($"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
+            writer.Write(Main.ForkId);
             writer.EndMessage();
-            Main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(Main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
+            Main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(Main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})", Main.ForkId);
         }
         public static void SendDeathReason(byte playerId, PlayerState.DeathReason deathReason)
         {
@@ -312,7 +311,7 @@ namespace TownOfHost
         }
         public static void ExecutionerWin(byte executionerID)
         {
-            Main.WonExecutionerID = executionerID;
+            Executioner.WinnerID = executionerID;
             Main.currentWinner = CustomWinner.Executioner;
             CustomWinTrigger(executionerID);
         }
@@ -375,6 +374,9 @@ namespace TownOfHost
                 case CustomRoles.Sniper:
                     Sniper.Add(targetId);
                     break;
+                case CustomRoles.Executioner:
+                    Executioner.Add(targetId);
+                    break;
                 case CustomRoles.Sheriff:
                     Sheriff.Add(targetId);
                     break;
@@ -408,13 +410,6 @@ namespace TownOfHost
             {
                 writer.Write(lp.PlayerId);
             }
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
-        public static void SendExecutionerTarget(byte executionerId, byte targetId)
-        {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetExecutionerTarget, Hazel.SendOption.Reliable, -1);
-            writer.Write(executionerId);
-            writer.Write(targetId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void CustomWinTrigger(byte winnerID)
@@ -460,13 +455,6 @@ namespace TownOfHost
             else if ((rpcName = Enum.GetName(typeof(CustomRPC), callId)) != null) { }
             else rpcName = callId.ToString();
             return rpcName;
-        }
-        public static void RemoveExecutionerKey(byte Key)
-        {
-            if (!AmongUsClient.Instance.AmHost) return;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveExecutionerTarget, Hazel.SendOption.Reliable, -1);
-            writer.Write(Key);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void SetCurrentDousingTarget(byte arsonistId, byte targetId)
         {
