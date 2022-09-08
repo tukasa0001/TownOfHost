@@ -289,7 +289,9 @@ namespace TownOfHost
                 switch (seer.GetCustomRole().GetRoleType())
                 {
                     case RoleType.Impostor:
-                        if (target.Is(CustomRoles.Snitch) && //変更対象がSnitch
+                        if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished)
+                            pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), pva.NameText.text);
+                        else if (target.Is(CustomRoles.Snitch) && //変更対象がSnitch
                         target.GetPlayerTaskState().DoExpose) //変更対象のタスクが終わりそう)
                             pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), "★"); //変更対象にSnitchマークをつける
                         break;
