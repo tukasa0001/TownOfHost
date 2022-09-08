@@ -173,6 +173,16 @@ namespace TownOfHost
             return false;
         }
 
+        private static bool CheckAndEndGameForTerminate(ShipStatus __instance)
+        {
+            if (CustomWinnerHolder.WinnerTeam == CustomWinner.Draw)
+            {
+                __instance.enabled = false;
+                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                return true;
+            }
+            return false;
+        }
         private static bool CheckAndEndGameForSoloWin(ShipStatus __instance)
         {
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
