@@ -12,6 +12,7 @@ namespace TownOfHost
         public static int Preset = 0;
 
         public int Id;
+        public TabGroup Tab;
         public Color Color;
         public string Name;
         public Dictionary<string, string> ReplacementDictionary;
@@ -66,6 +67,7 @@ namespace TownOfHost
         }
 
         public CustomOption(int id,
+            TabGroup tab,
             Color color,
             string name,
             System.Object[] selections,
@@ -77,6 +79,7 @@ namespace TownOfHost
             Dictionary<string, string> replacementDic)
         {
             Id = id;
+            Tab = tab;
             Color = color;
             Name = name;
             Selections = selections;
@@ -110,6 +113,7 @@ namespace TownOfHost
         }
 
         public static CustomOption Create(int id,
+            TabGroup tab,
             Color color,
             string name,
             string[] selections,
@@ -120,10 +124,11 @@ namespace TownOfHost
             string format = "",
             Dictionary<string, string> replacementDic = null)
         {
-            return new CustomOption(id, color, name, selections, defaultValue, parent, isHeader, isHidden, format, replacementDic);
+            return new CustomOption(id, tab, color, name, selections, defaultValue, parent, isHeader, isHidden, format, replacementDic);
         }
 
         public static CustomOption Create(int id,
+            TabGroup tab,
             Color color,
             string name,
             float defaultValue,
@@ -142,10 +147,11 @@ namespace TownOfHost
                 selections.Add(s);
             }
 
-            return new CustomOption(id, color, name, selections.Cast<object>().ToArray(), defaultValue, parent, isHeader, isHidden, format, replacementDic);
+            return new CustomOption(id, tab, color, name, selections.Cast<object>().ToArray(), defaultValue, parent, isHeader, isHidden, format, replacementDic);
         }
 
         public static CustomOption Create(int id,
+            TabGroup tab,
             Color color,
             string name,
             bool defaultValue,
@@ -155,7 +161,7 @@ namespace TownOfHost
             string format = "",
             Dictionary<string, string> replacementDic = null)
         {
-            return new CustomOption(id, color, name, new string[] { "ColoredOff", "ColoredOn" }, defaultValue ? "ColoredOn" : "ColoredOff", parent, isHeader, isHidden, format, replacementDic);
+            return new CustomOption(id, tab, color, name, new string[] { "ColoredOff", "ColoredOn" }, defaultValue ? "ColoredOn" : "ColoredOff", parent, isHeader, isHidden, format, replacementDic);
         }
 
         public static CustomOption Create(string name, float defaultValue, float min, float max, float step)
