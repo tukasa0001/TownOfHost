@@ -50,6 +50,11 @@ namespace TownOfHost
                         var LifeSuppSystemType = ShipStatus.Instance.Systems[type].Cast<LifeSuppSystemType>();
                         return LifeSuppSystemType != null && LifeSuppSystemType.IsActive;
                     }
+                case SystemTypes.Comms:
+                    {
+                        var HudOverrideSystemType = ShipStatus.Instance.Systems[type].Cast<HudOverrideSystemType>();
+                        return HudOverrideSystemType != null && HudOverrideSystemType.IsActive;
+                    }
                 default:
                     return false;
             }
@@ -245,7 +250,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.SKMadmate) hasTasks = false;
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Executioner && ForRecompute
-                        && Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection() == 0) hasTasks = false;
+                        && Executioner.ChangeRolesAfterTargetKilled.GetSelection() == 0) hasTasks = false;
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
                     if (cRole == CustomRoles.Arsonist) hasTasks = false;
@@ -335,31 +340,31 @@ namespace TownOfHost
 
             return ProgressText;
         }
-        public static void ShowActiveSettingsHelp()
+        public static void ShowActiveSettingsHelp(byte PlayerId = byte.MaxValue)
         {
-            SendMessage(GetString("CurrentActiveSettingsHelp") + ":");
+            SendMessage(GetString("CurrentActiveSettingsHelp") + ":", PlayerId);
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
-                SendMessage(GetString("HideAndSeekInfo"));
-                if (CustomRoles.HASFox.IsEnable()) { SendMessage(GetRoleName(CustomRoles.HASFox) + GetString("HASFoxInfoLong")); }
-                if (CustomRoles.HASTroll.IsEnable()) { SendMessage(GetRoleName(CustomRoles.HASTroll) + GetString("HASTrollInfoLong")); }
+                SendMessage(GetString("HideAndSeekInfo"), PlayerId);
+                if (CustomRoles.HASFox.IsEnable()) { SendMessage(GetRoleName(CustomRoles.HASFox) + GetString("HASFoxInfoLong"), PlayerId); }
+                if (CustomRoles.HASTroll.IsEnable()) { SendMessage(GetRoleName(CustomRoles.HASTroll) + GetString("HASTrollInfoLong"), PlayerId); }
             }
             else
             {
-                if (Options.DisableDevices.GetBool()) { SendMessage(GetString("DisableDevicesInfo")); }
-                if (Options.SyncButtonMode.GetBool()) { SendMessage(GetString("SyncButtonModeInfo")); }
-                if (Options.SabotageTimeControl.GetBool()) { SendMessage(GetString("SabotageTimeControlInfo")); }
-                if (Options.RandomMapsMode.GetBool()) { SendMessage(GetString("RandomMapsModeInfo")); }
-                if (Options.IsStandardHAS) { SendMessage(GetString("StandardHASInfo")); }
-                if (Options.EnableGM.GetBool()) { SendMessage(GetRoleName(CustomRoles.GM) + GetString("GMInfoLong")); }
+                if (Options.DisableDevices.GetBool()) { SendMessage(GetString("DisableDevicesInfo"), PlayerId); }
+                if (Options.SyncButtonMode.GetBool()) { SendMessage(GetString("SyncButtonModeInfo"), PlayerId); }
+                if (Options.SabotageTimeControl.GetBool()) { SendMessage(GetString("SabotageTimeControlInfo"), PlayerId); }
+                if (Options.RandomMapsMode.GetBool()) { SendMessage(GetString("RandomMapsModeInfo"), PlayerId); }
+                if (Options.IsStandardHAS) { SendMessage(GetString("StandardHASInfo"), PlayerId); }
+                if (Options.EnableGM.GetBool()) { SendMessage(GetRoleName(CustomRoles.GM) + GetString("GMInfoLong"), PlayerId); }
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
                     if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
-                    if (role.IsEnable() && !role.IsVanilla()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"));
+                    if (role.IsEnable() && !role.IsVanilla()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"), PlayerId);
                 }
-                if (Options.EnableLastImpostor.GetBool()) { SendMessage(GetRoleName(CustomRoles.LastImpostor) + GetString("LastImpostorInfoLong")); }
+                if (Options.EnableLastImpostor.GetBool()) { SendMessage(GetRoleName(CustomRoles.LastImpostor) + GetString("LastImpostorInfoLong"), PlayerId); }
             }
-            if (Options.NoGameEnd.GetBool()) { SendMessage(GetString("NoGameEndInfo")); }
+            if (Options.NoGameEnd.GetBool()) { SendMessage(GetString("NoGameEndInfo"), PlayerId); }
         }
         public static void ShowActiveSettings(byte PlayerId = byte.MaxValue)
         {
@@ -535,11 +540,8 @@ namespace TownOfHost
                         PlayerState.SetDead(pc.PlayerId);
                     }
                 }
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                writer.Write((byte)CustomWinner.Terrorist);
-                writer.Write(Terrorist.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-                RPC.TerroristWin(Terrorist.PlayerId);
+                CustomWinnerHolder.WinnerTeam = CustomWinner.Terrorist;
+                CustomWinnerHolder.WinnerIds.Add(Terrorist.PlayerId);
             }
         }
         public static void SendMessage(string text, byte sendTo = byte.MaxValue)
@@ -836,12 +838,7 @@ namespace TownOfHost
                             var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
                             TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
                         }
-                        foreach (var ExecutionerTarget in Main.ExecutionerTarget)
-                        {
-                            if ((seer.PlayerId == ExecutionerTarget.Key || seer.Data.IsDead) && //seerがKey or Dead
-                            target.PlayerId == ExecutionerTarget.Value) //targetがValue
-                                TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>♦</color>";
-                        }
+                        TargetMark += Executioner.TargetMark(seer, target);
 
                         string TargetDeathReason = "";
                         if (seer.Is(CustomRoles.Doctor) && //seerがDoctor

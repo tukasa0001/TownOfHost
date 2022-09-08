@@ -63,8 +63,6 @@ namespace TownOfHost
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
         public static ConfigEntry<float> LastKillCooldown { get; private set; }
-        public static CustomWinner currentWinner;
-        public static HashSet<AdditionalWinners> additionalwinners = new();
         public static GameOptionsData RealOptionsData;
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<(byte, byte), string> LastNotifyNames;
@@ -101,7 +99,6 @@ namespace TownOfHost
         public static Dictionary<(byte, byte), bool> isDoused = new();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
         public static Dictionary<byte, float> AirshipMeetingTimer = new();
-        public static Dictionary<byte, byte> ExecutionerTarget = new(); //Key : Executioner, Value : target
         /// <summary>
         /// Key: ターゲットのPlayerId, Value: パペッティアのPlayerId
         /// </summary>
@@ -115,11 +112,6 @@ namespace TownOfHost
         public static bool isShipStart;
         public static Dictionary<byte, bool> CheckShapeshift = new();
         public static Dictionary<(byte, byte), string> targetArrows = new();
-        public static byte WonTrollID;
-        public static byte ExiledJesterID;
-        public static byte WonTerroristID;
-        public static byte WonExecutionerID;
-        public static byte WonArsonistID;
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static string nickName = "";
@@ -152,9 +144,6 @@ namespace TownOfHost
             TownOfHost.Logger.Disable("SwitchSystem");
             //TownOfHost.Logger.isDetail = true;
 
-            currentWinner = CustomWinner.Default;
-            additionalwinners = new HashSet<AdditionalWinners>();
-
             AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             CustomWinTrigger = false;
@@ -164,7 +153,6 @@ namespace TownOfHost
             SpelledPlayer = new List<PlayerControl>();
             isDoused = new Dictionary<(byte, byte), bool>();
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
-            ExecutionerTarget = new Dictionary<byte, byte>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
             winnerList = new();
             VisibleTasksCount = false;
@@ -184,7 +172,7 @@ namespace TownOfHost
             LastKillCooldown = Config.Bind("Other", "LastKillCooldown", (float)30);
 
             NameColorManager.Begin();
-
+            CustomWinnerHolder.Reset();
             Translator.Init();
 
             hasArgumentException = false;

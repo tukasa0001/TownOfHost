@@ -78,7 +78,7 @@ namespace TownOfHost
                             }
                             else
                             {
-                                if (!RepairSystemPatch.IsComms && OldDesyncCommsPlayers.Contains(pc.PlayerId))
+                                if (!Utils.IsActive(SystemTypes.Comms) && OldDesyncCommsPlayers.Contains(pc.PlayerId))
                                 {
                                     OldDesyncCommsPlayers.Remove(pc.PlayerId);
 

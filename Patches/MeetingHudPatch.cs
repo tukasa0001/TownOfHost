@@ -224,7 +224,7 @@ namespace TownOfHost
         {
             Logger.Info("------------会議開始------------", "Phase");
             Main.witchMeeting = true;
-            Utils.NotifyRoles(isMeeting: true, ForceLoop: true);
+            Utils.NotifyRoles(isMeeting: true, NoCache: true);
             Main.witchMeeting = false;
         }
         public static void Postfix(MeetingHud __instance)
@@ -310,8 +310,7 @@ namespace TownOfHost
                             pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), "▲");
                         break;
                     case CustomRoles.Executioner:
-                        if (Main.ExecutionerTarget.TryGetValue(seer.PlayerId, out var targetId) && target.PlayerId == targetId) //targetがValue
-                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Executioner), "♦");
+                        pva.NameText.text += Executioner.TargetMark(seer, target);
                         break;
                     case CustomRoles.Egoist:
                     case CustomRoles.Jackal:

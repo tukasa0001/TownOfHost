@@ -369,7 +369,7 @@ namespace TownOfHost
             opt.DiscussionTime = Mathf.Clamp(Main.DiscussionTime, 0, 300);
             opt.VotingTime = Mathf.Clamp(Main.VotingTime, TimeThief.LowerLimitVotingTime.GetInt(), 300);
 
-            if (Options.AllAliveMeeting.GetBool() && PlayerControl.AllPlayerControls.ToArray().All(x => !x.Data.IsDead))
+            if (Options.AllAliveMeeting.GetBool() && PlayerControl.AllPlayerControls.ToArray().All(x => !x.Data.IsDead && !x.Data.Disconnected))
             {
                 opt.DiscussionTime = 0;
                 opt.VotingTime = Options.AllAliveMeetingTime.GetInt();
@@ -715,19 +715,6 @@ namespace TownOfHost
                 player.GetCustomRole() is
                 CustomRoles.Egoist or
                 CustomRoles.Jackal;
-        }
-        public static void ChangeExecutionerRole(this PlayerControl target)
-        {
-            byte Executioner = 0x73;
-            Main.ExecutionerTarget.Do(x =>
-            {
-                if (x.Value == target.PlayerId)
-                    Executioner = x.Key;
-            });
-            Utils.GetPlayerById(Executioner).RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]);
-            Main.ExecutionerTarget.Remove(Executioner);
-            RPC.RemoveExecutionerKey(Executioner);
-            Utils.NotifyRoles();
         }
 
         //汎用

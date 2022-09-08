@@ -173,7 +173,10 @@ namespace TownOfHost
                             if (killer.Is(CustomRoles.Sheriff))
                                 target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
                             if (killer.Is(CustomRoles.Egoist))
+                            {
+                                TeamEgoist.Add(target.PlayerId);
                                 target.RpcSetCustomRole(CustomRoles.EgoSchrodingerCat);
+                            }
                             if (killer.Is(CustomRoles.Jackal))
                                 target.RpcSetCustomRole(CustomRoles.JSchrodingerCat);
 
@@ -345,13 +348,13 @@ namespace TownOfHost
             }
             if (target.Is(CustomRoles.Trapper) && !killer.Is(CustomRoles.Trapper))
                 killer.TrapperKilled(target);
-            if (target.Is(CustomRoles.Executioner) && Main.ExecutionerTarget.ContainsKey(target.PlayerId))
+            if (Executioner.Target.ContainsValue(target.PlayerId))
+                Executioner.ChangeRoleByTarget(target);
+            if (target.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(target.PlayerId))
             {
-                Main.ExecutionerTarget.Remove(target.PlayerId);
-                RPC.RemoveExecutionerKey(target.PlayerId);
+                Executioner.Target.Remove(target.PlayerId);
+                Executioner.SendRPC(target.PlayerId);
             }
-            if (Main.ExecutionerTarget.ContainsValue(target.PlayerId))
-                target.ChangeExecutionerRole();
             if (target.Is(CustomRoles.TimeThief))
                 target.ResetVotingTime();
 
@@ -844,12 +847,7 @@ namespace TownOfHost
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>△</color>";
                         }
                     }
-                    foreach (var ExecutionerTarget in Main.ExecutionerTarget)
-                    {
-                        if ((seer.PlayerId == ExecutionerTarget.Key || seer.Data.IsDead) && //seerがKey or Dead
-                        target.PlayerId == ExecutionerTarget.Value) //targetがValue
-                            Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>♦</color>";
-                    }
+                    Mark += Executioner.TargetMark(seer, target);
                     if (seer.Is(CustomRoles.Puppeteer))
                     {
                         if (seer.Is(CustomRoles.Puppeteer) &&
@@ -1109,11 +1107,8 @@ namespace TownOfHost
                                 RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
                         }
                     }
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                    writer.Write((byte)CustomWinner.Arsonist);
-                    writer.Write(__instance.myPlayer.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    RPC.ArsonistWin(__instance.myPlayer.PlayerId);
+                    CustomWinnerHolder.WinnerTeam = CustomWinner.Arsonist;
+                    CustomWinnerHolder.WinnerIds.Add(__instance.myPlayer.PlayerId);
                     return true;
                 }
                 if (__instance.myPlayer.Is(CustomRoles.Sheriff) ||
