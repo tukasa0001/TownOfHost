@@ -77,7 +77,7 @@ namespace TownOfHost
             if (!target.Data.IsDead || GameStates.IsMeeting) return;
             foreach (var seer in PlayerControl.AllPlayerControls)
             {
-                if (KillFlashCheck(killer, target, seer, deathReason) == false) continue;
+                if (!KillFlashCheck(killer, target, seer, deathReason)) continue;
                 Main.RealOptionsData.DeepCopy().KillFlash(seer);
             }
         }
