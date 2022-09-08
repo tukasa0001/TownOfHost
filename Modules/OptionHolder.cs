@@ -262,8 +262,6 @@ namespace TownOfHost
             EnableGM = CustomOption.Create(100, TabGroup.MainSettings, Utils.GetRoleColor(CustomRoles.GM), "GM", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
 
-            KillFlashDuration = CustomOption.Create(5013, TabGroup.MainSettings, Color.white, "KillFlashDuration", 0.3f, 0.1f, 0.45f, 0.05f, null, true);
-
             // Impostor
             BountyHunter.SetupCustomOption();
             SerialKiller.SetupCustomOption();
@@ -361,6 +359,9 @@ namespace TownOfHost
             LastImpostorKillCooldown = CustomOption.Create(80010, TabGroup.MainSettings, Color.white, "LastImpostorKillCooldown", 15, 0, 180, 1, EnableLastImpostor)
                 .SetGameMode(CustomGameMode.Standard);
             #endregion
+
+            KillFlashDuration = CustomOption.Create(90000, TabGroup.MainSettings, Color.white, "KillFlashDuration", 0.3f, 0.1f, 0.45f, 0.05f, null, true)
+                .SetGameMode(CustomGameMode.Standard);
 
             // HideAndSeek
             SetupRoleOptions(100000, TabGroup.MainSettings, CustomRoles.HASFox, CustomGameMode.HideAndSeek);
