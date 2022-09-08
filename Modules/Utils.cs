@@ -279,31 +279,31 @@ namespace TownOfHost
 
             return ProgressText;
         }
-        public static void ShowActiveSettingsHelp()
+        public static void ShowActiveSettingsHelp(byte PlayerId = byte.MaxValue)
         {
-            SendMessage(GetString("CurrentActiveSettingsHelp") + ":");
+            SendMessage(GetString("CurrentActiveSettingsHelp") + ":", PlayerId);
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
-                SendMessage(GetString("HideAndSeekInfo"));
-                if (CustomRoles.HASFox.IsEnable()) { SendMessage(GetRoleName(CustomRoles.HASFox) + GetString("HASFoxInfoLong")); }
-                if (CustomRoles.HASTroll.IsEnable()) { SendMessage(GetRoleName(CustomRoles.HASTroll) + GetString("HASTrollInfoLong")); }
+                SendMessage(GetString("HideAndSeekInfo"), PlayerId);
+                if (CustomRoles.HASFox.IsEnable()) { SendMessage(GetRoleName(CustomRoles.HASFox) + GetString("HASFoxInfoLong"), PlayerId); }
+                if (CustomRoles.HASTroll.IsEnable()) { SendMessage(GetRoleName(CustomRoles.HASTroll) + GetString("HASTrollInfoLong"), PlayerId); }
             }
             else
             {
-                if (Options.DisableDevices.GetBool()) { SendMessage(GetString("DisableDevicesInfo")); }
-                if (Options.SyncButtonMode.GetBool()) { SendMessage(GetString("SyncButtonModeInfo")); }
-                if (Options.SabotageTimeControl.GetBool()) { SendMessage(GetString("SabotageTimeControlInfo")); }
-                if (Options.RandomMapsMode.GetBool()) { SendMessage(GetString("RandomMapsModeInfo")); }
-                if (Options.IsStandardHAS) { SendMessage(GetString("StandardHASInfo")); }
-                if (Options.EnableGM.GetBool()) { SendMessage(GetRoleName(CustomRoles.GM) + GetString("GMInfoLong")); }
+                if (Options.DisableDevices.GetBool()) { SendMessage(GetString("DisableDevicesInfo"), PlayerId); }
+                if (Options.SyncButtonMode.GetBool()) { SendMessage(GetString("SyncButtonModeInfo"), PlayerId); }
+                if (Options.SabotageTimeControl.GetBool()) { SendMessage(GetString("SabotageTimeControlInfo"), PlayerId); }
+                if (Options.RandomMapsMode.GetBool()) { SendMessage(GetString("RandomMapsModeInfo"), PlayerId); }
+                if (Options.IsStandardHAS) { SendMessage(GetString("StandardHASInfo"), PlayerId); }
+                if (Options.EnableGM.GetBool()) { SendMessage(GetRoleName(CustomRoles.GM) + GetString("GMInfoLong"), PlayerId); }
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
                     if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
-                    if (role.IsEnable() && !role.IsVanilla()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"));
+                    if (role.IsEnable() && !role.IsVanilla()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"), PlayerId);
                 }
-                if (Options.EnableLastImpostor.GetBool()) { SendMessage(GetRoleName(CustomRoles.LastImpostor) + GetString("LastImpostorInfoLong")); }
+                if (Options.EnableLastImpostor.GetBool()) { SendMessage(GetRoleName(CustomRoles.LastImpostor) + GetString("LastImpostorInfoLong"), PlayerId); }
             }
-            if (Options.NoGameEnd.GetBool()) { SendMessage(GetString("NoGameEndInfo")); }
+            if (Options.NoGameEnd.GetBool()) { SendMessage(GetString("NoGameEndInfo"), PlayerId); }
         }
         public static void ShowActiveSettings(byte PlayerId = byte.MaxValue)
         {
