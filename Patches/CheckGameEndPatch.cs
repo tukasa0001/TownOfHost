@@ -12,6 +12,9 @@ namespace TownOfHost
             if (!GameData.Instance) return false;
             if (DestroyableSingleton<TutorialManager>.InstanceExists) return true;
             var statistics = new PlayerStatistics(__instance);
+
+            if (CheckAndEndGameForTerminate(__instance)) return false;
+
             if (Options.NoGameEnd.GetBool()) return false;
 
             if (CheckAndEndGameForSoloWin(__instance)) return false;
