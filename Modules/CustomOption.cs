@@ -104,6 +104,7 @@ namespace TownOfHost
                 Entry = Main.Instance.Config.Bind($"Preset{Preset}", id.ToString(), DefaultSelection);
                 Selection = Mathf.Clamp(Entry.Value, 0, selections.Length - 1);
             }
+            if (Options.Any(x => x.Id == id)) Logger.Warn($"ID:{id}が重複しています", "CustomOption");
             Options.Add(this);
             GameMode = CustomGameMode.Standard;
         }
