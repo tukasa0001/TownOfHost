@@ -291,4 +291,12 @@ namespace TownOfHost
             Parent?.Children.Add(this);
         }
     }
+    public enum TabGroup
+    {
+        MainSettings,
+        CrewmateRoles,
+        NeutralRoles,
+        ImpostorRoles,
+        Modifier
+    }
 }
