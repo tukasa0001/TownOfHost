@@ -38,10 +38,10 @@ namespace TownOfHost
 
         public static void SetupCustomOption()
         {
-            SetupRoleOptions(Id, CustomRoles.Executioner);
-            CanTargetImpostor = CustomOption.Create(Id + 10, Color.white, "ExecutionerCanTargetImpostor", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
-            CanTargetNeutralKiller = CustomOption.Create(Id + 12, Color.white, "ExecutionerCanTargetNeutralKiller", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
-            ChangeRolesAfterTargetKilled = CustomOption.Create(Id + 11, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ChangeRoles, ChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
+            SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Executioner);
+            CanTargetImpostor = CustomOption.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "ExecutionerCanTargetImpostor", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
+            CanTargetNeutralKiller = CustomOption.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "ExecutionerCanTargetNeutralKiller", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
+            ChangeRolesAfterTargetKilled = CustomOption.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ChangeRoles, ChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
         }
         public static void Init()
         {
