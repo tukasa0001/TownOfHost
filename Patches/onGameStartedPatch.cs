@@ -15,7 +15,6 @@ namespace TownOfHost
             //注:この時点では役職は設定されていません。
             PlayerState.Init();
 
-            Main.currentWinner = CustomWinner.Default;
             Main.CustomWinTrigger = false;
             Main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             Main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
@@ -103,6 +102,7 @@ namespace TownOfHost
             Egoist.Init();
             Executioner.Init();
             Sheriff.Init();
+            CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
         }
     }

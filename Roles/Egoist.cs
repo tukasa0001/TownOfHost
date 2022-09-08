@@ -30,7 +30,7 @@ namespace TownOfHost
         {
             foreach (var id in playerIdList)
                 if (TeamEgoist.CompleteWinCondition(id))
-                    Main.currentWinner = CustomWinner.Egoist;
+                    CustomWinnerHolder.WinnerTeam = CustomWinner.Egoist;
         }
     }
 }

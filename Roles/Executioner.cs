@@ -91,11 +91,8 @@ namespace TownOfHost
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     break;
                 case "WinCheck":
-                    writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, SendOption.Reliable, -1);
-                    writer.Write((byte)CustomWinner.Executioner);
-                    writer.Write(executionerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    RPC.ExecutionerWin(executionerId);
+                    CustomWinnerHolder.WinnerTeam = CustomWinner.Executioner;
+                    CustomWinnerHolder.WinnerIds.Add(executionerId);
                     break;
             }
         }
