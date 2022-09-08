@@ -12,6 +12,9 @@ namespace TownOfHost
             if (!GameData.Instance) return false;
             if (DestroyableSingleton<TutorialManager>.InstanceExists) return true;
             var statistics = new PlayerStatistics(__instance);
+
+            if (CheckAndEndGameForTerminate(__instance)) return false;
+
             if (Options.NoGameEnd.GetBool()) return false;
 
             if (CheckAndEndGameForSoloWin(__instance)) return false;
@@ -173,6 +176,16 @@ namespace TownOfHost
             return false;
         }
 
+        private static bool CheckAndEndGameForTerminate(ShipStatus __instance)
+        {
+            if (CustomWinnerHolder.WinnerTeam == CustomWinner.Draw)
+            {
+                __instance.enabled = false;
+                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                return true;
+            }
+            return false;
+        }
         private static bool CheckAndEndGameForSoloWin(ShipStatus __instance)
         {
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
