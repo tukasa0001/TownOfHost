@@ -192,7 +192,6 @@ namespace TownOfHost
         }
         public static void FixedUpdate(PlayerControl pc)
         {
-            bool DoNotifyRoles = false;
             if (!pc.Is(CustomRoles.EvilTracker)) return;
             var target = pc.GetTarget();
             //EvilTrackerのターゲット削除
@@ -201,9 +200,8 @@ namespace TownOfHost
                 Target[pc.PlayerId] = null;
                 pc.RemoveTarget();
                 Logger.Info($"{pc.GetNameWithRole()}のターゲットが無効だったため、ターゲットを削除しました", "EvilTracker");
-                DoNotifyRoles = true;
+                Utils.NotifyRoles();
             }
-            if (DoNotifyRoles) Utils.NotifyRoles();
         }
     }
 }
