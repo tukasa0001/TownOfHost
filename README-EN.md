@@ -694,6 +694,10 @@ The team Jackal enables multiple new outcomes of the game, listing some examples
 
 If both Impostors and Jackals are in the game, the game continues even if all Crewmates are dead. Crewmates may still win in this case by completing their tasks. Jackal and Impostor have to kill each other.
 
+・In the case of 1 Impo & Jackal, even if it is banished by vote, it will be displayed as ``No one was banished'' (display only)
+It is not a bug that is displayed like this as a countermeasure against blackout.
+・ Auto mute is removed when impo is hung
+
 ### Game Options
 
 | Name                   |
