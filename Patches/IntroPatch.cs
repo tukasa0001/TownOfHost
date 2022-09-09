@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using HarmonyLib;
@@ -61,12 +62,19 @@ namespace TownOfHost
             Logger.Info("--------------環境--------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                var text = pc.AmOwner ? "[*]" : "   ";
-                text += $"{pc.PlayerId,-2}:{pc.Data?.PlayerName?.PadRightV2(20)}:{pc.GetClient()?.PlatformData?.Platform.ToString()?.Replace("Standalone", ""),-11}";
-                if (Main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
-                    text += $":Mod({pv.forkId}/{pv.version}:{pv.tag})";
-                else text += ":Vanilla";
-                Logger.Info(text, "Info");
+                try
+                {
+                    var text = pc.AmOwner ? "[*]" : "   ";
+                    text += $"{pc.PlayerId,-2}:{pc.Data?.PlayerName?.PadRightV2(20)}:{pc.GetClient()?.PlatformData?.Platform.ToString()?.Replace("Standalone", ""),-11}";
+                    if (Main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
+                        text += $":Mod({pv.forkId}/{pv.version}:{pv.tag})";
+                    else text += ":Vanilla";
+                    Logger.Info(text, "Info");
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex.ToString(), "Platform");
+                }
             }
             Logger.Info("------------基本設定------------", "Info");
             var tmp = PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
