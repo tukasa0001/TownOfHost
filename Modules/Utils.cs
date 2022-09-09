@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
 

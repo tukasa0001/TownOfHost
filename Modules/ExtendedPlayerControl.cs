@@ -4,8 +4,6 @@ using System.Linq;
 using Hazel;
 using InnerNet;
 using UnityEngine;
-using HarmonyLib;
-using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
