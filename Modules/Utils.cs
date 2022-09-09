@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
 
@@ -99,23 +97,25 @@ namespace TownOfHost
                     return false;
             }
         }
-        public static async void KillFlash(this GameOptionsData opt, PlayerControl player)
+        public static void KillFlash(this GameOptionsData opt, PlayerControl player)
         {
             //キルフラッシュ(ブラックアウト+リアクターフラッシュ)の処理
             bool ReactorCheck = false; //リアクターフラッシュの確認
             if (PlayerControl.GameOptions.MapId == 2) ReactorCheck = IsActive(SystemTypes.Laboratory);
             else ReactorCheck = IsActive(SystemTypes.Reactor);
 
-            int Duration = (int)Math.Floor(Options.KillFlashDuration.GetFloat() * 1000); //100~400(ms)
-            if (ReactorCheck) Duration = Math.Min(Duration + 100, 400); //リアクター中はブラックアウトを長くする
+            var Duration = Options.KillFlashDuration.GetFloat();
+            if (ReactorCheck) Duration += 0.2f; //リアクター中はブラックアウトを長くする
 
             //実行
             PlayerState.IsBlackOut[player.PlayerId] = true; //ブラックアウト
             if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
             ExtendedPlayerControl.CustomSyncSettings(player);
-            await Task.Delay(Duration); //ブラックアウトの時間
-            PlayerState.IsBlackOut[player.PlayerId] = false; //ブラックアウト解除
-            ExtendedPlayerControl.CustomSyncSettings(player);
+            new LateTask(() =>
+            {
+                PlayerState.IsBlackOut[player.PlayerId] = false; //ブラックアウト解除
+                ExtendedPlayerControl.CustomSyncSettings(player);
+            }, Options.KillFlashDuration.GetFloat(), "RemoveKillFlash");
         }
         public static void BlackOut(this GameOptionsData opt, PlayerControl player, bool IsBlackOut)
         {
