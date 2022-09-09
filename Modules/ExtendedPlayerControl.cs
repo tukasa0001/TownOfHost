@@ -4,6 +4,7 @@ using System.Linq;
 using Hazel;
 using InnerNet;
 using UnityEngine;
+using HarmonyLib;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -149,8 +150,11 @@ namespace TownOfHost
         {
             if (target == null) target = killer;
             // Host
-            killer.ProtectPlayer(target, colorId);
-            killer.MurderPlayer(target);
+            if (killer.AmOwner)
+            {
+                killer.ProtectPlayer(target, colorId);
+                killer.MurderPlayer(target);
+            }
             // Other Clients
             if (killer.PlayerId != 0)
             {
@@ -178,6 +182,7 @@ namespace TownOfHost
             messageWriter.WriteNetObject(target);
             AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
         }
+        [Obsolete]
         public static void RpcSpecificProtectPlayer(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
         {
             if (AmongUsClient.Instance.AmClient)
@@ -202,13 +207,16 @@ namespace TownOfHost
             {
                 //targetがホスト以外だった場合
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(target.NetId, (byte)RpcCalls.ProtectPlayer, SendOption.None, target.GetClientId());
-                writer.Write(0); //writer.WriteNetObject(null); と同じ
+                writer.WriteNetObject(target);
                 writer.Write(0);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
-            /*  nullにバリアを張ろうとすると、アビリティーのクールダウンがリセットされてからnull参照で中断されます。
-                ホストに対しての場合、RPCを介さず直接クールダウンを書き換えています。
-                万が一他クライアントへの影響があった場合を考慮して、Desyncを使っています。*/
+            /*
+                プレイヤーがバリアを張ったとき、そのプレイヤーの役職に関わらずアビリティーのクールダウンがリセットされます。
+                ログの追加により無にバリアを張ることができなくなったため、代わりに自身に0秒バリアを張るように変更しました。
+                この変更により、役職としての守護天使が無効化されます。
+                ホストのクールダウンは直接リセットします。
+            */
         }
         public static byte GetRoleCount(this Dictionary<CustomRoles, byte> dic, CustomRoles role)
         {
@@ -342,7 +350,7 @@ namespace TownOfHost
                 foreach (var speed in Main.AllPlayerSpeed)
                 {
                     if (speed.Key == player.PlayerId)
-                        opt.PlayerSpeedMod = Mathf.Clamp(speed.Value, 0.0001f, 3f);
+                        opt.PlayerSpeedMod = Mathf.Clamp(speed.Value, Main.MinSpeed, 3f);
                 }
             }
             if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead && opt.AnonymousVotes)
@@ -352,18 +360,19 @@ namespace TownOfHost
             if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
             {
                 opt.ImpostorLightMod = 0f;
-                if (player.GetCustomRole().IsImpostor() || player.Is(CustomRoles.Egoist)) opt.PlayerSpeedMod = 0.0001f;
+                if (player.GetCustomRole().IsImpostor() || player.Is(CustomRoles.Egoist)) opt.PlayerSpeedMod = Main.MinSpeed;
             }
             opt.DiscussionTime = Mathf.Clamp(Main.DiscussionTime, 0, 300);
             opt.VotingTime = Mathf.Clamp(Main.VotingTime, TimeThief.LowerLimitVotingTime.GetInt(), 300);
 
-            if (Options.AllAliveMeeting.GetBool() && PlayerControl.AllPlayerControls.ToArray().All(x => !x.Data.IsDead))
+            if (Options.AllAliveMeeting.GetBool() && PlayerControl.AllPlayerControls.ToArray().All(x => !x.Data.IsDead && !x.Data.Disconnected))
             {
                 opt.DiscussionTime = 0;
                 opt.VotingTime = Options.AllAliveMeetingTime.GetInt();
             }
 
             opt.RoleOptions.ShapeshifterCooldown = Mathf.Max(1f, opt.RoleOptions.ShapeshifterCooldown);
+            opt.RoleOptions.ProtectionDurationSeconds = 0f;
 
             if (player.AmOwner) PlayerControl.GameOptions = opt;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
@@ -567,11 +576,12 @@ namespace TownOfHost
         public static void TrapperKilled(this PlayerControl killer, PlayerControl target)
         {
             Logger.Info($"{target?.Data?.PlayerName}はTrapperだった", "Trapper");
-            Main.AllPlayerSpeed[killer.PlayerId] = 0.00001f;
+            var tmpSpeed = Main.AllPlayerSpeed[killer.PlayerId];
+            Main.AllPlayerSpeed[killer.PlayerId] = Main.MinSpeed;    //tmpSpeedで後ほど値を戻すので代入しています。
             killer.CustomSyncSettings();
             new LateTask(() =>
             {
-                Main.AllPlayerSpeed[killer.PlayerId] = Main.RealOptionsData.PlayerSpeedMod;
+                Main.AllPlayerSpeed[killer.PlayerId] = Main.AllPlayerSpeed[killer.PlayerId] - Main.MinSpeed + tmpSpeed;
                 killer.CustomSyncSettings();
                 RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
             }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");

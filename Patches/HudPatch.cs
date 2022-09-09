@@ -135,14 +135,15 @@ namespace TownOfHost
 
             if (!player.GetCustomRole().IsVanilla())
             {
-                TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"{player.GetRoleName()}\r\n");
-                if (player.Is(CustomRoles.Mafia))
-                    TaskTextPrefix += GetString(player.CanUseKillButton() ? "AfterMafiaInfo" : "BeforeMafiaInfo");
-                else if (player.Is(CustomRoles.EvilWatcher) || player.Is(CustomRoles.NiceWatcher))
-                    TaskTextPrefix += GetString("WatcherInfo");
-                else
-                    TaskTextPrefix += GetString(player.GetCustomRole() + "Info");
-                TaskTextPrefix += "</color>\r\n";
+                var RoleWithInfo = $"{player.GetRoleName()}\r\n";
+                RoleWithInfo += player.GetCustomRole() switch
+                {
+                    CustomRoles.Mafia => GetString(player.CanUseKillButton() ? "AfterMafiaInfo" : "BeforeMafiaInfo"),
+                    CustomRoles.EvilWatcher or CustomRoles.NiceWatcher => GetString("WatcherInfo"),
+                    CustomRoles.MadSnitch or CustomRoles.MadGuardian => GetString(player.GetPlayerTaskState().IsTaskFinished ? "MadmateInfo" : "BeforeMadmateInfo"),
+                    _ => GetString(player.GetCustomRole() + "Info")
+                };
+                TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), RoleWithInfo);
             }
             switch (player.GetCustomRole())
             {
@@ -237,6 +238,8 @@ namespace TownOfHost
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] bool active, [HarmonyArgument(1)] RoleTeamTypes team)
         {
             var player = PlayerControl.LocalPlayer;
+            if (!GameStates.IsInTask) return;
+
             if ((player.GetCustomRole() == CustomRoles.Sheriff ||
                 player.GetCustomRole() == CustomRoles.Arsonist ||
                 player.GetCustomRole() == CustomRoles.Jackal)

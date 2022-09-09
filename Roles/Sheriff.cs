@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Hazel;
 using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -10,37 +11,51 @@ namespace TownOfHost
         public static List<byte> playerIdList = new();
 
         private static CustomOption KillCooldown;
-        private static CustomOption CanKillArsonist;
-        private static CustomOption CanKillMadmate;
-        private static CustomOption CanKillJester;
-        private static CustomOption CanKillTerrorist;
-        private static CustomOption CanKillOpportunist;
-        private static CustomOption CanKillEgoist;
-        private static CustomOption CanKillEgoShrodingerCat;
-        private static CustomOption CanKillExecutioner;
-        private static CustomOption CanKillJackal;
-        private static CustomOption CanKillJShrodingerCat;
         private static CustomOption MisfireKillsTarget;
         private static CustomOption ShotLimitOpt;
+        public static CustomOption CanKillMadmates;
+        public static CustomOption CanKillNeutrals;
+        public static CustomOption CanKillJester;
+        public static CustomOption CanKillTerrorist;
+        public static CustomOption CanKillOpportunist;
+        public static CustomOption CanKillArsonist;
+        public static CustomOption CanKillEgoist;
+        public static CustomOption CanKillEgoShrodingerCat;
+        public static CustomOption CanKillExecutioner;
+        public static CustomOption CanKillJackal;
+        public static CustomOption CanKillJShrodingerCat;
 
         public static Dictionary<byte, float> ShotLimit = new();
         public static Dictionary<byte, float> CurrentKillCooldown = new();
+        public static readonly string[] KillOption =
+        {
+            "SheriffCanKillAll", "SheriffCanKillSeparately"
+        };
+        public static Dictionary<string, string> SheriffCanKillRole(CustomRoles role)
+        {
+            var rolename = Utils.GetRoleName(role);
+            if (role == CustomRoles.EgoSchrodingerCat) rolename += GetString("In%team%", new Dictionary<string, string>() { { "%team%", Utils.GetRoleName(CustomRoles.Egoist) } });
+            if (role == CustomRoles.JSchrodingerCat) rolename += GetString("In%team%", new Dictionary<string, string>() { { "%team%", Utils.GetRoleName(CustomRoles.Jackal) } });
+            Dictionary<string, string> replacementDic = new() { { "%role%", Helpers.ColorString(Utils.GetRoleColor(role), rolename) } };
+            return replacementDic;
+        }
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.Sheriff);
-            KillCooldown = CustomOption.Create(Id + 10, Color.white, "SheriffKillCooldown", 30, 0, 990, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillArsonist = CustomOption.Create(Id + 17, Color.white, "SheriffCanKillArsonist", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillMadmate = CustomOption.Create(Id + 11, Color.white, "SheriffCanKillMadmate", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillJester = CustomOption.Create(Id + 12, Color.white, "SheriffCanKillJester", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillTerrorist = CustomOption.Create(Id + 13, Color.white, "SheriffCanKillTerrorist", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillOpportunist = CustomOption.Create(Id + 14, Color.white, "SheriffCanKillOpportunist", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillEgoist = CustomOption.Create(Id + 18, Color.white, "SheriffCanKillEgoist", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillEgoShrodingerCat = CustomOption.Create(Id + 19, Color.white, "SheriffCanKillEgoShrodingerCat", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillExecutioner = CustomOption.Create(Id + 20, Color.white, "SheriffCanKillExecutioner", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillJackal = CustomOption.Create(Id + 23, Color.white, "SheriffCanKillJackal", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillJShrodingerCat = CustomOption.Create(Id + 24, Color.white, "SheriffCanKillJShrodingerCat", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            MisfireKillsTarget = CustomOption.Create(Id + 15, Color.white, "SheriffMisfireKillsTarget", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            ShotLimitOpt = CustomOption.Create(Id + 16, Color.white, "SheriffShotLimit", 15, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.Sheriff);
+            KillCooldown = CustomOption.Create(Id + 10, TabGroup.CrewmateRoles, Color.white, "SheriffKillCooldown", 30, 0, 990, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            MisfireKillsTarget = CustomOption.Create(Id + 11, TabGroup.CrewmateRoles, Color.white, "SheriffMisfireKillsTarget", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            ShotLimitOpt = CustomOption.Create(Id + 12, TabGroup.CrewmateRoles, Color.white, "SheriffShotLimit", 15, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillMadmates = CustomOption.Create(Id + 13, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff], replacementDic: SheriffCanKillRole(CustomRoles.Madmate));
+            CanKillNeutrals = CustomOption.Create(Id + 14, TabGroup.CrewmateRoles, Color.white, "SheriffCanKillNeutrals", KillOption, KillOption[0], Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillJester = CustomOption.Create(Id + 15, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Jester));
+            CanKillTerrorist = CustomOption.Create(Id + 16, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Terrorist));
+            CanKillOpportunist = CustomOption.Create(Id + 17, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Opportunist));
+            CanKillArsonist = CustomOption.Create(Id + 18, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Arsonist));
+            CanKillEgoist = CustomOption.Create(Id + 19, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Egoist));
+            CanKillEgoShrodingerCat = CustomOption.Create(Id + 20, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.EgoSchrodingerCat));
+            CanKillExecutioner = CustomOption.Create(Id + 21, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Executioner));
+            CanKillJackal = CustomOption.Create(Id + 22, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Jackal));
+            CanKillJShrodingerCat = CustomOption.Create(Id + 23, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.JSchrodingerCat));
         }
         public static void Init()
         {
@@ -118,6 +133,7 @@ namespace TownOfHost
         public static bool CanBeKilledBySheriff(this PlayerControl player)
         {
             var cRole = player.GetCustomRole();
+            if (CanKillNeutrals.GetSelection() == 0 && cRole.IsNeutral()) return true;
             return cRole switch
             {
                 CustomRoles.Jester => CanKillJester.GetBool(),
@@ -133,7 +149,7 @@ namespace TownOfHost
                 _ => cRole.GetRoleType() switch
                 {
                     RoleType.Impostor => true,
-                    RoleType.Madmate => CanKillMadmate.GetBool(),
+                    RoleType.Madmate => CanKillMadmates.GetBool(),
                     _ => false,
                 }
             };

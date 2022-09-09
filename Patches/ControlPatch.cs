@@ -39,10 +39,7 @@ namespace TownOfHost
             //廃村
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
             {
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                writer.Write((int)CustomWinner.Draw);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-                RPC.ForceEndGame();
+                CustomWinnerHolder.WinnerTeam = CustomWinner.Draw;
             }
             //ミーティングを強制終了
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsMeeting)
@@ -160,6 +157,9 @@ namespace TownOfHost
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 81);
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 82);
             }
+            //現在の座標を取得
+            if (Input.GetKeyDown(KeyCode.I))
+                Logger.Info(PlayerControl.LocalPlayer.GetTruePosition().ToString(), "GetLocalPlayerPos");
             //マスゲーム用コード
             /*if (Input.GetKeyDown(KeyCode.C))
             {
