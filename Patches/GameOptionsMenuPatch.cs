@@ -54,6 +54,16 @@ namespace TownOfHost
 
                 return;
             }
+            foreach (var name in Enum.GetNames(typeof(TabGroup)))
+            {
+                var obj = GameObject.Find("Tab_" + name);
+                if (obj != null)
+                    obj.transform
+                    .FindChild("GameGroup")
+                    .FindChild("Text")
+                    .GetComponent<TMPro.TextMeshPro>()
+                    .SetText("TownOfHost Settings");
+            }
 
             var template = Object.FindObjectsOfType<StringOption>().FirstOrDefault();
             if (template == null) return;
