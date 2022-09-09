@@ -99,12 +99,12 @@ namespace TownOfHost
             //初期化出来ていなかったら初期化
             if (AllTasksCount == -1) Init(player);
 
-            //FIXME:SpeedBoostre class transplant
+            //FIXME:SpeedBooster class transplant
             if (!player.Data.IsDead
             && player.Is(CustomRoles.SpeedBooster)
             && (((CompletedTasksCount + 1) >= AllTasksCount) || (CompletedTasksCount + 1) >= Options.SpeedBoosterTaskTrigger.GetInt())
             && !Main.SpeedBoostTarget.ContainsKey(player.PlayerId))
-            {   //ｽﾋﾟﾌﾞが生きていて、全タスク完了orトリガー数までタスクを完了していて、SppedBoostTargetに登録済みでない場合
+            {   //ｽﾋﾟﾌﾞが生きていて、全タスク完了orトリガー数までタスクを完了していて、SpeedBoostTargetに登録済みでない場合
                 var rand = new System.Random();
                 List<PlayerControl> targetplayers = new();
                 //切断者と死亡者を除外
