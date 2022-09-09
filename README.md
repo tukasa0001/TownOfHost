@@ -1,5 +1,7 @@
 # Town Of Host
 
+[English](https://github.com/tukasa0001/TownOfHost/blob/main/README-EN.md)
+
 [![TownOfHost-Title](./Images/TownOfHost-Title.png)](https://youtu.be/IGguGyq_F-c)
 
 <p align="center"><a href="https://github.com/tukasa0001/TownOfHost/releases/"><img src="https://badgen.net/github/release/tukasa0001/TownOfHost"></a></p>
