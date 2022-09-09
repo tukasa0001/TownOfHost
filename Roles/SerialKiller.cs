@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
 
