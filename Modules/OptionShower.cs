@@ -84,6 +84,11 @@ namespace TownOfHost
                     {
                         text += $"\t{Options.CanMakeMadmateCount.GetName()}: {Options.CanMakeMadmateCount.GetString()}\n";
                     }
+                    if ((kvp.Key == CustomRoles.EvilTracker && EvilTracker.CanSeeKillFlash.GetBool())
+                    || kvp.Key == CustomRoles.Seer)
+                    {
+                        text += $"\t{Options.KillFlashDuration.GetName()}: {Options.KillFlashDuration.GetString()}\n";
+                    }
                     text += "\n";
                 }
                 //Onの時に子要素まで表示するメソッド
