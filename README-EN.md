@@ -208,6 +208,16 @@ While lights out they can move faster, and yet their name looks red by everyone.
 | ------------------------------- |
 | Mare Player Speed In Lights Out |
 
+### Ninja
+
+Team : Impostor<br>
+Decision : ShapeShifter<br>
+
+This role allows you to kill players from a distance.
+If a kill is executed during a shapeshift, the kill is guarded against the target and the KillCooldown is reset.
+When the shapeshift is released, the Ninja teleports to the target wherever it is and kills the target.
+Also, the shapeshift Cooldown is only 5 seconds.
+
 ### Puppeteer
 
 Team : Impostors<br>

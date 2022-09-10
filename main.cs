@@ -306,6 +306,7 @@ namespace TownOfHost
         Puppeteer,
         TimeThief,
         EvilTracker,
+        Ninja,
         LastImpostor,
         //Madmate
         MadGuardian,

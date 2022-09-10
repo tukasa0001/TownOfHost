@@ -332,6 +332,10 @@ namespace TownOfHost
                 case CustomRoles.JSchrodingerCat:
                     opt.SetVision(player, Options.JackalHasImpostorVision.GetBool());
                     break;
+                case CustomRoles.Ninja:
+                    opt.RoleOptions.ShapeshifterCooldown = 5f;
+                    opt.RoleOptions.ShapeshifterDuration = 0f;
+                break;
 
 
                 InfinityVent:

@@ -30,6 +30,7 @@ Puppeteer,Puppeteer,パペッティア,傀儡师,傀儡師
 TimeThief,TimeThief,タイムシーフ,蚀时者,時間小偷
 Sniper,Sniper,スナイパー,狙击手,狙擊手
 EvilTracker,EvilTracker,イビルトラッカー,邪恶的追踪者
+Ninja,Ninja,ニンジャ
 
 # マッドメイト系役職
 Madmate,Madmate,マッドメイト,叛徒,叛徒
@@ -105,6 +106,7 @@ TimeThiefInfo,Kill the Crewmates to steal discussion time,敵を殺し、会議�
 SniperInfo,Shoot the Crewmates in the distance,狙い撃つぜ,瞄准敌人，射击！,讓你的敵人在你的狙擊下死亡
 LastImpostorInfo,You are the last one,残ったのはあなただけ,你是最后的希望…,你是狼村最後的希望...
 EvilTrackerInfo,Track Players,プレイヤーを追跡しろ,追杀其他玩家
+NinjaInfo,You can't escape Ninja,ニンジャからは逃げられない
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう,帮助内鬼,幫助狼人
@@ -167,6 +169,7 @@ PuppeteerInfoLong,"(Impostors):\nThey can perform secondhand kills but cannot ki
 TimeThiefInfoLong,"(Impostors):\nEvery kill cuts down discussion and voting time in meeting.\nDepending on option, the lost time is returned after they die.",(インポスター陣営):\nキルを行うと会議時間が減少する。\nタイムシーフが追放または殺害されると、失われた会議時間が返ってきます。,(内鬼阵营):\n蚀时者每击杀一个人，会议持续时间将减少一定时间。\n如果蚀时者死亡，被偷取的时间的会议时间会返还。,"(狼人陣營):\n時間小偷每次殺人將會減少會議時間\n如果時間小偷被丟出或被殺死,減少的會議時間將會回來"
 SniperInfoLong,(Impostors):\nSniper can shoot players so far away.\nthey kill a player on the extension line from Shapeshift point to release point.\nYou can perform normal kills after all bullets run out.,(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。,(内鬼阵营):\n狙击手拥有远距离击杀的能力。\n狙击手化形后，其击杀能够将其现在为止与化形时所处位置连线及其延长线上的一名玩家击杀。\n狙击手的子弹耗尽前，狙击手不可以进行通常击杀。",(狼人陣營):\n狙擊遠處的敵人\n子彈將從變形處延伸到取消變形處並往直線前進並殺死在這條線上非狼人陣營的人\n狙擊手無法正常殺人在狙擊手用光子彈前。"
 EvilTrackerInfoLong,"(Impostors):\nEvilTracker can track others.\nThey can see arrows toward Impostors and the one whom they Shapeshift to.\nThey know when allies take kills with kill flash.",(インポスター陣営):\n他人の位置が分かるインポスター。\n味方のインポスターとシェイプシフトで選んだ一人の位置が矢印で表示される。\n味方インポスターのキルによるキルフラッシュも見える。
+NinjaInfoLong,"(Impostors):\nImposter that can kill players from anywhere.\nIf a kill is made during a shapeshift, the kill is guarded,When the shapeshift is released, the player teleports to the player who pressed the kill button and makes the kill.\nWhen not shapeshifting, it is possible to make normal kills,/n Shapeshift Cooldown is only 5 seconds.",(インポスター陣営):\nどこからでもプレイヤーをキルすることができるインポスター。\nシェイプシフト中にキルを行うとキルがガードされ、変身を解除するとキルボタンを押したプレイヤーにテレポートし、キルをする。\nシェイプシフトしていないときは普通のキルをすることが可能で、変身クールダウンが5秒しかない。
 
 # マッドメイト系役職
 MadmateInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, but they don't know who are Impostors.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。,(内鬼阵营):\n叛徒不可以击杀或者破坏，可以跳管道。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人無法知道叛徒是誰,\n他可以跳洞且沒有任務。"

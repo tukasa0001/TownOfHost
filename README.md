@@ -202,6 +202,16 @@ GMはゲーム自体には何の影響も与えず、すべてのプレイヤー
 | ---------------------- |
 | 加速値                 |
 
+### Ninja/ニンジャ
+
+陣営 : インポスター<br>
+判定 : シェイプシフター<br>
+
+遠くからプレイヤーをキルできる役職です。<br>
+シェイプシフト中にキルを実行すると、対象に対してのキルがガードされ、キルクールがリセットされます。<br>
+シェイプシフトを解除するとニンジャがどこにいても対象にテレポートして、対象を殺害します。<br>
+また、シェイプシフトクールダウンが5秒しかありません。<br>
+
 ### Puppeteer/パペッティア
 
 陣営 : インポスター<br>
@@ -877,7 +887,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ## 参考など
 
-[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター)、[シーア](#Seer/シーア) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
+[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ニンジャ](Ninja/ニンジャ)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター)、[シーア](#Seer/シーア) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
 [オポチュニスト](#Opportunist/オポチュニスト)、[ウォッチャー](#Watcher/ウォッチャー) のアイデア元 : [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
 [シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫)、[イビルトラッカー](#EvilTracker/イビルトラッカー) のアイデア元 : [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
 [ドクター](#Doctor/ドクター) のアイデア元 : [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
