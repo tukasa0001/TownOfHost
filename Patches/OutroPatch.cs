@@ -230,9 +230,9 @@ namespace TownOfHost
                     break;
             }
 
-            foreach (var additionalwinners in CustomWinnerHolder.AdditionalWinnerTeams)
+            foreach (var additionalWinners in CustomWinnerHolder.AdditionalWinnerTeams)
             {
-                var addWinnerRole = (CustomRoles)additionalwinners;
+                var addWinnerRole = (CustomRoles)additionalWinners;
                 AdditionalWinnerText += "＆" + Helpers.ColorString(Utils.GetRoleColor(addWinnerRole), Utils.GetRoleName(addWinnerRole));
             }
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Draw && CustomWinnerHolder.WinnerTeam != CustomWinner.None)

@@ -33,10 +33,10 @@ namespace TownOfHost
         };
         public static Dictionary<string, string> SheriffCanKillRole(CustomRoles role)
         {
-            var rolename = Utils.GetRoleName(role);
+            var roleName = Utils.GetRoleName(role);
             if (role == CustomRoles.EgoSchrodingerCat) roleName += GetString("In%team%", new Dictionary<string, string>() { { "%team%", Utils.GetRoleName(CustomRoles.Egoist) } });
             if (role == CustomRoles.JSchrodingerCat) roleName += GetString("In%team%", new Dictionary<string, string>() { { "%team%", Utils.GetRoleName(CustomRoles.Jackal) } });
-            Dictionary<string, string> replacementDic = new() { { "%role%", Helpers.ColorString(Utils.GetRoleColor(role), rolename) } };
+            Dictionary<string, string> replacementDic = new() { { "%role%", Helpers.ColorString(Utils.GetRoleColor(role), roleName) } };
             return replacementDic;
         }
         public static void SetupCustomOption()

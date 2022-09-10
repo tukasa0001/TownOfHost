@@ -106,16 +106,16 @@ namespace TownOfHost
             && !Main.SpeedBoostTarget.ContainsKey(player.PlayerId))
             {   //ｽﾋﾟﾌﾞが生きていて、全タスク完了orトリガー数までタスクを完了していて、SpeedBoostTargetに登録済みでない場合
                 var rand = new System.Random();
-                List<PlayerControl> targetplayers = new();
+                List<PlayerControl> targetPlayers = new();
                 //切断者と死亡者を除外
                 foreach (PlayerControl p in PlayerControl.AllPlayerControls)
                 {
-                    if (!p.Data.Disconnected && !p.Data.IsDead && !Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetplayers.Add(p);
+                    if (!p.Data.Disconnected && !p.Data.IsDead && !Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetPlayers.Add(p);
                 }
                 //ターゲットが0ならアップ先をプレイヤーをnullに
-                if (targetplayers.Count >= 1)
+                if (targetPlayers.Count >= 1)
                 {
-                    PlayerControl target = targetplayers[rand.Next(0, targetplayers.Count)];
+                    PlayerControl target = targetPlayers[rand.Next(0, targetPlayers.Count)];
                     Logger.Info("スピードブースト先:" + target.cosmetics.nameText.text, "SpeedBooster");
                     Main.SpeedBoostTarget.Add(player.PlayerId, target.PlayerId);
                     Main.AllPlayerSpeed[Main.SpeedBoostTarget[player.PlayerId]] += Options.SpeedBoosterUpSpeed.GetFloat();
