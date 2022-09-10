@@ -81,7 +81,7 @@ namespace TownOfHost
             foreach (var seer in PlayerControl.AllPlayerControls)
             {
                 if (!KillFlashCheck(killer, target, seer, deathReason)) continue;
-                Main.RealOptionsData.DeepCopy().KillFlash(seer);
+                seer.KillFlash();
             }
         }
         public static bool KillFlashCheck(PlayerControl killer, PlayerControl target, PlayerControl seer, PlayerState.DeathReason deathReason)
@@ -97,7 +97,7 @@ namespace TownOfHost
                     return false;
             }
         }
-        public static void KillFlash(this GameOptionsData opt, PlayerControl player)
+        public static void KillFlash(this PlayerControl player)
         {
             //キルフラッシュ(ブラックアウト+リアクターフラッシュ)の処理
             bool ReactorCheck = false; //リアクターフラッシュの確認
@@ -117,7 +117,7 @@ namespace TownOfHost
                 ExtendedPlayerControl.CustomSyncSettings(player);
             }, Options.KillFlashDuration.GetFloat(), "RemoveKillFlash");
         }
-        public static void BlackOut(this GameOptionsData opt, PlayerControl player, bool IsBlackOut)
+        public static void BlackOut(this GameOptionsData opt, bool IsBlackOut)
         {
             opt.ImpostorLightMod = Main.DefaultImpostorVision;
             opt.CrewLightMod = Main.DefaultCrewmateVision;

@@ -258,7 +258,7 @@ namespace TownOfHost
 
             var clientId = player.GetClientId();
             var opt = Main.RealOptionsData.DeepCopy();
-            opt.BlackOut(player, PlayerState.IsBlackOut[player.PlayerId]);
+            opt.BlackOut(PlayerState.IsBlackOut[player.PlayerId]);
 
             CustomRoles role = player.GetCustomRole();
             RoleType roleType = role.GetRoleType();
