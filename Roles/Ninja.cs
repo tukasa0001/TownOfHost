@@ -10,7 +10,7 @@ namespace TownOfHost
 
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.Ninja);
+            Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Ninja);
         }
         public static void Init()
         {
