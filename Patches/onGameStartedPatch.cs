@@ -375,25 +375,6 @@ namespace TownOfHost
                                 NameColorManager.Instance.RpcAdd(seer.PlayerId, pc.PlayerId, $"{pc.GetRoleColorCode()}");
                         }
                     }
-                    if (pc.Is(CustomRoles.Sniper)) Sniper.Add(pc.PlayerId);
-                    if (pc.Is(CustomRoles.Executioner))
-                    {
-                        List<PlayerControl> targetList = new();
-                        rand = new System.Random();
-                        foreach (var target in PlayerControl.AllPlayerControls)
-                        {
-                            if (pc == target) continue;
-                            else if (!Options.ExecutionerCanTargetImpostor.GetBool() && target.GetCustomRole().IsImpostor()) continue;
-
-                            targetList.Add(target);
-                        }
-                        var Target = targetList[rand.Next(targetList.Count)];
-                        Main.ExecutionerTarget.Add(pc.PlayerId, Target.PlayerId);
-                        RPC.SendExecutionerTarget(pc.PlayerId, Target.PlayerId);
-                        Logger.Info($"{pc.GetNameWithRole()}:{Target.GetNameWithRole()}", "Executioner");
-                    }
-                    if (pc.Is(CustomRoles.Mayor))
-                        Main.MayorUsedButtonCount[pc.PlayerId] = 0;
                 }
 
                 //役職の人数を戻す
