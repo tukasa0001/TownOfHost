@@ -12,8 +12,8 @@ namespace TownOfHost
 
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.Egoist);
-            KillCooldown = CustomOption.Create(Id + 10, Color.white, "EgoistKillCooldown", 20f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Egoist]);
+            Options.SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Egoist);
+            KillCooldown = CustomOption.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "EgoistKillCooldown", 20f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Egoist]);
         }
         public static void Init()
         {
@@ -30,7 +30,7 @@ namespace TownOfHost
         {
             foreach (var id in playerIdList)
                 if (TeamEgoist.CompleteWinCondition(id))
-                    Main.currentWinner = CustomWinner.Egoist;
+                    CustomWinnerHolder.WinnerTeam = CustomWinner.Egoist;
         }
     }
 }

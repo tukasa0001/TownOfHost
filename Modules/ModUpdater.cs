@@ -158,8 +158,8 @@ namespace TownOfHost
                 string json = await response.Content.ReadAsStringAsync();
                 JObject data = JObject.Parse(json);
 
-                string tagname = data["tag_name"]?.ToString();
-                if (tagname == null)
+                string tagName = data["tag_name"]?.ToString();
+                if (tagName == null)
                 {
                     return false;
                 }
@@ -167,7 +167,7 @@ namespace TownOfHost
                 string changeLog = data["body"]?.ToString();
                 if (changeLog != null) announcement = changeLog;
 
-                System.Version ver = System.Version.Parse(tagname.Replace("v", ""));
+                System.Version ver = System.Version.Parse(tagName.Replace("v", ""));
                 int diff = Main.version.CompareTo(ver);
                 if (diff < 0)
                 {

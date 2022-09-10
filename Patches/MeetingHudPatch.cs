@@ -224,7 +224,7 @@ namespace TownOfHost
         {
             Logger.Info("------------会議開始------------", "Phase");
             Main.witchMeeting = true;
-            Utils.NotifyRoles(isMeeting: true, ForceLoop: true);
+            Utils.NotifyRoles(isMeeting: true, NoCache: true);
             Main.witchMeeting = false;
         }
         public static void Postfix(MeetingHud __instance)
@@ -318,6 +318,9 @@ namespace TownOfHost
                         target.Is(CustomRoles.Snitch) && //変更対象がSnitch
                         target.GetPlayerTaskState().DoExpose) //変更対象のタスクが終わりそう)
                             pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), "★"); //変更対象にSnitchマークをつける
+                        break;
+                    case CustomRoles.EvilTracker:
+                        pva.NameText.text += EvilTracker.GetTargetMark(seer, target);
                         break;
                 }
 

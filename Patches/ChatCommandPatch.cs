@@ -180,6 +180,16 @@ namespace TownOfHost
                         }
                         break;
 
+                    case "/m":
+                    case "/myrole":
+                        canceled = true;
+                        var role = PlayerControl.LocalPlayer.GetCustomRole();
+                        if (GameStates.IsInGame && !role.IsVanilla())
+                        {
+                            HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString(role.ToString()) + GetString($"{role}InfoLong"));
+                        }
+                        break;
+
                     case "/t":
                     case "/template":
                         canceled = true;
@@ -234,6 +244,7 @@ namespace TownOfHost
                 //Impostor役職
                 { (CustomRoles)(-1), $"== {GetString("Impostor")} ==" }, //区切り用
                 { CustomRoles.BountyHunter, "bo" },
+                { CustomRoles.EvilTracker,"et" },
                 { CustomRoles.FireWorks, "fw" },
                 { CustomRoles.Mare, "ma" },
                 { CustomRoles.Mafia, "mf" },
@@ -262,6 +273,7 @@ namespace TownOfHost
                 { CustomRoles.Lighter, "li" },
                 { CustomRoles.Mayor, "my" },
                 { CustomRoles.SabotageMaster, "sa" },
+                { CustomRoles.Seer,"se" },
                 { CustomRoles.Sheriff, "sh" },
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
@@ -372,6 +384,27 @@ namespace TownOfHost
                         default:
                             Utils.ShowActiveSettings(player.PlayerId);
                             break;
+                    }
+                    break;
+
+                case "/h":
+                case "/help":
+                    subArgs = args.Length < 2 ? "" : args[1];
+                    switch (subArgs)
+                    {
+                        case "n":
+                        case "now":
+                            Utils.ShowActiveSettingsHelp(player.PlayerId);
+                            break;
+                    }
+                    break;
+
+                case "/m":
+                case "/myrole":
+                    var role = player.GetCustomRole();
+                    if (GameStates.IsInGame && !role.IsVanilla())
+                    {
+                        Utils.SendMessage(GetString(role.ToString()) + GetString($"{role}InfoLong"), player.PlayerId);
                     }
                     break;
 
