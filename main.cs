@@ -26,7 +26,7 @@ namespace TownOfHost
         public static readonly bool AllowPublicRoom = true;
         // フォークID / ForkId (Default: OriginalTOH)
         public static readonly string ForkId = "OriginalTOH";
-        // Discordボタンを表示するか / Show Discord Buttan (Default: true)
+        // Discordボタンを表示するか / Show Discord Button (Default: true)
         public static readonly bool ShowDiscordButton = true;
         // Discordサーバーの招待リンク / Discord Server Invite URL (Default: https://discord.gg/W5ug6hXB9V)
         public static readonly string DiscordInviteUrl = "https://discord.gg/W5ug6hXB9V";
@@ -63,8 +63,6 @@ namespace TownOfHost
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
         public static ConfigEntry<float> LastKillCooldown { get; private set; }
-        public static CustomWinner currentWinner;
-        public static HashSet<AdditionalWinners> additionalwinners = new();
         public static GameOptionsData RealOptionsData;
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<(byte, byte), string> LastNotifyNames;
@@ -114,10 +112,6 @@ namespace TownOfHost
         public static bool isShipStart;
         public static Dictionary<byte, bool> CheckShapeshift = new();
         public static Dictionary<(byte, byte), string> targetArrows = new();
-        public static byte WonTrollID;
-        public static byte ExiledJesterID;
-        public static byte WonTerroristID;
-        public static byte WonArsonistID;
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static string nickName = "";
@@ -125,6 +119,8 @@ namespace TownOfHost
         public static int DiscussionTime;
         public static int VotingTime;
         public static byte currentDousingTarget;
+        public static float DefaultCrewmateVision;
+        public static float DefaultImpostorVision;
 
         public static Main Instance;
 
@@ -147,9 +143,6 @@ namespace TownOfHost
             TownOfHost.Logger.Disable("ReceiveRPC");
             TownOfHost.Logger.Disable("SwitchSystem");
             //TownOfHost.Logger.isDetail = true;
-
-            currentWinner = CustomWinner.Default;
-            additionalwinners = new HashSet<AdditionalWinners>();
 
             AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
@@ -179,7 +172,7 @@ namespace TownOfHost
             LastKillCooldown = Config.Bind("Other", "LastKillCooldown", (float)30);
 
             NameColorManager.Begin();
-
+            CustomWinnerHolder.Reset();
             Translator.Init();
 
             hasArgumentException = false;
@@ -213,6 +206,7 @@ namespace TownOfHost
                     {CustomRoles.Trapper, "#5a8fd0"},
                     {CustomRoles.Dictator, "#df9b00"},
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
+                    {CustomRoles.Seer, "#61b26c"},
                     //第三陣営役職
                     {CustomRoles.Arsonist, "#ff6633"},
                     {CustomRoles.Jester, "#ec62a5"},
@@ -311,6 +305,7 @@ namespace TownOfHost
         Mare,
         Puppeteer,
         TimeThief,
+        EvilTracker,
         LastImpostor,
         //Madmate
         MadGuardian,
@@ -336,6 +331,7 @@ namespace TownOfHost
         Trapper,
         Dictator,
         Doctor,
+        Seer,
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
         //Neutral
         Arsonist,

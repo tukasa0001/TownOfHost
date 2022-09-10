@@ -20,7 +20,7 @@ namespace TownOfHost
 
         private static CustomOption CanTargetImpostor;
         private static CustomOption CanTargetNeutralKiller;
-        private static CustomOption ChangeRolesAfterTargetKilled;
+        public static CustomOption ChangeRolesAfterTargetKilled;
 
 
         /// <summary>
@@ -38,10 +38,10 @@ namespace TownOfHost
 
         public static void SetupCustomOption()
         {
-            SetupRoleOptions(Id, CustomRoles.Executioner);
-            CanTargetImpostor = CustomOption.Create(Id + 10, Color.white, "ExecutionerCanTargetImpostor", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
-            CanTargetNeutralKiller = CustomOption.Create(Id + 12, Color.white, "ExecutionerCanTargetNeutralKiller", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
-            ChangeRolesAfterTargetKilled = CustomOption.Create(Id + 11, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ChangeRoles, ChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
+            SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Executioner);
+            CanTargetImpostor = CustomOption.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "ExecutionerCanTargetImpostor", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
+            CanTargetNeutralKiller = CustomOption.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "ExecutionerCanTargetNeutralKiller", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
+            ChangeRolesAfterTargetKilled = CustomOption.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ChangeRoles, ChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
         }
         public static void Init()
         {
@@ -52,21 +52,25 @@ namespace TownOfHost
         {
             playerIdList.Add(playerId);
 
-            List<PlayerControl> targetList = new();
-            var rand = new System.Random();
-            foreach (var target in PlayerControl.AllPlayerControls)
+            //ターゲット割り当て
+            if (AmongUsClient.Instance.AmHost)
             {
-                if (playerId == target.PlayerId) continue;
-                else if (!CanTargetImpostor.GetBool() && target.Is(RoleType.Impostor)) continue;
-                else if (!CanTargetNeutralKiller.GetBool() && target.IsNeutralKiller()) continue;
-                if (target.Is(CustomRoles.GM)) continue;
+                List<PlayerControl> targetList = new();
+                var rand = new System.Random();
+                foreach (var target in PlayerControl.AllPlayerControls)
+                {
+                    if (playerId == target.PlayerId) continue;
+                    else if (!CanTargetImpostor.GetBool() && target.Is(RoleType.Impostor)) continue;
+                    else if (!CanTargetNeutralKiller.GetBool() && target.IsNeutralKiller()) continue;
+                    if (target.Is(CustomRoles.GM)) continue;
 
-                targetList.Add(target);
+                    targetList.Add(target);
+                }
+                var SelectedTarget = targetList[rand.Next(targetList.Count)];
+                Target.Add(playerId, SelectedTarget.PlayerId);
+                SendRPC(playerId, SelectedTarget.PlayerId, "SetTarget");
+                Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()}:{SelectedTarget.GetNameWithRole()}", "Executioner");
             }
-            var SelectedTarget = targetList[rand.Next(targetList.Count)];
-            Target.Add(playerId, SelectedTarget.PlayerId);
-            SendRPC(playerId, SelectedTarget.PlayerId, "SetTarget");
-            Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()}:{SelectedTarget.GetNameWithRole()}", "Executioner");
         }
         public static bool IsEnable() => playerIdList.Count > 0;
         public static void SendRPC(byte executionerId, byte targetId = 0x73, string Progress = "")
@@ -87,11 +91,8 @@ namespace TownOfHost
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     break;
                 case "WinCheck":
-                    writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, SendOption.Reliable, -1);
-                    writer.Write((byte)CustomWinner.Executioner);
-                    writer.Write(executionerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    RPC.ExecutionerWin(executionerId);
+                    CustomWinnerHolder.WinnerTeam = CustomWinner.Executioner;
+                    CustomWinnerHolder.WinnerIds.Add(executionerId);
                     break;
             }
         }

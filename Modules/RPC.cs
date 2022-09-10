@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HarmonyLib;
@@ -31,6 +30,7 @@ namespace TownOfHost
         RemoveExecutionerTarget,
         SendFireWorksState,
         SetCurrentDousingTarget,
+        SetEvilTrackerTarget,
     }
     public enum Sounds
     {
@@ -183,6 +183,11 @@ namespace TownOfHost
                     if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
                         Main.currentDousingTarget = dousingTargetId;
                     break;
+                case CustomRPC.SetEvilTrackerTarget:
+                    byte TrackerId = reader.ReadByte();
+                    int TargetId = reader.ReadInt32();
+                    EvilTracker.RPCSetTarget(TrackerId, TargetId);
+                    break;
             }
         }
     }
@@ -250,95 +255,11 @@ namespace TownOfHost
         {
             try
             {
-                List<byte> winner = new();
-                Main.currentWinner = (CustomWinner)reader.ReadInt32();
-                while (reader.BytesRemaining > 0) winner.Add(reader.ReadByte());
-                switch (Main.currentWinner)
-                {
-                    case CustomWinner.Draw:
-                        ForceEndGame();
-                        break;
-                    case CustomWinner.None:
-                        EveryoneDied();
-                        break;
-                    case CustomWinner.Jester:
-                        JesterExiled(winner[0]);
-                        break;
-                    case CustomWinner.Terrorist:
-                        TerroristWin(winner[0]);
-                        break;
-                    case CustomWinner.Executioner:
-                        ExecutionerWin(winner[0]);
-                        break;
-                    case CustomWinner.Arsonist:
-                        ArsonistWin(winner[0]);
-                        break;
-                    case CustomWinner.HASTroll:
-                        TrollWin(winner[0]);
-                        break;
-                    case CustomWinner.Jackal:
-                        JackalWin();
-                        break;
-
-                    default:
-                        if (Main.currentWinner != CustomWinner.Default)
-                            Logger.Warn($"{Main.currentWinner}は無効なCustomWinnerです", "EndGame");
-                        break;
-                }
+                CustomWinnerHolder.ReadFrom(reader);
             }
             catch (Exception ex)
             {
                 Logger.Error($"正常にEndGameを行えませんでした。{ex}", "EndGame");
-            }
-        }
-        public static void TrollWin(byte trollID)
-        {
-            Main.WonTrollID = trollID;
-            Main.currentWinner = CustomWinner.HASTroll;
-            CustomWinTrigger(trollID);
-        }
-        public static void JesterExiled(byte jesterID)
-        {
-            Main.ExiledJesterID = jesterID;
-            Main.currentWinner = CustomWinner.Jester;
-            CustomWinTrigger(jesterID);
-        }
-        public static void TerroristWin(byte terroristID)
-        {
-            Main.WonTerroristID = terroristID;
-            Main.currentWinner = CustomWinner.Terrorist;
-            CustomWinTrigger(terroristID);
-        }
-        public static void ExecutionerWin(byte executionerID)
-        {
-            Executioner.WinnerID = executionerID;
-            Main.currentWinner = CustomWinner.Executioner;
-            CustomWinTrigger(executionerID);
-        }
-        public static void ArsonistWin(byte arsonistID)
-        {
-            Main.WonArsonistID = arsonistID;
-            Main.currentWinner = CustomWinner.Arsonist;
-            CustomWinTrigger(arsonistID);
-        }
-        public static void JackalWin()
-        {
-            Main.currentWinner = CustomWinner.Jackal;
-            CustomWinTrigger(0);
-        }
-        public static void EveryoneDied()
-        {
-            Main.currentWinner = CustomWinner.None;
-            CustomWinTrigger(0);
-        }
-        public static void ForceEndGame()
-        {
-            if (ShipStatus.Instance == null) return;
-            Main.currentWinner = CustomWinner.Draw;
-            if (AmongUsClient.Instance.AmHost)
-            {
-                ShipStatus.Instance.enabled = false;
-                ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
             }
         }
         public static void PlaySound(byte playerID, Sounds sound)
@@ -385,6 +306,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Mare:
                     Mare.Add(targetId);
+                    break;
+                case CustomRoles.EvilTracker:
+                    EvilTracker.Add(targetId);
                     break;
 
                 case CustomRoles.Egoist:
@@ -433,28 +357,6 @@ namespace TownOfHost
                 writer.Write(lp.PlayerId);
             }
             AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
-        public static void CustomWinTrigger(byte winnerID)
-        {
-            List<PlayerControl> Impostors = new();
-            foreach (var p in PlayerControl.AllPlayerControls)
-            {
-                PlayerControl Winner = null;
-                if (p.PlayerId == winnerID) Winner = p;
-                if (p.Data.Role.IsImpostor)
-                {
-                    Impostors.Add(p);
-                }
-            }
-            if (AmongUsClient.Instance.AmHost)
-            {
-                foreach (var imp in Impostors)
-                {
-                    imp.RpcSetRole(RoleTypes.GuardianAngel);
-                }
-                new LateTask(() => Main.CustomWinTrigger = true,
-                0.2f, "Custom Win Trigger Task");
-            }
         }
         public static void SendRpcLogger(uint targetNetId, byte callId, int targetClientId = -1)
         {

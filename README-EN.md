@@ -149,6 +149,22 @@ The target swaps after a configurable amount of time.<br>
 | Kill Cooldown After Killing Bounty(s)    |
 | Kill Cooldown After Killing Others(s)    |
 
+### EvilTracker
+
+Team : Impostors<br>
+Basis : Shapeshifter<br>
+
+EvilTrackers can track other players.<br>
+They have arrows pointing to the other impostors and to another player selected by shapeshift.<br>
+Depending on option, they can also see kill flash when other impostor kills.<br>
+
+#### Game Options
+
+| Name                                            |
+| ----------------------------------------------- |
+| EvilTracker Can See The Flash Of Impostor Kills |
+| EvilTracker Can Reset Target After Meeting      |
+
 ### FireWorks
 
 Create and idea by こう。<br>
@@ -490,6 +506,21 @@ Opening a door in Polus or The Airship will open all the linked doors.<br>
 | SabotageMaster Can Fix Both O2                         |
 | SabotageMaster Can Fix Both Comms In MIRA HQ           |
 | SabotageMaster Can Fix Lights Out All At Once          |
+
+### Seer
+
+Team : Crewmates<br>
+Basis : Crewmate<br>
+
+Seers can see when someone dies.<br>
+For an instant, their vision turns totally dark and there goes Reactor alert only to them unless on Reactor (named "Kill Flash").<br>
+There is a option to slightly adjust Kill Flash duration.<br>
+
+#### Game Options
+
+| Common Options         |
+| ---------------------- |
+| Kill Flash Duration(s) |
 
 ### Sheriff
 
@@ -891,9 +922,9 @@ If the client language is English, this option is meaningless unless `Force Japa
 
 ## Credits
 
-More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter) idea by [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
+More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter),[Seer](#Seer) idea by [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
 [Opportunist](#Opportunist),[Watcher](#Watcher) original idea by [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
-[SchrodingerCat](#SchrodingerCat) idea by [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
+[SchrodingerCat](#SchrodingerCat),[EvilTracker](#EvilTracker) idea by [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
 [Doctor](#Doctor) original idea by [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
 [Jester](#Jester) and [Madmate](#Madmate) original idea by [au.libhalt.net](https://au.libhalt.net)<br>
 [Terrorist](#Terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>

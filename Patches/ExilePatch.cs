@@ -1,6 +1,4 @@
-using System;
 using HarmonyLib;
-using Hazel;
 
 namespace TownOfHost
 {
@@ -56,11 +54,18 @@ namespace TownOfHost
                 var role = exiled.GetCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                    writer.Write((byte)CustomWinner.Jester);
-                    writer.Write(exiled.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    RPC.JesterExiled(exiled.PlayerId);
+                    CustomWinnerHolder.WinnerTeam = CustomWinner.Jester;
+                    CustomWinnerHolder.WinnerIds.Add(exiled.PlayerId);
+                    //吊られたJesterをターゲットにしているExecutionerも追加勝利
+                    foreach (var executioner in Executioner.playerIdList)
+                    {
+                        var GetValue = Executioner.Target.TryGetValue(executioner, out var targetId);
+                        if (GetValue && exiled.PlayerId == targetId)
+                        {
+                            CustomWinnerHolder.WinnerIds.Add(executioner);
+                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Executioner);
+                        }
+                    }
                     DecidedWinner = true;
                 }
                 if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
@@ -75,7 +80,7 @@ namespace TownOfHost
                     exiled.Object.ExiledSchrodingerCatTeamChange();
 
 
-                if (Main.currentWinner != CustomWinner.Terrorist) PlayerState.SetDead(exiled.PlayerId);
+                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) PlayerState.SetDead(exiled.PlayerId);
             }
             if (AmongUsClient.Instance.AmHost && Main.IsFixedCooldown)
                 Main.RefixCooldownDelay = Options.DefaultKillCooldown - 3f;
@@ -90,6 +95,7 @@ namespace TownOfHost
                     Main.CursedPlayers[pc.PlayerId] = null;
                     Main.isCurseAndKill[pc.PlayerId] = false;
                 }
+                if (pc.Is(CustomRoles.EvilTracker)) EvilTracker.EnableResetTargetAfterMeeting(pc);
             }
             Main.AfterMeetingDeathPlayers.Do(x =>
             {
@@ -100,8 +106,8 @@ namespace TownOfHost
                 player?.RpcExileV2();
                 if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.LoversSuicide)
                     player?.ResetVotingTime();
-                if (Main.ExecutionerTarget.ContainsValue(x.Key))
-                    player?.ChangeExecutionerRole();
+                if (Executioner.Target.ContainsValue(x.Key))
+                    Executioner.ChangeRoleByTarget(player);
             });
             Main.AfterMeetingDeathPlayers.Clear();
             FallFromLadder.Reset();
