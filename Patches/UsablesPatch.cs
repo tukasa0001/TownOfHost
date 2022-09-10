@@ -48,7 +48,9 @@ namespace TownOfHost
                 case CustomRoles.Sheriff:
                     return false;
                 case CustomRoles.Arsonist:
-                    canUse = couldUse = VentForTrigger = pc.Object.IsDouseDone();
+                    if (pc.Object.IsDouseDone())
+                        canUse = couldUse = VentForTrigger = true;
+                    else return false;
                     break;
                 case CustomRoles.Jackal:
                     canUse = couldUse = Options.JackalCanVent.GetBool();
