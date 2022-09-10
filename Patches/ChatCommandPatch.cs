@@ -39,7 +39,7 @@ namespace TownOfHost
                     string version_text = "";
                     foreach (var kvp in Main.playerVersion.OrderBy(pair => pair.Key))
                     {
-                        version_text += $"{kvp.Key}:{Utils.GetPlayerById(kvp.Key)?.Data?.PlayerName}:{kvp.Value.version}({kvp.Value.tag})\n";
+                        version_text += $"{kvp.Key}:{Utils.GetPlayerById(kvp.Key)?.Data?.PlayerName}:{kvp.Value.forkId}/{kvp.Value.version}({kvp.Value.tag})\n";
                     }
                     if (version_text != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, version_text);
                     break;
@@ -67,7 +67,7 @@ namespace TownOfHost
                     case "/r":
                     case "/rename":
                         canceled = true;
-                        if (args.Length > 1) { Main.nickName = args[1]; }
+                        Main.nickName = args.Length > 1 ? Main.nickName = args[1] : "";
                         break;
 
                     case "/n":
@@ -180,11 +180,21 @@ namespace TownOfHost
                         }
                         break;
 
+                    case "/m":
+                    case "/myrole":
+                        canceled = true;
+                        var role = PlayerControl.LocalPlayer.GetCustomRole();
+                        if (GameStates.IsInGame && !role.IsVanilla())
+                        {
+                            HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString(role.ToString()) + GetString($"{role}InfoLong"));
+                        }
+                        break;
+
                     case "/t":
                     case "/template":
                         canceled = true;
                         if (args.Length > 1) SendTemplate(args[1]);
-                        else HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"使用例:\n{args[0]} test");
+                        else HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"{GetString("ForExample")}:\n{args[0]} test");
                         break;
 
                     case "/mw":
@@ -193,9 +203,9 @@ namespace TownOfHost
                         if (args.Length > 1 && int.TryParse(args[1], out int sec))
                         {
                             Main.MessageWait.Value = sec;
-                            Utils.SendMessage($"{sec}秒に設定されました", 0);
+                            Utils.SendMessage(string.Format(GetString("Message.SetToSeconds"), sec), 0);
                         }
-                        else Utils.SendMessage($"第一引数を秒数で指定します。\n使用例:\n{args[0]} 3", 0);
+                        else Utils.SendMessage($"{GetString("Message.MessageWaitHelp")}\n{GetString("ForExample")}:\n{args[0]} 3", 0);
                         break;
 
                     case "/exile":
@@ -229,15 +239,18 @@ namespace TownOfHost
         {
             var roleList = new Dictionary<CustomRoles, string>
             {
+                //GM
+                { CustomRoles.GM, "gm" },
                 //Impostor役職
                 { (CustomRoles)(-1), $"== {GetString("Impostor")} ==" }, //区切り用
                 { CustomRoles.BountyHunter, "bo" },
+                { CustomRoles.EvilTracker,"et" },
                 { CustomRoles.FireWorks, "fw" },
                 { CustomRoles.Mare, "ma" },
                 { CustomRoles.Mafia, "mf" },
                 { CustomRoles.Ninja,"ni"},
                 { CustomRoles.SerialKiller, "sk" },
-                { CustomRoles.ShapeMaster, "sha" },
+                //{ CustomRoles.ShapeMaster, "sha" },
                 { CustomRoles.TimeThief, "tt"},
                 { CustomRoles.Sniper, "snp" },
                 { CustomRoles.Puppeteer, "pup" },
@@ -261,6 +274,7 @@ namespace TownOfHost
                 { CustomRoles.Lighter, "li" },
                 { CustomRoles.Mayor, "my" },
                 { CustomRoles.SabotageMaster, "sa" },
+                { CustomRoles.Seer,"se" },
                 { CustomRoles.Sheriff, "sh" },
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
@@ -274,6 +288,7 @@ namespace TownOfHost
                 { CustomRoles.Opportunist, "op" },
                 { CustomRoles.SchrodingerCat, "sc" },
                 { CustomRoles.Terrorist, "te" },
+                { CustomRoles.Jackal, "jac" },
                 //Sub役職
                 { (CustomRoles)(-6), $"== {GetString("SubRole")} ==" }, //区切り用
                 {CustomRoles.Lovers, "lo" },
@@ -340,8 +355,8 @@ namespace TownOfHost
             if (sendList.Count == 0 && !noErr)
             {
                 if (playerId == 0xff)
-                    HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"「{str}」に該当するメッセージが見つかりませんでした。\n{str}:内容\nのようにtemplate.txtに追記してください。\n\n定義されているタグ:\n{tags.Join(delimiter: ", ")}");
-                else Utils.SendMessage($"「{str}」に該当するメッセージが見つかりませんでした。\n\n定義されているタグ:\n{tags.Join(delimiter: ", ")}", playerId);
+                    HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, string.Format(GetString("Message.TemplateNotFoundHost"), str, tags.Join(delimiter: ", ")));
+                else Utils.SendMessage(string.Format(GetString("Message.TemplateNotFoundClient"), str), playerId);
             }
             else for (int i = 0; i < sendList.Count; i++) Utils.SendMessage(sendList[i], playerId);
         }
@@ -373,10 +388,31 @@ namespace TownOfHost
                     }
                     break;
 
+                case "/h":
+                case "/help":
+                    subArgs = args.Length < 2 ? "" : args[1];
+                    switch (subArgs)
+                    {
+                        case "n":
+                        case "now":
+                            Utils.ShowActiveSettingsHelp(player.PlayerId);
+                            break;
+                    }
+                    break;
+
+                case "/m":
+                case "/myrole":
+                    var role = player.GetCustomRole();
+                    if (GameStates.IsInGame && !role.IsVanilla())
+                    {
+                        Utils.SendMessage(GetString(role.ToString()) + GetString($"{role}InfoLong"), player.PlayerId);
+                    }
+                    break;
+
                 case "/t":
                 case "/template":
                     if (args.Length > 1) SendTemplate(args[1], player.PlayerId);
-                    else Utils.SendMessage($"使用例:\n{args[0]} test", player.PlayerId);
+                    else Utils.SendMessage($"{GetString("ForExample")}:\n{args[0]} test", player.PlayerId);
                     break;
 
                 default:
@@ -391,6 +427,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1 || (Main.MessagesToSend[0].Item2 == byte.MaxValue && Main.MessageWait.Value > __instance.TimeSinceLastMessage)) return;
             var player = PlayerControl.AllPlayerControls.ToArray().OrderBy(x => x.PlayerId).Where(x => !x.Data.IsDead).FirstOrDefault();
+            if (player == null) return;
             (string msg, byte sendTo) = Main.MessagesToSend[0];
             Main.MessagesToSend.RemoveAt(0);
             int clientId = sendTo == byte.MaxValue ? -1 : Utils.GetPlayerById(sendTo).GetClientId();

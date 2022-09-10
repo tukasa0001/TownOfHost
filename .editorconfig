@@ -56,7 +56,7 @@ dotnet_style_prefer_compound_assignment = true:silent
 # 代入に条件式を使用する
 dotnet_style_prefer_conditional_expression_over_assignment = true:silent
 # 戻り値に条件式を使用する
-dotnet_style_prefer_conditional_expression_over_return = true:suggestion
+dotnet_style_prefer_conditional_expression_over_return = true:silent
 # 推論された匿名型のメンバー名を優先する
 dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
 # 推論されたタプル要素名を優先する

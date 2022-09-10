@@ -1,5 +1,6 @@
 using HarmonyLib;
 using UnityEngine;
+using System.Globalization;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -9,6 +10,15 @@ namespace TownOfHost
     {
         public static bool Prefix(GameStartManager __instance)
         {
+            // 定数設定による公開ルームブロック
+            if (!Main.AllowPublicRoom)
+            {
+                var message = GetString("DisabledByProgram");
+                Logger.Info(message, "MakePublicPatch");
+                Logger.SendInGame(message);
+                return false;
+            }
+            // 名前確認による公開ルームブロック
             bool NameIncludeTOH = SaveManager.PlayerName.ToUpper().Contains("TOH");
             if (ModUpdater.isBroken || ModUpdater.hasUpdate || !NameIncludeTOH)
             {
@@ -52,6 +62,14 @@ namespace TownOfHost
                 __instance.sceneChanger.AllowFinishLoadingScene();
                 __instance.startedSceneLoad = true;
             }
+        }
+    }
+    [HarmonyPatch(typeof(EOSManager), nameof(EOSManager.IsAllowedOnline))]
+    class RunLoginPatch
+    {
+        public static void Prefix(ref bool canOnline)
+        {
+            if (ThisAssembly.Git.Branch != "main" && CultureInfo.CurrentCulture.Name != "ja-JP") canOnline = false;
         }
     }
 }

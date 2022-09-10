@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Hazel;
 using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -24,9 +25,9 @@ namespace TownOfHost
 
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.Sniper);
-            SniperBulletCount = CustomOption.Create(Id + 10, Color.white, "SniperBulletCount", 5f, 1f, 3f, 1f, Options.CustomRoleSpawnChances[CustomRoles.Sniper]);
-            SniperPrecisionShooting = CustomOption.Create(Id + 11, Color.white, "SniperPrecisionShooting", false, Options.CustomRoleSpawnChances[CustomRoles.Sniper]);
+            Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Sniper);
+            SniperBulletCount = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "SniperBulletCount", 5f, 1f, 3f, 1f, Options.CustomRoleSpawnChances[CustomRoles.Sniper]);
+            SniperPrecisionShooting = CustomOption.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "SniperPrecisionShooting", false, Options.CustomRoleSpawnChances[CustomRoles.Sniper]);
         }
         public static void Init()
         {
@@ -230,5 +231,6 @@ namespace TownOfHost
             }
             return "";
         }
+        public static string OverrideShapeText(byte id) => GetString(bulletCount[id] <= 0 ? "DefaultShapeshiftText" : "SniperSnipeButtonText");
     }
 }

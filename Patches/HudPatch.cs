@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using HarmonyLib;
 using UnhollowerBaseLib;
 using UnityEngine;
@@ -46,7 +44,7 @@ namespace TownOfHost
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Sniper:
-                    __instance.AbilityButton.OverrideText($"{GetString("SniperSnipeButtonText")}");
+                    __instance.AbilityButton.OverrideText(Sniper.OverrideShapeText(player.PlayerId));
                     break;
                 case CustomRoles.FireWorks:
                     if (FireWorks.nowFireWorksCount[player.PlayerId] == 0)
@@ -55,7 +53,7 @@ namespace TownOfHost
                         __instance.AbilityButton.OverrideText($"{GetString("FireWorksInstallAtionButtonText")}");
                     break;
                 case CustomRoles.SerialKiller:
-                    __instance.AbilityButton.OverrideText($"{GetString("SerialKillerSuicideButtonText")}");
+                    SerialKiller.GetAbilityButtonText(__instance);
                     break;
                 case CustomRoles.Warlock:
                     if (!Main.CheckShapeshift[player.PlayerId] && !Main.isCurseAndKill[player.PlayerId])
@@ -87,7 +85,7 @@ namespace TownOfHost
                     __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
                     break;
                 case CustomRoles.BountyHunter:
-                    __instance.AbilityButton.OverrideText($"{GetString("BountyHunterChangeButtonText")}");
+                    BountyHunter.GetAbilityButtonText(__instance);
                     break;
             }
 
@@ -110,13 +108,7 @@ namespace TownOfHost
                 LowerInfoText.fontSizeMax = 2.0f;
             }
 
-            if (player.Is(CustomRoles.BountyHunter))
-            {
-                //バウンティハンター用処理
-                var target = player.GetBountyTarget();
-                LowerInfoText.text = target == null ? "null" : GetString("BountyCurrentTarget") + ":" + player.GetBountyTarget().name;
-                LowerInfoText.enabled = target != null || Main.AmDebugger.Value;
-            }
+            if (player.Is(CustomRoles.BountyHunter)) BountyHunter.DisplayTarget(player, LowerInfoText);
             else if (player.Is(CustomRoles.Witch))
             {
                 //魔女用処理
@@ -141,14 +133,15 @@ namespace TownOfHost
 
             if (!player.GetCustomRole().IsVanilla())
             {
-                TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"{player.GetRoleName()}\r\n");
-                if (player.Is(CustomRoles.Mafia))
-                    TaskTextPrefix += GetString(player.CanUseKillButton() ? "AfterMafiaInfo" : "BeforeMafiaInfo");
-                else if (player.Is(CustomRoles.EvilWatcher) || player.Is(CustomRoles.NiceWatcher))
-                    TaskTextPrefix += GetString("WatcherInfo");
-                else
-                    TaskTextPrefix += GetString(player.GetCustomRole() + "Info");
-                TaskTextPrefix += "</color>\r\n";
+                var RoleWithInfo = $"{player.GetRoleName()}\r\n";
+                RoleWithInfo += player.GetCustomRole() switch
+                {
+                    CustomRoles.Mafia => GetString(player.CanUseKillButton() ? "AfterMafiaInfo" : "BeforeMafiaInfo"),
+                    CustomRoles.EvilWatcher or CustomRoles.NiceWatcher => GetString("WatcherInfo"),
+                    CustomRoles.MadSnitch or CustomRoles.MadGuardian => GetString(player.GetPlayerTaskState().IsTaskFinished ? "MadmateInfo" : "BeforeMadmateInfo"),
+                    _ => GetString(player.GetCustomRole() + "Info")
+                };
+                TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), RoleWithInfo);
             }
             switch (player.GetCustomRole())
             {
@@ -176,7 +169,7 @@ namespace TownOfHost
                     __instance.KillButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Sheriff:
-                    if (Main.SheriffShotLimit[player.PlayerId] == 0)
+                    if (Sheriff.ShotLimit.TryGetValue(player.PlayerId, out var count) && count == 0)
                     {
                         __instance.KillButton.SetDisabled();
                         __instance.KillButton.ToggleVisible(false);
@@ -189,6 +182,9 @@ namespace TownOfHost
                         __instance.KillButton.SetDisabled();
                         __instance.KillButton.ToggleVisible(false);
                     }
+                    player.CanUseImpostorVent();
+                    goto DesyncImpostor;
+                case CustomRoles.Jackal:
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
 
@@ -240,10 +236,26 @@ namespace TownOfHost
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] bool active, [HarmonyArgument(1)] RoleTeamTypes team)
         {
             var player = PlayerControl.LocalPlayer;
-            if ((player.GetCustomRole() == CustomRoles.Sheriff || player.GetCustomRole() == CustomRoles.Arsonist) && !player.Data.IsDead)
+            if (!GameStates.IsInTask) return;
+
+            if ((player.GetCustomRole() == CustomRoles.Sheriff ||
+                player.GetCustomRole() == CustomRoles.Arsonist ||
+                player.GetCustomRole() == CustomRoles.Jackal)
+            && !player.Data.IsDead)
             {
                 ((Renderer)__instance.cosmetics.currentBodySprite.BodySprite).material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));
             }
+        }
+    }
+    [HarmonyPatch(typeof(Vent), nameof(Vent.SetOutline))]
+    class SetVentOutlinePatch
+    {
+        public static void Postfix(Vent __instance, [HarmonyArgument(1)] ref bool mainTarget)
+        {
+            var player = PlayerControl.LocalPlayer;
+            Color color = PlayerControl.LocalPlayer.GetRoleColor();
+            ((Renderer)__instance.myRend).material.SetColor("_OutlineColor", color);
+            ((Renderer)__instance.myRend).material.SetColor("_AddColor", mainTarget ? color : Color.clear);
         }
     }
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]
@@ -260,6 +272,13 @@ namespace TownOfHost
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(false);
+                    __instance.AbilityButton.ToggleVisible(false);
+                    break;
+                case CustomRoles.Jackal:
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
+                    __instance.SabotageButton.ToggleVisible(isActive && Options.JackalCanUseSabotage.GetBool());
+                    __instance.ImpostorVentButton.ToggleVisible(isActive && Options.JackalCanVent.GetBool());
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
             }

@@ -15,6 +15,7 @@ namespace TownOfHost
         {
             players = new();
             isDead = new();
+            IsBlackOut = new();
             deathReasons = new();
             taskState = new();
 
@@ -22,6 +23,7 @@ namespace TownOfHost
             {
                 players.Add(p.PlayerId);
                 isDead.Add(p.PlayerId, false);
+                IsBlackOut.Add(p.PlayerId, false);
                 deathReasons.Add(p.PlayerId, DeathReason.etc);
                 taskState.Add(p.PlayerId, new());
             }
@@ -31,6 +33,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> isDead = new();
         public static Dictionary<byte, DeathReason> deathReasons = new();
         public static Dictionary<byte, TaskState> taskState = new();
+        public static Dictionary<byte, bool> IsBlackOut = new();
         public static void SetDeathReason(byte p, DeathReason reason) { deathReasons[p] = reason; }
         public static DeathReason GetDeathReason(byte p) { return deathReasons.TryGetValue(p, out var reason) ? reason : DeathReason.etc; }
         public static void SetDead(byte p)
@@ -64,7 +67,7 @@ namespace TownOfHost
             Sniped,
             Execution,
             Disconnected,
-            Fell,
+            Fall,
             etc = -1
         }
     }
@@ -98,6 +101,36 @@ namespace TownOfHost
             if (!hasTasks) return;
             //初期化出来ていなかったら初期化
             if (AllTasksCount == -1) Init(player);
+
+            //FIXME:SpeedBoostre class transplant
+            if (!player.Data.IsDead
+            && player.Is(CustomRoles.SpeedBooster)
+            && (((CompletedTasksCount + 1) >= AllTasksCount) || (CompletedTasksCount + 1) >= Options.SpeedBoosterTaskTrigger.GetInt())
+            && !Main.SpeedBoostTarget.ContainsKey(player.PlayerId))
+            {   //ｽﾋﾟﾌﾞが生きていて、全タスク完了orトリガー数までタスクを完了していて、SppedBoostTargetに登録済みでない場合
+                var rand = new System.Random();
+                List<PlayerControl> targetplayers = new();
+                //切断者と死亡者を除外
+                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                {
+                    if (!p.Data.Disconnected && !p.Data.IsDead && !Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetplayers.Add(p);
+                }
+                //ターゲットが0ならアップ先をプレイヤーをnullに
+                if (targetplayers.Count >= 1)
+                {
+                    PlayerControl target = targetplayers[rand.Next(0, targetplayers.Count)];
+                    Logger.Info("スピードブースト先:" + target.cosmetics.nameText.text, "SpeedBooster");
+                    Main.SpeedBoostTarget.Add(player.PlayerId, target.PlayerId);
+                    Main.AllPlayerSpeed[Main.SpeedBoostTarget[player.PlayerId]] += Options.SpeedBoosterUpSpeed.GetFloat();
+                }
+                else
+                {
+                    Main.SpeedBoostTarget.Add(player.PlayerId, 255);
+                    Logger.SendInGame("Error.SpeedBoosterNullException");
+                    Logger.Warn("スピードブースト先がnullです。", "SpeedBooster");
+                }
+            }
+
             //クリアしてたらカウントしない
             if (CompletedTasksCount >= AllTasksCount) return;
 
