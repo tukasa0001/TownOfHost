@@ -1063,7 +1063,7 @@ namespace TownOfHost
             if (AmongUsClient.Instance.IsGameStarted && Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 //ゲーム中に色を変えた場合
-                __instance.RpcMurderPlayerV2(__instance);
+                __instance.RpcMurderPlayer(__instance);
             }
             return true;
         }
