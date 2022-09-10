@@ -3,6 +3,9 @@
 双方の効率的なmod開発のためにも、当modをフォークする際はこのガイドラインに従うようお願いいたします。  
 また、当modはAmong Usのmodであるため、Innerslothが定める[Among Us Mod Policy](https://www.innersloth.com/among-us-mod-policy/)にも従ってください。  
 
+> *Warning*
+> 当ガイドラインは予告なく変更する場合があります。
+
 ## 定義
 このガイドラインではフォークを二つの分類に分けます。  
 分類と定義は以下の通りです。
