@@ -95,6 +95,7 @@ namespace TownOfHost
         public static CustomOption JackalCanVent;
         public static CustomOption JackalCanUseSabotage;
         public static CustomOption JackalHasImpostorVision;
+        public static CustomOption KillFlashDuration;
 
         // HideAndSeek
         public static CustomOption AllowCloseDoors;
@@ -260,6 +261,7 @@ namespace TownOfHost
             // GM
             EnableGM = CustomOption.Create(100, TabGroup.MainSettings, Utils.GetRoleColor(CustomRoles.GM), "GM", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
+
             // Impostor
             BountyHunter.SetupCustomOption();
             SerialKiller.SetupCustomOption();
@@ -275,6 +277,7 @@ namespace TownOfHost
             SetupRoleOptions(2000, TabGroup.ImpostorRoles, CustomRoles.Puppeteer);
             Mare.SetupCustomOption();
             TimeThief.SetupCustomOption();
+            EvilTracker.SetupCustomOption();
 
             DefaultShapeshiftCooldown = CustomOption.Create(5011, TabGroup.ImpostorRoles, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);
             CanMakeMadmateCount = CustomOption.Create(5012, TabGroup.ImpostorRoles, Utils.GetRoleColor(CustomRoles.Madmate), "CanMakeMadmateCount", 0, 0, 15, 1, null, true);
@@ -323,6 +326,8 @@ namespace TownOfHost
             SetupRoleOptions(20800, TabGroup.CrewmateRoles, CustomRoles.Trapper);
             TrapperBlockMoveTime = CustomOption.Create(20810, TabGroup.CrewmateRoles, Color.white, "TrapperBlockMoveTime", 5f, 1f, 180, 1, CustomRoleSpawnChances[CustomRoles.Trapper]);
             SetupRoleOptions(20900, TabGroup.CrewmateRoles, CustomRoles.Dictator);
+            SetupRoleOptions(21000, TabGroup.CrewmateRoles, CustomRoles.Seer);
+
             // Neutral
             SetupRoleOptions(50500, TabGroup.NeutralRoles, CustomRoles.Arsonist);
             ArsonistDouseTime = CustomOption.Create(50510, TabGroup.NeutralRoles, Color.white, "ArsonistDouseTime", 3, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
@@ -354,6 +359,9 @@ namespace TownOfHost
             LastImpostorKillCooldown = CustomOption.Create(80010, TabGroup.MainSettings, Color.white, "LastImpostorKillCooldown", 15, 0, 180, 1, EnableLastImpostor)
                 .SetGameMode(CustomGameMode.Standard);
             #endregion
+
+            KillFlashDuration = CustomOption.Create(90000, TabGroup.MainSettings, Color.white, "KillFlashDuration", 0.3f, 0.1f, 0.45f, 0.05f, null, true)
+                .SetGameMode(CustomGameMode.Standard);
 
             // HideAndSeek
             SetupRoleOptions(100000, TabGroup.MainSettings, CustomRoles.HASFox, CustomGameMode.HideAndSeek);

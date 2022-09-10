@@ -370,6 +370,7 @@ namespace TownOfHost
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
+            Utils.TargetDies(__instance, target, PlayerState.GetDeathReason(target.PlayerId));
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
@@ -413,6 +414,7 @@ namespace TownOfHost
                     Main.CursedPlayers[shapeshifter.PlayerId] = null;
                 }
             }
+            if (shapeshifter.Is(CustomRoles.EvilTracker)) EvilTracker.Shapeshift(shapeshifter, target, shapeshifting);
 
             if (shapeshifter.CanMakeMadmate() && shapeshifting)
             {//変身したとき一番近い人をマッドメイトにする処理
@@ -599,6 +601,7 @@ namespace TownOfHost
                 }
                 //ターゲットのリセット
                 BountyHunter.FixedUpdate(player);
+                EvilTracker.FixedUpdate(player);
                 if (GameStates.IsInTask && player.IsAlive() && Options.LadderDeath.GetBool())
                 {
                     FallFromLadder.FixedUpdate(player);
@@ -858,6 +861,7 @@ namespace TownOfHost
                         Mark += Sniper.GetShotNotify(target.PlayerId);
 
                     }
+                    if (seer.Is(CustomRoles.EvilTracker)) Mark += EvilTracker.GetTargetMark(seer, target);
                     //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能な第三陣営に警告が表示される
                     if (!GameStates.IsMeeting && (target.GetCustomRole().IsImpostor()
                         || (Options.SnitchCanFindNeutralKiller.GetBool() && target.IsNeutralKiller())))
@@ -928,6 +932,8 @@ namespace TownOfHost
                             }
                         }
                     }
+                    if (GameStates.IsInTask && target.Is(CustomRoles.EvilTracker)) Suffix += EvilTracker.PCGetTargetArrow(seer, target);
+
                     /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(target.PlayerId, out var isBlocked)) {
                         Mark = isBlocked ? "(true)" : "(false)";
                     }*/

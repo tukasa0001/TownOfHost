@@ -95,6 +95,7 @@ namespace TownOfHost
                     Main.CursedPlayers[pc.PlayerId] = null;
                     Main.isCurseAndKill[pc.PlayerId] = false;
                 }
+                if (pc.Is(CustomRoles.EvilTracker)) EvilTracker.EnableResetTargetAfterMeeting(pc);
             }
             Main.AfterMeetingDeathPlayers.Do(x =>
             {

@@ -30,6 +30,7 @@ namespace TownOfHost
         RemoveExecutionerTarget,
         SendFireWorksState,
         SetCurrentDousingTarget,
+        SetEvilTrackerTarget,
     }
     public enum Sounds
     {
@@ -182,6 +183,11 @@ namespace TownOfHost
                     if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
                         Main.currentDousingTarget = dousingTargetId;
                     break;
+                case CustomRPC.SetEvilTrackerTarget:
+                    byte TrackerId = reader.ReadByte();
+                    int TargetId = reader.ReadInt32();
+                    EvilTracker.RPCSetTarget(TrackerId, TargetId);
+                    break;
             }
         }
     }
@@ -294,6 +300,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Sheriff:
                     Sheriff.Add(targetId);
+                    break;
+                case CustomRoles.EvilTracker:
+                    EvilTracker.Add(targetId);
                     break;
             }
             HudManager.Instance.SetHudActive(true);

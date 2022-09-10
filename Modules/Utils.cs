@@ -74,6 +74,60 @@ namespace TownOfHost
                 return;
             }
         }
+        //誰かが死亡したときのメソッド
+        public static void TargetDies(PlayerControl killer, PlayerControl target, PlayerState.DeathReason deathReason)
+        {
+            if (!target.Data.IsDead || GameStates.IsMeeting) return;
+            foreach (var seer in PlayerControl.AllPlayerControls)
+            {
+                if (!KillFlashCheck(killer, target, seer, deathReason)) continue;
+                seer.KillFlash();
+            }
+        }
+        public static bool KillFlashCheck(PlayerControl killer, PlayerControl target, PlayerControl seer, PlayerState.DeathReason deathReason)
+        {
+            if (seer.Data.IsDead || killer == seer || target == seer) return false;
+            switch (seer.GetCustomRole())
+            {
+                case CustomRoles.EvilTracker:
+                    return EvilTracker.KillFlashCheck(killer, deathReason);
+                case CustomRoles.Seer:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+        public static void KillFlash(this PlayerControl player)
+        {
+            //キルフラッシュ(ブラックアウト+リアクターフラッシュ)の処理
+            bool ReactorCheck = false; //リアクターフラッシュの確認
+            if (PlayerControl.GameOptions.MapId == 2) ReactorCheck = IsActive(SystemTypes.Laboratory);
+            else ReactorCheck = IsActive(SystemTypes.Reactor);
+
+            var Duration = Options.KillFlashDuration.GetFloat();
+            if (ReactorCheck) Duration += 0.2f; //リアクター中はブラックアウトを長くする
+
+            //実行
+            PlayerState.IsBlackOut[player.PlayerId] = true; //ブラックアウト
+            if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
+            ExtendedPlayerControl.CustomSyncSettings(player);
+            new LateTask(() =>
+            {
+                PlayerState.IsBlackOut[player.PlayerId] = false; //ブラックアウト解除
+                ExtendedPlayerControl.CustomSyncSettings(player);
+            }, Options.KillFlashDuration.GetFloat(), "RemoveKillFlash");
+        }
+        public static void BlackOut(this GameOptionsData opt, bool IsBlackOut)
+        {
+            opt.ImpostorLightMod = Main.DefaultImpostorVision;
+            opt.CrewLightMod = Main.DefaultCrewmateVision;
+            if (IsBlackOut)
+            {
+                opt.ImpostorLightMod = 0.0f;
+                opt.CrewLightMod = 0.0f;
+            }
+            return;
+        }
         public static string GetOnOff(bool value) => value ? "ON" : "OFF";
         public static int SetRoleCountToggle(int currentCount) => currentCount > 0 ? 0 : 1;
         public static void SetRoleCountToggle(CustomRoles role)
@@ -255,6 +309,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Sniper:
                     ProgressText += $" {Sniper.GetBulletCount(playerId)}";
+                    break;
+                case CustomRoles.EvilTracker:
+                    ProgressText += EvilTracker.GetMarker(playerId);
                     break;
                 default:
                     //タスクテキスト
@@ -588,7 +645,7 @@ namespace TownOfHost
                     var arrows = "";
                     foreach (var arrow in Main.targetArrows)
                     {
-                        if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
+                        if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2] && GetPlayerById(arrow.Key.Item2).Is(CustomRoles.Snitch))
                         {
                             //自分用の矢印で対象が死んでない時
                             arrows += arrow.Value;
@@ -656,6 +713,8 @@ namespace TownOfHost
                     if (TaskState.IsTaskFinished)
                         SeerKnowsImpostors = true;
                 }
+
+                if (seer.Is(CustomRoles.EvilTracker)) SelfSuffix += EvilTracker.UtilsGetTargetArrow(isMeeting, seer);
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.GetRealName(isMeeting);
@@ -745,6 +804,8 @@ namespace TownOfHost
                         Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
                         Main.PuppeteerList.ContainsKey(target.PlayerId))
                             TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
+                        if (seer.Is(CustomRoles.EvilTracker))
+                            TargetMark += EvilTracker.GetTargetMark(seer, target);
 
                         //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}{TargetTaskText}</size>\r\n" : "";

@@ -15,6 +15,7 @@ namespace TownOfHost
         {
             players = new();
             isDead = new();
+            IsBlackOut = new();
             deathReasons = new();
             taskState = new();
 
@@ -22,6 +23,7 @@ namespace TownOfHost
             {
                 players.Add(p.PlayerId);
                 isDead.Add(p.PlayerId, false);
+                IsBlackOut.Add(p.PlayerId, false);
                 deathReasons.Add(p.PlayerId, DeathReason.etc);
                 taskState.Add(p.PlayerId, new());
             }
@@ -31,6 +33,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> isDead = new();
         public static Dictionary<byte, DeathReason> deathReasons = new();
         public static Dictionary<byte, TaskState> taskState = new();
+        public static Dictionary<byte, bool> IsBlackOut = new();
         public static void SetDeathReason(byte p, DeathReason reason) { deathReasons[p] = reason; }
         public static DeathReason GetDeathReason(byte p) { return deathReasons.TryGetValue(p, out var reason) ? reason : DeathReason.etc; }
         public static void SetDead(byte p)
