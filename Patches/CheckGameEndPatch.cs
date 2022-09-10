@@ -12,13 +12,13 @@ namespace TownOfHost
             if (!GameData.Instance) return false;
             if (DestroyableSingleton<TutorialManager>.InstanceExists) return true;
             var statistics = new PlayerStatistics(__instance);
+
+            if (CheckAndEndGameForTerminate(__instance)) return false;
+
             if (Options.NoGameEnd.GetBool()) return false;
 
-            if (CheckAndEndGameForJester(__instance)) return false;
-            if (CheckAndEndGameForTerrorist(__instance)) return false;
-            if (CheckAndEndGameForExecutioner(__instance)) return false;
-            if (CheckAndEndGameForArsonist(__instance)) return false;
-            if (Main.currentWinner == CustomWinner.Default)
+            if (CheckAndEndGameForSoloWin(__instance)) return false;
+            if (CustomWinnerHolder.WinnerTeam == CustomWinner.Default)
             {
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
@@ -30,6 +30,7 @@ namespace TownOfHost
                 {
                     if (CheckAndEndGameForTaskWin(__instance)) return false;
                     if (CheckAndEndGameForSabotageWin(__instance)) return false;
+                    if (CheckAndEndGameForEveryoneDied(__instance, statistics)) return false;
                     if (CheckAndEndGameForImpostorWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForJackalWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForCrewmateWin(__instance, statistics)) return false;
@@ -81,6 +82,18 @@ namespace TownOfHost
             return false;
         }
 
+        private static bool CheckAndEndGameForEveryoneDied(ShipStatus __instance, PlayerStatistics statistics)
+        {
+            if (statistics.TotalAlive <= 0)
+            {
+                __instance.enabled = false;
+                CustomWinnerHolder.WinnerTeam = CustomWinner.None;
+                SetImpostorsToGA();
+                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                return true;
+            }
+            return false;
+        }
         private static bool CheckAndEndGameForImpostorWin(ShipStatus __instance, PlayerStatistics statistics)
         {
             if (statistics.TeamImpostorsAlive >= statistics.TotalAlive - statistics.TeamImpostorsAlive &&
@@ -113,11 +126,9 @@ namespace TownOfHost
                     _ => GameOverReason.ImpostorByVote,
                 };
 
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                writer.Write((byte)CustomWinner.Jackal);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-                RPC.JackalWin();
-
+                CustomWinnerHolder.WinnerTeam = CustomWinner.Jackal;
+                CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
+                SetImpostorsToGA();
                 ResetRoleAndEndGame(endReason, false);
                 return true;
             }
@@ -154,11 +165,9 @@ namespace TownOfHost
                 if (!hasRole) return false;
                 if (role == CustomRoles.HASTroll && pc.Data.IsDead)
                 {
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                    writer.Write((byte)CustomWinner.HASTroll);
-                    writer.Write(pc.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    RPC.TrollWin(pc.PlayerId);
+                    CustomWinnerHolder.WinnerTeam = CustomWinner.HASTroll;
+                    CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                    SetImpostorsToGA();
                     __instance.enabled = false;
                     ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
                     return true;
@@ -167,9 +176,9 @@ namespace TownOfHost
             return false;
         }
 
-        private static bool CheckAndEndGameForJester(ShipStatus __instance)
+        private static bool CheckAndEndGameForTerminate(ShipStatus __instance)
         {
-            if (Main.currentWinner == CustomWinner.Jester && Main.CustomWinTrigger)
+            if (CustomWinnerHolder.WinnerTeam == CustomWinner.Draw)
             {
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
@@ -177,32 +186,13 @@ namespace TownOfHost
             }
             return false;
         }
-        private static bool CheckAndEndGameForTerrorist(ShipStatus __instance)
+        private static bool CheckAndEndGameForSoloWin(ShipStatus __instance)
         {
-            if (Main.currentWinner == CustomWinner.Terrorist && Main.CustomWinTrigger)
+            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
             {
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
-                return true;
-            }
-            return false;
-        }
-        private static bool CheckAndEndGameForExecutioner(ShipStatus __instance)
-        {
-            if (Main.currentWinner == CustomWinner.Executioner && Main.CustomWinTrigger)
-            {
-                __instance.enabled = false;
-                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
-                return true;
-            }
-            return false;
-        }
-        private static bool CheckAndEndGameForArsonist(ShipStatus __instance)
-        {
-            if (Main.currentWinner == CustomWinner.Arsonist && Main.CustomWinTrigger)
-            {
-                __instance.enabled = false;
-                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                SetImpostorsToGA();
                 return true;
             }
             return false;
@@ -221,8 +211,8 @@ namespace TownOfHost
             {
                 var LoseImpostorRole = Main.AliveImpostorCount == 0 ? pc.Is(RoleType.Impostor) : pc.Is(CustomRoles.Egoist);
                 if (pc.Is(CustomRoles.Sheriff) ||
-                    (!(Main.currentWinner == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) ||
-                    (Main.currentWinner != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) ||
+                    (!(CustomWinnerHolder.WinnerTeam == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) ||
+                    (CustomWinnerHolder.WinnerTeam != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) ||
                     LoseImpostorRole)
                 {
                     pc.RpcSetRole(RoleTypes.GuardianAngel);
@@ -230,8 +220,39 @@ namespace TownOfHost
             }
             new LateTask(() =>
             {
-                ShipStatus.RpcEndGame(reason, showAd);
+                MessageWriter writer = MessageWriter.Get(SendOption.Reliable);
+                // CustomWinnerHolderの情報送信
+                writer.StartMessage(5); //GameData
+                {
+                    writer.Write(AmongUsClient.Instance.GameId);
+                    writer.StartMessage(2); //RPC
+                    {
+                        writer.WritePacked(PlayerControl.LocalPlayer.NetId);
+                        writer.Write((byte)CustomRPC.EndGame);
+                        CustomWinnerHolder.WriteTo(writer);
+                    }
+                    writer.EndMessage();
+                }
+                writer.EndMessage();
+
+                // AmongUs側のゲーム終了RPC
+                writer.StartMessage(8);
+                {
+                    writer.Write(AmongUsClient.Instance.GameId); //ここまでStartEndGameの内容
+                    writer.Write((byte)reason);
+                    writer.Write(showAd);
+                }
+                writer.EndMessage();
+
+                AmongUsClient.Instance.SendOrDisconnect(writer);
             }, 0.5f, "EndGameTask");
+        }
+        private static void SetImpostorsToGA()
+        {
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.Data.Role.IsImpostor) pc.RpcSetRole(RoleTypes.GuardianAngel);
+            }
         }
         //プレイヤー統計
         internal class PlayerStatistics

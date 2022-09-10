@@ -10,13 +10,14 @@ namespace TownOfHost
 
         private static CustomOption KillCooldownInLightsOut;
         private static CustomOption SpeedInLightsOut;
+        private static bool idAccelerated = false;  //加速済みかフラグ
 
 
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.Mare);
-            SpeedInLightsOut = CustomOption.Create(Id + 10, Color.white, "MareSpeedInLightsOut", 2f, 0.25f, 3f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
-            KillCooldownInLightsOut = CustomOption.Create(Id + 11, Color.white, "MareKillCooldownInLightsOut", 15f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
+            Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Mare);
+            SpeedInLightsOut = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "MareSpeedInLightsOut", 0.3f, 0.1f, 0.5f, 0.1f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
+            KillCooldownInLightsOut = CustomOption.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "MareKillCooldownInLightsOut", 15f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
         }
         public static void Init()
         {
@@ -31,9 +32,16 @@ namespace TownOfHost
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = GetKillCooldown;
         public static void ApplyGameOptions(GameOptionsData opt, byte playerId)
         {
-            Main.AllPlayerSpeed[playerId] = Main.RealOptionsData.PlayerSpeedMod;
-            if (Utils.IsActive(SystemTypes.Electrical))//もし停電発生した場合
-                Main.AllPlayerSpeed[playerId] = SpeedInLightsOut.GetFloat();//Mareの速度を設定した値にする
+            if (Utils.IsActive(SystemTypes.Electrical) && !idAccelerated)
+            { //停電中で加速済みでない場合
+                idAccelerated = true;
+                Main.AllPlayerSpeed[playerId] += SpeedInLightsOut.GetFloat();//Mareの速度を加算
+            }
+            else if (!Utils.IsActive(SystemTypes.Electrical) && idAccelerated)
+            { //停電中ではなく加速済みになっている場合
+                idAccelerated = false;
+                Main.AllPlayerSpeed[playerId] -= SpeedInLightsOut.GetFloat();//Mareの速度を減算
+            }
         }
 
         public static void OnCheckMurder(PlayerControl killer)

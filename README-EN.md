@@ -124,6 +124,11 @@ For example: `welcome:This room is using TownOfHost.`
 | [MadSnitch](#MadSnitch)             |                                   |                                   |
 | [SidekickMadmate](#SidekickMadmate) |                                   |                                   |
 
+### GM
+
+The GM (Game Master) is an observer role.<br>
+Their presence has no effect on the game itself, and all players know who the GM is at all times.<br>
+Always assigned to a host and is ghosted from the start.<br>
 
 ## Impostor
 
@@ -143,6 +148,22 @@ The target swaps after a configurable amount of time.<br>
 | Time To Swap Bounty(s)                   |
 | Kill Cooldown After Killing Bounty(s)    |
 | Kill Cooldown After Killing Others(s)    |
+
+### EvilTracker
+
+Team : Impostors<br>
+Basis : Shapeshifter<br>
+
+EvilTrackers can track other players.<br>
+They have arrows pointing to the other impostors and to another player selected by shapeshift.<br>
+Depending on option, they can also see kill flash when other impostor kills.<br>
+
+#### Game Options
+
+| Name                                            |
+| ----------------------------------------------- |
+| EvilTracker Can See The Flash Of Impostor Kills |
+| EvilTracker Can Reset Target After Meeting      |
 
 ### FireWorks
 
@@ -177,6 +198,12 @@ While lights out they can move faster, and yet their name looks red by everyone.
 
 #### Game Options
 
+| Name                 |
+| -------------------- |
+| acceleration valued  |
+
+#### Game Options
+
 | Name                            |
 | ------------------------------- |
 | Mare Player Speed In Lights Out |
@@ -203,7 +230,7 @@ Unless taking a kill by deadline, they murder themselves instantly.<br>
 | Name                          |
 | ----------------------------- |
 | SerialKiller Kill Cooldown(s) |
-| Time Limit To Suiside(s)      |
+| Time Limit To Suicide(s)      |
 
 ### ShapeMaster
 
@@ -480,6 +507,21 @@ Opening a door in Polus or The Airship will open all the linked doors.<br>
 | SabotageMaster Can Fix Both Comms In MIRA HQ           |
 | SabotageMaster Can Fix Lights Out All At Once          |
 
+### Seer
+
+Team : Crewmates<br>
+Basis : Crewmate<br>
+
+Seers can see when someone dies.<br>
+For an instant, their vision turns totally dark and there goes Reactor alert only to them unless on Reactor (named "Kill Flash").<br>
+There is a option to slightly adjust Kill Flash duration.<br>
+
+#### Game Options
+
+| Common Options         |
+| ---------------------- |
+| Kill Flash Duration(s) |
+
 ### Sheriff
 
 Team : Crewmates<br>
@@ -489,6 +531,8 @@ Sheriff can kill imposters always.<br>
 Depending on settings, Sheriff may also kill neutrals.<br>
 The sheriff has no tasks.<br>
 Killing Crewmates will result in suicide. <br>
+
+* As a measure against blackout, after death, the Sheriff can only see the motion of committing suicide at each meeting. There is no corpse. <br>
 
 #### Game Options
 
@@ -529,13 +573,14 @@ Create and idea by よっキング<br>
 Team : Crewmates<br>
 Basis : Crewmate<br>
 
-Finishing all the tasks boosts the player speed of someone alive.<br>
+Defined amount of tasks boosts the player speed of someone alive.<br>
 
 #### Game Options
 
 | Name                 |
 | -------------------- |
-| Boosted Player Speed |
+| Acceleration valued  |
+| Tasks that trigger   |
 
 ### Trapper
 
@@ -570,8 +615,10 @@ Basis : Impostor<br>
 Victory Condition : Douse and ignite all the living players<br>
 
 When an arsonist tries to use the kill button, they douse oil onto the crewmates.<br>
-To win as Arsonist, you must douse all fellow players and vent to win.<br>
+To win as Arsonist, you must douse all Fallow players and vent to win.<br>
 To douse, you must stand next to a player after pressing kill until the orange triangle is filled in.<br>
+
+* As a measure against blackout, after death, the Arsonist can only see the motion of committing suicide at each meeting. There is no corpse. <br>
 
 #### Game Options
 
@@ -585,7 +632,7 @@ To douse, you must stand next to a player after pressing kill until the orange t
 Create by そうくん<br>
 Original idea by しゅー<br>
 
-Team : Neutral<br>
+Team : Egoist<br>
 Basis : Shapeshifter<br>
 Victory Condition : Satisfy the Impostor victory condition after all the Impostors die.<br>
 
@@ -600,6 +647,12 @@ Egoist win means Impostor lose and vice versa.<br>
 1. Egoist dies.<br>
 2. Impostor win with some Impostors remained.<br>
 3. Crewmate or other Neutral win.<br>
+
+#### Settings
+
+| Settings Name       |
+| ------------------- |
+| Egoist KillCooldown |
 
 ### Executioner
 
@@ -711,6 +764,16 @@ Example of overlapping Roles: <br>
 - [Jester](#jester) Lover: If you are voted out, you will win as Jester. If the other Lover is voted out, you are defeated. <br>
 - [Bait](#bait) Lover: When the other Lover is killed and you die afterwards, the other Lover immediately reports you. <br>
 
+## DisableDevice
+
+Reference source : [SuperNewRoles](https://github.com/ykundesu/SuperNewRoles), [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
+
+Various devices can be disabled (currently admin only, MiraHQ not supported)
+
+| Settings Name         |
+| --------------------- |
+| Disable Admin         |
+| ・ Which Disable admin |
 ## SabotageTimeControl
 
 The time limit for some sabotage can be modified.
@@ -859,15 +922,29 @@ If the client language is English, this option is meaningless unless `Force Japa
 
 ## Credits
 
-More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter) idea by [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
+More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter),[Seer](#Seer) idea by [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
 [Opportunist](#Opportunist),[Watcher](#Watcher) original idea by [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
-[SchrodingerCat](#SchrodingerCat) idea by [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
+[SchrodingerCat](#SchrodingerCat),[EvilTracker](#EvilTracker) idea by [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
 [Doctor](#Doctor) original idea by [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
 [Jester](#Jester) and [Madmate](#Madmate) original idea by [au.libhalt.net](https://au.libhalt.net)<br>
 [Terrorist](#Terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 Translate-Chinese : fivefirex, ZeMingOH233<br>
 
-Twitter : https://twitter.com/XenonBottle<br>
+Translated with https://www.deepl.com<br>
+
+## Developers
+- [EmptyBottle](https://github.com/tukasa0001) ([Twitter](https://twitter.com/XenonBottle))
+- [Tanakarina](https://github.com/tanakanira0118) <!--([Twitter](https://twitter.com/))-->
+- [Shu-](https://github.com/shu-TownofHost) ([Twitter](https://twitter.com/Shu_kundayo))
+- [kihi](https://github.com/Kihi1120) <!--([Twitter](https://twitter.com/))-->
+- [TAKU_GG](https://github.com/TAKUGG) ([Twitter](https://twitter.com/TAKUGGYouTube1), [Youtube](https://www.youtube.com/c/TAKUGG))
+- [Soukun](https://github.com/soukunsandesu) ([Twitter](https://twitter.com/Soukun_Dev), [Youtube](https://www.youtube.com/channel/UCsCOqxmXBVT-BD_UKaXpUPw))
+- [Mii](https://github.com/mii-47) <!--([Twitter](https://twitter.com/))-->
+- [Tampopo](https://github.com/tampopo-dandelion)([Twitter](https://twitter.com/2nomotokaicho),  [Youtube](https://www.youtube.com/channel/UC8EwQ5gu-qyxVxek0jZw1Tg), [ニコニコ](https://www.nicovideo.jp/user/124305243))
+- [Kou](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
+- [Ykundesu](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
+- [Yurino](https://github.com/yurinakira) <!--([Twitter](https://twitter.com/))-->
+- [Masami](https://github.com/Masami4711) <!--([Twitter](https://twitter.com/))-->
 
 Translated with https://www.deepl.com<br>

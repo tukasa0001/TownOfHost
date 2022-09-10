@@ -12,6 +12,7 @@ namespace TownOfHost
         public static int Preset = 0;
 
         public int Id;
+        public TabGroup Tab;
         public Color Color;
         public string Name;
         public Dictionary<string, string> ReplacementDictionary;
@@ -66,6 +67,7 @@ namespace TownOfHost
         }
 
         public CustomOption(int id,
+            TabGroup tab,
             Color color,
             string name,
             System.Object[] selections,
@@ -77,6 +79,7 @@ namespace TownOfHost
             Dictionary<string, string> replacementDic)
         {
             Id = id;
+            Tab = tab;
             Color = color;
             Name = name;
             Selections = selections;
@@ -104,11 +107,13 @@ namespace TownOfHost
                 Entry = Main.Instance.Config.Bind($"Preset{Preset}", id.ToString(), DefaultSelection);
                 Selection = Mathf.Clamp(Entry.Value, 0, selections.Length - 1);
             }
+            if (Options.Any(x => x.Id == id)) Logger.Warn($"ID:{id}が重複しています", "CustomOption");
             Options.Add(this);
             GameMode = CustomGameMode.Standard;
         }
 
         public static CustomOption Create(int id,
+            TabGroup tab,
             Color color,
             string name,
             string[] selections,
@@ -119,10 +124,11 @@ namespace TownOfHost
             string format = "",
             Dictionary<string, string> replacementDic = null)
         {
-            return new CustomOption(id, color, name, selections, defaultValue, parent, isHeader, isHidden, format, replacementDic);
+            return new CustomOption(id, tab, color, name, selections, defaultValue, parent, isHeader, isHidden, format, replacementDic);
         }
 
         public static CustomOption Create(int id,
+            TabGroup tab,
             Color color,
             string name,
             float defaultValue,
@@ -141,10 +147,11 @@ namespace TownOfHost
                 selections.Add(s);
             }
 
-            return new CustomOption(id, color, name, selections.Cast<object>().ToArray(), defaultValue, parent, isHeader, isHidden, format, replacementDic);
+            return new CustomOption(id, tab, color, name, selections.Cast<object>().ToArray(), defaultValue, parent, isHeader, isHidden, format, replacementDic);
         }
 
         public static CustomOption Create(int id,
+            TabGroup tab,
             Color color,
             string name,
             bool defaultValue,
@@ -154,7 +161,7 @@ namespace TownOfHost
             string format = "",
             Dictionary<string, string> replacementDic = null)
         {
-            return new CustomOption(id, color, name, new string[] { "ColoredOff", "ColoredOn" }, defaultValue ? "ColoredOn" : "ColoredOff", parent, isHeader, isHidden, format, replacementDic);
+            return new CustomOption(id, tab, color, name, new string[] { "ColoredOff", "ColoredOn" }, defaultValue ? "ColoredOn" : "ColoredOff", parent, isHeader, isHidden, format, replacementDic);
         }
 
         public static CustomOption Create(string name, float defaultValue, float min, float max, float step)
@@ -171,7 +178,8 @@ namespace TownOfHost
             {
                 if (option.Id <= 0) continue;
 
-                option.Entry = Main.Instance.Config.Bind($"Preset{Preset}", option.Id.ToString(), option.DefaultSelection);
+                if (AmongUsClient.Instance.AmHost)
+                    option.Entry = Main.Instance.Config.Bind($"Preset{Preset}", option.Id.ToString(), option.DefaultSelection);
                 option.Selection = Mathf.Clamp(option.Entry.Value, 0, option.Selections.Length - 1);
                 if (option.OptionBehaviour is not null and StringOption stringOption)
                 {
@@ -266,6 +274,20 @@ namespace TownOfHost
                 }
             }
         }
+        public void SetPresetName(StringOption stringOption)
+        {
+            var nowPreset = (Preset + 1) switch
+            {
+                1 => Main.Preset1,
+                2 => Main.Preset2,
+                3 => Main.Preset3,
+                4 => Main.Preset4,
+                5 => Main.Preset5,
+                _ => null,
+            };
+            if (nowPreset != null && nowPreset.Value != nowPreset.DefaultValue.ToString())
+                stringOption.ValueText.text = Selections[Selection].ToString();
+        }
 
         public void SetParent(CustomOption newParent)
         {
@@ -274,5 +296,13 @@ namespace TownOfHost
             Parent = newParent;
             Parent?.Children.Add(this);
         }
+    }
+    public enum TabGroup
+    {
+        MainSettings,
+        CrewmateRoles,
+        NeutralRoles,
+        ImpostorRoles,
+        Modifier
     }
 }

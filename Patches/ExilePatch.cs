@@ -1,6 +1,4 @@
-using System;
 using HarmonyLib;
-using Hazel;
 
 namespace TownOfHost
 {
@@ -56,11 +54,18 @@ namespace TownOfHost
                 var role = exiled.GetCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                    writer.Write((byte)CustomWinner.Jester);
-                    writer.Write(exiled.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    RPC.JesterExiled(exiled.PlayerId);
+                    CustomWinnerHolder.WinnerTeam = CustomWinner.Jester;
+                    CustomWinnerHolder.WinnerIds.Add(exiled.PlayerId);
+                    //吊られたJesterをターゲットにしているExecutionerも追加勝利
+                    foreach (var executioner in Executioner.playerIdList)
+                    {
+                        var GetValue = Executioner.Target.TryGetValue(executioner, out var targetId);
+                        if (GetValue && exiled.PlayerId == targetId)
+                        {
+                            CustomWinnerHolder.WinnerIds.Add(executioner);
+                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Executioner);
+                        }
+                    }
                     DecidedWinner = true;
                 }
                 if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
@@ -68,29 +73,14 @@ namespace TownOfHost
                     Utils.CheckTerroristWin(exiled);
                     DecidedWinner = true;
                 }
-                foreach (var kvp in Main.ExecutionerTarget)
-                {
-                    var executioner = Utils.GetPlayerById(kvp.Key);
-                    if (executioner == null) continue;
-                    if (executioner.Data.IsDead || executioner.Data.Disconnected) continue; //Keyが死んでいたらor切断していたらこのforeach内の処理を全部スキップ
-                    if (kvp.Value == exiled.PlayerId && AmongUsClient.Instance.AmHost && !DecidedWinner)
-                    {
-                        //RPC送信開始
-                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                        writer.Write((byte)CustomWinner.Executioner);
-                        writer.Write(kvp.Key);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer); //終了
-
-                        RPC.ExecutionerWin(kvp.Key);
-                    }
-                }
+                Executioner.CheckExileTarget(exiled, DecidedWinner);
                 if (exiled.Object.Is(CustomRoles.TimeThief))
                     exiled.Object.ResetVotingTime();
                 if (exiled.Object.Is(CustomRoles.SchrodingerCat) && Options.SchrodingerCatExiledTeamChanges.GetBool())
                     exiled.Object.ExiledSchrodingerCatTeamChange();
 
 
-                PlayerState.SetDead(exiled.PlayerId);
+                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) PlayerState.SetDead(exiled.PlayerId);
             }
             if (AmongUsClient.Instance.AmHost && Main.IsFixedCooldown)
                 Main.RefixCooldownDelay = Options.DefaultKillCooldown - 3f;
@@ -105,6 +95,7 @@ namespace TownOfHost
                     Main.CursedPlayers[pc.PlayerId] = null;
                     Main.isCurseAndKill[pc.PlayerId] = false;
                 }
+                if (pc.Is(CustomRoles.EvilTracker)) EvilTracker.EnableResetTargetAfterMeeting(pc);
             }
             Main.AfterMeetingDeathPlayers.Do(x =>
             {
@@ -115,9 +106,11 @@ namespace TownOfHost
                 player?.RpcExileV2();
                 if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.LoversSuicide)
                     player?.ResetVotingTime();
+                if (Executioner.Target.ContainsValue(x.Key))
+                    Executioner.ChangeRoleByTarget(player);
             });
             Main.AfterMeetingDeathPlayers.Clear();
-            LadderDeathPatch.Reset();
+            FallFromLadder.Reset();
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();
@@ -127,11 +120,17 @@ namespace TownOfHost
         static void WrapUpFinalizer(GameData.PlayerInfo exiled)
         {
             //WrapUpPostfixで例外が発生しても、この部分だけは確実に実行されます。
-            new LateTask(() =>
-            {
-                AntiBlackout.SendGameData();
-                exiled?.Object?.RpcExileV2();
-            }, 0.5f, "Restore IsDead Task");
+            if (AmongUsClient.Instance.AmHost)
+                new LateTask(() =>
+                {
+                    AntiBlackout.SendGameData();
+                    if (AntiBlackout.OverrideExiledPlayer && // 追放対象が上書きされる状態 (上書きされない状態なら実行不要)
+                        exiled != null && //exiledがnullでない
+                        exiled.Object != null) //exiled.Objectがnullでない
+                    {
+                        exiled.Object.RpcExileV2();
+                    }
+                }, 0.5f, "Restore IsDead Task");
             Logger.Info("タスクフェイズ開始", "Phase");
         }
     }

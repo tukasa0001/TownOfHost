@@ -1,5 +1,7 @@
 # Town Of Host
 
+[English](https://github.com/tukasa0001/TownOfHost/blob/main/README-EN.md)
+
 [![TownOfHost-Title](./Images/TownOfHost-Title.png)](https://youtu.be/IGguGyq_F-c)
 
 <p align="center"><a href="https://github.com/tukasa0001/TownOfHost/releases/"><img src="https://badgen.net/github/release/tukasa0001/TownOfHost"></a></p>
@@ -122,6 +124,12 @@ AmongUsバージョン : **2022.7.12**
 | [MadSnitch/マッドスニッチ](#MadSnitchマッドスニッチ)                                 |                                                                            |                                                                            |
 | [SidekickMadmate/サイドキックマッドメイト](#SidekickMadmateサイドキックマッドメイト) |                                                                            |                                                                            |
 
+### GM
+
+GM(ゲームマスター)はオブザーバー役職です。<br>
+GMはゲーム自体には何の影響も与えず、すべてのプレイヤーは誰がGMであるかがわかります。<br>
+必ずホストに割り当てられ、始めから幽霊状態です。<br>
+
 ### BountyHunter/バウンティハンター
 
 陣営 : インポスター<br>
@@ -140,6 +148,22 @@ AmongUsバージョン : **2022.7.12**
 | バウンティハンターがターゲットをキルした後のクールダウン(s)     |
 | バウンティハンターがターゲット以外をキルした時のクールダウン(s) |
 | バウンティハンター以外のキルクールダウン(s)                     |
+
+### EvilTracker/イビルトラッカー
+
+陣営 : インポスター<br>
+判定 : シェイプシフター<br>
+
+追跡能力を持つインポスターです。<br>
+インポスターへの矢印が常に表示され、さらにシェイプシフトで選択した一人を追跡することができます。<br>
+設定によってはインポスターがキルを行った場合にキルフラッシュを見ることもできます。<br>
+
+#### 設定
+
+| 設定名                               |
+| ------------------------------------ |
+| インポスターキル時にフラッシュが見える |
+| 会議後に再度ターゲットを設定できる     |
 
 ### FireWorks/花火職人
 
@@ -171,6 +195,12 @@ AmongUsバージョン : **2022.7.12**
 
 停電時以外にキルをすることができませんが、キルクールが半分になります。<br>
 停電中にのみ移動速度も上昇しますが、自分の名前が赤く表示されます。<br>
+
+#### 設定
+
+| 設定名                 |
+| ---------------------- |
+| 加速値                 |
 
 ### Puppeteer/パペッティア
 
@@ -453,6 +483,21 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 | サボタージュマスターが MIRA HQ の通信妨害に対して能力を使える                  |
 | サボタージュマスターが停電に対して能力を使える                                 |
 
+### Seer/シーア
+
+陣営 : クルーメイト<br>
+判定 : クルーメイト<br>
+
+プレイヤーの死亡した瞬間が分かります。<br>
+視界が一瞬0になり、リアクターサボタージュ中でなければリアクターも一瞬鳴ります（キルフラッシュ）。<br>
+キルフラッシュの長さは共通設定で微調整できます（推奨：0.3s~）。<br>
+
+#### 設定
+
+| 共通設定                |
+| ----------------------- |
+| キルフラッシュの長さ(秒) |
+
 ### Sheriff/シェリフ
 
 陣営 : クルーメイト<br>
@@ -461,6 +506,8 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 シェリフは人外をキルすることができます。<br>
 しかし、クルーメイトをキルした場合、自分が死亡してしまいます。<br>
 タスクはありません。<br>
+
+*暗転対策の為、死亡後のシェリフは会議毎に自殺するモーションが本人にだけ見えます。死体は出ません。<br>
 
 #### 設定
 
@@ -497,13 +544,14 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 陣営 ：クルーメイト<br>
 判定 ：クルーメイト<br>
 
-タスクを完了させると、生存しているランダムなプレイヤーの速度を上げさせます。<br>
+規定のタスク量を完了させると、生存しているランダムなプレイヤーの速度を上げる。<br>
 
 #### 設定
 
 | 設定名                 |
 | ---------------------- |
-| スピードアップ時の速さ |
+| 加速値                 |
+| 効果を発動するタスク数  |
 
 ### Trapper/トラッパー
 
@@ -530,6 +578,8 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 キルボタンを押して、一定時間近くに居ると、相手にオイルが塗れます。<br>
 生存者全員にオイルを塗り、ベントに入ると単独勝利します。それ以外では敗北します。<br>
 
+*暗転対策の為、死亡後のアーソニストは会議毎に自殺するモーションが本人にだけ見えます。死体は出ません。<br>
+
 #### 設定
 
 | 設定名                   |
@@ -542,7 +592,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 考案者 : しゅー<br>
 制作者 : そうくん<br>
 
-陣営 : 第三<br>
+陣営 : エゴイスト<br>
 判定 : シェイプシフター<br>
 勝利条件 : インポスター全滅後、インポスターの勝利条件を達成する<br>
 
@@ -555,6 +605,12 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 敗北条件は以下の通りです。<br>
 
 1.エゴイストが死亡する<br> 2.味方が残っている状態でインポスター勝利をする<br> 3.他の第三陣営が勝利する<br>
+
+#### 設定
+
+| 設定名               |
+| -------------------- |
+| エゴイストのキルクール |
 
 ### Executioner/エクスキューショナー
 
@@ -664,9 +720,19 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 ・ジェスター恋人：ジェスター恋人が追放されればジェスターとして勝利。恋人が投票で追放された場合はジェスター恋人は敗北。<br>
 ・ベイト恋人：恋人がキルされてベイト恋人が後追い死亡した時は、通報は行われない。<br>
 
+## DisableDevice/デバイスを無効化
+
+参考元 : [SuperNewRoles](https://github.com/ykundesu/SuperNewRoles), [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
+
+各種機器を無効化することができます。(現在はアドミンのみ、MiraHQ非対応)<br>
+
+| 設定名                     |
+| -------------------------- |
+| アドミン無効化              |
+| ・ どのアドミンを無効化するか |
 ## SabotageTimeControl/サボタージュの時間制御
 
-一部サボタージュの制限時間を変更することができます。
+一部サボタージュの制限時間を変更することができます。<br>
 
 | 設定名                         |
 | ------------------------------ |
@@ -811,13 +877,32 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ## 参考など
 
-[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
+[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター)、[シーア](#Seer/シーア) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
 [オポチュニスト](#Opportunist/オポチュニスト)、[ウォッチャー](#Watcher/ウォッチャー) のアイデア元 : [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
-[シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫) のアイデア元 : [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
+[シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫)、[イビルトラッカー](#EvilTracker/イビルトラッカー) のアイデア元 : [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
 [ドクター](#Doctor/ドクター) のアイデア元 : [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
 [ジェスター](#Jester/ジェスター)(てるてる)と[マッドメイト](#Madmate/マッドメイト) のアイデア元 : [au.libhalt.net](https://au.libhalt.net)<br>
 [テロリスト](#Terrorist/テロリスト)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [恋人](#lovers/恋人) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 中国語翻訳 : fivefirex、ZeMingOH233<br>
 
-作者の Twitter : https://twitter.com/XenonBottle<br>
+## 開発者
+<!--
+開発者用チャンネルでの一番最初の発言が早い順に記載する。
+- [テンプレ](https://github.com/) ([Twitter](https://twitter.com/))
+- [Twitter以外のページでも可](https://github.com/) ([Twitter](https://twitter.com/), [TheOtherPages](https://example.com/))
+- [何もなくていい場合は消してOK](https://github.com/)
+注：README-ENへの追記を忘れないでください。
+-->
+- [空き瓶/EmptyBottle](https://github.com/tukasa0001) ([Twitter](https://twitter.com/XenonBottle))
+- [Tanakarina](https://github.com/tanakanira0118) <!--([Twitter](https://twitter.com/))-->
+- [しゅー](https://github.com/shu-TownofHost) ([Twitter](https://twitter.com/Shu_kundayo))
+- [kihi](https://github.com/Kihi1120) <!--([Twitter](https://twitter.com/))-->
+- [TAKU_GG](https://github.com/TAKUGG) ([Twitter](https://twitter.com/TAKUGGYouTube1), [Youtube](https://www.youtube.com/c/TAKUGG))
+- [そうくん](https://github.com/soukunsandesu) ([Twitter](https://twitter.com/Soukun_Dev), [Youtube](https://www.youtube.com/channel/UCsCOqxmXBVT-BD_UKaXpUPw))
+- [みぃー](https://github.com/mii-47) <!--([Twitter](https://twitter.com/))-->
+- [たんぽぽ](https://github.com/tampopo-dandelion)([Twitter](https://twitter.com/2nomotokaicho),  [Youtube](https://www.youtube.com/channel/UC8EwQ5gu-qyxVxek0jZw1Tg), [ニコニコ](https://www.nicovideo.jp/user/124305243))
+- [こう。](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
+- [よっキング](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
+- [ゆりの](https://github.com/yurinakira) <!--([Twitter](https://twitter.com/))-->
+- [Masami](https://github.com/Masami4711) <!--([Twitter](https://twitter.com/))-->
