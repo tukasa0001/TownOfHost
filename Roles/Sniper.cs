@@ -21,7 +21,7 @@ namespace TownOfHost
         static Dictionary<byte, bool> meetingReset = new();
 
         static int maxBulletCount;
-        static bool precisionshooting;
+        static bool precisionShooting;
 
         public static void SetupCustomOption()
         {
@@ -39,7 +39,7 @@ namespace TownOfHost
             meetingReset = new();
 
             maxBulletCount = SniperBulletCount.GetInt();
-            precisionshooting = SniperPrecisionShooting.GetBool();
+            precisionShooting = SniperPrecisionShooting.GetBool();
         }
         public static void Add(byte playerId)
         {
@@ -152,7 +152,7 @@ namespace TownOfHost
                     var target_dot = Vector3.Dot(dir, target_dir);
                     Logger.Info($"{target?.Data?.PlayerName}:pos={target_pos} dir={target_dir}", "Sniper");
                     Logger.Info($"  Dot={target_dot}", "Sniper");
-                    if (precisionshooting)
+                    if (precisionShooting)
                     {
                         if (target_dot < 0.99) continue;
                         //ある程度正確ならターゲットとの誤差確認

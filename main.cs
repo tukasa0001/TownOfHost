@@ -26,7 +26,7 @@ namespace TownOfHost
         public static readonly bool AllowPublicRoom = true;
         // フォークID / ForkId (Default: OriginalTOH)
         public static readonly string ForkId = "OriginalTOH";
-        // Discordボタンを表示するか / Show Discord Buttan (Default: true)
+        // Discordボタンを表示するか / Show Discord Button (Default: true)
         public static readonly bool ShowDiscordButton = true;
         // Discordサーバーの招待リンク / Discord Server Invite URL (Default: https://discord.gg/W5ug6hXB9V)
         public static readonly string DiscordInviteUrl = "https://discord.gg/W5ug6hXB9V";
