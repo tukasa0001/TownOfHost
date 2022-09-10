@@ -397,6 +397,7 @@ namespace TownOfHost
                 {
                     if (!role.Key.IsEnable()) continue;
                     bool isFirst = true;
+                    text += $"\n【{GetRoleName(role.Key)}】";
                     foreach (var c in Options.CustomRoleSpawnChances[role.Key].Children)
                     {
                         if (isFirst) { isFirst = false; continue; }
