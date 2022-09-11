@@ -273,22 +273,22 @@ RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (w
 DisableDevicesInfo,"DisableDevices:\nVarious devices can be disabled (currently admin only, unavailable in MiraHQ)",デバイスを無効化:\n各種機器を無効化することができる。(現在はアドミンのみ、MiraHQ非対応),禁用设备:\n可以禁用各种设备。(目前只支持管理员，不支持米拉总部),"禁用設備:\n可以禁用各種設備。 (目前只支持管理室地圖,不支持MIRA HQ)"
 
 ## 詳細設定
-AdvancedRoleOptions,Advanced Options,詳細設定,详细设置,進階設定
-AdvancedImpostorRoleOptions,Advanced Impostor Role Options,インポスター役職の詳細設定,内鬼阵营职业详细设置,進階狼人職業選項
-AdvancedCrewmateRoleOptions,Advanced Crewmate Role Options,クルーメイト役職の詳細設定,船员阵营职业详细设置,進階船員職業選項
+Cooldown,Cooldown,クールダウン
+KillCooldown,Kill cooldown,キルクール
+CanUseVent,Can use vent,ベントを使える
+ImpostorVision,Impostor vision,インポスター視界
+CanUseSabotage,Can use sabotage,サボタージュを使用できる
+
 BountyTargetChangeTime,Time To Swap Bounty(s),ターゲット変更時間,赏金猎人目标变更间隔的时间,賞金目標切換時間
 EnableLastImpostor,Enable LastImpostor,ラストインポスターの有効化,启用绝境者,啟用絕境者
-LastImpostorKillCooldown,LastImpostor Kill Cooldown,ラストインポスターのキルクール,绝境者击杀冷却,絕境者殺人冷卻
 BountySuccessKillCooldown,Kill Cooldown After Killing Bounty,ターゲット殺害時のキルクール,赏金猎人击杀悬赏目标的奖励冷却时间,賞金獵人殺死賞金目標冷卻
 BountyFailureKillCooldown,Kill Cooldown After Killing Others,ターゲット以外殺害時のキルクール,赏金猎人击杀悬赏目标以外玩家的惩罚冷却时间,賞金獵人殺死非賞金目標冷卻
 DefaultShapeshiftCooldown,Default Shapeshift Cooldown,デフォルトの変身クールダウン,变形者变形冷却,預設變身時間
-VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時間(秒),吸血鬼延迟的击杀时间,吸血鬼殺人延遲
+VampireKillDelay,Kill Delay(s),殺害までの時間(秒),延迟的击杀时间,殺人延遲
 MareSpeedInLightsOut,Mare Player Add Speed In Lights Out,停電時のメアーの加速値,梦魇熄灯时的移动速度,關燈時黑暗博士的移動速度
 MareKillCooldownInLightsOut,Mare Kill Cooldown In Lights Out,停電時のメアーのキルクール,梦魇熄灯时的击杀冷却,關燈時黑暗博士的殺人冷卻
 SabotageMasterSkillLimit,SabotageMaster Fix Ability Limit(Except Opening Doors),修理能力を使用できる回数(ﾄﾞｱ閉鎖は除く),修理大师修理破坏的最大次数,破壞大師修理破壞次數上限
 CanMakeMadmateCount,SidekickMadmate Maximum,サイドキックマッドメイト(人),变形者可以招募叛徒的数量,變形者招募叛徒最大人數
-MadSnitchCanVent,MadSnitch Can Use Vent,マッドスニッチがベントを使える,背叛的告密者可以使用管道,背叛的告密者可以使用管道
-MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数,背叛的告密者任务数,背叛告密者任務數量
 MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,自身の殺害未遂者を知ることができる,堕落守卫可以得知对其进行击杀尝试的玩家,背叛天使可以看到是誰嘗試殺害自己
 MadmateCanFixLightsOut,Madmates Can Fix Lights Out,マッドメイト系役職が停電を直すことができる,叛徒职业可以修理照明破坏,叛徒職業的玩家可以修理電燈
 MadmateCanFixComms,Madmates Can Fix Comms,マッドメイト系役職が通信障害を直すことができる,叛徒职业可以修理通讯,叛徒職業的玩家可以修理通訊
@@ -296,55 +296,46 @@ MadmateHasImpostorVision,Madmates Have Impostor Vision,マッドメイト系役�
 MadmateVentCooldown,Madmates Vent Cooldown,マッドメイト系役職のベントクールダウン,叛徒职业跳管道冷却时间,叛徒職業的玩家跳管道冷卻
 MadmateVentMaxTime,Madmates Max Time In Vents(s),マッドメイト系役職のベント内での最大時間,叛徒职业在管道中停留的最大时间,叛徒職業的玩家在管道中可以停留的最大時間
 EvilWatcherChance,EvilWatcher Chance,イビルウォッチャーになる確率,窥视者成为内鬼阵营的概率,成為邪惡觀察者的機率
-LighterTaskCompletedVision,Lighter Expanded Vision,ライターのタスク完了時の視界,执灯人完成任务后的视野,小燈人做完任務的視野
+LighterTaskCompletedVision,Expanded Vision,タスク完了時の視界,完成任务后的视野,做完任務的視野
 LighterTaskCompletedDisableLightOut,Lighter Gains Impostor Vision,タスク完了時に停電を無効にする,完成任务的执灯人不受熄灯影响,完成任務的小燈人視野不受關燈影響
 SabotageMasterFixesDoors,SabotageMaster Can Open Multiple Doors,1度に複数のﾄﾞｱを開けられる,修理大师可以一次打开房间内所有被关闭的门,破壞大師可以修理多扇門
 SabotageMasterFixesReactors,SabotageMaster Can Fix Both Reactors,リアクターに対して能力を使える,修理大师可以一人修理核反应堆,破壞大師可以一個人同時修理兩邊的反應堆
 SabotageMasterFixesOxygens,SabotageMaster Can Fix Both O2,酸素妨害に対して能力を使える,修理大师修理氧气破坏时另一边的氧气破坏同时被修理,破壞大師可以一個人同時修理兩邊的氧氣
 SabotageMasterFixesCommunications,SabotageMaster Can Fix Both Comms In MIRA HQ,MIRA HQの通信妨害に対して能力を使える,修理大师在米拉总部地图修理通信破坏时另一边的通信破坏同时被修理,破壞大師可以一個人同時修理兩邊的通訊(Mira HQ)
 SabotageMasterFixesElectrical,SabotageMaster Can Fix Lights Out All At Once,停電に対して能力を使える,修理大师按一个按钮就可以修复照明破坏,破壞大師拉一根拉桿就可以修理電燈
-SheriffKillCooldown,Sheriff Kill Cooldown,シェリフのキルクール,警长执法冷却,警長執法冷卻
 SheriffCanKill%role%,Sheriff Can kill %role%,%role%をキルできる,警长可以执法%role%,警長可以槍死%role%
 SheriffCanKillNeutrals,Sheriff Can kill Neutrals,第三陣営をキルできる,警长可以执法独立阵营,警長可以槍死中立
 SheriffCanKillAll,<color=#00fefe>All ON</color>,<color=#00fefe>全てオン</color>
 SheriffCanKillSeparately,Each Option,個別に設定
 In%team%,(Team %team%),(%team%陣営),(%team%阵营),(%team%方)
 SheriffMisfireKillsTarget,Misfire Kills Target,誤爆時、ターゲットも死ぬ,警长误杀好人会同时击杀目标,警長誤殺好人會同時擊殺目標
-SheriffShotLimit,Sheriff Shot Limit,シェリフのキル可能回数,警长最大执法次数,警長最大子彈數量
+SheriffShotLimit,Number Of Shots,キル可能回数,最大执法次数,最大子彈數量
 DoctorTaskCompletedBatteryCharge,Doctor Battery Duration,充電持続時間,科学家每完成一个任务增加的设备充能数,醫生完成任務充電秒數
 SnitchEnableTargetArrow,Snitch Can See Target Arrow,ターゲットを示す矢印が見える,告密者完成任务后可以通过箭头确认所有被发现目标,告密者完成任務後可以看到目標的箭頭
 SnitchCanGetArrowColor,Snitch Can See Colored Arrow,矢印の色で陣営がわかる,告密者对不同阵营的目标使用不同颜色的箭头确认,對不同陣營的目標使用不同顏色的箭頭標示
 SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,第三陣営のキル可能役職を見つけることが出来る,告密者也可以和拥有击杀能力的独立阵营玩家互相发现,告密者也可以和中立陣營帶刀職業互認
 SpeedBoosterUpSpeed,Boosted Player Add Speed,加速値,增速者加速时的移动速度,被加速器加速的玩家的移動速度
 SpeedBoosterTaskTrigger,Boosted Trigger Tasks,効果を発動するタスク数,,
-MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数,市长投票时多出来的票数,市長附加票數
-MayorHasPortableButton,Mayor Has Mobile Emergency Button,ポータブルボタンを持っている,市长可以选择是否进行投票,市長可以隨時拍桌
-MayorNumOfUseButton,Number Of Mobile Emergency Button,メイヤーが使えるボタンの回数,市长选择进行投票的最大次数,市長隨時拍桌最大次數
+MayorAdditionalVote,Additional Votes Count,追加投票の個数,投票时多出来的票数,附加票數
+MayorHasPortableButton,Mayor Has Mobile Emergency Button,ポータブルボタンを持っている,可以选择是否进行投票,可以隨時拍桌
+MayorNumOfUseButton,Number Of Mobile Emergency Button,ポータブルボタンの使用可能回数,选择进行投票的最大次数,隨時拍桌最大次數
 CanBeforeSchrodingerCatWinTheCrewmate,SchrodingerCat In No Team Can Win With Crewmates,役職変化前であれば、クルー陣営と勝利できる,薛定谔的猫未加入其他阵营前可以跟随船员阵营获胜,薛定諤的貓的陣營轉變前可以和船員一起贏
 SchrodingerCatExiledTeamChanges,Team To Change After Exiled,吊られた際、陣営が変化する,薛定谔的猫被放逐时会加入其他阵营,薛定諤的貓被丟出時陣營會改變
 ExecutionerCanTargetImpostor,Executioner Can Target Impostor,インポスターもターゲットにできる,内鬼阵营玩家可以成为处刑人的目标,劊子手的目標可以是狼人陣營的玩家
 ExecutionerCanTargetNeutralKiller,Executioner Can Target Neutral Killer,キルできる第三陣営もターゲットにできる,独立阵营玩家可以成为处刑人的目标,劊子手的目標可以是中立陣營的玩家
 ExecutionerChangeRolesAfterTargetKilled,Role After Target Dies,ターゲットがキルされた後に変化する役職,处刑人目标死亡后将变为的职业,劊子手的目標被殺後轉變的職業
-SerialKillerCooldown,SerialKiller Kill Cooldown,シリアルキラーのキルクール,嗜血杀手击杀冷却,連環殺手殺人冷卻
 SerialKillerLimit,Time Limit To Suicide(s),自殺までの秒数,嗜血杀手自杀倒计时,連環殺手自殺倒數
-ArsonistDouseTime,Arsonist Douse Duration,アーソニストの塗り時間,纵火犯涂油所需时间,縱火犯澆油所需時間
-ArsonistCooldown,Arsonist Douse Cooldown,アーソニストのクールダウン,纵火犯涂油冷却,縱火犯澆油冷卻
+ArsonistDouseTime,Douse Duration,塗り時間,涂油所需时间,澆油所需時間
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち,恐怖分子可以通过自杀获胜,恐怖分子可以自殺來獲勝
 ShapeMasterShapeshiftDuration,Shapeshift Duration,シェイプマスターの変身持続時間,千面鬼化形持续时间,變形大師變形持續時間
 FireWorksMaxCount,FireWorks Max Count,花火の所持数,烟花商人可放置烟花的最大数量,煙火工匠可設定煙火最大數量
 FireWorksRadius,FireWorks Radius,花火の爆発半径,烟花商人烟花爆炸半径,煙火工匠的煙火爆炸半徑
-SniperBulletCount,Sniper Bullet Count,スナイパーの所持弾数,狙击手最大狙击次数,狙擊手子彈最大數量
-SniperPrecisionShooting,Sniper Precise Shooting,スナイパー精密射撃モード,狙击手拥有瞄准辅助,狙擊手精準射擊模式
+SniperBulletCount,Bullet Count,所持弾数,最大狙击次数,子彈最大數量
+SniperPrecisionShooting,Precise Shooting,精密射撃モード,拥有瞄准辅助,精準射擊模式
 NumberOfLovers,Number Of Lovers(x2members),ラバーズの組数(x2人数),恋人对数,"戀人最大數量(2位玩家)"
-TimeThiefKillCooldown,TimeThief Kill Cooldown,タイムシーフのキルクール,蚀时者击杀冷却,時間小偷殺人冷卻時間
 TimeThiefDecreaseMeetingTime,TimeThief Decrease Time Length(s),減少する会議時間,蚀时者每次击杀缩短的会议时间,時間小偷每次殺人減少的會議時間
 TimeThiefLowerLimitVotingTime,Lower Limit For Voting Time(s),投票時間の下限,蚀时者存在时会议时间下限,時間小偷在場時會議時間最低下限
 TimeThiefReturnStolenTimeUponDeath,Return Stolen Time After Death,死亡後に盗んだ時間を返す,蚀时者死亡后会议时间重置,時間小偷死亡後將會議時間重設
-JackalKillCooldown,Jackal Kill Cooldown,ジャッカルのキルクール,豺狼击杀冷却,豺狼殺人冷卻
-JackalCanVent,Jackal Can Use Vents,ベントを使用できる,豺狼可以使用管道,豺狼可以跳管道
-JackalCanUseSabotage,Jackal Can Sabotage,サボタージュを使用できる,豺狼可以破坏,豺狼可以破壞
-JackalHasImpostorVision,Jackal Has Impostor Vision,インポスターと同じ視界を持つ,豺狼拥有内鬼视野,豺狼擁有狼人的視野
-EgoistKillCooldown,Egoist KillCooldown,エゴイストのキルクール,,利己主義者殺人冷卻
 EvilTrackerCanSeeKillFlash,EvilTracker Can See The Flash Of Impostor Kills,インポスターキル時にフラッシュが見える,当内鬼进行击杀时邪恶的追踪者可以看到闪光
 EvilTrackerResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,会議後に再度ターゲットを設定できる,会议后重置邪恶的追踪者追踪目标
 KillFlashDuration,Kill Flash Duration(s),キルフラッシュの長さ(秒)
