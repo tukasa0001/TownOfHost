@@ -370,11 +370,11 @@ Depending on option, they can use vents.<br>
 
 #### Game Options
 
-| Name                                                |
-| --------------------------------------------------- |
-| MadSnitch Can Use Vent                              |
-| Can also see from Impostor after the task completed |
-| MadSnitch Tasks                                     |
+| Name                     |
+| ------------------------ |
+| MadSnitch Can Use Vent   |
+| Also Exposed To Impostor |
+| MadSnitch Tasks          |
 
 ### SidekickMadmate
 
