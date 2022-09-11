@@ -288,7 +288,7 @@ namespace TownOfHost
             MadGuardianTasks = OverrideTasksData.Create(10120, TabGroup.ImpostorRoles, CustomRoles.MadGuardian);
             SetupRoleOptions(10200, TabGroup.ImpostorRoles, CustomRoles.MadSnitch);
             MadSnitchCanVent = CustomOption.Create(10210, TabGroup.ImpostorRoles, Color.white, "MadSnitchCanVent", false, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
-            MadSnitchCanAlsoSeeFromImpostor = CustomOption.Create(10211, TabGroup.ImpostorRoles, Color.white, "MadSnitchCanAlsoSeeFromImpostor", false, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
+            MadSnitchCanAlsoSeeFromImpostor = CustomOption.Create(10211, TabGroup.ImpostorRoles, Color.white, "MadSnitchCanAlsoBeExposedToImpostor", false, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
             //ID10220~10223を使用
             MadSnitchTasks = OverrideTasksData.Create(10220, TabGroup.ImpostorRoles, CustomRoles.MadSnitch);
             // Madmate Common Options
