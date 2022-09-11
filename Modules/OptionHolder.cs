@@ -289,7 +289,7 @@ namespace TownOfHost
             //ID10120~10123を使用
             MadGuardianTasks = OverrideTasksData.Create(10120, TabGroup.ImpostorRoles, CustomRoles.MadGuardian);
             SetupRoleOptions(10200, TabGroup.ImpostorRoles, CustomRoles.MadSnitch);
-            MadSnitchCanVent = CustomOption.Create(10210, TabGroup.ImpostorRoles, Color.white, "MadSnitchCanVent", false, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
+            MadSnitchCanVent = CustomOption.Create(10210, TabGroup.ImpostorRoles, Color.white, "CanUseVent", false, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
             //ID10220~10223を使用
             MadSnitchTasks = OverrideTasksData.Create(10220, TabGroup.ImpostorRoles, CustomRoles.MadSnitch);
             // Madmate Common Options
@@ -331,7 +331,7 @@ namespace TownOfHost
             // Neutral
             SetupRoleOptions(50500, TabGroup.NeutralRoles, CustomRoles.Arsonist);
             ArsonistDouseTime = CustomOption.Create(50510, TabGroup.NeutralRoles, Color.white, "ArsonistDouseTime", 3, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
-            ArsonistCooldown = CustomOption.Create(50511, TabGroup.NeutralRoles, Color.white, "ArsonistCooldown", 10, 5, 100, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
+            ArsonistCooldown = CustomOption.Create(50511, TabGroup.NeutralRoles, Color.white, "Cooldown", 10, 5, 100, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
             SetupRoleOptions(50000, TabGroup.NeutralRoles, CustomRoles.Jester);
             SetupRoleOptions(50100, TabGroup.NeutralRoles, CustomRoles.Opportunist);
             SetupRoleOptions(50200, TabGroup.NeutralRoles, CustomRoles.Terrorist);
@@ -348,15 +348,15 @@ namespace TownOfHost
             Executioner.SetupCustomOption();
             //Jackalは1人固定
             SetupSingleRoleOptions(50900, TabGroup.NeutralRoles, CustomRoles.Jackal, 1);
-            JackalKillCooldown = CustomOption.Create(50910, TabGroup.NeutralRoles, Color.white, "JackalKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            JackalCanVent = CustomOption.Create(50911, TabGroup.NeutralRoles, Color.white, "JackalCanVent", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            JackalCanUseSabotage = CustomOption.Create(50912, TabGroup.NeutralRoles, Color.white, "JackalCanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            JackalHasImpostorVision = CustomOption.Create(50913, TabGroup.NeutralRoles, Color.white, "JackalHasImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            JackalKillCooldown = CustomOption.Create(50910, TabGroup.NeutralRoles, Color.white, "KillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            JackalCanVent = CustomOption.Create(50911, TabGroup.NeutralRoles, Color.white, "CanUseVent", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            JackalCanUseSabotage = CustomOption.Create(50912, TabGroup.NeutralRoles, Color.white, "CanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            JackalHasImpostorVision = CustomOption.Create(50913, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
 
             // Attribute
             EnableLastImpostor = CustomOption.Create(80000, TabGroup.MainSettings, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            LastImpostorKillCooldown = CustomOption.Create(80010, TabGroup.MainSettings, Color.white, "LastImpostorKillCooldown", 15, 0, 180, 1, EnableLastImpostor)
+            LastImpostorKillCooldown = CustomOption.Create(80010, TabGroup.MainSettings, Color.white, "KillCooldown", 15, 0, 180, 1, EnableLastImpostor)
                 .SetGameMode(CustomGameMode.Standard);
             #endregion
 
