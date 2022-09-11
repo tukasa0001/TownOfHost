@@ -289,7 +289,7 @@ namespace TownOfHost
             //ID10120~10123を使用
             MadGuardianTasks = OverrideTasksData.Create(10120, TabGroup.ImpostorRoles, CustomRoles.MadGuardian);
             SetupRoleOptions(10200, TabGroup.ImpostorRoles, CustomRoles.MadSnitch);
-            MadSnitchCanVent = CustomOption.Create(10210, TabGroup.ImpostorRoles, Color.white, "CanUseVent", false, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
+            MadSnitchCanVent = CustomOption.Create(10210, TabGroup.ImpostorRoles, Color.white, "CanVent", false, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
             //ID10220~10223を使用
             MadSnitchTasks = OverrideTasksData.Create(10220, TabGroup.ImpostorRoles, CustomRoles.MadSnitch);
             // Madmate Common Options
@@ -349,7 +349,7 @@ namespace TownOfHost
             //Jackalは1人固定
             SetupSingleRoleOptions(50900, TabGroup.NeutralRoles, CustomRoles.Jackal, 1);
             JackalKillCooldown = CustomOption.Create(50910, TabGroup.NeutralRoles, Color.white, "KillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            JackalCanVent = CustomOption.Create(50911, TabGroup.NeutralRoles, Color.white, "CanUseVent", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            JackalCanVent = CustomOption.Create(50911, TabGroup.NeutralRoles, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
             JackalCanUseSabotage = CustomOption.Create(50912, TabGroup.NeutralRoles, Color.white, "CanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
             JackalHasImpostorVision = CustomOption.Create(50913, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
 

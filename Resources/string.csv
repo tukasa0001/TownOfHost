@@ -275,7 +275,7 @@ DisableDevicesInfo,"DisableDevices:\nVarious devices can be disabled (currently 
 ## 詳細設定
 Cooldown,Cooldown,クールダウン
 KillCooldown,Kill Cooldown,キルクール
-CanUseVent,Can Use Vent,ベントを使える
+CanVent,Can Use Vent,ベントを使える
 ImpostorVision,Has Impostor Vision,インポスター視界
 CanUseSabotage,Can sabotage,サボタージュを使用できる
 
