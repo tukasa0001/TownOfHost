@@ -807,10 +807,13 @@ namespace TownOfHost
                             RealName = Helpers.ColorString(target.GetRoleColor(), RealName); //targetの名前を役職色で表示
                         }
                     }
-                    else if (seer.GetCustomRole().IsImpostor() && //seerがインポスター
-                        target.Is(CustomRoles.Egoist) //targetがエゴイスト
-                    )
-                        RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Egoist), RealName); //targetの名前をエゴイスト色で表示
+                    else if (seer.GetCustomRole().IsImpostor()) //seerがインポスター
+                    {
+                        if (target.Is(CustomRoles.Egoist)) //targetがエゴイスト
+                            RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Egoist), RealName); //targetの名前をエゴイスト色で表示
+                        else if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished) //targetがタスクを終わらせたマッドスニッチ
+                            Mark += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★"); //targetにマーク付与
+                    }
 
                     else if ((seer.Is(CustomRoles.EgoSchrodingerCat) && target.Is(CustomRoles.Egoist)) || //エゴ猫 --> エゴイスト
                              (seer.Is(CustomRoles.JSchrodingerCat) && target.Is(CustomRoles.Jackal)) //J猫 --> ジャッカル
