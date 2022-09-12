@@ -109,7 +109,12 @@ namespace TownOfHost
 
             //実行
             PlayerState.IsBlackOut[player.PlayerId] = true; //ブラックアウト
-            if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
+            if (player.PlayerId == 0)
+            {
+                FlashColor(new(1f, 0f, 0f, 0.5f));
+                if (Constants.ShouldPlaySfx()) SoundManager.Instance.PlaySound(player.KillSfx, false, 0.8f, null);
+            }
+            else if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
             ExtendedPlayerControl.CustomSyncSettings(player);
             new LateTask(() =>
             {
