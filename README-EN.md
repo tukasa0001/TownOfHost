@@ -684,19 +684,20 @@ The SchrodingerCats have no tasks and by default, no victory condition. Only aft
 Create by そうくん<br>
 Original idea by the other roles<br>
 
-The Jackal is part of an extra team, that tries to eliminate all the other players.
-The Jackal has no tasks and can kill Impostors, Crewmates and Neutrals.
+The Jackal is part of an extra team, that tries to eliminate all the other players.<br>
+The Jackal has no tasks and can kill Impostors, Crewmates and Neutrals.<br>
 
-The team Jackal enables multiple new outcomes of the game, listing some examples here:
-- The Impostors could be eliminated and then the crew plays against the team Jackal.
-- The Crew could be eliminated, then the Team Jackal fight against the Impostors (The Crew can still make a task win in this scenario)
+The team Jackal enables multiple new outcomes of the game, listing some examples here:<br>
+- The Impostors could be eliminated and then the crew plays against the team Jackal.<br>
+- The Crew could be eliminated, then the Team Jackal fight against the Impostors (The Crew can still make a task win in this scenario)<br>
 
 
-If both Impostors and Jackals are in the game, the game continues even if all Crewmates are dead. Crewmates may still win in this case by completing their tasks. Jackal and Impostor have to kill each other.
+If both Impostors and Jackals are in the game, the game continues even if all Crewmates are dead. <br>
+Crewmates may still win in this case by completing their tasks. Jackal and Impostor have to kill each other.<br>
 
-・In the case of 1 Impo & Jackal, even if it is banished by vote, it will be displayed as ``No one was banished'' (display only)
-It is not a bug that is displayed like this as a countermeasure against blackout.
-・ Auto mute is removed when impo is hung
+・In the case of 1 Impo & Jackal, even if it is banished by vote, it will be displayed as `No one was banished'<br>
+  It is not a bug that is displayed like this as a countermeasure against blackout.<br>
+・ Auto mute is removed when impo is hung<br>
 
 ### Game Options
 
