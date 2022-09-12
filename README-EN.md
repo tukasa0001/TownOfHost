@@ -386,10 +386,11 @@ Depending on option, they can use vents.<br>
 
 #### Game Options
 
-| Name                   |
-| ---------------------- |
-| MadSnitch Can Use Vent |
-| MadSnitch Tasks        |
+| Name                     |
+| ------------------------ |
+| MadSnitch Can Use Vent   |
+| Also Exposed To Impostor |
+| MadSnitch Tasks          |
 
 ### SidekickMadmate
 

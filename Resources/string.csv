@@ -289,6 +289,8 @@ MareSpeedInLightsOut,Mare Player Add Speed In Lights Out,停電時のメアー�
 MareKillCooldownInLightsOut,Mare Kill Cooldown In Lights Out,停電時のメアーのキルクール,梦魇熄灯时的击杀冷却,關燈時黑暗博士的殺人冷卻
 SabotageMasterSkillLimit,SabotageMaster Fix Ability Limit(Except Opening Doors),修理能力を使用できる回数(ﾄﾞｱ閉鎖は除く),修理大师修理破坏的最大次数,破壞大師修理破壞次數上限
 CanMakeMadmateCount,SidekickMadmate Maximum,サイドキックマッドメイト(人),变形者可以招募叛徒的数量,變形者招募叛徒最大人數
+MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数,背叛的告密者任务数,背叛告密者任務數量
+MadSnitchCanAlsoBeExposedToImpostor,Also Exposed To Impostor,インポスターからも視認できる
 MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,自身の殺害未遂者を知ることができる,堕落守卫可以得知对其进行击杀尝试的玩家,背叛天使可以看到是誰嘗試殺害自己
 MadmateCanFixLightsOut,Madmates Can Fix Lights Out,マッドメイト系役職が停電を直すことができる,叛徒职业可以修理照明破坏,叛徒職業的玩家可以修理電燈
 MadmateCanFixComms,Madmates Can Fix Comms,マッドメイト系役職が通信障害を直すことができる,叛徒职业可以修理通讯,叛徒職業的玩家可以修理通訊
