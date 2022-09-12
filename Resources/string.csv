@@ -277,7 +277,7 @@ Cooldown,Cooldown,クールダウン
 KillCooldown,Kill Cooldown,キルクール
 CanVent,Can Use Vent,ベントを使える
 ImpostorVision,Has Impostor Vision,インポスター視界
-CanUseSabotage,Can sabotage,サボタージュを使用できる
+CanUseSabotage,Can Sabotage,サボタージュを使用できる
 
 BountyTargetChangeTime,Time To Swap Bounty(s),ターゲット変更時間,赏金猎人目标变更间隔的时间,賞金目標切換時間
 EnableLastImpostor,Enable LastImpostor,ラストインポスターの有効化,启用绝境者,啟用絕境者
