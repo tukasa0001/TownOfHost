@@ -28,8 +28,10 @@ namespace TownOfHost
             playerIdList.Add(playerId);
         }
         public static bool IsEnable() => playerIdList.Count > 0;
-        public static void ChangeTeam(this PlayerControl player)
+        public static void ChangeTeam(PlayerControl player)
         {
+            if (!ChangeTeamWhenExile.GetBool()) return;
+
             var rand = new System.Random();
             List<CustomRoles> Rand = new()
             {
