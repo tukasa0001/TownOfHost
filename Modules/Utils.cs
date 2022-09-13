@@ -112,7 +112,7 @@ namespace TownOfHost
             if (player.PlayerId == 0)
             {
                 FlashColor(new(1f, 0f, 0f, 0.5f));
-                if (Constants.ShouldPlaySfx()) SoundManager.Instance.PlaySound(player.KillSfx, false, 0.8f, null);
+                if (Constants.ShouldPlaySfx()) RPC.PlaySound(player.PlayerId, Sounds.KillSound);
             }
             else if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
             ExtendedPlayerControl.CustomSyncSettings(player);
