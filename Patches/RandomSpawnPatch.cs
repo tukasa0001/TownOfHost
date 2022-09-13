@@ -30,7 +30,6 @@ namespace TownOfHost
         Showers = new(21.2f, -0.8f),
         MainHall = new(15.5f, 0.0f);
 
-        [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.SnapTo), typeof(Vector2))]
         [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.SnapTo), typeof(Vector2), typeof(ushort))]
         class CustomNetworkTransformPatch
         {
