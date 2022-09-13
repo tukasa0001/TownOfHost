@@ -28,5 +28,24 @@ namespace TownOfHost
             playerIdList.Add(playerId);
         }
         public static bool IsEnable() => playerIdList.Count > 0;
+        public static void ChangeTeam(this PlayerControl player)
+        {
+            var rand = new System.Random();
+            List<CustomRoles> Rand = new()
+            {
+                CustomRoles.CSchrodingerCat,
+                CustomRoles.MSchrodingerCat
+            };
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (CustomRoles.Egoist.IsEnable() && pc.Is(CustomRoles.Egoist) && !pc.Data.IsDead)
+                    Rand.Add(CustomRoles.EgoSchrodingerCat);
+
+                if (CustomRoles.Jackal.IsEnable() && pc.Is(CustomRoles.Jackal) && !pc.Data.IsDead)
+                    Rand.Add(CustomRoles.JSchrodingerCat);
+            }
+            var Role = Rand[rand.Next(Rand.Count)];
+            player.RpcSetCustomRole(Role);
+        }
     }
 }

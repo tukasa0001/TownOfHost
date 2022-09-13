@@ -563,25 +563,6 @@ namespace TownOfHost
             writer.Write(isDoused);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void ExiledSchrodingerCatTeamChange(this PlayerControl player)
-        {
-            var rand = new System.Random();
-            List<CustomRoles> RandSchrodinger = new()
-            {
-                CustomRoles.CSchrodingerCat,
-                CustomRoles.MSchrodingerCat
-            };
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (CustomRoles.Egoist.IsEnable() && pc.Is(CustomRoles.Egoist) && !pc.Data.IsDead)
-                    RandSchrodinger.Add(CustomRoles.EgoSchrodingerCat);
-
-                if (CustomRoles.Jackal.IsEnable() && pc.Is(CustomRoles.Jackal) && !pc.Data.IsDead)
-                    RandSchrodinger.Add(CustomRoles.JSchrodingerCat);
-            }
-            var SchrodingerTeam = RandSchrodinger[rand.Next(RandSchrodinger.Count)];
-            player.RpcSetCustomRole(SchrodingerTeam);
-        }
         public static void ResetKillCooldown(this PlayerControl player)
         {
             Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
