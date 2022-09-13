@@ -90,8 +90,6 @@ namespace TownOfHost
         public static CustomOption CanTerroristSuicideWin;
         public static CustomOption ArsonistDouseTime;
         public static CustomOption ArsonistCooldown;
-        public static CustomOption CanBeforeSchrodingerCatWinTheCrewmate;
-        public static CustomOption SchrodingerCatExiledTeamChanges;
         public static CustomOption JackalKillCooldown;
         public static CustomOption JackalCanVent;
         public static CustomOption JackalCanUseSabotage;
@@ -343,9 +341,7 @@ namespace TownOfHost
             TerroristTasks = OverrideTasksData.Create(50220, TabGroup.NeutralRoles, CustomRoles.Terrorist);
             SetupLoversRoleOptionsToggle(50300);
 
-            SetupRoleOptions(50400, TabGroup.NeutralRoles, CustomRoles.SchrodingerCat);
-            CanBeforeSchrodingerCatWinTheCrewmate = CustomOption.Create(50410, TabGroup.NeutralRoles, Color.white, "CanBeforeSchrodingerCatWinTheCrewmate", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
-            SchrodingerCatExiledTeamChanges = CustomOption.Create(50411, TabGroup.NeutralRoles, Color.white, "SchrodingerCatExiledTeamChanges", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
+            SchrodingerCat.SetupCustomOption();
             Egoist.SetupCustomOption();
             Executioner.SetupCustomOption();
             //Jackalは1人固定
