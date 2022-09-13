@@ -105,25 +105,25 @@ AmongUsバージョン : **2022.7.12**
 
 ## 役職
 
-| インポスター陣営                                                                     | クルーメイト陣営                                                           | 第三陣営                                                                   |
-| ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| [BountyHunter/バウンティハンター](#BountyHunterバウンティハンター)                   | [Bait/ベイト](#Baitベイト)                                               | [Arsonist/アーソニスト](#Arsonistアーソニスト)                             |
-| [EvilTracker/イビルトラッカー](#EvilTrackerイビルトラッカー)                         | [Dictator/ディクテーター](#Dictatorディクテーター)                        | [Egoist/エゴイスト](#Egoistエゴイスト)                                     |
-| [Evil Watcher/イビルウォッチャー](#Watcherウォッチャー)                              | [Doctor/ドクター](#Doctorドクター)                                       | [Executioner/エクスキューショナー](#Executionerエクスキューショナー)       |
-| [FireWorks/花火職人](#FireWorks花火職人)                                            | [Lighter/ライター](#Lighterライター)                                     | [Jester/ジェスター](#Jesterジェスター)                                     |
-| [Mare/メアー](#Mareメアー)                                                          | [Mayor/メイヤー](#Mayorメイヤー)                                         | [Lovers/恋人](#Lovers恋人)                                                 |
-| [Puppeteer/パペッティア](#Puppeteerパペッティア)                                     | [Nice Watcher/ナイスウォッチャー](#Watcherウォッチャー)                   | [Opportunist/オポチュニスト](#Opportunistオポチュニスト)                   |
-| [SerialKiller/シリアルキラー](#SerialKillerシリアルキラー)                           | [SabotageMaster/サボタージュマスター](#SabotageMasterサボタージュマスター) | [Terrorist/テロリスト](#Terroristテロリスト)                               |
-| [Sniper/スナイパー](#Sniperスナイパー)                                               | [Seer/シーア](#Seerシーア)                                              | [SchrodingerCat/シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |
-| [TimeThief/タイムシーフ](#TimeThiefタイムシーフ)                                     | [Sheriff/シェリフ](#Sheriffシェリフ)                                     |                                                                            |
-| [Vampire/ヴァンパイア](#Vampireヴァンパイア)                                         | [Snitch/スニッチ](#Snitchスニッチ)                                      |                                                                            |
-| [Warlock/ウォーロック](#Warlockウォーロック)                                         | [SpeedBooster/スピードブースター](#SpeedBoosterスピードブースター)                                   |                                                                            |
-| [Witch/魔女](#Witch魔女)                                                            | [Trapper/トラッパー](#Trapperトラッパー)                                   |                                                                            |
-| [Mafia/マフィア](#Mafiaマフィア)                                                     |                                                                            |                                                                            |
-| [Madmate/マッドメイト](#Madmateマッドメイト)                                         |                                                                            |                                                                            |
-| [MadGuardian/マッドガーディアン](#MadGuardianマッドガーディアン)                     |                                                                            |                                                                            |
-| [MadSnitch/マッドスニッチ](#MadSnitchマッドスニッチ)                                 |                                                                            |                                                                            |
-| [SidekickMadmate/サイドキックマッドメイト](#SidekickMadmateサイドキックマッドメイト) |                                                                            |                                                                            |
+| インポスター陣営 | クルーメイト陣営 | 第三陣営 | その他 |
+| --------------- | --------------- | ------- | ------ |
+| [バウンティハンター](#BountyHunterバウンティハンター) | [ベイト](#Baitベイト) | [アーソニスト](#Arsonistアーソニスト) | [GM](#GM) |
+| [イビルトラッカー](#EvilTrackerイビルトラッカー) | [ディクテーター](#Dictatorディクテーター) | [エゴイスト](#Egoistエゴイスト) | |
+| [イビルウォッチャー](#Watcherウォッチャー) | [ドクター](#Doctorドクター) | [エクスキューショナー](#Executionerエクスキューショナー) | |
+| [花火職人](#FireWorks花火職人) | [ライター](#Lighterライター) | [ジェスター](#Jesterジェスター) | |
+| [メアー](#Mareメアー) | [メイヤー](#Mayorメイヤー) | [恋人](#Lovers恋人) | |
+| [パペッティア](#Puppeteerパペッティア) | [ナイスウォッチャー](#Watcherウォッチャー) | [オポチュニスト](#Opportunistオポチュニスト) | |
+| [シリアルキラー](#SerialKillerシリアルキラー) | [サボタージュマスター](#SabotageMasterサボタージュマスター) | [テロリスト](#Terroristテロリスト) | |
+| [スナイパー](#Sniperスナイパー) | [シーア](#Seerシーア) | [シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) | |
+| [タイムシーフ](#TimeThiefタイムシーフ) | [シェリフ](#Sheriffシェリフ) | | |
+| [ヴァンパイア](#Vampireヴァンパイア) | [スニッチ](#Snitchスニッチ) | | |
+| [ウォーロック](#Warlockウォーロック) | [スピードブースター](#SpeedBoosterスピードブースター) | | |
+| [魔女](#Witch魔女) | [トラッパー](#Trapperトラッパー) | | |
+| [マフィア](#Mafiaマフィア) | | | |
+| [マッドメイト](#Madmateマッドメイト) | | | |
+| [マッドガーディアン](#MadGuardianマッドガーディアン) | | | |
+| [マッドスニッチ](#MadSnitchマッドスニッチ) | | | |
+| [サイドキックマッドメイト](#SidekickMadmateサイドキックマッドメイト) | | | |
 
 ### GM
 
