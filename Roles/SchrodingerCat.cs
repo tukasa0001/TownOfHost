@@ -40,10 +40,10 @@ namespace TownOfHost
             };
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (CustomRoles.Egoist.IsEnable() && pc.Is(CustomRoles.Egoist) && !pc.Data.IsDead)
+                if (pc.Is(CustomRoles.Egoist) && !pc.Data.IsDead && Rand.Contains(CustomRoles.EgoSchrodingerCat))
                     Rand.Add(CustomRoles.EgoSchrodingerCat);
 
-                if (CustomRoles.Jackal.IsEnable() && pc.Is(CustomRoles.Jackal) && !pc.Data.IsDead)
+                if (CustomRoles.Jackal.IsEnable() && pc.Is(CustomRoles.Jackal) && !pc.Data.IsDead && Rand.Contains(CustomRoles.JSchrodingerCat))
                     Rand.Add(CustomRoles.JSchrodingerCat);
             }
             var Role = Rand[rand.Next(Rand.Count)];
