@@ -61,5 +61,29 @@ namespace TownOfHost
                 return positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
             }
         }
+        public class MiraHQSpawnMap : SpawnMap
+        {
+            public Dictionary<string, Vector2> positions = new()
+            {
+                ["Cafeteria"] = new(25.5f, 2.0f),
+                ["Balcony"] = new(24.0f, -2.0f),
+                ["Storage"] = new(19.5f, 4.0f),
+                ["ThreeWay"] = new(17.8f, 11.5f),
+                ["Communications"] = new(15.3f, 3.8f),
+                ["MedBay"] = new(15.5f, -0.5f),
+                ["LockerRoom"] = new(9.0f, 1.0f),
+                ["Decontamination"] = new(6.1f, 6.0f),
+                ["Laboratory"] = new(9.5f, 12.0f),
+                ["Reactor"] = new(2.5f, 10.5f),
+                ["Launchpad"] = new(-4.5f, 2.0f),
+                ["Admin"] = new(21.0f, 17.5f),
+                ["Office"] = new(15.0f, 19.0f),
+                ["Greenhouse"] = new(17.8f, 23.0f)
+            };
+            public override Vector2 GetLocation()
+            {
+                return positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
+            }
+        }
     }
 }
