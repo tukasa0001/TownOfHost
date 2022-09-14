@@ -85,5 +85,30 @@ namespace TownOfHost
                 return positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
             }
         }
+        public class PolusSpawnMap : SpawnMap
+        {
+            public Dictionary<string, Vector2> positions = new()
+            {
+                ["Office1"] = new(19.5f, -18.0f),
+                ["Office2"] = new(26.0f, -17.0f),
+                ["Admin"] = new(24.0f, -22.5f),
+                ["Communications"] = new(12.5f, -16.0f),
+                ["Weapons"] = new(12.0f, -23.5f),
+                ["BoilerRoom"] = new(2.3f, -24.0f),
+                ["O2"] = new(2.0f, -17.5f),
+                ["Electrical"] = new(9.5f, -12.5f),
+                ["Security"] = new(3.0f, -12.0f),
+                ["Dropship"] = new(16.7f, -3.0f),
+                ["Storage"] = new(20.5f, -12.0f),
+                ["Rocket"] = new(26.7f, -8.5f),
+                ["Laboratory"] = new(36.5f, -7.5f),
+                ["Toilet"] = new(34.0f, -10.0f),
+                ["SpecimenRoom"] = new(36.5f, -22.0f)
+            };
+            public override Vector2 GetLocation()
+            {
+                return positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
+            }
+        }
     }
 }
