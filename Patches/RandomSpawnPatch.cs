@@ -15,6 +15,26 @@ namespace TownOfHost
             public static Dictionary<byte, int> NumOfTP = new();
             public static void Postfix(CustomNetworkTransform __instance, [HarmonyArgument(0)] Vector2 position)
             {
+                if (!AmongUsClient.Instance.AmHost) return;
+                if (position == new Vector2(-25f, 40f)) return; //最初の湧き地点ならreturn
+                if (GameStates.IsInTask)
+                {
+                    var player = PlayerControl.AllPlayerControls.ToArray().Where(p => p.NetTransform == __instance).FirstOrDefault();
+                    if (player == null)
+                    {
+                        Logger.Warn("プレイヤーがnullです", "RandomSpawn");
+                        return;
+                    }
+                    if (player.Is(CustomRoles.GM)) return; //GMは対象外に
+
+                    NumOfTP[player.PlayerId]++;
+
+                    if (NumOfTP[player.PlayerId] == 2)
+                    {
+                        if (!(Options.RandomSpawn.GetBool() && PlayerControl.GameOptions.MapId == 4)) return; //ランダムスポーンが無効か、マップがエアシップじゃなかったらreturn
+                        new AirshipSpawnMap().RandomTeleport(player);
+                    }
+                }
             }
         }
         public static void TP(CustomNetworkTransform nt, Vector2 location)
