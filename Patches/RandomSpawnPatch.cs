@@ -7,4 +7,7 @@ using Hazel;
 
 namespace TownOfHost
 {
+    class RandomSpawn
+    {
+    }
 }
