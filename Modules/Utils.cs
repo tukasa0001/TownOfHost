@@ -50,8 +50,16 @@ namespace TownOfHost
                     }
                 case SystemTypes.Comms:
                     {
-                        var HudOverrideSystemType = ShipStatus.Instance.Systems[type].Cast<HudOverrideSystemType>();
-                        return HudOverrideSystemType != null && HudOverrideSystemType.IsActive;
+                        if (mapId == 1)
+                        {
+                            var HqHudSystemType = ShipStatus.Instance.Systems[type].Cast<HqHudSystemType>();
+                            return HqHudSystemType != null && HqHudSystemType.IsActive;
+                        }
+                        else
+                        {
+                            var HudOverrideSystemType = ShipStatus.Instance.Systems[type].Cast<HudOverrideSystemType>();
+                            return HudOverrideSystemType != null && HudOverrideSystemType.IsActive;
+                        }
                     }
                 default:
                     return false;
