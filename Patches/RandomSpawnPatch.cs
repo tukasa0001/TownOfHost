@@ -36,5 +36,30 @@ namespace TownOfHost
             }
             public abstract Vector2 GetLocation();
         }
+
+        public class SkeldSpawnMap : SpawnMap
+        {
+            public Dictionary<string, Vector2> positions = new()
+            {
+                ["Cafeteria"] = new(-1.0f, 3.0f),
+                ["Weapons"] = new(9.3f, 1.0f),
+                ["O2"] = new(6.5f, -3.8f),
+                ["Navigation"] = new(16.5f, -4.8f),
+                ["Shields"] = new(9.3f, -12.3f),
+                ["Communications"] = new(4.0f, -15.5f),
+                ["Storage"] = new(-1.5f, -15.5f),
+                ["Admin"] = new(4.5f, -7.9f),
+                ["Electrical"] = new(-7.5f, -8.8f),
+                ["LowerEngine"] = new(-17.0f, -13.5f),
+                ["UpperEngine"] = new(-17.0f, -1.3f),
+                ["Security"] = new(-13.5f, -5.5f),
+                ["Reactor"] = new(-20.5f, -5.5f),
+                ["MedBay"] = new(-9.0f, -4.0f)
+            };
+            public override Vector2 GetLocation()
+            {
+                return positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
+            }
+        }
     }
 }
