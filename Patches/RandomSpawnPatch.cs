@@ -110,5 +110,36 @@ namespace TownOfHost
                 return positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
             }
         }
+        public class AirshipSpawnMap : SpawnMap
+        {
+            public Dictionary<string, Vector2> positions = new()
+            {
+                ["Brig"] = new(-0.7f, 8.5f),
+                ["Engine"] = new(-0.7f, -1.0f),
+                ["Kitchen"] = new(-7.0f, -11.5f),
+                ["CargoBay"] = new(33.5f, -1.5f),
+                ["Records"] = new(20.0f, 10.5f),
+                ["MainHall"] = new(15.5f, 0.0f),
+                ["NapRoom"] = new(6.3f, 2.5f),
+                ["MeetingRoom"] = new(17.1f, 14.9f),
+                ["GapRoom"] = new(12.0f, 8.5f),
+                ["Vault"] = new(-8.9f, 12.2f),
+                ["Communications"] = new(-13.3f, 1.3f),
+                ["Cockpit"] = new(-23.5f, -1.6f),
+                ["Armory"] = new(-10.3f, -5.9f),
+                ["ViewingDeck"] = new(-13.7f, -12.6f),
+                ["Security"] = new(5.8f, -10.8f),
+                ["Electrical"] = new(16.3f, -8.8f),
+                ["Medical"] = new(29.0f, -6.2f),
+                ["Toilet"] = new(30.9f, 6.8f),
+                ["Showers"] = new(21.2f, -0.8f)
+            };
+            public override Vector2 GetLocation()
+            {
+                return Options.AirshipAdditionalSpawn.GetBool()
+                    ? positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value
+                    : positions.ToArray()[0..6].OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
+            }
+        }
     }
 }
