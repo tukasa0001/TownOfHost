@@ -25,5 +25,16 @@ namespace TownOfHost
             writer.Write(nt.lastSequenceId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+
+        public abstract class SpawnMap
+        {
+            public virtual void RandomTeleport(PlayerControl player)
+            {
+                var location = GetLocation();
+                Logger.Info($"{player.Data.PlayerName}:{location}", "RandomSpawn");
+                TP(player.NetTransform, location);
+            }
+            public abstract Vector2 GetLocation();
+        }
     }
 }
