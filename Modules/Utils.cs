@@ -109,7 +109,12 @@ namespace TownOfHost
 
             //実行
             PlayerState.IsBlackOut[player.PlayerId] = true; //ブラックアウト
-            if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
+            if (player.PlayerId == 0)
+            {
+                FlashColor(new(1f, 0f, 0f, 0.5f));
+                if (Constants.ShouldPlaySfx()) RPC.PlaySound(player.PlayerId, Sounds.KillSound);
+            }
+            else if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
             ExtendedPlayerControl.CustomSyncSettings(player);
             new LateTask(() =>
             {
@@ -986,6 +991,22 @@ namespace TownOfHost
             }
 
             return LivingImpostorsNum <= 0;
+        }
+        public static void FlashColor(Color color, float duration = 1f)
+        {
+            var hud = DestroyableSingleton<HudManager>.Instance;
+            if (hud.FullScreen == null) return;
+            var obj = hud.transform.FindChild("FlashColor_FullScreen")?.gameObject;
+            if (obj == null)
+            {
+                obj = GameObject.Instantiate(hud.FullScreen.gameObject, hud.transform);
+                obj.name = "FlashColor_FullScreen";
+            }
+            hud.StartCoroutine(Effects.Lerp(duration, new Action<float>((t) =>
+            {
+                obj.SetActive(t != 1f);
+                obj.GetComponent<SpriteRenderer>().color = new(color.r, color.g, color.b, Mathf.Clamp01((-2f * Mathf.Abs(t - 0.5f) + 1) * color.a)); //アルファ値を0→目標→0に変化させる
+            })));
         }
     }
 }

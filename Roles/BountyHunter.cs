@@ -30,11 +30,12 @@ namespace TownOfHost
             Targets = new();
             ChangeTimer = new();
         }
-        public static void Add(PlayerControl bounty)
+        public static void Add(byte playerId)
         {
-            playerIdList.Add(bounty.PlayerId);
+            playerIdList.Add(playerId);
 
-            ResetTarget(bounty);
+            if (AmongUsClient.Instance.AmHost)
+                ResetTarget(Utils.GetPlayerById(playerId));
         }
         public static bool IsEnable()
         {
