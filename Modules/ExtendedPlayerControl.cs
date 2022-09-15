@@ -171,6 +171,8 @@ namespace TownOfHost
         }
         public static void SetKillCooldown(this PlayerControl player, float time)
         {
+            CustomRoles role = player.GetCustomRole();
+            if (!(role.IsImpostor() || player.IsNeutralKiller() || role is CustomRoles.Arsonist or CustomRoles.Sheriff)) return;
             if (player.AmOwner)
             {
                 player.SetKillTimer(time);
