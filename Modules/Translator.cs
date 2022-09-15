@@ -70,6 +70,11 @@ namespace TownOfHost
 
             // 翻訳テンプレートの作成
             CreateTemplateFile();
+            foreach (var lang in Enum.GetValues(typeof(SupportedLangs)))
+            {
+                if (File.Exists(@$"./{LANGUAGE_FOLDER_NAME}/{lang}.dat"))
+                    LoadCustomTranslation($"{lang}.dat", (SupportedLangs)lang);
+            }
         }
 
         public static string GetString(string s, Dictionary<string, string> replacementDic = null)
