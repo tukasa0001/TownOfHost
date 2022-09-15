@@ -65,6 +65,8 @@ namespace TownOfHost
                     continue;
                 }
             }
+            // カスタム翻訳ファイルの読み込み
+            if (!Directory.Exists(LANGUAGE_FOLDER_NAME)) Directory.CreateDirectory(LANGUAGE_FOLDER_NAME);
         }
 
         public static string GetString(string s, Dictionary<string, string> replacementDic = null)
