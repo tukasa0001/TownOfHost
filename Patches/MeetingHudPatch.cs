@@ -226,6 +226,7 @@ namespace TownOfHost
             Main.witchMeeting = true;
             Utils.NotifyRoles(isMeeting: true, NoCache: true);
             Main.witchMeeting = false;
+            GameStates.MeetingCalled = true;
         }
         public static void Postfix(MeetingHud __instance)
         {
