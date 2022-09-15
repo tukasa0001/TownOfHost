@@ -115,7 +115,7 @@ AmongUsバージョン : **2022.7.12**
 | [SerialKiller/シリアルキラー](#SerialKillerシリアルキラー)                           | [Nice Watcher/ナイスウォッチャー](#Watcherウォッチャー)                    | [Opportunist/オポチュニスト](#Opportunistオポチュニスト)                   |
 | [Sniper/スナイパー](#Sniperスナイパー)                                               | [SabotageMaster/サボタージュマスター](#SabotageMasterサボタージュマスター) | [Terrorist/テロリスト](#Terroristテロリスト)                               |
 | [TimeThief/タイムシーフ](#TimeThiefタイムシーフ)                                     | [Sheriff/シェリフ](#Sheriffシェリフ)                                       | [SchrodingerCat/シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |
-| [Vampire/ヴァンパイア](#Vampireヴァンパイア)                                         | [Snitch/スニッチ](#Snitchスニッチ)                                         |                                                                            |
+| [Vampire/ヴァンパイア](#Vampireヴァンパイア)                                         | [Snitch/スニッチ](#Snitchスニッチ)                                         | [Client/クライアント](#Clientクライアント)                                 |
 | [Warlock/ウォーロック](#Warlockウォーロック)                                         | [SpeedBooster/スピードブースター](#SpeedBoosterスピードブースター)         |                                                                            |
 | [Witch/魔女](#Witch魔女)                                                             | [Trapper/トラッパー](#Trapperトラッパー)                                   |                                                                            |
 | [Mafia/マフィア](#Mafiaマフィア)                                                     |                                                                            |                                                                            |
@@ -665,6 +665,28 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 6.自殺系キル(ヴァンパイア除く)でキルされると、そのまま勝利条件が変わらず死亡する<br>
 
 また、全シュレディンガーの猫共通でタスクがありません。
+
+### Client/クライアント
+
+制作・考案者 : くろにゃんこ<br>
+
+陣営 : 第三<br>
+判定 : クルーメイトorエンジニア<br>
+
+ジャッカル陣営に属しますが、クライアントとジャッカルはお互い誰かはわかりません。<br>
+タスクを全て完了させるとジャッカルを認識できるようになります。<br>
+
+#### 設定
+
+| 設定名                                     |
+| ------------------------------------------ |
+| インポスターと同じ視界を持つ               |
+| ベントを使用できる                         |
+| ベントクールダウン                         |
+| ベント内での最大時間                       |
+| タスクが終わるとジャッカルからも視認できる |
+| ジャッカル死亡後のモード                   |
+| クライアントのタスク数                     |
 
 #### 設定
 

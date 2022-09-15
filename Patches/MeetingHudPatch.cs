@@ -176,6 +176,20 @@ namespace TownOfHost
                     FixedUpdatePatch.LoversSuicide(exiledPlayer.PlayerId, true);
                 }
 
+                //ジャッカル死亡時のJクライアント後追い
+                if (Options.JClientBereavementMode.GetString() == GetString(Options.JClientBereavementModes[1]))
+                {
+                    var jackal = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.Is(CustomRoles.Jackal)).FirstOrDefault();
+                    if (jackal == null || jackal.Data.IsDead || jackal.PlayerId == exileId)
+                    {
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (pc != null && pc.Is(CustomRoles.JClient) && !pc.Data.IsDead && pc.GetPlayerTaskState().IsTaskFinished)
+                                Main.AfterMeetingDeathPlayers.TryAdd(pc.PlayerId, PlayerState.DeathReason.JClientSuicide);
+                        }
+                    }
+                }
+ 
                 //霊界用暗転バグ対処
                 if (!AntiBlackout.OverrideExiledPlayer && exiledPlayer != null && Main.ResetCamPlayerList.Contains(exiledPlayer.PlayerId))
                     exiledPlayer.Object?.ResetPlayerCam(19f);
@@ -285,6 +299,8 @@ namespace TownOfHost
 
                 //インポスター表示
                 bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
+                bool LocalPlayerKnowsJackal = false; //trueの時にジャッカルの名前の色を変える
+                bool LocalPlayerKnowsEgoist = false; //trueの時にエゴイストの名前の色を変える
 
                 switch (seer.GetCustomRole().GetRoleType())
                 {
@@ -299,9 +315,19 @@ namespace TownOfHost
                 switch (seer.GetCustomRole())
                 {
                     case CustomRoles.MadSnitch:
-                    case CustomRoles.Snitch:
                         if (seer.GetPlayerTaskState().IsTaskFinished) //seerがタスクを終えている
                             LocalPlayerKnowsImpostor = true;
+                        break;
+                    case CustomRoles.Snitch:
+                        if (seer.GetPlayerTaskState().IsTaskFinished) //seerがタスクを終えている
+                        {
+                            LocalPlayerKnowsImpostor = true;
+                            if (Options.SnitchCanFindNeutralKiller.GetBool())
+                            {
+                                LocalPlayerKnowsJackal = true;
+                                LocalPlayerKnowsEgoist = true;
+                            }
+                        }
                         break;
                     case CustomRoles.Doctor:
                         if (target.Data.IsDead) //変更対象が死人
@@ -316,10 +342,17 @@ namespace TownOfHost
                         break;
                     case CustomRoles.Egoist:
                     case CustomRoles.Jackal:
-                        if (Options.SnitchCanFindNeutralKiller.GetBool() &&
+                        if (Options.CanSeeTaskFinishedJClientFromJackal.GetBool() &&
+                        target.Is(CustomRoles.JClient) && target.GetPlayerTaskState().IsTaskFinished)
+                            pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), pva.NameText.text);
+                        else if (Options.SnitchCanFindNeutralKiller.GetBool() &&
                         target.Is(CustomRoles.Snitch) && //変更対象がSnitch
                         target.GetPlayerTaskState().DoExpose) //変更対象のタスクが終わりそう)
                             pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), "★"); //変更対象にSnitchマークをつける
+                        break;
+                    case CustomRoles.JClient:
+                        if (seer.GetPlayerTaskState().IsTaskFinished) //seerがタスクを終えている
+                            LocalPlayerKnowsJackal = true;
                         break;
                     case CustomRoles.EvilTracker:
                         pva.NameText.text += EvilTracker.GetTargetMark(seer, target);
@@ -348,6 +381,19 @@ namespace TownOfHost
                     if (target != null && target.GetCustomRole().IsImpostor()) //変更先がインポスター
                         pva.NameText.color = Palette.ImpostorRed; //変更対象の名前を赤くする
                 }
+
+                if (LocalPlayerKnowsJackal)
+                {
+                    if (target != null && target.Is(CustomRoles.Jackal)) //変更対象がジャッカル
+                        pva.NameText.color = Utils.GetRoleColor(CustomRoles.Jackal); //変更対象の名前の色変更
+                }
+
+                if (LocalPlayerKnowsEgoist)
+                {
+                    if (target != null && target.Is(CustomRoles.Egoist)) //変更対象がエゴイスト
+                        pva.NameText.color = Utils.GetRoleColor(CustomRoles.Egoist); //変更対象の名前の色変更
+                }
+
                 //呪われている場合
                 if (Main.SpelledPlayer.Find(x => x.PlayerId == target.PlayerId) != null)
                     pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "†");

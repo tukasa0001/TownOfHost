@@ -55,6 +55,10 @@ namespace TownOfHost
             "Rate0", /*"Rate10", "Rate20", "Rate30", "Rate40", "Rate50",
             "Rate60", "Rate70", "Rate80", "Rate90", */"Rate100",
         };
+        public static readonly string[] JClientBereavementModes =
+        {
+            "JClientBereavementMode.None", "JClientBereavementMode.Following", 
+        };
 
         // 各役職の詳細設定
         public static CustomOption EnableGM;
@@ -96,6 +100,12 @@ namespace TownOfHost
         public static CustomOption JackalCanVent;
         public static CustomOption JackalCanUseSabotage;
         public static CustomOption JackalHasImpostorVision;
+        public static CustomOption JClientHasImpostorVision;
+        public static CustomOption JClientCanVent;
+        public static CustomOption JClientVentCooldown;
+        public static CustomOption JClientVentMaxTime;
+        public static CustomOption CanSeeTaskFinishedJClientFromJackal;
+        public static CustomOption JClientBereavementMode;
         public static CustomOption KillFlashDuration;
 
         // HideAndSeek
@@ -176,6 +186,7 @@ namespace TownOfHost
         public static OverrideTasksData TerroristTasks;
         public static OverrideTasksData SnitchTasks;
         public static OverrideTasksData MadSnitchTasks;
+        public static OverrideTasksData JClientTasks;
 
         // その他
         public static CustomOption NoGameEnd;
@@ -359,6 +370,16 @@ namespace TownOfHost
             JackalCanVent = CustomOption.Create(50911, TabGroup.NeutralRoles, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
             JackalCanUseSabotage = CustomOption.Create(50912, TabGroup.NeutralRoles, Color.white, "CanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
             JackalHasImpostorVision = CustomOption.Create(50913, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            //JClient
+            SetupRoleOptions(51000, TabGroup.NeutralRoles, CustomRoles.JClient);
+            JClientHasImpostorVision = CustomOption.Create(51010, TabGroup.NeutralRoles, Color.white, "JClientHasImpostorVision", false, CustomRoleSpawnChances[CustomRoles.JClient]);
+            JClientCanVent = CustomOption.Create(51011, TabGroup.NeutralRoles, Color.white, "JClientCanVent", false, CustomRoleSpawnChances[CustomRoles.JClient]);
+            JClientVentCooldown = CustomOption.Create(51012, TabGroup.NeutralRoles, Color.white, "JClientVentCooldown", 0f, 0f, 180f, 5f, JClientCanVent);
+            JClientVentMaxTime = CustomOption.Create(51013, TabGroup.NeutralRoles, Color.white, "JClientVentMaxTime", 0f, 0f, 180f, 5f, JClientCanVent);
+            CanSeeTaskFinishedJClientFromJackal = CustomOption.Create(51014, TabGroup.NeutralRoles, Color.white, "CanSeeTaskFinishedJClientFromJackal", false, CustomRoleSpawnChances[CustomRoles.JClient]);
+            JClientBereavementMode = CustomOption.Create(51015, TabGroup.NeutralRoles, Color.white, "JClientBereavementMode", JClientBereavementModes, JClientBereavementModes[0], CustomRoleSpawnChances[CustomRoles.JClient]);
+            //ID51020~51023を使用
+            JClientTasks = OverrideTasksData.Create(51020, TabGroup.NeutralRoles, CustomRoles.JClient);
 
             // Attribute
             EnableLastImpostor = CustomOption.Create(80000, TabGroup.MainSettings, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)

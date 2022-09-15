@@ -68,6 +68,7 @@ namespace TownOfHost
             Execution,
             Disconnected,
             Fall,
+            JClientSuicide,
             etc = -1
         }
     }
