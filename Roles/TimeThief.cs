@@ -15,22 +15,22 @@ namespace TownOfHost
         public static CustomOption ReturnStolenTimeUponDeath;
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.TimeThief);
-            KillCooldown = CustomOption.Create(Id + 10, Color.white, "TimeThiefKillCooldown", 30f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
-            DecreaseMeetingTime = CustomOption.Create(Id + 11, Color.white, "TimeThiefDecreaseMeetingTime", 20, 0, 100, 1, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
-            LowerLimitVotingTime = CustomOption.Create(Id + 12, Color.white, "TimeThiefLowerLimitVotingTime", 10, 1, 300, 1, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
-            ReturnStolenTimeUponDeath = CustomOption.Create(Id + 13, Color.white, "TimeThiefReturnStolenTimeUponDeath", true, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.TimeThief);
+            KillCooldown = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "KillCooldown", 30f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            DecreaseMeetingTime = CustomOption.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "TimeThiefDecreaseMeetingTime", 20, 0, 100, 1, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            LowerLimitVotingTime = CustomOption.Create(Id + 12, TabGroup.ImpostorRoles, Color.white, "TimeThiefLowerLimitVotingTime", 10, 1, 300, 1, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            ReturnStolenTimeUponDeath = CustomOption.Create(Id + 13, TabGroup.ImpostorRoles, Color.white, "TimeThiefReturnStolenTimeUponDeath", true, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
         }
         public static void Init()
         {
             TimeThiefKillCount = new();
             playerIdList = new();
         }
-        public static void Add(PlayerControl pc, byte playerId)
+        public static void Add(byte playerId)
         {
             playerIdList.Add(playerId);
             TimeThiefKillCount[playerId] = 0;
-            pc.RpcSetKillCount();
+            Utils.GetPlayerById(playerId)?.RpcSetKillCount();
         }
         public static bool IsEnable() => playerIdList.Count > 0;
         public static void ReceiveRPC(MessageReader msg)

@@ -31,9 +31,9 @@ namespace TownOfHost
 
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.FireWorks);
-            FireWorksCount = CustomOption.Create(Id + 10, Color.white, "FireWorksMaxCount", 1f, 1f, 3f, 1f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks]);
-            FireWorksRadius = CustomOption.Create(Id + 11, Color.white, "FireWorksRadius", 1f, 0.5f, 3f, 0.5f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks]);
+            Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.FireWorks);
+            FireWorksCount = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "FireWorksMaxCount", 1f, 1f, 3f, 1f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks]);
+            FireWorksRadius = CustomOption.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "FireWorksRadius", 1f, 0.5f, 3f, 0.5f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks]);
         }
 
         public static void Init()
@@ -127,7 +127,7 @@ namespace TownOfHost
                     }
                     if (suicide)
                     {
-                        PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide);
+                        PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Misfire);
                         pc.RpcMurderPlayer(pc);
                     }
                     state[pc.PlayerId] = FireWorksState.FireEnd;
