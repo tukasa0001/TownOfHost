@@ -21,7 +21,6 @@ namespace TownOfHost
             if (sourcePos.y > targetPos.y)
             {
                 int chance = UnityEngine.Random.Range(1, 101);
-                Logger.Info($"Rate:{Chance} Value:{chance} Name:{player.myPlayer.name}", "LadderDeath");
                 if (chance <= Chance)
                 {
                     TargetLadderData[player.myPlayer.PlayerId] = targetPos;
