@@ -244,6 +244,7 @@ ColorNameMode,Color Name Mode,色名前モード,显示颜色名称,名字將被
 GhostCanSeeOtherRoles,Ghost Can See Other Roles,幽霊が他人の役職を見ることができる,幽灵可见他人职业,幽靈可以看見所有玩家職業
 GhostCanSeeOtherVotes,Ghost Can See Other Votes,幽霊が他人の投票先を見ることができる,幽灵可见投票情况,幽靈可以看見所有玩家的投票
 GhostIgnoreTasks,Ghost Ignore Tasks,死人のタスクを免除する,,
+DisableTaskWin,Disable Task Win,タスク勝利を無効化,,
 HideGameSettings,Hide Game Settings,ゲーム設定を隠す,隐藏游戏设置,隱藏遊戲設定
 RoleOptions,Role Options,役職設定,职业设置,職業設定
 ModeOptions,Mode Options,モード設定,模组设置,模式設定
