@@ -72,4 +72,13 @@ namespace TownOfHost
             if (ThisAssembly.Git.Branch != "main" && CultureInfo.CurrentCulture.Name != "ja-JP") canOnline = false;
         }
     }
+    [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.CanBan))]
+    class InnerNetClientCanBanPatch
+    {
+        public static bool Prefix(InnerNet.InnerNetClient __instance, ref bool __result)
+        {
+            __result = __instance.AmHost;
+            return false;
+        }
+    }
 }
