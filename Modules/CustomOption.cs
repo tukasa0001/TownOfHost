@@ -229,6 +229,17 @@ namespace TownOfHost
         {
             return (int)(float)Selections[Selection];
         }
+        public int GetChance()
+        {
+            //0%or100%の場合
+            if (Selections.Length == 2) return Selection * 100;
+
+            //0%～100%or5%～100%の場合
+            var offset = 12-Selections.Length;
+            var index = Selection + offset;
+            var rate = index<=1?index*5:(index-1)*10;
+            return rate;
+        }
 
         public string GetString()
         {
