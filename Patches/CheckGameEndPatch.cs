@@ -73,6 +73,7 @@ namespace TownOfHost
 
         private static bool CheckAndEndGameForTaskWin(ShipStatus __instance)
         {
+            if (Options.DisableTaskWin.GetBool()) return false;
             if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
             {
                 __instance.enabled = false;
