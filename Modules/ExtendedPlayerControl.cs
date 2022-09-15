@@ -169,6 +169,19 @@ namespace TownOfHost
                 sender.SendMessage();
             }
         }
+        public static void SetKillCooldown(this PlayerControl player, float time)
+        {
+            if (player.AmOwner)
+            {
+                player.SetKillTimer(time);
+            }
+            else
+            {
+                Main.AllPlayerKillCooldown[player.PlayerId] = time * 2;
+                player.CustomSyncSettings();
+                player.RpcGuardAndKill();
+            }
+        }
         public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
         {
             if (target == null) target = killer;
