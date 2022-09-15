@@ -263,6 +263,21 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.RpcExile();
                     PlayerState.SetDead(PlayerControl.LocalPlayer.PlayerId);
                 }
+                if (Options.RandomSpawn.GetBool())
+                {
+                    RandomSpawn.SpawnMap map;
+                    switch (PlayerControl.GameOptions.MapId)
+                    {
+                        case 0:
+                            map = new RandomSpawn.SkeldSpawnMap();
+                            PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                            break;
+                        case 1:
+                            map = new RandomSpawn.MiraHQSpawnMap();
+                            PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                            break;
+                    }
+                }
             }
             Logger.Info("OnDestroy", "IntroCutscene");
         }

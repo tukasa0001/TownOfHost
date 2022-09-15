@@ -316,7 +316,7 @@ namespace TownOfHost
         {
             Logger.Info($"{__instance.GetNameWithRole()} => {target.GetNameWithRole()}{(target.protectedByGuardian ? "(Protected)" : "")}", "MurderPlayer");
 
-            if (AirshipRandomSpawnPatch.NumOfTP.TryGetValue(__instance.PlayerId, out var num) && num > 2) AirshipRandomSpawnPatch.NumOfTP[__instance.PlayerId] = 3;
+            if (RandomSpawn.CustomNetworkTransformPatch.NumOfTP.TryGetValue(__instance.PlayerId, out var num) && num > 2) RandomSpawn.CustomNetworkTransformPatch.NumOfTP[__instance.PlayerId] = 3;
         }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
