@@ -95,6 +95,30 @@ namespace TownOfHost
             return res;
         }
 
+        public static void LoadCustomTranslation(string filename, SupportedLangs lang)
+        {
+            string path = @$"./{LANGUAGE_FOLDER_NAME}/{filename}";
+            if (File.Exists(path))
+            {
+                Logger.Info($"カスタム翻訳ファイル「{filename}」を読み込み", "LoadCustomTranslation");
+                using StreamReader sr = new(path, Encoding.GetEncoding("UTF-8"));
+                string text;
+                string[] tmp = { };
+                while ((text = sr.ReadLine()) != null)
+                {
+                    tmp = text.Split(":");
+                    if (tmp.Length > 1 && tmp[1] != "")
+                    {
+                        tr[tmp[0]][(int)lang] = tmp.Skip(1).Join(delimiter: ":").Replace("\\n", "\n").Replace("\\r", "\r");
+                    }
+                }
+            }
+            else
+            {
+                Logger.Error($"カスタム翻訳ファイル「{filename}」が見つかりませんでした", "LoadCustomTranslation");
+            }
+        }
+
         private static void CreateTemplateFile()
         {
             var text = "";
