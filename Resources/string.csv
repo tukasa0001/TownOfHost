@@ -223,6 +223,9 @@ AddedPolus,Include Polus,Polusを追加,添加波鲁斯地图,將Polus地圖列�
 AddedTheAirShip,Include TheAirShip,TheAirShipを追加,添加飞艇地图,將The AirShip列入選項
 AllAliveMeeting,All Alive Meeting,全員生存時の会議,,
 AllAliveMeetingTime,All Alive Meeting Time,全員生存時の会議時間,,
+AdditionalEmergencyCooldown,Additional Emergency Cooldown,追加の緊急ボタンクールダウン,,
+AdditionalEmergencyCooldownThreshold,Survivor Threshold To Be Applied,適用する生存人数,,
+AdditionalEmergencyCooldownTime,Additional Cooldown,追加するクールダウン,,
 LadderDeath,Fall From Ladders,ハシゴから転落,从梯子上下滑时有可能摔死,從梯子上下滑時可能會摔死
 LadderDeathChance,Fall To Death Chance,転落する確率,从梯子上摔死的概率,從梯子上下滑摔死機率
 DisableTasks,Disable Tasks,タスクを無効化する,禁用某些任务,禁用某些特定的任務
@@ -260,8 +263,8 @@ TieMode.Random,Random,ランダム,,
 DisableDevices,Disable Devices,デバイスを無効化,禁用设备,禁用裝置
 DisableAdmin,Disable Admin,アドミン無効化,禁用管理员,禁用管理室地圖
 WhichDisableAdmin,Unavailable Admins,無効なアドミン,禁用哪个管理员,管理室地圖分區禁用
-AirshipRandomSpawn,Random spawn(Airship),ランダムスポーン(エアシップ),,
-AirshipAdditionalSpawn,Additional spawn(Airship),追加スポーン位置(エアシップ),,
+RandomSpawn,Random Spawn,ランダムスポーン,,
+AirshipAdditionalSpawn,Additional Spawn(Airship),追加スポーン位置(エアシップ),,
 
 ## モード説明
 HideAndSeekInfo,"HideAndSeek:\nNo one can call emergency meeting, Crewmates (Blue) can win only by completing tasks\nand Impostors (Red) can win only by killing all the Crewmates.",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。\nインポスターは赤、クルーは青に体の色が変更される。,躲猫猫:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利；\n内鬼的皮肤颜色将变为红色，船员变为蓝色，以示区分。,"躲貓貓:\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色。"

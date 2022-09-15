@@ -110,6 +110,26 @@ namespace TownOfHost
                     Executioner.ChangeRoleByTarget(player);
             });
             Main.AfterMeetingDeathPlayers.Clear();
+            if (Options.RandomSpawn.GetBool())
+            {
+                PlayerControl.AllPlayerControls.ToArray().Do(pc => RandomSpawn.CustomNetworkTransformPatch.NumOfTP[pc.PlayerId] = 0);
+                RandomSpawn.SpawnMap map;
+                switch (PlayerControl.GameOptions.MapId)
+                {
+                    case 0:
+                        map = new RandomSpawn.SkeldSpawnMap();
+                        PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                        break;
+                    case 1:
+                        map = new RandomSpawn.MiraHQSpawnMap();
+                        PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                        break;
+                    case 2:
+                        map = new RandomSpawn.PolusSpawnMap();
+                        PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                        break;
+                }
+            }
             FallFromLadder.Reset();
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
