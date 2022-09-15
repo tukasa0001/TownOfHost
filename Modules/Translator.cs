@@ -1,11 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using HarmonyLib;
+
 namespace TownOfHost
 {
     public static class Translator
     {
         public static Dictionary<string, Dictionary<int, string>> tr;
+        public const string LANGUAGE_FOLDER_NAME = "Language";
         public static void Init()
         {
             Logger.Info("Language Dictionary Initialize...", "Translator");
@@ -83,6 +88,16 @@ namespace TownOfHost
                 res = $"*{dic[0]}";
             }
             return res;
+        }
+
+        private static void CreateTemplateFile()
+        {
+            var text = "";
+            foreach (var title in tr) text += $"{title.Key}:\n";
+            File.WriteAllText(@$"./{LANGUAGE_FOLDER_NAME}/template.dat", text);
+            text = "";
+            foreach (var title in tr) text += $"{title.Key}:{title.Value[0].Replace("\n", "\\n").Replace("\r", "\\r")}\n";
+            File.WriteAllText(@$"./{LANGUAGE_FOLDER_NAME}/template_English.dat", text);
         }
     }
 }
