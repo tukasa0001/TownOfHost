@@ -31,7 +31,9 @@ namespace TownOfHost
 
                     if (NumOfTP[player.PlayerId] == 2)
                     {
-                        if (!(Options.RandomSpawn.GetBool() && PlayerControl.GameOptions.MapId == 4)) return; //ランダムスポーンが無効か、マップがエアシップじゃなかったらreturn
+                        if (PlayerControl.GameOptions.MapId != 4) return; //マップがエアシップじゃなかったらreturn
+                        player.RpcResetAbilityCooldown();
+                        if (!Options.RandomSpawn.GetBool()) return; //ランダムスポーンが無効ならreturn
                         new AirshipSpawnMap().RandomTeleport(player);
                     }
                 }
