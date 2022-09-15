@@ -152,6 +152,11 @@ namespace TownOfHost
         public static CustomOption AllAliveMeeting;
         public static CustomOption AllAliveMeetingTime;
 
+        // 追加の緊急ボタンクールダウン
+        public static CustomOption AdditionalEmergencyCooldown;
+        public static CustomOption AdditionalEmergencyCooldownThreshold;
+        public static CustomOption AdditionalEmergencyCooldownTime;
+
         //転落死
         public static CustomOption LadderDeath;
         public static CustomOption LadderDeathChance;
@@ -447,6 +452,11 @@ namespace TownOfHost
             // 全員生存時の会議時間
             AllAliveMeeting = CustomOption.Create(100900, TabGroup.MainSettings, Color.white, "AllAliveMeeting", false, null, true);
             AllAliveMeetingTime = CustomOption.Create(100901, TabGroup.MainSettings, Color.white, "AllAliveMeetingTime", 10, 1, 300, 1, AllAliveMeeting);
+
+            // 生存人数ごとの緊急会議
+            AdditionalEmergencyCooldown = CustomOption.Create(101400, TabGroup.MainSettings, Color.white, "AdditionalEmergencyCooldown", false, null, true);
+            AdditionalEmergencyCooldownThreshold = CustomOption.Create(101401, TabGroup.MainSettings, Color.white, "AdditionalEmergencyCooldownThreshold", 1, 1, 15, 1, AdditionalEmergencyCooldown);
+            AdditionalEmergencyCooldownTime = CustomOption.Create(101402, TabGroup.MainSettings, Color.white, "AdditionalEmergencyCooldownTime", 1, 1, 60, 1, AdditionalEmergencyCooldown);
 
             // 転落死
             LadderDeath = CustomOption.Create(101100, TabGroup.MainSettings, Color.white, "LadderDeath", false, null, true);

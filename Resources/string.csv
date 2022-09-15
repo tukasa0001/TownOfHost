@@ -223,6 +223,9 @@ AddedPolus,Include Polus,Polusを追加,添加波鲁斯地图,將Polus地圖列�
 AddedTheAirShip,Include TheAirShip,TheAirShipを追加,添加飞艇地图,將The AirShip列入選項
 AllAliveMeeting,All Alive Meeting,全員生存時の会議,,
 AllAliveMeetingTime,All Alive Meeting Time,全員生存時の会議時間,,
+AdditionalEmergencyCooldown,Additional Emergency Cooldown,追加の緊急ボタンクールダウン,,
+AdditionalEmergencyCooldownThreshold,Survivor Threshold To Be Applied,適用する生存人数,,
+AdditionalEmergencyCooldownTime,Additional Cooldown,追加するクールダウン,,
 LadderDeath,Fall From Ladders,ハシゴから転落,从梯子上下滑时有可能摔死,從梯子上下滑時可能會摔死
 LadderDeathChance,Fall To Death Chance,転落する確率,从梯子上摔死的概率,從梯子上下滑摔死機率
 DisableTasks,Disable Tasks,タスクを無効化する,禁用某些任务,禁用某些特定的任務
