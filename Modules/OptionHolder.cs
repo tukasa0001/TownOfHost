@@ -193,7 +193,9 @@ namespace TownOfHost
             "SuffixMode.None",
             "SuffixMode.Version",
             "SuffixMode.Streaming",
-            "SuffixMode.Recording"
+            "SuffixMode.Recording",
+            "SuffixMode.RoomHost",
+            "SuffixMode.OriginalName"
         };
         public static SuffixModes GetSuffixMode()
         {
