@@ -588,7 +588,12 @@ namespace TownOfHost
                         name += $"\r\n{GetString("SuffixMode.Streaming")}";
                         break;
                     case SuffixModes.Recording:
-                        name += $"\r\n{GetString("SuffixMode.Recording")}";
+                        break;
+                    case SuffixModes.RoomHost:
+                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.RoomHost")}</color>";
+                        break;
+                    case SuffixModes.OriginalName:
+                        name += $"\r\n<color={Main.ModColor}>{SaveManager.PlayerName}</color>";
                         break;
                 }
             }
