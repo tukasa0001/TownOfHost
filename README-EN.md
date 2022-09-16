@@ -147,11 +147,11 @@ You can also reload the translation by pressing key `T`+`F5`.
 | [Puppeteer](#Puppeteer)             | [Mayor](#Mayor)                   | [Lovers](#Lovers)                 |
 | [SerialKiller](#SerialKiller)       | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |
 | [Sniper](#Sniper)                   | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
-| [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |
-| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |
-| [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |
-| [Witch](#Witch)                     | [Trapper](#Trapper)               |                                   |
-| [Mafia](#Mafia)                     |                                   |                                   |
+| [TimeThief](#TimeThief)             | [Seer](#Seer)                     | [SchrodingerCat](#SchrodingerCat) |
+| [Vampire](#Vampire)                 | [Sheriff](#Sheriff)               |                                   |
+| [Warlock](#Warlock)                 | [Snitch](#Snitch)                 |                                   |
+| [Witch](#Witch)                     | [SpeedBooster](#SpeedBooster)     |                                   |
+| [Mafia](#Mafia)                     | [Trapper](#Trapper)               |                                   |
 | [Madmate](#Madmate)                 |                                   |                                   |
 | [MadGuardian](#MadGuardian)         |                                   |                                   |
 | [MadSnitch](#MadSnitch)             |                                   |                                   |
