@@ -116,7 +116,7 @@ AmongUs 版本: **2022.7.12**
 | [SerialKiller/嗜血杀手](#SerialKiller连环杀手)        | [Nice Watcher/正义的窥视者](#Watcher窥视者)  | [Opportunist/投机者](#Opportunist投机者)              |
 | [Sniper/狙击手](#Sniper狙击手)               | [SabotageMaster/修理大师](#SabotageMaster/修理大师)                | [Terrorist/恐怖分子](#Terrorist恐怖分子)               |
 | [TimeThief/蚀时者](#TimeThief蚀时者)                   | [Sheriff/警长](#Sheriff警长)                      | [SchrodingerCat/薛定谔的猫](#SchrodingerCat薛定谔的猫) |
-| [Vampire/吸血鬼](#Vampire吸血鬼)            | [Snitch/告密者](#Snitch告密者)                     |                                                      |
+| [Vampire/吸血鬼](#Vampire吸血鬼)            | [Snitch/告密者](#Snitch告密者)                     | [Client/请求者](#Client请求者)                       |
 | [Warlock/术士](#Warlock术士)                     | [SpeedBooster/增速者](#SpeedBooster增速者)        |                                                      |
 | [Witch/女巫](#Witch女巫)                        | [Trapper/陷阱师](#Trapper陷阱师)                   |                                                      |
 | [Mafia/黑手党](#Mafia黑手党)                         |                                                  |                                                      |
@@ -700,6 +700,29 @@ Kihi的想法
 恐怖分子属于中立阵营如果恐怖分子完成所有任务后死亡将独自获得胜利.<br>
 任何方式的死亡都可以.<br>
 如果恐怖分子在完成所有任务之前死亡，或者如果恐怖分子一直活到游戏结束，恐怖分子就会输.<br>
+
+### MadSnitch/背叛的告密者
+
+由くろにゃんこ创作和构思<br>
+
+阵营 : 中立阵营<br>
+基础 : 船员 or 工程师<br>
+
+请求者属于豺狼阵营，是叛徒的一种<br>
+完成所有任务后，他们可以看到谁是豺狼。<br>
+根据选项，他们可以使用通风口。.<br>
+
+#### 游戏选项
+
+| 名称                          |
+| ----------------------------- |
+| 请求者 有内鬼视野             |
+| 请求者 可以使用管道           |
+| 请求者 跳管道冷却时间         |
+| 请求者 在管道中停留的最大时间 |
+| 任务完成后 豺狼也能看到       |
+| 豺狼丧亲模式                  |
+| 请求者的任务数                |
 
 ## 属性
 
