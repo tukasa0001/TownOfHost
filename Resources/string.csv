@@ -241,6 +241,8 @@ SuffixMode.None,None,Ничего,なし,无,無
 SuffixMode.Version,Version,Версия,バージョン,版本,版本
 SuffixMode.Streaming,Streaming,Стримит,配信中,直播中,直播中
 SuffixMode.Recording,Recording,Записывает,録画中,录制中,錄影中
+SuffixMode.RoomHost,Room Host,Хост Румы,部屋主,,
+SuffixMode.OriginalName,OriginalName,ОригинальныйНикнейм,元の名前,,
 ColorNameMode,Color Name Mode,Цвета Никнеймов Режим,色名前モード,显示颜色名称,名字將被顏色名稱替換
 GhostCanSeeOtherRoles,Ghost Can See Other Roles,Призраки Могут Видеть Все Роли,幽霊が他人の役職を見ることができる,幽灵可见他人职业,幽靈可以看見所有玩家職業
 GhostCanSeeOtherVotes,Ghost Can See Other Votes,Призраки Могут Видеть Цвета Голосов,幽霊が他人の投票先を見ることができる,幽灵可见投票情况,幽靈可以看見所有玩家的投票
