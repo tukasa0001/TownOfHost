@@ -432,7 +432,7 @@ updateFailed,Update failed.,Не удалось Обновить.,アップデ�
 onSetPublicNoLatest,Public rooms is prohibited except for the latest version.\nPlease update.,Публичные лобби запрещены за исключением последней версии.\nПожалуйста обновите.,最新版以外で公開ルームにはできません。\nアップデートをしてください。,不可以在未安装最新模组的前提下创建公开房间。\n请更新本模组。,"無法建立一個公共房間,因為使用的不是最新版本的模組\n請更新本模組"
 CanNotJoinPublicRoomNoLatest,You can't join public rooms except for the latest version.\nPlease update.,Вы не можете присоединяться к публичным лобби за исключением последней версии.\nПожалуйста обновите.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。,不可以在未安装最新模组的前提下进入公开房间。\n请更新本模组。,"無法在未安裝最新版本的前提下進入公開房間\n請更新本模組"
 ModBrokenMessage,The MOD file is broken.\nPlease re-install it again.,Файл MOD поврежден.\nПожалуйста переустановите его снова.,MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。,模组文件损坏。\n请重新安装本模组。,模組檔案損壞\n請重新安裝模組
-NameIncludeTOH,"You cannot make public rooms unless "TOH" is included in your name.","Вы не можете создавать публичную комнату если в вашем никнейме нет слова "TOH".","TOH"が名前に含まれていない状態では公開部屋にすることはできません。","不可以在昵称中未带有"TOH"字样的前提下把房间状态设置为公开。","無法公開此房間,因為你名字中沒有含有'TOH'"
+NameIncludeTOH,"You cannot make public rooms unless "TOH" is included in your name.","Вы не можете создавать публичную комнату если в вашем никнейме нет слова "TOH".",""TOH"が名前に含まれていない状態では公開部屋にすることはできません。","不可以在昵称中未带有"TOH"字样的前提下把房间状态设置为公开。","無法公開此房間,因為你名字中沒有含有'TOH'"
 DisabledByProgram,"Making room public is disabled by program.","Создание публичной лобби отключена программой.","公開ルームはプログラムによって無効化されています"
 EnterVentToWin,Enter Vent to Win!!,Запрыгните в вентиляцию чтобы победить!!,ベントに入って勝利しろ!!,跳管道来获得胜利！,跳管道來獲得勝利!!
 FireworksPutPhase,Put {0} Fireworks,Поставьте {0} Фейерверков,あと{0}個置け,还要安放{0}枚烟花,還需要安裝{0}枚煙火
