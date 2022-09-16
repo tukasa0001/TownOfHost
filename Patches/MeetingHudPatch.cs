@@ -285,6 +285,8 @@ namespace TownOfHost
 
                 //インポスター表示
                 bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
+                bool LocalPlayerKnowsJackal = false; //trueの時にジャッカルの名前の色を変える
+                bool LocalPlayerKnowsEgoist = false; //trueの時にエゴイストの名前の色を変える
 
                 switch (seer.GetCustomRole().GetRoleType())
                 {
@@ -299,9 +301,19 @@ namespace TownOfHost
                 switch (seer.GetCustomRole())
                 {
                     case CustomRoles.MadSnitch:
-                    case CustomRoles.Snitch:
                         if (seer.GetPlayerTaskState().IsTaskFinished) //seerがタスクを終えている
                             LocalPlayerKnowsImpostor = true;
+                        break;
+                    case CustomRoles.Snitch:
+                        if (seer.GetPlayerTaskState().IsTaskFinished) //seerがタスクを終えている
+                        {
+                            LocalPlayerKnowsImpostor = true;
+                            if (Options.SnitchCanFindNeutralKiller.GetBool())
+                            {
+                                LocalPlayerKnowsJackal = true;
+                                LocalPlayerKnowsEgoist = true;
+                            }
+                        }
                         break;
                     case CustomRoles.Doctor:
                         if (target.Data.IsDead) //変更対象が死人
@@ -348,6 +360,19 @@ namespace TownOfHost
                     if (target != null && target.GetCustomRole().IsImpostor()) //変更先がインポスター
                         pva.NameText.color = Palette.ImpostorRed; //変更対象の名前を赤くする
                 }
+
+                if (LocalPlayerKnowsJackal)
+                {
+                    if (target != null && target.Is(CustomRoles.Jackal)) //変更対象がジャッカル
+                        pva.NameText.color = Utils.GetRoleColor(CustomRoles.Jackal); //変更対象の名前の色変更
+                }
+
+                if (LocalPlayerKnowsEgoist)
+                {
+                    if (target != null && target.Is(CustomRoles.Egoist)) //変更対象がエゴイスト
+                        pva.NameText.color = Utils.GetRoleColor(CustomRoles.Egoist); //変更対象の名前の色変更
+                }
+
                 //呪われている場合
                 if (Main.SpelledPlayer.Find(x => x.PlayerId == target.PlayerId) != null)
                     pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "†");
