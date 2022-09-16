@@ -92,6 +92,7 @@ You can execute chat commands by typing in chat.
 | /now roles<br>/n r          | Show active roles settings              |
 | /help now<br>/help n        | Show active setting descriptions        |
 | /template <tag><br>/t <tag> | Show template text corresponding to tag |
+| /myrole<br>/m               | Display a description of your role      |
 
 ### Template
 This function allows you to send prepared messages.<br>
