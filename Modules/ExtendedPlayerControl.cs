@@ -285,6 +285,8 @@ namespace TownOfHost
                     opt.RoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
                     if (Options.MadmateHasImpostorVision.GetBool())
                         opt.SetVision(player, true);
+                    if (Options.MadmateCanSeeOtherVotes.GetBool() && opt.AnonymousVotes)
+                        opt.AnonymousVotes = false;
                     break;
             }
 

@@ -303,6 +303,8 @@ MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,MadGuardia
 MadmateCanFixLightsOut,Madmates Can Fix Lights Out,Madmates Может Чинить Свет,マッドメイト系役職が停電を直すことができる,叛徒职业可以修理照明破坏,叛徒職業的玩家可以修理電燈
 MadmateCanFixComms,Madmates Can Fix Comms,Madmates Может Чинить Связь,マッドメイト系役職が通信障害を直すことができる,叛徒职业可以修理通讯,叛徒職業的玩家可以修理通訊
 MadmateHasImpostorVision,Madmates Have Impostor Vision,Madmates Имеет Дальность Обзора Предателя,マッドメイト系役職がインポスターと同じ視界を持つ,叛徒职业拥有内鬼视野,叛徒職業的玩家有跟狼人一樣的視野
+MadmateCanSeeKillFlash,Madmates Can See Kill Flash,,マッドメイト系役職がキルフラッシュを見れる,,
+MadmateCanSeeOtherVotes,Madmates Can See Other Votes,,マッドメイト系役職が他人の投票を見れる,,
 MadmateVentCooldown,Madmates Vent Cooldown,Откат Вентиляции Madmates,マッドメイト系役職のベントクールダウン,叛徒职业跳管道冷却时间,叛徒職業的玩家跳管道冷卻
 MadmateVentMaxTime,Madmates Max Time In Vents(s),Время Использования Вентиляции Madmates,マッドメイト系役職のベント内での最大時間,叛徒职业在管道中停留的最大时间,叛徒職業的玩家在管道中可以停留的最大時間
 EvilWatcherChance,EvilWatcher Chance,EvilWatcher Шанс,イビルウォッチャーになる確率,窥视者成为内鬼阵营的概率,成為邪惡觀察者的機率

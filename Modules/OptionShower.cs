@@ -85,7 +85,8 @@ namespace TownOfHost
                         text += $"\t{Options.CanMakeMadmateCount.GetName()}: {Options.CanMakeMadmateCount.GetString()}\n";
                     }
                     if ((kvp.Key == CustomRoles.EvilTracker && EvilTracker.CanSeeKillFlash.GetBool())
-                    || kvp.Key == CustomRoles.Seer)
+                    || kvp.Key == CustomRoles.Seer
+                    || kvp.Key.IsMadmate() && Options.MadmateCanSeeKillFlash.GetBool())
                     {
                         text += $"\t{Options.KillFlashDuration.GetName()}: {Options.KillFlashDuration.GetString()}\n";
                     }
