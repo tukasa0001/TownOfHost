@@ -343,11 +343,11 @@ namespace TownOfHost
                     case CustomRoles.Egoist:
                         if (seer.GetCustomRole().IsImpostor() || //seerがImpostor
                         seer.Is(CustomRoles.EgoSchrodingerCat)) //またはEgoSchrodingerCat
-                            pva.NameText.color = Utils.GetRoleColor(CustomRoles.Egoist);//変更対象の名前をエゴイスト色にする
+                            LocalPlayerKnowsEgoist = true;
                         break;
                     case CustomRoles.Jackal:
                         if (seer.Is(CustomRoles.JSchrodingerCat))
-                            pva.NameText.color = Utils.GetRoleColor(CustomRoles.Jackal);//変更対象の名前をジャッカル色にする
+                            LocalPlayerKnowsJackal = true;
                         break;
                     case CustomRoles.Lovers:
                         if (seer.Is(CustomRoles.Lovers) || seer.Data.IsDead)
