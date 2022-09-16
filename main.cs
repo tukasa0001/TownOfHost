@@ -391,7 +391,9 @@ namespace TownOfHost
         None = 0,
         TOH,
         Streaming,
-        Recording
+        Recording,
+        RoomHost,
+        OriginalName
     }
     public enum VersionTypes
     {
