@@ -176,6 +176,20 @@ namespace TownOfHost
                     FixedUpdatePatch.LoversSuicide(exiledPlayer.PlayerId, true);
                 }
 
+                //ジャッカル死亡時のJクライアント後追い
+                if (Options.JClientBereavementMode.GetString() == GetString(Options.JClientBereavementModes[1]))
+                {
+                    var jackal = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.Is(CustomRoles.Jackal)).FirstOrDefault();
+                    if (jackal == null || jackal.Data.IsDead || jackal.PlayerId == exileId)
+                    {
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (pc != null && pc.Is(CustomRoles.JClient) && !pc.Data.IsDead && pc.GetPlayerTaskState().IsTaskFinished)
+                                Main.AfterMeetingDeathPlayers.TryAdd(pc.PlayerId, PlayerState.DeathReason.JClientSuicide);
+                        }
+                    }
+                }
+ 
                 //霊界用暗転バグ対処
                 if (!AntiBlackout.OverrideExiledPlayer && exiledPlayer != null && Main.ResetCamPlayerList.Contains(exiledPlayer.PlayerId))
                     exiledPlayer.Object?.ResetPlayerCam(19f);
