@@ -412,7 +412,7 @@ namespace TownOfHost
                         if (Options.SnitchCanFindNeutralKiller.GetBool() &&
                         target.Is(CustomRoles.Snitch) && //変更対象がSnitch
                         target.GetPlayerTaskState().DoExpose) //変更対象のタスクが終わりそう)
-                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), "★"); //変更対象にSnitchマークをつける
+                            pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), "★"); //変更対象にSnitchマークをつける
                         break;
                     case CustomRoles.Jackal:
                         if (Options.CanSeeTaskFinishedJClientFromJackal.GetBool() &&
