@@ -185,6 +185,7 @@ namespace TownOfHost
         public static CustomOption GhostCanSeeOtherRoles;
         public static CustomOption GhostCanSeeOtherVotes;
         public static CustomOption GhostIgnoreTasks;
+        public static CustomOption DisableTaskWin;
         public static CustomOption HideGameSettings;
         public static CustomOption RandomSpawn;
         public static CustomOption AirshipAdditionalSpawn;
@@ -484,6 +485,8 @@ namespace TownOfHost
             GhostCanSeeOtherVotes = CustomOption.Create(100604, TabGroup.MainSettings, Color.white, "GhostCanSeeOtherVotes", true)
                 .SetGameMode(CustomGameMode.All);
             GhostIgnoreTasks = CustomOption.Create(100607, TabGroup.MainSettings, Color.white, "GhostIgnoreTasks", false)
+                .SetGameMode(CustomGameMode.All);
+            DisableTaskWin = CustomOption.Create(100609, TabGroup.MainSettings, Color.white, "DisableTaskWin", false)
                 .SetGameMode(CustomGameMode.All);
             HideGameSettings = CustomOption.Create(100606, TabGroup.MainSettings, Color.white, "HideGameSettings", false)
                 .SetGameMode(CustomGameMode.All);
