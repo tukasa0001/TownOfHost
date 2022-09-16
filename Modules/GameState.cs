@@ -89,6 +89,7 @@ namespace TownOfHost
             Execution,
             Disconnected,
             Fall,
+            JClientSuicide,
             etc = -1
         }
         public byte GetRealKiller()
