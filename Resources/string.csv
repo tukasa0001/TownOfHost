@@ -268,6 +268,8 @@ DisableAdmin,Disable Admin,アドミン無効化,禁用管理员,禁用管理室
 WhichDisableAdmin,Unavailable Admins,無効なアドミン,禁用哪个管理员,管理室地圖分區禁用
 RandomSpawn,Random Spawn,ランダムスポーン,,
 AirshipAdditionalSpawn,Additional Spawn(Airship),追加スポーン位置(エアシップ),,
+JClientBereavementMode.None,None,なし,无,無
+JClientBereavementMode.Following,Following,後追い,追逐,追逐
 
 ## モード説明
 HideAndSeekInfo,"HideAndSeek:\nNo one can call emergency meeting, Crewmates (Blue) can win only by completing tasks\nand Impostors (Red) can win only by killing all the Crewmates.",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。\nインポスターは赤、クルーは青に体の色が変更される。,躲猫猫:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利；\n内鬼的皮肤颜色将变为红色，船员变为蓝色，以示区分。,"躲貓貓:\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色。"
@@ -352,6 +354,7 @@ JClientCanVent,Client Can Use Vent,ベントを使用できる,请求者可以�
 JClientVentCooldown,Client Vent Cooldown,ベントクールダウン,请求者跳管道冷却时间,請求者跳管道冷卻
 JClientVentMaxTime,Client Max Time In Vents(s),ベント内での最大時間,请求者在管道中停留的最大时间,請求者在管道中可以停留的最大時間
 CanSeeTaskFinishedJClientFromJackal,Can see task finished Client from Jackal,タスクが終わるとジャッカルからも視認できる,任务完成后 豺狼也能看到,任務完成後 豺狼也能看到
+JClientBereavementMode,Jackal Bereavement Mode,ジャッカル死亡後のモード,豺狼丧亲模式,豺狼喪親模式
 JClientTasks,Client Tasks,タスク数,请求者任务数,請求者任務數量
 
 ## かくれんぼ設定
@@ -376,6 +379,7 @@ DeathReason.Sniped,Sniped,狙撃,狙杀,被狙
 DeathReason.Execution,Executed,処刑,处刑,處刑
 DeathReason.Disconnected,Disconnected,回線切断,断连,斷線
 DeathReason.Fall,Fall,転落,摔死,摔死
+DeathReason.JClientSuicide,Client Suicide,後追い,为交易而死,朋友一起死
 DeathReason.etc,etc,その他,其他,其他
 Alive,Alive,生存,存活,存活
 Win," Wins",勝利,胜利,勝利
