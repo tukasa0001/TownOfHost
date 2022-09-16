@@ -871,6 +871,35 @@ Exiting the game with anything other than host's SHIFT+L+Enter.<br>
 
 This is a debug mode with no win Basis.<br>
 
+### RandomSpawn
+
+Randomize the spawn position.<br>
+
+#### Game Options
+
+| Name                      |
+| ------------------------- |
+| Random Spawn              |
+| Additional Spawn(Airship) |
+
+#### The Skeld
+
+![Skeld](Images/The_Skeld_Random_Map.png)
+
+#### MiraHQ
+
+![MiraHQ](Images/Mira_HQ_Random_Map.png)
+
+#### Polus
+
+![Polus](Images/Polus_Random_Map.png)
+
+#### The AirShip
+
+![AirShip](Images/The_Airship_Random_Map.png)
+
+If `Additional Spawn(Airship)` is OFF, the spawn will be selected only from the original spawn position.
+
 ### RandomMapsMode
 
 Created by つがる<br>
