@@ -725,6 +725,7 @@ namespace TownOfHost
 
                 //他人用の変数定義
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
+                bool SeerKnowsJackal = false; //trueの時、ジャッカルの名前の色が変わって見える
 
                 //タスクを終えたSnitchがインポスター/キル可能な第三陣営の方角を確認できる
                 if (seer.Is(CustomRoles.Snitch))
@@ -753,6 +754,13 @@ namespace TownOfHost
                         SeerKnowsImpostors = true;
                 }
 
+                if (seer.Is(CustomRoles.JClient))
+                {
+                    var TaskState = seer.GetPlayerTaskState();
+                    if (TaskState.IsTaskFinished)
+                        SeerKnowsJackal = true;
+                }
+
                 if (seer.Is(CustomRoles.EvilTracker)) SelfSuffix += EvilTracker.UtilsGetTargetArrow(isMeeting, seer);
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
@@ -777,6 +785,7 @@ namespace TownOfHost
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
                     || SeerKnowsImpostors //seerがインポスターを知っている状態
+                    || SeerKnowsJackal //seerがジャッカルを知っている状態
                     || seer.GetCustomRole().IsImpostor() //seerがインポスター
                     || seer.Is(CustomRoles.EgoSchrodingerCat) //seerがエゴイストのシュレディンガーの猫
                     || seer.Is(CustomRoles.JSchrodingerCat) //seerがJackal陣営のシュレディンガーの猫
@@ -871,6 +880,9 @@ namespace TownOfHost
                             if (foundCheck)
                                 TargetPlayerName = ColorString(target.GetRoleColor(), TargetPlayerName);
                         }
+                        else if (SeerKnowsJackal) //Seerがジャッカルが誰かわかる状態
+                            if (target.Is(CustomRoles.Jackal))
+                                TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);
                         else if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.Egoist))
                             TargetPlayerName = ColorString(GetRoleColor(CustomRoles.Egoist), TargetPlayerName);
                         else if ((seer.Is(CustomRoles.EgoSchrodingerCat) && target.Is(CustomRoles.Egoist)) || //エゴ猫 --> エゴイスト

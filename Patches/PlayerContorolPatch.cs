@@ -727,6 +727,13 @@ namespace TownOfHost
                     {
                         RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの名前を赤色で表示
                     }
+                    //タスクを終わらせたJクライアントがジャッカルを確認できる
+                    else if (seer.Is(CustomRoles.JClient) && //seerがJクライアント
+                        target.Is(CustomRoles.Jackal) && //targetがジャッカル
+                        seer.GetPlayerTaskState().IsTaskFinished) //seerのタスクが終わっている
+                    {
+                        RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), RealName); //targetの名前を赤色で表示
+                    }
                     //タスクを終わらせたSnitchがインポスターを確認できる
                     else if (PlayerControl.LocalPlayer.Is(CustomRoles.Snitch) && //LocalPlayerがSnitch
                         PlayerControl.LocalPlayer.GetPlayerTaskState().IsTaskFinished) //LocalPlayerのタスクが終わっている
