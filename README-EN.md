@@ -77,6 +77,7 @@ You can execute chat commands by typing in chat.
 | /help roles <role><br>/help r <role>                  | Show role description                             |
 | /help attributes <attribute><br>/help att <attribute> | Show attribute description                        |
 | /help modes <mode><br>/help m <mode>                  | Show mode description                             |
+| /hidename <string><br>/hn <string>                    | Rename code concealment string                    |
 
 #### MOD Client Only
 | Command        | Function                    |

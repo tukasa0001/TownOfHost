@@ -77,6 +77,7 @@ AmongUsバージョン : **2022.8.24**
 | /help roles <役職><br>/help r <役職>        | 役職の説明を表示                                    |
 | /help attributes <属性><br>/help att <属性> | 属性の説明を表示                                    |
 | /help modes <モード><br>/help m <モード>    | モードの説明を表示                                  |
+| /hidename <文字列><br>/hn <文字列>          | コード隠しの名前を変更                              |
 
 #### MODクライアントのみ
 | コマンド       | 機能                                |
