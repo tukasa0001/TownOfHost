@@ -40,15 +40,15 @@ Note that if a player other than the host plays with this mod installed, the fol
 ### Hotkeys
 
 #### Host Only
-| HotKey              | Function                       | Usable Scene    |
-| ------------------- | ------------------------------ | --------------- |
-| `Shift`+`L`+`Enter` | Force End Game                 | In Game         |
-| `Shift`+`M`+`Enter` | Skip meeting to end            | In Game         |
-| `Ctrl`+`N`          | Show active role descriptions  | Lobby&In Game   |
-| `C`                 | Cancel game start              | In Countdown    |
-| `Shift`             | Start the game immediately     | In Countdown    |
-| `Ctrl`+`Delete`     | Set default all options        | In TOH Settings |
-| `Ctrl`+`RMB`        | Execute clicked player         | In Meeting      |
+| HotKey              | Function                      | Usable Scene    |
+| ------------------- | ----------------------------- | --------------- |
+| `Shift`+`L`+`Enter` | Force End Game                | In Game         |
+| `Shift`+`M`+`Enter` | Skip meeting to end           | In Game         |
+| `Ctrl`+`N`          | Show active role descriptions | Lobby&In Game   |
+| `C`                 | Cancel game start             | In Countdown    |
+| `Shift`             | Start the game immediately    | In Countdown    |
+| `Ctrl`+`Delete`     | Set default all options       | In TOH Settings |
+| `Ctrl`+`RMB`        | Execute clicked player        | In Meeting      |
 
 #### MOD Client Only
 | HotKey      | Function                                                               | Usable Scene |
@@ -143,11 +143,11 @@ The target swaps after a configurable amount of time.<br>
 
 #### Game Options
 
-| Name                                     |
-| ---------------------------------------- |
-| Time To Swap Bounty(s)                   |
-| Kill Cooldown After Killing Bounty(s)    |
-| Kill Cooldown After Killing Others(s)    |
+| Name                                  |
+| ------------------------------------- |
+| Time To Swap Bounty(s)                |
+| Kill Cooldown After Killing Bounty(s) |
+| Kill Cooldown After Killing Others(s) |
 
 ### EvilTracker
 
@@ -198,9 +198,9 @@ While lights out they can move faster, and yet their name looks red by everyone.
 
 #### Game Options
 
-| Name                 |
-| -------------------- |
-| acceleration valued  |
+| Name                |
+| ------------------- |
+| acceleration valued |
 
 #### Game Options
 
@@ -578,10 +578,10 @@ Defined amount of tasks boosts the player speed of someone alive.<br>
 
 #### Game Options
 
-| Name                 |
-| -------------------- |
-| Acceleration valued  |
-| Tasks that trigger   |
+| Name                |
+| ------------------- |
+| Acceleration valued |
+| Tasks that trigger  |
 
 ### Trapper
 
@@ -771,9 +771,9 @@ Reference source : [SuperNewRoles](https://github.com/ykundesu/SuperNewRoles), [
 
 Various devices can be disabled (currently admin only, MiraHQ not supported)
 
-| Settings Name         |
-| --------------------- |
-| Disable Admin         |
+| Settings Name          |
+| ---------------------- |
+| Disable Admin          |
 | ・ Which Disable admin |
 ## SabotageTimeControl
 
