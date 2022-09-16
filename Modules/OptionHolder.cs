@@ -109,6 +109,7 @@ namespace TownOfHost
         public static OptionItem CanTerroristSuicideWin;
         public static OptionItem ArsonistDouseTime;
         public static OptionItem ArsonistCooldown;
+        public static OptionItem JClientHasImpostorVision;
         public static OptionItem KillFlashDuration;
 
         // HideAndSeek
@@ -439,6 +440,7 @@ namespace TownOfHost
             Executioner.SetupCustomOption();
             Jackal.SetupCustomOption();
             SetupRoleOptions(51000, TabGroup.NeutralRoles, CustomRoles.JClient);
+            JClientHasImpostorVision = BooleanOptionItem.Create(51010, "JClientHasImpostorVision", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.JClient]);
 
             // Add-Ons
             LastImpostor.SetupCustomOption();

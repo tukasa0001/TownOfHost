@@ -327,6 +327,7 @@
 "ImpostorVision","Impostor Vision","インポスター視界","拥有内鬼视野","擁有狼人的視野","Имеет Дальность Обзора Предателя","Visão (Impostor)"
 "CanUseSabotage","Can Sabotage","サボタージュを使用できる","可以破坏","可以破壞","Может Использовать Саботаж","Pode Sabotar"
 "CanCreateMadmate","Can Make SideKick Madmate","マッドメイトを指名できる","可以指名叛徒","","Вы можете назначить Madmate",""
+"JClientHasImpostorVision","Client Have Impostor Vision","インポスターと同じ視界を持つ",,,,
 
 "BountyTargetChangeTime","Time Until Target Swaps","ターゲット変更時間","赏金目标切换时间","賞金目標切換時間","Время Смены Его Цели","Tempo Para Troca de Alvos"
 "BountySuccessKillCooldown","Kill Cooldown After Killing Bounty","ターゲット殺害時のキルクール","赏金猎人击杀赏金目标的奖励冷却时间","賞金獵人殺死賞金目標冷卻","Перезарядка После Убитой Цели","Tempo de Recarga ao Matar Alvo"
