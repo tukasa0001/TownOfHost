@@ -301,8 +301,8 @@ namespace TownOfHost
                 }
                 switch (seer.GetCustomRole())
                 {
-                    case CustomRoles.Snitch:
                     case CustomRoles.MadSnitch:
+                    case CustomRoles.Snitch:
                         if (seer.GetPlayerTaskState().IsTaskFinished) //seerがタスクを終えている
                         {
                             LocalPlayerKnowsImpostor = true;
@@ -350,7 +350,7 @@ namespace TownOfHost
                         break;
                     case CustomRoles.Jackal:
                         if (LocalPlayerKnowsJackal)
-                            pva.NameText.color = Utils.GetRoleColor(CustomRoles.Jackal); //変更対象の名前の色変更
+                            pva.NameText.color = Utils.GetRoleColor(CustomRoles.Jackal); //変更対象の名前をジャッカル色にする
                         break;
                     case CustomRoles.Lovers:
                         if (seer.Is(CustomRoles.Lovers) || seer.Data.IsDead)
