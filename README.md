@@ -152,7 +152,6 @@ GMはゲーム自体には何の影響も与えず、すべてのプレイヤー
 ### EvilTracker/イビルトラッカー
 
 制作者 : Masami<br>
-原案 : [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
 
 陣営 : インポスター<br>
 判定 : シェイプシフター<br>
@@ -496,7 +495,6 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 ### Seer/シーア
 
 制作者 : Masami<br>
-原案 : [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
 
 陣営 : クルーメイト<br>
 判定 : クルーメイト<br>
