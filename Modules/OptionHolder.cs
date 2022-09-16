@@ -47,8 +47,8 @@ namespace TownOfHost
         public static Dictionary<CustomRoles, CustomOption> CustomRoleSpawnChances;
         public static readonly string[] rates =
         {
-            "Rate0", "Rate10", "Rate20", "Rate30", "Rate40", "Rate50",
-            "Rate60", "Rate70", "Rate80", "Rate90", "Rate100",
+            "Rate0",  "Rate5",  "Rate10", "Rate20", "Rate30", "Rate40",
+            "Rate50", "Rate60", "Rate70", "Rate80", "Rate90", "Rate100",
         };
         public static readonly string[] ratesZeroOne =
         {
@@ -193,7 +193,9 @@ namespace TownOfHost
             "SuffixMode.None",
             "SuffixMode.Version",
             "SuffixMode.Streaming",
-            "SuffixMode.Recording"
+            "SuffixMode.Recording",
+            "SuffixMode.RoomHost",
+            "SuffixMode.OriginalName"
         };
         public static SuffixModes GetSuffixMode()
         {
@@ -241,8 +243,8 @@ namespace TownOfHost
 
         public static int GetRoleCount(CustomRoles role)
         {
-            var chance = CustomRoleSpawnChances.TryGetValue(role, out var sc) ? sc.GetSelection() : 0;
-            return chance == 0 ? 0 : CustomRoleCounts.TryGetValue(role, out var option) ? (int)option.GetFloat() : roleCounts[role];
+            var chance = CustomRoleSpawnChances.TryGetValue(role, out var sc) ? sc.GetChance() : 0;
+            return chance == 0 ? 0 : CustomRoleCounts.TryGetValue(role, out var option) ? option.GetInt() : roleCounts[role];
         }
 
         public static float GetRoleChance(CustomRoles role)

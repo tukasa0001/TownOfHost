@@ -6,6 +6,7 @@ using System.Text;
 using Assets.CoreScripts;
 using HarmonyLib;
 using Hazel;
+using UnityEngine;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -68,6 +69,16 @@ namespace TownOfHost
                     case "/rename":
                         canceled = true;
                         Main.nickName = args.Length > 1 ? Main.nickName = args[1] : "";
+                        break;
+
+                    case "/hn":
+                    case "/hidename":
+                        canceled = true;
+                        Main.HideName.Value = args.Length > 1 ? args.Skip(1).Join(delimiter: " ") : Main.HideName.DefaultValue.ToString();
+                        GameStartManagerPatch.GameStartManagerStartPatch.HideName.text =
+                            ColorUtility.TryParseHtmlString(Main.HideColor.Value, out _)
+                                ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
+                                : $"<color={Main.ModColor}>{Main.HideName.Value}</color>";
                         break;
 
                     case "/n":

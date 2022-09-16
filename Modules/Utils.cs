@@ -582,13 +582,19 @@ namespace TownOfHost
                     case SuffixModes.None:
                         break;
                     case SuffixModes.TOH:
-                        name += "\r\n<color=" + Main.ModColor + ">TOH v" + Main.PluginVersion + "</color>";
+                        name += $"\r\n<color={Main.ModColor}>TOH v{Main.PluginVersion}</color>";
                         break;
                     case SuffixModes.Streaming:
-                        name += $"\r\n{GetString("SuffixMode.Streaming")}";
+                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Streaming")}</color>";
                         break;
                     case SuffixModes.Recording:
-                        name += $"\r\n{GetString("SuffixMode.Recording")}";
+                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Recording")}</color>";
+                        break;
+                    case SuffixModes.RoomHost:
+                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.RoomHost")}</color>";
+                        break;
+                    case SuffixModes.OriginalName:
+                        name += $"\r\n<color={Main.ModColor}>{SaveManager.PlayerName}</color>";
                         break;
                 }
             }
