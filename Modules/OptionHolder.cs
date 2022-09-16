@@ -225,6 +225,7 @@ namespace TownOfHost
         public static OverrideTasksData TerroristTasks;
         public static OverrideTasksData SnitchTasks;
         public static OverrideTasksData MadSnitchTasks;
+        public static OverrideTasksData JClientTasks;
 
         // その他
         public static OptionItem FixFirstKillCooldown;
@@ -450,6 +451,8 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Seconds);
             JClientVentMaxTime = FloatOptionItem.Create(51013, "JClientVentMaxTime", new(0f, 180f, 5f), 0f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.JClient])
                 .SetValueFormat(OptionFormat.Seconds);
+            //ID51020~51023を使用
+            JClientTasks = OverrideTasksData.Create(51020, TabGroup.NeutralRoles, CustomRoles.JClient);
 
             // Add-Ons
             LastImpostor.SetupCustomOption();

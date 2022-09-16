@@ -263,12 +263,12 @@ namespace TownOfHost
                     case CustomRoles.Jackal:
                     case CustomRoles.Jester:
                     case CustomRoles.Opportunist:
-                    case CustomRoles.JClient:
                         hasTasks = false;
                         break;
                     case CustomRoles.MadGuardian:
                     case CustomRoles.MadSnitch:
                     case CustomRoles.Terrorist:
+                    case CustomRoles.JClient:
                         if (ForRecompute)
                             hasTasks = false;
                         break;
