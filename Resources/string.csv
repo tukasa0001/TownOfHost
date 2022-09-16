@@ -69,6 +69,7 @@ Opportunist,Opportunist,オポチュニスト,投机者,投機主義者,Opportun
 Egoist,Egoist,エゴイスト,野心家,利己主義者,Egoist
 Lovers,Lovers,恋人,恋人,戀人,Lovers
 Jackal,Jackal,ジャッカル,豺狼,豺狼,Jackal
+JClient,Client,クライアント,请求者,請求者,Client
 
 # HideAndSeek
 HASFox,Fox,狐,狐狸,狐妖,Fox
@@ -144,6 +145,7 @@ ExecutionerInfo,Get your target voted out,ターゲットを追放させよう,�
 EgoistInfo,Replace the Impostor win,インポスター勝利を独占しよう,我们要把属于内鬼的胜利给夺走！,讓我們來奪取狼人的勝利,Замените победу Предателей
 LoversInfo,Survive with your lover,恋人と生きて幸せを掴もう,你们坠入了爱河，成为了一对恋人，一起活到最后吧！,你墜入了愛河(心理),Выживите со своим Любовником
 JackalInfo,Kill Everyone,すべてを殺せ,快去杀光所有人，一只苍蝇都不要剩下！,殺光所有人不留活口,Убей их всех
+JClientInfo,Finish your tasks to help the Jackal,タスクを済ませ、ジャッカルの援助をしよう,完成任务后来帮助豺狼,完成你的任務並幫助豺狼,
 
 # HideAndSeek
 HASFoxInfo,Stay alive,とにかく生き残りましょう,活下去吧！活到最后你就成为了赢家！,活到最後就是屬於你和贏家的一片天,Останьтесь в живых
@@ -204,6 +206,7 @@ SchrodingerCatInfoLong,"(Neutrals):\nWhen killed, they prevents the kill and bel
 OpportunistInfoLong,(Neutrals):\nThey win the game with any other Roles only if they are just alive at the game end.,(第三陣営):\n試合終了時に生存していれば追加勝利となる。,(独立阵营):\n若投机者在游戏结束时存活，则投机者跟随获胜玩家一同获得胜利。,"(中立):\n如果投機主義者活到最後,他將跟著遊戲結束獲勝的陣營一起獲勝。","(Нейтрал):\nОн выигрывает игру с любыми другими ролями, но с условием что он выжил."
 EgoistInfoLong,"(Neutrals):\nAfter all the Impostors has gone, the Egoists Replace Impostor win.\nThe Impostors and Egoists can see each other.",(第三陣営):\n味方がすべて死んだ状態でインポスターが勝つと単独勝利する。\nインポスターは誰がエゴイストか分かる。エゴイストも、誰がインポスターか分かる。,(独立阵营):\n规则上野心家属于内鬼阵营。野心家与内鬼阵营玩家互认且不可以击杀对方。\n内鬼阵营玩家全部死亡后，若野心家存活且内鬼阵营达成胜利条件，则野心家单独获得胜利。,"(中立):\n如果所有的狼人都死光了且利己主義者活著,利己主義者將獨自獲勝。\n(狼人和利己主義者互相知道對方但是不可以互刀對方)","(Нейтрал):\nПосле того, как все Предатели умрут то Egoist победит, он заменяет победу Предателей.\nПредатели и Egoist могут видеть друг друга."
 JackalInfoLong,"(Neutrals):\nJackal can kill all Crewmates, Impostors and Neutrals.\nTeam Jackal wins when living Jackal outnumbers living Crewmates and when there are no Impostors alive.",(第三陣営):\nジャッカルはすべてのプレイヤーを殺すことができる。\nインポスターが残っておらず、生き残っているジャッカルの人数がクルーと同じかそれ以上でジャッカルが勝利する。,(独立阵营):\n豺狼需要击杀所有人。\n存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。,"(中立):\n豺狼需要殺死所有人來獲得勝利,\n如果場上存活的玩家只剩下豺狼和另一名不帶刀職業時,豺狼將獲勝。","(Нейтрал):\nJackal может убить всех Членов Экипажа, Нейтралов и Предателей тоже.\nJackal может победить, когда в живых остался только 1 Jackal и 1 Член Экипажа."
+JClientInfoLong,"(Neutrals):\nCrewmate, but they belong to team Jackal, one type of Jackal's Madmates.\nThey can see who is the Jackal after finishing all their tasks.\nDepending on option, they can use vents.",(ジャッカル陣営):\nクルーだがジャッカルの味方をする。\nジャッカルと互いに認識できないが、タスクを全て完了させるとジャッカルを認識できるようになる。,(独立阵营):\n请求者与豺狼不互认，不可以击杀、破坏或者使用管道。\n请求者完成所有任务之后，其与豺狼互认。,"(中立):\n船員,但是他們屬於豺狼陣營.\n豺狼和他們無法互相知道誰是叛徒,誰是狼\n當請求者做完任務時,豺狼和請求者將可以互相知道對方。",
 
 # HideAndSeek
 HASFoxInfoLong,(HideAndSeek):\nThey win the game with other Roles (except Troll) only if they are alive at the game end.,(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。,（躲猫猫）:\n狐狸活到最后便与获胜阵营一同获胜。,"(躲貓貓):\n除了其他的中立陣營以外,只要狐妖活下來即可獲勝\n他們將跟著遊戲結束的獲勝陣營一起獲勝。",(Прятки):\nОн выигрывает игру с другими ролями (кроме Troll) только если он выжил в конце игры.
