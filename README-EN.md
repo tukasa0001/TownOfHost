@@ -103,6 +103,38 @@ Also, you can break lines by writing `\n` in the sentence like `tag:line breaks 
 If the tag is set to "welcome" in the template function, it will be sent automatically when a player joins.<br>
 For example: `welcome:This room is using TownOfHost.`
 
+### Custom Translation File
+Users are free to create and use their own translations.<br>
+- Open the "Language" folder created in the Among Us folder.
+- Create a file named `{language name}.dat` in the folder
+  - 例: English.dat
+  - You can also rename `template.dat` or `template_English.dat` and use.
+- In the file, enter like `before translation:after translation`.
+  - 例: Command.rename:Change Host Name
+  - See `template.dat` for the `before translation` string.
+
+You can also reload the translation by pressing key `T`+`F5`.
+
+#### List of Valid Languages
+
+| Language Name |
+| ------------- |
+| English       |
+| Latam         |
+| Brazilian     |
+| Portuguese    |
+| Korean        |
+| Dutch         |
+| Filipino      |
+| French        |
+| German        |
+| Italian       |
+| Japanese      |
+| Spanish       |
+| SChinese      |
+| TChinese      |
+| Irish         |
+
 ## Roles
 
 | Impostors                           | Crewmates                         | Neutrals                          |

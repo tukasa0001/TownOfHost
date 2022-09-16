@@ -103,6 +103,38 @@ AmongUsバージョン : **2022.7.12**
 テンプレート機能でタグを「welcome」に設定するとプレイヤー参加時に自動で送信されます。<br>
 例: `welcome:この部屋はTownOfHostを使用しています。`
 
+### カスタム翻訳ファイル
+ユーザーが自由に独自の翻訳を作成して使用することができます。<br>
+- Among Usフォルダの中に『Language』フォルダが作成されているので開きます。
+- フォルダ内に`{言語名}.dat`というファイルを作成します。
+  - 例: Japanese.dat
+  - `template.dat`または`template_English.dat`を名前変更して使用することもできます。
+- ファイル内に`翻訳前:翻訳後`のように記載します。
+  - 例: Command.rename:ホストの名前を変更
+  - `翻訳前`の文字列は`template.dat`を参照してください。
+
+また、`T`+`F5`を押すことで翻訳をリロードできます。
+
+#### 有効言語一覧
+
+| 言語名     |
+| ---------- |
+| English    |
+| Latam      |
+| Brazilian  |
+| Portuguese |
+| Korean     |
+| Dutch      |
+| Filipino   |
+| French     |
+| German     |
+| Italian    |
+| Japanese   |
+| Spanish    |
+| SChinese   |
+| TChinese   |
+| Irish      |
+
 ## 役職
 
 | インポスター陣営                                                     | クルーメイト陣営                                            | 第三陣営                                                    | その他    |
