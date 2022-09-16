@@ -1,502 +1,503 @@
-id,0,11,13,14
+id,0,5,11,13,14
 ## Translators
+#5  RusTranslation: Tommy-XL
 #13 SChinese:fivefirex&ZeMingOH233  2T&MC-AS-Huier&xiaojin (Edit: Tanakanira)
 #14 TChinese: NetherDragon_Tw (Edit: Soukunsandesu)
 
 ## 役職
-Neutral,Neutral,第三陣営,中立阵营,中立陣營
-SubRole,Sub Role,サブ役職,附加职业,附加職業
+Neutral,Neutral,Нейтрал,第三陣営,中立阵营,中立陣營
+SubRole,Sub Role,Доп Роль,サブ役職,附加职业,附加職業
 
 # バニラ役職
-Crewmate,Crewmate,クルーメイト,船员,船員
-Engineer,Engineer,エンジニア,工程师,工程師
-Scientist,Scientist,科学者,科学家,科學家
-GuardianAngel,GuardianAngel,守護天使,守护天使,守護天使
-Impostor,Impostor,インポスター,内鬼,偽裝者
-Shapeshifter,Shapeshifter,シェイプシフター,变形者,變形者
+Crewmate,Crewmate,Член Экипажа,クルーメイト,船员,船員
+Engineer,Engineer,Инженер,エンジニア,工程师,工程師
+Scientist,Scientist,Ученый,科学者,科学家,科學家
+GuardianAngel,GuardianAngel,Ангел-хранитель,守護天使,守护天使,守護天使
+Impostor,Impostor,Предатель,インポスター,内鬼,偽裝者
+Shapeshifter,Shapeshifter,Оборотень,シェイプシフター,变形者,變形者
 
 # 特殊インポスター役職
-BountyHunter,BountyHunter,バウンティハンター,赏金猎人,賞金獵人
-Mare,Mare,メアー,梦魇,黑暗博士
-FireWorks,FireWorks,花火職人,烟花商人,煙火工匠
-SerialKiller,SerialKiller,シリアルキラー,嗜血杀手,連環殺手
-ShapeMaster,ShapeMaster,シェイプマスター,千面鬼,變形大師
-Vampire,Vampire,ヴァンパイア,吸血鬼,吸血鬼
-Warlock,Warlock,ウォーロック,术士,術士
-Witch,Witch,ウィッチ,女巫,女巫
-Mafia,Mafia,マフィア,黑手党,黑手黨
-EvilWatcher,Evil Watcher,イビルウォッチャー,邪恶的窥视者,邪惡的觀察者
-Puppeteer,Puppeteer,パペッティア,傀儡师,傀儡師
-TimeThief,TimeThief,タイムシーフ,蚀时者,時間小偷
-Sniper,Sniper,スナイパー,狙击手,狙擊手
-EvilTracker,EvilTracker,イビルトラッカー,邪恶的追踪者
+BountyHunter,BountyHunter,BountyHunter,バウンティハンター,赏金猎人,賞金獵人
+Mare,Mare,Mare,メアー,梦魇,黑暗博士
+FireWorks,FireWorks,FireWorks,花火職人,烟花商人,煙火工匠
+SerialKiller,SerialKiller,SerialKiller,シリアルキラー,嗜血杀手,連環殺手
+ShapeMaster,ShapeMaster,ShapeMaster,シェイプマスター,千面鬼,變形大師
+Vampire,Vampire,Vampire,ヴァンパイア,吸血鬼,吸血鬼
+Warlock,Warlock,Warlock,ウォーロック,术士,術士
+Witch,Witch,Witch,ウィッチ,女巫,女巫
+Mafia,Mafia,Mafia,マフィア,黑手党,黑手黨
+EvilWatcher,Evil Watcher,Evil Watcher,イビルウォッチャー,邪恶的窥视者,邪惡的觀察者
+Puppeteer,Puppeteer,Puppeteer,パペッティア,傀儡师,傀儡師
+TimeThief,TimeThief,TimeThief,タイムシーフ,蚀时者,時間小偷
+Sniper,Sniper,Sniper,スナイパー,狙击手,狙擊手
+EvilTracker,EvilTracker,EvilTracker,イビルトラッカー,邪恶的追踪者
 
 # マッドメイト系役職
-Madmate,Madmate,マッドメイト,叛徒,叛徒
-MadGuardian,MadGuardian,マッドガーディアン,背叛的守卫,背叛的天使
-MadSnitch,MadSnitch,マッドスニッチ,背叛的告密者,背叛的告密者
-SKMadmate,SideKickMadmate,サイドキックマッドメイト,叛徒小弟,叛徒跟班
+Madmate,Madmate,Madmate,マッドメイト,叛徒,叛徒
+MadGuardian,MadGuardian,MadGuardian,マッドガーディアン,背叛的守卫,背叛的天使
+MadSnitch,MadSnitch,MadSnitch,マッドスニッチ,背叛的告密者,背叛的告密者
+SKMadmate,SideKickMadmate,SideKickMadmate,サイドキックマッドメイト,叛徒小弟,叛徒跟班
 
 # 両陣営可能役職
-Watcher,Watcher,ウォッチャー,窥视者,觀察者
+Watcher,Watcher,Watcher,ウォッチャー,窥视者,觀察者
 
 # 特殊クルー役職
-NiceWatcher,Nice Watcher,ナイスウォッチャー,正义的窥视者,正義的觀察者
-Bait,Bait,ベイト,诱饵,誘餌
-Lighter,Lighter,ライター,执灯人,小燈人
-Mayor,Mayor,メイヤー,市长,市長
-SabotageMaster,SabotageMaster,サボタージュマスター,修理大师,破壞大師
-Sheriff,Sheriff,シェリフ,警长,警長
-Arsonist,Arsonist,アーソニスト,纵火犯,縱火犯
-Snitch,Snitch,スニッチ,告密者,告密者
-SpeedBooster,SpeedBooster,スピードブースター,增速者,加速器
-Doctor,Doctor,ドクター,医生,醫生
-Trapper,Trapper,トラッパー,陷阱师,設陷者
-Dictator,Dictator,ディクテーター,独裁者,獨裁主義者
-Seer,Seer,シーア,灵媒
+NiceWatcher,Nice Watcher,Nice Watcher,ナイスウォッチャー,正义的窥视者,正義的觀察者
+Bait,Bait,Bait,ベイト,诱饵,誘餌
+Lighter,Lighter,Lighter,ライター,执灯人,小燈人
+Mayor,Mayor,Mayor,メイヤー,市长,市長
+SabotageMaster,SabotageMaster,SabotageMaster,サボタージュマスター,修理大师,破壞大師
+Sheriff,Sheriff,Sheriff,シェリフ,警长,警長
+Arsonist,Arsonist,Arsonist,アーソニスト,纵火犯,縱火犯
+Snitch,Snitch,Snitch,スニッチ,告密者,告密者
+SpeedBooster,SpeedBooster,SpeedBooster,スピードブースター,增速者,加速器
+Doctor,Doctor,Doctor,ドクター,医生,醫生
+Trapper,Trapper,Trapper,トラッパー,陷阱师,設陷者
+Dictator,Dictator,Dictator,ディクテーター,独裁者,獨裁主義者
+Seer,Seer,Seer,シーア,灵媒
 
 # 第三陣営役職
-Jester,Jester,ジェスター,小丑,小丑
-Terrorist,Terrorist,テロリスト,恐怖分子,恐怖分子
-Executioner,Executioner,エクスキューショナー,处刑人,劊子手
-SchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓
-CSchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓
-MSchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓
-EgoSchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓
-JSchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓
-Opportunist,Opportunist,オポチュニスト,投机者,投機主義者
-Egoist,Egoist,エゴイスト,野心家,利己主義者
-Lovers,Lovers,恋人,恋人,戀人
-Jackal,Jackal,ジャッカル,豺狼,豺狼
+Jester,Jester,Jester,ジェスター,小丑,小丑
+Terrorist,Terrorist,Terrorist,テロリスト,恐怖分子,恐怖分子
+Executioner,Executioner,Executioner,エクスキューショナー,处刑人,劊子手
+SchrodingerCat,SchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓
+CSchrodingerCat,SchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓
+MSchrodingerCat,SchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓
+EgoSchrodingerCat,SchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓
+JSchrodingerCat,SchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓
+Opportunist,Opportunist,Opportunist,オポチュニスト,投机者,投機主義者
+Egoist,Egoist,Egoist,エゴイスト,野心家,利己主義者
+Lovers,Lovers,Lovers,恋人,恋人,戀人
+Jackal,Jackal,Jackal,ジャッカル,豺狼,豺狼
 
 # HideAndSeek
-HASFox,Fox,狐,狐狸,狐妖
-HASTroll,Troll,トロール,猎人,誘捕者
+HASFox,Fox,Fox,狐,狐狸,狐妖
+HASTroll,Troll,Troll,トロール,猎人,誘捕者
 
 # GM
-GM,GM,GM,GM(管理员),GM(遊戲大師)
+GM,GM,GM(Призрак),GM,GM(管理员),GM(遊戲大師)
 
 # 属性
-LastImpostor,Last Impostor,ラストインポスター,绝境者,絕境者
+LastImpostor,Last Impostor,Последний Предатель,ラストインポスター,绝境者,絕境者
 
 # その他
-TeamImpostor,Team Impostor,インポスター陣営,内鬼阵营,狼人陣營
-TeamEgoist,Team Egoist,エゴイスト陣営,野心家阵营,利己主義者陣營
-TeamJackal,Team Jackal,ジャッカル陣営,豺狼阵营,豺狼陣營
+TeamImpostor,Team Impostor,Команда Предателей,インポスター陣営,内鬼阵营,狼人陣營
+TeamEgoist,Team Egoist,Команда Egoist,エゴイスト陣営,野心家阵营,利己主義者陣營
+TeamJackal,Team Jackal,Команда Jackal,ジャッカル陣営,豺狼阵营,豺狼陣營
 
 
 ## 役職説明ショート
-NeutralInfo,A solitary teams that does not belong to any other teams,他のどの陣営にも属さない孤高の陣営,不属于其他阵营的独立阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響
+NeutralInfo,A solitary teams that does not belong to any other teams,Одиночная команда не принадлежит ни к каким другим командам,他のどの陣営にも属さない孤高の陣営,不属于其他阵营的独立阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響
 
 # 特殊インポスター役職
-BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう,猎杀你的赏金目标,將你的目標拿下
-MareInfo,Kill in the dark,闇の世界で暗殺せよ,在黑暗中作案,在黑暗中獵殺
-FireWorksInfo,Bloom at the last,最後に一華咲かせよう,一起来看最后的烟花吧,在最後時刻來看煙火秀吧
-SerialKillerInfo,You crave blood,殺人衝動が抑えられない,你渴望鲜血，抑制不住你的冲动,你無法抑制你的殺人衝動
-ShapeMasterInfo,Shapeshift and confuse the Crewmates,変身して敵を混乱させよう,变幻成其他人来迷惑敌人,變換外表來迷惑他人
-VampireInfo,Bite the Crewmates,クルーを噛んで全滅させよう,吸干他人的血,使用你的牙齒吸乾所有人的血吧
-WarlockInfo,Curse the Crewmates,敵を呪い殺そう,给你的敌人下咒,詛咒並殺光你的敵人
-WitchInfo,Spell the Crewmates,敵に魔術をかけよう,诅咒你的敌人,使用你的魔法來讓你的敵人死亡
-MafiaInfo,Help the Impostors to kill everyone,インポスターの援助をしよう,帮助其他内鬼杀掉所有人,幫助狼人殺死所有人
-BeforeMafiaInfo,You can't kill yet,今はキルをすることができない,潜伏以等候时机,潛伏以等待時機
-AfterMafiaInfo,It's time to kill,サボを活用して皆殺しにしよう,杀光所有人,殺光所有人吧
-PuppeteerInfo,Force the Crewmate to kill,敵を操って皆殺しにしよう,操纵敌人，杀光船员,操控對象並殺光所有船員
-TimeThiefInfo,Kill the Crewmates to steal discussion time,敵を殺し、会議時間を奪おう,杀死所有船员并偷取时间,殺光你的敵人並將會議時間縮短
-SniperInfo,Shoot the Crewmates in the distance,狙い撃つぜ,瞄准敌人，射击！,讓你的敵人在你的狙擊下死亡
-LastImpostorInfo,You are the last one,残ったのはあなただけ,你是最后的希望…,你是狼村最後的希望...
-EvilTrackerInfo,Track Players,プレイヤーを追跡しろ,追杀其他玩家
+BountyHunterInfo,Hunt your bounty down,Охотьтесь за своей целью,標的を確実に仕留めよう,猎杀你的赏金目标,將你的目標拿下
+MareInfo,Kill in the dark,Убивайте в темноте,闇の世界で暗殺せよ,在黑暗中作案,在黑暗中獵殺
+FireWorksInfo,Bloom at the last,Расцветите в последний раз,最後に一華咲かせよう,一起来看最后的烟花吧,在最後時刻來看煙火秀吧
+SerialKillerInfo,You crave blood,Вы жаждете крови,殺人衝動が抑えられない,你渴望鲜血，抑制不住你的冲动,你無法抑制你的殺人衝動
+ShapeMasterInfo,Shapeshift and confuse the Crewmates,Изменяйте форму чтобы запутать всех Членов Экипажа,変身して敵を混乱させよう,变幻成其他人来迷惑敌人,變換外表來迷惑他人
+VampireInfo,Bite the Crewmates,Укусите Членов Экипажа,クルーを噛んで全滅させよう,吸干他人的血,使用你的牙齒吸乾所有人的血吧
+WarlockInfo,Curse the Crewmates,Прокляните Членов Экипажа,敵を呪い殺そう,给你的敌人下咒,詛咒並殺光你的敵人
+WitchInfo,Spell the Crewmates,Заклинайте Членов Экипажа,敵に魔術をかけよう,诅咒你的敌人,使用你的魔法來讓你的敵人死亡
+MafiaInfo,Help the Impostors to kill everyone,Помогите Предателям убить всех,インポスターの援助をしよう,帮助其他内鬼杀掉所有人,幫助狼人殺死所有人
+BeforeMafiaInfo,You can't kill yet,Вы еще не можете убивать,今はキルをすることができない,潜伏以等候时机,潛伏以等待時機
+AfterMafiaInfo,It's time to kill,Время убивать,サボを活用して皆殺しにしよう,杀光所有人,殺光所有人吧
+PuppeteerInfo,Force the Crewmate to kill,Заставьте Члена Экипажа убить,敵を操って皆殺しにしよう,操纵敌人，杀光船员,操控對象並殺光所有船員
+TimeThiefInfo,Kill the Crewmates to steal discussion time,Убейте Члена Экипажа чтобы сократить время на голосовании,敵を殺し、会議時間を奪おう,杀死所有船员并偷取时间,殺光你的敵人並將會議時間縮短
+SniperInfo,Shoot the Crewmates in the distance,Стреляйте в Членов Экипажа на расстоянии,狙い撃つぜ,瞄准敌人，射击！,讓你的敵人在你的狙擊下死亡
+LastImpostorInfo,You are the last one,Ты остался последний,残ったのはあなただけ,你是最后的希望…,你是狼村最後的希望...
+EvilTrackerInfo,Track Players,Отслеживайте Игроков,プレイヤーを追跡しろ,追杀其他玩家
 
 # マッドメイト系役職
-MadmateInfo,Help the Impostors,インポスターの援助をしよう,帮助内鬼,幫助狼人
-BeforeMadmateInfo,Finish your tasks,タスクを済ませろ,,
-MadGuardianInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう,完成任务后来帮助内鬼,完成你的任務並幫助狼人
-MadSnitchInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう,完成任务后来帮助内鬼,完成你的任務並幫助狼人
-SKMadmateInfo,You are now on Team Impostors,サイドキックにされた,你是内鬼的伙伴，你要帮助他们,"你現在是狼人的夥伴了,盡你所能幫助他們"
+MadmateInfo,Help the Impostors,Помогите Предателям,インポスターの援助をしよう,帮助内鬼,幫助狼人
+BeforeMadmateInfo,Finish your tasks,Завершите свои задания,タスクを済ませろ,,
+MadGuardianInfo,Finish your tasks to help the Impostors,Завершите свои задания чтобы помочь Предателям,タスクを済ませ、インポスターの援助をしよう,完成任务后来帮助内鬼,完成你的任務並幫助狼人
+MadSnitchInfo,Finish your tasks to help the Impostors,Завершите свои задания чтобы помочь Предателям,タスクを済ませ、インポスターの援助をしよう,完成任务后来帮助内鬼,完成你的任務並幫助狼人
+SKMadmateInfo,You are now on Team Impostors,Теперь вы в команде Предателя,サイドキックにされた,你是内鬼的伙伴，你要帮助他们,"你現在是狼人的夥伴了,盡你所能幫助他們"
 
 # 両陣営可能役職
-WatcherInfo,Keep your eyes on everyone's votes,みんなの投票に目を光らせよう,你可以看见所以人的选择，注意他们的选择,注意所有人的投票
+WatcherInfo,Keep your eyes on everyone's votes,Следите за всеми голосами,みんなの投票に目を光らせよう,你可以看见所以人的选择，注意他们的选择,注意所有人的投票
 
 # 特殊クルー役職
-BaitInfo,Bait your enemies,敵を罠にはめよう,诱骗敌人，让敌人落入你的陷阱,"犧牲小我,完成大我"
-LighterInfo,Light all over,すべてを照らそう,照亮黑暗，让别人看清楚,照亮黑暗中的一切吧
-MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている,你的投票更有分量,"你的票數更多,更有料"
-SabotageMasterInfo,Fix sabotages faster,より早くサボタージュを直そう,请尽快修理破坏,盡快維修船上的破壞
-SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け,把内鬼统统执法掉,執法狼人們
-SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませよう,完成任务来找出内鬼,完成你的所有任務來找到狼人們
-SpeedBoosterInfo,Boost the players,走らせろ,让其他人跑起来吧,讓其他人跑得更快
-DoctorInfo,Access vitals and cause of death,斯くして奴は死んだ,调查他人死因,看見他們的死因
-TrapperInfo,Trap your enemies,敵を罠にはめよう,引诱敌人落入你的陷阱当中,讓你的敵人受困於陷阱中
-DictatorInfo,Hang your enemy on your own judgement,独裁政治をしよう,让我统治世界，拥有无上的权利,讓所有人臣服於你
-SeerInfo,You Will See Players Die,他人の死んだ瞬間がわかる,你能感知死亡
+BaitInfo,Bait your enemies,Приманивайте ваших врагов,敵を罠にはめよう,诱骗敌人，让敌人落入你的陷阱,"犧牲小我,完成大我"
+LighterInfo,Light all over,Увеличьте свой обзор,すべてを照らそう,照亮黑暗，让别人看清楚,照亮黑暗中的一切吧
+MayorInfo,Your vote counts twice,Ваш голос считается дважды,自分の票が何倍もの力を持っている,你的投票更有分量,"你的票數更多,更有料"
+SabotageMasterInfo,Fix sabotages faster,Устраните саботаж в одиночку,より早くサボタージュを直そう,请尽快修理破坏,盡快維修船上的破壞
+SheriffInfo,Shoot the Impostors,Стреляйте в Предателей,インポスターを撃ち抜け,把内鬼统统执法掉,執法狼人們
+SnitchInfo,Finish your tasks to find the Impostors,Завершите свои задания чтобы узнать Предателей,タスクを早く済ませよう,完成任务来找出内鬼,完成你的所有任務來找到狼人們
+SpeedBoosterInfo,Boost the players,Ускорьте случайного игрока,走らせろ,让其他人跑起来吧,讓其他人跑得更快
+DoctorInfo,Access vitals and cause of death,Доступ к пульсам и к причинам смерти,斯くして奴は死んだ,调查他人死因,看見他們的死因
+TrapperInfo,Trap your enemies,Ловите своих врагов,敵を罠にはめよう,引诱敌人落入你的陷阱当中,讓你的敵人受困於陷阱中
+DictatorInfo,Hang your enemy on your own judgement,Повесьте своего врага на страх и риск,独裁政治をしよう,让我统治世界，拥有无上的权利,讓所有人臣服於你
+SeerInfo,You Will See Players Die,Вы Видите Когда Умирают Игроки,他人の死んだ瞬間がわかる,你能感知死亡
 
 # 第三陣営役職
-ArsonistInfo,Let them burn,燃やせ,火焰给我燃烧起来吧！,"燒吧,燒吧,燃燒吧"
-JesterInfo,Get voted out,追放されよう,想办法让人怀疑把你投出去,想個辦法讓你被投出去
-OpportunistInfo,Stay alive,とにかく生き残りましょう,苟着吧，苟也是个不错的选择,做點什麼事來讓你存活
-SchrodingerCatInfo,Get killed and join killer team,殺されて陣営に所属しろ,加入击杀你的阵营,打不過就加入
-CSchrodingerCatInfo,You are now on Team Crewmate,クルーメイトの味方になった,你加入了船员阵营，要帮助船员找出内鬼,"你現在變成船員了,幫助船員們找出狼和中立帶刀者"
-MSchrodingerCatInfo,You are now on Team Impostor,インポスターの味方になった,你加入了内鬼阵营，要掩护内鬼同伴,"你現在變成狼人了,但是你不能砍人,盡量掩護你的隊友的身分"
-EgoSchrodingerCatInfo,You are now on Team Egoist,エゴイストの味方になった,你成为了野心家的伙伴,"你是利己主義者的跟班"
-JSchrodingerCatInfo,You are now on Team Jackal,ジャッカルの味方になった,你是豺狼的跟班，传宗接代是个好选择,"你是豺狼的跟班,盡量幫助他"
-TerroristInfo,Die after finishing your tasks,タスクを済ませ、自爆しよう,都别想活着，和我一起同归于尽！,"一個一個來,都別想給我活!"
-ExecutionerInfo,Get your target voted out,ターゲットを追放させよう,不惜一切代价把你的目标票出去！,"想出一切辦法來投出你的目標"
-EgoistInfo,Replace the Impostor win,インポスター勝利を独占しよう,我们要把属于内鬼的胜利给夺走！,讓我們來奪取狼人的勝利
-LoversInfo,Survive with your lover,恋人と生きて幸せを掴もう,你坠入了爱河，成为了一对恋人，一起活到最后吧！,你墜入了愛河(心理)
-JackalInfo,Kill Everyone,すべてを殺せ,快去杀光所有人，一只苍蝇都不要剩下！,殺光所有人不留活口
+ArsonistInfo,Let them burn,Пусть все они сгорят,燃やせ,火焰给我燃烧起来吧！,"燒吧,燒吧,燃燒吧"
+JesterInfo,Get voted out,Будьте изгнаны,追放されよう,想办法让人怀疑把你投出去,想個辦法讓你被投出去
+OpportunistInfo,Stay alive,Останьтесь в живых,とにかく生き残りましょう,苟着吧，苟也是个不错的选择,做點什麼事來讓你存活
+SchrodingerCatInfo,Get killed and join killer team,Дайте убить себя и присоединитесь к команде убийц,殺されて陣営に所属しろ,加入击杀你的阵营,打不過就加入
+CSchrodingerCatInfo,You are now on Team Crewmate,Теперь вы в команде Членов Экипажа,クルーメイトの味方になった,你加入了船员阵营，要帮助船员找出内鬼,"你現在變成船員了,幫助船員們找出狼和中立帶刀者"
+MSchrodingerCatInfo,You are now on Team Impostor,Теперь вы в команде Предателей,インポスターの味方になった,你加入了内鬼阵营，要掩护内鬼同伴,"你現在變成狼人了,但是你不能砍人,盡量掩護你的隊友的身分"
+EgoSchrodingerCatInfo,You are now on Team Egoist,Теперь вы в команде Egoists,エゴイストの味方になった,你成为了野心家的伙伴,"你是利己主義者的跟班"
+JSchrodingerCatInfo,You are now on Team Jackal,Теперь вы в команде Jackal,ジャッカルの味方になった,你是豺狼的跟班，传宗接代是个好选择,"你是豺狼的跟班,盡量幫助他"
+TerroristInfo,Die after finishing your tasks,Умрите после выполнения своих заданий,タスクを済ませ、自爆しよう,都别想活着，和我一起同归于尽！,"一個一個來,都別想給我活!"
+ExecutionerInfo,Get your target voted out,Дайте заголосовать свою цель,ターゲットを追放させよう,不惜一切代价把你的目标票出去！,"想出一切辦法來投出你的目標"
+EgoistInfo,Replace the Impostor win,Замените победу Предателей,インポスター勝利を独占しよう,我们要把属于内鬼的胜利给夺走！,讓我們來奪取狼人的勝利
+LoversInfo,Survive with your lover,Выживите со своим Любовником,恋人と生きて幸せを掴もう,你坠入了爱河，成为了一对恋人，一起活到最后吧！,你墜入了愛河(心理)
+JackalInfo,Kill Everyone,Убей их всех,すべてを殺せ,快去杀光所有人，一只苍蝇都不要剩下！,殺光所有人不留活口
 
 # HideAndSeek
-HASFoxInfo,Stay alive,とにかく生き残りましょう,活下去吧！活到最后你就成为了赢家！,活到最後就是屬於你和贏家的一片天
-HASTrollInfo,Get killed,自爆しよう,轰！你为了同伴牺牲了！,"讓狼人砍你 偷襲!"
+HASFoxInfo,Stay alive,Останьтесь в живых,とにかく生き残りましょう,活下去吧！活到最后你就成为了赢家！,活到最後就是屬於你和贏家的一片天
+HASTrollInfo,Get killed,Будьте убитым,自爆しよう,轰！你为了同伴牺牲了！,"讓狼人砍你 偷襲!"
 
 # GM
-GMInfo,You're the Game Master,ゲームマスターだ,你是管理员，在旁边看戏吧,當吃瓜群眾在一旁看戲吧
+GMInfo,You're the Game Master,Вы Мастер Игры,ゲームマスターだ,你是管理员，在旁边看戏吧,當吃瓜群眾在一旁看戲吧
 
 ## 役職説明ロング
 
 # 特殊インポスター役職
-BountyHunterInfoLong,"(Impostors):\nIf the BountyHunters kill their designated target, their next kill cooldown will be much less than usual.\nKilling a player except their current target results in an increased kill cooldown.\nTargets are changed at regular intervals.",(インポスター陣営):\n表示されたターゲットをキルした場合、次のキルクールがとても短くなる。\nターゲットではないプレイヤーをキルした場合は、キルクールが伸びてしまう。\nターゲットは一定時間ごとに変更される。,(内鬼阵营):\n如果赏金猎人击杀了正确的目标，冷却将缩短。\n如果击杀了错误的目标，则冷却保持不变。,"(狼人陣營):\n如果賞金獵人殺了賞金目標,下一次的殺人冷卻會變得非常的短\n如果賞金獵人殺了非賞金目標,下一次的殺人冷卻將會被延長或不變\n目標將會重置在時間結束或殺死賞金目標後。"
-FireWorksInfoLong,"(Impostors):\nThey can put a few fireworks by Shapeshift.\n After setting everything, you can ignite all at once by shapeshift when you are the last Impostor.\nOnly after that you can kill.",(インポスター陣営):\n変身することで花火を最大3か所に設置可能。\nすべて設置した後、インポスター最後の生き残りになった時に再度変身することで一斉起爆できる。\n花火が設置されている間はキルできない。,(内鬼阵营):\n烟花商人可以安放烟花炸弹，造成范围性杀伤。\n烟花商人在变形状态下可以安放至多三个烟花炸弹。\n当存活的内鬼阵营玩家仅剩烟花商人且烟花炸弹安置完毕时，烟花商人可以在变形状态下引爆炸弹。\n直到安放并引爆所有烟花炸弹，烟花商人不可以进行击杀。\n烟花炸弹可以炸死烟花商人。\n如果烟花炸弹的爆炸导致所有存活玩家被炸死，内鬼阵营获胜。,"(狼人陣營):\n煙火工匠可以放置最多3個煙火在不同的地方.\n當煙火工匠設定好所有東西且煙火工匠是最後一隻狼時,煙火工匠可以將所有人引到你放置煙火的地方並使用變形來讓煙火爆炸.\n但是煙火工匠在他還沒放置完所有煙火前不能殺人,\n如果爆炸讓所有存活的玩家死亡,則狼人陣營獲勝。"
-SerialKillerInfoLong,"(Impostors):\nSerialKiller has even shorter kill cooldown.\nUnless taking a kill by deadline, they murder themselves instantly.",(インポスター陣営):\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆する。,(内鬼阵营):\n嗜血杀手的冷却因为他的欲望而更快。\n嗜血杀手若不在一定时间内进行击杀，就会受不了欲望自杀。,"(狼人陣營):\n連環殺手的殺人冷卻是所有狼人中最短的一個,\n但是如果連環殺手沒有在自殺倒數時間前殺人,連環殺手將會自殺"
-ShapeMasterInfoLong,"(Impostors):\nShapeMaster has no Shapeshift cooldown.\nOn the other hand, their default Shapeshift duration is shorter (default: 10s).",(インポスター陣営):\nシェイプシフトに特化したインポスター。\n変身持続時間が通常のシェイプシフターよりも短い半面、変身解除後のクールダウンがなく無限に変身することができる。\n変身継続時間は設定で変更が可能。,(内鬼阵营):\n千面鬼变形持续时间短于普通变形者。\n千面鬼没有变形冷却与次数限制。\n千面鬼变形的持续时间根据房间设置的改变而改变。,"(狼人陣營):\n變形大師是一隻在變形事業上有成的一隻狼\n變形大師的變形冷卻會比一般的變形者還要短上許多,變形大師的變形技能沒有冷卻,這意味著變形大師可以在變形結束後立刻變形\n變形大師的變形冷卻可以在設定中更改。"
-MareInfoLong,"(Impostors):\nThey can kill only in lights out, but next kill cooldown will be half.\nWhile lights out they can move faster, and yet their name looks red by everyone.",(インポスター陣営):\n停電の時だけキルができるインポスター。\nキルに成功すると次のキルクールが半分になる。\n移動速度も停電中は早くなるが名前が赤くなる。,(内鬼阵营):\n梦魇不在照明破坏持续时间内不能击杀。\n若夜魇击杀成功，夜魇的击杀冷却变成原来的一半。\n此外，照明破坏持续时间内夜魇的移动速度也会增加，\n并且，这段时间内所有玩家都能看到夜魇的名字为红色。,"(狼人陣營):\n黑暗博士在燈還沒關閉前不能殺人\n但是當燈關閉時,如果他殺人,他的冷卻會減少一半\n並且他的的移動速度會變快,但是他的的名字會變成紅色且所有玩家可見。"
-VampireInfoLong,"(Impostors):\nThe Vampires can bite players instead of kill.\nBitten players die after a configurable amount of time or just before emergency meeting call.\nWhen biting the [Baits](#Bait), However, they take a no delaykill and are forced to self report.",(インポスター陣営):\nプレイヤーを噛む事で遅延キルが可能。\n(時間が経過or会議が始まると死亡する。)\nベイトの場合即死亡し、強制的に通報が入る。,(内鬼阵营):\n在吸血鬼尝试击杀时，击杀不会立即发生，而是延迟一段时间执行。\n吸血鬼的击杀没有击杀动画。\n若这段时间内游戏进入会议阶段，被击杀目标立即死亡。\n被击杀目标为诱饵时，吸血鬼的击杀被视为普通击杀。,"(狼人陣營):\n通過咬玩家的方式來讓延遲殺人變成可能.\n(被咬的玩家將會死亡在時間結束或會議開始時.)\n若嘗試吸血的對象為誘餌,則會顯示正常殺人。"
-WarlockInfoLong,"(Impostors):\nThe Warlocks can curse another players before Shapeshift.\nWhen they Shapeshift after cursing, the player next to the cursed is killed no matter how far away they are.\nWhile Shpashifting, you can perform normal kills.",(インポスター陣営):\nキルをすると一番近くの人に呪いがかかる。\n次から変身ボタンを押すと、呪われた人が一番近い人をキルする。\n変身した場合、普通のキルになる。\nまた、１ターンに１人しか呪うことはできない。,(内鬼阵营):\n术士在不变形状态下击杀时，目标会被诅咒。\n当术士变形，最靠近被诅咒玩家的船员会被击杀。,"(狼人陣營):\n當術士嘗試殺人時會轉變會下咒.\n當術士下一次變形成其他人時,被詛咒的玩家將會殺死一個離他最近的人(可以穿牆砍) \n如果術士變形再殺人,術士就可以正常殺人。"
-WitchInfoLong,"(Impostors):\nThe Witches can perform kills or spells by turns.\nThe players spelled by Witches before a meeting are marked 'cross' in the meeting,\nand unless exiling Witches, They all die just after the meeting.",(インポスター陣営):\nキルをすると「Kill」と「Spell」が切り変わる。\nSpellの表示でキルすると呪うことが出来る。\n呪いをかけられた人は会議で「†」が付き魔女を追放しなければ会議後に死亡する。,(内鬼阵营):\n通过点击击杀按钮，女巫可以在击杀模式与法术模式间切换，在法术模式下击杀可以对目标施法。\n被施法的目标会在会议上得到对全员可见的施法标记。如果直到会议结束女巫仍然存活，被施法的目标死亡。,"(狼人陣營):\n殺人按鍵會在'殺人'和'下咒'這兩個模式間切換,當顯示下咒模式時按下按鍵可以下咒一個離你最近的人\n被下咒的對象在會議上的名字會有一個'†'標記\n如果女巫在會議沒有被投出,則被下咒對象將死於會議後。"
-MafiaInfoLong,"(Impostors):\nInitially, the Mafias cannot kill (still have a button).\nThey will be able to kill after Impostors except them are all gone.",(インポスター陣営):\n初期状態ではキルが封じられている。\n仲間が全員死亡後、自身もキルが可能になる。,(内鬼阵营):\n黑手党在游戏中有其他内鬼存活时不可以进行击杀。,"(狼人陣營):\n在遊戲開始時,黑手黨沒有刀\n但是當他所有的隊友死亡後,他就可以開始殺人。"
-PuppeteerInfoLong,"(Impostors):\nThey can perform secondhand kills but cannot kill like other Impostors.\nTheir direct kill is blocked, but instead, the protected player forcibly kills another player first getting in kill range.",(インポスター陣営):\nキルした対象に、対象が次に近づいたクルーをキルさせる事ができる。\n対象がキルした相手がキルされた瞬間に発動するものであった場合、対象にその効果が反映される。\n普通のキルを行うことはできない。,(内鬼阵营):\n傀儡师的击杀对象会击杀其遇到的下一个船员。\n若后者在接触的同时死亡，则前者死亡。\n傀儡师不可以执行正常击杀。,"(狼人陣營):\n當傀儡師嘗試殺人時,\n他會下咒離他最近的一個人,接著如果碰到非狼人陣營的人並且在殺人範圍內,\n被下咒對象將會砍死他且效果不再持續,\n傀儡師無法正常殺人。"
-TimeThiefInfoLong,"(Impostors):\nEvery kill cuts down discussion and voting time in meeting.\nDepending on option, the lost time is returned after they die.",(インポスター陣営):\nキルを行うと会議時間が減少する。\nタイムシーフが追放または殺害されると、失われた会議時間が返ってきます。,(内鬼阵营):\n蚀时者每击杀一个人，会议持续时间将减少一定时间。\n如果蚀时者死亡，被偷取的时间的会议时间会返还。,"(狼人陣營):\n時間小偷每次殺人將會減少會議時間\n如果時間小偷被丟出或被殺死,減少的會議時間將會回來"
-SniperInfoLong,(Impostors):\nSniper can shoot players so far away.\nthey kill a player on the extension line from Shapeshift point to release point.\nYou can perform normal kills after all bullets run out.,(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。,(内鬼阵营):\n狙击手拥有远距离击杀的能力。\n狙击手化形后，其击杀能够将其现在为止与化形时所处位置连线及其延长线上的一名玩家击杀。\n狙击手的子弹耗尽前，狙击手不可以进行通常击杀。",(狼人陣營):\n狙擊遠處的敵人\n子彈將從變形處延伸到取消變形處並往直線前進並殺死在這條線上非狼人陣營的人\n狙擊手無法正常殺人在狙擊手用光子彈前。"
-EvilTrackerInfoLong,"(Impostors):\nEvilTracker can track others.\nThey can see arrows toward Impostors and the one whom they Shapeshift to.\nThey know when allies take kills with kill flash.",(インポスター陣営):\n他人の位置が分かるインポスター。\n味方のインポスターとシェイプシフトで選んだ一人の位置が矢印で表示される。\n味方インポスターのキルによるキルフラッシュも見える。
+BountyHunterInfoLong,"(Impostors):\nIf the BountyHunters kill their designated target, their next kill cooldown will be much less than usual.\nKilling a player except their current target results in an increased kill cooldown.\nTargets are changed at regular intervals.","(Предатель):\nЕсли BountyHunter убьет назначенную ему цель, время отката убийства будет намного меньше чем обычно.\nУбийство игрока который не является его целью приводит к увеличению времени отката убийства.\nЦели меняются через разные промежутки времени.","(インポスター陣営):\n表示されたターゲットをキルした場合、次のキルクールがとても短くなる。\nターゲットではないプレイヤーをキルした場合は、キルクールが伸びてしまう。\nターゲットは一定時間ごとに変更される。,(内鬼阵营):\n如果赏金猎人击杀了正确的目标，冷却将缩短。\n如果击杀了错误的目标，则冷却保持不变。,"(狼人陣營):\n如果賞金獵人殺了賞金目標,下一次的殺人冷卻會變得非常的短\n如果賞金獵人殺了非賞金目標,下一次的殺人冷卻將會被延長或不變\n目標將會重置在時間結束或殺死賞金目標後。"
+FireWorksInfoLong,"(Impostors):\nThey can put a few fireworks by Shapeshift.\n After setting everything, you can ignite all at once by shapeshift when you are the last Impostor.\nOnly after that you can kill.","(Предатель):\nОн может поставить несколько фейерверков с помощью Shapeshift.\nПосле установки всех фейеверков вы можете поджечь их все сразу с помощью Shapeshift когда вы последний Предатель.\nТолько после этого вы сможете убивать.","(インポスター陣営):\n変身することで花火を最大3か所に設置可能。\nすべて設置した後、インポスター最後の生き残りになった時に再度変身することで一斉起爆できる。\n花火が設置されている間はキルできない。,(内鬼阵营):\n烟花商人可以安放烟花炸弹，造成范围性杀伤。\n烟花商人在变形状态下可以安放至多三个烟花炸弹。\n当存活的内鬼阵营玩家仅剩烟花商人且烟花炸弹安置完毕时，烟花商人可以在变形状态下引爆炸弹。\n直到安放并引爆所有烟花炸弹，烟花商人不可以进行击杀。\n烟花炸弹可以炸死烟花商人。\n如果烟花炸弹的爆炸导致所有存活玩家被炸死，内鬼阵营获胜。,"(狼人陣營):\n煙火工匠可以放置最多3個煙火在不同的地方.\n當煙火工匠設定好所有東西且煙火工匠是最後一隻狼時,煙火工匠可以將所有人引到你放置煙火的地方並使用變形來讓煙火爆炸.\n但是煙火工匠在他還沒放置完所有煙火前不能殺人,\n如果爆炸讓所有存活的玩家死亡,則狼人陣營獲勝。"
+SerialKillerInfoLong,"(Impostors):\nSerialKiller has even shorter kill cooldown.\nUnless taking a kill by deadline, they murder themselves instantly.","(Предатель):\nУ SerialKiller еще более короткий откат убийства.\nЕсли не совершить убийство в установленный срок, он убьет сам себя мгновенно.","(インポスター陣営):\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆する。,(内鬼阵营):\n嗜血杀手的冷却因为他的欲望而更快。\n嗜血杀手若不在一定时间内进行击杀，就会受不了欲望自杀。,"(狼人陣營):\n連環殺手的殺人冷卻是所有狼人中最短的一個,\n但是如果連環殺手沒有在自殺倒數時間前殺人,連環殺手將會自殺"
+ShapeMasterInfoLong,"(Impostors):\nShapeMaster has no Shapeshift cooldown.\nOn the other hand, their default Shapeshift duration is shorter (default: 10s).","(Предатель):\nShapeMaster не имеет отката восстановления Shapeshift.\nС другой стороны, длительность Shapeshift по умолчанию стоит куда меньше (по умолчанию: 10 секунд).",(インポスター陣営):\nシェイプシフトに特化したインポスター。\n変身持続時間が通常のシェイプシフターよりも短い半面、変身解除後のクールダウンがなく無限に変身することができる。\n変身継続時間は設定で変更が可能。,(内鬼阵营):\n千面鬼变形持续时间短于普通变形者。\n千面鬼没有变形冷却与次数限制。\n千面鬼变形的持续时间根据房间设置的改变而改变。,"(狼人陣營):\n變形大師是一隻在變形事業上有成的一隻狼\n變形大師的變形冷卻會比一般的變形者還要短上許多,變形大師的變形技能沒有冷卻,這意味著變形大師可以在變形結束後立刻變形\n變形大師的變形冷卻可以在設定中更改。"
+MareInfoLong,"(Impostors):\nThey can kill only in lights out, but next kill cooldown will be half.\nWhile lights out they can move faster, and yet their name looks red by everyone.","(Предатель):\nОн может убивать только при выключенном свете, но время отката следующего его убийства будет уменьшен вдвое.\nПри выключенном свете он может двигаться быстрее, и все же его никнейм у всех игроков станет красным.",(インポスター陣営):\n停電の時だけキルができるインポスター。\nキルに成功すると次のキルクールが半分になる。\n移動速度も停電中は早くなるが名前が赤くなる。,(内鬼阵营):\n梦魇不在照明破坏持续时间内不能击杀。\n若夜魇击杀成功，夜魇的击杀冷却变成原来的一半。\n此外，照明破坏持续时间内夜魇的移动速度也会增加，\n并且，这段时间内所有玩家都能看到夜魇的名字为红色。,"(狼人陣營):\n黑暗博士在燈還沒關閉前不能殺人\n但是當燈關閉時,如果他殺人,他的冷卻會減少一半\n並且他的的移動速度會變快,但是他的的名字會變成紅色且所有玩家可見。"
+VampireInfoLong,"(Impostors):\nThe Vampires can bite players instead of kill.\nBitten players die after a configurable amount of time or just before emergency meeting call.\nWhen biting the [Baits](#Bait), However, they take a no delaykill and are forced to self report.","(Предатель):\nVampire может кусать игроков, а не убивать.\nУкушенный игрок умирает по истечении заданного периода времени или сразу же когда произойдёт срочное собрание.\nНо при укусе [Baits](#Bait) он совершает обычное убийство и вынужден сразу зарепортить труп.",(インポスター陣営):\nプレイヤーを噛む事で遅延キルが可能。\n(時間が経過or会議が始まると死亡する。)\nベイトの場合即死亡し、強制的に通報が入る。,(内鬼阵营):\n在吸血鬼尝试击杀时，击杀不会立即发生，而是延迟一段时间执行。\n吸血鬼的击杀没有击杀动画。\n若这段时间内游戏进入会议阶段，被击杀目标立即死亡。\n被击杀目标为诱饵时，吸血鬼的击杀被视为普通击杀。,"(狼人陣營):\n通過咬玩家的方式來讓延遲殺人變成可能.\n(被咬的玩家將會死亡在時間結束或會議開始時.)\n若嘗試吸血的對象為誘餌,則會顯示正常殺人。"
+WarlockInfoLong,"(Impostors):\nThe Warlocks can curse another players before Shapeshift.\nWhen they Shapeshift after cursing, the player next to the cursed is killed no matter how far away they are.\nWhile Shpashifting, you can perform normal kills.","(Предатель):\nWarlock может проклясть игроков.\nКогда они меняют свой облик после проклятия, игрок по близости умирает от рук проклятого независимо от того, насколько далеко он находится.\nВо время Shapeshift вы можете совершать обычные убийства.",(インポスター陣営):\nキルをすると一番近くの人に呪いがかかる。\n次から変身ボタンを押すと、呪われた人が一番近い人をキルする。\n変身した場合、普通のキルになる。\nまた、１ターンに１人しか呪うことはできない。,(内鬼阵营):\n术士在不变形状态下击杀时，目标会被诅咒。\n当术士变形，最靠近被诅咒玩家的船员会被击杀。,"(狼人陣營):\n當術士嘗試殺人時會轉變會下咒.\n當術士下一次變形成其他人時,被詛咒的玩家將會殺死一個離他最近的人(可以穿牆砍) \n如果術士變形再殺人,術士就可以正常殺人。"
+WitchInfoLong,"(Impostors):\nThe Witches can perform kills or spells by turns.\nThe players spelled by Witches before a meeting are marked 'cross' in the meeting,\nand unless exiling Witches, They all die just after the meeting.","(Предатель):\nWitch может совершить убийство или заклинание по очереди.\nИгроки проклятые Witch перед встречей помечаются красным крестом на голосовании,\nИ если Witch не изгнан, все проклятые игроки умирают сразу же после голосования.",(インポスター陣営):\nキルをすると「Kill」と「Spell」が切り変わる。\nSpellの表示でキルすると呪うことが出来る。\n呪いをかけられた人は会議で「†」が付き魔女を追放しなければ会議後に死亡する。,(内鬼阵营):\n通过点击击杀按钮，女巫可以在击杀模式与法术模式间切换，在法术模式下击杀可以对目标施法。\n被施法的目标会在会议上得到对全员可见的施法标记。如果直到会议结束女巫仍然存活，被施法的目标死亡。,"(狼人陣營):\n殺人按鍵會在'殺人'和'下咒'這兩個模式間切換,當顯示下咒模式時按下按鍵可以下咒一個離你最近的人\n被下咒的對象在會議上的名字會有一個'†'標記\n如果女巫在會議沒有被投出,則被下咒對象將死於會議後。"
+MafiaInfoLong,"(Impostors):\nInitially, the Mafias cannot kill (still have a button).\nThey will be able to kill after Impostors except them are all gone.","(Предатель):\nИзначально Mafia не может убивать (но все еще есть кнопка убийства).\nОн сможет убивать после того, как все Предатели кроме него будут убиты или изгнаны.",(インポスター陣営):\n初期状態ではキルが封じられている。\n仲間が全員死亡後、自身もキルが可能になる。,(内鬼阵营):\n黑手党在游戏中有其他内鬼存活时不可以进行击杀。,"(狼人陣營):\n在遊戲開始時,黑手黨沒有刀\n但是當他所有的隊友死亡後,他就可以開始殺人。"
+PuppeteerInfoLong,"(Impostors):\nThey can perform secondhand kills but cannot kill like other Impostors.\nTheir direct kill is blocked, but instead, the protected player forcibly kills another player first getting in kill range.","(Предатель):\nОн может совершить убийство с помощью помеченного игрока, но не может убивать как другие Предатели.\nЕго прямое убийство заблокировано, но вместо этого помеченный игрок насильно убивает игрока который первый попался ему на глаза.",(インポスター陣営):\nキルした対象に、対象が次に近づいたクルーをキルさせる事ができる。\n対象がキルした相手がキルされた瞬間に発動するものであった場合、対象にその効果が反映される。\n普通のキルを行うことはできない。,(内鬼阵营):\n傀儡师的击杀对象会击杀其遇到的下一个船员。\n若后者在接触的同时死亡，则前者死亡。\n傀儡师不可以执行正常击杀。,"(狼人陣營):\n當傀儡師嘗試殺人時,\n他會下咒離他最近的一個人,接著如果碰到非狼人陣營的人並且在殺人範圍內,\n被下咒對象將會砍死他且效果不再持續,\n傀儡師無法正常殺人。"
+TimeThiefInfoLong,"(Impostors):\nEvery kill cuts down discussion and voting time in meeting.\nDepending on option, the lost time is returned after they die.","(Предатель):\nКаждое его убийство сокращает время обсуждения и голосования на собрании.\nВ зависимости от настроек потерянное время возвращается после его смерти.",(インポスター陣営):\nキルを行うと会議時間が減少する。\nタイムシーフが追放または殺害されると、失われた会議時間が返ってきます。,(内鬼阵营):\n蚀时者每击杀一个人，会议持续时间将减少一定时间。\n如果蚀时者死亡，被偷取的时间的会议时间会返还。,"(狼人陣營):\n時間小偷每次殺人將會減少會議時間\n如果時間小偷被丟出或被殺死,減少的會議時間將會回來"
+SniperInfoLong,(Impostors):\nSniper can shoot players so far away.\nthey kill a player on the extension line from Shapeshift point to release point.\nYou can perform normal kills after all bullets run out.,"(Предатель):\nSniper может стрелять в игроков на расстоянии.\nОн убивает игрока на одной линии который находится Sniper от точки Shapeshift до точки возвращения в свой облик.\nВы можете совершать обычные убийства после того, как все патроны закончатся.",(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。,(内鬼阵营):\n狙击手拥有远距离击杀的能力。\n狙击手化形后，其击杀能够将其现在为止与化形时所处位置连线及其延长线上的一名玩家击杀。\n狙击手的子弹耗尽前，狙击手不可以进行通常击杀。",(狼人陣營):\n狙擊遠處的敵人\n子彈將從變形處延伸到取消變形處並往直線前進並殺死在這條線上非狼人陣營的人\n狙擊手無法正常殺人在狙擊手用光子彈前。"
+EvilTrackerInfoLong,"(Impostors):\nEvilTracker can track others.\nThey can see arrows toward Impostors and the one whom they Shapeshift to.\nThey know when allies take kills with kill flash.","(Предатель):\nEvilTracker может отслеживать других игроков.\nОни могут видеть стрелки, указывающие на Предателей и того в кого они Морфятся.\nОни знают когда Предатели совершают убийства с помощью вспышки убийства.",(インポスター陣営):\n他人の位置が分かるインポスター。\n味方のインポスターとシェイプシフトで選んだ一人の位置が矢印で表示される。\n味方インポスターのキルによるキルフラッシュも見える。
 
 # マッドメイト系役職
-MadmateInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, but they don't know who are Impostors.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。,(内鬼阵营):\n叛徒不可以击杀或者破坏，可以跳管道。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人無法知道叛徒是誰,\n他可以跳洞且沒有任務。"
-MadGuardianInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, one type of Madmates.\MadGuardian cannot use vents, while they can guard kills by Impostors after finishing all tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。,(内鬼阵营):\n堕落守卫不可以击杀、破坏或使用管道。\n堕落守卫完成任务之后，可以免疫所有击杀。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人和他們無法互相知道誰是叛徒,誰是狼\n當背叛的天使完成所有任務時,他將有一個盾牌。"
-MadSnitchInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, one type of Madmates.\nThey can see who is the Impostor after finishing all their tasks.\nDepending on option, they can use vents.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させるとマッドスニッチからインポスターを認識できるようになる。,(内鬼阵营):\n背叛的告密者与内鬼不互认，不可以击杀、破坏或者使用管道。\n背叛的告密者完成所有任务之后，其与内鬼互认。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人和他們無法互相知道誰是叛徒,誰是狼\n當背叛的告密者做完任務時,狼人和背叛的告密者將可以互相知道對方。"
-SKMadmateInfoLong,(Impostors):\nThe SidekickMadmate is an acquired Madmate Role assigned by Impostors in task phases.\nSome kind of Shapeshifter-based Impostors can give SidekickMadmate by Shapeshifting next to a target.\nThey have no tasks.,(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。,(内鬼阵营):\n一些内鬼职业变形时，其附近的与其距离最近的玩家的职业有概率转化为该职业。\n被收买的叛徒与内鬼不互认。,"(狼人陣營):\n當狼人變形時\n離狼人變形最近的一個人將有機率轉化為叛徒跟班\n他沒有任務,且叛徒跟班與狼人無法互相知道。"
+MadmateInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, but they don't know who are Impostors.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.","(Предатель):\nЧлен экипажа, но он принадлежат к команде Предателя, но он не знает кто является Предателем.\nНеузнаваемы друг для друга. Может использовать вентиляцию, но нет заданий.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。,(内鬼阵营):\n叛徒不可以击杀或者破坏，可以跳管道。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人無法知道叛徒是誰,\n他可以跳洞且沒有任務。"
+MadGuardianInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, one type of Madmates.\MadGuardian cannot use vents, while they can guard kills by Impostors after finishing all tasks.","(Предатель):\nЧлен экипажа, но он принадлежит к команде Предателя, одному из типов Madmate.\nMadGuardian не может использовать вентеляцию, но может предотвротить свое убийство Предателем после выполнения всех его задач.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。,(内鬼阵营):\n堕落守卫不可以击杀、破坏或使用管道。\n堕落守卫完成任务之后，可以免疫所有击杀。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人和他們無法互相知道誰是叛徒,誰是狼\n當背叛的天使完成所有任務時,他將有一個盾牌。"
+MadSnitchInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, one type of Madmates.\nThey can see who is the Impostor after finishing all their tasks.\nDepending on option, they can use vents.","(Предатель):\nЧлен экипажа, но он принадлежит к команде Предателя, одному из типов Madmate.\nОн может увидеть, кто является Предателем, после того как выполнит все свои задания.\nВ зависимости от настроек он может использовать вентиляцию.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させるとマッドスニッチからインポスターを認識できるようになる。,(内鬼阵营):\n背叛的告密者与内鬼不互认，不可以击杀、破坏或者使用管道。\n背叛的告密者完成所有任务之后，其与内鬼互认。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人和他們無法互相知道誰是叛徒,誰是狼\n當背叛的告密者做完任務時,狼人和背叛的告密者將可以互相知道對方。"
+SKMadmateInfoLong,(Impostors):\nThe SidekickMadmate is an acquired Madmate Role assigned by Impostors in task phases.\nSome kind of Shapeshifter-based Impostors can give SidekickMadmate by Shapeshifting next to a target.\nThey have no tasks.,"(Предатель):\nSideKickMadmate это приобретенная роль Madmate, назначается Предателям на этапе выполнений заданий.\nНа основе Shapeshifters некоторые Предатели могут дать роль SidekickMadmate, меняя форму рядом с целью.\nУ них нет заданий.",(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。,(内鬼阵营):\n一些内鬼职业变形时，其附近的与其距离最近的玩家的职业有概率转化为该职业。\n被收买的叛徒与内鬼不互认。,"(狼人陣營):\n當狼人變形時\n離狼人變形最近的一個人將有機率轉化為叛徒跟班\n他沒有任務,且叛徒跟班與狼人無法互相知道。"
 
 # 両陣営可能役職
-WatcherInfoLong,(Impostors or Crewmates):\nThe Watchers can see colored votes regardless of anonymous votes.,(インポスターorクルーメイト陣営):\n全員の投票先を見ることができる。,(内鬼阵营或船员阵营):\n会议时窥视者可以看到所有人的投票。,(狼人或船員):\n會議時觀察者可以看到所有人的投票。
+WatcherInfoLong,(Impostors or Crewmates):\nThe Watchers can see colored votes regardless of anonymous votes.,(Предатель или Член Экипажа):\nWatchers могут видеть все цвета голосов несмотря на анонимное голосвоание.,(インポスターorクルーメイト陣営):\n全員の投票先を見ることができる。,(内鬼阵营或船员阵营):\n会议时窥视者可以看到所有人的投票。,(狼人或船員):\n會議時觀察者可以看到所有人的投票。
 
 # 特殊クルー役職
-BaitInfoLong,"(Crewmates):\nWhen killed, they force the killer to self report in no time.",(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。,(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告。,"(船員):\n當被殺時,兇手將強制自行舉報"
-LighterInfoLong,"(Crewmates):\nAfter finishing all the task, The lighters have their vision expanded and ignore lights out.",(クルーメイト陣営):\nタスクを終わらせると、自分の視界を広げることができる。,(船员阵营):\n执灯人完成任务后，视野会扩大，且不受照明破坏影响。,"(船員):\n當做完所有任務時可以增大視野且不受關燈影響"
-MayorInfoLong,"(Crewmates):\nThe Mayors' votes count twice or more.\nDepending on the options, they can call emergency meeting by entering vents.",(クルーメイト陣営):\n会議の票を複数持ち、まとめて一人または\nスキップに入れることができる。(設定有),(船员阵营):\n市长的一票等价于多个玩家的票数。(可以进行设置),"(船員):\n可以一次投很多票並可以將它灌到一個人身上或跳過 (可以設定票數)"
-SabotageMasterInfoLong,"(Crewmates):\nthey can fix both of Communications in MIRA HQ, Reactor and O2 by fixing either.\nLights can be fixed by touching a single lever.\nOpening a door will open all the linked doors.",(クルーメイト陣営):\nリアクター・O2・通信妨害を一人で修理可能。\n停電は一箇所のレバーに触れる事で全て直る。\nドアを開けるとその部屋の全てのドアが開く。,(船员阵营):\n氧气泄露、核反应堆熔毁以及米拉总部的通讯破坏维修大师只需要修复一边则另一边即可同时被修复。\n维修大师只需要按一个开关便可以修复照明破坏。\n维修大师打开波鲁斯与飞艇地图的门时维修大师所在房间的所有门同时打开。,"(船員):\n反應堆,氧氣,通訊以及其他破壞可以破壞大師一個人修復\n關燈可以通過拉一根拉桿來\n開門將開啟該房間所有關閉中的的門。"
-SheriffInfoLong,"(Crewmates):\nThe Sheriffs can kill Impostors.\nIf trying to kill the Crewmates, however, they will kill themselves instead.\nWhether or not they can kill Madmates or Neutrals is up to each option.\nThey have no tasks.",(クルーメイト陣営):\nインポスター陣営をキルすることができる。\n※第三陣営をキル可能にする設定有。\nｸﾙｰﾒｲﾄをキルすると自殺する。タスクはない。,(船员阵营):\n警长可以击杀内鬼（根据房间设置，警长也可以击杀中立阵营玩家）。\n警长若尝试击杀内鬼阵营以外的玩家，警长将会走火。\n警长没有任务。,"(船員):\n警長可以殺死狼人陣營的人,\n*可以設定中立陣營是否可以被殺\n警長若槍到好人陣營將會自殺,警長沒有任務。"
-SnitchInfoLong,"(Crewmates):\nWhen finishing all the tasks, the Snitches can see Impostors with their red player name.\nWhen the Snitches have one task left, they will be revealed to the Impostors",(クルーメイト陣営):\nタスク完了と同時にインポスターの名前の色が\n赤く表示され逆に自身のタスクが少なくなると\n名前の横に★が表示されｲﾝﾎﾟｽﾀｰに暴かれる。,(船员阵营):\n告密者完成所有任务后，所有内鬼的昵称在告密者来看将变为红色显示。\n当告密者剩余任务到达一定数量时，内鬼会收到提示。\n（注:恋人告密者的技能失效）,"(船員):\n當告密者做完所有任務,狼人的名字將會變成紅色(僅告密者可見),\n但是當他剩下最後一個任務時,\n狼人會看見告密者頭上會有個星號標記。(中立或船員不可見)\n(P.S:戀人告密者技能失效)"
-LoversInfoLong,"(Neutrals),\nThe Lovers are additionally assigned to two of all players.\nWin if the game ends with both lovers alive(except Crewmates task completion).\nIf one lover dies, the other lover suicides.",(第三陣営):\n全プレイヤーの中からランダムで2人に他の役職と重複して配役される第三陣営。\n恋人が2人とも生き残っている状態で試合終了すれば勝利。\n恋人の片方が死んだときにもう片方も死ぬ。クルーメイトのタスクが完了すると敗北。,恋人为两名玩家的组合。\n恋人存活到游戏结束则恋人独自获胜。\n船员阵营的恋人玩家没有任务。\n从恋人阵营玩家可以看到两名恋人玩家昵称旁有心形标志。\n恋人一同赴死。\n恋人中的一方在会议中被放逐时，另一方将死亡并变为不可以被报告的尸体。,"(中立),\n遊戲開始系統會隨機抽取兩人當戀人,該職業可以和其他職業屬於同一個玩家身上\n戀人將獲勝在遊戲結束時如果兩個戀人都活著.\n但是當一個戀人死去,另一個戀人也會跟著死去\n如果船員完成所有任務,戀人即宣告失敗。"
-SpeedBoosterInfoLong,(Crewmates):Finishing all the tasks boosts the player speed of someone alive.,(クルーメイト陣営):\nタスクを終わらせると、ランダムな生存者のスピードを上げる事ができる。,(船员阵营):\n增速者完成所有任务后，场上任意一名存活玩家的速度将被加快。,"(船員):加速器做完任務時可以讓隨機的活著玩家速度加快"
-DoctorInfoLong,"(Crewmates):\nThe Doctors have a portable vitals panel just like the vanilla Role Scientists.\nIn addtion, the Doctors can see all causes of death in meetings.",(クルーメイト陣営):\nプレイヤーの死因を知ることができる。\nまた、充電がある限りどこでもバイタルを確認できる。,(船员阵营):\n医生可以确认所有死亡玩家的死因。\n医生可以远程观看生命监测装置，观看持续时间与设备充能挂钩。,"(船員):\n醫生可以知道每個玩家的死因\n還有醫生有一個跟科學家一樣的心電圖,它也需要充電。"
-TrapperInfoLong,(Crewmates):\nThe Trappers forbid the killer to move in the least for a configurable seconds.,(クルーメイト陣営):\nキルされると、キルした人を数秒間移動不可にすることができる。(設定有),(船员阵营):\n陷阱师被击杀时，凶手一段时间内将不能移动。,"(船員):\n如果設限者被殺,殺他的兇手將會被困在原地幾秒(可以設定)"
-DictatorInfoLong,"(Crewmates):\nWhen you vote for someone in a meeting, they forcibly break that meeting and exile the player they vote for.\nAfter exercising the force, the Dictators die just after meeting.",(クルーメイト陣営):\n会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができる。\n投票したタイミングでディクテーターは死ぬ。,(船员阵营):\n会议阶段独裁者投票后，可以选择强制结束会议并放逐其投票对象。\n这技能发动后独裁者将会死亡。,"(船員):\n如果獨裁主義者在會議上投票給某位玩家,\n獨裁主義者將強制結束會議並無視場上票數將獨裁主義者投的那個人投出\n但是獨裁主義者將死於他投票的瞬間。"
-SeerInfoLong,"(Crewmates):Every time players die, Seers can see kill flash.",(クルーメイト陣営):\nプレイヤーが死亡するごとに、シーアはキルフラッシュを見ることができる。
+BaitInfoLong,"(Crewmates):\nWhen killed, they force the killer to self report in no time.","(Член Экипажа):\nКогда его убивают, он заставляют убийцу моментально сообщить о трупе.",(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。,(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告。,"(船員):\n當被殺時,兇手將強制自行舉報"
+LighterInfoLong,"(Crewmates):\nAfter finishing all the task, The lighters have their vision expanded and ignore lights out.","(Член Экипажа):\nПосле выполнения всех заданий, Lighter расширяет свое поле зрения и видет во время отключенного света.",(クルーメイト陣営):\nタスクを終わらせると、自分の視界を広げることができる。,(船员阵营):\n执灯人完成任务后，视野会扩大，且不受照明破坏影响。,"(船員):\n當做完所有任務時可以增大視野且不受關燈影響"
+MayorInfoLong,"(Crewmates):\nThe Mayors' votes count twice or more.\nDepending on the options, they can call emergency meeting by entering vents.","(Член Экипажа):\nК голосу Mayor добавляются дополнительные голоса.\nВ зависимости от настроек, он может созвать срочное собрание когда запрыгнет в вентиляцию.",(クルーメイト陣営):\n会議の票を複数持ち、まとめて一人または\nスキップに入れることができる。(設定有),(船员阵营):\n市长的一票等价于多个玩家的票数。(可以进行设置),"(船員):\n可以一次投很多票並可以將它灌到一個人身上或跳過 (可以設定票數)"
+SabotageMasterInfoLong,"(Crewmates):\nthey can fix both of Communications in MIRA HQ, Reactor and O2 by fixing either.\nLights can be fixed by touching a single lever.\nOpening a door will open all the linked doors.","(Член Экипажа):\nОни могут починить связь на карте MIRA HQ в одиночку, а так же это касается Реактора и O2.\nОн так же быстро может починить саботаж света, коснувшись лишь одного рычага.\nОткрытие одной двери в локации он откроет все связанные с ним двери.",(クルーメイト陣営):\nリアクター・O2・通信妨害を一人で修理可能。\n停電は一箇所のレバーに触れる事で全て直る。\nドアを開けるとその部屋の全てのドアが開く。,(船员阵营):\n氧气泄露、核反应堆熔毁以及米拉总部的通讯破坏维修大师只需要修复一边则另一边即可同时被修复。\n维修大师只需要按一个开关便可以修复照明破坏。\n维修大师打开波鲁斯与飞艇地图的门时维修大师所在房间的所有门同时打开。,"(船員):\n反應堆,氧氣,通訊以及其他破壞可以破壞大師一個人修復\n關燈可以通過拉一根拉桿來\n開門將開啟該房間所有關閉中的的門。"
+SheriffInfoLong,"(Crewmates):\nThe Sheriffs can kill Impostors.\nIf trying to kill the Crewmates, however, they will kill themselves instead.\nWhether or not they can kill Madmates or Neutrals is up to each option.\nThey have no tasks.","(Член Экипажа):\nSheriff может убивать Предателей.\nОднако, если он попытается убить Члена Экипажа то он убьет сам себя.\nМогут ли они убивать Madmate товарищей или Нейтралов, зависит от настроек.\nУ него нет заданий.",(クルーメイト陣営):\nインポスター陣営をキルすることができる。\n※第三陣営をキル可能にする設定有。\nｸﾙｰﾒｲﾄをキルすると自殺する。タスクはない。,(船员阵营):\n警长可以击杀内鬼（根据房间设置，警长也可以击杀中立阵营玩家）。\n警长若尝试击杀内鬼阵营以外的玩家，警长将会走火。\n警长没有任务。,"(船員):\n警長可以殺死狼人陣營的人,\n*可以設定中立陣營是否可以被殺\n警長若槍到好人陣營將會自殺,警長沒有任務。"
+SnitchInfoLong,"(Crewmates):\nWhen finishing all the tasks, the Snitches can see Impostors with their red player name.\nWhen the Snitches have one task left, they will be revealed to the Impostors","(Член Экипажа):\nПосле выполнения всех заданий Snitch может видеть Предателей с их красным никнеймом.\nКогда у Snitch останется одно задание, он будет виден Предателям",(クルーメイト陣営):\nタスク完了と同時にインポスターの名前の色が\n赤く表示され逆に自身のタスクが少なくなると\n名前の横に★が表示されｲﾝﾎﾟｽﾀｰに暴かれる。,(船员阵营):\n告密者完成所有任务后，所有内鬼的昵称在告密者来看将变为红色显示。\n当告密者剩余任务到达一定数量时，内鬼会收到提示。\n（注:恋人告密者的技能失效）,"(船員):\n當告密者做完所有任務,狼人的名字將會變成紅色(僅告密者可見),\n但是當他剩下最後一個任務時,\n狼人會看見告密者頭上會有個星號標記。(中立或船員不可見)\n(P.S:戀人告密者技能失效)"
+LoversInfoLong,"(Neutrals),\nThe Lovers are additionally assigned to two of all players.\nWin if the game ends with both lovers alive(except Crewmates task completion).\nIf one lover dies, the other lover suicides.","(Нейтрал):\nLovers дополнительно с какой либо ролью назначается двум случайным игрокам.\nLovers выиграют когда оба Lovers останутся живых (Победа по выполненым всех заданий не засчитыватся).\nЕсли один из любовников умрет, то другой любовник моментально умрет вместе с ним.",(第三陣営):\n全プレイヤーの中からランダムで2人に他の役職と重複して配役される第三陣営。\n恋人が2人とも生き残っている状態で試合終了すれば勝利。\n恋人の片方が死んだときにもう片方も死ぬ。クルーメイトのタスクが完了すると敗北。,恋人为两名玩家的组合。\n恋人存活到游戏结束则恋人独自获胜。\n船员阵营的恋人玩家没有任务。\n从恋人阵营玩家可以看到两名恋人玩家昵称旁有心形标志。\n恋人一同赴死。\n恋人中的一方在会议中被放逐时，另一方将死亡并变为不可以被报告的尸体。,"(中立),\n遊戲開始系統會隨機抽取兩人當戀人,該職業可以和其他職業屬於同一個玩家身上\n戀人將獲勝在遊戲結束時如果兩個戀人都活著.\n但是當一個戀人死去,另一個戀人也會跟著死去\n如果船員完成所有任務,戀人即宣告失敗。"
+SpeedBoosterInfoLong,(Crewmates):Finishing all the tasks boosts the player speed of someone alive.,(Член Экипажа):При выполнении всех заданий у живого случайного игрока увеличивается скорость.,(クルーメイト陣営):\nタスクを終わらせると、ランダムな生存者のスピードを上げる事ができる。,(船员阵营):\n增速者完成所有任务后，场上任意一名存活玩家的速度将被加快。,"(船員):加速器做完任務時可以讓隨機的活著玩家速度加快"
+DoctorInfoLong,"(Crewmates):\nThe Doctors have a portable vitals panel just like the vanilla Role Scientists.\nIn addtion, the Doctors can see all causes of death in meetings.","(Член Экипажа):\nУ Doctor есть портативные пульсы, точно так же как и роли ученого.\nКроме того, Doctor может видеть причину смерти каждого мертвого игрока на голосовании.",(クルーメイト陣営):\nプレイヤーの死因を知ることができる。\nまた、充電がある限りどこでもバイタルを確認できる。,(船员阵营):\n医生可以确认所有死亡玩家的死因。\n医生可以远程观看生命监测装置，观看持续时间与设备充能挂钩。,"(船員):\n醫生可以知道每個玩家的死因\n還有醫生有一個跟科學家一樣的心電圖,它也需要充電。"
+TrapperInfoLong,(Crewmates):\nThe Trappers forbid the killer to move in the least for a configurable seconds.,"(Член Экипажа):\nTrapper запрещает убийце двигаться, длительность запрета зависит от настроек.",(クルーメイト陣営):\nキルされると、キルした人を数秒間移動不可にすることができる。(設定有),(船员阵营):\n陷阱师被击杀时，凶手一段时间内将不能移动。,"(船員):\n如果設限者被殺,殺他的兇手將會被困在原地幾秒(可以設定)"
+DictatorInfoLong,"(Crewmates):\nWhen you vote for someone in a meeting, they forcibly break that meeting and exile the player they vote for.\nAfter exercising the force, the Dictators die just after meeting.","(Член Экипажа):\nКогда он голосует за кого-то на голосовании, он сразу же завершает собрание и изгоняет игрока за которого он проголосвал.\nПосле его голоса Dictator умирает сразу же после изгнания его выбранного игрока.",(クルーメイト陣営):\n会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができる。\n投票したタイミングでディクテーターは死ぬ。,(船员阵营):\n会议阶段独裁者投票后，可以选择强制结束会议并放逐其投票对象。\n这技能发动后独裁者将会死亡。,"(船員):\n如果獨裁主義者在會議上投票給某位玩家,\n獨裁主義者將強制結束會議並無視場上票數將獨裁主義者投的那個人投出\n但是獨裁主義者將死於他投票的瞬間。"
+SeerInfoLong,"(Crewmates):Every time players die, Seers can see kill flash.","(Член Экипажа):Каждый раз когда игроки умирают, Seer может видеть вспышку убийства.",(クルーメイト陣営):\nプレイヤーが死亡するごとに、シーアはキルフラッシュを見ることができる。
 
 # 第三陣営役職
-ArsonistInfoLong,(Neutrals):\nThey can douse other players by using the kill button and remaining next to the player for a few seconds.\nAfter dousing everyone alive the Arsonists can enter the vents to ignite which results in Arsonist win.,(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。,(独立阵营):\n在一名玩家附近时点击击杀按钮，纵火犯可以给那名玩家涂油。\n所有存活玩家都被纵火犯涂油后，纵火犯点火将会单独获得胜利。,"(中立):\n當縱火犯嘗試使用殺人鍵,它將對他身邊最近的一個人澆上油,\n當他對所有玩家澆上油之後,縱火縱火犯點火即勝利。"
-JesterInfoLong,(Neutrals):\nThey win the game as a solo if they get voted out during a meeting.\nOtherwise Jester lose.,(第三陣営):\n会議で追放された時に単独勝利できる。\n追放されず試合が終了orキルされると敗北。,(独立阵营):\n小丑被放逐则小丑单独游戏胜利。\n游戏结束时若小丑仍存活则小丑输掉游戏。,"(中立):\n當小丑被丟出時即宣告小丑獲勝,\n但是小丑在遊戲結束時活下來或是在遊戲中被殺即宣告失敗"
-TerroristInfoLong,(Neutrals):\nThe Terrorists win alone when killed or exiled with all of his tasks completed.,(第三陣営):\n自身のタスクを全て完了させた状態で\nキル・追放された時に単独勝利する。,(独立阵营):\n恐怖分子完成所有任务后死亡，则恐怖分子单独获得胜利。,"(中立):\n恐怖分子只要做完它的所有任務並且死亡即可獲勝"
-ExecutionerInfoLong,"(Neutrals):\nThe Executioners are assigned their target with dark purple 'Diamond' sign next to the player name.\nThey win if the target is voted out.\nIf the target dies before voted out, the Executioner changes their Role and become Crewmate, Jester, or Opportunist according to a game option.\nIf the target is the Jester, the Executioners can be an additional winner.",(第三陣営):\nターゲットに対してこちらからのみ視認できるダイヤのマークがついている。\n投票でダイヤが付いている人を追放すれば単独勝利。ターゲットがキルされた場合は役職が変化する。\nターゲットがジェスターの場合は追加勝利する。,(独立阵营):\n游戏开始时处刑人得知一名处刑目标，用菱形图标在其昵称旁标志。\n处刑目标在会议中被放逐则处行者独自获得胜利。\n处刑目标被击杀则处刑目标变更。\n小丑作为处刑目标被放逐时，小丑与处刑人共同获得胜利。,"(中立):\n劊子手的目標會有一個鑽石符號,這個符號僅劊子手可見,\n如果他的目標被投出,他將獨自勝利。\n如果目標被殺,劊子手將轉職(可以設定).\n如果目標是小丑,那麼被丟出時,劊子手和小丑會一起獲勝。"
-SchrodingerCatInfoLong,"(Neutrals):\nWhen killed, they prevents the kill and belongs to the killer's team.",(第三陣営):\nキルされると、キルを防いでキルをしてきた陣営に所属する。,(独立阵营):游戏开始时薛定谔的猫没有胜利条件。\n薛定谔的猫被击杀后，其会复活且加入凶手阵营，获得与凶手所在阵营相同的胜利条件。\n 注:1.被放逐的薛定谔的猫死亡并不再变更胜利条件。\n2.被术士击杀的薛定谔的猫死亡并不再变更胜利条件。\n3.除吸血鬼的击杀外，一切显示为玩家自杀的情况内薛定谔的猫死亡并不再变更胜利条件。,"(中立):\n當薛定諤的貓第一次被殺時,他將轉入殺他的那個陣營。\n(P.S:1.薛定諤的貓如果被丟出則陣營不更改\n2.薛定諤的貓如果被術士下咒對象咒死時則陣營不更改\n3.如果薛定諤的貓有戀人且戀人死亡受到戀人共死影響自殺則陣營不更改)"
-OpportunistInfoLong,(Neutrals):\nThey win the game with any other Roles only if they are just alive at the game end.,(第三陣営):\n試合終了時に生存していれば追加勝利となる。,(独立阵营):\n若投机者在游戏结束时存活，则投机者跟随获胜玩家一同获得胜利。,"(中立):\n如果投機主義者活到最後,他將跟著遊戲結束獲勝的陣營一起獲勝。"
-EgoistInfoLong,"(Neutrals):\nAfter all the Impostors has gone, the Egoists Replace Impostor win.\nThe Impostors and Egoists can see each other.",(第三陣営):\n味方がすべて死んだ状態でインポスターが勝つと単独勝利する。\nインポスターは誰がエゴイストか分かる。エゴイストも、誰がインポスターか分かる。,(独立阵营):\n规则上野心家属于内鬼阵营。野心家与内鬼阵营玩家互认且不可以击杀对方。\n内鬼阵营玩家全部死亡后，若野心家存活且内鬼阵营达成胜利条件，则野心家单独获得胜利。,"(中立):\n如果所有的狼人都死光了且利己主義者活著,利己主義者將獨自獲勝。\n(狼人和利己主義者互相知道對方但是不可以互刀對方)"
-JackalInfoLong,"(Neutrals):\nJackal can kill all Crewmates, Impostors and Neutrals.\nTeam Jackal wins when living Jackal outnumbers living Crewmates and when there are no Impostors alive.",(第三陣営):\nジャッカルはすべてのプレイヤーを殺すことができる。\nインポスターが残っておらず、生き残っているジャッカルの人数がクルーと同じかそれ以上でジャッカルが勝利する。,(独立阵营):\n豺狼需要击杀所有人。\n存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。,"(中立):\n豺狼需要殺死所有人來獲得勝利,\n如果場上存活的玩家只剩下豺狼和另一名不帶刀職業時,豺狼將獲勝。"
+ArsonistInfoLong,(Neutrals):\nThey can douse other players by using the kill button and remaining next to the player for a few seconds.\nAfter dousing everyone alive the Arsonists can enter the vents to ignite which results in Arsonist win.,"(Нейтрал):\nОн может облить других игроков, нажав на кнопку Убить и оставаясь рядом с игроком в течение нескольких секунд.\nПосле того как обольете всех живых, Arsonist сможет запрыгнуть в вентиляцию чтобы поджечь всех игроков, что приводит к победе Arsonist.",(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。,(独立阵营):\n在一名玩家附近时点击击杀按钮，纵火犯可以给那名玩家涂油。\n所有存活玩家都被纵火犯涂油后，纵火犯点火将会单独获得胜利。,"(中立):\n當縱火犯嘗試使用殺人鍵,它將對他身邊最近的一個人澆上油,\n當他對所有玩家澆上油之後,縱火縱火犯點火即勝利。"
+JesterInfoLong,(Neutrals):\nThey win the game as a solo if they get voted out during a meeting.\nOtherwise Jester lose.,"(Нейтрал):\nОн выигрывает игру в одиночку, если за него проголосуют во время голосования.\nВ противном случае Jester проигрывает.",(第三陣営):\n会議で追放された時に単独勝利できる。\n追放されず試合が終了orキルされると敗北。,(独立阵营):\n小丑被放逐则小丑单独游戏胜利。\n游戏结束时若小丑仍存活则小丑输掉游戏。,"(中立):\n當小丑被丟出時即宣告小丑獲勝,\n但是小丑在遊戲結束時活下來或是在遊戲中被殺即宣告失敗"
+TerroristInfoLong,(Neutrals):\nThe Terrorists win alone when killed or exiled with all of his tasks completed.,"(Нейтрал):\nTerrorist побеждает в одиночку, если его убивают или изгоняют, и при этом все его задания выполнены.",(第三陣営):\n自身のタスクを全て完了させた状態で\nキル・追放された時に単独勝利する。,(独立阵营):\n恐怖分子完成所有任务后死亡，则恐怖分子单独获得胜利。,"(中立):\n恐怖分子只要做完它的所有任務並且死亡即可獲勝"
+ExecutionerInfoLong,"(Neutrals):\nThe Executioners are assigned their target with dark purple 'Diamond' sign next to the player name.\nThey win if the target is voted out.\nIf the target dies before voted out, the Executioner changes their Role and become Crewmate, Jester, or Opportunist according to a game option.\nIf the target is the Jester, the Executioners can be an additional winner.","(Нейтрал):\nExecutioner назначается цель с темно-фиолетовым значком «Ромба» рядом с именем игрока.\nОн побеждает когда его цель будет изгнана на голосовании.\nЕсли его цель умирает до того как он был изгнан, Executioner меняет свою роль и становится Членом Экипажа, Jester или Opportunist в зависимости от настроек игры.\nЕсли его цель является Jester, Executioner станет победителем вместе с ним.",(第三陣営):\nターゲットに対してこちらからのみ視認できるダイヤのマークがついている。\n投票でダイヤが付いている人を追放すれば単独勝利。ターゲットがキルされた場合は役職が変化する。\nターゲットがジェスターの場合は追加勝利する。,(独立阵营):\n游戏开始时处刑人得知一名处刑目标，用菱形图标在其昵称旁标志。\n处刑目标在会议中被放逐则处行者独自获得胜利。\n处刑目标被击杀则处刑目标变更。\n小丑作为处刑目标被放逐时，小丑与处刑人共同获得胜利。,"(中立):\n劊子手的目標會有一個鑽石符號,這個符號僅劊子手可見,\n如果他的目標被投出,他將獨自勝利。\n如果目標被殺,劊子手將轉職(可以設定).\n如果目標是小丑,那麼被丟出時,劊子手和小丑會一起獲勝。"
+SchrodingerCatInfoLong,"(Neutrals):\nWhen killed, they prevents the kill and belongs to the killer's team.","(Нейтрал):\nКогда его пытаются убить, он предотвращают убийство и переходит к команде убийцы.",(第三陣営):\nキルされると、キルを防いでキルをしてきた陣営に所属する。,(独立阵营):游戏开始时薛定谔的猫没有胜利条件。\n薛定谔的猫被击杀后，其会复活且加入凶手阵营，获得与凶手所在阵营相同的胜利条件。\n 注:1.被放逐的薛定谔的猫死亡并不再变更胜利条件。\n2.被术士击杀的薛定谔的猫死亡并不再变更胜利条件。\n3.除吸血鬼的击杀外，一切显示为玩家自杀的情况内薛定谔的猫死亡并不再变更胜利条件。,"(中立):\n當薛定諤的貓第一次被殺時,他將轉入殺他的那個陣營。\n(P.S:1.薛定諤的貓如果被丟出則陣營不更改\n2.薛定諤的貓如果被術士下咒對象咒死時則陣營不更改\n3.如果薛定諤的貓有戀人且戀人死亡受到戀人共死影響自殺則陣營不更改)"
+OpportunistInfoLong,(Neutrals):\nThey win the game with any other Roles only if they are just alive at the game end.,"(Нейтрал):\nОн выигрывает игру с любыми другими ролями, но с условием что он выжил.",(第三陣営):\n試合終了時に生存していれば追加勝利となる。,(独立阵营):\n若投机者在游戏结束时存活，则投机者跟随获胜玩家一同获得胜利。,"(中立):\n如果投機主義者活到最後,他將跟著遊戲結束獲勝的陣營一起獲勝。"
+EgoistInfoLong,"(Neutrals):\nAfter all the Impostors has gone, the Egoists Replace Impostor win.\nThe Impostors and Egoists can see each other.","(Нейтрал):\nПосле того, как все Предатели умрут победит Egoist, заменяющий победу Предателя.\nПредатели и Egoist могут видеть друг друга.",(第三陣営):\n味方がすべて死んだ状態でインポスターが勝つと単独勝利する。\nインポスターは誰がエゴイストか分かる。エゴイストも、誰がインポスターか分かる。,(独立阵营):\n规则上野心家属于内鬼阵营。野心家与内鬼阵营玩家互认且不可以击杀对方。\n内鬼阵营玩家全部死亡后，若野心家存活且内鬼阵营达成胜利条件，则野心家单独获得胜利。,"(中立):\n如果所有的狼人都死光了且利己主義者活著,利己主義者將獨自獲勝。\n(狼人和利己主義者互相知道對方但是不可以互刀對方)"
+JackalInfoLong,"(Neutrals):\nJackal can kill all Crewmates, Impostors and Neutrals.\nTeam Jackal wins when living Jackal outnumbers living Crewmates and when there are no Impostors alive.","(Нейтрал):\nJackal может убить всех Членов Экипажа и Предателей тоже.\nJackal может победить, когда в живых остался только 1 Jackal и 1 Член Экипажа.",(第三陣営):\nジャッカルはすべてのプレイヤーを殺すことができる。\nインポスターが残っておらず、生き残っているジャッカルの人数がクルーと同じかそれ以上でジャッカルが勝利する。,(独立阵营):\n豺狼需要击杀所有人。\n存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。,"(中立):\n豺狼需要殺死所有人來獲得勝利,\n如果場上存活的玩家只剩下豺狼和另一名不帶刀職業時,豺狼將獲勝。"
 
 # HideAndSeek
-HASFoxInfoLong,(HideAndSeek):\nThey win the game with other Roles (except Troll) only if they are alive at the game end.,(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。,（躲猫猫）:\n狐狸活到最后便与获胜阵营一同获胜。,"(躲貓貓):\n除了其他的中立陣營以外,只要狐妖活下來即可獲勝\n他們將跟著遊戲結束的獲勝陣營一起獲勝。"
-HASTrollInfoLong,(HideAndSeek):\nThe Trolls win alone if killed.,(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。,（躲猫猫）:\n猎人被抓则猎人单独获胜。,"(躲貓貓):\n當誘捕者被狼人殺死,被殺的誘捕者就宣告獲勝\n在這個例子中,狐妖即使活著也宣告失敗。"
+HASFoxInfoLong,(HideAndSeek):\nThey win the game with other Roles (except Troll) only if they are alive at the game end.,(Прятки):\nОн выигрывает игру с другими ролями (кроме Troll) только если он выжил в конце игры.,(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。,（躲猫猫）:\n狐狸活到最后便与获胜阵营一同获胜。,"(躲貓貓):\n除了其他的中立陣營以外,只要狐妖活下來即可獲勝\n他們將跟著遊戲結束的獲勝陣營一起獲勝。"
+HASTrollInfoLong,(HideAndSeek):\nThe Trolls win alone if killed.,(Прятки):\nTroll побеждает в одиночку если его убивают.,(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。,（躲猫猫）:\n猎人被抓则猎人单独获胜。,"(躲貓貓):\n當誘捕者被狼人殺死,被殺的誘捕者就宣告獲勝\n在這個例子中,狐妖即使活著也宣告失敗。"
 
 # GM
-GMInfoLong,"(None):/nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game itself, and all players know who the GM is at all times.\nAlways assigned to a host and is ghosted from the start.",(なし):\nGM(ゲームマスター)はオブザーバー役職である。\nGMはゲーム自体には何の影響も与えず、すべてのプレイヤーは誰がGMであるかがわかる。必ずホストに割り当てられ、始めから幽霊状態になっている。,（无）：\nGM（管理员）是观察者角色。 \nGM对游戏本身没有影响，所有玩家都知道GM是谁。 它总是分配给一名玩家，从一开始就处于幽灵状态，在旁边观战。,"（不屬於任何陣營）：\nGM(遊戲大師)是遊戲的觀察者, \nGM對遊戲進行過程沒有影響,所有玩家都知道GM是誰,該職業絕對會分配給房主。\nGM(遊戲大師)從開始遊戲時就處於死亡狀態。"
+GMInfoLong,"(None):/nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game itself, and all players know who the GM is at all times.\nAlways assigned to a host and is ghosted from the start.","(Никто):/nGM (Мастер Игры) — это роль призрак который наблюдает за игрой в роле призрака.\nЕго присутствие не влияет на саму игру, и все игроки всегда знают кто является GM.\nВсегда назначается только хосту и становится призраком в самом начале.",(なし):\nGM(ゲームマスター)はオブザーバー役職である。\nGMはゲーム自体には何の影響も与えず、すべてのプレイヤーは誰がGMであるかがわかる。必ずホストに割り当てられ、始めから幽霊状態になっている。,（无）：\nGM（管理员）是观察者角色。 \nGM对游戏本身没有影响，所有玩家都知道GM是谁。 它总是分配给一名玩家，从一开始就处于幽灵状态，在旁边观战。,"（不屬於任何陣營）：\nGM(遊戲大師)是遊戲的觀察者, \nGM對遊戲進行過程沒有影響,所有玩家都知道GM是誰,該職業絕對會分配給房主。\nGM(遊戲大師)從開始遊戲時就處於死亡狀態。"
 
 # 属性
-LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nKill cooldown gets shorter than usual.\nNot assigned to BountyHunter, SerialKiller, or Vampire.",(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。,（效果）:\n这个效果在内鬼仅剩下一名时赋予那名内鬼。\n这名内鬼冷却减少。\n该效果对赏金猎人、嗜血杀手或者吸血鬼不适用。,"(附加效果):\n該效果給予在場上的最後一隻狼人,擁有該效果的狼人刀人冷卻時間會變短,該效果不會給予:\n賞金獵人,連環殺手或吸血鬼 (可以設定冷卻)"
+LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nKill cooldown gets shorter than usual.\nNot assigned to BountyHunter, SerialKiller, or Vampire.","(Атрибут):\nАтрибут, присваевается последнему Предателю.\nВремя отката убийства становится меньше, чем обычно.\nНе назначается BountyHunter, SerialKiller или Vampire.",(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。,（效果）:\n这个效果在内鬼仅剩下一名时赋予那名内鬼。\n这名内鬼冷却减少。\n该效果对赏金猎人、嗜血杀手或者吸血鬼不适用。,"(附加效果):\n該效果給予在場上的最後一隻狼人,擁有該效果的狼人刀人冷卻時間會變短,該效果不會給予:\n賞金獵人,連環殺手或吸血鬼 (可以設定冷卻)"
 
 #モードオプション
-HideAndSeek,HideAndSeek,かくれんぼ,躲猫猫,躲貓貓
-NoGameEnd,NoGameEnd,ゲームを終了しない,测试模式,遊戲不會結束模式
-SyncButtonMode,SyncButtonMode,ボタン回数同期モード,所有船员共享会议次数,全場拍桌數同步模式
-RandomMapsMode,RandomMapsMode,ランダムマップモード,随机地图模式,隨機地圖模式
-SyncedButtonCount,Max Button Count,合計ボタン使用可能回数(回),紧急会议可使用的次数,全場最大拍桌數量
-AddedTheSkeld,Include TheSkeld,TheSkeldを追加,添加骷髅舰地图,將The Skeld地圖列入選項
-AddedMIRAHQ,Include MIRAHQ,MIRAHQを追加,添加米拉总部地图,將MIRA HQ地圖列入選項
-AddedPolus,Include Polus,Polusを追加,添加波鲁斯地图,將Polus地圖列入選項
-AddedTheAirShip,Include TheAirShip,TheAirShipを追加,添加飞艇地图,將The AirShip列入選項
-AllAliveMeeting,All Alive Meeting,全員生存時の会議,,
-AllAliveMeetingTime,All Alive Meeting Time,全員生存時の会議時間,,
-AdditionalEmergencyCooldown,Additional Emergency Cooldown,追加の緊急ボタンクールダウン,,
-AdditionalEmergencyCooldownThreshold,Survivor Threshold To Be Applied,適用する生存人数,,
-AdditionalEmergencyCooldownTime,Additional Cooldown,追加するクールダウン,,
-LadderDeath,Fall From Ladders,ハシゴから転落,从梯子上下滑时有可能摔死,從梯子上下滑時可能會摔死
-LadderDeathChance,Fall To Death Chance,転落する確率,从梯子上摔死的概率,從梯子上下滑摔死機率
-DisableTasks,Disable Tasks,タスクを無効化する,禁用某些任务,禁用某些特定的任務
-DisableSwipeCardTask,Disable SwipeCard Tasks,カードタスク,禁用刷卡任务,禁用刷卡任務
-DisableSubmitScanTask,Disable SubmitScan Tasks,医務室のスキャンタスク,禁用扫描任务,禁用掃描任務
-DisableUnlockSafeTask,Disable UnlockSafe Tasks,金庫タスク,禁用解除歧管任务,禁用保險櫃任務
-DisableUploadDataTask,Disable UploadData Tasks,ダウンロードタスク,禁用上传数据任务,禁用上傳任務
-DisableStartReactorTask,Disable StartReactor Tasks,原子炉起動タスク,禁用启动反应堆任务,禁用啟動反應堆任務
-DisableResetBreakerTask,Disable ResetBreaker Tasks,ブレーカーリセットタスク,禁用重置反应堆任务,禁用重置斷路器任務
-SuffixMode,Suffix,名前の二行目,直播模式,名字標籤
-SuffixMode.None,None,なし,无,無
-SuffixMode.Version,Version,バージョン,版本,版本
-SuffixMode.Streaming,Streaming,配信中,直播中,直播中
-SuffixMode.Recording,Recording,録画中,录制中,錄影中
-SuffixMode.RoomHost,Room Host,部屋主,,
-SuffixMode.OriginalName,OriginalName,元の名前,,
-ColorNameMode,Color Name Mode,色名前モード,显示颜色名称,名字將被顏色名稱替換
-FixFirstKillCooldown,Fix Kill Cooldown For First Spawn,初期スポーン時のクールダウン修正,,
-GhostCanSeeOtherRoles,Ghost Can See Other Roles,幽霊が他人の役職を見ることができる,幽灵可见他人职业,幽靈可以看見所有玩家職業
-GhostCanSeeOtherVotes,Ghost Can See Other Votes,幽霊が他人の投票先を見ることができる,幽灵可见投票情况,幽靈可以看見所有玩家的投票
-GhostIgnoreTasks,Ghost Ignore Tasks,死人のタスクを免除する,,
-DisableTaskWin,Disable Task Win,タスク勝利を無効化,,
-HideGameSettings,Hide Game Settings,ゲーム設定を隠す,隐藏游戏设置,隱藏遊戲設定
-RoleOptions,Role Options,役職設定,职业设置,職業設定
-ModeOptions,Mode Options,モード設定,模组设置,模式設定
-ForceJapanese,Force Japanese,日本語に強制,强制使用日语,強制使用日語
-AutoDisplayLastResult,Auto Display Last Result,自動的に試合結果を表示,自动显示最终结果,自動顯示上一回合結果
-VoteMode,VoteMode,投票モード,投票相关设定,投票設定
-WhenSkipVote,When Skip Vote,スキップ時,跳过投票相当于投给自己,當跳過投票時
-WhenNonVote,When Non-Vote,無投票時,不投票相当于投给自己,沒有投票時
-Default,Default,デフォルト,默认,預設
-Suicide,Suicide,自殺,自杀,自殺
-SelfVote,SelfVote,自投票,自票,投自己
-Skip,Skip,スキップ,跳过,跳過
-WhenTie,When Tie,同数投票時,,
-TieMode.Default,Default,デフォルト,默认,預設
-TieMode.All,All,全員,,
-TieMode.Random,Random,ランダム,,
-DisableDevices,Disable Devices,デバイスを無効化,禁用设备,禁用裝置
-DisableAdmin,Disable Admin,アドミン無効化,禁用管理员,禁用管理室地圖
-WhichDisableAdmin,Unavailable Admins,無効なアドミン,禁用哪个管理员,管理室地圖分區禁用
-RandomSpawn,Random Spawn,ランダムスポーン,,
-AirshipAdditionalSpawn,Additional Spawn(Airship),追加スポーン位置(エアシップ),,
+HideAndSeek,HideAndSeek,Прятки,かくれんぼ,躲猫猫,躲貓貓
+NoGameEnd,NoGameEnd,ИграНеЗаканчится,ゲームを終了しない,测试模式,遊戲不會結束模式
+SyncButtonMode,SyncButtonMode,ОбщаяКнопкаВстреч,ボタン回数同期モード,所有船员共享会议次数,全場拍桌數同步模式
+RandomMapsMode,RandomMapsMode,СлучайнаяКарта,ランダムマップモード,随机地图模式,隨機地圖模式
+SyncedButtonCount,Max Button Count,Максимальное Колличество Кнопок,合計ボタン使用可能回数(回),紧急会议可使用的次数,全場最大拍桌數量
+AddedTheSkeld,Include TheSkeld,Добавить TheSkeld,TheSkeldを追加,添加骷髅舰地图,將The Skeld地圖列入選項
+AddedMIRAHQ,Include MIRAHQ,Добавить MiraHQ,MIRAHQを追加,添加米拉总部地图,將MIRA HQ地圖列入選項
+AddedPolus,Include Polus,Добавить Polus,Polusを追加,添加波鲁斯地图,將Polus地圖列入選項
+AddedTheAirShip,Include TheAirShip,Добавить TheAirship,TheAirShipを追加,添加飞艇地图,將The AirShip列入選項
+AllAliveMeeting,All Alive Meeting,Все Живые На Голосовании,全員生存時の会議,,
+AllAliveMeetingTime,All Alive Meeting Time,Все Живые На Голосовании Время,全員生存時の会議時間,,
+AdditionalEmergencyCooldown,Additional Emergency Cooldown,Дополнительный Аварийный Откат,追加の緊急ボタンクールダウン,,
+AdditionalEmergencyCooldownThreshold,Survivor Threshold To Be Applied,Применяемый Порог Выживания,適用する生存人数,,
+AdditionalEmergencyCooldownTime,Additional Cooldown,Дополнительный Откат,追加するクールダウン,,
+LadderDeath,Fall From Ladders,Падение с лестницы,ハシゴから転落,从梯子上下滑时有可能摔死,從梯子上下滑時可能會摔死
+LadderDeathChance,Fall To Death Chance,Шанс Разбиться Насмерть,転落する確率,从梯子上摔死的概率,從梯子上下滑摔死機率
+DisableTasks,Disable Tasks,Отключить Задания,タスクを無効化する,禁用某些任务,禁用某些特定的任務
+DisableSwipeCardTask,Disable SwipeCard Tasks,Отключить Задание ПровестиКарту,カードタスク,禁用刷卡任务,禁用刷卡任務
+DisableSubmitScanTask,Disable SubmitScan Tasks,Отключить Задание Сканирование,医務室のスキャンタスク,禁用扫描任务,禁用掃描任務
+DisableUnlockSafeTask,Disable UnlockSafe Tasks,Отключить Задание ОткрытиеСейфа,金庫タスク,禁用解除歧管任务,禁用保險櫃任務
+DisableUploadDataTask,Disable UploadData Tasks,Отключить Задание ЗагрузкаДанных,ダウンロードタスク,禁用上传数据任务,禁用上傳任務
+DisableStartReactorTask,Disable StartReactor Tasks,Отключить Задание СаймонГоворит,原子炉起動タスク,禁用启动反应堆任务,禁用啟動反應堆任務
+DisableResetBreakerTask,Disable ResetBreaker Tasks,Отключить Задание Рычаги,ブレーカーリセットタスク,禁用重置反应堆任务,禁用重置斷路器任務
+SuffixMode,Suffix,Суффикс,名前の二行目,直播模式,名字標籤
+SuffixMode.None,None,Ничего,なし,无,無
+SuffixMode.Version,Version,Версия,バージョン,版本,版本
+SuffixMode.Streaming,Streaming,Стримит,配信中,直播中,直播中
+SuffixMode.Recording,Recording,Записывает,録画中,录制中,錄影中
+SuffixMode.RoomHost,Room Host,Хост Румы,部屋主,,
+SuffixMode.OriginalName,OriginalName,ОригинальныйНикнейм,元の名前,,
+ColorNameMode,Color Name Mode,Цвета Никнеймов Режим,色名前モード,显示颜色名称,名字將被顏色名稱替換
+FixFirstKillCooldown,Fix Kill Cooldown For First Spawn,Изменить Откат Убийства В Начале Игры,初期スポーン時のクールダウン修正,,
+GhostCanSeeOtherRoles,Ghost Can See Other Roles,Призраки Могут Видеть Все Роли,幽霊が他人の役職を見ることができる,幽灵可见他人职业,幽靈可以看見所有玩家職業
+GhostCanSeeOtherVotes,Ghost Can See Other Votes,Призраки Могут Видеть Цвета Голосов,幽霊が他人の投票先を見ることができる,幽灵可见投票情况,幽靈可以看見所有玩家的投票
+GhostIgnoreTasks,Ghost Ignore Tasks,Скрыть Настройки Игры,死人のタスクを免除する,,
+DisableTaskWin,Disable Task Win,Отключить Победу По Заданиям,タスク勝利を無効化,,
+HideGameSettings,Hide Game Settings,Скрыть Настройки Игры,ゲーム設定を隠す,隐藏游戏设置,隱藏遊戲設定
+RoleOptions,Role Options,Настройка Ролей,役職設定,职业设置,職業設定
+ModeOptions,Mode Options,Настройка Мода,モード設定,模组设置,模式設定
+ForceJapanese,Force Japanese,Принудительный Японский,日本語に強制,强制使用日语,強制使用日語
+AutoDisplayLastResult,Auto Display Last Result,Отображать Результат Последней Игры,自動的に試合結果を表示,自动显示最终结果,自動顯示上一回合結果
+VoteMode,VoteMode,Режим Голосования,投票モード,投票相关设定,投票設定
+WhenSkipVote,When Skip Vote,Когда Пропускаете Голосование,スキップ時,跳过投票相当于投给自己,當跳過投票時
+WhenNonVote,When Non-Vote,Когда Без Права-Голоса,無投票時,不投票相当于投给自己,沒有投票時
+Default,Default,Обычное,デフォルト,默认,預設
+Suicide,Suicide,Самоубийство,自殺,自杀,自殺
+SelfVote,SelfVote,СамоГолосование,自投票,自票,投自己
+Skip,Skip,Пропуск,スキップ,跳过,跳過
+WhenTie,When Tie,Когда Ничья,同数投票時,,
+TieMode.Default,Default,Обычное,デフォルト,默认,預設
+TieMode.All,All,Все,全員,,
+TieMode.Random,Random,Случайно,ランダム,,
+DisableDevices,Disable Devices,Отключить Устройства,デバイスを無効化,禁用设备,禁用裝置
+DisableAdmin,Disable Admin,Отключить Стол Администратора,アドミン無効化,禁用管理员,禁用管理室地圖
+WhichDisableAdmin,Unavailable Admins,Недоступные Столы Администратора,無効なアドミン,禁用哪个管理员,管理室地圖分區禁用
+RandomSpawn,Random Spawn,Случайный Спавн,ランダムスポーン,,
+AirshipAdditionalSpawn,Additional Spawn(Airship),Дополнительный Спавн(Airship),追加スポーン位置(エアシップ),,
 
 ## モード説明
-HideAndSeekInfo,"HideAndSeek:\nNo one can call emergency meeting, Crewmates (Blue) can win only by completing tasks\nand Impostors (Red) can win only by killing all the Crewmates.",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。\nインポスターは赤、クルーは青に体の色が変更される。,躲猫猫:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利；\n内鬼的皮肤颜色将变为红色，船员变为蓝色，以示区分。,"躲貓貓:\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色。"
-StandardHASInfo,"HideAndSeek with Roles:\nNo one can call emergency meeting, Crewmates can win only by completing tasks\nand Impostors can win only by killing all the Crewmates.",役職入りでかくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。,躲猫猫（模组）:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利。,"躲貓貓(附加普通模式職業):\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色。"
-NoGameEndInfo,NoGameEnd:\nA mode for debugging in which there is no win Basis.\nThe game cannot be exited except by SHIFT+L+ENTER of the host.,ゲームを終了しない:\n勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L+ENTER以外でのゲーム終了ができない。,测试模式:\n本模式用于进行测试。本模式没有游戏结束判定，房主按下shift+L+enter可以结束游戏。,"遊戲不會結束模式:\n該模式僅限用來測試,這裡沒有勝利條件\n該模式無法通過正常勝利條件結束,僅能讓房主使用SHIFT+L+ENTER或指令/dis來結束遊戲。"
-SyncButtonModeInfo,SyncButtonMode:\nThis mode limits the maximum number of meetings that can be called in total.,ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有),所有船员共享会议次数:\n游戏中存在全员共有的最大紧急会议次数。(可以进行设置),"全場拍桌數同步模式:\n該模式會讓全場玩家的拍桌數同步。(可以設定拍桌數)"
-SabotageTimeControlInfo,Sabotage time control:\nIt is possible to change the time limit for some sabotage. (with settings),サボタージュの時間制御:\n一部サボタージュの制限時間を変更することができる。(設定有),破坏调整:\n可以调整一部分破坏的限制时间。(可以进行设置),"控制緊急任務時間:\n該模式可以讓某些地圖的破壞時間重新設定。 (可以設定)"
-RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (with settings),ランダムマップモード:\nランダムにマップが変わるモード。(設定有),随机地图:\n随机选择地图游玩的模式。(可以进行设置),"隨機地圖模式:\n該模式會隨機挑選地圖。 (可以設定)"
-DisableDevicesInfo,"DisableDevices:\nVarious devices can be disabled (currently admin only, unavailable in MiraHQ)",デバイスを無効化:\n各種機器を無効化することができる。(現在はアドミンのみ、MiraHQ非対応),禁用设备:\n可以禁用各种设备。(目前只支持管理员，不支持米拉总部),"禁用設備:\n可以禁用各種設備。 (目前只支持管理室地圖,不支持MIRA HQ)"
+HideAndSeekInfo,"HideAndSeek:\nNo one can call emergency meeting, Crewmates (Blue) can win only by completing tasks\nand Impostors (Red) can win only by killing all the Crewmates.","Прятки:\nНикто не может созвать срочное собрание, Члены Экипажа (Синие) могут победить, только выполняя задания\nА Предатели (Красные) могут победить, только убив всех Членов Экипажа.",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。\nインポスターは赤、クルーは青に体の色が変更される。,躲猫猫:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利；\n内鬼的皮肤颜色将变为红色，船员变为蓝色，以示区分。,"躲貓貓:\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色。"
+StandardHASInfo,"HideAndSeek with Roles:\nNo one can call emergency meeting, Crewmates can win only by completing tasks\nand Impostors can win only by killing all the Crewmates.","Прятки с Ролями:\nНикто не может созвать срочное собрание, Члены Экипажа могут победить, только выполнив задания\nА Предатели могут победить, только убив всех Членов Экипажа.",役職入りでかくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。,躲猫猫（模组）:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利。,"躲貓貓(附加普通模式職業):\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色。"
+NoGameEndInfo,NoGameEnd:\nA mode for debugging in which there is no win Basis.\nThe game cannot be exited except by SHIFT+L+ENTER of the host.,"ИграНеЗаканчивается:\nРежим отладки, в котором нет основы для выигрыша.\nИгра не может быть завершена, если Хосту не использует команду в лобби SHIFT+L+ENTER.",ゲームを終了しない:\n勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L+ENTER以外でのゲーム終了ができない。,测试模式:\n本模式用于进行测试。本模式没有游戏结束判定，房主按下shift+L+enter可以结束游戏。,"遊戲不會結束模式:\n該模式僅限用來測試,這裡沒有勝利條件\n該模式無法通過正常勝利條件結束,僅能讓房主使用SHIFT+L+ENTER或指令/dis來結束遊戲。"
+SyncButtonModeInfo,SyncButtonMode:\nThis mode limits the maximum number of meetings that can be called in total.,"СинхронизацияКнопки:\nЭтот режим ограничивает максимальное количество срочных собраний, которые можно созвать в целом.",ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有),所有船员共享会议次数:\n游戏中存在全员共有的最大紧急会议次数。(可以进行设置),"全場拍桌數同步模式:\n該模式會讓全場玩家的拍桌數同步。(可以設定拍桌數)"
+SabotageTimeControlInfo,Sabotage time control:\nIt is possible to change the time limit for some sabotage. (with settings),Контроль времени саботажа:\nВозможность изменить время саботажа реактора. (в настройках),サボタージュの時間制御:\n一部サボタージュの制限時間を変更することができる。(設定有),破坏调整:\n可以调整一部分破坏的限制时间。(可以进行设置),"控制緊急任務時間:\n該模式可以讓某些地圖的破壞時間重新設定。 (可以設定)"
+RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (with settings),СлучайнаяКарта:\nРежим в котором карты случайным образом меняются в каждой игре. (в настройках),ランダムマップモード:\nランダムにマップが変わるモード。(設定有),随机地图:\n随机选择地图游玩的模式。(可以进行设置),"隨機地圖模式:\n該模式會隨機挑選地圖。 (可以設定)"
+DisableDevicesInfo,"DisableDevices:\nVarious devices can be disabled (currently admin only, unavailable in MiraHQ)","ОтключенныеУстройства:\nРазличные устройства могут быть отключены (в настоящее время только стол администратора, недоступна в MiraHQ)",デバイスを無効化:\n各種機器を無効化することができる。(現在はアドミンのみ、MiraHQ非対応),禁用设备:\n可以禁用各种设备。(目前只支持管理员，不支持米拉总部),"禁用設備:\n可以禁用各種設備。 (目前只支持管理室地圖,不支持MIRA HQ)"
 
 ## 詳細設定
-Cooldown,Cooldown,クールダウン
-KillCooldown,Kill Cooldown,キルクール
-CanVent,Can Use Vent,ベントを使える
-ImpostorVision,Has Impostor Vision,インポスター視界
-CanUseSabotage,Can Sabotage,サボタージュを使用できる
+Cooldown,Cooldown,Откат,クールダウン
+KillCooldown,Kill Cooldown,Откат Убийства,キルクール
+CanVent,Can Use Vent,Может Использовать Вентиляцию,ベントを使える
+ImpostorVision,Has Impostor Vision,Имеет Дальность Обзора Предателя,インポスター視界
+CanUseSabotage,Can Sabotage,Может Использовать Саботаж,サボタージュを使用できる
 
-BountyTargetChangeTime,Time To Swap Bounty(s),ターゲット変更時間,赏金猎人目标变更间隔的时间,賞金目標切換時間
-EnableLastImpostor,Enable LastImpostor,ラストインポスターの有効化,启用绝境者,啟用絕境者
-BountySuccessKillCooldown,Kill Cooldown After Killing Bounty,ターゲット殺害時のキルクール,赏金猎人击杀悬赏目标的奖励冷却时间,賞金獵人殺死賞金目標冷卻
-BountyFailureKillCooldown,Kill Cooldown After Killing Others,ターゲット以外殺害時のキルクール,赏金猎人击杀悬赏目标以外玩家的惩罚冷却时间,賞金獵人殺死非賞金目標冷卻
-DefaultShapeshiftCooldown,Default Shapeshift Cooldown,デフォルトの変身クールダウン,变形者变形冷却,預設變身時間
-VampireKillDelay,Kill Delay(s),殺害までの時間(秒),延迟的击杀时间,殺人延遲
-MareSpeedInLightsOut,Mare Player Add Speed In Lights Out,停電時のメアーの加速値,梦魇熄灯时的移动速度,關燈時黑暗博士的移動速度
-MareKillCooldownInLightsOut,Mare Kill Cooldown In Lights Out,停電時のメアーのキルクール,梦魇熄灯时的击杀冷却,關燈時黑暗博士的殺人冷卻
-SabotageMasterSkillLimit,SabotageMaster Fix Ability Limit(Except Opening Doors),修理能力を使用できる回数(ﾄﾞｱ閉鎖は除く),修理大师修理破坏的最大次数,破壞大師修理破壞次數上限
-CanMakeMadmateCount,SidekickMadmate Maximum,サイドキックマッドメイト(人),变形者可以招募叛徒的数量,變形者招募叛徒最大人數
-MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数,背叛的告密者任务数,背叛告密者任務數量
-MadSnitchCanAlsoBeExposedToImpostor,Also Exposed To Impostor,インポスターからも視認できる
-MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,自身の殺害未遂者を知ることができる,堕落守卫可以得知对其进行击杀尝试的玩家,背叛天使可以看到是誰嘗試殺害自己
-MadmateCanFixLightsOut,Madmates Can Fix Lights Out,マッドメイト系役職が停電を直すことができる,叛徒职业可以修理照明破坏,叛徒職業的玩家可以修理電燈
-MadmateCanFixComms,Madmates Can Fix Comms,マッドメイト系役職が通信障害を直すことができる,叛徒职业可以修理通讯,叛徒職業的玩家可以修理通訊
-MadmateHasImpostorVision,Madmates Have Impostor Vision,マッドメイト系役職がインポスターと同じ視界を持つ,叛徒职业拥有内鬼视野,叛徒職業的玩家有跟狼人一樣的視野
-MadmateVentCooldown,Madmates Vent Cooldown,マッドメイト系役職のベントクールダウン,叛徒职业跳管道冷却时间,叛徒職業的玩家跳管道冷卻
-MadmateVentMaxTime,Madmates Max Time In Vents(s),マッドメイト系役職のベント内での最大時間,叛徒职业在管道中停留的最大时间,叛徒職業的玩家在管道中可以停留的最大時間
-EvilWatcherChance,EvilWatcher Chance,イビルウォッチャーになる確率,窥视者成为内鬼阵营的概率,成為邪惡觀察者的機率
-LighterTaskCompletedVision,Expanded Vision,タスク完了時の視界,完成任务后的视野,做完任務的視野
-LighterTaskCompletedDisableLightOut,Lighter Gains Impostor Vision,タスク完了時に停電を無効にする,完成任务的执灯人不受熄灯影响,完成任務的小燈人視野不受關燈影響
-SabotageMasterFixesDoors,SabotageMaster Can Open Multiple Doors,1度に複数のﾄﾞｱを開けられる,修理大师可以一次打开房间内所有被关闭的门,破壞大師可以修理多扇門
-SabotageMasterFixesReactors,SabotageMaster Can Fix Both Reactors,リアクターに対して能力を使える,修理大师可以一人修理核反应堆,破壞大師可以一個人同時修理兩邊的反應堆
-SabotageMasterFixesOxygens,SabotageMaster Can Fix Both O2,酸素妨害に対して能力を使える,修理大师修理氧气破坏时另一边的氧气破坏同时被修理,破壞大師可以一個人同時修理兩邊的氧氣
-SabotageMasterFixesCommunications,SabotageMaster Can Fix Both Comms In MIRA HQ,MIRA HQの通信妨害に対して能力を使える,修理大师在米拉总部地图修理通信破坏时另一边的通信破坏同时被修理,破壞大師可以一個人同時修理兩邊的通訊(Mira HQ)
-SabotageMasterFixesElectrical,SabotageMaster Can Fix Lights Out All At Once,停電に対して能力を使える,修理大师按一个按钮就可以修复照明破坏,破壞大師拉一根拉桿就可以修理電燈
-SheriffCanKill%role%,Sheriff Can kill %role%,%role%をキルできる,警长可以执法%role%,警長可以槍死%role%
-SheriffCanKillNeutrals,Sheriff Can kill Neutrals,第三陣営をキルできる,警长可以执法独立阵营,警長可以槍死中立
-SheriffCanKillAll,<color=#00fefe>All ON</color>,<color=#00fefe>全てオン</color>
-SheriffCanKillSeparately,Each Option,個別に設定
-In%team%,(Team %team%),(%team%陣営),(%team%阵营),(%team%方)
-SheriffMisfireKillsTarget,Misfire Kills Target,誤爆時、ターゲットも死ぬ,警长误杀好人会同时击杀目标,警長誤殺好人會同時擊殺目標
-SheriffShotLimit,Number Of Shots,キル可能回数,最大执法次数,最大子彈數量
-DoctorTaskCompletedBatteryCharge,Doctor Battery Duration,充電持続時間,科学家每完成一个任务增加的设备充能数,醫生完成任務充電秒數
-SnitchEnableTargetArrow,Snitch Can See Target Arrow,ターゲットを示す矢印が見える,告密者完成任务后可以通过箭头确认所有被发现目标,告密者完成任務後可以看到目標的箭頭
-SnitchCanGetArrowColor,Snitch Can See Colored Arrow,矢印の色で陣営がわかる,告密者对不同阵营的目标使用不同颜色的箭头确认,對不同陣營的目標使用不同顏色的箭頭標示
-SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,第三陣営のキル可能役職を見つけることが出来る,告密者也可以和拥有击杀能力的独立阵营玩家互相发现,告密者也可以和中立陣營帶刀職業互認
-SpeedBoosterUpSpeed,Boosted Player Add Speed,加速値,增速者加速时的移动速度,被加速器加速的玩家的移動速度
-SpeedBoosterTaskTrigger,Boosted Trigger Tasks,効果を発動するタスク数,,
-MayorAdditionalVote,Additional Votes Count,追加投票の個数,投票时多出来的票数,附加票數
-MayorHasPortableButton,Mayor Has Mobile Emergency Button,ポータブルボタンを持っている,可以选择是否进行投票,可以隨時拍桌
-MayorNumOfUseButton,Number Of Mobile Emergency Button,ポータブルボタンの使用可能回数,选择进行投票的最大次数,隨時拍桌最大次數
-CanBeforeSchrodingerCatWinTheCrewmate,SchrodingerCat In No Team Can Win With Crewmates,役職変化前であれば、クルー陣営と勝利できる,薛定谔的猫未加入其他阵营前可以跟随船员阵营获胜,薛定諤的貓的陣營轉變前可以和船員一起贏
-SchrodingerCatExiledTeamChanges,Team To Change After Exiled,吊られた際、陣営が変化する,薛定谔的猫被放逐时会加入其他阵营,薛定諤的貓被丟出時陣營會改變
-ExecutionerCanTargetImpostor,Executioner Can Target Impostor,インポスターもターゲットにできる,内鬼阵营玩家可以成为处刑人的目标,劊子手的目標可以是狼人陣營的玩家
-ExecutionerCanTargetNeutralKiller,Executioner Can Target Neutral Killer,キルできる第三陣営もターゲットにできる,独立阵营玩家可以成为处刑人的目标,劊子手的目標可以是中立陣營的玩家
-ExecutionerChangeRolesAfterTargetKilled,Role After Target Dies,ターゲットがキルされた後に変化する役職,处刑人目标死亡后将变为的职业,劊子手的目標被殺後轉變的職業
-SerialKillerLimit,Time Limit To Suicide(s),自殺までの秒数,嗜血杀手自杀倒计时,連環殺手自殺倒數
-ArsonistDouseTime,Douse Duration,塗り時間,涂油所需时间,澆油所需時間
-CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち,恐怖分子可以通过自杀获胜,恐怖分子可以自殺來獲勝
-ShapeMasterShapeshiftDuration,Shapeshift Duration,シェイプマスターの変身持続時間,千面鬼化形持续时间,變形大師變形持續時間
-FireWorksMaxCount,FireWorks Max Count,花火の所持数,烟花商人可放置烟花的最大数量,煙火工匠可設定煙火最大數量
-FireWorksRadius,FireWorks Radius,花火の爆発半径,烟花商人烟花爆炸半径,煙火工匠的煙火爆炸半徑
-SniperBulletCount,Bullet Count,所持弾数,最大狙击次数,子彈最大數量
-SniperPrecisionShooting,Precise Shooting,精密射撃モード,拥有瞄准辅助,精準射擊模式
-NumberOfLovers,Number Of Lovers(x2members),ラバーズの組数(x2人数),恋人对数,"戀人最大數量(2位玩家)"
-TimeThiefDecreaseMeetingTime,TimeThief Decrease Time Length(s),減少する会議時間,蚀时者每次击杀缩短的会议时间,時間小偷每次殺人減少的會議時間
-TimeThiefLowerLimitVotingTime,Lower Limit For Voting Time(s),投票時間の下限,蚀时者存在时会议时间下限,時間小偷在場時會議時間最低下限
-TimeThiefReturnStolenTimeUponDeath,Return Stolen Time After Death,死亡後に盗んだ時間を返す,蚀时者死亡后会议时间重置,時間小偷死亡後將會議時間重設
-EvilTrackerCanSeeKillFlash,EvilTracker Can See The Flash Of Impostor Kills,インポスターキル時にフラッシュが見える,当内鬼进行击杀时邪恶的追踪者可以看到闪光
-EvilTrackerResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,会議後に再度ターゲットを設定できる,会议后重置邪恶的追踪者追踪目标
-KillFlashDuration,Kill Flash Duration(s),キルフラッシュの長さ(秒)
+BountyTargetChangeTime,Time To Swap Bounty(s),Время Смены Его Цели,ターゲット変更時間,赏金猎人目标变更间隔的时间,賞金目標切換時間
+EnableLastImpostor,Enable LastImpostor,Включить ПоследнийПредатель,ラストインポスターの有効化,启用绝境者,啟用絕境者
+BountySuccessKillCooldown,Kill Cooldown After Killing Bounty,Перезарядка После Убитой Цели,ターゲット殺害時のキルクール,赏金猎人击杀悬赏目标的奖励冷却时间,賞金獵人殺死賞金目標冷卻
+BountyFailureKillCooldown,Kill Cooldown After Killing Others,Перезарядка После Обычного Убийства,ターゲット以外殺害時のキルクール,赏金猎人击杀悬赏目标以外玩家的惩罚冷却时间,賞金獵人殺死非賞金目標冷卻
+DefaultShapeshiftCooldown,Default Shapeshift Cooldown,Обычная Перезарядка Оборотня,デフォルトの変身クールダウン,变形者变形冷却,預設變身時間
+VampireKillDelay,Kill Delay(s),Длительность Укуса,殺害までの時間(秒),延迟的击杀时间,殺人延遲
+MareSpeedInLightsOut,Mare Player Add Speed In Lights Out,Скорость Mare При Саботаже Света,停電時のメアーの加速値,梦魇熄灯时的移动速度,關燈時黑暗博士的移動速度
+MareKillCooldownInLightsOut,Mare Kill Cooldown In Lights Out,Откат Убийства Mare При Саботаже Света,停電時のメアーのキルクール,梦魇熄灯时的击杀冷却,關燈時黑暗博士的殺人冷卻
+SabotageMasterSkillLimit,SabotageMaster Fix Ability Limit(Except Opening Doors),Лимит Способности (Кроме Открытия Дверей),修理能力を使用できる回数(ﾄﾞｱ閉鎖は除く),修理大师修理破坏的最大次数,破壞大師修理破壞次數上限
+CanMakeMadmateCount,SidekickMadmate Maximum,Максимум SidekickMadmate,サイドキックマッドメイト(人),变形者可以招募叛徒的数量,變形者招募叛徒最大人數
+MadSnitchTasks,MadSnitch Tasks,Задания MadSnitch,マッドスニッチのタスク数,背叛的告密者任务数,背叛告密者任務數量
+MadSnitchCanAlsoBeExposedToImpostor,Also Exposed To Impostor,Также Незащищен Предателем,インポスターからも視認できる
+MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,MadGuardian Видит Кто Пытался Его Убить,自身の殺害未遂者を知ることができる,堕落守卫可以得知对其进行击杀尝试的玩家,背叛天使可以看到是誰嘗試殺害自己
+MadmateCanFixLightsOut,Madmates Can Fix Lights Out,Madmates Может Чинить Свет,マッドメイト系役職が停電を直すことができる,叛徒职业可以修理照明破坏,叛徒職業的玩家可以修理電燈
+MadmateCanFixComms,Madmates Can Fix Comms,Madmates Может Чинить Связь,マッドメイト系役職が通信障害を直すことができる,叛徒职业可以修理通讯,叛徒職業的玩家可以修理通訊
+MadmateHasImpostorVision,Madmates Have Impostor Vision,Madmates Имеет Дальность Обзора Предателя,マッドメイト系役職がインポスターと同じ視界を持つ,叛徒职业拥有内鬼视野,叛徒職業的玩家有跟狼人一樣的視野
+MadmateVentCooldown,Madmates Vent Cooldown,Откат Вентиляции Madmates,マッドメイト系役職のベントクールダウン,叛徒职业跳管道冷却时间,叛徒職業的玩家跳管道冷卻
+MadmateVentMaxTime,Madmates Max Time In Vents(s),Время Использования Вентиляции Madmates,マッドメイト系役職のベント内での最大時間,叛徒职业在管道中停留的最大时间,叛徒職業的玩家在管道中可以停留的最大時間
+EvilWatcherChance,EvilWatcher Chance,EvilWatcher Шанс,イビルウォッチャーになる確率,窥视者成为内鬼阵营的概率,成為邪惡觀察者的機率
+LighterTaskCompletedVision,Expanded Vision,Дальность Обзора,タスク完了時の視界,完成任务后的视野,做完任務的視野
+LighterTaskCompletedDisableLightOut,Lighter Gains Impostor Vision,Имеет Дальность Обзора Предателя,タスク完了時に停電を無効にする,完成任务的执灯人不受熄灯影响,完成任務的小燈人視野不受關燈影響
+SabotageMasterFixesDoors,SabotageMaster Can Open Multiple Doors,SabotageMaster Может Открыть Несколько Дверей,1度に複数のﾄﾞｱを開けられる,修理大师可以一次打开房间内所有被关闭的门,破壞大師可以修理多扇門
+SabotageMasterFixesReactors,SabotageMaster Can Fix Both Reactors,SabotageMaster Может Починить Реактор,リアクターに対して能力を使える,修理大师可以一人修理核反应堆,破壞大師可以一個人同時修理兩邊的反應堆
+SabotageMasterFixesOxygens,SabotageMaster Can Fix Both O2,SabotageMaster Может Починить O2,酸素妨害に対して能力を使える,修理大师修理氧气破坏时另一边的氧气破坏同时被修理,破壞大師可以一個人同時修理兩邊的氧氣
+SabotageMasterFixesCommunications,SabotageMaster Can Fix Both Comms In MIRA HQ,SabotageMaster Может Починить Связь На Mira HQ,MIRA HQの通信妨害に対して能力を使える,修理大师在米拉总部地图修理通信破坏时另一边的通信破坏同时被修理,破壞大師可以一個人同時修理兩邊的通訊(Mira HQ)
+SabotageMasterFixesElectrical,SabotageMaster Can Fix Lights Out All At Once,SabotageMaster Может Починить Свет Сразу,停電に対して能力を使える,修理大师按一个按钮就可以修复照明破坏,破壞大師拉一根拉桿就可以修理電燈
+SheriffCanKill%role%,Sheriff Can kill %role%,Sheriff Может Убить %role%,%role%をキルできる,警长可以执法%role%,警長可以槍死%role%
+SheriffCanKillNeutrals,Sheriff Can kill Neutrals,Sheriff Может Убить Нейтралов,第三陣営をキルできる,警长可以执法独立阵营,警長可以槍死中立
+SheriffCanKillAll,<color=#00fefe>All ON</color>,<color=#00fefe>Всё ВКЛ</color>,<color=#00fefe>全てオン</color>
+SheriffCanKillSeparately,Each Option,Каждый Вариант,個別に設定
+In%team%,(Team %team%),(Команда %team%),(%team%陣営),(%team%阵营),(%team%方)
+SheriffMisfireKillsTarget,Misfire Kills Target,Когда Sheriff Убился Он Убивает Цель,誤爆時、ターゲットも死ぬ,警长误杀好人会同时击杀目标,警長誤殺好人會同時擊殺目標
+SheriffShotLimit,Number Of Shots,Количество Выстрелов,キル可能回数,最大执法次数,最大子彈數量
+DoctorTaskCompletedBatteryCharge,Doctor Battery Duration,Длительность Батарейки Doctor,充電持続時間,科学家每完成一个任务增加的设备充能数,醫生完成任務充電秒數
+SnitchEnableTargetArrow,Snitch Can See Target Arrow,Snitch Может Видеть Стрелку Цели,ターゲットを示す矢印が見える,告密者完成任务后可以通过箭头确认所有被发现目标,告密者完成任務後可以看到目標的箭頭
+SnitchCanGetArrowColor,Snitch Can See Colored Arrow,Snitch Может Видеть Цвета Стрелок,矢印の色で陣営がわかる,告密者对不同阵营的目标使用不同颜色的箭头确认,對不同陣營的目標使用不同顏色的箭頭標示
+SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,Snitch Может Видеть Нейтральных Убийц,第三陣営のキル可能役職を見つけることが出来る,告密者也可以和拥有击杀能力的独立阵营玩家互相发现,告密者也可以和中立陣營帶刀職業互認
+SpeedBoosterUpSpeed,Boosted Player Add Speed,Повышенная Скорость Игрока,加速値,增速者加速时的移动速度,被加速器加速的玩家的移動速度
+SpeedBoosterTaskTrigger,Boosted Trigger Tasks,Повышенные Триггерные Задания,効果を発動するタスク数,,
+MayorAdditionalVote,Additional Votes Count,Дополнительные Голоса,追加投票の個数,投票时多出来的票数,附加票數
+MayorHasPortableButton,Mayor Has Mobile Emergency Button,У Mayor Есть Портативная Кнопка,ポータブルボタンを持っている,可以选择是否进行投票,可以隨時拍桌
+MayorNumOfUseButton,Number Of Mobile Emergency Button,Количество Портативных Кнопок,ポータブルボタンの使用可能回数,选择进行投票的最大次数,隨時拍桌最大次數
+CanBeforeSchrodingerCatWinTheCrewmate,SchrodingerCat In No Team Can Win With Crewmates,SchrodingerCat Ни Одна Команда Не Может Победить С Членом Экипажа,役職変化前であれば、クルー陣営と勝利できる,薛定谔的猫未加入其他阵营前可以跟随船员阵营获胜,薛定諤的貓的陣營轉變前可以和船員一起贏
+SchrodingerCatExiledTeamChanges,Team To Change After Exiled,Команда которая изменится после изгнания,吊られた際、陣営が変化する,薛定谔的猫被放逐时会加入其他阵营,薛定諤的貓被丟出時陣營會改變
+ExecutionerCanTargetImpostor,Executioner Can Target Impostor,Executioner Может Иметь Цель Изгнать Предателя,インポスターもターゲットにできる,内鬼阵营玩家可以成为处刑人的目标,劊子手的目標可以是狼人陣營的玩家
+ExecutionerCanTargetNeutralKiller,Executioner Can Target Neutral Killer,Executioner Может Иметь Цель Изгнать Нейтрального Убийцу,キルできる第三陣営もターゲットにできる,独立阵营玩家可以成为处刑人的目标,劊子手的目標可以是中立陣營的玩家
+ExecutionerChangeRolesAfterTargetKilled,Role After Target Dies,Роль После Смерти Его Цели,ターゲットがキルされた後に変化する役職,处刑人目标死亡后将变为的职业,劊子手的目標被殺後轉變的職業
+SerialKillerLimit,Time Limit To Suicide(s),Лимит Времени До Самоубийства,自殺までの秒数,嗜血杀手自杀倒计时,連環殺手自殺倒數
+ArsonistDouseTime,Douse Duration,Длительность Поджигания,塗り時間,涂油所需时间,澆油所需時間
+CanTerroristSuicideWin,Can Terrorist Suicide Win,Может Ли Terrorist Совершить Самоубийство Чтобы Победить,テロリストの自殺勝ち,恐怖分子可以通过自杀获胜,恐怖分子可以自殺來獲勝
+ShapeMasterShapeshiftDuration,Shapeshift Duration,Продолжительность Морфа,シェイプマスターの変身持続時間,千面鬼化形持续时间,變形大師變形持續時間
+FireWorksMaxCount,FireWorks Max Count,FireWorks Максимальное Количество,花火の所持数,烟花商人可放置烟花的最大数量,煙火工匠可設定煙火最大數量
+FireWorksRadius,FireWorks Radius,FireWorks Радиус,花火の爆発半径,烟花商人烟花爆炸半径,煙火工匠的煙火爆炸半徑
+SniperBulletCount,Bullet Count,Колличество Пуль Sniper,所持弾数,最大狙击次数,子彈最大數量
+SniperPrecisionShooting,Precise Shooting,Точный Выстрел,精密射撃モード,拥有瞄准辅助,精準射擊模式
+NumberOfLovers,Number Of Lovers(x2members),Количество Lovers (x2участника),ラバーズの組数(x2人数),恋人对数,"戀人最大數量(2位玩家)"
+TimeThiefDecreaseMeetingTime,TimeThief Decrease Time Length(s),TimeThief Уменьшить Длительность Обсуждения,減少する会議時間,蚀时者每次击杀缩短的会议时间,時間小偷每次殺人減少的會議時間
+TimeThiefLowerLimitVotingTime,Lower Limit For Voting Time(s),TimeThief Уменьшить Длительность Голосования,投票時間の下限,蚀时者存在时会议时间下限,時間小偷在場時會議時間最低下限
+TimeThiefReturnStolenTimeUponDeath,Return Stolen Time After Death,Вернуть Украденное Время После его Смерти,死亡後に盗んだ時間を返す,蚀时者死亡后会议时间重置,時間小偷死亡後將會議時間重設
+EvilTrackerCanSeeKillFlash,EvilTracker Can See The Flash Of Impostor Kills,EvilTracker Может Видеть Вспышку Убийства Предатлелей,インポスターキル時にフラッシュが見える,当内鬼进行击杀时邪恶的追踪者可以看到闪光
+EvilTrackerResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,EvilTracker Может Сбросить Цель После Встречи,会議後に再度ターゲットを設定できる,会议后重置邪恶的追踪者追踪目标
+KillFlashDuration,Kill Flash Duration(s),Длительность Вспышки Убийсва,キルフラッシュの長さ(秒)
 
 ## かくれんぼ設定
-HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定
-AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する,允许关门,可以關門
-TrapperBlockMoveTime,Freeze Duration,移動を封じる時間,陷阱师技能封锁凶手移动时长,設陷者封鎖兇手移動時間
-HideAndSeekWaitingTime,Impostor Waiting Time(s),インポスターの待機時間(秒),内鬼阵营在游戏开始后的等待时间,狼人在遊戲開始後的等待時間
-IgnoreVent,Disable Vents,ベントの使用を禁止する,禁止使用管道,禁止使用管道
-HideAndSeekRoles,HideAndSeek Roles,かくれんぼの役職,躲猫猫职业,躲貓貓職業
+HideAndSeekOptions,HideAndSeek Options,Настройки Пряток,かくれんぼの設定,躲猫猫设置,躲貓貓設定
+AllowCloseDoors,Allow Closing Doors,Разрешить Закрытие Дверей,ドア閉鎖を許可する,允许关门,可以關門
+TrapperBlockMoveTime,Freeze Duration,Продолжительность Заморозки,移動を封じる時間,陷阱师技能封锁凶手移动时长,設陷者封鎖兇手移動時間
+HideAndSeekWaitingTime,Impostor Waiting Time(s),Время Ожидания Предателей,インポスターの待機時間(秒),内鬼阵营在游戏开始后的等待时间,狼人在遊戲開始後的等待時間
+IgnoreVent,Disable Vents,Отключить Вентиляцию,ベントの使用を禁止する,禁止使用管道,禁止使用管道
+HideAndSeekRoles,HideAndSeek Roles,Роли В Прятках,かくれんぼの役職,躲猫猫职业,躲貓貓職業
 
 ## 死因
-DeathReason.Kill,Kill,キル,被杀,被殺
-DeathReason.Vote,Exiled,追放,放逐,被丟
-DeathReason.Suicide,Suicide,自殺,自杀,自殺
-DeathReason.Spell,Spelled,呪殺,咒杀,咒殺
-DeathReason.Bite,Bitten,噛殺,吸血,咬死
-DeathReason.LoversSuicide,Copycat Suicide,後追い,为爱而死,戀人共死
-DeathReason.Bombed,Bombed,爆死,炸死,炸死
-DeathReason.Misfire,Misfire,誤爆,走火,走火
-DeathReason.Torched,Torched,焼殺,烧死,燒死
-DeathReason.Sniped,Sniped,狙撃,狙杀,被狙
-DeathReason.Execution,Executed,処刑,处刑,處刑
-DeathReason.Disconnected,Disconnected,回線切断,断连,斷線
-DeathReason.Fall,Fall,転落,摔死,摔死
-DeathReason.etc,etc,その他,其他,其他
-Alive,Alive,生存,存活,存活
-Win," Wins",勝利,胜利,勝利
-Last,Last,ラスト,独活,獨活
+DeathReason.Kill,Kill,Убит,キル,被杀,被殺
+DeathReason.Vote,Exiled,Изгнан,追放,放逐,被丟
+DeathReason.Suicide,Suicide,Суицид,自殺,自杀,自殺
+DeathReason.Spell,Spelled,Заколдован,呪殺,咒杀,咒殺
+DeathReason.Bite,Bitten,Укушен,噛殺,吸血,咬死
+DeathReason.LoversSuicide,Copycat Suicide,Любовник Суициднулся,後追い,为爱而死,戀人共死
+DeathReason.Bombed,Bombed,Взорван,爆死,炸死,炸死
+DeathReason.Misfire,Misfire,Убился,誤爆,走火,走火
+DeathReason.Torched,Torched,Сожжен,焼殺,烧死,燒死
+DeathReason.Sniped,Sniped,Застрелен,狙撃,狙杀,被狙
+DeathReason.Execution,Executed,Казнен,処刑,处刑,處刑
+DeathReason.Disconnected,Disconnected,Отсоеденился,回線切断,断连,斷線
+DeathReason.Fall,Fall,Упал,転落,摔死,摔死
+DeathReason.etc,etc,ТакДалее,その他,其他,其他
+Alive,Alive,Выжил,生存,存活,存活
+Win," Wins","Победил",勝利,胜利,勝利
+Last,Last,Последний,ラスト,独活,獨活
 
 ## リアクターの時間制御
-SabotageTimeControl,Modify Sabotage TimeLimit,サボタージュの時間制御,紧急破坏限制时间,重新設定緊急任務時間
-PolusReactorTimeLimit,Polus Reactor TimeLimit(s),ポーラスのリアクター制限時間,波鲁斯抗震稳定器破坏限制时间,Polus地震抑制器破壞最大時間
-AirshipReactorTimeLimit,Airship Reactor TimeLimit(s),エアシップのリアクター制限時間,飞艇坠毁路线破坏限制时间,Airship間隙室破壞最大時間
+SabotageTimeControl,Modify Sabotage TimeLimit,Изменить Время Саботажа,サボタージュの時間制御,紧急破坏限制时间,重新設定緊急任務時間
+PolusReactorTimeLimit,Polus Reactor TimeLimit(s),Polus Время Саботажа Реактора,ポーラスのリアクター制限時間,波鲁斯抗震稳定器破坏限制时间,Polus地震抑制器破壞最大時間
+AirshipReactorTimeLimit,Airship Reactor TimeLimit(s),Airship Время Саботажа Реактора,エアシップのリアクター制限時間,飞艇坠毁路线破坏限制时间,Airship間隙室破壞最大時間
 
 ## ヘルプテキスト
-CommandList,Command List:,コマンド一覧:,指令列表:,指令列表:
-Command.winner,Display Winners,勝者を表示,显示获胜玩家,顯示上一局的獲勝玩家
-Command.lastresult,Display Match Result,試合結果を表示,显示上局游戏结果,顯示上一局的遊戲結果
-Command.rename,Change Host Name,ホストの名前を変更,更改房主昵称,更改房主名字
-Command.now,Display Active Settings,現在有効な設定を表示,显示当前设置,顯示目前設定
-Command.h_now,Display Current Active Settings Description,現在有効な設定の説明を表示,显示当前设置帮助,顯示現在設定的模式和職業說明
-Command.h_roles,<RoleName> - Display Role Description,<役職名> - 役職の説明を表示,<职业名> - 显示职业介绍,<職業名> - 顯示關於該職業的介紹
-Command.h_attributes,<AttributeName> - Display Attribute Description,<属性名> - 属性の説明を表示,<属性名> - 显示属性介绍,<屬性名> - 顯示關於該屬性的介紹
-Command.h_modes,<ModeName> - Display Mode Description,<モード名> - モードの説明を表示,<模式名> - 显示模式介绍,<模式名> - 顯示關於該模式的介紹
-Command.dump,Output Log to Desktop,デスクトップにログを出力,将游戏运行日志输出到桌面,在桌面上建立遊戲輸出日誌
-Command.h_args,Available Args (clipped),使用可能な引数 (略称),可用参数（简写）,可用的參數(簡稱)
+CommandList,Command List:,Список Команд:,コマンド一覧:,指令列表:,指令列表:
+Command.winner,Display Winners,Показать Победителей,勝者を表示,显示获胜玩家,顯示上一局的獲勝玩家
+Command.lastresult,Display Match Result,Показать Результат Матча,試合結果を表示,显示上局游戏结果,顯示上一局的遊戲結果
+Command.rename,Change Host Name,Изменить Никнейм Хоста,ホストの名前を変更,更改房主昵称,更改房主名字
+Command.now,Display Active Settings,Показать Активные Настройки,現在有効な設定を表示,显示当前设置,顯示目前設定
+Command.h_now,Display Current Active Settings Description,Показать Описание Текущих Активных Настроек,現在有効な設定の説明を表示,显示当前设置帮助,顯示現在設定的模式和職業說明
+Command.h_roles,<RoleName> - Display Role Description,<ИмяРоли> — Отображать Описание Роли,<役職名> - 役職の説明を表示,<职业名> - 显示职业介绍,<職業名> - 顯示關於該職業的介紹
+Command.h_attributes,<AttributeName> - Display Attribute Description,<ИмяАтрибута> — Показать Описание Атрибута,<属性名> - 属性の説明を表示,<属性名> - 显示属性介绍,<屬性名> - 顯示關於該屬性的介紹
+Command.h_modes,<ModeName> - Display Mode Description,<ИмяРежима> - Отображение Описания Режима,<モード名> - モードの説明を表示,<模式名> - 显示模式介绍,<模式名> - 顯示關於該模式的介紹
+Command.dump,Output Log to Desktop,Вывод Журнала На Рабочий Стол,デスクトップにログを出力,将游戏运行日志输出到桌面,在桌面上建立遊戲輸出日誌
+Command.h_args,Available Args (clipped),Доступные Аргументы (обрезанные),使用可能な引数 (略称),可用参数（简写）,可用的參數(簡稱)
 
-CantUse.lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使用することはできません。,不可以在游戏中使用/lastroles命令,不可以在遊戲中使用/lastroles指令
+CantUse.lastroles,Can't use /lastroles in the game.,Не могу использовать /lastroles в игре.,試合中に/lastrolesを使用することはできません。,不可以在游戏中使用/lastroles命令,不可以在遊戲中使用/lastroles指令
 
 ## メッセージ
-Message.SetToSeconds,Set to {0} seconds.,{0}秒に設定されました,信息发送冷却时间为{0}秒,訊息發送冷卻已設定為{0}秒
-Message.MessageWaitHelp,Specify the first argument in seconds.,第一引数を秒数で指定します。,指定一个数设定秒数,在指令後方指定一個數字來設定秒數
-Message.TemplateNotFoundHost,"No messages matching "{0}" were found.\nPlease add to template.txt like.\n{0}:contents\n\nDefined Tags:\n{1}",「{0}」に該当するメッセージが見つかりませんでした。\n{0}:内容\nのようにtemplate.txtに追記してください。\n\n定義されているタグ:\n{1},未找到与“{0}”对应的消息。 \n{0}: 内容\n 请添加到 template.txt。 \n\n标签定义：\n{1},"沒有找到與「{0}」相關的訊息,\n請將內容加入template.txt作為{0}的定義內容。\n\n定義標籤:\n{1}"
-Message.TemplateNotFoundClient,"No messages matching "{0}" were found.",「{0}」に該当するメッセージが見つかりませんでした。,未找到与“{0}”相关的消息。,沒有找到與「{0}」相關的訊息
-Message.SyncButtonLeft,The emergency meeting button can be used {0} more times,緊急会議ボタンはあと{0}回使用できます,您可以多次使用紧急会议按钮 {0},"全場拍桌數量還剩下{0}次,請謹慎拍桌"
-Message.Executed,{0} was executed,{0}を処刑しました,,{0}被處刑了
-Message.HideGameSettings,Game settings are hidden by the host.,ゲーム設定はホストによって秘匿されています。,游戏设置被房主隐藏。,遊戲設定被房主隱藏。
+Message.SetToSeconds,Set to {0} seconds.,Установлен на {0} секунд.,{0}秒に設定されました,信息发送冷却时间为{0}秒,訊息發送冷卻已設定為{0}秒
+Message.MessageWaitHelp,Specify the first argument in seconds.,Укажите первый аргумент в секундах.,第一引数を秒数で指定します。,指定一个数设定秒数,在指令後方指定一個數字來設定秒數
+Message.TemplateNotFoundHost,"No messages matching "{0}" were found.\nPlease add to template.txt like.\n{0}:contents\n\nDefined Tags:\n{1}","Сообщения соответствующие "{0}" не найдены.\nПожалуйста добавьте в template.txt например.\n{0}:Содержание\n\nОпределенные теги:\n{1}",「{0}」に該当するメッセージが見つかりませんでした。\n{0}:内容\nのようにtemplate.txtに追記してください。\n\n定義されているタグ:\n{1},未找到与“{0}”对应的消息。 \n{0}: 内容\n 请添加到 template.txt。 \n\n标签定义：\n{1},"沒有找到與「{0}」相關的訊息,\n請將內容加入template.txt作為{0}的定義內容。\n\n定義標籤:\n{1}"
+Message.TemplateNotFoundClient,"No messages matching "{0}" were found.","Сообщения соответствующие "{0}" не найдены.",「{0}」に該当するメッセージが見つかりませんでした。,未找到与“{0}”相关的消息。,沒有找到與「{0}」相關的訊息
+Message.SyncButtonLeft,The emergency meeting button can be used {0} more times,Кнопку экстренной встречи можно использовать еще {0} раз,緊急会議ボタンはあと{0}回使用できます,您可以多次使用紧急会议按钮 {0},"全場拍桌數量還剩下{0}次,請謹慎拍桌"
+Message.Executed,{0} was executed,{0} был казнен,{0}を処刑しました,,{0}被處刑了
+Message.HideGameSettings,Game settings are hidden by the host.,Настройки игры скрыты хостом.,ゲーム設定はホストによって秘匿されています。,游戏设置被房主隐藏。,遊戲設定被房主隱藏。
 
 ## 警告
-Warning.EgoistCannotWin,Egoist cannot win!,エゴイストが勝利できません,野心家无法获胜,利己主義者無法獲勝
-Warning.OverrideExiledPlayer,All ejects will be displayed as tie because the total number of impostors is 1.,合計インポスター数が1のため、追放はすべて同数投票として表示されます。,由于场上仅剩一名内鬼，放逐投票将显示为平票,"由於場上只剩一名狼人,所有逐出訊息都將顯示為平票"
-Warning.InvalidRpc,Kicked {0} because an invalid RPC was received.\nPlease make sure that there are no other mods in the system other than TOH.,不正なRPCを受信したため{0}をキックしました。\nTOH以外のMODが入っていないか確認してください。,{0} 被踢出，因为它收到了无效的 RPC。 \n请确保没有除 TOH 以外的模组。,"{0}因為收到無效的RPC,所以踢出了他,\n請確保遊戲除了TOH之外沒有其他模組系統被載入"
+Warning.EgoistCannotWin,Egoist cannot win!,Egoist не может победить!,エゴイストが勝利できません,野心家无法获胜,利己主義者無法獲勝
+Warning.OverrideExiledPlayer,All ejects will be displayed as tie because the total number of impostors is 1.,"Все окна изгнания будут отображаться как ничья, потому что общее количество Предателей равно 1.",合計インポスター数が1のため、追放はすべて同数投票として表示されます。,由于场上仅剩一名内鬼，放逐投票将显示为平票,"由於場上只剩一名狼人,所有逐出訊息都將顯示為平票"
+Warning.InvalidRpc,Kicked {0} because an invalid RPC was received.\nPlease make sure that there are no other mods in the system other than TOH.,Кикнут {0} так как был получен недопустимый RPC.\nУбедитесь что в системе нет других модов кроме TOH.,不正なRPCを受信したため{0}をキックしました。\nTOH以外のMODが入っていないか確認してください。,{0} 被踢出，因为它收到了无效的 RPC。 \n请确保没有除 TOH 以外的模组。,"{0}因為收到無效的RPC,所以踢出了他,\n請確保遊戲除了TOH之外沒有其他模組系統被載入"
 
 ## エラー
-Error.MeetingException,Error: {0}\r\nPlease use SHIFT+M+ENTER to force the meeting to end,エラー: {0}\r\nSHIFT+M+ENTERで会議を強制終了してください,错误: {0}\r\n使用 SHIFT+M+ENTER 来中止会议,錯誤: {0}\r\n按下SHIFT+M+ENTER來結束會議
-Error.InvalidRoleAssignment,Error: Invalid role found for a player during role assignment({0}),エラー: 役職設定中に無効な役職のプレイヤーを発見しました({0}),错误：在设置角色时发现角色无效的玩家 ({0}),錯誤:在設定職業時發現{0}持有無效職業
-Error.SpeedBoosterNullException,Error: The speed boost destination is null.\nPlease save the log and create a bug report ticket.,エラー: スピードブースト先がnullです。\nログを保存し、バグ報告チケットを作成してください。,错误：Speedboost 目标为空。 \n请保存日志并创建错误报告票。,"錯誤:加速器加速的對象無效,\n請將遊戲輸出記錄保存並在TOH官方DC群組開啟一張支援票"
+Error.MeetingException,Error: {0}\r\nPlease use SHIFT+M+ENTER to force the meeting to end,Ошибка: {0}\r\nПожалуйста используйте SHIFT+M+ENTER чтобы принудительно завершить собрание,エラー: {0}\r\nSHIFT+M+ENTERで会議を強制終了してください,错误: {0}\r\n使用 SHIFT+M+ENTER 来中止会议,錯誤: {0}\r\n按下SHIFT+M+ENTER來結束會議
+Error.InvalidRoleAssignment,Error: Invalid role found for a player during role assignment({0}),Ошибка: Во время назначения роли для игрока обнаружена недопустимая роль({0}),エラー: 役職設定中に無効な役職のプレイヤーを発見しました({0}),错误：在设置角色时发现角色无效的玩家 ({0}),錯誤:在設定職業時發現{0}持有無效職業
+Error.SpeedBoosterNullException,Error: The speed boost destination is null.\nPlease save the log and create a bug report ticket.,Ошибка: пункт назначения повышения скорости не указан.\nСохраните логи и создайте заявку на отчет об ошибке.,エラー: スピードブースト先がnullです。\nログを保存し、バグ報告チケットを作成してください。,错误：Speedboost 目标为空。 \n请保存日志并创建错误报告票。,"錯誤:加速器加速的對象無效,\n請將遊戲輸出記錄保存並在TOH官方DC群組開啟一張支援票"
 
 ## その他
-ForExample,For Example,使用例,使用例子,使用例子
-ForceEnd,No Contest,廃村,强制结束游戏,遊戲已被強制結束
-EveryoneDied,Everyone Died,誰もいなくなった,,沒有人存活
-ForceEndText,The host terminated the game,ホストから強制終了コマンドが入力されました,房主强制结束了游戏,房主已強制結束遊戲
-HideGameCodes,Hide Game Codes,ゲームコードを隠す,直播模式,隱藏遊戲代碼
-updateButton,Update\n<size=75%>TownOfHost</size>,アップデート\n<size=75%>TownOfHost</size>,更新\n<size=75%>TownOfHost</size>,更新\n<size=75%>Town Of Host</size>中
-updatePleaseWait,Please Wait...,しばらくお待ちください...,请稍候……,請稍後...
-updateManually,Update failed.\nPlease Update Manually.,アップデートに失敗しました。\n手動でアップデートをしてください。,更新失败。\n请尝试手动更新。,"更新失敗,\n請嘗試手動更新"
-updateInProgress,Updating...,アップデート中...,更新中……,更新中...
-announcementUpdate,<size=3f>Update v{0}</size>\n{1},<size=3f>アップデート v{0}</size>\n{1},<size=3f>更新到v{0}</size>\n{1},<size=3f>更新v{0}</size>\n{1}
-announcementChangelog,<size=3f>ChangeLogs v{0}</size>\n{1},<size=3f>更新内容 v{0}</size>\n{1},<size=3f>更新日志 v{0}</size>\n{1},<size=3f>更新內容v{0}</size>\n{1}
-updateRestart,Update Finished!\nPlease restart the game.,アップデートが完了しました。\nゲームを再起動してください。,更新完毕。\n请重新启动游戏。,更新完成!\n請重新啟動遊戲
-updateFailed,Update failed.,アップデートに失敗しました。,更新失败。,更新失敗
-onSetPublicNoLatest,Public rooms is prohibited except for the latest version.\nPlease update.,最新版以外で公開ルームにはできません。\nアップデートをしてください。,不可以在未安装最新模组的前提下创建公开房间。\n请更新本模组。,"無法建立一個公共房間,因為使用的不是最新版本的模組\n請更新本模組"
-CanNotJoinPublicRoomNoLatest,You can't join public rooms except for the latest version.\nPlease update.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。,不可以在未安装最新模组的前提下进入公开房间。\n请更新本模组。,"無法在未安裝最新版本的前提下進入公開房間\n請更新本模組"
-ModBrokenMessage,The MOD file is broken.\nPlease re-install it again.,MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。,模组文件损坏。\n请重新安装本模组。,模組檔案損壞\n請重新安裝模組
-NameIncludeTOH,"You cannot make public rooms unless "TOH" is included in your name.",""TOH"が名前に含まれていない状態では公開部屋にすることはできません。","不可以在昵称中未带有"TOH"字样的前提下把房间状态设置为公开。","無法公開此房間,因為你名字中沒有含有'TOH'"
-DisabledByProgram,"Making room public is disabled by program.","公開ルームはプログラムによって無効化されています"
-EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!,跳管道来获得胜利！,跳管道來獲得勝利!!
-FireworksPutPhase,Put {0} Fireworks,あと{0}個置け,还要安放{0}枚烟花,還需要安裝{0}枚煙火
-FireworksWaitPhase,Wait for time...,時を待て...,耐心等待....,等待時機...
-FireworksReadyFirePhase,Fire!,打ち上げろ！,"烟花来咯，大型烟花秀开始！","準備就緒,煙火秀開始!"
-StandardHAS,Hide And Seek with Roles,役職入りでかくれんぼ,在躲猫猫模式中加入职业,在躲貓貓中加入多職業模式中的職業
-StandardHASWaitingTime,Waiting Time,待機時間,躲猫猫猎人等待时间,躲貓貓狼人等待時間
-commandError,Error:%1$,エラー:%1$,错误:%1$,錯誤:%1$
-InvalidArgs,Invalid Args,無効な引数,无效参数,無效的參數
-On,ON,オン,开启,開啟
-Off,OFF,オフ,关闭,關閉
-ColoredOn,<color=#00fefe>ON</color>,<color=#00fefe>オン</color>,<color=#00fefe>开启</color>,<color=#00fefe>開啟</color>
-ColoredOff,<color=#ff4c6f>OFF</color>,<color=#ff4c6f>オフ</color>,<color=#ff4c6f>关闭</color>,<color=#ff4c6f>關閉</color>
-CurrentActiveSettingsHelp,Current active settings help,現在有効な設定の説明,当前启用设置及帮助,現在設定的模式和職業說明
-WitchCurrentMode,Current Mode,現在のモード,当前游戏模式,現在模式
-WitchModeKill,Kill,キル,击杀,殺人
-WitchModeSpell,Spell,スペル,下咒,下咒
-BountyCurrentTarget,Current Target,現在のターゲット,当前目标,目標
-Roles,Roles,役職,职业,職業
-Settings,Settings,設定,设定,設定
-Attributes,Attributes,属性,属性,屬性
-RoleAssignment,Role Assignment,ロール割り当て,职业分配,職業分配
-LastResult,Last Result,試合結果,游戏结果,上一局的遊戲結果
-Maximum,Maximum,最大数,最大量,最大數量
-Rate0,0%,0%,0%,0%
-Rate5,5%,5%,5%,5%
-Rate10,10%,10%,10%,10%
-Rate20,20%,20%,20%,20%
-Rate30,30%,30%,30%,30%
-Rate40,40%,40%,40%,40%
-Rate50,50%,50%,50%,50%
-Rate60,60%,60%,60%,60%
-Rate70,70%,70%,70%,70%
-Rate80,80%,80%,80%,80%
-Rate90,90%,90%,90%,90%
-Rate100,100%,100%,100%,100%
-Preset,Preset,プリセット,预设,設定檔
-Preset_1,Preset 1,プリセット1,预设1,設定檔 1
-Preset_2,Preset 2,プリセット2,预设2,設定檔 2
-Preset_3,Preset 3,プリセット3,预设3,設定檔 3
-Preset_4,Preset 4,プリセット4,预设4,設定檔 4
-Preset_5,Preset 5,プリセット5,预设5,設定檔 5
-Standard,Standard,スタンダード,标准,普通
-GameMode,GameMode,ゲームモード,游戏模式,遊戲模式
-PressTabToNextPage,Press Tab To Next Page...,Tabキーを押して次のページへ...,按tab键查看更多...,按下Tab以顯示下一頁...
-RoleSummaryText,Players and roles at the end of the game:,ゲーム終了時の役職一覧:,游戏结束时玩家职业:,遊戲結束時玩家的職業:
-doOverride,Override %role%'s Tasks,%role%のタスクを上書きする,特别设置%role%的任务数,特別設定%role%的任務
-assignCommonTasks,%role% has Common Tasks,%role%に通常タスクを割り当てる,%role%的普通任务数,%role%有普通任務
-roleLongTasksNum,%role% Long Tasks,%role%のロングタスクの数,%role%的长任务数,%role%的長任務數量
-roleShortTasksNum,%role% Short Tasks,%role%のショートタスクの数,%role%的短任务数,%role%的短任務數量
-KillButtonText,Kill,キル,击杀,殺死
-SniperSnipeButtonText,Snipe,狙撃,狙杀,狙擊
-FireWorksExplosionButtonText,Fire,爆破,开炸,引爆
-FireWorksInstallAtionButtonText,Set,設置,设置,安裝
-SerialKillerSuicideButtonText,Until Suicide,自殺まで,自杀倒计时,自殺倒數
-WarlockCurseButtonText,Curse,呪う,诅咒,詛咒
-WitchSpellButtonText,Spell,スペル,下咒,下咒
-VampireBiteButtonText,Bite,噛む,吸血,吸血
-ArsonistDouseButtonText,Douse,塗る,涂油,澆油
-PuppeteerOperateButtonText,Operate,操る,操控,操控
-BountyHunterChangeButtonText,Swap,変更,变更,變更
-DefaultShapeshiftText,SHIFT,変身,变身,變身
-All,All,すべて,全部,全部
-Archive,Archive,アーカイブ,文件,檔案
-DisabledBySettings,Disabled by setting,設定で無効化されています,已在设置被中禁用,在設定中被禁用
-Disabled,Disabled,無効
+ForExample,For Example,Например,使用例,使用例子,使用例子
+ForceEnd,No Contest,Игра Была Окончена,廃村,强制结束游戏,遊戲已被強制結束
+EveryoneDied,Everyone Died,Все Мертвы,誰もいなくなった,,沒有人存活
+ForceEndText,The host terminated the game,Хост завершил игру,ホストから強制終了コマンドが入力されました,房主强制结束了游戏,房主已強制結束遊戲
+HideGameCodes,Hide Game Codes,Скрыть Игровой Код,ゲームコードを隠す,直播模式,隱藏遊戲代碼
+updateButton,Update\n<size=75%>TownOfHost</size>,Обновление\n<size=75%>TownOfHost</size>,アップデート\n<size=75%>TownOfHost</size>,更新\n<size=75%>TownOfHost</size>,更新\n<size=75%>Town Of Host</size>中
+updatePleaseWait,Please Wait...,Пожалуйства Подождите...,しばらくお待ちください...,请稍候……,請稍後...
+updateManually,Update failed.\nPlease Update Manually.,Ошибка обновления.\nПожалуйста Обновите Вручную.,アップデートに失敗しました。\n手動でアップデートをしてください。,更新失败。\n请尝试手动更新。,"更新失敗,\n請嘗試手動更新"
+updateInProgress,Updating...,Обновление...,アップデート中...,更新中……,更新中...
+announcementUpdate,<size=3f>Update v{0}</size>\n{1},<size=3f>Обновление v{0}</size>\n{1},<size=3f>アップデート v{0}</size>\n{1},<size=3f>更新到v{0}</size>\n{1},<size=3f>更新v{0}</size>\n{1}
+announcementChangelog,<size=3f>ChangeLogs v{0}</size>\n{1},<size=3f>ЖурналЗзменений v{0}</size>\n{1},<size=3f>更新内容 v{0}</size>\n{1},<size=3f>更新日志 v{0}</size>\n{1},<size=3f>更新內容v{0}</size>\n{1}
+updateRestart,Update Finished!\nPlease restart the game.,Обновление Завершено!\nПожалуйста перезапустите игру.,アップデートが完了しました。\nゲームを再起動してください。,更新完毕。\n请重新启动游戏。,更新完成!\n請重新啟動遊戲
+updateFailed,Update failed.,Не удалось Обновить.,アップデートに失敗しました。,更新失败。,更新失敗
+onSetPublicNoLatest,Public rooms is prohibited except for the latest version.\nPlease update.,Публичные лобби запрещены за исключением последней версии.\nПожалуйста обновите.,最新版以外で公開ルームにはできません。\nアップデートをしてください。,不可以在未安装最新模组的前提下创建公开房间。\n请更新本模组。,"無法建立一個公共房間,因為使用的不是最新版本的模組\n請更新本模組"
+CanNotJoinPublicRoomNoLatest,You can't join public rooms except for the latest version.\nPlease update.,Вы не можете присоединяться к публичным лобби за исключением последней версии.\nПожалуйста обновите.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。,不可以在未安装最新模组的前提下进入公开房间。\n请更新本模组。,"無法在未安裝最新版本的前提下進入公開房間\n請更新本模組"
+ModBrokenMessage,The MOD file is broken.\nPlease re-install it again.,Файл MOD поврежден.\nПожалуйста переустановите его снова.,MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。,模组文件损坏。\n请重新安装本模组。,模組檔案損壞\n請重新安裝模組
+NameIncludeTOH,"You cannot make public rooms unless "TOH" is included in your name.","Вы не можете создавать публичную комнату если в вашем никнейме нет слова "TOH".",""TOH"が名前に含まれていない状態では公開部屋にすることはできません。","不可以在昵称中未带有"TOH"字样的前提下把房间状态设置为公开。","無法公開此房間,因為你名字中沒有含有'TOH'"
+DisabledByProgram,"Making room public is disabled by program.","Создание публичной лобби отключена программой.","公開ルームはプログラムによって無効化されています"
+EnterVentToWin,Enter Vent to Win!!,Запрыгните в вентиляцию чтобы победить!!,ベントに入って勝利しろ!!,跳管道来获得胜利！,跳管道來獲得勝利!!
+FireworksPutPhase,Put {0} Fireworks,Поставьте {0} Фейерверков,あと{0}個置け,还要安放{0}枚烟花,還需要安裝{0}枚煙火
+FireworksWaitPhase,Wait for time...,Подожди время...,時を待て...,耐心等待....,等待時機...
+FireworksReadyFirePhase,Fire!,Огонь!,打ち上げろ！,"烟花来咯，大型烟花秀开始！","準備就緒,煙火秀開始!"
+StandardHAS,Hide And Seek with Roles,Прятки с Ролями,役職入りでかくれんぼ,在躲猫猫模式中加入职业,在躲貓貓中加入多職業模式中的職業
+StandardHASWaitingTime,Waiting Time,Время Ожидания,待機時間,躲猫猫猎人等待时间,躲貓貓狼人等待時間
+commandError,Error:%1$,Ошибка:%1$,エラー:%1$,错误:%1$,錯誤:%1$
+InvalidArgs,Invalid Args,Недопустимые Аргументы,無効な引数,无效参数,無效的參數
+On,ON,ВКЛ,オン,开启,開啟
+Off,OFF,ВЫКЛ,オフ,关闭,關閉
+ColoredOn,<color=#00fefe>ON</color>,<color=#00fefe>ВКЛ</color>,<color=#00fefe>オン</color>,<color=#00fefe>开启</color>,<color=#00fefe>開啟</color>
+ColoredOff,<color=#ff4c6f>OFF</color>,<color=#ff4c6f>ВЫКЛ</color>,<color=#ff4c6f>オフ</color>,<color=#ff4c6f>关闭</color>,<color=#ff4c6f>關閉</color>
+CurrentActiveSettingsHelp,Current active settings help,Справка по текущим активным настройкам,現在有効な設定の説明,当前启用设置及帮助,現在設定的模式和職業說明
+WitchCurrentMode,Current Mode,Текущий Режим,現在のモード,当前游戏模式,現在模式
+WitchModeKill,Kill,Убить,キル,击杀,殺人
+WitchModeSpell,Spell,Заклинать,スペル,下咒,下咒
+BountyCurrentTarget,Current Target,Текущая Цель,現在のターゲット,当前目标,目標
+Roles,Roles,Роли,役職,职业,職業
+Settings,Settings,Настройки,設定,设定,設定
+Attributes,Attributes,Атрибуты,属性,属性,屬性
+RoleAssignment,Role Assignment,Назначение Ролей,ロール割り当て,职业分配,職業分配
+LastResult,Last Result,Последний Результат,試合結果,游戏结果,上一局的遊戲結果
+Maximum,Maximum,Максимум,最大数,最大量,最大數量
+Rate0,0%,0%,0%,0%,0%
+Rate5,5%,5%,5%,5%,5%
+Rate10,10%,10%,10%,10%,10%,
+Rate20,20%,20%,20%,20%,20%,
+Rate30,30%,30%,30%,30%,30%,
+Rate40,40%,40%,40%,40%,40%,
+Rate50,50%,50%,50%,50%,50%,
+Rate60,60%,60%,60%,60%,60%,
+Rate70,70%,70%,70%,70%,70%,
+Rate80,80%,80%,80%,80%,80%,
+Rate90,90%,90%,90%,90%,90%,
+Rate100,100%,100%,100%,100%,100%,
+Preset,Preset,Сохранения,プリセット,预设,設定檔
+Preset_1,Preset 1,Сохранение 1,プリセット1,预设1,設定檔 1
+Preset_2,Preset 2,Сохранение 2,プリセット2,预设2,設定檔 2
+Preset_3,Preset 3,Сохранение 3,プリセット3,预设3,設定檔 3
+Preset_4,Preset 4,Сохранение 4,プリセット4,预设4,設定檔 4
+Preset_5,Preset 5,Сохранение 5,プリセット5,预设5,設定檔 5
+Standard,Standard,Стандартный,スタンダード,标准,普通
+GameMode,GameMode,ИгровойРежим,ゲームモード,游戏模式,遊戲模式
+PressTabToNextPage,Press Tab To Next Page...,Нажмите Tab Чтобы Перейти На Следующую Страницу...,Tabキーを押して次のページへ...,按tab键查看更多...,按下Tab以顯示下一頁...
+RoleSummaryText,Players and roles at the end of the game:,Игроки и роли в конце игры:,ゲーム終了時の役職一覧:,游戏结束时玩家职业:,遊戲結束時玩家的職業:
+doOverride,Override %role%'s Tasks,Изменить Задания У %role%,%role%のタスクを上書きする,特别设置%role%的任务数,特別設定%role%的任務
+assignCommonTasks,%role% has Common Tasks,%role% Имеет Общие Задания,%role%に通常タスクを割り当てる,%role%的普通任务数,%role%有普通任務
+roleLongTasksNum,%role% Long Tasks,%role% Долгие Задания,%role%のロングタスクの数,%role%的长任务数,%role%的長任務數量
+roleShortTasksNum,%role% Short Tasks,%role% Короткие Задания,%role%のショートタスクの数,%role%的短任务数,%role%的短任務數量
+KillButtonText,Kill,Убить,キル,击杀,殺死
+SniperSnipeButtonText,Snipe,Снайпнуть,狙撃,狙杀,狙擊
+FireWorksExplosionButtonText,Fire,Огонь,爆破,开炸,引爆
+FireWorksInstallAtionButtonText,Set,Установить,設置,设置,安裝
+SerialKillerSuicideButtonText,Until Suicide,До Суицида,自殺まで,自杀倒计时,自殺倒數
+WarlockCurseButtonText,Curse,Проклинать,呪う,诅咒,詛咒
+WitchSpellButtonText,Spell,Заклинать,スペル,下咒,下咒
+VampireBiteButtonText,Bite,Укусить,噛む,吸血,吸血
+ArsonistDouseButtonText,Douse,Облить,塗る,涂油,澆油
+PuppeteerOperateButtonText,Operate,Управлять,操る,操控,操控
+BountyHunterChangeButtonText,Swap,Смена,変更,变更,變更
+DefaultShapeshiftText,SHIFT,Превращение,変身,变身,變身
+All,All,Все,すべて,全部,全部
+Archive,Archive,Архив,アーカイブ,文件,檔案
+DisabledBySettings,Disabled by setting,Отключено настройкой,設定で無効化されています,已在设置被中禁用,在設定中被禁用
+Disabled,Disabled,Неполноценный,無効
 
