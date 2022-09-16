@@ -200,6 +200,7 @@ namespace TownOfHost
         public static OverrideTasksData TerroristTasks;
         public static OverrideTasksData SnitchTasks;
         public static OverrideTasksData MadSnitchTasks;
+        public static OverrideTasksData JClientTasks;
 
         // その他
         public static CustomOption NoGameEnd;
@@ -393,6 +394,8 @@ namespace TownOfHost
             JClientCanVent = CustomOption.Create(51011, TabGroup.NeutralRoles, Color.white, "JClientCanVent", false, CustomRoleSpawnChances[CustomRoles.JClient]);
             JClientVentCooldown = CustomOption.Create(51012, TabGroup.NeutralRoles, Color.white, "JClientVentCooldown", 0f, 0f, 180f, 5f, JClientCanVent);
             JClientVentMaxTime = CustomOption.Create(51013, TabGroup.NeutralRoles, Color.white, "JClientVentMaxTime", 0f, 0f, 180f, 5f, JClientCanVent);
+            //ID51020~51023を使用
+            JClientTasks = OverrideTasksData.Create(51020, TabGroup.NeutralRoles, CustomRoles.JClient);
 
             // Attribute
             EnableLastImpostor = CustomOption.Create(80000, TabGroup.MainSettings, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
