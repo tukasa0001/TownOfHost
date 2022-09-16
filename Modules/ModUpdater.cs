@@ -261,8 +261,9 @@ namespace TownOfHost
     {
         public static void Postfix()
         {
+            if (ModUpdaterButton.discordButton == null) return;
             ModUpdaterButton.discordButton.transform.localPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)) + new Vector3(-0.6f, 0.4f, 0);
-            if (ModUpdater.hasUpdate)
+            if (ModUpdater.hasUpdate && ModUpdaterButton.updateButton != null)
                 ModUpdaterButton.updateButton.transform.localPosition = new Vector3(ModUpdaterButton.updateButton.transform.localPosition.x, ModUpdaterButton.updateButton.transform.localPosition.y + 0.6f, ModUpdaterButton.updateButton.transform.localPosition.z);
         }
     }
