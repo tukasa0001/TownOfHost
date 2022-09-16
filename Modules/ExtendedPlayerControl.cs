@@ -326,7 +326,7 @@ namespace TownOfHost
                     Mare.ApplyGameOptions(opt, player.PlayerId);
                     break;
                 case CustomRoles.EvilTracker:
-                    EvilTracker.ApplyGameOptions(opt);
+                    EvilTracker.ApplyGameOptions(opt, player.PlayerId);
                     break;
                 case CustomRoles.Jackal:
                 case CustomRoles.JSchrodingerCat:
