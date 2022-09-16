@@ -301,15 +301,12 @@ namespace TownOfHost
                 }
                 switch (seer.GetCustomRole())
                 {
-                    case CustomRoles.MadSnitch:
-                        if (seer.GetPlayerTaskState().IsTaskFinished) //seerがタスクを終えている
-                            LocalPlayerKnowsImpostor = true;
-                        break;
                     case CustomRoles.Snitch:
+                    case CustomRoles.MadSnitch:
                         if (seer.GetPlayerTaskState().IsTaskFinished) //seerがタスクを終えている
                         {
                             LocalPlayerKnowsImpostor = true;
-                            if (Options.SnitchCanFindNeutralKiller.GetBool())
+                            if (seer.Is(CustomRoles.Snitch) && Options.SnitchCanFindNeutralKiller.GetBool())
                             {
                                 LocalPlayerKnowsJackal = true;
                                 LocalPlayerKnowsEgoist = true;
