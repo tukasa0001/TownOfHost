@@ -438,6 +438,7 @@ namespace TownOfHost
             Egoist.SetupCustomOption();
             Executioner.SetupCustomOption();
             Jackal.SetupCustomOption();
+            SetupRoleOptions(51000, TabGroup.NeutralRoles, CustomRoles.JClient);
 
             // Add-Ons
             LastImpostor.SetupCustomOption();

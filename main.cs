@@ -222,6 +222,7 @@ namespace TownOfHost
                     {CustomRoles.EgoSchrodingerCat, "#5600ff"},
                     {CustomRoles.Jackal, "#00b4eb"},
                     {CustomRoles.JSchrodingerCat, "#00b4eb"},
+                    {CustomRoles.JClient, "#00b4eb"},
                     //HideAndSeek
                     {CustomRoles.HASFox, "#e478ff"},
                     {CustomRoles.HASTroll, "#00ff00"},
@@ -329,6 +330,7 @@ namespace TownOfHost
         Terrorist,
         Executioner,
         Jackal,
+        JClient,//Jクライアント ※Clientだがソース内ではJClientと表記
         JSchrodingerCat,//ジャッカル陣営のシュレディンガーの猫
         //HideAndSeek
         HASFox,
