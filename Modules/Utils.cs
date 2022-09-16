@@ -102,7 +102,7 @@ namespace TownOfHost
                 case CustomRoles.Seer:
                     return true;
                 default:
-                    if (seer.GetCustomRole().IsMadmate() && Options.MadmateCanSeeKillFlash.GetBool()) return true;
+                    if (seer.Is(RoleType.Madmate) && Options.MadmateCanSeeKillFlash.GetBool()) return true;
                     return false;
             }
         }
