@@ -77,7 +77,6 @@ AmongUsバージョン : **2022.8.24**
 | /help roles <役職><br>/help r <役職>        | 役職の説明を表示                                    |
 | /help attributes <属性><br>/help att <属性> | 属性の説明を表示                                    |
 | /help modes <モード><br>/help m <モード>    | モードの説明を表示                                  |
-| /help now<br>/help n                        | 有効な設定の説明を表示                              |
 
 #### MODクライアントのみ
 | コマンド       | 機能                                |
@@ -91,6 +90,7 @@ AmongUsバージョン : **2022.8.24**
 | /lastresult<br>/l             | 試合結果を表示             |
 | /now<br>/n                    | 現在の設定を表示           |
 | /now roles<br>/n r            | 現在の役職設定を表示       |
+| /help now<br>/help n          | 有効な設定の説明を表示     |
 | /template <タグ><br>/t <タグ> | タグに対応した定型文を表示 |
 
 ### テンプレート

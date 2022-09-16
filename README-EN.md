@@ -77,7 +77,6 @@ You can execute chat commands by typing in chat.
 | /help roles <role><br>/help r <role>                  | Show role description                             |
 | /help attributes <attribute><br>/help att <attribute> | Show attribute description                        |
 | /help modes <mode><br>/help m <mode>                  | Show mode description                             |
-| /help now<br>/help n                                  | Show active setting descriptions                  |
 
 #### MOD Client Only
 | Command        | Function                    |
@@ -91,6 +90,7 @@ You can execute chat commands by typing in chat.
 | /lastresult<br>/l           | Show game result                        |
 | /now<br>/n                  | Show active settings                    |
 | /now roles<br>/n r          | Show active roles settings              |
+| /help now<br>/help n        | Show active setting descriptions        |
 | /template <tag><br>/t <tag> | Show template text corresponding to tag |
 
 ### Template
