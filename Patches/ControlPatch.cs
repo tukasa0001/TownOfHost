@@ -26,6 +26,13 @@ namespace TownOfHost
                 if (resolutionIndex >= resolutions.Length) resolutionIndex = 0;
                 ResolutionManager.SetResolution(resolutions[resolutionIndex].Item1, resolutions[resolutionIndex].Item2, false);
             }
+            //カスタム翻訳のリロード
+            if (Input.GetKeyDown(KeyCode.F5) && Input.GetKey(KeyCode.T))
+            {
+                Logger.Info("Reload Custom Translation File", "KeyCommand");
+                Translator.LoadLangs();
+                Logger.SendInGame("Reloaded Custom Translation File");
+            }
             //ログファイルのダンプ
             if (Input.GetKeyDown(KeyCode.F1) && Input.GetKey(KeyCode.LeftControl))
             {
