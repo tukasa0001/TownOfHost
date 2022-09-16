@@ -396,7 +396,10 @@ namespace TownOfHost
                         break;
                     case CustomRoles.Egoist:
                     case CustomRoles.Jackal:
-                        if (Options.SnitchCanFindNeutralKiller.GetBool() &&
+                        if (Options.CanSeeTaskFinishedJClientFromJackal.GetBool() &&
+                        target.Is(CustomRoles.JClient) && target.GetPlayerTaskState().IsTaskFinished)
+                            pva.NameText.text = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), pva.NameText.text);
+                        else if (Options.SnitchCanFindNeutralKiller.GetBool() &&
                         target.Is(CustomRoles.Snitch) && //変更対象がSnitch
                         target.GetPlayerTaskState().DoExpose) //変更対象のタスクが終わりそう)
                             pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), "★"); //変更対象にSnitchマークをつける

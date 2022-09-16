@@ -331,6 +331,7 @@
 "JClientCanVent","Client Can Use Vent","ベントを使用できる",,,,
 "JClientVentCooldown","Client Vent Cooldown","ベントクールダウン",,,,
 "JClientVentMaxTime","Client Max Time In Vents","ベント内での最大時間",,,,
+"CanSeeTaskFinishedJClientFromJackal","Can see task finished Client from Jackal","タスクが終わるとジャッカルからも視認できる",,,,
 "JClientTasks","Client Tasks","タスク数",,,,
 
 "BountyTargetChangeTime","Time Until Target Swaps","ターゲット変更時間","赏金目标切换时间","賞金目標切換時間","Время Смены Его Цели","Tempo Para Troca de Alvos"

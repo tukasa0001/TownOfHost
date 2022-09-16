@@ -882,7 +882,7 @@ namespace TownOfHost
                         }
                         else if (SeerKnowsJackal) //Seerがジャッカルが誰かわかる状態
                             if (target.Is(CustomRoles.Jackal))
-                                TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);
+                                TargetPlayerName = ColorString(target.GetRoleColor(), TargetPlayerName);
                         else if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.Egoist))
                             TargetPlayerName = ColorString(GetRoleColor(CustomRoles.Egoist), TargetPlayerName);
                         else if ((seer.Is(CustomRoles.EgoSchrodingerCat) && target.Is(CustomRoles.Egoist)) || //エゴ猫 --> エゴイスト
@@ -897,6 +897,9 @@ namespace TownOfHost
                             var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
                             TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
                         }
+                        if (Options.CanSeeTaskFinishedJClientFromJackal.GetBool() &&
+                        seer.Is(CustomRoles.Jackal) && target.Is(CustomRoles.JClient) && target.GetPlayerTaskState().IsTaskFinished)
+                            TargetPlayerName = ColorString(GetRoleColor(CustomRoles.Jackal), TargetPlayerName);
                         if (seer.Is(RoleType.Impostor) && target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
                             TargetMark += ColorString(GetRoleColor(CustomRoles.MadSnitch), "★");
                         TargetMark += Executioner.TargetMark(seer, target);
