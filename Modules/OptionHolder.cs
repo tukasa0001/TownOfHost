@@ -71,6 +71,7 @@ namespace TownOfHost
         public static CustomOption MadmateCanFixLightsOut; // TODO:mii-47 マッド役職統一
         public static CustomOption MadmateCanFixComms;
         public static CustomOption MadmateHasImpostorVision;
+        public static CustomOption MadmateCanSeeKillFlash;
         public static CustomOption MadmateVentCooldown;
         public static CustomOption MadmateVentMaxTime;
 
@@ -307,6 +308,7 @@ namespace TownOfHost
             MadmateCanFixLightsOut = CustomOption.Create(15010, TabGroup.ImpostorRoles, Color.white, "MadmateCanFixLightsOut", false, null, true, false);
             MadmateCanFixComms = CustomOption.Create(15011, TabGroup.ImpostorRoles, Color.white, "MadmateCanFixComms", false);
             MadmateHasImpostorVision = CustomOption.Create(15012, TabGroup.ImpostorRoles, Color.white, "MadmateHasImpostorVision", false);
+            MadmateCanSeeKillFlash = CustomOption.Create(15015, TabGroup.ImpostorRoles, Color.white, "MadmateCanSeeKillFlash", false);
             MadmateVentCooldown = CustomOption.Create(15213, TabGroup.ImpostorRoles, Color.white, "MadmateVentCooldown", 0f, 0f, 180f, 5f);
             MadmateVentMaxTime = CustomOption.Create(15214, TabGroup.ImpostorRoles, Color.white, "MadmateVentMaxTime", 0f, 0f, 180f, 5f);
             // Both
