@@ -107,6 +107,8 @@ namespace TownOfHost
             EvilTracker.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
+
+            GameStates.MeetingCalled = false;
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]

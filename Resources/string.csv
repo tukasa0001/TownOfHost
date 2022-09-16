@@ -243,6 +243,7 @@ SuffixMode.Recording,Recording,録画中,录制中,錄影中
 SuffixMode.RoomHost,Room Host,部屋主,,
 SuffixMode.OriginalName,OriginalName,元の名前,,
 ColorNameMode,Color Name Mode,色名前モード,显示颜色名称,名字將被顏色名稱替換
+FixFirstKillCooldown,Fix Kill Cooldown For First Spawn,初期スポーン時のクールダウン修正,,
 GhostCanSeeOtherRoles,Ghost Can See Other Roles,幽霊が他人の役職を見ることができる,幽灵可见他人职业,幽靈可以看見所有玩家職業
 GhostCanSeeOtherVotes,Ghost Can See Other Votes,幽霊が他人の投票先を見ることができる,幽灵可见投票情况,幽靈可以看見所有玩家的投票
 GhostIgnoreTasks,Ghost Ignore Tasks,死人のタスクを免除する,,

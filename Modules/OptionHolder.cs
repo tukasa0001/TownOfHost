@@ -182,6 +182,7 @@ namespace TownOfHost
         public static CustomOption AutoDisplayLastResult;
         public static CustomOption SuffixMode;
         public static CustomOption ColorNameMode;
+        public static CustomOption FixFirstKillCooldown;
         public static CustomOption GhostCanSeeOtherRoles;
         public static CustomOption GhostCanSeeOtherVotes;
         public static CustomOption GhostIgnoreTasks;
@@ -479,6 +480,8 @@ namespace TownOfHost
             SuffixMode = CustomOption.Create(100602, TabGroup.MainSettings, Color.white, "SuffixMode", suffixModes, suffixModes[0])
                 .SetGameMode(CustomGameMode.All);
             ColorNameMode = CustomOption.Create(100605, TabGroup.MainSettings, Color.white, "ColorNameMode", false)
+                .SetGameMode(CustomGameMode.All);
+            FixFirstKillCooldown = CustomOption.Create(100608, TabGroup.MainSettings, Color.white, "FixFirstKillCooldown", false)
                 .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherRoles = CustomOption.Create(100603, TabGroup.MainSettings, Color.white, "GhostCanSeeOtherRoles", true)
                 .SetGameMode(CustomGameMode.All);

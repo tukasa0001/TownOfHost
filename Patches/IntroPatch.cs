@@ -256,7 +256,14 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 if (PlayerControl.GameOptions.MapId != 4)
+                {
                     PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcResetAbilityCooldown());
+                    if (Options.FixFirstKillCooldown.GetBool())
+                        new LateTask(() =>
+                        {
+                            PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.SetKillCooldown(Main.AllPlayerKillCooldown[pc.PlayerId] - 2f));
+                        }, 2f, "FixKillCooldownTask");
+                }
                 new LateTask(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRole(RoleTypes.Shapeshifter)), 2f, "SetImpostorForServer");
                 if (PlayerControl.LocalPlayer.Is(CustomRoles.GM))
                 {
