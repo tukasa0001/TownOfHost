@@ -351,6 +351,7 @@ JClientHasImpostorVision,Client Have Impostor Vision,インポスターと同じ
 JClientCanVent,Client Can Use Vent,ベントを使用できる,请求者可以使用管道,請求者可以使用管道
 JClientVentCooldown,Client Vent Cooldown,ベントクールダウン,请求者跳管道冷却时间,請求者跳管道冷卻
 JClientVentMaxTime,Client Max Time In Vents(s),ベント内での最大時間,请求者在管道中停留的最大时间,請求者在管道中可以停留的最大時間
+CanSeeTaskFinishedJClientFromJackal,Can see task finished Client from Jackal,タスクが終わるとジャッカルからも視認できる,任务完成后 豺狼也能看到,任務完成後 豺狼也能看到
 JClientTasks,Client Tasks,タスク数,请求者任务数,請求者任務數量
 
 ## かくれんぼ設定

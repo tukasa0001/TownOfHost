@@ -100,6 +100,7 @@ namespace TownOfHost
         public static CustomOption JClientCanVent;
         public static CustomOption JClientVentCooldown;
         public static CustomOption JClientVentMaxTime;
+        public static CustomOption CanSeeTaskFinishedJClientFromJackal;
         public static CustomOption KillFlashDuration;
 
         // HideAndSeek
@@ -370,6 +371,7 @@ namespace TownOfHost
             JClientCanVent = CustomOption.Create(51011, TabGroup.NeutralRoles, Color.white, "JClientCanVent", false, CustomRoleSpawnChances[CustomRoles.JClient]);
             JClientVentCooldown = CustomOption.Create(51012, TabGroup.NeutralRoles, Color.white, "JClientVentCooldown", 0f, 0f, 180f, 5f, JClientCanVent);
             JClientVentMaxTime = CustomOption.Create(51013, TabGroup.NeutralRoles, Color.white, "JClientVentMaxTime", 0f, 0f, 180f, 5f, JClientCanVent);
+            CanSeeTaskFinishedJClientFromJackal = CustomOption.Create(51014, TabGroup.NeutralRoles, Color.white, "CanSeeTaskFinishedJClientFromJackal", false, CustomRoleSpawnChances[CustomRoles.JClient]);
             //ID51020~51023を使用
             JClientTasks = OverrideTasksData.Create(51020, TabGroup.NeutralRoles, CustomRoles.JClient);
 
