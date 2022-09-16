@@ -332,7 +332,10 @@ namespace TownOfHost
                 case CustomRoles.JSchrodingerCat:
                     opt.SetVision(player, Options.JackalHasImpostorVision.GetBool());
                     break;
-
+                case CustomRoles.JClient:
+                    if (Options.JClientHasImpostorVision.GetBool())
+                        opt.SetVision(player, true);
+                    break;
 
                 InfinityVent:
                     opt.RoleOptions.EngineerCooldown = 0;

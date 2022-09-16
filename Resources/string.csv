@@ -347,6 +347,7 @@ TimeThiefReturnStolenTimeUponDeath,Return Stolen Time After Death,死亡後に�
 EvilTrackerCanSeeKillFlash,EvilTracker Can See The Flash Of Impostor Kills,インポスターキル時にフラッシュが見える,当内鬼进行击杀时邪恶的追踪者可以看到闪光
 EvilTrackerResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,会議後に再度ターゲットを設定できる,会议后重置邪恶的追踪者追踪目标
 KillFlashDuration,Kill Flash Duration(s),キルフラッシュの長さ(秒)
+JClientHasImpostorVision,Client Have Impostor Vision,インポスターと同じ視界を持つ,请求者有内鬼视野,請求者有跟狼人一樣的視野
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定
