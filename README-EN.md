@@ -56,6 +56,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 | `Tab`       | Option list page feed                                                  | Lobby        |
 | `Ctrl`+`F1` | Output log to desktop                                                  | Anywhere     |
 | `F11`       | Change resolution<br>480x270 → 640x360 → 800x450 → 1280x720 → 1600x900 | Anywhere     |
+| `T`+`F5`    | Reload custom translation file                                         | Anywhere     |
 | `Ctrl`+`C`  | Copy the text                                                          | Chat         |
 | `Ctrl`+`V`  | Paste the text                                                         | Chat         |
 | `Ctrl`+`X`  | Cut the text                                                           | Chat         |
