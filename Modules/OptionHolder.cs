@@ -97,6 +97,9 @@ namespace TownOfHost
         public static CustomOption JackalCanUseSabotage;
         public static CustomOption JackalHasImpostorVision;
         public static CustomOption JClientHasImpostorVision;
+        public static CustomOption JClientCanVent;
+        public static CustomOption JClientVentCooldown;
+        public static CustomOption JClientVentMaxTime;
         public static CustomOption KillFlashDuration;
 
         // HideAndSeek
@@ -363,6 +366,9 @@ namespace TownOfHost
             //JClient
             SetupRoleOptions(51000, TabGroup.NeutralRoles, CustomRoles.JClient);
             JClientHasImpostorVision = CustomOption.Create(51010, TabGroup.NeutralRoles, Color.white, "JClientHasImpostorVision", false, CustomRoleSpawnChances[CustomRoles.JClient]);
+            JClientCanVent = CustomOption.Create(51011, TabGroup.NeutralRoles, Color.white, "JClientCanVent", false, CustomRoleSpawnChances[CustomRoles.JClient]);
+            JClientVentCooldown = CustomOption.Create(51012, TabGroup.NeutralRoles, Color.white, "JClientVentCooldown", 0f, 0f, 180f, 5f, JClientCanVent);
+            JClientVentMaxTime = CustomOption.Create(51013, TabGroup.NeutralRoles, Color.white, "JClientVentMaxTime", 0f, 0f, 180f, 5f, JClientCanVent);
 
             // Attribute
             EnableLastImpostor = CustomOption.Create(80000, TabGroup.MainSettings, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)

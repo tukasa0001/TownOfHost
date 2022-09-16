@@ -348,6 +348,9 @@ EvilTrackerCanSeeKillFlash,EvilTracker Can See The Flash Of Impostor Kills,イ�
 EvilTrackerResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,会議後に再度ターゲットを設定できる,会议后重置邪恶的追踪者追踪目标
 KillFlashDuration,Kill Flash Duration(s),キルフラッシュの長さ(秒)
 JClientHasImpostorVision,Client Have Impostor Vision,インポスターと同じ視界を持つ,请求者有内鬼视野,請求者有跟狼人一樣的視野
+JClientCanVent,Client Can Use Vent,ベントを使用できる,请求者可以使用管道,請求者可以使用管道
+JClientVentCooldown,Client Vent Cooldown,ベントクールダウン,请求者跳管道冷却时间,請求者跳管道冷卻
+JClientVentMaxTime,Client Max Time In Vents(s),ベント内での最大時間,请求者在管道中停留的最大时间,請求者在管道中可以停留的最大時間
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定
