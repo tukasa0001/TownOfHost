@@ -138,24 +138,24 @@ You can also reload the translation by pressing key `T`+`F5`.
 
 ## Roles
 
-| Impostors                           | Crewmates                         | Neutrals                          |
-| ----------------------------------- | --------------------------------- | --------------------------------- |
-| [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             |
-| [Evil Watcher](#Watcher)            | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |
-| [FireWorks](#FireWorks)             | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |
-| [Mare](#Mare)                       | [Lighter](#Lighter)               | [Jester](#Jester)                 |
-| [Puppeteer](#Puppeteer)             | [Mayor](#Mayor)                   | [Lovers](#Lovers)                 |
-| [SerialKiller](#SerialKiller)       | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |
-| [Sniper](#Sniper)                   | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
-| [TimeThief](#TimeThief)             | [Seer](#Seer)                     | [SchrodingerCat](#SchrodingerCat) |
-| [Vampire](#Vampire)                 | [Sheriff](#Sheriff)               |                                   |
-| [Warlock](#Warlock)                 | [Snitch](#Snitch)                 |                                   |
-| [Witch](#Witch)                     | [SpeedBooster](#SpeedBooster)     |                                   |
-| [Mafia](#Mafia)                     | [Trapper](#Trapper)               |                                   |
-| [Madmate](#Madmate)                 |                                   |                                   |
-| [MadGuardian](#MadGuardian)         |                                   |                                   |
-| [MadSnitch](#MadSnitch)             |                                   |                                   |
-| [SidekickMadmate](#SidekickMadmate) |                                   |                                   |
+| Impostors                           | Crewmates                         | Neutrals                          | Others    |
+| ----------------------------------- | --------------------------------- | --------------------------------- | --------- |
+| [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             | [GM](#GM) |
+| [Evil Watcher](#Watcher)            | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |           |
+| [FireWorks](#FireWorks)             | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |           |
+| [Mare](#Mare)                       | [Lighter](#Lighter)               | [Jester](#Jester)                 |           |
+| [Puppeteer](#Puppeteer)             | [Mayor](#Mayor)                   | [Lovers](#Lovers)                 |           |
+| [SerialKiller](#SerialKiller)       | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |           |
+| [Sniper](#Sniper)                   | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |           |
+| [TimeThief](#TimeThief)             | [Seer](#Seer)                     | [SchrodingerCat](#SchrodingerCat) |           |
+| [Vampire](#Vampire)                 | [Sheriff](#Sheriff)               |                                   |           |
+| [Warlock](#Warlock)                 | [Snitch](#Snitch)                 |                                   |           |
+| [Witch](#Witch)                     | [SpeedBooster](#SpeedBooster)     |                                   |           |
+| [Mafia](#Mafia)                     | [Trapper](#Trapper)               |                                   |           |
+| [Madmate](#Madmate)                 |                                   |                                   |           |
+| [MadGuardian](#MadGuardian)         |                                   |                                   |           |
+| [MadSnitch](#MadSnitch)             |                                   |                                   |           |
+| [SidekickMadmate](#SidekickMadmate) |                                   |                                   |           |
 
 ### GM
 
