@@ -110,6 +110,9 @@ namespace TownOfHost
         public static OptionItem ArsonistDouseTime;
         public static OptionItem ArsonistCooldown;
         public static OptionItem JClientHasImpostorVision;
+        public static OptionItem JClientCanVent;
+        public static OptionItem JClientVentCooldown;
+        public static OptionItem JClientVentMaxTime;
         public static OptionItem KillFlashDuration;
 
         // HideAndSeek
@@ -441,6 +444,12 @@ namespace TownOfHost
             Jackal.SetupCustomOption();
             SetupRoleOptions(51000, TabGroup.NeutralRoles, CustomRoles.JClient);
             JClientHasImpostorVision = BooleanOptionItem.Create(51010, "JClientHasImpostorVision", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.JClient]);
+
+            JClientCanVent = BooleanOptionItem.Create(51011, "JClientCanVent", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.JClient]);
+            JClientVentCooldown = FloatOptionItem.Create(51012, "JClientVentCooldown", new(0f, 180f, 5f), 0f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.JClient])
+                .SetValueFormat(OptionFormat.Seconds);
+            JClientVentMaxTime = FloatOptionItem.Create(51013, "JClientVentMaxTime", new(0f, 180f, 5f), 0f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.JClient])
+                .SetValueFormat(OptionFormat.Seconds);
 
             // Add-Ons
             LastImpostor.SetupCustomOption();

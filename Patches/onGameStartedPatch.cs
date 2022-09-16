@@ -155,6 +155,9 @@ namespace TownOfHost
                 if (Options.MadSnitchCanVent.GetBool())
                     AdditionalEngineerNum += CustomRoles.MadSnitch.GetCount();
 
+                if (Options.JClientCanVent.GetBool())
+                    AdditionalEngineerNum += CustomRoles.JClient.GetCount();
+
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
@@ -307,7 +310,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
                 AssignCustomRolesFromList(CustomRoles.EvilTracker, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Seer, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.JClient, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.JClient, Options.JClientCanVent.GetBool() ? Engineers : Crewmates);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -411,6 +414,9 @@ namespace TownOfHost
 
                 if (Options.MadSnitchCanVent.GetBool())
                     EngineerNum -= CustomRoles.MadSnitch.GetCount();
+
+                if (Options.JClientCanVent.GetBool())
+                    EngineerNum -= CustomRoles.JClient.GetCount();
 
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
