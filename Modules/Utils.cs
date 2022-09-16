@@ -850,8 +850,11 @@ namespace TownOfHost
                             var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
                             TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
                         }
+                        if (Options.CanSeeTaskFinishedJClientFromJackal.GetBool() &&
+                        seer.Is(CustomRoles.Jackal) && target.Is(CustomRoles.JClient) && target.GetPlayerTaskState().IsTaskFinished)
+                            TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Jackal), TargetPlayerName);
                         if (seer.Is(RoleType.Impostor) && target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
-                            TargetMark += Helpers.ColorString(GetRoleColor(CustomRoles.MadSnitch), "★");
+                                TargetMark += Helpers.ColorString(GetRoleColor(CustomRoles.MadSnitch), "★");
                         TargetMark += Executioner.TargetMark(seer, target);
 
                         string TargetDeathReason = "";

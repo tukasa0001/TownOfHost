@@ -821,6 +821,12 @@ namespace TownOfHost
                         else if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool()) //targetがタスクを終わらせたマッドスニッチ
                             Mark += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★"); //targetにマーク付与
                     }
+                    //seerがジャッカル
+                    else if (seer.Is(CustomRoles.Jackal) && //seerがジャッカル
+                        target.Is(CustomRoles.JClient) && //targetがJクライアント
+                        Options.CanSeeTaskFinishedJClientFromJackal.GetBool() &&
+                        target.GetPlayerTaskState().IsTaskFinished) //targetのタスクが終わっている
+                        RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), RealName); //targetの名前をジャッカル色で表示
 
                     else if ((seer.Is(CustomRoles.EgoSchrodingerCat) && target.Is(CustomRoles.Egoist)) || //エゴ猫 --> エゴイスト
                              (seer.Is(CustomRoles.JSchrodingerCat) && target.Is(CustomRoles.Jackal)) //J猫 --> ジャッカル
