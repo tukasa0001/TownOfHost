@@ -379,12 +379,12 @@ DeathReason.Fall,Fall,Упал,転落,摔死,摔死
 DeathReason.etc,etc,ТакДалее,その他,其他,其他
 Alive,Alive,Выжил,生存,存活,存活
 Win," Wins","Победил",勝利,胜利,勝利
-Last,Last,Последний,ラスト,独活,獨活
+Last,Last,Последний,ラスト,仅存,獨活
 
 ## リアクターの時間制御
-SabotageTimeControl,Modify Sabotage TimeLimit,Изменить Время Саботажа,サボタージュの時間制御,紧急破坏限制时间,重新設定緊急任務時間
-PolusReactorTimeLimit,Polus Reactor TimeLimit(s),Polus Время Саботажа Реактора,ポーラスのリアクター制限時間,波鲁斯抗震稳定器破坏修理时限,Polus地震抑制器破壞最大時間
-AirshipReactorTimeLimit,Airship Reactor TimeLimit(s),Airship Время Саботажа Реактора,エアシップのリアクター制限時間,飞艇坠毁路线破坏修理时限,Airship間隙室破壞最大時間
+SabotageTimeControl,Modify Sabotage TimeLimit,Изменить Время Саботажа,サボタージュの時間制御,更改修理时限,重新設定緊急任務時間
+PolusReactorTimeLimit,Polus Reactor TimeLimit(s),Polus Время Саботажа Реактора,ポーラスのリアクター制限時間,波鲁斯抗震稳定器修理时限,Polus地震抑制器破壞最大時間
+AirshipReactorTimeLimit,Airship Reactor TimeLimit(s),Airship Время Саботажа Реактора,エアシップのリアクター制限時間,飞艇坠毁路线修理时限,Airship間隙室破壞最大時間
 
 ## ヘルプテキスト
 CommandList,Command List:,Список Команд:,コマンド一覧:,指令列表:,指令列表:
@@ -418,7 +418,7 @@ Warning.InvalidRpc,Kicked {0} because an invalid RPC was received.\nPlease make 
 ## エラー
 Error.MeetingException,Error: {0}\r\nPlease use SHIFT+M+ENTER to force the meeting to end,Ошибка: {0}\r\nПожалуйста используйте SHIFT+M+ENTER чтобы принудительно завершить собрание,エラー: {0}\r\nSHIFT+M+ENTERで会議を強制終了してください,错误: {0}\r\n使用 SHIFT+M+ENTER 来中止会议,錯誤: {0}\r\n按下SHIFT+M+ENTER來結束會議
 Error.InvalidRoleAssignment,Error: Invalid role found for a player during role assignment({0}),Ошибка: Во время назначения роли для игрока обнаружена недопустимая роль({0}),エラー: 役職設定中に無効な役職のプレイヤーを発見しました({0}),错误：在设置角色时发现角色无效的玩家 ({0}),錯誤:在設定職業時發現{0}持有無效職業
-Error.SpeedBoosterNullException,Error: The speed boost destination is null.\nPlease save the log and create a bug report ticket.,Ошибка: пункт назначения повышения скорости не указан.\nСохраните логи и создайте заявку на отчет об ошибке.,エラー: スピードブースト先がnullです。\nログを保存し、バグ報告チケットを作成してください。,错误：Speedboost 目标为空。 \n请保存日志并创建错误报告票。,"錯誤:加速器加速的對象無效,\n請將遊戲輸出記錄保存並在TOH官方DC群組開啟一張支援票"
+Error.SpeedBoosterNullException,Error: The speed boost destination is null.\nPlease save the log and create a bug report ticket.,Ошибка: пункт назначения повышения скорости не указан.\nСохраните логи и создайте заявку на отчет об ошибке.,エラー: スピードブースト先がnullです。\nログを保存し、バグ報告チケットを作成してください。,错误：增速者的增速目标为空。 \n请保存日志并创建错误报告票。,"錯誤:加速器加速的對象無效,\n請將遊戲輸出記錄保存並在TOH官方DC群組開啟一張支援票"
 
 ## その他
 ForExample,For Example,Например,使用例,使用例子,使用例子
