@@ -26,6 +26,30 @@ namespace TownOfHost
             WinnerRoles = new();
             WinnerIds = new();
         }
+        public static void ClearWinners()
+        {
+            WinnerRoles.Clear();
+            WinnerIds.Clear();
+        }
+        /// <summary><para>WinnerTeamに値を代入します。</para><para>すでに代入されている場合、AdditionalWinnerTeamsに追加します。</para></summary>
+        public static void SetWinnerOrAdditonalWinner(CustomWinner winner)
+        {
+            if (WinnerTeam == CustomWinner.Default) WinnerTeam = winner;
+            else AdditionalWinnerTeams.Add((AdditionalWinners)winner);
+        }
+        /// <summary><para>WinnerTeamに値を代入します。</para><para>すでに代入されている場合、既存の値をAdditionalWinnerTeamsに追加してから代入します。</para></summary>
+        public static void ShiftWinnerAndSetWinner(CustomWinner winner)
+        {
+            if (WinnerTeam != CustomWinner.Default)
+                AdditionalWinnerTeams.Add((AdditionalWinners)WinnerTeam);
+            WinnerTeam = winner;
+        }
+        /// <summary><para>既存の値をすべて削除してから、WinnerTeamに値を代入します。</para></summary>
+        public static void ResetAndSetWinner(CustomWinner winner)
+        {
+            Reset();
+            WinnerTeam = winner;
+        }
 
         public static MessageWriter WriteTo(MessageWriter writer)
         {
