@@ -45,7 +45,7 @@ namespace TownOfHost
             //廃村
             if (GetKeysDown(new[] { KeyCode.Return, KeyCode.L, KeyCode.LeftShift }) && GameStates.IsInGame)
             {
-                CustomWinnerHolder.WinnerTeam = CustomWinner.Draw;
+                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Draw);
             }
             //ミーティングを強制終了
             if (GetKeysDown(new[] { KeyCode.Return, KeyCode.M, KeyCode.LeftShift }) && GameStates.IsMeeting)
