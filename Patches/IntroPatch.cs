@@ -62,12 +62,19 @@ namespace TownOfHost
             Logger.Info("--------------環境--------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                var text = pc.AmOwner ? "[*]" : "   ";
-                text += $"{pc.PlayerId,-2}:{pc.Data?.PlayerName?.PadRightV2(20)}:{pc.GetClient().PlatformData.Platform.ToString().Replace("Standalone", ""),-11}";
-                if (Main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
-                    text += $":Mod({pv.forkId}/{pv.version}:{pv.tag})";
-                else text += ":Vanilla";
-                Logger.Info(text, "Info");
+                try
+                {
+                    var text = pc.AmOwner ? "[*]" : "   ";
+                    text += $"{pc.PlayerId,-2}:{pc.Data?.PlayerName?.PadRightV2(20)}:{pc.GetClient()?.PlatformData?.Platform.ToString()?.Replace("Standalone", ""),-11}";
+                    if (Main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
+                        text += $":Mod({pv.forkId}/{pv.version}:{pv.tag})";
+                    else text += ":Vanilla";
+                    Logger.Info(text, "Info");
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex.ToString(), "Platform");
+                }
             }
             Logger.Info("------------基本設定------------", "Info");
             var tmp = PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
@@ -111,7 +118,12 @@ namespace TownOfHost
                     __instance.TeamTitle.text = Utils.GetRoleName(role);
                     __instance.TeamTitle.color = Utils.GetRoleColor(role);
                     __instance.ImpostorText.gameObject.SetActive(true);
-                    __instance.ImpostorText.text = GetString("NeutralInfo");
+                    __instance.ImpostorText.text = role switch
+                    {
+                        CustomRoles.Egoist => GetString("TeamEgoist"),
+                        CustomRoles.Jackal => GetString("TeamJackal"),
+                        _ => GetString("NeutralInfo"),
+                    };
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                     break;
                 case RoleType.Madmate:
@@ -239,18 +251,39 @@ namespace TownOfHost
     {
         public static void Postfix(IntroCutscene __instance)
         {
+            if (!GameStates.IsInGame) return;
             Main.introDestroyed = true;
             if (AmongUsClient.Instance.AmHost)
             {
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                if (PlayerControl.GameOptions.MapId != 4)
                 {
-                    pc.RpcSetRole(RoleTypes.Shapeshifter);
-                    pc.RpcResetAbilityCooldown();
+                    PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcResetAbilityCooldown());
+                    if (Options.FixFirstKillCooldown.GetBool())
+                        new LateTask(() =>
+                        {
+                            PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.SetKillCooldown(Main.AllPlayerKillCooldown[pc.PlayerId] - 2f));
+                        }, 2f, "FixKillCooldownTask");
                 }
+                new LateTask(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRole(RoleTypes.Shapeshifter)), 2f, "SetImpostorForServer");
                 if (PlayerControl.LocalPlayer.Is(CustomRoles.GM))
                 {
                     PlayerControl.LocalPlayer.RpcExile();
                     PlayerState.SetDead(PlayerControl.LocalPlayer.PlayerId);
+                }
+                if (Options.RandomSpawn.GetBool())
+                {
+                    RandomSpawn.SpawnMap map;
+                    switch (PlayerControl.GameOptions.MapId)
+                    {
+                        case 0:
+                            map = new RandomSpawn.SkeldSpawnMap();
+                            PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                            break;
+                        case 1:
+                            map = new RandomSpawn.MiraHQSpawnMap();
+                            PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                            break;
+                    }
                 }
             }
             Logger.Info("OnDestroy", "IntroCutscene");

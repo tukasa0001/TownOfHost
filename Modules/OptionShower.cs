@@ -48,7 +48,7 @@ namespace TownOfHost
                     if (Options.EnableLastImpostor.GetBool())
                     {
                         text += $"<color={Utils.GetRoleColorCode(CustomRoles.LastImpostor)}>{Utils.GetRoleName(CustomRoles.LastImpostor)}:</color> {Options.EnableLastImpostor.GetString()}\n";
-                        text += $"\t{GetString("LastImpostorKillCooldown")}: {Options.LastImpostorKillCooldown.GetString()}\n\n";
+                        text += $"\t{GetString("KillCooldown")}: {Options.LastImpostorKillCooldown.GetString()}\n\n";
                     }
                 }
                 nameAndValue(Options.EnableGM);
@@ -61,6 +61,16 @@ namespace TownOfHost
                     {
                         if (c.Name == "Maximum") continue; //Maximumの項目は飛ばす
                         text += $"\t{c.GetName()}: {c.GetString()}\n";
+                        if (c.GetBool() && c.Children != null)
+                            foreach (var d in c.Children)
+                            {
+                                text += $"\t\t{d.GetName()}: {d.GetString()}\n"; //子
+                                if (d.GetBool() && d.Children != null)
+                                    foreach (var e in d.Children)
+                                    {
+                                        text += $"\t\t\t{e.GetName()}: {e.GetString()}\n"; //孫？
+                                    }
+                            }
                     }
                     if (kvp.Key.IsMadmate()) //マッドメイトの時に追加する詳細設定
                     {
@@ -74,9 +84,11 @@ namespace TownOfHost
                     {
                         text += $"\t{Options.CanMakeMadmateCount.GetName()}: {Options.CanMakeMadmateCount.GetString()}\n";
                     }
-                    if (kvp.Key == CustomRoles.Mayor && Options.MayorHasPortableButton.GetBool())
+                    if ((kvp.Key == CustomRoles.EvilTracker && EvilTracker.CanSeeKillFlash.GetBool())
+                    || kvp.Key == CustomRoles.Seer
+                    || kvp.Key.IsMadmate() && Options.MadmateCanSeeKillFlash.GetBool())
                     {
-                        text += $"\t{Options.MayorNumOfUseButton.GetName()}: {Options.MayorNumOfUseButton.GetString()}\n";
+                        text += $"\t{Options.KillFlashDuration.GetName()}: {Options.KillFlashDuration.GetString()}\n";
                     }
                     text += "\n";
                 }
@@ -120,6 +132,7 @@ namespace TownOfHost
                 nameAndValue(Options.NoGameEnd);
                 nameAndValue(Options.GhostCanSeeOtherRoles);
                 nameAndValue(Options.HideGameSettings);
+                listUp(Options.RandomSpawn);
             }
             //1ページにつき35行までにする処理
             List<string> tmp = new(text.Split("\n\n"));

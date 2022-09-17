@@ -1,11 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using HarmonyLib;
+
 namespace TownOfHost
 {
     public static class Translator
     {
         public static Dictionary<string, Dictionary<int, string>> tr;
+        public const string LANGUAGE_FOLDER_NAME = "Language";
         public static void Init()
         {
             Logger.Info("Language Dictionary Initialize...", "Translator");
@@ -60,6 +65,16 @@ namespace TownOfHost
                     continue;
                 }
             }
+            // カスタム翻訳ファイルの読み込み
+            if (!Directory.Exists(LANGUAGE_FOLDER_NAME)) Directory.CreateDirectory(LANGUAGE_FOLDER_NAME);
+
+            // 翻訳テンプレートの作成
+            CreateTemplateFile();
+            foreach (var lang in Enum.GetValues(typeof(SupportedLangs)))
+            {
+                if (File.Exists(@$"./{LANGUAGE_FOLDER_NAME}/{lang}.dat"))
+                    LoadCustomTranslation($"{lang}.dat", (SupportedLangs)lang);
+            }
         }
 
         public static string GetString(string s, Dictionary<string, string> replacementDic = null)
@@ -83,6 +98,40 @@ namespace TownOfHost
                 res = $"*{dic[0]}";
             }
             return res;
+        }
+
+        public static void LoadCustomTranslation(string filename, SupportedLangs lang)
+        {
+            string path = @$"./{LANGUAGE_FOLDER_NAME}/{filename}";
+            if (File.Exists(path))
+            {
+                Logger.Info($"カスタム翻訳ファイル「{filename}」を読み込み", "LoadCustomTranslation");
+                using StreamReader sr = new(path, Encoding.GetEncoding("UTF-8"));
+                string text;
+                string[] tmp = { };
+                while ((text = sr.ReadLine()) != null)
+                {
+                    tmp = text.Split(":");
+                    if (tmp.Length > 1 && tmp[1] != "")
+                    {
+                        tr[tmp[0]][(int)lang] = tmp.Skip(1).Join(delimiter: ":").Replace("\\n", "\n").Replace("\\r", "\r");
+                    }
+                }
+            }
+            else
+            {
+                Logger.Error($"カスタム翻訳ファイル「{filename}」が見つかりませんでした", "LoadCustomTranslation");
+            }
+        }
+
+        private static void CreateTemplateFile()
+        {
+            var text = "";
+            foreach (var title in tr) text += $"{title.Key}:\n";
+            File.WriteAllText(@$"./{LANGUAGE_FOLDER_NAME}/template.dat", text);
+            text = "";
+            foreach (var title in tr) text += $"{title.Key}:{title.Value[0].Replace("\n", "\\n").Replace("\r", "\\r")}\n";
+            File.WriteAllText(@$"./{LANGUAGE_FOLDER_NAME}/template_English.dat", text);
         }
     }
 }

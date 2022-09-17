@@ -1,7 +1,6 @@
 using HarmonyLib;
 using UnityEngine;
 using UnityEngine.UI;
-using static TownOfHost.Translator;
 
 namespace TownOfHost
 {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Hazel;
 using InnerNet;
 using UnityEngine;
-using System.Linq;
 
 namespace TownOfHost
 {
@@ -78,7 +77,7 @@ namespace TownOfHost
                             }
                             else
                             {
-                                if (!RepairSystemPatch.IsComms && OldDesyncCommsPlayers.Contains(pc.PlayerId))
+                                if (!Utils.IsActive(SystemTypes.Comms) && OldDesyncCommsPlayers.Contains(pc.PlayerId))
                                 {
                                     OldDesyncCommsPlayers.Remove(pc.PlayerId);
 
