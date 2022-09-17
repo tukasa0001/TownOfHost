@@ -387,6 +387,7 @@ There are common options for Madmates.
 
 Team : Impostors<br>
 Basis : Engineer<br>
+Count : Crew<br>
 
 The Madmates belong to team Impostors, but they don't know who are Impostors.<br>
 Impostors don't know Madmates either.<br>
@@ -398,6 +399,7 @@ Create and idea by 空き瓶/EmptyBottle<br>
 
 Team : Impostors<br>
 Basis : Crewmate<br>
+Count : Crew<br>
 
 The MadGuardians belong to team Impostors, one type of Madmates.<br>
 Compared with Madmates, MadGuardian cannot use vents, while they can guard kills by Impostors after finishing all tasks.<br>
@@ -414,6 +416,7 @@ Create and idea by そうくん<br>
 
 Team : Impostors<br>
 Basis : Crewmate or Engineer<br>
+Count : Crew<br>
 
 The MadSnitches belong to team Impostors, one type of Madmates.<br>
 They can see who is the Impostor after finishing all their tasks.<br>
@@ -433,6 +436,7 @@ Create and idea by たんぽぽ<br>
 
 Team : Impostors<br>
 Basis : Undecided<br>
+Count : Crew<br>
 
 The SidekickMadmate is an acquired Madmate Role assigned by Impostors in task phases.<br>
 Some kind of Shapeshifter-based Impostors can give SidekickMadmate by Shapeshifting next to a target.<br>
@@ -562,6 +566,7 @@ There is a option to slightly adjust Kill Flash duration.<br>
 
 Team : Crewmates<br>
 Basis : Impostor(Only host is the Crewmate)<br>
+Count : Crew<br>
 
 Sheriff can kill imposters always.<br>
 Depending on settings, Sheriff may also kill neutrals.<br>
@@ -648,6 +653,7 @@ The time held in place on the body is decided by host in settings.<br>
 
 Team : Neutral<br>
 Basis : Impostor<br>
+Count : Crew<br>
 Victory Condition : Douse and ignite all the living players<br>
 
 When an arsonist tries to use the kill button, they douse oil onto the crewmates.<br>
@@ -670,6 +676,7 @@ Original idea by しゅー<br>
 
 Team : Egoist<br>
 Basis : Shapeshifter<br>
+Count : Impostor<br>
 Victory Condition : Satisfy the Impostor victory condition after all the Impostors die.<br>
 
 The Egoists are counted among the Impostors.<br>
@@ -695,6 +702,7 @@ Egoist win means Impostor lose and vice versa.<br>
 
 Team : Neutral<br>
 Basis : Crewmate<br>
+Count : Crew<br>
 Victory Conditions : Have the target voted out<br>
 
 Executioner’s target is is marked with a diamond which only they can see.<br>
@@ -712,6 +720,7 @@ If the target is a [Jester](#jester), they will win an additional victory with t
 
 Team : Neutral<br>
 Basis : Crewmate<br>
+Count : Crew<br>
 Victory Conditions : Get voted out<br>
 
 The Jesters don't have any tasks. They win the game as a solo, if they get voted out during a meeting.<br>
@@ -721,6 +730,7 @@ Remaining alive until the game end or getting killed results Jester lose.<br>
 
 Team : Neutral<br>
 Basis : Crewmate<br>
+Count : Crew<br>
 Victory Conditions : Remain alive until the game end<br>
 
 Regardless of the games outcome, Opportunist wins an additional victory if they survive to the end of the match.<br>
@@ -729,6 +739,7 @@ Regardless of the games outcome, Opportunist wins an additional victory if they 
 
 Team : Neutral<br>
 Basis : Crewmate<br>
+Count : Crew<br>
 Victory Conditions : None<br>
 
 The SchrodingerCats have no tasks and by default, no victory condition. Only after fulfiling the following condition they obtain victory conditions.<br>
@@ -750,6 +761,7 @@ The SchrodingerCats have no tasks and by default, no victory condition. Only aft
 
 Team : Neutral(Jackal)<br>
 Basis : Impostor<br>
+Count : Jackal<br>
 Victory Condition : Annihilate all Imposters and the number of Jackal teams must equal or exceed the number of crew members<br>
 Create by 空き瓶/EmptyBottle<br>
 
@@ -783,6 +795,7 @@ Create and original idea by 空き瓶/EmptyBottle<br>
 
 Team : Neutral<br>
 Basis : Engineer<br>
+Count : Crew<br>
 Victory Conditions : Finish All Tasks, Then Die<br>
 
 The Terrorists are the Neutral Role where they win the game alone if they die with all their tasks completed.<br>
@@ -811,6 +824,7 @@ Create and idea by ゆりの<br>
 
 Team : Neutral<br>
 Basis : -<br>
+Count : -<br>
 Victory Conditions : Alive at the end of the game. (other than task completion)<br>
 
 Randomly assigned to two players (regardless of camp).<br>
