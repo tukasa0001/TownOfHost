@@ -404,6 +404,7 @@ namespace TownOfHost
                 if (Options.EnableLastImpostor.GetBool())
                 {
                     text += String.Format("\n{0}:{1}", GetRoleName(CustomRoles.LastImpostor), Options.EnableLastImpostor.GetString());
+                    text += String.Format("\n{0}:{1}", GetString("KillCooldown"), Options.LastImpostorKillCooldown.GetString());
                 }
                 SendMessage(text, PlayerId);
                 text = GetString("Settings") + ":";
@@ -430,7 +431,6 @@ namespace TownOfHost
                     }
                     text += "\n";
                 }
-                if (Options.EnableLastImpostor.GetBool()) text += String.Format("\n{0}:{1}", GetString("KillCooldown"), Options.LastImpostorKillCooldown.GetString());
                 if ((CustomRoles.EvilTracker.IsEnable() && EvilTracker.CanSeeKillFlash.GetBool())
                 || CustomRoles.Seer.IsEnable())
                     text += String.Format("\n{0}:{1}", GetString("KillFlashDuration"), Options.KillFlashDuration.GetString());
