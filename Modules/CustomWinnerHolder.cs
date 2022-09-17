@@ -7,6 +7,7 @@ namespace TownOfHost
     {
         // 勝者のチームが格納されます。
         // リザルトの背景色の決定などに使用されます。
+        // 注: この変数を変更する時、WinnerRoles・WinnerIdsを同時に変更しないと予期せぬ勝者が現れる可能性があります。
         public static CustomWinner WinnerTeam;
         // 追加勝利するプレイヤーのチームが格納されます。
         // リザルトの表示に使用されます。
