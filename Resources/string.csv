@@ -383,8 +383,8 @@ Last,Last,Последний,ラスト,独活,獨活
 
 ## リアクターの時間制御
 SabotageTimeControl,Modify Sabotage TimeLimit,Изменить Время Саботажа,サボタージュの時間制御,紧急破坏限制时间,重新設定緊急任務時間
-PolusReactorTimeLimit,Polus Reactor TimeLimit(s),Polus Время Саботажа Реактора,ポーラスのリアクター制限時間,波鲁斯抗震稳定器破坏限制时间,Polus地震抑制器破壞最大時間
-AirshipReactorTimeLimit,Airship Reactor TimeLimit(s),Airship Время Саботажа Реактора,エアシップのリアクター制限時間,飞艇坠毁路线破坏限制时间,Airship間隙室破壞最大時間
+PolusReactorTimeLimit,Polus Reactor TimeLimit(s),Polus Время Саботажа Реактора,ポーラスのリアクター制限時間,波鲁斯抗震稳定器破坏修理时限,Polus地震抑制器破壞最大時間
+AirshipReactorTimeLimit,Airship Reactor TimeLimit(s),Airship Время Саботажа Реактора,エアシップのリアクター制限時間,飞艇坠毁路线破坏修理时限,Airship間隙室破壞最大時間
 
 ## ヘルプテキスト
 CommandList,Command List:,Список Команд:,コマンド一覧:,指令列表:,指令列表:
