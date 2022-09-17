@@ -115,7 +115,7 @@ AmongUsバージョン : **2022.7.12**
 | [SerialKiller/シリアルキラー](#SerialKillerシリアルキラー)                           | [Nice Watcher/ナイスウォッチャー](#Watcherウォッチャー)                    | [Opportunist/オポチュニスト](#Opportunistオポチュニスト)                   |
 | [Sniper/スナイパー](#Sniperスナイパー)                                               | [SabotageMaster/サボタージュマスター](#SabotageMasterサボタージュマスター) | [Terrorist/テロリスト](#Terroristテロリスト)                               |
 | [TimeThief/タイムシーフ](#TimeThiefタイムシーフ)                                     | [Sheriff/シェリフ](#Sheriffシェリフ)                                       | [SchrodingerCat/シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |
-| [Vampire/ヴァンパイア](#Vampireヴァンパイア)                                         | [Snitch/スニッチ](#Snitchスニッチ)                                         |                                                                            |
+| [Vampire/ヴァンパイア](#Vampireヴァンパイア)                                         | [Snitch/スニッチ](#Snitchスニッチ)                                         | [Jackal/ジャッカル](#Jackalジャッカル)                                  |
 | [Warlock/ウォーロック](#Warlockウォーロック)                                         | [SpeedBooster/スピードブースター](#SpeedBoosterスピードブースター)         |                                                                            |
 | [Witch/魔女](#Witch魔女)                                                             | [Trapper/トラッパー](#Trapperトラッパー)                                   |                                                                            |
 | [Mafia/マフィア](#Mafiaマフィア)                                                     |                                                                            |                                                                            |
@@ -673,6 +673,31 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 | 役職変化前であれば、クルー陣営と勝利できる       |
 | シュレディンガーの猫が吊られた際、陣営が変化する |
 
+### Jackal/ジャッカル
+
+制作者 :  空き瓶/EmptyBottle<br>
+
+陣営 : 第三(ジャッカル)<br>
+判定 : インポスター<br>
+勝利条件 : インポスターを全滅させ、ジャッカルチームの人数がクルーの人数と同数か上回ること<br>
+
+他のすべてのプレイヤーを排除することで勝利する第三陣営のジャッカルチームの役職です。<br>
+タスクがなく、インポスター、クルー、第三陣営をキルすることができます。<br>
+
+注意点<br>
+*特定条件になった場合、投票で追放された人がいても「誰も追放されなかった」と表示される(表示のみで追放はされます)<br>
+ 暗転対策の都合上このような表示になります。
+*インポスターを吊りきるとAutoMuteのミュートが解除されます。<br>
+
+#### 設定
+
+| 設定名                                               |
+| --------------------------------------------------- |
+| ジャッカルのキルクール                                |
+| ジャッカルがベントを使用できる                        |
+| ジャッカルがサボタージュを使用できる                   |
+| ジャッカルがインポスターと同じ視野を持つ               |
+
 ### Terrorist/テロリスト
 
 制作・考案者 : 空き瓶/EmptyBottle<br>
@@ -878,7 +903,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ## 参考など
 
-[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター)、[シーア](#Seer/シーア) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
+[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター)、[シーア](#Seer/シーア)、[ジャッカル](#jackalジャッカル) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
 [オポチュニスト](#Opportunist/オポチュニスト)、[ウォッチャー](#Watcher/ウォッチャー) のアイデア元 : [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
 [シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫)、[イビルトラッカー](#EvilTracker/イビルトラッカー) のアイデア元 : [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
 [ドクター](#Doctor/ドクター) のアイデア元 : [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>

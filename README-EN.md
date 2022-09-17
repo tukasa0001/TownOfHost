@@ -115,7 +115,7 @@ For example: `welcome:This room is using TownOfHost.`
 | [SerialKiller](#SerialKiller)       | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |
 | [Sniper](#Sniper)                   | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
 | [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |
-| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |
+| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 | [Jackal](#Jackal)                 |
 | [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |
 | [Witch](#Witch)                     | [Trapper](#Trapper)               |                                   |
 | [Mafia](#Mafia)                     |                                   |                                   |
@@ -711,6 +711,37 @@ The SchrodingerCats have no tasks and by default, no victory condition. Only aft
 | SchrodingerCat In No Team Can Win With Crewmates |
 | Team To Change After Exiled                      |
 
+### Jackal
+
+Team : Neutral(Jackal)<br>
+Basis : Impostor<br>
+Victory Condition : Annihilate all Imposters and the number of Jackal teams must equal or exceed the number of crew members<br>
+Create by 空き瓶/EmptyBottle<br>
+
+The Jackal is part of an extra team, that tries to eliminate all the other players.<br>
+The Jackal has no tasks and can kill Impostors, Crewmates and Neutrals.<br>
+
+The team Jackal enables multiple new outcomes of the game, listing some examples here:<br>
+- The Impostors could be eliminated and then the crew plays against the team Jackal.<br>
+- The Crew could be eliminated, then the Team Jackal fight against the Impostors (The Crew can still make a task win in this scenario)<br>
+
+
+If both Impostors and Jackals are in the game, the game continues even if all Crewmates are dead. <br>
+Crewmates may still win in this case by completing their tasks. Jackal and Impostor have to kill each other.<br>
+
+・In the case of 1 Impo & Jackal, even if it is banished by vote, it will be displayed as No one was banished<br>
+  It is not a bug that is displayed like this as a countermeasure against blackout.<br>
+・ Auto mute is removed when impo is hung<br>
+
+### Game Options
+
+| Name                   |
+| ---------------------- |
+| Jackal KillCooldown    |
+| Jackal Can Use Vent    |
+| Jackal Can Use sabotage |
+| Jackal Have Impostor Vision |
+
 ### Terrorist
 
 Create and original idea by 空き瓶/EmptyBottle<br>
@@ -923,7 +954,7 @@ If the client language is English, this option is meaningless unless `Force Japa
 
 ## Credits
 
-More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter),[Seer](#Seer) idea by [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
+More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter),[Seer](#Seer),[Jackal](#jackal) idea by [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
 [Opportunist](#Opportunist),[Watcher](#Watcher) original idea by [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
 [SchrodingerCat](#SchrodingerCat),[EvilTracker](#EvilTracker) idea by [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
 [Doctor](#Doctor) original idea by [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
