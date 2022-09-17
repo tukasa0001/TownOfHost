@@ -380,6 +380,8 @@ There are common options for Madmates.
 | Madmates Can Fix Lights Out   |
 | Madmates Can Fix Comms        |
 | Madmates Have Impostor Vision |
+| Madmates Can See Kill Flash   |
+| Madmates Can See Other Votes  |
 | Madmates Vent Cooldown        |
 | Madmates Max Time In Vents    |
 
