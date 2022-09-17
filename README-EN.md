@@ -713,7 +713,7 @@ The SchrodingerCats have no tasks and by default, no victory condition. Only aft
 
 ### Jackal
 
-Team : Jackal<br>
+Team : Neutral(Jackal)<br>
 Basis : Impostor<br>
 Victory Condition : Annihilate all Imposters and the number of Jackal teams must equal or exceed the number of crew members<br>
 Create by 空き瓶/EmptyBottle<br>
