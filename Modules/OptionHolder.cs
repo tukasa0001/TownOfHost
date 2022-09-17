@@ -71,6 +71,8 @@ namespace TownOfHost
         public static CustomOption MadmateCanFixLightsOut; // TODO:mii-47 マッド役職統一
         public static CustomOption MadmateCanFixComms;
         public static CustomOption MadmateHasImpostorVision;
+        public static CustomOption MadmateCanSeeKillFlash;
+        public static CustomOption MadmateCanSeeOtherVotes;
         public static CustomOption MadmateVentCooldown;
         public static CustomOption MadmateVentMaxTime;
 
@@ -182,9 +184,11 @@ namespace TownOfHost
         public static CustomOption AutoDisplayLastResult;
         public static CustomOption SuffixMode;
         public static CustomOption ColorNameMode;
+        public static CustomOption FixFirstKillCooldown;
         public static CustomOption GhostCanSeeOtherRoles;
         public static CustomOption GhostCanSeeOtherVotes;
         public static CustomOption GhostIgnoreTasks;
+        public static CustomOption DisableTaskWin;
         public static CustomOption HideGameSettings;
         public static CustomOption RandomSpawn;
         public static CustomOption AirshipAdditionalSpawn;
@@ -305,6 +309,8 @@ namespace TownOfHost
             MadmateCanFixLightsOut = CustomOption.Create(15010, TabGroup.ImpostorRoles, Color.white, "MadmateCanFixLightsOut", false, null, true, false);
             MadmateCanFixComms = CustomOption.Create(15011, TabGroup.ImpostorRoles, Color.white, "MadmateCanFixComms", false);
             MadmateHasImpostorVision = CustomOption.Create(15012, TabGroup.ImpostorRoles, Color.white, "MadmateHasImpostorVision", false);
+            MadmateCanSeeKillFlash = CustomOption.Create(15015, TabGroup.ImpostorRoles, Color.white, "MadmateCanSeeKillFlash", false);
+            MadmateCanSeeOtherVotes = CustomOption.Create(15016, TabGroup.ImpostorRoles, Color.white, "MadmateCanSeeOtherVotes", false);
             MadmateVentCooldown = CustomOption.Create(15213, TabGroup.ImpostorRoles, Color.white, "MadmateVentCooldown", 0f, 0f, 180f, 5f);
             MadmateVentMaxTime = CustomOption.Create(15214, TabGroup.ImpostorRoles, Color.white, "MadmateVentMaxTime", 0f, 0f, 180f, 5f);
             // Both
@@ -479,11 +485,15 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             ColorNameMode = CustomOption.Create(100605, TabGroup.MainSettings, Color.white, "ColorNameMode", false)
                 .SetGameMode(CustomGameMode.All);
+            FixFirstKillCooldown = CustomOption.Create(100608, TabGroup.MainSettings, Color.white, "FixFirstKillCooldown", false)
+                .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherRoles = CustomOption.Create(100603, TabGroup.MainSettings, Color.white, "GhostCanSeeOtherRoles", true)
                 .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherVotes = CustomOption.Create(100604, TabGroup.MainSettings, Color.white, "GhostCanSeeOtherVotes", true)
                 .SetGameMode(CustomGameMode.All);
             GhostIgnoreTasks = CustomOption.Create(100607, TabGroup.MainSettings, Color.white, "GhostIgnoreTasks", false)
+                .SetGameMode(CustomGameMode.All);
+            DisableTaskWin = CustomOption.Create(100609, TabGroup.MainSettings, Color.white, "DisableTaskWin", false)
                 .SetGameMode(CustomGameMode.All);
             HideGameSettings = CustomOption.Create(100606, TabGroup.MainSettings, Color.white, "HideGameSettings", false)
                 .SetGameMode(CustomGameMode.All);

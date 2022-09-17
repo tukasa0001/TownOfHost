@@ -151,6 +151,7 @@ namespace TownOfHost
                         exiled.Object.RpcExileV2();
                     }
                 }, 0.5f, "Restore IsDead Task");
+            SoundManager.Instance.ChangeMusicVolume(SaveManager.MusicVolume);
             Logger.Info("タスクフェイズ開始", "Phase");
         }
     }

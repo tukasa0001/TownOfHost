@@ -145,6 +145,7 @@ namespace TownOfHost
     public static class GameStates
     {
         public static bool InGame = false;
+        public static bool MeetingCalled = false;
         public static bool IsLobby => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Joined;
         public static bool IsInGame => InGame;
         public static bool IsEnded => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Ended;

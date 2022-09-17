@@ -169,6 +169,21 @@ namespace TownOfHost
                 sender.SendMessage();
             }
         }
+        public static void SetKillCooldown(this PlayerControl player, float time)
+        {
+            CustomRoles role = player.GetCustomRole();
+            if (!(role.IsImpostor() || player.IsNeutralKiller() || role is CustomRoles.Arsonist or CustomRoles.Sheriff)) return;
+            if (player.AmOwner)
+            {
+                player.SetKillTimer(time);
+            }
+            else
+            {
+                Main.AllPlayerKillCooldown[player.PlayerId] = time * 2;
+                player.CustomSyncSettings();
+                player.RpcGuardAndKill();
+            }
+        }
         public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
         {
             if (target == null) target = killer;
@@ -270,6 +285,8 @@ namespace TownOfHost
                     opt.RoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
                     if (Options.MadmateHasImpostorVision.GetBool())
                         opt.SetVision(player, true);
+                    if (Options.MadmateCanSeeOtherVotes.GetBool() && opt.AnonymousVotes)
+                        opt.AnonymousVotes = false;
                     break;
             }
 
@@ -326,7 +343,7 @@ namespace TownOfHost
                     Mare.ApplyGameOptions(opt, player.PlayerId);
                     break;
                 case CustomRoles.EvilTracker:
-                    EvilTracker.ApplyGameOptions(opt);
+                    EvilTracker.ApplyGameOptions(opt, player.PlayerId);
                     break;
                 case CustomRoles.Jackal:
                 case CustomRoles.JSchrodingerCat:

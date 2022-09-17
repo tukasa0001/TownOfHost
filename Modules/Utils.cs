@@ -102,6 +102,7 @@ namespace TownOfHost
                 case CustomRoles.Seer:
                     return true;
                 default:
+                    if (seer.Is(RoleType.Madmate) && Options.MadmateCanSeeKillFlash.GetBool()) return true;
                     return false;
             }
         }
@@ -402,7 +403,8 @@ namespace TownOfHost
                 text = GetString("Attributes") + ":";
                 if (Options.EnableLastImpostor.GetBool())
                 {
-                    text += String.Format("\n{0}:{1}", GetRoleName(CustomRoles.LastImpostor), Options.EnableLastImpostor.GetString());
+                    text += $"\n【{GetRoleName(CustomRoles.LastImpostor)}】";
+                    text += String.Format("\n{0}:{1}", GetString("KillCooldown"), Options.LastImpostorKillCooldown.GetString());
                 }
                 SendMessage(text, PlayerId);
                 text = GetString("Settings") + ":";
@@ -429,7 +431,6 @@ namespace TownOfHost
                     }
                     text += "\n";
                 }
-                if (Options.EnableLastImpostor.GetBool()) text += String.Format("\n{0}:{1}", GetString("LastImpostorKillCooldown"), Options.LastImpostorKillCooldown.GetString());
                 if ((CustomRoles.EvilTracker.IsEnable() && EvilTracker.CanSeeKillFlash.GetBool())
                 || CustomRoles.Seer.IsEnable())
                     text += String.Format("\n{0}:{1}", GetString("KillFlashDuration"), Options.KillFlashDuration.GetString());
@@ -861,7 +862,7 @@ namespace TownOfHost
                             var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
                             TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
                         }
-                        if (seer.Is(RoleType.Impostor) && target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished)
+                        if (seer.Is(RoleType.Impostor) && target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
                             TargetMark += Helpers.ColorString(GetRoleColor(CustomRoles.MadSnitch), "★");
                         TargetMark += Executioner.TargetMark(seer, target);
 

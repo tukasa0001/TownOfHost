@@ -26,8 +26,15 @@ namespace TownOfHost
                 if (resolutionIndex >= resolutions.Length) resolutionIndex = 0;
                 ResolutionManager.SetResolution(resolutions[resolutionIndex].Item1, resolutions[resolutionIndex].Item2, false);
             }
+            //カスタム翻訳のリロード
+            if (GetKeysDown(new[] { KeyCode.F5, KeyCode.T }))
+            {
+                Logger.Info("Reload Custom Translation File", "KeyCommand");
+                Translator.LoadLangs();
+                Logger.SendInGame("Reloaded Custom Translation File");
+            }
             //ログファイルのダンプ
-            if (Input.GetKeyDown(KeyCode.F1) && Input.GetKey(KeyCode.LeftControl))
+            if (GetKeysDown(new[] { KeyCode.F1, KeyCode.LeftControl }))
             {
                 Logger.Info("Dump Logs", "KeyCommand");
                 Utils.DumpLog();
@@ -36,12 +43,12 @@ namespace TownOfHost
             //--以下ホスト専用コマンド--//
             if (!AmongUsClient.Instance.AmHost) return;
             //廃村
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
+            if (GetKeysDown(new[] { KeyCode.Return, KeyCode.L, KeyCode.LeftShift }) && GameStates.IsInGame)
             {
                 CustomWinnerHolder.WinnerTeam = CustomWinner.Draw;
             }
             //ミーティングを強制終了
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsMeeting)
+            if (GetKeysDown(new[] { KeyCode.Return, KeyCode.M, KeyCode.LeftShift }) && GameStates.IsMeeting)
             {
                 MeetingHud.Instance.RpcClose();
             }
@@ -58,12 +65,12 @@ namespace TownOfHost
                 GameStartManager.Instance.ResetStartState();
             }
             //現在の有効な設定を表示
-            if (Input.GetKeyDown(KeyCode.N) && Input.GetKey(KeyCode.LeftControl))
+            if (GetKeysDown(new[] { KeyCode.N, KeyCode.M, KeyCode.LeftControl }))
             {
                 Utils.ShowActiveSettingsHelp();
             }
             //TOHオプションをデフォルトに設定
-            if (Input.GetKeyDown(KeyCode.Delete) && Input.GetKey(KeyCode.LeftControl) && GameObject.Find(GameOptionsMenuPatch.TownOfHostObjectName) != null)
+            if (GetKeysDown(new[] { KeyCode.Delete, KeyCode.LeftControl }) && GameObject.Find(GameOptionsMenuPatch.TownOfHostObjectName) != null)
             {
                 CustomOption.Options.ToArray().Where(x => x.Id > 0).Do(x => x.UpdateSelection(x.DefaultSelection));
             }
@@ -72,7 +79,7 @@ namespace TownOfHost
             if (!Main.AmDebugger.Value) return;
 
             //BOTの作成
-            if (Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.N))
+            if (GetKeysDown(new[] { KeyCode.RightControl, KeyCode.N }))
             {
                 //これいつか革命を起こしてくれるコードなので絶対に消さないでください
                 if (bot == null)
@@ -107,17 +114,17 @@ namespace TownOfHost
                 MeetingHud.Instance.RpcClearVote(AmongUsClient.Instance.ClientId);
             }
             //自分自身の死体をレポート
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.RightShift) && GameStates.IsInGame)
+            if (GetKeysDown(new[] { KeyCode.Return, KeyCode.M, KeyCode.RightShift }) && GameStates.IsInGame)
             {
                 PlayerControl.LocalPlayer.NoCheckStartMeeting(PlayerControl.LocalPlayer.Data);
             }
             //自分自身を追放
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.E) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
+            if (GetKeysDown(new[] { KeyCode.Return, KeyCode.E, KeyCode.LeftShift }) && GameStates.IsInGame)
             {
                 PlayerControl.LocalPlayer.RpcExile();
             }
             //ログをゲーム内にも出力するかトグル
-            if (Input.GetKeyDown(KeyCode.F2) && Input.GetKey(KeyCode.LeftControl))
+            if (GetKeysDown(new[] { KeyCode.F2, KeyCode.LeftControl }))
             {
                 Logger.isAlsoInGame = !Logger.isAlsoInGame;
                 Logger.SendInGame($"ログのゲーム内出力: {Logger.isAlsoInGame}");
@@ -187,6 +194,15 @@ namespace TownOfHost
                 VentilationSystem.Update(VentilationSystem.Operation.StartCleaning, 0);
             }*/
             //マスゲーム用コード終わり
+        }
+        static bool GetKeysDown(KeyCode[] keys)
+        {
+            if (keys.Any(k => Input.GetKeyDown(k)) && keys.All(k => Input.GetKey(k)))
+            {
+                Logger.Info($"KeyDown:{keys.Where(k => Input.GetKeyDown(k)).First()} in [{string.Join(",", keys)}]", "GetKeysDown");
+                return true;
+            }
+            return false;
         }
     }
 
