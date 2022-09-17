@@ -651,7 +651,7 @@ The time held in place on the body is decided by host in settings.<br>
 
 ### Arsonist
 
-Team : Neutral<br>
+Team : Neutral(Solo)<br>
 Basis : Impostor<br>
 Count : Crew<br>
 Victory Condition : Douse and ignite all the living players<br>
@@ -674,7 +674,7 @@ To douse, you must stand next to a player after pressing kill until the orange t
 Create by そうくん<br>
 Original idea by しゅー<br>
 
-Team : Egoist<br>
+Team : Neutral(Egoist)<br>
 Basis : Shapeshifter<br>
 Count : Impostor<br>
 Victory Condition : Satisfy the Impostor victory condition after all the Impostors die.<br>
@@ -700,7 +700,7 @@ Egoist win means Impostor lose and vice versa.<br>
 ### Executioner
 
 
-Team : Neutral<br>
+Team : Neutral(Solo)<br>
 Basis : Crewmate<br>
 Count : Crew<br>
 Victory Conditions : Have the target voted out<br>
@@ -718,7 +718,7 @@ If the target is a [Jester](#jester), they will win an additional victory with t
 
 ### Jester
 
-Team : Neutral<br>
+Team : Neutral(Solo)<br>
 Basis : Crewmate<br>
 Count : Crew<br>
 Victory Conditions : Get voted out<br>
@@ -728,7 +728,7 @@ Remaining alive until the game end or getting killed results Jester lose.<br>
 
 ### Opportunist
 
-Team : Neutral<br>
+Team : Neutral(Other)<br>
 Basis : Crewmate<br>
 Count : Crew<br>
 Victory Conditions : Remain alive until the game end<br>
@@ -737,7 +737,7 @@ Regardless of the games outcome, Opportunist wins an additional victory if they 
 
 ### SchrodingerCat
 
-Team : Neutral<br>
+Team : Neutral(Other)<br>
 Basis : Crewmate<br>
 Count : Crew<br>
 Victory Conditions : None<br>
@@ -793,7 +793,7 @@ Crewmates may still win in this case by completing their tasks. Jackal and Impos
 
 Create and original idea by 空き瓶/EmptyBottle<br>
 
-Team : Neutral<br>
+Team : Neutral(Solo)<br>
 Basis : Engineer<br>
 Count : Crew<br>
 Victory Conditions : Finish All Tasks, Then Die<br>
@@ -822,7 +822,7 @@ Not assigned to [BountyHunter](#bountyhunter), [SerialKiller](#serialkiller), or
 
 Create and idea by ゆりの<br>
 
-Team : Neutral<br>
+Team : Neutral(Lovres)<br>
 Basis : -<br>
 Count : -<br>
 Victory Conditions : Alive at the end of the game. (other than task completion)<br>
