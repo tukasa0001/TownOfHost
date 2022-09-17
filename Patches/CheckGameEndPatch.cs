@@ -208,6 +208,8 @@ namespace TownOfHost
         }
         private static void ResetRoleAndEndGame(GameOverReason reason, bool showAd)
         {
+            var sender = CustomRpcSender.Create("ResetRoleAndEndGame", SendOption.Reliable);
+
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 var LoseImpostorRole = Main.AliveImpostorCount == 0 ? pc.Is(RoleType.Impostor) : pc.Is(CustomRoles.Egoist);
@@ -216,37 +218,23 @@ namespace TownOfHost
                     (CustomWinnerHolder.WinnerTeam != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) ||
                     LoseImpostorRole)
                 {
-                    pc.RpcSetRole(RoleTypes.GuardianAngel);
+                    sender.RpcSetRole(pc, RoleTypes.GuardianAngel);
                 }
             }
-            new LateTask(() =>
+            sender.AutoStartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame);
+            // CustomWinnerHolderの情報送信
+            CustomWinnerHolder.WriteTo(sender);
+            ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+            // AmongUs側のゲーム終了RPC
+            sender.stream.StartMessage(8);
             {
-                MessageWriter writer = MessageWriter.Get(SendOption.Reliable);
-                // CustomWinnerHolderの情報送信
-                writer.StartMessage(5); //GameData
-                {
-                    writer.Write(AmongUsClient.Instance.GameId);
-                    writer.StartMessage(2); //RPC
-                    {
-                        writer.WritePacked(PlayerControl.LocalPlayer.NetId);
-                        writer.Write((byte)CustomRPC.EndGame);
-                        CustomWinnerHolder.WriteTo(writer);
-                    }
-                    writer.EndMessage();
-                }
-                writer.EndMessage();
+                sender.stream.Write(AmongUsClient.Instance.GameId); //ここまでStartEndGameの内容
+                sender.stream.Write((byte)reason);
+                sender.stream.Write(showAd);
+            }
+            sender.stream.EndMessage();
 
-                // AmongUs側のゲーム終了RPC
-                writer.StartMessage(8);
-                {
-                    writer.Write(AmongUsClient.Instance.GameId); //ここまでStartEndGameの内容
-                    writer.Write((byte)reason);
-                    writer.Write(showAd);
-                }
-                writer.EndMessage();
-
-                AmongUsClient.Instance.SendOrDisconnect(writer);
-            }, 0.5f, "EndGameTask");
+            sender.SendMessage();
         }
         private static void SetImpostorsToGA()
         {

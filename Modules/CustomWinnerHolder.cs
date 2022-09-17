@@ -44,6 +44,24 @@ namespace TownOfHost
 
             return writer;
         }
+        public static CustomRpcSender WriteTo(CustomRpcSender sender)
+        {
+            sender.Write((int)WinnerTeam);
+
+            sender.Write(AdditionalWinnerTeams.Count);
+            foreach (var wt in AdditionalWinnerTeams)
+                sender.Write((int)wt);
+
+            sender.Write(WinnerRoles.Count);
+            foreach (var wr in WinnerRoles)
+                sender.Write((int)wr);
+
+            sender.Write(WinnerIds.Count);
+            foreach (var id in WinnerIds)
+                sender.Write(id);
+
+            return sender;
+        }
         public static void ReadFrom(MessageReader reader)
         {
             WinnerTeam = (CustomWinner)reader.ReadInt32();
