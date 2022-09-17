@@ -770,12 +770,12 @@ Crewmates may still win in this case by completing their tasks. Jackal and Impos
 
 ### Game Options
 
-| Name                        |
-| --------------------------- |
-| Jackal KillCooldown         |
-| Jackal Can Use Vent         |
-| Jackal Can Use sabotage     |
-| Jackal Have Impostor Vision |
+| Name                |
+| ------------------- |
+| Kill Cooldown       |
+| Can Use Vent        |
+| Can Sabotage        |
+| Has Impostor Vision |
 
 ### Terrorist
 
