@@ -224,7 +224,7 @@ namespace TownOfHost
             sender.AutoStartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame);
             // CustomWinnerHolderの情報送信
             CustomWinnerHolder.WriteTo(sender);
-            ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+            sender.EndRpc();
             // AmongUs側のゲーム終了RPC
             sender.stream.StartMessage(8);
             {
