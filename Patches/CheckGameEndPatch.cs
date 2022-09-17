@@ -179,7 +179,7 @@ namespace TownOfHost
             if (CustomWinnerHolder.WinnerTeam == CustomWinner.Draw)
             {
                 __instance.enabled = false;
-                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false, true);
                 return true;
             }
             return false;
