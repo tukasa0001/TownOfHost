@@ -89,8 +89,7 @@ namespace TownOfHost
             {
                 __instance.enabled = false;
                 CustomWinnerHolder.WinnerTeam = CustomWinner.None;
-                SetImpostorsToGA();
-                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false, true);
                 return true;
             }
             return false;
@@ -129,8 +128,7 @@ namespace TownOfHost
 
                 CustomWinnerHolder.WinnerTeam = CustomWinner.Jackal;
                 CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
-                SetImpostorsToGA();
-                ResetRoleAndEndGame(endReason, false);
+                ResetRoleAndEndGame(endReason, false, true);
                 return true;
             }
             return false;
@@ -168,9 +166,8 @@ namespace TownOfHost
                 {
                     CustomWinnerHolder.WinnerTeam = CustomWinner.HASTroll;
                     CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
-                    SetImpostorsToGA();
                     __instance.enabled = false;
-                    ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                    ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false, true);
                     return true;
                 }
             }
@@ -192,8 +189,7 @@ namespace TownOfHost
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
             {
                 __instance.enabled = false;
-                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
-                SetImpostorsToGA();
+                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false, true);
                 return true;
             }
             return false;
@@ -206,17 +202,17 @@ namespace TownOfHost
             ResetRoleAndEndGame(GameOverReason.ImpostorBySabotage, false);
             return;
         }
-        private static void ResetRoleAndEndGame(GameOverReason reason, bool showAd)
+        private static void ResetRoleAndEndGame(GameOverReason reason, bool showAd, bool SoloWin = false)
         {
-            var sender = CustomRpcSender.Create("ResetRoleAndEndGame", SendOption.Reliable);
+            var sender = CustomRpcSender.Create("CustomEndGame", SendOption.Reliable);
 
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 var LoseImpostorRole = Main.AliveImpostorCount == 0 ? pc.Is(RoleType.Impostor) : pc.Is(CustomRoles.Egoist);
-                if (pc.Is(CustomRoles.Sheriff) ||
-                    (!(CustomWinnerHolder.WinnerTeam == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) ||
-                    (CustomWinnerHolder.WinnerTeam != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) ||
-                    LoseImpostorRole)
+                var ArsonistLose = CustomWinnerHolder.WinnerTeam != CustomWinner.Arsonist && pc.Is(CustomRoles.Arsonist);
+                var JackalLose = CustomWinnerHolder.WinnerTeam != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal);
+                var soloWin = SoloWin && pc.Data.Role.IsImpostor;
+                if (pc.Is(CustomRoles.Sheriff) || ArsonistLose || JackalLose || LoseImpostorRole || soloWin)
                 {
                     sender.RpcSetRole(pc, RoleTypes.GuardianAngel);
                 }
@@ -235,13 +231,6 @@ namespace TownOfHost
             sender.stream.EndMessage();
 
             sender.SendMessage();
-        }
-        private static void SetImpostorsToGA()
-        {
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (pc.Data.Role.IsImpostor) pc.RpcSetRole(RoleTypes.GuardianAngel);
-            }
         }
         //プレイヤー統計
         internal class PlayerStatistics
