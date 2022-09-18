@@ -558,7 +558,7 @@ namespace TownOfHost
                         PlayerState.SetDead(pc.PlayerId);
                     }
                 }
-                CustomWinnerHolder.WinnerTeam = CustomWinner.Terrorist;
+                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Terrorist);
                 CustomWinnerHolder.WinnerIds.Add(Terrorist.PlayerId);
             }
         }

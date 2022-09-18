@@ -91,7 +91,8 @@ namespace TownOfHost
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     break;
                 case "WinCheck":
-                    CustomWinnerHolder.WinnerTeam = CustomWinner.Executioner;
+                    if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) break; //まだ勝者が設定されていない場合
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Executioner);
                     CustomWinnerHolder.WinnerIds.Add(executionerId);
                     break;
             }
