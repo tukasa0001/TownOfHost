@@ -367,7 +367,7 @@ DeathReason.Vote,Exiled,Изгнан,追放,放逐,被丟
 DeathReason.Suicide,Suicide,Суициднулся,自殺,自杀,自殺
 DeathReason.Spell,Spelled,Заколдован,呪殺,咒杀,咒殺
 DeathReason.Bite,Bitten,Укушен,噛殺,吸血,咬死
-DeathReason.LoversSuicide,Copycat Suicide,Любовник Суициднулся,後追い,为爱而死,戀人共死
+DeathReason.FollowingSuicide,Copycat Suicide,Любовник Суициднулся,後追い,为爱而死,戀人共死
 DeathReason.Bombed,Bombed,Взорван,爆死,炸死,炸死
 DeathReason.Misfire,Misfire,Убился,誤爆,走火,走火
 DeathReason.Torched,Torched,Сожжен,焼殺,烧死,燒死
