@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
-using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -24,55 +24,5 @@ namespace TownOfHost
             ["AirshipCockpitAdmin"] = new(-22.32f, 0.91f),
             ["AirshipRecordsAdmin"] = new(19.89f, 12.60f)
         };
-        private static TMPro.TextMeshPro DisabledText;
-        [HarmonyPatch(typeof(MapCountOverlay), nameof(MapCountOverlay.Update))]
-        public static class MapCountOverlayUpdatePatch
-        {
-            public static bool Prefix(MapCountOverlay __instance)
-            {
-                if (DisabledText == null)
-                    DisabledText = Object.Instantiate(__instance.SabotageText, __instance.SabotageText.transform.parent);
-                bool isGuard = false;
-
-                DisabledText.gameObject.SetActive(false);
-                if (PlayerControl.LocalPlayer.IsAlive())
-                {
-                    if (DisableAdmin)
-                    {
-                        var PlayerPos = PlayerControl.LocalPlayer.GetTruePosition();
-                        if (DisableAllAdmins)
-                        {
-                            var AdminDistance = Vector2.Distance(PlayerPos, DisableDevice.GetAdminTransform());
-                            isGuard = AdminDistance <= DisableDevice.UsableDistance();
-
-                            if (!isGuard && PlayerControl.GameOptions.MapId == 2) //Polus用のアドミンチェック。Polusはアドミンが2つあるから
-                            {
-                                var SecondaryPolusAdminDistance = Vector2.Distance(PlayerPos, SecondaryPolusAdminPos);
-                                isGuard = SecondaryPolusAdminDistance <= DisableDevice.UsableDistance();
-                            }
-                        }
-
-                        if (!isGuard && (DisableAllAdmins || DisableArchiveAdmin)) //憎きアーカイブのアドミンチェック
-                        {
-                            var ArchiveAdminDistance = Vector2.Distance(PlayerPos, ArchiveAdminPos);
-                            isGuard = ArchiveAdminDistance <= DisableDevice.UsableDistance();
-                        }
-                    }
-                    if (Options.StandardHAS.GetBool()) isGuard = true;
-                }
-                if (isGuard)
-                {
-                    __instance.SabotageText.gameObject.SetActive(false);
-
-                    __instance.BackgroundColor.SetColor(Palette.DisabledGrey);
-                    __instance.SabotageText.gameObject.SetActive(false);
-                    DisabledText.gameObject.SetActive(true);
-                    DisabledText.text = GetString("DisabledBySettings");
-                    return false;
-                }
-
-                return true;
-            }
-        }
     }
 }
