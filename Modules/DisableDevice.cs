@@ -17,7 +17,7 @@ namespace TownOfHost
             return Map switch
             {
                 MapNames.Skeld => 1.5f,
-                //MapNames.Mira => 2.2f,
+                MapNames.Mira => 2.2f,
                 MapNames.Polus => 1.5f,
                 //MapNames.Dleks => 1.5f,
                 MapNames.Airship => 1.5f,
