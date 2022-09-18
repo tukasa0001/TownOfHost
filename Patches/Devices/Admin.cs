@@ -15,8 +15,15 @@ namespace TownOfHost
             4 => Options.DisableAirshipCockpitAdmin.GetBool() || Options.DisableAirshipRecordsAdmin.GetBool(),
             _ => false
         };
-        public static Vector2 ArchiveAdminPos = new(20.0f, 12.3f);
-        public static Vector2 SecondaryPolusAdminPos = new(24.66107f, -21.523f);
+        public static readonly Dictionary<string, Vector2> AdminPos = new()
+        {
+            ["SkeldAdmin"] = new(3.48f, -8.62f),
+            ["MiraHQAdmin"] = new(21.02f, 19.09f),
+            ["PolusLeftAdmin"] = new(23.14f, -21.52f),
+            ["PolusRightAdmin"] = new(24.66f, -21.52f),
+            ["AirshipCockpitAdmin"] = new(-22.32f, 0.91f),
+            ["AirshipRecordsAdmin"] = new(19.89f, 12.60f)
+        };
         private static TMPro.TextMeshPro DisabledText;
         [HarmonyPatch(typeof(MapCountOverlay), nameof(MapCountOverlay.Update))]
         public static class MapCountOverlayUpdatePatch
