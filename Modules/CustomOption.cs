@@ -218,7 +218,7 @@ namespace TownOfHost
 
         public bool GetBool()
         {
-            return Selection > 0;
+            return Selection > 0 && (Parent == null || Parent.GetBool());
         }
 
         public float GetFloat()
