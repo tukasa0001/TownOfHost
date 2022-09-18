@@ -234,24 +234,15 @@ namespace TownOfHost
                     pc.SetRole(RoleTypes.GuardianAngel); //ホスト用
                 }
             }
+
+            // CustomWinnerHolderの情報送信
+            sender.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame);
+            CustomWinnerHolder.WriteTo(sender.stream);
+            sender.EndRpc();
             sender.EndMessage();
 
-            MessageWriter writer = sender.stream;
-            // CustomWinnerHolderの情報送信
-            writer.StartMessage(5); //GameData
-            {
-                writer.Write(AmongUsClient.Instance.GameId);
-                writer.StartMessage(2); //RPC
-                {
-                    writer.WritePacked(PlayerControl.LocalPlayer.NetId);
-                    writer.Write((byte)CustomRPC.EndGame);
-                    CustomWinnerHolder.WriteTo(writer);
-                }
-                writer.EndMessage();
-            }
-            writer.EndMessage();
-
             // AmongUs側のゲーム終了RPC
+            MessageWriter writer = sender.stream;
             writer.StartMessage(8);
             {
                 writer.Write(AmongUsClient.Instance.GameId); //ここまでStartEndGameの内容
