@@ -208,6 +208,10 @@ namespace TownOfHost
         }
         private static void ResetRoleAndEndGame(GameOverReason reason, bool SetImpostorsToGA, bool showAd = false)
         {
+            var sender = new CustomRpcSender("EndGameSender", SendOption.Reliable, true);
+            sender.StartMessage(-1); // 5:GameData
+            //インポスター用守護天使化処理
+            //DesyncImpostor用守護天使化処理
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 var LoseImpostorRole = Main.AliveImpostorCount == 0 ? pc.Is(RoleType.Impostor) : pc.Is(CustomRoles.Egoist);
@@ -216,9 +220,13 @@ namespace TownOfHost
                     (CustomWinnerHolder.WinnerTeam != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) ||
                     LoseImpostorRole)
                 {
-                    pc.RpcSetRole(RoleTypes.GuardianAngel);
+                    sender.StartRpc(pc.NetId, RpcCalls.SetRole)
+                          .Write((ushort)RoleTypes.GuardianAngel)
+                          .EndRpc();
+                    pc.SetRole(RoleTypes.GuardianAngel); //ホスト用
                 }
             }
+            sender.EndMessage();
             new LateTask(() =>
             {
                 MessageWriter writer = MessageWriter.Get(SendOption.Reliable);
