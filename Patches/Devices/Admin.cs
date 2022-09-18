@@ -7,7 +7,14 @@ namespace TownOfHost
     public class AdminPatch
     {
         //参考元 : https://github.com/yukinogatari/TheOtherRoles-GM/blob/gm-main/TheOtherRoles/Patches/AdminPatch.cs
-        public static bool DisableAdmin => DisableAllAdmins || DisableArchiveAdmin;
+        public static bool DisableAdmin => PlayerControl.GameOptions.MapId switch
+        {
+            0 => Options.DisableSkeldAdmin.GetBool(),
+            1 => Options.DisableMiraHQAdmin.GetBool(),
+            2 => Options.DisablePolusAdmin.GetBool(),
+            4 => Options.DisableAirshipCockpitAdmin.GetBool() || Options.DisableAirshipRecordsAdmin.GetBool(),
+            _ => false
+        };
         public static bool DisableAllAdmins => Options.DisableAdmin.GetBool() && Options.WhichDisableAdmin.GetString() == GetString(Options.whichDisableAdmin[0]);
         public static bool DisableArchiveAdmin => Options.DisableAdmin.GetBool() && PlayerControl.GameOptions.MapId == 4 && Options.WhichDisableAdmin.GetString() == GetString(Options.whichDisableAdmin[1]);
         public static Vector2 ArchiveAdminPos = new(20.0f, 12.3f);
