@@ -211,6 +211,18 @@ namespace TownOfHost
             var sender = new CustomRpcSender("EndGameSender", SendOption.Reliable, true);
             sender.StartMessage(-1); // 5:GameData
             //インポスター用守護天使化処理
+            if (SetImpostorsToGA)
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (pc.Data.Role.IsImpostor)
+                    {
+                        sender.StartRpc(pc.NetId, RpcCalls.SetRole)
+                          .Write((ushort)RoleTypes.GuardianAngel)
+                          .EndRpc();
+                        pc.SetRole(RoleTypes.GuardianAngel); //ホスト用
+                    }
+                }
+
             //DesyncImpostor用守護天使化処理
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
