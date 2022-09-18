@@ -62,13 +62,13 @@ namespace TownOfHost
                                         distance = Vector2.Distance(PlayerPos, AdminPatch.AdminPos["PolusLeftAdmin"]);
                                         IsGuard = distance <= UsableDistance();
                                         distance = Vector2.Distance(PlayerPos, AdminPatch.AdminPos["PolusRightAdmin"]);
-                                        IsGuard = distance <= UsableDistance() || IsGuard;
+                                        IsGuard |= distance <= UsableDistance();
                                         break;
                                     case 4:
                                         distance = Vector2.Distance(PlayerPos, AdminPatch.AdminPos["AirshipCockpitAdmin"]);
                                         IsGuard = distance <= UsableDistance();
                                         distance = Vector2.Distance(PlayerPos, AdminPatch.AdminPos["AirshipRecordsAdmin"]);
-                                        IsGuard = distance <= UsableDistance();
+                                        IsGuard |= distance <= UsableDistance();
                                         break;
                                 }
                             }
