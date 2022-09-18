@@ -83,34 +83,15 @@ namespace TownOfHost
                                 SabotageFixWriter.Write((byte)128);
                                 AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
                             }
-                            else
+                            else if (!Utils.IsActive(SystemTypes.Comms) && OldDesyncCommsPlayers.Contains(pc.PlayerId))
                             {
-                                if (!Utils.IsActive(SystemTypes.Comms) && OldDesyncCommsPlayers.Contains(pc.PlayerId))
-                                {
-                                    OldDesyncCommsPlayers.Remove(pc.PlayerId);
+                                OldDesyncCommsPlayers.Remove(pc.PlayerId);
 
-                                    /*var sender = CustomRpcSender.Create("DisableDevice", SendOption.Reliable);
-
-                                    sender.AutoStartRpc(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, clientId)
-                                            .Write((byte)SystemTypes.Comms)
-                                            .WriteNetObject(pc)
-                                            .Write((byte)16)
-                                            .EndRpc();
-                                    if (PlayerControl.GameOptions.MapId == 2)
-                                        sender.AutoStartRpc(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, clientId)
-                                                .Write((byte)SystemTypes.Comms)
-                                                .WriteNetObject(pc)
-                                                .Write((byte)17)
-                                                .EndRpc();
-
-                                    sender.SendMessage();*/
-
-                                    MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
-                                    SabotageFixWriter.Write((byte)SystemTypes.Comms);
-                                    MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
-                                    SabotageFixWriter.Write((byte)16);
-                                    AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
-                                }
+                                MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
+                                SabotageFixWriter.Write((byte)SystemTypes.Comms);
+                                MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
+                                SabotageFixWriter.Write((byte)16);
+                                AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
                             }
                         }
                     }
