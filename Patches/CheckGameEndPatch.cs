@@ -206,27 +206,16 @@ namespace TownOfHost
         {
             var sender = new CustomRpcSender("EndGameSender", SendOption.Reliable, true);
             sender.StartMessage(-1); // 5:GameData
-            //インポスター用守護天使化処理
-            if (SetImpostorsToGA)
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (pc.Data.Role.IsImpostor)
-                    {
-                        sender.StartRpc(pc.NetId, RpcCalls.SetRole)
-                          .Write((ushort)RoleTypes.GuardianAngel)
-                          .EndRpc();
-                        pc.SetRole(RoleTypes.GuardianAngel); //ホスト用
-                    }
-                }
 
-            //DesyncImpostor用守護天使化処理
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 var LoseImpostorRole = Main.AliveImpostorCount == 0 ? pc.Is(RoleType.Impostor) : pc.Is(CustomRoles.Egoist);
-                if (pc.Is(CustomRoles.Sheriff) ||
-                    (!(CustomWinnerHolder.WinnerTeam == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) ||
-                    (CustomWinnerHolder.WinnerTeam != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) ||
-                    LoseImpostorRole)
+                if ((SetImpostorsToGA && pc.Data.Role.IsImpostor) || //インポスター:引数による
+                    pc.Is(CustomRoles.Sheriff) || //シェリフ:無条件
+                    (!(CustomWinnerHolder.WinnerTeam == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) || //アーソニスト:敗北
+                    (CustomWinnerHolder.WinnerTeam != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) || //ジャッカル:敗北
+                    LoseImpostorRole
+                )
                 {
                     sender.StartRpc(pc.NetId, RpcCalls.SetRole)
                           .Write((ushort)RoleTypes.GuardianAngel)
