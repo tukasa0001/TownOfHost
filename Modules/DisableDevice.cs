@@ -92,6 +92,15 @@ namespace TownOfHost
                                 MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
                                 SabotageFixWriter.Write((byte)16);
                                 AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+
+                                if (PlayerControl.GameOptions.MapId == 1)
+                                {
+                                    SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
+                                    SabotageFixWriter.Write((byte)SystemTypes.Comms);
+                                    MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
+                                    SabotageFixWriter.Write((byte)17);
+                                    AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+                                }
                             }
                         }
                     }
