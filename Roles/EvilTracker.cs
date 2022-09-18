@@ -108,7 +108,7 @@ namespace TownOfHost
                     case PlayerState.DeathReason.Bombed:
                         return true;
                     case PlayerState.DeathReason.Suicide:
-                    case PlayerState.DeathReason.LoversSuicide:
+                    case PlayerState.DeathReason.FollowingSuicide:
                     case PlayerState.DeathReason.Misfire:
                     case PlayerState.DeathReason.Torched:
                         return false;
