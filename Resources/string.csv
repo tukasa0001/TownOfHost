@@ -268,7 +268,11 @@ TieMode.All,All,Все,全員,全员,
 TieMode.Random,Random,Случайно,ランダム,随机,
 DisableDevices,Disable Devices,Отключить Устройства,デバイスを無効化,禁用设备,禁用裝置
 DisableAdmin,Disable Admin,Отключить Стол Администратора,アドミン無効化,禁用管理员,禁用管理室地圖
-WhichDisableAdmin,Unavailable Admins,Недоступные Столы Администратора,無効なアドミン,禁用哪个管理员,管理室地圖分區禁用
+DisableSkeldAdmin,Disable Skeld Admin,,アドミン無効化（スケルド）,,
+DisableMiraHQAdmin,Disable MiraHQ Admin,,アドミン無効化（ミラHQ）,,
+DisablePolusAdmin,Disable Polus Admin,,アドミン無効化（ポーラス）,,
+DisableAirshipCockpitAdmin,Disable Airship Cockpit Admin,,アドミン無効化（コックピット）,,
+DisableAirshipRecordsAdmin,Disable Airship Records Admin,,アドミン無効化（アーカイブ）,,
 RandomSpawn,Random Spawn,Случайный Спавн,ランダムスポーン,随机出生点,
 AirshipAdditionalSpawn,Additional Spawn(Airship),Дополнительный Спавн(Airship),追加スポーン位置(エアシップ),额外出生点（飞船地图）,
 
