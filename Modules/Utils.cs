@@ -438,11 +438,11 @@ namespace TownOfHost
                 {
                     if (Options.DisableAdmin.GetBool())
                     {
-                        text += String.Format("\n{0}:{1}", Options.DisableSkeldAdmin.GetName(disableColor: true), Options.DisableSkeldAdmin.GetString());
-                        text += String.Format("\n{0}:{1}", Options.DisableMiraHQAdmin.GetName(disableColor: true), Options.DisableMiraHQAdmin.GetString());
-                        text += String.Format("\n{0}:{1}", Options.DisablePolusAdmin.GetName(disableColor: true), Options.DisablePolusAdmin.GetString());
-                        text += String.Format("\n{0}:{1}", Options.DisableAirshipCockpitAdmin.GetName(disableColor: true), Options.DisableAirshipCockpitAdmin.GetString());
-                        text += String.Format("\n{0}:{1}", Options.DisableAirshipRecordsAdmin.GetName(disableColor: true), Options.DisableAirshipRecordsAdmin.GetString());
+                        text += String.Format("\n{0}:{1}", Options.DisableSkeldAdmin.GetName(disableColor: true), GetOnOff(Options.DisableSkeldAdmin.GetBool()));
+                        text += String.Format("\n{0}:{1}", Options.DisableMiraHQAdmin.GetName(disableColor: true), GetOnOff(Options.DisableMiraHQAdmin.GetBool()));
+                        text += String.Format("\n{0}:{1}", Options.DisablePolusAdmin.GetName(disableColor: true), GetOnOff(Options.DisablePolusAdmin.GetBool()));
+                        text += String.Format("\n{0}:{1}", Options.DisableAirshipCockpitAdmin.GetName(disableColor: true), GetOnOff(Options.DisableAirshipCockpitAdmin.GetBool()));
+                        text += String.Format("\n{0}:{1}", Options.DisableAirshipRecordsAdmin.GetName(disableColor: true), GetOnOff(Options.DisableAirshipRecordsAdmin.GetBool()));
                     }
                 }
                 if (Options.SyncButtonMode.GetBool()) text += String.Format("\n{0}:{1}", GetString("SyncedButtonCount"), Options.SyncedButtonCount.GetInt());
