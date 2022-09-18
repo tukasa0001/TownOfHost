@@ -235,34 +235,32 @@ namespace TownOfHost
                 }
             }
             sender.EndMessage();
-            new LateTask(() =>
+
+            MessageWriter writer = sender.stream;
+            // CustomWinnerHolderの情報送信
+            writer.StartMessage(5); //GameData
             {
-                MessageWriter writer = MessageWriter.Get(SendOption.Reliable);
-                // CustomWinnerHolderの情報送信
-                writer.StartMessage(5); //GameData
+                writer.Write(AmongUsClient.Instance.GameId);
+                writer.StartMessage(2); //RPC
                 {
-                    writer.Write(AmongUsClient.Instance.GameId);
-                    writer.StartMessage(2); //RPC
-                    {
-                        writer.WritePacked(PlayerControl.LocalPlayer.NetId);
-                        writer.Write((byte)CustomRPC.EndGame);
-                        CustomWinnerHolder.WriteTo(writer);
-                    }
-                    writer.EndMessage();
+                    writer.WritePacked(PlayerControl.LocalPlayer.NetId);
+                    writer.Write((byte)CustomRPC.EndGame);
+                    CustomWinnerHolder.WriteTo(writer);
                 }
                 writer.EndMessage();
+            }
+            writer.EndMessage();
 
-                // AmongUs側のゲーム終了RPC
-                writer.StartMessage(8);
-                {
-                    writer.Write(AmongUsClient.Instance.GameId); //ここまでStartEndGameの内容
-                    writer.Write((byte)reason);
-                    writer.Write(showAd);
-                }
-                writer.EndMessage();
+            // AmongUs側のゲーム終了RPC
+            writer.StartMessage(8);
+            {
+                writer.Write(AmongUsClient.Instance.GameId); //ここまでStartEndGameの内容
+                writer.Write((byte)reason);
+                writer.Write(showAd);
+            }
+            writer.EndMessage();
 
-                AmongUsClient.Instance.SendOrDisconnect(writer);
-            }, 0.5f, "EndGameTask");
+            sender.SendMessage();
         }
         //プレイヤー統計
         internal class PlayerStatistics
