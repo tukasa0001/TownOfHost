@@ -90,7 +90,7 @@ namespace TownOfHost
                 __instance.enabled = false;
                 CustomWinnerHolder.WinnerTeam = CustomWinner.None;
                 SetImpostorsToGA();
-                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, true);
                 return true;
             }
             return false;
@@ -130,7 +130,7 @@ namespace TownOfHost
                 CustomWinnerHolder.WinnerTeam = CustomWinner.Jackal;
                 CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
                 SetImpostorsToGA();
-                ResetRoleAndEndGame(endReason, false);
+                ResetRoleAndEndGame(endReason, true);
                 return true;
             }
             return false;
@@ -170,7 +170,7 @@ namespace TownOfHost
                     CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
                     SetImpostorsToGA();
                     __instance.enabled = false;
-                    ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                    ResetRoleAndEndGame(GameOverReason.ImpostorByKill, true);
                     return true;
                 }
             }
@@ -192,7 +192,7 @@ namespace TownOfHost
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
             {
                 __instance.enabled = false;
-                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, true);
                 SetImpostorsToGA();
                 return true;
             }
@@ -206,7 +206,7 @@ namespace TownOfHost
             ResetRoleAndEndGame(GameOverReason.ImpostorBySabotage, false);
             return;
         }
-        private static void ResetRoleAndEndGame(GameOverReason reason, bool showAd)
+        private static void ResetRoleAndEndGame(GameOverReason reason, bool SetImpostorsToGA, bool showAd = false)
         {
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
