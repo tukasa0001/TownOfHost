@@ -121,18 +121,5 @@ namespace TownOfHost
                 }
             }
         }
-        public static Vector2 GetAdminTransform()
-        {
-            var MapName = (MapNames)PlayerControl.GameOptions.MapId;
-            return MapName switch
-            {
-                MapNames.Skeld => new Vector2(3.48f, -8.624401f),
-                //MapNames.Mira => new Vector2(20.524f, 20.595f),
-                MapNames.Polus => new Vector2(22.13707f, -21.523f),
-                //MapNames.Dleks => new Vector2(-3.48f, -8.624401f),
-                MapNames.Airship => new Vector2(-22.323f, 0.9099998f),
-                _ => new Vector2(1000, 1000)
-            };
-        }
     }
 }
