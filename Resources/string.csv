@@ -264,8 +264,8 @@ SelfVote,SelfVote,СамоГолосование,自投票,自票,投自己
 Skip,Skip,Пропуск,スキップ,跳过,跳過
 WhenTie,When Tie,Когда Ничья,同数投票時,平票时,
 TieMode.Default,Default,Обычное,デフォルト,默认,預設
-TieMode.All,Exile Them All,Все,全員追放,全体放逐,
-TieMode.Random,Exile Random,Случайно,ランダムに追放,随机放逐,
+TieMode.All,Exile Them All,Изгнать Всех,全員追放,全体放逐,
+TieMode.Random,Exile Random,Изгнать Случайно,ランダムに追放,随机放逐,
 DisableDevices,Disable Devices,Отключить Устройства,デバイスを無効化,禁用设备,禁用裝置
 DisableSkeldDevices,Disable Skeld Devices,,スケルドのデバイス無効化,,
 DisableMiraHQDevices,Disable MiraHQ Device,,ミラHQのデバイス無効化,,
@@ -274,8 +274,8 @@ DisableAirshipDevices,Disable Airship Device,,エアシップのデバイス無�
 DisableSkeldAdmin,Disable Admin,Отключить Стол Администратора,アドミン無効化,禁用管理室,禁用管理室地圖
 DisableMiraHQAdmin,Disable Admin,Отключить Стол Администратора,アドミン無効化,禁用管理室,禁用管理室地圖
 DisablePolusAdmin,Disable Admin,Отключить Стол Администратора,アドミン無効化,禁用管理室,禁用管理室地圖
-DisableAirshipCockpitAdmin,Disable Cockpit Admin,,アドミン無効化（コックピット）,禁用飞艇(驾驶舱)管理室,
-DisableAirshipRecordsAdmin,Disable Records Admin,,アドミン無効化（アーカイブ）,禁用飞艇(档案室)管理室,
+DisableAirshipCockpitAdmin,Disable Cockpit Admin,Отключить Админку В Кабине на Airship,アドミン無効化（コックピット）,禁用飞艇(驾驶舱)管理室,
+DisableAirshipRecordsAdmin,Disable Records Admin,Отключить Админку В Архиве на Airship,アドミン無効化（アーカイブ）,禁用飞艇(档案室)管理室,
 DisableSkeldCamera,Disable Camera,,カメラ無効化,,
 DisablePolusCamera,Disable Camera,,カメラ無効化,,
 DisableAirshipCamera,Disable Camera,,カメラ無効化,,
