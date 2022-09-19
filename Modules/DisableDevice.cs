@@ -18,7 +18,7 @@ namespace TownOfHost
             ["SkeldCamera"] = new(-13.06f, -2.45f),
             ["MiraHQAdmin"] = new(21.02f, 19.09f),
             ["MiraHQDoorLog"] = new(16.22f, 5.82f),
-            ["PolusLeftAdmin"] = new(23.14f, -21.52f),
+            ["PolusLeftAdmin"] = new(22.80f, -21.52f),
             ["PolusRightAdmin"] = new(24.66f, -21.52f),
             ["PolusCamera"] = new(2.96f, -12.74f),
             ["PolusVital"] = new(26.70f, -15.94f),
