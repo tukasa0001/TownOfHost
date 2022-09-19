@@ -436,7 +436,7 @@ namespace TownOfHost
                     text += String.Format("\n{0}:{1}", GetString("KillFlashDuration"), Options.KillFlashDuration.GetString());
                 if (Options.DisableDevices.GetBool())
                 {
-                    if (Options.DisableAdmin.GetBool())
+                    if (Options.DisableSkeldDevices.GetBool())
                     {
                         text += String.Format("\n{0}:{1}", Options.DisableSkeldAdmin.GetName(disableColor: true), GetOnOff(Options.DisableSkeldAdmin.GetBool()));
                         text += String.Format("\n{0}:{1}", Options.DisableMiraHQAdmin.GetName(disableColor: true), GetOnOff(Options.DisableMiraHQAdmin.GetBool()));
