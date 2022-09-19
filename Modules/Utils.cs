@@ -438,11 +438,24 @@ namespace TownOfHost
                 {
                     if (Options.DisableSkeldDevices.GetBool())
                     {
-                        text += String.Format("\n{0}:{1}", Options.DisableSkeldAdmin.GetName(disableColor: true), GetOnOff(Options.DisableSkeldAdmin.GetBool()));
-                        text += String.Format("\n{0}:{1}", Options.DisableMiraHQAdmin.GetName(disableColor: true), GetOnOff(Options.DisableMiraHQAdmin.GetBool()));
-                        text += String.Format("\n{0}:{1}", Options.DisablePolusAdmin.GetName(disableColor: true), GetOnOff(Options.DisablePolusAdmin.GetBool()));
-                        text += String.Format("\n{0}:{1}", Options.DisableAirshipCockpitAdmin.GetName(disableColor: true), GetOnOff(Options.DisableAirshipCockpitAdmin.GetBool()));
-                        text += String.Format("\n{0}:{1}", Options.DisableAirshipRecordsAdmin.GetName(disableColor: true), GetOnOff(Options.DisableAirshipRecordsAdmin.GetBool()));
+                        text += String.Format("\n【{0}】", Options.DisableSkeldDevices.GetName(disableColor: true));
+                        text += String.Format("\n┗{0}:{1}", Options.DisableSkeldAdmin.GetName(disableColor: true), GetOnOff(Options.DisableSkeldAdmin.GetBool()));
+                    }
+                    if (Options.DisableMiraHQDevices.GetBool())
+                    {
+                        text += String.Format("\n【{0}】", Options.DisableMiraHQDevices.GetName(disableColor: true));
+                        text += String.Format("\n┗{0}:{1}", Options.DisableMiraHQAdmin.GetName(disableColor: true), GetOnOff(Options.DisableMiraHQAdmin.GetBool()));
+                    }
+                    if (Options.DisablePolusDevices.GetBool())
+                    {
+                        text += String.Format("\n【{0}】", Options.DisablePolusDevices.GetName(disableColor: true));
+                        text += String.Format("\n┗{0}:{1}", Options.DisablePolusAdmin.GetName(disableColor: true), GetOnOff(Options.DisablePolusAdmin.GetBool()));
+                    }
+                    if (Options.DisableAirshipDevices.GetBool())
+                    {
+                        text += String.Format("\n【{0}】", Options.DisableAirshipDevices.GetName(disableColor: true));
+                        text += String.Format("\n┗{0}:{1}", Options.DisableAirshipCockpitAdmin.GetName(disableColor: true), GetOnOff(Options.DisableAirshipCockpitAdmin.GetBool()));
+                        text += String.Format("\n┗{0}:{1}", Options.DisableAirshipRecordsAdmin.GetName(disableColor: true), GetOnOff(Options.DisableAirshipRecordsAdmin.GetBool()));
                     }
                 }
                 if (Options.SyncButtonMode.GetBool()) text += String.Format("\n{0}:{1}", GetString("SyncedButtonCount"), Options.SyncedButtonCount.GetInt());
