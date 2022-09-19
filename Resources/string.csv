@@ -273,7 +273,7 @@ DisablePolusAdmin,Disable Polus Admin,Отключить Админку на Pol
 DisableAirshipCockpitAdmin,Disable Airship Cockpit Admin,Отключить Админку В Кабине на Airship,アドミン無効化（コックピット）,禁用飞艇(驾驶舱)管理室,
 DisableAirshipRecordsAdmin,Disable Airship Records Admin,Отключить Админку В Архиве на Airship,アドミン無効化（アーカイブ）,禁用飞艇(档案室)管理室,
 RandomSpawn,Random Spawn,Случайный Спавн,ランダムスポーン,随机出生点,
-AirshipAdditionalSpawn,Additional Spawn(Airship),Дополнительный Спавн(Airship),追加スポーン位置(エアシップ),额外出生点（飞船地图）,
+AirshipAdditionalSpawn,Additional Spawn(Airship),Дополнительный Спавн(Airship),追加スポーン位置(エアシップ),额外出生点（飞艇地图）,
 
 ## モード説明
 HideAndSeekInfo,"HideAndSeek:\nNo one can call emergency meeting, Crewmates (Blue) can win only by completing tasks\nand Impostors (Red) can win only by killing all the Crewmates.","Прятки:\nНикто не может созвать срочное собрание, Члены Экипажа (Синие) могут победить, только выполняя задания\nА Предатели (Красные) могут победить, только убив всех Членов Экипажа.",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。\nインポスターは赤、クルーは青に体の色が変更される。,躲猫猫:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利；\n内鬼的皮肤颜色将变为红色，船员变为蓝色，以示区分。,"躲貓貓:\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色。"
@@ -415,7 +415,7 @@ Message.HideGameSettings,Game settings are hidden by the host.,Настройк�
 ## 警告
 Warning.EgoistCannotWin,Egoist cannot win!,Egoist не может победить!,エゴイストが勝利できません,野心家无法获胜,利己主義者無法獲勝
 Warning.OverrideExiledPlayer,All ejects will be displayed as tie because the total number of impostors is 1.,"Все окна изгнания будут отображаться как ничья, потому что общее количество Предателей равно 1.",合計インポスター数が1のため、追放はすべて同数投票として表示されます。,由于场上仅剩一名内鬼，放逐投票将显示为平票,"由於場上只剩一名狼人,所有逐出訊息都將顯示為平票"
-Warning.InvalidRpc,Kicked {0} because an invalid RPC was received.\nPlease make sure that there are no other mods in the system other than TOH.,Кикнут {0} так как был получен недопустимый RPC.\nУбедитесь что в системе нет других модов кроме TOH.,不正なRPCを受信したため{0}をキックしました。\nTOH以外のMODが入っていないか確認してください。,{0} 被踢出，因为接收到了无效的 RPC。 \n请确保没有除 TOH 以外的模组。,"{0}因為收到無效的RPC,所以踢出了他,\n請確保遊戲除了TOH之外沒有其他模組系統被載入"
+Warning.InvalidRpc,Kicked {0} because an invalid RPC was received.\nPlease make sure that there are no other mods in the system other than TOH.,Кикнут {0} так как был получен недопустимый RPC.\nУбедитесь что в системе нет других модов кроме TOH.,不正なRPCを受信したため{0}をキックしました。\nTOH以外のMODが入っていないか確認してください。,{0} 被踢出，因其 RPC 无效。 \n请确保没有 TOH 以外的模组。,"{0}因為收到無效的RPC,所以踢出了他,\n請確保遊戲除了TOH之外沒有其他模組系統被載入"
 
 ## エラー
 Error.MeetingException,Error: {0}\r\nPlease use SHIFT+M+ENTER to force the meeting to end,Ошибка: {0}\r\nПожалуйста используйте SHIFT+M+ENTER чтобы принудительно завершить собрание,エラー: {0}\r\nSHIFT+M+ENTERで会議を強制終了してください,错误: {0}\r\n使用 SHIFT+M+ENTER 来中止会议,錯誤: {0}\r\n按下SHIFT+M+ENTER來結束會議
