@@ -436,7 +436,14 @@ namespace TownOfHost
                     text += String.Format("\n{0}:{1}", GetString("KillFlashDuration"), Options.KillFlashDuration.GetString());
                 if (Options.DisableDevices.GetBool())
                 {
-                    if (Options.DisableDevices.GetBool()) text += String.Format("\n{0}:{1}", Options.DisableAdmin.GetName(disableColor: true), Options.WhichDisableAdmin.GetString());
+                    if (Options.DisableAdmin.GetBool())
+                    {
+                        text += String.Format("\n{0}:{1}", Options.DisableSkeldAdmin.GetName(disableColor: true), GetOnOff(Options.DisableSkeldAdmin.GetBool()));
+                        text += String.Format("\n{0}:{1}", Options.DisableMiraHQAdmin.GetName(disableColor: true), GetOnOff(Options.DisableMiraHQAdmin.GetBool()));
+                        text += String.Format("\n{0}:{1}", Options.DisablePolusAdmin.GetName(disableColor: true), GetOnOff(Options.DisablePolusAdmin.GetBool()));
+                        text += String.Format("\n{0}:{1}", Options.DisableAirshipCockpitAdmin.GetName(disableColor: true), GetOnOff(Options.DisableAirshipCockpitAdmin.GetBool()));
+                        text += String.Format("\n{0}:{1}", Options.DisableAirshipRecordsAdmin.GetName(disableColor: true), GetOnOff(Options.DisableAirshipRecordsAdmin.GetBool()));
+                    }
                 }
                 if (Options.SyncButtonMode.GetBool()) text += String.Format("\n{0}:{1}", GetString("SyncedButtonCount"), Options.SyncedButtonCount.GetInt());
                 if (Options.SabotageTimeControl.GetBool())

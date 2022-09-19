@@ -114,7 +114,14 @@ namespace TownOfHost
                     tmp = text.Split(":");
                     if (tmp.Length > 1 && tmp[1] != "")
                     {
-                        tr[tmp[0]][(int)lang] = tmp.Skip(1).Join(delimiter: ":").Replace("\\n", "\n").Replace("\\r", "\r");
+                        try
+                        {
+                            tr[tmp[0]][(int)lang] = tmp.Skip(1).Join(delimiter: ":").Replace("\\n", "\n").Replace("\\r", "\r");
+                        }
+                        catch (KeyNotFoundException)
+                        {
+                            Logger.Warn($"「{tmp[0]}」は有効なキーではありません。", "LoadCustomTranslation");
+                        }
                     }
                 }
             }
