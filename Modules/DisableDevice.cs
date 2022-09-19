@@ -62,28 +62,21 @@ namespace TownOfHost
                             //アドミンチェック
                             if ((AdminPatch.DisableAdmin || Options.IsStandardHAS) && pc.IsAlive())
                             {
-                                float distance;
                                 switch (PlayerControl.GameOptions.MapId)
                                 {
                                     case 0:
-                                        distance = Vector2.Distance(PlayerPos, AdminPatch.AdminPos["SkeldAdmin"]);
-                                        IsGuard = distance <= UsableDistance();
+                                        IsGuard |= Vector2.Distance(PlayerPos, DevicePos["SkeldAdmin"]) <= UsableDistance();
                                         break;
                                     case 1:
-                                        distance = Vector2.Distance(PlayerPos, AdminPatch.AdminPos["MiraHQAdmin"]);
-                                        IsGuard = distance <= UsableDistance();
+                                        IsGuard |= Vector2.Distance(PlayerPos, DevicePos["MiraHQAdmin"]) <= UsableDistance();
                                         break;
                                     case 2:
-                                        distance = Vector2.Distance(PlayerPos, AdminPatch.AdminPos["PolusLeftAdmin"]);
-                                        IsGuard = distance <= UsableDistance();
-                                        distance = Vector2.Distance(PlayerPos, AdminPatch.AdminPos["PolusRightAdmin"]);
-                                        IsGuard |= distance <= UsableDistance();
+                                        IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusLeftAdmin"]) <= UsableDistance();
+                                        IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusRightAdmin"]) <= UsableDistance();
                                         break;
                                     case 4:
-                                        distance = Vector2.Distance(PlayerPos, AdminPatch.AdminPos["AirshipCockpitAdmin"]);
-                                        IsGuard = distance <= UsableDistance();
-                                        distance = Vector2.Distance(PlayerPos, AdminPatch.AdminPos["AirshipRecordsAdmin"]);
-                                        IsGuard |= distance <= UsableDistance();
+                                        IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipCockpitAdmin"]) <= UsableDistance();
+                                        IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipRecordsAdmin"]) <= UsableDistance();
                                         break;
                                 }
                             }
