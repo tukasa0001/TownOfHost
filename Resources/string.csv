@@ -264,8 +264,8 @@ SelfVote,SelfVote,СамоГолосование,自投票,自票,投自己
 Skip,Skip,Пропуск,スキップ,跳过,跳過
 WhenTie,When Tie,Когда Ничья,同数投票時,平票时,
 TieMode.Default,Default,Обычное,デフォルト,默认,預設
-TieMode.All,All,Все,全員,全员,
-TieMode.Random,Random,Случайно,ランダム,随机,
+TieMode.All,Exile Them All,Все,全員追放,全员,
+TieMode.Random,Exile Random,Случайно,ランダムに追放,随机,
 DisableDevices,Disable Devices,Отключить Устройства,デバイスを無効化,禁用设备,禁用裝置
 DisableAdmin,Disable Admin,Отключить Стол Администратора,アドミン無効化,禁用管理员,禁用管理室地圖
 DisableSkeldAdmin,Disable Skeld Admin,,アドミン無効化（スケルド）,,
