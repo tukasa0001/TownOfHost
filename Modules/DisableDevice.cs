@@ -68,10 +68,14 @@ namespace TownOfHost
                                     case 0:
                                         if (Options.DisableSkeldAdmin.GetBool())
                                             IsGuard |= Vector2.Distance(PlayerPos, DevicePos["SkeldAdmin"]) <= UsableDistance();
+                                        if (Options.DisableSkeldCamera.GetBool())
+                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["SkeldCamera"]) <= UsableDistance();
                                         break;
                                     case 1:
                                         if (Options.DisableMiraHQAdmin.GetBool())
                                             IsGuard |= Vector2.Distance(PlayerPos, DevicePos["MiraHQAdmin"]) <= UsableDistance();
+                                        if (Options.DisableMiraHQDoorLog.GetBool())
+                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["MiraHQDoorLog"]) <= UsableDistance();
                                         break;
                                     case 2:
                                         if (Options.DisablePolusAdmin.GetBool())
@@ -79,12 +83,20 @@ namespace TownOfHost
                                             IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusLeftAdmin"]) <= UsableDistance();
                                             IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusRightAdmin"]) <= UsableDistance();
                                         }
+                                        if (Options.DisablePolusCamera.GetBool())
+                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusCamera"]) <= UsableDistance();
+                                        if (Options.DisablePolusVital.GetBool())
+                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusVital"]) <= UsableDistance();
                                         break;
                                     case 4:
                                         if (Options.DisableAirshipCockpitAdmin.GetBool())
                                             IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipCockpitAdmin"]) <= UsableDistance();
                                         if (Options.DisableAirshipRecordsAdmin.GetBool())
                                             IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipRecordsAdmin"]) <= UsableDistance();
+                                        if (Options.DisableAirshipCamera.GetBool())
+                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipCamera"]) <= UsableDistance();
+                                        if (Options.DisableAirshipVital.GetBool())
+                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipVital"]) <= UsableDistance();
                                         break;
                                 }
                             }
