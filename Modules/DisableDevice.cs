@@ -45,7 +45,7 @@ namespace TownOfHost
             if (Count > 0) return;
             Count = 3;
             var DisableDevices =
-                AdminPatch.DisableAdmin ||
+                Options.DisableDevices.GetBool() ||
                 Options.IsStandardHAS; //他に無効化するデバイスを設定する場合はここへ追加
 
             if (DisableDevices)
@@ -60,7 +60,7 @@ namespace TownOfHost
                             bool IsGuard = false;
                             Vector2 PlayerPos = pc.GetTruePosition();
                             //アドミンチェック
-                            if ((AdminPatch.DisableAdmin || Options.IsStandardHAS) && pc.IsAlive())
+                            if (pc.IsAlive())
                             {
                                 switch (PlayerControl.GameOptions.MapId)
                                 {
@@ -125,7 +125,7 @@ namespace TownOfHost
     {
         public static void Postfix()
         {
-            if (!AdminPatch.DisableAdmin) return;
+            if (!Options.DisableDevices.GetBool()) return;
             var map = GameObject.FindObjectsOfType<MapConsole>();
             if (map == null) return;
             switch (PlayerControl.GameOptions.MapId)
