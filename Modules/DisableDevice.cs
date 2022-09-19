@@ -12,6 +12,20 @@ namespace TownOfHost
     {
         private static List<byte> OldDesyncCommsPlayers = new();
         private static int Count = 0;
+        public static readonly Dictionary<string, Vector2> DevicePos = new()
+        {
+            ["SkeldAdmin"] = new(3.48f, -8.62f),
+            ["SkeldCamera"] = new(-13.06f, -2.45f),
+            ["MiraHQAdmin"] = new(21.02f, 19.09f),
+            ["MiraHQDoorLog"] = new(16.22f, 5.82f),
+            ["PolusLeftAdmin"] = new(23.14f, -21.52f),
+            ["PolusRightAdmin"] = new(24.66f, -21.52f),
+            ["PolusCamera"] = new(2.96f, -12.74f),
+            ["AirshipCockpitAdmin"] = new(-22.32f, 0.91f),
+            ["AirshipRecordsAdmin"] = new(19.89f, 12.60f),
+            ["AirshipCamera"] = new(8.10f, -9.63f),
+            ["AirshipVital"] = new(25.24f, -7.94f)
+        };
         public static float UsableDistance()
         {
             var Map = (MapNames)PlayerControl.GameOptions.MapId;
