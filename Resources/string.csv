@@ -267,10 +267,13 @@ TieMode.Default,Default,Обычное,デフォルト,默认,預設
 TieMode.All,Exile Them All,Все,全員追放,全员,
 TieMode.Random,Exile Random,Случайно,ランダムに追放,随机,
 DisableDevices,Disable Devices,Отключить Устройства,デバイスを無効化,禁用设备,禁用裝置
-DisableAdmin,Disable Admin,Отключить Стол Администратора,アドミン無効化,禁用管理员,禁用管理室地圖
-DisableSkeldAdmin,Disable Skeld Admin,,アドミン無効化（スケルド）,,
-DisableMiraHQAdmin,Disable MiraHQ Admin,,アドミン無効化（ミラHQ）,,
-DisablePolusAdmin,Disable Polus Admin,,アドミン無効化（ポーラス）,,
+DisableSkeldDevices,Disable Skeld Devices,,スケルドのデバイス無効化,,
+DisableMiraHQDevices,Disable MiraHQ Device,,ミラHQのデバイス無効化,,
+DisablePolusDevices,Disable Polus Device,,ポーラスのデバイス無効化,,
+DisableAirshipDevices,Disable Airship Device,,エアシップのデバイス無効化,,
+DisableSkeldAdmin,Disable Skeld Admin,,アドミン無効化,,
+DisableMiraHQAdmin,Disable MiraHQ Admin,,アドミン無効化,,
+DisablePolusAdmin,Disable Polus Admin,,アドミン無効化,,
 DisableAirshipCockpitAdmin,Disable Airship Cockpit Admin,,アドミン無効化（コックピット）,,
 DisableAirshipRecordsAdmin,Disable Airship Records Admin,,アドミン無効化（アーカイブ）,,
 RandomSpawn,Random Spawn,Случайный Спавн,ランダムスポーン,随机出生点,
