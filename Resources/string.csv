@@ -264,15 +264,24 @@ SelfVote,SelfVote,СамоГолосование,自投票,自票,投自己
 Skip,Skip,Пропуск,スキップ,跳过,跳過
 WhenTie,When Tie,Когда Ничья,同数投票時,平票时,
 TieMode.Default,Default,Обычное,デフォルト,默认,預設
-TieMode.All,Exile Them All,Все,全員追放,全体放逐,
-TieMode.Random,Exile Random,Случайно,ランダムに追放,随机放逐,
+TieMode.All,Exile Them All,Изгнать Всех,全員追放,全体放逐,
+TieMode.Random,Exile Random,Изгнать Случайно,ランダムに追放,随机放逐,
 DisableDevices,Disable Devices,Отключить Устройства,デバイスを無効化,禁用设备,禁用裝置
-DisableAdmin,Disable Admin,Отключить Стол Администратора,アドミン無効化,禁用管理室,禁用管理室地圖
-DisableSkeldAdmin,Disable Skeld Admin,,アドミン無効化（スケルド）,禁用骷髅舰管理室,
-DisableMiraHQAdmin,Disable MiraHQ Admin,,アドミン無効化（ミラHQ）,禁用米拉总部管理室,
-DisablePolusAdmin,Disable Polus Admin,,アドミン無効化（ポーラス）,禁用波鲁斯管理室,
-DisableAirshipCockpitAdmin,Disable Airship Cockpit Admin,,アドミン無効化（コックピット）,禁用飞艇(驾驶舱)管理室,
-DisableAirshipRecordsAdmin,Disable Airship Records Admin,,アドミン無効化（アーカイブ）,禁用飞艇(档案室)管理室,
+DisableSkeldDevices,Disable Skeld Devices,,スケルドのデバイス無効化,,
+DisableMiraHQDevices,Disable MiraHQ Device,,ミラHQのデバイス無効化,,
+DisablePolusDevices,Disable Polus Device,,ポーラスのデバイス無効化,,
+DisableAirshipDevices,Disable Airship Device,,エアシップのデバイス無効化,,
+DisableSkeldAdmin,Disable Admin,Отключить Стол Администратора,アドミン無効化,禁用管理室,禁用管理室地圖
+DisableMiraHQAdmin,Disable Admin,Отключить Стол Администратора,アドミン無効化,禁用管理室,禁用管理室地圖
+DisablePolusAdmin,Disable Admin,Отключить Стол Администратора,アドミン無効化,禁用管理室,禁用管理室地圖
+DisableAirshipCockpitAdmin,Disable Cockpit Admin,Отключить Админку В Кабине на Airship,アドミン無効化（コックピット）,禁用飞艇(驾驶舱)管理室,
+DisableAirshipRecordsAdmin,Disable Records Admin,Отключить Админку В Архиве на Airship,アドミン無効化（アーカイブ）,禁用飞艇(档案室)管理室,
+DisableSkeldCamera,Disable Camera,,カメラ無効化,,
+DisablePolusCamera,Disable Camera,,カメラ無効化,,
+DisableAirshipCamera,Disable Camera,,カメラ無効化,,
+DisableMiraHQDoorLog,Disable DoorLog,,ドアログ無効化,,
+DisablePolusVital,Disable Vital,,バイタル無効化,,
+DisableAirshipVital,Disable Vital,,バイタル無効化,,
 RandomSpawn,Random Spawn,Случайный Спавн,ランダムスポーン,随机出生点,
 AirshipAdditionalSpawn,Additional Spawn(Airship),Дополнительный Спавн(Airship),追加スポーン位置(エアシップ),额外出生点（飞船地图）,
 
