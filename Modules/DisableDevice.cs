@@ -114,7 +114,7 @@ namespace TownOfHost
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Start))]
-    public class RemoveAdminPatch
+    public class RemoveDisableDevicesPatch
     {
         public static void Postfix()
         {
