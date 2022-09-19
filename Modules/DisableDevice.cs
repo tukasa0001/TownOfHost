@@ -17,7 +17,7 @@ namespace TownOfHost
             return Map switch
             {
                 MapNames.Skeld => 1.5f,
-                //MapNames.Mira => 2.2f,
+                MapNames.Mira => 2.2f,
                 MapNames.Polus => 1.5f,
                 //MapNames.Dleks => 1.5f,
                 MapNames.Airship => 1.5f,
@@ -47,21 +47,29 @@ namespace TownOfHost
                             //アドミンチェック
                             if ((AdminPatch.DisableAdmin || Options.IsStandardHAS) && pc.IsAlive())
                             {
-                                if (AdminPatch.DisableAllAdmins || Options.IsStandardHAS)
+                                float distance;
+                                switch (PlayerControl.GameOptions.MapId)
                                 {
-                                    var AdminDistance = Vector2.Distance(PlayerPos, GetAdminTransform());
-                                    IsGuard = AdminDistance <= UsableDistance();
-
-                                    if (!IsGuard && PlayerControl.GameOptions.MapId == 2) //Polus用のアドミンチェック。Polusはアドミンが2つあるから
-                                    {
-                                        var SecondaryPolusAdminDistance = Vector2.Distance(PlayerPos, AdminPatch.SecondaryPolusAdminPos);
-                                        IsGuard = SecondaryPolusAdminDistance <= UsableDistance();
-                                    }
-                                }
-                                if (!IsGuard && (AdminPatch.DisableAllAdmins || AdminPatch.DisableArchiveAdmin || Options.IsStandardHAS)) //憎きアーカイブのアドミンチェック
-                                {
-                                    var ArchiveAdminDistance = Vector2.Distance(PlayerPos, AdminPatch.ArchiveAdminPos);
-                                    IsGuard = ArchiveAdminDistance <= UsableDistance();
+                                    case 0:
+                                        distance = Vector2.Distance(PlayerPos, AdminPatch.AdminPos["SkeldAdmin"]);
+                                        IsGuard = distance <= UsableDistance();
+                                        break;
+                                    case 1:
+                                        distance = Vector2.Distance(PlayerPos, AdminPatch.AdminPos["MiraHQAdmin"]);
+                                        IsGuard = distance <= UsableDistance();
+                                        break;
+                                    case 2:
+                                        distance = Vector2.Distance(PlayerPos, AdminPatch.AdminPos["PolusLeftAdmin"]);
+                                        IsGuard = distance <= UsableDistance();
+                                        distance = Vector2.Distance(PlayerPos, AdminPatch.AdminPos["PolusRightAdmin"]);
+                                        IsGuard |= distance <= UsableDistance();
+                                        break;
+                                    case 4:
+                                        distance = Vector2.Distance(PlayerPos, AdminPatch.AdminPos["AirshipCockpitAdmin"]);
+                                        IsGuard = distance <= UsableDistance();
+                                        distance = Vector2.Distance(PlayerPos, AdminPatch.AdminPos["AirshipRecordsAdmin"]);
+                                        IsGuard |= distance <= UsableDistance();
+                                        break;
                                 }
                             }
                             if (IsGuard && !pc.inVent)
@@ -75,32 +83,22 @@ namespace TownOfHost
                                 SabotageFixWriter.Write((byte)128);
                                 AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
                             }
-                            else
+                            else if (!Utils.IsActive(SystemTypes.Comms) && OldDesyncCommsPlayers.Contains(pc.PlayerId))
                             {
-                                if (!Utils.IsActive(SystemTypes.Comms) && OldDesyncCommsPlayers.Contains(pc.PlayerId))
+                                OldDesyncCommsPlayers.Remove(pc.PlayerId);
+
+                                MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
+                                SabotageFixWriter.Write((byte)SystemTypes.Comms);
+                                MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
+                                SabotageFixWriter.Write((byte)16);
+                                AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+
+                                if (PlayerControl.GameOptions.MapId == 1)
                                 {
-                                    OldDesyncCommsPlayers.Remove(pc.PlayerId);
-
-                                    /*var sender = CustomRpcSender.Create("DisableDevice", SendOption.Reliable);
-
-                                    sender.AutoStartRpc(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, clientId)
-                                            .Write((byte)SystemTypes.Comms)
-                                            .WriteNetObject(pc)
-                                            .Write((byte)16)
-                                            .EndRpc();
-                                    if (PlayerControl.GameOptions.MapId == 2)
-                                        sender.AutoStartRpc(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, clientId)
-                                                .Write((byte)SystemTypes.Comms)
-                                                .WriteNetObject(pc)
-                                                .Write((byte)17)
-                                                .EndRpc();
-
-                                    sender.SendMessage();*/
-
-                                    MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
+                                    SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
                                     SabotageFixWriter.Write((byte)SystemTypes.Comms);
                                     MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
-                                    SabotageFixWriter.Write((byte)16);
+                                    SabotageFixWriter.Write((byte)17);
                                     AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
                                 }
                             }
@@ -112,19 +110,6 @@ namespace TownOfHost
                     }
                 }
             }
-        }
-        public static Vector2 GetAdminTransform()
-        {
-            var MapName = (MapNames)PlayerControl.GameOptions.MapId;
-            return MapName switch
-            {
-                MapNames.Skeld => new Vector2(3.48f, -8.624401f),
-                //MapNames.Mira => new Vector2(20.524f, 20.595f),
-                MapNames.Polus => new Vector2(22.13707f, -21.523f),
-                //MapNames.Dleks => new Vector2(-3.48f, -8.624401f),
-                MapNames.Airship => new Vector2(-22.323f, 0.9099998f),
-                _ => new Vector2(1000, 1000)
-            };
         }
     }
 }

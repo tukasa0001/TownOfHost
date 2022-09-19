@@ -35,11 +35,6 @@ namespace TownOfHost
             "Standard", "HideAndSeek",
         };
 
-        public static readonly string[] whichDisableAdmin =
-        {
-            "All", "Archive",
-        };
-
         // 役職数・確率
         public static Dictionary<CustomRoles, int> roleCounts;
         public static Dictionary<CustomRoles, float> roleSpawnChances;
@@ -110,7 +105,11 @@ namespace TownOfHost
         //デバイスブロック
         public static CustomOption DisableDevices;
         public static CustomOption DisableAdmin;
-        public static CustomOption WhichDisableAdmin;
+        public static CustomOption DisableSkeldAdmin;
+        public static CustomOption DisableMiraHQAdmin;
+        public static CustomOption DisablePolusAdmin;
+        public static CustomOption DisableAirshipCockpitAdmin;
+        public static CustomOption DisableAirshipRecordsAdmin;
 
         // ボタン回数
         public static CustomOption SyncButtonMode;
@@ -395,7 +394,15 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
             DisableAdmin = CustomOption.Create(101210, TabGroup.MainSettings, Color.white, "DisableAdmin", false, DisableDevices)
                 .SetGameMode(CustomGameMode.Standard);
-            WhichDisableAdmin = CustomOption.Create(101211, TabGroup.MainSettings, Color.white, "WhichDisableAdmin", whichDisableAdmin, whichDisableAdmin[0], DisableAdmin)
+            DisableSkeldAdmin = CustomOption.Create(101211, TabGroup.MainSettings, Color.white, "DisableSkeldAdmin", false, DisableAdmin)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableMiraHQAdmin = CustomOption.Create(101212, TabGroup.MainSettings, Color.white, "DisableMiraHQAdmin", false, DisableAdmin)
+                .SetGameMode(CustomGameMode.Standard);
+            DisablePolusAdmin = CustomOption.Create(101213, TabGroup.MainSettings, Color.white, "DisablePolusAdmin", false, DisableAdmin)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableAirshipCockpitAdmin = CustomOption.Create(101214, TabGroup.MainSettings, Color.white, "DisableAirshipCockpitAdmin", false, DisableAdmin)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableAirshipRecordsAdmin = CustomOption.Create(101215, TabGroup.MainSettings, Color.white, "DisableAirshipRecordsAdmin", false, DisableAdmin)
                 .SetGameMode(CustomGameMode.Standard);
 
             // ボタン回数同期
