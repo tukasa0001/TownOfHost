@@ -113,6 +113,7 @@ namespace TownOfHost
         public static CustomOption DisablePolusDevices;
         public static CustomOption DisablePolusAdmin;
         public static CustomOption DisablePolusCamera;
+        public static CustomOption DisablePolusVital;
         public static CustomOption DisableAirshipDevices;
         public static CustomOption DisableAirshipCockpitAdmin;
         public static CustomOption DisableAirshipRecordsAdmin;
@@ -417,6 +418,8 @@ namespace TownOfHost
             DisablePolusAdmin = CustomOption.Create(101231, TabGroup.MainSettings, Color.white, "DisablePolusAdmin", false, DisablePolusDevices)
                 .SetGameMode(CustomGameMode.Standard);
             DisablePolusCamera = CustomOption.Create(101232, TabGroup.MainSettings, Color.white, "DisablePolusCamera", false, DisablePolusDevices)
+                .SetGameMode(CustomGameMode.Standard);
+            DisablePolusVital = CustomOption.Create(101233, TabGroup.MainSettings, Color.white, "DisablePolusVital", false, DisablePolusDevices)
                 .SetGameMode(CustomGameMode.Standard);
             DisableAirshipDevices = CustomOption.Create(101240, TabGroup.MainSettings, Color.white, "DisableAirshipDevices", false, DisableDevices)
                 .SetGameMode(CustomGameMode.Standard);

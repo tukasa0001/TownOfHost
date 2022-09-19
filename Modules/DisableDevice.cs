@@ -21,6 +21,7 @@ namespace TownOfHost
             ["PolusLeftAdmin"] = new(23.14f, -21.52f),
             ["PolusRightAdmin"] = new(24.66f, -21.52f),
             ["PolusCamera"] = new(2.96f, -12.74f),
+            ["PolusVital"] = new(26.70f, -15.94f),
             ["AirshipCockpitAdmin"] = new(-22.32f, 0.91f),
             ["AirshipRecordsAdmin"] = new(19.89f, 12.60f),
             ["AirshipCamera"] = new(8.10f, -9.63f),

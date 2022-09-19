@@ -454,6 +454,7 @@ namespace TownOfHost
                         text += String.Format("\n【{0}】", Options.DisablePolusDevices.GetName(disableColor: true));
                         text += String.Format("\n┗{0}:{1}", Options.DisablePolusAdmin.GetName(disableColor: true), GetOnOff(Options.DisablePolusAdmin.GetBool()));
                         text += String.Format("\n┗{0}:{1}", Options.DisablePolusCamera.GetName(disableColor: true), GetOnOff(Options.DisablePolusCamera.GetBool()));
+                        text += String.Format("\n┗{0}:{1}", Options.DisablePolusVital.GetName(disableColor: true), GetOnOff(Options.DisablePolusVital.GetBool()));
                     }
                     if (Options.DisableAirshipDevices.GetBool() && (Options.AddedTheAirShip.GetBool() || mapId == 4))
                     {
