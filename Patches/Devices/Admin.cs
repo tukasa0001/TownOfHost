@@ -25,32 +25,4 @@ namespace TownOfHost
             ["AirshipRecordsAdmin"] = new(19.89f, 12.60f)
         };
     }
-    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Start))]
-    public class RemoveAdminPatch
-    {
-        public static void Postfix()
-        {
-            if (!AdminPatch.DisableAdmin) return;
-            var map = GameObject.FindObjectsOfType<MapConsole>();
-            if (map == null) return;
-            switch (PlayerControl.GameOptions.MapId)
-            {
-                case 0:
-                case 1:
-                    map[0].gameObject.GetComponent<CircleCollider2D>().enabled = false;
-                    break;
-                case 2:
-                    map.Do(x => x.gameObject.GetComponent<BoxCollider2D>().enabled = false);
-                    break;
-                case 4:
-                    map.Do(x =>
-                    {
-                        if (Options.DisableAirshipCockpitAdmin.GetBool() && x.name == "panel_cockpit_map" ||
-                            Options.DisableAirshipRecordsAdmin.GetBool() && x.name == "records_admin_map")
-                            x.gameObject.GetComponent<BoxCollider2D>().enabled = false;
-                    });
-                    break;
-            }
-        }
-    }
 }
