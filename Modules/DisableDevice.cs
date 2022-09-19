@@ -61,7 +61,7 @@ namespace TownOfHost
                             bool IsGuard = false;
                             Vector2 PlayerPos = pc.GetTruePosition();
 
-                            if (pc.IsAlive())
+                            if (pc.IsAlive() && !Utils.IsActive(SystemTypes.Comms))
                             {
                                 switch (PlayerControl.GameOptions.MapId)
                                 {
