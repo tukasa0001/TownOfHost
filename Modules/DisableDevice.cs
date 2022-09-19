@@ -146,24 +146,42 @@ namespace TownOfHost
         public static void Postfix()
         {
             if (!Options.DisableDevices.GetBool()) return;
-            var map = GameObject.FindObjectsOfType<MapConsole>();
-            if (map == null) return;
+            var admins = GameObject.FindObjectsOfType<MapConsole>();
+            var consoles = GameObject.FindObjectsOfType<SystemConsole>();
+            if (admins == null || consoles == null) return;
             switch (PlayerControl.GameOptions.MapId)
             {
                 case 0:
+                    if (Options.DisableSkeldAdmin.GetBool())
+                        admins[0].gameObject.GetComponent<CircleCollider2D>().enabled = false;
+                    if (Options.DisableSkeldCamera.GetBool())
+                        consoles.DoIf(x => x.name == "SurvConsole", x => x.gameObject.GetComponent<PolygonCollider2D>().enabled = false);
+                    break;
                 case 1:
-                    map[0].gameObject.GetComponent<CircleCollider2D>().enabled = false;
+                    if (Options.DisableMiraHQAdmin.GetBool())
+                        admins[0].gameObject.GetComponent<CircleCollider2D>().enabled = false;
+                    if (Options.DisableMiraHQDoorLog.GetBool())
+                        consoles.DoIf(x => x.name == "SurvLogConsole", x => x.gameObject.GetComponent<BoxCollider2D>().enabled = false);
                     break;
                 case 2:
-                    map.Do(x => x.gameObject.GetComponent<BoxCollider2D>().enabled = false);
+                    if (Options.DisablePolusAdmin.GetBool())
+                        admins.Do(x => x.gameObject.GetComponent<BoxCollider2D>().enabled = false);
+                    if (Options.DisablePolusCamera.GetBool())
+                        consoles.DoIf(x => x.name == "Surv_Panel", x => x.gameObject.GetComponent<BoxCollider2D>().enabled = false);
+                    if (Options.DisablePolusVital.GetBool())
+                        consoles.DoIf(x => x.name == "panel_vitals", x => x.gameObject.GetComponent<BoxCollider2D>().enabled = false);
                     break;
                 case 4:
-                    map.Do(x =>
+                    admins.Do(x =>
                     {
                         if (Options.DisableAirshipCockpitAdmin.GetBool() && x.name == "panel_cockpit_map" ||
                             Options.DisableAirshipRecordsAdmin.GetBool() && x.name == "records_admin_map")
                             x.gameObject.GetComponent<BoxCollider2D>().enabled = false;
                     });
+                    if (Options.DisableAirshipCamera.GetBool())
+                        consoles.DoIf(x => x.name == "task_cams", x => x.gameObject.GetComponent<BoxCollider2D>().enabled = false);
+                    if (Options.DisableAirshipVital.GetBool())
+                        consoles.DoIf(x => x.name == "panel_vitals", x => x.gameObject.GetComponent<CircleCollider2D>().enabled = false);
                     break;
             }
         }
