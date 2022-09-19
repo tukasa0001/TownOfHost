@@ -60,7 +60,7 @@ namespace TownOfHost
                             var clientId = pc.GetClientId();
                             bool IsGuard = false;
                             Vector2 PlayerPos = pc.GetTruePosition();
-                            //アドミンチェック
+
                             if (pc.IsAlive())
                             {
                                 switch (PlayerControl.GameOptions.MapId)
