@@ -104,12 +104,21 @@ namespace TownOfHost
 
         //デバイスブロック
         public static CustomOption DisableDevices;
-        public static CustomOption DisableAdmin;
+        public static CustomOption DisableSkeldDevices;
         public static CustomOption DisableSkeldAdmin;
+        public static CustomOption DisableSkeldCamera;
+        public static CustomOption DisableMiraHQDevices;
         public static CustomOption DisableMiraHQAdmin;
+        public static CustomOption DisableMiraHQDoorLog;
+        public static CustomOption DisablePolusDevices;
         public static CustomOption DisablePolusAdmin;
+        public static CustomOption DisablePolusCamera;
+        public static CustomOption DisablePolusVital;
+        public static CustomOption DisableAirshipDevices;
         public static CustomOption DisableAirshipCockpitAdmin;
         public static CustomOption DisableAirshipRecordsAdmin;
+        public static CustomOption DisableAirshipCamera;
+        public static CustomOption DisableAirshipVital;
 
         // ボタン回数
         public static CustomOption SyncButtonMode;
@@ -392,17 +401,35 @@ namespace TownOfHost
             //デバイス無効化
             DisableDevices = CustomOption.Create(101200, TabGroup.MainSettings, Color.white, "DisableDevices", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            DisableAdmin = CustomOption.Create(101210, TabGroup.MainSettings, Color.white, "DisableAdmin", false, DisableDevices)
+            DisableSkeldDevices = CustomOption.Create(101210, TabGroup.MainSettings, Color.white, "DisableSkeldDevices", false, DisableDevices)
                 .SetGameMode(CustomGameMode.Standard);
-            DisableSkeldAdmin = CustomOption.Create(101211, TabGroup.MainSettings, Color.white, "DisableSkeldAdmin", false, DisableAdmin)
+            DisableSkeldAdmin = CustomOption.Create(101211, TabGroup.MainSettings, Color.white, "DisableSkeldAdmin", false, DisableSkeldDevices)
                 .SetGameMode(CustomGameMode.Standard);
-            DisableMiraHQAdmin = CustomOption.Create(101212, TabGroup.MainSettings, Color.white, "DisableMiraHQAdmin", false, DisableAdmin)
+            DisableSkeldCamera = CustomOption.Create(101212, TabGroup.MainSettings, Color.white, "DisableSkeldCamera", false, DisableSkeldDevices)
                 .SetGameMode(CustomGameMode.Standard);
-            DisablePolusAdmin = CustomOption.Create(101213, TabGroup.MainSettings, Color.white, "DisablePolusAdmin", false, DisableAdmin)
+            DisableMiraHQDevices = CustomOption.Create(101220, TabGroup.MainSettings, Color.white, "DisableMiraHQDevices", false, DisableDevices)
                 .SetGameMode(CustomGameMode.Standard);
-            DisableAirshipCockpitAdmin = CustomOption.Create(101214, TabGroup.MainSettings, Color.white, "DisableAirshipCockpitAdmin", false, DisableAdmin)
+            DisableMiraHQAdmin = CustomOption.Create(101221, TabGroup.MainSettings, Color.white, "DisableMiraHQAdmin", false, DisableMiraHQDevices)
                 .SetGameMode(CustomGameMode.Standard);
-            DisableAirshipRecordsAdmin = CustomOption.Create(101215, TabGroup.MainSettings, Color.white, "DisableAirshipRecordsAdmin", false, DisableAdmin)
+            DisableMiraHQDoorLog = CustomOption.Create(101222, TabGroup.MainSettings, Color.white, "DisableMiraHQDoorLog", false, DisableMiraHQDevices)
+                .SetGameMode(CustomGameMode.Standard);
+            DisablePolusDevices = CustomOption.Create(101230, TabGroup.MainSettings, Color.white, "DisablePolusDevices", false, DisableDevices)
+                .SetGameMode(CustomGameMode.Standard);
+            DisablePolusAdmin = CustomOption.Create(101231, TabGroup.MainSettings, Color.white, "DisablePolusAdmin", false, DisablePolusDevices)
+                .SetGameMode(CustomGameMode.Standard);
+            DisablePolusCamera = CustomOption.Create(101232, TabGroup.MainSettings, Color.white, "DisablePolusCamera", false, DisablePolusDevices)
+                .SetGameMode(CustomGameMode.Standard);
+            DisablePolusVital = CustomOption.Create(101233, TabGroup.MainSettings, Color.white, "DisablePolusVital", false, DisablePolusDevices)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableAirshipDevices = CustomOption.Create(101240, TabGroup.MainSettings, Color.white, "DisableAirshipDevices", false, DisableDevices)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableAirshipCockpitAdmin = CustomOption.Create(101241, TabGroup.MainSettings, Color.white, "DisableAirshipCockpitAdmin", false, DisableAirshipDevices)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableAirshipRecordsAdmin = CustomOption.Create(101242, TabGroup.MainSettings, Color.white, "DisableAirshipRecordsAdmin", false, DisableAirshipDevices)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableAirshipCamera = CustomOption.Create(101243, TabGroup.MainSettings, Color.white, "DisableAirshipCamera", false, DisableAirshipDevices)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableAirshipVital = CustomOption.Create(101244, TabGroup.MainSettings, Color.white, "DisableAirshipVital", false, DisableAirshipDevices)
                 .SetGameMode(CustomGameMode.Standard);
 
             // ボタン回数同期
