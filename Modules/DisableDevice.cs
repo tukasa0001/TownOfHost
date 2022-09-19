@@ -65,18 +65,25 @@ namespace TownOfHost
                                 switch (PlayerControl.GameOptions.MapId)
                                 {
                                     case 0:
-                                        IsGuard |= Vector2.Distance(PlayerPos, DevicePos["SkeldAdmin"]) <= UsableDistance();
+                                        if (Options.DisableSkeldAdmin.GetBool())
+                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["SkeldAdmin"]) <= UsableDistance();
                                         break;
                                     case 1:
-                                        IsGuard |= Vector2.Distance(PlayerPos, DevicePos["MiraHQAdmin"]) <= UsableDistance();
+                                        if (Options.DisableMiraHQAdmin.GetBool())
+                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["MiraHQAdmin"]) <= UsableDistance();
                                         break;
                                     case 2:
-                                        IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusLeftAdmin"]) <= UsableDistance();
-                                        IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusRightAdmin"]) <= UsableDistance();
+                                        if (Options.DisablePolusAdmin.GetBool())
+                                        {
+                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusLeftAdmin"]) <= UsableDistance();
+                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusRightAdmin"]) <= UsableDistance();
+                                        }
                                         break;
                                     case 4:
-                                        IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipCockpitAdmin"]) <= UsableDistance();
-                                        IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipRecordsAdmin"]) <= UsableDistance();
+                                        if (Options.DisableAirshipCockpitAdmin.GetBool())
+                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipCockpitAdmin"]) <= UsableDistance();
+                                        if (Options.DisableAirshipRecordsAdmin.GetBool())
+                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipRecordsAdmin"]) <= UsableDistance();
                                         break;
                                 }
                             }
