@@ -851,12 +851,16 @@ Example of overlapping Roles: <br>
 
 Reference source : [SuperNewRoles](https://github.com/ykundesu/SuperNewRoles), [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
 
-Various devices can be disabled (currently admin only, MiraHQ not supported)
+Various devices can be disabled (Currently admin only)
 
-| Settings Name          |
-| ---------------------- |
-| Disable Admin          |
-| ・ Which Disable admin |
+| Settings Name                   |
+| ------------------------------- |
+| Disable Admin                   |
+| ┣ Disable Skeld Admin           |
+| ┣ Disable MiraHQ Admin          |
+| ┣ Disable Polus Admin           |
+| ┣ Disable Airship Cockpit Admin |
+| ┗ Disable Airship Records Admin |
 ## SabotageTimeControl
 
 The time limit for some sabotage can be modified.

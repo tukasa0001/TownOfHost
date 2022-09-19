@@ -815,12 +815,17 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 参考元 : [SuperNewRoles](https://github.com/ykundesu/SuperNewRoles), [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
 
-各種機器を無効化することができます。(現在はアドミンのみ、MiraHQ非対応)<br>
+各種機器を無効化することができます。(現在はアドミンのみ)<br>
 
-| 設定名         |
-| -------------- |
-| アドミン無効化 |
-| 無効なアドミン |
+| 設定名                           |
+| -------------------------------- |
+| アドミン無効化                   |
+| ┣ アドミン無効化（スケルド）     |
+| ┣ アドミン無効化（ミラHQ）       |
+| ┣ アドミン無効化（ポーラス）     |
+| ┣ アドミン無効化（コックピット） |
+| ┗ アドミン無効化（アーカイブ）   |
+
 ## SabotageTimeControl/サボタージュの時間制御
 
 一部サボタージュの制限時間を変更することができます。<br>
