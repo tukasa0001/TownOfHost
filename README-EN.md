@@ -847,20 +847,30 @@ Example of overlapping Roles: <br>
 - [Jester](#jester) Lover: If you are voted out, you will win as Jester. If the other Lover is voted out, you are defeated. <br>
 - [Bait](#bait) Lover: When the other Lover is killed and you die afterwards, the other Lover immediately reports you. <br>
 
-## DisableDevice
+## DisableDevices
 
 Reference source : [SuperNewRoles](https://github.com/ykundesu/SuperNewRoles), [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
 
-Various devices can be disabled (Currently admin only)
+Various devices can be disabled.
 
 | Settings Name                   |
 | ------------------------------- |
-| Disable Admin                   |
-| ┣ Disable Skeld Admin           |
-| ┣ Disable MiraHQ Admin          |
-| ┣ Disable Polus Admin           |
+| Disable Skeld Devices           |
+| ┣ Disable Admin                 |
+| ┗ Disable Camera                |
+| Disable MiraHQ Devices          |
+| ┣ Disable Admin                 |
+| ┗ Disable DoorLog               |
+| Disable Polus Devices           |
+| ┣ Disable Admin                 |
+| ┣ Disable Camera                |
+| ┗ Disable Vital                 |
+| Disable Airship Devices         |
 | ┣ Disable Airship Cockpit Admin |
-| ┗ Disable Airship Records Admin |
+| ┣ Disable Airship Records Admin |
+| ┣ Disable Camera                |
+| ┗ Disable Vital                 |
+
 ## SabotageTimeControl
 
 The time limit for some sabotage can be modified.
