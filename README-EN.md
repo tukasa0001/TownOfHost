@@ -849,8 +849,6 @@ Example of overlapping Roles: <br>
 
 ## DisableDevices
 
-Reference source : [SuperNewRoles](https://github.com/ykundesu/SuperNewRoles), [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
-
 Various devices can be disabled.
 
 | Settings Name                   |

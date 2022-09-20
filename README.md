@@ -813,8 +813,6 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ## DisableDevices/デバイスを無効化
 
-参考元 : [SuperNewRoles](https://github.com/ykundesu/SuperNewRoles), [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
-
 各種機器を無効化することができます。<br>
 
 | 設定名                           |
