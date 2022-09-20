@@ -873,10 +873,11 @@ Various devices can be disabled.
 
 The time limit for some sabotage can be modified.
 
-| Name                      |
-| ------------------------- |
-| Polus Reactor TimeLimit   |
-| Airship Reactor TimeLimit |
+| Name                        |
+| --------------------------- |
+| Modify Sabotage TimeLimit   |
+| ┣ Polus Reactor TimeLimit   |
+| ┗ Airship Reactor TimeLimit |
 
 ## Mode
 
@@ -884,21 +885,23 @@ The time limit for some sabotage can be modified.
 
 It is possible to not assign certain tasks.<br>
 
-| Name                       |
-| -------------------------- |
-| Disable StartReactor Tasks |
-| Disable SubmitScan Tasks   |
-| Disable SwipeCard Tasks    |
-| Disable UnlockSafe Tasks   |
-| Disable UploadData Tasks   |
+| Name                         |
+| ---------------------------- |
+| Disable Tasks                |
+| ┣ Disable StartReactor Tasks |
+| ┣ Disable SubmitScan Tasks   |
+| ┣ Disable SwipeCard Tasks    |
+| ┣ Disable UnlockSafe Tasks   |
+| ┗ Disable UploadData Tasks   |
 
 ### Fall from ladders
 
 There is a configurable probability of fall to death when you descend from the ladder.<br>
 
-| Name                 |
-| -------------------- |
-| Fall To Death Chance |
+| Name                   |
+| ---------------------- |
+| Fall From Ladders      |
+| ┗ Fall To Death Chance |
 
 ### HideAndSeek
 
@@ -971,10 +974,10 @@ Randomize the spawn position.<br>
 
 #### Game Options
 
-| Name                      |
-| ------------------------- |
-| Random Spawn              |
-| Additional Spawn(Airship) |
+| Name                        |
+| --------------------------- |
+| Random Spawn                |
+| ┗ Additional Spawn(Airship) |
 
 #### The Skeld
 
@@ -1029,6 +1032,24 @@ This mode limits the maximum number of meetings that can be called in total.<br>
 
 ## OtherSettings
 
+| Name                               |
+| ---------------------------------- |
+| All Alive Meeting                  |
+| ┗ All Alive Meeting Time           |
+| Additional Emergency Cooldown      |
+| ┣ Survivor Threshold To Be Applied |
+| ┗ Additional Cooldown              |
+| Hide And Seek with Roles           |
+| ┗ Waiting Time                     |
+| Auto Display Last Result           |
+| Suffix                             |
+| Color Name Mode                    |
+| Fix Kill Cooldown For First Spawn  |
+| Ghost Can See Other Roles          |
+| Ghost Can See Other Votes          |
+| Ghost Ignore Tasks                 |
+| Disable Task Win                   |
+| Hide Game Settings                 |
 
 #### Client Settings
 
