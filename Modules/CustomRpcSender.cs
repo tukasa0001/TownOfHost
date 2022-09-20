@@ -1,6 +1,6 @@
 using System;
-using InnerNet;
 using Hazel;
+using InnerNet;
 using UnhollowerBaseLib;
 
 namespace TownOfHost
@@ -108,8 +108,8 @@ namespace TownOfHost
         public CustomRpcSender StartRpc(uint targetNetId, RpcCalls rpcCall)
             => StartRpc(targetNetId, (byte)rpcCall);
         public CustomRpcSender StartRpc(
-          uint targetNetId,
-          byte callId)
+            uint targetNetId,
+            byte callId)
         {
             if (currentState != State.InRootMessage)
             {
@@ -152,12 +152,12 @@ namespace TownOfHost
         }
         #endregion
         public CustomRpcSender AutoStartRpc(
-          uint targetNetId,
-          byte callId,
-          int targetClientId = -1)
+            uint targetNetId,
+            byte callId,
+            int targetClientId = -1)
         {
             if (targetClientId == -2) targetClientId = -1;
-            if (currentState != State.Ready && currentState != State.InRootMessage)
+            if (currentState is not State.Ready and not State.InRootMessage)
             {
                 string errorMsg = $"RPCを自動で開始しようとしましたが、StateがReadyまたはInRootMessageではありません (in: \"{name}\")";
                 if (isUnsafe)
@@ -255,14 +255,14 @@ namespace TownOfHost
         public static void RpcSetRole(this CustomRpcSender sender, PlayerControl player, RoleTypes role, int targetClientId = -1)
         {
             sender.AutoStartRpc(player.NetId, (byte)RpcCalls.SetRole, targetClientId)
-              .Write((ushort)role)
-              .EndRpc();
+                .Write((ushort)role)
+                .EndRpc();
         }
         public static void RpcMurderPlayer(this CustomRpcSender sender, PlayerControl player, PlayerControl target, int targetClientId = -1)
         {
             sender.AutoStartRpc(player.NetId, (byte)RpcCalls.MurderPlayer, targetClientId)
-              .WriteNetObject(target)
-              .EndRpc();
+                .WriteNetObject(target)
+                .EndRpc();
         }
     }
 }

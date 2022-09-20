@@ -1,6 +1,6 @@
+using System.Globalization;
 using HarmonyLib;
 using UnityEngine;
-using System.Globalization;
 using static TownOfHost.Translator;
 
 namespace TownOfHost

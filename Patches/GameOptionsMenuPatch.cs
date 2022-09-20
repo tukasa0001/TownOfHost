@@ -89,30 +89,30 @@ namespace TownOfHost
                 var copiedIndex = i;
                 button.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
                 button.OnClick.AddListener((UnityEngine.Events.UnityAction)(() =>
-               {
-                   gameSettingMenu.RegularGameSettings.SetActive(false);
-                   gameSettingMenu.RolesSettings.gameObject.SetActive(false);
-                   tohSettings.gameObject.SetActive(false);
-                   gameSettingMenu.GameSettingsHightlight.enabled = false;
-                   gameSettingMenu.RolesSettingsHightlight.enabled = false;
-                   tohTabHighlight.enabled = false;
+                {
+                    gameSettingMenu.RegularGameSettings.SetActive(false);
+                    gameSettingMenu.RolesSettings.gameObject.SetActive(false);
+                    tohSettings.gameObject.SetActive(false);
+                    gameSettingMenu.GameSettingsHightlight.enabled = false;
+                    gameSettingMenu.RolesSettingsHightlight.enabled = false;
+                    tohTabHighlight.enabled = false;
 
-                   switch (copiedIndex)
-                   {
-                       case 0:
-                           gameSettingMenu.RegularGameSettings.SetActive(true);
-                           gameSettingMenu.GameSettingsHightlight.enabled = true;
-                           break;
-                       case 1:
-                           gameSettingMenu.RolesSettings.gameObject.SetActive(true);
-                           gameSettingMenu.RolesSettingsHightlight.enabled = true;
-                           break;
-                       case 2:
-                           tohSettings.gameObject.SetActive(true);
-                           tohTabHighlight.enabled = true;
-                           break;
-                   }
-               }));
+                    switch (copiedIndex)
+                    {
+                        case 0:
+                            gameSettingMenu.RegularGameSettings.SetActive(true);
+                            gameSettingMenu.GameSettingsHightlight.enabled = true;
+                            break;
+                        case 1:
+                            gameSettingMenu.RolesSettings.gameObject.SetActive(true);
+                            gameSettingMenu.RolesSettingsHightlight.enabled = true;
+                            break;
+                        case 2:
+                            tohSettings.gameObject.SetActive(true);
+                            tohTabHighlight.enabled = true;
+                            break;
+                    }
+                }));
             }
 
             foreach (var option in tohMenu.GetComponentsInChildren<OptionBehaviour>())
