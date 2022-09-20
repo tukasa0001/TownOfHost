@@ -1,9 +1,9 @@
 using System;
-using HarmonyLib;
-using UnityEngine;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using HarmonyLib;
 using Hazel;
+using UnityEngine;
 
 namespace TownOfHost
 {

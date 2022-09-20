@@ -69,7 +69,7 @@ dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
 dotnet_style_prefer_simplified_interpolation = true:suggestion
 
 # 読み取り専用修飾子を追加する
-dotnet_style_readonly_field = true:suggestion
+dotnet_style_readonly_field = true:silent
 
 # 使用されていないパラメーターを削除する
 dotnet_code_quality_unused_parameters = all:silent

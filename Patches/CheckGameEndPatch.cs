@@ -218,8 +218,8 @@ namespace TownOfHost
                 )
                 {
                     sender.StartRpc(pc.NetId, RpcCalls.SetRole)
-                          .Write((ushort)RoleTypes.GuardianAngel)
-                          .EndRpc();
+                            .Write((ushort)RoleTypes.GuardianAngel)
+                            .EndRpc();
                     pc.SetRole(RoleTypes.GuardianAngel); //ホスト用
                 }
             }
