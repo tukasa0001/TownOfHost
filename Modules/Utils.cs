@@ -880,9 +880,8 @@ namespace TownOfHost
                             if (foundCheck)
                                 TargetPlayerName = ColorString(target.GetRoleColor(), TargetPlayerName);
                         }
-                        else if (SeerKnowsJackal) //Seerがジャッカルが誰かわかる状態
-                            if (target.Is(CustomRoles.Jackal))
-                                TargetPlayerName = ColorString(target.GetRoleColor(), TargetPlayerName);
+                        else if (SeerKnowsJackal && target.Is(CustomRoles.Jackal)) //Seerがジャッカルが誰かわかる状態
+                            TargetPlayerName = ColorString(target.GetRoleColor(), TargetPlayerName);
                         else if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.Egoist))
                             TargetPlayerName = ColorString(GetRoleColor(CustomRoles.Egoist), TargetPlayerName);
                         else if ((seer.Is(CustomRoles.EgoSchrodingerCat) && target.Is(CustomRoles.Egoist)) || //エゴ猫 --> エゴイスト
