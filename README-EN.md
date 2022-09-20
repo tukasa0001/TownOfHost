@@ -520,11 +520,11 @@ Depending on the options, they can call emergency meeting by entering vents.<br>
 
 #### Game Options
 
-| Name                              |
-| --------------------------------- |
-| Mayor Additional Votes Count      |
-| Mayor Has Mobile Emergency Button |
-| Number Of Mobile Emergency Button |
+| Name                                |
+| ----------------------------------- |
+| Mayor Additional Votes Count        |
+| Mayor Has Mobile Emergency Button   |
+| ┗ Number Of Mobile Emergency Button |
 
 ### SabotageMaster
 
