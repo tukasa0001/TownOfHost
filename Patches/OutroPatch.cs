@@ -29,7 +29,7 @@ namespace TownOfHost
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     if (CustomWinnerHolder.WinnerRoles.Contains(pc.GetCustomRole()) ||
-                       CustomWinnerHolder.WinnerIds.Contains(pc.PlayerId))
+                        CustomWinnerHolder.WinnerIds.Contains(pc.PlayerId))
                         winner.Add(pc);
                 }
             }
