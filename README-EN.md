@@ -1019,12 +1019,16 @@ This mode limits the maximum number of meetings that can be called in total.<br>
 | ---------------- |
 | Max Button Count |
 
+### VoteMode
+
+| Name           | Description                         |
+| -------------- | ----------------------------------- |
+| When Skip Vote | Default/Suicide/SelfVote            |
+| When Non-Vote  | Default/Suicide/SelfVote/Skip       |
+| When Tie       | Default/Exile Them All/Exile Random |
+
 ## OtherSettings
 
-| Name           |
-| -------------- |
-| When Skip Vote |
-| When Non-Vote  |
 
 #### Client Settings
 
