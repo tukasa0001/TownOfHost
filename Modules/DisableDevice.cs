@@ -174,8 +174,8 @@ namespace TownOfHost
                 case 4:
                     admins.Do(x =>
                     {
-                        if (Options.DisableAirshipCockpitAdmin.GetBool() && x.name == "panel_cockpit_map" ||
-                            Options.DisableAirshipRecordsAdmin.GetBool() && x.name == "records_admin_map")
+                        if ((Options.DisableAirshipCockpitAdmin.GetBool() && x.name == "panel_cockpit_map") ||
+                            (Options.DisableAirshipRecordsAdmin.GetBool() && x.name == "records_admin_map"))
                             x.gameObject.GetComponent<BoxCollider2D>().enabled = false;
                     });
                     if (Options.DisableAirshipCamera.GetBool())
