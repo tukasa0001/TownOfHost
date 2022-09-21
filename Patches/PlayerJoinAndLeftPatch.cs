@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Collections.Generic;
 using HarmonyLib;
 using InnerNet;
@@ -13,6 +12,7 @@ namespace TownOfHost
             Logger.Info($"{__instance.GameId}に参加", "OnGameJoined");
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
+            SoundManager.Instance.ChangeMusicVolume(SaveManager.MusicVolume);
 
             NameColorManager.Begin();
             Options.Load();
@@ -36,10 +36,13 @@ namespace TownOfHost
             }
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
-            new LateTask(() =>
+            if (AmongUsClient.Instance.AmHost)
             {
-                if (client.Character != null) ChatCommands.SendTemplate("welcome", client.Character.PlayerId, true);
-            }, 1f, "Welcome Message");
+                new LateTask(() =>
+                {
+                    if (client.Character != null) ChatCommands.SendTemplate("welcome", client.Character.PlayerId, true);
+                }, 3f, "Welcome Message");
+            }
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
@@ -52,7 +55,7 @@ namespace TownOfHost
             if (GameStates.IsInGame)
             {
                 if (data.Character.Is(CustomRoles.TimeThief))
-                    data.Character.ResetThiefVotingTime();
+                    data.Character.ResetVotingTime();
                 if (data.Character.Is(CustomRoles.Lovers) && !data.Character.Data.IsDead)
                     foreach (var lovers in Main.LoversPlayers.ToArray())
                     {
@@ -60,25 +63,10 @@ namespace TownOfHost
                         Main.LoversPlayers.Remove(lovers);
                         Main.AllPlayerCustomSubRoles[lovers.PlayerId] = CustomRoles.NoSubRoleAssigned;
                     }
-                if (data.Character.Is(CustomRoles.Executioner) && Main.ExecutionerTarget.ContainsKey(data.Character.PlayerId))
-                {
-                    data.Character.RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]);
-                    Main.ExecutionerTarget.Remove(data.Character.PlayerId);
-                    RPC.RemoveExecutionerKey(data.Character.PlayerId);
-                }
-                if (Main.ExecutionerTarget.ContainsValue(data.Character.PlayerId))
-                {
-                    byte Executioner = 0x73;
-                    Main.ExecutionerTarget.Do(x =>
-                    {
-                        if (x.Value == data.Character.PlayerId)
-                            Executioner = x.Key;
-                    });
-                    Utils.GetPlayerById(Executioner).RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]);
-                    Main.ExecutionerTarget.Remove(Executioner);
-                    RPC.RemoveExecutionerKey(Executioner);
-                    Utils.NotifyRoles();
-                }
+                if (data.Character.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(data.Character.PlayerId))
+                    Executioner.ChangeRole(data.Character);
+                if (Executioner.Target.ContainsValue(data.Character.PlayerId))
+                    Executioner.ChangeRoleByTarget(data.Character);
                 if (PlayerState.GetDeathReason(data.Character.PlayerId) == PlayerState.DeathReason.etc) //死因が設定されていなかったら
                 {
                     PlayerState.SetDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);

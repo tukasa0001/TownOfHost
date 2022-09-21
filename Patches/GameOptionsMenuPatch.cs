@@ -89,30 +89,30 @@ namespace TownOfHost
                 var copiedIndex = i;
                 button.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
                 button.OnClick.AddListener((UnityEngine.Events.UnityAction)(() =>
-               {
-                   gameSettingMenu.RegularGameSettings.SetActive(false);
-                   gameSettingMenu.RolesSettings.gameObject.SetActive(false);
-                   tohSettings.gameObject.SetActive(false);
-                   gameSettingMenu.GameSettingsHightlight.enabled = false;
-                   gameSettingMenu.RolesSettingsHightlight.enabled = false;
-                   tohTabHighlight.enabled = false;
+                {
+                    gameSettingMenu.RegularGameSettings.SetActive(false);
+                    gameSettingMenu.RolesSettings.gameObject.SetActive(false);
+                    tohSettings.gameObject.SetActive(false);
+                    gameSettingMenu.GameSettingsHightlight.enabled = false;
+                    gameSettingMenu.RolesSettingsHightlight.enabled = false;
+                    tohTabHighlight.enabled = false;
 
-                   switch (copiedIndex)
-                   {
-                       case 0:
-                           gameSettingMenu.RegularGameSettings.SetActive(true);
-                           gameSettingMenu.GameSettingsHightlight.enabled = true;
-                           break;
-                       case 1:
-                           gameSettingMenu.RolesSettings.gameObject.SetActive(true);
-                           gameSettingMenu.RolesSettingsHightlight.enabled = true;
-                           break;
-                       case 2:
-                           tohSettings.gameObject.SetActive(true);
-                           tohTabHighlight.enabled = true;
-                           break;
-                   }
-               }));
+                    switch (copiedIndex)
+                    {
+                        case 0:
+                            gameSettingMenu.RegularGameSettings.SetActive(true);
+                            gameSettingMenu.GameSettingsHightlight.enabled = true;
+                            break;
+                        case 1:
+                            gameSettingMenu.RolesSettings.gameObject.SetActive(true);
+                            gameSettingMenu.RolesSettingsHightlight.enabled = true;
+                            break;
+                        case 2:
+                            tohSettings.gameObject.SetActive(true);
+                            tohTabHighlight.enabled = true;
+                            break;
+                    }
+                }));
             }
 
             foreach (var option in tohMenu.GetComponentsInChildren<OptionBehaviour>())
@@ -222,6 +222,8 @@ namespace TownOfHost
             __instance.TitleText.text = option.GetName();
             __instance.Value = __instance.oldValue = option.Selection;
             __instance.ValueText.text = option.GetString();
+            if (option.Id == Options.PresetId)
+                option.SetPresetName(__instance);
 
             return false;
         }
@@ -236,6 +238,8 @@ namespace TownOfHost
             if (option == null) return true;
 
             option.UpdateSelection(option.Selection + 1);
+            if (option.Id == Options.PresetId)
+                option.SetPresetName(__instance);
             return false;
         }
     }
@@ -249,6 +253,8 @@ namespace TownOfHost
             if (option == null) return true;
 
             option.UpdateSelection(option.Selection - 1);
+            if (option.Id == Options.PresetId)
+                option.SetPresetName(__instance);
             return false;
         }
     }
@@ -291,10 +297,10 @@ namespace TownOfHost
             __instance.PlayerSpeedMod = __instance.MapId == 4 ? 1.25f : 1f; //AirShipなら1.25、それ以外は1
             __instance.CrewLightMod = 0.5f;
             __instance.ImpostorLightMod = 1.75f;
-            __instance.KillCooldown = GameOptionsData.RecommendedKillCooldown[numPlayers];
+            __instance.KillCooldown = 25f;
             __instance.NumCommonTasks = 2;
-            __instance.NumLongTasks = 3;
-            __instance.NumShortTasks = 5;
+            __instance.NumLongTasks = 4;
+            __instance.NumShortTasks = 6;
             __instance.NumEmergencyMeetings = 1;
             if (modes != GameModes.OnlineGame)
                 __instance.NumImpostors = GameOptionsData.RecommendedImpostors[numPlayers];
@@ -304,7 +310,6 @@ namespace TownOfHost
             __instance.isDefaults = true;
             __instance.ConfirmImpostor = false;
             __instance.VisualTasks = false;
-            __instance.EmergencyCooldown = (int)__instance.killCooldown - 5; //キルクールより5秒短く
             __instance.RoleOptions.ShapeshifterCooldown = 10f;
             __instance.RoleOptions.ShapeshifterDuration = 30f;
             __instance.RoleOptions.ShapeshifterLeaveSkin = false;
@@ -329,8 +334,8 @@ namespace TownOfHost
             if (Options.IsStandardHAS) //StandardHAS
             {
                 __instance.PlayerSpeedMod = 1.75f;
-                __instance.CrewLightMod = 1f;
-                __instance.ImpostorLightMod = 1f;
+                __instance.CrewLightMod = 5f;
+                __instance.ImpostorLightMod = 0.25f;
                 __instance.NumImpostors = 1;
                 __instance.NumCommonTasks = 0;
                 __instance.NumLongTasks = 0;

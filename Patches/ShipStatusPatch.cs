@@ -37,29 +37,12 @@ namespace TownOfHost
                     Logger.Info("キル能力解禁", "HideAndSeek");
                 }
             }
-            //BountyHunterのターゲットが無効な場合にリセット
-            if (CustomRoles.BountyHunter.IsEnable())
-            {
-                bool DoNotifyRoles = false;
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (!pc.Is(CustomRoles.BountyHunter)) continue; //BountyHunter以外おことわり
-                    var target = pc.GetBountyTarget();
-                    //BountyHunterのターゲット更新
-                    if (target.Data.IsDead || target.Data.Disconnected)
-                    {
-                        pc.ResetBountyTarget();
-                        Logger.Info($"{pc.GetNameWithRole()}のターゲットが無効だったため、ターゲットを更新しました", "BountyHunter");
-                        DoNotifyRoles = true;
-                    }
-                }
-                if (DoNotifyRoles) Utils.NotifyRoles();
-            }
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RepairSystem))]
     class RepairSystemPatch
     {
+        public static bool IsComms;
         public static bool Prefix(ShipStatus __instance,
             [HarmonyArgument(0)] SystemTypes systemType,
             [HarmonyArgument(1)] PlayerControl player,
@@ -70,101 +53,25 @@ namespace TownOfHost
             {
                 Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount);
             }
-            if (!AmongUsClient.Instance.AmHost) return true;
-            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && systemType == SystemTypes.Sabotage) return false;
+            IsComms = false;
+            foreach (PlayerTask task in PlayerControl.LocalPlayer.myTasks)
+                if (task.TaskType == TaskTypes.FixComms) IsComms = true;
 
+            if (!AmongUsClient.Instance.AmHost) return true; //以下、ホストのみ実行
+            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && systemType == SystemTypes.Sabotage) return false;
             //SabotageMaster
             if (player.Is(CustomRoles.SabotageMaster))
-            {
-                switch (systemType)
-                {
-                    case SystemTypes.Reactor:
-                        if (!Options.SabotageMasterFixesReactors.GetBool()) break;
-                        if (Options.SabotageMasterSkillLimit.GetFloat() > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit.GetFloat()) break;
-                        if (amount is 64 or 65)
-                        {
-                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 67);
-                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 66);
-                            Options.SabotageMasterUsedSkillCount++;
-                        }
-                        if (amount is 16 or 17)
-                        {
-                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 19);
-                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 18);
-                            Options.SabotageMasterUsedSkillCount++;
-                        }
-                        break;
-                    case SystemTypes.Laboratory:
-                        if (!Options.SabotageMasterFixesReactors.GetBool()) break;
-                        if (Options.SabotageMasterSkillLimit.GetFloat() > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit.GetFloat()) break;
-                        if (amount is 64 or 65)
-                        {
-                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 67);
-                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 66);
-                            Options.SabotageMasterUsedSkillCount++;
-                        }
-                        break;
-                    case SystemTypes.LifeSupp:
-                        if (!Options.SabotageMasterFixesOxygens.GetBool()) break;
-                        if (Options.SabotageMasterSkillLimit.GetFloat() > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit.GetFloat()) break;
-                        if (amount is 64 or 65)
-                        {
-                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 67);
-                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 66);
-                            Options.SabotageMasterUsedSkillCount++;
-                        }
-                        break;
-                    case SystemTypes.Comms:
-                        if (!Options.SabotageMasterFixesComms.GetBool()) break;
-                        if (Options.SabotageMasterSkillLimit.GetFloat() > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit.GetFloat()) break;
-                        if (amount is 16 or 17)
-                        {
-                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 19);
-                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 18);
-                        }
-                        Options.SabotageMasterUsedSkillCount++;
-                        break;
-                    case SystemTypes.Doors:
-                        if (!Options.SabotageMasterFixesDoors.GetBool()) break;
-                        if (DoorsProgressing == true) break;
+                SabotageMaster.RepairSystem(__instance, systemType, amount);
 
-                        int mapId = PlayerControl.GameOptions.MapId;
-                        if (AmongUsClient.Instance.GameMode == GameModes.FreePlay) mapId = AmongUsClient.Instance.TutorialMapId;
-
-                        DoorsProgressing = true;
-                        if (mapId == 2)
-                        {
-                            //Polus
-                            CheckAndOpenDoorsRange(__instance, amount, 71, 72);
-                            CheckAndOpenDoorsRange(__instance, amount, 67, 68);
-                            CheckAndOpenDoorsRange(__instance, amount, 64, 66);
-                            CheckAndOpenDoorsRange(__instance, amount, 73, 74);
-                        }
-                        else if (mapId == 4)
-                        {
-                            //Airship
-                            CheckAndOpenDoorsRange(__instance, amount, 64, 67);
-                            CheckAndOpenDoorsRange(__instance, amount, 71, 73);
-                            CheckAndOpenDoorsRange(__instance, amount, 74, 75);
-                            CheckAndOpenDoorsRange(__instance, amount, 76, 78);
-                            CheckAndOpenDoorsRange(__instance, amount, 68, 70);
-                            CheckAndOpenDoorsRange(__instance, amount, 83, 84);
-                        }
-                        DoorsProgressing = false;
-                        break;
-                }
-            }
-
-            if (!Options.MadmateCanFixLightsOut.GetBool() && //Madmateが停電を直せる設定がオフ
-               systemType == SystemTypes.Electrical && //システムタイプが電気室
-               0 <= amount && amount <= 4 && //配電盤操作のamount
-               (player.Is(CustomRoles.Madmate) || player.Is(CustomRoles.MadGuardian) || player.Is(CustomRoles.MadSnitch) || player.Is(CustomRoles.SKMadmate))) //実行者がMadmateかMadGuardianかMadSnitchかSKMadmate)
+            if (!Options.MadmateCanFixLightsOut.GetBool() && player.GetCustomRole().IsMadmate() //Madmateが停電を直せる設定がオフ
+               && systemType == SystemTypes.Electrical //システムタイプが電気室
+               && 0 <= amount && amount <= 4) //配電盤操作のamount
                 return false;
-            if (!Options.MadmateCanFixComms.GetBool() && //Madmateがコミュサボを直せる設定がオフ
-                systemType == SystemTypes.Comms && //システムタイプが通信室
-                (player.Is(CustomRoles.Madmate) || player.Is(CustomRoles.MadGuardian))) //実行者がMadmateかMadGuardian)
+            if (!Options.MadmateCanFixComms.GetBool() && player.GetCustomRole().IsMadmate() //Madmateがコミュサボを直せる設定がオフ
+                && systemType == SystemTypes.Comms //システムタイプが通信室
+                && amount is 0 or 16 or 17)
                 return false;
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist))
+            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || (player.Is(CustomRoles.Jackal) && !Options.JackalCanUseSabotage.GetBool()))
             {
                 if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
             }
@@ -180,7 +87,7 @@ namespace TownOfHost
                         Utils.NotifyRoles(ForceLoop: true);
                 }, 0.1f, "RepairSystem NotifyRoles");
         }
-        private static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max)
+        public static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max)
         {
             var Ids = new List<int>();
             for (var i = min; i <= max; i++)
@@ -196,14 +103,13 @@ namespace TownOfHost
                     __instance.RpcRepairSystem(SystemTypes.Doors, id);
                 }
         }
-        private static bool DoorsProgressing = false;
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CloseDoorsOfType))]
     class CloseDoorsPatch
     {
         public static bool Prefix(ShipStatus __instance)
         {
-            return Options.CurrentGameMode != CustomGameMode.HideAndSeek || Options.AllowCloseDoors.GetBool();
+            return !(Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) || Options.AllowCloseDoors.GetBool();
         }
     }
     [HarmonyPatch(typeof(SwitchSystem), nameof(SwitchSystem.RepairDamage))]
@@ -212,21 +118,7 @@ namespace TownOfHost
         public static void Postfix(SwitchSystem __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] byte amount)
         {
             if (player.Is(CustomRoles.SabotageMaster))
-            {
-                if (!Options.SabotageMasterFixesElectrical.GetBool()) return;
-                if (Options.SabotageMasterSkillLimit.GetFloat() > 0 &&
-                    Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit.GetFloat())
-                {
-                    return;
-                }
-
-                if (amount is >= 0 and <= 4)
-                {
-                    __instance.ActualSwitches = 0;
-                    __instance.ExpectedSwitches = 0;
-                    Options.SabotageMasterUsedSkillCount++;
-                }
-            }
+                SabotageMaster.SwitchSystemRepair(__instance, amount);
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Start))]
@@ -248,6 +140,19 @@ namespace TownOfHost
             Logger.CurrentMethod();
 
             //ホストの役職初期設定はここで行うべき？
+        }
+    }
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CheckTaskCompletion))]
+    class CheckTaskCompletionPatch
+    {
+        public static bool Prefix(ref bool __result)
+        {
+            if (Options.DisableTaskWin.GetBool())
+            {
+                __result = false;
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -1,11 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using HarmonyLib;
+
 namespace TownOfHost
 {
     public static class Translator
     {
         public static Dictionary<string, Dictionary<int, string>> tr;
+        public const string LANGUAGE_FOLDER_NAME = "Language";
         public static void Init()
         {
             Logger.Info("Language Dictionary Initialize...", "Translator");
@@ -31,31 +36,44 @@ namespace TownOfHost
                 string[] values = line.Split(',');
                 List<string> fields = new(values);
                 Dictionary<int, string> tmp = new();
-                for (var i = 1; i < fields.Count; ++i)
+                try
                 {
-                    if (fields[i] != string.Empty && fields[i].TrimStart()[0] == '"')
+                    for (var i = 1; i < fields.Count; ++i)
                     {
-                        while (fields[i].TrimEnd()[^1] != '"')
+                        if (fields[i] != string.Empty && fields[i].TrimStart()[0] == '"')
                         {
-                            fields[i] = fields[i] + "," + fields[i + 1];
-                            fields.RemoveAt(i + 1);
+                            while (fields[i].TrimEnd()[^1] != '"')
+                            {
+                                fields[i] = fields[i] + "," + fields[i + 1];
+                                fields.RemoveAt(i + 1);
+                            }
                         }
                     }
+                    for (var i = 1; i < fields.Count; i++)
+                    {
+                        var tmp_str = fields[i].Replace("\\n", "\n").Trim('"');
+                        tmp.Add(Int32.Parse(header[i]), tmp_str);
+                    }
+                    if (tr.ContainsKey(fields[0])) { Logger.Warn($"翻訳用CSVに重複があります。{currentLine}行目: \"{fields[0]}\"", "Translator"); continue; }
+                    tr.Add(fields[0], tmp);
                 }
-                if (fields.Count != header.Length)
+                catch
                 {
-                    var err = $"翻訳用CSVファイルに誤りがあります。\n{currentLine}行目:";
+                    var err = $"翻訳用CSVファイルに誤りがあります。{currentLine}行目:";
                     foreach (var c in fields) err += $" [{c}]";
-                    Logger.Warn(err, "Translator");
+                    Logger.Error(err, "Translator");
                     continue;
                 }
-                for (var i = 1; i < fields.Count; i++)
-                {
-                    var tmp_str = fields[i].Replace("\\n", "\n").Trim('"');
-                    tmp.Add(Int32.Parse(header[i]), tmp_str);
-                }
-                if (tr.ContainsKey(fields[0])) { Logger.Warn($"翻訳用CSVに重複があります。\n{currentLine}行目: \"{fields[0]}\"", "Translator"); continue; }
-                tr.Add(fields[0], tmp);
+            }
+            // カスタム翻訳ファイルの読み込み
+            if (!Directory.Exists(LANGUAGE_FOLDER_NAME)) Directory.CreateDirectory(LANGUAGE_FOLDER_NAME);
+
+            // 翻訳テンプレートの作成
+            CreateTemplateFile();
+            foreach (var lang in Enum.GetValues(typeof(SupportedLangs)))
+            {
+                if (File.Exists(@$"./{LANGUAGE_FOLDER_NAME}/{lang}.dat"))
+                    LoadCustomTranslation($"{lang}.dat", (SupportedLangs)lang);
             }
         }
 
@@ -72,32 +90,55 @@ namespace TownOfHost
             return str;
         }
 
-        public static string GetString(string s, SupportedLangs langId)
+        public static string GetString(string str, SupportedLangs langId)
         {
-            var res = "";
-            if (tr.TryGetValue(s, out var dic))
+            var res = $"<INVALID:{str}>";
+            if (tr.TryGetValue(str, out var dic) && (!dic.TryGetValue((int)langId, out res) || res == "")) //strに該当する&無効なlangIdかresが空
             {
-                if (dic.TryGetValue((int)langId, out res))
+                res = $"*{dic[0]}";
+            }
+            return res;
+        }
+
+        public static void LoadCustomTranslation(string filename, SupportedLangs lang)
+        {
+            string path = @$"./{LANGUAGE_FOLDER_NAME}/{filename}";
+            if (File.Exists(path))
+            {
+                Logger.Info($"カスタム翻訳ファイル「{filename}」を読み込み", "LoadCustomTranslation");
+                using StreamReader sr = new(path, Encoding.GetEncoding("UTF-8"));
+                string text;
+                string[] tmp = { };
+                while ((text = sr.ReadLine()) != null)
                 {
-                    return res;
-                }
-                else
-                {
-                    if (dic.TryGetValue(0, out res))
+                    tmp = text.Split(":");
+                    if (tmp.Length > 1 && tmp[1] != "")
                     {
-                        Logger.Info($"Redirect to English: {res}", "Translator");
-                        return res;
-                    }
-                    else
-                    {
-                        return $"<INVALID:{s}>";
+                        try
+                        {
+                            tr[tmp[0]][(int)lang] = tmp.Skip(1).Join(delimiter: ":").Replace("\\n", "\n").Replace("\\r", "\r");
+                        }
+                        catch (KeyNotFoundException)
+                        {
+                            Logger.Warn($"「{tmp[0]}」は有効なキーではありません。", "LoadCustomTranslation");
+                        }
                     }
                 }
             }
             else
             {
-                return $"<INVALID:{s}>";
+                Logger.Error($"カスタム翻訳ファイル「{filename}」が見つかりませんでした", "LoadCustomTranslation");
             }
+        }
+
+        private static void CreateTemplateFile()
+        {
+            var text = "";
+            foreach (var title in tr) text += $"{title.Key}:\n";
+            File.WriteAllText(@$"./{LANGUAGE_FOLDER_NAME}/template.dat", text);
+            text = "";
+            foreach (var title in tr) text += $"{title.Key}:{title.Value[0].Replace("\n", "\\n").Replace("\r", "\\r")}\n";
+            File.WriteAllText(@$"./{LANGUAGE_FOLDER_NAME}/template_English.dat", text);
         }
     }
 }
