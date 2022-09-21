@@ -269,8 +269,8 @@ Unless taking a kill by deadline, they murder themselves instantly.<br>
 
 ### ShapeMaster
 
-**Warning**
-Unavailable.
+> **Warning**  
+> Unavailable.
 
 Create and idea by しゅー<br>
 
