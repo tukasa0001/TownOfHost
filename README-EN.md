@@ -579,17 +579,22 @@ Killing Crewmates will result in suicide. <br>
 
 #### Game Options
 
-| Name                                                              |
-| ----------------------------------------------------------------- |
-| Sheriff Can Kill [Arsonist](#Arsonist)                            |
-| Sheriff Can Kill [Jester](#Jester)                                |
-| Sheriff Can Kill [Terrorist](#Terrorist)                          |
-| Sheriff Can Kill [Opportunist](#Opportunist)                      |
-| Sheriff Can Kill Madmates                                         |
-| Sheriff Can Kill [Egoist](#Egoist)                                |
-| Sheriff Can Kill [SchrodingerCat](#SchrodingerCat) In Team Egoist |
-| Sheriff Can Kill Crewmates As It                                  |
-| Sheriff Shot Limit                                                |
+| Name                                                                |
+| ------------------------------------------------------------------- |
+| Kill Cooldown                                                       |
+| Sheriff Can Kill Crewmates As It                                    |
+| Sheriff Shot Limit                                                  |
+| Sheriff Can Kill Madmates                                           |
+| Sheriff Can Kill Neutrals                                           |
+| ┣ Sheriff Can Kill [Jester](#Jester)                                |
+| ┣ Sheriff Can Kill [Terrorist](#Terrorist)                          |
+| ┣ Sheriff Can Kill [Opportunist](#Opportunist)                      |
+| ┣ Sheriff Can Kill [Arsonist](#Arsonist)                            |
+| ┣ Sheriff Can Kill [Egoist](#Egoist)                                |
+| ┣ Sheriff Can Kill [SchrodingerCat](#SchrodingerCat) In Team Egoist |
+| ┣ Sheriff Can Kill [Executioner](#Executioner)                      |
+| ┣ Sheriff Can Kill [Jackal](#Jackal)                                |
+| ┗ Sheriff Can Kill [SchrodingerCat](#SchrodingerCat) In Team Jackal |
 
 ### Snitch
 
