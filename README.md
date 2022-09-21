@@ -150,7 +150,7 @@ AmongUsバージョン : **2022.9.20**
 | [パペッティア](#Puppeteerパペッティア)                               | [ナイスウォッチャー](#Watcherウォッチャー)                  | [オポチュニスト](#Opportunistオポチュニスト)                |           |
 | [シリアルキラー](#SerialKillerシリアルキラー)                        | [サボタージュマスター](#SabotageMasterサボタージュマスター) | [テロリスト](#Terroristテロリスト)                          |           |
 | [スナイパー](#Sniperスナイパー)                                      | [シーア](#Seerシーア)                                       | [シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |           |
-| [タイムシーフ](#TimeThiefタイムシーフ)                               | [シェリフ](#Sheriffシェリフ)                                | [Jackal/ジャッカル](#Jackalジャッカル)                      |           |
+| [タイムシーフ](#TimeThiefタイムシーフ)                               | [シェリフ](#Sheriffシェリフ)                                | [ジャッカル](#Jackalジャッカル)                      |           |
 | [ヴァンパイア](#Vampireヴァンパイア)                                 | [スニッチ](#Snitchスニッチ)                                 |                                                             |           |
 | [ウォーロック](#Warlockウォーロック)                                 | [スピードブースター](#SpeedBoosterスピードブースター)       |                                                             |           |
 | [魔女](#Witch魔女)                                                   | [トラッパー](#Trapperトラッパー)                            |                                                             |           |
