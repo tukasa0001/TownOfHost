@@ -267,21 +267,21 @@ TieMode.Default,Default,デフォルト,默认,預設,Обычное
 TieMode.All,Exile Them All,全員追放,全体放逐,,Изгнать Всех
 TieMode.Random,Exile Random,ランダムに追放,随机放逐,,Изгнать Случайно
 DisableDevices,Disable Devices,デバイスを無効化,禁用设备,禁用裝置,Отключить Устройства
-DisableSkeldDevices,Disable Skeld Devices,スケルドのデバイス無効化,,,Отключить Устройства На TheSkeld
-DisableMiraHQDevices,Disable MiraHQ Device,ミラHQのデバイス無効化,,,Отключить Устройства На MiraHQ
-DisablePolusDevices,Disable Polus Device,ポーラスのデバイス無効化,,,Отключить Устройства На Polus
-DisableAirshipDevices,Disable Airship Device,エアシップのデバイス無効化,,,Отключить Устройства На Airship
-DisableSkeldAdmin,Disable Admin,アドミン無効化,禁用管理室,禁用管理室地圖,Отключить Стол Администратора
-DisableMiraHQAdmin,Disable Admin,アドミン無効化,禁用管理室,禁用管理室地圖,Отключить Стол Администратора
-DisablePolusAdmin,Disable Admin,アドミン無効化,禁用管理室,禁用管理室地圖,Отключить Стол Администратора
-DisableAirshipCockpitAdmin,Disable Cockpit Admin,アドミン無効化（コックピット）,禁用飞艇(驾驶舱)管理室,,Отключить Стол Администратора В Кабине
-DisableAirshipRecordsAdmin,Disable Records Admin,アドミン無効化（アーカイブ）,禁用飞艇(档案室)管理室,,Отключить Стол Администратора В Архиве
-DisableSkeldCamera,Disable Camera,カメラ無効化,,,Отключить Камеры
-DisablePolusCamera,Disable Camera,カメラ無効化,,,Отключить Камеры
-DisableAirshipCamera,Disable Camera,カメラ無効化,,,Отключить Камеры
-DisableMiraHQDoorLog,Disable DoorLog,ドアログ無効化,,,Отключить Журналы
-DisablePolusVital,Disable Vital,バイタル無効化,,,Отключить Пульсы
-DisableAirshipVital,Disable Vital,バイタル無効化,,,Отключить Пульсы
+DisableSkeldDevices,Disable Skeld Devices,スケルドのデバイス無効化,禁用骷髅舰设备,,Отключить Устройства На TheSkeld
+DisableMiraHQDevices,Disable MiraHQ Device,ミラHQのデバイス無効化,禁用米拉总部设备,,Отключить Устройства На MiraHQ
+DisablePolusDevices,Disable Polus Device,ポーラスのデバイス無効化,禁用波鲁斯设备,,Отключить Устройства На Polus
+DisableAirshipDevices,Disable Airship Device,エアシップのデバイス無効化,禁用飞艇设备,,Отключить Устройства На Airship
+DisableSkeldAdmin,Disable Admin,アドミン無効化,禁用管理室地图,禁用管理室地圖,Отключить Стол Администратора
+DisableMiraHQAdmin,Disable Admin,アドミン無効化,禁用管理室地图,禁用管理室地圖,Отключить Стол Администратора
+DisablePolusAdmin,Disable Admin,アドミン無効化,禁用管理室地图,禁用管理室地圖,Отключить Стол Администратора
+DisableAirshipCockpitAdmin,Disable Cockpit Admin,アドミン無効化（コックピット）,禁用飞艇(驾驶舱)管理室地图,,Отключить Стол Администратора В Кабине
+DisableAirshipRecordsAdmin,Disable Records Admin,アドミン無効化（アーカイブ）,禁用飞艇(档案室)管理室地图,,Отключить Стол Администратора В Архиве
+DisableSkeldCamera,Disable Camera,カメラ無効化,,禁用骷髅舰监控设备,Отключить Камеры
+DisablePolusCamera,Disable Camera,カメラ無効化,,禁用波鲁斯监控设备,Отключить Камеры
+DisableAirshipCamera,Disable Camera,カメラ無効化,,禁用飞艇监控设备,Отключить Камеры
+DisableMiraHQDoorLog,Disable DoorLog,ドアログ無効化,,禁用米拉总部门禁日志,Отключить Журналы
+DisablePolusVital,Disable Vital,バイタル無効化,,禁用波鲁斯生命监测装置,Отключить Пульсы
+DisableAirshipVital,Disable Vital,バイタル無効化,,禁用飞艇生命监测装置,Отключить Пульсы
 RandomSpawn,Random Spawn,ランダムスポーン,随机出生点,,Случайный Спавн
 AirshipAdditionalSpawn,Additional Spawn(Airship),追加スポーン位置(エアシップ),额外出生点（飞艇地图）,,Дополнительный Спавн(Airship)
 
