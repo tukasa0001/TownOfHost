@@ -133,7 +133,7 @@ namespace TownOfHost
         public static bool CanBeKilledBySheriff(this PlayerControl player)
         {
             var cRole = player.GetCustomRole();
-            if (CanKillNeutrals.GetSelection() == 0 && cRole.IsNeutral()) return true;
+            if (CanKillNeutrals.GetSelection() == 0 && !cRole.IsCrewmate()) return true;
             return cRole switch
             {
                 CustomRoles.Jester => CanKillJester.GetBool(),
