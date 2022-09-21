@@ -713,10 +713,11 @@ If the target is a [Jester](#jester), they will win an additional victory with t
 
 #### Game Options
 
-| Name                            |
-| ------------------------------- |
-| Executioner Can Target Impostor |
-| Role After Target Dies          |
+| Name                                    |
+| --------------------------------------- |
+| Executioner Can Target Impostor         |
+| Executioner Can Target Neutral Murderer |
+| Role After Target Dies                  |
 
 ### Jackal
 
