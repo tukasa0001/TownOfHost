@@ -314,11 +314,11 @@ CanMakeMadmateCount,SidekickMadmate Maximum,サイドキックマッドメイト
 MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数,背叛的告密者任务数,背叛告密者任務數量,Задания MadSnitch
 MadSnitchCanAlsoBeExposedToImpostor,Also Exposed To Impostor,インポスターからも視認できる,对内鬼同样可见,,Также Незащищен Предателем
 MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,自身の殺害未遂者を知ることができる,堕落守卫可以得知对其进行击杀尝试的玩家,背叛天使可以看到是誰嘗試殺害自己,MadGuardian Видит Кто Пытался Его Убить
-MadmateCanFixLightsOut,Madmates Can Fix Lights Out,マッドメイト系役職が停電を直すことができる,叛徒职业可以修理照明破坏,叛徒職業的玩家可以修理電燈,Madmates Может Чинить Свет
-MadmateCanFixComms,Madmates Can Fix Comms,マッドメイト系役職が通信障害を直すことができる,叛徒职业可以修理通讯,叛徒職業的玩家可以修理通訊,Madmates Может Чинить Связь
-MadmateHasImpostorVision,Madmates Have Impostor Vision,マッドメイト系役職がインポスターと同じ視界を持つ,叛徒职业拥有内鬼视野,叛徒職業的玩家有跟狼人一樣的視野,Madmates Имеет Дальность Обзора Предателя
-MadmateCanSeeKillFlash,Madmates Can See Kill Flash,マッドメイト系役職がキルフラッシュを見れる,叛徒可以看到击杀闪光,,Madmates Может Видеть Вспышку Убийства
-MadmateCanSeeOtherVotes,Madmates Can See Other Votes,マッドメイト系役職が他人の投票を見れる,叛徒可以看到其他人所投的票,,Madmates Может Видеть Цвета Голосов
+MadmateCanFixLightsOut,Madmates Can Fix Lights Out,マッドメイト系役職が停電を直せる,叛徒职业可以修理照明破坏,叛徒職業的玩家可以修理電燈,Madmates Может Чинить Свет
+MadmateCanFixComms,Madmates Can Fix Comms,マッドメイト系役職が通信障害を直せる,叛徒职业可以修理通讯,叛徒職業的玩家可以修理通訊,Madmates Может Чинить Связь
+MadmateHasImpostorVision,Madmates Have Impostor Vision,マッドメイト系役職がインポスター視界を持つ,叛徒职业拥有内鬼视野,叛徒職業的玩家有跟狼人一樣的視野,Madmates Имеет Дальность Обзора Предателя
+MadmateCanSeeKillFlash,Madmates Can See Kill Flash,マッドメイト系役職にキルフラッシュが見える,叛徒可以看到击杀闪光,,Madmates Может Видеть Вспышку Убийства
+MadmateCanSeeOtherVotes,Madmates Can See Other Votes,マッドメイト系役職に他人の投票先が分かる,叛徒可以看到其他人所投的票,,Madmates Может Видеть Цвета Голосов
 MadmateVentCooldown,Madmates Vent Cooldown,マッドメイト系役職のベントクールダウン,叛徒职业跳管道冷却时间,叛徒職業的玩家跳管道冷卻,Откат Вентиляции Madmates
 MadmateVentMaxTime,Madmates Max Time In Vents(s),マッドメイト系役職のベント内での最大時間,叛徒职业在管道中停留的最大时间,叛徒職業的玩家在管道中可以停留的最大時間,Время Использования Вентиляции Madmates
 EvilWatcherChance,EvilWatcher Chance,イビルウォッチャーになる確率,窥视者成为内鬼阵营的概率,成為邪惡觀察者的機率,EvilWatcher Шанс
