@@ -292,7 +292,7 @@ NoGameEndInfo,NoGameEnd:\nA mode for debugging in which there is no win Basis.\n
 SyncButtonModeInfo,SyncButtonMode:\nThis mode limits the maximum number of meetings that can be called in total.,ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有),所有船员共享会议次数:\n游戏中存在全员共有的最大紧急会议次数。(可以进行设置),"全場拍桌數同步模式:\n該模式會讓全場玩家的拍桌數同步。(可以設定拍桌數)","СинхронизацияКнопки:\nЭтот режим ограничивает максимальное количество срочных собраний, которые можно созвать в целом."
 SabotageTimeControlInfo,Sabotage time control:\nIt is possible to change the time limit for some sabotage. (with settings),サボタージュの時間制御:\n一部サボタージュの制限時間を変更することができる。(設定有),破坏调整:\n可以调整一部分破坏的限制时间。(可以进行设置),"控制緊急任務時間:\n該模式可以讓某些地圖的破壞時間重新設定。 (可以設定)",Контроль времени саботажа:\nВозможность изменить время саботажа реактора. (в настройках)
 RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (with settings),ランダムマップモード:\nランダムにマップが変わるモード。(設定有),随机地图:\n随机选择地图游玩的模式。(可以进行设置),"隨機地圖模式:\n該模式會隨機挑選地圖。 (可以設定)",СлучайнаяКарта:\nРежим в котором карты случайным образом меняются в каждой игре. (в настройках)
-DisableDevicesInfo,"DisableDevices:\nVarious devices can be disabled (currently admin only, unavailable in MiraHQ)",デバイスを無効化:\n各種機器を無効化することができる。(現在はアドミンのみ、MiraHQ非対応),禁用设备:\n可以禁用各种设备。(目前只支持管理员，不支持米拉总部),"禁用設備:\n可以禁用各種設備。 (目前只支持管理室地圖,不支持MIRA HQ)","ОтключенныеУстройства:\nРазличные устройства могут быть отключены (в настоящее время только стол администратора, недоступна в MiraHQ)"
+DisableDevicesInfo,"DisableDevices:\nVarious devices can be disabled.",デバイスを無効化:\n各種機器を無効化することができる。,禁用设备:\n可以禁用各种设备。,"禁用設備:\n可以禁用各種設備。","ОтключенныеУстройства:\nРазличные устройства могут быть отключены"
 
 ## 詳細設定
 Cooldown,Cooldown,クールダウン,冷却时间,,Откат
