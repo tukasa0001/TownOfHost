@@ -233,15 +233,10 @@ While lights out they can move faster, and yet their name looks red by everyone.
 
 #### Game Options
 
-| Name                |
-| ------------------- |
-| acceleration valued |
-
-#### Game Options
-
-| Name                            |
-| ------------------------------- |
-| Mare Player Speed In Lights Out |
+| Name                             |
+| -------------------------------- |
+| Mare Player Speed In Lights Out  |
+| Mare Kill Cooldown In Lights Out |
 
 ### Puppeteer
 
