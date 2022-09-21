@@ -886,14 +886,15 @@ The time limit for some sabotage can be modified.
 
 It is possible to not assign certain tasks.<br>
 
-| Name                         |
-| ---------------------------- |
-| Disable Tasks                |
-| ┣ Disable StartReactor Tasks |
-| ┣ Disable SubmitScan Tasks   |
-| ┣ Disable SwipeCard Tasks    |
-| ┣ Disable UnlockSafe Tasks   |
-| ┗ Disable UploadData Tasks   |
+| Name                          |
+| ----------------------------- |
+| Disable Tasks                 |
+| ┣ Disable StartReactor Tasks  |
+| ┣ Disable SubmitScan Tasks    |
+| ┣ Disable SwipeCard Tasks     |
+| ┣ Disable UnlockSafe Tasks    |
+| ┣ Disable UploadData Tasks    |
+| ┗ Disable ResetBreakers Tasks |
 
 ### Fall from ladders
 
