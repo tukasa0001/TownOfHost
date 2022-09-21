@@ -59,7 +59,7 @@ namespace TownOfHost
             Vote,
             Suicide,
             Spell,
-            LoversSuicide,
+            FollowingSuicide,
             Bite,
             Bombed,
             Misfire,
