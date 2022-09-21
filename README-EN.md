@@ -1007,12 +1007,13 @@ The RandomMapsMode changes the maps at random.<br>
 
 #### Game Options
 
-| Name                |
-| ------------------- |
-| Include The Skeld   |
-| Include MIRA HQ     |
-| Include Polus       |
-| Include The Airship |
+| Name                  |
+| --------------------- |
+| RandomMapsMode        |
+| ┣ Include The Skeld   |
+| ┣ Include MIRA HQ     |
+| ┣ Include Polus       |
+| ┗ Include The Airship |
 
 ### SyncButtonMode
 
@@ -1020,17 +1021,19 @@ This mode limits the maximum number of meetings that can be called in total.<br>
 
 #### Game Options
 
-| Name             |
-| ---------------- |
-| Max Button Count |
+| Name               |
+| ------------------ |
+| SyncButtonMode     |
+| ┗ Max Button Count |
 
 ### VoteMode
 
-| Name           | Description                         |
-| -------------- | ----------------------------------- |
-| When Skip Vote | Default/Suicide/SelfVote            |
-| When Non-Vote  | Default/Suicide/SelfVote/Skip       |
-| When Tie       | Default/Exile Them All/Exile Random |
+| Name             | Description                         |
+| ---------------- | ----------------------------------- |
+| VoteMode         |                                     |
+| ┣ When Skip Vote | Default/Suicide/SelfVote            |
+| ┣ When Non-Vote  | Default/Suicide/SelfVote/Skip       |
+| ┗ When Tie       | Default/Exile Them All/Exile Random |
 
 ## OtherSettings
 
