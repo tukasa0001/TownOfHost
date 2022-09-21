@@ -145,12 +145,12 @@ You can also reload the translation by pressing key `T`+`F5`.
 | [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             | [GM](#GM) |
 | [Evil Watcher](#Watcher)            | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |           |
 | [FireWorks](#FireWorks)             | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |           |
-| [Mare](#Mare)                       | [Lighter](#Lighter)               | [Jester](#Jester)                 |           |
-| [Puppeteer](#Puppeteer)             | [Mayor](#Mayor)                   | [Lovers](#Lovers)                 |           |
-| [SerialKiller](#SerialKiller)       | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |           |
-| [Sniper](#Sniper)                   | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |           |
-| [TimeThief](#TimeThief)             | [Seer](#Seer)                     | [SchrodingerCat](#SchrodingerCat) |           |
-| [Vampire](#Vampire)                 | [Sheriff](#Sheriff)               | [Jackal](#Jackal)                 |           |
+| [Mare](#Mare)                       | [Lighter](#Lighter)               | [Jackal](#Jackal)                 |           |
+| [Puppeteer](#Puppeteer)             | [Mayor](#Mayor)                   | [Jester](#Jester)                 |           |
+| [SerialKiller](#SerialKiller)       | [Nice Watcher](#Watcher)          | [Lovers](#Lovers)                 |           |
+| [Sniper](#Sniper)                   | [SabotageMaster](#SabotageMaster) | [Opportunist](#Opportunist)       |           |
+| [TimeThief](#TimeThief)             | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |           |
+| [Vampire](#Vampire)                 | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |           |
 | [Warlock](#Warlock)                 | [Snitch](#Snitch)                 |                                   |           |
 | [Witch](#Witch)                     | [SpeedBooster](#SpeedBooster)     |                                   |           |
 | [Mafia](#Mafia)                     | [Trapper](#Trapper)               |                                   |           |
@@ -718,6 +718,38 @@ If the target is a [Jester](#jester), they will win an additional victory with t
 | Executioner Can Target Impostor |
 | Role After Target Dies          |
 
+### Jackal
+
+Team : Neutral(Jackal)<br>
+Basis : Impostor<br>
+Count : Jackal<br>
+Victory Condition : Annihilate all Imposters and the number of Jackal teams must equal or exceed the number of crew members<br>
+Create by 空き瓶/EmptyBottle<br>
+
+The Jackal is part of an extra team, that tries to eliminate all the other players.<br>
+The Jackal has no tasks and can kill Impostors, Crewmates and Neutrals.<br>
+
+The team Jackal enables multiple new outcomes of the game, listing some examples here:<br>
+- The Impostors could be eliminated and then the crew plays against the team Jackal.<br>
+- The Crew could be eliminated, then the Team Jackal fight against the Impostors (The Crew can still make a task win in this scenario)<br>
+
+
+If both Impostors and Jackals are in the game, the game continues even if all Crewmates are dead. <br>
+Crewmates may still win in this case by completing their tasks. Jackal and Impostor have to kill each other.<br>
+
+・In the case of 1 Impo & Jackal, even if it is banished by vote, it will be displayed as No one was banished<br>
+  It is not a bug that is displayed like this as a countermeasure against blackout.<br>
+・ Auto mute is removed when impo is hung<br>
+
+### Game Options
+
+| Name                |
+| ------------------- |
+| Kill Cooldown       |
+| Can Use Vent        |
+| Can Sabotage        |
+| Has Impostor Vision |
+
 ### Jester
 
 Team : Neutral(Solo)<br>
@@ -758,38 +790,6 @@ The SchrodingerCats have no tasks and by default, no victory condition. Only aft
 | ------------------------------------------------ |
 | SchrodingerCat In No Team Can Win With Crewmates |
 | Team To Change After Exiled                      |
-
-### Jackal
-
-Team : Neutral(Jackal)<br>
-Basis : Impostor<br>
-Count : Jackal<br>
-Victory Condition : Annihilate all Imposters and the number of Jackal teams must equal or exceed the number of crew members<br>
-Create by 空き瓶/EmptyBottle<br>
-
-The Jackal is part of an extra team, that tries to eliminate all the other players.<br>
-The Jackal has no tasks and can kill Impostors, Crewmates and Neutrals.<br>
-
-The team Jackal enables multiple new outcomes of the game, listing some examples here:<br>
-- The Impostors could be eliminated and then the crew plays against the team Jackal.<br>
-- The Crew could be eliminated, then the Team Jackal fight against the Impostors (The Crew can still make a task win in this scenario)<br>
-
-
-If both Impostors and Jackals are in the game, the game continues even if all Crewmates are dead. <br>
-Crewmates may still win in this case by completing their tasks. Jackal and Impostor have to kill each other.<br>
-
-・In the case of 1 Impo & Jackal, even if it is banished by vote, it will be displayed as No one was banished<br>
-  It is not a bug that is displayed like this as a countermeasure against blackout.<br>
-・ Auto mute is removed when impo is hung<br>
-
-### Game Options
-
-| Name                |
-| ------------------- |
-| Kill Cooldown       |
-| Can Use Vent        |
-| Can Sabotage        |
-| Has Impostor Vision |
 
 ### Terrorist
 
