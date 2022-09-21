@@ -380,7 +380,7 @@ DeathReason.Vote,Exiled,追放,放逐,被丟,Изгнан
 DeathReason.Suicide,Suicide,自殺,自杀,自殺,Суициднулся
 DeathReason.Spell,Spelled,呪殺,咒杀,咒殺,Заколдован
 DeathReason.Bite,Bitten,噛殺,吸血,咬死,Укушен
-DeathReason.LoversSuicide,Copycat Suicide,後追い,为爱而死,戀人共死,Любовник Суициднулся
+DeathReason.FollowingSuicide,Copycat Suicide,後追い,为爱而死,戀人共死,Любовник Суициднулся
 DeathReason.Bombed,Bombed,爆死,炸死,炸死,Взорван
 DeathReason.Misfire,Misfire,誤爆,走火,走火,Убился
 DeathReason.Torched,Torched,焼殺,烧死,燒死,Сожжен
