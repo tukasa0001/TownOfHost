@@ -152,5 +152,16 @@ namespace TownOfHost
             currentPage++;
             if (currentPage >= pages.Count) currentPage = 0; //現在のページが最大ページを超えていれば最初のページに
         }
+        private static void ShowChildren(CustomOption option, ref string text, int deep = 0)
+        {
+            foreach (var opt in option.Children.Select((v, i) => new { Value = v, Index = i + 1 }))
+            {
+                if (opt.Value.Name == "Maximum") continue; //Maximumの項目は飛ばす
+                text += string.Concat(Enumerable.Repeat("┃", deep - 1));
+                text += opt.Index == option.Children.Count ? "┗ " : "┣ ";
+                text += $"{opt.Value.GetName()}: {opt.Value.GetString()}\n";
+                if (opt.Value.Enabled) ShowChildren(opt.Value, ref text, deep + 1);
+            }
+        }
     }
 }
