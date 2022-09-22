@@ -421,6 +421,7 @@ Message.TemplateNotFoundClient,"No messages matching "{0}" were found.",「{0}�
 Message.SyncButtonLeft,The emergency meeting button can be used {0} more times,緊急会議ボタンはあと{0}回使用できます,剩余紧急会议次数 {0},"全場拍桌數量還剩下{0}次,請謹慎拍桌",Кнопку экстренной встречи можно использовать еще {0} раз
 Message.Executed,{0} was executed,{0}を処刑しました,{0}被房主处决了,{0}被處刑了,{0} был казнен
 Message.HideGameSettings,Game settings are hidden by the host.,ゲーム設定はホストによって秘匿されています。,游戏设置被房主隐藏。,遊戲設定被房主隱藏。,Настройки игры скрыты хостом.
+Message.NoDescription,No description.,説明はありません。,,,
 
 ## 警告
 Warning.EgoistCannotWin,Egoist cannot win!,エゴイストが勝利できません,野心家无法获胜,利己主義者無法獲勝,Egoist не может победить!
