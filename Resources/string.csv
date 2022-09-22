@@ -116,6 +116,8 @@ SKMadmateInfo,You are now on Team Impostors,サイドキックにされた,你�
 
 # 両陣営可能役職
 WatcherInfo,Keep your eyes on everyone's votes,みんなの投票に目を光らせよう,你可以看见所以人的选择，注意他们的选择,注意所有人的投票,Следите за всеми голосами
+NiceWatcherInfo,Keep your eyes on everyone's votes,みんなの投票に目を光らせよう,你可以看见所以人的选择，注意他们的选择,注意所有人的投票,Следите за всеми голосами
+EvilWatcherInfo,Keep your eyes on everyone's votes,みんなの投票に目を光らせよう,你可以看见所以人的选择，注意他们的选择,注意所有人的投票,Следите за всеми голосами
 
 # 特殊クルー役職
 BaitInfo,Bait your enemies,敵を罠にはめよう,诱骗敌人，让敌人落入你的陷阱,"犧牲小我,完成大我",Приманивайте ваших врагов
@@ -178,6 +180,8 @@ SKMadmateInfoLong,(Impostors):\nThe SidekickMadmate is an acquired Madmate Role 
 
 # 両陣営可能役職
 WatcherInfoLong,(Impostors or Crewmates):\nThe Watchers can see colored votes regardless of anonymous votes.,(インポスターorクルーメイト陣営):\n全員の投票先を見ることができる。,(内鬼阵营或船员阵营):\n会议时窥视者可以看到所有人的投票。,(狼人或船員):\n會議時觀察者可以看到所有人的投票。,(Предатель или Член Экипажа):\nWatcher может видеть все цвета голосов несмотря на анонимное голосвоание.
+NiceWatcherInfoLong,(Crewmates):\nThe Watchers can see colored votes regardless of anonymous votes.,(クルーメイト陣営):\n全員の投票先を見ることができる。,(内鬼阵营或船员阵营):\n会议时窥视者可以看到所有人的投票。,(狼人或船員):\n會議時觀察者可以看到所有人的投票。,(Предатель или Член Экипажа):\nWatcher может видеть все цвета голосов несмотря на анонимное голосвоание.
+EvilWatcherInfoLong,(Impostors):\nThe Watchers can see colored votes regardless of anonymous votes.,(インポスター陣営):\n全員の投票先を見ることができる。,(内鬼阵营或船员阵营):\n会议时窥视者可以看到所有人的投票。,(狼人或船員):\n會議時觀察者可以看到所有人的投票。,(Предатель или Член Экипажа):\nWatcher может видеть все цвета голосов несмотря на анонимное голосвоание.
 
 # 特殊クルー役職
 BaitInfoLong,"(Crewmates):\nWhen killed, they force the killer to self report in no time.",(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。,(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告。,"(船員):\n當被殺時,兇手將強制自行舉報","(Член Экипажа):\nКогда его убивают, он заставляет убийцу моментально зарепортить труп."
