@@ -490,6 +490,7 @@ namespace TownOfHost
                 text += String.Format("\n{0}:{1}", GetString("AirshipAdditionalSpawn"), GetOnOff(Options.AirshipAdditionalSpawn.GetBool()));
             }
             if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", GetString("NoGameEnd"), GetOnOff(Options.NoGameEnd.GetBool()));
+            if (Options.CommsCamouflague.GetBool()) text += string.Format("\n{0}:{1}", GetString("CommsCamouflague"), GetOnOff(Options.CommsCamouflague.GetBool()));
             SendMessage(text, PlayerId);
         }
         public static void ShowActiveRoles(byte PlayerId = byte.MaxValue)
@@ -797,6 +798,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Puppeteer)
                     || seer.IsNeutralKiller() //seerがキル出来る第三陣営
                     || IsActive(SystemTypes.Electrical)
+                    || IsActive(SystemTypes.Comms)
                     || NoCache
                     || ForceLoop
                 )
@@ -898,6 +900,9 @@ namespace TownOfHost
                         target.Data.IsDead //変更対象が死人
                         )
                             TargetDeathReason = $"({Helpers.ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(target.PlayerId))})";
+
+                        if (IsActive(SystemTypes.Comms))
+                            TargetPlayerName = $"<size=0>{TargetPlayerName}</size> ";
 
                         //全てのテキストを合成します。
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";

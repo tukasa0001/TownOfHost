@@ -83,9 +83,10 @@ namespace TownOfHost
             new LateTask(
                 () =>
                 {
+                    PlayerControl.AllPlayerControls.ToArray().Do(pc => Camouflague.RpcSetSkin(pc));
                     if (!GameStates.IsMeeting)
                         Utils.NotifyRoles(ForceLoop: true);
-                }, 0.1f, "RepairSystem NotifyRoles");
+                }, 0.1f, "RepairSystem.Postfix");
         }
         public static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max)
         {

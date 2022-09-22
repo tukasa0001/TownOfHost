@@ -133,6 +133,7 @@ namespace TownOfHost
                 listUp(Options.DisableDevices);
                 nameAndValue(Options.NoGameEnd);
                 nameAndValue(Options.GhostCanSeeOtherRoles);
+                nameAndValue(Options.CommsCamouflague);
                 nameAndValue(Options.HideGameSettings);
                 listUp(Options.RandomSpawn);
             }

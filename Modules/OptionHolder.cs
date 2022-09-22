@@ -201,6 +201,7 @@ namespace TownOfHost
         public static CustomOption GhostCanSeeOtherVotes;
         public static CustomOption GhostIgnoreTasks;
         public static CustomOption DisableTaskWin;
+        public static CustomOption CommsCamouflague;
         public static CustomOption HideGameSettings;
         public static readonly string[] suffixModes =
         {
@@ -531,6 +532,8 @@ namespace TownOfHost
             GhostIgnoreTasks = CustomOption.Create(100607, TabGroup.MainSettings, Color.white, "GhostIgnoreTasks", false)
                 .SetGameMode(CustomGameMode.All);
             DisableTaskWin = CustomOption.Create(100609, TabGroup.MainSettings, Color.white, "DisableTaskWin", false)
+                .SetGameMode(CustomGameMode.All);
+            CommsCamouflague = CustomOption.Create(100610, TabGroup.MainSettings, Color.white, "CommsCamouflague", false)
                 .SetGameMode(CustomGameMode.All);
             HideGameSettings = CustomOption.Create(100606, TabGroup.MainSettings, Color.white, "HideGameSettings", false)
                 .SetGameMode(CustomGameMode.All);
