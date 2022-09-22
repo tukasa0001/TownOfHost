@@ -52,24 +52,10 @@ namespace TownOfHost
                 nameAndValue(Options.EnableGM);
                 foreach (var kvp in Options.CustomRoleSpawnChances)
                 {
-                    if (!kvp.Key.IsEnable()) continue;
+                    if (!kvp.Key.IsEnable() || kvp.Value.IsHidden(Options.CurrentGameMode)) continue;
                     if (!(kvp.Value.GameMode == Options.CurrentGameMode || kvp.Value.GameMode == CustomGameMode.All)) continue; //現在のゲームモードでも全てのゲームモードでも表示しない役職なら飛ばす
                     text += $"{Helpers.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
-                    foreach (var c in kvp.Value.Children) //詳細設定をループする
-                    {
-                        if (c.Name == "Maximum") continue; //Maximumの項目は飛ばす
-                        text += $"\t{c.GetName()}: {c.GetString()}\n";
-                        if (c.GetBool() && c.Children != null)
-                            foreach (var d in c.Children)
-                            {
-                                text += $"\t\t{d.GetName()}: {d.GetString()}\n"; //子
-                                if (d.GetBool() && d.Children != null)
-                                    foreach (var e in d.Children)
-                                    {
-                                        text += $"\t\t\t{e.GetName()}: {e.GetString()}\n"; //孫？
-                                    }
-                            }
-                    }
+                    ShowChildren(kvp.Value, ref text, 1);
                     if (kvp.Key.IsMadmate()) //マッドメイトの時に追加する詳細設定
                     {
                         text += $"\t{Options.MadmateCanFixLightsOut.GetName()}: {Options.MadmateCanFixLightsOut.GetString()}\n";
