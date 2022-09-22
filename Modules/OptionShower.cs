@@ -43,13 +43,11 @@ namespace TownOfHost
                 }
                 //有効な役職と詳細設定一覧
                 pages.Add("");
-                if (Options.CurrentGameMode == CustomGameMode.Standard)
+
+                if (Options.EnableLastImpostor.GetBool() && !Options.EnableLastImpostor.IsHidden(Options.CurrentGameMode))
                 {
-                    if (Options.EnableLastImpostor.GetBool())
-                    {
-                        text += $"<color={Utils.GetRoleColorCode(CustomRoles.LastImpostor)}>{Utils.GetRoleName(CustomRoles.LastImpostor)}:</color> {Options.EnableLastImpostor.GetString()}\n";
-                        text += $"\t{GetString("KillCooldown")}: {Options.LastImpostorKillCooldown.GetString()}\n\n";
-                    }
+                    text += $"<color={Utils.GetRoleColorCode(CustomRoles.LastImpostor)}>{Utils.GetRoleName(CustomRoles.LastImpostor)}:</color> {Options.EnableLastImpostor.GetString()}\n";
+                    ShowChildren(Options.EnableLastImpostor, ref text, 1);
                 }
                 nameAndValue(Options.EnableGM);
                 foreach (var kvp in Options.CustomRoleSpawnChances)
