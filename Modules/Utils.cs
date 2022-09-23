@@ -400,14 +400,6 @@ namespace TownOfHost
             }
             else
             {
-                ShowActiveRoles(PlayerId);
-                text = GetString("Attributes") + ":";
-                if (Options.EnableLastImpostor.GetBool())
-                {
-                    text += $"\n【{GetRoleName(CustomRoles.LastImpostor)}】";
-                    text += String.Format("\n{0}:{1}", GetString("KillCooldown"), Options.LastImpostorKillCooldown.GetString());
-                }
-                SendMessage(text, PlayerId);
                 text = GetString("Settings") + ":";
                 foreach (var role in Options.CustomRoleCounts)
                 {
