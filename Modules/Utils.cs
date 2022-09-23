@@ -500,6 +500,19 @@ namespace TownOfHost
             }
             SendMessage(text, PlayerId);
         }
+        public static void ShowChildrenSettings(CustomOption option, ref string text, int deep = 0)
+        {
+            foreach (var opt in option.Children.Select((v, i) => new { Value = v, Index = i + 1 }))
+            {
+                if (deep > 0)
+                {
+                    text += string.Concat(Enumerable.Repeat("┃", Mathf.Max(deep - 1, 0)));
+                    text += opt.Index == option.Children.Count ? "┗ " : "┣ ";
+                }
+                text += $"{opt.Value.GetName(true)}: {opt.Value.GetString()}\n";
+                if (opt.Value.Enabled) ShowChildrenSettings(opt.Value, ref text, deep + 1);
+            }
+        }
         public static void ShowLastResult(byte PlayerId = byte.MaxValue)
         {
             if (AmongUsClient.Instance.IsGameStarted)
