@@ -34,7 +34,8 @@ namespace TownOfHost
                 {
                     //有効な役職一覧
                     text += $"<color={Utils.GetRoleColorCode(CustomRoles.LastImpostor)}>{Utils.GetRoleName(CustomRoles.LastImpostor)}:</color> {Options.EnableLastImpostor.GetString()}\n\n";
-                    text += $"<color={Utils.GetRoleColorCode(CustomRoles.GM)}>{Utils.GetRoleName(CustomRoles.GM)}:</color> {Options.EnableGM.GetString()}\n";
+                    text += $"<color={Utils.GetRoleColorCode(CustomRoles.GM)}>{Utils.GetRoleName(CustomRoles.GM)}:</color> {Options.EnableGM.GetString()}\n\n";
+                    text += GetString("ActiveRolesList") + "\n";
                     foreach (var kvp in Options.CustomRoleSpawnChances)
                         if (kvp.Value.GameMode is CustomGameMode.Standard or CustomGameMode.All && kvp.Value.Enabled) //スタンダードか全てのゲームモードで表示する役職
                             text += $"{Helpers.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
