@@ -275,11 +275,7 @@ namespace TownOfHost
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Jackal:
-                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
-                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
-                    __instance.SabotageButton.ToggleVisible(isActive && Options.JackalCanUseSabotage.GetBool());
-                    __instance.ImpostorVentButton.ToggleVisible(isActive && Options.JackalCanVent.GetBool());
-                    __instance.AbilityButton.ToggleVisible(false);
+                    Jackal.SetHudActive(__instance, isActive, player);
                     break;
             }
         }
