@@ -557,6 +557,7 @@ Basis : Crewmate<br>
 
 Seers can see when someone dies.<br>
 For an instant, their vision turns totally dark and there goes Reactor alert only to them unless on Reactor (named "Kill Flash").<br>
+For the host, the screen flash red and a kill sounds.<br>
 There is a option to slightly adjust Kill Flash duration.<br>
 
 #### Game Options
