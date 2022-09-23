@@ -404,10 +404,10 @@ namespace TownOfHost
                 foreach (var role in Options.CustomRoleCounts)
                 {
                     if (!role.Key.IsEnable()) continue;
-                    bool isFirst = true;
-                    text += $"\n【{GetRoleName(role.Key)}】";
-                    foreach (var c in Options.CustomRoleSpawnChances[role.Key].Children)
-                    {
+                    text += $"\n【{GetRoleName(role.Key)}×{role.Key.GetCount()}】\n";
+                    ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref text);
+                    text = text.RemoveHtmlTags();
+                }
                         if (isFirst) { isFirst = false; continue; }
                         text += $"\n{c.GetName(disableColor: true)}:{c.GetString()}";
                         if (c.Children != null && c.GetBool())
