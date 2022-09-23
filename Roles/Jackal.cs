@@ -19,10 +19,10 @@ namespace TownOfHost
         {
             //Jackalは1人固定
             SetupSingleRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Jackal, 1);
-            KillCooldown = CustomOption.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "JackalKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            CanVent = CustomOption.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "JackalCanVent", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            CanUseSabotage = CustomOption.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "JackalCanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            HasImpostorVision = CustomOption.Create(Id + 13, TabGroup.NeutralRoles, Color.white, "JackalHasImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            KillCooldown = CustomOption.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "KillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            CanVent = CustomOption.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            CanUseSabotage = CustomOption.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "CanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            HasImpostorVision = CustomOption.Create(Id + 13, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
         }
         public static void Init()
         {
