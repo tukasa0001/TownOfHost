@@ -12,6 +12,7 @@ namespace TownOfHost
             Logger.Info($"{__instance.GameId}に参加", "OnGameJoined");
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
+            SoundManager.Instance.ChangeMusicVolume(SaveManager.MusicVolume);
 
             NameColorManager.Begin();
             Options.Load();

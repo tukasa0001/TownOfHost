@@ -58,9 +58,9 @@ namespace TownOfHost
             }
         }
 
-        public static void ApplyGameOptions(GameOptionsData opt)
+        public static void ApplyGameOptions(GameOptionsData opt, byte playerId)
         {
-            opt.RoleOptions.ShapeshifterCooldown = 5f;
+            opt.RoleOptions.ShapeshifterCooldown = CanSetTarget[playerId] ? 5f : 255f;
             opt.RoleOptions.ShapeshifterDuration = 1f;
         }
         public static void SendTarget(byte EvilTrackerId, byte targetId)
@@ -108,7 +108,7 @@ namespace TownOfHost
                     case PlayerState.DeathReason.Bombed:
                         return true;
                     case PlayerState.DeathReason.Suicide:
-                    case PlayerState.DeathReason.LoversSuicide:
+                    case PlayerState.DeathReason.FollowingSuicide:
                     case PlayerState.DeathReason.Misfire:
                     case PlayerState.DeathReason.Torched:
                         return false;

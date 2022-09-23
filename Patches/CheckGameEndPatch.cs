@@ -73,6 +73,7 @@ namespace TownOfHost
 
         private static bool CheckAndEndGameForTaskWin(ShipStatus __instance)
         {
+            if (Options.DisableTaskWin.GetBool()) return false;
             if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
             {
                 __instance.enabled = false;
@@ -88,8 +89,7 @@ namespace TownOfHost
             {
                 __instance.enabled = false;
                 CustomWinnerHolder.WinnerTeam = CustomWinner.None;
-                SetImpostorsToGA();
-                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, true);
                 return true;
             }
             return false;
@@ -128,8 +128,7 @@ namespace TownOfHost
 
                 CustomWinnerHolder.WinnerTeam = CustomWinner.Jackal;
                 CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
-                SetImpostorsToGA();
-                ResetRoleAndEndGame(endReason, false);
+                ResetRoleAndEndGame(endReason, true);
                 return true;
             }
             return false;
@@ -167,9 +166,8 @@ namespace TownOfHost
                 {
                     CustomWinnerHolder.WinnerTeam = CustomWinner.HASTroll;
                     CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
-                    SetImpostorsToGA();
                     __instance.enabled = false;
-                    ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                    ResetRoleAndEndGame(GameOverReason.ImpostorByKill, true);
                     return true;
                 }
             }
@@ -191,8 +189,7 @@ namespace TownOfHost
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
             {
                 __instance.enabled = false;
-                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
-                SetImpostorsToGA();
+                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, true);
                 return true;
             }
             return false;
@@ -205,54 +202,45 @@ namespace TownOfHost
             ResetRoleAndEndGame(GameOverReason.ImpostorBySabotage, false);
             return;
         }
-        private static void ResetRoleAndEndGame(GameOverReason reason, bool showAd)
+        private static void ResetRoleAndEndGame(GameOverReason reason, bool SetImpostorsToGA, bool showAd = false)
         {
+            var sender = new CustomRpcSender("EndGameSender", SendOption.Reliable, true);
+            sender.StartMessage(-1); // 5:GameData
+
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 var LoseImpostorRole = Main.AliveImpostorCount == 0 ? pc.Is(RoleType.Impostor) : pc.Is(CustomRoles.Egoist);
-                if (pc.Is(CustomRoles.Sheriff) ||
-                    (!(CustomWinnerHolder.WinnerTeam == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) ||
-                    (CustomWinnerHolder.WinnerTeam != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) ||
-                    LoseImpostorRole)
+                if ((SetImpostorsToGA && pc.Data.Role.IsImpostor) || //インポスター:引数による
+                    pc.Is(CustomRoles.Sheriff) || //シェリフ:無条件
+                    (!(CustomWinnerHolder.WinnerTeam == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) || //アーソニスト:敗北
+                    (CustomWinnerHolder.WinnerTeam != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) || //ジャッカル:敗北
+                    LoseImpostorRole
+                )
                 {
-                    pc.RpcSetRole(RoleTypes.GuardianAngel);
+                    sender.StartRpc(pc.NetId, RpcCalls.SetRole)
+                            .Write((ushort)RoleTypes.GuardianAngel)
+                            .EndRpc();
+                    pc.SetRole(RoleTypes.GuardianAngel); //ホスト用
                 }
             }
-            new LateTask(() =>
-            {
-                MessageWriter writer = MessageWriter.Get(SendOption.Reliable);
-                // CustomWinnerHolderの情報送信
-                writer.StartMessage(5); //GameData
-                {
-                    writer.Write(AmongUsClient.Instance.GameId);
-                    writer.StartMessage(2); //RPC
-                    {
-                        writer.WritePacked(PlayerControl.LocalPlayer.NetId);
-                        writer.Write((byte)CustomRPC.EndGame);
-                        CustomWinnerHolder.WriteTo(writer);
-                    }
-                    writer.EndMessage();
-                }
-                writer.EndMessage();
 
-                // AmongUs側のゲーム終了RPC
-                writer.StartMessage(8);
-                {
-                    writer.Write(AmongUsClient.Instance.GameId); //ここまでStartEndGameの内容
-                    writer.Write((byte)reason);
-                    writer.Write(showAd);
-                }
-                writer.EndMessage();
+            // CustomWinnerHolderの情報送信
+            sender.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame);
+            CustomWinnerHolder.WriteTo(sender.stream);
+            sender.EndRpc();
+            sender.EndMessage();
 
-                AmongUsClient.Instance.SendOrDisconnect(writer);
-            }, 0.5f, "EndGameTask");
-        }
-        private static void SetImpostorsToGA()
-        {
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            // AmongUs側のゲーム終了RPC
+            MessageWriter writer = sender.stream;
+            writer.StartMessage(8);
             {
-                if (pc.Data.Role.IsImpostor) pc.RpcSetRole(RoleTypes.GuardianAngel);
+                writer.Write(AmongUsClient.Instance.GameId); //ここまでStartEndGameの内容
+                writer.Write((byte)reason);
+                writer.Write(showAd);
             }
+            writer.EndMessage();
+
+            sender.SendMessage();
         }
         //プレイヤー統計
         internal class PlayerStatistics

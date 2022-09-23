@@ -156,7 +156,7 @@ namespace TownOfHost
             // Other Clients
             if (killer.PlayerId != 0)
             {
-                var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.Reliable);
+                var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.None);
                 sender.StartMessage(killer.GetClientId());
                 sender.StartRpc(killer.NetId, (byte)RpcCalls.ProtectPlayer)
                     .WriteNetObject((InnerNetObject)target)
@@ -167,6 +167,21 @@ namespace TownOfHost
                     .EndRpc();
                 sender.EndMessage();
                 sender.SendMessage();
+            }
+        }
+        public static void SetKillCooldown(this PlayerControl player, float time)
+        {
+            CustomRoles role = player.GetCustomRole();
+            if (!(role.IsImpostor() || player.IsNeutralKiller() || role is CustomRoles.Arsonist or CustomRoles.Sheriff)) return;
+            if (player.AmOwner)
+            {
+                player.SetKillTimer(time);
+            }
+            else
+            {
+                Main.AllPlayerKillCooldown[player.PlayerId] = time * 2;
+                player.CustomSyncSettings();
+                player.RpcGuardAndKill();
             }
         }
         public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
@@ -270,6 +285,8 @@ namespace TownOfHost
                     opt.RoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
                     if (Options.MadmateHasImpostorVision.GetBool())
                         opt.SetVision(player, true);
+                    if (Options.MadmateCanSeeOtherVotes.GetBool() && opt.AnonymousVotes)
+                        opt.AnonymousVotes = false;
                     break;
             }
 
@@ -326,7 +343,7 @@ namespace TownOfHost
                     Mare.ApplyGameOptions(opt, player.PlayerId);
                     break;
                 case CustomRoles.EvilTracker:
-                    EvilTracker.ApplyGameOptions(opt);
+                    EvilTracker.ApplyGameOptions(opt, player.PlayerId);
                     break;
                 case CustomRoles.Jackal:
                 case CustomRoles.JSchrodingerCat:
@@ -357,6 +374,9 @@ namespace TownOfHost
             }
             if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead && opt.AnonymousVotes)
                 opt.AnonymousVotes = false;
+            if (Options.AdditionalEmergencyCooldown.GetBool() &&
+                Options.AdditionalEmergencyCooldownThreshold.GetInt() <= PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead))
+                opt.EmergencyCooldown += Options.AdditionalEmergencyCooldownTime.GetInt();
             if (Options.SyncButtonMode.GetBool() && Options.SyncedButtonCount.GetSelection() <= Options.UsedButtonCount)
                 opt.EmergencyCooldown = 3600;
             if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)

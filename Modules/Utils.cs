@@ -1,9 +1,9 @@
-using System.Text.RegularExpressions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using static TownOfHost.Translator;
 
@@ -50,8 +50,16 @@ namespace TownOfHost
                     }
                 case SystemTypes.Comms:
                     {
-                        var HudOverrideSystemType = ShipStatus.Instance.Systems[type].Cast<HudOverrideSystemType>();
-                        return HudOverrideSystemType != null && HudOverrideSystemType.IsActive;
+                        if (mapId == 1)
+                        {
+                            var HqHudSystemType = ShipStatus.Instance.Systems[type].Cast<HqHudSystemType>();
+                            return HqHudSystemType != null && HqHudSystemType.IsActive;
+                        }
+                        else
+                        {
+                            var HudOverrideSystemType = ShipStatus.Instance.Systems[type].Cast<HudOverrideSystemType>();
+                            return HudOverrideSystemType != null && HudOverrideSystemType.IsActive;
+                        }
                     }
                 default:
                     return false;
@@ -94,6 +102,7 @@ namespace TownOfHost
                 case CustomRoles.Seer:
                     return true;
                 default:
+                    if (seer.Is(RoleType.Madmate) && Options.MadmateCanSeeKillFlash.GetBool()) return true;
                     return false;
             }
         }
@@ -370,6 +379,7 @@ namespace TownOfHost
         }
         public static void ShowActiveSettings(byte PlayerId = byte.MaxValue)
         {
+            var mapId = PlayerControl.GameOptions.MapId;
             if (Options.HideGameSettings.GetBool() && PlayerId != byte.MaxValue)
             {
                 SendMessage(GetString("Message.HideGameSettings"), PlayerId);
@@ -391,7 +401,8 @@ namespace TownOfHost
                 text = GetString("Attributes") + ":";
                 if (Options.EnableLastImpostor.GetBool())
                 {
-                    text += String.Format("\n{0}:{1}", GetRoleName(CustomRoles.LastImpostor), Options.EnableLastImpostor.GetString());
+                    text += $"\n【{GetRoleName(CustomRoles.LastImpostor)}】";
+                    text += String.Format("\n{0}:{1}", GetString("KillCooldown"), Options.LastImpostorKillCooldown.GetString());
                 }
                 SendMessage(text, PlayerId);
                 text = GetString("Settings") + ":";
@@ -418,13 +429,38 @@ namespace TownOfHost
                     }
                     text += "\n";
                 }
-                if (Options.EnableLastImpostor.GetBool()) text += String.Format("\n{0}:{1}", GetString("LastImpostorKillCooldown"), Options.LastImpostorKillCooldown.GetString());
                 if ((CustomRoles.EvilTracker.IsEnable() && EvilTracker.CanSeeKillFlash.GetBool())
                 || CustomRoles.Seer.IsEnable())
                     text += String.Format("\n{0}:{1}", GetString("KillFlashDuration"), Options.KillFlashDuration.GetString());
                 if (Options.DisableDevices.GetBool())
                 {
-                    if (Options.DisableDevices.GetBool()) text += String.Format("\n{0}:{1}", Options.DisableAdmin.GetName(disableColor: true), Options.WhichDisableAdmin.GetString());
+                    if (Options.DisableSkeldDevices.GetBool() && (Options.AddedTheSkeld.GetBool() || mapId == 0))
+                    {
+                        text += String.Format("\n【{0}】", Options.DisableSkeldDevices.GetName(disableColor: true));
+                        text += String.Format("\n┗{0}:{1}", Options.DisableSkeldAdmin.GetName(disableColor: true), GetOnOff(Options.DisableSkeldAdmin.GetBool()));
+                        text += String.Format("\n┗{0}:{1}", Options.DisableSkeldCamera.GetName(disableColor: true), GetOnOff(Options.DisableSkeldCamera.GetBool()));
+                    }
+                    if (Options.DisableMiraHQDevices.GetBool() && (Options.AddedMiraHQ.GetBool() || mapId == 1))
+                    {
+                        text += String.Format("\n【{0}】", Options.DisableMiraHQDevices.GetName(disableColor: true));
+                        text += String.Format("\n┗{0}:{1}", Options.DisableMiraHQAdmin.GetName(disableColor: true), GetOnOff(Options.DisableMiraHQAdmin.GetBool()));
+                        text += String.Format("\n┗{0}:{1}", Options.DisableMiraHQDoorLog.GetName(disableColor: true), GetOnOff(Options.DisableMiraHQDoorLog.GetBool()));
+                    }
+                    if (Options.DisablePolusDevices.GetBool() && (Options.AddedPolus.GetBool() || mapId == 2))
+                    {
+                        text += String.Format("\n【{0}】", Options.DisablePolusDevices.GetName(disableColor: true));
+                        text += String.Format("\n┗{0}:{1}", Options.DisablePolusAdmin.GetName(disableColor: true), GetOnOff(Options.DisablePolusAdmin.GetBool()));
+                        text += String.Format("\n┗{0}:{1}", Options.DisablePolusCamera.GetName(disableColor: true), GetOnOff(Options.DisablePolusCamera.GetBool()));
+                        text += String.Format("\n┗{0}:{1}", Options.DisablePolusVital.GetName(disableColor: true), GetOnOff(Options.DisablePolusVital.GetBool()));
+                    }
+                    if (Options.DisableAirshipDevices.GetBool() && (Options.AddedTheAirShip.GetBool() || mapId == 4))
+                    {
+                        text += String.Format("\n【{0}】", Options.DisableAirshipDevices.GetName(disableColor: true));
+                        text += String.Format("\n┗{0}:{1}", Options.DisableAirshipCockpitAdmin.GetName(disableColor: true), GetOnOff(Options.DisableAirshipCockpitAdmin.GetBool()));
+                        text += String.Format("\n┗{0}:{1}", Options.DisableAirshipRecordsAdmin.GetName(disableColor: true), GetOnOff(Options.DisableAirshipRecordsAdmin.GetBool()));
+                        text += String.Format("\n┗{0}:{1}", Options.DisableAirshipCamera.GetName(disableColor: true), GetOnOff(Options.DisableAirshipCamera.GetBool()));
+                        text += String.Format("\n┗{0}:{1}", Options.DisableAirshipVital.GetName(disableColor: true), GetOnOff(Options.DisableAirshipVital.GetBool()));
+                    }
                 }
                 if (Options.SyncButtonMode.GetBool()) text += String.Format("\n{0}:{1}", GetString("SyncedButtonCount"), Options.SyncedButtonCount.GetInt());
                 if (Options.SabotageTimeControl.GetBool())
@@ -445,9 +481,9 @@ namespace TownOfHost
                 text += String.Format("\n{0}:{1}", GetString("LadderDeathChance"), Options.LadderDeathChance.GetString());
             }
             if (Options.IsStandardHAS) text += String.Format("\n{0}:{1}", GetString("StandardHAS"), GetOnOff(Options.StandardHAS.GetBool()));
-            if (Options.AirshipRandomSpawn.GetBool())
+            if (Options.RandomSpawn.GetBool())
             {
-                text += String.Format("\n{0}:{1}", GetString("AirshipRandomSpawn"), GetOnOff(Options.AirshipRandomSpawn.GetBool()));
+                text += String.Format("\n{0}:{1}", GetString("RandomSpawn"), GetOnOff(Options.RandomSpawn.GetBool()));
                 text += String.Format("\n{0}:{1}", GetString("AirshipAdditionalSpawn"), GetOnOff(Options.AirshipAdditionalSpawn.GetBool()));
             }
             if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", GetString("NoGameEnd"), GetOnOff(Options.NoGameEnd.GetBool()));
@@ -546,7 +582,7 @@ namespace TownOfHost
                         PlayerState.SetDead(pc.PlayerId);
                     }
                 }
-                CustomWinnerHolder.WinnerTeam = CustomWinner.Terrorist;
+                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Terrorist);
                 CustomWinnerHolder.WinnerIds.Add(Terrorist.PlayerId);
             }
         }
@@ -571,13 +607,19 @@ namespace TownOfHost
                     case SuffixModes.None:
                         break;
                     case SuffixModes.TOH:
-                        name += "\r\n<color=" + Main.ModColor + ">TOH v" + Main.PluginVersion + "</color>";
+                        name += $"\r\n<color={Main.ModColor}>TOH v{Main.PluginVersion}</color>";
                         break;
                     case SuffixModes.Streaming:
-                        name += $"\r\n{GetString("SuffixMode.Streaming")}";
+                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Streaming")}</color>";
                         break;
                     case SuffixModes.Recording:
-                        name += $"\r\n{GetString("SuffixMode.Recording")}";
+                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Recording")}</color>";
+                        break;
+                    case SuffixModes.RoomHost:
+                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.RoomHost")}</color>";
+                        break;
+                    case SuffixModes.OriginalName:
+                        name += $"\r\n<color={Main.ModColor}>{SaveManager.PlayerName}</color>";
                         break;
                 }
             }
@@ -844,7 +886,7 @@ namespace TownOfHost
                             var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
                             TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
                         }
-                        if (seer.Is(RoleType.Impostor) && target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished)
+                        if (seer.Is(RoleType.Impostor) && target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
                             TargetMark += Helpers.ColorString(GetRoleColor(CustomRoles.MadSnitch), "★");
                         TargetMark += Executioner.TargetMark(seer, target);
 
@@ -973,7 +1015,7 @@ namespace TownOfHost
         {
             var RolePos = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? 47 : 37;
             string summary = $"{Helpers.ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%> {GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {Helpers.ColorString(GetRoleColor(Main.AllPlayerCustomRoles[id]), GetRoleName(Main.AllPlayerCustomRoles[id]))}{GetShowLastSubRolesText(id)}</pos>";
-            return disableColor ? summary.RemoveHtmlTags() : Regex.Replace(summary, " ", "");
+            return disableColor ? summary.RemoveHtmlTags() : summary;
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");
         public static bool CanMafiaKill()

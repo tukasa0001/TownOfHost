@@ -54,7 +54,7 @@ namespace TownOfHost
                 var role = exiled.GetCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
-                    CustomWinnerHolder.WinnerTeam = CustomWinner.Jester;
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jester);
                     CustomWinnerHolder.WinnerIds.Add(exiled.PlayerId);
                     //吊られたJesterをターゲットにしているExecutionerも追加勝利
                     foreach (var executioner in Executioner.playerIdList)
@@ -62,8 +62,8 @@ namespace TownOfHost
                         var GetValue = Executioner.Target.TryGetValue(executioner, out var targetId);
                         if (GetValue && exiled.PlayerId == targetId)
                         {
-                            CustomWinnerHolder.WinnerIds.Add(executioner);
                             CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Executioner);
+                            CustomWinnerHolder.WinnerIds.Add(executioner);
                         }
                     }
                     DecidedWinner = true;
@@ -103,12 +103,32 @@ namespace TownOfHost
                 PlayerState.SetDeathReason(x.Key, x.Value);
                 PlayerState.SetDead(x.Key);
                 player?.RpcExileV2();
-                if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.LoversSuicide)
+                if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.FollowingSuicide)
                     player?.ResetVotingTime();
                 if (Executioner.Target.ContainsValue(x.Key))
                     Executioner.ChangeRoleByTarget(player);
             });
             Main.AfterMeetingDeathPlayers.Clear();
+            if (Options.RandomSpawn.GetBool())
+            {
+                PlayerControl.AllPlayerControls.ToArray().Do(pc => RandomSpawn.CustomNetworkTransformPatch.NumOfTP[pc.PlayerId] = 0);
+                RandomSpawn.SpawnMap map;
+                switch (PlayerControl.GameOptions.MapId)
+                {
+                    case 0:
+                        map = new RandomSpawn.SkeldSpawnMap();
+                        PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                        break;
+                    case 1:
+                        map = new RandomSpawn.MiraHQSpawnMap();
+                        PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                        break;
+                    case 2:
+                        map = new RandomSpawn.PolusSpawnMap();
+                        PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                        break;
+                }
+            }
             FallFromLadder.Reset();
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
@@ -130,6 +150,7 @@ namespace TownOfHost
                         exiled.Object.RpcExileV2();
                     }
                 }, 0.5f, "Restore IsDead Task");
+            SoundManager.Instance.ChangeMusicVolume(SaveManager.MusicVolume);
             Logger.Info("タスクフェイズ開始", "Phase");
         }
     }

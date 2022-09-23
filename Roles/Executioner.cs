@@ -1,13 +1,7 @@
-/*
-* Executioner.cs created on Wed Aug 31 2022
-* This software is released under the GNU General Public License v3.0.
-* Copyright (c) 2022 空き瓶/EmptyBottle
-*/
-
 using System.Collections.Generic;
-using UnityEngine;
 using HarmonyLib;
 using Hazel;
+using UnityEngine;
 using static TownOfHost.Options;
 
 namespace TownOfHost
@@ -91,7 +85,8 @@ namespace TownOfHost
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     break;
                 case "WinCheck":
-                    CustomWinnerHolder.WinnerTeam = CustomWinner.Executioner;
+                    if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) break; //まだ勝者が設定されていない場合
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Executioner);
                     CustomWinnerHolder.WinnerIds.Add(executionerId);
                     break;
             }

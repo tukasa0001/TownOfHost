@@ -255,13 +255,35 @@ namespace TownOfHost
             Main.introDestroyed = true;
             if (AmongUsClient.Instance.AmHost)
             {
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                    pc.RpcResetAbilityCooldown();
+                if (PlayerControl.GameOptions.MapId != 4)
+                {
+                    PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcResetAbilityCooldown());
+                    if (Options.FixFirstKillCooldown.GetBool())
+                        new LateTask(() =>
+                        {
+                            PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.SetKillCooldown(Main.AllPlayerKillCooldown[pc.PlayerId] - 2f));
+                        }, 2f, "FixKillCooldownTask");
+                }
                 new LateTask(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRole(RoleTypes.Shapeshifter)), 2f, "SetImpostorForServer");
                 if (PlayerControl.LocalPlayer.Is(CustomRoles.GM))
                 {
                     PlayerControl.LocalPlayer.RpcExile();
                     PlayerState.SetDead(PlayerControl.LocalPlayer.PlayerId);
+                }
+                if (Options.RandomSpawn.GetBool())
+                {
+                    RandomSpawn.SpawnMap map;
+                    switch (PlayerControl.GameOptions.MapId)
+                    {
+                        case 0:
+                            map = new RandomSpawn.SkeldSpawnMap();
+                            PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                            break;
+                        case 1:
+                            map = new RandomSpawn.MiraHQSpawnMap();
+                            PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                            break;
+                    }
                 }
             }
             Logger.Info("OnDestroy", "IntroCutscene");

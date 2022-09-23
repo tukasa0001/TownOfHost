@@ -1,6 +1,6 @@
-using System.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using HarmonyLib;
 using Hazel;
 using static TownOfHost.Translator;
@@ -46,7 +46,7 @@ namespace TownOfHost
 
             Main.introDestroyed = false;
 
-            AirshipRandomSpawnPatch.NumOfTP = new();
+            RandomSpawn.CustomNetworkTransformPatch.NumOfTP = new();
 
             Main.DiscussionTime = Main.RealOptionsData.DiscussionTime;
             Main.VotingTime = Main.RealOptionsData.VotingTime;
@@ -78,7 +78,7 @@ namespace TownOfHost
                 Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
                 pc.cosmetics.nameText.text = pc.name;
 
-                AirshipRandomSpawnPatch.NumOfTP.Add(pc.PlayerId, 0);
+                RandomSpawn.CustomNetworkTransformPatch.NumOfTP.Add(pc.PlayerId, 0);
             }
             Main.VisibleTasksCount = true;
             if (__instance.AmHost)
@@ -107,6 +107,8 @@ namespace TownOfHost
             EvilTracker.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
+
+            GameStates.MeetingCalled = false;
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
