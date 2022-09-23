@@ -76,8 +76,7 @@ namespace TownOfHost
                 Executioner.CheckExileTarget(exiled, DecidedWinner);
                 if (exiled.Object.Is(CustomRoles.TimeThief))
                     exiled.Object.ResetVotingTime();
-                if (exiled.Object.Is(CustomRoles.SchrodingerCat) && Options.SchrodingerCatExiledTeamChanges.GetBool())
-                    exiled.Object.ExiledSchrodingerCatTeamChange();
+                SchrodingerCat.ChangeTeam(exiled.Object);
 
 
                 if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) PlayerState.SetDead(exiled.PlayerId);

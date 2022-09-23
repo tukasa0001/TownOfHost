@@ -314,6 +314,9 @@ namespace TownOfHost
                 case CustomRoles.Egoist:
                     Egoist.Add(targetId);
                     break;
+                case CustomRoles.SchrodingerCat:
+                    SchrodingerCat.Add(targetId);
+                    break;
                 case CustomRoles.EgoSchrodingerCat:
                     TeamEgoist.Add(targetId);
                     break;
