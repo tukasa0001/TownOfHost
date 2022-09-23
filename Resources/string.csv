@@ -178,6 +178,8 @@ SKMadmateInfoLong,(Impostors):\nThe SidekickMadmate is an acquired Madmate Role 
 
 # 両陣営可能役職
 WatcherInfoLong,(Impostors or Crewmates):\nThe Watchers can see colored votes regardless of anonymous votes.,(インポスターorクルーメイト陣営):\n全員の投票先を見ることができる。,(内鬼阵营或船员阵营):\n会议时窥视者可以看到所有人的投票。,(狼人或船員):\n會議時觀察者可以看到所有人的投票。,(Предатель или Член Экипажа):\nWatcher может видеть все цвета голосов несмотря на анонимное голосвоание.
+EvilWatcherInfoLong,(Impostors):\nThe Watchers can see colored votes regardless of anonymous votes.,(インポスター陣営):\n全員の投票先を見ることができる。,(内鬼阵营:\n会议时窥视者可以看到所有人的投票。,(狼人):\n會議時觀察者可以看到所有人的投票。,(Предатель):\nWatcher может видеть все цвета голосов несмотря на анонимное голосвоание.
+NiceWatcherInfoLong,(Crewmates):\nThe Watchers can see colored votes regardless of anonymous votes.,(クルーメイト陣営):\n全員の投票先を見ることができる。,(船员阵营:\n会议时窥视者可以看到所有人的投票。,(船員):\n會議時觀察者可以看到所有人的投票。,(Экипажа):\nWatcher может видеть все цвета голосов несмотря на анонимное голосвоание.
 
 # 特殊クルー役職
 BaitInfoLong,"(Crewmates):\nWhen killed, they force the killer to self report in no time.",(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。,(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告。,"(船員):\n當被殺時,兇手將強制自行舉報","(Член Экипажа):\nКогда его убивают, он заставляет убийцу моментально зарепортить труп."
@@ -314,13 +316,13 @@ CanMakeMadmateCount,SidekickMadmate Maximum,サイドキックマッドメイト
 MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数,背叛的告密者任务数,背叛告密者任務數量,Задания MadSnitch
 MadSnitchCanAlsoBeExposedToImpostor,Also Exposed To Impostor,インポスターからも視認できる,对内鬼同样可见,,Также Незащищен Предателем
 MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,自身の殺害未遂者を知ることができる,堕落守卫可以得知对其进行击杀尝试的玩家,背叛天使可以看到是誰嘗試殺害自己,MadGuardian Видит Кто Пытался Его Убить
-MadmateCanFixLightsOut,Madmates Can Fix Lights Out,マッドメイト系役職が停電を直せる,叛徒职业可以修理照明破坏,叛徒職業的玩家可以修理電燈,Madmates Может Чинить Свет
-MadmateCanFixComms,Madmates Can Fix Comms,マッドメイト系役職が通信障害を直せる,叛徒职业可以修理通讯,叛徒職業的玩家可以修理通訊,Madmates Может Чинить Связь
-MadmateHasImpostorVision,Madmates Have Impostor Vision,マッドメイト系役職がインポスター視界を持つ,叛徒职业拥有内鬼视野,叛徒職業的玩家有跟狼人一樣的視野,Madmates Имеет Дальность Обзора Предателя
-MadmateCanSeeKillFlash,Madmates Can See Kill Flash,マッドメイト系役職にキルフラッシュが見える,叛徒可以看到击杀闪光,,Madmates Может Видеть Вспышку Убийства
-MadmateCanSeeOtherVotes,Madmates Can See Other Votes,マッドメイト系役職に他人の投票先が分かる,叛徒可以看到其他人所投的票,,Madmates Может Видеть Цвета Голосов
-MadmateVentCooldown,Madmates Vent Cooldown,マッドメイト系役職のベントクールダウン,叛徒职业跳管道冷却时间,叛徒職業的玩家跳管道冷卻,Откат Вентиляции Madmates
-MadmateVentMaxTime,Madmates Max Time In Vents(s),マッドメイト系役職のベント内での最大時間,叛徒职业在管道中停留的最大时间,叛徒職業的玩家在管道中可以停留的最大時間,Время Использования Вентиляции Madmates
+MadmateCanFixLightsOut,Madmates Can Fix Lights Out,マッド系役職が停電を直せる,叛徒职业可以修理照明破坏,叛徒職業的玩家可以修理電燈,Madmates Может Чинить Свет
+MadmateCanFixComms,Madmates Can Fix Comms,マッド系役職が通信障害を直せる,叛徒职业可以修理通讯,叛徒職業的玩家可以修理通訊,Madmates Может Чинить Связь
+MadmateHasImpostorVision,Madmates Have Impostor Vision,マッド系役職がインポスター視界を持つ,叛徒职业拥有内鬼视野,叛徒職業的玩家有跟狼人一樣的視野,Madmates Имеет Дальность Обзора Предателя
+MadmateCanSeeKillFlash,Madmates Can See Kill Flash,マッド系役職にキルフラッシュが見える,叛徒可以看到击杀闪光,,Madmates Может Видеть Вспышку Убийства
+MadmateCanSeeOtherVotes,Madmates Can See Other Votes,マッド系役職に他人の投票先が分かる,叛徒可以看到其他人所投的票,,Madmates Может Видеть Цвета Голосов
+MadmateVentCooldown,Madmates Vent Cooldown,マッド系役職のベントクールダウン,叛徒职业跳管道冷却时间,叛徒職業的玩家跳管道冷卻,Откат Вентиляции Madmates
+MadmateVentMaxTime,Madmates Max Time In Vents(s),マッド系役職のベント内での最大時間,叛徒职业在管道中停留的最大时间,叛徒職業的玩家在管道中可以停留的最大時間,Время Использования Вентиляции Madmates
 EvilWatcherChance,EvilWatcher Chance,イビルウォッチャーになる確率,窥视者成为内鬼阵营的概率,成為邪惡觀察者的機率,EvilWatcher Шанс
 LighterTaskCompletedVision,Expanded Vision,タスク完了時の視界,完成任务后的视野,做完任務的視野,Дальность Обзора
 LighterTaskCompletedDisableLightOut,Lighter Gains Impostor Vision,タスク完了時に停電を無効にする,完成任务的执灯人不受熄灯影响,完成任務的小燈人視野不受關燈影響,Имеет Дальность Обзора Предателя
@@ -421,6 +423,7 @@ Message.TemplateNotFoundClient,"No messages matching "{0}" were found.",「{0}�
 Message.SyncButtonLeft,The emergency meeting button can be used {0} more times,緊急会議ボタンはあと{0}回使用できます,剩余紧急会议次数 {0},"全場拍桌數量還剩下{0}次,請謹慎拍桌",Кнопку экстренной встречи можно использовать еще {0} раз
 Message.Executed,{0} was executed,{0}を処刑しました,{0}被房主处决了,{0}被處刑了,{0} был казнен
 Message.HideGameSettings,Game settings are hidden by the host.,ゲーム設定はホストによって秘匿されています。,游戏设置被房主隐藏。,遊戲設定被房主隱藏。,Настройки игры скрыты хостом.
+Message.NoDescription,No description.,説明はありません。,,,
 
 ## 警告
 Warning.EgoistCannotWin,Egoist cannot win!,エゴイストが勝利できません,野心家无法获胜,利己主義者無法獲勝,Egoist не может победить!
@@ -433,6 +436,7 @@ Error.InvalidRoleAssignment,Error: Invalid role found for a player during role a
 Error.SpeedBoosterNullException,Error: The speed boost destination is null.\nPlease save the log and create a bug report ticket.,エラー: スピードブースト先がnullです。\nログを保存し、バグ報告チケットを作成してください。,错误：增速者的增速目标为空。 \n请保存日志并创建错误报告票。,"錯誤:加速器加速的對象無效,\n請將遊戲輸出記錄保存並在TOH官方DC群組開啟一張支援票",Ошибка: пункт назначения повышения скорости не указан.\nСохраните логи и создайте заявку на отчет об ошибке.
 
 ## その他
+ActiveRolesList,Active Roles List,有効な役職一覧,,,
 ForExample,For Example,使用例,使用例子,使用例子,Например
 ForceEnd,No Contest,廃村,强制结束游戏,遊戲已被強制結束,Игра Была Окончена
 EveryoneDied,Everyone Died,誰もいなくなった,没有人存活,沒有人存活,Все Мертвы
