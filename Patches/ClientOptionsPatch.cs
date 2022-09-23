@@ -1,7 +1,6 @@
 using HarmonyLib;
 using UnityEngine;
 using UnityEngine.UI;
-using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -43,29 +42,29 @@ namespace TownOfHost
             if (__instance.CensorChatButton != null)
             {
                 if (origin == null) origin = __instance.CensorChatButton.transform.localPosition;
-                __instance.CensorChatButton.transform.localPosition = origin.Value + Vector3.left * 0.375f + Vector3.up * 0.2f;
+                __instance.CensorChatButton.transform.localPosition = origin.Value + Vector3.left * 0.375f + Vector3.up * 0.08f;
                 __instance.CensorChatButton.transform.localScale = Vector3.one * 0.7f;
             }
             if (__instance.EnableFriendInvitesButton != null)
             {
                 if (origin == null) origin = __instance.EnableFriendInvitesButton.transform.localPosition;
-                __instance.EnableFriendInvitesButton.transform.localPosition = origin.Value + Vector3.right * 3.125f + Vector3.up * 0.2f;
+                __instance.EnableFriendInvitesButton.transform.localPosition = origin.Value + Vector3.right * 3.125f + Vector3.up * 0.08f;
                 __instance.EnableFriendInvitesButton.transform.localScale = Vector3.one * 0.7f;
             }
             if (__instance.ColorBlindButton != null)
             {
                 if (origin == null) origin = __instance.ColorBlindButton.transform.localPosition;
-                __instance.ColorBlindButton.transform.localPosition = origin.Value + Vector3.right * 3.125f + Vector3.up * 0.83f;
+                __instance.ColorBlindButton.transform.localPosition = origin.Value + Vector3.right * 3.125f + Vector3.up * 0.74f;
                 __instance.ColorBlindButton.transform.localScale = Vector3.one * 0.7f;
             }
             if (__instance.StreamerModeButton != null)
                 if (origin == null) origin = __instance.StreamerModeButton.transform.localPosition;
-            __instance.StreamerModeButton.transform.localPosition = origin.Value + Vector3.right * 1.375f + Vector3.up * 1.182f;
+            __instance.StreamerModeButton.transform.localPosition = origin.Value + Vector3.right * 1.375f + Vector3.up * 1.071f;
             __instance.StreamerModeButton.transform.localScale = Vector3.one * 0.7f;
 
             if (ForceJapanese == null || ForceJapanese?.gameObject == null)
             {
-                ForceJapanese = CreateCustomToggle("Force Japanese: ", Main.ForceJapanese.Value, new Vector3(-0.375f, yOffset + 0.1f, 0), (UnityEngine.Events.UnityAction)ForceJapaneseButtonToggle, __instance);
+                ForceJapanese = CreateCustomToggle("Force Japanese: ", Main.ForceJapanese.Value, new Vector3(-0.375f, yOffset, 0), (UnityEngine.Events.UnityAction)ForceJapaneseButtonToggle, __instance);
 
                 void ForceJapaneseButtonToggle()
                 {
@@ -75,7 +74,7 @@ namespace TownOfHost
             }
             if (JapaneseRoleName == null || JapaneseRoleName.gameObject == null)
             {
-                JapaneseRoleName = CreateCustomToggle("Japanese Role Name: ", Main.JapaneseRoleName.Value, new Vector3(1.375f, yOffset + 0.1f, 0), (UnityEngine.Events.UnityAction)LangModeButtonToggle, __instance);
+                JapaneseRoleName = CreateCustomToggle("Japanese Role Name: ", Main.JapaneseRoleName.Value, new Vector3(1.375f, yOffset, 0), (UnityEngine.Events.UnityAction)LangModeButtonToggle, __instance);
 
                 void LangModeButtonToggle()
                 {

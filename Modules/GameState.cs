@@ -15,6 +15,7 @@ namespace TownOfHost
         {
             players = new();
             isDead = new();
+            IsBlackOut = new();
             deathReasons = new();
             taskState = new();
 
@@ -22,6 +23,7 @@ namespace TownOfHost
             {
                 players.Add(p.PlayerId);
                 isDead.Add(p.PlayerId, false);
+                IsBlackOut.Add(p.PlayerId, false);
                 deathReasons.Add(p.PlayerId, DeathReason.etc);
                 taskState.Add(p.PlayerId, new());
             }
@@ -31,6 +33,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> isDead = new();
         public static Dictionary<byte, DeathReason> deathReasons = new();
         public static Dictionary<byte, TaskState> taskState = new();
+        public static Dictionary<byte, bool> IsBlackOut = new();
         public static void SetDeathReason(byte p, DeathReason reason) { deathReasons[p] = reason; }
         public static DeathReason GetDeathReason(byte p) { return deathReasons.TryGetValue(p, out var reason) ? reason : DeathReason.etc; }
         public static void SetDead(byte p)
@@ -56,7 +59,7 @@ namespace TownOfHost
             Vote,
             Suicide,
             Spell,
-            LoversSuicide,
+            FollowingSuicide,
             Bite,
             Bombed,
             Misfire,
@@ -95,27 +98,28 @@ namespace TownOfHost
         public void Update(PlayerControl player)
         {
             Logger.Info($"{player.GetNameWithRole()}: UpdateTask", "TaskCounts");
+            Logger.Info($"{GameData.Instance.CompletedTasks}/{GameData.Instance.TotalTasks}", "TotalTaskCounts");
             if (!hasTasks) return;
             //初期化出来ていなかったら初期化
             if (AllTasksCount == -1) Init(player);
 
-            //FIXME:SpeedBoostre class transplant
+            //FIXME:SpeedBooster class transplant
             if (!player.Data.IsDead
             && player.Is(CustomRoles.SpeedBooster)
             && (((CompletedTasksCount + 1) >= AllTasksCount) || (CompletedTasksCount + 1) >= Options.SpeedBoosterTaskTrigger.GetInt())
             && !Main.SpeedBoostTarget.ContainsKey(player.PlayerId))
-            {   //ｽﾋﾟﾌﾞが生きていて、全タスク完了orトリガー数までタスクを完了していて、SppedBoostTargetに登録済みでない場合
+            {   //ｽﾋﾟﾌﾞが生きていて、全タスク完了orトリガー数までタスクを完了していて、SpeedBoostTargetに登録済みでない場合
                 var rand = new System.Random();
-                List<PlayerControl> targetplayers = new();
+                List<PlayerControl> targetPlayers = new();
                 //切断者と死亡者を除外
                 foreach (PlayerControl p in PlayerControl.AllPlayerControls)
                 {
-                    if (!p.Data.Disconnected && !p.Data.IsDead && !Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetplayers.Add(p);
+                    if (!p.Data.Disconnected && !p.Data.IsDead && !Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetPlayers.Add(p);
                 }
                 //ターゲットが0ならアップ先をプレイヤーをnullに
-                if (targetplayers.Count >= 1)
+                if (targetPlayers.Count >= 1)
                 {
-                    PlayerControl target = targetplayers[rand.Next(0, targetplayers.Count)];
+                    PlayerControl target = targetPlayers[rand.Next(0, targetPlayers.Count)];
                     Logger.Info("スピードブースト先:" + target.cosmetics.nameText.text, "SpeedBooster");
                     Main.SpeedBoostTarget.Add(player.PlayerId, target.PlayerId);
                     Main.AllPlayerSpeed[Main.SpeedBoostTarget[player.PlayerId]] += Options.SpeedBoosterUpSpeed.GetFloat();
@@ -142,6 +146,7 @@ namespace TownOfHost
     public static class GameStates
     {
         public static bool InGame = false;
+        public static bool MeetingCalled = false;
         public static bool IsLobby => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Joined;
         public static bool IsInGame => InGame;
         public static bool IsEnded => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Ended;

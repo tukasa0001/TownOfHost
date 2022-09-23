@@ -158,8 +158,8 @@ namespace TownOfHost
                 string json = await response.Content.ReadAsStringAsync();
                 JObject data = JObject.Parse(json);
 
-                string tagname = data["tag_name"]?.ToString();
-                if (tagname == null)
+                string tagName = data["tag_name"]?.ToString();
+                if (tagName == null)
                 {
                     return false;
                 }
@@ -167,7 +167,7 @@ namespace TownOfHost
                 string changeLog = data["body"]?.ToString();
                 if (changeLog != null) announcement = changeLog;
 
-                System.Version ver = System.Version.Parse(tagname.Replace("v", ""));
+                System.Version ver = System.Version.Parse(tagName.Replace("v", ""));
                 int diff = Main.version.CompareTo(ver);
                 if (diff < 0)
                 {
@@ -261,8 +261,9 @@ namespace TownOfHost
     {
         public static void Postfix()
         {
+            if (ModUpdaterButton.discordButton == null) return;
             ModUpdaterButton.discordButton.transform.localPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)) + new Vector3(-0.6f, 0.4f, 0);
-            if (ModUpdater.hasUpdate)
+            if (ModUpdater.hasUpdate && ModUpdaterButton.updateButton != null)
                 ModUpdaterButton.updateButton.transform.localPosition = new Vector3(ModUpdaterButton.updateButton.transform.localPosition.x, ModUpdaterButton.updateButton.transform.localPosition.y + 0.6f, ModUpdaterButton.updateButton.transform.localPosition.z);
         }
     }

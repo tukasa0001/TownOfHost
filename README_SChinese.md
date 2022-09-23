@@ -150,6 +150,22 @@ GM（游戏大师）是观察者角色<br>
 | 击杀赏金目标后击杀冷却时间(秒)    |
 | 击杀其他人后击杀冷却时间(秒)    |
 
+### EvilTracker/邪恶的追踪者
+
+阵营 : 内鬼阵营<br>
+基础 : 变形者<br>
+
+<br>
+<br>
+<br>
+
+#### 游戏选项
+
+| 名称                                  |
+| ------------------------------------- |
+| 当内鬼进行击杀时邪恶的追踪者可以看到闪光 |
+| 会议后重置邪恶的追踪者追踪目标 |
+
 ### FireWorks/烟花商人人
 
 是こう的主要并由他创建。<br>
@@ -487,6 +503,15 @@ Kihi的想法
 | 修理大师可以同时修理氧气                        |
 | 修理大师可以同时修理通讯           |
 | 修理大师可以修复灯光          |
+
+### Seer/灵媒
+
+阵营 : 船员阵营<br>
+基础 : 船员<br>
+
+<br>
+<br>
+<br>
 
 ### Sheriff/警长
 
@@ -875,9 +900,9 @@ Kihi的想法
 
 ## 贡献
 
-[赏金猎人](#BountyHunter/赏金猎人), [黑手党](#Mafia/黑手党),[吸血鬼](#Vampire/吸血鬼),[女巫](#Witch/女巫) ,[诱饵](#Bait/诱饵) ,[市长](#Mayor/市长),[警长](#Sheriff/警长),[告密者](#Snitch/告密者),[执灯人](#Lighter/执灯人)想法提出者：[The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
+[赏金猎人](#BountyHunter/赏金猎人), [黑手党](#Mafia/黑手党),[吸血鬼](#Vampire/吸血鬼),[女巫](#Witch/女巫) ,[诱饵](#Bait/诱饵) ,[市长](#Mayor/市长),[警长](#Sheriff/警长),[告密者](#Snitch/告密者),[执灯人](#Lighter/执灯人),[灵媒](#Seer/灵媒)想法提出者：[The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
 [投机者](#Opportunist/投机者),[术士](#Warlock/术士)原创：[The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
-[薛定谔的猫](#SchrodingerCat/薛定谔的猫)想法提出者：[The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
+[薛定谔的猫](#SchrodingerCat/薛定谔的猫),[邪恶的追踪者](#EvilTracker/邪恶的追踪者)想法提出者：[The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
 [医生](#Doctor/医生)原创：[Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
 [小丑](#Jester/小丑)和[叛徒](#Madmate/叛徒)原创：[au.libhalt.net](https://au.libhalt.net)<br>
 [陷阱师](#Trapper/陷阱师)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>

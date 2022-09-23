@@ -21,13 +21,13 @@ namespace TownOfHost
         static Dictionary<byte, bool> meetingReset = new();
 
         static int maxBulletCount;
-        static bool precisionshooting;
+        static bool precisionShooting;
 
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.Sniper);
-            SniperBulletCount = CustomOption.Create(Id + 10, Color.white, "SniperBulletCount", 5f, 1f, 3f, 1f, Options.CustomRoleSpawnChances[CustomRoles.Sniper]);
-            SniperPrecisionShooting = CustomOption.Create(Id + 11, Color.white, "SniperPrecisionShooting", false, Options.CustomRoleSpawnChances[CustomRoles.Sniper]);
+            Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Sniper);
+            SniperBulletCount = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "SniperBulletCount", 5f, 1f, 3f, 1f, Options.CustomRoleSpawnChances[CustomRoles.Sniper]);
+            SniperPrecisionShooting = CustomOption.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "SniperPrecisionShooting", false, Options.CustomRoleSpawnChances[CustomRoles.Sniper]);
         }
         public static void Init()
         {
@@ -39,7 +39,7 @@ namespace TownOfHost
             meetingReset = new();
 
             maxBulletCount = SniperBulletCount.GetInt();
-            precisionshooting = SniperPrecisionShooting.GetBool();
+            precisionShooting = SniperPrecisionShooting.GetBool();
         }
         public static void Add(byte playerId)
         {
@@ -152,7 +152,7 @@ namespace TownOfHost
                     var target_dot = Vector3.Dot(dir, target_dir);
                     Logger.Info($"{target?.Data?.PlayerName}:pos={target_pos} dir={target_dir}", "Sniper");
                     Logger.Info($"  Dot={target_dot}", "Sniper");
-                    if (precisionshooting)
+                    if (precisionShooting)
                     {
                         if (target_dot < 0.99) continue;
                         //ある程度正確ならターゲットとの誤差確認

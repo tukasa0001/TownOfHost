@@ -12,6 +12,7 @@ namespace TownOfHost
         public static int Preset = 0;
 
         public int Id;
+        public TabGroup Tab;
         public Color Color;
         public string Name;
         public Dictionary<string, string> ReplacementDictionary;
@@ -66,6 +67,7 @@ namespace TownOfHost
         }
 
         public CustomOption(int id,
+            TabGroup tab,
             Color color,
             string name,
             System.Object[] selections,
@@ -77,6 +79,7 @@ namespace TownOfHost
             Dictionary<string, string> replacementDic)
         {
             Id = id;
+            Tab = tab;
             Color = color;
             Name = name;
             Selections = selections;
@@ -104,11 +107,13 @@ namespace TownOfHost
                 Entry = Main.Instance.Config.Bind($"Preset{Preset}", id.ToString(), DefaultSelection);
                 Selection = Mathf.Clamp(Entry.Value, 0, selections.Length - 1);
             }
+            if (Options.Any(x => x.Id == id)) Logger.Warn($"ID:{id}が重複しています", "CustomOption");
             Options.Add(this);
             GameMode = CustomGameMode.Standard;
         }
 
         public static CustomOption Create(int id,
+            TabGroup tab,
             Color color,
             string name,
             string[] selections,
@@ -119,10 +124,11 @@ namespace TownOfHost
             string format = "",
             Dictionary<string, string> replacementDic = null)
         {
-            return new CustomOption(id, color, name, selections, defaultValue, parent, isHeader, isHidden, format, replacementDic);
+            return new CustomOption(id, tab, color, name, selections, defaultValue, parent, isHeader, isHidden, format, replacementDic);
         }
 
         public static CustomOption Create(int id,
+            TabGroup tab,
             Color color,
             string name,
             float defaultValue,
@@ -141,10 +147,11 @@ namespace TownOfHost
                 selections.Add(s);
             }
 
-            return new CustomOption(id, color, name, selections.Cast<object>().ToArray(), defaultValue, parent, isHeader, isHidden, format, replacementDic);
+            return new CustomOption(id, tab, color, name, selections.Cast<object>().ToArray(), defaultValue, parent, isHeader, isHidden, format, replacementDic);
         }
 
         public static CustomOption Create(int id,
+            TabGroup tab,
             Color color,
             string name,
             bool defaultValue,
@@ -154,7 +161,7 @@ namespace TownOfHost
             string format = "",
             Dictionary<string, string> replacementDic = null)
         {
-            return new CustomOption(id, color, name, new string[] { "ColoredOff", "ColoredOn" }, defaultValue ? "ColoredOn" : "ColoredOff", parent, isHeader, isHidden, format, replacementDic);
+            return new CustomOption(id, tab, color, name, new string[] { "ColoredOff", "ColoredOn" }, defaultValue ? "ColoredOn" : "ColoredOff", parent, isHeader, isHidden, format, replacementDic);
         }
 
         public static CustomOption Create(string name, float defaultValue, float min, float max, float step)
@@ -211,7 +218,7 @@ namespace TownOfHost
 
         public bool GetBool()
         {
-            return Selection > 0;
+            return Selection > 0 && (Parent == null || Parent.GetBool());
         }
 
         public float GetFloat()
@@ -221,6 +228,17 @@ namespace TownOfHost
         public int GetInt()
         {
             return (int)(float)Selections[Selection];
+        }
+        public int GetChance()
+        {
+            //0%or100%の場合
+            if (Selections.Length == 2) return Selection * 100;
+
+            //0%～100%or5%～100%の場合
+            var offset = 12 - Selections.Length;
+            var index = Selection + offset;
+            var rate = index <= 1 ? index * 5 : (index - 1) * 10;
+            return rate;
         }
 
         public string GetString()
@@ -289,5 +307,13 @@ namespace TownOfHost
             Parent = newParent;
             Parent?.Children.Add(this);
         }
+    }
+    public enum TabGroup
+    {
+        MainSettings,
+        CrewmateRoles,
+        NeutralRoles,
+        ImpostorRoles,
+        Modifier
     }
 }

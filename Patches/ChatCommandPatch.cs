@@ -6,6 +6,7 @@ using System.Text;
 using Assets.CoreScripts;
 using HarmonyLib;
 using Hazel;
+using UnityEngine;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -68,6 +69,16 @@ namespace TownOfHost
                     case "/rename":
                         canceled = true;
                         Main.nickName = args.Length > 1 ? Main.nickName = args[1] : "";
+                        break;
+
+                    case "/hn":
+                    case "/hidename":
+                        canceled = true;
+                        Main.HideName.Value = args.Length > 1 ? args.Skip(1).Join(delimiter: " ") : Main.HideName.DefaultValue.ToString();
+                        GameStartManagerPatch.GameStartManagerStartPatch.HideName.text =
+                            ColorUtility.TryParseHtmlString(Main.HideColor.Value, out _)
+                                ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
+                                : $"<color={Main.ModColor}>{Main.HideName.Value}</color>";
                         break;
 
                     case "/n":
@@ -180,6 +191,17 @@ namespace TownOfHost
                         }
                         break;
 
+                    case "/m":
+                    case "/myrole":
+                        canceled = true;
+                        var role = PlayerControl.LocalPlayer.GetCustomRole();
+                        if (GameStates.IsInGame)
+                        {
+                            if (role.IsVanilla()) HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString("Message.NoDescription"));
+                            else HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString(role.ToString()) + GetString($"{role}InfoLong"));
+                        }
+                        break;
+
                     case "/t":
                     case "/template":
                         canceled = true;
@@ -234,6 +256,7 @@ namespace TownOfHost
                 //Impostor役職
                 { (CustomRoles)(-1), $"== {GetString("Impostor")} ==" }, //区切り用
                 { CustomRoles.BountyHunter, "bo" },
+                { CustomRoles.EvilTracker,"et" },
                 { CustomRoles.FireWorks, "fw" },
                 { CustomRoles.Mare, "ma" },
                 { CustomRoles.Mafia, "mf" },
@@ -262,6 +285,7 @@ namespace TownOfHost
                 { CustomRoles.Lighter, "li" },
                 { CustomRoles.Mayor, "my" },
                 { CustomRoles.SabotageMaster, "sa" },
+                { CustomRoles.Seer,"se" },
                 { CustomRoles.Sheriff, "sh" },
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
@@ -336,7 +360,7 @@ namespace TownOfHost
                 if (tmp.Length > 1 && tmp[1] != "")
                 {
                     tags.Add(tmp[0]);
-                    if (tmp[0] == str) sendList.Add(tmp.Skip(1).Join(delimiter: "").Replace("\\n", "\n"));
+                    if (tmp[0] == str) sendList.Add(tmp.Skip(1).Join(delimiter: ":").Replace("\\n", "\n"));
                 }
             }
             if (sendList.Count == 0 && !noErr)
@@ -372,6 +396,28 @@ namespace TownOfHost
                         default:
                             Utils.ShowActiveSettings(player.PlayerId);
                             break;
+                    }
+                    break;
+
+                case "/h":
+                case "/help":
+                    subArgs = args.Length < 2 ? "" : args[1];
+                    switch (subArgs)
+                    {
+                        case "n":
+                        case "now":
+                            Utils.ShowActiveSettingsHelp(player.PlayerId);
+                            break;
+                    }
+                    break;
+
+                case "/m":
+                case "/myrole":
+                    var role = player.GetCustomRole();
+                    if (GameStates.IsInGame)
+                    {
+                        if (role.IsVanilla()) Utils.SendMessage(GetString("Message.NoDescription"), player.PlayerId);
+                        else Utils.SendMessage(GetString(role.ToString()) + GetString($"{role}InfoLong"), player.PlayerId);
                     }
                     break;
 
