@@ -156,7 +156,7 @@ namespace TownOfHost
             // Other Clients
             if (killer.PlayerId != 0)
             {
-                var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.Reliable);
+                var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.None);
                 sender.StartMessage(killer.GetClientId());
                 sender.StartRpc(killer.NetId, (byte)RpcCalls.ProtectPlayer)
                     .WriteNetObject((InnerNetObject)target)
