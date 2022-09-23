@@ -440,6 +440,13 @@ namespace TownOfHost
         {
             foreach (var opt in option.Children.Select((v, i) => new { Value = v, Index = i + 1 }))
             {
+                if (opt.Value.Name == "Maximum") continue; //Maximumの項目は飛ばす
+                if (opt.Value.Name == "DisableSkeldDevices" && !Options.IsActiveSkeld) continue;
+                if (opt.Value.Name == "DisableMiraHQDevices" && !Options.IsActiveMiraHQ) continue;
+                if (opt.Value.Name == "DisablePolusDevices" && !Options.IsActivePolus) continue;
+                if (opt.Value.Name == "DisableAirshipDevices" && !Options.IsActiveAirship) continue;
+                if (opt.Value.Name == "PolusReactorTimeLimit" && !Options.IsActivePolus) continue;
+                if (opt.Value.Name == "AirshipReactorTimeLimit" && !Options.IsActiveAirship) continue;
                 if (deep > 0)
                 {
                     text += string.Concat(Enumerable.Repeat("┃", Mathf.Max(deep - 1, 0)));
@@ -938,7 +945,7 @@ namespace TownOfHost
         public static (int, int) GetDousedPlayerCount(byte playerId)
         {
             int doused = 0, all = 0; //学校で習った書き方
-            //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
+                                     //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc == null ||
