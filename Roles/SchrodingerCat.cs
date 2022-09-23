@@ -93,7 +93,7 @@ namespace TownOfHost
                 if (pc.Is(CustomRoles.Egoist) && !pc.Data.IsDead && Rand.Contains(CustomRoles.EgoSchrodingerCat))
                     Rand.Add(CustomRoles.EgoSchrodingerCat);
 
-                if (CustomRoles.Jackal.IsEnable() && pc.Is(CustomRoles.Jackal) && !pc.Data.IsDead && Rand.Contains(CustomRoles.JSchrodingerCat))
+                if (pc.Is(CustomRoles.Jackal) && !pc.Data.IsDead && Rand.Contains(CustomRoles.JSchrodingerCat))
                     Rand.Add(CustomRoles.JSchrodingerCat);
             }
             var Role = Rand[rand.Next(Rand.Count)];
