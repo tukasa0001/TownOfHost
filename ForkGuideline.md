@@ -48,6 +48,6 @@ main.csにあるプログラム設定は、フォーク開発者向けに作ら�
 | `Main.ModName`           | modの表示名です                 | TownOfHost                            | タイトル画面とゲーム中に右上に表示されます                     |
 | `Main.ModColor`          | modの色です                     | #00bfff                               | mod名表示の色として使用されます                                |
 | `Main.AllowPublicRoom`   | 公開ルームを許可するか          | true                                  | プライベートフォークの場合はfalseに変更してください            |
-| `Main.ForkId`            | フォーク固有のID                | Original当mod                         | バージョン判定に使われるので、必ず固有のものに変更してください |
+| `Main.ForkId`            | フォーク固有のID                | OriginalTOH                           | バージョン判定に使われるので、必ず固有のものに変更してください |
 | `Main.ShowDiscordButton` | Discordボタンを表示するかどうか | true                                  | Discordサーバーがない場合はfalseに変更してください             |
 | `Main.DiscordInviteUrl`  | Discordボタンのリンク先         | [省略](https://discord.gg/W5ug6hXB9V) | Discordボタンを表示する場合は必ず変更してください              |
