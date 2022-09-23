@@ -438,7 +438,7 @@ ForceEnd,No Contest,廃村,强制结束游戏,遊戲已被強制結束,Игра 
 EveryoneDied,Everyone Died,誰もいなくなった,没有人存活,沒有人存活,Все Мертвы
 ForceEndText,The host terminated the game,ホストから強制終了コマンドが入力されました,房主强制结束了游戏,房主已強制結束遊戲,Хост завершил игру
 HideGameCodes,Hide Game Codes,ゲームコードを隠す,直播模式,隱藏遊戲代碼,Скрыть Игровой Код
-updateButton,Update\n<size=75%>TownOfHost</size>,アップデート\n<size=75%>TownOfHost</size>,更新\n<size=75%>TownOfHost</size>,更新\n<size=75%>Town Of Host</size>中,Обновление\n<size=75%>TownOfHost</size>
+updateButton,Update\n<size=75%>TownOfHost</size>,アップデート\n<size=75%>TownOfHost</size>,更新\n<size=75%>TownOfHost</size>,更新\n<size=75%>Town Of Host</size>,Обновление\n<size=75%>TownOfHost</size>
 updatePleaseWait,Please Wait...,しばらくお待ちください...,请稍候……,請稍後...,Пожалуйства Подождите...
 updateManually,Update failed.\nPlease Update Manually.,アップデートに失敗しました。\n手動でアップデートをしてください。,更新失败。\n请尝试手动更新。,"更新失敗,\n請嘗試手動更新",Ошибка обновления.\nПожалуйста Обновите Вручную.
 updateInProgress,Updating...,アップデート中...,更新中……,更新中...,Обновление...
