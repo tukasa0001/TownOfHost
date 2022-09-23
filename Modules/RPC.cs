@@ -323,6 +323,9 @@ namespace TownOfHost
                 case CustomRoles.Executioner:
                     Executioner.Add(targetId);
                     break;
+                case CustomRoles.Jackal:
+                    Jackal.Add(targetId);
+                    break;
 
                 case CustomRoles.Sheriff:
                     Sheriff.Add(targetId);

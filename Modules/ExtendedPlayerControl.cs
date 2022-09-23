@@ -347,7 +347,7 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Jackal:
                 case CustomRoles.JSchrodingerCat:
-                    opt.SetVision(player, Options.JackalHasImpostorVision.GetBool());
+                    Jackal.ApplyGameOptions(opt, player);
                     break;
 
 
@@ -604,7 +604,7 @@ namespace TownOfHost
                     Egoist.ApplyKillCooldown(player.PlayerId);
                     break;
                 case CustomRoles.Jackal:
-                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.JackalKillCooldown.GetFloat();
+                    Jackal.SetKillCooldown(player.PlayerId);
                     break;
                 case CustomRoles.Sheriff:
                     Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
@@ -640,9 +640,7 @@ namespace TownOfHost
                     player.Data.Role.CanVent = CanUse;
                     return;
                 case CustomRoles.Jackal:
-                    bool jackal_canUse = Options.JackalCanVent.GetBool();
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(jackal_canUse && !player.Data.IsDead);
-                    player.Data.Role.CanVent = jackal_canUse;
+                    Jackal.CanUseVent(player);
                     return;
             }
         }

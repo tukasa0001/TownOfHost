@@ -35,6 +35,12 @@ namespace TownOfHost
             "Standard", "HideAndSeek",
         };
 
+        // MapActive
+        public static bool IsActiveSkeld => AddedTheSkeld.GetBool() || PlayerControl.GameOptions.MapId == 0;
+        public static bool IsActiveMiraHQ => AddedMiraHQ.GetBool() || PlayerControl.GameOptions.MapId == 1;
+        public static bool IsActivePolus => AddedPolus.GetBool() || PlayerControl.GameOptions.MapId == 2;
+        public static bool IsActiveAirship => AddedTheAirShip.GetBool() || PlayerControl.GameOptions.MapId == 4;
+
         // 役職数・確率
         public static Dictionary<CustomRoles, int> roleCounts;
         public static Dictionary<CustomRoles, float> roleSpawnChances;
@@ -87,10 +93,6 @@ namespace TownOfHost
         public static CustomOption CanTerroristSuicideWin;
         public static CustomOption ArsonistDouseTime;
         public static CustomOption ArsonistCooldown;
-        public static CustomOption JackalKillCooldown;
-        public static CustomOption JackalCanVent;
-        public static CustomOption JackalCanUseSabotage;
-        public static CustomOption JackalHasImpostorVision;
         public static CustomOption KillFlashDuration;
 
         // HideAndSeek
@@ -367,12 +369,7 @@ namespace TownOfHost
             SchrodingerCat.SetupCustomOption();
             Egoist.SetupCustomOption();
             Executioner.SetupCustomOption();
-            //Jackalは1人固定
-            SetupSingleRoleOptions(50900, TabGroup.NeutralRoles, CustomRoles.Jackal, 1);
-            JackalKillCooldown = CustomOption.Create(50910, TabGroup.NeutralRoles, Color.white, "KillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            JackalCanVent = CustomOption.Create(50911, TabGroup.NeutralRoles, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            JackalCanUseSabotage = CustomOption.Create(50912, TabGroup.NeutralRoles, Color.white, "CanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            JackalHasImpostorVision = CustomOption.Create(50913, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            Jackal.SetupCustomOption();
 
             // Attribute
             EnableLastImpostor = CustomOption.Create(80000, TabGroup.MainSettings, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
