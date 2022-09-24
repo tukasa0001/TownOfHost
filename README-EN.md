@@ -876,6 +876,12 @@ Various devices can be disabled.
 | ┣ Disable Airship Records Admin |
 | ┣ Disable Camera                |
 | ┗ Disable Vital                 |
+| Ignore Conditions               |
+| ┣ Ignore Impostors              |
+| ┣ Ignore Madmates               |
+| ┣ Ignore Neutrals               |
+| ┣ Ignore Crewmates              |
+| ┗ Ignore After Anyone Died      |
 
 ## SabotageTimeControl
 
