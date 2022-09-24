@@ -223,6 +223,7 @@ namespace TownOfHost
         public static void Prefix(MeetingHud __instance)
         {
             Logger.Info("------------会議開始------------", "Phase");
+            GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
             Main.witchMeeting = true;
             Utils.NotifyRoles(isMeeting: true, NoCache: true);
             Main.witchMeeting = false;

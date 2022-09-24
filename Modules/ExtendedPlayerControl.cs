@@ -156,7 +156,7 @@ namespace TownOfHost
             // Other Clients
             if (killer.PlayerId != 0)
             {
-                var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.Reliable);
+                var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.None);
                 sender.StartMessage(killer.GetClientId());
                 sender.StartRpc(killer.NetId, (byte)RpcCalls.ProtectPlayer)
                     .WriteNetObject((InnerNetObject)target)
@@ -347,7 +347,7 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Jackal:
                 case CustomRoles.JSchrodingerCat:
-                    opt.SetVision(player, Options.JackalHasImpostorVision.GetBool());
+                    Jackal.ApplyGameOptions(opt, player);
                     break;
 
 
@@ -583,25 +583,6 @@ namespace TownOfHost
             writer.Write(isDoused);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void ExiledSchrodingerCatTeamChange(this PlayerControl player)
-        {
-            var rand = new System.Random();
-            List<CustomRoles> RandSchrodinger = new()
-            {
-                CustomRoles.CSchrodingerCat,
-                CustomRoles.MSchrodingerCat
-            };
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (CustomRoles.Egoist.IsEnable() && pc.Is(CustomRoles.Egoist) && !pc.Data.IsDead)
-                    RandSchrodinger.Add(CustomRoles.EgoSchrodingerCat);
-
-                if (CustomRoles.Jackal.IsEnable() && pc.Is(CustomRoles.Jackal) && !pc.Data.IsDead)
-                    RandSchrodinger.Add(CustomRoles.JSchrodingerCat);
-            }
-            var SchrodingerTeam = RandSchrodinger[rand.Next(RandSchrodinger.Count)];
-            player.RpcSetCustomRole(SchrodingerTeam);
-        }
         public static void ResetKillCooldown(this PlayerControl player)
         {
             Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
@@ -623,7 +604,7 @@ namespace TownOfHost
                     Egoist.ApplyKillCooldown(player.PlayerId);
                     break;
                 case CustomRoles.Jackal:
-                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.JackalKillCooldown.GetFloat();
+                    Jackal.SetKillCooldown(player.PlayerId);
                     break;
                 case CustomRoles.Sheriff:
                     Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
@@ -659,9 +640,7 @@ namespace TownOfHost
                     player.Data.Role.CanVent = CanUse;
                     return;
                 case CustomRoles.Jackal:
-                    bool jackal_canUse = Options.JackalCanVent.GetBool();
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(jackal_canUse && !player.Data.IsDead);
-                    player.Data.Role.CanVent = jackal_canUse;
+                    Jackal.CanUseVent(player);
                     return;
             }
         }

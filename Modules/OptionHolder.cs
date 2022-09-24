@@ -35,6 +35,12 @@ namespace TownOfHost
             "Standard", "HideAndSeek",
         };
 
+        // MapActive
+        public static bool IsActiveSkeld => AddedTheSkeld.GetBool() || PlayerControl.GameOptions.MapId == 0;
+        public static bool IsActiveMiraHQ => AddedMiraHQ.GetBool() || PlayerControl.GameOptions.MapId == 1;
+        public static bool IsActivePolus => AddedPolus.GetBool() || PlayerControl.GameOptions.MapId == 2;
+        public static bool IsActiveAirship => AddedTheAirShip.GetBool() || PlayerControl.GameOptions.MapId == 4;
+
         // 役職数・確率
         public static Dictionary<CustomRoles, int> roleCounts;
         public static Dictionary<CustomRoles, float> roleSpawnChances;
@@ -87,12 +93,6 @@ namespace TownOfHost
         public static CustomOption CanTerroristSuicideWin;
         public static CustomOption ArsonistDouseTime;
         public static CustomOption ArsonistCooldown;
-        public static CustomOption CanBeforeSchrodingerCatWinTheCrewmate;
-        public static CustomOption SchrodingerCatExiledTeamChanges;
-        public static CustomOption JackalKillCooldown;
-        public static CustomOption JackalCanVent;
-        public static CustomOption JackalCanUseSabotage;
-        public static CustomOption JackalHasImpostorVision;
         public static CustomOption KillFlashDuration;
 
         // HideAndSeek
@@ -119,6 +119,12 @@ namespace TownOfHost
         public static CustomOption DisableAirshipRecordsAdmin;
         public static CustomOption DisableAirshipCamera;
         public static CustomOption DisableAirshipVital;
+        public static CustomOption DisableDevicesIgnoreConditions;
+        public static CustomOption DisableDevicesIgnoreImpostors;
+        public static CustomOption DisableDevicesIgnoreMadmates;
+        public static CustomOption DisableDevicesIgnoreNeutrals;
+        public static CustomOption DisableDevicesIgnoreCrewmates;
+        public static CustomOption DisableDevicesIgnoreAfterAnyoneDied;
 
         // ボタン回数
         public static CustomOption SyncButtonMode;
@@ -184,6 +190,12 @@ namespace TownOfHost
         public static CustomOption SabotageTimeControl;
         public static CustomOption PolusReactorTimeLimit;
         public static CustomOption AirshipReactorTimeLimit;
+
+        // 停電の特殊設定
+        public static CustomOption LightsOutSpecialSettings;
+        public static CustomOption DisableAirshipViewingDeckLightsPanel;
+        public static CustomOption DisableAirshipGapRoomLightsPanel;
+        public static CustomOption DisableAirshipCargoLightsPanel;
 
         // タスク上書き
         public static OverrideTasksData MadGuardianTasks;
@@ -367,17 +379,10 @@ namespace TownOfHost
             TerroristTasks = OverrideTasksData.Create(50220, TabGroup.NeutralRoles, CustomRoles.Terrorist);
             SetupLoversRoleOptionsToggle(50300);
 
-            SetupRoleOptions(50400, TabGroup.NeutralRoles, CustomRoles.SchrodingerCat);
-            CanBeforeSchrodingerCatWinTheCrewmate = CustomOption.Create(50410, TabGroup.NeutralRoles, Color.white, "CanBeforeSchrodingerCatWinTheCrewmate", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
-            SchrodingerCatExiledTeamChanges = CustomOption.Create(50411, TabGroup.NeutralRoles, Color.white, "SchrodingerCatExiledTeamChanges", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
+            SchrodingerCat.SetupCustomOption();
             Egoist.SetupCustomOption();
             Executioner.SetupCustomOption();
-            //Jackalは1人固定
-            SetupSingleRoleOptions(50900, TabGroup.NeutralRoles, CustomRoles.Jackal, 1);
-            JackalKillCooldown = CustomOption.Create(50910, TabGroup.NeutralRoles, Color.white, "KillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            JackalCanVent = CustomOption.Create(50911, TabGroup.NeutralRoles, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            JackalCanUseSabotage = CustomOption.Create(50912, TabGroup.NeutralRoles, Color.white, "CanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            JackalHasImpostorVision = CustomOption.Create(50913, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            Jackal.SetupCustomOption();
 
             // Attribute
             EnableLastImpostor = CustomOption.Create(80000, TabGroup.MainSettings, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
@@ -434,6 +439,18 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
             DisableAirshipVital = CustomOption.Create(101244, TabGroup.MainSettings, Color.white, "DisableAirshipVital", false, DisableAirshipDevices)
                 .SetGameMode(CustomGameMode.Standard);
+            DisableDevicesIgnoreConditions = CustomOption.Create(101290, TabGroup.MainSettings, Color.white, "IgnoreConditions", false, DisableDevices)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableDevicesIgnoreImpostors = CustomOption.Create(101291, TabGroup.MainSettings, Color.white, "IgnoreImpostors", false, DisableDevicesIgnoreConditions)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableDevicesIgnoreMadmates = CustomOption.Create(101292, TabGroup.MainSettings, Color.white, "IgnoreMadmates", false, DisableDevicesIgnoreConditions)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableDevicesIgnoreNeutrals = CustomOption.Create(101293, TabGroup.MainSettings, Color.white, "IgnoreNeutrals", false, DisableDevicesIgnoreConditions)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableDevicesIgnoreCrewmates = CustomOption.Create(101294, TabGroup.MainSettings, Color.white, "IgnoreCrewmates", false, DisableDevicesIgnoreConditions)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableDevicesIgnoreAfterAnyoneDied = CustomOption.Create(101295, TabGroup.MainSettings, Color.white, "IgnoreAfterAnyoneDied", false, DisableDevicesIgnoreConditions)
+                .SetGameMode(CustomGameMode.Standard);
 
             // ボタン回数同期
             SyncButtonMode = CustomOption.Create(100200, TabGroup.MainSettings, Color.white, "SyncButtonMode", false, null, true)
@@ -447,6 +464,16 @@ namespace TownOfHost
             PolusReactorTimeLimit = CustomOption.Create(100801, TabGroup.MainSettings, Color.white, "PolusReactorTimeLimit", 30, 1, 60, 1, SabotageTimeControl)
                 .SetGameMode(CustomGameMode.Standard);
             AirshipReactorTimeLimit = CustomOption.Create(100802, TabGroup.MainSettings, Color.white, "AirshipReactorTimeLimit", 60, 1, 90, 1, SabotageTimeControl)
+                .SetGameMode(CustomGameMode.Standard);
+
+            // 停電の特殊設定
+            LightsOutSpecialSettings = CustomOption.Create(101500, TabGroup.MainSettings, Color.white, "LightsOutSpecialSettings", false, null, true)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableAirshipViewingDeckLightsPanel = CustomOption.Create(101511, TabGroup.MainSettings, Color.white, "DisableAirshipViewingDeckLightsPanel", false, LightsOutSpecialSettings)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableAirshipGapRoomLightsPanel = CustomOption.Create(101512, TabGroup.MainSettings, Color.white, "DisableAirshipGapRoomLightsPanel", false, LightsOutSpecialSettings)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableAirshipCargoLightsPanel = CustomOption.Create(101513, TabGroup.MainSettings, Color.white, "DisableAirshipCargoLightsPanel", false, LightsOutSpecialSettings)
                 .SetGameMode(CustomGameMode.Standard);
 
             // タスク無効化

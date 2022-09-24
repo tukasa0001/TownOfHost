@@ -98,6 +98,7 @@ namespace TownOfHost
         public void Update(PlayerControl player)
         {
             Logger.Info($"{player.GetNameWithRole()}: UpdateTask", "TaskCounts");
+            Logger.Info($"{GameData.Instance.CompletedTasks}/{GameData.Instance.TotalTasks}", "TotalTaskCounts");
             if (!hasTasks) return;
             //初期化出来ていなかったら初期化
             if (AllTasksCount == -1) Init(player);
@@ -146,6 +147,7 @@ namespace TownOfHost
     {
         public static bool InGame = false;
         public static bool MeetingCalled = false;
+        public static bool AlreadyDied = false;
         public static bool IsLobby => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Joined;
         public static bool IsInGame => InGame;
         public static bool IsEnded => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Ended;

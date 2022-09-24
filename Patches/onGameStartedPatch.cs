@@ -105,12 +105,14 @@ namespace TownOfHost
             Mare.Init();
             Egoist.Init();
             Executioner.Init();
+            Jackal.Init();
             Sheriff.Init();
             EvilTracker.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
 
             GameStates.MeetingCalled = false;
+            GameStates.AlreadyDied = false;
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
@@ -351,6 +353,9 @@ namespace TownOfHost
                         case CustomRoles.Egoist:
                             Egoist.Add(pc.PlayerId);
                             break;
+                        case CustomRoles.Jackal:
+                            Jackal.Add(pc.PlayerId);
+                            break;
 
                         case CustomRoles.Sheriff:
                             Sheriff.Add(pc.PlayerId);
@@ -405,7 +410,7 @@ namespace TownOfHost
             }
 
             // ResetCamが必要なプレイヤーのリストにクラス化が済んでいない役職のプレイヤーを追加
-            Main.ResetCamPlayerList.AddRange(PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is CustomRoles.Arsonist or CustomRoles.Jackal).Select(p => p.PlayerId));
+            Main.ResetCamPlayerList.AddRange(PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is CustomRoles.Arsonist).Select(p => p.PlayerId));
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;

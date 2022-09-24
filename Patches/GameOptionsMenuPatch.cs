@@ -184,6 +184,8 @@ namespace TownOfHost
                 {
                     enabled = parent.Enabled;
                     parent = parent.Parent;
+                    var opt = option.OptionBehaviour.transform.Find("Background").GetComponent<SpriteRenderer>();
+                    opt.color = option.Parent?.Parent != null ? new(0f, 0f, 1f) : new(0f, 1f, 0f);
                 }
 
                 option.OptionBehaviour.gameObject.SetActive(enabled);

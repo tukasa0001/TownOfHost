@@ -1,3 +1,4 @@
+using System.Linq;
 using HarmonyLib;
 
 namespace TownOfHost
@@ -76,8 +77,7 @@ namespace TownOfHost
                 Executioner.CheckExileTarget(exiled, DecidedWinner);
                 if (exiled.Object.Is(CustomRoles.TimeThief))
                     exiled.Object.ResetVotingTime();
-                if (exiled.Object.Is(CustomRoles.SchrodingerCat) && Options.SchrodingerCatExiledTeamChanges.GetBool())
-                    exiled.Object.ExiledSchrodingerCatTeamChange();
+                SchrodingerCat.ChangeTeam(exiled.Object);
 
 
                 if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) PlayerState.SetDead(exiled.PlayerId);
@@ -151,6 +151,8 @@ namespace TownOfHost
                         exiled.Object.RpcExileV2();
                     }
                 }, 0.5f, "Restore IsDead Task");
+            GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
+            RemoveDisableDevicesPatch.UpdateDisableDevices();
             SoundManager.Instance.ChangeMusicVolume(SaveManager.MusicVolume);
             Logger.Info("タスクフェイズ開始", "Phase");
         }
