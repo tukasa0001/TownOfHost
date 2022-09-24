@@ -442,6 +442,7 @@ Error.InvalidRoleAssignment,Error: Invalid role found for a player during role a
 Error.SpeedBoosterNullException,Error: The speed boost destination is null.\nPlease save the log and create a bug report ticket.,エラー: スピードブースト先がnullです。\nログを保存し、バグ報告チケットを作成してください。,错误：增速者的增速目标为空。 \n请保存日志并创建错误报告票。,"錯誤:加速器加速的對象無效,\n請將遊戲輸出記錄保存並在TOH官方DC群組開啟一張支援票",Ошибка: пункт назначения повышения скорости не указан.\nСохраните логи и создайте заявку на отчет об ошибке.
 
 ## その他
+DefaultSystemMessageTitle,【===== System Message =====】,【===== システムメッセージ ======】,,,
 ActiveRolesList,Active Roles List,有効な役職一覧,有效职业一览,,
 ForExample,For Example,使用例,使用例子,使用例子,Например
 ForceEnd,No Contest,廃村,强制结束游戏,遊戲已被強制結束,Игра Была Окончена
@@ -506,7 +507,7 @@ Standard,Standard,スタンダード,标准,普通,Стандартный
 GameMode,GameMode,ゲームモード,游戏模式,遊戲模式,ИгровойРежим
 PressTabToNextPage,Press Tab To Next Page...,Tabキーを押して次のページへ...,按tab键查看更多...,按下Tab以顯示下一頁...,Нажмите Tab Чтобы Перейти На Следующую Страницу...
 RoleSummaryText,Players and roles at the end of the game:,ゲーム終了時の役職一覧:,游戏结束时玩家职业:,遊戲結束時玩家的職業:,Игроки и роли в конце игры:
-doOverride,Override %role%'s Tasks,%role%のタスクを上書きする,特别设置%role%的任务数,特別設定%role%的任務,Изменить Задания У %role%
+doOverride,Override %role%'s Tasks(At Least 1),%role%のタスクを上書きする(1以上),特别设置%role%的任务数,特別設定%role%的任務,Изменить Задания У %role%
 assignCommonTasks,%role% has Common Tasks,%role%に通常タスクを割り当てる,%role%的普通任务数,%role%有普通任務,%role% Имеет Общие Задания
 roleLongTasksNum,%role% Long Tasks,%role%のロングタスクの数,%role%的长任务数,%role%的長任務數量,%role% Долгие Задания
 roleShortTasksNum,%role% Short Tasks,%role%のショートタスクの数,%role%的短任务数,%role%的短任務數量,%role% Короткие Задания

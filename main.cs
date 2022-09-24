@@ -76,7 +76,7 @@ namespace TownOfHost
         public static int BeforeFixMeetingCooldown = 10;
         public static List<byte> ResetCamPlayerList;
         public static List<byte> winnerList;
-        public static List<(string, byte)> MessagesToSend;
+        public static List<(string, byte, string)> MessagesToSend;
         public static bool isChatCommand = false;
         public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
@@ -156,7 +156,7 @@ namespace TownOfHost
             MayorUsedButtonCount = new Dictionary<byte, int>();
             winnerList = new();
             VisibleTasksCount = false;
-            MessagesToSend = new List<(string, byte)>();
+            MessagesToSend = new List<(string, byte, string)>();
             currentDousingTarget = 255;
 
             Preset1 = Config.Bind("Preset Name Options", "Preset1", "Preset_1");

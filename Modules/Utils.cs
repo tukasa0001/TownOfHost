@@ -534,10 +534,11 @@ namespace TownOfHost
                 CustomWinnerHolder.WinnerIds.Add(Terrorist.PlayerId);
             }
         }
-        public static void SendMessage(string text, byte sendTo = byte.MaxValue)
+        public static void SendMessage(string text, byte sendTo = byte.MaxValue, string title = "")
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            Main.MessagesToSend.Add((text, sendTo));
+            if (title == "") title = "<color=#aaaaff>" + GetString("DefaultSystemMessageTitle") + "</color>";
+            Main.MessagesToSend.Add((text, sendTo, title));
         }
         public static void ApplySuffix()
         {
