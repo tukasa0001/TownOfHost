@@ -152,6 +152,11 @@ namespace TownOfHost
         public static void Postfix()
         {
             if (!Options.DisableDevices.GetBool()) return;
+            UpdateDisableDevices();
+        }
+
+        public static void UpdateDisableDevices()
+        {
             var admins = GameObject.FindObjectsOfType<MapConsole>();
             var consoles = GameObject.FindObjectsOfType<SystemConsole>();
             if (admins == null || consoles == null) return;
