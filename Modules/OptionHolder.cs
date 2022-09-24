@@ -191,6 +191,12 @@ namespace TownOfHost
         public static CustomOption PolusReactorTimeLimit;
         public static CustomOption AirshipReactorTimeLimit;
 
+        // 停電の特殊設定
+        public static CustomOption LightsOutSpecialSettings;
+        public static CustomOption DisableAirshipViewingDeckLightsPanel;
+        public static CustomOption DisableAirshipGapRoomLightsPanel;
+        public static CustomOption DisableAirshipCargoLightsPanel;
+
         // タスク上書き
         public static OverrideTasksData MadGuardianTasks;
         public static OverrideTasksData TerroristTasks;
@@ -457,6 +463,16 @@ namespace TownOfHost
             PolusReactorTimeLimit = CustomOption.Create(100801, TabGroup.MainSettings, Color.white, "PolusReactorTimeLimit", 30, 1, 60, 1, SabotageTimeControl)
                 .SetGameMode(CustomGameMode.Standard);
             AirshipReactorTimeLimit = CustomOption.Create(100802, TabGroup.MainSettings, Color.white, "AirshipReactorTimeLimit", 60, 1, 90, 1, SabotageTimeControl)
+                .SetGameMode(CustomGameMode.Standard);
+
+            // 停電の特殊設定
+            LightsOutSpecialSettings = CustomOption.Create(101500, TabGroup.MainSettings, Color.white, "LightsOutSpecialSettings", false, null, true)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableAirshipViewingDeckLightsPanel = CustomOption.Create(101511, TabGroup.MainSettings, Color.white, "DisableAirshipViewingDeckLightsPanel", false, LightsOutSpecialSettings)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableAirshipGapRoomLightsPanel = CustomOption.Create(101512, TabGroup.MainSettings, Color.white, "DisableAirshipGapRoomLightsPanel", false, LightsOutSpecialSettings)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableAirshipCargoLightsPanel = CustomOption.Create(101513, TabGroup.MainSettings, Color.white, "DisableAirshipCargoLightsPanel", false, LightsOutSpecialSettings)
                 .SetGameMode(CustomGameMode.Standard);
 
             // タスク無効化
