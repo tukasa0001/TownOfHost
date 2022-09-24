@@ -60,6 +60,11 @@ namespace TownOfHost
                             var clientId = pc.GetClientId();
                             bool IsGuard = false;
                             Vector2 PlayerPos = pc.GetTruePosition();
+                            bool ignore = (Options.DisableDevicesIgnoreImpostors.GetBool() && pc.Is(RoleType.Impostor)) ||
+                                    (Options.DisableDevicesIgnoreMadmates.GetBool() && pc.Is(RoleType.Madmate)) ||
+                                    (Options.DisableDevicesIgnoreNeutrals.GetBool() && pc.Is(RoleType.Neutral)) ||
+                                    (Options.DisableDevicesIgnoreCrewmates.GetBool() && pc.Is(RoleType.Crewmate)) ||
+                                    (Options.DisableDevicesIgnoreAfterAnyoneDied.GetBool() && GameStates.AlreadyDied);
 
                             if (pc.IsAlive() && !Utils.IsActive(SystemTypes.Comms))
                             {
@@ -100,6 +105,7 @@ namespace TownOfHost
                                         break;
                                 }
                             }
+                            IsGuard &= !ignore;
                             if (IsGuard && !pc.inVent)
                             {
                                 if (!OldDesyncCommsPlayers.Contains(pc.PlayerId))
