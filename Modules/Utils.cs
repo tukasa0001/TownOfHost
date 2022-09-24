@@ -537,6 +537,7 @@ namespace TownOfHost
         public static void SendMessage(string text, byte sendTo = byte.MaxValue, string title = "")
         {
             if (!AmongUsClient.Instance.AmHost) return;
+            if (title == "") title = "<color=#aaaaff>" + GetString("DefaultSystemMessageTitle") + "</color>";
             Main.MessagesToSend.Add((text, sendTo, title));
         }
         public static void ApplySuffix()
