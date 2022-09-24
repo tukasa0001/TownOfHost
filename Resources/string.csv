@@ -87,7 +87,7 @@ TeamJackal,Team Jackal,ジャッカル陣営,豺狼阵营,豺狼陣營,Кома�
 
 
 ## 役職説明ショート
-NeutralInfo,A solitary teams that does not belong to any other teams,他のどの陣営にも属さない孤高の陣営,不属于其他阵营的独立阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響,Одиночная команда не принадлежит ни к каким другим командам
+NeutralInfo,A solitary teams that does not belong to any other teams,他のどの陣営にも属さない孤高の陣営,你不不属于其他阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響,Одиночная команда не принадлежит ни к каким другим командам
 
 # 特殊インポスター役職
 BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう,猎杀你的赏金目标,將你的目標拿下,Охотьтесь за своей целью
@@ -224,10 +224,10 @@ AddedMIRAHQ,Include MIRAHQ,MIRAHQを追加,添加米拉总部地图,將MIRA HQ�
 AddedPolus,Include Polus,Polusを追加,添加波鲁斯地图,將Polus地圖列入選項,Добавить Polus
 AddedTheAirShip,Include TheAirShip,TheAirShipを追加,添加飞艇地图,將The AirShip列入選項,Добавить TheAirship
 AllAliveMeeting,All Alive Meeting,全員生存時の会議,全员存活会议,,Все Живые На Голосовании
-AllAliveMeetingTime,All Alive Meeting Time,全員生存時の会議時間,全员存活会议时间,,Все Живые На Голосовании Время
-AdditionalEmergencyCooldown,Additional Emergency Cooldown,追加の緊急ボタンクールダウン,附加紧急会议冷却时间,,Дополнительный Аварийный Откат
+AllAliveMeetingTime,All Alive Meeting Time,全員生存時の会議時間,全员存活时的会议时间,,Все Живые На Голосовании Время
+AdditionalEmergencyCooldown,Additional Emergency Cooldown,追加の緊急ボタンクールダウン,增加紧急会议冷却时间,,Дополнительный Аварийный Откат
 AdditionalEmergencyCooldownThreshold,Survivor Threshold To Be Applied,適用する生存人数,适用存活人数,,Применяемый Порог Выживания
-AdditionalEmergencyCooldownTime,Additional Cooldown,追加するクールダウン,附加冷却时间,,Дополнительный Откат
+AdditionalEmergencyCooldownTime,Additional Cooldown,追加するクールダウン,增加冷却时间,,Дополнительный Откат
 LadderDeath,Fall From Ladders,ハシゴから転落,从梯子上下滑时有可能摔死,從梯子上下滑時可能會摔死,Падение с лестницы
 LadderDeathChance,Fall To Death Chance,転落する確率,从梯子上摔死的概率,從梯子上下滑摔死機率,Шанс Разбиться Насмерть
 DisableTasks,Disable Tasks,タスクを無効化する,禁用某些任务,禁用某些特定的任務,Отключить Задания
@@ -256,8 +256,8 @@ ModeOptions,Mode Options,モード設定,模组设置,模式設定,Настро�
 ForceJapanese,Force Japanese,日本語に強制,强制使用日语,強制使用日語,Принудительный Японский
 AutoDisplayLastResult,Auto Display Last Result,自動的に試合結果を表示,自动显示最终结果,自動顯示上一回合結果,Отображать Результат Последней Игры
 VoteMode,VoteMode,投票モード,投票相关设定,投票設定,Режим Голосования
-WhenSkipVote,When Skip Vote,スキップ時,跳过投票相当于投给自己,當跳過投票時,Когда Пропускаете Голосование
-WhenNonVote,When Non-Vote,無投票時,不投票相当于投给自己,沒有投票時,Когда Без Права-Голоса
+WhenSkipVote,When Skip Vote,スキップ時,跳过投票时,當跳過投票時,Когда Пропускаете Голосование
+WhenNonVote,When Non-Vote,無投票時,不投票时,沒有投票時,Когда Без Права-Голоса
 Default,Default,デフォルト,默认,預設,Обычное
 Suicide,Suicide,自殺,自杀,自殺,Самоубийство
 SelfVote,SelfVote,自投票,自票,投自己,СамоГолосование
@@ -276,12 +276,12 @@ DisableMiraHQAdmin,Disable Admin,アドミン無効化,禁用管理室地图,禁
 DisablePolusAdmin,Disable Admin,アドミン無効化,禁用管理室地图,禁用管理室地圖,Отключить Стол Администратора
 DisableAirshipCockpitAdmin,Disable Cockpit Admin,アドミン無効化（コックピット）,禁用飞艇(驾驶舱)管理室地图,,Отключить Стол Администратора В Кабине
 DisableAirshipRecordsAdmin,Disable Records Admin,アドミン無効化（アーカイブ）,禁用飞艇(档案室)管理室地图,,Отключить Стол Администратора В Архиве
-DisableSkeldCamera,Disable Camera,カメラ無効化,,禁用骷髅舰监控设备,Отключить Камеры
-DisablePolusCamera,Disable Camera,カメラ無効化,,禁用波鲁斯监控设备,Отключить Камеры
-DisableAirshipCamera,Disable Camera,カメラ無効化,,禁用飞艇监控设备,Отключить Камеры
-DisableMiraHQDoorLog,Disable DoorLog,ドアログ無効化,,禁用米拉总部门禁日志,Отключить Журналы
-DisablePolusVital,Disable Vital,バイタル無効化,,禁用波鲁斯生命监测装置,Отключить Пульсы
-DisableAirshipVital,Disable Vital,バイタル無効化,,禁用飞艇生命监测装置,Отключить Пульсы
+DisableSkeldCamera,Disable Camera,カメラ無効化,禁用监控,禁用骷髅舰监控设备,Отключить Камеры
+DisablePolusCamera,Disable Camera,カメラ無効化,禁用监控,禁用波鲁斯监控设备,Отключить Камеры
+DisableAirshipCamera,Disable Camera,カメラ無効化,禁用监控,禁用飞艇监控设备,Отключить Камеры
+DisableMiraHQDoorLog,Disable DoorLog,ドアログ無効化,禁用大门,禁用米拉总部门禁日志,Отключить Журналы
+DisablePolusVital,Disable Vital,バイタル無効化,禁用生命监测器,禁用波鲁斯生命监测装置,Отключить Пульсы
+DisableAirshipVital,Disable Vital,バイタル無効化,禁用生命监测器,禁用飞艇生命监测装置,Отключить Пульсы
 RandomSpawn,Random Spawn,ランダムスポーン,随机出生点,,Случайный Спавн
 AirshipAdditionalSpawn,Additional Spawn(Airship),追加スポーン位置(エアシップ),额外出生点（飞艇地图）,,Дополнительный Спавн(Airship)
 
@@ -332,9 +332,9 @@ SabotageMasterFixesElectrical,SabotageMaster Can Fix Lights Out All At Once,停�
 SheriffCanKill%role%,Sheriff Can kill %role%,%role%をキルできる,警长可以执法%role%,警長可以槍死%role%,Sheriff Может Убить %role%
 SheriffCanKillNeutrals,Sheriff Can kill Neutrals,第三陣営をキルできる,警长可以执法独立阵营,警長可以槍死中立,Sheriff Может Убить Нейтралов
 SheriffCanKillAll,<color=#00fefe>All ON</color>,<color=#00fefe>全てオン</color>,<color=#00fefe>全开</color>,,<color=#00fefe>Всё ВКЛ</color>
-SheriffCanKillSeparately,Each Option,個別に設定,个别设定,,Каждый Вариант
+SheriffCanKillSeparately,Each Option,個別に設定,特别设置,,Каждый Вариант
 In%team%,(Team %team%),(%team%陣営),(%team%阵营),(%team%方),(Команда %team%)
-SheriffMisfireKillsTarget,Misfire Kills Target,誤爆時、ターゲットも死ぬ,警长误杀好人会同时击杀目标,警長誤殺好人會同時擊殺目標,Когда Sheriff Убился Он Убивает Цель
+SheriffMisfireKillsTarget,Misfire Kills Target,誤爆時、ターゲットも死ぬ,警长误杀船员会同时击杀目标,警長誤殺好人會同時擊殺目標,Когда Sheriff Убился Он Убивает Цель
 SheriffShotLimit,Number Of Shots,キル可能回数,最大执法次数,最大子彈數量,Количество Выстрелов
 DoctorTaskCompletedBatteryCharge,Doctor Battery Duration,充電持続時間,科学家每完成一个任务增加的设备充能数,醫生完成任務充電秒數,Длительность Батарейки Doctor
 SnitchEnableTargetArrow,Snitch Can See Target Arrow,ターゲットを示す矢印が見える,告密者完成任务后可以通过箭头确认所有被发现目标,告密者完成任務後可以看到目標的箭頭,Snitch Может Видеть Стрелку Цели
@@ -420,7 +420,7 @@ Message.TemplateNotFoundHost,"No messages matching "{0}" were found.\nPlease add
 Message.TemplateNotFoundClient,"No messages matching "{0}" were found.",「{0}」に該当するメッセージが見つかりませんでした。,未找到与“{0}”相关的消息。,沒有找到與「{0}」相關的訊息,"Сообщения соответствующие "{0}" не найдены."
 Message.SyncButtonLeft,The emergency meeting button can be used {0} more times,緊急会議ボタンはあと{0}回使用できます,剩余紧急会议次数 {0},"全場拍桌數量還剩下{0}次,請謹慎拍桌",Кнопку экстренной встречи можно использовать еще {0} раз
 Message.Executed,{0} was executed,{0}を処刑しました,{0}被房主处决了,{0}被處刑了,{0} был казнен
-Message.HideGameSettings,Game settings are hidden by the host.,ゲーム設定はホストによって秘匿されています。,游戏设置被房主隐藏。,遊戲設定被房主隱藏。,Настройки игры скрыты хостом.
+Message.HideGameSettings,Game settings are hidden by the host.,ゲーム設定はホストによって秘匿されています。,游戏设置已被房主隐藏。,遊戲設定被房主隱藏。,Настройки игры скрыты хостом.
 
 ## 警告
 Warning.EgoistCannotWin,Egoist cannot win!,エゴイストが勝利できません,野心家无法获胜,利己主義者無法獲勝,Egoist не может победить!
@@ -450,7 +450,7 @@ onSetPublicNoLatest,Public rooms is prohibited except for the latest version.\nP
 CanNotJoinPublicRoomNoLatest,You can't join public rooms except for the latest version.\nPlease update.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。,不可以在未安装最新模组的前提下进入公开房间。\n请更新本模组。,"無法在未安裝最新版本的前提下進入公開房間\n請更新本模組",Вы не можете присоединяться к публичным лобби за исключением последней версии.\nПожалуйста обновите.
 ModBrokenMessage,The MOD file is broken.\nPlease re-install it again.,MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。,模组文件损坏。\n请重新安装本模组。,模組檔案損壞\n請重新安裝模組,Файл MOD поврежден.\nПожалуйста переустановите его снова.
 NameIncludeTOH,"You cannot make public rooms unless "TOH" is included in your name.",""TOH"が名前に含まれていない状態では公開部屋にすることはできません。","不可以在昵称中未带有"TOH"字样的前提下把房间状态设置为公开。","無法公開此房間,因為你名字中沒有含有'TOH'","Вы не можете создавать публичную комнату если в вашем никнейме нет слова "TOH"."
-DisabledByProgram,"Making room public is disabled by program.","公開ルームはプログラムによって無効化されています",,,"Создание публичной лобби отключена программой."
+DisabledByProgram,"Making room public is disabled by program.","公開ルームはプログラムによって無効化されています","公开房间已被禁用",,"Создание публичной лобби отключена программой."
 EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!,跳管道来获得胜利！,跳管道來獲得勝利!!,Запрыгните в вентиляцию чтобы победить!!
 FireworksPutPhase,Put {0} Fireworks,あと{0}個置け,还要安放{0}枚烟花,還需要安裝{0}枚煙火,Поставьте {0} Фейерверков
 FireworksWaitPhase,Wait for time...,時を待て...,耐心等待....,等待時機...,Подожди время...
@@ -463,7 +463,7 @@ On,ON,オン,开启,開啟,ВКЛ
 Off,OFF,オフ,关闭,關閉,ВЫКЛ
 ColoredOn,<color=#00fefe>ON</color>,<color=#00fefe>オン</color>,<color=#00fefe>开启</color>,<color=#00fefe>開啟</color>,<color=#00fefe>ВКЛ</color>
 ColoredOff,<color=#ff4c6f>OFF</color>,<color=#ff4c6f>オフ</color>,<color=#ff4c6f>关闭</color>,<color=#ff4c6f>關閉</color>,<color=#ff4c6f>ВЫКЛ</color>
-CurrentActiveSettingsHelp,Current active settings help,現在有効な設定の説明,当前启用设置及帮助,現在設定的模式和職業說明,Справка по текущим активным настройкам
+CurrentActiveSettingsHelp,Current active settings help,現在有効な設定の説明,当前已启用设置及帮助,現在設定的模式和職業說明,Справка по текущим активным настройкам
 WitchCurrentMode,Current Mode,現在のモード,当前模式,現在模式,Текущий Режим
 WitchModeKill,Kill,キル,击杀,殺人,Убить
 WitchModeSpell,Spell,スペル,诅咒,下咒,Заклинать
@@ -514,6 +514,6 @@ BountyHunterChangeButtonText,Swap,変更,变更,變更,Смена
 DefaultShapeshiftText,SHIFT,変身,变形,變身,Превращение
 All,All,すべて,全部,全部,Все
 Archive,Archive,アーカイブ,文件,檔案,Архив
-DisabledBySettings,Disabled by setting,設定で無効化されています,已在设置被中禁用,在設定中被禁用,Отключено настройкой
-Disabled,Disabled,無効,,,Неполноценный
+DisabledBySettings,Disabled by setting,設定で無効化されています,已在设置中禁用,在設定中被禁用,Отключено настройкой
+Disabled,Disabled,無効,禁用,,Неполноценный
 
