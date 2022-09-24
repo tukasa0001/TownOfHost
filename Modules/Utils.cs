@@ -99,6 +99,7 @@ namespace TownOfHost
             {
                 case CustomRoles.EvilTracker:
                     return EvilTracker.KillFlashCheck(killer, deathReason);
+                case CustomRoles.GM:
                 case CustomRoles.Seer:
                     return true;
                 default:
