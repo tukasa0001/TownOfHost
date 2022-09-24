@@ -290,6 +290,10 @@ IgnoreMadmates,Ignore Madmates,マッドメイト系を除く,,,
 IgnoreNeutrals,Ignore Neutrals,第三陣営を除く,,,
 IgnoreCrewmates,Ignore Crewmates,クルーメイトを除く,,,
 IgnoreAfterAnyoneDied,Ignore After Anyone Died,死人が出た後を除く,,,
+LightsOutSpecialSettings,Lights Out Special Settings,停電の特殊設定,,,
+DisableAirshipViewingDeckLightsPanel,Disable Viewing Deck Lights Panel(Airship),展望の配電盤を無効化（エアシップ）,,,
+DisableAirshipGapRoomLightsPanel,Disable Gap Room Lights Panel(Airship),昇降機の配電盤を無効化（エアシップ）,,,
+DisableAirshipCargoLightsPanel,Disable Cargo Lights Panel(Airship),貨物室の配電盤を無効化（エアシップ）,,,
 RandomSpawn,Random Spawn,ランダムスポーン,随机出生点,,Случайный Спавн
 AirshipAdditionalSpawn,Additional Spawn(Airship),追加スポーン位置(エアシップ),额外出生点（飞艇地图）,,Дополнительный Спавн(Airship)
 
