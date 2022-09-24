@@ -63,10 +63,19 @@ namespace TownOfHost
             if (player.Is(CustomRoles.SabotageMaster))
                 SabotageMaster.RepairSystem(__instance, systemType, amount);
 
-            if (!Options.MadmateCanFixLightsOut.GetBool() && player.GetCustomRole().IsMadmate() //Madmateが停電を直せる設定がオフ
-               && systemType == SystemTypes.Electrical //システムタイプが電気室
-               && 0 <= amount && amount <= 4) //配電盤操作のamount
-                return false;
+            if (systemType == SystemTypes.Electrical && 0 <= amount && amount <= 4)
+            {
+                if (!Options.MadmateCanFixLightsOut.GetBool() && player.GetCustomRole().IsMadmate()) return false; //Madmateが停電を直せる設定がオフ
+                switch (PlayerControl.GameOptions.MapId)
+                {
+                    case 4:
+                        if (Options.DisableAirshipViewingDeckLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(-12.93f, -11.28f)) <= 2f) return false;
+                        if (Options.DisableAirshipGapRoomLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(13.92f, 6.43f)) <= 2f) return false;
+                        if (Options.DisableAirshipCargoLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(30.56f, 2.12f)) <= 2f) return false;
+                        break;
+                }
+            }
+
             if (!Options.MadmateCanFixComms.GetBool() && player.GetCustomRole().IsMadmate() //Madmateがコミュサボを直せる設定がオフ
                 && systemType == SystemTypes.Comms //システムタイプが通信室
                 && amount is 0 or 16 or 17)
