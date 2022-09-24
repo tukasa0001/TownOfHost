@@ -119,6 +119,12 @@ namespace TownOfHost
         public static CustomOption DisableAirshipRecordsAdmin;
         public static CustomOption DisableAirshipCamera;
         public static CustomOption DisableAirshipVital;
+        public static CustomOption DisableDevicesIgnoreConditions;
+        public static CustomOption DisableDevicesIgnoreImpostors;
+        public static CustomOption DisableDevicesIgnoreMadmates;
+        public static CustomOption DisableDevicesIgnoreNeutrals;
+        public static CustomOption DisableDevicesIgnoreCrewmates;
+        public static CustomOption DisableDevicesIgnoreAfterAnyoneDied;
 
         // ボタン回数
         public static CustomOption SyncButtonMode;
@@ -425,6 +431,18 @@ namespace TownOfHost
             DisableAirshipCamera = CustomOption.Create(101243, TabGroup.MainSettings, Color.white, "DisableAirshipCamera", false, DisableAirshipDevices)
                 .SetGameMode(CustomGameMode.Standard);
             DisableAirshipVital = CustomOption.Create(101244, TabGroup.MainSettings, Color.white, "DisableAirshipVital", false, DisableAirshipDevices)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableDevicesIgnoreConditions = CustomOption.Create(101290, TabGroup.MainSettings, Color.white, "IgnoreConditions", false, DisableDevices)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableDevicesIgnoreImpostors = CustomOption.Create(101291, TabGroup.MainSettings, Color.white, "IgnoreImpostors", false, DisableDevicesIgnoreConditions)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableDevicesIgnoreMadmates = CustomOption.Create(101292, TabGroup.MainSettings, Color.white, "IgnoreMadmates", false, DisableDevicesIgnoreConditions)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableDevicesIgnoreNeutrals = CustomOption.Create(101293, TabGroup.MainSettings, Color.white, "IgnoreNeutrals", false, DisableDevicesIgnoreConditions)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableDevicesIgnoreCrewmates = CustomOption.Create(101294, TabGroup.MainSettings, Color.white, "IgnoreCrewmates", false, DisableDevicesIgnoreConditions)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableDevicesIgnoreAfterAnyoneDied = CustomOption.Create(101295, TabGroup.MainSettings, Color.white, "IgnoreAfterAnyoneDied", false, DisableDevicesIgnoreConditions)
                 .SetGameMode(CustomGameMode.Standard);
 
             // ボタン回数同期
