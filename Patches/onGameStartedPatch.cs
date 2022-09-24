@@ -110,6 +110,7 @@ namespace TownOfHost
             AntiBlackout.Reset();
 
             GameStates.MeetingCalled = false;
+            GameStates.AlreadyDied = false;
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
