@@ -150,6 +150,7 @@ namespace TownOfHost
                         exiled.Object.RpcExileV2();
                     }
                 }, 0.5f, "Restore IsDead Task");
+            GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
             SoundManager.Instance.ChangeMusicVolume(SaveManager.MusicVolume);
             Logger.Info("タスクフェイズ開始", "Phase");
         }
