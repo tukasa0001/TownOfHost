@@ -284,6 +284,12 @@ DisableAirshipCamera,Disable Camera,カメラ無効化,,禁用飞艇监控设备
 DisableMiraHQDoorLog,Disable DoorLog,ドアログ無効化,,禁用米拉总部门禁日志,Отключить Журналы
 DisablePolusVital,Disable Vital,バイタル無効化,,禁用波鲁斯生命监测装置,Отключить Пульсы
 DisableAirshipVital,Disable Vital,バイタル無効化,,禁用飞艇生命监测装置,Отключить Пульсы
+IgnoreConditions,Ignore Conditions,除外条件,,,
+IgnoreImpostors,Ignore Impostors,インポスターを除く,,,
+IgnoreMadmates,Ignore Madmates,マッドメイト系を除く,,,
+IgnoreNeutrals,Ignore Neutrals,第三陣営を除く,,,
+IgnoreCrewmates,Ignore Crewmates,クルーメイトを除く,,,
+IgnoreAfterAnyoneDied,Ignore After Anyone Died,死人が出た後を除く,,,
 RandomSpawn,Random Spawn,ランダムスポーン,随机出生点,,Случайный Спавн
 AirshipAdditionalSpawn,Additional Spawn(Airship),追加スポーン位置(エアシップ),额外出生点（飞艇地图）,,Дополнительный Спавн(Airship)
 
