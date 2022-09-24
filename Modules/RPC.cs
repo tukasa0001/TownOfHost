@@ -335,6 +335,7 @@ namespace TownOfHost
                     break;
             }
             HudManager.Instance.SetHudActive(true);
+            if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();
         }
         public static void AddNameColorData(byte seerId, byte targetId, string color)
         {
