@@ -443,10 +443,25 @@ namespace TownOfHost
             (string msg, byte sendTo, string title) = Main.MessagesToSend[0];
             Main.MessagesToSend.RemoveAt(0);
             int clientId = sendTo == byte.MaxValue ? -1 : Utils.GetPlayerById(sendTo).GetClientId();
-            if (clientId == -1) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, msg);
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SendChat, SendOption.None, clientId);
-            writer.Write(msg);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            if (clientId == -1)
+            {
+                player.SetName(title);
+                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, msg);
+                player.SetName(player.Data.PlayerName);
+            }
+            var writer = CustomRpcSender.Create("MessagesToSend", SendOption.None);
+            writer.StartMessage(clientId);
+            writer.StartRpc(player.NetId, (byte)RpcCalls.SetName)
+                .Write(title)
+                .EndRpc();
+            writer.StartRpc(player.NetId, (byte)RpcCalls.SendChat)
+                .Write(msg)
+                .EndRpc();
+            writer.StartRpc(player.NetId, (byte)RpcCalls.SetName)
+                .Write(player.Data.PlayerName)
+                .EndRpc();
+            writer.EndMessage();
+            writer.SendMessage();
             __instance.TimeSinceLastMessage = 0f;
         }
     }
