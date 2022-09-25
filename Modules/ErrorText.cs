@@ -55,6 +55,26 @@ namespace TownOfHost
                 transform.position = AspectPosition.ComputeWorldPosition(Camera, AspectPosition.EdgeAlignments.Top, TextOffset);
             }
         }
+
+        public class ErrorData
+        {
+            public readonly ErrorCode Code;
+            public readonly int ErrorType1;
+            public readonly int ErrorType2;
+            public readonly int ErrorLevel;
+            public ErrorData(ErrorCode code)
+            {
+                this.Code = code;
+                this.ErrorType1 = (int)code / 10000;
+                this.ErrorType2 = (int)code / 10 - ErrorType1 * 1000; // xxxyyy - xxx000
+                this.ErrorLevel = (int)code - (int)code / 10 * 10;
+            }
+            public override string ToString()
+            {
+                // ERR-xxx-yyy-z
+                return $"ERR-{ErrorType1:000}-{ErrorType2:000}-{ErrorLevel:0}";
+            }
+        }
     }
     public enum ErrorCode
     {
