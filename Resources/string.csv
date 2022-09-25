@@ -449,11 +449,14 @@ ErrorLevel1,It may cause bugs.,何らかのバグが発生する可能性があ�
 ErrorLevel2,It may be occurring some bugs.,バグが発生している可能性があります。
 ErrorLevel3,This version shouldn't have released.,このバージョンはリリースされるべきではありません。
 TerminateCommand,Terminate Command,廃村コマンド
+#### 000 Test
 ERR-000-000-0,No Error,エラーなし
 ERR-000-900-0,Test Error 0,テストエラーLv0
 ERR-000-910-1,Test Error 1,テストエラーLv1
 ERR-000-920-2,Test Error 2,テストエラーLv2
 ERR-000-930-3,Test Error 3,テストエラーLv3
+#### 001 Main
+ERR-001-000-3,Main dictionary has duplicated keys.,MainのDictonaryでKeyの重複が発生しています。
 
 ## その他
 DefaultSystemMessageTitle,【===== System Message =====】,【===== システムメッセージ ======】,,,

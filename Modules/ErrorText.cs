@@ -144,10 +144,15 @@ namespace TownOfHost
         //    1: 正常に動作しなければ廃村 (一定時間で非表示)
         //    2: 廃村を推奨 (廃村で非表示)
         //    3: ユーザー側では対処不能 (消さない)
+        // ==========
+        // 000 Test
         NoError = 0000000, // 000-000-0 No Error
         TestError0 = 0009000, // 000-900-0 Test Error 0
         TestError1 = 0009101, // 000-910-1 Test Error 1
         TestError2 = 0009202, // 000-920-2 Test Error 2
         TestError3 = 0009303, // 000-930-3 Test Error 3
+        // ==========
+        // 001 Main
+        Main_DictionaryError = 0010003 // 001-000-3 Main Dictionary Error
     }
 }
