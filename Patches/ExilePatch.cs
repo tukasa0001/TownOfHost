@@ -112,7 +112,6 @@ namespace TownOfHost
             Main.AfterMeetingDeathPlayers.Clear();
             if (Options.RandomSpawn.GetBool())
             {
-                PlayerControl.AllPlayerControls.ToArray().Do(pc => RandomSpawn.CustomNetworkTransformPatch.NumOfTP[pc.PlayerId] = 0);
                 RandomSpawn.SpawnMap map;
                 switch (PlayerControl.GameOptions.MapId)
                 {

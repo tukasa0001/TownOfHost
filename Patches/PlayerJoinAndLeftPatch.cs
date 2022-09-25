@@ -16,6 +16,7 @@ namespace TownOfHost
 
             NameColorManager.Begin();
             Options.Load();
+            ErrorText.Instance.Clear();
             if (AmongUsClient.Instance.AmHost) //以下、ホストのみ実行
             {
                 if (PlayerControl.GameOptions.killCooldown == 0.1f)
@@ -72,6 +73,7 @@ namespace TownOfHost
                     PlayerState.SetDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);
                     PlayerState.SetDead(data.Character.PlayerId);
                 }
+                AntiBlackout.OnDisconnect(data.Character.Data);
             }
             Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason})", "Session");
         }
