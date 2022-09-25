@@ -447,11 +447,13 @@ Error.SpeedBoosterNullException,Error: The speed boost destination is null.\nPle
 ### ErrorText関連
 ErrorLevel1,It may cause bugs.,何らかのバグが発生する可能性があります。
 ErrorLevel2,It may be occurring some bugs.,バグが発生している可能性があります。
+ErrorLevel3,This version shouldn't have released.,このバージョンはリリースされるべきではありません。
 TerminateCommand,Terminate Command,廃村コマンド
 ERR-000-000-0,No Error,エラーなし
 ERR-999-000-0,Test Error 0,テストエラーLv0
 ERR-999-010-1,Test Error 1,テストエラーLv1
 ERR-999-020-2,Test Error 2,テストエラーLv2
+ERR-999-020-3,Test Error 3,テストエラーLv3
 
 ## その他
 DefaultSystemMessageTitle,【===== System Message =====】,【===== システムメッセージ ======】,,,

@@ -17,6 +17,7 @@ namespace TownOfHost
             if (Input.GetKeyDown(KeyCode.Alpha1)) ErrorText.Instance.AddError(ErrorCode.Example0);
             if (Input.GetKeyDown(KeyCode.Alpha2)) ErrorText.Instance.AddError(ErrorCode.Example1);
             if (Input.GetKeyDown(KeyCode.Alpha3)) ErrorText.Instance.AddError(ErrorCode.Example2);
+            if (Input.GetKeyDown(KeyCode.Alpha4)) ErrorText.Instance.AddError(ErrorCode.Example3);
             //カスタム設定切り替え
             if (Input.GetKeyDown(KeyCode.Tab) && GameStates.IsLobby)
             {

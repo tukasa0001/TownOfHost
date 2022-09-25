@@ -104,6 +104,10 @@ namespace TownOfHost
                     text += $"{GetString("ErrorLevel2")}";
                     Text.enabled = true;
                     break;
+                case 3:
+                    text += $"{GetString("ErrorLevel3")}";
+                    Text.enabled = true;
+                    break;
             }
             if (GameStates.IsInGame)
                 text += $"\n{GetString("TerminateCommand")}: Shift+L+Enter";
@@ -111,7 +115,7 @@ namespace TownOfHost
         }
         public void Clear()
         {
-            AllErrors.Clear();
+            AllErrors.RemoveAll(err => err.ErrorLevel != 3);
             UpdateText();
         }
 
@@ -148,9 +152,11 @@ namespace TownOfHost
         //    0: 処置不要 (非表示)
         //    1: 正常に動作しなければ廃村 (一定時間で非表示)
         //    2: 廃村を推奨 (廃村で非表示)
+        //    3: ユーザー側では対処不能 (消さない)
         NoError = 0000000, // 000-000-0 No Error
         Example0 = 9990000,
         Example1 = 9990101,
         Example2 = 9990202,
+        Example3 = 9990303,
     }
 }
