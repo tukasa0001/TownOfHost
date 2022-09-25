@@ -44,7 +44,6 @@ namespace TownOfHost
             }
             var template = Object.FindObjectsOfType<StringOption>().FirstOrDefault();
             if (template == null) return;
-            template.transform.FindChild("Background").localScale = new Vector3(1.2f, 1f, 1f);
 
             var gameSettings = GameObject.Find("Game Settings");
             if (gameSettings == null) return;
@@ -93,6 +92,7 @@ namespace TownOfHost
                         stringOption.Value = stringOption.oldValue = option.Selection;
                         stringOption.ValueText.text = option.Selections[option.Selection].ToString();
                         stringOption.name = option.Name;
+                        stringOption.transform.FindChild("Background").localScale = new Vector3(1.2f, 1f, 1f);
                         stringOption.transform.FindChild("Plus_TMP").localPosition += new Vector3(0.3f, 0f, 0f);
                         stringOption.transform.FindChild("Minus_TMP").localPosition += new Vector3(0.3f, 0f, 0f);
                         stringOption.transform.FindChild("Value_TMP").localPosition += new Vector3(0.3f, 0f, 0f);
