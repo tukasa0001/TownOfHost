@@ -2,6 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -62,7 +63,7 @@ namespace TownOfHost
         {
             var error = new ErrorData(code);
             if (0 < error.ErrorLevel)
-                Logger.Error($"エラーコード: {error}", "ErrorText");
+                Logger.Error($"エラーコード: {error} {error.Message}", "ErrorText");
 
             if (!AllErrors.Any(e => e.Code == code))
             {
@@ -77,6 +78,7 @@ namespace TownOfHost
             public readonly int ErrorType1;
             public readonly int ErrorType2;
             public readonly int ErrorLevel;
+            public string Message => GetString(this.ToString());
             public ErrorData(ErrorCode code)
             {
                 this.Code = code;
