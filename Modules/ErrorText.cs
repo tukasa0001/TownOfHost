@@ -1,4 +1,6 @@
+using System.Linq;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace TownOfHost
@@ -43,6 +45,7 @@ namespace TownOfHost
 
         public TMPro.TextMeshPro Text;
         public Camera Camera;
+        public List<ErrorData> AllErrors = new();
         public Vector3 TextOffset = new(0, 0.3f, -1000f);
         public void LateUpdate()
         {
@@ -53,6 +56,18 @@ namespace TownOfHost
             if (Camera != null)
             {
                 transform.position = AspectPosition.ComputeWorldPosition(Camera, AspectPosition.EdgeAlignments.Top, TextOffset);
+            }
+        }
+        public void AddError(ErrorCode code)
+        {
+            var error = new ErrorData(code);
+            if (0 < error.ErrorLevel)
+                Logger.Error($"エラーコード: {error}", "ErrorText");
+
+            if (!AllErrors.Any(e => e.Code == code))
+            {
+                //まだ出ていないエラー
+                AllErrors.Add(error);
             }
         }
 
