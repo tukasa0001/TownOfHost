@@ -16,6 +16,7 @@ namespace TownOfHost
 
             NameColorManager.Begin();
             Options.Load();
+            ErrorText.Instance.Clear();
             if (AmongUsClient.Instance.AmHost) //以下、ホストのみ実行
             {
                 if (PlayerControl.GameOptions.killCooldown == 0.1f)
