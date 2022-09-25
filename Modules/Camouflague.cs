@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 namespace TownOfHost
 {
-    public static class Camouflague
+    public static class Camouflage
     {
         public static Dictionary<byte, (int, string, string, string, string)> PlayerSkins = new();
         public static void RpcSetSkin(PlayerControl target, bool ForceRevert = false)
         {
-            if (!(AmongUsClient.Instance.AmHost && Options.CommsCamouflague.GetBool())) return;
+            if (!(AmongUsClient.Instance.AmHost && Options.CommsCamouflage.GetBool())) return;
             if (target == null) return;
             var id = target.PlayerId;
 
@@ -42,7 +42,7 @@ namespace TownOfHost
                 petId = shapeshifting ? outfit.PetId : value.Item5;
             }
 
-            var sender = CustomRpcSender.Create(name: $"Camouflague.RpcSetSkin({target.Data.PlayerName})");
+            var sender = CustomRpcSender.Create(name: $"Camouflage.RpcSetSkin({target.Data.PlayerName})");
 
             target.SetColor(colorId);
             sender.AutoStartRpc(target.NetId, (byte)RpcCalls.SetColor)
