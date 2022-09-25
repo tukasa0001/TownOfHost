@@ -411,7 +411,10 @@ namespace TownOfHost
         {
             Logger.Info("------------会議終了------------", "Phase");
             if (AmongUsClient.Instance.AmHost)
+            {
                 AntiBlackout.SetIsDead();
+                PlayerControl.AllPlayerControls.ToArray().Do(pc => RandomSpawn.CustomNetworkTransformPatch.NumOfTP[pc.PlayerId] = 0);
+            }
         }
     }
 }
