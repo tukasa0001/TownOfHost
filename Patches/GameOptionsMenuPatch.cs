@@ -189,7 +189,7 @@ namespace TownOfHost
                     option.OptionBehaviour.gameObject.SetActive(enabled);
                     if (enabled)
                     {
-                        offset -= option.isHeader ? 0.6f : 0.5f;
+                        offset -= option.isHeader ? 0.7f : 0.5f;
                         option.OptionBehaviour.transform.localPosition = new Vector3(
                             option.OptionBehaviour.transform.localPosition.x,
                             offset,
