@@ -97,15 +97,16 @@ namespace TownOfHost
                     Text.enabled = false;
                     break;
                 case 1:
-                    text += $"{GetString("ErrorLevel1")}\n";
+                    text += $"{GetString("ErrorLevel1")}";
                     Text.enabled = true;
                     break;
                 case 2:
-                    text += $"{GetString("ErrorLevel2")}\n";
+                    text += $"{GetString("ErrorLevel2")}";
                     Text.enabled = true;
                     break;
             }
-            text += $"{GetString("TerminateCommand")}: Shift+L+Enter";
+            if (GameStates.IsInGame)
+                text += $"\n{GetString("TerminateCommand")}: Shift+L+Enter";
             Text.text = text;
         }
         public void Clear()
