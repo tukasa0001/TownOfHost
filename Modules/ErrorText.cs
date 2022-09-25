@@ -48,6 +48,16 @@ namespace TownOfHost
         public Camera Camera;
         public List<ErrorData> AllErrors = new();
         public Vector3 TextOffset = new(0, 0.3f, -1000f);
+        public void Update()
+        {
+            AllErrors.ForEach(err => err.IncreaseTimer());
+            var ToRemove = AllErrors.Where(err => err.ErrorLevel <= 1 && 30f < err.Timer);
+            if (0 < ToRemove.Count())
+            {
+                AllErrors.RemoveAll(err => ToRemove.Contains(err));
+                UpdateText();
+            }
+        }
         public void LateUpdate()
         {
             if (!Text.enabled) return;
