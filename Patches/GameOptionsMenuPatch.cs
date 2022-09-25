@@ -24,8 +24,6 @@ namespace TownOfHost
     [HarmonyPriority(Priority.First)]
     public static class GameOptionsMenuPatch
     {
-        public const string TownOfHostObjectName = "TOHSettings";
-
         public static void Postfix(GameOptionsMenu __instance)
         {
             foreach (var ob in __instance.Children)
@@ -143,64 +141,72 @@ namespace TownOfHost
 
         public static void Postfix(GameOptionsMenu __instance)
         {
-            if (__instance.Children.Length != CustomOption.Options.Count)
+            if (__instance.transform.parent.parent.name == "Game Settings") return;
+            foreach (var tab in Enum.GetValues(typeof(TabGroup)))
             {
-                return;
-            }
+                if (__instance.transform.parent.parent.name != tab + "Tab") continue;
+                __instance.transform.FindChild("../../GameGroup/Text").GetComponent<TMPro.TextMeshPro>().SetText(GetString("TabGroup." + tab));
 
-            _timer += Time.deltaTime;
-            if (_timer < 0.1f) return;
-            _timer = 0f;
+                _timer += Time.deltaTime;
+                if (_timer < 0.1f) return;
+                _timer = 0f;
 
-            float numItems = __instance.Children.Length;
-            var offset = 2.75f;
+                float numItems = __instance.Children.Length;
+                var offset = 2.7f;
 
-            foreach (var option in CustomOption.Options)
-            {
-                if (option?.OptionBehaviour == null || option.OptionBehaviour.gameObject == null) continue;
-
-                var enabled = true;
-                var parent = option.Parent;
-
-                if (AmongUsClient.Instance.AmHost == false)
+                foreach (var option in CustomOption.Options)
                 {
-                    enabled = false;
-                }
+                    if ((TabGroup)tab != option.Tab) continue;
+                    if (option?.OptionBehaviour == null || option.OptionBehaviour.gameObject == null) continue;
 
-                if (option.IsHidden(Options.CurrentGameMode))
-                {
-                    enabled = false;
-                }
+                    var enabled = true;
+                    var parent = option.Parent;
 
-                while (parent != null && enabled)
-                {
-                    enabled = parent.Enabled;
-                    parent = parent.Parent;
+                    enabled = AmongUsClient.Instance.AmHost &&
+                        !option.IsHidden(Options.CurrentGameMode);
+
                     var opt = option.OptionBehaviour.transform.Find("Background").GetComponent<SpriteRenderer>();
-                    opt.color = option.Parent?.Parent != null ? new(0f, 0f, 1f) : new(0f, 1f, 0f);
-                }
-
-                option.OptionBehaviour.gameObject.SetActive(enabled);
-                if (enabled)
-                {
-                    offset -= option.isHeader ? 0.75f : 0.5f;
-                    option.OptionBehaviour.transform.localPosition = new Vector3(
-                        option.OptionBehaviour.transform.localPosition.x,
-                        offset,
-                        option.OptionBehaviour.transform.localPosition.z);
-
-                    if (option.isHeader)
+                    opt.size = new(5.0f, 0.45f);
+                    while (parent != null && enabled)
                     {
-                        numItems += 0.5f;
+                        enabled = parent.Enabled;
+                        parent = parent.Parent;
+                        opt.color = new(0f, 1f, 0f);
+                        opt.size = new(4.8f, 0.45f);
+                        opt.transform.localPosition = new Vector3(0.11f, 0f);
+                        option.OptionBehaviour.transform.Find("Title_TMP").transform.localPosition = new Vector3(-0.95f, 0f);
+                        option.OptionBehaviour.transform.FindChild("Title_TMP").GetComponent<RectTransform>().sizeDelta = new Vector2(3.4f, 0.37f);
+                        if (option.Parent?.Parent != null)
+                        {
+                            opt.color = new(0f, 0f, 1f);
+                            opt.size = new(4.6f, 0.45f);
+                            opt.transform.localPosition = new Vector3(0.24f, 0f);
+                            option.OptionBehaviour.transform.Find("Title_TMP").transform.localPosition = new Vector3(-0.7f, 0f);
+                            option.OptionBehaviour.transform.FindChild("Title_TMP").GetComponent<RectTransform>().sizeDelta = new Vector2(3.3f, 0.37f);
+                        }
+                    }
+
+                    option.OptionBehaviour.gameObject.SetActive(enabled);
+                    if (enabled)
+                    {
+                        offset -= option.isHeader ? 0.6f : 0.5f;
+                        option.OptionBehaviour.transform.localPosition = new Vector3(
+                            option.OptionBehaviour.transform.localPosition.x,
+                            offset,
+                            option.OptionBehaviour.transform.localPosition.z);
+
+                        if (option.isHeader)
+                        {
+                            numItems += 0.5f;
+                        }
+                    }
+                    else
+                    {
+                        numItems--;
                     }
                 }
-                else
-                {
-                    numItems--;
-                }
+                __instance.GetComponentInParent<Scroller>().ContentYBounds.max = (-offset) - 1.5f;
             }
-
-            __instance.GetComponentInParent<Scroller>().ContentYBounds.max = (-offset) - 1.5f;
         }
     }
 
