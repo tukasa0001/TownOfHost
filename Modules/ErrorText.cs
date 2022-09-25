@@ -63,7 +63,7 @@ namespace TownOfHost
         {
             var error = new ErrorData(code);
             if (0 < error.ErrorLevel)
-                Logger.Error($"エラーコード: {error} {error.Message}", "ErrorText");
+                Logger.Error($"エラー発生: {error}: {error.Message}", "ErrorText");
 
             if (!AllErrors.Any(e => e.Code == code))
             {
