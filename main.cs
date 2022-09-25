@@ -8,6 +8,7 @@ using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using HarmonyLib;
 using UnityEngine;
+using UnhollowerRuntimeLib;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
@@ -272,6 +273,7 @@ namespace TownOfHost
                     TownOfHost.Logger.Error(ex.ToString(), "Template");
                 }
             }
+            ClassInjector.RegisterTypeInIl2Cpp<ErrorText>();
 
             Harmony.PatchAll();
         }
