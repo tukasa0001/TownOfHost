@@ -33,8 +33,10 @@ namespace TownOfHost
             instance.Text = Text;
             instance.name = "ErrorText";
 
-            Text.enabled = true;
-            Text.text = "TestMessage";
+            Text.enabled = false;
+            Text.text = "NO ERROR";
+            Text.color = Color.red;
+            Text.outlineColor = Color.black;
             Text.alignment = TMPro.TextAlignmentOptions.Top;
         }
 
