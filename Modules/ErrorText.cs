@@ -2,15 +2,35 @@ using UnityEngine;
 
 namespace TownOfHost
 {
-    public class ErrorText : DestroyableSingleton<ErrorText>
+    public class ErrorText : MonoBehaviour
     {
+        #region Singleton
+        public static ErrorText Instance
+        {
+            get
+            {
+                return _instance;
+            }
+        }
+        private static ErrorText _instance;
+        private void Awake()
+        {
+            if (_instance != null)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                _instance = this;
+                DontDestroyOnLoad(this);
+            }
+        }
+        #endregion
         public static void Create(TMPro.TextMeshPro baseText)
         {
             var Text = Instantiate(baseText);
             var instance = Text.gameObject.AddComponent<ErrorText>();
             instance.Text = Text;
-            DontDestroyOnLoad(instance.gameObject);
-            //instance.DontDestroy = true;
 
             Text.enabled = true;
             Text.text = "TestMessage";
