@@ -384,9 +384,9 @@ namespace TownOfHost
             Jackal.SetupCustomOption();
 
             // Attribute
-            EnableLastImpostor = CustomOption.Create(80000, TabGroup.MainSettings, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
+            EnableLastImpostor = CustomOption.Create(80000, TabGroup.Modifier, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            LastImpostorKillCooldown = CustomOption.Create(80010, TabGroup.MainSettings, Color.white, "KillCooldown", 15, 0, 180, 1, EnableLastImpostor)
+            LastImpostorKillCooldown = CustomOption.Create(80010, TabGroup.Modifier, Color.white, "KillCooldown", 15, 0, 180, 1, EnableLastImpostor)
                 .SetGameMode(CustomGameMode.Standard);
             #endregion
 
