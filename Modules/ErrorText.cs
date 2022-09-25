@@ -32,12 +32,10 @@ namespace TownOfHost
             var instance = Text.gameObject.AddComponent<ErrorText>();
             instance.Text = Text;
             instance.name = "ErrorText";
-            Text.name = "ErrorText.Text";
 
             Text.enabled = true;
             Text.text = "TestMessage";
             Text.alignment = TMPro.TextAlignmentOptions.Top;
-            Text.transform.localPosition = Vector3.zero;
         }
 
         public TMPro.TextMeshPro Text;
