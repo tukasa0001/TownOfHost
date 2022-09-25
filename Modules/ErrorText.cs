@@ -91,25 +91,16 @@ namespace TownOfHost
                 text += $"{err}: {err.Message}\n";
                 if (maxLevel < err.ErrorLevel) maxLevel = err.ErrorLevel;
             }
-            switch (maxLevel)
+            if (maxLevel == 0)
             {
-                case 0:
-                    Text.enabled = false;
-                    break;
-                case 1:
-                    text += $"{GetString("ErrorLevel1")}";
-                    Text.enabled = true;
-                    break;
-                case 2:
-                    text += $"{GetString("ErrorLevel2")}";
-                    Text.enabled = true;
-                    break;
-                case 3:
-                    text += $"{GetString("ErrorLevel3")}";
-                    Text.enabled = true;
-                    break;
+                Text.enabled = false;
             }
-            if (GameStates.IsInGame)
+            else
+            {
+                text += $"{GetString($"ErrorLevel{maxLevel}")}";
+                Text.enabled = true;
+            }
+            if (GameStates.IsInGame && maxLevel != 3)
                 text += $"\n{GetString("TerminateCommand")}: Shift+L+Enter";
             Text.text = text;
         }
