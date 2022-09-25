@@ -450,10 +450,10 @@ ErrorLevel2,It may be occurring some bugs.,バグが発生している可能性�
 ErrorLevel3,This version shouldn't have released.,このバージョンはリリースされるべきではありません。
 TerminateCommand,Terminate Command,廃村コマンド
 ERR-000-000-0,No Error,エラーなし
-ERR-999-000-0,Test Error 0,テストエラーLv0
-ERR-999-010-1,Test Error 1,テストエラーLv1
-ERR-999-020-2,Test Error 2,テストエラーLv2
-ERR-999-020-3,Test Error 3,テストエラーLv3
+ERR-000-900-0,Test Error 0,テストエラーLv0
+ERR-000-910-1,Test Error 1,テストエラーLv1
+ERR-000-920-2,Test Error 2,テストエラーLv2
+ERR-000-930-3,Test Error 3,テストエラーLv3
 
 ## その他
 DefaultSystemMessageTitle,【===== System Message =====】,【===== システムメッセージ ======】,,,

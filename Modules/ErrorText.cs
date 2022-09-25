@@ -145,9 +145,9 @@ namespace TownOfHost
         //    2: 廃村を推奨 (廃村で非表示)
         //    3: ユーザー側では対処不能 (消さない)
         NoError = 0000000, // 000-000-0 No Error
-        Example0 = 9990000,
-        Example1 = 9990101,
-        Example2 = 9990202,
-        Example3 = 9990303,
+        TestError0 = 0009000, // 000-900-0 Test Error 0
+        TestError1 = 0009101, // 000-910-1 Test Error 1
+        TestError2 = 0009202, // 000-920-2 Test Error 2
+        TestError3 = 0009303, // 000-930-3 Test Error 3
     }
 }
