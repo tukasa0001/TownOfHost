@@ -70,6 +70,7 @@ namespace TownOfHost
                 //まだ出ていないエラー
                 AllErrors.Add(error);
             }
+            UpdateText();
         }
         public void UpdateText()
         {
