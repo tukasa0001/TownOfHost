@@ -314,6 +314,6 @@ namespace TownOfHost
         CrewmateRoles,
         NeutralRoles,
         ImpostorRoles,
-        Modifier
+        Modifiers
     }
 }

@@ -451,7 +451,7 @@ TabGroup.MainSettings,Main Settings,メイン設定,,,
 TabGroup.CrewmateRoles,Crewmate Roles,クルーメイト役職,,,
 TabGroup.NeutralRoles,Neutral Roles,ニュートラル役職,,,
 TabGroup.ImpostorRoles,Impostor Roles,インポスター役職,,,
-TabGroup.Modifier,Modifier,属性,,,
+TabGroup.Modifiers,Modifiers,属性,,,
 ActiveRolesList,Active Roles List,有効な役職一覧,有效职业一览,,
 ForExample,For Example,使用例,使用例子,使用例子,Например
 ForceEnd,No Contest,廃村,强制结束游戏,遊戲已被強制結束,Игра Была Окончена
