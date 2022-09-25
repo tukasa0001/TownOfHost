@@ -86,15 +86,15 @@ namespace TownOfHost
                     Text.enabled = false;
                     break;
                 case 1:
-                    text += "If it cause any bugs, terminate the game.\n";
+                    text += $"{GetString("ErrorLevel1")}\n";
                     Text.enabled = true;
                     break;
                 case 2:
-                    text += "It may be occurring some bugs. Terminate the game.\n";
+                    text += $"{GetString("ErrorLevel2")}\n";
                     Text.enabled = true;
                     break;
             }
-            text += "Terminate Command: Shift+L+Enter";
+            text += $"{GetString("TerminateCommand")}: Shift+L+Enter";
             Text.text = text;
         }
 

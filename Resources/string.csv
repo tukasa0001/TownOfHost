@@ -444,6 +444,10 @@ Warning.InvalidRpc,Kicked {0} because an invalid RPC was received.\nPlease make 
 Error.MeetingException,Error: {0}\r\nPlease use SHIFT+M+ENTER to force the meeting to end,エラー: {0}\r\nSHIFT+M+ENTERで会議を強制終了してください,错误: {0}\r\n使用 SHIFT+M+ENTER 来中止会议,錯誤: {0}\r\n按下SHIFT+M+ENTER來結束會議,Ошибка: {0}\r\nПожалуйста используйте SHIFT+M+ENTER чтобы принудительно завершить собрание
 Error.InvalidRoleAssignment,Error: Invalid role found for a player during role assignment({0}),エラー: 役職設定中に無効な役職のプレイヤーを発見しました({0}),错误：在分配职业时发现职业无效的玩家 ({0}),錯誤:在設定職業時發現{0}持有無效職業,Ошибка: Во время назначения роли для игрока обнаружена недопустимая роль({0})
 Error.SpeedBoosterNullException,Error: The speed boost destination is null.\nPlease save the log and create a bug report ticket.,エラー: スピードブースト先がnullです。\nログを保存し、バグ報告チケットを作成してください。,错误：增速者的增速目标为空。 \n请保存日志并创建错误报告票。,"錯誤:加速器加速的對象無效,\n請將遊戲輸出記錄保存並在TOH官方DC群組開啟一張支援票",Ошибка: пункт назначения повышения скорости не указан.\nСохраните логи и создайте заявку на отчет об ошибке.
+### ErrorText関連
+ErrorLevel1,If it cause any bugs, terminate the game.,何らかのバグが発生した場合、廃村を行ってください。
+ErrorLevel2,It may be occurring some bugs. Terminate the game.,バグが発生している可能性があります。廃村を行ってください。
+TerminateCommand,Terminate Command,廃村コマンド
 ERR-000-000-0,No Error,エラーなし
 
 ## その他
