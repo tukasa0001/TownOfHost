@@ -105,6 +105,7 @@ namespace TownOfHost
             public readonly int ErrorType1;
             public readonly int ErrorType2;
             public readonly int ErrorLevel;
+            public float Timer { get; private set; }
             public string Message => GetString(this.ToString());
             public ErrorData(ErrorCode code)
             {
@@ -112,12 +113,14 @@ namespace TownOfHost
                 this.ErrorType1 = (int)code / 10000;
                 this.ErrorType2 = (int)code / 10 - ErrorType1 * 1000; // xxxyyy - xxx000
                 this.ErrorLevel = (int)code - (int)code / 10 * 10;
+                this.Timer = 0f;
             }
             public override string ToString()
             {
                 // ERR-xxx-yyy-z
                 return $"ERR-{ErrorType1:000}-{ErrorType2:000}-{ErrorLevel:0}";
             }
+            public void IncreaseTimer() => Timer += Time.deltaTime;
         }
     }
     public enum ErrorCode
