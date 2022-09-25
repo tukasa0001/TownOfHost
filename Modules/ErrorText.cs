@@ -108,6 +108,11 @@ namespace TownOfHost
             text += $"{GetString("TerminateCommand")}: Shift+L+Enter";
             Text.text = text;
         }
+        public void Clear()
+        {
+            AllErrors.Clear();
+            UpdateText();
+        }
 
         public class ErrorData
         {
