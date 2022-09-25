@@ -179,7 +179,7 @@ SKMadmateInfoLong,(Impostors):\nThe SidekickMadmate is an acquired Madmate Role 
 # 両陣営可能役職
 WatcherInfoLong,(Impostors or Crewmates):\nThe Watchers can see colored votes regardless of anonymous votes.,(インポスターorクルーメイト陣営):\n全員の投票先を見ることができる。,(内鬼阵营或船员阵营):\n会议时窥视者可以看到所有人的投票。,(狼人或船員):\n會議時觀察者可以看到所有人的投票。,(Предатель или Член Экипажа):\nWatcher может видеть все цвета голосов несмотря на анонимное голосвоание.
 EvilWatcherInfoLong,(Impostors):\nThe Watchers can see colored votes regardless of anonymous votes.,(インポスター陣営):\n全員の投票先を見ることができる。,(内鬼阵营:\n会议时窥视者可以看到所有人的投票。,(狼人):\n會議時觀察者可以看到所有人的投票。,(Предатель):\nWatcher может видеть все цвета голосов несмотря на анонимное голосвоание.
-NiceWatcherInfoLong,(Crewmates):\nThe Watchers can see colored votes regardless of anonymous votes.,(クルーメイト陣営):\n全員の投票先を見ることができる。,(船员阵营:\n会议时窥视者可以看到所有人的投票。,(船員):\n會議時觀察者可以看到所有人的投票。,(Экипажа):\nWatcher может видеть все цвета голосов несмотря на анонимное голосвоание.
+NiceWatcherInfoLong,(Crewmates):\nThe Watchers can see colored votes regardless of anonymous votes.,(クルーメイト陣営):\n全員の投票先を見ることができる。,(船员阵营:\n会议时窥视者可以看到所有人的投票。,(船員):\n會議時觀察者可以看到所有人的投票。,(Член Экипажа):\nWatcher может видеть все цвета голосов несмотря на анонимное голосвоание.
 
 # 特殊クルー役職
 BaitInfoLong,"(Crewmates):\nWhen killed, they force the killer to self report in no time.",(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。,(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告。,"(船員):\n當被殺時,兇手將強制自行舉報","(Член Экипажа):\nКогда его убивают, он заставляет убийцу моментально зарепортить труп."
@@ -217,7 +217,7 @@ LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nK
 
 #モードオプション
 HideAndSeek,HideAndSeek,かくれんぼ,躲猫猫,躲貓貓,Прятки
-NoGameEnd,NoGameEnd,ゲームを終了しない,测试模式,遊戲不會結束模式,ИграНеЗаканчится
+NoGameEnd,NoGameEnd,ゲームを終了しない,测试模式,遊戲不會結束模式,ИграНеЗакончится
 SyncButtonMode,SyncButtonMode,ボタン回数同期モード,所有船员共享会议次数,全場拍桌數同步模式,ОбщаяКнопкаВстреч
 RandomMapsMode,RandomMapsMode,ランダムマップモード,随机地图模式,隨機地圖模式,СлучайнаяКарта
 SyncedButtonCount,Max Button Count,合計ボタン使用可能回数(回),紧急会议可使用的次数,全場最大拍桌數量,Максимальное Колличество Кнопок
@@ -227,18 +227,18 @@ AddedPolus,Include Polus,Polusを追加,添加波鲁斯地图,將Polus地圖列�
 AddedTheAirShip,Include TheAirShip,TheAirShipを追加,添加飞艇地图,將The AirShip列入選項,Добавить TheAirship
 AllAliveMeeting,All Alive Meeting,全員生存時の会議,全员存活会议,,Все Живые На Голосовании
 AllAliveMeetingTime,All Alive Meeting Time,全員生存時の会議時間,全员存活会议时间,,Все Живые На Голосовании Время
-AdditionalEmergencyCooldown,Additional Emergency Cooldown,追加の緊急ボタンクールダウン,附加紧急会议冷却时间,,Дополнительный Аварийный Откат
+AdditionalEmergencyCooldown,Additional Emergency Cooldown,追加の緊急ボタンクールダウン,附加紧急会议冷却时间,,Дополнительный Откат Собраний
 AdditionalEmergencyCooldownThreshold,Survivor Threshold To Be Applied,適用する生存人数,适用存活人数,,Применяемый Порог Выживания
 AdditionalEmergencyCooldownTime,Additional Cooldown,追加するクールダウン,附加冷却时间,,Дополнительный Откат
 LadderDeath,Fall From Ladders,ハシゴから転落,从梯子上下滑时有可能摔死,從梯子上下滑時可能會摔死,Падение с лестницы
 LadderDeathChance,Fall To Death Chance,転落する確率,从梯子上摔死的概率,從梯子上下滑摔死機率,Шанс Разбиться Насмерть
 DisableTasks,Disable Tasks,タスクを無効化する,禁用某些任务,禁用某些特定的任務,Отключить Задания
-DisableSwipeCardTask,Disable SwipeCard Tasks,カードタスク,禁用刷卡任务,禁用刷卡任務,Отключить Задание ПровестиКарту
-DisableSubmitScanTask,Disable SubmitScan Tasks,医務室のスキャンタスク,禁用扫描任务,禁用掃描任務,Отключить Задание Сканирование
-DisableUnlockSafeTask,Disable UnlockSafe Tasks,金庫タスク,禁用解除歧管任务,禁用保險櫃任務,Отключить Задание ОткрытиеСейфа
-DisableUploadDataTask,Disable UploadData Tasks,ダウンロードタスク,禁用上传数据任务,禁用上傳任務,Отключить Задание ЗагрузкаДанных
-DisableStartReactorTask,Disable StartReactor Tasks,原子炉起動タスク,禁用启动反应堆任务,禁用啟動反應堆任務,Отключить Задание СаймонГоворит
-DisableResetBreakerTask,Disable ResetBreaker Tasks,ブレーカーリセットタスク,禁用重置反应堆任务,禁用重置斷路器任務,Отключить Задание Рычаги
+DisableSwipeCardTask,Disable SwipeCard Tasks,カードタスク,禁用刷卡任务,禁用刷卡任務,Отключить Задание ''Провести Карту''
+DisableSubmitScanTask,Disable SubmitScan Tasks,医務室のスキャンタスク,禁用扫描任务,禁用掃描任務,Отключить Задание ''Сканирование''
+DisableUnlockSafeTask,Disable UnlockSafe Tasks,金庫タスク,禁用解除歧管任务,禁用保險櫃任務,Отключить Задание ''Открытие Сейфа''
+DisableUploadDataTask,Disable UploadData Tasks,ダウンロードタスク,禁用上传数据任务,禁用上傳任務,Отключить Задание ''Загрузка Данных''
+DisableStartReactorTask,Disable StartReactor Tasks,原子炉起動タスク,禁用启动反应堆任务,禁用啟動反應堆任務,Отключить Задание ''Запустить Реактор''
+DisableResetBreakerTask,Disable ResetBreaker Tasks,ブレーカーリセットタスク,禁用重置反应堆任务,禁用重置斷路器任務,Отключить Задание ''Рычаги(Airship)''
 SuffixMode,Suffix,名前の二行目,附加标签,名字標籤,Суффикс
 SuffixMode.None,None,なし,无,無,Ничего
 SuffixMode.Version,Version,バージョン,版本,版本,Версия
@@ -259,7 +259,7 @@ ForceJapanese,Force Japanese,日本語に強制,强制使用日语,強制使用�
 AutoDisplayLastResult,Auto Display Last Result,自動的に試合結果を表示,自动显示最终结果,自動顯示上一回合結果,Отображать Результат Последней Игры
 VoteMode,VoteMode,投票モード,投票相关设定,投票設定,Режим Голосования
 WhenSkipVote,When Skip Vote,スキップ時,跳过投票相当于投给自己,當跳過投票時,Когда Пропускаете Голосование
-WhenNonVote,When Non-Vote,無投票時,不投票相当于投给自己,沒有投票時,Когда Без Права-Голоса
+WhenNonVote,When Non-Vote,無投票時,不投票相当于投给自己,沒有投票時,Когда Никто Не Голосовл
 Default,Default,デフォルト,默认,預設,Обычное
 Suicide,Suicide,自殺,自杀,自殺,Самоубийство
 SelfVote,SelfVote,自投票,自票,投自己,СамоГолосование
@@ -316,56 +316,56 @@ CanMakeMadmateCount,SidekickMadmate Maximum,サイドキックマッドメイト
 MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数,背叛的告密者任务数,背叛告密者任務數量,Задания MadSnitch
 MadSnitchCanAlsoBeExposedToImpostor,Also Exposed To Impostor,インポスターからも視認できる,对内鬼同样可见,,Также Незащищен Предателем
 MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,自身の殺害未遂者を知ることができる,堕落守卫可以得知对其进行击杀尝试的玩家,背叛天使可以看到是誰嘗試殺害自己,MadGuardian Видит Кто Пытался Его Убить
-MadmateCanFixLightsOut,Madmates Can Fix Lights Out,マッド系役職が停電を直せる,叛徒职业可以修理照明破坏,叛徒職業的玩家可以修理電燈,Madmates Может Чинить Свет
-MadmateCanFixComms,Madmates Can Fix Comms,マッド系役職が通信障害を直せる,叛徒职业可以修理通讯,叛徒職業的玩家可以修理通訊,Madmates Может Чинить Связь
-MadmateHasImpostorVision,Madmates Have Impostor Vision,マッド系役職がインポスター視界を持つ,叛徒职业拥有内鬼视野,叛徒職業的玩家有跟狼人一樣的視野,Madmates Имеет Дальность Обзора Предателя
-MadmateCanSeeKillFlash,Madmates Can See Kill Flash,マッド系役職にキルフラッシュが見える,叛徒可以看到击杀闪光,,Madmates Может Видеть Вспышку Убийства
-MadmateCanSeeOtherVotes,Madmates Can See Other Votes,マッド系役職に他人の投票先が分かる,叛徒可以看到其他人所投的票,,Madmates Может Видеть Цвета Голосов
+MadmateCanFixLightsOut,Madmates Can Fix Lights Out,マッド系役職が停電を直せる,叛徒职业可以修理照明破坏,叛徒職業的玩家可以修理電燈,Madmates Могут Чинить Свет
+MadmateCanFixComms,Madmates Can Fix Comms,マッド系役職が通信障害を直せる,叛徒职业可以修理通讯,叛徒職業的玩家可以修理通訊,Madmates Могут Чинить Связь
+MadmateHasImpostorVision,Madmates Have Impostor Vision,マッド系役職がインポスター視界を持つ,叛徒职业拥有内鬼视野,叛徒職業的玩家有跟狼人一樣的視野,Madmates Имеют Дальность Обзора Предателя
+MadmateCanSeeKillFlash,Madmates Can See Kill Flash,マッド系役職にキルフラッシュが見える,叛徒可以看到击杀闪光,,Madmates Могут Видеть Вспышку Убийства
+MadmateCanSeeOtherVotes,Madmates Can See Other Votes,マッド系役職に他人の投票先が分かる,叛徒可以看到其他人所投的票,,Madmates Могут Видеть Цвета Голосов
 MadmateVentCooldown,Madmates Vent Cooldown,マッド系役職のベントクールダウン,叛徒职业跳管道冷却时间,叛徒職業的玩家跳管道冷卻,Откат Вентиляции Madmates
 MadmateVentMaxTime,Madmates Max Time In Vents(s),マッド系役職のベント内での最大時間,叛徒职业在管道中停留的最大时间,叛徒職業的玩家在管道中可以停留的最大時間,Время Использования Вентиляции Madmates
-EvilWatcherChance,EvilWatcher Chance,イビルウォッチャーになる確率,窥视者成为内鬼阵营的概率,成為邪惡觀察者的機率,EvilWatcher Шанс
+EvilWatcherChance,EvilWatcher Chance,イビルウォッチャーになる確率,窥视者成为内鬼阵营的概率,成為邪惡觀察者的機率,Evil Watcher Шанс
 LighterTaskCompletedVision,Expanded Vision,タスク完了時の視界,完成任务后的视野,做完任務的視野,Дальность Обзора
 LighterTaskCompletedDisableLightOut,Lighter Gains Impostor Vision,タスク完了時に停電を無効にする,完成任务的执灯人不受熄灯影响,完成任務的小燈人視野不受關燈影響,Имеет Дальность Обзора Предателя
-SabotageMasterFixesDoors,SabotageMaster Can Open Multiple Doors,1度に複数のﾄﾞｱを開けられる,修理大师可以一次打开房间内所有被关闭的门,破壞大師可以修理多扇門,SabotageMaster Может Открыть Несколько Дверей
-SabotageMasterFixesReactors,SabotageMaster Can Fix Both Reactors,リアクターに対して能力を使える,修理大师可以一人修理核反应堆,破壞大師可以一個人同時修理兩邊的反應堆,SabotageMaster Может Починить Реактор
-SabotageMasterFixesOxygens,SabotageMaster Can Fix Both O2,酸素妨害に対して能力を使える,修理大师修理氧气破坏时另一边的氧气破坏同时被修理,破壞大師可以一個人同時修理兩邊的氧氣,SabotageMaster Может Починить O2
-SabotageMasterFixesCommunications,SabotageMaster Can Fix Both Comms In MIRA HQ,MIRA HQの通信妨害に対して能力を使える,修理大师在米拉总部地图修理通信破坏时另一边的通信破坏同时被修理,破壞大師可以一個人同時修理兩邊的通訊(Mira HQ),SabotageMaster Может Починить Связь На Mira HQ
-SabotageMasterFixesElectrical,SabotageMaster Can Fix Lights Out All At Once,停電に対して能力を使える,修理大师按一个按钮就可以修复照明破坏,破壞大師拉一根拉桿就可以修理電燈,SabotageMaster Может Починить Свет Сразу
+SabotageMasterFixesDoors,SabotageMaster Can Open Multiple Doors,1度に複数のﾄﾞｱを開けられる,修理大师可以一次打开房间内所有被关闭的门,破壞大師可以修理多扇門,Может Открыть Все Двери В Помещении
+SabotageMasterFixesReactors,SabotageMaster Can Fix Both Reactors,リアクターに対して能力を使える,修理大师可以一人修理核反应堆,破壞大師可以一個人同時修理兩邊的反應堆,Может Починить Саботаж Реактора
+SabotageMasterFixesOxygens,SabotageMaster Can Fix Both O2,酸素妨害に対して能力を使える,修理大师修理氧气破坏时另一边的氧气破坏同时被修理,破壞大師可以一個人同時修理兩邊的氧氣,Может Починить Саботаж O2
+SabotageMasterFixesCommunications,SabotageMaster Can Fix Both Comms In MIRA HQ,MIRA HQの通信妨害に対して能力を使える,修理大师在米拉总部地图修理通信破坏时另一边的通信破坏同时被修理,破壞大師可以一個人同時修理兩邊的通訊(Mira HQ),Может Починить Саботаж Связи На Mira HQ
+SabotageMasterFixesElectrical,SabotageMaster Can Fix Lights Out All At Once,停電に対して能力を使える,修理大师按一个按钮就可以修复照明破坏,破壞大師拉一根拉桿就可以修理電燈,Может Починить Саботаж Света Сразу
 SheriffCanKill%role%,Sheriff Can kill %role%,%role%をキルできる,警长可以执法%role%,警長可以槍死%role%,Sheriff Может Убить %role%
 SheriffCanKillNeutrals,Sheriff Can kill Neutrals,第三陣営をキルできる,警长可以执法独立阵营,警長可以槍死中立,Sheriff Может Убить Нейтралов
-SheriffCanKillAll,<color=#00fefe>All ON</color>,<color=#00fefe>全てオン</color>,<color=#00fefe>全开</color>,,<color=#00fefe>Всё ВКЛ</color>
-SheriffCanKillSeparately,Each Option,個別に設定,个别设定,,Каждый Вариант
+SheriffCanKillAll,<color=#00fefe>All ON</color>,<color=#00fefe>全てオン</color>,<color=#00fefe>全开</color>,,<color=#00fefe>Все ВКЛ</color>
+SheriffCanKillSeparately,Each Option,個別に設定,个别设定,,Выбрать Опции
 In%team%,(Team %team%),(%team%陣営),(%team%阵营),(%team%方),(Команда %team%)
-SheriffMisfireKillsTarget,Misfire Kills Target,誤爆時、ターゲットも死ぬ,警长误杀好人会同时击杀目标,警長誤殺好人會同時擊殺目標,Когда Sheriff Убился Он Убивает Цель
+SheriffMisfireKillsTarget,Misfire Kills Target,誤爆時、ターゲットも死ぬ,警长误杀好人会同时击杀目标,警長誤殺好人會同時擊殺目標,Когда Sheriff Убивается Он Так Же Убивает Цель
 SheriffShotLimit,Number Of Shots,キル可能回数,最大执法次数,最大子彈數量,Количество Выстрелов
 DoctorTaskCompletedBatteryCharge,Doctor Battery Duration,充電持続時間,科学家每完成一个任务增加的设备充能数,醫生完成任務充電秒數,Длительность Батарейки Doctor
-SnitchEnableTargetArrow,Snitch Can See Target Arrow,ターゲットを示す矢印が見える,告密者完成任务后可以通过箭头确认所有被发现目标,告密者完成任務後可以看到目標的箭頭,Snitch Может Видеть Стрелку Цели
-SnitchCanGetArrowColor,Snitch Can See Colored Arrow,矢印の色で陣営がわかる,告密者对不同阵营的目标使用不同颜色的箭头确认,對不同陣營的目標使用不同顏色的箭頭標示,Snitch Может Видеть Цвета Стрелок
-SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,第三陣営のキル可能役職を見つけることが出来る,告密者也可以和拥有击杀能力的独立阵营玩家互相发现,告密者也可以和中立陣營帶刀職業互認,Snitch Может Видеть Нейтральных Убийц
+SnitchEnableTargetArrow,Snitch Can See Target Arrow,ターゲットを示す矢印が見える,告密者完成任务后可以通过箭头确认所有被发现目标,告密者完成任務後可以看到目標的箭頭,Может Видеть Стрелку Цели
+SnitchCanGetArrowColor,Snitch Can See Colored Arrow,矢印の色で陣営がわかる,告密者对不同阵营的目标使用不同颜色的箭头确认,對不同陣營的目標使用不同顏色的箭頭標示,Может Видеть Цвета Стрелок
+SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,第三陣営のキル可能役職を見つけることが出来る,告密者也可以和拥有击杀能力的独立阵营玩家互相发现,告密者也可以和中立陣營帶刀職業互認,Может Видеть Нейтральных Убийц
 SpeedBoosterUpSpeed,Boosted Player Add Speed,加速値,增速者加速时的移动速度,被加速器加速的玩家的移動速度,Повышенная Скорость Игрока
 SpeedBoosterTaskTrigger,Boosted Trigger Tasks,効果を発動するタスク数,效果发动所需任务数,,Повышенные Триггерные Задания
 MayorAdditionalVote,Additional Votes Count,追加投票の個数,附加票数,附加票數,Дополнительные Голоса
 MayorHasPortableButton,Mayor Has Mobile Emergency Button,ポータブルボタンを持っている,可以选择是否进行投票,可以隨時拍桌,У Mayor Есть Портативная Кнопка
 MayorNumOfUseButton,Number Of Mobile Emergency Button,ポータブルボタンの使用可能回数,选择进行投票的最大次数,隨時拍桌最大次數,Количество Портативных Кнопок
-CanBeforeSchrodingerCatWinTheCrewmate,SchrodingerCat In No Team Can Win With Crewmates,役職変化前であれば、クルー陣営と勝利できる,薛定谔的猫未加入其他阵营前可以跟随船员阵营获胜,薛定諤的貓的陣營轉變前可以和船員一起贏,SchrodingerCat Ни Одна Команда Не Может Победить С Членом Экипажа
-SchrodingerCatExiledTeamChanges,Team To Change After Exiled,吊られた際、陣営が変化する,薛定谔的猫被放逐时会加入其他阵营,薛定諤的貓被丟出時陣營會改變,Команда которая изменится после изгнания
-ExecutionerCanTargetImpostor,Executioner Can Target Impostor,インポスターもターゲットにできる,内鬼阵营玩家可以成为处刑人的目标,劊子手的目標可以是狼人陣營的玩家,Executioner Может Иметь Цель Изгнать Предателя
-ExecutionerCanTargetNeutralKiller,Executioner Can Target Neutral Killer,キルできる第三陣営もターゲットにできる,独立阵营玩家可以成为处刑人的目标,劊子手的目標可以是中立陣營的玩家,Executioner Может Иметь Цель Изгнать Нейтрального Убийцу
+CanBeforeSchrodingerCatWinTheCrewmate,SchrodingerCat In No Team Can Win With Crewmates,役職変化前であれば、クルー陣営と勝利できる,薛定谔的猫未加入其他阵营前可以跟随船员阵营获胜,薛定諤的貓的陣營轉變前可以和船員一起贏,Без Команды Он Может Победить С Членами Экипажа
+SchrodingerCatExiledTeamChanges,Team To Change After Exiled,吊られた際、陣営が変化する,薛定谔的猫被放逐时会加入其他阵营,薛定諤的貓被丟出時陣營會改變,Команда может измениться после его изгнания
+ExecutionerCanTargetImpostor,Executioner Can Target Impostor,インポスターもターゲットにできる,内鬼阵营玩家可以成为处刑人的目标,劊子手的目標可以是狼人陣營的玩家,Может Иметь Цель Изгнать Предателя
+ExecutionerCanTargetNeutralKiller,Executioner Can Target Neutral Killer,キルできる第三陣営もターゲットにできる,独立阵营玩家可以成为处刑人的目标,劊子手的目標可以是中立陣營的玩家,Может Иметь Цель Изгнать Нейтрального Убийцу
 ExecutionerChangeRolesAfterTargetKilled,Role After Target Dies,ターゲットがキルされた後に変化する役職,处刑人目标死亡后将变为的职业,劊子手的目標被殺後轉變的職業,Роль После Смерти Его Цели
 SerialKillerLimit,Time Limit To Suicide(s),自殺までの秒数,嗜血杀手自杀倒计时,連環殺手自殺倒數,Лимит Времени До Самоубийства
 ArsonistDouseTime,Douse Duration,塗り時間,涂油所需时间,澆油所需時間,Длительность Поджигания
-CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち,恐怖分子可以通过自杀获胜,恐怖分子可以自殺來獲勝,Может Ли Terrorist Совершить Самоубийство Чтобы Победить
+CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち,恐怖分子可以通过自杀获胜,恐怖分子可以自殺來獲勝,Может Совершить Самоубийство Чтобы Победить
 ShapeMasterShapeshiftDuration,Shapeshift Duration,シェイプマスターの変身持続時間,千面鬼变形持续时间,變形大師變形持續時間,Продолжительность Морфа
-FireWorksMaxCount,FireWorks Max Count,花火の所持数,烟花商人可放置烟花的最大数量,煙火工匠可設定煙火最大數量,FireWorks Максимальное Количество
-FireWorksRadius,FireWorks Radius,花火の爆発半径,烟花商人烟花爆炸半径,煙火工匠的煙火爆炸半徑,FireWorks Радиус
-SniperBulletCount,Bullet Count,所持弾数,最大子弹数量,子彈最大數量,Колличество Пуль Sniper
+FireWorksMaxCount,FireWorks Max Count,花火の所持数,烟花商人可放置烟花的最大数量,煙火工匠可設定煙火最大數量,Максимальное Количество Фейерверков
+FireWorksRadius,FireWorks Radius,花火の爆発半径,烟花商人烟花爆炸半径,煙火工匠的煙火爆炸半徑,Радиус Фейерверка
+SniperBulletCount,Bullet Count,所持弾数,最大子弹数量,子彈最大數量,Колличество Пуль у Sniper
 SniperPrecisionShooting,Precise Shooting,精密射撃モード,精准射击模式,精準射擊模式,Точный Выстрел
 NumberOfLovers,Number Of Lovers(x2members),ラバーズの組数(x2人数),恋人对数,"戀人最大數量(2位玩家)",Количество Lovers (x2участника)
-TimeThiefDecreaseMeetingTime,TimeThief Decrease Time Length(s),減少する会議時間,蚀时者每次击杀缩短的会议时间,時間小偷每次殺人減少的會議時間,TimeThief Уменьшить Длительность Обсуждения
-TimeThiefLowerLimitVotingTime,Lower Limit For Voting Time(s),投票時間の下限,蚀时者存在时会议时间下限,時間小偷在場時會議時間最低下限,TimeThief Уменьшить Длительность Голосования
-TimeThiefReturnStolenTimeUponDeath,Return Stolen Time After Death,死亡後に盗んだ時間を返す,蚀时者死亡后会议时间重置,時間小偷死亡後將會議時間重設,Вернуть Украденное Время После его Смерти
-EvilTrackerCanSeeKillFlash,EvilTracker Can See The Flash Of Impostor Kills,インポスターキル時にフラッシュが見える,当内鬼进行击杀时邪恶的追踪者可以看到闪光,,EvilTracker Может Видеть Вспышку Убийства Предатлелей
-EvilTrackerResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,会議後に再度ターゲットを設定できる,会议后重置邪恶的追踪者追踪目标,,EvilTracker Может Сбросить Цель После Встречи
+TimeThiefDecreaseMeetingTime,TimeThief Decrease Time Length(s),減少する会議時間,蚀时者每次击杀缩短的会议时间,時間小偷每次殺人減少的會議時間,Уменьшить Длительность Обсуждения На
+TimeThiefLowerLimitVotingTime,Lower Limit For Voting Time(s),投票時間の下限,蚀时者存在时会议时间下限,時間小偷在場時會議時間最低下限,Уменьшить Длительность Голосования На
+TimeThiefReturnStolenTimeUponDeath,Return Stolen Time After Death,死亡後に盗んだ時間を返す,蚀时者死亡后会议时间重置,時間小偷死亡後將會議時間重設,Вернуть Украденное Время После Его Смерти
+EvilTrackerCanSeeKillFlash,EvilTracker Can See The Flash Of Impostor Kills,インポスターキル時にフラッシュが見える,当内鬼进行击杀时邪恶的追踪者可以看到闪光,,EvilTracker Может Видеть Вспышку Убийства
+EvilTrackerResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,会議後に再度ターゲットを設定できる,会议后重置邪恶的追踪者追踪目标,,EvilTracker Сбросывает Цель После Каждой Встречи
 KillFlashDuration,Kill Flash Duration(s),キルフラッシュの長さ(秒),击杀闪烁持续时间,,Длительность Вспышки Убийсва
 
 ## かくれんぼ設定
