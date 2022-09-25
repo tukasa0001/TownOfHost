@@ -71,6 +71,32 @@ namespace TownOfHost
                 AllErrors.Add(error);
             }
         }
+        public void UpdateText()
+        {
+            string text = "";
+            int maxLevel = 0;
+            foreach (var err in AllErrors)
+            {
+                text += $"{err}: {err.Message}\n";
+                if (maxLevel < err.ErrorLevel) maxLevel = err.ErrorLevel;
+            }
+            switch (maxLevel)
+            {
+                case 0:
+                    Text.enabled = false;
+                    break;
+                case 1:
+                    text += "If it cause any bugs, terminate the game.\n";
+                    Text.enabled = true;
+                    break;
+                case 2:
+                    text += "It may be occurring some bugs. Terminate the game.\n";
+                    Text.enabled = true;
+                    break;
+            }
+            text += "Terminate Command: Shift+L+Enter";
+            Text.text = text;
+        }
 
         public class ErrorData
         {
