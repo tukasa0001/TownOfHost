@@ -148,5 +148,8 @@ namespace TownOfHost
         //    1: 正常に動作しなければ廃村 (一定時間で非表示)
         //    2: 廃村を推奨 (廃村で非表示)
         NoError = 0000000, // 000-000-0 No Error
+        Example0 = 9990000,
+        Example1 = 9990101,
+        Example2 = 9990202,
     }
 }

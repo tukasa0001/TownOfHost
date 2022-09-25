@@ -14,6 +14,9 @@ namespace TownOfHost
         static int resolutionIndex = 0;
         public static void Postfix(ControllerManager __instance)
         {
+            if (Input.GetKeyDown(KeyCode.Alpha1)) ErrorText.Instance.AddError(ErrorCode.Example0);
+            if (Input.GetKeyDown(KeyCode.Alpha2)) ErrorText.Instance.AddError(ErrorCode.Example1);
+            if (Input.GetKeyDown(KeyCode.Alpha3)) ErrorText.Instance.AddError(ErrorCode.Example2);
             //カスタム設定切り替え
             if (Input.GetKeyDown(KeyCode.Tab) && GameStates.IsLobby)
             {

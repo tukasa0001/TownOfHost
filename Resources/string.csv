@@ -449,6 +449,9 @@ ErrorLevel1,If it cause any bugs, terminate the game.,何らかのバグが発�
 ErrorLevel2,It may be occurring some bugs. Terminate the game.,バグが発生している可能性があります。廃村を行ってください。
 TerminateCommand,Terminate Command,廃村コマンド
 ERR-000-000-0,No Error,エラーなし
+ERR-999-000-0,Test Error 0,テストエラーLv0
+ERR-999-010-1,Test Error 1,テストエラーLv1
+ERR-999-020-2,Test Error 2,テストエラーLv2
 
 ## その他
 DefaultSystemMessageTitle,【===== System Message =====】,【===== システムメッセージ ======】,,,
