@@ -31,6 +31,8 @@ namespace TownOfHost
             var Text = Instantiate(baseText);
             var instance = Text.gameObject.AddComponent<ErrorText>();
             instance.Text = Text;
+            instance.name = "ErrorText";
+            Text.name = "ErrorText.Text";
 
             Text.enabled = true;
             Text.text = "TestMessage";
