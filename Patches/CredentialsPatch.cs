@@ -54,6 +54,7 @@ namespace TownOfHost
                 credentials.alignment = TMPro.TextAlignmentOptions.TopRight;
                 credentials.transform.position = new Vector3(4.3f, __instance.transform.localPosition.y + 0.3f, 0);
 
+                TownOfHost.ErrorText.Create(__instance.text);
                 if (Main.hasArgumentException && !Main.ExceptionMessageIsShown)
                 {
                     Main.ExceptionMessageIsShown = true;
