@@ -64,6 +64,11 @@ namespace TownOfHost
                 Logger.Info("Reset CountDownTimer", "KeyCommand");
                 GameStartManager.Instance.ResetStartState();
             }
+            //現在の有効な設定の説明を表示
+            if (GetKeysDown(new[] { KeyCode.N, KeyCode.LeftShift, KeyCode.LeftControl }))
+            {
+                Utils.ShowActiveSettingsHelp();
+            }
             //現在の有効な設定を表示
             if (GetKeysDown(new[] { KeyCode.N, KeyCode.M, KeyCode.LeftControl }))
             {
