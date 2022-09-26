@@ -272,7 +272,7 @@ GMはゲーム自体には何の影響も与えず、すべてのプレイヤー
 
 ### ShapeMaster/シェイプマスター
 
-> **Warning**  
+> **Warning**
 > 現在使用できません。
 
 制作・考案者 : しゅー<br>
@@ -1056,7 +1056,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 有効化することで、役職名を日本語で表示させることができます。
 クライアントの言語を英語にしている場合、`Force Japanese`を有効にしていないとこの設定は意味のないものとなります。
 
-## 参考など
+## クレジット
 
 [バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター)、[シーア](#Seer/シーア)、[ジャッカル](#jackalジャッカル) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
 [オポチュニスト](#Opportunist/オポチュニスト)、[ウォッチャー](#Watcher/ウォッチャー) のアイデア元 : [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
@@ -1066,6 +1066,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 [テロリスト](#Terrorist/テロリスト)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [恋人](#lovers/恋人) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 中国語翻訳 : fivefirex、ZeMingOH233<br>
+オプションタブのアイコン製作者 : 花海
 
 ## 開発者
 <!--
