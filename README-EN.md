@@ -270,7 +270,7 @@ Unless taking a kill by deadline, they murder themselves instantly.<br>
 
 ### ShapeMaster
 
-> **Warning**  
+> **Warning**
 > Unavailable.
 
 Create and idea by しゅー<br>
@@ -1097,6 +1097,7 @@ More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire]
 [Terrorist](#Terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 Translate-Chinese : fivefirex, ZeMingOH233<br>
+OptionTab Icon Design by 花海.
 
 Translated with https://www.deepl.com<br>
 
