@@ -75,12 +75,12 @@ namespace TownOfHost
                 case SystemTypes.Comms:
                     if (!FixesComms.GetBool()) break;
                     if (SkillLimit.GetFloat() > 0 && UsedSkillCount >= SkillLimit.GetFloat()) break;
-                    if (amount is 16 or 17)
+                    if (amount is 64 or 65)
                     {
-                        ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 19);
-                        ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 18);
+                        ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 16);
+                        ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 17);
+                        UsedSkillCount++;
                     }
-                    UsedSkillCount++;
                     break;
                 case SystemTypes.Doors:
                     if (!FixesDoors.GetBool()) break;
