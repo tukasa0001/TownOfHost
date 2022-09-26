@@ -417,6 +417,35 @@ namespace TownOfHost
             }
             SendMessage(text, PlayerId);
         }
+        public static void CopyCurrentSettings()
+        {
+            var text = "";
+            if (Options.HideGameSettings.GetBool() && !AmongUsClient.Instance.AmHost)
+            {
+                ClipboardHelper.PutClipboardString(GetString("Message.HideGameSettings"));
+                return;
+            }
+            text += $"━━━━━━━━━━━━【{GetString("Roles")}】━━━━━━━━━━━━";
+            foreach (var role in Options.CustomRoleCounts)
+            {
+                if (!role.Key.IsEnable()) continue;
+                text += $"\n【{GetRoleName(role.Key)}×{role.Key.GetCount()}】\n";
+                ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref text);
+                text = text.RemoveHtmlTags();
+            }
+            text += $"━━━━━━━━━━━━【{GetString("Settings")}】━━━━━━━━━━━━";
+            foreach (var opt in CustomOption.Options.Where(x => x.Enabled && x.Parent == null && x.Id >= 80000 && !x.IsHidden(Options.CurrentGameMode)))
+            {
+                if (opt.Name == "KillFlashDuration")
+                    text += $"\n【{opt.GetName(true)}: {opt.GetString()}】\n";
+                else
+                    text += $"\n【{opt.GetName(true)}】\n";
+                ShowChildrenSettings(opt, ref text);
+                text = text.RemoveHtmlTags();
+            }
+            text += $"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
+            ClipboardHelper.PutClipboardString(text);
+        }
         public static void ShowActiveRoles(byte PlayerId = byte.MaxValue)
         {
             if (Options.HideGameSettings.GetBool() && PlayerId != byte.MaxValue)
