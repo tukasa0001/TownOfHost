@@ -195,9 +195,10 @@ namespace TownOfHost
                     case "/myrole":
                         canceled = true;
                         var role = PlayerControl.LocalPlayer.GetCustomRole();
-                        if (GameStates.IsInGame && !role.IsVanilla())
+                        if (GameStates.IsInGame)
                         {
-                            HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString(role.ToString()) + GetString($"{role}InfoLong"));
+                            if (role.IsVanilla()) HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString("Message.NoDescription"));
+                            else HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString(role.ToString()) + GetString($"{role}InfoLong"));
                         }
                         break;
 
@@ -413,9 +414,10 @@ namespace TownOfHost
                 case "/m":
                 case "/myrole":
                     var role = player.GetCustomRole();
-                    if (GameStates.IsInGame && !role.IsVanilla())
+                    if (GameStates.IsInGame)
                     {
-                        Utils.SendMessage(GetString(role.ToString()) + GetString($"{role}InfoLong"), player.PlayerId);
+                        if (role.IsVanilla()) Utils.SendMessage(GetString("Message.NoDescription"), player.PlayerId);
+                        else Utils.SendMessage(GetString(role.ToString()) + GetString($"{role}InfoLong"), player.PlayerId);
                     }
                     break;
 
@@ -438,13 +440,28 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1 || (Main.MessagesToSend[0].Item2 == byte.MaxValue && Main.MessageWait.Value > __instance.TimeSinceLastMessage)) return;
             var player = PlayerControl.AllPlayerControls.ToArray().OrderBy(x => x.PlayerId).Where(x => !x.Data.IsDead).FirstOrDefault();
             if (player == null) return;
-            (string msg, byte sendTo) = Main.MessagesToSend[0];
+            (string msg, byte sendTo, string title) = Main.MessagesToSend[0];
             Main.MessagesToSend.RemoveAt(0);
             int clientId = sendTo == byte.MaxValue ? -1 : Utils.GetPlayerById(sendTo).GetClientId();
-            if (clientId == -1) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, msg);
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SendChat, SendOption.None, clientId);
-            writer.Write(msg);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            if (clientId == -1)
+            {
+                player.SetName(title);
+                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, msg);
+                player.SetName(player.Data.PlayerName);
+            }
+            var writer = CustomRpcSender.Create("MessagesToSend", SendOption.None);
+            writer.StartMessage(clientId);
+            writer.StartRpc(player.NetId, (byte)RpcCalls.SetName)
+                .Write(title)
+                .EndRpc();
+            writer.StartRpc(player.NetId, (byte)RpcCalls.SendChat)
+                .Write(msg)
+                .EndRpc();
+            writer.StartRpc(player.NetId, (byte)RpcCalls.SetName)
+                .Write(player.Data.PlayerName)
+                .EndRpc();
+            writer.EndMessage();
+            writer.SendMessage();
             __instance.TimeSinceLastMessage = 0f;
         }
     }

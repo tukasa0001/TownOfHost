@@ -64,15 +64,17 @@ namespace TownOfHost
                 Logger.Info("Reset CountDownTimer", "KeyCommand");
                 GameStartManager.Instance.ResetStartState();
             }
-            //現在の有効な設定を表示
-            if (GetKeysDown(new[] { KeyCode.N, KeyCode.M, KeyCode.LeftControl }))
+            //現在の有効な設定の説明を表示
+            if (GetKeysDown(new[] { KeyCode.N, KeyCode.LeftShift, KeyCode.LeftControl }))
             {
+                Main.isChatCommand = true;
                 Utils.ShowActiveSettingsHelp();
             }
-            //TOHオプションをデフォルトに設定
-            if (GetKeysDown(new[] { KeyCode.Delete, KeyCode.LeftControl }) && GameObject.Find(GameOptionsMenuPatch.TownOfHostObjectName) != null)
+            //現在の有効な設定を表示
+            if (GetKeysDown(new[] { KeyCode.N, KeyCode.LeftControl }) && !Input.GetKey(KeyCode.LeftShift))
             {
-                CustomOption.Options.ToArray().Where(x => x.Id > 0).Do(x => x.UpdateSelection(x.DefaultSelection));
+                Main.isChatCommand = true;
+                Utils.ShowActiveSettings();
             }
 
             //--以下デバッグモード用コマンド--//
@@ -235,7 +237,7 @@ namespace TownOfHost
             if (player.GetButtonDown(50) && // 50:インポスターのベントボタンのactionId
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
             (PlayerControl.LocalPlayer.Is(CustomRoles.Arsonist) ||
-            (PlayerControl.LocalPlayer.Is(CustomRoles.Jackal) && Options.JackalCanVent.GetBool())
+            (PlayerControl.LocalPlayer.Is(CustomRoles.Jackal) && Jackal.CanVent.GetBool())
             ) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
             {
                 DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.DoClick();

@@ -8,6 +8,7 @@ using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using HarmonyLib;
 using UnityEngine;
+using UnhollowerRuntimeLib;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
@@ -34,7 +35,7 @@ namespace TownOfHost
         public const string OriginalForkId = "OriginalTOH"; // Don't Change The Value. / この値を変更しないでください。
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "3.0.0";
+        public const string PluginVersion = "3.0.1";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -76,7 +77,7 @@ namespace TownOfHost
         public static int BeforeFixMeetingCooldown = 10;
         public static List<byte> ResetCamPlayerList;
         public static List<byte> winnerList;
-        public static List<(string, byte)> MessagesToSend;
+        public static List<(string, byte, string)> MessagesToSend;
         public static bool isChatCommand = false;
         public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
@@ -156,7 +157,7 @@ namespace TownOfHost
             MayorUsedButtonCount = new Dictionary<byte, int>();
             winnerList = new();
             VisibleTasksCount = false;
-            MessagesToSend = new List<(string, byte)>();
+            MessagesToSend = new List<(string, byte, string)>();
             currentDousingTarget = 255;
 
             Preset1 = Config.Bind("Preset Name Options", "Preset1", "Preset_1");
@@ -272,6 +273,7 @@ namespace TownOfHost
                     TownOfHost.Logger.Error(ex.ToString(), "Template");
                 }
             }
+            ClassInjector.RegisterTypeInIl2Cpp<ErrorText>();
 
             Harmony.PatchAll();
         }

@@ -24,7 +24,7 @@ namespace TownOfHost
             var sr = new StreamReader(stream);
             tr = new Dictionary<string, Dictionary<int, string>>();
 
-            string[] header = sr.ReadLine().Split(',');
+            string[] header = sr.ReadLine().Split(',').Select(x => x.Trim('"')).ToArray();
 
             int currentLine = 1;
 
@@ -32,7 +32,7 @@ namespace TownOfHost
             {
                 currentLine++;
                 string line = sr.ReadLine();
-                if (line == "" || line[0] == '#') continue;
+                if (line == "" || line[0] == '"' && line[1] == '#') continue;
                 string[] values = line.Split(',');
                 List<string> fields = new(values);
                 Dictionary<int, string> tmp = new();
@@ -47,15 +47,16 @@ namespace TownOfHost
                                 fields[i] = fields[i] + "," + fields[i + 1];
                                 fields.RemoveAt(i + 1);
                             }
+                            fields[i] = fields[i][1..^1];
                         }
                     }
                     for (var i = 1; i < fields.Count; i++)
                     {
-                        var tmp_str = fields[i].Replace("\\n", "\n").Trim('"');
+                        var tmp_str = fields[i].Replace("\\n", "\n").Replace("\"\"", "\"");
                         tmp.Add(Int32.Parse(header[i]), tmp_str);
                     }
                     if (tr.ContainsKey(fields[0])) { Logger.Warn($"翻訳用CSVに重複があります。{currentLine}行目: \"{fields[0]}\"", "Translator"); continue; }
-                    tr.Add(fields[0], tmp);
+                    tr.Add(fields[0].Trim('"'), tmp);
                 }
                 catch
                 {

@@ -32,107 +32,56 @@ namespace TownOfHost
                 //Standardの時のみ実行
                 if (Options.CurrentGameMode == CustomGameMode.Standard)
                 {
-                    //役職一覧
+                    //有効な役職一覧
                     text += $"<color={Utils.GetRoleColorCode(CustomRoles.LastImpostor)}>{Utils.GetRoleName(CustomRoles.LastImpostor)}:</color> {Options.EnableLastImpostor.GetString()}\n\n";
-                    text += $"<color={Utils.GetRoleColorCode(CustomRoles.GM)}>{Utils.GetRoleName(CustomRoles.GM)}:</color> {Options.EnableGM.GetString()}\n";
+                    text += $"<color={Utils.GetRoleColorCode(CustomRoles.GM)}>{Utils.GetRoleName(CustomRoles.GM)}:</color> {Options.EnableGM.GetString()}\n\n";
+                    text += GetString("ActiveRolesList") + "\n";
                     foreach (var kvp in Options.CustomRoleSpawnChances)
-                        if (kvp.Value.GameMode is CustomGameMode.Standard or CustomGameMode.All) //スタンダードか全てのゲームモードで表示する役職
+                        if (kvp.Value.GameMode is CustomGameMode.Standard or CustomGameMode.All && kvp.Value.Enabled) //スタンダードか全てのゲームモードで表示する役職
                             text += $"{Helpers.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
                     pages.Add(text + "\n\n");
                     text = "";
                 }
                 //有効な役職と詳細設定一覧
                 pages.Add("");
-                if (Options.CurrentGameMode == CustomGameMode.Standard)
+
+                if (Options.EnableLastImpostor.GetBool() && !Options.EnableLastImpostor.IsHidden(Options.CurrentGameMode))
                 {
-                    if (Options.EnableLastImpostor.GetBool())
-                    {
-                        text += $"<color={Utils.GetRoleColorCode(CustomRoles.LastImpostor)}>{Utils.GetRoleName(CustomRoles.LastImpostor)}:</color> {Options.EnableLastImpostor.GetString()}\n";
-                        text += $"\t{GetString("KillCooldown")}: {Options.LastImpostorKillCooldown.GetString()}\n\n";
-                    }
+                    text += $"<color={Utils.GetRoleColorCode(CustomRoles.LastImpostor)}>{Utils.GetRoleName(CustomRoles.LastImpostor)}:</color> {Options.EnableLastImpostor.GetString()}\n";
+                    ShowChildren(Options.EnableLastImpostor, ref text, 1);
                 }
                 nameAndValue(Options.EnableGM);
                 foreach (var kvp in Options.CustomRoleSpawnChances)
                 {
-                    if (!kvp.Key.IsEnable()) continue;
-                    if (!(kvp.Value.GameMode == Options.CurrentGameMode || kvp.Value.GameMode == CustomGameMode.All)) continue; //現在のゲームモードでも全てのゲームモードでも表示しない役職なら飛ばす
+                    if (!kvp.Key.IsEnable() || kvp.Value.IsHidden(Options.CurrentGameMode)) continue;
+                    text += "\n";
                     text += $"{Helpers.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
-                    foreach (var c in kvp.Value.Children) //詳細設定をループする
-                    {
-                        if (c.Name == "Maximum") continue; //Maximumの項目は飛ばす
-                        text += $"\t{c.GetName()}: {c.GetString()}\n";
-                        if (c.GetBool() && c.Children != null)
-                            foreach (var d in c.Children)
-                            {
-                                text += $"\t\t{d.GetName()}: {d.GetString()}\n"; //子
-                                if (d.GetBool() && d.Children != null)
-                                    foreach (var e in d.Children)
-                                    {
-                                        text += $"\t\t\t{e.GetName()}: {e.GetString()}\n"; //孫？
-                                    }
-                            }
-                    }
+                    ShowChildren(kvp.Value, ref text, 1);
                     if (kvp.Key.IsMadmate()) //マッドメイトの時に追加する詳細設定
                     {
-                        text += $"\t{Options.MadmateCanFixLightsOut.GetName()}: {Options.MadmateCanFixLightsOut.GetString()}\n";
-                        text += $"\t{Options.MadmateCanFixComms.GetName()}: {Options.MadmateCanFixComms.GetString()}\n";
-                        text += $"\t{Options.MadmateHasImpostorVision.GetName()}: {Options.MadmateHasImpostorVision.GetString()}\n";
-                        text += $"\t{Options.MadmateVentCooldown.GetName()}: {Options.MadmateVentCooldown.GetString()}\n";
-                        text += $"\t{Options.MadmateVentMaxTime.GetName()}: {Options.MadmateVentMaxTime.GetString()}\n";
+                        text += $"┣ {Options.MadmateCanFixLightsOut.GetName()}: {Options.MadmateCanFixLightsOut.GetString()}\n";
+                        text += $"┣ {Options.MadmateCanFixComms.GetName()}: {Options.MadmateCanFixComms.GetString()}\n";
+                        text += $"┣ {Options.MadmateHasImpostorVision.GetName()}: {Options.MadmateHasImpostorVision.GetString()}\n";
+                        text += $"┣ {Options.MadmateCanSeeKillFlash.GetName()}: {Options.MadmateCanSeeKillFlash.GetString()}\n";
+                        text += $"┣ {Options.MadmateCanSeeOtherVotes.GetName()}: {Options.MadmateCanSeeOtherVotes.GetString()}\n";
+                        text += $"┣ {Options.MadmateVentCooldown.GetName()}: {Options.MadmateVentCooldown.GetString()}\n";
+                        text += $"┗ {Options.MadmateVentMaxTime.GetName()}: {Options.MadmateVentMaxTime.GetString()}\n";
                     }
                     if (kvp.Key is CustomRoles.Shapeshifter/* or CustomRoles.ShapeMaster*/ or CustomRoles.BountyHunter or CustomRoles.SerialKiller) //シェイプシフター役職の時に追加する詳細設定
                     {
-                        text += $"\t{Options.CanMakeMadmateCount.GetName()}: {Options.CanMakeMadmateCount.GetString()}\n";
+                        text += $"┗ {Options.CanMakeMadmateCount.GetName()}: {Options.CanMakeMadmateCount.GetString()}\n";
                     }
-                    if ((kvp.Key == CustomRoles.EvilTracker && EvilTracker.CanSeeKillFlash.GetBool())
-                    || kvp.Key == CustomRoles.Seer
-                    || (kvp.Key.IsMadmate() && Options.MadmateCanSeeKillFlash.GetBool()))
-                    {
-                        text += $"\t{Options.KillFlashDuration.GetName()}: {Options.KillFlashDuration.GetString()}\n";
-                    }
-                    text += "\n";
+                }
+
+                foreach (var opt in CustomOption.Options.Where(x => x.Id >= 90000 && !x.IsHidden(Options.CurrentGameMode) && x.Parent == null))
+                {
+                    if (opt.isHeader) text += "\n";
+                    text += $"{opt.GetName()}: {opt.GetString()}\n";
+                    if (opt.Enabled)
+                        ShowChildren(opt, ref text, 1);
                 }
                 //Onの時に子要素まで表示するメソッド
-                void listUp(CustomOption o)
-                {
-                    if (o.GetBool())
-                    {
-                        text += $"{o.GetName()}: {o.GetString()}\n";
-                        foreach (var c in o.Children)
-                        {
-                            text += $"\t{c.GetName_v()}: {c.GetString()}\n";
-                            if (c.Children != null)
-                                foreach (var c2 in c.Children)
-                                    text += $"\t\t{c2.GetName_v()}: {c2.GetString()}\n";
-                        }
-                        text += "\n";
-                    }
-                }
                 void nameAndValue(CustomOption o) => text += $"{o.GetName()}: {o.GetString()}\n";
-                if (Options.CurrentGameMode == CustomGameMode.Standard)
-                {
-                    listUp(Options.SyncButtonMode);
-                    listUp(Options.VoteMode);
-                    listUp(Options.SabotageTimeControl);
-                    nameAndValue(Options.StandardHAS);
-                }
-                else if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
-                {
-                    nameAndValue(Options.AllowCloseDoors);
-                    nameAndValue(Options.KillDelay);
-                    //nameAndValue(Options.IgnoreCosmetics);
-                    nameAndValue(Options.IgnoreVent);
-                }
-                text += "\n";
-                listUp(Options.AllAliveMeeting);
-                listUp(Options.LadderDeath);
-                listUp(Options.DisableTasks);
-                listUp(Options.RandomMapsMode);
-                listUp(Options.DisableDevices);
-                nameAndValue(Options.NoGameEnd);
-                nameAndValue(Options.GhostCanSeeOtherRoles);
-                nameAndValue(Options.HideGameSettings);
-                listUp(Options.RandomSpawn);
             }
             //1ページにつき35行までにする処理
             List<string> tmp = new(text.Split("\n\n"));
@@ -149,6 +98,17 @@ namespace TownOfHost
         {
             currentPage++;
             if (currentPage >= pages.Count) currentPage = 0; //現在のページが最大ページを超えていれば最初のページに
+        }
+        private static void ShowChildren(CustomOption option, ref string text, int deep = 0)
+        {
+            foreach (var opt in option.Children.Select((v, i) => new { Value = v, Index = i + 1 }))
+            {
+                if (opt.Value.Name == "Maximum") continue; //Maximumの項目は飛ばす
+                text += string.Concat(Enumerable.Repeat("┃", deep - 1));
+                text += opt.Index == option.Children.Count ? "┗ " : "┣ ";
+                text += $"{opt.Value.GetName()}: {opt.Value.GetString()}\n";
+                if (opt.Value.Enabled) ShowChildren(opt.Value, ref text, deep + 1);
+            }
         }
     }
 }

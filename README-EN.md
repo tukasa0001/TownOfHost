@@ -40,15 +40,15 @@ Note that if a player other than the host plays with this mod installed, the fol
 ### Hotkeys
 
 #### Host Only
-| HotKey              | Function                      | Usable Scene    |
-| ------------------- | ----------------------------- | --------------- |
-| `Shift`+`L`+`Enter` | Force End Game                | In Game         |
-| `Shift`+`M`+`Enter` | Skip meeting to end           | In Game         |
-| `Ctrl`+`N`          | Show active role descriptions | Lobby&In Game   |
-| `C`                 | Cancel game start             | In Countdown    |
-| `Shift`             | Start the game immediately    | In Countdown    |
-| `Ctrl`+`Delete`     | Set default all options       | In TOH Settings |
-| `Ctrl`+`RMB`        | Execute clicked player        | In Meeting      |
+| HotKey              | Function                         | Usable Scene  |
+| ------------------- | -------------------------------- | ------------- |
+| `Shift`+`L`+`Enter` | Force End Game                   | In Game       |
+| `Shift`+`M`+`Enter` | Skip meeting to end              | In Game       |
+| `Ctrl`+`N`          | Show active settings             | Lobby&In Game |
+| `Ctrl`+`Shift`+`N`  | Show active settings description | Lobby&In Game |
+| `C`                 | Cancel game start                | In Countdown  |
+| `Shift`             | Start the game immediately       | In Countdown  |
+| `Ctrl`+`RMB`        | Execute clicked player           | In Meeting    |
 
 #### MOD Client Only
 | HotKey      | Function                                                                           | Usable Scene |
@@ -193,6 +193,12 @@ EvilTrackers can track other players.<br>
 They have arrows pointing to the other impostors and to another player selected by shapeshift.<br>
 Depending on option, they can also see kill flash when other impostor kills.<br>
 
+- EvilTrackers can select a target after every meeting or once in a game, when marked left-triangle (◁).
+- When they Shapeshift to impostor or dead player (unavailable for target), they stay able to select target.
+- Shapeshift cooldown is fixed to __"5s"__ (can select target) or to __"255s"__ (cannot).
+- Shapeshift duration is fixed to __"1s"__, which means EvilTrackers can hardly pretend to be someone else.
+- EvilTrackers can Assign [SidekickMadmate](#SidekickMadmate) by Shapeshift.
+
 #### Game Options
 
 | Name                                            |
@@ -264,7 +270,7 @@ Unless taking a kill by deadline, they murder themselves instantly.<br>
 
 ### ShapeMaster
 
-> **Warning**  
+> **Warning**
 > Unavailable.
 
 Create and idea by しゅー<br>
@@ -551,6 +557,7 @@ Basis : Crewmate<br>
 
 Seers can see when someone dies.<br>
 For an instant, their vision turns totally dark and there goes Reactor alert only to them unless on Reactor (named "Kill Flash").<br>
+For the host, the screen flash red and a kill sounds.<br>
 There is a option to slightly adjust Kill Flash duration.<br>
 
 #### Game Options
@@ -869,6 +876,12 @@ Various devices can be disabled.
 | ┣ Disable Airship Records Admin |
 | ┣ Disable Camera                |
 | ┗ Disable Vital                 |
+| Ignore Conditions               |
+| ┣ Ignore Impostors              |
+| ┣ Ignore Madmates               |
+| ┣ Ignore Neutrals               |
+| ┣ Ignore Crewmates              |
+| ┗ Ignore After Anyone Died      |
 
 ## SabotageTimeControl
 
@@ -1084,6 +1097,7 @@ More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire]
 [Terrorist](#Terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 Translate-Chinese : fivefirex, ZeMingOH233<br>
+OptionTab Icon Design by 花海.
 
 Translated with https://www.deepl.com<br>
 

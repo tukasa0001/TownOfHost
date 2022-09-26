@@ -311,9 +311,9 @@ namespace TownOfHost
     public enum TabGroup
     {
         MainSettings,
+        ImpostorRoles,
         CrewmateRoles,
         NeutralRoles,
-        ImpostorRoles,
-        Modifier
+        Modifiers
     }
 }

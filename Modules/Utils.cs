@@ -269,10 +269,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
                     if (cRole == CustomRoles.Arsonist) hasTasks = false;
                     if (cRole == CustomRoles.SchrodingerCat) hasTasks = false;
-                    if (cRole == CustomRoles.CSchrodingerCat) hasTasks = false;
-                    if (cRole == CustomRoles.MSchrodingerCat) hasTasks = false;
-                    if (cRole == CustomRoles.EgoSchrodingerCat) hasTasks = false;
-                    if (cRole == CustomRoles.JSchrodingerCat) hasTasks = false;
+                    if (cRole.IsKilledSchrodingerCat()) hasTasks = false;
                     if (cRole == CustomRoles.Egoist) hasTasks = false;
                     if (cRole == CustomRoles.Jackal) hasTasks = false;
                 }
@@ -400,96 +397,24 @@ namespace TownOfHost
             }
             else
             {
-                ShowActiveRoles(PlayerId);
-                text = GetString("Attributes") + ":";
-                if (Options.EnableLastImpostor.GetBool())
-                {
-                    text += $"\n【{GetRoleName(CustomRoles.LastImpostor)}】";
-                    text += String.Format("\n{0}:{1}", GetString("KillCooldown"), Options.LastImpostorKillCooldown.GetString());
-                }
-                SendMessage(text, PlayerId);
                 text = GetString("Settings") + ":";
                 foreach (var role in Options.CustomRoleCounts)
                 {
                     if (!role.Key.IsEnable()) continue;
-                    bool isFirst = true;
-                    text += $"\n【{GetRoleName(role.Key)}】";
-                    foreach (var c in Options.CustomRoleSpawnChances[role.Key].Children)
-                    {
-                        if (isFirst) { isFirst = false; continue; }
-                        text += $"\n{c.GetName(disableColor: true)}:{c.GetString()}";
-                        if (c.Children != null && c.GetBool())
-                            foreach (var d in c.Children)
-                            {
-                                text += $"\n└{d.GetName(disableColor: true)}:{d.GetString()}";
-                                if (d.Children != null && d.GetBool())
-                                    foreach (var e in d.Children)
-                                    {
-                                        text += $"\n　└{e.GetName(disableColor: true)}:{e.GetString()}";
-                                    }
-                            }
-                        text = text.RemoveHtmlTags();
-                    }
-                    text += "\n";
+                    text += $"\n【{GetRoleName(role.Key)}×{role.Key.GetCount()}】\n";
+                    ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref text);
+                    text = text.RemoveHtmlTags();
                 }
-                if ((CustomRoles.EvilTracker.IsEnable() && EvilTracker.CanSeeKillFlash.GetBool())
-                || CustomRoles.Seer.IsEnable())
-                    text += String.Format("\n{0}:{1}", GetString("KillFlashDuration"), Options.KillFlashDuration.GetString());
-                if (Options.DisableDevices.GetBool())
+                foreach (var opt in CustomOption.Options.Where(x => x.Enabled && x.Parent == null && x.Id >= 80000 && !x.IsHidden(Options.CurrentGameMode)))
                 {
-                    if (Options.DisableSkeldDevices.GetBool() && (Options.AddedTheSkeld.GetBool() || mapId == 0))
-                    {
-                        text += String.Format("\n【{0}】", Options.DisableSkeldDevices.GetName(disableColor: true));
-                        text += String.Format("\n┗{0}:{1}", Options.DisableSkeldAdmin.GetName(disableColor: true), GetOnOff(Options.DisableSkeldAdmin.GetBool()));
-                        text += String.Format("\n┗{0}:{1}", Options.DisableSkeldCamera.GetName(disableColor: true), GetOnOff(Options.DisableSkeldCamera.GetBool()));
-                    }
-                    if (Options.DisableMiraHQDevices.GetBool() && (Options.AddedMiraHQ.GetBool() || mapId == 1))
-                    {
-                        text += String.Format("\n【{0}】", Options.DisableMiraHQDevices.GetName(disableColor: true));
-                        text += String.Format("\n┗{0}:{1}", Options.DisableMiraHQAdmin.GetName(disableColor: true), GetOnOff(Options.DisableMiraHQAdmin.GetBool()));
-                        text += String.Format("\n┗{0}:{1}", Options.DisableMiraHQDoorLog.GetName(disableColor: true), GetOnOff(Options.DisableMiraHQDoorLog.GetBool()));
-                    }
-                    if (Options.DisablePolusDevices.GetBool() && (Options.AddedPolus.GetBool() || mapId == 2))
-                    {
-                        text += String.Format("\n【{0}】", Options.DisablePolusDevices.GetName(disableColor: true));
-                        text += String.Format("\n┗{0}:{1}", Options.DisablePolusAdmin.GetName(disableColor: true), GetOnOff(Options.DisablePolusAdmin.GetBool()));
-                        text += String.Format("\n┗{0}:{1}", Options.DisablePolusCamera.GetName(disableColor: true), GetOnOff(Options.DisablePolusCamera.GetBool()));
-                        text += String.Format("\n┗{0}:{1}", Options.DisablePolusVital.GetName(disableColor: true), GetOnOff(Options.DisablePolusVital.GetBool()));
-                    }
-                    if (Options.DisableAirshipDevices.GetBool() && (Options.AddedTheAirShip.GetBool() || mapId == 4))
-                    {
-                        text += String.Format("\n【{0}】", Options.DisableAirshipDevices.GetName(disableColor: true));
-                        text += String.Format("\n┗{0}:{1}", Options.DisableAirshipCockpitAdmin.GetName(disableColor: true), GetOnOff(Options.DisableAirshipCockpitAdmin.GetBool()));
-                        text += String.Format("\n┗{0}:{1}", Options.DisableAirshipRecordsAdmin.GetName(disableColor: true), GetOnOff(Options.DisableAirshipRecordsAdmin.GetBool()));
-                        text += String.Format("\n┗{0}:{1}", Options.DisableAirshipCamera.GetName(disableColor: true), GetOnOff(Options.DisableAirshipCamera.GetBool()));
-                        text += String.Format("\n┗{0}:{1}", Options.DisableAirshipVital.GetName(disableColor: true), GetOnOff(Options.DisableAirshipVital.GetBool()));
-                    }
-                }
-                if (Options.SyncButtonMode.GetBool()) text += String.Format("\n{0}:{1}", GetString("SyncedButtonCount"), Options.SyncedButtonCount.GetInt());
-                if (Options.SabotageTimeControl.GetBool())
-                {
-                    if (PlayerControl.GameOptions.MapId == 2) text += String.Format("\n{0}:{1}", GetString("PolusReactorTimeLimit"), Options.PolusReactorTimeLimit.GetString());
-                    if (PlayerControl.GameOptions.MapId == 4) text += String.Format("\n{0}:{1}", GetString("AirshipReactorTimeLimit"), Options.AirshipReactorTimeLimit.GetString());
-                }
-                if (Options.VoteMode.GetBool())
-                {
-                    if (Options.GetWhenSkipVote() != VoteMode.Default) text += String.Format("\n{0}:{1}", GetString("WhenSkipVote"), Options.WhenSkipVote.GetString());
-                    if (Options.GetWhenNonVote() != VoteMode.Default) text += String.Format("\n{0}:{1}", GetString("WhenNonVote"), Options.WhenNonVote.GetString());
-                    if ((Options.GetWhenNonVote() == VoteMode.Suicide || Options.GetWhenSkipVote() == VoteMode.Suicide) && CustomRoles.Terrorist.IsEnable()) text += String.Format("\n{0}:{1}", GetString("CanTerroristSuicideWin"), Options.CanTerroristSuicideWin.GetBool());
+                    if (opt.Name == "KillFlashDuration")
+                        text += $"\n【{opt.GetName(true)}: {opt.GetString()}】\n";
+                    else
+                        text += $"\n【{opt.GetName(true)}】\n";
+                    ShowChildrenSettings(opt, ref text);
+                    text = text.RemoveHtmlTags();
                 }
             }
-            if (Options.LadderDeath.GetBool())
-            {
-                text += String.Format("\n{0}:{1}", GetString("LadderDeath"), GetOnOff(Options.LadderDeath.GetBool()));
-                text += String.Format("\n{0}:{1}", GetString("LadderDeathChance"), Options.LadderDeathChance.GetString());
-            }
-            if (Options.IsStandardHAS) text += String.Format("\n{0}:{1}", GetString("StandardHAS"), GetOnOff(Options.StandardHAS.GetBool()));
-            if (Options.RandomSpawn.GetBool())
-            {
-                text += String.Format("\n{0}:{1}", GetString("RandomSpawn"), GetOnOff(Options.RandomSpawn.GetBool()));
-                text += String.Format("\n{0}:{1}", GetString("AirshipAdditionalSpawn"), GetOnOff(Options.AirshipAdditionalSpawn.GetBool()));
-            }
-            if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", GetString("NoGameEnd"), GetOnOff(Options.NoGameEnd.GetBool()));
             SendMessage(text, PlayerId);
         }
         public static void ShowActiveRoles(byte PlayerId = byte.MaxValue)
@@ -507,6 +432,26 @@ namespace TownOfHost
                 if (role.IsEnable()) text += string.Format("\n{0}:{1}x{2}", GetRoleName(role), $"{role.GetChance() * 100}%", role.GetCount());
             }
             SendMessage(text, PlayerId);
+        }
+        public static void ShowChildrenSettings(CustomOption option, ref string text, int deep = 0)
+        {
+            foreach (var opt in option.Children.Select((v, i) => new { Value = v, Index = i + 1 }))
+            {
+                if (opt.Value.Name == "Maximum") continue; //Maximumの項目は飛ばす
+                if (opt.Value.Name == "DisableSkeldDevices" && !Options.IsActiveSkeld) continue;
+                if (opt.Value.Name == "DisableMiraHQDevices" && !Options.IsActiveMiraHQ) continue;
+                if (opt.Value.Name == "DisablePolusDevices" && !Options.IsActivePolus) continue;
+                if (opt.Value.Name == "DisableAirshipDevices" && !Options.IsActiveAirship) continue;
+                if (opt.Value.Name == "PolusReactorTimeLimit" && !Options.IsActivePolus) continue;
+                if (opt.Value.Name == "AirshipReactorTimeLimit" && !Options.IsActiveAirship) continue;
+                if (deep > 0)
+                {
+                    text += string.Concat(Enumerable.Repeat("┃", Mathf.Max(deep - 1, 0)));
+                    text += opt.Index == option.Children.Count ? "┗ " : "┣ ";
+                }
+                text += $"{opt.Value.GetName(true)}: {opt.Value.GetString()}\n";
+                if (opt.Value.Enabled) ShowChildrenSettings(opt.Value, ref text, deep + 1);
+            }
         }
         public static void ShowLastResult(byte PlayerId = byte.MaxValue)
         {
@@ -589,10 +534,11 @@ namespace TownOfHost
                 CustomWinnerHolder.WinnerIds.Add(Terrorist.PlayerId);
             }
         }
-        public static void SendMessage(string text, byte sendTo = byte.MaxValue)
+        public static void SendMessage(string text, byte sendTo = byte.MaxValue, string title = "")
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            Main.MessagesToSend.Add((text, sendTo));
+            if (title == "") title = "<color=#aaaaff>" + GetString("DefaultSystemMessageTitle") + "</color>";
+            Main.MessagesToSend.Add((text, sendTo, title));
         }
         public static void ApplySuffix()
         {
@@ -997,7 +943,7 @@ namespace TownOfHost
         public static (int, int) GetDousedPlayerCount(byte playerId)
         {
             int doused = 0, all = 0; //学校で習った書き方
-            //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
+                                     //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc == null ||

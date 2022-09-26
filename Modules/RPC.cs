@@ -314,12 +314,19 @@ namespace TownOfHost
                 case CustomRoles.Egoist:
                     Egoist.Add(targetId);
                     break;
+                case CustomRoles.SchrodingerCat:
+                    SchrodingerCat.Add(targetId);
+                    break;
                 case CustomRoles.EgoSchrodingerCat:
                     TeamEgoist.Add(targetId);
                     break;
                 case CustomRoles.Executioner:
                     Executioner.Add(targetId);
                     break;
+                case CustomRoles.Jackal:
+                    Jackal.Add(targetId);
+                    break;
+
                 case CustomRoles.Sheriff:
                     Sheriff.Add(targetId);
                     break;
@@ -328,6 +335,7 @@ namespace TownOfHost
                     break;
             }
             HudManager.Instance.SetHudActive(true);
+            if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();
         }
         public static void AddNameColorData(byte seerId, byte targetId, string color)
         {
