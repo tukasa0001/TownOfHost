@@ -70,9 +70,9 @@ namespace TownOfHost
                 Utils.ShowActiveSettingsHelp();
             }
             //現在の有効な設定を表示
-            if (GetKeysDown(new[] { KeyCode.N, KeyCode.M, KeyCode.LeftControl }))
+            if (GetKeysDown(new[] { KeyCode.N, KeyCode.LeftControl }) && !Input.GetKey(KeyCode.LeftShift))
             {
-                Utils.ShowActiveSettingsHelp();
+                Utils.ShowActiveSettings();
             }
 
             //--以下デバッグモード用コマンド--//
