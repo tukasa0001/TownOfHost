@@ -319,7 +319,7 @@
 "BountyFailureKillCooldown","Kill Cooldown After Killing Others","ターゲット以外殺害時のキルクール","赏金猎人击杀赏金目标以外玩家的惩罚冷却时间","賞金獵人殺死非賞金目標冷卻","Перезарядка После Обычного Убийства"
 "DefaultShapeshiftCooldown","Default Shapeshift Cooldown","デフォルトの変身クールダウン","默认变形冷却时间","預設變身時間","Обычная Перезарядка Оборотня"
 "VampireKillDelay","Kill Delay(s)","殺害までの時間(秒)","延迟的击杀时间","殺人延遲","Длительность Укуса"
-"MareAddSpeedInLightsOut","Mare Add Player Add Speed In Lights Out","停電時のメアーの加速値","梦魇熄灯时的移动速度","關燈時黑暗博士的移動速度","Скорость Mare При Саботаже Света"
+"MareAddSpeedInLightsOut","Mare Add Player Add Speed In Lights Out","停電時のメアーの加速値","梦魇熄灯时的额外速度","關燈時黑暗博士的額外速度","добавление Скорость Mare При Саботаже Света"
 "MareKillCooldownInLightsOut","Mare Kill Cooldown In Lights Out","停電時のメアーのキルクール","梦魇熄灯时的击杀冷却","關燈時黑暗博士的殺人冷卻","Откат Убийства Mare При Саботаже Света"
 "SabotageMasterSkillLimit","SabotageMaster Fix Ability Limit(Except Opening Doors)","修理能力を使用できる回数(ﾄﾞｱ閉鎖は除く)","修理大师修理破坏的最大次数","破壞大師修理破壞次數上限","Лимит Способности (Кроме Открытия Дверей)"
 "CanMakeMadmateCount","SidekickMadmate Maximum","サイドキックマッドメイト(人)","变形者可以招募叛徒的数量","變形者招募叛徒最大人數","Максимум SidekickMadmate"
