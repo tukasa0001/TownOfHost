@@ -92,12 +92,11 @@ namespace TownOfHost
                     catch
                     {
                         Logger.Warn($"{__instance?.Data?.PlayerName}({__instance.PlayerId}): バージョン情報が無効です", "RpcVersionCheck");
-                        if (AmongUsClient.Instance.AmHost)
+                        new LateTask(() =>
                         {
-                            AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
-                            Logger.Info($"不正なRPCを受信したため{__instance?.Data?.PlayerName}をキックしました。", "Kick");
-                            Logger.SendInGame(string.Format(GetString("Warning.InvalidRpc"), __instance?.Data?.PlayerName));
-                        }
+                            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RequestRetryVersionCheck, SendOption.Reliable, __instance.GetClientId());
+                            AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        }, 1f, "Retry Version Check Task");
                     }
                     break;
                 case CustomRPC.RequestRetryVersionCheck:
