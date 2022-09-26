@@ -63,7 +63,9 @@ namespace TownOfHost
                     Logger.Info($"{__instance.GetNameWithRole()} => {p?.GetNameWithRole() ?? "null"}", "StartMeeting");
                     break;
             }
-            if (__instance.PlayerId != 0 && Enum.IsDefined(typeof(CustomRPC), (int)callId) && callId != (byte)CustomRPC.VersionCheck) //ホストではなく、CustomRPCで、VersionCheckではない
+            if (__instance.PlayerId != 0
+                && Enum.IsDefined(typeof(CustomRPC), (int)callId)
+                && !(callId == (byte)CustomRPC.VersionCheck || callId == (byte)CustomRPC.RequestRetryVersionCheck)) //ホストではなく、CustomRPCで、VersionCheckではない
             {
                 Logger.Warn($"{__instance?.Data?.PlayerName}:{callId}({RPC.GetRpcName(callId)}) ホスト以外から送信されたためキャンセルしました。", "CustomRPC");
                 if (AmongUsClient.Instance.AmHost)
