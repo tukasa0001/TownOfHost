@@ -69,11 +69,6 @@ namespace TownOfHost
             {
                 Utils.ShowActiveSettingsHelp();
             }
-            //TOHオプションをデフォルトに設定
-            if (GetKeysDown(new[] { KeyCode.Delete, KeyCode.LeftControl }) && GameObject.Find(GameOptionsMenuPatch.TownOfHostObjectName) != null)
-            {
-                CustomOption.Options.ToArray().Where(x => x.Id > 0).Do(x => x.UpdateSelection(x.DefaultSelection));
-            }
 
             //--以下デバッグモード用コマンド--//
             if (!Main.AmDebugger.Value) return;

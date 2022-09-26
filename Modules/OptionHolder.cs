@@ -384,9 +384,9 @@ namespace TownOfHost
             Jackal.SetupCustomOption();
 
             // Attribute
-            EnableLastImpostor = CustomOption.Create(80000, TabGroup.MainSettings, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
+            EnableLastImpostor = CustomOption.Create(80000, TabGroup.Modifiers, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            LastImpostorKillCooldown = CustomOption.Create(80010, TabGroup.MainSettings, Color.white, "KillCooldown", 15, 0, 180, 1, EnableLastImpostor)
+            LastImpostorKillCooldown = CustomOption.Create(80010, TabGroup.Modifiers, Color.white, "KillCooldown", 15, 0, 180, 1, EnableLastImpostor)
                 .SetGameMode(CustomGameMode.Standard);
             #endregion
 
@@ -580,11 +580,11 @@ namespace TownOfHost
         private static void SetupLoversRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             var role = CustomRoles.Lovers;
-            var spawnOption = CustomOption.Create(id, TabGroup.Modifier, Utils.GetRoleColor(role), role.ToString(), ratesZeroOne, ratesZeroOne[0], null, true)
+            var spawnOption = CustomOption.Create(id, TabGroup.Modifiers, Utils.GetRoleColor(role), role.ToString(), ratesZeroOne, ratesZeroOne[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
 
-            var countOption = CustomOption.Create(id + 1, TabGroup.Modifier, Color.white, "NumberOfLovers", 2, 1, 15, 1, spawnOption, false, true)
+            var countOption = CustomOption.Create(id + 1, TabGroup.Modifiers, Color.white, "NumberOfLovers", 2, 1, 15, 1, spawnOption, false, true)
                 .HiddenOnDisplay(false)
                 .SetGameMode(customGameMode);
 

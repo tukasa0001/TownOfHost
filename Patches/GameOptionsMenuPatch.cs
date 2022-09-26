@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using UnhollowerBaseLib;
 using UnityEngine;
+using static TownOfHost.Translator;
 using Object = UnityEngine.Object;
 
 namespace TownOfHost
@@ -22,8 +24,6 @@ namespace TownOfHost
     [HarmonyPriority(Priority.First)]
     public static class GameOptionsMenuPatch
     {
-        public const string TownOfHostObjectName = "TOHSettings";
-
         public static void Postfix(GameOptionsMenu __instance)
         {
             foreach (var ob in __instance.Children)
@@ -42,105 +42,95 @@ namespace TownOfHost
                         break;
                 }
             }
-
-            if (GameObject.Find(TownOfHostObjectName) != null)
-            {
-                GameObject.Find(TownOfHostObjectName)
-                    .transform
-                    .FindChild("GameGroup")
-                    .FindChild("Text")
-                    .GetComponent<TMPro.TextMeshPro>()
-                    .SetText("TownOfHost Settings");
-
-                return;
-            }
-
             var template = Object.FindObjectsOfType<StringOption>().FirstOrDefault();
             if (template == null) return;
 
             var gameSettings = GameObject.Find("Game Settings");
+            if (gameSettings == null) return;
+
             var gameSettingMenu = Object.FindObjectsOfType<GameSettingMenu>().FirstOrDefault();
             if (gameSettingMenu == null) return;
-
-            var tohSettings = Object.Instantiate(gameSettings, gameSettings.transform.parent);
-            var tohMenu = tohSettings.transform
-                .FindChild("GameGroup")
-                .FindChild("SliderInner")
-                .GetComponent<GameOptionsMenu>();
-            tohSettings.name = TownOfHostObjectName;
+            List<GameObject> menus = new() { gameSettingMenu.RegularGameSettings, gameSettingMenu.RolesSettings.gameObject };
+            List<SpriteRenderer> highlights = new() { gameSettingMenu.GameSettingsHightlight, gameSettingMenu.RolesSettingsHightlight };
 
             var roleTab = GameObject.Find("RoleTab");
             var gameTab = GameObject.Find("GameTab");
+            List<GameObject> tabs = new() { gameTab, roleTab };
 
-            var tohTab = Object.Instantiate(roleTab, roleTab.transform.parent);
-            var tohTabHighlight = tohTab.transform.FindChild("Hat Button").FindChild("Tab Background")
-                .GetComponent<SpriteRenderer>();
-            tohTab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.TabIcon.png", 100f);
-
-            gameTab.transform.position += Vector3.left * 0.5f;
-            tohTab.transform.position += Vector3.right * 0.5f;
-            roleTab.transform.position += Vector3.left * 0.5f;
-
-            var tabs = new[] { gameTab, roleTab, tohTab };
-            for (var i = 0; i < tabs.Length; i++)
+            foreach (var tab in Enum.GetValues(typeof(TabGroup)))
             {
+                var obj = gameSettings.transform.parent.Find(tab + "Tab");
+                if (obj != null)
+                {
+                    obj.transform.FindChild("../../GameGroup/Text").GetComponent<TMPro.TextMeshPro>().SetText(GetString("TabGroup." + tab));
+                    continue;
+                }
+
+                var tohSettings = Object.Instantiate(gameSettings, gameSettings.transform.parent);
+                tohSettings.name = tab + "Tab";
+                tohSettings.transform.FindChild("BackPanel").transform.localScale =
+                tohSettings.transform.FindChild("Bottom Gradient").transform.localScale = new Vector3(1.2f, 1f, 1f);
+                tohSettings.transform.FindChild("Background").transform.localScale = new Vector3(1.3f, 1f, 1f);
+                tohSettings.transform.FindChild("UI_Scrollbar").transform.localPosition += new Vector3(0.35f, 0f, 0f);
+                tohSettings.transform.FindChild("UI_ScrollbarTrack").transform.localPosition += new Vector3(0.35f, 0f, 0f);
+                tohSettings.transform.FindChild("GameGroup/SliderInner").transform.localPosition += new Vector3(-0.15f, 0f, 0f);
+                var tohMenu = tohSettings.transform.FindChild("GameGroup/SliderInner").GetComponent<GameOptionsMenu>();
+
+                //OptionBehaviourを破棄
+                tohMenu.GetComponentsInChildren<OptionBehaviour>().Do(x => Object.Destroy(x.gameObject));
+
+                var scOptions = new List<OptionBehaviour>();
+                foreach (var option in CustomOption.Options)
+                {
+                    if (option.Tab != (TabGroup)tab) continue;
+                    if (option.OptionBehaviour == null)
+                    {
+                        var stringOption = Object.Instantiate(template, tohMenu.transform);
+                        scOptions.Add(stringOption);
+                        stringOption.OnValueChanged = new System.Action<OptionBehaviour>((o) => { });
+                        stringOption.TitleText.text = option.Name;
+                        stringOption.Value = stringOption.oldValue = option.Selection;
+                        stringOption.ValueText.text = option.Selections[option.Selection].ToString();
+                        stringOption.name = option.Name;
+                        stringOption.transform.FindChild("Background").localScale = new Vector3(1.2f, 1f, 1f);
+                        stringOption.transform.FindChild("Plus_TMP").localPosition += new Vector3(0.3f, 0f, 0f);
+                        stringOption.transform.FindChild("Minus_TMP").localPosition += new Vector3(0.3f, 0f, 0f);
+                        stringOption.transform.FindChild("Value_TMP").localPosition += new Vector3(0.3f, 0f, 0f);
+                        stringOption.transform.FindChild("Title_TMP").localPosition += new Vector3(0.15f, 0f, 0f);
+                        stringOption.transform.FindChild("Title_TMP").GetComponent<RectTransform>().sizeDelta = new Vector2(3.5f, 0.37f);
+
+                        option.OptionBehaviour = stringOption;
+                    }
+                    option.OptionBehaviour.gameObject.SetActive(true);
+                }
+                tohMenu.Children = scOptions.ToArray();
+                tohSettings.gameObject.SetActive(false);
+                menus.Add(tohSettings.gameObject);
+
+                var tohTab = Object.Instantiate(roleTab, roleTab.transform.parent);
+                tohTab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Helpers.LoadSpriteFromResources($"TownOfHost.Resources.TabIcon_{tab}.png", 100f);
+                tabs.Add(tohTab);
+                var tohTabHighlight = tohTab.transform.FindChild("Hat Button").FindChild("Tab Background").GetComponent<SpriteRenderer>();
+                highlights.Add(tohTabHighlight);
+            }
+
+            for (var i = 0; i < tabs.Count; i++)
+            {
+                tabs[i].transform.position = new(0.8f * (i - 1) - tabs.Count / 2f, tabs[i].transform.position.y, tabs[i].transform.position.z);
                 var button = tabs[i].GetComponentInChildren<PassiveButton>();
                 if (button == null) continue;
                 var copiedIndex = i;
                 button.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                button.OnClick.AddListener((UnityEngine.Events.UnityAction)(() =>
+                Action value = () =>
                 {
-                    gameSettingMenu.RegularGameSettings.SetActive(false);
-                    gameSettingMenu.RolesSettings.gameObject.SetActive(false);
-                    tohSettings.gameObject.SetActive(false);
-                    gameSettingMenu.GameSettingsHightlight.enabled = false;
-                    gameSettingMenu.RolesSettingsHightlight.enabled = false;
-                    tohTabHighlight.enabled = false;
-
-                    switch (copiedIndex)
+                    for (var j = 0; j < menus.Count; j++)
                     {
-                        case 0:
-                            gameSettingMenu.RegularGameSettings.SetActive(true);
-                            gameSettingMenu.GameSettingsHightlight.enabled = true;
-                            break;
-                        case 1:
-                            gameSettingMenu.RolesSettings.gameObject.SetActive(true);
-                            gameSettingMenu.RolesSettingsHightlight.enabled = true;
-                            break;
-                        case 2:
-                            tohSettings.gameObject.SetActive(true);
-                            tohTabHighlight.enabled = true;
-                            break;
+                        menus[j].SetActive(j == copiedIndex);
+                        highlights[j].enabled = j == copiedIndex;
                     }
-                }));
+                };
+                button.OnClick.AddListener(value);
             }
-
-            foreach (var option in tohMenu.GetComponentsInChildren<OptionBehaviour>())
-            {
-                Object.Destroy(option.gameObject);
-            }
-
-
-            var scOptions = new System.Collections.Generic.List<OptionBehaviour>();
-            foreach (var option in CustomOption.Options)
-            {
-                if (option.OptionBehaviour == null)
-                {
-                    var stringOption = Object.Instantiate(template, tohMenu.transform);
-                    scOptions.Add(stringOption);
-                    stringOption.OnValueChanged = new System.Action<OptionBehaviour>((o) => { });
-                    stringOption.TitleText.text = option.Name;
-                    stringOption.Value = stringOption.oldValue = option.Selection;
-                    stringOption.ValueText.text = option.Selections[option.Selection].ToString();
-
-                    option.OptionBehaviour = stringOption;
-                }
-
-                option.OptionBehaviour.gameObject.SetActive(true);
-            }
-
-            tohMenu.Children = scOptions.ToArray();
-            tohSettings.gameObject.SetActive(false);
         }
     }
 
@@ -151,64 +141,72 @@ namespace TownOfHost
 
         public static void Postfix(GameOptionsMenu __instance)
         {
-            if (__instance.Children.Length != CustomOption.Options.Count)
+            if (__instance.transform.parent.parent.name == "Game Settings") return;
+            foreach (var tab in Enum.GetValues(typeof(TabGroup)))
             {
-                return;
-            }
+                if (__instance.transform.parent.parent.name != tab + "Tab") continue;
+                __instance.transform.FindChild("../../GameGroup/Text").GetComponent<TMPro.TextMeshPro>().SetText(GetString("TabGroup." + tab));
 
-            _timer += Time.deltaTime;
-            if (_timer < 0.1f) return;
-            _timer = 0f;
+                _timer += Time.deltaTime;
+                if (_timer < 0.1f) return;
+                _timer = 0f;
 
-            float numItems = __instance.Children.Length;
-            var offset = 2.75f;
+                float numItems = __instance.Children.Length;
+                var offset = 2.7f;
 
-            foreach (var option in CustomOption.Options)
-            {
-                if (option?.OptionBehaviour == null || option.OptionBehaviour.gameObject == null) continue;
-
-                var enabled = true;
-                var parent = option.Parent;
-
-                if (AmongUsClient.Instance.AmHost == false)
+                foreach (var option in CustomOption.Options)
                 {
-                    enabled = false;
-                }
+                    if ((TabGroup)tab != option.Tab) continue;
+                    if (option?.OptionBehaviour == null || option.OptionBehaviour.gameObject == null) continue;
 
-                if (option.IsHidden(Options.CurrentGameMode))
-                {
-                    enabled = false;
-                }
+                    var enabled = true;
+                    var parent = option.Parent;
 
-                while (parent != null && enabled)
-                {
-                    enabled = parent.Enabled;
-                    parent = parent.Parent;
+                    enabled = AmongUsClient.Instance.AmHost &&
+                        !option.IsHidden(Options.CurrentGameMode);
+
                     var opt = option.OptionBehaviour.transform.Find("Background").GetComponent<SpriteRenderer>();
-                    opt.color = option.Parent?.Parent != null ? new(0f, 0f, 1f) : new(0f, 1f, 0f);
-                }
-
-                option.OptionBehaviour.gameObject.SetActive(enabled);
-                if (enabled)
-                {
-                    offset -= option.isHeader ? 0.75f : 0.5f;
-                    option.OptionBehaviour.transform.localPosition = new Vector3(
-                        option.OptionBehaviour.transform.localPosition.x,
-                        offset,
-                        option.OptionBehaviour.transform.localPosition.z);
-
-                    if (option.isHeader)
+                    opt.size = new(5.0f, 0.45f);
+                    while (parent != null && enabled)
                     {
-                        numItems += 0.5f;
+                        enabled = parent.Enabled;
+                        parent = parent.Parent;
+                        opt.color = new(0f, 1f, 0f);
+                        opt.size = new(4.8f, 0.45f);
+                        opt.transform.localPosition = new Vector3(0.11f, 0f);
+                        option.OptionBehaviour.transform.Find("Title_TMP").transform.localPosition = new Vector3(-0.95f, 0f);
+                        option.OptionBehaviour.transform.FindChild("Title_TMP").GetComponent<RectTransform>().sizeDelta = new Vector2(3.4f, 0.37f);
+                        if (option.Parent?.Parent != null)
+                        {
+                            opt.color = new(0f, 0f, 1f);
+                            opt.size = new(4.6f, 0.45f);
+                            opt.transform.localPosition = new Vector3(0.24f, 0f);
+                            option.OptionBehaviour.transform.Find("Title_TMP").transform.localPosition = new Vector3(-0.7f, 0f);
+                            option.OptionBehaviour.transform.FindChild("Title_TMP").GetComponent<RectTransform>().sizeDelta = new Vector2(3.3f, 0.37f);
+                        }
+                    }
+
+                    option.OptionBehaviour.gameObject.SetActive(enabled);
+                    if (enabled)
+                    {
+                        offset -= option.isHeader ? 0.7f : 0.5f;
+                        option.OptionBehaviour.transform.localPosition = new Vector3(
+                            option.OptionBehaviour.transform.localPosition.x,
+                            offset,
+                            option.OptionBehaviour.transform.localPosition.z);
+
+                        if (option.isHeader)
+                        {
+                            numItems += 0.5f;
+                        }
+                    }
+                    else
+                    {
+                        numItems--;
                     }
                 }
-                else
-                {
-                    numItems--;
-                }
+                __instance.GetComponentInParent<Scroller>().ContentYBounds.max = (-offset) - 1.5f;
             }
-
-            __instance.GetComponentInParent<Scroller>().ContentYBounds.max = (-offset) - 1.5f;
         }
     }
 
