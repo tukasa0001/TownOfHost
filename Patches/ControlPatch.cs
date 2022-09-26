@@ -67,11 +67,13 @@ namespace TownOfHost
             //現在の有効な設定の説明を表示
             if (GetKeysDown(new[] { KeyCode.N, KeyCode.LeftShift, KeyCode.LeftControl }))
             {
+                Main.isChatCommand = true;
                 Utils.ShowActiveSettingsHelp();
             }
             //現在の有効な設定を表示
             if (GetKeysDown(new[] { KeyCode.N, KeyCode.LeftControl }) && !Input.GetKey(KeyCode.LeftShift))
             {
+                Main.isChatCommand = true;
                 Utils.ShowActiveSettings();
             }
 
