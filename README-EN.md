@@ -144,17 +144,18 @@ You can also reload the translation by pressing key `T`+`F5`.
 | Impostors                           | Crewmates                         | Neutrals                          | Others    |
 | ----------------------------------- | --------------------------------- | --------------------------------- | --------- |
 | [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             | [GM](#GM) |
-| [Evil Watcher](#Watcher)            | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |           |
-| [FireWorks](#FireWorks)             | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |           |
-| [Mare](#Mare)                       | [Lighter](#Lighter)               | [Jackal](#Jackal)                 |           |
-| [Puppeteer](#Puppeteer)             | [Mayor](#Mayor)                   | [Jester](#Jester)                 |           |
-| [SerialKiller](#SerialKiller)       | [Nice Watcher](#Watcher)          | [Lovers](#Lovers)                 |           |
-| [Sniper](#Sniper)                   | [SabotageMaster](#SabotageMaster) | [Opportunist](#Opportunist)       |           |
-| [TimeThief](#TimeThief)             | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |           |
-| [Vampire](#Vampire)                 | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |           |
-| [Warlock](#Warlock)                 | [Snitch](#Snitch)                 |                                   |           |
-| [Witch](#Witch)                     | [SpeedBooster](#SpeedBooster)     |                                   |           |
-| [Mafia](#Mafia)                     | [Trapper](#Trapper)               |                                   |           |
+| [EvilTracker](#EvilTracker)         | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |           |
+| [Evil Watcher](#Watcher)            | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |           |
+| [FireWorks](#FireWorks)             | [Lighter](#Lighter)               | [Jackal](#Jackal)                 |           |
+| [Mare](#Mare)                       | [Mayor](#Mayor)                   | [Jester](#Jester)                 |           |
+| [Puppeteer](#Puppeteer)             | [Nice Watcher](#Watcher)          | [Lovers](#Lovers)                 |           |
+| [SerialKiller](#SerialKiller)       | [SabotageMaster](#SabotageMaster) | [Opportunist](#Opportunist)       |           |
+| [Sniper](#Sniper)                   | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |           |
+| [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |           |
+| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |           |
+| [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |           |
+| [Witch](#Witch)                     | [Trapper](#Trapper)               |                                   |           |
+| [Mafia](#Mafia)                     |                                   |                                   |           |
 | [Madmate](#Madmate)                 |                                   |                                   |           |
 | [MadGuardian](#MadGuardian)         |                                   |                                   |           |
 | [MadSnitch](#MadSnitch)             |                                   |                                   |           |
