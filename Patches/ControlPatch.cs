@@ -39,6 +39,11 @@ namespace TownOfHost
                 Logger.Info("Dump Logs", "KeyCommand");
                 Utils.DumpLog();
             }
+            //現在の設定をテキストとしてコピー
+            if (GetKeysDown(new[] { KeyCode.LeftAlt, KeyCode.C }) && !Input.GetKey(KeyCode.LeftShift) && !GameStates.IsNotJoined)
+            {
+                Utils.CopyCurrentSettings();
+            }
 
             //--以下ホスト専用コマンド--//
             if (!AmongUsClient.Instance.AmHost) return;
