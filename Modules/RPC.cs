@@ -10,6 +10,7 @@ namespace TownOfHost
     enum CustomRPC
     {
         VersionCheck = 60,
+        RequestRetryVersionCheck = 61,
         SyncCustomSettings = 80,
         SetDeathReason,
         EndGame,
@@ -98,6 +99,9 @@ namespace TownOfHost
                             Logger.SendInGame(string.Format(GetString("Warning.InvalidRpc"), __instance?.Data?.PlayerName));
                         }
                     }
+                    break;
+                case CustomRPC.RequestRetryVersionCheck:
+                    RPC.RpcVersionCheck();
                     break;
                 case CustomRPC.SyncCustomSettings:
                     foreach (var co in CustomOption.Options)
