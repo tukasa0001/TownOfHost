@@ -383,7 +383,7 @@ namespace TownOfHost
             Executioner.SetupCustomOption();
             Jackal.SetupCustomOption();
 
-            // Attribute
+            // Modifier
             EnableLastImpostor = CustomOption.Create(80000, TabGroup.Modifiers, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
             LastImpostorKillCooldown = CustomOption.Create(80010, TabGroup.Modifiers, Color.white, "KillCooldown", 15, 0, 180, 1, EnableLastImpostor)
