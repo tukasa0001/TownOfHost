@@ -68,17 +68,17 @@ Note that if a player other than the host plays with this mod installed, the fol
 You can execute chat commands by typing in chat.
 
 #### Host Only
-| Command                                               | Function                                          |
-| ----------------------------------------------------- | ------------------------------------------------- |
-| /winner<br>/win                                       | Show winner                                       |
-| /rename <string><br>/r <string>                       | Change my name                                    |
-| /dis <crewmate/impostor>                              | Ending the match as a Crewmate/Impostor severance |
-| /messagewait <sec><br>/mw <sec>                       | Set message send interval                         |
-| /help<br>/h                                           | Show command description                          |
-| /help roles <role><br>/help r <role>                  | Show role description                             |
-| /help attributes <attribute><br>/help att <attribute> | Show attribute description                        |
-| /help modes <mode><br>/help m <mode>                  | Show mode description                             |
-| /hidename <string><br>/hn <string>                    | Rename code concealment string                    |
+| Command                                            | Function                                          |
+| -------------------------------------------------- | ------------------------------------------------- |
+| /winner<br>/win                                    | Show winner                                       |
+| /rename <string><br>/r <string>                    | Change my name                                    |
+| /dis <crewmate/impostor>                           | Ending the match as a Crewmate/Impostor severance |
+| /messagewait <sec><br>/mw <sec>                    | Set message send interval                         |
+| /help<br>/h                                        | Show command description                          |
+| /help roles <role><br>/help r <role>               | Show role description                             |
+| /help modifiers <modifier><br>/help mod <modifier> | Show modifier description                         |
+| /help modes <mode><br>/help m <mode>               | Show mode description                             |
+| /hidename <string><br>/hn <string>                 | Rename code concealment string                    |
 
 #### MOD Client Only
 | Command        | Function                    |
@@ -241,10 +241,10 @@ While lights out they can move faster, and yet their name looks red by everyone.
 
 #### Game Options
 
-| Name                                 |
-| --------------------------------     |
-| Mare Player Add Speed In Lights Out  |
-| Mare Kill Cooldown In Lights Out     |
+| Name                                |
+| ----------------------------------- |
+| Mare Player Add Speed In Lights Out |
+| Mare Kill Cooldown In Lights Out    |
 
 ### Puppeteer
 
@@ -814,13 +814,13 @@ The Terrorists are the Neutral Role where they win the game alone if they die wi
 Any cause of death is acceptable.<br>
 If they die before completing their tasks, or if they survive at the game end, they lose.<br>
 
-## Attribute
+## Modifier
 
 ### LastImpostor
 
 Create and idea by そうくん<br>
 
-An Attribute given to the last Impostor.<br>
+A Modifier given to the last Impostor.<br>
 kill cooldown gets shorter than usual.<br>
 Not assigned to [BountyHunter](#bountyhunter), [SerialKiller](#serialkiller), or [Vampire](#vampire).<br>
 

@@ -133,7 +133,7 @@ namespace TownOfHost
                                 break;
 
                             case "att":
-                            case "attributes":
+                            case "modifiers":
                                 subArgs = args.Length < 3 ? "" : args[2];
                                 switch (subArgs)
                                 {
