@@ -176,7 +176,7 @@ namespace TownOfHost
             Preset = newPreset;
             foreach (var option in Options)
             {
-                if (option.Id <= 0) continue;
+                if (option.Id is <= 0 or >= 1_000_000) continue;
 
                 if (AmongUsClient.Instance.AmHost)
                     option.Entry = Main.Instance.Config.Bind($"Preset{Preset}", option.Id.ToString(), option.DefaultSelection);
@@ -311,9 +311,9 @@ namespace TownOfHost
     public enum TabGroup
     {
         MainSettings,
+        ImpostorRoles,
         CrewmateRoles,
         NeutralRoles,
-        ImpostorRoles,
-        Modifier
+        Modifiers
     }
 }

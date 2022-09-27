@@ -103,6 +103,7 @@ namespace TownOfHost
             Sniper.Init();
             TimeThief.Init();
             Mare.Init();
+            SabotageMaster.Init();
             Egoist.Init();
             Executioner.Init();
             Jackal.Init();

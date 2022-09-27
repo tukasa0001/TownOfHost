@@ -39,6 +39,11 @@ namespace TownOfHost
                 Logger.Info("Dump Logs", "KeyCommand");
                 Utils.DumpLog();
             }
+            //現在の設定をテキストとしてコピー
+            if (GetKeysDown(new[] { KeyCode.LeftAlt, KeyCode.C }) && !Input.GetKey(KeyCode.LeftShift) && !GameStates.IsNotJoined)
+            {
+                Utils.CopyCurrentSettings();
+            }
 
             //--以下ホスト専用コマンド--//
             if (!AmongUsClient.Instance.AmHost) return;
@@ -64,15 +69,17 @@ namespace TownOfHost
                 Logger.Info("Reset CountDownTimer", "KeyCommand");
                 GameStartManager.Instance.ResetStartState();
             }
-            //現在の有効な設定を表示
-            if (GetKeysDown(new[] { KeyCode.N, KeyCode.M, KeyCode.LeftControl }))
+            //現在の有効な設定の説明を表示
+            if (GetKeysDown(new[] { KeyCode.N, KeyCode.LeftShift, KeyCode.LeftControl }))
             {
+                Main.isChatCommand = true;
                 Utils.ShowActiveSettingsHelp();
             }
-            //TOHオプションをデフォルトに設定
-            if (GetKeysDown(new[] { KeyCode.Delete, KeyCode.LeftControl }) && GameObject.Find(GameOptionsMenuPatch.TownOfHostObjectName) != null)
+            //現在の有効な設定を表示
+            if (GetKeysDown(new[] { KeyCode.N, KeyCode.LeftControl }) && !Input.GetKey(KeyCode.LeftShift))
             {
-                CustomOption.Options.ToArray().Where(x => x.Id > 0).Do(x => x.UpdateSelection(x.DefaultSelection));
+                Main.isChatCommand = true;
+                Utils.ShowActiveSettings();
             }
 
             //--以下デバッグモード用コマンド--//

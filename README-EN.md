@@ -40,44 +40,45 @@ Note that if a player other than the host plays with this mod installed, the fol
 ### Hotkeys
 
 #### Host Only
-| HotKey              | Function                      | Usable Scene    |
-| ------------------- | ----------------------------- | --------------- |
-| `Shift`+`L`+`Enter` | Force End Game                | In Game         |
-| `Shift`+`M`+`Enter` | Skip meeting to end           | In Game         |
-| `Ctrl`+`N`          | Show active role descriptions | Lobby&In Game   |
-| `C`                 | Cancel game start             | In Countdown    |
-| `Shift`             | Start the game immediately    | In Countdown    |
-| `Ctrl`+`Delete`     | Set default all options       | In TOH Settings |
-| `Ctrl`+`RMB`        | Execute clicked player        | In Meeting      |
+| HotKey              | Function                         | Usable Scene  |
+| ------------------- | -------------------------------- | ------------- |
+| `Shift`+`L`+`Enter` | Force End Game                   | In Game       |
+| `Shift`+`M`+`Enter` | Skip meeting to end              | In Game       |
+| `Ctrl`+`N`          | Show active settings             | Lobby&In Game |
+| `Ctrl`+`Shift`+`N`  | Show active settings description | Lobby&In Game |
+| `C`                 | Cancel game start                | In Countdown  |
+| `Shift`             | Start the game immediately       | In Countdown  |
+| `Ctrl`+`RMB`        | Execute clicked player           | In Meeting    |
 
 #### MOD Client Only
-| HotKey      | Function                                                                           | Usable Scene |
-| ----------- | ---------------------------------------------------------------------------------- | ------------ |
-| `Tab`       | Option list page feed                                                              | Lobby        |
-| `Ctrl`+`F1` | Output log to desktop                                                              | Anywhere     |
-| `F11`       | Change resolution<br>480x270 → 640x360 → 800x450 → 1280x720 → 1600x900 → 1920x1080 | Anywhere     |
-| `T`+`F5`    | Reload custom translation file                                                     | Anywhere     |
-| `Ctrl`+`C`  | Copy the text                                                                      | Chat         |
-| `Ctrl`+`V`  | Paste the text                                                                     | Chat         |
-| `Ctrl`+`X`  | Cut the text                                                                       | Chat         |
-| `↑`         | Go back in time of chat send history                                               | Chat         |
-| `↓`         | Go future in time of chat send history                                             | Chat         |
+| HotKey      | Function                                                                           | Usable Scene  |
+| ----------- | ---------------------------------------------------------------------------------- | ------------- |
+| `Tab`       | Option list page feed                                                              | Lobby         |
+| `Ctrl`+`F1` | Output log to desktop                                                              | Anywhere      |
+| `F11`       | Change resolution<br>480x270 → 640x360 → 800x450 → 1280x720 → 1600x900 → 1920x1080 | Anywhere      |
+| `T`+`F5`    | Reload custom translation file                                                     | Anywhere      |
+| `Alt`+`C`   | Copy current settings text                                                         | Lobby&In Game |
+| `Ctrl`+`C`  | Copy the text                                                                      | Chat          |
+| `Ctrl`+`V`  | Paste the text                                                                     | Chat          |
+| `Ctrl`+`X`  | Cut the text                                                                       | Chat          |
+| `↑`         | Go back in time of chat send history                                               | Chat          |
+| `↓`         | Go future in time of chat send history                                             | Chat          |
 
 ### Chat Commands
 You can execute chat commands by typing in chat.
 
 #### Host Only
-| Command                                               | Function                                          |
-| ----------------------------------------------------- | ------------------------------------------------- |
-| /winner<br>/win                                       | Show winner                                       |
-| /rename <string><br>/r <string>                       | Change my name                                    |
-| /dis <crewmate/impostor>                              | Ending the match as a Crewmate/Impostor severance |
-| /messagewait <sec><br>/mw <sec>                       | Set message send interval                         |
-| /help<br>/h                                           | Show command description                          |
-| /help roles <role><br>/help r <role>                  | Show role description                             |
-| /help attributes <attribute><br>/help att <attribute> | Show attribute description                        |
-| /help modes <mode><br>/help m <mode>                  | Show mode description                             |
-| /hidename <string><br>/hn <string>                    | Rename code concealment string                    |
+| Command                                            | Function                                          |
+| -------------------------------------------------- | ------------------------------------------------- |
+| /winner<br>/win                                    | Show winner                                       |
+| /rename <string><br>/r <string>                    | Change my name                                    |
+| /dis <crewmate/impostor>                           | Ending the match as a Crewmate/Impostor severance |
+| /messagewait <sec><br>/mw <sec>                    | Set message send interval                         |
+| /help<br>/h                                        | Show command description                          |
+| /help roles <role><br>/help r <role>               | Show role description                             |
+| /help modifiers <modifier><br>/help mod <modifier> | Show modifier description                         |
+| /help modes <mode><br>/help m <mode>               | Show mode description                             |
+| /hidename <string><br>/hn <string>                 | Rename code concealment string                    |
 
 #### MOD Client Only
 | Command        | Function                    |
@@ -143,17 +144,18 @@ You can also reload the translation by pressing key `T`+`F5`.
 | Impostors                           | Crewmates                         | Neutrals                          | Others    |
 | ----------------------------------- | --------------------------------- | --------------------------------- | --------- |
 | [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             | [GM](#GM) |
-| [Evil Watcher](#Watcher)            | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |           |
-| [FireWorks](#FireWorks)             | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |           |
-| [Mare](#Mare)                       | [Lighter](#Lighter)               | [Jackal](#Jackal)                 |           |
-| [Puppeteer](#Puppeteer)             | [Mayor](#Mayor)                   | [Jester](#Jester)                 |           |
-| [SerialKiller](#SerialKiller)       | [Nice Watcher](#Watcher)          | [Lovers](#Lovers)                 |           |
-| [Sniper](#Sniper)                   | [SabotageMaster](#SabotageMaster) | [Opportunist](#Opportunist)       |           |
-| [TimeThief](#TimeThief)             | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |           |
-| [Vampire](#Vampire)                 | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |           |
-| [Warlock](#Warlock)                 | [Snitch](#Snitch)                 |                                   |           |
-| [Witch](#Witch)                     | [SpeedBooster](#SpeedBooster)     |                                   |           |
-| [Mafia](#Mafia)                     | [Trapper](#Trapper)               |                                   |           |
+| [EvilTracker](#EvilTracker)         | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |           |
+| [Evil Watcher](#Watcher)            | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |           |
+| [FireWorks](#FireWorks)             | [Lighter](#Lighter)               | [Jackal](#Jackal)                 |           |
+| [Mare](#Mare)                       | [Mayor](#Mayor)                   | [Jester](#Jester)                 |           |
+| [Puppeteer](#Puppeteer)             | [Nice Watcher](#Watcher)          | [Lovers](#Lovers)                 |           |
+| [SerialKiller](#SerialKiller)       | [SabotageMaster](#SabotageMaster) | [Opportunist](#Opportunist)       |           |
+| [Sniper](#Sniper)                   | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |           |
+| [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |           |
+| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |           |
+| [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |           |
+| [Witch](#Witch)                     | [Trapper](#Trapper)               |                                   |           |
+| [Mafia](#Mafia)                     |                                   |                                   |           |
 | [Madmate](#Madmate)                 |                                   |                                   |           |
 | [MadGuardian](#MadGuardian)         |                                   |                                   |           |
 | [MadSnitch](#MadSnitch)             |                                   |                                   |           |
@@ -239,10 +241,10 @@ While lights out they can move faster, and yet their name looks red by everyone.
 
 #### Game Options
 
-| Name                             |
-| -------------------------------- |
-| Mare Player Speed In Lights Out  |
-| Mare Kill Cooldown In Lights Out |
+| Name                                |
+| ----------------------------------- |
+| Mare Player Add Speed In Lights Out |
+| Mare Kill Cooldown In Lights Out    |
 
 ### Puppeteer
 
@@ -270,7 +272,7 @@ Unless taking a kill by deadline, they murder themselves instantly.<br>
 
 ### ShapeMaster
 
-> **Warning**  
+> **Warning**
 > Unavailable.
 
 Create and idea by しゅー<br>
@@ -812,13 +814,13 @@ The Terrorists are the Neutral Role where they win the game alone if they die wi
 Any cause of death is acceptable.<br>
 If they die before completing their tasks, or if they survive at the game end, they lose.<br>
 
-## Attribute
+## Modifier
 
 ### LastImpostor
 
 Create and idea by そうくん<br>
 
-An Attribute given to the last Impostor.<br>
+A Modifier given to the last Impostor.<br>
 kill cooldown gets shorter than usual.<br>
 Not assigned to [BountyHunter](#bountyhunter), [SerialKiller](#serialkiller), or [Vampire](#vampire).<br>
 
@@ -1097,6 +1099,7 @@ More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire]
 [Terrorist](#Terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 Translate-Chinese : fivefirex, ZeMingOH233<br>
+OptionTab Icon Design by 花海.
 
 Translated with https://www.deepl.com<br>
 
