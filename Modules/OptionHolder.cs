@@ -548,6 +548,8 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             DisableTaskWin = CustomOption.Create(900_001, TabGroup.MainSettings, Color.white, "DisableTaskWin", false)
                 .SetGameMode(CustomGameMode.All);
+            NoGameEnd = CustomOption.Create(900_002, TabGroup.MainSettings, Color.white, "NoGameEnd", false)
+                .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherRoles = CustomOption.Create(900_010, TabGroup.MainSettings, Color.white, "GhostCanSeeOtherRoles", true)
                 .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherVotes = CustomOption.Create(900_011, TabGroup.MainSettings, Color.white, "GhostCanSeeOtherVotes", true)
@@ -556,15 +558,13 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
 
             // プリセット対象外
-            NoGameEnd = CustomOption.Create(1_000_000, TabGroup.MainSettings, Color.white, "NoGameEnd", false, null, true)
+            AutoDisplayLastResult = CustomOption.Create(1_000_000, TabGroup.MainSettings, Color.white, "AutoDisplayLastResult", false, null, true)
                 .SetGameMode(CustomGameMode.All);
-            AutoDisplayLastResult = CustomOption.Create(1_000_001, TabGroup.MainSettings, Color.white, "AutoDisplayLastResult", false)
+            SuffixMode = CustomOption.Create(1_000_001, TabGroup.MainSettings, Color.white, "SuffixMode", suffixModes, suffixModes[0])
                 .SetGameMode(CustomGameMode.All);
-            SuffixMode = CustomOption.Create(1_000_002, TabGroup.MainSettings, Color.white, "SuffixMode", suffixModes, suffixModes[0])
+            HideGameSettings = CustomOption.Create(1_000_002, TabGroup.MainSettings, Color.white, "HideGameSettings", false)
                 .SetGameMode(CustomGameMode.All);
-            HideGameSettings = CustomOption.Create(1_000_003, TabGroup.MainSettings, Color.white, "HideGameSettings", false)
-                .SetGameMode(CustomGameMode.All);
-            ColorNameMode = CustomOption.Create(1_000_004, TabGroup.MainSettings, Color.white, "ColorNameMode", false)
+            ColorNameMode = CustomOption.Create(1_000_003, TabGroup.MainSettings, Color.white, "ColorNameMode", false)
                 .SetGameMode(CustomGameMode.All);
 
             IsLoaded = true;
