@@ -618,10 +618,12 @@ namespace TownOfHost
             Logger.Info($"{target?.Data?.PlayerName}はTrapperだった", "Trapper");
             var tmpSpeed = Main.AllPlayerSpeed[killer.PlayerId];
             Main.AllPlayerSpeed[killer.PlayerId] = Main.MinSpeed;    //tmpSpeedで後ほど値を戻すので代入しています。
+            ReportDeadBodyPatch.CanReport[killer.PlayerId] = false;
             killer.CustomSyncSettings();
             new LateTask(() =>
             {
                 Main.AllPlayerSpeed[killer.PlayerId] = Main.AllPlayerSpeed[killer.PlayerId] - Main.MinSpeed + tmpSpeed;
+                ReportDeadBodyPatch.CanReport[killer.PlayerId] = true;
                 killer.CustomSyncSettings();
                 RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
             }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
