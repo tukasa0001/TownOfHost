@@ -110,7 +110,7 @@ namespace TownOfHost
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
 
-            GameStates.MeetingCalled = false;
+            MeetingStates.MeetingCalled = false;
             GameStates.AlreadyDied = false;
         }
     }
