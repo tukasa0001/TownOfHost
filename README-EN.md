@@ -820,7 +820,7 @@ If they die before completing their tasks, or if they survive at the game end, t
 
 Create and idea by そうくん<br>
 
-An Modifier given to the last Impostor.<br>
+A Modifier given to the last Impostor.<br>
 kill cooldown gets shorter than usual.<br>
 Not assigned to [BountyHunter](#bountyhunter), [SerialKiller](#serialkiller), or [Vampire](#vampire).<br>
 
