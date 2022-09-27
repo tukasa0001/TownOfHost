@@ -558,7 +558,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
 
             // プリセット対象外
-            AutoDisplayLastResult = CustomOption.Create(1_000_000, TabGroup.MainSettings, Color.white, "AutoDisplayLastResult", false, null, true)
+            AutoDisplayLastResult = CustomOption.Create(1_000_000, TabGroup.MainSettings, Color.white, "AutoDisplayLastResult", true, null, true)
                 .SetGameMode(CustomGameMode.All);
             SuffixMode = CustomOption.Create(1_000_001, TabGroup.MainSettings, Color.white, "SuffixMode", suffixModes, suffixModes[0])
                 .SetGameMode(CustomGameMode.All);
