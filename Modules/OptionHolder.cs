@@ -102,6 +102,15 @@ namespace TownOfHost
         public static CustomOption IgnoreVent;
         public static float HideAndSeekKillDelayTimer = 0f;
 
+        // タスク無効化
+        public static CustomOption DisableTasks;
+        public static CustomOption DisableSwipeCard;
+        public static CustomOption DisableSubmitScan;
+        public static CustomOption DisableUnlockSafe;
+        public static CustomOption DisableUploadData;
+        public static CustomOption DisableStartReactor;
+        public static CustomOption DisableResetBreaker;
+
         //デバイスブロック
         public static CustomOption DisableDevices;
         public static CustomOption DisableSkeldDevices;
@@ -125,20 +134,6 @@ namespace TownOfHost
         public static CustomOption DisableDevicesIgnoreNeutrals;
         public static CustomOption DisableDevicesIgnoreCrewmates;
         public static CustomOption DisableDevicesIgnoreAfterAnyoneDied;
-
-        // ボタン回数
-        public static CustomOption SyncButtonMode;
-        public static CustomOption SyncedButtonCount;
-        public static int UsedButtonCount = 0;
-
-        // タスク無効化
-        public static CustomOption DisableTasks;
-        public static CustomOption DisableSwipeCard;
-        public static CustomOption DisableSubmitScan;
-        public static CustomOption DisableUnlockSafe;
-        public static CustomOption DisableUploadData;
-        public static CustomOption DisableStartReactor;
-        public static CustomOption DisableResetBreaker;
 
         // ランダムマップ
         public static CustomOption RandomMapsMode;
@@ -167,6 +162,11 @@ namespace TownOfHost
         };
         public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetSelection();
         public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetSelection();
+
+        // ボタン回数
+        public static CustomOption SyncButtonMode;
+        public static CustomOption SyncedButtonCount;
+        public static int UsedButtonCount = 0;
 
         // 全員生存時の会議時間
         public static CustomOption AllAliveMeeting;
@@ -408,6 +408,40 @@ namespace TownOfHost
             IgnoreVent = CustomOption.Create(101003, TabGroup.MainSettings, Color.white, "IgnoreVent", false)
                 .SetGameMode(CustomGameMode.HideAndSeek);
 
+            // リアクターの時間制御
+            SabotageTimeControl = CustomOption.Create(100800, TabGroup.MainSettings, Color.white, "SabotageTimeControl", false, null, true)
+                .SetGameMode(CustomGameMode.Standard);
+            PolusReactorTimeLimit = CustomOption.Create(100801, TabGroup.MainSettings, Color.white, "PolusReactorTimeLimit", 30, 1, 60, 1, SabotageTimeControl)
+                .SetGameMode(CustomGameMode.Standard);
+            AirshipReactorTimeLimit = CustomOption.Create(100802, TabGroup.MainSettings, Color.white, "AirshipReactorTimeLimit", 60, 1, 90, 1, SabotageTimeControl)
+                .SetGameMode(CustomGameMode.Standard);
+
+            // 停電の特殊設定
+            LightsOutSpecialSettings = CustomOption.Create(101500, TabGroup.MainSettings, Color.white, "LightsOutSpecialSettings", false)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableAirshipViewingDeckLightsPanel = CustomOption.Create(101511, TabGroup.MainSettings, Color.white, "DisableAirshipViewingDeckLightsPanel", false, LightsOutSpecialSettings)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableAirshipGapRoomLightsPanel = CustomOption.Create(101512, TabGroup.MainSettings, Color.white, "DisableAirshipGapRoomLightsPanel", false, LightsOutSpecialSettings)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableAirshipCargoLightsPanel = CustomOption.Create(101513, TabGroup.MainSettings, Color.white, "DisableAirshipCargoLightsPanel", false, LightsOutSpecialSettings)
+                .SetGameMode(CustomGameMode.Standard);
+
+            // タスク無効化
+            DisableTasks = CustomOption.Create(100300, TabGroup.MainSettings, Color.white, "DisableTasks", false, null, true)
+                .SetGameMode(CustomGameMode.All);
+            DisableSwipeCard = CustomOption.Create(100301, TabGroup.MainSettings, Color.white, "DisableSwipeCardTask", false, DisableTasks)
+                .SetGameMode(CustomGameMode.All);
+            DisableSubmitScan = CustomOption.Create(100302, TabGroup.MainSettings, Color.white, "DisableSubmitScanTask", false, DisableTasks)
+                .SetGameMode(CustomGameMode.All);
+            DisableUnlockSafe = CustomOption.Create(100303, TabGroup.MainSettings, Color.white, "DisableUnlockSafeTask", false, DisableTasks)
+                .SetGameMode(CustomGameMode.All);
+            DisableUploadData = CustomOption.Create(100304, TabGroup.MainSettings, Color.white, "DisableUploadDataTask", false, DisableTasks)
+                .SetGameMode(CustomGameMode.All);
+            DisableStartReactor = CustomOption.Create(100305, TabGroup.MainSettings, Color.white, "DisableStartReactorTask", false, DisableTasks)
+                .SetGameMode(CustomGameMode.All);
+            DisableResetBreaker = CustomOption.Create(100306, TabGroup.MainSettings, Color.white, "DisableResetBreakerTask", false, DisableTasks)
+                .SetGameMode(CustomGameMode.All);
+
             //デバイス無効化
             DisableDevices = CustomOption.Create(101200, TabGroup.MainSettings, Color.white, "DisableDevices", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
@@ -454,46 +488,6 @@ namespace TownOfHost
             DisableDevicesIgnoreAfterAnyoneDied = CustomOption.Create(101295, TabGroup.MainSettings, Color.white, "IgnoreAfterAnyoneDied", false, DisableDevicesIgnoreConditions)
                 .SetGameMode(CustomGameMode.Standard);
 
-            // ボタン回数同期
-            SyncButtonMode = CustomOption.Create(100200, TabGroup.MainSettings, Color.white, "SyncButtonMode", false, null, true)
-                .SetGameMode(CustomGameMode.Standard);
-            SyncedButtonCount = CustomOption.Create(100201, TabGroup.MainSettings, Color.white, "SyncedButtonCount", 10, 0, 100, 1, SyncButtonMode)
-                .SetGameMode(CustomGameMode.Standard);
-
-            // リアクターの時間制御
-            SabotageTimeControl = CustomOption.Create(100800, TabGroup.MainSettings, Color.white, "SabotageTimeControl", false, null, true)
-                .SetGameMode(CustomGameMode.Standard);
-            PolusReactorTimeLimit = CustomOption.Create(100801, TabGroup.MainSettings, Color.white, "PolusReactorTimeLimit", 30, 1, 60, 1, SabotageTimeControl)
-                .SetGameMode(CustomGameMode.Standard);
-            AirshipReactorTimeLimit = CustomOption.Create(100802, TabGroup.MainSettings, Color.white, "AirshipReactorTimeLimit", 60, 1, 90, 1, SabotageTimeControl)
-                .SetGameMode(CustomGameMode.Standard);
-
-            // 停電の特殊設定
-            LightsOutSpecialSettings = CustomOption.Create(101500, TabGroup.MainSettings, Color.white, "LightsOutSpecialSettings", false, null, true)
-                .SetGameMode(CustomGameMode.Standard);
-            DisableAirshipViewingDeckLightsPanel = CustomOption.Create(101511, TabGroup.MainSettings, Color.white, "DisableAirshipViewingDeckLightsPanel", false, LightsOutSpecialSettings)
-                .SetGameMode(CustomGameMode.Standard);
-            DisableAirshipGapRoomLightsPanel = CustomOption.Create(101512, TabGroup.MainSettings, Color.white, "DisableAirshipGapRoomLightsPanel", false, LightsOutSpecialSettings)
-                .SetGameMode(CustomGameMode.Standard);
-            DisableAirshipCargoLightsPanel = CustomOption.Create(101513, TabGroup.MainSettings, Color.white, "DisableAirshipCargoLightsPanel", false, LightsOutSpecialSettings)
-                .SetGameMode(CustomGameMode.Standard);
-
-            // タスク無効化
-            DisableTasks = CustomOption.Create(100300, TabGroup.MainSettings, Color.white, "DisableTasks", false, null, true)
-                .SetGameMode(CustomGameMode.All);
-            DisableSwipeCard = CustomOption.Create(100301, TabGroup.MainSettings, Color.white, "DisableSwipeCardTask", false, DisableTasks)
-                .SetGameMode(CustomGameMode.All);
-            DisableSubmitScan = CustomOption.Create(100302, TabGroup.MainSettings, Color.white, "DisableSubmitScanTask", false, DisableTasks)
-                .SetGameMode(CustomGameMode.All);
-            DisableUnlockSafe = CustomOption.Create(100303, TabGroup.MainSettings, Color.white, "DisableUnlockSafeTask", false, DisableTasks)
-                .SetGameMode(CustomGameMode.All);
-            DisableUploadData = CustomOption.Create(100304, TabGroup.MainSettings, Color.white, "DisableUploadDataTask", false, DisableTasks)
-                .SetGameMode(CustomGameMode.All);
-            DisableStartReactor = CustomOption.Create(100305, TabGroup.MainSettings, Color.white, "DisableStartReactorTask", false, DisableTasks)
-                .SetGameMode(CustomGameMode.All);
-            DisableResetBreaker = CustomOption.Create(100306, TabGroup.MainSettings, Color.white, "DisableResetBreakerTask", false, DisableTasks)
-                .SetGameMode(CustomGameMode.All);
-
             // ランダムマップ
             RandomMapsMode = CustomOption.Create(100400, TabGroup.MainSettings, Color.white, "RandomMapsMode", false, null, true)
                 .SetGameMode(CustomGameMode.All);
@@ -514,6 +508,12 @@ namespace TownOfHost
             AirshipAdditionalSpawn = CustomOption.Create(101301, TabGroup.MainSettings, Color.white, "AirshipAdditionalSpawn", false, RandomSpawn)
                 .SetGameMode(CustomGameMode.All);
 
+            // ボタン回数同期
+            SyncButtonMode = CustomOption.Create(100200, TabGroup.MainSettings, Color.white, "SyncButtonMode", false, null, true)
+                .SetGameMode(CustomGameMode.Standard);
+            SyncedButtonCount = CustomOption.Create(100201, TabGroup.MainSettings, Color.white, "SyncedButtonCount", 10, 0, 100, 1, SyncButtonMode)
+                .SetGameMode(CustomGameMode.Standard);
+
             // 投票モード
             VoteMode = CustomOption.Create(100500, TabGroup.MainSettings, Color.white, "VoteMode", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
@@ -525,11 +525,11 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
 
             // 全員生存時の会議時間
-            AllAliveMeeting = CustomOption.Create(100900, TabGroup.MainSettings, Color.white, "AllAliveMeeting", false, null, true);
+            AllAliveMeeting = CustomOption.Create(100900, TabGroup.MainSettings, Color.white, "AllAliveMeeting", false);
             AllAliveMeetingTime = CustomOption.Create(100901, TabGroup.MainSettings, Color.white, "AllAliveMeetingTime", 10, 1, 300, 1, AllAliveMeeting);
 
             // 生存人数ごとの緊急会議
-            AdditionalEmergencyCooldown = CustomOption.Create(101400, TabGroup.MainSettings, Color.white, "AdditionalEmergencyCooldown", false, null, true);
+            AdditionalEmergencyCooldown = CustomOption.Create(101400, TabGroup.MainSettings, Color.white, "AdditionalEmergencyCooldown", false);
             AdditionalEmergencyCooldownThreshold = CustomOption.Create(101401, TabGroup.MainSettings, Color.white, "AdditionalEmergencyCooldownThreshold", 1, 1, 15, 1, AdditionalEmergencyCooldown);
             AdditionalEmergencyCooldownTime = CustomOption.Create(101402, TabGroup.MainSettings, Color.white, "AdditionalEmergencyCooldownTime", 1, 1, 60, 1, AdditionalEmergencyCooldown);
 
