@@ -512,6 +512,14 @@ namespace TownOfHost
                 if (GameStates.IsLobby && (ModUpdater.hasUpdate || ModUpdater.isBroken || !Main.AllowPublicRoom) && AmongUsClient.Instance.IsGamePublic)
                     AmongUsClient.Instance.ChangeGamePublic(false);
 
+                if (GameStates.IsInTask && ReportDeadBodyPatch.CanReport[__instance.PlayerId] && ReportDeadBodyPatch.WaitReport[__instance.PlayerId].Count > 0)
+                {
+                    var info = ReportDeadBodyPatch.WaitReport[__instance.PlayerId][0];
+                    ReportDeadBodyPatch.WaitReport[__instance.PlayerId].Clear();
+                    Logger.Info($"{__instance.GetNameWithRole()}:通報可能になったため通報処理を行います", "ReportDeadbody");
+                    __instance.ReportDeadBody(info);
+                }
+
                 if (GameStates.IsInTask && CustomRoles.Vampire.IsEnable())
                 {
                     //Vampireの処理
