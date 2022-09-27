@@ -150,6 +150,9 @@ namespace TownOfHost
         // 投票モード
         public static CustomOption VoteMode;
         public static CustomOption WhenSkipVote;
+        public static CustomOption WhenSkipVoteIgnoreFirstMeeting;
+        public static CustomOption WhenSkipVoteIgnoreNoDeadBody;
+        public static CustomOption WhenSkipVoteIgnoreEmergency;
         public static CustomOption WhenNonVote;
         public static CustomOption WhenTie;
         public static readonly string[] voteModes =
@@ -517,11 +520,17 @@ namespace TownOfHost
             // 投票モード
             VoteMode = CustomOption.Create(100500, TabGroup.MainSettings, Color.white, "VoteMode", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            WhenSkipVote = CustomOption.Create(100501, TabGroup.MainSettings, Color.white, "WhenSkipVote", voteModes[0..3], voteModes[0], VoteMode)
+            WhenSkipVote = CustomOption.Create(100510, TabGroup.MainSettings, Color.white, "WhenSkipVote", voteModes[0..3], voteModes[0], VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
-            WhenNonVote = CustomOption.Create(100502, TabGroup.MainSettings, Color.white, "WhenNonVote", voteModes, voteModes[0], VoteMode)
+            WhenSkipVoteIgnoreFirstMeeting = CustomOption.Create(100511, TabGroup.MainSettings, Color.white, "WhenSkipVoteIgnoreFirstMeeting", false, WhenSkipVote)
                 .SetGameMode(CustomGameMode.Standard);
-            WhenTie = CustomOption.Create(100503, TabGroup.MainSettings, Color.white, "WhenTie", tieModes, tieModes[0], VoteMode)
+            WhenSkipVoteIgnoreNoDeadBody = CustomOption.Create(100512, TabGroup.MainSettings, Color.white, "WhenSkipVoteIgnoreNoDeadBody", false, WhenSkipVote)
+                .SetGameMode(CustomGameMode.Standard);
+            WhenSkipVoteIgnoreEmergency = CustomOption.Create(100513, TabGroup.MainSettings, Color.white, "WhenSkipVoteIgnoreEmergency", false, WhenSkipVote)
+                .SetGameMode(CustomGameMode.Standard);
+            WhenNonVote = CustomOption.Create(100520, TabGroup.MainSettings, Color.white, "WhenNonVote", voteModes, voteModes[0], VoteMode)
+                .SetGameMode(CustomGameMode.Standard);
+            WhenTie = CustomOption.Create(100530, TabGroup.MainSettings, Color.white, "WhenTie", tieModes, tieModes[0], VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
 
             // 全員生存時の会議時間
