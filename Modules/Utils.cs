@@ -875,8 +875,8 @@ namespace TownOfHost
                         )
                             TargetDeathReason = $"({Helpers.ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(target.PlayerId))})";
 
-                        if (IsActive(SystemTypes.Comms))
-                            TargetPlayerName = $"<size=0>{TargetPlayerName}</size> ";
+                        if (IsActive(SystemTypes.Comms) && !isMeeting)
+                            TargetPlayerName = $"<size=0%>{TargetPlayerName}</size>";
 
                         //全てのテキストを合成します。
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";

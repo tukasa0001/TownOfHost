@@ -279,9 +279,6 @@ namespace TownOfHost
                 PlayerControl target = Utils.GetPlayerById(pva.TargetPlayerId);
                 if (target == null) continue;
 
-                if (Utils.IsActive(SystemTypes.Comms))
-                    pva.NameText.text = $"<size=0>{pva.NameText.text}</size> ";
-
                 //会議画面での名前変更
                 //自分自身の名前の色を変更
                 if (target != null && target.AmOwner && AmongUsClient.Instance.IsGameStarted) //変更先が自分自身
