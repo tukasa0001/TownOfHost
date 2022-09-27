@@ -47,6 +47,7 @@ namespace TownOfHost
 
             var gameSettings = GameObject.Find("Game Settings");
             if (gameSettings == null) return;
+            gameSettings.transform.FindChild("GameGroup").GetComponent<Scroller>().ScrollWheelSpeed = 1f;
 
             var gameSettingMenu = Object.FindObjectsOfType<GameSettingMenu>().FirstOrDefault();
             if (gameSettingMenu == null) return;
