@@ -111,6 +111,7 @@ namespace TownOfHost
             AntiBlackout.Reset();
 
             MeetingStates.MeetingCalled = false;
+            MeetingStates.FirstMeeting = true;
             GameStates.AlreadyDied = false;
         }
     }
