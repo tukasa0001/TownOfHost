@@ -1028,10 +1028,5 @@ namespace TownOfHost
                 obj.GetComponent<SpriteRenderer>().color = new(color.r, color.g, color.b, Mathf.Clamp01((-2f * Mathf.Abs(t - 0.5f) + 1) * color.a)); //アルファ値を0→目標→0に変化させる
             })));
         }
-        public static bool KnowDeathReason(this PlayerControl seer, PlayerControl target)
-            => (seer.Is(CustomRoles.Doctor)
-            || (seer.Is(RoleType.Madmate) && Options.MadmateCanSeeDeathReason.GetBool())
-            || (seer.Data.IsDead && Options.GhostCanSeeDeathReason.GetBool()))
-            && target.Data.IsDead;
     }
 }
