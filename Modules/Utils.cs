@@ -772,6 +772,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Puppeteer)
                     || seer.IsNeutralKiller() //seerがキル出来る第三陣営
                     || IsActive(SystemTypes.Electrical)
+                    || IsActive(SystemTypes.Comms)
                     || NoCache
                     || ForceLoop
                 )
@@ -873,6 +874,9 @@ namespace TownOfHost
                         target.Data.IsDead //変更対象が死人
                         )
                             TargetDeathReason = $"({Helpers.ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(target.PlayerId))})";
+
+                        if (IsActive(SystemTypes.Comms) && !isMeeting)
+                            TargetPlayerName = $"<size=0%>{TargetPlayerName}</size>";
 
                         //全てのテキストを合成します。
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";

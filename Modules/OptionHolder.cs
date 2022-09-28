@@ -212,6 +212,7 @@ namespace TownOfHost
         public static CustomOption GhostCanSeeOtherRoles;
         public static CustomOption GhostCanSeeOtherVotes;
         public static CustomOption GhostIgnoreTasks;
+        public static CustomOption CommsCamouflage;
 
         // プリセット対象外
         public static CustomOption NoGameEnd;
@@ -564,6 +565,8 @@ namespace TownOfHost
             GhostCanSeeOtherVotes = CustomOption.Create(900_011, TabGroup.MainSettings, Color.white, "GhostCanSeeOtherVotes", true)
                 .SetGameMode(CustomGameMode.All);
             GhostIgnoreTasks = CustomOption.Create(900_012, TabGroup.MainSettings, Color.white, "GhostIgnoreTasks", false)
+                .SetGameMode(CustomGameMode.All);
+            CommsCamouflage = CustomOption.Create(900_013, TabGroup.MainSettings, Color.white, "CommsCamouflage", false)
                 .SetGameMode(CustomGameMode.All);
 
             // プリセット対象外
