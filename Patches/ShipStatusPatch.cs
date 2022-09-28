@@ -141,6 +141,15 @@ namespace TownOfHost
             Utils.CountAliveImpostors();
         }
     }
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.StartMeeting))]
+    class StartMeetingPatch
+    {
+        public static void Prefix(ShipStatus __instance, PlayerControl reporter, GameData.PlayerInfo target)
+        {
+            MeetingStates.ReportTarget = target;
+            MeetingStates.DeadBodies = UnityEngine.Object.FindObjectsOfType<DeadBody>();
+        }
+    }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]
     class BeginPatch
     {

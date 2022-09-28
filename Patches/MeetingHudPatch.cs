@@ -55,7 +55,11 @@ namespace TownOfHost
                     if (voter == null || voter.Data == null || voter.Data.Disconnected) continue;
                     if (Options.VoteMode.GetBool())
                     {
-                        if (ps.VotedFor == 253 && !voter.Data.IsDead)//スキップ
+                        if (ps.VotedFor == 253 && !voter.Data.IsDead && //スキップ
+                            !(Options.WhenSkipVoteIgnoreFirstMeeting.GetBool() && MeetingStates.FirstMeeting) && //初手会議を除く
+                            !(Options.WhenSkipVoteIgnoreNoDeadBody.GetBool() && !MeetingStates.IsExistDeadBody) && //死体がない時を除く
+                            !(Options.WhenSkipVoteIgnoreEmergency.GetBool() && MeetingStates.IsEmergencyMeeting) //緊急ボタンを除く
+                            )
                         {
                             switch (Options.GetWhenSkipVote())
                             {
@@ -227,7 +231,7 @@ namespace TownOfHost
             Main.witchMeeting = true;
             Utils.NotifyRoles(isMeeting: true, NoCache: true);
             Main.witchMeeting = false;
-            GameStates.MeetingCalled = true;
+            MeetingStates.MeetingCalled = true;
         }
         public static void Postfix(MeetingHud __instance)
         {
@@ -409,6 +413,7 @@ namespace TownOfHost
     {
         public static void Postfix()
         {
+            MeetingStates.FirstMeeting = false;
             Logger.Info("------------会議終了------------", "Phase");
             if (AmongUsClient.Instance.AmHost)
             {

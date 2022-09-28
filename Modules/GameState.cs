@@ -146,7 +146,6 @@ namespace TownOfHost
     public static class GameStates
     {
         public static bool InGame = false;
-        public static bool MeetingCalled = false;
         public static bool AlreadyDied = false;
         public static bool IsLobby => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Joined;
         public static bool IsInGame => InGame;
@@ -158,5 +157,14 @@ namespace TownOfHost
         public static bool IsInTask => InGame && !MeetingHud.Instance;
         public static bool IsMeeting => InGame && MeetingHud.Instance;
         public static bool IsCountDown => GameStartManager.InstanceExists && GameStartManager.Instance.startState == GameStartManager.StartingStates.Countdown;
+    }
+    public static class MeetingStates
+    {
+        public static DeadBody[] DeadBodies = null;
+        public static GameData.PlayerInfo ReportTarget = null;
+        public static bool IsEmergencyMeeting => ReportTarget == null;
+        public static bool IsExistDeadBody => DeadBodies.Length > 0;
+        public static bool MeetingCalled = false;
+        public static bool FirstMeeting = true;
     }
 }
