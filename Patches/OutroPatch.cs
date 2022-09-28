@@ -233,7 +233,7 @@ namespace TownOfHost
             foreach (var additionalWinners in CustomWinnerHolder.AdditionalWinnerTeams)
             {
                 var addWinnerRole = (CustomRoles)additionalWinners;
-                AdditionalWinnerText += "＆" + Helpers.ColorString(Utils.GetRoleColor(addWinnerRole), Utils.GetRoleName(addWinnerRole));
+                AdditionalWinnerText += "＆" + Utils.ColorString(Utils.GetRoleColor(addWinnerRole), Utils.GetRoleName(addWinnerRole));
             }
             if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw and not CustomWinner.None)
             {

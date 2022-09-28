@@ -213,7 +213,7 @@ namespace TownOfHost
         }
         public static string GetBulletCount(byte playerId)
         {
-            return Helpers.ColorString(Color.yellow, $"({bulletCount[playerId]})");
+            return Utils.ColorString(Color.yellow, $"({bulletCount[playerId]})");
         }
         public static byte GetSniper(byte target)
         {
@@ -226,7 +226,7 @@ namespace TownOfHost
                 var snList = shotNotify[sniper];
                 if (snList.Count() > 0 && snList.Contains(seer))
                 {
-                    return $"<size=200%>{Helpers.ColorString(Color.red, "!")}</size>";
+                    return $"<size=200%>{Utils.ColorString(Color.red, "!")}</size>";
                 }
             }
             return "";

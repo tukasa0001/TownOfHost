@@ -4,91 +4,85 @@ using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    //From The Other Roles source
-    //https://github.com/Eisbison/TheOtherRoles/blob/main/TheOtherRoles/Patches/CredentialsPatch.cs
     [HarmonyPatch(typeof(PingTracker), nameof(PingTracker.Update))]
-    class PingTrackerPatch
+    class PingTrackerUpdatePatch
     {
-        private static GameObject modStamp;
-        static void Prefix(PingTracker __instance)
-        {
-            if (modStamp == null)
-            {
-                modStamp = new GameObject("ModStamp");
-                var rend = modStamp.AddComponent<SpriteRenderer>();
-                rend.color = new Color(1, 1, 1, 0.5f);
-                modStamp.transform.parent = __instance.transform.parent;
-                modStamp.transform.localScale *= 0.6f;
-            }
-            float offset = (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started) ? 0.75f : 0f;
-            modStamp.transform.position = HudManager.Instance.MapButton.transform.position + Vector3.down * offset;
-        }
-
         static void Postfix(PingTracker __instance)
         {
             __instance.text.alignment = TMPro.TextAlignmentOptions.TopRight;
             __instance.text.text += Main.credentialsText;
-            if (Options.NoGameEnd.GetBool()) __instance.text.text += $"\r\n" + Helpers.ColorString(Color.red, GetString("NoGameEnd"));
-            if (Options.IsStandardHAS) __instance.text.text += $"\r\n" + Helpers.ColorString(Color.yellow, GetString("StandardHAS"));
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) __instance.text.text += $"\r\n" + Helpers.ColorString(Color.red, GetString("HideAndSeek"));
-            if (Main.AmDebugger.Value) __instance.text.text += "\r\n" + Helpers.ColorString(Color.green, "デバッグモード");
-            if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
-                __instance.gameObject.GetComponent<AspectPosition>().DistanceFromEdge = PlayerControl.LocalPlayer.Data.IsDead ? new Vector3(2.0f, 0.0f, 0f) : new Vector3(1.2f, 0.0f, 0f);
-            else
+            if (Options.NoGameEnd.GetBool()) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("NoGameEnd"));
+            if (Options.IsStandardHAS) __instance.text.text += $"\r\n" + Utils.ColorString(Color.yellow, GetString("StandardHAS"));
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("HideAndSeek"));
+            if (Main.AmDebugger.Value) __instance.text.text += "\r\n" + Utils.ColorString(Color.green, "デバッグモード");
+
+            var offset_x = 1.2f; //右端からのオフセット
+            if (HudManager.InstanceExists && HudManager._instance.Chat.ChatButton.active) offset_x += 0.8f; //チャットボタンがある場合の追加オフセット
+            if (FriendsListManager.InstanceExists && FriendsListManager._instance.FriendsListButton.Button.active) offset_x += 0.8f; //フレンドリストボタンがある場合の追加オフセット
+            __instance.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(offset_x, 0f, 0f);
+
+            if (!GameStates.IsLobby) return;
+            if (Options.IsStandardHAS && !CustomRoles.Sheriff.IsEnable() && !CustomRoles.SerialKiller.IsEnable() && CustomRoles.Egoist.IsEnable())
+                __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("Warning.EgoistCannotWin"));
+        }
+    }
+    [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
+    class VersionShowerStartPatch
+    {
+        static void Postfix(VersionShower __instance)
+        {
+            Main.credentialsText = $"\r\n<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}";
+#if DEBUG
+            Main.credentialsText += $"\r\n<color={Main.ModColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
+#endif
+            var credentials = Object.Instantiate(__instance.text);
+            credentials.text = Main.credentialsText;
+            credentials.alignment = TMPro.TextAlignmentOptions.TopRight;
+            credentials.transform.position = new Vector3(4.6f, 3.2f, 0);
+
+            ErrorText.Create(__instance.text);
+            if (Main.hasArgumentException && ErrorText.Instance != null)
             {
-                __instance.gameObject.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(2.7f, 0.0f, 0f);
-                if (Options.IsStandardHAS && !CustomRoles.Sheriff.IsEnable() && !CustomRoles.SerialKiller.IsEnable() && CustomRoles.Egoist.IsEnable()) __instance.text.text += $"\r\n" + Helpers.ColorString(Color.red, GetString("Warning.EgoistCannotWin"));
+                ErrorText.Instance.AddError(ErrorCode.Main_DictionaryError);
             }
         }
-        [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
-        class VersionShowerPatch
-        {
-            static void Postfix(VersionShower __instance)
-            {
-                Main.credentialsText = $"\r\n<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}";
-                if (ThisAssembly.Git.Branch != "main")
-                    Main.credentialsText += $"\r\n<color={Main.ModColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
-                var credentials = UnityEngine.Object.Instantiate<TMPro.TextMeshPro>(__instance.text);
-                credentials.text = Main.credentialsText;
-                credentials.alignment = TMPro.TextAlignmentOptions.TopRight;
-                credentials.transform.position = new Vector3(4.3f, __instance.transform.localPosition.y + 0.3f, 0);
+    }
 
-                ErrorText.Create(__instance.text);
-                if (Main.hasArgumentException && ErrorText.Instance != null)
-                {
-                    ErrorText.Instance.AddError(ErrorCode.Main_DictionaryError);
-                }
+    [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
+    class TitleLogoPatch
+    {
+        static void Postfix(MainMenuManager __instance)
+        {
+            var amongUsLogo = GameObject.Find("bannerLogo_AmongUs");
+            if (amongUsLogo != null)
+            {
+                amongUsLogo.transform.localScale *= 0.4f;
+                amongUsLogo.transform.position += Vector3.up * 0.25f;
             }
+
+            var tohLogo = new GameObject("titleLogo_TOH");
+            tohLogo.transform.position = Vector3.up;
+            tohLogo.transform.localScale *= 1.2f;
+            var renderer = tohLogo.AddComponent<SpriteRenderer>();
+            renderer.sprite = Utils.LoadSprite("TownOfHost.Resources.TownOfHost-Logo.png", 300f);
         }
-        [HarmonyPatch(typeof(ModManager), nameof(ModManager.LateUpdate))]
-        class AwakePatch
+    }
+    [HarmonyPatch(typeof(ModManager), nameof(ModManager.LateUpdate))]
+    class ModManagerLateUpdatePatch
+    {
+        public static void Prefix(ModManager __instance)
         {
-            public static void Prefix(ModManager __instance)
-            {
-                __instance.ShowModStamp();
-                LateTask.Update(Time.deltaTime);
-                CheckMurderPatch.Update();
-            }
+            __instance.ShowModStamp();
+
+            LateTask.Update(Time.deltaTime);
+            CheckMurderPatch.Update();
         }
-
-        [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
-        class LogoPatch
+        public static void Postfix(ModManager __instance)
         {
-            static void Postfix(PingTracker __instance)
-            {
-                var amongUsLogo = GameObject.Find("bannerLogo_AmongUs");
-                if (amongUsLogo != null)
-                {
-                    amongUsLogo.transform.localScale *= 0.4f;
-                    amongUsLogo.transform.position += Vector3.up * 0.25f;
-                }
-
-                var tohLogo = new GameObject("titleLogo_TOH");
-                tohLogo.transform.position = Vector3.up;
-                tohLogo.transform.localScale *= 1.2f;
-                var renderer = tohLogo.AddComponent<SpriteRenderer>();
-                renderer.sprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.TownOfHost-Logo.png", 300f);
-            }
+            var offset_y = HudManager.InstanceExists && HudManager._instance.MapButton.isVisible ? 1.6f : 0.9f;
+            __instance.ModStamp.transform.position = AspectPosition.ComputeWorldPosition(
+                __instance.localCamera, AspectPosition.EdgeAlignments.RightTop,
+                new Vector3(0.4f, offset_y, __instance.localCamera.nearClipPlane + 0.1f));
         }
     }
 }

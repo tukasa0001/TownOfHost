@@ -252,12 +252,12 @@ namespace TownOfHost
         {
             return disableColor
                 ? Translator.GetString(Name, ReplacementDictionary)
-                : Helpers.ColorString(Color, Translator.GetString(Name, ReplacementDictionary));
+                : Utils.ColorString(Color, Translator.GetString(Name, ReplacementDictionary));
         }
 
         public virtual string GetName_v(bool display = false)
         {
-            return Helpers.ColorString(Color, Translator.GetString(Name, ReplacementDictionary));
+            return Utils.ColorString(Color, Translator.GetString(Name, ReplacementDictionary));
         }
 
         public void UpdateSelection(bool enable)
