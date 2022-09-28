@@ -420,12 +420,20 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ReportDeadBody))]
     class ReportDeadBodyPatch
     {
+        public static Dictionary<byte, bool> CanReport;
+        public static Dictionary<byte, List<GameData.PlayerInfo>> WaitReport = new();
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo target)
         {
             if (GameStates.IsMeeting) return false;
             Logger.Info($"{__instance.GetNameWithRole()} => {target?.GetNameWithRole() ?? "null"}", "ReportDeadBody");
             if (Options.IsStandardHAS && target != null && __instance == target.Object) return true; //[StandardHAS] ボタンでなく、通報者と死体が同じなら許可
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) return false;
+            if (!CanReport[__instance.PlayerId])
+            {
+                WaitReport[__instance.PlayerId].Add(target);
+                Logger.Warn($"{__instance.GetNameWithRole()}:通報禁止中のため可能になるまで待機します", "ReportDeadBody");
+                return false;
+            }
             if (!AmongUsClient.Instance.AmHost) return true;
             BountyHunter.OnReportDeadBody();
             SerialKiller.OnReportDeadBody();
@@ -503,6 +511,14 @@ namespace TownOfHost
             {//実行クライアントがホストの場合のみ実行
                 if (GameStates.IsLobby && (ModUpdater.hasUpdate || ModUpdater.isBroken || !Main.AllowPublicRoom) && AmongUsClient.Instance.IsGamePublic)
                     AmongUsClient.Instance.ChangeGamePublic(false);
+
+                if (GameStates.IsInTask && ReportDeadBodyPatch.CanReport[__instance.PlayerId] && ReportDeadBodyPatch.WaitReport[__instance.PlayerId].Count > 0)
+                {
+                    var info = ReportDeadBodyPatch.WaitReport[__instance.PlayerId][0];
+                    ReportDeadBodyPatch.WaitReport[__instance.PlayerId].Clear();
+                    Logger.Info($"{__instance.GetNameWithRole()}:通報可能になったため通報処理を行います", "ReportDeadbody");
+                    __instance.ReportDeadBody(info);
+                }
 
                 if (GameStates.IsInTask && CustomRoles.Vampire.IsEnable())
                 {

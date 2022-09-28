@@ -643,6 +643,7 @@ Team : Crewmates<br>
 Basis : Crewmate<br>
 
 When killed, the trapper will hold the killer in place.<br>
+Also, if a report is made while in custody, it will be canceled and the report will be made after the release.<br>
 The time held in place on the body is decided by host in settings.<br>
 
 #### Game Options
