@@ -118,8 +118,8 @@ namespace TownOfHost
                 }
             }
         }
-        public static string GetMarker(byte playerId) => Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), CanSetTarget[playerId] ? "◁" : "");
-        public static string GetTargetMark(PlayerControl seer, PlayerControl target) => Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), seer.GetTarget() == target ? "◀" : "");
+        public static string GetMarker(byte playerId) => Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), CanSetTarget[playerId] ? "◁" : "");
+        public static string GetTargetMark(PlayerControl seer, PlayerControl target) => Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), seer.GetTarget() == target ? "◀" : "");
         public static string UtilsGetTargetArrow(bool isMeeting, PlayerControl seer)
         {
             //ミーティング以外では矢印表示
@@ -130,7 +130,7 @@ namespace TownOfHost
                 var target = Utils.GetPlayerById(arrow.Key.Item2);
                 bool EvilTrackerTarget = seer.GetTarget() == target;
                 if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2] && (target.GetCustomRole().IsImpostor() || EvilTrackerTarget))
-                    SelfSuffix += EvilTrackerTarget ? Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Crewmate), arrow.Value) : arrow.Value;
+                    SelfSuffix += EvilTrackerTarget ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Crewmate), arrow.Value) : arrow.Value;
             }
             return SelfSuffix;
         }
@@ -150,7 +150,7 @@ namespace TownOfHost
                 update = FixedUpdatePatch.CheckArrowUpdate(target, pc, update, pc.GetCustomRole().IsImpostor());
                 var key = (target.PlayerId, pc.PlayerId);
                 var arrow = Main.targetArrows[key];
-                if (EvilTrackerTarget) arrow = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Crewmate), arrow);
+                if (EvilTrackerTarget) arrow = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Crewmate), arrow);
                 if (target.AmOwner)
                 {
                     //MODなら矢印表示
