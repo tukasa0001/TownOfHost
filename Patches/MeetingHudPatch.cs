@@ -291,6 +291,9 @@ namespace TownOfHost
 
                 //とりあえずSnitchは会議中にもインポスターを確認することができる仕様にしていますが、変更する可能性があります。
 
+                if (seer.KnowDeathReason(target))
+                    pva.NameText.text += $"({Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), Utils.GetVitalText(target.PlayerId))})";
+
                 //インポスター表示
                 bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
                 bool LocalPlayerKnowsJackal = false; //trueの時にジャッカルの名前の色を変える
@@ -319,10 +322,6 @@ namespace TownOfHost
                                 LocalPlayerKnowsEgoist = true;
                             }
                         }
-                        break;
-                    case CustomRoles.Doctor:
-                        if (target.Data.IsDead) //変更対象が死人
-                            pva.NameText.text += $"({Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), Utils.GetVitalText(target.PlayerId))})";
                         break;
                     case CustomRoles.Arsonist:
                         if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)

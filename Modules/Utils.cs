@@ -747,7 +747,8 @@ namespace TownOfHost
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfRoleName = $"<size={fontSize}>{Helpers.ColorString(seer.GetRoleColor(), seer.GetRoleName())}{SelfTaskText}</size>";
-                string SelfName = $"{Helpers.ColorString(seer.GetRoleColor(), SeerRealName)}{SelfMark}";
+                string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({Helpers.ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(seer.PlayerId))})" : "";
+                string SelfName = $"{Helpers.ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
                 if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
                     SelfName = $"</size>\r\n{Helpers.ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
                 SelfName = SelfRoleName + "\r\n" + SelfName;
@@ -870,9 +871,7 @@ namespace TownOfHost
                         TargetMark += Executioner.TargetMark(seer, target);
 
                         string TargetDeathReason = "";
-                        if (seer.Is(CustomRoles.Doctor) && //seerがDoctor
-                        target.Data.IsDead //変更対象が死人
-                        )
+                        if (seer.KnowDeathReason(target)) //変更対象が死人
                             TargetDeathReason = $"({Helpers.ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(target.PlayerId))})";
 
                         if (IsActive(SystemTypes.Comms) && !isMeeting)
@@ -1029,5 +1028,10 @@ namespace TownOfHost
                 obj.GetComponent<SpriteRenderer>().color = new(color.r, color.g, color.b, Mathf.Clamp01((-2f * Mathf.Abs(t - 0.5f) + 1) * color.a)); //アルファ値を0→目標→0に変化させる
             })));
         }
+        public static bool KnowDeathReason(this PlayerControl seer, PlayerControl target)
+            => (seer.Is(CustomRoles.Doctor)
+            || (seer.Is(RoleType.Madmate) && Options.MadmateCanSeeDeathReason.GetBool())
+            || (seer.Data.IsDead && Options.GhostCanSeeDeathReason.GetBool()))
+            && target.Data.IsDead;
     }
 }

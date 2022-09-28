@@ -74,6 +74,7 @@ namespace TownOfHost
         public static CustomOption MadmateHasImpostorVision;
         public static CustomOption MadmateCanSeeKillFlash;
         public static CustomOption MadmateCanSeeOtherVotes;
+        public static CustomOption MadmateCanSeeDeathReason;
         public static CustomOption MadmateVentCooldown;
         public static CustomOption MadmateVentMaxTime;
 
@@ -211,6 +212,7 @@ namespace TownOfHost
         public static CustomOption DisableTaskWin;
         public static CustomOption GhostCanSeeOtherRoles;
         public static CustomOption GhostCanSeeOtherVotes;
+        public static CustomOption GhostCanSeeDeathReason;
         public static CustomOption GhostIgnoreTasks;
         public static CustomOption CommsCamouflage;
 
@@ -340,6 +342,7 @@ namespace TownOfHost
             MadmateHasImpostorVision = CustomOption.Create(15012, TabGroup.ImpostorRoles, Color.white, "MadmateHasImpostorVision", false);
             MadmateCanSeeKillFlash = CustomOption.Create(15015, TabGroup.ImpostorRoles, Color.white, "MadmateCanSeeKillFlash", false);
             MadmateCanSeeOtherVotes = CustomOption.Create(15016, TabGroup.ImpostorRoles, Color.white, "MadmateCanSeeOtherVotes", false);
+            MadmateCanSeeDeathReason = CustomOption.Create(15018, TabGroup.ImpostorRoles, Color.white, "MadmateCanSeeDeathReason", false);
             MadmateVentCooldown = CustomOption.Create(15213, TabGroup.ImpostorRoles, Color.white, "MadmateVentCooldown", 0f, 0f, 180f, 5f);
             MadmateVentMaxTime = CustomOption.Create(15214, TabGroup.ImpostorRoles, Color.white, "MadmateVentMaxTime", 0f, 0f, 180f, 5f);
             // Both
@@ -563,6 +566,8 @@ namespace TownOfHost
             GhostCanSeeOtherRoles = CustomOption.Create(900_010, TabGroup.MainSettings, Color.white, "GhostCanSeeOtherRoles", true)
                 .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherVotes = CustomOption.Create(900_011, TabGroup.MainSettings, Color.white, "GhostCanSeeOtherVotes", true)
+                .SetGameMode(CustomGameMode.All);
+            GhostCanSeeDeathReason = CustomOption.Create(900_014, TabGroup.MainSettings, Color.white, "GhostCanSeeDeathReason", false)
                 .SetGameMode(CustomGameMode.All);
             GhostIgnoreTasks = CustomOption.Create(900_012, TabGroup.MainSettings, Color.white, "GhostIgnoreTasks", false)
                 .SetGameMode(CustomGameMode.All);
