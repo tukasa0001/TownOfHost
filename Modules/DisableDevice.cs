@@ -119,7 +119,7 @@ namespace TownOfHost
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(ex.ToString(), "DeviceBlock");
+                    Logger.Error(ex.ToString(), "DisableDevice");
                 }
             }
         }
