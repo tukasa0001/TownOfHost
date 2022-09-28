@@ -36,7 +36,7 @@ namespace TownOfHost
             var roleName = Utils.GetRoleName(role);
             if (role == CustomRoles.EgoSchrodingerCat) roleName += GetString("In%team%", new Dictionary<string, string>() { { "%team%", Utils.GetRoleName(CustomRoles.Egoist) } });
             if (role == CustomRoles.JSchrodingerCat) roleName += GetString("In%team%", new Dictionary<string, string>() { { "%team%", Utils.GetRoleName(CustomRoles.Jackal) } });
-            Dictionary<string, string> replacementDic = new() { { "%role%", Helpers.ColorString(Utils.GetRoleColor(role), roleName) } };
+            Dictionary<string, string> replacementDic = new() { { "%role%", Utils.ColorString(Utils.GetRoleColor(role), roleName) } };
             return replacementDic;
         }
         public static void SetupCustomOption()
@@ -129,7 +129,7 @@ namespace TownOfHost
             }
             return true;
         }
-        public static string GetShotLimit(byte playerId) => Helpers.ColorString(Color.yellow, ShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid");
+        public static string GetShotLimit(byte playerId) => Utils.ColorString(Color.yellow, ShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid");
         public static bool CanBeKilledBySheriff(this PlayerControl player)
         {
             var cRole = player.GetCustomRole();

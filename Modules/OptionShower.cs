@@ -38,7 +38,7 @@ namespace TownOfHost
                     text += GetString("ActiveRolesList") + "\n";
                     foreach (var kvp in Options.CustomRoleSpawnChances)
                         if (kvp.Value.GameMode is CustomGameMode.Standard or CustomGameMode.All && kvp.Value.Enabled) //スタンダードか全てのゲームモードで表示する役職
-                            text += $"{Helpers.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
+                            text += $"{Utils.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
                     pages.Add(text + "\n\n");
                     text = "";
                 }
@@ -55,7 +55,7 @@ namespace TownOfHost
                 {
                     if (!kvp.Key.IsEnable() || kvp.Value.IsHidden(Options.CurrentGameMode)) continue;
                     text += "\n";
-                    text += $"{Helpers.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
+                    text += $"{Utils.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
                     ShowChildren(kvp.Value, ref text, 1);
                     if (kvp.Key.IsMadmate()) //マッドメイトの時に追加する詳細設定
                     {

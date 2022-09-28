@@ -141,7 +141,7 @@ namespace TownOfHost
                     CustomRoles.MadSnitch or CustomRoles.MadGuardian => GetString(player.GetPlayerTaskState().IsTaskFinished ? "MadmateInfo" : "BeforeMadmateInfo"),
                     _ => GetString(player.GetCustomRole() + "Info")
                 };
-                TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), RoleWithInfo);
+                TaskTextPrefix = Utils.ColorString(player.GetRoleColor(), RoleWithInfo);
             }
             switch (player.GetCustomRole())
             {
