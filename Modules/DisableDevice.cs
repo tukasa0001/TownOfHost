@@ -11,7 +11,7 @@ namespace TownOfHost
     class DisableDevice
     {
         public static bool DoDisable => Options.DisableDevices.GetBool() || Options.IsStandardHAS;
-        private static List<byte> OldDesyncCommsPlayers = new();
+        private static List<byte> DesyncComms = new();
         private static int frame = 0;
         public static readonly Dictionary<string, Vector2> DevicePos = new()
         {
@@ -53,7 +53,7 @@ namespace TownOfHost
                 {
                     if (pc.IsModClient()) continue;
 
-                    bool IsGuard = false;
+                    bool doComms = false;
                     Vector2 PlayerPos = pc.GetTruePosition();
                     bool ignore = (Options.DisableDevicesIgnoreImpostors.GetBool() && pc.Is(RoleType.Impostor)) ||
                             (Options.DisableDevicesIgnoreMadmates.GetBool() && pc.Is(RoleType.Madmate)) ||
@@ -67,50 +67,50 @@ namespace TownOfHost
                         {
                             case 0:
                                 if (Options.DisableSkeldAdmin.GetBool())
-                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["SkeldAdmin"]) <= UsableDistance();
+                                    doComms |= Vector2.Distance(PlayerPos, DevicePos["SkeldAdmin"]) <= UsableDistance();
                                 if (Options.DisableSkeldCamera.GetBool())
-                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["SkeldCamera"]) <= UsableDistance();
+                                    doComms |= Vector2.Distance(PlayerPos, DevicePos["SkeldCamera"]) <= UsableDistance();
                                 break;
                             case 1:
                                 if (Options.DisableMiraHQAdmin.GetBool())
-                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["MiraHQAdmin"]) <= UsableDistance();
+                                    doComms |= Vector2.Distance(PlayerPos, DevicePos["MiraHQAdmin"]) <= UsableDistance();
                                 if (Options.DisableMiraHQDoorLog.GetBool())
-                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["MiraHQDoorLog"]) <= UsableDistance();
+                                    doComms |= Vector2.Distance(PlayerPos, DevicePos["MiraHQDoorLog"]) <= UsableDistance();
                                 break;
                             case 2:
                                 if (Options.DisablePolusAdmin.GetBool())
                                 {
-                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusLeftAdmin"]) <= UsableDistance();
-                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusRightAdmin"]) <= UsableDistance();
+                                    doComms |= Vector2.Distance(PlayerPos, DevicePos["PolusLeftAdmin"]) <= UsableDistance();
+                                    doComms |= Vector2.Distance(PlayerPos, DevicePos["PolusRightAdmin"]) <= UsableDistance();
                                 }
                                 if (Options.DisablePolusCamera.GetBool())
-                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusCamera"]) <= UsableDistance();
+                                    doComms |= Vector2.Distance(PlayerPos, DevicePos["PolusCamera"]) <= UsableDistance();
                                 if (Options.DisablePolusVital.GetBool())
-                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusVital"]) <= UsableDistance();
+                                    doComms |= Vector2.Distance(PlayerPos, DevicePos["PolusVital"]) <= UsableDistance();
                                 break;
                             case 4:
                                 if (Options.DisableAirshipCockpitAdmin.GetBool())
-                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipCockpitAdmin"]) <= UsableDistance();
+                                    doComms |= Vector2.Distance(PlayerPos, DevicePos["AirshipCockpitAdmin"]) <= UsableDistance();
                                 if (Options.DisableAirshipRecordsAdmin.GetBool())
-                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipRecordsAdmin"]) <= UsableDistance();
+                                    doComms |= Vector2.Distance(PlayerPos, DevicePos["AirshipRecordsAdmin"]) <= UsableDistance();
                                 if (Options.DisableAirshipCamera.GetBool())
-                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipCamera"]) <= UsableDistance();
+                                    doComms |= Vector2.Distance(PlayerPos, DevicePos["AirshipCamera"]) <= UsableDistance();
                                 if (Options.DisableAirshipVital.GetBool())
-                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipVital"]) <= UsableDistance();
+                                    doComms |= Vector2.Distance(PlayerPos, DevicePos["AirshipVital"]) <= UsableDistance();
                                 break;
                         }
                     }
-                    IsGuard &= !ignore;
-                    if (IsGuard && !pc.inVent)
+                    doComms &= !ignore;
+                    if (doComms && !pc.inVent)
                     {
-                        if (!OldDesyncCommsPlayers.Contains(pc.PlayerId))
-                            OldDesyncCommsPlayers.Add(pc.PlayerId);
+                        if (!DesyncComms.Contains(pc.PlayerId))
+                            DesyncComms.Add(pc.PlayerId);
 
                         pc.RpcDesyncRepairSystem(SystemTypes.Comms, 128);
                     }
-                    else if (!Utils.IsActive(SystemTypes.Comms) && OldDesyncCommsPlayers.Contains(pc.PlayerId))
+                    else if (!Utils.IsActive(SystemTypes.Comms) && DesyncComms.Contains(pc.PlayerId))
                     {
-                        OldDesyncCommsPlayers.Remove(pc.PlayerId);
+                        DesyncComms.Remove(pc.PlayerId);
                         pc.RpcDesyncRepairSystem(SystemTypes.Comms, 16);
 
                         if (PlayerControl.GameOptions.MapId == 1)
