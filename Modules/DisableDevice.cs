@@ -11,7 +11,7 @@ namespace TownOfHost
     class DisableDevice
     {
         private static List<byte> OldDesyncCommsPlayers = new();
-        private static int Count = 0;
+        private static int frame = 0;
         public static readonly Dictionary<string, Vector2> DevicePos = new()
         {
             ["SkeldAdmin"] = new(3.48f, -8.62f),
@@ -42,12 +42,8 @@ namespace TownOfHost
         }
         public static void FixedUpdate()
         {
-            Count--;
-            if (Count > 0) return;
-            Count = 3;
-            var DisableDevices =
-                Options.DisableDevices.GetBool() ||
-                Options.IsStandardHAS; //他に無効化するデバイスを設定する場合はここへ追加
+            frame = frame == 4 ? 0 : frame++;
+            if (frame == 0) return;
 
             if (!DisableDevices) return;
             foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
