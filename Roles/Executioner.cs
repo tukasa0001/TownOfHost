@@ -126,7 +126,7 @@ namespace TownOfHost
             if (!seer.Is(CustomRoles.Executioner)) return ""; //エクスキューショナー以外処理しない
 
             var GetValue = Target.TryGetValue(seer.PlayerId, out var targetId);
-            return GetValue && targetId == target.PlayerId ? Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Executioner), "♦") : "";
+            return GetValue && targetId == target.PlayerId ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Executioner), "♦") : "";
         }
         public static void CheckExileTarget(GameData.PlayerInfo exiled, bool DecidedWinner)
         {
