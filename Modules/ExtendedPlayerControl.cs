@@ -231,6 +231,14 @@ namespace TownOfHost
                 ホストのクールダウンは直接リセットします。
             */
         }
+        public static void RpcDesyncRepairSystem(this PlayerControl target, SystemTypes systemType, int amount)
+        {
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, target.GetClientId());
+            messageWriter.Write((byte)systemType);
+            messageWriter.WriteNetObject(target);
+            messageWriter.Write((byte)amount);
+            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+        }
         public static byte GetRoleCount(this Dictionary<CustomRoles, byte> dic, CustomRoles role)
         {
             if (!dic.ContainsKey(role))
