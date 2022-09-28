@@ -49,99 +49,96 @@ namespace TownOfHost
                 Options.DisableDevices.GetBool() ||
                 Options.IsStandardHAS; //他に無効化するデバイスを設定する場合はここへ追加
 
-            if (DisableDevices)
+            if (!DisableDevices) return;
+            foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
             {
-                foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
+                try
                 {
-                    try
+                    if (pc.IsModClient()) continue;
+
+                    var clientId = pc.GetClientId();
+                    bool IsGuard = false;
+                    Vector2 PlayerPos = pc.GetTruePosition();
+                    bool ignore = (Options.DisableDevicesIgnoreImpostors.GetBool() && pc.Is(RoleType.Impostor)) ||
+                            (Options.DisableDevicesIgnoreMadmates.GetBool() && pc.Is(RoleType.Madmate)) ||
+                            (Options.DisableDevicesIgnoreNeutrals.GetBool() && pc.Is(RoleType.Neutral)) ||
+                            (Options.DisableDevicesIgnoreCrewmates.GetBool() && pc.Is(RoleType.Crewmate)) ||
+                            (Options.DisableDevicesIgnoreAfterAnyoneDied.GetBool() && GameStates.AlreadyDied);
+
+                    if (pc.IsAlive() && !Utils.IsActive(SystemTypes.Comms))
                     {
-                        if (!pc.IsModClient())
+                        switch (PlayerControl.GameOptions.MapId)
                         {
-                            var clientId = pc.GetClientId();
-                            bool IsGuard = false;
-                            Vector2 PlayerPos = pc.GetTruePosition();
-                            bool ignore = (Options.DisableDevicesIgnoreImpostors.GetBool() && pc.Is(RoleType.Impostor)) ||
-                                    (Options.DisableDevicesIgnoreMadmates.GetBool() && pc.Is(RoleType.Madmate)) ||
-                                    (Options.DisableDevicesIgnoreNeutrals.GetBool() && pc.Is(RoleType.Neutral)) ||
-                                    (Options.DisableDevicesIgnoreCrewmates.GetBool() && pc.Is(RoleType.Crewmate)) ||
-                                    (Options.DisableDevicesIgnoreAfterAnyoneDied.GetBool() && GameStates.AlreadyDied);
-
-                            if (pc.IsAlive() && !Utils.IsActive(SystemTypes.Comms))
-                            {
-                                switch (PlayerControl.GameOptions.MapId)
+                            case 0:
+                                if (Options.DisableSkeldAdmin.GetBool())
+                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["SkeldAdmin"]) <= UsableDistance();
+                                if (Options.DisableSkeldCamera.GetBool())
+                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["SkeldCamera"]) <= UsableDistance();
+                                break;
+                            case 1:
+                                if (Options.DisableMiraHQAdmin.GetBool())
+                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["MiraHQAdmin"]) <= UsableDistance();
+                                if (Options.DisableMiraHQDoorLog.GetBool())
+                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["MiraHQDoorLog"]) <= UsableDistance();
+                                break;
+                            case 2:
+                                if (Options.DisablePolusAdmin.GetBool())
                                 {
-                                    case 0:
-                                        if (Options.DisableSkeldAdmin.GetBool())
-                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["SkeldAdmin"]) <= UsableDistance();
-                                        if (Options.DisableSkeldCamera.GetBool())
-                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["SkeldCamera"]) <= UsableDistance();
-                                        break;
-                                    case 1:
-                                        if (Options.DisableMiraHQAdmin.GetBool())
-                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["MiraHQAdmin"]) <= UsableDistance();
-                                        if (Options.DisableMiraHQDoorLog.GetBool())
-                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["MiraHQDoorLog"]) <= UsableDistance();
-                                        break;
-                                    case 2:
-                                        if (Options.DisablePolusAdmin.GetBool())
-                                        {
-                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusLeftAdmin"]) <= UsableDistance();
-                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusRightAdmin"]) <= UsableDistance();
-                                        }
-                                        if (Options.DisablePolusCamera.GetBool())
-                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusCamera"]) <= UsableDistance();
-                                        if (Options.DisablePolusVital.GetBool())
-                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusVital"]) <= UsableDistance();
-                                        break;
-                                    case 4:
-                                        if (Options.DisableAirshipCockpitAdmin.GetBool())
-                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipCockpitAdmin"]) <= UsableDistance();
-                                        if (Options.DisableAirshipRecordsAdmin.GetBool())
-                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipRecordsAdmin"]) <= UsableDistance();
-                                        if (Options.DisableAirshipCamera.GetBool())
-                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipCamera"]) <= UsableDistance();
-                                        if (Options.DisableAirshipVital.GetBool())
-                                            IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipVital"]) <= UsableDistance();
-                                        break;
+                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusLeftAdmin"]) <= UsableDistance();
+                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusRightAdmin"]) <= UsableDistance();
                                 }
-                            }
-                            IsGuard &= !ignore;
-                            if (IsGuard && !pc.inVent)
-                            {
-                                if (!OldDesyncCommsPlayers.Contains(pc.PlayerId))
-                                    OldDesyncCommsPlayers.Add(pc.PlayerId);
-
-                                MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
-                                SabotageFixWriter.Write((byte)SystemTypes.Comms);
-                                MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
-                                SabotageFixWriter.Write((byte)128);
-                                AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
-                            }
-                            else if (!Utils.IsActive(SystemTypes.Comms) && OldDesyncCommsPlayers.Contains(pc.PlayerId))
-                            {
-                                OldDesyncCommsPlayers.Remove(pc.PlayerId);
-
-                                MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
-                                SabotageFixWriter.Write((byte)SystemTypes.Comms);
-                                MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
-                                SabotageFixWriter.Write((byte)16);
-                                AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
-
-                                if (PlayerControl.GameOptions.MapId == 1)
-                                {
-                                    SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
-                                    SabotageFixWriter.Write((byte)SystemTypes.Comms);
-                                    MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
-                                    SabotageFixWriter.Write((byte)17);
-                                    AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
-                                }
-                            }
+                                if (Options.DisablePolusCamera.GetBool())
+                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusCamera"]) <= UsableDistance();
+                                if (Options.DisablePolusVital.GetBool())
+                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["PolusVital"]) <= UsableDistance();
+                                break;
+                            case 4:
+                                if (Options.DisableAirshipCockpitAdmin.GetBool())
+                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipCockpitAdmin"]) <= UsableDistance();
+                                if (Options.DisableAirshipRecordsAdmin.GetBool())
+                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipRecordsAdmin"]) <= UsableDistance();
+                                if (Options.DisableAirshipCamera.GetBool())
+                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipCamera"]) <= UsableDistance();
+                                if (Options.DisableAirshipVital.GetBool())
+                                    IsGuard |= Vector2.Distance(PlayerPos, DevicePos["AirshipVital"]) <= UsableDistance();
+                                break;
                         }
                     }
-                    catch (Exception ex)
+                    IsGuard &= !ignore;
+                    if (IsGuard && !pc.inVent)
                     {
-                        Logger.Error(ex.ToString(), "DeviceBlock");
+                        if (!OldDesyncCommsPlayers.Contains(pc.PlayerId))
+                            OldDesyncCommsPlayers.Add(pc.PlayerId);
+
+                        MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
+                        SabotageFixWriter.Write((byte)SystemTypes.Comms);
+                        MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
+                        SabotageFixWriter.Write((byte)128);
+                        AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
                     }
+                    else if (!Utils.IsActive(SystemTypes.Comms) && OldDesyncCommsPlayers.Contains(pc.PlayerId))
+                    {
+                        OldDesyncCommsPlayers.Remove(pc.PlayerId);
+
+                        MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
+                        SabotageFixWriter.Write((byte)SystemTypes.Comms);
+                        MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
+                        SabotageFixWriter.Write((byte)16);
+                        AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+
+                        if (PlayerControl.GameOptions.MapId == 1)
+                        {
+                            SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
+                            SabotageFixWriter.Write((byte)SystemTypes.Comms);
+                            MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
+                            SabotageFixWriter.Write((byte)17);
+                            AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex.ToString(), "DeviceBlock");
                 }
             }
         }
