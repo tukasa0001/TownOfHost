@@ -1049,9 +1049,9 @@ namespace TownOfHost
             }
             return sprite;
         }
-        public static string ColorString(Color c, string s)
+        public static string ColorString(Color color, string str)
         {
-            return $"<color=#{ToByte(c.r):X2}{ToByte(c.g):X2}{ToByte(c.b):X2}{ToByte(c.a):X2}>{s}</color>";
+            return $"<color=#{ToByte(color.r):X2}{ToByte(color.g):X2}{ToByte(color.b):X2}{ToByte(color.a):X2}>{str}</color>";
         }
 
         private static byte ToByte(float f)
