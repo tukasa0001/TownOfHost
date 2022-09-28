@@ -10,6 +10,7 @@ namespace TownOfHost
     //参考元 : https://github.com/ykundesu/SuperNewRoles/blob/master/SuperNewRoles/Mode/SuperHostRoles/BlockTool.cs
     class DisableDevice
     {
+        public static bool DoDisable => Options.DisableDevices.GetBool() || Options.IsStandardHAS;
         private static List<byte> OldDesyncCommsPlayers = new();
         private static int frame = 0;
         public static readonly Dictionary<string, Vector2> DevicePos = new()
@@ -45,7 +46,7 @@ namespace TownOfHost
             frame = frame == 4 ? 0 : frame++;
             if (frame == 0) return;
 
-            if (!DisableDevices) return;
+            if (!DoDisable) return;
             foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
             {
                 try
