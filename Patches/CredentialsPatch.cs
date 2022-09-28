@@ -5,7 +5,7 @@ using static TownOfHost.Translator;
 namespace TownOfHost
 {
     //From The Other Roles source
-    //https://github.com/Eisbison/TheOtherRoles/blob/main/TheOtherRoles/Patches/CredentialsPatch.cs
+    //https://github.com/TheOtherRolesAU/TheOtherRoles/blob/main/TheOtherRoles/Patches/CredentialsPatch.cs
     [HarmonyPatch(typeof(PingTracker), nameof(PingTracker.Update))]
     class PingTrackerPatch
     {
