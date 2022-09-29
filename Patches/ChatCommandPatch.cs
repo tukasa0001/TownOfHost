@@ -132,8 +132,8 @@ namespace TownOfHost
                                 GetRolesInfo(subArgs);
                                 break;
 
-                            case "att":
-                            case "modifiers":
+                            case "a":
+                            case "addons":
                                 subArgs = args.Length < 3 ? "" : args[2];
                                 switch (subArgs)
                                 {

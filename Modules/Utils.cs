@@ -524,7 +524,7 @@ namespace TownOfHost
                 + $"\n/now - {GetString("Command.now")}"
                 + $"\n/h now - {GetString("Command.h_now")}"
                 + $"\n/h roles {GetString("Command.h_roles")}"
-                + $"\n/h modifiers {GetString("Command.h_modifiers")}"
+                + $"\n/h addons {GetString("Command.h_addons")}"
                 + $"\n/h modes {GetString("Command.h_modes")}"
                 + $"\n/dump - {GetString("Command.dump")}"
                 );
