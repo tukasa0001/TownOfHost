@@ -15,6 +15,7 @@ namespace TownOfHost
             RPC.RpcVersionCheck();
             SoundManager.Instance.ChangeMusicVolume(SaveManager.MusicVolume);
 
+            GameStates.InGame = false;
             NameColorManager.Begin();
             Options.Load();
             ErrorText.Instance.Clear();
