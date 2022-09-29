@@ -433,7 +433,7 @@ namespace TownOfHost
                 AllPlayers.Remove(player);
                 Main.AllPlayerCustomRoles[player.PlayerId] = role;
                 //ここからDesyncが始まる
-                if (player.PlayerId != 0)
+                if (player.PlayerId != PlayerControl.LocalPlayer.PlayerId)
                 {
                     int playerCID = player.GetClientId();
                     //念のため2回送信
