@@ -1,3 +1,4 @@
+using System;
 using HarmonyLib;
 using Hazel;
 
@@ -217,10 +218,18 @@ namespace TownOfHost
                     LoseImpostorRole
                 )
                 {
-                    sender.StartRpc(pc.NetId, RpcCalls.SetRole)
-                            .Write((ushort)RoleTypes.GuardianAngel)
-                            .EndRpc();
-                    pc.SetRole(RoleTypes.GuardianAngel); //ホスト用
+                    try
+                    {
+                        Logger.Error($"{pc.GetNameWithRole()}: GuardianAngelに変更", "ResetRoleAndEndGame");
+                        sender.StartRpc(pc.NetId, RpcCalls.SetRole)
+                                .Write((ushort)RoleTypes.GuardianAngel)
+                                .EndRpc();
+                        pc.SetRole(RoleTypes.GuardianAngel); //ホスト用
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error($"GuardianAngelへ変更中にエラーが発生しました。\n{ex}", "ResetRoleAndEndGame");
+                    }
                 }
             }
 
