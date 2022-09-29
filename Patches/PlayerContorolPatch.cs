@@ -923,8 +923,9 @@ namespace TownOfHost
                     if (Utils.IsActive(SystemTypes.Comms))
                         RealName = $"<size=0>{RealName}</size> ";
 
+                    string DeathReason = seer.Data.IsDead && seer.KnowDeathReason(target) ? $"({Utils.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), Utils.GetVitalText(target.PlayerId))})" : "";
                     //Mark・Suffixの適用
-                    target.cosmetics.nameText.text = $"{RealName}{Mark}";
+                    target.cosmetics.nameText.text = $"{RealName}{DeathReason}{Mark}";
 
                     if (Suffix != "")
                     {
