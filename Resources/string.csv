@@ -6,7 +6,6 @@
 
 "## 役職"
 "Neutral","Neutral","第三陣営","中立阵营","中立陣營","Нейтрал"
-"SubRole","Sub Role","サブ役職","附加职业","附加職業","Доп Роль"
 
 "# バニラ役職"
 "Crewmate","Crewmate","クルーメイト","船员","船員","Член Экипажа"
@@ -551,7 +550,5 @@
 "PuppeteerOperateButtonText","Operate","操る","操控","操控","Управлять"
 "BountyHunterChangeButtonText","Swap","変更","变更","變更","Смена"
 "DefaultShapeshiftText","SHIFT","変身","变形","變身","Превращение"
-"All","All","すべて","All","All","All"
-"Archive","Archive","アーカイブ","Archive","Archive","Archive"
 "DisabledBySettings","Disabled by setting","設定で無効化されています","已在设置被中禁用","在設定中被禁用","Отключено настройкой"
 "Disabled","Disabled","無効","無効","已被禁用","Неполноценный"
