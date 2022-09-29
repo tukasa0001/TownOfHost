@@ -436,6 +436,8 @@ namespace TownOfHost
                 if (player.PlayerId != 0)
                 {
                     int playerCID = player.GetClientId();
+                    //念のため2回送信
+                    sender.RpcSetRole(player, BaseRole, playerCID);
                     sender.RpcSetRole(player, BaseRole, playerCID);
                     //Desyncする人視点で他プレイヤーを科学者にするループ
                     foreach (var pc in PlayerControl.AllPlayerControls)
