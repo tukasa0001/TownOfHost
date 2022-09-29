@@ -489,6 +489,8 @@ namespace TownOfHost
                 __result = false;
                 return false;
             }
+            int return_count = PlayerControl.LocalPlayer.name.Count(x => x == '\n');
+            chatText = new StringBuilder(chatText).Insert(0, "\n", return_count).ToString();
             if (AmongUsClient.Instance.AmClient && DestroyableSingleton<HudManager>.Instance)
                 DestroyableSingleton<HudManager>.Instance.Chat.AddChat(__instance, chatText);
             if (chatText.IndexOf("who", StringComparison.OrdinalIgnoreCase) >= 0)
