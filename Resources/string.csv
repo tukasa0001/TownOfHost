@@ -6,7 +6,6 @@
 
 "## 役職"
 "Neutral","Neutral","第三陣営","中立阵营","中立陣營","Нейтрал"
-"SubRole","Sub Role","サブ役職","附加职业","附加職業","Доп Роль"
 
 "# バニラ役職"
 "Crewmate","Crewmate","クルーメイト","船员","船員","Член Экипажа"
@@ -213,7 +212,7 @@
 "GMInfoLong","(None):/nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game itself, and all players know who the GM is at all times.\nAlways assigned to a host and is ghosted from the start.","(なし):\nGM(ゲームマスター)はオブザーバー役職である。\nGMはゲーム自体には何の影響も与えず、すべてのプレイヤーは誰がGMであるかがわかる。必ずホストに割り当てられ、始めから幽霊状態になっている。","（无阵营）：\nGM(管理员)是房主专属的观察者职业。从游戏开始时便以幽灵状态在旁边观战。 \n该职业本身对游戏没有影响，且会议中对所有玩家可见。 ","（不屬於任何陣營）：\nGM(遊戲大師)是遊戲的觀察者, \nGM對遊戲進行過程沒有影響,所有玩家都知道GM是誰,該職業絕對會分配給房主。\nGM(遊戲大師)從開始遊戲時就處於死亡狀態。","(Никто):/nGM (Мастер Игры) — это роль которая наблюдает за игрой в роле призрака.\nЕго присутствие не влияет на саму игру, и все игроки всегда знают кто является GM.\nВсегда назначается только хосту лобби и становится призраком в самом начале игры."
 
 "# 属性"
-"LastImpostorInfoLong","(Modifiers):\nA Modifier given to the last Impostor.\nKill cooldown gets shorter than usual.\nNot assigned to BountyHunter, SerialKiller, or Vampire.","(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。","（效果）:\n这个效果在内鬼仅剩一人时赋予该内鬼。\n使其击杀冷却缩短。\n该效果对赏金猎人、嗜血杀手以及吸血鬼不适用。","(附加效果):\n該效果給予在場上的最後一隻狼人,擁有該效果的狼人刀人冷卻時間會變短,該效果不會給予:\n賞金獵人,連環殺手或吸血鬼 (可以設定冷卻)","(Атрибут):\nАтрибут, присваевается последнему Предателю.\nВремя отката убийства становится меньше, чем обычно.\nНе назначается BountyHunter, SerialKiller или Vampire."
+"LastImpostorInfoLong","(Add-ons):\nAn Add-on given to the last Impostor.\nKill cooldown gets shorter than usual.\nNot assigned to BountyHunter, SerialKiller, or Vampire.","(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。","（效果）:\n这个效果在内鬼仅剩一人时赋予该内鬼。\n使其击杀冷却缩短。\n该效果对赏金猎人、嗜血杀手以及吸血鬼不适用。","(附加效果):\n該效果給予在場上的最後一隻狼人,擁有該效果的狼人刀人冷卻時間會變短,該效果不會給予:\n賞金獵人,連環殺手或吸血鬼 (可以設定冷卻)","(Атрибут):\nАтрибут, присваевается последнему Предателю.\nВремя отката убийства становится меньше, чем обычно.\nНе назначается BountyHunter, SerialKiller или Vampire."
 
 "#モードオプション"
 "HideAndSeek","HideAndSeek","かくれんぼ","躲猫猫","躲貓貓","Прятки"
@@ -250,6 +249,7 @@
 "FixFirstKillCooldown","Fix Kill Cooldown For First Spawn","初期スポーン時のクールダウン修正","修正首刀冷却时间","修正開場時的殺人冷卻時間","Изменить Откат Убийства В Начале Игры"
 "GhostCanSeeOtherRoles","Ghost Can See Other Roles","幽霊が他人の役職を見ることができる","幽灵可见他人职业","幽靈可以看見所有玩家職業","Призраки Могут Видеть Все Роли"
 "GhostCanSeeOtherVotes","Ghost Can See Other Votes","幽霊が他人の投票先を見ることができる","幽灵可见投票情况","幽靈可以看見所有玩家的投票","Призраки Могут Видеть Цвета Голосов"
+"GhostCanSeeDeathReason","Ghost Can See Cause Of Death","幽霊が死因を見ることができる","","",""
 "GhostIgnoreTasks","Ghost Ignore Tasks","死人のタスクを免除する","幽灵无视任务","幽靈可以免除任務","Скрыть Настройки Игры"
 "DisableTaskWin","Disable Task Win","タスク勝利を無効化","禁用任务胜利","禁用任務勝利","Отключить Победу По Заданиям"
 "HideGameSettings","Hide Game Settings","ゲーム設定を隠す","隐藏游戏设置","隱藏遊戲設定","Скрыть Настройки Игры"
@@ -334,6 +334,7 @@
 "MadmateHasImpostorVision","Madmates Have Impostor Vision","マッドメイト系役職がインポスター視界を持つ","叛徒职业拥有内鬼视野","叛徒職業的玩家有跟狼人一樣的視野","Madmates Имеет Дальность Обзора Предателя"
 "MadmateCanSeeKillFlash","Madmates Can See Kill Flash","マッドメイト系役職にキルフラッシュが見える","叛徒可以看到击杀闪光","叛徒職業的玩家可以看到殺人閃光","Madmates Может Видеть Вспышку Убийства"
 "MadmateCanSeeOtherVotes","Madmates Can See Other Votes","マッドメイト系役職に他人の投票先が分かる","叛徒可以看到其他人所投的票","叛徒可以看到所有人的投票","Madmates Может Видеть Цвета Голосов"
+"MadmateCanSeeDeathReason","Madmates Can See Cause Of Death","マッドメイト系役職に死因が分かる","","",""
 "MadmateVentCooldown","Madmates Vent Cooldown","マッドメイト系役職のベントクールダウン","叛徒职业跳管道冷却时间","叛徒職業的玩家跳管道冷卻","Откат Вентиляции Madmates"
 "MadmateVentMaxTime","Madmates Max Time In Vents(s)","マッドメイト系役職のベント内での最大時間","叛徒职业在管道中停留的最大时间","叛徒職業的玩家在管道中可以停留的最大時間","Время Использования Вентиляции Madmates"
 "EvilWatcherChance","EvilWatcher Chance","イビルウォッチャーになる確率","窥视者成为内鬼阵营的概率","成為邪惡觀察者的機率","EvilWatcher Шанс"
@@ -421,7 +422,7 @@
 "Command.now","Display Active Settings","現在有効な設定を表示","显示当前设置","顯示目前設定","Показать Активные Настройки"
 "Command.h_now","Display Current Active Settings Description","現在有効な設定の説明を表示","显示当前设置帮助","顯示現在設定的模式和職業說明","Показать Описание Текущих Активных Настроек"
 "Command.h_roles","<RoleName> - Display Role Description","<役職名> - 役職の説明を表示","<职业名> - 显示职业介绍","<職業名> - 顯示關於該職業的介紹","<ИмяРоли> — Отображать Описание Роли"
-"Command.h_modifiers","<ModifierName> - Display Modifier Description","<属性名> - 属性の説明を表示","<属性名> - 显示属性介绍","<屬性名> - 顯示關於該屬性的介紹","<ИмяАтрибута> — Показать Описание Атрибута"
+"Command.h_addons","<Add-Ons Name> - Display Add-on Description","<属性名> - 属性の説明を表示","<属性名> - 显示属性介绍","<屬性名> - 顯示關於該屬性的介紹","<ИмяАтрибута> — Показать Описание Атрибута"
 "Command.h_modes","<ModeName> - Display Mode Description","<モード名> - モードの説明を表示","<模式名> - 显示模式介绍","<模式名> - 顯示關於該模式的介紹","<ИмяРежима> - Отображение Описания Режима"
 "Command.dump","Output Log to Desktop","デスクトップにログを出力","将游戏运行日志输出到桌面","在桌面上建立遊戲輸出日誌","Вывод Журнала На Рабочий Стол"
 "Command.h_args","Available Args (clipped)","使用可能な引数 (略称)","可用参数（简写）","可用的參數(簡稱)","Доступные Аргументы (обрезанные)"
@@ -436,6 +437,7 @@
 "Message.SyncButtonLeft","The emergency meeting button can be used {0} more times","緊急会議ボタンはあと{0}回使用できます","剩余紧急会议次数 {0}","全場拍桌數量還剩下{0}次,請謹慎拍桌","Кнопку экстренной встречи можно использовать еще {0} раз"
 "Message.Executed","{0} was executed","{0}を処刑しました","{0}被房主处决了","{0}被處刑了","{0} был казнен"
 "Message.HideGameSettings","Game settings are hidden by the host.","ゲーム設定はホストによって秘匿されています。","游戏设置被房主隐藏。","遊戲設定被房主隱藏。","Настройки игры скрыты хостом."
+"Message.AnnounceUsingTOH","This room uses TownOfHost v{0}.\n/now can be used to check the current settings.\nPlease check GitHub for detailed roles descriptions.","この部屋はTownOfHost v{0}を使用しています。\n/nowを使用すると現在の設定が確認できます。\n役職の詳細な説明はGitHubをご確認ください。","","",""
 "Message.NoDescription","No description.","説明はありません。","无描述","説明はありません。","説明はありません。"
 
 "## 警告"
@@ -467,7 +469,7 @@
 "TabGroup.CrewmateRoles","Crewmate Roles","クルーメイト役職","","",""
 "TabGroup.NeutralRoles","Neutral Roles","ニュートラル役職","","",""
 "TabGroup.ImpostorRoles","Impostor Roles","インポスター役職","","",""
-"TabGroup.Modifiers","Modifiers","属性","","",""
+"TabGroup.Addons","Add-Ons","属性","","",""
 "ActiveRolesList","Active Roles List","有効な役職一覧","","",""
 "ForExample","For Example","使用例","使用例子","使用例子","Например"
 "ForceEnd","No Contest","廃村","强制结束游戏","遊戲已被強制結束","Игра Была Окончена"
@@ -485,7 +487,6 @@
 "onSetPublicNoLatest","Public rooms is prohibited except for the latest version.\nPlease update.","最新版以外で公開ルームにはできません。\nアップデートをしてください。","不可以在未安装最新模组的前提下创建公开房间。\n请更新本模组。","無法建立一個公共房間,因為使用的不是最新版本的模組\n請更新本模組","Публичные лобби запрещены за исключением последней версии.\nПожалуйста обновите."
 "CanNotJoinPublicRoomNoLatest","You can't join public rooms except for the latest version.\nPlease update.","最新版以外で公開ルームには参加できません。\nアップデートをしてください。","不可以在未安装最新模组的前提下进入公开房间。\n请更新本模组。","無法在未安裝最新版本的前提下進入公開房間\n請更新本模組","Вы не можете присоединяться к публичным лобби за исключением последней версии.\nПожалуйста обновите."
 "ModBrokenMessage","The MOD file is broken.\nPlease re-install it again.","MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。","模组文件损坏。\n请重新安装本模组。","模組檔案損壞\n請重新安裝模組","Файл MOD поврежден.\nПожалуйста переустановите его снова."
-"NameIncludeTOH","""TOH""が名前に含まれていない状態では公開部屋にすることはできません。","""TOH""が名前に含まれていない状態では公開部屋にすることはできません。","""TOH""が名前に含まれていない状態では公開部屋にすることはできません。","""TOH""が名前に含まれていない状態では公開部屋にすることはできません。","""TOH""が名前に含まれていない状態では公開部屋にすることはできません。"
 "DisabledByProgram","Making room public is disabled by program.","公開ルームはプログラムによって無効化されています","公開ルームはプログラムによって無効化されています","公開ルームはプログラムによって無効化されています","Создание публичной лобби отключена программой."
 "EnterVentToWin","Enter Vent to Win!!","ベントに入って勝利しろ!!","跳管道来获得胜利！","跳管道來獲得勝利!!","Запрыгните в вентиляцию чтобы победить!!"
 "FireworksPutPhase","Put {0} Fireworks","あと{0}個置け","还要安放{0}枚烟花","還需要安裝{0}枚煙火","Поставьте {0} Фейерверков"
@@ -505,7 +506,7 @@
 "BountyCurrentTarget","Current Target","現在のターゲット","当前目标","目標","Текущая Цель"
 "Roles","Roles","役職","职业","職業","Роли"
 "Settings","Settings","設定","设定","設定","Настройки"
-"Modifiers","Modifiers","属性","属性","屬性","Атрибуты"
+"Addons","Add-Ons","属性","属性","屬性","Атрибуты"
 "LastResult","Last Result","試合結果","游戏结果","上一局的遊戲結果","Последний Результат"
 "Maximum","Maximum","最大数","最大量","最大數量","Максимум"
 "Rate0","0%","0%","0 %","0 %","0%"
@@ -548,4 +549,3 @@
 "DefaultShapeshiftText","SHIFT","変身","变形","變身","Превращение"
 "DisabledBySettings","Disabled by setting","設定で無効化されています","已在设置被中禁用","在設定中被禁用","Отключено настройкой"
 "Disabled","Disabled","無効","無効","已被禁用","Неполноценный"
-

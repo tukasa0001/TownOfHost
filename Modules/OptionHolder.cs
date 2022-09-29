@@ -74,6 +74,7 @@ namespace TownOfHost
         public static CustomOption MadmateHasImpostorVision;
         public static CustomOption MadmateCanSeeKillFlash;
         public static CustomOption MadmateCanSeeOtherVotes;
+        public static CustomOption MadmateCanSeeDeathReason;
         public static CustomOption MadmateVentCooldown;
         public static CustomOption MadmateVentMaxTime;
 
@@ -211,6 +212,7 @@ namespace TownOfHost
         public static CustomOption DisableTaskWin;
         public static CustomOption GhostCanSeeOtherRoles;
         public static CustomOption GhostCanSeeOtherVotes;
+        public static CustomOption GhostCanSeeDeathReason;
         public static CustomOption GhostIgnoreTasks;
         public static CustomOption CommsCamouflage;
 
@@ -340,6 +342,7 @@ namespace TownOfHost
             MadmateHasImpostorVision = CustomOption.Create(15012, TabGroup.ImpostorRoles, Color.white, "MadmateHasImpostorVision", false);
             MadmateCanSeeKillFlash = CustomOption.Create(15015, TabGroup.ImpostorRoles, Color.white, "MadmateCanSeeKillFlash", false);
             MadmateCanSeeOtherVotes = CustomOption.Create(15016, TabGroup.ImpostorRoles, Color.white, "MadmateCanSeeOtherVotes", false);
+            MadmateCanSeeDeathReason = CustomOption.Create(15018, TabGroup.ImpostorRoles, Color.white, "MadmateCanSeeDeathReason", false);
             MadmateVentCooldown = CustomOption.Create(15213, TabGroup.ImpostorRoles, Color.white, "MadmateVentCooldown", 0f, 0f, 180f, 5f);
             MadmateVentMaxTime = CustomOption.Create(15214, TabGroup.ImpostorRoles, Color.white, "MadmateVentMaxTime", 0f, 0f, 180f, 5f);
             // Both
@@ -390,10 +393,10 @@ namespace TownOfHost
             Executioner.SetupCustomOption();
             Jackal.SetupCustomOption();
 
-            // Modifier
-            EnableLastImpostor = CustomOption.Create(80000, TabGroup.Modifiers, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
+            // Add-Ons
+            EnableLastImpostor = CustomOption.Create(80000, TabGroup.Addons, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            LastImpostorKillCooldown = CustomOption.Create(80010, TabGroup.Modifiers, Color.white, "KillCooldown", 15, 0, 180, 1, EnableLastImpostor)
+            LastImpostorKillCooldown = CustomOption.Create(80010, TabGroup.Addons, Color.white, "KillCooldown", 15, 0, 180, 1, EnableLastImpostor)
                 .SetGameMode(CustomGameMode.Standard);
             #endregion
 
@@ -564,6 +567,8 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherVotes = CustomOption.Create(900_011, TabGroup.MainSettings, Color.white, "GhostCanSeeOtherVotes", true)
                 .SetGameMode(CustomGameMode.All);
+            GhostCanSeeDeathReason = CustomOption.Create(900_014, TabGroup.MainSettings, Color.white, "GhostCanSeeDeathReason", false)
+                .SetGameMode(CustomGameMode.All);
             GhostIgnoreTasks = CustomOption.Create(900_012, TabGroup.MainSettings, Color.white, "GhostIgnoreTasks", false)
                 .SetGameMode(CustomGameMode.All);
             CommsCamouflage = CustomOption.Create(900_013, TabGroup.MainSettings, Color.white, "CommsCamouflage", false)
@@ -597,11 +602,11 @@ namespace TownOfHost
         private static void SetupLoversRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             var role = CustomRoles.Lovers;
-            var spawnOption = CustomOption.Create(id, TabGroup.Modifiers, Utils.GetRoleColor(role), role.ToString(), ratesZeroOne, ratesZeroOne[0], null, true)
+            var spawnOption = CustomOption.Create(id, TabGroup.Addons, Utils.GetRoleColor(role), role.ToString(), ratesZeroOne, ratesZeroOne[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
 
-            var countOption = CustomOption.Create(id + 1, TabGroup.Modifiers, Color.white, "NumberOfLovers", 2, 1, 15, 1, spawnOption, false, true)
+            var countOption = CustomOption.Create(id + 1, TabGroup.Addons, Color.white, "NumberOfLovers", 2, 1, 15, 1, spawnOption, false, true)
                 .HiddenOnDisplay(false)
                 .SetGameMode(customGameMode);
 

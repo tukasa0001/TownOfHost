@@ -723,6 +723,11 @@ namespace TownOfHost
                 CustomRoles.Egoist or
                 CustomRoles.Jackal;
         }
+        public static bool KnowDeathReason(this PlayerControl seer, PlayerControl target)
+            => (seer.Is(CustomRoles.Doctor)
+            || (seer.Is(RoleType.Madmate) && Options.MadmateCanSeeDeathReason.GetBool())
+            || (seer.Data.IsDead && Options.GhostCanSeeDeathReason.GetBool()))
+            && target.Data.IsDead;
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>

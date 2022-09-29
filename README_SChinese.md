@@ -900,7 +900,7 @@ Kihi的想法
 
 ## 贡献
 
-[赏金猎人](#BountyHunter/赏金猎人), [黑手党](#Mafia/黑手党),[吸血鬼](#Vampire/吸血鬼),[女巫](#Witch/女巫) ,[诱饵](#Bait/诱饵) ,[市长](#Mayor/市长),[警长](#Sheriff/警长),[告密者](#Snitch/告密者),[执灯人](#Lighter/执灯人),[灵媒](#Seer/灵媒)想法提出者：[The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
+[赏金猎人](#BountyHunter/赏金猎人), [黑手党](#Mafia/黑手党),[吸血鬼](#Vampire/吸血鬼),[女巫](#Witch/女巫) ,[诱饵](#Bait/诱饵) ,[市长](#Mayor/市长),[警长](#Sheriff/警长),[告密者](#Snitch/告密者),[执灯人](#Lighter/执灯人),[灵媒](#Seer/灵媒)想法提出者：[The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles)<br>
 [投机者](#Opportunist/投机者),[术士](#Warlock/术士)原创：[The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
 [薛定谔的猫](#SchrodingerCat/薛定谔的猫),[邪恶的追踪者](#EvilTracker/邪恶的追踪者)想法提出者：[The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
 [医生](#Doctor/医生)原创：[Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>

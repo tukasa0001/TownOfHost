@@ -68,17 +68,17 @@ AmongUsバージョン : **2022.9.20**
 チャットコマンドはチャットで入力して使用できるコマンドです。
 
 #### ホストのみ
-| コマンド                                   | 機能                                                |
-| ------------------------------------------ | --------------------------------------------------- |
-| /winner<br>/win                            | 勝者を表示                                          |
-| /rename <名前><br>/r <名前>                | 名前を変更                                          |
-| /dis <crewmate/impostor>                   | 試合をクルーメイト/インポスターの切断として終了する |
-| /messagewait <秒><br>/mw <秒>              | メッセージの表示間隔の秒数を設定                    |
-| /help<br>/h                                | コマンドの説明を表示                                |
-| /help roles <役職><br>/help r <役職>       | 役職の説明を表示                                    |
-| /help modifiers <属性><br>/help mod <属性> | 属性の説明を表示                                    |
-| /help modes <モード><br>/help m <モード>   | モードの説明を表示                                  |
-| /hidename <文字列><br>/hn <文字列>         | コード隠しの名前を変更                              |
+| コマンド                                 | 機能                                                |
+| ---------------------------------------- | --------------------------------------------------- |
+| /winner<br>/win                          | 勝者を表示                                          |
+| /rename <名前><br>/r <名前>              | 名前を変更                                          |
+| /dis <crewmate/impostor>                 | 試合をクルーメイト/インポスターの切断として終了する |
+| /messagewait <秒><br>/mw <秒>            | メッセージの表示間隔の秒数を設定                    |
+| /help<br>/h                              | コマンドの説明を表示                                |
+| /help roles <役職><br>/help r <役職>     | 役職の説明を表示                                    |
+| /help addons <属性><br>/help a <属性>    | 属性の説明を表示                                    |
+| /help modes <モード><br>/help m <モード> | モードの説明を表示                                  |
+| /hidename <文字列><br>/hn <文字列>       | コード隠しの名前を変更                              |
 
 #### MODクライアントのみ
 | コマンド       | 機能                                |
@@ -1060,7 +1060,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ## クレジット
 
-[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター)、[シーア](#Seer/シーア)、[ジャッカル](#jackalジャッカル) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
+[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター)、[シーア](#Seer/シーア)、[ジャッカル](#jackalジャッカル) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles)<br>
 [オポチュニスト](#Opportunist/オポチュニスト)、[ウォッチャー](#Watcher/ウォッチャー) のアイデア元 : [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
 [シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫)、[イビルトラッカー](#EvilTracker/イビルトラッカー) のアイデア元 : [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
 [ドクター](#Doctor/ドクター) のアイデア元 : [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>

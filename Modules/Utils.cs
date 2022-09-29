@@ -524,7 +524,7 @@ namespace TownOfHost
                 + $"\n/now - {GetString("Command.now")}"
                 + $"\n/h now - {GetString("Command.h_now")}"
                 + $"\n/h roles {GetString("Command.h_roles")}"
-                + $"\n/h modifiers {GetString("Command.h_modifiers")}"
+                + $"\n/h addons {GetString("Command.h_addons")}"
                 + $"\n/h modes {GetString("Command.h_modes")}"
                 + $"\n/dump - {GetString("Command.dump")}"
                 );
@@ -581,6 +581,8 @@ namespace TownOfHost
             }
             else
             {
+                if (AmongUsClient.Instance.IsGamePublic)
+                    name = $"<color={Main.ModColor}>TownOfHost v{Main.PluginVersion}</color>\r\n" + name;
                 switch (Options.GetSuffixMode())
                 {
                     case SuffixModes.None:
@@ -748,7 +750,8 @@ namespace TownOfHost
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfRoleName = $"<size={fontSize}>{ColorString(seer.GetRoleColor(), seer.GetRoleName())}{SelfTaskText}</size>";
-                string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfMark}";
+                string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(seer.PlayerId))})" : "";
+                string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
                 if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
                     SelfName = $"</size>\r\n{ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
                 SelfName = SelfRoleName + "\r\n" + SelfName;
@@ -871,9 +874,7 @@ namespace TownOfHost
                         TargetMark += Executioner.TargetMark(seer, target);
 
                         string TargetDeathReason = "";
-                        if (seer.Is(CustomRoles.Doctor) && //seerがDoctor
-                        target.Data.IsDead //変更対象が死人
-                        )
+                        if (seer.KnowDeathReason(target))
                             TargetDeathReason = $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(target.PlayerId))})";
 
                         if (IsActive(SystemTypes.Comms) && !isMeeting)
