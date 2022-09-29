@@ -318,7 +318,6 @@
 "CanUseSabotage","Can Sabotage","サボタージュを使用できる","可以破坏","可以破壞","Может Использовать Саботаж"
 
 "BountyTargetChangeTime","Time To Swap Bounty(s)","ターゲット変更時間","赏金目标切换时间","賞金目標切換時間","Время Смены Его Цели"
-"EnableLastImpostor","Enable LastImpostor","ラストインポスターの有効化","启用绝境者","啟用絕境者","Включить ПоследнийПредатель"
 "BountySuccessKillCooldown","Kill Cooldown After Killing Bounty","ターゲット殺害時のキルクール","赏金猎人击杀赏金目标的奖励冷却时间","賞金獵人殺死賞金目標冷卻","Перезарядка После Убитой Цели"
 "BountyFailureKillCooldown","Kill Cooldown After Killing Others","ターゲット以外殺害時のキルクール","赏金猎人击杀赏金目标以外玩家的惩罚冷却时间","賞金獵人殺死非賞金目標冷卻","Перезарядка После Обычного Убийства"
 "DefaultShapeshiftCooldown","Default Shapeshift Cooldown","デフォルトの変身クールダウン","默认变形冷却时间","預設變身時間","Обычная Перезарядка Оборотня"
@@ -494,7 +493,6 @@
 "FireworksReadyFirePhase","Fire!","打ち上げろ！","烟花来咯，大型烟花秀开始！","準備就緒,煙火秀開始!","Огонь!"
 "StandardHAS","Hide And Seek with Roles","役職入りでかくれんぼ","在躲猫猫模式中加入职业","在躲貓貓中加入多職業模式中的職業","Прятки с Ролями"
 "StandardHASWaitingTime","Waiting Time","待機時間","躲猫猫猎人等待时间","躲貓貓狼人等待時間","Время Ожидания"
-"commandError","Error:%1$","エラー:%1$","错误:%1$","錯誤:%1$","Ошибка:%1$"
 "InvalidArgs","Invalid Args","無効な引数","无效参数","無效的參數","Недопустимые Аргументы"
 "On","ON","オン","开启","開啟","ВКЛ"
 "Off","OFF","オフ","关闭","關閉","ВЫКЛ"
@@ -508,7 +506,6 @@
 "Roles","Roles","役職","职业","職業","Роли"
 "Settings","Settings","設定","设定","設定","Настройки"
 "Modifiers","Modifiers","属性","属性","屬性","Атрибуты"
-"RoleAssignment","Role Assignment","ロール割り当て","职业分配","職業分配","Назначение Ролей"
 "LastResult","Last Result","試合結果","游戏结果","上一局的遊戲結果","Последний Результат"
 "Maximum","Maximum","最大数","最大量","最大數量","Максимум"
 "Rate0","0%","0%","0 %","0 %","0%"
@@ -549,8 +546,6 @@
 "PuppeteerOperateButtonText","Operate","操る","操控","操控","Управлять"
 "BountyHunterChangeButtonText","Swap","変更","变更","變更","Смена"
 "DefaultShapeshiftText","SHIFT","変身","变形","變身","Превращение"
-"All","All","すべて","All","All","All"
-"Archive","Archive","アーカイブ","Archive","Archive","Archive"
 "DisabledBySettings","Disabled by setting","設定で無効化されています","已在设置被中禁用","在設定中被禁用","Отключено настройкой"
 "Disabled","Disabled","無効","無効","已被禁用","Неполноценный"
 
