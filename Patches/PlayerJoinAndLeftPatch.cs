@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using HarmonyLib;
 using InnerNet;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -41,7 +42,9 @@ namespace TownOfHost
             {
                 new LateTask(() =>
                 {
-                    if (client.Character != null) ChatCommands.SendTemplate("welcome", client.Character.PlayerId, true);
+                    if (client.Character == null) return;
+                    if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(GetString("Message.AnnounceUsingTOH"), Main.PluginVersion), client.Character.PlayerId);
+                    ChatCommands.SendTemplate("welcome", client.Character.PlayerId, true);
                 }, 3f, "Welcome Message");
             }
         }

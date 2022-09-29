@@ -438,6 +438,7 @@
 "Message.SyncButtonLeft","The emergency meeting button can be used {0} more times","緊急会議ボタンはあと{0}回使用できます","剩余紧急会议次数 {0}","全場拍桌數量還剩下{0}次,請謹慎拍桌","Кнопку экстренной встречи можно использовать еще {0} раз"
 "Message.Executed","{0} was executed","{0}を処刑しました","{0}被房主处决了","{0}被處刑了","{0} был казнен"
 "Message.HideGameSettings","Game settings are hidden by the host.","ゲーム設定はホストによって秘匿されています。","游戏设置被房主隐藏。","遊戲設定被房主隱藏。","Настройки игры скрыты хостом."
+"Message.AnnounceUsingTOH","This room uses TownOfHost v{0}.\n/now can be used to check the current settings.\nPlease check GitHub for detailed roles descriptions.","この部屋はTownOfHost v{0}を使用しています。\n/nowを使用すると現在の設定が確認できます。\n役職の詳細な説明はGitHubをご確認ください。","","",""
 "Message.NoDescription","No description.","説明はありません。","无描述","説明はありません。","説明はありません。"
 
 "## 警告"
@@ -487,7 +488,6 @@
 "onSetPublicNoLatest","Public rooms is prohibited except for the latest version.\nPlease update.","最新版以外で公開ルームにはできません。\nアップデートをしてください。","不可以在未安装最新模组的前提下创建公开房间。\n请更新本模组。","無法建立一個公共房間,因為使用的不是最新版本的模組\n請更新本模組","Публичные лобби запрещены за исключением последней версии.\nПожалуйста обновите."
 "CanNotJoinPublicRoomNoLatest","You can't join public rooms except for the latest version.\nPlease update.","最新版以外で公開ルームには参加できません。\nアップデートをしてください。","不可以在未安装最新模组的前提下进入公开房间。\n请更新本模组。","無法在未安裝最新版本的前提下進入公開房間\n請更新本模組","Вы не можете присоединяться к публичным лобби за исключением последней версии.\nПожалуйста обновите."
 "ModBrokenMessage","The MOD file is broken.\nPlease re-install it again.","MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。","模组文件损坏。\n请重新安装本模组。","模組檔案損壞\n請重新安裝模組","Файл MOD поврежден.\nПожалуйста переустановите его снова."
-"NameIncludeTOH","""TOH""が名前に含まれていない状態では公開部屋にすることはできません。","""TOH""が名前に含まれていない状態では公開部屋にすることはできません。","""TOH""が名前に含まれていない状態では公開部屋にすることはできません。","""TOH""が名前に含まれていない状態では公開部屋にすることはできません。","""TOH""が名前に含まれていない状態では公開部屋にすることはできません。"
 "DisabledByProgram","Making room public is disabled by program.","公開ルームはプログラムによって無効化されています","公開ルームはプログラムによって無効化されています","公開ルームはプログラムによって無効化されています","Создание публичной лобби отключена программой."
 "EnterVentToWin","Enter Vent to Win!!","ベントに入って勝利しろ!!","跳管道来获得胜利！","跳管道來獲得勝利!!","Запрыгните в вентиляцию чтобы победить!!"
 "FireworksPutPhase","Put {0} Fireworks","あと{0}個置け","还要安放{0}枚烟花","還需要安裝{0}枚煙火","Поставьте {0} Фейерверков"
