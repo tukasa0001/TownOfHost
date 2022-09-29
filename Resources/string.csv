@@ -438,6 +438,7 @@
 "Message.SyncButtonLeft","The emergency meeting button can be used {0} more times","緊急会議ボタンはあと{0}回使用できます","剩余紧急会议次数 {0}","全場拍桌數量還剩下{0}次,請謹慎拍桌","Кнопку экстренной встречи можно использовать еще {0} раз"
 "Message.Executed","{0} was executed","{0}を処刑しました","{0}被房主处决了","{0}被處刑了","{0} был казнен"
 "Message.HideGameSettings","Game settings are hidden by the host.","ゲーム設定はホストによって秘匿されています。","游戏设置被房主隐藏。","遊戲設定被房主隱藏。","Настройки игры скрыты хостом."
+"Message.AnnounceUsingTOH","This room uses TownOfHost v{0}.\n/now can be used to check the current settings.\nPlease check GitHub for detailed roles descriptions.","この部屋はTownOfHost v{0}を使用しています。\n/nowを使用すると現在の設定が確認できます。\n役職の詳細な説明はGitHubをご確認ください。","","",""
 "Message.NoDescription","No description.","説明はありません。","无描述","説明はありません。","説明はありません。"
 
 "## 警告"
