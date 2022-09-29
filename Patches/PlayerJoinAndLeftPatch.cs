@@ -15,6 +15,7 @@ namespace TownOfHost
             RPC.RpcVersionCheck();
             SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
 
+            GameStates.InGame = false;
             NameColorManager.Begin();
             Options.Load();
             if (AmongUsClient.Instance.AmHost) //以下、ホストのみ実行
