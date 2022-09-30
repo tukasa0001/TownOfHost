@@ -920,7 +920,7 @@ namespace TownOfHost
                     /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(target.PlayerId, out var isBlocked)) {
                         Mark = isBlocked ? "(true)" : "(false)";
                     }*/
-                    if (Utils.IsActive(SystemTypes.Comms))
+                    if (Utils.IsActive(SystemTypes.Comms) && Options.CommsCamouflage.GetBool())
                         RealName = $"<size=0>{RealName}</size> ";
 
                     string DeathReason = seer.Data.IsDead && seer.KnowDeathReason(target) ? $"({Utils.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), Utils.GetVitalText(target.PlayerId))})" : "";
