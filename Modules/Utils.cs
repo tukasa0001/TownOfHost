@@ -95,6 +95,7 @@ namespace TownOfHost
         }
         public static bool KillFlashCheck(PlayerControl killer, PlayerControl target, PlayerControl seer, PlayerState.DeathReason deathReason)
         {
+            if (seer.Is(CustomRoles.GM)) return true;
             if (seer.Data.IsDead || killer == seer || target == seer) return false;
             switch (seer.GetCustomRole())
             {
