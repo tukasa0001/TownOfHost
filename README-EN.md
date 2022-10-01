@@ -1100,7 +1100,8 @@ More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire]
 [Terrorist](#Terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 Translate-Chinese : fivefirex, ZeMingOH233<br>
-OptionTab Icon Design by 花海.
+OptionTab Icon Design by 花海.<br>
+Csv: Copyright (c) 2015 Steve Hansen [MIT License](https://raw.githubusercontent.com/stevehansen/csv/master/LICENSE)<br>
 
 Translated with https://www.deepl.com<br>
 

@@ -1068,7 +1068,8 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 [テロリスト](#Terrorist/テロリスト)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [恋人](#lovers/恋人) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 中国語翻訳 : fivefirex、ZeMingOH233<br>
-オプションタブのアイコン製作者 : 花海
+オプションタブのアイコン製作者 : 花海<br>
+Csv: Copyright (c) 2015 Steve Hansen [MIT License](https://raw.githubusercontent.com/stevehansen/csv/master/LICENSE)<br>
 
 ## 開発者
 <!--
