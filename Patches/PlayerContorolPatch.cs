@@ -213,6 +213,7 @@ namespace TownOfHost
                         {//呪われてる人がいないくて変身してるときに通常キルになる
                             killer.RpcMurderPlayer(target);
                             killer.RpcGuardAndKill(target);
+                            // target.SetRealKiller(killer);
                             return false;
                         }
                         if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
@@ -227,6 +228,7 @@ namespace TownOfHost
                         Main.KillOrSpell[killer.PlayerId] = !killer.IsSpellMode();
                         Utils.NotifyRoles();
                         killer.SyncKillOrSpell();
+                        // target.SetRealKiller(killer);
                         if (!killer.IsSpellMode()) return false;
                         break;
                     case CustomRoles.Puppeteer:
@@ -267,6 +269,8 @@ namespace TownOfHost
             //==キル処理==
             killer.RpcMurderPlayer(target);
             //============
+            target.SetRealKiller(killer);
+            Logger.Info($"{target.GetRealKiller().GetNameWithRole()}", "GetRealKiller");
 
             return false;
         }
@@ -476,6 +480,7 @@ namespace TownOfHost
                     bitten.RpcMurderPlayer(bitten);
                     RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
                     Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "ReportDeadBody");
+                    // bitten.SetRealKiller(killer);
                 }
                 else
                     Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "はすでに死んでいました。", "ReportDeadBody");
@@ -540,6 +545,7 @@ namespace TownOfHost
                                 bitten.RpcMurderPlayer(bitten);
                                 var vampirePC = Utils.GetPlayerById(vampireID);
                                 Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "Vampire");
+                                // bitten.SetRealKiller(vampirePC);
                                 if (vampirePC.IsAlive())
                                 {
                                     RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
@@ -679,8 +685,10 @@ namespace TownOfHost
                             var KillRange = GameOptionsData.KillDistances[Mathf.Clamp(PlayerControl.GameOptions.KillDistance, 0, 2)];
                             if (min.Value <= KillRange && player.CanMove && target.CanMove)
                             {
-                                RPC.PlaySoundRPC(Main.PuppeteerList[player.PlayerId], Sounds.KillSound);
+                                var puppeteerId = Main.PuppeteerList[player.PlayerId];
+                                RPC.PlaySoundRPC(puppeteerId, Sounds.KillSound);
                                 player.RpcMurderPlayer(target);
+                                // target.SetRealKiller(Utils.GetPlayerById(puppeteerId));
                                 Utils.CustomSyncAllSettings();
                                 Main.PuppeteerList.Remove(player.PlayerId);
                                 Utils.NotifyRoles();
@@ -971,7 +979,10 @@ namespace TownOfHost
                             if (isExiled)
                                 Main.AfterMeetingDeathPlayers.TryAdd(partnerPlayer.PlayerId, PlayerState.DeathReason.FollowingSuicide);
                             else
+                            {
                                 partnerPlayer.RpcMurderPlayer(partnerPlayer);
+                                // partnerPlayer.SetRealKiller(partnerPlayer);
+                            }
                         }
                     }
                 }
@@ -1088,6 +1099,7 @@ namespace TownOfHost
                                 pc.RpcMurderPlayer(pc);
                                 PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Torched);
                                 PlayerState.SetDead(pc.PlayerId);
+                                // pc.SetRealKiller(__instance.myPlayer);
                             }
                             else
                                 RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);

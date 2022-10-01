@@ -728,6 +728,21 @@ namespace TownOfHost
             || (seer.Is(RoleType.Madmate) && Options.MadmateCanSeeDeathReason.GetBool())
             || (seer.Data.IsDead && Options.GhostCanSeeDeathReason.GetBool()))
             && target.Data.IsDead;
+        public static void SetRealKiller(this PlayerControl target, PlayerControl killer)
+        {
+            if (Main.RealKiller.ContainsKey(target.PlayerId)) Main.RealKiller[target.PlayerId] = killer;
+            else Main.RealKiller.Add(target.PlayerId, killer);
+            if (!AmongUsClient.Instance.AmHost) return;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTimeThiefKillCount, Hazel.SendOption.Reliable, -1);
+            writer.Write(target.PlayerId);
+            writer.Write(killer.PlayerId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static PlayerControl GetRealKiller(this PlayerControl target)
+        {
+            if (!target.Data.IsDead || !Main.RealKiller.TryGetValue(target.PlayerId, out var killer)) return null;
+            return killer;
+        }
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>

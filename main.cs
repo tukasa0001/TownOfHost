@@ -71,6 +71,7 @@ namespace TownOfHost
         public static Dictionary<byte, CustomRoles> AllPlayerCustomSubRoles;
         public static Dictionary<byte, Color32> PlayerColors = new();
         public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
+        public static Dictionary<byte, PlayerControl> RealKiller = new();
         public static Dictionary<CustomRoles, String> roleColors;
         public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
         public static float RefixCooldownDelay = 0f;

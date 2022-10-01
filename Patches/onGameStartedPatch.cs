@@ -32,6 +32,7 @@ namespace TownOfHost
             Main.PuppeteerList = new Dictionary<byte, byte>();
 
             Main.AfterMeetingDeathPlayers = new();
+            Main.RealKiller = new Dictionary<byte, PlayerControl>();
             Main.ResetCamPlayerList = new();
 
             Main.SpelledPlayer = new List<PlayerControl>();
