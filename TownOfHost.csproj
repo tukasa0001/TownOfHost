@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
@@ -10,20 +9,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-      <Reference Include="$(AmongUs)\BepInEx\core\*.dll" />
-      <Reference Include="$(AmongUs)\BepInEx\unhollowed\*.dll" />
-      <EmbeddedResource Include=".\Resources\*.png" />
-      <EmbeddedResource Include=".\Resources\string.csv" />
+    <Reference Include="$(AmongUs)\BepInEx\core\*.dll" />
+    <Reference Include="$(AmongUs)\BepInEx\unhollowed\*.dll" />
+    <EmbeddedResource Include=".\Resources\*.png" />
+    <EmbeddedResource Include=".\Resources\string.csv" />
   </ItemGroup>
     
   <ItemGroup>
+    <PackageReference Include="Costura.Fody" Version="5.7.0">
+      <IncludeAssets>runtime; compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="csv" Version="2.0.87" />
     <PackageReference Include="GitInfo" Version="2.0.20">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 
-    <Target Name="Copy" AfterTargets="Build" Condition="'$(AmongUs)' != ''">
-        <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(AmongUs)/BepInEx/plugins/" Condition="'$(Configuration)' == 'Debug'" />
-    </Target>
+  <Target Name="Copy" AfterTargets="Build" Condition="'$(AmongUs)' != ''">
+    <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(AmongUs)/BepInEx/plugins/" Condition="'$(Configuration)' == 'Debug'" />
+  </Target>
 </Project>

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Csv;
 using HarmonyLib;
 
 namespace TownOfHost
 {
     public static class Translator
     {
-        public static Dictionary<string, Dictionary<int, string>> tr;
+        public static Dictionary<string, Dictionary<int, string>> translateMaps;
         public const string LANGUAGE_FOLDER_NAME = "Language";
         public static void Init()
         {
@@ -21,51 +22,33 @@ namespace TownOfHost
         {
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var stream = assembly.GetManifestResourceStream("TownOfHost.Resources.string.csv");
-            var sr = new StreamReader(stream);
-            tr = new Dictionary<string, Dictionary<int, string>>();
+            translateMaps = new Dictionary<string, Dictionary<int, string>>();
 
-            string[] header = sr.ReadLine().Split(',').Select(x => x.Trim('"')).ToArray();
-
-            int currentLine = 1;
-
-            while (!sr.EndOfStream)
+            var options = new CsvOptions()
             {
-                currentLine++;
-                string line = sr.ReadLine();
-                if (line == "" || line[0] == '"' && line[1] == '#') continue;
-                string[] values = line.Split(',');
-                List<string> fields = new(values);
-                Dictionary<int, string> tmp = new();
+                HeaderMode = HeaderMode.HeaderPresent,
+                AllowNewLineInEnclosedFieldValues = false,
+            };
+            foreach (var line in CsvReader.ReadFromStream(stream, options))
+            {
+                if (line.Values[0][0] == '#') continue;
                 try
                 {
-                    for (var i = 1; i < fields.Count; ++i)
+                    Dictionary<int, string> dic = new();
+                    for (int i = 1; i < line.ColumnCount; i++)
                     {
-                        if (fields[i] != string.Empty && fields[i].TrimStart()[0] == '"')
-                        {
-                            while (fields[i].TrimEnd()[^1] != '"')
-                            {
-                                fields[i] = fields[i] + "," + fields[i + 1];
-                                fields.RemoveAt(i + 1);
-                            }
-                            fields[i] = fields[i][1..^1];
-                        }
+                        int id = int.Parse(line.Headers[i]);
+                        dic[id] = line.Values[i].Replace("\\n", "\n").Replace("\\r", "\r");
                     }
-                    for (var i = 1; i < fields.Count; i++)
-                    {
-                        var tmp_str = fields[i].Replace("\\n", "\n").Replace("\"\"", "\"");
-                        tmp.Add(Int32.Parse(header[i]), tmp_str);
-                    }
-                    if (tr.ContainsKey(fields[0])) { Logger.Warn($"翻訳用CSVに重複があります。{currentLine}行目: \"{fields[0]}\"", "Translator"); continue; }
-                    tr.Add(fields[0].Trim('"'), tmp);
+                    if (!translateMaps.TryAdd(line.Values[0], dic))
+                        Logger.Warn($"翻訳用CSVに重複があります。{line.Index}行目: \"{line.Values[0]}\"", "Translator");
                 }
-                catch
+                catch (Exception ex)
                 {
-                    var err = $"翻訳用CSVファイルに誤りがあります。{currentLine}行目:";
-                    foreach (var c in fields) err += $" [{c}]";
-                    Logger.Error(err, "Translator");
-                    continue;
+                    Logger.Warn(ex.ToString(), "Translator");
                 }
             }
+
             // カスタム翻訳ファイルの読み込み
             if (!Directory.Exists(LANGUAGE_FOLDER_NAME)) Directory.CreateDirectory(LANGUAGE_FOLDER_NAME);
 
@@ -94,7 +77,7 @@ namespace TownOfHost
         public static string GetString(string str, SupportedLangs langId)
         {
             var res = $"<INVALID:{str}>";
-            if (tr.TryGetValue(str, out var dic) && (!dic.TryGetValue((int)langId, out res) || res == "")) //strに該当する&無効なlangIdかresが空
+            if (translateMaps.TryGetValue(str, out var dic) && (!dic.TryGetValue((int)langId, out res) || res == "")) //strに該当する&無効なlangIdかresが空
             {
                 res = $"*{dic[0]}";
             }
@@ -117,7 +100,7 @@ namespace TownOfHost
                     {
                         try
                         {
-                            tr[tmp[0]][(int)lang] = tmp.Skip(1).Join(delimiter: ":").Replace("\\n", "\n").Replace("\\r", "\r");
+                            translateMaps[tmp[0]][(int)lang] = tmp.Skip(1).Join(delimiter: ":").Replace("\\n", "\n").Replace("\\r", "\r");
                         }
                         catch (KeyNotFoundException)
                         {
@@ -135,10 +118,10 @@ namespace TownOfHost
         private static void CreateTemplateFile()
         {
             var text = "";
-            foreach (var title in tr) text += $"{title.Key}:\n";
+            foreach (var title in translateMaps) text += $"{title.Key}:\n";
             File.WriteAllText(@$"./{LANGUAGE_FOLDER_NAME}/template.dat", text);
             text = "";
-            foreach (var title in tr) text += $"{title.Key}:{title.Value[0].Replace("\n", "\\n").Replace("\r", "\\r")}\n";
+            foreach (var title in translateMaps) text += $"{title.Key}:{title.Value[0].Replace("\n", "\\n").Replace("\r", "\\r")}\n";
             File.WriteAllText(@$"./{LANGUAGE_FOLDER_NAME}/template_English.dat", text);
         }
     }
