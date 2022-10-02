@@ -220,7 +220,7 @@ namespace TownOfHost
                 {
                     try
                     {
-                        Logger.Error($"{pc.GetNameWithRole()}: GuardianAngelに変更", "ResetRoleAndEndGame");
+                        Logger.Info($"{pc.GetNameWithRole()}: GuardianAngelに変更", "ResetRoleAndEndGame");
                         sender.StartRpc(pc.NetId, RpcCalls.SetRole)
                                 .Write((ushort)RoleTypes.GuardianAngel)
                                 .EndRpc();
