@@ -227,6 +227,7 @@ namespace TownOfHost
         public static void Prefix(MeetingHud __instance)
         {
             Logger.Info("------------会議開始------------", "Phase");
+            ChatUpdatePatch.DoBlockChat = true;
             GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
             PlayerControl.AllPlayerControls.ToArray().Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
             Main.witchMeeting = true;
@@ -274,6 +275,7 @@ namespace TownOfHost
                     {
                         pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
                     }
+                    ChatUpdatePatch.DoBlockChat = false;
                 }, 3f, "SetName To Chat");
             }
 
