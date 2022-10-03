@@ -30,9 +30,18 @@ namespace TownOfHost
                 else
                 {
                     if (CheckAndEndGameForTaskWin(__instance)) return false;
-                    if (CheckAndEndGameForSabotageWin(__instance)) return false;
                     if (CheckAndEndGameForEveryoneDied(__instance, statistics)) return false;
-                    if (CheckAndEndGameForImpostorWin(__instance, statistics)) return false;
+                    if (CheckAndEndGameForSabotageWin(__instance) ||
+                        CheckAndEndGameForImpostorWin(__instance, statistics))
+                    {
+                        CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Impostor);
+                        PlayerControl.AllPlayerControls.ToArray().Do(pc =>
+                        {
+                            if ((pc.Is(RoleType.Impostor) || pc.Is(RoleType.Madmate)) && !pc.Is(CustomRoles.Lovers))
+                                CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                        });
+                        return false;
+                    }
                     if (CheckAndEndGameForJackalWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForCrewmateWin(__instance, statistics)) return false;
                 }
@@ -77,6 +86,12 @@ namespace TownOfHost
             if (Options.DisableTaskWin.GetBool()) return false;
             if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
             {
+                CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Crewmate);
+                PlayerControl.AllPlayerControls.ToArray().Do(pc =>
+                {
+                    if (pc.Is(RoleType.Crewmate) && !pc.Is(CustomRoles.Lovers))
+                        CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                });
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.HumansByTask, false);
                 return true;
@@ -139,6 +154,12 @@ namespace TownOfHost
         {
             if (statistics.TeamImpostorsAlive == 0 && statistics.TeamJackalAlive == 0)
             {
+                CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Crewmate);
+                PlayerControl.AllPlayerControls.ToArray().Do(pc =>
+                {
+                    if (pc.Is(RoleType.Crewmate) && !pc.Is(CustomRoles.Lovers))
+                        CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                });
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.HumansByVote, false);
                 return true;
