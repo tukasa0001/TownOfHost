@@ -37,8 +37,8 @@ namespace TownOfHost
                         CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Impostor);
                         PlayerControl.AllPlayerControls.ToArray().Do(pc =>
                         {
-                            if (pc.Is(RoleType.Impostor) || pc.Is(RoleType.Madmate))
-                                CustomWinnerHolder.WinnerRoles.Add(pc.GetCustomRole());
+                            if ((pc.Is(RoleType.Impostor) || pc.Is(RoleType.Madmate)) && !pc.Is(CustomRoles.Lovers))
+                                CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
                         });
                         return false;
                     }
@@ -89,8 +89,8 @@ namespace TownOfHost
                 CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Crewmate);
                 PlayerControl.AllPlayerControls.ToArray().Do(pc =>
                 {
-                    if (pc.Is(RoleType.Crewmate))
-                        CustomWinnerHolder.WinnerRoles.Add(pc.GetCustomRole());
+                    if (pc.Is(RoleType.Crewmate) && !pc.Is(CustomRoles.Lovers))
+                        CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
                 });
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.HumansByTask, false);
@@ -157,8 +157,8 @@ namespace TownOfHost
                 CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Crewmate);
                 PlayerControl.AllPlayerControls.ToArray().Do(pc =>
                 {
-                    if (pc.Is(RoleType.Crewmate))
-                        CustomWinnerHolder.WinnerRoles.Add(pc.GetCustomRole());
+                    if (pc.Is(RoleType.Crewmate) && !pc.Is(CustomRoles.Lovers))
+                        CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
                 });
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.HumansByVote, false);
