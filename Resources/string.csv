@@ -529,7 +529,7 @@
 "Preset_5","Preset 5","プリセット5","预设5","設定檔 5","Сохранение 5"
 "Standard","Standard","スタンダード","标准","普通","Стандартный"
 "GameMode","Game Mode","ゲームモード","游戏模式","遊戲模式","ИгровойРежим"
-"PressTabToNextPage","Press Tab for Next Page...","Tabキーを押して次のページへ...","按tab键查看更多...","按下Tab以顯示下一頁...","Нажмите Tab Чтобы Перейти На Следующую Страницу..."
+"PressTabToNextPage","Press Tab or Number for Next Page...","Tabキーまたは数字キーを押して次のページへ...","按tab键查看更多...","按下Tab以顯示下一頁...","Нажмите Tab Чтобы Перейти На Следующую Страницу..."
 "RoleSummaryText","Game End Player-Roles List:","ゲーム終了時の役職一覧:","游戏结束时玩家职业:","遊戲結束時玩家的職業:","Игроки и роли в конце игры:"
 "doOverride","Override %role%'s Tasks(At Least 1)","%role%のタスクを上書きする(1以上)","特别设置%role%的任务数","特別設定%role%的任務","Изменить Задания У %role%"
 "assignCommonTasks","Give %role% Common Tasks","%role%に通常タスクを割り当てる","%role%的普通任务数","%role%有普通任務","%role% Имеет Общие Задания"
