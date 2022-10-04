@@ -60,6 +60,24 @@ namespace TownOfHost
 
             sender.SendMessage();
         }
+
+
+        public static void CheckGameEndByPlayerNum()
+        {
+
+        }
+        public static void CheckGameEndByTask()
+        {
+
+        }
+        public static void CheckGameEndByTroll()
+        {
+
+        }
+        public static void CheckGameEndBySabotage()
+        {
+
+        }
     }
     // =============================
     //勝利判定処理
