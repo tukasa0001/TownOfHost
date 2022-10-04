@@ -15,6 +15,8 @@ namespace TownOfHost
             RPC.RpcVersionCheck();
             SoundManager.Instance.ChangeMusicVolume(SaveManager.MusicVolume);
 
+            ChatUpdatePatch.DoBlockChat = false;
+            GameStates.InGame = false;
             NameColorManager.Begin();
             Options.Load();
             ErrorText.Instance.Clear();
@@ -78,7 +80,7 @@ namespace TownOfHost
                 }
                 AntiBlackout.OnDisconnect(data.Character.Data);
             }
-            Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason})", "Session");
+            Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
         }
     }
 }

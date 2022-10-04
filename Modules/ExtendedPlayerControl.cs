@@ -60,7 +60,9 @@ namespace TownOfHost
         {
             return player == null || player.Object == null ? CustomRoles.Crewmate : player.Object.GetCustomRole();
         }
-
+        /// <summary>
+        /// ※サブロールは取得できません。
+        /// </summary>
         public static CustomRoles GetCustomRole(this PlayerControl player)
         {
             var cRole = CustomRoles.Crewmate;

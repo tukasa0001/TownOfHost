@@ -1,3 +1,4 @@
+using System;
 using HarmonyLib;
 using Hazel;
 
@@ -29,9 +30,18 @@ namespace TownOfHost
                 else
                 {
                     if (CheckAndEndGameForTaskWin(__instance)) return false;
-                    if (CheckAndEndGameForSabotageWin(__instance)) return false;
                     if (CheckAndEndGameForEveryoneDied(__instance, statistics)) return false;
-                    if (CheckAndEndGameForImpostorWin(__instance, statistics)) return false;
+                    if (CheckAndEndGameForSabotageWin(__instance) ||
+                        CheckAndEndGameForImpostorWin(__instance, statistics))
+                    {
+                        CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Impostor);
+                        PlayerControl.AllPlayerControls.ToArray().Do(pc =>
+                        {
+                            if ((pc.Is(RoleType.Impostor) || pc.Is(RoleType.Madmate)) && !pc.Is(CustomRoles.Lovers))
+                                CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                        });
+                        return false;
+                    }
                     if (CheckAndEndGameForJackalWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForCrewmateWin(__instance, statistics)) return false;
                 }
@@ -76,6 +86,12 @@ namespace TownOfHost
             if (Options.DisableTaskWin.GetBool()) return false;
             if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
             {
+                CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Crewmate);
+                PlayerControl.AllPlayerControls.ToArray().Do(pc =>
+                {
+                    if (pc.Is(RoleType.Crewmate) && !pc.Is(CustomRoles.Lovers))
+                        CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                });
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.HumansByTask, false);
                 return true;
@@ -128,6 +144,7 @@ namespace TownOfHost
 
                 CustomWinnerHolder.WinnerTeam = CustomWinner.Jackal;
                 CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
+                CustomWinnerHolder.WinnerRoles.Add(CustomRoles.JSchrodingerCat);
                 ResetRoleAndEndGame(endReason, true);
                 return true;
             }
@@ -138,6 +155,12 @@ namespace TownOfHost
         {
             if (statistics.TeamImpostorsAlive == 0 && statistics.TeamJackalAlive == 0)
             {
+                CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Crewmate);
+                PlayerControl.AllPlayerControls.ToArray().Do(pc =>
+                {
+                    if (pc.Is(RoleType.Crewmate) && !pc.Is(CustomRoles.Lovers))
+                        CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                });
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.HumansByVote, false);
                 return true;
@@ -217,10 +240,18 @@ namespace TownOfHost
                     LoseImpostorRole
                 )
                 {
-                    sender.StartRpc(pc.NetId, RpcCalls.SetRole)
-                            .Write((ushort)RoleTypes.GuardianAngel)
-                            .EndRpc();
-                    pc.SetRole(RoleTypes.GuardianAngel); //ホスト用
+                    try
+                    {
+                        Logger.Info($"{pc.GetNameWithRole()}: GuardianAngelに変更", "ResetRoleAndEndGame");
+                        sender.StartRpc(pc.NetId, RpcCalls.SetRole)
+                                .Write((ushort)RoleTypes.GuardianAngel)
+                                .EndRpc();
+                        pc.SetRole(RoleTypes.GuardianAngel); //ホスト用
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error($"GuardianAngelへ変更中にエラーが発生しました。\n{ex}", "ResetRoleAndEndGame");
+                    }
                 }
             }
 

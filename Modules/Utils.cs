@@ -95,6 +95,7 @@ namespace TownOfHost
         }
         public static bool KillFlashCheck(PlayerControl killer, PlayerControl target, PlayerControl seer, PlayerState.DeathReason deathReason)
         {
+            if (seer.Is(CustomRoles.GM)) return true;
             if (seer.Data.IsDead || killer == seer || target == seer) return false;
             switch (seer.GetCustomRole())
             {
@@ -255,6 +256,7 @@ namespace TownOfHost
                 var cRoleFound = Main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
                 if (cRoleFound)
                 {
+                    if (cRole.IsImpostor()) hasTasks = false;
                     if (cRole == CustomRoles.GM) hasTasks = false;
                     if (cRole == CustomRoles.Jester) hasTasks = false;
                     if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
@@ -264,8 +266,12 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Madmate) hasTasks = false;
                     if (cRole == CustomRoles.SKMadmate) hasTasks = false;
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
-                    if (cRole == CustomRoles.Executioner && ForRecompute
-                        && Executioner.ChangeRolesAfterTargetKilled.GetSelection() == 0) hasTasks = false;
+                    if (cRole == CustomRoles.Executioner)
+                    {
+                        if (Executioner.ChangeRolesAfterTargetKilled.GetSelection() == 0)
+                            hasTasks = !ForRecompute;
+                        else hasTasks = false;
+                    }
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
                     if (cRole == CustomRoles.Arsonist) hasTasks = false;
@@ -877,7 +883,7 @@ namespace TownOfHost
                         if (seer.KnowDeathReason(target))
                             TargetDeathReason = $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(target.PlayerId))})";
 
-                        if (IsActive(SystemTypes.Comms) && !isMeeting)
+                        if (IsActive(SystemTypes.Comms) && Options.CommsCamouflage.GetBool() && !isMeeting)
                             TargetPlayerName = $"<size=0%>{TargetPlayerName}</size>";
 
                         //全てのテキストを合成します。

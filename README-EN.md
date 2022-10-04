@@ -791,7 +791,7 @@ The SchrodingerCats have no tasks and by default, no victory condition. Only aft
 
 1. If killed by **Impostors**, they prevent the kill and belong to **team Impostors**.<br>
 2. If killed by [Sheriff](#sheriff), they prevent the kill and belong to **team Crewmate**.<br>
-3. If killed by **Neutral**, they prevent the kill and belong to the **Neutra team**.<br>
+3. If killed by **Neutral**, they prevent the kill and belong to the **Neutral team**.<br>
 4. If exiled, they die with the victory condition same as before.<br>
 5. If killed with special abilities of Impostors (except for [Vampire](#vampire)), they die with the victory condition same as before.<br>
 
@@ -835,7 +835,7 @@ Not assigned to [BountyHunter](#bountyhunter), [SerialKiller](#serialkiller), or
 
 Create and idea by ゆりの<br>
 
-Team : Neutral(Lovres)<br>
+Team : Neutral(Lovers)<br>
 Basis : -<br>
 Count : -<br>
 Victory Conditions : Alive at the end of the game. (other than task completion)<br>
@@ -1100,7 +1100,8 @@ More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire]
 [Terrorist](#Terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 Translate-Chinese : fivefirex, ZeMingOH233<br>
-OptionTab Icon Design by 花海.
+OptionTab Icon Design by 花海.<br>
+Csv: Copyright (c) 2015 Steve Hansen [MIT License](https://raw.githubusercontent.com/stevehansen/csv/master/LICENSE)<br>
 
 Translated with https://www.deepl.com<br>
 

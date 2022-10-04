@@ -33,34 +33,7 @@ namespace TownOfHost
                         winner.Add(pc);
                 }
             }
-            else
-            {
-                if (TempData.DidHumansWin(endGameResult.GameOverReason) || endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask) || endGameResult.GameOverReason.Equals(GameOverReason.HumansByVote))
-                {
-                    if (CustomWinnerHolder.WinnerTeam == CustomWinner.Default)
-                    {
-                        CustomWinnerHolder.WinnerTeam = CustomWinner.Crewmate;
-                    }
-                    foreach (var p in PlayerControl.AllPlayerControls)
-                    {
-                        if (p.GetCustomSubRole() == CustomRoles.Lovers) continue;
-                        bool canWin = p.Is(RoleType.Crewmate);
-                        if (canWin) winner.Add(p);
-                    }
-                }
-                if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
-                {
-                    if (CustomWinnerHolder.WinnerTeam == CustomWinner.Default)
-                        CustomWinnerHolder.WinnerTeam = CustomWinner.Impostor;
-                    foreach (var p in PlayerControl.AllPlayerControls)
-                    {
-                        if (p.GetCustomSubRole() == CustomRoles.Lovers) continue;
-                        bool canWin = p.Is(RoleType.Impostor) || p.Is(RoleType.Madmate);
-                        if (canWin) winner.Add(p);
-                    }
-                    Egoist.OverrideCustomWinner();
-                }
-            }
+            Egoist.OverrideCustomWinner();
 
             //廃村時の処理など
             if (endGameResult.GameOverReason == GameOverReason.HumansDisconnect ||
