@@ -211,6 +211,15 @@ namespace TownOfHost
             }
             return false;
         }
+        static bool ORGetKeysDown(KeyCode[] keys)
+        {
+            if (keys.Any(k => Input.GetKeyDown(k)))
+            {
+                Logger.Info($"KeyDown:{keys.Where(k => Input.GetKeyDown(k)).First()}", "ORGetKeysDown");
+                return true;
+            }
+            return false;
+        }
     }
 
     [HarmonyPatch(typeof(ConsoleJoystick), nameof(ConsoleJoystick.HandleHUD))]
