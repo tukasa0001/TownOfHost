@@ -816,7 +816,8 @@ namespace TownOfHost
                     }
 
                     else if ((seer.Is(CustomRoles.EgoSchrodingerCat) && target.Is(CustomRoles.Egoist)) || //エゴ猫 --> エゴイスト
-                             (seer.Is(CustomRoles.JSchrodingerCat) && target.Is(CustomRoles.Jackal)) //J猫 --> ジャッカル
+                             (seer.Is(CustomRoles.JSchrodingerCat) && target.Is(CustomRoles.Jackal)) || //J猫 --> ジャッカル
+                             (seer.Is(CustomRoles.MSchrodingerCat) && target.Is(RoleType.Impostor)) //M猫 --> インポスター
                     )
                         RealName = Helpers.ColorString(target.GetRoleColor(), RealName); //targetの名前をtargetの役職の色で表示
                     else if (target.Is(CustomRoles.Mare) && Utils.IsActive(SystemTypes.Electrical))
