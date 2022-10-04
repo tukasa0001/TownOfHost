@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using HarmonyLib;
 using Hazel;
 
@@ -101,7 +102,14 @@ namespace TownOfHost
         }
         public static void CheckGameEndByTask()
         {
-
+            if (Options.DisableTaskWin.GetBool()) return;
+            if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
+            {
+                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
+                PlayerControl.AllPlayerControls.ToArray()
+                    .Where(pc => pc.Is(RoleType.Crewmate) && !pc.Is(CustomRoles.Lovers))
+                    .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
+            }
         }
         public static void CheckGameEndByTroll()
         {
