@@ -64,7 +64,40 @@ namespace TownOfHost
 
         public static void CheckGameEndByPlayerNum()
         {
+            int Imp = 0, Crew = 0, Jackal = 0;
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.IsAlive())
+                {
+                    if (pc.Is(RoleType.Impostor)) Imp++;
+                    else if (pc.Is(CustomRoles.Jackal)) Jackal++;
+                    else Crew++;
+                }
+            }
 
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+            {
+                if (Imp <= 0) //念のためクルー勝利処理
+                    CustomWinnerHolder.WinnerTeam = CustomWinner.Crewmate;
+                else if (Crew == 0)
+                    CustomWinnerHolder.WinnerTeam = CustomWinner.Impostor;
+            }
+            else
+            {
+                if (Imp == 0 && Crew == 0 && Jackal == 0) //全滅
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.None);
+                else if (Jackal == 0 && Crew <= Imp) //インポスター勝利
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
+                else if (Imp == 0 && Crew <= Jackal) //ジャッカル勝利
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jackal);
+                else if (Jackal == 0 && Imp == 0) //クルー勝利
+                {
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
+                    PlayerControl.AllPlayerControls.ToArray()
+                        .Where(pc => pc.Is(RoleType.Crewmate) && !pc.Is(CustomRoles.Lovers))
+                        .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
+                }
+            }
         }
         public static void CheckGameEndByTask()
         {
