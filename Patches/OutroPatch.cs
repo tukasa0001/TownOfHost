@@ -221,34 +221,32 @@ namespace TownOfHost
             //           ==最終結果表示==
             //#######################################
 
-            var position = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, Camera.main.nearClipPlane));
-            GameObject roleSummary = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
-            roleSummary.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, position.y - 0.1f, -14f);
-            roleSummary.transform.localScale = new Vector3(1f, 1f, 1f);
+            var Pos = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, Camera.main.nearClipPlane));
+            var RoleSummaryObject = Object.Instantiate(__instance.WinText.gameObject);
+            RoleSummaryObject.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, Pos.y - 0.1f, -14f);
+            RoleSummaryObject.transform.localScale = new Vector3(1f, 1f, 1f);
 
-            string roleSummaryText = $"{GetString("RoleSummaryText")}";
+            string RoleSummaryText = $"{GetString("RoleSummaryText")}";
             Dictionary<byte, CustomRoles> cloneRoles = new(Main.AllPlayerCustomRoles);
             foreach (var id in Main.winnerList)
             {
-                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> " + EndGamePatch.SummaryText[id];
+                RoleSummaryText += $"\n<color={CustomWinnerColor}>★</color> " + EndGamePatch.SummaryText[id];
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                roleSummaryText += $"\n　 " + EndGamePatch.SummaryText[id];
+                RoleSummaryText += $"\n　 " + EndGamePatch.SummaryText[id];
             }
-            TMPro.TMP_Text roleSummaryTextMesh = roleSummary.GetComponent<TMPro.TMP_Text>();
-            roleSummaryTextMesh.alignment = TMPro.TextAlignmentOptions.TopLeft;
-            roleSummaryTextMesh.color = Color.white;
-            roleSummaryTextMesh.outlineWidth *= 1.2f;
-            roleSummaryTextMesh.fontSizeMin = 1.25f;
-            roleSummaryTextMesh.fontSizeMax = 1.25f;
-            roleSummaryTextMesh.fontSize = 1.25f;
+            var RoleSummary = RoleSummaryObject.GetComponent<TMPro.TextMeshPro>();
+            RoleSummary.alignment = TMPro.TextAlignmentOptions.TopLeft;
+            RoleSummary.color = Color.white;
+            RoleSummary.outlineWidth *= 1.2f;
+            RoleSummary.fontSizeMin = RoleSummary.fontSizeMax = RoleSummary.fontSize = 1.25f;
 
-            var roleSummaryTextMeshRectTransform = roleSummaryTextMesh.GetComponent<RectTransform>();
-            roleSummaryTextMeshRectTransform.anchoredPosition = new Vector2(position.x + 3.5f, position.y - 0.1f);
-            roleSummaryTextMesh.text = roleSummaryText;
+            var RoleSummaryRectTransform = RoleSummary.GetComponent<RectTransform>();
+            RoleSummaryRectTransform.anchoredPosition = new Vector2(Pos.x + 3.5f, Pos.y - 0.1f);
+            RoleSummary.text = RoleSummaryText;
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
