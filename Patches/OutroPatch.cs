@@ -3,6 +3,7 @@ using System.Linq;
 using HarmonyLib;
 using UnityEngine;
 using static TownOfHost.Translator;
+using Object = UnityEngine.Object;
 
 namespace TownOfHost
 {
@@ -149,11 +150,11 @@ namespace TownOfHost
             //          ==勝利陣営表示==
             //#######################################
 
-            GameObject bonusText = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
-            bonusText.transform.position = new Vector3(__instance.WinText.transform.position.x, __instance.WinText.transform.position.y - 0.5f, __instance.WinText.transform.position.z);
-            bonusText.transform.localScale = new Vector3(0.7f, 0.7f, 1f);
-            TMPro.TMP_Text textRenderer = bonusText.GetComponent<TMPro.TMP_Text>();
-            textRenderer.text = "";
+            var WinnerTextObject = Object.Instantiate(__instance.WinText.gameObject);
+            WinnerTextObject.transform.position = new(__instance.WinText.transform.position.x, __instance.WinText.transform.position.y - 0.5f, __instance.WinText.transform.position.z);
+            WinnerTextObject.transform.localScale = new(0.6f, 0.6f, 0.6f);
+            var WinnerText = WinnerTextObject.GetComponent<TMPro.TextMeshPro>(); //WinTextと同じ型のコンポーネントを取得
+            WinnerText.text = "";
 
             string CustomWinnerText = "";
             string AdditionalWinnerText = "";
@@ -190,16 +191,16 @@ namespace TownOfHost
                     __instance.WinText.text = GetString("ForceEnd");
                     __instance.WinText.color = Color.white;
                     __instance.BackgroundBar.material.color = Color.gray;
-                    textRenderer.text = GetString("ForceEndText");
-                    textRenderer.color = Color.gray;
+                    WinnerText.text = GetString("ForceEndText");
+                    WinnerText.color = Color.gray;
                     break;
                 //全滅
                 case CustomWinner.None:
                     __instance.WinText.text = "";
                     __instance.WinText.color = Color.black;
                     __instance.BackgroundBar.material.color = Color.gray;
-                    textRenderer.text = GetString("EveryoneDied");
-                    textRenderer.color = Color.gray;
+                    WinnerText.text = GetString("EveryoneDied");
+                    WinnerText.color = Color.gray;
                     break;
             }
 
@@ -210,9 +211,9 @@ namespace TownOfHost
             }
             if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw and not CustomWinner.None)
             {
-                textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}{GetString("Win")}</color>";
+                WinnerText.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}{GetString("Win")}</color>";
             }
-            LastWinsText = textRenderer.text.RemoveHtmlTags();
+            LastWinsText = WinnerText.text.RemoveHtmlTags();
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
