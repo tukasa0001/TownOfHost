@@ -43,8 +43,8 @@ namespace TownOfHost
         }
         public static void FixedUpdate()
         {
-            frame = frame == 4 ? 0 : frame++;
-            if (frame == 0) return;
+            frame = frame == 3 ? 0 : ++frame;
+            if (frame != 0) return;
 
             if (!DoDisable) return;
             foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
