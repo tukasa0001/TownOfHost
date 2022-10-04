@@ -10,10 +10,21 @@ namespace TownOfHost
     {
         public static bool Prefix(ShipStatus __instance)
         {
+            if (CustomWinnerHolder.WinnerTeam == CustomWinner.Default)
+            {
+                CheckGameEndByTroll();
+                CheckGameEndByTask();
+                CheckGameEndBySabotage();
+                CheckGameEndByPlayerNum();
+            }
+
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
             {
                 __instance.enabled = false;
-                // 実際のゲーム終了処理
+                StartEndGame(
+                    CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate ? GameOverReason.HumansByVote : GameOverReason.ImpostorByKill,
+                    CustomWinnerHolder.WinnerTeam is not CustomWinner.Crewmate or CustomWinner.Impostor
+                );
             }
             return false;
         }
