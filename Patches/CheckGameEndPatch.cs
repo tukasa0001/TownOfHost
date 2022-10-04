@@ -4,8 +4,17 @@ using Hazel;
 
 namespace TownOfHost
 {
-    //勝利判定処理
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CheckEndCriteria))]
+    class GameEndChecker
+    {
+        public static bool Prefix(ShipStatus __instance)
+        {
+            return false;
+        }
+    }
+    // =============================
+    //勝利判定処理
+    //[HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CheckEndCriteria))]
     class CheckGameEndPatch
     {
         public static bool Prefix(ShipStatus __instance)
