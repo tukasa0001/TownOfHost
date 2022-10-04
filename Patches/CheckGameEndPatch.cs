@@ -65,6 +65,8 @@ namespace TownOfHost
 
         public static void CheckGameEndByPlayerNum()
         {
+            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return;
+
             int Imp = 0, Crew = 0, Jackal = 0;
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
@@ -102,7 +104,9 @@ namespace TownOfHost
         }
         public static void CheckGameEndByTask()
         {
-            if (Options.DisableTaskWin.GetBool()) return;
+            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default ||
+                Options.DisableTaskWin.GetBool()) return;
+
             if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
             {
                 CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
@@ -113,6 +117,9 @@ namespace TownOfHost
         }
         public static void CheckGameEndByTroll()
         {
+            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default ||
+                Options.CurrentGameMode != CustomGameMode.HideAndSeek) return;
+
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc.Is(CustomRoles.HASTroll) && !pc.IsAlive())
@@ -124,7 +131,9 @@ namespace TownOfHost
         }
         public static void CheckGameEndBySabotage()
         {
-            if (ShipStatus.Instance.Systems == null) return;
+            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default ||
+                ShipStatus.Instance.Systems == null) return;
+
             var systems = ShipStatus.Instance.Systems;
             LifeSuppSystemType LifeSupp;
             if (systems.TryGetValue(SystemTypes.LifeSupp, out var sys) &&
