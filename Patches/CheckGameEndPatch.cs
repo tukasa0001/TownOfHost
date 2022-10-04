@@ -113,7 +113,14 @@ namespace TownOfHost
         }
         public static void CheckGameEndByTroll()
         {
-
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.Is(CustomRoles.HASTroll) && !pc.IsAlive())
+                {
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.HASTroll);
+                    CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                }
+            }
         }
         public static void CheckGameEndBySabotage()
         {
