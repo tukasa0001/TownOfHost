@@ -143,6 +143,7 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
                 new LateTask(() =>
                 {
+                    exiled = AntiBlackout_LastExiled;
                     AntiBlackout.SendGameData();
                     if (AntiBlackout.OverrideExiledPlayer && // 追放対象が上書きされる状態 (上書きされない状態なら実行不要)
                         exiled != null && //exiledがnullでない
