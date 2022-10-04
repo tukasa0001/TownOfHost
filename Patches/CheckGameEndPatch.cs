@@ -124,7 +124,27 @@ namespace TownOfHost
         }
         public static void CheckGameEndBySabotage()
         {
+            if (ShipStatus.Instance.Systems == null) return;
+            var systems = ShipStatus.Instance.Systems;
+            LifeSuppSystemType LifeSupp;
+            if (systems.TryGetValue(SystemTypes.LifeSupp, out var sys) &&
+                (LifeSupp = sys.TryCast<LifeSuppSystemType>()) != null &&
+                LifeSupp.Countdown < 0f)
+            {
+                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
+                LifeSupp.Countdown = 10000f;
+                return;
+            }
 
+            ICriticalSabotage critical;
+            if ((systems.TryGetValue(SystemTypes.Reactor, out sys) || systems.TryGetValue(SystemTypes.Laboratory, out sys)) &&
+                (critical = sys.TryCast<ICriticalSabotage>()) != null &&
+                critical.Countdown < 0f)
+            {
+                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
+                critical.ClearSabotage();
+                return;
+            }
         }
     }
     // =============================
