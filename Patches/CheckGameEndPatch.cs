@@ -20,6 +20,19 @@ namespace TownOfHost
 
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
             {
+                switch (CustomWinnerHolder.WinnerTeam)
+                {
+                    case CustomWinner.Crewmate:
+                        PlayerControl.AllPlayerControls.ToArray()
+                            .Where(pc => pc.Is(RoleType.Crewmate) && !pc.Is(CustomRoles.Lovers))
+                            .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
+                        break;
+                    case CustomWinner.Impostor:
+                        PlayerControl.AllPlayerControls.ToArray()
+                                .Where(pc => pc.Is(RoleType.Impostor))
+                                .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
+                        break;
+                }
                 __instance.enabled = false;
                 StartEndGame(
                     CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate ? GameOverReason.HumansByVote : GameOverReason.ImpostorByKill,
@@ -103,14 +116,13 @@ namespace TownOfHost
                 else if (Jackal == 0 && Crew <= Imp) //インポスター勝利
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
                 else if (Imp == 0 && Crew <= Jackal) //ジャッカル勝利
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jackal);
-                else if (Jackal == 0 && Imp == 0) //クルー勝利
                 {
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
-                    PlayerControl.AllPlayerControls.ToArray()
-                        .Where(pc => pc.Is(RoleType.Crewmate) && !pc.Is(CustomRoles.Lovers))
-                        .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jackal);
+                    CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
+                    CustomWinnerHolder.WinnerRoles.Add(CustomRoles.JSchrodingerCat);
                 }
+                else if (Jackal == 0 && Imp == 0) //クルー勝利
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
             }
         }
         public static void CheckGameEndByTask()
@@ -121,9 +133,6 @@ namespace TownOfHost
             if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
             {
                 CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
-                PlayerControl.AllPlayerControls.ToArray()
-                    .Where(pc => pc.Is(RoleType.Crewmate) && !pc.Is(CustomRoles.Lovers))
-                    .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
             }
         }
         public static void CheckGameEndByTroll()
