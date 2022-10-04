@@ -41,6 +41,24 @@ namespace TownOfHost
                     pc.SetRole(RoleTypes.GuardianAngel);
                 }
             }
+
+            // CustomWinnerHolderの情報の同期
+            sender.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame);
+            CustomWinnerHolder.WriteTo(sender.stream);
+            sender.EndRpc()
+                .EndMessage();
+
+            // バニラ側のゲーム終了RPC
+            MessageWriter writer = sender.stream;
+            writer.StartMessage(8); //8: EndGame
+            {
+                writer.Write(AmongUsClient.Instance.GameId); //GameId
+                writer.Write((byte)reason); //GameoverReason
+                writer.Write(false); //showAd
+            }
+            writer.EndMessage();
+
+            sender.SendMessage();
         }
     }
     // =============================
