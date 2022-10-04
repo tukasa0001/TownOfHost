@@ -147,8 +147,8 @@ namespace TownOfHost
 
             var systems = ShipStatus.Instance.Systems;
             LifeSuppSystemType LifeSupp;
-            if (systems.TryGetValue(SystemTypes.LifeSupp, out var sys) &&
-                (LifeSupp = sys.TryCast<LifeSuppSystemType>()) != null &&
+            if (systems.ContainsKey(SystemTypes.LifeSupp) &&
+                (LifeSupp = systems[SystemTypes.LifeSupp].TryCast<LifeSuppSystemType>()) != null &&
                 LifeSupp.Countdown < 0f)
             {
                 CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
@@ -156,8 +156,12 @@ namespace TownOfHost
                 return;
             }
 
+            ISystemType sys = null;
+            if (systems.ContainsKey(SystemTypes.Reactor)) sys = systems[SystemTypes.Reactor];
+            else if (systems.ContainsKey(SystemTypes.Laboratory)) sys = systems[SystemTypes.Laboratory];
+
             ICriticalSabotage critical;
-            if ((systems.TryGetValue(SystemTypes.Reactor, out sys) || systems.TryGetValue(SystemTypes.Laboratory, out sys)) &&
+            if (sys != null &&
                 (critical = sys.TryCast<ICriticalSabotage>()) != null &&
                 critical.Countdown < 0f)
             {
