@@ -213,7 +213,6 @@ namespace TownOfHost
                         {//呪われてる人がいないくて変身してるときに通常キルになる
                             killer.RpcMurderPlayer(target);
                             killer.RpcGuardAndKill(target);
-                            // target.SetRealKiller(killer);
                             return false;
                         }
                         if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
@@ -269,8 +268,6 @@ namespace TownOfHost
             //==キル処理==
             killer.RpcMurderPlayer(target);
             //============
-            target.SetRealKiller(killer);
-            Logger.Info($"{target.GetRealKiller().GetNameWithRole()}", "GetRealKiller");
 
             return false;
         }
@@ -374,6 +371,7 @@ namespace TownOfHost
                         }
                         var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
                         PlayerControl targetw = min.Key;
+                        targetw.SetRealKiller(shapeshifter);
                         Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
                         cp.RpcMurderPlayerV2(targetw);//殺す
                         shapeshifter.RpcGuardAndKill(shapeshifter);
@@ -474,13 +472,13 @@ namespace TownOfHost
                 if (bitten != null && !bitten.Data.IsDead)
                 {
                     PlayerState.SetDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
+                    bitten.SetRealKiller(Utils.GetPlayerById(vampireID));
                     //Protectは強制的にはがす
                     if (bitten.protectedByGuardian)
                         bitten.RpcMurderPlayer(bitten);
                     bitten.RpcMurderPlayer(bitten);
                     RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
                     Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "ReportDeadBody");
-                    // bitten.SetRealKiller(killer);
                 }
                 else
                     Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "はすでに死んでいました。", "ReportDeadBody");
@@ -542,10 +540,10 @@ namespace TownOfHost
                             if (!bitten.Data.IsDead)
                             {
                                 PlayerState.SetDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
-                                bitten.RpcMurderPlayer(bitten);
                                 var vampirePC = Utils.GetPlayerById(vampireID);
+                                bitten.SetRealKiller(vampirePC);
+                                bitten.RpcMurderPlayer(bitten);
                                 Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "Vampire");
-                                // bitten.SetRealKiller(vampirePC);
                                 if (vampirePC.IsAlive())
                                 {
                                     RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
@@ -687,8 +685,8 @@ namespace TownOfHost
                             {
                                 var puppeteerId = Main.PuppeteerList[player.PlayerId];
                                 RPC.PlaySoundRPC(puppeteerId, Sounds.KillSound);
+                                target.SetRealKiller(Utils.GetPlayerById(puppeteerId));
                                 player.RpcMurderPlayer(target);
-                                // target.SetRealKiller(Utils.GetPlayerById(puppeteerId));
                                 Utils.CustomSyncAllSettings();
                                 Main.PuppeteerList.Remove(player.PlayerId);
                                 Utils.NotifyRoles();
@@ -981,7 +979,6 @@ namespace TownOfHost
                             else
                             {
                                 partnerPlayer.RpcMurderPlayer(partnerPlayer);
-                                // partnerPlayer.SetRealKiller(partnerPlayer);
                             }
                         }
                     }
@@ -1096,10 +1093,10 @@ namespace TownOfHost
                             if (pc != __instance.myPlayer)
                             {
                                 //生存者は焼殺
+                                pc.SetRealKiller(__instance.myPlayer);
                                 pc.RpcMurderPlayer(pc);
                                 PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Torched);
                                 PlayerState.SetDead(pc.PlayerId);
-                                // pc.SetRealKiller(__instance.myPlayer);
                             }
                             else
                                 RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
