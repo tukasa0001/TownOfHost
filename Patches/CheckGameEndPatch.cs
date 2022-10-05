@@ -183,7 +183,7 @@ namespace TownOfHost
     // =============================
     //勝利判定処理
     //[HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CheckEndCriteria))]
-    class CheckGameEndPatch
+    /*class CheckGameEndPatch
     {
         public static bool Prefix(ShipStatus __instance)
         {
@@ -501,5 +501,5 @@ namespace TownOfHost
                 TeamJackalAlive = numJackalsAlive;
             }
         }
-    }
+    }//*/
 }
