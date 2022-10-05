@@ -10,6 +10,9 @@ namespace TownOfHost
     {
         public static bool Prefix(ShipStatus __instance)
         {
+            if (!AmongUsClient.Instance.AmHost) return true;
+            if (Options.NoGameEnd.GetBool() && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw) return false;
+
             if (CustomWinnerHolder.WinnerTeam == CustomWinner.Default)
             {
                 CheckGameEndByTroll();
