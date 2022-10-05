@@ -157,4 +157,13 @@ namespace TownOfHost
             Logger.Info("タスクフェイズ開始", "Phase");
         }
     }
+
+    [HarmonyPatch(typeof(PbExileController), nameof(PbExileController.PlayerSpin))]
+    class PolusExileHatFixPatch
+    {
+        public static void Prefix(PbExileController __instance)
+        {
+            __instance.Player.cosmetics.hat.transform.localPosition = new(-0.2f, 0.6f, 1.1f);
+        }
+    }
 }
