@@ -121,6 +121,7 @@ namespace TownOfHost
                             else
                             {
                                 PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Bombed);
+                                target.SetRealKiller(pc);
                                 target.RpcMurderPlayer(target);
                             }
                         }
