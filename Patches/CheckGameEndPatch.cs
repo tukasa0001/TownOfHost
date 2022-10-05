@@ -96,7 +96,7 @@ namespace TownOfHost
             {
                 if (pc.IsAlive())
                 {
-                    if (pc.Is(RoleType.Impostor)) Imp++;
+                    if (pc.Is(RoleType.Impostor) || pc.Is(CustomRoles.Egoist)) Imp++;
                     else if (pc.Is(CustomRoles.Jackal)) Jackal++;
                     else Crew++;
                 }
