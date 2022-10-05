@@ -561,6 +561,7 @@ namespace TownOfHost
                     else if (!pc.Data.IsDead)
                     {
                         //生存者は爆死
+                        pc.SetRealKiller(GetPlayerById(Terrorist.PlayerId));
                         pc.RpcMurderPlayer(pc);
                         PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
                         PlayerState.SetDead(pc.PlayerId);
