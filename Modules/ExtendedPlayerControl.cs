@@ -732,6 +732,8 @@ namespace TownOfHost
             && target.Data.IsDead;
         public static void SetRealKiller(this PlayerControl target, PlayerControl killer, bool NotOverRide = false)
         {
+            if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped) //スナイパー対策
+                killer = Utils.GetPlayerById(Sniper.GetSniper(target.PlayerId));
             if (Main.RealKiller.ContainsKey(target.PlayerId))
             {
                 if (NotOverRide) return; //既に値がある場合上書きしない

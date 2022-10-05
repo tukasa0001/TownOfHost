@@ -8,7 +8,7 @@ namespace TownOfHost
         public static void Postfix(PlayerControl __instance, PlayerControl target)
         {
             Logger.Info($"{__instance.GetNameWithRole()}, {target.GetNameWithRole()}", "RpcMurderPlayerPatch");
-            target.SetRealKiller(__instance, true);
+            target.SetRealKiller(__instance, true); //既に追加されてたらスキップ
             Utils.NotifyRoles();
         }
     }
