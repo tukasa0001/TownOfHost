@@ -30,8 +30,11 @@ namespace TownOfHost
                 {
                     new LateTask(() =>
                     {
-                        Main.isChatCommand = true;
-                        Utils.ShowLastResult();
+                        if (!AmongUsClient.Instance.IsGameStarted)
+                        {
+                            Main.isChatCommand = true;
+                            Utils.ShowLastResult();
+                        }
                     }, 5f, "DisplayLastRoles");
                 }
                 HideName = Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
