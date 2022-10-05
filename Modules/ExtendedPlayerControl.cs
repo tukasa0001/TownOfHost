@@ -730,11 +730,15 @@ namespace TownOfHost
             || (seer.Is(RoleType.Madmate) && Options.MadmateCanSeeDeathReason.GetBool())
             || (seer.Data.IsDead && Options.GhostCanSeeDeathReason.GetBool()))
             && target.Data.IsDead;
-        public static void SetRealKiller(this PlayerControl target, PlayerControl killer)
+        public static void SetRealKiller(this PlayerControl target, PlayerControl killer, bool NotOverRide = false)
         {
-            if (Main.RealKiller.ContainsKey(target.PlayerId)) Main.RealKiller[target.PlayerId] = killer;
+            if (Main.RealKiller.ContainsKey(target.PlayerId))
+            {
+                if (NotOverRide) return; //既に値がある場合上書きしない
+                Main.RealKiller[target.PlayerId] = killer;
+            }
             else Main.RealKiller.Add(target.PlayerId, killer);
-            Logger.Info($"target:{target.GetNameWithRole()}, RealKikker:{killer.GetNameWithRole()}", "SetRealKiller");
+            Logger.Info($"target:{target.GetNameWithRole()}, RealKiller:{killer.GetNameWithRole()}", "SetRealKiller");
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTimeThiefKillCount, Hazel.SendOption.Reliable, -1);
             writer.Write(target.PlayerId);
