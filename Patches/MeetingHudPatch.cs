@@ -32,6 +32,7 @@ namespace TownOfHost
                         }}, voteTarget.Data, false); //RPC
                         Logger.Info($"{voteTarget.GetNameWithRole()}を追放", "Dictator");
                         Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
+                        voteTarget.SetRealKiller(pc);
                         return true;
                     }
                 }
