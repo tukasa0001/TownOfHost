@@ -335,7 +335,7 @@ namespace TownOfHost
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
-            Utils.TargetDies(__instance, target, PlayerState.GetDeathReason(target.PlayerId));
+            Utils.TargetDies(__instance, target);
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]

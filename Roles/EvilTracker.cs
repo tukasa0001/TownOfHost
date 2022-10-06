@@ -96,27 +96,20 @@ namespace TownOfHost
             SendRemoveTarget(player.PlayerId);
             return Target[player.PlayerId];
         }
-        public static bool KillFlashCheck(PlayerControl killer, PlayerState.DeathReason deathReason)
+        public static bool KillFlashCheck(PlayerControl killer, PlayerControl target)
         {
             if (!CanSeeKillFlash.GetBool()) return false;
-            else //インポスターによるキルかどうかの判別
-            {
-                switch (deathReason) //死因での判別
-                {
-                    case PlayerState.DeathReason.Bite:
-                    case PlayerState.DeathReason.Sniped:
-                    case PlayerState.DeathReason.Bombed:
-                        return true;
-                    case PlayerState.DeathReason.Suicide:
-                    case PlayerState.DeathReason.FollowingSuicide:
-                    case PlayerState.DeathReason.Misfire:
-                    case PlayerState.DeathReason.Torched:
-                        return false;
-                    default:
-                        bool PuppeteerCheck = CustomRoles.Puppeteer.IsEnable() && !killer.GetCustomRole().IsImpostor() && Main.PuppeteerList.ContainsKey(killer.PlayerId);
-                        return killer.GetCustomRole().IsImpostor() || PuppeteerCheck; //インポスターのノーマルキル || パペッティアキル
-                }
-            }
+            //インポスターによるキルかどうかの判別
+            var deathReason = PlayerState.GetDeathReason(target.PlayerId);
+            Logger.Info($"{killer.GetNameWithRole()}{target.GetNameWithRole()}{deathReason}", "KillFlashCheck");
+            if (deathReason is PlayerState.DeathReason.Fall
+                            or PlayerState.DeathReason.FollowingSuicide
+                            or PlayerState.DeathReason.Misfire
+                            or PlayerState.DeathReason.Suicide) //死因での判別
+                return false;
+            if (target.GetRealKiller() != null)
+                killer = target.GetRealKiller();
+            return killer.Is(RoleType.Impostor);
         }
         public static string GetMarker(byte playerId) => Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), CanSetTarget[playerId] ? "◁" : "");
         public static string GetTargetMark(PlayerControl seer, PlayerControl target) => Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), seer.GetTarget() == target ? "◀" : "");
