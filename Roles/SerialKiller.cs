@@ -68,7 +68,6 @@ namespace TownOfHost
                 {
                     //自爆時間が来たとき
                     PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Suicide);//死因：自爆
-                    player.SetRealKiller(player);
                     player.RpcMurderPlayerV2(player);//自爆させる
                 }
                 else
