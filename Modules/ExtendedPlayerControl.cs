@@ -742,7 +742,7 @@ namespace TownOfHost
             else Main.RealKiller.Add(target.PlayerId, killer);
             Logger.Info($"target:{target.GetNameWithRole()}, RealKiller:{killer.GetNameWithRole()}", "SetRealKiller");
             if (!AmongUsClient.Instance.AmHost) return;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTimeThiefKillCount, Hazel.SendOption.Reliable, -1);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetRealKiller, Hazel.SendOption.Reliable, -1);
             writer.Write(target.PlayerId);
             writer.Write(killer.PlayerId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
