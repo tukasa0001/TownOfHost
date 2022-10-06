@@ -162,7 +162,9 @@ namespace TownOfHost
                     RPC.ResetNameColorData();
                     break;
                 case CustomRPC.DoSpell:
-                    Main.SpelledPlayer.Add(Utils.GetPlayerById(reader.ReadByte()));
+                    byte spelledId = reader.ReadByte();
+                    var which = Utils.GetPlayerById(reader.ReadByte());
+                    Main.SpelledPlayer.Add(spelledId, which);
                     break;
                 case CustomRPC.SniperSync:
                     Sniper.ReceiveRPC(reader);
@@ -354,10 +356,11 @@ namespace TownOfHost
         {
             NameColorManager.Begin();
         }
-        public static void RpcDoSpell(byte player)
+        public static void RpcDoSpell(byte targetId, byte killerId)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.DoSpell, Hazel.SendOption.Reliable, -1);
-            writer.Write(player);
+            writer.Write(targetId);
+            writer.Write(killerId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void SyncLoversPlayers()
