@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Hazel;
 using UnityEngine;
+using static TownOfHost.CheckGameEndPatch;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -127,8 +128,13 @@ namespace TownOfHost
                     }
                     if (suicide)
                     {
-                        PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Misfire);
-                        pc.RpcMurderPlayer(pc);
+                        var statistics = new PlayerStatistics(null);
+                        //自分が最後の生き残りの場合は勝利のために死なない
+                        if (statistics.TotalAlive != 1)
+                        {
+                            PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Misfire);
+                            pc.RpcMurderPlayer(pc);
+                        }
                     }
                     state[pc.PlayerId] = FireWorksState.FireEnd;
                     break;
