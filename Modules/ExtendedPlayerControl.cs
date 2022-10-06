@@ -752,6 +752,15 @@ namespace TownOfHost
             if (!target.Data.IsDead || !Main.RealKiller.TryGetValue(target.PlayerId, out var killer)) return null;
             return killer;
         }
+        public static int GetKillCount(this PlayerControl killer)
+        {
+            int count = 0;
+            foreach (var pc in PlayerControl.AllPlayerControls)
+                if (pc != killer && pc.GetRealKiller() == killer)
+                    count++;
+            Logger.Info($"{killer.GetNameWithRole()}:{count}Kills", "GetKillCount");
+            return count;
+        }
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>

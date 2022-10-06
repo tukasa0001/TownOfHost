@@ -23,6 +23,7 @@ namespace TownOfHost
             {
                 if (pc.GetRealKiller() != null)
                     Logger.Info($"{pc.GetNameWithRole()}<={(pc.GetRealKiller() == null ? "Alive" : pc.GetRealKiller().GetNameWithRole())}", "GetRealKiller");
+                pc.GetKillCount();
             }
             PlayerControl.GameOptions.killCooldown = Options.DefaultKillCooldown;
             //winnerListリセット
