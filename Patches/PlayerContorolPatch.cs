@@ -227,7 +227,6 @@ namespace TownOfHost
                         Main.KillOrSpell[killer.PlayerId] = !killer.IsSpellMode();
                         Utils.NotifyRoles();
                         killer.SyncKillOrSpell();
-                        // target.SetRealKiller(killer);
                         if (!killer.IsSpellMode()) return false;
                         break;
                     case CustomRoles.Puppeteer:
@@ -332,6 +331,7 @@ namespace TownOfHost
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
             PlayerState.SetDead(target.PlayerId);
+            target.SetRealKiller(__instance, true); //既に追加されてたらスキップ
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
@@ -977,9 +977,7 @@ namespace TownOfHost
                             if (isExiled)
                                 Main.AfterMeetingDeathPlayers.TryAdd(partnerPlayer.PlayerId, PlayerState.DeathReason.FollowingSuicide);
                             else
-                            {
                                 partnerPlayer.RpcMurderPlayer(partnerPlayer);
-                            }
                         }
                     }
                 }

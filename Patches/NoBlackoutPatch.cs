@@ -5,10 +5,8 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcMurderPlayer))]
     class RpcMurderPlayerPatch
     {
-        public static void Postfix(PlayerControl __instance, PlayerControl target)
+        public static void Postfix(PlayerControl __instance)
         {
-            Logger.Info($"{__instance.GetNameWithRole()}, {target.GetNameWithRole()}", "RpcMurderPlayerPatch");
-            target.SetRealKiller(__instance, true); //既に追加されてたらスキップ
             Utils.NotifyRoles();
         }
     }
