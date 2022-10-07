@@ -189,7 +189,13 @@ namespace TownOfHost
         {
             public override bool CheckForEndGame(out GameOverReason reason)
             {
-                throw new NotImplementedException();
+                reason = GameOverReason.ImpostorByKill;
+                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return false;
+                if (CheckGameEndByPlayerNum(out reason)) return true;
+                if (CheckGameEndByTask(out reason)) return true;
+                if (CheckGameEndBySabotage(out reason)) return true;
+
+                return false;
             }
 
             public bool CheckGameEndByPlayerNum(out GameOverReason reason)
