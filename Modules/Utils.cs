@@ -197,8 +197,17 @@ namespace TownOfHost
             return (RoleText, GetRoleColor(cRole));
         }
 
-        public static string GetVitalText(byte player) =>
-            PlayerState.isDead[player] ? GetString("DeathReason." + PlayerState.GetDeathReason(player)) : GetString("Alive");
+        public static string GetVitalText(byte playerId, bool RealKillerColor = false)
+        {
+            string deathReason = PlayerState.isDead[playerId] ? GetString("DeathReason." + PlayerState.GetDeathReason(playerId)) : GetString("Alive");
+            if (RealKillerColor)
+            {
+                var RealKiller = GetPlayerById(playerId).GetRealKiller();
+                Color color = RealKiller != null && RealKiller != GetPlayerById(playerId) ? Main.PlayerColors[RealKiller.PlayerId] : GetRoleColor(CustomRoles.Doctor);
+                deathReason = ColorString(Main.PlayerColors[RealKiller.PlayerId], deathReason);
+            }
+            return deathReason;
+        }
         public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, CustomRoles hRole)
         {
             string text = "Invalid";
@@ -1005,7 +1014,7 @@ namespace TownOfHost
         public static string SummaryTexts(byte id, bool disableColor = true)
         {
             var RolePos = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? 47 : 37;
-            string summary = $"{ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%> {GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {ColorString(GetRoleColor(Main.AllPlayerCustomRoles[id]), GetRoleName(Main.AllPlayerCustomRoles[id]))}{GetShowLastSubRolesText(id)}</pos>";
+            string summary = $"{ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%> {GetProgressText(id)}</pos><pos=29%> {GetVitalText(id, true)}</pos><pos={RolePos}%> {ColorString(GetRoleColor(Main.AllPlayerCustomRoles[id]), GetRoleName(Main.AllPlayerCustomRoles[id]))}{GetShowLastSubRolesText(id)}</pos>";
             return disableColor ? summary.RemoveHtmlTags() : summary;
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");
