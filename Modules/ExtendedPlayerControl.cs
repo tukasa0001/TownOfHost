@@ -752,11 +752,11 @@ namespace TownOfHost
             if (!target.Data.IsDead || !Main.RealKiller.TryGetValue(target.PlayerId, out var killer)) return null;
             return killer;
         }
-        public static int GetKillCount(this PlayerControl killer)
+        public static int GetKillCount(this PlayerControl killer, bool ExcludeSelfKill = false)
         {
             int count = 0;
             foreach (var pc in PlayerControl.AllPlayerControls)
-                if (pc != killer && pc.GetRealKiller() == killer)
+                if (!(ExcludeSelfKill && pc == killer) && pc.GetRealKiller() == killer)
                     count++;
             Logger.Info($"{killer.GetNameWithRole()}:{count}Kills", "GetKillCount");
             return count;
