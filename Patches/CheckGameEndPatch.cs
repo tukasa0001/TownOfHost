@@ -182,6 +182,105 @@ namespace TownOfHost
                 return;
             }
         }
+
+        // ===== ゲーム終了条件 =====
+        // 通常ゲーム用
+        class NormalGameEndPredicate : GameEndPredicate
+        {
+            public override bool CheckForEndGame(out GameOverReason reason)
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool CheckGameEndByPlayerNum(out GameOverReason reason)
+            {
+                reason = GameOverReason.ImpostorByKill;
+                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return false;
+
+                int[] counts = CountPlayersByPredicates(
+                    pc => pc.Is(RoleType.Impostor) || pc.Is(CustomRoles.Egoist),
+                    pc => pc.Is(CustomRoles.Jackal),
+                    pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Egoist) && !pc.Is(CustomRoles.Jackal)
+                );
+                int Imp = counts[0], Crew = counts[1], Jackal = counts[2];
+
+
+                if (Imp == 0 && Crew == 0 && Jackal == 0) //全滅
+                {
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.None);
+                    return true;
+                }
+                else if (Jackal == 0 && Crew <= Imp) //インポスター勝利
+                {
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
+                    return true;
+                }
+                else if (Imp == 0 && Crew <= Jackal) //ジャッカル勝利
+                {
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jackal);
+                    CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
+                    CustomWinnerHolder.WinnerRoles.Add(CustomRoles.JSchrodingerCat);
+                    return true;
+                }
+                else if (Jackal == 0 && Imp == 0) //クルー勝利
+                {
+                    reason = GameOverReason.HumansByVote;
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
+                    return true;
+                }
+
+                return false;
+            }
+            public bool CheckGameEndByTask(out GameOverReason reason)
+            {
+                reason = GameOverReason.ImpostorByKill;
+                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default ||
+                    Options.DisableTaskWin.GetBool()) return false;
+
+                if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
+                {
+                    reason = GameOverReason.HumansByTask;
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
+                    return true;
+                }
+                return false;
+            }
+            public bool CheckGameEndBySabotage(out GameOverReason reason)
+            {
+                reason = GameOverReason.ImpostorByKill;
+                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default ||
+                    ShipStatus.Instance.Systems == null) return false;
+
+                var systems = ShipStatus.Instance.Systems;
+                LifeSuppSystemType LifeSupp;
+                if (systems.ContainsKey(SystemTypes.LifeSupp) &&
+                    (LifeSupp = systems[SystemTypes.LifeSupp].TryCast<LifeSuppSystemType>()) != null &&
+                    LifeSupp.Countdown < 0f)
+                {
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
+                    reason = GameOverReason.ImpostorBySabotage;
+                    LifeSupp.Countdown = 10000f;
+                    return true;
+                }
+
+                ISystemType sys = null;
+                if (systems.ContainsKey(SystemTypes.Reactor)) sys = systems[SystemTypes.Reactor];
+                else if (systems.ContainsKey(SystemTypes.Laboratory)) sys = systems[SystemTypes.Laboratory];
+
+                ICriticalSabotage critical;
+                if (sys != null &&
+                    (critical = sys.TryCast<ICriticalSabotage>()) != null &&
+                    critical.Countdown < 0f)
+                {
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
+                    reason = GameOverReason.ImpostorBySabotage;
+                    critical.ClearSabotage();
+                    return true;
+                }
+
+                return false;
+            }
+        }
     }
 
     public abstract class GameEndPredicate
