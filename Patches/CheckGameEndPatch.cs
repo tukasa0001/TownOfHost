@@ -287,6 +287,65 @@ namespace TownOfHost
                 return false;
             }
         }
+
+        // HideAndSeek用
+        class HideAndSeekGameEndPredicate : GameEndPredicate
+        {
+            public override bool CheckForEndGame(out GameOverReason reason)
+            {
+                reason = GameOverReason.ImpostorByKill;
+                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return false;
+
+                if (CheckGameEndByPlayerNum(out reason)) return true;
+                if (CheckGameEndByTask(out reason)) return true;
+
+                return false;
+            }
+
+            public bool CheckGameEndByPlayerNum(out GameOverReason reason)
+            {
+                reason = GameOverReason.ImpostorByKill;
+
+                int[] counts = CountPlayersByPredicates(
+                    pc => pc.Is(RoleType.Impostor), //インポスター
+                    pc => pc.Is(RoleType.Crewmate) //クルー(Troll,Fox除く)
+                );
+                int Imp = counts[0], Crew = counts[1];
+
+
+                if (Imp == 0 && Crew == 0) //全滅
+                {
+                    reason = GameOverReason.ImpostorByKill;
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.None);
+                }
+                else if (Crew <= 0) //インポスター勝利
+                {
+                    reason = GameOverReason.ImpostorByKill;
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
+                }
+                else if (Imp == 0) //クルー勝利(インポスター切断など)
+                {
+                    reason = GameOverReason.HumansByVote;
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
+                }
+                else return false; //勝利条件未達成
+
+                return true;
+            }
+            public bool CheckGameEndByTask(out GameOverReason reason)
+            {
+                reason = GameOverReason.ImpostorByKill;
+                if (Options.DisableTaskWin.GetBool()) return false;
+
+                if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
+                {
+                    reason = GameOverReason.HumansByTask;
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
+                    return true;
+                }
+                return false;
+            }
+        }
     }
 
     public abstract class GameEndPredicate
