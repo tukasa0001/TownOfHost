@@ -105,6 +105,7 @@ namespace TownOfHost
             Executioner.Init();
             Sheriff.Init();
             EvilTracker.Init();
+            Medium.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
 

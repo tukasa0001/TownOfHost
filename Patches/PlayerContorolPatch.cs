@@ -466,6 +466,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return true;
             BountyHunter.OnReportDeadBody();
             SerialKiller.OnReportDeadBody();
+            Medium.OnReportDeadBody();
             Main.ArsonistTimer.Clear();
             if (target == null) //ボタン
             {
