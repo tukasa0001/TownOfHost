@@ -183,6 +183,28 @@ namespace TownOfHost
             }
         }
     }
+
+    public abstract class GameEndPredicate
+    {
+        /// <summary>ゲームの終了条件をチェックし、CustomWinnerHolderに値を格納します。</summary>
+        /// <params name="reason">バニラのゲーム終了処理に使用するGameOverReason</params>
+        /// <returns>ゲーム終了の条件を満たしているかどうか</returns>
+        public abstract bool CheckForEndGame(out GameOverReason reason);
+
+        /// <summary>各条件に合ったプレイヤーの人数を取得し、配列に同順で格納します。</summary>
+        public int[] CountPlayersByPredicates(params Predicate<PlayerControl>[] predicates)
+        {
+            int[] counts = new int[predicates.Length];
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                for (int i = 0; i < predicates.Length; i++)
+                {
+                    if (predicates[i](pc)) counts[i]++;
+                }
+            }
+            return counts;
+        }
+    }
     // =============================
     //勝利判定処理
     //[HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CheckEndCriteria))]
