@@ -201,47 +201,45 @@ namespace TownOfHost
             public bool CheckGameEndByPlayerNum(out GameOverReason reason)
             {
                 reason = GameOverReason.ImpostorByKill;
-                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return false;
 
                 int[] counts = CountPlayersByPredicates(
-                    pc => pc.Is(RoleType.Impostor) || pc.Is(CustomRoles.Egoist),
-                    pc => pc.Is(CustomRoles.Jackal),
-                    pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Egoist) && !pc.Is(CustomRoles.Jackal)
+                    pc => pc.Is(RoleType.Impostor) || pc.Is(CustomRoles.Egoist), //インポスター
+                    pc => pc.Is(CustomRoles.Jackal), //ジャッカル
+                    pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Egoist) && !pc.Is(CustomRoles.Jackal) //その他
                 );
                 int Imp = counts[0], Crew = counts[1], Jackal = counts[2];
 
 
                 if (Imp == 0 && Crew == 0 && Jackal == 0) //全滅
                 {
+                    reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.None);
-                    return true;
                 }
                 else if (Jackal == 0 && Crew <= Imp) //インポスター勝利
                 {
+                    reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
-                    return true;
                 }
                 else if (Imp == 0 && Crew <= Jackal) //ジャッカル勝利
                 {
+                    reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jackal);
                     CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
                     CustomWinnerHolder.WinnerRoles.Add(CustomRoles.JSchrodingerCat);
-                    return true;
                 }
                 else if (Jackal == 0 && Imp == 0) //クルー勝利
                 {
                     reason = GameOverReason.HumansByVote;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
-                    return true;
                 }
+                else return false; //勝利条件未達成
 
-                return false;
+                return true;
             }
             public bool CheckGameEndByTask(out GameOverReason reason)
             {
                 reason = GameOverReason.ImpostorByKill;
-                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default ||
-                    Options.DisableTaskWin.GetBool()) return false;
+                if (Options.DisableTaskWin.GetBool()) return false;
 
                 if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
                 {
@@ -254,15 +252,16 @@ namespace TownOfHost
             public bool CheckGameEndBySabotage(out GameOverReason reason)
             {
                 reason = GameOverReason.ImpostorByKill;
-                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default ||
-                    ShipStatus.Instance.Systems == null) return false;
+                if (ShipStatus.Instance.Systems == null) return false;
 
+                // TryGetValueは使用不可
                 var systems = ShipStatus.Instance.Systems;
                 LifeSuppSystemType LifeSupp;
-                if (systems.ContainsKey(SystemTypes.LifeSupp) &&
-                    (LifeSupp = systems[SystemTypes.LifeSupp].TryCast<LifeSuppSystemType>()) != null &&
-                    LifeSupp.Countdown < 0f)
+                if (systems.ContainsKey(SystemTypes.LifeSupp) && // サボタージュ存在確認
+                    (LifeSupp = systems[SystemTypes.LifeSupp].TryCast<LifeSuppSystemType>()) != null && // キャスト可能確認
+                    LifeSupp.Countdown < 0f) // タイムアップ確認
                 {
+                    // 酸素サボタージュ
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
                     reason = GameOverReason.ImpostorBySabotage;
                     LifeSupp.Countdown = 10000f;
@@ -274,10 +273,11 @@ namespace TownOfHost
                 else if (systems.ContainsKey(SystemTypes.Laboratory)) sys = systems[SystemTypes.Laboratory];
 
                 ICriticalSabotage critical;
-                if (sys != null &&
-                    (critical = sys.TryCast<ICriticalSabotage>()) != null &&
-                    critical.Countdown < 0f)
+                if (sys != null && // サボタージュ存在確認
+                    (critical = sys.TryCast<ICriticalSabotage>()) != null && // キャスト可能確認
+                    critical.Countdown < 0f) // タイムアップ確認
                 {
+                    // リアクターサボタージュ
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
                     reason = GameOverReason.ImpostorBySabotage;
                     critical.ClearSabotage();
