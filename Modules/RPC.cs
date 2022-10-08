@@ -326,6 +326,9 @@ namespace TownOfHost
                 case CustomRoles.SabotageMaster:
                     SabotageMaster.Add(targetId);
                     break;
+                case CustomRoles.Medium:
+                    Medium.Add(targetId);
+                    break;
             }
             HudManager.Instance.SetHudActive(true);
         }

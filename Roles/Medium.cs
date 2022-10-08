@@ -5,7 +5,7 @@ namespace TownOfHost
 {
     public static class Medium
     {
-        private static readonly int Id = 20300;
+        private static readonly int Id = 5000000;
         public static List<byte> playerIdList = new();
         public static CustomOption MediumCooldown;
         public static CustomOption MediumOneTimeUse;
@@ -36,10 +36,16 @@ namespace TownOfHost
         {
             foreach (var medium in PlayerControl.AllPlayerControls)
             {
-                if (!(medium.Is(CustomRoles.Medium) && medium.IsAlive()) && GameStates.IsMeeting && CanMedium[medium.PlayerId]) continue;
+                if (!(medium.Is(CustomRoles.Medium) && medium.IsAlive())) continue;
                 foreach (var target in PlayerControl.AllPlayerControls)
                 {
-                    Utils.SendMessage("どもども", medium.PlayerId);
+                    string TargetDeathReason = "";
+                    if (medium.Is(CustomRoles.Medium) && target.Data.IsDead)
+                        TargetDeathReason = Utils.GetVitalText(target.PlayerId);
+                    string TargetPlayerName = target.GetRealName(false);
+                    string TargetName = $"{TargetPlayerName}";
+                    Utils.SendMessage($"{TargetName}の死因は{TargetDeathReason}です。", medium.PlayerId);
+                    break;
                 }
             }
         }
