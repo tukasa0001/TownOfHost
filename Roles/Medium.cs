@@ -36,6 +36,8 @@ namespace TownOfHost
         {
             foreach (var medium in PlayerControl.AllPlayerControls)
             {
+                var rand = new System.Random();
+                int Mode = rand.Next(5);
                 if (!(medium.Is(CustomRoles.Medium) && medium.IsAlive())) continue;
                 foreach (var target in PlayerControl.AllPlayerControls)
                 {

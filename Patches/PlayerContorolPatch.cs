@@ -466,8 +466,11 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return true;
             BountyHunter.OnReportDeadBody();
             SerialKiller.OnReportDeadBody();
-            Medium.OnReportDeadBody();
             Main.ArsonistTimer.Clear();
+            if (__instance.Is(CustomRoles.Medium))
+            {
+                Medium.OnReportDeadBody();
+            }
             if (target == null) //ボタン
             {
                 if (__instance.Is(CustomRoles.Mayor))
