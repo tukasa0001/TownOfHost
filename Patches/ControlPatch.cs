@@ -81,6 +81,14 @@ namespace TownOfHost
                 Main.isChatCommand = true;
                 Utils.ShowActiveSettings();
             }
+            if (GameStates.IsLobby)
+            {
+                for (var i = 0; i < 9; i++)
+                {
+                    if (ORGetKeysDown(new[] { KeyCode.Alpha1 + i, KeyCode.Keypad1 + i }) && OptionShower.pages.Count >= i + 1)
+                        OptionShower.currentPage = i;
+                }
+            }
 
             //--以下デバッグモード用コマンド--//
             if (!Main.AmDebugger.Value) return;
@@ -211,6 +219,7 @@ namespace TownOfHost
             }
             return false;
         }
+        static bool ORGetKeysDown(KeyCode[] keys) => keys.Any(k => Input.GetKeyDown(k));
     }
 
     [HarmonyPatch(typeof(ConsoleJoystick), nameof(ConsoleJoystick.HandleHUD))]
