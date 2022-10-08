@@ -535,6 +535,13 @@
 "assignCommonTasks","Give %role% Common Tasks","%role%に通常タスクを割り当てる","%role%的普通任务数","%role%有普通任務","%role% Имеет Общие Задания"
 "roleLongTasksNum","%role% Long Tasks","%role%のロングタスクの数","%role%的长任务数","%role%的長任務數量","%role% Долгие Задания"
 "roleShortTasksNum","%role% Short Tasks","%role%のショートタスクの数","%role%的短任务数","%role%的短任務數量","%role% Короткие Задания"
+"FormatPlayers","{0}","{0}人",,,
+"FormatSeconds","{0}s","{0}秒",,,
+"FormatPercent","{0}%","{0}%","{0}%","{0}%","{0}%"
+"FormatTimes","{0}","{0}回",,,
+"FormatMultiplier","{0}x","{0}x","{0}x","{0}x","{0}x"
+"FormatVotes","{0}","{0}票",,,
+"FormatPieces","{0}","{0}個",,,
 "KillButtonText","Kill","キル","击杀","殺死","Убить"
 "SniperSnipeButtonText","Snipe","狙撃","狙击","狙擊","Снайпнуть"
 "FireWorksExplosionButtonText","Fire","爆破","引爆","引爆","Огонь"
