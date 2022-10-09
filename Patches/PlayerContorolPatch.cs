@@ -467,10 +467,6 @@ namespace TownOfHost
             BountyHunter.OnReportDeadBody();
             SerialKiller.OnReportDeadBody();
             Main.ArsonistTimer.Clear();
-            if (__instance.Is(CustomRoles.Medium))
-            {
-                Medium.OnReportDeadBody();
-            }
             if (target == null) //ボタン
             {
                 if (__instance.Is(CustomRoles.Mayor))

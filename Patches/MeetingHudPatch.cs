@@ -269,6 +269,31 @@ namespace TownOfHost
                         pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
                     }
                 }, 3f, "SetName To Chat");
+
+                new LateTask(() =>
+                {
+                    foreach (var reporter in PlayerControl.AllPlayerControls)
+                    {
+                        var rand = new System.Random();
+                        int Mode = rand.Next(1, 2);
+                        if (!(reporter.Is(CustomRoles.Medium) && reporter.IsAlive())) continue;
+                        foreach (var target in PlayerControl.AllPlayerControls)
+                        {
+                            if (reporter == target) continue;
+                            if (!target.Data.IsDead) continue;
+                            switch (Mode)
+                            {
+                                case 1:
+                                    string TargetPlayerName = target.GetRealName(false);
+                                    string TargetName = $"{TargetPlayerName}";
+                                    Utils.SendMessage($"{TargetName}の死因は{Utils.GetVitalText(target.PlayerId)}です。", reporter.PlayerId);
+                                    break;
+                                case 2:
+                                    break;
+                            }
+                        }
+                    }
+                }, 5f, "UseMediumAbility");
             }
 
             foreach (var pva in __instance.playerStates)
