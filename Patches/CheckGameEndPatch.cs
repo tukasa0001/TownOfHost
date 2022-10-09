@@ -8,18 +8,15 @@ namespace TownOfHost
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CheckEndCriteria))]
     class GameEndChecker
     {
+        private static GameEndPredicate predicate;
         public static bool Prefix(ShipStatus __instance)
         {
             if (!AmongUsClient.Instance.AmHost) return true;
             if (Options.NoGameEnd.GetBool() && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw) return false;
 
-            if (CustomWinnerHolder.WinnerTeam == CustomWinner.Default)
-            {
-                CheckGameEndByTroll();
-                CheckGameEndByTask();
-                CheckGameEndBySabotage();
-                CheckGameEndByPlayerNum();
-            }
+            GameOverReason reason = GameOverReason.ImpostorByKill;
+
+            if (predicate.CheckForEndGame(out var r)) reason = r;
 
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
             {
@@ -38,7 +35,7 @@ namespace TownOfHost
                 }
                 __instance.enabled = false;
                 StartEndGame(
-                    CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate ? GameOverReason.HumansByVote : GameOverReason.ImpostorByKill,
+                    reason,
                     CustomWinnerHolder.WinnerTeam is not CustomWinner.Crewmate or CustomWinner.Impostor
                 );
             }
