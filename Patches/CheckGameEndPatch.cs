@@ -16,7 +16,7 @@ namespace TownOfHost
 
             GameOverReason reason = GameOverReason.ImpostorByKill;
 
-            if (predicate.CheckForEndGame(out var r)) reason = r;
+            if (predicate != null && predicate.CheckForEndGame(out var r)) reason = r;
 
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
             {
@@ -38,6 +38,7 @@ namespace TownOfHost
                     reason,
                     CustomWinnerHolder.WinnerTeam is not CustomWinner.Crewmate or CustomWinner.Impostor
                 );
+                predicate = null;
             }
             return false;
         }
@@ -87,6 +88,9 @@ namespace TownOfHost
         }
 
 
+
+        public static void SetPredicateToNormal() => predicate = new NormalGameEndPredicate();
+        public static void SetPredicateToHideAndSeek() => predicate = new HideAndSeekGameEndPredicate();
         public static void CheckGameEndByPlayerNum()
         {
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return;
