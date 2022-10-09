@@ -42,7 +42,6 @@ namespace TownOfHost
             }
             return false;
         }
-
         public static void StartEndGame(GameOverReason reason, bool SetImpostorsToGA)
         {
             var sender = new CustomRpcSender("EndGameSender", SendOption.Reliable, true);
@@ -87,102 +86,8 @@ namespace TownOfHost
             sender.SendMessage();
         }
 
-
-
         public static void SetPredicateToNormal() => predicate = new NormalGameEndPredicate();
         public static void SetPredicateToHideAndSeek() => predicate = new HideAndSeekGameEndPredicate();
-        public static void CheckGameEndByPlayerNum()
-        {
-            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return;
-
-            int Imp = 0, Crew = 0, Jackal = 0;
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (pc.IsAlive())
-                {
-                    if (pc.Is(RoleType.Impostor) || pc.Is(CustomRoles.Egoist)) Imp++;
-                    else if (pc.Is(CustomRoles.Jackal)) Jackal++;
-                    else Crew++;
-                }
-            }
-
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
-            {
-                if (Imp <= 0) //念のためクルー勝利処理
-                    CustomWinnerHolder.WinnerTeam = CustomWinner.Crewmate;
-                else if (Crew == 0)
-                    CustomWinnerHolder.WinnerTeam = CustomWinner.Impostor;
-            }
-            else
-            {
-                if (Imp == 0 && Crew == 0 && Jackal == 0) //全滅
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.None);
-                else if (Jackal == 0 && Crew <= Imp) //インポスター勝利
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
-                else if (Imp == 0 && Crew <= Jackal) //ジャッカル勝利
-                {
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jackal);
-                    CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
-                    CustomWinnerHolder.WinnerRoles.Add(CustomRoles.JSchrodingerCat);
-                }
-                else if (Jackal == 0 && Imp == 0) //クルー勝利
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
-            }
-        }
-        public static void CheckGameEndByTask()
-        {
-            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default ||
-                Options.DisableTaskWin.GetBool()) return;
-
-            if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
-            {
-                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
-            }
-        }
-        public static void CheckGameEndByTroll()
-        {
-            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default ||
-                Options.CurrentGameMode != CustomGameMode.HideAndSeek) return;
-
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (pc.Is(CustomRoles.HASTroll) && !pc.IsAlive())
-                {
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.HASTroll);
-                    CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
-                }
-            }
-        }
-        public static void CheckGameEndBySabotage()
-        {
-            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default ||
-                ShipStatus.Instance.Systems == null) return;
-
-            var systems = ShipStatus.Instance.Systems;
-            LifeSuppSystemType LifeSupp;
-            if (systems.ContainsKey(SystemTypes.LifeSupp) &&
-                (LifeSupp = systems[SystemTypes.LifeSupp].TryCast<LifeSuppSystemType>()) != null &&
-                LifeSupp.Countdown < 0f)
-            {
-                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
-                LifeSupp.Countdown = 10000f;
-                return;
-            }
-
-            ISystemType sys = null;
-            if (systems.ContainsKey(SystemTypes.Reactor)) sys = systems[SystemTypes.Reactor];
-            else if (systems.ContainsKey(SystemTypes.Laboratory)) sys = systems[SystemTypes.Laboratory];
-
-            ICriticalSabotage critical;
-            if (sys != null &&
-                (critical = sys.TryCast<ICriticalSabotage>()) != null &&
-                critical.Countdown < 0f)
-            {
-                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
-                critical.ClearSabotage();
-                return;
-            }
-        }
 
         // ===== ゲーム終了条件 =====
         // 通常ゲーム用
