@@ -36,17 +36,20 @@ namespace TownOfHost
         {
             foreach (var medium in PlayerControl.AllPlayerControls)
             {
+                string mediumName = medium.GetRealName(false);
+                medium.SetName(mediumName);
+
                 var rand = new System.Random();
                 int Mode = rand.Next(5);
                 if (!(medium.Is(CustomRoles.Medium) && medium.IsAlive())) continue;
                 foreach (var target in PlayerControl.AllPlayerControls)
                 {
-                    string TargetDeathReason = "";
                     if (medium.Is(CustomRoles.Medium) && target.Data.IsDead)
-                        TargetDeathReason = Utils.GetVitalText(target.PlayerId);
-                    string TargetPlayerName = target.GetRealName(false);
-                    string TargetName = $"{TargetPlayerName}";
-                    Utils.SendMessage($"{TargetName}の死因は{TargetDeathReason}です。", medium.PlayerId);
+                    {
+                        string TargetPlayerName = target.GetRealName(false);
+                        string TargetName = $"{TargetPlayerName}";
+                        Utils.SendMessage($"{TargetName}の死因は{Utils.GetVitalText(target.PlayerId)}です。", medium.PlayerId);
+                    }
                     break;
                 }
             }
