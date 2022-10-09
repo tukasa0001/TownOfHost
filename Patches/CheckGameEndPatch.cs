@@ -203,7 +203,7 @@ namespace TownOfHost
             {
                 reason = GameOverReason.ImpostorByKill;
 
-                int[] counts = CountPlayersByPredicates(
+                int[] counts = CountLivingPlayersByPredicates(
                     pc => pc.Is(RoleType.Impostor) || pc.Is(CustomRoles.Egoist), //インポスター
                     pc => pc.Is(CustomRoles.Jackal), //ジャッカル
                     pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Egoist) && !pc.Is(CustomRoles.Jackal) //その他
@@ -307,7 +307,7 @@ namespace TownOfHost
             {
                 reason = GameOverReason.ImpostorByKill;
 
-                int[] counts = CountPlayersByPredicates(
+                int[] counts = CountLivingPlayersByPredicates(
                     pc => pc.Is(RoleType.Impostor), //インポスター
                     pc => pc.Is(RoleType.Crewmate) //クルー(Troll,Fox除く)
                 );
@@ -357,14 +357,14 @@ namespace TownOfHost
         public abstract bool CheckForEndGame(out GameOverReason reason);
 
         /// <summary>各条件に合ったプレイヤーの人数を取得し、配列に同順で格納します。</summary>
-        public int[] CountPlayersByPredicates(params Predicate<PlayerControl>[] predicates)
+        public int[] CountLivingPlayersByPredicates(params Predicate<PlayerControl>[] predicates)
         {
             int[] counts = new int[predicates.Length];
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 for (int i = 0; i < predicates.Length; i++)
                 {
-                    if (predicates[i](pc)) counts[i]++;
+                    if (pc.IsAlive() && predicates[i](pc)) counts[i]++;
                 }
             }
             return counts;
