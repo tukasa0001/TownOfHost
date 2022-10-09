@@ -208,7 +208,7 @@ namespace TownOfHost
                     pc => pc.Is(CustomRoles.Jackal), //ジャッカル
                     pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Egoist) && !pc.Is(CustomRoles.Jackal) //その他
                 );
-                int Imp = counts[0], Crew = counts[1], Jackal = counts[2];
+                int Imp = counts[0], Jackal = counts[1], Crew = counts[2];
 
 
                 if (Imp == 0 && Crew == 0 && Jackal == 0) //全滅
