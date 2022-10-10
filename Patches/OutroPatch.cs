@@ -3,7 +3,6 @@ using System.Linq;
 using HarmonyLib;
 using UnityEngine;
 using static TownOfHost.Translator;
-using Object = UnityEngine.Object;
 
 namespace TownOfHost
 {
