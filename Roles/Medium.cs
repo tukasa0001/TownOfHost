@@ -32,32 +32,5 @@ namespace TownOfHost
             CanMedium.Add(playerId, true);
         }
         public static bool IsEnable() => playerIdList.Count > 0;
-        /*public static void OnReportDeadBody()
-        {
-            foreach (var medium in PlayerControl.AllPlayerControls)
-            {
-                string mediumName = medium.GetRealName(false);
-                medium.SetName(mediumName);
-
-                var rand = new System.Random();
-                int Mode = rand.Next(1, 2);
-                if (!(medium.Is(CustomRoles.Medium) && medium.IsAlive())) continue;
-                foreach (var target in PlayerControl.AllPlayerControls)
-                {
-                    if (medium == target) continue;
-                    if (!target.Data.IsDead) continue;
-                    switch (Mode)
-                    {
-                        case 1:
-                            string TargetPlayerName = target.GetRealName(false);
-                            string TargetName = $"{TargetPlayerName}";
-                            Utils.SendMessage($"{TargetName}の死因は{Utils.GetVitalText(target.PlayerId)}です。", medium.PlayerId);
-                            break;
-                        case 2:
-                            break;
-                    }
-                }
-            }
-        }*/
     }
 }

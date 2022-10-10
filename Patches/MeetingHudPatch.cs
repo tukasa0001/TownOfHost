@@ -275,20 +275,27 @@ namespace TownOfHost
                     foreach (var reporter in PlayerControl.AllPlayerControls)
                     {
                         var rand = new System.Random();
-                        int Mode = rand.Next(1, 2);
+                        int Mode = rand.Next(4, 5);
                         if (!(reporter.Is(CustomRoles.Medium) && reporter.IsAlive())) continue;
                         foreach (var target in PlayerControl.AllPlayerControls)
                         {
                             if (reporter == target) continue;
                             if (!target.Data.IsDead) continue;
+                            string TargetPlayerName = target.GetRealName(false);
+                            string TargetName = $"{TargetPlayerName}";
                             switch (Mode)
                             {
                                 case 1:
-                                    string TargetPlayerName = target.GetRealName(false);
-                                    string TargetName = $"{TargetPlayerName}";
                                     Utils.SendMessage($"{TargetName}の死因は{Utils.GetVitalText(target.PlayerId)}です。", reporter.PlayerId);
                                     break;
                                 case 2:
+                                    Utils.SendMessage($"{TargetName}の役職は{target.GetRoleName()}でした。", reporter.PlayerId);
+                                    break;
+                                /*case 3:
+                                    Utils.SendMessage($"{TargetName}を殺した人の役職は{killer.GetCustomRole()}です。")
+                                    break;*/
+                                case 4:
+                                    Utils.SendMessage($"{TargetName}を殺した人の色のタイプは{target.GetColorType()}です。", reporter.PlayerId);
                                     break;
                             }
                         }

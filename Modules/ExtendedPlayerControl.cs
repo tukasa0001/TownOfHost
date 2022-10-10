@@ -703,6 +703,31 @@ namespace TownOfHost
             DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(reporter);
             reporter.RpcStartMeeting(target);
         }
+        public static string GetColorType(this PlayerControl player)
+        {
+            var ColorName = Palette.ColorNames[player.Data.DefaultOutfit.ColorId];
+            var LighterColor = new List<StringNames>()
+            {
+                StringNames.ColorPink,
+                StringNames.ColorOrange,
+                StringNames.ColorYellow,
+                StringNames.ColorWhite,
+                StringNames.ColorCyan,
+                StringNames.ColorLime,
+                StringNames.ColorRose,
+                StringNames.ColorBanana,
+                StringNames.ColorCoral
+                //黒、タン、茶、紫、グレー、マルーン、グリーン、赤、青はDarkColor
+            };
+            if (LighterColor.Contains(ColorName))
+            {
+                return "LightColor";
+            }
+            else
+            {
+                return "DarkColor";
+            }
+        }
         public static bool IsModClient(this PlayerControl player) => Main.playerVersion.ContainsKey(player.PlayerId);
         ///<summary>
         ///プレイヤーのRoleBehaviourのGetPlayersInAbilityRangeSortedを実行し、戻り値を返します。
