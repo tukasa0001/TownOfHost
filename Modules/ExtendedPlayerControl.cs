@@ -397,7 +397,7 @@ namespace TownOfHost
             opt.DiscussionTime = Mathf.Clamp(Main.DiscussionTime, 0, 300);
             opt.VotingTime = Mathf.Clamp(Main.VotingTime, TimeThief.LowerLimitVotingTime.GetInt(), 300);
 
-            if (Options.AllAliveMeeting.GetBool() && GameData.Instance.AllPlayers.ToArray().All(x => !x.IsDead))
+            if (Options.AllAliveMeeting.GetBool() && GameData.Instance.AllPlayers.ToArray().Where(x => !x.Object.Is(CustomRoles.GM)).All(x => !x.IsDead))
             {
                 opt.DiscussionTime = 0;
                 opt.VotingTime = Options.AllAliveMeetingTime.GetInt();
