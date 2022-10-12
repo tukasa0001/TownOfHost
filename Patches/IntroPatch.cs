@@ -38,16 +38,6 @@ namespace TownOfHost
     {
         public static void Prefix()
         {
-            if (!AmongUsClient.Instance.AmHost)
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    switch (pc.GetCustomRole())
-                    {
-                        case CustomRoles.Egoist:
-                            Egoist.Add(pc.PlayerId);
-                            break;
-                    }
-                }
             Logger.Info("------------名前表示------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
