@@ -735,7 +735,7 @@ namespace TownOfHost
         {
             var role = player.GetCustomRole();
             if (role.IsVanilla())
-                return GetString("Message.NoDescription");
+                return "\n" + GetString("Message.NoDescription");
 
             var text = role.ToString();
 
