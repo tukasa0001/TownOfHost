@@ -412,10 +412,7 @@ namespace TownOfHost
                 case "/myrole":
                     var role = player.GetCustomRole();
                     if (GameStates.IsInGame)
-                    {
-                        if (role.IsVanilla()) Utils.SendMessage(GetString("Message.NoDescription"), player.PlayerId);
-                        else Utils.SendMessage(GetString(role.ToString()) + player.GetRoleInfo(true), player.PlayerId);
-                    }
+                        Utils.SendMessage(GetString(role.ToString()) + player.GetRoleInfo(true), player.PlayerId);
                     break;
 
                 case "/t":
