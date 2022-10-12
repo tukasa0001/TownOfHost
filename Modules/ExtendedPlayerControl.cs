@@ -46,6 +46,10 @@ namespace TownOfHost
         {
             RPC.ExileAsync(player);
         }
+        public static void GetKiller(this PlayerControl target)
+        {
+            Medium.GetKiller(target.PlayerId);
+        }
         public static InnerNet.ClientData GetClient(this PlayerControl player)
         {
             var client = AmongUsClient.Instance.allClients.ToArray().Where(cd => cd.Character.PlayerId == player.PlayerId).FirstOrDefault();
@@ -344,6 +348,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.EvilTracker:
                     EvilTracker.ApplyGameOptions(opt, player.PlayerId);
+                    break;
+                case CustomRoles.Medium:
+                    Medium.ApplyGameOptions(opt, player.PlayerId);
                     break;
                 case CustomRoles.Jackal:
                 case CustomRoles.JSchrodingerCat:

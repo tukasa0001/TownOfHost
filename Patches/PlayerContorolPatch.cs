@@ -364,8 +364,8 @@ namespace TownOfHost
                 if (pc.IsLastImpostor())
                     Main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
             }
+            //Medium.StartDeadTimer();
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
-
             PlayerState.SetDead(target.PlayerId);
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
@@ -466,6 +466,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return true;
             BountyHunter.OnReportDeadBody();
             SerialKiller.OnReportDeadBody();
+            Medium.OnReportDeadBody();
             Main.ArsonistTimer.Clear();
             if (target == null) //ボタン
             {
@@ -602,6 +603,7 @@ namespace TownOfHost
                 //ターゲットのリセット
                 BountyHunter.FixedUpdate(player);
                 EvilTracker.FixedUpdate(player);
+                Medium.FixedUpdate(player.PlayerId);
                 if (GameStates.IsInTask && player.IsAlive() && Options.LadderDeath.GetBool())
                 {
                     FallFromLadder.FixedUpdate(player);
