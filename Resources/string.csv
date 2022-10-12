@@ -219,7 +219,7 @@
 "NoGameEnd","NoGameEnd","ゲームを終了しない","测试模式","遊戲不會結束模式","ИграНеЗакончится"
 "SyncButtonMode","SyncButtonMode","ボタン回数同期モード","所有船员共享会议次数","全場拍桌數同步模式","ОбщаяКнопкаВстреч"
 "RandomMapsMode","RandomMapsMode","ランダムマップモード","随机地图模式","隨機地圖模式","Случайная Карта"
-"SyncedButtonCount","Max Number of Buttons Allowed","合計ボタン使用可能回数(回)","紧急会议可用次数","全場最大拍桌數量","Максимальное Количество Кнопок"
+"SyncedButtonCount","Max Number of Buttons Allowed","合計ボタン使用可能回数","紧急会议可用次数","全場最大拍桌數量","Максимальное Количество Кнопок"
 "AddedTheSkeld","Include TheSkeld","TheSkeldを追加","添加骷髅舰地图","將The Skeld地圖列入選項","Добавить TheSkeld"
 "AddedMIRAHQ","Include MIRAHQ","MIRAHQを追加","添加米拉总部地图","將MIRA HQ地圖列入選項","Добавить MiraHQ"
 "AddedPolus","Include Polus","Polusを追加","添加波鲁斯地图","將Polus地圖列入選項","Добавить Polus"
@@ -380,7 +380,7 @@
 "TimeThiefReturnStolenTimeUponDeath","Return Stolen Time After Death","死亡後に盗んだ時間を返す","蚀时者死亡后会议时间重置","時間小偷死亡後將會議時間重設","Вернуть Украденное Время После Его Смерти"
 "EvilTrackerCanSeeKillFlash","Can See ""Kill Flash"" for Impostor Kills","インポスターキル時にフラッシュが見える","当内鬼进行击杀时邪恶的追踪者可以看到闪光","","EvilTracker Сбрасывает Цель После Каждой Встречи"
 "EvilTrackerResetTargetAfterMeeting","Can Reset Target After Meeting","会議後に再度ターゲットを設定できる","会议后重置邪恶的追踪者追踪目标","","EvilTracker Может Сбросить Цель После Встречи"
-"KillFlashDuration","""Kill Flash"" Duration(S)","キルフラッシュの長さ(秒)","击杀闪烁持续时间","殺人閃光持續時間(秒)","Длительность Вспышки Убийсва"
+"KillFlashDuration","""Kill Flash"" Duration","キルフラッシュの長さ","击杀闪烁持续时间","殺人閃光持續時間","Длительность Вспышки Убийсва"
 
 "## かくれんぼ設定"
 "HideAndSeekOptions","Hide and Seek Settings","かくれんぼの設定","躲猫猫设置","躲貓貓設定","Настройки Пряток"
@@ -535,6 +535,13 @@
 "assignCommonTasks","Give %role% Common Tasks","%role%に通常タスクを割り当てる","%role%的普通任务数","%role%有普通任務","%role% Имеет Общие Задания"
 "roleLongTasksNum","%role% Long Tasks","%role%のロングタスクの数","%role%的长任务数","%role%的長任務數量","%role% Долгие Задания"
 "roleShortTasksNum","%role% Short Tasks","%role%のショートタスクの数","%role%的短任务数","%role%的短任務數量","%role% Короткие Задания"
+"Format.Players","{0}","{0}人",,,
+"Format.Seconds","{0}s","{0}秒",,,
+"Format.Percent","{0}%","{0}%","{0}%","{0}%","{0}%"
+"Format.Times","{0}","{0}回",,,
+"Format.Multiplier","{0}x","{0}x","{0}x","{0}x","{0}x"
+"Format.Votes","{0}","{0}票",,,
+"Format.Pieces","{0}","{0}個",,,
 "KillButtonText","Kill","キル","击杀","殺死","Убить"
 "SniperSnipeButtonText","Snipe","狙撃","狙击","狙擊","Снайпнуть"
 "FireWorksExplosionButtonText","Fire","爆破","引爆","引爆","Огонь"
