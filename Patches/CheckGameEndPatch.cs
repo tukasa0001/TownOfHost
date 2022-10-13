@@ -142,56 +142,6 @@ namespace TownOfHost
 
                 return true;
             }
-            public bool CheckGameEndByTask(out GameOverReason reason)
-            {
-                reason = GameOverReason.ImpostorByKill;
-                if (Options.DisableTaskWin.GetBool()) return false;
-
-                if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
-                {
-                    reason = GameOverReason.HumansByTask;
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
-                    return true;
-                }
-                return false;
-            }
-            public bool CheckGameEndBySabotage(out GameOverReason reason)
-            {
-                reason = GameOverReason.ImpostorByKill;
-                if (ShipStatus.Instance.Systems == null) return false;
-
-                // TryGetValueは使用不可
-                var systems = ShipStatus.Instance.Systems;
-                LifeSuppSystemType LifeSupp;
-                if (systems.ContainsKey(SystemTypes.LifeSupp) && // サボタージュ存在確認
-                    (LifeSupp = systems[SystemTypes.LifeSupp].TryCast<LifeSuppSystemType>()) != null && // キャスト可能確認
-                    LifeSupp.Countdown < 0f) // タイムアップ確認
-                {
-                    // 酸素サボタージュ
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
-                    reason = GameOverReason.ImpostorBySabotage;
-                    LifeSupp.Countdown = 10000f;
-                    return true;
-                }
-
-                ISystemType sys = null;
-                if (systems.ContainsKey(SystemTypes.Reactor)) sys = systems[SystemTypes.Reactor];
-                else if (systems.ContainsKey(SystemTypes.Laboratory)) sys = systems[SystemTypes.Laboratory];
-
-                ICriticalSabotage critical;
-                if (sys != null && // サボタージュ存在確認
-                    (critical = sys.TryCast<ICriticalSabotage>()) != null && // キャスト可能確認
-                    critical.Countdown < 0f) // タイムアップ確認
-                {
-                    // リアクターサボタージュ
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
-                    reason = GameOverReason.ImpostorBySabotage;
-                    critical.ClearSabotage();
-                    return true;
-                }
-
-                return false;
-            }
         }
 
         // HideAndSeek用
@@ -238,19 +188,6 @@ namespace TownOfHost
 
                 return true;
             }
-            public bool CheckGameEndByTask(out GameOverReason reason)
-            {
-                reason = GameOverReason.ImpostorByKill;
-                if (Options.DisableTaskWin.GetBool()) return false;
-
-                if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
-                {
-                    reason = GameOverReason.HumansByTask;
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
-                    return true;
-                }
-                return false;
-            }
         }
     }
 
@@ -273,6 +210,60 @@ namespace TownOfHost
                 }
             }
             return counts;
+        }
+
+
+        /// <summary>GameData.TotalTasksとCompletedTasksをもとにタスク勝利が可能かを判定します。</summary>
+        public virtual bool CheckGameEndByTask(out GameOverReason reason)
+        {
+            reason = GameOverReason.ImpostorByKill;
+            if (Options.DisableTaskWin.GetBool()) return false;
+
+            if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
+            {
+                reason = GameOverReason.HumansByTask;
+                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
+                return true;
+            }
+            return false;
+        }
+        /// <summary>ShipStatus.Systems内の要素をもとにサボタージュ勝利が可能かを判定します。</summary>
+        public virtual bool CheckGameEndBySabotage(out GameOverReason reason)
+        {
+            reason = GameOverReason.ImpostorByKill;
+            if (ShipStatus.Instance.Systems == null) return false;
+
+            // TryGetValueは使用不可
+            var systems = ShipStatus.Instance.Systems;
+            LifeSuppSystemType LifeSupp;
+            if (systems.ContainsKey(SystemTypes.LifeSupp) && // サボタージュ存在確認
+                (LifeSupp = systems[SystemTypes.LifeSupp].TryCast<LifeSuppSystemType>()) != null && // キャスト可能確認
+                LifeSupp.Countdown < 0f) // タイムアップ確認
+            {
+                // 酸素サボタージュ
+                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
+                reason = GameOverReason.ImpostorBySabotage;
+                LifeSupp.Countdown = 10000f;
+                return true;
+            }
+
+            ISystemType sys = null;
+            if (systems.ContainsKey(SystemTypes.Reactor)) sys = systems[SystemTypes.Reactor];
+            else if (systems.ContainsKey(SystemTypes.Laboratory)) sys = systems[SystemTypes.Laboratory];
+
+            ICriticalSabotage critical;
+            if (sys != null && // サボタージュ存在確認
+                (critical = sys.TryCast<ICriticalSabotage>()) != null && // キャスト可能確認
+                critical.Countdown < 0f) // タイムアップ確認
+            {
+                // リアクターサボタージュ
+                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
+                reason = GameOverReason.ImpostorBySabotage;
+                critical.ClearSabotage();
+                return true;
+            }
+
+            return false;
         }
     }
 }
