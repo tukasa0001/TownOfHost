@@ -134,13 +134,7 @@ namespace TownOfHost
             if (!player.GetCustomRole().IsVanilla())
             {
                 var RoleWithInfo = $"{player.GetRoleName()}\r\n";
-                RoleWithInfo += player.GetCustomRole() switch
-                {
-                    CustomRoles.Mafia => GetString(player.CanUseKillButton() ? "AfterMafiaInfo" : "BeforeMafiaInfo"),
-                    CustomRoles.EvilWatcher or CustomRoles.NiceWatcher => GetString("WatcherInfo"),
-                    CustomRoles.MadSnitch or CustomRoles.MadGuardian => GetString(player.GetPlayerTaskState().IsTaskFinished ? "MadmateInfo" : "BeforeMadmateInfo"),
-                    _ => GetString(player.GetCustomRole() + "Info")
-                };
+                RoleWithInfo += player.GetRoleInfo();
                 TaskTextPrefix = Utils.ColorString(player.GetRoleColor(), RoleWithInfo);
             }
             switch (player.GetCustomRole())

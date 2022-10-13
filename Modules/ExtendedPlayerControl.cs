@@ -4,6 +4,7 @@ using System.Linq;
 using Hazel;
 using InnerNet;
 using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -397,7 +398,7 @@ namespace TownOfHost
             opt.DiscussionTime = Mathf.Clamp(Main.DiscussionTime, 0, 300);
             opt.VotingTime = Mathf.Clamp(Main.VotingTime, TimeThief.LowerLimitVotingTime.GetInt(), 300);
 
-            if (Options.AllAliveMeeting.GetBool() && GameData.Instance.AllPlayers.ToArray().All(x => !x.IsDead))
+            if (Options.AllAliveMeeting.GetBool() && GameData.Instance.AllPlayers.ToArray().Where(x => !x.Object.Is(CustomRoles.GM)).All(x => !x.IsDead))
             {
                 opt.DiscussionTime = 0;
                 opt.VotingTime = Options.AllAliveMeetingTime.GetInt();
@@ -730,6 +731,33 @@ namespace TownOfHost
             || (seer.Is(RoleType.Madmate) && Options.MadmateCanSeeDeathReason.GetBool())
             || (seer.Data.IsDead && Options.GhostCanSeeDeathReason.GetBool()))
             && target.Data.IsDead;
+        public static string GetRoleInfo(this PlayerControl player, bool InfoLong = false)
+        {
+            var role = player.GetCustomRole();
+            if (role.IsVanilla())
+                return "\n" + GetString("Message.NoDescription");
+
+            var text = role.ToString();
+
+            var Prefix = "";
+            if (!InfoLong)
+                switch (role)
+                {
+                    case CustomRoles.Mafia:
+                        Prefix = player.CanUseKillButton() ? "After" : "Before";
+                        break;
+                    case CustomRoles.EvilWatcher:
+                    case CustomRoles.NiceWatcher:
+                        text = CustomRoles.Watcher.ToString();
+                        break;
+                    case CustomRoles.MadSnitch:
+                    case CustomRoles.MadGuardian:
+                        text = CustomRoles.Madmate.ToString();
+                        Prefix = player.GetPlayerTaskState().IsTaskFinished ? "" : "Before";
+                        break;
+                };
+            return GetString($"{Prefix}{text}Info" + (InfoLong ? "Long" : ""));
+        }
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>

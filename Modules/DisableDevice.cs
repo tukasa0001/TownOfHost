@@ -33,18 +33,18 @@ namespace TownOfHost
             var Map = (MapNames)PlayerControl.GameOptions.MapId;
             return Map switch
             {
-                MapNames.Skeld => 1.5f,
-                MapNames.Mira => 2.2f,
-                MapNames.Polus => 1.5f,
+                MapNames.Skeld => 1.8f,
+                MapNames.Mira => 2.4f,
+                MapNames.Polus => 1.8f,
                 //MapNames.Dleks => 1.5f,
-                MapNames.Airship => 1.5f,
+                MapNames.Airship => 1.8f,
                 _ => 0.0f
             };
         }
         public static void FixedUpdate()
         {
-            frame = frame == 4 ? 0 : frame++;
-            if (frame == 0) return;
+            frame = frame == 3 ? 0 : ++frame;
+            if (frame != 0) return;
 
             if (!DoDisable) return;
             foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
