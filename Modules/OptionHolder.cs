@@ -643,8 +643,8 @@ namespace TownOfHost
                 Dictionary<string, string> replacementDic = new() { { "%role%", Utils.GetRoleName(role) } };
                 doOverride = CustomOption.Create(idStart++, tab, Color.white, "doOverride", false, CustomRoleSpawnChances[role], false, false, "", replacementDic);
                 assignCommonTasks = CustomOption.Create(idStart++, tab, Color.white, "assignCommonTasks", true, doOverride, false, false, "", replacementDic);
-                numLongTasks = CustomOption.Create(idStart++, tab, Color.white, "roleLongTasksNum", 3, 0, 99, 1, doOverride, false, false, "FormatPieces", replacementDic);
-                numShortTasks = CustomOption.Create(idStart++, tab, Color.white, "roleShortTasksNum", 3, 0, 99, 1, doOverride, false, false, "FormatPieces", replacementDic);
+                numLongTasks = CustomOption.Create(idStart++, tab, Color.white, "roleLongTasksNum", 3, 0, 99, 1, doOverride, false, false, "Pieces", replacementDic);
+                numShortTasks = CustomOption.Create(idStart++, tab, Color.white, "roleShortTasksNum", 3, 0, 99, 1, doOverride, false, false, "Pieces", replacementDic);
 
                 if (!AllData.ContainsKey(role)) AllData.Add(role, this);
                 else Logger.Warn("重複したCustomRolesを対象とするOverrideTasksDataが作成されました", "OverrideTasksData");
