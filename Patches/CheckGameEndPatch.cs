@@ -36,7 +36,7 @@ namespace TownOfHost
                 __instance.enabled = false;
                 StartEndGame(
                     reason,
-                    CustomWinnerHolder.WinnerTeam is not CustomWinner.Crewmate or CustomWinner.Impostor
+                    CustomWinnerHolder.WinnerTeam is not CustomWinner.Crewmate and not CustomWinner.Impostor
                 );
                 predicate = null;
             }
