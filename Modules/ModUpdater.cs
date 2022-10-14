@@ -23,6 +23,22 @@ namespace TownOfHost
         public static string latestTitle = null;
         public static string downloadUrl = null;
         public static GenericPopup InfoPopup;
+        public static void DeleteOldDLL()
+        {
+            try
+            {
+                foreach (var path in Directory.EnumerateFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.bak"))
+                {
+                    Logger.Info($"{Path.GetFileName(path)}を削除", "DeleteOldDLL");
+                    File.Delete(path);
+                }
+            }
+            catch
+            {
+                Logger.Error("削除に失敗しました", "DeleteOldDLL");
+            }
+            return;
+        }
         public static async Task<bool> DownloadDLL(string url)
         {
             try
