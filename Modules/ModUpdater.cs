@@ -23,5 +23,20 @@ namespace TownOfHost
         public static string latestTitle = null;
         public static string downloadUrl = null;
         public static GenericPopup InfoPopup;
+        private static void ShowPopup(string message, bool showButton = false)
+        {
+            if (InfoPopup != null)
+            {
+                InfoPopup.Show(message);
+                var button = InfoPopup.transform.FindChild("ExitGame");
+                if (button != null)
+                {
+                    button.gameObject.SetActive(showButton);
+                    button.GetChild(0).GetComponent<TextTranslatorTMP>().TargetText = StringNames.QuitLabel;
+                    button.GetComponent<PassiveButton>().OnClick = new();
+                    button.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.Quit()));
+                }
+            }
+        }
     }
 }
