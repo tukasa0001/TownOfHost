@@ -9,6 +9,7 @@ namespace TownOfHost
     {
         public static GameObject template;
         public static GameObject discordButton;
+        public static GameObject updateButton;
 
         [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPrefix]
         public static void Start_Prefix(MainMenuManager __instance)
@@ -31,6 +32,26 @@ namespace TownOfHost
             discordButtonSprite.color = discordText.color = discordColor;
             discordButton.gameObject.SetActive(Main.ShowDiscordButton);
 
+            //Updateボタンを生成
+            if (updateButton == null) updateButton = UnityEngine.Object.Instantiate(template, template.transform.parent);
+            updateButton.name = "UpdateButton";
+            updateButton.transform.position = template.transform.position + new Vector3(0.25f, 0.75f);
+            updateButton.transform.GetChild(0).GetComponent<RectTransform>().localScale *= 1.5f;
+
+            var updateText = updateButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
+            Color updateColor = new Color32(128, 255, 255, byte.MaxValue);
+            PassiveButton updatePassiveButton = updateButton.GetComponent<PassiveButton>();
+            SpriteRenderer updateButtonSprite = updateButton.GetComponent<SpriteRenderer>();
+            updatePassiveButton.OnClick = new();
+            updatePassiveButton.OnClick.AddListener((Action)(() =>
+            {
+                updateButton.SetActive(false);
+                ModUpdater.StartUpdate(ModUpdater.downloadUrl);
+            }));
+            updatePassiveButton.OnMouseOut.AddListener((Action)(() => updateButtonSprite.color = updateText.color = updateColor));
+            updateButtonSprite.color = updateText.color = updateColor;
+            updateButtonSprite.size *= 1.5f;
+            updateButton.SetActive(false);
         }
     }
 }
