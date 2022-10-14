@@ -23,6 +23,58 @@ namespace TownOfHost
         public static string latestTitle = null;
         public static string downloadUrl = null;
         public static GenericPopup InfoPopup;
+        public static async Task<bool> CheckRelease(bool beta = false)
+        {
+            string url = beta ? Main.BetaBuildURL.Value : URL + "/releases/latest";
+            try
+            {
+                string result;
+                using (HttpClient client = new())
+                {
+                    client.DefaultRequestHeaders.Add("User-Agent", "TownOfHost Updater");
+                    using var response = await client.GetAsync(new Uri(url), HttpCompletionOption.ResponseContentRead);
+                    if (!response.IsSuccessStatusCode || response.Content == null)
+                    {
+                        Logger.Error($"ステータスコード: {response.StatusCode}", "CheckRelease");
+                        return false;
+                    }
+                    result = await response.Content.ReadAsStringAsync();
+                }
+                JObject data = JObject.Parse(result);
+                if (beta)
+                {
+                    latestTitle = data["name"].ToString();
+                    downloadUrl = data["url"].ToString();
+                    hasUpdate = latestTitle != ThisAssembly.Git.Commit;
+                }
+                else
+                {
+                    latestVersion = new(data["tag_name"]?.ToString().TrimStart('v'));
+                    latestTitle = $"Ver. {latestVersion}";
+                    JArray assets = data["assets"].Cast<JArray>();
+                    for (int i = 0; i < assets.Count; i++)
+                    {
+                        if (assets[i]["name"].ToString() == "TownOfHost.dll")
+                            downloadUrl = assets[i]["browser_download_url"].ToString();
+                    }
+                    hasUpdate = latestVersion.CompareTo(Main.version) > 0;
+                }
+                if (downloadUrl == null)
+                {
+                    Logger.Error("ダウンロードURLを取得できませんでした。", "CheckRelease");
+                    return false;
+                }
+                isChecked = true;
+                isBroken = false;
+            }
+            catch (Exception ex)
+            {
+                isBroken = true;
+                Logger.Error($"リリースのチェックに失敗しました。\n{ex}", "CheckRelease");
+                return false;
+            }
+            return true;
+        }
         public static void StartUpdate(string url)
         {
             ShowPopup(GetString("updatePleaseWait"));
