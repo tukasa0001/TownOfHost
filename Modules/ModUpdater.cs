@@ -29,6 +29,9 @@ namespace TownOfHost
         public static void Start_Prefix(MainMenuManager __instance)
         {
             DeleteOldDLL();
+            InfoPopup = UnityEngine.Object.Instantiate(Twitch.TwitchManager.Instance.TwitchPopup);
+            InfoPopup.name = "InfoPopup";
+            InfoPopup.TextAreaTMP.GetComponent<RectTransform>().sizeDelta = new(2.5f, 2f);
         }
         public static async Task<bool> CheckRelease(bool beta = false)
         {
