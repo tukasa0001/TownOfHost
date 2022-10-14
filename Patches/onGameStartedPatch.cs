@@ -258,6 +258,8 @@ namespace TownOfHost
                 }
                 //色設定処理
                 SetColorPatch.IsAntiGlitchDisabled = true;
+
+                GameEndChecker.SetPredicateToHideAndSeek();
             }
             else
             {
@@ -413,6 +415,7 @@ namespace TownOfHost
                 if (Main.RealOptionsData.NumImpostors > 1)
                     ShapeshifterNum -= CustomRoles.Egoist.GetCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
+                GameEndChecker.SetPredicateToNormal();
             }
 
             // ResetCamが必要なプレイヤーのリストにクラス化が済んでいない役職のプレイヤーを追加
