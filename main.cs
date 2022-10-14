@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,8 +7,8 @@ using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using HarmonyLib;
-using UnityEngine;
 using UnhollowerRuntimeLib;
+using UnityEngine;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
@@ -62,6 +62,7 @@ namespace TownOfHost
         //Other Configs
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
+        public static ConfigEntry<string> BetaBuildURL { get; private set; }
         public static ConfigEntry<float> LastKillCooldown { get; private set; }
         public static GameOptionsData RealOptionsData;
         public static Dictionary<byte, string> AllPlayerNames;
@@ -166,6 +167,7 @@ namespace TownOfHost
             Preset5 = Config.Bind("Preset Name Options", "Preset5", "Preset_5");
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
+            BetaBuildURL = Config.Bind("Other", "BetaBuildURL", "");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
             MessageWait = Config.Bind("Other", "MessageWait", 1);
             LastKillCooldown = Config.Bind("Other", "LastKillCooldown", (float)30);
