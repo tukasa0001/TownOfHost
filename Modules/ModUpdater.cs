@@ -23,6 +23,17 @@ namespace TownOfHost
         public static string latestTitle = null;
         public static string downloadUrl = null;
         public static GenericPopup InfoPopup;
+        public static void StartUpdate(string url)
+        {
+            ShowPopup(GetString("updatePleaseWait"));
+            if (!BackupDLL())
+            {
+                ShowPopup(GetString("updateManually"), true);
+                return;
+            }
+            _ = DownloadDLL(url);
+            return;
+        }
         public static bool BackupDLL()
         {
             try
