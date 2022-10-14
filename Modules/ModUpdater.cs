@@ -32,6 +32,10 @@ namespace TownOfHost
             InfoPopup = UnityEngine.Object.Instantiate(Twitch.TwitchManager.Instance.TwitchPopup);
             InfoPopup.name = "InfoPopup";
             InfoPopup.TextAreaTMP.GetComponent<RectTransform>().sizeDelta = new(2.5f, 2f);
+            if (!isChecked)
+            {
+                CheckRelease(Main.BetaBuildURL.Value != "").GetAwaiter().GetResult();
+            }
         }
         public static async Task<bool> CheckRelease(bool beta = false)
         {
