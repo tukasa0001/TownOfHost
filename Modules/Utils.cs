@@ -337,14 +337,11 @@ namespace TownOfHost
                     if (taskState.hasTasks)
                     {
                         Color color = Color.yellow;
-                        if (GameStates.IsInGame)
-                        {
-                            var info = GetPlayerInfoById(playerId);
-                            var afterFinishingColor = HasTasks(info) ? Color.green : Color.red; //タスク完了後の色
-                            var beforeFinishingColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
-                            var nonCommsColor = taskState.IsTaskFinished ? afterFinishingColor : beforeFinishingColor;
-                            color = comms ? Color.gray : nonCommsColor;
-                        }
+                        var info = GetPlayerInfoById(playerId);
+                        var afterFinishingColor = HasTasks(info) ? Color.green : Color.red; //タスク完了後の色
+                        var beforeFinishingColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
+                        var nonCommsColor = taskState.IsTaskFinished ? afterFinishingColor : beforeFinishingColor;
+                        color = comms ? Color.gray : nonCommsColor;
                         string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
                         ProgressText = ColorString(color, $"({Completed}/{taskState.AllTasksCount})");
                     }
