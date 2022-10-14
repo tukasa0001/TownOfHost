@@ -23,6 +23,19 @@ namespace TownOfHost
         public static string latestTitle = null;
         public static string downloadUrl = null;
         public static GenericPopup InfoPopup;
+        public static bool BackupDLL()
+        {
+            try
+            {
+                File.Move(Assembly.GetExecutingAssembly().Location, Assembly.GetExecutingAssembly().Location + ".bak");
+            }
+            catch
+            {
+                Logger.Error("バックアップに失敗しました", "BackupDLL");
+                return false;
+            }
+            return true;
+        }
         public static void DeleteOldDLL()
         {
             try
