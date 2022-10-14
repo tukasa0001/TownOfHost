@@ -175,8 +175,12 @@ namespace TownOfHost
                         if (Main.SpelledPlayer.TryGetValue(pc.PlayerId, out var killer) && killer == which)
                             Main.SpelledPlayer.Remove(pc.PlayerId);
                 }
-                foreach (var sp in Main.SpelledPlayer.Keys)
-                    Main.AfterMeetingDeathPlayers.TryAdd(sp, PlayerState.DeathReason.Spell);
+                foreach (var kvp in Main.SpelledPlayer)
+                {
+                    if (Utils.GetPlayerById(kvp.Key) == null) continue;
+                    Utils.GetPlayerById(kvp.Key).SetRealKiller(kvp.Value);
+                    Main.AfterMeetingDeathPlayers.TryAdd(kvp.Key, PlayerState.DeathReason.Spell);
+                }
                 Main.SpelledPlayer.Clear();
 
 
