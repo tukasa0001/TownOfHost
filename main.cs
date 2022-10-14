@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -49,7 +49,6 @@ namespace TownOfHost
         public static ConfigEntry<bool> ForceJapanese { get; private set; }
         public static ConfigEntry<bool> JapaneseRoleName { get; private set; }
         public static ConfigEntry<bool> AmDebugger { get; private set; }
-        public static ConfigEntry<string> ShowPopUpVersion { get; private set; }
         public static ConfigEntry<int> MessageWait { get; private set; }
 
         public static LanguageUnit EnglishLang { get; private set; }
@@ -168,7 +167,6 @@ namespace TownOfHost
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
-            ShowPopUpVersion = Config.Bind("Other", "ShowPopUpVersion", "0");
             MessageWait = Config.Bind("Other", "MessageWait", 1);
             LastKillCooldown = Config.Bind("Other", "LastKillCooldown", (float)30);
 
