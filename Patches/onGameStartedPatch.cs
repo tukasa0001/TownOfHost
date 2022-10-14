@@ -35,7 +35,7 @@ namespace TownOfHost
             Main.RealKiller = new Dictionary<byte, PlayerControl>();
             Main.ResetCamPlayerList = new();
 
-            Main.SpelledPlayer = new List<PlayerControl>();
+            Main.SpelledPlayer = new Dictionary<byte, PlayerControl>();
             Main.witchMeeting = false;
             Main.CheckShapeshift = new Dictionary<byte, bool>();
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();

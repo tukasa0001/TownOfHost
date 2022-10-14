@@ -244,7 +244,7 @@ namespace TownOfHost
         public string GetString()
         {
             string sel = Selections[Selection].ToString();
-            if (Format != "") return string.Format(Translator.GetString(Format), sel);
+            if (Format != "") return string.Format(Translator.GetString("Format." + Format), sel);
             return float.TryParse(sel, out _) ? sel : Translator.GetString(sel);
         }
 

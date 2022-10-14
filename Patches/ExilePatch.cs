@@ -84,7 +84,9 @@ namespace TownOfHost
             }
             if (AmongUsClient.Instance.AmHost && Main.IsFixedCooldown)
                 Main.RefixCooldownDelay = Options.DefaultKillCooldown - 3f;
-            Main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
+            foreach (var pc in PlayerControl.AllPlayerControls)
+                if (pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected)
+                    Main.SpelledPlayer.Remove(pc.PlayerId);
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
