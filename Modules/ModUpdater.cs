@@ -23,6 +23,10 @@ namespace TownOfHost
         public static string latestTitle = null;
         public static string downloadUrl = null;
         public static GenericPopup InfoPopup;
+        private static void DownloadCallBack(object sender, DownloadProgressChangedEventArgs e)
+        {
+            ShowPopup($"{GetString("updateInProgress")}\n{e.BytesReceived}/{e.TotalBytesToReceive}({e.ProgressPercentage}%)");
+        }
         private static void ShowPopup(string message, bool showButton = false)
         {
             if (InfoPopup != null)
