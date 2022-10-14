@@ -23,6 +23,13 @@ namespace TownOfHost
         public static string latestTitle = null;
         public static string downloadUrl = null;
         public static GenericPopup InfoPopup;
+
+        [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPrefix]
+        [HarmonyPriority(2)]
+        public static void Start_Prefix(MainMenuManager __instance)
+        {
+            DeleteOldDLL();
+        }
         public static async Task<bool> CheckRelease(bool beta = false)
         {
             string url = beta ? Main.BetaBuildURL.Value : URL + "/releases/latest";
