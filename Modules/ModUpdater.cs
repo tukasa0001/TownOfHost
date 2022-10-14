@@ -23,6 +23,24 @@ namespace TownOfHost
         public static string latestTitle = null;
         public static string downloadUrl = null;
         public static GenericPopup InfoPopup;
+        public static async Task<bool> DownloadDLL(string url)
+        {
+            try
+            {
+                using WebClient client = new();
+                client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadCallBack);
+                client.DownloadFileAsync(new Uri(url), "BepInEx/plugins/TownOfHost.dll");
+                while (client.IsBusy) await Task.Delay(1);
+                ShowPopup(GetString("updateRestart"), true);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"ダウンロードに失敗しました。\n{ex}", "DownloadDLL");
+                ShowPopup(GetString("updateManually"), true);
+                return false;
+            }
+            return true;
+        }
         private static void DownloadCallBack(object sender, DownloadProgressChangedEventArgs e)
         {
             ShowPopup($"{GetString("updateInProgress")}\n{e.BytesReceived}/{e.TotalBytesToReceive}({e.ProgressPercentage}%)");
