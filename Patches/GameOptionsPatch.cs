@@ -31,7 +31,8 @@ namespace TownOfHost
                     = tf.Find("More Options").gameObject.active
                     = false;
 
-                __instance.TitleText.text += $" ({GetString("Disabled")})";
+                if (!__instance.TitleText.text.Contains(DisableText))
+                    __instance.TitleText.text += DisableText;
                 __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.GuardianAngel);
             }
             if (__instance.Role.Role == RoleTypes.Shapeshifter)
