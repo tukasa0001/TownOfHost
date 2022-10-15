@@ -277,7 +277,7 @@ namespace TownOfHost
                     {
                         reporter.RpcResetAbilityCooldown();
                         var rand = new System.Random();
-                        int Mode = rand.Next(4, 5);
+                        int Mode = rand.Next(5, 6);
                         if (!(reporter.Is(CustomRoles.Medium) && reporter.IsAlive())) continue;
                         foreach (var target in PlayerControl.AllPlayerControls)
                         {
@@ -286,6 +286,7 @@ namespace TownOfHost
                             string TargetPlayerName = target.GetRealName(false);
                             string TargetName = $"{TargetPlayerName}";
                             var killer = Medium.GetKiller(target.PlayerId);
+                            string deadtime = Medium.DeadTimer[target.PlayerId].ToString();
                             switch (Mode)
                             {
                                 case 1:
@@ -301,7 +302,7 @@ namespace TownOfHost
                                     Utils.SendMessage($"{TargetName}を殺した人の色のタイプは{killer.GetColorType()}です。", reporter.PlayerId);
                                     break;
                                 case 5:
-                                    Utils.SendMessage($"{TargetName}が殺されたのは");
+                                    Utils.SendMessage($"{TargetName}が殺されたのは{deadtime}秒前です", reporter.PlayerId);
                                     break;
                             }
                         }
