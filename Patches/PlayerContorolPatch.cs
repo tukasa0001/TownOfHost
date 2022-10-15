@@ -371,7 +371,6 @@ namespace TownOfHost
             }
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
             PlayerState.SetDead(target.PlayerId);
-            //Medium.StartDeadTimer(target.PlayerId);
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
