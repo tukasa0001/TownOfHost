@@ -23,9 +23,7 @@ namespace TownOfHost
             {
                 //+-ボタン, 設定値, 詳細設定ボタンを非表示
                 var tf = __instance.transform;
-                tf.Find("Count Minus_TMP").gameObject.active
-                    = tf.Find("Count Value_TMP").gameObject.active
-                    = tf.Find("Count Plus_TMP").gameObject.active
+                tf.Find("Count Plus_TMP").gameObject.active
                     = tf.Find("Chance Minus_TMP").gameObject.active
                     = tf.Find("Chance Value_TMP").gameObject.active
                     = tf.Find("Chance Plus_TMP").gameObject.active
