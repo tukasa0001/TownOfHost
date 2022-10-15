@@ -2,6 +2,7 @@ using Hazel;
 using System.Collections.Generic;
 using UnityEngine;
 using static TownOfHost.Translator;
+using System.Timers;
 
 namespace TownOfHost
 {
@@ -14,9 +15,9 @@ namespace TownOfHost
         public static Dictionary<byte, float> Cooldown = new();
         public static Dictionary<byte, bool> MediumUsed = new();
         public static Dictionary<byte, bool> CanMedium = new();
-        public static Dictionary<byte, float> DeadTimer = new();
+        public static Dictionary<byte, int> DeadTimer = new();
         public static Dictionary<byte, byte> Killer = new();
-        public static Dictionary<byte, string> DeadTime = new();
+        public static List<byte> Target = new();
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.Medium);
@@ -31,6 +32,7 @@ namespace TownOfHost
             CanMedium = new();
             DeadTimer = new();
             Killer = new();
+            Target = new();
         }
         public static void Add(byte playerId)
         {
@@ -44,15 +46,11 @@ namespace TownOfHost
             opt.RoleOptions.ScientistCooldown = MediumCooldown.GetFloat();
             opt.RoleOptions.ScientistBatteryCharge = 0.1f;
         }
-        public static void FixedUpdate(byte targetId)
+        public static void FixedUpdate(PlayerControl target)
         {
-            var killer = GetKiller(targetId);
-            if (GameStates.IsInTask && Killer.ContainsKey(targetId))
+            if (GameStates.IsInTask && Target.Contains(target.PlayerId))
             {
-                string deadtime = "";
-                int deadtimer = 0;
-
-                deadtime = GetString($"{++deadtimer}");
+                DeadTimer[target.PlayerId]++;
             }
         }
         public static PlayerControl GetKiller(byte targetId)
@@ -63,19 +61,6 @@ namespace TownOfHost
             var killer = Utils.GetPlayerById(killerId);
             return killer;
         }
-        public static void OnReportDeadBody()
-        {
-            //CooldownTimer.Clear();
-        }
-        /*public static void StartDeadTimer()
-        {
-            string deadtime = "";
-            Stopwatch deadtimer = new();
-            OnReportDeadBody(deadtimer);
-            deadtimer.Start();//計測開始
-            System.Threading.Thread.Sleep(1000);
-            deadtime = GetString($"{deadtimer.Elapsed}");
-        }*/
 
     }
 }

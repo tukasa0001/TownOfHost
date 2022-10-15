@@ -355,6 +355,11 @@ namespace TownOfHost
                 Executioner.Target.Remove(target.PlayerId);
                 Executioner.SendRPC(target.PlayerId);
             }
+            if (!Medium.Target.Contains(target.PlayerId))
+            {
+                Medium.DeadTimer[target.PlayerId] = 0;
+                Medium.Target.Add(target.PlayerId);
+            }
             if (target.Is(CustomRoles.TimeThief))
                 target.ResetVotingTime();
 
@@ -364,9 +369,9 @@ namespace TownOfHost
                 if (pc.IsLastImpostor())
                     Main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
             }
-            //Medium.StartDeadTimer();
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
             PlayerState.SetDead(target.PlayerId);
+            //Medium.StartDeadTimer(target.PlayerId);
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
@@ -466,7 +471,6 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return true;
             BountyHunter.OnReportDeadBody();
             SerialKiller.OnReportDeadBody();
-            Medium.OnReportDeadBody();
             Main.ArsonistTimer.Clear();
             if (target == null) //ボタン
             {
@@ -603,7 +607,7 @@ namespace TownOfHost
                 //ターゲットのリセット
                 BountyHunter.FixedUpdate(player);
                 EvilTracker.FixedUpdate(player);
-                Medium.FixedUpdate(player.PlayerId);
+                Medium.FixedUpdate(player);
                 if (GameStates.IsInTask && player.IsAlive() && Options.LadderDeath.GetBool())
                 {
                     FallFromLadder.FixedUpdate(player);
