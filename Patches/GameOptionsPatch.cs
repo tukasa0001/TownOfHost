@@ -9,6 +9,7 @@ namespace TownOfHost
         public static void Postfix(RoleOptionSetting __instance)
         {
             bool forced = false;
+            string DisableText = $" ({GetString("Disabled")})";
             if (__instance.Role.Role == RoleTypes.Scientist)
             {
                 __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.Scientist);
