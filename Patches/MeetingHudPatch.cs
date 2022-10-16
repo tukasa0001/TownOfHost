@@ -277,7 +277,7 @@ namespace TownOfHost
                     {
                         reporter.RpcResetAbilityCooldown();
                         var rand = new System.Random();
-                        int Mode = rand.Next(5, 6);
+                        int Mode = rand.Next(3, 4);//ランダムに
                         if (!(reporter.Is(CustomRoles.Medium) && reporter.IsAlive())) continue;
                         foreach (var target in PlayerControl.AllPlayerControls)
                         {
@@ -286,7 +286,7 @@ namespace TownOfHost
                             string TargetPlayerName = target.GetRealName(false);
                             string TargetName = $"{TargetPlayerName}";
                             var killer = Medium.GetKiller(target.PlayerId);
-                            string deadtime = Medium.DeadTimer[target.PlayerId].ToString();
+                            string deadtime = Medium.DeadTimer[target.PlayerId].ToString("F0");
                             switch (Mode)
                             {
                                 case 1:

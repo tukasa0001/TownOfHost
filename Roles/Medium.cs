@@ -1,8 +1,5 @@
-using Hazel;
 using System.Collections.Generic;
 using UnityEngine;
-using static TownOfHost.Translator;
-using System.Timers;
 
 namespace TownOfHost
 {
@@ -15,7 +12,7 @@ namespace TownOfHost
         public static Dictionary<byte, float> Cooldown = new();
         public static Dictionary<byte, bool> MediumUsed = new();
         public static Dictionary<byte, bool> CanMedium = new();
-        public static Dictionary<byte, int> DeadTimer = new();
+        public static Dictionary<byte, float> DeadTimer = new();
         public static Dictionary<byte, byte> Killer = new();
         public static List<byte> Target = new();
         public static void SetupCustomOption()
@@ -50,7 +47,7 @@ namespace TownOfHost
         {
             if (GameStates.IsInTask && Target.Contains(target.PlayerId))
             {
-                DeadTimer[target.PlayerId]++;
+                DeadTimer[target.PlayerId] += Time.fixedDeltaTime; ;
             }
         }
         public static PlayerControl GetKiller(byte targetId)

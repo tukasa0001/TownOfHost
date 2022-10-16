@@ -357,8 +357,9 @@ namespace TownOfHost
             }
             if (!Medium.Target.Contains(target.PlayerId))
             {
-                Medium.DeadTimer[target.PlayerId] = 0;
+                Medium.DeadTimer[target.PlayerId] = 0f;
                 Medium.Target.Add(target.PlayerId);
+                Medium.Killer.Add(target.PlayerId, __instance.PlayerId);
             }
             if (target.Is(CustomRoles.TimeThief))
                 target.ResetVotingTime();
