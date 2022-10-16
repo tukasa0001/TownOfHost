@@ -128,7 +128,7 @@ namespace TownOfHost
                         CustomWinnerHolder.WinnerIds.Add(target.PlayerId);
                         CustomWinnerHolder.WinnerTeam = CustomWinner.Outlaw;
                         CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Outlaw);
-                        ResetRoleAndEndGame(endReason, true);
+                        ///ResetRoleAndEndGame(endReason, true);
                         break;
                     }
                     break;
