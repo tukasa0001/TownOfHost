@@ -641,7 +641,7 @@ The time held in place on the body is decided by host in settings.<br>
 | --------------- |
 | Block Move Time |
 
-###Outlaw **(New!)**
+### Outlaw **(New!)**
 
 Team : Neutral(solo)<br>
 Basis : Crewmate<br>
@@ -649,9 +649,18 @@ Count : Outlaw<br>
 Victory Condition : Get killed by the Sheriff<br>
 Created by AIOMEGA<br>
 
+#### Description
+
 The Outlaw is part of it's own team that tries to bait the Sheriff into killing them.<br>
-(If host has allowed): Outlaw can have an enabled kill button that only allows them to kill the Sheriff, turning them into either the Sheriff or<br>
-**Not added yet** Corrupt Sheriff (Chosen in the Game Options by host)<br>
+(If host has allowed): Outlaw can have an enabled kill button that only allows them to kill the Sheriff, turning them into either the Sheriff or **Not added yet** Corrupt Sheriff (Chosen in the Game Options by host)<br>
+
+#### Game Options
+| Name                |
+| -----------------   |
+| Can Vent            |
+| Can Sabotage        |
+| Has Impostor Vision |
+
 
 #### Game Options
 
