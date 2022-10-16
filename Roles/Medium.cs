@@ -10,8 +10,6 @@ namespace TownOfHost
         public static CustomOption MediumUseNumber;
         public static CustomOption MediumOneTimeUse;
         public static Dictionary<byte, int> UseNumber = new();
-        public static Dictionary<byte, bool> MediumUsed = new();
-        public static Dictionary<byte, bool> CanMedium = new();
         public static Dictionary<byte, float> DeadTimer = new();
         public static Dictionary<byte, byte> Killer = new();
         public static List<byte> Target = new();
@@ -19,14 +17,11 @@ namespace TownOfHost
         {
             Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.Medium);
             MediumUseNumber = CustomOption.Create(Id + 10, TabGroup.CrewmateRoles, Color.white, "MediumUseNumber", 3, 1, 5, 1, Options.CustomRoleSpawnChances[CustomRoles.Medium]);
-            MediumOneTimeUse = CustomOption.Create(Id + 11, TabGroup.CrewmateRoles, Color.white, "MediumOneTimeUse", false, Options.CustomRoleSpawnChances[CustomRoles.Medium]);
         }
         public static void Init()
         {
             playerIdList = new();
             UseNumber = new();
-            MediumUsed = new();
-            CanMedium = new();
             DeadTimer = new();
             Killer = new();
             Target = new();
@@ -34,7 +29,6 @@ namespace TownOfHost
         public static void Add(byte playerId)
         {
             playerIdList.Add(playerId);
-            MediumUsed.Add(playerId, false);
             UseNumber[playerId] = 0;
         }
         public static bool IsEnable() => playerIdList.Count > 0;
@@ -97,17 +91,17 @@ namespace TownOfHost
                         }
                     }
                 }*/
+                if (target == null) return;
                 var rand = new System.Random();
-                int Mode = rand.Next(1, 6);  //ランダムに
+                int Pattern = rand.Next(1, 6);  //ランダムに
                 if (!(reporter.Is(CustomRoles.Medium) && reporter.IsAlive())) return;
-                if (!(UseNumber[reporter.PlayerId] > MediumUseNumber.GetInt())) return;
                 if (reporter == target) return;
-                if (target = null) return;
                 if (!target.Data.IsDead) return;
+                if (UseNumber[reporter.PlayerId] > MediumUseNumber.GetInt()) return;
                 string TargetPlayerName = target.GetRealName(true);
                 var killer = GetKiller(target.PlayerId);
                 string deadtime = DeadTimer[target.PlayerId].ToString("F0");
-                switch (Mode)
+                switch (Pattern)
                 {
                     case 1:
                         Utils.SendMessage($"{TargetPlayerName}の死因は{Utils.GetVitalText(target.PlayerId)}です。", reporter.PlayerId);
@@ -125,8 +119,8 @@ namespace TownOfHost
                         Utils.SendMessage($"{TargetPlayerName}が殺されたのは{deadtime}秒前です", reporter.PlayerId);
                         break;
                 }
-                UseNumber[reporter.PlayerId]++;
             }, 5f, "UseMediumAbility");
+            UseNumber[reporter.PlayerId]++;
         }
     }
 }
