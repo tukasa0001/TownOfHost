@@ -67,7 +67,7 @@ namespace TownOfHost
                 {
                     reporter.RpcResetAbilityCooldown();
                     var rand = new System.Random();
-                    int Mode = rand.Next(3, 4);  //ランダムに
+                    int Mode = rand.Next(1, 6);  //ランダムに
                     if (!(reporter.Is(CustomRoles.Medium) && reporter.IsAlive())) continue;
                     foreach (var target in PlayerControl.AllPlayerControls)
                     {
