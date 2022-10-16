@@ -364,6 +364,9 @@ namespace TownOfHost
                         case CustomRoles.EvilTracker:
                             EvilTracker.Add(pc.PlayerId);
                             break;
+                        case CustomRoles.Medium:
+                            Medium.Add(pc.PlayerId);
+                            break;
                     }
                     pc.ResetKillCooldown();
 
