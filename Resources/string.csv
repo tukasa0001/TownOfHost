@@ -130,6 +130,7 @@ DoctorInfo,Access vitals and cause of death,斯くして奴は死んだ,调查�
 TrapperInfo,Trap your enemies,敵を罠にはめよう,引诱敌人落入你的陷阱当中,讓你的敵人受困於陷阱中,Ловите своих врагов
 DictatorInfo,Hang your enemy on your own judgement,独裁政治をしよう,让我统治世界，拥有无上的权利,讓所有人臣服於你,Повесьте своего врага на страх и риск
 SeerInfo,You Will See Players Die,他人の死んだ瞬間がわかる,你能感知死亡,,Вы Видите Когда Умирают Игроки
+MediumInfo,Question the deadbody to gain informations.,死体から情報を得ろ,,,
 
 # 第三陣営役職
 ArsonistInfo,Let them burn,燃やせ,火焰给我燃烧起来吧！,"燒吧,燒吧,燃燒吧",Пусть все они сгорят
@@ -195,6 +196,7 @@ DoctorInfoLong,"(Crewmates):\nThe Doctors have a portable vitals panel just like
 TrapperInfoLong,(Crewmates):\nThe Trappers forbid the killer to move in the least for a configurable seconds.,(クルーメイト陣営):\nキルされると、キルした人を数秒間移動不可にすることができる。(設定有),(船员阵营):\n陷阱师被击杀时，凶手一段时间内将不能移动。,"(船員):\n如果設限者被殺,殺他的兇手將會被困在原地幾秒(可以設定)","(Член Экипажа):\nTrapper запрещает убийце двигаться, длительность запрета зависит от настроек."
 DictatorInfoLong,"(Crewmates):\nWhen you vote for someone in a meeting, they forcibly break that meeting and exile the player they vote for.\nAfter exercising the force, the Dictators die just after meeting.",(クルーメイト陣営):\n会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができる。\n投票したタイミングでディクテーターは死ぬ。,(船员阵营):\n当独裁者在会议阶段投票给玩家后，会议会被强制结束并放逐其投票对象。\n该技能发动后独裁者将会死亡。,"(船員):\n如果獨裁主義者在會議上投票給某位玩家,\n獨裁主義者將強制結束會議並無視場上票數將獨裁主義者投的那個人投出\n但是獨裁主義者將死於他投票的瞬間。","(Член Экипажа):\nКогда он голосует за любого игрока на голосовании, он сразу же завершает собрание и изгоняет игрока за которого он проголосвал.\nПосле его голоса Dictator умирает сразу же после изгнания его выбранного игрока."
 SeerInfoLong,"(Crewmates):Every time players die, Seers can see kill flash.",(クルーメイト陣営):\nプレイヤーが死亡するごとに、シーアはキルフラッシュを見ることができる。,(船员阵营):\n每当玩家死亡时，灵媒将会看到击杀闪烁。,,"(Член Экипажа):Каждый раз когда игроки умирают, Seer может видеть вспышку убийства."
+MediumInfoLong,"(Crewmates):\nThe medium is a crewmate who can ask the deadbody for information by report.\nYou can question deadbody. You ca get random information about the deadbody or the killer in the chat.",通報をすることで死体に質問できる。\nチャットで死体や犯人の情報をランダムに入手することができる。",,,
 
 # 第三陣営役職
 ArsonistInfoLong,(Neutrals):\nThey can douse other players by using the kill button and remaining next to the player for a few seconds.\nAfter dousing everyone alive the Arsonists can enter the vents to ignite which results in Arsonist win.,(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。,(独立阵营):\n纵火犯可以通过对玩家点击击杀按钮并在跟随其数秒来完成涂油行为。\n当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。,"(中立):\n當縱火犯嘗試使用殺人鍵,它將對他身邊最近的一個人澆上油,\n當他對所有玩家澆上油之後,縱火縱火犯點火即勝利。","(Нейтрал):\nОн может обливать игроков, нажав на кнопку 'Убить' и находясь рядом с игроком в течение нескольких секунд.\nПосле того как он обольёт всех живых игрокво, Arsonist сможет запрыгнуть в вентиляцию чтобы поджечь всех игроков, что приводит к победе Arsonist."
@@ -369,7 +371,6 @@ EvilTrackerCanSeeKillFlash,EvilTracker Can See The Flash Of Impostor Kills,イ�
 EvilTrackerResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,会議後に再度ターゲットを設定できる,会议后重置邪恶的追踪者追踪目标,,EvilTracker Может Сбросить Цель После Встречи
 KillFlashDuration,Kill Flash Duration(s),キルフラッシュの長さ(秒),击杀闪烁持续时间,,Длительность Вспышки Убийсва
 MediumUseNumber,Medium Cool Down,ミーディアムの能力使用可能回数,,,
-MediumOneTimeUse,Can Use Ability once,一回しか能力を使えないかどうか,,,
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定,Настройки Пряток
@@ -523,4 +524,10 @@ All,All,すべて,全部,全部,Все
 Archive,Archive,アーカイブ,文件,檔案,Архив
 DisabledBySettings,Disabled by setting,設定で無効化されています,已在设置被中禁用,在設定中被禁用,Отключено настройкой
 Disabled,Disabled,無効,,,Неполноценный
-
+CauseOfDeath,[Info from Dead Person] {0}'s cause of death was {1}.,[死者からの情報] {0}の死因は{1}です。,,,
+TargetRole,[Info from Dead Person] {0}'s role was {1}.,[死者からの情報] {0}の役職は{1}でした。,,,
+KillerRole,[Info from Dead Person] {0} was killed by {1}.,[死者からの情報] {0}を殺した人の役職は{1}です。
+KillerColorType,[Info from Dead Person] {0} was killed by {1} color player.,[死者からの情報] {0}を殺した人の色は{1}です。,,,
+DeadTime,[Info from Dead Person] {0} was killed {1} seconds ago.,[死者からの情報] {0}が殺されたのは{1}秒前です。,,,
+LighterColor,LightColor,明るい色,,,
+DarkerColor,DarkColor,暗い色,,,

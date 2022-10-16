@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -104,19 +106,24 @@ namespace TownOfHost
                 switch (Pattern)
                 {
                     case 1:
-                        Utils.SendMessage($"{TargetPlayerName}の死因は{Utils.GetVitalText(target.PlayerId)}です。", reporter.PlayerId);
+                        string pattern1 = string.Format(GetString("CauseOfDeath"), TargetPlayerName, Utils.GetVitalText(target.PlayerId));
+                        Utils.SendMessage($"{pattern1}", reporter.PlayerId);
                         break;
                     case 2:
-                        Utils.SendMessage($"{TargetPlayerName}の役職は{target.GetRoleName()}でした。", reporter.PlayerId);
+                        string pattern2 = string.Format(GetString("TargetRole"), TargetPlayerName, target.GetRoleName());
+                        Utils.SendMessage($"{pattern2}", reporter.PlayerId);
                         break;
                     case 3:
-                        Utils.SendMessage($"{TargetPlayerName}を殺した人の役職は{killer.GetRoleName()}です。", reporter.PlayerId);
+                        string pattern3 = string.Format(GetString("KillerRole"), TargetPlayerName, killer.GetRoleName());
+                        Utils.SendMessage($"{pattern3}", reporter.PlayerId);
                         break;
                     case 4:
-                        Utils.SendMessage($"{TargetPlayerName}を殺した人の色のタイプは{killer.GetColorType()}です。", reporter.PlayerId);
+                        string pattern4 = string.Format(GetString("KillerColorType"), TargetPlayerName, killer.GetColorType());
+                        Utils.SendMessage($"{pattern4}", reporter.PlayerId);
                         break;
                     case 5:
-                        Utils.SendMessage($"{TargetPlayerName}が殺されたのは{deadtime}秒前です", reporter.PlayerId);
+                        string pattern5 = string.Format(GetString("DeadTime"), TargetPlayerName, deadtime);
+                        Utils.SendMessage($"{pattern5}", reporter.PlayerId);
                         break;
                 }
             }, 5f, "UseMediumAbility");
