@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,19 +13,19 @@ using UnityEngine;
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
 namespace TownOfHost
 {
-    [BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
+    [BepInPlugin(PluginGuid, "Town Of Host: Town Of Empath", PluginVersion)]
     [BepInProcess("Among Us.exe")]
     public class Main : BasePlugin
     {
         // == プログラム設定 / Program Config ==
         // modの名前 / Mod Name (Default: Town Of Host)
-        public static readonly string ModName = "Town Of Host";
+        public static readonly string ModName = "Town Of Empath";
         // modの色 / Mod Color (Default: #00bfff)
-        public static readonly string ModColor = "#00bfff";
+        public static readonly string ModColor = "#FFD6EC";
         // 公開ルームを許可する / Allow Public Room (Default: true)
         public static readonly bool AllowPublicRoom = true;
         // フォークID / ForkId (Default: OriginalTOH)
-        public static readonly string ForkId = "OriginalTOH";
+        public static readonly string ForkId = "TOHTOE";
         // Discordボタンを表示するか / Show Discord Button (Default: true)
         public static readonly bool ShowDiscordButton = true;
         // Discordサーバーの招待リンク / Discord Server Invite URL (Default: https://discord.gg/W5ug6hXB9V)
@@ -136,7 +136,7 @@ namespace TownOfHost
             HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{ModColor}");
             ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", true);
-            Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
+            Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfEmpath");
             TownOfHost.Logger.Enable();
             TownOfHost.Logger.Disable("NotifyRoles");
             TownOfHost.Logger.Disable("SendRPC");
@@ -209,6 +209,7 @@ namespace TownOfHost
                     {CustomRoles.Seer, "#61b26c"},
                     //第三陣営役職
                     {CustomRoles.Arsonist, "#ff6633"},
+                    {CustomRoles.Outlaw, "#F44C19"},
                     {CustomRoles.Jester, "#ec62a5"},
                     {CustomRoles.Terrorist, "#00ff00"},
                     {CustomRoles.Executioner, "#611c3a"},
@@ -336,6 +337,7 @@ namespace TownOfHost
         Seer,
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
         //Neutral
+        Outlaw,
         Arsonist,
         Egoist,
         EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
@@ -371,6 +373,7 @@ namespace TownOfHost
         Egoist = CustomRoles.Egoist,
         Jackal = CustomRoles.Jackal,
         HASTroll = CustomRoles.HASTroll,
+        Outlaw = CustomRoles.Outlaw,
     }
     public enum AdditionalWinners
     {
@@ -389,7 +392,7 @@ namespace TownOfHost
     public enum SuffixModes
     {
         None = 0,
-        TOH,
+        TOE,
         Streaming,
         Recording,
         RoomHost,

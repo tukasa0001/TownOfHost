@@ -24,6 +24,7 @@ namespace TownOfHost
         public static CustomOption CanKillExecutioner;
         public static CustomOption CanKillJackal;
         public static CustomOption CanKillJSchrodingerCat;
+        public static CustomOption CanKillOutlaw;
 
         public static Dictionary<byte, float> ShotLimit = new();
         public static Dictionary<byte, float> CurrentKillCooldown = new();
@@ -46,16 +47,18 @@ namespace TownOfHost
             MisfireKillsTarget = CustomOption.Create(Id + 11, TabGroup.CrewmateRoles, Color.white, "SheriffMisfireKillsTarget", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             ShotLimitOpt = CustomOption.Create(Id + 12, TabGroup.CrewmateRoles, Color.white, "SheriffShotLimit", 15, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillMadmates = CustomOption.Create(Id + 13, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff], replacementDic: SheriffCanKillRole(CustomRoles.Madmate));
-            CanKillNeutrals = CustomOption.Create(Id + 14, TabGroup.CrewmateRoles, Color.white, "SheriffCanKillNeutrals", KillOption, KillOption[0], Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillJester = CustomOption.Create(Id + 15, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Jester));
-            CanKillTerrorist = CustomOption.Create(Id + 16, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Terrorist));
-            CanKillOpportunist = CustomOption.Create(Id + 17, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Opportunist));
-            CanKillArsonist = CustomOption.Create(Id + 18, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Arsonist));
-            CanKillEgoist = CustomOption.Create(Id + 19, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Egoist));
-            CanKillEgoSchrodingerCat = CustomOption.Create(Id + 20, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.EgoSchrodingerCat));
-            CanKillExecutioner = CustomOption.Create(Id + 21, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Executioner));
-            CanKillJackal = CustomOption.Create(Id + 22, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Jackal));
-            CanKillJSchrodingerCat = CustomOption.Create(Id + 23, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.JSchrodingerCat));
+            CanKillOutlaw = CustomOption.Create(Id + 14, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", defaultValue: true , isHidden: true , replacementDic: SheriffCanKillRole(CustomRoles.Outlaw));
+            CanKillNeutrals = CustomOption.Create(Id + 15, TabGroup.CrewmateRoles, Color.white, "SheriffCanKillNeutrals", KillOption, KillOption[0], Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillJester = CustomOption.Create(Id + 16, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Jester));
+            CanKillTerrorist = CustomOption.Create(Id + 17, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Terrorist));
+            CanKillOpportunist = CustomOption.Create(Id + 18, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Opportunist));
+            CanKillArsonist = CustomOption.Create(Id + 19, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Arsonist));
+            CanKillEgoist = CustomOption.Create(Id + 20, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Egoist));
+            CanKillEgoSchrodingerCat = CustomOption.Create(Id + 21, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.EgoSchrodingerCat));
+            CanKillExecutioner = CustomOption.Create(Id + 22, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Executioner));
+            CanKillJackal = CustomOption.Create(Id + 23, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Jackal));
+            CanKillJSchrodingerCat = CustomOption.Create(Id + 24, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.JSchrodingerCat));
+            
         }
         public static void Init()
         {
@@ -116,6 +119,19 @@ namespace TownOfHost
                     Logger.Info($"{killer.GetNameWithRole()} : 残り{ShotLimit[killer.PlayerId]}発", "Sheriff");
                     SendRPC(killer.PlayerId);
                     break;
+                case "Shot Outlaw":
+                    if (target.Is(CustomRoles.Outlaw))
+                    {
+                        PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Shot);
+                        killer.RpcMurderPlayer(target);
+                        CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Outlaw);
+                        CustomWinnerHolder.WinnerIds.Add(target.PlayerId);
+                        CustomWinnerHolder.WinnerTeam = CustomWinner.Outlaw;
+                        CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Outlaw);
+                        ResetRoleAndEndGame(endReason, true);
+                        break;
+                    }
+                    break;
                 case "Suicide":
                     if (!target.CanBeKilledBySheriff())
                     {
@@ -146,6 +162,7 @@ namespace TownOfHost
                 CustomRoles.Jackal => CanKillJackal.GetBool(),
                 CustomRoles.JSchrodingerCat => CanKillJSchrodingerCat.GetBool(),
                 CustomRoles.SchrodingerCat => true,
+                CustomRoles.Outlaw => true,
                 _ => cRole.GetRoleType() switch
                 {
                     RoleType.Impostor => true,

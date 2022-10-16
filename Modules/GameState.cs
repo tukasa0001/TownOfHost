@@ -56,6 +56,7 @@ namespace TownOfHost
         public enum DeathReason
         {
             Kill,
+            Shot,
             Vote,
             Suicide,
             Spell,

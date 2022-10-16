@@ -28,6 +28,8 @@ namespace TownOfHost
         SetLoversPlayers,
         SetExecutionerTarget,
         RemoveExecutionerTarget,
+        SetOutlawTarget,
+        RemoveOutlawTarget,
         SendFireWorksState,
         SetCurrentDousingTarget,
         SetEvilTrackerTarget,
@@ -174,6 +176,12 @@ namespace TownOfHost
                 case CustomRPC.RemoveExecutionerTarget:
                     Executioner.ReceiveRPC(reader, SetTarget: false);
                     break;
+                case CustomRPC.SetOutlawTarget:
+                    Outlaw.ReceiveRPC(reader, SetTarget: true);
+                    break;
+                case CustomRPC.RemoveOutlawTarget:
+                    Outlaw.ReceiveRPC(reader, SetTarget: false);
+                    break;
                 case CustomRPC.SendFireWorksState:
                     FireWorks.ReceiveRPC(reader);
                     break;
@@ -319,6 +327,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Executioner:
                     Executioner.Add(targetId);
+                    break;
+                case CustomRoles.Outlaw:
+                    Outlaw.Add(targetId);
                     break;
                 case CustomRoles.Sheriff:
                     Sheriff.Add(targetId);

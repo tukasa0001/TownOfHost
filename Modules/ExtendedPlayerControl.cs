@@ -305,6 +305,9 @@ namespace TownOfHost
                 case CustomRoles.SerialKiller:
                     SerialKiller.ApplyGameOptions(opt);
                     break;
+                case CustomRoles.Outlaw:
+                    opt.SetVision(player, Options.OutlawHasImpostorVision.GetBool());
+                    break;
                 case CustomRoles.BountyHunter:
                     BountyHunter.ApplyGameOptions(opt);
                     break;
@@ -662,6 +665,22 @@ namespace TownOfHost
                     bool jackal_canUse = Options.JackalCanVent.GetBool();
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(jackal_canUse && !player.Data.IsDead);
                     player.Data.Role.CanVent = jackal_canUse;
+                    return;
+                case CustomRoles.Outlaw:
+                    bool OutlawCanUse = Options.OutlawCanVent.GetBool();
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(OutlawCanUse && !player.Data.IsDead);
+                    player.Data.Role.CanVent = OutlawCanUse;
+                    return;
+            }
+        }
+        public static void CanUseImpostorSabotage(this PlayerControl player)
+        {
+            switch (player.GetCustomRole())
+            {
+                case CustomRoles.Outlaw:
+                    bool OutlawCanUse = Options.OutlawCanUseSabotage.GetBool();
+                    DestroyableSingleton<HudManager>.Instance.SabotageButton.ToggleVisible(OutlawCanUse && !player.Data.IsDead);
+                    player.Data.Role.CanVent = OutlawCanUse;
                     return;
             }
         }

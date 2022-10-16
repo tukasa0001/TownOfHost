@@ -37,6 +37,7 @@ namespace TownOfHost
         {
             return
                 role is CustomRoles.Jester or
+                CustomRoles.Outlaw or
                 CustomRoles.Opportunist or
                 CustomRoles.SchrodingerCat or
                 CustomRoles.Terrorist or

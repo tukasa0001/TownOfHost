@@ -55,6 +55,9 @@ namespace TownOfHost
                 case CustomRoles.Jackal:
                     canUse = couldUse = Options.JackalCanVent.GetBool();
                     break;
+                case CustomRoles.Outlaw:
+                    canUse = couldUse = Options.OutlawCanVent.GetBool();
+                    break;
                 default:
                     if (pc.Role.TeamType == RoleTeamTypes.Impostor || pc.Role.Role == RoleTypes.Engineer) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue
                         canUse = couldUse = true;

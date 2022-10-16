@@ -46,7 +46,7 @@ namespace TownOfHost
         {
             playerIdList.Add(playerId);
 
-            //ターゲット割り当て
+            //assign sheriff
             if (AmongUsClient.Instance.AmHost)
             {
                 List<PlayerControl> targetList = new();

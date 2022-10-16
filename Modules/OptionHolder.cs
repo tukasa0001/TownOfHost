@@ -99,6 +99,9 @@ namespace TownOfHost
         public static CustomOption JackalCanVent;
         public static CustomOption JackalCanUseSabotage;
         public static CustomOption JackalHasImpostorVision;
+        public static CustomOption OutlawCanVent;
+        public static CustomOption OutlawCanUseSabotage;
+        public static CustomOption OutlawHasImpostorVision;
         public static CustomOption KillFlashDuration;
 
         // HideAndSeek
@@ -343,6 +346,7 @@ namespace TownOfHost
             MayorNumOfUseButton = CustomOption.Create(20212, TabGroup.CrewmateRoles, Color.white, "MayorNumOfUseButton", 1, 1, 99, 1, MayorHasPortableButton);
             SabotageMaster.SetupCustomOption();
             Sheriff.SetupCustomOption();
+            Outlaw.SetupCustomOption();
             SetupRoleOptions(20500, TabGroup.CrewmateRoles, CustomRoles.Snitch);
             SnitchEnableTargetArrow = CustomOption.Create(20510, TabGroup.CrewmateRoles, Color.white, "SnitchEnableTargetArrow", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanGetArrowColor = CustomOption.Create(20511, TabGroup.CrewmateRoles, Color.white, "SnitchCanGetArrowColor", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
@@ -383,6 +387,11 @@ namespace TownOfHost
             JackalCanVent = CustomOption.Create(50911, TabGroup.NeutralRoles, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
             JackalCanUseSabotage = CustomOption.Create(50912, TabGroup.NeutralRoles, Color.white, "CanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
             JackalHasImpostorVision = CustomOption.Create(50913, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            //Outlaw
+            //SetupSingleRoleOptions(60000, TabGroup.NeutralRoles, CustomRoles.Outlaw, 1);
+            //OutlawCanVent = CustomOption.Create(60010, TabGroup.NeutralRoles, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.Outlaw]);
+            //OutlawCanUseSabotage = CustomOption.Create(60011, TabGroup.NeutralRoles, Color.white, "CanUseSabotage", true, CustomRoleSpawnChances[CustomRoles.Outlaw]);
+            //OutlawHasImpostorVision = CustomOption.Create(60012, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Outlaw]);
 
             // Attribute
             EnableLastImpostor = CustomOption.Create(80000, TabGroup.MainSettings, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)

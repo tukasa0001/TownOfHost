@@ -256,6 +256,8 @@ namespace TownOfHost
                 {
                     if (cRole == CustomRoles.GM) hasTasks = false;
                     if (cRole == CustomRoles.Jester) hasTasks = false;
+                    if (cRole == CustomRoles.Outlaw && ForRecompute
+                        && Outlaw.ChangeRolesAfterSheriffKilled.GetSelection() == 0) hasTasks = false;
                     if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.MadSnitch && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Opportunist) hasTasks = false;
@@ -557,8 +559,8 @@ namespace TownOfHost
                 {
                     case SuffixModes.None:
                         break;
-                    case SuffixModes.TOH:
-                        name += $"\r\n<color={Main.ModColor}>TOH v{Main.PluginVersion}</color>";
+                    case SuffixModes.TOE:
+                        name += $"\r\n<color={Main.ModColor}>TOE v{Main.PluginVersion}</color>";
                         break;
                     case SuffixModes.Streaming:
                         name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Streaming")}</color>";

@@ -184,8 +184,15 @@ namespace TownOfHost
                     }
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
+                case CustomRoles.Outlaw:
+                    __instance.KillButton.SetDisabled();
+                    __instance.KillButton.ToggleVisible(false);
+                    player.CanUseImpostorVent();
+                    player.CanUseImpostorSabotage();
+                    goto DesyncImpostor;
                 case CustomRoles.Jackal:
                     player.CanUseImpostorVent();
+                    //player.CanUseImpostorSabotage();
                     goto DesyncImpostor;
 
                 DesyncImpostor:
@@ -240,7 +247,8 @@ namespace TownOfHost
 
             if ((player.GetCustomRole() == CustomRoles.Sheriff ||
                 player.GetCustomRole() == CustomRoles.Arsonist ||
-                player.GetCustomRole() == CustomRoles.Jackal)
+                player.GetCustomRole() == CustomRoles.Jackal )
+                //player.GetCustomRole() == CustomRoles.Outlaw)
             && !player.Data.IsDead)
             {
                 ((Renderer)__instance.cosmetics.currentBodySprite.BodySprite).material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));
@@ -279,6 +287,13 @@ namespace TownOfHost
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(isActive && Options.JackalCanUseSabotage.GetBool());
                     __instance.ImpostorVentButton.ToggleVisible(isActive && Options.JackalCanVent.GetBool());
+                    __instance.AbilityButton.ToggleVisible(false);
+                    break;
+                case CustomRoles.Outlaw:
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
+                    __instance.SabotageButton.ToggleVisible(isActive && Options.OutlawCanUseSabotage.GetBool());
+                    __instance.ImpostorVentButton.ToggleVisible(isActive && Options.OutlawCanVent.GetBool());
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
             }
