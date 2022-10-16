@@ -15,9 +15,17 @@ namespace TownOfHost
         public static void Postfix(ControllerManager __instance)
         {
             //カスタム設定切り替え
-            if (Input.GetKeyDown(KeyCode.Tab) && GameStates.IsLobby)
+            if (GameStates.IsLobby)
             {
-                OptionShower.Next();
+                if (Input.GetKeyDown(KeyCode.Tab))
+                {
+                    OptionShower.Next();
+                }
+                for (var i = 0; i < 9; i++)
+                {
+                    if (ORGetKeysDown(new[] { KeyCode.Alpha1 + i, KeyCode.Keypad1 + i }) && OptionShower.pages.Count >= i + 1)
+                        OptionShower.currentPage = i;
+                }
             }
             //解像度変更
             if (Input.GetKeyDown(KeyCode.F11))
@@ -80,14 +88,6 @@ namespace TownOfHost
             {
                 Main.isChatCommand = true;
                 Utils.ShowActiveSettings();
-            }
-            if (GameStates.IsLobby)
-            {
-                for (var i = 0; i < 9; i++)
-                {
-                    if (ORGetKeysDown(new[] { KeyCode.Alpha1 + i, KeyCode.Keypad1 + i }) && OptionShower.pages.Count >= i + 1)
-                        OptionShower.currentPage = i;
-                }
             }
 
             //--以下デバッグモード用コマンド--//
