@@ -270,7 +270,7 @@ namespace TownOfHost
                     }
                 }, 3f, "SetName To Chat");
 
-                Medium.UseAbility();
+                Medium.UseAbility(ReportDeadBodyPatch.reporter?.Object, ReportDeadBodyPatch.Target?.Object);
             }
 
             foreach (var pva in __instance.playerStates)

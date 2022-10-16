@@ -18,7 +18,7 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.Medium);
-            MediumUseNumber = CustomOption.Create(Id + 10, TabGroup.CrewmateRoles, Color.white, "MediumUseNumber", 3f, 1f, 5f, 1f, Options.CustomRoleSpawnChances[CustomRoles.Medium]);
+            MediumUseNumber = CustomOption.Create(Id + 10, TabGroup.CrewmateRoles, Color.white, "MediumUseNumber", 3, 1, 5, 1, Options.CustomRoleSpawnChances[CustomRoles.Medium]);
             MediumOneTimeUse = CustomOption.Create(Id + 11, TabGroup.CrewmateRoles, Color.white, "MediumOneTimeUse", false, Options.CustomRoleSpawnChances[CustomRoles.Medium]);
         }
         public static void Init()
@@ -35,7 +35,7 @@ namespace TownOfHost
         {
             playerIdList.Add(playerId);
             MediumUsed.Add(playerId, false);
-            CanMedium.Add(playerId, true);
+            UseNumber[playerId] = 0;
         }
         public static bool IsEnable() => playerIdList.Count > 0;
         public static void ApplyGameOptions(GameOptionsData opt)
@@ -58,22 +58,22 @@ namespace TownOfHost
             var killer = Utils.GetPlayerById(killerId);
             return killer;
         }
-        public static void UseAbility()
+        public static void UseAbility(PlayerControl reporter, PlayerControl target)
         {
             //Mediumの能力使用
             new LateTask(() =>
             {
-                foreach (var reporter in PlayerControl.AllPlayerControls)
+                /*foreach (var reporter in PlayerControl.AllPlayerControls)
                 {
                     reporter.RpcResetAbilityCooldown();
                     var rand = new System.Random();
                     int Mode = rand.Next(1, 6);  //ランダムに
                     if (!(reporter.Is(CustomRoles.Medium) && reporter.IsAlive())) continue;
+                    if (!CanMedium[reporter.PlayerId] && UseNumber[reporter.PlayerId] > MediumUseNumber.GetFloat()) continue;
                     foreach (var target in PlayerControl.AllPlayerControls)
                     {
                         if (reporter == target) continue;
                         if (!target.Data.IsDead) continue;
-                        if (!CanMedium[reporter.PlayerId] && UseNumber[reporter.PlayerId] > MediumUseNumber.GetFloat()) continue;
                         string TargetPlayerName = target.GetRealName(true);
                         var killer = GetKiller(target.PlayerId);
                         string deadtime = DeadTimer[target.PlayerId].ToString("F0");
@@ -96,7 +96,36 @@ namespace TownOfHost
                                 break;
                         }
                     }
+                }*/
+                var rand = new System.Random();
+                int Mode = rand.Next(1, 6);  //ランダムに
+                if (!(reporter.Is(CustomRoles.Medium) && reporter.IsAlive())) return;
+                if (!(UseNumber[reporter.PlayerId] > MediumUseNumber.GetInt())) return;
+                if (reporter == target) return;
+                if (target = null) return;
+                if (!target.Data.IsDead) return;
+                string TargetPlayerName = target.GetRealName(true);
+                var killer = GetKiller(target.PlayerId);
+                string deadtime = DeadTimer[target.PlayerId].ToString("F0");
+                switch (Mode)
+                {
+                    case 1:
+                        Utils.SendMessage($"{TargetPlayerName}の死因は{Utils.GetVitalText(target.PlayerId)}です。", reporter.PlayerId);
+                        break;
+                    case 2:
+                        Utils.SendMessage($"{TargetPlayerName}の役職は{target.GetRoleName()}でした。", reporter.PlayerId);
+                        break;
+                    case 3:
+                        Utils.SendMessage($"{TargetPlayerName}を殺した人の役職は{killer.GetRoleName()}です。", reporter.PlayerId);
+                        break;
+                    case 4:
+                        Utils.SendMessage($"{TargetPlayerName}を殺した人の色のタイプは{killer.GetColorType()}です。", reporter.PlayerId);
+                        break;
+                    case 5:
+                        Utils.SendMessage($"{TargetPlayerName}が殺されたのは{deadtime}秒前です", reporter.PlayerId);
+                        break;
                 }
+                UseNumber[reporter.PlayerId]++;
             }, 5f, "UseMediumAbility");
         }
     }
