@@ -7,9 +7,9 @@ namespace TownOfHost
     {
         private static readonly int Id = 5000000;
         public static List<byte> playerIdList = new();
-        public static CustomOption MediumCooldown;
+        public static CustomOption MediumUseNumber;
         public static CustomOption MediumOneTimeUse;
-        public static Dictionary<byte, float> Cooldown = new();
+        public static Dictionary<byte, int> UseNumber = new();
         public static Dictionary<byte, bool> MediumUsed = new();
         public static Dictionary<byte, bool> CanMedium = new();
         public static Dictionary<byte, float> DeadTimer = new();
@@ -18,13 +18,13 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.Medium);
-            MediumCooldown = CustomOption.Create(Id + 10, TabGroup.CrewmateRoles, Color.white, "MediumCooldown", 30f, 5f, 120f, 5f, Options.CustomRoleSpawnChances[CustomRoles.Medium]);
+            MediumUseNumber = CustomOption.Create(Id + 10, TabGroup.CrewmateRoles, Color.white, "MediumUseNumber", 3f, 1f, 5f, 1f, Options.CustomRoleSpawnChances[CustomRoles.Medium]);
             MediumOneTimeUse = CustomOption.Create(Id + 11, TabGroup.CrewmateRoles, Color.white, "MediumOneTimeUse", false, Options.CustomRoleSpawnChances[CustomRoles.Medium]);
         }
         public static void Init()
         {
             playerIdList = new();
-            Cooldown = new();
+            UseNumber = new();
             MediumUsed = new();
             CanMedium = new();
             DeadTimer = new();
@@ -35,12 +35,12 @@ namespace TownOfHost
         {
             playerIdList.Add(playerId);
             MediumUsed.Add(playerId, false);
-            CanMedium.Add(playerId, false);
+            CanMedium.Add(playerId, true);
         }
         public static bool IsEnable() => playerIdList.Count > 0;
         public static void ApplyGameOptions(GameOptionsData opt)
         {
-            opt.RoleOptions.ScientistCooldown = MediumCooldown.GetFloat();
+            opt.RoleOptions.ScientistCooldown = 255f;
             opt.RoleOptions.ScientistBatteryCharge = 1f;
         }
         public static void FixedUpdate(PlayerControl target)
@@ -73,6 +73,7 @@ namespace TownOfHost
                     {
                         if (reporter == target) continue;
                         if (!target.Data.IsDead) continue;
+                        if (!CanMedium[reporter.PlayerId] && UseNumber[reporter.PlayerId] > MediumUseNumber.GetFloat()) continue;
                         string TargetPlayerName = target.GetRealName(true);
                         var killer = GetKiller(target.PlayerId);
                         string deadtime = DeadTimer[target.PlayerId].ToString("F0");
