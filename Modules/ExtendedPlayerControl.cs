@@ -46,10 +46,6 @@ namespace TownOfHost
         {
             RPC.ExileAsync(player);
         }
-        public static void GetKiller(this PlayerControl target)
-        {
-            Medium.GetKiller(target.PlayerId);
-        }
         public static InnerNet.ClientData GetClient(this PlayerControl player)
         {
             var client = AmongUsClient.Instance.allClients.ToArray().Where(cd => cd.Character.PlayerId == player.PlayerId).FirstOrDefault();
@@ -726,14 +722,7 @@ namespace TownOfHost
                 StringNames.ColorCoral
                 //黒、タン、茶、紫、グレー、マルーン、グリーン、赤、青はDarkColor
             };
-            if (LighterColor.Contains(ColorName))
-            {
-                return "LightColor";
-            }
-            else
-            {
-                return "DarkColor";
-            }
+            return LighterColor.Contains(ColorName) ? "LighterColor" : "DarkerColor";
         }
         public static bool IsModClient(this PlayerControl player) => Main.playerVersion.ContainsKey(player.PlayerId);
         ///<summary>

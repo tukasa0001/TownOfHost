@@ -270,44 +270,7 @@ namespace TownOfHost
                     }
                 }, 3f, "SetName To Chat");
 
-                //Mediumの能力使用
-                new LateTask(() =>
-                {
-                    foreach (var reporter in PlayerControl.AllPlayerControls)
-                    {
-                        reporter.RpcResetAbilityCooldown();
-                        var rand = new System.Random();
-                        int Mode = rand.Next(3, 4);//ランダムに
-                        if (!(reporter.Is(CustomRoles.Medium) && reporter.IsAlive())) continue;
-                        foreach (var target in PlayerControl.AllPlayerControls)
-                        {
-                            if (reporter == target) continue;
-                            if (!target.Data.IsDead) continue;
-                            string TargetPlayerName = target.GetRealName(false);
-                            string TargetName = $"{TargetPlayerName}";
-                            var killer = Medium.GetKiller(target.PlayerId);
-                            string deadtime = Medium.DeadTimer[target.PlayerId].ToString("F0");
-                            switch (Mode)
-                            {
-                                case 1:
-                                    Utils.SendMessage($"{TargetName}の死因は{Utils.GetVitalText(target.PlayerId)}です。", reporter.PlayerId);
-                                    break;
-                                case 2:
-                                    Utils.SendMessage($"{TargetName}の役職は{target.GetRoleName()}でした。", reporter.PlayerId);
-                                    break;
-                                case 3:
-                                    Utils.SendMessage($"{TargetName}を殺した人の役職は{killer.GetCustomRole()}です。", reporter.PlayerId);
-                                    break;
-                                case 4:
-                                    Utils.SendMessage($"{TargetName}を殺した人の色のタイプは{killer.GetColorType()}です。", reporter.PlayerId);
-                                    break;
-                                case 5:
-                                    Utils.SendMessage($"{TargetName}が殺されたのは{deadtime}秒前です", reporter.PlayerId);
-                                    break;
-                            }
-                        }
-                    }
-                }, 5f, "UseMediumAbility");
+                Medium.UseAbility();
             }
 
             foreach (var pva in __instance.playerStates)

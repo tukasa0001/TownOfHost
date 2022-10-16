@@ -357,7 +357,7 @@ namespace TownOfHost
             }
             if (!Medium.Target.Contains(target.PlayerId))
             {
-                Medium.DeadTimer[target.PlayerId] = 0f;
+                Medium.DeadTimer.TryAdd(target.PlayerId, 0f);
                 Medium.Target.Add(target.PlayerId);
                 Medium.Killer.Add(target.PlayerId, __instance.PlayerId);
             }

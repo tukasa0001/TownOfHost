@@ -58,6 +58,45 @@ namespace TownOfHost
             var killer = Utils.GetPlayerById(killerId);
             return killer;
         }
-
+        public static void UseAbility()
+        {
+            //Mediumの能力使用
+            new LateTask(() =>
+            {
+                foreach (var reporter in PlayerControl.AllPlayerControls)
+                {
+                    reporter.RpcResetAbilityCooldown();
+                    var rand = new System.Random();
+                    int Mode = rand.Next(3, 4);//ランダムに
+                    if (!(reporter.Is(CustomRoles.Medium) && reporter.IsAlive())) continue;
+                    foreach (var target in PlayerControl.AllPlayerControls)
+                    {
+                        if (reporter == target) continue;
+                        if (!target.Data.IsDead) continue;
+                        string TargetPlayerName = target.GetRealName(true);
+                        var killer = GetKiller(target.PlayerId);
+                        string deadtime = DeadTimer[target.PlayerId].ToString("F0");
+                        switch (Mode)
+                        {
+                            case 1:
+                                Utils.SendMessage($"{TargetPlayerName}の死因は{Utils.GetVitalText(target.PlayerId)}です。", reporter.PlayerId);
+                                break;
+                            case 2:
+                                Utils.SendMessage($"{TargetPlayerName}の役職は{target.GetRoleName()}でした。", reporter.PlayerId);
+                                break;
+                            case 3:
+                                Utils.SendMessage($"{TargetPlayerName}を殺した人の役職は{killer.GetRoleName()}です。", reporter.PlayerId);
+                                break;
+                            case 4:
+                                Utils.SendMessage($"{TargetPlayerName}を殺した人の色のタイプは{killer.GetColorType()}です。", reporter.PlayerId);
+                                break;
+                            case 5:
+                                Utils.SendMessage($"{TargetPlayerName}が殺されたのは{deadtime}秒前です", reporter.PlayerId);
+                                break;
+                        }
+                    }
+                }
+            }, 5f, "UseMediumAbility");
+        }
     }
 }
