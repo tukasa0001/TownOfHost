@@ -38,10 +38,10 @@ namespace TownOfHost
             CanMedium.Add(playerId, false);
         }
         public static bool IsEnable() => playerIdList.Count > 0;
-        public static void ApplyGameOptions(GameOptionsData opt, byte playerId)
+        public static void ApplyGameOptions(GameOptionsData opt)
         {
             opt.RoleOptions.ScientistCooldown = MediumCooldown.GetFloat();
-            opt.RoleOptions.ScientistBatteryCharge = 0.1f;
+            opt.RoleOptions.ScientistBatteryCharge = 1f;
         }
         public static void FixedUpdate(PlayerControl target)
         {
@@ -67,7 +67,7 @@ namespace TownOfHost
                 {
                     reporter.RpcResetAbilityCooldown();
                     var rand = new System.Random();
-                    int Mode = rand.Next(3, 4);//ランダムに
+                    int Mode = rand.Next(3, 4);  //ランダムに
                     if (!(reporter.Is(CustomRoles.Medium) && reporter.IsAlive())) continue;
                     foreach (var target in PlayerControl.AllPlayerControls)
                     {
