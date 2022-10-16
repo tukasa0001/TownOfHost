@@ -1,24 +1,19 @@
-# Town Of Host
-
-[![TownOfHost-Title](./Images/TownOfHost-Title.png)](https://youtu.be/IGguGyq_F-c)
-
-<p align="center"><a href="https://github.com/tukasa0001/TownOfHost/releases/"><img src="https://badgen.net/github/release/tukasa0001/TownOfHost"></a></p>
-
-この README は英語版です。<br>
-! We are not good at English, so if you have difficulty in making out, please translate Japanese README into English. !<br>
+# Town Of Empath
 
 ## Regarding this mod
 
-This mod is not affiliated with Among Us or Innersloth LLC, and the content contained therein is not endorsed or otherwise sponsored by Innersloth LLC. Portions of the materials contained herein are property of Innersloth LLC. © Innersloth LLC.
+This mod is not affiliated with Among Us or Innersloth LLC, Town Of Host, and the content contained therein is not endorsed or otherwise sponsored by Innersloth LLC. Portions of the materials contained herein are property of Innersloth LLC. © Innersloth LLC.
 
-[![Discord](./Images/TownOfHost-Discord.png)](https://discord.gg/W5ug6hXB9V)
+This mod is a fork of TOH, I plan on adding ATLEAST 15 of my own unique roles, but I also plan on adding other roles from TOR and other TOH related mods.
+
+I sometimes host this mod myself on Public Lobbies under EmpathTOE. I constantly update this mod and test it with randoms.
+
+DISCORD SERVER: https://discord.gg/6sHwWFST --- Recommended after Innersloth introduced randomized lobby names
 
 ## Releases
 
 AmongUs Version: **2022.9.20**
-**Latest Version: [Here](https://github.com/tukasa0001/TownOfHost/releases/latest)**
-
-Old Versions: [Here](https://github.com/tukasa0001/TownOfHost/releases)
+**Latest Version: (not added yet)
 
 ## Features
 
@@ -106,18 +101,6 @@ Also, you can break lines by writing `\n` in the sentence like `tag:line breaks 
 If the tag is set to "welcome" in the template function, it will be sent automatically when a player joins.<br>
 For example: `welcome:This room is using TownOfHost.`
 
-### Custom Translation File
-Users are free to create and use their own translations.<br>
-- Open the "Language" folder created in the Among Us folder.
-- Create a file named `{language name}.dat` in the folder
-  - 例: English.dat
-  - You can also rename `template.dat` or `template_English.dat` and use.
-- In the file, enter like `before translation:after translation`.
-  - 例: Command.rename:Change Host Name
-  - See `template.dat` for the `before translation` string.
-
-You can also reload the translation by pressing key `T`+`F5`.
-
 #### List of Valid Languages
 
 | Language Name |
@@ -151,7 +134,7 @@ You can also reload the translation by pressing key `T`+`F5`.
 | [Sniper](#Sniper)                   | [SabotageMaster](#SabotageMaster) | [Opportunist](#Opportunist)       |           |
 | [TimeThief](#TimeThief)             | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |           |
 | [Vampire](#Vampire)                 | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |           |
-| [Warlock](#Warlock)                 | [Snitch](#Snitch)                 |                                   |           |
+| [Warlock](#Warlock)                 | [Snitch](#Snitch)                 | [Outlaw](#Outlaw)                 |           |
 | [Witch](#Witch)                     | [SpeedBooster](#SpeedBooster)     |                                   |           |
 | [Mafia](#Mafia)                     | [Trapper](#Trapper)               |                                   |           |
 | [Madmate](#Madmate)                 |                                   |                                   |           |
@@ -658,6 +641,25 @@ The time held in place on the body is decided by host in settings.<br>
 | --------------- |
 | Block Move Time |
 
+###Outlaw **(New!)**
+
+Team : Neutral(solo)<br>
+Basis : Crewmate<br>
+Count : Outlaw<br>
+Victory Condition : Get killed by the Sheriff<br>
+Created by AIOMEGA<br>
+
+The Outlaw is part of it's own team that tries to bait the Sheriff into killing them.<br>
+(If host has allowed): Outlaw can have an enabled kill button that only allows them to kill the Sheriff, turning them into either the Sheriff or<br>
+**Not added yet** Corrupt Sheriff (Chosen in the Game Options by host)<br>
+
+#### Game Options
+
+| Name                    |
+| ----------------------- |
+| Arsonist Douse Duration |
+| Arsonist Douse Cooldown |
+
 ### Arsonist
 
 Team : Neutral(Solo)<br>
@@ -673,10 +675,14 @@ To douse, you must stand next to a player after pressing kill until the orange t
 
 #### Game Options
 
-| Name                    |
-| ----------------------- |
-| Arsonist Douse Duration |
-| Arsonist Douse Cooldown |
+| Name                      |
+| ------------------------- |
+| Can Vent                  |
+| Can Sabotage              |
+| Has Impostor Vision       |
+| Changes Role if Sheriff-  |
+| is killed                 |
+| Can Kill Sheriff          |
 
 ### Egoist
 
