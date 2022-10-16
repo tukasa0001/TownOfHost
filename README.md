@@ -1,1083 +1,1111 @@
 # Town Of Host
 
-[English](https://github.com/tukasa0001/TownOfHost/blob/main/README-EN.md)
-
 [![TownOfHost-Title](./Images/TownOfHost-Title.png)](https://youtu.be/IGguGyq_F-c)
 
 <p align="center"><a href="https://github.com/tukasa0001/TownOfHost/releases/"><img src="https://badgen.net/github/release/tukasa0001/TownOfHost"></a></p>
 
-## この Mod について
+この README は英語版です。<br>
+! We are not good at English, so if you have difficulty in making out, please translate Japanese README into English. !<br>
 
-この Mod は非公式のものであり、この Mod の開発に関して Among Us の開発元である"Innersloth"は一切関与していません。<br>
-この Mod の問題などに関して公式に問い合わせないでください。<br>
+## Regarding this mod
+
+This mod is not affiliated with Among Us or Innersloth LLC, and the content contained therein is not endorsed or otherwise sponsored by Innersloth LLC. Portions of the materials contained herein are property of Innersloth LLC. © Innersloth LLC.
 
 [![Discord](./Images/TownOfHost-Discord.png)](https://discord.gg/W5ug6hXB9V)
 
-## リリース
+## Releases
 
-AmongUsバージョン : **2022.9.20**
-**最新版は[こちら](https://github.com/tukasa0001/TownOfHost/releases/latest)**
+AmongUs Version: **2022.9.20**
+**Latest Version: [Here](https://github.com/tukasa0001/TownOfHost/releases/latest)**
 
-過去バージョンは[こちら](https://github.com/tukasa0001/TownOfHost/releases)
+Old Versions: [Here](https://github.com/tukasa0001/TownOfHost/releases)
 
-## 特徴
+## Features
 
-この Mod はホストのクライアントに導入するだけで動作し、他のクライアントの Mod の導入/未導入及び端末の種類に関係なく動作します。<br>
-また、カスタムサーバーを利用した Mod と違い、URL やファイル編集などによるサーバー追加も不要なため、ホスト以外のプレイヤーは Town Of Host を導入したホストの部屋に参加するだけで追加役職を楽しむことができます。<br>
+This mod only needs to be installed on the host's client to work, and works regardless of whether or not other client mods have been installed, and regardless of the type of terminal.<br>
+Unlike mods that use custom servers, there is no need to add servers by editing URLs or files.<br>
 
-しかし、以下の制限が発生することにご注意ください。<br>
+However, please note that the following restrictions apply.<br>
 
-- ホストが途中抜けをするなどの要因でホストが変更された場合、追加役職に関する処理が正常に動作しない可能性がある。
+- If the host changes due to factors such as a host leaving in the middle of a session, the processing related to the additional role may not work properly.
 
-なお、ホスト以外のプレイヤーがこの Mod を導入した状態でプレイすると、以下のような変更が行われます。<br>
+Note that if a player other than the host plays with this mod installed, the following changes will be made.<br>
 
-- 特殊役職独自の開始画面の表示
-- 特殊役職の正常な勝利画面の表示
-- 設定項目の追加
-- その他
+- Display of the special role's own start screen.
+- Display of the normal victory screen for the special role.
+- Add additional settings.
+- etc.
 
-## 機能
-### ホットキー
+## Features
+### Hotkeys
 
-#### ホストのみ
-| キー                | 機能                         | 使えるシーン     |
-| ------------------- | ---------------------------- | ---------------- |
-| `Shift`+`L`+`Enter` | 廃村                         | ゲーム内         |
-| `Shift`+`M`+`Enter` | ミーティングをスキップで終了 | ゲーム内         |
-| `Ctrl`+`N`          | 有効な役職の説明を表示       | ロビー&ゲーム内  |
-| `C`                 | ゲーム開始を中断             | カウントダウン中 |
-| `Shift`             | ゲームを即開始               | カウントダウン中 |
-| `Ctrl`+`Delete`     | 全てデフォルト値に設定       | TOH設定画面      |
-| `Ctrl`+`右クリック` | クリックしたプレイヤーを処刑 | 会議画面         |
+#### Host Only
+| HotKey              | Function                      | Usable Scene    |
+| ------------------- | ----------------------------- | --------------- |
+| `Shift`+`L`+`Enter` | Force End Game                | In Game         |
+| `Shift`+`M`+`Enter` | Skip meeting to end           | In Game         |
+| `Ctrl`+`N`          | Show active role descriptions | Lobby&In Game   |
+| `C`                 | Cancel game start             | In Countdown    |
+| `Shift`             | Start the game immediately    | In Countdown    |
+| `Ctrl`+`Delete`     | Set default all options       | In TOH Settings |
+| `Ctrl`+`RMB`        | Execute clicked player        | In Meeting      |
 
-#### MODクライアントのみ
-| キー        | 機能                                                                          | 使えるシーン |
-| ----------- | ----------------------------------------------------------------------------- | ------------ |
-| `Tab`       | オプション一覧のページ送り                                                    | ロビー       |
-| `Ctrl`+`F1` | ログをデスクトップに出力                                                      | どこでも     |
-| `F11`       | 解像度を変更<br>480x270 → 640x360 → 800x450 → 1280x720 → 1600x900 → 1920x1080 | どこでも     |
-| `T`+`F5`    | カスタム翻訳ファイルのリロード                                                | どこでも     |
-| `Ctrl`+`C`  | 文章をコピー                                                                  | チャット     |
-| `Ctrl`+`V`  | 文章を貼り付け                                                                | チャット     |
-| `Ctrl`+`X`  | 文章を切り取り                                                                | チャット     |
-| `↑`         | チャット送信履歴を過去に遡る                                                  | チャット     |
-| `↓`         | チャット送信履歴を未来に遡る                                                  | チャット     |
+#### MOD Client Only
+| HotKey      | Function                                                                           | Usable Scene |
+| ----------- | ---------------------------------------------------------------------------------- | ------------ |
+| `Tab`       | Option list page feed                                                              | Lobby        |
+| `Ctrl`+`F1` | Output log to desktop                                                              | Anywhere     |
+| `F11`       | Change resolution<br>480x270 → 640x360 → 800x450 → 1280x720 → 1600x900 → 1920x1080 | Anywhere     |
+| `T`+`F5`    | Reload custom translation file                                                     | Anywhere     |
+| `Ctrl`+`C`  | Copy the text                                                                      | Chat         |
+| `Ctrl`+`V`  | Paste the text                                                                     | Chat         |
+| `Ctrl`+`X`  | Cut the text                                                                       | Chat         |
+| `↑`         | Go back in time of chat send history                                               | Chat         |
+| `↓`         | Go future in time of chat send history                                             | Chat         |
 
-### チャットコマンド
-チャットコマンドはチャットで入力して使用できるコマンドです。
+### Chat Commands
+You can execute chat commands by typing in chat.
 
-#### ホストのみ
-| コマンド                                    | 機能                                                |
-| ------------------------------------------- | --------------------------------------------------- |
-| /winner<br>/win                             | 勝者を表示                                          |
-| /rename <名前><br>/r <名前>                 | 名前を変更                                          |
-| /dis <crewmate/impostor>                    | 試合をクルーメイト/インポスターの切断として終了する |
-| /messagewait <秒><br>/mw <秒>               | メッセージの表示間隔の秒数を設定                    |
-| /help<br>/h                                 | コマンドの説明を表示                                |
-| /help roles <役職><br>/help r <役職>        | 役職の説明を表示                                    |
-| /help attributes <属性><br>/help att <属性> | 属性の説明を表示                                    |
-| /help modes <モード><br>/help m <モード>    | モードの説明を表示                                  |
-| /hidename <文字列><br>/hn <文字列>          | コード隠しの名前を変更                              |
+#### Host Only
+| Command                                               | Function                                          |
+| ----------------------------------------------------- | ------------------------------------------------- |
+| /winner<br>/win                                       | Show winner                                       |
+| /rename <string><br>/r <string>                       | Change my name                                    |
+| /dis <crewmate/impostor>                              | Ending the match as a Crewmate/Impostor severance |
+| /messagewait <sec><br>/mw <sec>                       | Set message send interval                         |
+| /help<br>/h                                           | Show command description                          |
+| /help roles <role><br>/help r <role>                  | Show role description                             |
+| /help attributes <attribute><br>/help att <attribute> | Show attribute description                        |
+| /help modes <mode><br>/help m <mode>                  | Show mode description                             |
+| /hidename <string><br>/hn <string>                    | Rename code concealment string                    |
 
-#### MODクライアントのみ
-| コマンド       | 機能                                |
-| -------------- | ----------------------------------- |
-| /dump          | ログをダンプ                        |
-| /version<br>/v | 全MODクライアントのバージョンを表示 |
+#### MOD Client Only
+| Command        | Function                    |
+| -------------- | --------------------------- |
+| /dump          | Dump log                    |
+| /version<br>/v | Show version of MOD clients |
 
-#### 全クライアント
-| コマンド                      | 機能                       |
-| ----------------------------- | -------------------------- |
-| /lastresult<br>/l             | 試合結果を表示             |
-| /now<br>/n                    | 現在の設定を表示           |
-| /now roles<br>/n r            | 現在の役職設定を表示       |
-| /help now<br>/help n          | 有効な設定の説明を表示     |
-| /template <タグ><br>/t <タグ> | タグに対応した定型文を表示 |
-| /myrole<br>/m                 | 自分の役割の説明を表示     |
+#### All Clients
+| Command                     | Function                                |
+| --------------------------- | --------------------------------------- |
+| /lastresult<br>/l           | Show game result                        |
+| /now<br>/n                  | Show active settings                    |
+| /now roles<br>/n r          | Show active roles settings              |
+| /help now<br>/help n        | Show active setting descriptions        |
+| /template <tag><br>/t <tag> | Show template text corresponding to tag |
+| /myrole<br>/m               | Display a description of your role      |
 
-### テンプレート
-定型文を送信できる機能です。<br>
-`/template <タグ>`もしくは`/t <タグ>`で呼び出すことができます。<br>
-定型文を設定するにはAmongUs.exeと同じフォルダの`template.txt`を編集します。<br>
-`タグ:内容`のようにコロンで区切って記載します。<br>
-また、`タグ:こんなふうに\n改行できます`のように文章中に`\n`を書くと改行できます。<br>
+### Template
+This function allows you to send prepared messages.<br>
+Execute by typing `/template <tag>` or `/t <tag>`.<br>
+To set the text, edit `template.txt` in the same folder as AmongUs.exe.<br>
+Separate each entry with a colon, such as `tag:content`.<br>
+Also, you can break lines by writing `\n` in the sentence like `tag:line breaks can be\nmade like this`.<br>
 
-#### ウェルカムメッセージ
-テンプレート機能でタグを「welcome」に設定するとプレイヤー参加時に自動で送信されます。<br>
-例: `welcome:この部屋はTownOfHostを使用しています。`
+#### Welcome Message
+If the tag is set to "welcome" in the template function, it will be sent automatically when a player joins.<br>
+For example: `welcome:This room is using TownOfHost.`
 
-### カスタム翻訳ファイル
-ユーザーが自由に独自の翻訳を作成して使用することができます。<br>
-- Among Usフォルダの中に『Language』フォルダが作成されているので開きます。
-- フォルダ内に`{言語名}.dat`というファイルを作成します。
-  - 例: Japanese.dat
-  - `template.dat`または`template_English.dat`を名前変更して使用することもできます。
-- ファイル内に`翻訳前:翻訳後`のように記載します。
-  - 例: Command.rename:ホストの名前を変更
-  - `翻訳前`の文字列は`template.dat`を参照してください。
+### Custom Translation File
+Users are free to create and use their own translations.<br>
+- Open the "Language" folder created in the Among Us folder.
+- Create a file named `{language name}.dat` in the folder
+  - 例: English.dat
+  - You can also rename `template.dat` or `template_English.dat` and use.
+- In the file, enter like `before translation:after translation`.
+  - 例: Command.rename:Change Host Name
+  - See `template.dat` for the `before translation` string.
 
-また、`T`+`F5`を押すことで翻訳をリロードできます。
+You can also reload the translation by pressing key `T`+`F5`.
 
-#### 有効言語一覧
+#### List of Valid Languages
 
-| 言語名     |
-| ---------- |
-| English    |
-| Latam      |
-| Brazilian  |
-| Portuguese |
-| Korean     |
-| Dutch      |
-| Filipino   |
-| French     |
-| German     |
-| Italian    |
-| Japanese   |
-| Spanish    |
-| SChinese   |
-| TChinese   |
-| Irish      |
+| Language Name |
+| ------------- |
+| English       |
+| Latam         |
+| Brazilian     |
+| Portuguese    |
+| Korean        |
+| Dutch         |
+| Filipino      |
+| French        |
+| German        |
+| Italian       |
+| Japanese      |
+| Spanish       |
+| SChinese      |
+| TChinese      |
+| Irish         |
 
-## 役職
+## Roles
 
-| インポスター陣営                                                     | クルーメイト陣営                                            | 第三陣営                                                    | その他    |
-| -------------------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- | --------- |
-| [バウンティハンター](#BountyHunterバウンティハンター)                | [ベイト](#Baitベイト)                                       | [アーソニスト](#Arsonistアーソニスト)                       | [GM](#GM) |
-| [イビルトラッカー](#EvilTrackerイビルトラッカー)                     | [ディクテーター](#Dictatorディクテーター)                   | [エゴイスト](#Egoistエゴイスト)                             |           |
-| [イビルウォッチャー](#Watcherウォッチャー)                           | [ドクター](#Doctorドクター)                                 | [エクスキューショナー](#Executionerエクスキューショナー)    |           |
-| [花火職人](#FireWorks花火職人)                                       | [ライター](#Lighterライター)                                | [ジャッカル](#Jackalジャッカル)                             |           |
-| [メアー](#Mareメアー)                                                | [メイヤー](#Mayorメイヤー)                                  | [ジェスター](#Jesterジェスター)                             |           |
-| [パペッティア](#Puppeteerパペッティア)                               | [ナイスウォッチャー](#Watcherウォッチャー)                  | [恋人](#Lovers恋人)                                         |           |
-| [シリアルキラー](#SerialKillerシリアルキラー)                        | [サボタージュマスター](#SabotageMasterサボタージュマスター) | [オポチュニスト](#Opportunistオポチュニスト)                |           |
-| [スナイパー](#Sniperスナイパー)                                      | [シーア](#Seerシーア)                                       | [テロリスト](#Terroristテロリスト)                          |           |
-| [タイムシーフ](#TimeThiefタイムシーフ)                               | [シェリフ](#Sheriffシェリフ)                                | [シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |
-| [ヴァンパイア](#Vampireヴァンパイア)                                 | [スニッチ](#Snitchスニッチ)                                 |                                                             |           |  |
-| [ウォーロック](#Warlockウォーロック)                                 | [スピードブースター](#SpeedBoosterスピードブースター)       |                                                             |           |
-| [魔女](#Witch魔女)                                                   | [トラッパー](#Trapperトラッパー)                            |                                                             |           |
-| [マフィア](#Mafiaマフィア)                                           |                                                             |                                                             |           |
-| [マッドメイト](#Madmateマッドメイト)                                 |                                                             |                                                             |           |
-| [マッドガーディアン](#MadGuardianマッドガーディアン)                 |                                                             |                                                             |           |
-| [マッドスニッチ](#MadSnitchマッドスニッチ)                           |                                                             |                                                             |           |
-| [サイドキックマッドメイト](#SidekickMadmateサイドキックマッドメイト) |                                                             |                                                             |           |
+| Impostors                           | Crewmates                         | Neutrals                          | Others    |
+| ----------------------------------- | --------------------------------- | --------------------------------- | --------- |
+| [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             | [GM](#GM) |
+| [Evil Watcher](#Watcher)            | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |           |
+| [FireWorks](#FireWorks)             | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |           |
+| [Mare](#Mare)                       | [Lighter](#Lighter)               | [Jackal](#Jackal)                 |           |
+| [Puppeteer](#Puppeteer)             | [Mayor](#Mayor)                   | [Jester](#Jester)                 |           |
+| [SerialKiller](#SerialKiller)       | [Nice Watcher](#Watcher)          | [Lovers](#Lovers)                 |           |
+| [Sniper](#Sniper)                   | [SabotageMaster](#SabotageMaster) | [Opportunist](#Opportunist)       |           |
+| [TimeThief](#TimeThief)             | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |           |
+| [Vampire](#Vampire)                 | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |           |
+| [Warlock](#Warlock)                 | [Snitch](#Snitch)                 |                                   |           |
+| [Witch](#Witch)                     | [SpeedBooster](#SpeedBooster)     |                                   |           |
+| [Mafia](#Mafia)                     | [Trapper](#Trapper)               |                                   |           |
+| [Madmate](#Madmate)                 |                                   |                                   |           |
+| [MadGuardian](#MadGuardian)         |                                   |                                   |           |
+| [MadSnitch](#MadSnitch)             |                                   |                                   |           |
+| [SidekickMadmate](#SidekickMadmate) |                                   |                                   |           |
 
 ### GM
 
-GM(ゲームマスター)はオブザーバー役職です。<br>
-GMはゲーム自体には何の影響も与えず、すべてのプレイヤーは誰がGMであるかがわかります。<br>
-必ずホストに割り当てられ、始めから幽霊状態です。<br>
+The GM (Game Master) is an observer role.<br>
+Their presence has no effect on the game itself, and all players know who the GM is at all times.<br>
+Always assigned to a host and is ghosted from the start.<br>
 
-### BountyHunter/バウンティハンター
+## Impostor
 
-陣営 : インポスター<br>
-判定 : インポスター<br>
+### BountyHunter
 
-表示されたターゲットをキルした場合、次のキルクールがとても短くなります。<br>
-ターゲットではないプレイヤーをキルした場合は、キルクールが伸びてしまいます。<br>
-<!--また、設定でキルクールを 2.5 秒に設定する必要があります。<br>-->
-ターゲットは一定時間ごとに変更されます。<br>
+Team : Impostors<br>
+Basis : Impostor<br>
 
-#### 設定
+If the BountyHunters kill their designated target, their next kill cooldown will be much less than usual.<br>
+Killing a player except their current target results in an increased kill cooldown.<br>
+The target swaps after a configurable amount of time.<br>
 
-| 設定名                              |
-| ----------------------------------- |
-| ターゲット変更時間(s)               |
-| ターゲット殺害時のキルクール(s)     |
-| ターゲット以外殺害時のキルクール(s) |
+#### Game Options
 
-### EvilTracker/イビルトラッカー
+| Name                                  |
+| ------------------------------------- |
+| Time To Swap Bounty(s)                |
+| Kill Cooldown After Killing Bounty(s) |
+| Kill Cooldown After Killing Others(s) |
 
-制作者 : Masami<br>
+### EvilTracker
 
-陣営 : インポスター<br>
-判定 : シェイプシフター<br>
+Team : Impostors<br>
+Basis : Shapeshifter<br>
 
-追跡能力を持つインポスターです。<br>
-インポスターへの矢印が常に表示され、さらにシェイプシフトで選択した一人を追跡することができます。<br>
-設定によってはインポスターがキルを行った場合にキルフラッシュを見ることもできます。<br>
+EvilTrackers can track other players.<br>
+They have arrows pointing to the other impostors and to another player selected by shapeshift.<br>
+Depending on option, they can also see kill flash when other impostor kills.<br>
 
-- ターゲットは1ターン/1試合に一回設定でき、設定可能時は左向き白三角マーク(◁)が付きます。
-- 変身先がインポスター、死亡済みの場合は能力は消費されません。
-- 変身クールダウンはターゲット設定可能時は「5秒」、不可時は「255秒」で固定です。
-- 変身持続時間は「1秒」で固定されているので、変身能力自体は殆ど使えません。
-- イビルトラッカーの変身で[サイドキックマッドメイト](#SidekickMadmate/サイドキックマッドメイト)を指名できます。
+- EvilTrackers can select a target after every meeting or once in a game, when marked left-triangle (◁).
+- When they Shapeshift to impostor or dead player (unavailable for target), they stay able to select target.
+- Shapeshift cooldown is fixed to __"5s"__ (can select target) or to __"255s"__ (cannot).
+- Shapeshift duration is fixed to __"1s"__, which means EvilTrackers can hardly pretend to be someone else.
+- EvilTrackers can Assign [SidekickMadmate](#SidekickMadmate) by Shapeshift.
 
-#### 設定
+#### Game Options
 
-| 設定名                                 |
-| -------------------------------------- |
-| インポスターキル時にフラッシュが見える |
-| 会議後に再度ターゲットを設定できる     |
+| Name                                            |
+| ----------------------------------------------- |
+| EvilTracker Can See The Flash Of Impostor Kills |
+| EvilTracker Can Reset Target After Meeting      |
 
-### FireWorks/花火職人
+### FireWorks
 
-制作・考案者 : こう。<br>
+Create and idea by こう。<br>
 
-陣営 : インポスター<br>
-判定 : シェイプシフター<br>
+Team : Impostors<br>
+Basis : Shapeshifter<br>
 
-花火の爆破によって大量キル出来る役職です。<br>
-最大3個の花火をシェイプシフトのタイミングで設置出来ます。<br>
-すべての花火を設置したら、最後のインポスターとなった時にシェイプシフトのタイミングで一斉起爆します。<br>
-花火を設置し始めてから爆破するまでキル出来ません。<br>
-自身が爆破に巻き込まれても全滅させることが出来た場合は勝利となります。
+The FireWorks can set off fireworks and kill all at once. <br>
+They can put a few fireworks by Shapeshift. <br>
+After they put all the fireworks and after the other impostors are all gone, they can ignite all fireworks at once by Shapeshift. <br>
+They can perform kills after setting off fireworks. <br>
+Even if they mistakenly bomb themselves, killing everyone results in Impostor win. <br>
 
-#### 設定
+#### Game Options
 
-| 設定名         |
-| -------------- |
-| 花火の所持数   |
-| 花火の爆発半径 |
+| Name                |
+| ------------------- |
+| FireWorks Max Count |
+| FireWorks Radius    |
 
-### Mare/メアー
+### Mare
 
-制作者 : Kihi,ゆりの,そうくん,しゅー
-考案者 : Kihi<br>
+Create by Kihi, しゅー, そうくん, ゆりの<br>
+Idea by Kihi
 
-陣営 : インポスター<br>
-判定 : インポスター<br>
+Team : Impostors<br>
+Basis : Impostor<br>
 
-停電時以外にキルをすることができませんが、キルクールが半分になります。<br>
-停電中にのみ移動速度も上昇しますが、自分の名前が赤く表示されます。<br>
+They can kill only in lights out, but next kill cooldown will be half.<br>
+While lights out they can move faster, and yet their name looks red by everyone.<br>
 
-#### 設定
+#### Game Options
 
-| 設定名                     |
-| -------------------------- |
-| 停電時のメアーの加速値     |
-| 停電時のメアーのキルクール |
+| Name                             |
+| -------------------------------- |
+| Mare Player Speed In Lights Out  |
+| Mare Kill Cooldown In Lights Out |
 
-### Puppeteer/パペッティア
+### Puppeteer
 
-陣営 : インポスター<br>
-判定 : インポスター<br>
+Team : Impostors<br>
+Basis : Impostor<br>
 
-パペッティアのキルはキャンセルされ、キル対象に次に近づいたプレイヤー（インポスターを除く）をキルさせます。<br>
-対象がキルした相手がキルされた瞬間に発動するものであった場合、対象にその効果が反映されます。<br>
-普通のキルを行うことはできません。<br>
+The puppeteer can curse a crewmate and force them to kill the next non-impostor they come near.<br>
+The cursed crewmate can kill a mad role also.<br>
+It is not possible for puppeteer to perform a normal kill.<br>
 
-### SerialKiller/シリアルキラー
+### SerialKiller
 
-陣営 : インポスター<br>
-判定 : シェイプシフター<br>
+Team : Impostors<br>
+Basis : Shapeshifter<br>
 
-キルクールが短いインポスターです。<br>
-その代わり、時間が来るまでにキルをしないと自爆してしまいます。<br>
+The SerialKillers have even shorter kill cooldown.<br>
+Unless taking a kill by deadline, they murder themselves instantly.<br>
 
-#### 設定
+#### Game Options
 
-| 設定名            |
-| ----------------- |
-| キルクール(s)     |
-| 自殺までの秒数(s) |
+| Name                          |
+| ----------------------------- |
+| SerialKiller Kill Cooldown(s) |
+| Time Limit To Suicide(s)      |
 
-### ShapeMaster/シェイプマスター
+### ShapeMaster
 
 > **Warning**  
-> 現在使用できません。
+> Unavailable.
 
-制作・考案者 : しゅー<br>
+Create and idea by しゅー<br>
 
-陣営 : インポスター<br>
-判定 : シェイプシフター<br>
+Team : Impostors<br>
+Basis : ShapeShifter<br>
 
-シェイプマスターは変身後のクールダウンを無視し、再度変身することができます。<br>
-通常では 10 秒しか変身できませんが、設定によって変身継続時間を変更することができます。<br>
+The ShapeMasters have no Shapeshift cooldown.<br>
+On the other hand, their default Shapeshift duration is shorter (default: 10s).<br>
 
-#### 設定
+#### Game Options
 
-| 設定名                            |
-| --------------------------------- |
-| シェイプマスターの変身可能時間(s) |
-
-### Sniper/スナイパー
-
-制作・考案者 : こう。<br>
-
-陣営 : インポスター<br>
-判定 : シェイプシフター<br>
-
-遠距離射撃が可能な役職です。<br>
-シェイプシフトした地点から解除した地点への延長線上にいる対象をキルします。<br>
-射線上のクルーには射撃音が聞こえます。<br>
-弾丸を打ち切るまで通常キルは出来ません。<br>
-
-精密射撃モードOFF<BR>
-![off](https://user-images.githubusercontent.com/96226646/172194283-5482db76-faab-4185-9898-ac741b132112.png)<br>
-精密射撃モードON<BR>
-![on](https://user-images.githubusercontent.com/96226646/172194317-6c47b711-a870-4ec0-9062-2abbf953418b.png)<br>
-
-#### 設定
-
-| 設定名         |
-| -------------- |
-| 所持弾数       |
-| 精密射撃モード |
-
-### TimeThief/タイムシーフ
-
-考案者 : みぃー<br>
-制作者 : integral, しゅー, そうくん, ゆりの<br>
-
-陣営 : インポスター<br>
-判定 : インポスター<br>
-
-プレイヤーをキルすると、会議時間が減少します。<br>
-タイムシーフが追放または殺されると、失われた会議時間が戻ってきます。<br>
-
-#### 設定
-
-| 設定名                   |
-| ------------------------ |
-| 減少する会議時間(s)      |
-| 投票時間の下限(s)        |
-| 死亡後に盗んだ時間を返す |
-
-### Vampire/ヴァンパイア
-
-陣営 : インポスター<br>
-判定 : インポスター<br>
-
-キルボタンを押してから一定時間経って実際にキルが発生する役職です。<br>
-キルをしたときのテレポートは発生しません。<br>
-また、キルボタンを押してから設定された時間が経つまでに会議が始まるとその瞬間にキルが発生します。<br>
-しかし、[ベイト](#Bait/ベイト)をキルした場合のみ通常のキルとなり、強制的に通報させられます。<br>
-
-#### 設定
-
-| 設定名            |
-| ----------------- |
-| 殺害までの時間(s) |
-
-### Warlock/ウォーロック
-
-陣営 : インポスター<br>
-判定 : シェイプシフター<br>
-
-ウォーロックが変身する前にキルすると相手に呪いがかかります。<br>
-そして次変身すると、呪った人に一番近い人をキルさせます。<br>
-呪いキルの成功または会議を挟むと呪いはリセットされます。<br>
-
-### Witch/魔女
-
-陣営 : インポスター<br>
-判定 : インポスター<br>
-
-キルボタンを押すとキルモードとスペルモードが入れ替わり、スペルモードの時にキルボタンを押すとその対象に魔術をかけることができる役職です <br>
-魔術をかけられたプレイヤーには会議で特殊なマークが付き、その会議中に魔女を追放できなければ死亡してしまいます。<br>
-
-### Mafia/マフィア
-
-陣営 : インポスター<br>
-判定 : インポスター<br>
-
-初期状態でキルをすることはできません。<br>
-マフィアではないインポスターが全員死亡すると、マフィアもキルすることができるようになります。<br>
-キルができない状態でもキルボタンはありますが、キルをすることはできません。<br>
-
-### Madmate/マッドメイト
-
-陣営 : インポスター<br>
-判定 : エンジニア<br>
-カウント : クルー<br>
-
-インポスター陣営に属しますが、マッドメイトからはインポスターが誰なのかはわかりません。<br>
-インポスターからもマッドメイトが誰なのかはわかりません。<br>
-キルやサボタージュはできませんが、通気口に入ることができます。<br>
-
-### MadGuardian/マッドガーディアン
-
-制作・考案者 : 空き瓶/EmptyBottle<br>
-
-陣営 : インポスター<br>
-判定 : クルーメイト<br>
-カウント : クルー<br>
-
-インポスター陣営に属しますが、マッドガーディアンからはインポスターが誰なのかはわかりません。<br>
-インポスターからもマッドガーディアンが誰なのかはわかりません。<br>
-しかし、自身のタスクを全て完了させるとキルされなくなります。<br>
-キルやサボタージュはできず、通気口に入ることもできません。<br>
-
-#### 設定
-
-| 設定名                             |
-| ---------------------------------- |
-| 自身の殺害未遂者を知ることができる |
-
-### MadSnitch/マッドスニッチ
-
-制作・考案者 : そうくん<br>
-
-陣営 : インポスター<br>
-判定 : クルーメイトorエンジニア<br>
-カウント : クルー<br>
-
-インポスター陣営に属しますが、マッドスニッチからはインポスターが誰なのかはわかりません。<br>
-インポスターからもマッドスニッチが誰なのかはわかりません。<br>
-タスクを全て完了させるとマッドスニッチからインポスターを認識できるようになります。<br>
-
-#### 設定
-
-| 設定名                       |
-| ---------------------------- |
-| ベントを使える               |
-| インポスターからも視認できる |
-| マッドスニッチのタスク数     |
-
-### SidekickMadmate/サイドキックマッドメイト
-
-制作・考案者 : たんぽぽ<br>
-
-陣営 : インポスター<br>
-判定 : 変化前の役職<br>
-カウント : クルー<br>
-
-この役職はシェイプシフトの能力を持つ役職がシェイプシフトした際に最も近いプレイヤー（インポスター陣営を除く）がなります。<br>
-インポスター陣営に属しますが、サイドキックマッドメイトからはインポスターが誰なのかはわかりません。<br>
-インポスターからもサイドキックマッドメイトが誰なのかはわかりません。<br>
-
-
-また、マッドメイト系役職共通の設定があります。
-
-| 設定名                                     |
-| ------------------------------------------ |
-| マッドメイト系役職が停電を直せる           |
-| マッドメイト系役職が通信障害を直せる       |
-| マッドメイト系役職がインポスター視界を持つ |
-| マッドメイト系役職にキルフラッシュが見える |
-| マッドメイト系役職に他人の投票先が分かる   |
-| マッドメイト系役職のベントクールダウン     |
-| マッドメイト系役職のベント内での最大時間   |
-
-### Watcher/ウォッチャー
-
-陣営 : インポスター or クルーメイト<br>
-判定 : インポスター or クルーメイト<br>
-
-ウォッチャーは会議中に全員の投票先を見ることができます。<br>
-
-#### 設定
-
-| 設定名                          |
-| ------------------------------- |
-| イビルウォッチャーになる確率(%) |
-
-### Bait/ベイト
-
-陣営 : クルーメイト<br>
-判定 : クルーメイト<br>
-
-キルされたときに、自分をキルしたプレイヤーに強制的に自分の死体を通報させることができる役職です。<br>
-
-### Dictator/ディクテーター
-
-制作・考案者 : そうくん<br>
-
-陣営 ：クルーメイト<br>
-判定 ：クルーメイト<br>
-
-会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができます。<br>
-投票したタイミングでディクテーターは死亡します。<br>
-
-### Doctor/ドクター
-
-陣営 : クルーメイト<br>
-判定 : 科学者<br>
-
-ドクターはプレイヤーの死因を知ることができ、遠隔でバイタルをみることができます。<br>
-
-#### 設定
-| 設定名       |
-| ------------ |
-| 充電持続時間 |
-
-### Lighter/ライター
-
-陣営 ：クルーメイト<br>
-判定 ：クルーメイト<br>
-
-タスクを完了させると、自分の視界が広がり、停電の視界減少の影響を受けなくなります。<br>
-
-#### 設定
-
-| 設定名                         |
-| ------------------------------ |
-| タスク完了時の視界             |
-| タスク完了時に停電を無効にする |
-
-### Mayor/メイヤー
-
-陣営 : クルーメイト<br>
-判定 : クルーメイト<br>
-
-メイヤーは票を複数持っており、まとめて一人のプレイヤーまたはスキップに入れることができます。<br>
-
-#### 設定
-
-| 設定名                           |
-| -------------------------------- |
-| 追加投票の個数                   |
-| ポータブルボタンを持っている     |
-| ┗ ポータブルボタンの使用可能回数 |
-
-### SabotageMaster/サボタージュマスター
-
-制作・考案者 : 空き瓶/EmptyBottle<br>
-
-陣営 : クルーメイト<br>
-判定 : クルーメイト<br>
-
-サボタージュマスターはサボタージュを早く直すことができます。
-原子炉メルトダウンや酸素妨害、MIRA HQ の通信妨害は片方を修理すれば両方が直ります。<br>
-停電は 1 箇所のレバーに触れると全て直ります。<br>
-Polus や The Airship のドアを開けるとその部屋の全てのドアが開きます。<br>
-
-#### 設定
-
-| 設定名                                   |
-| ---------------------------------------- |
-| 修理能力を使用できる回数(ドア閉鎖は除く) |
-| 1度に複数のドアを開けられる              |
-| リアクターに対して能力を使える           |
-| 酸素妨害に対して能力を使える             |
-| MIRA HQの通信妨害に対して能力を使える    |
-| 停電に対して能力を使える                 |
-
-### Seer/シーア
-
-制作者 : Masami<br>
-
-陣営 : クルーメイト<br>
-判定 : クルーメイト<br>
-
-プレイヤーの死亡した瞬間が分かります。<br>
-視界が一瞬0になり、リアクターサボタージュ中でなければリアクターも一瞬鳴ります（キルフラッシュ）。<br>
-ホストの場合は画面が赤くなり、キル音が鳴ります。<br>
-キルフラッシュの長さは共通設定で微調整できます（推奨：0.3s~）。<br>
-
-#### 設定
-
-| 共通設定                |
-| ----------------------- |
-| キルフラッシュの長さ(s) |
-
-### Sheriff/シェリフ
-
-陣営 : クルーメイト<br>
-判定 : インポスター(ホストのみクルーメイト)<br>
-カウント : クルー<br>
-
-シェリフは人外をキルすることができます。<br>
-しかし、クルーメイトをキルした場合、自分が死亡してしまいます。<br>
-タスクはありません。<br>
-
-*暗転対策の為、死亡後のシェリフは会議毎に自殺するモーションが本人にだけ見えます。死体は出ません。<br>
-
-#### 設定
-
-| 設定名                                                                                     |
-| ------------------------------------------------------------------------------------------ |
-| キルクール                                                                                 |
-| 誤爆時、ターゲットも死ぬ                                                                   |
-| キル可能回数                                                                               |
-| [マッドメイト](#Madmate/マッドメイト)をキルできる                                          |
-| 第三陣営をキルできる                                                                       |
-| ┣ [ジェスター](#Jester/ジェスター)をキルできる                                             |
-| ┣ [テロリスト](#Terrorist/テロリスト)をキルできる                                          |
-| ┣ [オポチュニスト](#Opportunist/オポチュニスト)をキルできる                                |
-| ┣ [アーソニスト](#Arsonist/アーソニスト)をキルできる                                       |
-| ┣ [エゴイスト](#Egoist/エゴイスト)をキルできる                                             |
-| ┣ [シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫)(エゴイスト陣営)をキルできる |
-| ┣ [エクスキューショナー](#Executioner/エクスキューショナー)をキルできる                    |
-| ┣ [ジャッカル](#Jackal/ジャッカル)をキルできる                                             |
-| ┗ [シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫)(ジャッカル陣営)をキルできる |
-
-### Snitch/スニッチ
-
-陣営 : クルーメイト<br>
-判定 : クルーメイト<br>
-
-スニッチはタスクを完了させるとキル可能人外の名前の色が変化し、矢印で方角がわかります。<br>
-しかし、スニッチのタスクが少なくなると人外に通知されます。
-
-#### 設定
-
-| 設定名                                       |
-| -------------------------------------------- |
-| ターゲットを示す矢印が見える                 |
-| 矢印の色で陣営がわかる                       |
-| 第三陣営のキル可能役職を見つけることが出来る |
-
-### SpeedBooster/スピードブースター
-
-制作・考案者 : よっキング<br>
-
-陣営 ：クルーメイト<br>
-判定 ：クルーメイト<br>
-
-規定のタスク量を完了させると、生存しているランダムなプレイヤーの速度を上げる。<br>
-
-#### 設定
-
-| 設定名                 |
+| Name                   |
 | ---------------------- |
-| 加速値                 |
-| 効果を発動するタスク数 |
+| Shapeshift Duration(s) |
 
-### Trapper/トラッパー
+### Sniper
 
-考案者 : 宿主ランニング<br>
-制作者 : そうくん<br>
+Create and idea by こう。<br>
 
-陣営 ：クルーメイト<br>
-判定 ：クルーメイト<br>
+Team : Impostors<br>
+Basis : Shapeshifter<br>
 
-キルされると、キルした人を数秒間移動不可にします。<br>
+Sniper can shoot players so far away. <br>
+they kill a player on the extension line from Shapeshift point to release point.<br>
+Players on the line of bullet hear sound of a gunshot.<br>
+You can perform normal kills after all bullets run out.<br>
 
-#### 設定
+Precise Shooting:OFF<BR>
+![off](https://user-images.githubusercontent.com/96226646/167415213-b2291123-b2f8-4821-84a9-79d72dc62d22.png)<BR>
+Precise Shooting:ON<BR>
+![on](https://user-images.githubusercontent.com/96226646/167415233-97882c76-fcde-4bac-8fdd-1641e43e6efe.png)<BR>
 
-| 設定名           |
-| ---------------- |
-| 移動を封じる時間 |
+#### Game Options
 
-### Arsonist/アーソニスト
+| Name                    |
+| ----------------------- |
+| Sniper Bullet Count     |
+| Sniper Precise Shooting |
 
-陣営 : 第三（単独）<br>
-判定 : インポスター<br>
-カウント : クルー<br>
-勝利条件 : 生存者全員にオイルをかけること
+### TimeThief
 
-キルボタンを押して、一定時間近くに居ると、相手にオイルが塗れます。<br>
-生存者全員にオイルを塗り、ベントに入ると単独勝利します。それ以外では敗北します。<br>
+Created by integral, しゅー, そうくん, ゆりの<br>
+Idea by みぃー<br>
 
-*暗転対策の為、死亡後のアーソニストは会議毎に自殺するモーションが本人にだけ見えます。死体は出ません。<br>
+Team : Impostors<br>
+Basis : Impostor<br>
 
-#### 設定
+Every kill cuts down discussion and voting time in meeting.<br>
+Depending on option, the lost time is returned after they die.<br>
 
-| 設定名       |
-| ------------ |
-| 塗り時間     |
-| クールダウン |
+#### Game Options
 
-### Egoist/エゴイスト
+| Name                              |
+| --------------------------------- |
+| TimeThief Decrease Time Length(s) |
+| Lower Limit For Voting Time(s)    |
+| Return Stolen Time After Death    |
 
-考案者 : しゅー<br>
-制作者 : そうくん<br>
+### Vampire
 
-陣営 : 第三（エゴイスト）<br>
-判定 : シェイプシフター<br>
-カウント : インポスター<br>
-勝利条件 : インポスター全滅後、インポスターの勝利条件を達成する<br>
+Team : Impostors<br>
+Basis : Impostor<br>
 
-インポスターはエゴイストを認識しています。<br>
-エゴイストもインポスターを認識しています。<br>
-インポスターとエゴイストは切りあうことができません。<br>
-他のインポスターが全滅すると勝利します。<br>
-エゴイストが勝利するとインポスターは敗北となります。<br>
+When the vampire kills, the kill is delayed (the bitten player will die in a set time based on settings or when the next meeting is called).<br>
+If the vampire butes [Bait](#Bait), the player will die immediately and a self-report will be forced.<br>
 
-敗北条件は以下の通りです。<br>
+#### Game Options
 
-1.エゴイストが死亡する<br> 2.味方が残っている状態でインポスター勝利をする<br> 3.他の第三陣営が勝利する<br>
+| Name                  |
+| --------------------- |
+| Vampire Kill Delay(s) |
 
-#### 設定
+### Warlock
 
-| 設定名     |
-| ---------- |
-| キルクール |
+Team : Impostors<br>
+Basis : Shapeshifter<br>
 
-### Executioner/エクスキューショナー
+When a warlock presses kill, the target is cursed. <br>
+The next time the warlock shifts, the cursed player will kill the nearest person.<br>
+If you shapeshift as Warlock, you can make a regular kill. <br>
+Beware, if you or another impostor are the nearest to the player you have cursed when you shift you will be killed.<br>
 
-陣営 : 第三（単独）<br>
-判定 : クルーメイト<br>
-カウント : クルー<br>
-勝利条件 : ターゲットが投票で追放されること<br>
+### Witch
 
-ターゲットに対してこちらからのみ視認できるダイヤのマークがついています。<br>
-投票でダイヤが付いている人を追放すれば単独勝利します。<br>
-対象がキルされた場合は役職が変化します。<br>
-ターゲットがジェスターの場合は追加勝利します。<br>
+Team : Impostors<br>
+Basis : Impostor<br>
 
-#### 設定
+The Witches can perform kills or spells by turns.<br>
+The players spelled by Witches before a meeting are marked "cross" in the meeting, and unless exiling Witches, They all die just after the meeting.<br>
 
-| 設定名                                 |
-| -------------------------------------- |
-| インポスターもターゲットにできる       |
-| キルできる第三陣営もターゲットにできる |
-| ターゲットがキルされた後に変化する役職 |
+### Mafia
 
-### Jackal/ジャッカル
+Team : Impostors<br>
+Basis : Impostor<br>
 
-制作者 :  空き瓶/EmptyBottle<br>
+The Mafias can initially use vents and sabotage, but cannot kill (still have a button).<br>
+They will be able to kill after Impostors except them are all gone.<br>
 
-陣営 : 第三（ジャッカル）<br>
-判定 : インポスター<br>
-カウント : ジャッカル<br>
-勝利条件 : インポスターを全滅させ、ジャッカルチームの人数がクルーの人数と同数か上回ること<br>
 
-他のすべてのプレイヤーを排除することで勝利する第三陣営のジャッカルチームの役職です。<br>
-タスクがなく、インポスター、クルー、第三陣営をキルすることができます。<br>
+## Madmate
 
-注意点<br>
-*特定条件になった場合、投票で追放された人がいても「誰も追放されなかった」と表示される(表示のみで追放はされます)<br>
- 暗転対策の都合上このような表示になります。<br>
-*インポスターを吊りきるとAutoMuteのミュートが解除されます。<br>
+There are common options for Madmates.
+#### Game Options
 
-#### 設定
+| Name                          |
+| ----------------------------- |
+| Madmates Can Fix Lights Out   |
+| Madmates Can Fix Comms        |
+| Madmates Have Impostor Vision |
+| Madmates Can See Kill Flash   |
+| Madmates Can See Other Votes  |
+| Madmates Vent Cooldown        |
+| Madmates Max Time In Vents    |
 
-| 設定名                   |
+### Madmate
+
+Team : Impostors<br>
+Basis : Engineer<br>
+Count : Crew<br>
+
+The Madmates belong to team Impostors, but they don't know who are Impostors.<br>
+Impostors don't know Madmates either.<br>
+They cannot kill or sabotage, but they can use vents.<br>
+
+### MadGuardian
+
+Create and idea by 空き瓶/EmptyBottle<br>
+
+Team : Impostors<br>
+Basis : Crewmate<br>
+Count : Crew<br>
+
+The MadGuardians belong to team Impostors, one type of Madmates.<br>
+Compared with Madmates, MadGuardian cannot use vents, while they can guard kills by Impostors after finishing all tasks.<br>
+
+#### Game Options
+
+| Name                                  |
+| ------------------------------------- |
+| MadGuardian Can See Who Tried To Kill |
+
+### MadSnitch
+
+Create and idea by そうくん<br>
+
+Team : Impostors<br>
+Basis : Crewmate or Engineer<br>
+Count : Crew<br>
+
+The MadSnitches belong to team Impostors, one type of Madmates.<br>
+They can see who is the Impostor after finishing all their tasks.<br>
+Depending on option, they can use vents.<br>
+
+#### Game Options
+
+| Name                     |
 | ------------------------ |
-| キルクール               |
-| ベントを使える           |
-| サボタージュを使用できる |
-| インポスター視界         |
+| MadSnitch Can Use Vent   |
+| Also Exposed To Impostor |
+| MadSnitch Tasks          |
 
-### Jester/ジェスター
+### SidekickMadmate
 
-陣営 : 第三（単独）<br>
-判定 : クルーメイト<br>
-カウント : クルー<br>
-勝利条件 : 投票で追放されること。<br>
+Create and idea by たんぽぽ<br>
 
-投票で追放されたときに単独勝利となる第三陣営の役職です。<br>
-追放されずにゲームが終了するか、キルされると敗北となります。<br>
+Team : Impostors<br>
+Basis : Undecided<br>
+Count : Crew<br>
 
-### Opportunist/オポチュニスト
+The SidekickMadmate is an acquired Madmate Role assigned by Impostors in task phases.<br>
+Some kind of Shapeshifter-based Impostors can give SidekickMadmate by Shapeshifting next to a target.<br>
 
-陣営 : 第三（その他）<br>
-判定 : クルーメイト<br>
-カウント : クルー<br>
-勝利条件 : いずれかの陣営が勝利したときに生き残っていること。<br>
+**NOTE:**
+- The **"nearest"** Crewmate becomes SidekickMadmate no matter to whom the Impostors Shapeshift.
 
-ゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職です。<br>
-タスクはありません。<br>
 
-### SchrodingerCat/シュレディンガーの猫
+## Impostor/Crewmate
 
-陣営 : 第三（その他）<br>
-判定 : クルーメイト<br>
-カウント : クルー<br>
-勝利条件 : なし<br>
+### Watcher
 
-デフォルトでは勝利条件を持たず、条件を満たすと初めて勝利条件を持ちます。<br>
+Team : Impostors or Crewmates<br>
+Basis : Impostor or Crewmates<br>
 
-1.インポスターにキルされるとキルを防いでインポスター陣営となる<br>
-2.シェリフにキルされるとキルを防いでクルー陣営となる<br>
-3.第三陣営にキルされるとキルを防いで第三陣営となる<br>
-4.追放された場合は役職が変化せず、そのまま勝利条件が変わらず死亡する<br>
-5.ウォーロックの能力でキルされると、そのまま勝利条件が変わらず死亡する<br>
-6.自殺系キル(ヴァンパイア除く)でキルされると、そのまま勝利条件が変わらず死亡する<br>
+The watcher can see who each player has voted during every meeting. <br>
 
-また、全シュレディンガーの猫共通でタスクがありません。
+#### Game Options
 
-#### 設定
+| Name               |
+| ------------------ |
+| EvilWatcher Chance |
 
-| 設定名                                     |
-| ------------------------------------------ |
-| 役職変化前であれば、クルー陣営と勝利できる |
-| 吊られた際、陣営が変化する                 |
 
-### Terrorist/テロリスト
+## Crewmate
 
-制作・考案者 : 空き瓶/EmptyBottle<br>
+### Bait
 
-陣営 : 第三（単独）<br>
-判定 : エンジニア<br>
-カウント : クルー<br>
-勝利条件 : 全てのタスクを完了させた状態で死亡すること。<br>
+Team : Crewmates<br>
+Basis : Crewmate<br>
 
-自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職です。<br>
-タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北となります。<br>
+When Bait is killed, the imposter will automatically self report.<br>
+This also applies to delayed kills- Once the kill button is pressed, the report will be immediate.<br>
 
-## 属性
+### Dictator
 
-### LastImpostor/ラストインポスター
+Create and idea by そうくん<br>
 
-制作・考案者 : そうくん<br>
+Team : Crewmates<br>
+Basis : Crewmate<br>
 
-最後のインポスターに付与される属性です。<br>
-キルクールが設定した時間まで短くなります。<br>
-ヴァンパイア、バウンティハンター、シリアルキラーには付与されません。<br>
+When voting for someone in a meeting, the Dictators forcibly break that meeting and exile the player they vote for.<br>
+After exercising the force, the Dictators die just after meeting.<br>
 
-| 設定名     |
-| ---------- |
-| キルクール |
+### Doctor
 
-### Lovers/恋人
+Team : Crewmates<br>
+Basis : Scientist<br>
 
-制作・考案者 : ゆりの<br>
+The doctor can see when Crewmates die using vitals anywhere in the map.<br>
+By closing the chat, the doctor can see the dead players cause of death next to their name in all meetings.<br>
 
-陣営 : 第三（恋人）<br>
-判定 : -<br>
-カウント : -<br>
-勝利条件 : 恋人が2人共生き残っている状態で試合が終了すること。全クルーのタスク終了時は生き残っていても敗北。<br>
+#### Game Options
+| Name                    |
+| ----------------------- |
+| Doctor Battery Duration |
 
-全プレイヤーの中から2人配役されます。(他の役職に重複)<br>
-クルー陣営のタスクを持つ役職が恋人になった場合、タスクはなくなります。<br>
-お互いの名前の後ろにハートマークが付きます。<br>
-片方が死んだらもう片方も後追いで死亡します。<br>
-投票で恋人が死んだ場合はもう片方も死亡し、通報不可能の死体になります。<br>
+### Lighter
 
-役職重複例：<br>
-・テロリスト恋人:タスク持ち、タスク完了して死亡すればテロリストとして勝利。<br>
-・マッドスニッチ恋人：タスク持ち、タスク完了すればインポスターが分かる。<br>
-・スニッチ恋人：タスク無し、インポスターが分からないままになる。<br>
-・シェリフ恋人：通常通りインポスター等をキルことが出来る。重複元の役職によってキルできるかどうか決まる。(インポスター恋人 キル可能.クルーメイト恋人 キル不可能)<br>
-・オポチュニスト恋人：生き残れば勝利。<br>
-・ジェスター恋人：ジェスター恋人が追放されればジェスターとして勝利。恋人が投票で追放された場合はジェスター恋人は敗北。<br>
-・ベイト恋人：恋人がキルされてベイト恋人が後追い死亡した時は、通報は行われない。<br>
+Team : Crewmates<br>
+Basis : Crewmate<br>
 
-## DisableDevices/デバイスを無効化
+After finishing all the task, The lighters have their vision expanded and ignore lights out.<br>
 
-各種機器を無効化することができます。<br>
+#### Game Options
 
-| 設定名                           |
-| -------------------------------- |
-| スケルドのデバイス無効化         |
-| ┣ アドミン無効化                 |
-| ┗ カメラ無効化                   |
-| ミラHQのデバイス無効化           |
-| ┣ アドミン無効化                 |
-| ┗ ドアログ無効化                 |
-| ポーラスのデバイス無効化         |
-| ┣ アドミン無効化                 |
-| ┣ カメラ無効化                   |
-| ┗ バイタル無効化                 |
-| エアシップのデバイス無効化       |
-| ┣ アドミン無効化（コックピット） |
-| ┣ アドミン無効化（アーカイブ）   |
-| ┣ カメラ無効化                   |
-| ┗ バイタル無効化                 |
+| Name                          |
+| ----------------------------- |
+| Lighter Expanded Vision       |
+| Lighter Gains Impostor Vision |
 
-## SabotageTimeControl/サボタージュの時間制御
+### Mayor
 
-一部サボタージュの制限時間を変更することができます。<br>
+Team : Crewmates<br>
+Basis : Crewmate or Engineer<br>
 
-| 設定名                           |
-| -------------------------------- |
-| サボタージュの時間制御           |
-| ┣ ポーラスのリアクター制限時間   |
-| ┗ エアシップのリアクター制限時間 |
-## モード
+The Mayors' votes count twice or more.<br>
+Depending on the options, they can call emergency meeting by entering vents.<br>
 
-### DisableTasks/タスクを無効化する
+#### Game Options
 
-特定のタスクを無効化することができます。<br>
+| Name                                |
+| ----------------------------------- |
+| Mayor Additional Votes Count        |
+| Mayor Has Mobile Emergency Button   |
+| ┗ Number Of Mobile Emergency Button |
 
-| 設定名                     |
+### SabotageMaster
+
+Create and idea by 空き瓶/EmptyBottle<br>
+
+Team : Crewmates<br>
+Basis : Crewmate<br>
+
+The SabotageMasters can fix sabotage faster.<br>
+they can fix both of Comms in MIRA HQ, Reactor and O2 by fixing either.<br>
+Lights can be fixed by touching a single lever.<br>
+Opening a door in Polus or The Airship will open all the linked doors.<br>
+
+#### Game Options
+
+| Name                                                   |
+| ------------------------------------------------------ |
+| SabotageMaster Fix Ability Limit(Except Opening Doors) |
+| SabotageMaster Can Open Multiple Doors                 |
+| SabotageMaster Can Fix Both Reactors                   |
+| SabotageMaster Can Fix Both O2                         |
+| SabotageMaster Can Fix Both Comms In MIRA HQ           |
+| SabotageMaster Can Fix Lights Out All At Once          |
+
+### Seer
+
+Team : Crewmates<br>
+Basis : Crewmate<br>
+
+Seers can see when someone dies.<br>
+For an instant, their vision turns totally dark and there goes Reactor alert only to them unless on Reactor (named "Kill Flash").<br>
+For the host, the screen flash red and a kill sounds.<br>
+There is a option to slightly adjust Kill Flash duration.<br>
+
+#### Game Options
+
+| Common Options         |
+| ---------------------- |
+| Kill Flash Duration(s) |
+
+### Sheriff
+
+Team : Crewmates<br>
+Basis : Impostor(Only host is the Crewmate)<br>
+Count : Crew<br>
+
+Sheriff can kill imposters always.<br>
+Depending on settings, Sheriff may also kill neutrals.<br>
+The sheriff has no tasks.<br>
+Killing Crewmates will result in suicide. <br>
+
+* As a measure against blackout, after death, the Sheriff can only see the motion of committing suicide at each meeting. There is no corpse. <br>
+
+#### Game Options
+
+| Name                                                                |
+| ------------------------------------------------------------------- |
+| Kill Cooldown                                                       |
+| Sheriff Can Kill Crewmates As It                                    |
+| Sheriff Shot Limit                                                  |
+| Sheriff Can Kill Madmates                                           |
+| Sheriff Can Kill Neutrals                                           |
+| ┣ Sheriff Can Kill [Jester](#Jester)                                |
+| ┣ Sheriff Can Kill [Terrorist](#Terrorist)                          |
+| ┣ Sheriff Can Kill [Opportunist](#Opportunist)                      |
+| ┣ Sheriff Can Kill [Arsonist](#Arsonist)                            |
+| ┣ Sheriff Can Kill [Egoist](#Egoist)                                |
+| ┣ Sheriff Can Kill [SchrodingerCat](#SchrodingerCat) In Team Egoist |
+| ┣ Sheriff Can Kill [Executioner](#Executioner)                      |
+| ┣ Sheriff Can Kill [Jackal](#Jackal)                                |
+| ┗ Sheriff Can Kill [SchrodingerCat](#SchrodingerCat) In Team Jackal |
+
+### Snitch
+
+Team : Crewmates<br>
+Basis : Crewmate<br>
+
+Once all of the snitch's tasks are completed, the imposters names will be displayed in red.<br>
+Dependent on the settings, the snitch may also see arrows pointed in the remaining impostors directions when their tasks are completed.<br>
+When the snitch has 0 or 1 tasks remaining, the impostors will be able to see a star next to the name of the snitch and that there is an alive snitch who has 0 or 1 tasks left.<br>
+The imposters also see an arrow pointed in the snitch's direction when the snitch has one or less tasks remaining.<br>
+
+#### Game Options
+
+| Name                           |
+| ------------------------------ |
+| Snitch Can See Target Arrow    |
+| Snitch Can See Colored Arrow   |
+| Snitch Can Find Neutral Killer |
+
+### SpeedBooster
+
+Create and idea by よっキング<br>
+
+Team : Crewmates<br>
+Basis : Crewmate<br>
+
+Defined amount of tasks boosts the player speed of someone alive.<br>
+
+#### Game Options
+
+| Name                |
+| ------------------- |
+| Acceleration valued |
+| Tasks that trigger  |
+
+### Trapper
+
+Created by そうくん<br>
+Original idea by 宿主ランニング<br>
+
+Team : Crewmates<br>
+Basis : Crewmate<br>
+
+When killed, the trapper will hold the killer in place.<br>
+The time held in place on the body is decided by host in settings.<br>
+
+#### Game Options
+
+| Name            |
+| --------------- |
+| Freeze Duration |
+
+
+## Neutral
+
+#### Settings
+
+| Settings Name   |
+| --------------- |
+| Block Move Time |
+
+### Arsonist
+
+Team : Neutral(Solo)<br>
+Basis : Impostor<br>
+Count : Crew<br>
+Victory Condition : Douse and ignite all the living players<br>
+
+When an arsonist tries to use the kill button, they douse oil onto the crewmates.<br>
+To win as Arsonist, you must douse all Fallow players and vent to win.<br>
+To douse, you must stand next to a player after pressing kill until the orange triangle is filled in.<br>
+
+* As a measure against blackout, after death, the Arsonist can only see the motion of committing suicide at each meeting. There is no corpse. <br>
+
+#### Game Options
+
+| Name                    |
+| ----------------------- |
+| Arsonist Douse Duration |
+| Arsonist Douse Cooldown |
+
+### Egoist
+
+Create by そうくん<br>
+Original idea by しゅー<br>
+
+Team : Neutral(Egoist)<br>
+Basis : Shapeshifter<br>
+Count : Impostor<br>
+Victory Condition : Satisfy the Impostor victory condition after all the Impostors die.<br>
+
+The Egoists are counted among the Impostors.<br>
+They have the same ability as Shapeshifters.<br>
+Impostors and Egoists can see but cannot kill each other.<br>
+The Egoists have to exile all Impostors before leading to Impostor win.<br>
+Egoist win means Impostor lose and vice versa.<br>
+
+**NOTE:**
+- The Egoists lose in the following condition:<br>
+1. Egoist dies.<br>
+2. Impostor win with some Impostors remained.<br>
+3. Crewmate or other Neutral win.<br>
+
+#### Settings
+
+| Settings Name       |
+| ------------------- |
+| Egoist KillCooldown |
+
+### Executioner
+
+
+Team : Neutral(Solo)<br>
+Basis : Crewmate<br>
+Count : Crew<br>
+Victory Conditions : Have the target voted out<br>
+
+Executioner’s target is is marked with a diamond which only they can see.<br>
+If the executioner’s target is voted off, they win alone.<br>
+If the target is a [Jester](#jester), they will win an additional victory with the executioner.<br>
+
+#### Game Options
+
+| Name                                    |
+| --------------------------------------- |
+| Executioner Can Target Impostor         |
+| Executioner Can Target Neutral Murderer |
+| Role After Target Dies                  |
+
+### Jackal
+
+Team : Neutral(Jackal)<br>
+Basis : Impostor<br>
+Count : Jackal<br>
+Victory Condition : Annihilate all Imposters and the number of Jackal teams must equal or exceed the number of crew members<br>
+Create by 空き瓶/EmptyBottle<br>
+
+The Jackal is part of an extra team, that tries to eliminate all the other players.<br>
+The Jackal has no tasks and can kill Impostors, Crewmates and Neutrals.<br>
+
+The team Jackal enables multiple new outcomes of the game, listing some examples here:<br>
+- The Impostors could be eliminated and then the crew plays against the team Jackal.<br>
+- The Crew could be eliminated, then the Team Jackal fight against the Impostors (The Crew can still make a task win in this scenario)<br>
+
+
+If both Impostors and Jackals are in the game, the game continues even if all Crewmates are dead. <br>
+Crewmates may still win in this case by completing their tasks. Jackal and Impostor have to kill each other.<br>
+
+・In the case of 1 Impo & Jackal, even if it is banished by vote, it will be displayed as No one was banished<br>
+  It is not a bug that is displayed like this as a countermeasure against blackout.<br>
+・ Auto mute is removed when impo is hung<br>
+
+### Game Options
+
+| Name                |
+| ------------------- |
+| Kill Cooldown       |
+| Can Use Vent        |
+| Can Sabotage        |
+| Has Impostor Vision |
+
+### Jester
+
+Team : Neutral(Solo)<br>
+Basis : Crewmate<br>
+Count : Crew<br>
+Victory Conditions : Get voted out<br>
+
+The Jesters don't have any tasks. They win the game as a solo, if they get voted out during a meeting.<br>
+Remaining alive until the game end or getting killed results Jester lose.<br>
+
+### Opportunist
+
+Team : Neutral(Other)<br>
+Basis : Crewmate<br>
+Count : Crew<br>
+Victory Conditions : Remain alive until the game end<br>
+
+Regardless of the games outcome, Opportunist wins an additional victory if they survive to the end of the match.<br>
+
+### SchrodingerCat
+
+Team : Neutral(Other)<br>
+Basis : Crewmate<br>
+Count : Crew<br>
+Victory Conditions : None<br>
+
+The SchrodingerCats have no tasks and by default, no victory condition. Only after fulfiling the following condition they obtain victory conditions.<br>
+
+1. If killed by **Impostors**, they prevent the kill and belong to **team Impostors**.<br>
+2. If killed by [Sheriff](#sheriff), they prevent the kill and belong to **team Crewmate**.<br>
+3. If killed by **Neutral**, they prevent the kill and belong to the **Neutra team**.<br>
+4. If exiled, they die with the victory condition same as before.<br>
+5. If killed with special abilities of Impostors (except for [Vampire](#vampire)), they die with the victory condition same as before.<br>
+
+#### Game Options
+
+| Name                                             |
+| ------------------------------------------------ |
+| SchrodingerCat In No Team Can Win With Crewmates |
+| Team To Change After Exiled                      |
+
+### Terrorist
+
+Create and original idea by 空き瓶/EmptyBottle<br>
+
+Team : Neutral(Solo)<br>
+Basis : Engineer<br>
+Count : Crew<br>
+Victory Conditions : Finish All Tasks, Then Die<br>
+
+The Terrorists are the Neutral Role where they win the game alone if they die with all their tasks completed.<br>
+Any cause of death is acceptable.<br>
+If they die before completing their tasks, or if they survive at the game end, they lose.<br>
+
+## Attribute
+
+### LastImpostor
+
+Create and idea by そうくん<br>
+
+An Attribute given to the last Impostor.<br>
+kill cooldown gets shorter than usual.<br>
+Not assigned to [BountyHunter](#bountyhunter), [SerialKiller](#serialkiller), or [Vampire](#vampire).<br>
+
+#### Game Options
+
+| Name                       |
 | -------------------------- |
-| タスクを無効化する         |
-| ┣ カードタスク             |
-| ┣ 医務室のスキャンタスク   |
-| ┣ 金庫タスク               |
-| ┣ ダウンロードタスク       |
-| ┣ 原子炉起動タスク         |
-| ┗ ブレーカーリセットタスク |
+| LastImpostor Kill Cooldown |
 
-### FallFromLadders/転落死
+### Lovers
 
-ハシゴから下ると、一定確率で死亡します。<br>
+Create and idea by ゆりの<br>
 
-| 設定名         |
-| -------------- |
-| ハシゴから転落 |
-| ┗ 転落する確率 |
+Team : Neutral(Lovres)<br>
+Basis : -<br>
+Count : -<br>
+Victory Conditions : Alive at the end of the game. (other than task completion)<br>
 
-### HideAndSeek/かくれんぼモード
+Randomly assigned to two players (regardless of camp).<br>
+This is a third camp in which both players win or die alongside one another.<br>
+If your lover wins, you win.<br>
+If your lover dies, you die.<br>
+If the crewmates win by tasks, the lovers lose.<br>
+The lovers can also win if both are still alive at the end of the game and the crewmates don't win by tasks.<br>
+If the lovers win, everyone else loses.<br>
+Crewmate lovers do not have tasks assigned. <br>
 
-制作・考案者 : 空き瓶/EmptyBottle<br>
+Example of overlapping Roles: <br>
+- [Terrorist](#terrorist) Lover: You have tasks and If you die after completing the task, you will win as a terrorist. <br>
+- [MadSnitch](#madsnitch) Lover: You have tasks, and you can see the Impostor after completing the task. <br>
+- [Snitch](#snitch) Lover: No tasks, Impostor remains unknown. <br>
+- [Sheriff](#sheriff) Lover: You can kill Impostors as usual. Whether or not you can kill depends on Roles and Options. (Impostor Lover can be killed. Crewmate Lover cannot be killed) <br>
+- [Opportunist](#opportunist) Lover: Win if you survive. <br>
+- [Jester](#jester) Lover: If you are voted out, you will win as Jester. If the other Lover is voted out, you are defeated. <br>
+- [Bait](#bait) Lover: When the other Lover is killed and you die afterwards, the other Lover immediately reports you. <br>
 
-#### クルーメイト陣営(青色)勝利条件
+## DisableDevices
 
-全てのタスクを完了させること。<br>
-※幽霊のタスクはカウントされません。<br>
+Various devices can be disabled.
 
-#### インポスター陣営(赤色)勝利条件
+| Settings Name                   |
+| ------------------------------- |
+| Disable Skeld Devices           |
+| ┣ Disable Admin                 |
+| ┗ Disable Camera                |
+| Disable MiraHQ Devices          |
+| ┣ Disable Admin                 |
+| ┗ Disable DoorLog               |
+| Disable Polus Devices           |
+| ┣ Disable Admin                 |
+| ┣ Disable Camera                |
+| ┗ Disable Vital                 |
+| Disable Airship Devices         |
+| ┣ Disable Airship Cockpit Admin |
+| ┣ Disable Airship Records Admin |
+| ┣ Disable Camera                |
+| ┗ Disable Vital                 |
 
-全てのクルーメイトをキルすること。<br>
-※クルーメイトとインポスターが同数であってもクルーメイトが全滅していないと試合は終わりません。<br>
+## SabotageTimeControl
 
-#### 狐(紫色)勝利条件
+The time limit for some sabotage can be modified.
 
-トロールを除くいずれかの陣営が勝利したときに生き残っていること。<br>
+| Name                        |
+| --------------------------- |
+| Modify Sabotage TimeLimit   |
+| ┣ Polus Reactor TimeLimit   |
+| ┗ Airship Reactor TimeLimit |
 
-#### トロール(緑色)勝利条件
+## Mode
 
-インポスターにキルされること。<br>
+### DisableTasks
 
-#### 禁止事項
+It is possible to not assign certain tasks.<br>
 
-・サボタージュ<br>
-・アドミン<br>
-・カメラ<br>
-・幽霊が生存者に位置情報を伝える行為<br>
-・待ち伏せ(クルーメイトのタスク勝利が不可能となる可能性があるため。)<br>
+| Name                          |
+| ----------------------------- |
+| Disable Tasks                 |
+| ┣ Disable StartReactor Tasks  |
+| ┣ Disable SubmitScan Tasks    |
+| ┣ Disable SwipeCard Tasks     |
+| ┣ Disable UnlockSafe Tasks    |
+| ┣ Disable UploadData Tasks    |
+| ┗ Disable ResetBreakers Tasks |
 
-#### できないこと
+### Fall from ladders
 
-・死体の通報<br>
-・緊急会議ボタン<br>
-・サボタージュ<br>
+There is a configurable probability of fall to death when you descend from the ladder.<br>
 
-#### 設定
+| Name                   |
+| ---------------------- |
+| Fall From Ladders      |
+| ┗ Fall To Death Chance |
 
-| 設定名                     |
-| -------------------------- |
-| ドア閉鎖を許可する         |
-| インポスターの待機時間(秒) |
-| ベントの使用を禁止する     |
+### HideAndSeek
+
+Create and idea by 空き瓶/EmptyBottle<br>
+
+#### Crewmates Team (Blue) Victory Conditions
+
+Completing all tasks.<br>
+※Ghosts' tasks are not counted.<br>
+
+#### Impostor Team (Red) Victory Conditions
+
+Killing all Crewmates.<br>
+※Even if there are equal numbers of Crewmates and Impostors, the match will not end unless all the Crewmates are killed.<br>
+
+#### Fox (Purple) Victory Conditions
+
+Staying alive when one of the teams (Except Troll) wins.<br>
+
+#### Troll (Green) Victory Conditions
+
+Killed by Impostors.<br>
+
+#### Prohibited items
+
+- Sabotage<br>
+- Admin<br>
+- Camera<br>
+- Exposing by ghosts<br>
+- Ambush (This may make it impossible for Crewmates to win with the tasks.)<br>
+
+#### What you can't do
+
+- Reporting a dead bodies<br>
+- Emergency meeting button<br>
+- Sabotage<br>
+
+#### Game Options
+
+| Name                      |
+| ------------------------- |
+| Allow Closing Doors       |
+| Impostors Waiting Time(s) |
+| Ignore Cosmetics          |
+| Disable Vents             |
 
 ### NoGameEnd
 
-#### クルーメイト陣営勝利条件
+#### Crewmates Team Victory Conditions
 
-なし<br>
+None<br>
 
-#### インポスター陣営勝利条件
+#### Impostor Team Victory Conditions
 
-なし<br>
+None<br>
 
-#### 禁止事項
+#### Prohibited items
 
-なし<br>
+None<br>
 
-#### できないこと
+#### What you can't do
 
-ホストの SHIFT+L+Enter 以外でのゲーム終了。<br>
+Exiting the game with anything other than host's SHIFT+L+Enter.<br>
 
-勝利判定が存在しないデバッグ用のモードです。<br>
+This is a debug mode with no win Basis.<br>
 
-### RandomSpawn/ランダムスポーン
+### RandomSpawn
 
-スポーン位置をランダムに変更します。<br>
+Randomize the spawn position.<br>
 
-#### 設定
+#### Game Options
 
-| 設定名                         |
-| ------------------------------ |
-| ランダムスポーン               |
-| ┗ 追加スポーン位置(エアシップ) |
+| Name                        |
+| --------------------------- |
+| Random Spawn                |
+| ┗ Additional Spawn(Airship) |
 
-#### スケルド
+#### The Skeld
 
 ![Skeld](Images/The_Skeld_Random_Map.png)
 
-#### ミラHQ
+#### MiraHQ
 
 ![MiraHQ](Images/Mira_HQ_Random_Map.png)
 
-#### ポーラス
+#### Polus
 
 ![Polus](Images/Polus_Random_Map.png)
 
-#### エアシップ
+#### The AirShip
 
 ![AirShip](Images/The_Airship_Random_Map.png)
 
-`追加スポーン位置(エアシップ) `がOFFの場合は本来のスポーン位置からのみ選出されます。
+If `Additional Spawn(Airship)` is OFF, the spawn will be selected only from the original spawn position.
 
-### RandomMapsMode/ランダムマップモード
+### RandomMapsMode
 
-制作者 : つがる<br>
+Created by つがる<br>
 
-ランダムにマップが変わるモードです。<br>
+The RandomMapsMode changes the maps at random.<br>
 
-#### 設定
+#### Game Options
 
-| 設定名               |
-| -------------------- |
-| ランダムマップモード |
-| ┣ The Skeld を追加   |
-| ┣ MIRA HQ を追加     |
-| ┣ Polus を追加       |
-| ┗ The Airship を追加 |
+| Name                  |
+| --------------------- |
+| RandomMapsMode        |
+| ┣ Include The Skeld   |
+| ┣ Include MIRA HQ     |
+| ┣ Include Polus       |
+| ┗ Include The Airship |
 
-### SyncButtonMode/ボタン回数同期モード
+### SyncButtonMode
 
-プレイヤー全員のボタン回数が同期されているモードです。<br>
+This mode limits the maximum number of meetings that can be called in total.<br>
 
-#### 設定
+#### Game Options
 
-| 設定名                   |
-| ------------------------ |
-| ボタン回数同期モード     |
-| ┗ 合計ボタン使用可能回数 |
+| Name               |
+| ------------------ |
+| SyncButtonMode     |
+| ┗ Max Button Count |
 
-### VoteMode/投票モード
+### VoteMode
 
-| 設定名       | 説明                               |
-| ------------ | ---------------------------------- |
-| 投票モード   |                                    |
-| ┣ スキップ時 | デフォルト/自殺/自投票             |
-| ┣ 無投票時   | デフォルト/自殺/自投票/スキップ    |
-| ┗ 同数投票時 | デフォルト/全員追放/ランダムに追放 |
+| Name             | Description                         |
+| ---------------- | ----------------------------------- |
+| VoteMode         |                                     |
+| ┣ When Skip Vote | Default/Suicide/SelfVote            |
+| ┣ When Non-Vote  | Default/Suicide/SelfVote/Skip       |
+| ┗ When Tie       | Default/Exile Them All/Exile Random |
 
-## OtherSettings/その他の設定
+## OtherSettings
 
+| Name                               |
+| ---------------------------------- |
+| All Alive Meeting                  |
+| ┗ All Alive Meeting Time           |
+| Additional Emergency Cooldown      |
+| ┣ Survivor Threshold To Be Applied |
+| ┗ Additional Cooldown              |
+| Hide And Seek with Roles           |
+| ┗ Waiting Time                     |
+| Auto Display Last Result           |
+| Suffix                             |
+| Color Name Mode                    |
+| Fix Kill Cooldown For First Spawn  |
+| Ghost Can See Other Roles          |
+| Ghost Can See Other Votes          |
+| Ghost Ignore Tasks                 |
+| Disable Task Win                   |
+| Hide Game Settings                 |
 
-| 設定名                               |
-| ------------------------------------ |
-| 全員生存時の会議                     |
-| ┗ 全員生存時の会議時間               |
-| 追加の緊急ボタンクールダウン         |
-| ┣ 適用する生存人数                   |
-| ┗ 追加するクールダウン               |
-| 役職入りでかくれんぼ                 |
-| ┗ 待機時間                           |
-| 自動的に試合結果を表示               |
-| 名前の二行目                         |
-| 色名前モード                         |
-| 初期スポーン時のクールダウン修正     |
-| 幽霊が他人の役職を見ることができる   |
-| 幽霊が他人の投票先を見ることができる |
-| 死人のタスクを免除する               |
-| タスク勝利を無効化                   |
-| ゲーム設定を隠す                     |
+#### Client Settings
 
-#### クライアント設定
+## Hide Codes
 
-## Hide Game Codes/コード隠し
+By activating, you can hide the lobby code.
 
-有効化することで、ロビーコードを非表示にすることができます。
+You can rewrite the`Hide Game Code Name`in the config file (BepInEx\config\com.emptybottle.townofhost.cfg) to display any character you like when HideCodes are enabled.
+You can also change the text color as you like by rewriting`Hide Game Code Color`.
 
-コンフィグファイル(BepInEx\config\com.emptybottle.townofhost.cfg)の`Hide Game Code Name`を書き換えることによって、HideCodes を有効にしたときに好きな文字を表示させることができます。
-また、`Hide Game Code Color`を書き換えることによって文字の色も好きなように変更できます。
+## Force Japanese
 
-## Force Japanese/強制日本語化
+Activating forces the menu to be in Japanese, regardless of the language setting.
 
-有効化することで言語設定にかかわらず、メニューを強制的に日本語にします。
+## Japanese Role Name
 
-## Japanese Role Name/役職名日本語化
+By activating, the Role name can be displayed in Japanese.
+If the client language is English, this option is meaningless unless `Force Japanese` is enabled.
 
-有効化することで、役職名を日本語で表示させることができます。
-クライアントの言語を英語にしている場合、`Force Japanese`を有効にしていないとこの設定は意味のないものとなります。
+## Credits
 
-## 参考など
+More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter),[Seer](#Seer),[Jackal](#jackal) idea by [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
+[Opportunist](#Opportunist),[Watcher](#Watcher) original idea by [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
+[SchrodingerCat](#SchrodingerCat),[EvilTracker](#EvilTracker) idea by [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
+[Doctor](#Doctor) original idea by [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
+[Jester](#Jester) and [Madmate](#Madmate) original idea by [au.libhalt.net](https://au.libhalt.net)<br>
+[Terrorist](#Terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
+[Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
+Translate-Chinese : fivefirex, ZeMingOH233<br>
 
-[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター)、[シーア](#Seer/シーア)、[ジャッカル](#jackalジャッカル) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
-[オポチュニスト](#Opportunist/オポチュニスト)、[ウォッチャー](#Watcher/ウォッチャー) のアイデア元 : [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
-[シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫)、[イビルトラッカー](#EvilTracker/イビルトラッカー) のアイデア元 : [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
-[ドクター](#Doctor/ドクター) のアイデア元 : [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
-[ジェスター](#Jester/ジェスター)(てるてる)と[マッドメイト](#Madmate/マッドメイト) のアイデア元 : [au.libhalt.net](https://au.libhalt.net)<br>
-[テロリスト](#Terrorist/テロリスト)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
-[恋人](#lovers/恋人) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
-中国語翻訳 : fivefirex、ZeMingOH233<br>
+Translated with https://www.deepl.com<br>
 
-## 開発者
-<!--
-開発者用チャンネルでの一番最初の発言が早い順に記載する。
-- [テンプレ](https://github.com/) ([Twitter](https://twitter.com/))
-- [Twitter以外のページでも可](https://github.com/) ([Twitter](https://twitter.com/), [TheOtherPages](https://example.com/))
-- [何もなくていい場合は消してOK](https://github.com/)
-注：README-ENへの追記を忘れないでください。
--->
-- [空き瓶/EmptyBottle](https://github.com/tukasa0001) ([Twitter](https://twitter.com/XenonBottle))
+## Developers
+- [EmptyBottle](https://github.com/tukasa0001) ([Twitter](https://twitter.com/XenonBottle))
 - [Tanakarina](https://github.com/tanakanira0118) <!--([Twitter](https://twitter.com/))-->
-- [しゅー](https://github.com/shu-TownofHost) ([Twitter](https://twitter.com/Shu_kundayo))
+- [Shu-](https://github.com/shu-TownofHost) ([Twitter](https://twitter.com/Shu_kundayo))
 - [kihi](https://github.com/Kihi1120) <!--([Twitter](https://twitter.com/))-->
 - [TAKU_GG](https://github.com/TAKUGG) ([Twitter](https://twitter.com/TAKUGGYouTube1), [Youtube](https://www.youtube.com/c/TAKUGG))
-- [そうくん](https://github.com/soukunsandesu) ([Twitter](https://twitter.com/Soukun_Dev), [Youtube](https://www.youtube.com/channel/UCsCOqxmXBVT-BD_UKaXpUPw))
-- [みぃー](https://github.com/mii-47) <!--([Twitter](https://twitter.com/))-->
-- [たんぽぽ](https://github.com/tampopo-dandelion)([Twitter](https://twitter.com/2nomotokaicho),  [Youtube](https://www.youtube.com/channel/UC8EwQ5gu-qyxVxek0jZw1Tg), [ニコニコ](https://www.nicovideo.jp/user/124305243))
-- [こう。](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
-- [よっキング](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
-- [ゆりの](https://github.com/yurinakira) <!--([Twitter](https://twitter.com/))-->
+- [Soukun](https://github.com/soukunsandesu) ([Twitter](https://twitter.com/Soukun_Dev), [Youtube](https://www.youtube.com/channel/UCsCOqxmXBVT-BD_UKaXpUPw))
+- [Mii](https://github.com/mii-47) <!--([Twitter](https://twitter.com/))-->
+- [Tampopo](https://github.com/tampopo-dandelion)([Twitter](https://twitter.com/2nomotokaicho),  [Youtube](https://www.youtube.com/channel/UC8EwQ5gu-qyxVxek0jZw1Tg), [ニコニコ](https://www.nicovideo.jp/user/124305243))
+- [Kou](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
+- [Ykundesu](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
+- [Yurino](https://github.com/yurinakira) <!--([Twitter](https://twitter.com/))-->
 - [Masami](https://github.com/Masami4711) <!--([Twitter](https://twitter.com/))-->
+
+Translated with https://www.deepl.com<br>
