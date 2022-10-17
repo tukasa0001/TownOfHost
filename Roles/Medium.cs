@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static TownOfHost.Translator;
@@ -34,11 +33,6 @@ namespace TownOfHost
             UseNumber[playerId] = 0;
         }
         public static bool IsEnable() => playerIdList.Count > 0;
-        public static void ApplyGameOptions(GameOptionsData opt)
-        {
-            opt.RoleOptions.ScientistCooldown = 255f;
-            opt.RoleOptions.ScientistBatteryCharge = 1f;
-        }
         public static void FixedUpdate(PlayerControl target)
         {
             if (GameStates.IsInTask && Target.Contains(target.PlayerId))
@@ -59,40 +53,6 @@ namespace TownOfHost
             //Mediumの能力使用
             new LateTask(() =>
             {
-                /*foreach (var reporter in PlayerControl.AllPlayerControls)
-                {
-                    reporter.RpcResetAbilityCooldown();
-                    var rand = new System.Random();
-                    int Mode = rand.Next(1, 6);  //ランダムに
-                    if (!(reporter.Is(CustomRoles.Medium) && reporter.IsAlive())) continue;
-                    if (!CanMedium[reporter.PlayerId] && UseNumber[reporter.PlayerId] > MediumUseNumber.GetFloat()) continue;
-                    foreach (var target in PlayerControl.AllPlayerControls)
-                    {
-                        if (reporter == target) continue;
-                        if (!target.Data.IsDead) continue;
-                        string TargetPlayerName = target.GetRealName(true);
-                        var killer = GetKiller(target.PlayerId);
-                        string deadtime = DeadTimer[target.PlayerId].ToString("F0");
-                        switch (Mode)
-                        {
-                            case 1:
-                                Utils.SendMessage($"{TargetPlayerName}の死因は{Utils.GetVitalText(target.PlayerId)}です。", reporter.PlayerId);
-                                break;
-                            case 2:
-                                Utils.SendMessage($"{TargetPlayerName}の役職は{target.GetRoleName()}でした。", reporter.PlayerId);
-                                break;
-                            case 3:
-                                Utils.SendMessage($"{TargetPlayerName}を殺した人の役職は{killer.GetRoleName()}です。", reporter.PlayerId);
-                                break;
-                            case 4:
-                                Utils.SendMessage($"{TargetPlayerName}を殺した人の色のタイプは{killer.GetColorType()}です。", reporter.PlayerId);
-                                break;
-                            case 5:
-                                Utils.SendMessage($"{TargetPlayerName}が殺されたのは{deadtime}秒前です", reporter.PlayerId);
-                                break;
-                        }
-                    }
-                }*/
                 if (target == null) return;
                 var rand = new System.Random();
                 int Pattern = rand.Next(1, 6);  //ランダムに

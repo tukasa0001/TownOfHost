@@ -131,7 +131,7 @@ namespace TownOfHost
                 //役職の人数を指定
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
-                int AdditionalScientistNum = CustomRoles.Doctor.GetCount() + CustomRoles.Medium.GetCount();
+                int AdditionalScientistNum = CustomRoles.Doctor.GetCount();
                 roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum + AdditionalScientistNum, AdditionalScientistNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Scientist));
 
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
@@ -289,7 +289,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
                 AssignCustomRolesFromList(CustomRoles.EvilTracker, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Seer, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Medium, Scientists);
+                AssignCustomRolesFromList(CustomRoles.Medium, Crewmates);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)

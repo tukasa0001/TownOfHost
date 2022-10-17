@@ -345,9 +345,6 @@ namespace TownOfHost
                 case CustomRoles.EvilTracker:
                     EvilTracker.ApplyGameOptions(opt, player.PlayerId);
                     break;
-                case CustomRoles.Medium:
-                    Medium.ApplyGameOptions(opt);
-                    break;
                 case CustomRoles.Jackal:
                 case CustomRoles.JSchrodingerCat:
                     opt.SetVision(player, Options.JackalHasImpostorVision.GetBool());
