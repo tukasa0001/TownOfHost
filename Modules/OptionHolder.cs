@@ -347,7 +347,6 @@ namespace TownOfHost
             SnitchEnableTargetArrow = CustomOption.Create(20510, TabGroup.CrewmateRoles, Color.white, "SnitchEnableTargetArrow", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanGetArrowColor = CustomOption.Create(20511, TabGroup.CrewmateRoles, Color.white, "SnitchCanGetArrowColor", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanFindNeutralKiller = CustomOption.Create(20512, TabGroup.CrewmateRoles, Color.white, "SnitchCanFindNeutralKiller", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
-            Medium.SetupCustomOption();
             //20520~20523を使用
             SnitchTasks = OverrideTasksData.Create(20520, TabGroup.CrewmateRoles, CustomRoles.Snitch);
             SetupRoleOptions(20600, TabGroup.CrewmateRoles, CustomRoles.SpeedBooster);
@@ -359,6 +358,7 @@ namespace TownOfHost
             TrapperBlockMoveTime = CustomOption.Create(20810, TabGroup.CrewmateRoles, Color.white, "TrapperBlockMoveTime", 5f, 1f, 180, 1, CustomRoleSpawnChances[CustomRoles.Trapper]);
             SetupRoleOptions(20900, TabGroup.CrewmateRoles, CustomRoles.Dictator);
             SetupRoleOptions(21000, TabGroup.CrewmateRoles, CustomRoles.Seer);
+            Medium.SetupCustomOption();
 
             // Neutral
             SetupRoleOptions(50500, TabGroup.NeutralRoles, CustomRoles.Arsonist);
