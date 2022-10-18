@@ -449,8 +449,12 @@ namespace TownOfHost
                         sender.RpcSetRole(pc, RoleTypes.Scientist, playerCID);
                     }
                     //他視点でDesyncする人の役職を科学者にする
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc == player) continue;
+                        sender.RpcSetRole(player, RoleTypes.Scientist, pc.GetClientId());
+                    }
                     player.SetRole(RoleTypes.Scientist); //ホスト視点用
-                    sender.RpcSetRole(player, RoleTypes.Scientist);
                 }
                 else
                 {
