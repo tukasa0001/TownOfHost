@@ -37,9 +37,11 @@ Note that if a player other than the host plays with this mod installed, the fol
 - etc.
 
 ## Features
+
 ### Hotkeys
 
 #### Host Only
+
 | HotKey              | Function                      | Usable Scene    |
 | ------------------- | ----------------------------- | --------------- |
 | `Shift`+`L`+`Enter` | Force End Game                | In Game         |
@@ -51,6 +53,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 | `Ctrl`+`RMB`        | Execute clicked player        | In Meeting      |
 
 #### MOD Client Only
+
 | HotKey      | Function                                                                           | Usable Scene |
 | ----------- | ---------------------------------------------------------------------------------- | ------------ |
 | `Tab`       | Option list page feed                                                              | Lobby        |
@@ -64,9 +67,11 @@ Note that if a player other than the host plays with this mod installed, the fol
 | `↓`         | Go future in time of chat send history                                             | Chat         |
 
 ### Chat Commands
+
 You can execute chat commands by typing in chat.
 
 #### Host Only
+
 | Command                                               | Function                                          |
 | ----------------------------------------------------- | ------------------------------------------------- |
 | /winner<br>/win                                       | Show winner                                       |
@@ -80,12 +85,14 @@ You can execute chat commands by typing in chat.
 | /hidename <string><br>/hn <string>                    | Rename code concealment string                    |
 
 #### MOD Client Only
+
 | Command        | Function                    |
 | -------------- | --------------------------- |
 | /dump          | Dump log                    |
 | /version<br>/v | Show version of MOD clients |
 
 #### All Clients
+
 | Command                     | Function                                |
 | --------------------------- | --------------------------------------- |
 | /lastresult<br>/l           | Show game result                        |
@@ -96,6 +103,7 @@ You can execute chat commands by typing in chat.
 | /myrole<br>/m               | Display a description of your role      |
 
 ### Template
+
 This function allows you to send prepared messages.<br>
 Execute by typing `/template <tag>` or `/t <tag>`.<br>
 To set the text, edit `template.txt` in the same folder as AmongUs.exe.<br>
@@ -103,11 +111,14 @@ Separate each entry with a colon, such as `tag:content`.<br>
 Also, you can break lines by writing `\n` in the sentence like `tag:line breaks can be\nmade like this`.<br>
 
 #### Welcome Message
+
 If the tag is set to "welcome" in the template function, it will be sent automatically when a player joins.<br>
 For example: `welcome:This room is using TownOfHost.`
 
 ### Custom Translation File
+
 Users are free to create and use their own translations.<br>
+
 - Open the "Language" folder created in the Among Us folder.
 - Create a file named `{language name}.dat` in the folder
   - 例: English.dat
@@ -154,7 +165,7 @@ You can also reload the translation by pressing key `T`+`F5`.
 | [Warlock](#Warlock)                 | [Snitch](#Snitch)                 |                                   |           |
 | [Witch](#Witch)                     | [SpeedBooster](#SpeedBooster)     |                                   |           |
 | [Mafia](#Mafia)                     | [Trapper](#Trapper)               |                                   |           |
-| [Madmate](#Madmate)                 |                                   |                                   |           |
+| [Madmate](#Madmate)                 | [Medium](#Medium)                 |                                   |           |
 | [MadGuardian](#MadGuardian)         |                                   |                                   |           |
 | [MadSnitch](#MadSnitch)             |                                   |                                   |           |
 | [SidekickMadmate](#SidekickMadmate) |                                   |                                   |           |
@@ -195,8 +206,8 @@ Depending on option, they can also see kill flash when other impostor kills.<br>
 
 - EvilTrackers can select a target after every meeting or once in a game, when marked left-triangle (◁).
 - When they Shapeshift to impostor or dead player (unavailable for target), they stay able to select target.
-- Shapeshift cooldown is fixed to __"5s"__ (can select target) or to __"255s"__ (cannot).
-- Shapeshift duration is fixed to __"1s"__, which means EvilTrackers can hardly pretend to be someone else.
+- Shapeshift cooldown is fixed to **"5s"** (can select target) or to **"255s"** (cannot).
+- Shapeshift duration is fixed to **"1s"**, which means EvilTrackers can hardly pretend to be someone else.
 - EvilTrackers can Assign [SidekickMadmate](#SidekickMadmate) by Shapeshift.
 
 #### Game Options
@@ -370,10 +381,10 @@ Basis : Impostor<br>
 The Mafias can initially use vents and sabotage, but cannot kill (still have a button).<br>
 They will be able to kill after Impostors except them are all gone.<br>
 
-
 ## Madmate
 
 There are common options for Madmates.
+
 #### Game Options
 
 | Name                          |
@@ -445,8 +456,8 @@ The SidekickMadmate is an acquired Madmate Role assigned by Impostors in task ph
 Some kind of Shapeshifter-based Impostors can give SidekickMadmate by Shapeshifting next to a target.<br>
 
 **NOTE:**
-- The **"nearest"** Crewmate becomes SidekickMadmate no matter to whom the Impostors Shapeshift.
 
+- The **"nearest"** Crewmate becomes SidekickMadmate no matter to whom the Impostors Shapeshift.
 
 ## Impostor/Crewmate
 
@@ -462,7 +473,6 @@ The watcher can see who each player has voted during every meeting. <br>
 | Name               |
 | ------------------ |
 | EvilWatcher Chance |
-
 
 ## Crewmate
 
@@ -493,6 +503,7 @@ The doctor can see when Crewmates die using vitals anywhere in the map.<br>
 By closing the chat, the doctor can see the dead players cause of death next to their name in all meetings.<br>
 
 #### Game Options
+
 | Name                    |
 | ----------------------- |
 | Doctor Battery Duration |
@@ -577,7 +588,7 @@ Depending on settings, Sheriff may also kill neutrals.<br>
 The sheriff has no tasks.<br>
 Killing Crewmates will result in suicide. <br>
 
-* As a measure against blackout, after death, the Sheriff can only see the motion of committing suicide at each meeting. There is no corpse. <br>
+- As a measure against blackout, after death, the Sheriff can only see the motion of committing suicide at each meeting. There is no corpse. <br>
 
 #### Game Options
 
@@ -649,6 +660,21 @@ The time held in place on the body is decided by host in settings.<br>
 | --------------- |
 | Freeze Duration |
 
+### Medium
+
+Created by じゅきまぐろ<br>
+
+Team : crewmates<br>
+Basis : Crewmate<br>
+
+You can question deadbody.<br>
+You can get random information about the deadbody or the killer in the chat.<br>
+
+#### Game Options
+
+| Name                      |
+| ------------------------- |
+| Number of times available |
 
 ## Neutral
 
@@ -669,7 +695,7 @@ When an arsonist tries to use the kill button, they douse oil onto the crewmates
 To win as Arsonist, you must douse all Fallow players and vent to win.<br>
 To douse, you must stand next to a player after pressing kill until the orange triangle is filled in.<br>
 
-* As a measure against blackout, after death, the Arsonist can only see the motion of committing suicide at each meeting. There is no corpse. <br>
+- As a measure against blackout, after death, the Arsonist can only see the motion of committing suicide at each meeting. There is no corpse. <br>
 
 #### Game Options
 
@@ -695,7 +721,9 @@ The Egoists have to exile all Impostors before leading to Impostor win.<br>
 Egoist win means Impostor lose and vice versa.<br>
 
 **NOTE:**
+
 - The Egoists lose in the following condition:<br>
+
 1. Egoist dies.<br>
 2. Impostor win with some Impostors remained.<br>
 3. Crewmate or other Neutral win.<br>
@@ -707,7 +735,6 @@ Egoist win means Impostor lose and vice versa.<br>
 | Egoist KillCooldown |
 
 ### Executioner
-
 
 Team : Neutral(Solo)<br>
 Basis : Crewmate<br>
@@ -738,15 +765,15 @@ The Jackal is part of an extra team, that tries to eliminate all the other playe
 The Jackal has no tasks and can kill Impostors, Crewmates and Neutrals.<br>
 
 The team Jackal enables multiple new outcomes of the game, listing some examples here:<br>
+
 - The Impostors could be eliminated and then the crew plays against the team Jackal.<br>
 - The Crew could be eliminated, then the Team Jackal fight against the Impostors (The Crew can still make a task win in this scenario)<br>
-
 
 If both Impostors and Jackals are in the game, the game continues even if all Crewmates are dead. <br>
 Crewmates may still win in this case by completing their tasks. Jackal and Impostor have to kill each other.<br>
 
 ・In the case of 1 Impo & Jackal, even if it is banished by vote, it will be displayed as No one was banished<br>
-  It is not a bug that is displayed like this as a countermeasure against blackout.<br>
+It is not a bug that is displayed like this as a countermeasure against blackout.<br>
 ・ Auto mute is removed when impo is hung<br>
 
 ### Game Options
@@ -847,6 +874,7 @@ If the lovers win, everyone else loses.<br>
 Crewmate lovers do not have tasks assigned. <br>
 
 Example of overlapping Roles: <br>
+
 - [Terrorist](#terrorist) Lover: You have tasks and If you die after completing the task, you will win as a terrorist. <br>
 - [MadSnitch](#madsnitch) Lover: You have tasks, and you can see the Impostor after completing the task. <br>
 - [Snitch](#snitch) Lover: No tasks, Impostor remains unknown. <br>
@@ -1095,6 +1123,7 @@ Translate-Chinese : fivefirex, ZeMingOH233<br>
 Translated with https://www.deepl.com<br>
 
 ## Developers
+
 - [EmptyBottle](https://github.com/tukasa0001) ([Twitter](https://twitter.com/XenonBottle))
 - [Tanakarina](https://github.com/tanakanira0118) <!--([Twitter](https://twitter.com/))-->
 - [Shu-](https://github.com/shu-TownofHost) ([Twitter](https://twitter.com/Shu_kundayo))
@@ -1102,7 +1131,7 @@ Translated with https://www.deepl.com<br>
 - [TAKU_GG](https://github.com/TAKUGG) ([Twitter](https://twitter.com/TAKUGGYouTube1), [Youtube](https://www.youtube.com/c/TAKUGG))
 - [Soukun](https://github.com/soukunsandesu) ([Twitter](https://twitter.com/Soukun_Dev), [Youtube](https://www.youtube.com/channel/UCsCOqxmXBVT-BD_UKaXpUPw))
 - [Mii](https://github.com/mii-47) <!--([Twitter](https://twitter.com/))-->
-- [Tampopo](https://github.com/tampopo-dandelion)([Twitter](https://twitter.com/2nomotokaicho),  [Youtube](https://www.youtube.com/channel/UC8EwQ5gu-qyxVxek0jZw1Tg), [ニコニコ](https://www.nicovideo.jp/user/124305243))
+- [Tampopo](https://github.com/tampopo-dandelion)([Twitter](https://twitter.com/2nomotokaicho), [Youtube](https://www.youtube.com/channel/UC8EwQ5gu-qyxVxek0jZw1Tg), [ニコニコ](https://www.nicovideo.jp/user/124305243))
 - [Kou](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
 - [Ykundesu](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
 - [Yurino](https://github.com/yurinakira) <!--([Twitter](https://twitter.com/))-->
