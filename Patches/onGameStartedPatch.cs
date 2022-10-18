@@ -441,7 +441,7 @@ namespace TownOfHost
                     int playerCID = player.GetClientId();
                     //player視点用: playerの役職をBaseRoleに変更
                     sender.RpcSetRole(player, BaseRole, playerCID);
-                    //player視点用: pc(他プレイヤー)の役職を科学者に変更
+                    //割り当て対象の視点で他プレイヤーを科学者にするループ
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
                         if (pc == player) continue;
