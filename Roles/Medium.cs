@@ -55,7 +55,7 @@ namespace TownOfHost
             {
                 if (target == null) return;
                 var rand = new System.Random();
-                int Pattern = rand.Next(1, 6);  //ランダムに
+                int Pattern = rand.Next(4, 5);  //ランダムに
                 if (!(reporter.Is(CustomRoles.Medium) && reporter.IsAlive())) return;
                 if (reporter == target) return;
                 if (!target.Data.IsDead) return;

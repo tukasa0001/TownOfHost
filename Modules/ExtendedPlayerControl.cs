@@ -4,6 +4,7 @@ using System.Linq;
 using Hazel;
 using InnerNet;
 using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -719,7 +720,7 @@ namespace TownOfHost
                 StringNames.ColorCoral
                 //黒、タン、茶、紫、グレー、マルーン、グリーン、赤、青はDarkColor
             };
-            return LighterColor.Contains(ColorName) ? "LighterColor" : "DarkerColor";
+            return LighterColor.Contains(ColorName) ? $"{GetString("LighterColor")}" : $"{GetString("DarkerColor")}";
         }
         public static bool IsModClient(this PlayerControl player) => Main.playerVersion.ContainsKey(player.PlayerId);
         ///<summary>
