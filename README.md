@@ -152,7 +152,7 @@ AmongUs バージョン : **2022.9.20**
 ## 役職
 
 | インポスター陣営                                                     | クルーメイト陣営                                            | 第三陣営                                                    | その他    |
-| -------------------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- | --------- |
+| -------------------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- | --------- | --- |
 | [バウンティハンター](#BountyHunterバウンティハンター)                | [ベイト](#Baitベイト)                                       | [アーソニスト](#Arsonistアーソニスト)                       | [GM](#GM) |
 | [イビルトラッカー](#EvilTrackerイビルトラッカー)                     | [ディクテーター](#Dictatorディクテーター)                   | [エゴイスト](#Egoistエゴイスト)                             |           |
 | [イビルウォッチャー](#Watcherウォッチャー)                           | [ドクター](#Doctorドクター)                                 | [エクスキューショナー](#Executionerエクスキューショナー)    |           |
@@ -161,11 +161,11 @@ AmongUs バージョン : **2022.9.20**
 | [パペッティア](#Puppeteerパペッティア)                               | [ナイスウォッチャー](#Watcherウォッチャー)                  | [恋人](#Lovers恋人)                                         |           |
 | [シリアルキラー](#SerialKillerシリアルキラー)                        | [サボタージュマスター](#SabotageMasterサボタージュマスター) | [オポチュニスト](#Opportunistオポチュニスト)                |           |
 | [スナイパー](#Sniperスナイパー)                                      | [シーア](#Seerシーア)                                       | [テロリスト](#Terroristテロリスト)                          |           |
-| [タイムシーフ](#TimeThiefタイムシーフ)                               | [シェリフ](#Sheriffシェリフ)                                | [シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |           |
-| [ヴァンパイア](#Vampireヴァンパイア)                                 | [スニッチ](#Snitchスニッチ)                                 |                                                             |           |
+| [タイムシーフ](#TimeThiefタイムシーフ)                               | [シェリフ](#Sheriffシェリフ)                                | [シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |
+| [ヴァンパイア](#Vampireヴァンパイア)                                 | [スニッチ](#Snitchスニッチ)                                 |                                                             |           |     |
 | [ウォーロック](#Warlockウォーロック)                                 | [スピードブースター](#SpeedBoosterスピードブースター)       |                                                             |           |
 | [魔女](#Witch魔女)                                                   | [トラッパー](#Trapperトラッパー)                            |                                                             |           |
-| [マフィア](#Mafiaマフィア)                                           | [ミディアム](#Mediumメディアム)                             |                                                             |           |
+| [マフィア](#Mafiaマフィア)                                           | [ミディアム](#Mediumミディアム)                             |                                                             |           |
 | [マッドメイト](#Madmateマッドメイト)                                 |                                                             |                                                             |           |
 | [マッドガーディアン](#MadGuardianマッドガーディアン)                 |                                                             |                                                             |           |
 | [マッドスニッチ](#MadSnitchマッドスニッチ)                           |                                                             |                                                             |           |
@@ -1075,7 +1075,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ## 参考など
 
-[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター)、[シーア](#Seer/シーア)、[ジャッカル](#jackalジャッカル)、[ミディアム](#mediumミディアム) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
+[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター)、[シーア](#Seer/シーア)、[ジャッカル](#jackalジャッカル)、[ミディアム](#Mediumミディアム) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
 [オポチュニスト](#Opportunist/オポチュニスト)、[ウォッチャー](#Watcher/ウォッチャー) のアイデア元 : [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
 [シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫)、[イビルトラッカー](#EvilTracker/イビルトラッカー) のアイデア元 : [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
 [ドクター](#Doctor/ドクター) のアイデア元 : [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
