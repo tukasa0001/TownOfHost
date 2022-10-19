@@ -7,7 +7,6 @@ namespace TownOfHost
     public class WriterProxy : ICustomWriter
     {
         public MessageWriter Writer { get; private set; }
-        private WriterProxy() { }
 
         public WriterProxy(MessageWriter writer)
         {
