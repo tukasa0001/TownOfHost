@@ -1,5 +1,3 @@
-using System;
-using Hazel;
 using InnerNet;
 using UnhollowerBaseLib;
 
