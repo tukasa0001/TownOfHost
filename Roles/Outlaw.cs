@@ -33,7 +33,7 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupSingleRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Outlaw, 1);
-            //ChangeRolesAfterSheriffKilled = CustomOption.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "OutlawChangeRolesAfterSheriffKilled", ChangeRoles, ChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Outlaw]);
+            ChangeRolesAfterSheriffKilled = CustomOption.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "OutlawChangeRolesAfterSheriffKilled", ChangeRoles, ChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Outlaw]);
             OutlawCanVent = CustomOption.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.Outlaw]);
             OutlawCanUseSabotage = CustomOption.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "CanUseSabotage", true, CustomRoleSpawnChances[CustomRoles.Outlaw]);
             OutlawHasImpostorVision = CustomOption.Create(Id + 13, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Outlaw]);

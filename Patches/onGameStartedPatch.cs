@@ -103,6 +103,7 @@ namespace TownOfHost
             Mare.Init();
             Egoist.Init();
             Executioner.Init();
+            Outlaw.Init();
             Sheriff.Init();
             EvilTracker.Init();
             CustomWinnerHolder.Reset();
@@ -166,6 +167,7 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Data.IsDead = true;
                 }
 
+                AssignDesyncRole(CustomRoles.Outlaw, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
@@ -352,6 +354,9 @@ namespace TownOfHost
                             break;
 
                         case CustomRoles.Sheriff:
+                            Sheriff.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.Outlaw:
                             Sheriff.Add(pc.PlayerId);
                             break;
                         case CustomRoles.Mayor:
