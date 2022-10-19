@@ -498,36 +498,21 @@ namespace TownOfHost
             if (pc == null) return;
             int clientId = pc.GetClientId();
             // Logger.Info($"{pc}", "ReactorFlash");
-            byte reactorId = 3;
-            if (PlayerControl.GameOptions.MapId == 2) reactorId = 21;
+            var systemtypes = SystemTypes.Reactor;
+            if (PlayerControl.GameOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
             float FlashDuration = Options.KillFlashDuration.GetFloat();
 
-            new LateTask(() =>
-            {
-                MessageWriter SabotageWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
-                SabotageWriter.Write(reactorId);
-                MessageExtensions.WriteNetObject(SabotageWriter, pc);
-                SabotageWriter.Write((byte)128);
-                AmongUsClient.Instance.FinishRpcImmediately(SabotageWriter);
-            }, 0f + delay, "Reactor Desync");
+            pc.RpcDesyncRepairSystem(systemtypes, 128);
 
             new LateTask(() =>
             {
-                MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
-                SabotageFixWriter.Write(reactorId);
-                MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
-                SabotageFixWriter.Write((byte)16);
-                AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+                pc.RpcDesyncRepairSystem(systemtypes, 16);
             }, FlashDuration + delay, "Fix Desync Reactor");
 
             if (PlayerControl.GameOptions.MapId == 4) //Airship用
                 new LateTask(() =>
                 {
-                    MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
-                    SabotageFixWriter.Write(reactorId);
-                    MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
-                    SabotageFixWriter.Write((byte)17);
-                    AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+                    pc.RpcDesyncRepairSystem(systemtypes, 17);
                 }, FlashDuration + delay, "Fix Desync Reactor 2");
         }
 
