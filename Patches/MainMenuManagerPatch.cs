@@ -55,8 +55,13 @@ namespace TownOfHost
 
 #if RELEASE
             //フリープレイの無効化
-            var obj = GameObject.Find("/MainUI/FreePlayButton");
-            if (obj != null) obj.SetActive(false);
+            var freeplayButton = GameObject.Find("/MainUI/FreePlayButton");
+            if (freeplayButton != null)
+            {
+                freeplayButton.GetComponent<PassiveButton>().OnClick = new();
+                freeplayButton.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.OpenURL("https://github.com/tukasa0001/TownOfHost")));
+                __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => freeplayButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().SetText("GitHub"))));
+            }
 #endif
         }
     }
