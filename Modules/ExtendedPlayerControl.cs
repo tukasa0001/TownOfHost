@@ -507,13 +507,10 @@ namespace TownOfHost
             new LateTask(() =>
             {
                 pc.RpcDesyncRepairSystem(systemtypes, 16);
-            }, FlashDuration + delay, "Fix Desync Reactor");
 
-            if (PlayerControl.GameOptions.MapId == 4) //Airship用
-                new LateTask(() =>
-                {
+                if (PlayerControl.GameOptions.MapId == 4) //Airship用
                     pc.RpcDesyncRepairSystem(systemtypes, 17);
-                }, FlashDuration + delay, "Fix Desync Reactor 2");
+            }, FlashDuration + delay, "Fix Desync Reactor");
         }
 
         public static string GetRealName(this PlayerControl player, bool isMeeting = false)
