@@ -52,6 +52,12 @@ namespace TownOfHost
             updateButtonSprite.color = updateText.color = updateColor;
             updateButtonSprite.size *= 1.5f;
             updateButton.SetActive(false);
+
+#if RELEASE
+            //フリープレイの無効化
+            var obj = GameObject.Find("/MainUI/FreePlayButton");
+            if (obj != null) obj.SetActive(false);
+#endif
         }
     }
 }
