@@ -134,14 +134,11 @@ namespace TownOfHost
             writer.Write(DontShowOnModdedClient);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void RpcSetRoleDesync(this PlayerControl player, RoleTypes role, PlayerControl seer = null)
+        public static void RpcSetRoleDesync(this PlayerControl player, RoleTypes role, int clientId)
         {
             //player: 名前の変更対象
-            //seer: 上の変更を確認することができるプレイヤー
 
             if (player == null) return;
-            if (seer == null) seer = player;
-            var clientId = seer.GetClientId();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetRole, Hazel.SendOption.Reliable, clientId);
             writer.Write((ushort)role);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
