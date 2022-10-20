@@ -259,6 +259,8 @@ namespace TownOfHost
                 }
                 //色設定処理
                 SetColorPatch.IsAntiGlitchDisabled = true;
+
+                GameEndChecker.SetPredicateToHideAndSeek();
             }
             else
             {
@@ -414,6 +416,7 @@ namespace TownOfHost
                 if (Main.RealOptionsData.NumImpostors > 1)
                     ShapeshifterNum -= CustomRoles.Egoist.GetCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
+                GameEndChecker.SetPredicateToNormal();
             }
 
             // ResetCamが必要なプレイヤーのリストにクラス化が済んでいない役職のプレイヤーを追加
@@ -433,22 +436,26 @@ namespace TownOfHost
                 var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
                 AllPlayers.Remove(player);
                 Main.AllPlayerCustomRoles[player.PlayerId] = role;
-                //ここからDesyncが始まる
+
                 if (player.PlayerId != PlayerControl.LocalPlayer.PlayerId)
                 {
                     int playerCID = player.GetClientId();
-                    //念のため2回送信
+                    //player視点用: playerの役職をBaseRoleに変更
                     sender.RpcSetRole(player, BaseRole, playerCID);
-                    sender.RpcSetRole(player, BaseRole, playerCID);
-                    //Desyncする人視点で他プレイヤーを科学者にするループ
+                    //割り当て対象の視点で他プレイヤーを科学者にするループ
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
                         if (pc == player) continue;
                         sender.RpcSetRole(pc, RoleTypes.Scientist, playerCID);
                     }
-                    //他視点でDesyncする人の役職を科学者にする
+                    //pc視点用: playerの役職を科学者に変更
+                    //ループを分けているのはRootMessageを極力分けないようにするためで、意図的なものです。
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc == player) continue;
+                        sender.RpcSetRole(player, RoleTypes.Scientist, pc.GetClientId());
+                    }
                     player.SetRole(RoleTypes.Scientist); //ホスト視点用
-                    sender.RpcSetRole(player, RoleTypes.Scientist);
                 }
                 else
                 {

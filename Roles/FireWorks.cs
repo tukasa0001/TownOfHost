@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Hazel;
 using UnityEngine;
-using static TownOfHost.CheckGameEndPatch;
+using System.Linq;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -129,9 +129,9 @@ namespace TownOfHost
                     }
                     if (suicide)
                     {
-                        var statistics = new PlayerStatistics(null);
+                        var totalAlive = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.IsAlive()).Count();
                         //自分が最後の生き残りの場合は勝利のために死なない
-                        if (statistics.TotalAlive != 1)
+                        if (totalAlive != 1)
                         {
                             PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Misfire);
                             pc.RpcMurderPlayer(pc);
