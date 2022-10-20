@@ -10,6 +10,7 @@ namespace TownOfHost
     class EndGamePatch
     {
         public static Dictionary<byte, string> SummaryText = new();
+        public static string KillLog = "";
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ref EndGameResult endGameResult)
         {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,6 +19,13 @@ namespace TownOfHost
             SummaryText = new();
             foreach (var id in Main.AllPlayerCustomRoles.Keys)
                 SummaryText[id] = Utils.SummaryTexts(id, disableColor: false);
+            KillLog = GetString("KillLog");
+            foreach (var kvp in Main.RealKiller)
+            {
+                var killer = kvp.Value;
+                var target = Utils.GetPlayerById(kvp.Key);
+                KillLog += $"\n{target.GetRealName()} <= {killer.GetNameWithRole()} ({Utils.GetVitalText(kvp.Key)})";
+            }
             Logger.Info("-----------ゲーム終了-----------", "Phase");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {

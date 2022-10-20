@@ -519,6 +519,7 @@ namespace TownOfHost
                 text += $"\n　 " + EndGamePatch.SummaryText[id].RemoveHtmlTags();
             }
             SendMessage(text, PlayerId);
+            SendMessage(EndGamePatch.KillLog, PlayerId);
         }
 
 
