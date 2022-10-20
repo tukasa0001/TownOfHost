@@ -183,7 +183,7 @@ namespace TownOfHost
             }
             return SelfSuffix;
         }
-        public static string PCGetTargetArrow(PlayerControl seer, PlayerControl target)
+        /*public static string PCGetTargetArrow(PlayerControl seer, PlayerControl target)
         {
             var update = false;
             string Suffix = "";
@@ -193,7 +193,6 @@ namespace TownOfHost
                 bool BountyTarget = GetTarget(seer) == pc;
                 bool foundCheck =
                     pc != target && (pc.GetCustomRole().IsImpostor() || BountyTarget);
-
                 //発見対象じゃ無ければ次
                 if (!foundCheck) continue;
 
@@ -212,6 +211,36 @@ namespace TownOfHost
                 //更新があったら非Modに通知
                 Utils.NotifyRoles(SpecifySeer: target);
             }
+            return Suffix;
+        }*/
+        public static string PCGetTargetArrow(PlayerControl seer, PlayerControl target)
+        {
+            var update = false;
+            string Suffix = "";
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                bool BountyTarget = GetTarget(seer) == pc;
+                bool foundCheck =
+                    pc != target && (pc.GetCustomRole().IsImpostor() || BountyTarget);
+
+                //発見対象じゃ無ければ次
+                if (!foundCheck) continue;
+
+                update = FixedUpdatePatch.CheckArrowUpdate(target, pc, update, pc.GetCustomRole().IsImpostor());
+                var key = (target.PlayerId, pc.PlayerId);
+                var arrow = Main.targetArrows[key];
+                if (BountyTarget) arrow = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), arrow);
+                if (target.AmOwner)
+                {
+                    //MODなら矢印表示
+                    Suffix += arrow;
+                }
+            }
+            //if (AmongUsClient.Instance.AmHost && seer.PlayerId != target.PlayerId && update)
+            //{
+            //更新があったら非Modに通知
+            Utils.NotifyRoles(SpecifySeer: target);
+            //}
             return Suffix;
         }
     }
