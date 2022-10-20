@@ -23,7 +23,7 @@ namespace TownOfHost
                 }
                 for (var i = 0; i < 9; i++)
                 {
-                    if (ORGetKeysDown(new[] { KeyCode.Alpha1 + i, KeyCode.Keypad1 + i }) && OptionShower.pages.Count >= i + 1)
+                    if (ORGetKeysDown(KeyCode.Alpha1 + i, KeyCode.Keypad1 + i) && OptionShower.pages.Count >= i + 1)
                         OptionShower.currentPage = i;
                 }
             }
