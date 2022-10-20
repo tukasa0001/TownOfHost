@@ -307,6 +307,7 @@ BountyTargetChangeTime,Time To Swap Bounty(s),ターゲット変更時間,赏金
 EnableLastImpostor,Enable LastImpostor,ラストインポスターの有効化,启用绝境者,啟用絕境者,Включить ПоследнийПредатель
 BountySuccessKillCooldown,Kill Cooldown After Killing Bounty,ターゲット殺害時のキルクール,赏金猎人击杀赏金目标的奖励冷却时间,賞金獵人殺死賞金目標冷卻,Перезарядка После Убитой Цели
 BountyFailureKillCooldown,Kill Cooldown After Killing Others,ターゲット以外殺害時のキルクール,赏金猎人击杀赏金目标以外玩家的惩罚冷却时间,賞金獵人殺死非賞金目標冷卻,Перезарядка После Обычного Убийства
+BountyShowTargetArrow,Bounty hunter show arrow pointing to target,ターゲットへの矢印を表示する,,,
 DefaultShapeshiftCooldown,Default Shapeshift Cooldown,デフォルトの変身クールダウン,默认变形冷却时间,預設變身時間,Обычная Перезарядка Оборотня
 VampireKillDelay,Kill Delay(s),殺害までの時間(秒),延迟的击杀时间,殺人延遲,Длительность Укуса
 MareSpeedInLightsOut,Mare Player Add Speed In Lights Out,停電時のメアーの加速値,梦魇熄灯时的移动速度,關燈時黑暗博士的移動速度,Скорость Mare При Саботаже Света

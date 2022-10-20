@@ -24,7 +24,7 @@ namespace TownOfHost
             TargetChangeTime = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "BountyTargetChangeTime", 60f, 10f, 900f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
             SuccessKillCooldown = CustomOption.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "BountySuccessKillCooldown", 2.5f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
             FailureKillCooldown = CustomOption.Create(Id + 12, TabGroup.ImpostorRoles, Color.white, "BountyFailureKillCooldown", 50f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            ShowTargetArrow = CustomOption.Create(Id + 13, TabGroup.ImpostorRoles, Color.white, "ShowTargetAroow", false, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            ShowTargetArrow = CustomOption.Create(Id + 13, TabGroup.ImpostorRoles, Color.white, "BountyShowTargetAroow", false, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
         }
         public static void Init()
         {
