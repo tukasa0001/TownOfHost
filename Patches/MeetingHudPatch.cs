@@ -186,7 +186,7 @@ namespace TownOfHost
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
                             if (pc != null && pc.Is(CustomRoles.JClient) && !pc.Data.IsDead && pc.GetPlayerTaskState().IsTaskFinished)
-                                Main.AfterMeetingDeathPlayers.TryAdd(pc.PlayerId, PlayerState.DeathReason.JClientSuicide);
+                                Main.AfterMeetingDeathPlayers.TryAdd(pc.PlayerId, PlayerState.DeathReason.FollowingSuicide);
                         }
                     }
                 }
