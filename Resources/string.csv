@@ -376,7 +376,6 @@ JClientVentCooldown,Client Vent Cooldown,ベントクールダウン,请求者�
 JClientVentMaxTime,Client Max Time In Vents(s),ベント内での最大時間,请求者在管道中停留的最大时间,請求者在管道中可以停留的最大時間,
 CanSeeTaskFinishedJClientFromJackal,Can see task finished Client from Jackal,タスクが終わるとジャッカルからも視認できる,任务完成后 豺狼也能看到,任務完成後 豺狼也能看到,
 JClientBereavementMode,Jackal Bereavement Mode,ジャッカル死亡後のモード,豺狼丧亲模式,豺狼喪親模式,
-JClientTasks,Client Tasks,タスク数,请求者任务数,請求者任務數量,
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定,Настройки Пряток
