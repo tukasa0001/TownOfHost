@@ -374,7 +374,7 @@ EvilTrackerResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,�
 KillFlashDuration,Kill Flash Duration(s),キルフラッシュの長さ(秒),击杀闪烁持续时间,,Длительность Вспышки Убийсва
 JClientVentCooldown,Client Vent Cooldown,ベントクールダウン,请求者跳管道冷却时间,請求者跳管道冷卻,
 JClientVentMaxTime,Client Max Time In Vents(s),ベント内での最大時間,请求者在管道中停留的最大时间,請求者在管道中可以停留的最大時間,
-CanSeeTaskFinishedJClientFromJackal,Can see task finished Client from Jackal,タスクが終わるとジャッカルからも視認できる,任务完成后 豺狼也能看到,任務完成後 豺狼也能看到,
+JClientCanAlsoBeExposedToJackal,Also Exposed To Jackal,ジャッカルからも視認できる,,,
 JClientBereavementMode,Jackal Bereavement Mode,ジャッカル死亡後のモード,豺狼丧亲模式,豺狼喪親模式,
 
 ## かくれんぼ設定
