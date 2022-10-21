@@ -1,5 +1,6 @@
 using System.Linq;
 using HarmonyLib;
+using AmongUs.Data;
 
 namespace TownOfHost
 {
@@ -155,7 +156,7 @@ namespace TownOfHost
                 }, 0.5f, "Restore IsDead Task");
             GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
             RemoveDisableDevicesPatch.UpdateDisableDevices();
-            SoundManager.Instance.ChangeMusicVolume(SaveManager.MusicVolume);
+            SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
             Logger.Info("タスクフェイズ開始", "Phase");
         }
     }

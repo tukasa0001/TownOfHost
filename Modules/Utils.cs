@@ -1,3 +1,4 @@
+using System.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using AmongUs.Data;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -579,7 +581,7 @@ namespace TownOfHost
         public static void ApplySuffix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            string name = SaveManager.PlayerName;
+            string name = DataManager.player.Customization.Name;
             if (Main.nickName != "") name = Main.nickName;
             if (AmongUsClient.Instance.IsGameStarted)
             {
@@ -606,7 +608,7 @@ namespace TownOfHost
                         name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.RoomHost")}</color>";
                         break;
                     case SuffixModes.OriginalName:
-                        name += $"\r\n<color={Main.ModColor}>{SaveManager.PlayerName}</color>";
+                        name += $"\r\n<color={Main.ModColor}>{DataManager.player.Customization.Name}</color>";
                         break;
                 }
             }
