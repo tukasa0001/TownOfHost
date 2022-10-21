@@ -1,4 +1,5 @@
 using System.Globalization;
+using AmongUs.Data;
 using HarmonyLib;
 using UnityEngine;
 using static TownOfHost.Translator;
@@ -19,7 +20,7 @@ namespace TownOfHost
                 return false;
             }
             // 名前確認による公開ルームブロック
-            bool NameIncludeTOH = SaveManager.PlayerName.ToUpper().Contains("TOH");
+            bool NameIncludeTOH = DataManager.Player.Customization.Name.ToUpper().Contains("TOH");
             if (ModUpdater.isBroken || ModUpdater.hasUpdate || !NameIncludeTOH)
             {
                 var message = GetString("NameIncludeTOH");

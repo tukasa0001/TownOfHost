@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
 
@@ -12,7 +13,7 @@ namespace TownOfHost
             Logger.Info($"{__instance.GameId}に参加", "OnGameJoined");
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
-            SoundManager.Instance.ChangeMusicVolume(SaveManager.MusicVolume);
+            SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
 
             NameColorManager.Begin();
             Options.Load();
