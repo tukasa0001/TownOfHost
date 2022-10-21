@@ -401,7 +401,6 @@
 "JClientVentMaxTime","Client Max Time In Vents","ベント内での最大時間",,,,
 "CanSeeTaskFinishedJClientFromJackal","Can see task finished Client from Jackal","タスクが終わるとジャッカルからも視認できる",,,,
 "JClientBereavementMode","Jackal Bereavement Mode","ジャッカル死亡後のモード",,,,
-"JClientTasks","Client Tasks","タスク数",,,,
 
 "## かくれんぼ設定"
 "HideAndSeekOptions","Hide and Seek Settings","かくれんぼの設定","躲猫猫设置","躲貓貓設定","Настройки Пряток","Configurações do Esconde-Esconde"
