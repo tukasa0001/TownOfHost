@@ -399,7 +399,7 @@
 "TriggerVent","Vent","ベント","通风管","","Вентиляция",""
 "JClientVentCooldown","Client Vent Cooldown","ベントクールダウン",,,,
 "JClientVentMaxTime","Client Max Time In Vents","ベント内での最大時間",,,,
-"CanSeeTaskFinishedJClientFromJackal","Can see task finished Client from Jackal","タスクが終わるとジャッカルからも視認できる",,,,
+"JClientCanAlsoBeExposedToJackal","Also Exposed To Jackal","ジャッカルからも視認できる",,,,
 "JClientBereavementMode","Jackal Bereavement Mode","ジャッカル死亡後のモード",,,,
 
 "## かくれんぼ設定"

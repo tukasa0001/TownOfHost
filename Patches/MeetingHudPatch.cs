@@ -416,7 +416,7 @@ namespace TownOfHost
                             pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), "★"); //変更対象にSnitchマークをつける
                         break;
                     case CustomRoles.Jackal:
-                        if (Options.CanSeeTaskFinishedJClientFromJackal.GetBool() &&
+                        if (Options.JClientCanAlsoBeExposedToJackal.GetBool() &&
                         target.Is(CustomRoles.JClient) && target.GetPlayerTaskState().IsTaskFinished)
                             pva.NameText.text = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), pva.NameText.text);
                         else if (Options.SnitchCanFindNeutralKiller.GetBool() &&

@@ -754,7 +754,7 @@ namespace TownOfHost
                     //seerがジャッカル
                     else if (seer.Is(CustomRoles.Jackal) && //seerがジャッカル
                         target.Is(CustomRoles.JClient) && //targetがJクライアント
-                        Options.CanSeeTaskFinishedJClientFromJackal.GetBool() &&
+                        Options.JClientCanAlsoBeExposedToJackal.GetBool() &&
                         target.GetPlayerTaskState().IsTaskFinished) //targetのタスクが終わっている
                         RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), RealName); //targetの名前をジャッカル色で表示
 

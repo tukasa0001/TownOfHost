@@ -896,7 +896,7 @@ namespace TownOfHost
                             var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
                             TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
                         }
-                        if (Options.CanSeeTaskFinishedJClientFromJackal.GetBool() &&
+                        if (Options.JClientCanAlsoBeExposedToJackal.GetBool() &&
                         seer.Is(CustomRoles.Jackal) && target.Is(CustomRoles.JClient) && target.GetPlayerTaskState().IsTaskFinished)
                             TargetPlayerName = ColorString(GetRoleColor(CustomRoles.Jackal), TargetPlayerName);
                         if (seer.Is(RoleType.Impostor) && target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())

@@ -117,7 +117,7 @@ namespace TownOfHost
         public static OptionItem JClientCanVent;
         public static OptionItem JClientVentCooldown;
         public static OptionItem JClientVentMaxTime;
-        public static OptionItem CanSeeTaskFinishedJClientFromJackal;
+        public static OptionItem JClientCanAlsoBeExposedToJackal;
         public static OptionItem JClientBereavementMode;
         public static OptionItem KillFlashDuration;
 
@@ -457,7 +457,7 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Seconds);
             JClientVentMaxTime = FloatOptionItem.Create(51013, "JClientVentMaxTime", new(0f, 180f, 5f), 0f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.JClient])
                 .SetValueFormat(OptionFormat.Seconds);
-            CanSeeTaskFinishedJClientFromJackal = BooleanOptionItem.Create(51014, "CanSeeTaskFinishedJClientFromJackal", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.JClient]);
+            JClientCanAlsoBeExposedToJackal = BooleanOptionItem.Create(51014, "JClientCanAlsoBeExposedToJackal", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.JClient]);
             JClientBereavementMode = StringOptionItem.Create(51015, "JClientBereavementMode", JClientBereavementModes, 0, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.JClient]);
             //ID51020~51023を使用
             JClientTasks = OverrideTasksData.Create(51020, TabGroup.NeutralRoles, CustomRoles.JClient);
