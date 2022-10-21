@@ -69,7 +69,7 @@ Opportunist,Opportunist,オポチュニスト,投机者,投機主義者,Opportun
 Egoist,Egoist,エゴイスト,野心家,利己主義者,Egoist
 Lovers,Lovers,恋人,恋人,戀人,Lovers
 Jackal,Jackal,ジャッカル,豺狼,豺狼,Jackal
-JClient,Client,クライアント,请求者,請求者,Client
+JClient,Client,クライアント,,,
 
 # HideAndSeek
 HASFox,Fox,狐,狐狸,狐妖,Fox
@@ -145,7 +145,7 @@ ExecutionerInfo,Get your target voted out,ターゲットを追放させよう,�
 EgoistInfo,Replace the Impostor win,インポスター勝利を独占しよう,我们要把属于内鬼的胜利给夺走！,讓我們來奪取狼人的勝利,Замените победу Предателей
 LoversInfo,Survive with your lover,恋人と生きて幸せを掴もう,你们坠入了爱河，成为了一对恋人，一起活到最后吧！,你墜入了愛河(心理),Выживите со своим Любовником
 JackalInfo,Kill Everyone,すべてを殺せ,快去杀光所有人，一只苍蝇都不要剩下！,殺光所有人不留活口,Убей их всех
-JClientInfo,Finish your tasks to help the Jackal,タスクを済ませ、ジャッカルの援助をしよう,完成任务后来帮助豺狼,完成你的任務並幫助豺狼,
+JClientInfo,Finish your tasks to help the Jackal,タスクを済ませ、ジャッカルの援助をしよう,,,
 
 # HideAndSeek
 HASFoxInfo,Stay alive,とにかく生き残りましょう,活下去吧！活到最后你就成为了赢家！,活到最後就是屬於你和贏家的一片天,Останьтесь в живых
@@ -206,7 +206,7 @@ SchrodingerCatInfoLong,"(Neutrals):\nWhen killed, they prevents the kill and bel
 OpportunistInfoLong,(Neutrals):\nThey win the game with any other Roles only if they are just alive at the game end.,(第三陣営):\n試合終了時に生存していれば追加勝利となる。,(独立阵营):\n若投机者在游戏结束时存活，则投机者跟随获胜玩家一同获得胜利。,"(中立):\n如果投機主義者活到最後,他將跟著遊戲結束獲勝的陣營一起獲勝。","(Нейтрал):\nОн выигрывает игру с любыми другими ролями, но с условием что он выжил."
 EgoistInfoLong,"(Neutrals):\nAfter all the Impostors has gone, the Egoists Replace Impostor win.\nThe Impostors and Egoists can see each other.",(第三陣営):\n味方がすべて死んだ状態でインポスターが勝つと単独勝利する。\nインポスターは誰がエゴイストか分かる。エゴイストも、誰がインポスターか分かる。,(独立阵营):\n规则上野心家属于内鬼阵营。野心家与内鬼阵营玩家互认且不可以击杀对方。\n内鬼阵营玩家全部死亡后，若野心家存活且内鬼阵营达成胜利条件，则野心家单独获得胜利。,"(中立):\n如果所有的狼人都死光了且利己主義者活著,利己主義者將獨自獲勝。\n(狼人和利己主義者互相知道對方但是不可以互刀對方)","(Нейтрал):\nПосле того, как все Предатели умрут то Egoist победит, он заменяет победу Предателей.\nПредатели и Egoist могут видеть друг друга."
 JackalInfoLong,"(Neutrals):\nJackal can kill all Crewmates, Impostors and Neutrals.\nTeam Jackal wins when living Jackal outnumbers living Crewmates and when there are no Impostors alive.",(第三陣営):\nジャッカルはすべてのプレイヤーを殺すことができる。\nインポスターが残っておらず、生き残っているジャッカルの人数がクルーと同じかそれ以上でジャッカルが勝利する。,(独立阵营):\n豺狼需要击杀所有人。\n存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。,"(中立):\n豺狼需要殺死所有人來獲得勝利,\n如果場上存活的玩家只剩下豺狼和另一名不帶刀職業時,豺狼將獲勝。","(Нейтрал):\nJackal может убить всех Членов Экипажа, Нейтралов и Предателей тоже.\nJackal может победить, когда в живых остался только 1 Jackal и 1 Член Экипажа."
-JClientInfoLong,"(Neutrals):\nCrewmate, but they belong to team Jackal, one type of Jackal's Madmates.\nThey can see who is the Jackal after finishing all their tasks.\nDepending on option, they can use vents.",(ジャッカル陣営):\nクルーだがジャッカルの味方をする。\nジャッカルと互いに認識できないが、タスクを全て完了させるとジャッカルを認識できるようになる。,(独立阵营):\n请求者与豺狼不互认，不可以击杀、破坏或者使用管道。\n请求者完成所有任务之后，其与豺狼互认。,"(中立):\n船員,但是他們屬於豺狼陣營.\n豺狼和他們無法互相知道誰是叛徒,誰是狼\n當請求者做完任務時,豺狼和請求者將可以互相知道對方。",
+JClientInfoLong,"(Neutrals):\nCrewmate, but they belong to team Jackal, one type of Jackal's Madmates.\nThey can see who is the Jackal after finishing all their tasks.\nDepending on option, they can use vents.",(ジャッカル陣営):\nクルーだがジャッカルの味方をする。\nジャッカルと互いに認識できないが、タスクを全て完了させるとジャッカルを認識できるようになる。,,,
 
 # HideAndSeek
 HASFoxInfoLong,(HideAndSeek):\nThey win the game with other Roles (except Troll) only if they are alive at the game end.,(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。,（躲猫猫）:\n狐狸活到最后便与获胜阵营一同获胜。,"(躲貓貓):\n除了其他的中立陣營以外,只要狐妖活下來即可獲勝\n他們將跟著遊戲結束的獲勝陣營一起獲勝。",(Прятки):\nОн выигрывает игру с другими ролями (кроме Troll) только если он выжил в конце игры.
@@ -289,8 +289,8 @@ DisablePolusVital,Disable Vital,バイタル無効化,,禁用波鲁斯生命监�
 DisableAirshipVital,Disable Vital,バイタル無効化,,禁用飞艇生命监测装置,Отключить Пульсы
 RandomSpawn,Random Spawn,ランダムスポーン,随机出生点,,Случайный Спавн
 AirshipAdditionalSpawn,Additional Spawn(Airship),追加スポーン位置(エアシップ),额外出生点（飞艇地图）,,Дополнительный Спавн(Airship)
-JClientBereavementMode.None,None,なし,无,無,
-JClientBereavementMode.Following,Following,後追い,追逐,追逐,
+JClientBereavementMode.None,None,なし,,,
+JClientBereavementMode.Following,Following,後追い,,,
 
 ## モード説明
 HideAndSeekInfo,"HideAndSeek:\nNo one can call emergency meeting, Crewmates (Blue) can win only by completing tasks\nand Impostors (Red) can win only by killing all the Crewmates.",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。\nインポスターは赤、クルーは青に体の色が変更される。,躲猫猫:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利；\n内鬼的皮肤颜色将变为红色，船员变为蓝色，以示区分。,"躲貓貓:\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色。","Прятки:\nНикто не может созвать срочное собрание, Члены Экипажа (Синие) могут победить, только выполняя задания\nА Предатели (Красные) могут победить, только убив всех Членов Экипажа."
@@ -372,10 +372,10 @@ TimeThiefReturnStolenTimeUponDeath,Return Stolen Time After Death,死亡後に�
 EvilTrackerCanSeeKillFlash,EvilTracker Can See The Flash Of Impostor Kills,インポスターキル時にフラッシュが見える,当内鬼进行击杀时邪恶的追踪者可以看到闪光,,EvilTracker Может Видеть Вспышку Убийства Предатлелей
 EvilTrackerResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,会議後に再度ターゲットを設定できる,会议后重置邪恶的追踪者追踪目标,,EvilTracker Может Сбросить Цель После Встречи
 KillFlashDuration,Kill Flash Duration(s),キルフラッシュの長さ(秒),击杀闪烁持续时间,,Длительность Вспышки Убийсва
-JClientVentCooldown,Client Vent Cooldown,ベントクールダウン,请求者跳管道冷却时间,請求者跳管道冷卻,
-JClientVentMaxTime,Client Max Time In Vents(s),ベント内での最大時間,请求者在管道中停留的最大时间,請求者在管道中可以停留的最大時間,
+JClientVentCooldown,Client Vent Cooldown,ベントクールダウン,,,
+JClientVentMaxTime,Client Max Time In Vents(s),ベント内での最大時間,,,
 JClientCanAlsoBeExposedToJackal,Also Exposed To Jackal,ジャッカルからも視認できる,,,
-JClientBereavementMode,Jackal Bereavement Mode,ジャッカル死亡後のモード,豺狼丧亲模式,豺狼喪親模式,
+JClientBereavementMode,Jackal Bereavement Mode,ジャッカル死亡後のモード,,,
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定,Настройки Пряток
