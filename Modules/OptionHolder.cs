@@ -396,8 +396,8 @@ namespace TownOfHost
             JackalHasImpostorVision = CustomOption.Create(50913, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
             //JClient
             SetupRoleOptions(51000, TabGroup.NeutralRoles, CustomRoles.JClient);
-            JClientHasImpostorVision = CustomOption.Create(51010, TabGroup.NeutralRoles, Color.white, "JClientHasImpostorVision", false, CustomRoleSpawnChances[CustomRoles.JClient]);
-            JClientCanVent = CustomOption.Create(51011, TabGroup.NeutralRoles, Color.white, "JClientCanVent", false, CustomRoleSpawnChances[CustomRoles.JClient]);
+            JClientHasImpostorVision = CustomOption.Create(51010, TabGroup.NeutralRoles, Color.white, "ImpostorVision", false, CustomRoleSpawnChances[CustomRoles.JClient]);
+            JClientCanVent = CustomOption.Create(51011, TabGroup.NeutralRoles, Color.white, "CanVent", false, CustomRoleSpawnChances[CustomRoles.JClient]);
             JClientVentCooldown = CustomOption.Create(51012, TabGroup.NeutralRoles, Color.white, "JClientVentCooldown", 0f, 0f, 180f, 5f, JClientCanVent);
             JClientVentMaxTime = CustomOption.Create(51013, TabGroup.NeutralRoles, Color.white, "JClientVentMaxTime", 0f, 0f, 180f, 5f, JClientCanVent);
             CanSeeTaskFinishedJClientFromJackal = CustomOption.Create(51014, TabGroup.NeutralRoles, Color.white, "CanSeeTaskFinishedJClientFromJackal", false, CustomRoleSpawnChances[CustomRoles.JClient]);
