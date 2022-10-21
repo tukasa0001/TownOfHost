@@ -67,7 +67,9 @@ namespace TownOfHost
     {
         public static void Prefix(ref bool canOnline)
         {
-            if (ThisAssembly.Git.Branch != "main" && CultureInfo.CurrentCulture.Name != "ja-JP") canOnline = false;
+#if DEBUG
+            if (CultureInfo.CurrentCulture.Name != "ja-JP") canOnline = false;
+#endif
         }
     }
     [HarmonyPatch(typeof(BanMenu), nameof(BanMenu.SetVisible))]
