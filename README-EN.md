@@ -758,6 +758,29 @@ Crewmates may still win in this case by completing their tasks. Jackal and Impos
 | Can Sabotage        |
 | Has Impostor Vision |
 
+### Client
+
+Create and idea by くろにゃんこ<br>
+
+Team : Neutral<br>
+Basis : Crewmate or Engineer<br>
+
+The Client belong to team Jackal, like Inposter's Madmates.<br>
+They can see who is the Jackal after finishing all their tasks.<br>
+Depending on option, they can use vents.<br>
+
+#### Game Options
+
+| Name                                     |
+| ---------------------------------------- |
+| Client Have Impostor Vision              |
+| Client Can Use Vent                      |
+| Client Vent Cooldown                     |
+| Client Max Time In Vents (s)             |
+| Can see task finished Client from Jackal |
+| Jackal Bereavement Mode                  |
+| Client Tasks                             |
+
 ### Jester
 
 Team : Neutral(Solo)<br>
@@ -812,29 +835,6 @@ The Terrorists are the Neutral Role where they win the game alone if they die wi
 Any cause of death is acceptable.<br>
 If they die before completing their tasks, or if they survive at the game end, they lose.<br>
 
-### Client
-
-Create and idea by くろにゃんこ<br>
-
-Team : Neutral<br>
-Basis : Crewmate or Engineer<br>
-
-The Client belong to team Jackal, like Inposter's Madmates.<br>
-They can see who is the Jackal after finishing all their tasks.<br>
-Depending on option, they can use vents.<br>
-
-#### Game Options
-
-| Name                                     |
-| ---------------------------------------- |
-| Client Have Impostor Vision              |
-| Client Can Use Vent                      |
-| Client Vent Cooldown                     |
-| Client Max Time In Vents (s)             |
-| Can see task finished Client from Jackal |
-| Jackal Bereavement Mode                  |
-| Client Tasks                             |
-
 ## Attribute
 
 ### LastImpostor
@@ -877,7 +877,6 @@ Example of overlapping Roles: <br>
 - [Opportunist](#opportunist) Lover: Win if you survive. <br>
 - [Jester](#jester) Lover: If you are voted out, you will win as Jester. If the other Lover is voted out, you are defeated. <br>
 - [Bait](#bait) Lover: When the other Lover is killed and you die afterwards, the other Lover immediately reports you. <br>
-- [Client](#Client) Lover: You have tasks, and you can see the Jackal after completing the task. <br>
 
 ## DisableDevices
 

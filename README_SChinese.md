@@ -116,7 +116,7 @@ AmongUs 版本: **2022.7.12**
 | [SerialKiller/嗜血杀手](#SerialKiller连环杀手)        | [Nice Watcher/正义的窥视者](#Watcher窥视者)  | [Opportunist/投机者](#Opportunist投机者)              |
 | [Sniper/狙击手](#Sniper狙击手)               | [SabotageMaster/修理大师](#SabotageMaster/修理大师)                | [Terrorist/恐怖分子](#Terrorist恐怖分子)               |
 | [TimeThief/蚀时者](#TimeThief蚀时者)                   | [Sheriff/警长](#Sheriff警长)                      | [SchrodingerCat/薛定谔的猫](#SchrodingerCat薛定谔的猫) |
-| [Vampire/吸血鬼](#Vampire吸血鬼)            | [Snitch/告密者](#Snitch告密者)                     | [Client/请求者](#Client请求者)                       |
+| [Vampire/吸血鬼](#Vampire吸血鬼)            | [Snitch/告密者](#Snitch告密者)                     |                                                      |
 | [Warlock/术士](#Warlock术士)                     | [SpeedBooster/增速者](#SpeedBooster增速者)        |                                                      |
 | [Witch/女巫](#Witch女巫)                        | [Trapper/陷阱师](#Trapper陷阱师)                   |                                                      |
 | [Mafia/黑手党](#Mafia黑手党)                         |                                                  |                                                      |
