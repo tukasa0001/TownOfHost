@@ -289,8 +289,8 @@ DisablePolusVital,Disable Vital,バイタル無効化,,禁用波鲁斯生命监�
 DisableAirshipVital,Disable Vital,バイタル無効化,,禁用飞艇生命监测装置,Отключить Пульсы
 RandomSpawn,Random Spawn,ランダムスポーン,随机出生点,,Случайный Спавн
 AirshipAdditionalSpawn,Additional Spawn(Airship),追加スポーン位置(エアシップ),额外出生点（飞艇地图）,,Дополнительный Спавн(Airship)
-JClientBereavementMode.None,None,なし,,,
-JClientBereavementMode.Following,Following,後追い,,,
+None,None,なし,,,
+Following,Following,後追い,,,
 
 ## モード説明
 HideAndSeekInfo,"HideAndSeek:\nNo one can call emergency meeting, Crewmates (Blue) can win only by completing tasks\nand Impostors (Red) can win only by killing all the Crewmates.",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。\nインポスターは赤、クルーは青に体の色が変更される。,躲猫猫:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利；\n内鬼的皮肤颜色将变为红色，船员变为蓝色，以示区分。,"躲貓貓:\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色。","Прятки:\nНикто не может созвать срочное собрание, Члены Экипажа (Синие) могут победить, только выполняя задания\nА Предатели (Красные) могут победить, только убив всех Членов Экипажа."
@@ -375,7 +375,7 @@ KillFlashDuration,Kill Flash Duration(s),キルフラッシュの長さ(秒),击
 JClientVentCooldown,Client Vent Cooldown,ベントクールダウン,,,
 JClientVentMaxTime,Client Max Time In Vents(s),ベント内での最大時間,,,
 JClientCanAlsoBeExposedToJackal,Also Exposed To Jackal,ジャッカルからも視認できる,,,
-JClientBereavementMode,Jackal Bereavement Mode,ジャッカル死亡後のモード,,,
+JClientAfterJackalDead,Mode After Jackal Dead,ジャッカル死亡後のモード,,,
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定,Настройки Пряток

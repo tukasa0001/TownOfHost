@@ -177,7 +177,7 @@ namespace TownOfHost
                 }
 
                 //ジャッカル死亡時のJクライアント後追い
-                if (CustomRoles.JClient.IsEnable() && Options.JClientBereavementMode.GetString() == GetString(Options.JClientBereavementModes[1]))
+                if (CustomRoles.JClient.IsEnable() && Options.JClientAfterJackalDead.GetString() == GetString(Options.AfterJackalDeadMode.Following.ToString()))
                 {
                     var jackal = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.Is(CustomRoles.Jackal)).FirstOrDefault();
                     if (jackal == null || jackal.Data.IsDead || jackal.PlayerId == exiledPlayer?.PlayerId ||
