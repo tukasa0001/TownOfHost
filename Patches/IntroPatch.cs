@@ -122,6 +122,7 @@ namespace TownOfHost
                     {
                         CustomRoles.Egoist => GetString("TeamEgoist"),
                         CustomRoles.Jackal => GetString("TeamJackal"),
+                        CustomRoles.JClient => GetString("TeamJackal"),
                         _ => GetString("NeutralInfo"),
                     };
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
