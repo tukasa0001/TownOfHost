@@ -72,9 +72,10 @@ namespace TownOfHost
             "Rate0", /*"Rate10", "Rate20", "Rate30", "Rate40", "Rate50",
             "Rate60", "Rate70", "Rate80", "Rate90", */"Rate100",
         };
-        public static readonly string[] JClientBereavementModes =
+        public enum AfterJackalDeadMode
         {
-            "JClientBereavementMode.None", "JClientBereavementMode.Following", 
+            None,
+            Following 
         };
 
         // 各役職の詳細設定
@@ -118,7 +119,7 @@ namespace TownOfHost
         public static OptionItem JClientVentCooldown;
         public static OptionItem JClientVentMaxTime;
         public static OptionItem JClientCanAlsoBeExposedToJackal;
-        public static OptionItem JClientBereavementMode;
+        public static OptionItem JClientAfterJackalDead;
         public static OptionItem KillFlashDuration;
 
         // HideAndSeek
@@ -458,7 +459,7 @@ namespace TownOfHost
             JClientVentMaxTime = FloatOptionItem.Create(51013, "JClientVentMaxTime", new(0f, 180f, 5f), 0f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.JClient])
                 .SetValueFormat(OptionFormat.Seconds);
             JClientCanAlsoBeExposedToJackal = BooleanOptionItem.Create(51014, "JClientCanAlsoBeExposedToJackal", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.JClient]);
-            JClientBereavementMode = StringOptionItem.Create(51015, "JClientBereavementMode", JClientBereavementModes, 0, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.JClient]);
+            JClientAfterJackalDead = StringOptionItem.Create(51015, "JClientAfterJackalDead", Enum.GetNames(typeof(AfterJackalDeadMode)), 0, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.JClient]);
             //ID51020~51023を使用
             JClientTasks = OverrideTasksData.Create(51020, TabGroup.NeutralRoles, CustomRoles.JClient);
 

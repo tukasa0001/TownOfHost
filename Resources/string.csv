@@ -400,7 +400,7 @@
 "JClientVentCooldown","Client Vent Cooldown","ベントクールダウン",,,,
 "JClientVentMaxTime","Client Max Time In Vents","ベント内での最大時間",,,,
 "JClientCanAlsoBeExposedToJackal","Also Exposed To Jackal","ジャッカルからも視認できる",,,,
-"JClientBereavementMode","Jackal Bereavement Mode","ジャッカル死亡後のモード",,,,
+"JClientAfterJackalDead","Mode After Jackal Dead","ジャッカル死亡後のモード",,,,
 
 "## かくれんぼ設定"
 "HideAndSeekOptions","Hide and Seek Settings","かくれんぼの設定","躲猫猫设置","躲貓貓設定","Настройки Пряток","Configurações do Esconde-Esconde"
@@ -582,5 +582,5 @@
 "DefaultShapeshiftText","Shift","変身","变形","變身","Превращение","Mutar"
 "DisabledBySettings","Disabled by Settings","設定で無効化されています","已在设置被中禁用","在設定中被禁用","Отключено настройкой","Desativado Pelas Configurações"
 "Disabled","Disabled","無効","禁用","已被禁用","Неполноценный","Desativado"
-"JClientBereavementMode.None","None","なし",,,,
-"JClientBereavementMode.Following","Following","後追い",,,,
+"None","None","なし",,,,
+"Following","Following","後追い",,,,
