@@ -339,14 +339,11 @@ namespace TownOfHost
                     if (taskState.hasTasks)
                     {
                         Color color = Color.yellow;
-                        if (GameStates.IsInGame)
-                        {
-                            var pc = GetPlayerById(playerId);
-                            var afterFinishingColor = HasTasks(pc.Data) ? Color.green : Color.red; //タスク完了後の色
-                            var beforeFinishingColor = HasTasks(pc.Data) ? Color.yellow : Color.white; //カウントされない人外は白色
-                            var nonCommsColor = taskState.IsTaskFinished ? afterFinishingColor : beforeFinishingColor;
-                            color = comms ? Color.gray : nonCommsColor;
-                        }
+                        var info = GetPlayerInfoById(playerId);
+                        var afterFinishingColor = HasTasks(info) ? Color.green : Color.red; //タスク完了後の色
+                        var beforeFinishingColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
+                        var nonCommsColor = taskState.IsTaskFinished ? afterFinishingColor : beforeFinishingColor;
+                        color = comms ? Color.gray : nonCommsColor;
                         string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
                         ProgressText = ColorString(color, $"({Completed}/{taskState.AllTasksCount})");
                     }
@@ -618,6 +615,8 @@ namespace TownOfHost
         {
             return PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
         }
+        public static GameData.PlayerInfo GetPlayerInfoById(int PlayerId) =>
+            GameData.Instance.AllPlayers.ToArray().Where(info => info.PlayerId == PlayerId).FirstOrDefault();
         public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false, bool ForceLoop = false)
         {
             if (!AmongUsClient.Instance.AmHost) return;
