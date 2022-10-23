@@ -347,7 +347,7 @@ namespace TownOfHost
             MayorNumOfUseButton = CustomOption.Create(20212, TabGroup.CrewmateRoles, Color.white, "MayorNumOfUseButton", 1, 1, 99, 1, MayorHasPortableButton);
             SabotageMaster.SetupCustomOption();
 
-            //Setup Sheriff, Outlaw and CorrupSheriff
+            //Setup Sheriff/Outlaw/CorrupSheriff
             Sheriff.SetupCustomOption();
             Outlaw.SetupCustomOption();
             CorruptSheriff.SetupCustomOption();
