@@ -161,7 +161,7 @@ AmongUs バージョン : **2022.9.20**
 | [パペッティア](#Puppeteerパペッティア)                               | [ナイスウォッチャー](#Watcherウォッチャー)                  | [恋人](#Lovers恋人)                                         |           |
 | [シリアルキラー](#SerialKillerシリアルキラー)                        | [サボタージュマスター](#SabotageMasterサボタージュマスター) | [オポチュニスト](#Opportunistオポチュニスト)                |           |
 | [スナイパー](#Sniperスナイパー)                                      | [シーア](#Seerシーア)                                       | [テロリスト](#Terroristテロリスト)                          |           |
-| [タイムシーフ](#TimeThiefタイムシーフ)                               | [シェリフ](#Sheriffシェリフ)                                | [シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |           |
+| [タイムシーフ](#TimeThiefタイムシーフ)                               | [シェリフ](#Sheriffシェリフ)                                | [シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |
 | [ヴァンパイア](#Vampireヴァンパイア)                                 | [スニッチ](#Snitchスニッチ)                                 |                                                             |           |
 | [ウォーロック](#Warlockウォーロック)                                 | [スピードブースター](#SpeedBoosterスピードブースター)       |                                                             |           |
 | [魔女](#Witch魔女)                                                   | [トラッパー](#Trapperトラッパー)                            |                                                             |           |
