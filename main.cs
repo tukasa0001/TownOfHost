@@ -51,7 +51,6 @@ namespace TownOfHost
         public static ConfigEntry<string> ShowPopUpVersion { get; private set; }
         public static ConfigEntry<int> MessageWait { get; private set; }
 
-        public static LanguageUnit EnglishLang { get; private set; }
         public static Dictionary<byte, PlayerVersion> playerVersion = new();
         //Preset Name Options
         public static ConfigEntry<string> Preset1 { get; private set; }
@@ -274,16 +273,6 @@ namespace TownOfHost
             }
 
             Harmony.PatchAll();
-        }
-
-        [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Initialize))]
-        class TranslationControllerInitializePatch
-        {
-            public static void Postfix(TranslationController __instance)
-            {
-                var english = __instance.Languages.Where(lang => lang.languageID == SupportedLangs.English).FirstOrDefault();
-                EnglishLang = new LanguageUnit(english);
-            }
         }
     }
     public enum CustomRoles

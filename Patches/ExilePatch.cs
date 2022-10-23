@@ -1,3 +1,4 @@
+using AmongUs.Data;
 using HarmonyLib;
 
 namespace TownOfHost
@@ -151,7 +152,7 @@ namespace TownOfHost
                         exiled.Object.RpcExileV2();
                     }
                 }, 0.5f, "Restore IsDead Task");
-            SoundManager.Instance.ChangeMusicVolume(SaveManager.MusicVolume);
+            SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
             Logger.Info("タスクフェイズ開始", "Phase");
         }
     }
