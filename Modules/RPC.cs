@@ -19,7 +19,7 @@ namespace TownOfHost
         SetBountyTarget,
         SetKillOrSpell,
         SetSheriffShotLimit,
-        SetTimeThiefKillCount,
+        // SetTimeThiefKillCount,
         SetDousedPlayer,
         AddNameColorData,
         RemoveNameColorData,
@@ -139,9 +139,9 @@ namespace TownOfHost
                 case CustomRPC.SetSheriffShotLimit:
                     Sheriff.ReceiveRPC(reader);
                     break;
-                case CustomRPC.SetTimeThiefKillCount:
-                    TimeThief.ReceiveRPC(reader);
-                    break;
+                // case CustomRPC.SetTimeThiefKillCount:
+                //     TimeThief.ReceiveRPC(reader);
+                //     break;
                 case CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();
                     byte DousedId = reader.ReadByte();
