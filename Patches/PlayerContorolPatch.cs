@@ -256,7 +256,7 @@ namespace TownOfHost
 
                     //==========クルー役職==========//
                     case CustomRoles.Sheriff:
-                        Sheriff.OnCheckMurder(killer, target, Process: "RemoveShotLimit");
+                        // Sheriff.OnCheckMurder(killer, target, Process: "RemoveShotLimit");
 
                         if (!Sheriff.OnCheckMurder(killer, target, Process: "Suicide"))
                             return false;

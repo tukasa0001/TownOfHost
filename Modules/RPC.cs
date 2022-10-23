@@ -18,7 +18,7 @@ namespace TownOfHost
         SetCustomRole,
         SetBountyTarget,
         SetKillOrSpell,
-        SetSheriffShotLimit,
+        // SetSheriffShotLimit,
         // SetTimeThiefKillCount,
         SetDousedPlayer,
         AddNameColorData,
@@ -136,9 +136,9 @@ namespace TownOfHost
                     bool KoS = reader.ReadBoolean();
                     Main.KillOrSpell[playerId] = KoS;
                     break;
-                case CustomRPC.SetSheriffShotLimit:
-                    Sheriff.ReceiveRPC(reader);
-                    break;
+                // case CustomRPC.SetSheriffShotLimit:
+                //     Sheriff.ReceiveRPC(reader);
+                //     break;
                 // case CustomRPC.SetTimeThiefKillCount:
                 //     TimeThief.ReceiveRPC(reader);
                 //     break;
