@@ -19,10 +19,10 @@ namespace TownOfHost
                 return false;
             }
             // 名前確認による公開ルームブロック
-            bool NameIncludeTOH = SaveManager.PlayerName.ToUpper().Contains("TOH");
-            if (ModUpdater.isBroken || ModUpdater.hasUpdate || !NameIncludeTOH)
+            bool NameIncludeTOE = SaveManager.PlayerName.ToUpper().Contains("TOE");
+            if (ModUpdater.isBroken || ModUpdater.hasUpdate || !NameIncludeTOE)
             {
-                var message = GetString("NameIncludeTOH");
+                var message = GetString("NameIncludeTOE");
                 if (ModUpdater.isBroken) message = GetString("ModBrokenMessage");
                 if (ModUpdater.hasUpdate) message = GetString("CanNotJoinPublicRoomNoLatest");
                 Logger.Info(message, "MakePublicPatch");

@@ -103,8 +103,9 @@ namespace TownOfHost
             Mare.Init();
             Egoist.Init();
             Executioner.Init();
-            Outlaw.Init();
             Sheriff.Init();
+            CorruptSheriff.Init();
+            Outlaw.Init();
             EvilTracker.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
@@ -167,10 +168,10 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Data.IsDead = true;
                 }
 
-                AssignDesyncRole(CustomRoles.Outlaw, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Outlaw, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
             }
             if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
             //以下、バニラ側の役職割り当てが入る
@@ -253,11 +254,11 @@ namespace TownOfHost
             }
             else
             {
-
+                AssignCustomRolesFromList(CustomRoles.ShellRole, Crewmates);
+                //AssignCustomRolesFromList(CustomRoles.Outlaw, Outlaw.OutlawCanVent.GetBool() ? Engineers : Crewmates);
                 AssignCustomRolesFromList(CustomRoles.FireWorks, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Sniper, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Jester, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Outlaw, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Madmate, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
@@ -352,11 +353,13 @@ namespace TownOfHost
                         case CustomRoles.Egoist:
                             Egoist.Add(pc.PlayerId);
                             break;
-
+                        case CustomRoles.Outlaw:
+                            Outlaw.Add(pc.PlayerId);
+                            break;
                         case CustomRoles.Sheriff:
                             Sheriff.Add(pc.PlayerId);
                             break;
-                        case CustomRoles.Outlaw:
+                        case CustomRoles.CorruptSheriff:
                             Sheriff.Add(pc.PlayerId);
                             break;
                         case CustomRoles.Mayor:

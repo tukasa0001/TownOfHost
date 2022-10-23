@@ -229,7 +229,7 @@ namespace TownOfHost
         {
             return (int)(float)Selections[Selection];
         }
-        public int GetChance()
+        public int GetChance() //control the chance of a role spawning
         {
             //0%or100%の場合
             if (Selections.Length == 2) return Selection * 100;

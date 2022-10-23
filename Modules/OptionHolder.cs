@@ -54,7 +54,7 @@ namespace TownOfHost
         public static readonly string[] ratesZeroOne =
         {
             "Rate0", /*"Rate10", "Rate20", "Rate30", "Rate40", "Rate50",
-            "Rate60", "Rate70", "Rate80", "Rate90", */"Rate100",
+            "Rate60", "Rate70", "Rate80", "Rate90",*/ "Rate100",
         };
 
         // 各役職の詳細設定
@@ -99,9 +99,10 @@ namespace TownOfHost
         public static CustomOption JackalCanVent;
         public static CustomOption JackalCanUseSabotage;
         public static CustomOption JackalHasImpostorVision;
-        public static CustomOption OutlawCanVent;
-        public static CustomOption OutlawCanUseSabotage;
-        public static CustomOption OutlawHasImpostorVision;
+        //public static CustomOption OutlawKillCooldown;
+        //public static CustomOption OutlawCanVent;
+        //public static CustomOption OutlawCanUseSabotage;
+        //public static CustomOption OutlawHasImpostorVision;
         public static CustomOption KillFlashDuration;
 
         // HideAndSeek
@@ -367,7 +368,7 @@ namespace TownOfHost
             SetupRoleOptions(50500, TabGroup.NeutralRoles, CustomRoles.Arsonist);
             ArsonistDouseTime = CustomOption.Create(50510, TabGroup.NeutralRoles, Color.white, "ArsonistDouseTime", 3, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
             ArsonistCooldown = CustomOption.Create(50511, TabGroup.NeutralRoles, Color.white, "Cooldown", 10, 5, 100, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
-            SetupRoleOptions(50000, TabGroup.NeutralRoles, CustomRoles.Jester);
+            SetupSingleRoleOptions(50000, TabGroup.NeutralRoles, CustomRoles.Jester, 1);
             SetupRoleOptions(50100, TabGroup.NeutralRoles, CustomRoles.Opportunist);
             SetupRoleOptions(50200, TabGroup.NeutralRoles, CustomRoles.Terrorist);
             CanTerroristSuicideWin = CustomOption.Create(50210, TabGroup.NeutralRoles, Color.white, "CanTerroristSuicideWin", false, CustomRoleSpawnChances[CustomRoles.Terrorist], false)
@@ -387,11 +388,13 @@ namespace TownOfHost
             JackalCanVent = CustomOption.Create(50911, TabGroup.NeutralRoles, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
             JackalCanUseSabotage = CustomOption.Create(50912, TabGroup.NeutralRoles, Color.white, "CanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
             JackalHasImpostorVision = CustomOption.Create(50913, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            //Outlaw
-            //SetupSingleRoleOptions(60000, TabGroup.NeutralRoles, CustomRoles.Outlaw, 1);
-            //OutlawCanVent = CustomOption.Create(60010, TabGroup.NeutralRoles, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.Outlaw]);
-            //OutlawCanUseSabotage = CustomOption.Create(60011, TabGroup.NeutralRoles, Color.white, "CanUseSabotage", true, CustomRoleSpawnChances[CustomRoles.Outlaw]);
-            //OutlawHasImpostorVision = CustomOption.Create(60012, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Outlaw]);
+            //Outlaw.SetupCustomOption();
+            /*SetupRoleOptions(60000, TabGroup.NeutralRoles, CustomRoles.Outlaw);
+            OutlawKillCooldown = CustomOption.Create(60010, TabGroup.NeutralRoles, Color.white, "KillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Outlaw]);
+            OutlawCanVent = CustomOption.Create(60011, TabGroup.NeutralRoles, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.Outlaw]);
+            OutlawCanUseSabotage = CustomOption.Create(60012, TabGroup.NeutralRoles, Color.white, "CanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Outlaw]);
+            OutlawHasImpostorVision = CustomOption.Create(60013, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Outlaw]);*/
+            //SetupRoleOptions(60200, TabGroup.NeutralRoles, CustomRoles.ShellRole);
 
             // Attribute
             EnableLastImpostor = CustomOption.Create(80000, TabGroup.MainSettings, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)

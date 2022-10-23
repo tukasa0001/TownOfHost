@@ -193,7 +193,7 @@ namespace TownOfHost
                         //後で追加
                     //両陣営可能役職
                     {CustomRoles.Watcher, "#800080"},
-                    //特殊クルー役職
+                    //Special Crew
                     {CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
                     {CustomRoles.Bait, "#00f7ff"},
                     {CustomRoles.SabotageMaster, "#0000ff"},
@@ -207,9 +207,10 @@ namespace TownOfHost
                     {CustomRoles.Dictator, "#df9b00"},
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     {CustomRoles.Seer, "#61b26c"},
-                    //第三陣営役職
-                    {CustomRoles.Arsonist, "#ff6633"},
+                    //Neutral
+                    {CustomRoles.ShellRole, "ffffff"},
                     {CustomRoles.Outlaw, "#F44C19"},
+                    {CustomRoles.Arsonist, "#ff6633"},
                     {CustomRoles.Jester, "#ec62a5"},
                     {CustomRoles.Terrorist, "#00ff00"},
                     {CustomRoles.Executioner, "#611c3a"},
@@ -224,7 +225,7 @@ namespace TownOfHost
                     {CustomRoles.HASTroll, "#00ff00"},
                     // GM
                     {CustomRoles.GM, "#ff5b70"},
-                    //サブ役職
+                    //Sub Title
                     {CustomRoles.NoSubRoleAssigned, "#ffffff"},
                     {CustomRoles.Lovers, "#ffaaaa"}
                 };
@@ -337,7 +338,9 @@ namespace TownOfHost
         Seer,
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
         //Neutral
+        ShellRole,
         Outlaw,
+        CorruptSheriff,
         Arsonist,
         Egoist,
         EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫

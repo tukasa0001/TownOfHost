@@ -18,6 +18,7 @@ namespace TownOfHost
         SetBountyTarget,
         SetKillOrSpell,
         SetSheriffShotLimit,
+        SetCSheriffShotLimit,
         SetTimeThiefKillCount,
         SetDousedPlayer,
         AddNameColorData,
@@ -27,8 +28,8 @@ namespace TownOfHost
         SniperSync,
         SetLoversPlayers,
         SetExecutionerTarget,
-        RemoveExecutionerTarget,
         SetOutlawTarget,
+        RemoveExecutionerTarget,
         RemoveOutlawTarget,
         SendFireWorksState,
         SetCurrentDousingTarget,
@@ -328,11 +329,14 @@ namespace TownOfHost
                 case CustomRoles.Executioner:
                     Executioner.Add(targetId);
                     break;
-                case CustomRoles.Outlaw:
-                    Outlaw.Add(targetId);
-                    break;
                 case CustomRoles.Sheriff:
                     Sheriff.Add(targetId);
+                    break;
+                case CustomRoles.CorruptSheriff:
+                    Sheriff.Add(targetId);
+                    break;
+                case CustomRoles.Outlaw:
+                    Outlaw.Add(targetId);
                     break;
                 case CustomRoles.SabotageMaster:
                     SabotageMaster.Add(targetId);

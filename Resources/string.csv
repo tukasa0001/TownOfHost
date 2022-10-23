@@ -57,8 +57,10 @@ Dictator,Dictator,ディクテーター,独裁者,獨裁主義者,Dictator
 Seer,Seer,シーア,灵媒,,Seer
 ,,,,,
 # 第三陣営役職,,,,,
-Jester,Jester,ジェスター,小丑,小丑,Jester
+CorruptSheriff,CorruptSheriff,,,,CorruptSheriff
 Outlaw,Outlaw,,,,Outlaw
+ShellRole,ShellRole,,,,ShellRole
+Jester,Jester,ジェスター,小丑,小丑,Jester
 Terrorist,Terrorist,テロリスト,恐怖分子,恐怖分子,Terrorist
 Executioner,Executioner,エクスキューショナー,处刑人,劊子手,Executioner
 SchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓,SchrodingerCat
@@ -104,7 +106,7 @@ BeforeMafiaInfo,You can't kill yet,今はキルをすることができない,�
 AfterMafiaInfo,It's time to kill,サボを活用して皆殺しにしよう,杀光所有人,殺光所有人吧,Время убивать
 PuppeteerInfo,Force the Crewmate to kill,敵を操って皆殺しにしよう,操纵敌人，杀光船员,操控對象並殺光所有船員,Заставьте Члена Экипажа убить
 TimeThiefInfo,Kill the Crewmates to steal discussion time,敵を殺し、会議時間を奪おう,杀死所有船员并偷取时间,殺光你的敵人並將會議時間縮短,Убейте Члена Экипажа чтобы сократить время на голосовании
-SniperInfo,Shoot the Crewmates in the distance,狙い撃つぜ,瞄准敌人，射击！,讓你的敵人在你的狙擊下死亡,Стреляйте в Членов Экипажа на расстоянии
+SniperInfo,Shoot the Crewmates from a distance,狙い撃つぜ,瞄准敌人，射击！,讓你的敵人在你的狙擊下死亡,Стреляйте в Членов Экипажа на расстоянии
 LastImpostorInfo,You are the last one,残ったのはあなただけ,你是最后的希望…,你是狼村最後的希望...,Ты остался последний
 EvilTrackerInfo,Track Players,プレイヤーを追跡しろ,追杀其他玩家,,Отслеживайте Игроков
 ,,,,,
@@ -132,8 +134,10 @@ DictatorInfo,Hang your enemy on your own judgement,独裁政治をしよう,让�
 SeerInfo,You Will See Players Die,他人の死んだ瞬間がわかる,你能感知死亡,,Вы Видите Когда Умирают Игроки
 ,,,,,
 # 第三陣営役職,,,,,
+CorruptSheriffInfo,Careful who you kill,,,,
+OutlawInfo,Get shot by Sheriff to win,,,,
+ShellRoleInfo,Empty role to help me develop new roles,,,,
 ArsonistInfo,Let them burn,燃やせ,火焰给我燃烧起来吧！,"燒吧,燒吧,燃燒吧",Пусть все они сгорят
-OutlawInfo,Get killed by the sheriff,,,,
 JesterInfo,Get voted out,追放されよう,想办法让人怀疑把你投出去,想個辦法讓你被投出去,Будьте изгнаны
 OpportunistInfo,Stay alive,とにかく生き残りましょう,苟着吧，苟也是个不错的选择,做點什麼事來讓你存活,Останьтесь в живых
 SchrodingerCatInfo,Get killed and join killer team,殺されて陣営に所属しろ,加入击杀你的阵营,打不過就加入,Дайте убить себя и присоединитесь к команде убийц
@@ -168,7 +172,7 @@ WitchInfoLong,"(Impostors):\nThe Witches can perform kills or spells by turns.\n
 MafiaInfoLong,"(Impostors):\nInitially, the Mafias cannot kill (still have a button).\nThey will be able to kill after Impostors except them are all gone.",(インポスター陣営):\n初期状態ではキルが封じられている。\n仲間が全員死亡後、自身もキルが可能になる。,(内鬼阵营):\n黑手党在游戏中有其他内鬼存活时不可以进行击杀。,"(狼人陣營):\n在遊戲開始時,黑手黨沒有刀\n但是當他所有的隊友死亡後,他就可以開始殺人。","(Предатель):\nИзначально Mafia не может убивать (но все еще есть кнопка убийства).\nОн сможет убивать после того, как все Предатели кроме него будут убиты или изгнаны."
 PuppeteerInfoLong,"(Impostors):\nThey can perform secondhand kills but cannot kill like other Impostors.\nTheir direct kill is blocked, but instead, the protected player forcibly kills another player first getting in kill range.",(インポスター陣営):\nキルした対象に、対象が次に近づいたクルーをキルさせる事ができる。\n対象がキルした相手がキルされた瞬間に発動するものであった場合、対象にその効果が反映される。\n普通のキルを行うことはできない。,(内鬼阵营):\n傀儡师的操控对象会击杀其遇到的下一个船员。\n若后者在接触的同时死亡，则前者死亡。\n傀儡师不可以执行正常击杀。,"(狼人陣營):\n當傀儡師嘗試殺人時,\n他會下咒離他最近的一個人,接著如果碰到非狼人陣營的人並且在殺人範圍內,\n被下咒對象將會砍死他且效果不再持續,\n傀儡師無法正常殺人。","(Предатель):\nОн может совершить убийство с помощью помеченного игрока, но не может убивать как обычные Предатели.\nЕго прямое убийство заблокировано, но вместо этого он помечает игрока и справа от никнейма появляется красный ромб, после этого помеченный игрок насильно убивает игрока который первый попался ему на глаза."
 TimeThiefInfoLong,"(Impostors):\nEvery kill cuts down discussion and voting time in meeting.\nDepending on option, the lost time is returned after they die.",(インポスター陣営):\nキルを行うと会議時間が減少する。\nタイムシーフが追放または殺害されると、失われた会議時間が返ってきます。,(内鬼阵营):\n蚀时者每击杀一个人，会议持续时间将减少一定时间。\n如果蚀时者死亡，被偷取的时间的会议时间会返还。,"(狼人陣營):\n時間小偷每次殺人將會減少會議時間\n如果時間小偷被丟出或被殺死,減少的會議時間將會回來",(Предатель):\nКаждое его убийство сокращает время обсуждения и голосования на собраниях.\nВ зависимости от настроек потерянное время возвращается после того как он будет убит или изгнан.
-SniperInfoLong,(Impostors):\nSniper can shoot players so far away.\nthey kill a player on the extension line from Shapeshift point to release point.\nYou can perform normal kills after all bullets run out.,(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。,"(内鬼阵营):\n狙击手拥有远距离射杀的能力。\n方法为：变形的位置及解除变形位置的连线及其延长线上的一名玩家将被射杀。\n在狙击手的子弹耗尽前，狙击手无法进行常规击杀。""","(狼人陣營):\n狙擊遠處的敵人\n子彈將從變形處延伸到取消變形處並往直線前進並殺死在這條線上非狼人陣營的人\n狙擊手無法正常殺人在狙擊手用光子彈前。""","(Предатель):\nSniper может стрелять в игроков на расстоянии.\nОн убивает игрока который находится с ним на одной линии, от точки Морфа до точки возвращения в свой облик.\nОн можете совершать обычные убийства после того, как все его патроны закончатся."
+SniperInfoLong,"(Impostors):\nSniper can send a projectile path across the map and through walls./nTo use your ability SS then walk a few steps in the direction you want to shoot, then unSS.\nA bullet path will shoot in the direction you walked and kill someone if they are in the path.\n(tip: distance helps)",(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。,"(内鬼阵营):\n狙击手拥有远距离射杀的能力。\n方法为：变形的位置及解除变形位置的连线及其延长线上的一名玩家将被射杀。\n在狙击手的子弹耗尽前，狙击手无法进行常规击杀。""","(狼人陣營):\n狙擊遠處的敵人\n子彈將從變形處延伸到取消變形處並往直線前進並殺死在這條線上非狼人陣營的人\n狙擊手無法正常殺人在狙擊手用光子彈前。""","(Предатель):\nSniper может стрелять в игроков на расстоянии.\nОн убивает игрока который находится с ним на одной линии, от точки Морфа до точки возвращения в свой облик.\nОн можете совершать обычные убийства после того, как все его патроны закончатся."
 EvilTrackerInfoLong,(Impostors):\nEvilTracker can track others.\nThey can see arrows toward Impostors and the one whom they Shapeshift to.\nThey know when allies take kills with kill flash.,(インポスター陣営):\n他人の位置が分かるインポスター。\n味方のインポスターとシェイプシフトで選んだ一人の位置が矢印で表示される。\n味方インポスターのキルによるキルフラッシュも見える。,(内鬼阵营):\n邪恶追踪者可以追踪其他内鬼以及其所变形的玩家。\n玩家名称下面的箭头代表着目标的方向。\n当内鬼队友杀人时，邪恶追踪者将会看到击杀闪烁提示。,,"(Предатель):\nEvilTracker может отслеживать других игроков.\nОн может видеть стрелки которые указывают на Предателей или на того, в кого они Морфятся.\nОн знает когда Предатели совершают убийства с помощью вспышки убийства."
 ,,,,,
 ,,,,,
@@ -198,8 +202,10 @@ DictatorInfoLong,"(Crewmates):\nWhen you vote for someone in a meeting, they for
 SeerInfoLong,"(Crewmates):Every time players die, Seers can see kill flash.",(クルーメイト陣営):\nプレイヤーが死亡するごとに、シーアはキルフラッシュを見ることができる。,(船员阵营):\n每当玩家死亡时，灵媒将会看到击杀闪烁。,,"(Член Экипажа):Каждый раз когда игроки умирают, Seer может видеть вспышку убийства."
 ,,,,,
 # 第三陣営役職,,,,,
+CorruptSheriffInfoLong,(Neutrals):\nOnly obtainable from killing Sheriff as Outlaw.\nCorruptSheriff can kill any crew even bait and trapper without setting off the abilities.\nKilling neutrals or imps makes the CorruptSheriff misfire.,,,,
+OutlawInfoLong,"(Neutrals):\nOutlaw wants to bait the Sheriff into killing them.\nIf enabled the Outlaw can kill, but only the Sheriff.\nWhen the Sheriff is killed Outlaw can become Sheriff or CorruptSheriff.\nIf Sheriff dies then Outlaw can become Crew/Jest/Opp.",,,,
+ShellRoleInfoLong,Empty role to help me develop new roles,,,,
 ArsonistInfoLong,(Neutrals):\nThey can douse other players by using the kill button and remaining next to the player for a few seconds.\nAfter dousing everyone alive the Arsonists can enter the vents to ignite which results in Arsonist win.,(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。,(独立阵营):\n纵火犯可以通过对玩家点击击杀按钮并在跟随其数秒来完成涂油行为。\n当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。,"(中立):\n當縱火犯嘗試使用殺人鍵,它將對他身邊最近的一個人澆上油,\n當他對所有玩家澆上油之後,縱火縱火犯點火即勝利。","(Нейтрал):\nОн может обливать игроков, нажав на кнопку 'Убить' и находясь рядом с игроком в течение нескольких секунд.\nПосле того как он обольёт всех живых игрокво, Arsonist сможет запрыгнуть в вентиляцию чтобы поджечь всех игроков, что приводит к победе Arsonist."
-OutlawInfoLong,(Neutrals):\nThey can win by getting shot by Sheriff\nthey can become Sheriff\nby shooting the Sheriff,,,,
 JesterInfoLong,(Neutrals):\nThey win the game as a solo if they get voted out during a meeting.\nOtherwise Jester lose.,(第三陣営):\n会議で追放された時に単独勝利できる。\n追放されず試合が終了orキルされると敗北。,(独立阵营):\n小丑被放逐则小丑单独游戏胜利。\n游戏结束时若小丑仍存活则小丑输掉游戏。,"(中立):\n當小丑被丟出時即宣告小丑獲勝,\n但是小丑在遊戲結束時活下來或是在遊戲中被殺即宣告失敗","(Нейтрал):\nОн сможет выиграть игру, если за него проголосуют во время голосования и он будет изгнан.\nВ противном случае Jester проиграет."
 TerroristInfoLong,(Neutrals):\nThe Terrorists win alone when killed or exiled with all of his tasks completed.,(第三陣営):\n自身のタスクを全て完了させた状態で\nキル・追放された時に単独勝利する。,(独立阵营):\n恐怖分子完成所有任务后死亡，则恐怖分子单独获得胜利。,(中立):\n恐怖分子只要做完它的所有任務並且死亡即可獲勝,"(Нейтрал):\nTerrorist побеждает в одиночку, если его убивают или изгоняют, и при этом все его задания будут выполнены."
 ExecutionerInfoLong,"(Neutrals):\nThe Executioners are assigned their target with dark purple 'Diamond' sign next to the player name.\nThey win if the target is voted out.\nIf the target dies before voted out, the Executioner changes their Role and become Crewmate, Jester, or Opportunist according to a game option.\nIf the target is the Jester, the Executioners can be an additional winner.",(第三陣営):\nターゲットに対してこちらからのみ視認できるダイヤのマークがついている。\n投票でダイヤが付いている人を追放すれば単独勝利。ターゲットがキルされた場合は役職が変化する。\nターゲットがジェスターの場合は追加勝利する。,(独立阵营):\n游戏开始时处刑人会被分配到一个处刑目标，并在其昵称旁用菱形「♦」表示。\n若处刑目标被击杀，则处刑的职业会根据设置变为船员，小丑或投机者。\n如果处刑目标在会议中被放逐则处行者独自获得胜利。\n若小丑作为处刑目标被放逐时，小丑与处刑人共同获得胜利。,"(中立):\n劊子手的目標會有一個鑽石符號,這個符號僅劊子手可見,\n如果他的目標被投出,他將獨自勝利。\n如果目標被殺,劊子手將轉職(可以設定).\n如果目標是小丑,那麼被丟出時,劊子手和小丑會一起獲勝。","(Нейтрал):\nExecutioner назначается цель с темно-фиолетовым значком «Ромба» рядом с именем игрока.\nОн побеждает когда его цель будет изгнана на голосовании.\nЕсли его цель умирает до того как он был изгнан, Executioner меняет свою роль и становится Членом Экипажа, Jester или Opportunist в зависимости от настроек игры.\nЕсли его цель является Jester, Executioner станет победителем вместе с ним."
@@ -305,7 +311,10 @@ KillCooldown,Kill Cooldown,キルクール,击杀冷却时间,,Откат Уби
 CanVent,Can Use Vent,ベントを使える,可以使用通风管道,,Может Использовать Вентиляцию
 ImpostorVision,Has Impostor Vision,インポスター視界,拥有内鬼视野,,Имеет Дальность Обзора Предателя
 CanUseSabotage,Can Sabotage,サボタージュを使用できる,可以破坏,,Может Использовать Саботаж
+CanKill,Can Kill,,,,
 ,,,,,
+OutlawChangeRolesAfterKilledTarget,Role After Killing Sheriff,,,,
+OutlawChangeRolesAfterTargetKilled,Role After Sheriff Dies,,,,
 BountyTargetChangeTime,Time To Swap Bounty(s),ターゲット変更時間,赏金目标切换时间,賞金目標切換時間,Время Смены Его Цели
 EnableLastImpostor,Enable LastImpostor,ラストインポスターの有効化,启用绝境者,啟用絕境者,Включить ПоследнийПредатель
 BountySuccessKillCooldown,Kill Cooldown After Killing Bounty,ターゲット殺害時のキルクール,赏金猎人击杀赏金目标的奖励冷却时间,賞金獵人殺死賞金目標冷卻,Перезарядка После Убитой Цели
@@ -380,8 +389,8 @@ IgnoreVent,Disable Vents,ベントの使用を禁止する,禁止使用管道,�
 HideAndSeekRoles,HideAndSeek Roles,かくれんぼの役職,躲猫猫职业,躲貓貓職業,Роли В Прятках
 ,,,,,
 ## 死因,,,,,
-DeathReason.Kill,Kill,キル,被杀,被殺,Убит
 DeathReason.Shot,Shot,,,,
+DeathReason.Kill,Kill,キル,被杀,被殺,Убит
 DeathReason.Vote,Exiled,追放,放逐,被丟,Изгнан
 DeathReason.Suicide,Suicide,自殺,自杀,自殺,Суициднулся
 DeathReason.Spell,Spelled,呪殺,咒杀,咒殺,Заколдован

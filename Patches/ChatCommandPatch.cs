@@ -291,12 +291,14 @@ namespace TownOfHost
                 { CustomRoles.SpeedBooster, "sb" },
                 { CustomRoles.Trapper, "tra" },
                 //Neutral役職
+                { CustomRoles.ShellRole, "shr" },
+                { CustomRoles.Outlaw, "ou" },
+                { CustomRoles.CorruptSheriff, "csh" },
                 { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
                 { CustomRoles.Arsonist, "ar" },
                 { CustomRoles.Egoist, "eg" },
                 { CustomRoles.Executioner, "exe" },
                 { CustomRoles.Jester, "je" },
-                { CustomRoles.Outlaw, "ou" },
                 { CustomRoles.Opportunist, "op" },
                 { CustomRoles.SchrodingerCat, "sc" },
                 { CustomRoles.Terrorist, "te" },

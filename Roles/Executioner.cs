@@ -46,7 +46,7 @@ namespace TownOfHost
         {
             playerIdList.Add(playerId);
 
-            //assign sheriff
+            //ターゲット割り当て
             if (AmongUsClient.Instance.AmHost)
             {
                 List<PlayerControl> targetList = new();
@@ -130,6 +130,7 @@ namespace TownOfHost
         }
         public static void CheckExileTarget(GameData.PlayerInfo exiled, bool DecidedWinner)
         {
+            
             foreach (var kvp in Target)
             {
                 var executioner = Utils.GetPlayerById(kvp.Key);

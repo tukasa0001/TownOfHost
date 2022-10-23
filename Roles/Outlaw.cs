@@ -1,26 +1,29 @@
 using System;
 using System.Collections.Generic;
-using Hazel;
-using static UnityEngine.GraphicsBuffer;
 using HarmonyLib;
+using Hazel;
+using MS.Internal.Xml.XPath;
 using UnityEngine;
-using static TownOfHost.Options;
-using Il2CppSystem.Net;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    internal class Outlaw
+    public static class Outlaw
     {
         private static readonly int Id = 60000;
         public static List<byte> playerIdList = new();
-        public static byte WinnerID;
 
-        public static CustomOption ChangeRolesAfterSheriffKilled;
+        public static CustomOption OutlawKillCooldown;
         public static CustomOption OutlawCanVent;
         public static CustomOption OutlawCanUseSabotage;
         public static CustomOption OutlawHasImpostorVision;
+        public static CustomOption OutlawCanKill;
+        public static CustomOption ChangeRolesAfterTargetKilled;
+        public static CustomOption ChangeRolesAfterKilledTarget;
+        public static CustomOption CorruptSheriffEnabled;
 
-        public static Dictionary<byte, byte> Sheriff = new();
+        public static Dictionary<byte, float> CurrentKillCooldown = new();
+        public static Dictionary<byte, byte> Target = new();
         public static readonly string[] ChangeRoles =
         {
             CustomRoles.Crewmate.ToString(), CustomRoles.Jester.ToString(), CustomRoles.Opportunist.ToString(),
@@ -29,25 +32,41 @@ namespace TownOfHost
         {
             CustomRoles.Crewmate, CustomRoles.Jester, CustomRoles.Opportunist,
         };
-
+        public static readonly string[] ChangeRolesAfterMurder =
+        {
+            CustomRoles.CorruptSheriff.ToString(), CustomRoles.Sheriff.ToString(),
+        };
+        public static readonly CustomRoles[] CRoleChangeRolesAfterMurder =
+        {
+            CustomRoles.CorruptSheriff, CustomRoles.Sheriff,
+        };
         public static void SetupCustomOption()
         {
-            Options.SetupSingleRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Outlaw, 1);
-            ChangeRolesAfterSheriffKilled = CustomOption.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "OutlawChangeRolesAfterSheriffKilled", ChangeRoles, ChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Outlaw]);
-            OutlawCanVent = CustomOption.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.Outlaw]);
-            OutlawCanUseSabotage = CustomOption.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "CanUseSabotage", true, CustomRoleSpawnChances[CustomRoles.Outlaw]);
-            OutlawHasImpostorVision = CustomOption.Create(Id + 13, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Outlaw]);
+            Options.SetupSingleRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Outlaw, /*SheriffSpawned()*/ 1);
+            OutlawCanVent = CustomOption.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "CanVent", true, Options.CustomRoleSpawnChances[CustomRoles.Outlaw]);
+            OutlawHasImpostorVision = CustomOption.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, Options.CustomRoleSpawnChances[CustomRoles.Outlaw]);
+            OutlawCanKill = CustomOption.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "CanKill", true, Options.CustomRoleSpawnChances[CustomRoles.Outlaw]);
+            OutlawKillCooldown = CustomOption.Create(Id + 13, TabGroup.NeutralRoles, Color.white, "KillCooldown", 30, 2.5f, 180, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Outlaw]);
+            ChangeRolesAfterTargetKilled = CustomOption.Create(Id + 14, TabGroup.NeutralRoles, Color.white, "OutlawChangeRolesAfterTargetKilled", ChangeRoles, ChangeRoles[1], Options.CustomRoleSpawnChances[CustomRoles.Outlaw]);
+            ChangeRolesAfterKilledTarget = CustomOption.Create(Id + 15, TabGroup.NeutralRoles, Color.white, "OutlawChangeRolesAfterKilledTarget", ChangeRolesAfterMurder, ChangeRolesAfterMurder[0], Options.CustomRoleSpawnChances[CustomRoles.Outlaw]);
+            if(ChangeRolesAfterKilledTarget.GetSelection() == 0) { CorruptSheriff.SetupCustomOption(); }
         }
         public static void Init()
         {
             playerIdList = new();
-            Sheriff = new();
+            CurrentKillCooldown = new();
+            Target = new();
         }
         public static void Add(byte playerId)
         {
             playerIdList.Add(playerId);
+            CurrentKillCooldown.Add(playerId, OutlawKillCooldown.GetFloat());
 
-            //assign sheriff
+            if (!Main.ResetCamPlayerList.Contains(playerId))
+                Main.ResetCamPlayerList.Add(playerId);
+
+            Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()}", "Outlaw");
+
             if (AmongUsClient.Instance.AmHost)
             {
                 List<PlayerControl> targetList = new();
@@ -57,38 +76,40 @@ namespace TownOfHost
                     if (playerId == target.PlayerId) continue;
                     if (target.Is(CustomRoles.GM)) continue;
                     if (target.Is(CustomRoles.Sheriff))
-
-                    targetList.Add(target);
+                        targetList.Add(target);
                 }
                 var SelectedTarget = targetList[rand.Next(targetList.Count)];
-                Sheriff.Add(playerId, SelectedTarget.PlayerId);
+                Target.Add(playerId, SelectedTarget.PlayerId);
                 SendRPC(playerId, SelectedTarget.PlayerId, "SetTarget");
                 Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()}:{SelectedTarget.GetNameWithRole()}", "Outlaw");
-            }
+            } 
         }
-
+        public static int SheriffSpawned()
+        {
+            int enabled = 0;
+            for(int i=0; i <= int.Parse(Sheriff.IsEnable.ToString()) ; i++)
+            {
+                enabled++;
+            }
+            return enabled;
+        }
         public static bool IsEnable => playerIdList.Count > 0;
-        public static void SendRPC(byte OutlawId, byte targetId = 0x75, string Progress = "")
+        public static void SendRPC(byte outlawId, byte targetId = 0x74, string Progress = "")
         {
             MessageWriter writer;
             switch (Progress)
             {
                 case "SetTarget":
                     writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetOutlawTarget, SendOption.Reliable);
-                    writer.Write(OutlawId);
+                    writer.Write(outlawId);
                     writer.Write(targetId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     break;
                 case "":
                     if (!AmongUsClient.Instance.AmHost) return;
                     writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveOutlawTarget, SendOption.Reliable);
-                    writer.Write(OutlawId);
+                    writer.Write(outlawId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    break;
-                case "WinCheck":
-                    if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) break; //まだ勝者が設定されていない場合
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Outlaw);
-                    CustomWinnerHolder.WinnerIds.Add(OutlawId);
                     break;
             }
         }
@@ -98,29 +119,70 @@ namespace TownOfHost
             {
                 byte OutlawId = reader.ReadByte();
                 byte TargetId = reader.ReadByte();
-                Sheriff[OutlawId] = TargetId;
+                Target[OutlawId] = TargetId;
             }
             else
-                Sheriff.Remove(reader.ReadByte());
+                Target.Remove(reader.ReadByte());
         }
         public static void ChangeRoleByTarget(PlayerControl target)
         {
-            byte Outlaw = 0x73;
-            Sheriff.Do(x =>
+            byte Outlaw = 0x74;
+            Target.Do(x =>
             {
                 if (x.Value == target.PlayerId)
                     Outlaw = x.Key;
             });
-            Utils.GetPlayerById(Outlaw).RpcSetCustomRole(CRoleChangeRoles[ChangeRolesAfterSheriffKilled.GetSelection()]);
-            Sheriff.Remove(Outlaw);
+            Utils.GetPlayerById(Outlaw).RpcSetCustomRole(CRoleChangeRoles[ChangeRolesAfterTargetKilled.GetSelection()]);
+            Target.Remove(Outlaw);
             SendRPC(Outlaw);
             Utils.NotifyRoles();
         }
         public static void ChangeRole(PlayerControl outlaw)
         {
-            outlaw.RpcSetCustomRole(CRoleChangeRoles[ChangeRolesAfterSheriffKilled.GetSelection()]);
-            Sheriff.Remove(outlaw.PlayerId);
+            outlaw.RpcSetCustomRole(CRoleChangeRoles[ChangeRolesAfterTargetKilled.GetSelection()]);
+            Target.Remove(outlaw.PlayerId);
             SendRPC(outlaw.PlayerId);
+        } 
+        public static bool CanUseKillButton(PlayerControl player)
+        {
+            if (player.Data.IsDead)
+                return false;
+
+            if (!Sheriff.IsEnable)
+            {
+                if (OutlawCanKill.GetBool())
+                    return true;
+                return false;
+            }
+            return true;
+        }
+        public static bool OnCheckMurder(PlayerControl killer, PlayerControl target, string Process)
+        {
+            switch (Process)
+            {
+                case "Shot Sheriff":
+                    if (target.Is(CustomRoles.Sheriff))
+                    {
+                        PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Shot);
+                        killer.RpcMurderPlayer(target);
+                        killer.RpcSetCustomRole(CRoleChangeRolesAfterMurder[ChangeRolesAfterKilledTarget.GetSelection()]);
+                        Target.Remove(killer.PlayerId);
+                        SendRPC(killer.PlayerId);
+                    }
+                    break;
+
+                case "Suicide":
+                    if (!target.Is(CustomRoles.Sheriff))
+                    {
+                        PlayerState.SetDeathReason(killer.PlayerId, PlayerState.DeathReason.Misfire);
+                        killer.RpcMurderPlayer(killer);
+                        /*if (MisfireKillsTarget.GetBool())
+                            killer.RpcMurderPlayer(target);*/
+                        return false;
+                    }
+                    break;
+            }
+            return true;
         }
     }
 }

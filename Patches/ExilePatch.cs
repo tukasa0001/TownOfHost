@@ -108,6 +108,8 @@ namespace TownOfHost
                     player?.ResetVotingTime();
                 if (Executioner.Target.ContainsValue(x.Key))
                     Executioner.ChangeRoleByTarget(player);
+                if (Outlaw.Target.ContainsValue(x.Key))
+                    Outlaw.ChangeRoleByTarget(player);
             });
             Main.AfterMeetingDeathPlayers.Clear();
             if (Options.RandomSpawn.GetBool())

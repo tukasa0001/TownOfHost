@@ -172,7 +172,7 @@ namespace TownOfHost
         public static void SetKillCooldown(this PlayerControl player, float time)
         {
             CustomRoles role = player.GetCustomRole();
-            if (!(role.IsImpostor() || player.IsNeutralKiller() || role is CustomRoles.Arsonist or CustomRoles.Sheriff)) return;
+            if (!(role.IsImpostor() || player.IsNeutralKiller() || role is CustomRoles.Arsonist or CustomRoles.Sheriff /*or CustomRoles.CorruptSheriff*/)) return;
             if (player.AmOwner)
             {
                 player.SetKillTimer(time);
@@ -305,9 +305,9 @@ namespace TownOfHost
                 case CustomRoles.SerialKiller:
                     SerialKiller.ApplyGameOptions(opt);
                     break;
-                case CustomRoles.Outlaw:
+                /*case CustomRoles.Outlaw:
                     opt.SetVision(player, Options.OutlawHasImpostorVision.GetBool());
-                    break;
+                    break;*/
                 case CustomRoles.BountyHunter:
                     BountyHunter.ApplyGameOptions(opt);
                     break;
@@ -328,6 +328,7 @@ namespace TownOfHost
                             opt.CrewLightMod *= 5;
                     }
                     break;
+                //case CustomRoles.CorruptSheriff:
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(player, true);
                     break;
@@ -547,8 +548,17 @@ namespace TownOfHost
         {
             bool canUse =
                 pc.GetCustomRole().IsImpostor() ||
-                pc.Is(CustomRoles.Arsonist);
-
+                pc.Is(CustomRoles.Arsonist) /*|| (Outlaw.OutlawCanKill.GetBool() && pc.Is(CustomRoles.Outlaw))*/;
+            /*
+            if (Outlaw.OutlawCanKill.GetBool())
+            {
+                return pc.GetCustomRole() switch
+                {
+                    CustomRoles.Outlaw => Outlaw.CanUseKillButton(pc),
+                    _ => canUse,
+                };
+            }
+            */
             return pc.GetCustomRole() switch
             {
                 CustomRoles.Mafia => Utils.CanMafiaKill() && canUse,
@@ -556,8 +566,11 @@ namespace TownOfHost
                 CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
                 CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc),
+                //CustomRoles.CorruptSheriff => CorruptSheriff.CanUseKillButton(pc),
+                //CustomRoles.Outlaw => Outlaw.CanUseKillButton(pc) && canUse,
                 _ => canUse,
             };
+            
         }
         public static bool IsLastImpostor(this PlayerControl pc)
         { //キルクールを変更するインポスター役職は省く
@@ -629,8 +642,14 @@ namespace TownOfHost
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.JackalKillCooldown.GetFloat();
                     break;
                 case CustomRoles.Sheriff:
-                    Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
+                    Sheriff.SetKillCooldown(player.PlayerId);
                     break;
+                /*case CustomRoles.CorruptSheriff:
+                    CorruptSheriff.SetKillCooldown(player.PlayerId);
+                    break;
+                /*case CustomRoles.Outlaw:
+                    Outlaw.SetKillCooldown(player.PlayerId); 
+                    break;*/
             }
             if (player.IsLastImpostor())
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
@@ -652,6 +671,7 @@ namespace TownOfHost
         {
             switch (player.GetCustomRole())
             {
+                //case CustomRoles.CorruptSheriff:
                 case CustomRoles.Sheriff:
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
                     player.Data.Role.CanVent = false;
@@ -666,13 +686,14 @@ namespace TownOfHost
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(jackal_canUse && !player.Data.IsDead);
                     player.Data.Role.CanVent = jackal_canUse;
                     return;
-                case CustomRoles.Outlaw:
+                /*case CustomRoles.Outlaw:
                     bool OutlawCanUse = Options.OutlawCanVent.GetBool();
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(OutlawCanUse && !player.Data.IsDead);
                     player.Data.Role.CanVent = OutlawCanUse;
-                    return;
+                    return;*/
             }
         }
+        /*
         public static void CanUseImpostorSabotage(this PlayerControl player)
         {
             switch (player.GetCustomRole())
@@ -680,10 +701,11 @@ namespace TownOfHost
                 case CustomRoles.Outlaw:
                     bool OutlawCanUse = Options.OutlawCanUseSabotage.GetBool();
                     DestroyableSingleton<HudManager>.Instance.SabotageButton.ToggleVisible(OutlawCanUse && !player.Data.IsDead);
-                    player.Data.Role.CanVent = OutlawCanUse;
+                    player.Data.Role.CanUseSabotage = OutlawCanUse;
                     return;
             }
         }
+        */
         public static bool IsDouseDone(this PlayerControl player)
         {
             if (!player.Is(CustomRoles.Arsonist)) return false;
@@ -751,7 +773,8 @@ namespace TownOfHost
             return
                 player.GetCustomRole() is
                 CustomRoles.Egoist or
-                CustomRoles.Jackal;
+                CustomRoles.Jackal; //or
+                //CustomRoles.Outlaw;
         }
 
         //汎用

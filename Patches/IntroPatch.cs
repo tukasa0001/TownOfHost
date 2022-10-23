@@ -153,7 +153,7 @@ namespace TownOfHost
                 case CustomRoles.SabotageMaster:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = ShipStatus.Instance.SabotageSound;
                     break;
-
+                //case CustomRoles.CorruptSheriff:
                 case CustomRoles.Sheriff:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
@@ -225,7 +225,9 @@ namespace TownOfHost
     {
         public static bool Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
-            if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff))
+            if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff) //|| /*PlayerControl.LocalPlayer.Is(CustomRoles.Outlaw) ||*/
+                //PlayerControl.LocalPlayer.Is(CustomRoles.CorruptSheriff)
+                )
             {
                 //シェリフの場合はキャンセルしてBeginCrewmateに繋ぐ
                 yourTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();

@@ -67,6 +67,10 @@ namespace TownOfHost
                     Executioner.ChangeRole(data.Character);
                 if (Executioner.Target.ContainsValue(data.Character.PlayerId))
                     Executioner.ChangeRoleByTarget(data.Character);
+                if (data.Character.Is(CustomRoles.Outlaw) && Outlaw.Target.ContainsKey(data.Character.PlayerId))
+                    Outlaw.ChangeRole(data.Character);
+                if (Outlaw.Target.ContainsValue(data.Character.PlayerId))
+                    Outlaw.ChangeRoleByTarget(data.Character);
                 if (PlayerState.GetDeathReason(data.Character.PlayerId) == PlayerState.DeathReason.etc) //死因が設定されていなかったら
                 {
                     PlayerState.SetDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);

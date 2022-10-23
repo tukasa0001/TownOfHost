@@ -295,8 +295,18 @@ namespace TownOfHost
                     //==========クルー役職==========//
                     case CustomRoles.Sheriff:
                         Sheriff.OnCheckMurder(killer, target, Process: "RemoveShotLimit");
-
+                        Sheriff.OnCheckMurder(killer, target, Process: "Shot Outlaw");
                         if (!Sheriff.OnCheckMurder(killer, target, Process: "Suicide"))
+                            return false;
+                        break;
+                    case CustomRoles.CorruptSheriff:
+                        CorruptSheriff.OnCheckMurder(killer, target, Process: "RemoveShotLimit");
+                        if (!CorruptSheriff.OnCheckMurder(killer, target, Process: "Suicide"))
+                            return false;
+                        break;
+                    case CustomRoles.Outlaw:
+                        Outlaw.OnCheckMurder(killer, target, Process: "Shot Sheriff");
+                        if (!Outlaw.OnCheckMurder(killer, target, Process: "Suicide"))
                             return false;
                         break;
                 }
@@ -354,6 +364,13 @@ namespace TownOfHost
             {
                 Executioner.Target.Remove(target.PlayerId);
                 Executioner.SendRPC(target.PlayerId);
+            }
+            if (Outlaw.Target.ContainsValue(target.PlayerId))
+                Outlaw.ChangeRoleByTarget(target);
+            if (target.Is(CustomRoles.Outlaw) && Outlaw.Target.ContainsKey(target.PlayerId))
+            {
+                Outlaw.Target.Remove(target.PlayerId);
+                Outlaw.SendRPC(target.PlayerId);
             }
             if (target.Is(CustomRoles.TimeThief))
                 target.ResetVotingTime();
@@ -724,7 +741,7 @@ namespace TownOfHost
             if (__instance.AmOwner)
             {
                 //キルターゲットの上書き処理
-                if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Arsonist) || __instance.Is(CustomRoles.Jackal)) && !__instance.Data.IsDead)
+                if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Arsonist) || __instance.Is(CustomRoles.Jackal) || __instance.Is(CustomRoles.Outlaw)) && !__instance.Data.IsDead)
                 {
                     var players = __instance.GetPlayersInAbilityRangeSorted(false);
                     PlayerControl closest = players.Count <= 0 ? null : players[0];
@@ -1118,8 +1135,9 @@ namespace TownOfHost
                 __instance.myPlayer.Is(CustomRoles.SKMadmate) ||
                 __instance.myPlayer.Is(CustomRoles.Arsonist) ||
                 (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt()) ||
-                (__instance.myPlayer.Is(CustomRoles.Jackal) && !Options.JackalCanVent.GetBool())
-                )
+                (__instance.myPlayer.Is(CustomRoles.Jackal) && !Options.JackalCanVent.GetBool() ||
+                (__instance.myPlayer.Is(CustomRoles.Outlaw) && !Outlaw.OutlawCanVent.GetBool())
+                ))
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
                     writer.WritePacked(127);

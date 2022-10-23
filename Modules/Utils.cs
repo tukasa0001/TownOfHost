@@ -254,10 +254,10 @@ namespace TownOfHost
                 var cRoleFound = Main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
                 if (cRoleFound)
                 {
+                    if (cRole == CustomRoles.ShellRole) hasTasks = false;
+                    if (cRole == CustomRoles.Outlaw) hasTasks = false;
                     if (cRole == CustomRoles.GM) hasTasks = false;
                     if (cRole == CustomRoles.Jester) hasTasks = false;
-                    if (cRole == CustomRoles.Outlaw && ForRecompute
-                        && Outlaw.ChangeRolesAfterSheriffKilled.GetSelection() == 0) hasTasks = false;
                     if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.MadSnitch && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Opportunist) hasTasks = false;
@@ -322,6 +322,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Sheriff:
                     ProgressText += Sheriff.GetShotLimit(playerId);
+                    break;
+                case CustomRoles.CorruptSheriff:
+                    ProgressText += CorruptSheriff.GetShotLimit(playerId);
                     break;
                 case CustomRoles.Sniper:
                     ProgressText += $" {Sniper.GetBulletCount(playerId)}";
