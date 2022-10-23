@@ -179,7 +179,7 @@ namespace TownOfHost
                 var target = Utils.GetPlayerById(arrow.Key.Item2);
                 bool BountyTarget = GetTarget(seer) == target;
                 if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2] && (target.GetCustomRole().IsImpostor() || BountyTarget))
-                    SelfSuffix += BountyTarget ? Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Crewmate), arrow.Value) : arrow.Value;
+                    SelfSuffix += BountyTarget ? Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), arrow.Value) : arrow.Value;
             }
             return SelfSuffix;
         }
