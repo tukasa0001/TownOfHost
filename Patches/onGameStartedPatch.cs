@@ -360,7 +360,7 @@ namespace TownOfHost
                             Sheriff.Add(pc.PlayerId);
                             break;
                         case CustomRoles.CorruptSheriff:
-                            Sheriff.Add(pc.PlayerId);
+                            CorruptSheriff.Add(pc.PlayerId);
                             break;
                         case CustomRoles.Mayor:
                             Main.MayorUsedButtonCount[pc.PlayerId] = 0;

@@ -145,6 +145,9 @@ namespace TownOfHost
                 case CustomRoles.Executioner:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                     break;
+                case CustomRoles.Outlaw:
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                    break;
 
                 case CustomRoles.Vampire:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
@@ -153,7 +156,7 @@ namespace TownOfHost
                 case CustomRoles.SabotageMaster:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = ShipStatus.Instance.SabotageSound;
                     break;
-                //case CustomRoles.CorruptSheriff:
+
                 case CustomRoles.Sheriff:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
@@ -192,7 +195,7 @@ namespace TownOfHost
             {
                 __instance.TeamTitle.text = "Discord Server";
                 __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = "https://discord.gg/v8SFfdebpz";
+                __instance.ImpostorText.text = "https://discord.gg/cPatHkMj";
                 __instance.TeamTitle.color = Color.magenta;
                 StartFadeIntro(__instance, Color.magenta, Color.magenta);
             }
@@ -225,9 +228,7 @@ namespace TownOfHost
     {
         public static bool Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
-            if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff) //|| /*PlayerControl.LocalPlayer.Is(CustomRoles.Outlaw) ||*/
-                //PlayerControl.LocalPlayer.Is(CustomRoles.CorruptSheriff)
-                )
+            if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff))
             {
                 //シェリフの場合はキャンセルしてBeginCrewmateに繋ぐ
                 yourTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
