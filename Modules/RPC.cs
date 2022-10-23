@@ -136,6 +136,9 @@ namespace TownOfHost
                 case CustomRPC.SetSheriffShotLimit:
                     Sheriff.ReceiveRPC(reader);
                     break;
+                case CustomRPC.SetCSheriffShotLimit:
+                    CorruptSheriff.ReceiveRPC(reader);
+                    break;
                 case CustomRPC.SetTimeThiefKillCount:
                     TimeThief.ReceiveRPC(reader);
                     break;
