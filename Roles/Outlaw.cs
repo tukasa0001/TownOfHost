@@ -4,6 +4,7 @@ using HarmonyLib;
 using Hazel;
 using MS.Internal.Xml.XPath;
 using UnityEngine;
+using static RoleOptionsData;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -42,14 +43,14 @@ namespace TownOfHost
         };
         public static void SetupCustomOption()
         {
-            Options.SetupSingleRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Outlaw, /*SheriffSpawned()*/ 1);
+            Options.SetupSingleRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Outlaw, 1);
             OutlawCanVent = CustomOption.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "CanVent", true, Options.CustomRoleSpawnChances[CustomRoles.Outlaw]);
             OutlawHasImpostorVision = CustomOption.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, Options.CustomRoleSpawnChances[CustomRoles.Outlaw]);
             OutlawCanKill = CustomOption.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "CanKill", true, Options.CustomRoleSpawnChances[CustomRoles.Outlaw]);
             OutlawKillCooldown = CustomOption.Create(Id + 13, TabGroup.NeutralRoles, Color.white, "KillCooldown", 30, 2.5f, 180, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Outlaw]);
             ChangeRolesAfterTargetKilled = CustomOption.Create(Id + 14, TabGroup.NeutralRoles, Color.white, "OutlawChangeRolesAfterTargetKilled", ChangeRoles, ChangeRoles[1], Options.CustomRoleSpawnChances[CustomRoles.Outlaw]);
             ChangeRolesAfterKilledTarget = CustomOption.Create(Id + 15, TabGroup.NeutralRoles, Color.white, "OutlawChangeRolesAfterKilledTarget", ChangeRolesAfterMurder, ChangeRolesAfterMurder[0], Options.CustomRoleSpawnChances[CustomRoles.Outlaw]);
-            if(ChangeRolesAfterKilledTarget.GetSelection() == 0) { CorruptSheriff.SetupCustomOption(); }
+            CorruptSheriffEnabled = CustomOption.Create(Id + 15, TabGroup.NeutralRoles, Color.white, "%role%", false, Options.CustomRoleSpawnChances[CustomRoles.Outlaw], replacementDic: new() { { "%role%", Helpers.ColorString(Utils.GetRoleColor(CustomRoles.CorruptSheriff), Utils.GetRoleName(CustomRoles.CorruptSheriff)) } });
         }
         public static void Init()
         {

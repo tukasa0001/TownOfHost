@@ -25,6 +25,8 @@ namespace TownOfHost
         public static CustomOption CanKillJackal;
         public static CustomOption CanKillJSchrodingerCat;
 
+        public static CustomOption OutlawEnabled;
+
         public static Dictionary<byte, float> ShotLimit = new();
         public static Dictionary<byte, float> CurrentKillCooldown = new();
         public static readonly string[] KillOption =
@@ -56,6 +58,8 @@ namespace TownOfHost
             CanKillExecutioner = CustomOption.Create(Id + 21, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Executioner));
             CanKillJackal = CustomOption.Create(Id + 22, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Jackal));
             CanKillJSchrodingerCat = CustomOption.Create(Id + 23, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.JSchrodingerCat));
+
+            OutlawEnabled = CustomOption.Create(Id + 24, TabGroup.CrewmateRoles, Color.white, "%role%", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff], replacementDic: SheriffCanKillRole(CustomRoles.Outlaw));
         }
         public static void Init()
         {

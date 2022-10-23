@@ -346,8 +346,16 @@ namespace TownOfHost
             MayorHasPortableButton = CustomOption.Create(20211, TabGroup.CrewmateRoles, Color.white, "MayorHasPortableButton", false, CustomRoleSpawnChances[CustomRoles.Mayor]);
             MayorNumOfUseButton = CustomOption.Create(20212, TabGroup.CrewmateRoles, Color.white, "MayorNumOfUseButton", 1, 1, 99, 1, MayorHasPortableButton);
             SabotageMaster.SetupCustomOption();
+
+            //Setup Sheriff, Outlaw and CorrupSheriff
             Sheriff.SetupCustomOption();
             Outlaw.SetupCustomOption();
+            CorruptSheriff.SetupCustomOption();
+
+            //Bind spawn options to inner options of Outlaw/Sheriff
+            CustomRoleSpawnChances[CustomRoles.Outlaw].SetParent(Sheriff.OutlawEnabled);
+            CustomRoleSpawnChances[CustomRoles.CorruptSheriff].SetParent(Outlaw.CorruptSheriffEnabled);
+
             SetupRoleOptions(20500, TabGroup.CrewmateRoles, CustomRoles.Snitch);
             SnitchEnableTargetArrow = CustomOption.Create(20510, TabGroup.CrewmateRoles, Color.white, "SnitchEnableTargetArrow", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanGetArrowColor = CustomOption.Create(20511, TabGroup.CrewmateRoles, Color.white, "SnitchCanGetArrowColor", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
