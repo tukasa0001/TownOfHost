@@ -45,6 +45,8 @@ namespace TownOfHost
 
             switch (pc.GetCustomRole())
             {
+                case CustomRoles.CorruptSheriff:
+                    return false;
                 case CustomRoles.Sheriff:
                     return false;
                 case CustomRoles.Arsonist:

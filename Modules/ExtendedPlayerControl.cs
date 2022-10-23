@@ -172,7 +172,7 @@ namespace TownOfHost
         public static void SetKillCooldown(this PlayerControl player, float time)
         {
             CustomRoles role = player.GetCustomRole();
-            if (!(role.IsImpostor() || player.IsNeutralKiller() || role is CustomRoles.Arsonist or CustomRoles.Sheriff)) return;
+            if (!(role.IsImpostor() || player.IsNeutralKiller() || role is CustomRoles.Arsonist or CustomRoles.Sheriff or CustomRoles.CorruptSheriff)) return;
             if (player.AmOwner)
             {
                 player.SetKillTimer(time);
@@ -556,6 +556,7 @@ namespace TownOfHost
                 CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
                 CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc),
+                CustomRoles.CorruptSheriff => CorruptSheriff.CanUseKillButton(pc),
                 CustomRoles.Outlaw => Outlaw.CanUseKillButton(pc),
                 _ => canUse,
             };
@@ -632,6 +633,9 @@ namespace TownOfHost
                 case CustomRoles.Sheriff:
                     Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
                     break;
+                case CustomRoles.CorruptSheriff:
+                    CorruptSheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
+                    break;
                 case CustomRoles.Outlaw:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Outlaw.OutlawKillCooldown.GetFloat();
                     break;
@@ -656,6 +660,10 @@ namespace TownOfHost
         {
             switch (player.GetCustomRole())
             {
+                case CustomRoles.CorruptSheriff:
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
+                    player.Data.Role.CanVent = false;
+                    return;
                 case CustomRoles.Sheriff:
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
                     player.Data.Role.CanVent = false;
