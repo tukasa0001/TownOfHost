@@ -89,6 +89,11 @@ namespace TownOfHost
                 Main.isChatCommand = true;
                 Utils.ShowActiveSettings();
             }
+            //TOHオプションをデフォルトに設定
+            if (GetKeysDown(KeyCode.Delete, KeyCode.LeftControl))
+            {
+                CustomOption.Options.ToArray().Where(x => x.Id > 0).Do(x => x.UpdateSelection(x.DefaultSelection));
+            }
 
             //--以下デバッグモード用コマンド--//
             if (!Main.AmDebugger.Value) return;
