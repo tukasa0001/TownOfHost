@@ -10,29 +10,26 @@ jobs:
     name: Release
     runs-on: windows-latest
     steps:
-#      - name: Checkout
-#        uses: actions/checkout@v3
-#
-#      - name: Checkout AmongUsBepInEx
-#        uses: actions/checkout@v3
-#        with:
-#          repository: JuliusKreutz/AmongUsBepInEx
-#          path: ${{ env.AmongUs }}
-#
-#      - name: Setup dotnet
-#        uses: actions/setup-dotnet@v3
-#
-#      - name: Build
-#        run: dotnet build TownOfHost.csproj
-#
-#      - name: TEMP - Check output
-#        run: ls AmongUs/BepInEx/plugins/
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Checkout AmongUsBepInEx
+        uses: actions/checkout@v3
+        with:
+          repository: JuliusKreutz/AmongUsBepInEx
+          path: ${{ env.AmongUs }}
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+
+      - name: Build
+        run: dotnet build TownOfHost.csproj
+
+      - name: TEMP - Check output
+        run: ls AmongUs/BepInEx/plugins/
 
       - name: Download BepInEx wrapper
-        uses: suisei-cn/actions-download-file@v1.0.1
-        with:
-          url: https://builds.bepinex.dev/projects/bepinex_be/577/BepInEx_UnityIL2CPP_x86_ec79ad0_6.0.0-be.577.zip
-          target: BepInExWrapper.zip
+        run: curl https://builds.bepinex.dev/projects/bepinex_be/577/BepInEx_UnityIL2CPP_x86_ec79ad0_6.0.0-be.577.zip -o BepInExWrapper.zip 
 
       - name: Unzip BepInEx wrapper
         run: 7z x BepInExWrapper.zip -oTownOfEmpath/
@@ -40,5 +37,10 @@ jobs:
       - name: Create plugins folder
         run: mkdir TownOfEmpath/plugins/
 
+      - name: Move dll
+        run: mv AmongUs/BepInEx/plugins/*.dll TownOfEmpath/plugins/
+
       - name: TEMP Check output
-        run: ls TownOfEmpath/
+        run: |
+          ls TownOfEmpath/
+          ls TownOfEmpath/plugins/
