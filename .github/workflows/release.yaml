@@ -35,13 +35,13 @@ jobs:
         run: 7z x BepInExWrapper.zip -oTownOfEmpath/
 
       - name: Create plugins folder
-        run: mkdir TownOfEmpath/plugins/
+        run: mkdir TownOfEmpath/BepInEx/plugins/
 
       - name: Move dll
-        run: mv AmongUs/BepInEx/plugins/*.dll TownOfEmpath/plugins/
+        run: mv AmongUs/BepInEx/plugins/*.dll TownOfEmpath/BepInEx/plugins/
       
-      - name: Upload test
-        uses: actions/upload-artifact@v3
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          name: TownOfEmpath
-          path: TownOfEmpath/
+          files: TownOfEmpath/
