@@ -39,8 +39,9 @@ jobs:
 
       - name: Move dll
         run: mv AmongUs/BepInEx/plugins/*.dll TownOfEmpath/plugins/
-
-      - name: TEMP Check output
-        run: |
-          ls TownOfEmpath/
-          ls TownOfEmpath/plugins/
+      
+      - name: Upload test
+        uses: actions/upload-artifact@v3
+        with:
+          name: TownOfEmpath
+          path: TownOfEmpath/
