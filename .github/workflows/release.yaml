@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - "*"
+      - "v*"
 
 env:
   AmongUs: AmongUs
@@ -38,8 +38,11 @@ jobs:
         run: |
           mkdir TownOfEmpath/BepInEx/plugins/
           mv AmongUs/BepInEx/plugins/*.dll TownOfEmpath/BepInEx/plugins/
+
+      - name: Zip folder
+        run: 7z a TownOfEmpath-${{ github.ref_name }}.zip TownOfHost/
       
-      - name: ${{  github.ref_name }}
+      - name: Release
         uses: softprops/action-gh-release@v1
-        with:
-          files: TownOfEmpath/
+          with: 
+            files: TownOfEmpath-${{ github.ref_name }}.zip
