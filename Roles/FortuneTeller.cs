@@ -50,6 +50,16 @@ namespace TownOfHost
             if (!Target.TryGetValue(player.PlayerId, out var target)) return false;
             return target != null;
         }
+        public static void ConfirmForecastResult()
+        {
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                if (player == null) continue;
+                if (player.Is(CustomRoles.FortuneTeller) &&
+                    !player.Data.IsDead && !player.Data.Disconnected && player.HasForecastTarget())
+                    player.SetForecastResult();
+            }
+        }
         public static void SetForecastResult(this PlayerControl player)
         {
             if (!Target.TryGetValue(player.PlayerId, out var target))

@@ -231,6 +231,7 @@ namespace TownOfHost
         {
             Logger.Info("------------会議開始------------", "Phase");
             Main.witchMeeting = true;
+            FortuneTeller.ConfirmForecastResult(); //占い結果確定
             Utils.NotifyRoles(isMeeting: true, NoCache: true);
             Main.witchMeeting = false;
             GameStates.MeetingCalled = true;
