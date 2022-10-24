@@ -10,6 +10,7 @@ namespace TownOfHost
         public static List<byte> playerIdList = new();
 
         public static CustomOption NumOfForecast;
+        public static CustomOption ForecastTaskTrigger;
         public static Dictionary<byte, PlayerControl> Target = new();
         public static Dictionary<byte, Dictionary<byte, PlayerControl>> TargetResult = new();
 
@@ -17,6 +18,7 @@ namespace TownOfHost
         {
             Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.FortuneTeller);
             NumOfForecast = CustomOption.Create(Id + 10, TabGroup.CrewmateRoles, Color.white, "FortuneTellerNumOfForecast", 2f, 1f, 99f, 1f, Options.CustomRoleSpawnChances[CustomRoles.FortuneTeller]);
+            ForecastTaskTrigger = CustomOption.Create(Id + 11, TabGroup.CrewmateRoles, Color.white, "FortuneTellerForecastTaskTrigger", 5f, 0f, 99f, 1f, Options.CustomRoleSpawnChances[CustomRoles.FortuneTeller]);
         }
         public static void Init()
         {
@@ -34,6 +36,12 @@ namespace TownOfHost
             if (GameData.Instance.AllPlayers.ToArray().Where(x => x.IsDead).Count() <= 0) //死体無し
             {
                 Logger.Info($"VoteForecastTarget NotForecast NoDeadBody player: {player.name}, targetId: {targetId}", "FortuneTeller");
+                return;
+            }
+            var completedTasks = player.GetPlayerTaskState().CompletedTasksCount;
+            if (completedTasks < ForecastTaskTrigger.GetInt()) //占い可能タスク数
+            {
+                Logger.Info($"VoteForecastTarget NotForecast LessTasks player: {player.name}, targetId: {targetId}, task: {completedTasks}/{ForecastTaskTrigger.GetInt()}", "FortuneTeller");
                 return;
             }
  

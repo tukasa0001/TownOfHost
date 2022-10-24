@@ -371,6 +371,7 @@ EvilTrackerCanSeeKillFlash,EvilTracker Can See The Flash Of Impostor Kills,イ�
 EvilTrackerResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,会議後に再度ターゲットを設定できる,会议后重置邪恶的追踪者追踪目标,,EvilTracker Может Сбросить Цель После Встречи
 KillFlashDuration,Kill Flash Duration(s),キルフラッシュの長さ(秒),击杀闪烁持续时间,,Длительность Вспышки Убийсва
 FortuneTellerNumOfForecast,Num Of Forecast,占うことができる回数,,,
+FortuneTellerForecastTaskTrigger,Forecast Trigger Tasks,占いができるようになるタスク数,,,
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定,Настройки Пряток
