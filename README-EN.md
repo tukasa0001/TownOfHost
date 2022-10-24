@@ -154,7 +154,7 @@ You can also reload the translation by pressing key `T`+`F5`.
 | [Warlock](#Warlock)                 | [Snitch](#Snitch)                 |                                   |           |
 | [Witch](#Witch)                     | [SpeedBooster](#SpeedBooster)     |                                   |           |
 | [Mafia](#Mafia)                     | [Trapper](#Trapper)               |                                   |           |
-| [Madmate](#Madmate)                 |                                   |                                   |           |
+| [Madmate](#Madmate)                 | [FortuneTeller](#FortuneTeller)   |                                   |           |
 | [MadGuardian](#MadGuardian)         |                                   |                                   |           |
 | [MadSnitch](#MadSnitch)             |                                   |                                   |           |
 | [SidekickMadmate](#SidekickMadmate) |                                   |                                   |           |
@@ -496,6 +496,30 @@ By closing the chat, the doctor can see the dead players cause of death next to 
 | Name                    |
 | ----------------------- |
 | Doctor Battery Duration |
+
+### FortuneTeller/占い師
+
+Create by くろにゃんこ<br>
+Idea by 透明な水, くろにゃんこ<br>
+
+Team : Crewmates<br>
+Basis : Crewmate<br>
+
+By voting, the FortuneTeller can foretell other player's roles. <br>
+The FortuneTeller can only see roles who can kill. ex)Imposter, Egoist, Jackal<br>
+If the FortuneTeller vote at the meeting, can check the roles at the next meeting. <br>
+If the forecasted target dies before the next meeting, the forecast becomes invalid. <br>
+The FortuneTeller can forecast when the following conditions are met. (Settings)<br>
+・A certain number of the tasks have been completed<br>
+・Death occurred<br>
+
+#### Game Options
+
+| Name                      |
+| ------------------------- |
+| Num Of Forecast           |
+| Forecast Trigger Tasks    |
+| Can Forecast No Dead Body |
 
 ### Lighter
 
