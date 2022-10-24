@@ -1,6 +1,7 @@
 using HarmonyLib;
 using InnerNet;
 using UnityEngine;
+using AmongUs.Data;
 
 namespace TownOfHost
 {
@@ -59,7 +60,7 @@ namespace TownOfHost
             public static void Prefix(GameStartManager __instance)
             {
                 // Lobby code
-                if (SaveManager.StreamerMode)
+                if (DataManager.Settings.Gameplay.StreamerMode)
                 {
                     __instance.GameRoomNameCode.color = new(255, 255, 255, 0);
                     GameStartManagerStartPatch.HideName.enabled = true;

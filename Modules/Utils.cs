@@ -1,3 +1,4 @@
+using System.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using AmongUs.Data;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -337,14 +339,11 @@ namespace TownOfHost
                     if (taskState.hasTasks)
                     {
                         Color color = Color.yellow;
-                        if (GameStates.IsInGame)
-                        {
-                            var pc = GetPlayerById(playerId);
-                            var afterFinishingColor = HasTasks(pc.Data) ? Color.green : Color.red; //タスク完了後の色
-                            var beforeFinishingColor = HasTasks(pc.Data) ? Color.yellow : Color.white; //カウントされない人外は白色
-                            var nonCommsColor = taskState.IsTaskFinished ? afterFinishingColor : beforeFinishingColor;
-                            color = comms ? Color.gray : nonCommsColor;
-                        }
+                        var info = GetPlayerInfoById(playerId);
+                        var afterFinishingColor = HasTasks(info) ? Color.green : Color.red; //タスク完了後の色
+                        var beforeFinishingColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
+                        var nonCommsColor = taskState.IsTaskFinished ? afterFinishingColor : beforeFinishingColor;
+                        color = comms ? Color.gray : nonCommsColor;
                         string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
                         ProgressText = ColorString(color, $"({Completed}/{taskState.AllTasksCount})");
                     }
@@ -579,7 +578,7 @@ namespace TownOfHost
         public static void ApplySuffix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            string name = SaveManager.PlayerName;
+            string name = DataManager.player.Customization.Name;
             if (Main.nickName != "") name = Main.nickName;
             if (AmongUsClient.Instance.IsGameStarted)
             {
@@ -606,7 +605,7 @@ namespace TownOfHost
                         name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.RoomHost")}</color>";
                         break;
                     case SuffixModes.OriginalName:
-                        name += $"\r\n<color={Main.ModColor}>{SaveManager.PlayerName}</color>";
+                        name += $"\r\n<color={Main.ModColor}>{DataManager.player.Customization.Name}</color>";
                         break;
                 }
             }
@@ -616,6 +615,8 @@ namespace TownOfHost
         {
             return PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
         }
+        public static GameData.PlayerInfo GetPlayerInfoById(int PlayerId) =>
+            GameData.Instance.AllPlayers.ToArray().Where(info => info.PlayerId == PlayerId).FirstOrDefault();
         public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false, bool ForceLoop = false)
         {
             if (!AmongUsClient.Instance.AmHost) return;
