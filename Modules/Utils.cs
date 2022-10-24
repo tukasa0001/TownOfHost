@@ -338,14 +338,14 @@ namespace TownOfHost
                     var taskState = PlayerState.taskState?[playerId];
                     if (taskState.hasTasks)
                     {
-                        Color color = Color.yellow;
+                        Color TextColor = Color.yellow;
                         var info = GetPlayerInfoById(playerId);
-                        var afterFinishingColor = HasTasks(info) ? Color.green : Color.red; //タスク完了後の色
-                        var beforeFinishingColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
-                        var nonCommsColor = taskState.IsTaskFinished ? afterFinishingColor : beforeFinishingColor;
-                        color = comms ? Color.gray : nonCommsColor;
+                        var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(role); //タスク完了後の色
+                        var NonCompleteColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
+                        var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
+                        TextColor = comms ? Color.gray : NormalColor;
                         string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-                        ProgressText = ColorString(color, $"({Completed}/{taskState.AllTasksCount})");
+                        ProgressText = ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})");
                     }
                     break;
             }
@@ -1069,5 +1069,18 @@ namespace TownOfHost
             f = Mathf.Clamp01(f);
             return (byte)(f * 255);
         }
+        // private static Color LighterRoleColor(Color color)
+        // {
+        //     var r = (int)color.r;
+        //     var g = (int)color.g;
+        //     var b = (int)color.b;
+
+        //     string lr = (255 + (255 - r) / 2).ToString("X");
+        //     string lg = (255 + (255 - g) / 2).ToString("X");
+        //     string lb = (255 + (255 - b) / 2).ToString("X");
+
+        //     ColorUtility.TryParseHtmlString($"#{lr}{lg}{lb}", out Color lc);
+        //     return lc;
+        // }
     }
 }
