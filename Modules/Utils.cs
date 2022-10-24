@@ -340,7 +340,7 @@ namespace TownOfHost
                     {
                         Color TextColor = Color.yellow;
                         var info = GetPlayerInfoById(playerId);
-                        var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(role); //タスク完了後の色
+                        var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(role).ShadeColor(0.5f); //タスク完了後の色
                         var NonCompleteColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
                         var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
                         TextColor = comms ? Color.gray : NormalColor;
@@ -1069,18 +1069,15 @@ namespace TownOfHost
             f = Mathf.Clamp01(f);
             return (byte)(f * 255);
         }
-        // private static Color LighterRoleColor(Color color)
-        // {
-        //     var r = (int)color.r;
-        //     var g = (int)color.g;
-        //     var b = (int)color.b;
-
-        //     string lr = (255 + (255 - r) / 2).ToString("X");
-        //     string lg = (255 + (255 - g) / 2).ToString("X");
-        //     string lb = (255 + (255 - b) / 2).ToString("X");
-
-        //     ColorUtility.TryParseHtmlString($"#{lr}{lg}{lb}", out Color lc);
-        //     return lc;
-        // }
+        private static Color ShadeColor(this Color color, float Darkness = 0) //マイナスだと逆に明るく
+        {
+            bool IsDarker = Darkness >= 0;
+            if (!IsDarker) Darkness = -Darkness;
+            float Weight = IsDarker ? 0 : Darkness;
+            float R = (color.r + Weight) / (Darkness + 1);
+            float G = (color.g + Weight) / (Darkness + 1);
+            float B = (color.b + Weight) / (Darkness + 1);
+            return new Color(R, G, B, 1.0f);
+        }
     }
 }
