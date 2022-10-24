@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace TownOfHost
 {
@@ -8,12 +9,14 @@ namespace TownOfHost
         private static readonly int Id = 21100;
         public static List<byte> playerIdList = new();
 
+        public static CustomOption NumOfForecast;
         public static Dictionary<byte, PlayerControl> Target = new();
         public static Dictionary<byte, Dictionary<byte, PlayerControl>> TargetResult = new();
 
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.FortuneTeller);
+            NumOfForecast = CustomOption.Create(Id + 10, TabGroup.CrewmateRoles, Color.white, "FortuneTellerNumOfForecast", 2f, 1f, 99f, 1f, Options.CustomRoleSpawnChances[CustomRoles.FortuneTeller]);
         }
         public static void Init()
         {
@@ -79,6 +82,11 @@ namespace TownOfHost
             {
                 resultTarget = new();
                 TargetResult[player.PlayerId] = resultTarget;
+            }
+            if (resultTarget.Count >= NumOfForecast.GetInt())
+            {
+                Logger.Info($"SetForecastResult NotSet ForecastCountOver player: {player.name}, target: {target.name} forecastCount: {resultTarget.Count}, canCount: {NumOfForecast.GetInt()}", "FortuneTeller");
+                return;
             }
 
             resultTarget[target.PlayerId] = target;
