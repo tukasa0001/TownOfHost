@@ -35,7 +35,7 @@ jobs:
           target: BepInExWrapper.zip
 
       - name: Unzip BepInEx wrapper
-        run: 7z x BepInExWrapper.zip
+        run: 7z x BepInExWrapper.zip -o TownOfEmpath
 
       - name: TEMP Check output
         run: ls
