@@ -1077,7 +1077,7 @@ namespace TownOfHost
             float R = (color.r + Weight) / (Darkness + 1);
             float G = (color.g + Weight) / (Darkness + 1);
             float B = (color.b + Weight) / (Darkness + 1);
-            return new Color(R, G, B, 1.0f);
+            return new Color(R, G, B, color.a);
         }
     }
 }
