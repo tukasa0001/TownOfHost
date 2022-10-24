@@ -372,8 +372,9 @@ EvilTrackerResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,�
 KillFlashDuration,Kill Flash Duration(s),キルフラッシュの長さ(秒),击杀闪烁持续时间,,Длительность Вспышки Убийсва
 FortuneTellerNumOfForecast,Num Of Forecast,占うことができる回数,,,
 FortuneTellerForecastTaskTrigger,Forecast Trigger Tasks,占いができるようになるタスク数,,,
+FortuneTellerCanForecastNoDeadBody,Can Forecast No Dead Body,死体が無くても占いができる,,,
 
-## かくれんぼ設定
+## かくれんぼ設定	
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定,Настройки Пряток
 AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する,允许关门,可以關門,Разрешить Закрытие Дверей
 TrapperBlockMoveTime,Freeze Duration,移動を封じる時間,陷阱师技能封锁凶手移动时长,設陷者封鎖兇手移動時間,Продолжительность Заморозки

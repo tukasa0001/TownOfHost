@@ -11,6 +11,8 @@ namespace TownOfHost
 
         public static CustomOption NumOfForecast;
         public static CustomOption ForecastTaskTrigger;
+        public static CustomOption CanForecastNoDeadBody;
+
         public static Dictionary<byte, PlayerControl> Target = new();
         public static Dictionary<byte, Dictionary<byte, PlayerControl>> TargetResult = new();
 
@@ -19,6 +21,7 @@ namespace TownOfHost
             Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.FortuneTeller);
             NumOfForecast = CustomOption.Create(Id + 10, TabGroup.CrewmateRoles, Color.white, "FortuneTellerNumOfForecast", 2f, 1f, 99f, 1f, Options.CustomRoleSpawnChances[CustomRoles.FortuneTeller]);
             ForecastTaskTrigger = CustomOption.Create(Id + 11, TabGroup.CrewmateRoles, Color.white, "FortuneTellerForecastTaskTrigger", 5f, 0f, 99f, 1f, Options.CustomRoleSpawnChances[CustomRoles.FortuneTeller]);
+            CanForecastNoDeadBody = CustomOption.Create(Id + 12, TabGroup.CrewmateRoles, Color.white, "FortuneTellerCanForecastNoDeadBody", false, Options.CustomRoleSpawnChances[CustomRoles.FortuneTeller]);
         }
         public static void Init()
         {
@@ -33,7 +36,8 @@ namespace TownOfHost
         public static bool IsEnable => playerIdList.Count > 0;
         public static void VoteForecastTarget(this PlayerControl player, byte targetId)
         {
-            if (GameData.Instance.AllPlayers.ToArray().Where(x => x.IsDead).Count() <= 0) //死体無し
+            if (!CanForecastNoDeadBody.GetBool() &&
+                GameData.Instance.AllPlayers.ToArray().Where(x => x.IsDead).Count() <= 0) //死体無し
             {
                 Logger.Info($"VoteForecastTarget NotForecast NoDeadBody player: {player.name}, targetId: {targetId}", "FortuneTeller");
                 return;
@@ -44,7 +48,7 @@ namespace TownOfHost
                 Logger.Info($"VoteForecastTarget NotForecast LessTasks player: {player.name}, targetId: {targetId}, task: {completedTasks}/{ForecastTaskTrigger.GetInt()}", "FortuneTeller");
                 return;
             }
- 
+
             player.SetForecastTarget(targetId);
         }
         public static void SetForecastTarget(this PlayerControl player, byte targetId)
