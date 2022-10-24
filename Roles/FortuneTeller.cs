@@ -94,5 +94,13 @@ namespace TownOfHost
             if (!TargetResult.TryGetValue(player.PlayerId, out var resultTarget)) return false;
             return resultTarget.Count > 0;
         }
+        public static string TargetMark(PlayerControl seer, PlayerControl target)
+        {
+            if (seer == null || target == null) return "";
+            if (!seer.Is(CustomRoles.FortuneTeller)) return ""; //占い師以外処理しない
+            if (!seer.HasForecastResult(target.PlayerId)) return "";
+
+            return Helpers.ColorString(Utils.GetRoleColor(CustomRoles.FortuneTeller), "★");
+        }
     }
 }

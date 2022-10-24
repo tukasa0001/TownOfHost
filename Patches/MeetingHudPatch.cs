@@ -355,6 +355,7 @@ namespace TownOfHost
                             LocalPlayerKnowsImpostor = true;
                             LocalPlayerKnowsEgoist = true;
                             LocalPlayerKnowsJackal = true;
+                            pva.NameText.text += FortuneTeller.TargetMark(seer, target);
                         }
                         break;
                 }
