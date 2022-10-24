@@ -286,6 +286,7 @@ namespace TownOfHost
                 { CustomRoles.Mayor, "my" },
                 { CustomRoles.SabotageMaster, "sa" },
                 { CustomRoles.Seer,"se" },
+                { CustomRoles.FortuneTeller,"ft" },
                 { CustomRoles.Sheriff, "sh" },
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
