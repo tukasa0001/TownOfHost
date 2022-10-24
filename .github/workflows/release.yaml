@@ -28,11 +28,14 @@ jobs:
 #      - name: TEMP - Check output
 #        run: ls AmongUs/BepInEx/plugins/
 
-      - name: Download BepInEx
+      - name: Download BepInEx wrapper
         uses: suisei-cn/actions-download-file@v1.0.1
         with:
           url: https://builds.bepinex.dev/projects/bepinex_be/577/BepInEx_UnityIL2CPP_x86_ec79ad0_6.0.0-be.577.zip
           target: BepInExWrapper.zip
 
-      - name: TEMP - Check output
+      - name: Unzip BepInEx wrapper
+        run: 7z x BepInExWrapper.zip
+
+      - name: TEMP Check output
         run: ls
