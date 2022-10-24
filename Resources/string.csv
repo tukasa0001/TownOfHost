@@ -343,6 +343,11 @@ SabotageMasterFixesReactors,SabotageMaster Can Fix Both Reactors,リアクター
 SabotageMasterFixesOxygens,SabotageMaster Can Fix Both O2,酸素妨害に対して能力を使える,修理大师修理氧气破坏时另一边的氧气破坏同时被修理,破壞大師可以一個人同時修理兩邊的氧氣,SabotageMaster Может Починить O2
 SabotageMasterFixesCommunications,SabotageMaster Can Fix Both Comms In MIRA HQ,MIRA HQの通信妨害に対して能力を使える,修理大师在米拉总部地图修理通信破坏时另一边的通信破坏同时被修理,破壞大師可以一個人同時修理兩邊的通訊(Mira HQ),SabotageMaster Может Починить Связь На Mira HQ
 SabotageMasterFixesElectrical,SabotageMaster Can Fix Lights Out All At Once,停電に対して能力を使える,修理大师按一个按钮就可以修复照明破坏,破壞大師拉一根拉桿就可以修理電燈,SabotageMaster Может Починить Свет Сразу
+%role%,%role%,,,,
+CSheriffMisfireKillsTarget,Misfire Kills Target,,,,
+CSheriffShotLimit,Shot Limit,,,,
+CSheriffCanKillNeutrals,Corrupt Sheriff Can Kill Neutrals,,,,
+CSheriffCanKill%role%,Corrupt Sheriff Can Kill %role%,,,,
 SheriffCanKill%role%,Sheriff Can kill %role%,%role%をキルできる,警长可以执法%role%,警長可以槍死%role%,Sheriff Может Убить %role%
 SheriffCanKillNeutrals,Sheriff Can kill Neutrals,第三陣営をキルできる,警长可以执法独立阵营,警長可以槍死中立,Sheriff Может Убить Нейтралов
 SheriffCanKillAll,<color=#00fefe>All ON</color>,<color=#00fefe>全てオン</color>,<color=#00fefe>全开</color>,,<color=#00fefe>Всё ВКЛ</color>
@@ -439,6 +444,8 @@ Message.HideGameSettings,Game settings are hidden by the host.,ゲーム設定�
 Message.NoDescription,No description.,説明はありません。,,,
 ,,,,,
 ## 警告,,,,,
+Warning.DoInfo,"Every role has a unique objective and ability.\nSome abilities activate automatically and some require user input.\nTo see what your role does and it's objective\nplease type the command ""\m"" or ""\myrole""!",,,,
+Warning.ThisIsModded,!!ATTENTION!!\nTHIS IS MODDED AMONG US!\nThis Mod Is Town Of Empath and adds new CUSTOM ROLES\nAdd Me On Discord: OMEGA#2901,,,,
 Warning.EgoistCannotWin,Egoist cannot win!,エゴイストが勝利できません,野心家无法获胜,利己主義者無法獲勝,Egoist не может победить!
 Warning.OverrideExiledPlayer,All ejects will be displayed as tie because the total number of impostors is 1.,合計インポスター数が1のため、追放はすべて同数投票として表示されます。,由于场上仅剩一名内鬼，放逐投票将显示为平票,"由於場上只剩一名狼人,所有逐出訊息都將顯示為平票","Все окна изгнания будут отображаться как ничья, потому что общее количество Предателей равно 1."
 Warning.InvalidRpc,Kicked {0} because an invalid RPC was received.\nPlease make sure that there are no other mods in the system other than TOH.,不正なRPCを受信したため{0}をキックしました。\nTOH以外のMODが入っていないか確認してください。,{0} 被踢出，因其 RPC 无效。 \n请确保没有 TOH 以外的模组。,"{0}因為收到無效的RPC,所以踢出了他,\n請確保遊戲除了TOH之外沒有其他模組系統被載入",Кикнут {0} так как был получен недопустимый RPC.\nУбедитесь что в системе нет других модов кроме TOH.

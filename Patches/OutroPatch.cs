@@ -55,7 +55,7 @@ namespace TownOfHost
                     foreach (var p in PlayerControl.AllPlayerControls)
                     {
                         if (p.GetCustomSubRole() == CustomRoles.Lovers) continue;
-                        bool canWin = p.Is(RoleType.Impostor) || p.Is(RoleType.Madmate);
+                        bool canWin = p.Is(RoleType.Impostor) || p.Is(RoleType.Madmate) || p.Is(CustomRoles.CorruptSheriff);
                         if (canWin) winner.Add(p);
                     }
                     Egoist.OverrideCustomWinner();
@@ -97,6 +97,12 @@ namespace TownOfHost
                 {
                     winner.Add(pc);
                     CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
+                }
+                //CorruptSheriff
+                if (pc.Is(CustomRoles.CorruptSheriff) && !pc.Data.IsDead && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw && CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist && CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor)
+                {
+                    winner.Add(pc);
+                    CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.CorruptSheriff);
                 }
                 //SchrodingerCat
                 if (Options.CanBeforeSchrodingerCatWinTheCrewmate.GetBool())

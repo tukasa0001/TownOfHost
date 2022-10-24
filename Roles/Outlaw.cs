@@ -35,11 +35,11 @@ namespace TownOfHost
         };
         public static readonly string[] ChangeRolesAfterMurder =
         {
-            CustomRoles.CorruptSheriff.ToString(), CustomRoles.Sheriff.ToString(),
+            CustomRoles.Sheriff.ToString(), CustomRoles.CorruptSheriff.ToString(),
         };
         public static readonly CustomRoles[] CRoleChangeRolesAfterMurder =
         {
-            CustomRoles.CorruptSheriff, CustomRoles.Sheriff,
+            CustomRoles.Sheriff, CustomRoles.CorruptSheriff,
         };
         public static void SetupCustomOption()
         {
@@ -49,8 +49,8 @@ namespace TownOfHost
             OutlawCanKill = CustomOption.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "CanKill", true, Options.CustomRoleSpawnChances[CustomRoles.Outlaw]);
             OutlawKillCooldown = CustomOption.Create(Id + 13, TabGroup.NeutralRoles, Color.white, "KillCooldown", 30, 2.5f, 180, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Outlaw]);
             ChangeRolesAfterTargetKilled = CustomOption.Create(Id + 14, TabGroup.NeutralRoles, Color.white, "OutlawChangeRolesAfterTargetKilled", ChangeRoles, ChangeRoles[1], Options.CustomRoleSpawnChances[CustomRoles.Outlaw]);
-            ChangeRolesAfterKilledTarget = CustomOption.Create(Id + 15, TabGroup.NeutralRoles, Color.white, "OutlawChangeRolesAfterKilledTarget", ChangeRolesAfterMurder, ChangeRolesAfterMurder[0], Options.CustomRoleSpawnChances[CustomRoles.Outlaw]);
-            CorruptSheriffEnabled = CustomOption.Create(Id + 15, TabGroup.NeutralRoles, Color.white, "%role%", false, Options.CustomRoleSpawnChances[CustomRoles.Outlaw], replacementDic: new() { { "%role%", Helpers.ColorString(Utils.GetRoleColor(CustomRoles.CorruptSheriff), Utils.GetRoleName(CustomRoles.CorruptSheriff)) } });
+            ChangeRolesAfterKilledTarget = CustomOption.Create(Id + 15, TabGroup.NeutralRoles, Color.white, "OutlawChangeRolesAfterKilledTarget", ChangeRolesAfterMurder, ChangeRolesAfterMurder[1], Options.CustomRoleSpawnChances[CustomRoles.Outlaw]);
+            //CorruptSheriffEnabled = CustomOption.Create(Id + 15, TabGroup.NeutralRoles, Color.white, "%role%", true, Options.CustomRoleSpawnChances[CustomRoles.Outlaw], replacementDic: new() { { "%role%", Helpers.ColorString(Utils.GetRoleColor(CustomRoles.CorruptSheriff), Utils.GetRoleName(CustomRoles.CorruptSheriff)) } });
         }
         public static void Init()
         {
@@ -166,7 +166,9 @@ namespace TownOfHost
                     {
                         PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Shot);
                         killer.RpcMurderPlayer(target);
+                        RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
                         killer.RpcSetCustomRole(CRoleChangeRolesAfterMurder[ChangeRolesAfterKilledTarget.GetSelection()]);
+                        Main.AliveImpostorCount++;
                         Target.Remove(killer.PlayerId);
                         SendRPC(killer.PlayerId);
                     }

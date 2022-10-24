@@ -325,6 +325,7 @@ namespace TownOfHost
                             opt.CrewLightMod *= 5;
                     }
                     break;
+                case CustomRoles.CorruptSheriff:
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(player, true);
                     break;

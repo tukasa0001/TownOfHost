@@ -176,6 +176,14 @@ namespace TownOfHost
                     }
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
+                case CustomRoles.CorruptSheriff:
+                    if (CorruptSheriff.ShotLimit.TryGetValue(player.PlayerId, out var ccount) && ccount == 0)
+                    {
+                        __instance.KillButton.SetDisabled();
+                        __instance.KillButton.ToggleVisible(false);
+                    }
+                    player.CanUseImpostorVent();
+                    goto DesyncImpostor;
                 case CustomRoles.Arsonist:
                     if (player.IsDouseDone())
                     {
@@ -242,6 +250,7 @@ namespace TownOfHost
             if (!GameStates.IsInTask) return;
 
             if ((player.GetCustomRole() == CustomRoles.Sheriff ||
+                player.GetCustomRole() == CustomRoles.CorruptSheriff ||
                 player.GetCustomRole() == CustomRoles.Arsonist ||
                 player.GetCustomRole() == CustomRoles.Jackal ||
                 player.GetCustomRole() == CustomRoles.Outlaw)
@@ -270,6 +279,7 @@ namespace TownOfHost
             var player = PlayerControl.LocalPlayer;
             switch (player.GetCustomRole())
             {
+                case CustomRoles.CorruptSheriff:
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)

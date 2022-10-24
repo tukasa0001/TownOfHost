@@ -274,7 +274,7 @@ namespace TownOfHost
                 Logger.Error($"正常にEndGameを行えませんでした。{ex}", "EndGame");
             }
         }
-        public static void PlaySound(byte playerID, Sounds sound)
+        public static void PlaySound(byte playerID, Sounds sound)//bookmark
         {
             if (PlayerControl.LocalPlayer.PlayerId == playerID)
             {
@@ -286,6 +286,8 @@ namespace TownOfHost
                     case Sounds.TaskComplete:
                         SoundManager.Instance.PlaySound(DestroyableSingleton<HudManager>.Instance.TaskCompleteSound, false, 0.8f);
                         break;
+                    //case Sounds.ShiftSound:
+                    //    SoundManager.Instance.PlaySound(PlayerControl.LocalPlayer.)
                 }
             }
         }
@@ -336,7 +338,7 @@ namespace TownOfHost
                     Sheriff.Add(targetId);
                     break;
                 case CustomRoles.CorruptSheriff:
-                    Sheriff.Add(targetId);
+                    CorruptSheriff.Add(targetId);
                     break;
                 case CustomRoles.Outlaw:
                     Outlaw.Add(targetId);

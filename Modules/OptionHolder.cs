@@ -354,7 +354,8 @@ namespace TownOfHost
 
             //Bind spawn options to inner options of Outlaw/Sheriff
             CustomRoleSpawnChances[CustomRoles.Outlaw].SetParent(Sheriff.OutlawEnabled);
-            CustomRoleSpawnChances[CustomRoles.CorruptSheriff].SetParent(Outlaw.CorruptSheriffEnabled);
+            //CustomRoleSpawnChances[CustomRoles.CorruptSheriff].SetParent(Outlaw.CorruptSheriffEnabled);
+            CustomRoleSpawnChances[CustomRoles.CorruptSheriff].SetParent(Outlaw.ChangeRolesAfterKilledTarget);
 
             SetupRoleOptions(20500, TabGroup.CrewmateRoles, CustomRoles.Snitch);
             SnitchEnableTargetArrow = CustomOption.Create(20510, TabGroup.CrewmateRoles, Color.white, "SnitchEnableTargetArrow", false, CustomRoleSpawnChances[CustomRoles.Snitch]);

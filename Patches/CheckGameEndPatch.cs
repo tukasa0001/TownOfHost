@@ -211,7 +211,7 @@ namespace TownOfHost
             {
                 var LoseImpostorRole = Main.AliveImpostorCount == 0 ? pc.Is(RoleType.Impostor) : pc.Is(CustomRoles.Egoist);
                 if ((SetImpostorsToGA && pc.Data.Role.IsImpostor) || //インポスター:引数による
-                    pc.Is(CustomRoles.Sheriff) || //シェリフ:無条件
+                    pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.CorruptSheriff) || //pc.Is(CustomRoles.Outlaw) || //シェリフ:無条件
                     (!(CustomWinnerHolder.WinnerTeam == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) || //アーソニスト:敗北
                     (CustomWinnerHolder.WinnerTeam != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) || //ジャッカル:敗北
                     LoseImpostorRole

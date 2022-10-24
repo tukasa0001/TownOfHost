@@ -384,6 +384,7 @@ namespace TownOfHost
         Opportunist = CustomRoles.Opportunist,
         SchrodingerCat = CustomRoles.SchrodingerCat,
         Executioner = CustomRoles.Executioner,
+        CorruptSheriff = CustomRoles.CorruptSheriff,
         HASFox = CustomRoles.HASFox,
     }
     /*public enum CustomRoles : byte

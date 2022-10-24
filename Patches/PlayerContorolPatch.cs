@@ -15,7 +15,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return false;
             Logger.Info("CheckProtect発生: " + __instance.GetNameWithRole() + "=>" + target.GetNameWithRole(), "CheckProtect");
-            if (__instance.Is(CustomRoles.Sheriff))
+            if (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Sheriff))
             {
                 if (__instance.Data.IsDead)
                 {
@@ -141,6 +141,10 @@ namespace TownOfHost
                         if (!Sheriff.CanUseKillButton(killer))
                             return false;
                         break;
+                    case CustomRoles.CorruptSheriff:
+                        if (!CorruptSheriff.CanUseKillButton(killer))
+                            return false;
+                        break;
                 }
             }
 
@@ -169,6 +173,8 @@ namespace TownOfHost
                                 BountyHunter.ResetTarget(killer);//ターゲットの選びなおし
                             SerialKiller.OnCheckMurder(killer, isKilledSchrodingerCat: true);
                             if (killer.GetCustomRole().IsImpostor())
+                                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                            if (killer.Is(CustomRoles.CorruptSheriff))
                                 target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
                             if (killer.Is(CustomRoles.Sheriff))
                                 target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
@@ -741,7 +747,7 @@ namespace TownOfHost
             if (__instance.AmOwner)
             {
                 //キルターゲットの上書き処理
-                if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Arsonist) || __instance.Is(CustomRoles.Jackal) || __instance.Is(CustomRoles.Outlaw)) && !__instance.Data.IsDead)
+                if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.CorruptSheriff) || __instance.Is(CustomRoles.Arsonist) || __instance.Is(CustomRoles.Jackal) || __instance.Is(CustomRoles.Outlaw)) && !__instance.Data.IsDead)
                 {
                     var players = __instance.GetPlayersInAbilityRangeSorted(false);
                     PlayerControl closest = players.Count <= 0 ? null : players[0];
@@ -1132,6 +1138,7 @@ namespace TownOfHost
                     return true;
                 }
                 if (__instance.myPlayer.Is(CustomRoles.Sheriff) ||
+                    __instance.myPlayer.Is(CustomRoles.CorruptSheriff) ||
                 __instance.myPlayer.Is(CustomRoles.SKMadmate) ||
                 __instance.myPlayer.Is(CustomRoles.Arsonist) ||
                 (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt()) ||

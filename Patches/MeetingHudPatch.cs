@@ -228,7 +228,7 @@ namespace TownOfHost
             Main.witchMeeting = false;
             GameStates.MeetingCalled = true;
         }
-        public static void Postfix(MeetingHud __instance)
+        public static void Postfix(MeetingHud __instance) //bookmark
         {
             SoundManager.Instance.ChangeMusicVolume(0f);
             foreach (var pva in __instance.playerStates)
@@ -259,7 +259,8 @@ namespace TownOfHost
             {
                 Utils.SendMessage(Translator.GetString("Warning.OverrideExiledPlayer"));
             }
-
+            Utils.SendMessage(Translator.GetString("Warning.ThisIsModded"));
+            Utils.SendMessage(Translator.GetString("Warning.DoInfo"));
             if (AmongUsClient.Instance.AmHost)
             {
                 _ = new LateTask(() =>

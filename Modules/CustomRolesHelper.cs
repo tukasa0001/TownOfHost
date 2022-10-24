@@ -12,7 +12,7 @@ namespace TownOfHost
                 CustomRoles.Witch or
                 //CustomRoles.ShapeMaster or
                 CustomRoles.Warlock or
-                CustomRoles.CorruptSheriff or
+                //CustomRoles.CorruptSheriff or
                 CustomRoles.SerialKiller or
                 CustomRoles.Mare or
                 CustomRoles.Puppeteer or
@@ -40,6 +40,7 @@ namespace TownOfHost
                 role is CustomRoles.Jester or
                 CustomRoles.ShellRole or
                 CustomRoles.Outlaw or
+                CustomRoles.CorruptSheriff or
                 CustomRoles.Opportunist or
                 CustomRoles.SchrodingerCat or
                 CustomRoles.Terrorist or
