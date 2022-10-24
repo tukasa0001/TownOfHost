@@ -744,6 +744,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
                     || seer.IsNeutralKiller() //seerがキル出来る第三陣営
+                    || (seer.Is(CustomRoles.FortuneTeller) && seer.HasForecastResult()) //seerが占い師で結果を持っている
                     || IsActive(SystemTypes.Electrical)
                     || NoCache
                     || ForceLoop
@@ -828,6 +829,9 @@ namespace TownOfHost
                             TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Egoist), TargetPlayerName);
                         else if ((seer.Is(CustomRoles.EgoSchrodingerCat) && target.Is(CustomRoles.Egoist)) || //エゴ猫 --> エゴイスト
                                  (seer.Is(CustomRoles.JSchrodingerCat) && target.Is(CustomRoles.Jackal))) // J猫 --> ジャッカル
+                            TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);
+                        else if (seer.Is(CustomRoles.FortuneTeller) && seer.HasForecastResult(target.PlayerId) &&
+                                 (target.GetCustomRole().IsImpostor() || target.Is(CustomRoles.Egoist) || target.Is(CustomRoles.Jackal)) && isMeeting) //占い師の占い結果（会議のみ）
                             TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);
                         else if (Utils.IsActive(SystemTypes.Electrical) && target.Is(CustomRoles.Mare) && !isMeeting)
                             TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName); //targetの赤色で表示

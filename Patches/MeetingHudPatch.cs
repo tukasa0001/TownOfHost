@@ -349,6 +349,14 @@ namespace TownOfHost
                     case CustomRoles.JSchrodingerCat:
                         LocalPlayerKnowsJackal = true;
                         break;
+                    case CustomRoles.FortuneTeller:
+                        if (seer.HasForecastResult(target.PlayerId))
+                        {
+                            LocalPlayerKnowsImpostor = true;
+                            LocalPlayerKnowsEgoist = true;
+                            LocalPlayerKnowsJackal = true;
+                        }
+                        break;
                 }
 
                 switch (target.GetCustomRole())

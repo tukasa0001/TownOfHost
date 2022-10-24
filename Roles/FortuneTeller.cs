@@ -89,5 +89,10 @@ namespace TownOfHost
             if (!TargetResult.TryGetValue(player.PlayerId, out var resultTarget)) return false;
             return resultTarget.ContainsKey(targetId);
         }
+        public static bool HasForecastResult(this PlayerControl player)
+        {
+            if (!TargetResult.TryGetValue(player.PlayerId, out var resultTarget)) return false;
+            return resultTarget.Count > 0;
+        }
     }
 }
