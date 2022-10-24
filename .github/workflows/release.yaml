@@ -40,7 +40,7 @@ jobs:
           mv AmongUs/BepInEx/plugins/*.dll TownOfEmpath/BepInEx/plugins/
 
       - name: Zip folder
-        run: 7z a TownOfEmpath-${{ github.ref_name }}.zip TownOfHost/
+        run: 7z a TownOfEmpath-${{ github.ref_name }}.zip TownOfEmpath/
       
       - name: Release
         uses: softprops/action-gh-release@v1
