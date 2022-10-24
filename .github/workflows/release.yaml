@@ -27,3 +27,6 @@ jobs:
 
       - name: TEMP - Check output
         run: ls AmongUs/BepInEx/plugins/
+
+      - name: Download BepInEx
+        run: wget https://builds.bepinex.dev/projects/bepinex_be/577/BepInEx_UnityIL2CPP_x86_ec79ad0_6.0.0-be.577.zip
