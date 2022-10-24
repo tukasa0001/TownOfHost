@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TownOfHost
 {
@@ -23,7 +24,17 @@ namespace TownOfHost
             playerIdList.Add(playerId);
         }
         public static bool IsEnable => playerIdList.Count > 0;
-         public static void SetForecastTarget(this PlayerControl player, byte targetId)
+        public static void VoteForecastTarget(this PlayerControl player, byte targetId)
+        {
+            if (GameData.Instance.AllPlayers.ToArray().Where(x => x.IsDead).Count() <= 0) //死体無し
+            {
+                Logger.Info($"VoteForecastTarget NotForecast NoDeadBody player: {player.name}, targetId: {targetId}", "FortuneTeller");
+                return;
+            }
+
+            player.SetForecastTarget(targetId);
+        }
+        public static void SetForecastTarget(this PlayerControl player, byte targetId)
         {
             var target = Utils.GetPlayerById(targetId);
             if (target == null || target.Data.IsDead || target.Data.Disconnected) return;
@@ -37,5 +48,5 @@ namespace TownOfHost
             if (!Target.TryGetValue(player.PlayerId, out var target)) return false;
             return target != null;
         }
-     }
+    }
 }

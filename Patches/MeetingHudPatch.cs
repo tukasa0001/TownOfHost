@@ -108,6 +108,13 @@ namespace TownOfHost
                             });
                         }
                     }
+                    if (voter.Is(CustomRoles.FortuneTeller)) //占い師の占い投票
+                    {
+                        Logger.Info($"MeetingPrefix voter: {voter.name}, vote: {ps.DidVote} target: {ps.name}, notSelf: {voter.PlayerId != ps.VotedFor}, pcIsDead: {voter.Data.IsDead}, voteFor: {ps.VotedFor}", "test★");
+                        if (ps.DidVote && ps.VotedFor != voter.PlayerId && ps.VotedFor < 253 && !voter.Data.IsDead) //自分以外に投票
+                            voter.VoteForecastTarget(ps.VotedFor);
+
+                    }
                 }
                 states = statesList.ToArray();
 
