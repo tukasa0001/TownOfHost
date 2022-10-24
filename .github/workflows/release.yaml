@@ -37,5 +37,8 @@ jobs:
       - name: Unzip BepInEx wrapper
         run: 7z x BepInExWrapper.zip -oTownOfEmpath/
 
+      - name: Create plugins folder
+        run: mkdir TownOfEmpath/plugins/
+
       - name: TEMP Check output
-        run: ls
+        run: ls TownOfEmpath/
