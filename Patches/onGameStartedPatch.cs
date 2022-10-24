@@ -105,6 +105,7 @@ namespace TownOfHost
             Executioner.Init();
             Sheriff.Init();
             EvilTracker.Init();
+            FortuneTeller.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
 
@@ -359,6 +360,9 @@ namespace TownOfHost
                             break;
                         case CustomRoles.SabotageMaster:
                             SabotageMaster.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.FortuneTeller:
+                            FortuneTeller.Add(pc.PlayerId);
                             break;
                         case CustomRoles.EvilTracker:
                             EvilTracker.Add(pc.PlayerId);
