@@ -338,14 +338,14 @@ namespace TownOfHost
                     var taskState = PlayerState.taskState?[playerId];
                     if (taskState.hasTasks)
                     {
-                        Color color = Color.yellow;
+                        Color TextColor = Color.yellow;
                         var info = GetPlayerInfoById(playerId);
-                        var afterFinishingColor = HasTasks(info) ? Color.green : Color.red; //タスク完了後の色
-                        var beforeFinishingColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
-                        var nonCommsColor = taskState.IsTaskFinished ? afterFinishingColor : beforeFinishingColor;
-                        color = comms ? Color.gray : nonCommsColor;
+                        var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(role).ShadeColor(0.5f); //タスク完了後の色
+                        var NonCompleteColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
+                        var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
+                        TextColor = comms ? Color.gray : NormalColor;
                         string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-                        ProgressText = ColorString(color, $"({Completed}/{taskState.AllTasksCount})");
+                        ProgressText = ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})");
                     }
                     break;
             }
@@ -1068,6 +1068,16 @@ namespace TownOfHost
         {
             f = Mathf.Clamp01(f);
             return (byte)(f * 255);
+        }
+        private static Color ShadeColor(this Color color, float Darkness = 0) //マイナスだと逆に明るく
+        {
+            bool IsDarker = Darkness >= 0;
+            if (!IsDarker) Darkness = -Darkness;
+            float Weight = IsDarker ? 0 : Darkness;
+            float R = (color.r + Weight) / (Darkness + 1);
+            float G = (color.g + Weight) / (Darkness + 1);
+            float B = (color.b + Weight) / (Darkness + 1);
+            return new Color(R, G, B, color.a);
         }
     }
 }
