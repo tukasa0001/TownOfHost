@@ -110,6 +110,17 @@ namespace TownOfHost
             if (!TargetResult.TryGetValue(player.PlayerId, out var resultTarget)) return false;
             return resultTarget.Count > 0;
         }
+        public static string GetCountCanForecast(byte playerId)
+        {
+            var target = Utils.GetPlayerById(playerId);
+            if ((target?.GetPlayerTaskState()?.CompletedTasksCount ?? -1) < ForecastTaskTrigger.GetInt()) return "";
+
+            var count = NumOfForecast.GetInt();
+            if (TargetResult.TryGetValue(playerId, out var resultTarget))
+                count -= resultTarget.Count;
+
+            return Helpers.ColorString(Utils.GetRoleColor(CustomRoles.FortuneTeller), $"[{count}]");
+        }
         public static string TargetMark(PlayerControl seer, PlayerControl target)
         {
             if (seer == null || target == null) return "";

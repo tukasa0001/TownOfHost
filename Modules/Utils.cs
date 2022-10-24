@@ -312,11 +312,14 @@ namespace TownOfHost
             if (!Main.playerVersion.ContainsKey(0)) return ""; //ホストがMODを入れていなければ未記入を返す
             if (!Main.AllPlayerCustomRoles.TryGetValue(playerId, out var role)) return Helpers.ColorString(Color.yellow, "Invalid");
             string ProgressText = "";
+            
+            if (role == CustomRoles.FortuneTeller) //占い師の占い可能数
+                ProgressText += FortuneTeller.GetCountCanForecast(playerId);
             switch (role)
             {
                 case CustomRoles.Arsonist:
                     var doused = GetDousedPlayerCount(playerId);
-                    ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Arsonist), $"({doused.Item1}/{doused.Item2})");
+                    ProgressText += Helpers.ColorString(GetRoleColor(CustomRoles.Arsonist), $"({doused.Item1}/{doused.Item2})");
                     break;
                 case CustomRoles.Sheriff:
                     ProgressText += Sheriff.GetShotLimit(playerId);
@@ -342,7 +345,7 @@ namespace TownOfHost
                             color = comms ? Color.gray : nonCommsColor;
                         }
                         string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-                        ProgressText = Helpers.ColorString(color, $"({Completed}/{taskState.AllTasksCount})");
+                        ProgressText += Helpers.ColorString(color, $"({Completed}/{taskState.AllTasksCount})");
                     }
                     break;
             }
