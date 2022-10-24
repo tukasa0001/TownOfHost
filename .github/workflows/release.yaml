@@ -1,6 +1,9 @@
 name: Release
 
-on: push
+on:
+  push:
+    tags:
+      - "*"
 
 env:
   AmongUs: AmongUs
@@ -25,23 +28,18 @@ jobs:
       - name: Build
         run: dotnet build TownOfHost.csproj
 
-      - name: TEMP - Check output
-        run: ls AmongUs/BepInEx/plugins/
-
       - name: Download BepInEx wrapper
         run: curl https://builds.bepinex.dev/projects/bepinex_be/577/BepInEx_UnityIL2CPP_x86_ec79ad0_6.0.0-be.577.zip -o BepInExWrapper.zip 
 
       - name: Unzip BepInEx wrapper
         run: 7z x BepInExWrapper.zip -oTownOfEmpath/
 
-      - name: Create plugins folder
-        run: mkdir TownOfEmpath/BepInEx/plugins/
-
-      - name: Move dll
-        run: mv AmongUs/BepInEx/plugins/*.dll TownOfEmpath/BepInEx/plugins/
+      - name: Move dll to plugins folder
+        run: |
+          mkdir TownOfEmpath/BepInEx/plugins/
+          mv AmongUs/BepInEx/plugins/*.dll TownOfEmpath/BepInEx/plugins/
       
-      - name: Release
+      - name: ${{  github.ref_name }}
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: TownOfEmpath/
