@@ -45,6 +45,7 @@ namespace TownOfHost
         }
         public static void RpcSetKillCount(this PlayerControl player)
         {
+            if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTimeThiefKillCount, Hazel.SendOption.Reliable, -1);
             writer.Write(player.PlayerId);
             writer.Write(TimeThiefKillCount[player.PlayerId]);

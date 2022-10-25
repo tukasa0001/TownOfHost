@@ -1,3 +1,4 @@
+using AmongUs.Data;
 using HarmonyLib;
 
 namespace TownOfHost
@@ -112,7 +113,6 @@ namespace TownOfHost
             Main.AfterMeetingDeathPlayers.Clear();
             if (Options.RandomSpawn.GetBool())
             {
-                PlayerControl.AllPlayerControls.ToArray().Do(pc => RandomSpawn.CustomNetworkTransformPatch.NumOfTP[pc.PlayerId] = 0);
                 RandomSpawn.SpawnMap map;
                 switch (PlayerControl.GameOptions.MapId)
                 {
@@ -143,6 +143,7 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
                 new LateTask(() =>
                 {
+                    exiled = AntiBlackout_LastExiled;
                     AntiBlackout.SendGameData();
                     if (AntiBlackout.OverrideExiledPlayer && // 追放対象が上書きされる状態 (上書きされない状態なら実行不要)
                         exiled != null && //exiledがnullでない
@@ -151,7 +152,7 @@ namespace TownOfHost
                         exiled.Object.RpcExileV2();
                     }
                 }, 0.5f, "Restore IsDead Task");
-            SoundManager.Instance.ChangeMusicVolume(SaveManager.MusicVolume);
+            SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
             Logger.Info("タスクフェイズ開始", "Phase");
         }
     }

@@ -10,6 +10,7 @@ namespace TownOfHost
     enum CustomRPC
     {
         VersionCheck = 60,
+        RequestRetryVersionCheck = 61,
         SyncCustomSettings = 80,
         SetDeathReason,
         EndGame,
@@ -62,7 +63,9 @@ namespace TownOfHost
                     Logger.Info($"{__instance.GetNameWithRole()} => {p?.GetNameWithRole() ?? "null"}", "StartMeeting");
                     break;
             }
-            if (__instance.PlayerId != 0 && Enum.IsDefined(typeof(CustomRPC), (int)callId) && callId != (byte)CustomRPC.VersionCheck) //ホストではなく、CustomRPCで、VersionCheckではない
+            if (__instance.PlayerId != 0
+                && Enum.IsDefined(typeof(CustomRPC), (int)callId)
+                && !(callId == (byte)CustomRPC.VersionCheck || callId == (byte)CustomRPC.RequestRetryVersionCheck)) //ホストではなく、CustomRPCで、VersionCheckではない
             {
                 Logger.Warn($"{__instance?.Data?.PlayerName}:{callId}({RPC.GetRpcName(callId)}) ホスト以外から送信されたためキャンセルしました。", "CustomRPC");
                 if (AmongUsClient.Instance.AmHost)
@@ -91,13 +94,15 @@ namespace TownOfHost
                     catch
                     {
                         Logger.Warn($"{__instance?.Data?.PlayerName}({__instance.PlayerId}): バージョン情報が無効です", "RpcVersionCheck");
-                        if (AmongUsClient.Instance.AmHost)
+                        new LateTask(() =>
                         {
-                            AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
-                            Logger.Info($"不正なRPCを受信したため{__instance?.Data?.PlayerName}をキックしました。", "Kick");
-                            Logger.SendInGame(string.Format(GetString("Warning.InvalidRpc"), __instance?.Data?.PlayerName));
-                        }
+                            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RequestRetryVersionCheck, SendOption.Reliable, __instance.GetClientId());
+                            AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        }, 1f, "Retry Version Check Task");
                     }
+                    break;
+                case CustomRPC.RequestRetryVersionCheck:
+                    RPC.RpcVersionCheck();
                     break;
                 case CustomRPC.SyncCustomSettings:
                     foreach (var co in CustomOption.Options)

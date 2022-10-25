@@ -128,6 +128,7 @@ namespace TownOfHost
 
                 CustomWinnerHolder.WinnerTeam = CustomWinner.Jackal;
                 CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
+                CustomWinnerHolder.WinnerRoles.Add(CustomRoles.JSchrodingerCat);
                 ResetRoleAndEndGame(endReason, true);
                 return true;
             }

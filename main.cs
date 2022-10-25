@@ -34,7 +34,7 @@ namespace TownOfHost
         public const string OriginalForkId = "OriginalTOH"; // Don't Change The Value. / この値を変更しないでください。
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "3.0.1";
+        public const string PluginVersion = "3.0.2";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -51,7 +51,6 @@ namespace TownOfHost
         public static ConfigEntry<string> ShowPopUpVersion { get; private set; }
         public static ConfigEntry<int> MessageWait { get; private set; }
 
-        public static LanguageUnit EnglishLang { get; private set; }
         public static Dictionary<byte, PlayerVersion> playerVersion = new();
         //Preset Name Options
         public static ConfigEntry<string> Preset1 { get; private set; }
@@ -73,12 +72,10 @@ namespace TownOfHost
         public static Dictionary<CustomRoles, String> roleColors;
         public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
         public static float RefixCooldownDelay = 0f;
-        public static int BeforeFixMeetingCooldown = 10;
         public static List<byte> ResetCamPlayerList;
         public static List<byte> winnerList;
         public static List<(string, byte)> MessagesToSend;
         public static bool isChatCommand = false;
-        public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
         public static List<PlayerControl> LoversPlayers = new();
@@ -109,7 +106,6 @@ namespace TownOfHost
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
         public static bool isCursed;
-        public static bool isShipStart;
         public static Dictionary<byte, bool> CheckShapeshift = new();
         public static Dictionary<(byte, byte), string> targetArrows = new();
         public static bool CustomWinTrigger;
@@ -275,16 +271,6 @@ namespace TownOfHost
 
             Harmony.PatchAll();
         }
-
-        [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Initialize))]
-        class TranslationControllerInitializePatch
-        {
-            public static void Postfix(TranslationController __instance)
-            {
-                var english = __instance.Languages.Where(lang => lang.languageID == SupportedLangs.English).FirstOrDefault();
-                EnglishLang = new LanguageUnit(english);
-            }
-        }
     }
     public enum CustomRoles
     {
@@ -394,11 +380,6 @@ namespace TownOfHost
         Recording,
         RoomHost,
         OriginalName
-    }
-    public enum VersionTypes
-    {
-        Released = 0,
-        Beta = 1
     }
 
     public enum VoteMode

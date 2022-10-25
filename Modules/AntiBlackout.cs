@@ -37,7 +37,7 @@ namespace TownOfHost
             }
         }
         public static bool IsCached { get; private set; } = false;
-        private static Dictionary<byte, bool> isDeadCache = new();
+        private static Dictionary<byte, (bool isDead, bool Disconnected)> isDeadCache = new();
 
         public static void SetIsDead(bool doSend = true, [CallerMemberName] string callerMethodName = "")
         {
@@ -51,8 +51,9 @@ namespace TownOfHost
             foreach (var info in GameData.Instance.AllPlayers)
             {
                 if (info == null) continue;
-                isDeadCache[info.PlayerId] = info.IsDead;
+                isDeadCache[info.PlayerId] = (info.IsDead, info.Disconnected);
                 info.IsDead = false;
+                info.Disconnected = false;
             }
             IsCached = true;
             if (doSend) SendGameData();
@@ -63,7 +64,11 @@ namespace TownOfHost
             foreach (var info in GameData.Instance.AllPlayers)
             {
                 if (info == null) continue;
-                if (isDeadCache.TryGetValue(info.PlayerId, out bool val)) info.IsDead = val;
+                if (isDeadCache.TryGetValue(info.PlayerId, out var val))
+                {
+                    info.IsDead = val.isDead;
+                    info.Disconnected = val.Disconnected;
+                }
             }
             isDeadCache.Clear();
             IsCached = false;
@@ -90,6 +95,14 @@ namespace TownOfHost
 
             AmongUsClient.Instance.SendOrDisconnect(writer);
             writer.Recycle();
+        }
+        public static void OnDisconnect(GameData.PlayerInfo player)
+        {
+            // 実行条件: クライアントがホストである, IsDeadが上書きされている, playerが切断済み
+            if (!AmongUsClient.Instance.AmHost || !IsCached || !player.Disconnected) return;
+            isDeadCache[player.PlayerId] = (true, true);
+            player.IsDead = player.Disconnected = false;
+            SendGameData();
         }
 
         ///<summary>
