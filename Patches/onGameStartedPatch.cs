@@ -180,9 +180,9 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Data.IsDead = true;
                 }
 
-                AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, senders, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, senders, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Jackal, AllPlayers, senders, BaseRole: RoleTypes.Impostor);
             }
             if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
             //以下、バニラ側の役職割り当てが入る
@@ -428,7 +428,7 @@ namespace TownOfHost
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
         }
-        private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, CustomRpcSender sender, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)
+        private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, Dictionary<byte, CustomRpcSender> senders, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)
         {
             if (!role.IsEnable()) return;
 
@@ -444,19 +444,19 @@ namespace TownOfHost
                 {
                     int playerCID = player.GetClientId();
                     //player視点用: playerの役職をBaseRoleに変更
-                    sender.RpcSetRole(player, BaseRole, playerCID);
+                    senders[player.PlayerId].RpcSetRole(player, BaseRole, playerCID);
                     //割り当て対象の視点で他プレイヤーを科学者にするループ
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
                         if (pc == player) continue;
-                        sender.RpcSetRole(pc, RoleTypes.Scientist, playerCID);
+                        senders[player.PlayerId].RpcSetRole(pc, RoleTypes.Scientist, playerCID);
                     }
                     //pc視点用: playerの役職を科学者に変更
                     //ループを分けているのはRootMessageを極力分けないようにするためで、意図的なものです。
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
                         if (pc == player) continue;
-                        sender.RpcSetRole(player, RoleTypes.Scientist, pc.GetClientId());
+                        senders[pc.PlayerId].RpcSetRole(player, RoleTypes.Scientist, pc.GetClientId());
                     }
                     player.SetRole(RoleTypes.Scientist); //ホスト視点用
                 }
@@ -464,7 +464,8 @@ namespace TownOfHost
                 {
                     //ホストは別の役職にする
                     player.SetRole(hostBaseRole); //ホスト視点用
-                    sender.RpcSetRole(player, hostBaseRole);
+                    foreach (var sender in senders.Values)
+                        sender.RpcSetRole(player, hostBaseRole);
                 }
                 player.Data.IsDead = true;
             }
