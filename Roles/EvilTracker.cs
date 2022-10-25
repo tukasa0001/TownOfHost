@@ -118,7 +118,7 @@ namespace TownOfHost
                 }
             }
         }
-        public static string GetMarker(byte playerId) => Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), CanSetTarget[playerId] ? "◁" : "");
+        public static string GetMarker(byte playerId) => Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor).ShadeColor(0.5f), CanSetTarget[playerId] ? "◁" : "");
         public static string GetTargetMark(PlayerControl seer, PlayerControl target) => Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), seer.GetTarget() == target ? "◀" : "");
         public static string UtilsGetTargetArrow(bool isMeeting, PlayerControl seer)
         {
