@@ -347,17 +347,14 @@ namespace TownOfHost
                     var taskState = PlayerState.taskState?[playerId];
                     if (taskState.hasTasks)
                     {
-                        Color color = Color.yellow;
-                        if (GameStates.IsInGame)
-                        {
-                            var pc = GetPlayerById(playerId);
-                            var afterFinishingColor = HasTasks(pc.Data) ? Color.green : Color.red; //タスク完了後の色
-                            var beforeFinishingColor = HasTasks(pc.Data) ? Color.yellow : Color.white; //カウントされない人外は白色
-                            var nonCommsColor = taskState.IsTaskFinished ? afterFinishingColor : beforeFinishingColor;
-                            color = comms ? Color.gray : nonCommsColor;
-                        }
+                        Color TextColor = Color.yellow;
+                        var info = GetPlayerInfoById(playerId);
+                        var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(role).ShadeColor(0.5f); //タスク完了後の色
+                        var NonCompleteColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
+                        var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
+                        TextColor = comms ? Color.gray : NormalColor;
                         string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-                        ProgressText = ColorString(color, $"({Completed}/{taskState.AllTasksCount})");
+                        ProgressText = ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})");
                     }
                     break;
             }
@@ -629,6 +626,8 @@ namespace TownOfHost
         {
             return PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
         }
+        public static GameData.PlayerInfo GetPlayerInfoById(int PlayerId) =>
+            GameData.Instance.AllPlayers.ToArray().Where(info => info.PlayerId == PlayerId).FirstOrDefault();
         public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false, bool ForceLoop = false)
         {
             if (!AmongUsClient.Instance.AmHost) return;
@@ -1080,6 +1079,16 @@ namespace TownOfHost
         {
             f = Mathf.Clamp01(f);
             return (byte)(f * 255);
+        }
+        private static Color ShadeColor(this Color color, float Darkness = 0) //マイナスだと逆に明るく
+        {
+            bool IsDarker = Darkness >= 0;
+            if (!IsDarker) Darkness = -Darkness;
+            float Weight = IsDarker ? 0 : Darkness;
+            float R = (color.r + Weight) / (Darkness + 1);
+            float G = (color.g + Weight) / (Darkness + 1);
+            float B = (color.b + Weight) / (Darkness + 1);
+            return new Color(R, G, B, color.a);
         }
     }
 }
