@@ -193,6 +193,11 @@ namespace TownOfHost
             RpcSetRoleReplacer.Release(); //保存していたSetRoleRpcを一気に書く
             RpcSetRoleReplacer.senders.Do(kvp => kvp.Value.SendMessage());
 
+            // 不要なオブジェクトの削除
+            RpcSetRoleReplacer.senders = null;
+            RpcSetRoleReplacer.OverriddenSenderList = null;
+            RpcSetRoleReplacer.StoragedData = null;
+
             //Utils.ApplySuffix();
 
             var rand = new System.Random();
