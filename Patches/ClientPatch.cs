@@ -1,5 +1,3 @@
-using System.Globalization;
-using AmongUs.Data;
 using HarmonyLib;
 using UnityEngine;
 using static TownOfHost.Translator;
@@ -19,11 +17,9 @@ namespace TownOfHost
                 Logger.SendInGame(message);
                 return false;
             }
-            // 名前確認による公開ルームブロック
-            bool NameIncludeTOH = DataManager.Player.Customization.Name.ToUpper().Contains("TOH");
-            if (ModUpdater.isBroken || ModUpdater.hasUpdate || !NameIncludeTOH)
+            if (ModUpdater.isBroken || ModUpdater.hasUpdate)
             {
-                var message = GetString("NameIncludeTOH");
+                var message = "";
                 if (ModUpdater.isBroken) message = GetString("ModBrokenMessage");
                 if (ModUpdater.hasUpdate) message = GetString("CanNotJoinPublicRoomNoLatest");
                 Logger.Info(message, "MakePublicPatch");
@@ -63,14 +59,6 @@ namespace TownOfHost
                 __instance.sceneChanger.AllowFinishLoadingScene();
                 __instance.startedSceneLoad = true;
             }
-        }
-    }
-    [HarmonyPatch(typeof(EOSManager), nameof(EOSManager.IsAllowedOnline))]
-    class RunLoginPatch
-    {
-        public static void Prefix(ref bool canOnline)
-        {
-            if (ThisAssembly.Git.Branch != "main" && CultureInfo.CurrentCulture.Name != "ja-JP") canOnline = false;
         }
     }
     [HarmonyPatch(typeof(BanMenu), nameof(BanMenu.SetVisible))]

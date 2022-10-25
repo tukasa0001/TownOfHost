@@ -22,7 +22,7 @@ namespace TownOfHost
         public static GameObject updateButton;
         private static void Prefix(MainMenuManager __instance)
         {
-            DataManager.Settings.multiplayer.CensorChat = false;
+            DataManager.Settings.Multiplayer.CensorChat = false;
             ModUpdater.LaunchUpdater();
             if (template == null) template = GameObject.Find("ExitGameButton");
             if (template == null) return;
