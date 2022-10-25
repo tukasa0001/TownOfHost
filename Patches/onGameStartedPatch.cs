@@ -459,6 +459,8 @@ namespace TownOfHost
                         senders[pc.PlayerId].RpcSetRole(player, RoleTypes.Scientist, pc.GetClientId());
                     }
                     player.SetRole(RoleTypes.Scientist); //ホスト視点用
+
+                    RpcSetRoleReplacer.OverriddenSenderList.Add(senders[player.PlayerId]);
                 }
                 else
                 {
@@ -541,6 +543,8 @@ namespace TownOfHost
             public static bool doReplace = false;
             public static Dictionary<byte, CustomRpcSender> senders;
             public static List<(PlayerControl, RoleTypes)> StoragedData = new();
+            // 役職Desyncなど別の処理でSetRoleRpcを書き込み済みなため、追加の書き込みが不要なSenderのリスト
+            public static List<CustomRpcSender> OverriddenSenderList;
             public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] RoleTypes roleType)
             {
                 if (doReplace && senders != null)
@@ -554,6 +558,7 @@ namespace TownOfHost
             {
                 foreach (var sender in senders.Values)
                 {
+                    if (OverriddenSenderList.Contains(sender)) continue;
                     if (sender.CurrentState != CustomRpcSender.State.InRootMessage)
                         throw new InvalidOperationException("A CustomRpcSender had Invalid State.");
 
@@ -572,6 +577,7 @@ namespace TownOfHost
             {
                 RpcSetRoleReplacer.senders = senders;
                 StoragedData = new();
+                OverriddenSenderList = new();
                 doReplace = true;
             }
         }
