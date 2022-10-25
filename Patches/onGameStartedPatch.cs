@@ -124,6 +124,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
     class SelectRolesPatch
     {
+        private static Dictionary<byte, CustomRpcSender> senders;
         public static void Prefix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
@@ -163,9 +164,12 @@ namespace TownOfHost
 
 
                 List<PlayerControl> AllPlayers = new();
+                senders = new();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     AllPlayers.Add(pc);
+                    senders[pc.PlayerId] = new CustomRpcSender($"{pc.name}'s SetRole Sender", SendOption.Reliable, false)
+                        .StartMessage(pc.GetClientId());
                 }
 
                 if (Options.EnableGM.GetBool())
