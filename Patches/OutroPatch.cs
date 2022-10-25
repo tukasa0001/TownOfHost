@@ -19,20 +19,16 @@ namespace TownOfHost
             SummaryText = new();
             foreach (var id in Main.AllPlayerCustomRoles.Keys)
                 SummaryText[id] = Utils.SummaryTexts(id, disableColor: false);
-            KillLog = GetString("KillLog");
+            KillLog = GetString("KillLog") + ":";
             foreach (var kvp in Main.RealKiller)
             {
                 var killer = kvp.Value;
                 var target = Utils.GetPlayerById(kvp.Key);
-                KillLog += $"\n{target.GetRealName()} <= {killer.GetNameWithRole()} ({Utils.GetVitalText(kvp.Key)})";
+                KillLog += $"\n・{target.GetNameWithRole()} [{Utils.GetVitalText(kvp.Key)}]";
+                if (killer != target)
+                    KillLog += $"\n\t⇐ {killer.GetNameWithRole()}";
             }
             Logger.Info("-----------ゲーム終了-----------", "Phase");
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (pc.GetRealKiller() != null)
-                    Logger.Info($"{pc.GetNameWithRole()}<={(pc.GetRealKiller() == null ? "Alive" : pc.GetRealKiller().GetNameWithRole())}", "GetRealKiller");
-                pc.GetKillCount();
-            }
             PlayerControl.GameOptions.killCooldown = Options.DefaultKillCooldown;
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
