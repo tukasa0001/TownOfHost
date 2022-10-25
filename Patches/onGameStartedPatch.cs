@@ -124,12 +124,16 @@ namespace TownOfHost
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
     class SelectRolesPatch
     {
-        private static Dictionary<byte, CustomRpcSender> senders;
         public static void Prefix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
             //CustomRpcSenderとRpcSetRoleReplacerの初期化
-            CustomRpcSender sender = CustomRpcSender.Create("SelectRoles Sender", SendOption.Reliable);
+            Dictionary<byte, CustomRpcSender> senders = new();
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                senders[pc.PlayerId] = new CustomRpcSender($"{pc.name}'s SetRole Sender", SendOption.Reliable, false)
+                        .StartMessage(pc.GetClientId());
+            }
             RpcSetRoleReplacer.StartReplace(senders);
 
             //ウォッチャーの陣営抽選
@@ -164,12 +168,9 @@ namespace TownOfHost
 
 
                 List<PlayerControl> AllPlayers = new();
-                senders = new();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     AllPlayers.Add(pc);
-                    senders[pc.PlayerId] = new CustomRpcSender($"{pc.name}'s SetRole Sender", SendOption.Reliable, false)
-                        .StartMessage(pc.GetClientId());
                 }
 
                 if (Options.EnableGM.GetBool())
@@ -184,7 +185,6 @@ namespace TownOfHost
                 AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, senders, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Jackal, AllPlayers, senders, BaseRole: RoleTypes.Impostor);
             }
-            if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
             //以下、バニラ側の役職割り当てが入る
         }
         public static void Postfix()
