@@ -755,6 +755,9 @@ namespace TownOfHost
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.GetRealName(isMeeting);
 
+                if (!isMeeting && MeetingStates.FirstMeeting)
+                    SeerRealName = seer.GetRoleInfo();
+
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfRoleName = $"<size={fontSize}>{ColorString(seer.GetRoleColor(), seer.GetRoleName())}{SelfTaskText}</size>";
                 string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(seer.PlayerId))})" : "";
