@@ -130,7 +130,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             //CustomRpcSenderとRpcSetRoleReplacerの初期化
             CustomRpcSender sender = CustomRpcSender.Create("SelectRoles Sender", SendOption.Reliable);
-            RpcSetRoleReplacer.StartReplace(sender);
+            RpcSetRoleReplacer.StartReplace(senders);
 
             //ウォッチャーの陣営抽選
             Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
@@ -191,7 +191,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             RpcSetRoleReplacer.Release(); //保存していたSetRoleRpcを一気に書く
-            RpcSetRoleReplacer.sender.SendMessage();
+            RpcSetRoleReplacer.senders.Do(kvp => kvp.Value.SendMessage());
 
             //Utils.ApplySuffix();
 
@@ -539,11 +539,11 @@ namespace TownOfHost
         class RpcSetRoleReplacer
         {
             public static bool doReplace = false;
-            public static CustomRpcSender sender;
+            public static Dictionary<byte, CustomRpcSender> senders;
             public static List<(PlayerControl, RoleTypes)> StoragedData = new();
             public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] RoleTypes roleType)
             {
-                if (doReplace && sender != null)
+                if (doReplace && senders != null)
                 {
                     StoragedData.Add((__instance, roleType));
                     return false;
@@ -552,20 +552,25 @@ namespace TownOfHost
             }
             public static void Release()
             {
-                sender.StartMessage(-1);
-                foreach (var pair in StoragedData)
+                foreach (var sender in senders.Values)
                 {
-                    pair.Item1.SetRole(pair.Item2);
-                    sender.StartRpc(pair.Item1.NetId, RpcCalls.SetRole)
-                        .Write((ushort)pair.Item2)
-                        .EndRpc();
+                    if (sender.CurrentState != CustomRpcSender.State.InRootMessage)
+                        throw new InvalidOperationException("A CustomRpcSender had Invalid State.");
+
+                    foreach (var pair in StoragedData)
+                    {
+                        pair.Item1.SetRole(pair.Item2);
+                        sender.StartRpc(pair.Item1.NetId, RpcCalls.SetRole)
+                            .Write((ushort)pair.Item2)
+                            .EndRpc();
+                    }
+                    sender.EndMessage();
                 }
-                sender.EndMessage();
                 doReplace = false;
             }
-            public static void StartReplace(CustomRpcSender sender)
+            public static void StartReplace(Dictionary<byte, CustomRpcSender> senders)
             {
-                RpcSetRoleReplacer.sender = sender;
+                RpcSetRoleReplacer.senders = senders;
                 StoragedData = new();
                 doReplace = true;
             }
