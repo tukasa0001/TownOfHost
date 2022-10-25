@@ -442,6 +442,8 @@ namespace TownOfHost
             if (player == null) return;
             (string msg, byte sendTo) = Main.MessagesToSend[0];
             Main.MessagesToSend.RemoveAt(0);
+            int return_count = player.name.Count(x => x == '\n');
+            msg = new StringBuilder(msg).Insert(0, "\n", return_count).ToString();
             int clientId = sendTo == byte.MaxValue ? -1 : Utils.GetPlayerById(sendTo).GetClientId();
             if (clientId == -1) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, msg);
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SendChat, SendOption.None, clientId);
