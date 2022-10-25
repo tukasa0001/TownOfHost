@@ -1,3 +1,4 @@
+using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
 using UnityEngine;
@@ -40,8 +41,8 @@ namespace TownOfHost
                         : $"<color={Main.ModColor}>{Main.HideName.Value}</color>";
 
                 // Make Public Button
-                bool NameIncludeMod = SaveManager.PlayerName.ToLower().Contains("mod");
-                bool NameIncludeTOH = SaveManager.PlayerName.ToUpper().Contains("TOH");
+                bool NameIncludeMod = DataManager.Player.Customization.Name.ToLower().Contains("mod");
+                bool NameIncludeTOH = DataManager.Player.Customization.Name.ToUpper().Contains("TOH");
                 if (ModUpdater.isBroken || ModUpdater.hasUpdate || (NameIncludeMod && !NameIncludeTOH) ||
                     !Main.AllowPublicRoom)
                 {
@@ -59,7 +60,7 @@ namespace TownOfHost
             public static void Prefix(GameStartManager __instance)
             {
                 // Lobby code
-                if (SaveManager.StreamerMode)
+                if (DataManager.Settings.Gameplay.StreamerMode)
                 {
                     __instance.GameRoomNameCode.color = new(255, 255, 255, 0);
                     GameStartManagerStartPatch.HideName.enabled = true;

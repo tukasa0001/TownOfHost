@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
+using AmongUs.Data;
 using HarmonyLib;
 using Newtonsoft.Json.Linq;
 using Twitch;
@@ -21,7 +22,7 @@ namespace TownOfHost
         public static GameObject updateButton;
         private static void Prefix(MainMenuManager __instance)
         {
-            SaveManager.CensorChat = false;
+            DataManager.Settings.Multiplayer.CensorChat = false;
             ModUpdater.LaunchUpdater();
             if (template == null) template = GameObject.Find("ExitGameButton");
             if (template == null) return;
