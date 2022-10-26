@@ -96,7 +96,7 @@ namespace TownOfHost
             }
 
             //--以下デバッグモード用コマンド--//
-            if (!Main.AmDebugger.Value) return;
+            if (!DebugModeManager.IsDebugMode) return;
 
             //BOTの作成
             if (GetKeysDown(KeyCode.RightControl, KeyCode.N))
