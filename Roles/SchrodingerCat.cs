@@ -80,7 +80,7 @@ namespace TownOfHost
         }
         public static void ChangeTeam(PlayerControl player)
         {
-            if (!ChangeTeamWhenExile.GetBool()) return;
+            if (!(ChangeTeamWhenExile.GetBool() && player.Is(CustomRoles.SchrodingerCat))) return;
 
             var rand = new System.Random();
             List<CustomRoles> Rand = new()
