@@ -10,7 +10,7 @@ namespace TownOfHost
     {
         // これが有効の時、通常のゲームに支障のないデバッグ機能(詳細ログ・ゲーム外でのデバッグ表示など)が有効化される。
         // また、ゲーム内オプションでデバッグモードを有効化することができる。
-        public static readonly bool AmDebugger =
+        public static bool AmDebugger { get; private set; } =
 #if DEBUG
     true;
 #else
