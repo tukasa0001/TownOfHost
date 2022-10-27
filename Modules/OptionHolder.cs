@@ -290,12 +290,12 @@ namespace TownOfHost
         {
             if (IsLoaded) return;
             // プリセット
-            _ = CustomOption.Create(0, TabGroup.MainSettings, new Color(204f / 255f, 204f / 255f, 0, 1f), "Preset", presets, presets[0], null, true)
+            _ = CustomOption.Create(0, TabGroup.MainSettings, new Color32(204, 204, 0, 255), "Preset", presets, presets[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(CustomGameMode.All);
 
             // ゲームモード
-            GameMode = CustomOption.Create(1, TabGroup.MainSettings, new Color(204f / 255f, 204f / 255f, 0, 1f), "GameMode", gameModes, gameModes[0], null, true)
+            GameMode = CustomOption.Create(1, TabGroup.MainSettings, new Color32(204, 204, 0, 255), "GameMode", gameModes, gameModes[0], null, true)
                 .SetGameMode(CustomGameMode.All);
 
             #region 役職・詳細設定
