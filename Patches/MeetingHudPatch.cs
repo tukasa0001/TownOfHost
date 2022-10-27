@@ -164,7 +164,8 @@ namespace TownOfHost
                 }
                 else
                     exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
-                Utils.GetPlayerById(exileId).SetRealKiller(null);
+                if (exiledPlayer != null)
+                    Utils.GetPlayerById(exileId).SetRealKiller(null);
 
                 //RPC
                 if (AntiBlackout.OverrideExiledPlayer)
