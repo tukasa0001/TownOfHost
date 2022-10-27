@@ -322,7 +322,7 @@ namespace TownOfHost
             {
                 case CustomRoles.Arsonist:
                     var doused = GetDousedPlayerCount(playerId);
-                    ProgressText = ColorString(GetRoleColor(CustomRoles.Arsonist), $"({doused.Item1}/{doused.Item2})");
+                    ProgressText = ColorString(GetRoleColor(CustomRoles.Arsonist).ShadeColor(0.25f), $"({doused.Item1}/{doused.Item2})");
                     break;
                 case CustomRoles.Sheriff:
                     ProgressText += Sheriff.GetShotLimit(playerId);
@@ -338,14 +338,14 @@ namespace TownOfHost
                     var taskState = PlayerState.taskState?[playerId];
                     if (taskState.hasTasks)
                     {
-                        Color color = Color.yellow;
+                        Color TextColor = Color.yellow;
                         var info = GetPlayerInfoById(playerId);
-                        var afterFinishingColor = HasTasks(info) ? Color.green : Color.red; //タスク完了後の色
-                        var beforeFinishingColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
-                        var nonCommsColor = taskState.IsTaskFinished ? afterFinishingColor : beforeFinishingColor;
-                        color = comms ? Color.gray : nonCommsColor;
+                        var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(role).ShadeColor(0.5f); //タスク完了後の色
+                        var NonCompleteColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
+                        var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
+                        TextColor = comms ? Color.gray : NormalColor;
                         string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-                        ProgressText = ColorString(color, $"({Completed}/{taskState.AllTasksCount})");
+                        ProgressText = ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})");
                     }
                     break;
             }
@@ -755,6 +755,9 @@ namespace TownOfHost
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.GetRealName(isMeeting);
 
+                if (!isMeeting && MeetingStates.FirstMeeting)
+                    SeerRealName = seer.GetRoleInfo();
+
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfRoleName = $"<size={fontSize}>{ColorString(seer.GetRoleColor(), seer.GetRoleName())}{SelfTaskText}</size>";
                 string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(seer.PlayerId))})" : "";
@@ -1060,5 +1063,18 @@ namespace TownOfHost
             return sprite;
         }
         public static string ColorString(Color32 color, string str) => $"<color=#{color.r:x2}{color.g:x2}{color.b:x2}{color.a:x2}>{str}</color>";
+        /// <summary>
+        /// Darkness:１の比率で黒色と元の色を混ぜる。マイナスだと白色と混ぜる。
+        /// </summary>
+        public static Color ShadeColor(this Color color, float Darkness = 0)
+        {
+            bool IsDarker = Darkness >= 0; //黒と混ぜる
+            if (!IsDarker) Darkness = -Darkness;
+            float Weight = IsDarker ? 0 : Darkness; //黒/白の比率
+            float R = (color.r + Weight) / (Darkness + 1);
+            float G = (color.g + Weight) / (Darkness + 1);
+            float B = (color.b + Weight) / (Darkness + 1);
+            return new Color(R, G, B, color.a);
+        }
     }
 }
