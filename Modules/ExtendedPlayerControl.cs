@@ -726,11 +726,12 @@ namespace TownOfHost
                 Main.RealKiller[target.PlayerId] = killer;
             }
             else Main.RealKiller.Add(target.PlayerId, killer);
-            Logger.Info($"target:{target.GetNameWithRole()}, RealKiller:{killer.GetNameWithRole()}", "SetRealKiller");
+            Logger.Info($"target:{target.GetNameWithRole()}, RealKiller:{(killer == null ? "null" : killer.GetNameWithRole())}", "SetRealKiller");
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetRealKiller, Hazel.SendOption.Reliable, -1);
             writer.Write(target.PlayerId);
-            writer.Write(killer.PlayerId);
+            int killerId = killer == null ? -1 : killer.PlayerId;
+            writer.Write(killerId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static PlayerControl GetRealKiller(this PlayerControl target)

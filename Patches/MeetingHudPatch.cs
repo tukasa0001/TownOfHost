@@ -149,7 +149,11 @@ namespace TownOfHost
                             exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => info.PlayerId == exileId);
                             break;
                         case TieMode.All:
-                            VotingData.DoIf(x => x.Key < 15 && x.Value == max, x => Main.AfterMeetingDeathPlayers.Add(x.Key, PlayerState.DeathReason.Vote));
+                            VotingData.DoIf(x => x.Key < 15 && x.Value == max, x =>
+                            {
+                                Main.AfterMeetingDeathPlayers.Add(x.Key, PlayerState.DeathReason.Vote);
+                                Utils.GetPlayerById(x.Key).SetRealKiller(null);
+                            });
                             exiledPlayer = null;
                             break;
                         case TieMode.Random:
@@ -160,6 +164,7 @@ namespace TownOfHost
                 }
                 else
                     exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
+                Utils.GetPlayerById(exileId).SetRealKiller(null);
 
                 //RPC
                 if (AntiBlackout.OverrideExiledPlayer)
@@ -178,8 +183,8 @@ namespace TownOfHost
                 foreach (var kvp in Main.SpelledPlayer)
                 {
                     if (Utils.GetPlayerById(kvp.Key) == null) continue;
-                    Utils.GetPlayerById(kvp.Key).SetRealKiller(kvp.Value);
                     Main.AfterMeetingDeathPlayers.TryAdd(kvp.Key, PlayerState.DeathReason.Spell);
+                    Utils.GetPlayerById(kvp.Key).SetRealKiller(kvp.Value);
                 }
                 Main.SpelledPlayer.Clear();
 

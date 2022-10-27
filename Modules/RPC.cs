@@ -190,8 +190,9 @@ namespace TownOfHost
                     break;
                 case CustomRPC.SetRealKiller:
                     byte targetId = reader.ReadByte();
-                    byte killerId = reader.ReadByte();
-                    Utils.GetPlayerById(targetId).SetRealKiller(Utils.GetPlayerById(killerId));
+                    int killerId = reader.ReadInt32();
+                    var killer = killerId == -1 ? null : Utils.GetPlayerById(killerId);
+                    Utils.GetPlayerById(targetId).SetRealKiller(killer);
                     break;
             }
         }

@@ -25,7 +25,7 @@ namespace TownOfHost
                 var killer = kvp.Value;
                 var target = Utils.GetPlayerById(kvp.Key);
                 KillLog += $"\n・{target.GetNameWithRole()} [{Utils.GetVitalText(kvp.Key)}]";
-                if (killer != target)
+                if (killer != null && killer != target)
                     KillLog += $"\n\t⇐ {killer.GetNameWithRole()}";
             }
             Logger.Info("-----------ゲーム終了-----------", "Phase");
