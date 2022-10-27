@@ -331,7 +331,7 @@ namespace TownOfHost
             {
                 case CustomRoles.Arsonist:
                     var doused = GetDousedPlayerCount(playerId);
-                    ProgressText = ColorString(GetRoleColor(CustomRoles.Arsonist), $"({doused.Item1}/{doused.Item2})");
+                    ProgressText = ColorString(GetRoleColor(CustomRoles.Arsonist).ShadeColor(0.25f), $"({doused.Item1}/{doused.Item2})");
                     break;
                 case CustomRoles.Sheriff:
                     ProgressText += Sheriff.GetShotLimit(playerId);
@@ -766,6 +766,9 @@ namespace TownOfHost
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.GetRealName(isMeeting);
 
+                if (!isMeeting && MeetingStates.FirstMeeting)
+                    SeerRealName = seer.GetRoleInfo();
+
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfRoleName = $"<size={fontSize}>{ColorString(seer.GetRoleColor(), seer.GetRoleName())}{SelfTaskText}</size>";
                 string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(seer.PlayerId))})" : "";
@@ -1080,11 +1083,14 @@ namespace TownOfHost
             f = Mathf.Clamp01(f);
             return (byte)(f * 255);
         }
-        private static Color ShadeColor(this Color color, float Darkness = 0) //マイナスだと逆に明るく
+        /// <summary>
+        /// Darkness:１の比率で黒色と元の色を混ぜる。マイナスだと白色と混ぜる。
+        /// </summary>
+        public static Color ShadeColor(this Color color, float Darkness = 0)
         {
-            bool IsDarker = Darkness >= 0;
+            bool IsDarker = Darkness >= 0; //黒と混ぜる
             if (!IsDarker) Darkness = -Darkness;
-            float Weight = IsDarker ? 0 : Darkness;
+            float Weight = IsDarker ? 0 : Darkness; //黒/白の比率
             float R = (color.r + Weight) / (Darkness + 1);
             float G = (color.g + Weight) / (Darkness + 1);
             float B = (color.b + Weight) / (Darkness + 1);
