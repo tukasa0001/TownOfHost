@@ -105,6 +105,7 @@ namespace TownOfHost
             Executioner.Init();
             Sheriff.Init();
             EvilTracker.Init();
+            TimeManager.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
 
@@ -288,6 +289,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
                 AssignCustomRolesFromList(CustomRoles.EvilTracker, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Seer, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.TimeManager, Crewmates);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -361,6 +363,9 @@ namespace TownOfHost
                             break;
                         case CustomRoles.EvilTracker:
                             EvilTracker.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.TimeManager:
+                            TimeManager.Add(pc.PlayerId);
                             break;
                     }
                     pc.ResetKillCooldown();
