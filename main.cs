@@ -78,7 +78,6 @@ namespace TownOfHost
         public static List<byte> winnerList;
         public static List<(string, byte, string)> MessagesToSend;
         public static bool isChatCommand = false;
-        public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
         public static List<PlayerControl> LoversPlayers = new();
@@ -385,12 +384,6 @@ namespace TownOfHost
         RoomHost,
         OriginalName
     }
-    public enum VersionTypes
-    {
-        Released = 0,
-        Beta = 1
-    }
-
     public enum VoteMode
     {
         Default,

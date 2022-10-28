@@ -8,8 +8,6 @@ namespace TownOfHost
     [HarmonyPatch(typeof(ControllerManager), nameof(ControllerManager.Update))]
     class ControllerManagerUpdatePatch
     {
-        static readonly System.Random random = new();
-        static PlayerControl bot;
         static readonly (int, int)[] resolutions = { (480, 270), (640, 360), (800, 450), (1280, 720), (1600, 900), (1920, 1080) };
         static int resolutionIndex = 0;
         public static void Postfix(ControllerManager __instance)
