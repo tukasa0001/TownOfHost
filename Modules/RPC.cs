@@ -376,7 +376,7 @@ namespace TownOfHost
         }
         public static void SendRpcLogger(uint targetNetId, byte callId, int targetClientId = -1)
         {
-            if (!Main.AmDebugger.Value) return;
+            if (!DebugModeManager.AmDebugger) return;
             string rpcName = GetRpcName(callId);
             string from = targetNetId.ToString();
             string target = targetClientId.ToString();
