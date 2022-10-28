@@ -128,8 +128,13 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             //CustomRpcSenderとRpcSetRoleReplacerの初期化
-            CustomRpcSender sender = CustomRpcSender.Create("SelectRoles Sender", SendOption.Reliable);
-            RpcSetRoleReplacer.StartReplace(sender);
+            Dictionary<byte, CustomRpcSender> senders = new();
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                senders[pc.PlayerId] = new CustomRpcSender($"{pc.name}'s SetRole Sender", SendOption.Reliable, false)
+                        .StartMessage(pc.GetClientId());
+            }
+            RpcSetRoleReplacer.StartReplace(senders);
 
             //ウォッチャーの陣営抽選
             Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
@@ -176,18 +181,22 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Data.IsDead = true;
                 }
 
-                AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, senders, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, senders, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Jackal, AllPlayers, senders, BaseRole: RoleTypes.Impostor);
             }
-            if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
             //以下、バニラ側の役職割り当てが入る
         }
         public static void Postfix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
             RpcSetRoleReplacer.Release(); //保存していたSetRoleRpcを一気に書く
-            RpcSetRoleReplacer.sender.SendMessage();
+            RpcSetRoleReplacer.senders.Do(kvp => kvp.Value.SendMessage());
+
+            // 不要なオブジェクトの削除
+            RpcSetRoleReplacer.senders = null;
+            RpcSetRoleReplacer.OverriddenSenderList = null;
+            RpcSetRoleReplacer.StoragedData = null;
 
             //Utils.ApplySuffix();
 
@@ -424,7 +433,7 @@ namespace TownOfHost
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
         }
-        private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, CustomRpcSender sender, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)
+        private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, Dictionary<byte, CustomRpcSender> senders, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)
         {
             if (!role.IsEnable()) return;
 
@@ -440,27 +449,30 @@ namespace TownOfHost
                 {
                     int playerCID = player.GetClientId();
                     //player視点用: playerの役職をBaseRoleに変更
-                    sender.RpcSetRole(player, BaseRole, playerCID);
+                    senders[player.PlayerId].RpcSetRole(player, BaseRole, playerCID);
                     //割り当て対象の視点で他プレイヤーを科学者にするループ
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
                         if (pc == player) continue;
-                        sender.RpcSetRole(pc, RoleTypes.Scientist, playerCID);
+                        senders[player.PlayerId].RpcSetRole(pc, RoleTypes.Scientist, playerCID);
                     }
                     //pc視点用: playerの役職を科学者に変更
                     //ループを分けているのはRootMessageを極力分けないようにするためで、意図的なものです。
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
                         if (pc == player) continue;
-                        sender.RpcSetRole(player, RoleTypes.Scientist, pc.GetClientId());
+                        senders[pc.PlayerId].RpcSetRole(player, RoleTypes.Scientist, pc.GetClientId());
                     }
                     player.SetRole(RoleTypes.Scientist); //ホスト視点用
+
+                    RpcSetRoleReplacer.OverriddenSenderList.Add(senders[player.PlayerId]);
                 }
                 else
                 {
                     //ホストは別の役職にする
                     player.SetRole(hostBaseRole); //ホスト視点用
-                    sender.RpcSetRole(player, hostBaseRole);
+                    foreach (var sender in senders.Values)
+                        sender.RpcSetRole(player, hostBaseRole);
                 }
                 player.Data.IsDead = true;
             }
@@ -534,11 +546,13 @@ namespace TownOfHost
         class RpcSetRoleReplacer
         {
             public static bool doReplace = false;
-            public static CustomRpcSender sender;
+            public static Dictionary<byte, CustomRpcSender> senders;
             public static List<(PlayerControl, RoleTypes)> StoragedData = new();
+            // 役職Desyncなど別の処理でSetRoleRpcを書き込み済みなため、追加の書き込みが不要なSenderのリスト
+            public static List<CustomRpcSender> OverriddenSenderList;
             public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] RoleTypes roleType)
             {
-                if (doReplace && sender != null)
+                if (doReplace && senders != null)
                 {
                     StoragedData.Add((__instance, roleType));
                     return false;
@@ -547,21 +561,28 @@ namespace TownOfHost
             }
             public static void Release()
             {
-                sender.StartMessage(-1);
-                foreach (var pair in StoragedData)
+                foreach (var sender in senders.Values)
                 {
-                    pair.Item1.SetRole(pair.Item2);
-                    sender.StartRpc(pair.Item1.NetId, RpcCalls.SetRole)
-                        .Write((ushort)pair.Item2)
-                        .EndRpc();
+                    if (OverriddenSenderList.Contains(sender)) continue;
+                    if (sender.CurrentState != CustomRpcSender.State.InRootMessage)
+                        throw new InvalidOperationException("A CustomRpcSender had Invalid State.");
+
+                    foreach (var pair in StoragedData)
+                    {
+                        pair.Item1.SetRole(pair.Item2);
+                        sender.StartRpc(pair.Item1.NetId, RpcCalls.SetRole)
+                            .Write((ushort)pair.Item2)
+                            .EndRpc();
+                    }
+                    sender.EndMessage();
                 }
-                sender.EndMessage();
                 doReplace = false;
             }
-            public static void StartReplace(CustomRpcSender sender)
+            public static void StartReplace(Dictionary<byte, CustomRpcSender> senders)
             {
-                RpcSetRoleReplacer.sender = sender;
+                RpcSetRoleReplacer.senders = senders;
                 StoragedData = new();
+                OverriddenSenderList = new();
                 doReplace = true;
             }
         }
