@@ -277,6 +277,9 @@ namespace TownOfHost
                     case CustomRoles.TimeThief:
                         TimeThief.OnCheckMurder(killer);
                         break;
+                    case CustomRoles.TimeManager:
+                        TimeManager.OnCheckMurder(killer);
+                        break;
 
                     //==========マッドメイト系役職==========//
 
@@ -357,6 +360,8 @@ namespace TownOfHost
             }
             if (target.Is(CustomRoles.TimeThief))
                 target.ResetVotingTime();
+            if (target.Is(CustomRoles.TimeManager))
+                target.TimeManagerResetVotingTime();
 
 
             foreach (var pc in PlayerControl.AllPlayerControls)
