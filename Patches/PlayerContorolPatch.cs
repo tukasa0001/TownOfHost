@@ -277,9 +277,6 @@ namespace TownOfHost
                     case CustomRoles.TimeThief:
                         TimeThief.OnCheckMurder(killer);
                         break;
-                    case CustomRoles.TimeManager:
-                        TimeManager.OnCheckMurder(killer);
-                        break;
 
                     //==========マッドメイト系役職==========//
 
@@ -1159,6 +1156,7 @@ namespace TownOfHost
             Logger.Info($"TaskComplete:{pc.PlayerId}", "CompleteTask");
             PlayerState.UpdateTask(pc);
             Utils.NotifyRoles();
+            TimeManager.OnCheckCompleteTask(pc);//タイムマネージャーのみタスク1つ終わるごとに処理
             if ((pc.GetPlayerTaskState().IsTaskFinished &&
                 pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor) ||
                 pc.GetCustomRole() is CustomRoles.SpeedBooster)
