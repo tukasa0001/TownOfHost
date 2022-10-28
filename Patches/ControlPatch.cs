@@ -23,7 +23,7 @@ namespace TownOfHost
                 }
                 for (var i = 0; i < 9; i++)
                 {
-                    if (ORGetKeysDown(new[] { KeyCode.Alpha1 + i, KeyCode.Keypad1 + i }) && OptionShower.pages.Count >= i + 1)
+                    if (ORGetKeysDown(KeyCode.Alpha1 + i, KeyCode.Keypad1 + i) && OptionShower.pages.Count >= i + 1)
                         OptionShower.currentPage = i;
                 }
             }
@@ -35,20 +35,20 @@ namespace TownOfHost
                 ResolutionManager.SetResolution(resolutions[resolutionIndex].Item1, resolutions[resolutionIndex].Item2, false);
             }
             //カスタム翻訳のリロード
-            if (GetKeysDown(new[] { KeyCode.F5, KeyCode.T }))
+            if (GetKeysDown(KeyCode.F5, KeyCode.T))
             {
                 Logger.Info("Reload Custom Translation File", "KeyCommand");
                 Translator.LoadLangs();
                 Logger.SendInGame("Reloaded Custom Translation File");
             }
             //ログファイルのダンプ
-            if (GetKeysDown(new[] { KeyCode.F1, KeyCode.LeftControl }))
+            if (GetKeysDown(KeyCode.F1, KeyCode.LeftControl))
             {
                 Logger.Info("Dump Logs", "KeyCommand");
                 Utils.DumpLog();
             }
             //現在の設定をテキストとしてコピー
-            if (GetKeysDown(new[] { KeyCode.LeftAlt, KeyCode.C }) && !Input.GetKey(KeyCode.LeftShift) && !GameStates.IsNotJoined)
+            if (GetKeysDown(KeyCode.LeftAlt, KeyCode.C) && !Input.GetKey(KeyCode.LeftShift) && !GameStates.IsNotJoined)
             {
                 Utils.CopyCurrentSettings();
             }
@@ -56,12 +56,12 @@ namespace TownOfHost
             //--以下ホスト専用コマンド--//
             if (!AmongUsClient.Instance.AmHost) return;
             //廃村
-            if (GetKeysDown(new[] { KeyCode.Return, KeyCode.L, KeyCode.LeftShift }) && GameStates.IsInGame)
+            if (GetKeysDown(KeyCode.Return, KeyCode.L, KeyCode.LeftShift) && GameStates.IsInGame)
             {
                 CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Draw);
             }
             //ミーティングを強制終了
-            if (GetKeysDown(new[] { KeyCode.Return, KeyCode.M, KeyCode.LeftShift }) && GameStates.IsMeeting)
+            if (GetKeysDown(KeyCode.Return, KeyCode.M, KeyCode.LeftShift) && GameStates.IsMeeting)
             {
                 MeetingHud.Instance.RpcClose();
             }
@@ -78,46 +78,26 @@ namespace TownOfHost
                 GameStartManager.Instance.ResetStartState();
             }
             //現在の有効な設定の説明を表示
-            if (GetKeysDown(new[] { KeyCode.N, KeyCode.LeftShift, KeyCode.LeftControl }))
+            if (GetKeysDown(KeyCode.N, KeyCode.LeftShift, KeyCode.LeftControl))
             {
                 Main.isChatCommand = true;
                 Utils.ShowActiveSettingsHelp();
             }
             //現在の有効な設定を表示
-            if (GetKeysDown(new[] { KeyCode.N, KeyCode.LeftControl }) && !Input.GetKey(KeyCode.LeftShift))
+            if (GetKeysDown(KeyCode.N, KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift))
             {
                 Main.isChatCommand = true;
                 Utils.ShowActiveSettings();
             }
+            //TOHオプションをデフォルトに設定
+            if (GetKeysDown(KeyCode.Delete, KeyCode.LeftControl))
+            {
+                CustomOption.Options.ToArray().Where(x => x.Id > 0).Do(x => x.UpdateSelection(x.DefaultSelection));
+            }
 
             //--以下デバッグモード用コマンド--//
-            if (!Main.AmDebugger.Value) return;
+            if (!DebugModeManager.IsDebugMode) return;
 
-            //BOTの作成
-            if (GetKeysDown(new[] { KeyCode.RightControl, KeyCode.N }))
-            {
-                //これいつか革命を起こしてくれるコードなので絶対に消さないでください
-                if (bot == null)
-                {
-                    bot = UnityEngine.Object.Instantiate(AmongUsClient.Instance.PlayerPrefab);
-                    bot.PlayerId = 15;
-                    GameData.Instance.AddPlayer(bot);
-                    AmongUsClient.Instance.Spawn(bot, -2, SpawnFlags.None);
-                    bot.transform.position = PlayerControl.LocalPlayer.transform.position;
-                    bot.NetTransform.enabled = true;
-                    GameData.Instance.RpcSetTasks(bot.PlayerId, new byte[0]);
-                }
-
-                bot.RpcSetColor((byte)PlayerControl.LocalPlayer.CurrentOutfit.ColorId);
-                bot.RpcSetName(PlayerControl.LocalPlayer.name);
-                bot.RpcSetPet(PlayerControl.LocalPlayer.CurrentOutfit.PetId);
-                bot.RpcSetSkin(PlayerControl.LocalPlayer.CurrentOutfit.SkinId);
-                bot.RpcSetNamePlate(PlayerControl.LocalPlayer.CurrentOutfit.NamePlateId);
-
-                new LateTask(() => bot.NetTransform.RpcSnapTo(new Vector2(0, 15)), 0.2f, "Bot TP Task");
-                new LateTask(() => { foreach (var pc in PlayerControl.AllPlayerControls) pc.RpcMurderPlayer(bot); }, 0.4f, "Bot Kill Task");
-                new LateTask(() => bot.Despawn(), 0.6f, "Bot Despawn Task");
-            }
             //設定の同期
             if (Input.GetKeyDown(KeyCode.Y))
             {
@@ -129,17 +109,17 @@ namespace TownOfHost
                 MeetingHud.Instance.RpcClearVote(AmongUsClient.Instance.ClientId);
             }
             //自分自身の死体をレポート
-            if (GetKeysDown(new[] { KeyCode.Return, KeyCode.M, KeyCode.RightShift }) && GameStates.IsInGame)
+            if (GetKeysDown(KeyCode.Return, KeyCode.M, KeyCode.RightShift) && GameStates.IsInGame)
             {
                 PlayerControl.LocalPlayer.NoCheckStartMeeting(PlayerControl.LocalPlayer.Data);
             }
             //自分自身を追放
-            if (GetKeysDown(new[] { KeyCode.Return, KeyCode.E, KeyCode.LeftShift }) && GameStates.IsInGame)
+            if (GetKeysDown(KeyCode.Return, KeyCode.E, KeyCode.LeftShift) && GameStates.IsInGame)
             {
                 PlayerControl.LocalPlayer.RpcExile();
             }
             //ログをゲーム内にも出力するかトグル
-            if (GetKeysDown(new[] { KeyCode.F2, KeyCode.LeftControl }))
+            if (GetKeysDown(KeyCode.F2, KeyCode.LeftControl))
             {
                 Logger.isAlsoInGame = !Logger.isAlsoInGame;
                 Logger.SendInGame($"ログのゲーム内出力: {Logger.isAlsoInGame}");
@@ -210,7 +190,7 @@ namespace TownOfHost
             }*/
             //マスゲーム用コード終わり
         }
-        static bool GetKeysDown(KeyCode[] keys)
+        static bool GetKeysDown(params KeyCode[] keys)
         {
             if (keys.Any(k => Input.GetKeyDown(k)) && keys.All(k => Input.GetKey(k)))
             {
@@ -219,7 +199,7 @@ namespace TownOfHost
             }
             return false;
         }
-        static bool ORGetKeysDown(KeyCode[] keys) => keys.Any(k => Input.GetKeyDown(k));
+        static bool ORGetKeysDown(params KeyCode[] keys) => keys.Any(k => Input.GetKeyDown(k));
     }
 
     [HarmonyPatch(typeof(ConsoleJoystick), nameof(ConsoleJoystick.HandleHUD))]
