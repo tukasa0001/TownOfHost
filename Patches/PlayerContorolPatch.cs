@@ -415,6 +415,7 @@ namespace TownOfHost
                 }
             }
             if (shapeshifter.Is(CustomRoles.EvilTracker)) EvilTracker.Shapeshift(shapeshifter, target, shapeshifting);
+            if (shapeshifter.Is(CustomRoles.ShapeKiller)) ShapeKiller.Shapeshift(shapeshifter, target, shapeshifting);
 
             if (shapeshifter.CanMakeMadmate() && shapeshifting)
             {//変身したとき一番近い人をマッドメイトにする処理
