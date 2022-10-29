@@ -59,7 +59,6 @@ namespace TownOfHost
         public static ConfigEntry<string> Preset4 { get; private set; }
         public static ConfigEntry<string> Preset5 { get; private set; }
         //Other Configs
-        public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
         public static ConfigEntry<string> BetaBuildURL { get; private set; }
         public static ConfigEntry<float> LastKillCooldown { get; private set; }
@@ -157,7 +156,6 @@ namespace TownOfHost
             Preset3 = Config.Bind("Preset Name Options", "Preset3", "Preset_3");
             Preset4 = Config.Bind("Preset Name Options", "Preset4", "Preset_4");
             Preset5 = Config.Bind("Preset Name Options", "Preset5", "Preset_5");
-            IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             BetaBuildURL = Config.Bind("Other", "BetaBuildURL", "");
             MessageWait = Config.Bind("Other", "MessageWait", 1);
