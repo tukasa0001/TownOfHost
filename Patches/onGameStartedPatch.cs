@@ -287,6 +287,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
                 AssignCustomRolesFromList(CustomRoles.EvilTracker, Shapeshifters);
+                AssignCustomRolesFromList(CustomRoles.ShapeKiller, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Seer, Crewmates);
 
                 //RPCによる同期
