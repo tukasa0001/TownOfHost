@@ -149,15 +149,16 @@ You can also reload the translation by pressing key `T`+`F5`.
 | [Puppeteer](#Puppeteer)             | [Mayor](#Mayor)                   | [Jester](#Jester)                 |           |
 | [SerialKiller](#SerialKiller)       | [Nice Watcher](#Watcher)          | [Lovers](#Lovers)                 |           |
 | [Sniper](#Sniper)                   | [SabotageMaster](#SabotageMaster) | [Opportunist](#Opportunist)       |           |
-| [TimeThief](#TimeThief)             | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |           |
-| [Vampire](#Vampire)                 | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |           |
-| [Warlock](#Warlock)                 | [Snitch](#Snitch)                 |                                   |           |
-| [Witch](#Witch)                     | [SpeedBooster](#SpeedBooster)     |                                   |           |
-| [Mafia](#Mafia)                     | [Trapper](#Trapper)               |                                   |           |
+| [ShapeKiller](#ShapeKiller)         | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |           |
+| [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |           |
+| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |           |
+| [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |           |
+| [Witch](#Witch)                     | [Trapper](#Trapper)               |                                   |           |
+| [Mafia](#Mafia)                     |                                   |                                   |           |
 | [Madmate](#Madmate)                 |                                   |                                   |           |
 | [MadGuardian](#MadGuardian)         |                                   |                                   |           |
 | [MadSnitch](#MadSnitch)             |                                   |                                   |           |
-| [SidekickMadmate](#SidekickMadmate) |                                   |                                   |           |
+| [SidekickMadmate](#SidekickMadmate) |
 
 ### GM
 
@@ -286,6 +287,23 @@ On the other hand, their default Shapeshift duration is shorter (default: 10s).<
 | Name                   |
 | ---------------------- |
 | Shapeshift Duration(s) |
+
+### ShapeKiller
+
+Create by くろにゃんこ<br>
+Idea by マチア, くろにゃんこ<br>
+
+Team : Impostors<br>
+Basis : Shapeshifter<br>
+
+ShapeKiller can disguise reports.<br>
+By shape-shifting and reporting, ShapeKiller can report the shape-shifted target.<br>
+
+#### Game Options
+
+| Name                  |
+| --------------------- |
+| Can Dead Reported     |
 
 ### Sniper
 
