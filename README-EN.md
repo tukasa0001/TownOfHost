@@ -1125,17 +1125,3 @@ Translated with https://www.deepl.com<br>
 - [Masami](https://github.com/Masami4711) <!--([Twitter](https://twitter.com/))-->
 
 Translated with https://www.deepl.com<br>
-Footer
-© 2022 GitHub, Inc.
-Footer navigation
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
