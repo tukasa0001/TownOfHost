@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace TownOfHost
 {
@@ -7,11 +8,14 @@ namespace TownOfHost
         private static readonly int Id = 3000;
         public static List<byte> playerIdList = new();
 
+        public static CustomOption CanDeadReport;
+
         public static Dictionary<byte, PlayerControl> Target = new();
 
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.ShapeKiller);
+            CanDeadReport = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "ShapeKillerCanDeadReport", true, Options.CustomRoleSpawnChances[CustomRoles.ShapeKiller]);
         }
         public static void Init()
         {

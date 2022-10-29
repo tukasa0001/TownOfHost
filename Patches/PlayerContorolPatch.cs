@@ -517,7 +517,9 @@ namespace TownOfHost
             if (__instance.Is(CustomRoles.ShapeKiller) && target != null && __instance.PlayerId != target.PlayerId)
             {
                 var shapeTarget = ShapeKiller.GetTarget(__instance);
-                if (shapeTarget != null)
+                if (shapeTarget != null &&
+                    (ShapeKiller.CanDeadReport.GetBool() ||
+                     (!shapeTarget.Data.IsDead && !shapeTarget.Data.Disconnected)))
                 {
                     RPC.ReportDeadBodyForced(shapeTarget, target);
                     Logger.Info($"ShapeKillerの偽装通報 player: {shapeTarget?.name}, target: {target?.PlayerName}", "ReportDeadBody");
