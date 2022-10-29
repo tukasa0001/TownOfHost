@@ -513,6 +513,18 @@ namespace TownOfHost
             Main.PuppeteerList.Clear();
             Sniper.OnStartMeeting();
 
+            //シェイプキラーレポート
+            if (__instance.Is(CustomRoles.ShapeKiller) && target != null && __instance.PlayerId != target.PlayerId)
+            {
+                var shapeTarget = ShapeKiller.GetTarget(__instance);
+                if (shapeTarget != null)
+                {
+                    RPC.ReportDeadBodyForced(shapeTarget, target);
+                    Logger.Info($"ShapeKillerの偽装通報 player: {shapeTarget?.name}, target: {target?.PlayerName}", "ReportDeadBody");
+                    return false;
+                }
+            }
+
             if (__instance.Data.IsDead) return true;
             //=============================================
             //以下、ボタンが押されることが確定したものとする。
