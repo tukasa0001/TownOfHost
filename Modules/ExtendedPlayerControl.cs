@@ -456,15 +456,20 @@ namespace TownOfHost
 
             new LateTask(() =>
             {
-
                 pc.RpcDesyncRepairSystem(systemtypes, 128);
-                pc.RpcSpecificMurderPlayer();
-                pc.RpcDesyncRepairSystem(systemtypes, 16);
+            }, 0f + delay, "Reactor Desync");
 
+            new LateTask(() =>
+            {
+                pc.RpcSpecificMurderPlayer();
+            }, 0.2f + delay, "Murder To Reset Cam");
+
+            new LateTask(() =>
+            {
+                pc.RpcDesyncRepairSystem(systemtypes, 16);
                 if (PlayerControl.GameOptions.MapId == 4) //Airship用
                     pc.RpcDesyncRepairSystem(systemtypes, 17);
-
-            }, 0f + delay, "ResetPlayerCam");
+            }, 0.4f + delay, "Fix Desync Reactor");
         }
         public static void ReactorFlash(this PlayerControl pc, float delay = 0f)
         {
