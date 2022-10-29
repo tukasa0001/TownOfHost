@@ -11,5 +11,14 @@ namespace TownOfHost
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.ShapeKiller);
         }
+        public static void Init()
+        {
+            playerIdList = new();
+        }
+        public static void Add(byte playerId)
+        {
+            playerIdList.Add(playerId);
+        }
+        public static bool IsEnable() => playerIdList.Count > 0;
     }
 }
