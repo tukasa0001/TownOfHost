@@ -73,13 +73,10 @@ namespace TownOfHost
         public static Dictionary<CustomRoles, String> roleColors;
         public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
         public static float RefixCooldownDelay = 0f;
-        public static int BeforeFixMeetingCooldown = 10;
         public static List<byte> ResetCamPlayerList;
         public static List<byte> winnerList;
         public static List<(string, byte, string)> MessagesToSend;
         public static bool isChatCommand = false;
-        public static bool TextCursorVisible;
-        public static float TextCursorTimer;
         public static List<PlayerControl> LoversPlayers = new();
         public static bool isLoversDead = true;
         public static Dictionary<byte, float> AllPlayerKillCooldown = new();
@@ -126,9 +123,6 @@ namespace TownOfHost
         public override void Load()
         {
             Instance = this;
-
-            TextCursorTimer = 0f;
-            TextCursorVisible = true;
 
             //Client Options
             HideName = Config.Bind("Client Options", "Hide Game Code Name", "Town Of Host");
