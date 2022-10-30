@@ -38,9 +38,9 @@ namespace TownOfHost
         // デバッグキーの認証インスタンス
         public static HashAuth DebugKeyAuth { get; private set; }
         // デバッグキーのハッシュ値
-        public const string DebugKeyHash = "";
+        public const string DebugKeyHash = "59687b";
         // デバッグキーのソルト
-        public const string DebugKeySalt = "";
+        public const string DebugKeySalt = "c0fd562955ba56af3ae20d7ec9e64c664f0facecef4b3e366e109306adeae29d";
         // デバッグキーのコンフィグ入力
         public static ConfigEntry<string> DebugKeyInput { get; private set; }
 
@@ -147,6 +147,8 @@ namespace TownOfHost
             HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{ModColor}");
             ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", true);
+            DebugKeyInput = Config.Bind("Authentication", "Debug Key", "");
+
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.Enable();
             TownOfHost.Logger.Disable("NotifyRoles");
@@ -154,6 +156,9 @@ namespace TownOfHost
             TownOfHost.Logger.Disable("ReceiveRPC");
             TownOfHost.Logger.Disable("SwitchSystem");
             //TownOfHost.Logger.isDetail = true;
+
+            // 認証関連-初期化
+            DebugKeyAuth = new HashAuth(DebugKeyHash, DebugKeySalt);
 
             AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
