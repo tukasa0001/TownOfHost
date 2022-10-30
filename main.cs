@@ -38,9 +38,9 @@ namespace TownOfHost
         // デバッグキーの認証インスタンス
         public static HashAuth DebugKeyAuth { get; private set; }
         // デバッグキーのハッシュ値
-        public const string DebugKeyHash = "59687b";
+        public const string DebugKeyHash = "c0fd562955ba56af3ae20d7ec9e64c664f0facecef4b3e366e109306adeae29d";
         // デバッグキーのソルト
-        public const string DebugKeySalt = "c0fd562955ba56af3ae20d7ec9e64c664f0facecef4b3e366e109306adeae29d";
+        public const string DebugKeySalt = "59687b";
         // デバッグキーのコンフィグ入力
         public static ConfigEntry<string> DebugKeyInput { get; private set; }
 
