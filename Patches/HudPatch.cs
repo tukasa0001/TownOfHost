@@ -292,7 +292,7 @@ namespace TownOfHost
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(isActive && Thief.ThiefCanVent.GetBool());
-                    __instance.AbilityButton.ToggleVisible(isActive && !player.Data.IsDead);
+                    __instance.AbilityButton.ToggleVisible(false);
                     break;
             }
         }
