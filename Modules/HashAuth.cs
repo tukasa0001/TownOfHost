@@ -47,5 +47,23 @@ namespace TownOfHost
 
             return sb.ToString();
         }
+
+        // Hash値確認用 Hash化してからインスタンスを生成
+        // あくまでHash値の確認と動作テストを同時に行うためのものです。確認後は使用しないでください。
+        public static HashAuth CreateByUnhashedValue(string value, string salt = null)
+        {
+            // 1.ハッシュ値計算
+            var algorithm = SHA256.Create();
+            string hashValue = CalculateHash(value, salt, algorithm);
+
+            // 2.ハッシュ値のログ出力
+            //  salt有: ハッシュ値算出結果:<value> => <hashValue> (salt: <saltValue>)
+            //  salt無: ハッシュ値算出結果:<value> => <hashValue>
+            Logger.Info($"ハッシュ値算出結果: {value} => {hashValue} {(salt == null ? "" : $"(salt: {salt})")}", "HashAuth");
+            Logger.Warn("以上の値をソースコード上にペーストしてください。", "HashAuth");
+
+            // 3.HashAuthインスタンスの生成・リターン
+            return new HashAuth(hashValue, salt, algorithm);
+        }
     }
 }
