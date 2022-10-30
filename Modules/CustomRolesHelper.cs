@@ -112,6 +112,79 @@ namespace TownOfHost
             }
         }
         public static bool IsEnable(this CustomRoles role) => role.GetCount() > 0;
+        public static RoleTypes GetVanillaRole(this CustomRoles role)
+        {
+            // 第三陣営を除き，Shapeshifter, Engineer, Scientistの置き換え役職のみ書けばOK
+            if (role.IsImpostor())
+            {
+                return role switch
+                {
+                    // Shapeshifter置き換えのインポスター役職たち
+                    CustomRoles.Shapeshifter |
+                    CustomRoles.BountyHunter |
+                    CustomRoles.FireWorks |
+                    CustomRoles.SerialKiller |
+                    CustomRoles.Sniper |
+                    CustomRoles.Warlock |
+                    CustomRoles.EvilTracker
+                        => RoleTypes.Shapeshifter,
+
+                    _ => RoleTypes.Impostor
+                };
+            }
+            if (role.IsNeutral())
+            {
+                return role switch
+                {
+                    // Shapeshifter/DesyncShapeshifter置き換えの第三陣営役職たち
+                    CustomRoles.Thief |
+                    CustomRoles.Egoist
+                        => RoleTypes.Shapeshifter,
+
+                    // Impostor/DesyncImpostor置き換えの第三陣営役職たち
+                    CustomRoles.Arsonist |
+                    CustomRoles.Jackal
+                        => RoleTypes.Impostor,
+
+                    _ => RoleTypes.Crewmate
+                };
+            }
+            if (role.IsCrewmate())
+            {
+                return role switch
+                {
+                    // Engineer置き換えのクルー役職たち
+                    CustomRoles.Engineer
+                        => RoleTypes.Engineer,
+
+                    // Scientist置き換えのクルー役職たち
+                    CustomRoles.Scientist |
+                    CustomRoles.Doctor
+                        => RoleTypes.Scientist,
+
+                    // 設定によって置き換え先が変わるクルー役職たち
+                    CustomRoles.Mayor => Options.MayorHasPortableButton.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
+
+                    // 守護天使
+                    CustomRoles.GuardianAngel => RoleTypes.GuardianAngel,
+
+                    _ => RoleTypes.Crewmate
+                };
+            }
+            if (role.IsMadmate())
+            {
+                return role switch
+                {
+                    // マッドメイトたち
+                    CustomRoles.Madmate => RoleTypes.Engineer,
+                    CustomRoles.MadSnitch => Options.MadSnitchCanVent.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
+
+                    _ => RoleTypes.Crewmate
+                };
+            }
+            Logger.Warn($"{role}にGetVanillaRolesを正常に実行できませんでした", "CustomRolesHelper");
+            return RoleTypes.Crewmate;
+        }
     }
     public enum RoleType
     {

@@ -170,7 +170,7 @@ namespace TownOfHost
                 AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Thief, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter);
+                AssignDesyncRole(CustomRoles.Thief, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter, hostLocalBaseRole: RoleTypes.Shapeshifter);
             }
             if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
             //以下、バニラ側の役職割り当てが入る
@@ -413,7 +413,7 @@ namespace TownOfHost
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
         }
-        private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, CustomRpcSender sender, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)
+        private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, CustomRpcSender sender, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate, RoleTypes hostLocalBaseRole = RoleTypes.Crewmate)
         {
             if (!role.IsEnable()) return;
 
@@ -442,7 +442,7 @@ namespace TownOfHost
                 else
                 {
                     //ホストは別の役職にする
-                    player.SetRole(hostBaseRole); //ホスト視点用
+                    player.SetRole(hostLocalBaseRole); //ホスト視点用
                     sender.RpcSetRole(player, hostBaseRole);
                 }
                 player.Data.IsDead = true;

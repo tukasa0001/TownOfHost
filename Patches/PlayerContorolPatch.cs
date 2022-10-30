@@ -730,7 +730,7 @@ namespace TownOfHost
             if (__instance.AmOwner)
             {
                 //キルターゲットの上書き処理
-                if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Arsonist) || __instance.Is(CustomRoles.Jackal) || __instance.Is(CustomRoles.Thief)) && !__instance.Data.IsDead)
+                if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Arsonist) || __instance.Is(CustomRoles.Jackal) || (Thief.playerIdList.Contains(0) && __instance.PlayerId == 0)) && !__instance.Data.IsDead)
                 {
                     var players = __instance.GetPlayersInAbilityRangeSorted(false);
                     PlayerControl closest = players.Count <= 0 ? null : players[0];
@@ -826,8 +826,13 @@ namespace TownOfHost
                              (seer.Is(CustomRoles.MSchrodingerCat) && target.Is(RoleType.Impostor)) //M猫 --> インポスター
                     )
                         RealName = Helpers.ColorString(target.GetRoleColor(), RealName); //targetの名前をtargetの役職の色で表示
-                    else if (target.Is(CustomRoles.Mare) && Utils.IsActive(SystemTypes.Electrical))
-                        RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの赤色で表示
+                    else if ((target.Is(CustomRoles.Mare) && Utils.IsActive(SystemTypes.Electrical)) ||
+                             (seer.GetCustomRole().IsImpostor() && Thief.playerIdList.Contains(seer.PlayerId) && target.GetCustomRole().IsImpostor())  // 元シーフなインポスター --> インポスター
+                    )
+                        RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの赤色で表示)
+                    // seerがホストシーフ，targetがインポスターで，停電中のメアーでないとき，名前の色を白くする
+                    else if (seer.PlayerId == 0 && seer.Is(CustomRoles.Thief) && target.GetCustomRole().IsImpostor() && !(target.Is(CustomRoles.Mare) && Utils.IsActive(SystemTypes.Electrical)))
+                        RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Crewmate), RealName);
 
                     //NameColorManager準拠の処理
                     var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);

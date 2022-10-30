@@ -30,6 +30,13 @@ namespace TownOfHost
             {
                 Main.ResetCamPlayerList.Add(playerId);
             }
+            if (playerId == 0)
+            {
+                foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
+                {
+                    pc.Data.Role.CanBeKilled = true;
+                }
+            }
         }
         public static bool IsEnable() => playerIdList.Count > 0;
 
@@ -80,6 +87,16 @@ namespace TownOfHost
                 }
                 Utils.NotifyRoles();
                 thief.CustomSyncSettings();
+                // ホストはこれをしないとサボボタンなどが出てこないor押せない
+                if (thief.PlayerId == 0)
+                {
+                    DestroyableSingleton<HudManager>.Instance.SetHudActive(true);
+                    if (targetRole.IsImpostor() || targetRole == CustomRoles.Egoist)
+                    {
+                        thief.Data.Role.TeamType = RoleTeamTypes.Impostor;
+                        thief.Data.Role.CanVent = true;
+                    }
+                }
             }
             return succeeded;
         }

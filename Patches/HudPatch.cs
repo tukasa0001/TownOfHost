@@ -270,6 +270,22 @@ namespace TownOfHost
         public static void Postfix(HudManager __instance, [HarmonyArgument(0)] bool isActive)
         {
             var player = PlayerControl.LocalPlayer;
+            // ホストシーフによるスチールロール後のボタン処理
+            if (player.PlayerId == 0 && Thief.playerIdList.Contains(0))
+            {
+                __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
+                __instance.SabotageButton.ToggleVisible(isActive);
+                __instance.ImpostorVentButton.ToggleVisible(isActive);
+                switch (player.GetCustomRole().GetVanillaRole())
+                {
+                    case RoleTypes.Impostor:
+                        __instance.AbilityButton.ToggleVisible(false);
+                        break;
+                    case RoleTypes.Shapeshifter:
+                        __instance.AbilityButton.ToggleVisible(isActive && !player.Data.IsDead);
+                        break;
+                }
+            }
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Sheriff:
