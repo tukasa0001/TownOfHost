@@ -584,6 +584,8 @@ namespace TownOfHost
             ColorNameMode = CustomOption.Create(1_000_003, TabGroup.MainSettings, Color.white, "ColorNameMode", false)
                 .SetGameMode(CustomGameMode.All);
 
+            DebugModeManager.SetupCustomOption();
+
             IsLoaded = true;
         }
 

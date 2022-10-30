@@ -134,14 +134,11 @@ namespace TownOfHost
             writer.Write(DontShowOnModdedClient);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void RpcSetRoleDesync(this PlayerControl player, RoleTypes role, PlayerControl seer = null)
+        public static void RpcSetRoleDesync(this PlayerControl player, RoleTypes role, int clientId)
         {
             //player: 名前の変更対象
-            //seer: 上の変更を確認することができるプレイヤー
 
             if (player == null) return;
-            if (seer == null) seer = player;
-            var clientId = seer.GetClientId();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetRole, Hazel.SendOption.Reliable, clientId);
             writer.Write((ushort)role);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -190,13 +187,16 @@ namespace TownOfHost
         public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
         {
             if (target == null) target = killer;
-            if (AmongUsClient.Instance.AmClient)
+            if (killer.AmOwner)
             {
                 killer.MurderPlayer(target);
             }
-            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable, killer.GetClientId());
-            messageWriter.WriteNetObject(target);
-            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+            else
+            {
+                MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable, killer.GetClientId());
+                messageWriter.WriteNetObject(target);
+                AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+            }
         }
         [Obsolete]
         public static void RpcSpecificProtectPlayer(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
@@ -459,15 +459,20 @@ namespace TownOfHost
 
             new LateTask(() =>
             {
-
                 pc.RpcDesyncRepairSystem(systemtypes, 128);
-                pc.RpcSpecificMurderPlayer();
-                pc.RpcDesyncRepairSystem(systemtypes, 16);
+            }, 0f + delay, "Reactor Desync");
 
+            new LateTask(() =>
+            {
+                pc.RpcSpecificMurderPlayer();
+            }, 0.2f + delay, "Murder To Reset Cam");
+
+            new LateTask(() =>
+            {
+                pc.RpcDesyncRepairSystem(systemtypes, 16);
                 if (PlayerControl.GameOptions.MapId == 4) //Airship用
                     pc.RpcDesyncRepairSystem(systemtypes, 17);
-
-            }, 0f + delay, "ResetPlayerCam");
+            }, 0.4f + delay, "Fix Desync Reactor");
         }
         public static void ReactorFlash(this PlayerControl pc, float delay = 0f)
         {

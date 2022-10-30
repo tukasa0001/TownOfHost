@@ -54,7 +54,7 @@ namespace TownOfHost
             if (sendToGameList.Contains(tag) || isAlsoInGame) SendInGame($"[{tag}]{text}");
             text = text.Replace("\r", "\\r").Replace("\n", "\\n");
             string log_text = $"[{t}][{tag}]{text}";
-            if (isDetail && Main.AmDebugger.Value)
+            if (isDetail && DebugModeManager.AmDebugger)
             {
                 StackFrame stack = new(2);
                 string className = stack.GetMethod().ReflectedType.Name;
