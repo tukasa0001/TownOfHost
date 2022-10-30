@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TownOfHost
 {
-    class HashAuth
+    public class HashAuth
     {
         public readonly string HashValue;
 
