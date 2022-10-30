@@ -187,6 +187,11 @@ namespace TownOfHost
                 case CustomRoles.Jackal:
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
+                case CustomRoles.Thief:
+                    player.CanUseImpostorVent();
+                    __instance.AbilityButton.SetDisabled();
+                    __instance.AbilityButton.ToggleVisible(false);
+                    goto DesyncImpostor;
 
                 DesyncImpostor:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
@@ -240,7 +245,8 @@ namespace TownOfHost
 
             if ((player.GetCustomRole() == CustomRoles.Sheriff ||
                 player.GetCustomRole() == CustomRoles.Arsonist ||
-                player.GetCustomRole() == CustomRoles.Jackal)
+                player.GetCustomRole() == CustomRoles.Jackal ||
+                player.GetCustomRole() == CustomRoles.Thief)
             && !player.Data.IsDead)
             {
                 ((Renderer)__instance.cosmetics.currentBodySprite.BodySprite).material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));
@@ -280,6 +286,13 @@ namespace TownOfHost
                     __instance.SabotageButton.ToggleVisible(isActive && Options.JackalCanUseSabotage.GetBool());
                     __instance.ImpostorVentButton.ToggleVisible(isActive && Options.JackalCanVent.GetBool());
                     __instance.AbilityButton.ToggleVisible(false);
+                    break;
+                case CustomRoles.Thief:
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
+                    __instance.SabotageButton.ToggleVisible(false);
+                    __instance.ImpostorVentButton.ToggleVisible(isActive && Thief.ThiefCanVent.GetBool());
+                    __instance.AbilityButton.ToggleVisible(isActive && !player.Data.IsDead);
                     break;
             }
         }

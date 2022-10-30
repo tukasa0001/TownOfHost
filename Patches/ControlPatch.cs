@@ -228,14 +228,15 @@ namespace TownOfHost
         {
             if (player.GetButtonDown(8) && // 8:キルボタンのactionId
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
-            (PlayerControl.LocalPlayer.GetCustomRole() is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.Jackal) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
+            (PlayerControl.LocalPlayer.GetCustomRole() is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.Jackal or CustomRoles.Thief) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.DoClick();
             }
             if (player.GetButtonDown(50) && // 50:インポスターのベントボタンのactionId
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
             (PlayerControl.LocalPlayer.Is(CustomRoles.Arsonist) ||
-            (PlayerControl.LocalPlayer.Is(CustomRoles.Jackal) && Options.JackalCanVent.GetBool())
+            (PlayerControl.LocalPlayer.Is(CustomRoles.Jackal) && Options.JackalCanVent.GetBool()) ||
+            (PlayerControl.LocalPlayer.Is(CustomRoles.Thief) && Thief.ThiefCanVent.GetBool())
             ) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
             {
                 DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.DoClick();

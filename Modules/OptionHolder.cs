@@ -383,6 +383,7 @@ namespace TownOfHost
             JackalCanVent = CustomOption.Create(50911, TabGroup.NeutralRoles, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
             JackalCanUseSabotage = CustomOption.Create(50912, TabGroup.NeutralRoles, Color.white, "CanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
             JackalHasImpostorVision = CustomOption.Create(50913, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            Thief.SetupCustomOption();
 
             // Attribute
             EnableLastImpostor = CustomOption.Create(80000, TabGroup.MainSettings, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)

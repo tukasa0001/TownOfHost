@@ -351,6 +351,9 @@ namespace TownOfHost
                 case CustomRoles.JSchrodingerCat:
                     opt.SetVision(player, Options.JackalHasImpostorVision.GetBool());
                     break;
+                case CustomRoles.Thief:
+                    Thief.ApplyGameOptions(opt, player.PlayerId);
+                    break;
 
 
                 InfinityVent:
@@ -665,6 +668,11 @@ namespace TownOfHost
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(jackal_canUse && !player.Data.IsDead);
                     player.Data.Role.CanVent = jackal_canUse;
                     return;
+                case CustomRoles.Thief:
+                    bool thiefCanUse = Thief.ThiefCanVent.GetBool();
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(thiefCanUse && !player.Data.IsDead);
+                    player.Data.Role.CanVent = thiefCanUse;
+                    return;
             }
         }
         public static bool IsDouseDone(this PlayerControl player)
@@ -734,7 +742,8 @@ namespace TownOfHost
             return
                 player.GetCustomRole() is
                 CustomRoles.Egoist or
-                CustomRoles.Jackal;
+                CustomRoles.Jackal or
+                CustomRoles.Thief;
         }
 
         //汎用
