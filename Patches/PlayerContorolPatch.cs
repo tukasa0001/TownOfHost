@@ -215,6 +215,9 @@ namespace TownOfHost
             //キル時の特殊判定
             if (killer.PlayerId != target.PlayerId)
             {
+                if (killer.GetCustomRole().IsImpostor() && !Thief.CanKill(killer.PlayerId, target.PlayerId))
+                    // インポスターキル共通の処理が他に必要になった場合はThief.CanKillの部分を動かした上でここに追加して大丈夫です(このコメントも消してください)
+                    return false;
                 //自殺でない場合のみ役職チェック
                 switch (killer.GetCustomRole())
                 {

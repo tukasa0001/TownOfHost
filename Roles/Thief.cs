@@ -83,6 +83,8 @@ namespace TownOfHost
             }
             return succeeded;
         }
+        ///<summary>純粋なインポスターと元シーフのインポスターは互いにキルできてしまうため，その判定をします．どちらかが元シーフの場合falseを返します</summary>
+        public static bool CanKill(byte killerId, byte targetId) => !playerIdList.Contains(killerId) && !playerIdList.Contains(targetId);
         public static void ApplyGameOptions(GameOptionsData opt, byte playerId)
         {
             opt.RoleOptions.ShapeshifterCooldown = 255f;
