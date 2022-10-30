@@ -160,6 +160,9 @@ namespace TownOfHost
             // 認証関連-初期化
             DebugKeyAuth = new HashAuth(DebugKeyHash, DebugKeySalt);
 
+            // 認証関連-認証
+            DebugModeManager.Auth(DebugKeyAuth, DebugKeyInput.Value);
+
             AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             CustomWinTrigger = false;

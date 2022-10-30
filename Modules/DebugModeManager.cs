@@ -21,6 +21,11 @@ namespace TownOfHost
 
         public static CustomOption EnableDebugMode;
 
+        public static void Auth(HashAuth auth, string input)
+        {
+            // AmDebugger = デバッグビルドである | デバッグキー認証が通った
+            AmDebugger |= auth.CheckString(input);
+        }
         public static void SetupCustomOption()
         {
             EnableDebugMode = CustomOption.Create(2, TabGroup.MainSettings, Color.green, "EnableDebugMode", false, null, true, !AmDebugger);
