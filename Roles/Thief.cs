@@ -102,9 +102,10 @@ namespace TownOfHost
         }
         ///<summary>純粋なインポスターと元シーフのインポスターは互いにキルできてしまうため，その判定をします．
         ///キル者が元シーフでターゲットがインポスターの場合とキル者がインポスターでターゲットが元シーフの場合にfalseを返します</summary>
-        public static bool CanKill(PlayerControl killer, PlayerControl target) =>
-            (!playerIdList.Contains(killer.PlayerId) || !target.GetCustomRole().IsImpostor()) &&
-            (!playerIdList.Contains(target.PlayerId) || !killer.GetCustomRole().IsImpostor());
+        public static bool CanKill(PlayerControl killer, PlayerControl target) =>  // キル者は確定でインポスター(=シーフではない)
+            !(killer == target ||
+            (playerIdList.Contains(killer.PlayerId) && target.GetCustomRole().IsImpostor()) ||
+            (playerIdList.Contains(target.PlayerId) && !target.Is(CustomRoles.Thief)));
         public static void ApplyGameOptions(GameOptionsData opt, byte playerId)
         {
             opt.RoleOptions.ShapeshifterCooldown = 255f;
