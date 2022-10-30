@@ -30,7 +30,13 @@ namespace TownOfHost
             return hash == value;
         }
         private string CalculateHash(string source)
+            => HashAuth.CalculateHash(source, salt, algorithm);
+
+        public static string CalculateHash(string source, string salt = null, HashAlgorithm algorithm = null)
         {
+            // 0.algorithmの初期化
+            algorithm ??= SHA256.Create();
+
             // 1.saltの適用
             if (salt != null) source += salt;
 
