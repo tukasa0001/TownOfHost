@@ -30,7 +30,7 @@ namespace TownOfHost
             {
                 Main.ResetCamPlayerList.Add(playerId);
             }
-            if (playerId == 0)
+            if (playerId == 0 && PlayerControl.LocalPlayer.PlayerId == 0)
             {
                 foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
                 {
