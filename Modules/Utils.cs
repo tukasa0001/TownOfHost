@@ -258,40 +258,45 @@ namespace TownOfHost
                 var cRoleFound = Main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
                 if (cRoleFound)
                 {
-                    if (cRole.IsImpostor()) hasTasks = false;
-                    if (cRole == CustomRoles.GM) hasTasks = false;
-                    if (cRole == CustomRoles.Jester) hasTasks = false;
-                    if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
-                    if (cRole == CustomRoles.MadSnitch && ForRecompute) hasTasks = false;
-                    if (cRole == CustomRoles.Opportunist) hasTasks = false;
-                    if (cRole == CustomRoles.Sheriff) hasTasks = false;
-                    if (cRole == CustomRoles.Madmate) hasTasks = false;
-                    if (cRole == CustomRoles.SKMadmate) hasTasks = false;
-                    if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
-                    if (cRole == CustomRoles.Executioner)
+                    switch (cRole)
                     {
-                        if (Executioner.ChangeRolesAfterTargetKilled.GetSelection() == 0)
-                            hasTasks = !ForRecompute;
-                        else hasTasks = false;
+                        case CustomRoles.GM:
+                        case CustomRoles.Madmate:
+                        case CustomRoles.SKMadmate:
+                        case CustomRoles.Sheriff:
+                        case CustomRoles.Arsonist:
+                        case CustomRoles.Egoist:
+                        case CustomRoles.Jackal:
+                        case CustomRoles.Jester:
+                        case CustomRoles.Opportunist:
+                            hasTasks = false;
+                            break;
+                        case CustomRoles.MadGuardian:
+                        case CustomRoles.MadSnitch:
+                        case CustomRoles.Terrorist:
+                            if (ForRecompute)
+                                hasTasks = false;
+                            break;
+                        case CustomRoles.Executioner:
+                            if (Executioner.ChangeRolesAfterTargetKilled.GetSelection() == 0)
+                                hasTasks = !ForRecompute;
+                            else hasTasks = false;
+                            break;
+                        default:
+                            if (cRole.IsImpostor() || cRole.IsKilledSchrodingerCat()) hasTasks = false;
+                            break;
                     }
-                    if (cRole == CustomRoles.Impostor) hasTasks = false;
-                    if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
-                    if (cRole == CustomRoles.Arsonist) hasTasks = false;
-                    if (cRole == CustomRoles.SchrodingerCat) hasTasks = false;
-                    if (cRole.IsKilledSchrodingerCat()) hasTasks = false;
-                    if (cRole == CustomRoles.Egoist) hasTasks = false;
-                    if (cRole == CustomRoles.Jackal) hasTasks = false;
                 }
                 var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
                 if (cSubRoleFound)
                 {
-                    if (cSubRole == CustomRoles.Lovers)
+                    switch (cSubRole)
                     {
-                        //ラバーズがクルー陣営の場合タスクを付与しない
-                        if (cRole.GetRoleType() == RoleType.Crewmate)
-                        {
-                            hasTasks = false;
-                        }
+                        case CustomRoles.Lovers:
+                            //ラバーズがクルー陣営の場合タスクを付与しない
+                            if (cRole.IsCrewmate())
+                                hasTasks = false;
+                            break;
                     }
                 }
             }
