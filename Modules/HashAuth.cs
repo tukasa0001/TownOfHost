@@ -11,17 +11,11 @@ namespace TownOfHost
 
         private readonly string salt;
         private HashAlgorithm algorithm;
-        public HashAuth(string hashValue)
-        {
-            HashValue = hashValue;
-            salt = null;
-            algorithm = SHA256.Create();
-        }
-        public HashAuth(string hashValue, string salt)
+        public HashAuth(string hashValue, string salt = null, HashAlgorithm algorithm = null)
         {
             HashValue = hashValue;
             this.salt = salt;
-            algorithm = SHA256.Create();
+            this.algorithm = algorithm ?? SHA256.Create(); // 引数のalgorithmがnullの場合のみ新しく作る
         }
 
         public bool CheckString(string value)
