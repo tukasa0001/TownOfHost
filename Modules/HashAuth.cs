@@ -21,7 +21,7 @@ namespace TownOfHost
         public bool CheckString(string value)
         {
             var hash = CalculateHash(value);
-            return hash == value;
+            return HashValue == hash;
         }
         private string CalculateHash(string source)
             => HashAuth.CalculateHash(source, salt, algorithm);
