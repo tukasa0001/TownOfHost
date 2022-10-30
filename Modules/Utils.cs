@@ -719,6 +719,10 @@ namespace TownOfHost
 
                 if (seer.Is(CustomRoles.EvilTracker)) SelfSuffix += EvilTracker.UtilsGetTargetArrow(isMeeting, seer);
 
+                // seerが元シーフのインポスター
+                if (seer.GetCustomRole().IsImpostor() && Thief.playerIdList.Contains(seer.PlayerId))
+                    SeerKnowsImpostors = true;
+
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.GetRealName(isMeeting);
 
@@ -837,6 +841,8 @@ namespace TownOfHost
                             TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);
                         else if (Utils.IsActive(SystemTypes.Electrical) && target.Is(CustomRoles.Mare) && !isMeeting)
                             TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName); //targetの赤色で表示
+                        else if (seer.GetCustomRole().IsImpostor() && target.GetCustomRole().IsImpostor() && Thief.playerIdList.Contains(target.PlayerId))
+                            TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName);  // インポスター視点での，元シーフのインポスター
                         else
                         {
                             //NameColorManager準拠の処理
