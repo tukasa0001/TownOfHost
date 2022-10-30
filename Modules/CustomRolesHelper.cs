@@ -182,7 +182,7 @@ namespace TownOfHost
                     _ => RoleTypes.Crewmate
                 };
             }
-            Logger.Warn($"{role}にGetVanillaRolesを正常に実行できませんでした", "CustomRolesHelper");
+            Logger.Warn($"{role}にGetVanillaRoleを正常に実行できませんでした", "CustomRolesHelper");
             return RoleTypes.Crewmate;
         }
     }
