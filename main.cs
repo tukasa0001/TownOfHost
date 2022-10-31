@@ -215,7 +215,7 @@ namespace TownOfHost
                     {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
                     {CustomRoles.NoSubRoleAssigned, "#ffffff"},
-                    {CustomRoles.Lovers, "#ffaaaa"}
+                    {CustomRoles.Lovers, "#ff6be4"}
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
