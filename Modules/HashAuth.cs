@@ -23,7 +23,7 @@ namespace TownOfHost
             var hash = CalculateHash(value);
             return HashValue == hash;
         }
-        private string CalculateHash(string source)
+        public string CalculateHash(string source)
             => HashAuth.CalculateHash(source, salt, algorithm);
 
         public static string CalculateHash(string source, string salt = null, HashAlgorithm algorithm = null)
