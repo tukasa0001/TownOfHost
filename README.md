@@ -85,6 +85,9 @@ AmongUsバージョン : **2022.10.25**<br>
 | 以下TOH_Yで追加     　                      |               　　                                 |
 | /w <crewmate/impostor/jackal/none>          | その陣営の勝利としてゲームを終了する                |
 
+>TOH_Yでの変更<br>
+>/messagewait or /mw <秒> を小数に対応できるように変更。<br>
+
 #### MODクライアントのみ
 | コマンド       | 機能                                |
 | -------------- | ----------------------------------- |
@@ -113,7 +116,18 @@ AmongUsバージョン : **2022.10.25**<br>
 例: `welcome:この部屋はTownOfHostを使用しています。`
 
 ### カスタム翻訳ファイル
-TOH_Yで追加された役職・機能については未対応。本家TOHで使用可能なものはそのまま使用可能です。
+ユーザーが自由に独自の翻訳を作成して使用することができます。<br>
+
+Among Usフォルダの中に『Language』フォルダが作成されているので開きます。<br>
+フォルダ内に`{言語名}.dat`というファイルを作成します。<br>
+`例: Japanese.dat`<br>
+
+`template.dat`または`template_English.dat`を名前変更して使用することもできます。<br>
+ファイル内に翻訳前:翻訳後のように記載します。<br>
+`例: Command.rename:ホストの名前を変更`<br>
+
+翻訳前の文字列は`template.dat`を参照してください。<br>
+また、`T+F5`を押すことで翻訳をリロードできます。<br>
 
 
 ## 役職
@@ -185,6 +199,9 @@ TOH_Yで追加された役職・機能については未対応。本家TOHで使
 | 猫又系役職の道連れ連鎖                |
 | 第三陣営を道連れできる                |
 
+> **Warning**  
+>シェリフが道連れされた時、20秒ほど暗転する現象を確認。<br>
+
 ### アンチアドミナー
 
 陣営 : インポスター<br>
@@ -196,6 +213,10 @@ TOH_Yで追加された役職・機能については未対応。本家TOHで使
 | 設定名                              |
 | ----------------------------------- |
 | カメラ前にいる人も分かる             |
+
+> **Warning**  
+>MODクライアントでホスト以外がなると、アドミン注意などの3行目表示が出ない不具合あり。<br>
+>もしアンチアドミナーを使用したい場合は、ホスト以外はバニラで参加してください。<br>
 
 
 ### マッドディクテーター
@@ -324,8 +345,7 @@ TOH_Yで追加された役職・機能については未対応。本家TOHで使
 | ベントクールダウン                   |
 | 全員視点からワーカホリックが分かる     |
 
-## 既存TOH役職
-### TOH_Yによる仕様変更
+## 既存TOH役職＿TOH_Yによる仕様変更
 
 #### シェリフ
 キルクールの設定が1秒間隔 → 2.5秒間隔に変更。<br>
@@ -335,6 +355,10 @@ TOH_Yで追加された役職・機能については未対応。本家TOHで使
 シェリフに切られた時、シュレ猫視点シェリフがシェリフ色(黄色)に変化。（追加されたハンターも同様。）<br>
 インポスターに切られた時、シュレ猫視点、【全員のインポスター】の色がインポスター色(赤色)に変化。<br>
 
+#### GM
+キルフラッシュが見えるように変更。
+
+## 既存TOH役職説明
 ### GM
 
 GM(ゲームマスター)はオブザーバー役職です。<br>
@@ -1227,32 +1251,11 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ## 参考など
 
-[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター)、[シーア](#Seer/シーア)、[ジャッカル](#jackalジャッカル) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
-[オポチュニスト](#Opportunist/オポチュニスト)、[ウォッチャー](#Watcher/ウォッチャー) のアイデア元 : [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
-[シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫)、[イビルトラッカー](#EvilTracker/イビルトラッカー) のアイデア元 : [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
-[ドクター](#Doctor/ドクター) のアイデア元 : [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
-[ジェスター](#Jester/ジェスター)(てるてる)と[マッドメイト](#Madmate/マッドメイト) のアイデア元 : [au.libhalt.net](https://au.libhalt.net)<br>
-[テロリスト](#Terrorist/テロリスト)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
-[恋人](#lovers/恋人) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
-中国語翻訳 : fivefirex、ZeMingOH233<br>
+- MODクライアント視点霊界での視界拡大縮小 [TownOfPlus](https://github.com/tugaru1975/TownOfPlus)
+- 猫又系役職の道連れ [SuperNewRoles](https://github.com/ykundesu/SuperNewRoles)
+
 
 ## 開発者
-<!--
-開発者用チャンネルでの一番最初の発言が早い順に記載する。
-- [テンプレ](https://github.com/) ([Twitter](https://twitter.com/))
-- [Twitter以外のページでも可](https://github.com/) ([Twitter](https://twitter.com/), [TheOtherPages](https://example.com/))
-- [何もなくていい場合は消してOK](https://github.com/)
-注：README-ENへの追記を忘れないでください。
--->
-- [空き瓶/EmptyBottle](https://github.com/tukasa0001) ([Twitter](https://twitter.com/XenonBottle))
-- [Tanakarina](https://github.com/tanakanira0118) <!--([Twitter](https://twitter.com/))-->
-- [しゅー](https://github.com/shu-TownofHost) ([Twitter](https://twitter.com/Shu_kundayo))
-- [kihi](https://github.com/Kihi1120) <!--([Twitter](https://twitter.com/))-->
-- [TAKU_GG](https://github.com/TAKUGG) ([Twitter](https://twitter.com/TAKUGGYouTube1), [Youtube](https://www.youtube.com/c/TAKUGG))
-- [そうくん](https://github.com/soukunsandesu) ([Twitter](https://twitter.com/Soukun_Dev), [Youtube](https://www.youtube.com/channel/UCsCOqxmXBVT-BD_UKaXpUPw))
-- [みぃー](https://github.com/mii-47) <!--([Twitter](https://twitter.com/))-->
-- [たんぽぽ](https://github.com/tampopo-dandelion)([Twitter](https://twitter.com/2nomotokaicho),  [Youtube](https://www.youtube.com/channel/UC8EwQ5gu-qyxVxek0jZw1Tg), [ニコニコ](https://www.nicovideo.jp/user/124305243))
-- [こう。](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
-- [よっキング](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
-- [ゆりの](https://github.com/yurinakira) <!--([Twitter](https://twitter.com/))-->
-- [Masami](https://github.com/Masami4711) <!--([Twitter](https://twitter.com/))-->
+
+- [ゆめの/Yumenopai](https://github.com/Yumenopai) ([Twitter](https://twitter.Yumepai_houchi), [Youtube](https://www.youtube.com/channel/UCf01MvIzjPq6ChJ9XVuKK1Q))
+- TownOfHostの開発者様は省略。
