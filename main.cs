@@ -59,7 +59,6 @@ namespace TownOfHost
         public static ConfigEntry<string> Preset4 { get; private set; }
         public static ConfigEntry<string> Preset5 { get; private set; }
         //Other Configs
-        public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
         public static ConfigEntry<string> BetaBuildURL { get; private set; }
         public static ConfigEntry<float> LastKillCooldown { get; private set; }
@@ -73,14 +72,10 @@ namespace TownOfHost
         public static Dictionary<CustomRoles, String> roleColors;
         public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
         public static float RefixCooldownDelay = 0f;
-        public static int BeforeFixMeetingCooldown = 10;
         public static List<byte> ResetCamPlayerList;
         public static List<byte> winnerList;
         public static List<(string, byte, string)> MessagesToSend;
         public static bool isChatCommand = false;
-        public static string TextCursor => TextCursorVisible ? "_" : "";
-        public static bool TextCursorVisible;
-        public static float TextCursorTimer;
         public static List<PlayerControl> LoversPlayers = new();
         public static bool isLoversDead = true;
         public static Dictionary<byte, float> AllPlayerKillCooldown = new();
@@ -128,9 +123,6 @@ namespace TownOfHost
         {
             Instance = this;
 
-            TextCursorTimer = 0f;
-            TextCursorVisible = true;
-
             //Client Options
             HideName = Config.Bind("Client Options", "Hide Game Code Name", "Town Of Host");
             HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{ModColor}");
@@ -164,7 +156,6 @@ namespace TownOfHost
             Preset3 = Config.Bind("Preset Name Options", "Preset3", "Preset_3");
             Preset4 = Config.Bind("Preset Name Options", "Preset4", "Preset_4");
             Preset5 = Config.Bind("Preset Name Options", "Preset5", "Preset_5");
-            IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             BetaBuildURL = Config.Bind("Other", "BetaBuildURL", "");
             MessageWait = Config.Bind("Other", "MessageWait", 1);
@@ -385,12 +376,6 @@ namespace TownOfHost
         RoomHost,
         OriginalName
     }
-    public enum VersionTypes
-    {
-        Released = 0,
-        Beta = 1
-    }
-
     public enum VoteMode
     {
         Default,
