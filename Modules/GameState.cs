@@ -12,17 +12,13 @@ namespace TownOfHost
         public bool IsBlackOut { get; set; }
         public PlayerState(byte playerId)
         {
-            Init(playerId);
-        }
-
-        public void Init(byte playerId)
-        {
             PlayerId = playerId;
             IsDead = false;
             deathReason = DeathReason.etc;
             taskState = new();
             IsBlackOut = false;
         }
+
         public void SetDead()
         {
             IsDead = true;
