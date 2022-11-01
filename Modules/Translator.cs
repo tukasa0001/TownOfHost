@@ -76,16 +76,23 @@ namespace TownOfHost
 
         public static string GetString(string str, SupportedLangs langId)
         {
-            var Time = DateTime.Now;
-            if (Time.Month == 12 && Time.Day is 23 or 24)
-            {
-                if (str is "Lovers" or "LoversInfo")
-                    str = "Event" + str;
-            }
             var res = $"<INVALID:{str}>";
             if (translateMaps.TryGetValue(str, out var dic) && (!dic.TryGetValue((int)langId, out res) || res == "")) //strに該当する&無効なlangIdかresが空
             {
                 res = $"*{dic[0]}";
+            }
+            if (langId == SupportedLangs.Japanese)
+            {
+                var Time = DateTime.Now;
+                if (Time.Month == 12 && Time.Day is 23 or 24)
+                {
+                    res = str switch
+                    {
+                        "Lovers" => "リア充",
+                        "LoversInfo" => "爆ぜろ",
+                        _ => res
+                    };
+                }
             }
             return res;
         }
