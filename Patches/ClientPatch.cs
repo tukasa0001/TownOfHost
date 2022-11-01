@@ -55,7 +55,7 @@ namespace TownOfHost
     {
         public static void Prefix(SplashManager __instance)
         {
-            if (Main.AmDebugger.Value)
+            if (DebugModeManager.AmDebugger)
             {
                 __instance.sceneChanger.AllowFinishLoadingScene();
                 __instance.startedSceneLoad = true;

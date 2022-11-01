@@ -134,14 +134,11 @@ namespace TownOfHost
             writer.Write(DontShowOnModdedClient);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void RpcSetRoleDesync(this PlayerControl player, RoleTypes role, PlayerControl seer = null)
+        public static void RpcSetRoleDesync(this PlayerControl player, RoleTypes role, int clientId)
         {
             //player: 名前の変更対象
-            //seer: 上の変更を確認することができるプレイヤー
 
             if (player == null) return;
-            if (seer == null) seer = player;
-            var clientId = seer.GetClientId();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetRole, Hazel.SendOption.Reliable, clientId);
             writer.Write((ushort)role);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -190,13 +187,16 @@ namespace TownOfHost
         public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
         {
             if (target == null) target = killer;
-            if (AmongUsClient.Instance.AmClient)
+            if (killer.AmOwner)
             {
                 killer.MurderPlayer(target);
             }
-            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable, killer.GetClientId());
-            messageWriter.WriteNetObject(target);
-            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+            else
+            {
+                MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable, killer.GetClientId());
+                messageWriter.WriteNetObject(target);
+                AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+            }
         }
         [Obsolete]
         public static void RpcSpecificProtectPlayer(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
@@ -453,82 +453,45 @@ namespace TownOfHost
         public static void ResetPlayerCam(this PlayerControl pc, float delay = 0f)
         {
             if (pc == null || !AmongUsClient.Instance.AmHost || pc.AmOwner) return;
-            int clientId = pc.GetClientId();
 
-            byte reactorId = 3;
-            if (PlayerControl.GameOptions.MapId == 2) reactorId = 21;
+            var systemtypes = SystemTypes.Reactor;
+            if (PlayerControl.GameOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
 
             new LateTask(() =>
             {
-                MessageWriter SabotageWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
-                SabotageWriter.Write(reactorId);
-                MessageExtensions.WriteNetObject(SabotageWriter, pc);
-                SabotageWriter.Write((byte)128);
-                AmongUsClient.Instance.FinishRpcImmediately(SabotageWriter);
+                pc.RpcDesyncRepairSystem(systemtypes, 128);
             }, 0f + delay, "Reactor Desync");
 
             new LateTask(() =>
             {
-                MessageWriter MurderWriter = AmongUsClient.Instance.StartRpcImmediately(pc.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable, clientId);
-                MessageExtensions.WriteNetObject(MurderWriter, pc);
-                AmongUsClient.Instance.FinishRpcImmediately(MurderWriter);
+                pc.RpcSpecificMurderPlayer();
             }, 0.2f + delay, "Murder To Reset Cam");
 
             new LateTask(() =>
             {
-                MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
-                SabotageFixWriter.Write(reactorId);
-                MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
-                SabotageFixWriter.Write((byte)16);
-                AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+                pc.RpcDesyncRepairSystem(systemtypes, 16);
+                if (PlayerControl.GameOptions.MapId == 4) //Airship用
+                    pc.RpcDesyncRepairSystem(systemtypes, 17);
             }, 0.4f + delay, "Fix Desync Reactor");
-
-            if (PlayerControl.GameOptions.MapId == 4) //Airship用
-                new LateTask(() =>
-                {
-                    MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
-                    SabotageFixWriter.Write(reactorId);
-                    MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
-                    SabotageFixWriter.Write((byte)17);
-                    AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
-                }, 0.4f + delay, "Fix Desync Reactor 2");
         }
         public static void ReactorFlash(this PlayerControl pc, float delay = 0f)
         {
             if (pc == null) return;
             int clientId = pc.GetClientId();
             // Logger.Info($"{pc}", "ReactorFlash");
-            byte reactorId = 3;
-            if (PlayerControl.GameOptions.MapId == 2) reactorId = 21;
+            var systemtypes = SystemTypes.Reactor;
+            if (PlayerControl.GameOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
             float FlashDuration = Options.KillFlashDuration.GetFloat();
 
-            new LateTask(() =>
-            {
-                MessageWriter SabotageWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
-                SabotageWriter.Write(reactorId);
-                MessageExtensions.WriteNetObject(SabotageWriter, pc);
-                SabotageWriter.Write((byte)128);
-                AmongUsClient.Instance.FinishRpcImmediately(SabotageWriter);
-            }, 0f + delay, "Reactor Desync");
+            pc.RpcDesyncRepairSystem(systemtypes, 128);
 
             new LateTask(() =>
             {
-                MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
-                SabotageFixWriter.Write(reactorId);
-                MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
-                SabotageFixWriter.Write((byte)16);
-                AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+                pc.RpcDesyncRepairSystem(systemtypes, 16);
+
+                if (PlayerControl.GameOptions.MapId == 4) //Airship用
+                    pc.RpcDesyncRepairSystem(systemtypes, 17);
             }, FlashDuration + delay, "Fix Desync Reactor");
-
-            if (PlayerControl.GameOptions.MapId == 4) //Airship用
-                new LateTask(() =>
-                {
-                    MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
-                    SabotageFixWriter.Write(reactorId);
-                    MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
-                    SabotageFixWriter.Write((byte)17);
-                    AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
-                }, FlashDuration + delay, "Fix Desync Reactor 2");
         }
 
         public static string GetRealName(this PlayerControl player, bool isMeeting = false)
@@ -735,7 +698,7 @@ namespace TownOfHost
         {
             var role = player.GetCustomRole();
             if (role.IsVanilla())
-                return "\n" + GetString("Message.NoDescription");
+                return (InfoLong ? "\n" : "") + GetString("Message.NoDescription");
 
             var text = role.ToString();
 

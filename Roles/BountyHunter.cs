@@ -153,7 +153,7 @@ namespace TownOfHost
         {
             var target = GetTarget(bounty);
             LowerInfoText.text = target == null ? "null" : $"{GetString("BountyCurrentTarget")}:{GetTarget(bounty).name}";
-            LowerInfoText.enabled = target != null || Main.AmDebugger.Value;
+            LowerInfoText.enabled = target != null || DebugModeManager.IsDebugMode;
         }
         public static void AfterMeetingTasks()
         {
