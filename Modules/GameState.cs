@@ -7,8 +7,8 @@ namespace TownOfHost
     {
         byte PlayerId;
         public bool IsDead { get; set; }
-        DeathReason deathReason;
-        public TaskState taskState = new();
+        public DeathReason deathReason { get; set; }
+        public TaskState taskState;
         public bool IsBlackOut { get; set; }
         public PlayerState(byte playerId)
         {
@@ -23,9 +23,6 @@ namespace TownOfHost
             taskState = new();
             IsBlackOut = false;
         }
-
-        public void SetDeathReason(DeathReason reason) { deathReason = reason; }
-        public DeathReason GetDeathReason() { return deathReason; }
         public void SetDead()
         {
             IsDead = true;
