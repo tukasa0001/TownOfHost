@@ -52,7 +52,7 @@ namespace TownOfHost
             if (exiled != null)
             {
                 exiled.IsDead = true;
-                PlayerState.SetDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
+                Main.PlayerStates[exiled.PlayerId].SetDeathReason(PlayerState.DeathReason.Vote);
                 var role = exiled.GetCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
@@ -81,7 +81,7 @@ namespace TownOfHost
                 SchrodingerCat.ChangeTeam(exiled.Object);
 
 
-                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) PlayerState.SetDead(exiled.PlayerId);
+                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) Main.PlayerStates[exiled.PlayerId].SetDead();
             }
             if (AmongUsClient.Instance.AmHost && Main.IsFixedCooldown)
                 Main.RefixCooldownDelay = Options.DefaultKillCooldown - 3f;
@@ -104,8 +104,8 @@ namespace TownOfHost
             {
                 var player = Utils.GetPlayerById(x.Key);
                 Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
-                PlayerState.SetDeathReason(x.Key, x.Value);
-                PlayerState.SetDead(x.Key);
+                Main.PlayerStates[x.Key].SetDeathReason(x.Value);
+                Main.PlayerStates[x.Key].SetDead();
                 player?.RpcExileV2();
                 if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.FollowingSuicide)
                     player?.ResetVotingTime();

@@ -99,7 +99,7 @@ namespace TownOfHost
                         ChangeTimer[player.PlayerId] += Time.fixedDeltaTime;
 
                     //BountyHunterのターゲット更新
-                    if (PlayerState.isDead[target.PlayerId])
+                    if (Main.PlayerStates[target.PlayerId].IsDead)
                     {
                         ResetTarget(player);
                         Logger.Info($"{player.GetNameWithRole()}のターゲットが無効だったため、ターゲットを更新しました", "BountyHunter");
@@ -129,7 +129,7 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 // 死者/切断者/インポスターを除外
-                if (!PlayerState.isDead[pc.PlayerId] && !pc.GetCustomRole().IsImpostor())
+                if (!Main.PlayerStates[pc.PlayerId].IsDead && !pc.GetCustomRole().IsImpostor())
                     cTargets.Add(pc);
             }
             if (cTargets.Count >= 2 && Targets.TryGetValue(player.PlayerId, out var p)) cTargets.RemoveAll(x => x.PlayerId == p.PlayerId); //前回のターゲットは除外
@@ -159,7 +159,7 @@ namespace TownOfHost
         {
             foreach (var id in playerIdList)
             {
-                if (!PlayerState.isDead[id])
+                if (!Main.PlayerStates[id].IsDead)
                 {
                     Utils.GetPlayerById(id)?.RpcResetAbilityCooldown();
                     ChangeTimer[id] = 0f;

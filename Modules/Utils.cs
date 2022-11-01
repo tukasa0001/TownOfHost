@@ -121,7 +121,7 @@ namespace TownOfHost
             if (ReactorCheck) Duration += 0.2f; //リアクター中はブラックアウトを長くする
 
             //実行
-            PlayerState.IsBlackOut[player.PlayerId] = true; //ブラックアウト
+            Main.PlayerStates[player.PlayerId].IsBlackOut = true; //ブラックアウト
             if (player.PlayerId == 0)
             {
                 FlashColor(new(1f, 0f, 0f, 0.5f));
@@ -131,7 +131,7 @@ namespace TownOfHost
             ExtendedPlayerControl.CustomSyncSettings(player);
             new LateTask(() =>
             {
-                PlayerState.IsBlackOut[player.PlayerId] = false; //ブラックアウト解除
+                Main.PlayerStates[player.PlayerId].IsBlackOut = false; //ブラックアウト解除
                 ExtendedPlayerControl.CustomSyncSettings(player);
             }, Options.KillFlashDuration.GetFloat(), "RemoveKillFlash");
         }
@@ -200,7 +200,7 @@ namespace TownOfHost
         }
 
         public static string GetVitalText(byte player) =>
-            PlayerState.isDead[player] ? GetString("DeathReason." + PlayerState.GetDeathReason(player)) : GetString("Alive");
+            Main.PlayerStates[player].IsDead ? GetString("DeathReason." + Main.PlayerStates[player].GetDeathReason()) : GetString("Alive");
         public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, CustomRoles hRole)
         {
             string text = "Invalid";
@@ -340,7 +340,7 @@ namespace TownOfHost
                     break;
                 default:
                     //タスクテキスト
-                    var taskState = PlayerState.taskState?[playerId];
+                    var taskState = Main.PlayerStates?[playerId].GetTaskState();
                     if (taskState.hasTasks)
                     {
                         Color TextColor = Color.yellow;
@@ -544,30 +544,30 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             var taskState = GetPlayerById(Terrorist.PlayerId).GetPlayerTaskState();
-            if (taskState.IsTaskFinished && (!PlayerState.IsSuicide(Terrorist.PlayerId) || Options.CanTerroristSuicideWin.GetBool())) //タスクが完了で（自殺じゃない OR 自殺勝ちが許可）されていれば
+            if (taskState.IsTaskFinished && (!Main.PlayerStates[Terrorist.PlayerId].IsSuicide() || Options.CanTerroristSuicideWin.GetBool())) //タスクが完了で（自殺じゃない OR 自殺勝ちが許可）されていれば
             {
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     if (pc.Is(CustomRoles.Terrorist))
                     {
-                        if (PlayerState.GetDeathReason(pc.PlayerId) == PlayerState.DeathReason.Vote)
+                        if (Main.PlayerStates[pc.PlayerId].GetDeathReason() == PlayerState.DeathReason.Vote)
                         {
                             //追放された場合は生存扱い
-                            PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.etc);
+                            Main.PlayerStates[pc.PlayerId].SetDeathReason(PlayerState.DeathReason.etc);
                             //生存扱いのためSetDeadは必要なし
                         }
                         else
                         {
                             //キルされた場合は自爆扱い
-                            PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide);
+                            Main.PlayerStates[pc.PlayerId].SetDeathReason(PlayerState.DeathReason.Suicide);
                         }
                     }
                     else if (!pc.Data.IsDead)
                     {
                         //生存者は爆死
                         pc.RpcMurderPlayer(pc);
-                        PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
-                        PlayerState.SetDead(pc.PlayerId);
+                        Main.PlayerStates[pc.PlayerId].SetDeathReason(PlayerState.DeathReason.Bombed);
+                        Main.PlayerStates[pc.PlayerId].SetDead();
                     }
                 }
                 CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Terrorist);
@@ -686,7 +686,7 @@ namespace TownOfHost
                     var arrows = "";
                     foreach (var arrow in Main.targetArrows)
                     {
-                        if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2] && GetPlayerById(arrow.Key.Item2).Is(CustomRoles.Snitch))
+                        if (arrow.Key.Item1 == seer.PlayerId && !Main.PlayerStates[arrow.Key.Item2].IsDead && GetPlayerById(arrow.Key.Item2).Is(CustomRoles.Snitch))
                         {
                             //自分用の矢印で対象が死んでない時
                             arrows += arrow.Value;
@@ -741,7 +741,7 @@ namespace TownOfHost
                             foreach (var arrow in Main.targetArrows)
                             {
                                 //自分用の矢印で対象が死んでない時
-                                if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
+                                if (arrow.Key.Item1 == seer.PlayerId && !Main.PlayerStates[arrow.Key.Item2].IsDead)
                                     SelfSuffix += arrow.Value;
                             }
                         }

@@ -287,14 +287,14 @@ namespace TownOfHost
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost) return;
 
             PlayerControl killer = __instance; //読み替え変数
-            if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
+            if (Main.PlayerStates[target.PlayerId].GetDeathReason() == PlayerState.DeathReason.Sniped)
             {
                 killer = Utils.GetPlayerById(Sniper.GetSniper(target.PlayerId));
             }
-            if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.etc)
+            if (Main.PlayerStates[target.PlayerId].GetDeathReason() == PlayerState.DeathReason.etc)
             {
                 //死因が設定されていない場合は死亡判定
-                PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
+                Main.PlayerStates[target.PlayerId].SetDeathReason(PlayerState.DeathReason.Kill);
             }
 
             //When Bait is killed
@@ -330,11 +330,11 @@ namespace TownOfHost
             }
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
-            PlayerState.SetDead(target.PlayerId);
+            Main.PlayerStates[target.PlayerId].SetDead();
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
-            Utils.TargetDies(__instance, target, PlayerState.GetDeathReason(target.PlayerId));
+            Utils.TargetDies(__instance, target, Main.PlayerStates[target.PlayerId].GetDeathReason());
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
@@ -469,7 +469,7 @@ namespace TownOfHost
 
                 if (bitten != null && !bitten.Data.IsDead)
                 {
-                    PlayerState.SetDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
+                    Main.PlayerStates[bitten.PlayerId].SetDeathReason(PlayerState.DeathReason.Bite);
                     //Protectは強制的にはがす
                     if (bitten.protectedByGuardian)
                         bitten.RpcMurderPlayer(bitten);
@@ -536,7 +536,7 @@ namespace TownOfHost
                             var bitten = player;
                             if (!bitten.Data.IsDead)
                             {
-                                PlayerState.SetDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
+                                Main.PlayerStates[bitten.PlayerId].SetDeathReason(PlayerState.DeathReason.Bite);
                                 bitten.RpcMurderPlayer(bitten);
                                 var vampirePC = Utils.GetPlayerById(vampireID);
                                 Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "Vampire");
@@ -967,7 +967,7 @@ namespace TownOfHost
                         //生きていて死ぬ予定もない場合は心中
                         if (partnerPlayer.PlayerId != deathId && !partnerPlayer.Data.IsDead)
                         {
-                            PlayerState.SetDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.FollowingSuicide);
+                            Main.PlayerStates[partnerPlayer.PlayerId].SetDeathReason(PlayerState.DeathReason.FollowingSuicide);
                             if (isExiled)
                                 Main.AfterMeetingDeathPlayers.TryAdd(partnerPlayer.PlayerId, PlayerState.DeathReason.FollowingSuicide);
                             else
@@ -988,7 +988,7 @@ namespace TownOfHost
             }
             //初期値は死んでる場合の空白にしておく
             var arrow = "";
-            if (!PlayerState.isDead[seer.PlayerId] && !PlayerState.isDead[target.PlayerId])
+            if (!Main.PlayerStates[seer.PlayerId].IsDead && !Main.PlayerStates[target.PlayerId].IsDead)
             {
                 //対象の方角ベクトルを取る
                 var dir = target.transform.position - seer.transform.position;
@@ -1086,8 +1086,8 @@ namespace TownOfHost
                             {
                                 //生存者は焼殺
                                 pc.RpcMurderPlayer(pc);
-                                PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Torched);
-                                PlayerState.SetDead(pc.PlayerId);
+                                Main.PlayerStates[pc.PlayerId].SetDeathReason(PlayerState.DeathReason.Torched);
+                                Main.PlayerStates[pc.PlayerId].SetDead();
                             }
                             else
                                 RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
@@ -1135,7 +1135,7 @@ namespace TownOfHost
         {
             var pc = __instance;
             Logger.Info($"TaskComplete:{pc.PlayerId}", "CompleteTask");
-            PlayerState.UpdateTask(pc);
+            Main.PlayerStates[pc.PlayerId].UpdateTask(pc);
             Utils.NotifyRoles();
             if ((pc.GetPlayerTaskState().IsTaskFinished &&
                 pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor) ||
