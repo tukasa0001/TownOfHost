@@ -84,7 +84,7 @@ namespace TownOfHost
             if (langId == SupportedLangs.Japanese)
             {
                 var Time = DateTime.Now;
-                if (Time.Month == 12 && Time.Day is 23 or 24)
+                if (Time.Month == 12 && Time.Day is 23 or 24 or 25)
                 {
                     res = str switch
                     {
