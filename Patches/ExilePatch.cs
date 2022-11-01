@@ -52,7 +52,7 @@ namespace TownOfHost
             if (exiled != null)
             {
                 exiled.IsDead = true;
-                Main.PlayerStates[exiled.PlayerId].SetDeathReason(PlayerState.DeathReason.Vote);
+                Main.PlayerStates[exiled.PlayerId].deathReason = PlayerState.DeathReason.Vote;
                 var role = exiled.GetCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
@@ -104,7 +104,7 @@ namespace TownOfHost
             {
                 var player = Utils.GetPlayerById(x.Key);
                 Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
-                Main.PlayerStates[x.Key].SetDeathReason(x.Value);
+                Main.PlayerStates[x.Key].deathReason = x.Value;
                 Main.PlayerStates[x.Key].SetDead();
                 player?.RpcExileV2();
                 if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.FollowingSuicide)

@@ -119,7 +119,7 @@ namespace TownOfHost
                 case "Suicide":
                     if (!target.CanBeKilledBySheriff())
                     {
-                        Main.PlayerStates[killer.PlayerId].SetDeathReason(PlayerState.DeathReason.Misfire);
+                        Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
                         killer.RpcMurderPlayer(killer);
                         if (MisfireKillsTarget.GetBool())
                             killer.RpcMurderPlayer(target);

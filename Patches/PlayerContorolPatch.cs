@@ -287,14 +287,14 @@ namespace TownOfHost
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost) return;
 
             PlayerControl killer = __instance; //読み替え変数
-            if (Main.PlayerStates[target.PlayerId].GetDeathReason() == PlayerState.DeathReason.Sniped)
+            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.Sniped)
             {
                 killer = Utils.GetPlayerById(Sniper.GetSniper(target.PlayerId));
             }
-            if (Main.PlayerStates[target.PlayerId].GetDeathReason() == PlayerState.DeathReason.etc)
+            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.etc)
             {
                 //死因が設定されていない場合は死亡判定
-                Main.PlayerStates[target.PlayerId].SetDeathReason(PlayerState.DeathReason.Kill);
+                Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Kill;
             }
 
             //When Bait is killed
@@ -334,7 +334,7 @@ namespace TownOfHost
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
-            Utils.TargetDies(__instance, target, Main.PlayerStates[target.PlayerId].GetDeathReason());
+            Utils.TargetDies(__instance, target, Main.PlayerStates[target.PlayerId].deathReason);
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
@@ -469,7 +469,7 @@ namespace TownOfHost
 
                 if (bitten != null && !bitten.Data.IsDead)
                 {
-                    Main.PlayerStates[bitten.PlayerId].SetDeathReason(PlayerState.DeathReason.Bite);
+                    Main.PlayerStates[bitten.PlayerId].deathReason = PlayerState.DeathReason.Bite;
                     //Protectは強制的にはがす
                     if (bitten.protectedByGuardian)
                         bitten.RpcMurderPlayer(bitten);
@@ -536,7 +536,7 @@ namespace TownOfHost
                             var bitten = player;
                             if (!bitten.Data.IsDead)
                             {
-                                Main.PlayerStates[bitten.PlayerId].SetDeathReason(PlayerState.DeathReason.Bite);
+                                Main.PlayerStates[bitten.PlayerId].deathReason = PlayerState.DeathReason.Bite;
                                 bitten.RpcMurderPlayer(bitten);
                                 var vampirePC = Utils.GetPlayerById(vampireID);
                                 Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "Vampire");
@@ -967,7 +967,7 @@ namespace TownOfHost
                         //生きていて死ぬ予定もない場合は心中
                         if (partnerPlayer.PlayerId != deathId && !partnerPlayer.Data.IsDead)
                         {
-                            Main.PlayerStates[partnerPlayer.PlayerId].SetDeathReason(PlayerState.DeathReason.FollowingSuicide);
+                            Main.PlayerStates[partnerPlayer.PlayerId].deathReason = PlayerState.DeathReason.FollowingSuicide;
                             if (isExiled)
                                 Main.AfterMeetingDeathPlayers.TryAdd(partnerPlayer.PlayerId, PlayerState.DeathReason.FollowingSuicide);
                             else
@@ -1086,7 +1086,7 @@ namespace TownOfHost
                             {
                                 //生存者は焼殺
                                 pc.RpcMurderPlayer(pc);
-                                Main.PlayerStates[pc.PlayerId].SetDeathReason(PlayerState.DeathReason.Torched);
+                                Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Torched;
                                 Main.PlayerStates[pc.PlayerId].SetDead();
                             }
                             else

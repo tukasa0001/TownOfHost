@@ -200,7 +200,7 @@ namespace TownOfHost
         }
 
         public static string GetVitalText(byte player) =>
-            Main.PlayerStates[player].IsDead ? GetString("DeathReason." + Main.PlayerStates[player].GetDeathReason()) : GetString("Alive");
+            Main.PlayerStates[player].IsDead ? GetString("DeathReason." + Main.PlayerStates[player].deathReason) : GetString("Alive");
         public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, CustomRoles hRole)
         {
             string text = "Invalid";
@@ -550,23 +550,23 @@ namespace TownOfHost
                 {
                     if (pc.Is(CustomRoles.Terrorist))
                     {
-                        if (Main.PlayerStates[pc.PlayerId].GetDeathReason() == PlayerState.DeathReason.Vote)
+                        if (Main.PlayerStates[pc.PlayerId].deathReason == PlayerState.DeathReason.Vote)
                         {
                             //追放された場合は生存扱い
-                            Main.PlayerStates[pc.PlayerId].SetDeathReason(PlayerState.DeathReason.etc);
+                            Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.etc;
                             //生存扱いのためSetDeadは必要なし
                         }
                         else
                         {
                             //キルされた場合は自爆扱い
-                            Main.PlayerStates[pc.PlayerId].SetDeathReason(PlayerState.DeathReason.Suicide);
+                            Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Suicide;
                         }
                     }
                     else if (!pc.Data.IsDead)
                     {
                         //生存者は爆死
                         pc.RpcMurderPlayer(pc);
-                        Main.PlayerStates[pc.PlayerId].SetDeathReason(PlayerState.DeathReason.Bombed);
+                        Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
                         Main.PlayerStates[pc.PlayerId].SetDead();
                     }
                 }

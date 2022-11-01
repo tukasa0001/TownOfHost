@@ -37,7 +37,7 @@ namespace TownOfHost
             if (canDirectKill)
             {
                 killer.RpcGuardAndKill(target);
-                if (Main.PlayerStates[target.PlayerId].GetDeathReason() == PlayerState.DeathReason.Sniped)
+                if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.Sniped)
                 {
                     //スナイプされた時
                     target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);

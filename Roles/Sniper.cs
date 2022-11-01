@@ -179,7 +179,7 @@ namespace TownOfHost
                     //一番正確な対象がターゲット
                     var snipedTarget = dot_list.OrderBy(c => c.Value).First().Key;
                     snipeTarget[pc.PlayerId] = snipedTarget.PlayerId;
-                    Main.PlayerStates[snipedTarget.PlayerId].SetDeathReason(PlayerState.DeathReason.Sniped);
+                    Main.PlayerStates[snipedTarget.PlayerId].deathReason = PlayerState.DeathReason.Sniped;
                     snipedTarget.CheckMurder(snipedTarget);
                     //キル出来た通知
                     pc.RpcGuardAndKill();

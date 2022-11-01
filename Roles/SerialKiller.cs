@@ -67,7 +67,7 @@ namespace TownOfHost
                 else if (SuicideTimer[player.PlayerId] >= TimeLimit.GetFloat())
                 {
                     //自爆時間が来たとき
-                    Main.PlayerStates[player.PlayerId].SetDeathReason(PlayerState.DeathReason.Suicide);//死因：自爆
+                    Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Suicide;//死因：自爆
                     player.RpcMurderPlayerV2(player);//自爆させる
                 }
                 else

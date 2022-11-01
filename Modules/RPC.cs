@@ -254,7 +254,7 @@ namespace TownOfHost
         {
             var playerId = reader.ReadByte();
             var deathReason = (PlayerState.DeathReason)reader.ReadInt32();
-            Main.PlayerStates[playerId].SetDeathReason(deathReason);
+            Main.PlayerStates[playerId].deathReason = deathReason;
             Main.PlayerStates[playerId].IsDead = true;
         }
 
