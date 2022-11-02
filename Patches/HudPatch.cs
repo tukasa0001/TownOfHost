@@ -191,6 +191,7 @@ namespace TownOfHost
                     player.CanUseImpostorVent();
                     __instance.AbilityButton.SetDisabled();
                     __instance.AbilityButton.ToggleVisible(false);
+                    __instance.SabotageButton.ToggleVisible(false);
                     goto DesyncImpostor;
 
                 DesyncImpostor:
