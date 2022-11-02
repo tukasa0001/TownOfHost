@@ -6,6 +6,7 @@ namespace TownOfHost
     public static class Thief
     {
         public static readonly int Id = 51000;
+        ///<summary>現在シーフのプレイヤーに加え過去にシーフだったプレイヤーも入っているので注意</summary>
         public static List<byte> playerIdList = new();
 
         public static CustomOption ThiefCooldown;
