@@ -10,7 +10,8 @@
 ## リリース
 
 AmongUsバージョン : **2022.10.25**<br>
-**本家TOHの対応最新バージョンは[こちら](https://github.com/tukasa0001/TownOfHost/releases/latest)**
+**3.0.2.1(最新バージョン)は[こちら](https://github.com/Yumenopai/TownOfHost_Y/releases/tag/v3.0.2.1)から**<br>
+本家TOHの対応最新バージョンは[こちら](https://github.com/tukasa0001/TownOfHost/releases/latest)<br>
 
 ## 特徴
 
