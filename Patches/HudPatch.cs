@@ -319,7 +319,7 @@ namespace TownOfHost
         public static void Prefix(ref RoleTeamTypes __state)
         {
             var player = PlayerControl.LocalPlayer;
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist))
+            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.Thief))
             {
                 __state = player.Data.Role.TeamType;
                 player.Data.Role.TeamType = RoleTeamTypes.Crewmate;
@@ -329,7 +329,7 @@ namespace TownOfHost
         public static void Postfix(ref RoleTeamTypes __state)
         {
             var player = PlayerControl.LocalPlayer;
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist))
+            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.Thief))
             {
                 player.Data.Role.TeamType = __state;
             }
