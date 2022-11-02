@@ -204,10 +204,6 @@ namespace TownOfHost
             Logger.Info($"playerId:{Utils.GetNameWithRole(playerId)}, deathReason:{deathReason}", "TryAddAfterMeetingDeathPlayers");
             if (Main.AfterMeetingDeathPlayers.TryAdd(playerId, deathReason))
             {
-                //霊界用暗転バグ対処
-                var pi = Utils.GetPlayerInfoById(playerId);
-                if (!AntiBlackout.OverrideExiledPlayer && pi != null && Main.ResetCamPlayerList.Contains(pi.PlayerId))
-                    pi.Object?.ResetPlayerCam(12f);
                 FollowingSuicideOnExile(playerId);
             }
         }
