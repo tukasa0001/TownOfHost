@@ -24,13 +24,14 @@ namespace TownOfHost
                     if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pc.PlayerId != pva.VotedFor && pva.VotedFor < 253 && !pc.Data.IsDead)
                     {
                         var voteTarget = Utils.GetPlayerById(pva.VotedFor);
-                        Main.AfterMeetingDeathPlayers.TryAdd(pc.PlayerId, PlayerState.DeathReason.Suicide);
+                        TryAddAfterMeetingDeathPlayers(pc.PlayerId, PlayerState.DeathReason.Suicide);
                         __instance.RpcVotingComplete(new MeetingHud.VoterState[]{ new ()
                         {
                             VoterId = pva.TargetPlayerId,
                             VotedForId = pva.VotedFor
                         }}, voteTarget.Data, false); //RPC
                         Logger.Info($"{voteTarget.GetNameWithRole()}を追放", "Dictator");
+                        FollowingSuicideOnExile(pva.VotedFor);
                         Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
                         return true;
                     }
@@ -64,7 +65,7 @@ namespace TownOfHost
                             switch (Options.GetWhenSkipVote())
                             {
                                 case VoteMode.Suicide:
-                                    Main.AfterMeetingDeathPlayers.TryAdd(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
+                                    TryAddAfterMeetingDeathPlayers(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                     Logger.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました", "Vote");
                                     break;
                                 case VoteMode.SelfVote:
@@ -80,7 +81,7 @@ namespace TownOfHost
                             switch (Options.GetWhenNonVote())
                             {
                                 case VoteMode.Suicide:
-                                    Main.AfterMeetingDeathPlayers.TryAdd(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
+                                    TryAddAfterMeetingDeathPlayers(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                     Logger.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました", "Vote");
                                     break;
                                 case VoteMode.SelfVote:
@@ -175,14 +176,11 @@ namespace TownOfHost
                             Main.SpelledPlayer.Remove(pc.PlayerId);
                 }
                 foreach (var sp in Main.SpelledPlayer.Keys)
-                    Main.AfterMeetingDeathPlayers.TryAdd(sp, PlayerState.DeathReason.Spell);
+                    TryAddAfterMeetingDeathPlayers(sp, PlayerState.DeathReason.Spell);
                 Main.SpelledPlayer.Clear();
 
 
-                if (CustomRoles.Lovers.IsEnable() && Main.isLoversDead == false && Main.LoversPlayers.Find(lp => lp.PlayerId == exileId) != null)
-                {
-                    FixedUpdatePatch.LoversSuicide(exiledPlayer.PlayerId, true);
-                }
+                FollowingSuicideOnExile(exileId);
 
                 //霊界用暗転バグ対処
                 if (!AntiBlackout.OverrideExiledPlayer && exiledPlayer != null && Main.ResetCamPlayerList.Contains(exiledPlayer.PlayerId))
@@ -200,6 +198,29 @@ namespace TownOfHost
         {
             var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
             return player != null && player.Is(CustomRoles.Mayor);
+        }
+        public static void TryAddAfterMeetingDeathPlayers(byte playerId, PlayerState.DeathReason deathReason)
+        {
+            Logger.Info($"playerId:{Utils.GetNameWithRole(playerId)}, deathReason:{deathReason}", "TryAddAfterMeetingDeathPlayers");
+            if (Main.AfterMeetingDeathPlayers.TryAdd(playerId, deathReason))
+            {
+                //霊界用暗転バグ対処
+                var pi = Utils.GetPlayerInfoById(playerId);
+                if (!AntiBlackout.OverrideExiledPlayer && pi != null && Main.ResetCamPlayerList.Contains(pi.PlayerId))
+                    pi.Object?.ResetPlayerCam(12f);
+                FollowingSuicideOnExile(playerId);
+            }
+        }
+        public static void FollowingSuicideOnExile(byte playerId)
+        {
+            var player = Utils.GetPlayerById(playerId);
+            if (player == null) return;
+
+            //Loversの後追い
+            if (CustomRoles.Lovers.IsEnable() && Main.isLoversDead == false && Main.LoversPlayers.Find(lp => lp.PlayerId == player.PlayerId) != null)
+            {
+                FixedUpdatePatch.LoversSuicide(player.PlayerId, true);
+            }
         }
     }
 
