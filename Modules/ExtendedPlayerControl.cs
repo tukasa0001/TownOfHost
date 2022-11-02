@@ -670,7 +670,7 @@ namespace TownOfHost
                     return;
                 case CustomRoles.Thief:
                     bool thiefCanUse = Thief.ThiefCanVent.GetBool();
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(thiefCanUse && !player.Data.IsDead);
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(thiefCanUse && !player.Data.IsDead && !(MapBehaviour.Instance.IsOpen || MeetingHud.Instance));
                     player.Data.Role.CanVent = thiefCanUse;
                     return;
             }
