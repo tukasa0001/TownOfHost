@@ -222,6 +222,7 @@ namespace TownOfHost
         public static CustomOption SuffixMode;
         public static CustomOption HideGameSettings;
         public static CustomOption ColorNameMode;
+        public static CustomOption ChangeNameToRoleInfo;
 
         public static readonly string[] suffixModes =
         {
@@ -582,6 +583,8 @@ namespace TownOfHost
             HideGameSettings = CustomOption.Create(1_000_002, TabGroup.MainSettings, Color.white, "HideGameSettings", false)
                 .SetGameMode(CustomGameMode.All);
             ColorNameMode = CustomOption.Create(1_000_003, TabGroup.MainSettings, Color.white, "ColorNameMode", false)
+                .SetGameMode(CustomGameMode.All);
+            ChangeNameToRoleInfo = CustomOption.Create(1_000_004, TabGroup.MainSettings, Color.white, "ChangeNameToRoleInfo", true)
                 .SetGameMode(CustomGameMode.All);
 
             DebugModeManager.SetupCustomOption();
