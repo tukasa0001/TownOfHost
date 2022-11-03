@@ -12,6 +12,7 @@ namespace TownOfHost
         public static CustomOption ThiefCooldown;
         public static CustomOption ThiefHasImpostorVision;
         public static CustomOption ThiefCanVent;
+        public static CustomOption ThiefChangeTargetTeam;
 
         public static void SetupCustomOption()
         {
@@ -19,6 +20,7 @@ namespace TownOfHost
             ThiefCooldown = CustomOption.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "ThiefCooldown", 30f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Thief]);
             ThiefHasImpostorVision = CustomOption.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "ThiefHasImpostorVision", false, Options.CustomRoleSpawnChances[CustomRoles.Thief]);
             ThiefCanVent = CustomOption.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "ThiefCanVent", true, Options.CustomRoleSpawnChances[CustomRoles.Thief]);
+            ThiefChangeTargetTeam = CustomOption.Create(Id + 13, TabGroup.NeutralRoles, Color.white, "ThiefChangeTargetTeam", true, Options.CustomRoleSpawnChances[CustomRoles.Thief]);
         }
         public static void Init()
         {
@@ -88,6 +90,10 @@ namespace TownOfHost
                         break;
                     default:
                         break;
+                if (ThiefChangeTargetTeam.GetBool())
+                {
+                    Logger.Info($"スチールロールされたプレイヤー{target.GetNameWithRole()}のロールをオポチュニストに変更します", "Thief");
+                    target.RpcSetCustomRole(CustomRoles.Opportunist);
                 }
                 Utils.NotifyRoles();
                 thief.CustomSyncSettings();
