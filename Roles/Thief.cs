@@ -114,7 +114,6 @@ namespace TownOfHost
         public static void ApplyGameOptions(GameOptionsData opt, byte playerId)
         {
             var pc = Utils.GetPlayerById(playerId);
-            opt.RoleOptions.ShapeshifterCooldown = 255f;
             opt.RoleOptions.ShapeshifterDuration = 1f;
             opt.SetVision(pc, ThiefHasImpostorVision.GetBool());
         }
