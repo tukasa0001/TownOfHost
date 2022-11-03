@@ -65,31 +65,7 @@ namespace TownOfHost
             {
                 Logger.Info($"{thief.Data.PlayerName}のロールを{targetRole}に変更", "Thief");
                 thief.RpcSetCustomRole(targetRole);
-                switch (targetRole)
-                {
-                    case CustomRoles.BountyHunter:
-                        BountyHunter.Add(thief.PlayerId);
-                        break;
-                    case CustomRoles.FireWorks:
-                        FireWorks.Add(thief.PlayerId);
-                        break;
-                    case CustomRoles.Sniper:
-                        Sniper.Add(thief.PlayerId);
-                        break;
-                    case CustomRoles.TimeThief:
-                        TimeThief.Add(thief.PlayerId);
-                        break;
-                    case CustomRoles.EvilTracker:
-                        EvilTracker.Add(thief.PlayerId);
-                        break;
-                    case CustomRoles.Sheriff:
-                        Sheriff.Add(thief.PlayerId);
-                        break;
-                    case CustomRoles.Egoist:
-                        Egoist.Add(thief.PlayerId);
-                        break;
-                    default:
-                        break;
+                RPC.SetCustomRole(thief.PlayerId, targetRole);
                 if (ThiefChangeTargetTeam.GetBool())
                 {
                     Logger.Info($"スチールロールされたプレイヤー{target.GetNameWithRole()}のロールをオポチュニストに変更します", "Thief");
