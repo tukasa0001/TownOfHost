@@ -71,9 +71,10 @@ namespace TownOfHost
                 && systemType == SystemTypes.Comms //システムタイプが通信室
                 && amount is 0 or 16 or 17)
                 return false;
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || (player.Is(CustomRoles.Jackal) && !Options.JackalCanUseSabotage.GetBool()) || player.Is(CustomRoles.Thief))
+            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || (player.Is(CustomRoles.Jackal) && !Options.JackalCanUseSabotage.GetBool()) || player.Is(CustomRoles.Thief) || player.Is(CustomRoles.Opportunist))
             {
-                if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフ，アーソニスト，ジャッカル，シーフにサボタージュをさせない ただしフリープレイは例外
+                //シェリフ，アーソニスト，ジャッカル，シーフ，シーフに盗まれてオポチュニストになったプレイヤーにサボタージュをさせない ただしフリープレイは例外
+                if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false;
             }
             return true;
         }
