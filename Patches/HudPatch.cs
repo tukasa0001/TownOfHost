@@ -196,6 +196,18 @@ namespace TownOfHost
                     __instance.AbilityButton.ToggleVisible(false);
                     __instance.SabotageButton.ToggleVisible(false);
                     goto DesyncImpostor;
+                case CustomRoles.Opportunist:  // シーフに取られて死んだ人
+                    if (player.Data.RoleType != RoleTypes.Crewmate)
+                    {
+                        __instance.ImpostorVentButton.SetDisabled();
+                        __instance.ImpostorVentButton.ToggleVisible(false);
+                        __instance.SabotageButton.SetDisabled();
+                        __instance.SabotageButton.ToggleVisible(false);
+                        __instance.KillButton.SetDisabled();
+                        __instance.KillButton.ToggleVisible(false);
+                        __instance.AbilityButton.SetDisabled();
+                        __instance.AbilityButton.ToggleVisible(false);
+                    }
 
                 DesyncImpostor:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
@@ -323,7 +335,10 @@ namespace TownOfHost
         public static void Prefix(ref RoleTeamTypes __state)
         {
             var player = PlayerControl.LocalPlayer;
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.Thief))
+            if (player.Is(CustomRoles.Sheriff) ||
+                player.Is(CustomRoles.Arsonist) ||
+                player.Is(CustomRoles.Thief) ||
+                (player.Is(CustomRoles.Opportunist) && player.Data.RoleType != RoleTypes.Crewmate))
             {
                 __state = player.Data.Role.TeamType;
                 player.Data.Role.TeamType = RoleTeamTypes.Crewmate;
@@ -333,7 +348,10 @@ namespace TownOfHost
         public static void Postfix(ref RoleTeamTypes __state)
         {
             var player = PlayerControl.LocalPlayer;
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.Thief))
+            if (player.Is(CustomRoles.Sheriff) ||
+                player.Is(CustomRoles.Arsonist) ||
+                player.Is(CustomRoles.Thief) ||
+                (player.Is(CustomRoles.Opportunist) && player.Data.RoleType != RoleTypes.Crewmate))
             {
                 player.Data.Role.TeamType = __state;
             }
