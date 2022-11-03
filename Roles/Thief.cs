@@ -54,7 +54,8 @@ namespace TownOfHost
             var targetRole = target.GetCustomRole();
             var succeeded = targetRole.IsImpostor() || (targetRole is
                 CustomRoles.Sheriff or
-                CustomRoles.Egoist);
+                CustomRoles.Egoist or
+                CustomRoles.Jackal);
             // 相手がキル役職でなければ自爆
             if (!succeeded)
             {
