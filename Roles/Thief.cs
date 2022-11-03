@@ -26,13 +26,16 @@ namespace TownOfHost
         }
         public static void Add(byte playerId)
         {
+            var player = Utils.GetPlayerById(playerId);
             playerIdList.Add(playerId);
             if (!Main.ResetCamPlayerList.Contains(playerId))
             {
                 Main.ResetCamPlayerList.Add(playerId);
             }
+            // ホストがシーフになったとき，ホスト視点では自分がシェイプシフター判定になっている
             if (playerId == 0 && PlayerControl.LocalPlayer.PlayerId == 0)
             {
+                player.Data.Role.TeamType = RoleTeamTypes.Crewmate;
                 foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
                 {
                     pc.Data.Role.CanBeKilled = true;
@@ -88,13 +91,14 @@ namespace TownOfHost
                 }
                 Utils.NotifyRoles();
                 thief.CustomSyncSettings();
+                if (targetRole.IsImpostor() || targetRole == CustomRoles.Egoist)
+                    thief.Data.Role.TeamType = RoleTeamTypes.Impostor;
                 // ホストはこれをしないとサボボタンなどが出てこないor押せない
                 if (thief.PlayerId == 0)
                 {
                     DestroyableSingleton<HudManager>.Instance.SetHudActive(true);
                     if (targetRole.IsImpostor() || targetRole == CustomRoles.Egoist)
                     {
-                        thief.Data.Role.TeamType = RoleTeamTypes.Impostor;
                         thief.Data.Role.CanVent = true;
                     }
                 }
