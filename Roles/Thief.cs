@@ -17,9 +17,9 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Thief);
-            ThiefCooldown = CustomOption.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "ThiefCooldown", 30f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Thief]);
-            ThiefHasImpostorVision = CustomOption.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "ThiefHasImpostorVision", false, Options.CustomRoleSpawnChances[CustomRoles.Thief]);
-            ThiefCanVent = CustomOption.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "ThiefCanVent", true, Options.CustomRoleSpawnChances[CustomRoles.Thief]);
+            ThiefCooldown = CustomOption.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "KillCooldown", 30f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Thief]);
+            ThiefHasImpostorVision = CustomOption.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "ImpostorVision", false, Options.CustomRoleSpawnChances[CustomRoles.Thief]);
+            ThiefCanVent = CustomOption.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "CanVent", true, Options.CustomRoleSpawnChances[CustomRoles.Thief]);
             ThiefChangeTargetTeam = CustomOption.Create(Id + 13, TabGroup.NeutralRoles, Color.white, "ThiefChangeTargetTeam", true, Options.CustomRoleSpawnChances[CustomRoles.Thief]);
         }
         public static void Init()

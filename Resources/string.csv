@@ -69,6 +69,7 @@ Opportunist,Opportunist,オポチュニスト,投机者,投機主義者,Opportun
 Egoist,Egoist,エゴイスト,野心家,利己主義者,Egoist
 Lovers,Lovers,恋人,恋人,戀人,Lovers
 Jackal,Jackal,ジャッカル,豺狼,豺狼,Jackal
+Thief,Thief,シーフ,,,
 
 # HideAndSeek
 HASFox,Fox,狐,狐狸,狐妖,Fox
@@ -144,6 +145,7 @@ ExecutionerInfo,Get your target voted out,ターゲットを追放させよう,�
 EgoistInfo,Replace the Impostor win,インポスター勝利を独占しよう,我们要把属于内鬼的胜利给夺走！,讓我們來奪取狼人的勝利,Замените победу Предателей
 LoversInfo,Survive with your lover,恋人と生きて幸せを掴もう,你们坠入了爱河，成为了一对恋人，一起活到最后吧！,你墜入了愛河(心理),Выживите со своим Любовником
 JackalInfo,Kill Everyone,すべてを殺せ,快去杀光所有人，一只苍蝇都不要剩下！,殺光所有人不留活口,Убей их всех
+ThiefInfo,Kill other killers and steal their role,殺し、奪え,,,
 
 # HideAndSeek
 HASFoxInfo,Stay alive,とにかく生き残りましょう,活下去吧！活到最后你就成为了赢家！,活到最後就是屬於你和贏家的一片天,Останьтесь в живых
@@ -204,6 +206,7 @@ SchrodingerCatInfoLong,"(Neutrals):\nWhen killed, they prevents the kill and bel
 OpportunistInfoLong,(Neutrals):\nThey win the game with any other Roles only if they are just alive at the game end.,(第三陣営):\n試合終了時に生存していれば追加勝利となる。,(独立阵营):\n若投机者在游戏结束时存活，则投机者跟随获胜玩家一同获得胜利。,"(中立):\n如果投機主義者活到最後,他將跟著遊戲結束獲勝的陣營一起獲勝。","(Нейтрал):\nОн выигрывает игру с любыми другими ролями, но с условием что он выжил."
 EgoistInfoLong,"(Neutrals):\nAfter all the Impostors has gone, the Egoists Replace Impostor win.\nThe Impostors and Egoists can see each other.",(第三陣営):\n味方がすべて死んだ状態でインポスターが勝つと単独勝利する。\nインポスターは誰がエゴイストか分かる。エゴイストも、誰がインポスターか分かる。,(独立阵营):\n规则上野心家属于内鬼阵营。野心家与内鬼阵营玩家互认且不可以击杀对方。\n内鬼阵营玩家全部死亡后，若野心家存活且内鬼阵营达成胜利条件，则野心家单独获得胜利。,"(中立):\n如果所有的狼人都死光了且利己主義者活著,利己主義者將獨自獲勝。\n(狼人和利己主義者互相知道對方但是不可以互刀對方)","(Нейтрал):\nПосле того, как все Предатели умрут то Egoist победит, он заменяет победу Предателей.\nПредатели и Egoist могут видеть друг друга."
 JackalInfoLong,"(Neutrals):\nJackal can kill all Crewmates, Impostors and Neutrals.\nTeam Jackal wins when living Jackal outnumbers living Crewmates and when there are no Impostors alive.",(第三陣営):\nジャッカルはすべてのプレイヤーを殺すことができる。\nインポスターが残っておらず、生き残っているジャッカルの人数がクルーと同じかそれ以上でジャッカルが勝利する。,(独立阵营):\n豺狼需要击杀所有人。\n存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。,"(中立):\n豺狼需要殺死所有人來獲得勝利,\n如果場上存活的玩家只剩下豺狼和另一名不帶刀職業時,豺狼將獲勝。","(Нейтрал):\nJackal может убить всех Членов Экипажа, Нейтралов и Предателей тоже.\nJackal может победить, когда в живых остался только 1 Jackal и 1 Член Экипажа."
+ThiefInfoLong,"(Neutrals):\nThe Thief has to kill other killers and steal them role in order to have a win condition.\nIf the thief tries to kill any non-killing player, they kill themselves instead.\nDepending on settings, the stolen player will be Opportunist and lose win conditions.",(第三陣営):\nはじめは勝利条件を持たない。\nキル能力を持つ他のプレイヤーをキルすることでそのプレイヤーの役職を盗み、その役職の勝利条件を満たすことで勝利することができる。\nキル能力を持たないプレイヤーをキルしようとすると自爆してしまう。\n設定によって、シーフによって役職を奪われたプレイヤーはオポチュニストになり、勝利することが不可能になる。,,,
 
 # HideAndSeek
 HASFoxInfoLong,(HideAndSeek):\nThey win the game with other Roles (except Troll) only if they are alive at the game end.,(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。,（躲猫猫）:\n狐狸活到最后便与获胜阵营一同获胜。,"(躲貓貓):\n除了其他的中立陣營以外,只要狐妖活下來即可獲勝\n他們將跟著遊戲結束的獲勝陣營一起獲勝。",(Прятки):\nОн выигрывает игру с другими ролями (кроме Troll) только если он выжил в конце игры.
@@ -367,6 +370,7 @@ TimeThiefReturnStolenTimeUponDeath,Return Stolen Time After Death,死亡後に�
 EvilTrackerCanSeeKillFlash,EvilTracker Can See The Flash Of Impostor Kills,インポスターキル時にフラッシュが見える,当内鬼进行击杀时邪恶的追踪者可以看到闪光,,EvilTracker Может Видеть Вспышку Убийства Предатлелей
 EvilTrackerResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,会議後に再度ターゲットを設定できる,会议后重置邪恶的追踪者追踪目标,,EvilTracker Может Сбросить Цель После Встречи
 KillFlashDuration,Kill Flash Duration(s),キルフラッシュの長さ(秒),击杀闪烁持续时间,,Длительность Вспышки Убийсва
+ThiefChangeTargetTeam,Change the Role of the Stolen Player,盗まれたプレイヤーの役職を変更する,,,
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定,Настройки Пряток
@@ -517,6 +521,7 @@ ArsonistDouseButtonText,Douse,塗る,涂油,澆油,Облить
 PuppeteerOperateButtonText,Operate,操る,操控,操控,Управлять
 BountyHunterChangeButtonText,Swap,変更,变更,變更,Смена
 DefaultShapeshiftText,SHIFT,変身,变形,變身,Превращение
+ThiefStealButtonText,STEAL,盗む,,,
 All,All,すべて,全部,全部,Все
 Archive,Archive,アーカイブ,文件,檔案,Архив
 DisabledBySettings,Disabled by setting,設定で無効化されています,已在设置被中禁用,在設定中被禁用,Отключено настройкой
