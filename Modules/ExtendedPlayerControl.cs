@@ -174,7 +174,7 @@ namespace TownOfHost
         public static void SetKillCooldown(this PlayerControl player, float time)
         {
             CustomRoles role = player.GetCustomRole();
-            if (!(role.IsImpostor() || player.IsNeutralKiller() || role is CustomRoles.Arsonist or CustomRoles.Sheriff)) return;
+            if (!(role.IsImpostor() || player.IsNeutralKiller() || role is CustomRoles.Arsonist or CustomRoles.Sheriff or CustomRoles.Thief)) return;
             if (player.AmOwner)
             {
                 player.SetKillTimer(time);
@@ -745,8 +745,7 @@ namespace TownOfHost
             return
                 player.GetCustomRole() is
                 CustomRoles.Egoist or
-                CustomRoles.Jackal or
-                CustomRoles.Thief;
+                CustomRoles.Jackal;
         }
 
         //汎用
