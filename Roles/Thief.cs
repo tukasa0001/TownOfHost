@@ -100,6 +100,7 @@ namespace TownOfHost
             var pc = Utils.GetPlayerById(playerId);
             opt.RoleOptions.ShapeshifterDuration = 1f;
             opt.SetVision(pc, ThiefHasImpostorVision.GetBool());
+            opt.KillCooldown = ThiefCooldown.GetFloat();
         }
         public static void RestoreKillButtonText(PlayerControl killer)
         {
