@@ -341,10 +341,6 @@ namespace TownOfHost
                     case CustomRoles.JSchrodingerCat:
                         LocalPlayerKnowsJackal = true;
                         break;
-                    case CustomRoles.Thief:
-                        if (seer.PlayerId == 0 && (target.GetCustomRole().IsImpostor() || target.Is(CustomRoles.Egoist)))
-                            pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Crewmate), pva.NameText.text);
-                        break;
                 }
 
                 switch (target.GetCustomRole())
