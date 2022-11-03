@@ -151,7 +151,7 @@ You can also reload the translation by pressing key `T`+`F5`.
 | [Sniper](#Sniper)                   | [SabotageMaster](#SabotageMaster) | [Opportunist](#Opportunist)       |           |
 | [TimeThief](#TimeThief)             | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |           |
 | [Vampire](#Vampire)                 | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |           |
-| [Warlock](#Warlock)                 | [Snitch](#Snitch)                 |                                   |           |
+| [Warlock](#Warlock)                 | [Snitch](#Snitch)                 | [Thief](#thief)                   |           |
 | [Witch](#Witch)                     | [SpeedBooster](#SpeedBooster)     |                                   |           |
 | [Mafia](#Mafia)                     | [Trapper](#Trapper)               |                                   |           |
 | [Madmate](#Madmate)                 |                                   |                                   |           |
@@ -812,6 +812,33 @@ The Terrorists are the Neutral Role where they win the game alone if they die wi
 Any cause of death is acceptable.<br>
 If they die before completing their tasks, or if they survive at the game end, they lose.<br>
 
+### Thief
+
+Team : Neutral(Other)<br>
+Basis : Shapeshifter<br>
+Count : Crew<br>
+Victory Conditions : None<br>
+
+The Thief have no victory condition in the initial state.<br>
+By killing other killers(Impostors, [Egoist](#egoist), [Jackal](#jackal), [Sheriff](#sheriff)), the Thief can steal their role.<br>
+If the Thief tries to kill any non-killing player, they kill themselves instead.<br>
+If the option "Change the Role of the Stolen Player" is On, the stolen player gets to become shown as [Opportunist](#opportunist) and lose the win condition.<br>
+If it is Off, they can win as normal.
+
+Note:
+* If the Thief stole Impostors role or [Egoist](#egoist) role, the kill button reacts to other impostors, however, even if it pushed, nothing happens.
+* If the option "Change the Role of the Stolen Player" is On and the Thief stole Impostors role, the stolen player gets to be unable to sabotage. Because of the specification limit, they can close the doors, but please don't.
+* By the specification, the shapeshift button with a 255sec cooldown is displayed to unmodded players.
+
+#### Game Options
+
+| Name                                 |
+| ------------------------------------ |
+| Kill Cooldown                        |
+| Has Impostor Vision                  |
+| Can Use Vent                         |
+| Change the Role of the Stolen Player |
+
 ## Attribute
 
 ### LastImpostor
@@ -1083,7 +1110,7 @@ If the client language is English, this option is meaningless unless `Force Japa
 
 ## Credits
 
-More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter),[Seer](#Seer),[Jackal](#jackal) idea by [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
+More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter),[Seer](#Seer),[Jackal](#jackal),[Thief](#thief) idea by [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
 [Opportunist](#Opportunist),[Watcher](#Watcher) original idea by [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
 [SchrodingerCat](#SchrodingerCat),[EvilTracker](#EvilTracker) idea by [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
 [Doctor](#Doctor) original idea by [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
