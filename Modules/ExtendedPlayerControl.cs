@@ -398,6 +398,9 @@ namespace TownOfHost
                 opt.VotingTime = Options.AllAliveMeetingTime.GetInt();
             }
 
+            if (Thief.playerIdList.Contains(player.PlayerId))
+                Thief.ApplyLongShapeshiftCooldown(opt, player);
+
             opt.RoleOptions.ShapeshifterCooldown = Mathf.Max(1f, opt.RoleOptions.ShapeshifterCooldown);
             opt.RoleOptions.ProtectionDurationSeconds = 0f;
 

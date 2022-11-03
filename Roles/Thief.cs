@@ -75,6 +75,7 @@ namespace TownOfHost
                 }
                 Utils.NotifyRoles();
                 thief.CustomSyncSettings();
+                thief.RpcResetAbilityCooldown();
                 if (targetRole.IsImpostor() || targetRole == CustomRoles.Egoist)
                     thief.Data.Role.TeamType = RoleTeamTypes.Impostor;
                 // ホストはこれをしないとサボボタンなどが出てこないor押せない
@@ -99,6 +100,7 @@ namespace TownOfHost
         {
             var pc = Utils.GetPlayerById(playerId);
             opt.RoleOptions.ShapeshifterDuration = 1f;
+            opt.RoleOptions.ShapeshifterCooldown = 255f;
             opt.SetVision(pc, ThiefHasImpostorVision.GetBool());
             opt.KillCooldown = ThiefCooldown.GetFloat();
         }
@@ -106,6 +108,12 @@ namespace TownOfHost
         {
             if (killer != PlayerControl.LocalPlayer || killer.Is(CustomRoles.Thief)) return;
             DestroyableSingleton<HudManager>.Instance.KillButton.OverrideText(Translator.GetString("KillButtonText"));
+        }
+        /// <summary>本来シェイプシフター置き換えではないロールをスチールロールした元シーフの変身クールを255秒にします</summary>
+        public static void ApplyLongShapeshiftCooldown(GameOptionsData opt, PlayerControl player)
+        {
+            if (player.GetCustomRole().GetVanillaRole() != RoleTypes.Shapeshifter)
+                opt.RoleOptions.ShapeshifterCooldown = 255f;
         }
     }
 }
