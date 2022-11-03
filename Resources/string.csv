@@ -1,12 +1,91 @@
 id,0,11,13,14,5
 ## Translators
 #5  RusTranslation: Tommy-XL
-#13 SChinese:fivefirex&ZeMingOH233  2T&MC-AS-Huier&xiaojin xyjx001(Edit: Tanakanira)
+#13 SChinese:fivefirex&ZeMingOH233  2T&MC-AS-Huier&xiaojin xyjx001(Edit: Tanakanira) (TOH_Y)Among Us
 #14 TChinese: NetherDragon_Tw (Edit: Soukunsandesu)
 
 ## 役職
 Neutral,Neutral,第三陣営,中立阵营,中立陣營,Нейтрал
 SubRole,Sub Role,サブ役職,附加职业,附加職業,Доп Роль
+
+# TOH_Y役職
+Evilneko,Evilnekomata,イビル猫又,双尾妖猫,
+AntiAdminer,AntiAdminer,アンチアドミナー,反管理人,
+MadDictator,MadDictator,マッドディクテーター,背叛的独裁者,
+MadNatureCalls,MadNatureCalls,マッドネイチャコール,背叛的自然呼声,
+Bakery,Bakery,パン屋,面包店,
+Hunter,Hunter,ハンター,猎人,
+TaskManager,TaskManager,タスマネ,任务管理器,
+Nekomata,Nekomata,猫又,双尾怪猫,
+Express,Express,エクスプレス,邮递员,
+Chairman,Chairman,チェアマン,总裁,
+SeeingOff,SeeingOff,見送り人,送行者,
+Rainbow,<size=4><color=#ffff00>★</color></size><color=#ff0000>R</color><color=#ffa500>a</color><color=#ffff00>i</color><color=#00ff00>n</color><color=#00ffff>b</color><color=#0000ff>o</color><color=#800080>w</color><size=4><color=#ffff00>★</color></size>,<size=4><color=#ffff00>★</color></size><color=#ff0000>に</color><color=#ffa500>じ</color><color=#ffff00>い</color><color=#00ff00>ろ</color><color=#00ffff>ス</color><color=#0000ff>タ</color><color=#800080>ー</color><size=4><color=#ffff00>★</color></size>,<size=4><color=#ffff00>★</color></size><color=#ff0000>彩<color=#0000ff></color><color=#800080>虹</color><size=4><color=#ffff00>★</color></size>,
+HelpRoleNameRainbow,★Rainbow★,★にじいろスター★,★彩虹★,
+RainbowColor,Rainbow,レインボー,彩虹色,
+AntiComplete,AntiComplete,アンチコンプリート,防完成,
+Workaholic,Workaholic,ワーカホリック,工作狂,
+
+# TOH_Y役職説明ショート
+EvilnekoInfo,Let's get someone on the road,誰かを道連れにしよう,让我们在路上找一些人吧,
+AntiAdminerInfo,I wish Admin would just go away,アドミンなんてなくなればいい,我希望管理员能离开,
+MadDictatorInfo,Help the Impostors,インポスターの援助をしよう,帮助内鬼,
+MadNatureCallsInfo,Help the Impostors,インポスターの援助をしよう,帮助内鬼,
+BakeryInfo,Let's bring bread to everyone,みんなにパンを届けよう,让我们给所有人面包吧,
+NekomataInfo,I'll be exiled with someone else,人外まで道連れしたい,我将和别人一起被放逐,
+ExpressInfo,Let's run around comfortably,気持ちよく駆け回ろう,让我们舒服的奔跑吧,
+SeeingOffInfo,Is the outcast an imposter?,追放者はインポスターかな
+HunterInfo,Let's kill the suspicious person,怪しい人を斬ろう,让我们杀死可疑的人,
+ChairmanInfo,Manipulate conference openings and closings,会議開閉を操ろう,操纵会议的开场和结束,
+TaskManagerInfo,Let's keep an eye on the number of tasks,タスクの数を見張ろう,让我们来关注一下任务的数量,
+RainbowInfo,You are rainbow,<color=#ff0000>あ</color><color=#ffa500>な</color><color=#ffff00>た</color><color=#00ff00>は</color><color=#00ffff>ま</color><color=#0000ff>ぶ</color><color=#800080>し</color><color=#ff0000>い</color><color=#ffa500>存</color><color=#ffff00>在</color>,你是彩虹,
+AntiCompleteInfo,I hate guys who can work,仕事出来るやつが嫌いだ,我讨厌可以工作的人,
+WorkaholicInfo,I can't live without my job,仕事してないと生きてられない,我不能离开我的工作,
+
+# TOH_Y役職説明ロング
+EvilnekoInfoLong,(Impostors)\nWhen he is hanged, he takes one random person other than the imposter with him. (When the next discussion starts after he is hanged, he will be marked with an "X" without a corpse direction.),[インポスター陣営]\n自身が吊られた際、インポスター以外のランダムな1人を道連れにする。(吊られた次の議論開始時に死体演出無しで×マークが付く)
+AntiAdminerInfoLong,(Impostors)\nI can tell if someone is in front of the Admin, Door Log, or Vital equipment. It does not know if the person is actually using the equipment.,[インポスター陣営]\nアドミン・ドアログ・バイタル機器の前に人がいるか分かる。実際に機器を使用しているかは分からない。
+MadDictatorInfoLong,(Impostors/Madmates)\nCrew but takes the side of the Imposter. Unrecognizable to the Imposter and to each other. No tasks. \nIf you vote for someone during the meeting, you can force the meeting to end and hang the person you voted for. He himself dies at the same time he votes.,[インポスター陣営]:\nクルーだがインポスターの味方をする。インポスターと互いに認識できない。タスクはない。\n会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができる。投票したタイミングで自身も死ぬ。
+MadNatureCallsInfoLong,(Impostors/Madmates)\nCrew but takes the side of the Imposter. Unrecognizable to the Imposter and each other. Can use venting, no tasks. \nThe effect is only activated during airship. Each time you enter a vent, four lounge toilet doors open at the same time.,[インポスター陣営]:\nクルーだがインポスターの味方をする。インポスターと互いに認識できない。ベントが使え、タスクはない。\nエアシップの時のみ効果を発動する。ベントに入る度ラウンジトイレのドアが4つ同時に開く。
+BakeryInfoLong,(Crewmates)\nWhile the baker is alive, comments about the baker are played at the beginning of the meeting.,[クルー陣営]\n生存中、会議はじめにパン屋についてのコメントが流れる。レアコメントあり。
+NekomataInfoLong,(Crewmates)\nWhen he is hanged, he takes one random person with him. (When the next discussion starts after he is hanged, he will be marked with an "X" without a corpse.),[クルー陣営]\n自身が吊られた際、ランダムな1人を道連れにする。(吊られた次の議論開始時に死体演出無しで×マークが付く)
+ExpressInfoLong,(Crewmates)\nIt is just fast. From other viewpoints, they appear to be the same speed and out-of-sync warp. (Specification),[クルー陣営]\nただ足が速い。他視点からは同じスピードで同期ズレワープのように見える。(仕様)
+SeeingOffInfoLong,(Crewmates)\nThe banishment confirmation is turned on only by itself. You will know if the person you have banished is an imposter or not.,[クルー陣営]\n追放確認が自身だけオンになる。追放した人がインポスターかそうでないかがわかる。
+HunterInfoLong,(Crewmates)\nCan be killed against anyone. The number of kills in parentheses () are possible. It is only a crewmates, so think about the timing. No task.,[クルー陣営]\n誰に向かってでもキルできる。()内回数キル可能。あくまでクルー陣営なのでタイミングは考えよう。タスクはもっていない。
+ChairmanInfoLong,(Crewmates)\nWhen you enter a vent, you can open a meeting. During sabotage, entering a vent does not open a meeting. The vent button is consumed at the same time as the normal button count. (If you use the vent button first when you have one normal button count, you will not be able to use the normal button.) Voting for someone can immediately interrupt the meeting. You cannot vote normally except for skip/self-vote, which triggers the ability.,[クルー陣営]\n・ベントに入ると会議が開ける。サボタージュ中はベントに入っても会議を開けない。\n通常ボタン回数と同時に消費する。(通常ボタン回数1回の時、先にベントボタンを使うと、通常ボタンは使えなくなる。)\n・誰かに投票することでその会議を即中断できる(追放は起こらずスキップ扱い)。\nスキップ・自投票以外の普通の投票は出来ず、能力を発動してしまう。,
+TaskManagerInfoLong,(Crewmates)\nThe total number of tasks completed by all members is shown (in () next to the job title).,(タスクマネージャー)[クルー陣営]\n\n全員の合計タスク完了数が分かる(役職名横()にて)。
+RainbowInfoLong,(Crewmates)\nThe name of one's position is colorful. Also, the color of my body changes every second. You can tell that you are a Rainbow from all of you. The task count of oneself is invisible.,[クルー陣営]\n自分の役職名がカラフル。また、自分の体の色が1秒ごとに変わる。自分の全員から自分がにじいろスターだということが分かる。自身のタスクカウントは見えない。
+AntiCompleteInfoLong,(Neutrals)\nDuring the meeting, you can vote for your favorite person only once in the entire meeting. If that person has already completed the task, he or she wins alone. If you select someone who has no task or who has not completed a task, you die and lose. When the AntiComplete selects someone, the meeting is forced to end.,[第三陣営]\n会議中、全体で1回のみ好きな人を投票で選択出来る。その人がタスクを既に完了させていたら単独勝利。タスクがない人、タスクが終わってない人を選ぶと死亡し敗北。\nアンチコンプが誰か選択した時、会議は強制終了する。
+WorkaholicInfoLong,(Neutrals)\nWhen you complete a task, you win alone. The amount of tasks is very large. Even if you die, you win when you finish the task. Vent is possible.,[第三陣営]\nタスクを完了させた時、単独勝利。タスク量はとても多い。死亡しても関係なく、タスクが終わると勝利。霊界からでも終わらそう。ベント可。
+
+# TOH_Y役職詳細
+MadmateTakeCompanion,Madmate Take a Companion,マッド系役職追放時にクルーを道連れ,叛徒带着同伴,
+HunterShotLimit,Number Of Shots,キル可能回数,最大执法次数,最大子彈數量,Количество Выстрелов,子弹数,
+Parentheses,Parenthesis display of usage count,可能回数の括弧表示,括号内显示使用数量,
+TaskmanagerSeeNowtask,Watch now all task count,会議時以外でもタスク数が見える,现在观看所有的任务计数,
+WorkaholicSeen,Can see who the workaholics are from everyone,全員視点からワーカホリックがわかる,可以从每个人身上看到谁是工作狂,
+WorkaholicTasks,Workaholic Tasks,ワーカホリックのタスク数,工作狂任务数,
+VentCooldown,Vent Cooldown,ベントクールダウン,钻管冷却,
+TakeCompanionOther,Can take companion Neutrals,猫又系役職が第三陣営を道連れ出来る,可以接受同伴为中立,
+TakeCompanionChain,Take companion chain,猫又系役職の道連れ連鎖,路边连锁的双尾怪猫类型的位置。,
+TakeCompanionMad,Can take companion Madmates,マッド系役職を道連れ出来る,可以看到叛徒的任务数,
+CanCheckCamera,Can check camera,カメラの人も検知出来る,可以检查摄像头,
+NumOfUseButton,Number Of Emergency Button,ボタンの使用可能回数,选择进行投票的最大次数,隨時拍桌最大次數,Количество Портативных Кнопок
+
+PanAlive,【The bakery is alive.】\n\nBread was served by the bakery.,【パン屋生存中】\n\nパン屋によってパンが振る舞われました。,【面包师仍然存活.】\n\n面包店提供了面包。,
+PanAlive1,【The bakery is alive.】\n\nBread was served by the bakery.,【パン屋生存中】\n\nパン屋はクロワッサンが大好物らしい。,【面包师仍然存活.】\n\n面包店提供了面包。,
+PanAlive2,【The bakery is alive.】\n\nBread was served by the bakery.,【パン屋生存中】\n\nパン屋がInstagramで広告を出し始めた。,【面包师仍然存活.】\n\n面包店提供了面包。,
+PanAlive3,【The bakery is alive.】\n\nBread was served by the bakery.,【パン屋生存中】\n\nパン屋がパン焦がした。くさい。,【面包师仍然存活.】\n\n面包店提供了面包。,
+PanAlive4,【The bakery is alive.】\n\nBread was served by the bakery.,【パン屋生存中】\n\nパン屋は大盛況。30分待ちの列ができた。,【面包师仍然存活.】\n\n面包店提供了面包。,
+PanAlive5,【The bakery is alive.】\n\nBread was served by the bakery.,【パン屋生存中】\n\nパン屋、ついに海外進出。,【面包师仍然存活.】\n\n面包店提供了面包。,
+PanAlive6,【The bakery is alive.】\n\nBread was served by the bakery.,【パン屋生存中】\n\nパン屋が小麦粉ぶちまけた。まっしろけ。,【面包师仍然存活.】\n\n面包店提供了面包。,
+PanAlive7,【The bakery is alive.】\n\nBread was served by the bakery.,【パン屋生存中】\n\nパーリーピーポーパンヤイェイハッピーパラダイス!!,【面包师仍然存活.】\n\n面包店提供了面包。,
+PanAlive8,【The bakery is alive.】\n\nBread was served by the bakery.,【パン屋生存中】\n\nパン屋が米屋を招待。\n炊き立てご飯が振る舞われました。,【面包师仍然存活.】\n\n面包店提供了面包。,
+AntiAdminerAD,Warning Admin,アドミン注意！,管理室地图注意,
+AntiAdminerVI,Warning Vital,バイタル注意！,生命检测仪注意,
+AntiAdminerDL,Warning DoorLog,ドアログ注意！,日志注意,
+AntiAdminerCA,Warning Camera,カメラ注意！,摄像头注意,
+
 
 # バニラ役職
 Crewmate,Crewmate,クルーメイト,船员,船員,Член Экипажа
@@ -61,10 +140,10 @@ Jester,Jester,ジェスター,小丑,小丑,Jester
 Terrorist,Terrorist,テロリスト,恐怖分子,恐怖分子,Terrorist
 Executioner,Executioner,エクスキューショナー,处刑人,劊子手,Executioner
 SchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓,SchrodingerCat
-CSchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓,SchrodingerCat
-MSchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓,SchrodingerCat
-EgoSchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓,SchrodingerCat
-JSchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓,SchrodingerCat
+CSchrodingerCat,(Crew)SCat,(Crew)シュレ猫,(船员)薛定谔的猫,(船員)薛定諤的貓,(Crew)SCat
+MSchrodingerCat,(Impo)SCat,(Impo)シュレ猫,(内鬼)薛定谔的猫,(偽裝)薛定諤的貓,(Impo)SCat
+EgoSchrodingerCat,(Ego)SCat,(Ego)シュレ猫,(野心)薛定谔的猫,(利己主義)薛定諤的貓,(Ego)SCat
+JSchrodingerCat,(Jack)SCat,(Jack)シュレ猫,(豺狼)薛定谔的猫,(豺狼)薛定諤的貓,(Jack)SCat
 Opportunist,Opportunist,オポチュニスト,投机者,投機主義者,Opportunist
 Egoist,Egoist,エゴイスト,野心家,利己主義者,Egoist
 Lovers,Lovers,恋人,恋人,戀人,Lovers
@@ -75,7 +154,7 @@ HASFox,Fox,狐,狐狸,狐妖,Fox
 HASTroll,Troll,トロール,猎人,誘捕者,Troll
 
 # GM
-GM,GM,GM,GM(管理员),GM(遊戲大師),GM(Призрак)
+GM,GM,ゲームマスター,GM(管理员),GM(遊戲大師),GM(Призрак)
 
 # 属性
 LastImpostor,Last Impostor,ラストインポスター,绝境者,絕境者,Последний Предатель
@@ -391,6 +470,9 @@ DeathReason.Execution,Executed,処刑,处决,處刑,Казнен
 DeathReason.Disconnected,Disconnected,回線切断,断连,斷線,Отсоеденился
 DeathReason.Fall,Fall,転落,摔死,摔死,Упал
 DeathReason.etc,etc,その他,其他,其他,ТакДалее
+DeathReason.win,hit,的中,猜着
+DeathReason.Companion,Companion,道連れ,同归于尽
+DeathReason.WTaskFinish,TaskFinish,タスク完了,任务完成
 Alive,Alive,生存,存活,存活,Выжил
 Win," Wins",勝利,胜利,勝利,"Победил"
 Last,Last,ラスト,仅存,獨活,Последний
