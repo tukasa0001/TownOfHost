@@ -280,9 +280,6 @@ namespace TownOfHost
                     case CustomRoles.TimeThief:
                         TimeThief.OnCheckMurder(killer);
                         break;
-                    case CustomRoles.Thief:
-                        if (!Thief.TrySteal(killer, target)) return false;
-                        break;
 
                     //==========マッドメイト系役職==========//
 
@@ -297,6 +294,9 @@ namespace TownOfHost
                             RPC.SetCurrentDousingTarget(killer.PlayerId, target.PlayerId);
                         }
                         return false;
+                    case CustomRoles.Thief:
+                        if (!Thief.TrySteal(killer, target)) return false;
+                        break;
 
                     //==========クルー役職==========//
                     case CustomRoles.Sheriff:
