@@ -87,6 +87,9 @@ namespace TownOfHost
                 case CustomRoles.BountyHunter:
                     BountyHunter.GetAbilityButtonText(__instance);
                     break;
+                case CustomRoles.Thief:
+                    Thief.GetAbilityButtonText(__instance);
+                    break;
             }
 
             __instance.GameSettings.text = OptionShower.GetText();

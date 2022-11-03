@@ -326,9 +326,14 @@ namespace TownOfHost
         }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
+            PlayerControl killer = __instance; //読み替え変数
+
+            // Mod入りシーフがスチールロールした時にキルボタンのテキストを｢キル｣に戻します
+            if (Thief.playerIdList.Contains(killer.PlayerId))
+                Thief.RestoreKillButtonText(killer);
+
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost) return;
 
-            PlayerControl killer = __instance; //読み替え変数
             if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
             {
                 killer = Utils.GetPlayerById(Sniper.GetSniper(target.PlayerId));

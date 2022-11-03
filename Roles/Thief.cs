@@ -46,6 +46,8 @@ namespace TownOfHost
         }
         public static bool IsEnable() => playerIdList.Count > 0;
 
+        public static void GetAbilityButtonText(HudManager __instance) =>
+            __instance.KillButton.OverrideText(Translator.GetString("ThiefStealButtonText"));
         ///<summary>戻り値はスチールロールの成否です 成功した場合はtrueになります</summary>
         public static bool TrySteal(PlayerControl thief, PlayerControl target)
         {
@@ -98,6 +100,11 @@ namespace TownOfHost
             var pc = Utils.GetPlayerById(playerId);
             opt.RoleOptions.ShapeshifterDuration = 1f;
             opt.SetVision(pc, ThiefHasImpostorVision.GetBool());
+        }
+        public static void RestoreKillButtonText(PlayerControl killer)
+        {
+            if (killer != PlayerControl.LocalPlayer || killer.Is(CustomRoles.Thief)) return;
+            DestroyableSingleton<HudManager>.Instance.KillButton.OverrideText(Translator.GetString("KillButtonText"));
         }
     }
 }
