@@ -81,6 +81,19 @@ namespace TownOfHost
             {
                 res = $"*{dic[0]}";
             }
+            if (langId == SupportedLangs.Japanese)
+            {
+                var Time = DateTime.Now;
+                if (Time.Month == 12 && Time.Day is 23 or 24 or 25)
+                {
+                    res = str switch
+                    {
+                        "Lovers" => "リア充",
+                        "LoversInfo" => "爆ぜろ",
+                        _ => res
+                    };
+                }
+            }
             return res;
         }
 

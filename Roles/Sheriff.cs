@@ -71,7 +71,7 @@ namespace TownOfHost
 
         }
         public static bool IsEnable => playerIdList.Count > 0;
-        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CurrentKillCooldown[id];
+        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CanUseKillButton(Utils.GetPlayerById(id)) ? CurrentKillCooldown[id] : 0f;
         public static int ShotLimit(PlayerControl player)
             => ShotLimitOpt.GetInt() - player.GetKillCount(!(PlayerState.GetDeathReason(player.PlayerId) == PlayerState.DeathReason.Misfire));
         public static bool CanUseKillButton(PlayerControl player)
@@ -95,10 +95,9 @@ namespace TownOfHost
             {
                 PlayerState.SetDeathReason(killer.PlayerId, PlayerState.DeathReason.Misfire);
                 killer.RpcMurderPlayer(killer);
-                if (MisfireKillsTarget.GetBool())
-                    killer.RpcMurderPlayer(target);
-                return false;
+                return MisfireKillsTarget.GetBool();
             }
+            SetKillCooldown(killer.PlayerId);
             return true;
         }
         public static string GetShotLimit(byte playerId) => Utils.ColorString(Color.yellow, $"({ShotLimit(Utils.GetPlayerById(playerId))})");

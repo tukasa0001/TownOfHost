@@ -698,7 +698,18 @@ namespace TownOfHost
         {
             var role = player.GetCustomRole();
             if (role.IsVanilla())
-                return (InfoLong ? "\n" : "") + GetString("Message.NoDescription");
+            {
+                var blurb = role switch
+                {
+                    CustomRoles.Impostor => StringNames.ImpostorBlurb,
+                    CustomRoles.Scientist => InfoLong ? StringNames.ScientistBlurbLong : StringNames.ScientistBlurb,
+                    CustomRoles.Engineer => InfoLong ? StringNames.EngineerBlurbLong : StringNames.EngineerBlurb,
+                    CustomRoles.GuardianAngel => InfoLong ? StringNames.GuardianAngelBlurbLong : StringNames.GuardianAngelBlurb,
+                    CustomRoles.Shapeshifter => InfoLong ? StringNames.ShapeshifterBlurbLong : StringNames.ShapeshifterBlurb,
+                    _ => StringNames.CrewmateBlurb,
+                };
+                return (InfoLong ? "\n" : "") + DestroyableSingleton<TranslationController>.Instance.GetString(blurb);
+            }
 
             var text = role.ToString();
 
