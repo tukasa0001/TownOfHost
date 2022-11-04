@@ -921,7 +921,6 @@ namespace TownOfHost
         {
             BountyHunter.AfterMeetingTasks();
             SerialKiller.AfterMeetingTasks();
-            Sheriff.AfterMeetingTasks();
         }
 
         public static void ChangeInt(ref int ChangeTo, int input, int max)

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
@@ -29,7 +28,6 @@ namespace TownOfHost
 
         public static Dictionary<byte, float> ShotLimit = new();
         public static Dictionary<byte, float> CurrentKillCooldown = new();
-        public static bool NoDeadBody = new();
         public static readonly string[] KillOption =
         {
             "SheriffCanKillAll", "SheriffCanKillSeparately"
@@ -66,7 +64,6 @@ namespace TownOfHost
             playerIdList = new();
             ShotLimit = new();
             CurrentKillCooldown = new();
-            NoDeadBody = new();
         }
         public static void Add(byte playerId)
         {
@@ -78,7 +75,6 @@ namespace TownOfHost
 
             ShotLimit.TryAdd(playerId, ShotLimitOpt.GetFloat());
             Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : 残り{ShotLimit[playerId]}発", "Sheriff");
-            NoDeadBody = true;
         }
         public static bool IsEnable => playerIdList.Count > 0;
         private static void SendRPC(byte playerId)
@@ -103,7 +99,7 @@ namespace TownOfHost
             if (player.Data.IsDead)
                 return false;
 
-            if (!CanKillAllAlive.GetBool() && NoDeadBody)
+            if (!CanKillAllAlive.GetBool() && !GameStates.AlreadyDied)
                 return false;
 
             if (ShotLimit[player.PlayerId] == 0)
@@ -162,10 +158,6 @@ namespace TownOfHost
                     _ => false,
                 }
             };
-        }
-        public static void AfterMeetingTasks()
-        {
-            NoDeadBody = GameData.Instance.AllPlayers.ToArray().Where(x => !x.Object.Is(CustomRoles.GM)).All(x => !x.IsDead);
         }
     }
 }
