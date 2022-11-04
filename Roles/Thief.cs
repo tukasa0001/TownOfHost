@@ -103,7 +103,7 @@ namespace TownOfHost
             opt.RoleOptions.ShapeshifterDuration = 1f;
             opt.RoleOptions.ShapeshifterCooldown = 255f;
             opt.SetVision(pc, ThiefHasImpostorVision.GetBool());
-            opt.KillCooldown = ThiefCooldown.GetFloat();
+            Main.AllPlayerKillCooldown[playerId] = ThiefCooldown.GetFloat();
         }
         public static void RestoreKillButtonText(PlayerControl killer)
         {
