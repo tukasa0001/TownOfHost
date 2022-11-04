@@ -208,6 +208,15 @@ namespace TownOfHost
                         __instance.AbilityButton.SetDisabled();
                         __instance.AbilityButton.ToggleVisible(false);
                     }
+                    break;
+                default:
+                    if (Thief.playerIdList.Contains(player.PlayerId) && player.GetCustomRole().GetVanillaRole() != RoleTypes.Shapeshifter)
+                    {
+                        __instance.AbilityButton.SetDisabled();
+                        __instance.AbilityButton.ToggleVisible(false);
+                    }
+                    break;
+
 
                 DesyncImpostor:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
