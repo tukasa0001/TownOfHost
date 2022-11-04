@@ -14,7 +14,7 @@ namespace TownOfHost
         private static CustomOption KillCooldown;
         private static CustomOption MisfireKillsTarget;
         private static CustomOption ShotLimitOpt;
-        private static CustomOption CanKillNoDeadBody;
+        private static CustomOption CanKillAllAlive;
         public static CustomOption CanKillMadmates;
         public static CustomOption CanKillNeutrals;
         public static CustomOption CanKillJester;
@@ -48,7 +48,7 @@ namespace TownOfHost
             KillCooldown = CustomOption.Create(Id + 10, TabGroup.CrewmateRoles, Color.white, "KillCooldown", 30, 0, 990, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff], format: "Seconds");
             MisfireKillsTarget = CustomOption.Create(Id + 11, TabGroup.CrewmateRoles, Color.white, "SheriffMisfireKillsTarget", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             ShotLimitOpt = CustomOption.Create(Id + 12, TabGroup.CrewmateRoles, Color.white, "SheriffShotLimit", 15, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff], format: "Times");
-            CanKillNoDeadBody = CustomOption.Create(Id + 24, TabGroup.CrewmateRoles, Color.white, "SheriffCanKillNoDeadBody", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillAllAlive = CustomOption.Create(Id + 24, TabGroup.CrewmateRoles, Color.white, "SheriffCanKillAllAlive", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillMadmates = CustomOption.Create(Id + 13, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff], replacementDic: SheriffCanKillRole(CustomRoles.Madmate));
             CanKillNeutrals = CustomOption.Create(Id + 14, TabGroup.CrewmateRoles, Color.white, "SheriffCanKillNeutrals", KillOption, KillOption[0], Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillJester = CustomOption.Create(Id + 15, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Jester));
@@ -103,7 +103,7 @@ namespace TownOfHost
             if (player.Data.IsDead)
                 return false;
 
-            if (!CanKillNoDeadBody.GetBool() && NoDeadBody)
+            if (!CanKillAllAlive.GetBool() && NoDeadBody)
                 return false;
 
             if (ShotLimit[player.PlayerId] == 0)
