@@ -95,23 +95,9 @@ namespace TownOfHost
         }
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CurrentKillCooldown[id];
         public static bool CanUseKillButton(PlayerControl player)
-        {
-            if (player.Data.IsDead)
-                return false;
-
-            if (!CanKillAllAlive.GetBool() && !GameStates.AlreadyDied)
-                return false;
-
-            if (ShotLimit[player.PlayerId] == 0)
-            {
-                //Logger.info($"{player.GetNameWithRole()} はキル可能回数に達したため、RoleTypeを守護天使に変更しました。", "Sheriff");
-                //player.RpcSetRoleDesync(RoleTypes.GuardianAngel);
-                //Utils.hasTasks(player.Data, false);
-                //Utils.NotifyRoles();
-                return false;
-            }
-            return true;
-        }
+            => !player.Data.IsDead
+            && (CanKillAllAlive.GetBool() || GameStates.AlreadyDied)
+            && ShotLimit[player.PlayerId] >= 0;
         public static bool OnCheckMurder(PlayerControl killer, PlayerControl target, string Process)
         {
             switch (Process)
