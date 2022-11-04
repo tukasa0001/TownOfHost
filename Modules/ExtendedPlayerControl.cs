@@ -717,7 +717,7 @@ namespace TownOfHost
                 switch (role)
                 {
                     case CustomRoles.Mafia:
-                        Prefix = player.CanUseKillButton() ? "After" : "Before";
+                        Prefix = Utils.CanMafiaKill() ? "After" : "Before";
                         break;
                     case CustomRoles.EvilWatcher:
                     case CustomRoles.NiceWatcher:
