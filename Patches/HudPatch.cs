@@ -137,52 +137,26 @@ namespace TownOfHost
                 RoleWithInfo += player.GetRoleInfo();
                 TaskTextPrefix = Utils.ColorString(player.GetRoleColor(), RoleWithInfo);
             }
+            if (player.CanUseKillButton())
+            {
+                __instance.KillButton.ToggleVisible(!player.Data.IsDead);
+            }
+            else
+            {
+                __instance.KillButton.SetDisabled();
+                __instance.KillButton.ToggleVisible(false);
+            }
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Madmate:
+                case CustomRoles.SKMadmate:
                 case CustomRoles.Jester:
                     TaskTextPrefix += FakeTasksText;
                     break;
-                case CustomRoles.Mafia:
-                case CustomRoles.Mare:
-                case CustomRoles.FireWorks:
-                case CustomRoles.Sniper:
-                    if (player.CanUseKillButton())
-                    {
-                        __instance.KillButton.ToggleVisible(true && !player.Data.IsDead);
-                    }
-                    else
-                    {
-                        __instance.KillButton.SetDisabled();
-                        __instance.KillButton.ToggleVisible(false);
-                    }
-                    break;
-                case CustomRoles.SKMadmate:
-                    TaskTextPrefix += FakeTasksText;
-                    __instance.KillButton.SetDisabled();
-                    __instance.KillButton.ToggleVisible(false);
-                    break;
                 case CustomRoles.Sheriff:
-                    if (Sheriff.ShotLimit.TryGetValue(player.PlayerId, out var count) && count == 0)
-                    {
-                        __instance.KillButton.SetDisabled();
-                        __instance.KillButton.ToggleVisible(false);
-                    }
-                    player.CanUseImpostorVent();
-                    goto DesyncImpostor;
                 case CustomRoles.Arsonist:
-                    if (player.IsDouseDone())
-                    {
-                        __instance.KillButton.SetDisabled();
-                        __instance.KillButton.ToggleVisible(false);
-                    }
-                    player.CanUseImpostorVent();
-                    goto DesyncImpostor;
                 case CustomRoles.Jackal:
                     player.CanUseImpostorVent();
-                    goto DesyncImpostor;
-
-                DesyncImpostor:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         player.Data.Role.CanUseKillButton = true;
                     break;
