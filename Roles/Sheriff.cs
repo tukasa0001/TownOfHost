@@ -91,7 +91,7 @@ namespace TownOfHost
             else
                 ShotLimit.Add(SheriffId, ShotLimitOpt.GetFloat());
         }
-        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CurrentKillCooldown[id];
+        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CanUseKillButton(Utils.GetPlayerById(id)) ? CurrentKillCooldown[id] : 0f;
         public static bool CanUseKillButton(PlayerControl player)
         {
             if (player.Data.IsDead)
