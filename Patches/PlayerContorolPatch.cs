@@ -834,7 +834,7 @@ namespace TownOfHost
                     else if ((target.Is(CustomRoles.Mare) && Utils.IsActive(SystemTypes.Electrical)) ||
                              (seer.GetCustomRole().IsImpostor() && Thief.playerIdList.Contains(seer.PlayerId) && target.GetCustomRole().IsImpostor())  // 元シーフなインポスター --> インポスター
                     )
-                        RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの赤色で表示)
+                        RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの赤色で表示
                     // seerがホストシーフ，targetがエゴイスト，またはインポスターで停電中のメアーでないとき，名前の色を白くする
                     else if (seer.PlayerId == 0 && seer.Is(CustomRoles.Thief) && (target.Is(CustomRoles.Egoist) || (target.GetCustomRole().IsImpostor() && !(target.Is(CustomRoles.Mare) && Utils.IsActive(SystemTypes.Electrical)))))
                         RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Crewmate), RealName);
