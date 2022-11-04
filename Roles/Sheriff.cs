@@ -24,6 +24,7 @@ namespace TownOfHost
         public static CustomOption CanKillExecutioner;
         public static CustomOption CanKillJackal;
         public static CustomOption CanKillJSchrodingerCat;
+        public static CustomOption CanKillThief;
 
         public static Dictionary<byte, float> ShotLimit = new();
         public static Dictionary<byte, float> CurrentKillCooldown = new();
@@ -56,6 +57,7 @@ namespace TownOfHost
             CanKillExecutioner = CustomOption.Create(Id + 21, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Executioner));
             CanKillJackal = CustomOption.Create(Id + 22, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Jackal));
             CanKillJSchrodingerCat = CustomOption.Create(Id + 23, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.JSchrodingerCat));
+            CanKillThief = CustomOption.Create(Id + 24, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Thief));
         }
         public static void Init()
         {
@@ -146,6 +148,7 @@ namespace TownOfHost
                 CustomRoles.Jackal => CanKillJackal.GetBool(),
                 CustomRoles.JSchrodingerCat => CanKillJSchrodingerCat.GetBool(),
                 CustomRoles.SchrodingerCat => true,
+                CustomRoles.Thief => CanKillThief.GetBool(),
                 _ => cRole.GetRoleType() switch
                 {
                     RoleType.Impostor => true,
