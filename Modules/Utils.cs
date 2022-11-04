@@ -160,24 +160,14 @@ namespace TownOfHost
             var roleName = GetRoleName(role);
             if (role.IsImpostor() && role != CustomRoles.LastImpostor && Utils.IsLastImpostor(playerId))
             {
-                roleName = Translator.GetString("Last")+ " " + roleName;
+                roleName = GetRoleString("Last")+ " " + roleName;
             }
 
             return roleName;
         }
         public static string GetRoleName(CustomRoles role)
         {
-            var CurrentLanguage = TranslationController.Instance.currentLanguage.languageID;
-            var lang = CurrentLanguage;
-            if (Main.ForceJapanese.Value && Main.JapaneseRoleName.Value)
-                lang = SupportedLangs.Japanese;
-            else if (CurrentLanguage == SupportedLangs.Japanese && !Main.JapaneseRoleName.Value)
-                lang = SupportedLangs.English;
-            return GetRoleName(role, lang);
-        }
-        public static string GetRoleName(CustomRoles role, SupportedLangs lang)
-        {
-            return GetString(Enum.GetName(typeof(CustomRoles), role), lang);
+            return GetRoleString(Enum.GetName(typeof(CustomRoles), role));
         }
         public static string GetDeathReason(PlayerState.DeathReason status)
         {
