@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
@@ -13,6 +14,7 @@ namespace TownOfHost
         private static CustomOption KillCooldown;
         private static CustomOption MisfireKillsTarget;
         private static CustomOption ShotLimitOpt;
+        private static CustomOption CanKillNoDeadBody;
         public static CustomOption CanKillMadmates;
         public static CustomOption CanKillNeutrals;
         public static CustomOption CanKillJester;
@@ -27,6 +29,7 @@ namespace TownOfHost
 
         public static Dictionary<byte, float> ShotLimit = new();
         public static Dictionary<byte, float> CurrentKillCooldown = new();
+        public static bool NoDeadBody = new();
         public static readonly string[] KillOption =
         {
             "SheriffCanKillAll", "SheriffCanKillSeparately"
@@ -45,6 +48,7 @@ namespace TownOfHost
             KillCooldown = CustomOption.Create(Id + 10, TabGroup.CrewmateRoles, Color.white, "KillCooldown", 30, 0, 990, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff], format: "Seconds");
             MisfireKillsTarget = CustomOption.Create(Id + 11, TabGroup.CrewmateRoles, Color.white, "SheriffMisfireKillsTarget", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             ShotLimitOpt = CustomOption.Create(Id + 12, TabGroup.CrewmateRoles, Color.white, "SheriffShotLimit", 15, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff], format: "Times");
+            CanKillNoDeadBody = CustomOption.Create(Id + 24, TabGroup.CrewmateRoles, Color.white, "SheriffCanKillNoDeadBody", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillMadmates = CustomOption.Create(Id + 13, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff], replacementDic: SheriffCanKillRole(CustomRoles.Madmate));
             CanKillNeutrals = CustomOption.Create(Id + 14, TabGroup.CrewmateRoles, Color.white, "SheriffCanKillNeutrals", KillOption, KillOption[0], Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillJester = CustomOption.Create(Id + 15, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", true, CanKillNeutrals, replacementDic: SheriffCanKillRole(CustomRoles.Jester));
@@ -62,6 +66,7 @@ namespace TownOfHost
             playerIdList = new();
             ShotLimit = new();
             CurrentKillCooldown = new();
+            NoDeadBody = new();
         }
         public static void Add(byte playerId)
         {
@@ -73,6 +78,7 @@ namespace TownOfHost
 
             ShotLimit.TryAdd(playerId, ShotLimitOpt.GetFloat());
             Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : 残り{ShotLimit[playerId]}発", "Sheriff");
+            NoDeadBody = true;
         }
         public static bool IsEnable => playerIdList.Count > 0;
         private static void SendRPC(byte playerId)
@@ -95,6 +101,9 @@ namespace TownOfHost
         public static bool CanUseKillButton(PlayerControl player)
         {
             if (player.Data.IsDead)
+                return false;
+
+            if (!CanKillNoDeadBody.GetBool() && NoDeadBody)
                 return false;
 
             if (ShotLimit[player.PlayerId] == 0)
@@ -129,7 +138,7 @@ namespace TownOfHost
             }
             return true;
         }
-        public static string GetShotLimit(byte playerId) => Utils.ColorString(Color.yellow, ShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid");
+        public static string GetShotLimit(byte playerId) => Utils.ColorString(CanUseKillButton(Utils.GetPlayerById(playerId)) ? Color.yellow : Color.white, ShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid");
         public static bool CanBeKilledBySheriff(this PlayerControl player)
         {
             var cRole = player.GetCustomRole();
@@ -153,6 +162,10 @@ namespace TownOfHost
                     _ => false,
                 }
             };
+        }
+        public static void AfterMeetingTasks()
+        {
+            NoDeadBody = GameData.Instance.AllPlayers.ToArray().Where(x => !x.Object.Is(CustomRoles.GM)).All(x => !x.IsDead);
         }
     }
 }
