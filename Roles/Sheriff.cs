@@ -93,31 +93,23 @@ namespace TownOfHost
             else
                 ShotLimit.Add(SheriffId, ShotLimitOpt.GetFloat());
         }
-        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CurrentKillCooldown[id];
+        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CanUseKillButton(Utils.GetPlayerById(id)) ? CurrentKillCooldown[id] : 0f;
         public static bool CanUseKillButton(PlayerControl player)
             => !player.Data.IsDead
             && (CanKillAllAlive.GetBool() || GameStates.AlreadyDied)
             && ShotLimit[player.PlayerId] >= 0;
-        public static bool OnCheckMurder(PlayerControl killer, PlayerControl target, string Process)
+        public static bool OnCheckMurder(PlayerControl killer, PlayerControl target)
         {
-            switch (Process)
+            ShotLimit[killer.PlayerId]--;
+            Logger.Info($"{killer.GetNameWithRole()} : 残り{ShotLimit[killer.PlayerId]}発", "Sheriff");
+            SendRPC(killer.PlayerId);
+            if (!target.CanBeKilledBySheriff())
             {
-                case "RemoveShotLimit":
-                    ShotLimit[killer.PlayerId]--;
-                    Logger.Info($"{killer.GetNameWithRole()} : 残り{ShotLimit[killer.PlayerId]}発", "Sheriff");
-                    SendRPC(killer.PlayerId);
-                    break;
-                case "Suicide":
-                    if (!target.CanBeKilledBySheriff())
-                    {
-                        PlayerState.SetDeathReason(killer.PlayerId, PlayerState.DeathReason.Misfire);
-                        killer.RpcMurderPlayer(killer);
-                        if (MisfireKillsTarget.GetBool())
-                            killer.RpcMurderPlayer(target);
-                        return false;
-                    }
-                    break;
+                PlayerState.SetDeathReason(killer.PlayerId, PlayerState.DeathReason.Misfire);
+                killer.RpcMurderPlayer(killer);
+                return MisfireKillsTarget.GetBool();
             }
+            SetKillCooldown(killer.PlayerId);
             return true;
         }
         public static string GetShotLimit(byte playerId) => Utils.ColorString(CanUseKillButton(Utils.GetPlayerById(playerId)) ? Color.yellow : Color.white, ShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid");
