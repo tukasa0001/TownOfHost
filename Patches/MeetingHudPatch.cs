@@ -234,9 +234,7 @@ namespace TownOfHost
             ChatUpdatePatch.DoBlockChat = true;
             GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
             PlayerControl.AllPlayerControls.ToArray().Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
-            Main.witchMeeting = true;
             Utils.NotifyRoles(isMeeting: true, NoCache: true);
-            Main.witchMeeting = false;
             MeetingStates.MeetingCalled = true;
         }
         public static void Postfix(MeetingHud __instance)
