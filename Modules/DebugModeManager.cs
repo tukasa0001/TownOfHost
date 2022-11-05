@@ -19,11 +19,11 @@ namespace TownOfHost
         // これが有効の時、通常のゲームを破壊する可能性のある強力なデバッグ機能(テレポートなど)が有効化される。
         public static bool IsDebugMode => AmDebugger && EnableDebugMode != null && EnableDebugMode.GetBool();
 
-        public static CustomOption EnableDebugMode;
+        public static OptionItem EnableDebugMode;
 
         public static void SetupCustomOption()
         {
-            EnableDebugMode = CustomOption.Create(2, TabGroup.MainSettings, Color.green, "EnableDebugMode", false, null, true, !AmDebugger);
+            EnableDebugMode = OptionItem.Create(2, TabGroup.MainSettings, Color.green, "EnableDebugMode", false, null, true, !AmDebugger);
         }
     }
 }

@@ -12,9 +12,9 @@ namespace TownOfHost
         public static List<byte> playerIdList = new();
         public static byte WinnerID;
 
-        private static CustomOption CanTargetImpostor;
-        private static CustomOption CanTargetNeutralKiller;
-        public static CustomOption ChangeRolesAfterTargetKilled;
+        private static OptionItem CanTargetImpostor;
+        private static OptionItem CanTargetNeutralKiller;
+        public static OptionItem ChangeRolesAfterTargetKilled;
 
 
         /// <summary>
@@ -33,9 +33,9 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Executioner);
-            CanTargetImpostor = CustomOption.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "ExecutionerCanTargetImpostor", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
-            CanTargetNeutralKiller = CustomOption.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "ExecutionerCanTargetNeutralKiller", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
-            ChangeRolesAfterTargetKilled = CustomOption.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ChangeRoles, ChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
+            CanTargetImpostor = OptionItem.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "ExecutionerCanTargetImpostor", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
+            CanTargetNeutralKiller = OptionItem.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "ExecutionerCanTargetNeutralKiller", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
+            ChangeRolesAfterTargetKilled = OptionItem.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ChangeRoles, ChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
         }
         public static void Init()
         {

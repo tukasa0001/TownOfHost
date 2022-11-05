@@ -77,7 +77,7 @@ namespace TownOfHost
                     }
                 }
 
-                foreach (var opt in CustomOption.Options.Where(x => x.Id >= 90000 && !x.IsHidden(Options.CurrentGameMode) && x.Parent == null))
+                foreach (var opt in OptionItem.Options.Where(x => x.Id >= 90000 && !x.IsHidden(Options.CurrentGameMode) && x.Parent == null))
                 {
                     if (opt.isHeader) text += "\n";
                     text += $"{opt.GetName()}: {opt.GetString()}\n";
@@ -85,7 +85,7 @@ namespace TownOfHost
                         ShowChildren(opt, ref text, Color.white, 1);
                 }
                 //Onの時に子要素まで表示するメソッド
-                void nameAndValue(CustomOption o) => text += $"{o.GetName()}: {o.GetString()}\n";
+                void nameAndValue(OptionItem o) => text += $"{o.GetName()}: {o.GetString()}\n";
             }
             //1ページにつき35行までにする処理
             List<string> tmp = new(text.Split("\n\n"));
@@ -103,7 +103,7 @@ namespace TownOfHost
             currentPage++;
             if (currentPage >= pages.Count) currentPage = 0; //現在のページが最大ページを超えていれば最初のページに
         }
-        private static void ShowChildren(CustomOption option, ref string text, Color color, int deep = 0)
+        private static void ShowChildren(OptionItem option, ref string text, Color color, int deep = 0)
         {
             foreach (var opt in option.Children.Select((v, i) => new { Value = v, Index = i + 1 }))
             {
