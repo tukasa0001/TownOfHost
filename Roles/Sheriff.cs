@@ -97,7 +97,7 @@ namespace TownOfHost
         public static bool CanUseKillButton(byte playerId)
             => !PlayerState.isDead[playerId]
             && (CanKillAllAlive.GetBool() || GameStates.AlreadyDied)
-            && ShotLimit[playerId] >= 0;
+            && ShotLimit[playerId] > 0;
 
         public static bool OnCheckMurder(PlayerControl killer, PlayerControl target)
         {
