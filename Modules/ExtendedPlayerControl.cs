@@ -526,7 +526,7 @@ namespace TownOfHost
                 CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
                 CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
-                CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc),
+                CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
                 _ => canUse,
             };
         }
