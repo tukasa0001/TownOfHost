@@ -905,7 +905,6 @@ namespace TownOfHost
                 }
                 TownOfHost.Logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":END", "NotifyRoles");
             }
-            Main.witchMeeting = false;
         }
         public static void CustomSyncAllSettings()
         {
