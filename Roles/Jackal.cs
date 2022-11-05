@@ -10,19 +10,19 @@ namespace TownOfHost
         private static readonly int Id = 50900;
         public static List<byte> playerIdList = new();
 
-        private static CustomOption KillCooldown;
-        public static CustomOption CanVent;
-        public static CustomOption CanUseSabotage;
-        private static CustomOption HasImpostorVision;
+        private static OptionItem KillCooldown;
+        public static OptionItem CanVent;
+        public static OptionItem CanUseSabotage;
+        private static OptionItem HasImpostorVision;
 
         public static void SetupCustomOption()
         {
             //Jackalは1人固定
             SetupSingleRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Jackal, 1);
-            KillCooldown = CustomOption.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "KillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Jackal], format: "Seconds");
-            CanVent = CustomOption.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            CanUseSabotage = CustomOption.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "CanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            HasImpostorVision = CustomOption.Create(Id + 13, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            KillCooldown = OptionItem.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "KillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Jackal], format: "Seconds");
+            CanVent = OptionItem.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            CanUseSabotage = OptionItem.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "CanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            HasImpostorVision = OptionItem.Create(Id + 13, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
         }
         public static void Init()
         {

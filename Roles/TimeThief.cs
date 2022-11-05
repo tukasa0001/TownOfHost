@@ -8,17 +8,17 @@ namespace TownOfHost
     {
         static readonly int Id = 2400;
         static List<byte> playerIdList = new();
-        public static CustomOption KillCooldown;
-        public static CustomOption DecreaseMeetingTime;
-        public static CustomOption LowerLimitVotingTime;
-        public static CustomOption ReturnStolenTimeUponDeath;
+        public static OptionItem KillCooldown;
+        public static OptionItem DecreaseMeetingTime;
+        public static OptionItem LowerLimitVotingTime;
+        public static OptionItem ReturnStolenTimeUponDeath;
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.TimeThief);
-            KillCooldown = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "KillCooldown", 30f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.TimeThief], format: "Seconds");
-            DecreaseMeetingTime = CustomOption.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "TimeThiefDecreaseMeetingTime", 20, 0, 100, 1, Options.CustomRoleSpawnChances[CustomRoles.TimeThief], format: "Seconds");
-            LowerLimitVotingTime = CustomOption.Create(Id + 12, TabGroup.ImpostorRoles, Color.white, "TimeThiefLowerLimitVotingTime", 10, 1, 300, 1, Options.CustomRoleSpawnChances[CustomRoles.TimeThief], format: "Seconds");
-            ReturnStolenTimeUponDeath = CustomOption.Create(Id + 13, TabGroup.ImpostorRoles, Color.white, "TimeThiefReturnStolenTimeUponDeath", true, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            KillCooldown = OptionItem.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "KillCooldown", 30f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.TimeThief], format: "Seconds");
+            DecreaseMeetingTime = OptionItem.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "TimeThiefDecreaseMeetingTime", 20, 0, 100, 1, Options.CustomRoleSpawnChances[CustomRoles.TimeThief], format: "Seconds");
+            LowerLimitVotingTime = OptionItem.Create(Id + 12, TabGroup.ImpostorRoles, Color.white, "TimeThiefLowerLimitVotingTime", 10, 1, 300, 1, Options.CustomRoleSpawnChances[CustomRoles.TimeThief], format: "Seconds");
+            ReturnStolenTimeUponDeath = OptionItem.Create(Id + 13, TabGroup.ImpostorRoles, Color.white, "TimeThiefReturnStolenTimeUponDeath", true, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
         }
         public static void Init()
         {

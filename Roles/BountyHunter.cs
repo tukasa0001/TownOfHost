@@ -10,9 +10,9 @@ namespace TownOfHost
         private static readonly int Id = 1000;
         public static List<byte> playerIdList = new();
 
-        private static CustomOption TargetChangeTime;
-        private static CustomOption SuccessKillCooldown;
-        private static CustomOption FailureKillCooldown;
+        private static OptionItem TargetChangeTime;
+        private static OptionItem SuccessKillCooldown;
+        private static OptionItem FailureKillCooldown;
 
         public static Dictionary<byte, PlayerControl> Targets = new();
         public static Dictionary<byte, float> ChangeTimer = new();
@@ -20,9 +20,9 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.BountyHunter);
-            TargetChangeTime = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "BountyTargetChangeTime", 60f, 10f, 900f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter], format: "Seconds");
-            SuccessKillCooldown = CustomOption.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "BountySuccessKillCooldown", 2.5f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter], format: "Seconds");
-            FailureKillCooldown = CustomOption.Create(Id + 12, TabGroup.ImpostorRoles, Color.white, "BountyFailureKillCooldown", 50f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter], format: "Seconds");
+            TargetChangeTime = OptionItem.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "BountyTargetChangeTime", 60f, 10f, 900f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter], format: "Seconds");
+            SuccessKillCooldown = OptionItem.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "BountySuccessKillCooldown", 2.5f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter], format: "Seconds");
+            FailureKillCooldown = OptionItem.Create(Id + 12, TabGroup.ImpostorRoles, Color.white, "BountyFailureKillCooldown", 50f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter], format: "Seconds");
         }
         public static void Init()
         {

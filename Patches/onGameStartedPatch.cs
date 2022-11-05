@@ -15,7 +15,6 @@ namespace TownOfHost
             //注:この時点では役職は設定されていません。
             PlayerState.Init();
 
-            Main.CustomWinTrigger = false;
             Main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             Main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             Main.AllPlayerKillCooldown = new Dictionary<byte, float>();
@@ -26,7 +25,6 @@ namespace TownOfHost
             Main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             Main.CursedPlayers = new Dictionary<byte, PlayerControl>();
             Main.isCurseAndKill = new Dictionary<byte, bool>();
-            Main.AirshipMeetingTimer = new Dictionary<byte, float>();
             Main.SKMadmateNowCount = 0;
             Main.isCursed = false;
             Main.PuppeteerList = new Dictionary<byte, byte>();
@@ -36,7 +34,6 @@ namespace TownOfHost
             Main.ResetCamPlayerList = new();
 
             Main.SpelledPlayer = new Dictionary<byte, PlayerControl>();
-            Main.witchMeeting = false;
             Main.CheckShapeshift = new Dictionary<byte, bool>();
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();

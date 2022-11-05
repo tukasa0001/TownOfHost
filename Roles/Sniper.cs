@@ -11,8 +11,8 @@ namespace TownOfHost
         static readonly int Id = 1800;
         static List<byte> playerIdList = new();
 
-        static CustomOption SniperBulletCount;
-        static CustomOption SniperPrecisionShooting;
+        static OptionItem SniperBulletCount;
+        static OptionItem SniperPrecisionShooting;
 
         static Dictionary<byte, byte> snipeTarget = new();
         static Dictionary<byte, Vector3> snipeBasePosition = new();
@@ -26,8 +26,8 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Sniper);
-            SniperBulletCount = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "SniperBulletCount", 5f, 1f, 3f, 1f, Options.CustomRoleSpawnChances[CustomRoles.Sniper], format: "Pieces");
-            SniperPrecisionShooting = CustomOption.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "SniperPrecisionShooting", false, Options.CustomRoleSpawnChances[CustomRoles.Sniper]);
+            SniperBulletCount = OptionItem.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "SniperBulletCount", 5f, 1f, 3f, 1f, Options.CustomRoleSpawnChances[CustomRoles.Sniper], format: "Pieces");
+            SniperPrecisionShooting = OptionItem.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "SniperPrecisionShooting", false, Options.CustomRoleSpawnChances[CustomRoles.Sniper]);
         }
         public static void Init()
         {

@@ -68,7 +68,7 @@ namespace TownOfHost
             var tmp = PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
             foreach (var t in tmp) Logger.Info(t, "Info");
             Logger.Info("------------詳細設定------------", "Info");
-            foreach (var o in CustomOption.Options)
+            foreach (var o in OptionItem.Options)
                 if (!o.IsHidden(Options.CurrentGameMode) && (o.Parent == null ? !o.GetString().Equals("0%") : o.Parent.Enabled))
                     Logger.Info($"{(o.Parent == null ? o.Name.PadRightV2(40) : $"┗ {o.Name}".PadRightV2(41))}:{o.GetString().RemoveHtmlTags()}", "Info");
             Logger.Info("-------------その他-------------", "Info");

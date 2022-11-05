@@ -94,7 +94,6 @@ namespace TownOfHost
         public static Dictionary<byte, bool> isCurseAndKill = new();
         public static Dictionary<(byte, byte), bool> isDoused = new();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
-        public static Dictionary<byte, float> AirshipMeetingTimer = new();
         /// <summary>
         /// Key: ターゲットのPlayerId, Value: パペッティアのPlayerId
         /// </summary>
@@ -103,12 +102,9 @@ namespace TownOfHost
         public static Dictionary<byte, int> MayorUsedButtonCount = new();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
-        public static bool witchMeeting;
         public static bool isCursed;
-        public static bool isShipStart;
         public static Dictionary<byte, bool> CheckShapeshift = new();
         public static Dictionary<(byte, byte), string> targetArrows = new();
-        public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static string nickName = "";
         public static bool introDestroyed = false;
@@ -139,7 +135,6 @@ namespace TownOfHost
 
             AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
-            CustomWinTrigger = false;
             BitPlayers = new Dictionary<byte, (byte, float)>();
             WarlockTimer = new Dictionary<byte, float>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();

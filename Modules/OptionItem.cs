@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace TownOfHost
 {
-    public class CustomOption
+    public class OptionItem
     {
-        public static readonly List<CustomOption> Options = new();
+        public static readonly List<OptionItem> Options = new();
         public static int Preset = 0;
 
         public int Id;
@@ -23,8 +23,8 @@ namespace TownOfHost
         public ConfigEntry<int> Entry;
         public int Selection;
         public OptionBehaviour OptionBehaviour;
-        public CustomOption Parent;
-        public List<CustomOption> Children;
+        public OptionItem Parent;
+        public List<OptionItem> Children;
         public bool isHeader;
         public bool isHidden;
         private bool isHiddenOnDisplay;
@@ -32,13 +32,13 @@ namespace TownOfHost
 
         public bool Enabled => this.GetBool();
 
-        public CustomOption HiddenOnDisplay(bool hidden)
+        public OptionItem HiddenOnDisplay(bool hidden)
         {
             isHiddenOnDisplay = hidden;
             return this;
         }
 
-        public CustomOption SetGameMode(CustomGameMode gameMode)
+        public OptionItem SetGameMode(CustomGameMode gameMode)
         {
             GameMode = gameMode;
             return this;
@@ -62,17 +62,17 @@ namespace TownOfHost
         }
 
         // Option creation
-        private CustomOption()
+        private OptionItem()
         {
         }
 
-        public CustomOption(int id,
+        public OptionItem(int id,
             TabGroup tab,
             Color color,
             string name,
             System.Object[] selections,
             System.Object defaultValue,
-            CustomOption parent,
+            OptionItem parent,
             bool isHeader,
             bool isHidden,
             string format,
@@ -93,7 +93,7 @@ namespace TownOfHost
 
             isHiddenOnDisplay = false;
 
-            Children = new List<CustomOption>();
+            Children = new List<OptionItem>();
             parent?.Children.Add(this);
 
             Selection = 0;
@@ -112,22 +112,22 @@ namespace TownOfHost
             GameMode = CustomGameMode.Standard;
         }
 
-        public static CustomOption Create(int id,
+        public static OptionItem Create(int id,
             TabGroup tab,
             Color color,
             string name,
             string[] selections,
             string defaultValue,
-            CustomOption parent = null,
+            OptionItem parent = null,
             bool isHeader = false,
             bool isHidden = false,
             string format = "",
             Dictionary<string, string> replacementDic = null)
         {
-            return new CustomOption(id, tab, color, name, selections, defaultValue, parent, isHeader, isHidden, format, replacementDic);
+            return new OptionItem(id, tab, color, name, selections, defaultValue, parent, isHeader, isHidden, format, replacementDic);
         }
 
-        public static CustomOption Create(int id,
+        public static OptionItem Create(int id,
             TabGroup tab,
             Color color,
             string name,
@@ -135,7 +135,7 @@ namespace TownOfHost
             float min,
             float max,
             float step,
-            CustomOption parent = null,
+            OptionItem parent = null,
             bool isHeader = false,
             bool isHidden = false,
             string format = "",
@@ -147,26 +147,26 @@ namespace TownOfHost
                 selections.Add(s);
             }
 
-            return new CustomOption(id, tab, color, name, selections.Cast<object>().ToArray(), defaultValue, parent, isHeader, isHidden, format, replacementDic);
+            return new OptionItem(id, tab, color, name, selections.Cast<object>().ToArray(), defaultValue, parent, isHeader, isHidden, format, replacementDic);
         }
 
-        public static CustomOption Create(int id,
+        public static OptionItem Create(int id,
             TabGroup tab,
             Color color,
             string name,
             bool defaultValue,
-            CustomOption parent = null,
+            OptionItem parent = null,
             bool isHeader = false,
             bool isHidden = false,
             string format = "",
             Dictionary<string, string> replacementDic = null)
         {
-            return new CustomOption(id, tab, color, name, new string[] { "ColoredOff", "ColoredOn" }, defaultValue ? "ColoredOn" : "ColoredOff", parent, isHeader, isHidden, format, replacementDic);
+            return new OptionItem(id, tab, color, name, new string[] { "ColoredOff", "ColoredOn" }, defaultValue ? "ColoredOn" : "ColoredOff", parent, isHeader, isHidden, format, replacementDic);
         }
 
-        public static CustomOption Create(string name, float defaultValue, float min, float max, float step)
+        public static OptionItem Create(string name, float defaultValue, float min, float max, float step)
         {
-            return new CustomOption();
+            return new OptionItem();
         }
 
         // Static behaviour
@@ -300,7 +300,7 @@ namespace TownOfHost
                 stringOption.ValueText.text = Selections[Selection].ToString();
         }
 
-        public void SetParent(CustomOption newParent)
+        public void SetParent(OptionItem newParent)
         {
             Parent?.Children.Remove(this);
 
