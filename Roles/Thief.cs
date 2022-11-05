@@ -9,18 +9,18 @@ namespace TownOfHost
         ///<summary>現在シーフのプレイヤーに加え過去にシーフだったプレイヤーも入っているので注意</summary>
         public static List<byte> playerIdList = new();
 
-        public static CustomOption ThiefCooldown;
-        public static CustomOption ThiefHasImpostorVision;
-        public static CustomOption ThiefCanVent;
-        public static CustomOption ThiefChangeTargetTeam;
+        public static CustomOption Cooldown;
+        public static CustomOption HasImpostorVision;
+        public static CustomOption CanVent;
+        public static CustomOption ChangeTargetTeam;
 
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Thief);
-            ThiefCooldown = CustomOption.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "KillCooldown", 30f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Thief]);
-            ThiefHasImpostorVision = CustomOption.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "ImpostorVision", false, Options.CustomRoleSpawnChances[CustomRoles.Thief]);
-            ThiefCanVent = CustomOption.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "CanVent", true, Options.CustomRoleSpawnChances[CustomRoles.Thief]);
-            ThiefChangeTargetTeam = CustomOption.Create(Id + 13, TabGroup.NeutralRoles, Color.white, "ThiefChangeTargetTeam", true, Options.CustomRoleSpawnChances[CustomRoles.Thief]);
+            Cooldown = CustomOption.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "KillCooldown", 30f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Thief]);
+            HasImpostorVision = CustomOption.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "ImpostorVision", false, Options.CustomRoleSpawnChances[CustomRoles.Thief]);
+            CanVent = CustomOption.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "CanVent", true, Options.CustomRoleSpawnChances[CustomRoles.Thief]);
+            ChangeTargetTeam = CustomOption.Create(Id + 13, TabGroup.NeutralRoles, Color.white, "ThiefChangeTargetTeam", true, Options.CustomRoleSpawnChances[CustomRoles.Thief]);
         }
         public static void Init()
         {
@@ -69,7 +69,7 @@ namespace TownOfHost
                 Logger.Info($"{thief.Data.PlayerName}のロールを{targetRole}に変更", "Thief");
                 thief.RpcSetCustomRole(targetRole);
                 RPC.SetCustomRole(thief.PlayerId, targetRole);
-                if (ThiefChangeTargetTeam.GetBool())
+                if (ChangeTargetTeam.GetBool())
                 {
                     Logger.Info($"スチールロールされたプレイヤー{target.GetNameWithRole()}のロールをオポチュニストに変更します", "Thief");
                     target.RpcSetCustomRole(CustomRoles.Opportunist);
@@ -102,8 +102,8 @@ namespace TownOfHost
             var pc = Utils.GetPlayerById(playerId);
             opt.RoleOptions.ShapeshifterDuration = 1f;
             opt.RoleOptions.ShapeshifterCooldown = 255f;
-            opt.SetVision(pc, ThiefHasImpostorVision.GetBool());
-            Main.AllPlayerKillCooldown[playerId] = ThiefCooldown.GetFloat();
+            opt.SetVision(pc, HasImpostorVision.GetBool());
+            Main.AllPlayerKillCooldown[playerId] = Cooldown.GetFloat();
         }
         public static void RestoreKillButtonText(PlayerControl killer)
         {

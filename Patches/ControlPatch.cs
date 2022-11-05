@@ -236,7 +236,7 @@ namespace TownOfHost
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
             (PlayerControl.LocalPlayer.Is(CustomRoles.Arsonist) ||
             (PlayerControl.LocalPlayer.Is(CustomRoles.Jackal) && Options.JackalCanVent.GetBool()) ||
-            (PlayerControl.LocalPlayer.Is(CustomRoles.Thief) && Thief.ThiefCanVent.GetBool())
+            (PlayerControl.LocalPlayer.Is(CustomRoles.Thief) && Thief.CanVent.GetBool())
             ) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
             {
                 DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.DoClick();
