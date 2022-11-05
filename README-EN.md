@@ -111,10 +111,10 @@ For example: `welcome:This room is using TownOfHost.`
 Users are free to create and use their own translations.<br>
 - Open the "Language" folder created in the Among Us folder.
 - Create a file named `{language name}.dat` in the folder
-  - 例: English.dat
+  - For example: English.dat
   - You can also rename `template.dat` or `template_English.dat` and use.
 - In the file, enter like `before translation:after translation`.
-  - 例: Command.rename:Change Host Name
+  - For example: Command.rename:Change Host Name
   - See `template.dat` for the `before translation` string.
 
 You can also reload the translation by pressing key `T`+`F5`.

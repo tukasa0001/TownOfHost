@@ -354,6 +354,7 @@
 "In%team%","(Team %team%)","(%team%陣営)","(%team%阵营)","(%team%陣營)","(Команда %team%)",""
 "SheriffMisfireKillsTarget","Misfire Kills Target","誤爆時、ターゲットも死ぬ","警长误杀好人会同时击杀目标","警長誤殺好人會同時擊殺目標","Когда Sheriff Убился Он Убивает Цель",""
 "SheriffShotLimit","Ammo","キル可能回数","最大执法次数","最大子彈數量","Количество Выстрелов",""
+"SheriffCanKillAllAlive","Can Kill With All Alive","全員生存時にキルできる"
 "DoctorTaskCompletedBatteryCharge","Battery Duration","充電持続時間","医生每次完成任务增加的设备充能数","醫生完成任務充電秒數","Длительность Батарейки Doctor",""
 "SnitchEnableTargetArrow","Can See Arrow To Target","ターゲットを示す矢印が見える","告密者完成任务后可以通过箭头确认所有被发现目标","告密者完成任務後可以看到目標的箭頭","Может Видеть Стрелку Цели",""
 "SnitchCanGetArrowColor","Can See Target Team Colored Arrow","矢印の色で陣営がわかる","告密者对不同阵营的目标使用不同颜色的箭头确认","對不同陣營的目標使用不同顏色的箭頭標示","Может Видеть Цвета Стрелок",""

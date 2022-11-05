@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using Hazel;
 using UnityEngine;
-using System.Linq;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -19,8 +19,8 @@ namespace TownOfHost
         }
         static readonly int Id = 1700;
 
-        static CustomOption FireWorksCount;
-        static CustomOption FireWorksRadius;
+        static OptionItem FireWorksCount;
+        static OptionItem FireWorksRadius;
 
         public static Dictionary<byte, int> nowFireWorksCount = new();
         static Dictionary<byte, List<Vector3>> fireWorksPosition = new();
@@ -33,8 +33,8 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.FireWorks);
-            FireWorksCount = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "FireWorksMaxCount", 1f, 1f, 3f, 1f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks], format: "Pieces");
-            FireWorksRadius = CustomOption.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "FireWorksRadius", 1f, 0.5f, 3f, 0.5f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks], format: "Multiplier");
+            FireWorksCount = OptionItem.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "FireWorksMaxCount", 1f, 1f, 3f, 1f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks], format: "Pieces");
+            FireWorksRadius = OptionItem.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "FireWorksRadius", 1f, 0.5f, 3f, 0.5f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks], format: "Multiplier");
         }
 
         public static void Init()

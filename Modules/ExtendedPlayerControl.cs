@@ -523,7 +523,7 @@ namespace TownOfHost
                 CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
                 CustomRoles.SKMadmate => false,
-                CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc),
+                CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
                 CustomRoles.Jackal => true,
                 _ => pc.Is(RoleType.Impostor),
@@ -531,14 +531,7 @@ namespace TownOfHost
         }
         public static bool IsLastImpostor(this PlayerControl pc)
         { //キルクールを変更するインポスター役職は省く
-            return pc.GetCustomRole().IsImpostor() &&
-                !pc.Data.IsDead &&
-                Options.CurrentGameMode != CustomGameMode.HideAndSeek &&
-                Options.EnableLastImpostor.GetBool() &&
-                !pc.Is(CustomRoles.Vampire) &&
-                !pc.Is(CustomRoles.BountyHunter) &&
-                !pc.Is(CustomRoles.SerialKiller) &&
-                Main.AliveImpostorCount == 1;
+            return Utils.IsLastImpostor(pc.PlayerId);
         }
         public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
         {
