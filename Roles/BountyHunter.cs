@@ -134,7 +134,7 @@ namespace TownOfHost
             }
             if (cTargets.Count >= 2 && Targets.TryGetValue(player.PlayerId, out var p)) cTargets.RemoveAll(x => x.PlayerId == p.PlayerId); //前回のターゲットは除外
 
-            var rand = new System.Random();
+            var rand = IRandom.Instance;
             if (cTargets.Count <= 0)
             {
                 Logger.Error("ターゲットの指定に失敗しました:ターゲット候補が存在しません", "BountyHunter");
