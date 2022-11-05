@@ -25,6 +25,7 @@ namespace TownOfHost
         public static OptionItem CanKillJackal;
         public static OptionItem CanKillJSchrodingerCat;
 
+        public static Dictionary<byte, float> ShotLimit = new();
         public static Dictionary<byte, float> CurrentKillCooldown = new();
         public static readonly string[] KillOption =
         {
@@ -59,6 +60,7 @@ namespace TownOfHost
         public static void Init()
         {
             playerIdList = new();
+            ShotLimit = new();
             CurrentKillCooldown = new();
         }
         public static void Add(byte playerId)
@@ -69,17 +71,33 @@ namespace TownOfHost
             if (!Main.ResetCamPlayerList.Contains(playerId))
                 Main.ResetCamPlayerList.Add(playerId);
 
+            ShotLimit.TryAdd(playerId, ShotLimitOpt.GetFloat());
+            Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : 残り{ShotLimit[playerId]}発", "Sheriff");
         }
         public static bool IsEnable => playerIdList.Count > 0;
+        private static void SendRPC(byte playerId)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetSheriffShotLimit, SendOption.Reliable, -1);
+            writer.Write(playerId);
+            writer.Write(ShotLimit[playerId]);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void ReceiveRPC(MessageReader reader)
+        {
+            byte SheriffId = reader.ReadByte();
+            float Limit = reader.ReadSingle();
+            if (ShotLimit.ContainsKey(SheriffId))
+                ShotLimit[SheriffId] = Limit;
+            else
+                ShotLimit.Add(SheriffId, ShotLimitOpt.GetFloat());
+        }
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CanUseKillButton(Utils.GetPlayerById(id)) ? CurrentKillCooldown[id] : 0f;
-        public static int ShotLimit(PlayerControl player)
-            => ShotLimitOpt.GetInt() - player.GetKillCount(!(PlayerState.GetDeathReason(player.PlayerId) == PlayerState.DeathReason.Misfire));
         public static bool CanUseKillButton(PlayerControl player)
         {
             if (player.Data.IsDead)
                 return false;
 
-            if (ShotLimit(player) == 0)
+            if (ShotLimit[player.PlayerId] == 0)
             {
                 //Logger.info($"{player.GetNameWithRole()} はキル可能回数に達したため、RoleTypeを守護天使に変更しました。", "Sheriff");
                 //player.RpcSetRoleDesync(RoleTypes.GuardianAngel);
@@ -91,6 +109,9 @@ namespace TownOfHost
         }
         public static bool OnCheckMurder(PlayerControl killer, PlayerControl target)
         {
+            ShotLimit[killer.PlayerId]--;
+            Logger.Info($"{killer.GetNameWithRole()} : 残り{ShotLimit[killer.PlayerId]}発", "Sheriff");
+            SendRPC(killer.PlayerId);
             if (!target.CanBeKilledBySheriff())
             {
                 PlayerState.SetDeathReason(killer.PlayerId, PlayerState.DeathReason.Misfire);
@@ -100,7 +121,7 @@ namespace TownOfHost
             SetKillCooldown(killer.PlayerId);
             return true;
         }
-        public static string GetShotLimit(byte playerId) => Utils.ColorString(Color.yellow, $"({ShotLimit(Utils.GetPlayerById(playerId))})");
+        public static string GetShotLimit(byte playerId) => Utils.ColorString(Color.yellow, ShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid");
         public static bool CanBeKilledBySheriff(this PlayerControl player)
         {
             var cRole = player.GetCustomRole();
