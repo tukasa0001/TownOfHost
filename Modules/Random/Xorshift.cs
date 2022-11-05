@@ -9,6 +9,8 @@ namespace TownOfHost
 
         private uint num;
 
+        public Xorshift() : this((uint)DateTime.UtcNow.Ticks)
+        { }
         public Xorshift(uint seed)
         {
             num = seed;

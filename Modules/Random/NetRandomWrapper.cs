@@ -6,6 +6,10 @@ namespace TownOfHost
     {
         public Random wrapping;
 
+        public NetRandomWrapper() : this(new Random())
+        { }
+        public NetRandomWrapper(int seed) : this(new Random(seed))
+        { }
         public NetRandomWrapper(Random instance)
         {
             wrapping = instance;
