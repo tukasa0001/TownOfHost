@@ -105,7 +105,7 @@ namespace TownOfHost
                     RPC.RpcVersionCheck();
                     break;
                 case CustomRPC.SyncCustomSettings:
-                    foreach (var co in CustomOption.Options)
+                    foreach (var co in OptionItem.Options)
                     {
                         //すべてのカスタムオプションについてインデックス値で受信
                         co.Selection = reader.ReadInt32();
@@ -205,7 +205,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
-            foreach (var co in CustomOption.Options)
+            foreach (var co in OptionItem.Options)
             {
                 //すべてのカスタムオプションについてインデックス値で送信
                 writer.Write(co.GetSelection());

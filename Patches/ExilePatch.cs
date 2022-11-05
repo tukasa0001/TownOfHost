@@ -45,7 +45,6 @@ namespace TownOfHost
                 exiled = AntiBlackout_LastExiled;
             }
 
-            Main.witchMeeting = false;
             bool DecidedWinner = false;
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
             AntiBlackout.RestoreIsDead(doSend: false);
