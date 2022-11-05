@@ -134,8 +134,7 @@ namespace TownOfHost
             RpcSetRoleReplacer.StartReplace(senders);
 
             // 乱数生成インスタンスを初期化
-            if (IRandom.Instance == null)
-                IRandom.SetInstance(new NetRandomWrapper());
+            IRandom.SetInstance(new NetRandomWrapper());
 
             //ウォッチャーの陣営抽選
             Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
