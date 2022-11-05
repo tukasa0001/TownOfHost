@@ -9,16 +9,16 @@ namespace TownOfHost
         private static readonly int Id = 1100;
         public static List<byte> playerIdList = new();
 
-        private static CustomOption KillCooldown;
-        private static CustomOption TimeLimit;
+        private static OptionItem KillCooldown;
+        private static OptionItem TimeLimit;
 
         private static Dictionary<byte, float> SuicideTimer = new();
 
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.SerialKiller);
-            KillCooldown = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "KillCooldown", 20f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.SerialKiller], format: "Seconds");
-            TimeLimit = CustomOption.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "SerialKillerLimit", 60f, 5f, 900f, 5f, Options.CustomRoleSpawnChances[CustomRoles.SerialKiller], format: "Seconds");
+            KillCooldown = OptionItem.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "KillCooldown", 20f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.SerialKiller], format: "Seconds");
+            TimeLimit = OptionItem.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "SerialKillerLimit", 60f, 5f, 900f, 5f, Options.CustomRoleSpawnChances[CustomRoles.SerialKiller], format: "Seconds");
         }
         public static void Init()
         {

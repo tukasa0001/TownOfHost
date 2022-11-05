@@ -94,6 +94,9 @@ namespace TownOfHost
             __instance.GameSettings.fontSizeMax = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || Main.ForceJapanese.Value) ? 1.05f : 1.2f;
             //ゲーム中でなければ以下は実行されない
             if (!AmongUsClient.Instance.IsGameStarted) return;
+
+            Utils.CountAliveImpostors();
+
             //バウンティハンターのターゲットテキスト
             if (LowerInfoText == null)
             {

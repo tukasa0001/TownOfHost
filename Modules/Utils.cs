@@ -1,13 +1,13 @@
-using System.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using UnityEngine;
 using AmongUs.Data;
+using UnityEngine;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -154,19 +154,20 @@ namespace TownOfHost
             count = SetRoleCountToggle(count);
             Options.SetRoleCount(role, count);
         }
+        public static string GetRoleName(byte playerId)
+        {
+            var role = Main.AllPlayerCustomRoles[playerId];
+            var roleName = GetRoleName(role);
+            if (role.IsImpostor() && role != CustomRoles.LastImpostor && Utils.IsLastImpostor(playerId))
+            {
+                roleName = GetRoleString("Last")+ " " + roleName;
+            }
+
+            return roleName;
+        }
         public static string GetRoleName(CustomRoles role)
         {
-            var CurrentLanguage = TranslationController.Instance.currentLanguage.languageID;
-            var lang = CurrentLanguage;
-            if (Main.ForceJapanese.Value && Main.JapaneseRoleName.Value)
-                lang = SupportedLangs.Japanese;
-            else if (CurrentLanguage == SupportedLangs.Japanese && !Main.JapaneseRoleName.Value)
-                lang = SupportedLangs.English;
-            return GetRoleName(role, lang);
-        }
-        public static string GetRoleName(CustomRoles role, SupportedLangs lang)
-        {
-            return GetString(Enum.GetName(typeof(CustomRoles), role), lang);
+            return GetRoleString(Enum.GetName(typeof(CustomRoles), role));
         }
         public static string GetDeathReason(PlayerState.DeathReason status)
         {
@@ -333,7 +334,7 @@ namespace TownOfHost
                     ProgressText += Sheriff.GetShotLimit(playerId);
                     break;
                 case CustomRoles.Sniper:
-                    ProgressText += $" {Sniper.GetBulletCount(playerId)}";
+                    ProgressText += Sniper.GetBulletCount(playerId);
                     break;
                 case CustomRoles.EvilTracker:
                     ProgressText += EvilTracker.GetMarker(playerId);
@@ -353,10 +354,6 @@ namespace TownOfHost
                         ProgressText = ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})");
                     }
                     break;
-            }
-            if (role.IsImpostor() && role != CustomRoles.LastImpostor && GetPlayerById(playerId).IsLastImpostor())
-            {
-                ProgressText += $" <color={GetRoleColorCode(CustomRoles.Impostor)}>(Last)</color>";
             }
             if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText += $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]";
 
@@ -416,7 +413,7 @@ namespace TownOfHost
                     ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref text);
                     text = text.RemoveHtmlTags();
                 }
-                foreach (var opt in CustomOption.Options.Where(x => x.Enabled && x.Parent == null && x.Id >= 80000 && !x.IsHidden(Options.CurrentGameMode)))
+                foreach (var opt in OptionItem.Options.Where(x => x.Enabled && x.Parent == null && x.Id >= 80000 && !x.IsHidden(Options.CurrentGameMode)))
                 {
                     if (opt.Name == "KillFlashDuration")
                         text += $"\n【{opt.GetName(true)}: {opt.GetString()}】\n";
@@ -445,7 +442,7 @@ namespace TownOfHost
                 text = text.RemoveHtmlTags();
             }
             text += $"━━━━━━━━━━━━【{GetString("Settings")}】━━━━━━━━━━━━";
-            foreach (var opt in CustomOption.Options.Where(x => x.Enabled && x.Parent == null && x.Id >= 80000 && !x.IsHidden(Options.CurrentGameMode)))
+            foreach (var opt in OptionItem.Options.Where(x => x.Enabled && x.Parent == null && x.Id >= 80000 && !x.IsHidden(Options.CurrentGameMode)))
             {
                 if (opt.Name == "KillFlashDuration")
                     text += $"\n【{opt.GetName(true)}: {opt.GetString()}】\n";
@@ -473,7 +470,7 @@ namespace TownOfHost
             }
             SendMessage(text, PlayerId);
         }
-        public static void ShowChildrenSettings(CustomOption option, ref string text, int deep = 0)
+        public static void ShowChildrenSettings(OptionItem option, ref string text, int deep = 0)
         {
             foreach (var opt in option.Children.Select((v, i) => new { Value = v, Index = i + 1 }))
             {
@@ -764,7 +761,7 @@ namespace TownOfHost
                     SeerRealName = seer.GetRoleInfo();
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
-                string SelfRoleName = $"<size={fontSize}>{ColorString(seer.GetRoleColor(), seer.GetRoleName())}{SelfTaskText}</size>";
+                string SelfRoleName = $"<size={fontSize}>{ColorString(seer.GetRoleColor(), GetRoleName(seer.PlayerId))}{SelfTaskText}</size>";
                 string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(seer.PlayerId))})" : "";
                 string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
                 if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
@@ -908,7 +905,6 @@ namespace TownOfHost
                 }
                 TownOfHost.Logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":END", "NotifyRoles");
             }
-            Main.witchMeeting = false;
         }
         public static void CustomSyncAllSettings()
         {
@@ -935,8 +931,9 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 CustomRoles pc_role = pc.GetCustomRole();
-                if (pc_role.IsImpostor() && !pc.Data.IsDead) AliveImpostorCount++;
+                if (pc_role.IsImpostor() && !PlayerState.isDead[pc.PlayerId]) AliveImpostorCount++;
             }
+            if (Main.AliveImpostorCount == AliveImpostorCount) return;
             TownOfHost.Logger.Info("生存しているインポスター:" + AliveImpostorCount + "人", "CountAliveImpostors");
             Main.AliveImpostorCount = AliveImpostorCount;
             if (Options.EnableLastImpostor.GetBool() && AliveImpostorCount == 1)
@@ -953,6 +950,17 @@ namespace TownOfHost
                 CustomSyncAllSettings();
             }
         }
+        public static bool IsLastImpostor(byte playerId)
+        { //キルクールを変更するインポスター役職は省く
+            var role = Main.AllPlayerCustomRoles[playerId];
+            return role.IsImpostor() &&
+                !PlayerState.isDead[playerId] &&
+                Options.CurrentGameMode != CustomGameMode.HideAndSeek &&
+                Options.EnableLastImpostor.GetBool() &&
+                role is not CustomRoles.Vampire or CustomRoles.BountyHunter or CustomRoles.SerialKiller &&
+                Main.AliveImpostorCount == 1;
+        }
+
         public static string GetAllRoleName(byte playerId)
         {
             return GetPlayerById(playerId)?.GetAllRoleName() ?? "";
@@ -1015,7 +1023,7 @@ namespace TownOfHost
         public static string SummaryTexts(byte id, bool disableColor = true)
         {
             var RolePos = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? 47 : 37;
-            string summary = $"{ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%> {GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {ColorString(GetRoleColor(Main.AllPlayerCustomRoles[id]), GetRoleName(Main.AllPlayerCustomRoles[id]))}{GetShowLastSubRolesText(id)}</pos>";
+            string summary = $"{ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%> {GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {ColorString(GetRoleColor(Main.AllPlayerCustomRoles[id]), GetRoleName(id))}{GetShowLastSubRolesText(id)}</pos>";
             return disableColor ? summary.RemoveHtmlTags() : summary;
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");
