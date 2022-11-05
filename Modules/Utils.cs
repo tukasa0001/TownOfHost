@@ -1,13 +1,13 @@
-using System.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using UnityEngine;
 using AmongUs.Data;
+using UnityEngine;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -416,7 +416,7 @@ namespace TownOfHost
                     ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref text);
                     text = text.RemoveHtmlTags();
                 }
-                foreach (var opt in CustomOption.Options.Where(x => x.Enabled && x.Parent == null && x.Id >= 80000 && !x.IsHidden(Options.CurrentGameMode)))
+                foreach (var opt in OptionItem.Options.Where(x => x.Enabled && x.Parent == null && x.Id >= 80000 && !x.IsHidden(Options.CurrentGameMode)))
                 {
                     if (opt.Name == "KillFlashDuration")
                         text += $"\n【{opt.GetName(true)}: {opt.GetString()}】\n";
@@ -445,7 +445,7 @@ namespace TownOfHost
                 text = text.RemoveHtmlTags();
             }
             text += $"━━━━━━━━━━━━【{GetString("Settings")}】━━━━━━━━━━━━";
-            foreach (var opt in CustomOption.Options.Where(x => x.Enabled && x.Parent == null && x.Id >= 80000 && !x.IsHidden(Options.CurrentGameMode)))
+            foreach (var opt in OptionItem.Options.Where(x => x.Enabled && x.Parent == null && x.Id >= 80000 && !x.IsHidden(Options.CurrentGameMode)))
             {
                 if (opt.Name == "KillFlashDuration")
                     text += $"\n【{opt.GetName(true)}: {opt.GetString()}】\n";
@@ -473,7 +473,7 @@ namespace TownOfHost
             }
             SendMessage(text, PlayerId);
         }
-        public static void ShowChildrenSettings(CustomOption option, ref string text, int deep = 0)
+        public static void ShowChildrenSettings(OptionItem option, ref string text, int deep = 0)
         {
             foreach (var opt in option.Children.Select((v, i) => new { Value = v, Index = i + 1 }))
             {
