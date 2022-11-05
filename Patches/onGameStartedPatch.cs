@@ -133,10 +133,13 @@ namespace TownOfHost
             }
             RpcSetRoleReplacer.StartReplace(senders);
 
+            // 乱数生成インスタンスを初期化
+            if (IRandom.Instance == null)
+                IRandom.SetInstance(new NetRandomWrapper());
+
             //ウォッチャーの陣営抽選
             Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
 
-            var rand = new System.Random();
             if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
             {
                 //役職の人数を指定
@@ -197,7 +200,7 @@ namespace TownOfHost
 
             //Utils.ApplySuffix();
 
-            var rand = new System.Random();
+            var rand = IRandom.Instance;
             Main.KillOrSpell = new Dictionary<byte, bool>();
 
             List<PlayerControl> Crewmates = new();
@@ -437,7 +440,7 @@ namespace TownOfHost
             for (var i = 0; i < role.GetCount(); i++)
             {
                 if (AllPlayers.Count <= 0) break;
-                var rand = new Random();
+                var rand = IRandom.Instance;
                 var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
                 AllPlayers.Remove(player);
                 Main.AllPlayerCustomRoles[player.PlayerId] = role;
@@ -477,7 +480,7 @@ namespace TownOfHost
         private static List<PlayerControl> AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1)
         {
             if (players == null || players.Count <= 0) return null;
-            var rand = new System.Random();
+            var rand = IRandom.Instance;
             var count = Math.Clamp(RawCount, 0, players.Count);
             if (RawCount == -1) count = Math.Clamp(role.GetCount(), 0, players.Count);
             if (count <= 0) return null;
@@ -523,7 +526,7 @@ namespace TownOfHost
                 allPlayers.Add(player);
             }
             var loversRole = CustomRoles.Lovers;
-            var rand = new System.Random();
+            var rand = IRandom.Instance;
             var count = Math.Clamp(RawCount, 0, allPlayers.Count);
             if (RawCount == -1) count = Math.Clamp(loversRole.GetCount(), 0, allPlayers.Count);
             if (count <= 0) return;
