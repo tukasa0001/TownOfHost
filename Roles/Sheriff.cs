@@ -93,11 +93,12 @@ namespace TownOfHost
             else
                 ShotLimit.Add(SheriffId, ShotLimitOpt.GetFloat());
         }
-        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CanUseKillButton(Utils.GetPlayerById(id)) ? CurrentKillCooldown[id] : 0f;
-        public static bool CanUseKillButton(PlayerControl player)
-            => !player.Data.IsDead
+        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CanUseKillButton(id) ? CurrentKillCooldown[id] : 0f;
+        public static bool CanUseKillButton(byte playerId)
+            => !PlayerState.isDead[playerId]
             && (CanKillAllAlive.GetBool() || GameStates.AlreadyDied)
-            && ShotLimit[player.PlayerId] >= 0;
+            && ShotLimit[playerId] >= 0;
+
         public static bool OnCheckMurder(PlayerControl killer, PlayerControl target)
         {
             ShotLimit[killer.PlayerId]--;
@@ -112,7 +113,7 @@ namespace TownOfHost
             SetKillCooldown(killer.PlayerId);
             return true;
         }
-        public static string GetShotLimit(byte playerId) => Utils.ColorString(CanUseKillButton(Utils.GetPlayerById(playerId)) ? Color.yellow : Color.white, ShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid");
+        public static string GetShotLimit(byte playerId) => Utils.ColorString(CanUseKillButton(playerId) ? Color.yellow : Color.white, ShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid");
         public static bool CanBeKilledBySheriff(this PlayerControl player)
         {
             var cRole = player.GetCustomRole();
