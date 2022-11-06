@@ -95,7 +95,7 @@ namespace TownOfHost
         }
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CanUseKillButton(id) ? CurrentKillCooldown[id] : 0f;
         public static bool CanUseKillButton(byte playerId)
-            => !PlayerState.isDead[playerId]
+            => !Main.PlayerStates[playerId].IsDead
             && (CanKillAllAlive.GetBool() || GameStates.AlreadyDied)
             && ShotLimit[playerId] > 0;
 
@@ -106,7 +106,7 @@ namespace TownOfHost
             SendRPC(killer.PlayerId);
             if (!target.CanBeKilledBySheriff())
             {
-                PlayerState.SetDeathReason(killer.PlayerId, PlayerState.DeathReason.Misfire);
+                Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
                 killer.RpcMurderPlayer(killer);
                 return MisfireKillsTarget.GetBool();
             }
