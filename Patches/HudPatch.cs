@@ -94,6 +94,9 @@ namespace TownOfHost
             __instance.GameSettings.fontSizeMax = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || Main.ForceJapanese.Value) ? 1.05f : 1.2f;
             //ゲーム中でなければ以下は実行されない
             if (!AmongUsClient.Instance.IsGameStarted) return;
+
+            Utils.CountAliveImpostors();
+
             //バウンティハンターのターゲットテキスト
             if (LowerInfoText == null)
             {
@@ -163,7 +166,7 @@ namespace TownOfHost
                     __instance.KillButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Sheriff:
-                    if (Sheriff.ShotLimit.TryGetValue(player.PlayerId, out var count) && count == 0)
+                    if (!player.CanUseKillButton())
                     {
                         __instance.KillButton.SetDisabled();
                         __instance.KillButton.ToggleVisible(false);

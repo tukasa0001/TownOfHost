@@ -526,20 +526,13 @@ namespace TownOfHost
                 CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
                 CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
-                CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc),
+                CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
                 _ => canUse,
             };
         }
         public static bool IsLastImpostor(this PlayerControl pc)
         { //キルクールを変更するインポスター役職は省く
-            return pc.GetCustomRole().IsImpostor() &&
-                !pc.Data.IsDead &&
-                Options.CurrentGameMode != CustomGameMode.HideAndSeek &&
-                Options.EnableLastImpostor.GetBool() &&
-                !pc.Is(CustomRoles.Vampire) &&
-                !pc.Is(CustomRoles.BountyHunter) &&
-                !pc.Is(CustomRoles.SerialKiller) &&
-                Main.AliveImpostorCount == 1;
+            return Utils.IsLastImpostor(pc.PlayerId);
         }
         public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
         {
@@ -698,7 +691,18 @@ namespace TownOfHost
         {
             var role = player.GetCustomRole();
             if (role.IsVanilla())
-                return (InfoLong ? "\n" : "") + GetString("Message.NoDescription");
+            {
+                var blurb = role switch
+                {
+                    CustomRoles.Impostor => StringNames.ImpostorBlurb,
+                    CustomRoles.Scientist => InfoLong ? StringNames.ScientistBlurbLong : StringNames.ScientistBlurb,
+                    CustomRoles.Engineer => InfoLong ? StringNames.EngineerBlurbLong : StringNames.EngineerBlurb,
+                    CustomRoles.GuardianAngel => InfoLong ? StringNames.GuardianAngelBlurbLong : StringNames.GuardianAngelBlurb,
+                    CustomRoles.Shapeshifter => InfoLong ? StringNames.ShapeshifterBlurbLong : StringNames.ShapeshifterBlurb,
+                    _ => StringNames.CrewmateBlurb,
+                };
+                return (InfoLong ? "\n" : "") + DestroyableSingleton<TranslationController>.Instance.GetString(blurb);
+            }
 
             var text = role.ToString();
 
