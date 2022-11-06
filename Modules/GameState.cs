@@ -3,55 +3,39 @@ using System.Collections.Generic;
 
 namespace TownOfHost
 {
-    public static class PlayerState
+    public class PlayerState
     {
-
-        static PlayerState()
+        byte PlayerId;
+        public bool IsDead { get; set; }
+        public DeathReason deathReason { get; set; }
+        public TaskState taskState;
+        public bool IsBlackOut { get; set; }
+        public PlayerState(byte playerId)
         {
-            Init();
-        }
-
-        public static void Init()
-        {
-            players = new();
-            isDead = new();
-            IsBlackOut = new();
-            deathReasons = new();
+            PlayerId = playerId;
+            IsDead = false;
+            deathReason = DeathReason.etc;
             taskState = new();
-
-            foreach (var p in PlayerControl.AllPlayerControls)
-            {
-                players.Add(p.PlayerId);
-                isDead.Add(p.PlayerId, false);
-                IsBlackOut.Add(p.PlayerId, false);
-                deathReasons.Add(p.PlayerId, DeathReason.etc);
-                taskState.Add(p.PlayerId, new());
-            }
-
+            IsBlackOut = false;
         }
-        public static List<byte> players = new();
-        public static Dictionary<byte, bool> isDead = new();
-        public static Dictionary<byte, DeathReason> deathReasons = new();
-        public static Dictionary<byte, TaskState> taskState = new();
-        public static Dictionary<byte, bool> IsBlackOut = new();
-        public static void SetDeathReason(byte p, DeathReason reason) { deathReasons[p] = reason; }
-        public static DeathReason GetDeathReason(byte p) { return deathReasons.TryGetValue(p, out var reason) ? reason : DeathReason.etc; }
-        public static void SetDead(byte p)
+
+        public void SetDead()
         {
-            isDead[p] = true;
+            IsDead = true;
             if (AmongUsClient.Instance.AmHost)
             {
-                RPC.SendDeathReason(p, deathReasons[p]);
+                RPC.SendDeathReason(PlayerId, deathReason);
             }
         }
-        public static bool IsSuicide(byte p) { return deathReasons[p] == DeathReason.Suicide; }
-        public static void InitTask(PlayerControl player)
+        public bool IsSuicide() { return deathReason == DeathReason.Suicide; }
+        public TaskState GetTaskState() { return taskState; }
+        public void InitTask(PlayerControl player)
         {
-            taskState[player.PlayerId].Init(player);
+            taskState.Init(player);
         }
-        public static void UpdateTask(PlayerControl player)
+        public void UpdateTask(PlayerControl player)
         {
-            taskState[player.PlayerId].Update(player);
+            taskState.Update(player);
         }
         public enum DeathReason
         {

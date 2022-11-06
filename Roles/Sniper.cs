@@ -111,7 +111,7 @@ namespace TownOfHost
         public static void ShapeShiftCheck(PlayerControl pc, bool shapeshifting)
         {
             if (bulletCount[pc.PlayerId] <= 0) return;
-            if (PlayerState.isDead[pc.PlayerId]) return;
+            if (Main.PlayerStates[pc.PlayerId].IsDead) return;
             //スナイパーで弾が残ってたら
             if (shapeshifting)
             {
@@ -143,7 +143,7 @@ namespace TownOfHost
                 foreach (var target in PlayerControl.AllPlayerControls)
                 {
                     //死者や自分には当たらない
-                    if (PlayerState.isDead[target.PlayerId] || target.PlayerId == pc.PlayerId) continue;
+                    if (Main.PlayerStates[target.PlayerId].IsDead || target.PlayerId == pc.PlayerId) continue;
                     //死んでいない対象の方角ベクトル作成
                     var target_pos = target.transform.position - snipePos;
                     //正規化して
@@ -179,7 +179,7 @@ namespace TownOfHost
                     //一番正確な対象がターゲット
                     var snipedTarget = dot_list.OrderBy(c => c.Value).First().Key;
                     snipeTarget[pc.PlayerId] = snipedTarget.PlayerId;
-                    PlayerState.SetDeathReason(snipedTarget.PlayerId, PlayerState.DeathReason.Sniped);
+                    Main.PlayerStates[snipedTarget.PlayerId].deathReason = PlayerState.DeathReason.Sniped;
                     snipedTarget.CheckMurder(snipedTarget);
                     //キル出来た通知
                     pc.RpcGuardAndKill();
