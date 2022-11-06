@@ -112,7 +112,7 @@ namespace TownOfHost
         public static byte currentDousingTarget;
         public static float DefaultCrewmateVision;
         public static float DefaultImpostorVision;
-        public static bool IsChristmas = DateTime.Now.Month == 11 && DateTime.Now.Day is 6 or 24 or 25;
+        public static bool IsChristmas = DateTime.Now.Month == 12 && DateTime.Now.Day is 23 or 24 or 25;
 
         public static Main Instance;
 
