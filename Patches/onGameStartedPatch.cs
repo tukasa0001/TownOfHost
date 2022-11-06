@@ -13,7 +13,7 @@ namespace TownOfHost
         public static void Postfix(AmongUsClient __instance)
         {
             //注:この時点では役職は設定されていません。
-            PlayerState.Init();
+            Main.PlayerStates = new();
 
             Main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             Main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
@@ -71,6 +71,7 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (AmongUsClient.Instance.AmHost && Options.ColorNameMode.GetBool()) pc.RpcSetName(Palette.GetColorName(pc.Data.DefaultOutfit.ColorId));
+                Main.PlayerStates[pc.PlayerId] = new(pc.PlayerId);
                 Main.AllPlayerNames[pc.PlayerId] = pc?.Data?.PlayerName;
 
                 Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];

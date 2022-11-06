@@ -282,7 +282,7 @@ namespace TownOfHost
 
             var clientId = player.GetClientId();
             var opt = Main.RealOptionsData.DeepCopy();
-            opt.BlackOut(PlayerState.IsBlackOut[player.PlayerId]);
+            opt.BlackOut(Main.PlayerStates[player.PlayerId].IsBlackOut);
 
             CustomRoles role = player.GetCustomRole();
             RoleType roleType = role.GetRoleType();
@@ -414,7 +414,7 @@ namespace TownOfHost
         }
         public static TaskState GetPlayerTaskState(this PlayerControl player)
         {
-            return PlayerState.taskState[player.PlayerId];
+            return Main.PlayerStates[player.PlayerId].GetTaskState();
         }
 
         public static GameOptionsData DeepCopy(this GameOptionsData opt)
@@ -730,7 +730,7 @@ namespace TownOfHost
         public static bool Is(this PlayerControl target, CustomRoles role) =>
             role > CustomRoles.NoSubRoleAssigned ? target.GetCustomSubRole() == role : target.GetCustomRole() == role;
         public static bool Is(this PlayerControl target, RoleType type) { return target.GetCustomRole().GetRoleType() == type; }
-        public static bool IsAlive(this PlayerControl target) { return target != null && !PlayerState.isDead[target.PlayerId]; }
+        public static bool IsAlive(this PlayerControl target) { return target != null && !Main.PlayerStates[target.PlayerId].IsDead; }
 
     }
 }

@@ -11,7 +11,7 @@ namespace TownOfHost
         {
             playerIdList.Add(teamEgo);
         }
-        public static bool CompleteWinCondition(byte id) => CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor && !PlayerState.isDead[id] && !PlayerControl.AllPlayerControls.ToArray().Any(p => p.Is(RoleType.Impostor) && !PlayerState.isDead[p.PlayerId]);
+        public static bool CompleteWinCondition(byte id) => CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor && !Main.PlayerStates[id].IsDead && !PlayerControl.AllPlayerControls.ToArray().Any(p => p.Is(RoleType.Impostor) && !Main.PlayerStates[p.PlayerId].IsDead);
         public static void SoloWin(List<PlayerControl> winner)
         {
             if (CustomWinnerHolder.WinnerTeam == CustomWinner.Egoist && CustomRoles.Egoist.IsEnable()) //横取り勝利
@@ -22,7 +22,7 @@ namespace TownOfHost
                     var teamEgo = Utils.GetPlayerById(id);
                     if (teamEgo == null) continue;
                     if (teamEgo.Is(CustomRoles.Lovers)) continue; //リア充は無視
-                    else if ((teamEgo.Is(CustomRoles.Egoist) && !PlayerState.isDead[id]) ||
+                    else if ((teamEgo.Is(CustomRoles.Egoist) && !Main.PlayerStates[id].IsDead) ||
                         teamEgo.Is(CustomRoles.EgoSchrodingerCat))
                     {
                         winner.Add(teamEgo);

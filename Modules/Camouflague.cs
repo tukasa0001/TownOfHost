@@ -17,7 +17,7 @@ namespace TownOfHost
             string petId = "";
             if (Utils.IsActive(SystemTypes.Comms))
             {
-                if (PlayerState.isDead[id]) return;
+                if (Main.PlayerStates[id].IsDead) return;
             }
             if (!Utils.IsActive(SystemTypes.Comms) || ForceRevert)
             {
