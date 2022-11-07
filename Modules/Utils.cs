@@ -146,14 +146,6 @@ namespace TownOfHost
             }
             return;
         }
-        public static string GetOnOff(bool value) => value ? "ON" : "OFF";
-        public static int SetRoleCountToggle(int currentCount) => currentCount > 0 ? 0 : 1;
-        public static void SetRoleCountToggle(CustomRoles role)
-        {
-            int count = Options.GetRoleCount(role);
-            count = SetRoleCountToggle(count);
-            Options.SetRoleCount(role, count);
-        }
         public static string GetRoleName(byte playerId)
         {
             var role = Main.AllPlayerCustomRoles[playerId];
@@ -959,19 +951,6 @@ namespace TownOfHost
                 Options.EnableLastImpostor.GetBool() &&
                 role is not CustomRoles.Vampire or CustomRoles.BountyHunter or CustomRoles.SerialKiller &&
                 Main.AliveImpostorCount == 1;
-        }
-
-        public static string GetAllRoleName(byte playerId)
-        {
-            return GetPlayerById(playerId)?.GetAllRoleName() ?? "";
-        }
-        public static string GetNameWithRole(byte playerId)
-        {
-            return GetPlayerById(playerId)?.GetNameWithRole() ?? "";
-        }
-        public static string GetNameWithRole(this GameData.PlayerInfo player)
-        {
-            return GetPlayerById(player.PlayerId)?.GetNameWithRole() ?? "";
         }
         public static string GetVoteName(byte num)
         {
