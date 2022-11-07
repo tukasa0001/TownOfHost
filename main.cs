@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -211,8 +211,9 @@ namespace TownOfHost
                     // GM
                     {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
-                    {CustomRoles.NoSubRoleAssigned, "#ffffff"},
-                    {CustomRoles.Lovers, "#ff6be4"}
+                    {CustomRoles.Lovers, "#ff6be4"},
+
+                    {CustomRoles.NotAssigned, "#ffffff"}
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -330,7 +331,7 @@ namespace TownOfHost
         //GM
         GM,
         // Sub-roll after 500
-        NoSubRoleAssigned = 500,
+        NotAssigned = 500,
         Lovers,
     }
     //WinData

@@ -12,11 +12,11 @@ namespace TownOfHost
     {
         public static void RpcSetCustomRole(this PlayerControl player, CustomRoles role)
         {
-            if (role < CustomRoles.NoSubRoleAssigned)
+            if (role < CustomRoles.NotAssigned)
             {
                 Main.AllPlayerCustomRoles[player.PlayerId] = role;
             }
-            else if (role >= CustomRoles.NoSubRoleAssigned)   //500:NoSubRole 501~:SubRole
+            else if (role >= CustomRoles.NotAssigned)   //500:NoSubRole 501~:SubRole
             {
                 Main.AllPlayerCustomSubRoles[player.PlayerId] = role;
             }
@@ -96,10 +96,10 @@ namespace TownOfHost
             if (player == null)
             {
                 Logger.Warn("CustomSubRoleを取得しようとしましたが、対象がnullでした。", "getCustomSubRole");
-                return CustomRoles.NoSubRoleAssigned;
+                return CustomRoles.NotAssigned;
             }
             var cRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(player.PlayerId, out var cRole);
-            return cRoleFound ? cRole : CustomRoles.NoSubRoleAssigned;
+            return cRoleFound ? cRole : CustomRoles.NotAssigned;
         }
         public static void RpcSetNameEx(this PlayerControl player, string name)
         {
@@ -435,7 +435,7 @@ namespace TownOfHost
         {
             if (!player) return null;
             var text = player.GetRoleName();
-            text += player.GetCustomSubRole() != CustomRoles.NoSubRoleAssigned ? $" + {player.GetSubRoleName()}" : "";
+            text += player.GetCustomSubRole() != CustomRoles.NotAssigned ? $" + {player.GetSubRoleName()}" : "";
             return text;
         }
         public static string GetNameWithRole(this PlayerControl player)
@@ -728,7 +728,7 @@ namespace TownOfHost
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>
-            role > CustomRoles.NoSubRoleAssigned ? target.GetCustomSubRole() == role : target.GetCustomRole() == role;
+            role > CustomRoles.NotAssigned ? target.GetCustomSubRole() == role : target.GetCustomRole() == role;
         public static bool Is(this PlayerControl target, RoleType type) { return target.GetCustomRole().GetRoleType() == type; }
         public static bool IsAlive(this PlayerControl target) { return target != null && !Main.PlayerStates[target.PlayerId].IsDead; }
 

@@ -68,7 +68,7 @@ namespace TownOfHost
                     {
                         Main.isLoversDead = true;
                         Main.LoversPlayers.Remove(lovers);
-                        Main.AllPlayerCustomSubRoles[lovers.PlayerId] = CustomRoles.NoSubRoleAssigned;
+                        Main.AllPlayerCustomSubRoles[lovers.PlayerId] = CustomRoles.NotAssigned;
                     }
                 if (data.Character.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(data.Character.PlayerId))
                     Executioner.ChangeRole(data.Character);

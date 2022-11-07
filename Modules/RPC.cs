@@ -286,11 +286,11 @@ namespace TownOfHost
         }
         public static void SetCustomRole(byte targetId, CustomRoles role)
         {
-            if (role < CustomRoles.NoSubRoleAssigned)
+            if (role < CustomRoles.NotAssigned)
             {
                 Main.AllPlayerCustomRoles[targetId] = role;
             }
-            else if (role >= CustomRoles.NoSubRoleAssigned)   //500:NoSubRole 501~:SubRole
+            else if (role >= CustomRoles.NotAssigned)   //500:NoSubRole 501~:SubRole
             {
                 Main.AllPlayerCustomSubRoles[targetId] = role;
             }
