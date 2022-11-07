@@ -441,7 +441,7 @@ namespace TownOfHost
         {
             if (!player) return null;
             var text = player.GetRoleName();
-            text += player.GetCustomSubRoles().Contains(CustomRoles.NotAssigned) ? $" + {player.GetSubRoleName()}" : "";
+            text += $" + {player.GetSubRoleName()}";
             return text;
         }
         public static string GetNameWithRole(this PlayerControl player)
