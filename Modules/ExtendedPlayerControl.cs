@@ -66,7 +66,6 @@ namespace TownOfHost
         /// </summary>
         public static CustomRoles GetCustomRole(this PlayerControl player)
         {
-            var cRole = CustomRoles.Crewmate;
             if (player == null)
             {
                 var caller = new System.Diagnostics.StackFrame(1, false);
@@ -74,32 +73,20 @@ namespace TownOfHost
                 string callerMethodName = callerMethod.Name;
                 string callerClassName = callerMethod.DeclaringType.FullName;
                 Logger.Warn(callerClassName + "." + callerMethodName + "がCustomRoleを取得しようとしましたが、対象がnullでした。", "GetCustomRole");
-                return cRole;
+                return CustomRoles.Crewmate;
             }
-            var cRoleFound = Main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out cRole);
-            return cRoleFound || player.Data.Role == null
-                ? cRole
-                : player.Data.Role.Role switch
-                {
-                    RoleTypes.Crewmate => CustomRoles.Crewmate,
-                    RoleTypes.Engineer => CustomRoles.Engineer,
-                    RoleTypes.Scientist => CustomRoles.Scientist,
-                    RoleTypes.GuardianAngel => CustomRoles.GuardianAngel,
-                    RoleTypes.Impostor => CustomRoles.Impostor,
-                    RoleTypes.Shapeshifter => CustomRoles.Shapeshifter,
-                    _ => CustomRoles.Crewmate,
-                };
+
+            return Main.PlayerStates[player.PlayerId].GetCustomRole();
         }
 
-        public static CustomRoles GetCustomSubRole(this PlayerControl player)
+        public static List<CustomRoles> GetCustomSubRole(this PlayerControl player)
         {
             if (player == null)
             {
                 Logger.Warn("CustomSubRoleを取得しようとしましたが、対象がnullでした。", "getCustomSubRole");
-                return CustomRoles.NotAssigned;
+                return new() { CustomRoles.NotAssigned };
             }
-            var cRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(player.PlayerId, out var cRole);
-            return cRoleFound ? cRole : CustomRoles.NotAssigned;
+            return Main.PlayerStates[player.PlayerId].SubRoles;
         }
         public static void RpcSetNameEx(this PlayerControl player, string name)
         {

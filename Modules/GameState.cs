@@ -22,6 +22,22 @@ namespace TownOfHost
             taskState = new();
             IsBlackOut = false;
         }
+        public CustomRoles GetCustomRole()
+        {
+            var RoleInfo = Utils.GetPlayerInfoById(PlayerId);
+            return RoleInfo.Role == null
+                ? MainRole
+                : RoleInfo.Role.Role switch
+                {
+                    RoleTypes.Crewmate => CustomRoles.Crewmate,
+                    RoleTypes.Engineer => CustomRoles.Engineer,
+                    RoleTypes.Scientist => CustomRoles.Scientist,
+                    RoleTypes.GuardianAngel => CustomRoles.GuardianAngel,
+                    RoleTypes.Impostor => CustomRoles.Impostor,
+                    RoleTypes.Shapeshifter => CustomRoles.Shapeshifter,
+                    _ => CustomRoles.Crewmate,
+                };
+        }
 
         public void SetDead()
         {
