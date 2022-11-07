@@ -16,7 +16,7 @@ namespace TownOfHost
             GameStates.InGame = false;
 
             SummaryText = new();
-            foreach (var id in Main.AllPlayerCustomRoles.Keys)
+            foreach (var id in Main.PlayerStates.Keys)
                 SummaryText[id] = Utils.SummaryTexts(id, disableColor: false);
             Logger.Info("-----------ゲーム終了-----------", "Phase");
             PlayerControl.GameOptions.killCooldown = Options.DefaultKillCooldown;
@@ -87,8 +87,7 @@ namespace TownOfHost
                 winner = new();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    var hasRole = Main.AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
-                    if (!hasRole) continue;
+                    var role = Main.PlayerStates[pc.PlayerId].MainRole;
                     if (role.GetRoleType() == RoleType.Impostor)
                     {
                         if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
@@ -170,7 +169,7 @@ namespace TownOfHost
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(winnerRole);
                 }
             }
-            if (AmongUsClient.Instance.AmHost && Main.AllPlayerCustomRoles[0] == CustomRoles.GM)
+            if (AmongUsClient.Instance.AmHost && Main.PlayerStates[0].MainRole == CustomRoles.GM)
             {
                 __instance.WinText.text = "Game Over";
                 __instance.WinText.color = Utils.GetRoleColor(CustomRoles.GM);
@@ -227,15 +226,14 @@ namespace TownOfHost
             RoleSummaryObject.transform.localScale = new Vector3(1f, 1f, 1f);
 
             string RoleSummaryText = $"{GetString("RoleSummaryText")}";
-            Dictionary<byte, CustomRoles> cloneRoles = new(Main.AllPlayerCustomRoles);
+            List<byte> cloneRoles = new(Main.PlayerStates.Keys);
             foreach (var id in Main.winnerList)
             {
                 RoleSummaryText += $"\n<color={CustomWinnerColor}>★</color> " + EndGamePatch.SummaryText[id];
                 cloneRoles.Remove(id);
             }
-            foreach (var kvp in cloneRoles)
+            foreach (var id in cloneRoles)
             {
-                var id = kvp.Key;
                 RoleSummaryText += $"\n　 " + EndGamePatch.SummaryText[id];
             }
             var RoleSummary = RoleSummaryObject.GetComponent<TMPro.TextMeshPro>();

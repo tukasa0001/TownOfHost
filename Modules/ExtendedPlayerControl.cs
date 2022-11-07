@@ -15,7 +15,7 @@ namespace TownOfHost
         {
             if (role < CustomRoles.NotAssigned)
             {
-                Main.AllPlayerCustomRoles[player.PlayerId] = role;
+                Main.PlayerStates[player.PlayerId].MainRole = role;
             }
             else if (role >= CustomRoles.NotAssigned)   //500:NoSubRole 501~:SubRole
             {
@@ -41,7 +41,7 @@ namespace TownOfHost
         }
         public static void SetCustomRole(this PlayerControl player, CustomRoles role)
         {
-            Main.AllPlayerCustomRoles[player.PlayerId] = role;
+            Main.PlayerStates[player.PlayerId].MainRole = role;
         }
 
         public static void RpcExile(this PlayerControl player)
