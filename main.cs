@@ -67,7 +67,6 @@ namespace TownOfHost
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<(byte, byte), string> LastNotifyNames;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
-        public static Dictionary<byte, CustomRoles> AllPlayerCustomSubRoles;
         public static Dictionary<byte, Color32> PlayerColors = new();
         public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
