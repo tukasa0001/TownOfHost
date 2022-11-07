@@ -80,7 +80,7 @@ namespace TownOfHost
             return Main.PlayerStates[player.PlayerId].GetCustomRole();
         }
 
-        public static List<CustomRoles> GetCustomSubRole(this PlayerControl player)
+        public static List<CustomRoles> GetCustomSubRoles(this PlayerControl player)
         {
             if (player == null)
             {
