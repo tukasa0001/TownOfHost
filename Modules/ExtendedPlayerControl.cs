@@ -76,8 +76,9 @@ namespace TownOfHost
                 Logger.Warn(callerClassName + "." + callerMethodName + "がCustomRoleを取得しようとしましたが、対象がnullでした。", "GetCustomRole");
                 return CustomRoles.Crewmate;
             }
+            var GetValue = Main.PlayerStates.TryGetValue(player.PlayerId, out var State);
 
-            return Main.PlayerStates[player.PlayerId].GetCustomRole();
+            return GetValue ? State.MainRole : CustomRoles.Crewmate;
         }
 
         public static List<CustomRoles> GetCustomSubRoles(this PlayerControl player)
