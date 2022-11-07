@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Hazel;
 using InnerNet;
 using UnityEngine;
@@ -416,13 +417,30 @@ namespace TownOfHost
         }
         public static string GetSubRoleName(this PlayerControl player)
         {
-            return $"{Utils.GetRoleName(player.GetCustomSubRole())}";
+            var SubRoles = Main.PlayerStates[player.PlayerId].SubRoles;
+            if (SubRoles.Count == 0) return "";
+            var sb = new StringBuilder();
+            bool first = false;
+            foreach (var role in SubRoles)
+            {
+                if (role == CustomRoles.NotAssigned) continue;
+
+                if (!first)
+                {
+                    first = true;
+                    sb.Append($"{Utils.GetRoleName(role)}");
+                }
+                else
+                    sb.Append($" + {Utils.GetRoleName(role)}");
+            }
+
+            return sb.ToString();
         }
         public static string GetAllRoleName(this PlayerControl player)
         {
             if (!player) return null;
             var text = player.GetRoleName();
-            text += player.GetCustomSubRole() != CustomRoles.NotAssigned ? $" + {player.GetSubRoleName()}" : "";
+            text += player.GetCustomSubRole().Contains(CustomRoles.NotAssigned) ? $" + {player.GetSubRoleName()}" : "";
             return text;
         }
         public static string GetNameWithRole(this PlayerControl player)
