@@ -6,12 +6,16 @@ namespace TownOfHost
     public class PlayerState
     {
         byte PlayerId;
+        public CustomRoles MainRole;
+        public List<CustomRoles> SubRoles;
         public bool IsDead { get; set; }
         public DeathReason deathReason { get; set; }
         public TaskState taskState;
         public bool IsBlackOut { get; set; }
         public PlayerState(byte playerId)
         {
+            MainRole = CustomRoles.NotAssigned;
+            SubRoles = new();
             PlayerId = playerId;
             IsDead = false;
             deathReason = DeathReason.etc;
