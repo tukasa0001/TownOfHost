@@ -83,8 +83,7 @@ namespace TownOfHost
             }
             if (langId == SupportedLangs.Japanese)
             {
-                var Time = DateTime.Now;
-                if (Time.Month == 12 && Time.Day is 23 or 24 or 25)
+                if (Main.IsChristmas)
                 {
                     res = str switch
                     {
