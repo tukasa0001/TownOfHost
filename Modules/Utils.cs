@@ -454,7 +454,7 @@ namespace TownOfHost
                 return;
             }
             var text = GetString("Roles") + ":";
-            text += string.Format("\n{0}:{1}", GetRoleName(CustomRoles.GM), GetOnOff(Options.EnableGM.GetBool()));
+            text += string.Format("\n{0}:{1}", GetRoleName(CustomRoles.GM), Options.EnableGM.GetString());
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {
                 if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
