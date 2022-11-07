@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using HarmonyLib;
 
 namespace TownOfHost
 {
@@ -37,6 +38,18 @@ namespace TownOfHost
                     RoleTypes.Shapeshifter => CustomRoles.Shapeshifter,
                     _ => CustomRoles.Crewmate,
                 };
+        }
+        public void SetSubRole(CustomRoles role, bool AllReplace = false)
+        {
+            if (AllReplace)
+                SubRoles.ToArray().Do(role => SubRoles.Remove(role));
+
+            SubRoles.Add(role);
+        }
+        public void RemoveSubRole(CustomRoles role)
+        {
+            if (SubRoles.Contains(role))
+                SubRoles.Remove(role);
         }
 
         public void SetDead()
