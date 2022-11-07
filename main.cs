@@ -66,7 +66,6 @@ namespace TownOfHost
         public static Dictionary<byte, PlayerState> PlayerStates = new();
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<(byte, byte), string> LastNotifyNames;
-        public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<byte, Color32> PlayerColors = new();
         public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
@@ -133,7 +132,6 @@ namespace TownOfHost
             TownOfHost.Logger.Disable("SwitchSystem");
             //TownOfHost.Logger.isDetail = true;
 
-            AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             BitPlayers = new Dictionary<byte, (byte, float)>();
             WarlockTimer = new Dictionary<byte, float>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
