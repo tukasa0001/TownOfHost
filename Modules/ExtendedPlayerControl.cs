@@ -19,7 +19,7 @@ namespace TownOfHost
             }
             else if (role >= CustomRoles.NotAssigned)   //500:NoSubRole 501~:SubRole
             {
-                Main.AllPlayerCustomSubRoles[player.PlayerId] = role;
+                Main.PlayerStates[player.PlayerId].SetSubRole(role);
             }
             if (AmongUsClient.Instance.AmHost)
             {

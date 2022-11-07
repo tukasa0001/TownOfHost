@@ -288,10 +288,9 @@ namespace TownOfHost
                             break;
                     }
                 }
-                var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
-                if (cSubRoleFound)
-                {
-                    switch (cSubRole)
+
+                foreach (var subRole in Main.PlayerStates[p.PlayerId].SubRoles)
+                    switch (subRole)
                     {
                         case CustomRoles.Lovers:
                             //ラバーズがクルー陣営の場合タスクを付与しない
@@ -299,7 +298,6 @@ namespace TownOfHost
                                 hasTasks = false;
                             break;
                     }
-                }
             }
             return hasTasks;
         }
@@ -1032,7 +1030,7 @@ namespace TownOfHost
         public static string SummaryTexts(byte id, bool disableColor = true)
         {
             var RolePos = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? 47 : 37;
-            string summary = $"{ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%> {GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {ColorString(GetRoleColor(Main.AllPlayerCustomRoles[id]), GetRoleName(id))}{GetShowLastSubRolesText(id)}</pos>";
+            string summary = $"{ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%> {GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {ColorString(GetRoleColor(Main.AllPlayerCustomRoles[id]), GetRoleName(id))}{GetSubRolesText(id)}</pos>";
             return disableColor ? summary.RemoveHtmlTags() : summary;
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");

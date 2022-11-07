@@ -319,9 +319,10 @@ namespace TownOfHost
                 {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                 }
-                foreach (var pair in Main.AllPlayerCustomSubRoles)
+                foreach (var pair in Main.PlayerStates)
                 {
-                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                    foreach (var subRole in pair.Value.SubRoles)
+                        ExtendedPlayerControl.RpcSetCustomRole(pair.Key, subRole);
                 }
 
                 HudManager.Instance.SetHudActive(true);
@@ -533,7 +534,7 @@ namespace TownOfHost
                 var player = allPlayers[rand.Next(0, allPlayers.Count)];
                 Main.LoversPlayers.Add(player);
                 allPlayers.Remove(player);
-                Main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
+                Main.PlayerStates[player.PlayerId].SetSubRole(loversRole);
                 Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignLovers");
             }
             RPC.SyncLoversPlayers();
