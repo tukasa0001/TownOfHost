@@ -134,7 +134,6 @@ namespace TownOfHost
             //TownOfHost.Logger.isDetail = true;
 
             AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
-            AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             BitPlayers = new Dictionary<byte, (byte, float)>();
             WarlockTimer = new Dictionary<byte, float>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();

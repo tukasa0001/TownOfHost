@@ -16,7 +16,6 @@ namespace TownOfHost
             Main.PlayerStates = new();
 
             Main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
-            Main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             Main.AllPlayerKillCooldown = new Dictionary<byte, float>();
             Main.AllPlayerSpeed = new Dictionary<byte, float>();
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
