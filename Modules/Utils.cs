@@ -514,11 +514,20 @@ namespace TownOfHost
         }
 
 
-        public static string GetShowLastSubRolesText(byte id, bool disableColor = false)
+        public static string GetSubRolesText(byte id, bool disableColor = false)
         {
-            var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(id, out var cSubRole);
-            if (!cSubRoleFound || cSubRole == CustomRoles.NotAssigned) return "";
-            return disableColor ? " + " + GetRoleName(cSubRole) : ColorString(Color.white, "+ ") + ColorString(GetRoleColor(cSubRole), GetRoleName(cSubRole));
+            var SubRoles = Main.PlayerStates[id].SubRoles;
+            if (SubRoles.Count == 0) return "";
+            var sb = new StringBuilder();
+            foreach (var role in SubRoles)
+            {
+                if (role == CustomRoles.NotAssigned) continue;
+
+                var RoleText = disableColor ? GetRoleName(role) : ColorString(GetRoleColor(role), GetRoleName(role));
+                sb.Append($"</color> + {RoleText}");
+            }
+
+            return sb.ToString();
         }
 
         public static void ShowHelp()
