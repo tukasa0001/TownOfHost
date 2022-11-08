@@ -156,9 +156,9 @@ namespace TownOfHost
         }
         public static string GetRoleName(byte playerId)
         {
-            var role = Main.AllPlayerCustomRoles[playerId];
+            var role = Main.PlayerStates[playerId].MainRole;
             var roleName = GetRoleName(role);
-            if (role.IsImpostor() && role != CustomRoles.LastImpostor && Utils.IsLastImpostor(playerId))
+            if (role.IsImpostor() && role != CustomRoles.LastImpostor && IsLastImpostor(playerId))
             {
                 roleName = GetRoleString("Last") + " " + roleName;
             }
@@ -241,65 +241,57 @@ namespace TownOfHost
             if (p.Role == null) return false;
 
             var hasTasks = true;
+            var States = Main.PlayerStates[p.PlayerId];
             if (p.Disconnected) hasTasks = false;
             if (p.Role.IsImpostor)
                 hasTasks = false; //タスクはCustomRoleを元に判定する
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 if (p.IsDead) hasTasks = false;
-                var hasRole = Main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
-                if (hasRole)
-                {
-                    if (role is CustomRoles.HASFox or CustomRoles.HASTroll) hasTasks = false;
-                }
+                if (States.MainRole is CustomRoles.HASFox or CustomRoles.HASTroll) hasTasks = false;
             }
             else
             {
                 if (p.IsDead && Options.GhostIgnoreTasks.GetBool()) hasTasks = false;
-                var cRoleFound = Main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
-                if (cRoleFound)
+                var role = States.MainRole;
+                switch (role)
                 {
-                    switch (cRole)
-                    {
-                        case CustomRoles.GM:
-                        case CustomRoles.Madmate:
-                        case CustomRoles.SKMadmate:
-                        case CustomRoles.Sheriff:
-                        case CustomRoles.Arsonist:
-                        case CustomRoles.Egoist:
-                        case CustomRoles.Jackal:
-                        case CustomRoles.Jester:
-                        case CustomRoles.Opportunist:
+                    case CustomRoles.GM:
+                    case CustomRoles.Madmate:
+                    case CustomRoles.SKMadmate:
+                    case CustomRoles.Sheriff:
+                    case CustomRoles.Arsonist:
+                    case CustomRoles.Egoist:
+                    case CustomRoles.Jackal:
+                    case CustomRoles.Jester:
+                    case CustomRoles.Opportunist:
+                        hasTasks = false;
+                        break;
+                    case CustomRoles.MadGuardian:
+                    case CustomRoles.MadSnitch:
+                    case CustomRoles.Terrorist:
+                        if (ForRecompute)
                             hasTasks = false;
-                            break;
-                        case CustomRoles.MadGuardian:
-                        case CustomRoles.MadSnitch:
-                        case CustomRoles.Terrorist:
-                            if (ForRecompute)
-                                hasTasks = false;
-                            break;
-                        case CustomRoles.Executioner:
-                            if (Executioner.ChangeRolesAfterTargetKilled.GetSelection() == 0)
-                                hasTasks = !ForRecompute;
-                            else hasTasks = false;
-                            break;
-                        default:
-                            if (cRole.IsImpostor() || cRole.IsKilledSchrodingerCat()) hasTasks = false;
-                            break;
-                    }
+                        break;
+                    case CustomRoles.Executioner:
+                        if (Executioner.ChangeRolesAfterTargetKilled.GetSelection() == 0)
+                            hasTasks = !ForRecompute;
+                        else hasTasks = false;
+                        break;
+                    default:
+                        if (role.IsImpostor() || role.IsKilledSchrodingerCat()) hasTasks = false;
+                        break;
                 }
-                var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
-                if (cSubRoleFound)
-                {
-                    switch (cSubRole)
+
+                foreach (var subRole in States.SubRoles)
+                    switch (subRole)
                     {
                         case CustomRoles.Lovers:
                             //ラバーズがクルー陣営の場合タスクを付与しない
-                            if (cRole.IsCrewmate())
+                            if (role.IsCrewmate())
                                 hasTasks = false;
                             break;
                     }
-                }
             }
             return hasTasks;
         }
@@ -322,8 +314,8 @@ namespace TownOfHost
         public static string GetProgressText(byte playerId, bool comms = false)
         {
             if (!Main.playerVersion.ContainsKey(0)) return ""; //ホストがMODを入れていなければ未記入を返す
-            if (!Main.AllPlayerCustomRoles.TryGetValue(playerId, out var role)) return ColorString(Color.yellow, "Invalid");
             string ProgressText = "";
+            var role = Main.PlayerStates[playerId].MainRole;
             switch (role)
             {
                 case CustomRoles.Arsonist:
@@ -498,27 +490,35 @@ namespace TownOfHost
                 return;
             }
             var text = GetString("LastResult") + ":";
-            Dictionary<byte, CustomRoles> cloneRoles = new(Main.AllPlayerCustomRoles);
+            List<byte> cloneRoles = new(Main.PlayerStates.Keys);
             text += $"\n{SetEverythingUpPatch.LastWinsText}\n";
             foreach (var id in Main.winnerList)
             {
                 text += $"\n★ " + EndGamePatch.SummaryText[id].RemoveHtmlTags();
                 cloneRoles.Remove(id);
             }
-            foreach (var kvp in cloneRoles)
+            foreach (var id in cloneRoles)
             {
-                var id = kvp.Key;
                 text += $"\n　 " + EndGamePatch.SummaryText[id].RemoveHtmlTags();
             }
             SendMessage(text, PlayerId);
         }
 
 
-        public static string GetShowLastSubRolesText(byte id, bool disableColor = false)
+        public static string GetSubRolesText(byte id, bool disableColor = false)
         {
-            var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(id, out var cSubRole);
-            if (!cSubRoleFound || cSubRole == CustomRoles.NoSubRoleAssigned) return "";
-            return disableColor ? " + " + GetRoleName(cSubRole) : ColorString(Color.white, "+ ") + ColorString(GetRoleColor(cSubRole), GetRoleName(cSubRole));
+            var SubRoles = Main.PlayerStates[id].SubRoles;
+            if (SubRoles.Count == 0) return "";
+            var sb = new StringBuilder();
+            foreach (var role in SubRoles)
+            {
+                if (role == CustomRoles.NotAssigned) continue;
+
+                var RoleText = disableColor ? GetRoleName(role) : ColorString(GetRoleColor(role), GetRoleName(role));
+                sb.Append($"</color> + {RoleText}");
+            }
+
+            return sb.ToString();
         }
 
         public static void ShowHelp()
@@ -952,7 +952,7 @@ namespace TownOfHost
         }
         public static bool IsLastImpostor(byte playerId)
         { //キルクールを変更するインポスター役職は省く
-            var role = Main.AllPlayerCustomRoles[playerId];
+            var role = Main.PlayerStates[playerId].MainRole;
             return role.IsImpostor() &&
                 !Main.PlayerStates[playerId].IsDead &&
                 Options.CurrentGameMode != CustomGameMode.HideAndSeek &&
@@ -1023,13 +1023,13 @@ namespace TownOfHost
         public static string SummaryTexts(byte id, bool disableColor = true)
         {
             var RolePos = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? 47 : 37;
-            string summary = $"{ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%> {GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {ColorString(GetRoleColor(Main.AllPlayerCustomRoles[id]), GetRoleName(id))}{GetShowLastSubRolesText(id)}</pos>";
+            string summary = $"{ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%> {GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {ColorString(GetRoleColor(Main.PlayerStates[id].MainRole), GetRoleName(id))}{GetSubRolesText(id)}</pos>";
             return disableColor ? summary.RemoveHtmlTags() : summary;
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");
         public static bool CanMafiaKill()
         {
-            if (Main.AllPlayerCustomRoles == null) return false;
+            if (Main.PlayerStates == null) return false;
             //マフィアを除いた生きているインポスターの人数  Number of Living Impostors excluding mafia
             int LivingImpostorsNum = 0;
             foreach (var pc in PlayerControl.AllPlayerControls)

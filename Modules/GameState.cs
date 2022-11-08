@@ -1,22 +1,55 @@
 using System;
 using System.Collections.Generic;
+using HarmonyLib;
 
 namespace TownOfHost
 {
     public class PlayerState
     {
         byte PlayerId;
+        public CustomRoles MainRole;
+        public List<CustomRoles> SubRoles;
         public bool IsDead { get; set; }
         public DeathReason deathReason { get; set; }
         public TaskState taskState;
         public bool IsBlackOut { get; set; }
         public PlayerState(byte playerId)
         {
+            MainRole = CustomRoles.NotAssigned;
+            SubRoles = new();
             PlayerId = playerId;
             IsDead = false;
             deathReason = DeathReason.etc;
             taskState = new();
             IsBlackOut = false;
+        }
+        public CustomRoles GetCustomRole()
+        {
+            var RoleInfo = Utils.GetPlayerInfoById(PlayerId);
+            return RoleInfo.Role == null
+                ? MainRole
+                : RoleInfo.Role.Role switch
+                {
+                    RoleTypes.Crewmate => CustomRoles.Crewmate,
+                    RoleTypes.Engineer => CustomRoles.Engineer,
+                    RoleTypes.Scientist => CustomRoles.Scientist,
+                    RoleTypes.GuardianAngel => CustomRoles.GuardianAngel,
+                    RoleTypes.Impostor => CustomRoles.Impostor,
+                    RoleTypes.Shapeshifter => CustomRoles.Shapeshifter,
+                    _ => CustomRoles.Crewmate,
+                };
+        }
+        public void SetSubRole(CustomRoles role, bool AllReplace = false)
+        {
+            if (AllReplace)
+                SubRoles.ToArray().Do(role => SubRoles.Remove(role));
+
+            SubRoles.Add(role);
+        }
+        public void RemoveSubRole(CustomRoles role)
+        {
+            if (SubRoles.Contains(role))
+                SubRoles.Remove(role);
         }
 
         public void SetDead()

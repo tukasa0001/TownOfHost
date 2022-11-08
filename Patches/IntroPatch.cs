@@ -25,7 +25,7 @@ namespace TownOfHost
                     __instance.RoleBlurbText.text = PlayerControl.LocalPlayer.GetRoleInfo();
                 }
 
-                __instance.RoleText.text += Utils.GetShowLastSubRolesText(PlayerControl.LocalPlayer.PlayerId);
+                __instance.RoleText.text += Utils.GetSubRolesText(PlayerControl.LocalPlayer.PlayerId);
 
             }, 0.01f, "Override Role Text");
 
