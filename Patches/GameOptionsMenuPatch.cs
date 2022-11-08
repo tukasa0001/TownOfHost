@@ -184,6 +184,14 @@ namespace TownOfHost
                             opt.transform.localPosition = new Vector3(0.24f, 0f);
                             option.OptionBehaviour.transform.Find("Title_TMP").transform.localPosition = new Vector3(-0.7f, 0f);
                             option.OptionBehaviour.transform.FindChild("Title_TMP").GetComponent<RectTransform>().sizeDelta = new Vector2(3.3f, 0.37f);
+                            if (option.Parent?.Parent?.Parent != null)
+                            {
+                                opt.color = new(1f, 0f, 0f);
+                                opt.size = new(4.4f, 0.45f);
+                                opt.transform.localPosition = new Vector3(0.37f, 0f);
+                                option.OptionBehaviour.transform.Find("Title_TMP").transform.localPosition = new Vector3(-0.55f, 0f);
+                                option.OptionBehaviour.transform.FindChild("Title_TMP").GetComponent<RectTransform>().sizeDelta = new Vector2(3.2f, 0.37f);
+                            }
                         }
                     }
 

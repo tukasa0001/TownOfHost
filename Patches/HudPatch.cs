@@ -166,7 +166,7 @@ namespace TownOfHost
                     __instance.KillButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Sheriff:
-                    if (Sheriff.ShotLimit.TryGetValue(player.PlayerId, out var count) && count == 0)
+                    if (!player.CanUseKillButton())
                     {
                         __instance.KillButton.SetDisabled();
                         __instance.KillButton.ToggleVisible(false);

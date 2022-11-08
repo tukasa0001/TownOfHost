@@ -254,8 +254,8 @@ namespace TownOfHost
         {
             var playerId = reader.ReadByte();
             var deathReason = (PlayerState.DeathReason)reader.ReadInt32();
-            PlayerState.deathReasons[playerId] = deathReason;
-            PlayerState.isDead[playerId] = true;
+            Main.PlayerStates[playerId].deathReason = deathReason;
+            Main.PlayerStates[playerId].IsDead = true;
         }
 
         public static void EndGame(MessageReader reader)
@@ -286,13 +286,13 @@ namespace TownOfHost
         }
         public static void SetCustomRole(byte targetId, CustomRoles role)
         {
-            if (role < CustomRoles.NoSubRoleAssigned)
+            if (role < CustomRoles.NotAssigned)
             {
-                Main.AllPlayerCustomRoles[targetId] = role;
+                Main.PlayerStates[targetId].MainRole = role;
             }
-            else if (role >= CustomRoles.NoSubRoleAssigned)   //500:NoSubRole 501~:SubRole
+            else if (role >= CustomRoles.NotAssigned)   //500:NoSubRole 501~:SubRole
             {
-                Main.AllPlayerCustomSubRoles[targetId] = role;
+                Main.PlayerStates[targetId].SetSubRole(role);
             }
             switch (role)
             {

@@ -129,7 +129,7 @@ namespace TownOfHost
             {
                 var target = Utils.GetPlayerById(arrow.Key.Item2);
                 bool EvilTrackerTarget = seer.GetTarget() == target;
-                if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2] && (target.GetCustomRole().IsImpostor() || EvilTrackerTarget))
+                if (arrow.Key.Item1 == seer.PlayerId && !Main.PlayerStates[arrow.Key.Item2].IsDead && (target.GetCustomRole().IsImpostor() || EvilTrackerTarget))
                     SelfSuffix += EvilTrackerTarget ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Crewmate), arrow.Value) : arrow.Value;
             }
             return SelfSuffix;

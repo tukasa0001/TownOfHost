@@ -380,12 +380,15 @@ namespace TownOfHost
                             pva.NameText.color = Utils.GetRoleColor(CustomRoles.Jackal); //変更対象の名前をジャッカル色にする
                         break;
                 }
-                switch (target.GetCustomSubRole())
+                foreach (var subRole in target.GetCustomSubRoles())
                 {
-                    case CustomRoles.Lovers:
-                        if (seer.Is(CustomRoles.Lovers) || seer.Data.IsDead)
-                            pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Lovers), "♡");
-                        break;
+                    switch (subRole)
+                    {
+                        case CustomRoles.Lovers:
+                            if (seer.Is(CustomRoles.Lovers) || seer.Data.IsDead)
+                                pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Lovers), "♡");
+                            break;
+                    }
                 }
 
                 if (LocalPlayerKnowsImpostor)
@@ -413,8 +416,8 @@ namespace TownOfHost
                 {
                     var player = Utils.GetPlayerById(x.TargetPlayerId);
                     player.RpcExileV2();
-                    PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Execution);
-                    PlayerState.SetDead(player.PlayerId);
+                    Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Execution;
+                    Main.PlayerStates[player.PlayerId].SetDead();
                     Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
                     Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
                 });

@@ -1,3 +1,4 @@
+using System.Globalization;
 using HarmonyLib;
 using UnityEngine;
 using static TownOfHost.Translator;
@@ -45,16 +46,28 @@ namespace TownOfHost
             {
                 ErrorText.Instance.AddError(ErrorCode.Main_DictionaryError);
             }
+            if (Main.IsChristmas && CultureInfo.CurrentCulture.Name == "ja-JP")
+            {
+                if (TitleLogoPatch.amongUsLogo != null)
+                {
+                    var ForeverExplosion = Object.Instantiate(__instance.text);
+                    ForeverExplosion.text = "何とは言いませんが、特別な日ですね。\n<size=15%>\n\n末永く爆発しろ</size>";
+                    ForeverExplosion.color = Utils.GetRoleColor(CustomRoles.Lovers);
+                    ForeverExplosion.fontSize += 2.5f;
+                    ForeverExplosion.alignment = TMPro.TextAlignmentOptions.Top;
+                    ForeverExplosion.transform.position = new Vector3(0, 0.5f, 0);
+                }
+            }
         }
     }
 
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
     class TitleLogoPatch
     {
+        public static GameObject amongUsLogo;
         static void Postfix(MainMenuManager __instance)
         {
-            var amongUsLogo = GameObject.Find("bannerLogo_AmongUs");
-            if (amongUsLogo != null)
+            if ((amongUsLogo = GameObject.Find("bannerLogo_AmongUs")) != null)
             {
                 amongUsLogo.transform.localScale *= 0.4f;
                 amongUsLogo.transform.position += Vector3.up * 0.25f;
