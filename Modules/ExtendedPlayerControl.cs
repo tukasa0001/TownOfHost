@@ -446,7 +446,7 @@ namespace TownOfHost
         }
         public static string GetNameWithRole(this PlayerControl player)
         {
-            return $"{player?.Data?.PlayerName}({player?.GetAllRoleName()})";
+            return $"{player?.Data?.PlayerName}" + (GameStates.IsInGame ? $"({player?.GetAllRoleName()})" : "");
         }
         public static string GetRoleColorCode(this PlayerControl player)
         {
