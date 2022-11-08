@@ -100,7 +100,7 @@ namespace TownOfHost
         {
             if (!CanSeeKillFlash.GetBool()) return false;
             //インポスターによるキルかどうかの判別
-            var deathReason = PlayerState.GetDeathReason(target.PlayerId);
+            var deathReason = Main.PlayerStates[target.PlayerId].deathReason;
             Logger.Info($"{killer.GetNameWithRole()}{target.GetNameWithRole()}{deathReason}", "KillFlashCheck");
             if (deathReason is PlayerState.DeathReason.Fall
                             or PlayerState.DeathReason.FollowingSuicide
