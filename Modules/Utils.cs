@@ -573,7 +573,7 @@ namespace TownOfHost
                     else if (!pc.Data.IsDead)
                     {
                         //生存者は爆死
-                        pc.SetRealKiller(GetPlayerById(Terrorist.PlayerId));
+                        pc.SetRealKiller(Terrorist.Object);
                         pc.RpcMurderPlayer(pc);
                         Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
                         Main.PlayerStates[pc.PlayerId].SetDead();
