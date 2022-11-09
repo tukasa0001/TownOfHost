@@ -78,7 +78,6 @@ namespace TownOfHost
             if (role.IsMadmate()) type = RoleType.Madmate;
             return type;
         }
-        public static void SetCount(this CustomRoles role, int num) => Options.SetRoleCount(role, num);
         public static int GetCount(this CustomRoles role)
         {
             if (role.IsVanilla())
