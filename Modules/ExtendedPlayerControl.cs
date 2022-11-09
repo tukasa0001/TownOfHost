@@ -528,7 +528,6 @@ namespace TownOfHost
                 CustomRoles.Mafia => Utils.CanMafiaKill(),
                 CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
-                CustomRoles.SKMadmate => false,
                 CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
                 CustomRoles.Jackal => true,
