@@ -516,7 +516,7 @@ namespace TownOfHost
                 if (role == CustomRoles.NotAssigned) continue;
 
                 var RoleText = disableColor ? GetRoleName(role) : ColorString(GetRoleColor(role), GetRoleName(role));
-                sb.Append($"</color> + {RoleText}");
+                sb.Append($"{ColorString(Color.white, " + ")}{RoleText}");
             }
 
             return sb.ToString();

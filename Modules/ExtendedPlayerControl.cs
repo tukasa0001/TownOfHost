@@ -432,7 +432,7 @@ namespace TownOfHost
                     sb.Append($"{Utils.GetRoleName(role)}");
                 }
                 else
-                    sb.Append($" + {Utils.GetRoleName(role)}");
+                    sb.Append($"{Utils.ColorString(Color.white, " + ")}{Utils.GetRoleName(role)}");
             }
 
             return sb.ToString();
