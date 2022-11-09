@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
@@ -14,20 +15,21 @@ namespace TownOfHost
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ref EndGameResult endGameResult)
         {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            GameStates.InGame = false;
-
             SummaryText = new();
             foreach (var id in Main.PlayerStates.Keys)
                 SummaryText[id] = Utils.SummaryTexts(id, disableColor: false);
             KillLog = GetString("KillLog") + ":";
-            foreach (var kvp in Main.RealKiller)
+            foreach (var kvp in Main.PlayerStates.OrderBy(x => x.Value.RealKiller.Item1.Ticks))
             {
-                var killer = kvp.Value;
+                var date = kvp.Value.RealKiller.Item1;
+                if (date == DateTime.MinValue) continue;
+                var killer = kvp.Value.RealKiller.Item2;
                 var target = Utils.GetPlayerById(kvp.Key);
-                KillLog += $"\n・{target.GetNameWithRole()} [{Utils.GetVitalText(kvp.Key)}]";
+                KillLog += $"\n{date.ToString("T")} {target.GetNameWithRole()} [{Utils.GetVitalText(kvp.Key)}]";
                 if (killer != null && killer != target)
-                    KillLog += $"\n\t⇐ {killer.GetNameWithRole()}";
+                    KillLog += $"\n\t\t⇐ {killer.GetNameWithRole()}";
             }
+            GameStates.InGame = false;
             Logger.Info("-----------ゲーム終了-----------", "Phase");
             PlayerControl.GameOptions.killCooldown = Options.DefaultKillCooldown;
             //winnerListリセット
@@ -158,7 +160,7 @@ namespace TownOfHost
             //          ==勝利陣営表示==
             //#######################################
 
-            var WinnerTextObject = Object.Instantiate(__instance.WinText.gameObject);
+            var WinnerTextObject = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
             WinnerTextObject.transform.position = new(__instance.WinText.transform.position.x, __instance.WinText.transform.position.y - 0.5f, __instance.WinText.transform.position.z);
             WinnerTextObject.transform.localScale = new(0.6f, 0.6f, 0.6f);
             var WinnerText = WinnerTextObject.GetComponent<TMPro.TextMeshPro>(); //WinTextと同じ型のコンポーネントを取得
@@ -231,7 +233,7 @@ namespace TownOfHost
             //#######################################
 
             var Pos = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, Camera.main.nearClipPlane));
-            var RoleSummaryObject = Object.Instantiate(__instance.WinText.gameObject);
+            var RoleSummaryObject = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
             RoleSummaryObject.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, Pos.y - 0.1f, -14f);
             RoleSummaryObject.transform.localScale = new Vector3(1f, 1f, 1f);
 

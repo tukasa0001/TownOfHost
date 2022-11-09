@@ -733,15 +733,15 @@ namespace TownOfHost
         }
         public static void SetRealKiller(this PlayerControl target, PlayerControl killer, bool NotOverRide = false)
         {
-            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.Sniped) //スナイパー対策
+            var State = Main.PlayerStates[target.PlayerId];
+            if (State.deathReason == PlayerState.DeathReason.Sniped) //スナイパー対策
                 killer = Utils.GetPlayerById(Sniper.GetSniper(target.PlayerId));
-            if (Main.RealKiller.ContainsKey(target.PlayerId))
-            {
-                if (NotOverRide) return; //既に値がある場合上書きしない
-                Main.RealKiller[target.PlayerId] = killer;
-            }
-            else Main.RealKiller.Add(target.PlayerId, killer);
+
+            if (State.RealKiller.Item1 != DateTime.MinValue && NotOverRide) return; //既に値がある場合上書きしない
+            State.RealKiller.Item1 = DateTime.Now;
+            State.RealKiller.Item2 = killer;
             Logger.Info($"target:{target.GetNameWithRole()}, RealKiller:{(killer == null ? "null" : killer.GetNameWithRole())}", "SetRealKiller");
+
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetRealKiller, Hazel.SendOption.Reliable, -1);
             writer.Write(target.PlayerId);
@@ -751,8 +751,8 @@ namespace TownOfHost
         }
         public static PlayerControl GetRealKiller(this PlayerControl target)
         {
-            if (!target.Data.IsDead || !Main.RealKiller.TryGetValue(target.PlayerId, out var killer)) return null;
-            return killer;
+            if (!target.Data.IsDead) return null;
+            return Main.PlayerStates[target.PlayerId].RealKiller.Item2;
         }
         public static int GetKillCount(this PlayerControl killer, bool ExcludeSelfKill = false)
         {
