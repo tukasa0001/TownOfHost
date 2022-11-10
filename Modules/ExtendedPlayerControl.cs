@@ -718,18 +718,9 @@ namespace TownOfHost
             var State = Main.PlayerStates[target.PlayerId];
             if (State.deathReason == PlayerState.DeathReason.Sniped) //スナイパー対策
                 killer = Utils.GetPlayerById(Sniper.GetSniper(target.PlayerId));
-
             if (State.RealKiller.Item1 != DateTime.MinValue && NotOverRide) return; //既に値がある場合上書きしない
-            State.RealKiller.Item1 = DateTime.Now;
-            State.RealKiller.Item2 = killer.PlayerId;
-            Logger.Info($"target:{target.GetNameWithRole()}, RealKiller:{(killer == null ? "null" : killer.GetNameWithRole())}", "SetRealKiller");
-
-            if (!AmongUsClient.Instance.AmHost) return;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetRealKiller, Hazel.SendOption.Reliable, -1);
-            writer.Write(target.PlayerId);
-            int killerId = killer == null ? -1 : killer.PlayerId;
-            writer.Write(killerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            byte killerId = killer == null ? byte.MaxValue : killer.PlayerId;
+            RPC.SetRealKiller(target.PlayerId, killerId);
         }
         public static PlayerControl GetRealKiller(this PlayerControl target)
         {

@@ -194,9 +194,8 @@ namespace TownOfHost
                     break;
                 case CustomRPC.SetRealKiller:
                     byte targetId = reader.ReadByte();
-                    int killerId = reader.ReadInt32();
-                    var killer = killerId == -1 ? null : Utils.GetPlayerById(killerId);
-                    Utils.GetPlayerById(targetId).SetRealKiller(killer);
+                    byte killerId = reader.ReadByte();
+                    RPC.SetRealKiller(targetId, killerId);
                     break;
             }
         }
@@ -408,6 +407,18 @@ namespace TownOfHost
             }
         }
         public static void ResetCurrentDousingTarget(byte arsonistId) => SetCurrentDousingTarget(arsonistId, 255);
+        public static void SetRealKiller(byte targetId, byte killerId)
+        {
+            var state = Main.PlayerStates[targetId];
+            state.RealKiller.Item1 = DateTime.Now;
+            state.RealKiller.Item2 = killerId;
+
+            if (!AmongUsClient.Instance.AmHost) return;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetRealKiller, Hazel.SendOption.Reliable, -1);
+            writer.Write(targetId);
+            writer.Write(killerId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
     }
     [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpc))]
     class StartRpcPatch
