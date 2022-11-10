@@ -721,7 +721,7 @@ namespace TownOfHost
 
             if (State.RealKiller.Item1 != DateTime.MinValue && NotOverRide) return; //既に値がある場合上書きしない
             State.RealKiller.Item1 = DateTime.Now;
-            State.RealKiller.Item2 = killer;
+            State.RealKiller.Item2 = killer.PlayerId;
             Logger.Info($"target:{target.GetNameWithRole()}, RealKiller:{(killer == null ? "null" : killer.GetNameWithRole())}", "SetRealKiller");
 
             if (!AmongUsClient.Instance.AmHost) return;
@@ -733,19 +733,9 @@ namespace TownOfHost
         }
         public static PlayerControl GetRealKiller(this PlayerControl target)
         {
-            if (!target.Data.IsDead) return null;
-            return Main.PlayerStates[target.PlayerId].RealKiller.Item2;
+            var killerId = Main.PlayerStates[target.PlayerId].GetRealKiller();
+            return killerId == byte.MaxValue ? null : Utils.GetPlayerById(killerId);
         }
-        public static int GetKillCount(this PlayerControl killer, bool ExcludeSelfKill = false)
-        {
-            int count = 0;
-            foreach (var pc in PlayerControl.AllPlayerControls)
-                if (!(ExcludeSelfKill && pc == killer) && pc.GetRealKiller() == killer)
-                    count++;
-            // Logger.Info($"{killer.GetNameWithRole()}:{count}Kills", "GetKillCount");
-            return count;
-        }
-
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>
             role > CustomRoles.NotAssigned ? target.GetCustomSubRoles().Contains(role) : target.GetCustomRole() == role;

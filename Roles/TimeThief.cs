@@ -33,7 +33,7 @@ namespace TownOfHost
         {
             if (!ReturnStolenTimeUponDeath.GetBool()) return;
 
-            for (var i = 0; i < thief.GetKillCount(); i++)
+            for (var i = 0; i < Main.PlayerStates[thief.PlayerId].GetKillCount(true); i++)
                 Main.VotingTime += DecreaseMeetingTime.GetInt();
         }
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown.GetFloat();

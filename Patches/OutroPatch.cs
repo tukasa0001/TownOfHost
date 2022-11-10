@@ -15,6 +15,7 @@ namespace TownOfHost
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ref EndGameResult endGameResult)
         {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            GameStates.InGame = false;
             SummaryText = new();
             foreach (var id in Main.PlayerStates.Keys)
                 SummaryText[id] = Utils.SummaryTexts(id, disableColor: false);
@@ -23,13 +24,12 @@ namespace TownOfHost
             {
                 var date = kvp.Value.RealKiller.Item1;
                 if (date == DateTime.MinValue) continue;
-                var killer = kvp.Value.RealKiller.Item2;
-                var target = Utils.GetPlayerById(kvp.Key);
-                KillLog += $"\n{date.ToString("T")} {target.GetNameWithRole()} [{Utils.GetVitalText(kvp.Key)}]";
-                if (killer != null && killer != target)
-                    KillLog += $"\n\t\t⇐ {killer.GetNameWithRole()}";
+                var killerId = kvp.Value.GetRealKiller();
+                var targetId = kvp.Key;
+                KillLog += $"\n{date.ToString("T")} {Main.AllPlayerNames[targetId]}({Utils.GetRoleName(targetId)}{Utils.GetSubRolesText(targetId)}) [{Utils.GetVitalText(kvp.Key)}]";
+                if (killerId != byte.MaxValue && killerId != targetId)
+                    KillLog += $"\n\t\t⇐ {Main.AllPlayerNames[killerId]}({Utils.GetRoleName(killerId)}{Utils.GetSubRolesText(killerId)})";
             }
-            GameStates.InGame = false;
             Logger.Info("-----------ゲーム終了-----------", "Phase");
             PlayerControl.GameOptions.killCooldown = Options.DefaultKillCooldown;
             //winnerListリセット

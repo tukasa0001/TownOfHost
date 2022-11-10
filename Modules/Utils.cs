@@ -194,12 +194,13 @@ namespace TownOfHost
 
         public static string GetVitalText(byte playerId, bool RealKillerColor = false)
         {
-            string deathReason = Main.PlayerStates[playerId].IsDead ? GetString("DeathReason." + Main.PlayerStates[playerId].deathReason) : GetString("Alive");
+            var state = Main.PlayerStates[playerId];
+            string deathReason = state.IsDead ? GetString("DeathReason." + state.deathReason) : GetString("Alive");
             if (RealKillerColor)
             {
-                var RealKiller = GetPlayerById(playerId).GetRealKiller();
-                Color color = RealKiller != null && RealKiller != GetPlayerById(playerId) ? Main.PlayerColors[RealKiller.PlayerId] : GetRoleColor(CustomRoles.Doctor);
-                deathReason = ColorString(Main.PlayerColors[RealKiller.PlayerId], deathReason);
+                var KillerId = state.GetRealKiller();
+                Color color = KillerId != byte.MaxValue ? Main.PlayerColors[KillerId] : GetRoleColor(CustomRoles.Doctor);
+                deathReason = ColorString(color, deathReason);
             }
             return deathReason;
         }

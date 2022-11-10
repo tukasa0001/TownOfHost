@@ -13,7 +13,7 @@ namespace TownOfHost
         public DeathReason deathReason { get; set; }
         public TaskState taskState;
         public bool IsBlackOut { get; set; }
-        public (DateTime, PlayerControl) RealKiller;
+        public (DateTime, byte) RealKiller;
         public PlayerState(byte playerId)
         {
             MainRole = CustomRoles.NotAssigned;
@@ -23,7 +23,7 @@ namespace TownOfHost
             deathReason = DeathReason.etc;
             taskState = new();
             IsBlackOut = false;
-            RealKiller = (DateTime.MinValue, null);
+            RealKiller = (DateTime.MinValue, byte.MaxValue);
         }
         public CustomRoles GetCustomRole()
         {
@@ -89,6 +89,17 @@ namespace TownOfHost
             Fall,
             etc = -1
         }
+        public byte GetRealKiller()
+            => IsDead && RealKiller.Item1 != DateTime.MinValue ? RealKiller.Item2 : byte.MaxValue;
+        public int GetKillCount(bool ExcludeSelfKill = false)
+        {
+            int count = 0;
+            foreach (var state in Main.PlayerStates.Values)
+                if (!(ExcludeSelfKill && state.PlayerId == PlayerId) && state.GetRealKiller() == PlayerId)
+                    count++;
+            return count;
+        }
+
     }
     public class TaskState
     {
