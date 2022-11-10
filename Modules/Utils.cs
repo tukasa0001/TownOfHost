@@ -99,16 +99,12 @@ namespace TownOfHost
         {
             if (seer.Is(CustomRoles.GM)) return true;
             if (seer.Data.IsDead || killer == seer || target == seer) return false;
-            switch (seer.GetCustomRole())
+            return seer.GetCustomRole() switch
             {
-                case CustomRoles.EvilTracker:
-                    return EvilTracker.KillFlashCheck(killer, target);
-                case CustomRoles.Seer:
-                    return true;
-                default:
-                    if (seer.Is(RoleType.Madmate) && Options.MadmateCanSeeKillFlash.GetBool()) return true;
-                    return false;
-            }
+                CustomRoles.EvilTracker => EvilTracker.KillFlashCheck(killer, target),
+                CustomRoles.Seer => true,
+                _ => seer.Is(RoleType.Madmate) && Options.MadmateCanSeeKillFlash.GetBool(),
+            };
         }
         public static void KillFlash(this PlayerControl player)
         {
