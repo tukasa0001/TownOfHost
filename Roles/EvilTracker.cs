@@ -96,12 +96,12 @@ namespace TownOfHost
             SendRemoveTarget(player.PlayerId);
             return Target[player.PlayerId];
         }
-        public static bool KillFlashCheck(PlayerControl killer, PlayerState.DeathReason deathReason)
+        public static bool KillFlashCheck(PlayerControl killer, PlayerControl target)
         {
             if (!CanSeeKillFlash.GetBool()) return false;
             else //インポスターによるキルかどうかの判別
             {
-                switch (deathReason) //死因での判別
+                switch (Main.PlayerStates[target.PlayerId].deathReason) //死因での判別
                 {
                     case PlayerState.DeathReason.Bite:
                     case PlayerState.DeathReason.Sniped:
