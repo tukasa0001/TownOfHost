@@ -86,29 +86,25 @@ namespace TownOfHost
             }
         }
         //誰かが死亡したときのメソッド
-        public static void TargetDies(PlayerControl killer, PlayerControl target, PlayerState.DeathReason deathReason)
+        public static void TargetDies(PlayerControl killer, PlayerControl target)
         {
             if (!target.Data.IsDead || GameStates.IsMeeting) return;
             foreach (var seer in PlayerControl.AllPlayerControls)
             {
-                if (!KillFlashCheck(killer, target, seer, deathReason)) continue;
+                if (!KillFlashCheck(killer, target, seer)) continue;
                 seer.KillFlash();
             }
         }
-        public static bool KillFlashCheck(PlayerControl killer, PlayerControl target, PlayerControl seer, PlayerState.DeathReason deathReason)
+        public static bool KillFlashCheck(PlayerControl killer, PlayerControl target, PlayerControl seer)
         {
             if (seer.Is(CustomRoles.GM)) return true;
             if (seer.Data.IsDead || killer == seer || target == seer) return false;
-            switch (seer.GetCustomRole())
+            return seer.GetCustomRole() switch
             {
-                case CustomRoles.EvilTracker:
-                    return EvilTracker.KillFlashCheck(killer, deathReason);
-                case CustomRoles.Seer:
-                    return true;
-                default:
-                    if (seer.Is(RoleType.Madmate) && Options.MadmateCanSeeKillFlash.GetBool()) return true;
-                    return false;
-            }
+                CustomRoles.EvilTracker => EvilTracker.KillFlashCheck(killer, target),
+                CustomRoles.Seer => true,
+                _ => seer.Is(RoleType.Madmate) && Options.MadmateCanSeeKillFlash.GetBool(),
+            };
         }
         public static void KillFlash(this PlayerControl player)
         {
