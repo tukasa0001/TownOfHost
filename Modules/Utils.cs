@@ -564,7 +564,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             if (title == "") title = "<color=#aaaaff>" + GetString("DefaultSystemMessageTitle") + "</color>";
-            Main.MessagesToSend.Add((text, sendTo, title));
+            Main.MessagesToSend.Add((text.RemoveHtmlTags(), sendTo, title));
         }
         public static void ApplySuffix()
         {
