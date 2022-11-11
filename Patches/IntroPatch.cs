@@ -25,7 +25,7 @@ namespace TownOfHost
                     __instance.RoleBlurbText.text = PlayerControl.LocalPlayer.GetRoleInfo();
                 }
 
-                foreach (var subRole in Main.PlayerStates?[PlayerControl.LocalPlayer.PlayerId].SubRoles)
+                foreach (var subRole in Main.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SubRoles)
                     __instance.RoleBlurbText.text += "\n" + Utils.ColorString(Utils.GetRoleColor(subRole), GetString($"{subRole}Info"));
                 __instance.RoleText.text += Utils.GetSubRolesText(PlayerControl.LocalPlayer.PlayerId);
 
