@@ -100,16 +100,9 @@ namespace TownOfHost
         {
             if (!CanSeeKillFlash.GetBool()) return false;
             //インポスターによるキルかどうかの判別
-            var deathReason = Main.PlayerStates[target.PlayerId].deathReason;
-            Logger.Info($"{killer.GetNameWithRole()}{target.GetNameWithRole()}{deathReason}", "KillFlashCheck");
-            if (deathReason is PlayerState.DeathReason.Fall
-                            or PlayerState.DeathReason.FollowingSuicide
-                            or PlayerState.DeathReason.Misfire
-                            or PlayerState.DeathReason.Suicide) //死因での判別
-                return false;
             if (target.GetRealKiller() != null)
                 killer = target.GetRealKiller();
-            return killer.Is(RoleType.Impostor);
+            return killer.Is(RoleType.Impostor) && killer != target;
         }
         public static string GetMarker(byte playerId) => Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor).ShadeColor(0.5f), CanSetTarget[playerId] ? "◁" : "");
         public static string GetTargetMark(PlayerControl seer, PlayerControl target) => Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), seer.GetTarget() == target ? "◀" : "");
