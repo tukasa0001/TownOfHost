@@ -727,6 +727,7 @@ namespace TownOfHost
             var killerId = Main.PlayerStates[target.PlayerId].GetRealKiller();
             return killerId == byte.MaxValue ? null : Utils.GetPlayerById(killerId);
         }
+
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>
             role > CustomRoles.NotAssigned ? target.GetCustomSubRoles().Contains(role) : target.GetCustomRole() == role;

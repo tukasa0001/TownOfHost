@@ -99,7 +99,6 @@ namespace TownOfHost
                     count++;
             return count;
         }
-
     }
     public class TaskState
     {
