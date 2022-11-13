@@ -30,6 +30,11 @@ namespace TownOfHost
         private bool isHiddenOnDisplay;
         public CustomGameMode GameMode;
 
+        // eventキーワードにより、クラス外からのこのフィールドに対する以下の操作は禁止されます。
+        // - 代入 (+=, -=を除く)
+        // - 直接的な呼び出し
+        public event EventHandler<UpdateValueEventArgs> UpdateValueEvent;
+
         public bool Enabled => this.GetBool();
 
         public OptionItem HiddenOnDisplay(bool hidden)
@@ -41,6 +46,12 @@ namespace TownOfHost
         public OptionItem SetGameMode(CustomGameMode gameMode)
         {
             GameMode = gameMode;
+            return this;
+        }
+
+        public OptionItem RegisterUpdateValueEvent(EventHandler<UpdateValueEventArgs> handler)
+        {
+            UpdateValueEvent += handler;
             return this;
         }
 
@@ -307,6 +318,8 @@ namespace TownOfHost
             Parent = newParent;
             Parent?.Children.Add(this);
         }
+
+        // EventArgs
 
         public class UpdateValueEventArgs : EventArgs
         {
