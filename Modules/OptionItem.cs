@@ -30,6 +30,8 @@ namespace TownOfHost
         private bool isHiddenOnDisplay;
         public CustomGameMode GameMode;
 
+        public event EventHandler<UpdateValueEventArgs> UpdateValueEvent;
+
         public bool Enabled => this.GetBool();
 
         public OptionItem HiddenOnDisplay(bool hidden)
@@ -41,6 +43,12 @@ namespace TownOfHost
         public OptionItem SetGameMode(CustomGameMode gameMode)
         {
             GameMode = gameMode;
+            return this;
+        }
+
+        public OptionItem RegisterUpdateValueEvent(EventHandler<UpdateValueEventArgs> handler)
+        {
+            UpdateValueEvent += handler;
             return this;
         }
 
@@ -307,6 +315,8 @@ namespace TownOfHost
             Parent = newParent;
             Parent?.Children.Add(this);
         }
+
+        // EventArgs
 
         public class UpdateValueEventArgs : EventArgs
         {
