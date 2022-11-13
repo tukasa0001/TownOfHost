@@ -307,6 +307,17 @@ namespace TownOfHost
             Parent = newParent;
             Parent?.Children.Add(this);
         }
+
+        public class UpdateValueEventArgs : EventArgs
+        {
+            public int CurrentValue { get; set; }
+            public int BeforeValue { get; set; }
+            public UpdateValueEventArgs(int beforeValue, int currentValue)
+            {
+                CurrentValue = currentValue;
+                BeforeValue = beforeValue;
+            }
+        }
     }
     public enum TabGroup
     {
