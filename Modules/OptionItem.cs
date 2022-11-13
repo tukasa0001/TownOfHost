@@ -193,7 +193,7 @@ namespace TownOfHost
                     option.Entry = Main.Instance.Config.Bind($"Preset{Preset}", option.Id.ToString(), option.DefaultSelection);
                 int beforeValue = option.Selection;
                 option.Selection = Mathf.Clamp(option.Entry.Value, 0, option.Selections.Length - 1);
-                if (option.UpdateValueEvent != null && beforeValue != option.Selection)
+                if (option.UpdateValueEvent != null && beforeValue != option.Selection) //UpdateValueEventの呼び出し
                     option.UpdateValueEvent(option, new UpdateValueEventArgs(beforeValue, option.Selection));
 
                 if (option.OptionBehaviour is not null and StringOption stringOption)
@@ -285,7 +285,7 @@ namespace TownOfHost
             int beforeValue = Selection;
             Selection = newSelection < 0 ? Selections.Length - 1 : newSelection % Selections.Length;
 
-            if (UpdateValueEvent != null && beforeValue != Selection)
+            if (UpdateValueEvent != null && beforeValue != Selection) //UpdateValueEventの呼び出し
                 UpdateValueEvent(this, new UpdateValueEventArgs(beforeValue, Selection));
 
             if (OptionBehaviour is not null and StringOption stringOption)
