@@ -108,7 +108,7 @@ namespace TownOfHost
                     foreach (var co in OptionItem.Options)
                     {
                         //すべてのカスタムオプションについてインデックス値で受信
-                        co.Selection = reader.ReadInt32();
+                        co.RecieveOptionSelection(reader.ReadInt32());
                     }
                     break;
                 case CustomRPC.SetDeathReason:
@@ -221,12 +221,6 @@ namespace TownOfHost
             writer.Write((byte)sound);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void RpcSetRole(PlayerControl targetPlayer, PlayerControl sendTo, RoleTypes role)
-        {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)RpcCalls.SetRole, Hazel.SendOption.Reliable, sendTo.GetClientId());
-            writer.Write((byte)role);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
         public static void ExileAsync(PlayerControl player)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.Exiled, Hazel.SendOption.Reliable, -1);
@@ -254,8 +248,8 @@ namespace TownOfHost
         {
             var playerId = reader.ReadByte();
             var deathReason = (PlayerState.DeathReason)reader.ReadInt32();
-            PlayerState.deathReasons[playerId] = deathReason;
-            PlayerState.isDead[playerId] = true;
+            Main.PlayerStates[playerId].deathReason = deathReason;
+            Main.PlayerStates[playerId].IsDead = true;
         }
 
         public static void EndGame(MessageReader reader)
@@ -286,13 +280,13 @@ namespace TownOfHost
         }
         public static void SetCustomRole(byte targetId, CustomRoles role)
         {
-            if (role < CustomRoles.NoSubRoleAssigned)
+            if (role < CustomRoles.NotAssigned)
             {
-                Main.AllPlayerCustomRoles[targetId] = role;
+                Main.PlayerStates[targetId].MainRole = role;
             }
-            else if (role >= CustomRoles.NoSubRoleAssigned)   //500:NoSubRole 501~:SubRole
+            else if (role >= CustomRoles.NotAssigned)   //500:NoSubRole 501~:SubRole
             {
-                Main.AllPlayerCustomSubRoles[targetId] = role;
+                Main.PlayerStates[targetId].SetSubRole(role);
             }
             switch (role)
             {

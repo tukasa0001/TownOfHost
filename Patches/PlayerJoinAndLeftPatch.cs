@@ -68,16 +68,16 @@ namespace TownOfHost
                     {
                         Main.isLoversDead = true;
                         Main.LoversPlayers.Remove(lovers);
-                        Main.AllPlayerCustomSubRoles[lovers.PlayerId] = CustomRoles.NoSubRoleAssigned;
+                        Main.PlayerStates[lovers.PlayerId].RemoveSubRole(CustomRoles.Lovers);
                     }
                 if (data.Character.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(data.Character.PlayerId))
                     Executioner.ChangeRole(data.Character);
                 if (Executioner.Target.ContainsValue(data.Character.PlayerId))
                     Executioner.ChangeRoleByTarget(data.Character);
-                if (PlayerState.GetDeathReason(data.Character.PlayerId) == PlayerState.DeathReason.etc) //死因が設定されていなかったら
+                if (Main.PlayerStates[data.Character.PlayerId].deathReason == PlayerState.DeathReason.etc) //死因が設定されていなかったら
                 {
-                    PlayerState.SetDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);
-                    PlayerState.SetDead(data.Character.PlayerId);
+                    Main.PlayerStates[data.Character.PlayerId].deathReason = PlayerState.DeathReason.Disconnected;
+                    Main.PlayerStates[data.Character.PlayerId].SetDead();
                 }
                 AntiBlackout.OnDisconnect(data.Character.Data);
             }

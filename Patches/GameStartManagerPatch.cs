@@ -27,7 +27,7 @@ namespace TownOfHost
                 // Reset lobby countdown timer
                 timer = 600f;
 
-                if (AmongUsClient.Instance.AmHost && Options.AutoDisplayLastResult.GetBool() && Main.AllPlayerCustomRoles.Count != 0)
+                if (AmongUsClient.Instance.AmHost && Options.AutoDisplayLastResult.GetBool() && Main.PlayerStates.Count != 0)
                 {
                     new LateTask(() =>
                     {

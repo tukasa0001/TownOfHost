@@ -25,7 +25,7 @@ namespace TownOfHost
                     __instance.RoleBlurbText.text = PlayerControl.LocalPlayer.GetRoleInfo();
                 }
 
-                __instance.RoleText.text += Utils.GetShowLastSubRolesText(PlayerControl.LocalPlayer.PlayerId);
+                __instance.RoleText.text += Utils.GetSubRolesText(PlayerControl.LocalPlayer.PlayerId);
 
             }, 0.01f, "Override Role Text");
 
@@ -73,7 +73,7 @@ namespace TownOfHost
                     Logger.Info($"{(o.Parent == null ? o.Name.PadRightV2(40) : $"┗ {o.Name}".PadRightV2(41))}:{o.GetString().RemoveHtmlTags()}", "Info");
             Logger.Info("-------------その他-------------", "Info");
             Logger.Info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
-            PlayerControl.AllPlayerControls.ToArray().Do(x => PlayerState.InitTask(x));
+            PlayerControl.AllPlayerControls.ToArray().Do(x => Main.PlayerStates[x.PlayerId].InitTask(x));
 
             Utils.NotifyRoles();
 
@@ -255,7 +255,7 @@ namespace TownOfHost
                 if (PlayerControl.LocalPlayer.Is(CustomRoles.GM))
                 {
                     PlayerControl.LocalPlayer.RpcExile();
-                    PlayerState.SetDead(PlayerControl.LocalPlayer.PlayerId);
+                    Main.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SetDead();
                 }
                 if (Options.RandomSpawn.GetBool())
                 {

@@ -96,12 +96,12 @@ namespace TownOfHost
             SendRemoveTarget(player.PlayerId);
             return Target[player.PlayerId];
         }
-        public static bool KillFlashCheck(PlayerControl killer, PlayerState.DeathReason deathReason)
+        public static bool KillFlashCheck(PlayerControl killer, PlayerControl target)
         {
             if (!CanSeeKillFlash.GetBool()) return false;
             else //インポスターによるキルかどうかの判別
             {
-                switch (deathReason) //死因での判別
+                switch (Main.PlayerStates[target.PlayerId].deathReason) //死因での判別
                 {
                     case PlayerState.DeathReason.Bite:
                     case PlayerState.DeathReason.Sniped:
@@ -129,7 +129,7 @@ namespace TownOfHost
             {
                 var target = Utils.GetPlayerById(arrow.Key.Item2);
                 bool EvilTrackerTarget = seer.GetTarget() == target;
-                if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2] && (target.GetCustomRole().IsImpostor() || EvilTrackerTarget))
+                if (arrow.Key.Item1 == seer.PlayerId && !Main.PlayerStates[arrow.Key.Item2].IsDead && (target.GetCustomRole().IsImpostor() || EvilTrackerTarget))
                     SelfSuffix += EvilTrackerTarget ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Crewmate), arrow.Value) : arrow.Value;
             }
             return SelfSuffix;
