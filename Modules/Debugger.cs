@@ -95,6 +95,8 @@ namespace TownOfHost
             SendToFile(text, LogLevel.Fatal, tag, escapeCRLF, lineNumber, fileName);
         public static void Msg(string text, string tag, bool escapeCRLF = true, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
             SendToFile(text, LogLevel.Message, tag, escapeCRLF, lineNumber, fileName);
+        public static void Exception(Exception ex, string tag, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
+            SendToFile(ex.ToString(), LogLevel.Error, tag, false, lineNumber, fileName);
         public static void CurrentMethod([CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "")
         {
             StackFrame stack = new(1);
