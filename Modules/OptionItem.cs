@@ -223,6 +223,14 @@ namespace TownOfHost
 
             RPC.SyncCustomSettingsRPC();
         }
+        public void RecieveOptionSelection(int newSelection)
+        {
+            int beforeValue = Selection;
+            Selection = newSelection;
+
+            if (beforeValue != Selection)
+                CallUpdateValueEvent(beforeValue, Selection);
+        }
 
         // Getter
 
