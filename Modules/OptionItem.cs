@@ -30,6 +30,9 @@ namespace TownOfHost
         private bool isHiddenOnDisplay;
         public CustomGameMode GameMode;
 
+        // eventキーワードにより、クラス外からのこのフィールドに対する以下の操作は禁止されます。
+        // - 代入 (+=, -=を除く)
+        // - 直接的な呼び出し
         public event EventHandler<UpdateValueEventArgs> UpdateValueEvent;
 
         public bool Enabled => this.GetBool();
