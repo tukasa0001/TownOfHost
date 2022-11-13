@@ -108,7 +108,7 @@ namespace TownOfHost
                     foreach (var co in OptionItem.Options)
                     {
                         //すべてのカスタムオプションについてインデックス値で受信
-                        co.Selection = reader.ReadInt32();
+                        co.RecieveOptionSelection(reader.ReadInt32());
                     }
                     break;
                 case CustomRPC.SetDeathReason:
