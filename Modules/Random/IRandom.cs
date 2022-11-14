@@ -25,5 +25,18 @@ namespace TownOfHost
             if (instance != null)
                 Instance = instance;
         }
+        
+        public static void SetInstanceById(int id)
+        {
+            if(randomTypes.TryGetValue(id, out var type))
+            {
+                // 現在のインスタンスがnull または 現在のインスタンスの型が指定typeと一致しない
+                if(Instance == null || instance.GetType() != type)
+                {
+                    Instance = Activator.CreateInstance(type) as IRandom;
+                }
+            }
+            else Logger.Warn($"無効なID: {id}", "IRandom.SetInstanceById");
+        }
     }
 }
