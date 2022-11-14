@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace TownOfHost
 {
@@ -18,20 +19,20 @@ namespace TownOfHost
             {2, typeof(HashRandomWrapper)},
             {3, typeof(Xorshift)}
         };
-        
+
         public static IRandom Instance { get; private set; }
         public static void SetInstance(IRandom instance)
         {
             if (instance != null)
                 Instance = instance;
         }
-        
+
         public static void SetInstanceById(int id)
         {
-            if(randomTypes.TryGetValue(id, out var type))
+            if (randomTypes.TryGetValue(id, out var type))
             {
                 // 現在のインスタンスがnull または 現在のインスタンスの型が指定typeと一致しない
-                if(Instance == null || instance.GetType() != type)
+                if (Instance == null || Instance.GetType() != type)
                 {
                     Instance = Activator.CreateInstance(type) as IRandom;
                 }
