@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace TownOfHost
 {
@@ -10,11 +11,33 @@ namespace TownOfHost
         public int Next(int minValue, int maxValue);
 
         // == static ==
+        // IRandomを実装するクラスのリスト
+        public static Dictionary<int, Type> randomTypes = new()
+        {
+            {0, typeof(NetRandomWrapper)}, //Default
+            {1, typeof(NetRandomWrapper)},
+            {2, typeof(HashRandomWrapper)},
+            {3, typeof(Xorshift)}
+        };
+
         public static IRandom Instance { get; private set; }
         public static void SetInstance(IRandom instance)
         {
             if (instance != null)
                 Instance = instance;
+        }
+
+        public static void SetInstanceById(int id)
+        {
+            if (randomTypes.TryGetValue(id, out var type))
+            {
+                // 現在のインスタンスがnull または 現在のインスタンスの型が指定typeと一致しない
+                if (Instance == null || Instance.GetType() != type)
+                {
+                    Instance = Activator.CreateInstance(type) as IRandom;
+                }
+            }
+            else Logger.Warn($"無効なID: {id}", "IRandom.SetInstanceById");
         }
     }
 }
