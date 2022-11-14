@@ -34,7 +34,7 @@ namespace TownOfHost
                 // 現在のインスタンスがnull または 現在のインスタンスの型が指定typeと一致しない
                 if (Instance == null || Instance.GetType() != type)
                 {
-                    Instance = Activator.CreateInstance(type) as IRandom;
+                    Instance = Activator.CreateInstance(type) as IRandom ?? Instance;
                 }
             }
             else Logger.Warn($"無効なID: {id}", "IRandom.SetInstanceById");
