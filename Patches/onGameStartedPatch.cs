@@ -111,6 +111,7 @@ namespace TownOfHost
             EvilTracker.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
+            IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetSelection());
 
             MeetingStates.MeetingCalled = false;
             MeetingStates.FirstMeeting = true;
