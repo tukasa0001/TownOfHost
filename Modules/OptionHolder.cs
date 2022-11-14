@@ -595,7 +595,10 @@ namespace TownOfHost
             ChangeNameToRoleInfo = OptionItem.Create(1_000_004, TabGroup.MainSettings, Color.white, "ChangeNameToRoleInfo", true)
                 .SetGameMode(CustomGameMode.All);
             RoleAssigningAlgorithm = OptionItem.Create(1_000_005, TabGroup.MainSettings, Color.white, "RoleAssigningAlgorithm", RoleAssigningAlgorithms, RoleAssigningAlgorithms[0])
-                .SetGameMode(CustomGameMode.All);
+                .SetGameMode(CustomGameMode.All)
+                .RegisterUpdateValueEvent(
+                    (object obj, OptionItem.UpdateValueEventArgs args) => IRandom.SetInstanceById(args.CurrentValue)
+                );
 
             DebugModeManager.SetupCustomOption();
 
