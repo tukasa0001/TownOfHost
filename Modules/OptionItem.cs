@@ -369,4 +369,15 @@ namespace TownOfHost
         NeutralRoles,
         Addons
     }
+    public enum OptionFormat
+    {
+        None,
+        Players,
+        Seconds,
+        Percent,
+        Times,
+        Multiplier,
+        Vote,
+        Pieces,
+    }
 }
