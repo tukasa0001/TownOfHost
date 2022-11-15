@@ -312,7 +312,7 @@ namespace TownOfHost
             // SetupRoleOptions(1200, CustomRoles.ShapeMaster);
             // ShapeMasterShapeshiftDuration = CustomOption.Create(1210, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
             SetupRoleOptions(1300, TabGroup.ImpostorRoles, CustomRoles.Vampire);
-            VampireKillDelay = OptionItem.Create(1310, TabGroup.ImpostorRoles, Color.white, "VampireKillDelay", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.Vampire], format: "Seconds");
+            VampireKillDelay = OptionItem.Create(1310, TabGroup.ImpostorRoles, Color.white, "VampireKillDelay", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.Vampire], format: OptionFormat.Seconds);
             SetupRoleOptions(1400, TabGroup.ImpostorRoles, CustomRoles.Warlock);
             SetupRoleOptions(1500, TabGroup.ImpostorRoles, CustomRoles.Witch);
             SetupRoleOptions(1600, TabGroup.ImpostorRoles, CustomRoles.Mafia);
@@ -323,8 +323,8 @@ namespace TownOfHost
             TimeThief.SetupCustomOption();
             EvilTracker.SetupCustomOption();
 
-            DefaultShapeshiftCooldown = OptionItem.Create(5011, TabGroup.ImpostorRoles, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true, format: "Seconds");
-            CanMakeMadmateCount = OptionItem.Create(5012, TabGroup.ImpostorRoles, Utils.GetRoleColor(CustomRoles.Madmate), "CanMakeMadmateCount", 0, 0, 15, 1, null, true, format: "Times");
+            DefaultShapeshiftCooldown = OptionItem.Create(5011, TabGroup.ImpostorRoles, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true, format: OptionFormat.Seconds);
+            CanMakeMadmateCount = OptionItem.Create(5012, TabGroup.ImpostorRoles, Utils.GetRoleColor(CustomRoles.Madmate), "CanMakeMadmateCount", 0, 0, 15, 1, null, true, format: OptionFormat.Times);
 
             // Madmate
             SetupRoleOptions(10000, TabGroup.ImpostorRoles, CustomRoles.Madmate);
@@ -344,20 +344,20 @@ namespace TownOfHost
             MadmateCanSeeKillFlash = OptionItem.Create(15015, TabGroup.ImpostorRoles, Color.white, "MadmateCanSeeKillFlash", false);
             MadmateCanSeeOtherVotes = OptionItem.Create(15016, TabGroup.ImpostorRoles, Color.white, "MadmateCanSeeOtherVotes", false);
             MadmateCanSeeDeathReason = OptionItem.Create(15018, TabGroup.ImpostorRoles, Color.white, "MadmateCanSeeDeathReason", false);
-            MadmateVentCooldown = OptionItem.Create(15213, TabGroup.ImpostorRoles, Color.white, "MadmateVentCooldown", 0f, 0f, 180f, 5f, format: "Seconds");
-            MadmateVentMaxTime = OptionItem.Create(15214, TabGroup.ImpostorRoles, Color.white, "MadmateVentMaxTime", 0f, 0f, 180f, 5f, format: "Seconds");
+            MadmateVentCooldown = OptionItem.Create(15213, TabGroup.ImpostorRoles, Color.white, "MadmateVentCooldown", 0f, 0f, 180f, 5f, format: OptionFormat.Seconds);
+            MadmateVentMaxTime = OptionItem.Create(15214, TabGroup.ImpostorRoles, Color.white, "MadmateVentMaxTime", 0f, 0f, 180f, 5f, format: OptionFormat.Seconds);
             // Both
             SetupRoleOptions(30000, TabGroup.NeutralRoles, CustomRoles.Watcher);
-            EvilWatcherChance = OptionItem.Create(30010, TabGroup.NeutralRoles, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher], format: "Percent");
+            EvilWatcherChance = OptionItem.Create(30010, TabGroup.NeutralRoles, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher], format: OptionFormat.Percent);
             // Crewmate
             SetupRoleOptions(20000, TabGroup.CrewmateRoles, CustomRoles.Bait);
             SetupRoleOptions(20100, TabGroup.CrewmateRoles, CustomRoles.Lighter);
-            LighterTaskCompletedVision = OptionItem.Create(20110, TabGroup.CrewmateRoles, Color.white, "LighterTaskCompletedVision", 2f, 0f, 5f, 0.25f, CustomRoleSpawnChances[CustomRoles.Lighter], format: "Multiplier");
+            LighterTaskCompletedVision = OptionItem.Create(20110, TabGroup.CrewmateRoles, Color.white, "LighterTaskCompletedVision", 2f, 0f, 5f, 0.25f, CustomRoleSpawnChances[CustomRoles.Lighter], format: OptionFormat.Multiplier);
             LighterTaskCompletedDisableLightOut = OptionItem.Create(20111, TabGroup.CrewmateRoles, Color.white, "LighterTaskCompletedDisableLightOut", true, CustomRoleSpawnChances[CustomRoles.Lighter]);
             SetupRoleOptions(20200, TabGroup.CrewmateRoles, CustomRoles.Mayor);
-            MayorAdditionalVote = OptionItem.Create(20210, TabGroup.CrewmateRoles, Color.white, "MayorAdditionalVote", 1, 1, 99, 1, CustomRoleSpawnChances[CustomRoles.Mayor], format: "Votes");
+            MayorAdditionalVote = OptionItem.Create(20210, TabGroup.CrewmateRoles, Color.white, "MayorAdditionalVote", 1, 1, 99, 1, CustomRoleSpawnChances[CustomRoles.Mayor], format: OptionFormat.Votes);
             MayorHasPortableButton = OptionItem.Create(20211, TabGroup.CrewmateRoles, Color.white, "MayorHasPortableButton", false, CustomRoleSpawnChances[CustomRoles.Mayor]);
-            MayorNumOfUseButton = OptionItem.Create(20212, TabGroup.CrewmateRoles, Color.white, "MayorNumOfUseButton", 1, 1, 99, 1, MayorHasPortableButton, format: "Times");
+            MayorNumOfUseButton = OptionItem.Create(20212, TabGroup.CrewmateRoles, Color.white, "MayorNumOfUseButton", 1, 1, 99, 1, MayorHasPortableButton, format: OptionFormat.Times);
             SabotageMaster.SetupCustomOption();
             Sheriff.SetupCustomOption();
             SetupRoleOptions(20500, TabGroup.CrewmateRoles, CustomRoles.Snitch);
@@ -367,19 +367,19 @@ namespace TownOfHost
             //20520~20523を使用
             SnitchTasks = OverrideTasksData.Create(20520, TabGroup.CrewmateRoles, CustomRoles.Snitch);
             SetupRoleOptions(20600, TabGroup.CrewmateRoles, CustomRoles.SpeedBooster);
-            SpeedBoosterUpSpeed = OptionItem.Create(20610, TabGroup.CrewmateRoles, Color.white, "SpeedBoosterUpSpeed", 0.3f, 0.1f, 0.5f, 0.1f, CustomRoleSpawnChances[CustomRoles.SpeedBooster], format: "Multiplier");
-            SpeedBoosterTaskTrigger = OptionItem.Create(20611, TabGroup.CrewmateRoles, Color.white, "SpeedBoosterTaskTrigger", 5f, 1f, 99f, 1f, CustomRoleSpawnChances[CustomRoles.SpeedBooster], format: "Pieces");
+            SpeedBoosterUpSpeed = OptionItem.Create(20610, TabGroup.CrewmateRoles, Color.white, "SpeedBoosterUpSpeed", 0.3f, 0.1f, 0.5f, 0.1f, CustomRoleSpawnChances[CustomRoles.SpeedBooster], format: OptionFormat.Multiplier);
+            SpeedBoosterTaskTrigger = OptionItem.Create(20611, TabGroup.CrewmateRoles, Color.white, "SpeedBoosterTaskTrigger", 5f, 1f, 99f, 1f, CustomRoleSpawnChances[CustomRoles.SpeedBooster], format: OptionFormat.Pieces);
             SetupRoleOptions(20700, TabGroup.CrewmateRoles, CustomRoles.Doctor);
-            DoctorTaskCompletedBatteryCharge = OptionItem.Create(20710, TabGroup.CrewmateRoles, Color.white, "DoctorTaskCompletedBatteryCharge", 5, 0, 10, 1, CustomRoleSpawnChances[CustomRoles.Doctor], format: "Seconds");
+            DoctorTaskCompletedBatteryCharge = OptionItem.Create(20710, TabGroup.CrewmateRoles, Color.white, "DoctorTaskCompletedBatteryCharge", 5, 0, 10, 1, CustomRoleSpawnChances[CustomRoles.Doctor], format: OptionFormat.Seconds);
             SetupRoleOptions(20800, TabGroup.CrewmateRoles, CustomRoles.Trapper);
-            TrapperBlockMoveTime = OptionItem.Create(20810, TabGroup.CrewmateRoles, Color.white, "TrapperBlockMoveTime", 5f, 1f, 180, 1, CustomRoleSpawnChances[CustomRoles.Trapper], format: "Seconds");
+            TrapperBlockMoveTime = OptionItem.Create(20810, TabGroup.CrewmateRoles, Color.white, "TrapperBlockMoveTime", 5f, 1f, 180, 1, CustomRoleSpawnChances[CustomRoles.Trapper], format: OptionFormat.Seconds);
             SetupRoleOptions(20900, TabGroup.CrewmateRoles, CustomRoles.Dictator);
             SetupRoleOptions(21000, TabGroup.CrewmateRoles, CustomRoles.Seer);
 
             // Neutral
             SetupRoleOptions(50500, TabGroup.NeutralRoles, CustomRoles.Arsonist);
-            ArsonistDouseTime = OptionItem.Create(50510, TabGroup.NeutralRoles, Color.white, "ArsonistDouseTime", 3, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist], format: "Seconds");
-            ArsonistCooldown = OptionItem.Create(50511, TabGroup.NeutralRoles, Color.white, "Cooldown", 10, 5, 100, 1, CustomRoleSpawnChances[CustomRoles.Arsonist], format: "Seconds");
+            ArsonistDouseTime = OptionItem.Create(50510, TabGroup.NeutralRoles, Color.white, "ArsonistDouseTime", 3, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist], format: OptionFormat.Seconds);
+            ArsonistCooldown = OptionItem.Create(50511, TabGroup.NeutralRoles, Color.white, "Cooldown", 10, 5, 100, 1, CustomRoleSpawnChances[CustomRoles.Arsonist], format: OptionFormat.Seconds);
             SetupRoleOptions(50000, TabGroup.NeutralRoles, CustomRoles.Jester);
             SetupRoleOptions(50100, TabGroup.NeutralRoles, CustomRoles.Opportunist);
             SetupRoleOptions(50200, TabGroup.NeutralRoles, CustomRoles.Terrorist);
@@ -397,11 +397,11 @@ namespace TownOfHost
             // Add-Ons
             EnableLastImpostor = OptionItem.Create(80000, TabGroup.Addons, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            LastImpostorKillCooldown = OptionItem.Create(80010, TabGroup.Addons, Color.white, "KillCooldown", 15, 0, 180, 1, EnableLastImpostor, format: "Seconds")
+            LastImpostorKillCooldown = OptionItem.Create(80010, TabGroup.Addons, Color.white, "KillCooldown", 15, 0, 180, 1, EnableLastImpostor, format: OptionFormat.Seconds)
                 .SetGameMode(CustomGameMode.Standard);
             #endregion
 
-            KillFlashDuration = OptionItem.Create(90000, TabGroup.MainSettings, Color.white, "KillFlashDuration", 0.3f, 0.1f, 0.45f, 0.05f, null, true, format: "Seconds")
+            KillFlashDuration = OptionItem.Create(90000, TabGroup.MainSettings, Color.white, "KillFlashDuration", 0.3f, 0.1f, 0.45f, 0.05f, null, true, format: OptionFormat.Seconds)
                 .SetGameMode(CustomGameMode.Standard);
 
             // HideAndSeek
@@ -409,7 +409,7 @@ namespace TownOfHost
             SetupRoleOptions(100100, TabGroup.MainSettings, CustomRoles.HASTroll, CustomGameMode.HideAndSeek);
             AllowCloseDoors = OptionItem.Create(101000, TabGroup.MainSettings, Color.white, "AllowCloseDoors", false, null, true)
                 .SetGameMode(CustomGameMode.HideAndSeek);
-            KillDelay = OptionItem.Create(101001, TabGroup.MainSettings, Color.white, "HideAndSeekWaitingTime", 10, 0, 180, 5, format: "Seconds")
+            KillDelay = OptionItem.Create(101001, TabGroup.MainSettings, Color.white, "HideAndSeekWaitingTime", 10, 0, 180, 5, format: OptionFormat.Seconds)
                 .SetGameMode(CustomGameMode.HideAndSeek);
             //IgnoreCosmetics = CustomOption.Create(101002, Color.white, "IgnoreCosmetics", false)
             //    .SetGameMode(CustomGameMode.HideAndSeek);
@@ -419,9 +419,9 @@ namespace TownOfHost
             // リアクターの時間制御
             SabotageTimeControl = OptionItem.Create(100800, TabGroup.MainSettings, Color.white, "SabotageTimeControl", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            PolusReactorTimeLimit = OptionItem.Create(100801, TabGroup.MainSettings, Color.white, "PolusReactorTimeLimit", 30, 1, 60, 1, SabotageTimeControl, format: "Seconds")
+            PolusReactorTimeLimit = OptionItem.Create(100801, TabGroup.MainSettings, Color.white, "PolusReactorTimeLimit", 30, 1, 60, 1, SabotageTimeControl, format: OptionFormat.Seconds)
                 .SetGameMode(CustomGameMode.Standard);
-            AirshipReactorTimeLimit = OptionItem.Create(100802, TabGroup.MainSettings, Color.white, "AirshipReactorTimeLimit", 60, 1, 90, 1, SabotageTimeControl, format: "Seconds")
+            AirshipReactorTimeLimit = OptionItem.Create(100802, TabGroup.MainSettings, Color.white, "AirshipReactorTimeLimit", 60, 1, 90, 1, SabotageTimeControl, format: OptionFormat.Seconds)
                 .SetGameMode(CustomGameMode.Standard);
 
             // 停電の特殊設定
@@ -519,7 +519,7 @@ namespace TownOfHost
             // ボタン回数同期
             SyncButtonMode = OptionItem.Create(100200, TabGroup.MainSettings, Color.white, "SyncButtonMode", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            SyncedButtonCount = OptionItem.Create(100201, TabGroup.MainSettings, Color.white, "SyncedButtonCount", 10, 0, 100, 1, SyncButtonMode, format: "Times")
+            SyncedButtonCount = OptionItem.Create(100201, TabGroup.MainSettings, Color.white, "SyncedButtonCount", 10, 0, 100, 1, SyncButtonMode, format: OptionFormat.Times)
                 .SetGameMode(CustomGameMode.Standard);
 
             // 投票モード
@@ -540,12 +540,12 @@ namespace TownOfHost
 
             // 全員生存時の会議時間
             AllAliveMeeting = OptionItem.Create(100900, TabGroup.MainSettings, Color.white, "AllAliveMeeting", false);
-            AllAliveMeetingTime = OptionItem.Create(100901, TabGroup.MainSettings, Color.white, "AllAliveMeetingTime", 10, 1, 300, 1, AllAliveMeeting, format: "Seconds");
+            AllAliveMeetingTime = OptionItem.Create(100901, TabGroup.MainSettings, Color.white, "AllAliveMeetingTime", 10, 1, 300, 1, AllAliveMeeting, format: OptionFormat.Seconds);
 
             // 生存人数ごとの緊急会議
             AdditionalEmergencyCooldown = OptionItem.Create(101400, TabGroup.MainSettings, Color.white, "AdditionalEmergencyCooldown", false);
-            AdditionalEmergencyCooldownThreshold = OptionItem.Create(101401, TabGroup.MainSettings, Color.white, "AdditionalEmergencyCooldownThreshold", 1, 1, 15, 1, AdditionalEmergencyCooldown, format: "Players");
-            AdditionalEmergencyCooldownTime = OptionItem.Create(101402, TabGroup.MainSettings, Color.white, "AdditionalEmergencyCooldownTime", 1, 1, 60, 1, AdditionalEmergencyCooldown, format: "Seconds");
+            AdditionalEmergencyCooldownThreshold = OptionItem.Create(101401, TabGroup.MainSettings, Color.white, "AdditionalEmergencyCooldownThreshold", 1, 1, 15, 1, AdditionalEmergencyCooldown, format: OptionFormat.Players);
+            AdditionalEmergencyCooldownTime = OptionItem.Create(101402, TabGroup.MainSettings, Color.white, "AdditionalEmergencyCooldownTime", 1, 1, 60, 1, AdditionalEmergencyCooldown, format: OptionFormat.Seconds);
 
             // 転落死
             LadderDeath = OptionItem.Create(101100, TabGroup.MainSettings, Color.white, "LadderDeath", false, null, true);
@@ -554,7 +554,7 @@ namespace TownOfHost
             // 通常モードでかくれんぼ用
             StandardHAS = OptionItem.Create(100700, TabGroup.MainSettings, Color.white, "StandardHAS", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            StandardHASWaitingTime = OptionItem.Create(100701, TabGroup.MainSettings, Color.white, "StandardHASWaitingTime", 10f, 0f, 180f, 2.5f, StandardHAS, format: "Seconds")
+            StandardHASWaitingTime = OptionItem.Create(100701, TabGroup.MainSettings, Color.white, "StandardHASWaitingTime", 10f, 0f, 180f, 2.5f, StandardHAS, format: OptionFormat.Seconds)
                 .SetGameMode(CustomGameMode.Standard);
 
             // その他
@@ -597,7 +597,7 @@ namespace TownOfHost
             var spawnOption = OptionItem.Create(id, tab, Utils.GetRoleColor(role), role.ToString(), ratesZeroOne, ratesZeroOne[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
-            var countOption = OptionItem.Create(id + 1, tab, Color.white, "Maximum", 1, 1, 15, 1, spawnOption, false, format: "Players")
+            var countOption = OptionItem.Create(id + 1, tab, Color.white, "Maximum", 1, 1, 15, 1, spawnOption, false, format: OptionFormat.Players)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
 
@@ -646,10 +646,10 @@ namespace TownOfHost
                 this.IdStart = idStart;
                 this.Role = role;
                 Dictionary<string, string> replacementDic = new() { { "%role%", Utils.GetRoleName(role) } };
-                doOverride = OptionItem.Create(idStart++, tab, Color.white, "doOverride", false, CustomRoleSpawnChances[role], false, false, "", replacementDic);
-                assignCommonTasks = OptionItem.Create(idStart++, tab, Color.white, "assignCommonTasks", true, doOverride, false, false, "", replacementDic);
-                numLongTasks = OptionItem.Create(idStart++, tab, Color.white, "roleLongTasksNum", 3, 0, 99, 1, doOverride, false, false, "Pieces", replacementDic);
-                numShortTasks = OptionItem.Create(idStart++, tab, Color.white, "roleShortTasksNum", 3, 0, 99, 1, doOverride, false, false, "Pieces", replacementDic);
+                doOverride = OptionItem.Create(idStart++, tab, Color.white, "doOverride", false, CustomRoleSpawnChances[role], false, false, OptionFormat.None, replacementDic);
+                assignCommonTasks = OptionItem.Create(idStart++, tab, Color.white, "assignCommonTasks", true, doOverride, false, false, OptionFormat.None, replacementDic);
+                numLongTasks = OptionItem.Create(idStart++, tab, Color.white, "roleLongTasksNum", 3, 0, 99, 1, doOverride, false, false, OptionFormat.Pieces, replacementDic);
+                numShortTasks = OptionItem.Create(idStart++, tab, Color.white, "roleShortTasksNum", 3, 0, 99, 1, doOverride, false, false, OptionFormat.Pieces, replacementDic);
 
                 if (!AllData.ContainsKey(role)) AllData.Add(role, this);
                 else Logger.Warn("重複したCustomRolesを対象とするOverrideTasksDataが作成されました", "OverrideTasksData");
