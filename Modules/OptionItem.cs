@@ -377,7 +377,7 @@ namespace TownOfHost
         Percent,
         Times,
         Multiplier,
-        Vote,
+        Votes,
         Pieces,
     }
 }
