@@ -294,6 +294,7 @@ namespace TownOfHost
         Puppeteer,
         TimeThief,
         EvilTracker,
+        EvilHacker,
         LastImpostor,
         //Madmate
         MadGuardian,

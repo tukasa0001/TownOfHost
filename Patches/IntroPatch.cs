@@ -285,6 +285,7 @@ namespace TownOfHost
                             break;
                     }
                 }
+                EvilHacker.InitDeadCount();
             }
             Logger.Info("OnDestroy", "IntroCutscene");
         }

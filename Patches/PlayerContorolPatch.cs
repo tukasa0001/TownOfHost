@@ -365,6 +365,7 @@ namespace TownOfHost
                     Main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
             }
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
+            EvilHacker.OnMurder(target);
 
             PlayerState.SetDead(target.PlayerId);
             Utils.CountAliveImpostors();
