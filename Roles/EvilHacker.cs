@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using static TownOfHost.Options;
 using static TownOfHost.Translator;
+using UnityEngine;
 
 namespace TownOfHost
 {
@@ -9,12 +11,15 @@ namespace TownOfHost
         public static readonly int Id = 3100;
         public static List<byte> playerIdList = new();
 
+        public static CustomOption CanSeeDeadPos;
+
         public static Dictionary<SystemTypes, int> PlayerCount = new();
         public static Dictionary<SystemTypes, int> DeadCount = new();
 
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.EvilHacker);
+            SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.EvilHacker);
+            CanSeeDeadPos = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "CanSeeDeadPos", true, CustomRoleSpawnChances[CustomRoles.EvilHacker]);
         }
         public static void Init()
         {
@@ -49,8 +54,15 @@ namespace TownOfHost
             foreach (var kvp in PlayerCount)
             {
                 var roomName = DestroyableSingleton<TranslationController>.Instance.GetString(kvp.Key);
-                message = $"{message}{roomName}: {kvp.Value}";
-                message += DeadCount[kvp.Key] > 0 ? $",{GetString("DeadBody")}\u00d7{DeadCount[kvp.Key]}\n" : '\n';
+                if (CanSeeDeadPos.GetBool())
+                {
+                    message = $"{message}{roomName}: {kvp.Value}";
+                    message += DeadCount[kvp.Key] > 0 ? $",{GetString("DeadBody")}\u00d7{DeadCount[kvp.Key]}\n" : '\n';
+                }
+                else
+                {
+                    message = $"{message}{roomName}: {kvp.Value + DeadCount[kvp.Key]}\n";
+                }
             }
             alivePlayerIds.ForEach(id => Utils.SendMessage(message, id));
             InitDeadCount();
