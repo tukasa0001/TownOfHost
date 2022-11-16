@@ -13,6 +13,7 @@ namespace TownOfHost
 
         public static CustomOption CanSeeDeadPos;
         public static CustomOption CanSeeOtherImp;
+        public static CustomOption CanSeeKillFlash;
 
         public static Dictionary<SystemTypes, int> PlayerCount = new();
         public static Dictionary<SystemTypes, int> DeadCount = new();
@@ -23,6 +24,7 @@ namespace TownOfHost
             SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.EvilHacker);
             CanSeeDeadPos = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "CanSeeDeadPos", true, CustomRoleSpawnChances[CustomRoles.EvilHacker]);
             CanSeeOtherImp = CustomOption.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "CanSeeOtherImp", true, CustomRoleSpawnChances[CustomRoles.EvilHacker]);
+            CanSeeKillFlash = CustomOption.Create(Id + 12, TabGroup.ImpostorRoles, Color.white, "CanSeeKillFlash", true, CustomRoleSpawnChances[CustomRoles.EvilHacker]);
         }
         public static void Init()
         {
@@ -90,5 +92,7 @@ namespace TownOfHost
                 }
             }
         }
+        public static bool KillFlashCheck(PlayerControl killer, PlayerState.DeathReason deathReason)
+            => CanSeeKillFlash.GetBool() && Utils.IsImpostorKill(killer, deathReason);
     }
 }

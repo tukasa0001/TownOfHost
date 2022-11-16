@@ -100,6 +100,8 @@ namespace TownOfHost
             {
                 case CustomRoles.EvilTracker:
                     return EvilTracker.KillFlashCheck(killer, deathReason);
+                case CustomRoles.EvilHacker:
+                    return EvilHacker.KillFlashCheck(killer, deathReason);
                 case CustomRoles.Seer:
                     return true;
                 default:
@@ -142,6 +144,24 @@ namespace TownOfHost
                 opt.CrewLightMod = 0.0f;
             }
             return;
+        }
+        public static bool IsImpostorKill(PlayerControl killer, PlayerState.DeathReason deathReason)
+        {
+            switch (deathReason) //死因での判別
+            {
+                case PlayerState.DeathReason.Bite:
+                case PlayerState.DeathReason.Sniped:
+                case PlayerState.DeathReason.Bombed:
+                    return true;
+                case PlayerState.DeathReason.Suicide:
+                case PlayerState.DeathReason.FollowingSuicide:
+                case PlayerState.DeathReason.Misfire:
+                case PlayerState.DeathReason.Torched:
+                    return false;
+                default:
+                    bool PuppeteerCheck = CustomRoles.Puppeteer.IsEnable() && !killer.GetCustomRole().IsImpostor() && Main.PuppeteerList.ContainsKey(killer.PlayerId);
+                    return killer.GetCustomRole().IsImpostor() || PuppeteerCheck; //インポスターのノーマルキル || パペッティアキル
+            }
         }
         public static string GetOnOff(bool value) => value ? "ON" : "OFF";
         public static int SetRoleCountToggle(int currentCount) => currentCount > 0 ? 0 : 1;

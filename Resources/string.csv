@@ -372,6 +372,7 @@ EvilTrackerResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,�
 KillFlashDuration,Kill Flash Duration(s),キルフラッシュの長さ(秒),击杀闪烁持续时间,,Длительность Вспышки Убийсва
 CanSeeDeadPos,Can See Deadbody Location,死体位置がわかる,,,
 CanSeeOtherImp,Can See the Location of Other Impostors,他のインポスターの位置がわかる,,,
+CanSeeKillFlash,Can See Kill Flash,インポスターキル時にキルフラッシュが見える,,,
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定,Настройки Пряток
