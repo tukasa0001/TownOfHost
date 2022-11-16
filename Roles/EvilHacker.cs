@@ -56,8 +56,8 @@ namespace TownOfHost
                 var roomName = DestroyableSingleton<TranslationController>.Instance.GetString(kvp.Key);
                 if (CanSeeDeadPos.GetBool())
                 {
-                    message = $"{message}{roomName}: {kvp.Value}";
-                    message += DeadCount[kvp.Key] > 0 ? $",{GetString("DeadBody")}\u00d7{DeadCount[kvp.Key]}\n" : '\n';
+                    message = $"{message}{roomName}: {kvp.Value + DeadCount[kvp.Key]}";
+                    message += DeadCount[kvp.Key] > 0 ? $"({GetString("DeadBody")}\u00d7{DeadCount[kvp.Key]})\n" : '\n';
                 }
                 else
                 {
