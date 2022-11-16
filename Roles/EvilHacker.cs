@@ -12,20 +12,24 @@ namespace TownOfHost
         public static List<byte> playerIdList = new();
 
         public static CustomOption CanSeeDeadPos;
+        public static CustomOption CanSeeOtherImp;
 
         public static Dictionary<SystemTypes, int> PlayerCount = new();
         public static Dictionary<SystemTypes, int> DeadCount = new();
+        public static List<SystemTypes> ImpRooms = new();
 
         public static void SetupCustomOption()
         {
             SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.EvilHacker);
             CanSeeDeadPos = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "CanSeeDeadPos", true, CustomRoleSpawnChances[CustomRoles.EvilHacker]);
+            CanSeeOtherImp = CustomOption.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "CanSeeOtherImp", true, CustomRoleSpawnChances[CustomRoles.EvilHacker]);
         }
         public static void Init()
         {
             playerIdList = new();
             PlayerCount = new();
             DeadCount = new();
+            ImpRooms = new();
         }
         public static void Add(byte playerId)
         {
@@ -44,7 +48,12 @@ namespace TownOfHost
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     if (!pc.IsAlive()) continue;
-                    if (pc.Collider.IsTouching(room.roomArea)) PlayerCount[room.RoomId]++;
+                    if (pc.Collider.IsTouching(room.roomArea))
+                    {
+                        PlayerCount[room.RoomId]++;
+                        if (CanSeeOtherImp.GetBool() && pc.GetCustomRole().IsImpostor() && !ImpRooms.Contains(room.RoomId))
+                            ImpRooms.Add(room.RoomId);
+                    }
                 }
             }
             PlayerCount.Remove(SystemTypes.Hallway);
@@ -53,6 +62,7 @@ namespace TownOfHost
             string message = $"=={GetString("LastAdminInfo")}==\n";
             foreach (var kvp in PlayerCount)
             {
+                if (ImpRooms.Contains(kvp.Key)) message += '★';
                 var roomName = DestroyableSingleton<TranslationController>.Instance.GetString(kvp.Key);
                 if (CanSeeDeadPos.GetBool())
                 {
@@ -66,12 +76,18 @@ namespace TownOfHost
             }
             alivePlayerIds.ForEach(id => Utils.SendMessage(message, id));
             InitDeadCount();
+            ImpRooms = new();
         }
         public static void OnMurder(PlayerControl target)
         {
             foreach (var room in ShipStatus.Instance.AllRooms)
             {
-                if (target.Collider.IsTouching(room.roomArea)) DeadCount[room.RoomId]++;
+                if (target.Collider.IsTouching(room.roomArea))
+                {
+                    DeadCount[room.RoomId]++;
+                    if (CanSeeOtherImp.GetBool() && target.GetCustomRole().IsImpostor() && !ImpRooms.Contains(room.RoomId))
+                        ImpRooms.Add(room.RoomId);
+                }
             }
         }
     }
