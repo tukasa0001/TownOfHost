@@ -16,7 +16,7 @@ namespace TownOfHost
         public Color Color;
         public string Name;
         public Dictionary<string, string> ReplacementDictionary;
-        public string Format;
+        public OptionFormat Format;
         public System.Object[] Selections;
 
         public int DefaultSelection;
@@ -86,7 +86,7 @@ namespace TownOfHost
             OptionItem parent,
             bool isHeader,
             bool isHidden,
-            string format,
+            OptionFormat format,
             Dictionary<string, string> replacementDic)
         {
             Id = id;
@@ -132,7 +132,7 @@ namespace TownOfHost
             OptionItem parent = null,
             bool isHeader = false,
             bool isHidden = false,
-            string format = "",
+            OptionFormat format = OptionFormat.None,
             Dictionary<string, string> replacementDic = null)
         {
             return new OptionItem(id, tab, color, name, selections, defaultValue, parent, isHeader, isHidden, format, replacementDic);
@@ -149,7 +149,7 @@ namespace TownOfHost
             OptionItem parent = null,
             bool isHeader = false,
             bool isHidden = false,
-            string format = "",
+            OptionFormat format = OptionFormat.None,
             Dictionary<string, string> replacementDic = null)
         {
             var selections = new List<float>();
@@ -169,7 +169,7 @@ namespace TownOfHost
             OptionItem parent = null,
             bool isHeader = false,
             bool isHidden = false,
-            string format = "",
+            OptionFormat format = OptionFormat.None,
             Dictionary<string, string> replacementDic = null)
         {
             return new OptionItem(id, tab, color, name, new string[] { "ColoredOff", "ColoredOn" }, defaultValue ? "ColoredOn" : "ColoredOff", parent, isHeader, isHidden, format, replacementDic);
@@ -267,7 +267,7 @@ namespace TownOfHost
         public string GetString()
         {
             string sel = Selections[Selection].ToString();
-            if (Format != "") return string.Format(Translator.GetString("Format." + Format), sel);
+            if (Format != OptionFormat.None) return string.Format(Translator.GetString("Format." + Format), sel);
             return float.TryParse(sel, out _) ? sel : Translator.GetString(sel);
         }
 
@@ -368,5 +368,16 @@ namespace TownOfHost
         CrewmateRoles,
         NeutralRoles,
         Addons
+    }
+    public enum OptionFormat
+    {
+        None,
+        Players,
+        Seconds,
+        Percent,
+        Times,
+        Multiplier,
+        Votes,
+        Pieces,
     }
 }
