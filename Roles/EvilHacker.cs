@@ -59,7 +59,7 @@ namespace TownOfHost
             PlayerCount.Remove(SystemTypes.Hallway);
             DeadCount.Remove(SystemTypes.Hallway);
             var alivePlayerIds = playerIdList.Where(x => Utils.GetPlayerById(x).IsAlive()).ToList();
-            string message = $"=={GetString("LastAdminInfo")}==\n";
+            string message = $"=={GetString("Message.LastAdminInfo")}==\n";
             foreach (var kvp in PlayerCount)
             {
                 if (ImpRooms.Contains(kvp.Key)) message += '★';
@@ -67,7 +67,7 @@ namespace TownOfHost
                 if (CanSeeDeadPos.GetBool())
                 {
                     message = $"{message}{roomName}: {kvp.Value + DeadCount[kvp.Key]}";
-                    message += DeadCount[kvp.Key] > 0 ? $"({GetString("DeadBody")}\u00d7{DeadCount[kvp.Key]})\n" : '\n';
+                    message += DeadCount[kvp.Key] > 0 ? $"({GetString("Deadbody")}\u00d7{DeadCount[kvp.Key]})\n" : '\n';
                 }
                 else
                 {

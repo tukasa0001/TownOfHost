@@ -31,6 +31,7 @@ Puppeteer,Puppeteer,パペッティア,傀儡师,傀儡師,Puppeteer
 TimeThief,TimeThief,タイムシーフ,蚀时者,時間小偷,TimeThief
 Sniper,Sniper,スナイパー,狙击手,狙擊手,Sniper
 EvilTracker,EvilTracker,イビルトラッカー,邪恶的追踪者,,EvilTracker
+EvilHacker,EvilHacker,イビルハッカー,,,
 
 # マッドメイト系役職
 Madmate,Madmate,マッドメイト,叛徒,叛徒,Madmate
@@ -106,6 +107,7 @@ TimeThiefInfo,Kill the Crewmates to steal discussion time,敵を殺し、会議�
 SniperInfo,Shoot the Crewmates in the distance,狙い撃つぜ,瞄准敌人，射击！,讓你的敵人在你的狙擊下死亡,Стреляйте в Членов Экипажа на расстоянии
 LastImpostorInfo,You are the last one,残ったのはあなただけ,你是最后的希望…,你是狼村最後的希望...,Ты остался последний
 EvilTrackerInfo,Track Players,プレイヤーを追跡しろ,追杀其他玩家,,Отслеживайте Игроков
+EvilHackerInfo,Hack systems,システムをハッキングしよう,,,
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう,帮助内鬼,幫助狼人,Помогите Предателям
@@ -168,6 +170,7 @@ PuppeteerInfoLong,"(Impostors):\nThey can perform secondhand kills but cannot ki
 TimeThiefInfoLong,"(Impostors):\nEvery kill cuts down discussion and voting time in meeting.\nDepending on option, the lost time is returned after they die.",(インポスター陣営):\nキルを行うと会議時間が減少する。\nタイムシーフが追放または殺害されると、失われた会議時間が返ってきます。,(内鬼阵营):\n蚀时者每击杀一个人，会议持续时间将减少一定时间。\n如果蚀时者死亡，被偷取的时间的会议时间会返还。,"(狼人陣營):\n時間小偷每次殺人將會減少會議時間\n如果時間小偷被丟出或被殺死,減少的會議時間將會回來","(Предатель):\nКаждое его убийство сокращает время обсуждения и голосования на собраниях.\nВ зависимости от настроек потерянное время возвращается после того как он будет убит или изгнан."
 SniperInfoLong,(Impostors):\nSniper can shoot players so far away.\nthey kill a player on the extension line from Shapeshift point to release point.\nYou can perform normal kills after all bullets run out.,(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。,(内鬼阵营):\n狙击手拥有远距离射杀的能力。\n方法为：变形的位置及解除变形位置的连线及其延长线上的一名玩家将被射杀。\n在狙击手的子弹耗尽前，狙击手无法进行常规击杀。",(狼人陣營):\n狙擊遠處的敵人\n子彈將從變形處延伸到取消變形處並往直線前進並殺死在這條線上非狼人陣營的人\n狙擊手無法正常殺人在狙擊手用光子彈前。","(Предатель):\nSniper может стрелять в игроков на расстоянии.\nОн убивает игрока который находится с ним на одной линии, от точки Морфа до точки возвращения в свой облик.\nОн можете совершать обычные убийства после того, как все его патроны закончатся."
 EvilTrackerInfoLong,"(Impostors):\nEvilTracker can track others.\nThey can see arrows toward Impostors and the one whom they Shapeshift to.\nThey know when allies take kills with kill flash.",(インポスター陣営):\n他人の位置が分かるインポスター。\n味方のインポスターとシェイプシフトで選んだ一人の位置が矢印で表示される。\n味方インポスターのキルによるキルフラッシュも見える。,(内鬼阵营):\n邪恶追踪者可以追踪其他内鬼以及其所变形的玩家。\n玩家名称下面的箭头代表着目标的方向。\n当内鬼队友杀人时，邪恶追踪者将会看到击杀闪烁提示。,,"(Предатель):\nEvilTracker может отслеживать других игроков.\nОн может видеть стрелки которые указывают на Предателей или на того, в кого они Морфятся.\nОн знает когда Предатели совершают убийства с помощью вспышки убийства."
+EvilHackerInfoLong,"(Impostors):\nEvilHacker can know the admin information just before the meeting.",(インポスター陣営):\n会議直前のアドミン情報を見ることができる。,,,
 
 
 # マッドメイト系役職
@@ -367,6 +370,8 @@ TimeThiefReturnStolenTimeUponDeath,Return Stolen Time After Death,死亡後に�
 EvilTrackerCanSeeKillFlash,EvilTracker Can See The Flash Of Impostor Kills,インポスターキル時にフラッシュが見える,当内鬼进行击杀时邪恶的追踪者可以看到闪光,,EvilTracker Может Видеть Вспышку Убийства Предатлелей
 EvilTrackerResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,会議後に再度ターゲットを設定できる,会议后重置邪恶的追踪者追踪目标,,EvilTracker Может Сбросить Цель После Встречи
 KillFlashDuration,Kill Flash Duration(s),キルフラッシュの長さ(秒),击杀闪烁持续时间,,Длительность Вспышки Убийсва
+CanSeeDeadPos,Can See Deadbody Location,死体位置がわかる,,,
+CanSeeOtherImp,Can See the Location of Other Impostors,他のインポスターの位置がわかる,,,
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定,Настройки Пряток
@@ -425,6 +430,7 @@ Message.Executed,{0} was executed,{0}を処刑しました,{0}被房主处决了
 Message.HideGameSettings,Game settings are hidden by the host.,ゲーム設定はホストによって秘匿されています。,游戏设置被房主隐藏。,遊戲設定被房主隱藏。,Настройки игры скрыты хостом.
 Message.AnnounceUsingTOH,This room uses TownOfHost v{0}.\n/now can be used to check the current settings.\nPlease check GitHub for detailed roles descriptions.,この部屋はTownOfHost v{0}を使用しています。\n/nowを使用すると現在の設定が確認できます。\n役職の詳細な説明はGitHubをご確認ください。,,,
 Message.NoDescription,No description.,説明はありません。,,,
+Message.LastAdminInfo,Last-minute admin information,直前のアドミン情報,,,
 
 ## 警告
 Warning.EgoistCannotWin,Egoist cannot win!,エゴイストが勝利できません,野心家无法获胜,利己主義者無法獲勝,Egoist не может победить!
@@ -521,4 +527,5 @@ All,All,すべて,全部,全部,Все
 Archive,Archive,アーカイブ,文件,檔案,Архив
 DisabledBySettings,Disabled by setting,設定で無効化されています,已在设置被中禁用,在設定中被禁用,Отключено настройкой
 Disabled,Disabled,無効,,,Неполноценный
+Deadbody,Deadbody,死体,,,
 
