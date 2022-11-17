@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Hazel;
 using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -62,6 +63,11 @@ namespace TownOfHost
         {
             opt.RoleOptions.ShapeshifterCooldown = CanSetTarget[playerId] ? 5f : 255f;
             opt.RoleOptions.ShapeshifterDuration = 1f;
+        }
+        public static void GetAbilityButtonText(HudManager __instance, byte playerId)
+        {
+            __instance.AbilityButton.ToggleVisible(CanSetTarget[playerId]);
+            __instance.AbilityButton.OverrideText($"{GetString("EvilTrackerChangeButtonText")}");
         }
         public static void SendTarget(byte EvilTrackerId, byte targetId)
         {

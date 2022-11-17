@@ -19,7 +19,7 @@ namespace TownOfHost
         {
             //Jackalは1人固定
             SetupSingleRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Jackal, 1);
-            KillCooldown = OptionItem.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "KillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Jackal], format: "Seconds");
+            KillCooldown = OptionItem.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "KillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Jackal], format: OptionFormat.Seconds);
             CanVent = OptionItem.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
             CanUseSabotage = OptionItem.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "CanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
             HasImpostorVision = OptionItem.Create(Id + 13, TabGroup.NeutralRoles, Color.white, "ImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
