@@ -396,7 +396,7 @@ namespace TownOfHost
                 }
                 foreach (var opt in OptionItem.Options.Where(x => x.Enabled && x.Parent == null && x.Id >= 80000 && !x.IsHidden(Options.CurrentGameMode)))
                 {
-                    if (opt.Name == "KillFlashDuration")
+                    if (opt.Name is "KillFlashDuration" or "RoleAssigningAlgorithm")
                         text += $"\n【{opt.GetName(true)}: {opt.GetString()}】\n";
                     else
                         text += $"\n【{opt.GetName(true)}】\n";
