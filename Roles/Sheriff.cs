@@ -33,7 +33,7 @@ namespace TownOfHost
             CanKillAllAlive = OptionItem.Create(Id + 15, TabGroup.CrewmateRoles, Color.white, "SheriffCanKillAllAlive", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SetUpKillTargetOption(CustomRoles.Madmate, Id + 13);
             CanKillNeutrals = OptionItem.Create(Id + 14, TabGroup.CrewmateRoles, Color.white, "SheriffCanKillNeutrals", KillOption, KillOption[0], Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            SetUpNeutralOptions(Id + 16);
+            SetUpNeutralOptions(Id + 30);
         }
         public static void SetUpNeutralOptions(int Id)
         {
