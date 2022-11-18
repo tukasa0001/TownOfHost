@@ -24,14 +24,6 @@ namespace TownOfHost
         {
             "SheriffCanKillAll", "SheriffCanKillSeparately"
         };
-        public static Dictionary<string, string> SheriffCanKillRole(CustomRoles role)
-        {
-            var roleName = Utils.GetRoleName(role);
-            if (role == CustomRoles.EgoSchrodingerCat) roleName += GetString("In%team%", new Dictionary<string, string>() { { "%team%", Utils.GetRoleName(CustomRoles.Egoist) } });
-            if (role == CustomRoles.JSchrodingerCat) roleName += GetString("In%team%", new Dictionary<string, string>() { { "%team%", Utils.GetRoleName(CustomRoles.Jackal) } });
-            Dictionary<string, string> replacementDic = new() { { "%role%", Utils.ColorString(Utils.GetRoleColor(role), roleName) } };
-            return replacementDic;
-        }
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.Sheriff);
@@ -57,7 +49,14 @@ namespace TownOfHost
         public static void SetUpKillTargetOption(CustomRoles role, int Id, bool defaultValue = true, OptionItem parent = null)
         {
             if (parent == null) parent = Options.CustomRoleSpawnChances[CustomRoles.Sheriff];
-            KillTargetOptions[role] = OptionItem.Create(Id, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", defaultValue, parent, replacementDic: SheriffCanKillRole(role));
+            var roleName = Utils.GetRoleName(role) + role switch
+            {
+                CustomRoles.EgoSchrodingerCat => $" {GetString("In%team%", new Dictionary<string, string>() { { "%team%", Utils.GetRoleName(CustomRoles.Egoist) } })}",
+                CustomRoles.JSchrodingerCat => $" {GetString("In%team%", new Dictionary<string, string>() { { "%team%", Utils.GetRoleName(CustomRoles.Jackal) } })}",
+                _ => "",
+            };
+            Dictionary<string, string> replacementDic = new() { { "%role%", Utils.ColorString(Utils.GetRoleColor(role), roleName) } };
+            KillTargetOptions[role] = OptionItem.Create(Id, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", defaultValue, parent, replacementDic: replacementDic);
         }
         public static void Init()
         {
