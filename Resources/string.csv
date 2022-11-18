@@ -557,6 +557,7 @@
 "ArsonistDouseButtonText","Douse","塗る","涂油","澆油","Облить",""
 "PuppeteerOperateButtonText","Manipulate","操る","操控","操控","Управлять",""
 "BountyHunterChangeButtonText","Swap","変更","变更","變更","Смена",""
+"EvilTrackerChangeButtonText","Track","追跡","","","",""
 "DefaultShapeshiftText","Shift","変身","变形","變身","Превращение",""
 "DisabledBySettings","Disabled by Settings","設定で無効化されています","已在设置被中禁用","在設定中被禁用","Отключено настройкой",""
 "Disabled","Disabled","無効","禁用","已被禁用","Неполноценный",""
