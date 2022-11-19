@@ -736,10 +736,8 @@ namespace TownOfHost
                 CustomRoles.Egoist or
                 CustomRoles.Jackal;
         }
-        public static SystemTypes GetRoom(this PlayerControl player)
-        {
-            return ShipStatus.Instance?.AllRooms.FirstOrDefault(r => player.Collider.IsTouching(r.roomArea))?.RoomId ?? default;
-        }
+        public static SystemTypes GetRoom(this PlayerControl player) =>
+            ShipStatus.Instance?.AllRooms.FirstOrDefault(r => player.Collider.IsTouching(r.roomArea))?.RoomId ?? default;
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>
