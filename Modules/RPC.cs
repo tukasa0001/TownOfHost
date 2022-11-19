@@ -108,7 +108,7 @@ namespace TownOfHost
                     foreach (var co in OptionItem.Options)
                     {
                         //すべてのカスタムオプションについてインデックス値で受信
-                        co.Selection = reader.ReadInt32();
+                        co.RecieveOptionSelection(reader.ReadInt32());
                     }
                     break;
                 case CustomRPC.SetDeathReason:
@@ -219,12 +219,6 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.PlaySound, Hazel.SendOption.Reliable, -1);
             writer.Write(PlayerID);
             writer.Write((byte)sound);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
-        public static void RpcSetRole(PlayerControl targetPlayer, PlayerControl sendTo, RoleTypes role)
-        {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)RpcCalls.SetRole, Hazel.SendOption.Reliable, sendTo.GetClientId());
-            writer.Write((byte)role);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void ExileAsync(PlayerControl player)

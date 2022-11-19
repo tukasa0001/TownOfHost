@@ -86,29 +86,25 @@ namespace TownOfHost
             }
         }
         //誰かが死亡したときのメソッド
-        public static void TargetDies(PlayerControl killer, PlayerControl target, PlayerState.DeathReason deathReason)
+        public static void TargetDies(PlayerControl killer, PlayerControl target)
         {
             if (!target.Data.IsDead || GameStates.IsMeeting) return;
             foreach (var seer in PlayerControl.AllPlayerControls)
             {
-                if (!KillFlashCheck(killer, target, seer, deathReason)) continue;
+                if (!KillFlashCheck(killer, target, seer)) continue;
                 seer.KillFlash();
             }
         }
-        public static bool KillFlashCheck(PlayerControl killer, PlayerControl target, PlayerControl seer, PlayerState.DeathReason deathReason)
+        public static bool KillFlashCheck(PlayerControl killer, PlayerControl target, PlayerControl seer)
         {
             if (seer.Is(CustomRoles.GM)) return true;
             if (seer.Data.IsDead || killer == seer || target == seer) return false;
-            switch (seer.GetCustomRole())
+            return seer.GetCustomRole() switch
             {
-                case CustomRoles.EvilTracker:
-                    return EvilTracker.KillFlashCheck(killer, deathReason);
-                case CustomRoles.Seer:
-                    return true;
-                default:
-                    if (seer.Is(RoleType.Madmate) && Options.MadmateCanSeeKillFlash.GetBool()) return true;
-                    return false;
-            }
+                CustomRoles.EvilTracker => EvilTracker.KillFlashCheck(killer, target),
+                CustomRoles.Seer => true,
+                _ => seer.Is(RoleType.Madmate) && Options.MadmateCanSeeKillFlash.GetBool(),
+            };
         }
         public static void KillFlash(this PlayerControl player)
         {
@@ -145,14 +141,6 @@ namespace TownOfHost
                 opt.CrewLightMod = 0.0f;
             }
             return;
-        }
-        public static string GetOnOff(bool value) => value ? "ON" : "OFF";
-        public static int SetRoleCountToggle(int currentCount) => currentCount > 0 ? 0 : 1;
-        public static void SetRoleCountToggle(CustomRoles role)
-        {
-            int count = Options.GetRoleCount(role);
-            count = SetRoleCountToggle(count);
-            Options.SetRoleCount(role, count);
         }
         public static string GetRoleName(byte playerId)
         {
@@ -455,7 +443,7 @@ namespace TownOfHost
                 return;
             }
             var text = GetString("Roles") + ":";
-            text += string.Format("\n{0}:{1}", GetRoleName(CustomRoles.GM), GetOnOff(Options.EnableGM.GetBool()));
+            text += string.Format("\n{0}:{1}", GetRoleName(CustomRoles.GM), Options.EnableGM.GetString().RemoveHtmlTags());
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {
                 if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
@@ -576,7 +564,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             if (title == "") title = "<color=#aaaaff>" + GetString("DefaultSystemMessageTitle") + "</color>";
-            Main.MessagesToSend.Add((text, sendTo, title));
+            Main.MessagesToSend.Add((text.RemoveHtmlTags(), sendTo, title));
         }
         public static void ApplySuffix()
         {
@@ -960,19 +948,6 @@ namespace TownOfHost
                 Options.EnableLastImpostor.GetBool() &&
                 role is not CustomRoles.Vampire or CustomRoles.BountyHunter or CustomRoles.SerialKiller &&
                 Main.AliveImpostorCount == 1;
-        }
-
-        public static string GetAllRoleName(byte playerId)
-        {
-            return GetPlayerById(playerId)?.GetAllRoleName() ?? "";
-        }
-        public static string GetNameWithRole(byte playerId)
-        {
-            return GetPlayerById(playerId)?.GetNameWithRole() ?? "";
-        }
-        public static string GetNameWithRole(this GameData.PlayerInfo player)
-        {
-            return GetPlayerById(player.PlayerId)?.GetNameWithRole() ?? "";
         }
         public static string GetVoteName(byte num)
         {

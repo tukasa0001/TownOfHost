@@ -29,7 +29,7 @@ namespace TownOfHost
                         break;
                     case CustomWinner.Impostor:
                         PlayerControl.AllPlayerControls.ToArray()
-                                .Where(pc => pc.Is(RoleType.Impostor) || pc.Is(RoleType.Madmate))
+                                .Where(pc => (pc.Is(RoleType.Impostor) || pc.Is(RoleType.Madmate)) && !pc.Is(CustomRoles.Lovers))
                                 .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
                 }

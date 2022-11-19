@@ -16,7 +16,7 @@ namespace TownOfHost
         public Color Color;
         public string Name;
         public Dictionary<string, string> ReplacementDictionary;
-        public string Format;
+        public OptionFormat Format;
         public System.Object[] Selections;
 
         public int DefaultSelection;
@@ -30,6 +30,11 @@ namespace TownOfHost
         private bool isHiddenOnDisplay;
         public CustomGameMode GameMode;
 
+        // eventキーワードにより、クラス外からのこのフィールドに対する以下の操作は禁止されます。
+        // - 代入 (+=, -=を除く)
+        // - 直接的な呼び出し
+        public event EventHandler<UpdateValueEventArgs> UpdateValueEvent;
+
         public bool Enabled => this.GetBool();
 
         public OptionItem HiddenOnDisplay(bool hidden)
@@ -41,6 +46,12 @@ namespace TownOfHost
         public OptionItem SetGameMode(CustomGameMode gameMode)
         {
             GameMode = gameMode;
+            return this;
+        }
+
+        public OptionItem RegisterUpdateValueEvent(EventHandler<UpdateValueEventArgs> handler)
+        {
+            UpdateValueEvent += handler;
             return this;
         }
 
@@ -75,7 +86,7 @@ namespace TownOfHost
             OptionItem parent,
             bool isHeader,
             bool isHidden,
-            string format,
+            OptionFormat format,
             Dictionary<string, string> replacementDic)
         {
             Id = id;
@@ -121,7 +132,7 @@ namespace TownOfHost
             OptionItem parent = null,
             bool isHeader = false,
             bool isHidden = false,
-            string format = "",
+            OptionFormat format = OptionFormat.None,
             Dictionary<string, string> replacementDic = null)
         {
             return new OptionItem(id, tab, color, name, selections, defaultValue, parent, isHeader, isHidden, format, replacementDic);
@@ -138,7 +149,7 @@ namespace TownOfHost
             OptionItem parent = null,
             bool isHeader = false,
             bool isHidden = false,
-            string format = "",
+            OptionFormat format = OptionFormat.None,
             Dictionary<string, string> replacementDic = null)
         {
             var selections = new List<float>();
@@ -158,7 +169,7 @@ namespace TownOfHost
             OptionItem parent = null,
             bool isHeader = false,
             bool isHidden = false,
-            string format = "",
+            OptionFormat format = OptionFormat.None,
             Dictionary<string, string> replacementDic = null)
         {
             return new OptionItem(id, tab, color, name, new string[] { "ColoredOff", "ColoredOn" }, defaultValue ? "ColoredOn" : "ColoredOff", parent, isHeader, isHidden, format, replacementDic);
@@ -180,7 +191,11 @@ namespace TownOfHost
 
                 if (AmongUsClient.Instance.AmHost)
                     option.Entry = Main.Instance.Config.Bind($"Preset{Preset}", option.Id.ToString(), option.DefaultSelection);
+                int beforeValue = option.Selection;
                 option.Selection = Mathf.Clamp(option.Entry.Value, 0, option.Selections.Length - 1);
+                if (beforeValue != option.Selection) //UpdateValueEventの呼び出し
+                    option.CallUpdateValueEvent(beforeValue, option.Selection);
+
                 if (option.OptionBehaviour is not null and StringOption stringOption)
                 {
                     stringOption.oldValue = stringOption.Value = option.Selection;
@@ -207,6 +222,14 @@ namespace TownOfHost
             if (PlayerControl.AllPlayerControls.Count <= 1 || (AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null)) return;
 
             RPC.SyncCustomSettingsRPC();
+        }
+        public void RecieveOptionSelection(int newSelection)
+        {
+            int beforeValue = Selection;
+            Selection = newSelection;
+
+            if (beforeValue != Selection)
+                CallUpdateValueEvent(beforeValue, Selection);
         }
 
         // Getter
@@ -244,7 +267,7 @@ namespace TownOfHost
         public string GetString()
         {
             string sel = Selections[Selection].ToString();
-            if (Format != "") return string.Format(Translator.GetString("Format." + Format), sel);
+            if (Format != OptionFormat.None) return string.Format(Translator.GetString("Format." + Format), sel);
             return float.TryParse(sel, out _) ? sel : Translator.GetString(sel);
         }
 
@@ -267,7 +290,11 @@ namespace TownOfHost
 
         public void UpdateSelection(int newSelection)
         {
+            int beforeValue = Selection;
             Selection = newSelection < 0 ? Selections.Length - 1 : newSelection % Selections.Length;
+
+            if (beforeValue != Selection) //UpdateValueEventの呼び出し
+                CallUpdateValueEvent(beforeValue, Selection);
 
             if (OptionBehaviour is not null and StringOption stringOption)
             {
@@ -307,6 +334,32 @@ namespace TownOfHost
             Parent = newParent;
             Parent?.Children.Add(this);
         }
+
+        // EventArgs
+        private void CallUpdateValueEvent(int beforeValue, int currentValue)
+        {
+            if (UpdateValueEvent == null) return;
+            try
+            {
+                UpdateValueEvent(this, new UpdateValueEventArgs(beforeValue, currentValue));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"[{Name}] UpdateValueEventの呼び出し時に例外が発生しました", "OptionItem.UpdateValueEvent");
+                Logger.Exception(ex, "OptionItem.UpdateValueEvent");
+            }
+        }
+
+        public class UpdateValueEventArgs : EventArgs
+        {
+            public int CurrentValue { get; set; }
+            public int BeforeValue { get; set; }
+            public UpdateValueEventArgs(int beforeValue, int currentValue)
+            {
+                CurrentValue = currentValue;
+                BeforeValue = beforeValue;
+            }
+        }
     }
     public enum TabGroup
     {
@@ -315,5 +368,16 @@ namespace TownOfHost
         CrewmateRoles,
         NeutralRoles,
         Addons
+    }
+    public enum OptionFormat
+    {
+        None,
+        Players,
+        Seconds,
+        Percent,
+        Times,
+        Multiplier,
+        Votes,
+        Pieces,
     }
 }
