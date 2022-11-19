@@ -45,18 +45,13 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             ShipStatus.Instance.AllRooms.ToList().ForEach(room => PlayerCount[room.RoomId] = 0);
-            foreach (var room in ShipStatus.Instance.AllRooms)
+            foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (!pc.IsAlive()) continue;
-                    if (pc.Collider.IsTouching(room.roomArea))
-                    {
-                        PlayerCount[room.RoomId]++;
-                        if (CanSeeOtherImp.GetBool() && pc.GetCustomRole().IsImpostor() && !ImpRooms.Contains(room.RoomId))
-                            ImpRooms.Add(room.RoomId);
-                    }
-                }
+                if (!pc.IsAlive()) continue;
+                var room = pc.GetRoom();
+                PlayerCount[room]++;
+                if (CanSeeOtherImp.GetBool() && pc.GetCustomRole().IsImpostor() && !ImpRooms.Contains(room))
+                    ImpRooms.Add(room);
             }
             PlayerCount.Remove(SystemTypes.Hallway);
             DeadCount.Remove(SystemTypes.Hallway);
@@ -82,15 +77,10 @@ namespace TownOfHost
         }
         public static void OnMurder(PlayerControl target)
         {
-            foreach (var room in ShipStatus.Instance.AllRooms)
-            {
-                if (target.Collider.IsTouching(room.roomArea))
-                {
-                    DeadCount[room.RoomId]++;
-                    if (CanSeeOtherImp.GetBool() && target.GetCustomRole().IsImpostor() && !ImpRooms.Contains(room.RoomId))
-                        ImpRooms.Add(room.RoomId);
-                }
-            }
+            var room = target.GetRoom();
+            DeadCount[room]++;
+            if (CanSeeOtherImp.GetBool() && target.GetCustomRole().IsImpostor() && !ImpRooms.Contains(room))
+                ImpRooms.Add(room);
         }
         public static bool KillFlashCheck(PlayerControl killer, PlayerState.DeathReason deathReason)
             => CanSeeKillFlash.GetBool() && Utils.IsImpostorKill(killer, deathReason);
