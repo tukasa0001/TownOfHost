@@ -145,7 +145,7 @@ namespace TownOfHost
             }
             if (player.CanUseKillButton())
             {
-                __instance.KillButton.ToggleVisible(!player.Data.IsDead);
+                __instance.KillButton.ToggleVisible(player.IsAlive() && GameStates.IsInTask);
             }
             else
             {
