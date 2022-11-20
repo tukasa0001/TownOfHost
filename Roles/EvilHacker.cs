@@ -82,7 +82,7 @@ namespace TownOfHost
             if (CanSeeOtherImp.GetBool() && target.GetCustomRole().IsImpostor() && !ImpRooms.Contains(room))
                 ImpRooms.Add(room);
         }
-        public static bool KillFlashCheck(PlayerControl killer, PlayerState.DeathReason deathReason)
-            => CanSeeKillFlash.GetBool() && Utils.IsImpostorKill(killer, deathReason);
+        public static bool KillFlashCheck(PlayerControl killer, PlayerState.DeathReason deathReason) =>
+            CanSeeKillFlash.GetBool() && Utils.IsImpostorKill(killer, deathReason);
     }
 }
