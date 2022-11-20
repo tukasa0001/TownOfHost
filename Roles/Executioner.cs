@@ -50,7 +50,7 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 List<PlayerControl> targetList = new();
-                var rand = new System.Random();
+                var rand = IRandom.Instance;
                 foreach (var target in PlayerControl.AllPlayerControls)
                 {
                     if (playerId == target.PlayerId) continue;

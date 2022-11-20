@@ -126,7 +126,7 @@ namespace TownOfHost
             && (((CompletedTasksCount + 1) >= AllTasksCount) || (CompletedTasksCount + 1) >= Options.SpeedBoosterTaskTrigger.GetInt())
             && !Main.SpeedBoostTarget.ContainsKey(player.PlayerId))
             {   //ｽﾋﾟﾌﾞが生きていて、全タスク完了orトリガー数までタスクを完了していて、SpeedBoostTargetに登録済みでない場合
-                var rand = new System.Random();
+                var rand = IRandom.Instance;
                 List<PlayerControl> targetPlayers = new();
                 //切断者と死亡者を除外
                 foreach (PlayerControl p in PlayerControl.AllPlayerControls)

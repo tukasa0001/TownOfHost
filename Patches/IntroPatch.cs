@@ -96,7 +96,6 @@ namespace TownOfHost
         public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
         {
             //チーム表示変更
-            var rand = new System.Random();
             CustomRoles role = PlayerControl.LocalPlayer.GetCustomRole();
             RoleType roleType = role.GetRoleType();
 
