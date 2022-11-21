@@ -115,7 +115,7 @@ namespace TownOfHost
             bool continueStart = true;
             if (Options.RandomMapsMode.GetBool())
             {
-                var rand = new System.Random();
+                var rand = IRandom.Instance;
                 System.Collections.Generic.List<byte> RandomMaps = new();
                 /*TheSkeld   = 0
                 MIRAHQ     = 1
