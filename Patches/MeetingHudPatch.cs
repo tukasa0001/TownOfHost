@@ -209,14 +209,9 @@ namespace TownOfHost
         }
         public static void FollowingSuicideOnExile(byte playerId)
         {
-            var player = Utils.GetPlayerById(playerId);
-            if (player == null) return;
-
             //Loversの後追い
-            if (CustomRoles.Lovers.IsEnable() && Main.isLoversDead == false && Main.LoversPlayers.Find(lp => lp.PlayerId == player.PlayerId) != null)
-            {
-                FixedUpdatePatch.LoversSuicide(player.PlayerId, true);
-            }
+            if (CustomRoles.Lovers.IsEnable() && !Main.isLoversDead && Main.LoversPlayers.Find(lp => lp.PlayerId == playerId) != null)
+                FixedUpdatePatch.LoversSuicide(playerId, true);
         }
     }
 
