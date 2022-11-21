@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Hazel;
 using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -63,6 +64,11 @@ namespace TownOfHost
             opt.RoleOptions.ShapeshifterCooldown = CanSetTarget[playerId] ? 5f : 255f;
             opt.RoleOptions.ShapeshifterDuration = 1f;
         }
+        public static void GetAbilityButtonText(HudManager __instance, byte playerId)
+        {
+            __instance.AbilityButton.ToggleVisible(CanSetTarget[playerId]);
+            __instance.AbilityButton.OverrideText($"{GetString("EvilTrackerChangeButtonText")}");
+        }
         public static void SendTarget(byte EvilTrackerId, byte targetId)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetEvilTrackerTarget, Hazel.SendOption.Reliable, -1);
@@ -96,12 +102,12 @@ namespace TownOfHost
             SendRemoveTarget(player.PlayerId);
             return Target[player.PlayerId];
         }
-        public static bool KillFlashCheck(PlayerControl killer, PlayerState.DeathReason deathReason)
+        public static bool KillFlashCheck(PlayerControl killer, PlayerControl target)
         {
             if (!CanSeeKillFlash.GetBool()) return false;
             else //インポスターによるキルかどうかの判別
             {
-                switch (deathReason) //死因での判別
+                switch (Main.PlayerStates[target.PlayerId].deathReason) //死因での判別
                 {
                     case PlayerState.DeathReason.Bite:
                     case PlayerState.DeathReason.Sniped:

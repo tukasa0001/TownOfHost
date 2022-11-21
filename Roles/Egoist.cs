@@ -13,7 +13,7 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Egoist);
-            KillCooldown = OptionItem.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "KillCooldown", 20f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Egoist], format: "Seconds");
+            KillCooldown = OptionItem.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "KillCooldown", 20f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Egoist], format: OptionFormat.Seconds);
         }
         public static void Init()
         {

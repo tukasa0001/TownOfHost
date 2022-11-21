@@ -20,9 +20,9 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.BountyHunter);
-            TargetChangeTime = OptionItem.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "BountyTargetChangeTime", 60f, 10f, 900f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter], format: "Seconds");
-            SuccessKillCooldown = OptionItem.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "BountySuccessKillCooldown", 2.5f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter], format: "Seconds");
-            FailureKillCooldown = OptionItem.Create(Id + 12, TabGroup.ImpostorRoles, Color.white, "BountyFailureKillCooldown", 50f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter], format: "Seconds");
+            TargetChangeTime = OptionItem.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "BountyTargetChangeTime", 60f, 10f, 900f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter], format: OptionFormat.Seconds);
+            SuccessKillCooldown = OptionItem.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "BountySuccessKillCooldown", 2.5f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter], format: OptionFormat.Seconds);
+            FailureKillCooldown = OptionItem.Create(Id + 12, TabGroup.ImpostorRoles, Color.white, "BountyFailureKillCooldown", 50f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter], format: OptionFormat.Seconds);
         }
         public static void Init()
         {
@@ -134,7 +134,7 @@ namespace TownOfHost
             }
             if (cTargets.Count >= 2 && Targets.TryGetValue(player.PlayerId, out var p)) cTargets.RemoveAll(x => x.PlayerId == p.PlayerId); //前回のターゲットは除外
 
-            var rand = new System.Random();
+            var rand = IRandom.Instance;
             if (cTargets.Count <= 0)
             {
                 Logger.Error("ターゲットの指定に失敗しました:ターゲット候補が存在しません", "BountyHunter");

@@ -158,6 +158,8 @@ namespace TownOfHost
             CustomWinnerHolder.Reset();
             Translator.Init();
 
+            IRandom.SetInstance(new NetRandomWrapper());
+
             hasArgumentException = false;
             ExceptionMessage = "";
             try

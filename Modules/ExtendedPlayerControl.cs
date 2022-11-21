@@ -39,10 +39,6 @@ namespace TownOfHost
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
         }
-        public static void SetCustomRole(this PlayerControl player, CustomRoles role)
-        {
-            Main.PlayerStates[player.PlayerId].MainRole = role;
-        }
 
         public static void RpcExile(this PlayerControl player)
         {
@@ -230,20 +226,6 @@ namespace TownOfHost
             messageWriter.WriteNetObject(target);
             messageWriter.Write((byte)amount);
             AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
-        }
-        public static byte GetRoleCount(this Dictionary<CustomRoles, byte> dic, CustomRoles role)
-        {
-            if (!dic.ContainsKey(role))
-            {
-                dic[role] = 0;
-            }
-
-            return dic[role];
-        }
-
-        public static void SendDM(this PlayerControl target, string text)
-        {
-            Utils.SendMessage(text, target.PlayerId);
         }
 
         /*public static void RpcBeKilled(this PlayerControl player, PlayerControl KilledBy = null) {
@@ -446,7 +428,7 @@ namespace TownOfHost
         }
         public static string GetNameWithRole(this PlayerControl player)
         {
-            return $"{player?.Data?.PlayerName}({player?.GetAllRoleName()})";
+            return $"{player?.Data?.PlayerName}" + (GameStates.IsInGame ? $"({player?.GetAllRoleName()})" : "");
         }
         public static string GetRoleColorCode(this PlayerControl player)
         {
