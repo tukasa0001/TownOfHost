@@ -174,21 +174,11 @@ namespace TownOfHost
                     ExileControllerWrapUpPatch.AntiBlackout_LastExiled = exiledPlayer;
                 }
                 else __instance.RpcVotingComplete(states, exiledPlayer, tie); //通常処理
-                if (Utils.GetPlayerById(exileId).Is(CustomRoles.Witch))
-                {
-                    var which = Utils.GetPlayerById(exileId);
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                        if (Main.SpelledPlayer.TryGetValue(pc.PlayerId, out var killer) && killer == which)
-                            Main.SpelledPlayer.Remove(pc.PlayerId);
-                }
-                foreach (var kvp in Main.SpelledPlayer)
-                {
-                    if (Utils.GetPlayerById(kvp.Key) == null) continue;
-                    Main.AfterMeetingDeathPlayers.TryAdd(kvp.Key, PlayerState.DeathReason.Spell);
-                    Utils.GetPlayerById(kvp.Key).SetRealKiller(kvp.Value);
-                }
-                Main.SpelledPlayer.Clear();
 
+                if (CustomRoles.Witch.IsEnable())
+                {
+                    Witch.OnCheckForEndVoting(exileId);
+                }
 
                 if (CustomRoles.Lovers.IsEnable() && Main.isLoversDead == false && Main.LoversPlayers.Find(lp => lp.PlayerId == exileId) != null)
                 {
@@ -391,7 +381,7 @@ namespace TownOfHost
                         pva.NameText.color = Palette.ImpostorRed; //変更対象の名前を赤くする
                 }
                 //呪われている場合
-                if (Main.SpelledPlayer.ContainsKey(target.PlayerId))
+                if (Witch.IsSpelled(target.PlayerId))
                     pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "†");
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。

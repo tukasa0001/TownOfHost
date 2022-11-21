@@ -697,7 +697,7 @@ namespace TownOfHost
                 if (seer.Is(CustomRoles.Lovers)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
 
                 //呪われている場合
-                if (Main.SpelledPlayer.ContainsKey(seer.PlayerId) && isMeeting)
+                if (Witch.IsSpelled(seer.PlayerId) && isMeeting)
                     SelfMark += "<color=#ff0000>†</color>";
 
                 if (Sniper.IsEnable())
@@ -720,7 +720,7 @@ namespace TownOfHost
                 }
                 if (seer.Is(CustomRoles.Witch))
                 {
-                    SelfSuffix = seer.IsSpellMode() ? "Mode:" + GetString("WitchModeSpell") : "Mode:" + GetString("WitchModeKill");
+                    SelfSuffix = Witch.GetSpellModeText(seer,false);
                 }
 
                 //他人用の変数定義
@@ -784,7 +784,7 @@ namespace TownOfHost
                     || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.Is(CustomRoles.Arsonist)
                     || seer.Is(CustomRoles.Lovers)
-                    || Main.SpelledPlayer != null || Main.SpelledPlayer.Count > 0
+                    || Witch.HaveSpelledPlayer()
                     || seer.Is(CustomRoles.Executioner)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
@@ -807,7 +807,7 @@ namespace TownOfHost
                         //名前の後ろに付けるマーカー
                         string TargetMark = "";
                         //呪われている人
-                        if (Main.SpelledPlayer.ContainsKey(target.PlayerId) && isMeeting)
+                        if (Witch.IsSpelled(target.PlayerId) && isMeeting)
                             TargetMark += "<color=#ff0000>†</color>";
                         //タスク完了直前のSnitchにマークを表示
                         canFindSnitchRole = seer.GetCustomRole().IsImpostor() || //Seerがインポスター

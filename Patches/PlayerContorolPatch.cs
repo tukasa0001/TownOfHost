@@ -174,16 +174,11 @@ namespace TownOfHost
                         if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
                         return false;
                     case CustomRoles.Witch:
-                        if (killer.IsSpellMode() && !Main.SpelledPlayer.ContainsKey(target.PlayerId))
+                        if (!Witch.OnCheckMurder(killer, target))
                         {
-                            killer.RpcGuardAndKill(target);
-                            Main.SpelledPlayer.Add(target.PlayerId, killer);
-                            RPC.RpcDoSpell(target.PlayerId, killer.PlayerId);
+                            //Spellモードの場合は終了
+                            return false;
                         }
-                        Main.KillOrSpell[killer.PlayerId] = !killer.IsSpellMode();
-                        Utils.NotifyRoles();
-                        killer.SyncKillOrSpell();
-                        if (!killer.IsSpellMode()) return false;
                         break;
                     case CustomRoles.Puppeteer:
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;

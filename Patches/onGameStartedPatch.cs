@@ -30,7 +30,6 @@ namespace TownOfHost
             Main.AfterMeetingDeathPlayers = new();
             Main.ResetCamPlayerList = new();
 
-            Main.SpelledPlayer = new Dictionary<byte, PlayerControl>();
             Main.CheckShapeshift = new Dictionary<byte, bool>();
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();
@@ -103,6 +102,7 @@ namespace TownOfHost
             Sniper.Init();
             TimeThief.Init();
             Mare.Init();
+            Witch.Init();
             SabotageMaster.Init();
             Egoist.Init();
             Executioner.Init();
@@ -197,7 +197,6 @@ namespace TownOfHost
             //Utils.ApplySuffix();
 
             var rand = IRandom.Instance;
-            Main.KillOrSpell = new Dictionary<byte, bool>();
 
             List<PlayerControl> Crewmates = new();
             List<PlayerControl> Impostors = new();
@@ -323,7 +322,6 @@ namespace TownOfHost
                 }
 
                 HudManager.Instance.SetHudActive(true);
-                Main.KillOrSpell = new Dictionary<byte, bool>();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
@@ -336,7 +334,7 @@ namespace TownOfHost
                             SerialKiller.Add(pc.PlayerId);
                             break;
                         case CustomRoles.Witch:
-                            Main.KillOrSpell.Add(pc.PlayerId, false);
+                            Witch.Add(pc.PlayerId);
                             break;
                         case CustomRoles.Warlock:
                             Main.CursedPlayers.Add(pc.PlayerId, null);
