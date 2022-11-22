@@ -235,8 +235,11 @@ namespace TownOfHost
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]
     class SetHudActivePatch
     {
+        public static bool IsActive = false;
         public static void Postfix(HudManager __instance, [HarmonyArgument(0)] bool isActive)
         {
+            IsActive = isActive;
+
             var player = PlayerControl.LocalPlayer;
             switch (player.GetCustomRole())
             {
