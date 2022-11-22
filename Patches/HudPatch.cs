@@ -239,6 +239,7 @@ namespace TownOfHost
         public static void Postfix(HudManager __instance, [HarmonyArgument(0)] bool isActive)
         {
             IsActive = isActive;
+            if (!isActive) return;
 
             var player = PlayerControl.LocalPlayer;
             switch (player.GetCustomRole())
