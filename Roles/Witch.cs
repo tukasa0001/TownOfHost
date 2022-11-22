@@ -108,7 +108,7 @@ namespace TownOfHost
             {
                 SpellMode[playerId] = !SpellMode[playerId];
                 SendRPC(false, playerId);
-                Utils.NotifyRoles();
+                Utils.NotifyRoles(SpecifySeer:Utils.GetPlayerById(playerId));
             }
         }
         public static bool HaveSpelledPlayer()
