@@ -23,6 +23,7 @@ namespace TownOfHost
         {
             playerIdList = new();
             SpellMode = new();
+            SpelledPlayer = new();
         }
         public static void Add(byte playerId)
         {
