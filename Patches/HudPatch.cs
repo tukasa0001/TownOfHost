@@ -48,124 +48,126 @@ namespace TownOfHost
 
             Utils.CountAliveImpostors();
 
-            //MOD入り用のボタン下テキスト変更
-            switch (player.GetCustomRole())
-            {
-                case CustomRoles.Sniper:
-                    __instance.AbilityButton.OverrideText(Sniper.OverrideShapeText(player.PlayerId));
-                    break;
-                case CustomRoles.FireWorks:
-                    if (FireWorks.nowFireWorksCount[player.PlayerId] == 0)
-                        __instance.AbilityButton.OverrideText($"{GetString("FireWorksExplosionButtonText")}");
-                    else
-                        __instance.AbilityButton.OverrideText($"{GetString("FireWorksInstallAtionButtonText")}");
-                    break;
-                case CustomRoles.SerialKiller:
-                    SerialKiller.GetAbilityButtonText(__instance);
-                    break;
-                case CustomRoles.Warlock:
-                    if (!Main.CheckShapeshift[player.PlayerId] && !Main.isCurseAndKill[player.PlayerId])
-                    {
-                        __instance.KillButton.OverrideText($"{GetString("WarlockCurseButtonText")}");
-                    }
-                    else
-                    {
-                        __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
-                    }
-                    break;
-                case CustomRoles.Witch:
-                    if (player.IsSpellMode())
-                    {
-                        __instance.KillButton.OverrideText($"{GetString("WitchSpellButtonText")}");
-                    }
-                    else
-                    {
-                        __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
-                    }
-                    break;
-                case CustomRoles.Vampire:
-                    __instance.KillButton.OverrideText($"{GetString("VampireBiteButtonText")}");
-                    break;
-                case CustomRoles.Arsonist:
-                    __instance.KillButton.OverrideText($"{GetString("ArsonistDouseButtonText")}");
-                    break;
-                case CustomRoles.Puppeteer:
-                    __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
-                    break;
-                case CustomRoles.BountyHunter:
-                    BountyHunter.GetAbilityButtonText(__instance);
-                    break;
-                case CustomRoles.EvilTracker:
-                    EvilTracker.GetAbilityButtonText(__instance, player.PlayerId);
-                    break;
-            }
+            if (SetHudActivePatch.IsActive)
+            {//MOD入り用のボタン下テキスト変更
+                switch (player.GetCustomRole())
+                {
+                    case CustomRoles.Sniper:
+                        __instance.AbilityButton.OverrideText(Sniper.OverrideShapeText(player.PlayerId));
+                        break;
+                    case CustomRoles.FireWorks:
+                        if (FireWorks.nowFireWorksCount[player.PlayerId] == 0)
+                            __instance.AbilityButton.OverrideText($"{GetString("FireWorksExplosionButtonText")}");
+                        else
+                            __instance.AbilityButton.OverrideText($"{GetString("FireWorksInstallAtionButtonText")}");
+                        break;
+                    case CustomRoles.SerialKiller:
+                        SerialKiller.GetAbilityButtonText(__instance);
+                        break;
+                    case CustomRoles.Warlock:
+                        if (!Main.CheckShapeshift[player.PlayerId] && !Main.isCurseAndKill[player.PlayerId])
+                        {
+                            __instance.KillButton.OverrideText($"{GetString("WarlockCurseButtonText")}");
+                        }
+                        else
+                        {
+                            __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
+                        }
+                        break;
+                    case CustomRoles.Witch:
+                        if (player.IsSpellMode())
+                        {
+                            __instance.KillButton.OverrideText($"{GetString("WitchSpellButtonText")}");
+                        }
+                        else
+                        {
+                            __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
+                        }
+                        break;
+                    case CustomRoles.Vampire:
+                        __instance.KillButton.OverrideText($"{GetString("VampireBiteButtonText")}");
+                        break;
+                    case CustomRoles.Arsonist:
+                        __instance.KillButton.OverrideText($"{GetString("ArsonistDouseButtonText")}");
+                        break;
+                    case CustomRoles.Puppeteer:
+                        __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
+                        break;
+                    case CustomRoles.BountyHunter:
+                        BountyHunter.GetAbilityButtonText(__instance);
+                        break;
+                    case CustomRoles.EvilTracker:
+                        EvilTracker.GetAbilityButtonText(__instance, player.PlayerId);
+                        break;
+                }
 
-            //バウンティハンターのターゲットテキスト
-            if (LowerInfoText == null)
-            {
-                LowerInfoText = UnityEngine.Object.Instantiate(__instance.KillButton.buttonLabelText);
-                LowerInfoText.transform.parent = __instance.transform;
-                LowerInfoText.transform.localPosition = new Vector3(0, -2f, 0);
-                LowerInfoText.alignment = TMPro.TextAlignmentOptions.Center;
-                LowerInfoText.overflowMode = TMPro.TextOverflowModes.Overflow;
-                LowerInfoText.enableWordWrapping = false;
-                LowerInfoText.color = Palette.EnabledColor;
-                LowerInfoText.fontSizeMin = 2.0f;
-                LowerInfoText.fontSizeMax = 2.0f;
-            }
+                //バウンティハンターのターゲットテキスト
+                if (LowerInfoText == null)
+                {
+                    LowerInfoText = UnityEngine.Object.Instantiate(__instance.KillButton.buttonLabelText);
+                    LowerInfoText.transform.parent = __instance.transform;
+                    LowerInfoText.transform.localPosition = new Vector3(0, -2f, 0);
+                    LowerInfoText.alignment = TMPro.TextAlignmentOptions.Center;
+                    LowerInfoText.overflowMode = TMPro.TextOverflowModes.Overflow;
+                    LowerInfoText.enableWordWrapping = false;
+                    LowerInfoText.color = Palette.EnabledColor;
+                    LowerInfoText.fontSizeMin = 2.0f;
+                    LowerInfoText.fontSizeMax = 2.0f;
+                }
 
-            if (player.Is(CustomRoles.BountyHunter)) BountyHunter.DisplayTarget(player, LowerInfoText);
-            else if (player.Is(CustomRoles.Witch))
-            {
-                //魔女用処理
-                var ModeLang = player.IsSpellMode() ? "WitchModeSpell" : "WitchModeKill";
-                LowerInfoText.text = GetString("WitchCurrentMode") + ":" + GetString(ModeLang);
-                LowerInfoText.enabled = true;
-            }
-            else if (player.Is(CustomRoles.FireWorks))
-            {
-                var stateText = FireWorks.GetStateText(player);
-                LowerInfoText.text = stateText;
-                LowerInfoText.enabled = true;
-            }
-            else
-            {
-                LowerInfoText.enabled = false;
-            }
-            if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
-            {
-                LowerInfoText.enabled = false;
-            }
+                if (player.Is(CustomRoles.BountyHunter)) BountyHunter.DisplayTarget(player, LowerInfoText);
+                else if (player.Is(CustomRoles.Witch))
+                {
+                    //魔女用処理
+                    var ModeLang = player.IsSpellMode() ? "WitchModeSpell" : "WitchModeKill";
+                    LowerInfoText.text = GetString("WitchCurrentMode") + ":" + GetString(ModeLang);
+                    LowerInfoText.enabled = true;
+                }
+                else if (player.Is(CustomRoles.FireWorks))
+                {
+                    var stateText = FireWorks.GetStateText(player);
+                    LowerInfoText.text = stateText;
+                    LowerInfoText.enabled = true;
+                }
+                else
+                {
+                    LowerInfoText.enabled = false;
+                }
+                if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
+                {
+                    LowerInfoText.enabled = false;
+                }
 
-            if (!player.GetCustomRole().IsVanilla())
-            {
-                var RoleWithInfo = $"{player.GetRoleName()}\r\n";
-                RoleWithInfo += player.GetRoleInfo();
-                TaskTextPrefix = Utils.ColorString(player.GetRoleColor(), RoleWithInfo);
-            }
-            if (player.CanUseKillButton())
-            {
-                __instance.KillButton.ToggleVisible(player.IsAlive() && GameStates.IsInTask);
-            }
-            else
-            {
-                __instance.KillButton.SetDisabled();
-                __instance.KillButton.ToggleVisible(false);
-            }
-            switch (player.GetCustomRole())
-            {
-                case CustomRoles.Madmate:
-                case CustomRoles.SKMadmate:
-                case CustomRoles.Jester:
-                    TaskTextPrefix += FakeTasksText;
-                    break;
-                case CustomRoles.Sheriff:
-                case CustomRoles.Arsonist:
-                case CustomRoles.Jackal:
-                    player.CanUseImpostorVent();
-                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
-                        player.Data.Role.CanUseKillButton = true;
-                    break;
+                if (!player.GetCustomRole().IsVanilla())
+                {
+                    var RoleWithInfo = $"{player.GetRoleName()}\r\n";
+                    RoleWithInfo += player.GetRoleInfo();
+                    TaskTextPrefix = Utils.ColorString(player.GetRoleColor(), RoleWithInfo);
+                }
+                if (player.CanUseKillButton())
+                {
+                    __instance.KillButton.ToggleVisible(player.IsAlive() && GameStates.IsInTask);
+                }
+                else
+                {
+                    __instance.KillButton.SetDisabled();
+                    __instance.KillButton.ToggleVisible(false);
+                }
+                switch (player.GetCustomRole())
+                {
+                    case CustomRoles.Madmate:
+                    case CustomRoles.SKMadmate:
+                    case CustomRoles.Jester:
+                        TaskTextPrefix += FakeTasksText;
+                        break;
+                    case CustomRoles.Sheriff:
+                    case CustomRoles.Arsonist:
+                    case CustomRoles.Jackal:
+                        player.CanUseImpostorVent();
+                        if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                            player.Data.Role.CanUseKillButton = true;
+                        break;
+                }
             }
 
             if (!__instance.TaskText.text.Contains(TaskTextPrefix)) __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
