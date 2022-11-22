@@ -120,6 +120,7 @@ AmongUs 版本: **2022.7.12**
 | [Warlock/术士](#Warlock术士)                     | [SpeedBooster/增速者](#SpeedBooster增速者)        |                                                      |
 | [Witch/女巫](#Witch女巫)                        | [Trapper/陷阱师](#Trapper陷阱师)                   |                                                      |
 | [Mafia/黑手党](#Mafia黑手党)                         |                                                  |                                                      |
+| [AntiAdminer/反管理人](#AntiAdminer反管理人)          |                                                  |                                                      |
 | [Madmate/叛徒](#Madmate叛徒)                     |                                                  |                                                      |
 | [MadGuardian/背叛的守卫](#MadGuardian背叛的守卫)      |                                                  |                                                      |
 | [MadSnitch/背叛的告密者](#MadSnitch背叛的告密者)      |                                                  |                                                      |
@@ -322,6 +323,17 @@ Kihi的想法
 女巫可以轮流执行杀戮或施法。<br>
 会议前被女巫拼写的玩家在会议中被标记为“十字架”，除非放逐女巫，否则他们都会在会议结束后死亡。<br>
 
+
+### AntiAdminer/反管理人
+
+阵营 : 内鬼阵营<br>
+基础 : 内鬼<br>
+
+我可以告诉如果有人在管理地图，门日志，或重要设备的前面时。<br>
+但它不知道这个人是否真的在使用设备。<br>
+| 名称                  |
+| --------------------- |
+| 可以检查摄像头       |
 
 
 ### Mafia/黑手党
