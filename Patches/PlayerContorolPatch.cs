@@ -1023,7 +1023,7 @@ namespace TownOfHost
             }
             if(pc.Is(CustomRoles.Witch))
             {
-                Witch.SwitchSpellMode(pc.PlayerId, false);
+                Witch.OnEnterVent(pc.PlayerId);
             }
         }
     }
