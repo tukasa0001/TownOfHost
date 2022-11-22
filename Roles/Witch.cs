@@ -94,65 +94,48 @@ namespace TownOfHost
         }
         public static void SwitchSpellMode(byte playerId, bool kill)
         {
-            bool flag = false;
+            bool needSwitch = false;
             switch (NowSwitchTrigger)
             {
                 case SwitchTrigger.Kill:
-                    flag = kill;
+                    needSwitch = kill;
                     break;
                 case SwitchTrigger.Vent:
-                    flag = !kill;
+                    needSwitch = !kill;
                     break;
             }
-            if (flag)
+            if (needSwitch)
             {
                 SpellMode[playerId] = !SpellMode[playerId];
                 SendRPC(false, playerId);
-                Utils.NotifyRoles(SpecifySeer:Utils.GetPlayerById(playerId));
+                Utils.NotifyRoles(SpecifySeer: Utils.GetPlayerById(playerId));
             }
         }
         public static bool HaveSpelledPlayer()
         {
-            if (!IsEnable())
-            {
-                return false;
-            }
-
-            var spelled = false;
             foreach (var witch in playerIdList)
             {
                 if (SpelledPlayer[witch].Count != 0)
                 {
-                    spelled = true;
+                    return true;
                 }
             }
-            return spelled;
+            return false;
 
         }
         public static bool IsSpelled(byte target)
         {
-            if (!IsEnable())
-            {
-                return false;
-            }
-
-            var spelled = false;
             foreach (var witch in playerIdList)
             {
                 if (SpelledPlayer[witch].Contains(target))
                 {
-                    spelled = true;
+                    return true;
                 }
             }
-            return spelled;
+            return false;
         }
         public static void RemoveSpelledPlayer()
         {
-            if (!IsEnable())
-            {
-                return;
-            }
-
             foreach (var witch in playerIdList)
             {
                 SpelledPlayer[witch].Clear();
@@ -161,36 +144,40 @@ namespace TownOfHost
         }
         public static bool OnCheckMurder(PlayerControl killer, PlayerControl target)
         {
-            var ret = false;
             if (!IsSpellMode(killer.PlayerId))
             {
+                SwitchSpellMode(killer.PlayerId, true);
                 //キルモードなら通常処理に戻る
-                ret = true;
+                return true;
             }
-            else if (!IsSpelled(target.PlayerId))
+
+            if (!IsSpelled(target.PlayerId))
             {
+                //キルクールの適正化
                 Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
-                killer.CustomSyncSettings();//キルクール処理を同期
+                killer.CustomSyncSettings();
                 killer.RpcGuardAndKill(target);
+
                 SpelledPlayer[killer.PlayerId].Add(target.PlayerId);
                 SendRPC(true, killer.PlayerId, target.PlayerId);
             }
+            //スペルに失敗してもスイッチ判定
             SwitchSpellMode(killer.PlayerId, true);
-            return ret;
+            //キル処理終了させる
+            return false;
         }
         public static void OnCheckForEndVoting(byte exiled)
         {
-            if (playerIdList.Contains(exiled))
-            {
-                SpelledPlayer[exiled].Clear();
-            }
             foreach (var witch in playerIdList)
             {
-                foreach (var spelled in SpelledPlayer[witch])
+                if (witch != exiled)
                 {
-                    if (!Main.PlayerStates[spelled].IsDead)
+                    foreach (var spelled in SpelledPlayer[witch])
                     {
-                        Main.AfterMeetingDeathPlayers.TryAdd(spelled, PlayerState.DeathReason.Spell);
+                        if (!Main.PlayerStates[spelled].IsDead)
+                        {
+                            Main.AfterMeetingDeathPlayers.TryAdd(spelled, PlayerState.DeathReason.Spell);
+                        }
                     }
                 }
                 SendRPC(true, witch);
@@ -222,7 +209,7 @@ namespace TownOfHost
         }
         public static void GetAbilityButtonText(HudManager hud)
         {
-            if (Witch.IsSpellMode(PlayerControl.LocalPlayer.PlayerId))
+            if (IsSpellMode(PlayerControl.LocalPlayer.PlayerId))
             {
                 hud.KillButton.OverrideText($"{GetString("WitchSpellButtonText")}");
             }
