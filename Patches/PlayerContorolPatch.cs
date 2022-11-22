@@ -1021,6 +1021,10 @@ namespace TownOfHost
                     pc?.ReportDeadBody(null);
                 }
             }
+            if(pc.Is(CustomRoles.Witch))
+            {
+                Witch.SwitchSpellMode(pc.PlayerId, false);
+            }
         }
     }
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoEnterVent))]

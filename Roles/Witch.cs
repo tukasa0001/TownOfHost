@@ -9,15 +9,28 @@ namespace TownOfHost
 {
     public static class Witch
     {
+        public enum SwitchTrigger
+        {
+            Kill = 0,
+            Vent = 1,
+        };
+        public static readonly string[] SwitchTriggerText =
+        {
+            "TriggerKill", "TriggerVent",
+        };
+
         private static readonly int Id = 1500;
         public static List<byte> playerIdList = new();
 
         public static Dictionary<byte, bool> SpellMode = new();
         public static Dictionary<byte, List<byte>> SpelledPlayer = new();
 
+        public static OptionItem ModeSwitchAction;
+        public static SwitchTrigger NowSwitchTrigger;
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Witch);
+            ModeSwitchAction = OptionItem.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "WitchModeSwitchAction", SwitchTriggerText, SwitchTriggerText[0], Options.CustomRoleSpawnChances[CustomRoles.Witch]);
         }
         public static void Init()
         {
@@ -30,6 +43,7 @@ namespace TownOfHost
             playerIdList.Add(playerId);
             SpellMode.Add(playerId, false);
             SpelledPlayer.Add(playerId, new());
+            NowSwitchTrigger = (SwitchTrigger)ModeSwitchAction.GetSelection();
         }
         public static bool IsEnable()
         {
@@ -81,7 +95,22 @@ namespace TownOfHost
         }
         public static void SwitchSpellMode(byte playerId, bool kill)
         {
-            SpellMode[playerId] = !SpellMode[playerId];
+            bool flag = false;
+            switch (NowSwitchTrigger)
+            {
+                case SwitchTrigger.Kill:
+                    flag = kill;
+                    break;
+                case SwitchTrigger.Vent:
+                    flag = !kill;
+                    break;
+            }
+            if (flag)
+            {
+                SpellMode[playerId] = !SpellMode[playerId];
+                SendRPC(false, playerId);
+                Utils.NotifyRoles();
+            }
         }
         public static bool HaveSpelledPlayer()
         {
@@ -141,13 +170,13 @@ namespace TownOfHost
             }
             else if (!IsSpelled(target.PlayerId))
             {
+                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
+                killer.CustomSyncSettings();//キルクール処理を同期
                 killer.RpcGuardAndKill(target);
                 SpelledPlayer[killer.PlayerId].Add(target.PlayerId);
                 SendRPC(true, killer.PlayerId, target.PlayerId);
             }
             SwitchSpellMode(killer.PlayerId, true);
-            SendRPC(false, killer.PlayerId);
-            Utils.NotifyRoles();
             return ret;
         }
         public static void OnCheckForEndVoting(byte exiled)
@@ -160,16 +189,21 @@ namespace TownOfHost
             {
                 foreach (var spelled in SpelledPlayer[witch])
                 {
-                    Main.AfterMeetingDeathPlayers.TryAdd(spelled, PlayerState.DeathReason.Spell);
+                    if (!Main.PlayerStates[spelled].IsDead)
+                    {
+                        Main.AfterMeetingDeathPlayers.TryAdd(spelled, PlayerState.DeathReason.Spell);
+                    }
                 }
                 SendRPC(true, witch);
                 SpelledPlayer[witch].Clear();
             }
         }
-        public static void FixedUpdate(PlayerControl player)
+        public static void OnEnterVent(byte playerId)
         {
-            if (!player.Is(CustomRoles.BountyHunter)) return; //以下、バウンティハンターのみ実行
-
+            if (NowSwitchTrigger is SwitchTrigger.Vent)
+            {
+                SwitchSpellMode(playerId, false);
+            }
         }
         public static string GetSpellModeText(PlayerControl witch, bool hud)
         {
@@ -187,15 +221,15 @@ namespace TownOfHost
             str.Append(IsSpellMode(witch.PlayerId) ? GetString("WitchModeSpell") : GetString("WitchModeKill"));
             return str.ToString();
         }
-        public static void GetAbilityButtonText(HudManager __instance)
+        public static void GetAbilityButtonText(HudManager hud)
         {
             if (Witch.IsSpellMode(PlayerControl.LocalPlayer.PlayerId))
             {
-                __instance.KillButton.OverrideText($"{GetString("WitchSpellButtonText")}");
+                hud.KillButton.OverrideText($"{GetString("WitchSpellButtonText")}");
             }
             else
             {
-                __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
+                hud.KillButton.OverrideText($"{GetString("KillButtonText")}");
             }
         }
     }
