@@ -366,9 +366,9 @@ The players spelled by Witches before a meeting are marked "cross" in the meetin
 
 #### Game Options
 
-| Name                  |           |
-| --------------------- | --------- |
-| モ"Mode Switch Action | Kill/Vent |
+| Name               |           |
+| ------------------ | --------- |
+| Mode Switch Action | Kill/Vent |
 
 ### Mafia
 
