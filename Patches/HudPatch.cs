@@ -40,6 +40,14 @@ namespace TownOfHost
                     player.Collider.offset = new Vector2(0f, -0.3636f);
                 }
             }
+            __instance.GameSettings.text = OptionShower.GetText();
+            __instance.GameSettings.fontSizeMin =
+            __instance.GameSettings.fontSizeMax = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || Main.ForceJapanese.Value) ? 1.05f : 1.2f;
+            //ゲーム中でなければ以下は実行されない
+            if (!AmongUsClient.Instance.IsGameStarted) return;
+
+            Utils.CountAliveImpostors();
+
             //MOD入り用のボタン下テキスト変更
             switch (player.GetCustomRole())
             {
@@ -91,14 +99,6 @@ namespace TownOfHost
                     EvilTracker.GetAbilityButtonText(__instance, player.PlayerId);
                     break;
             }
-
-            __instance.GameSettings.text = OptionShower.GetText();
-            __instance.GameSettings.fontSizeMin =
-            __instance.GameSettings.fontSizeMax = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || Main.ForceJapanese.Value) ? 1.05f : 1.2f;
-            //ゲーム中でなければ以下は実行されない
-            if (!AmongUsClient.Instance.IsGameStarted) return;
-
-            Utils.CountAliveImpostors();
 
             //バウンティハンターのターゲットテキスト
             if (LowerInfoText == null)
