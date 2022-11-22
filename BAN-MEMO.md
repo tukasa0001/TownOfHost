@@ -5,11 +5,9 @@
 - 他人を追放するRPC
 - 他人に成りすましてチャットを送るRPC
 - 他人を変身させるRPC
-
 # 多分送るとBANされるRPC
 - インポスター以外がキルを行うCheckMurderRPC
 - 守護天使以外がプレイヤーを守るCheckProtectRPC
-
 # 送ってもBANされないRPC
 - 他人の色を変えるRPC
 - インポスター以外がキルを行うMurderPlayerRPC
