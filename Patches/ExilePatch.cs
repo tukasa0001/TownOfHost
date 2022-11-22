@@ -108,7 +108,7 @@ namespace TownOfHost
                 player?.RpcExileV2();
                 if (x.Value == PlayerState.DeathReason.Suicide)
                     player?.SetRealKiller(player, true);
-                if (!AntiBlackout.OverrideExiledPlayer && player != null && Main.ResetCamPlayerList.Contains(x.Key))
+                if (!AntiBlackout.OverrideExiledPlayer && Main.ResetCamPlayerList.Contains(x.Key))
                     player?.ResetPlayerCam(7f);
                 if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.FollowingSuicide)
                     player?.ResetVotingTime();
