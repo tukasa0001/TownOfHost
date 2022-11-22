@@ -19,7 +19,6 @@ namespace TownOfHost
         SetBountyTarget,
         SetKillOrSpell,
         SetSheriffShotLimit,
-        SetTimeThiefKillCount,
         SetDousedPlayer,
         AddNameColorData,
         RemoveNameColorData,
@@ -32,6 +31,7 @@ namespace TownOfHost
         SendFireWorksState,
         SetCurrentDousingTarget,
         SetEvilTrackerTarget,
+        SetRealKiller,
     }
     public enum Sounds
     {
@@ -138,9 +138,6 @@ namespace TownOfHost
                 case CustomRPC.SetSheriffShotLimit:
                     Sheriff.ReceiveRPC(reader);
                     break;
-                case CustomRPC.SetTimeThiefKillCount:
-                    TimeThief.ReceiveRPC(reader);
-                    break;
                 case CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();
                     byte DousedId = reader.ReadByte();
@@ -194,6 +191,11 @@ namespace TownOfHost
                     byte TrackerId = reader.ReadByte();
                     int TargetId = reader.ReadInt32();
                     EvilTracker.RPCSetTarget(TrackerId, TargetId);
+                    break;
+                case CustomRPC.SetRealKiller:
+                    byte targetId = reader.ReadByte();
+                    byte killerId = reader.ReadByte();
+                    RPC.SetRealKiller(targetId, killerId);
                     break;
             }
         }
@@ -405,6 +407,18 @@ namespace TownOfHost
             }
         }
         public static void ResetCurrentDousingTarget(byte arsonistId) => SetCurrentDousingTarget(arsonistId, 255);
+        public static void SetRealKiller(byte targetId, byte killerId)
+        {
+            var state = Main.PlayerStates[targetId];
+            state.RealKiller.Item1 = DateTime.Now;
+            state.RealKiller.Item2 = killerId;
+
+            if (!AmongUsClient.Instance.AmHost) return;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetRealKiller, Hazel.SendOption.Reliable, -1);
+            writer.Write(targetId);
+            writer.Write(killerId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
     }
     [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpc))]
     class StartRpcPatch
