@@ -711,6 +711,20 @@ namespace TownOfHost
                 };
             return GetString($"{Prefix}{text}Info" + (InfoLong ? "Long" : ""));
         }
+        public static void SetRealKiller(this PlayerControl target, PlayerControl killer, bool NotOverRide = false)
+        {
+            var State = Main.PlayerStates[target.PlayerId];
+            if (State.deathReason == PlayerState.DeathReason.Sniped) //スナイパー対策
+                killer = Utils.GetPlayerById(Sniper.GetSniper(target.PlayerId));
+            if (State.RealKiller.Item1 != DateTime.MinValue && NotOverRide) return; //既に値がある場合上書きしない
+            byte killerId = killer == null ? byte.MaxValue : killer.PlayerId;
+            RPC.SetRealKiller(target.PlayerId, killerId);
+        }
+        public static PlayerControl GetRealKiller(this PlayerControl target)
+        {
+            var killerId = Main.PlayerStates[target.PlayerId].GetRealKiller();
+            return killerId == byte.MaxValue ? null : Utils.GetPlayerById(killerId);
+        }
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>

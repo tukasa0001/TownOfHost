@@ -285,6 +285,7 @@ namespace TownOfHost
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
             Main.PlayerStates[target.PlayerId].SetDead();
+            target.SetRealKiller(__instance, true); //既に追加されてたらスキップ
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
@@ -324,6 +325,7 @@ namespace TownOfHost
                         }
                         var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
                         PlayerControl targetw = min.Key;
+                        targetw.SetRealKiller(shapeshifter);
                         Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
                         cp.RpcMurderPlayerV2(targetw);//殺す
                         shapeshifter.RpcGuardAndKill(shapeshifter);
@@ -424,6 +426,7 @@ namespace TownOfHost
                 if (bitten != null && !bitten.Data.IsDead)
                 {
                     Main.PlayerStates[bitten.PlayerId].deathReason = PlayerState.DeathReason.Bite;
+                    bitten.SetRealKiller(Utils.GetPlayerById(vampireID));
                     //Protectは強制的にはがす
                     if (bitten.protectedByGuardian)
                         bitten.RpcMurderPlayer(bitten);
@@ -491,8 +494,9 @@ namespace TownOfHost
                             if (!bitten.Data.IsDead)
                             {
                                 Main.PlayerStates[bitten.PlayerId].deathReason = PlayerState.DeathReason.Bite;
-                                bitten.RpcMurderPlayer(bitten);
                                 var vampirePC = Utils.GetPlayerById(vampireID);
+                                bitten.SetRealKiller(vampirePC);
+                                bitten.RpcMurderPlayer(bitten);
                                 Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "Vampire");
                                 if (vampirePC.IsAlive())
                                 {
@@ -633,7 +637,9 @@ namespace TownOfHost
                             var KillRange = GameOptionsData.KillDistances[Mathf.Clamp(PlayerControl.GameOptions.KillDistance, 0, 2)];
                             if (min.Value <= KillRange && player.CanMove && target.CanMove)
                             {
-                                RPC.PlaySoundRPC(Main.PuppeteerList[player.PlayerId], Sounds.KillSound);
+                                var puppeteerId = Main.PuppeteerList[player.PlayerId];
+                                RPC.PlaySoundRPC(puppeteerId, Sounds.KillSound);
+                                target.SetRealKiller(Utils.GetPlayerById(puppeteerId));
                                 player.RpcMurderPlayer(target);
                                 Utils.CustomSyncAllSettings();
                                 Main.PuppeteerList.Remove(player.PlayerId);
@@ -1039,6 +1045,7 @@ namespace TownOfHost
                             if (pc != __instance.myPlayer)
                             {
                                 //生存者は焼殺
+                                pc.SetRealKiller(__instance.myPlayer);
                                 pc.RpcMurderPlayer(pc);
                                 Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Torched;
                                 Main.PlayerStates[pc.PlayerId].SetDead();

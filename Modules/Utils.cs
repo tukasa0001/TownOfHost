@@ -188,8 +188,18 @@ namespace TownOfHost
             return (RoleText, GetRoleColor(cRole));
         }
 
-        public static string GetVitalText(byte player) =>
-            Main.PlayerStates[player].IsDead ? GetString("DeathReason." + Main.PlayerStates[player].deathReason) : GetString("Alive");
+        public static string GetVitalText(byte playerId, bool RealKillerColor = false)
+        {
+            var state = Main.PlayerStates[playerId];
+            string deathReason = state.IsDead ? GetString("DeathReason." + state.deathReason) : GetString("Alive");
+            if (RealKillerColor)
+            {
+                var KillerId = state.GetRealKiller();
+                Color color = KillerId != byte.MaxValue ? Main.PlayerColors[KillerId] : GetRoleColor(CustomRoles.Doctor);
+                deathReason = ColorString(color, deathReason);
+            }
+            return deathReason;
+        }
         public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, CustomRoles hRole)
         {
             string text = "Invalid";
@@ -491,6 +501,7 @@ namespace TownOfHost
                 text += $"\n　 " + EndGamePatch.SummaryText[id].RemoveHtmlTags();
             }
             SendMessage(text, PlayerId);
+            SendMessage(EndGamePatch.KillLog, PlayerId);
         }
 
 
@@ -551,6 +562,7 @@ namespace TownOfHost
                     else if (!pc.Data.IsDead)
                     {
                         //生存者は爆死
+                        pc.SetRealKiller(Terrorist.Object);
                         pc.RpcMurderPlayer(pc);
                         Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
                         Main.PlayerStates[pc.PlayerId].SetDead();
