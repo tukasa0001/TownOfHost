@@ -31,8 +31,10 @@ namespace TownOfHost
         }
         public static bool IsEnable() => playerIdList.Count > 0;
         public static void ApplyKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown.GetFloat();
-        public static void ApplyGameOptions(GameOptionsData opt) => opt.RoleOptions.ShapeshifterCooldown = TimeLimit.GetFloat();
-
+        public static void ApplyGameOptions(GameOptionsData opt, PlayerControl pc)
+            => opt.RoleOptions.ShapeshifterCooldown = HasKilled(pc) ? TimeLimit.GetFloat() : 255f;
+        public static bool HasKilled(PlayerControl pc)
+            => pc.Is(CustomRoles.SerialKiller) && pc.IsAlive() && Main.PlayerStates[pc.PlayerId].GetKillCount(true) > 0;
         public static void OnCheckMurder(PlayerControl killer, bool isKilledSchrodingerCat = false)
         {
             if (killer.Is(CustomRoles.SerialKiller))
@@ -40,13 +42,13 @@ namespace TownOfHost
                 if (isKilledSchrodingerCat)
                 {
                     killer.RpcResetAbilityCooldown();
-                    SuicideTimer[killer.PlayerId] = 0f;
+                    SuicideTimer.Remove(killer.PlayerId);
                     return;
                 }
                 else
                 {
                     killer.RpcResetAbilityCooldown();
-                    SuicideTimer[killer.PlayerId] = 0f;
+                    SuicideTimer.Remove(killer.PlayerId);
                     Main.AllPlayerKillCooldown[killer.PlayerId] = KillCooldown.GetFloat();
                     killer.CustomSyncSettings();
                 }
@@ -58,23 +60,32 @@ namespace TownOfHost
         }
         public static void FixedUpdate(PlayerControl player)
         {
-            if (!player.Is(CustomRoles.SerialKiller)) return; //以下、シリアルキラーのみ実行
-
-            if (GameStates.IsInTask && SuicideTimer.ContainsKey(player.PlayerId))
+            if (!GameStates.IsInTask || !player.Is(CustomRoles.SerialKiller)) return; //以下、シリアルキラーのみ実行
+            if (!SuicideTimer.ContainsKey(player.PlayerId))
             {
-                if (!player.IsAlive())
-                    SuicideTimer.Remove(player.PlayerId);
-                else if (SuicideTimer[player.PlayerId] >= TimeLimit.GetFloat())
+                if (HasKilled(player))
                 {
-                    //自爆時間が来たとき
-                    Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Suicide;//死因：自爆
-                    player.RpcMurderPlayerV2(player);//自爆させる
+                    SuicideTimer[player.PlayerId] = 0f;
+                    player.RpcResetAbilityCooldown();
                 }
-                else
-                    SuicideTimer[player.PlayerId] += Time.fixedDeltaTime;//時間をカウント
+                return;
             }
+            if (!HasKilled(player))
+                SuicideTimer.Remove(player.PlayerId);
+            else if (SuicideTimer[player.PlayerId] >= TimeLimit.GetFloat())
+            {
+                //自爆時間が来たとき
+                Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Suicide;//死因：自爆
+                player.RpcMurderPlayerV2(player);//自爆させる
+            }
+            else
+                SuicideTimer[player.PlayerId] += Time.fixedDeltaTime;//時間をカウント
         }
-        public static void GetAbilityButtonText(HudManager __instance) => __instance.AbilityButton.OverrideText($"{GetString("SerialKillerSuicideButtonText")}");
+        public static void GetAbilityButtonText(HudManager __instance, PlayerControl pc)
+        {
+            __instance.AbilityButton.ToggleVisible(pc.IsAlive() && HasKilled(pc));
+            __instance.AbilityButton.OverrideText($"{GetString("SerialKillerSuicideButtonText")}");
+        }
         public static void AfterMeetingTasks()
         {
             foreach (var id in playerIdList)
