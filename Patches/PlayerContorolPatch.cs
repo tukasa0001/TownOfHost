@@ -710,6 +710,8 @@ namespace TownOfHost
                 }
                 if (GameStates.IsInTask && player == PlayerControl.LocalPlayer)
                     DisableDevice.FixedUpdate();
+                if (GameStates.IsInTask && player == PlayerControl.LocalPlayer)
+                    AntiAdminer.FixedUpdate();
 
                 if (GameStates.IsInGame && Main.RefixCooldownDelay <= 0)
                     foreach (var pc in PlayerControl.AllPlayerControls)
@@ -936,7 +938,19 @@ namespace TownOfHost
                         }
                     }
                     if (GameStates.IsInTask && target.Is(CustomRoles.EvilTracker)) Suffix += EvilTracker.PCGetTargetArrow(seer, target);
-
+                    
+                    if (seer.Is(CustomRoles.AntiAdminer))
+                    {
+                        AntiAdminer.FixedUpdate();
+                        if (target.AmOwner)
+                        {
+                            if (AntiAdminer.IsAdminWatch) Suffix += "★" + GetString("AntiAdminerAD");
+                            if (AntiAdminer.IsVitalWatch) Suffix += "★" + GetString("AntiAdminerVI");
+                            if (AntiAdminer.IsDoorLogWatch) Suffix += "★" + GetString("AntiAdminerDL");
+                            if (AntiAdminer.IsCameraWatch) Suffix += "★" + GetString("AntiAdminerCA");
+                        }
+                    }
+                    
                     /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(target.PlayerId, out var isBlocked)) {
                         Mark = isBlocked ? "(true)" : "(false)";
                     }*/
