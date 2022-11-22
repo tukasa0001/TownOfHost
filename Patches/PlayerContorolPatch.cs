@@ -95,55 +95,11 @@ namespace TownOfHost
             }
 
             //キル可能判定
-            if (killer.PlayerId != target.PlayerId)
+            if (killer.PlayerId != target.PlayerId && !killer.CanUseKillButton())
             {
-                //自殺でない場合のみ役職チェック
-                switch (killer.GetCustomRole())
-                {
-                    //==========インポスター役職==========//
-                    case CustomRoles.Mafia:
-                        if (!killer.CanUseKillButton())
-                        {
-                            Logger.Info(killer?.Data?.PlayerName + "はMafiaだったので、キルはキャンセルされました。", "CheckMurder");
-                            return false;
-                        }
-                        else
-                        {
-                            Logger.Info(killer?.Data?.PlayerName + "はMafiaですが、他のインポスターがいないのでキルが許可されました。", "CheckMurder");
-                        }
-                        break;
-                    case CustomRoles.FireWorks:
-                        if (!killer.CanUseKillButton())
-                        {
-                            return false;
-                        }
-                        break;
-                    case CustomRoles.Sniper:
-                        if (!killer.CanUseKillButton())
-                        {
-                            return false;
-                        }
-                        break;
-                    case CustomRoles.Mare:
-                        if (!killer.CanUseKillButton())
-                            return false;
-                        break;
-
-                    //==========マッドメイト系役職==========//
-                    case CustomRoles.SKMadmate:
-                        //キル可能職がサイドキックされた場合
-                        return false;
-
-                    //==========第三陣営役職==========//
-
-                    //==========クルー役職==========//
-                    case CustomRoles.Sheriff:
-                        if (!Sheriff.CanUseKillButton(killer.PlayerId))
-                            return false;
-                        break;
-                }
+                Logger.Info(killer.GetNameWithRole() + "はKillできないので、キルはキャンセルされました。", "CheckMurder");
+                return false;
             }
-
 
             //キルされた時の特殊判定
             switch (target.GetCustomRole())

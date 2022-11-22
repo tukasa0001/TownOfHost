@@ -504,18 +504,16 @@ namespace TownOfHost
         }
         public static bool CanUseKillButton(this PlayerControl pc)
         {
-            bool canUse =
-                pc.GetCustomRole().IsImpostor() ||
-                pc.Is(CustomRoles.Arsonist);
-
             return pc.GetCustomRole() switch
             {
-                CustomRoles.Mafia => Utils.CanMafiaKill() && canUse,
-                CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
                 CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
+                CustomRoles.Mafia => Utils.CanMafiaKill(),
+                CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
                 CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
-                _ => canUse,
+                CustomRoles.Arsonist => !pc.IsDouseDone(),
+                CustomRoles.Jackal => true,
+                _ => pc.Is(RoleType.Impostor),
             };
         }
         public static bool IsLastImpostor(this PlayerControl pc)
@@ -699,7 +697,7 @@ namespace TownOfHost
                 switch (role)
                 {
                     case CustomRoles.Mafia:
-                        Prefix = player.CanUseKillButton() ? "After" : "Before";
+                        Prefix = Utils.CanMafiaKill() ? "After" : "Before";
                         break;
                     case CustomRoles.EvilWatcher:
                     case CustomRoles.NiceWatcher:
