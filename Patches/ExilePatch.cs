@@ -85,7 +85,7 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost && Main.IsFixedCooldown)
                 Main.RefixCooldownDelay = Options.DefaultKillCooldown - 3f;
 
-            Witch.RemoveDeathSpelledPlayer();
+            Witch.RemoveSpelledPlayer();
 
             foreach (var pc in PlayerControl.AllPlayerControls)
             {

@@ -59,7 +59,14 @@ namespace TownOfHost
             {
                 var witch = reader.ReadByte();
                 var spelledId = reader.ReadByte();
-                SpelledPlayer[witch].Add(spelledId);
+                if (spelledId != 255)
+                {
+                    SpelledPlayer[witch].Add(spelledId);
+                }
+                else
+                {
+                    SpelledPlayer[witch].Clear();
+                }
             }
             else
             {
@@ -110,7 +117,7 @@ namespace TownOfHost
             }
             return spelled;
         }
-        public static void RemoveDeathSpelledPlayer()
+        public static void RemoveSpelledPlayer()
         {
             if (!IsEnable())
             {
@@ -119,11 +126,8 @@ namespace TownOfHost
 
             foreach (var witch in playerIdList)
             {
-                foreach (var spelled in SpelledPlayer[witch])
-                {
-                    if (Main.PlayerStates[spelled].IsDead)
-                        SpelledPlayer[witch].Remove(spelled);
-                }
+                SpelledPlayer[witch].Clear();
+                SendRPC(true, witch);
             }
         }
         public static bool OnCheckMurder(PlayerControl killer, PlayerControl target)
@@ -157,6 +161,7 @@ namespace TownOfHost
                 {
                     Main.AfterMeetingDeathPlayers.TryAdd(spelled, PlayerState.DeathReason.Spell);
                 }
+                SendRPC(true, witch);
                 SpelledPlayer[witch].Clear();
             }
         }
