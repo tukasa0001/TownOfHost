@@ -685,6 +685,13 @@ namespace TownOfHost
                 {
                     SelfSuffix = seer.IsSpellMode() ? "Mode:" + GetString("WitchModeSpell") : "Mode:" + GetString("WitchModeKill");
                 }
+                if (seer.Is(CustomRoles.AntiAdminer))
+                {
+                    if (AntiAdminer.IsAdminWatch)   SelfSuffix += "★" + GetString("AntiAdminerAD");
+                    if (AntiAdminer.IsVitalWatch)   SelfSuffix += "★" + GetString("AntiAdminerVI");
+                    if (AntiAdminer.IsDoorLogWatch) SelfSuffix += "★" + GetString("AntiAdminerDL");
+                    if (AntiAdminer.IsCameraWatch)  SelfSuffix += "★" + GetString("AntiAdminerCA");
+                }
 
                 //他人用の変数定義
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
