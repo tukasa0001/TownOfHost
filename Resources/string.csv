@@ -1,91 +1,12 @@
 id,0,11,13,14,5
 ## Translators
 #5  RusTranslation: Tommy-XL
-#13 SChinese:fivefirex&ZeMingOH233  2T&MC-AS-Huier&xiaojin xyjx001(Edit: Tanakanira) (TOH_Y)Among Us
+#13 SChinese:fivefirex&ZeMingOH233  2T&MC-AS-Huier&xiaojin xyjx001(Edit: Tanakanira)
 #14 TChinese: NetherDragon_Tw (Edit: Soukunsandesu)
 
 ## 役職
 Neutral,Neutral,第三陣営,中立阵营,中立陣營,Нейтрал
 SubRole,Sub Role,サブ役職,附加职业,附加職業,Доп Роль
-
-# TOH_Y役職
-Evilneko,Evilnekomata,イビル猫又,双尾妖猫,
-AntiAdminer,AntiAdminer,アンチアドミナー,反管理人,
-MadDictator,MadDictator,マッドディクテーター,背叛的独裁者,
-MadNatureCalls,MadNatureCalls,マッドネイチャコール,背叛的自然呼声,
-Bakery,Bakery,パン屋,面包店,
-Hunter,Hunter,ハンター,猎人,
-TaskManager,TaskManager,タスマネ,任务管理器,
-Nekomata,Nekomata,猫又,双尾怪猫,
-Express,Express,エクスプレス,邮递员,
-Chairman,Chairman,チェアマン,总裁,
-SeeingOff,SeeingOff,見送り人,送行者,
-Rainbow,<size=4><color=#ffff00>★</color></size><color=#ff0000>R</color><color=#ffa500>a</color><color=#ffff00>i</color><color=#00ff00>n</color><color=#00ffff>b</color><color=#0000ff>o</color><color=#800080>w</color><size=4><color=#ffff00>★</color></size>,<size=4><color=#ffff00>★</color></size><color=#ff0000>に</color><color=#ffa500>じ</color><color=#ffff00>い</color><color=#00ff00>ろ</color><color=#00ffff>ス</color><color=#0000ff>タ</color><color=#800080>ー</color><size=4><color=#ffff00>★</color></size>,<size=4><color=#ffff00>★</color></size><color=#ff0000>彩<color=#0000ff></color><color=#800080>虹</color><size=4><color=#ffff00>★</color></size>,
-HelpRoleNameRainbow,★Rainbow★,★にじいろスター★,★彩虹★,
-RainbowColor,Rainbow,レインボー,彩虹色,
-AntiComplete,AntiComplete,アンチコンプリート,防完成,
-Workaholic,Workaholic,ワーカホリック,工作狂,
-
-# TOH_Y役職説明ショート
-EvilnekoInfo,Let's get someone on the road,誰かを道連れにしよう,让我们在路上找一些人吧,
-AntiAdminerInfo,I wish Admin would just go away,アドミンなんてなくなればいい,我希望管理员能离开,
-MadDictatorInfo,Help the Impostors,インポスターの援助をしよう,帮助内鬼,
-MadNatureCallsInfo,Help the Impostors,インポスターの援助をしよう,帮助内鬼,
-BakeryInfo,Let's bring bread to everyone,みんなにパンを届けよう,让我们给所有人面包吧,
-NekomataInfo,I'll be exiled with someone else,人外まで道連れしたい,我将和别人一起被放逐,
-ExpressInfo,Let's run around comfortably,気持ちよく駆け回ろう,让我们舒服的奔跑吧,
-SeeingOffInfo,Is the outcast an imposter?,追放者はインポスターかな
-HunterInfo,Let's kill the suspicious person,怪しい人を斬ろう,让我们杀死可疑的人,
-ChairmanInfo,Manipulate conference openings and closings,会議開閉を操ろう,操纵会议的开场和结束,
-TaskManagerInfo,Let's keep an eye on the number of tasks,タスクの数を見張ろう,让我们来关注一下任务的数量,
-RainbowInfo,You are rainbow,<color=#ff0000>あ</color><color=#ffa500>な</color><color=#ffff00>た</color><color=#00ff00>は</color><color=#00ffff>ま</color><color=#0000ff>ぶ</color><color=#800080>し</color><color=#ff0000>い</color><color=#ffa500>存</color><color=#ffff00>在</color>,你是彩虹,
-AntiCompleteInfo,I hate guys who can work,仕事出来るやつが嫌いだ,我讨厌可以工作的人,
-WorkaholicInfo,I can't live without my job,仕事してないと生きてられない,我不能离开我的工作,
-
-# TOH_Y役職説明ロング
-EvilnekoInfoLong,(Impostors)\nWhen he is hanged, he takes one random person other than the imposter with him. (When the next discussion starts after he is hanged, he will be marked with an "X" without a corpse direction.),[インポスター陣営]\n自身が吊られた際、インポスター以外のランダムな1人を道連れにする。(吊られた次の議論開始時に死体演出無しで×マークが付く)
-AntiAdminerInfoLong,(Impostors)\nI can tell if someone is in front of the Admin, Door Log, or Vital equipment. It does not know if the person is actually using the equipment.,[インポスター陣営]\nアドミン・ドアログ・バイタル機器の前に人がいるか分かる。実際に機器を使用しているかは分からない。
-MadDictatorInfoLong,(Impostors/Madmates)\nCrew but takes the side of the Imposter. Unrecognizable to the Imposter and to each other. No tasks. \nIf you vote for someone during the meeting, you can force the meeting to end and hang the person you voted for. He himself dies at the same time he votes.,[インポスター陣営]:\nクルーだがインポスターの味方をする。インポスターと互いに認識できない。タスクはない。\n会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができる。投票したタイミングで自身も死ぬ。
-MadNatureCallsInfoLong,(Impostors/Madmates)\nCrew but takes the side of the Imposter. Unrecognizable to the Imposter and each other. Can use venting, no tasks. \nThe effect is only activated during airship. Each time you enter a vent, four lounge toilet doors open at the same time.,[インポスター陣営]:\nクルーだがインポスターの味方をする。インポスターと互いに認識できない。ベントが使え、タスクはない。\nエアシップの時のみ効果を発動する。ベントに入る度ラウンジトイレのドアが4つ同時に開く。
-BakeryInfoLong,(Crewmates)\nWhile the baker is alive, comments about the baker are played at the beginning of the meeting.,[クルー陣営]\n生存中、会議はじめにパン屋についてのコメントが流れる。レアコメントあり。
-NekomataInfoLong,(Crewmates)\nWhen he is hanged, he takes one random person with him. (When the next discussion starts after he is hanged, he will be marked with an "X" without a corpse.),[クルー陣営]\n自身が吊られた際、ランダムな1人を道連れにする。(吊られた次の議論開始時に死体演出無しで×マークが付く)
-ExpressInfoLong,(Crewmates)\nIt is just fast. From other viewpoints, they appear to be the same speed and out-of-sync warp. (Specification),[クルー陣営]\nただ足が速い。他視点からは同じスピードで同期ズレワープのように見える。(仕様)
-SeeingOffInfoLong,(Crewmates)\nThe banishment confirmation is turned on only by itself. You will know if the person you have banished is an imposter or not.,[クルー陣営]\n追放確認が自身だけオンになる。追放した人がインポスターかそうでないかがわかる。
-HunterInfoLong,(Crewmates)\nCan be killed against anyone. The number of kills in parentheses () are possible. It is only a crewmates, so think about the timing. No task.,[クルー陣営]\n誰に向かってでもキルできる。()内回数キル可能。あくまでクルー陣営なのでタイミングは考えよう。タスクはもっていない。
-ChairmanInfoLong,(Crewmates)\nWhen you enter a vent, you can open a meeting. During sabotage, entering a vent does not open a meeting. The vent button is consumed at the same time as the normal button count. (If you use the vent button first when you have one normal button count, you will not be able to use the normal button.) Voting for someone can immediately interrupt the meeting. You cannot vote normally except for skip/self-vote, which triggers the ability.,[クルー陣営]\n・ベントに入ると会議が開ける。サボタージュ中はベントに入っても会議を開けない。\n通常ボタン回数と同時に消費する。(通常ボタン回数1回の時、先にベントボタンを使うと、通常ボタンは使えなくなる。)\n・誰かに投票することでその会議を即中断できる(追放は起こらずスキップ扱い)。\nスキップ・自投票以外の普通の投票は出来ず、能力を発動してしまう。,
-TaskManagerInfoLong,(Crewmates)\nThe total number of tasks completed by all members is shown (in () next to the job title).,(タスクマネージャー)[クルー陣営]\n\n全員の合計タスク完了数が分かる(役職名横()にて)。
-RainbowInfoLong,(Crewmates)\nThe name of one's position is colorful. Also, the color of my body changes every second. You can tell that you are a Rainbow from all of you. The task count of oneself is invisible.,[クルー陣営]\n自分の役職名がカラフル。また、自分の体の色が1秒ごとに変わる。自分の全員から自分がにじいろスターだということが分かる。自身のタスクカウントは見えない。
-AntiCompleteInfoLong,(Neutrals)\nDuring the meeting, you can vote for your favorite person only once in the entire meeting. If that person has already completed the task, he or she wins alone. If you select someone who has no task or who has not completed a task, you die and lose. When the AntiComplete selects someone, the meeting is forced to end.,[第三陣営]\n会議中、全体で1回のみ好きな人を投票で選択出来る。その人がタスクを既に完了させていたら単独勝利。タスクがない人、タスクが終わってない人を選ぶと死亡し敗北。\nアンチコンプが誰か選択した時、会議は強制終了する。
-WorkaholicInfoLong,(Neutrals)\nWhen you complete a task, you win alone. The amount of tasks is very large. Even if you die, you win when you finish the task. Vent is possible.,[第三陣営]\nタスクを完了させた時、単独勝利。タスク量はとても多い。死亡しても関係なく、タスクが終わると勝利。霊界からでも終わらそう。ベント可。
-
-# TOH_Y役職詳細
-MadmateTakeCompanion,Madmate Take a Companion,マッド系役職追放時にクルーを道連れ,叛徒带着同伴,
-HunterShotLimit,Number Of Shots,キル可能回数,最大执法次数,最大子彈數量,Количество Выстрелов,子弹数,
-Parentheses,Parenthesis display of usage count,可能回数の括弧表示,括号内显示使用数量,
-TaskmanagerSeeNowtask,Watch now all task count,会議時以外でもタスク数が見える,现在观看所有的任务计数,
-WorkaholicSeen,Can see who the workaholics are from everyone,全員視点からワーカホリックがわかる,可以从每个人身上看到谁是工作狂,
-WorkaholicTasks,Workaholic Tasks,ワーカホリックのタスク数,工作狂任务数,
-VentCooldown,Vent Cooldown,ベントクールダウン,钻管冷却,
-TakeCompanionOther,Can take companion Neutrals,猫又系役職が第三陣営を道連れ出来る,可以接受同伴为中立,
-TakeCompanionChain,Take companion chain,猫又系役職の道連れ連鎖,路边连锁的双尾怪猫类型的位置。,
-TakeCompanionMad,Can take companion Madmates,マッド系役職を道連れ出来る,可以看到叛徒的任务数,
-CanCheckCamera,Can check camera,カメラの人も検知出来る,可以检查摄像头,
-NumOfUseButton,Number Of Emergency Button,ボタンの使用可能回数,选择进行投票的最大次数,隨時拍桌最大次數,Количество Портативных Кнопок
-
-PanAlive,【The bakery is alive.】\n\nBread was served by the bakery.,【パン屋生存中】\n\nパン屋によってパンが振る舞われました。,【面包师仍然存活.】\n\n面包店提供了面包。,
-PanAlive1,【The bakery is alive.】\n\nBread was served by the bakery.,【パン屋生存中】\n\nパン屋はクロワッサンが大好物らしい。,【面包师仍然存活.】\n\n面包店提供了面包。,
-PanAlive2,【The bakery is alive.】\n\nBread was served by the bakery.,【パン屋生存中】\n\nパン屋がInstagramで広告を出し始めた。,【面包师仍然存活.】\n\n面包店提供了面包。,
-PanAlive3,【The bakery is alive.】\n\nBread was served by the bakery.,【パン屋生存中】\n\nパン屋がパン焦がした。くさい。,【面包师仍然存活.】\n\n面包店提供了面包。,
-PanAlive4,【The bakery is alive.】\n\nBread was served by the bakery.,【パン屋生存中】\n\nパン屋は大盛況。30分待ちの列ができた。,【面包师仍然存活.】\n\n面包店提供了面包。,
-PanAlive5,【The bakery is alive.】\n\nBread was served by the bakery.,【パン屋生存中】\n\nパン屋、ついに海外進出。,【面包师仍然存活.】\n\n面包店提供了面包。,
-PanAlive6,【The bakery is alive.】\n\nBread was served by the bakery.,【パン屋生存中】\n\nパン屋が小麦粉ぶちまけた。まっしろけ。,【面包师仍然存活.】\n\n面包店提供了面包。,
-PanAlive7,【The bakery is alive.】\n\nBread was served by the bakery.,【パン屋生存中】\n\nパーリーピーポーパンヤイェイハッピーパラダイス!!,【面包师仍然存活.】\n\n面包店提供了面包。,
-PanAlive8,【The bakery is alive.】\n\nBread was served by the bakery.,【パン屋生存中】\n\nパン屋が米屋を招待。\n炊き立てご飯が振る舞われました。,【面包师仍然存活.】\n\n面包店提供了面包。,
-AntiAdminerAD,Warning Admin,アドミン注意！,管理室地图注意,
-AntiAdminerVI,Warning Vital,バイタル注意！,生命检测仪注意,
-AntiAdminerDL,Warning DoorLog,ドアログ注意！,日志注意,
-AntiAdminerCA,Warning Camera,カメラ注意！,摄像头注意,
-
 
 # バニラ役職
 Crewmate,Crewmate,クルーメイト,船员,船員,Член Экипажа
@@ -110,6 +31,7 @@ Puppeteer,Puppeteer,パペッティア,傀儡师,傀儡師,Puppeteer
 TimeThief,TimeThief,タイムシーフ,蚀时者,時間小偷,TimeThief
 Sniper,Sniper,スナイパー,狙击手,狙擊手,Sniper
 EvilTracker,EvilTracker,イビルトラッカー,邪恶的追踪者,,EvilTracker
+AntiAdminer,AntiAdminer,アンチアドミナー,反管理人,
 
 # マッドメイト系役職
 Madmate,Madmate,マッドメイト,叛徒,叛徒,Madmate
@@ -185,6 +107,7 @@ TimeThiefInfo,Kill the Crewmates to steal discussion time,敵を殺し、会議�
 SniperInfo,Shoot the Crewmates in the distance,狙い撃つぜ,瞄准敌人，射击！,讓你的敵人在你的狙擊下死亡,Стреляйте в Членов Экипажа на расстоянии
 LastImpostorInfo,You are the last one,残ったのはあなただけ,你是最后的希望…,你是狼村最後的希望...,Ты остался последний
 EvilTrackerInfo,Track Players,プレイヤーを追跡しろ,追杀其他玩家,,Отслеживайте Игроков
+AntiAdminerInfo,I wish Admin would just go away,アドミンなんてなくなればいい,我希望管理员能离开,,
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう,帮助内鬼,幫助狼人,Помогите Предателям
@@ -247,7 +170,7 @@ PuppeteerInfoLong,"(Impostors):\nThey can perform secondhand kills but cannot ki
 TimeThiefInfoLong,"(Impostors):\nEvery kill cuts down discussion and voting time in meeting.\nDepending on option, the lost time is returned after they die.",(インポスター陣営):\nキルを行うと会議時間が減少する。\nタイムシーフが追放または殺害されると、失われた会議時間が返ってきます。,(内鬼阵营):\n蚀时者每击杀一个人，会议持续时间将减少一定时间。\n如果蚀时者死亡，被偷取的时间的会议时间会返还。,"(狼人陣營):\n時間小偷每次殺人將會減少會議時間\n如果時間小偷被丟出或被殺死,減少的會議時間將會回來","(Предатель):\nКаждое его убийство сокращает время обсуждения и голосования на собраниях.\nВ зависимости от настроек потерянное время возвращается после того как он будет убит или изгнан."
 SniperInfoLong,(Impostors):\nSniper can shoot players so far away.\nthey kill a player on the extension line from Shapeshift point to release point.\nYou can perform normal kills after all bullets run out.,(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。,(内鬼阵营):\n狙击手拥有远距离射杀的能力。\n方法为：变形的位置及解除变形位置的连线及其延长线上的一名玩家将被射杀。\n在狙击手的子弹耗尽前，狙击手无法进行常规击杀。",(狼人陣營):\n狙擊遠處的敵人\n子彈將從變形處延伸到取消變形處並往直線前進並殺死在這條線上非狼人陣營的人\n狙擊手無法正常殺人在狙擊手用光子彈前。","(Предатель):\nSniper может стрелять в игроков на расстоянии.\nОн убивает игрока который находится с ним на одной линии, от точки Морфа до точки возвращения в свой облик.\nОн можете совершать обычные убийства после того, как все его патроны закончатся."
 EvilTrackerInfoLong,"(Impostors):\nEvilTracker can track others.\nThey can see arrows toward Impostors and the one whom they Shapeshift to.\nThey know when allies take kills with kill flash.",(インポスター陣営):\n他人の位置が分かるインポスター。\n味方のインポスターとシェイプシフトで選んだ一人の位置が矢印で表示される。\n味方インポスターのキルによるキルフラッシュも見える。,(内鬼阵营):\n邪恶追踪者可以追踪其他内鬼以及其所变形的玩家。\n玩家名称下面的箭头代表着目标的方向。\n当内鬼队友杀人时，邪恶追踪者将会看到击杀闪烁提示。,,"(Предатель):\nEvilTracker может отслеживать других игроков.\nОн может видеть стрелки которые указывают на Предателей или на того, в кого они Морфятся.\nОн знает когда Предатели совершают убийства с помощью вспышки убийства."
-
+AntiAdminerInfoLong,"(Impostors)\nI can tell if someone is in front of the Admin，Door Log，or Vital equipment. It does not know if the person is actually using the equipment.",[インポスター陣営]\nアドミン・ドアログ・バイタル機器の前に人がいるか分かる。実際に機器を使用しているかは分からない。,(内鬼阵营)\n我可以告诉如果有人在管理地图，门日志，或重要设备的前面时。但它不知道这个人是否真的在使用设备。,,
 
 # マッドメイト系役職
 MadmateInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, but they don't know who are Impostors.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。,(内鬼阵营):\n叛徒不可以击杀或者破坏，可以跳管道。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人無法知道叛徒是誰,\n他可以跳洞且沒有任務。","(Предатель):\nЧлен экипажа, но он принадлежат к команде Предателя, но он не знает кто является Предателем.\nНеузнаваемы друг для друга. Может использовать вентиляцию, но нет заданий."
@@ -257,7 +180,7 @@ SKMadmateInfoLong,(Impostors):\nThe SidekickMadmate is an acquired Madmate Role 
 
 # 両陣営可能役職
 WatcherInfoLong,(Impostors or Crewmates):\nThe Watchers can see colored votes regardless of anonymous votes.,(インポスターorクルーメイト陣営):\n全員の投票先を見ることができる。,(内鬼阵营或船员阵营):\n会议时窥视者可以看到所有人的投票。,(狼人或船員):\n會議時觀察者可以看到所有人的投票。,(Предатель или Член Экипажа):\nWatcher может видеть все цвета голосов несмотря на анонимное голосвоание.
-EvilWatcherInfoLong,(Impostors):\nThe Watchers can see colored votes regardless of anonymous votes.,(インポスター陣営):\n全員の投票先を見ることができる。,(内鬼阵营:\n会议时窥视者可以看到所有人的投票。,(狼人):\n會議時觀察者可以看到所有人的投票。,(Предатель):\nWatcher может видеть все цвета голосов несмотря на анонимное голосвоание.
+EvilWatcherInfoLong,(Impostors):\nThe Watchers can see colored votes regardless of anonymous votes.,(インポスター陣営):\n全員の投票先を見ることができる。,(内鬼阵营:\n会议时窥视者可以看到所有人的投票。,(狼人):\n會議時觀察者可以е голосвоание.
 NiceWatcherInfoLong,(Crewmates):\nThe Watchers can see colored votes regardless of anonymous votes.,(クルーメイト陣営):\n全員の投票先を見ることができる。,(船员阵营:\n会议时窥视者可以看到所有人的投票。,(船員):\n會議時觀察者可以看到所有人的投票。,(Экипажа):\nWatcher может видеть все цвета голосов несмотря на анонимное голосвоание.
 
 # 特殊クルー役職
@@ -446,6 +369,7 @@ TimeThiefReturnStolenTimeUponDeath,Return Stolen Time After Death,死亡後に�
 EvilTrackerCanSeeKillFlash,EvilTracker Can See The Flash Of Impostor Kills,インポスターキル時にフラッシュが見える,当内鬼进行击杀时邪恶的追踪者可以看到闪光,,EvilTracker Может Видеть Вспышку Убийства Предатлелей
 EvilTrackerResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,会議後に再度ターゲットを設定できる,会议后重置邪恶的追踪者追踪目标,,EvilTracker Может Сбросить Цель После Встречи
 KillFlashDuration,Kill Flash Duration(s),キルフラッシュの長さ(秒),击杀闪烁持续时间,,Длительность Вспышки Убийсва
+CanCheckCamera,Can check camera,カメラの人も検知出来る,可以检查摄像头,,
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定,Настройки Пряток
@@ -603,4 +527,7 @@ All,All,すべて,全部,全部,Все
 Archive,Archive,アーカイブ,文件,檔案,Архив
 DisabledBySettings,Disabled by setting,設定で無効化されています,已在设置被中禁用,在設定中被禁用,Отключено настройкой
 Disabled,Disabled,無効,,,Неполноценный
-
+AntiAdminerAD,Warning Admin,アドミン注意！,管理室地图注意,,
+AntiAdminerVI,Warning Vital,バイタル注意！,生命检测仪注意,,
+AntiAdminerDL,Warning DoorLog,ドアログ注意！,日志注意,,
+AntiAdminerCA,Warning Camera,カメラ注意！,摄像头注意,,
