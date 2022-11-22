@@ -31,7 +31,6 @@ Puppeteer,Puppeteer,パペッティア,傀儡师,傀儡師,Puppeteer
 TimeThief,TimeThief,タイムシーフ,蚀时者,時間小偷,TimeThief
 Sniper,Sniper,スナイパー,狙击手,狙擊手,Sniper
 EvilTracker,EvilTracker,イビルトラッカー,邪恶的追踪者,,EvilTracker
-AntiAdminer,AntiAdminer,アンチアドミナー,反管理人,
 
 # マッドメイト系役職
 Madmate,Madmate,マッドメイト,叛徒,叛徒,Madmate
@@ -62,10 +61,10 @@ Jester,Jester,ジェスター,小丑,小丑,Jester
 Terrorist,Terrorist,テロリスト,恐怖分子,恐怖分子,Terrorist
 Executioner,Executioner,エクスキューショナー,处刑人,劊子手,Executioner
 SchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓,SchrodingerCat
-CSchrodingerCat,(Crew)SCat,(Crew)シュレ猫,(船员)薛定谔的猫,(船員)薛定諤的貓,(Crew)SCat
-MSchrodingerCat,(Impo)SCat,(Impo)シュレ猫,(内鬼)薛定谔的猫,(偽裝)薛定諤的貓,(Impo)SCat
-EgoSchrodingerCat,(Ego)SCat,(Ego)シュレ猫,(野心)薛定谔的猫,(利己主義)薛定諤的貓,(Ego)SCat
-JSchrodingerCat,(Jack)SCat,(Jack)シュレ猫,(豺狼)薛定谔的猫,(豺狼)薛定諤的貓,(Jack)SCat
+CSchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓,SchrodingerCat
+MSchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓,SchrodingerCat
+EgoSchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓,SchrodingerCat
+JSchrodingerCat,SchrodingerCat,シュレディンガーの猫,薛定谔的猫,薛定諤的貓,SchrodingerCat
 Opportunist,Opportunist,オポチュニスト,投机者,投機主義者,Opportunist
 Egoist,Egoist,エゴイスト,野心家,利己主義者,Egoist
 Lovers,Lovers,恋人,恋人,戀人,Lovers
@@ -76,7 +75,7 @@ HASFox,Fox,狐,狐狸,狐妖,Fox
 HASTroll,Troll,トロール,猎人,誘捕者,Troll
 
 # GM
-GM,GM,ゲームマスター,GM(管理员),GM(遊戲大師),GM(Призрак)
+GM,GM,GM,GM(管理员),GM(遊戲大師),GM(Призрак)
 
 # 属性
 LastImpostor,Last Impostor,ラストインポスター,绝境者,絕境者,Последний Предатель
@@ -107,7 +106,6 @@ TimeThiefInfo,Kill the Crewmates to steal discussion time,敵を殺し、会議�
 SniperInfo,Shoot the Crewmates in the distance,狙い撃つぜ,瞄准敌人，射击！,讓你的敵人在你的狙擊下死亡,Стреляйте в Членов Экипажа на расстоянии
 LastImpostorInfo,You are the last one,残ったのはあなただけ,你是最后的希望…,你是狼村最後的希望...,Ты остался последний
 EvilTrackerInfo,Track Players,プレイヤーを追跡しろ,追杀其他玩家,,Отслеживайте Игроков
-AntiAdminerInfo,I wish Admin would just go away,アドミンなんてなくなればいい,我希望管理员能离开,,
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう,帮助内鬼,幫助狼人,Помогите Предателям
@@ -170,7 +168,7 @@ PuppeteerInfoLong,"(Impostors):\nThey can perform secondhand kills but cannot ki
 TimeThiefInfoLong,"(Impostors):\nEvery kill cuts down discussion and voting time in meeting.\nDepending on option, the lost time is returned after they die.",(インポスター陣営):\nキルを行うと会議時間が減少する。\nタイムシーフが追放または殺害されると、失われた会議時間が返ってきます。,(内鬼阵营):\n蚀时者每击杀一个人，会议持续时间将减少一定时间。\n如果蚀时者死亡，被偷取的时间的会议时间会返还。,"(狼人陣營):\n時間小偷每次殺人將會減少會議時間\n如果時間小偷被丟出或被殺死,減少的會議時間將會回來","(Предатель):\nКаждое его убийство сокращает время обсуждения и голосования на собраниях.\nВ зависимости от настроек потерянное время возвращается после того как он будет убит или изгнан."
 SniperInfoLong,(Impostors):\nSniper can shoot players so far away.\nthey kill a player on the extension line from Shapeshift point to release point.\nYou can perform normal kills after all bullets run out.,(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。,(内鬼阵营):\n狙击手拥有远距离射杀的能力。\n方法为：变形的位置及解除变形位置的连线及其延长线上的一名玩家将被射杀。\n在狙击手的子弹耗尽前，狙击手无法进行常规击杀。",(狼人陣營):\n狙擊遠處的敵人\n子彈將從變形處延伸到取消變形處並往直線前進並殺死在這條線上非狼人陣營的人\n狙擊手無法正常殺人在狙擊手用光子彈前。","(Предатель):\nSniper может стрелять в игроков на расстоянии.\nОн убивает игрока который находится с ним на одной линии, от точки Морфа до точки возвращения в свой облик.\nОн можете совершать обычные убийства после того, как все его патроны закончатся."
 EvilTrackerInfoLong,"(Impostors):\nEvilTracker can track others.\nThey can see arrows toward Impostors and the one whom they Shapeshift to.\nThey know when allies take kills with kill flash.",(インポスター陣営):\n他人の位置が分かるインポスター。\n味方のインポスターとシェイプシフトで選んだ一人の位置が矢印で表示される。\n味方インポスターのキルによるキルフラッシュも見える。,(内鬼阵营):\n邪恶追踪者可以追踪其他内鬼以及其所变形的玩家。\n玩家名称下面的箭头代表着目标的方向。\n当内鬼队友杀人时，邪恶追踪者将会看到击杀闪烁提示。,,"(Предатель):\nEvilTracker может отслеживать других игроков.\nОн может видеть стрелки которые указывают на Предателей или на того, в кого они Морфятся.\nОн знает когда Предатели совершают убийства с помощью вспышки убийства."
-AntiAdminerInfoLong,"(Impostors)\nI can tell if someone is in front of the Admin，Door Log，or Vital equipment. It does not know if the person is actually using the equipment.",[インポスター陣営]\nアドミン・ドアログ・バイタル機器の前に人がいるか分かる。実際に機器を使用しているかは分からない。,(内鬼阵营)\n我可以告诉如果有人在管理地图，门日志，或重要设备的前面时。但它不知道这个人是否真的在使用设备。,,
+
 
 # マッドメイト系役職
 MadmateInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, but they don't know who are Impostors.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。,(内鬼阵营):\n叛徒不可以击杀或者破坏，可以跳管道。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人無法知道叛徒是誰,\n他可以跳洞且沒有任務。","(Предатель):\nЧлен экипажа, но он принадлежат к команде Предателя, но он не знает кто является Предателем.\nНеузнаваемы друг для друга. Может использовать вентиляцию, но нет заданий."
@@ -180,7 +178,7 @@ SKMadmateInfoLong,(Impostors):\nThe SidekickMadmate is an acquired Madmate Role 
 
 # 両陣営可能役職
 WatcherInfoLong,(Impostors or Crewmates):\nThe Watchers can see colored votes regardless of anonymous votes.,(インポスターorクルーメイト陣営):\n全員の投票先を見ることができる。,(内鬼阵营或船员阵营):\n会议时窥视者可以看到所有人的投票。,(狼人或船員):\n會議時觀察者可以看到所有人的投票。,(Предатель или Член Экипажа):\nWatcher может видеть все цвета голосов несмотря на анонимное голосвоание.
-EvilWatcherInfoLong,(Impostors):\nThe Watchers can see colored votes regardless of anonymous votes.,(インポスター陣営):\n全員の投票先を見ることができる。,(内鬼阵营:\n会议时窥视者可以看到所有人的投票。,(狼人):\n會議時觀察者可以е голосвоание.
+EvilWatcherInfoLong,(Impostors):\nThe Watchers can see colored votes regardless of anonymous votes.,(インポスター陣営):\n全員の投票先を見ることができる。,(内鬼阵营:\n会议时窥视者可以看到所有人的投票。,(狼人):\n會議時觀察者可以看到所有人的投票。,(Предатель):\nWatcher может видеть все цвета голосов несмотря на анонимное голосвоание.
 NiceWatcherInfoLong,(Crewmates):\nThe Watchers can see colored votes regardless of anonymous votes.,(クルーメイト陣営):\n全員の投票先を見ることができる。,(船员阵营:\n会议时窥视者可以看到所有人的投票。,(船員):\n會議時觀察者可以看到所有人的投票。,(Экипажа):\nWatcher может видеть все цвета голосов несмотря на анонимное голосвоание.
 
 # 特殊クルー役職
@@ -369,7 +367,6 @@ TimeThiefReturnStolenTimeUponDeath,Return Stolen Time After Death,死亡後に�
 EvilTrackerCanSeeKillFlash,EvilTracker Can See The Flash Of Impostor Kills,インポスターキル時にフラッシュが見える,当内鬼进行击杀时邪恶的追踪者可以看到闪光,,EvilTracker Может Видеть Вспышку Убийства Предатлелей
 EvilTrackerResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,会議後に再度ターゲットを設定できる,会议后重置邪恶的追踪者追踪目标,,EvilTracker Может Сбросить Цель После Встречи
 KillFlashDuration,Kill Flash Duration(s),キルフラッシュの長さ(秒),击杀闪烁持续时间,,Длительность Вспышки Убийсва
-CanCheckCamera,Can check camera,カメラの人も検知出来る,可以检查摄像头,,
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定,Настройки Пряток
@@ -394,9 +391,6 @@ DeathReason.Execution,Executed,処刑,处决,處刑,Казнен
 DeathReason.Disconnected,Disconnected,回線切断,断连,斷線,Отсоеденился
 DeathReason.Fall,Fall,転落,摔死,摔死,Упал
 DeathReason.etc,etc,その他,其他,其他,ТакДалее
-DeathReason.win,hit,的中,猜着
-DeathReason.Companion,Companion,道連れ,同归于尽
-DeathReason.WTaskFinish,TaskFinish,タスク完了,任务完成
 Alive,Alive,生存,存活,存活,Выжил
 Win," Wins",勝利,胜利,勝利,"Победил"
 Last,Last,ラスト,仅存,獨活,Последний
@@ -527,7 +521,4 @@ All,All,すべて,全部,全部,Все
 Archive,Archive,アーカイブ,文件,檔案,Архив
 DisabledBySettings,Disabled by setting,設定で無効化されています,已在设置被中禁用,在設定中被禁用,Отключено настройкой
 Disabled,Disabled,無効,,,Неполноценный
-AntiAdminerAD,Warning Admin,アドミン注意！,管理室地图注意,,
-AntiAdminerVI,Warning Vital,バイタル注意！,生命检测仪注意,,
-AntiAdminerDL,Warning DoorLog,ドアログ注意！,日志注意,,
-AntiAdminerCA,Warning Camera,カメラ注意！,摄像头注意,,
+
