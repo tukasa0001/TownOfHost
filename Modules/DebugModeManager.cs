@@ -23,8 +23,8 @@ namespace TownOfHost
 
         public static void Auth(HashAuth auth, string input)
         {
-            // AmDebugger = デバッグビルドである | デバッグキー認証が通った
-            AmDebugger |= auth.CheckString(input);
+            // AmDebugger = デバッグビルドである || デバッグキー認証が通った
+            AmDebugger = AmDebugger || auth.CheckString(input);
         }
         public static void SetupCustomOption()
         {
