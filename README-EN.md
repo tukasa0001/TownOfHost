@@ -154,6 +154,7 @@ You can also reload the translation by pressing key `T`+`F5`.
 | [Warlock](#Warlock)                 | [Snitch](#Snitch)                 |                                   |           |
 | [Witch](#Witch)                     | [SpeedBooster](#SpeedBooster)     |                                   |           |
 | [Mafia](#Mafia)                     | [Trapper](#Trapper)               |                                   |           |
+| [AntiAdminer](#AntiAdminer)         |                                   |                                   |           |
 | [Madmate](#Madmate)                 |                                   |                                   |           |
 | [MadGuardian](#MadGuardian)         |                                   |                                   |           |
 | [MadSnitch](#MadSnitch)             |                                   |                                   |           |
@@ -361,6 +362,17 @@ Basis : Impostor<br>
 
 The Witches can perform kills or spells by turns.<br>
 The players spelled by Witches before a meeting are marked "cross" in the meeting, and unless exiling Witches, They all die just after the meeting.<br>
+
+### AntiAdminer
+
+Team : Impostors<br>
+Basis : Impostor<br>
+
+AntiAdminer can tell if someone is in front of the Admin，Door Log，or Vital equipment. It does not know if the person is actually using the equipment.
+
+| Name                          |
+| ----------------------------- |
+| Can check camera              |
 
 ### Mafia
 
