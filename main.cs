@@ -157,6 +157,7 @@ namespace TownOfHost
             NameColorManager.Begin();
             CustomWinnerHolder.Reset();
             Translator.Init();
+            BanManager.Init();
 
             IRandom.SetInstance(new NetRandomWrapper());
 
