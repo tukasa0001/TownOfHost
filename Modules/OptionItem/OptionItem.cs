@@ -119,6 +119,31 @@ namespace TownOfHost
             if (ValueFormat == OptionFormat.None) return value;
             return string.Format(Translator.GetString("Format." + ValueFormat), value);
         }
+
+        // 外部からの操作
+        public virtual void Refresh()
+        {
+            if (OptionBehaviour is not null and StringOption opt)
+            {
+                opt.TitleText.text = GetName();
+                opt.ValueText.text = GetString();
+                opt.oldValue = opt.Value = CurrentValue;
+            }
+        }
+        public virtual void SetValue(int value)
+        {
+            int beforeValue = CurrentEntry.Value;
+            int afterValue = CurrentEntry.Value = value;
+
+            CallUpdateValueEvent(beforeValue, afterValue);
+            Refresh();
+        }
+
+        // 演算子オーバーロード
+        public static OptionItem operator ++(OptionItem item)
+            => item.Do(item => item.SetValue(item.CurrentValue + 1));
+        public static OptionItem operator --(OptionItem item)
+            => item.Do(item => item.SetValue(item.CurrentValue - 1));
         // EventArgs
         private void CallUpdateValueEvent(int beforeValue, int currentValue)
         {
