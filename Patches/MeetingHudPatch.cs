@@ -32,6 +32,7 @@ namespace TownOfHost
                         }}, voteTarget.Data, false); //RPC
                         Logger.Info($"{voteTarget.GetNameWithRole()}を追放", "Dictator");
                         Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
+                        voteTarget.SetRealKiller(pc);
                         return true;
                     }
                 }
@@ -148,7 +149,11 @@ namespace TownOfHost
                             exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => info.PlayerId == exileId);
                             break;
                         case TieMode.All:
-                            VotingData.DoIf(x => x.Key < 15 && x.Value == max, x => Main.AfterMeetingDeathPlayers.Add(x.Key, PlayerState.DeathReason.Vote));
+                            VotingData.DoIf(x => x.Key < 15 && x.Value == max, x =>
+                            {
+                                Main.AfterMeetingDeathPlayers.Add(x.Key, PlayerState.DeathReason.Vote);
+                                Utils.GetPlayerById(x.Key).SetRealKiller(null);
+                            });
                             exiledPlayer = null;
                             break;
                         case TieMode.Random:
@@ -159,6 +164,8 @@ namespace TownOfHost
                 }
                 else
                     exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
+                if (exiledPlayer != null)
+                    exiledPlayer.Object.SetRealKiller(null);
 
                 //RPC
                 if (AntiBlackout.OverrideExiledPlayer)
@@ -174,8 +181,12 @@ namespace TownOfHost
                         if (Main.SpelledPlayer.TryGetValue(pc.PlayerId, out var killer) && killer == which)
                             Main.SpelledPlayer.Remove(pc.PlayerId);
                 }
-                foreach (var sp in Main.SpelledPlayer.Keys)
-                    Main.AfterMeetingDeathPlayers.TryAdd(sp, PlayerState.DeathReason.Spell);
+                foreach (var kvp in Main.SpelledPlayer)
+                {
+                    if (Utils.GetPlayerById(kvp.Key) == null) continue;
+                    Main.AfterMeetingDeathPlayers.TryAdd(kvp.Key, PlayerState.DeathReason.Spell);
+                    Utils.GetPlayerById(kvp.Key).SetRealKiller(kvp.Value);
+                }
                 Main.SpelledPlayer.Clear();
 
 

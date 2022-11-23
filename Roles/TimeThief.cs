@@ -8,7 +8,6 @@ namespace TownOfHost
     {
         static readonly int Id = 2400;
         static List<byte> playerIdList = new();
-        public static Dictionary<byte, int> TimeThiefKillCount = new();
         public static OptionItem KillCooldown;
         public static OptionItem DecreaseMeetingTime;
         public static OptionItem LowerLimitVotingTime;
@@ -23,47 +22,23 @@ namespace TownOfHost
         }
         public static void Init()
         {
-            TimeThiefKillCount = new();
             playerIdList = new();
         }
         public static void Add(byte playerId)
         {
             playerIdList.Add(playerId);
-            TimeThiefKillCount[playerId] = 0;
-            Utils.GetPlayerById(playerId)?.RpcSetKillCount();
         }
         public static bool IsEnable() => playerIdList.Count > 0;
-        public static void ReceiveRPC(MessageReader msg)
-        {
-            byte TimeThiefId = msg.ReadByte();
-            int TimeThiefKillCount = msg.ReadInt32();
-            if (TimeThief.TimeThiefKillCount.ContainsKey(TimeThiefId))
-                TimeThief.TimeThiefKillCount[TimeThiefId] = TimeThiefKillCount;
-            else
-                TimeThief.TimeThiefKillCount.Add(TimeThiefId, 0);
-            Logger.Info($"Player{TimeThiefId}:ReceiveRPC", "TimeThief");
-        }
-        public static void RpcSetKillCount(this PlayerControl player)
-        {
-            if (!AmongUsClient.Instance.AmHost) return;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTimeThiefKillCount, Hazel.SendOption.Reliable, -1);
-            writer.Write(player.PlayerId);
-            writer.Write(TimeThiefKillCount[player.PlayerId]);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
         public static void ResetVotingTime(this PlayerControl thief)
         {
             if (!ReturnStolenTimeUponDeath.GetBool()) return;
 
-            for (var i = 0; i < TimeThiefKillCount[thief.PlayerId]; i++)
+            for (var i = 0; i < Main.PlayerStates[thief.PlayerId].GetKillCount(true); i++)
                 Main.VotingTime += DecreaseMeetingTime.GetInt();
-            TimeThiefKillCount[thief.PlayerId] = 0; //初期化
         }
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown.GetFloat();
         public static void OnCheckMurder(PlayerControl killer)
         {
-            TimeThiefKillCount[killer.PlayerId]++;
-            killer.RpcSetKillCount();
             Main.DiscussionTime -= DecreaseMeetingTime.GetInt();
             if (Main.DiscussionTime < 0)
             {

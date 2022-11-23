@@ -188,8 +188,18 @@ namespace TownOfHost
             return (RoleText, GetRoleColor(cRole));
         }
 
-        public static string GetVitalText(byte player) =>
-            Main.PlayerStates[player].IsDead ? GetString("DeathReason." + Main.PlayerStates[player].deathReason) : GetString("Alive");
+        public static string GetVitalText(byte playerId, bool RealKillerColor = false)
+        {
+            var state = Main.PlayerStates[playerId];
+            string deathReason = state.IsDead ? GetString("DeathReason." + state.deathReason) : GetString("Alive");
+            if (RealKillerColor)
+            {
+                var KillerId = state.GetRealKiller();
+                Color color = KillerId != byte.MaxValue ? Main.PlayerColors[KillerId] : GetRoleColor(CustomRoles.Doctor);
+                deathReason = ColorString(color, deathReason);
+            }
+            return deathReason;
+        }
         public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, CustomRoles hRole)
         {
             string text = "Invalid";
@@ -396,7 +406,7 @@ namespace TownOfHost
                 }
                 foreach (var opt in OptionItem.Options.Where(x => x.Enabled && x.Parent == null && x.Id >= 80000 && !x.IsHiddenOn(Options.CurrentGameMode)))
                 {
-                    if (opt.Name == "KillFlashDuration")
+                    if (opt.Name is "KillFlashDuration" or "RoleAssigningAlgorithm")
                         text += $"\n【{opt.GetName(true)}: {opt.GetString()}】\n";
                     else
                         text += $"\n【{opt.GetName(true)}】\n";
@@ -491,6 +501,7 @@ namespace TownOfHost
                 text += $"\n　 " + EndGamePatch.SummaryText[id].RemoveHtmlTags();
             }
             SendMessage(text, PlayerId);
+            SendMessage(EndGamePatch.KillLog, PlayerId);
         }
 
 
@@ -551,6 +562,7 @@ namespace TownOfHost
                     else if (!pc.Data.IsDead)
                     {
                         //生存者は爆死
+                        pc.SetRealKiller(Terrorist.Object);
                         pc.RpcMurderPlayer(pc);
                         Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
                         Main.PlayerStates[pc.PlayerId].SetDead();
@@ -1064,6 +1076,41 @@ namespace TownOfHost
             float G = (color.g + Weight) / (Darkness + 1);
             float B = (color.b + Weight) / (Darkness + 1);
             return new Color(R, G, B, color.a);
+        }
+
+        /// <summary>
+        /// 乱数の簡易的なヒストグラムを取得する関数
+        /// <params name="nums">生成した乱数を格納したint配列</params>
+        /// <params name="scale">ヒストグラムの倍率 大量の乱数を扱う場合、この値を下げることをお勧めします。</params>
+        /// </summary>
+        public static string WriteRandomHistgram(int[] nums, float scale = 1.0f)
+        {
+            int[] countData = new int[nums.Max() + 1];
+            foreach (var num in nums)
+            {
+                if (0 <= num) countData[num]++;
+            }
+            StringBuilder sb = new();
+            for (int i = 0; i < countData.Length; i++)
+            {
+                // 倍率適用
+                countData[i] = (int)(countData[i] * scale);
+
+                // 行タイトル
+                sb.AppendFormat("{0:D2}", i).Append(" : ");
+
+                // ヒストグラム部分
+                for (int j = 0; j < countData[i]; j++)
+                    sb.Append('|');
+
+                // 改行
+                sb.Append('\n');
+            }
+
+            // その他の情報
+            sb.Append("最大数 - 最小数: ").Append(countData.Max() - countData.Min());
+
+            return sb.ToString();
         }
     }
 }

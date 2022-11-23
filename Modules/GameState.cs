@@ -13,6 +13,7 @@ namespace TownOfHost
         public DeathReason deathReason { get; set; }
         public TaskState taskState;
         public bool IsBlackOut { get; set; }
+        public (DateTime, byte) RealKiller;
         public PlayerState(byte playerId)
         {
             MainRole = CustomRoles.NotAssigned;
@@ -22,6 +23,7 @@ namespace TownOfHost
             deathReason = DeathReason.etc;
             taskState = new();
             IsBlackOut = false;
+            RealKiller = (DateTime.MinValue, byte.MaxValue);
         }
         public CustomRoles GetCustomRole()
         {
@@ -87,6 +89,16 @@ namespace TownOfHost
             Fall,
             etc = -1
         }
+        public byte GetRealKiller()
+            => IsDead && RealKiller.Item1 != DateTime.MinValue ? RealKiller.Item2 : byte.MaxValue;
+        public int GetKillCount(bool ExcludeSelfKill = false)
+        {
+            int count = 0;
+            foreach (var state in Main.PlayerStates.Values)
+                if (!(ExcludeSelfKill && state.PlayerId == PlayerId) && state.GetRealKiller() == PlayerId)
+                    count++;
+            return count;
+        }
     }
     public class TaskState
     {
@@ -126,7 +138,7 @@ namespace TownOfHost
             && (((CompletedTasksCount + 1) >= AllTasksCount) || (CompletedTasksCount + 1) >= Options.SpeedBoosterTaskTrigger.GetInt())
             && !Main.SpeedBoostTarget.ContainsKey(player.PlayerId))
             {   //ｽﾋﾟﾌﾞが生きていて、全タスク完了orトリガー数までタスクを完了していて、SpeedBoostTargetに登録済みでない場合
-                var rand = new System.Random();
+                var rand = IRandom.Instance;
                 List<PlayerControl> targetPlayers = new();
                 //切断者と死亡者を除外
                 foreach (PlayerControl p in PlayerControl.AllPlayerControls)
