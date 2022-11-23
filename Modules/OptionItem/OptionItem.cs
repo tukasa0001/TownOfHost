@@ -38,6 +38,26 @@ namespace TownOfHost
             }
         }
         private Dictionary<string, string> _replacementDictionary;
+
+        // 設定値情報 (オプションの値に関わる情報)
+        public int CurrentValue
+        {
+            get => GetValue();
+            set => SetValue(value);
+        }
+
+        // 親子情報
+        public OptionItem Parent { get; private set; }
+        public List<OptionItem> Children;
+
+        // 内部情報 (外部から参照することを想定していない情報)
+        public ConfigEntry<int> CurrentEntry =>
+            IsSingleValue ? singleEntry : AllConfigEntries[CurrentPreset];
+        private ConfigEntry<int>[] AllConfigEntries;
+        private ConfigEntry<int> singleEntry;
+
+
+        public OptionBehaviour OptionBehaviour;
     }
 
     public enum TabGroup
