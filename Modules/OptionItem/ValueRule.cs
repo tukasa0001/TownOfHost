@@ -28,5 +28,31 @@ namespace TownOfHost
         public abstract int GetNearestIndex(T num);
     }
 
+    public class IntegerValueRule : ValueRule<int>
+    {
+        public IntegerValueRule(int minValue, int maxValue, int step)
+        : base(minValue, maxValue, step) { }
+        public IntegerValueRule((int, int, int) tuple)
+        : base(tuple) { }
+
+        public static implicit operator IntegerValueRule((int, int, int) tuple)
+            => new(tuple);
+
+        public override int RepeatIndex(int value)
+        {
+            int MaxIndex = (MaxValue - MinValue) / Step;
+            value = value % (MaxIndex + 1);
+            if (value < 0) value = MaxIndex;
+            return value;
+        }
+
+        public override int GetValueByIndex(int index)
+            => RepeatIndex(index) * Step + MinValue;
+
+        public override int GetNearestIndex(int num)
+        {
+            return (int)Math.Round(num / (float)Step);
+        }
+    }
 
 }
