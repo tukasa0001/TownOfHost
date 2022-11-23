@@ -292,7 +292,7 @@ namespace TownOfHost
             Dictionary<string, string> replacementDic = null)
         {
 
-            var opt = StringOptionItem.Create(id, name, selections, defaultValue, tab, false)
+            var opt = StringOptionItem.Create(id, name, selections, defaultValue, tab, 1_000_000 <= id)
                 .SetColor(color)
                 .SetParent(parent)
                 .SetHeader(isHeader)
@@ -317,7 +317,7 @@ namespace TownOfHost
             OptionFormat format = OptionFormat.None,
             Dictionary<string, string> replacementDic = null)
         {
-            var opt = FloatOptionItem.Create(id, name, (min, max, step), defaultValue, tab, false)
+            var opt = FloatOptionItem.Create(id, name, (min, max, step), defaultValue, tab, 1_000_000 <= id)
                 .SetColor(color)
                 .SetParent(parent)
                 .SetHeader(isHeader)
@@ -339,7 +339,7 @@ namespace TownOfHost
             OptionFormat format = OptionFormat.None,
             Dictionary<string, string> replacementDic = null)
         {
-            var opt = BooleanOptionItem.Create(id, name, defaultValue, tab, false)
+            var opt = BooleanOptionItem.Create(id, name, defaultValue, tab, 1_000_000 <= id)
                 .SetColor(color)
                 .SetParent(parent)
                 .SetHeader(isHeader)
