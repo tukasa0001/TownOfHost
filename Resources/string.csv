@@ -447,6 +447,8 @@
 "Message.HideGameSettings","Game settings have been hidden by the host.","ゲーム設定はホストによって秘匿されています。","游戏设置被房主隐藏。","遊戲設定被房主隱藏。","Настройки игры скрыты хостом.",""
 "Message.AnnounceUsingTOH","This room uses TownOfHost v{0}.\n/now can be used to check the current settings.\nPlease check GitHub for detailed roles descriptions.","この部屋はTownOfHost v{0}を使用しています。\n/nowを使用すると現在の設定が確認できます。\n役職の詳細な説明はGitHubをご確認ください。","本房间使用TownOfHost mod v{0}。\n可以使用/now来查询当前设置。\n请前往本mod的Github页面来获取详细的职业信息。","","В этой комнате используется TownOfHost v{0}. Используйте  \n/now чтобы увидеть текущие настройки. \nПожалуйста посетите GitHub для получения подробного описания позиции.",""
 "Message.NoDescription","No description.","説明はありません。","无描述","","Описание отсутствует",""
+"Message.KickedByDenyName","{0} was kicked because its name matched ""{1}"".","{0}は名前が「{1}」に一致したためキックされました。","","","",""
+"Message.BanedByBanList","{0} has been banned because it has been banned in the past.","{0}は過去にBAN済みのためBANされました。","","","",""
 
 "## 警告"
 "Warning.EgoistCannotWin","Egoist cannot win","エゴイストが勝利できません","野心家无法获胜","利己主義者無法獲勝","Egoist не может победить!",""
