@@ -65,6 +65,54 @@ namespace TownOfHost
         // - 直接的な呼び出し
         public event EventHandler<UpdateValueEventArgs> UpdateValueEvent;
 
+        // コンストラクタ
+        public OptionItem(int id, string name, int defaultValue, TabGroup tab, bool isSingleValue)
+        {
+            // 必須情報の設定
+            Id = id;
+            Name = name;
+            DefaultValue = defaultValue;
+            Tab = tab;
+            IsSingleValue = isSingleValue;
+
+            // 任意情報の初期値設定
+            NameColor = Color.white;
+            ValueFormat = OptionFormat.None;
+            GameMode = CustomGameMode.All;
+            IsHeader = false;
+            IsHidden = false;
+
+            // オブジェクト初期化
+            Children = new();
+
+            int Preset = 0;
+
+            // ConfigEntry初期化
+            AllConfigEntries = new ConfigEntry<int>[5];
+            if (Id == 0)
+            {
+                singleEntry = Main.Instance.Config.Bind("Current Preset", id.ToString(), DefaultValue);
+                CurrentPreset = singleEntry.Value;
+            }
+            else if (IsSingleValue)
+            {
+                singleEntry = Main.Instance.Config.Bind("SingleEntryOptions", id.ToString(), DefaultValue);
+            }
+            else
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    AllConfigEntries[i] = Main.Instance.Config.Bind($"Preset{Preset}", id.ToString(), DefaultValue);
+                }
+            }
+
+            if (AllOptions.Any(op => op.Id == id))
+            {
+                Logger.Error($"ID:{id}が重複しています", "OptionItem");
+            }
+            _allOptions.Add(this);
+        }
+
         // Setter
         public OptionItem Do(Action<OptionItem> action)
         {
