@@ -55,4 +55,30 @@ namespace TownOfHost
         }
     }
 
+    public class FloatValueRule : ValueRule<float>
+    {
+        public FloatValueRule(float minValue, float maxValue, float step)
+        : base(minValue, maxValue, step) { }
+        public FloatValueRule((float, float, float) tuple)
+        : base(tuple) { }
+
+        public static implicit operator FloatValueRule((float, float, float) tuple)
+            => new(tuple);
+
+        public override int RepeatIndex(int value)
+        {
+            int MaxIndex = (int)((MaxValue - MinValue) / Step);
+            value = value % (MaxIndex + 1);
+            if (value < 0) value = MaxIndex;
+            return value;
+        }
+
+        public override float GetValueByIndex(int index)
+            => RepeatIndex(index) * Step + MinValue;
+
+        public override int GetNearestIndex(float num)
+        {
+            return (int)Math.Round(num / Step);
+        }
+    }
 }
