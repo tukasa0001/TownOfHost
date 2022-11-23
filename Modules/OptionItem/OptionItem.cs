@@ -58,6 +58,39 @@ namespace TownOfHost
 
 
         public OptionBehaviour OptionBehaviour;
+
+        // イベント
+        // eventキーワードにより、クラス外からのこのフィールドに対する以下の操作は禁止されます。
+        // - 代入 (+=, -=を除く)
+        // - 直接的な呼び出し
+        public event EventHandler<UpdateValueEventArgs> UpdateValueEvent;
+
+        // EventArgs
+        private void CallUpdateValueEvent(int beforeValue, int currentValue)
+        {
+            if (UpdateValueEvent == null) return;
+            try
+            {
+                UpdateValueEvent(this, new UpdateValueEventArgs(beforeValue, currentValue));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"[{Name}] UpdateValueEventの呼び出し時に例外が発生しました", "OptionItem.UpdateValueEvent");
+                Logger.Exception(ex, "OptionItem.UpdateValueEvent");
+            }
+        }
+
+        public class UpdateValueEventArgs : EventArgs
+        {
+            public int CurrentValue { get; set; }
+            public int BeforeValue { get; set; }
+            public UpdateValueEventArgs(int beforeValue, int currentValue)
+            {
+                CurrentValue = currentValue;
+                BeforeValue = beforeValue;
+            }
+        }
+
     }
 
     public enum TabGroup
