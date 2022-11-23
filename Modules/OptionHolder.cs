@@ -291,8 +291,9 @@ namespace TownOfHost
         {
             if (IsLoaded) return;
             // プリセット
-            _ = OptionItem.Create(0, TabGroup.MainSettings, new Color32(204, 204, 0, 255), "Preset", presets, presets[0], null, true)
-                .HiddenOnDisplay(true)
+            _ = PresetOptionItem.Create(0, TabGroup.MainSettings)
+                .SetColor(new Color32(204, 204, 0, 255))
+                .SetHeader(true)
                 .SetGameMode(CustomGameMode.All);
 
             // ゲームモード
