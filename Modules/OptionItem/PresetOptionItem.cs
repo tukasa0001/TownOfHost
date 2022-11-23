@@ -22,5 +22,31 @@ namespace TownOfHost
         {
             return new PresetOptionItem(defaultValue, tab);
         }
+
+        // Getter
+        public override int GetInt() => Rule.GetValueByIndex(CurrentValue);
+        public override float GetFloat() => Rule.GetValueByIndex(CurrentValue);
+        public override string GetString()
+        {
+            return CurrentValue switch
+            {
+                0 => Main.Preset1.Value,
+                1 => Main.Preset2.Value,
+                2 => Main.Preset3.Value,
+                3 => Main.Preset4.Value,
+                4 => Main.Preset5.Value,
+                _ => null,
+            };
+        }
+        public override int GetValue()
+            => Rule.RepeatIndex(base.GetValue());
+
+        // Setter
+        public override void SetValue(int value)
+        {
+            base.SetValue(Rule.RepeatIndex(value));
+            foreach (var op in AllOptions)
+                op.Refresh();
+        }
     }
 }
