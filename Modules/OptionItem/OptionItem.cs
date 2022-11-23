@@ -144,6 +144,27 @@ namespace TownOfHost
             => item.Do(item => item.SetValue(item.CurrentValue + 1));
         public static OptionItem operator --(OptionItem item)
             => item.Do(item => item.SetValue(item.CurrentValue - 1));
+
+        // 全体操作用
+        public static void SwitchPreset(int newPreset)
+        {
+            CurrentPreset = Math.Clamp(newPreset, 0, 4);
+
+            foreach (var op in AllOptions)
+                op.Refresh();
+        }
+        public static void SyncAllOptions()
+        {
+            if (
+                PlayerControl.AllPlayerControls.Count <= 1 ||
+                AmongUsClient.Instance.AmHost == false ||
+                PlayerControl.LocalPlayer == null
+            ) return;
+
+            RPC.SyncCustomSettingsRPC();
+        }
+
+
         // EventArgs
         private void CallUpdateValueEvent(int beforeValue, int currentValue)
         {
