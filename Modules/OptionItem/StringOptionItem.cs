@@ -29,5 +29,20 @@ namespace TownOfHost
             );
         }
 
+        // Getter
+        public override int GetInt() => Rule.GetValueByIndex(CurrentValue);
+        public override float GetFloat() => Rule.GetValueByIndex(CurrentValue);
+        public override string GetString()
+        {
+            return Translator.GetString(Selections[Rule.GetValueByIndex(CurrentValue)]);
+        }
+        public override int GetValue()
+            => Rule.RepeatIndex(base.GetValue());
+
+        // Setter
+        public override void SetValue(int value)
+        {
+            base.SetValue(Rule.RepeatIndex(value));
+        }
     }
 }
