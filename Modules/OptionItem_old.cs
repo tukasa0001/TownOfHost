@@ -1,3 +1,4 @@
+#if _
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 namespace TownOfHost
 {
-    public class OptionItem
+    public class OptionItem_old
     {
         public static readonly List<OptionItem> Options = new();
         public static int Preset = 0;
@@ -381,3 +382,4 @@ namespace TownOfHost
         Pieces,
     }
 }
+#endif
