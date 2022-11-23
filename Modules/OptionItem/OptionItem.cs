@@ -65,6 +65,33 @@ namespace TownOfHost
         // - 直接的な呼び出し
         public event EventHandler<UpdateValueEventArgs> UpdateValueEvent;
 
+        // Setter
+        public OptionItem Do(Action<OptionItem> action)
+        {
+            action(this);
+            return this;
+        }
+
+        public OptionItem SetColor(Color value) => Do(i => i.NameColor = value);
+        public OptionItem SetValueFormat(OptionFormat value) => Do(i => i.ValueFormat = value);
+        public OptionItem SetGameMode(CustomGameMode value) => Do(i => i.GameMode = value);
+        public OptionItem SetHeader(bool value) => Do(i => i.IsHeader = value);
+        public OptionItem SetHidden(bool value) => Do(i => i.IsHidden = value);
+
+        public OptionItem SetParent(OptionItem parent) => Do(i => i.Parent = parent);
+        public OptionItem RegisterUpdateValueEvent(EventHandler<UpdateValueEventArgs> handler)
+            => Do(i => UpdateValueEvent += handler);
+
+        // 置き換え辞書
+        public OptionItem AddReplacement((string key, string value) kvp)
+            => Do(i =>
+            {
+                ReplacementDictionary ??= new();
+                ReplacementDictionary.Add(kvp.key, kvp.value);
+            });
+        public OptionItem RemoveReplacement(string key)
+            => Do(i => ReplacementDictionary?.Remove(key));
+
         // EventArgs
         private void CallUpdateValueEvent(int beforeValue, int currentValue)
         {
