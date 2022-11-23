@@ -46,7 +46,7 @@ namespace TownOfHost
             }
             catch (Exception ex)
             {
-                Logger.Error(ex.ToString(), "CheckDenyNamePlayer");
+                Logger.Exception(ex, "CheckDenyNamePlayer");
             }
         }
         public static void CheckBanPlayer(InnerNet.ClientData player)
@@ -76,7 +76,7 @@ namespace TownOfHost
             }
             catch (Exception ex)
             {
-                Logger.Error(ex.ToString(), "CheckBanList");
+                Logger.Exception(ex, "CheckBanList");
             }
             return false;
         }
