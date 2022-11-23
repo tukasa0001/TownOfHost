@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
-using AmongUs.Data;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -39,6 +39,8 @@ namespace TownOfHost
                 AmongUsClient.Instance.KickPlayer(client.Id, true);
                 Logger.Info($"ブロック済みのプレイヤー{client?.PlayerName}({client.FriendCode})をBANしました。", "BAN");
             }
+            BanManager.CheckBanPlayer(client);
+            BanManager.CheckDenyNamePlayer(client);
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
             if (AmongUsClient.Instance.AmHost)
