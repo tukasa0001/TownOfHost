@@ -92,6 +92,33 @@ namespace TownOfHost
         public OptionItem RemoveReplacement(string key)
             => Do(i => ReplacementDictionary?.Remove(key));
 
+        // Getter
+        public virtual string GetName(bool disableColor = false)
+        {
+            return disableColor ?
+                Translator.GetString(Name, ReplacementDictionary) :
+                Utils.ColorString(NameColor, Translator.GetString(Name, ReplacementDictionary));
+        }
+        public virtual bool GetBool() => CurrentValue != 0;
+        public virtual int GetInt() => CurrentValue;
+        public virtual float GetFloat() => CurrentValue;
+        public virtual string GetString()
+        {
+            return ApplyFormat(CurrentValue.ToString());
+        }
+        public virtual int GetValue() => CurrentEntry.Value;
+
+        // 旧IsHidden関数
+        public virtual bool IsHiddenOn(CustomGameMode mode)
+        {
+            return IsHidden || (GameMode != CustomGameMode.All && GameMode != mode);
+        }
+
+        public string ApplyFormat(string value)
+        {
+            if (ValueFormat == OptionFormat.None) return value;
+            return string.Format(Translator.GetString("Format." + ValueFormat), value);
+        }
         // EventArgs
         private void CallUpdateValueEvent(int beforeValue, int currentValue)
         {
