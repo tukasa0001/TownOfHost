@@ -394,7 +394,7 @@ namespace TownOfHost
                     ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref text);
                     text = text.RemoveHtmlTags();
                 }
-                foreach (var opt in OptionItem.Options.Where(x => x.Enabled && x.Parent == null && x.Id >= 80000 && !x.IsHidden(Options.CurrentGameMode)))
+                foreach (var opt in OptionItem.Options.Where(x => x.Enabled && x.Parent == null && x.Id >= 80000 && !x.IsHiddenOn(Options.CurrentGameMode)))
                 {
                     if (opt.Name == "KillFlashDuration")
                         text += $"\n【{opt.GetName(true)}: {opt.GetString()}】\n";
@@ -423,7 +423,7 @@ namespace TownOfHost
                 text = text.RemoveHtmlTags();
             }
             text += $"━━━━━━━━━━━━【{GetString("Settings")}】━━━━━━━━━━━━";
-            foreach (var opt in OptionItem.Options.Where(x => x.Enabled && x.Parent == null && x.Id >= 80000 && !x.IsHidden(Options.CurrentGameMode)))
+            foreach (var opt in OptionItem.Options.Where(x => x.Enabled && x.Parent == null && x.Id >= 80000 && !x.IsHiddenOn(Options.CurrentGameMode)))
             {
                 if (opt.Name == "KillFlashDuration")
                     text += $"\n【{opt.GetName(true)}: {opt.GetString()}】\n";
