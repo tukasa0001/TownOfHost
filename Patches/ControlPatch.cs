@@ -8,8 +8,6 @@ namespace TownOfHost
     [HarmonyPatch(typeof(ControllerManager), nameof(ControllerManager.Update))]
     class ControllerManagerUpdatePatch
     {
-        static readonly System.Random random = new();
-        static PlayerControl bot;
         static readonly (int, int)[] resolutions = { (480, 270), (640, 360), (800, 450), (1280, 720), (1600, 900), (1920, 1080) };
         static int resolutionIndex = 0;
         public static void Postfix(ControllerManager __instance)
@@ -92,7 +90,7 @@ namespace TownOfHost
             //TOHオプションをデフォルトに設定
             if (GetKeysDown(KeyCode.Delete, KeyCode.LeftControl))
             {
-                CustomOption.Options.ToArray().Where(x => x.Id > 0).Do(x => x.UpdateSelection(x.DefaultSelection));
+                OptionItem.Options.ToArray().Where(x => x.Id > 0).Do(x => x.UpdateSelection(x.DefaultSelection));
             }
 
             //--以下デバッグモード用コマンド--//

@@ -27,7 +27,7 @@ namespace TownOfHost
                 // Reset lobby countdown timer
                 timer = 600f;
 
-                if (AmongUsClient.Instance.AmHost && Options.AutoDisplayLastResult.GetBool() && Main.AllPlayerCustomRoles.Count != 0)
+                if (AmongUsClient.Instance.AmHost && Options.AutoDisplayLastResult.GetBool() && Main.PlayerStates.Count != 0)
                 {
                     new LateTask(() =>
                     {
@@ -115,7 +115,7 @@ namespace TownOfHost
             bool continueStart = true;
             if (Options.RandomMapsMode.GetBool())
             {
-                var rand = new System.Random();
+                var rand = IRandom.Instance;
                 System.Collections.Generic.List<byte> RandomMaps = new();
                 /*TheSkeld   = 0
                 MIRAHQ     = 1

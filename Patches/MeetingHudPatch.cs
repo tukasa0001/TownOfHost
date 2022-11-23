@@ -32,6 +32,7 @@ namespace TownOfHost
                         }}, voteTarget.Data, false); //RPC
                         Logger.Info($"{voteTarget.GetNameWithRole()}を追放", "Dictator");
                         Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
+                        voteTarget.SetRealKiller(pc);
                         return true;
                     }
                 }
@@ -148,7 +149,11 @@ namespace TownOfHost
                             exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => info.PlayerId == exileId);
                             break;
                         case TieMode.All:
-                            VotingData.DoIf(x => x.Key < 15 && x.Value == max, x => Main.AfterMeetingDeathPlayers.Add(x.Key, PlayerState.DeathReason.Vote));
+                            VotingData.DoIf(x => x.Key < 15 && x.Value == max, x =>
+                            {
+                                Main.AfterMeetingDeathPlayers.Add(x.Key, PlayerState.DeathReason.Vote);
+                                Utils.GetPlayerById(x.Key).SetRealKiller(null);
+                            });
                             exiledPlayer = null;
                             break;
                         case TieMode.Random:
@@ -159,6 +164,8 @@ namespace TownOfHost
                 }
                 else
                     exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
+                if (exiledPlayer != null)
+                    exiledPlayer.Object.SetRealKiller(null);
 
                 //RPC
                 if (AntiBlackout.OverrideExiledPlayer)
@@ -174,8 +181,12 @@ namespace TownOfHost
                         if (Main.SpelledPlayer.TryGetValue(pc.PlayerId, out var killer) && killer == which)
                             Main.SpelledPlayer.Remove(pc.PlayerId);
                 }
-                foreach (var sp in Main.SpelledPlayer.Keys)
-                    Main.AfterMeetingDeathPlayers.TryAdd(sp, PlayerState.DeathReason.Spell);
+                foreach (var kvp in Main.SpelledPlayer)
+                {
+                    if (Utils.GetPlayerById(kvp.Key) == null) continue;
+                    Main.AfterMeetingDeathPlayers.TryAdd(kvp.Key, PlayerState.DeathReason.Spell);
+                    Utils.GetPlayerById(kvp.Key).SetRealKiller(kvp.Value);
+                }
                 Main.SpelledPlayer.Clear();
 
 
@@ -234,9 +245,7 @@ namespace TownOfHost
             ChatUpdatePatch.DoBlockChat = true;
             GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
             PlayerControl.AllPlayerControls.ToArray().Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
-            Main.witchMeeting = true;
             Utils.NotifyRoles(isMeeting: true, NoCache: true);
-            Main.witchMeeting = false;
             MeetingStates.MeetingCalled = true;
         }
         public static void Postfix(MeetingHud __instance)
@@ -365,12 +374,15 @@ namespace TownOfHost
                             pva.NameText.color = Utils.GetRoleColor(CustomRoles.Jackal); //変更対象の名前をジャッカル色にする
                         break;
                 }
-                switch (target.GetCustomSubRole())
+                foreach (var subRole in target.GetCustomSubRoles())
                 {
-                    case CustomRoles.Lovers:
-                        if (seer.Is(CustomRoles.Lovers) || seer.Data.IsDead)
-                            pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Lovers), "♡");
-                        break;
+                    switch (subRole)
+                    {
+                        case CustomRoles.Lovers:
+                            if (seer.Is(CustomRoles.Lovers) || seer.Data.IsDead)
+                                pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Lovers), "♡");
+                            break;
+                    }
                 }
 
                 if (LocalPlayerKnowsImpostor)
@@ -398,8 +410,8 @@ namespace TownOfHost
                 {
                     var player = Utils.GetPlayerById(x.TargetPlayerId);
                     player.RpcExileV2();
-                    PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Execution);
-                    PlayerState.SetDead(player.PlayerId);
+                    Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Execution;
+                    Main.PlayerStates[player.PlayerId].SetDead();
                     Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
                     Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
                 });

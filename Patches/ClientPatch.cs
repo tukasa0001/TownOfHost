@@ -67,7 +67,9 @@ namespace TownOfHost
     {
         public static void Prefix(ref bool canOnline)
         {
-            if (ThisAssembly.Git.Branch != "main" && CultureInfo.CurrentCulture.Name != "ja-JP") canOnline = false;
+#if DEBUG
+            if (CultureInfo.CurrentCulture.Name != "ja-JP") canOnline = false;
+#endif
         }
     }
     [HarmonyPatch(typeof(BanMenu), nameof(BanMenu.SetVisible))]
@@ -91,6 +93,15 @@ namespace TownOfHost
         {
             __result = __instance.AmHost;
             return false;
+        }
+    }
+    [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.KickPlayer))]
+    class KickPlayerPatch
+    {
+        public static void Prefix(InnerNet.InnerNetClient __instance, int clientId, bool ban)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            if (ban) BanManager.AddBanPlayer(AmongUsClient.Instance.GetClient(clientId));
         }
     }
     [HarmonyPatch(typeof(ResolutionManager), nameof(ResolutionManager.SetResolution))]

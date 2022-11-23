@@ -9,15 +9,15 @@ namespace TownOfHost
         private static readonly int Id = 50400;
         public static List<byte> playerIdList = new();
 
-        public static CustomOption CanWinTheCrewmateBeforeChange;
-        private static CustomOption ChangeTeamWhenExile;
+        public static OptionItem CanWinTheCrewmateBeforeChange;
+        private static OptionItem ChangeTeamWhenExile;
 
 
         public static void SetupCustomOption()
         {
             SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.SchrodingerCat);
-            CanWinTheCrewmateBeforeChange = CustomOption.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "CanBeforeSchrodingerCatWinTheCrewmate", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
-            ChangeTeamWhenExile = CustomOption.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "SchrodingerCatExiledTeamChanges", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
+            CanWinTheCrewmateBeforeChange = OptionItem.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "CanBeforeSchrodingerCatWinTheCrewmate", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
+            ChangeTeamWhenExile = OptionItem.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "SchrodingerCatExiledTeamChanges", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
         }
         public static void Init()
         {
@@ -37,7 +37,7 @@ namespace TownOfHost
             if (canDirectKill)
             {
                 killer.RpcGuardAndKill(target);
-                if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
+                if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.Sniped)
                 {
                     //スナイプされた時
                     target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
@@ -82,7 +82,7 @@ namespace TownOfHost
         {
             if (!(ChangeTeamWhenExile.GetBool() && player.Is(CustomRoles.SchrodingerCat))) return;
 
-            var rand = new System.Random();
+            var rand = IRandom.Instance;
             List<CustomRoles> Rand = new()
             {
                 CustomRoles.CSchrodingerCat,

@@ -53,8 +53,8 @@ namespace TownOfHost
                         sender.SendMessage();
                         player.NetTransform.SnapTo(targetPos);
                         player.MurderPlayer(player);
-                        PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Fall);
-                        PlayerState.SetDead(player.PlayerId);
+                        Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Fall;
+                        Main.PlayerStates[player.PlayerId].SetDead();
                     }, 0.05f, "LadderFallTask");
                 }
             }

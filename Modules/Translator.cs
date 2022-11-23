@@ -81,9 +81,31 @@ namespace TownOfHost
             {
                 res = $"*{dic[0]}";
             }
+            if (langId == SupportedLangs.Japanese)
+            {
+                if (Main.IsChristmas)
+                {
+                    res = str switch
+                    {
+                        "Lovers" => "リア充",
+                        "LoversInfo" => "爆ぜろ",
+                        _ => res
+                    };
+                }
+            }
             return res;
         }
+        public static string GetRoleString(string str)
+        {
+            var CurrentLanguage = TranslationController.Instance.currentLanguage.languageID;
+            var lang = CurrentLanguage;
+            if (Main.ForceJapanese.Value && Main.JapaneseRoleName.Value)
+                lang = SupportedLangs.Japanese;
+            else if (CurrentLanguage == SupportedLangs.Japanese && !Main.JapaneseRoleName.Value)
+                lang = SupportedLangs.English;
 
+            return GetString(str, lang);
+        }
         public static void LoadCustomTranslation(string filename, SupportedLangs lang)
         {
             string path = @$"./{LANGUAGE_FOLDER_NAME}/{filename}";

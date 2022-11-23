@@ -13,11 +13,8 @@ namespace TownOfHost
         public static void Postfix(AmongUsClient __instance)
         {
             //注:この時点では役職は設定されていません。
-            PlayerState.Init();
+            Main.PlayerStates = new();
 
-            Main.CustomWinTrigger = false;
-            Main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
-            Main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             Main.AllPlayerKillCooldown = new Dictionary<byte, float>();
             Main.AllPlayerSpeed = new Dictionary<byte, float>();
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
@@ -26,7 +23,6 @@ namespace TownOfHost
             Main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             Main.CursedPlayers = new Dictionary<byte, PlayerControl>();
             Main.isCurseAndKill = new Dictionary<byte, bool>();
-            Main.AirshipMeetingTimer = new Dictionary<byte, float>();
             Main.SKMadmateNowCount = 0;
             Main.isCursed = false;
             Main.PuppeteerList = new Dictionary<byte, byte>();
@@ -35,7 +31,6 @@ namespace TownOfHost
             Main.ResetCamPlayerList = new();
 
             Main.SpelledPlayer = new Dictionary<byte, PlayerControl>();
-            Main.witchMeeting = false;
             Main.CheckShapeshift = new Dictionary<byte, bool>();
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();
@@ -74,6 +69,7 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (AmongUsClient.Instance.AmHost && Options.ColorNameMode.GetBool()) pc.RpcSetName(Palette.GetColorName(pc.Data.DefaultOutfit.ColorId));
+                Main.PlayerStates[pc.PlayerId] = new(pc.PlayerId);
                 Main.AllPlayerNames[pc.PlayerId] = pc?.Data?.PlayerName;
 
                 Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
@@ -115,6 +111,7 @@ namespace TownOfHost
             EvilTracker.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
+            IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetSelection());
 
             MeetingStates.MeetingCalled = false;
             MeetingStates.FirstMeeting = true;
@@ -139,7 +136,6 @@ namespace TownOfHost
             //ウォッチャーの陣営抽選
             Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
 
-            var rand = new System.Random();
             if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
             {
                 //役職の人数を指定
@@ -200,7 +196,7 @@ namespace TownOfHost
 
             //Utils.ApplySuffix();
 
-            var rand = new System.Random();
+            var rand = IRandom.Instance;
             Main.KillOrSpell = new Dictionary<byte, bool>();
 
             List<PlayerControl> Crewmates = new();
@@ -213,37 +209,39 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 pc.Data.IsDead = false; //プレイヤーの死を解除する
-                if (Main.AllPlayerCustomRoles.ContainsKey(pc.PlayerId)) continue; //既にカスタム役職が割り当てられていればスキップ
+                if (Main.PlayerStates[pc.PlayerId].MainRole != CustomRoles.NotAssigned) continue; //既にカスタム役職が割り当てられていればスキップ
+                var role = CustomRoles.NotAssigned;
                 switch (pc.Data.Role.Role)
                 {
                     case RoleTypes.Crewmate:
                         Crewmates.Add(pc);
-                        Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Crewmate);
+                        role = CustomRoles.Crewmate;
                         break;
                     case RoleTypes.Impostor:
                         Impostors.Add(pc);
-                        Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Impostor);
+                        role = CustomRoles.Impostor;
                         break;
                     case RoleTypes.Scientist:
                         Scientists.Add(pc);
-                        Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Scientist);
+                        role = CustomRoles.Scientist;
                         break;
                     case RoleTypes.Engineer:
                         Engineers.Add(pc);
-                        Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Engineer);
+                        role = CustomRoles.Engineer;
                         break;
                     case RoleTypes.GuardianAngel:
                         GuardianAngels.Add(pc);
-                        Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.GuardianAngel);
+                        role = CustomRoles.GuardianAngel;
                         break;
                     case RoleTypes.Shapeshifter:
                         Shapeshifters.Add(pc);
-                        Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Shapeshifter);
+                        role = CustomRoles.Shapeshifter;
                         break;
                     default:
                         Logger.SendInGame(string.Format(GetString("Error.InvalidRoleAssignment"), pc?.Data?.PlayerName));
                         break;
                 }
+                Main.PlayerStates[pc.PlayerId].MainRole = role;
             }
 
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
@@ -260,10 +258,10 @@ namespace TownOfHost
                 //役職設定処理
                 AssignCustomRolesFromList(CustomRoles.HASFox, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.HASTroll, Crewmates);
-                foreach (var pair in Main.AllPlayerCustomRoles)
+                foreach (var pair in Main.PlayerStates)
                 {
                     //RPCによる同期
-                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value.MainRole);
                 }
                 //色設定処理
                 SetColorPatch.IsAntiGlitchDisabled = true;
@@ -314,17 +312,14 @@ namespace TownOfHost
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     if (pc.Is(CustomRoles.Watcher) && Options.IsEvilWatcher)
-                        Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.EvilWatcher;
-                    if (pc.Is(CustomRoles.Watcher) && !Options.IsEvilWatcher)
-                        Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.NiceWatcher;
+                        Main.PlayerStates[pc.PlayerId].MainRole = Options.IsEvilWatcher ? CustomRoles.EvilWatcher : CustomRoles.NiceWatcher;
                 }
-                foreach (var pair in Main.AllPlayerCustomRoles)
+                foreach (var pair in Main.PlayerStates)
                 {
-                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
-                }
-                foreach (var pair in Main.AllPlayerCustomSubRoles)
-                {
-                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value.MainRole);
+
+                    foreach (var subRole in pair.Value.SubRoles)
+                        ExtendedPlayerControl.RpcSetCustomRole(pair.Key, subRole);
                 }
 
                 HudManager.Instance.SetHudActive(true);
@@ -440,10 +435,10 @@ namespace TownOfHost
             for (var i = 0; i < role.GetCount(); i++)
             {
                 if (AllPlayers.Count <= 0) break;
-                var rand = new Random();
+                var rand = IRandom.Instance;
                 var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
                 AllPlayers.Remove(player);
-                Main.AllPlayerCustomRoles[player.PlayerId] = role;
+                Main.PlayerStates[player.PlayerId].MainRole = role;
 
                 if (player.PlayerId != PlayerControl.LocalPlayer.PlayerId)
                 {
@@ -480,7 +475,7 @@ namespace TownOfHost
         private static List<PlayerControl> AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1)
         {
             if (players == null || players.Count <= 0) return null;
-            var rand = new System.Random();
+            var rand = IRandom.Instance;
             var count = Math.Clamp(RawCount, 0, players.Count);
             if (RawCount == -1) count = Math.Clamp(role.GetCount(), 0, players.Count);
             if (count <= 0) return null;
@@ -491,7 +486,7 @@ namespace TownOfHost
                 var player = players[rand.Next(0, players.Count)];
                 AssignedPlayers.Add(player);
                 players.Remove(player);
-                Main.AllPlayerCustomRoles[player.PlayerId] = role;
+                Main.PlayerStates[player.PlayerId].MainRole = role;
                 Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + role.ToString(), "AssignRoles");
 
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
@@ -526,7 +521,7 @@ namespace TownOfHost
                 allPlayers.Add(player);
             }
             var loversRole = CustomRoles.Lovers;
-            var rand = new System.Random();
+            var rand = IRandom.Instance;
             var count = Math.Clamp(RawCount, 0, allPlayers.Count);
             if (RawCount == -1) count = Math.Clamp(loversRole.GetCount(), 0, allPlayers.Count);
             if (count <= 0) return;
@@ -536,7 +531,7 @@ namespace TownOfHost
                 var player = allPlayers[rand.Next(0, allPlayers.Count)];
                 Main.LoversPlayers.Add(player);
                 allPlayers.Remove(player);
-                Main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
+                Main.PlayerStates[player.PlayerId].SetSubRole(loversRole);
                 Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignLovers");
             }
             RPC.SyncLoversPlayers();

@@ -70,28 +70,22 @@ namespace TownOfHost
         public static ConfigEntry<string> Preset4 { get; private set; }
         public static ConfigEntry<string> Preset5 { get; private set; }
         //Other Configs
-        public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
         public static ConfigEntry<string> BetaBuildURL { get; private set; }
         public static ConfigEntry<float> LastKillCooldown { get; private set; }
         public static GameOptionsData RealOptionsData;
+        public static Dictionary<byte, PlayerState> PlayerStates = new();
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<(byte, byte), string> LastNotifyNames;
-        public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
-        public static Dictionary<byte, CustomRoles> AllPlayerCustomSubRoles;
         public static Dictionary<byte, Color32> PlayerColors = new();
         public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
         public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
         public static float RefixCooldownDelay = 0f;
-        public static int BeforeFixMeetingCooldown = 10;
         public static List<byte> ResetCamPlayerList;
         public static List<byte> winnerList;
         public static List<(string, byte, string)> MessagesToSend;
         public static bool isChatCommand = false;
-        public static string TextCursor => TextCursorVisible ? "_" : "";
-        public static bool TextCursorVisible;
-        public static float TextCursorTimer;
         public static List<PlayerControl> LoversPlayers = new();
         public static bool isLoversDead = true;
         public static Dictionary<byte, float> AllPlayerKillCooldown = new();
@@ -109,7 +103,6 @@ namespace TownOfHost
         public static Dictionary<byte, bool> isCurseAndKill = new();
         public static Dictionary<(byte, byte), bool> isDoused = new();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
-        public static Dictionary<byte, float> AirshipMeetingTimer = new();
         /// <summary>
         /// Key: ターゲットのPlayerId, Value: パペッティアのPlayerId
         /// </summary>
@@ -118,12 +111,9 @@ namespace TownOfHost
         public static Dictionary<byte, int> MayorUsedButtonCount = new();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
-        public static bool witchMeeting;
         public static bool isCursed;
-        public static bool isShipStart;
         public static Dictionary<byte, bool> CheckShapeshift = new();
         public static Dictionary<(byte, byte), string> targetArrows = new();
-        public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static string nickName = "";
         public static bool introDestroyed = false;
@@ -132,15 +122,13 @@ namespace TownOfHost
         public static byte currentDousingTarget;
         public static float DefaultCrewmateVision;
         public static float DefaultImpostorVision;
+        public static bool IsChristmas = DateTime.Now.Month == 12 && DateTime.Now.Day is 23 or 24 or 25;
 
         public static Main Instance;
 
         public override void Load()
         {
             Instance = this;
-
-            TextCursorTimer = 0f;
-            TextCursorVisible = true;
 
             //Client Options
             HideName = Config.Bind("Client Options", "Hide Game Code Name", "Town Of Host");
@@ -163,9 +151,6 @@ namespace TownOfHost
             // 認証関連-認証
             DebugModeManager.Auth(DebugKeyAuth, DebugKeyInput.Value);
 
-            AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
-            AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
-            CustomWinTrigger = false;
             BitPlayers = new Dictionary<byte, (byte, float)>();
             WarlockTimer = new Dictionary<byte, float>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
@@ -183,7 +168,6 @@ namespace TownOfHost
             Preset3 = Config.Bind("Preset Name Options", "Preset3", "Preset_3");
             Preset4 = Config.Bind("Preset Name Options", "Preset4", "Preset_4");
             Preset5 = Config.Bind("Preset Name Options", "Preset5", "Preset_5");
-            IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             BetaBuildURL = Config.Bind("Other", "BetaBuildURL", "");
             MessageWait = Config.Bind("Other", "MessageWait", 1);
@@ -192,6 +176,9 @@ namespace TownOfHost
             NameColorManager.Begin();
             CustomWinnerHolder.Reset();
             Translator.Init();
+            BanManager.Init();
+
+            IRandom.SetInstance(new NetRandomWrapper());
 
             hasArgumentException = false;
             ExceptionMessage = "";
@@ -242,8 +229,9 @@ namespace TownOfHost
                     // GM
                     {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
-                    {CustomRoles.NoSubRoleAssigned, "#ffffff"},
-                    {CustomRoles.Lovers, "#ffaaaa"}
+                    {CustomRoles.Lovers, "#ff6be4"},
+
+                    {CustomRoles.NotAssigned, "#ffffff"}
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -361,7 +349,7 @@ namespace TownOfHost
         //GM
         GM,
         // Sub-roll after 500
-        NoSubRoleAssigned = 500,
+        NotAssigned = 500,
         Lovers,
     }
     //WinData
@@ -404,12 +392,6 @@ namespace TownOfHost
         RoomHost,
         OriginalName
     }
-    public enum VersionTypes
-    {
-        Released = 0,
-        Beta = 1
-    }
-
     public enum VoteMode
     {
         Default,

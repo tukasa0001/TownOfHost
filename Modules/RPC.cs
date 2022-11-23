@@ -19,7 +19,6 @@ namespace TownOfHost
         SetBountyTarget,
         SetKillOrSpell,
         SetSheriffShotLimit,
-        SetTimeThiefKillCount,
         SetDousedPlayer,
         AddNameColorData,
         RemoveNameColorData,
@@ -32,6 +31,7 @@ namespace TownOfHost
         SendFireWorksState,
         SetCurrentDousingTarget,
         SetEvilTrackerTarget,
+        SetRealKiller,
     }
     public enum Sounds
     {
@@ -105,10 +105,10 @@ namespace TownOfHost
                     RPC.RpcVersionCheck();
                     break;
                 case CustomRPC.SyncCustomSettings:
-                    foreach (var co in CustomOption.Options)
+                    foreach (var co in OptionItem.Options)
                     {
                         //すべてのカスタムオプションについてインデックス値で受信
-                        co.Selection = reader.ReadInt32();
+                        co.RecieveOptionSelection(reader.ReadInt32());
                     }
                     break;
                 case CustomRPC.SetDeathReason:
@@ -137,9 +137,6 @@ namespace TownOfHost
                     break;
                 case CustomRPC.SetSheriffShotLimit:
                     Sheriff.ReceiveRPC(reader);
-                    break;
-                case CustomRPC.SetTimeThiefKillCount:
-                    TimeThief.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();
@@ -195,6 +192,11 @@ namespace TownOfHost
                     int TargetId = reader.ReadInt32();
                     EvilTracker.RPCSetTarget(TrackerId, TargetId);
                     break;
+                case CustomRPC.SetRealKiller:
+                    byte targetId = reader.ReadByte();
+                    byte killerId = reader.ReadByte();
+                    RPC.SetRealKiller(targetId, killerId);
+                    break;
             }
         }
     }
@@ -205,7 +207,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
-            foreach (var co in CustomOption.Options)
+            foreach (var co in OptionItem.Options)
             {
                 //すべてのカスタムオプションについてインデックス値で送信
                 writer.Write(co.GetSelection());
@@ -219,12 +221,6 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.PlaySound, Hazel.SendOption.Reliable, -1);
             writer.Write(PlayerID);
             writer.Write((byte)sound);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
-        public static void RpcSetRole(PlayerControl targetPlayer, PlayerControl sendTo, RoleTypes role)
-        {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)RpcCalls.SetRole, Hazel.SendOption.Reliable, sendTo.GetClientId());
-            writer.Write((byte)role);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void ExileAsync(PlayerControl player)
@@ -254,8 +250,8 @@ namespace TownOfHost
         {
             var playerId = reader.ReadByte();
             var deathReason = (PlayerState.DeathReason)reader.ReadInt32();
-            PlayerState.deathReasons[playerId] = deathReason;
-            PlayerState.isDead[playerId] = true;
+            Main.PlayerStates[playerId].deathReason = deathReason;
+            Main.PlayerStates[playerId].IsDead = true;
         }
 
         public static void EndGame(MessageReader reader)
@@ -286,13 +282,13 @@ namespace TownOfHost
         }
         public static void SetCustomRole(byte targetId, CustomRoles role)
         {
-            if (role < CustomRoles.NoSubRoleAssigned)
+            if (role < CustomRoles.NotAssigned)
             {
-                Main.AllPlayerCustomRoles[targetId] = role;
+                Main.PlayerStates[targetId].MainRole = role;
             }
-            else if (role >= CustomRoles.NoSubRoleAssigned)   //500:NoSubRole 501~:SubRole
+            else if (role >= CustomRoles.NotAssigned)   //500:NoSubRole 501~:SubRole
             {
-                Main.AllPlayerCustomSubRoles[targetId] = role;
+                Main.PlayerStates[targetId].SetSubRole(role);
             }
             switch (role)
             {
@@ -411,6 +407,18 @@ namespace TownOfHost
             }
         }
         public static void ResetCurrentDousingTarget(byte arsonistId) => SetCurrentDousingTarget(arsonistId, 255);
+        public static void SetRealKiller(byte targetId, byte killerId)
+        {
+            var state = Main.PlayerStates[targetId];
+            state.RealKiller.Item1 = DateTime.Now;
+            state.RealKiller.Item2 = killerId;
+
+            if (!AmongUsClient.Instance.AmHost) return;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetRealKiller, Hazel.SendOption.Reliable, -1);
+            writer.Write(targetId);
+            writer.Write(killerId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
     }
     [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpc))]
     class StartRpcPatch
