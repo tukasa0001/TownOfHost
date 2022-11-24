@@ -217,6 +217,12 @@ namespace TownOfHost
                         else Utils.SendMessage($"{GetString("Message.MessageWaitHelp")}\n{GetString("ForExample")}:\n{args[0]} 3", 0);
                         break;
 
+                    case "/say":
+                        canceled = true;
+                        if (args.Length > 1)
+                            Utils.SendMessage(args[1], title: $"<color=#ff0000>{GetString("MessageFromTheHost")}</color>");
+                        break;
+
                     case "/exile":
                         canceled = true;
                         if (args.Length < 2 || !int.TryParse(args[1], out int id)) break;
