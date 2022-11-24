@@ -50,11 +50,6 @@ namespace TownOfHost
             {
                 Utils.CopyCurrentSettings();
             }
-            //現在の設定をテキストとしてコピー
-            if (GetKeysDown(KeyCode.LeftAlt, KeyCode.C) && !Input.GetKey(KeyCode.LeftShift) && !GameStates.IsNotJoined)
-            {
-                Utils.CopyCurrentSettings();
-            }
             //実行ファイルのフォルダを開く
             if (GetKeysDown(KeyCode.F10))
             {
