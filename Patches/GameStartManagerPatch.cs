@@ -102,13 +102,16 @@ namespace TownOfHost
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.BeginGame))]
     public class GameStartRandomMap
     {
-        public static void Prefix()
+        public static bool Prefix(GameStartManager __instance)
         {
             Options.DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
             Main.LastKillCooldown.Value = PlayerControl.GameOptions.KillCooldown;
             PlayerControl.GameOptions.KillCooldown = 0.1f;
             Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData);
+
+            __instance.ReallyBegin(false);
+            return false;
         }
         public static bool Prefix(GameStartRandomMap __instance)
         {
