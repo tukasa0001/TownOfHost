@@ -285,7 +285,7 @@ namespace TownOfHost
                     opt.RoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
                     break;
                 case CustomRoles.SerialKiller:
-                    SerialKiller.ApplyGameOptions(opt);
+                    SerialKiller.ApplyGameOptions(opt, player);
                     break;
                 case CustomRoles.BountyHunter:
                     BountyHunter.ApplyGameOptions(opt);
