@@ -475,6 +475,7 @@
 
 "## その他"
 "DefaultSystemMessageTitle","【===== System Message =====】","【===== システムメッセージ ======】","【===== 系统信息 ======】","","【===== Системное сообщение ======】",""
+"MessageFromTheHost","【Message From The Host】","【ホストからの伝言】","","","",""
 "TabGroup.MainSettings","Main Settings","メイン設定","主要设置","","Основная Настройка",""
 "TabGroup.CrewmateRoles","Crewmate Roles","クルーメイト役職","船员阵营职业","","Название Члена Экипажа",""
 "TabGroup.NeutralRoles","Neutral Roles","ニュートラル役職","独立阵营职业","","Название Нейтральной Роли",""
