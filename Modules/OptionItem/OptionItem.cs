@@ -147,7 +147,7 @@ namespace TownOfHost
                 Translator.GetString(Name, ReplacementDictionary) :
                 Utils.ColorString(NameColor, Translator.GetString(Name, ReplacementDictionary));
         }
-        public virtual bool GetBool() => CurrentValue != 0;
+        public virtual bool GetBool() => CurrentValue != 0 && (Parent == null || Parent.GetBool());
         public virtual int GetInt() => CurrentValue;
         public virtual float GetFloat() => CurrentValue;
         public virtual string GetString()
