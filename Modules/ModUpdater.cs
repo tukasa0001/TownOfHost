@@ -75,6 +75,16 @@ namespace TownOfHost
                     JArray assets = data["assets"].Cast<JArray>();
                     for (int i = 0; i < assets.Count; i++)
                     {
+                        if (assets[i]["name"].ToString() == "TownOfHost_Steam.dll" && Constants.GetPlatformType() == Platforms.StandaloneSteamPC)
+                        {
+                            downloadUrl = assets[i]["browser_download_url"].ToString();
+                            break;
+                        }
+                        if (assets[i]["name"].ToString() == "TownOfHost_Epic.dll" && Constants.GetPlatformType() == Platforms.StandaloneEpicPC)
+                        {
+                            downloadUrl = assets[i]["browser_download_url"].ToString();
+                            break;
+                        }
                         if (assets[i]["name"].ToString() == "TownOfHost.dll")
                             downloadUrl = assets[i]["browser_download_url"].ToString();
                     }
