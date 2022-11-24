@@ -929,7 +929,7 @@ namespace TownOfHost
                         {
                             Main.PlayerStates[partnerPlayer.PlayerId].deathReason = PlayerState.DeathReason.FollowingSuicide;
                             if (isExiled)
-                                Main.AfterMeetingDeathPlayers.TryAdd(partnerPlayer.PlayerId, PlayerState.DeathReason.FollowingSuicide);
+                                CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(partnerPlayer.PlayerId, PlayerState.DeathReason.FollowingSuicide);
                             else
                                 partnerPlayer.RpcMurderPlayer(partnerPlayer);
                         }
