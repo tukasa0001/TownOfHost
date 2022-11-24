@@ -50,6 +50,11 @@ namespace TownOfHost
             {
                 Utils.CopyCurrentSettings();
             }
+            //実行ファイルのフォルダを開く
+            if (GetKeysDown(KeyCode.F10))
+            {
+                System.Diagnostics.Process.Start(System.Environment.CurrentDirectory);
+            }
 
             //--以下ホスト専用コマンド--//
             if (!AmongUsClient.Instance.AmHost) return;
