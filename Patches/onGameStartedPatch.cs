@@ -311,7 +311,7 @@ namespace TownOfHost
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (pc.Is(CustomRoles.Watcher) && Options.IsEvilWatcher)
+                    if (pc.Is(CustomRoles.Watcher))
                         Main.PlayerStates[pc.PlayerId].MainRole = Options.IsEvilWatcher ? CustomRoles.EvilWatcher : CustomRoles.NiceWatcher;
                 }
                 foreach (var pair in Main.PlayerStates)
