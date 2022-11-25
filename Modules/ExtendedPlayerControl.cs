@@ -406,7 +406,8 @@ namespace TownOfHost
             bool first = false;
             foreach (var role in SubRoles)
             {
-                if (role == CustomRoles.NotAssigned) continue;
+                if (role is CustomRoles.NotAssigned or
+                            CustomRoles.LastImpostor) continue;
 
                 if (!first)
                 {
@@ -422,7 +423,7 @@ namespace TownOfHost
         public static string GetAllRoleName(this PlayerControl player)
         {
             if (!player) return null;
-            var text = player.GetRoleName();
+            var text = Utils.GetRoleName(player.PlayerId);
             text += $" + {player.GetSubRoleName()}";
             return text;
         }
@@ -563,7 +564,7 @@ namespace TownOfHost
                     Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
                     break;
             }
-            if (player.IsLastImpostor())
+            if (player.Is(CustomRoles.LastImpostor))
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
         }
         public static void TrapperKilled(this PlayerControl killer, PlayerControl target)

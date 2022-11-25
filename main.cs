@@ -275,7 +275,6 @@ namespace TownOfHost
         Puppeteer,
         TimeThief,
         EvilTracker,
-        LastImpostor,
         //Madmate
         MadGuardian,
         Madmate,
@@ -320,6 +319,7 @@ namespace TownOfHost
         GM,
         // Sub-roll after 500
         NotAssigned = 500,
+        LastImpostor,
         Lovers,
     }
     //WinData
