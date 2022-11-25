@@ -142,21 +142,10 @@ namespace TownOfHost
             }
             return;
         }
-        public static string GetRoleName(byte playerId)
+        public static string GetDisplayRoleName(byte playerId)
         {
-            var role = Main.PlayerStates[playerId].MainRole;
-            var roleName = GetRoleName(role);
-            foreach (var subRole in Main.PlayerStates[playerId].SubRoles)
-            {
-                switch (subRole)
-                {
-                    case CustomRoles.LastImpostor:
-                        roleName = GetRoleString("Last") + " " + roleName;
-                        break;
-                }
-            }
-
-            return roleName;
+            var TextData = GetRoleText(playerId);
+            return ColorString(TextData.Item2, TextData.Item1);
         }
         public static string GetRoleName(CustomRoles role)
         {
@@ -177,20 +166,21 @@ namespace TownOfHost
             if (!Main.roleColors.TryGetValue(role, out var hexColor)) hexColor = "#ffffff";
             return hexColor;
         }
-        public static (string, Color) GetRoleText(PlayerControl player)
+        public static (string, Color) GetRoleText(byte playerId)
         {
             string RoleText = "Invalid Role";
-            Color TextColor = Color.red;
+            Color RoleColor = Color.red;
 
-            var cRole = player.GetCustomRole();
-            /*if (player.isLastImpostor())
+            var mainRole = Main.PlayerStates[playerId].MainRole;
+            var SubRoles = Main.PlayerStates[playerId].SubRoles;
+            RoleText = GetRoleName(mainRole);
+            if (mainRole.IsImpostor() && mainRole != CustomRoles.LastImpostor && IsLastImpostor(playerId))
             {
-                RoleText = $"{getRoleName(cRole)} ({getString("Last")})";
+                RoleText = GetRoleString("Last-") + RoleText;
             }
-            else*/
-            RoleText = GetRoleName(cRole);
+            RoleColor = GetRoleColor(mainRole);
 
-            return (RoleText, GetRoleColor(cRole));
+            return (RoleText, RoleColor);
         }
 
         public static string GetVitalText(byte playerId, bool RealKillerColor = false)
@@ -768,7 +758,7 @@ namespace TownOfHost
                     SeerRealName = seer.GetRoleInfo();
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
-                string SelfRoleName = $"<size={fontSize}>{ColorString(seer.GetRoleColor(), GetRoleName(seer.PlayerId))}{SelfTaskText}</size>";
+                string SelfRoleName = $"<size={fontSize}>{seer.GetDisplayRoleName()}{SelfTaskText}</size>";
                 string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(seer.PlayerId))})" : "";
                 string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
                 if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
@@ -859,10 +849,10 @@ namespace TownOfHost
                             TargetMark += EvilTracker.GetTargetMark(seer, target);
 
                         //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                        string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}>{ColorString(target.GetRoleColor(), target.GetRoleName())}{TargetTaskText}</size>\r\n" : "";
+                        string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}>{target.GetDisplayRoleName()}{TargetTaskText}</size>\r\n" : "";
 
                         if (target.Is(CustomRoles.GM))
-                            TargetRoleText = $"<size={fontSize}>{ColorString(target.GetRoleColor(), target.GetRoleName())}</size>\r\n";
+                            TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName()}</size>\r\n";
 
                         //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                         string TargetPlayerName = target.GetRealName(isMeeting);
@@ -1019,7 +1009,7 @@ namespace TownOfHost
         public static string SummaryTexts(byte id, bool disableColor = true)
         {
             var RolePos = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? 47 : 37;
-            string summary = $"{ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%> {GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {ColorString(GetRoleColor(Main.PlayerStates[id].MainRole), GetRoleName(id))}{GetSubRolesText(id)}</pos>";
+            string summary = $"{ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%> {GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {GetDisplayRoleName(id)}{GetSubRolesText(id)}</pos>";
             return disableColor ? summary.RemoveHtmlTags() : summary;
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");

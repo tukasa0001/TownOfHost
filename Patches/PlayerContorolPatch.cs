@@ -691,7 +691,7 @@ namespace TownOfHost
                 }
                 if (GameStates.IsInGame)
                 {
-                    var RoleTextData = Utils.GetRoleText(__instance);
+                    var RoleTextData = Utils.GetRoleText(__instance.PlayerId);
                     //if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                     //{
                     //    var hasRole = main.AllPlayerCustomRoles.TryGetValue(__instance.PlayerId, out var role);
