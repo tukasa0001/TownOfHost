@@ -90,6 +90,17 @@ namespace TownOfHost
                     if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(GetString("Message.AnnounceUsingTOH"), Main.PluginVersion), client.Character.PlayerId);
                     TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
                 }, 3f, "Welcome Message");
+                if (Options.AutoDisplayLastResult.GetBool() && Main.PlayerStates.Count != 0)
+                {
+                    new LateTask(() =>
+                    {
+                        if (!AmongUsClient.Instance.IsGameStarted)
+                        {
+                            Main.isChatCommand = true;
+                            Utils.ShowLastResult(client.Character.PlayerId);
+                        }
+                    }, 5f, "DisplayLastRoles");
+                }
             }
         }
     }
