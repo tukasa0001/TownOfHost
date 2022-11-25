@@ -99,7 +99,7 @@ namespace TownOfHost
                             Main.isChatCommand = true;
                             Utils.ShowLastResult(client.Character.PlayerId);
                         }
-                    }, 5f, "DisplayLastRoles");
+                    }, 3f, "DisplayLastRoles");
                 }
             }
         }
