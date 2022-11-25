@@ -171,8 +171,8 @@ namespace TownOfHost
                 {
                     //バニラ役職
                     {CustomRoles.Crewmate, "#ffffff"},
-                    {CustomRoles.Engineer, "#b6f0ff"},
-                    {CustomRoles.Scientist, "#b6f0ff"},
+                    {CustomRoles.Engineer, "#8cffff"},
+                    {CustomRoles.Scientist, "#8cffff"},
                     {CustomRoles.GuardianAngel, "#ffffff"},
                     //インポスター、シェイプシフター
                     //特殊インポスター役職
