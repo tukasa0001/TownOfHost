@@ -517,7 +517,8 @@ namespace TownOfHost
             var sb = new StringBuilder();
             foreach (var role in SubRoles)
             {
-                if (role == CustomRoles.NotAssigned) continue;
+                if (role is CustomRoles.NotAssigned or
+                            CustomRoles.LastImpostor) continue;
 
                 var RoleText = disableColor ? GetRoleName(role) : ColorString(GetRoleColor(role), GetRoleName(role));
                 sb.Append($"</color> + {RoleText}");
