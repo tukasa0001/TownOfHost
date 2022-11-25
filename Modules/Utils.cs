@@ -148,7 +148,7 @@ namespace TownOfHost
             var roleName = GetRoleName(role);
             if (role.IsImpostor() && role != CustomRoles.LastImpostor && IsLastImpostor(playerId))
             {
-                roleName = GetRoleString("Last") + " " + roleName;
+                roleName = GetRoleString("Last-") + roleName;
             }
 
             return roleName;
