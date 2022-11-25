@@ -266,7 +266,7 @@ namespace TownOfHost
             {
                 var pc = Utils.GetPlayerById(pva.TargetPlayerId);
                 if (pc == null) continue;
-                var RoleTextData = Utils.GetRoleText(pc);
+                var RoleTextData = Utils.GetRoleText(pc.PlayerId);
                 var roleTextMeeting = UnityEngine.Object.Instantiate(pva.NameText);
                 roleTextMeeting.transform.SetParent(pva.NameText.transform);
                 roleTextMeeting.transform.localPosition = new Vector3(0f, -0.18f, 0f);
