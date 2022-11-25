@@ -174,12 +174,16 @@ namespace TownOfHost
             var mainRole = Main.PlayerStates[playerId].MainRole;
             var SubRoles = Main.PlayerStates[playerId].SubRoles;
             RoleText = GetRoleName(mainRole);
-            if (mainRole.IsImpostor() && mainRole != CustomRoles.LastImpostor && IsLastImpostor(playerId))
-            {
-                RoleText = GetRoleString("Last-") + RoleText;
-            }
             RoleColor = GetRoleColor(mainRole);
-
+            foreach (var subRole in Main.PlayerStates[playerId].SubRoles)
+            {
+                switch (subRole)
+                {
+                    case CustomRoles.LastImpostor:
+                        RoleText = GetRoleString("Last-") + RoleText;
+                        break;
+                }
+            }
             return (RoleText, RoleColor);
         }
 
