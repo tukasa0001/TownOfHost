@@ -158,6 +158,7 @@ namespace TownOfHost
             CustomWinnerHolder.Reset();
             Translator.Init();
             BanManager.Init();
+            TemplateManager.Init();
 
             IRandom.SetInstance(new NetRandomWrapper());
 
@@ -247,18 +248,6 @@ namespace TownOfHost
             TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}", "GitVersion");
             TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}", "GitVersion");
 
-            if (!File.Exists("template.txt"))
-            {
-                TownOfHost.Logger.Info("Among Us.exeと同じフォルダにtemplate.txtが見つかりませんでした。新規作成します。", "Template");
-                try
-                {
-                    File.WriteAllText(@"template.txt", "test:This is template text.\\nLine breaks are also possible.\ntest:これは定型文です。\\n改行も可能です。");
-                }
-                catch (Exception ex)
-                {
-                    TownOfHost.Logger.Error(ex.ToString(), "Template");
-                }
-            }
             ClassInjector.RegisterTypeInIl2Cpp<ErrorText>();
 
             Harmony.PatchAll();

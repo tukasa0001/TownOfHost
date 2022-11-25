@@ -49,7 +49,7 @@ namespace TownOfHost
                 {
                     if (client.Character == null) return;
                     if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(GetString("Message.AnnounceUsingTOH"), Main.PluginVersion), client.Character.PlayerId);
-                    ChatCommands.SendTemplate("welcome", client.Character.PlayerId, true);
+                    TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
                 }, 3f, "Welcome Message");
             }
         }
