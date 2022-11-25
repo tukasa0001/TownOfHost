@@ -394,9 +394,9 @@ namespace TownOfHost
             return GameOptionsData.FromBytes(optByte);
         }
 
-        public static string GetRoleName(this PlayerControl player)
+        public static string GetDisplayRoleName(this PlayerControl player)
         {
-            return $"{Utils.GetRoleName(player.GetCustomRole())}" /*({getString("Last")})"*/;
+            return Utils.GetDisplayRoleName(player.PlayerId);
         }
         public static string GetSubRoleName(this PlayerControl player)
         {
@@ -422,7 +422,7 @@ namespace TownOfHost
         public static string GetAllRoleName(this PlayerControl player)
         {
             if (!player) return null;
-            var text = player.GetRoleName();
+            var text = Utils.GetRoleName(player.GetCustomRole());
             text += $" + {player.GetSubRoleName()}";
             return text;
         }
