@@ -276,12 +276,7 @@ namespace TownOfHost
             if (target.Is(CustomRoles.TimeThief))
                 target.ResetVotingTime();
 
-
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (pc.Is(CustomRoles.LastImpostor))
-                    LastImpostor.SetKillCooldown(pc.PlayerId);
-            }
+            LastImpostor.SetKillCooldown();
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
             Main.PlayerStates[target.PlayerId].SetDead();

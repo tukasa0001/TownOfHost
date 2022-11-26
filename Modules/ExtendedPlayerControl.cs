@@ -551,8 +551,8 @@ namespace TownOfHost
                     Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
                     break;
             }
-            if (player.Is(CustomRoles.LastImpostor))
-                LastImpostor.SetKillCooldown(player.PlayerId);
+            if (player.PlayerId == LastImpostor.currentId)
+                LastImpostor.SetKillCooldown();
         }
         public static void TrapperKilled(this PlayerControl killer, PlayerControl target)
         {
