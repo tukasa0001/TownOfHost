@@ -508,10 +508,6 @@ namespace TownOfHost
                 _ => pc.Is(RoleType.Impostor),
             };
         }
-        public static bool IsLastImpostor(this PlayerControl pc)
-        { //キルクールを変更するインポスター役職は省く
-            return Utils.IsLastImpostor(pc.PlayerId);
-        }
         public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
         {
             if (arsonist == null) return false;
@@ -556,7 +552,7 @@ namespace TownOfHost
                     break;
             }
             if (player.Is(CustomRoles.LastImpostor))
-                Main.AllPlayerKillCooldown[player.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
+                LastImpostor.SetKillCooldown(player.PlayerId);
         }
         public static void TrapperKilled(this PlayerControl killer, PlayerControl target)
         {

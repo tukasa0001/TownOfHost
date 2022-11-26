@@ -279,8 +279,8 @@ namespace TownOfHost
 
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (pc.IsLastImpostor())
-                    Main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
+                if (pc.Is(CustomRoles.LastImpostor))
+                    LastImpostor.SetKillCooldown(pc.PlayerId);
             }
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
 

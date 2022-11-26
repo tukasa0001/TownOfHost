@@ -211,6 +211,7 @@ namespace TownOfHost
                     // GM
                     {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
+                    {CustomRoles.LastImpostor, "#ff0000"},
                     {CustomRoles.Lovers, "#ff6be4"},
 
                     {CustomRoles.NotAssigned, "#ffffff"}

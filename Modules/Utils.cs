@@ -371,7 +371,7 @@ namespace TownOfHost
                     if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                     if (role.IsEnable() && !role.IsVanilla()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"), PlayerId);
                 }
-                if (Options.EnableLastImpostor.GetBool()) { SendMessage(GetRoleName(CustomRoles.LastImpostor) + GetString("LastImpostorInfoLong"), PlayerId); }
+                if (LastImpostor.EnableLastImpostor.GetBool()) { SendMessage(GetRoleName(CustomRoles.LastImpostor) + GetString("LastImpostorInfoLong"), PlayerId); }
             }
             if (Options.NoGameEnd.GetBool()) { SendMessage(GetString("NoGameEndInfo"), PlayerId); }
         }
@@ -937,31 +937,7 @@ namespace TownOfHost
             if (Main.AliveImpostorCount == AliveImpostorCount) return;
             TownOfHost.Logger.Info("生存しているインポスター:" + AliveImpostorCount + "人", "CountAliveImpostors");
             Main.AliveImpostorCount = AliveImpostorCount;
-            if (Options.EnableLastImpostor.GetBool() && AliveImpostorCount == 1)
-            {
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (pc.IsLastImpostor() && !pc.Is(CustomRoles.LastImpostor))
-                    {
-                        pc.RpcSetCustomRole(CustomRoles.LastImpostor);
-                        NotifyRoles();
-                        CustomSyncAllSettings();
-                        break;
-                    }
-                }
-            }
-        }
-        public static bool IsLastImpostor(byte playerId)
-        { //キルクールを変更するインポスター役職は省く
-            var state = Main.PlayerStates[playerId];
-            return state.MainRole.IsImpostor() &&
-                !state.IsDead &&
-                Options.CurrentGameMode != CustomGameMode.HideAndSeek &&
-                Options.EnableLastImpostor.GetBool() &&
-                Main.AliveImpostorCount == 1 &&
-                state.MainRole is not CustomRoles.Vampire
-                                or CustomRoles.BountyHunter
-                                or CustomRoles.SerialKiller;
+            LastImpostor.SetSubRole();
         }
         public static string GetVoteName(byte num)
         {

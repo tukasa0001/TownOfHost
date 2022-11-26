@@ -34,7 +34,7 @@ namespace TownOfHost
                 if (Options.CurrentGameMode == CustomGameMode.Standard)
                 {
                     //有効な役職一覧
-                    text += $"<color={Utils.GetRoleColorCode(CustomRoles.LastImpostor)}>{Utils.GetRoleName(CustomRoles.LastImpostor)}:</color> {Options.EnableLastImpostor.GetString()}\n\n";
+                    text += LastImpostor.ShowOnOff + "\n";
                     text += $"<color={Utils.GetRoleColorCode(CustomRoles.GM)}>{Utils.GetRoleName(CustomRoles.GM)}:</color> {Options.EnableGM.GetString()}\n\n";
                     text += GetString("ActiveRolesList") + "\n";
                     foreach (var kvp in Options.CustomRoleSpawnChances)
@@ -46,10 +46,10 @@ namespace TownOfHost
                 //有効な役職と詳細設定一覧
                 pages.Add("");
 
-                if (Options.EnableLastImpostor.GetBool() && !Options.EnableLastImpostor.IsHidden(Options.CurrentGameMode))
+                if (LastImpostor.EnableLastImpostor.GetBool() && !LastImpostor.EnableLastImpostor.IsHidden(Options.CurrentGameMode))
                 {
-                    text += $"<color={Utils.GetRoleColorCode(CustomRoles.LastImpostor)}>{Utils.GetRoleName(CustomRoles.LastImpostor)}:</color> {Options.EnableLastImpostor.GetString()}\n";
-                    ShowChildren(Options.EnableLastImpostor, ref text, Palette.ImpostorRed.ShadeColor(-0.5f), 1);
+                    text += LastImpostor.ShowOnOff;
+                    ShowChildren(LastImpostor.EnableLastImpostor, ref text, Palette.ImpostorRed.ShadeColor(-0.5f), 1);
                 }
                 nameAndValue(Options.EnableGM);
                 foreach (var kvp in Options.CustomRoleSpawnChances)
