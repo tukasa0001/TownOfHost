@@ -341,7 +341,7 @@ namespace TownOfHost
                     }
                     break;
             }
-            if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText += $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]";
+            if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText += ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]");
 
             return ProgressText;
         }
