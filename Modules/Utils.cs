@@ -174,12 +174,16 @@ namespace TownOfHost
             var mainRole = Main.PlayerStates[playerId].MainRole;
             var SubRoles = Main.PlayerStates[playerId].SubRoles;
             RoleText = GetRoleName(mainRole);
-            if (mainRole.IsImpostor() && mainRole != CustomRoles.LastImpostor && IsLastImpostor(playerId))
-            {
-                RoleText = GetRoleString("Last-") + RoleText;
-            }
             RoleColor = GetRoleColor(mainRole);
-
+            foreach (var subRole in Main.PlayerStates[playerId].SubRoles)
+            {
+                switch (subRole)
+                {
+                    case CustomRoles.LastImpostor:
+                        RoleText = GetRoleString("Last-") + RoleText;
+                        break;
+                }
+            }
             return (RoleText, RoleColor);
         }
 
@@ -367,7 +371,6 @@ namespace TownOfHost
                     if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                     if (role.IsEnable() && !role.IsVanilla()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"), PlayerId);
                 }
-                if (Options.EnableLastImpostor.GetBool()) { SendMessage(GetRoleName(CustomRoles.LastImpostor) + GetString("LastImpostorInfoLong"), PlayerId); }
             }
             if (Options.NoGameEnd.GetBool()) { SendMessage(GetString("NoGameEndInfo"), PlayerId); }
         }
@@ -507,7 +510,8 @@ namespace TownOfHost
             var sb = new StringBuilder();
             foreach (var role in SubRoles)
             {
-                if (role == CustomRoles.NotAssigned) continue;
+                if (role is CustomRoles.NotAssigned or
+                            CustomRoles.LastImpostor) continue;
 
                 var RoleText = disableColor ? GetRoleName(role) : ColorString(GetRoleColor(role), GetRoleName(role));
                 sb.Append($"</color> + {RoleText}");
@@ -932,29 +936,7 @@ namespace TownOfHost
             if (Main.AliveImpostorCount == AliveImpostorCount) return;
             TownOfHost.Logger.Info("生存しているインポスター:" + AliveImpostorCount + "人", "CountAliveImpostors");
             Main.AliveImpostorCount = AliveImpostorCount;
-            if (Options.EnableLastImpostor.GetBool() && AliveImpostorCount == 1)
-            {
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (pc.IsLastImpostor() && pc.Is(CustomRoles.Impostor))
-                    {
-                        pc.RpcSetCustomRole(CustomRoles.LastImpostor);
-                        break;
-                    }
-                }
-                NotifyRoles();
-                CustomSyncAllSettings();
-            }
-        }
-        public static bool IsLastImpostor(byte playerId)
-        { //キルクールを変更するインポスター役職は省く
-            var role = Main.PlayerStates[playerId].MainRole;
-            return role.IsImpostor() &&
-                !Main.PlayerStates[playerId].IsDead &&
-                Options.CurrentGameMode != CustomGameMode.HideAndSeek &&
-                Options.EnableLastImpostor.GetBool() &&
-                role is not CustomRoles.Vampire or CustomRoles.BountyHunter or CustomRoles.SerialKiller &&
-                Main.AliveImpostorCount == 1;
+            LastImpostor.SetSubRole();
         }
         public static string GetVoteName(byte num)
         {

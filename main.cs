@@ -211,6 +211,7 @@ namespace TownOfHost
                     // GM
                     {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
+                    {CustomRoles.LastImpostor, "#ff0000"},
                     {CustomRoles.Lovers, "#ff6be4"},
 
                     {CustomRoles.NotAssigned, "#ffffff"}
@@ -275,7 +276,6 @@ namespace TownOfHost
         Puppeteer,
         TimeThief,
         EvilTracker,
-        LastImpostor,
         //Madmate
         MadGuardian,
         Madmate,
@@ -320,6 +320,7 @@ namespace TownOfHost
         GM,
         // Sub-roll after 500
         NotAssigned = 500,
+        LastImpostor,
         Lovers,
     }
     //WinData
