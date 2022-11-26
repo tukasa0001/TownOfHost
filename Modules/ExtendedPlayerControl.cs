@@ -610,10 +610,7 @@ namespace TownOfHost
             return Options.CanMakeMadmateCount.GetInt() > Main.SKMadmateNowCount
                     && player != null
                     && player.Data.Role.Role == RoleTypes.Shapeshifter
-                    && player.GetCustomRole() is
-                        CustomRoles.Shapeshifter or
-                        // CustomRoles.ShapeMaster or
-                        CustomRoles.EvilTracker;
+                    && player.GetCustomRole().CanMakeMadmate();
         }
         public static void RpcExileV2(this PlayerControl player)
         {

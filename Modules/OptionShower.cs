@@ -71,7 +71,7 @@ namespace TownOfHost
                         text += $"{rule}{Options.MadmateVentCooldown.GetName()}: {Options.MadmateVentCooldown.GetString()}\n";
                         text += $"{ruleFooter}{Options.MadmateVentMaxTime.GetName()}: {Options.MadmateVentMaxTime.GetString()}\n";
                     }
-                    if (kvp.Key is CustomRoles.Shapeshifter/* or CustomRoles.ShapeMaster*/ or CustomRoles.EvilTracker) //シェイプシフター役職の時に追加する詳細設定
+                    if (kvp.Key.CanMakeMadmate()) //シェイプシフター役職の時に追加する詳細設定
                     {
                         text += $"{ruleFooter}{Options.CanMakeMadmateCount.GetName()}: {Options.CanMakeMadmateCount.GetString()}\n";
                     }

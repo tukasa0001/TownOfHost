@@ -119,6 +119,14 @@ namespace TownOfHost
             }
         }
         public static bool IsEnable(this CustomRoles role) => role.GetCount() > 0;
+        public static bool CanMakeMadmate(this CustomRoles role)
+            => role switch
+            {
+                CustomRoles.Shapeshifter => true,
+                CustomRoles.EvilTracker => EvilTracker.CanCreateMadmate.GetBool(),
+                CustomRoles.Egoist => Egoist.CanCreateMadmate.GetBool(),
+                _ => false,
+            };
     }
     public enum RoleType
     {
