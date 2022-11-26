@@ -7,24 +7,14 @@ namespace TownOfHost
     {
         private static readonly int Id = 80000;
         public static List<byte> playerIdList = new();
-        public static OptionItem EnableLastImpostor;
         public static OptionItem KillCooldown;
         public static void SetupCustomOption()
         {
-            EnableLastImpostor = OptionItem.Create(Id, TabGroup.Addons, Palette.ImpostorRed, "LastImpostor", false, null, true)
-                .SetGameMode(CustomGameMode.Standard);
-            KillCooldown = OptionItem.Create(Id + 10, TabGroup.Addons, Color.white, "KillCooldown", 15, 0, 180, 1, EnableLastImpostor, format: OptionFormat.Seconds)
-                .SetGameMode(CustomGameMode.Standard);
+            Options.SetupSingleRoleOptions(Id, TabGroup.Addons, CustomRoles.LastImpostor, 1);
+            KillCooldown = OptionItem.Create(Id + 10, TabGroup.Addons, Color.white, "KillCooldown", 15, 0, 180, 1, Options.CustomRoleSpawnChances[CustomRoles.LastImpostor], format: OptionFormat.Seconds);
         }
-        public static void Init()
-        {
-            playerIdList = new();
-        }
-        public static void Add(byte id)
-        {
-            playerIdList.Add(id);
-        }
-        public static string ShowOnOff => $"{Utils.ColorString(Palette.ImpostorRed, Utils.GetRoleName(CustomRoles.LastImpostor))} {EnableLastImpostor.GetString()}\n";
+        public static void Init() => playerIdList = new();
+        public static void Add(byte id) => playerIdList.Add(id);
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown.GetFloat();
         public static bool CanBeLastImpostor(byte playerId)
         { //キルクールを変更するインポスター役職は省く
@@ -39,7 +29,7 @@ namespace TownOfHost
         public static void SetSubRole()
         {
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek
-            || !EnableLastImpostor.GetBool() || Main.AliveImpostorCount != 1)
+            || !CustomRoles.LastImpostor.IsEnable() || Main.AliveImpostorCount != 1)
                 return;
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
