@@ -403,18 +403,10 @@ namespace TownOfHost
             var SubRoles = Main.PlayerStates[player.PlayerId].SubRoles;
             if (SubRoles.Count == 0) return "";
             var sb = new StringBuilder();
-            bool first = false;
             foreach (var role in SubRoles)
             {
                 if (role == CustomRoles.NotAssigned) continue;
-
-                if (!first)
-                {
-                    first = true;
-                    sb.Append($"{Utils.GetRoleName(role)}");
-                }
-                else
-                    sb.Append($" + {Utils.GetRoleName(role)}");
+                sb.Append($" + {Utils.GetRoleName(role)}");
             }
 
             return sb.ToString();
@@ -423,7 +415,7 @@ namespace TownOfHost
         {
             if (!player) return null;
             var text = Utils.GetRoleName(player.GetCustomRole());
-            text += $" + {player.GetSubRoleName()}";
+            text += player.GetSubRoleName();
             return text;
         }
         public static string GetNameWithRole(this PlayerControl player)
