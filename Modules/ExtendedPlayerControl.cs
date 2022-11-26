@@ -406,8 +406,7 @@ namespace TownOfHost
             bool first = false;
             foreach (var role in SubRoles)
             {
-                if (role is CustomRoles.NotAssigned or
-                            CustomRoles.LastImpostor) continue;
+                if (role is CustomRoles.NotAssigned) continue;
 
                 if (!first)
                 {
