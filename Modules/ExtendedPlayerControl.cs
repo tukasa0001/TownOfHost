@@ -403,18 +403,10 @@ namespace TownOfHost
             var SubRoles = Main.PlayerStates[player.PlayerId].SubRoles;
             if (SubRoles.Count == 0) return "";
             var sb = new StringBuilder();
-            bool first = false;
             foreach (var role in SubRoles)
             {
-                if (role is CustomRoles.NotAssigned) continue;
-
-                if (!first)
-                {
-                    first = true;
-                    sb.Append($"{Utils.GetRoleName(role)}");
-                }
-                else
-                    sb.Append($" + {Utils.GetRoleName(role)}");
+                if (role == CustomRoles.NotAssigned) continue;
+                sb.Append($" + {Utils.GetRoleName(role)}");
             }
 
             return sb.ToString();
@@ -423,7 +415,7 @@ namespace TownOfHost
         {
             if (!player) return null;
             var text = Utils.GetRoleName(player.GetCustomRole());
-            text += $" + {player.GetSubRoleName()}";
+            text += player.GetSubRoleName();
             return text;
         }
         public static string GetNameWithRole(this PlayerControl player)
@@ -610,7 +602,7 @@ namespace TownOfHost
             return Options.CanMakeMadmateCount.GetInt() > Main.SKMadmateNowCount
                     && player != null
                     && player.Data.Role.Role == RoleTypes.Shapeshifter
-                    && !player.Is(CustomRoles.Warlock) && !player.Is(CustomRoles.FireWorks) && !player.Is(CustomRoles.Sniper) && !player.Is(CustomRoles.BountyHunter);
+                    && player.GetCustomRole().CanMakeMadmate();
         }
         public static void RpcExileV2(this PlayerControl player)
         {

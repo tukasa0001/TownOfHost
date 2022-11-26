@@ -323,6 +323,7 @@
 "CanVent","Can Vent","ベントを使える","可以使用通风管道","可以使用通風口","Может Использовать Вентиляцию",""
 "ImpostorVision","Impostor Vision","インポスター視界","拥有内鬼视野","擁有狼人的視野","Имеет Дальность Обзора Предателя",""
 "CanUseSabotage","Can Sabotage","サボタージュを使用できる","可以破坏","可以破壞","Может Использовать Саботаж",""
+"CanCreateMadmate","Can Make SideKick Madmate","マッドメイトを指名できる"
 
 "BountyTargetChangeTime","Time Until Target Swaps","ターゲット変更時間","赏金目标切换时间","賞金目標切換時間","Время Смены Его Цели",""
 "BountySuccessKillCooldown","Kill Cooldown After Killing Bounty","ターゲット殺害時のキルクール","赏金猎人击杀赏金目标的奖励冷却时间","賞金獵人殺死賞金目標冷卻","Перезарядка После Убитой Цели",""
