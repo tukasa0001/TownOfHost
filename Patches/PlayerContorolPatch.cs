@@ -271,12 +271,7 @@ namespace TownOfHost
             if (target.Is(CustomRoles.TimeThief))
                 target.ResetVotingTime();
 
-
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (pc.IsLastImpostor())
-                    Main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
-            }
+            LastImpostor.SetKillCooldown();
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
             Main.PlayerStates[target.PlayerId].SetDead();
@@ -513,7 +508,7 @@ namespace TownOfHost
                         }
                     }
                 }
-                SerialKiller.FixedUpdate(player);
+                if (GameStates.IsInTask && CustomRoles.SerialKiller.IsEnable()) SerialKiller.FixedUpdate(player);
                 if (GameStates.IsInTask && Main.WarlockTimer.ContainsKey(player.PlayerId))//処理を1秒遅らせる
                 {
                     if (player.IsAlive())
@@ -686,7 +681,7 @@ namespace TownOfHost
                 }
                 if (GameStates.IsInGame)
                 {
-                    var RoleTextData = Utils.GetRoleText(__instance);
+                    var RoleTextData = Utils.GetRoleText(__instance.PlayerId);
                     //if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                     //{
                     //    var hasRole = main.AllPlayerCustomRoles.TryGetValue(__instance.PlayerId, out var role);
@@ -924,7 +919,7 @@ namespace TownOfHost
                         {
                             Main.PlayerStates[partnerPlayer.PlayerId].deathReason = PlayerState.DeathReason.FollowingSuicide;
                             if (isExiled)
-                                Main.AfterMeetingDeathPlayers.TryAdd(partnerPlayer.PlayerId, PlayerState.DeathReason.FollowingSuicide);
+                                CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(partnerPlayer.PlayerId, PlayerState.DeathReason.FollowingSuicide);
                             else
                                 partnerPlayer.RpcMurderPlayer(partnerPlayer);
                         }

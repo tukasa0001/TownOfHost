@@ -46,7 +46,8 @@ namespace TownOfHost
             if (AllReplace)
                 SubRoles.ToArray().Do(role => SubRoles.Remove(role));
 
-            SubRoles.Add(role);
+            if (!SubRoles.Contains(role))
+                SubRoles.Add(role);
         }
         public void RemoveSubRole(CustomRoles role)
         {

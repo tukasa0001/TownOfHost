@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
-using AmongUs.Data;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -39,17 +39,10 @@ namespace TownOfHost
                 AmongUsClient.Instance.KickPlayer(client.Id, true);
                 Logger.Info($"ブロック済みのプレイヤー{client?.PlayerName}({client.FriendCode})をBANしました。", "BAN");
             }
+            BanManager.CheckBanPlayer(client);
+            BanManager.CheckDenyNamePlayer(client);
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
-            if (AmongUsClient.Instance.AmHost)
-            {
-                new LateTask(() =>
-                {
-                    if (client.Character == null) return;
-                    if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(GetString("Message.AnnounceUsingTOH"), Main.PluginVersion), client.Character.PlayerId);
-                    ChatCommands.SendTemplate("welcome", client.Character.PlayerId, true);
-                }, 3f, "Welcome Message");
-            }
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
@@ -82,6 +75,33 @@ namespace TownOfHost
                 AntiBlackout.OnDisconnect(data.Character.Data);
             }
             Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
+        }
+    }
+    [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CreatePlayer))]
+    class CreatePlayerPatch
+    {
+        public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
+        {
+            if (AmongUsClient.Instance.AmHost)
+            {
+                new LateTask(() =>
+                {
+                    if (client.Character == null) return;
+                    if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(GetString("Message.AnnounceUsingTOH"), Main.PluginVersion), client.Character.PlayerId);
+                    TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
+                }, 3f, "Welcome Message");
+                if (Options.AutoDisplayLastResult.GetBool() && Main.PlayerStates.Count != 0)
+                {
+                    new LateTask(() =>
+                    {
+                        if (!AmongUsClient.Instance.IsGameStarted)
+                        {
+                            Main.isChatCommand = true;
+                            Utils.ShowLastResult(client.Character.PlayerId);
+                        }
+                    }, 3f, "DisplayLastRoles");
+                }
+            }
         }
     }
 }

@@ -142,16 +142,10 @@ namespace TownOfHost
             }
             return;
         }
-        public static string GetRoleName(byte playerId)
+        public static string GetDisplayRoleName(byte playerId)
         {
-            var role = Main.PlayerStates[playerId].MainRole;
-            var roleName = GetRoleName(role);
-            if (role.IsImpostor() && role != CustomRoles.LastImpostor && IsLastImpostor(playerId))
-            {
-                roleName = GetRoleString("Last") + " " + roleName;
-            }
-
-            return roleName;
+            var TextData = GetRoleText(playerId);
+            return ColorString(TextData.Item2, TextData.Item1);
         }
         public static string GetRoleName(CustomRoles role)
         {
@@ -172,20 +166,25 @@ namespace TownOfHost
             if (!Main.roleColors.TryGetValue(role, out var hexColor)) hexColor = "#ffffff";
             return hexColor;
         }
-        public static (string, Color) GetRoleText(PlayerControl player)
+        public static (string, Color) GetRoleText(byte playerId)
         {
             string RoleText = "Invalid Role";
-            Color TextColor = Color.red;
+            Color RoleColor = Color.red;
 
-            var cRole = player.GetCustomRole();
-            /*if (player.isLastImpostor())
+            var mainRole = Main.PlayerStates[playerId].MainRole;
+            var SubRoles = Main.PlayerStates[playerId].SubRoles;
+            RoleText = GetRoleName(mainRole);
+            RoleColor = GetRoleColor(mainRole);
+            foreach (var subRole in Main.PlayerStates[playerId].SubRoles)
             {
-                RoleText = $"{getRoleName(cRole)} ({getString("Last")})";
+                switch (subRole)
+                {
+                    case CustomRoles.LastImpostor:
+                        RoleText = GetRoleString("Last-") + RoleText;
+                        break;
+                }
             }
-            else*/
-            RoleText = GetRoleName(cRole);
-
-            return (RoleText, GetRoleColor(cRole));
+            return (RoleText, RoleColor);
         }
 
         public static string GetVitalText(byte playerId, bool RealKillerColor = false)
@@ -346,7 +345,7 @@ namespace TownOfHost
                     }
                     break;
             }
-            if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText += $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]";
+            if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText += ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]");
 
             return ProgressText;
         }
@@ -372,7 +371,6 @@ namespace TownOfHost
                     if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                     if (role.IsEnable() && !role.IsVanilla()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"), PlayerId);
                 }
-                if (Options.EnableLastImpostor.GetBool()) { SendMessage(GetRoleName(CustomRoles.LastImpostor) + GetString("LastImpostorInfoLong"), PlayerId); }
             }
             if (Options.NoGameEnd.GetBool()) { SendMessage(GetString("NoGameEndInfo"), PlayerId); }
         }
@@ -512,7 +510,8 @@ namespace TownOfHost
             var sb = new StringBuilder();
             foreach (var role in SubRoles)
             {
-                if (role == CustomRoles.NotAssigned) continue;
+                if (role is CustomRoles.NotAssigned or
+                            CustomRoles.LastImpostor) continue;
 
                 var RoleText = disableColor ? GetRoleName(role) : ColorString(GetRoleColor(role), GetRoleName(role));
                 sb.Append($"</color> + {RoleText}");
@@ -762,7 +761,7 @@ namespace TownOfHost
                     SeerRealName = seer.GetRoleInfo();
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
-                string SelfRoleName = $"<size={fontSize}>{ColorString(seer.GetRoleColor(), GetRoleName(seer.PlayerId))}{SelfTaskText}</size>";
+                string SelfRoleName = $"<size={fontSize}>{seer.GetDisplayRoleName()}{SelfTaskText}</size>";
                 string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(seer.PlayerId))})" : "";
                 string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
                 if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
@@ -853,10 +852,10 @@ namespace TownOfHost
                             TargetMark += EvilTracker.GetTargetMark(seer, target);
 
                         //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                        string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}>{ColorString(target.GetRoleColor(), target.GetRoleName())}{TargetTaskText}</size>\r\n" : "";
+                        string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}>{target.GetDisplayRoleName()}{TargetTaskText}</size>\r\n" : "";
 
                         if (target.Is(CustomRoles.GM))
-                            TargetRoleText = $"<size={fontSize}>{ColorString(target.GetRoleColor(), target.GetRoleName())}</size>\r\n";
+                            TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName()}</size>\r\n";
 
                         //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                         string TargetPlayerName = target.GetRealName(isMeeting);
@@ -937,29 +936,7 @@ namespace TownOfHost
             if (Main.AliveImpostorCount == AliveImpostorCount) return;
             TownOfHost.Logger.Info("生存しているインポスター:" + AliveImpostorCount + "人", "CountAliveImpostors");
             Main.AliveImpostorCount = AliveImpostorCount;
-            if (Options.EnableLastImpostor.GetBool() && AliveImpostorCount == 1)
-            {
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (pc.IsLastImpostor() && pc.Is(CustomRoles.Impostor))
-                    {
-                        pc.RpcSetCustomRole(CustomRoles.LastImpostor);
-                        break;
-                    }
-                }
-                NotifyRoles();
-                CustomSyncAllSettings();
-            }
-        }
-        public static bool IsLastImpostor(byte playerId)
-        { //キルクールを変更するインポスター役職は省く
-            var role = Main.PlayerStates[playerId].MainRole;
-            return role.IsImpostor() &&
-                !Main.PlayerStates[playerId].IsDead &&
-                Options.CurrentGameMode != CustomGameMode.HideAndSeek &&
-                Options.EnableLastImpostor.GetBool() &&
-                role is not CustomRoles.Vampire or CustomRoles.BountyHunter or CustomRoles.SerialKiller &&
-                Main.AliveImpostorCount == 1;
+            LastImpostor.SetSubRole();
         }
         public static string GetVoteName(byte num)
         {
@@ -1011,7 +988,7 @@ namespace TownOfHost
         public static string SummaryTexts(byte id, bool disableColor = true)
         {
             var RolePos = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? 47 : 37;
-            string summary = $"{ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%> {GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {ColorString(GetRoleColor(Main.PlayerStates[id].MainRole), GetRoleName(id))}{GetSubRolesText(id)}</pos>";
+            string summary = $"{ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%> {GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {GetDisplayRoleName(id)}{GetSubRolesText(id)}</pos>";
             return disableColor ? summary.RemoveHtmlTags() : summary;
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");

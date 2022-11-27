@@ -64,7 +64,7 @@ namespace TownOfHost
                             target.RpcSetCustomRole(CustomRoles.JSchrodingerCat);
                             break;
                         default:
-                            SerialKiller.OnCheckMurder(killer, isKilledSchrodingerCat: true);
+                            SerialKiller.OnCheckMurder(killer, false);
                             break;
                     }
                     if (killer.GetCustomRole().IsImpostor())

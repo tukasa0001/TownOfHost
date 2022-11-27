@@ -323,6 +323,7 @@
 "CanVent","Can Vent","ベントを使える","可以使用通风管道","可以使用通風口","Может Использовать Вентиляцию",""
 "ImpostorVision","Impostor Vision","インポスター視界","拥有内鬼视野","擁有狼人的視野","Имеет Дальность Обзора Предателя",""
 "CanUseSabotage","Can Sabotage","サボタージュを使用できる","可以破坏","可以破壞","Может Использовать Саботаж",""
+"CanCreateMadmate","Can Make SideKick Madmate","マッドメイトを指名できる"
 
 "BountyTargetChangeTime","Time Until Target Swaps","ターゲット変更時間","赏金目标切换时间","賞金目標切換時間","Время Смены Его Цели",""
 "BountySuccessKillCooldown","Kill Cooldown After Killing Bounty","ターゲット殺害時のキルクール","赏金猎人击杀赏金目标的奖励冷却时间","賞金獵人殺死賞金目標冷卻","Перезарядка После Убитой Цели",""
@@ -418,7 +419,7 @@
 "DeathReason.etc","Other","その他","其他","其他","ТакДалее",""
 "Alive","Alive","生存","存活","存活","Выжил",""
 "Win"," Wins","勝利","胜利","","Победил",""
-"Last","Last","ラスト","仅存","獨活","Последний",""
+"Last-","Last ","ラスト","仅存","獨活","Последний",""
 
 "## リアクターの時間制御"
 "SabotageTimeControl","Sabotage Duration Control","サボタージュの時間制御","更改修理时限","重新設定緊急任務時間","Изменить Время Саботажа",""
@@ -450,6 +451,8 @@
 "Message.HideGameSettings","Game settings have been hidden by the host.","ゲーム設定はホストによって秘匿されています。","游戏设置被房主隐藏。","遊戲設定被房主隱藏。","Настройки игры скрыты хостом.",""
 "Message.AnnounceUsingTOH","This room uses TownOfHost v{0}.\n/now can be used to check the current settings.\nPlease check GitHub for detailed roles descriptions.","この部屋はTownOfHost v{0}を使用しています。\n/nowを使用すると現在の設定が確認できます。\n役職の詳細な説明はGitHubをご確認ください。","本房间使用TownOfHost mod v{0}。\n可以使用/now来查询当前设置。\n请前往本mod的Github页面来获取详细的职业信息。","","В этой комнате используется TownOfHost v{0}. Используйте  \n/now чтобы увидеть текущие настройки. \nПожалуйста посетите GitHub для получения подробного описания позиции.",""
 "Message.NoDescription","No description.","説明はありません。","无描述","","Описание отсутствует",""
+"Message.KickedByDenyName","{0} was kicked because its name matched ""{1}"".","{0}は名前が「{1}」に一致したためキックされました。","","","",""
+"Message.BanedByBanList","{0} has been banned because it has been banned in the past.","{0}は過去にBAN済みのためBANされました。","","","",""
 
 "## 警告"
 "Warning.EgoistCannotWin","Egoist cannot win","エゴイストが勝利できません","野心家无法获胜","利己主義者無法獲勝","Egoist не может победить!",""
@@ -476,6 +479,7 @@
 
 "## その他"
 "DefaultSystemMessageTitle","【===== System Message =====】","【===== システムメッセージ ======】","【===== 系统信息 ======】","","【===== Системное сообщение ======】",""
+"MessageFromTheHost","【Message From The Host】","【ホストからの伝言】","","","",""
 "TabGroup.MainSettings","Main Settings","メイン設定","主要设置","","Основная Настройка",""
 "TabGroup.CrewmateRoles","Crewmate Roles","クルーメイト役職","船员阵营职业","","Название Члена Экипажа",""
 "TabGroup.NeutralRoles","Neutral Roles","ニュートラル役職","独立阵营职业","","Название Нейтральной Роли",""
@@ -558,7 +562,7 @@
 "SniperSnipeButtonText","Snipe","狙撃","狙击","狙擊","Снайпнуть",""
 "FireWorksExplosionButtonText","Fire","爆破","引爆","引爆","Огонь",""
 "FireWorksInstallAtionButtonText","Set","設置","设置","安裝","Установить",""
-"SerialKillerSuicideButtonText","Suicide In","自殺まで","自杀倒计时","自殺倒數","До Суицида",""
+"SerialKillerSuicideButtonText","Suicide Timer","自殺まで","自杀倒计时","自殺倒數","До Суицида",""
 "WarlockCurseButtonText","Curse","呪う","下咒","詛咒","Проклинать",""
 "WitchSpellButtonText","Spell","スペル","诅咒","下咒","Заклинать",""
 "VampireBiteButtonText","Bite","噛む","吸血","吸血","Укусить",""
