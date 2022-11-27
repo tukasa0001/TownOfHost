@@ -144,7 +144,7 @@ namespace TownOfHost
 
                 if (Options.VoteMode.GetBool() && Options.WhenTie.GetBool() && tie)
                 {
-                    switch ((TieMode)Options.WhenTie.GetSelection())
+                    switch ((TieMode)Options.WhenTie.GetValue())
                     {
                         case TieMode.Default:
                             exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => info.PlayerId == exileId);

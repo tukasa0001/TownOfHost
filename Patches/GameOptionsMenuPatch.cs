@@ -81,7 +81,7 @@ namespace TownOfHost
                 tohMenu.GetComponentsInChildren<OptionBehaviour>().Do(x => Object.Destroy(x.gameObject));
 
                 var scOptions = new List<OptionBehaviour>();
-                foreach (var option in OptionItem.Options)
+                foreach (var option in OptionItem.AllOptions)
                 {
                     if (option.Tab != (TabGroup)tab) continue;
                     if (option.OptionBehaviour == null)
@@ -90,7 +90,7 @@ namespace TownOfHost
                         scOptions.Add(stringOption);
                         stringOption.OnValueChanged = new System.Action<OptionBehaviour>((o) => { });
                         stringOption.TitleText.text = option.Name;
-                        stringOption.Value = stringOption.oldValue = option.Selection;
+                        stringOption.Value = stringOption.oldValue = option.CurrentValue;
                         stringOption.ValueText.text = option.GetString();
                         stringOption.name = option.Name;
                         stringOption.transform.FindChild("Background").localScale = new Vector3(1.2f, 1f, 1f);
@@ -155,7 +155,7 @@ namespace TownOfHost
                 float numItems = __instance.Children.Length;
                 var offset = 2.7f;
 
-                foreach (var option in OptionItem.Options)
+                foreach (var option in OptionItem.AllOptions)
                 {
                     if ((TabGroup)tab != option.Tab) continue;
                     if (option?.OptionBehaviour == null || option.OptionBehaviour.gameObject == null) continue;
@@ -170,7 +170,7 @@ namespace TownOfHost
                     opt.size = new(5.0f, 0.45f);
                     while (parent != null && enabled)
                     {
-                        enabled = parent.Enabled;
+                        enabled = parent.GetBool();
                         parent = parent.Parent;
                         opt.color = new(0f, 1f, 0f);
                         opt.size = new(4.8f, 0.45f);
@@ -198,13 +198,13 @@ namespace TownOfHost
                     option.OptionBehaviour.gameObject.SetActive(enabled);
                     if (enabled)
                     {
-                        offset -= option.isHeader ? 0.7f : 0.5f;
+                        offset -= option.IsHeader ? 0.7f : 0.5f;
                         option.OptionBehaviour.transform.localPosition = new Vector3(
                             option.OptionBehaviour.transform.localPosition.x,
                             offset,
                             option.OptionBehaviour.transform.localPosition.z);
 
-                        if (option.isHeader)
+                        if (option.IsHeader)
                         {
                             numItems += 0.5f;
                         }
@@ -224,12 +224,12 @@ namespace TownOfHost
     {
         public static bool Prefix(StringOption __instance)
         {
-            var option = OptionItem.Options.FirstOrDefault(opt => opt.OptionBehaviour == __instance);
+            var option = OptionItem.AllOptions.FirstOrDefault(opt => opt.OptionBehaviour == __instance);
             if (option == null) return true;
 
             __instance.OnValueChanged = new Action<OptionBehaviour>((o) => { });
             __instance.TitleText.text = option.GetName();
-            __instance.Value = __instance.oldValue = option.Selection;
+            __instance.Value = __instance.oldValue = option.CurrentValue;
             __instance.ValueText.text = option.GetString();
 
             return false;
@@ -241,10 +241,10 @@ namespace TownOfHost
     {
         public static bool Prefix(StringOption __instance)
         {
-            var option = OptionItem.Options.FirstOrDefault(opt => opt.OptionBehaviour == __instance);
+            var option = OptionItem.AllOptions.FirstOrDefault(opt => opt.OptionBehaviour == __instance);
             if (option == null) return true;
 
-            option.UpdateSelection(option.Selection + 1);
+            option.SetValue(option.CurrentValue + 1);
             return false;
         }
     }
@@ -254,10 +254,10 @@ namespace TownOfHost
     {
         public static bool Prefix(StringOption __instance)
         {
-            var option = OptionItem.Options.FirstOrDefault(opt => opt.OptionBehaviour == __instance);
+            var option = OptionItem.AllOptions.FirstOrDefault(opt => opt.OptionBehaviour == __instance);
             if (option == null) return true;
 
-            option.UpdateSelection(option.Selection - 1);
+            option.SetValue(option.CurrentValue - 1);
             return false;
         }
     }
@@ -267,7 +267,7 @@ namespace TownOfHost
     {
         public static void Postfix()
         {
-            OptionItem.ShareOptionSelections();
+            OptionItem.SyncAllOptions();
         }
     }
     [HarmonyPatch(typeof(RolesSettingsMenu), nameof(RolesSettingsMenu.Start))]

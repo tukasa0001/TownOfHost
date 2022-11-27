@@ -123,7 +123,7 @@ namespace TownOfHost
             {
                 RoleType.Impostor => true,
                 RoleType.Madmate => KillTargetOptions.TryGetValue(CustomRoles.Madmate, out var option) && option.GetBool(),
-                RoleType.Neutral => CanKillNeutrals.GetSelection() == 0 || !KillTargetOptions.TryGetValue(cRole, out var option) || option.GetBool(),
+                RoleType.Neutral => CanKillNeutrals.GetValue() == 0 || !KillTargetOptions.TryGetValue(cRole, out var option) || option.GetBool(),
                 _ => false,
             };
         }

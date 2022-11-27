@@ -110,14 +110,14 @@ namespace TownOfHost
                 if (x.Value == target.PlayerId)
                     Executioner = x.Key;
             });
-            Utils.GetPlayerById(Executioner).RpcSetCustomRole(CRoleChangeRoles[ChangeRolesAfterTargetKilled.GetSelection()]);
+            Utils.GetPlayerById(Executioner).RpcSetCustomRole(CRoleChangeRoles[ChangeRolesAfterTargetKilled.GetValue()]);
             Target.Remove(Executioner);
             SendRPC(Executioner);
             Utils.NotifyRoles();
         }
         public static void ChangeRole(PlayerControl executioner)
         {
-            executioner.RpcSetCustomRole(CRoleChangeRoles[ChangeRolesAfterTargetKilled.GetSelection()]);
+            executioner.RpcSetCustomRole(CRoleChangeRoles[ChangeRolesAfterTargetKilled.GetValue()]);
             Target.Remove(executioner.PlayerId);
             SendRPC(executioner.PlayerId);
         }

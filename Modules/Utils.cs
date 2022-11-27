@@ -272,7 +272,7 @@ namespace TownOfHost
                             hasTasks = false;
                         break;
                     case CustomRoles.Executioner:
-                        if (Executioner.ChangeRolesAfterTargetKilled.GetSelection() == 0)
+                        if (Executioner.ChangeRolesAfterTargetKilled.GetValue() == 0)
                             hasTasks = !ForRecompute;
                         else hasTasks = false;
                         break;
@@ -402,7 +402,7 @@ namespace TownOfHost
                     ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref text);
                     text = text.RemoveHtmlTags();
                 }
-                foreach (var opt in OptionItem.Options.Where(x => x.Enabled && x.Parent == null && x.Id >= 80000 && !x.IsHiddenOn(Options.CurrentGameMode)))
+                foreach (var opt in OptionItem.AllOptions.Where(x => x.GetBool() && x.Parent == null && x.Id >= 80000 && !x.IsHiddenOn(Options.CurrentGameMode)))
                 {
                     if (opt.Name is "KillFlashDuration" or "RoleAssigningAlgorithm")
                         text += $"\n【{opt.GetName(true)}: {opt.GetString()}】\n";
@@ -431,7 +431,7 @@ namespace TownOfHost
                 text = text.RemoveHtmlTags();
             }
             text += $"━━━━━━━━━━━━【{GetString("Settings")}】━━━━━━━━━━━━";
-            foreach (var opt in OptionItem.Options.Where(x => x.Enabled && x.Parent == null && x.Id >= 80000 && !x.IsHiddenOn(Options.CurrentGameMode)))
+            foreach (var opt in OptionItem.AllOptions.Where(x => x.GetBool() && x.Parent == null && x.Id >= 80000 && !x.IsHiddenOn(Options.CurrentGameMode)))
             {
                 if (opt.Name == "KillFlashDuration")
                     text += $"\n【{opt.GetName(true)}: {opt.GetString()}】\n";
@@ -476,7 +476,7 @@ namespace TownOfHost
                     text += opt.Index == option.Children.Count ? "┗ " : "┣ ";
                 }
                 text += $"{opt.Value.GetName(true)}: {opt.Value.GetString()}\n";
-                if (opt.Value.Enabled) ShowChildrenSettings(opt.Value, ref text, deep + 1);
+                if (opt.Value.GetBool()) ShowChildrenSettings(opt.Value, ref text, deep + 1);
             }
         }
         public static void ShowLastResult(byte PlayerId = byte.MaxValue)
@@ -719,7 +719,7 @@ namespace TownOfHost
                 }
                 if (seer.Is(CustomRoles.Witch))
                 {
-                    SelfSuffix = Witch.GetSpellModeText(seer,false);
+                    SelfSuffix = Witch.GetSpellModeText(seer, false);
                 }
 
                 //他人用の変数定義

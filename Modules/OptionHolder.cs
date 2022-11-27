@@ -28,7 +28,7 @@ namespace TownOfHost
         // ゲームモード
         public static OptionItem GameMode;
         public static CustomGameMode CurrentGameMode
-            => GameMode.Selection == 0 ? CustomGameMode.Standard : CustomGameMode.HideAndSeek;
+            => GameMode.CurrentValue == 0 ? CustomGameMode.Standard : CustomGameMode.HideAndSeek;
 
         public static readonly string[] gameModes =
         {
@@ -162,8 +162,8 @@ namespace TownOfHost
         {
             "TieMode.Default", "TieMode.All", "TieMode.Random"
         };
-        public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetSelection();
-        public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetSelection();
+        public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetValue();
+        public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetValue();
 
         // ボタン回数
         public static OptionItem SyncButtonMode;
@@ -241,7 +241,7 @@ namespace TownOfHost
         };
         public static SuffixModes GetSuffixMode()
         {
-            return (SuffixModes)SuffixMode.GetSelection();
+            return (SuffixModes)SuffixMode.GetValue();
         }
 
 
@@ -279,7 +279,7 @@ namespace TownOfHost
 
             if (CustomRoleCounts.TryGetValue(role, out var option))
             {
-                option.UpdateSelection(count - 1);
+                option.SetValue(count - 1);
             }
         }
 
@@ -291,7 +291,7 @@ namespace TownOfHost
 
         public static float GetRoleChance(CustomRoles role)
         {
-            return CustomRoleSpawnChances.TryGetValue(role, out var option) ? option.GetSelection()/* / 10f */ : roleSpawnChances[role];
+            return CustomRoleSpawnChances.TryGetValue(role, out var option) ? option.GetValue()/* / 10f */ : roleSpawnChances[role];
         }
         public static void Load()
         {

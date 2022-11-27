@@ -43,7 +43,7 @@ namespace TownOfHost
             playerIdList.Add(playerId);
             SpellMode.Add(playerId, false);
             SpelledPlayer.Add(playerId, new());
-            NowSwitchTrigger = (SwitchTrigger)ModeSwitchAction.GetSelection();
+            NowSwitchTrigger = (SwitchTrigger)ModeSwitchAction.GetValue();
         }
         public static bool IsEnable()
         {
