@@ -84,8 +84,6 @@ namespace TownOfHost
             // オブジェクト初期化
             Children = new();
 
-            int Preset = 0;
-
             // ConfigEntry初期化
             AllConfigEntries = new ConfigEntry<int>[5];
             if (Id == 0)
@@ -101,7 +99,7 @@ namespace TownOfHost
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    AllConfigEntries[i] = Main.Instance.Config.Bind($"Preset{Preset}", id.ToString(), DefaultValue);
+                    AllConfigEntries[i] = Main.Instance.Config.Bind($"Preset{i + 1}", id.ToString(), DefaultValue);
                 }
             }
 

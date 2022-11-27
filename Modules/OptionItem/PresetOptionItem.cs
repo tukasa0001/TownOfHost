@@ -38,8 +38,7 @@ namespace TownOfHost
         public override void SetValue(int value)
         {
             base.SetValue(Rule.RepeatIndex(value));
-            foreach (var op in AllOptions)
-                op.Refresh();
+            SwitchPreset(Rule.RepeatIndex(value));
         }
     }
 }
