@@ -34,7 +34,8 @@ namespace TownOfHost
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.FireWorks);
             FireWorksCount = OptionItem.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "FireWorksMaxCount", 1f, 1f, 3f, 1f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks], format: OptionFormat.Pieces);
-            FireWorksRadius = OptionItem.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "FireWorksRadius", 1f, 0.5f, 3f, 0.5f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks], format: OptionFormat.Multiplier);
+            FireWorksRadius = FloatOptionItem.Create(Id + 11, "FireWorksRadius", new(0.5f, 3f, 0.5f), 1f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.FireWorks])
+                .SetValueFormat(OptionFormat.Multiplier);
         }
 
         public static void Init()
