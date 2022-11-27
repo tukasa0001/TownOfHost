@@ -238,15 +238,6 @@ namespace TownOfHost
             }
         }
 
-        // 後方互換用関数など 廃止予定
-        [Obsolete]
-        public static List<OptionItem> Options => _allOptions;
-
-        [Obsolete]
-        public int GetSelection() => GetValue();
-        [Obsolete]
-        public int Selection => CurrentValue;
-
         public int GetChance()
         {
             return CurrentValue * 100;
@@ -258,93 +249,6 @@ namespace TownOfHost
             var index = Selection + offset;
             var rate = index <= 1 ? index * 5 : (index - 1) * 10;
             return rate;*/
-        }
-        [Obsolete]
-        public void UpdateSelection(int newSelection) => SetValue(newSelection);
-        [Obsolete]
-        public void RecieveOptionSelection(int newSelection) => SetValue(newSelection);
-        [Obsolete]
-        public static void ShareOptionSelections() => SyncAllOptions();
-        [Obsolete]
-        public bool isHeader => IsHeader;
-        [Obsolete]
-        public bool isHidden => IsHidden;
-        [Obsolete]
-        public bool Enabled => GetBool();
-        [Obsolete]
-        public int DefaultSelection => DefaultValue;
-        [Obsolete]
-        public OptionItem HiddenOnDisplay(bool _) => this;
-
-        [Obsolete]
-        public static OptionItem Create(int id,
-            TabGroup tab,
-            Color color,
-            string name,
-            string[] selections,
-            int defaultValue,
-            OptionItem parent = null,
-            bool isHeader = false,
-            bool isHidden = false,
-            OptionFormat format = OptionFormat.None,
-            Dictionary<string, string> replacementDic = null)
-        {
-
-            var opt = StringOptionItem.Create(id, name, selections, defaultValue, tab, 1_000_000 <= id)
-                .SetColor(color)
-                .SetParent(parent)
-                .SetHeader(isHeader)
-                .SetHidden(isHidden)
-                .SetValueFormat(format);
-            opt._replacementDictionary = replacementDic;
-            return opt;
-        }
-
-        [Obsolete]
-        public static OptionItem Create(int id,
-            TabGroup tab,
-            Color color,
-            string name,
-            float defaultValue,
-            float min,
-            float max,
-            float step,
-            OptionItem parent = null,
-            bool isHeader = false,
-            bool isHidden = false,
-            OptionFormat format = OptionFormat.None,
-            Dictionary<string, string> replacementDic = null)
-        {
-            var opt = FloatOptionItem.Create(id, name, (min, max, step), defaultValue, tab, 1_000_000 <= id)
-                .SetColor(color)
-                .SetParent(parent)
-                .SetHeader(isHeader)
-                .SetHidden(isHidden)
-                .SetValueFormat(format);
-            opt._replacementDictionary = replacementDic;
-            return opt;
-        }
-
-        [Obsolete]
-        public static OptionItem Create(int id,
-            TabGroup tab,
-            Color color,
-            string name,
-            bool defaultValue,
-            OptionItem parent = null,
-            bool isHeader = false,
-            bool isHidden = false,
-            OptionFormat format = OptionFormat.None,
-            Dictionary<string, string> replacementDic = null)
-        {
-            var opt = BooleanOptionItem.Create(id, name, defaultValue, tab, 1_000_000 <= id)
-                .SetColor(color)
-                .SetParent(parent)
-                .SetHeader(isHeader)
-                .SetHidden(isHidden)
-                .SetValueFormat(format);
-            opt._replacementDictionary = replacementDic;
-            return opt;
         }
     }
 
