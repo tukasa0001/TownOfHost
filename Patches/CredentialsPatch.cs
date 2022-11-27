@@ -58,6 +58,12 @@ namespace TownOfHost
                 SpecialEventText.transform.position = new Vector3(0, 0.5f, 0);
             }
             SpecialEventText.enabled = TitleLogoPatch.amongUsLogo != null;
+            if (Main.IsInitialRelease)
+            {
+                SpecialEventText.text = $"Happy Birthday to {Main.ModName}!";
+                ColorUtility.TryParseHtmlString(Main.ModColor, out var col);
+                SpecialEventText.color = col;
+            }
             if (Main.IsChristmas && CultureInfo.CurrentCulture.Name == "ja-JP")
             {
                 SpecialEventText.text = "何とは言いませんが、特別な日ですね。\n<size=15%>\n\n末永く爆発しろ</size>";
