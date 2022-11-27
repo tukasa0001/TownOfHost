@@ -1,6 +1,0 @@
-namespace TownOfHost
-{
-    class TextureManager
-    {
-    }
-}

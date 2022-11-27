@@ -30,7 +30,6 @@ namespace TownOfHost
             Main.AfterMeetingDeathPlayers = new();
             Main.ResetCamPlayerList = new();
 
-            Main.SpelledPlayer = new Dictionary<byte, PlayerControl>();
             Main.CheckShapeshift = new Dictionary<byte, bool>();
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();
@@ -103,12 +102,14 @@ namespace TownOfHost
             Sniper.Init();
             TimeThief.Init();
             Mare.Init();
+            Witch.Init();
             SabotageMaster.Init();
             Egoist.Init();
             Executioner.Init();
             Jackal.Init();
             Sheriff.Init();
             EvilTracker.Init();
+            LastImpostor.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetSelection());
@@ -197,7 +198,6 @@ namespace TownOfHost
             //Utils.ApplySuffix();
 
             var rand = IRandom.Instance;
-            Main.KillOrSpell = new Dictionary<byte, bool>();
 
             List<PlayerControl> Crewmates = new();
             List<PlayerControl> Impostors = new();
@@ -311,7 +311,7 @@ namespace TownOfHost
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (pc.Is(CustomRoles.Watcher) && Options.IsEvilWatcher)
+                    if (pc.Is(CustomRoles.Watcher))
                         Main.PlayerStates[pc.PlayerId].MainRole = Options.IsEvilWatcher ? CustomRoles.EvilWatcher : CustomRoles.NiceWatcher;
                 }
                 foreach (var pair in Main.PlayerStates)
@@ -323,7 +323,6 @@ namespace TownOfHost
                 }
 
                 HudManager.Instance.SetHudActive(true);
-                Main.KillOrSpell = new Dictionary<byte, bool>();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
@@ -336,7 +335,7 @@ namespace TownOfHost
                             SerialKiller.Add(pc.PlayerId);
                             break;
                         case CustomRoles.Witch:
-                            Main.KillOrSpell.Add(pc.PlayerId, false);
+                            Witch.Add(pc.PlayerId);
                             break;
                         case CustomRoles.Warlock:
                             Main.CursedPlayers.Add(pc.PlayerId, null);

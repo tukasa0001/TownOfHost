@@ -1,7 +1,7 @@
+using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
 using UnityEngine;
-using AmongUs.Data;
 
 namespace TownOfHost
 {
@@ -27,17 +27,6 @@ namespace TownOfHost
                 // Reset lobby countdown timer
                 timer = 600f;
 
-                if (AmongUsClient.Instance.AmHost && Options.AutoDisplayLastResult.GetBool() && Main.PlayerStates.Count != 0)
-                {
-                    new LateTask(() =>
-                    {
-                        if (!AmongUsClient.Instance.IsGameStarted)
-                        {
-                            Main.isChatCommand = true;
-                            Utils.ShowLastResult();
-                        }
-                    }, 5f, "DisplayLastRoles");
-                }
                 HideName = Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
                 HideName.text = ColorUtility.TryParseHtmlString(Main.HideColor.Value, out _)
                         ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
@@ -102,13 +91,16 @@ namespace TownOfHost
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.BeginGame))]
     public class GameStartRandomMap
     {
-        public static void Prefix()
+        public static bool Prefix(GameStartManager __instance)
         {
             Options.DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
             Main.LastKillCooldown.Value = PlayerControl.GameOptions.KillCooldown;
             PlayerControl.GameOptions.KillCooldown = 0.1f;
             Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData);
+
+            __instance.ReallyBegin(false);
+            return false;
         }
         public static bool Prefix(GameStartRandomMap __instance)
         {

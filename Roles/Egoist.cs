@@ -9,11 +9,13 @@ namespace TownOfHost
         public static List<byte> playerIdList = new();
 
         private static OptionItem KillCooldown;
+        public static OptionItem CanCreateMadmate;
 
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Egoist);
             KillCooldown = OptionItem.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "KillCooldown", 20f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Egoist], format: OptionFormat.Seconds);
+            CanCreateMadmate = OptionItem.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "CanCreateMadmate", false, Options.CustomRoleSpawnChances[CustomRoles.Egoist]);
         }
         public static void Init()
         {

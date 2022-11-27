@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -87,8 +87,6 @@ namespace TownOfHost
         public static Dictionary<byte, (byte, float)> BitPlayers = new();
         public static Dictionary<byte, float> WarlockTimer = new();
         public static Dictionary<byte, PlayerControl> CursedPlayers = new();
-        public static Dictionary<byte, PlayerControl> SpelledPlayer = new();
-        public static Dictionary<byte, bool> KillOrSpell = new();
         public static Dictionary<byte, bool> isCurseAndKill = new();
         public static Dictionary<(byte, byte), bool> isDoused = new();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
@@ -135,7 +133,6 @@ namespace TownOfHost
             BitPlayers = new Dictionary<byte, (byte, float)>();
             WarlockTimer = new Dictionary<byte, float>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
-            SpelledPlayer = new Dictionary<byte, PlayerControl>();
             isDoused = new Dictionary<(byte, byte), bool>();
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
@@ -158,6 +155,7 @@ namespace TownOfHost
             CustomWinnerHolder.Reset();
             Translator.Init();
             BanManager.Init();
+            TemplateManager.Init();
 
             IRandom.SetInstance(new NetRandomWrapper());
 
@@ -170,8 +168,8 @@ namespace TownOfHost
                 {
                     //バニラ役職
                     {CustomRoles.Crewmate, "#ffffff"},
-                    {CustomRoles.Engineer, "#b6f0ff"},
-                    {CustomRoles.Scientist, "#b6f0ff"},
+                    {CustomRoles.Engineer, "#8cffff"},
+                    {CustomRoles.Scientist, "#8cffff"},
                     {CustomRoles.GuardianAngel, "#ffffff"},
                     //インポスター、シェイプシフター
                     //特殊インポスター役職
@@ -210,6 +208,7 @@ namespace TownOfHost
                     // GM
                     {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
+                    {CustomRoles.LastImpostor, "#ff0000"},
                     {CustomRoles.Lovers, "#ff6be4"},
 
                     {CustomRoles.NotAssigned, "#ffffff"}
@@ -247,18 +246,6 @@ namespace TownOfHost
             TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}", "GitVersion");
             TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}", "GitVersion");
 
-            if (!File.Exists("template.txt"))
-            {
-                TownOfHost.Logger.Info("Among Us.exeと同じフォルダにtemplate.txtが見つかりませんでした。新規作成します。", "Template");
-                try
-                {
-                    File.WriteAllText(@"template.txt", "test:This is template text.\\nLine breaks are also possible.\ntest:これは定型文です。\\n改行も可能です。");
-                }
-                catch (Exception ex)
-                {
-                    TownOfHost.Logger.Error(ex.ToString(), "Template");
-                }
-            }
             ClassInjector.RegisterTypeInIl2Cpp<ErrorText>();
 
             Harmony.PatchAll();
@@ -286,7 +273,6 @@ namespace TownOfHost
         Puppeteer,
         TimeThief,
         EvilTracker,
-        LastImpostor,
         //Madmate
         MadGuardian,
         Madmate,
@@ -331,6 +317,7 @@ namespace TownOfHost
         GM,
         // Sub-roll after 500
         NotAssigned = 500,
+        LastImpostor,
         Lovers,
     }
     //WinData

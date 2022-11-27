@@ -59,8 +59,6 @@ namespace TownOfHost
 
         // 各役職の詳細設定
         public static OptionItem EnableGM;
-        public static OptionItem EnableLastImpostor;
-        public static OptionItem LastImpostorKillCooldown;
         public static float DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
         public static OptionItem VampireKillDelay;
         //public static CustomOption ShapeMasterShapeshiftDuration;
@@ -323,7 +321,7 @@ namespace TownOfHost
             SetupRoleOptions(1300, TabGroup.ImpostorRoles, CustomRoles.Vampire);
             VampireKillDelay = OptionItem.Create(1310, TabGroup.ImpostorRoles, Color.white, "VampireKillDelay", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.Vampire], format: OptionFormat.Seconds);
             SetupRoleOptions(1400, TabGroup.ImpostorRoles, CustomRoles.Warlock);
-            SetupRoleOptions(1500, TabGroup.ImpostorRoles, CustomRoles.Witch);
+            Witch.SetupCustomOption();
             SetupRoleOptions(1600, TabGroup.ImpostorRoles, CustomRoles.Mafia);
             FireWorks.SetupCustomOption();
             Sniper.SetupCustomOption();
@@ -404,10 +402,7 @@ namespace TownOfHost
             Jackal.SetupCustomOption();
 
             // Add-Ons
-            EnableLastImpostor = OptionItem.Create(80000, TabGroup.Addons, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
-                .SetGameMode(CustomGameMode.Standard);
-            LastImpostorKillCooldown = OptionItem.Create(80010, TabGroup.Addons, Color.white, "KillCooldown", 15, 0, 180, 1, EnableLastImpostor, format: OptionFormat.Seconds)
-                .SetGameMode(CustomGameMode.Standard);
+            LastImpostor.SetupCustomOption();
             #endregion
 
             KillFlashDuration = OptionItem.Create(90000, TabGroup.MainSettings, Color.white, "KillFlashDuration", 0.3f, 0.1f, 0.45f, 0.05f, null, true, format: OptionFormat.Seconds)
