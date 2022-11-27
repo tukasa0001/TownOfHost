@@ -1016,10 +1016,6 @@ namespace TownOfHost
                     pc?.ReportDeadBody(null);
                 }
             }
-            if(pc.Is(CustomRoles.Witch))
-            {
-                Witch.OnEnterVent(pc.PlayerId);
-            }
         }
     }
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoEnterVent))]

@@ -218,5 +218,18 @@ namespace TownOfHost
                 hud.KillButton.OverrideText($"{GetString("KillButtonText")}");
             }
         }
+
+        [HarmonyPatch(typeof(Vent), nameof(Vent.EnterVent))]
+        class EnterVentPatch
+        {
+            public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
+            {
+                if (!AmongUsClient.Instance.AmHost) return;
+                if (pc.Is(CustomRoles.Witch))
+                {
+                    Witch.OnEnterVent(pc.PlayerId);
+                }
+            }
+        }
     }
 }
