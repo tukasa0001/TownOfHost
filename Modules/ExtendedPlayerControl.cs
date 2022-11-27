@@ -354,6 +354,7 @@ namespace TownOfHost
                         opt.PlayerSpeedMod = Mathf.Clamp(speed.Value, Main.MinSpeed, 3f);
                 }
             }
+            Main.PlayerStates[player.PlayerId].UpdateTask(player);
             if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead && opt.AnonymousVotes)
                 opt.AnonymousVotes = false;
             if (Options.AdditionalEmergencyCooldown.GetBool() &&
