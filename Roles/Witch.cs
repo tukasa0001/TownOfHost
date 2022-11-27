@@ -194,6 +194,14 @@ namespace TownOfHost
                 SwitchSpellMode(playerId, false);
             }
         }
+        public static string GetSpelledMark(byte targetId, bool isMeeting)
+        {
+            if (isMeeting && IsEnable() && Witch.IsSpelled(targetId))
+            {
+                return "<color=#ff0000>†</color>";
+            }
+            return "";
+        }
         public static string GetSpellModeText(PlayerControl witch, bool hud)
         {
             if (witch == null) return "";

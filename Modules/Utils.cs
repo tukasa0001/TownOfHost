@@ -805,9 +805,10 @@ namespace TownOfHost
 
                         //名前の後ろに付けるマーカー
                         string TargetMark = "";
+
                         //呪われている人
-                        if (Witch.IsSpelled(target.PlayerId) && isMeeting)
-                            TargetMark += "<color=#ff0000>†</color>";
+                        TargetMark += Witch.GetSpelledMark(target.PlayerId, isMeeting);
+
                         //タスク完了直前のSnitchにマークを表示
                         canFindSnitchRole = seer.GetCustomRole().IsImpostor() || //Seerがインポスター
                             (Options.SnitchCanFindNeutralKiller.GetBool() && seer.IsNeutralKiller());//or エゴイスト
