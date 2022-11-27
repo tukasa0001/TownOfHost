@@ -247,7 +247,6 @@ namespace TownOfHost
         [Obsolete]
         public int Selection => CurrentValue;
 
-        [Obsolete]
         public int GetChance()
         {
             return CurrentValue * 100;
