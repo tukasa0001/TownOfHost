@@ -333,7 +333,8 @@ namespace TownOfHost
 
             DefaultShapeshiftCooldown = FloatOptionItem.Create(5011, "DefaultShapeshiftCooldown", new(5f, 999f, 5f), 15f, TabGroup.ImpostorRoles, false)
                 .SetValueFormat(OptionFormat.Seconds);
-            CanMakeMadmateCount = OptionItem.Create(5012, TabGroup.ImpostorRoles, Utils.GetRoleColor(CustomRoles.Madmate), "CanMakeMadmateCount", 0, 0, 15, 1, null, true, format: OptionFormat.Times);
+            CanMakeMadmateCount = IntegerOptionItem.Create(5012, "CanMakeMadmateCount", new(0, 15, 1), 0, TabGroup.ImpostorRoles, false)
+                .SetValueFormat(OptionFormat.Times);
 
             // Madmate
             SetupRoleOptions(10000, TabGroup.ImpostorRoles, CustomRoles.Madmate);
@@ -359,7 +360,8 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Seconds);
             // Both
             SetupRoleOptions(30000, TabGroup.NeutralRoles, CustomRoles.Watcher);
-            EvilWatcherChance = OptionItem.Create(30010, TabGroup.NeutralRoles, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher], format: OptionFormat.Percent);
+            EvilWatcherChance = IntegerOptionItem.Create(30010, "EvilWatcherChance", new(0, 100, 10), 0, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Watcher])
+                .SetValueFormat(OptionFormat.Percent);
             // Crewmate
             SetupRoleOptions(20000, TabGroup.CrewmateRoles, CustomRoles.Bait);
             SetupRoleOptions(20100, TabGroup.CrewmateRoles, CustomRoles.Lighter);
@@ -367,9 +369,11 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Multiplier);
             LighterTaskCompletedDisableLightOut = OptionItem.Create(20111, TabGroup.CrewmateRoles, Color.white, "LighterTaskCompletedDisableLightOut", true, CustomRoleSpawnChances[CustomRoles.Lighter]);
             SetupRoleOptions(20200, TabGroup.CrewmateRoles, CustomRoles.Mayor);
-            MayorAdditionalVote = OptionItem.Create(20210, TabGroup.CrewmateRoles, Color.white, "MayorAdditionalVote", 1, 1, 99, 1, CustomRoleSpawnChances[CustomRoles.Mayor], format: OptionFormat.Votes);
+            MayorAdditionalVote = IntegerOptionItem.Create(20210, "MayorAdditionalVote", new(1, 99, 1), 1, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mayor])
+                .SetValueFormat(OptionFormat.Votes);
             MayorHasPortableButton = OptionItem.Create(20211, TabGroup.CrewmateRoles, Color.white, "MayorHasPortableButton", false, CustomRoleSpawnChances[CustomRoles.Mayor]);
-            MayorNumOfUseButton = OptionItem.Create(20212, TabGroup.CrewmateRoles, Color.white, "MayorNumOfUseButton", 1, 1, 99, 1, MayorHasPortableButton, format: OptionFormat.Times);
+            MayorNumOfUseButton = IntegerOptionItem.Create(20212, "MayorNumOfUseButton", new(1, 99, 1), 1, TabGroup.CrewmateRoles, false).SetParent(MayorHasPortableButton)
+                .SetValueFormat(OptionFormat.Times);
             SabotageMaster.SetupCustomOption();
             Sheriff.SetupCustomOption();
             SetupRoleOptions(20500, TabGroup.CrewmateRoles, CustomRoles.Snitch);
@@ -381,7 +385,8 @@ namespace TownOfHost
             SetupRoleOptions(20600, TabGroup.CrewmateRoles, CustomRoles.SpeedBooster);
             SpeedBoosterUpSpeed = FloatOptionItem.Create(20610, "SpeedBoosterUpSpeed", new(0.1f, 0.5f, 0.1f), 0.3f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
                 .SetValueFormat(OptionFormat.Multiplier);
-            SpeedBoosterTaskTrigger = OptionItem.Create(20611, TabGroup.CrewmateRoles, Color.white, "SpeedBoosterTaskTrigger", 5f, 1f, 99f, 1f, CustomRoleSpawnChances[CustomRoles.SpeedBooster], format: OptionFormat.Pieces);
+            SpeedBoosterTaskTrigger = IntegerOptionItem.Create(20611, "SpeedBoosterTaskTrigger", new(1, 99, 1), 5, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
+                .SetValueFormat(OptionFormat.Pieces);
             SetupRoleOptions(20700, TabGroup.CrewmateRoles, CustomRoles.Doctor);
             DoctorTaskCompletedBatteryCharge = FloatOptionItem.Create(20710, "DoctorTaskCompletedBatteryCharge", new(0f, 10f, 1f), 5f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Doctor])
                 .SetValueFormat(OptionFormat.Seconds);
@@ -537,7 +542,8 @@ namespace TownOfHost
             // ボタン回数同期
             SyncButtonMode = OptionItem.Create(100200, TabGroup.MainSettings, Color.white, "SyncButtonMode", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            SyncedButtonCount = OptionItem.Create(100201, TabGroup.MainSettings, Color.white, "SyncedButtonCount", 10, 0, 100, 1, SyncButtonMode, format: OptionFormat.Times)
+            SyncedButtonCount = IntegerOptionItem.Create(100201, "SyncedButtonCount", new(0, 100, 1), 10, TabGroup.MainSettings, false).SetParent(SyncButtonMode)
+                .SetValueFormat(OptionFormat.Times)
                 .SetGameMode(CustomGameMode.Standard);
 
             // 投票モード
@@ -563,7 +569,8 @@ namespace TownOfHost
 
             // 生存人数ごとの緊急会議
             AdditionalEmergencyCooldown = OptionItem.Create(101400, TabGroup.MainSettings, Color.white, "AdditionalEmergencyCooldown", false);
-            AdditionalEmergencyCooldownThreshold = OptionItem.Create(101401, TabGroup.MainSettings, Color.white, "AdditionalEmergencyCooldownThreshold", 1, 1, 15, 1, AdditionalEmergencyCooldown, format: OptionFormat.Players);
+            AdditionalEmergencyCooldownThreshold = IntegerOptionItem.Create(101401, "AdditionalEmergencyCooldownThreshold", new(1, 15, 1), 1, TabGroup.MainSettings, false).SetParent(AdditionalEmergencyCooldown)
+                .SetValueFormat(OptionFormat.Players);
             AdditionalEmergencyCooldownTime = FloatOptionItem.Create(101402, "AdditionalEmergencyCooldownTime", new(1f, 60f, 1f), 1f, TabGroup.MainSettings, false).SetParent(AdditionalEmergencyCooldown)
                 .SetValueFormat(OptionFormat.Seconds);
 
@@ -622,8 +629,8 @@ namespace TownOfHost
         {
             var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, tab, false).SetColor(Utils.GetRoleColor(role))
                 .SetGameMode(customGameMode);
-            var countOption = OptionItem.Create(id + 1, tab, Color.white, "Maximum", 1, 1, 15, 1, spawnOption, false, format: OptionFormat.Players)
-                .HiddenOnDisplay(true)
+            var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 15, 1), 1, tab, false).SetParent(spawnOption)
+                .SetValueFormat(OptionFormat.Players)
                 .SetGameMode(customGameMode);
 
             CustomRoleSpawnChances.Add(role, spawnOption);
@@ -635,8 +642,7 @@ namespace TownOfHost
             var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
                 .SetGameMode(customGameMode);
 
-            var countOption = OptionItem.Create(id + 1, TabGroup.Addons, Color.white, "NumberOfLovers", 2, 1, 15, 1, spawnOption, false, true)
-                .HiddenOnDisplay(false)
+            var countOption = IntegerOptionItem.Create(id + 1, "NumberOfLovers", new(1, 15, 1), 2, TabGroup.Addons, false).SetParent(spawnOption)
                 .SetGameMode(customGameMode);
 
             CustomRoleSpawnChances.Add(role, spawnOption);
@@ -647,8 +653,7 @@ namespace TownOfHost
             var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, tab, false).SetColor(Utils.GetRoleColor(role))
                 .SetGameMode(customGameMode);
             // 初期値,最大値,最小値が同じで、stepが0のどうやっても変えることができない個数オプション
-            var countOption = OptionItem.Create(id + 1, tab, Color.white, "Maximum", count, count, count, count, spawnOption, false, true)
-                .HiddenOnDisplay(false)
+            var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(count, count, count), count, tab, false).SetParent(spawnOption)
                 .SetGameMode(customGameMode);
 
             CustomRoleSpawnChances.Add(role, spawnOption);
@@ -671,8 +676,12 @@ namespace TownOfHost
                 Dictionary<string, string> replacementDic = new() { { "%role%", Utils.GetRoleName(role) } };
                 doOverride = OptionItem.Create(idStart++, tab, Color.white, "doOverride", false, CustomRoleSpawnChances[role], false, false, OptionFormat.None, replacementDic);
                 assignCommonTasks = OptionItem.Create(idStart++, tab, Color.white, "assignCommonTasks", true, doOverride, false, false, OptionFormat.None, replacementDic);
-                numLongTasks = OptionItem.Create(idStart++, tab, Color.white, "roleLongTasksNum", 3, 0, 99, 1, doOverride, false, false, OptionFormat.Pieces, replacementDic);
-                numShortTasks = OptionItem.Create(idStart++, tab, Color.white, "roleShortTasksNum", 3, 0, 99, 1, doOverride, false, false, OptionFormat.Pieces, replacementDic);
+                numLongTasks = IntegerOptionItem.Create(idStart++, "roleLongTasksNum", new(0, 99, 1), 3, tab, false).SetParent(doOverride)
+                    .SetValueFormat(OptionFormat.Pieces);
+                numLongTasks.ReplacementDictionary = replacementDic;
+                numShortTasks = IntegerOptionItem.Create(idStart++, "roleShortTasksNum", new(0, 99, 1), 3, tab, false).SetParent(doOverride)
+                    .SetValueFormat(OptionFormat.Pieces);
+                numShortTasks.ReplacementDictionary = replacementDic;
 
                 if (!AllData.ContainsKey(role)) AllData.Add(role, this);
                 else Logger.Warn("重複したCustomRolesを対象とするOverrideTasksDataが作成されました", "OverrideTasksData");

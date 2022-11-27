@@ -21,7 +21,8 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.SabotageMaster);
-            SkillLimit = OptionItem.Create(Id + 10, TabGroup.CrewmateRoles, Color.white, "SabotageMasterSkillLimit", 1, 0, 99, 1, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster], format: OptionFormat.Times);
+            SkillLimit = IntegerOptionItem.Create(Id + 10, "SabotageMasterSkillLimit", new(0, 99, 1), 1, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster])
+                .SetValueFormat(OptionFormat.Times);
             FixesDoors = OptionItem.Create(Id + 11, TabGroup.CrewmateRoles, Color.white, "SabotageMasterFixesDoors", false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
             FixesReactors = OptionItem.Create(Id + 12, TabGroup.CrewmateRoles, Color.white, "SabotageMasterFixesReactors", false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
             FixesOxygens = OptionItem.Create(Id + 13, TabGroup.CrewmateRoles, Color.white, "SabotageMasterFixesOxygens", false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
