@@ -320,7 +320,7 @@ namespace TownOfHost
             SetupRoleOptions(1300, TabGroup.ImpostorRoles, CustomRoles.Vampire);
             VampireKillDelay = OptionItem.Create(1310, TabGroup.ImpostorRoles, Color.white, "VampireKillDelay", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.Vampire], format: OptionFormat.Seconds);
             SetupRoleOptions(1400, TabGroup.ImpostorRoles, CustomRoles.Warlock);
-            SetupRoleOptions(1500, TabGroup.ImpostorRoles, CustomRoles.Witch);
+            Witch.SetupCustomOption();
             SetupRoleOptions(1600, TabGroup.ImpostorRoles, CustomRoles.Mafia);
             FireWorks.SetupCustomOption();
             Sniper.SetupCustomOption();

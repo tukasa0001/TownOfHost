@@ -478,22 +478,6 @@ namespace TownOfHost
         {
             return isMeeting ? player?.Data?.PlayerName : player?.name;
         }
-        public static bool IsSpellMode(this PlayerControl player)
-        {
-            if (!Main.KillOrSpell.TryGetValue(player.PlayerId, out var KillOrSpell))
-            {
-                Main.KillOrSpell[player.PlayerId] = false;
-                KillOrSpell = false;
-            }
-            return KillOrSpell;
-        }
-        public static void SyncKillOrSpell(this PlayerControl player)
-        {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetKillOrSpell, SendOption.Reliable, -1);
-            writer.Write(player.PlayerId);
-            writer.Write(player.IsSpellMode());
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
         public static bool CanUseKillButton(this PlayerControl pc)
         {
             return pc.GetCustomRole() switch

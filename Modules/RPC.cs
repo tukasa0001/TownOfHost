@@ -131,9 +131,7 @@ namespace TownOfHost
                     BountyHunter.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetKillOrSpell:
-                    byte playerId = reader.ReadByte();
-                    bool KoS = reader.ReadBoolean();
-                    Main.KillOrSpell[playerId] = KoS;
+                    Witch.ReceiveRPC(reader,false);
                     break;
                 case CustomRPC.SetSheriffShotLimit:
                     Sheriff.ReceiveRPC(reader);
@@ -159,9 +157,7 @@ namespace TownOfHost
                     RPC.ResetNameColorData();
                     break;
                 case CustomRPC.DoSpell:
-                    byte spelledId = reader.ReadByte();
-                    var which = Utils.GetPlayerById(reader.ReadByte());
-                    Main.SpelledPlayer.Add(spelledId, which);
+                    Witch.ReceiveRPC(reader, true);
                     break;
                 case CustomRPC.SniperSync:
                     Sniper.ReceiveRPC(reader);
@@ -312,6 +308,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.EvilTracker:
                     EvilTracker.Add(targetId);
+                    break;
+                case CustomRoles.Witch:
+                    Witch.Add(targetId);
                     break;
 
                 case CustomRoles.Egoist:
