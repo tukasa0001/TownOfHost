@@ -30,7 +30,7 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Witch);
-            ModeSwitchAction = OptionItem.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "WitchModeSwitchAction", SwitchTriggerText, SwitchTriggerText[0], Options.CustomRoleSpawnChances[CustomRoles.Witch]);
+            ModeSwitchAction = StringOptionItem.Create(Id + 10, "WitchModeSwitchAction", SwitchTriggerText, 0, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Witch]);
         }
         public static void Init()
         {
