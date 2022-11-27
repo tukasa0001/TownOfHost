@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
+using HarmonyLib;
 using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
@@ -172,10 +173,12 @@ namespace TownOfHost
             {
                 if (witch != exiled)
                 {
+                    var witchPc = Utils.GetPlayerById(witch);
                     foreach (var spelled in SpelledPlayer[witch])
                     {
                         if (!Main.PlayerStates[spelled].IsDead)
                         {
+                            Utils.GetPlayerById(spelled).SetRealKiller(witchPc);
                             Main.AfterMeetingDeathPlayers.TryAdd(spelled, PlayerState.DeathReason.Spell);
                         }
                     }
