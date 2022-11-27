@@ -21,7 +21,7 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Seconds);
             LowerLimitVotingTime = FloatOptionItem.Create(Id + 12, "TimeThiefLowerLimitVotingTime", new(1f, 300f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeThief])
                 .SetValueFormat(OptionFormat.Seconds);
-            ReturnStolenTimeUponDeath = OptionItem.Create(Id + 13, TabGroup.ImpostorRoles, Color.white, "TimeThiefReturnStolenTimeUponDeath", true, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            ReturnStolenTimeUponDeath = BooleanOptionItem.Create(Id + 13, "TimeThiefReturnStolenTimeUponDeath", true, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
         }
         public static void Init()
         {
