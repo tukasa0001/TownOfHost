@@ -84,9 +84,9 @@ namespace TownOfHost
             }
             if (AmongUsClient.Instance.AmHost && Main.IsFixedCooldown)
                 Main.RefixCooldownDelay = Options.DefaultKillCooldown - 3f;
-            foreach (var pc in PlayerControl.AllPlayerControls)
-                if (pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected)
-                    Main.SpelledPlayer.Remove(pc.PlayerId);
+
+            Witch.RemoveSpelledPlayer();
+
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
@@ -106,6 +106,10 @@ namespace TownOfHost
                 Main.PlayerStates[x.Key].deathReason = x.Value;
                 Main.PlayerStates[x.Key].SetDead();
                 player?.RpcExileV2();
+                if (x.Value == PlayerState.DeathReason.Suicide)
+                    player?.SetRealKiller(player, true);
+                if (!AntiBlackout.OverrideExiledPlayer && Main.ResetCamPlayerList.Contains(x.Key))
+                    player?.ResetPlayerCam(7f);
                 if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.FollowingSuicide)
                     player?.ResetVotingTime();
                 if (Executioner.Target.ContainsValue(x.Key))

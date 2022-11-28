@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -34,6 +34,17 @@ namespace TownOfHost
         public static readonly string DiscordInviteUrl = "https://discord.gg/W5ug6hXB9V";
         // ==========
         public const string OriginalForkId = "OriginalTOH"; // Don't Change The Value. / この値を変更しないでください。
+        // == 認証設定 / Authentication Config ==
+        // デバッグキーの認証インスタンス
+        public static HashAuth DebugKeyAuth { get; private set; }
+        // デバッグキーのハッシュ値
+        public const string DebugKeyHash = "c0fd562955ba56af3ae20d7ec9e64c664f0facecef4b3e366e109306adeae29d";
+        // デバッグキーのソルト
+        public const string DebugKeySalt = "59687b";
+        // デバッグキーのコンフィグ入力
+        public static ConfigEntry<string> DebugKeyInput { get; private set; }
+
+        // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
         public const string PluginVersion = "3.1.0";
@@ -87,8 +98,6 @@ namespace TownOfHost
         public static Dictionary<byte, (byte, float)> BitPlayers = new();
         public static Dictionary<byte, float> WarlockTimer = new();
         public static Dictionary<byte, PlayerControl> CursedPlayers = new();
-        public static Dictionary<byte, PlayerControl> SpelledPlayer = new();
-        public static Dictionary<byte, bool> KillOrSpell = new();
         public static Dictionary<byte, bool> isCurseAndKill = new();
         public static Dictionary<(byte, byte), bool> isDoused = new();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
@@ -124,6 +133,8 @@ namespace TownOfHost
             HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{ModColor}");
             ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", true);
+            DebugKeyInput = Config.Bind("Authentication", "Debug Key", "");
+
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.Enable();
             TownOfHost.Logger.Disable("NotifyRoles");
@@ -132,10 +143,15 @@ namespace TownOfHost
             TownOfHost.Logger.Disable("SwitchSystem");
             //TownOfHost.Logger.isDetail = true;
 
+            // 認証関連-初期化
+            DebugKeyAuth = new HashAuth(DebugKeyHash, DebugKeySalt);
+
+            // 認証関連-認証
+            DebugModeManager.Auth(DebugKeyAuth, DebugKeyInput.Value);
+
             BitPlayers = new Dictionary<byte, (byte, float)>();
             WarlockTimer = new Dictionary<byte, float>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
-            SpelledPlayer = new Dictionary<byte, PlayerControl>();
             isDoused = new Dictionary<(byte, byte), bool>();
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
@@ -157,6 +173,10 @@ namespace TownOfHost
             NameColorManager.Begin();
             CustomWinnerHolder.Reset();
             Translator.Init();
+            BanManager.Init();
+            TemplateManager.Init();
+
+            IRandom.SetInstance(new NetRandomWrapper());
 
             hasArgumentException = false;
             ExceptionMessage = "";
@@ -167,8 +187,8 @@ namespace TownOfHost
                 {
                     //バニラ役職
                     {CustomRoles.Crewmate, "#ffffff"},
-                    {CustomRoles.Engineer, "#b6f0ff"},
-                    {CustomRoles.Scientist, "#b6f0ff"},
+                    {CustomRoles.Engineer, "#8cffff"},
+                    {CustomRoles.Scientist, "#8cffff"},
                     {CustomRoles.GuardianAngel, "#ffffff"},
                     //インポスター、シェイプシフター
                     //特殊インポスター役職
@@ -207,6 +227,7 @@ namespace TownOfHost
                     // GM
                     {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
+                    {CustomRoles.LastImpostor, "#ff0000"},
                     {CustomRoles.Lovers, "#ff6be4"},
 
                     {CustomRoles.NotAssigned, "#ffffff"}
@@ -244,18 +265,6 @@ namespace TownOfHost
             TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}", "GitVersion");
             TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}", "GitVersion");
 
-            if (!File.Exists("template.txt"))
-            {
-                TownOfHost.Logger.Info("Among Us.exeと同じフォルダにtemplate.txtが見つかりませんでした。新規作成します。", "Template");
-                try
-                {
-                    File.WriteAllText(@"template.txt", "test:This is template text.\\nLine breaks are also possible.\ntest:これは定型文です。\\n改行も可能です。");
-                }
-                catch (Exception ex)
-                {
-                    TownOfHost.Logger.Error(ex.ToString(), "Template");
-                }
-            }
             ClassInjector.RegisterTypeInIl2Cpp<ErrorText>();
 
             Harmony.PatchAll();
@@ -283,7 +292,6 @@ namespace TownOfHost
         Puppeteer,
         TimeThief,
         EvilTracker,
-        LastImpostor,
         //Madmate
         MadGuardian,
         Madmate,
@@ -328,6 +336,7 @@ namespace TownOfHost
         GM,
         // Sub-roll after 500
         NotAssigned = 500,
+        LastImpostor,
         Lovers,
     }
     //WinData

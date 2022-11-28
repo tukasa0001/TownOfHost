@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Hazel;
 using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -11,6 +12,7 @@ namespace TownOfHost
 
         public static OptionItem CanSeeKillFlash;
         public static OptionItem CanResetTargetAfterMeeting;
+        public static OptionItem CanCreateMadmate;
 
         public static Dictionary<byte, PlayerControl> Target = new();
         public static Dictionary<byte, bool> CanSetTarget = new();
@@ -20,6 +22,7 @@ namespace TownOfHost
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.EvilTracker);
             CanSeeKillFlash = OptionItem.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "EvilTrackerCanSeeKillFlash", true, Options.CustomRoleSpawnChances[CustomRoles.EvilTracker]);
             CanResetTargetAfterMeeting = OptionItem.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "EvilTrackerResetTargetAfterMeeting", true, Options.CustomRoleSpawnChances[CustomRoles.EvilTracker]);
+            CanCreateMadmate = OptionItem.Create(Id + 20, TabGroup.ImpostorRoles, Color.white, "CanCreateMadmate", false, Options.CustomRoleSpawnChances[CustomRoles.EvilTracker]);
         }
         public static void Init()
         {
@@ -63,6 +66,11 @@ namespace TownOfHost
             opt.RoleOptions.ShapeshifterCooldown = CanSetTarget[playerId] ? 5f : 255f;
             opt.RoleOptions.ShapeshifterDuration = 1f;
         }
+        public static void GetAbilityButtonText(HudManager __instance, byte playerId)
+        {
+            __instance.AbilityButton.ToggleVisible(CanSetTarget[playerId]);
+            __instance.AbilityButton.OverrideText($"{GetString("EvilTrackerChangeButtonText")}");
+        }
         public static void SendTarget(byte EvilTrackerId, byte targetId)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetEvilTrackerTarget, Hazel.SendOption.Reliable, -1);
@@ -96,27 +104,13 @@ namespace TownOfHost
             SendRemoveTarget(player.PlayerId);
             return Target[player.PlayerId];
         }
-        public static bool KillFlashCheck(PlayerControl killer, PlayerState.DeathReason deathReason)
+        public static bool KillFlashCheck(PlayerControl killer, PlayerControl target)
         {
             if (!CanSeeKillFlash.GetBool()) return false;
-            else //インポスターによるキルかどうかの判別
-            {
-                switch (deathReason) //死因での判別
-                {
-                    case PlayerState.DeathReason.Bite:
-                    case PlayerState.DeathReason.Sniped:
-                    case PlayerState.DeathReason.Bombed:
-                        return true;
-                    case PlayerState.DeathReason.Suicide:
-                    case PlayerState.DeathReason.FollowingSuicide:
-                    case PlayerState.DeathReason.Misfire:
-                    case PlayerState.DeathReason.Torched:
-                        return false;
-                    default:
-                        bool PuppeteerCheck = CustomRoles.Puppeteer.IsEnable() && !killer.GetCustomRole().IsImpostor() && Main.PuppeteerList.ContainsKey(killer.PlayerId);
-                        return killer.GetCustomRole().IsImpostor() || PuppeteerCheck; //インポスターのノーマルキル || パペッティアキル
-                }
-            }
+            //インポスターによるキルかどうかの判別
+            if (target.GetRealKiller() != null)
+                killer = target.GetRealKiller();
+            return killer.Is(RoleType.Impostor) && killer != target;
         }
         public static string GetMarker(byte playerId) => Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor).ShadeColor(0.5f), CanSetTarget[playerId] ? "◁" : "");
         public static string GetTargetMark(PlayerControl seer, PlayerControl target) => Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), seer.GetTarget() == target ? "◀" : "");

@@ -361,8 +361,14 @@ Beware, if you or another impostor are the nearest to the player you have cursed
 Team : Impostors<br>
 Basis : Impostor<br>
 
-The Witches can perform kills or spells by turns.<br>
+The Witches can perform kills or spells switched by Actions.<br>
 The players spelled by Witches before a meeting are marked "cross" in the meeting, and unless exiling Witches, They all die just after the meeting.<br>
+
+#### Game Options
+
+| Name               |           |
+| ------------------ | --------- |
+| Mode Switch Action | Kill/Vent |
 
 ### Mafia
 

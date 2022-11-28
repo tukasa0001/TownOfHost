@@ -13,6 +13,7 @@ namespace TownOfHost
         public DeathReason deathReason { get; set; }
         public TaskState taskState;
         public bool IsBlackOut { get; set; }
+        public (DateTime, byte) RealKiller;
         public PlayerState(byte playerId)
         {
             MainRole = CustomRoles.NotAssigned;
@@ -22,6 +23,7 @@ namespace TownOfHost
             deathReason = DeathReason.etc;
             taskState = new();
             IsBlackOut = false;
+            RealKiller = (DateTime.MinValue, byte.MaxValue);
         }
         public CustomRoles GetCustomRole()
         {
@@ -44,7 +46,8 @@ namespace TownOfHost
             if (AllReplace)
                 SubRoles.ToArray().Do(role => SubRoles.Remove(role));
 
-            SubRoles.Add(role);
+            if (!SubRoles.Contains(role))
+                SubRoles.Add(role);
         }
         public void RemoveSubRole(CustomRoles role)
         {
@@ -87,6 +90,16 @@ namespace TownOfHost
             Fall,
             etc = -1
         }
+        public byte GetRealKiller()
+            => IsDead && RealKiller.Item1 != DateTime.MinValue ? RealKiller.Item2 : byte.MaxValue;
+        public int GetKillCount(bool ExcludeSelfKill = false)
+        {
+            int count = 0;
+            foreach (var state in Main.PlayerStates.Values)
+                if (!(ExcludeSelfKill && state.PlayerId == PlayerId) && state.GetRealKiller() == PlayerId)
+                    count++;
+            return count;
+        }
     }
     public class TaskState
     {
@@ -116,6 +129,8 @@ namespace TownOfHost
         {
             Logger.Info($"{player.GetNameWithRole()}: UpdateTask", "TaskCounts");
             Logger.Info($"{GameData.Instance.CompletedTasks}/{GameData.Instance.TotalTasks}", "TotalTaskCounts");
+            if (!Utils.HasTasks(player.Data, false))
+                hasTasks = false;
             if (!hasTasks) return;
             //初期化出来ていなかったら初期化
             if (AllTasksCount == -1) Init(player);
@@ -126,7 +141,7 @@ namespace TownOfHost
             && (((CompletedTasksCount + 1) >= AllTasksCount) || (CompletedTasksCount + 1) >= Options.SpeedBoosterTaskTrigger.GetInt())
             && !Main.SpeedBoostTarget.ContainsKey(player.PlayerId))
             {   //ｽﾋﾟﾌﾞが生きていて、全タスク完了orトリガー数までタスクを完了していて、SpeedBoostTargetに登録済みでない場合
-                var rand = new System.Random();
+                var rand = IRandom.Instance;
                 List<PlayerControl> targetPlayers = new();
                 //切断者と死亡者を除外
                 foreach (PlayerControl p in PlayerControl.AllPlayerControls)

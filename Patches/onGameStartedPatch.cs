@@ -30,7 +30,6 @@ namespace TownOfHost
             Main.AfterMeetingDeathPlayers = new();
             Main.ResetCamPlayerList = new();
 
-            Main.SpelledPlayer = new Dictionary<byte, PlayerControl>();
             Main.CheckShapeshift = new Dictionary<byte, bool>();
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();
@@ -103,14 +102,17 @@ namespace TownOfHost
             Sniper.Init();
             TimeThief.Init();
             Mare.Init();
+            Witch.Init();
             SabotageMaster.Init();
             Egoist.Init();
             Executioner.Init();
             Jackal.Init();
             Sheriff.Init();
             EvilTracker.Init();
+            LastImpostor.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
+            IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetSelection());
 
             MeetingStates.MeetingCalled = false;
             MeetingStates.FirstMeeting = true;
@@ -135,7 +137,6 @@ namespace TownOfHost
             //ウォッチャーの陣営抽選
             Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
 
-            var rand = new System.Random();
             if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
             {
                 //役職の人数を指定
@@ -196,8 +197,7 @@ namespace TownOfHost
 
             //Utils.ApplySuffix();
 
-            var rand = new System.Random();
-            Main.KillOrSpell = new Dictionary<byte, bool>();
+            var rand = IRandom.Instance;
 
             List<PlayerControl> Crewmates = new();
             List<PlayerControl> Impostors = new();
@@ -311,7 +311,7 @@ namespace TownOfHost
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (pc.Is(CustomRoles.Watcher) && Options.IsEvilWatcher)
+                    if (pc.Is(CustomRoles.Watcher))
                         Main.PlayerStates[pc.PlayerId].MainRole = Options.IsEvilWatcher ? CustomRoles.EvilWatcher : CustomRoles.NiceWatcher;
                 }
                 foreach (var pair in Main.PlayerStates)
@@ -323,7 +323,6 @@ namespace TownOfHost
                 }
 
                 HudManager.Instance.SetHudActive(true);
-                Main.KillOrSpell = new Dictionary<byte, bool>();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
@@ -336,7 +335,7 @@ namespace TownOfHost
                             SerialKiller.Add(pc.PlayerId);
                             break;
                         case CustomRoles.Witch:
-                            Main.KillOrSpell.Add(pc.PlayerId, false);
+                            Witch.Add(pc.PlayerId);
                             break;
                         case CustomRoles.Warlock:
                             Main.CursedPlayers.Add(pc.PlayerId, null);
@@ -435,7 +434,7 @@ namespace TownOfHost
             for (var i = 0; i < role.GetCount(); i++)
             {
                 if (AllPlayers.Count <= 0) break;
-                var rand = new Random();
+                var rand = IRandom.Instance;
                 var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
                 AllPlayers.Remove(player);
                 Main.PlayerStates[player.PlayerId].MainRole = role;
@@ -475,7 +474,7 @@ namespace TownOfHost
         private static List<PlayerControl> AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1)
         {
             if (players == null || players.Count <= 0) return null;
-            var rand = new System.Random();
+            var rand = IRandom.Instance;
             var count = Math.Clamp(RawCount, 0, players.Count);
             if (RawCount == -1) count = Math.Clamp(role.GetCount(), 0, players.Count);
             if (count <= 0) return null;
@@ -521,7 +520,7 @@ namespace TownOfHost
                 allPlayers.Add(player);
             }
             var loversRole = CustomRoles.Lovers;
-            var rand = new System.Random();
+            var rand = IRandom.Instance;
             var count = Math.Clamp(RawCount, 0, allPlayers.Count);
             if (RawCount == -1) count = Math.Clamp(loversRole.GetCount(), 0, allPlayers.Count);
             if (count <= 0) return;
