@@ -30,7 +30,7 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Witch);
-            ModeSwitchAction = OptionItem.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "WitchModeSwitchAction", SwitchTriggerText, 0, Options.CustomRoleSpawnChances[CustomRoles.Witch]);
+            ModeSwitchAction = StringOptionItem.Create(Id + 10, "WitchModeSwitchAction", SwitchTriggerText, 0, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Witch]);
         }
         public static void Init()
         {
@@ -43,7 +43,7 @@ namespace TownOfHost
             playerIdList.Add(playerId);
             SpellMode.Add(playerId, false);
             SpelledPlayer.Add(playerId, new());
-            NowSwitchTrigger = (SwitchTrigger)ModeSwitchAction.GetSelection();
+            NowSwitchTrigger = (SwitchTrigger)ModeSwitchAction.GetValue();
         }
         public static bool IsEnable()
         {

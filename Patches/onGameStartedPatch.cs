@@ -112,7 +112,7 @@ namespace TownOfHost
             LastImpostor.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
-            IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetSelection());
+            IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
 
             MeetingStates.MeetingCalled = false;
             MeetingStates.FirstMeeting = true;

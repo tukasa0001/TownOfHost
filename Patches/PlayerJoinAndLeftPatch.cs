@@ -11,6 +11,7 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance)
         {
+            while (!Options.IsLoaded) System.Threading.Tasks.Task.Delay(1);
             Logger.Info($"{__instance.GameId}に参加", "OnGameJoined");
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
@@ -19,7 +20,6 @@ namespace TownOfHost
             ChatUpdatePatch.DoBlockChat = false;
             GameStates.InGame = false;
             NameColorManager.Begin();
-            Options.Load();
             ErrorText.Instance.Clear();
             if (AmongUsClient.Instance.AmHost) //以下、ホストのみ実行
             {

@@ -21,12 +21,13 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.SabotageMaster);
-            SkillLimit = OptionItem.Create(Id + 10, TabGroup.CrewmateRoles, Color.white, "SabotageMasterSkillLimit", 1, 0, 99, 1, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster], format: OptionFormat.Times);
-            FixesDoors = OptionItem.Create(Id + 11, TabGroup.CrewmateRoles, Color.white, "SabotageMasterFixesDoors", false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            FixesReactors = OptionItem.Create(Id + 12, TabGroup.CrewmateRoles, Color.white, "SabotageMasterFixesReactors", false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            FixesOxygens = OptionItem.Create(Id + 13, TabGroup.CrewmateRoles, Color.white, "SabotageMasterFixesOxygens", false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            FixesComms = OptionItem.Create(Id + 14, TabGroup.CrewmateRoles, Color.white, "SabotageMasterFixesCommunications", false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            FixesElectrical = OptionItem.Create(Id + 15, TabGroup.CrewmateRoles, Color.white, "SabotageMasterFixesElectrical", false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
+            SkillLimit = IntegerOptionItem.Create(Id + 10, "SabotageMasterSkillLimit", new(0, 99, 1), 1, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster])
+                .SetValueFormat(OptionFormat.Times);
+            FixesDoors = BooleanOptionItem.Create(Id + 11, "SabotageMasterFixesDoors", false, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
+            FixesReactors = BooleanOptionItem.Create(Id + 12, "SabotageMasterFixesReactors", false, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
+            FixesOxygens = BooleanOptionItem.Create(Id + 13, "SabotageMasterFixesOxygens", false, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
+            FixesComms = BooleanOptionItem.Create(Id + 14, "SabotageMasterFixesCommunications", false, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
+            FixesElectrical = BooleanOptionItem.Create(Id + 15, "SabotageMasterFixesElectrical", false, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
         }
         public static void Init()
         {

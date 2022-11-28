@@ -37,7 +37,7 @@ namespace TownOfHost
                     text += $"<color={Utils.GetRoleColorCode(CustomRoles.GM)}>{Utils.GetRoleName(CustomRoles.GM)}:</color> {Options.EnableGM.GetString()}\n\n";
                     text += GetString("ActiveRolesList") + "\n";
                     foreach (var kvp in Options.CustomRoleSpawnChances)
-                        if (kvp.Value.GameMode is CustomGameMode.Standard or CustomGameMode.All && kvp.Value.Enabled) //スタンダードか全てのゲームモードで表示する役職
+                        if (kvp.Value.GameMode is CustomGameMode.Standard or CustomGameMode.All && kvp.Value.GetBool()) //スタンダードか全てのゲームモードで表示する役職
                             text += $"{Utils.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
                     pages.Add(text + "\n\n");
                     text = "";
@@ -70,11 +70,11 @@ namespace TownOfHost
                     }
                 }
 
-                foreach (var opt in OptionItem.Options.Where(x => x.Id >= 90000 && !x.IsHiddenOn(Options.CurrentGameMode) && x.Parent == null))
+                foreach (var opt in OptionItem.AllOptions.Where(x => x.Id >= 90000 && !x.IsHiddenOn(Options.CurrentGameMode) && x.Parent == null))
                 {
-                    if (opt.isHeader) text += "\n";
+                    if (opt.IsHeader) text += "\n";
                     text += $"{opt.GetName()}: {opt.GetString()}\n";
-                    if (opt.Enabled)
+                    if (opt.GetBool())
                         ShowChildren(opt, ref text, Color.white, 1);
                 }
                 //Onの時に子要素まで表示するメソッド
@@ -104,7 +104,7 @@ namespace TownOfHost
                 text += string.Concat(Enumerable.Repeat(Utils.ColorString(color, "┃"), deep - 1));
                 text += Utils.ColorString(color, opt.Index == option.Children.Count ? "┗ " : "┣ ");
                 text += $"{opt.Value.GetName()}: {opt.Value.GetString()}\n";
-                if (opt.Value.Enabled) ShowChildren(opt.Value, ref text, color, deep + 1);
+                if (opt.Value.GetBool()) ShowChildren(opt.Value, ref text, color, deep + 1);
             }
         }
     }

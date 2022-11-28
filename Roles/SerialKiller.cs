@@ -17,8 +17,10 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.SerialKiller);
-            KillCooldown = OptionItem.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "KillCooldown", 20f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.SerialKiller], format: OptionFormat.Seconds);
-            TimeLimit = OptionItem.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "SerialKillerLimit", 60f, 5f, 900f, 5f, Options.CustomRoleSpawnChances[CustomRoles.SerialKiller], format: OptionFormat.Seconds);
+            KillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(2.5f, 180f, 2.5f), 20f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.SerialKiller])
+                .SetValueFormat(OptionFormat.Seconds);
+            TimeLimit = FloatOptionItem.Create(Id + 11, "SerialKillerLimit", new(5f, 900f, 5f), 60f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.SerialKiller])
+                .SetValueFormat(OptionFormat.Seconds);
         }
         public static void Init()
         {
