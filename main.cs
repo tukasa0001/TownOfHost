@@ -34,6 +34,17 @@ namespace TownOfHost
         public static readonly string DiscordInviteUrl = "https://discord.gg/W5ug6hXB9V";
         // ==========
         public const string OriginalForkId = "OriginalTOH"; // Don't Change The Value. / この値を変更しないでください。
+        // == 認証設定 / Authentication Config ==
+        // デバッグキーの認証インスタンス
+        public static HashAuth DebugKeyAuth { get; private set; }
+        // デバッグキーのハッシュ値
+        public const string DebugKeyHash = "c0fd562955ba56af3ae20d7ec9e64c664f0facecef4b3e366e109306adeae29d";
+        // デバッグキーのソルト
+        public const string DebugKeySalt = "59687b";
+        // デバッグキーのコンフィグ入力
+        public static ConfigEntry<string> DebugKeyInput { get; private set; }
+
+        // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
         public const string PluginVersion = "3.1.0";
@@ -122,6 +133,8 @@ namespace TownOfHost
             HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{ModColor}");
             ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", true);
+            DebugKeyInput = Config.Bind("Authentication", "Debug Key", "");
+
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.Enable();
             TownOfHost.Logger.Disable("NotifyRoles");
@@ -129,6 +142,12 @@ namespace TownOfHost
             TownOfHost.Logger.Disable("ReceiveRPC");
             TownOfHost.Logger.Disable("SwitchSystem");
             //TownOfHost.Logger.isDetail = true;
+
+            // 認証関連-初期化
+            DebugKeyAuth = new HashAuth(DebugKeyHash, DebugKeySalt);
+
+            // 認証関連-認証
+            DebugModeManager.Auth(DebugKeyAuth, DebugKeyInput.Value);
 
             BitPlayers = new Dictionary<byte, (byte, float)>();
             WarlockTimer = new Dictionary<byte, float>();
