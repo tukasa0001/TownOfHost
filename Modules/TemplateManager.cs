@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using HarmonyLib;
 using static TownOfHost.Translator;
 
@@ -86,6 +87,15 @@ namespace TownOfHost
                 else Utils.SendMessage(string.Format(GetString("Message.TemplateNotFoundClient"), str), playerId);
             }
             else for (int i = 0; i < sendList.Count; i++) Utils.SendMessage(sendList[i], playerId);
+        }
+
+        private static string ApplyReplaceDictionary(string text)
+        {
+            foreach (var kvp in _replaceDictionary)
+            {
+                text = Regex.Replace(text, "{{" + kvp.Key + "}}", kvp.Value.Invoke() ?? "", RegexOptions.IgnoreCase);
+            }
+            return text;
         }
     }
 }
