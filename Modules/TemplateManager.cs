@@ -11,6 +11,27 @@ namespace TownOfHost
     public static class TemplateManager
     {
         private static readonly string TEMPLATE_FILE_PATH = "./TOH_DATA/template.txt";
+        private static Dictionary<string, Func<string>> _replaceDictionary = new()
+        {
+            ["RoomCode"] = () => InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId),
+            ["PlayerName"] = () => PlayerControl.LocalPlayer.Data.PlayerName,
+            ["AmongUsVersion"] = () => UnityEngine.Application.version,
+            ["ModVersion"] = () => Main.PluginVersion,
+            ["Map"] = () => Constants.MapNames[PlayerControl.GameOptions.MapId],
+            ["NumEmergencyMeetings"] = () => PlayerControl.GameOptions.NumEmergencyMeetings.ToString(),
+            ["EmergencyCooldown"] = () => PlayerControl.GameOptions.EmergencyCooldown.ToString(),
+            ["DiscussionTime"] = () => PlayerControl.GameOptions.DiscussionTime.ToString(),
+            ["VotingTime"] = () => PlayerControl.GameOptions.VotingTime.ToString(),
+            ["PlayerSpeedMod"] = () => PlayerControl.GameOptions.PlayerSpeedMod.ToString(),
+            ["CrewLightMod"] = () => PlayerControl.GameOptions.CrewLightMod.ToString(),
+            ["ImpostorLightMod"] = () => PlayerControl.GameOptions.ImpostorLightMod.ToString(),
+            ["KillCooldown"] = () => PlayerControl.GameOptions.KillCooldown.ToString(),
+            ["NumCommonTasks"] = () => PlayerControl.GameOptions.NumCommonTasks.ToString(),
+            ["NumLongTasks"] = () => PlayerControl.GameOptions.NumLongTasks.ToString(),
+            ["NumShortTasks"] = () => PlayerControl.GameOptions.NumShortTasks.ToString(),
+            ["Date"] = () => DateTime.Now.ToShortDateString(),
+            ["Time"] = () => DateTime.Now.ToShortTimeString(),
+        };
 
         public static void Init()
         {
