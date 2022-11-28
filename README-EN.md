@@ -80,6 +80,7 @@ You can execute chat commands by typing in chat.
 | /help addons <add-ons><br>/help a <add-ons> | Show add-on description                           |
 | /help modes <mode><br>/help m <mode>        | Show mode description                             |
 | /hidename <string><br>/hn <string>          | Rename code concealment string                    |
+| /say <string>                               | Make an announcement as a host                    |
 
 #### MOD Client Only
 | Command        | Function                    |
