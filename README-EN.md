@@ -141,6 +141,27 @@ You can also reload the translation by pressing key `T`+`F5`.
 | TChinese      |
 | Irish         |
 
+### BAN Function
+The host can ban players even during the game without requiring other players to vote. <br>
+Also, if you ban, that player will not be able to enter the room you host from now on. <br>
+Banned players are recorded in `./TOH_DATA/BanList.txt` as `friend code, player name`, and you can remove the ban by deleting the corresponding line. <br>
+Even if you block it with a friend list, it will automatically ban. <br>
+
+### Kick Function
+The host can kick players even during the game without requiring other players to vote. <br>
+
+### Name Filter
+By listing the names you want to deny in `./TOH_DATA/DenyName.txt`, players with matching names will be automatically kicked. <br>
+It can be specified by [regular expression](https://regex101.com/), and it will be judged line by line. <br>
+
+Example:
+| specified character | matching name                           | note                           |
+| ------------------- | --------------------------------------- | ------------------------------ |
+| Host                | `Host` `MODHost` `HostTOH` `MODHostTOH` | Matches if `Host' is included. |
+| ^Host               | `HostMOD` `HostTOH` `HostTEST`          | Match if prefixed with `Host`  |
+| Host$               | `MODHost` `TOHHost` `TESTHost`          | Match if postfixed with `Host` |
+| ^Host$              | `Host`                                  | Exact match to `Host`          |
+
 ## Roles
 
 | Impostors                           | Crewmates                         | Neutrals                          | Others    |
