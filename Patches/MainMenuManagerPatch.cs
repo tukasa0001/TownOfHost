@@ -14,6 +14,7 @@ namespace TownOfHost
         [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPrefix]
         public static void Start_Prefix(MainMenuManager __instance)
         {
+            System.Threading.Tasks.Task.Run(Options.Load);
             if (template == null) template = GameObject.Find("/MainUI/ExitGameButton");
             if (template == null) return;
             //Discordボタンを生成
