@@ -255,7 +255,7 @@ namespace TownOfHost
             EvilWatcherRate = Options.EvilWatcherChance.GetFloat();
             IsEvilWatcher = UnityEngine.Random.Range(1, 100) < EvilWatcherRate;
         }
-        private static bool IsLoaded = false;
+        public static bool IsLoaded = false;
 
         static Options()
         {
