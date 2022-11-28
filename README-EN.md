@@ -55,6 +55,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 | ----------- | ---------------------------------------------------------------------------------- | ------------- |
 | `Tab`       | Option list page feed                                                              | Lobby         |
 | `Ctrl`+`F1` | Output log to desktop                                                              | Anywhere      |
+| `F10`       | Open AmongUs folder                                                                | Anywhere      |
 | `F11`       | Change resolution<br>480x270 → 640x360 → 800x450 → 1280x720 → 1600x900 → 1920x1080 | Anywhere      |
 | `T`+`F5`    | Reload custom translation file                                                     | Anywhere      |
 | `Alt`+`C`   | Copy current settings text                                                         | Lobby&In Game |
