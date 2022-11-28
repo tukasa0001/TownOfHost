@@ -11,6 +11,7 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance)
         {
+            while (!Options.IsLoaded) System.Threading.Tasks.Task.Delay(1);
             Logger.Info($"{__instance.GameId}に参加", "OnGameJoined");
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
