@@ -663,6 +663,7 @@ namespace TownOfHost
                 .SetGameMode(customGameMode);
 
             var countOption = IntegerOptionItem.Create(id + 1, "NumberOfLovers", new(2, 2, 1), 2, TabGroup.Addons, false).SetParent(spawnOption)
+                .SetHidden(true)
                 .SetGameMode(customGameMode);
 
             CustomRoleSpawnChances.Add(role, spawnOption);
