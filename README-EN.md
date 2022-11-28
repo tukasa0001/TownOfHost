@@ -101,7 +101,7 @@ You can execute chat commands by typing in chat.
 ### Template
 This function allows you to send prepared messages.<br>
 Execute by typing `/template <tag>` or `/t <tag>`.<br>
-To set the text, edit `template.txt` in the same folder as AmongUs.exe.<br>
+To set the text, edit `./TOH_DATA/template.txt` in the same folder as AmongUs.exe.<br>
 Separate each entry with a colon, such as `tag:content`.<br>
 Also, you can break lines by writing `\n` in the sentence like `tag:line breaks can be\nmade like this`.<br>
 
