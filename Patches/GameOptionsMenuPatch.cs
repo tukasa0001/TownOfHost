@@ -91,7 +91,7 @@ namespace TownOfHost
                         stringOption.OnValueChanged = new System.Action<OptionBehaviour>((o) => { });
                         stringOption.TitleText.text = option.Name;
                         stringOption.Value = stringOption.oldValue = option.Selection;
-                        stringOption.ValueText.text = option.Selections[option.Selection].ToString();
+                        stringOption.ValueText.text = option.GetString();
                         stringOption.name = option.Name;
                         stringOption.transform.FindChild("Background").localScale = new Vector3(1.2f, 1f, 1f);
                         stringOption.transform.FindChild("Plus_TMP").localPosition += new Vector3(0.3f, 0f, 0f);
@@ -164,7 +164,7 @@ namespace TownOfHost
                     var parent = option.Parent;
 
                     enabled = AmongUsClient.Instance.AmHost &&
-                        !option.IsHidden(Options.CurrentGameMode);
+                        !option.IsHiddenOn(Options.CurrentGameMode);
 
                     var opt = option.OptionBehaviour.transform.Find("Background").GetComponent<SpriteRenderer>();
                     opt.size = new(5.0f, 0.45f);
@@ -231,8 +231,6 @@ namespace TownOfHost
             __instance.TitleText.text = option.GetName();
             __instance.Value = __instance.oldValue = option.Selection;
             __instance.ValueText.text = option.GetString();
-            if (option.Id == Options.PresetId)
-                option.SetPresetName(__instance);
 
             return false;
         }
@@ -247,8 +245,6 @@ namespace TownOfHost
             if (option == null) return true;
 
             option.UpdateSelection(option.Selection + 1);
-            if (option.Id == Options.PresetId)
-                option.SetPresetName(__instance);
             return false;
         }
     }
@@ -262,8 +258,6 @@ namespace TownOfHost
             if (option == null) return true;
 
             option.UpdateSelection(option.Selection - 1);
-            if (option.Id == Options.PresetId)
-                option.SetPresetName(__instance);
             return false;
         }
     }

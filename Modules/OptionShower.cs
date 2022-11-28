@@ -47,7 +47,7 @@ namespace TownOfHost
                 nameAndValue(Options.EnableGM);
                 foreach (var kvp in Options.CustomRoleSpawnChances)
                 {
-                    if (!kvp.Key.IsEnable() || kvp.Value.IsHidden(Options.CurrentGameMode)) continue;
+                    if (!kvp.Key.IsEnable() || kvp.Value.IsHiddenOn(Options.CurrentGameMode)) continue;
                     text += "\n";
                     text += $"{Utils.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
                     ShowChildren(kvp.Value, ref text, Utils.GetRoleColor(kvp.Key).ShadeColor(-0.5f), 1);
@@ -70,7 +70,7 @@ namespace TownOfHost
                     }
                 }
 
-                foreach (var opt in OptionItem.Options.Where(x => x.Id >= 90000 && !x.IsHidden(Options.CurrentGameMode) && x.Parent == null))
+                foreach (var opt in OptionItem.Options.Where(x => x.Id >= 90000 && !x.IsHiddenOn(Options.CurrentGameMode) && x.Parent == null))
                 {
                     if (opt.isHeader) text += "\n";
                     text += $"{opt.GetName()}: {opt.GetString()}\n";

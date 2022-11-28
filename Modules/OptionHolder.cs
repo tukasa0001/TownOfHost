@@ -297,12 +297,13 @@ namespace TownOfHost
         {
             if (IsLoaded) return;
             // プリセット
-            _ = OptionItem.Create(0, TabGroup.MainSettings, new Color32(204, 204, 0, 255), "Preset", presets, presets[0], null, true)
-                .HiddenOnDisplay(true)
+            _ = PresetOptionItem.Create(0, TabGroup.MainSettings)
+                .SetColor(new Color32(204, 204, 0, 255))
+                .SetHeader(true)
                 .SetGameMode(CustomGameMode.All);
 
             // ゲームモード
-            GameMode = OptionItem.Create(1, TabGroup.MainSettings, new Color32(204, 204, 0, 255), "GameMode", gameModes, gameModes[0], null, true)
+            GameMode = OptionItem.Create(1, TabGroup.MainSettings, new Color32(204, 204, 0, 255), "GameMode", gameModes, 0, null, true)
                 .SetGameMode(CustomGameMode.All);
 
             #region 役職・詳細設定
@@ -528,7 +529,7 @@ namespace TownOfHost
             // 投票モード
             VoteMode = OptionItem.Create(100500, TabGroup.MainSettings, Color.white, "VoteMode", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            WhenSkipVote = OptionItem.Create(100510, TabGroup.MainSettings, Color.white, "WhenSkipVote", voteModes[0..3], voteModes[0], VoteMode)
+            WhenSkipVote = OptionItem.Create(100510, TabGroup.MainSettings, Color.white, "WhenSkipVote", voteModes[0..3], 0, VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
             WhenSkipVoteIgnoreFirstMeeting = OptionItem.Create(100511, TabGroup.MainSettings, Color.white, "WhenSkipVoteIgnoreFirstMeeting", false, WhenSkipVote)
                 .SetGameMode(CustomGameMode.Standard);
@@ -536,9 +537,9 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
             WhenSkipVoteIgnoreEmergency = OptionItem.Create(100513, TabGroup.MainSettings, Color.white, "WhenSkipVoteIgnoreEmergency", false, WhenSkipVote)
                 .SetGameMode(CustomGameMode.Standard);
-            WhenNonVote = OptionItem.Create(100520, TabGroup.MainSettings, Color.white, "WhenNonVote", voteModes, voteModes[0], VoteMode)
+            WhenNonVote = OptionItem.Create(100520, TabGroup.MainSettings, Color.white, "WhenNonVote", voteModes, 0, VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
-            WhenTie = OptionItem.Create(100530, TabGroup.MainSettings, Color.white, "WhenTie", tieModes, tieModes[0], VoteMode)
+            WhenTie = OptionItem.Create(100530, TabGroup.MainSettings, Color.white, "WhenTie", tieModes, 0, VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
 
             // 全員生存時の会議時間
@@ -552,7 +553,7 @@ namespace TownOfHost
 
             // 転落死
             LadderDeath = OptionItem.Create(101100, TabGroup.MainSettings, Color.white, "LadderDeath", false, null, true);
-            LadderDeathChance = OptionItem.Create(101110, TabGroup.MainSettings, Color.white, "LadderDeathChance", rates[1..], rates[2], LadderDeath);
+            LadderDeathChance = OptionItem.Create(101110, TabGroup.MainSettings, Color.white, "LadderDeathChance", rates[1..], 0, LadderDeath);
 
             // 通常モードでかくれんぼ用
             StandardHAS = OptionItem.Create(100700, TabGroup.MainSettings, Color.white, "StandardHAS", false, null, true)
@@ -581,7 +582,7 @@ namespace TownOfHost
             // プリセット対象外
             AutoDisplayLastResult = OptionItem.Create(1_000_000, TabGroup.MainSettings, Color.white, "AutoDisplayLastResult", true, null, true)
                 .SetGameMode(CustomGameMode.All);
-            SuffixMode = OptionItem.Create(1_000_001, TabGroup.MainSettings, Color.white, "SuffixMode", suffixModes, suffixModes[0])
+            SuffixMode = OptionItem.Create(1_000_001, TabGroup.MainSettings, Color.white, "SuffixMode", suffixModes, 0)
                 .SetGameMode(CustomGameMode.All);
             HideGameSettings = OptionItem.Create(1_000_002, TabGroup.MainSettings, Color.white, "HideGameSettings", false)
                 .SetGameMode(CustomGameMode.All);
@@ -589,7 +590,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             ChangeNameToRoleInfo = OptionItem.Create(1_000_004, TabGroup.MainSettings, Color.white, "ChangeNameToRoleInfo", true)
                 .SetGameMode(CustomGameMode.All);
-            RoleAssigningAlgorithm = OptionItem.Create(1_000_005, TabGroup.MainSettings, Color.white, "RoleAssigningAlgorithm", RoleAssigningAlgorithms, RoleAssigningAlgorithms[0])
+            RoleAssigningAlgorithm = OptionItem.Create(1_000_005, TabGroup.MainSettings, Color.white, "RoleAssigningAlgorithm", RoleAssigningAlgorithms, 0)
                 .SetGameMode(CustomGameMode.All)
                 .RegisterUpdateValueEvent(
                     (object obj, OptionItem.UpdateValueEventArgs args) => IRandom.SetInstanceById(args.CurrentValue)
@@ -602,7 +603,7 @@ namespace TownOfHost
 
         public static void SetupRoleOptions(int id, TabGroup tab, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
-            var spawnOption = OptionItem.Create(id, tab, Utils.GetRoleColor(role), role.ToString(), ratesZeroOne, ratesZeroOne[0], null, true)
+            var spawnOption = OptionItem.Create(id, tab, Utils.GetRoleColor(role), role.ToString(), ratesZeroOne, 0, null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
             var countOption = OptionItem.Create(id + 1, tab, Color.white, "Maximum", 1, 1, 15, 1, spawnOption, false, format: OptionFormat.Players)
@@ -615,7 +616,7 @@ namespace TownOfHost
         private static void SetupLoversRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             var role = CustomRoles.Lovers;
-            var spawnOption = OptionItem.Create(id, TabGroup.Addons, Utils.GetRoleColor(role), role.ToString(), ratesZeroOne, ratesZeroOne[0], null, true)
+            var spawnOption = OptionItem.Create(id, TabGroup.Addons, Utils.GetRoleColor(role), role.ToString(), ratesZeroOne, 0, null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
 
@@ -628,7 +629,7 @@ namespace TownOfHost
         }
         public static void SetupSingleRoleOptions(int id, TabGroup tab, CustomRoles role, int count, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
-            var spawnOption = OptionItem.Create(id, tab, Utils.GetRoleColor(role), role.ToString(), ratesZeroOne, ratesZeroOne[0], null, true)
+            var spawnOption = OptionItem.Create(id, tab, Utils.GetRoleColor(role), role.ToString(), ratesZeroOne, 0, null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
             // 初期値,最大値,最小値が同じで、stepが0のどうやっても変えることができない個数オプション
