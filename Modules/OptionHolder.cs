@@ -647,7 +647,6 @@ namespace TownOfHost
         {
             var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, tab, false).SetColor(Utils.GetRoleColor(role))
                 .SetHeader(true)
-                .SetHeader(true)
                 .SetGameMode(customGameMode);
             var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 15, 1), 1, tab, false).SetParent(spawnOption)
                 .SetValueFormat(OptionFormat.Players)
@@ -660,7 +659,6 @@ namespace TownOfHost
         {
             var role = CustomRoles.Lovers;
             var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
-                .SetHeader(true)
                 .SetHeader(true)
                 .SetGameMode(customGameMode);
 
@@ -675,11 +673,9 @@ namespace TownOfHost
         {
             var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, tab, false).SetColor(Utils.GetRoleColor(role))
                 .SetHeader(true)
-                .SetHeader(true)
                 .SetGameMode(customGameMode);
             // 初期値,最大値,最小値が同じで、stepが0のどうやっても変えることができない個数オプション
             var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(count, count, count), count, tab, false).SetParent(spawnOption)
-                .SetHeader(true)
                 .SetGameMode(customGameMode);
 
             CustomRoleSpawnChances.Add(role, spawnOption);
