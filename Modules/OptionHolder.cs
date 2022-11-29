@@ -73,6 +73,7 @@ namespace TownOfHost
         public static OptionItem MadmateCanSeeKillFlash;
         public static OptionItem MadmateCanSeeOtherVotes;
         public static OptionItem MadmateCanSeeDeathReason;
+        public static OptionItem MadmateRevengeCrewmate;
         public static OptionItem MadmateVentCooldown;
         public static OptionItem MadmateVentMaxTime;
 
@@ -358,7 +359,8 @@ namespace TownOfHost
             MadmateHasImpostorVision = BooleanOptionItem.Create(15012, "MadmateHasImpostorVision", false, TabGroup.ImpostorRoles, false);
             MadmateCanSeeKillFlash = BooleanOptionItem.Create(15015, "MadmateCanSeeKillFlash", false, TabGroup.ImpostorRoles, false);
             MadmateCanSeeOtherVotes = BooleanOptionItem.Create(15016, "MadmateCanSeeOtherVotes", false, TabGroup.ImpostorRoles, false);
-            MadmateCanSeeDeathReason = BooleanOptionItem.Create(15018, "MadmateCanSeeDeathReason", false, TabGroup.ImpostorRoles, false);
+            MadmateCanSeeDeathReason = BooleanOptionItem.Create(15017, "MadmateCanSeeDeathReason", false, TabGroup.ImpostorRoles, false);
+            MadmateRevengeCrewmate = BooleanOptionItem.Create(15018, "MadmateExileCrewmate", false, TabGroup.ImpostorRoles, false);
             MadmateVentCooldown = FloatOptionItem.Create(15213, "MadmateVentCooldown", new(0f, 180f, 5f), 0f, TabGroup.ImpostorRoles, false)
                 .SetValueFormat(OptionFormat.Seconds);
             MadmateVentMaxTime = FloatOptionItem.Create(15214, "MadmateVentMaxTime", new(0f, 180f, 5f), 0f, TabGroup.ImpostorRoles, false)
