@@ -79,6 +79,7 @@ AmongUsバージョン : **2022.10.25**
 | /help roles <役職><br>/help r <役職>     | 役職の説明を表示                                    |
 | /help addons <属性><br>/help a <属性>    | 属性の説明を表示                                    |
 | /help modes <モード><br>/help m <モード> | モードの説明を表示                                  |
+| /hidename <文字列><br>/hn <文字列>       | コード隠しの名前を変更                              |
 | /say <文字列>                            | ホストとしてアナウンスをする                        |
 
 #### MODクライアントのみ
