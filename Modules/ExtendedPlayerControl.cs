@@ -355,8 +355,7 @@ namespace TownOfHost
                         opt.PlayerSpeedMod = Mathf.Clamp(speed.Value, Main.MinSpeed, 3f);
                 }
             }
-            if (!Utils.HasTasks(player.Data, false))
-                state.taskState.hasTasks = false;
+            state.taskState.hasTasks = Utils.HasTasks(player.Data, false);
             if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead && opt.AnonymousVotes)
                 opt.AnonymousVotes = false;
             if (Options.AdditionalEmergencyCooldown.GetBool() &&
