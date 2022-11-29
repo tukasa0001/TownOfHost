@@ -343,6 +343,7 @@
 "MadmateCanSeeKillFlash","Mad Roles Can See ""Kill Flash""","マッドメイト系役職にキルフラッシュが見える","叛徒系职业可以看到击杀闪光","叛徒職業的玩家可以看到殺人閃光","Madmates Могут Видеть Вспышку Убийства",""
 "MadmateCanSeeOtherVotes","Mad Roles Can See Votes","マッドメイト系役職に他人の投票先が分かる","叛徒系职业可以看到其他人所投的票","叛徒可以看到所有人的投票","Madmates Могут Видеть Цвета Голосов",""
 "MadmateCanSeeDeathReason","Madmates Can See Cause Of Death","マッドメイト系役職に死因が分かる","叛徒系职业可以看见死因","","Madmate Может Видеть Причину Смерти",""
+"MadmateExileCrewmate","Madmates Revenge A Crewmate When Exiled","マッドメイト系役職が追放時クルーを道連れにする",
 "MadmateVentCooldown","Mad Roles Vent Cooldown","マッドメイト系役職のベントクールダウン","叛徒系职业跳管道冷却时间","叛徒職業的玩家跳管道冷卻","Откат Вентиляции Madmates",""
 "MadmateVentMaxTime","Mad Roles Max Vent Duration","マッドメイト系役職のベント内での最大時間","叛徒系职业在管道中停留的最大时间","叛徒職業的玩家在管道中可以停留的最大時間","Время Использования Вентиляции Madmates",""
 "EvilWatcherChance","Evil Watcher Rate","イビルウォッチャーになる確率","窥视者成为内鬼阵营的概率","成為邪惡觀察者的機率","Evil Watcher Шанс",""
