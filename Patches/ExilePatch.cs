@@ -50,6 +50,10 @@ namespace TownOfHost
             AntiBlackout.RestoreIsDead(doSend: false);
             if (exiled != null)
             {
+                //霊界用暗転バグ対処
+                if (!AntiBlackout.OverrideExiledPlayer && Main.ResetCamPlayerList.Contains(exiled.PlayerId))
+                    exiled.Object?.ResetPlayerCam(1f);
+
                 exiled.IsDead = true;
                 Main.PlayerStates[exiled.PlayerId].deathReason = PlayerState.DeathReason.Vote;
                 var role = exiled.GetCustomRole();

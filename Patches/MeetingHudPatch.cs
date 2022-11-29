@@ -185,10 +185,6 @@ namespace TownOfHost
                 FollowingSuicideOnExile(exileId);
                 RevengeOnExile(exileId);
 
-                //霊界用暗転バグ対処
-                if (!AntiBlackout.OverrideExiledPlayer && exiledPlayer != null && Main.ResetCamPlayerList.Contains(exiledPlayer.PlayerId))
-                    exiledPlayer.Object?.ResetPlayerCam(19f);
-
                 return false;
             }
             catch (Exception ex)
