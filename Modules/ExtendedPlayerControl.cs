@@ -253,7 +253,8 @@ namespace TownOfHost
 
             var clientId = player.GetClientId();
             var opt = Main.RealOptionsData.DeepCopy();
-            opt.BlackOut(Main.PlayerStates[player.PlayerId].IsBlackOut);
+            var state = Main.PlayerStates[player.PlayerId];
+            opt.BlackOut(state.IsBlackOut);
 
             CustomRoles role = player.GetCustomRole();
             RoleType roleType = role.GetRoleType();
@@ -354,7 +355,8 @@ namespace TownOfHost
                         opt.PlayerSpeedMod = Mathf.Clamp(speed.Value, Main.MinSpeed, 3f);
                 }
             }
-            Main.PlayerStates[player.PlayerId].UpdateTask(player);
+            if (!Utils.HasTasks(player.Data, false))
+                state.taskState.hasTasks = false;
             if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead && opt.AnonymousVotes)
                 opt.AnonymousVotes = false;
             if (Options.AdditionalEmergencyCooldown.GetBool() &&
