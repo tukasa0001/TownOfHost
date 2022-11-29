@@ -1,6 +1,6 @@
 using System.Linq;
-using HarmonyLib;
 using AmongUs.Data;
+using HarmonyLib;
 
 namespace TownOfHost
 {
@@ -109,7 +109,7 @@ namespace TownOfHost
                 if (x.Value == PlayerState.DeathReason.Suicide)
                     player?.SetRealKiller(player, true);
                 if (Main.ResetCamPlayerList.Contains(x.Key))
-                    player?.ResetPlayerCam(7f);
+                    player?.ResetPlayerCam(1f);
                 if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.FollowingSuicide)
                     player?.ResetVotingTime();
                 if (Executioner.Target.ContainsValue(x.Key))
