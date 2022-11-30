@@ -126,8 +126,9 @@ namespace TownOfHost
         public OptionItem SetParent(OptionItem parent) => Do(i =>
         {
             i.Parent = parent;
-            parent.Children.Add(i);
+            parent.SetChild(i);
         });
+        public OptionItem SetChild(OptionItem child) => Do(i => i.Children.Add(child));
         public OptionItem RegisterUpdateValueEvent(EventHandler<UpdateValueEventArgs> handler)
             => Do(i => UpdateValueEvent += handler);
 
