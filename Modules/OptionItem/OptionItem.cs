@@ -182,6 +182,7 @@ namespace TownOfHost
 
             CallUpdateValueEvent(beforeValue, afterValue);
             Refresh();
+            SyncAllOptions();
         }
 
         // 演算子オーバーロード
