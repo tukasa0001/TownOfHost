@@ -104,7 +104,7 @@ namespace TownOfHost
         }
         public static bool CanUseKillButton(PlayerControl pc)
         {
-            if (pc.Data.IsDead) return false;
+            if (!pc.IsAlive()) return false;
             var canUse = false;
             if (bulletCount[pc.PlayerId] <= 0)
             {
@@ -170,7 +170,6 @@ namespace TownOfHost
             if (!pc.Is(CustomRoles.Sniper) || !pc.IsAlive()) return;
 
             if (bulletCount[pc.PlayerId] <= 0) return;
-            if (Main.PlayerStates[pc.PlayerId].IsDead) return;
 
             //スナイパーで弾が残ってたら
             if (shapeshifting)
