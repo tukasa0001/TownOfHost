@@ -177,7 +177,7 @@ Example:
 | [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |           |
 | [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |           |
 | [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |           |
-| [Witch](#Witch)                     | [Trapper](#Trapper)               |                                   |           |
+| [Witch](#Witch)                     | [Beartrap](#Beartrap)             |                                   |           |
 | [Mafia](#Mafia)                     |                                   |                                   |           |
 | [Madmate](#Madmate)                 |                                   |                                   |           |
 | [MadGuardian](#MadGuardian)         |                                   |                                   |           |
@@ -663,7 +663,7 @@ Defined amount of tasks boosts the player speed of someone alive.<br>
 | Acceleration valued |
 | Tasks that trigger  |
 
-### Trapper
+### Beartrap
 
 Created by そうくん<br>
 Original idea by 宿主ランニング<br>
@@ -671,9 +671,12 @@ Original idea by 宿主ランニング<br>
 Team : Crewmates<br>
 Basis : Crewmate<br>
 
-When killed, the trapper will hold the killer in place.<br>
+When killed, the Beartrap will hold the killer in place.<br>
 Also, if a report is made while in custody, it will be canceled and the report will be made after the release.<br>
 The time held in place on the body is decided by host in settings.<br>
+
+Rename [Trapper] -> [Beartrap]
+the word contains prohibited characters
 
 #### Game Options
 
