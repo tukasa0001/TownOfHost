@@ -198,6 +198,8 @@ namespace TownOfHost
 
             foreach (var op in AllOptions)
                 op.Refresh();
+
+            SyncAllOptions();
         }
         public static void SyncAllOptions()
         {
