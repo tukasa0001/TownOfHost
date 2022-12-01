@@ -123,7 +123,12 @@ namespace TownOfHost
         public OptionItem SetHeader(bool value) => Do(i => i.IsHeader = value);
         public OptionItem SetHidden(bool value) => Do(i => i.IsHidden = value);
 
-        public OptionItem SetParent(OptionItem parent) => Do(i => i.Parent = parent);
+        public OptionItem SetParent(OptionItem parent) => Do(i =>
+        {
+            i.Parent = parent;
+            parent.SetChild(i);
+        });
+        public OptionItem SetChild(OptionItem child) => Do(i => i.Children.Add(child));
         public OptionItem RegisterUpdateValueEvent(EventHandler<UpdateValueEventArgs> handler)
             => Do(i => UpdateValueEvent += handler);
 
