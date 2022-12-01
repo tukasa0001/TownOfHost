@@ -46,7 +46,7 @@ namespace TownOfHost
 
         public override int GetNearestIndex(int num)
         {
-            return (int)Math.Round(num / (float)Step);
+            return (int)Math.Round((num - MinValue) / (float)Step);
         }
     }
 
@@ -73,7 +73,7 @@ namespace TownOfHost
 
         public override int GetNearestIndex(float num)
         {
-            return (int)Math.Round(num / Step);
+            return (int)Math.Round((num - MinValue) / Step);
         }
     }
 }
