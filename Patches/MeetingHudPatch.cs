@@ -15,6 +15,8 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return true;
             try
             {
+                List<MeetingHud.VoterState> statesList = new();
+                MeetingHud.VoterState[] states;
                 foreach (var pva in __instance.playerStates)
                 {
                     if (pva == null) continue;
@@ -25,11 +27,23 @@ namespace TownOfHost
                     {
                         var voteTarget = Utils.GetPlayerById(pva.VotedFor);
                         TryAddAfterMeetingDeathPlayers(pc.PlayerId, PlayerState.DeathReason.Suicide);
-                        __instance.RpcVotingComplete(new MeetingHud.VoterState[]{ new ()
+                        statesList.Add(new()
                         {
                             VoterId = pva.TargetPlayerId,
                             VotedForId = pva.VotedFor
-                        }}, voteTarget.Data, false); //RPC
+                        });
+                        states = statesList.ToArray();
+                        if (AntiBlackout.OverrideExiledPlayer)
+                        {
+                            __instance.RpcVotingComplete(states, null, true);
+                            ExileControllerWrapUpPatch.AntiBlackout_LastExiled = voteTarget.Data;
+                        }
+                        else __instance.RpcVotingComplete(states, voteTarget.Data, false); //通常処理
+
+                        if (CustomRoles.Witch.IsEnable())
+                        {
+                            Witch.OnCheckForEndVoting(pva.VotedFor);
+                        }
                         Logger.Info($"{voteTarget.GetNameWithRole()}を追放", "Dictator");
                         FollowingSuicideOnExile(pva.VotedFor);
                         RevengeOnExile(pva.VotedFor);
@@ -44,11 +58,9 @@ namespace TownOfHost
                     if (!(ps.AmDead || ps.DidVote)) return false;
                 }
 
-                MeetingHud.VoterState[] states;
                 GameData.PlayerInfo exiledPlayer = PlayerControl.LocalPlayer.Data;
                 bool tie = false;
 
-                List<MeetingHud.VoterState> statesList = new();
                 for (var i = 0; i < __instance.playerStates.Length; i++)
                 {
                     PlayerVoteArea ps = __instance.playerStates[i];
