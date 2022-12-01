@@ -103,23 +103,6 @@ namespace TownOfHost
                 }
                 if (pc.Is(CustomRoles.EvilTracker)) EvilTracker.EnableResetTargetAfterMeeting(pc);
             }
-            Main.AfterMeetingDeathPlayers.Do(x =>
-            {
-                var player = Utils.GetPlayerById(x.Key);
-                Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
-                Main.PlayerStates[x.Key].deathReason = x.Value;
-                Main.PlayerStates[x.Key].SetDead();
-                player?.RpcExileV2();
-                if (x.Value == PlayerState.DeathReason.Suicide)
-                    player?.SetRealKiller(player, true);
-                if (Main.ResetCamPlayerList.Contains(x.Key))
-                    player?.ResetPlayerCam(1f);
-                if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.FollowingSuicide)
-                    player?.ResetVotingTime();
-                if (Executioner.Target.ContainsValue(x.Key))
-                    Executioner.ChangeRoleByTarget(player);
-            });
-            Main.AfterMeetingDeathPlayers.Clear();
             if (Options.RandomSpawn.GetBool())
             {
                 RandomSpawn.SpawnMap map;
@@ -150,6 +133,7 @@ namespace TownOfHost
         {
             //WrapUpPostfixで例外が発生しても、この部分だけは確実に実行されます。
             if (AmongUsClient.Instance.AmHost)
+            {
                 new LateTask(() =>
                 {
                     exiled = AntiBlackout_LastExiled;
@@ -161,6 +145,28 @@ namespace TownOfHost
                         exiled.Object.RpcExileV2();
                     }
                 }, 0.5f, "Restore IsDead Task");
+                new LateTask(() =>
+                {
+                    Main.AfterMeetingDeathPlayers.Do(x =>
+                    {
+                        var player = Utils.GetPlayerById(x.Key);
+                        Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
+                        Main.PlayerStates[x.Key].deathReason = x.Value;
+                        Main.PlayerStates[x.Key].SetDead();
+                        player?.RpcExileV2();
+                        if (x.Value == PlayerState.DeathReason.Suicide)
+                            player?.SetRealKiller(player, true);
+                        if (Main.ResetCamPlayerList.Contains(x.Key))
+                            player?.ResetPlayerCam(1f);
+                        if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.FollowingSuicide)
+                            player?.ResetVotingTime();
+                        if (Executioner.Target.ContainsValue(x.Key))
+                            Executioner.ChangeRoleByTarget(player);
+                    });
+                    Main.AfterMeetingDeathPlayers.Clear();
+                }, 0.5f, "AfterMeetingDeathPlayers Task");
+            }
+
             GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
             RemoveDisableDevicesPatch.UpdateDisableDevices();
             SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
