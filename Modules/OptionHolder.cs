@@ -18,13 +18,13 @@ namespace TownOfHost
     public static class Options
     {
         [HarmonyPatch(typeof(SplashManager), nameof(SplashManager.Start)), HarmonyPrefix]
-        public static void SplashStart_Prefix(SplashManager __instance)
+        public static void Splash_Start_Prefix(SplashManager __instance)
         {
             Logger.Info("Options.Load Start", "Options");
             System.Threading.Tasks.Task.Run(Load);
         }
         [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPostfix]
-        public static void MainManueStart_Potsfix(MainMenuManager __instance)
+        public static void MainMenu_Start_Potsfix(MainMenuManager __instance)
         {
             while (!IsLoaded) ;
             Logger.Info("Options.Load End", "Options");
