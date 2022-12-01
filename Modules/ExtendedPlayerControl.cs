@@ -687,6 +687,11 @@ namespace TownOfHost
         }
         public static void SetRealKiller(this PlayerControl target, PlayerControl killer, bool NotOverRide = false)
         {
+            if (target == null)
+            {
+                Logger.Info("target=null", "SetRealKiller");
+                return;
+            }
             var State = Main.PlayerStates[target.PlayerId];
             if (State.deathReason == PlayerState.DeathReason.Sniped) //スナイパー対策
                 killer = Utils.GetPlayerById(Sniper.GetSniper(target.PlayerId));
