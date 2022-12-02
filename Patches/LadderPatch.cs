@@ -7,7 +7,7 @@ namespace TownOfHost
     public class FallFromLadder
     {
         public static Dictionary<byte, Vector3> TargetLadderData;
-        private static int Chance => Options.LadderDeathChance.GetChance();
+        private static int Chance => (Options.LadderDeathChance as StringOptionItem).GetChance();
         public static void Reset()
         {
             TargetLadderData = new();
