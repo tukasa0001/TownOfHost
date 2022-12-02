@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using HarmonyLib;
 using UnityEngine;
 
@@ -17,16 +18,17 @@ namespace TownOfHost
     [HarmonyPatch]
     public static class Options
     {
+        static Task taskOptionsLoad;
         [HarmonyPatch(typeof(SplashManager), nameof(SplashManager.Start)), HarmonyPrefix]
         public static void Splash_Start_Prefix(SplashManager __instance)
         {
             Logger.Info("Options.Load Start", "Options");
-            System.Threading.Tasks.Task.Run(Load);
+            taskOptionsLoad= Task.Run(Load);
         }
         [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPostfix]
         public static void MainMenu_Start_Potsfix(MainMenuManager __instance)
         {
-            while (!IsLoaded) ;
+            taskOptionsLoad.Wait();
             Logger.Info("Options.Load End", "Options");
         }
         //        [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.Start)), HarmonyPostfix]
