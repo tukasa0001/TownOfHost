@@ -45,7 +45,7 @@ namespace TownOfHost
         public static Dictionary<CustomRoles, int> roleCounts;
         public static Dictionary<CustomRoles, float> roleSpawnChances;
         public static Dictionary<CustomRoles, OptionItem> CustomRoleCounts;
-        public static Dictionary<CustomRoles, OptionItem> CustomRoleSpawnChances;
+        public static Dictionary<CustomRoles, StringOptionItem> CustomRoleSpawnChances;
         public static readonly string[] rates =
         {
             "Rate0",  "Rate5",  "Rate10", "Rate20", "Rate30", "Rate40",
@@ -309,8 +309,8 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
 
             #region 役職・詳細設定
-            CustomRoleCounts = new Dictionary<CustomRoles, OptionItem>();
-            CustomRoleSpawnChances = new Dictionary<CustomRoles, OptionItem>();
+            CustomRoleCounts = new();
+            CustomRoleSpawnChances = new();
             // GM
             EnableGM = BooleanOptionItem.Create(100, "GM", false, TabGroup.MainSettings, false)
                 .SetColor(Utils.GetRoleColor(CustomRoles.GM))
@@ -649,7 +649,7 @@ namespace TownOfHost
         {
             var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, tab, false).SetColor(Utils.GetRoleColor(role))
                 .SetHeader(true)
-                .SetGameMode(customGameMode);
+                .SetGameMode(customGameMode) as StringOptionItem;
             var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 15, 1), 1, tab, false).SetParent(spawnOption)
                 .SetValueFormat(OptionFormat.Players)
                 .SetGameMode(customGameMode);
@@ -662,7 +662,7 @@ namespace TownOfHost
             var role = CustomRoles.Lovers;
             var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
                 .SetHeader(true)
-                .SetGameMode(customGameMode);
+                .SetGameMode(customGameMode) as StringOptionItem;
 
             var countOption = IntegerOptionItem.Create(id + 1, "NumberOfLovers", new(2, 2, 1), 2, TabGroup.Addons, false).SetParent(spawnOption)
                 .SetHidden(true)
@@ -675,7 +675,7 @@ namespace TownOfHost
         {
             var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, tab, false).SetColor(Utils.GetRoleColor(role))
                 .SetHeader(true)
-                .SetGameMode(customGameMode);
+                .SetGameMode(customGameMode) as StringOptionItem;
             // 初期値,最大値,最小値が同じで、stepが0のどうやっても変えることができない個数オプション
             var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(count, count, count), count, tab, false).SetParent(spawnOption)
                 .SetGameMode(customGameMode);

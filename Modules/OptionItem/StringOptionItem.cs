@@ -29,6 +29,17 @@ namespace TownOfHost
         {
             return Translator.GetString(Selections[Rule.GetValueByIndex(CurrentValue)]);
         }
+        public int GetChance()
+        {
+            //0%or100%の場合
+            if (Selections.Length == 2) return CurrentValue * 100;
+
+            //0%～100%or5%～100%の場合
+            var offset = 12 - Selections.Length;
+            var index = CurrentValue + offset;
+            var rate = index <= 1 ? index * 5 : (index - 1) * 10;
+            return rate;
+        }
         public override int GetValue()
             => Rule.RepeatIndex(base.GetValue());
 
