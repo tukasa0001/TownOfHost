@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using HarmonyLib;
 using UnityEngine;
 
 namespace TownOfHost
@@ -13,8 +15,22 @@ namespace TownOfHost
         All = int.MaxValue
     }
 
+    [HarmonyPatch]
     public static class Options
     {
+        static Task taskOptionsLoad;
+        [HarmonyPatch(typeof(SplashManager), nameof(SplashManager.Start)), HarmonyPrefix]
+        public static void Splash_Start_Prefix(SplashManager __instance)
+        {
+            Logger.Info("Options.Load Start", "Options");
+            taskOptionsLoad = Task.Run(Load);
+        }
+        [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPostfix]
+        public static void MainMenu_Start_Postfix(MainMenuManager __instance)
+        {
+            taskOptionsLoad.Wait();
+            Logger.Info("Options.Load End", "Options");
+        }
         // オプションId
         public const int PresetId = 0;
 
