@@ -20,7 +20,7 @@ namespace TownOfHost
             //降りているのかを検知
             if (sourcePos.y > targetPos.y)
             {
-                int chance = IRandom.Instance.Next(1,101);
+                int chance = IRandom.Instance.Next(1, 101);
                 if (chance <= Chance)
                 {
                     TargetLadderData[player.myPlayer.PlayerId] = targetPos;
