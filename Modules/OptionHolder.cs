@@ -31,7 +31,6 @@ namespace TownOfHost
             taskOptionsLoad.Wait();
             Logger.Info("Options.Load End", "Options");
         }
-        //        [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.Start)), HarmonyPostfix]
         // オプションId
         public const int PresetId = 0;
 
