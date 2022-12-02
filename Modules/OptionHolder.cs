@@ -23,10 +23,10 @@ namespace TownOfHost
         public static void Splash_Start_Prefix(SplashManager __instance)
         {
             Logger.Info("Options.Load Start", "Options");
-            taskOptionsLoad= Task.Run(Load);
+            taskOptionsLoad = Task.Run(Load);
         }
         [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPostfix]
-        public static void MainMenu_Start_Potsfix(MainMenuManager __instance)
+        public static void MainMenu_Start_Postfix(MainMenuManager __instance)
         {
             taskOptionsLoad.Wait();
             Logger.Info("Options.Load End", "Options");
