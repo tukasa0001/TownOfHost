@@ -19,14 +19,14 @@ namespace TownOfHost
     public static class Options
     {
         static Task taskOptionsLoad;
-        [HarmonyPatch(typeof(SplashManager), nameof(SplashManager.Start)), HarmonyPrefix]
-        public static void Splash_Start_Prefix(SplashManager __instance)
+        [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Initialize)), HarmonyPostfix]
+        public static void OptionsLoadStart()
         {
             Logger.Info("Options.Load Start", "Options");
             taskOptionsLoad = Task.Run(Load);
         }
         [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPostfix]
-        public static void MainMenu_Start_Postfix(MainMenuManager __instance)
+        public static void WaitOptionsLoad()
         {
             taskOptionsLoad.Wait();
             Logger.Info("Options.Load End", "Options");
