@@ -432,15 +432,17 @@ They will be able to kill after Impostors except them are all gone.<br>
 There are common options for Madmates.
 #### Game Options
 
-| Name                          |
-| ----------------------------- |
-| Madmates Can Fix Lights Out   |
-| Madmates Can Fix Comms        |
-| Madmates Have Impostor Vision |
-| Madmates Can See Kill Flash   |
-| Madmates Can See Other Votes  |
-| Madmates Vent Cooldown        |
-| Madmates Max Time In Vents    |
+| Name                                    |
+| --------------------------------------- |
+| Madmates Can Fix Lights Out             |
+| Madmates Can Fix Comms                  |
+| Madmates Have Impostor Vision           |
+| Madmates Can See Kill Flash             |
+| Madmates Can See Other Votes            |
+| Madmates Can See Cause Of Death         |
+| Madmates Revenge A Crewmate When Exiled |
+| Madmates Vent Cooldown                  |
+| Madmates Max Time In Vents              |
 
 ### Madmate
 
