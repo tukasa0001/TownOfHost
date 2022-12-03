@@ -109,6 +109,31 @@ Also, you can break lines by writing `\n` in the sentence like `tag:line breaks 
 If the tag is set to "welcome" in the template function, it will be sent automatically when a player joins.<br>
 For example: `welcome:This room is using TownOfHost.`
 
+#### Variable Expansion
+The contents of a variable can be expanded at the time of a call by including it in the text as `{{variable name}}`.<br>
+For example: `roomcode:The room code for this room is {{RoomCode}}.`
+
+| Variable name        | Content                             |
+| -------------------- | ----------------------------------- |
+| RoomCode             | Room Code                           |
+| PlayerName           | Player name of host                 |
+| AmongUsVersion       | Game version                        |
+| ModVersion           | MOD version                         |
+| Map                  | Map name                            |
+| NumEmergencyMeetings | Number of emergency meeting buttons |
+| EmergencyCooldown    | Emergency Meeting Button Cooldown   |
+| DiscussionTime       | Discussion time                     |
+| VotingTime           | Voting time                         |
+| PlayerSpeedMod       | Player speed                        |
+| CrewLightMod         | Crewmate vision                     |
+| ImpostorLightMod     | Impostor vision                     |
+| KillCooldown         | Kill Cooldown                       |
+| NumCommonTasks       | Number of common tasks              |
+| NumLongTasks         | Number of long tasks                |
+| NumShortTasks        | Number of short tasks               |
+| Date                 | Date                                |
+| Time                 | Time                                |
+
 ### Custom Translation File
 Users are free to create and use their own translations.<br>
 - Open the "Language" folder created in the Among Us folder.

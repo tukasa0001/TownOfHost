@@ -109,6 +109,31 @@ AmongUsバージョン : **2022.10.25**
 テンプレート機能でタグを「welcome」に設定するとプレイヤー参加時に自動で送信されます。<br>
 例: `welcome:この部屋はTownOfHostを使用しています。`
 
+#### 変数展開
+`{{変数名}}`のように文章中に記載することで、呼び出し時に変数の中身を展開することができます。<br>
+例: `roomcode:この部屋はのルームコードは{{RoomCode}}です`
+
+| 変数名               | 内容                       |
+| -------------------- | -------------------------- |
+| RoomCode             | ルームコード               |
+| PlayerName           | ホストのプレイヤー名       |
+| AmongUsVersion       | 本体バージョン             |
+| ModVersion           | MODバージョン              |
+| Map                  | マップ名                   |
+| NumEmergencyMeetings | 緊急会議ボタン数           |
+| EmergencyCooldown    | 緊急会議ボタンクールダウン |
+| DiscussionTime       | 議論時間                   |
+| VotingTime           | 投票時間                   |
+| PlayerSpeedMod       | プレイヤー速度             |
+| CrewLightMod         | クルー視界                 |
+| ImpostorLightMod     | インポスター視界           |
+| KillCooldown         | キルクールダウン           |
+| NumCommonTasks       | コモンタスク数             |
+| NumLongTasks         | ロングタスク数             |
+| NumShortTasks        | ショートタスク数           |
+| Date                 | 日付                       |
+| Time                 | 時間                       |
+
 ### カスタム翻訳ファイル
 ユーザーが自由に独自の翻訳を作成して使用することができます。<br>
 - Among Usフォルダの中に『Language』フォルダが作成されているので開きます。
