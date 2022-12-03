@@ -179,7 +179,7 @@ namespace TownOfHost
                         if (!Main.PlayerStates[spelled].IsDead)
                         {
                             Utils.GetPlayerById(spelled).SetRealKiller(witchPc);
-                            Main.AfterMeetingDeathPlayers.TryAdd(spelled, PlayerState.DeathReason.Spell);
+                            CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(spelled, PlayerState.DeathReason.Spell);
                         }
                     }
                 }

@@ -165,7 +165,7 @@ namespace TownOfHost
                         case TieMode.All:
                             VotingData.DoIf(x => x.Key < 15 && x.Value == max, x =>
                             {
-                                Main.AfterMeetingDeathPlayers.Add(x.Key, PlayerState.DeathReason.Vote);
+                                TryAddAfterMeetingDeathPlayers(x.Key, PlayerState.DeathReason.Vote);
                                 Utils.GetPlayerById(x.Key).SetRealKiller(null);
                             });
                             exiledPlayer = null;
