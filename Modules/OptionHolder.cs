@@ -20,13 +20,13 @@ namespace TownOfHost
     {
         static Task taskOptionsLoad;
         [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Initialize)), HarmonyPostfix]
-        public static void OptionsLoadStart(SplashManager __instance)
+        public static void OptionsLoadStart()
         {
             Logger.Info("Options.Load Start", "Options");
             taskOptionsLoad = Task.Run(Load);
         }
         [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPostfix]
-        public static void MainMenu_Start_Postfix(MainMenuManager __instance)
+        public static void WaitOptionsLoad()
         {
             taskOptionsLoad.Wait();
             Logger.Info("Options.Load End", "Options");
