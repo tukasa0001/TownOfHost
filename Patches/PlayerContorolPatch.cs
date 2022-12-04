@@ -270,6 +270,8 @@ namespace TownOfHost
             }
             if (target.Is(CustomRoles.TimeThief))
                 target.ResetVotingTime();
+            if (target.Is(CustomRoles.TimeManager))
+                target.TimeManagerResetVotingTime();
 
             LastImpostor.SetKillCooldown();
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
@@ -1088,6 +1090,7 @@ namespace TownOfHost
             Logger.Info($"TaskComplete:{pc.PlayerId}", "CompleteTask");
             Main.PlayerStates[pc.PlayerId].UpdateTask(pc);
             Utils.NotifyRoles();
+            TimeManager.OnCheckCompleteTask(pc);//タイムマネージャーのみタスク1つ終わるごとに処理
             if ((pc.GetPlayerTaskState().IsTaskFinished &&
                 pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor) ||
                 pc.GetCustomRole() is CustomRoles.SpeedBooster)

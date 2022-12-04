@@ -54,6 +54,7 @@
 "Trapper","Trapper","トラッパー","陷阱师","設陷者","Trapper","Armadilheiro"
 "Dictator","Dictator","ディクテーター","独裁者","獨裁主義者","Dictator","Ditador"
 "Seer","Seer","シーア","灵媒","靈媒","Seer","Vidente"
+"TimeManager","TimeManager","タイムマネージャー",,,
 
 "# 第三陣営役職"
 "Jester","Jester","ジェスター","小丑","小丑","Jester","Bobo"
@@ -128,6 +129,7 @@
 "TrapperInfo","Trap your enemies","敵を罠にはめよう","引诱敌人落入你的陷阱当中","讓你的敵人受困於陷阱中","Ловите своих врагов","Prenda os seus inimigos"
 "DictatorInfo","Decide who to eject","独裁政治をしよう","让我统治世界，拥有无上的权利","讓所有人臣服於你","Повесьте своего врага на страх и риск","Escolha quem será exilado"
 "SeerInfo","You see the moment someone dies","他人の死んだ瞬間がわかる","你能感知死亡","你擁有陰陽眼","Вы Видите Когда Умирают Игроки","Veja o momento em que alguém morre"
+"TimeManagerInfo","Do the tasks and extend meeting time","タスクをして会議時間を延ばそう",,,
 
 "# 第三陣営役職"
 "ArsonistInfo","Burn them to crisps","燃やせ","火焰给我燃烧起来吧！","燒吧,燒吧,燃燒吧","Пусть все они сгорят","Queime tudo em pedacinhos"
@@ -193,6 +195,7 @@
 "TrapperInfoLong","(Crewmates):\nWhen you are killed, you immobilize your killer for a configurable amount of time.","(クルーメイト陣営):\nキルされると、キルした人を数秒間移動不可にすることができる。(設定有)","(船员阵营):\n陷阱师被击杀时，凶手一段时间内将不能移动。","(船員):\n如果設限者被殺,殺他的兇手將會被困在原地幾秒(可以設定)","(Член Экипажа):\nTrapper запрещает убийце двигаться, длительность запрета зависит от настроек.","(Tripulantes): \nAo ser morto, imobilize o seu assassino por um certo período. (configurável)"
 "DictatorInfoLong","(Crewmates):\nWhen you vote someone, the meeting will end on the spot and the player you voted will be ejected.\nThe moment you vote someone out, you will also die.\nWhen you vote for someone in a meeting, they forcibly break that meeting and exile the player they vote for.\nAfter exercising the force, the Dictators die just after meeting.","(クルーメイト陣営):\n会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができる。\n投票したタイミングでディクテーターは死ぬ。","(船员阵营):\n当独裁者在会议阶段投票给玩家后，会议会被强制结束并放逐其投票对象。\n该技能发动后独裁者将会死亡。","(船員):\n如果獨裁主義者在會議上投票給某位玩家,\n獨裁主義者將強制結束會議並無視場上票數將獨裁主義者投的那個人投出\n但是獨裁主義者將死於他投票的瞬間。","(Член Экипажа):\nКогда он голосует за любого игрока на голосовании, он сразу же завершает собрание и изгоняет игрока за которого он проголосовал. \nПосле его голоса Dictator умирает сразу же после изгнания его выбранного игрока.","(Tripulantes): \nQuando votar em alguém, durante uma reunião, a reunião será encerrada e a pessoa em que você votou, será exilada. \nAo exilar alguém, você morre-rá."
 "SeerInfoLong","(Crewmates):\nWhenever someone dies, you will see a ""kill flash"".","(クルーメイト陣営):\nプレイヤーが死亡するごとに、シーアはキルフラッシュを見ることができる。","(船员阵营):\n每当玩家死亡时，灵媒将会看到击杀闪烁。","(船員):當有玩家死亡時,靈媒將看到閃光","(Член Экипажа):\nКаждый раз когда игроки умирают, Seer может видеть вспышку убийства.","(Tripulantes): \nQuando alguém morre, você vê um ""clarão de abate"" (a sua tela piscará brevemente)."
+"TimeManagerInfoLong","(Crewmates):The more tasks you do, the longer your meeting will last. When you die, the meeting time will be restored.","(クルーメイト陣営):\nタスクを終わらせるごとに会議時間が延びる。死亡すると会議時間は元に戻る。",,,
 
 "# 第三陣営役職"
 "ArsonistInfoLong","(Neutrals):\nWhen you use the kill button, you douse your target in oil.\nAfter dousing all living players, you set everything ablaze and win by venting.","(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。","(独立阵营):\n纵火犯可以通过对玩家点击击杀按钮并在跟随其数秒来完成涂油行为。\n当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。","(中立):\n當縱火犯嘗試使用殺人鍵,它將對他身邊最近的一個人澆上油,\n當他對所有玩家澆上油之後,縱火縱火犯點火即勝利。","(Нейтрал):\nОн может обливать игроков, нажав на кнопку 'Убить' и находясь рядом с игроком в течение нескольких секунд. \nПосле того как он обольёт всех живых игроков, Arsonist сможет запрыгнуть в вентиляцию, чтобы поджечь всех игроков, что приводит к победе Arsonist.","(Neutros):\nAo apertar o botão de matar, você encharca o seu inimigo em óleo.\nApós ter encharcado todos os jogadores vivos, você coloca tudo em chamas e ganha entrando na ventilação."
@@ -394,6 +397,8 @@
 "WitchModeSwitchAction","Mode Switch Action","モード変更アクション","切换击杀模式","","Действие смены режима",""
 "TriggerKill","Kill","キル","击杀","","Убийство",""
 "TriggerVent","Vent","ベント","通风管","","Вентиляция",""
+"TimeManagerIncreaseMeetingTime","Increase voting time","伸びる会議時間(秒)"",,,
+"TimeManagerLimitMeetingTime","Increase limit",""会議時間の伸びる限界(秒)",,,
 
 "## かくれんぼ設定"
 "HideAndSeekOptions","Hide and Seek Settings","かくれんぼの設定","躲猫猫设置","躲貓貓設定","Настройки Пряток","Configurações do Esconde-Esconde"

@@ -203,7 +203,7 @@ Example:
 | [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |           |
 | [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |           |
 | [Witch](#Witch)                     | [Beartrap](#Beartrap)             |                                   |           |
-| [Mafia](#Mafia)                     |                                   |                                   |           |
+| [Mafia](#Mafia)                     | [TimeManager](#TimeManager)       |                                   |           |
 | [Madmate](#Madmate)                 |                                   |                                   |           |
 | [MadGuardian](#MadGuardian)         |                                   |                                   |           |
 | [MadSnitch](#MadSnitch)             |                                   |                                   |           |
@@ -711,6 +711,23 @@ the word contains prohibited characters
 | --------------- |
 | Freeze Duration |
 
+### TimeManager
+
+Created by じゅきまぐろ<br>
+Original idea by おしゅし<br>
+
+Team : Crewmates<br>
+Basis : Crewmate<br>
+
+The more tasks you do, the longer your meeting will last.<br>
+When you die, the meeting time will be restored.<br>
+
+#### Game Options
+
+| Name                 |
+| -------------------- |
+| Increase Voting Time |
+| Increase Limit       |
 
 ## Neutral
 

@@ -110,6 +110,7 @@ namespace TownOfHost
             Sheriff.Init();
             EvilTracker.Init();
             LastImpostor.Init();
+            TimeManager.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
@@ -307,6 +308,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
                 AssignCustomRolesFromList(CustomRoles.EvilTracker, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Seer, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.TimeManager, Crewmates);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -379,6 +381,9 @@ namespace TownOfHost
                             break;
                         case CustomRoles.EvilTracker:
                             EvilTracker.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.TimeManager:
+                            TimeManager.Add(pc.PlayerId);
                             break;
                     }
                     pc.ResetKillCooldown();
