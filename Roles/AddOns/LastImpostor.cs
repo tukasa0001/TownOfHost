@@ -27,8 +27,8 @@ namespace TownOfHost
             && pc.Is(RoleType.Impostor)
             && pc.GetCustomRole()
             is not CustomRoles.Vampire
-                or CustomRoles.BountyHunter
-                or CustomRoles.SerialKiller;
+                and not CustomRoles.BountyHunter
+                and not CustomRoles.SerialKiller;
         public static void SetSubRole()
         {
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek
