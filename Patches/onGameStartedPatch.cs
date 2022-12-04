@@ -442,14 +442,14 @@ namespace TownOfHost
                 if (player.PlayerId != PlayerControl.LocalPlayer.PlayerId)
                 {
                     int playerCID = player.GetClientId();
-                            //player視点用: playerの役職をBaseRoleに変更
-                            senders[player.PlayerId].RpcSetRole(player, BaseRole, playerCID);
+                    //player視点用: playerの役職をBaseRoleに変更
+                    senders[player.PlayerId].RpcSetRole(player, BaseRole, playerCID);
                     //割り当て対象の視点で他プレイヤーを科学者にするループ
                     foreach (var pc in PlayerControl.AllPlayerControls)
-                        {
+                    {
                         if (pc == player) continue;
-                            senders[player.PlayerId].RpcSetRole(pc, RoleTypes.Scientist, playerCID);
-                        }
+                        senders[player.PlayerId].RpcSetRole(pc, RoleTypes.Scientist, playerCID);
+                    }
                     //pc視点用: playerの役職を科学者に変更
                     //ループを分けているのはRootMessageを極力分けないようにするためで、意図的なものです。
                     foreach (var pc in PlayerControl.AllPlayerControls)
@@ -552,7 +552,7 @@ namespace TownOfHost
                     return false;
                 }
                 else return true;
-                }
+            }
             public static void Release()
             {
                 foreach (var sender in senders)
