@@ -110,8 +110,8 @@ namespace TownOfHost
             {
                 var player = Utils.GetPlayerById(x.Key);
                 Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
-                PlayerState.SetDeathReason(x.Key, x.Value);
-                PlayerState.SetDead(x.Key);
+                Main.PlayerStates[x.Key].deathReason = x.Value;
+                Main.PlayerStates[x.Key].SetDead();
                 player?.RpcExileV2();
                 if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.FollowingSuicide)
                     player?.ResetVotingTime();
