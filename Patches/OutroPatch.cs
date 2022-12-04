@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
@@ -10,14 +11,26 @@ namespace TownOfHost
     class EndGamePatch
     {
         public static Dictionary<byte, string> SummaryText = new();
+        public static string KillLog = "";
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ref EndGameResult endGameResult)
         {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             GameStates.InGame = false;
 
             SummaryText = new();
-            foreach (var id in Main.AllPlayerCustomRoles.Keys)
+            foreach (var id in Main.PlayerStates.Keys)
                 SummaryText[id] = Utils.SummaryTexts(id, disableColor: false);
+            KillLog = GetString("KillLog") + ":";
+            foreach (var kvp in Main.PlayerStates.OrderBy(x => x.Value.RealKiller.Item1.Ticks))
+            {
+                var date = kvp.Value.RealKiller.Item1;
+                if (date == DateTime.MinValue) continue;
+                var killerId = kvp.Value.GetRealKiller();
+                var targetId = kvp.Key;
+                KillLog += $"\n{date.ToString("T")} {Main.AllPlayerNames[targetId]}({Utils.GetDisplayRoleName(targetId)}{Utils.GetSubRolesText(targetId)}) [{Utils.GetVitalText(kvp.Key)}]";
+                if (killerId != byte.MaxValue && killerId != targetId)
+                    KillLog += $"\n\t\t⇐ {Main.AllPlayerNames[killerId]}({Utils.GetDisplayRoleName(killerId)}{Utils.GetSubRolesText(killerId)})";
+            }
             Logger.Info("-----------ゲーム終了-----------", "Phase");
             PlayerControl.GameOptions.killCooldown = Options.DefaultKillCooldown;
             //winnerListリセット
@@ -33,34 +46,7 @@ namespace TownOfHost
                         winner.Add(pc);
                 }
             }
-            else
-            {
-                if (TempData.DidHumansWin(endGameResult.GameOverReason) || endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask) || endGameResult.GameOverReason.Equals(GameOverReason.HumansByVote))
-                {
-                    if (CustomWinnerHolder.WinnerTeam == CustomWinner.Default)
-                    {
-                        CustomWinnerHolder.WinnerTeam = CustomWinner.Crewmate;
-                    }
-                    foreach (var p in PlayerControl.AllPlayerControls)
-                    {
-                        if (p.GetCustomSubRole() == CustomRoles.Lovers) continue;
-                        bool canWin = p.Is(RoleType.Crewmate);
-                        if (canWin) winner.Add(p);
-                    }
-                }
-                if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
-                {
-                    if (CustomWinnerHolder.WinnerTeam == CustomWinner.Default)
-                        CustomWinnerHolder.WinnerTeam = CustomWinner.Impostor;
-                    foreach (var p in PlayerControl.AllPlayerControls)
-                    {
-                        if (p.GetCustomSubRole() == CustomRoles.Lovers) continue;
-                        bool canWin = p.Is(RoleType.Impostor) || p.Is(RoleType.Madmate);
-                        if (canWin) winner.Add(p);
-                    }
-                    Egoist.OverrideCustomWinner();
-                }
-            }
+            Egoist.OverrideCustomWinner();
 
             //廃村時の処理など
             if (endGameResult.GameOverReason == GameOverReason.HumansDisconnect ||
@@ -75,7 +61,7 @@ namespace TownOfHost
             }
 
             //単独勝利
-            if (CustomRoles.Lovers.IsEnable() && Options.CurrentGameMode == CustomGameMode.Standard && Main.LoversPlayers.Count > 0 && Main.LoversPlayers.ToArray().All(p => !p.Data.IsDead) //ラバーズが生きていて
+            if (CustomRoles.Lovers.IsEnable() && Options.CurrentGameMode == CustomGameMode.Standard && Main.LoversPlayers.Count > 0 && Main.LoversPlayers.ToArray().All(p => !Main.PlayerStates[p.PlayerId].IsDead) //ラバーズが生きていて
             && (CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor || CustomWinnerHolder.WinnerTeam == CustomWinner.Jackal
             || (CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))))   //クルー勝利でタスク勝ちじゃなければ
             { //Loversの単独勝利
@@ -99,7 +85,7 @@ namespace TownOfHost
                     CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
                 }
                 //SchrodingerCat
-                if (Options.CanBeforeSchrodingerCatWinTheCrewmate.GetBool())
+                if (SchrodingerCat.CanWinTheCrewmateBeforeChange.GetBool())
                     if (pc.Is(CustomRoles.SchrodingerCat) && CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
                     {
                         winner.Add(pc);
@@ -114,8 +100,7 @@ namespace TownOfHost
                 winner = new();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    var hasRole = Main.AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
-                    if (!hasRole) continue;
+                    var role = Main.PlayerStates[pc.PlayerId].MainRole;
                     if (role.GetRoleType() == RoleType.Impostor)
                     {
                         if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
@@ -176,11 +161,12 @@ namespace TownOfHost
             //          ==勝利陣営表示==
             //#######################################
 
-            GameObject bonusText = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
-            bonusText.transform.position = new Vector3(__instance.WinText.transform.position.x, __instance.WinText.transform.position.y - 0.5f, __instance.WinText.transform.position.z);
-            bonusText.transform.localScale = new Vector3(0.7f, 0.7f, 1f);
-            TMPro.TMP_Text textRenderer = bonusText.GetComponent<TMPro.TMP_Text>();
-            textRenderer.text = "";
+            var WinnerTextObject = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
+            WinnerTextObject.transform.position = new(__instance.WinText.transform.position.x, __instance.WinText.transform.position.y - 0.5f, __instance.WinText.transform.position.z);
+            WinnerTextObject.transform.localScale = new(0.6f, 0.6f, 0.6f);
+            var WinnerText = WinnerTextObject.GetComponent<TMPro.TextMeshPro>(); //WinTextと同じ型のコンポーネントを取得
+            WinnerText.fontSizeMin = 3f;
+            WinnerText.text = "";
 
             string CustomWinnerText = "";
             string AdditionalWinnerText = "";
@@ -196,7 +182,7 @@ namespace TownOfHost
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(winnerRole);
                 }
             }
-            if (AmongUsClient.Instance.AmHost && Main.AllPlayerCustomRoles[0] == CustomRoles.GM)
+            if (AmongUsClient.Instance.AmHost && Main.PlayerStates[0].MainRole == CustomRoles.GM)
             {
                 __instance.WinText.text = "Game Over";
                 __instance.WinText.color = Utils.GetRoleColor(CustomRoles.GM);
@@ -217,29 +203,29 @@ namespace TownOfHost
                     __instance.WinText.text = GetString("ForceEnd");
                     __instance.WinText.color = Color.white;
                     __instance.BackgroundBar.material.color = Color.gray;
-                    textRenderer.text = GetString("ForceEndText");
-                    textRenderer.color = Color.gray;
+                    WinnerText.text = GetString("ForceEndText");
+                    WinnerText.color = Color.gray;
                     break;
                 //全滅
                 case CustomWinner.None:
                     __instance.WinText.text = "";
                     __instance.WinText.color = Color.black;
                     __instance.BackgroundBar.material.color = Color.gray;
-                    textRenderer.text = GetString("EveryoneDied");
-                    textRenderer.color = Color.gray;
+                    WinnerText.text = GetString("EveryoneDied");
+                    WinnerText.color = Color.gray;
                     break;
             }
 
             foreach (var additionalWinners in CustomWinnerHolder.AdditionalWinnerTeams)
             {
                 var addWinnerRole = (CustomRoles)additionalWinners;
-                AdditionalWinnerText += "＆" + Helpers.ColorString(Utils.GetRoleColor(addWinnerRole), Utils.GetRoleName(addWinnerRole));
+                AdditionalWinnerText += "＆" + Utils.ColorString(Utils.GetRoleColor(addWinnerRole), Utils.GetRoleName(addWinnerRole));
             }
             if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw and not CustomWinner.None)
             {
-                textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}{GetString("Win")}</color>";
+                WinnerText.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}{GetString("Win")}</color>";
             }
-            LastWinsText = textRenderer.text.RemoveHtmlTags();
+            LastWinsText = WinnerText.text.RemoveHtmlTags();
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -247,34 +233,31 @@ namespace TownOfHost
             //           ==最終結果表示==
             //#######################################
 
-            var position = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, Camera.main.nearClipPlane));
-            GameObject roleSummary = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
-            roleSummary.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, position.y - 0.1f, -14f);
-            roleSummary.transform.localScale = new Vector3(1f, 1f, 1f);
+            var Pos = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, Camera.main.nearClipPlane));
+            var RoleSummaryObject = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
+            RoleSummaryObject.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, Pos.y - 0.1f, -14f);
+            RoleSummaryObject.transform.localScale = new Vector3(1f, 1f, 1f);
 
-            string roleSummaryText = $"{GetString("RoleSummaryText")}";
-            Dictionary<byte, CustomRoles> cloneRoles = new(Main.AllPlayerCustomRoles);
+            string RoleSummaryText = $"{GetString("RoleSummaryText")}";
+            List<byte> cloneRoles = new(Main.PlayerStates.Keys);
             foreach (var id in Main.winnerList)
             {
-                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> " + EndGamePatch.SummaryText[id];
+                RoleSummaryText += $"\n<color={CustomWinnerColor}>★</color> " + EndGamePatch.SummaryText[id];
                 cloneRoles.Remove(id);
             }
-            foreach (var kvp in cloneRoles)
+            foreach (var id in cloneRoles)
             {
-                var id = kvp.Key;
-                roleSummaryText += $"\n　 " + EndGamePatch.SummaryText[id];
+                RoleSummaryText += $"\n　 " + EndGamePatch.SummaryText[id];
             }
-            TMPro.TMP_Text roleSummaryTextMesh = roleSummary.GetComponent<TMPro.TMP_Text>();
-            roleSummaryTextMesh.alignment = TMPro.TextAlignmentOptions.TopLeft;
-            roleSummaryTextMesh.color = Color.white;
-            roleSummaryTextMesh.outlineWidth *= 1.2f;
-            roleSummaryTextMesh.fontSizeMin = 1.25f;
-            roleSummaryTextMesh.fontSizeMax = 1.25f;
-            roleSummaryTextMesh.fontSize = 1.25f;
+            var RoleSummary = RoleSummaryObject.GetComponent<TMPro.TextMeshPro>();
+            RoleSummary.alignment = TMPro.TextAlignmentOptions.TopLeft;
+            RoleSummary.color = Color.white;
+            RoleSummary.outlineWidth *= 1.2f;
+            RoleSummary.fontSizeMin = RoleSummary.fontSizeMax = RoleSummary.fontSize = 1.25f;
 
-            var roleSummaryTextMeshRectTransform = roleSummaryTextMesh.GetComponent<RectTransform>();
-            roleSummaryTextMeshRectTransform.anchoredPosition = new Vector2(position.x + 3.5f, position.y - 0.1f);
-            roleSummaryTextMesh.text = roleSummaryText;
+            var RoleSummaryRectTransform = RoleSummary.GetComponent<RectTransform>();
+            RoleSummaryRectTransform.anchoredPosition = new Vector2(Pos.x + 3.5f, Pos.y - 0.1f);
+            RoleSummary.text = RoleSummaryText;
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

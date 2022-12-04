@@ -9,16 +9,18 @@ namespace TownOfHost
         private static readonly int Id = 1100;
         public static List<byte> playerIdList = new();
 
-        private static CustomOption KillCooldown;
-        private static CustomOption TimeLimit;
+        private static OptionItem KillCooldown;
+        private static OptionItem TimeLimit;
 
         private static Dictionary<byte, float> SuicideTimer = new();
 
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.SerialKiller);
-            KillCooldown = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "KillCooldown", 20f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.SerialKiller]);
-            TimeLimit = CustomOption.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "SerialKillerLimit", 60f, 5f, 900f, 5f, Options.CustomRoleSpawnChances[CustomRoles.SerialKiller]);
+            KillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(2.5f, 180f, 2.5f), 20f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.SerialKiller])
+                .SetValueFormat(OptionFormat.Seconds);
+            TimeLimit = FloatOptionItem.Create(Id + 11, "SerialKillerLimit", new(5f, 900f, 5f), 60f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.SerialKiller])
+                .SetValueFormat(OptionFormat.Seconds);
         }
         public static void Init()
         {
@@ -31,26 +33,22 @@ namespace TownOfHost
         }
         public static bool IsEnable() => playerIdList.Count > 0;
         public static void ApplyKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown.GetFloat();
-        public static void ApplyGameOptions(GameOptionsData opt) => opt.RoleOptions.ShapeshifterCooldown = TimeLimit.GetFloat();
-
-        public static void OnCheckMurder(PlayerControl killer, bool isKilledSchrodingerCat = false)
+        public static void ApplyGameOptions(GameOptionsData opt, PlayerControl pc)
         {
-            if (killer.Is(CustomRoles.SerialKiller))
-            {
-                if (isKilledSchrodingerCat)
-                {
-                    killer.RpcResetAbilityCooldown();
-                    SuicideTimer[killer.PlayerId] = 0f;
-                    return;
-                }
-                else
-                {
-                    killer.RpcResetAbilityCooldown();
-                    SuicideTimer[killer.PlayerId] = 0f;
-                    Main.AllPlayerKillCooldown[killer.PlayerId] = KillCooldown.GetFloat();
-                    killer.CustomSyncSettings();
-                }
-            }
+            opt.RoleOptions.ShapeshifterCooldown = HasKilled(pc) ? TimeLimit.GetFloat() : 255f;
+            opt.RoleOptions.ShapeshifterDuration = 1f;
+        }
+        ///<summary>
+        ///シリアルキラー＋生存＋一人以上キルしている
+        ///</summary>
+        public static bool HasKilled(PlayerControl pc)
+            => pc != null && pc.Is(CustomRoles.SerialKiller) && pc.IsAlive() && Main.PlayerStates[pc.PlayerId].GetKillCount(true) > 0;
+        public static void OnCheckMurder(PlayerControl killer, bool CanMurder = true)
+        {
+            if (!killer.Is(CustomRoles.SerialKiller)) return;
+            SuicideTimer.Remove(killer.PlayerId);
+            if (CanMurder)
+                killer.CustomSyncSettings();
         }
         public static void OnReportDeadBody()
         {
@@ -58,31 +56,41 @@ namespace TownOfHost
         }
         public static void FixedUpdate(PlayerControl player)
         {
-            if (!player.Is(CustomRoles.SerialKiller)) return; //以下、シリアルキラーのみ実行
-
-            if (GameStates.IsInTask && SuicideTimer.ContainsKey(player.PlayerId))
+            if (!HasKilled(player))
             {
-                if (!player.IsAlive())
-                    SuicideTimer.Remove(player.PlayerId);
-                else if (SuicideTimer[player.PlayerId] >= TimeLimit.GetFloat())
-                {
-                    //自爆時間が来たとき
-                    PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Suicide);//死因：自爆
-                    player.RpcMurderPlayerV2(player);//自爆させる
-                }
-                else
-                    SuicideTimer[player.PlayerId] += Time.fixedDeltaTime;//時間をカウント
+                SuicideTimer.Remove(player.PlayerId);
+                return;
             }
+            if (!SuicideTimer.ContainsKey(player.PlayerId)) //タイマーがない
+            {
+                SuicideTimer[player.PlayerId] = 0f;
+                player.RpcResetAbilityCooldown();
+            }
+            else if (SuicideTimer[player.PlayerId] >= TimeLimit.GetFloat())
+            {
+                //自爆時間が来たとき
+                Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Suicide;//死因：自殺
+                player.RpcMurderPlayerV2(player);//自殺させる
+                SuicideTimer.Remove(player.PlayerId);
+            }
+            else
+                SuicideTimer[player.PlayerId] += Time.fixedDeltaTime;//時間をカウント
         }
-        public static void GetAbilityButtonText(HudManager __instance) => __instance.AbilityButton.OverrideText($"{GetString("SerialKillerSuicideButtonText")}");
+        public static void GetAbilityButtonText(HudManager __instance, PlayerControl pc)
+        {
+            __instance.AbilityButton.ToggleVisible(pc.IsAlive() && HasKilled(pc));
+            __instance.AbilityButton.OverrideText($"{GetString("SerialKillerSuicideButtonText")}");
+        }
         public static void AfterMeetingTasks()
         {
             foreach (var id in playerIdList)
             {
-                if (!PlayerState.isDead[id])
+                if (!Main.PlayerStates[id].IsDead)
                 {
-                    Utils.GetPlayerById(id)?.RpcResetAbilityCooldown();
-                    SuicideTimer[id] = 0f;
+                    var pc = Utils.GetPlayerById(id);
+                    pc?.RpcResetAbilityCooldown();
+                    if (HasKilled(pc))
+                        SuicideTimer[id] = 0f;
                 }
             }
         }

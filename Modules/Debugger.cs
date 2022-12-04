@@ -46,15 +46,16 @@ namespace TownOfHost
             if (!isEnable) return;
             if (DestroyableSingleton<HudManager>._instance) DestroyableSingleton<HudManager>.Instance.Notifier.AddItem(text);
         }
-        private static void SendToFile(string text, LogLevel level = LogLevel.Info, string tag = "", int lineNumber = 0, string fileName = "")
+        private static void SendToFile(string text, LogLevel level = LogLevel.Info, string tag = "", bool escapeCRLF = true, int lineNumber = 0, string fileName = "")
         {
             if (!isEnable || disableList.Contains(tag)) return;
             var logger = Main.Logger;
             string t = DateTime.Now.ToString("HH:mm:ss");
             if (sendToGameList.Contains(tag) || isAlsoInGame) SendInGame($"[{tag}]{text}");
-            text = text.Replace("\r", "\\r").Replace("\n", "\\n");
+            if (escapeCRLF)
+                text = text.Replace("\r", "\\r").Replace("\n", "\\n");
             string log_text = $"[{t}][{tag}]{text}";
-            if (isDetail && Main.AmDebugger.Value)
+            if (isDetail && DebugModeManager.AmDebugger)
             {
                 StackFrame stack = new(2);
                 string className = stack.GetMethod().ReflectedType.Name;
@@ -84,16 +85,18 @@ namespace TownOfHost
                     break;
             }
         }
-        public static void Info(string text, string tag, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
-            SendToFile(text, LogLevel.Info, tag, lineNumber, fileName);
-        public static void Warn(string text, string tag, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
-            SendToFile(text, LogLevel.Warning, tag, lineNumber, fileName);
-        public static void Error(string text, string tag, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
-            SendToFile(text, LogLevel.Error, tag, lineNumber, fileName);
-        public static void Fatal(string text, string tag, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
-            SendToFile(text, LogLevel.Fatal, tag, lineNumber, fileName);
-        public static void Msg(string text, string tag, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
-            SendToFile(text, LogLevel.Message, tag, lineNumber, fileName);
+        public static void Info(string text, string tag, bool escapeCRLF = true, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
+            SendToFile(text, LogLevel.Info, tag, escapeCRLF, lineNumber, fileName);
+        public static void Warn(string text, string tag, bool escapeCRLF = true, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
+            SendToFile(text, LogLevel.Warning, tag, escapeCRLF, lineNumber, fileName);
+        public static void Error(string text, string tag, bool escapeCRLF = true, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
+            SendToFile(text, LogLevel.Error, tag, escapeCRLF, lineNumber, fileName);
+        public static void Fatal(string text, string tag, bool escapeCRLF = true, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
+            SendToFile(text, LogLevel.Fatal, tag, escapeCRLF, lineNumber, fileName);
+        public static void Msg(string text, string tag, bool escapeCRLF = true, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
+            SendToFile(text, LogLevel.Message, tag, escapeCRLF, lineNumber, fileName);
+        public static void Exception(Exception ex, string tag, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
+            SendToFile(ex.ToString(), LogLevel.Error, tag, false, lineNumber, fileName);
         public static void CurrentMethod([CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "")
         {
             StackFrame stack = new(1);

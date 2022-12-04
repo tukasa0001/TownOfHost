@@ -1,271 +1,187 @@
+using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
-using AmongUs.Data;
 using HarmonyLib;
 using Newtonsoft.Json.Linq;
-using Twitch;
 using UnityEngine;
-using UnityEngine.UI;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
-    public class ModUpdaterButton
-    {
-        private static GameObject template;
-        public static GameObject discordButton;
-        public static GameObject updateButton;
-        private static void Prefix(MainMenuManager __instance)
-        {
-            DataManager.Settings.Multiplayer.CensorChat = false;
-            ModUpdater.LaunchUpdater();
-            if (template == null) template = GameObject.Find("ExitGameButton");
-            if (template == null) return;
-            //Discordボタンを生成
-            if (discordButton == null) discordButton = Object.Instantiate(template, null);
-            discordButton.transform.localPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)) + new Vector3(-0.6f, 0.4f, 0);
-
-            PassiveButton passiveDiscordButton = discordButton.GetComponent<PassiveButton>();
-            passiveDiscordButton.OnClick = new Button.ButtonClickedEvent();
-            passiveDiscordButton.OnClick.AddListener((UnityEngine.Events.UnityAction)(() => Application.OpenURL(Main.DiscordInviteUrl)));
-
-            var discordText = discordButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
-            __instance.StartCoroutine(Effects.Lerp(0.1f, new System.Action<float>((p) =>
-            {
-                discordText.SetText("Discord");
-            })));
-
-            SpriteRenderer buttonSpriteDiscord = discordButton.GetComponent<SpriteRenderer>();
-            Color discordColor = new Color32(88, 101, 242, byte.MaxValue);
-            buttonSpriteDiscord.color = discordText.color = discordColor;
-            passiveDiscordButton.OnMouseOut.AddListener((System.Action)delegate
-            {
-                buttonSpriteDiscord.color = discordText.color = discordColor;
-            });
-            discordButton.gameObject.SetActive(Main.ShowDiscordButton);
-            //以下アップデートがあれば実行
-            if (!ModUpdater.hasUpdate) return;
-            //アップデートボタンを生成
-            if (updateButton == null) updateButton = Object.Instantiate(template, null);
-            updateButton.transform.localPosition = new Vector3(updateButton.transform.localPosition.x, updateButton.transform.localPosition.y + 0.6f, updateButton.transform.localPosition.z);
-
-            PassiveButton passiveUpdateButton = updateButton.GetComponent<PassiveButton>();
-            passiveUpdateButton.OnClick = new Button.ButtonClickedEvent();
-            passiveUpdateButton.OnClick.AddListener((UnityEngine.Events.UnityAction)(() =>
-            {
-                ModUpdater.ExecuteUpdate();
-                updateButton.SetActive(false);
-            }));
-
-            var updateText = updateButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
-            __instance.StartCoroutine(Effects.Lerp(0.1f, new System.Action<float>((p) =>
-            {
-                updateText.SetText(GetString("updateButton"));
-            })));
-
-            SpriteRenderer buttonSpriteUpdate = updateButton.GetComponent<SpriteRenderer>();
-            Color updateColor = new Color32(0, 191, 255, byte.MaxValue);
-            buttonSpriteUpdate.color = updateText.color = updateColor;
-            passiveUpdateButton.OnMouseOut.AddListener((System.Action)delegate
-            {
-                buttonSpriteUpdate.color = updateText.color = updateColor;
-            });
-
-            TwitchManager man = DestroyableSingleton<TwitchManager>.Instance;
-            ModUpdater.InfoPopup = UnityEngine.Object.Instantiate<GenericPopup>(man.TwitchPopup);
-            ModUpdater.InfoPopup.TextAreaTMP.fontSize *= 0.7f;
-            ModUpdater.InfoPopup.TextAreaTMP.enableAutoSizing = false;
-        }
-    }
-
-    [HarmonyPatch(typeof(AnnouncementPopUp), nameof(AnnouncementPopUp.UpdateAnnounceText))]
-    public static class Announcement
-    {
-        public static bool Prefix(AnnouncementPopUp __instance)
-        {
-            var text = __instance.AnnounceTextMeshPro;
-            text.text = ModUpdater.announcement;
-            return false;
-        }
-    }
-
+    [HarmonyPatch]
     public class ModUpdater
     {
-        public static bool running = false;
+        private static readonly string URL = "https://api.github.com/repos/tukasa0001/TownOfHost";
         public static bool hasUpdate = false;
         public static bool isBroken = false;
-        public static string updateURI = null;
-        private static Task updateTask = null;
-        public static string announcement = "";
+        public static bool isChecked = false;
+        public static Version latestVersion = null;
+        public static string latestTitle = null;
+        public static string downloadUrl = null;
         public static GenericPopup InfoPopup;
 
-        public static void LaunchUpdater()
+        [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPrefix]
+        [HarmonyPriority(2)]
+        public static void Start_Prefix(MainMenuManager __instance)
         {
-            if (running) return;
-            running = true;
-            CheckForUpdate().GetAwaiter().GetResult();
-            ClearOldVersions();
-            if (hasUpdate || Main.ShowPopUpVersion.Value != Main.PluginVersion)
+            DeleteOldDLL();
+            InfoPopup = UnityEngine.Object.Instantiate(Twitch.TwitchManager.Instance.TwitchPopup);
+            InfoPopup.name = "InfoPopup";
+            InfoPopup.TextAreaTMP.GetComponent<RectTransform>().sizeDelta = new(2.5f, 2f);
+            if (!isChecked)
             {
-                DestroyableSingleton<MainMenuManager>.Instance.Announcement.gameObject.SetActive(true);
-                Main.ShowPopUpVersion.Value = Main.PluginVersion;
+                CheckRelease(Main.BetaBuildURL.Value != "").GetAwaiter().GetResult();
             }
+            MainMenuManagerPatch.updateButton.SetActive(hasUpdate);
+            MainMenuManagerPatch.updateButton.transform.position = MainMenuManagerPatch.template.transform.position + new Vector3(0.25f, 0.75f);
+            __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) =>
+            {
+                MainMenuManagerPatch.updateButton.transform
+                    .GetChild(0).GetComponent<TMPro.TMP_Text>()
+                    .SetText($"{GetString("updateButton")}\n{latestTitle}");
+            })));
         }
-
-        public static void ExecuteUpdate()
+        public static async Task<bool> CheckRelease(bool beta = false)
         {
-            string info = GetString("updatePleaseWait");
-            ModUpdater.InfoPopup.Show(info);
-            if (updateTask == null)
-                if (updateURI != null) updateTask = DownloadUpdate();
-                else info = GetString("updateManually");
-            else info = GetString("updateInProgress");
-            ModUpdater.InfoPopup.StartCoroutine(Effects.Lerp(0.01f, new System.Action<float>((p) => { ModUpdater.SetPopupText(info); })));
-        }
-
-        public static void ClearOldVersions()
-        {
+            string url = beta ? Main.BetaBuildURL.Value : URL + "/releases/latest";
             try
             {
-                DirectoryInfo d = new(Path.GetDirectoryName(Application.dataPath) + @"\BepInEx\plugins");
-                string[] files = d.GetFiles("*.old").Select(x => x.FullName).ToArray();
-                foreach (string f in files)
-                    File.Delete(f);
-            }
-            catch (System.Exception e)
-            {
-                Logger.Error("Exception occurred when clearing old versions:\n" + e, "ModUpdater");
-            }
-        }
-
-        public static async Task<bool> CheckForUpdate()
-        {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-            try
-            {
-                HttpClient http = new();
-                http.DefaultRequestHeaders.Add("User-Agent", "TownOfHost Updater");
-                var response = await http.GetAsync(new System.Uri("https://api.github.com/repos/tukasa0001/TownOfHost/releases/latest"), HttpCompletionOption.ResponseContentRead);
-                if (response.StatusCode != HttpStatusCode.OK || response.Content == null)
+                string result;
+                using (HttpClient client = new())
                 {
-                    Logger.Error("Server returned no data: " + response.StatusCode.ToString(), "ModUpdater");
-                    return false;
-                }
-                string json = await response.Content.ReadAsStringAsync();
-                JObject data = JObject.Parse(json);
-
-                string tagName = data["tag_name"]?.ToString();
-                if (tagName == null)
-                {
-                    return false;
-                }
-
-                string changeLog = data["body"]?.ToString();
-                if (changeLog != null) announcement = changeLog;
-
-                System.Version ver = System.Version.Parse(tagName.Replace("v", ""));
-                int diff = Main.version.CompareTo(ver);
-                if (diff < 0)
-                {
-                    hasUpdate = true;
-                    announcement = string.Format(GetString("announcementUpdate"), ver, announcement);
-
-                    JToken assets = data["assets"];
-                    if (!assets.HasValues)
-                        return false;
-
-                    for (JToken current = assets.First; current != null; current = current.Next)
+                    client.DefaultRequestHeaders.Add("User-Agent", "TownOfHost Updater");
+                    using var response = await client.GetAsync(new Uri(url), HttpCompletionOption.ResponseContentRead);
+                    if (!response.IsSuccessStatusCode || response.Content == null)
                     {
-                        string browser_download_url = current["browser_download_url"]?.ToString();
-                        if (browser_download_url != null && current["content_type"] != null)
-                        {
-                            if (current["content_type"].ToString().Equals("application/x-msdownload") &&
-                                browser_download_url.EndsWith(".dll"))
-                            {
-                                updateURI = browser_download_url;
-                                return true;
-                            }
-                        }
+                        Logger.Error($"ステータスコード: {response.StatusCode}", "CheckRelease");
+                        return false;
                     }
+                    result = await response.Content.ReadAsStringAsync();
+                }
+                JObject data = JObject.Parse(result);
+                if (beta)
+                {
+                    latestTitle = data["name"].ToString();
+                    downloadUrl = data["url"].ToString();
+                    hasUpdate = latestTitle != ThisAssembly.Git.Commit;
                 }
                 else
                 {
-                    announcement = string.Format(GetString("announcementChangelog"), ver, announcement);
+                    latestVersion = new(data["tag_name"]?.ToString().TrimStart('v'));
+                    latestTitle = $"Ver. {latestVersion}";
+                    JArray assets = data["assets"].Cast<JArray>();
+                    for (int i = 0; i < assets.Count; i++)
+                    {
+                        if (assets[i]["name"].ToString() == "TownOfHost_Steam.dll" && Constants.GetPlatformType() == Platforms.StandaloneSteamPC)
+                        {
+                            downloadUrl = assets[i]["browser_download_url"].ToString();
+                            break;
+                        }
+                        if (assets[i]["name"].ToString() == "TownOfHost_Epic.dll" && Constants.GetPlatformType() == Platforms.StandaloneEpicPC)
+                        {
+                            downloadUrl = assets[i]["browser_download_url"].ToString();
+                            break;
+                        }
+                        if (assets[i]["name"].ToString() == "TownOfHost.dll")
+                            downloadUrl = assets[i]["browser_download_url"].ToString();
+                    }
+                    hasUpdate = latestVersion.CompareTo(Main.version) > 0;
                 }
+                if (downloadUrl == null)
+                {
+                    Logger.Error("ダウンロードURLを取得できませんでした。", "CheckRelease");
+                    return false;
+                }
+                isChecked = true;
+                isBroken = false;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                Logger.Error(ex.ToString(), "ModUpdater");
                 isBroken = true;
+                Logger.Error($"リリースのチェックに失敗しました。\n{ex}", "CheckRelease");
+                return false;
             }
-            return false;
+            return true;
         }
-
-        public static async Task<bool> DownloadUpdate()
+        public static void StartUpdate(string url)
+        {
+            ShowPopup(GetString("updatePleaseWait"));
+            if (!BackupDLL())
+            {
+                ShowPopup(GetString("updateManually"), true);
+                return;
+            }
+            _ = DownloadDLL(url);
+            return;
+        }
+        public static bool BackupDLL()
         {
             try
             {
-                HttpClient http = new();
-                http.DefaultRequestHeaders.Add("User-Agent", "TownOfHost Updater");
-                var response = await http.GetAsync(new System.Uri(updateURI), HttpCompletionOption.ResponseContentRead);
-                if (response.StatusCode != HttpStatusCode.OK || response.Content == null)
-                {
-                    Logger.Error("Server returned no data: " + response.StatusCode.ToString(), "ModUpdater");
-                    return false;
-                }
-                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                System.UriBuilder uri = new(codeBase);
-                string fullname = System.Uri.UnescapeDataString(uri.Path);
-                if (File.Exists(fullname + ".old"))
-                    File.Delete(fullname + ".old");
-
-                File.Move(fullname, fullname + ".old");
-
-                using (var responseStream = await response.Content.ReadAsStreamAsync())
-                {
-                    using var fileStream = File.Create(fullname);
-                    responseStream.CopyTo(fileStream);
-                }
-                ShowPopup(GetString("updateRestart"));
-                return true;
+                File.Move(Assembly.GetExecutingAssembly().Location, Assembly.GetExecutingAssembly().Location + ".bak");
             }
-            catch (System.Exception ex)
+            catch
             {
-                Logger.Error(ex.ToString(), "ModUpdater");
+                Logger.Error("バックアップに失敗しました", "BackupDLL");
+                return false;
             }
-            ShowPopup(GetString("updateFailed"));
-            return false;
+            return true;
         }
-        private static void ShowPopup(string message)
+        public static void DeleteOldDLL()
         {
-            SetPopupText(message);
-            InfoPopup.gameObject.SetActive(true);
-        }
-
-        public static void SetPopupText(string message)
-        {
-            if (InfoPopup == null)
-                return;
-            if (InfoPopup.TextAreaTMP != null)
+            try
             {
-                InfoPopup.TextAreaTMP.text = message;
+                foreach (var path in Directory.EnumerateFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.bak"))
+                {
+                    Logger.Info($"{Path.GetFileName(path)}を削除", "DeleteOldDLL");
+                    File.Delete(path);
+                }
             }
+            catch
+            {
+                Logger.Error("削除に失敗しました", "DeleteOldDLL");
+            }
+            return;
         }
-    }
-    [HarmonyPatch(typeof(ResolutionManager), nameof(ResolutionManager.SetResolution))]
-    class SetResolutionManager
-    {
-        public static void Postfix()
+        public static async Task<bool> DownloadDLL(string url)
         {
-            if (ModUpdaterButton.discordButton == null) return;
-            ModUpdaterButton.discordButton.transform.localPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)) + new Vector3(-0.6f, 0.4f, 0);
-            if (ModUpdater.hasUpdate && ModUpdaterButton.updateButton != null)
-                ModUpdaterButton.updateButton.transform.localPosition = new Vector3(ModUpdaterButton.updateButton.transform.localPosition.x, ModUpdaterButton.updateButton.transform.localPosition.y + 0.6f, ModUpdaterButton.updateButton.transform.localPosition.z);
+            try
+            {
+                using WebClient client = new();
+                client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadCallBack);
+                client.DownloadFileAsync(new Uri(url), "BepInEx/plugins/TownOfHost.dll");
+                while (client.IsBusy) await Task.Delay(1);
+                ShowPopup(GetString("updateRestart"), true);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"ダウンロードに失敗しました。\n{ex}", "DownloadDLL");
+                ShowPopup(GetString("updateManually"), true);
+                return false;
+            }
+            return true;
+        }
+        private static void DownloadCallBack(object sender, DownloadProgressChangedEventArgs e)
+        {
+            ShowPopup($"{GetString("updateInProgress")}\n{e.BytesReceived}/{e.TotalBytesToReceive}({e.ProgressPercentage}%)");
+        }
+        private static void ShowPopup(string message, bool showButton = false)
+        {
+            if (InfoPopup != null)
+            {
+                InfoPopup.Show(message);
+                var button = InfoPopup.transform.FindChild("ExitGame");
+                if (button != null)
+                {
+                    button.gameObject.SetActive(showButton);
+                    button.GetChild(0).GetComponent<TextTranslatorTMP>().TargetText = StringNames.QuitLabel;
+                    button.GetComponent<PassiveButton>().OnClick = new();
+                    button.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.Quit()));
+                }
+            }
         }
     }
 }
