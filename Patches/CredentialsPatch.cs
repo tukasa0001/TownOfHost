@@ -17,9 +17,9 @@ namespace TownOfHost
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("HideAndSeek"));
             if (DebugModeManager.IsDebugMode) __instance.text.text += "\r\n" + Utils.ColorString(Color.green, "デバッグモード");
 
-            var offset_x = 1.2f; // 右端からのオフセット
-            if (HudManager.InstanceExists && HudManager._instance.Chat.ChatButton.active) offset_x += 0.8f; // チャットボタンがある場合の追加オフセット
-            if (FriendsListManager.InstanceExists && FriendsListManager._instance.FriendsListButton.Button.active) offset_x += 0.8f; // フレンドリストボタンがある場合の追加オフセット
+            var offset_x = 1.2f; //右端からのオフセット
+            if (HudManager.InstanceExists && HudManager._instance.Chat.ChatButton.active) offset_x += 0.8f; //チャットボタンがある場合の追加オフセット
+            if (FriendsListManager.InstanceExists && FriendsListManager._instance.FriendsListButton.Button.active) offset_x += 0.8f; //フレンドリストボタンがある場合の追加オフセット
             __instance.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(offset_x, 0f, 0f);
 
             if (!GameStates.IsLobby) return;
@@ -66,8 +66,8 @@ namespace TownOfHost
             }
             if (Main.IsChristmas && CultureInfo.CurrentCulture.Name == "ja-JP")
             {
-                // このソースコ―ドを見た人へ。口外しないでもらえると嬉しいです...
-                // To anyone who has seen this source code. I would appreciate it if you would keep your mouth shut...
+                //このソースコ―ドを見た人へ。口外しないでもらえると嬉しいです...
+                //To anyone who has seen this source code. I would appreciate it if you would keep your mouth shut...
                 SpecialEventText.text = "何とは言いませんが、特別な日ですね。\n<size=15%>\n\n末永く爆発しろ</size>";
                 SpecialEventText.color = Utils.GetRoleColor(CustomRoles.Lovers);
             }
