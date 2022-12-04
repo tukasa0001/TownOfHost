@@ -40,44 +40,47 @@ Note that if a player other than the host plays with this mod installed, the fol
 ### Hotkeys
 
 #### Host Only
-| HotKey              | Function                      | Usable Scene    |
-| ------------------- | ----------------------------- | --------------- |
-| `Shift`+`L`+`Enter` | Force End Game                | In Game         |
-| `Shift`+`M`+`Enter` | Skip meeting to end           | In Game         |
-| `Ctrl`+`N`          | Show active role descriptions | Lobby&In Game   |
-| `C`                 | Cancel game start             | In Countdown    |
-| `Shift`             | Start the game immediately    | In Countdown    |
-| `Ctrl`+`Delete`     | Set default all options       | In TOH Settings |
-| `Ctrl`+`RMB`        | Execute clicked player        | In Meeting      |
+| HotKey              | Function                         | Usable Scene  |
+| ------------------- | -------------------------------- | ------------- |
+| `Shift`+`L`+`Enter` | Force End Game                   | In Game       |
+| `Shift`+`M`+`Enter` | Skip meeting to end              | In Game       |
+| `Ctrl`+`N`          | Show active settings             | Lobby&In Game |
+| `Ctrl`+`Shift`+`N`  | Show active settings description | Lobby&In Game |
+| `C`                 | Cancel game start                | In Countdown  |
+| `Shift`             | Start the game immediately       | In Countdown  |
+| `Ctrl`+`RMB`        | Execute clicked player           | In Meeting    |
 
 #### MOD Client Only
-| HotKey      | Function                                                                           | Usable Scene |
-| ----------- | ---------------------------------------------------------------------------------- | ------------ |
-| `Tab`       | Option list page feed                                                              | Lobby        |
-| `Ctrl`+`F1` | Output log to desktop                                                              | Anywhere     |
-| `F11`       | Change resolution<br>480x270 → 640x360 → 800x450 → 1280x720 → 1600x900 → 1920x1080 | Anywhere     |
-| `T`+`F5`    | Reload custom translation file                                                     | Anywhere     |
-| `Ctrl`+`C`  | Copy the text                                                                      | Chat         |
-| `Ctrl`+`V`  | Paste the text                                                                     | Chat         |
-| `Ctrl`+`X`  | Cut the text                                                                       | Chat         |
-| `↑`         | Go back in time of chat send history                                               | Chat         |
-| `↓`         | Go future in time of chat send history                                             | Chat         |
+| HotKey      | Function                                                                           | Usable Scene  |
+| ----------- | ---------------------------------------------------------------------------------- | ------------- |
+| `Tab`       | Option list page feed                                                              | Lobby         |
+| `Ctrl`+`F1` | Output log to desktop                                                              | Anywhere      |
+| `F10`       | Open AmongUs folder                                                                | Anywhere      |
+| `F11`       | Change resolution<br>480x270 → 640x360 → 800x450 → 1280x720 → 1600x900 → 1920x1080 | Anywhere      |
+| `T`+`F5`    | Reload custom translation file                                                     | Anywhere      |
+| `Alt`+`C`   | Copy current settings text                                                         | Lobby&In Game |
+| `Ctrl`+`C`  | Copy the text                                                                      | Chat          |
+| `Ctrl`+`V`  | Paste the text                                                                     | Chat          |
+| `Ctrl`+`X`  | Cut the text                                                                       | Chat          |
+| `↑`         | Go back in time of chat send history                                               | Chat          |
+| `↓`         | Go future in time of chat send history                                             | Chat          |
 
 ### Chat Commands
 You can execute chat commands by typing in chat.
 
 #### Host Only
-| Command                                               | Function                                          |
-| ----------------------------------------------------- | ------------------------------------------------- |
-| /winner<br>/win                                       | Show winner                                       |
-| /rename <string><br>/r <string>                       | Change my name                                    |
-| /dis <crewmate/impostor>                              | Ending the match as a Crewmate/Impostor severance |
-| /messagewait <sec><br>/mw <sec>                       | Set message send interval                         |
-| /help<br>/h                                           | Show command description                          |
-| /help roles <role><br>/help r <role>                  | Show role description                             |
-| /help attributes <attribute><br>/help att <attribute> | Show attribute description                        |
-| /help modes <mode><br>/help m <mode>                  | Show mode description                             |
-| /hidename <string><br>/hn <string>                    | Rename code concealment string                    |
+| Command                                     | Function                                          |
+| ------------------------------------------- | ------------------------------------------------- |
+| /winner<br>/win                             | Show winner                                       |
+| /rename <string><br>/r <string>             | Change my name                                    |
+| /dis <crewmate/impostor>                    | Ending the match as a Crewmate/Impostor severance |
+| /messagewait <sec><br>/mw <sec>             | Set message send interval                         |
+| /help<br>/h                                 | Show command description                          |
+| /help roles <role><br>/help r <role>        | Show role description                             |
+| /help addons <add-ons><br>/help a <add-ons> | Show add-on description                           |
+| /help modes <mode><br>/help m <mode>        | Show mode description                             |
+| /hidename <string><br>/hn <string>          | Rename code concealment string                    |
+| /say <string>                               | Make an announcement as a host                    |
 
 #### MOD Client Only
 | Command        | Function                    |
@@ -98,7 +101,7 @@ You can execute chat commands by typing in chat.
 ### Template
 This function allows you to send prepared messages.<br>
 Execute by typing `/template <tag>` or `/t <tag>`.<br>
-To set the text, edit `template.txt` in the same folder as AmongUs.exe.<br>
+To set the text, edit `./TOH_DATA/template.txt` in the same folder as AmongUs.exe.<br>
 Separate each entry with a colon, such as `tag:content`.<br>
 Also, you can break lines by writing `\n` in the sentence like `tag:line breaks can be\nmade like this`.<br>
 
@@ -106,14 +109,39 @@ Also, you can break lines by writing `\n` in the sentence like `tag:line breaks 
 If the tag is set to "welcome" in the template function, it will be sent automatically when a player joins.<br>
 For example: `welcome:This room is using TownOfHost.`
 
+#### Variable Expansion
+The contents of a variable can be expanded at the time of a call by including it in the text as `{{variable name}}`.<br>
+For example: `roomcode:The room code for this room is {{RoomCode}}.`
+
+| Variable name        | Content                             |
+| -------------------- | ----------------------------------- |
+| RoomCode             | Room Code                           |
+| PlayerName           | Player name of host                 |
+| AmongUsVersion       | Game version                        |
+| ModVersion           | MOD version                         |
+| Map                  | Map name                            |
+| NumEmergencyMeetings | Number of emergency meeting buttons |
+| EmergencyCooldown    | Emergency Meeting Button Cooldown   |
+| DiscussionTime       | Discussion time                     |
+| VotingTime           | Voting time                         |
+| PlayerSpeedMod       | Player speed                        |
+| CrewLightMod         | Crewmate vision                     |
+| ImpostorLightMod     | Impostor vision                     |
+| KillCooldown         | Kill Cooldown                       |
+| NumCommonTasks       | Number of common tasks              |
+| NumLongTasks         | Number of long tasks                |
+| NumShortTasks        | Number of short tasks               |
+| Date                 | Date                                |
+| Time                 | Time                                |
+
 ### Custom Translation File
 Users are free to create and use their own translations.<br>
 - Open the "Language" folder created in the Among Us folder.
 - Create a file named `{language name}.dat` in the folder
-  - 例: English.dat
+  - For example: English.dat
   - You can also rename `template.dat` or `template_English.dat` and use.
 - In the file, enter like `before translation:after translation`.
-  - 例: Command.rename:Change Host Name
+  - For example: Command.rename:Change Host Name
   - See `template.dat` for the `before translation` string.
 
 You can also reload the translation by pressing key `T`+`F5`.
@@ -138,22 +166,44 @@ You can also reload the translation by pressing key `T`+`F5`.
 | TChinese      |
 | Irish         |
 
+### BAN Function
+The host can ban players even during the game without requiring other players to vote. <br>
+Also, if you ban, that player will not be able to enter the room you host from now on. <br>
+Banned players are recorded in `./TOH_DATA/BanList.txt` as `friend code, player name`, and you can remove the ban by deleting the corresponding line. <br>
+Even if you block it with a friend list, it will automatically ban. <br>
+
+### Kick Function
+The host can kick players even during the game without requiring other players to vote. <br>
+
+### Name Filter
+By listing the names you want to deny in `./TOH_DATA/DenyName.txt`, players with matching names will be automatically kicked. <br>
+It can be specified by [regular expression](https://regex101.com/), and it will be judged line by line. <br>
+
+Example:
+| specified character | matching name                           | note                           |
+| ------------------- | --------------------------------------- | ------------------------------ |
+| Host                | `Host` `MODHost` `HostTOH` `MODHostTOH` | Matches if `Host' is included. |
+| ^Host               | `HostMOD` `HostTOH` `HostTEST`          | Match if prefixed with `Host`  |
+| Host$               | `MODHost` `TOHHost` `TESTHost`          | Match if postfixed with `Host` |
+| ^Host$              | `Host`                                  | Exact match to `Host`          |
+
 ## Roles
 
 | Impostors                           | Crewmates                         | Neutrals                          | Others    |
 | ----------------------------------- | --------------------------------- | --------------------------------- | --------- |
 | [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             | [GM](#GM) |
-| [Evil Watcher](#Watcher)            | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |           |
-| [FireWorks](#FireWorks)             | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |           |
-| [Mare](#Mare)                       | [Lighter](#Lighter)               | [Jackal](#Jackal)                 |           |
-| [Puppeteer](#Puppeteer)             | [Mayor](#Mayor)                   | [Jester](#Jester)                 |           |
-| [SerialKiller](#SerialKiller)       | [Nice Watcher](#Watcher)          | [Lovers](#Lovers)                 |           |
-| [Sniper](#Sniper)                   | [SabotageMaster](#SabotageMaster) | [Opportunist](#Opportunist)       |           |
-| [TimeThief](#TimeThief)             | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |           |
-| [Vampire](#Vampire)                 | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |           |
-| [Warlock](#Warlock)                 | [Snitch](#Snitch)                 |                                   |           |
-| [Witch](#Witch)                     | [SpeedBooster](#SpeedBooster)     |                                   |           |
-| [Mafia](#Mafia)                     | [Trapper](#Trapper)               |                                   |           |
+| [EvilTracker](#EvilTracker)         | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |           |
+| [Evil Watcher](#Watcher)            | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |           |
+| [FireWorks](#FireWorks)             | [Lighter](#Lighter)               | [Jackal](#Jackal)                 |           |
+| [Mare](#Mare)                       | [Mayor](#Mayor)                   | [Jester](#Jester)                 |           |
+| [Puppeteer](#Puppeteer)             | [Nice Watcher](#Watcher)          | [Lovers](#Lovers)                 |           |
+| [SerialKiller](#SerialKiller)       | [SabotageMaster](#SabotageMaster) | [Opportunist](#Opportunist)       |           |
+| [Sniper](#Sniper)                   | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |           |
+| [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |           |
+| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |           |
+| [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |           |
+| [Witch](#Witch)                     | [Beartrap](#Beartrap)             |                                   |           |
+| [Mafia](#Mafia)                     |                                   |                                   |           |
 | [Madmate](#Madmate)                 |                                   |                                   |           |
 | [MadGuardian](#MadGuardian)         |                                   |                                   |           |
 | [MadSnitch](#MadSnitch)             |                                   |                                   |           |
@@ -239,10 +289,10 @@ While lights out they can move faster, and yet their name looks red by everyone.
 
 #### Game Options
 
-| Name                             |
-| -------------------------------- |
-| Mare Player Speed In Lights Out  |
-| Mare Kill Cooldown In Lights Out |
+| Name                                |
+| ----------------------------------- |
+| Mare Player Add Speed In Lights Out |
+| Mare Kill Cooldown In Lights Out    |
 
 ### Puppeteer
 
@@ -270,7 +320,7 @@ Unless taking a kill by deadline, they murder themselves instantly.<br>
 
 ### ShapeMaster
 
-> **Warning**  
+> **Warning**
 > Unavailable.
 
 Create and idea by しゅー<br>
@@ -359,8 +409,14 @@ Beware, if you or another impostor are the nearest to the player you have cursed
 Team : Impostors<br>
 Basis : Impostor<br>
 
-The Witches can perform kills or spells by turns.<br>
+The Witches can perform kills or spells switched by Actions.<br>
 The players spelled by Witches before a meeting are marked "cross" in the meeting, and unless exiling Witches, They all die just after the meeting.<br>
+
+#### Game Options
+
+| Name               |           |
+| ------------------ | --------- |
+| Mode Switch Action | Kill/Vent |
 
 ### Mafia
 
@@ -376,15 +432,17 @@ They will be able to kill after Impostors except them are all gone.<br>
 There are common options for Madmates.
 #### Game Options
 
-| Name                          |
-| ----------------------------- |
-| Madmates Can Fix Lights Out   |
-| Madmates Can Fix Comms        |
-| Madmates Have Impostor Vision |
-| Madmates Can See Kill Flash   |
-| Madmates Can See Other Votes  |
-| Madmates Vent Cooldown        |
-| Madmates Max Time In Vents    |
+| Name                                    |
+| --------------------------------------- |
+| Madmates Can Fix Lights Out             |
+| Madmates Can Fix Comms                  |
+| Madmates Have Impostor Vision           |
+| Madmates Can See Kill Flash             |
+| Madmates Can See Other Votes            |
+| Madmates Can See Cause Of Death         |
+| Madmates Revenge A Crewmate When Exiled |
+| Madmates Vent Cooldown                  |
+| Madmates Max Time In Vents              |
 
 ### Madmate
 
@@ -632,7 +690,7 @@ Defined amount of tasks boosts the player speed of someone alive.<br>
 | Acceleration valued |
 | Tasks that trigger  |
 
-### Trapper
+### Beartrap
 
 Created by そうくん<br>
 Original idea by 宿主ランニング<br>
@@ -640,8 +698,12 @@ Original idea by 宿主ランニング<br>
 Team : Crewmates<br>
 Basis : Crewmate<br>
 
-When killed, the trapper will hold the killer in place.<br>
+When killed, the Beartrap will hold the killer in place.<br>
+Also, if a report is made while in custody, it will be canceled and the report will be made after the release.<br>
 The time held in place on the body is decided by host in settings.<br>
+
+Rename [Trapper] -> [Beartrap]
+the word contains prohibited characters
 
 #### Game Options
 
@@ -788,7 +850,7 @@ The SchrodingerCats have no tasks and by default, no victory condition. Only aft
 
 1. If killed by **Impostors**, they prevent the kill and belong to **team Impostors**.<br>
 2. If killed by [Sheriff](#sheriff), they prevent the kill and belong to **team Crewmate**.<br>
-3. If killed by **Neutral**, they prevent the kill and belong to the **Neutra team**.<br>
+3. If killed by **Neutral**, they prevent the kill and belong to the **Neutral team**.<br>
 4. If exiled, they die with the victory condition same as before.<br>
 5. If killed with special abilities of Impostors (except for [Vampire](#vampire)), they die with the victory condition same as before.<br>
 
@@ -812,13 +874,13 @@ The Terrorists are the Neutral Role where they win the game alone if they die wi
 Any cause of death is acceptable.<br>
 If they die before completing their tasks, or if they survive at the game end, they lose.<br>
 
-## Attribute
+## Add-Ons
 
 ### LastImpostor
 
 Create and idea by そうくん<br>
 
-An Attribute given to the last Impostor.<br>
+An Add-on given to the last Impostor.<br>
 kill cooldown gets shorter than usual.<br>
 Not assigned to [BountyHunter](#bountyhunter), [SerialKiller](#serialkiller), or [Vampire](#vampire).<br>
 
@@ -832,7 +894,7 @@ Not assigned to [BountyHunter](#bountyhunter), [SerialKiller](#serialkiller), or
 
 Create and idea by ゆりの<br>
 
-Team : Neutral(Lovres)<br>
+Team : Neutral(Lovers)<br>
 Basis : -<br>
 Count : -<br>
 Victory Conditions : Alive at the end of the game. (other than task completion)<br>
@@ -876,6 +938,12 @@ Various devices can be disabled.
 | ┣ Disable Airship Records Admin |
 | ┣ Disable Camera                |
 | ┗ Disable Vital                 |
+| Ignore Conditions               |
+| ┣ Ignore Impostors              |
+| ┣ Ignore Madmates               |
+| ┣ Ignore Neutrals               |
+| ┣ Ignore Crewmates              |
+| ┗ Ignore After Anyone Died      |
 
 ## SabotageTimeControl
 
@@ -1083,7 +1151,7 @@ If the client language is English, this option is meaningless unless `Force Japa
 
 ## Credits
 
-More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter),[Seer](#Seer),[Jackal](#jackal) idea by [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
+More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter),[Seer](#Seer),[Jackal](#jackal) idea by [The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles)<br>
 [Opportunist](#Opportunist),[Watcher](#Watcher) original idea by [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
 [SchrodingerCat](#SchrodingerCat),[EvilTracker](#EvilTracker) idea by [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
 [Doctor](#Doctor) original idea by [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
@@ -1091,6 +1159,8 @@ More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire]
 [Terrorist](#Terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 Translate-Chinese : fivefirex, ZeMingOH233<br>
+OptionTab Icon Design by 花海.<br>
+Csv: Copyright (c) 2015 Steve Hansen [MIT License](https://raw.githubusercontent.com/stevehansen/csv/master/LICENSE)<br>
 
 Translated with https://www.deepl.com<br>
 

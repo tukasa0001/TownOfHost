@@ -7,7 +7,7 @@ namespace TownOfHost
     public class FallFromLadder
     {
         public static Dictionary<byte, Vector3> TargetLadderData;
-        private static int Chance => Options.LadderDeathChance.GetChance();
+        private static int Chance => (Options.LadderDeathChance as StringOptionItem).GetChance();
         public static void Reset()
         {
             TargetLadderData = new();
@@ -20,7 +20,7 @@ namespace TownOfHost
             //降りているのかを検知
             if (sourcePos.y > targetPos.y)
             {
-                int chance = UnityEngine.Random.Range(1, 101);
+                int chance = IRandom.Instance.Next(1, 101);
                 if (chance <= Chance)
                 {
                     TargetLadderData[player.myPlayer.PlayerId] = targetPos;
@@ -53,8 +53,8 @@ namespace TownOfHost
                         sender.SendMessage();
                         player.NetTransform.SnapTo(targetPos);
                         player.MurderPlayer(player);
-                        PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Fall);
-                        PlayerState.SetDead(player.PlayerId);
+                        Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Fall;
+                        Main.PlayerStates[player.PlayerId].SetDead();
                     }, 0.05f, "LadderFallTask");
                 }
             }

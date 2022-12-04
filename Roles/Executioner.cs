@@ -12,9 +12,9 @@ namespace TownOfHost
         public static List<byte> playerIdList = new();
         public static byte WinnerID;
 
-        private static CustomOption CanTargetImpostor;
-        private static CustomOption CanTargetNeutralKiller;
-        public static CustomOption ChangeRolesAfterTargetKilled;
+        private static OptionItem CanTargetImpostor;
+        private static OptionItem CanTargetNeutralKiller;
+        public static OptionItem ChangeRolesAfterTargetKilled;
 
 
         /// <summary>
@@ -33,9 +33,9 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Executioner);
-            CanTargetImpostor = CustomOption.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "ExecutionerCanTargetImpostor", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
-            CanTargetNeutralKiller = CustomOption.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "ExecutionerCanTargetNeutralKiller", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
-            ChangeRolesAfterTargetKilled = CustomOption.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ChangeRoles, ChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
+            CanTargetImpostor = BooleanOptionItem.Create(Id + 10, "ExecutionerCanTargetImpostor", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Executioner]);
+            CanTargetNeutralKiller = BooleanOptionItem.Create(Id + 12, "ExecutionerCanTargetNeutralKiller", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Executioner]);
+            ChangeRolesAfterTargetKilled = StringOptionItem.Create(Id + 11, "ExecutionerChangeRolesAfterTargetKilled", ChangeRoles, 1, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Executioner]);
         }
         public static void Init()
         {
@@ -50,7 +50,7 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 List<PlayerControl> targetList = new();
-                var rand = new System.Random();
+                var rand = IRandom.Instance;
                 foreach (var target in PlayerControl.AllPlayerControls)
                 {
                     if (playerId == target.PlayerId) continue;
@@ -110,14 +110,14 @@ namespace TownOfHost
                 if (x.Value == target.PlayerId)
                     Executioner = x.Key;
             });
-            Utils.GetPlayerById(Executioner).RpcSetCustomRole(CRoleChangeRoles[ChangeRolesAfterTargetKilled.GetSelection()]);
+            Utils.GetPlayerById(Executioner).RpcSetCustomRole(CRoleChangeRoles[ChangeRolesAfterTargetKilled.GetValue()]);
             Target.Remove(Executioner);
             SendRPC(Executioner);
             Utils.NotifyRoles();
         }
         public static void ChangeRole(PlayerControl executioner)
         {
-            executioner.RpcSetCustomRole(CRoleChangeRoles[ChangeRolesAfterTargetKilled.GetSelection()]);
+            executioner.RpcSetCustomRole(CRoleChangeRoles[ChangeRolesAfterTargetKilled.GetValue()]);
             Target.Remove(executioner.PlayerId);
             SendRPC(executioner.PlayerId);
         }
@@ -126,7 +126,7 @@ namespace TownOfHost
             if (!seer.Is(CustomRoles.Executioner)) return ""; //エクスキューショナー以外処理しない
 
             var GetValue = Target.TryGetValue(seer.PlayerId, out var targetId);
-            return GetValue && targetId == target.PlayerId ? Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Executioner), "♦") : "";
+            return GetValue && targetId == target.PlayerId ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Executioner), "♦") : "";
         }
         public static void CheckExileTarget(GameData.PlayerInfo exiled, bool DecidedWinner)
         {

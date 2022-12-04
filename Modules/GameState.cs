@@ -1,57 +1,77 @@
 using System;
 using System.Collections.Generic;
+using HarmonyLib;
 
 namespace TownOfHost
 {
-    public static class PlayerState
+    public class PlayerState
     {
-
-        static PlayerState()
+        byte PlayerId;
+        public CustomRoles MainRole;
+        public List<CustomRoles> SubRoles;
+        public bool IsDead { get; set; }
+        public DeathReason deathReason { get; set; }
+        public TaskState taskState;
+        public bool IsBlackOut { get; set; }
+        public (DateTime, byte) RealKiller;
+        public PlayerState(byte playerId)
         {
-            Init();
-        }
-
-        public static void Init()
-        {
-            players = new();
-            isDead = new();
-            IsBlackOut = new();
-            deathReasons = new();
+            MainRole = CustomRoles.NotAssigned;
+            SubRoles = new();
+            PlayerId = playerId;
+            IsDead = false;
+            deathReason = DeathReason.etc;
             taskState = new();
-
-            foreach (var p in PlayerControl.AllPlayerControls)
-            {
-                players.Add(p.PlayerId);
-                isDead.Add(p.PlayerId, false);
-                IsBlackOut.Add(p.PlayerId, false);
-                deathReasons.Add(p.PlayerId, DeathReason.etc);
-                taskState.Add(p.PlayerId, new());
-            }
-
+            IsBlackOut = false;
+            RealKiller = (DateTime.MinValue, byte.MaxValue);
         }
-        public static List<byte> players = new();
-        public static Dictionary<byte, bool> isDead = new();
-        public static Dictionary<byte, DeathReason> deathReasons = new();
-        public static Dictionary<byte, TaskState> taskState = new();
-        public static Dictionary<byte, bool> IsBlackOut = new();
-        public static void SetDeathReason(byte p, DeathReason reason) { deathReasons[p] = reason; }
-        public static DeathReason GetDeathReason(byte p) { return deathReasons.TryGetValue(p, out var reason) ? reason : DeathReason.etc; }
-        public static void SetDead(byte p)
+        public CustomRoles GetCustomRole()
         {
-            isDead[p] = true;
+            var RoleInfo = Utils.GetPlayerInfoById(PlayerId);
+            return RoleInfo.Role == null
+                ? MainRole
+                : RoleInfo.Role.Role switch
+                {
+                    RoleTypes.Crewmate => CustomRoles.Crewmate,
+                    RoleTypes.Engineer => CustomRoles.Engineer,
+                    RoleTypes.Scientist => CustomRoles.Scientist,
+                    RoleTypes.GuardianAngel => CustomRoles.GuardianAngel,
+                    RoleTypes.Impostor => CustomRoles.Impostor,
+                    RoleTypes.Shapeshifter => CustomRoles.Shapeshifter,
+                    _ => CustomRoles.Crewmate,
+                };
+        }
+        public void SetSubRole(CustomRoles role, bool AllReplace = false)
+        {
+            if (AllReplace)
+                SubRoles.ToArray().Do(role => SubRoles.Remove(role));
+
+            if (!SubRoles.Contains(role))
+                SubRoles.Add(role);
+        }
+        public void RemoveSubRole(CustomRoles role)
+        {
+            if (SubRoles.Contains(role))
+                SubRoles.Remove(role);
+        }
+
+        public void SetDead()
+        {
+            IsDead = true;
             if (AmongUsClient.Instance.AmHost)
             {
-                RPC.SendDeathReason(p, deathReasons[p]);
+                RPC.SendDeathReason(PlayerId, deathReason);
             }
         }
-        public static bool IsSuicide(byte p) { return deathReasons[p] == DeathReason.Suicide; }
-        public static void InitTask(PlayerControl player)
+        public bool IsSuicide() { return deathReason == DeathReason.Suicide; }
+        public TaskState GetTaskState() { return taskState; }
+        public void InitTask(PlayerControl player)
         {
-            taskState[player.PlayerId].Init(player);
+            taskState.Init(player);
         }
-        public static void UpdateTask(PlayerControl player)
+        public void UpdateTask(PlayerControl player)
         {
-            taskState[player.PlayerId].Update(player);
+            taskState.Update(player);
         }
         public enum DeathReason
         {
@@ -65,10 +85,21 @@ namespace TownOfHost
             Misfire,
             Torched,
             Sniped,
+            Revenge,
             Execution,
             Disconnected,
             Fall,
             etc = -1
+        }
+        public byte GetRealKiller()
+            => IsDead && RealKiller.Item1 != DateTime.MinValue ? RealKiller.Item2 : byte.MaxValue;
+        public int GetKillCount(bool ExcludeSelfKill = false)
+        {
+            int count = 0;
+            foreach (var state in Main.PlayerStates.Values)
+                if (!(ExcludeSelfKill && state.PlayerId == PlayerId) && state.GetRealKiller() == PlayerId)
+                    count++;
+            return count;
         }
     }
     public class TaskState
@@ -99,6 +130,8 @@ namespace TownOfHost
         {
             Logger.Info($"{player.GetNameWithRole()}: UpdateTask", "TaskCounts");
             Logger.Info($"{GameData.Instance.CompletedTasks}/{GameData.Instance.TotalTasks}", "TotalTaskCounts");
+            if (!Utils.HasTasks(player.Data, false))
+                hasTasks = false;
             if (!hasTasks) return;
             //初期化出来ていなかったら初期化
             if (AllTasksCount == -1) Init(player);
@@ -109,7 +142,7 @@ namespace TownOfHost
             && (((CompletedTasksCount + 1) >= AllTasksCount) || (CompletedTasksCount + 1) >= Options.SpeedBoosterTaskTrigger.GetInt())
             && !Main.SpeedBoostTarget.ContainsKey(player.PlayerId))
             {   //ｽﾋﾟﾌﾞが生きていて、全タスク完了orトリガー数までタスクを完了していて、SpeedBoostTargetに登録済みでない場合
-                var rand = new System.Random();
+                var rand = IRandom.Instance;
                 List<PlayerControl> targetPlayers = new();
                 //切断者と死亡者を除外
                 foreach (PlayerControl p in PlayerControl.AllPlayerControls)
@@ -143,10 +176,29 @@ namespace TownOfHost
 
         }
     }
+    public class PlayerVersion
+    {
+        public readonly Version version;
+        public readonly string tag;
+        public readonly string forkId;
+        [Obsolete] public PlayerVersion(string ver, string tag_str) : this(Version.Parse(ver), tag_str, "") { }
+        [Obsolete] public PlayerVersion(Version ver, string tag_str) : this(ver, tag_str, "") { }
+        public PlayerVersion(string ver, string tag_str, string forkId) : this(Version.Parse(ver), tag_str, forkId) { }
+        public PlayerVersion(Version ver, string tag_str, string forkId)
+        {
+            version = ver;
+            tag = tag_str;
+            this.forkId = forkId;
+        }
+        public bool IsEqual(PlayerVersion pv)
+        {
+            return pv.version == version && pv.tag == tag;
+        }
+    }
     public static class GameStates
     {
         public static bool InGame = false;
-        public static bool MeetingCalled = false;
+        public static bool AlreadyDied = false;
         public static bool IsLobby => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Joined;
         public static bool IsInGame => InGame;
         public static bool IsEnded => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Ended;
@@ -157,5 +209,14 @@ namespace TownOfHost
         public static bool IsInTask => InGame && !MeetingHud.Instance;
         public static bool IsMeeting => InGame && MeetingHud.Instance;
         public static bool IsCountDown => GameStartManager.InstanceExists && GameStartManager.Instance.startState == GameStartManager.StartingStates.Countdown;
+    }
+    public static class MeetingStates
+    {
+        public static DeadBody[] DeadBodies = null;
+        public static GameData.PlayerInfo ReportTarget = null;
+        public static bool IsEmergencyMeeting => ReportTarget == null;
+        public static bool IsExistDeadBody => DeadBodies.Length > 0;
+        public static bool MeetingCalled = false;
+        public static bool FirstMeeting = true;
     }
 }

@@ -11,8 +11,8 @@ namespace TownOfHost
         static readonly int Id = 1800;
         static List<byte> playerIdList = new();
 
-        static CustomOption SniperBulletCount;
-        static CustomOption SniperPrecisionShooting;
+        static OptionItem SniperBulletCount;
+        static OptionItem SniperPrecisionShooting;
 
         static Dictionary<byte, byte> snipeTarget = new();
         static Dictionary<byte, Vector3> snipeBasePosition = new();
@@ -26,8 +26,9 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Sniper);
-            SniperBulletCount = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "SniperBulletCount", 5f, 1f, 3f, 1f, Options.CustomRoleSpawnChances[CustomRoles.Sniper]);
-            SniperPrecisionShooting = CustomOption.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "SniperPrecisionShooting", false, Options.CustomRoleSpawnChances[CustomRoles.Sniper]);
+            SniperBulletCount = IntegerOptionItem.Create(Id + 10, "SniperBulletCount", new(1, 5, 1), 2, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sniper])
+                .SetValueFormat(OptionFormat.Pieces);
+            SniperPrecisionShooting = BooleanOptionItem.Create(Id + 11, "SniperPrecisionShooting", false, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sniper]);
         }
         public static void Init()
         {
@@ -111,7 +112,7 @@ namespace TownOfHost
         public static void ShapeShiftCheck(PlayerControl pc, bool shapeshifting)
         {
             if (bulletCount[pc.PlayerId] <= 0) return;
-            if (PlayerState.isDead[pc.PlayerId]) return;
+            if (Main.PlayerStates[pc.PlayerId].IsDead) return;
             //スナイパーで弾が残ってたら
             if (shapeshifting)
             {
@@ -143,7 +144,7 @@ namespace TownOfHost
                 foreach (var target in PlayerControl.AllPlayerControls)
                 {
                     //死者や自分には当たらない
-                    if (PlayerState.isDead[target.PlayerId] || target.PlayerId == pc.PlayerId) continue;
+                    if (Main.PlayerStates[target.PlayerId].IsDead || target.PlayerId == pc.PlayerId) continue;
                     //死んでいない対象の方角ベクトル作成
                     var target_pos = target.transform.position - snipePos;
                     //正規化して
@@ -179,7 +180,7 @@ namespace TownOfHost
                     //一番正確な対象がターゲット
                     var snipedTarget = dot_list.OrderBy(c => c.Value).First().Key;
                     snipeTarget[pc.PlayerId] = snipedTarget.PlayerId;
-                    PlayerState.SetDeathReason(snipedTarget.PlayerId, PlayerState.DeathReason.Sniped);
+                    Main.PlayerStates[snipedTarget.PlayerId].deathReason = PlayerState.DeathReason.Sniped;
                     snipedTarget.CheckMurder(snipedTarget);
                     //キル出来た通知
                     pc.RpcGuardAndKill();
@@ -213,7 +214,7 @@ namespace TownOfHost
         }
         public static string GetBulletCount(byte playerId)
         {
-            return Helpers.ColorString(Color.yellow, $"({bulletCount[playerId]})");
+            return Utils.ColorString(Color.yellow, $"({bulletCount[playerId]})");
         }
         public static byte GetSniper(byte target)
         {
@@ -226,7 +227,7 @@ namespace TownOfHost
                 var snList = shotNotify[sniper];
                 if (snList.Count() > 0 && snList.Contains(seer))
                 {
-                    return $"<size=200%>{Helpers.ColorString(Color.red, "!")}</size>";
+                    return $"<size=200%>{Utils.ColorString(Color.red, "!")}</size>";
                 }
             }
             return "";

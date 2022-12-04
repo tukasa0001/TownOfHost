@@ -10,9 +10,9 @@ namespace TownOfHost
         private static readonly int Id = 1000;
         public static List<byte> playerIdList = new();
 
-        private static CustomOption TargetChangeTime;
-        private static CustomOption SuccessKillCooldown;
-        private static CustomOption FailureKillCooldown;
+        private static OptionItem TargetChangeTime;
+        private static OptionItem SuccessKillCooldown;
+        private static OptionItem FailureKillCooldown;
 
         public static Dictionary<byte, PlayerControl> Targets = new();
         public static Dictionary<byte, float> ChangeTimer = new();
@@ -20,9 +20,12 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.BountyHunter);
-            TargetChangeTime = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "BountyTargetChangeTime", 60f, 10f, 900f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            SuccessKillCooldown = CustomOption.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "BountySuccessKillCooldown", 2.5f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            FailureKillCooldown = CustomOption.Create(Id + 12, TabGroup.ImpostorRoles, Color.white, "BountyFailureKillCooldown", 50f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            TargetChangeTime = FloatOptionItem.Create(Id + 10, "BountyTargetChangeTime", new(10f, 900f, 2.5f), 60f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter])
+                .SetValueFormat(OptionFormat.Seconds);
+            SuccessKillCooldown = FloatOptionItem.Create(Id + 11, "BountySuccessKillCooldown", new(0f, 180f, 2.5f), 2.5f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter])
+                .SetValueFormat(OptionFormat.Seconds);
+            FailureKillCooldown = FloatOptionItem.Create(Id + 12, "BountyFailureKillCooldown", new(0f, 180f, 2.5f), 50f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter])
+                .SetValueFormat(OptionFormat.Seconds);
         }
         public static void Init()
         {
@@ -99,7 +102,7 @@ namespace TownOfHost
                         ChangeTimer[player.PlayerId] += Time.fixedDeltaTime;
 
                     //BountyHunterのターゲット更新
-                    if (PlayerState.isDead[target.PlayerId])
+                    if (Main.PlayerStates[target.PlayerId].IsDead)
                     {
                         ResetTarget(player);
                         Logger.Info($"{player.GetNameWithRole()}のターゲットが無効だったため、ターゲットを更新しました", "BountyHunter");
@@ -129,12 +132,12 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 // 死者/切断者/インポスターを除外
-                if (!PlayerState.isDead[pc.PlayerId] && !pc.GetCustomRole().IsImpostor())
+                if (!Main.PlayerStates[pc.PlayerId].IsDead && !pc.GetCustomRole().IsImpostor())
                     cTargets.Add(pc);
             }
             if (cTargets.Count >= 2 && Targets.TryGetValue(player.PlayerId, out var p)) cTargets.RemoveAll(x => x.PlayerId == p.PlayerId); //前回のターゲットは除外
 
-            var rand = new System.Random();
+            var rand = IRandom.Instance;
             if (cTargets.Count <= 0)
             {
                 Logger.Error("ターゲットの指定に失敗しました:ターゲット候補が存在しません", "BountyHunter");
@@ -153,13 +156,13 @@ namespace TownOfHost
         {
             var target = GetTarget(bounty);
             LowerInfoText.text = target == null ? "null" : $"{GetString("BountyCurrentTarget")}:{GetTarget(bounty).name}";
-            LowerInfoText.enabled = target != null || Main.AmDebugger.Value;
+            LowerInfoText.enabled = target != null || DebugModeManager.IsDebugMode;
         }
         public static void AfterMeetingTasks()
         {
             foreach (var id in playerIdList)
             {
-                if (!PlayerState.isDead[id])
+                if (!Main.PlayerStates[id].IsDead)
                 {
                     Utils.GetPlayerById(id)?.RpcResetAbilityCooldown();
                     ChangeTimer[id] = 0f;
