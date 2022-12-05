@@ -13,6 +13,7 @@ namespace TownOfHost
         private static OptionItem TargetChangeTime;
         private static OptionItem SuccessKillCooldown;
         private static OptionItem FailureKillCooldown;
+        private static OptionItem ShowTargetArrow;
 
         public static Dictionary<byte, PlayerControl> Targets = new();
         public static Dictionary<byte, float> ChangeTimer = new();
@@ -26,6 +27,7 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Seconds);
             FailureKillCooldown = FloatOptionItem.Create(Id + 12, "BountyFailureKillCooldown", new(0f, 180f, 2.5f), 50f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter])
                 .SetValueFormat(OptionFormat.Seconds);
+            ShowTargetArrow = BooleanOptionItem.Create(Id + 13, "BountyShowTargetArrow", false, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
         }
         public static void Init()
         {
@@ -168,6 +170,51 @@ namespace TownOfHost
                     ChangeTimer[id] = 0f;
                 }
             }
+        }
+
+        public static string UtilsGetTargetArrow(bool isMeeting, PlayerControl seer)
+        {
+            //ミーティング以外では矢印表示
+            if (isMeeting) return "";
+            string SelfSuffix = "";
+            foreach (var arrow in Main.targetArrows)
+            {
+                var target = Utils.GetPlayerById(arrow.Key.Item2);
+                bool BountyTarget = GetTarget(seer) == target;
+                if (arrow.Key.Item1 == seer.PlayerId && !Main.PlayerStates[arrow.Key.Item2].IsDead && (target.GetCustomRole().IsImpostor() || BountyTarget))
+                    SelfSuffix += BountyTarget ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), arrow.Value) : arrow.Value;
+            }
+            return SelfSuffix;
+        }
+        public static string PCGetTargetArrow(PlayerControl seer, PlayerControl target)
+        {
+            var update = false;
+            string Suffix = "";
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                bool BountyTarget = GetTarget(target) == pc;
+                bool foundCheck =
+                    pc != target && (pc.GetCustomRole().IsImpostor() || BountyTarget);
+
+                //発見対象じゃ無ければ次
+                if (!foundCheck) continue;
+
+                update = FixedUpdatePatch.CheckArrowUpdate(target, pc, update, pc.GetCustomRole().IsImpostor());
+                var key = (target.PlayerId, pc.PlayerId);
+                var arrow = Main.targetArrows[key];
+                if (BountyTarget) arrow = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), arrow);
+                if (target.AmOwner)
+                {
+                    //MODなら矢印表示
+                    Suffix += arrow;
+                }
+            }
+            if (AmongUsClient.Instance.AmHost && seer.PlayerId != target.PlayerId && update)
+            {
+                //更新があったら非Modに通知
+                Utils.NotifyRoles(SpecifySeer: target);
+            }
+            return Suffix;
         }
     }
 }

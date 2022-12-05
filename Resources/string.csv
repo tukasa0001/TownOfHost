@@ -328,6 +328,7 @@
 "BountyTargetChangeTime","Time Until Target Swaps","ターゲット変更時間","赏金目标切换时间","賞金目標切換時間","Время Смены Его Цели","Tempo Para Troca de Alvos"
 "BountySuccessKillCooldown","Kill Cooldown After Killing Bounty","ターゲット殺害時のキルクール","赏金猎人击杀赏金目标的奖励冷却时间","賞金獵人殺死賞金目標冷卻","Перезарядка После Убитой Цели","Tempo de Recarga ao Matar Alvo"
 "BountyFailureKillCooldown","Kill Cooldown After Killing Others","ターゲット以外殺害時のキルクール","赏金猎人击杀赏金目标以外玩家的惩罚冷却时间","賞金獵人殺死非賞金目標冷卻","Перезарядка После Обычного Убийства","Tempo de Recarga ao Matar Outros"
+"BountyShowTargetArrow","Bounty hunter show arrow pointing to target","ターゲットへの矢印を表示する",,,
 "DefaultShapeshiftCooldown","Default Shapeshift Cooldown","デフォルトの変身クールダウン","默认变形冷却时间","預設變身時間","Обычная Перезарядка Оборотня","Tempo de Recarga Padrão (Mutar)"
 "VampireKillDelay","Kill Delay(S)","殺害までの時間(秒)","吸血目标延迟死亡时间","殺人延遲","Длительность Укуса(Секунды)","Atraso do Abate (S)"
 "MareAddSpeedInLightsOut","Mare Add Player Add Speed In Lights Out","停電時のメアーの加速値","梦魇熄灯时的额外速度","關燈時黑暗博士的額外速度","Скорость Mare При Саботаже Света","Velocidade Adicional do Mare em Apagão"

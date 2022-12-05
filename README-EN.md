@@ -233,6 +233,7 @@ The target swaps after a configurable amount of time.<br>
 | Time To Swap Bounty(s)                |
 | Kill Cooldown After Killing Bounty(s) |
 | Kill Cooldown After Killing Others(s) |
+| Show arrow pointing to target         |
 
 ### EvilTracker
 
