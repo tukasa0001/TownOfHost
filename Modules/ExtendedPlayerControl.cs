@@ -566,24 +566,6 @@ namespace TownOfHost
                 RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
             }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
         }
-        public static void CanUseImpostorVent(this PlayerControl player)
-        {
-            switch (player.GetCustomRole())
-            {
-                case CustomRoles.Sheriff:
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
-                    player.Data.Role.CanVent = false;
-                    return;
-                case CustomRoles.Arsonist:
-                    bool CanUse = player.IsDouseDone();
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(CanUse && !player.Data.IsDead);
-                    player.Data.Role.CanVent = CanUse;
-                    return;
-                case CustomRoles.Jackal:
-                    Jackal.CanUseVent(player);
-                    return;
-            }
-        }
         public static bool IsDouseDone(this PlayerControl player)
         {
             if (!player.Is(CustomRoles.Arsonist)) return false;
