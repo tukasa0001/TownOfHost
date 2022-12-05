@@ -21,8 +21,7 @@ namespace TownOfHost
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
                 CustomRoles.EvilTracker or
-                CustomRoles.EvilHacker or
-                CustomRoles.LastImpostor;
+                CustomRoles.EvilHacker;
         }
         public static bool IsMadmate(this CustomRoles role)
         {
@@ -61,6 +60,15 @@ namespace TownOfHost
                 CustomRoles.Impostor or
                 CustomRoles.Shapeshifter;
         }
+        public static bool IsKilledSchrodingerCat(this CustomRoles role)
+        {
+            return role is
+                CustomRoles.SchrodingerCat or
+                CustomRoles.MSchrodingerCat or
+                CustomRoles.CSchrodingerCat or
+                CustomRoles.EgoSchrodingerCat or
+                CustomRoles.JSchrodingerCat;
+        }
 
         public static RoleType GetRoleType(this CustomRoles role)
         {
@@ -70,7 +78,6 @@ namespace TownOfHost
             if (role.IsMadmate()) type = RoleType.Madmate;
             return type;
         }
-        public static void SetCount(this CustomRoles role, int num) => Options.SetRoleCount(role, num);
         public static int GetCount(this CustomRoles role)
         {
             if (role.IsVanilla())
@@ -112,6 +119,14 @@ namespace TownOfHost
             }
         }
         public static bool IsEnable(this CustomRoles role) => role.GetCount() > 0;
+        public static bool CanMakeMadmate(this CustomRoles role)
+            => role switch
+            {
+                CustomRoles.Shapeshifter => true,
+                CustomRoles.EvilTracker => EvilTracker.CanCreateMadmate.GetBool(),
+                CustomRoles.Egoist => Egoist.CanCreateMadmate.GetBool(),
+                _ => false,
+            };
     }
     public enum RoleType
     {

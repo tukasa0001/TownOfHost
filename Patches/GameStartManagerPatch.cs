@@ -27,14 +27,6 @@ namespace TownOfHost
                 // Reset lobby countdown timer
                 timer = 600f;
 
-                if (AmongUsClient.Instance.AmHost && Options.AutoDisplayLastResult.GetBool() && Main.AllPlayerCustomRoles.Count != 0)
-                {
-                    new LateTask(() =>
-                    {
-                        Main.isChatCommand = true;
-                        Utils.ShowLastResult();
-                    }, 5f, "DisplayLastRoles");
-                }
                 HideName = Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
                 HideName.text = ColorUtility.TryParseHtmlString(Main.HideColor.Value, out _)
                         ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
@@ -81,7 +73,7 @@ namespace TownOfHost
                 int minutes = (int)timer / 60;
                 int seconds = (int)timer % 60;
                 string suffix = $" ({minutes:00}:{seconds:00})";
-                if (timer <= 60) suffix = Helpers.ColorString(Color.red, suffix);
+                if (timer <= 60) suffix = Utils.ColorString(Color.red, suffix);
 
                 __instance.PlayerCounter.text = currentText + suffix;
                 __instance.PlayerCounter.autoSizeTextContainer = true;
@@ -99,20 +91,23 @@ namespace TownOfHost
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.BeginGame))]
     public class GameStartRandomMap
     {
-        public static void Prefix()
+        public static bool Prefix(GameStartManager __instance)
         {
             Options.DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
             Main.LastKillCooldown.Value = PlayerControl.GameOptions.KillCooldown;
             PlayerControl.GameOptions.KillCooldown = 0.1f;
             Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData);
+
+            __instance.ReallyBegin(false);
+            return false;
         }
         public static bool Prefix(GameStartRandomMap __instance)
         {
             bool continueStart = true;
             if (Options.RandomMapsMode.GetBool())
             {
-                var rand = new System.Random();
+                var rand = IRandom.Instance;
                 System.Collections.Generic.List<byte> RandomMaps = new();
                 /*TheSkeld   = 0
                 MIRAHQ     = 1

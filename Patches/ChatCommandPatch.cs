@@ -132,8 +132,8 @@ namespace TownOfHost
                                 GetRolesInfo(subArgs);
                                 break;
 
-                            case "att":
-                            case "attributes":
+                            case "a":
+                            case "addons":
                                 subArgs = args.Length < 3 ? "" : args[2];
                                 switch (subArgs)
                                 {
@@ -196,16 +196,13 @@ namespace TownOfHost
                         canceled = true;
                         var role = PlayerControl.LocalPlayer.GetCustomRole();
                         if (GameStates.IsInGame)
-                        {
-                            if (role.IsVanilla()) HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString("Message.NoDescription"));
-                            else HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString(role.ToString()) + GetString($"{role}InfoLong"));
-                        }
+                            HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString(role.ToString()) + PlayerControl.LocalPlayer.GetRoleInfo(true));
                         break;
 
                     case "/t":
                     case "/template":
                         canceled = true;
-                        if (args.Length > 1) SendTemplate(args[1]);
+                        if (args.Length > 1) TemplateManager.SendTemplate(args[1]);
                         else HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"{GetString("ForExample")}:\n{args[0]} test");
                         break;
 
@@ -218,6 +215,12 @@ namespace TownOfHost
                             Utils.SendMessage(string.Format(GetString("Message.SetToSeconds"), sec), 0);
                         }
                         else Utils.SendMessage($"{GetString("Message.MessageWaitHelp")}\n{GetString("ForExample")}:\n{args[0]} 3", 0);
+                        break;
+
+                    case "/say":
+                        canceled = true;
+                        if (args.Length > 1)
+                            Utils.SendMessage(args[1], title: $"<color=#ff0000>{GetString("MessageFromTheHost")}</color>");
                         break;
 
                     case "/exile":
@@ -301,8 +304,8 @@ namespace TownOfHost
                 { CustomRoles.SchrodingerCat, "sc" },
                 { CustomRoles.Terrorist, "te" },
                 { CustomRoles.Jackal, "jac" },
-                //Sub役職
-                { (CustomRoles)(-6), $"== {GetString("SubRole")} ==" }, //区切り用
+                //属性
+                { (CustomRoles)(-6), $"== {GetString("Addons")} ==" }, //区切り用
                 {CustomRoles.Lovers, "lo" },
                 //HAS
                 { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
@@ -341,36 +344,6 @@ namespace TownOfHost
             }
             msg += rolemsg;
             Utils.SendMessage(msg);
-        }
-        public static void SendTemplate(string str = "", byte playerId = 0xff, bool noErr = false)
-        {
-            if (!File.Exists("template.txt"))
-            {
-                HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "Among Us.exeと同じフォルダにtemplate.txtが見つかりませんでした。\n新規作成します。");
-                File.WriteAllText(@"template.txt", "test:This is template text.\\nLine breaks are also possible.\ntest:これは定型文です。\\n改行も可能です。");
-                return;
-            }
-            using StreamReader sr = new(@"template.txt", Encoding.GetEncoding("UTF-8"));
-            string text;
-            string[] tmp = { };
-            List<string> sendList = new();
-            HashSet<string> tags = new();
-            while ((text = sr.ReadLine()) != null)
-            {
-                tmp = text.Split(":");
-                if (tmp.Length > 1 && tmp[1] != "")
-                {
-                    tags.Add(tmp[0]);
-                    if (tmp[0] == str) sendList.Add(tmp.Skip(1).Join(delimiter: ":").Replace("\\n", "\n"));
-                }
-            }
-            if (sendList.Count == 0 && !noErr)
-            {
-                if (playerId == 0xff)
-                    HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, string.Format(GetString("Message.TemplateNotFoundHost"), str, tags.Join(delimiter: ", ")));
-                else Utils.SendMessage(string.Format(GetString("Message.TemplateNotFoundClient"), str), playerId);
-            }
-            else for (int i = 0; i < sendList.Count; i++) Utils.SendMessage(sendList[i], playerId);
         }
         public static void OnReceiveChat(PlayerControl player, string text)
         {
@@ -416,15 +389,12 @@ namespace TownOfHost
                 case "/myrole":
                     var role = player.GetCustomRole();
                     if (GameStates.IsInGame)
-                    {
-                        if (role.IsVanilla()) Utils.SendMessage(GetString("Message.NoDescription"), player.PlayerId);
-                        else Utils.SendMessage(GetString(role.ToString()) + GetString($"{role}InfoLong"), player.PlayerId);
-                    }
+                        Utils.SendMessage(GetString(role.ToString()) + player.GetRoleInfo(true), player.PlayerId);
                     break;
 
                 case "/t":
                 case "/template":
-                    if (args.Length > 1) SendTemplate(args[1], player.PlayerId);
+                    if (args.Length > 1) TemplateManager.SendTemplate(args[1], player.PlayerId);
                     else Utils.SendMessage($"{GetString("ForExample")}:\n{args[0]} test", player.PlayerId);
                     break;
 
@@ -436,20 +406,36 @@ namespace TownOfHost
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]
     class ChatUpdatePatch
     {
+        public static bool DoBlockChat = false;
         public static void Postfix(ChatController __instance)
         {
             if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1 || (Main.MessagesToSend[0].Item2 == byte.MaxValue && Main.MessageWait.Value > __instance.TimeSinceLastMessage)) return;
+            if (DoBlockChat) return;
             var player = PlayerControl.AllPlayerControls.ToArray().OrderBy(x => x.PlayerId).Where(x => !x.Data.IsDead).FirstOrDefault();
             if (player == null) return;
-            (string msg, byte sendTo) = Main.MessagesToSend[0];
+            (string msg, byte sendTo, string title) = Main.MessagesToSend[0];
             Main.MessagesToSend.RemoveAt(0);
-            int return_count = player.name.Count(x => x == '\n');
-            msg = new StringBuilder(msg).Insert(0, "\n", return_count).ToString();
             int clientId = sendTo == byte.MaxValue ? -1 : Utils.GetPlayerById(sendTo).GetClientId();
-            if (clientId == -1) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, msg);
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SendChat, SendOption.None, clientId);
-            writer.Write(msg);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            var name = player.Data.PlayerName;
+            if (clientId == -1)
+            {
+                player.SetName(title);
+                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, msg);
+                player.SetName(name);
+            }
+            var writer = CustomRpcSender.Create("MessagesToSend", SendOption.None);
+            writer.StartMessage(clientId);
+            writer.StartRpc(player.NetId, (byte)RpcCalls.SetName)
+                .Write(title)
+                .EndRpc();
+            writer.StartRpc(player.NetId, (byte)RpcCalls.SendChat)
+                .Write(msg)
+                .EndRpc();
+            writer.StartRpc(player.NetId, (byte)RpcCalls.SetName)
+                .Write(player.Data.PlayerName)
+                .EndRpc();
+            writer.EndMessage();
+            writer.SendMessage();
             __instance.TimeSinceLastMessage = 0f;
         }
     }

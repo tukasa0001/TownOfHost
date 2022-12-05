@@ -11,9 +11,9 @@ namespace TownOfHost
         public static readonly int Id = 3100;
         public static List<byte> playerIdList = new();
 
-        public static CustomOption CanSeeDeadPos;
-        public static CustomOption CanSeeOtherImp;
-        public static CustomOption CanSeeKillFlash;
+        public static OptionItem CanSeeDeadPos;
+        public static OptionItem CanSeeOtherImp;
+        public static OptionItem CanSeeKillFlash;
 
         public static Dictionary<SystemTypes, int> PlayerCount = new();
         public static Dictionary<SystemTypes, int> DeadCount = new();
@@ -22,9 +22,9 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.EvilHacker);
-            CanSeeDeadPos = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "CanSeeDeadPos", true, CustomRoleSpawnChances[CustomRoles.EvilHacker]);
-            CanSeeOtherImp = CustomOption.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "CanSeeOtherImp", true, CustomRoleSpawnChances[CustomRoles.EvilHacker]);
-            CanSeeKillFlash = CustomOption.Create(Id + 12, TabGroup.ImpostorRoles, Color.white, "CanSeeKillFlash", true, CustomRoleSpawnChances[CustomRoles.EvilHacker]);
+            CanSeeDeadPos = BooleanOptionItem.Create(Id + 10, "CanSeeDeadPos", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilHacker]);
+            CanSeeOtherImp = BooleanOptionItem.Create(Id + 11, "CanSeeOtherImp", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilHacker]);
+            CanSeeKillFlash = BooleanOptionItem.Create(Id + 12, "CanSeeKillFlash", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilHacker]);
         }
         public static void Init()
         {
@@ -82,7 +82,7 @@ namespace TownOfHost
             if (CanSeeOtherImp.GetBool() && target.GetCustomRole().IsImpostor() && !ImpRooms.Contains(room))
                 ImpRooms.Add(room);
         }
-        public static bool KillFlashCheck(PlayerControl killer, PlayerState.DeathReason deathReason) =>
-            CanSeeKillFlash.GetBool() && Utils.IsImpostorKill(killer, deathReason);
+        public static bool KillFlashCheck(PlayerControl killer, PlayerControl target) =>
+            CanSeeKillFlash.GetBool() && Utils.IsImpostorKill(killer, target);
     }
 }

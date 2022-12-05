@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
@@ -18,8 +19,8 @@ namespace TownOfHost
         }
         static readonly int Id = 1700;
 
-        static CustomOption FireWorksCount;
-        static CustomOption FireWorksRadius;
+        static OptionItem FireWorksCount;
+        static OptionItem FireWorksRadius;
 
         public static Dictionary<byte, int> nowFireWorksCount = new();
         static Dictionary<byte, List<Vector3>> fireWorksPosition = new();
@@ -32,8 +33,10 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.FireWorks);
-            FireWorksCount = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "FireWorksMaxCount", 1f, 1f, 3f, 1f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks]);
-            FireWorksRadius = CustomOption.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "FireWorksRadius", 1f, 0.5f, 3f, 0.5f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks]);
+            FireWorksCount = IntegerOptionItem.Create(Id + 10, "FireWorksMaxCount", new(1, 3, 1), 1, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.FireWorks])
+                .SetValueFormat(OptionFormat.Pieces);
+            FireWorksRadius = FloatOptionItem.Create(Id + 11, "FireWorksRadius", new(0.5f, 3f, 0.5f), 1f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.FireWorks])
+                .SetValueFormat(OptionFormat.Multiplier);
         }
 
         public static void Init()
@@ -120,15 +123,21 @@ namespace TownOfHost
                             }
                             else
                             {
-                                PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Bombed);
+                                Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
+                                target.SetRealKiller(pc);
                                 target.RpcMurderPlayer(target);
                             }
                         }
                     }
                     if (suicide)
                     {
-                        PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Misfire);
-                        pc.RpcMurderPlayer(pc);
+                        var totalAlive = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.IsAlive()).Count();
+                        //自分が最後の生き残りの場合は勝利のために死なない
+                        if (totalAlive != 1)
+                        {
+                            Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
+                            pc.RpcMurderPlayer(pc);
+                        }
                     }
                     state[pc.PlayerId] = FireWorksState.FireEnd;
                     break;
