@@ -494,6 +494,17 @@ namespace TownOfHost
                 _ => pc.Is(RoleType.Impostor),
             };
         }
+        public static bool CanUseVentButton(this PlayerControl pc)
+        {
+            return pc.GetCustomRole() switch
+            {
+                CustomRoles.Sheriff => false,
+                CustomRoles.Egoist => true,
+                CustomRoles.Jackal => Jackal.CanVent.GetBool(),
+                CustomRoles.Arsonist => pc.IsDouseDone(),
+                _ => pc.Is(RoleType.Impostor),
+            };
+        }
         public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
         {
             if (arsonist == null) return false;
