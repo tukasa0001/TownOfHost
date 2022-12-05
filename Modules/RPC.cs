@@ -338,6 +338,9 @@ namespace TownOfHost
                 case CustomRoles.LastImpostor:
                     LastImpostor.Add(targetId);
                     break;
+                case CustomRoles.Publisher:
+                    Publisher.Add(targetId);
+                    break;
             }
             HudManager.Instance.SetHudActive(true);
             if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();

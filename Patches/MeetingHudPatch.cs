@@ -441,6 +441,7 @@ namespace TownOfHost
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
             }
+            Publisher.PublisherUseAbility(ReportDeadBodyPatch.reporter?.Object, ReportDeadBodyPatch.Target?.Object);
         }
     }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
