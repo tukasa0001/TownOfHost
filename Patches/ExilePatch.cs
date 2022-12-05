@@ -106,20 +106,6 @@ namespace TownOfHost
                 }
                 if (pc.Is(CustomRoles.EvilTracker)) EvilTracker.EnableResetTargetAfterMeeting(pc);
             }
-            Main.AfterMeetingDeathPlayers.Do(x =>
-            {
-                var player = Utils.GetPlayerById(x.Key);
-                Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
-                Main.PlayerStates[x.Key].deathReason = x.Value;
-                Main.PlayerStates[x.Key].SetDead();
-                player?.RpcExileV2();
-                if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.FollowingSuicide)
-                    player?.ResetVotingTime();
-                if (player.Is(CustomRoles.TimeManager) && x.Value == PlayerState.DeathReason.FollowingSuicide)
-                    player?.TimeManagerResetVotingTime();
-                if (Executioner.Target.ContainsValue(x.Key))
-                    Executioner.ChangeRoleByTarget(player);
-            });
             Main.AfterMeetingDeathPlayers.Clear();
             if (Options.RandomSpawn.GetBool())
             {
