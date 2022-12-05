@@ -108,27 +108,27 @@ namespace TownOfHost
                     LowerInfoText.fontSizeMax = 2.0f;
                 }
 
-            if (player.Is(CustomRoles.BountyHunter)) BountyHunter.DisplayTarget(player, LowerInfoText);
-            else if (player.Is(CustomRoles.Witch))
-            {
-                //魔女用処理
-                LowerInfoText.text = Witch.GetSpellModeText(player,true);
-                LowerInfoText.enabled = true;
-            }
-            else if (player.Is(CustomRoles.FireWorks))
-            {
-                var stateText = FireWorks.GetStateText(player);
-                LowerInfoText.text = stateText;
-                LowerInfoText.enabled = true;
-            }
-            else
-            {
-                LowerInfoText.enabled = false;
-            }
-            if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
-            {
-                LowerInfoText.enabled = false;
-            }
+                if (player.Is(CustomRoles.BountyHunter)) BountyHunter.DisplayTarget(player, LowerInfoText);
+                else if (player.Is(CustomRoles.Witch))
+                {
+                    //魔女用処理
+                    LowerInfoText.text = Witch.GetSpellModeText(player, true);
+                    LowerInfoText.enabled = true;
+                }
+                else if (player.Is(CustomRoles.FireWorks))
+                {
+                    var stateText = FireWorks.GetStateText(player);
+                    LowerInfoText.text = stateText;
+                    LowerInfoText.enabled = true;
+                }
+                else
+                {
+                    LowerInfoText.enabled = false;
+                }
+                if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
+                {
+                    LowerInfoText.enabled = false;
+                }
 
                 if (!player.GetCustomRole().IsVanilla())
                 {
@@ -155,11 +155,14 @@ namespace TownOfHost
                     case CustomRoles.Sheriff:
                     case CustomRoles.Arsonist:
                     case CustomRoles.Jackal:
-                        player.CanUseImpostorVent();
                         if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                             player.Data.Role.CanUseKillButton = true;
                         break;
                 }
+
+                bool CanUse = player.CanUseVentButton();
+                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(CanUse && !player.Data.IsDead);
+                player.Data.Role.CanVent = CanUse;
             }
 
             if (!__instance.TaskText.text.Contains(TaskTextPrefix)) __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
@@ -206,10 +209,7 @@ namespace TownOfHost
             var player = PlayerControl.LocalPlayer;
             if (!GameStates.IsInTask) return;
 
-            if ((player.GetCustomRole() == CustomRoles.Sheriff ||
-                player.GetCustomRole() == CustomRoles.Arsonist ||
-                player.GetCustomRole() == CustomRoles.Jackal)
-            && !player.Data.IsDead)
+            if (player.CanUseVentButton() && !player.Data.IsDead)
             {
                 ((Renderer)__instance.cosmetics.currentBodySprite.BodySprite).material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));
             }
