@@ -555,20 +555,20 @@ namespace TownOfHost
             }
             public static void Release()
             {
-                foreach (var sender in senders.Values)
+                foreach (var sender in senders)
                 {
-                    if (OverriddenSenderList.Contains(sender)) continue;
-                    if (sender.CurrentState != CustomRpcSender.State.InRootMessage)
+                    if (OverriddenSenderList.Contains(sender.Value)) continue;
+                    if (sender.Value.CurrentState != CustomRpcSender.State.InRootMessage)
                         throw new InvalidOperationException("A CustomRpcSender had Invalid State.");
 
                     foreach (var pair in StoragedData)
                     {
                         pair.Item1.SetRole(pair.Item2);
-                        sender.StartRpc(pair.Item1.NetId, RpcCalls.SetRole)
+                        sender.Value.AutoStartRpc(pair.Item1.NetId, (byte)RpcCalls.SetRole, Utils.GetPlayerById(sender.Key).GetClientId())
                             .Write((ushort)pair.Item2)
                             .EndRpc();
                     }
-                    sender.EndMessage();
+                    sender.Value.EndMessage();
                 }
                 doReplace = false;
             }
