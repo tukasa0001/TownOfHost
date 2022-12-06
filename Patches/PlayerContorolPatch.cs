@@ -294,6 +294,9 @@ namespace TownOfHost
             var shapeshifting = shapeshifter.PlayerId != target.PlayerId;
 
             Main.CheckShapeshift[shapeshifter.PlayerId] = shapeshifting;
+
+            if (!shapeshifting) Camouflage.RpcSetSkin(__instance, true);
+
             if (shapeshifter.Is(CustomRoles.Warlock))
             {
                 if (Main.CursedPlayers[shapeshifter.PlayerId] != null)//呪われた人がいるか確認
