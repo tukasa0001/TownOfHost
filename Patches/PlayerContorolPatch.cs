@@ -439,6 +439,10 @@ namespace TownOfHost
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
 
+            PlayerControl.AllPlayerControls.ToArray()
+                .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
+                .Do(pc => Camouflage.RpcSetSkin(pc, ForceRevert: true, RevertToDefault: true));
+
             Utils.CustomSyncAllSettings();
             return true;
         }
