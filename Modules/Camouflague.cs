@@ -4,7 +4,7 @@ namespace TownOfHost
     public static class Camouflage
     {
         public static Dictionary<byte, (int, string, string, string, string)> PlayerSkins = new();
-        public static void RpcSetSkin(PlayerControl target, bool ForceRevert = false)
+        public static void RpcSetSkin(PlayerControl target, bool ForceRevert = false, bool RevertToDefault = false)
         {
             if (!(AmongUsClient.Instance.AmHost && Options.CommsCamouflage.GetBool())) return;
             if (target == null) return;
@@ -35,11 +35,20 @@ namespace TownOfHost
                     outfit.PetId == value.Item5
                     ) return; //姿が変わっていないなら処理しない
 
-                colorId = shapeshifting ? outfit.ColorId : value.Item1;
-                hatId = shapeshifting ? outfit.HatId : value.Item2;
-                skinId = shapeshifting ? outfit.SkinId : value.Item3;
-                visorId = shapeshifting ? outfit.VisorId : value.Item4;
-                petId = shapeshifting ? outfit.PetId : value.Item5;
+                colorId = value.Item1;
+                hatId = value.Item2;
+                skinId = value.Item3;
+                visorId = value.Item4;
+                petId = value.Item5;
+
+                if (!RevertToDefault && shapeshifting)
+                {
+                    colorId = outfit.ColorId;
+                    hatId = outfit.HatId;
+                    skinId = outfit.SkinId;
+                    visorId = outfit.VisorId;
+                    petId = outfit.PetId;
+                }
             }
 
             var sender = CustomRpcSender.Create(name: $"Camouflage.RpcSetSkin({target.Data.PlayerName})");
