@@ -11,14 +11,16 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance)
         {
+            while (!Options.IsLoaded) System.Threading.Tasks.Task.Delay(1);
             Logger.Info($"{__instance.GameId}に参加", "OnGameJoined");
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
             SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
 
+            ChatUpdatePatch.DoBlockChat = false;
             GameStates.InGame = false;
             NameColorManager.Begin();
-            Options.Load();
+            ErrorText.Instance.Clear();
             if (AmongUsClient.Instance.AmHost) //以下、ホストのみ実行
             {
                 if (PlayerControl.GameOptions.killCooldown == 0.1f)
@@ -37,17 +39,10 @@ namespace TownOfHost
                 AmongUsClient.Instance.KickPlayer(client.Id, true);
                 Logger.Info($"ブロック済みのプレイヤー{client?.PlayerName}({client.FriendCode})をBANしました。", "BAN");
             }
+            BanManager.CheckBanPlayer(client);
+            BanManager.CheckDenyNamePlayer(client);
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
-            if (AmongUsClient.Instance.AmHost)
-            {
-                new LateTask(() =>
-                {
-                    if (client.Character == null) return;
-                    if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(GetString("Message.AnnounceUsingTOH"), Main.PluginVersion), client.Character.PlayerId);
-                    ChatCommands.SendTemplate("welcome", client.Character.PlayerId, true);
-                }, 3f, "Welcome Message");
-            }
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
@@ -66,20 +61,47 @@ namespace TownOfHost
                     {
                         Main.isLoversDead = true;
                         Main.LoversPlayers.Remove(lovers);
-                        Main.AllPlayerCustomSubRoles[lovers.PlayerId] = CustomRoles.NoSubRoleAssigned;
+                        Main.PlayerStates[lovers.PlayerId].RemoveSubRole(CustomRoles.Lovers);
                     }
                 if (data.Character.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(data.Character.PlayerId))
                     Executioner.ChangeRole(data.Character);
                 if (Executioner.Target.ContainsValue(data.Character.PlayerId))
                     Executioner.ChangeRoleByTarget(data.Character);
-                if (PlayerState.GetDeathReason(data.Character.PlayerId) == PlayerState.DeathReason.etc) //死因が設定されていなかったら
+                if (Main.PlayerStates[data.Character.PlayerId].deathReason == PlayerState.DeathReason.etc) //死因が設定されていなかったら
                 {
-                    PlayerState.SetDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);
-                    PlayerState.SetDead(data.Character.PlayerId);
+                    Main.PlayerStates[data.Character.PlayerId].deathReason = PlayerState.DeathReason.Disconnected;
+                    Main.PlayerStates[data.Character.PlayerId].SetDead();
                 }
                 AntiBlackout.OnDisconnect(data.Character.Data);
             }
-            Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason})", "Session");
+            Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
+        }
+    }
+    [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CreatePlayer))]
+    class CreatePlayerPatch
+    {
+        public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
+        {
+            if (AmongUsClient.Instance.AmHost)
+            {
+                new LateTask(() =>
+                {
+                    if (client.Character == null) return;
+                    if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(GetString("Message.AnnounceUsingTOH"), Main.PluginVersion), client.Character.PlayerId);
+                    TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
+                }, 3f, "Welcome Message");
+                if (Options.AutoDisplayLastResult.GetBool() && Main.PlayerStates.Count != 0)
+                {
+                    new LateTask(() =>
+                    {
+                        if (!AmongUsClient.Instance.IsGameStarted)
+                        {
+                            Main.isChatCommand = true;
+                            Utils.ShowLastResult(client.Character.PlayerId);
+                        }
+                    }, 3f, "DisplayLastRoles");
+                }
+            }
         }
     }
 }

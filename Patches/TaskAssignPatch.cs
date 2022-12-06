@@ -52,8 +52,8 @@ namespace TownOfHost
             if (!Options.OverrideTasksData.AllData.ContainsKey(role)) return;
             var data = Options.OverrideTasksData.AllData[role];
 
-            bool doOverride = data.doOverride.GetBool(); // タスク数を上書きするかどうか
-                                                         // falseの時、タスクの内容が変更される前にReturnされる。
+            if (!data.doOverride.GetBool()) return; // タスク数を上書きするかどうか
+                                                    // falseの時、タスクの内容が変更される前にReturnされる。
 
             bool hasCommonTasks = data.assignCommonTasks.GetBool(); // コモンタスク(通常タスク)を割り当てるかどうか
                                                                     // 割り当てる場合でも再割り当てはされず、他のクルーと同じコモンタスクが割り当てられる。
@@ -61,8 +61,8 @@ namespace TownOfHost
             int NumLongTasks = (int)data.numLongTasks.GetFloat(); // 割り当てるロングタスクの数
             int NumShortTasks = (int)data.numShortTasks.GetFloat(); // 割り当てるショートタスクの数
                                                                     // ロングとショートは常時再割り当てが行われる。
+            if (!hasCommonTasks && NumLongTasks == 0 && NumShortTasks == 0) NumShortTasks = 1; //タスク0対策
 
-            if (!doOverride) return;
             //割り当て可能なタスクのIDが入ったリスト
             //本来のRpcSetTasksの第二引数のクローン
             Il2CppSystem.Collections.Generic.List<byte> TasksList = new();

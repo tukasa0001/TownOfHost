@@ -8,16 +8,18 @@ namespace TownOfHost
         private static readonly int Id = 2300;
         public static List<byte> playerIdList = new();
 
-        private static CustomOption KillCooldownInLightsOut;
-        private static CustomOption SpeedInLightsOut;
+        private static OptionItem KillCooldownInLightsOut;
+        private static OptionItem SpeedInLightsOut;
         private static bool idAccelerated = false;  //加速済みかフラグ
 
 
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Mare);
-            SpeedInLightsOut = CustomOption.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "MareSpeedInLightsOut", 0.3f, 0.1f, 0.5f, 0.1f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
-            KillCooldownInLightsOut = CustomOption.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "MareKillCooldownInLightsOut", 15f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
+            SpeedInLightsOut = FloatOptionItem.Create(Id + 10, "MareAddSpeedInLightsOut", new(0.1f, 0.5f, 0.1f), 0.3f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Mare])
+                .SetValueFormat(OptionFormat.Multiplier);
+            KillCooldownInLightsOut = FloatOptionItem.Create(Id + 11, "MareKillCooldownInLightsOut", new(2.5f, 180f, 2.5f), 15f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Mare])
+                .SetValueFormat(OptionFormat.Seconds);
         }
         public static void Init()
         {
