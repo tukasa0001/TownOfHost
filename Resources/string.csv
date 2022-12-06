@@ -400,6 +400,7 @@
 "CanSeeDeadPos","Can See The Location of Deadbodies","死体位置がわかる","","","",""
 "CanSeeOtherImp","Can See The Location of Other Impostors","他のインポスターの位置がわかる","","","",""
 "CanSeeKillFlash","Can See The Kill Flash","インポスターキル時にキルフラッシュが見える","","","",""
+"CanSeeMurderScene","Can See The Murder Location","キルの発生場所がわかる","","","",""
 
 "## かくれんぼ設定"
 "HideAndSeekOptions","Hide and Seek Settings","かくれんぼの設定","躲猫猫设置","躲貓貓設定","Настройки Пряток","Configurações do Esconde-Esconde"
@@ -516,6 +517,7 @@
 "FireworksPutPhase","{0} Fireworks Left","あと{0}個置け","还要安放{0}枚烟花","還需要安裝{0}枚煙火","Поставьте {0} Фейерверков","Restam {0} Fogos de Artifício"
 "FireworksWaitPhase","Wait for it...","時を待て...","耐心等待....","等待時機...","Подожди время...","Espere o momento certo..."
 "FireworksReadyFirePhase","Fire!","打ち上げろ！","烟花来咯，大型烟花秀开始！","準備就緒,煙火秀開始!","Огонь!","Lançar!"
+"EvilHackerMurderOccurred","Murder","キル発生","","","",""
 "StandardHAS","Hide And Seek with Roles","役職入りでかくれんぼ","在躲猫猫模式中加入职业","在躲貓貓中加入多職業模式中的職業","Прятки с Ролями","Esconde-Esconde com Classes"
 "StandardHASWaitingTime","Standby","待機時間","躲猫猫猎人等待时间","躲貓貓狼人等待時間","Время Ожидания","Tempo de Espera"
 "InvalidArgs","Invalid Args","無効な引数","无效参数","無效的參數","Недопустимые Аргументы","Argumento Inválido"

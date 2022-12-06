@@ -273,7 +273,7 @@ namespace TownOfHost
 
             LastImpostor.SetKillCooldown();
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
-            EvilHacker.OnMurder(target);
+            EvilHacker.OnMurder(killer, target);
 
             Main.PlayerStates[target.PlayerId].SetDead();
             target.SetRealKiller(__instance, true); //既に追加されてたらスキップ
@@ -867,6 +867,7 @@ namespace TownOfHost
                         }
                     }
                     if (GameStates.IsInTask && target.Is(CustomRoles.EvilTracker)) Suffix += EvilTracker.PCGetTargetArrow(seer, target);
+                    if (GameStates.IsInTask && target.Is(CustomRoles.EvilHacker) && target.AmOwner) Suffix += EvilHacker.GetMurderSceneText(target);
 
                     /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(target.PlayerId, out var isBlocked)) {
                         Mark = isBlocked ? "(true)" : "(false)";

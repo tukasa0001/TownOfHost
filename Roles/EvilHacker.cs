@@ -1,8 +1,8 @@
+using Hazel;
 using System.Collections.Generic;
 using System.Linq;
 using static TownOfHost.Options;
 using static TownOfHost.Translator;
-using UnityEngine;
 
 namespace TownOfHost
 {
@@ -14,10 +14,13 @@ namespace TownOfHost
         public static OptionItem CanSeeDeadPos;
         public static OptionItem CanSeeOtherImp;
         public static OptionItem CanSeeKillFlash;
+        public static OptionItem CanSeeMurderScene;
 
         public static Dictionary<SystemTypes, int> PlayerCount = new();
         public static Dictionary<SystemTypes, int> DeadCount = new();
         public static List<SystemTypes> ImpRooms = new();
+        // (キルしたインポスター, 殺害現場の部屋)
+        public static List<(PlayerControl, SystemTypes)> KillersAndRooms = new();
 
         public static void SetupCustomOption()
         {
@@ -25,6 +28,7 @@ namespace TownOfHost
             CanSeeDeadPos = BooleanOptionItem.Create(Id + 10, "CanSeeDeadPos", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilHacker]);
             CanSeeOtherImp = BooleanOptionItem.Create(Id + 11, "CanSeeOtherImp", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilHacker]);
             CanSeeKillFlash = BooleanOptionItem.Create(Id + 12, "CanSeeKillFlash", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilHacker]);
+            CanSeeMurderScene = BooleanOptionItem.Create(Id + 13, "CanSeeMurderScene", true, TabGroup.ImpostorRoles, false).SetParent(CanSeeKillFlash);
         }
         public static void Init()
         {
@@ -32,6 +36,7 @@ namespace TownOfHost
             PlayerCount = new();
             DeadCount = new();
             ImpRooms = new();
+            KillersAndRooms = new();
         }
         public static void Add(byte playerId)
         {
@@ -75,12 +80,60 @@ namespace TownOfHost
             InitDeadCount();
             ImpRooms = new();
         }
-        public static void OnMurder(PlayerControl target)
+        public static void OnMurder(PlayerControl killer, PlayerControl target)
         {
             var room = target.GetRoom();
             DeadCount[room]++;
             if (CanSeeOtherImp.GetBool() && target.GetCustomRole().IsImpostor() && !ImpRooms.Contains(room))
                 ImpRooms.Add(room);
+            if (CanSeeMurderScene.GetBool() && Utils.IsImpostorKill(killer, target))
+            {
+                var realKiller = target.GetRealKiller() ?? killer;
+                KillersAndRooms.Add((realKiller, room));
+                RpcSyncMurderScenes();
+                new LateTask(() =>
+                {
+                    if (!GameStates.IsInGame)
+                    {
+                        Logger.Info("待機中にゲームが終了したためキャンセル", "EvilHacker");
+                        return;
+                    }
+                    KillersAndRooms.Remove((realKiller, room));
+                    RpcSyncMurderScenes();
+                }, 10f, "Remove EvilHacker KillersAndRooms");
+            }
+        }
+        public static void RpcSyncMurderScenes()
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SyncEvilHackerScenes, SendOption.Reliable, -1);
+            writer.Write(KillersAndRooms.Count);
+            KillersAndRooms.ForEach(tuple =>
+            {
+                writer.Write(tuple.Item1.PlayerId);
+                writer.Write((byte)tuple.Item2);
+            });
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void ReceiveRPC(MessageReader reader)
+        {
+            int count = reader.ReadInt32();
+            List<(PlayerControl, SystemTypes)> rooms = new(count);
+            for (int i = 0; i < count; i++)
+            {
+                rooms.Add((Utils.GetPlayerById(reader.ReadByte()), (SystemTypes)reader.ReadByte()));
+            }
+            KillersAndRooms = rooms;
+        }
+        public static string GetMurderSceneText(PlayerControl seer)
+        {
+            if (!seer.IsAlive()) return "";
+            var roomNames = (from tuple in KillersAndRooms
+                             where tuple.Item1 != seer  // 自身がキルしたものは除外
+                             select DestroyableSingleton<TranslationController>.Instance.GetString(tuple.Item2)
+                            ).ToList();
+            if (roomNames.Count < 1) return "";
+            return $"{GetString("EvilHackerMurderOccurred")}: {string.Join(", ", roomNames)}";
         }
         public static bool KillFlashCheck(PlayerControl killer, PlayerControl target) =>
             CanSeeKillFlash.GetBool() && Utils.IsImpostorKill(killer, target);

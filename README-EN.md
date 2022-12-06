@@ -243,7 +243,8 @@ Basis : Impostor
 At every meeting beginning, EvilHacker can get the last-minute admin information in the chat.  
 A `★` marks rooms with impostors.  
 Rooms with deadbodies are marked with the number of bodies.  
-They can see kill flash when other impostors killing.
+They can see kill flash when other impostors killing.  
+If the option "Can See The Murder Location" is On, the 3rd line of their name shows the room where the murder occurred for 10 sec.
 
 #### Game Options
 
@@ -252,6 +253,7 @@ They can see kill flash when other impostors killing.
 | Can See The Location of Deadbodies      |
 | Can See The Location of Other Impostors |
 | Can See The Kill Flash                  |
+| Can See The Murder Location             |
 
 ### EvilTracker
 
