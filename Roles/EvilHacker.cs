@@ -61,7 +61,7 @@ namespace TownOfHost
             PlayerCount.Remove(SystemTypes.Hallway);
             DeadCount.Remove(SystemTypes.Hallway);
             var aliveEvilHackerIds = playerIdList.Where(x => Utils.GetPlayerById(x).IsAlive()).ToList();
-            string message = $"=={GetString("Message.LastAdminInfo")}==\n";
+            string message = "";
             foreach (var kvp in PlayerCount)
             {
                 if (ImpRooms.Contains(kvp.Key)) message += '★';
@@ -76,7 +76,7 @@ namespace TownOfHost
                     message = $"{message}{roomName}: {kvp.Value + DeadCount[kvp.Key]}\n";
                 }
             }
-            aliveEvilHackerIds.ForEach(id => Utils.SendMessage(message, id));
+            aliveEvilHackerIds.ForEach(id => Utils.SendMessage(message, id, Utils.ColorString(Palette.AcceptedGreen, $"{GetString("Message.LastAdminInfo")}")));
             InitDeadCount();
             ImpRooms = new();
         }
