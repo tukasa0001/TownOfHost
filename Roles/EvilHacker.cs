@@ -1,3 +1,4 @@
+using HarmonyLib;
 using Hazel;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,18 +39,23 @@ namespace TownOfHost
             ImpRooms = new();
             KillersAndRooms = new();
         }
-        public static void Add(byte playerId)
-        {
-            playerIdList.Add(playerId);
-        }
+        public static void Add(byte playerId) => playerIdList.Add(playerId);
         public static bool IsEnable() => playerIdList.Count > 0;
+        public static void InitDeadCount()
+        {
+            if (ShipStatus.Instance == null)
+            {
+                Logger.Warn("死者カウントの初期化時にShipStatus.Instanceがnullでした", "EvilHacker");
+                return;
+            }
+            foreach (var room in ShipStatus.Instance.AllRooms) DeadCount[room.RoomId] = 0;
+        }
 
-        // ShipStatus.Instanceがないときに呼んじゃだめ
-        public static void InitDeadCount() => ShipStatus.Instance.AllRooms.ToList().ForEach(room => DeadCount[room.RoomId] = 0);
         public static void OnStartMeeting()
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            ShipStatus.Instance.AllRooms.ToList().ForEach(room => PlayerCount[room.RoomId] = 0);
+            // 全生存プレイヤーの位置を取得
+            foreach (var room in ShipStatus.Instance.AllRooms) PlayerCount[room.RoomId] = 0;
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (!pc.IsAlive()) continue;
@@ -60,7 +66,7 @@ namespace TownOfHost
             }
             PlayerCount.Remove(SystemTypes.Hallway);
             DeadCount.Remove(SystemTypes.Hallway);
-            var aliveEvilHackerIds = playerIdList.Where(x => Utils.GetPlayerById(x).IsAlive()).ToList();
+            // 送信するメッセージを生成
             string message = "";
             foreach (var kvp in PlayerCount)
             {
@@ -76,7 +82,10 @@ namespace TownOfHost
                     message = $"{message}{roomName}: {kvp.Value + DeadCount[kvp.Key]}\n";
                 }
             }
-            aliveEvilHackerIds.ForEach(id => Utils.SendMessage(message, id, Utils.ColorString(Palette.AcceptedGreen, $"{GetString("Message.LastAdminInfo")}")));
+            // 生存イビルハッカーに送信
+            var aliveEvilHackerIds = playerIdList.Where(x => Utils.GetPlayerById(x).IsAlive()).ToArray();
+            aliveEvilHackerIds.Do(id => Utils.SendMessage(message, id, Utils.ColorString(Palette.AcceptedGreen, $"{GetString("Message.LastAdminInfo")}")));
+
             InitDeadCount();
             ImpRooms = new();
         }
@@ -105,6 +114,7 @@ namespace TownOfHost
         }
         public static void RpcSyncMurderScenes()
         {
+            // タプルの数，キル者ID1，キル現場1，キル者ID2，キル現場2，......
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SyncEvilHackerScenes, SendOption.Reliable, -1);
             writer.Write(KillersAndRooms.Count);
@@ -128,11 +138,10 @@ namespace TownOfHost
         public static string GetMurderSceneText(PlayerControl seer)
         {
             if (!seer.IsAlive()) return "";
-            var roomNames = (from tuple in KillersAndRooms
-                             where tuple.Item1 != seer  // 自身がキルしたものは除外
-                             select DestroyableSingleton<TranslationController>.Instance.GetString(tuple.Item2)
-                            ).ToList();
-            if (roomNames.Count < 1) return "";
+            var roomNames = from tuple in KillersAndRooms
+                            where tuple.Item1 != seer  // 自身がキルしたものは除外
+                            select DestroyableSingleton<TranslationController>.Instance.GetString(tuple.Item2);
+            if (roomNames.Count() < 1) return "";
             return $"{GetString("EvilHackerMurderOccurred")}: {string.Join(", ", roomNames)}";
         }
         public static bool KillFlashCheck(PlayerControl killer, PlayerControl target) =>
