@@ -109,6 +109,11 @@ namespace TownOfHost
                     }
                     KillersAndRooms.Remove((realKiller, room));
                     RpcSyncMurderScenes();
+                    var aliveEvilHackers = from id in playerIdList
+                                           let player = Utils.GetPlayerById(id)
+                                           where player.IsAlive()
+                                           select player;
+                    foreach (var player in aliveEvilHackers) Utils.NotifyRoles(false, player);
                 }, 10f, "Remove EvilHacker KillersAndRooms");
             }
         }
