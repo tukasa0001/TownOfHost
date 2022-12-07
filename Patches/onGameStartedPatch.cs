@@ -30,7 +30,8 @@ namespace TownOfHost
             Main.AfterMeetingDeathPlayers = new();
             Main.ResetCamPlayerList = new();
 
-            Main.CheckShapeshift = new Dictionary<byte, bool>();
+            Main.CheckShapeshift = new();
+            Main.ShapeshiftTarget = new();
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();
             Main.targetArrows = new();

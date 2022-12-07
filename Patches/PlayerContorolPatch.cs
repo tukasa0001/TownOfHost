@@ -294,6 +294,7 @@ namespace TownOfHost
             var shapeshifting = shapeshifter.PlayerId != target.PlayerId;
 
             Main.CheckShapeshift[shapeshifter.PlayerId] = shapeshifting;
+            Main.ShapeshiftTarget[shapeshifter.PlayerId] = target.PlayerId;
 
             if (!shapeshifting) Camouflage.RpcSetSkin(__instance, true);
 

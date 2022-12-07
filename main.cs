@@ -111,6 +111,7 @@ namespace TownOfHost
         public static int SKMadmateNowCount;
         public static bool isCursed;
         public static Dictionary<byte, bool> CheckShapeshift = new();
+        public static Dictionary<byte, byte> ShapeshiftTarget = new();
         public static Dictionary<(byte, byte), string> targetArrows = new();
         public static bool VisibleTasksCount;
         public static string nickName = "";
