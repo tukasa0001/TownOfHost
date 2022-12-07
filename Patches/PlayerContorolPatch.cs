@@ -228,7 +228,7 @@ namespace TownOfHost
             Logger.Info($"{__instance.GetNameWithRole()} => {target.GetNameWithRole()}{(target.protectedByGuardian ? "(Protected)" : "")}", "MurderPlayer");
 
             if (RandomSpawn.CustomNetworkTransformPatch.NumOfTP.TryGetValue(__instance.PlayerId, out var num) && num > 2) RandomSpawn.CustomNetworkTransformPatch.NumOfTP[__instance.PlayerId] = 3;
-            Camouflage.RpcSetSkin(target, ForceRevert: true);
+            Camouflage.RpcSetSkin(target);
         }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
@@ -296,7 +296,7 @@ namespace TownOfHost
             Main.CheckShapeshift[shapeshifter.PlayerId] = shapeshifting;
             Main.ShapeshiftTarget[shapeshifter.PlayerId] = target.PlayerId;
 
-            if (!shapeshifting) Camouflage.RpcSetSkin(__instance, true);
+            if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
 
             if (shapeshifter.Is(CustomRoles.Warlock))
             {
@@ -440,9 +440,10 @@ namespace TownOfHost
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
 
+
             PlayerControl.AllPlayerControls.ToArray()
                 .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
-                .Do(pc => Camouflage.RpcSetSkin(pc, ForceRevert: true, RevertToDefault: true));
+                .Do(pc => Camouflage.RpcSetSkin(pc, RevertToDefault: true));
 
             Utils.CustomSyncAllSettings();
             return true;

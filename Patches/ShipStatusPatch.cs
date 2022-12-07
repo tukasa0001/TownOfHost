@@ -89,13 +89,7 @@ namespace TownOfHost
         public static void Postfix(ShipStatus __instance)
         {
             Utils.CustomSyncAllSettings();
-            new LateTask(
-                () =>
-                {
-                    PlayerControl.AllPlayerControls.ToArray().Do(pc => Camouflage.RpcSetSkin(pc));
-                    if (!GameStates.IsMeeting)
-                        Utils.NotifyRoles(ForceLoop: true);
-                }, 0.1f, "RepairSystem.Postfix");
+            Camouflage.CheckCamouflage();
         }
         public static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max)
         {
