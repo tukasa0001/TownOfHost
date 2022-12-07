@@ -220,7 +220,7 @@ namespace TownOfHost
                     case "/say":
                         canceled = true;
                         if (args.Length > 1)
-                            Utils.SendMessage(args[1], title: $"<color=#ff0000>{GetString("MessageFromTheHost")}</color>");
+                            Utils.SendMessage(args.Skip(1).Join(delimiter: " "), title: $"<color=#ff0000>{GetString("MessageFromTheHost")}</color>");
                         break;
 
                     case "/exile":
