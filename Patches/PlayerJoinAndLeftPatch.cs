@@ -94,7 +94,7 @@ namespace TownOfHost
                 {
                     new LateTask(() =>
                     {
-                        if (!AmongUsClient.Instance.IsGameStarted)
+                        if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
                         {
                             Main.isChatCommand = true;
                             Utils.ShowLastResult(client.Character.PlayerId);
