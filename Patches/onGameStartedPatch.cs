@@ -480,11 +480,12 @@ namespace TownOfHost
                 var sender = senders[seer.PlayerId];
                 foreach (var target in PlayerControl.AllPlayerControls)
                 {
-                    var key = (seer.PlayerId, target.PlayerId);
-                    if (!rolesMap.TryGetValue(key, out var role)) continue;
+                    if (rolesMap.TryGetValue((seer.PlayerId, target.PlayerId), out var role))
+                    {
                     sender.RpcSetRole(seer, role, target.GetClientId());
                 }
             }
+        }
         }
 
         private static List<PlayerControl> AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1)
