@@ -434,6 +434,7 @@ namespace TownOfHost
 
             var hostId = PlayerControl.LocalPlayer.PlayerId;
             var rand = IRandom.Instance;
+
             for (var i = 0; i < role.GetCount(); i++)
             {
                 if (AllPlayers.Count <= 0) break;
@@ -441,27 +442,26 @@ namespace TownOfHost
                 AllPlayers.Remove(player);
                 Main.PlayerStates[player.PlayerId].MainRole = role;
 
-                var othersRole = RoleTypes.Scientist;
+                var selfRole = player.PlayerId == hostId ? hostBaseRole : BaseRole;
+                var othersRole = player.PlayerId == hostId ? RoleTypes.Crewmate : RoleTypes.Scientist;
+
                 //Desync役職視点
                 foreach (var target in PlayerControl.AllPlayerControls)
                 {
-                    if (player.PlayerId == target.PlayerId)
-                    {
-                        rolesMap[(player.PlayerId, target.PlayerId)] = player.PlayerId == hostId ? hostBaseRole : BaseRole;
-                    }
-                    else
+                    if (player.PlayerId != target.PlayerId)
                     {
                         rolesMap[(player.PlayerId, target.PlayerId)] = othersRole;
                     }
+                    else
+                    {
+                        rolesMap[(player.PlayerId, target.PlayerId)] = selfRole;
+                    }
                 }
+
                 //他者視点
                 foreach (var seer in PlayerControl.AllPlayerControls)
                 {
-                    if (player.PlayerId == seer.PlayerId)
-                    {
-                        continue;
-                    }
-                    else
+                    if (player.PlayerId != seer.PlayerId)
                     {
                         rolesMap[(seer.PlayerId, player.PlayerId)] = othersRole;
                     }
@@ -482,10 +482,10 @@ namespace TownOfHost
                 {
                     if (rolesMap.TryGetValue((seer.PlayerId, target.PlayerId), out var role))
                     {
-                    sender.RpcSetRole(seer, role, target.GetClientId());
+                        sender.RpcSetRole(seer, role, target.GetClientId());
+                    }
                 }
             }
-        }
         }
 
         private static List<PlayerControl> AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1)
