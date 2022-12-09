@@ -84,6 +84,7 @@ namespace TownOfHost
         public static float RefixCooldownDelay = 0f;
         public static List<byte> ResetCamPlayerList;
         public static List<byte> winnerList;
+        public static List<int> clientIdList;
         public static List<(string, byte, string)> MessagesToSend;
         public static bool isChatCommand = false;
         public static List<PlayerControl> LoversPlayers = new();

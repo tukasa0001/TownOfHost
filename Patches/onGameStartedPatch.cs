@@ -29,6 +29,7 @@ namespace TownOfHost
 
             Main.AfterMeetingDeathPlayers = new();
             Main.ResetCamPlayerList = new();
+            Main.clientIdList = new();
 
             Main.CheckShapeshift = new();
             Main.ShapeshiftTarget = new();
@@ -81,6 +82,7 @@ namespace TownOfHost
                 RandomSpawn.CustomNetworkTransformPatch.NumOfTP.Add(pc.PlayerId, 0);
                 var outfit = pc.Data.DefaultOutfit;
                 Camouflage.PlayerSkins[pc.PlayerId] = new GameData.PlayerOutfit().Set(outfit.PlayerName, outfit.ColorId, outfit.HatId, outfit.SkinId, outfit.VisorId, outfit.PetId);
+                Main.clientIdList.Add(pc.GetClientId());
             }
             Main.VisibleTasksCount = true;
             if (__instance.AmHost)

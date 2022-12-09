@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using AmongUs.Data;
 using HarmonyLib;
 using static TownOfHost.Translator;
 
@@ -15,7 +16,7 @@ namespace TownOfHost
         private static Dictionary<string, Func<string>> _replaceDictionary = new()
         {
             ["RoomCode"] = () => InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId),
-            ["PlayerName"] = () => PlayerControl.LocalPlayer.Data.PlayerName,
+            ["PlayerName"] = () => DataManager.Player.Customization.Name,
             ["AmongUsVersion"] = () => UnityEngine.Application.version,
             ["ModVersion"] = () => Main.PluginVersion,
             ["Map"] = () => Constants.MapNames[PlayerControl.GameOptions.MapId],
