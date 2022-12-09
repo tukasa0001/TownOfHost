@@ -47,7 +47,7 @@ namespace TownOfHost
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "3.1.0";
+        public const string PluginVersion = "4.0.0";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -84,6 +84,7 @@ namespace TownOfHost
         public static float RefixCooldownDelay = 0f;
         public static List<byte> ResetCamPlayerList;
         public static List<byte> winnerList;
+        public static List<int> clientIdList;
         public static List<(string, byte, string)> MessagesToSend;
         public static bool isChatCommand = false;
         public static List<PlayerControl> LoversPlayers = new();
@@ -121,6 +122,7 @@ namespace TownOfHost
         public static float DefaultCrewmateVision;
         public static float DefaultImpostorVision;
         public static bool IsChristmas = DateTime.Now.Month == 12 && DateTime.Now.Day is 23 or 24 or 25;
+        public static bool IsInitialRelease = DateTime.Now.Month == 12 && DateTime.Now.Day is 4;
 
         public static Main Instance;
 

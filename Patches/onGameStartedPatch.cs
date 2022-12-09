@@ -29,6 +29,7 @@ namespace TownOfHost
 
             Main.AfterMeetingDeathPlayers = new();
             Main.ResetCamPlayerList = new();
+            Main.clientIdList = new();
 
             Main.CheckShapeshift = new Dictionary<byte, bool>();
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
@@ -80,6 +81,7 @@ namespace TownOfHost
                 RandomSpawn.CustomNetworkTransformPatch.NumOfTP.Add(pc.PlayerId, 0);
                 var outfit = pc.Data.DefaultOutfit;
                 Camouflage.PlayerSkins[pc.PlayerId] = (outfit.ColorId, outfit.HatId, outfit.SkinId, outfit.VisorId, outfit.PetId);
+                Main.clientIdList.Add(pc.GetClientId());
             }
             Main.VisibleTasksCount = true;
             if (__instance.AmHost)
@@ -555,20 +557,20 @@ namespace TownOfHost
             }
             public static void Release()
             {
-                foreach (var sender in senders.Values)
+                foreach (var sender in senders)
                 {
-                    if (OverriddenSenderList.Contains(sender)) continue;
-                    if (sender.CurrentState != CustomRpcSender.State.InRootMessage)
+                    if (OverriddenSenderList.Contains(sender.Value)) continue;
+                    if (sender.Value.CurrentState != CustomRpcSender.State.InRootMessage)
                         throw new InvalidOperationException("A CustomRpcSender had Invalid State.");
 
                     foreach (var pair in StoragedData)
                     {
                         pair.Item1.SetRole(pair.Item2);
-                        sender.StartRpc(pair.Item1.NetId, RpcCalls.SetRole)
+                        sender.Value.AutoStartRpc(pair.Item1.NetId, (byte)RpcCalls.SetRole, Utils.GetPlayerById(sender.Key).GetClientId())
                             .Write((ushort)pair.Item2)
                             .EndRpc();
                     }
-                    sender.EndMessage();
+                    sender.Value.EndMessage();
                 }
                 doReplace = false;
             }

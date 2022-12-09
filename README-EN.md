@@ -15,7 +15,7 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
 
 ## Releases
 
-AmongUs Version: **2022.9.20**
+AmongUs Version: **2022.10.25**
 **Latest Version: [Here](https://github.com/tukasa0001/TownOfHost/releases/latest)**
 
 Old Versions: [Here](https://github.com/tukasa0001/TownOfHost/releases)
@@ -55,6 +55,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 | ----------- | ---------------------------------------------------------------------------------- | ------------- |
 | `Tab`       | Option list page feed                                                              | Lobby         |
 | `Ctrl`+`F1` | Output log to desktop                                                              | Anywhere      |
+| `F10`       | Open AmongUs folder                                                                | Anywhere      |
 | `F11`       | Change resolution<br>480x270 → 640x360 → 800x450 → 1280x720 → 1600x900 → 1920x1080 | Anywhere      |
 | `T`+`F5`    | Reload custom translation file                                                     | Anywhere      |
 | `Alt`+`C`   | Copy current settings text                                                         | Lobby&In Game |
@@ -79,6 +80,7 @@ You can execute chat commands by typing in chat.
 | /help addons <add-ons><br>/help a <add-ons> | Show add-on description                           |
 | /help modes <mode><br>/help m <mode>        | Show mode description                             |
 | /hidename <string><br>/hn <string>          | Rename code concealment string                    |
+| /say <string>                               | Make an announcement as a host                    |
 
 #### MOD Client Only
 | Command        | Function                    |
@@ -99,13 +101,38 @@ You can execute chat commands by typing in chat.
 ### Template
 This function allows you to send prepared messages.<br>
 Execute by typing `/template <tag>` or `/t <tag>`.<br>
-To set the text, edit `template.txt` in the same folder as AmongUs.exe.<br>
+To set the text, edit `./TOH_DATA/template.txt` in the same folder as AmongUs.exe.<br>
 Separate each entry with a colon, such as `tag:content`.<br>
 Also, you can break lines by writing `\n` in the sentence like `tag:line breaks can be\nmade like this`.<br>
 
 #### Welcome Message
 If the tag is set to "welcome" in the template function, it will be sent automatically when a player joins.<br>
 For example: `welcome:This room is using TownOfHost.`
+
+#### Variable Expansion
+The contents of a variable can be expanded at the time of a call by including it in the text as `{{variable name}}`.<br>
+For example: `roomcode:The room code for this room is {{RoomCode}}.`
+
+| Variable name        | Content                             |
+| -------------------- | ----------------------------------- |
+| RoomCode             | Room Code                           |
+| PlayerName           | Player name of host                 |
+| AmongUsVersion       | Game version                        |
+| ModVersion           | MOD version                         |
+| Map                  | Map name                            |
+| NumEmergencyMeetings | Number of emergency meeting buttons |
+| EmergencyCooldown    | Emergency Meeting Button Cooldown   |
+| DiscussionTime       | Discussion time                     |
+| VotingTime           | Voting time                         |
+| PlayerSpeedMod       | Player speed                        |
+| CrewLightMod         | Crewmate vision                     |
+| ImpostorLightMod     | Impostor vision                     |
+| KillCooldown         | Kill Cooldown                       |
+| NumCommonTasks       | Number of common tasks              |
+| NumLongTasks         | Number of long tasks                |
+| NumShortTasks        | Number of short tasks               |
+| Date                 | Date                                |
+| Time                 | Time                                |
 
 ### Custom Translation File
 Users are free to create and use their own translations.<br>
@@ -139,6 +166,27 @@ You can also reload the translation by pressing key `T`+`F5`.
 | TChinese      |
 | Irish         |
 
+### BAN Function
+The host can ban players even during the game without requiring other players to vote. <br>
+Also, if you ban, that player will not be able to enter the room you host from now on. <br>
+Banned players are recorded in `./TOH_DATA/BanList.txt` as `friend code, player name`, and you can remove the ban by deleting the corresponding line. <br>
+Even if you block it with a friend list, it will automatically ban. <br>
+
+### Kick Function
+The host can kick players even during the game without requiring other players to vote. <br>
+
+### Name Filter
+By listing the names you want to deny in `./TOH_DATA/DenyName.txt`, players with matching names will be automatically kicked. <br>
+It can be specified by [regular expression](https://regex101.com/), and it will be judged line by line. <br>
+
+Example:
+| specified character | matching name                           | note                           |
+| ------------------- | --------------------------------------- | ------------------------------ |
+| Host                | `Host` `MODHost` `HostTOH` `MODHostTOH` | Matches if `Host' is included. |
+| ^Host               | `HostMOD` `HostTOH` `HostTEST`          | Match if prefixed with `Host`  |
+| Host$               | `MODHost` `TOHHost` `TESTHost`          | Match if postfixed with `Host` |
+| ^Host$              | `Host`                                  | Exact match to `Host`          |
+
 ## Roles
 
 | Impostors                           | Crewmates                         | Neutrals                          | Others    |
@@ -154,7 +202,7 @@ You can also reload the translation by pressing key `T`+`F5`.
 | [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |           |
 | [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |           |
 | [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |           |
-| [Witch](#Witch)                     | [Trapper](#Trapper)               |                                   |           |
+| [Witch](#Witch)                     | [Beartrap](#Beartrap)             |                                   |           |
 | [Mafia](#Mafia)                     |                                   |                                   |           |
 | [Madmate](#Madmate)                 |                                   |                                   |           |
 | [MadGuardian](#MadGuardian)         |                                   |                                   |           |
@@ -390,15 +438,17 @@ They will be able to kill after Impostors except them are all gone.<br>
 There are common options for Madmates.
 #### Game Options
 
-| Name                          |
-| ----------------------------- |
-| Madmates Can Fix Lights Out   |
-| Madmates Can Fix Comms        |
-| Madmates Have Impostor Vision |
-| Madmates Can See Kill Flash   |
-| Madmates Can See Other Votes  |
-| Madmates Vent Cooldown        |
-| Madmates Max Time In Vents    |
+| Name                                    |
+| --------------------------------------- |
+| Madmates Can Fix Lights Out             |
+| Madmates Can Fix Comms                  |
+| Madmates Have Impostor Vision           |
+| Madmates Can See Kill Flash             |
+| Madmates Can See Other Votes            |
+| Madmates Can See Cause Of Death         |
+| Madmates Revenge A Crewmate When Exiled |
+| Madmates Vent Cooldown                  |
+| Madmates Max Time In Vents              |
 
 ### Madmate
 
@@ -646,7 +696,7 @@ Defined amount of tasks boosts the player speed of someone alive.<br>
 | Acceleration valued |
 | Tasks that trigger  |
 
-### Trapper
+### Beartrap
 
 Created by そうくん<br>
 Original idea by 宿主ランニング<br>
@@ -654,9 +704,12 @@ Original idea by 宿主ランニング<br>
 Team : Crewmates<br>
 Basis : Crewmate<br>
 
-When killed, the trapper will hold the killer in place.<br>
+When killed, the Beartrap will hold the killer in place.<br>
 Also, if a report is made while in custody, it will be canceled and the report will be made after the release.<br>
 The time held in place on the body is decided by host in settings.<br>
+
+Rename [Trapper] -> [Beartrap]
+the word contains prohibited characters
 
 #### Game Options
 

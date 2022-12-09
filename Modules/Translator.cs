@@ -83,6 +83,8 @@ namespace TownOfHost
             }
             if (langId == SupportedLangs.Japanese)
             {
+                //このソースコ―ドを見た人へ。口外しないでもらえると嬉しいです...
+                //To anyone who has seen this source code. I would appreciate it if you would keep your mouth shut...
                 if (Main.IsChristmas)
                 {
                     res = str switch

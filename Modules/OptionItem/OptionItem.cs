@@ -123,7 +123,12 @@ namespace TownOfHost
         public OptionItem SetHeader(bool value) => Do(i => i.IsHeader = value);
         public OptionItem SetHidden(bool value) => Do(i => i.IsHidden = value);
 
-        public OptionItem SetParent(OptionItem parent) => Do(i => i.Parent = parent);
+        public OptionItem SetParent(OptionItem parent) => Do(i =>
+        {
+            i.Parent = parent;
+            parent.SetChild(i);
+        });
+        public OptionItem SetChild(OptionItem child) => Do(i => i.Children.Add(child));
         public OptionItem RegisterUpdateValueEvent(EventHandler<UpdateValueEventArgs> handler)
             => Do(i => UpdateValueEvent += handler);
 
@@ -182,6 +187,7 @@ namespace TownOfHost
 
             CallUpdateValueEvent(beforeValue, afterValue);
             Refresh();
+            SyncAllOptions();
         }
 
         // 演算子オーバーロード
@@ -197,6 +203,8 @@ namespace TownOfHost
 
             foreach (var op in AllOptions)
                 op.Refresh();
+
+            SyncAllOptions();
         }
         public static void SyncAllOptions()
         {
@@ -234,19 +242,6 @@ namespace TownOfHost
                 CurrentValue = currentValue;
                 BeforeValue = beforeValue;
             }
-        }
-
-        public int GetChance()
-        {
-            return CurrentValue * 100;
-            /*//0%or100%の場合
-            if (Selections.Length == 2) return Selection * 100;
-
-            //0%～100%or5%～100%の場合
-            var offset = 12 - Selections.Length;
-            var index = Selection + offset;
-            var rate = index <= 1 ? index * 5 : (index - 1) * 10;
-            return rate;*/
         }
     }
 
