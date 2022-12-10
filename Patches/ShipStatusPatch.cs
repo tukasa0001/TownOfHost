@@ -161,7 +161,7 @@ namespace TownOfHost
             //ホストの役職初期設定はここで行うべき？
         }
     }
-    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CheckTaskCompletion))]
+    [HarmonyPatch(typeof(GameManager), nameof(GameManager.CheckTaskCompletion))]
     class CheckTaskCompletionPatch
     {
         public static bool Prefix(ref bool __result)

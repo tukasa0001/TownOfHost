@@ -4,6 +4,7 @@ using System.Linq;
 using HarmonyLib;
 using UnhollowerBaseLib;
 using UnityEngine;
+using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 using Object = UnityEngine.Object;
 
@@ -310,19 +311,19 @@ namespace TownOfHost
             __instance.KillDistance = 0;
             __instance.DiscussionTime = 0;
             __instance.VotingTime = 150;
-            __instance.isDefaults = true;
+            __instance.IsDefaults = true;
             __instance.ConfirmImpostor = false;
             __instance.VisualTasks = false;
-            __instance.RoleOptions.ShapeshifterCooldown = 10f;
-            __instance.RoleOptions.ShapeshifterDuration = 30f;
-            __instance.RoleOptions.ShapeshifterLeaveSkin = false;
-            __instance.RoleOptions.ImpostorsCanSeeProtect = false;
-            __instance.RoleOptions.ScientistCooldown = 15f;
-            __instance.RoleOptions.ScientistBatteryCharge = 5f;
-            __instance.RoleOptions.GuardianAngelCooldown = 60f;
-            __instance.RoleOptions.ProtectionDurationSeconds = 10f;
-            __instance.RoleOptions.EngineerCooldown = 30f;
-            __instance.RoleOptions.EngineerInVentMaxTime = 15f;
+            __instance.roleOptions.ShapeshifterCooldown = 10f;
+            __instance.roleOptions.ShapeshifterDuration = 30f;
+            __instance.roleOptions.ShapeshifterLeaveSkin = false;
+            __instance.roleOptions.ImpostorsCanSeeProtect = false;
+            __instance.roleOptions.ScientistCooldown = 15f;
+            __instance.roleOptions.ScientistBatteryCharge = 5f;
+            __instance.roleOptions.GuardianAngelCooldown = 60f;
+            __instance.roleOptions.ProtectionDurationSeconds = 10f;
+            __instance.roleOptions.EngineerCooldown = 30f;
+            __instance.roleOptions.EngineerInVentMaxTime = 15f;
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) //HideAndSeek
             {
                 __instance.PlayerSpeedMod = 1.75f;
