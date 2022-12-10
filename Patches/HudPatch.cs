@@ -274,7 +274,7 @@ namespace TownOfHost
     class TaskPanelBehaviourPatch
     {
         // タスク表示の文章が更新・適用された後に実行される
-        public void Postfix(TaskPanelBehaviour __instance)
+        public static void Postfix(TaskPanelBehaviour __instance)
         {
             PlayerControl player = PlayerControl.LocalPlayer;
 
