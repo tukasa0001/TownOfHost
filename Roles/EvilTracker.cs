@@ -62,10 +62,10 @@ namespace TownOfHost
             }
         }
 
-        public static void ApplyGameOptions(RoleOptionsData opt, byte playerId)
+        public static void ApplyGameOptions(byte playerId)
         {
-            opt.ShapeshifterCooldown = CanSetTarget[playerId] ? 5f : 255f;
-            opt.ShapeshifterDuration = 1f;
+            AURoleOptions.ShapeshifterCooldown = CanSetTarget[playerId] ? 5f : 255f;
+            AURoleOptions.ShapeshifterDuration = 1f;
         }
         public static void GetAbilityButtonText(HudManager __instance, byte playerId)
         {

@@ -254,7 +254,7 @@ namespace TownOfHost
 
             var clientId = player.GetClientId();
             var opt = Main.RealOptionsData.Restore((IGameOptions)(UnhollowerBaseLib.Il2CppObjectBase)new NormalGameOptionsV07(GameOptionsManager.Instance.currentNormalGameOptions.logger));
-            var roleOpt = opt.RoleOptions;
+            AURoleOptions.SetOpt(opt);
             var state = Main.PlayerStates[player.PlayerId];
             opt.BlackOut(state.IsBlackOut);
 
@@ -263,11 +263,11 @@ namespace TownOfHost
             switch (roleType)
             {
                 case RoleType.Impostor:
-                    roleOpt.ShapeshifterCooldown = Options.DefaultShapeshiftCooldown.GetFloat();
+                    AURoleOptions.ShapeshifterCooldown = Options.DefaultShapeshiftCooldown.GetFloat();
                     break;
                 case RoleType.Madmate:
-                    roleOpt.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
-                    roleOpt.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
+                    AURoleOptions.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
+                    AURoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
                     if (Options.MadmateHasImpostorVision.GetBool())
                         opt.SetVision(true);
                     if (Options.MadmateCanSeeOtherVotes.GetBool())
@@ -285,13 +285,13 @@ namespace TownOfHost
                 //     roleOpt.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
                 //     break;
                 case CustomRoles.Warlock:
-                    roleOpt.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
+                    AURoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
                     break;
                 case CustomRoles.SerialKiller:
-                    SerialKiller.ApplyGameOptions(roleOpt, player);
+                    SerialKiller.ApplyGameOptions(player);
                     break;
                 case CustomRoles.BountyHunter:
-                    BountyHunter.ApplyGameOptions(roleOpt);
+                    BountyHunter.ApplyGameOptions();
                     break;
                 case CustomRoles.EvilWatcher:
                 case CustomRoles.NiceWatcher:
@@ -319,21 +319,21 @@ namespace TownOfHost
                     opt.SetVision(true);
                     break;
                 case CustomRoles.Doctor:
-                    roleOpt.ScientistCooldown = 0f;
-                    roleOpt.ScientistBatteryCharge = Options.DoctorTaskCompletedBatteryCharge.GetFloat();
+                    AURoleOptions.ScientistCooldown = 0f;
+                    AURoleOptions.ScientistBatteryCharge = Options.DoctorTaskCompletedBatteryCharge.GetFloat();
                     break;
                 case CustomRoles.Mayor:
-                    roleOpt.EngineerCooldown =
+                    AURoleOptions.EngineerCooldown =
                         Main.MayorUsedButtonCount.TryGetValue(player.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt()
                         ? opt.GetInt(Int32OptionNames.EmergencyCooldown)
                         : 300f;
-                    roleOpt.EngineerInVentMaxTime = 1;
+                    AURoleOptions.EngineerInVentMaxTime = 1;
                     break;
                 case CustomRoles.Mare:
                     Mare.ApplyGameOptions(player.PlayerId);
                     break;
                 case CustomRoles.EvilTracker:
-                    EvilTracker.ApplyGameOptions(roleOpt, player.PlayerId);
+                    EvilTracker.ApplyGameOptions(player.PlayerId);
                     break;
                 case CustomRoles.Jackal:
                 case CustomRoles.JSchrodingerCat:
@@ -342,8 +342,8 @@ namespace TownOfHost
 
 
                 InfinityVent:
-                    roleOpt.EngineerCooldown = 0;
-                    roleOpt.EngineerInVentMaxTime = 0;
+                    AURoleOptions.EngineerCooldown = 0;
+                    AURoleOptions.EngineerInVentMaxTime = 0;
                     break;
             }
             if (Main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
@@ -405,6 +405,9 @@ namespace TownOfHost
                 Int32OptionNames.VotingTime,
                 Options.AllAliveMeetingTime.GetInt());
             }
+
+            AURoleOptions.ShapeshifterCooldown = Mathf.Max(1f, AURoleOptions.ShapeshifterCooldown);
+            AURoleOptions.ProtectionDurationSeconds = 0f;
 
             if (player.AmOwner) PlayerControl.GameOptions = opt;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
