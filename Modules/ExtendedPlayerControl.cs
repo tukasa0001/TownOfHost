@@ -409,7 +409,7 @@ namespace TownOfHost
             AURoleOptions.ShapeshifterCooldown = Mathf.Max(1f, AURoleOptions.ShapeshifterCooldown);
             AURoleOptions.ProtectionDurationSeconds = 0f;
 
-            if (player.AmOwner) PlayerControl.GameOptions = opt;
+            if (player.AmOwner) GameOptionsManager.Instance.CurrentGameOptions = opt;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
             writer.WriteBytesAndSize(opt.ToBytes(5));
             AmongUsClient.Instance.FinishRpcImmediately(writer);
