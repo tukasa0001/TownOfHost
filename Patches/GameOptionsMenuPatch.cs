@@ -306,7 +306,7 @@ namespace TownOfHost
             __instance.NumLongTasks = 4;
             __instance.NumShortTasks = 6;
             __instance.NumEmergencyMeetings = 1;
-            if (modes != NetworkModes.OnlineGame)
+            if (!isOnline)
                 __instance.NumImpostors = GameOptionsData.RecommendedImpostors[numPlayers];
             __instance.KillDistance = 0;
             __instance.DiscussionTime = 0;
@@ -314,16 +314,46 @@ namespace TownOfHost
             __instance.IsDefaults = true;
             __instance.ConfirmImpostor = false;
             __instance.VisualTasks = false;
-            __instance.roleOptions.ShapeshifterCooldown = 10f;
-            __instance.roleOptions.ShapeshifterDuration = 30f;
-            __instance.roleOptions.ShapeshifterLeaveSkin = false;
-            __instance.roleOptions.ImpostorsCanSeeProtect = false;
-            __instance.roleOptions.ScientistCooldown = 15f;
-            __instance.roleOptions.ScientistBatteryCharge = 5f;
-            __instance.roleOptions.GuardianAngelCooldown = 60f;
-            __instance.roleOptions.ProtectionDurationSeconds = 10f;
-            __instance.roleOptions.EngineerCooldown = 30f;
-            __instance.roleOptions.EngineerInVentMaxTime = 15f;
+
+            if (__instance.roleOptions.roles.TryGetValue(RoleTypes.Shapeshifter, out var shapeData))
+            {
+                var opt = shapeData.RoleOptions.TryCast<ShapeshifterRoleOptionsV07>();
+                if (opt != null)
+                {
+                    opt.ShapeshifterCooldown = 10f;
+                    opt.ShapeshifterDuration = 30f;
+                    opt.ShapeshifterLeaveSkin = false;
+                }
+            }
+            if (__instance.roleOptions.roles.TryGetValue(RoleTypes.GuardianAngel, out var gaData))
+            {
+                var opt = gaData.RoleOptions.TryCast<GuardianAngelRoleOptionsV07>();
+                if (opt != null)
+                {
+                    opt.ImpostorsCanSeeProtect = false;
+                    opt.GuardianAngelCooldown = 60f;
+                    opt.ProtectionDurationSeconds = 10f;
+                }
+            }
+            if (__instance.roleOptions.roles.TryGetValue(RoleTypes.Scientist, out var scData))
+            {
+                var opt = scData.RoleOptions.TryCast<ScientistRoleOptionsV07>();
+                if (opt != null)
+                {
+                    opt.ScientistCooldown = 15f;
+                    opt.ScientistBatteryCharge = 5f;
+                }
+            }
+            if (__instance.roleOptions.roles.TryGetValue(RoleTypes.Engineer, out var egData))
+            {
+                var opt = egData.RoleOptions.TryCast<EngineerRoleOptionsV07>();
+                if (opt != null)
+                {
+                    opt.EngineerCooldown = 30f;
+                    opt.EngineerInVentMaxTime = 15f;
+                }
+            }
+
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) //HideAndSeek
             {
                 __instance.PlayerSpeedMod = 1.75f;
