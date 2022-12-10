@@ -269,9 +269,9 @@ namespace TownOfHost
                     AURoleOptions.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
                     AURoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
                     if (Options.MadmateHasImpostorVision.GetBool())
-                        opt.SetVision(player, true);
-                    if (Options.MadmateCanSeeOtherVotes.GetBool() && opt.AnonymousVotes)
-                        opt.AnonymousVotes = false;
+                        opt.SetVision(true);
+                    if (Options.MadmateCanSeeOtherVotes.GetBool())
+                        opt.SetBool(BoolOptionNames.AnonymousVotes, false);
                     break;
             }
 
@@ -295,23 +295,28 @@ namespace TownOfHost
                     break;
                 case CustomRoles.EvilWatcher:
                 case CustomRoles.NiceWatcher:
-                    if (opt.AnonymousVotes)
-                        opt.AnonymousVotes = false;
+                    opt.SetBool(BoolOptionNames.AnonymousVotes, false);
                     break;
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
-                    opt.SetVision(player, false);
+                    opt.SetVision(false);
                     break;
                 case CustomRoles.Lighter:
                     if (player.GetPlayerTaskState().IsTaskFinished)
                     {
-                        opt.CrewLightMod = Options.LighterTaskCompletedVision.GetFloat();
+                        opt.SetFloat(
+                            FloatOptionNames.CrewLightMod,
+                            Options.LighterTaskCompletedVision.GetFloat());
                         if (Utils.IsActive(SystemTypes.Electrical) && Options.LighterTaskCompletedDisableLightOut.GetBool())
-                            opt.CrewLightMod *= 5;
+                        {
+                            opt.SetFloat(
+                            FloatOptionNames.CrewLightMod,
+                            opt.GetFloat(FloatOptionNames.CrewLightMod) * 5);
+                        }
                     }
                     break;
                 case CustomRoles.EgoSchrodingerCat:
-                    opt.SetVision(player, true);
+                    opt.SetVision(true);
                     break;
                 case CustomRoles.Doctor:
                     AURoleOptions.ScientistCooldown = 0f;
@@ -320,7 +325,7 @@ namespace TownOfHost
                 case CustomRoles.Mayor:
                     AURoleOptions.EngineerCooldown =
                         Main.MayorUsedButtonCount.TryGetValue(player.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt()
-                        ? opt.EmergencyCooldown
+                        ? opt.GetInt(Int32OptionNames.EmergencyCooldown)
                         : 300f;
                     AURoleOptions.EngineerInVentMaxTime = 1;
                     break;
@@ -346,7 +351,11 @@ namespace TownOfHost
                 foreach (var kc in Main.AllPlayerKillCooldown)
                 {
                     if (kc.Key == player.PlayerId)
-                        opt.KillCooldown = kc.Value > 0 ? kc.Value : 0.01f;
+                    {
+                        opt.SetFloat(
+                            FloatOptionNames.KillCooldown,
+                            kc.Value > 0 ? kc.Value : 0.01f);
+                    }
                 }
             }
             if (Main.AllPlayerSpeed.ContainsKey(player.PlayerId))
@@ -354,29 +363,47 @@ namespace TownOfHost
                 foreach (var speed in Main.AllPlayerSpeed)
                 {
                     if (speed.Key == player.PlayerId)
-                        opt.PlayerSpeedMod = Mathf.Clamp(speed.Value, Main.MinSpeed, 3f);
+                    {
+                        opt.SetFloat(
+                            FloatOptionNames.PlayerSpeedMod,
+                            Mathf.Clamp(speed.Value, Main.MinSpeed, 3f));
+                    }
                 }
             }
             state.taskState.hasTasks = Utils.HasTasks(player.Data, false);
-            if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead && opt.AnonymousVotes)
-                opt.AnonymousVotes = false;
+            if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead)
+                opt.SetBool(BoolOptionNames.AnonymousVotes, false);
             if (Options.AdditionalEmergencyCooldown.GetBool() &&
                 Options.AdditionalEmergencyCooldownThreshold.GetInt() <= PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead))
-                opt.EmergencyCooldown += Options.AdditionalEmergencyCooldownTime.GetInt();
+            {
+                opt.SetInt(
+                    Int32OptionNames.EmergencyCooldown,
+                    Options.AdditionalEmergencyCooldownTime.GetInt());
+            }
             if (Options.SyncButtonMode.GetBool() && Options.SyncedButtonCount.GetValue() <= Options.UsedButtonCount)
-                opt.EmergencyCooldown = 3600;
+            {
+                opt.SetInt(Int32OptionNames.EmergencyCooldown, 3600);
+            }
             if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
             {
-                opt.ImpostorLightMod = 0f;
-                if (player.GetCustomRole().IsImpostor() || player.Is(CustomRoles.Egoist)) opt.PlayerSpeedMod = Main.MinSpeed;
+                opt.SetFloat(FloatOptionNames.ImpostorLightMod, 0f);
+                if (player.GetCustomRole().IsImpostor() || player.Is(CustomRoles.Egoist))
+                {
+                    opt.SetFloat(FloatOptionNames.PlayerSpeedMod, Main.MinSpeed);
+                }
             }
-            opt.DiscussionTime = Mathf.Clamp(Main.DiscussionTime, 0, 300);
-            opt.VotingTime = Mathf.Clamp(Main.VotingTime, TimeThief.LowerLimitVotingTime.GetInt(), 300);
+            opt.SetInt(Int32OptionNames.DiscussionTime, Mathf.Clamp(Main.DiscussionTime, 0, 300));
+
+            opt.SetInt(
+                Int32OptionNames.VotingTime,
+                Mathf.Clamp(Main.VotingTime, TimeThief.LowerLimitVotingTime.GetInt(), 300));
 
             if (Options.AllAliveMeeting.GetBool() && GameData.Instance.AllPlayers.ToArray().Where(x => !x.Object.Is(CustomRoles.GM)).All(x => !x.IsDead))
             {
-                opt.DiscussionTime = 0;
-                opt.VotingTime = Options.AllAliveMeetingTime.GetInt();
+                opt.SetInt(Int32OptionNames.DiscussionTime, 0);
+                opt.SetInt(
+                Int32OptionNames.VotingTime,
+                Options.AllAliveMeetingTime.GetInt());
             }
 
             AURoleOptions.ShapeshifterCooldown = Mathf.Max(1f, AURoleOptions.ShapeshifterCooldown);

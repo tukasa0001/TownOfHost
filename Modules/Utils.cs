@@ -69,20 +69,32 @@ namespace TownOfHost
                     return false;
             }
         }
-        public static void SetVision(this GameOptionsData opt, PlayerControl player, bool HasImpVision)
+        public static void SetVision(this IGameOptions opt, bool HasImpVision)
         {
             if (HasImpVision)
             {
-                opt.CrewLightMod = opt.ImpostorLightMod;
+                opt.SetFloat(
+                    FloatOptionNames.CrewLightMod,
+                    opt.GetFloat(FloatOptionNames.ImpostorLightMod));
                 if (IsActive(SystemTypes.Electrical))
-                    opt.CrewLightMod *= 5;
+                {
+                    opt.SetFloat(
+                    FloatOptionNames.CrewLightMod,
+                    opt.GetFloat(FloatOptionNames.CrewLightMod) * 5);
+                }
                 return;
             }
             else
             {
-                opt.ImpostorLightMod = opt.CrewLightMod;
+                opt.SetFloat(
+                    FloatOptionNames.ImpostorLightMod,
+                    opt.GetFloat(FloatOptionNames.CrewLightMod));
                 if (IsActive(SystemTypes.Electrical))
-                    opt.ImpostorLightMod /= 5;
+                {
+                    opt.SetFloat(
+                    FloatOptionNames.ImpostorLightMod,
+                    opt.GetFloat(FloatOptionNames.ImpostorLightMod) / 5);
+                }
                 return;
             }
         }

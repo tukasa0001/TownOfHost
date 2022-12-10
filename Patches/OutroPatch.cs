@@ -103,12 +103,12 @@ namespace TownOfHost
                     var role = Main.PlayerStates[pc.PlayerId].MainRole;
                     if (role.GetRoleType() == RoleType.Impostor)
                     {
-                        if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
+                        if (CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor)
                             winner.Add(pc);
                     }
                     else if (role.GetRoleType() == RoleType.Crewmate)
                     {
-                        if (TempData.DidHumansWin(endGameResult.GameOverReason))
+                        if (CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
                             winner.Add(pc);
                     }
                     else if (role == CustomRoles.HASTroll && pc.Data.IsDead)
