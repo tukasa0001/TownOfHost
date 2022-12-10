@@ -270,7 +270,7 @@ namespace TownOfHost
                     roleOpt.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
                     if (Options.MadmateHasImpostorVision.GetBool())
                         opt.SetVision(true);
-                    if (Options.MadmateCanSeeOtherVotes.GetBool() && opt.GetBool(BoolOptionNames.AnonymousVotes))
+                    if (Options.MadmateCanSeeOtherVotes.GetBool())
                         opt.SetBool(BoolOptionNames.AnonymousVotes, false);
                     break;
             }
@@ -295,8 +295,7 @@ namespace TownOfHost
                     break;
                 case CustomRoles.EvilWatcher:
                 case CustomRoles.NiceWatcher:
-                    if (opt.GetBool(BoolOptionNames.AnonymousVotes))
-                        opt.SetBool(BoolOptionNames.AnonymousVotes, false);
+                    opt.SetBool(BoolOptionNames.AnonymousVotes, false);
                     break;
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
@@ -372,7 +371,7 @@ namespace TownOfHost
                 }
             }
             state.taskState.hasTasks = Utils.HasTasks(player.Data, false);
-            if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead && opt.GetBool(BoolOptionNames.AnonymousVotes))
+            if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead)
                 opt.SetBool(BoolOptionNames.AnonymousVotes, false);
             if (Options.AdditionalEmergencyCooldown.GetBool() &&
                 Options.AdditionalEmergencyCooldownThreshold.GetInt() <= PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead))
