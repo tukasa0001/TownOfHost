@@ -28,7 +28,7 @@ namespace TownOfHost
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
                 if ((!AmongUsClient.Instance.IsGameStarted || !GameStates.IsOnlineGame)
-                    && player.MyAnim.ClipName is "Idle" or "Walk")
+                    && player.CanMove)
                 {
                     player.Collider.offset = new Vector2(0f, 127f);
                 }
