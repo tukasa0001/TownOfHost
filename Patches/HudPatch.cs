@@ -126,7 +126,7 @@ namespace TownOfHost
                 {
                     LowerInfoText.enabled = false;
                 }
-                if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != NetworkModes.FreePlay)
+                if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.NetworkModes != NetworkModes.FreePlay)
                 {
                     LowerInfoText.enabled = false;
                 }
@@ -165,7 +165,7 @@ namespace TownOfHost
 
             if (!__instance.TaskText.text.Contains(TaskTextPrefix)) __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
 
-            if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.GameMode == NetworkModes.FreePlay)
+            if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.NetworkModes == NetworkModes.FreePlay)
             {
                 Action<MapBehaviour> tmpAction = (MapBehaviour m) => { m.ShowSabotageMap(); };
                 __instance.ShowMap(tmpAction);
@@ -176,13 +176,13 @@ namespace TownOfHost
                 }
             }
 
-            if (AmongUsClient.Instance.GameMode == NetworkModes.OnlineGame) RepairSender.enabled = false;
-            if (Input.GetKeyDown(KeyCode.RightShift) && AmongUsClient.Instance.GameMode != NetworkModes.OnlineGame)
+            if (AmongUsClient.Instance.NetworkModes == NetworkModes.OnlineGame) RepairSender.enabled = false;
+            if (Input.GetKeyDown(KeyCode.RightShift) && AmongUsClient.Instance.NetworkModes != NetworkModes.OnlineGame)
             {
                 RepairSender.enabled = !RepairSender.enabled;
                 RepairSender.Reset();
             }
-            if (RepairSender.enabled && AmongUsClient.Instance.GameMode != NetworkModes.OnlineGame)
+            if (RepairSender.enabled && AmongUsClient.Instance.NetworkModes != NetworkModes.OnlineGame)
             {
                 if (Input.GetKeyDown(KeyCode.Alpha0)) RepairSender.Input(0);
                 if (Input.GetKeyDown(KeyCode.Alpha1)) RepairSender.Input(1);
