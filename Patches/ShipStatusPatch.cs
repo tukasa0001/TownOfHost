@@ -49,7 +49,7 @@ namespace TownOfHost
             [HarmonyArgument(2)] byte amount)
         {
             Logger.Msg("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount, "RepairSystem");
-            if (RepairSender.enabled && AmongUsClient.Instance.NetworkModes != NetworkModes.OnlineGame)
+            if (RepairSender.enabled && AmongUsClient.Instance.NetworkMode != NetworkModes.OnlineGame)
             {
                 Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount);
             }
@@ -82,7 +82,7 @@ namespace TownOfHost
                 return false;
             if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || (player.Is(CustomRoles.Jackal) && !Jackal.CanUseSabotage.GetBool()))
             {
-                if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.NetworkModes != NetworkModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
+                if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
             }
             return true;
         }
