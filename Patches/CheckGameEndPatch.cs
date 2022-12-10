@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using HarmonyLib;
 using Hazel;
+using AmongUs.GameOptions;
 
 namespace TownOfHost
 {

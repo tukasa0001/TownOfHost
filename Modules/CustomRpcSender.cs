@@ -2,6 +2,7 @@ using System;
 using Hazel;
 using InnerNet;
 using UnhollowerBaseLib;
+using AmongUs.GameOptions;
 
 namespace TownOfHost
 {

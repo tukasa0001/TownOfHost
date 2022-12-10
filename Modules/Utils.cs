@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using AmongUs.Data;
+using AmongUs.GameOptions;
 using UnityEngine;
 using static TownOfHost.Translator;
 
