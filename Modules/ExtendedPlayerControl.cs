@@ -269,7 +269,7 @@ namespace TownOfHost
                     roleOpt.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
                     roleOpt.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
                     if (Options.MadmateHasImpostorVision.GetBool())
-                        opt.SetVision(player, true);
+                        opt.SetVision(true);
                     if (Options.MadmateCanSeeOtherVotes.GetBool() && opt.GetBool(BoolOptionNames.AnonymousVotes))
                         opt.SetBool(BoolOptionNames.AnonymousVotes, false);
                     break;
@@ -300,7 +300,7 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
-                    opt.SetVision(player, false);
+                    opt.SetVision(false);
                     break;
                 case CustomRoles.Lighter:
                     if (player.GetPlayerTaskState().IsTaskFinished)
@@ -317,7 +317,7 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.EgoSchrodingerCat:
-                    opt.SetVision(player, true);
+                    opt.SetVision(true);
                     break;
                 case CustomRoles.Doctor:
                     roleOpt.ScientistCooldown = 0f;
