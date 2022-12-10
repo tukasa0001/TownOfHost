@@ -131,12 +131,6 @@ namespace TownOfHost
                     LowerInfoText.enabled = false;
                 }
 
-                if (!player.GetCustomRole().IsVanilla())
-                {
-                    var RoleWithInfo = $"{player.GetDisplayRoleName()}\r\n";
-                    RoleWithInfo += player.GetRoleInfo();
-                    TaskTextPrefix = Utils.ColorString(player.GetRoleColor(), RoleWithInfo);
-                }
                 if (player.CanUseKillButton())
                 {
                     __instance.KillButton.ToggleVisible(player.IsAlive() && GameStates.IsInTask);
@@ -163,7 +157,6 @@ namespace TownOfHost
                 }
             }
 
-            if (!__instance.TaskText.text.Contains(TaskTextPrefix)) __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
 
             if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
@@ -182,6 +175,7 @@ namespace TownOfHost
                 RepairSender.enabled = !RepairSender.enabled;
                 RepairSender.Reset();
             }
+
             if (RepairSender.enabled && AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
             {
                 if (Input.GetKeyDown(KeyCode.Alpha0)) RepairSender.Input(0);
@@ -195,7 +189,6 @@ namespace TownOfHost
                 if (Input.GetKeyDown(KeyCode.Alpha8)) RepairSender.Input(8);
                 if (Input.GetKeyDown(KeyCode.Alpha9)) RepairSender.Input(9);
                 if (Input.GetKeyDown(KeyCode.Return)) RepairSender.InputEnter();
-                __instance.TaskText.text = RepairSender.GetText();
             }
         }
     }
@@ -275,6 +268,30 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(TaskPanelBehaviour), nameof(TaskPanelBehaviour.SetTaskText))]
+    class TaskPanelBehaviourPatch
+    {
+        // タスク表示の文章が更新・適用された後に実行される
+        public void Postfix(TaskPanelBehaviour __instance)
+        {
+            PlayerControl player = PlayerControl.LocalPlayer;
+
+            // 役職説明表示
+            if (!player.GetCustomRole().IsVanilla())
+            {
+                var RoleWithInfo = $"{player.GetDisplayRoleName()}\r\n";
+                RoleWithInfo += player.GetRoleInfo();
+                __instance.taskText.text = Utils.ColorString(player.GetRoleColor(), RoleWithInfo) + __instance.taskText.text;
+            }
+
+            // RepairSenderの表示
+            if (RepairSender.enabled && AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
+            {
+                __instance.taskText.text = RepairSender.GetText();
+            }
+        }
+    }
+
     class RepairSender
     {
         public static bool enabled = false;
