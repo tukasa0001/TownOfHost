@@ -438,7 +438,7 @@ namespace TownOfHost
             if (pc == null || !AmongUsClient.Instance.AmHost || pc.AmOwner) return;
 
             var systemtypes = SystemTypes.Reactor;
-            if (PlayerControl.GameOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
+            if (Main.NormalOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
 
             new LateTask(() =>
             {
@@ -453,7 +453,7 @@ namespace TownOfHost
             new LateTask(() =>
             {
                 pc.RpcDesyncRepairSystem(systemtypes, 16);
-                if (PlayerControl.GameOptions.MapId == 4) //Airship用
+                if (Main.NormalOptions.MapId == 4) //Airship用
                     pc.RpcDesyncRepairSystem(systemtypes, 17);
             }, 0.4f + delay, "Fix Desync Reactor");
         }
@@ -463,7 +463,7 @@ namespace TownOfHost
             int clientId = pc.GetClientId();
             // Logger.Info($"{pc}", "ReactorFlash");
             var systemtypes = SystemTypes.Reactor;
-            if (PlayerControl.GameOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
+            if (Main.NormalOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
             float FlashDuration = Options.KillFlashDuration.GetFloat();
 
             pc.RpcDesyncRepairSystem(systemtypes, 128);
@@ -472,7 +472,7 @@ namespace TownOfHost
             {
                 pc.RpcDesyncRepairSystem(systemtypes, 16);
 
-                if (PlayerControl.GameOptions.MapId == 4) //Airship用
+                if (Main.NormalOptions.MapId == 4) //Airship用
                     pc.RpcDesyncRepairSystem(systemtypes, 17);
             }, FlashDuration + delay, "Fix Desync Reactor");
         }

@@ -32,7 +32,7 @@ namespace TownOfHost
                     KillLog += $"\n\t\t⇐ {Main.AllPlayerNames[killerId]}({Utils.GetDisplayRoleName(killerId)}{Utils.GetSubRolesText(killerId)})";
             }
             Logger.Info("-----------ゲーム終了-----------", "Phase");
-            PlayerControl.GameOptions.killCooldown = Options.DefaultKillCooldown;
+            Main.NormalOptions.KillCooldown = Options.DefaultKillCooldown;
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             var winner = new List<PlayerControl>();

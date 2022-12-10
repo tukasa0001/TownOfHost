@@ -625,7 +625,7 @@ namespace TownOfHost
                         {
                             var min = targetDistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
                             PlayerControl target = Utils.GetPlayerById(min.Key);
-                            var KillRange = GameOptionsData.KillDistances[Mathf.Clamp(PlayerControl.GameOptions.KillDistance, 0, 2)];
+                            var KillRange = GameOptionsData.KillDistances[Mathf.Clamp(Main.NormalOptions.KillDistance, 0, 2)];
                             if (min.Value <= KillRange && player.CanMove && target.CanMove)
                             {
                                 var puppeteerId = Main.PuppeteerList[player.PlayerId];
