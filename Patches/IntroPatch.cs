@@ -66,7 +66,7 @@ namespace TownOfHost
                 }
             }
             Logger.Info("------------基本設定------------", "Info");
-            var tmp = PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
+            var tmp = GameOptionsManager.Instance.CurrentGameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
             foreach (var t in tmp) Logger.Info(t, "Info");
             Logger.Info("------------詳細設定------------", "Info");
             foreach (var o in OptionItem.AllOptions)
