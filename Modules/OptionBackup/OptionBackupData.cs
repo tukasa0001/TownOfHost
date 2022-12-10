@@ -40,7 +40,7 @@ namespace TownOfHost
             }
         }
 
-        public void Resore(IGameOptions option)
+        public void Restore(IGameOptions option)
         {
             foreach (var value in AllValues)
             {
