@@ -88,7 +88,7 @@ namespace TownOfHost
                     if (DoorsProgressing == true) break;
 
                     int mapId = Main.NormalOptions.MapId;
-                    if (AmongUsClient.Instance.NetworkModes == NetworkModes.FreePlay) mapId = AmongUsClient.Instance.TutorialMapId;
+                    if (AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay) mapId = AmongUsClient.Instance.TutorialMapId;
 
                     DoorsProgressing = true;
                     if (mapId == 2)
