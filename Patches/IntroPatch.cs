@@ -243,7 +243,7 @@ namespace TownOfHost
             Main.introDestroyed = true;
             if (AmongUsClient.Instance.AmHost)
             {
-                if (PlayerControl.GameOptions.MapId != 4)
+                if (Main.NormalOptions.MapId != 4)
                 {
                     PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcResetAbilityCooldown());
                     if (Options.FixFirstKillCooldown.GetBool())
@@ -261,7 +261,7 @@ namespace TownOfHost
                 if (Options.RandomSpawn.GetBool())
                 {
                     RandomSpawn.SpawnMap map;
-                    switch (PlayerControl.GameOptions.MapId)
+                    switch (Main.NormalOptions.MapId)
                     {
                         case 0:
                             map = new RandomSpawn.SkeldSpawnMap();

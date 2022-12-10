@@ -56,6 +56,8 @@ namespace TownOfHost
         public static string ExceptionMessage;
         public static bool ExceptionMessageIsShown = false;
         public static string credentialsText;
+        public static NormalGameOptionsV07 NormalOptions => GameOptionsManager.Instance.normalGameHostOptions;
+        public static HideNSeekGameOptionsV07 HideNSeekSOptions => GameOptionsManager.Instance.hideNSeekGameHostOptions;
         //Client Options
         public static ConfigEntry<string> HideName { get; private set; }
         public static ConfigEntry<string> HideColor { get; private set; }

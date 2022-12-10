@@ -18,7 +18,7 @@ namespace TownOfHost
         public static bool IsActive(SystemTypes type)
         {
             //Logger.Info($"SystemTypes:{type}", "IsActive");
-            int mapId = PlayerControl.GameOptions.MapId;
+            int mapId = Main.NormalOptions.MapId;
             switch (type)
             {
                 case SystemTypes.Electrical:
@@ -111,7 +111,7 @@ namespace TownOfHost
         {
             //キルフラッシュ(ブラックアウト+リアクターフラッシュ)の処理
             bool ReactorCheck = false; //リアクターフラッシュの確認
-            if (PlayerControl.GameOptions.MapId == 2) ReactorCheck = IsActive(SystemTypes.Laboratory);
+            if (Main.NormalOptions.MapId == 2) ReactorCheck = IsActive(SystemTypes.Laboratory);
             else ReactorCheck = IsActive(SystemTypes.Reactor);
 
             var Duration = Options.KillFlashDuration.GetFloat();
@@ -377,7 +377,7 @@ namespace TownOfHost
         }
         public static void ShowActiveSettings(byte PlayerId = byte.MaxValue)
         {
-            var mapId = PlayerControl.GameOptions.MapId;
+            var mapId = Main.NormalOptions.MapId;
             if (Options.HideGameSettings.GetBool() && PlayerId != byte.MaxValue)
             {
                 SendMessage(GetString("Message.HideGameSettings"), PlayerId);
