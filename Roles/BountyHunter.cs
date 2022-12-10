@@ -61,7 +61,7 @@ namespace TownOfHost
             if (target != null) Targets[bountyId] = target;
         }
         //public static void SetKillCooldown(byte id, float amount) => Main.AllPlayerKillCooldown[id] = amount;
-        public static void ApplyGameOptions(RoleOptionsData opt) => opt.ShapeshifterCooldown = TargetChangeTime.GetFloat();
+        public static void ApplyGameOptions() => AURoleOptions.ShapeshifterCooldown = TargetChangeTime.GetFloat();
 
         public static void OnCheckMurder(PlayerControl killer, PlayerControl target)
         {
