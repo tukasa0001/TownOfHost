@@ -55,20 +55,4 @@ namespace TownOfHost
             throw new NotImplementedException();
         }
     }
-    public class IntArrayOptionBackupValue : OptionBackupValueBase<Int32ArrayOptionNames, int[]>
-    {
-        public IntArrayOptionBackupValue(Int32ArrayOptionNames name, int[] value) : base(name, value) { }
-        public override void Restore(IGameOptions option)
-        {
-            throw new NotImplementedException();
-        }
-    }
-    public class FloatArrayOptionBackupValue : OptionBackupValueBase<FloatArrayOptionNames, float[]>
-    {
-        public FloatArrayOptionBackupValue(FloatArrayOptionNames name, float[] value) : base(name, value) { }
-        public override void Restore(IGameOptions option)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }
