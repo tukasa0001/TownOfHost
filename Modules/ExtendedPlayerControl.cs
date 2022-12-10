@@ -249,11 +249,11 @@ namespace TownOfHost
             if (player == null || !AmongUsClient.Instance.AmHost) return;
             if (Main.RealOptionsData == null)
             {
-                Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
+                Main.RealOptionsData = new OptionBackupData(GameOptionsManager.Instance.CurrentGameOptions);
             }
 
             var clientId = player.GetClientId();
-            var opt = Main.RealOptionsData.DeepCopy();
+            var opt = Main.RealOptionsData.Restore((IGameOptions)(UnhollowerBaseLib.Il2CppObjectBase)new NormalGameOptionsV07(GameOptionsManager.Instance.currentNormalGameOptions.logger));
             var state = Main.PlayerStates[player.PlayerId];
             opt.BlackOut(state.IsBlackOut);
 
