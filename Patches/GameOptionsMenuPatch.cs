@@ -295,7 +295,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(NormalGameOptionsV07), nameof(NormalGameOptionsV07.SetRecommendations))]
     public static class SetRecommendationsPatch
     {
-        public static bool Prefix(NormalGameOptionsV07 __instance, int numPlayers, NetworkModes modes)
+        public static bool Prefix(NormalGameOptionsV07 __instance, int numPlayers, bool isOnline)
         {
             numPlayers = Mathf.Clamp(numPlayers, 4, 15);
             __instance.PlayerSpeedMod = __instance.MapId == 4 ? 1.25f : 1f; //AirShipなら1.25、それ以外は1
