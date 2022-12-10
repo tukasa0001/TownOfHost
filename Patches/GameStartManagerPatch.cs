@@ -133,7 +133,7 @@ namespace TownOfHost
             if (GameStates.IsCountDown)
             {
                 Main.NormalOptions.KillCooldown = Options.DefaultKillCooldown;
-                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+                PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameOptionsManager.Instance.CurrentGameOptions));
             }
         }
     }

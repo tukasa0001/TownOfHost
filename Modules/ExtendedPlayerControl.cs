@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AmongUs.GameOptions;
 using Hazel;
 using InnerNet;
 using UnityEngine;
-using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -337,7 +337,7 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Jackal:
                 case CustomRoles.JSchrodingerCat:
-                    Jackal.ApplyGameOptions(opt, player);
+                    Jackal.ApplyGameOptions(opt);
                     break;
 
 
@@ -409,9 +409,9 @@ namespace TownOfHost
             AURoleOptions.ShapeshifterCooldown = Mathf.Max(1f, AURoleOptions.ShapeshifterCooldown);
             AURoleOptions.ProtectionDurationSeconds = 0f;
 
-            if (player.AmOwner) PlayerControl.GameOptions = opt;
+            if (player.AmOwner) GameOptionsManager.Instance.CurrentGameOptions = opt;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
-            writer.WriteBytesAndSize(opt.ToBytes(5));
+            writer.WriteBytesAndSize(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(opt));
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static TaskState GetPlayerTaskState(this PlayerControl player)

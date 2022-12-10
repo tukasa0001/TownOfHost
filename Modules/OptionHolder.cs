@@ -75,7 +75,7 @@ namespace TownOfHost
 
         // 各役職の詳細設定
         public static OptionItem EnableGM;
-        public static float DefaultKillCooldown = Main.NormalOptions.KillCooldown;
+        public static float DefaultKillCooldown = Main.NormalOptions?.KillCooldown ?? 20;
         public static OptionItem VampireKillDelay;
         //public static CustomOption ShapeMasterShapeshiftDuration;
         public static OptionItem DefaultShapeshiftCooldown;
