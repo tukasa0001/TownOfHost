@@ -103,13 +103,13 @@ namespace TownOfHost
                         switch (subArgs)
                         {
                             case "crewmate":
-                                ShipStatus.Instance.enabled = false;
-                                ShipStatus.RpcEndGame(GameOverReason.HumansDisconnect, false);
+                                GameManager.Instance.enabled = false;
+                                GameManager.Instance.RpcEndGame(GameOverReason.HumansDisconnect, false);
                                 break;
 
                             case "impostor":
-                                ShipStatus.Instance.enabled = false;
-                                ShipStatus.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
+                                GameManager.Instance.enabled = false;
+                                GameManager.Instance.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
                                 break;
 
                             default:

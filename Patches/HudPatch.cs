@@ -126,7 +126,7 @@ namespace TownOfHost
                 {
                     LowerInfoText.enabled = false;
                 }
-                if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
+                if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.NetworkModes != NetworkModes.FreePlay)
                 {
                     LowerInfoText.enabled = false;
                 }
@@ -158,7 +158,7 @@ namespace TownOfHost
             }
 
 
-            if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.NetworkModes == NetworkModes.FreePlay)
             {
                 Action<MapBehaviour> tmpAction = (MapBehaviour m) => { m.ShowSabotageMap(); };
                 __instance.ShowMap(tmpAction);
@@ -169,14 +169,13 @@ namespace TownOfHost
                 }
             }
 
-            if (AmongUsClient.Instance.GameMode == GameModes.OnlineGame) RepairSender.enabled = false;
-            if (Input.GetKeyDown(KeyCode.RightShift) && AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
+            if (AmongUsClient.Instance.NetworkModes == NetworkModes.OnlineGame) RepairSender.enabled = false;
+            if (Input.GetKeyDown(KeyCode.RightShift) && AmongUsClient.Instance.NetworkModes != NetworkModes.OnlineGame)
             {
                 RepairSender.enabled = !RepairSender.enabled;
                 RepairSender.Reset();
             }
-
-            if (RepairSender.enabled && AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
+            if (RepairSender.enabled && AmongUsClient.Instance.NetworkModes != NetworkModes.OnlineGame)
             {
                 if (Input.GetKeyDown(KeyCode.Alpha0)) RepairSender.Input(0);
                 if (Input.GetKeyDown(KeyCode.Alpha1)) RepairSender.Input(1);
