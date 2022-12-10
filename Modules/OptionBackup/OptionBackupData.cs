@@ -33,6 +33,11 @@ namespace TownOfHost
                 if (option.TryGetInt(name, out var value))
                     AllValues.Add(new IntOptionBackupValue(name, value));
             }
+
+            foreach (RoleTypes role in new RoleTypes[] { RoleTypes.Scientist, RoleTypes.Engineer, RoleTypes.GuardianAngel, RoleTypes.Shapeshifter })
+            {
+                AllValues.Add(new RoleRateBackupValue(role, option.RoleOptions.GetNumPerGame(role), option.RoleOptions.GetChancePerGame(role)));
+            }
         }
     }
 }
