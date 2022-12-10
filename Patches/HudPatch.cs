@@ -160,8 +160,11 @@ namespace TownOfHost
 
             if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.NetworkModes == NetworkModes.FreePlay)
             {
-                Action<MapBehaviour> tmpAction = (MapBehaviour m) => { m.ShowSabotageMap(); };
-                __instance.ShowMap(tmpAction);
+                __instance.ToggleMapVisible(new MapOptions()
+                {
+                    Mode = MapOptions.Modes.Sabotage,
+                    AllowMovementWhileMapOpen = true
+                });
                 if (player.AmOwner)
                 {
                     player.MyPhysics.inputHandler.enabled = true;
