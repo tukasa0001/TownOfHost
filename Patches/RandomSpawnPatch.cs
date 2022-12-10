@@ -44,7 +44,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.AmHost) nt.SnapTo(location);
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(nt.NetId, (byte)RpcCalls.SnapTo, SendOption.None);
-            nt.WriteVector2(location, writer);
+            NetHelpers.WriteVector2(location, writer);
             writer.Write(nt.lastSequenceId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
