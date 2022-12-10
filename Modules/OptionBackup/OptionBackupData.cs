@@ -47,5 +47,16 @@ namespace TownOfHost
                 value.Restore(option);
             }
         }
+
+        public TValue Get<TKey, TValue>(TKey name)
+        where TKey : Enum
+        {
+            var value = AllValues
+                .OfType<OptionBackupValueBase<TKey, TValue>>()
+                .Where(val => val.OptionName.Equals(name)).
+                FirstOrDefault();
+
+            return value == null ? default : value.Value;
+        }
     }
 }
