@@ -4,56 +4,61 @@ namespace TownOfHost
 {
     public static class AURoleOptions
     {
-        private static NormalGameOptionsV07 Normal => Main.NormalOptions;
+        public static void SetOpt(IGameOptions opt)
+        {
+            if (Opt == null)
+                Opt = opt;
+        }
+        private static IGameOptions Opt;
         public static float ScientistCooldown
         {
-            get => Normal.GetFloat(FloatOptionNames.ScientistCooldown);
-            set => Normal.SetFloat(FloatOptionNames.ScientistCooldown, value);
+            get => Opt.GetFloat(FloatOptionNames.ScientistCooldown);
+            set => Opt.SetFloat(FloatOptionNames.ScientistCooldown, value);
         }
         public static float ScientistBatteryCharge
         {
-            get => Normal.GetFloat(FloatOptionNames.ScientistBatteryCharge);
-            set => Normal.SetFloat(FloatOptionNames.ScientistBatteryCharge, value);
+            get => Opt.GetFloat(FloatOptionNames.ScientistBatteryCharge);
+            set => Opt.SetFloat(FloatOptionNames.ScientistBatteryCharge, value);
         }
         public static float EngineerCooldown
         {
-            get => Normal.GetFloat(FloatOptionNames.EngineerCooldown);
-            set => Normal.SetFloat(FloatOptionNames.EngineerCooldown, value);
+            get => Opt.GetFloat(FloatOptionNames.EngineerCooldown);
+            set => Opt.SetFloat(FloatOptionNames.EngineerCooldown, value);
         }
         public static float EngineerInVentMaxTime
         {
-            get => Normal.GetFloat(FloatOptionNames.EngineerInVentMaxTime);
-            set => Normal.SetFloat(FloatOptionNames.EngineerInVentMaxTime, value);
+            get => Opt.GetFloat(FloatOptionNames.EngineerInVentMaxTime);
+            set => Opt.SetFloat(FloatOptionNames.EngineerInVentMaxTime, value);
         }
         public static float GuardianAngelCooldown
         {
-            get => Normal.GetFloat(FloatOptionNames.GuardianAngelCooldown);
-            set => Normal.SetFloat(FloatOptionNames.GuardianAngelCooldown, value);
+            get => Opt.GetFloat(FloatOptionNames.GuardianAngelCooldown);
+            set => Opt.SetFloat(FloatOptionNames.GuardianAngelCooldown, value);
         }
         public static float ProtectionDurationSeconds
         {
-            get => Normal.GetFloat(FloatOptionNames.ProtectionDurationSeconds);
-            set => Normal.SetFloat(FloatOptionNames.ProtectionDurationSeconds, value);
+            get => Opt.GetFloat(FloatOptionNames.ProtectionDurationSeconds);
+            set => Opt.SetFloat(FloatOptionNames.ProtectionDurationSeconds, value);
         }
         public static bool ImpostorsCanSeeProtect
         {
-            get => Normal.GetBool(BoolOptionNames.ImpostorsCanSeeProtect);
-            set => Normal.SetBool(BoolOptionNames.ImpostorsCanSeeProtect, value);
+            get => Opt.GetBool(BoolOptionNames.ImpostorsCanSeeProtect);
+            set => Opt.SetBool(BoolOptionNames.ImpostorsCanSeeProtect, value);
         }
         public static float ShapeshifterDuration
         {
-            get => Normal.GetFloat(FloatOptionNames.ShapeshifterDuration);
-            set => Normal.SetFloat(FloatOptionNames.ShapeshifterDuration, value);
+            get => Opt.GetFloat(FloatOptionNames.ShapeshifterDuration);
+            set => Opt.SetFloat(FloatOptionNames.ShapeshifterDuration, value);
         }
         public static float ShapeshifterCooldown
         {
-            get => Normal.GetFloat(FloatOptionNames.ShapeshifterCooldown);
-            set => Normal.SetFloat(FloatOptionNames.ShapeshifterCooldown, value);
+            get => Opt.GetFloat(FloatOptionNames.ShapeshifterCooldown);
+            set => Opt.SetFloat(FloatOptionNames.ShapeshifterCooldown, value);
         }
         public static bool ShapeshifterLeaveSkin
         {
-            get => Normal.GetBool(BoolOptionNames.ShapeshifterLeaveSkin);
-            set => Normal.SetBool(BoolOptionNames.ShapeshifterLeaveSkin, value);
+            get => Opt.GetBool(BoolOptionNames.ShapeshifterLeaveSkin);
+            set => Opt.SetBool(BoolOptionNames.ShapeshifterLeaveSkin, value);
         }
     }
 }
