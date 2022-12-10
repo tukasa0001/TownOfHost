@@ -95,9 +95,6 @@ namespace TownOfHost
         {
             Options.DefaultKillCooldown = Main.NormalOptions.KillCooldown;
             Main.LastKillCooldown.Value = Main.NormalOptions.KillCooldown;
-            Main.NormalOptions.KillCooldown = 0.1f;
-            Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
-            PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData);
 
             __instance.ReallyBegin(false);
             return false;

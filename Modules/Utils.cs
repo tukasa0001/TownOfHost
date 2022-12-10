@@ -132,14 +132,14 @@ namespace TownOfHost
                 ExtendedPlayerControl.CustomSyncSettings(player);
             }, Options.KillFlashDuration.GetFloat(), "RemoveKillFlash");
         }
-        public static void BlackOut(this GameOptionsData opt, bool IsBlackOut)
+        public static void BlackOut(this IGameOptions opt, bool IsBlackOut)
         {
-            opt.ImpostorLightMod = Main.DefaultImpostorVision;
-            opt.CrewLightMod = Main.DefaultCrewmateVision;
+            opt.SetFloat(FloatOptionNames.ImpostorLightMod, Main.DefaultImpostorVision);
+            opt.SetFloat(FloatOptionNames.CrewLightMod, Main.DefaultCrewmateVision);
             if (IsBlackOut)
             {
-                opt.ImpostorLightMod = 0.0f;
-                opt.CrewLightMod = 0.0f;
+                opt.SetFloat(FloatOptionNames.ImpostorLightMod, 0);
+                opt.SetFloat(FloatOptionNames.CrewLightMod, 0);
             }
             return;
         }
