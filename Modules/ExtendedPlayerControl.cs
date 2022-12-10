@@ -337,7 +337,7 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Jackal:
                 case CustomRoles.JSchrodingerCat:
-                    Jackal.ApplyGameOptions(opt, player);
+                    Jackal.ApplyGameOptions(opt);
                     break;
 
 

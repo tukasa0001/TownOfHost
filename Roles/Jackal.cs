@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using AmongUs.GameOptions;
 using Hazel;
 using UnityEngine;
-using AmongUs.GameOptions;
 using static TownOfHost.Options;
 
 namespace TownOfHost
@@ -47,7 +47,7 @@ namespace TownOfHost
         {
         }
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown.GetFloat();
-        public static void ApplyGameOptions(GameOptionsData opt, PlayerControl player) => opt.SetVision(player, HasImpostorVision.GetBool());
+        public static void ApplyGameOptions(IGameOptions opt) => opt.SetVision(HasImpostorVision.GetBool());
         public static void CanUseVent(PlayerControl player)
         {
             bool jackal_canUse = CanVent.GetBool();
