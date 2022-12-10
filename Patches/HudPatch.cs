@@ -285,7 +285,7 @@ namespace TownOfHost
             }
 
             // RepairSenderの表示
-            if (RepairSender.enabled && AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
+            if (RepairSender.enabled && AmongUsClient.Instance.NetworkMode != NetworkModes.OnlineGame)
             {
                 __instance.taskText.text = RepairSender.GetText();
             }
