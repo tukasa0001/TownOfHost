@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using HarmonyLib;
+using AmongUs.GameOptions;
 
 namespace TownOfHost
 {

@@ -1,3 +1,5 @@
+using AmongUs.GameOptions;
+
 namespace TownOfHost
 {
     static class CustomRolesHelper

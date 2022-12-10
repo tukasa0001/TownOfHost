@@ -2,6 +2,7 @@ using System;
 using HarmonyLib;
 using UnhollowerBaseLib;
 using UnityEngine;
+using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -108,27 +109,27 @@ namespace TownOfHost
                     LowerInfoText.fontSizeMax = 2.0f;
                 }
 
-            if (player.Is(CustomRoles.BountyHunter)) BountyHunter.DisplayTarget(player, LowerInfoText);
-            else if (player.Is(CustomRoles.Witch))
-            {
-                //魔女用処理
-                LowerInfoText.text = Witch.GetSpellModeText(player,true);
-                LowerInfoText.enabled = true;
-            }
-            else if (player.Is(CustomRoles.FireWorks))
-            {
-                var stateText = FireWorks.GetStateText(player);
-                LowerInfoText.text = stateText;
-                LowerInfoText.enabled = true;
-            }
-            else
-            {
-                LowerInfoText.enabled = false;
-            }
-            if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
-            {
-                LowerInfoText.enabled = false;
-            }
+                if (player.Is(CustomRoles.BountyHunter)) BountyHunter.DisplayTarget(player, LowerInfoText);
+                else if (player.Is(CustomRoles.Witch))
+                {
+                    //魔女用処理
+                    LowerInfoText.text = Witch.GetSpellModeText(player, true);
+                    LowerInfoText.enabled = true;
+                }
+                else if (player.Is(CustomRoles.FireWorks))
+                {
+                    var stateText = FireWorks.GetStateText(player);
+                    LowerInfoText.text = stateText;
+                    LowerInfoText.enabled = true;
+                }
+                else
+                {
+                    LowerInfoText.enabled = false;
+                }
+                if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
+                {
+                    LowerInfoText.enabled = false;
+                }
 
                 if (!player.GetCustomRole().IsVanilla())
                 {

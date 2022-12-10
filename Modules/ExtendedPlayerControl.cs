@@ -5,6 +5,7 @@ using System.Text;
 using Hazel;
 using InnerNet;
 using UnityEngine;
+using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost

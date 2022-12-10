@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using Hazel;
 using UnityEngine;
+using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost

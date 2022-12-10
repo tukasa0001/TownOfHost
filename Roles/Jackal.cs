@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Hazel;
 using UnityEngine;
+using AmongUs.GameOptions;
 using static TownOfHost.Options;
 
 namespace TownOfHost

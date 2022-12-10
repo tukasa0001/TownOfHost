@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HarmonyLib;
 using UnityEngine;
+using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
