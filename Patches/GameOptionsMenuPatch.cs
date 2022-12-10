@@ -307,7 +307,7 @@ namespace TownOfHost
             __instance.NumShortTasks = 6;
             __instance.NumEmergencyMeetings = 1;
             if (!isOnline)
-                __instance.NumImpostors = GameOptionsData.RecommendedImpostors[numPlayers];
+                __instance.NumImpostors = NormalGameOptionsV07.RecommendedImpostors[numPlayers];
             __instance.KillDistance = 0;
             __instance.DiscussionTime = 0;
             __instance.VotingTime = 150;
