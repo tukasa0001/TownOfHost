@@ -55,4 +55,22 @@ namespace TownOfHost
             option.SetInt(OptionName, Value);
         }
     }
+
+    public class RoleRateBackupValue : OptionBackupValue
+    {
+        public RoleTypes roleType;
+        public int maxCount;
+        public int chance;
+
+        public RoleRateBackupValue(RoleTypes type, int maxCount, int chance)
+        {
+            this.roleType = type;
+            this.maxCount = maxCount;
+            this.chance = chance;
+        }
+        public override void Restore(IGameOptions option)
+        {
+            option.RoleOptions.SetRoleRate(roleType, maxCount, chance);
+        }
+    }
 }
