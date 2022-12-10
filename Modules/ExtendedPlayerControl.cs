@@ -416,11 +416,11 @@ namespace TownOfHost
             return Main.PlayerStates[player.PlayerId].GetTaskState();
         }
 
-        public static GameOptionsData DeepCopy(this GameOptionsData opt)
+        /*public static GameOptionsData DeepCopy(this GameOptionsData opt)
         {
             var optByte = opt.ToBytes(5);
             return GameOptionsData.FromBytes(optByte);
-        }
+        }*/
 
         public static string GetDisplayRoleName(this PlayerControl player)
         {
