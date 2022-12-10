@@ -28,7 +28,7 @@ namespace TownOfHost
         public ByteOptionBackupValue(ByteOptionNames name, byte value) : base(name, value) { }
         public override void Restore(IGameOptions option)
         {
-            throw new NotImplementedException();
+            option.SetByte(OptionName, Value);
         }
     }
     public class BoolOptionBackupValue : OptionBackupValueBase<BoolOptionNames, bool>
@@ -36,7 +36,7 @@ namespace TownOfHost
         public BoolOptionBackupValue(BoolOptionNames name, bool value) : base(name, value) { }
         public override void Restore(IGameOptions option)
         {
-            throw new NotImplementedException();
+            option.SetBool(OptionName, Value);
         }
     }
     public class FloatOptionBackupValue : OptionBackupValueBase<FloatOptionNames, float>
@@ -44,7 +44,7 @@ namespace TownOfHost
         public FloatOptionBackupValue(FloatOptionNames name, float value) : base(name, value) { }
         public override void Restore(IGameOptions option)
         {
-            throw new NotImplementedException();
+            option.SetFloat(OptionName, Value);
         }
     }
     public class IntOptionBackupValue : OptionBackupValueBase<Int32OptionNames, int>
@@ -52,7 +52,7 @@ namespace TownOfHost
         public IntOptionBackupValue(Int32OptionNames name, int value) : base(name, value) { }
         public override void Restore(IGameOptions option)
         {
-            throw new NotImplementedException();
+            option.SetInt(OptionName, Value);
         }
     }
 }
