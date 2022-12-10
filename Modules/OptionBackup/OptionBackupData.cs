@@ -48,6 +48,10 @@ namespace TownOfHost
             }
         }
 
+        public byte GetByte(ByteOptionNames name) => Get<ByteOptionNames, byte>(name);
+        public bool GetBool(BoolOptionNames name) => Get<BoolOptionNames, bool>(name);
+        public float GetFloat(FloatOptionNames name) => Get<FloatOptionNames, float>(name);
+        public int GetInt(Int32OptionNames name) => Get<Int32OptionNames, int>(name);
         public TValue Get<TKey, TValue>(TKey name)
         where TKey : Enum
         {
