@@ -39,5 +39,13 @@ namespace TownOfHost
                 AllValues.Add(new RoleRateBackupValue(role, option.RoleOptions.GetNumPerGame(role), option.RoleOptions.GetChancePerGame(role)));
             }
         }
+
+        public void Resore(IGameOptions option)
+        {
+            foreach (var value in AllValues)
+            {
+                value.Restore(option);
+            }
+        }
     }
 }
