@@ -66,7 +66,7 @@ namespace TownOfHost
             if (systemType == SystemTypes.Electrical && 0 <= amount && amount <= 4)
             {
                 if (!Options.MadmateCanFixLightsOut.GetBool() && player.GetCustomRole().IsMadmate()) return false; //Madmateが停電を直せる設定がオフ
-                switch (PlayerControl.GameOptions.MapId)
+                switch (Main.NormalOptions.MapId)
                 {
                     case 4:
                         if (Options.DisableAirshipViewingDeckLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(-12.93f, -11.28f)) <= 2f) return false;

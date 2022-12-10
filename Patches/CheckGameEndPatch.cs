@@ -6,11 +6,11 @@ using AmongUs.GameOptions;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CheckEndCriteria))]
+    [HarmonyPatch(typeof(LogicGameFlow), nameof(LogicGameFlow.CheckEndCriteria))]
     class GameEndChecker
     {
         private static GameEndPredicate predicate;
-        public static bool Prefix(ShipStatus __instance)
+        public static bool Prefix()
         {
             if (!AmongUsClient.Instance.AmHost) return true;
             if (Options.NoGameEnd.GetBool() && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw) return false;
@@ -34,7 +34,7 @@ namespace TownOfHost
                                 .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
                 }
-                __instance.enabled = false;
+                ShipStatus.Instance.enabled = false;
                 StartEndGame(
                     reason,
                     CustomWinnerHolder.WinnerTeam is not CustomWinner.Crewmate and not CustomWinner.Impostor

@@ -14,7 +14,7 @@ namespace TownOfHost
         ///<summary>
         ///インポスターが一人しか存在しない設定かどうか
         ///</summary>
-        public static bool IsSingleImpostor => Main.RealOptionsData != null ? Main.RealOptionsData.NumImpostors == 1 : PlayerControl.GameOptions.NumImpostors == 1;
+        public static bool IsSingleImpostor => Main.RealOptionsData != null ? Main.RealOptionsData.NumImpostors == 1 : Main.NormalOptions.NumImpostors == 1;
         ///<summary>
         ///AntiBlackout内の処理が必要であるかどうか
         ///</summary>

@@ -93,9 +93,9 @@ namespace TownOfHost
     {
         public static bool Prefix(GameStartManager __instance)
         {
-            Options.DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
-            Main.LastKillCooldown.Value = PlayerControl.GameOptions.KillCooldown;
-            PlayerControl.GameOptions.KillCooldown = 0.1f;
+            Options.DefaultKillCooldown = Main.NormalOptions.KillCooldown;
+            Main.LastKillCooldown.Value = Main.NormalOptions.KillCooldown;
+            Main.NormalOptions.KillCooldown = 0.1f;
             Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData);
 
@@ -122,7 +122,7 @@ namespace TownOfHost
 
                 if (RandomMaps.Count <= 0) return true;
                 var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];
-                PlayerControl.GameOptions.MapId = MapsId;
+                Main.NormalOptions.MapId = MapsId;
 
             }
             return continueStart;
@@ -135,7 +135,7 @@ namespace TownOfHost
         {
             if (GameStates.IsCountDown)
             {
-                PlayerControl.GameOptions.KillCooldown = Options.DefaultKillCooldown;
+                Main.NormalOptions.KillCooldown = Options.DefaultKillCooldown;
                 PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
             }
         }
@@ -145,7 +145,7 @@ namespace TownOfHost
     {
         public static bool Prefix(ref int __result)
         {
-            __result = PlayerControl.GameOptions.NumImpostors;
+            __result = Main.NormalOptions.NumImpostors;
             return false;
         }
     }

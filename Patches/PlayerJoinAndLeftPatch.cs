@@ -23,8 +23,8 @@ namespace TownOfHost
             ErrorText.Instance.Clear();
             if (AmongUsClient.Instance.AmHost) //以下、ホストのみ実行
             {
-                if (PlayerControl.GameOptions.killCooldown == 0.1f)
-                    PlayerControl.GameOptions.killCooldown = Main.LastKillCooldown.Value;
+                if (Main.NormalOptions.KillCooldown == 0.1f)
+                    GameOptionsManager.Instance.normalGameHostOptions.KillCooldown = Main.LastKillCooldown.Value;
             }
         }
     }
