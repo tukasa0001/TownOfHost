@@ -40,12 +40,13 @@ namespace TownOfHost
             }
         }
 
-        public void Restore(IGameOptions option)
+        public IGameOptions Restore(IGameOptions option)
         {
             foreach (var value in AllValues)
             {
                 value.Restore(option);
             }
+            return option;
         }
 
         public byte GetByte(ByteOptionNames name) => Get<ByteOptionNames, byte>(name);
