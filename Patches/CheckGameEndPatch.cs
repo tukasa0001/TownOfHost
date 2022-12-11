@@ -43,7 +43,7 @@ namespace TownOfHost
             }
             return false;
         }
-        public static void StartEndGame(GameOverReason reason, bool SetImpostorsToGA)
+        public static void StartEndGame(GameOverReason reason, bool SetImpostorsToCrewmateGhost)
         {
             var sender = new CustomRpcSender("EndGameSender", SendOption.Reliable, true);
             sender.StartMessage(-1); // 5: GameData
@@ -52,7 +52,7 @@ namespace TownOfHost
             var canEgoistWin = Main.AliveImpostorCount == 0;
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if ((SetImpostorsToGA && pc.Data.Role.IsImpostor) || //インポスター: 引数による
+                if ((SetImpostorsToCrewmateGhost && pc.Data.Role.IsImpostor) || //インポスター: 引数による
                     pc.Is(CustomRoles.Sheriff) || //シェリフ: 無条件
                     (pc.Is(CustomRoles.Arsonist) && !CustomWinnerHolder.WinnerIds.Contains(pc.PlayerId)) || //アーソニスト: 敗北時
                     (pc.Is(CustomRoles.Jackal) && !CustomWinnerHolder.WinnerRoles.Contains(CustomRoles.Jackal)) || //ジャッカル: 敗北時
