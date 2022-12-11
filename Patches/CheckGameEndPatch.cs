@@ -6,7 +6,8 @@ using AmongUs.GameOptions;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(LogicGameFlow), nameof(LogicGameFlow.CheckEndCriteria))]
+    [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.CheckEndCriteria))]
+    [HarmonyPatch(typeof(LogicGameFlowHnS), nameof(LogicGameFlowHnS.CheckEndCriteria))]
     class GameEndChecker
     {
         private static GameEndPredicate predicate;
