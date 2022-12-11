@@ -50,8 +50,44 @@ namespace TownOfHost
 
             //守護天使化
             var canEgoistWin = Main.AliveImpostorCount == 0;
+            var winner = CustomWinnerHolder.WinnerTeam;
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
+                if (winner == CustomWinner.Impostor)
+                {
+                    switch (pc.GetCustomRole().GetRoleType())
+                    {
+                        case RoleType.Madmate:
+                            SetGhostRole(ToGhostImpostor: true);
+                            break;
+                        case RoleType.Neutral:
+                        case RoleType.Crewmate:
+                            SetGhostRole(ToGhostImpostor: false);
+                            break;
+                    }
+                }
+                else if (winner == CustomWinner.Crewmate)
+                {
+                    switch (pc.GetCustomRole().GetRoleType())
+                    {
+                        case RoleType.Madmate:
+                        case RoleType.Neutral:
+                            SetGhostRole(ToGhostImpostor: true);
+                            break;
+                        case RoleType.Crewmate:
+                            SetGhostRole(ToGhostImpostor: false);
+                            break;
+                    }
+                }
+                else if (((CustomRoles)winner).IsNeutral())
+                {
+                    if (CustomWinnerHolder.WinnerIds.Contains(pc.PlayerId) ||
+                        CustomWinnerHolder.WinnerRoles.Contains(pc.GetCustomRole()))
+                    {
+                        SetGhostRole(ToGhostImpostor: true);
+                    }
+                    else SetGhostRole(ToGhostImpostor: false);
+                }
                 if ((SetImpostorsToCrewmateGhost && pc.Data.Role.IsImpostor) || //インポスター: 引数による
                     pc.Is(CustomRoles.Sheriff) || //シェリフ: 無条件
                     (pc.Is(CustomRoles.Arsonist) && !CustomWinnerHolder.WinnerIds.Contains(pc.PlayerId)) || //アーソニスト: 敗北時
@@ -65,6 +101,25 @@ namespace TownOfHost
                         .Write((ushort)RoleTypes.GuardianAngel)
                         .EndRpc();
                     pc.SetRole(RoleTypes.GuardianAngel);
+                }
+                void SetGhostRole(bool ToGhostImpostor)
+                {
+                    if (ToGhostImpostor)
+                    {
+                        Logger.Info($"{pc.GetNameWithRole()}: ImpostorGhostに変更", "ResetRoleAndEndGame");
+                        sender.StartRpc(pc.NetId, RpcCalls.SetRole)
+                            .Write((ushort)RoleTypes.ImpostorGhost)
+                            .EndRpc();
+                        pc.SetRole(RoleTypes.ImpostorGhost);
+                    }
+                    else
+                    {
+                        Logger.Info($"{pc.GetNameWithRole()}: CrewmateGhostに変更", "ResetRoleAndEndGame");
+                        sender.StartRpc(pc.NetId, RpcCalls.SetRole)
+                            .Write((ushort)RoleTypes.CrewmateGhost)
+                            .EndRpc();
+                        pc.SetRole(RoleTypes.Crewmate);
+                    }
                 }
             }
 
