@@ -35,21 +35,17 @@ namespace TownOfHost
                         break;
                 }
                 ShipStatus.Instance.enabled = false;
-                StartEndGame(
-                    reason,
-                    CustomWinnerHolder.WinnerTeam is not CustomWinner.Crewmate and not CustomWinner.Impostor
-                );
+                StartEndGame(reason);
                 predicate = null;
             }
             return false;
         }
-        public static void StartEndGame(GameOverReason reason, bool SetImpostorsToCrewmateGhost)
+        public static void StartEndGame(GameOverReason reason)
         {
             var sender = new CustomRpcSender("EndGameSender", SendOption.Reliable, true);
             sender.StartMessage(-1); // 5: GameData
 
-            //守護天使化
-            var canEgoistWin = Main.AliveImpostorCount == 0;
+            //ゴーストロール化
             var winner = CustomWinnerHolder.WinnerTeam;
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
