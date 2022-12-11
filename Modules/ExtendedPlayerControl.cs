@@ -253,7 +253,7 @@ namespace TownOfHost
             }
 
             var clientId = player.GetClientId();
-            var opt = Main.RealOptionsData.Restore((IGameOptions)(UnhollowerBaseLib.Il2CppObjectBase)new NormalGameOptionsV07(GameOptionsManager.Instance.currentNormalGameOptions.logger));
+            var opt = Main.RealOptionsData.Restore(new NormalGameOptionsV07(GameOptionsManager.Instance.currentNormalGameOptions.logger).Cast<IGameOptions>());
             AURoleOptions.SetOpt(opt);
             var state = Main.PlayerStates[player.PlayerId];
             opt.BlackOut(state.IsBlackOut);
