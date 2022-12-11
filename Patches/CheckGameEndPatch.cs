@@ -49,6 +49,11 @@ namespace TownOfHost
             var winner = CustomWinnerHolder.WinnerTeam;
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
+                if (winner == CustomWinner.Draw)
+                {
+                    SetGhostRole(ToGhostImpostor: true);
+                    continue;
+                }
                 if (winner == CustomWinner.Impostor)
                 {
                     switch (pc.GetCustomRole().GetRoleType())
