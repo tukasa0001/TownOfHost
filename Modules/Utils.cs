@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using AmongUs.Data;
 using AmongUs.GameOptions;
 using UnityEngine;
+using UnhollowerBaseLib;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -1102,6 +1103,13 @@ namespace TownOfHost
             sb.Append("最大数 - 最小数: ").Append(countData.Max() - countData.Min());
 
             return sb.ToString();
+        }
+
+        public static bool TryCast<T>(this Il2CppObjectBase obj, out T casted)
+        where T : Il2CppObjectBase
+        {
+            casted = obj.TryCast<T>();
+            return casted != null;
         }
     }
 }
