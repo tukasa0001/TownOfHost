@@ -137,7 +137,7 @@ namespace TownOfHost
             }
         }
     }
-    [HarmonyPatch(typeof(LogicOptions), nameof(LogicOptions.GetAdjustedNumImpostors))]
+    [HarmonyPatch(typeof(IGameOptionsExtensions), nameof(IGameOptionsExtensions.GetAdjustedNumImpostors))]
     class UnrestrictedNumImpostorsPatch
     {
         public static bool Prefix(ref int __result)
