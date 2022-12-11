@@ -88,20 +88,6 @@ namespace TownOfHost
                     }
                     else SetGhostRole(ToGhostImpostor: false);
                 }
-                if ((SetImpostorsToCrewmateGhost && pc.Data.Role.IsImpostor) || //インポスター: 引数による
-                    pc.Is(CustomRoles.Sheriff) || //シェリフ: 無条件
-                    (pc.Is(CustomRoles.Arsonist) && !CustomWinnerHolder.WinnerIds.Contains(pc.PlayerId)) || //アーソニスト: 敗北時
-                    (pc.Is(CustomRoles.Jackal) && !CustomWinnerHolder.WinnerRoles.Contains(CustomRoles.Jackal)) || //ジャッカル: 敗北時
-                    (canEgoistWin && pc.Is(RoleType.Impostor)) || //インポスター: エゴイスト勝利
-                    (!canEgoistWin && pc.Is(CustomRoles.Egoist)) //エゴイスト: インポスター勝利
-                )
-                {
-                    Logger.Info($"{pc.GetNameWithRole()}: GuardianAngelに変更", "ResetRoleAndEndGame");
-                    sender.StartRpc(pc.NetId, RpcCalls.SetRole)
-                        .Write((ushort)RoleTypes.GuardianAngel)
-                        .EndRpc();
-                    pc.SetRole(RoleTypes.GuardianAngel);
-                }
                 void SetGhostRole(bool ToGhostImpostor)
                 {
                     if (ToGhostImpostor)
