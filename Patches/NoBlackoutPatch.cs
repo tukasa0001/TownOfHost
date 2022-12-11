@@ -11,7 +11,7 @@ namespace TownOfHost
         }
     }
 
-    [HarmonyPatch(typeof(LogicGameFlow), nameof(LogicGameFlow.IsGameOverDueToDeath))]
+    [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.IsGameOverDueToDeath))]
     class DontBlackoutPatch
     {
         public static void Postfix(ref bool __result)
