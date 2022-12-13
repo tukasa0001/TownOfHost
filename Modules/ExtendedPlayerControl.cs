@@ -416,6 +416,7 @@ namespace TownOfHost
                     if (com.TryCast<LogicOptions>(out var lo))
                         lo.SetGameOptions(opt);
                 }
+                GameOptionsManager.Instance.CurrentGameOptions = opt;
             }
             else
             {
