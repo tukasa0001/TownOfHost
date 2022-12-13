@@ -419,7 +419,32 @@ namespace TownOfHost
             }
             else
             {
-                // 送信処理
+                MessageWriter writer = MessageWriter.Get(SendOption.Reliable);
+                // 書き込み {}は読みやすさのためです。
+                writer.StartMessage(6); //0x06 GameDataTo
+                {
+                    writer.Write(AmongUsClient.Instance.GameId);
+                    writer.WritePacked(clientId);
+                    writer.StartMessage(1); //0x01 Data
+                    {
+                        writer.WritePacked(GameManager.Instance.NetId);
+                        for (int i = 0; i < GameManager.Instance.LogicComponents.Count; i++)
+                        {
+                            if (GameManager.Instance.LogicComponents[i] is LogicOptions lo)
+                            {
+                                writer.StartMessage((byte)i); // LogicOptionsのindexでメッセージを開始する
+                                {
+                                    writer.WriteBytesAndSize(
+                                        lo.gameOptionsFactory.ToBytes(opt)
+                                    );
+                                }
+                                writer.EndMessage();
+                            }
+                        }
+                    }
+                    writer.EndMessage();
+                }
+                writer.EndMessage();
             }
         }
         public static TaskState GetPlayerTaskState(this PlayerControl player)
