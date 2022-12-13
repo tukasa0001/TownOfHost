@@ -445,6 +445,9 @@ namespace TownOfHost
                     writer.EndMessage();
                 }
                 writer.EndMessage();
+
+                AmongUsClient.Instance.SendOrDisconnect(writer);
+                writer.Recycle();
             }
         }
         public static TaskState GetPlayerTaskState(this PlayerControl player)
