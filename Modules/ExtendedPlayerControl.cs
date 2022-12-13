@@ -409,10 +409,18 @@ namespace TownOfHost
             AURoleOptions.ShapeshifterCooldown = Mathf.Max(1f, AURoleOptions.ShapeshifterCooldown);
             AURoleOptions.ProtectionDurationSeconds = 0f;
 
-            if (player.AmOwner) GameOptionsManager.Instance.CurrentGameOptions = opt;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
-            writer.WriteBytesAndSize(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(opt));
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            if (player.AmOwner)
+            {
+                foreach (var com in GameManager.Instance.LogicComponents)
+                {
+                    if (com is LogicOptions lo)
+                        lo.SetGameOptions(opt);
+                }
+            }
+            else
+            {
+                // 送信処理
+            }
         }
         public static TaskState GetPlayerTaskState(this PlayerControl player)
         {
