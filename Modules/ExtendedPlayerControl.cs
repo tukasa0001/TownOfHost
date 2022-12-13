@@ -409,10 +409,47 @@ namespace TownOfHost
             AURoleOptions.ShapeshifterCooldown = Mathf.Max(1f, AURoleOptions.ShapeshifterCooldown);
             AURoleOptions.ProtectionDurationSeconds = 0f;
 
-            if (player.AmOwner) GameOptionsManager.Instance.CurrentGameOptions = opt;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
-            writer.WriteBytesAndSize(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(opt));
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            if (player.AmOwner)
+            {
+                foreach (var com in GameManager.Instance.LogicComponents)
+                {
+                    if (com.TryCast<LogicOptions>(out var lo))
+                        lo.SetGameOptions(opt);
+                }
+                GameOptionsManager.Instance.CurrentGameOptions = opt;
+            }
+            else
+            {
+                MessageWriter writer = MessageWriter.Get(SendOption.Reliable);
+                // 書き込み {}は読みやすさのためです。
+                writer.StartMessage(6); //0x06 GameDataTo
+                {
+                    writer.Write(AmongUsClient.Instance.GameId);
+                    writer.WritePacked(clientId);
+                    writer.StartMessage(1); //0x01 Data
+                    {
+                        writer.WritePacked(GameManager.Instance.NetId);
+                        for (int i = 0; i < GameManager.Instance.LogicComponents.Count; i++)
+                        {
+                            if (GameManager.Instance.LogicComponents[i].TryCast<LogicOptions>(out var lo))
+                            {
+                                writer.StartMessage((byte)i); // LogicOptionsのindexでメッセージを開始する
+                                {
+                                    writer.WriteBytesAndSize(
+                                        lo.gameOptionsFactory.ToBytes(opt)
+                                    );
+                                }
+                                writer.EndMessage();
+                            }
+                        }
+                    }
+                    writer.EndMessage();
+                }
+                writer.EndMessage();
+
+                AmongUsClient.Instance.SendOrDisconnect(writer);
+                writer.Recycle();
+            }
         }
         public static TaskState GetPlayerTaskState(this PlayerControl player)
         {
