@@ -281,9 +281,9 @@ namespace TownOfHost
             // 役職説明表示
             if (!player.GetCustomRole().IsVanilla())
             {
-                var RoleWithInfo = $"{player.GetDisplayRoleName()}\r\n";
+                var RoleWithInfo = $"{player.GetDisplayRoleName()}:\r\n";
                 RoleWithInfo += player.GetRoleInfo();
-                __instance.taskText.text = Utils.ColorString(player.GetRoleColor(), RoleWithInfo) + __instance.taskText.text;
+                __instance.taskText.text = Utils.ColorString(player.GetRoleColor(), RoleWithInfo) + "\n" + __instance.taskText.text;
             }
 
             // RepairSenderの表示
