@@ -413,7 +413,7 @@ namespace TownOfHost
             {
                 foreach (var com in GameManager.Instance.LogicComponents)
                 {
-                    if (com is LogicOptions lo)
+                    if (com.TryCast<LogicOptions>(out var lo))
                         lo.SetGameOptions(opt);
                 }
             }
@@ -430,7 +430,7 @@ namespace TownOfHost
                         writer.WritePacked(GameManager.Instance.NetId);
                         for (int i = 0; i < GameManager.Instance.LogicComponents.Count; i++)
                         {
-                            if (GameManager.Instance.LogicComponents[i] is LogicOptions lo)
+                            if (GameManager.Instance.LogicComponents[i].TryCast<LogicOptions>(out var lo))
                             {
                                 writer.StartMessage((byte)i); // LogicOptionsのindexでメッセージを開始する
                                 {
