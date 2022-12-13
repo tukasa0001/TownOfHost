@@ -888,13 +888,13 @@ namespace TownOfHost
                     else
                     {
                         //役職テキストの座標を初期値に戻す
-                        RoleText.transform.SetLocalY(0.175f);
+                        RoleText.transform.SetLocalY(0.2f);
                     }
                 }
                 else
                 {
                     //役職テキストの座標を初期値に戻す
-                    RoleText.transform.SetLocalY(0.175f);
+                    RoleText.transform.SetLocalY(0.2f);
                 }
             }
         }
@@ -978,8 +978,8 @@ namespace TownOfHost
         {
             var roleText = UnityEngine.Object.Instantiate(__instance.cosmetics.nameText);
             roleText.transform.SetParent(__instance.cosmetics.nameText.transform);
-            roleText.transform.localPosition = new Vector3(0f, 0.175f, 0f);
-            roleText.fontSize = 0.55f;
+            roleText.transform.localPosition = new Vector3(0f, 0.2f, 0f);
+            roleText.fontSize -= 1.2f;
             roleText.text = "RoleText";
             roleText.gameObject.name = "RoleText";
             roleText.enabled = false;
