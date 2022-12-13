@@ -1,14 +1,15 @@
 using HarmonyLib;
+using Hazel;
 
 namespace TownOfHost
 {
     [HarmonyPatch(typeof(LogicOptions), nameof(LogicOptions.Serialize))]
     class LogicOptionsSerializePatch
     {
-        public static bool Prefix(LogicOptions __instance, ref bool __result)
+        public static bool Prefix(LogicOptions __instance, ref bool __result, MessageWriter writer, bool initialState)
         {
-            // ゲーム開始後はブロックし、CustomSyncSettingsでのみ同期する
-            if (GameManager.Instance.GameHasStarted)
+            // 初回以外はブロックし、CustomSyncSettingsでのみ同期する
+            if (!initialState)
             {
                 __result = false;
                 return false;
