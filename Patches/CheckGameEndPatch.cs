@@ -44,7 +44,10 @@ namespace TownOfHost
         {
             var sender = new CustomRpcSender("EndGameSender", SendOption.Reliable, true);
             sender.StartMessage(-1); // 5: GameData
+            MessageWriter writer = sender.stream;
 
+            AntiBlackout.SetIsDead();
+            WriteGameData(ref writer);
             //ゴーストロール化
             var winner = CustomWinnerHolder.WinnerTeam;
             foreach (var pc in PlayerControl.AllPlayerControls)
@@ -117,7 +120,6 @@ namespace TownOfHost
                 .EndMessage();
 
             // バニラ側のゲーム終了RPC
-            MessageWriter writer = sender.stream;
             writer.StartMessage(8); //8: EndGame
             {
                 writer.Write(AmongUsClient.Instance.GameId); //GameId
@@ -126,7 +128,26 @@ namespace TownOfHost
             }
             writer.EndMessage();
 
+            AntiBlackout.RestoreIsDead();
+            WriteGameData(ref writer);
+
             sender.SendMessage();
+
+            void WriteGameData(ref MessageWriter writer)
+            {
+                writer.StartMessage(5); //0x05 GameData
+                {
+                    writer.Write(AmongUsClient.Instance.GameId);
+                    writer.StartMessage(1); //0x01 Data
+                    {
+                        writer.WritePacked(GameData.Instance.NetId);
+                        GameData.Instance.Serialize(writer, true);
+
+                    }
+                    writer.EndMessage();
+                }
+                writer.EndMessage();
+            }
         }
 
         public static void SetPredicateToNormal() => predicate = new NormalGameEndPredicate();
