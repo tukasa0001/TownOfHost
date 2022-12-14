@@ -16,8 +16,9 @@ namespace TownOfHost
                 {
                     flag = true;
                     writer.StartMessage((byte)index);
-                    logicComponent.Serialize(writer, initialState);
-                    writer.EndMessage();
+                    var hasBody = logicComponent.Serialize(writer, initialState);
+                    if (hasBody) writer.EndMessage();
+                    else writer.CancelMessage();
                     logicComponent.ClearDirtyFlag();
                 }
             }
