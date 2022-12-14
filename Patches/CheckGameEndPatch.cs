@@ -123,8 +123,17 @@ namespace TownOfHost
             writer.StartMessage(1); // Data
             {
                 writer.WritePacked(GameData.Instance.NetId); // NetId
-                // StartMessage(Ghosted PlayerId)
-                // Serialize Ghosted PlayerInfo
+                foreach (var info in GameData.Instance.AllPlayers)
+                {
+                    if (GhostedPlayerIds.Contains(info.PlayerId))
+                    {
+                        // 蘇生&メッセージ書き込み
+                        info.IsDead = false;
+                        writer.StartMessage(info.PlayerId);
+                        info.Serialize(writer);
+                        writer.EndMessage();
+                    }
+                }
                 writer.EndMessage();
             }
 
