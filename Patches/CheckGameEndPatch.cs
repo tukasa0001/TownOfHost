@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using HarmonyLib;
 using Hazel;
 using AmongUs.GameOptions;
@@ -47,6 +48,7 @@ namespace TownOfHost
             MessageWriter writer = sender.stream;
 
             //ゴーストロール化
+            List<byte> GhostedPlayerIds = new();
             var winner = CustomWinnerHolder.WinnerTeam;
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
@@ -108,6 +110,7 @@ namespace TownOfHost
                             .EndRpc();
                         pc.SetRole(RoleTypes.Crewmate);
                     }
+                    GhostedPlayerIds.Add(pc.PlayerId);
                 }
             }
 
