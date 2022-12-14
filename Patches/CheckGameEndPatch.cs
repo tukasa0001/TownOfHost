@@ -48,7 +48,7 @@ namespace TownOfHost
             MessageWriter writer = sender.stream;
 
             //ゴーストロール化
-            List<byte> GhostedPlayerIds = new();
+            List<byte> ReviveReqiredPlayerIds = new();
             var winner = CustomWinnerHolder.WinnerTeam;
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
@@ -94,6 +94,7 @@ namespace TownOfHost
                 }
                 void SetGhostRole(bool ToGhostImpostor)
                 {
+                    if (!pc.Data.IsDead) ReviveReqiredPlayerIds.Add(pc.PlayerId);
                     if (ToGhostImpostor)
                     {
                         Logger.Info($"{pc.GetNameWithRole()}: ImpostorGhostに変更", "ResetRoleAndEndGame");
@@ -110,7 +111,6 @@ namespace TownOfHost
                             .EndRpc();
                         pc.SetRole(RoleTypes.Crewmate);
                     }
-                    GhostedPlayerIds.Add(pc.PlayerId);
                 }
             }
 
@@ -125,7 +125,7 @@ namespace TownOfHost
                 writer.WritePacked(GameData.Instance.NetId); // NetId
                 foreach (var info in GameData.Instance.AllPlayers)
                 {
-                    if (GhostedPlayerIds.Contains(info.PlayerId))
+                    if (ReviveReqiredPlayerIds.Contains(info.PlayerId))
                     {
                         // 蘇生&メッセージ書き込み
                         info.IsDead = false;
