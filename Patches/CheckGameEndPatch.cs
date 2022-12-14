@@ -114,8 +114,18 @@ namespace TownOfHost
             // CustomWinnerHolderの情報の同期
             sender.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame);
             CustomWinnerHolder.WriteTo(sender.stream);
-            sender.EndRpc()
-                .EndMessage();
+            sender.EndRpc();
+
+            // GameDataによる蘇生処理
+            writer.StartMessage(1); // Data
+            {
+                writer.WritePacked(GameData.Instance.NetId); // NetId
+                // StartMessage(Ghosted PlayerId)
+                // Serialize Ghosted PlayerInfo
+                writer.EndMessage();
+            }
+
+            sender.EndMessage();
 
             // バニラ側のゲーム終了RPC
             writer.StartMessage(8); //8: EndGame
