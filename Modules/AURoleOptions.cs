@@ -4,12 +4,8 @@ namespace TownOfHost
 {
     public static class AURoleOptions
     {
-        public static void SetOpt(IGameOptions opt)
-        {
-            if (Opt == null)
-                Opt = opt;
-        }
         private static IGameOptions Opt;
+        public static void SetOpt(IGameOptions opt) => Opt = opt;
         public static float ScientistCooldown
         {
             get => Opt.GetFloat(FloatOptionNames.ScientistCooldown);
