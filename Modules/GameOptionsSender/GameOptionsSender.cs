@@ -8,6 +8,15 @@ namespace TownOfHost.Modules
 {
     public abstract class GameOptionsSender
     {
-
+        public static GameOptionsSender CurrentSender
+        {
+            get => _currentSender;
+            set
+            {
+                if (value != null)
+                    _currentSender = value;
+            }
+        }
+        private static GameOptionsSender _currentSender;
     }
 }
