@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using InnerNet;
+using Hazel;
 using AmongUs.GameOptions;
 
 namespace TownOfHost.Modules
@@ -18,5 +19,11 @@ namespace TownOfHost.Modules
             }
         }
         private static GameOptionsSender _currentSender;
+
+        public IGameOptions BasedGameOptions { get; }
+
+
+        public abstract void Serialize(MessageWriter writer);
+        public abstract IGameOptions BuildOptions();
     }
 }
