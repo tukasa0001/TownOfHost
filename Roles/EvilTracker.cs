@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Hazel;
 using UnityEngine;
+using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -61,10 +62,10 @@ namespace TownOfHost
             }
         }
 
-        public static void ApplyGameOptions(GameOptionsData opt, byte playerId)
+        public static void ApplyGameOptions(byte playerId)
         {
-            opt.RoleOptions.ShapeshifterCooldown = CanSetTarget[playerId] ? 5f : 255f;
-            opt.RoleOptions.ShapeshifterDuration = 1f;
+            AURoleOptions.ShapeshifterCooldown = CanSetTarget[playerId] ? 5f : 255f;
+            AURoleOptions.ShapeshifterDuration = 1f;
         }
         public static void GetAbilityButtonText(HudManager __instance, byte playerId)
         {

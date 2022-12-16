@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AmongUs.GameOptions;
 using Hazel;
 using InnerNet;
 using UnityEngine;
@@ -248,11 +249,12 @@ namespace TownOfHost
             if (player == null || !AmongUsClient.Instance.AmHost) return;
             if (Main.RealOptionsData == null)
             {
-                Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
+                Main.RealOptionsData = new OptionBackupData(GameOptionsManager.Instance.CurrentGameOptions);
             }
 
             var clientId = player.GetClientId();
-            var opt = Main.RealOptionsData.DeepCopy();
+            var opt = Main.RealOptionsData.Restore(new NormalGameOptionsV07(GameOptionsManager.Instance.currentNormalGameOptions.logger).Cast<IGameOptions>());
+            AURoleOptions.SetOpt(opt);
             var state = Main.PlayerStates[player.PlayerId];
             opt.BlackOut(state.IsBlackOut);
 
@@ -261,15 +263,15 @@ namespace TownOfHost
             switch (roleType)
             {
                 case RoleType.Impostor:
-                    opt.RoleOptions.ShapeshifterCooldown = Options.DefaultShapeshiftCooldown.GetFloat();
+                    AURoleOptions.ShapeshifterCooldown = Options.DefaultShapeshiftCooldown.GetFloat();
                     break;
                 case RoleType.Madmate:
-                    opt.RoleOptions.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
-                    opt.RoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
+                    AURoleOptions.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
+                    AURoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
                     if (Options.MadmateHasImpostorVision.GetBool())
-                        opt.SetVision(player, true);
-                    if (Options.MadmateCanSeeOtherVotes.GetBool() && opt.AnonymousVotes)
-                        opt.AnonymousVotes = false;
+                        opt.SetVision(true);
+                    if (Options.MadmateCanSeeOtherVotes.GetBool())
+                        opt.SetBool(BoolOptionNames.AnonymousVotes, false);
                     break;
             }
 
@@ -278,65 +280,70 @@ namespace TownOfHost
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 // case CustomRoles.ShapeMaster:
-                //     opt.RoleOptions.ShapeshifterCooldown = 0.1f;
-                //     opt.RoleOptions.ShapeshifterLeaveSkin = false;
-                //     opt.RoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
+                //     roleOpt.ShapeshifterCooldown = 0.1f;
+                //     roleOpt.ShapeshifterLeaveSkin = false;
+                //     roleOpt.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
                 //     break;
                 case CustomRoles.Warlock:
-                    opt.RoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
+                    AURoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
                     break;
                 case CustomRoles.SerialKiller:
-                    SerialKiller.ApplyGameOptions(opt, player);
+                    SerialKiller.ApplyGameOptions(player);
                     break;
                 case CustomRoles.BountyHunter:
-                    BountyHunter.ApplyGameOptions(opt);
+                    BountyHunter.ApplyGameOptions();
                     break;
                 case CustomRoles.EvilWatcher:
                 case CustomRoles.NiceWatcher:
-                    if (opt.AnonymousVotes)
-                        opt.AnonymousVotes = false;
+                    opt.SetBool(BoolOptionNames.AnonymousVotes, false);
                     break;
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
-                    opt.SetVision(player, false);
+                    opt.SetVision(false);
                     break;
                 case CustomRoles.Lighter:
                     if (player.GetPlayerTaskState().IsTaskFinished)
                     {
-                        opt.CrewLightMod = Options.LighterTaskCompletedVision.GetFloat();
+                        opt.SetFloat(
+                            FloatOptionNames.CrewLightMod,
+                            Options.LighterTaskCompletedVision.GetFloat());
                         if (Utils.IsActive(SystemTypes.Electrical) && Options.LighterTaskCompletedDisableLightOut.GetBool())
-                            opt.CrewLightMod *= 5;
+                        {
+                            opt.SetFloat(
+                            FloatOptionNames.CrewLightMod,
+                            opt.GetFloat(FloatOptionNames.CrewLightMod) * 5);
+                        }
                     }
                     break;
                 case CustomRoles.EgoSchrodingerCat:
-                    opt.SetVision(player, true);
+                    opt.SetVision(true);
                     break;
                 case CustomRoles.Doctor:
-                    opt.RoleOptions.ScientistCooldown = 0f;
-                    opt.RoleOptions.ScientistBatteryCharge = Options.DoctorTaskCompletedBatteryCharge.GetFloat();
+                    AURoleOptions.ScientistCooldown = 0f;
+                    AURoleOptions.ScientistBatteryCharge = Options.DoctorTaskCompletedBatteryCharge.GetFloat();
                     break;
                 case CustomRoles.Mayor:
-                    opt.RoleOptions.EngineerCooldown =
+                    AURoleOptions.EngineerCooldown =
                         Main.MayorUsedButtonCount.TryGetValue(player.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt()
-                        ? opt.EmergencyCooldown
+                        ? opt.GetInt(Int32OptionNames.EmergencyCooldown)
                         : 300f;
-                    opt.RoleOptions.EngineerInVentMaxTime = 1;
+                    AURoleOptions.EngineerInVentMaxTime = 1;
                     break;
                 case CustomRoles.Mare:
-                    Mare.ApplyGameOptions(opt, player.PlayerId);
+                    Mare.ApplyGameOptions(player.PlayerId);
                     break;
                 case CustomRoles.EvilTracker:
-                    EvilTracker.ApplyGameOptions(opt, player.PlayerId);
+                    EvilTracker.ApplyGameOptions(player.PlayerId);
                     break;
                 case CustomRoles.Jackal:
                 case CustomRoles.JSchrodingerCat:
-                    Jackal.ApplyGameOptions(opt, player);
+                    Jackal.ApplyGameOptions(opt);
                     break;
 
 
                 InfinityVent:
-                    opt.RoleOptions.EngineerCooldown = 0;
-                    opt.RoleOptions.EngineerInVentMaxTime = 0;
+                    AURoleOptions.EngineerCooldown = 0;
+                    AURoleOptions.EngineerInVentMaxTime = 0;
                     break;
             }
             if (Main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
@@ -344,7 +351,11 @@ namespace TownOfHost
                 foreach (var kc in Main.AllPlayerKillCooldown)
                 {
                     if (kc.Key == player.PlayerId)
-                        opt.KillCooldown = kc.Value > 0 ? kc.Value : 0.01f;
+                    {
+                        opt.SetFloat(
+                            FloatOptionNames.KillCooldown,
+                            kc.Value > 0 ? kc.Value : 0.01f);
+                    }
                 }
             }
             if (Main.AllPlayerSpeed.ContainsKey(player.PlayerId))
@@ -352,49 +363,104 @@ namespace TownOfHost
                 foreach (var speed in Main.AllPlayerSpeed)
                 {
                     if (speed.Key == player.PlayerId)
-                        opt.PlayerSpeedMod = Mathf.Clamp(speed.Value, Main.MinSpeed, 3f);
+                    {
+                        opt.SetFloat(
+                            FloatOptionNames.PlayerSpeedMod,
+                            Mathf.Clamp(speed.Value, Main.MinSpeed, 3f));
+                    }
                 }
             }
             state.taskState.hasTasks = Utils.HasTasks(player.Data, false);
-            if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead && opt.AnonymousVotes)
-                opt.AnonymousVotes = false;
+            if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead)
+                opt.SetBool(BoolOptionNames.AnonymousVotes, false);
             if (Options.AdditionalEmergencyCooldown.GetBool() &&
                 Options.AdditionalEmergencyCooldownThreshold.GetInt() <= PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead))
-                opt.EmergencyCooldown += Options.AdditionalEmergencyCooldownTime.GetInt();
+            {
+                opt.SetInt(
+                    Int32OptionNames.EmergencyCooldown,
+                    Options.AdditionalEmergencyCooldownTime.GetInt());
+            }
             if (Options.SyncButtonMode.GetBool() && Options.SyncedButtonCount.GetValue() <= Options.UsedButtonCount)
-                opt.EmergencyCooldown = 3600;
+            {
+                opt.SetInt(Int32OptionNames.EmergencyCooldown, 3600);
+            }
             if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
             {
-                opt.ImpostorLightMod = 0f;
-                if (player.GetCustomRole().IsImpostor() || player.Is(CustomRoles.Egoist)) opt.PlayerSpeedMod = Main.MinSpeed;
+                opt.SetFloat(FloatOptionNames.ImpostorLightMod, 0f);
+                if (player.GetCustomRole().IsImpostor() || player.Is(CustomRoles.Egoist))
+                {
+                    opt.SetFloat(FloatOptionNames.PlayerSpeedMod, Main.MinSpeed);
+                }
             }
-            opt.DiscussionTime = Mathf.Clamp(Main.DiscussionTime, 0, 300);
-            opt.VotingTime = Mathf.Clamp(Main.VotingTime, TimeThief.LowerLimitVotingTime.GetInt(), 300);
+            opt.SetInt(Int32OptionNames.DiscussionTime, Mathf.Clamp(Main.DiscussionTime, 0, 300));
+
+            opt.SetInt(
+                Int32OptionNames.VotingTime,
+                Mathf.Clamp(Main.VotingTime, TimeThief.LowerLimitVotingTime.GetInt(), 300));
 
             if (Options.AllAliveMeeting.GetBool() && GameData.Instance.AllPlayers.ToArray().Where(x => !x.Object.Is(CustomRoles.GM)).All(x => !x.IsDead))
             {
-                opt.DiscussionTime = 0;
-                opt.VotingTime = Options.AllAliveMeetingTime.GetInt();
+                opt.SetInt(Int32OptionNames.DiscussionTime, 0);
+                opt.SetInt(
+                Int32OptionNames.VotingTime,
+                Options.AllAliveMeetingTime.GetInt());
             }
 
-            opt.RoleOptions.ShapeshifterCooldown = Mathf.Max(1f, opt.RoleOptions.ShapeshifterCooldown);
-            opt.RoleOptions.ProtectionDurationSeconds = 0f;
+            AURoleOptions.ShapeshifterCooldown = Mathf.Max(1f, AURoleOptions.ShapeshifterCooldown);
+            AURoleOptions.ProtectionDurationSeconds = 0f;
 
-            if (player.AmOwner) PlayerControl.GameOptions = opt;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
-            writer.WriteBytesAndSize(opt.ToBytes(5));
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            if (player.AmOwner)
+            {
+                foreach (var com in GameManager.Instance.LogicComponents)
+                {
+                    if (com.TryCast<LogicOptions>(out var lo))
+                        lo.SetGameOptions(opt);
+                }
+                GameOptionsManager.Instance.CurrentGameOptions = opt;
+            }
+            else
+            {
+                MessageWriter writer = MessageWriter.Get(SendOption.Reliable);
+                // 書き込み {}は読みやすさのためです。
+                writer.StartMessage(6); //0x06 GameDataTo
+                {
+                    writer.Write(AmongUsClient.Instance.GameId);
+                    writer.WritePacked(clientId);
+                    writer.StartMessage(1); //0x01 Data
+                    {
+                        writer.WritePacked(GameManager.Instance.NetId);
+                        for (int i = 0; i < GameManager.Instance.LogicComponents.Count; i++)
+                        {
+                            if (GameManager.Instance.LogicComponents[i].TryCast<LogicOptions>(out var lo))
+                            {
+                                writer.StartMessage((byte)i); // LogicOptionsのindexでメッセージを開始する
+                                {
+                                    writer.WriteBytesAndSize(
+                                        lo.gameOptionsFactory.ToBytes(opt)
+                                    );
+                                }
+                                writer.EndMessage();
+                            }
+                        }
+                    }
+                    writer.EndMessage();
+                }
+                writer.EndMessage();
+
+                AmongUsClient.Instance.SendOrDisconnect(writer);
+                writer.Recycle();
+            }
         }
         public static TaskState GetPlayerTaskState(this PlayerControl player)
         {
             return Main.PlayerStates[player.PlayerId].GetTaskState();
         }
 
-        public static GameOptionsData DeepCopy(this GameOptionsData opt)
+        /*public static GameOptionsData DeepCopy(this GameOptionsData opt)
         {
             var optByte = opt.ToBytes(5);
             return GameOptionsData.FromBytes(optByte);
-        }
+        }*/
 
         public static string GetDisplayRoleName(this PlayerControl player)
         {
@@ -437,7 +503,7 @@ namespace TownOfHost
             if (pc == null || !AmongUsClient.Instance.AmHost || pc.AmOwner) return;
 
             var systemtypes = SystemTypes.Reactor;
-            if (PlayerControl.GameOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
+            if (Main.NormalOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
 
             new LateTask(() =>
             {
@@ -452,7 +518,7 @@ namespace TownOfHost
             new LateTask(() =>
             {
                 pc.RpcDesyncRepairSystem(systemtypes, 16);
-                if (PlayerControl.GameOptions.MapId == 4) //Airship用
+                if (Main.NormalOptions.MapId == 4) //Airship用
                     pc.RpcDesyncRepairSystem(systemtypes, 17);
             }, 0.4f + delay, "Fix Desync Reactor");
         }
@@ -462,7 +528,7 @@ namespace TownOfHost
             int clientId = pc.GetClientId();
             // Logger.Info($"{pc}", "ReactorFlash");
             var systemtypes = SystemTypes.Reactor;
-            if (PlayerControl.GameOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
+            if (Main.NormalOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
             float FlashDuration = Options.KillFlashDuration.GetFloat();
 
             pc.RpcDesyncRepairSystem(systemtypes, 128);
@@ -471,7 +537,7 @@ namespace TownOfHost
             {
                 pc.RpcDesyncRepairSystem(systemtypes, 16);
 
-                if (PlayerControl.GameOptions.MapId == 4) //Airship用
+                if (Main.NormalOptions.MapId == 4) //Airship用
                     pc.RpcDesyncRepairSystem(systemtypes, 17);
             }, FlashDuration + delay, "Fix Desync Reactor");
         }

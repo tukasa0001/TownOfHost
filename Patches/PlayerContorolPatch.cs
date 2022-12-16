@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using Hazel;
 using UnityEngine;
+using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -624,7 +625,7 @@ namespace TownOfHost
                         {
                             var min = targetDistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
                             PlayerControl target = Utils.GetPlayerById(min.Key);
-                            var KillRange = GameOptionsData.KillDistances[Mathf.Clamp(PlayerControl.GameOptions.KillDistance, 0, 2)];
+                            var KillRange = NormalGameOptionsV07.KillDistances[Mathf.Clamp(Main.NormalOptions.KillDistance, 0, 2)];
                             if (min.Value <= KillRange && player.CanMove && target.CanMove)
                             {
                                 var puppeteerId = Main.PuppeteerList[player.PlayerId];
@@ -692,7 +693,7 @@ namespace TownOfHost
                     if (__instance.AmOwner) RoleText.enabled = true; //自分ならロールを表示
                     else if (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) RoleText.enabled = true; //他プレイヤーでVisibleTasksCountが有効なおかつ自分が死んでいるならロールを表示
                     else RoleText.enabled = false; //そうでなければロールを非表示
-                    if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
+                    if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay)
                     {
                         RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
                         if (!__instance.AmOwner) __instance.cosmetics.nameText.text = __instance?.Data?.PlayerName;
@@ -887,13 +888,13 @@ namespace TownOfHost
                     else
                     {
                         //役職テキストの座標を初期値に戻す
-                        RoleText.transform.SetLocalY(0.175f);
+                        RoleText.transform.SetLocalY(0.2f);
                     }
                 }
                 else
                 {
                     //役職テキストの座標を初期値に戻す
-                    RoleText.transform.SetLocalY(0.175f);
+                    RoleText.transform.SetLocalY(0.2f);
                 }
             }
         }
@@ -977,8 +978,8 @@ namespace TownOfHost
         {
             var roleText = UnityEngine.Object.Instantiate(__instance.cosmetics.nameText);
             roleText.transform.SetParent(__instance.cosmetics.nameText.transform);
-            roleText.transform.localPosition = new Vector3(0f, 0.175f, 0f);
-            roleText.fontSize = 0.55f;
+            roleText.transform.localPosition = new Vector3(0f, 0.2f, 0f);
+            roleText.fontSize -= 1.2f;
             roleText.text = "RoleText";
             roleText.gameObject.name = "RoleText";
             roleText.enabled = false;

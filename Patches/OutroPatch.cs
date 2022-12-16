@@ -32,7 +32,7 @@ namespace TownOfHost
                     KillLog += $"\n\t\t⇐ {Main.AllPlayerNames[killerId]}({Utils.GetDisplayRoleName(killerId)}{Utils.GetSubRolesText(killerId)})";
             }
             Logger.Info("-----------ゲーム終了-----------", "Phase");
-            PlayerControl.GameOptions.killCooldown = Options.DefaultKillCooldown;
+            Main.NormalOptions.KillCooldown = Options.DefaultKillCooldown;
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             var winner = new List<PlayerControl>();
@@ -103,12 +103,12 @@ namespace TownOfHost
                     var role = Main.PlayerStates[pc.PlayerId].MainRole;
                     if (role.GetRoleType() == RoleType.Impostor)
                     {
-                        if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
+                        if (CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor)
                             winner.Add(pc);
                     }
                     else if (role.GetRoleType() == RoleType.Crewmate)
                     {
-                        if (TempData.DidHumansWin(endGameResult.GameOverReason))
+                        if (CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
                             winner.Add(pc);
                     }
                     else if (role == CustomRoles.HASTroll && pc.Data.IsDead)
@@ -144,8 +144,8 @@ namespace TownOfHost
             Main.VisibleTasksCount = false;
             if (AmongUsClient.Instance.AmHost)
             {
-                Main.RealOptionsData.KillCooldown = Options.DefaultKillCooldown;
-                PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData);
+                Main.RealOptionsData.Restore(GameOptionsManager.Instance.CurrentGameOptions);
+                /* Send SyncSettings RPC */
             }
         }
     }
