@@ -4,6 +4,7 @@ using System.Linq;
 using HarmonyLib;
 using UnhollowerBaseLib;
 using UnityEngine;
+using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 using Object = UnityEngine.Object;
 
@@ -291,10 +292,10 @@ namespace TownOfHost
             }
         }
     }
-    [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.SetRecommendations))]
+    [HarmonyPatch(typeof(NormalGameOptionsV07), nameof(NormalGameOptionsV07.SetRecommendations))]
     public static class SetRecommendationsPatch
     {
-        public static bool Prefix(GameOptionsData __instance, int numPlayers, GameModes modes)
+        public static bool Prefix(NormalGameOptionsV07 __instance, int numPlayers, bool isOnline)
         {
             numPlayers = Mathf.Clamp(numPlayers, 4, 15);
             __instance.PlayerSpeedMod = __instance.MapId == 4 ? 1.25f : 1f; //AirShipなら1.25、それ以外は1
@@ -305,24 +306,54 @@ namespace TownOfHost
             __instance.NumLongTasks = 4;
             __instance.NumShortTasks = 6;
             __instance.NumEmergencyMeetings = 1;
-            if (modes != GameModes.OnlineGame)
-                __instance.NumImpostors = GameOptionsData.RecommendedImpostors[numPlayers];
+            if (!isOnline)
+                __instance.NumImpostors = NormalGameOptionsV07.RecommendedImpostors[numPlayers];
             __instance.KillDistance = 0;
             __instance.DiscussionTime = 0;
             __instance.VotingTime = 150;
-            __instance.isDefaults = true;
+            __instance.IsDefaults = true;
             __instance.ConfirmImpostor = false;
             __instance.VisualTasks = false;
-            __instance.RoleOptions.ShapeshifterCooldown = 10f;
-            __instance.RoleOptions.ShapeshifterDuration = 30f;
-            __instance.RoleOptions.ShapeshifterLeaveSkin = false;
-            __instance.RoleOptions.ImpostorsCanSeeProtect = false;
-            __instance.RoleOptions.ScientistCooldown = 15f;
-            __instance.RoleOptions.ScientistBatteryCharge = 5f;
-            __instance.RoleOptions.GuardianAngelCooldown = 60f;
-            __instance.RoleOptions.ProtectionDurationSeconds = 10f;
-            __instance.RoleOptions.EngineerCooldown = 30f;
-            __instance.RoleOptions.EngineerInVentMaxTime = 15f;
+
+            if (__instance.roleOptions.roles.TryGetValue(RoleTypes.Shapeshifter, out var shapeData))
+            {
+                var opt = shapeData.RoleOptions.TryCast<ShapeshifterRoleOptionsV07>();
+                if (opt != null)
+                {
+                    opt.ShapeshifterCooldown = 10f;
+                    opt.ShapeshifterDuration = 30f;
+                    opt.ShapeshifterLeaveSkin = false;
+                }
+            }
+            if (__instance.roleOptions.roles.TryGetValue(RoleTypes.GuardianAngel, out var gaData))
+            {
+                var opt = gaData.RoleOptions.TryCast<GuardianAngelRoleOptionsV07>();
+                if (opt != null)
+                {
+                    opt.ImpostorsCanSeeProtect = false;
+                    opt.GuardianAngelCooldown = 60f;
+                    opt.ProtectionDurationSeconds = 10f;
+                }
+            }
+            if (__instance.roleOptions.roles.TryGetValue(RoleTypes.Scientist, out var scData))
+            {
+                var opt = scData.RoleOptions.TryCast<ScientistRoleOptionsV07>();
+                if (opt != null)
+                {
+                    opt.ScientistCooldown = 15f;
+                    opt.ScientistBatteryCharge = 5f;
+                }
+            }
+            if (__instance.roleOptions.roles.TryGetValue(RoleTypes.Engineer, out var egData))
+            {
+                var opt = egData.RoleOptions.TryCast<EngineerRoleOptionsV07>();
+                if (opt != null)
+                {
+                    opt.EngineerCooldown = 30f;
+                    opt.EngineerInVentMaxTime = 15f;
+                }
+            }
+
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) //HideAndSeek
             {
                 __instance.PlayerSpeedMod = 1.75f;

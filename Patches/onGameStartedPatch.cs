@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using Hazel;
+using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -40,16 +41,16 @@ namespace TownOfHost
             ReportDeadBodyPatch.CanReport = new();
 
             Options.UsedButtonCount = 0;
-            Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
+            Main.RealOptionsData = new OptionBackupData(GameOptionsManager.Instance.CurrentGameOptions);
 
             Main.introDestroyed = false;
 
             RandomSpawn.CustomNetworkTransformPatch.NumOfTP = new();
 
-            Main.DiscussionTime = Main.RealOptionsData.DiscussionTime;
-            Main.VotingTime = Main.RealOptionsData.VotingTime;
-            Main.DefaultCrewmateVision = Main.RealOptionsData.CrewLightMod;
-            Main.DefaultImpostorVision = Main.RealOptionsData.ImpostorLightMod;
+            Main.DiscussionTime = Main.RealOptionsData.GetInt(Int32OptionNames.DiscussionTime);
+            Main.VotingTime = Main.RealOptionsData.GetInt(Int32OptionNames.VotingTime);
+            Main.DefaultCrewmateVision = Main.RealOptionsData.GetFloat(FloatOptionNames.CrewLightMod);
+            Main.DefaultImpostorVision = Main.RealOptionsData.GetFloat(FloatOptionNames.ImpostorLightMod);
 
             NameColorManager.Instance.RpcReset();
             Main.LastNotifyNames = new();
@@ -74,7 +75,7 @@ namespace TownOfHost
                 Main.AllPlayerNames[pc.PlayerId] = pc?.Data?.PlayerName;
 
                 Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
-                Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
+                Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.GetFloat(FloatOptionNames.PlayerSpeedMod); //移動速度をデフォルトの移動速度に変更
                 ReportDeadBodyPatch.CanReport[pc.PlayerId] = true;
                 ReportDeadBodyPatch.WaitReport[pc.PlayerId] = new();
                 pc.cosmetics.nameText.text = pc.name;
@@ -143,7 +144,7 @@ namespace TownOfHost
             if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
             {
                 //役職の人数を指定
-                RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
+                var roleOpt = Main.NormalOptions.roleOptions;
                 int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
                 int AdditionalScientistNum = CustomRoles.Doctor.GetCount();
                 roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum + AdditionalScientistNum, AdditionalScientistNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Scientist));
@@ -162,7 +163,7 @@ namespace TownOfHost
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
                 int AdditionalShapeshifterNum = CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount()/* + CustomRoles.ShapeMaster.GetCount()*/ + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.EvilTracker.GetCount();//- ShapeshifterNum;
-                if (Main.RealOptionsData.NumImpostors > 1)
+                if (Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1)
                     AdditionalShapeshifterNum += CustomRoles.Egoist.GetCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
@@ -302,7 +303,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.SchrodingerCat, Crewmates);
                 if (Options.IsEvilWatcher) AssignCustomRolesFromList(CustomRoles.Watcher, Impostors);
                 else AssignCustomRolesFromList(CustomRoles.Watcher, Crewmates);
-                if (Main.RealOptionsData.NumImpostors > 1)
+                if (Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1)
                     AssignCustomRolesFromList(CustomRoles.Egoist, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Mare, Impostors);
                 AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
@@ -399,7 +400,7 @@ namespace TownOfHost
                 }
 
                 //役職の人数を戻す
-                RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
+                var roleOpt = Main.NormalOptions.roleOptions;
                 int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
                 ScientistNum -= CustomRoles.Doctor.GetCount();
                 roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum, roleOpt.GetChancePerGame(RoleTypes.Scientist));
@@ -418,7 +419,7 @@ namespace TownOfHost
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
                 ShapeshifterNum -= CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount()/* + CustomRoles.ShapeMaster.GetCount()*/ + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.EvilTracker.GetCount();
-                if (Main.RealOptionsData.NumImpostors > 1)
+                if (Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1)
                     ShapeshifterNum -= CustomRoles.Egoist.GetCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
                 GameEndChecker.SetPredicateToNormal();

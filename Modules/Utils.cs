@@ -7,7 +7,9 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using AmongUs.Data;
+using AmongUs.GameOptions;
 using UnityEngine;
+using UnhollowerBaseLib;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -17,7 +19,7 @@ namespace TownOfHost
         public static bool IsActive(SystemTypes type)
         {
             //Logger.Info($"SystemTypes:{type}", "IsActive");
-            int mapId = PlayerControl.GameOptions.MapId;
+            int mapId = Main.NormalOptions.MapId;
             switch (type)
             {
                 case SystemTypes.Electrical:
@@ -68,20 +70,32 @@ namespace TownOfHost
                     return false;
             }
         }
-        public static void SetVision(this GameOptionsData opt, PlayerControl player, bool HasImpVision)
+        public static void SetVision(this IGameOptions opt, bool HasImpVision)
         {
             if (HasImpVision)
             {
-                opt.CrewLightMod = opt.ImpostorLightMod;
+                opt.SetFloat(
+                    FloatOptionNames.CrewLightMod,
+                    opt.GetFloat(FloatOptionNames.ImpostorLightMod));
                 if (IsActive(SystemTypes.Electrical))
-                    opt.CrewLightMod *= 5;
+                {
+                    opt.SetFloat(
+                    FloatOptionNames.CrewLightMod,
+                    opt.GetFloat(FloatOptionNames.CrewLightMod) * 5);
+                }
                 return;
             }
             else
             {
-                opt.ImpostorLightMod = opt.CrewLightMod;
+                opt.SetFloat(
+                    FloatOptionNames.ImpostorLightMod,
+                    opt.GetFloat(FloatOptionNames.CrewLightMod));
                 if (IsActive(SystemTypes.Electrical))
-                    opt.ImpostorLightMod /= 5;
+                {
+                    opt.SetFloat(
+                    FloatOptionNames.ImpostorLightMod,
+                    opt.GetFloat(FloatOptionNames.ImpostorLightMod) / 5);
+                }
                 return;
             }
         }
@@ -110,7 +124,7 @@ namespace TownOfHost
         {
             //キルフラッシュ(ブラックアウト+リアクターフラッシュ)の処理
             bool ReactorCheck = false; //リアクターフラッシュの確認
-            if (PlayerControl.GameOptions.MapId == 2) ReactorCheck = IsActive(SystemTypes.Laboratory);
+            if (Main.NormalOptions.MapId == 2) ReactorCheck = IsActive(SystemTypes.Laboratory);
             else ReactorCheck = IsActive(SystemTypes.Reactor);
 
             var Duration = Options.KillFlashDuration.GetFloat();
@@ -131,14 +145,14 @@ namespace TownOfHost
                 ExtendedPlayerControl.CustomSyncSettings(player);
             }, Options.KillFlashDuration.GetFloat(), "RemoveKillFlash");
         }
-        public static void BlackOut(this GameOptionsData opt, bool IsBlackOut)
+        public static void BlackOut(this IGameOptions opt, bool IsBlackOut)
         {
-            opt.ImpostorLightMod = Main.DefaultImpostorVision;
-            opt.CrewLightMod = Main.DefaultCrewmateVision;
+            opt.SetFloat(FloatOptionNames.ImpostorLightMod, Main.DefaultImpostorVision);
+            opt.SetFloat(FloatOptionNames.CrewLightMod, Main.DefaultCrewmateVision);
             if (IsBlackOut)
             {
-                opt.ImpostorLightMod = 0.0f;
-                opt.CrewLightMod = 0.0f;
+                opt.SetFloat(FloatOptionNames.ImpostorLightMod, 0);
+                opt.SetFloat(FloatOptionNames.CrewLightMod, 0);
             }
             return;
         }
@@ -376,7 +390,7 @@ namespace TownOfHost
         }
         public static void ShowActiveSettings(byte PlayerId = byte.MaxValue)
         {
-            var mapId = PlayerControl.GameOptions.MapId;
+            var mapId = Main.NormalOptions.MapId;
             if (Options.HideGameSettings.GetBool() && PlayerId != byte.MaxValue)
             {
                 SendMessage(GetString("Message.HideGameSettings"), PlayerId);
@@ -1089,6 +1103,13 @@ namespace TownOfHost
             sb.Append("最大数 - 最小数: ").Append(countData.Max() - countData.Min());
 
             return sb.ToString();
+        }
+
+        public static bool TryCast<T>(this Il2CppObjectBase obj, out T casted)
+        where T : Il2CppObjectBase
+        {
+            casted = obj.TryCast<T>();
+            return casted != null;
         }
     }
 }
