@@ -23,7 +23,32 @@ namespace TownOfHost.Modules
         public IGameOptions BasedGameOptions { get; }
 
 
-        public abstract void Serialize(MessageWriter writer);
-        public abstract IGameOptions BuildOptions();
+        public virtual void SendGameOptions()
+        {
+            var opt = BuildGameOptions();
+            var writer = MessageWriter.Get(SendOption.Reliable);
+
+            writer.StartMessage(Tags.GameData);
+            {
+                writer.Write(AmongUsClient.Instance.GameId);
+                writer.StartMessage(1);
+                {
+                    writer.WritePacked(GameManager.Instance.NetId);
+                    for (int i = 0; i < GameManager.Instance.LogicComponents.Count; i++)
+                    {
+                        // LogicOptionsのIndexを探し、そのIndexでメッセージを始める。
+                        if (GameManager.Instance.LogicComponents[i] is LogicOptions lo)
+                        {
+                            writer.StartMessage((byte)i);
+                            writer.WriteBytesAndSize(lo.gameOptionsFactory.ToBytes(opt));
+                            writer.EndMessage();
+                        }
+                    }
+                    writer.EndMessage();
+                }
+                writer.EndMessage();
+            }
+        }
+        public abstract IGameOptions BuildGameOptions();
     }
 }
