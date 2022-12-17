@@ -53,7 +53,15 @@ namespace TownOfHost.Modules
             }
             writer.Recycle();
         }
-        protected virtual void SendOptionsArray(byte[] optionArray, int targetClientId = -1)
+        public virtual void SendOptionsArray(byte[] optionArray)
+        {
+            SendOptionsArray(
+                optionArray,
+                (byte)GameManager.Instance.LogicComponents.FindIndex((Func<GameLogicComponent, bool>)(c => c is LogicOptions)),
+                -1
+            );
+        }
+        protected virtual void SendOptionsArray(byte[] optionArray, byte LogicOptionsIndex, int targetClientId)
         {
             var writer = MessageWriter.Get(SendOption.Reliable);
 
@@ -64,15 +72,10 @@ namespace TownOfHost.Modules
                 writer.StartMessage(1);
                 {
                     writer.WritePacked(GameManager.Instance.NetId);
-                    for (int i = 0; i < GameManager.Instance.LogicComponents.Count; i++)
+                    writer.StartMessage(LogicOptionsIndex);
                     {
-                        // LogicOptionsのIndexを探し、そのIndexでメッセージを始める。
-                        if (GameManager.Instance.LogicComponents[i] is LogicOptions lo)
-                        {
-                            writer.StartMessage((byte)i);
-                            writer.WriteBytesAndSize(optionArray);
-                            writer.EndMessage();
-                        }
+                        writer.WriteBytesAndSize(optionArray);
+                        writer.EndMessage();
                     }
                     writer.EndMessage();
                 }
@@ -83,8 +86,6 @@ namespace TownOfHost.Modules
             writer.Recycle();
         }
         public abstract IGameOptions BuildGameOptions();
-
-
         public bool IsSameBytes(byte[] arr1, byte[] arr2)
         {
             if (arr1 == null || arr2 == null || arr1.Length != arr2.Length) return false;
