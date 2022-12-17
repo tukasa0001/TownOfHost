@@ -10,7 +10,14 @@ namespace TownOfHost.Modules
 {
     public abstract class GameOptionsSender
     {
+        #region Static
         public readonly static List<GameOptionsSender> AllSenders = new(15);
+
+        public static void SendAllGameOptions()
+        {
+            AllSenders.ForEach(sender => sender.SendGameOptions());
+        }
+        #endregion
 
         public IGameOptions BasedGameOptions { get; }
 
