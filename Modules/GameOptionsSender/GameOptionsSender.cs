@@ -26,7 +26,7 @@ namespace TownOfHost.Modules
 
         public abstract IGameOptions BasedGameOptions { get; }
         public abstract bool IsDirty { get; protected set; }
-        public byte[] SentBytesCache = new byte[0];
+        public byte[] ByteArray = new byte[0]; // 送信時に使い回す配列
 
 
         public virtual void SendGameOptions()
@@ -49,17 +49,13 @@ namespace TownOfHost.Modules
             }
             writer.EndMessage();
 
-            // キャッシュと比較&送信
-            Span<byte> cacheSpan = new(SentBytesCache);
+            // 配列化&送信
             Span<byte> writerSpan = new(writer.Buffer, 1, writer.Length - 1);
-            if (!IsSameBytes(cacheSpan, writerSpan))
-            {
-                if (SentBytesCache == null || SentBytesCache.Length != writerSpan.Length) SentBytesCache = new byte[writerSpan.Length];
-                for (int i = 0; i < SentBytesCache.Length; i++)
-                    SentBytesCache[i] = writerSpan[i];
+            if (ByteArray == null || ByteArray.Length != writerSpan.Length) ByteArray = new byte[writerSpan.Length];
+            for (int i = 0; i < ByteArray.Length; i++)
+                ByteArray[i] = writerSpan[i];
 
-                SendOptionsArray(SentBytesCache);
-            }
+            SendOptionsArray(ByteArray);
             writer.Recycle();
         }
         public virtual void SendOptionsArray(byte[] optionArray)
@@ -97,15 +93,5 @@ namespace TownOfHost.Modules
             writer.Recycle();
         }
         public abstract IGameOptions BuildGameOptions();
-        public bool IsSameBytes(Span<byte> arr1, Span<byte> arr2)
-        {
-            if (arr1 == null || arr2 == null || arr1.Length != arr2.Length) return false;
-
-            for (int i = 0; i < arr1.Length; i++)
-            {
-                if (arr1[i] != arr2[i]) return false;
-            }
-            return true;
-        }
     }
 }
