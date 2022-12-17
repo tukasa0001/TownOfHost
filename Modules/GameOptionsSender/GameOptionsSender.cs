@@ -11,7 +11,7 @@ namespace TownOfHost.Modules
     public abstract class GameOptionsSender
     {
         #region Static
-        public readonly static List<GameOptionsSender> AllSenders = new(15);
+        public readonly static List<GameOptionsSender> AllSenders = new(15) { new NormalGameOptionsSender() };
 
         public static void SendAllGameOptions()
         {
