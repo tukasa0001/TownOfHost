@@ -21,6 +21,30 @@ namespace TownOfHost.Modules
             this.player = player;
         }
 
+        public override void SendGameOptions()
+        {
+            if (player.AmOwner)
+            {
+                var opt = BuildGameOptions();
+                foreach (var com in GameManager.Instance.LogicComponents)
+                {
+                    if (com.TryCast<LogicOptions>(out var lo))
+                        lo.SetGameOptions(opt);
+                }
+                GameOptionsManager.Instance.CurrentGameOptions = opt;
+            }
+            else base.SendGameOptions();
+        }
+
+        public override void SendOptionsArray(byte[] optionArray)
+        {
+            SendOptionsArray(
+                optionArray,
+                (byte)GameManager.Instance.LogicComponents.FindIndex((Func<GameLogicComponent, bool>)(c => c is LogicOptions)),
+                player.GetClientId()
+            );
+        }
+
         public override IGameOptions BuildGameOptions()
         {
             if (Main.RealOptionsData == null)
@@ -28,7 +52,6 @@ namespace TownOfHost.Modules
                 Main.RealOptionsData = new OptionBackupData(GameOptionsManager.Instance.CurrentGameOptions);
             }
 
-            var clientId = player.GetClientId();
             var opt = BasedGameOptions;
             AURoleOptions.SetOpt(opt);
             var state = Main.PlayerStates[player.PlayerId];
