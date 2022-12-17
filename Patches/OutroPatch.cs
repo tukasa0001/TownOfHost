@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using UnityEngine;
+using TownOfHost.Modules;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -145,6 +146,8 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 Main.RealOptionsData.Restore(GameOptionsManager.Instance.CurrentGameOptions);
+                GameOptionsSender.AllSenders.Clear();
+                GameOptionsSender.AllSenders.Add(new NormalGameOptionsSender());
                 /* Send SyncSettings RPC */
             }
         }
