@@ -19,12 +19,13 @@ namespace TownOfHost.Modules
             foreach (var sender in AllSenders)
             {
                 if (sender.IsDirty) sender.SendGameOptions();
+                sender.IsDirty = false;
             }
         }
         #endregion
 
         public abstract IGameOptions BasedGameOptions { get; }
-        public abstract bool IsDirty { get; }
+        public abstract bool IsDirty { get; protected set; }
         public byte[] SentBytesCache = new byte[0];
 
 

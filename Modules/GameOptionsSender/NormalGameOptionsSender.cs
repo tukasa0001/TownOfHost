@@ -24,6 +24,11 @@ namespace TownOfHost.Modules
                 }
                 return _logicOptions != null && _logicOptions.IsDirty;
             }
+            protected set
+            {
+                if (_logicOptions != null)
+                    _logicOptions.ClearDirtyFlag();
+            }
         }
         private LogicOptions _logicOptions;
 

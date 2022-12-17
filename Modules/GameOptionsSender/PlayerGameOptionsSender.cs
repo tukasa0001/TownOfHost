@@ -22,8 +22,7 @@ namespace TownOfHost.Modules
 
         public override IGameOptions BasedGameOptions =>
             Main.RealOptionsData.Restore(new NormalGameOptionsV07(new UnityLogger().Cast<ILogger>()).Cast<IGameOptions>());
-        public override bool IsDirty => _isDirty;
-        private bool _isDirty = true;
+        public override bool IsDirty { get; protected set; }
 
         public PlayerControl player;
 
@@ -31,7 +30,7 @@ namespace TownOfHost.Modules
         {
             this.player = player;
         }
-        public void SetDirty() => _isDirty = true;
+        public void SetDirty() => IsDirty = true;
 
         public override void SendGameOptions()
         {
