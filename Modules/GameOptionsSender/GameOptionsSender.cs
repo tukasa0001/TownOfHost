@@ -44,9 +44,9 @@ namespace TownOfHost.Modules
             writer.EndMessage();
 
             // キャッシュと比較&送信
-            if (!IsSameBytes(writer.Buffer, SentBytesCache))
+            if (!IsSameBytes(SentBytesCache, writer))
             {
-                if (SentBytesCache == null || writer.Buffer.Length != SentBytesCache.Length) SentBytesCache = new byte[writer.Buffer.Length];
+                if (SentBytesCache == null || writer.Position != SentBytesCache.Length) SentBytesCache = new byte[writer.Position];
                 writer.Buffer.CopyTo(SentBytesCache, 0);
 
                 SendOptionsArray(SentBytesCache);
@@ -86,13 +86,13 @@ namespace TownOfHost.Modules
             writer.Recycle();
         }
         public abstract IGameOptions BuildGameOptions();
-        public bool IsSameBytes(byte[] arr1, byte[] arr2)
+        public bool IsSameBytes(byte[] array, MessageWriter writer)
         {
-            if (arr1 == null || arr2 == null || arr1.Length != arr2.Length) return false;
+            if (array == null || writer == null || array.Length != writer.Position) return false;
 
-            for (int i = 0; i < arr1.Length; i++)
+            for (int i = 0; i < array.Length; i++)
             {
-                if (arr1[i] != arr2[i]) return false;
+                if (array[i] != writer.Buffer[i]) return false;
             }
             return true;
         }
