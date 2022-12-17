@@ -20,6 +20,7 @@ namespace TownOfHost.Modules
         #endregion
 
         public IGameOptions BasedGameOptions { get; }
+        public byte[] SentBytesCache;
 
 
         public virtual void SendGameOptions()
@@ -42,8 +43,14 @@ namespace TownOfHost.Modules
             }
             writer.EndMessage();
 
-            SendOptionsArray(writer.ToByteArray(false));
+            // キャッシュと比較&送信
+            if (IsSameBytes(writer.Buffer, SentBytesCache))
+            {
+                if (SentBytesCache == null || writer.Buffer.Length != SentBytesCache.Length) SentBytesCache = new byte[writer.Buffer.Length];
+                writer.Buffer.CopyTo(SentBytesCache, 0);
 
+                SendOptionsArray(SentBytesCache);
+            }
             writer.Recycle();
         }
         protected virtual void SendOptionsArray(byte[] optionArray, int targetClientId = -1)
