@@ -47,7 +47,8 @@ namespace TownOfHost.Modules
             if (!IsSameBytes(SentBytesCache, writer))
             {
                 if (SentBytesCache == null || writer.Position != SentBytesCache.Length) SentBytesCache = new byte[writer.Position];
-                writer.Buffer.CopyTo(SentBytesCache, 0);
+                for (int i = 0; i < SentBytesCache.Length; i++)
+                    SentBytesCache[i] = writer.Buffer[i];
 
                 SendOptionsArray(SentBytesCache);
             }
