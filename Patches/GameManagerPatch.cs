@@ -42,14 +42,4 @@ namespace TownOfHost
             else return true;
         }
     }
-
-    [HarmonyPatch(typeof(GameManager), nameof(GameManager.FixedUpdate))]
-    class GameManagerFixedUpdatePatch
-    {
-        public static void Postfix()
-        {
-            if (AmongUsClient.Instance.AmHost)
-                GameOptionsSender.SendAllGameOptions();
-        }
-    }
 }
