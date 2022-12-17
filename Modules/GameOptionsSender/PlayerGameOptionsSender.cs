@@ -16,6 +16,9 @@ namespace TownOfHost.Modules
             AllSenders.OfType<PlayerGameOptionsSender>()
             .Where(sender => sender.player.PlayerId == playerId)
             .ToList().ForEach(sender => sender.SetDirty());
+        public static void SetDirtyToAll() =>
+            AllSenders.OfType<PlayerGameOptionsSender>()
+            .ToList().ForEach(sender => sender.SetDirty());
 
         public override IGameOptions BasedGameOptions =>
             Main.RealOptionsData.Restore(new NormalGameOptionsV07(new UnityLogger().Cast<ILogger>()).Cast<IGameOptions>());

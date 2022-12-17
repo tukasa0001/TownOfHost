@@ -10,6 +10,7 @@ using AmongUs.Data;
 using AmongUs.GameOptions;
 using UnityEngine;
 using UnhollowerBaseLib;
+using TownOfHost.Modules;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -923,10 +924,7 @@ namespace TownOfHost
         }
         public static void MarkEveryoneDirtySettings()
         {
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                pc.MarkDirtySettings();
-            }
+            PlayerGameOptionsSender.SetDirtyToAll();
         }
         public static void AfterMeetingTasks()
         {
