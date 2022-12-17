@@ -19,7 +19,7 @@ namespace TownOfHost.Modules
         }
         #endregion
 
-        public IGameOptions BasedGameOptions { get; }
+        public abstract IGameOptions BasedGameOptions { get; }
         public byte[] SentBytesCache;
 
 
