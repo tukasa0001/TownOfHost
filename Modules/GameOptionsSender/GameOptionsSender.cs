@@ -44,7 +44,7 @@ namespace TownOfHost.Modules
             writer.EndMessage();
 
             // キャッシュと比較&送信
-            if (IsSameBytes(writer.Buffer, SentBytesCache))
+            if (!IsSameBytes(writer.Buffer, SentBytesCache))
             {
                 if (SentBytesCache == null || writer.Buffer.Length != SentBytesCache.Length) SentBytesCache = new byte[writer.Buffer.Length];
                 writer.Buffer.CopyTo(SentBytesCache, 0);
