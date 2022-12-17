@@ -26,6 +26,7 @@ namespace TownOfHost.Modules
 
         public virtual void SendGameOptions()
         {
+            Logger.Info("SendGameOptions", "GameOptionsSender");
             var opt = BuildGameOptions();
 
             // option => byte[]
@@ -49,24 +50,25 @@ namespace TownOfHost.Modules
             Span<byte> writerSpan = new(writer.Buffer, 1, writer.Length - 1);
             if (!IsSameBytes(cacheSpan, writerSpan))
             {
+                Logger.Info("NotSameBytes", "GameOptionsSender");
                 if (SentBytesCache == null || SentBytesCache.Length != writerSpan.Length) SentBytesCache = new byte[writerSpan.Length];
                 for (int i = 0; i < SentBytesCache.Length; i++)
                     SentBytesCache[i] = writerSpan[i];
 
-                SendOptionsArray(AmongUsClient.Instance.gameOptionsFactory.ToBytes(opt));
+                SendOptionsArray(SentBytesCache);
             }
             writer.Recycle();
         }
         public virtual void SendOptionsArray(byte[] optionArray)
         {
-            byte index = 0;
-            for (; index < GameManager.Instance.LogicComponents.Count; index++)
-                if (GameManager.Instance.LogicComponents[index] is LogicOptions) break;
-            SendOptionsArray(
-                optionArray,
-                index,
-                -1
-            );
+            Logger.Info("SendOptionsArray", "GameOptionsSender");
+            for (byte i = 0; i < GameManager.Instance.LogicComponents.Count; i++)
+            {
+                if (GameManager.Instance.LogicComponents[i] is LogicOptions)
+                {
+                    SendOptionsArray(optionArray, i, -1);
+                }
+            }
         }
         protected virtual void SendOptionsArray(byte[] optionArray, byte LogicOptionsIndex, int targetClientId)
         {
@@ -83,12 +85,12 @@ namespace TownOfHost.Modules
                     writer.StartMessage(LogicOptionsIndex);
                     {
                         writer.WriteBytesAndSize(optionArray);
-                        writer.EndMessage();
                     }
                     writer.EndMessage();
                 }
                 writer.EndMessage();
             }
+            writer.EndMessage();
 
             AmongUsClient.Instance.SendOrDisconnect(writer);
             writer.Recycle();
