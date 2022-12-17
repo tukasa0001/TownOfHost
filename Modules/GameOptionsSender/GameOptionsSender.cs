@@ -64,7 +64,7 @@ namespace TownOfHost.Modules
             Logger.Info("SendOptionsArray", "GameOptionsSender");
             for (byte i = 0; i < GameManager.Instance.LogicComponents.Count; i++)
             {
-                if (GameManager.Instance.LogicComponents[i] is LogicOptions)
+                if (GameManager.Instance.LogicComponents[i].TryCast<LogicOptions>(out _))
                 {
                     SendOptionsArray(optionArray, i, -1);
                 }
