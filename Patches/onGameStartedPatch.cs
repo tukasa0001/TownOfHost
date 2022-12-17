@@ -436,7 +436,7 @@ namespace TownOfHost
             // ResetCamが必要なプレイヤーのリストにクラス化が済んでいない役職のプレイヤーを追加
             Main.ResetCamPlayerList.AddRange(PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is CustomRoles.Arsonist).Select(p => p.PlayerId));
             Utils.CountAliveImpostors();
-            Utils.CustomSyncAllSettings();
+            Utils.MarkEveryoneDirtySettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
         }
         private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, Dictionary<byte, CustomRpcSender> senders, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)

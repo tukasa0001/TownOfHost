@@ -125,7 +125,7 @@ namespace TownOfHost
             FallFromLadder.Reset();
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
-            Utils.CustomSyncAllSettings();
+            Utils.MarkEveryoneDirtySettings();
             Utils.NotifyRoles();
         }
 

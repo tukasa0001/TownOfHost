@@ -147,9 +147,9 @@ namespace TownOfHost
                     case CustomRoles.Vampire:
                         if (!target.Is(CustomRoles.Bait))
                         { //キルキャンセル&自爆処理
-                            Utils.CustomSyncAllSettings();
+                            Utils.MarkEveryoneDirtySettings();
                             Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
-                            killer.CustomSyncSettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
+                            killer.MarkDirtySettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
                             killer.RpcGuardAndKill(target);
                             Main.BitPlayers.Add(target.PlayerId, (killer.PlayerId, 0f));
                             return false;
@@ -159,7 +159,7 @@ namespace TownOfHost
                         if (!Main.CheckShapeshift[killer.PlayerId] && !Main.isCurseAndKill[killer.PlayerId])
                         { //Warlockが変身時以外にキルしたら、呪われる処理
                             Main.isCursed = true;
-                            Utils.CustomSyncAllSettings();
+                            Utils.MarkEveryoneDirtySettings();
                             killer.RpcGuardAndKill(target);
                             Main.CursedPlayers[killer.PlayerId] = target;
                             Main.WarlockTimer.Add(killer.PlayerId, 0f);
@@ -184,7 +184,7 @@ namespace TownOfHost
                     case CustomRoles.Puppeteer:
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
                         Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
-                        killer.CustomSyncSettings(); //負荷軽減のため、killerだけがCustomSyncSettings,NotifyRolesを実行
+                        killer.MarkDirtySettings(); //負荷軽減のため、killerだけがCustomSyncSettings,NotifyRolesを実行
                         Utils.NotifyRoles(SpecifySeer: killer);
                         killer.RpcGuardAndKill(target);
                         return false;
@@ -197,7 +197,7 @@ namespace TownOfHost
                     //==========第三陣営役職==========//
                     case CustomRoles.Arsonist:
                         Main.AllPlayerKillCooldown[killer.PlayerId] = 10f;
-                        Utils.CustomSyncAllSettings();
+                        Utils.MarkEveryoneDirtySettings();
                         if (!Main.isDoused[(killer.PlayerId, target.PlayerId)] && !Main.ArsonistTimer.ContainsKey(killer.PlayerId))
                         {
                             Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
@@ -278,7 +278,7 @@ namespace TownOfHost
             Main.PlayerStates[target.PlayerId].SetDead();
             target.SetRealKiller(__instance, true); //既に追加されてたらスキップ
             Utils.CountAliveImpostors();
-            Utils.CustomSyncAllSettings();
+            Utils.MarkEveryoneDirtySettings();
             Utils.NotifyRoles();
             Utils.TargetDies(__instance, target);
         }
@@ -347,7 +347,7 @@ namespace TownOfHost
                     targetm.RpcSetCustomRole(CustomRoles.SKMadmate);
                     Logger.Info($"Make SKMadmate:{targetm.name}", "Shapeshift");
                     Main.SKMadmateNowCount++;
-                    Utils.CustomSyncAllSettings();
+                    Utils.MarkEveryoneDirtySettings();
                     Utils.NotifyRoles();
                 }
             }
@@ -437,7 +437,7 @@ namespace TownOfHost
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
 
-            Utils.CustomSyncAllSettings();
+            Utils.MarkEveryoneDirtySettings();
             return true;
         }
         public static async void ChangeLocalNameAndRevert(string name, int time)
@@ -518,7 +518,7 @@ namespace TownOfHost
                         {
                             player.RpcResetAbilityCooldown();
                             Main.isCursed = false;//変身クールを１秒に変更
-                            Utils.CustomSyncAllSettings();
+                            Utils.MarkEveryoneDirtySettings();
                             Main.WarlockTimer.Remove(player.PlayerId);
                         }
                         else Main.WarlockTimer[player.PlayerId] = Main.WarlockTimer[player.PlayerId] + Time.fixedDeltaTime;//時間をカウント
@@ -573,7 +573,7 @@ namespace TownOfHost
                         else if (ar_time >= Options.ArsonistDouseTime.GetFloat())//時間以上一緒にいて塗れた時
                         {
                             Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat() * 2;
-                            Utils.CustomSyncAllSettings();//同期
+                            Utils.MarkEveryoneDirtySettings();//同期
                             player.RpcGuardAndKill(ar_target);//通知とクールリセット
                             Main.ArsonistTimer.Remove(player.PlayerId);//塗が完了したのでDictionaryから削除
                             Main.isDoused[(player.PlayerId, ar_target.PlayerId)] = true;//塗り完了
@@ -632,7 +632,7 @@ namespace TownOfHost
                                 RPC.PlaySoundRPC(puppeteerId, Sounds.KillSound);
                                 target.SetRealKiller(Utils.GetPlayerById(puppeteerId));
                                 player.RpcMurderPlayer(target);
-                                Utils.CustomSyncAllSettings();
+                                Utils.MarkEveryoneDirtySettings();
                                 Main.PuppeteerList.Remove(player.PlayerId);
                                 Utils.NotifyRoles();
                             }
@@ -1094,7 +1094,7 @@ namespace TownOfHost
                 pc.GetCustomRole() is CustomRoles.SpeedBooster)
             {
                 //ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
-                Utils.CustomSyncAllSettings();
+                Utils.MarkEveryoneDirtySettings();
             }
 
         }

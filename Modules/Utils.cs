@@ -138,11 +138,11 @@ namespace TownOfHost
                 if (Constants.ShouldPlaySfx()) RPC.PlaySound(player.PlayerId, Sounds.KillSound);
             }
             else if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
-            ExtendedPlayerControl.CustomSyncSettings(player);
+            ExtendedPlayerControl.MarkDirtySettings(player);
             new LateTask(() =>
             {
                 Main.PlayerStates[player.PlayerId].IsBlackOut = false; //ブラックアウト解除
-                ExtendedPlayerControl.CustomSyncSettings(player);
+                ExtendedPlayerControl.MarkDirtySettings(player);
             }, Options.KillFlashDuration.GetFloat(), "RemoveKillFlash");
         }
         public static void BlackOut(this IGameOptions opt, bool IsBlackOut)
@@ -921,11 +921,11 @@ namespace TownOfHost
                 TownOfHost.Logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":END", "NotifyRoles");
             }
         }
-        public static void CustomSyncAllSettings()
+        public static void MarkEveryoneDirtySettings()
         {
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                pc.CustomSyncSettings();
+                pc.MarkDirtySettings();
             }
         }
         public static void AfterMeetingTasks()

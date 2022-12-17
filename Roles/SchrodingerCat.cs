@@ -73,7 +73,7 @@ namespace TownOfHost
                     NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, $"{Utils.GetRoleColorCode(CustomRoles.SchrodingerCat)}");
                 }
                 Utils.NotifyRoles();
-                Utils.CustomSyncAllSettings();
+                Utils.MarkEveryoneDirtySettings();
                 //シュレディンガーの猫の役職変化処理終了
                 //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
             }

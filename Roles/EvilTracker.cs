@@ -180,7 +180,7 @@ namespace TownOfHost
                     SendTarget(shapeshifter.PlayerId, target.PlayerId);
                     Logger.Info($"{shapeshifter.GetNameWithRole()}のターゲットを{Target[shapeshifter.PlayerId].GetNameWithRole()}に設定", "EvilTrackerTarget");
                 }
-                Utils.CustomSyncAllSettings();
+                Utils.MarkEveryoneDirtySettings();
                 Utils.NotifyRoles();
             }
         }
