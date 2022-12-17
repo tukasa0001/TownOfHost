@@ -26,7 +26,25 @@ namespace TownOfHost.Modules
         {
             var opt = BuildGameOptions();
 
-            SendOptionsArray(AmongUsClient.Instance.gameOptionsFactory.ToBytes(opt));
+            // option => byte[]
+            MessageWriter writer = MessageWriter.Get(SendOption.None);
+            writer.Write(opt.Version);
+            writer.StartMessage(0);
+            writer.Write((byte)opt.GameMode);
+            if (opt.TryCast<NormalGameOptionsV07>(out var normalOpt))
+                NormalGameOptionsV07.Serialize(writer, normalOpt);
+            else if (opt.TryCast<HideNSeekGameOptionsV07>(out var hnsOpt))
+                HideNSeekGameOptionsV07.Serialize(writer, hnsOpt);
+            else
+            {
+                writer.Recycle();
+                Logger.Error("オプションのキャストに失敗しました", this.ToString());
+            }
+            writer.EndMessage();
+
+            SendOptionsArray(writer.ToByteArray(false));
+
+            writer.Recycle();
         }
         protected virtual void SendOptionsArray(byte[] optionArray, int targetClientId = -1)
         {
