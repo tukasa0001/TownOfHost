@@ -38,11 +38,13 @@ namespace TownOfHost.Modules
 
         public override void SendOptionsArray(byte[] optionArray)
         {
-            SendOptionsArray(
-                optionArray,
-                (byte)GameManager.Instance.LogicComponents.FindIndex((Func<GameLogicComponent, bool>)(c => c is LogicOptions)),
-                player.GetClientId()
-            );
+            for (byte i = 0; i < GameManager.Instance.LogicComponents.Count; i++)
+            {
+                if (GameManager.Instance.LogicComponents[i].TryCast<LogicOptions>(out _))
+                {
+                    SendOptionsArray(optionArray, i, player.GetClientId());
+                }
+            }
         }
 
         public override IGameOptions BuildGameOptions()
