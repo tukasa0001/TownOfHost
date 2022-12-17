@@ -56,9 +56,12 @@ namespace TownOfHost.Modules
         }
         public virtual void SendOptionsArray(byte[] optionArray)
         {
+            byte index = 0;
+            for (; index < GameManager.Instance.LogicComponents.Count; index++)
+                if (GameManager.Instance.LogicComponents[index] is LogicOptions) break;
             SendOptionsArray(
                 optionArray,
-                (byte)GameManager.Instance.LogicComponents.FindIndex((Func<GameLogicComponent, bool>)(c => c is LogicOptions)),
+                index,
                 -1
             );
         }
