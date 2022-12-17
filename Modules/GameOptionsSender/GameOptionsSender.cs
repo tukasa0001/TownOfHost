@@ -76,5 +76,17 @@ namespace TownOfHost.Modules
             writer.Recycle();
         }
         public abstract IGameOptions BuildGameOptions();
+
+
+        public bool IsSameBytes(byte[] arr1, byte[] arr2)
+        {
+            if (arr1 == null || arr2 == null || arr1.Length != arr2.Length) return false;
+
+            for (int i = 0; i < arr1.Length; i++)
+            {
+                if (arr1[i] != arr2[i]) return false;
+            }
+            return true;
+        }
     }
 }
