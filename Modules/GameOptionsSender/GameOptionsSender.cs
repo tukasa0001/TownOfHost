@@ -5,6 +5,7 @@ using Il2CppSystem.Linq;
 using InnerNet;
 using Hazel;
 using AmongUs.GameOptions;
+using System.Text;
 
 namespace TownOfHost.Modules
 {
@@ -20,7 +21,7 @@ namespace TownOfHost.Modules
         #endregion
 
         public abstract IGameOptions BasedGameOptions { get; }
-        public byte[] SentBytesCache;
+        public byte[] SentBytesCache = new byte[0];
 
 
         public virtual void SendGameOptions()
@@ -44,13 +45,15 @@ namespace TownOfHost.Modules
             writer.EndMessage();
 
             // キャッシュと比較&送信
-            if (!IsSameBytes(SentBytesCache, writer))
+            Span<byte> cacheSpan = new(SentBytesCache);
+            Span<byte> writerSpan = new(writer.Buffer, 1, writer.Length - 1);
+            if (!IsSameBytes(cacheSpan, writerSpan))
             {
-                if (SentBytesCache == null || writer.Position != SentBytesCache.Length) SentBytesCache = new byte[writer.Position];
+                if (SentBytesCache == null || SentBytesCache.Length != writerSpan.Length) SentBytesCache = new byte[writerSpan.Length];
                 for (int i = 0; i < SentBytesCache.Length; i++)
-                    SentBytesCache[i] = writer.Buffer[i];
+                    SentBytesCache[i] = writerSpan[i];
 
-                SendOptionsArray(SentBytesCache);
+                SendOptionsArray(AmongUsClient.Instance.gameOptionsFactory.ToBytes(opt));
             }
             writer.Recycle();
         }
@@ -67,6 +70,7 @@ namespace TownOfHost.Modules
         }
         protected virtual void SendOptionsArray(byte[] optionArray, byte LogicOptionsIndex, int targetClientId)
         {
+            Logger.Info($"index: {LogicOptionsIndex}", "GameOptionsSender");
             var writer = MessageWriter.Get(SendOption.Reliable);
 
             writer.StartMessage(targetClientId == -1 ? Tags.GameData : Tags.GameDataTo);
@@ -90,13 +94,13 @@ namespace TownOfHost.Modules
             writer.Recycle();
         }
         public abstract IGameOptions BuildGameOptions();
-        public bool IsSameBytes(byte[] array, MessageWriter writer)
+        public bool IsSameBytes(Span<byte> arr1, Span<byte> arr2)
         {
-            if (array == null || writer == null || array.Length != writer.Position) return false;
+            if (arr1 == null || arr2 == null || arr1.Length != arr2.Length) return false;
 
-            for (int i = 0; i < array.Length; i++)
+            for (int i = 0; i < arr1.Length; i++)
             {
-                if (array[i] != writer.Buffer[i]) return false;
+                if (arr1[i] != arr2[i]) return false;
             }
             return true;
         }
