@@ -16,7 +16,10 @@ namespace TownOfHost.Modules
 
         public static void SendAllGameOptions()
         {
-            AllSenders.ForEach(sender => sender.SendGameOptions());
+            foreach (var sender in AllSenders)
+            {
+                if (sender.IsDirty) sender.SendGameOptions();
+            }
         }
         #endregion
 
