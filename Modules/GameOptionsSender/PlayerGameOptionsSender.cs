@@ -11,6 +11,12 @@ namespace TownOfHost.Modules
 {
     public class PlayerGameOptionsSender : GameOptionsSender
     {
+        public static void SetDirty(PlayerControl player) => SetDirty(player.PlayerId);
+        public static void SetDirty(byte playerId) =>
+            AllSenders.OfType<PlayerGameOptionsSender>()
+            .Where(sender => sender.player.PlayerId == playerId)
+            .ToList().ForEach(sender => sender.SetDirty());
+
         public override IGameOptions BasedGameOptions =>
             Main.RealOptionsData.Restore(new NormalGameOptionsV07(new UnityLogger().Cast<ILogger>()).Cast<IGameOptions>());
         public override bool IsDirty => _isDirty;
