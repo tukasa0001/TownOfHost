@@ -26,7 +26,6 @@ namespace TownOfHost.Modules
 
         public virtual void SendGameOptions()
         {
-            Logger.Info("SendGameOptions", "GameOptionsSender");
             var opt = BuildGameOptions();
 
             // option => byte[]
@@ -50,7 +49,6 @@ namespace TownOfHost.Modules
             Span<byte> writerSpan = new(writer.Buffer, 1, writer.Length - 1);
             if (!IsSameBytes(cacheSpan, writerSpan))
             {
-                Logger.Info("NotSameBytes", "GameOptionsSender");
                 if (SentBytesCache == null || SentBytesCache.Length != writerSpan.Length) SentBytesCache = new byte[writerSpan.Length];
                 for (int i = 0; i < SentBytesCache.Length; i++)
                     SentBytesCache[i] = writerSpan[i];
@@ -61,7 +59,6 @@ namespace TownOfHost.Modules
         }
         public virtual void SendOptionsArray(byte[] optionArray)
         {
-            Logger.Info("SendOptionsArray", "GameOptionsSender");
             for (byte i = 0; i < GameManager.Instance.LogicComponents.Count; i++)
             {
                 if (GameManager.Instance.LogicComponents[i].TryCast<LogicOptions>(out _))
@@ -72,7 +69,6 @@ namespace TownOfHost.Modules
         }
         protected virtual void SendOptionsArray(byte[] optionArray, byte LogicOptionsIndex, int targetClientId)
         {
-            Logger.Info($"index: {LogicOptionsIndex}", "GameOptionsSender");
             var writer = MessageWriter.Get(SendOption.Reliable);
 
             writer.StartMessage(targetClientId == -1 ? Tags.GameData : Tags.GameDataTo);
