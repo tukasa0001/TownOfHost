@@ -12,6 +12,7 @@ namespace TownOfHost.Modules
     {
         public override IGameOptions BasedGameOptions =>
             GameOptionsManager.Instance.CurrentGameOptions;
+        public override bool IsDirty => throw new NotImplementedException();
 
         public override IGameOptions BuildGameOptions()
             => BasedGameOptions;

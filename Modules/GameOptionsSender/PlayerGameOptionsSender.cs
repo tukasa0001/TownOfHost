@@ -13,8 +13,22 @@ namespace TownOfHost.Modules
     {
         public override IGameOptions BasedGameOptions =>
             Main.RealOptionsData.Restore(new NormalGameOptionsV07(new UnityLogger().Cast<ILogger>()).Cast<IGameOptions>());
+        public override bool IsDirty
+        {
+            get
+            {
+                if (_logicOptions == null || !GameManager.Instance.LogicComponents.Contains(_logicOptions))
+                {
+                    foreach (var glc in GameManager.Instance.LogicComponents)
+                        if (_logicOptions.TryCast<LogicOptions>(out var lo))
+                            _logicOptions = lo;
+                }
+                return _logicOptions != null && _logicOptions.IsDirty;
+            }
+        }
 
         public PlayerControl player;
+        private LogicOptions _logicOptions;
 
         public PlayerGameOptionsSender(PlayerControl player)
         {

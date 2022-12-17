@@ -21,6 +21,7 @@ namespace TownOfHost.Modules
         #endregion
 
         public abstract IGameOptions BasedGameOptions { get; }
+        public abstract bool IsDirty { get; }
         public byte[] SentBytesCache = new byte[0];
 
 
