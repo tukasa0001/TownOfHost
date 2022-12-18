@@ -314,6 +314,12 @@ namespace TownOfHost
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
+                    //インポスターのゴーストロールがクルーメイトになるバグ対策
+                    if (pc.Data.Role.IsImpostor)
+                    {
+                        pc.Data.Role.DefaultGhostRole = RoleTypes.ImpostorGhost;
+                    }
+
                     if (pc.Is(CustomRoles.Watcher))
                         Main.PlayerStates[pc.PlayerId].MainRole = Options.IsEvilWatcher ? CustomRoles.EvilWatcher : CustomRoles.NiceWatcher;
                 }
