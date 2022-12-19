@@ -61,6 +61,7 @@ namespace TownOfHost
                 {
                     switch (pc.GetCustomRole().GetRoleType())
                     {
+                        case RoleType.Impostor:
                         case RoleType.Madmate:
                             SetGhostRole(ToGhostImpostor: true);
                             break;
@@ -74,6 +75,7 @@ namespace TownOfHost
                 {
                     switch (pc.GetCustomRole().GetRoleType())
                     {
+                        case RoleType.Impostor:
                         case RoleType.Madmate:
                         case RoleType.Neutral:
                             SetGhostRole(ToGhostImpostor: true);
