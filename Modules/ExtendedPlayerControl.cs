@@ -125,6 +125,11 @@ namespace TownOfHost
             //player: 名前の変更対象
 
             if (player == null) return;
+            if (PlayerControl.LocalPlayer.GetClientId() == clientId)
+            {
+                player.SetRole(role);
+                return;
+            }
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetRole, Hazel.SendOption.Reliable, clientId);
             writer.Write((ushort)role);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
