@@ -36,41 +36,35 @@ namespace TownOfHost
             if (killer.Is(CustomRoles.Arsonist)) return true;
 
             killer.RpcGuardAndKill(target);
-            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.Sniped)
+
+            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.Sniped) //スナイプされた時
+                killer = Utils.GetPlayerById(Sniper.GetSniper(target.PlayerId));
+
+            switch (killer.GetCustomRole())
             {
-                //スナイプされた時
+                case CustomRoles.BountyHunter:
+                    if (BountyHunter.GetTarget(killer) == target)
+                        BountyHunter.ResetTarget(killer);//ターゲットの選びなおし
+                    break;
+                case CustomRoles.SerialKiller:
+                    SerialKiller.OnCheckMurder(killer, false);
+                    break;
+                case CustomRoles.Sheriff:
+                    target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
+                    break;
+                case CustomRoles.Egoist:
+                    TeamEgoist.Add(target.PlayerId);
+                    target.RpcSetCustomRole(CustomRoles.EgoSchrodingerCat);
+                    break;
+                case CustomRoles.Jackal:
+                    target.RpcSetCustomRole(CustomRoles.JSchrodingerCat);
+                    break;
+            }
+            if (killer.Is(RoleType.Impostor))
                 target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
-                var sniperId = Sniper.GetSniper(target.PlayerId);
-                NameColorManager.Instance.RpcAdd(sniperId, target.PlayerId, $"{Utils.GetRoleColorCode(CustomRoles.SchrodingerCat)}");
-            }
-            else
-            {
-                switch (killer.GetCustomRole())
-                {
-                    case CustomRoles.BountyHunter:
-                        if (BountyHunter.GetTarget(killer) == target)
-                            BountyHunter.ResetTarget(killer);//ターゲットの選びなおし
-                        break;
 
-                    case CustomRoles.Sheriff:
-                        target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
-                        break;
-                    case CustomRoles.Egoist:
-                        TeamEgoist.Add(target.PlayerId);
-                        target.RpcSetCustomRole(CustomRoles.EgoSchrodingerCat);
-                        break;
-                    case CustomRoles.Jackal:
-                        target.RpcSetCustomRole(CustomRoles.JSchrodingerCat);
-                        break;
-                    default:
-                        SerialKiller.OnCheckMurder(killer, false);
-                        break;
-                }
-                if (killer.GetCustomRole().IsImpostor())
-                    target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+            NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, $"{Utils.GetRoleColorCode(CustomRoles.SchrodingerCat)}");
 
-                NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, $"{Utils.GetRoleColorCode(CustomRoles.SchrodingerCat)}");
-            }
             Utils.NotifyRoles();
             Utils.CustomSyncAllSettings();
             //シュレディンガーの猫の役職変化処理終了
