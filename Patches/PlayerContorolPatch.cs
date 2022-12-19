@@ -106,8 +106,9 @@ namespace TownOfHost
             switch (target.GetCustomRole())
             {
                 case CustomRoles.SchrodingerCat:
-                    SchrodingerCat.OnCheckMurder(killer, target);
-                    return false;
+                    if (!SchrodingerCat.OnCheckMurder(killer, target))
+                        return false;
+                    break;
 
                 //==========マッドメイト系役職==========//
                 case CustomRoles.MadGuardian:
