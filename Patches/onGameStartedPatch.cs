@@ -314,12 +314,6 @@ namespace TownOfHost
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    //インポスターのゴーストロールがクルーメイトになるバグ対策
-                    if (pc.Data.Role.IsImpostor)
-                    {
-                        pc.Data.Role.DefaultGhostRole = RoleTypes.ImpostorGhost;
-                    }
-
                     if (pc.Is(CustomRoles.Watcher))
                         Main.PlayerStates[pc.PlayerId].MainRole = Options.IsEvilWatcher ? CustomRoles.EvilWatcher : CustomRoles.NiceWatcher;
                 }
@@ -432,6 +426,16 @@ namespace TownOfHost
 
             // ResetCamが必要なプレイヤーのリストにクラス化が済んでいない役職のプレイヤーを追加
             Main.ResetCamPlayerList.AddRange(PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is CustomRoles.Arsonist).Select(p => p.PlayerId));
+/*
+            //インポスターのゴーストロールがクルーメイトになるバグ対策
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.Data.Role.IsImpostor || Main.ResetCamPlayerList.Contains(pc.PlayerId))
+                {
+                    pc.Data.Role.DefaultGhostRole = RoleTypes.ImpostorGhost;
+                }
+            }
+*/
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
