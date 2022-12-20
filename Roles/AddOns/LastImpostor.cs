@@ -41,7 +41,7 @@ namespace TownOfHost
                     pc.RpcSetCustomRole(CustomRoles.LastImpostor);
                     Add(pc.PlayerId);
                     Utils.NotifyRoles();
-                    Utils.CustomSyncAllSettings();
+                    Utils.MarkEveryoneDirtySettings();
                     break;
                 }
             }

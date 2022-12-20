@@ -20,7 +20,7 @@ namespace TownOfHost
             }
             else if (!float.IsNaN(Main.RefixCooldownDelay))
             {
-                Utils.CustomSyncAllSettings();
+                Utils.MarkEveryoneDirtySettings();
                 Main.RefixCooldownDelay = float.NaN;
                 Logger.Info("Refix Cooldown", "CoolDown");
             }
@@ -32,7 +32,7 @@ namespace TownOfHost
                 }
                 else if (!float.IsNaN(Options.HideAndSeekKillDelayTimer))
                 {
-                    Utils.CustomSyncAllSettings();
+                    Utils.MarkEveryoneDirtySettings();
                     Options.HideAndSeekKillDelayTimer = float.NaN;
                     Logger.Info("キル能力解禁", "HideAndSeek");
                 }
@@ -88,7 +88,7 @@ namespace TownOfHost
         }
         public static void Postfix(ShipStatus __instance)
         {
-            Utils.CustomSyncAllSettings();
+            Utils.MarkEveryoneDirtySettings();
             new LateTask(
                 () =>
                 {

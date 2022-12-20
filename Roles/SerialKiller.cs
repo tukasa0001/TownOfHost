@@ -49,7 +49,7 @@ namespace TownOfHost
             if (!killer.Is(CustomRoles.SerialKiller)) return;
             SuicideTimer.Remove(killer.PlayerId);
             if (CanMurder)
-                killer.CustomSyncSettings();
+                killer.MarkDirtySettings();
         }
         public static void OnReportDeadBody()
         {

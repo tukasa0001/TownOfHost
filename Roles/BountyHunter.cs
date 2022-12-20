@@ -69,14 +69,14 @@ namespace TownOfHost
             {//ターゲットをキルした場合
                 Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
                 Main.AllPlayerKillCooldown[killer.PlayerId] = SuccessKillCooldown.GetFloat();
-                killer.CustomSyncSettings();//キルクール処理を同期
+                killer.MarkDirtySettings();//キルクール処理を同期
                 ResetTarget(killer);
             }
             else
             {
                 Logger.Info($"{killer?.Data?.PlayerName}:ターゲット以外をキル", "BountyHunter");
                 Main.AllPlayerKillCooldown[killer.PlayerId] = FailureKillCooldown.GetFloat();
-                killer.CustomSyncSettings();//キルクール処理を同期
+                killer.MarkDirtySettings();//キルクール処理を同期
             }
         }
         public static void OnReportDeadBody()
