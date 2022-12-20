@@ -146,6 +146,8 @@ namespace TownOfHost
             TownOfHost.Logger.Disable("SendRPC");
             TownOfHost.Logger.Disable("ReceiveRPC");
             TownOfHost.Logger.Disable("SwitchSystem");
+            TownOfHost.Logger.Disable("CustomRpcSender");
+            TownOfHost.Logger.Disable("SendChat");
             //TownOfHost.Logger.isDetail = true;
 
             // 認証関連-初期化
