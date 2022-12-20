@@ -1,11 +1,8 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using Il2CppSystem.Linq;
 using InnerNet;
 using Hazel;
 using AmongUs.GameOptions;
-using System.Text;
 
 namespace TownOfHost.Modules
 {
