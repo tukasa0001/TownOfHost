@@ -125,7 +125,7 @@ namespace TownOfHost
             //player: 名前の変更対象
 
             if (player == null) return;
-            if (PlayerControl.LocalPlayer.GetClientId() == clientId)
+            if (AmongUsClient.Instance.ClientId == clientId)
             {
                 player.SetRole(role);
                 return;
