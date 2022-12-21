@@ -1116,4 +1116,35 @@ namespace TownOfHost
             Logger.Info($"{__instance.GetNameWithRole()}", "RemoveProtection");
         }
     }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSetRole))]
+    class PlayerControlSetRolePatch
+    {
+        public static bool Prefix(PlayerControl __instance, ref RoleTypes roleType)
+        {
+            var target = __instance;
+            Logger.Info($"{__instance.GetNameWithRole()} =>{roleType}", "PlayerControl.RpcSetRole");
+            if (!ShipStatus.Instance.enabled) return true;
+            if (roleType is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost)
+            {
+                foreach (var seer in PlayerControl.AllPlayerControls)
+                {
+                    var self = seer.PlayerId == target.PlayerId;
+                    var seerIsKiller = seer.Is(RoleType.Impostor) || Main.ResetCamPlayerList.Contains(seer.PlayerId);
+                    var targetIsKiller = target.Is(RoleType.Impostor) || Main.ResetCamPlayerList.Contains(target.PlayerId);
+                    if ((self && targetIsKiller) || (!seerIsKiller && target.Is(RoleType.Impostor)))
+                    {
+                        Logger.Info($"Desync {target.GetNameWithRole()} =>ImpostorGhost for{seer.GetNameWithRole()}", "PlayerControl.RpcSetRole");
+                        target.RpcSetRoleDesync(RoleTypes.ImpostorGhost, seer.GetClientId());
+                    }
+                    else
+                    {
+                        Logger.Info($"Desync {target.GetNameWithRole()} =>CrewmateGhost for{seer.GetNameWithRole()}", "PlayerControl.RpcSetRole");
+                        target.RpcSetRoleDesync(RoleTypes.CrewmateGhost, seer.GetClientId());
+                    }
+                }
+                return false;
+            }
+            return true;
+        }
+    }
 }
