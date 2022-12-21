@@ -141,7 +141,7 @@ namespace TownOfHost
             var rand = IRandom.Instance;
             if (cTargets.Count <= 0)
             {
-                Logger.Error("ターゲットの指定に失敗しました:ターゲット候補が存在しません", "BountyHunter");
+                Logger.Warn("ターゲットの指定に失敗しました:ターゲット候補が存在しません", "BountyHunter");
                 return null;
             }
             var target = cTargets[rand.Next(0, cTargets.Count)];
