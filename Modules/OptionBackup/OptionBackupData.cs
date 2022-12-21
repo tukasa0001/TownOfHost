@@ -33,6 +33,8 @@ namespace TownOfHost
                 if (option.TryGetInt(name, out var value))
                     AllValues.Add(new IntOptionBackupValue(name, value));
             }
+            // [バニラ側バグ] GetIntで部屋の人数のみ取得できないため、別で取得する
+            AllValues.Add(new IntOptionBackupValue(Int32OptionNames.MaxPlayers, option.MaxPlayers));
 
             foreach (RoleTypes role in new RoleTypes[] { RoleTypes.Scientist, RoleTypes.Engineer, RoleTypes.GuardianAngel, RoleTypes.Shapeshifter })
             {
