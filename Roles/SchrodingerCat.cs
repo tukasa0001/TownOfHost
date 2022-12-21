@@ -37,9 +37,8 @@ namespace TownOfHost
 
             killer.RpcGuardAndKill(target);
 
-            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.Sniped) //スナイプされた時
+            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.Sniped) //スナイプされた時killerをSniperに
                 killer = Utils.GetPlayerById(Sniper.GetSniper(target.PlayerId));
-
             switch (killer.GetCustomRole())
             {
                 case CustomRoles.BountyHunter:
@@ -64,7 +63,6 @@ namespace TownOfHost
                 target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
 
             NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, $"{Utils.GetRoleColorCode(CustomRoles.SchrodingerCat)}");
-
             Utils.NotifyRoles();
             Utils.MarkEveryoneDirtySettings();
             //シュレディンガーの猫の役職変化処理終了
