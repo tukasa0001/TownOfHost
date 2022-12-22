@@ -181,10 +181,11 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Crewmate);
                     PlayerControl.LocalPlayer.Data.IsDead = true;
                 }
-
-                AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, senders, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, senders, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Jackal, AllPlayers, senders, BaseRole: RoleTypes.Impostor);
+                Dictionary<(byte, byte), RoleTypes> rolesMap = new();
+                AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Jackal, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
+                MakeDesyncSender(senders, rolesMap);
             }
             //以下、バニラ側の役職割り当てが入る
         }
@@ -449,50 +450,66 @@ namespace TownOfHost
             Utils.MarkEveryoneDirtySettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
         }
-        private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, Dictionary<byte, CustomRpcSender> senders, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)
+        private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, Dictionary<byte, CustomRpcSender> senders, Dictionary<(byte, byte), RoleTypes> rolesMap, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)
         {
             if (!role.IsEnable()) return;
+
+            var hostId = PlayerControl.LocalPlayer.PlayerId;
+            var rand = IRandom.Instance;
 
             for (var i = 0; i < role.GetCount(); i++)
             {
                 if (AllPlayers.Count <= 0) break;
-                var rand = IRandom.Instance;
                 var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
                 AllPlayers.Remove(player);
                 Main.PlayerStates[player.PlayerId].MainRole = role;
 
-                if (player.PlayerId != PlayerControl.LocalPlayer.PlayerId)
-                {
-                    int playerCID = player.GetClientId();
-                    //player視点用: playerの役職をBaseRoleに変更
-                    senders[player.PlayerId].RpcSetRole(player, BaseRole, playerCID);
-                    //割り当て対象の視点で他プレイヤーを科学者にするループ
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        if (pc == player) continue;
-                        senders[player.PlayerId].RpcSetRole(pc, RoleTypes.Scientist, playerCID);
-                    }
-                    //pc視点用: playerの役職を科学者に変更
-                    //ループを分けているのはRootMessageを極力分けないようにするためで、意図的なものです。
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        if (pc == player) continue;
-                        senders[pc.PlayerId].RpcSetRole(player, RoleTypes.Scientist, pc.GetClientId());
-                    }
-                    player.SetRole(RoleTypes.Scientist); //ホスト視点用
+                var selfRole = player.PlayerId == hostId ? hostBaseRole : BaseRole;
+                var othersRole = player.PlayerId == hostId ? RoleTypes.Crewmate : RoleTypes.Scientist;
 
-                    RpcSetRoleReplacer.OverriddenSenderList.Add(senders[player.PlayerId]);
-                }
-                else
+                //Desync役職視点
+                foreach (var target in PlayerControl.AllPlayerControls)
                 {
-                    //ホストは別の役職にする
-                    player.SetRole(hostBaseRole); //ホスト視点用
-                    foreach (var sender in senders.Values)
-                        sender.RpcSetRole(player, hostBaseRole);
+                    if (player.PlayerId != target.PlayerId)
+                    {
+                        rolesMap[(player.PlayerId, target.PlayerId)] = othersRole;
+                    }
+                    else
+                    {
+                        rolesMap[(player.PlayerId, target.PlayerId)] = selfRole;
+                    }
                 }
+
+                //他者視点
+                foreach (var seer in PlayerControl.AllPlayerControls)
+                {
+                    if (player.PlayerId != seer.PlayerId)
+                    {
+                        rolesMap[(seer.PlayerId, player.PlayerId)] = othersRole;
+                    }
+                }
+                RpcSetRoleReplacer.OverriddenSenderList.Add(senders[player.PlayerId]);
+                //ホスト視点はロール決定
+                player.SetRole(othersRole);
                 player.Data.IsDead = true;
             }
         }
+        public static void MakeDesyncSender(Dictionary<byte, CustomRpcSender> senders, Dictionary<(byte, byte), RoleTypes> rolesMap)
+        {
+            var hostId = PlayerControl.LocalPlayer.PlayerId;
+            foreach (var seer in PlayerControl.AllPlayerControls)
+            {
+                var sender = senders[seer.PlayerId];
+                foreach (var target in PlayerControl.AllPlayerControls)
+                {
+                    if (rolesMap.TryGetValue((seer.PlayerId, target.PlayerId), out var role))
+                    {
+                        sender.RpcSetRole(seer, role, target.GetClientId());
+                    }
+                }
+            }
+        }
+
         private static List<PlayerControl> AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1)
         {
             if (players == null || players.Count <= 0) return null;
