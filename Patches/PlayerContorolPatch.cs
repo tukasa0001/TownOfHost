@@ -296,6 +296,10 @@ namespace TownOfHost
             var shapeshifting = shapeshifter.PlayerId != target.PlayerId;
 
             Main.CheckShapeshift[shapeshifter.PlayerId] = shapeshifting;
+            Main.ShapeshiftTarget[shapeshifter.PlayerId] = target.PlayerId;
+
+            if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
+
             if (shapeshifter.Is(CustomRoles.Warlock))
             {
                 if (Main.CursedPlayers[shapeshifter.PlayerId] != null)//呪われた人がいるか確認
@@ -437,6 +441,11 @@ namespace TownOfHost
             //=============================================
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
+
+
+            PlayerControl.AllPlayerControls.ToArray()
+                .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
+                .Do(pc => Camouflage.RpcSetSkin(pc, RevertToDefault: true));
 
             Utils.MarkEveryoneDirtySettings();
             return true;
