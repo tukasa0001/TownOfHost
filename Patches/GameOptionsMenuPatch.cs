@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using UnhollowerBaseLib;
 using UnityEngine;
-using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 using Object = UnityEngine.Object;
 
@@ -315,44 +315,14 @@ namespace TownOfHost
             __instance.ConfirmImpostor = false;
             __instance.VisualTasks = false;
 
-            if (__instance.roleOptions.roles.TryGetValue(RoleTypes.Shapeshifter, out var shapeData))
-            {
-                var opt = shapeData.RoleOptions.TryCast<ShapeshifterRoleOptionsV07>();
-                if (opt != null)
-                {
-                    opt.ShapeshifterCooldown = 10f;
-                    opt.ShapeshifterDuration = 30f;
-                    opt.ShapeshifterLeaveSkin = false;
-                }
-            }
-            if (__instance.roleOptions.roles.TryGetValue(RoleTypes.GuardianAngel, out var gaData))
-            {
-                var opt = gaData.RoleOptions.TryCast<GuardianAngelRoleOptionsV07>();
-                if (opt != null)
-                {
-                    opt.ImpostorsCanSeeProtect = false;
-                    opt.GuardianAngelCooldown = 60f;
-                    opt.ProtectionDurationSeconds = 10f;
-                }
-            }
-            if (__instance.roleOptions.roles.TryGetValue(RoleTypes.Scientist, out var scData))
-            {
-                var opt = scData.RoleOptions.TryCast<ScientistRoleOptionsV07>();
-                if (opt != null)
-                {
-                    opt.ScientistCooldown = 15f;
-                    opt.ScientistBatteryCharge = 5f;
-                }
-            }
-            if (__instance.roleOptions.roles.TryGetValue(RoleTypes.Engineer, out var egData))
-            {
-                var opt = egData.RoleOptions.TryCast<EngineerRoleOptionsV07>();
-                if (opt != null)
-                {
-                    opt.EngineerCooldown = 30f;
-                    opt.EngineerInVentMaxTime = 15f;
-                }
-            }
+            __instance.roleOptions.SetRoleRate(RoleTypes.Shapeshifter, 0, 0);
+            __instance.roleOptions.SetRoleRate(RoleTypes.Scientist, 0, 0);
+            __instance.roleOptions.SetRoleRate(RoleTypes.GuardianAngel, 0, 0);
+            __instance.roleOptions.SetRoleRate(RoleTypes.Engineer, 0, 0);
+            __instance.roleOptions.SetRoleRecommended(RoleTypes.Shapeshifter);
+            __instance.roleOptions.SetRoleRecommended(RoleTypes.Scientist);
+            __instance.roleOptions.SetRoleRecommended(RoleTypes.GuardianAngel);
+            __instance.roleOptions.SetRoleRecommended(RoleTypes.Engineer);
 
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) //HideAndSeek
             {
