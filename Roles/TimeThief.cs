@@ -48,7 +48,7 @@ namespace TownOfHost
                 Main.VotingTime += Main.DiscussionTime;
                 Main.DiscussionTime = 0;
             }
-            Utils.CustomSyncAllSettings();
+            Utils.MarkEveryoneDirtySettings();
         }
     }
 }

@@ -40,8 +40,8 @@ namespace TownOfHost
                     new LateTask(() =>
                     {
                         Vector2 targetPos = (Vector2)TargetLadderData[player.PlayerId] + new Vector2(0.1f, 0f);
-                        ushort num = (ushort)(player.NetTransform.XRange.ReverseLerp(targetPos.x) * 65535f);
-                        ushort num2 = (ushort)(player.NetTransform.YRange.ReverseLerp(targetPos.y) * 65535f);
+                        ushort num = (ushort)(NetHelpers.XRange.ReverseLerp(targetPos.x) * 65535f);
+                        ushort num2 = (ushort)(NetHelpers.YRange.ReverseLerp(targetPos.y) * 65535f);
                         CustomRpcSender sender = CustomRpcSender.Create("LadderFallRpc", sendOption: Hazel.SendOption.None);
                         sender.AutoStartRpc(player.NetTransform.NetId, (byte)RpcCalls.SnapTo)
                                 .Write(num)

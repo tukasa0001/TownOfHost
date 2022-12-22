@@ -2,6 +2,7 @@ using System;
 using HarmonyLib;
 using UnhollowerBaseLib;
 using UnityEngine;
+using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -27,7 +28,7 @@ namespace TownOfHost
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
                 if ((!AmongUsClient.Instance.IsGameStarted || !GameStates.IsOnlineGame)
-                    && player.MyAnim.ClipName is "Idle" or "Walk")
+                    && player.CanMove)
                 {
                     player.Collider.offset = new Vector2(0f, 127f);
                 }
@@ -108,34 +109,28 @@ namespace TownOfHost
                     LowerInfoText.fontSizeMax = 2.0f;
                 }
 
-            if (player.Is(CustomRoles.BountyHunter)) BountyHunter.DisplayTarget(player, LowerInfoText);
-            else if (player.Is(CustomRoles.Witch))
-            {
-                //魔女用処理
-                LowerInfoText.text = Witch.GetSpellModeText(player,true);
-                LowerInfoText.enabled = true;
-            }
-            else if (player.Is(CustomRoles.FireWorks))
-            {
-                var stateText = FireWorks.GetStateText(player);
-                LowerInfoText.text = stateText;
-                LowerInfoText.enabled = true;
-            }
-            else
-            {
-                LowerInfoText.enabled = false;
-            }
-            if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
-            {
-                LowerInfoText.enabled = false;
-            }
-
-                if (!player.GetCustomRole().IsVanilla())
+                if (player.Is(CustomRoles.BountyHunter)) BountyHunter.DisplayTarget(player, LowerInfoText);
+                else if (player.Is(CustomRoles.Witch))
                 {
-                    var RoleWithInfo = $"{player.GetDisplayRoleName()}\r\n";
-                    RoleWithInfo += player.GetRoleInfo();
-                    TaskTextPrefix = Utils.ColorString(player.GetRoleColor(), RoleWithInfo);
+                    //魔女用処理
+                    LowerInfoText.text = Witch.GetSpellModeText(player, true);
+                    LowerInfoText.enabled = true;
                 }
+                else if (player.Is(CustomRoles.FireWorks))
+                {
+                    var stateText = FireWorks.GetStateText(player);
+                    LowerInfoText.text = stateText;
+                    LowerInfoText.enabled = true;
+                }
+                else
+                {
+                    LowerInfoText.enabled = false;
+                }
+                if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay)
+                {
+                    LowerInfoText.enabled = false;
+                }
+
                 if (player.CanUseKillButton())
                 {
                     __instance.KillButton.ToggleVisible(player.IsAlive() && GameStates.IsInTask);
@@ -162,12 +157,14 @@ namespace TownOfHost
                 }
             }
 
-            if (!__instance.TaskText.text.Contains(TaskTextPrefix)) __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
 
-            if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay)
             {
-                Action<MapBehaviour> tmpAction = (MapBehaviour m) => { m.ShowSabotageMap(); };
-                __instance.ShowMap(tmpAction);
+                __instance.ToggleMapVisible(new MapOptions()
+                {
+                    Mode = MapOptions.Modes.Sabotage,
+                    AllowMovementWhileMapOpen = true
+                });
                 if (player.AmOwner)
                 {
                     player.MyPhysics.inputHandler.enabled = true;
@@ -175,13 +172,13 @@ namespace TownOfHost
                 }
             }
 
-            if (AmongUsClient.Instance.GameMode == GameModes.OnlineGame) RepairSender.enabled = false;
-            if (Input.GetKeyDown(KeyCode.RightShift) && AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
+            if (AmongUsClient.Instance.NetworkMode == NetworkModes.OnlineGame) RepairSender.enabled = false;
+            if (Input.GetKeyDown(KeyCode.RightShift) && AmongUsClient.Instance.NetworkMode != NetworkModes.OnlineGame)
             {
                 RepairSender.enabled = !RepairSender.enabled;
                 RepairSender.Reset();
             }
-            if (RepairSender.enabled && AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
+            if (RepairSender.enabled && AmongUsClient.Instance.NetworkMode != NetworkModes.OnlineGame)
             {
                 if (Input.GetKeyDown(KeyCode.Alpha0)) RepairSender.Input(0);
                 if (Input.GetKeyDown(KeyCode.Alpha1)) RepairSender.Input(1);
@@ -194,7 +191,6 @@ namespace TownOfHost
                 if (Input.GetKeyDown(KeyCode.Alpha8)) RepairSender.Input(8);
                 if (Input.GetKeyDown(KeyCode.Alpha9)) RepairSender.Input(9);
                 if (Input.GetKeyDown(KeyCode.Return)) RepairSender.InputEnter();
-                __instance.TaskText.text = RepairSender.GetText();
             }
         }
     }
@@ -274,6 +270,30 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(TaskPanelBehaviour), nameof(TaskPanelBehaviour.SetTaskText))]
+    class TaskPanelBehaviourPatch
+    {
+        // タスク表示の文章が更新・適用された後に実行される
+        public static void Postfix(TaskPanelBehaviour __instance)
+        {
+            PlayerControl player = PlayerControl.LocalPlayer;
+
+            // 役職説明表示
+            if (!player.GetCustomRole().IsVanilla())
+            {
+                var RoleWithInfo = $"{player.GetDisplayRoleName()}:\r\n";
+                RoleWithInfo += player.GetRoleInfo();
+                __instance.taskText.text = Utils.ColorString(player.GetRoleColor(), RoleWithInfo) + "\n" + __instance.taskText.text;
+            }
+
+            // RepairSenderの表示
+            if (RepairSender.enabled && AmongUsClient.Instance.NetworkMode != NetworkModes.OnlineGame)
+            {
+                __instance.taskText.text = RepairSender.GetText();
+            }
+        }
+    }
+
     class RepairSender
     {
         public static bool enabled = false;
