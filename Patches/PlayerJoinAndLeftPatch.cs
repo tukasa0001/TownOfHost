@@ -23,8 +23,8 @@ namespace TownOfHost
             ErrorText.Instance.Clear();
             if (AmongUsClient.Instance.AmHost) //以下、ホストのみ実行
             {
-                if (PlayerControl.GameOptions.killCooldown == 0.1f)
-                    PlayerControl.GameOptions.killCooldown = Main.LastKillCooldown.Value;
+                if (Main.NormalOptions.KillCooldown == 0.1f)
+                    GameOptionsManager.Instance.normalGameHostOptions.KillCooldown = Main.LastKillCooldown.Value;
             }
         }
     }
@@ -90,11 +90,11 @@ namespace TownOfHost
                     if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(GetString("Message.AnnounceUsingTOH"), Main.PluginVersion), client.Character.PlayerId);
                     TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
                 }, 3f, "Welcome Message");
-                if (Options.AutoDisplayLastResult.GetBool() && Main.PlayerStates.Count != 0)
+                if (Options.AutoDisplayLastResult.GetBool() && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
                 {
                     new LateTask(() =>
                     {
-                        if (!AmongUsClient.Instance.IsGameStarted)
+                        if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
                         {
                             Main.isChatCommand = true;
                             Utils.ShowLastResult(client.Character.PlayerId);

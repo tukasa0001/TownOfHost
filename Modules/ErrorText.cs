@@ -56,6 +56,8 @@ namespace TownOfHost
             {
                 AllErrors.RemoveAll(err => ToRemove.Contains(err));
                 UpdateText();
+                if (HnSFlag)
+                    Destroy(this.gameObject);
             }
         }
         public void LateUpdate()
@@ -97,7 +99,8 @@ namespace TownOfHost
             }
             else
             {
-                text += $"{GetString($"ErrorLevel{maxLevel}")}";
+                if (!HnSFlag)
+                    text += $"{GetString($"ErrorLevel{maxLevel}")}";
                 Text.enabled = true;
             }
             if (GameStates.IsInGame && maxLevel != 3)
@@ -133,6 +136,8 @@ namespace TownOfHost
             }
             public void IncreaseTimer() => Timer += Time.deltaTime;
         }
+
+        public bool HnSFlag;
     }
     public enum ErrorCode
     {
@@ -154,5 +159,6 @@ namespace TownOfHost
         TestError1 = 0009101, // 000-910-1 Test Error 1
         TestError2 = 0009202, // 000-920-2 Test Error 2
         TestError3 = 0009303, // 000-930-3 Test Error 3
+        HnsUnload = 000_804_1, // 000-804-1 Unloaded By HnS
     }
 }

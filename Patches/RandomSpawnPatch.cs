@@ -31,7 +31,7 @@ namespace TownOfHost
 
                     if (NumOfTP[player.PlayerId] == 2)
                     {
-                        if (PlayerControl.GameOptions.MapId != 4) return; //マップがエアシップじゃなかったらreturn
+                        if (Main.NormalOptions.MapId != 4) return; //マップがエアシップじゃなかったらreturn
                         player.RpcResetAbilityCooldown();
                         if (Options.FixFirstKillCooldown.GetBool() && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
                         if (!Options.RandomSpawn.GetBool()) return; //ランダムスポーンが無効ならreturn
@@ -44,7 +44,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.AmHost) nt.SnapTo(location);
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(nt.NetId, (byte)RpcCalls.SnapTo, SendOption.None);
-            nt.WriteVector2(location, writer);
+            NetHelpers.WriteVector2(location, writer);
             writer.Write(nt.lastSequenceId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }

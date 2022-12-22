@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using AmongUs.Data;
 using HarmonyLib;
 using static TownOfHost.Translator;
 
@@ -15,21 +16,21 @@ namespace TownOfHost
         private static Dictionary<string, Func<string>> _replaceDictionary = new()
         {
             ["RoomCode"] = () => InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId),
-            ["PlayerName"] = () => PlayerControl.LocalPlayer.Data.PlayerName,
+            ["PlayerName"] = () => DataManager.Player.Customization.Name,
             ["AmongUsVersion"] = () => UnityEngine.Application.version,
             ["ModVersion"] = () => Main.PluginVersion,
-            ["Map"] = () => Constants.MapNames[PlayerControl.GameOptions.MapId],
-            ["NumEmergencyMeetings"] = () => PlayerControl.GameOptions.NumEmergencyMeetings.ToString(),
-            ["EmergencyCooldown"] = () => PlayerControl.GameOptions.EmergencyCooldown.ToString(),
-            ["DiscussionTime"] = () => PlayerControl.GameOptions.DiscussionTime.ToString(),
-            ["VotingTime"] = () => PlayerControl.GameOptions.VotingTime.ToString(),
-            ["PlayerSpeedMod"] = () => PlayerControl.GameOptions.PlayerSpeedMod.ToString(),
-            ["CrewLightMod"] = () => PlayerControl.GameOptions.CrewLightMod.ToString(),
-            ["ImpostorLightMod"] = () => PlayerControl.GameOptions.ImpostorLightMod.ToString(),
-            ["KillCooldown"] = () => PlayerControl.GameOptions.KillCooldown.ToString(),
-            ["NumCommonTasks"] = () => PlayerControl.GameOptions.NumCommonTasks.ToString(),
-            ["NumLongTasks"] = () => PlayerControl.GameOptions.NumLongTasks.ToString(),
-            ["NumShortTasks"] = () => PlayerControl.GameOptions.NumShortTasks.ToString(),
+            ["Map"] = () => Constants.MapNames[Main.NormalOptions.MapId],
+            ["NumEmergencyMeetings"] = () => Main.NormalOptions.NumEmergencyMeetings.ToString(),
+            ["EmergencyCooldown"] = () => Main.NormalOptions.EmergencyCooldown.ToString(),
+            ["DiscussionTime"] = () => Main.NormalOptions.DiscussionTime.ToString(),
+            ["VotingTime"] = () => Main.NormalOptions.VotingTime.ToString(),
+            ["PlayerSpeedMod"] = () => Main.NormalOptions.PlayerSpeedMod.ToString(),
+            ["CrewLightMod"] = () => Main.NormalOptions.CrewLightMod.ToString(),
+            ["ImpostorLightMod"] = () => Main.NormalOptions.ImpostorLightMod.ToString(),
+            ["KillCooldown"] = () => Main.NormalOptions.KillCooldown.ToString(),
+            ["NumCommonTasks"] = () => Main.NormalOptions.NumCommonTasks.ToString(),
+            ["NumLongTasks"] = () => Main.NormalOptions.NumLongTasks.ToString(),
+            ["NumShortTasks"] = () => Main.NormalOptions.NumShortTasks.ToString(),
             ["Date"] = () => DateTime.Now.ToShortDateString(),
             ["Time"] = () => DateTime.Now.ToShortTimeString(),
         };

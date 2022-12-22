@@ -1,3 +1,5 @@
+using AmongUs.GameOptions;
+
 namespace TownOfHost
 {
     static class CustomRolesHelper
@@ -82,7 +84,7 @@ namespace TownOfHost
         {
             if (role.IsVanilla())
             {
-                RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
+                var roleOpt = Main.NormalOptions.RoleOptions;
                 return role switch
                 {
                     CustomRoles.Engineer => roleOpt.GetNumPerGame(RoleTypes.Engineer),
@@ -102,7 +104,7 @@ namespace TownOfHost
         {
             if (role.IsVanilla())
             {
-                RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
+                var roleOpt = Main.NormalOptions.RoleOptions;
                 return role switch
                 {
                     CustomRoles.Engineer => roleOpt.GetChancePerGame(RoleTypes.Engineer),
