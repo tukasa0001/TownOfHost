@@ -41,14 +41,9 @@ namespace TownOfHost
             if (!(AmongUsClient.Instance.AmHost && Options.CommsCamouflage.GetBool())) return;
 
             var oldIsCamouflage = IsCamouflage;
-            if (Utils.IsActive(SystemTypes.Comms))
-            {
-                IsCamouflage = true;
-            }
-            else
-            {
-                IsCamouflage = false;
-            }
+
+            IsCamouflage = Utils.IsActive(SystemTypes.Comms);
+
             if (oldIsCamouflage != IsCamouflage)
             {
                 new LateTask(
