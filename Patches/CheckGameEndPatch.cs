@@ -1,15 +1,17 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using HarmonyLib;
 using Hazel;
+using AmongUs.GameOptions;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CheckEndCriteria))]
+    [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.CheckEndCriteria))]
     class GameEndChecker
     {
         private static GameEndPredicate predicate;
-        public static bool Prefix(ShipStatus __instance)
+        public static bool Prefix()
         {
             if (!AmongUsClient.Instance.AmHost) return true;
             if (Options.NoGameEnd.GetBool() && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw) return false;
@@ -33,48 +35,113 @@ namespace TownOfHost
                                 .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
                 }
-                __instance.enabled = false;
-                StartEndGame(
-                    reason,
-                    CustomWinnerHolder.WinnerTeam is not CustomWinner.Crewmate and not CustomWinner.Impostor
-                );
+                ShipStatus.Instance.enabled = false;
+                StartEndGame(reason);
                 predicate = null;
             }
             return false;
         }
-        public static void StartEndGame(GameOverReason reason, bool SetImpostorsToGA)
+        public static void StartEndGame(GameOverReason reason)
         {
             var sender = new CustomRpcSender("EndGameSender", SendOption.Reliable, true);
             sender.StartMessage(-1); // 5: GameData
+            MessageWriter writer = sender.stream;
 
-            //守護天使化
-            var canEgoistWin = Main.AliveImpostorCount == 0;
+            //ゴーストロール化
+            List<byte> ReviveReqiredPlayerIds = new();
+            var winner = CustomWinnerHolder.WinnerTeam;
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if ((SetImpostorsToGA && pc.Data.Role.IsImpostor) || //インポスター: 引数による
-                    pc.Is(CustomRoles.Sheriff) || //シェリフ: 無条件
-                    (pc.Is(CustomRoles.Arsonist) && !CustomWinnerHolder.WinnerIds.Contains(pc.PlayerId)) || //アーソニスト: 敗北時
-                    (pc.Is(CustomRoles.Jackal) && !CustomWinnerHolder.WinnerRoles.Contains(CustomRoles.Jackal)) || //ジャッカル: 敗北時
-                    (canEgoistWin && pc.Is(RoleType.Impostor)) || //インポスター: エゴイスト勝利
-                    (!canEgoistWin && pc.Is(CustomRoles.Egoist)) //エゴイスト: インポスター勝利
-                )
+                if (winner == CustomWinner.Draw)
                 {
-                    Logger.Info($"{pc.GetNameWithRole()}: GuardianAngelに変更", "ResetRoleAndEndGame");
-                    sender.StartRpc(pc.NetId, RpcCalls.SetRole)
-                        .Write((ushort)RoleTypes.GuardianAngel)
-                        .EndRpc();
-                    pc.SetRole(RoleTypes.GuardianAngel);
+                    SetGhostRole(ToGhostImpostor: true);
+                    continue;
+                }
+                if (winner == CustomWinner.Impostor)
+                {
+                    switch (pc.GetCustomRole().GetRoleType())
+                    {
+                        case RoleType.Impostor:
+                        case RoleType.Madmate:
+                            SetGhostRole(ToGhostImpostor: true);
+                            break;
+                        case RoleType.Neutral:
+                        case RoleType.Crewmate:
+                            SetGhostRole(ToGhostImpostor: false);
+                            break;
+                    }
+                }
+                else if (winner == CustomWinner.Crewmate)
+                {
+                    switch (pc.GetCustomRole().GetRoleType())
+                    {
+                        case RoleType.Impostor:
+                        case RoleType.Madmate:
+                        case RoleType.Neutral:
+                            SetGhostRole(ToGhostImpostor: true);
+                            break;
+                        case RoleType.Crewmate:
+                            SetGhostRole(ToGhostImpostor: false);
+                            break;
+                    }
+                }
+                else if (((CustomRoles)winner).IsNeutral())
+                {
+                    if (CustomWinnerHolder.WinnerIds.Contains(pc.PlayerId) ||
+                        CustomWinnerHolder.WinnerRoles.Contains(pc.GetCustomRole()))
+                    {
+                        SetGhostRole(ToGhostImpostor: true);
+                    }
+                    else SetGhostRole(ToGhostImpostor: false);
+                }
+                void SetGhostRole(bool ToGhostImpostor)
+                {
+                    if (!pc.Data.IsDead) ReviveReqiredPlayerIds.Add(pc.PlayerId);
+                    if (ToGhostImpostor)
+                    {
+                        Logger.Info($"{pc.GetNameWithRole()}: ImpostorGhostに変更", "ResetRoleAndEndGame");
+                        sender.StartRpc(pc.NetId, RpcCalls.SetRole)
+                            .Write((ushort)RoleTypes.ImpostorGhost)
+                            .EndRpc();
+                        pc.SetRole(RoleTypes.ImpostorGhost);
+                    }
+                    else
+                    {
+                        Logger.Info($"{pc.GetNameWithRole()}: CrewmateGhostに変更", "ResetRoleAndEndGame");
+                        sender.StartRpc(pc.NetId, RpcCalls.SetRole)
+                            .Write((ushort)RoleTypes.CrewmateGhost)
+                            .EndRpc();
+                        pc.SetRole(RoleTypes.Crewmate);
+                    }
                 }
             }
 
             // CustomWinnerHolderの情報の同期
             sender.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame);
             CustomWinnerHolder.WriteTo(sender.stream);
-            sender.EndRpc()
-                .EndMessage();
+            sender.EndRpc();
+
+            // GameDataによる蘇生処理
+            writer.StartMessage(1); // Data
+            {
+                writer.WritePacked(GameData.Instance.NetId); // NetId
+                foreach (var info in GameData.Instance.AllPlayers)
+                {
+                    if (ReviveReqiredPlayerIds.Contains(info.PlayerId))
+                    {
+                        // 蘇生&メッセージ書き込み
+                        info.IsDead = false;
+                        writer.StartMessage(info.PlayerId);
+                        info.Serialize(writer);
+                        writer.EndMessage();
+                    }
+                }
+                writer.EndMessage();
+            }
+
+            sender.EndMessage();
 
             // バニラ側のゲーム終了RPC
-            MessageWriter writer = sender.stream;
             writer.StartMessage(8); //8: EndGame
             {
                 writer.Write(AmongUsClient.Instance.GameId); //GameId

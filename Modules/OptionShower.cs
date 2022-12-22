@@ -20,7 +20,7 @@ namespace TownOfHost
             pages = new()
             {
                 //1ページに基本ゲーム設定を格納
-                PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10) + "\n\n"
+                GameOptionsManager.Instance.CurrentGameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10) + "\n\n"
             };
             //ゲームモードの表示
             text += $"{Options.GameMode.GetName()}: {Options.GameMode.GetString()}\n\n";
