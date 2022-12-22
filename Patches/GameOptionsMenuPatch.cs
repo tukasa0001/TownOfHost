@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using UnhollowerBaseLib;
 using UnityEngine;
@@ -291,10 +292,10 @@ namespace TownOfHost
             }
         }
     }
-    [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.SetRecommendations))]
+    [HarmonyPatch(typeof(NormalGameOptionsV07), nameof(NormalGameOptionsV07.SetRecommendations))]
     public static class SetRecommendationsPatch
     {
-        public static bool Prefix(GameOptionsData __instance, int numPlayers, GameModes modes)
+        public static bool Prefix(NormalGameOptionsV07 __instance, int numPlayers, bool isOnline)
         {
             numPlayers = Mathf.Clamp(numPlayers, 4, 15);
             __instance.PlayerSpeedMod = __instance.MapId == 4 ? 1.25f : 1f; //AirShipなら1.25、それ以外は1
@@ -305,24 +306,24 @@ namespace TownOfHost
             __instance.NumLongTasks = 4;
             __instance.NumShortTasks = 6;
             __instance.NumEmergencyMeetings = 1;
-            if (modes != GameModes.OnlineGame)
-                __instance.NumImpostors = GameOptionsData.RecommendedImpostors[numPlayers];
+            if (!isOnline)
+                __instance.NumImpostors = NormalGameOptionsV07.RecommendedImpostors[numPlayers];
             __instance.KillDistance = 0;
             __instance.DiscussionTime = 0;
             __instance.VotingTime = 150;
-            __instance.isDefaults = true;
+            __instance.IsDefaults = true;
             __instance.ConfirmImpostor = false;
             __instance.VisualTasks = false;
-            __instance.RoleOptions.ShapeshifterCooldown = 10f;
-            __instance.RoleOptions.ShapeshifterDuration = 30f;
-            __instance.RoleOptions.ShapeshifterLeaveSkin = false;
-            __instance.RoleOptions.ImpostorsCanSeeProtect = false;
-            __instance.RoleOptions.ScientistCooldown = 15f;
-            __instance.RoleOptions.ScientistBatteryCharge = 5f;
-            __instance.RoleOptions.GuardianAngelCooldown = 60f;
-            __instance.RoleOptions.ProtectionDurationSeconds = 10f;
-            __instance.RoleOptions.EngineerCooldown = 30f;
-            __instance.RoleOptions.EngineerInVentMaxTime = 15f;
+
+            __instance.roleOptions.SetRoleRate(RoleTypes.Shapeshifter, 0, 0);
+            __instance.roleOptions.SetRoleRate(RoleTypes.Scientist, 0, 0);
+            __instance.roleOptions.SetRoleRate(RoleTypes.GuardianAngel, 0, 0);
+            __instance.roleOptions.SetRoleRate(RoleTypes.Engineer, 0, 0);
+            __instance.roleOptions.SetRoleRecommended(RoleTypes.Shapeshifter);
+            __instance.roleOptions.SetRoleRecommended(RoleTypes.Scientist);
+            __instance.roleOptions.SetRoleRecommended(RoleTypes.GuardianAngel);
+            __instance.roleOptions.SetRoleRecommended(RoleTypes.Engineer);
+
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) //HideAndSeek
             {
                 __instance.PlayerSpeedMod = 1.75f;

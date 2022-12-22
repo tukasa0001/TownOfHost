@@ -1,6 +1,8 @@
 using System.Globalization;
 using HarmonyLib;
 using UnityEngine;
+using InnerNet;
+using TownOfHost.Modules;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -113,6 +115,16 @@ namespace TownOfHost
                 MainMenuManagerPatch.discordButton.transform.position = Vector3.Reflect(MainMenuManagerPatch.template.transform.position, Vector3.left);
             if (MainMenuManagerPatch.updateButton != null)
                 MainMenuManagerPatch.updateButton.transform.position = MainMenuManagerPatch.template.transform.position + new Vector3(0.25f, 0.75f);
+        }
+    }
+
+    [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.SendAllStreamedObjects))]
+    class InnerNetObjectSerializePatch
+    {
+        public static void Prefix()
+        {
+            if (AmongUsClient.Instance.AmHost)
+                GameOptionsSender.SendAllGameOptions();
         }
     }
 }
