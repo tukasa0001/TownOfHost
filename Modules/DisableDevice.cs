@@ -30,7 +30,7 @@ namespace TownOfHost
         };
         public static float UsableDistance()
         {
-            var Map = (MapNames)PlayerControl.GameOptions.MapId;
+            var Map = (MapNames)Main.NormalOptions.MapId;
             return Map switch
             {
                 MapNames.Skeld => 1.8f,
@@ -63,7 +63,7 @@ namespace TownOfHost
 
                     if (pc.IsAlive() && !Utils.IsActive(SystemTypes.Comms))
                     {
-                        switch (PlayerControl.GameOptions.MapId)
+                        switch (Main.NormalOptions.MapId)
                         {
                             case 0:
                                 if (Options.DisableSkeldAdmin.GetBool())
@@ -113,7 +113,7 @@ namespace TownOfHost
                         DesyncComms.Remove(pc.PlayerId);
                         pc.RpcDesyncRepairSystem(SystemTypes.Comms, 16);
 
-                        if (PlayerControl.GameOptions.MapId == 1)
+                        if (Main.NormalOptions.MapId == 1)
                             pc.RpcDesyncRepairSystem(SystemTypes.Comms, 17);
                     }
                 }
@@ -146,7 +146,7 @@ namespace TownOfHost
             var admins = GameObject.FindObjectsOfType<MapConsole>(true);
             var consoles = GameObject.FindObjectsOfType<SystemConsole>(true);
             if (admins == null || consoles == null) return;
-            switch (PlayerControl.GameOptions.MapId)
+            switch (Main.NormalOptions.MapId)
             {
                 case 0:
                     if (Options.DisableSkeldAdmin.GetBool())

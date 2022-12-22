@@ -110,7 +110,7 @@ namespace TownOfHost
             if (Options.RandomSpawn.GetBool())
             {
                 RandomSpawn.SpawnMap map;
-                switch (PlayerControl.GameOptions.MapId)
+                switch (Main.NormalOptions.MapId)
                 {
                     case 0:
                         map = new RandomSpawn.SkeldSpawnMap();
@@ -129,7 +129,7 @@ namespace TownOfHost
             FallFromLadder.Reset();
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
-            Utils.CustomSyncAllSettings();
+            Utils.MarkEveryoneDirtySettings();
             Utils.NotifyRoles();
         }
 

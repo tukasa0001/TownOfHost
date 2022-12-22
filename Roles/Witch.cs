@@ -156,7 +156,7 @@ namespace TownOfHost
             {
                 //キルクールの適正化
                 Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
-                killer.CustomSyncSettings();
+                killer.MarkDirtySettings();
                 killer.RpcGuardAndKill(target);
 
                 SpelledPlayer[killer.PlayerId].Add(target.PlayerId);
