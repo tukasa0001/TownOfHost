@@ -476,6 +476,7 @@
 "ERR-000-910-1","Test Error Lv.1","テストエラーLv1","测试错误Lv1","","Ошибка теста - Lv1","Erro de Teste Nvl.1"
 "ERR-000-920-2","Test Error Lv.2","テストエラーLv2","测试错误Lv2","","Ошибка теста - Lv2","Erro de Teste Nvl.2"
 "ERR-000-930-3","Test Error Lv.3","テストエラーLv3","测试错误Lv3","","Ошибка теста - Lv3","Erro de Teste Nvl.3"
+"ERR-000-804-1","TownOfHost does not support the Vanilla HnS, so unloaded.","現在バニラのHide And Seekはサポートされていません。modを無効化しました。","","","",""
 "#### 001 Main"
 "ERR-001-000-3","Main dictionary has duplicated keys.","MainのDictonaryでKeyの重複が発生しています。","在主目录出现重复密钥","","Дублирование ключей происходит в основном словаре.","Dicionário principal tem chaves duplicadas."
 
