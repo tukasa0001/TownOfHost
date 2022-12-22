@@ -56,6 +56,8 @@ namespace TownOfHost
             {
                 AllErrors.RemoveAll(err => ToRemove.Contains(err));
                 UpdateText();
+                if (HnSFlag)
+                    Destroy(this.gameObject);
             }
         }
         public void LateUpdate()
@@ -97,7 +99,8 @@ namespace TownOfHost
             }
             else
             {
-                text += $"{GetString($"ErrorLevel{maxLevel}")}";
+                if (!HnSFlag)
+                    text += $"{GetString($"ErrorLevel{maxLevel}")}";
                 Text.enabled = true;
             }
             if (GameStates.IsInGame && maxLevel != 3)
@@ -133,6 +136,8 @@ namespace TownOfHost
             }
             public void IncreaseTimer() => Timer += Time.deltaTime;
         }
+
+        public bool HnSFlag;
     }
     public enum ErrorCode
     {
