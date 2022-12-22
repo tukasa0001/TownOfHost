@@ -154,5 +154,6 @@ namespace TownOfHost
         TestError1 = 0009101, // 000-910-1 Test Error 1
         TestError2 = 0009202, // 000-920-2 Test Error 2
         TestError3 = 0009303, // 000-930-3 Test Error 3
+        HnsUnload = 000_804_1, // 000-804-1 Unloaded By HnS
     }
 }
