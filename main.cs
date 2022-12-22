@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,6 +9,7 @@ using BepInEx.IL2CPP;
 using HarmonyLib;
 using UnhollowerRuntimeLib;
 using UnityEngine;
+using AmongUs.GameOptions;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
@@ -47,7 +48,7 @@ namespace TownOfHost
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "4.0.0";
+        public const string PluginVersion = "4.0.1";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -55,6 +56,8 @@ namespace TownOfHost
         public static string ExceptionMessage;
         public static bool ExceptionMessageIsShown = false;
         public static string credentialsText;
+        public static NormalGameOptionsV07 NormalOptions => GameOptionsManager.Instance.currentNormalGameOptions;
+        public static HideNSeekGameOptionsV07 HideNSeekSOptions => GameOptionsManager.Instance.currentHideNSeekGameOptions;
         //Client Options
         public static ConfigEntry<string> HideName { get; private set; }
         public static ConfigEntry<string> HideColor { get; private set; }
@@ -73,7 +76,7 @@ namespace TownOfHost
         public static ConfigEntry<string> WebhookURL { get; private set; }
         public static ConfigEntry<string> BetaBuildURL { get; private set; }
         public static ConfigEntry<float> LastKillCooldown { get; private set; }
-        public static GameOptionsData RealOptionsData;
+        public static OptionBackupData RealOptionsData;
         public static Dictionary<byte, PlayerState> PlayerStates = new();
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<(byte, byte), string> LastNotifyNames;
@@ -112,6 +115,7 @@ namespace TownOfHost
         public static int SKMadmateNowCount;
         public static bool isCursed;
         public static Dictionary<byte, bool> CheckShapeshift = new();
+        public static Dictionary<byte, byte> ShapeshiftTarget = new();
         public static Dictionary<(byte, byte), string> targetArrows = new();
         public static bool VisibleTasksCount;
         public static string nickName = "";
@@ -121,7 +125,7 @@ namespace TownOfHost
         public static byte currentDousingTarget;
         public static float DefaultCrewmateVision;
         public static float DefaultImpostorVision;
-        public static bool IsChristmas = DateTime.Now.Month == 12 && DateTime.Now.Day is 23 or 24 or 25;
+        public static bool IsChristmas = DateTime.Now.Month == 12 && DateTime.Now.Day is 24 or 25;
         public static bool IsInitialRelease = DateTime.Now.Month == 12 && DateTime.Now.Day is 4;
 
         public static Main Instance;
@@ -143,6 +147,8 @@ namespace TownOfHost
             TownOfHost.Logger.Disable("SendRPC");
             TownOfHost.Logger.Disable("ReceiveRPC");
             TownOfHost.Logger.Disable("SwitchSystem");
+            TownOfHost.Logger.Disable("CustomRpcSender");
+            TownOfHost.Logger.Disable("SendChat");
             //TownOfHost.Logger.isDetail = true;
 
             // 認証関連-初期化
