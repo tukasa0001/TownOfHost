@@ -48,4 +48,19 @@ namespace TownOfHost
             }
         }
     }
+
+    [HarmonyPatch(typeof(GameOptionsManager), nameof(GameOptionsManager.SwitchGameMode))]
+    class SwitchGameModePatch
+    {
+        public static void Postfix(GameModes gameMode)
+        {
+            if (gameMode == GameModes.HideNSeek)
+            {
+                ErrorText.Instance.HnSFlag = true;
+                ErrorText.Instance.AddError(ErrorCode.HnsUnload);
+                Harmony.UnpatchAll();
+                Main.Instance.Unload();
+            }
+        }
+    }
 }
