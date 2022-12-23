@@ -15,7 +15,7 @@ namespace TownOfHost
             Logger.Info($"{__instance.GameId}に参加", "OnGameJoined");
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
-            SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
+            SoundManager.Instance.ChangeAmbienceVolume(DataManager.Settings.Audio.AmbienceVolume);
 
             ChatUpdatePatch.DoBlockChat = false;
             GameStates.InGame = false;
