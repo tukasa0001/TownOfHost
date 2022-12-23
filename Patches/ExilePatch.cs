@@ -169,7 +169,7 @@ namespace TownOfHost
 
             GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
             RemoveDisableDevicesPatch.UpdateDisableDevices();
-            SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
+            SoundManager.Instance.ChangeAmbienceVolume(DataManager.Settings.Audio.AmbienceVolume);
             Logger.Info("タスクフェイズ開始", "Phase");
         }
     }

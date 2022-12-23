@@ -295,7 +295,7 @@ namespace TownOfHost
         }
         public static void Postfix(MeetingHud __instance)
         {
-            SoundManager.Instance.ChangeMusicVolume(0f);
+            SoundManager.Instance.ChangeAmbienceVolume(0f);
             foreach (var pva in __instance.playerStates)
             {
                 var pc = Utils.GetPlayerById(pva.TargetPlayerId);
