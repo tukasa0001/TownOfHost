@@ -78,7 +78,7 @@ namespace TownOfHost
                 if (tmp.Length > 1 && tmp[1] != "")
                 {
                     tags.Add(tmp[0]);
-                    if (tmp[0] == str) sendList.Add(tmp.Skip(1).Join(delimiter: ":").Replace("\\n", "\n"));
+                    if (tmp[0].ToLower() == str.ToLower()) sendList.Add(tmp.Skip(1).Join(delimiter: ":").Replace("\\n", "\n"));
                 }
             }
             if (sendList.Count == 0 && !noErr)
