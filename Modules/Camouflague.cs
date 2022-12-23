@@ -76,7 +76,7 @@ namespace TownOfHost
             {
                 //コミュサボ解除または強制解除
 
-                if (Main.CheckShapeshift.TryGetValue(id, out var shapeshifting) && !RevertToDefault)
+                if (Main.CheckShapeshift.TryGetValue(id, out var shapeshifting) && shapeshifting && !RevertToDefault)
                 {
                     //シェイプシフターなら今の姿のidに変更
                     id = Main.ShapeshiftTarget[id];
