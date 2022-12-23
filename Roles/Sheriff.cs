@@ -27,12 +27,14 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.Sheriff);
-            KillCooldown = OptionItem.Create(Id + 10, TabGroup.CrewmateRoles, Color.white, "KillCooldown", 30, 0, 990, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff], format: OptionFormat.Seconds);
-            MisfireKillsTarget = OptionItem.Create(Id + 11, TabGroup.CrewmateRoles, Color.white, "SheriffMisfireKillsTarget", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            ShotLimitOpt = OptionItem.Create(Id + 12, TabGroup.CrewmateRoles, Color.white, "SheriffShotLimit", 15, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff], format: OptionFormat.Times);
-            CanKillAllAlive = OptionItem.Create(Id + 15, TabGroup.CrewmateRoles, Color.white, "SheriffCanKillAllAlive", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            KillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(0f, 990f, 1f), 30f, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sheriff])
+                .SetValueFormat(OptionFormat.Seconds);
+            MisfireKillsTarget = BooleanOptionItem.Create(Id + 11, "SheriffMisfireKillsTarget", false, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            ShotLimitOpt = IntegerOptionItem.Create(Id + 12, "SheriffShotLimit", new(1, 15, 1), 15, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sheriff])
+                .SetValueFormat(OptionFormat.Times);
+            CanKillAllAlive = BooleanOptionItem.Create(Id + 15, "SheriffCanKillAllAlive", true, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SetUpKillTargetOption(CustomRoles.Madmate, Id + 13);
-            CanKillNeutrals = OptionItem.Create(Id + 14, TabGroup.CrewmateRoles, Color.white, "SheriffCanKillNeutrals", KillOption, KillOption[0], Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillNeutrals = StringOptionItem.Create(Id + 14, "SheriffCanKillNeutrals", KillOption, 0, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SetUpNeutralOptions(Id + 30);
         }
         public static void SetUpNeutralOptions(int Id)
@@ -56,7 +58,8 @@ namespace TownOfHost
                 _ => "",
             };
             Dictionary<string, string> replacementDic = new() { { "%role%", Utils.ColorString(Utils.GetRoleColor(role), roleName) } };
-            KillTargetOptions[role] = OptionItem.Create(Id, TabGroup.CrewmateRoles, Color.white, "SheriffCanKill%role%", defaultValue, parent, replacementDic: replacementDic);
+            KillTargetOptions[role] = BooleanOptionItem.Create(Id, "SheriffCanKill%role%", defaultValue, TabGroup.CrewmateRoles, false).SetParent(parent);
+            KillTargetOptions[role].ReplacementDictionary = replacementDic;
         }
         public static void Init()
         {
@@ -120,7 +123,7 @@ namespace TownOfHost
             {
                 RoleType.Impostor => true,
                 RoleType.Madmate => KillTargetOptions.TryGetValue(CustomRoles.Madmate, out var option) && option.GetBool(),
-                RoleType.Neutral => CanKillNeutrals.GetSelection() == 0 || !KillTargetOptions.TryGetValue(cRole, out var option) || option.GetBool(),
+                RoleType.Neutral => CanKillNeutrals.GetValue() == 0 || !KillTargetOptions.TryGetValue(cRole, out var option) || option.GetBool(),
                 _ => false,
             };
         }

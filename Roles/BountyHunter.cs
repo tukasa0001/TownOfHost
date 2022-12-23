@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Hazel;
 using UnityEngine;
+using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -20,9 +21,12 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.BountyHunter);
-            TargetChangeTime = OptionItem.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "BountyTargetChangeTime", 60f, 10f, 900f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter], format: OptionFormat.Seconds);
-            SuccessKillCooldown = OptionItem.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "BountySuccessKillCooldown", 2.5f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter], format: OptionFormat.Seconds);
-            FailureKillCooldown = OptionItem.Create(Id + 12, TabGroup.ImpostorRoles, Color.white, "BountyFailureKillCooldown", 50f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter], format: OptionFormat.Seconds);
+            TargetChangeTime = FloatOptionItem.Create(Id + 10, "BountyTargetChangeTime", new(10f, 900f, 2.5f), 60f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter])
+                .SetValueFormat(OptionFormat.Seconds);
+            SuccessKillCooldown = FloatOptionItem.Create(Id + 11, "BountySuccessKillCooldown", new(0f, 180f, 2.5f), 2.5f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter])
+                .SetValueFormat(OptionFormat.Seconds);
+            FailureKillCooldown = FloatOptionItem.Create(Id + 12, "BountyFailureKillCooldown", new(0f, 180f, 2.5f), 50f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter])
+                .SetValueFormat(OptionFormat.Seconds);
         }
         public static void Init()
         {
@@ -57,7 +61,7 @@ namespace TownOfHost
             if (target != null) Targets[bountyId] = target;
         }
         //public static void SetKillCooldown(byte id, float amount) => Main.AllPlayerKillCooldown[id] = amount;
-        public static void ApplyGameOptions(GameOptionsData opt) => opt.RoleOptions.ShapeshifterCooldown = TargetChangeTime.GetFloat();
+        public static void ApplyGameOptions() => AURoleOptions.ShapeshifterCooldown = TargetChangeTime.GetFloat();
 
         public static void OnCheckMurder(PlayerControl killer, PlayerControl target)
         {
@@ -65,14 +69,14 @@ namespace TownOfHost
             {//ターゲットをキルした場合
                 Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
                 Main.AllPlayerKillCooldown[killer.PlayerId] = SuccessKillCooldown.GetFloat();
-                killer.CustomSyncSettings();//キルクール処理を同期
+                killer.MarkDirtySettings();//キルクール処理を同期
                 ResetTarget(killer);
             }
             else
             {
                 Logger.Info($"{killer?.Data?.PlayerName}:ターゲット以外をキル", "BountyHunter");
                 Main.AllPlayerKillCooldown[killer.PlayerId] = FailureKillCooldown.GetFloat();
-                killer.CustomSyncSettings();//キルクール処理を同期
+                killer.MarkDirtySettings();//キルクール処理を同期
             }
         }
         public static void OnReportDeadBody()
@@ -129,7 +133,7 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 // 死者/切断者/インポスターを除外
-                if (!Main.PlayerStates[pc.PlayerId].IsDead && !pc.GetCustomRole().IsImpostor())
+                if (pc.IsAlive() && !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Egoist))
                     cTargets.Add(pc);
             }
             if (cTargets.Count >= 2 && Targets.TryGetValue(player.PlayerId, out var p)) cTargets.RemoveAll(x => x.PlayerId == p.PlayerId); //前回のターゲットは除外
@@ -137,7 +141,7 @@ namespace TownOfHost
             var rand = IRandom.Instance;
             if (cTargets.Count <= 0)
             {
-                Logger.Error("ターゲットの指定に失敗しました:ターゲット候補が存在しません", "BountyHunter");
+                Logger.Warn("ターゲットの指定に失敗しました:ターゲット候補が存在しません", "BountyHunter");
                 return null;
             }
             var target = cTargets[rand.Next(0, cTargets.Count)];

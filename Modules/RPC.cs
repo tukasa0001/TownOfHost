@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HarmonyLib;
 using Hazel;
+using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -52,6 +53,10 @@ namespace TownOfHost
                     string name = subReader.ReadString();
                     if (subReader.BytesRemaining > 0 && subReader.ReadBoolean()) return false;
                     Logger.Info("名前変更:" + __instance.GetNameWithRole() + " => " + name, "SetName");
+                    break;
+                case RpcCalls.SetRole: //SetNameRPC
+                    var role = (RoleTypes)subReader.ReadUInt16();
+                    Logger.Info("役職:" + __instance.GetRealName() + " => " + role, "SetRole");
                     break;
                 case RpcCalls.SendChat:
                     var text = subReader.ReadString();
@@ -105,10 +110,10 @@ namespace TownOfHost
                     RPC.RpcVersionCheck();
                     break;
                 case CustomRPC.SyncCustomSettings:
-                    foreach (var co in OptionItem.Options)
+                    foreach (var co in OptionItem.AllOptions)
                     {
                         //すべてのカスタムオプションについてインデックス値で受信
-                        co.RecieveOptionSelection(reader.ReadInt32());
+                        co.SetValue(reader.ReadInt32());
                     }
                     break;
                 case CustomRPC.SetDeathReason:
@@ -131,7 +136,7 @@ namespace TownOfHost
                     BountyHunter.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetKillOrSpell:
-                    Witch.ReceiveRPC(reader,false);
+                    Witch.ReceiveRPC(reader, false);
                     break;
                 case CustomRPC.SetSheriffShotLimit:
                     Sheriff.ReceiveRPC(reader);
@@ -203,10 +208,10 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
-            foreach (var co in OptionItem.Options)
+            foreach (var co in OptionItem.AllOptions)
             {
                 //すべてのカスタムオプションについてインデックス値で送信
-                writer.Write(co.GetSelection());
+                writer.Write(co.GetValue());
             }
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }

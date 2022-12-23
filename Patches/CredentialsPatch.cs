@@ -30,6 +30,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
     class VersionShowerStartPatch
     {
+        static TMPro.TextMeshPro SpecialEventText;
         static void Postfix(VersionShower __instance)
         {
             Main.credentialsText = $"\r\n<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}";
@@ -46,17 +47,29 @@ namespace TownOfHost
             {
                 ErrorText.Instance.AddError(ErrorCode.Main_DictionaryError);
             }
+
+            if (SpecialEventText == null)
+            {
+                SpecialEventText = Object.Instantiate(__instance.text);
+                SpecialEventText.text = "";
+                SpecialEventText.color = Color.white;
+                SpecialEventText.fontSize += 2.5f;
+                SpecialEventText.alignment = TMPro.TextAlignmentOptions.Top;
+                SpecialEventText.transform.position = new Vector3(0, 0.5f, 0);
+            }
+            SpecialEventText.enabled = TitleLogoPatch.amongUsLogo != null;
+            if (Main.IsInitialRelease)
+            {
+                SpecialEventText.text = $"Happy Birthday to {Main.ModName}!";
+                ColorUtility.TryParseHtmlString(Main.ModColor, out var col);
+                SpecialEventText.color = col;
+            }
             if (Main.IsChristmas && CultureInfo.CurrentCulture.Name == "ja-JP")
             {
-                if (TitleLogoPatch.amongUsLogo != null)
-                {
-                    var ForeverExplosion = Object.Instantiate(__instance.text);
-                    ForeverExplosion.text = "何とは言いませんが、特別な日ですね。\n<size=15%>\n\n末永く爆発しろ</size>";
-                    ForeverExplosion.color = Utils.GetRoleColor(CustomRoles.Lovers);
-                    ForeverExplosion.fontSize += 2.5f;
-                    ForeverExplosion.alignment = TMPro.TextAlignmentOptions.Top;
-                    ForeverExplosion.transform.position = new Vector3(0, 0.5f, 0);
-                }
+                //このソースコ―ドを見た人へ。口外しないでもらえると嬉しいです...
+                //To anyone who has seen this source code. I would appreciate it if you would keep your mouth shut...
+                SpecialEventText.text = "何とは言いませんが、特別な日ですね。\n<size=15%>\n\n末永く爆発しろ</size>";
+                SpecialEventText.color = Utils.GetRoleColor(CustomRoles.Lovers);
             }
         }
     }
@@ -92,7 +105,7 @@ namespace TownOfHost
         }
         public static void Postfix(ModManager __instance)
         {
-            var offset_y = HudManager.InstanceExists && HudManager._instance.MapButton.isVisible ? 1.6f : 0.9f;
+            var offset_y = HudManager.InstanceExists ? 1.6f : 0.9f;
             __instance.ModStamp.transform.position = AspectPosition.ComputeWorldPosition(
                 __instance.localCamera, AspectPosition.EdgeAlignments.RightTop,
                 new Vector3(0.4f, offset_y, __instance.localCamera.nearClipPlane + 0.1f));

@@ -11,7 +11,8 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupSingleRoleOptions(Id, TabGroup.Addons, CustomRoles.LastImpostor, 1);
-            KillCooldown = OptionItem.Create(Id + 10, TabGroup.Addons, Color.white, "KillCooldown", 15, 0, 180, 1, Options.CustomRoleSpawnChances[CustomRoles.LastImpostor], format: OptionFormat.Seconds);
+            KillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(0f, 180f, 1f), 15f, TabGroup.Addons, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.LastImpostor])
+                .SetValueFormat(OptionFormat.Seconds);
         }
         public static void Init() => currentId = byte.MaxValue;
         public static void Add(byte id) => currentId = id;
@@ -26,8 +27,8 @@ namespace TownOfHost
             && pc.Is(RoleType.Impostor)
             && pc.GetCustomRole()
             is not CustomRoles.Vampire
-                or CustomRoles.BountyHunter
-                or CustomRoles.SerialKiller;
+                and not CustomRoles.BountyHunter
+                and not CustomRoles.SerialKiller;
         public static void SetSubRole()
         {
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek
@@ -40,7 +41,7 @@ namespace TownOfHost
                     pc.RpcSetCustomRole(CustomRoles.LastImpostor);
                     Add(pc.PlayerId);
                     Utils.NotifyRoles();
-                    Utils.CustomSyncAllSettings();
+                    Utils.MarkEveryoneDirtySettings();
                     break;
                 }
             }

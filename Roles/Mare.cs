@@ -16,8 +16,10 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Mare);
-            SpeedInLightsOut = OptionItem.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "MareAddSpeedInLightsOut", 0.3f, 0.1f, 0.5f, 0.1f, Options.CustomRoleSpawnChances[CustomRoles.Mare], format: OptionFormat.Multiplier);
-            KillCooldownInLightsOut = OptionItem.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "MareKillCooldownInLightsOut", 15f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Mare], format: OptionFormat.Seconds);
+            SpeedInLightsOut = FloatOptionItem.Create(Id + 10, "MareAddSpeedInLightsOut", new(0.1f, 0.5f, 0.1f), 0.3f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Mare])
+                .SetValueFormat(OptionFormat.Multiplier);
+            KillCooldownInLightsOut = FloatOptionItem.Create(Id + 11, "MareKillCooldownInLightsOut", new(2.5f, 180f, 2.5f), 15f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Mare])
+                .SetValueFormat(OptionFormat.Seconds);
         }
         public static void Init()
         {
@@ -30,7 +32,7 @@ namespace TownOfHost
         public static bool IsEnable => playerIdList.Count > 0;
         public static float GetKillCooldown => Utils.IsActive(SystemTypes.Electrical) ? KillCooldownInLightsOut.GetFloat() : Options.DefaultKillCooldown;
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = GetKillCooldown;
-        public static void ApplyGameOptions(GameOptionsData opt, byte playerId)
+        public static void ApplyGameOptions(byte playerId)
         {
             if (Utils.IsActive(SystemTypes.Electrical) && !idAccelerated)
             { //停電中で加速済みでない場合

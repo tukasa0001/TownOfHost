@@ -7,7 +7,7 @@ namespace TownOfHost
     public class FallFromLadder
     {
         public static Dictionary<byte, Vector3> TargetLadderData;
-        private static int Chance => Options.LadderDeathChance.GetChance();
+        private static int Chance => (Options.LadderDeathChance as StringOptionItem).GetChance();
         public static void Reset()
         {
             TargetLadderData = new();
@@ -20,7 +20,7 @@ namespace TownOfHost
             //降りているのかを検知
             if (sourcePos.y > targetPos.y)
             {
-                int chance = UnityEngine.Random.Range(1, 101);
+                int chance = IRandom.Instance.Next(1, 101);
                 if (chance <= Chance)
                 {
                     TargetLadderData[player.myPlayer.PlayerId] = targetPos;
@@ -40,8 +40,8 @@ namespace TownOfHost
                     new LateTask(() =>
                     {
                         Vector2 targetPos = (Vector2)TargetLadderData[player.PlayerId] + new Vector2(0.1f, 0f);
-                        ushort num = (ushort)(player.NetTransform.XRange.ReverseLerp(targetPos.x) * 65535f);
-                        ushort num2 = (ushort)(player.NetTransform.YRange.ReverseLerp(targetPos.y) * 65535f);
+                        ushort num = (ushort)(NetHelpers.XRange.ReverseLerp(targetPos.x) * 65535f);
+                        ushort num2 = (ushort)(NetHelpers.YRange.ReverseLerp(targetPos.y) * 65535f);
                         CustomRpcSender sender = CustomRpcSender.Create("LadderFallRpc", sendOption: Hazel.SendOption.None);
                         sender.AutoStartRpc(player.NetTransform.NetId, (byte)RpcCalls.SnapTo)
                                 .Write(num)

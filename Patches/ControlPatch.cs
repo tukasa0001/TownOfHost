@@ -2,6 +2,7 @@ using System.Linq;
 using HarmonyLib;
 using InnerNet;
 using UnityEngine;
+using AmongUs.GameOptions;
 
 namespace TownOfHost
 {
@@ -62,6 +63,7 @@ namespace TownOfHost
             if (GetKeysDown(KeyCode.Return, KeyCode.L, KeyCode.LeftShift) && GameStates.IsInGame)
             {
                 CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Draw);
+                GameManager.Instance.LogicFlow.CheckEndCriteria();
             }
             //ミーティングを強制終了
             if (GetKeysDown(KeyCode.Return, KeyCode.M, KeyCode.LeftShift) && GameStates.IsMeeting)
@@ -95,7 +97,7 @@ namespace TownOfHost
             //TOHオプションをデフォルトに設定
             if (GetKeysDown(KeyCode.Delete, KeyCode.LeftControl))
             {
-                OptionItem.Options.ToArray().Where(x => x.Id > 0).Do(x => x.UpdateSelection(x.DefaultSelection));
+                OptionItem.AllOptions.ToArray().Where(x => x.Id > 0).Do(x => x.SetValue(x.DefaultValue));
             }
 
             //--以下デバッグモード用コマンド--//

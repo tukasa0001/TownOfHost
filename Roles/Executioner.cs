@@ -33,9 +33,9 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Executioner);
-            CanTargetImpostor = OptionItem.Create(Id + 10, TabGroup.NeutralRoles, Color.white, "ExecutionerCanTargetImpostor", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
-            CanTargetNeutralKiller = OptionItem.Create(Id + 12, TabGroup.NeutralRoles, Color.white, "ExecutionerCanTargetNeutralKiller", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
-            ChangeRolesAfterTargetKilled = OptionItem.Create(Id + 11, TabGroup.NeutralRoles, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ChangeRoles, ChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
+            CanTargetImpostor = BooleanOptionItem.Create(Id + 10, "ExecutionerCanTargetImpostor", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Executioner]);
+            CanTargetNeutralKiller = BooleanOptionItem.Create(Id + 12, "ExecutionerCanTargetNeutralKiller", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Executioner]);
+            ChangeRolesAfterTargetKilled = StringOptionItem.Create(Id + 11, "ExecutionerChangeRolesAfterTargetKilled", ChangeRoles, 1, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Executioner]);
         }
         public static void Init()
         {
@@ -110,14 +110,14 @@ namespace TownOfHost
                 if (x.Value == target.PlayerId)
                     Executioner = x.Key;
             });
-            Utils.GetPlayerById(Executioner).RpcSetCustomRole(CRoleChangeRoles[ChangeRolesAfterTargetKilled.GetSelection()]);
+            Utils.GetPlayerById(Executioner).RpcSetCustomRole(CRoleChangeRoles[ChangeRolesAfterTargetKilled.GetValue()]);
             Target.Remove(Executioner);
             SendRPC(Executioner);
             Utils.NotifyRoles();
         }
         public static void ChangeRole(PlayerControl executioner)
         {
-            executioner.RpcSetCustomRole(CRoleChangeRoles[ChangeRolesAfterTargetKilled.GetSelection()]);
+            executioner.RpcSetCustomRole(CRoleChangeRoles[ChangeRolesAfterTargetKilled.GetValue()]);
             Target.Remove(executioner.PlayerId);
             SendRPC(executioner.PlayerId);
         }

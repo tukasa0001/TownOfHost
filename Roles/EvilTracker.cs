@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Hazel;
 using UnityEngine;
+using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -20,9 +21,9 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.EvilTracker);
-            CanSeeKillFlash = OptionItem.Create(Id + 10, TabGroup.ImpostorRoles, Color.white, "EvilTrackerCanSeeKillFlash", true, Options.CustomRoleSpawnChances[CustomRoles.EvilTracker]);
-            CanResetTargetAfterMeeting = OptionItem.Create(Id + 11, TabGroup.ImpostorRoles, Color.white, "EvilTrackerResetTargetAfterMeeting", true, Options.CustomRoleSpawnChances[CustomRoles.EvilTracker]);
-            CanCreateMadmate = OptionItem.Create(Id + 20, TabGroup.ImpostorRoles, Color.white, "CanCreateMadmate", false, Options.CustomRoleSpawnChances[CustomRoles.EvilTracker]);
+            CanSeeKillFlash = BooleanOptionItem.Create(Id + 10, "EvilTrackerCanSeeKillFlash", true, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.EvilTracker]);
+            CanResetTargetAfterMeeting = BooleanOptionItem.Create(Id + 11, "EvilTrackerResetTargetAfterMeeting", true, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.EvilTracker]);
+            CanCreateMadmate = BooleanOptionItem.Create(Id + 20, "CanCreateMadmate", false, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.EvilTracker]);
         }
         public static void Init()
         {
@@ -61,10 +62,10 @@ namespace TownOfHost
             }
         }
 
-        public static void ApplyGameOptions(GameOptionsData opt, byte playerId)
+        public static void ApplyGameOptions(byte playerId)
         {
-            opt.RoleOptions.ShapeshifterCooldown = CanSetTarget[playerId] ? 5f : 255f;
-            opt.RoleOptions.ShapeshifterDuration = 1f;
+            AURoleOptions.ShapeshifterCooldown = CanSetTarget[playerId] ? 5f : 255f;
+            AURoleOptions.ShapeshifterDuration = 1f;
         }
         public static void GetAbilityButtonText(HudManager __instance, byte playerId)
         {
@@ -179,7 +180,7 @@ namespace TownOfHost
                     SendTarget(shapeshifter.PlayerId, target.PlayerId);
                     Logger.Info($"{shapeshifter.GetNameWithRole()}のターゲットを{Target[shapeshifter.PlayerId].GetNameWithRole()}に設定", "EvilTrackerTarget");
                 }
-                Utils.CustomSyncAllSettings();
+                Utils.MarkEveryoneDirtySettings();
                 Utils.NotifyRoles();
             }
         }

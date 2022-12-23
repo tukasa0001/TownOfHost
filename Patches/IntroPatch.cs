@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HarmonyLib;
 using UnityEngine;
+using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -41,7 +42,7 @@ namespace TownOfHost
             Logger.Info("------------名前表示------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                Logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc.name.PadRightV2(20)}:{pc.cosmetics.nameText.text}", "Info");
+                Logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc.name.PadRightV2(20)}:{pc.cosmetics.nameText.text}({Palette.ColorNames[pc.Data.DefaultOutfit.ColorId].ToString().Replace("Color", "")})", "Info");
                 pc.cosmetics.nameText.text = pc.name;
             }
             Logger.Info("----------役職割り当て----------", "Info");
@@ -67,11 +68,11 @@ namespace TownOfHost
                 }
             }
             Logger.Info("------------基本設定------------", "Info");
-            var tmp = PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
+            var tmp = GameOptionsManager.Instance.CurrentGameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
             foreach (var t in tmp) Logger.Info(t, "Info");
             Logger.Info("------------詳細設定------------", "Info");
-            foreach (var o in OptionItem.Options)
-                if (!o.IsHidden(Options.CurrentGameMode) && (o.Parent == null ? !o.GetString().Equals("0%") : o.Parent.Enabled))
+            foreach (var o in OptionItem.AllOptions)
+                if (!o.IsHiddenOn(Options.CurrentGameMode) && (o.Parent == null ? !o.GetString().Equals("0%") : o.Parent.GetBool()))
                     Logger.Info($"{(o.Parent == null ? o.Name.PadRightV2(40) : $"┗ {o.Name}".PadRightV2(41))}:{o.GetString().RemoveHtmlTags()}", "Info");
             Logger.Info("-------------その他-------------", "Info");
             Logger.Info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
@@ -244,7 +245,7 @@ namespace TownOfHost
             Main.introDestroyed = true;
             if (AmongUsClient.Instance.AmHost)
             {
-                if (PlayerControl.GameOptions.MapId != 4)
+                if (Main.NormalOptions.MapId != 4)
                 {
                     PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcResetAbilityCooldown());
                     if (Options.FixFirstKillCooldown.GetBool())
@@ -262,7 +263,7 @@ namespace TownOfHost
                 if (Options.RandomSpawn.GetBool())
                 {
                     RandomSpawn.SpawnMap map;
-                    switch (PlayerControl.GameOptions.MapId)
+                    switch (Main.NormalOptions.MapId)
                     {
                         case 0:
                             map = new RandomSpawn.SkeldSpawnMap();
