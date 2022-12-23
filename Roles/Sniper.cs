@@ -7,6 +7,7 @@ using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
+    [HarmonyPatch]
     public static class Sniper
     {
         static readonly int Id = 1800;
@@ -165,7 +166,7 @@ namespace TownOfHost
             return targets;
 
         }
-        public static void OnShapeShift(PlayerControl pc, bool shapeshifting)
+        public static void Sniping(PlayerControl pc, bool shapeshifting)
         {
             if (!pc.Is(CustomRoles.Sniper) || !pc.IsAlive()) return;
 
@@ -240,7 +241,7 @@ namespace TownOfHost
                     );
             }
         }
-        public static void OnFixedUpdate(PlayerControl pc)
+        public static void Aiming(PlayerControl pc)
         {
             if (!GameStates.IsInTask) return;
             if (!playerIdList.Contains(pc.PlayerId) || !pc.IsAlive()) return;
@@ -304,30 +305,21 @@ namespace TownOfHost
         }
         public static string OverrideShapeText(byte id) => GetString(bulletCount[id] <= 0 ? "DefaultShapeshiftText" : "SniperSnipeButtonText");
 
-        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ReportDeadBody))]
-        class ReportDeadBodyPatch
+        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ReportDeadBody)),HarmonyPostfix]
+        public static void OnReportDeadBody(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo target)
         {
-            public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo target)
-            {
-                OnStartMeeting();
-            }
+            OnStartMeeting();
         }
-        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
-        class ShapeshiftPatch
+        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift)),HarmonyPrefix]
+        public static void OnShapeshift(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
-            public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
-            {
-                var shapeshifting = __instance.PlayerId != target.PlayerId;
-                OnShapeShift(__instance, shapeshifting);
-            }
+            var shapeshifting = __instance.PlayerId != target.PlayerId;
+            Sniping(__instance, shapeshifting);
         }
-        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
-        class FixedUpdatePatch
+        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate)),HarmonyPostfix]
+        public static void OnFixedUpdate(PlayerControl __instance)
         {
-            public static void Postfix(PlayerControl __instance)
-            {
-                OnFixedUpdate(__instance);
-            }
+            Aiming(__instance);
         }
     }
 }
