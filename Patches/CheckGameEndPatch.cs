@@ -22,6 +22,9 @@ namespace TownOfHost
 
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
             {
+                //カモフラージュ強制解除
+                PlayerControl.AllPlayerControls.ToArray().Do(pc => Camouflage.RpcSetSkin(pc, ForceRevert: true, RevertToDefault: true));
+
                 switch (CustomWinnerHolder.WinnerTeam)
                 {
                     case CustomWinner.Crewmate:
