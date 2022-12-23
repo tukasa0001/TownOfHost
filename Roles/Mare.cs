@@ -32,7 +32,7 @@ namespace TownOfHost
         public static bool IsEnable => playerIdList.Count > 0;
         public static float GetKillCooldown => Utils.IsActive(SystemTypes.Electrical) ? KillCooldownInLightsOut.GetFloat() : Options.DefaultKillCooldown;
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = GetKillCooldown;
-        public static void ApplyGameOptions(GameOptionsData opt, byte playerId)
+        public static void ApplyGameOptions(byte playerId)
         {
             if (Utils.IsActive(SystemTypes.Electrical) && !idAccelerated)
             { //停電中で加速済みでない場合

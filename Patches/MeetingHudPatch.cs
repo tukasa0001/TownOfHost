@@ -252,7 +252,7 @@ namespace TownOfHost
                 }
             }
             if (TargetList == null || TargetList.Count == 0) return null;
-            var rand = new System.Random();
+            var rand = IRandom.Instance;
             var target = TargetList[rand.Next(TargetList.Count)];
             Logger.Info($"{exiledplayer.GetNameWithRole()}の道連れ先:{target.GetNameWithRole()}", "PickRevengeTarget");
             return target;

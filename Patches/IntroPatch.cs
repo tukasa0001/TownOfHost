@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HarmonyLib;
 using UnityEngine;
+using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -65,7 +66,7 @@ namespace TownOfHost
                 }
             }
             Logger.Info("------------基本設定------------", "Info");
-            var tmp = PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
+            var tmp = GameOptionsManager.Instance.CurrentGameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
             foreach (var t in tmp) Logger.Info(t, "Info");
             Logger.Info("------------詳細設定------------", "Info");
             foreach (var o in OptionItem.AllOptions)
@@ -242,7 +243,7 @@ namespace TownOfHost
             Main.introDestroyed = true;
             if (AmongUsClient.Instance.AmHost)
             {
-                if (PlayerControl.GameOptions.MapId != 4)
+                if (Main.NormalOptions.MapId != 4)
                 {
                     PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcResetAbilityCooldown());
                     if (Options.FixFirstKillCooldown.GetBool())
@@ -260,7 +261,7 @@ namespace TownOfHost
                 if (Options.RandomSpawn.GetBool())
                 {
                     RandomSpawn.SpawnMap map;
-                    switch (PlayerControl.GameOptions.MapId)
+                    switch (Main.NormalOptions.MapId)
                     {
                         case 0:
                             map = new RandomSpawn.SkeldSpawnMap();
