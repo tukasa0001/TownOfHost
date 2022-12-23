@@ -325,6 +325,7 @@ namespace TownOfHost
                 Utils.SendMessage(Translator.GetString("Warning.OverrideExiledPlayer"));
             }
             if (MeetingStates.FirstMeeting) TemplateManager.SendTemplate("OnFirstMeeting", noErr: true);
+            TemplateManager.SendTemplate("OnMeeting", noErr: true);
 
             if (AmongUsClient.Instance.AmHost)
             {
