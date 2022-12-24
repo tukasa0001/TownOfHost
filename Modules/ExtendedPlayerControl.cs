@@ -573,6 +573,19 @@ namespace TownOfHost
             var killerId = Main.PlayerStates[target.PlayerId].GetRealKiller();
             return killerId == byte.MaxValue ? null : Utils.GetPlayerById(killerId);
         }
+        public static PlainShipRoom GetPlainShipRoom(this PlayerControl pc)
+        {
+            if (!pc.IsAlive()) return null;
+            var Rooms = ShipStatus.Instance.AllRooms;
+            if (Rooms == null) return null;
+            foreach (var room in Rooms)
+            {
+                if (!room.roomArea) continue;
+                if (pc.Collider.IsTouching(room.roomArea))
+                    return room;
+            }
+            return null;
+        }
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>

@@ -13,6 +13,7 @@ namespace TownOfHost
 
         public static OptionItem CanSeeKillFlash;
         public static OptionItem CanResetTargetAfterMeeting;
+        public static OptionItem CanSeeLastRoomInMeeting;
         public static OptionItem CanCreateMadmate;
 
         public static Dictionary<byte, PlayerControl> Target = new();
@@ -23,6 +24,7 @@ namespace TownOfHost
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.EvilTracker);
             CanSeeKillFlash = BooleanOptionItem.Create(Id + 10, "EvilTrackerCanSeeKillFlash", true, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.EvilTracker]);
             CanResetTargetAfterMeeting = BooleanOptionItem.Create(Id + 11, "EvilTrackerResetTargetAfterMeeting", true, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.EvilTracker]);
+            CanSeeLastRoomInMeeting = BooleanOptionItem.Create(Id + 12, "EvilTrackerCanSeeLastRoomInMeeting", false, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.EvilTracker]);
             CanCreateMadmate = BooleanOptionItem.Create(Id + 20, "CanCreateMadmate", false, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.EvilTracker]);
         }
         public static void Init()
@@ -135,17 +137,13 @@ namespace TownOfHost
             string Suffix = "";
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                bool EvilTrackerTarget = target.GetTarget() == pc;
-                bool foundCheck =
-                    pc != target && (pc.GetCustomRole().IsImpostor() || EvilTrackerTarget);
-
                 //発見対象じゃ無ければ次
-                if (!foundCheck) continue;
+                if (!IsTrackTarget(target, pc)) continue;
 
                 update = FixedUpdatePatch.CheckArrowUpdate(target, pc, update, pc.GetCustomRole().IsImpostor());
                 var key = (target.PlayerId, pc.PlayerId);
                 var arrow = Main.targetArrows[key];
-                if (EvilTrackerTarget) arrow = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Crewmate), arrow);
+                if (target.GetTarget() == pc) arrow = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Crewmate), arrow);
                 if (target.AmOwner)
                 {
                     //MODなら矢印表示
@@ -196,6 +194,18 @@ namespace TownOfHost
                 Logger.Info($"{pc.GetNameWithRole()}のターゲットが無効だったため、ターゲットを削除しました", "EvilTracker");
                 Utils.NotifyRoles();
             }
+        }
+        public static bool IsTrackTarget(PlayerControl seer, PlayerControl target)
+            => seer.IsAlive() && seer.Is(CustomRoles.EvilTracker)
+            && target.IsAlive() && seer != target
+            && (target.Is(RoleType.Impostor) || seer.GetTarget() == target);
+        public static string GetArrowAndLastRoom(PlayerControl seer, PlayerControl target)
+        {
+            string text = Utils.ColorString(Palette.ImpostorRed, Main.targetArrows[(seer.PlayerId, target.PlayerId)]);
+            var room = Main.PlayerStates[target.PlayerId].LastRoom;
+            if (room == null) text += Utils.ColorString(Color.gray, $"@{GetString("FailToTrack")}");
+            else text += Utils.ColorString(Palette.ImpostorRed, $"@{room.RoomId.GetRoomName()}");
+            return text;
         }
     }
 }
