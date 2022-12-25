@@ -37,8 +37,6 @@ namespace TownOfHost
 
             killer.RpcGuardAndKill(target);
 
-            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.Sniped) //スナイプされた時killerをSniperに
-                killer = Utils.GetPlayerById(Sniper.GetSniper(target.PlayerId));
             switch (killer.GetCustomRole())
             {
                 case CustomRoles.BountyHunter:

@@ -562,8 +562,6 @@ namespace TownOfHost
                 return;
             }
             var State = Main.PlayerStates[target.PlayerId];
-            if (State.deathReason == PlayerState.DeathReason.Sniped) //スナイパー対策
-                killer = Utils.GetPlayerById(Sniper.GetSniper(target.PlayerId));
             if (State.RealKiller.Item1 != DateTime.MinValue && NotOverRide) return; //既に値がある場合上書きしない
             byte killerId = killer == null ? byte.MaxValue : killer.PlayerId;
             RPC.SetRealKiller(target.PlayerId, killerId);

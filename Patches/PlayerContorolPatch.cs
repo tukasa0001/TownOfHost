@@ -102,6 +102,16 @@ namespace TownOfHost
                 return false;
             }
 
+            //実際のキラーとkillerが違う場合の入れ替え処理
+            if (Sniper.IsEnable())
+            {
+                Sniper.TryGetSniper(target.PlayerId, ref killer);
+            }
+            if (killer != __instance)
+            {
+                Logger.Info($"Real Killer={killer.GetNameWithRole()}", "CheckMurder");
+
+            }
             //キルされた時の特殊判定
             switch (target.GetCustomRole())
             {
@@ -216,7 +226,7 @@ namespace TownOfHost
             }
 
             //==キル処理==
-            killer.RpcMurderPlayer(target);
+            __instance.RpcMurderPlayer(target);
             //============
 
             return false;
@@ -238,9 +248,19 @@ namespace TownOfHost
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost) return;
 
             PlayerControl killer = __instance; //読み替え変数
-            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.Sniped)
+
+            //実際のキラーとkillerが違う場合の入れ替え処理
+            if (Sniper.IsEnable())
             {
-                killer = Utils.GetPlayerById(Sniper.GetSniper(target.PlayerId));
+                if (Sniper.TryGetSniper(target.PlayerId, ref killer))
+                {
+                    Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Sniped;
+                }
+            }
+            if (killer != __instance)
+            {
+                Logger.Info($"Real Killer={killer.GetNameWithRole()}", "MurderPlayer");
+
             }
             if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.etc)
             {
@@ -277,7 +297,7 @@ namespace TownOfHost
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
             Main.PlayerStates[target.PlayerId].SetDead();
-            target.SetRealKiller(__instance, true); //既に追加されてたらスキップ
+            target.SetRealKiller(killer, true); //既に追加されてたらスキップ
             Utils.CountAliveImpostors();
             Utils.MarkEveryoneDirtySettings();
             Utils.NotifyRoles();

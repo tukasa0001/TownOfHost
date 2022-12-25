@@ -80,7 +80,6 @@ namespace TownOfHost
             Logger.Info($"Player{playerId}:SendRPC", "Sniper");
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SniperSync, Hazel.SendOption.Reliable, -1);
             writer.Write(playerId);
-            writer.Write(snipeTarget[playerId]);
             var snList = shotNotify[playerId];
             writer.Write(snList.Count());
             foreach (var sn in snList)
@@ -93,7 +92,6 @@ namespace TownOfHost
         public static void ReceiveRPC(MessageReader msg)
         {
             var playerId = msg.ReadByte();
-            snipeTarget[playerId] = msg.ReadByte();
             shotNotify[playerId].Clear();
             var count = msg.ReadInt32();
             while (count > 0)
@@ -212,10 +210,10 @@ namespace TownOfHost
                 //一番正確な対象がターゲット
                 var snipedTarget = targets.OrderBy(c => c.Value).First().Key;
                 snipeTarget[pc.PlayerId] = snipedTarget.PlayerId;
-                Main.PlayerStates[snipedTarget.PlayerId].deathReason = PlayerState.DeathReason.Sniped;
                 snipedTarget.CheckMurder(snipedTarget);
-                //キル出来た通知
+                //あたった通知
                 pc.RpcGuardAndKill();
+                snipeTarget[pc.PlayerId] = 0x7F;
 
                 //スナイプが起きたことを聞こえそうな対象に通知したい
                 targets.Remove(snipedTarget);
@@ -272,9 +270,17 @@ namespace TownOfHost
         {
             return Utils.ColorString(Color.yellow, $"({bulletCount[playerId]})");
         }
-        public static byte GetSniper(byte target)
+        public static bool TryGetSniper(byte target,ref PlayerControl sniper)
         {
-            return snipeTarget.Where(st => st.Value == target).First().Key;
+            foreach(var kvp in snipeTarget)
+            {
+                if(kvp.Value==target)
+                {
+                    sniper=Utils.GetPlayerById(kvp.Key);
+                    return true;
+                }
+            }
+            return false;
         }
         public static string GetShotNotify(byte seer)
         {
