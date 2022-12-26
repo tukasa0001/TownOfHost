@@ -931,6 +931,11 @@ namespace TownOfHost
         {
             PlayerGameOptionsSender.SetDirtyToAll();
         }
+        public static void SyncAllSettings()
+        {
+            PlayerGameOptionsSender.SetDirtyToAll();
+            GameOptionsSender.SendAllGameOptions();
+        }
         public static void AfterMeetingTasks()
         {
             BountyHunter.AfterMeetingTasks();

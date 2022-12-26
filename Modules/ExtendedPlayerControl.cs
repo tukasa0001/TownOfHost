@@ -254,6 +254,11 @@ namespace TownOfHost
         {
             PlayerGameOptionsSender.SetDirty(player.PlayerId);
         }
+        public static void SyncSettings(this PlayerControl player)
+        {
+            PlayerGameOptionsSender.SetDirty(player.PlayerId);
+            GameOptionsSender.SendAllGameOptions();
+        }
         public static TaskState GetPlayerTaskState(this PlayerControl player)
         {
             return Main.PlayerStates[player.PlayerId].GetTaskState();
