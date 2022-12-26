@@ -149,9 +149,6 @@ namespace TownOfHost
                         if (!target.Is(CustomRoles.Bait))
                         { //キルキャンセル&自爆処理
                             killer.SetKillCooldown();
-                            Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
-                            killer.MarkDirtySettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
-                            killer.RpcGuardAndKill(target);
                             Main.BitPlayers.Add(target.PlayerId, (killer.PlayerId, 0f));
                             return false;
                         }
@@ -185,7 +182,6 @@ namespace TownOfHost
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
                         killer.SetKillCooldown();
                         Utils.NotifyRoles(SpecifySeer: killer);
-                        killer.RpcGuardAndKill(target);
                         return false;
                     case CustomRoles.TimeThief:
                         TimeThief.OnCheckMurder(killer);
@@ -270,13 +266,12 @@ namespace TownOfHost
             if (target.Is(CustomRoles.TimeThief))
                 target.ResetVotingTime();
 
-            LastImpostor.SetKillCooldown();
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
             Main.PlayerStates[target.PlayerId].SetDead();
             target.SetRealKiller(__instance, true); //既に追加されてたらスキップ
             Utils.CountAliveImpostors();
-            Utils.MarkEveryoneDirtySettings();
+            Utils.SyncAllSettings();
             Utils.NotifyRoles();
             Utils.TargetDies(__instance, target);
         }
@@ -449,7 +444,7 @@ namespace TownOfHost
                 .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
                 .Do(pc => Camouflage.RpcSetSkin(pc, RevertToDefault: true));
 
-            Utils.MarkEveryoneDirtySettings();
+            Utils.SyncAllSettings();
             return true;
         }
         public static async void ChangeLocalNameAndRevert(string name, int time)
@@ -530,7 +525,7 @@ namespace TownOfHost
                         {
                             player.RpcResetAbilityCooldown();
                             Main.isCursed = false;//変身クールを１秒に変更
-                            Utils.MarkEveryoneDirtySettings();
+                            player.SyncSettings();
                             Main.WarlockTimer.Remove(player.PlayerId);
                         }
                         else Main.WarlockTimer[player.PlayerId] = Main.WarlockTimer[player.PlayerId] + Time.fixedDeltaTime;//時間をカウント
