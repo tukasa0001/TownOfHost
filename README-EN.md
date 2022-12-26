@@ -106,9 +106,15 @@ To set the text, edit `./TOH_DATA/template.txt` in the same folder as AmongUs.ex
 Separate each entry with a colon, such as `tag:content`.<br>
 Also, you can break lines by writing `\n` in the sentence like `tag:line breaks can be\nmade like this`.<br>
 
-#### Welcome Message
-If the tag is set to "welcome" in the template function, it will be sent automatically when a player joins.<br>
+#### Special Tags
+There are special tags that can be sent automatically according to the scene.<br>
 For example: `welcome:This room is using TownOfHost.`
+
+| Tag            | Scene                             | Target                     |
+| -------------- | --------------------------------- | -------------------------- |
+| welcome        | When the player joins the room    | Player who joined the room |
+| OnMeeting      | At the start of the meeting       | Everyone                   |
+| OnFirstMeeting | At the start of the First meeting | Everyone                   |
 
 #### Variable Expansion
 The contents of a variable can be expanded at the time of a call by including it in the text as `{{variable name}}`.<br>
