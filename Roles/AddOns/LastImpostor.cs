@@ -31,6 +31,8 @@ namespace TownOfHost
                 and not CustomRoles.SerialKiller;
         public static void SetSubRole()
         {
+            //ラストインポスターがすでにいれば処理不要
+            if (currentId != byte.MaxValue) return;
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek
             || !CustomRoles.LastImpostor.IsEnable() || Main.AliveImpostorCount != 1)
                 return;
@@ -40,8 +42,9 @@ namespace TownOfHost
                 {
                     pc.RpcSetCustomRole(CustomRoles.LastImpostor);
                     Add(pc.PlayerId);
+                    SetKillCooldown();
+                    pc.SyncSettings();
                     Utils.NotifyRoles();
-                    Utils.MarkEveryoneDirtySettings();
                     break;
                 }
             }
