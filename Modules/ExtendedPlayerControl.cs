@@ -161,20 +161,22 @@ namespace TownOfHost
                 sender.SendMessage();
             }
         }
-        public static void SetKillCooldown(this PlayerControl player, float time)
+        public static void SetKillCooldown(this PlayerControl player, float time = -1f)
         {
+            if (player == null) return;
             CustomRoles role = player.GetCustomRole();
             if (!(role.IsImpostor() || player.IsNeutralKiller() || role is CustomRoles.Arsonist or CustomRoles.Sheriff)) return;
-            if (player.AmOwner)
+            if (time >= 0f)
             {
-                player.SetKillTimer(time);
+                Main.AllPlayerKillCooldown[player.PlayerId] = time * 2;
             }
             else
             {
-                Main.AllPlayerKillCooldown[player.PlayerId] = time * 2;
-                player.MarkDirtySettings();
-                player.RpcGuardAndKill();
+                Main.AllPlayerKillCooldown[player.PlayerId] *= 2;
             }
+            player.SyncSettings();
+            player.RpcGuardAndKill();
+            player.ResetKillCooldown();
         }
         public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
         {
@@ -253,6 +255,11 @@ namespace TownOfHost
         public static void MarkDirtySettings(this PlayerControl player)
         {
             PlayerGameOptionsSender.SetDirty(player.PlayerId);
+        }
+        public static void SyncSettings(this PlayerControl player)
+        {
+            PlayerGameOptionsSender.SetDirty(player.PlayerId);
+            GameOptionsSender.SendAllGameOptions();
         }
         public static TaskState GetPlayerTaskState(this PlayerControl player)
         {

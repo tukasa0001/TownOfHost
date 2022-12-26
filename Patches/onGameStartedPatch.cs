@@ -448,7 +448,7 @@ namespace TownOfHost
             }
 */
             Utils.CountAliveImpostors();
-            Utils.MarkEveryoneDirtySettings();
+            Utils.SyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
         }
         private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, Dictionary<byte, CustomRpcSender> senders, Dictionary<(byte, byte), RoleTypes> rolesMap, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)
