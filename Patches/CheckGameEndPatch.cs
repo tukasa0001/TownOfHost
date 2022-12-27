@@ -14,13 +14,10 @@ namespace TownOfHost
         public static bool Prefix()
         {
             if (!AmongUsClient.Instance.AmHost) return true;
+
             if (Options.NoGameEnd.GetBool() && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw) return false;
 
-            GameOverReason reason = GameOverReason.ImpostorByKill;
-
-            if (predicate != null && predicate.CheckForEndGame(out var r)) reason = r;
-
-            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
+            if (predicate != null && predicate.CheckForEndGame(out var reason))
             {
                 //カモフラージュ強制解除
                 PlayerControl.AllPlayerControls.ToArray().Do(pc => Camouflage.RpcSetSkin(pc, ForceRevert: true, RevertToDefault: true));
@@ -184,7 +181,6 @@ namespace TownOfHost
                     pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Egoist) && !pc.Is(CustomRoles.Jackal) //その他
                 );
                 int Imp = counts[0], Jackal = counts[1], Crew = counts[2];
-
 
                 if (Imp == 0 && Crew == 0 && Jackal == 0) //全滅
                 {
