@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using UnityEngine;
-using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -13,6 +13,7 @@ namespace TownOfHost
     {
         public static void Postfix(IntroCutscene __instance)
         {
+            if (!GameStates.IsModHost) return;
             new LateTask(() =>
             {
                 CustomRoles role = PlayerControl.LocalPlayer.GetCustomRole();

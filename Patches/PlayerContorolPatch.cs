@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using UnityEngine;
-using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -461,6 +461,7 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance)
         {
+            if (!GameStates.IsModHost) return;
             var player = __instance;
 
             if (AmongUsClient.Instance.AmHost)
