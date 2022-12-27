@@ -55,7 +55,14 @@ namespace TownOfHost.Modules
                 }
             }
         }
-
+        public static void RemoveSender(PlayerControl player)
+        {
+            var sender = AllSenders.OfType<PlayerGameOptionsSender>()
+            .FirstOrDefault(sender => sender.player.PlayerId == player.PlayerId);
+            if (sender == null) return;
+            sender.player = null;
+            AllSenders.Remove(sender);
+        }
         public override IGameOptions BuildGameOptions()
         {
             if (Main.RealOptionsData == null)
