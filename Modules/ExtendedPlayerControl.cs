@@ -90,7 +90,7 @@ namespace TownOfHost
         }
         public static void RpcSetNameEx(this PlayerControl player, string name)
         {
-            foreach (var seer in PlayerControl.AllPlayerControls)
+            foreach (var seer in Main.AllPlayerControls)
             {
                 Main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] = name;
             }

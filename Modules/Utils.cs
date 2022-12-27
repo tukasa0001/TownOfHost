@@ -104,7 +104,7 @@ namespace TownOfHost
         public static void TargetDies(PlayerControl killer, PlayerControl target)
         {
             if (!target.Data.IsDead || GameStates.IsMeeting) return;
-            foreach (var seer in PlayerControl.AllPlayerControls)
+            foreach (var seer in Main.AllPlayerControls)
             {
                 if (!KillFlashCheck(killer, target, seer)) continue;
                 seer.KillFlash();
@@ -557,7 +557,7 @@ namespace TownOfHost
             var taskState = GetPlayerById(Terrorist.PlayerId).GetPlayerTaskState();
             if (taskState.IsTaskFinished && (!Main.PlayerStates[Terrorist.PlayerId].IsSuicide() || Options.CanTerroristSuicideWin.GetBool())) //タスクが完了で（自殺じゃない OR 自殺勝ちが許可）されていれば
             {
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                foreach (var pc in Main.AllPlayerControls)
                 {
                     if (pc.Is(CustomRoles.Terrorist))
                     {
@@ -630,14 +630,14 @@ namespace TownOfHost
         }
         public static PlayerControl GetPlayerById(int PlayerId)
         {
-            return PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
+            return Main.AllPlayerControls.Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
         }
         public static GameData.PlayerInfo GetPlayerInfoById(int PlayerId) =>
             GameData.Instance.AllPlayers.ToArray().Where(info => info.PlayerId == PlayerId).FirstOrDefault();
         public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false, bool ForceLoop = false)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            if (PlayerControl.AllPlayerControls == null) return;
+            if (Main.AllPlayerControls == null) return;
 
             var caller = new System.Diagnostics.StackFrame(1, false);
             var callerMethod = caller.GetMethod();
@@ -651,9 +651,9 @@ namespace TownOfHost
             bool ShowSnitchWarning = false;
             if (CustomRoles.Snitch.IsEnable())
             {
-                foreach (var snitch in PlayerControl.AllPlayerControls)
+                foreach (var snitch in Main.AllAlivePlayerControls)
                 {
-                    if (snitch.Is(CustomRoles.Snitch) && !snitch.Data.IsDead && !snitch.Data.Disconnected)
+                    if (snitch.Is(CustomRoles.Snitch))
                     {
                         var taskState = snitch.GetPlayerTaskState();
                         if (taskState.DoExpose)
@@ -675,13 +675,13 @@ namespace TownOfHost
             //target:seerが見ることができる変更の対象となるプレイヤー
             foreach (var seer in seerList)
             {
+                //seerが落ちているときに何もしない
+                if (seer == null || seer.Data.Disconnected) continue;
+
                 if (seer.IsModClient()) continue;
                 string fontSize = "1.5";
                 if (isMeeting && (seer.GetClient().PlatformData.Platform.ToString() == "Playstation" || seer.GetClient().PlatformData.Platform.ToString() == "Switch")) fontSize = "70%";
                 TownOfHost.Logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":START", "NotifyRoles");
-                //Loop1-bottleのSTART-END間でKeyNotFoundException
-                //seerが落ちているときに何もしない
-                if (seer.Data.Disconnected) continue;
 
                 //タスクなど進行状況を含むテキスト
                 string SelfTaskText = GetProgressText(seer);
@@ -809,10 +809,10 @@ namespace TownOfHost
                     || ForceLoop
                 )
                 {
-                    foreach (var target in PlayerControl.AllPlayerControls)
+                    foreach (var target in Main.AllPlayerControls)
                     {
                         //targetがseer自身の場合は何もしない
-                        if (target == seer || target.Data.Disconnected) continue;
+                        if (target == seer) continue;
                         TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":START", "NotifyRoles");
 
                         //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
@@ -951,7 +951,7 @@ namespace TownOfHost
         public static void CountAliveImpostors()
         {
             int AliveImpostorCount = 0;
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllPlayerControls)
             {
                 CustomRoles pc_role = pc.GetCustomRole();
                 if (pc_role.IsImpostor() && !Main.PlayerStates[pc.PlayerId].IsDead) AliveImpostorCount++;
@@ -992,13 +992,9 @@ namespace TownOfHost
         {
             int doused = 0, all = 0; //学校で習った書き方
                                      //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllAlivePlayerControls)
             {
-                if (pc == null ||
-                    pc.Data.IsDead ||
-                    pc.Data.Disconnected ||
-                    pc.PlayerId == playerId
-                ) continue; //塗れない人は除外 (死んでたり切断済みだったり あとアーソニスト自身も)
+                if (pc.PlayerId == playerId) continue; //塗れない人は除外 (死んでたり切断済みだったり あとアーソニスト自身も)
 
                 all++;
                 if (Main.isDoused.TryGetValue((playerId, pc.PlayerId), out var isDoused) && isDoused)
@@ -1020,10 +1016,10 @@ namespace TownOfHost
             if (Main.PlayerStates == null) return false;
             //マフィアを除いた生きているインポスターの人数  Number of Living Impostors excluding mafia
             int LivingImpostorsNum = 0;
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllAlivePlayerControls)
             {
                 var role = pc.GetCustomRole();
-                if (!pc.Data.IsDead && role != CustomRoles.Mafia && role.IsImpostor()) LivingImpostorsNum++;
+                if (role != CustomRoles.Mafia && role.IsImpostor()) LivingImpostorsNum++;
             }
 
             return LivingImpostorsNum <= 0;

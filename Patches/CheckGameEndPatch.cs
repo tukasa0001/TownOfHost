@@ -23,19 +23,19 @@ namespace TownOfHost
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
             {
                 //カモフラージュ強制解除
-                PlayerControl.AllPlayerControls.ToArray().Do(pc => Camouflage.RpcSetSkin(pc, ForceRevert: true, RevertToDefault: true));
+                Main.AllPlayerControls.Do(pc => Camouflage.RpcSetSkin(pc, ForceRevert: true, RevertToDefault: true));
 
                 switch (CustomWinnerHolder.WinnerTeam)
                 {
                     case CustomWinner.Crewmate:
-                        PlayerControl.AllPlayerControls.ToArray()
+                        Main.AllPlayerControls
                             .Where(pc => pc.Is(RoleType.Crewmate) && !pc.Is(CustomRoles.Lovers))
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
                     case CustomWinner.Impostor:
-                        PlayerControl.AllPlayerControls.ToArray()
-                                .Where(pc => (pc.Is(RoleType.Impostor) || pc.Is(RoleType.Madmate)) && !pc.Is(CustomRoles.Lovers))
-                                .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
+                        Main.AllPlayerControls
+                            .Where(pc => (pc.Is(RoleType.Impostor) || pc.Is(RoleType.Madmate)) && !pc.Is(CustomRoles.Lovers))
+                            .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
                 }
                 ShipStatus.Instance.enabled = false;
@@ -53,7 +53,7 @@ namespace TownOfHost
             //ゴーストロール化
             List<byte> ReviveReqiredPlayerIds = new();
             var winner = CustomWinnerHolder.WinnerTeam;
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllPlayerControls)
             {
                 if (winner == CustomWinner.Draw)
                 {
@@ -272,11 +272,11 @@ namespace TownOfHost
         public int[] CountLivingPlayersByPredicates(params Predicate<PlayerControl>[] predicates)
         {
             int[] counts = new int[predicates.Length];
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllAlivePlayerControls)
             {
                 for (int i = 0; i < predicates.Length; i++)
                 {
-                    if (pc.IsAlive() && predicates[i](pc)) counts[i]++;
+                    if (predicates[i](pc)) counts[i]++;
                 }
             }
             return counts;

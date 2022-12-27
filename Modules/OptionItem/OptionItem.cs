@@ -209,7 +209,7 @@ namespace TownOfHost
         public static void SyncAllOptions()
         {
             if (
-                PlayerControl.AllPlayerControls.Count <= 1 ||
+                Main.AllPlayerControls.Count() <= 1 ||
                 AmongUsClient.Instance.AmHost == false ||
                 PlayerControl.LocalPlayer == null
             ) return;

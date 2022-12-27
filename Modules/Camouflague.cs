@@ -49,7 +49,7 @@ namespace TownOfHost
                 new LateTask(
                     () =>
                     {
-                        PlayerControl.AllPlayerControls.ToArray().Do(pc => Camouflage.RpcSetSkin(pc));
+                        Main.AllPlayerControls.Do(pc => Camouflage.RpcSetSkin(pc));
                         if (!GameStates.IsMeeting)
                             Utils.NotifyRoles(ForceLoop: true);
                     }, 0.1f, "Camouflage");

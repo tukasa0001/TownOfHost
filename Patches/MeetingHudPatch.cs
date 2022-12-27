@@ -207,7 +207,7 @@ namespace TownOfHost
         }
         public static bool IsMayor(byte id)
         {
-            var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
+            var player = Main.AllPlayerControls.Where(pc => pc.PlayerId == id).FirstOrDefault();
             return player != null && player.Is(CustomRoles.Mayor);
         }
         public static void TryAddAfterMeetingDeathPlayers(byte playerId, PlayerState.DeathReason deathReason)
@@ -238,7 +238,7 @@ namespace TownOfHost
         public static PlayerControl PickRevengeTarget(PlayerControl exiledplayer)//道連れ先選定
         {
             List<PlayerControl> TargetList = new();
-            foreach (var candidate in PlayerControl.AllPlayerControls)
+            foreach (var candidate in Main.AllPlayerControls)
             {
                 if (candidate == exiledplayer || candidate.Data.IsDead || Main.AfterMeetingDeathPlayers.ContainsKey(candidate.PlayerId)) continue;
                 switch (exiledplayer.GetCustomRole())
@@ -289,7 +289,7 @@ namespace TownOfHost
             Logger.Info("------------会議開始------------", "Phase");
             ChatUpdatePatch.DoBlockChat = true;
             GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
-            PlayerControl.AllPlayerControls.ToArray().Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
+            Main.AllPlayerControls.Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
             Utils.NotifyRoles(isMeeting: true, NoCache: true);
             MeetingStates.MeetingCalled = true;
         }
@@ -336,7 +336,7 @@ namespace TownOfHost
             {
                 _ = new LateTask(() =>
                 {
-                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    foreach (var pc in Main.AllPlayerControls)
                     {
                         pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
                     }
@@ -491,7 +491,7 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 AntiBlackout.SetIsDead();
-                PlayerControl.AllPlayerControls.ToArray().Do(pc => RandomSpawn.CustomNetworkTransformPatch.NumOfTP[pc.PlayerId] = 0);
+                Main.AllPlayerControls.Do(pc => RandomSpawn.CustomNetworkTransformPatch.NumOfTP[pc.PlayerId] = 0);
             }
         }
     }

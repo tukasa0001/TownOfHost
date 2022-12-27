@@ -135,7 +135,7 @@ namespace TownOfHost
         {
             var update = false;
             string Suffix = "";
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllPlayerControls)
             {
                 //発見対象じゃ無ければ次
                 if (!IsTrackTarget(target, pc)) continue;
