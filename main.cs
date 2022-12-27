@@ -258,7 +258,7 @@ namespace TownOfHost
             catch (ArgumentException ex)
             {
                 TownOfHost.Logger.Error("エラー:Dictionaryの値の重複を検出しました", "LoadDictionary");
-                TownOfHost.Logger.Error(ex.Message, "LoadDictionary");
+                TownOfHost.Logger.Exception(ex, "LoadDictionary");
                 hasArgumentException = true;
                 ExceptionMessage = ex.Message;
                 ExceptionMessageIsShown = false;

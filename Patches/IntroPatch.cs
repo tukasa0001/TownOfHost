@@ -62,7 +62,7 @@ namespace TownOfHost
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(ex.ToString(), "Platform");
+                    Logger.Exception(ex, "Platform");
                 }
             }
             Logger.Info("------------基本設定------------", "Info");

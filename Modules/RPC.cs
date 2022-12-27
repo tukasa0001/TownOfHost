@@ -263,7 +263,7 @@ namespace TownOfHost
             }
             catch (Exception ex)
             {
-                Logger.Error($"正常にEndGameを行えませんでした。{ex}", "EndGame");
+                Logger.Error($"正常にEndGameを行えませんでした。\n{ex}", "EndGame", false);
             }
         }
         public static void PlaySound(byte playerID, Sounds sound)

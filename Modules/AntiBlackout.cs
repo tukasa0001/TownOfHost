@@ -123,7 +123,7 @@ namespace TownOfHost
             catch (Exception ex)
             {
                 Logger.Warn("AntiBlackout.TempRestore内で例外が発生しました", "AntiBlackout");
-                Logger.Error(ex.ToString(), "AntiBlackout.TempRestore");
+                Logger.Exception(ex, "AntiBlackout.TempRestore");
             }
             finally
             {
