@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using UnityEngine;
 using TownOfHost.Modules;
+using UnityEngine;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -18,6 +18,7 @@ namespace TownOfHost
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             GameStates.InGame = false;
 
+            if (!GameStates.IsModHost) return;
             SummaryText = new();
             foreach (var id in Main.PlayerStates.Keys)
                 SummaryText[id] = Utils.SummaryTexts(id, disableColor: false);

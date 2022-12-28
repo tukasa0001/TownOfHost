@@ -1,8 +1,8 @@
 using System;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using UnhollowerBaseLib;
 using UnityEngine;
-using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -20,6 +20,7 @@ namespace TownOfHost
         public static TMPro.TextMeshPro LowerInfoText;
         public static void Postfix(HudManager __instance)
         {
+            if (!GameStates.IsModHost) return;
             var player = PlayerControl.LocalPlayer;
             if (player == null) return;
             var TaskTextPrefix = "";
@@ -276,6 +277,7 @@ namespace TownOfHost
         // タスク表示の文章が更新・適用された後に実行される
         public static void Postfix(TaskPanelBehaviour __instance)
         {
+            if (!GameStates.IsModHost) return;
             PlayerControl player = PlayerControl.LocalPlayer;
 
             // 役職説明表示
