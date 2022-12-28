@@ -51,7 +51,7 @@ namespace TownOfHost
             {
                 List<PlayerControl> targetList = new();
                 var rand = IRandom.Instance;
-                foreach (var target in PlayerControl.AllPlayerControls)
+                foreach (var target in Main.AllPlayerControls)
                 {
                     if (playerId == target.PlayerId) continue;
                     else if (!CanTargetImpostor.GetBool() && target.Is(RoleType.Impostor)) continue;

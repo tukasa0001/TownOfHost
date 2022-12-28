@@ -29,7 +29,7 @@ namespace TownOfHost
             {
                 int numImpostors = 0;
                 int numCrewmates = 0;
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                foreach (var pc in Main.AllPlayerControls)
                 {
                     if (pc.Data.Role.IsImpostor) numImpostors++;
                     else numCrewmates++;

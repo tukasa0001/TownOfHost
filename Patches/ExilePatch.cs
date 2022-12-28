@@ -91,7 +91,7 @@ namespace TownOfHost
 
             Witch.RemoveSpelledPlayer();
 
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
                 if (Options.MayorHasPortableButton.GetBool() && pc.Is(CustomRoles.Mayor))
@@ -110,15 +110,15 @@ namespace TownOfHost
                 {
                     case 0:
                         map = new RandomSpawn.SkeldSpawnMap();
-                        PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                        Main.AllPlayerControls.Do(map.RandomTeleport);
                         break;
                     case 1:
                         map = new RandomSpawn.MiraHQSpawnMap();
-                        PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                        Main.AllPlayerControls.Do(map.RandomTeleport);
                         break;
                     case 2:
                         map = new RandomSpawn.PolusSpawnMap();
-                        PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                        Main.AllPlayerControls.Do(map.RandomTeleport);
                         break;
                 }
             }

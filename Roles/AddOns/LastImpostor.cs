@@ -36,7 +36,7 @@ namespace TownOfHost
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek
             || !CustomRoles.LastImpostor.IsEnable() || Main.AliveImpostorCount != 1)
                 return;
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllAlivePlayerControls)
             {
                 if (CanBeLastImpostor(pc))
                 {

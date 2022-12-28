@@ -11,7 +11,7 @@ namespace TownOfHost
         {
             playerIdList.Add(teamEgo);
         }
-        public static bool CompleteWinCondition(byte id) => CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor && !Main.PlayerStates[id].IsDead && !PlayerControl.AllPlayerControls.ToArray().Any(p => p.Is(RoleType.Impostor) && !Main.PlayerStates[p.PlayerId].IsDead);
+        public static bool CompleteWinCondition(byte id) => CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor && !Main.PlayerStates[id].IsDead && !Main.AllAlivePlayerControls.Any(p => p.Is(RoleType.Impostor));
         public static void SoloWin(List<PlayerControl> winner)
         {
             if (CustomWinnerHolder.WinnerTeam == CustomWinner.Egoist && CustomRoles.Egoist.IsEnable()) //横取り勝利

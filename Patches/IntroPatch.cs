@@ -38,18 +38,18 @@ namespace TownOfHost
         public static void Prefix()
         {
             Logger.Info("------------名前表示------------", "Info");
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllPlayerControls)
             {
                 Logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc.name.PadRightV2(20)}:{pc.cosmetics.nameText.text}({Palette.ColorNames[pc.Data.DefaultOutfit.ColorId].ToString().Replace("Color", "")})", "Info");
                 pc.cosmetics.nameText.text = pc.name;
             }
             Logger.Info("----------役職割り当て----------", "Info");
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllPlayerControls)
             {
                 Logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc?.Data?.PlayerName?.PadRightV2(20)}:{pc.GetAllRoleName()}", "Info");
             }
             Logger.Info("--------------環境--------------", "Info");
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllPlayerControls)
             {
                 try
                 {
@@ -73,8 +73,8 @@ namespace TownOfHost
                 if (!o.IsHiddenOn(Options.CurrentGameMode) && (o.Parent == null ? !o.GetString().Equals("0%") : o.Parent.GetBool()))
                     Logger.Info($"{(o.Parent == null ? o.Name.PadRightV2(40) : $"┗ {o.Name}".PadRightV2(41))}:{o.GetString().RemoveHtmlTags()}", "Info");
             Logger.Info("-------------その他-------------", "Info");
-            Logger.Info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
-            PlayerControl.AllPlayerControls.ToArray().Do(x => Main.PlayerStates[x.PlayerId].InitTask(x));
+            Logger.Info($"プレイヤー数: {Main.AllPlayerControls.Count()}人", "Info");
+            Main.AllPlayerControls.Do(x => Main.PlayerStates[x.PlayerId].InitTask(x));
 
             Utils.NotifyRoles();
 
@@ -218,7 +218,7 @@ namespace TownOfHost
                 //シェリフの場合はキャンセルしてBeginCrewmateに繋ぐ
                 yourTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                 yourTeam.Add(PlayerControl.LocalPlayer);
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                foreach (var pc in Main.AllPlayerControls)
                 {
                     if (!pc.AmOwner) yourTeam.Add(pc);
                 }
@@ -245,14 +245,14 @@ namespace TownOfHost
             {
                 if (Main.NormalOptions.MapId != 4)
                 {
-                    PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcResetAbilityCooldown());
+                    Main.AllPlayerControls.Do(pc => pc.RpcResetAbilityCooldown());
                     if (Options.FixFirstKillCooldown.GetBool())
                         new LateTask(() =>
                         {
-                            PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.SetKillCooldown(Main.AllPlayerKillCooldown[pc.PlayerId] - 2f));
+                            Main.AllPlayerControls.Do(pc => pc.SetKillCooldown(Main.AllPlayerKillCooldown[pc.PlayerId] - 2f));
                         }, 2f, "FixKillCooldownTask");
                 }
-                new LateTask(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRoleDesync(RoleTypes.Shapeshifter, -3)), 2f, "SetImpostorForServer");
+                new LateTask(() => Main.AllPlayerControls.Do(pc => pc.RpcSetRoleDesync(RoleTypes.Shapeshifter, -3)), 2f, "SetImpostorForServer");
                 if (PlayerControl.LocalPlayer.Is(CustomRoles.GM))
                 {
                     PlayerControl.LocalPlayer.RpcExile();
@@ -265,11 +265,11 @@ namespace TownOfHost
                     {
                         case 0:
                             map = new RandomSpawn.SkeldSpawnMap();
-                            PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                            Main.AllPlayerControls.Do(map.RandomTeleport);
                             break;
                         case 1:
                             map = new RandomSpawn.MiraHQSpawnMap();
-                            PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                            Main.AllPlayerControls.Do(map.RandomTeleport);
                             break;
                     }
                 }

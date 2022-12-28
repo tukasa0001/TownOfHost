@@ -148,9 +148,9 @@ namespace TownOfHost
                 var rand = IRandom.Instance;
                 List<PlayerControl> targetPlayers = new();
                 //切断者と死亡者を除外
-                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                foreach (var p in Main.AllAlivePlayerControls)
                 {
-                    if (!p.Data.Disconnected && !p.Data.IsDead && !Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetPlayers.Add(p);
+                    if (!Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetPlayers.Add(p);
                 }
                 //ターゲットが0ならアップ先をプレイヤーをnullに
                 if (targetPlayers.Count >= 1)

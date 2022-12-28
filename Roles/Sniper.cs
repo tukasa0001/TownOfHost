@@ -141,10 +141,10 @@ namespace TownOfHost
                 var snipePos = pc.transform.position;
                 var dir = (snipePos - snipeBasePos).normalized;
 
-                foreach (var target in PlayerControl.AllPlayerControls)
+                foreach (var target in Main.AllAlivePlayerControls)
                 {
-                    //死者や自分には当たらない
-                    if (Main.PlayerStates[target.PlayerId].IsDead || target.PlayerId == pc.PlayerId) continue;
+                    //自分には当たらない
+                    if (target.PlayerId == pc.PlayerId) continue;
                     //死んでいない対象の方角ベクトル作成
                     var target_pos = target.transform.position - snipePos;
                     //正規化して

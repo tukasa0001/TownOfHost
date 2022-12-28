@@ -40,7 +40,7 @@ namespace TownOfHost
             //勝者リスト作成
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
             {
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                foreach (var pc in Main.AllPlayerControls)
                 {
                     if (CustomWinnerHolder.WinnerRoles.Contains(pc.GetCustomRole()) ||
                         CustomWinnerHolder.WinnerIds.Contains(pc.PlayerId))
@@ -55,7 +55,7 @@ namespace TownOfHost
             CustomWinnerHolder.WinnerTeam == CustomWinner.Draw)
             {
                 winner = new List<PlayerControl>();
-                foreach (var p in PlayerControl.AllPlayerControls)
+                foreach (var p in Main.AllPlayerControls)
                 {
                     winner.Add(p);
                 }
@@ -77,7 +77,7 @@ namespace TownOfHost
 
             ///以降追加勝利陣営 (winnerリセット無し)
             //Opportunist
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllPlayerControls)
             {
                 if (CustomWinnerHolder.WinnerTeam == CustomWinner.None) break;
                 if (pc.Is(CustomRoles.Opportunist) && !pc.Data.IsDead && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw && CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist)
@@ -99,7 +99,7 @@ namespace TownOfHost
                 CustomWinnerHolder.WinnerTeam != CustomWinner.Draw && CustomWinnerHolder.WinnerTeam != CustomWinner.None)
             {
                 winner = new();
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                foreach (var pc in Main.AllPlayerControls)
                 {
                     var role = Main.PlayerStates[pc.PlayerId].MainRole;
                     if (role.GetRoleType() == RoleType.Impostor)
