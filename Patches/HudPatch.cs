@@ -156,9 +156,9 @@ namespace TownOfHost
                         break;
                 }
 
-                bool CanUse = player.CanUseImpostorVentButton();
-                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(CanUse && !player.Data.IsDead);
-                player.Data.Role.CanVent = CanUse;
+                bool CanUseVent = player.CanUseImpostorVentButton();
+                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(CanUseVent && !player.Data.IsDead);
+                player.Data.Role.CanVent = CanUseVent;
             }
 
 

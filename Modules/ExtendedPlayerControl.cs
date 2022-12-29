@@ -367,6 +367,7 @@ namespace TownOfHost
                 CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
                 CustomRoles.Egoist or CustomRoles.Jackal => true,
+                CustomRoles.Doctor => true,
                 _ => pc.Is(RoleType.Impostor),
             };
         }
@@ -378,6 +379,7 @@ namespace TownOfHost
                 CustomRoles.Egoist => true,
                 CustomRoles.Jackal => Jackal.CanVent.GetBool(),
                 CustomRoles.Arsonist => pc.IsDouseDone(),
+                CustomRoles.Dictator => true,
                 _ => pc.Is(RoleType.Impostor),
             };
         }
