@@ -165,7 +165,7 @@ namespace TownOfHost
         {
             if (player == null) return;
             CustomRoles role = player.GetCustomRole();
-            if (!(role.IsImpostor() || player.IsNeutralKiller() || role is CustomRoles.Arsonist or CustomRoles.Sheriff)) return;
+            if (!player.CanUseKillButton()) return;
             if (time >= 0f)
             {
                 Main.AllPlayerKillCooldown[player.PlayerId] = time * 2;
@@ -367,7 +367,6 @@ namespace TownOfHost
                 CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
                 CustomRoles.Egoist or CustomRoles.Jackal => true,
-                CustomRoles.Doctor => true,
                 _ => pc.Is(RoleType.Impostor),
             };
         }
@@ -379,7 +378,6 @@ namespace TownOfHost
                 CustomRoles.Egoist => true,
                 CustomRoles.Jackal => Jackal.CanVent.GetBool(),
                 CustomRoles.Arsonist => pc.IsDouseDone(),
-                CustomRoles.Dictator => true,
                 _ => pc.Is(RoleType.Impostor),
             };
         }
