@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AmongUs.Data;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
 using TownOfHost.Modules;
@@ -26,6 +27,9 @@ namespace TownOfHost
             {
                 if (Main.NormalOptions.KillCooldown == 0.1f)
                     GameOptionsManager.Instance.normalGameHostOptions.KillCooldown = Main.LastKillCooldown.Value;
+                AURoleOptions.SetOpt(Main.NormalOptions.Cast<IGameOptions>());
+                if (AURoleOptions.ShapeshifterCooldown == 0f)
+                    AURoleOptions.ShapeshifterCooldown = Main.LastShapeshifterCooldown.Value;
             }
         }
     }
