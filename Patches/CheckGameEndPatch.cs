@@ -15,9 +15,20 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return true;
 
+            //ゲーム終了判定済みなら中断
+            if (predicate == null) return false;
+
+            //ゲーム終了しないモードで廃村以外の場合は中断
             if (Options.NoGameEnd.GetBool() && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw) return false;
 
-            if (predicate != null && predicate.CheckForEndGame(out var reason))
+            //廃村用に初期値を設定
+            var reason = GameOverReason.ImpostorByKill;
+
+            //ゲーム終了判定
+            predicate.CheckForEndGame(out reason);
+
+            //ゲーム終了時
+            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
             {
                 //カモフラージュ強制解除
                 PlayerControl.AllPlayerControls.ToArray().Do(pc => Camouflage.RpcSetSkin(pc, ForceRevert: true, RevertToDefault: true));
