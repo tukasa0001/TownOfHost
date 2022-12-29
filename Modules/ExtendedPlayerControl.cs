@@ -370,7 +370,7 @@ namespace TownOfHost
                 _ => pc.Is(RoleType.Impostor),
             };
         }
-        public static bool CanUseVentButton(this PlayerControl pc)
+        public static bool CanUseImpostorVentButton(this PlayerControl pc)
         {
             return pc.GetCustomRole() switch
             {
