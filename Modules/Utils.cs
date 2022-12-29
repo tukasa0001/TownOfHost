@@ -940,6 +940,8 @@ namespace TownOfHost
         {
             BountyHunter.AfterMeetingTasks();
             SerialKiller.AfterMeetingTasks();
+            if (Options.AirShipVariableElectrical.GetBool())
+                AirShipElectricalDoors.Initialize();
         }
 
         public static void ChangeInt(ref int ChangeTo, int input, int max)
