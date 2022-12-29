@@ -1051,7 +1051,7 @@ namespace TownOfHost
                     CustomWinnerHolder.WinnerIds.Add(__instance.myPlayer.PlayerId);
                     return true;
                 }
-                if (!__instance.myPlayer.CanUseVentButton() ||
+                if (!__instance.myPlayer.CanUseImpostorVentButton() ||
                 __instance.myPlayer.Is(CustomRoles.SKMadmate) ||
                 (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt())
                 )

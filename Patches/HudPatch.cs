@@ -156,7 +156,7 @@ namespace TownOfHost
                         break;
                 }
 
-                bool CanUse = player.CanUseVentButton();
+                bool CanUse = player.CanUseImpostorVentButton();
                 DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(CanUse && !player.Data.IsDead);
                 player.Data.Role.CanVent = CanUse;
             }
@@ -206,7 +206,7 @@ namespace TownOfHost
             var player = PlayerControl.LocalPlayer;
             if (!GameStates.IsInTask) return;
 
-            if (player.CanUseVentButton() && !player.Data.IsDead)
+            if (player.CanUseImpostorVentButton() && !player.Data.IsDead)
             {
                 ((Renderer)__instance.cosmetics.currentBodySprite.BodySprite).material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));
             }

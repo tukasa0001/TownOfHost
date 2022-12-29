@@ -44,7 +44,7 @@ namespace TownOfHost
 
             if (pc.IsDead) return false; //死んでる人は強制的にfalseに。
 
-            canUse = couldUse = pc.Object.CanUseVentButton();
+            canUse = couldUse = pc.Object.CanUseImpostorVentButton();
             switch (pc.GetCustomRole())
             {
                 case CustomRoles.Arsonist:
