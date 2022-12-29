@@ -157,7 +157,7 @@ namespace TownOfHost
                 }
 
                 bool CanUseVent = player.CanUseImpostorVentButton();
-                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(CanUseVent && !player.Data.IsDead);
+                __instance.ImpostorVentButton.ToggleVisible(CanUseVent && player.IsAlive());
                 player.Data.Role.CanVent = CanUseVent;
             }
 
@@ -237,16 +237,16 @@ namespace TownOfHost
             {
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
-                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
-                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
-                    __instance.ImpostorVentButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Jackal:
-                    Jackal.SetHudActive(__instance, isActive, player);
+                    Jackal.SetHudActive(__instance, isActive);
                     break;
             }
+            if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                __instance.KillButton.ToggleVisible(player.CanUseKillButton() && player.IsAlive());
+            __instance.ImpostorVentButton.ToggleVisible(player.CanUseImpostorVentButton());
         }
     }
     [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowNormalMap))]
