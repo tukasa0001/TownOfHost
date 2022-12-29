@@ -284,7 +284,7 @@ namespace TownOfHost
             foreach (var role in SubRoles)
             {
                 if (role == CustomRoles.NotAssigned) continue;
-                sb.Append($" + {Utils.GetRoleName(role)}");
+                sb.Append($"{Utils.ColorString(Color.white, " + ")}{Utils.GetRoleName(role)}");
             }
 
             return sb.ToString();

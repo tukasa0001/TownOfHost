@@ -27,6 +27,8 @@ namespace TownOfHost
                     __instance.RoleBlurbText.text = PlayerControl.LocalPlayer.GetRoleInfo();
                 }
 
+                foreach (var subRole in Main.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SubRoles)
+                    __instance.RoleBlurbText.text += "\n" + Utils.ColorString(Utils.GetRoleColor(subRole), GetString($"{subRole}Info"));
                 __instance.RoleText.text += Utils.GetSubRolesText(PlayerControl.LocalPlayer.PlayerId);
 
             }, 0.01f, "Override Role Text");
@@ -47,7 +49,7 @@ namespace TownOfHost
             Logger.Info("----------役職割り当て----------", "Info");
             foreach (var pc in Main.AllPlayerControls)
             {
-                Logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc?.Data?.PlayerName?.PadRightV2(20)}:{pc.GetAllRoleName()}", "Info");
+                Logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc?.Data?.PlayerName?.PadRightV2(20)}:{pc.GetAllRoleName().RemoveHtmlTags()}", "Info");
             }
             Logger.Info("--------------環境--------------", "Info");
             foreach (var pc in Main.AllPlayerControls)
