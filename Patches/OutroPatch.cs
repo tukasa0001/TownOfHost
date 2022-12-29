@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using TownOfHost.Modules;
 using UnityEngine;
 using static TownOfHost.Translator;
 
@@ -17,6 +18,7 @@ namespace TownOfHost
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             GameStates.InGame = false;
 
+            if (!GameStates.IsModHost) return;
             SummaryText = new();
             foreach (var id in Main.PlayerStates.Keys)
                 SummaryText[id] = Utils.SummaryTexts(id, disableColor: false);
@@ -32,14 +34,14 @@ namespace TownOfHost
                     KillLog += $"\n\t\t⇐ {Main.AllPlayerNames[killerId]}({Utils.GetDisplayRoleName(killerId)}{Utils.GetSubRolesText(killerId)})";
             }
             Logger.Info("-----------ゲーム終了-----------", "Phase");
-            PlayerControl.GameOptions.killCooldown = Options.DefaultKillCooldown;
+            Main.NormalOptions.KillCooldown = Options.DefaultKillCooldown;
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             var winner = new List<PlayerControl>();
             //勝者リスト作成
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
             {
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                foreach (var pc in Main.AllPlayerControls)
                 {
                     if (CustomWinnerHolder.WinnerRoles.Contains(pc.GetCustomRole()) ||
                         CustomWinnerHolder.WinnerIds.Contains(pc.PlayerId))
@@ -54,7 +56,7 @@ namespace TownOfHost
             CustomWinnerHolder.WinnerTeam == CustomWinner.Draw)
             {
                 winner = new List<PlayerControl>();
-                foreach (var p in PlayerControl.AllPlayerControls)
+                foreach (var p in Main.AllPlayerControls)
                 {
                     winner.Add(p);
                 }
@@ -76,7 +78,7 @@ namespace TownOfHost
 
             ///以降追加勝利陣営 (winnerリセット無し)
             //Opportunist
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllPlayerControls)
             {
                 if (CustomWinnerHolder.WinnerTeam == CustomWinner.None) break;
                 if (pc.Is(CustomRoles.Opportunist) && !pc.Data.IsDead && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw && CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist)
@@ -98,17 +100,17 @@ namespace TownOfHost
                 CustomWinnerHolder.WinnerTeam != CustomWinner.Draw && CustomWinnerHolder.WinnerTeam != CustomWinner.None)
             {
                 winner = new();
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                foreach (var pc in Main.AllPlayerControls)
                 {
                     var role = Main.PlayerStates[pc.PlayerId].MainRole;
                     if (role.GetRoleType() == RoleType.Impostor)
                     {
-                        if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
+                        if (CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor)
                             winner.Add(pc);
                     }
                     else if (role.GetRoleType() == RoleType.Crewmate)
                     {
-                        if (TempData.DidHumansWin(endGameResult.GameOverReason))
+                        if (CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
                             winner.Add(pc);
                     }
                     else if (role == CustomRoles.HASTroll && pc.Data.IsDead)
@@ -144,8 +146,10 @@ namespace TownOfHost
             Main.VisibleTasksCount = false;
             if (AmongUsClient.Instance.AmHost)
             {
-                Main.RealOptionsData.KillCooldown = Options.DefaultKillCooldown;
-                PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData);
+                Main.RealOptionsData.Restore(GameOptionsManager.Instance.CurrentGameOptions);
+                GameOptionsSender.AllSenders.Clear();
+                GameOptionsSender.AllSenders.Add(new NormalGameOptionsSender());
+                /* Send SyncSettings RPC */
             }
         }
     }

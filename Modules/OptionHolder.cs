@@ -52,10 +52,10 @@ namespace TownOfHost
         };
 
         // MapActive
-        public static bool IsActiveSkeld => AddedTheSkeld.GetBool() || PlayerControl.GameOptions.MapId == 0;
-        public static bool IsActiveMiraHQ => AddedMiraHQ.GetBool() || PlayerControl.GameOptions.MapId == 1;
-        public static bool IsActivePolus => AddedPolus.GetBool() || PlayerControl.GameOptions.MapId == 2;
-        public static bool IsActiveAirship => AddedTheAirShip.GetBool() || PlayerControl.GameOptions.MapId == 4;
+        public static bool IsActiveSkeld => AddedTheSkeld.GetBool() || Main.NormalOptions.MapId == 0;
+        public static bool IsActiveMiraHQ => AddedMiraHQ.GetBool() || Main.NormalOptions.MapId == 1;
+        public static bool IsActivePolus => AddedPolus.GetBool() || Main.NormalOptions.MapId == 2;
+        public static bool IsActiveAirship => AddedTheAirShip.GetBool() || Main.NormalOptions.MapId == 4;
 
         // 役職数・確率
         public static Dictionary<CustomRoles, int> roleCounts;
@@ -75,7 +75,7 @@ namespace TownOfHost
 
         // 各役職の詳細設定
         public static OptionItem EnableGM;
-        public static float DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
+        public static float DefaultKillCooldown = Main.NormalOptions?.KillCooldown ?? 20;
         public static OptionItem VampireKillDelay;
         //public static CustomOption ShapeMasterShapeshiftDuration;
         public static OptionItem DefaultShapeshiftCooldown;
@@ -199,6 +199,8 @@ namespace TownOfHost
         //転落死
         public static OptionItem LadderDeath;
         public static OptionItem LadderDeathChance;
+        //エレキ構造変化
+        public static OptionItem AirShipVariableElectrical;
 
         // 通常モードでかくれんぼ
         public static bool IsStandardHAS => StandardHAS.GetBool() && CurrentGameMode == CustomGameMode.Standard;
@@ -610,6 +612,10 @@ namespace TownOfHost
             LadderDeath = BooleanOptionItem.Create(101100, "LadderDeath", false, TabGroup.MainSettings, false)
                 .SetHeader(true);
             LadderDeathChance = StringOptionItem.Create(101110, "LadderDeathChance", rates[1..], 0, TabGroup.MainSettings, false).SetParent(LadderDeath);
+
+            //エレキ構造変化
+            AirShipVariableElectrical = BooleanOptionItem.Create(101600, "AirShipVariableElectrical", false, TabGroup.MainSettings, false)
+                .SetHeader(true);
 
             // 通常モードでかくれんぼ用
             StandardHAS = BooleanOptionItem.Create(100700, "StandardHAS", false, TabGroup.MainSettings, false)

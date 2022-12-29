@@ -155,9 +155,7 @@ namespace TownOfHost
             if (!IsSpelled(target.PlayerId))
             {
                 //キルクールの適正化
-                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
-                killer.CustomSyncSettings();
-                killer.RpcGuardAndKill(target);
+                killer.SetKillCooldown();
 
                 SpelledPlayer[killer.PlayerId].Add(target.PlayerId);
                 SendRPC(true, killer.PlayerId, target.PlayerId);

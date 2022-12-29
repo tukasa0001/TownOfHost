@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using AmongUs.GameOptions;
 using HarmonyLib;
 
 namespace TownOfHost
@@ -14,6 +16,7 @@ namespace TownOfHost
         public TaskState taskState;
         public bool IsBlackOut { get; set; }
         public (DateTime, byte) RealKiller;
+        public PlainShipRoom LastRoom;
         public PlayerState(byte playerId)
         {
             MainRole = CustomRoles.NotAssigned;
@@ -24,6 +27,7 @@ namespace TownOfHost
             taskState = new();
             IsBlackOut = false;
             RealKiller = (DateTime.MinValue, byte.MaxValue);
+            LastRoom = null;
         }
         public CustomRoles GetCustomRole()
         {
@@ -145,9 +149,9 @@ namespace TownOfHost
                 var rand = IRandom.Instance;
                 List<PlayerControl> targetPlayers = new();
                 //切断者と死亡者を除外
-                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                foreach (var p in Main.AllAlivePlayerControls)
                 {
-                    if (!p.Data.Disconnected && !p.Data.IsDead && !Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetPlayers.Add(p);
+                    if (!Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetPlayers.Add(p);
                 }
                 //ターゲットが0ならアップ先をプレイヤーをnullに
                 if (targetPlayers.Count >= 1)
@@ -199,13 +203,14 @@ namespace TownOfHost
     {
         public static bool InGame = false;
         public static bool AlreadyDied = false;
+        public static bool IsModHost => PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == 0 && x.IsModClient());
         public static bool IsLobby => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Joined;
         public static bool IsInGame => InGame;
         public static bool IsEnded => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Ended;
         public static bool IsNotJoined => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.NotJoined;
-        public static bool IsOnlineGame => AmongUsClient.Instance.GameMode == GameModes.OnlineGame;
-        public static bool IsLocalGame => AmongUsClient.Instance.GameMode == GameModes.LocalGame;
-        public static bool IsFreePlay => AmongUsClient.Instance.GameMode == GameModes.FreePlay;
+        public static bool IsOnlineGame => AmongUsClient.Instance.NetworkMode == NetworkModes.OnlineGame;
+        public static bool IsLocalGame => AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame;
+        public static bool IsFreePlay => AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay;
         public static bool IsInTask => InGame && !MeetingHud.Instance;
         public static bool IsMeeting => InGame && MeetingHud.Instance;
         public static bool IsCountDown => GameStartManager.InstanceExists && GameStartManager.Instance.startState == GameStartManager.StartingStates.Countdown;

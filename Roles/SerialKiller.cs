@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -33,10 +34,10 @@ namespace TownOfHost
         }
         public static bool IsEnable() => playerIdList.Count > 0;
         public static void ApplyKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown.GetFloat();
-        public static void ApplyGameOptions(GameOptionsData opt, PlayerControl pc)
+        public static void ApplyGameOptions(PlayerControl pc)
         {
-            opt.RoleOptions.ShapeshifterCooldown = HasKilled(pc) ? TimeLimit.GetFloat() : 255f;
-            opt.RoleOptions.ShapeshifterDuration = 1f;
+            AURoleOptions.ShapeshifterCooldown = HasKilled(pc) ? TimeLimit.GetFloat() : 255f;
+            AURoleOptions.ShapeshifterDuration = 1f;
         }
         ///<summary>
         ///シリアルキラー＋生存＋一人以上キルしている
@@ -48,7 +49,7 @@ namespace TownOfHost
             if (!killer.Is(CustomRoles.SerialKiller)) return;
             SuicideTimer.Remove(killer.PlayerId);
             if (CanMurder)
-                killer.CustomSyncSettings();
+                killer.MarkDirtySettings();
         }
         public static void OnReportDeadBody()
         {

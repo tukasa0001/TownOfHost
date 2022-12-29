@@ -2,6 +2,7 @@ using System.Linq;
 using HarmonyLib;
 using InnerNet;
 using UnityEngine;
+using AmongUs.GameOptions;
 
 namespace TownOfHost
 {
@@ -62,6 +63,7 @@ namespace TownOfHost
             if (GetKeysDown(KeyCode.Return, KeyCode.L, KeyCode.LeftShift) && GameStates.IsInGame)
             {
                 CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Draw);
+                GameManager.Instance.LogicFlow.CheckEndCriteria();
             }
             //ミーティングを強制終了
             if (GetKeysDown(KeyCode.Return, KeyCode.M, KeyCode.LeftShift) && GameStates.IsMeeting)

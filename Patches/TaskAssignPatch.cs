@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using HarmonyLib;
+using AmongUs.GameOptions;
 
 namespace TownOfHost
 {
@@ -73,7 +74,8 @@ namespace TownOfHost
             //不要な割り当て済みのタスクを削除する処理
             //コモンタスクを割り当てる設定ならコモンタスク以外を削除
             //コモンタスクを割り当てない設定ならリストを空にする
-            if (hasCommonTasks) TasksList.RemoveRange(Main.RealOptionsData.NumCommonTasks, TasksList.Count - Main.RealOptionsData.NumCommonTasks);
+            int defaultCommonTasksNum = Main.RealOptionsData.GetInt(Int32OptionNames.NumCommonTasks);
+            if (hasCommonTasks) TasksList.RemoveRange(defaultCommonTasksNum, TasksList.Count - defaultCommonTasksNum);
             else TasksList.Clear();
 
             //割り当て済みのタスクが入れられるHashSet

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Hazel;
+using AmongUs.GameOptions;
 
 namespace TownOfHost
 {
@@ -14,7 +15,7 @@ namespace TownOfHost
         ///<summary>
         ///インポスターが一人しか存在しない設定かどうか
         ///</summary>
-        public static bool IsSingleImpostor => Main.RealOptionsData != null ? Main.RealOptionsData.NumImpostors == 1 : PlayerControl.GameOptions.NumImpostors == 1;
+        public static bool IsSingleImpostor => Main.RealOptionsData != null ? Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) == 1 : Main.NormalOptions.NumImpostors == 1;
         ///<summary>
         ///AntiBlackout内の処理が必要であるかどうか
         ///</summary>
@@ -28,7 +29,7 @@ namespace TownOfHost
             {
                 int numImpostors = 0;
                 int numCrewmates = 0;
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                foreach (var pc in Main.AllPlayerControls)
                 {
                     if (pc.Data.Role.IsImpostor) numImpostors++;
                     else numCrewmates++;
@@ -122,7 +123,7 @@ namespace TownOfHost
             catch (Exception ex)
             {
                 Logger.Warn("AntiBlackout.TempRestore内で例外が発生しました", "AntiBlackout");
-                Logger.Error(ex.ToString(), "AntiBlackout.TempRestore");
+                Logger.Exception(ex, "AntiBlackout.TempRestore");
             }
             finally
             {

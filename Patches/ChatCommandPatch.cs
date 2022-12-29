@@ -103,13 +103,13 @@ namespace TownOfHost
                         switch (subArgs)
                         {
                             case "crewmate":
-                                ShipStatus.Instance.enabled = false;
-                                ShipStatus.RpcEndGame(GameOverReason.HumansDisconnect, false);
+                                GameManager.Instance.enabled = false;
+                                GameManager.Instance.RpcEndGame(GameOverReason.HumansDisconnect, false);
                                 break;
 
                             case "impostor":
-                                ShipStatus.Instance.enabled = false;
-                                ShipStatus.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
+                                GameManager.Instance.enabled = false;
+                                GameManager.Instance.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
                                 break;
 
                             default:
@@ -220,7 +220,7 @@ namespace TownOfHost
                     case "/say":
                         canceled = true;
                         if (args.Length > 1)
-                            Utils.SendMessage(args[1], title: $"<color=#ff0000>{GetString("MessageFromTheHost")}</color>");
+                            Utils.SendMessage(args.Skip(1).Join(delimiter: " "), title: $"<color=#ff0000>{GetString("MessageFromTheHost")}</color>");
                         break;
 
                     case "/exile":
@@ -410,7 +410,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1 || (Main.MessagesToSend[0].Item2 == byte.MaxValue && Main.MessageWait.Value > __instance.TimeSinceLastMessage)) return;
             if (DoBlockChat) return;
-            var player = PlayerControl.AllPlayerControls.ToArray().OrderBy(x => x.PlayerId).Where(x => !x.Data.IsDead).FirstOrDefault();
+            var player = Main.AllAlivePlayerControls.OrderBy(x => x.PlayerId).FirstOrDefault();
             if (player == null) return;
             (string msg, byte sendTo, string title) = Main.MessagesToSend[0];
             Main.MessagesToSend.RemoveAt(0);

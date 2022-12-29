@@ -15,6 +15,7 @@ namespace TownOfHost
             if (Options.NoGameEnd.GetBool()) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("NoGameEnd"));
             if (Options.IsStandardHAS) __instance.text.text += $"\r\n" + Utils.ColorString(Color.yellow, GetString("StandardHAS"));
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("HideAndSeek"));
+            if (!GameStates.IsModHost) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("Warning.NoModHost"));
             if (DebugModeManager.IsDebugMode) __instance.text.text += "\r\n" + Utils.ColorString(Color.green, "デバッグモード");
 
             var offset_x = 1.2f; //右端からのオフセット
@@ -105,7 +106,7 @@ namespace TownOfHost
         }
         public static void Postfix(ModManager __instance)
         {
-            var offset_y = HudManager.InstanceExists && HudManager._instance.MapButton.isVisible ? 1.6f : 0.9f;
+            var offset_y = HudManager.InstanceExists ? 1.6f : 0.9f;
             __instance.ModStamp.transform.position = AspectPosition.ComputeWorldPosition(
                 __instance.localCamera, AspectPosition.EdgeAlignments.RightTop,
                 new Vector3(0.4f, offset_y, __instance.localCamera.nearClipPlane + 0.1f));

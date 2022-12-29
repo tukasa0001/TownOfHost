@@ -5,7 +5,7 @@
 <p align="center"><a href="https://github.com/tukasa0001/TownOfHost/releases/"><img src="https://badgen.net/github/release/tukasa0001/TownOfHost"></a></p>
 
 この README は英語版です。<br>
-! We are not good at English, so if you have difficulty in making out, please translate Japanese README into English. !<br>
+! We are not good at English, so if you have difficulty in making out the translation, please translate the Japanese README into English. !<br>
 
 ## Regarding this mod
 
@@ -15,7 +15,8 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
 
 ## Releases
 
-AmongUs Version: **2022.10.25**
+AmongUs Version: **2022.12.14**
+
 **Latest Version: [Here](https://github.com/tukasa0001/TownOfHost/releases/latest)**
 
 Old Versions: [Here](https://github.com/tukasa0001/TownOfHost/releases)
@@ -173,7 +174,7 @@ Banned players are recorded in `./TOH_DATA/BanList.txt` as `friend code, player 
 Even if you block it with a friend list, it will automatically ban. <br>
 
 ### Kick Function
-The host can kick players even during the game without requiring other players to vote. <br>
+The host can kick players during the game without requiring other players to vote. <br>
 
 ### Name Filter
 By listing the names you want to deny in `./TOH_DATA/DenyName.txt`, players with matching names will be automatically kicked. <br>
@@ -285,7 +286,7 @@ Team : Impostors<br>
 Basis : Impostor<br>
 
 They can kill only in lights out, but next kill cooldown will be half.<br>
-While lights out they can move faster, and yet their name looks red by everyone.<br>
+While lights are out they can move faster, but everyone sees their name in red.<br>
 
 #### Game Options
 
@@ -300,7 +301,7 @@ Team : Impostors<br>
 Basis : Impostor<br>
 
 The puppeteer can curse a crewmate and force them to kill the next non-impostor they come near.<br>
-The cursed crewmate can kill a mad role also.<br>
+The cursed crewmate can also kill a mad role.<br>
 It is not possible for puppeteer to perform a normal kill.<br>
 
 ### SerialKiller
@@ -308,8 +309,8 @@ It is not possible for puppeteer to perform a normal kill.<br>
 Team : Impostors<br>
 Basis : Shapeshifter<br>
 
-The SerialKillers have even shorter kill cooldown.<br>
-Unless taking a kill by deadline, they murder themselves instantly.<br>
+The SerialKillers have a shorter kill cooldown.<br>
+Unless they kill before the time runs out, they kill themselves instantly.<br>
 
 #### Game Options
 
@@ -344,9 +345,9 @@ Create and idea by こう。<br>
 Team : Impostors<br>
 Basis : Shapeshifter<br>
 
-Sniper can shoot players so far away. <br>
-they kill a player on the extension line from Shapeshift point to release point.<br>
-Players on the line of bullet hear sound of a gunshot.<br>
+Sniper can shoot players from far away. <br>
+They kill a player on the extension line from Shapeshift point to release point.<br>
+Players in the line of the bullet hear the sound of a gunshot.<br>
 You can perform normal kills after all bullets run out.<br>
 
 Precise Shooting:OFF<BR>
@@ -370,7 +371,7 @@ Team : Impostors<br>
 Basis : Impostor<br>
 
 Every kill cuts down discussion and voting time in meeting.<br>
-Depending on option, the lost time is returned after they die.<br>
+Depending on options, the lost time is returned after they die.<br>
 
 #### Game Options
 
@@ -386,7 +387,7 @@ Team : Impostors<br>
 Basis : Impostor<br>
 
 When the vampire kills, the kill is delayed (the bitten player will die in a set time based on settings or when the next meeting is called).<br>
-If the vampire butes [Bait](#Bait), the player will die immediately and a self-report will be forced.<br>
+If the vampire bites [Bait](#Bait), the player will die immediately and a self-report will be forced.<br>
 
 #### Game Options
 
@@ -410,7 +411,7 @@ Team : Impostors<br>
 Basis : Impostor<br>
 
 The Witches can perform kills or spells switched by Actions.<br>
-The players spelled by Witches before a meeting are marked "cross" in the meeting, and unless exiling Witches, They all die just after the meeting.<br>
+The players spelled by Witches before a meeting are marked "cross" in the meeting, and unless exiling Witches, they all die just after the meeting.<br>
 
 #### Game Options
 
@@ -424,7 +425,7 @@ Team : Impostors<br>
 Basis : Impostor<br>
 
 The Mafias can initially use vents and sabotage, but cannot kill (still have a button).<br>
-They will be able to kill after Impostors except them are all gone.<br>
+They will be able to kill after all Impostors except them are all gone.<br>
 
 
 ## Madmate
@@ -450,7 +451,7 @@ Team : Impostors<br>
 Basis : Engineer<br>
 Count : Crew<br>
 
-The Madmates belong to team Impostors, but they don't know who are Impostors.<br>
+The Madmates belong to team Impostors, but they don't know who the Impostors are.<br>
 Impostors don't know Madmates either.<br>
 They cannot kill or sabotage, but they can use vents.<br>
 
@@ -548,7 +549,7 @@ Team : Crewmates<br>
 Basis : Scientist<br>
 
 The doctor can see when Crewmates die using vitals anywhere in the map.<br>
-By closing the chat, the doctor can see the dead players cause of death next to their name in all meetings.<br>
+By closing the chat, the doctor can see the dead players cause of death next to their name for all meetings.<br>
 
 #### Game Options
 | Name                    |
@@ -574,7 +575,7 @@ After finishing all the task, The lighters have their vision expanded and ignore
 Team : Crewmates<br>
 Basis : Crewmate or Engineer<br>
 
-The Mayors' votes count twice or more.<br>
+The Mayor's votes count twice or more.<br>
 Depending on the options, they can call emergency meeting by entering vents.<br>
 
 #### Game Options
@@ -592,8 +593,8 @@ Create and idea by 空き瓶/EmptyBottle<br>
 Team : Crewmates<br>
 Basis : Crewmate<br>
 
-The SabotageMasters can fix sabotage faster.<br>
-they can fix both of Comms in MIRA HQ, Reactor and O2 by fixing either.<br>
+The SabotageMasters can fix sabotages faster.<br>
+They can fix both of Comms in MIRA HQ, Reactor and O2 by fixing either.<br>
 Lights can be fixed by touching a single lever.<br>
 Opening a door in Polus or The Airship will open all the linked doors.<br>
 
@@ -614,9 +615,9 @@ Team : Crewmates<br>
 Basis : Crewmate<br>
 
 Seers can see when someone dies.<br>
-For an instant, their vision turns totally dark and there goes Reactor alert only to them unless on Reactor (named "Kill Flash").<br>
+For an instant, their vision turns totally dark and a Reactor alert will appear only to them unless Reactor is active (named "Kill Flash").<br>
 For the host, the screen flash red and a kill sounds.<br>
-There is a option to slightly adjust Kill Flash duration.<br>
+There is an option to slightly adjust Kill Flash duration.<br>
 
 #### Game Options
 
@@ -630,7 +631,7 @@ Team : Crewmates<br>
 Basis : Impostor(Only host is the Crewmate)<br>
 Count : Crew<br>
 
-Sheriff can kill imposters always.<br>
+Sheriff can kill imposters.<br>
 Depending on settings, Sheriff may also kill neutrals.<br>
 The sheriff has no tasks.<br>
 Killing Crewmates will result in suicide. <br>
@@ -728,7 +729,7 @@ Count : Crew<br>
 Victory Condition : Douse and ignite all the living players<br>
 
 When an arsonist tries to use the kill button, they douse oil onto the crewmates.<br>
-To win as Arsonist, you must douse all Fallow players and vent to win.<br>
+To win as Arsonist, you must douse all players and vent to win.<br>
 To douse, you must stand next to a player after pressing kill until the orange triangle is filled in.<br>
 
 * As a measure against blackout, after death, the Arsonist can only see the motion of committing suicide at each meeting. There is no corpse. <br>

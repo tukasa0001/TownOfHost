@@ -107,10 +107,8 @@ namespace TownOfHost
                 case FireWorksState.ReadyFire:
                     Logger.Info("花火を爆破", "FireWorks");
                     bool suicide = false;
-                    foreach (PlayerControl target in PlayerControl.AllPlayerControls)
+                    foreach (var target in Main.AllAlivePlayerControls)
                     {
-                        if (target.Data.IsDead) continue;
-
                         foreach (var pos in fireWorksPosition[pc.PlayerId])
                         {
                             var dis = Vector2.Distance(pos, target.transform.position);
@@ -131,7 +129,7 @@ namespace TownOfHost
                     }
                     if (suicide)
                     {
-                        var totalAlive = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.IsAlive()).Count();
+                        var totalAlive = Main.AllAlivePlayerControls.Count();
                         //自分が最後の生き残りの場合は勝利のために死なない
                         if (totalAlive != 1)
                         {
