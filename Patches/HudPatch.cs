@@ -135,6 +135,8 @@ namespace TownOfHost
                 if (player.CanUseKillButton())
                 {
                     __instance.KillButton.ToggleVisible(player.IsAlive() && GameStates.IsInTask);
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        player.Data.Role.CanUseKillButton = true;
                 }
                 else
                 {
@@ -147,12 +149,6 @@ namespace TownOfHost
                     case CustomRoles.SKMadmate:
                     case CustomRoles.Jester:
                         TaskTextPrefix += FakeTasksText;
-                        break;
-                    case CustomRoles.Sheriff:
-                    case CustomRoles.Arsonist:
-                    case CustomRoles.Jackal:
-                        if (player.Data.Role.Role != RoleTypes.GuardianAngel)
-                            player.Data.Role.CanUseKillButton = true;
                         break;
                 }
 
