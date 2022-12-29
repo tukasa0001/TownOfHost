@@ -328,9 +328,6 @@ Unless they kill before the time runs out, they kill themselves instantly.<br>
 
 ### ShapeMaster
 
-> **Warning**
-> Unavailable.
-
 Create and idea by しゅー<br>
 
 Team : Impostors<br>
