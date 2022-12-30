@@ -1,4 +1,5 @@
 using AmongUs.Data;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
 using UnityEngine;
@@ -38,10 +39,13 @@ namespace TownOfHost
                     __instance.MakePublicButton.color = Palette.DisabledClear;
                     __instance.privatePublicText.color = Palette.DisabledClear;
                 }
-                if (Main.NormalOptions.KillCooldown == 0)
-                {
-                    Main.NormalOptions.KillCooldown = Options.DefaultKillCooldown;
-                }
+
+                if (Main.NormalOptions.KillCooldown == 0f)
+                    Main.NormalOptions.KillCooldown = Main.LastKillCooldown.Value;
+
+                AURoleOptions.SetOpt(Main.NormalOptions.Cast<IGameOptions>());
+                if (AURoleOptions.ShapeshifterCooldown == 0f)
+                    AURoleOptions.ShapeshifterCooldown = Main.LastShapeshifterCooldown.Value;
             }
         }
 
@@ -100,7 +104,14 @@ namespace TownOfHost
             Options.DefaultKillCooldown = Main.NormalOptions.KillCooldown;
             Main.LastKillCooldown.Value = Main.NormalOptions.KillCooldown;
             Main.NormalOptions.KillCooldown = 0f;
-            PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameOptionsManager.Instance.CurrentGameOptions));
+
+            var opt = Main.NormalOptions.Cast<IGameOptions>();
+            AURoleOptions.SetOpt(opt);
+            Main.LastShapeshifterCooldown.Value = AURoleOptions.ShapeshifterCooldown;
+            AURoleOptions.ShapeshifterCooldown = 0f;
+
+            PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(opt));
+
             __instance.ReallyBegin(false);
             return false;
         }

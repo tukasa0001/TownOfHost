@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AmongUs.Data;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
 using TownOfHost.Modules;
@@ -24,8 +25,12 @@ namespace TownOfHost
             ErrorText.Instance.Clear();
             if (AmongUsClient.Instance.AmHost) //以下、ホストのみ実行
             {
-                if (Main.NormalOptions.KillCooldown == 0.1f)
-                    GameOptionsManager.Instance.normalGameHostOptions.KillCooldown = Main.LastKillCooldown.Value;
+                if (Main.NormalOptions.KillCooldown == 0f)
+                    Main.NormalOptions.KillCooldown = Main.LastKillCooldown.Value;
+
+                AURoleOptions.SetOpt(Main.NormalOptions.Cast<IGameOptions>());
+                if (AURoleOptions.ShapeshifterCooldown == 0f)
+                    AURoleOptions.ShapeshifterCooldown = Main.LastShapeshifterCooldown.Value;
             }
         }
     }
