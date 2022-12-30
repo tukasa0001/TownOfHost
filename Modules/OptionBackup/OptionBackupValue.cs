@@ -55,6 +55,14 @@ namespace TownOfHost
             option.SetInt(OptionName, Value);
         }
     }
+    public class UIntOptionBackupValue : OptionBackupValueBase<UInt32OptionNames, uint>
+    {
+        public UIntOptionBackupValue(UInt32OptionNames name, uint value) : base(name, value) { }
+        public override void Restore(IGameOptions option)
+        {
+            option.SetUInt(OptionName, Value);
+        }
+    }
 
     public class RoleRateBackupValue : OptionBackupValue
     {
