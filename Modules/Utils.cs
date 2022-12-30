@@ -711,8 +711,7 @@ namespace TownOfHost
                 if (seer.Is(CustomRoles.Lovers)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
 
                 //呪われている場合
-                if (Witch.IsSpelled(seer.PlayerId) && isMeeting)
-                    SelfMark += "<color=#ff0000>†</color>";
+                SelfMark += Witch.GetSpelledMark(seer, isMeeting);
 
                 if (Sniper.IsEnable())
                 {
@@ -822,7 +821,7 @@ namespace TownOfHost
                         string TargetMark = "";
 
                         //呪われている人
-                        TargetMark += Witch.GetSpelledMark(target.PlayerId, isMeeting);
+                        TargetMark += Witch.GetSpelledMark(target, isMeeting);
 
                         //タスク完了直前のSnitchにマークを表示
                         canFindSnitchRole = seer.GetCustomRole().IsImpostor() || //Seerがインポスター
