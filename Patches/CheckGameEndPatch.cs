@@ -14,12 +14,20 @@ namespace TownOfHost
         public static bool Prefix()
         {
             if (!AmongUsClient.Instance.AmHost) return true;
+
+            //ゲーム終了判定済みなら中断
+            if (predicate == null) return false;
+
+            //ゲーム終了しないモードで廃村以外の場合は中断
             if (Options.NoGameEnd.GetBool() && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw) return false;
 
-            GameOverReason reason = GameOverReason.ImpostorByKill;
+            //廃村用に初期値を設定
+            var reason = GameOverReason.ImpostorByKill;
 
-            if (predicate != null && predicate.CheckForEndGame(out var r)) reason = r;
+            //ゲーム終了判定
+            predicate.CheckForEndGame(out reason);
 
+            //ゲーム終了時
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
             {
                 //カモフラージュ強制解除
@@ -184,7 +192,6 @@ namespace TownOfHost
                     pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Egoist) && !pc.Is(CustomRoles.Jackal) //その他
                 );
                 int Imp = counts[0], Jackal = counts[1], Crew = counts[2];
-
 
                 if (Imp == 0 && Crew == 0 && Jackal == 0) //全滅
                 {
