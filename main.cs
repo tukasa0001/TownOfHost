@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -181,6 +181,7 @@ namespace TownOfHost
             BetaBuildURL = Config.Bind("Other", "BetaBuildURL", "");
             MessageWait = Config.Bind("Other", "MessageWait", 1);
             LastKillCooldown = Config.Bind("Other", "LastKillCooldown", (float)30);
+            LastShapeshifterCooldown = Config.Bind("Other", "LastShapeshifterCooldown", (float)30);
 
             NameColorManager.Begin();
             CustomWinnerHolder.Reset();
