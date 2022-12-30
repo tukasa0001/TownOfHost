@@ -61,6 +61,8 @@ namespace TownOfHost
             //名前の記録
             Main.AllPlayerNames = new();
 
+            DoubleTriger.Init();
+
             foreach (var target in Main.AllPlayerControls)
             {
                 foreach (var seer in Main.AllPlayerControls)
