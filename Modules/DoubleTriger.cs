@@ -33,7 +33,7 @@ namespace TownOfHost
         {
             if (FirstTriggerTimer.ContainsKey(killer.PlayerId))
             {
-                if (FirstTriggerTarget[killer.PlayerId]!= target.PlayerId)
+                if (FirstTriggerTarget[killer.PlayerId] != target.PlayerId)
                 {
                     //2回目がターゲットずれてたら最初の相手にシングルアクション
                     return false;
@@ -45,7 +45,7 @@ namespace TownOfHost
                 return true;
             }
             FirstTriggerTimer.Add(killer.PlayerId, 1f);
-            FirstTriggerTarget.Add(killer.PlayerId,target.PlayerId);
+            FirstTriggerTarget.Add(killer.PlayerId, target.PlayerId);
             FirstTriggerAction.Add(killer.PlayerId, firstAction);
             return false;
         }
@@ -61,7 +61,7 @@ namespace TownOfHost
             }
             foreach (var player in playerList)
             {
-                FirstTriggerTimer[player]-= Time.fixedDeltaTime;
+                FirstTriggerTimer[player] -= Time.fixedDeltaTime;
                 if (FirstTriggerTimer[player] <= 0)
                 {
                     Logger.Info($"{Utils.GetPlayerById(player).name} DoSingleAction", "DobbleTrigger");
