@@ -201,7 +201,7 @@ namespace TownOfHost
             var player = PlayerControl.LocalPlayer;
             if (!GameStates.IsInTask) return;
 
-            if (player.CanUseImpostorVentButton())
+            if (player.CanUseKillButton())
             {
                 ((Renderer)__instance.cosmetics.currentBodySprite.BodySprite).material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));
             }
