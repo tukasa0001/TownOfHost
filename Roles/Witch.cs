@@ -207,20 +207,20 @@ namespace TownOfHost
             if (witch == null) return "";
 
             var str = new StringBuilder();
-            if (hud)
-            {
-                str.Append(GetString("WitchCurrentMode"));
-            }
-            else
-            {
-                str.Append("Mode:");
-            }
             if (NowSwitchTrigger == SwitchTrigger.DoubleTrigger)
             {
                 str.Append(GetString("WitchModeDouble"));
             }
             else
             {
+                if (hud)
+                {
+                    str.Append(GetString("WitchCurrentMode"));
+                }
+                else
+                {
+                    str.Append("Mode:");
+                }
                 str.Append(IsSpellMode(witch.PlayerId) ? GetString("WitchModeSpell") : GetString("WitchModeKill"));
             }
             return str.ToString();
