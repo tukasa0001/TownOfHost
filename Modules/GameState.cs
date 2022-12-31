@@ -125,7 +125,11 @@ namespace TownOfHost
         {
             Logger.Info($"{player.GetNameWithRole()}: InitTask", "TaskCounts");
             if (player == null || player.Data == null || player.Data.Tasks == null) return;
-            if (!Utils.HasTasks(player.Data, false)) return;
+            if (!Utils.HasTasks(player.Data, false))
+            {
+                AllTasksCount= 0;
+                return;
+            }
             hasTasks = true;
             AllTasksCount = player.Data.Tasks.Count;
             Logger.Info($"{player.GetNameWithRole()}: {CompletedTasksCount}/{AllTasksCount}", "TaskCounts");
@@ -135,11 +139,11 @@ namespace TownOfHost
             Logger.Info($"{player.GetNameWithRole()}: UpdateTask", "TaskCounts");
             GameData.Instance.RecomputeTaskCounts();
             Logger.Info($"{GameData.Instance.CompletedTasks}/{GameData.Instance.TotalTasks}", "TotalTaskCounts");
-            if (!Utils.HasTasks(player.Data, false))
-                hasTasks = false;
-            if (!hasTasks) return;
+
             //初期化出来ていなかったら初期化
             if (AllTasksCount == -1) Init(player);
+
+            if (!hasTasks) return;
 
             //FIXME:SpeedBooster class transplant
             if (!player.Data.IsDead
