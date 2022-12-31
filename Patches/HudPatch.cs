@@ -135,8 +135,7 @@ namespace TownOfHost
                 if (player.CanUseKillButton())
                 {
                     __instance.KillButton.ToggleVisible(player.IsAlive() && GameStates.IsInTask);
-                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
-                        player.Data.Role.CanUseKillButton = true;
+                    player.Data.Role.CanUseKillButton = true;
                 }
                 else
                 {
@@ -153,7 +152,7 @@ namespace TownOfHost
                 }
 
                 bool CanUseVent = player.CanUseImpostorVentButton();
-                __instance.ImpostorVentButton.ToggleVisible(CanUseVent && player.IsAlive());
+                __instance.ImpostorVentButton.ToggleVisible(CanUseVent);
                 player.Data.Role.CanVent = CanUseVent;
             }
 
@@ -202,7 +201,7 @@ namespace TownOfHost
             var player = PlayerControl.LocalPlayer;
             if (!GameStates.IsInTask) return;
 
-            if (player.CanUseImpostorVentButton() && !player.Data.IsDead)
+            if (player.CanUseImpostorVentButton())
             {
                 ((Renderer)__instance.cosmetics.currentBodySprite.BodySprite).material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));
             }
@@ -240,8 +239,7 @@ namespace TownOfHost
                     Jackal.SetHudActive(__instance, isActive);
                     break;
             }
-            if (player.Data.Role.Role != RoleTypes.GuardianAngel)
-                __instance.KillButton.ToggleVisible(player.CanUseKillButton() && player.IsAlive());
+            __instance.KillButton.ToggleVisible(player.CanUseKillButton());
             __instance.ImpostorVentButton.ToggleVisible(player.CanUseImpostorVentButton());
         }
     }

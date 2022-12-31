@@ -229,13 +229,13 @@ namespace TownOfHost
         {
             if (player.GetButtonDown(8) && // 8:キルボタンのactionId
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
-            PlayerControl.LocalPlayer.CanUseKillButton() && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
+            PlayerControl.LocalPlayer.CanUseKillButton())
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.DoClick();
             }
             if (player.GetButtonDown(50) && // 50:インポスターのベントボタンのactionId
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
-            PlayerControl.LocalPlayer.CanUseImpostorVentButton() && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
+            PlayerControl.LocalPlayer.CanUseImpostorVentButton())
             {
                 DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.DoClick();
             }

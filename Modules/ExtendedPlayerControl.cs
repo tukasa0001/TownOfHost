@@ -358,6 +358,8 @@ namespace TownOfHost
         }
         public static bool CanUseKillButton(this PlayerControl pc)
         {
+            if (!pc.IsAlive() || pc.Data.Role.Role == RoleTypes.GuardianAngel) return false;
+
             return pc.GetCustomRole() switch
             {
                 CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
@@ -372,6 +374,8 @@ namespace TownOfHost
         }
         public static bool CanUseImpostorVentButton(this PlayerControl pc)
         {
+            if (!pc.IsAlive() || pc.Data.Role.Role == RoleTypes.GuardianAngel) return false;
+
             return pc.GetCustomRole() switch
             {
                 CustomRoles.Sheriff => false,
