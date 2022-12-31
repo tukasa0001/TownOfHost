@@ -133,6 +133,7 @@ namespace TownOfHost
         public void Update(PlayerControl player)
         {
             Logger.Info($"{player.GetNameWithRole()}: UpdateTask", "TaskCounts");
+            GameData.Instance.RecomputeTaskCounts();
             Logger.Info($"{GameData.Instance.CompletedTasks}/{GameData.Instance.TotalTasks}", "TotalTaskCounts");
             if (!Utils.HasTasks(player.Data, false))
                 hasTasks = false;
