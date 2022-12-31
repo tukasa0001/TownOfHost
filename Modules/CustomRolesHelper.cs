@@ -143,7 +143,7 @@ namespace TownOfHost
                 CustomRoles.Terrorist => RoleTypes.Engineer,
 
                 CustomRoles.GuardianAngel or
-                CustomRoles.GM => RoleTypes.Engineer,
+                CustomRoles.GM => RoleTypes.GuardianAngel,
 
                 CustomRoles.MadSnitch => Options.MadSnitchCanVent.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
                 CustomRoles.Watcher => Options.IsEvilWatcher ? RoleTypes.Impostor : RoleTypes.Crewmate,
