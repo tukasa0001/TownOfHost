@@ -144,30 +144,13 @@ namespace TownOfHost
 
             if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
             {
-                //役職の人数を指定
-                var roleOpt = Main.NormalOptions.roleOptions;
-                int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
-                int AdditionalScientistNum = CustomRoles.Doctor.GetCount();
-                roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum + AdditionalScientistNum, AdditionalScientistNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Scientist));
-
-                int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
-
-                int AdditionalEngineerNum = CustomRoles.Madmate.GetCount() + CustomRoles.Terrorist.GetCount();// - EngineerNum;
-
-                if (Options.MayorHasPortableButton.GetBool())
-                    AdditionalEngineerNum += CustomRoles.Mayor.GetCount();
-
-                if (Options.MadSnitchCanVent.GetBool())
-                    AdditionalEngineerNum += CustomRoles.MadSnitch.GetCount();
-
-                roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
-
-                int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                int AdditionalShapeshifterNum = CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount()/* + CustomRoles.ShapeMaster.GetCount()*/ + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.EvilTracker.GetCount();//- ShapeshifterNum;
-                if (Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1)
-                    AdditionalShapeshifterNum += CustomRoles.Egoist.GetCount();
-                roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
-
+                RoleTypes[] RoleTypesList = { RoleTypes.Scientist, RoleTypes.Engineer, RoleTypes.Shapeshifter };
+                foreach (var roleTypes in RoleTypesList)
+                {
+                    var roleOpt = Main.NormalOptions.roleOptions;
+                    int additionalNum = GetAddtionalRoleTypesCount(roleTypes);
+                    roleOpt.SetRoleRate(roleTypes, roleOpt.GetNumPerGame(roleTypes) + additionalNum, additionalNum > 0 ? 100 : roleOpt.GetChancePerGame(roleTypes));
+                }
 
                 List<PlayerControl> AllPlayers = new();
                 foreach (var pc in Main.AllPlayerControls)
@@ -381,29 +364,12 @@ namespace TownOfHost
                     }
                 }
 
-                //役職の人数を戻す
-                var roleOpt = Main.NormalOptions.roleOptions;
-                int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
-                ScientistNum -= CustomRoles.Doctor.GetCount();
-                roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum, roleOpt.GetChancePerGame(RoleTypes.Scientist));
-
-                int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
-
-                EngineerNum -= CustomRoles.Madmate.GetCount() + CustomRoles.Terrorist.GetCount();
-
-                if (Options.MayorHasPortableButton.GetBool())
-                    EngineerNum -= CustomRoles.Mayor.GetCount();
-
-                if (Options.MadSnitchCanVent.GetBool())
-                    EngineerNum -= CustomRoles.MadSnitch.GetCount();
-
-                roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
-
-                int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount()/* + CustomRoles.ShapeMaster.GetCount()*/ + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.EvilTracker.GetCount();
-                if (Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1)
-                    ShapeshifterNum -= CustomRoles.Egoist.GetCount();
-                roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
+                RoleTypes[] RoleTypesList = { RoleTypes.Scientist, RoleTypes.Engineer, RoleTypes.Shapeshifter };
+                foreach (var roleTypes in RoleTypesList)
+                {
+                    var roleOpt = Main.NormalOptions.roleOptions;
+                    roleOpt.SetRoleRate(roleTypes, roleOpt.GetNumPerGame(roleTypes) - GetAddtionalRoleTypesCount(roleTypes), roleOpt.GetChancePerGame(roleTypes));
+                }
                 GameEndChecker.SetPredicateToNormal();
 
                 GameOptionsSender.AllSenders.Clear();
@@ -555,7 +521,19 @@ namespace TownOfHost
             }
             RPC.SyncLoversPlayers();
         }
-
+        public static int GetAddtionalRoleTypesCount(RoleTypes roleTypes)
+        {
+            int count = 0;
+            foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x < CustomRoles.NotAssigned))
+            {
+                if (role.IsVanilla()) continue;
+                if (role is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.Jackal) continue;
+                if (role == CustomRoles.Egoist && Main.NormalOptions.GetInt(Int32OptionNames.NumImpostors) <= 1) continue;
+                if (role.GetRoleTypes() == roleTypes)
+                    count += role.GetCount();
+            }
+            return count;
+        }
         [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSetRole))]
         class RpcSetRoleReplacer
         {
