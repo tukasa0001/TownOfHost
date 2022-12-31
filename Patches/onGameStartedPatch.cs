@@ -114,6 +114,7 @@ namespace TownOfHost
             Jackal.Init();
             Sheriff.Init();
             EvilTracker.Init();
+            TimeManager.Init();
             LastImpostor.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
@@ -313,6 +314,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
                 AssignCustomRolesFromList(CustomRoles.EvilTracker, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Seer, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.TimeManager, Crewmates);
 
                 //RPCによる同期
                 foreach (var pc in Main.AllPlayerControls)
@@ -386,6 +388,9 @@ namespace TownOfHost
                         case CustomRoles.EvilTracker:
                             EvilTracker.Add(pc.PlayerId);
                             break;
+                        case CustomRoles.TimeManager:
+                            TimeManager.Add(pc.PlayerId);
+                            break;
                     }
                     pc.ResetKillCooldown();
 
@@ -437,16 +442,16 @@ namespace TownOfHost
 
             // ResetCamが必要なプレイヤーのリストにクラス化が済んでいない役職のプレイヤーを追加
             Main.ResetCamPlayerList.AddRange(Main.AllPlayerControls.Where(p => p.GetCustomRole() is CustomRoles.Arsonist).Select(p => p.PlayerId));
-/*
-            //インポスターのゴーストロールがクルーメイトになるバグ対策
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (pc.Data.Role.IsImpostor || Main.ResetCamPlayerList.Contains(pc.PlayerId))
-                {
-                    pc.Data.Role.DefaultGhostRole = RoleTypes.ImpostorGhost;
-                }
-            }
-*/
+            /*
+                        //インポスターのゴーストロールがクルーメイトになるバグ対策
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (pc.Data.Role.IsImpostor || Main.ResetCamPlayerList.Contains(pc.PlayerId))
+                            {
+                                pc.Data.Role.DefaultGhostRole = RoleTypes.ImpostorGhost;
+                            }
+                        }
+            */
             Utils.CountAliveImpostors();
             Utils.SyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
