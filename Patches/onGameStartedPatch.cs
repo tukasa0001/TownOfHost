@@ -276,43 +276,23 @@ namespace TownOfHost
             }
             else
             {
-
-                AssignCustomRolesFromList(CustomRoles.FireWorks, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Sniper, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Jester, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Madmate, Engineers);
-                AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.MadSnitch, Options.MadSnitchCanVent.GetBool() ? Engineers : Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Mayor, Options.MayorHasPortableButton.GetBool() ? Engineers : Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.SabotageMaster, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Mafia, Impostors);
-                AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
-                AssignCustomRolesFromList(CustomRoles.Executioner, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
-                AssignCustomRolesFromList(CustomRoles.BountyHunter, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Witch, Impostors);
-                //AssignCustomRolesFromList(CustomRoles.ShapeMaster, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
-                AssignLoversRolesFromList();
-                AssignCustomRolesFromList(CustomRoles.SpeedBooster, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Trapper, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Dictator, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.SchrodingerCat, Crewmates);
-                if (Options.IsEvilWatcher) AssignCustomRolesFromList(CustomRoles.Watcher, Impostors);
-                else AssignCustomRolesFromList(CustomRoles.Watcher, Crewmates);
-                if (Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1)
-                    AssignCustomRolesFromList(CustomRoles.Egoist, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Mare, Impostors);
-                AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
-                AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
-                AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
-                AssignCustomRolesFromList(CustomRoles.EvilTracker, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Seer, Crewmates);
+                foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x < CustomRoles.NotAssigned))
+                {
+                    if (role.IsVanilla()) continue;
+                    if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
+                    if (role is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.Jackal) continue;
+                    if (role == CustomRoles.Egoist && Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) <= 1) continue;
+                    var baseRoleTypes = role.GetRoleTypes() switch
+                    {
+                        RoleTypes.Impostor => Impostors,
+                        RoleTypes.Shapeshifter => Shapeshifters,
+                        RoleTypes.Scientist => Scientists,
+                        RoleTypes.Engineer => Engineers,
+                        RoleTypes.GuardianAngel => GuardianAngels,
+                        _ => Crewmates,
+                    };
+                    AssignCustomRolesFromList(role, baseRoleTypes);
+                }
 
                 //RPCによる同期
                 foreach (var pc in Main.AllPlayerControls)
