@@ -35,6 +35,8 @@ namespace TownOfHost
             }
             // [バニラ側バグ] GetIntで部屋の人数のみ取得できないため、別で取得する
             AllValues.Add(new IntOptionBackupValue(Int32OptionNames.MaxPlayers, option.MaxPlayers));
+            // TryGetUIntが実装されていないため、別で取得する
+            AllValues.Add(new UIntOptionBackupValue(UInt32OptionNames.Keywords, (uint)option.Keywords));
 
             foreach (RoleTypes role in new RoleTypes[] { RoleTypes.Scientist, RoleTypes.Engineer, RoleTypes.GuardianAngel, RoleTypes.Shapeshifter })
             {
@@ -55,6 +57,7 @@ namespace TownOfHost
         public bool GetBool(BoolOptionNames name) => Get<BoolOptionNames, bool>(name);
         public float GetFloat(FloatOptionNames name) => Get<FloatOptionNames, float>(name);
         public int GetInt(Int32OptionNames name) => Get<Int32OptionNames, int>(name);
+        public uint GetUInt(UInt32OptionNames name) => Get<UInt32OptionNames, uint>(name);
         public TValue Get<TKey, TValue>(TKey name)
         where TKey : Enum
         {
