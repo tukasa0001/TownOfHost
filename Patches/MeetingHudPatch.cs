@@ -444,7 +444,7 @@ namespace TownOfHost
                         pva.NameText.color = Palette.ImpostorRed; //変更対象の名前を赤くする
                 }
                 //呪われている場合
-                pva.NameText.text += Witch.GetSpelledMark(target, true);
+                pva.NameText.text += Witch.GetSpelledMark(target.PlayerId, true);
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
             }

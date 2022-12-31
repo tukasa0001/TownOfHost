@@ -126,11 +126,11 @@ namespace TownOfHost
             return false;
 
         }
-        public static bool IsSpelled(PlayerControl target)
+        public static bool IsSpelled(byte target)
         {
             foreach (var witch in playerIdList)
             {
-                if (SpelledPlayer[witch].Contains(target.PlayerId))
+                if (SpelledPlayer[witch].Contains(target))
                 {
                     return true;
                 }
@@ -139,7 +139,7 @@ namespace TownOfHost
         }
         public static void SetSpelled(PlayerControl killer, PlayerControl target)
         {
-            if (!IsSpelled(target))
+            if (!IsSpelled(target.PlayerId))
             {
                 SpelledPlayer[killer.PlayerId].Add(target.PlayerId);
                 SendRPC(true, killer.PlayerId, target.PlayerId);
@@ -194,7 +194,7 @@ namespace TownOfHost
                 SpelledPlayer[witch].Clear();
             }
         }
-        public static string GetSpelledMark(PlayerControl target, bool isMeeting)
+        public static string GetSpelledMark(byte target, bool isMeeting)
         {
             if (isMeeting && IsEnable && IsSpelled(target))
             {
