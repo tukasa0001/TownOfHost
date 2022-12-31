@@ -127,7 +127,7 @@ namespace TownOfHost
             if (player == null || player.Data == null || player.Data.Tasks == null) return;
             if (!Utils.HasTasks(player.Data, false))
             {
-                AllTasksCount= 0;
+                AllTasksCount = 0;
                 return;
             }
             hasTasks = true;
