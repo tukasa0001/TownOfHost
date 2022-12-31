@@ -14,6 +14,7 @@ namespace TownOfHost
         private static OptionItem TargetChangeTime;
         private static OptionItem SuccessKillCooldown;
         private static OptionItem FailureKillCooldown;
+        private static OptionItem ShowTargetArrow;
 
         public static Dictionary<byte, PlayerControl> Targets = new();
         public static Dictionary<byte, float> ChangeTimer = new();
@@ -27,6 +28,7 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Seconds);
             FailureKillCooldown = FloatOptionItem.Create(Id + 12, "BountyFailureKillCooldown", new(0f, 180f, 2.5f), 50f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter])
                 .SetValueFormat(OptionFormat.Seconds);
+            ShowTargetArrow = BooleanOptionItem.Create(Id + 13, "BountyShowTargetArrow", false, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
         }
         public static void Init()
         {
