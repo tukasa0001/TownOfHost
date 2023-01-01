@@ -1,5 +1,6 @@
 using System.Globalization;
 using HarmonyLib;
+using TownOfHost.Patches.Actions;
 using UnityEngine;
 using static TownOfHost.Translator;
 
@@ -101,7 +102,7 @@ namespace TownOfHost
             __instance.ShowModStamp();
 
             LateTask.Update(Time.deltaTime);
-            CheckMurderPatch.Update();
+            MurderPatches.CheckMurderPatch.Update();
         }
         public static void Postfix(ModManager __instance)
         {
