@@ -228,5 +228,10 @@ namespace TownOfHost.Modules
 
             return opt;
         }
+
+        public override bool AmValid()
+        {
+            return base.AmValid() && player != null && !player.Data.Disconnected && Main.RealOptionsData != null;
+        }
     }
 }
