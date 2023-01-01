@@ -1,8 +1,8 @@
 using System;
 using HarmonyLib;
-using UnhollowerBaseLib;
 using UnityEngine;
 using AmongUs.GameOptions;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
