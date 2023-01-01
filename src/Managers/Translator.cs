@@ -97,6 +97,16 @@ namespace TownOfHost
             }
             return res;
         }
+
+        public static string GetStringOrDefault(this SupportedLangs langId, string str, string def = null)
+        {
+            def ??= str;
+            var res = def;
+            if (translateMaps.TryGetValue(str, out var dic) && (!dic.TryGetValue((int)langId, out res) || res == "")) //strに該当する&無効なlangIdかresが空
+                res = $"*{dic[0]}";
+            return res;
+        }
+
         public static string GetRoleString(string str)
         {
             var CurrentLanguage = TranslationController.Instance.currentLanguage.languageID;

@@ -12,6 +12,7 @@ using Il2CppInterop.Runtime.Injection;
 using System.Net;
 using TownOfHost.Patches;
 using System.Net.Sockets;
+using TownOfHost.ReduxOptions;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
@@ -130,6 +131,7 @@ namespace TownOfHost
         public static bool IsChristmas = DateTime.Now.Month == 12 && DateTime.Now.Day is 24 or 25;
         public static bool IsInitialRelease = DateTime.Now.Month == 12 && DateTime.Now.Day is 4;
 
+        public static OptionManager OptionManager;
         public static Main Instance;
 
         public override void Load()
@@ -151,6 +153,9 @@ namespace TownOfHost
             TownOfHost.Logger.Disable("SwitchSystem");
             TownOfHost.Logger.Disable("CustomRpcSender");
             TownOfHost.Logger.Disable("SendChat");
+
+            OptionManager = new OptionManager();
+
             //TownOfHost.Logger.isDetail = true;
 
             // 認証関連-初期化
