@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using Hazel;
 using AmongUs.GameOptions;
+using static TownOfHost.ChatCommands;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
