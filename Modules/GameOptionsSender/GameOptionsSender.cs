@@ -90,5 +90,7 @@ namespace TownOfHost.Modules
             writer.Recycle();
         }
         public abstract IGameOptions BuildGameOptions();
+
+        public virtual bool AmValid() => true;
     }
 }
