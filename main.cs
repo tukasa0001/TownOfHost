@@ -46,11 +46,13 @@ namespace TownOfHost
         public const string DebugKeySalt = "59687b";
         // デバッグキーのコンフィグ入力
         public static ConfigEntry<string> DebugKeyInput { get; private set; }
+        // Dev Version (Default: false)
+        public static readonly bool DevVersion = false;
 
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "4.0.1";
+        public const string PluginVersion = "0.9.4 dev 1";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
