@@ -4,7 +4,7 @@
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
     <Description>Town Of Host: The Other Roles</Description>
-    <Authors>Discussions</Authors>
+    <Authors>Discussions, Tealeaf</Authors>
     <langVersion>preview</langVersion>
     <AmongUs>C:\Program Files\Epic Games\AmongUs</AmongUs>
   </PropertyGroup>
