@@ -987,6 +987,14 @@ There is a configurable probability of fall to death when you descend from the l
 | Fall From Ladders      |
 | ┗ Fall To Death Chance |
 
+### AirShip Variable Electrical
+
+The structure of the Electrical in AirShip changes after every meeting.<br>
+
+| Name                         |
+| ---------------------------- |
+| Variable Electrical(AirShip) |
+
 ### HideAndSeek
 
 Create and idea by 空き瓶/EmptyBottle<br>
