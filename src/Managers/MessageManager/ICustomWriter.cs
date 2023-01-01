@@ -1,5 +1,8 @@
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using InnerNet;
+using BepInEx.Unity.IL2CPP;
+using Il2CppInterop.Runtime;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 
 namespace TownOfHost
 {

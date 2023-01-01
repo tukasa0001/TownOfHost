@@ -10,7 +10,10 @@ using AmongUs.Data;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.InteropTypes;
 using UnityEngine;
+using BepInEx.Unity.IL2CPP;
+using Il2CppInterop.Runtime;
 using TownOfHost.Modules;
+using TownOfHost.Patches;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
