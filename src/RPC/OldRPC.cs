@@ -45,7 +45,7 @@ namespace TownOfHost
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
         {
             var rpcType = (RpcCalls)callId;
-            Logger.Info($"{__instance?.Data?.PlayerId}({__instance?.Data?.PlayerName}):{callId}({RPC.GetRpcName(callId)})", "ReceiveRPC");
+            Logger.Info($"{__instance?.Data?.PlayerId}({__instance?.Data?.PlayerName}):{callId}({OldRPC.GetRpcName(callId)})", "ReceiveRPC");
             MessageReader subReader = MessageReader.Get(reader);
             switch (rpcType)
             {
@@ -72,7 +72,7 @@ namespace TownOfHost
                 && Enum.IsDefined(typeof(CustomRPC), (int)callId)
                 && !(callId == (byte)CustomRPC.VersionCheck || callId == (byte)CustomRPC.RequestRetryVersionCheck)) //ホストではなく、CustomRPCで、VersionCheckではない
             {
-                Logger.Warn($"{__instance?.Data?.PlayerName}:{callId}({RPC.GetRpcName(callId)}) ホスト以外から送信されたためキャンセルしました。", "CustomRPC");
+                Logger.Warn($"{__instance?.Data?.PlayerName}:{callId}({OldRPC.GetRpcName(callId)}) ホスト以外から送信されたためキャンセルしました。", "CustomRPC");
                 if (AmongUsClient.Instance.AmHost)
                 {
                     AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
@@ -107,7 +107,7 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRPC.RequestRetryVersionCheck:
-                    RPC.RpcVersionCheck();
+                    OldRPC.RpcVersionCheck();
                     break;
                 case CustomRPC.SyncCustomSettings:
                     foreach (var co in OptionItem.AllOptions)
@@ -117,20 +117,20 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRPC.SetDeathReason:
-                    RPC.GetDeathReason(reader);
+                    OldRPC.GetDeathReason(reader);
                     break;
                 case CustomRPC.EndGame:
-                    RPC.EndGame(reader);
+                    OldRPC.EndGame(reader);
                     break;
                 case CustomRPC.PlaySound:
                     byte playerID = reader.ReadByte();
                     Sounds sound = (Sounds)reader.ReadByte();
-                    RPC.PlaySound(playerID, sound);
+                    OldRPC.PlaySound(playerID, sound);
                     break;
                 case CustomRPC.SetCustomRole:
                     byte CustomRoleTargetId = reader.ReadByte();
                     CustomRoles role = (CustomRoles)reader.ReadPackedInt32();
-                    RPC.SetCustomRole(CustomRoleTargetId, role);
+                    OldRPC.SetCustomRole(CustomRoleTargetId, role);
                     break;
                 case CustomRPC.SetBountyTarget:
                     BountyHunter.ReceiveRPC(reader);
@@ -151,15 +151,15 @@ namespace TownOfHost
                     byte addSeerId = reader.ReadByte();
                     byte addTargetId = reader.ReadByte();
                     string color = reader.ReadString();
-                    RPC.AddNameColorData(addSeerId, addTargetId, color);
+                    OldRPC.AddNameColorData(addSeerId, addTargetId, color);
                     break;
                 case CustomRPC.RemoveNameColorData:
                     byte removeSeerId = reader.ReadByte();
                     byte removeTargetId = reader.ReadByte();
-                    RPC.RemoveNameColorData(removeSeerId, removeTargetId);
+                    OldRPC.RemoveNameColorData(removeSeerId, removeTargetId);
                     break;
                 case CustomRPC.ResetNameColorData:
-                    RPC.ResetNameColorData();
+                    OldRPC.ResetNameColorData();
                     break;
                 case CustomRPC.DoSpell:
                     Witch.ReceiveRPC(reader, true);
@@ -196,12 +196,12 @@ namespace TownOfHost
                 case CustomRPC.SetRealKiller:
                     byte targetId = reader.ReadByte();
                     byte killerId = reader.ReadByte();
-                    RPC.SetRealKiller(targetId, killerId);
+                    OldRPC.SetRealKiller(targetId, killerId);
                     break;
             }
         }
     }
-    static class RPC
+    static class OldRPC
     {
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC()
@@ -218,7 +218,7 @@ namespace TownOfHost
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
         {
             if (AmongUsClient.Instance.AmHost)
-                RPC.PlaySound(PlayerID, sound);
+                OldRPC.PlaySound(PlayerID, sound);
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.PlaySound, Hazel.SendOption.Reliable, -1);
             writer.Write(PlayerID);
             writer.Write((byte)sound);
@@ -432,7 +432,7 @@ namespace TownOfHost
     {
         public static void Prefix(InnerNet.InnerNetClient __instance, [HarmonyArgument(0)] uint targetNetId, [HarmonyArgument(1)] byte callId)
         {
-            RPC.SendRpcLogger(targetNetId, callId);
+            OldRPC.SendRpcLogger(targetNetId, callId);
         }
     }
     [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpcImmediately))]
@@ -440,7 +440,7 @@ namespace TownOfHost
     {
         public static void Prefix(InnerNet.InnerNetClient __instance, [HarmonyArgument(0)] uint targetNetId, [HarmonyArgument(1)] byte callId, [HarmonyArgument(3)] int targetClientId = -1)
         {
-            RPC.SendRpcLogger(targetNetId, callId, targetClientId);
+            OldRPC.SendRpcLogger(targetNetId, callId, targetClientId);
         }
     }
 }

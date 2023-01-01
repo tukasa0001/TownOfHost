@@ -61,7 +61,7 @@ namespace TownOfHost
             IsDead = true;
             if (AmongUsClient.Instance.AmHost)
             {
-                RPC.SendDeathReason(PlayerId, deathReason);
+                OldRPC.SendDeathReason(PlayerId, deathReason);
             }
         }
         public bool IsSuicide() { return deathReason == DeathReason.Suicide; }

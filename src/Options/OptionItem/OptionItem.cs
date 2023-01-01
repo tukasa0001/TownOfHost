@@ -214,7 +214,7 @@ namespace TownOfHost
                 PlayerControl.LocalPlayer == null
             ) return;
 
-            RPC.SyncCustomSettingsRPC();
+            OldRPC.SyncCustomSettingsRPC();
         }
 
 

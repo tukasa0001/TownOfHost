@@ -14,7 +14,7 @@ namespace TownOfHost
             while (!Options.IsLoaded) System.Threading.Tasks.Task.Delay(1);
             Logger.Info($"{__instance.GameId}に参加", "OnGameJoined");
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
-            RPC.RpcVersionCheck();
+            OldRPC.RpcVersionCheck();
             SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
 
             ChatUpdatePatch.DoBlockChat = false;
@@ -42,7 +42,7 @@ namespace TownOfHost
             BanManager.CheckBanPlayer(client);
             BanManager.CheckDenyNamePlayer(client);
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
-            RPC.RpcVersionCheck();
+            OldRPC.RpcVersionCheck();
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]

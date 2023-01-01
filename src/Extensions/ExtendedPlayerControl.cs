@@ -44,7 +44,7 @@ namespace TownOfHost
 
         public static void RpcExile(this PlayerControl player)
         {
-            RPC.ExileAsync(player);
+            OldRPC.ExileAsync(player);
         }
         public static InnerNet.ClientData GetClient(this PlayerControl player)
         {
@@ -421,7 +421,7 @@ namespace TownOfHost
                 Main.AllPlayerSpeed[killer.PlayerId] = Main.AllPlayerSpeed[killer.PlayerId] - Main.MinSpeed + tmpSpeed;
                 ReportDeadBodyPatch.CanReport[killer.PlayerId] = true;
                 killer.MarkDirtySettings();
-                RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
+                OldRPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
             }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
         }
         public static void CanUseImpostorVent(this PlayerControl player)
@@ -566,7 +566,7 @@ namespace TownOfHost
                 killer = Utils.GetPlayerById(Sniper.GetSniper(target.PlayerId));
             if (State.RealKiller.Item1 != DateTime.MinValue && NotOverRide) return; //既に値がある場合上書きしない
             byte killerId = killer == null ? byte.MaxValue : killer.PlayerId;
-            RPC.SetRealKiller(target.PlayerId, killerId);
+            OldRPC.SetRealKiller(target.PlayerId, killerId);
         }
         public static PlayerControl GetRealKiller(this PlayerControl target)
         {

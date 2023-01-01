@@ -1,8 +1,8 @@
 using System;
 using Hazel;
 using InnerNet;
-using UnhollowerBaseLib;
 using AmongUs.GameOptions;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 
 namespace TownOfHost
 {

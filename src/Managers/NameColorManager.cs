@@ -45,7 +45,7 @@ namespace TownOfHost
 
             AmongUsClient.Instance.FinishRpcImmediately(writer);
 
-            RPC.AddNameColorData(seerId, targetId, color);
+            OldRPC.AddNameColorData(seerId, targetId, color);
         }
         public void RpcRemove(byte seerId, byte targetId)
         {
@@ -56,7 +56,7 @@ namespace TownOfHost
             writer.Write(targetId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
 
-            RPC.RemoveNameColorData(seerId, targetId);
+            OldRPC.RemoveNameColorData(seerId, targetId);
         }
         public void RpcReset()
         {
@@ -65,7 +65,7 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ResetNameColorData, SendOption.Reliable, -1);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
 
-            RPC.ResetNameColorData();
+            OldRPC.ResetNameColorData();
         }
 
         public NameColorManager()

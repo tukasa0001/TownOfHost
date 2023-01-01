@@ -203,7 +203,7 @@ namespace TownOfHost
                         {
                             Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
                             Utils.NotifyRoles(SpecifySeer: __instance);
-                            RPC.SetCurrentDousingTarget(killer.PlayerId, target.PlayerId);
+                            OldRPC.SetCurrentDousingTarget(killer.PlayerId, target.PlayerId);
                         }
                         return false;
 
@@ -427,7 +427,7 @@ namespace TownOfHost
                     if (bitten.protectedByGuardian)
                         bitten.RpcMurderPlayer(bitten);
                     bitten.RpcMurderPlayer(bitten);
-                    RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
+                    OldRPC.PlaySoundRPC(vampireID, Sounds.KillSound);
                     Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "ReportDeadBody");
                 }
                 else
@@ -501,7 +501,7 @@ namespace TownOfHost
                                 Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "Vampire");
                                 if (vampirePC.IsAlive())
                                 {
-                                    RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
+                                    OldRPC.PlaySoundRPC(vampireID, Sounds.KillSound);
                                     if (bitten.Is(CustomRoles.Trapper))
                                         vampirePC.TrapperKilled(bitten);
                                 }
@@ -570,7 +570,7 @@ namespace TownOfHost
                     {
                         Main.ArsonistTimer.Remove(player.PlayerId);
                         Utils.NotifyRoles(SpecifySeer: __instance);
-                        RPC.ResetCurrentDousingTarget(player.PlayerId);
+                        OldRPC.ResetCurrentDousingTarget(player.PlayerId);
                     }
                     else
                     {
@@ -589,7 +589,7 @@ namespace TownOfHost
                             Main.isDoused[(player.PlayerId, ar_target.PlayerId)] = true;//塗り完了
                             player.RpcSetDousedPlayer(ar_target, true);
                             Utils.NotifyRoles();//名前変更
-                            RPC.ResetCurrentDousingTarget(player.PlayerId);
+                            OldRPC.ResetCurrentDousingTarget(player.PlayerId);
                         }
                         else
                         {
@@ -603,7 +603,7 @@ namespace TownOfHost
                             {
                                 Main.ArsonistTimer.Remove(player.PlayerId);
                                 Utils.NotifyRoles(SpecifySeer: __instance);
-                                RPC.ResetCurrentDousingTarget(player.PlayerId);
+                                OldRPC.ResetCurrentDousingTarget(player.PlayerId);
 
                                 Logger.Info($"Canceled: {__instance.GetNameWithRole()}", "Arsonist");
                             }
@@ -639,7 +639,7 @@ namespace TownOfHost
                             if (min.Value <= KillRange && player.CanMove && target.CanMove)
                             {
                                 var puppeteerId = Main.PuppeteerList[player.PlayerId];
-                                RPC.PlaySoundRPC(puppeteerId, Sounds.KillSound);
+                                OldRPC.PlaySoundRPC(puppeteerId, Sounds.KillSound);
                                 target.SetRealKiller(Utils.GetPlayerById(puppeteerId));
                                 player.RpcMurderPlayer(target);
                                 Utils.MarkEveryoneDirtySettings();
@@ -1052,7 +1052,7 @@ namespace TownOfHost
                                 Main.PlayerStates[pc.PlayerId].SetDead();
                             }
                             else
-                                RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
+                                OldRPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
                         }
                     }
                     CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Arsonist); //焼殺で勝利した人も勝利させる

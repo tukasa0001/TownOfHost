@@ -89,7 +89,7 @@ namespace TownOfHost
             Main.VisibleTasksCount = true;
             if (__instance.AmHost)
             {
-                RPC.SyncCustomSettingsRPC();
+                OldRPC.SyncCustomSettingsRPC();
                 Main.RefixCooldownDelay = 0;
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
@@ -573,7 +573,7 @@ namespace TownOfHost
                 Main.PlayerStates[player.PlayerId].SetSubRole(loversRole);
                 Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignLovers");
             }
-            RPC.SyncLoversPlayers();
+            OldRPC.SyncLoversPlayers();
         }
 
         [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSetRole))]

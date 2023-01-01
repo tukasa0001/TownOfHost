@@ -8,8 +8,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AmongUs.Data;
 using AmongUs.GameOptions;
+using Il2CppInterop.Runtime.InteropTypes;
 using UnityEngine;
-using UnhollowerBaseLib;
 using TownOfHost.Modules;
 using static TownOfHost.Translator;
 
@@ -136,7 +136,7 @@ namespace TownOfHost
             if (player.PlayerId == 0)
             {
                 FlashColor(new(1f, 0f, 0f, 0.5f));
-                if (Constants.ShouldPlaySfx()) RPC.PlaySound(player.PlayerId, Sounds.KillSound);
+                if (Constants.ShouldPlaySfx()) OldRPC.PlaySound(player.PlayerId, Sounds.KillSound);
             }
             else if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
             ExtendedPlayerControl.MarkDirtySettings(player);

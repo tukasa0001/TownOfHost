@@ -106,7 +106,7 @@ namespace TownOfHost
             //設定の同期
             if (Input.GetKeyDown(KeyCode.Y))
             {
-                RPC.SyncCustomSettingsRPC();
+                OldRPC.SyncCustomSettingsRPC();
             }
             //投票をクリア
             if (Input.GetKeyDown(KeyCode.V) && GameStates.IsMeeting && !GameStates.IsOnlineGame)
