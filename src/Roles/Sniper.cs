@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Hazel;
+using TownOfHost.Extensions;
 using UnityEngine;
 using static TownOfHost.Translator;
 
@@ -195,7 +196,7 @@ namespace TownOfHost
                     }
                     SendRPC(pc.PlayerId, true);
                     Utils.NotifyRoles();
-                    new LateTask(
+                    new DTask(
                         () =>
                         {
                             snList.Clear();

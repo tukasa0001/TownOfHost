@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using UnityEngine;
 using AmongUs.GameOptions;
+using TownOfHost.Extensions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -13,7 +14,7 @@ namespace TownOfHost
     {
         public static void Postfix(IntroCutscene __instance)
         {
-            new LateTask(() =>
+            new DTask(() =>
             {
                 CustomRoles role = PlayerControl.LocalPlayer.GetCustomRole();
                 if (!role.IsVanilla())
@@ -191,11 +192,11 @@ namespace TownOfHost
         }
         private static async void StartFadeIntro(IntroCutscene __instance, Color start, Color end)
         {
-            await Task.Delay(1000);
+            await System.Threading.Tasks.Task.Delay(1000);
             int milliseconds = 0;
             while (true)
             {
-                await Task.Delay(20);
+                await System.Threading.Tasks.Task.Delay(20);
                 milliseconds += 20;
                 float time = (float)milliseconds / (float)500;
                 Color LerpingColor = Color.Lerp(start, end, time);
@@ -247,12 +248,12 @@ namespace TownOfHost
                 {
                     PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcResetAbilityCooldown());
                     if (Options.FixFirstKillCooldown.GetBool())
-                        new LateTask(() =>
+                        new DTask(() =>
                         {
                             PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.SetKillCooldown(Main.AllPlayerKillCooldown[pc.PlayerId] - 2f));
                         }, 2f, "FixKillCooldownTask");
                 }
-                new LateTask(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRoleDesync(RoleTypes.Shapeshifter, -3)), 2f, "SetImpostorForServer");
+                new DTask(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRoleDesync(RoleTypes.Shapeshifter, -3)), 2f, "SetImpostorForServer");
                 if (PlayerControl.LocalPlayer.Is(CustomRoles.GM))
                 {
                     PlayerControl.LocalPlayer.RpcExile();

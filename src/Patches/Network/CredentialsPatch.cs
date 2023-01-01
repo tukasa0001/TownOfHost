@@ -101,7 +101,7 @@ namespace TownOfHost
         {
             __instance.ShowModStamp();
 
-            LateTask.Update(Time.deltaTime);
+            DTask.Update(Time.deltaTime);
             MurderPatches.CheckMurderPatch.Update();
         }
         public static void Postfix(ModManager __instance)

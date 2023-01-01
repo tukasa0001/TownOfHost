@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using Hazel;
 using AmongUs.GameOptions;
+using TownOfHost.Extensions;
 using static TownOfHost.ChatCommands;
 using static TownOfHost.Translator;
 
@@ -100,7 +101,7 @@ namespace TownOfHost
                     catch
                     {
                         Logger.Warn($"{__instance?.Data?.PlayerName}({__instance.PlayerId}): バージョン情報が無効です", "RpcVersionCheck");
-                        new LateTask(() =>
+                        new DTask(() =>
                         {
                             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RequestRetryVersionCheck, SendOption.Reliable, __instance.GetClientId());
                             AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -233,7 +234,7 @@ namespace TownOfHost
         }
         public static async void RpcVersionCheck()
         {
-            while (PlayerControl.LocalPlayer == null) await Task.Delay(500);
+            while (PlayerControl.LocalPlayer == null) await System.Threading.Tasks.Task.Delay(500);
             MessageWriter writer = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck, SendOption.Reliable);
             writer.Write(Main.PluginVersion);
             writer.Write($"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");

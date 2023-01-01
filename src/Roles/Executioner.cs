@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using HarmonyLib;
 using Hazel;
+using TownOfHost.Extensions;
 using UnityEngine;
 using static TownOfHost.Options;
 

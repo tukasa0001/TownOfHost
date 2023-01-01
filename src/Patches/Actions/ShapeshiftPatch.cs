@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
+using TownOfHost.Extensions;
 using UnityEngine;
 
 namespace TownOfHost.Patches.Actions;
@@ -84,7 +85,7 @@ public class ShapeshiftPatch
         //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換え
         if (!shapeshifting)
         {
-            new LateTask(() =>
+            new DTask(() =>
             {
                 Utils.NotifyRoles(NoCache: true);
             },

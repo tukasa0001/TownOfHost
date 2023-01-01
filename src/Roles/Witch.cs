@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Text;
 using HarmonyLib;
 using Hazel;
+using TownOfHost.Extensions;
 using UnityEngine;
 using static TownOfHost.Translator;
 

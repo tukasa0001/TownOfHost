@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using HarmonyLib;
+using TownOfHost.Extensions;
 using UnityEngine;
 
 namespace TownOfHost.Patches.Actions;
@@ -231,7 +232,7 @@ public static class MurderPatches
             if (target.GetCustomRole() == CustomRoles.Bait && killer.PlayerId != target.PlayerId)
             {
                 Logger.Info(target?.Data?.PlayerName + "はBaitだった", "MurderPlayer");
-                new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
+                new DTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
             }
             else
             //Terrorist

@@ -6,6 +6,7 @@ using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using TownOfHost.Extensions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost

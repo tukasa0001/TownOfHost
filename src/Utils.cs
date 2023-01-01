@@ -12,6 +12,7 @@ using Il2CppInterop.Runtime.InteropTypes;
 using UnityEngine;
 using BepInEx.Unity.IL2CPP;
 using Il2CppInterop.Runtime;
+using TownOfHost.Extensions;
 using TownOfHost.Modules;
 using TownOfHost.Patches;
 using static TownOfHost.Translator;
@@ -142,11 +143,11 @@ namespace TownOfHost
                 if (Constants.ShouldPlaySfx()) OldRPC.PlaySound(player.PlayerId, Sounds.KillSound);
             }
             else if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
-            ExtendedPlayerControl.MarkDirtySettings(player);
-            new LateTask(() =>
+            PlayerControlExtensions.MarkDirtySettings(player);
+            new DTask(() =>
             {
                 Main.PlayerStates[player.PlayerId].IsBlackOut = false; //ブラックアウト解除
-                ExtendedPlayerControl.MarkDirtySettings(player);
+                PlayerControlExtensions.MarkDirtySettings(player);
             }, Options.KillFlashDuration.GetFloat(), "RemoveKillFlash");
         }
         public static void BlackOut(this IGameOptions opt, bool IsBlackOut)

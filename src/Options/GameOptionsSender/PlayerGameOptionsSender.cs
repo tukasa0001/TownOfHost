@@ -3,6 +3,7 @@ using Il2CppSystem.Linq;
 using InnerNet;
 using Hazel;
 using AmongUs.GameOptions;
+using TownOfHost.Extensions;
 using Mathf = UnityEngine.Mathf;
 
 namespace TownOfHost.Modules

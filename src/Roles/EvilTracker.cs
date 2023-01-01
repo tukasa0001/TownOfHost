@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Hazel;
+using TownOfHost.Extensions;
 using TownOfHost.Patches.Actions;
 using static TownOfHost.Translator;
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using TownOfHost.Extensions;
 using TownOfHost.Patches.Actions;
 using UnityEngine;
 using static TownOfHost.Translator;
@@ -328,7 +329,7 @@ namespace TownOfHost
 
             if (AmongUsClient.Instance.AmHost)
             {
-                _ = new LateTask(() =>
+                _ = new DTask(() =>
                 {
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {

@@ -1,6 +1,7 @@
 using System.Linq;
 using AmongUs.Data;
 using HarmonyLib;
+using TownOfHost.Extensions;
 
 namespace TownOfHost
 {
@@ -134,7 +135,7 @@ namespace TownOfHost
             //WrapUpPostfixで例外が発生しても、この部分だけは確実に実行されます。
             if (AmongUsClient.Instance.AmHost)
             {
-                new LateTask(() =>
+                new DTask(() =>
                 {
                     exiled = AntiBlackout_LastExiled;
                     AntiBlackout.SendGameData();
@@ -145,7 +146,7 @@ namespace TownOfHost
                         exiled.Object.RpcExileV2();
                     }
                 }, 0.5f, "Restore IsDead Task");
-                new LateTask(() =>
+                new DTask(() =>
                 {
                     Main.AfterMeetingDeathPlayers.Do(x =>
                     {

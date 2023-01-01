@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TownOfHost.Extensions;
 using UnityEngine;
 using static TownOfHost.Options;
 

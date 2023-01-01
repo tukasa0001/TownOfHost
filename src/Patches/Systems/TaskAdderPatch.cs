@@ -4,6 +4,7 @@ using System.Linq;
 using HarmonyLib;
 using UnityEngine;
 using AmongUs.GameOptions;
+using TownOfHost.Extensions;
 
 namespace TownOfHost
 {

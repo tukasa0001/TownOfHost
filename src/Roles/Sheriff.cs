@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Hazel;
+using TownOfHost.Extensions;
 using UnityEngine;
 using static TownOfHost.Translator;
 

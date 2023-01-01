@@ -18,12 +18,12 @@ namespace TownOfHost
     [HarmonyPatch]
     public static class Options
     {
-        static Task taskOptionsLoad;
+        static System.Threading.Tasks.Task taskOptionsLoad;
         [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Initialize)), HarmonyPostfix]
         public static void OptionsLoadStart()
         {
             Logger.Info("Options.Load Start", "Options");
-            taskOptionsLoad = Task.Run(Load);
+            taskOptionsLoad = System.Threading.Tasks.Task.Run(Load);
         }
         [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPostfix]
         public static void WaitOptionsLoad()

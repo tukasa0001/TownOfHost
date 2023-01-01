@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HarmonyLib;
 using Hazel;
 using InnerNet;
+using TownOfHost.Extensions;
 using UnityEngine;
 
 namespace TownOfHost

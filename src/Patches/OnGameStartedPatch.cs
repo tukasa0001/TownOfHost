@@ -4,6 +4,7 @@ using System.Linq;
 using HarmonyLib;
 using Hazel;
 using AmongUs.GameOptions;
+using TownOfHost.Extensions;
 using TownOfHost.Modules;
 using static TownOfHost.Translator;
 
@@ -267,7 +268,7 @@ namespace TownOfHost
                 foreach (var pair in Main.PlayerStates)
                 {
                     //RPCによる同期
-                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value.MainRole);
+                    PlayerControlExtensions.RpcSetCustomRole(pair.Key, pair.Value.MainRole);
                 }
                 //色設定処理
                 SetColorPatch.IsAntiGlitchDisabled = true;
@@ -322,10 +323,10 @@ namespace TownOfHost
                 }
                 foreach (var pair in Main.PlayerStates)
                 {
-                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value.MainRole);
+                    PlayerControlExtensions.RpcSetCustomRole(pair.Key, pair.Value.MainRole);
 
                     foreach (var subRole in pair.Value.SubRoles)
-                        ExtendedPlayerControl.RpcSetCustomRole(pair.Key, subRole);
+                        PlayerControlExtensions.RpcSetCustomRole(pair.Key, subRole);
                 }
 
                 HudManager.Instance.SetHudActive(true);
