@@ -5,6 +5,7 @@ using HarmonyLib;
 using Hazel;
 using UnityEngine;
 using AmongUs.GameOptions;
+using TownOfHost.Extensions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -114,7 +115,7 @@ namespace TownOfHost
             //async Taskじゃ警告出るから仕方ないよね。
             var revertName = PlayerControl.LocalPlayer.name;
             PlayerControl.LocalPlayer.RpcSetNameEx(name);
-            await Task.Delay(time);
+            await System.Threading.Tasks.Task.Delay(time);
             PlayerControl.LocalPlayer.RpcSetNameEx(revertName);
         }
     }

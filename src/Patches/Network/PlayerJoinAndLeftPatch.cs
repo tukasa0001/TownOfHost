@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
+using TownOfHost.Extensions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -84,7 +85,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.AmHost)
             {
-                new LateTask(() =>
+                new DTask(() =>
                 {
                     if (client.Character == null) return;
                     if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(GetString("Message.AnnounceUsingTOH"), Main.PluginVersion), client.Character.PlayerId);
@@ -92,7 +93,7 @@ namespace TownOfHost
                 }, 3f, "Welcome Message");
                 if (Options.AutoDisplayLastResult.GetBool() && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
                 {
-                    new LateTask(() =>
+                    new DTask(() =>
                     {
                         if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
                         {

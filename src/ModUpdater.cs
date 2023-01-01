@@ -153,7 +153,7 @@ namespace TownOfHost
                 using WebClient client = new();
                 client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadCallBack);
                 client.DownloadFileAsync(new Uri(url), "BepInEx/plugins/TownOfHost.dll");
-                while (client.IsBusy) await Task.Delay(1);
+                while (client.IsBusy) await System.Threading.Tasks.Task.Delay(1);
                 ShowPopup(GetString("updateRestart"), true);
             }
             catch (Exception ex)

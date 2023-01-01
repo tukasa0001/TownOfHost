@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using TownOfHost.Extensions;
 using UnityEngine;
 using TownOfHost.Modules;
 using static TownOfHost.Translator;

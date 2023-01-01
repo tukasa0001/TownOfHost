@@ -48,7 +48,7 @@ namespace TownOfHost
                 textObj.name = "CanNotJoinPublic";
                 var message = ModUpdater.isBroken ? $"<size=2>{Utils.ColorString(Color.red, GetString("ModBrokenMessage"))}</size>"
                     : $"<size=2>{Utils.ColorString(Color.red, GetString("CanNotJoinPublicRoomNoLatest"))}</size>";
-                new LateTask(() => { textObj.text = message; }, 0.01f, "CanNotJoinPublic");
+                new DTask(() => { textObj.text = message; }, 0.01f, "CanNotJoinPublic");
             }
         }
     }

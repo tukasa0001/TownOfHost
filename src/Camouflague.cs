@@ -46,7 +46,7 @@ namespace TownOfHost
 
             if (oldIsCamouflage != IsCamouflage)
             {
-                new LateTask(
+                new DTask(
                     () =>
                     {
                         PlayerControl.AllPlayerControls.ToArray().Do(pc => Camouflage.RpcSetSkin(pc));

@@ -12,6 +12,7 @@ using Il2CppInterop.Runtime.InteropTypes;
 using UnityEngine;
 using BepInEx.Unity.IL2CPP;
 using Il2CppInterop.Runtime;
+using TownOfHost.Extensions;
 using TownOfHost.Modules;
 using TownOfHost.Patches;
 using static TownOfHost.Translator;
@@ -142,11 +143,11 @@ namespace TownOfHost
                 if (Constants.ShouldPlaySfx()) OldRPC.PlaySound(player.PlayerId, Sounds.KillSound);
             }
             else if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
-            ExtendedPlayerControl.MarkDirtySettings(player);
-            new LateTask(() =>
+            PlayerControlExtensions.MarkDirtySettings(player);
+            new DTask(() =>
             {
                 Main.PlayerStates[player.PlayerId].IsBlackOut = false; //ブラックアウト解除
-                ExtendedPlayerControl.MarkDirtySettings(player);
+                PlayerControlExtensions.MarkDirtySettings(player);
             }, Options.KillFlashDuration.GetFloat(), "RemoveKillFlash");
         }
         public static void BlackOut(this IGameOptions opt, bool IsBlackOut)
@@ -633,8 +634,14 @@ namespace TownOfHost
         }
         public static PlayerControl GetPlayerById(int PlayerId)
         {
-            return PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
+            return Game.GetAllPlayers().FirstOrDefault(pc => pc.PlayerId == PlayerId);
         }
+
+        public static PlayerControl GetPlayerByClientId(int clientId)
+        {
+            return Game.GetAllPlayers().FirstOrDefault(p => p.GetClientId() == clientId) ?? throw new NullReferenceException($"No player found for {clientId}.. Players: {Game.GetAllPlayers().Select(pc => pc.GetClientId()).PrettyString()}");
+        }
+
         public static GameData.PlayerInfo GetPlayerInfoById(int PlayerId) =>
             GameData.Instance.AllPlayers.ToArray().Where(info => info.PlayerId == PlayerId).FirstOrDefault();
         public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false, bool ForceLoop = false)
