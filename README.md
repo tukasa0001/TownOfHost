@@ -1,24 +1,21 @@
-# Town Of Host
+# Town Of Host: The Other Roles
 
 [![TownOfHost-Title](./Images/TownOfHost-Title.png)](https://youtu.be/IGguGyq_F-c)
 
-<p align="center"><a href="https://github.com/tukasa0001/TownOfHost/releases/"><img src="https://badgen.net/github/release/tukasa0001/TownOfHost"></a></p>
-
-この README は英語版です。<br>
-! We are not good at English, so if you have difficulty in making out, please translate Japanese README into English. !<br>
+<p align="center"><a href="https://github.com/music-discussion/TownOfHost-TheOtherRoles--TOH-TOR/releases/"><img src="https://badgen.net/github/release/music-discussion/TownOfHost-TheOtherRoles--TOH-TOR"></a></p>
 
 ## Regarding this mod
 
-This mod is not affiliated with Among Us or Innersloth LLC, and the content contained therein is not endorsed or otherwise sponsored by Innersloth LLC. Portions of the materials contained herein are property of Innersloth LLC. © Innersloth LLC.
+This mod is not affiliated with Among Us, Town Of Host, The Other Roles, or Innersloth LLC, and the content contained therein is not endorsed or otherwise sponsored by Innersloth LLC. Portions of the materials contained herein are property of Innersloth LLC. © Innersloth LLC.
 
-[![Discord](./Images/TownOfHost-Discord.png)](https://discord.gg/W5ug6hXB9V)
+[![Discord](./Images/TownOfHost-Discord.png)](https://discord.gg/tohtor)
 
 ## Releases
 
 AmongUs Version: **2022.12.14**
-**Latest Version: [Here](https://github.com/tukasa0001/TownOfHost/releases/latest)**
+**Latest Version: [Here](https://github.com/music-discussion/TownOfHost-TheOtherRoles--TOH-TOR/releases/latest)**
 
-Old Versions: [Here](https://github.com/tukasa0001/TownOfHost/releases)
+Old Versions: [Here](https://github.com/music-discussion/TownOfHost-TheOtherRoles--TOH-TOR/releases)
 
 ## Features
 
@@ -1162,20 +1159,11 @@ Translate-Chinese : fivefirex, ZeMingOH233<br>
 OptionTab Icon Design by 花海.<br>
 Csv: Copyright (c) 2015 Steve Hansen [MIT License](https://raw.githubusercontent.com/stevehansen/csv/master/LICENSE)<br>
 
-Translated with https://www.deepl.com<br>
-
 ## Developers
-- [EmptyBottle](https://github.com/tukasa0001) ([Twitter](https://twitter.com/XenonBottle))
-- [Tanakarina](https://github.com/tanakanira0118) <!--([Twitter](https://twitter.com/))-->
-- [Shu-](https://github.com/shu-TownofHost) ([Twitter](https://twitter.com/Shu_kundayo))
-- [kihi](https://github.com/Kihi1120) <!--([Twitter](https://twitter.com/))-->
-- [TAKU_GG](https://github.com/TAKUGG) ([Twitter](https://twitter.com/TAKUGGYouTube1), [Youtube](https://www.youtube.com/c/TAKUGG))
-- [Soukun](https://github.com/soukunsandesu) ([Twitter](https://twitter.com/Soukun_Dev), [Youtube](https://www.youtube.com/channel/UCsCOqxmXBVT-BD_UKaXpUPw))
-- [Mii](https://github.com/mii-47) <!--([Twitter](https://twitter.com/))-->
-- [Tampopo](https://github.com/tampopo-dandelion)([Twitter](https://twitter.com/2nomotokaicho),  [Youtube](https://www.youtube.com/channel/UC8EwQ5gu-qyxVxek0jZw1Tg), [ニコニコ](https://www.nicovideo.jp/user/124305243))
-- [Kou](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
-- [Ykundesu](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
-- [Yurino](https://github.com/yurinakira) <!--([Twitter](https://twitter.com/))-->
-- [Masami](https://github.com/Masami4711) <!--([Twitter](https://twitter.com/))-->
+- [Discussions](https://github.com/music-discussion) ([Youtube](https://www.youtube.com/channel/UCAawAIWR5XfJE6T0JdYpzzg))
+
+## Help From
+- Tealeaf
+- Det
 
 Translated with https://www.deepl.com<br>
