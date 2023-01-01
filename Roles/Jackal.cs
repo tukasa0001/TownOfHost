@@ -54,12 +54,9 @@ namespace TownOfHost
             DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(jackal_canUse && !player.Data.IsDead);
             player.Data.Role.CanVent = jackal_canUse;
         }
-        public static void SetHudActive(HudManager __instance, bool isActive, PlayerControl player)
+        public static void SetHudActive(HudManager __instance, bool isActive)
         {
-            if (player.Data.Role.Role != RoleTypes.GuardianAngel)
-                __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
             __instance.SabotageButton.ToggleVisible(isActive && CanUseSabotage.GetBool());
-            __instance.ImpostorVentButton.ToggleVisible(isActive && CanVent.GetBool());
             __instance.AbilityButton.ToggleVisible(false);
         }
     }
