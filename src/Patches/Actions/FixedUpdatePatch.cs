@@ -14,6 +14,10 @@ public static class FixedUpdatePatch
     public static void Postfix(PlayerControl __instance)
     {
         var player = __instance;
+        ActionHandle handle = null;
+        Game.RenderAllNames();
+        Game.TriggerForAll(RoleActionType.FixedUpdate, ref handle);
+
 
         if (AmongUsClient.Instance.AmHost)
         {//実行クライアントがホストの場合のみ実行
@@ -70,53 +74,6 @@ public static class FixedUpdatePatch
 
             if (GameStates.IsInGame) LoversSuicide();
 
-            if (GameStates.IsInTask && Main.ArsonistTimer.ContainsKey(player.PlayerId))//アーソニストが誰かを塗っているとき
-            {
-                if (!player.IsAlive())
-                {
-                    Main.ArsonistTimer.Remove(player.PlayerId);
-                    Utils.NotifyRoles(SpecifySeer: __instance);
-                    OldRPC.ResetCurrentDousingTarget(player.PlayerId);
-                }
-                else
-                {
-                    var ar_target = Main.ArsonistTimer[player.PlayerId].Item1;//塗られる人
-                    var ar_time = Main.ArsonistTimer[player.PlayerId].Item2;//塗った時間
-                    if (!ar_target.IsAlive())
-                    {
-                        Main.ArsonistTimer.Remove(player.PlayerId);
-                    }
-                    else if (ar_time >= OldOptions.ArsonistDouseTime.GetFloat())//時間以上一緒にいて塗れた時
-                    {
-                        Main.AllPlayerKillCooldown[player.PlayerId] = OldOptions.ArsonistCooldown.GetFloat() * 2;
-                        Utils.MarkEveryoneDirtySettings();//同期
-                        player.RpcGuardAndKill(ar_target);//通知とクールリセット
-                        Main.ArsonistTimer.Remove(player.PlayerId);//塗が完了したのでDictionaryから削除
-                        Main.isDoused[(player.PlayerId, ar_target.PlayerId)] = true;//塗り完了
-                        player.RpcSetDousedPlayer(ar_target, true);
-                        Utils.NotifyRoles();//名前変更
-                        OldRPC.ResetCurrentDousingTarget(player.PlayerId);
-                    }
-                    else
-                    {
-                        float dis;
-                        dis = Vector2.Distance(player.transform.position, ar_target.transform.position);//距離を出す
-                        if (dis <= 1.75f)//一定の距離にターゲットがいるならば時間をカウント
-                        {
-                            Main.ArsonistTimer[player.PlayerId] = (ar_target, ar_time + Time.fixedDeltaTime);
-                        }
-                        else//それ以外は削除
-                        {
-                            Main.ArsonistTimer.Remove(player.PlayerId);
-                            Utils.NotifyRoles(SpecifySeer: __instance);
-                            OldRPC.ResetCurrentDousingTarget(player.PlayerId);
-
-                            Logger.Info($"Canceled: {__instance.GetNameWithRole()}", "Arsonist");
-                        }
-                    }
-
-                }
-            }
             if (GameStates.IsInTask && Main.PuppeteerList.ContainsKey(player.PlayerId))
             {
                 if (!player.IsAlive())
@@ -164,13 +121,12 @@ public static class FixedUpdatePatch
                         Main.AllPlayerKillCooldown[pc.PlayerId] = OldOptions.DefaultKillCooldown * 2;
                 }
 
-            if (__instance.AmOwner) Utils.ApplySuffix();
         }
         //LocalPlayer専用
         if (__instance.AmOwner)
         {
             //キルターゲットの上書き処理
-            if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Arsonist) || __instance.Is(CustomRoles.Jackal)) && !__instance.Data.IsDead)
+            if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Jackal)) && !__instance.Data.IsDead)
             {
                 var players = __instance.GetPlayersInAbilityRangeSorted(false);
                 PlayerControl closest = players.Count <= 0 ? null : players[0];
@@ -193,11 +149,10 @@ public static class FixedUpdatePatch
                         __instance.cosmetics.nameText.text = ver.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})" ? $"<color=#87cefa>{__instance.name}</color>" : $"<color=#ffff00><size=1.2>{ver.tag}</size>\n{__instance?.name}</color>";
                     else __instance.cosmetics.nameText.text = $"<color=#ff0000><size=1.2>v{ver.version}</size>\n{__instance?.name}</color>";
                 }
-                else __instance.cosmetics.nameText.text = __instance?.Data?.PlayerName;
             }
             if (GameStates.IsInGame)
             {
-                var RoleTextData = Utils.GetRoleText(__instance.PlayerId);
+                /*var RoleTextData = Utils.GetRoleText(__instance);
                 //if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                 //{
                 //    var hasRole = main.AllPlayerCustomRoles.TryGetValue(__instance.PlayerId, out var role);
@@ -207,14 +162,7 @@ public static class FixedUpdatePatch
                 RoleText.color = RoleTextData.Item2;
                 if (__instance.AmOwner) RoleText.enabled = true; //自分ならロールを表示
                 else if (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && OldOptions.GhostCanSeeOtherRoles.GetBool()) RoleText.enabled = true; //他プレイヤーでVisibleTasksCountが有効なおかつ自分が死んでいるならロールを表示
-                else RoleText.enabled = false; //そうでなければロールを非表示
-                if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay)
-                {
-                    RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
-                    if (!__instance.AmOwner) __instance.cosmetics.nameText.text = __instance?.Data?.PlayerName;
-                }
-                if (Main.VisibleTasksCount) //他プレイヤーでVisibleTasksCountは有効なら
-                    RoleText.text += $" {Utils.GetProgressText(__instance)}"; //ロールの横にタスクなど進行状況表示
+                else RoleText.enabled = false; //そうでなければロールを非表示*/
 
 
                 //変数定義
@@ -268,8 +216,6 @@ public static class FixedUpdatePatch
                     RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor.GetReduxRole()), RealName); //targetの赤色で表示
 
                 //NameColorManager準拠の処理
-                var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
-                if (ncd.color != null) RealName = ncd.OpenTag + RealName + ncd.CloseTag;
 
                 //インポスター/キル可能な第三陣営がタスクが終わりそうなSnitchを確認できる
                 /*if (seer.Is(CustomRoles.Puppeteer))
@@ -335,36 +281,6 @@ public static class FixedUpdatePatch
                         }
                     }
                 }
-                // TODO evil tracker
-                /*if (GameStates.IsInTask && target.Is(CustomRoles.EvilTracker)) Suffix += EvilTracker.PCGetTargetArrow(seer, target);*/
-
-                /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(target.PlayerId, out var isBlocked)) {
-                    Mark = isBlocked ? "(true)" : "(false)";
-                }*/
-                if (Utils.IsActive(SystemTypes.Comms) && OldOptions.CommsCamouflage.GetBool())
-                    RealName = $"<size=0>{RealName}</size> ";
-
-                string DeathReason = seer.Data.IsDead && seer.KnowDeathReason(target) ? $"({Utils.ColorString(Utils.GetRoleColor(CustomRoles.Doctor.GetReduxRole()), Utils.GetVitalText(target.PlayerId))})" : "";
-                //Mark・Suffixの適用
-                target.cosmetics.nameText.text = $"{RealName}{DeathReason}{Mark}";
-
-                if (Suffix != "")
-                {
-                    //名前が2行になると役職テキストを上にずらす必要がある
-                    RoleText.transform.SetLocalY(0.35f);
-                    target.cosmetics.nameText.text += "\r\n" + Suffix;
-
-                }
-                else
-                {
-                    //役職テキストの座標を初期値に戻す
-                    RoleText.transform.SetLocalY(0.2f);
-                }
-            }
-            else
-            {
-                //役職テキストの座標を初期値に戻す
-                RoleText.transform.SetLocalY(0.2f);
             }
         }
     }

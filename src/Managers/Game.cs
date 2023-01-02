@@ -38,7 +38,7 @@ public static class Game
         {
             handle.ActionType = action;
             parameters = parameters.AddToArray(handle);
-            List<Tuple<MethodInfo, RoleAction, AbstractBaseRole>> actionList = GetAllPlayers().SelectMany(p => p.GetCustomRoleREWRITE().GetActions(action)).ToList();
+            List<Tuple<MethodInfo, RoleAction, AbstractBaseRole>> actionList = GetAllPlayers().SelectMany(p => p.GetCustomRole().GetActions(action)).ToList();
             actionList.AddRange(GetAllPlayers().SelectMany(p => p.GetSubroles().SelectMany(r => r.GetActions(action))));
             actionList.Sort((a1, a2) => a1.Item2.Priority.CompareTo(a2.Item2.Priority));
             foreach (Tuple<MethodInfo, RoleAction, AbstractBaseRole> actionTuple in actionList)
@@ -62,7 +62,7 @@ public static class Game
 
     //public static void ResetNames() => players.Values.Select(p => p.DynamicName).Do(name => name.ClearComponents());
 
-    public static int CountAliveImpostors() => GetAlivePlayers().Count(p => p.GetCustomRoleREWRITE().Factions.IsImpostor());
+    public static int CountAliveImpostors() => GetAlivePlayers().Count(p => p.GetCustomRole().Factions.IsImpostor());
 
     public static GameState State = GameState.InLobby;
 

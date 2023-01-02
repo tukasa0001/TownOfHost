@@ -276,6 +276,8 @@ namespace TownOfHost
         public static void Prefix(MeetingHud __instance)
         {
             Logger.Info("------------会議開始------------", "Phase");
+            ActionHandle handle = ActionHandle.NoInit();
+            Game.TriggerForAll(RoleActionType.RoundEnd, ref handle, false);
             ChatUpdatePatch.DoBlockChat = true;
             GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
             PlayerControl.AllPlayerControls.ToArray().Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
@@ -289,7 +291,7 @@ namespace TownOfHost
             {
                 var pc = Utils.GetPlayerById(pva.TargetPlayerId);
                 if (pc == null) continue;
-                var RoleTextData = Utils.GetRoleText(pc.PlayerId);
+                var RoleTextData = Utils.GetRoleText(pc);
                 var roleTextMeeting = UnityEngine.Object.Instantiate(pva.NameText);
                 roleTextMeeting.transform.SetParent(pva.NameText.transform);
                 roleTextMeeting.transform.localPosition = new Vector3(0f, -0.18f, 0f);
@@ -318,10 +320,6 @@ namespace TownOfHost
             {
                 _ = new DTask(() =>
                 {
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
-                    }
                     ChatUpdatePatch.DoBlockChat = false;
                 }, 3f, "SetName To Chat");
             }
@@ -434,6 +432,8 @@ namespace TownOfHost
                 AntiBlackout.SetIsDead();
                 PlayerControl.AllPlayerControls.ToArray().Do(pc => RandomSpawn.CustomNetworkTransformPatch.NumOfTP[pc.PlayerId] = 0);
             }
+            ActionHandle handle = ActionHandle.NoInit();
+            Game.TriggerForAll(RoleActionType.RoundStart, ref handle, false);
         }
     }
 }

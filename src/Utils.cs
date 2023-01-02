@@ -145,7 +145,7 @@ namespace TownOfHost
         }
         public static string GetDisplayRoleName(byte playerId)
         {
-            var TextData = GetRoleText(playerId);
+            var TextData = GetRoleText(Utils.GetPlayerById(playerId));
             return ColorString(TextData.Item2, TextData.Item1);
         }
         public static string GetRoleName(CustomRole role)
@@ -169,27 +169,10 @@ namespace TownOfHost
             Color c = role?.RoleColor ?? Color.white;
             return "#" + (c.r * 255).ToString("X2") + (c.g * 255).ToString("X2") + (c.b * 255).ToString("X2") + (c.a * 255).ToString("X2");
         }
-        public static (string, Color) GetRoleText(byte playerId)
+        public static (string, Color) GetRoleText(PlayerControl player)
         {
-            string RoleText = "Invalid Role";
-            Color RoleColor = Color.red;
-            PlayerControl pc = GetPlayerById(playerId);
-
-            var mainRole = Main.PlayerStates[playerId].MainRole;
-            var SubRoles = Main.PlayerStates[playerId].SubRoles;
-            RoleText = GetRoleName(pc.GetCustomRole());
-            RoleColor = GetRoleColor(pc.GetCustomRole());
-            // TODO: FIX SUBROLES
-            foreach (var subRole in Main.PlayerStates[playerId].SubRoles)
-            {
-                switch (subRole)
-                {
-                    case CustomRoles.LastImpostor:
-                        RoleText = GetRoleString("Last-") + RoleText;
-                        break;
-                }
-            }
-            return (RoleText, RoleColor);
+            CustomRole role = player.GetCustomRole();
+            return (role.RoleName, role.RoleColor);
         }
 
         public static string GetVitalText(byte playerId, bool RealKillerColor = false)
@@ -267,10 +250,6 @@ namespace TownOfHost
             var role = Main.PlayerStates[playerId].MainRole;
             switch (role)
             {
-                case CustomRoles.Arsonist:
-                    var doused = GetDousedPlayerCount(playerId);
-                    ProgressText = ColorString(GetRoleColor(Arsonist.Ref<Arsonist>()).ShadeColor(0.25f), $"({doused.Item1}/{doused.Item2})");
-                    break;
                 default:
                     //タスクテキスト
                     var taskState = Main.PlayerStates?[playerId].GetTaskState();
@@ -514,42 +493,6 @@ namespace TownOfHost
             if (title == "") title = "<color=#aaaaff>" + GetString("DefaultSystemMessageTitle") + "</color>";
             Main.MessagesToSend.Add((text.RemoveHtmlTags(), sendTo, title));
         }
-        public static void ApplySuffix()
-        {
-            if (!AmongUsClient.Instance.AmHost) return;
-            string name = DataManager.player.Customization.Name;
-            if (Main.nickName != "") name = Main.nickName;
-            if (AmongUsClient.Instance.IsGameStarted)
-            {
-                if (StaticOptions.ColorNameMode && Main.nickName == "") name = Palette.GetColorName(PlayerControl.LocalPlayer.Data.DefaultOutfit.ColorId);
-            }
-            else
-            {
-                if (AmongUsClient.Instance.IsGamePublic)
-                    name = $"<color={Main.ModColor}>TownOfHost v{Main.PluginVersion} {(Main.DevVersion ? Main.DevVersionStr : "")}</color>\r\n" + name;
-                switch (OldOptions.GetSuffixMode())
-                {
-                    case SuffixModes.None:
-                        break;
-                    case SuffixModes.TOH:
-                        name += $"\r\n<color={Main.ModColor}>TOHTOR v{Main.PluginVersion} {(Main.DevVersion ? Main.DevVersionStr : "")}</color>";
-                        break;
-                    case SuffixModes.Streaming:
-                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Streaming")}</color>";
-                        break;
-                    case SuffixModes.Recording:
-                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Recording")}</color>";
-                        break;
-                    case SuffixModes.RoomHost:
-                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.RoomHost")}</color>";
-                        break;
-                    case SuffixModes.OriginalName:
-                        name += $"\r\n<color={Main.ModColor}>{DataManager.player.Customization.Name}</color>";
-                        break;
-                }
-            }
-            if (name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
-        }
         public static PlayerControl GetPlayerById(int PlayerId)
         {
             return Game.GetAllPlayers().FirstOrDefault(pc => pc.PlayerId == PlayerId);
@@ -562,6 +505,7 @@ namespace TownOfHost
 
         public static GameData.PlayerInfo GetPlayerInfoById(int PlayerId) =>
             GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => info.PlayerId == PlayerId);
+
         public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false, bool ForceLoop = false)
         {
             return;
@@ -684,14 +628,11 @@ namespace TownOfHost
                 string SelfRoleName = $"<size={fontSize}>{seer.GetDisplayRoleName()}{SelfTaskText}</size>";
                 string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({ColorString(GetRoleColor(Doctor.Ref<Doctor>()), GetVitalText(seer.PlayerId))})" : "";
                 string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
-                if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
-                    SelfName = $"</size>\r\n{ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
                 SelfName = SelfRoleName + "\r\n" + SelfName;
                 SelfName += SelfSuffix == "" ? "" : "\r\n " + SelfSuffix;
                 if (!isMeeting) SelfName += "\r\n";
 
                 //適用
-                seer.RpcSetNamePrivate(SelfName, true, force: NoCache);
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
@@ -700,8 +641,6 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.EgoSchrodingerCat) //seerがエゴイストのシュレディンガーの猫
                     || seer.Is(CustomRoles.JSchrodingerCat) //seerがJackal陣営のシュレディンガーの猫
                     || seer.Is(CustomRoles.MSchrodingerCat) //seerがインポスター陣営のシュレディンガーの猫
-                    || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
-                    || seer.Is(CustomRoles.Arsonist)
                     || seer.Is(CustomRoles.Lovers)
                     || seer.Is(CustomRoles.Executioner)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
@@ -749,20 +688,6 @@ namespace TownOfHost
                             TargetMark += $"<color={GetRoleColorCode(Lovers.Ref<Lovers>())}>♡</color>";
                         }
 
-                        if (seer.Is(CustomRoles.Arsonist))//seerがアーソニストの時
-                        {
-                            if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
-                            {
-                                TargetMark += $"<color={GetRoleColorCode(Lovers.Ref<Lovers>())}>▲</color>";
-                            }
-                            if (
-                                Main.ArsonistTimer.TryGetValue(seer.PlayerId, out var ar_kvp) && //seerがオイルを塗っている途中(現在進行)
-                                ar_kvp.Item1 == target //オイルを塗っている対象がtarget
-                            )
-                            {
-                                TargetMark += $"<color={GetRoleColorCode(Arsonist.Ref<Arsonist>())}>△</color>";
-                            }
-                        }
                         if (seer.Is(CustomRoles.Puppeteer) &&
                         Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
                         Main.PuppeteerList.ContainsKey(target.PlayerId))
@@ -796,12 +721,7 @@ namespace TownOfHost
                             TargetPlayerName = ColorString(target.GetRoleColor(), TargetPlayerName);
                         else if (Utils.IsActive(SystemTypes.Electrical) && target.Is(CustomRoles.Mare) && !isMeeting)
                             TargetPlayerName = ColorString(GetRoleColor(Impostor.Ref<Impostor>()), TargetPlayerName); //targetの赤色で表示
-                        else
-                        {
-                            //NameColorManager準拠の処理
-                            var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
-                            TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
-                        }
+
                         if (seer.Is(Roles.RoleType.Impostor) && target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && StaticOptions.MadSnitchCanAlsoBeExposedToImpostor)
                             TargetMark += ColorString(GetRoleColor(MadSnitch.Ref<MadSnitch>()), "★");
 
@@ -816,7 +736,6 @@ namespace TownOfHost
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
 
                         //適用
-                        target.RpcSetNamePrivate(TargetName, true, seer, force: NoCache);
 
                         TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":END", "NotifyRoles");
                     }
@@ -875,26 +794,7 @@ namespace TownOfHost
             if (PlayerControl.LocalPlayer != null)
                 HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, "デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
         }
-        public static (int, int) GetDousedPlayerCount(byte playerId)
-        {
-            int doused = 0, all = 0; //学校で習った書き方
-                                     //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (pc == null ||
-                    pc.Data.IsDead ||
-                    pc.Data.Disconnected ||
-                    pc.PlayerId == playerId
-                ) continue; //塗れない人は除外 (死んでたり切断済みだったり あとアーソニスト自身も)
 
-                all++;
-                if (Main.isDoused.TryGetValue((playerId, pc.PlayerId), out var isDoused) && isDoused)
-                    //塗れている場合
-                    doused++;
-            }
-
-            return (doused, all);
-        }
         public static string SummaryTexts(byte id, bool disableColor = true)
         {
             var RolePos = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? 47 : 37;

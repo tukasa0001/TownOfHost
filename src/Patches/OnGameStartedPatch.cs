@@ -5,6 +5,7 @@ using HarmonyLib;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
+using TownOfHost.Patches.Actions;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
 
@@ -15,6 +16,9 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance)
         {
+            Game.Setup();
+            GameOptionsManager.Instance.CurrentGameOptions = GameOptionsManager.Instance.normalGameHostOptions.Cast<IGameOptions>();
+
             //注:この時点では役職は設定されていません。
             Main.PlayerStates = new();
 
@@ -22,8 +26,6 @@ namespace TownOfHost
             Main.AllPlayerSpeed = new Dictionary<byte, float>();
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.WarlockTimer = new Dictionary<byte, float>();
-            Main.isDoused = new Dictionary<(byte, byte), bool>();
-            Main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             Main.CursedPlayers = new Dictionary<byte, PlayerControl>();
             Main.isCurseAndKill = new Dictionary<byte, bool>();
             Main.SKMadmateNowCount = 0;
@@ -54,7 +56,6 @@ namespace TownOfHost
             Main.DefaultCrewmateVision = Main.RealOptionsData.GetFloat(FloatOptionNames.CrewLightMod);
             Main.DefaultImpostorVision = Main.RealOptionsData.GetFloat(FloatOptionNames.ImpostorLightMod);
 
-            NameColorManager.Instance.RpcReset();
             Main.LastNotifyNames = new();
 
             Main.currentDousingTarget = 255;
@@ -72,7 +73,6 @@ namespace TownOfHost
             }
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (AmongUsClient.Instance.AmHost && OldOptions.ColorNameMode.GetBool()) pc.RpcSetName(Palette.GetColorName(pc.Data.DefaultOutfit.ColorId));
                 Main.PlayerStates[pc.PlayerId] = new(pc.PlayerId);
                 Main.AllPlayerNames[pc.PlayerId] = pc?.Data?.PlayerName;
 
@@ -90,7 +90,6 @@ namespace TownOfHost
             Main.VisibleTasksCount = true;
             if (__instance.AmHost)
             {
-                OldRPC.SyncCustomSettingsRPC();
                 Main.RefixCooldownDelay = 0;
                 if (OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
@@ -215,7 +214,7 @@ namespace TownOfHost
 
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                //pc.GetCustomRole().SyncOptions();
+                pc.GetCustomRole().SyncOptions();
             }
 
             List<Tuple<string, CustomRole>> debugList = CustomRoleManager.PlayersCustomRolesRedux

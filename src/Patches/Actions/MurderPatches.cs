@@ -23,6 +23,7 @@ public static class MurderPatches
                 }
             }
         }
+
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             if (!AmongUsClient.Instance.AmHost) return false;
@@ -57,16 +58,6 @@ public static class MurderPatches
                 return false;
             }
 
-            float minTime = Mathf.Max(0.02f, AmongUsClient.Instance.Ping / 1000f * 6f); //※AmongUsClient.Instance.Pingの値はミリ秒(ms)なので÷1000
-            //TimeSinceLastKillに値が保存されていない || 保存されている時間がminTime以上 => キルを許可
-            //↓許可されない場合
-            if (TimeSinceLastKill.TryGetValue(killer.PlayerId, out var time) && time < minTime)
-            {
-                Logger.Info("前回のキルからの時間が早すぎるため、キルをブロックしました。", "CheckMurder");
-                return false;
-            }
-            TimeSinceLastKill[killer.PlayerId] = 0f;
-
             killer.ResetKillCooldown();
 
             //キルボタンを使えない場合の判定
@@ -76,12 +67,16 @@ public static class MurderPatches
                 return false;
             }
 
-            //キル可能判定
-            if (killer.PlayerId != target.PlayerId && !killer.CanUseKillButton())
-            {
-                Logger.Info(killer.GetNameWithRole() + "はKillできないので、キルはキャンセルされました。", "CheckMurder");
-                return false;
-            }
+            if (killer.PlayerId == target.PlayerId) return false;
+            ActionHandle handle = ActionHandle.NoInit();
+            killer.Trigger(RoleActionType.AttemptKill, ref handle, target);
+            if (handle.IsCanceled) return false;
+
+            ActionHandle ignored = ActionHandle.NoInit();
+            target.Trigger(RoleActionType.MyDeath, ref ignored, killer);
+
+            Game.TriggerForAll(RoleActionType.AnyDeath, ref ignored, target, killer);
+            return false;
 
             //キルされた時の特殊判定
             switch (target.GetCustomRole())
@@ -95,20 +90,10 @@ public static class MurderPatches
                 //==========マッドメイト系役職==========//
                 case MadGuardian:
                     //killerがキルできないインポスター判定役職の場合はスキップ
-                    if (killer.Is(Arsonist.Ref<Arsonist>()) //アーソニスト
-                    ) break;
-
                     //MadGuardianを切れるかの判定処理
                     var taskState = target.GetPlayerTaskState();
                     if (taskState.IsTaskFinished)
                     {
-                        int dataCountBefore = NameColorManager.Instance.NameColors.Count;
-                        NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, "#ff0000");
-                        if (OldOptions.MadGuardianCanSeeWhoTriedToKill.GetBool())
-                            NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, "#ff0000");
-
-                        if (dataCountBefore != NameColorManager.Instance.NameColors.Count)
-                            Utils.NotifyRoles();
                         return false;
                     }
                     break;
@@ -162,16 +147,6 @@ public static class MurderPatches
                     //==========マッドメイト系役職==========//
 
                     //==========第三陣営役職==========//
-                    case Arsonist:
-                        Main.AllPlayerKillCooldown[killer.PlayerId] = 10f;
-                        Utils.MarkEveryoneDirtySettings();
-                        if (!Main.isDoused[(killer.PlayerId, target.PlayerId)] && !Main.ArsonistTimer.ContainsKey(killer.PlayerId))
-                        {
-                            Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
-                            Utils.NotifyRoles(SpecifySeer: __instance);
-                            OldRPC.SetCurrentDousingTarget(killer.PlayerId, target.PlayerId);
-                        }
-                        return false;
 
                     //==========クルー役職==========//
                 }

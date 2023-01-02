@@ -139,10 +139,7 @@ namespace TownOfHost
                 Main.winnerList.Add(pc.PlayerId);
             }
 
-            Main.BitPlayers = new Dictionary<byte, (byte, float)>();
-            Main.isDoused = new Dictionary<(byte, byte), bool>();
 
-            NameColorManager.Instance.RpcReset();
             Main.VisibleTasksCount = false;
             if (AmongUsClient.Instance.AmHost)
             {

@@ -64,6 +64,6 @@ public class RoleUtils
     public static string Counter(object numerator, object denominator, Color? color = null)
     {
         color ??= new Color(0.92f, 0.77f, 0.22f);
-        return "(" + color.Value.Colorize($"{numerator}/{denominator}") + ")";
+        return Color.white.Colorize("(" + color.Value.Colorize($"{numerator}/{denominator}") + ")");
     }
 }

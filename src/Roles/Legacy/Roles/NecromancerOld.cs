@@ -46,12 +46,6 @@ namespace TownOfHost
                                 Main.isInfected.Add((player.PlayerId, ar.PlayerId), false);
                         currentRole = role;
                         break;*/
-                    case Arsonist:
-                        foreach (var ar in PlayerControl.AllPlayerControls)
-                            if (!ar.Data.IsDead && !ar.GetCustomRole().IsCoven())
-                                Main.isDoused.Add((player.PlayerId, ar.PlayerId), false);
-                        currentRole = role;
-                        break;
                     case Sheriff:
                     case CorruptedSheriff:
                         if (StaticOptions.NecroCanUseSheriff)

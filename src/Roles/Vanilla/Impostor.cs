@@ -15,7 +15,7 @@ public class Impostor: CustomRole
     [RoleAction(RoleActionType.AttemptKill, Subclassing = false)]
     public virtual bool TryKill(PlayerControl target)
     {
-        InteractionResult result = CheckInteractions(target.GetCustomRoleREWRITE(), target);
+        InteractionResult result = CheckInteractions(target.GetCustomRole(), target);
         if (result == InteractionResult.Halt) return false;
 
         MyPlayer.RpcMurderPlayer(target);

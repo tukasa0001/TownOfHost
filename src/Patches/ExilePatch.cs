@@ -56,6 +56,13 @@ namespace TownOfHost
                 if (!AntiBlackout.OverrideExiledPlayer && Main.ResetCamPlayerList.Contains(exiled.PlayerId))
                     exiled.Object?.ResetPlayerCam(1f);
 
+
+                ActionHandle selfExiledHandle = ActionHandle.NoInit();
+                ActionHandle otherExiledHandle = ActionHandle.NoInit();
+                exiled.Object.Trigger(RoleActionType.SelfExiled, ref selfExiledHandle);
+                Game.TriggerForAll(RoleActionType.OtherExiled, ref otherExiledHandle, exiled);
+
+
                 exiled.IsDead = true;
                 Main.PlayerStates[exiled.PlayerId].deathReason = PlayerStateOLD.DeathReason.Vote;
                 var role = exiled.GetCustomRole();

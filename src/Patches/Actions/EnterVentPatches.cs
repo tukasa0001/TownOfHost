@@ -31,35 +31,11 @@ public static class EnterVentPatches
         {
             if (AmongUsClient.Instance.AmHost)
             {
-                if (AmongUsClient.Instance.IsGameStarted &&
-                    __instance.myPlayer.IsDouseDone())
-                {
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        if (!pc.Data.IsDead)
-                        {
-                            if (pc != __instance.myPlayer)
-                            {
-                                //生存者は焼殺
-                                //pc.SetRealKiller(__instance.myPlayer);
-                                pc.RpcMurderPlayer(pc);
-                                Main.PlayerStates[pc.PlayerId].deathReason = PlayerStateOLD.DeathReason.Torched;
-                                Main.PlayerStates[pc.PlayerId].SetDead();
-                            }
-                            else
-                                OldRPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
-                        }
-                    }
-                    CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Arsonist); //焼殺で勝利した人も勝利させる
-                    CustomWinnerHolder.WinnerIds.Add(__instance.myPlayer.PlayerId);
-                    return true;
-                }
                 if (__instance.myPlayer.Is(CustomRoles.Sheriff) ||
-                __instance.myPlayer.Is(CustomRoles.SKMadmate) ||
-                __instance.myPlayer.Is(CustomRoles.Arsonist) ||
-                (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= OldOptions.MayorNumOfUseButton.GetInt()) ||
-                (__instance.myPlayer.Is(CustomRoles.Jackal) && !CustomRoleManager.Static.Jackal.CanVent())
-                )
+                    __instance.myPlayer.Is(CustomRoles.SKMadmate) ||
+                    (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= OldOptions.MayorNumOfUseButton.GetInt()) ||
+                    (__instance.myPlayer.Is(CustomRoles.Jackal) && !CustomRoleManager.Static.Jackal.CanVent())
+                   )
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
                     writer.WritePacked(127);

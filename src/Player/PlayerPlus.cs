@@ -17,6 +17,6 @@ public class PlayerPlus
         this.MyPlayer = player;
         this.State = PlayerState.Alive;
         this.DynamicName = DynamicName.For(player);
-        this.Role = player.GetCustomRoleREWRITE();
+        this.Role = player.GetCustomRole();
     }
 }

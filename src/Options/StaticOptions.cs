@@ -157,8 +157,6 @@ public static class StaticOptions
     public static bool JesterCanVent = false;
     public static double VampireKillDelay = 10.0;
     public static bool VampireBuff = false;
-    public static double ArsonistDouseTime = 10.0;
-    public static int ArsonistCooldown = 1;
     public static int InfectCooldown = 1;
     public static bool VultureCanVent = false;
     public static bool SplatoonOn = false;

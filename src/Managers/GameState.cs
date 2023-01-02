@@ -72,10 +72,6 @@ namespace TownOfHost
         {
             taskState.Init(player);
         }
-        public void UpdateTask(PlayerControl player)
-        {
-            taskState.Update(player);
-        }
         public enum DeathReason
         {
             Kill,
@@ -128,55 +124,6 @@ namespace TownOfHost
             hasTasks = true;
             AllTasksCount = player.Data.Tasks.Count;
             Logger.Info($"{player.GetNameWithRole()}: {CompletedTasksCount}/{AllTasksCount}", "TaskCounts");
-        }
-        public void Update(PlayerControl player)
-        {
-            Logger.Info($"{player.GetNameWithRole()}: UpdateTask", "TaskCounts");
-            Logger.Info($"{GameData.Instance.CompletedTasks}/{GameData.Instance.TotalTasks}", "TotalTaskCounts");
-            if (!Utils.HasTasks(player.Data, false))
-                hasTasks = false;
-            if (!hasTasks) return;
-            //初期化出来ていなかったら初期化
-            if (AllTasksCount == -1) Init(player);
-
-            //FIXME:SpeedBooster class transplant
-            if (!player.Data.IsDead
-            && player.Is(Speedrunner.Ref<Speedrunner>())
-            && (((CompletedTasksCount + 1) >= AllTasksCount) || (CompletedTasksCount + 1) >= OldOptions.SpeedBoosterTaskTrigger.GetInt())
-            && !Main.SpeedBoostTarget.ContainsKey(player.PlayerId))
-            {   //ｽﾋﾟﾌﾞが生きていて、全タスク完了orトリガー数までタスクを完了していて、SpeedBoostTargetに登録済みでない場合
-                var rand = IRandom.Instance;
-                List<PlayerControl> targetPlayers = new();
-                //切断者と死亡者を除外
-                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
-                {
-                    if (!p.Data.Disconnected && !p.Data.IsDead && !Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetPlayers.Add(p);
-                }
-                //ターゲットが0ならアップ先をプレイヤーをnullに
-                if (targetPlayers.Count >= 1)
-                {
-                    PlayerControl target = targetPlayers[rand.Next(0, targetPlayers.Count)];
-                    Logger.Info("スピードブースト先:" + target.cosmetics.nameText.text, "SpeedBooster");
-                    Main.SpeedBoostTarget.Add(player.PlayerId, target.PlayerId);
-                    Main.AllPlayerSpeed[Main.SpeedBoostTarget[player.PlayerId]] += OldOptions.SpeedBoosterUpSpeed.GetFloat();
-                }
-                else
-                {
-                    Main.SpeedBoostTarget.Add(player.PlayerId, 255);
-                    Logger.SendInGame("Error.SpeedBoosterNullException");
-                    Logger.Warn("スピードブースト先がnullです。", "SpeedBooster");
-                }
-            }
-
-            //クリアしてたらカウントしない
-            if (CompletedTasksCount >= AllTasksCount) return;
-
-            CompletedTasksCount++;
-
-            //調整後のタスク量までしか表示しない
-            CompletedTasksCount = Math.Min(AllTasksCount, CompletedTasksCount);
-            Logger.Info($"{player.GetNameWithRole()}: {CompletedTasksCount}/{AllTasksCount}", "TaskCounts");
-
         }
     }
     public class PlayerVersion

@@ -135,26 +135,6 @@ namespace TownOfHost
                     CustomRole role = CustomRoleManager.GetRoleFromId(reader.ReadPackedInt32());
                     OldRPC.SetCustomRole(CustomRoleTargetId, role);
                     break;
-                case CustomRPC.SetDousedPlayer:
-                    byte ArsonistId = reader.ReadByte();
-                    byte DousedId = reader.ReadByte();
-                    bool doused = reader.ReadBoolean();
-                    Main.isDoused[(ArsonistId, DousedId)] = doused;
-                    break;
-                case CustomRPC.AddNameColorData:
-                    byte addSeerId = reader.ReadByte();
-                    byte addTargetId = reader.ReadByte();
-                    string color = reader.ReadString();
-                    OldRPC.AddNameColorData(addSeerId, addTargetId, color);
-                    break;
-                case CustomRPC.RemoveNameColorData:
-                    byte removeSeerId = reader.ReadByte();
-                    byte removeTargetId = reader.ReadByte();
-                    OldRPC.RemoveNameColorData(removeSeerId, removeTargetId);
-                    break;
-                case CustomRPC.ResetNameColorData:
-                    OldRPC.ResetNameColorData();
-                    break;
                 case CustomRPC.SetLoversPlayers:
                     Main.LoversPlayers.Clear();
                     int count = reader.ReadInt32();
@@ -259,18 +239,6 @@ namespace TownOfHost
         {
             CustomRoleManager.PlayersCustomRolesRedux[targetId] = role;
             HudManager.Instance.SetHudActive(true);
-        }
-        public static void AddNameColorData(byte seerId, byte targetId, string color)
-        {
-            NameColorManager.Instance.Add(seerId, targetId, color);
-        }
-        public static void RemoveNameColorData(byte seerId, byte targetId)
-        {
-            NameColorManager.Instance.Remove(seerId, targetId);
-        }
-        public static void ResetNameColorData()
-        {
-            NameColorManager.Begin();
         }
         public static void RpcDoSpell(byte targetId, byte killerId)
         {

@@ -124,8 +124,6 @@ namespace TownOfHost
         public static Dictionary<byte, float> WarlockTimer = new();
         public static Dictionary<byte, PlayerControl> CursedPlayers = new();
         public static Dictionary<byte, bool> isCurseAndKill = new();
-        public static Dictionary<(byte, byte), bool> isDoused = new();
-        public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
         /// <summary>
         /// Key: ターゲットのPlayerId, Value: パペッティアのPlayerId
         /// </summary>
@@ -190,8 +188,6 @@ namespace TownOfHost
             BitPlayers = new Dictionary<byte, (byte, float)>();
             WarlockTimer = new Dictionary<byte, float>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
-            isDoused = new Dictionary<(byte, byte), bool>();
-            ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
             winnerList = new();
             VisibleTasksCount = false;
@@ -208,7 +204,6 @@ namespace TownOfHost
             MessageWait = Config.Bind("Other", "MessageWait", 1);
             LastKillCooldown = Config.Bind("Other", "LastKillCooldown", (float)30);
 
-            NameColorManager.Begin();
             CustomWinnerHolder.Reset();
             Translator.Init();
             BanManager.Init();

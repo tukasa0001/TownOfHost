@@ -26,7 +26,7 @@ public class Arsonist: NeutralKillingBase
     protected override void Setup(PlayerControl player) => dousedPlayers = new HashSet<byte>();
 
     [DynElement(UI.Counter)]
-    private string DouseCounter() => RoleUtils.Counter(dousedPlayers.Count, knownAlivePlayers - 1, RoleColor);
+    private string DouseCounter() => RoleUtils.Counter(dousedPlayers.Count, knownAlivePlayers - 1);
 
     [DynElement(UI.Cooldown)]
     private string DousingView() => dousingDuration.IsReady() ? "" : RoleColor.Colorize(dousingDuration + "s");

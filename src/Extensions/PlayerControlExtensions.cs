@@ -5,11 +5,13 @@ using System.Text;
 using AmongUs.GameOptions;
 using Hazel;
 using InnerNet;
+using TownOfHost.Interface.Menus.CustomNameMenu;
 using TownOfHost.Modules;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
 using static TownOfHost.Translator;
 using TownOfHost.Roles;
+using TownOfHost.RPC;
 
 namespace TownOfHost.Extensions;
 
@@ -17,35 +19,20 @@ public static class PlayerControlExtensions
 {
     public static void RpcSetCustomRole(this PlayerControl player, CustomRole role)
     {
-        // ROLE ASSIGNMENT STUFF IDK WHAT TO DO HERE
-        if (!role.IsSubrole)
-        {
-            //Main.PlayerStates[player.PlayerId].MainRole = role;
-        }
-        else if (role.IsSubrole)   //500:NoSubRole 501~:SubRole
-        {
-            // Main.PlayerStates[player.PlayerId].SetSubRole(role);
-        }
-        if (AmongUsClient.Instance.AmHost)
-        {
-            // TODO: ROLE RPC
-            /*
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
-            writer.Write(player.PlayerId);
-            writer.WritePacked((int)role);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-            */
-        }
+        player.GetPlayerPlus().DynamicName = DynamicName.For(player);
+        CustomRoleManager.PlayersCustomRolesRedux[player.PlayerId] = role.Instantiate(player);
+        // TODO: eventually add back subrole logic
+        RpcV2.Immediate(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole)
+            .Write(player.PlayerId)
+            .WritePacked(CustomRoleManager.GetRoleId(role.GetType()))
+            .Send();
     }
-    public static void RpcSetCustomRole(byte PlayerId, CustomRoles role)
+    public static void RpcSetCustomRole(byte playerId, CustomRoles role)
     {
-        if (AmongUsClient.Instance.AmHost)
-        {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
-            writer.Write(PlayerId);
-            writer.WritePacked((int)role);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
+        RpcV2.Immediate(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole)
+            .Write(playerId)
+            .WritePacked(CustomRoleManager.GetRoleId(role.GetType()))
+            .Send();
     }
 
     public static void RpcExile(this PlayerControl player)
@@ -54,7 +41,7 @@ public static class PlayerControlExtensions
     }
     public static InnerNet.ClientData GetClient(this PlayerControl player)
     {
-        var client = AmongUsClient.Instance.allClients.ToArray().Where(cd => cd.Character.PlayerId == player.PlayerId).FirstOrDefault();
+        var client = AmongUsClient.Instance.allClients.ToArray().FirstOrDefault(cd => cd.Character.PlayerId == player.PlayerId);
         return client;
     }
     public static int GetClientId(this PlayerControl player)
@@ -103,39 +90,7 @@ public static class PlayerControlExtensions
         //  return Main.PlayerStates[player.PlayerId].SubRoles;
         return new();
     }
-    public static void RpcSetNameEx(this PlayerControl player, string name)
-    {
-        foreach (var seer in PlayerControl.AllPlayerControls)
-        {
-            Main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] = name;
-        }
-        HudManagerPatch.LastSetNameDesyncCount++;
 
-        Logger.Info($"Set:{player?.Data?.PlayerName}:{name} for All", "RpcSetNameEx");
-        player.RpcSetName(name);
-    }
-
-    public static void RpcSetNamePrivate(this PlayerControl player, string name, bool DontShowOnModdedClient = false, PlayerControl seer = null, bool force = false)
-    {
-        //player: 名前の変更対象
-        //seer: 上の変更を確認することができるプレイヤー
-        if (player == null || name == null || !AmongUsClient.Instance.AmHost) return;
-        if (seer == null) seer = player;
-        if (!force && Main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] == name)
-        {
-            //Logger.info($"Cancel:{player.name}:{name} for {seer.name}", "RpcSetNamePrivate");
-            return;
-        }
-        Main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] = name;
-        HudManagerPatch.LastSetNameDesyncCount++;
-        Logger.Info($"Set:{player?.Data?.PlayerName}:{name} for {seer.GetNameWithRole()}", "RpcSetNamePrivate");
-
-        var clientId = seer.GetClientId();
-        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
-        writer.Write(name);
-        writer.Write(DontShowOnModdedClient);
-        AmongUsClient.Instance.FinishRpcImmediately(writer);
-    }
     public static void RpcSetRoleDesync(this PlayerControl player, RoleTypes role, int clientId)
     {
         //player: 名前の変更対象
@@ -179,7 +134,7 @@ public static class PlayerControlExtensions
     public static void SetKillCooldown(this PlayerControl player, float time)
     {
         CustomRole role = player.GetCustomRole();
-        if (!(role.IsImpostor() || player.IsNeutralKiller() || role is Arsonist or Roles.Sheriff)) return;
+        if (!(role.IsImpostor() || player.IsNeutralKiller() || role is Arsonist or Sheriff)) return;
         if (player.AmOwner)
         {
             player.SetKillTimer(time);
@@ -234,12 +189,6 @@ public static class PlayerControlExtensions
             writer.Write(0);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        /*
-            プレイヤーがバリアを張ったとき、そのプレイヤーの役職に関わらずアビリティーのクールダウンがリセットされます。
-            ログの追加により無にバリアを張ることができなくなったため、代わりに自身に0秒バリアを張るように変更しました。
-            この変更により、役職としての守護天使が無効化されます。
-            ホストのクールダウンは直接リセットします。
-        */
     }
     public static void RpcDesyncRepairSystem(this PlayerControl target, SystemTypes systemType, int amount)
     {
@@ -250,21 +199,6 @@ public static class PlayerControlExtensions
         AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
     }
 
-    /*public static void RpcBeKilled(this PlayerControl player, PlayerControl KilledBy = null) {
-        if(!AmongUsClient.Instance.AmHost) return;
-        byte KilledById;
-        if(KilledBy == null)
-            KilledById = byte.MaxValue;
-        else
-            KilledById = KilledBy.PlayerId;
-
-        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)CustomRPC.BeKilled, Hazel.SendOption.Reliable, -1);
-        writer.Write(player.PlayerId);
-        writer.Write(KilledById);
-        AmongUsClient.Instance.FinishRpcImmediately(writer);
-
-        RPC.BeKilled(player.PlayerId, KilledById);
-    }*/
     public static void MarkDirtySettings(this PlayerControl player)
     {
         PlayerGameOptionsSender.SetDirty(player.PlayerId);
@@ -278,12 +212,6 @@ public static class PlayerControlExtensions
     {
         return (T)player.GetCustomRole();
     }
-
-    /*public static GameOptionsData DeepCopy(this GameOptionsData opt)
-    {
-        var optByte = opt.ToBytes(5);
-        return GameOptionsData.FromBytes(optByte);
-    }*/
 
     public static string GetDisplayRoleName(this PlayerControl player)
     {
@@ -311,7 +239,7 @@ public static class PlayerControlExtensions
     }
     public static string GetNameWithRole(this PlayerControl player)
     {
-        return $"{player?.Data?.PlayerName}" + (GameStates.IsInGame ? $"({player?.GetAllRoleName()})" : "");
+        return $"{player.GetRawName()}" + (GameStates.IsInGame ? $"({player?.GetAllRoleName()})" : "");
     }
     public static string GetRoleColorCode(this PlayerControl player)
     {
@@ -371,24 +299,16 @@ public static class PlayerControlExtensions
     }
     public static bool CanUseKillButton(this PlayerControl pc)
     {
-        return pc.GetCustomRole() switch
+        return pc.GetCustomRole() is Impostor i && i.CanKill();
+        /*return pc.GetCustomRole() switch
         {
             FireWorks f => f.CanKill(),
             Mafia m => ((Impostor)m).CanKill(),
             Mare m => m.CanKill(),
             Sheriff s => s.DesyncRole is RoleTypes.Impostor,
-            Arsonist => !pc.IsDouseDone(),
             Egoist or Jackal => true,
             _ => pc.Is(RoleType.Impostor),
-        };
-    }
-    public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
-    {
-        if (arsonist == null) return false;
-        if (target == null) return false;
-        if (Main.isDoused == null) return false;
-        Main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused);
-        return isDoused;
+        };*/
     }
     public static void RpcSetDousedPlayer(this PlayerControl player, PlayerControl target, bool isDoused)
     {
@@ -470,12 +390,6 @@ public static class PlayerControlExtensions
                     break;
             }
         }
-    public static bool IsDouseDone(this PlayerControl player)
-    {
-        if (!player.Is(CustomRoles.Arsonist)) return false;
-        var count = Utils.GetDousedPlayerCount(player.PlayerId);
-        return count.Item1 == count.Item2;
-    }
     public static bool CanMakeMadmate(this PlayerControl player)
     {
         return StaticOptions.CanMakeMadmateCount > Main.SKMadmateNowCount

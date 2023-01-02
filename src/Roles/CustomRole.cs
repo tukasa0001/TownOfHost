@@ -24,7 +24,7 @@ public abstract class CustomRole : AbstractBaseRole
     public virtual bool CanBeKilledBySheriff() => this.VirtualRole is RoleTypes.Impostor or RoleTypes.Shapeshifter;
     public virtual bool HasTasks() => this is Crewmate;
     public bool IsDesyncRole() => this.DesyncRole != null;
-    public virtual bool IsAllied(PlayerControl player) => this.Factions.Any(f => f.IsAllied(player.GetCustomRoleREWRITE().Factions)) && player.GetCustomRoleREWRITE().Factions.Any(f => f.IsAllied(this.Factions));
+    public virtual bool IsAllied(PlayerControl player) => this.Factions.Any(f => f.IsAllied(player.GetCustomRole().Factions)) && player.GetCustomRole().Factions.Any(f => f.IsAllied(this.Factions));
     private HashSet<GameOptionOverride> currentOverrides = new();
 
 
