@@ -8,9 +8,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AmongUs.Data;
 using AmongUs.GameOptions;
-using UnityEngine;
-using UnhollowerBaseLib;
 using TownOfHost.Modules;
+using UnhollowerBaseLib;
+using UnityEngine;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -498,7 +498,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.IsGameStarted)
             {
-                SendMessage(GetString("CantUse.lastroles"), PlayerId);
+                SendMessage(GetString("CantUse.lastresult"), PlayerId);
                 return;
             }
             var text = GetString("LastResult") + ":";
