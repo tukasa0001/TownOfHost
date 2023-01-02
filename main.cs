@@ -31,7 +31,7 @@ namespace TownOfHost
         // 公開ルームを許可する / Allow Public Room (Default: true)
         public static readonly bool AllowPublicRoom = true;
         // フォークID / ForkId (Default: OriginalTOH)
-        public static readonly string ForkId = "OriginalTOH";
+        public static readonly string ForkId = "OriginalTOHTOR";
         // Discordボタンを表示するか / Show Discord Button (Default: true)
         public static readonly bool ShowDiscordButton = true;
         // Discordサーバーの招待リンク / Discord Server Invite URL (Default: https://discord.gg/W5ug6hXB9V)
@@ -48,12 +48,13 @@ namespace TownOfHost
         // デバッグキーのコンフィグ入力
         public static ConfigEntry<string> DebugKeyInput { get; private set; }
         // Dev Version (Default: false)
-        public static readonly bool DevVersion = false;
+        public static readonly bool DevVersion = true;
 
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
         public const string PluginVersion = "0.9.4";
+        public static readonly string DevVersionStr = "dev 1";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;

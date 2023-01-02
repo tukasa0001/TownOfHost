@@ -14,13 +14,14 @@ namespace TownOfHost
     [HarmonyPatch]
     public class ModUpdater
     {
-        private static readonly string URL = "https://api.github.com/repos/tukasa0001/TownOfHost";
+        private static readonly string URL = "https://api.github.com/repos/music-discussion/TownOfHost-TheOtherRoles--TOH-TOR";
         public static bool hasUpdate = false;
         public static bool isBroken = false;
-        public static bool isChecked = false;
+        public static bool isChecked = true;
         public static Version latestVersion = null;
         public static string latestTitle = null;
         public static string downloadUrl = null;
+        public static readonly bool ForceAccept = true;
         public static GenericPopup InfoPopup;
 
         [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPrefix]
@@ -31,9 +32,21 @@ namespace TownOfHost
             InfoPopup = UnityEngine.Object.Instantiate(Twitch.TwitchManager.Instance.TwitchPopup);
             InfoPopup.name = "InfoPopup";
             InfoPopup.TextAreaTMP.GetComponent<RectTransform>().sizeDelta = new(2.5f, 2f);
+            if (ForceAccept)
+            {
+                isBroken = false;
+                isChecked = true;
+                hasUpdate = false;
+            }
             if (!isChecked)
             {
                 CheckRelease(Main.BetaBuildURL.Value != "").GetAwaiter().GetResult();
+            }
+            if (ForceAccept)
+            {
+                isBroken = false;
+                isChecked = true;
+                hasUpdate = false;
             }
             MainMenuManagerPatch.updateButton.SetActive(hasUpdate);
             MainMenuManagerPatch.updateButton.transform.position = MainMenuManagerPatch.template.transform.position + new Vector3(0.25f, 0.75f);
@@ -43,6 +56,12 @@ namespace TownOfHost
                     .GetChild(0).GetComponent<TMPro.TMP_Text>()
                     .SetText($"{GetString("updateButton")}\n{latestTitle}");
             })));
+            if (ForceAccept)
+            {
+                isBroken = false;
+                isChecked = true;
+                hasUpdate = false;
+            }
         }
         public static async Task<bool> CheckRelease(bool beta = false)
         {
@@ -100,9 +119,17 @@ namespace TownOfHost
             }
             catch (Exception ex)
             {
+                var flag = false;
                 isBroken = true;
-                Logger.Error($"リリースのチェックに失敗しました。\n{ex}", "CheckRelease");
-                return false;
+                if (ForceAccept)
+                {
+                    flag = true;
+                    isBroken = false;
+                    isChecked = true;
+                    hasUpdate = false;
+                }
+                Logger.Error($"リリースのチェックに失敗しました。 / Release check failed. \n{ex}", "CheckRelease");
+                return flag;
             }
             return true;
         }

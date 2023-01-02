@@ -13,14 +13,14 @@ namespace TownOfHost
         public static bool Prefix(GameStartManager __instance)
         {
             // 定数設定による公開ルームブロック
-            if (!Main.AllowPublicRoom)
+            if (!Main.AllowPublicRoom && !ModUpdater.ForceAccept)
             {
                 var message = GetString("DisabledByProgram");
                 Logger.Info(message, "MakePublicPatch");
                 Logger.SendInGame(message);
                 return false;
             }
-            if (ModUpdater.isBroken || ModUpdater.hasUpdate)
+            if ((ModUpdater.isBroken | ModUpdater.hasUpdate) && !ModUpdater.ForceAccept)
             {
                 var message = "";
                 if (ModUpdater.isBroken) message = GetString("ModBrokenMessage");
@@ -38,6 +38,7 @@ namespace TownOfHost
         public static void Postfix(MMOnlineManager __instance)
         {
             if (!(ModUpdater.hasUpdate || ModUpdater.isBroken)) return;
+            if (ModUpdater.ForceAccept) return;
             var obj = GameObject.Find("FindGameButton");
             if (obj)
             {
@@ -62,16 +63,6 @@ namespace TownOfHost
                 __instance.sceneChanger.AllowFinishLoadingScene();
                 __instance.startedSceneLoad = true;
             }
-        }
-    }
-    [HarmonyPatch(typeof(EOSManager), nameof(EOSManager.IsAllowedOnline))]
-    class RunLoginPatch
-    {
-        public static void Prefix(ref bool canOnline)
-        {
-#if DEBUG
-            if (CultureInfo.CurrentCulture.Name != "ja-JP") canOnline = false;
-#endif
         }
     }
     [HarmonyPatch(typeof(BanMenu), nameof(BanMenu.SetVisible))]

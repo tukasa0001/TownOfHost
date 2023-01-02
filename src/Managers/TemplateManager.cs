@@ -18,7 +18,7 @@ namespace TownOfHost
             ["RoomCode"] = () => InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId),
             ["PlayerName"] = () => DataManager.Player.Customization.Name,
             ["AmongUsVersion"] = () => UnityEngine.Application.version,
-            ["ModVersion"] = () => Main.PluginVersion,
+            ["ModVersion"] = () => Main.PluginVersion + (Main.DevVersion ? " " + Main.DevVersionStr : ""),
             ["Map"] = () => Constants.MapNames[Main.NormalOptions.MapId],
             ["NumEmergencyMeetings"] = () => Main.NormalOptions.NumEmergencyMeetings.ToString(),
             ["EmergencyCooldown"] = () => Main.NormalOptions.EmergencyCooldown.ToString(),

@@ -34,7 +34,7 @@ namespace TownOfHost
         static TMPro.TextMeshPro SpecialEventText;
         static void Postfix(VersionShower __instance)
         {
-            Main.credentialsText = $"\r\n<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}";
+            Main.credentialsText = $"\r\n<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}" + (Main.DevVersion ? " " + Main.DevVersionStr : "");
 #if DEBUG
             Main.credentialsText += $"\r\n<color={Main.ModColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
 #endif
