@@ -1085,7 +1085,7 @@ namespace TownOfHost
         public static void Postfix(PlayerControl __instance)
         {
             var pc = __instance;
-            Logger.Info($"TaskComplete:{pc.PlayerId}", "CompleteTask");
+            Logger.Info($"TaskComplete:{pc.GetNameWithRole()}", "CompleteTask");
             Main.PlayerStates[pc.PlayerId].UpdateTask(pc);
             Utils.NotifyRoles();
             if ((pc.GetPlayerTaskState().IsTaskFinished &&
