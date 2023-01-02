@@ -7,6 +7,7 @@ using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Modules;
 using static TownOfHost.Translator;
+using TownOfHost.Roles;
 
 namespace TownOfHost
 {
@@ -102,19 +103,19 @@ namespace TownOfHost
                 }
             }
             FallFromLadder.Reset();
-            BountyHunter.Init();
-            SerialKiller.Init();
-            FireWorks.Init();
-            Sniper.Init();
-            TimeThief.Init();
-            Mare.Init();
-            Witch.Init();
-            SabotageMaster.Init();
-            Egoist.Init();
-            Executioner.Init();
-            Jackal.Init();
-            Sheriff.Init();
-            EvilTracker.Init();
+            BountyHunterOLD.Init();
+            SerialKillerOLD.Init();
+            FireWorksOLD.Init();
+            SniperOLD.Init();
+            TimeThiefOLD.Init();
+            MareOLD.Init();
+            WitchOLD.Init();
+            SabotageMasterOLD.Init();
+            EgoistOLD.Init();
+            ExecutionerOLD.Init();
+            JackalOLD.Init();
+            SheriffOLD.Init();
+            EvilTrackerOLD.Init();
             LastImpostor.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
@@ -179,7 +180,7 @@ namespace TownOfHost
                 if (Options.EnableGM.GetBool())
                 {
                     AllPlayers.RemoveAll(x => x == PlayerControl.LocalPlayer);
-                    PlayerControl.LocalPlayer.RpcSetCustomRole(CustomRoles.GM);
+                    PlayerControl.LocalPlayer.RpcSetCustomRole(GM.Ref<GM>());
                     PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Crewmate);
                     PlayerControl.LocalPlayer.Data.IsDead = true;
                 }
@@ -256,9 +257,9 @@ namespace TownOfHost
                 SetColorPatch.IsAntiGlitchDisabled = true;
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (pc.Is(RoleType.Impostor))
+                    if (pc.Is(Roles.RoleType.Impostor))
                         pc.RpcSetColor(0);
-                    else if (pc.Is(RoleType.Crewmate))
+                    else if (pc.Is(Roles.RoleType.Crewmate))
                         pc.RpcSetColor(1);
                 }
 
@@ -335,57 +336,57 @@ namespace TownOfHost
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
                     switch (pc.GetCustomRole())
                     {
-                        case CustomRoles.BountyHunter:
-                            BountyHunter.Add(pc.PlayerId);
+                        case BountyHunter:
+                            BountyHunterOLD.Add(pc.PlayerId);
                             break;
-                        case CustomRoles.SerialKiller:
-                            SerialKiller.Add(pc.PlayerId);
+                        case SerialKiller:
+                            SerialKillerOLD.Add(pc.PlayerId);
                             break;
-                        case CustomRoles.Witch:
-                            Witch.Add(pc.PlayerId);
+                        case Witch:
+                            WitchOLD.Add(pc.PlayerId);
                             break;
-                        case CustomRoles.Warlock:
+                        case Warlock:
                             Main.CursedPlayers.Add(pc.PlayerId, null);
                             Main.isCurseAndKill.Add(pc.PlayerId, false);
                             break;
-                        case CustomRoles.FireWorks:
-                            FireWorks.Add(pc.PlayerId);
+                        case FireWorks:
+                            FireWorksOLD.Add(pc.PlayerId);
                             break;
-                        case CustomRoles.TimeThief:
-                            TimeThief.Add(pc.PlayerId);
+                        case TimeThief:
+                            TimeThiefOLD.Add(pc.PlayerId);
                             break;
-                        case CustomRoles.Sniper:
-                            Sniper.Add(pc.PlayerId);
+                        case Sniper:
+                            SniperOLD.Add(pc.PlayerId);
                             break;
-                        case CustomRoles.Mare:
-                            Mare.Add(pc.PlayerId);
+                        case Mare:
+                            MareOLD.Add(pc.PlayerId);
                             break;
 
-                        case CustomRoles.Arsonist:
+                        case Arsonist:
                             foreach (var ar in PlayerControl.AllPlayerControls)
                                 Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
                             break;
-                        case CustomRoles.Executioner:
-                            Executioner.Add(pc.PlayerId);
+                        case Executioner:
+                            ExecutionerOLD.Add(pc.PlayerId);
                             break;
-                        case CustomRoles.Egoist:
-                            Egoist.Add(pc.PlayerId);
+                        case Egoist:
+                            EgoistOLD.Add(pc.PlayerId);
                             break;
-                        case CustomRoles.Jackal:
-                            Jackal.Add(pc.PlayerId);
+                        case Jackal:
+                            JackalOLD.Add(pc.PlayerId);
                             break;
 
-                        case CustomRoles.Sheriff:
-                            Sheriff.Add(pc.PlayerId);
+                        case Sheriff:
+                            SheriffOLD.Add(pc.PlayerId);
                             break;
-                        case CustomRoles.Mayor:
+                        case Mayor:
                             Main.MayorUsedButtonCount[pc.PlayerId] = 0;
                             break;
-                        case CustomRoles.SabotageMaster:
-                            SabotageMaster.Add(pc.PlayerId);
+                        case SabotageMaster:
+                            SabotageMasterOLD.Add(pc.PlayerId);
                             break;
-                        case CustomRoles.EvilTracker:
-                            EvilTracker.Add(pc.PlayerId);
+                        case EvilTracker:
+                            EvilTrackerOLD.Add(pc.PlayerId);
                             break;
                     }
                     pc.ResetKillCooldown();
@@ -437,17 +438,8 @@ namespace TownOfHost
             }
 
             // ResetCamが必要なプレイヤーのリストにクラス化が済んでいない役職のプレイヤーを追加
-            Main.ResetCamPlayerList.AddRange(PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is CustomRoles.Arsonist).Select(p => p.PlayerId));
-/*
-            //インポスターのゴーストロールがクルーメイトになるバグ対策
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (pc.Data.Role.IsImpostor || Main.ResetCamPlayerList.Contains(pc.PlayerId))
-                {
-                    pc.Data.Role.DefaultGhostRole = RoleTypes.ImpostorGhost;
-                }
-            }
-*/
+            Main.ResetCamPlayerList.AddRange(PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is Arsonist).Select(p => p.PlayerId));
+
             Utils.CountAliveImpostors();
             Utils.MarkEveryoneDirtySettings();
             SetColorPatch.IsAntiGlitchDisabled = false;

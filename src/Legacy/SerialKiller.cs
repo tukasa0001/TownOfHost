@@ -6,7 +6,7 @@ using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    public static class SerialKiller
+    public static class SerialKillerOLD
     {
         private static readonly int Id = 1100;
         public static List<byte> playerIdList = new();

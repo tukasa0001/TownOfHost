@@ -8,7 +8,7 @@ using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    public static class Witch
+    public static class WitchOLD
     {
         public enum SwitchTrigger
         {

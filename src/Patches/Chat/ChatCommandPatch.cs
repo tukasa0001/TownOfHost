@@ -9,6 +9,7 @@ using Hazel;
 using TownOfHost.Extensions;
 using UnityEngine;
 using static TownOfHost.Translator;
+using TownOfHost.Roles;
 
 namespace TownOfHost
 {
@@ -140,7 +141,7 @@ namespace TownOfHost
                                 {
                                     case "lastimpostor":
                                     case "limp":
-                                        Utils.SendMessage(Utils.GetRoleName(CustomRoles.LastImpostor) + GetString("LastImpostorInfoLong"));
+                                        Utils.SendMessage(Utils.GetRoleName(Roles.LastImpostor.Ref<Roles.LastImpostor>()) + GetString("LastImpostorInfoLong"));
                                         break;
 
                                     default:

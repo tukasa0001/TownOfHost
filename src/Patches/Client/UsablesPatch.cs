@@ -2,6 +2,7 @@ using HarmonyLib;
 using UnityEngine;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
+using TownOfHost.Roles;
 
 namespace TownOfHost
 {
@@ -47,15 +48,15 @@ namespace TownOfHost
 
             switch (pc.GetCustomRole())
             {
-                case CustomRoles.Sheriff:
+                case Sheriff:
                     return false;
-                case CustomRoles.Arsonist:
+                case Arsonist:
                     if (pc.Object.IsDouseDone())
                         canUse = couldUse = VentForTrigger = true;
                     else return false;
                     break;
-                case CustomRoles.Jackal:
-                    canUse = couldUse = Jackal.CanVent.GetBool();
+                case Jackal:
+                    canUse = couldUse = JackalOLD.CanVent.GetBool();
                     break;
                 default:
                     if (pc.Role.TeamType == RoleTeamTypes.Impostor || pc.Role.Role == RoleTypes.Engineer) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue

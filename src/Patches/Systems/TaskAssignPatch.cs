@@ -3,6 +3,7 @@ using HarmonyLib;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using TownOfHost.Extensions;
+using TownOfHost.Roles;
 
 namespace TownOfHost
 {
@@ -48,9 +49,9 @@ namespace TownOfHost
                 return;
             }
 
-            CustomRoles? RoleNullable = Utils.GetPlayerById(playerId)?.GetCustomRole();
+            CustomRole? RoleNullable = Utils.GetPlayerById(playerId)?.GetCustomRole();
             if (RoleNullable == null) return;
-            CustomRoles role = RoleNullable.Value;
+            CustomRole role = RoleNullable;
 
             if (!Options.OverrideTasksData.AllData.ContainsKey(role)) return;
             var data = Options.OverrideTasksData.AllData[role];

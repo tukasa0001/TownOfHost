@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using UnityEngine;
+using TownOfHost.Roles;
 
 namespace TownOfHost.Patches.Actions;
 
@@ -85,15 +86,15 @@ public static class MurderPatches
             //キルされた時の特殊判定
             switch (target.GetCustomRole())
             {
-                case CustomRoles.SchrodingerCat:
-                    if (!SchrodingerCat.OnCheckMurder(killer, target))
+                case SchrodingerCat:
+                    if (!SchrodingerCatOLD.OnCheckMurder(killer, target))
                         return false;
                     break;
 
                 //==========マッドメイト系役職==========//
-                case CustomRoles.MadGuardian:
+                case MadGuardian:
                     //killerがキルできないインポスター判定役職の場合はスキップ
-                    if (killer.Is(CustomRoles.Arsonist) //アーソニスト
+                    if (killer.Is(Arsonist.Ref<Arsonist>()) //アーソニスト
                     ) break;
 
                     //MadGuardianを切れるかの判定処理
@@ -119,14 +120,14 @@ public static class MurderPatches
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
-                    case CustomRoles.BountyHunter: //キルが発生する前にここの処理をしないとバグる
-                        BountyHunter.OnCheckMurder(killer, target);
+                    case BountyHunter: //キルが発生する前にここの処理をしないとバグる
+                        BountyHunterOLD.OnCheckMurder(killer, target);
                         break;
-                    case CustomRoles.SerialKiller:
-                        SerialKiller.OnCheckMurder(killer);
+                    case SerialKiller:
+                        SerialKillerOLD.OnCheckMurder(killer);
                         break;
-                    case CustomRoles.Vampire:
-                        if (!target.Is(CustomRoles.Bait))
+                    case Vampire:
+                        if (!target.Is(Baiter.Ref<Baiter>()))
                         { //キルキャンセル&自爆処理
                             Utils.MarkEveryoneDirtySettings();
                             Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
@@ -136,7 +137,7 @@ public static class MurderPatches
                             return false;
                         }
                         break;
-                    case CustomRoles.Warlock:
+                    case Warlock:
                         if (!Main.CheckShapeshift[killer.PlayerId] && !Main.isCurseAndKill[killer.PlayerId])
                         { //Warlockが変身時以外にキルしたら、呪われる処理
                             Main.isCursed = true;
@@ -155,28 +156,28 @@ public static class MurderPatches
                         }
                         if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
                         return false;
-                    case CustomRoles.Witch:
-                        if (!Witch.OnCheckMurder(killer, target))
+                    case Witch:
+                        if (!WitchOLD.OnCheckMurder(killer, target))
                         {
                             //Spellモードの場合は終了
                             return false;
                         }
                         break;
-                    case CustomRoles.Puppeteer:
+                    case Puppeteer:
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
                         Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
                         killer.MarkDirtySettings(); //負荷軽減のため、killerだけがCustomSyncSettings,NotifyRolesを実行
                         Utils.NotifyRoles(SpecifySeer: killer);
                         killer.RpcGuardAndKill(target);
                         return false;
-                    case CustomRoles.TimeThief:
-                        TimeThief.OnCheckMurder(killer);
+                    case TimeThief:
+                        TimeThiefOLD.OnCheckMurder(killer);
                         break;
 
                     //==========マッドメイト系役職==========//
 
                     //==========第三陣営役職==========//
-                    case CustomRoles.Arsonist:
+                    case Arsonist:
                         Main.AllPlayerKillCooldown[killer.PlayerId] = 10f;
                         Utils.MarkEveryoneDirtySettings();
                         if (!Main.isDoused[(killer.PlayerId, target.PlayerId)] && !Main.ArsonistTimer.ContainsKey(killer.PlayerId))
@@ -188,8 +189,8 @@ public static class MurderPatches
                         return false;
 
                     //==========クルー役職==========//
-                    case CustomRoles.Sheriff:
-                        if (!Sheriff.OnCheckMurder(killer, target))
+                    case Sheriff:
+                        if (!SheriffOLD.OnCheckMurder(killer, target))
                             return false;
                         break;
                 }
@@ -218,39 +219,39 @@ public static class MurderPatches
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost) return;
 
             PlayerControl killer = __instance; //読み替え変数
-            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.Sniped)
+            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerStateOLD.DeathReason.Sniped)
             {
-                killer = Utils.GetPlayerById(Sniper.GetSniper(target.PlayerId));
+                killer = Utils.GetPlayerById(SniperOLD.GetSniper(target.PlayerId));
             }
-            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.etc)
+            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerStateOLD.DeathReason.etc)
             {
                 //死因が設定されていない場合は死亡判定
-                Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Kill;
+                Main.PlayerStates[target.PlayerId].deathReason = PlayerStateOLD.DeathReason.Kill;
             }
 
             //When Bait is killed
-            if (target.GetCustomRole() == CustomRoles.Bait && killer.PlayerId != target.PlayerId)
+            if (target.GetCustomRole() is Baiter && killer.PlayerId != target.PlayerId)
             {
                 Logger.Info(target?.Data?.PlayerName + "はBaitだった", "MurderPlayer");
                 new DTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
             }
             else
             //Terrorist
-            if (target.Is(CustomRoles.Terrorist))
+            if (target.Is(Terrorist.Ref<Terrorist>()))
             {
                 Logger.Info(target?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
                 Utils.CheckTerroristWin(target.Data);
             }
-            if (target.Is(CustomRoles.Trapper) && !killer.Is(CustomRoles.Trapper))
+            if (target.Is(Trapper.Ref<Trapper>()) && !killer.Is(Trapper.Ref<Trapper>()))
                 killer.TrapperKilled(target);
-            if (Executioner.Target.ContainsValue(target.PlayerId))
-                Executioner.ChangeRoleByTarget(target);
-            if (target.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(target.PlayerId))
+            if (ExecutionerOLD.Target.ContainsValue(target.PlayerId))
+                ExecutionerOLD.ChangeRoleByTarget(target);
+            if (target.Is(Executioner.Ref<Executioner>()) && ExecutionerOLD.Target.ContainsKey(target.PlayerId))
             {
-                Executioner.Target.Remove(target.PlayerId);
-                Executioner.SendRPC(target.PlayerId);
+                ExecutionerOLD.Target.Remove(target.PlayerId);
+                ExecutionerOLD.SendRPC(target.PlayerId);
             }
-            if (target.Is(CustomRoles.TimeThief))
+            if (target.Is(TimeThief.Ref<TimeThief>()))
                 target.ResetVotingTime();
 
             LastImpostor.SetKillCooldown();

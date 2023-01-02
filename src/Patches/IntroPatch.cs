@@ -5,6 +5,7 @@ using HarmonyLib;
 using UnityEngine;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
+using TownOfHost.Roles;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -16,7 +17,7 @@ namespace TownOfHost
         {
             new DTask(() =>
             {
-                CustomRoles role = PlayerControl.LocalPlayer.GetCustomRole();
+                CustomRole role = PlayerControl.LocalPlayer.GetCustomRole();
                 if (!role.IsVanilla())
                 {
                     __instance.YouAreText.color = Utils.GetRoleColor(role);
@@ -87,7 +88,7 @@ namespace TownOfHost
     {
         public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
         {
-            if (PlayerControl.LocalPlayer.Is(RoleType.Neutral))
+            if (PlayerControl.LocalPlayer.Is(Roles.RoleType.Neutral))
             {
                 //ぼっち役職
                 var soloTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
@@ -98,26 +99,26 @@ namespace TownOfHost
         public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
         {
             //チーム表示変更
-            CustomRoles role = PlayerControl.LocalPlayer.GetCustomRole();
-            RoleType roleType = role.GetRoleType();
+            CustomRole role = PlayerControl.LocalPlayer.GetCustomRole();
+            Roles.RoleType roleType = role.GetRoleType();
 
             switch (roleType)
             {
-                case RoleType.Neutral:
+                case Roles.RoleType.Neutral:
                     __instance.TeamTitle.text = Utils.GetRoleName(role);
                     __instance.TeamTitle.color = Utils.GetRoleColor(role);
                     __instance.ImpostorText.gameObject.SetActive(true);
                     __instance.ImpostorText.text = role switch
                     {
-                        CustomRoles.Egoist => GetString("TeamEgoist"),
-                        CustomRoles.Jackal => GetString("TeamJackal"),
+                        Egoist => GetString("TeamEgoist"),
+                        Jackal => GetString("TeamJackal"),
                         _ => GetString("NeutralInfo"),
                     };
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                     break;
-                case RoleType.Madmate:
+                case Roles.RoleType.Madmate:
                     __instance.TeamTitle.text = GetString("Madmate");
-                    __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Madmate);
+                    __instance.TeamTitle.color = Utils.GetRoleColor(Madmate.Ref<Madmate>());
                     __instance.ImpostorText.text = GetString("TeamImpostor");
                     StartFadeIntro(__instance, Palette.CrewmateBlue, Palette.ImpostorRed);
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
@@ -125,41 +126,41 @@ namespace TownOfHost
             }
             switch (role)
             {
-                case CustomRoles.Terrorist:
+                case Terrorist:
                     var sound = ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault()
                     .MinigamePrefab.OpenSound;
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
                     break;
 
-                case CustomRoles.Executioner:
+                case Executioner:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                     break;
 
-                case CustomRoles.Vampire:
+                case Vampire:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                     break;
 
-                case CustomRoles.SabotageMaster:
+                case SabotageMaster:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = ShipStatus.Instance.SabotageSound;
                     break;
 
-                case CustomRoles.Sheriff:
+                case Sheriff:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
                     break;
-                case CustomRoles.Arsonist:
+                case Arsonist:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     break;
 
-                case CustomRoles.SchrodingerCat:
+                case SchrodingerCat:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
 
-                case CustomRoles.Mayor:
+                case Mayor:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     break;
 
-                case CustomRoles.GM:
+                case GM:
                     __instance.TeamTitle.text = Utils.GetRoleName(role);
                     __instance.TeamTitle.color = Utils.GetRoleColor(role);
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
@@ -214,7 +215,7 @@ namespace TownOfHost
     {
         public static bool Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
-            if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff))
+            if (PlayerControl.LocalPlayer.Is(Sheriff.Ref<Sheriff>()))
             {
                 //シェリフの場合はキャンセルしてBeginCrewmateに繋ぐ
                 yourTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
@@ -254,7 +255,7 @@ namespace TownOfHost
                         }, 2f, "FixKillCooldownTask");
                 }
                 new DTask(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRoleDesync(RoleTypes.Shapeshifter, -3)), 2f, "SetImpostorForServer");
-                if (PlayerControl.LocalPlayer.Is(CustomRoles.GM))
+                if (PlayerControl.LocalPlayer.Is(GM.Ref<GM>()))
                 {
                     PlayerControl.LocalPlayer.RpcExile();
                     Main.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SetDead();

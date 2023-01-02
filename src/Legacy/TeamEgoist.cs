@@ -4,7 +4,7 @@ using TownOfHost.Extensions;
 
 namespace TownOfHost
 {
-    public static class TeamEgoist
+    public static class TeamEgoistOLD
     {
         public static List<byte> playerIdList = new();
 

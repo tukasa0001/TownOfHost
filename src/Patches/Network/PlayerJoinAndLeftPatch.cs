@@ -4,6 +4,7 @@ using HarmonyLib;
 using InnerNet;
 using TownOfHost.Extensions;
 using static TownOfHost.Translator;
+using TownOfHost.Roles;
 
 namespace TownOfHost
 {
@@ -64,13 +65,13 @@ namespace TownOfHost
                         Main.LoversPlayers.Remove(lovers);
                         Main.PlayerStates[lovers.PlayerId].RemoveSubRole(CustomRoles.Lovers);
                     }
-                if (data.Character.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(data.Character.PlayerId))
-                    Executioner.ChangeRole(data.Character);
-                if (Executioner.Target.ContainsValue(data.Character.PlayerId))
-                    Executioner.ChangeRoleByTarget(data.Character);
-                if (Main.PlayerStates[data.Character.PlayerId].deathReason == PlayerState.DeathReason.etc) //死因が設定されていなかったら
+                if (data.Character.Is(CustomRoles.Executioner) && ExecutionerOLD.Target.ContainsKey(data.Character.PlayerId))
+                    ExecutionerOLD.ChangeRole(data.Character);
+                if (ExecutionerOLD.Target.ContainsValue(data.Character.PlayerId))
+                    ExecutionerOLD.ChangeRoleByTarget(data.Character);
+                if (Main.PlayerStates[data.Character.PlayerId].deathReason == PlayerStateOLD.DeathReason.etc) //死因が設定されていなかったら
                 {
-                    Main.PlayerStates[data.Character.PlayerId].deathReason = PlayerState.DeathReason.Disconnected;
+                    Main.PlayerStates[data.Character.PlayerId].deathReason = PlayerStateOLD.DeathReason.Disconnected;
                     Main.PlayerStates[data.Character.PlayerId].SetDead();
                 }
                 AntiBlackout.OnDisconnect(data.Character.Data);

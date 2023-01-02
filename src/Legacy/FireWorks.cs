@@ -7,7 +7,7 @@ using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    public static class FireWorks
+    public static class FireWorksOLD
     {
         public enum FireWorksState
         {

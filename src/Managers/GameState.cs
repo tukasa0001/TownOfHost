@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using HarmonyLib;
 using AmongUs.GameOptions;
+using TownOfHost.Roles;
 using TownOfHost.Extensions;
 
 namespace TownOfHost
 {
-    public class PlayerState
+    public class PlayerStateOLD
     {
         byte PlayerId;
         public CustomRoles MainRole;
@@ -16,7 +17,7 @@ namespace TownOfHost
         public TaskState taskState;
         public bool IsBlackOut { get; set; }
         public (DateTime, byte) RealKiller;
-        public PlayerState(byte playerId)
+        public PlayerStateOLD(byte playerId)
         {
             MainRole = CustomRoles.NotAssigned;
             SubRoles = new();
@@ -140,7 +141,7 @@ namespace TownOfHost
 
             //FIXME:SpeedBooster class transplant
             if (!player.Data.IsDead
-            && player.Is(CustomRoles.SpeedBooster)
+            && player.Is(Speedrunner.Ref<Speedrunner>())
             && (((CompletedTasksCount + 1) >= AllTasksCount) || (CompletedTasksCount + 1) >= Options.SpeedBoosterTaskTrigger.GetInt())
             && !Main.SpeedBoostTarget.ContainsKey(player.PlayerId))
             {   //ｽﾋﾟﾌﾞが生きていて、全タスク完了orトリガー数までタスクを完了していて、SpeedBoostTargetに登録済みでない場合

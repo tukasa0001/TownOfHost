@@ -7,7 +7,7 @@ using static TownOfHost.Options;
 
 namespace TownOfHost
 {
-    public static class Executioner
+    public static class ExecutionerOLD
     {
         private static readonly int Id = 50700;
         public static List<byte> playerIdList = new();

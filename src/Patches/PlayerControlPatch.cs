@@ -6,6 +6,7 @@ using Hazel;
 using UnityEngine;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
+using TownOfHost.Roles;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -17,7 +18,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return false;
             Logger.Info("CheckProtect発生: " + __instance.GetNameWithRole() + "=>" + target.GetNameWithRole(), "CheckProtect");
-            if (__instance.Is(CustomRoles.Sheriff))
+            if (__instance.Is(Sheriff.Ref<Sheriff>()))
             {
                 if (__instance.Data.IsDead)
                 {
@@ -48,8 +49,8 @@ namespace TownOfHost
                 return false;
             }
             if (!AmongUsClient.Instance.AmHost) return true;
-            BountyHunter.OnReportDeadBody();
-            SerialKiller.OnReportDeadBody();
+            BountyHunterOLD.OnReportDeadBody();
+            SerialKillerOLD.OnReportDeadBody();
             Main.ArsonistTimer.Clear();
             if (target == null) //ボタン
             {
@@ -81,7 +82,7 @@ namespace TownOfHost
 
                 if (bitten != null && !bitten.Data.IsDead)
                 {
-                    Main.PlayerStates[bitten.PlayerId].deathReason = PlayerState.DeathReason.Bite;
+                    Main.PlayerStates[bitten.PlayerId].deathReason = PlayerStateOLD.DeathReason.Bite;
                     bitten.SetRealKiller(Utils.GetPlayerById(vampireID));
                     //Protectは強制的にはがす
                     if (bitten.protectedByGuardian)
@@ -95,7 +96,7 @@ namespace TownOfHost
             }
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.PuppeteerList.Clear();
-            Sniper.OnStartMeeting();
+            SniperOLD.OnStartMeeting();
 
             if (__instance.Data.IsDead) return true;
             //=============================================
@@ -170,8 +171,8 @@ namespace TownOfHost
             Main.PlayerStates[pc.PlayerId].UpdateTask(pc);
             Utils.NotifyRoles();
             if ((pc.GetPlayerTaskState().IsTaskFinished &&
-                pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor) ||
-                pc.GetCustomRole() is CustomRoles.SpeedBooster)
+                pc.GetCustomRole() is Observer or Doctor) ||
+                pc.GetCustomRole() is Speedrunner)
             {
                 //ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
                 Utils.MarkEveryoneDirtySettings();
@@ -208,9 +209,9 @@ namespace TownOfHost
                 foreach (var seer in PlayerControl.AllPlayerControls)
                 {
                     var self = seer.PlayerId == target.PlayerId;
-                    var seerIsKiller = seer.Is(RoleType.Impostor) || Main.ResetCamPlayerList.Contains(seer.PlayerId);
-                    var targetIsKiller = target.Is(RoleType.Impostor) || Main.ResetCamPlayerList.Contains(target.PlayerId);
-                    if ((self && targetIsKiller) || (!seerIsKiller && target.Is(RoleType.Impostor)))
+                    var seerIsKiller = seer.Is(Roles.RoleType.Impostor) || Main.ResetCamPlayerList.Contains(seer.PlayerId);
+                    var targetIsKiller = target.Is(Roles.RoleType.Impostor) || Main.ResetCamPlayerList.Contains(target.PlayerId);
+                    if ((self && targetIsKiller) || (!seerIsKiller && target.Is(Roles.RoleType.Impostor)))
                     {
                         Logger.Info($"Desync {target.GetNameWithRole()} =>ImpostorGhost for{seer.GetNameWithRole()}", "PlayerControl.RpcSetRole");
                         target.RpcSetRoleDesync(RoleTypes.ImpostorGhost, seer.GetClientId());

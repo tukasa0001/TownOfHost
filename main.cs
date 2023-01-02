@@ -13,6 +13,8 @@ using System.Net;
 using TownOfHost.Patches;
 using System.Net.Sockets;
 using TownOfHost.ReduxOptions;
+using TownOfHost.Addons;
+using TownOfHost.Roles;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
@@ -83,11 +85,11 @@ namespace TownOfHost
         public static ConfigEntry<string> BetaBuildURL { get; private set; }
         public static ConfigEntry<float> LastKillCooldown { get; private set; }
         public static OptionBackupData RealOptionsData;
-        public static Dictionary<byte, PlayerState> PlayerStates = new();
+        public static Dictionary<byte, PlayerStateOLD> PlayerStates = new();
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<(byte, byte), string> LastNotifyNames;
         public static Dictionary<byte, Color32> PlayerColors = new();
-        public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
+        public static Dictionary<byte, PlayerStateOLD.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
         public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
         public static float RefixCooldownDelay = 0f;
@@ -284,8 +286,10 @@ namespace TownOfHost
             TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}", "GitVersion");
 
             ClassInjector.RegisterTypeInIl2Cpp<ErrorText>();
-
+            int _ = CustomRoleManager.Roles.Count;
             Harmony.PatchAll();
+            AddonManager.ImportAddons();
+            StaticOptions.AddStaticOptions();
         }
     }
     public enum CustomRoles

@@ -6,7 +6,7 @@ using static TownOfHost.Options;
 
 namespace TownOfHost
 {
-    public static class Jackal
+    public static class JackalOLD
     {
         private static readonly int Id = 50900;
         public static List<byte> playerIdList = new();

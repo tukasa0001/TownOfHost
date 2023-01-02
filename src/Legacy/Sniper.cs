@@ -7,7 +7,7 @@ using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    public static class Sniper
+    public static class SniperOLD
     {
         static readonly int Id = 1800;
         static List<byte> playerIdList = new();

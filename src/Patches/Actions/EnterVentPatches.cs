@@ -1,6 +1,7 @@
 using HarmonyLib;
 using Hazel;
 using TownOfHost.Extensions;
+using TownOfHost.Roles;
 
 namespace TownOfHost.Patches.Actions;
 
@@ -13,7 +14,7 @@ public static class EnterVentPatches
         {
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
-            if (pc.Is(CustomRoles.Mayor))
+            if (pc.Is(Mayor.Ref<Mayor>()))
             {
                 if (Main.MayorUsedButtonCount.TryGetValue(pc.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt())
                 {
@@ -42,7 +43,7 @@ public static class EnterVentPatches
                                 //生存者は焼殺
                                 pc.SetRealKiller(__instance.myPlayer);
                                 pc.RpcMurderPlayer(pc);
-                                Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Torched;
+                                Main.PlayerStates[pc.PlayerId].deathReason = PlayerStateOLD.DeathReason.Torched;
                                 Main.PlayerStates[pc.PlayerId].SetDead();
                             }
                             else
@@ -57,7 +58,7 @@ public static class EnterVentPatches
                 __instance.myPlayer.Is(CustomRoles.SKMadmate) ||
                 __instance.myPlayer.Is(CustomRoles.Arsonist) ||
                 (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt()) ||
-                (__instance.myPlayer.Is(CustomRoles.Jackal) && !Jackal.CanVent.GetBool())
+                (__instance.myPlayer.Is(CustomRoles.Jackal) && !JackalOLD.CanVent.GetBool())
                 )
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);

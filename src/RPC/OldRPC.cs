@@ -135,13 +135,13 @@ namespace TownOfHost
                     OldRPC.SetCustomRole(CustomRoleTargetId, role);
                     break;
                 case CustomRPC.SetBountyTarget:
-                    BountyHunter.ReceiveRPC(reader);
+                    BountyHunterOLD.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetKillOrSpell:
-                    Witch.ReceiveRPC(reader, false);
+                    WitchOLD.ReceiveRPC(reader, false);
                     break;
                 case CustomRPC.SetSheriffShotLimit:
-                    Sheriff.ReceiveRPC(reader);
+                    SheriffOLD.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();
@@ -164,10 +164,10 @@ namespace TownOfHost
                     OldRPC.ResetNameColorData();
                     break;
                 case CustomRPC.DoSpell:
-                    Witch.ReceiveRPC(reader, true);
+                    WitchOLD.ReceiveRPC(reader, true);
                     break;
                 case CustomRPC.SniperSync:
-                    Sniper.ReceiveRPC(reader);
+                    SniperOLD.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetLoversPlayers:
                     Main.LoversPlayers.Clear();
@@ -176,13 +176,13 @@ namespace TownOfHost
                         Main.LoversPlayers.Add(Utils.GetPlayerById(reader.ReadByte()));
                     break;
                 case CustomRPC.SetExecutionerTarget:
-                    Executioner.ReceiveRPC(reader, SetTarget: true);
+                    ExecutionerOLD.ReceiveRPC(reader, SetTarget: true);
                     break;
                 case CustomRPC.RemoveExecutionerTarget:
-                    Executioner.ReceiveRPC(reader, SetTarget: false);
+                    ExecutionerOLD.ReceiveRPC(reader, SetTarget: false);
                     break;
                 case CustomRPC.SendFireWorksState:
-                    FireWorks.ReceiveRPC(reader);
+                    FireWorksOLD.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetCurrentDousingTarget:
                     byte arsonistId = reader.ReadByte();
@@ -193,7 +193,7 @@ namespace TownOfHost
                 case CustomRPC.SetEvilTrackerTarget:
                     byte TrackerId = reader.ReadByte();
                     int TargetId = reader.ReadInt32();
-                    EvilTracker.RPCSetTarget(TrackerId, TargetId);
+                    EvilTrackerOLD.RPCSetTarget(TrackerId, TargetId);
                     break;
                 case CustomRPC.SetRealKiller:
                     byte targetId = reader.ReadByte();
@@ -242,7 +242,7 @@ namespace TownOfHost
             writer.EndMessage();
             Main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(Main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})", Main.ForkId);
         }
-        public static void SendDeathReason(byte playerId, PlayerState.DeathReason deathReason)
+        public static void SendDeathReason(byte playerId, PlayerStateOLD.DeathReason deathReason)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDeathReason, Hazel.SendOption.Reliable, -1);
             writer.Write(playerId);
@@ -252,7 +252,7 @@ namespace TownOfHost
         public static void GetDeathReason(MessageReader reader)
         {
             var playerId = reader.ReadByte();
-            var deathReason = (PlayerState.DeathReason)reader.ReadInt32();
+            var deathReason = (PlayerStateOLD.DeathReason)reader.ReadInt32();
             Main.PlayerStates[playerId].deathReason = deathReason;
             Main.PlayerStates[playerId].IsDead = true;
         }
@@ -296,51 +296,51 @@ namespace TownOfHost
             switch (role)
             {
                 case CustomRoles.BountyHunter:
-                    BountyHunter.Add(targetId);
+                    BountyHunterOLD.Add(targetId);
                     break;
                 case CustomRoles.SerialKiller:
-                    SerialKiller.Add(targetId);
+                    SerialKillerOLD.Add(targetId);
                     break;
                 case CustomRoles.FireWorks:
-                    FireWorks.Add(targetId);
+                    FireWorksOLD.Add(targetId);
                     break;
                 case CustomRoles.TimeThief:
-                    TimeThief.Add(targetId);
+                    TimeThiefOLD.Add(targetId);
                     break;
                 case CustomRoles.Sniper:
-                    Sniper.Add(targetId);
+                    SniperOLD.Add(targetId);
                     break;
                 case CustomRoles.Mare:
-                    Mare.Add(targetId);
+                    MareOLD.Add(targetId);
                     break;
                 case CustomRoles.EvilTracker:
-                    EvilTracker.Add(targetId);
+                    EvilTrackerOLD.Add(targetId);
                     break;
                 case CustomRoles.Witch:
-                    Witch.Add(targetId);
+                    WitchOLD.Add(targetId);
                     break;
 
                 case CustomRoles.Egoist:
-                    Egoist.Add(targetId);
+                    EgoistOLD.Add(targetId);
                     break;
                 case CustomRoles.SchrodingerCat:
-                    SchrodingerCat.Add(targetId);
+                    SchrodingerCatOLD.Add(targetId);
                     break;
                 case CustomRoles.EgoSchrodingerCat:
                     TeamEgoist.Add(targetId);
                     break;
                 case CustomRoles.Executioner:
-                    Executioner.Add(targetId);
+                    ExecutionerOLD.Add(targetId);
                     break;
                 case CustomRoles.Jackal:
-                    Jackal.Add(targetId);
+                    JackalOLD.Add(targetId);
                     break;
 
                 case CustomRoles.Sheriff:
-                    Sheriff.Add(targetId);
+                    SheriffOLD.Add(targetId);
                     break;
                 case CustomRoles.SabotageMaster:
-                    SabotageMaster.Add(targetId);
+                    SabotageMasterOLD.Add(targetId);
                     break;
                 case CustomRoles.LastImpostor:
                     LastImpostor.Add(targetId);

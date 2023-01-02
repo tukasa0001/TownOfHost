@@ -15,7 +15,7 @@ using UnityEngine;
 
 namespace TownOfHost.Roles;
 
-public abstract class CustomRole: AbstractBaseRole
+public abstract class CustomRole : AbstractBaseRole
 {
     private bool escorted = false;
     private bool impostorRoleVent;
@@ -34,7 +34,7 @@ public abstract class CustomRole: AbstractBaseRole
     /// <returns>Shallow clone of this class (except for certain fields such as roleOptions being a deep clone)</returns>
     public CustomRole Instantiate(PlayerControl player)
     {
-        CustomRole cloned = (CustomRole) this.MemberwiseClone();
+        CustomRole cloned = (CustomRole)this.MemberwiseClone();
         cloned.MyPlayer = player;
         cloned.roleSpecificGameOptionOverrides = new();
         cloned.currentOverrides = new();
@@ -116,13 +116,14 @@ public abstract class CustomRole: AbstractBaseRole
             // Send to all clients, excluding allies, that you're a crewmate
             RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((byte)RoleTypes.Crewmate).SendToAll(exclude: allies);
             // Send to allies your real role
-            RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((byte) assignedType).SendToFollowing(include: allies);
+            RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((byte)assignedType).SendToFollowing(include: allies);
             // Finally, for all players that are not your allies make them crewmates
             PlayerControl.AllPlayerControls.ToArray()
                 .Where(pc => !allies.Contains(pc.GetClientId()) && pc.PlayerId != MyPlayer.PlayerId)
                 .Do(pc => RpcV2.Immediate(pc.NetId, (byte)RpcCalls.SetRole).Write((byte)RoleTypes.Crewmate).Send(MyPlayer.GetClientId()));
             if (this.Factions.Contains(Faction.Impostors)) allies.Do(p => MyPlayer.GetDynamicName().RenderAsIf(GameState.InMeeting, specific: p));
-        } else
+        }
+        else
             MyPlayer.RpcSetRole(this.VirtualRole);
         HudManager.Instance.SetHudActive(true);
     }
@@ -147,7 +148,8 @@ public abstract class CustomRole: AbstractBaseRole
         CreateCooldowns();
         this.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic)
             .Where(f => f.GetCustomAttribute<DynElement>() != null)
-            .Do(f => {
+            .Do(f =>
+            {
                 DynElement dynElement = f.GetCustomAttribute<DynElement>();
                 bool isCooldown = false;
                 try { isCooldown = f.GetValue(this) is Cooldown; }
@@ -165,7 +167,8 @@ public abstract class CustomRole: AbstractBaseRole
 
         this.GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic)
             .Where(m => m.GetCustomAttribute<DynElement>() != null)
-            .Do(m => {
+            .Do(m =>
+            {
                 DynElement dynElement = m.GetCustomAttribute<DynElement>();
                 if (m.GetParameters().Length > 0)
                     throw new ConstraintException("Methods marked by DynElement must have no parameters");

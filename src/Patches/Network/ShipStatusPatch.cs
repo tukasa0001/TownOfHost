@@ -4,6 +4,7 @@ using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using UnityEngine;
+using TownOfHost.Roles;
 
 namespace TownOfHost
 {
@@ -62,7 +63,7 @@ namespace TownOfHost
             if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && systemType == SystemTypes.Sabotage) return false;
             //SabotageMaster
             if (player.Is(CustomRoles.SabotageMaster))
-                SabotageMaster.RepairSystem(__instance, systemType, amount);
+                SabotageMasterOLD.RepairSystem(__instance, systemType, amount);
 
             if (systemType == SystemTypes.Electrical && 0 <= amount && amount <= 4)
             {
@@ -81,7 +82,7 @@ namespace TownOfHost
                 && systemType == SystemTypes.Comms //システムタイプが通信室
                 && amount is 0 or 16 or 17)
                 return false;
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || (player.Is(CustomRoles.Jackal) && !Jackal.CanUseSabotage.GetBool()))
+            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || (player.Is(CustomRoles.Jackal) && !JackalOLD.CanUseSabotage.GetBool()))
             {
                 if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
             }
@@ -123,7 +124,7 @@ namespace TownOfHost
         public static void Postfix(SwitchSystem __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] byte amount)
         {
             if (player.Is(CustomRoles.SabotageMaster))
-                SabotageMaster.SwitchSystemRepair(__instance, amount);
+                SabotageMasterOLD.SwitchSystemRepair(__instance, amount);
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Start))]

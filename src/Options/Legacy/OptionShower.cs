@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static TownOfHost.Translator;
+using TownOfHost.Roles;
 
 namespace TownOfHost
 {
@@ -34,7 +35,7 @@ namespace TownOfHost
                 if (Options.CurrentGameMode == CustomGameMode.Standard)
                 {
                     //有効な役職一覧
-                    text += $"<color={Utils.GetRoleColorCode(CustomRoles.GM)}>{Utils.GetRoleName(CustomRoles.GM)}:</color> {Options.EnableGM.GetString()}\n\n";
+                    text += $"<color={Utils.GetRoleColorCode(GM.Ref<GM>())}>{Utils.GetRoleName(GM.Ref<GM>())}:</color> {Options.EnableGM.GetString()}\n\n";
                     text += GetString("ActiveRolesList") + "\n";
                     foreach (var kvp in Options.CustomRoleSpawnChances)
                         if (kvp.Value.GameMode is CustomGameMode.Standard or CustomGameMode.All && kvp.Value.GetBool()) //スタンダードか全てのゲームモードで表示する役職

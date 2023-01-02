@@ -5,9 +5,9 @@ using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using TownOfHost.Extensions;
 using static TownOfHost.Translator;
+using TownOfHost.Roles;
 
 namespace TownOfHost
 {
@@ -57,19 +57,19 @@ namespace TownOfHost
             {//MOD入り用のボタン下テキスト変更
                 switch (player.GetCustomRole())
                 {
-                    case CustomRoles.Sniper:
-                        __instance.AbilityButton.OverrideText(Sniper.OverrideShapeText(player.PlayerId));
+                    case Sniper:
+                        __instance.AbilityButton.OverrideText(SniperOLD.OverrideShapeText(player.PlayerId));
                         break;
-                    case CustomRoles.FireWorks:
-                        if (FireWorks.nowFireWorksCount[player.PlayerId] == 0)
+                    case FireWorks:
+                        if (FireWorksOLD.nowFireWorksCount[player.PlayerId] == 0)
                             __instance.AbilityButton.OverrideText($"{GetString("FireWorksExplosionButtonText")}");
                         else
                             __instance.AbilityButton.OverrideText($"{GetString("FireWorksInstallAtionButtonText")}");
                         break;
-                    case CustomRoles.SerialKiller:
-                        SerialKiller.GetAbilityButtonText(__instance, player);
+                    case SerialKiller:
+                        SerialKillerOLD.GetAbilityButtonText(__instance, player);
                         break;
-                    case CustomRoles.Warlock:
+                    case Warlock:
                         if (!Main.CheckShapeshift[player.PlayerId] && !Main.isCurseAndKill[player.PlayerId])
                         {
                             __instance.KillButton.OverrideText($"{GetString("WarlockCurseButtonText")}");
@@ -79,23 +79,23 @@ namespace TownOfHost
                             __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
                         }
                         break;
-                    case CustomRoles.Witch:
-                        Witch.GetAbilityButtonText(__instance);
+                    case Witch:
+                        WitchOLD.GetAbilityButtonText(__instance);
                         break;
-                    case CustomRoles.Vampire:
+                    case Vampire:
                         __instance.KillButton.OverrideText($"{GetString("VampireBiteButtonText")}");
                         break;
-                    case CustomRoles.Arsonist:
+                    case Arsonist:
                         __instance.KillButton.OverrideText($"{GetString("ArsonistDouseButtonText")}");
                         break;
-                    case CustomRoles.Puppeteer:
+                    case Puppeteer:
                         __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
                         break;
-                    case CustomRoles.BountyHunter:
-                        BountyHunter.GetAbilityButtonText(__instance);
+                    case BountyHunter:
+                        BountyHunterOLD.GetAbilityButtonText(__instance);
                         break;
-                    case CustomRoles.EvilTracker:
-                        EvilTracker.GetAbilityButtonText(__instance, player.PlayerId);
+                    case EvilTracker:
+                        EvilTrackerOLD.GetAbilityButtonText(__instance, player.PlayerId);
                         break;
                 }
 
@@ -113,16 +113,16 @@ namespace TownOfHost
                     LowerInfoText.fontSizeMax = 2.0f;
                 }
 
-                if (player.Is(CustomRoles.BountyHunter)) BountyHunter.DisplayTarget(player, LowerInfoText);
-                else if (player.Is(CustomRoles.Witch))
+                if (player.Is(BountyHunter.Ref<BountyHunter>())) BountyHunterOLD.DisplayTarget(player, LowerInfoText);
+                else if (player.Is(Witch.Ref<Witch>()))
                 {
                     //魔女用処理
-                    LowerInfoText.text = Witch.GetSpellModeText(player, true);
+                    LowerInfoText.text = WitchOLD.GetSpellModeText(player, true);
                     LowerInfoText.enabled = true;
                 }
-                else if (player.Is(CustomRoles.FireWorks))
+                else if (player.Is(FireWorks.Ref<FireWorks>()))
                 {
-                    var stateText = FireWorks.GetStateText(player);
+                    var stateText = FireWorksOLD.GetStateText(player);
                     LowerInfoText.text = stateText;
                     LowerInfoText.enabled = true;
                 }
@@ -146,14 +146,14 @@ namespace TownOfHost
                 }
                 switch (player.GetCustomRole())
                 {
-                    case CustomRoles.Madmate:
-                    case CustomRoles.SKMadmate:
-                    case CustomRoles.Jester:
+                    case Madmate:
+                    case SKMadmate:
+                    case Jester:
                         TaskTextPrefix += FakeTasksText;
                         break;
-                    case CustomRoles.Sheriff:
-                    case CustomRoles.Arsonist:
-                    case CustomRoles.Jackal:
+                    case Sheriff:
+                    case Arsonist:
+                    case Jackal:
                         player.CanUseImpostorVent();
                         if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                             player.Data.Role.CanUseKillButton = true;
@@ -206,9 +206,9 @@ namespace TownOfHost
             var player = PlayerControl.LocalPlayer;
             if (!GameStates.IsInTask) return;
 
-            if ((player.GetCustomRole() == CustomRoles.Sheriff ||
-                player.GetCustomRole() == CustomRoles.Arsonist ||
-                player.GetCustomRole() == CustomRoles.Jackal)
+            if ((player.GetCustomRole() is Sheriff ||
+                player.GetCustomRole() is Arsonist ||
+                player.GetCustomRole() is Jackal)
             && !player.Data.IsDead)
             {
                 ((Renderer)__instance.cosmetics.currentBodySprite.BodySprite).material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));
@@ -238,16 +238,16 @@ namespace TownOfHost
             var player = PlayerControl.LocalPlayer;
             switch (player.GetCustomRole())
             {
-                case CustomRoles.Sheriff:
-                case CustomRoles.Arsonist:
+                case Sheriff:
+                case Arsonist:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
-                case CustomRoles.Jackal:
-                    Jackal.SetHudActive(__instance, isActive, player);
+                case Jackal:
+                    JackalOLD.SetHudActive(__instance, isActive, player);
                     break;
             }
         }
@@ -258,7 +258,7 @@ namespace TownOfHost
         public static void Prefix(ref RoleTeamTypes __state)
         {
             var player = PlayerControl.LocalPlayer;
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist))
+            if (player.Is(Sheriff.Ref<Sheriff>()) || player.Is(Arsonist.Ref<Arsonist>()))
             {
                 __state = player.Data.Role.TeamType;
                 player.Data.Role.TeamType = RoleTeamTypes.Crewmate;
@@ -268,7 +268,7 @@ namespace TownOfHost
         public static void Postfix(ref RoleTeamTypes __state)
         {
             var player = PlayerControl.LocalPlayer;
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist))
+            if (player.Is(Sheriff.Ref<Sheriff>()) || player.Is(Arsonist.Ref<Arsonist>()))
             {
                 player.Data.Role.TeamType = __state;
             }

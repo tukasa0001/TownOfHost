@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TownOfHost
 {
-    public static class TimeThief
+    public static class TimeThiefOLD
     {
         static readonly int Id = 2400;
         static List<byte> playerIdList = new();

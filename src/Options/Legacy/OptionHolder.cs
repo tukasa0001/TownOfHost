@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HarmonyLib;
 using UnityEngine;
+using TownOfHost.Roles;
 
 namespace TownOfHost
 {
@@ -329,27 +330,27 @@ namespace TownOfHost
             CustomRoleSpawnChances = new();
             // GM
             EnableGM = BooleanOptionItem.Create(100, "GM", false, TabGroup.MainSettings, false)
-                .SetColor(Utils.GetRoleColor(CustomRoles.GM))
+                .SetColor(Utils.GetRoleColor(GM.Ref<GM>()))
                 .SetHeader(true)
                 .SetGameMode(CustomGameMode.Standard);
 
             // Impostor
-            BountyHunter.SetupCustomOption();
-            SerialKiller.SetupCustomOption();
+            BountyHunterOLD.SetupCustomOption();
+            SerialKillerOLD.SetupCustomOption();
             // SetupRoleOptions(1200, CustomRoles.ShapeMaster);
             // ShapeMasterShapeshiftDuration = CustomOption.Create(1210, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
             SetupRoleOptions(1300, TabGroup.ImpostorRoles, CustomRoles.Vampire);
             VampireKillDelay = FloatOptionItem.Create(1310, "VampireKillDelay", new(1f, 1000f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Vampire])
                 .SetValueFormat(OptionFormat.Seconds);
             SetupRoleOptions(1400, TabGroup.ImpostorRoles, CustomRoles.Warlock);
-            Witch.SetupCustomOption();
+            WitchOLD.SetupCustomOption();
             SetupRoleOptions(1600, TabGroup.ImpostorRoles, CustomRoles.Mafia);
-            FireWorks.SetupCustomOption();
-            Sniper.SetupCustomOption();
+            FireWorksOLD.SetupCustomOption();
+            SniperOLD.SetupCustomOption();
             SetupRoleOptions(2000, TabGroup.ImpostorRoles, CustomRoles.Puppeteer);
-            Mare.SetupCustomOption();
-            TimeThief.SetupCustomOption();
-            EvilTracker.SetupCustomOption();
+            MareOLD.SetupCustomOption();
+            TimeThiefOLD.SetupCustomOption();
+            EvilTrackerOLD.SetupCustomOption();
 
             DefaultShapeshiftCooldown = FloatOptionItem.Create(5011, "DefaultShapeshiftCooldown", new(5f, 999f, 5f), 15f, TabGroup.ImpostorRoles, false)
                 .SetHeader(true)
@@ -362,12 +363,12 @@ namespace TownOfHost
             SetupRoleOptions(10100, TabGroup.ImpostorRoles, CustomRoles.MadGuardian);
             MadGuardianCanSeeWhoTriedToKill = BooleanOptionItem.Create(10110, "MadGuardianCanSeeWhoTriedToKill", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.MadGuardian]);
             //ID10120~10123を使用
-            MadGuardianTasks = OverrideTasksData.Create(10120, TabGroup.ImpostorRoles, CustomRoles.MadGuardian);
+            MadGuardianTasks = OverrideTasksData.Create(10120, TabGroup.ImpostorRoles, CustomRoles.MadGuardian, MadGuardian.Ref<MadGuardian>());
             SetupRoleOptions(10200, TabGroup.ImpostorRoles, CustomRoles.MadSnitch);
             MadSnitchCanVent = BooleanOptionItem.Create(10210, "CanVent", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.MadSnitch]);
             MadSnitchCanAlsoBeExposedToImpostor = BooleanOptionItem.Create(10211, "MadSnitchCanAlsoBeExposedToImpostor", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.MadSnitch]);
             //ID10220~10223を使用
-            MadSnitchTasks = OverrideTasksData.Create(10220, TabGroup.ImpostorRoles, CustomRoles.MadSnitch);
+            MadSnitchTasks = OverrideTasksData.Create(10220, TabGroup.ImpostorRoles, CustomRoles.MadSnitch, MadSnitch.Ref<MadSnitch>());
             // Madmate Common Options
             MadmateCanFixLightsOut = BooleanOptionItem.Create(15010, "MadmateCanFixLightsOut", false, TabGroup.ImpostorRoles, false)
                 .SetHeader(true);
@@ -397,14 +398,14 @@ namespace TownOfHost
             MayorHasPortableButton = BooleanOptionItem.Create(20211, "MayorHasPortableButton", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mayor]);
             MayorNumOfUseButton = IntegerOptionItem.Create(20212, "MayorNumOfUseButton", new(1, 99, 1), 1, TabGroup.CrewmateRoles, false).SetParent(MayorHasPortableButton)
                 .SetValueFormat(OptionFormat.Times);
-            SabotageMaster.SetupCustomOption();
-            Sheriff.SetupCustomOption();
+            SabotageMasterOLD.SetupCustomOption();
+            SheriffOLD.SetupCustomOption();
             SetupRoleOptions(20500, TabGroup.CrewmateRoles, CustomRoles.Snitch);
             SnitchEnableTargetArrow = BooleanOptionItem.Create(20510, "SnitchEnableTargetArrow", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanGetArrowColor = BooleanOptionItem.Create(20511, "SnitchCanGetArrowColor", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanFindNeutralKiller = BooleanOptionItem.Create(20512, "SnitchCanFindNeutralKiller", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
             //20520~20523を使用
-            SnitchTasks = OverrideTasksData.Create(20520, TabGroup.CrewmateRoles, CustomRoles.Snitch);
+            SnitchTasks = OverrideTasksData.Create(20520, TabGroup.CrewmateRoles, CustomRoles.Snitch, Snitch.Ref<Snitch>());
             SetupRoleOptions(20600, TabGroup.CrewmateRoles, CustomRoles.SpeedBooster);
             SpeedBoosterUpSpeed = FloatOptionItem.Create(20610, "SpeedBoosterUpSpeed", new(0.1f, 0.5f, 0.1f), 0.3f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
                 .SetValueFormat(OptionFormat.Multiplier);
@@ -431,13 +432,13 @@ namespace TownOfHost
             CanTerroristSuicideWin = BooleanOptionItem.Create(50210, "CanTerroristSuicideWin", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Terrorist])
                 .SetGameMode(CustomGameMode.Standard);
             //50220~50223を使用
-            TerroristTasks = OverrideTasksData.Create(50220, TabGroup.NeutralRoles, CustomRoles.Terrorist);
+            TerroristTasks = OverrideTasksData.Create(50220, TabGroup.NeutralRoles, CustomRoles.Terrorist, Terrorist.Ref<Terrorist>());
             SetupLoversRoleOptionsToggle(50300);
 
-            SchrodingerCat.SetupCustomOption();
-            Egoist.SetupCustomOption();
-            Executioner.SetupCustomOption();
-            Jackal.SetupCustomOption();
+            SchrodingerCatOLD.SetupCustomOption();
+            EgoistOLD.SetupCustomOption();
+            ExecutionerOLD.SetupCustomOption();
+            JackalOLD.SetupCustomOption();
 
             // Add-Ons
             LastImpostor.SetupCustomOption();
@@ -701,7 +702,7 @@ namespace TownOfHost
         }
         public class OverrideTasksData
         {
-            public static Dictionary<CustomRoles, OverrideTasksData> AllData = new();
+            public static Dictionary<CustomRole, OverrideTasksData> AllData = new();
             public CustomRoles Role { get; private set; }
             public int IdStart { get; private set; }
             public OptionItem doOverride;
@@ -709,11 +710,11 @@ namespace TownOfHost
             public OptionItem numLongTasks;
             public OptionItem numShortTasks;
 
-            public OverrideTasksData(int idStart, TabGroup tab, CustomRoles role)
+            public OverrideTasksData(int idStart, TabGroup tab, CustomRoles role, CustomRole crole)
             {
                 this.IdStart = idStart;
                 this.Role = role;
-                Dictionary<string, string> replacementDic = new() { { "%role%", Utils.GetRoleName(role) } };
+                Dictionary<string, string> replacementDic = new() { { "%role%", Utils.GetRoleName(crole) } };
                 doOverride = BooleanOptionItem.Create(idStart++, "doOverride", false, tab, false).SetParent(CustomRoleSpawnChances[role])
                     .SetValueFormat(OptionFormat.None);
                 doOverride.ReplacementDictionary = replacementDic;
@@ -727,12 +728,12 @@ namespace TownOfHost
                     .SetValueFormat(OptionFormat.Pieces);
                 numShortTasks.ReplacementDictionary = replacementDic;
 
-                if (!AllData.ContainsKey(role)) AllData.Add(role, this);
+                if (!AllData.ContainsKey(crole)) AllData.Add(crole, this);
                 else Logger.Warn("重複したCustomRolesを対象とするOverrideTasksDataが作成されました", "OverrideTasksData");
             }
-            public static OverrideTasksData Create(int idStart, TabGroup tab, CustomRoles role)
+            public static OverrideTasksData Create(int idStart, TabGroup tab, CustomRoles role, CustomRole crole)
             {
-                return new OverrideTasksData(idStart, tab, role);
+                return new OverrideTasksData(idStart, tab, role, crole);
             }
         }
     }

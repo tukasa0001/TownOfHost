@@ -5,6 +5,7 @@ using Hazel;
 using InnerNet;
 using TownOfHost.Extensions;
 using UnityEngine;
+using TownOfHost.Roles;
 
 namespace TownOfHost
 {
@@ -56,10 +57,10 @@ namespace TownOfHost
 
                     bool doComms = false;
                     Vector2 PlayerPos = pc.GetTruePosition();
-                    bool ignore = (Options.DisableDevicesIgnoreImpostors.GetBool() && pc.Is(RoleType.Impostor)) ||
-                            (Options.DisableDevicesIgnoreMadmates.GetBool() && pc.Is(RoleType.Madmate)) ||
-                            (Options.DisableDevicesIgnoreNeutrals.GetBool() && pc.Is(RoleType.Neutral)) ||
-                            (Options.DisableDevicesIgnoreCrewmates.GetBool() && pc.Is(RoleType.Crewmate)) ||
+                    bool ignore = (Options.DisableDevicesIgnoreImpostors.GetBool() && pc.Is(Roles.RoleType.Impostor)) ||
+                            (Options.DisableDevicesIgnoreMadmates.GetBool() && pc.Is(Roles.RoleType.Madmate)) ||
+                            (Options.DisableDevicesIgnoreNeutrals.GetBool() && pc.Is(Roles.RoleType.Neutral)) ||
+                            (Options.DisableDevicesIgnoreCrewmates.GetBool() && pc.Is(Roles.RoleType.Crewmate)) ||
                             (Options.DisableDevicesIgnoreAfterAnyoneDied.GetBool() && GameStates.AlreadyDied);
 
                     if (pc.IsAlive() && !Utils.IsActive(SystemTypes.Comms))
@@ -137,12 +138,12 @@ namespace TownOfHost
         public static void UpdateDisableDevices()
         {
             var player = PlayerControl.LocalPlayer;
-            bool ignore = player.Is(CustomRoles.GM) ||
+            bool ignore = player.Is(GM.Ref<GM>()) ||
                 player.Data.IsDead ||
-                (Options.DisableDevicesIgnoreImpostors.GetBool() && player.Is(RoleType.Impostor)) ||
-                (Options.DisableDevicesIgnoreMadmates.GetBool() && player.Is(RoleType.Madmate)) ||
-                (Options.DisableDevicesIgnoreNeutrals.GetBool() && player.Is(RoleType.Neutral)) ||
-                (Options.DisableDevicesIgnoreCrewmates.GetBool() && player.Is(RoleType.Crewmate)) ||
+                (Options.DisableDevicesIgnoreImpostors.GetBool() && player.Is(Roles.RoleType.Impostor)) ||
+                (Options.DisableDevicesIgnoreMadmates.GetBool() && player.Is(Roles.RoleType.Madmate)) ||
+                (Options.DisableDevicesIgnoreNeutrals.GetBool() && player.Is(Roles.RoleType.Neutral)) ||
+                (Options.DisableDevicesIgnoreCrewmates.GetBool() && player.Is(Roles.RoleType.Crewmate)) ||
                 (Options.DisableDevicesIgnoreAfterAnyoneDied.GetBool() && GameStates.AlreadyDied);
             var admins = GameObject.FindObjectsOfType<MapConsole>(true);
             var consoles = GameObject.FindObjectsOfType<SystemConsole>(true);

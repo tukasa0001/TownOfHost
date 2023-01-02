@@ -112,7 +112,8 @@ namespace TownOfHost
                 menus.Add(tohSettings.gameObject);
 
                 var tohTab = Object.Instantiate(roleTab, roleTab.transform.parent);
-                tohTab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Utils.LoadSprite($"TownOfHost.assets.TabIcon_{tab}.png", 100f);
+                Logger.Msg("Tab Icon: " + tab, "Loading Tab " + tab);
+                tohTab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Helpers.LoadSpriteFromResources($"TownOfHost.assets.TabIcon_{tab}.png", 100f);
                 tabs.Add(tohTab);
                 var tohTabHighlight = tohTab.transform.FindChild("Hat Button").FindChild("Tab Background").GetComponent<SpriteRenderer>();
                 highlights.Add(tohTabHighlight);

@@ -8,27 +8,32 @@ using InnerNet;
 using TownOfHost.Modules;
 using UnityEngine;
 using static TownOfHost.Translator;
+using TownOfHost.Roles;
 
 namespace TownOfHost.Extensions;
 
 public static class PlayerControlExtensions
 {
-    public static void RpcSetCustomRole(this PlayerControl player, CustomRoles role)
+    public static void RpcSetCustomRole(this PlayerControl player, CustomRole role)
     {
-        if (role < CustomRoles.NotAssigned)
+        // ROLE ASSIGNMENT STUFF IDK WHAT TO DO HERE
+        if (!role.IsSubrole)
         {
-            Main.PlayerStates[player.PlayerId].MainRole = role;
+            //Main.PlayerStates[player.PlayerId].MainRole = role;
         }
-        else if (role >= CustomRoles.NotAssigned)   //500:NoSubRole 501~:SubRole
+        else if (role.IsSubrole)   //500:NoSubRole 501~:SubRole
         {
-            Main.PlayerStates[player.PlayerId].SetSubRole(role);
+            // Main.PlayerStates[player.PlayerId].SetSubRole(role);
         }
         if (AmongUsClient.Instance.AmHost)
         {
+            // TODO: ROLE RPC
+            /*
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
             writer.Write(player.PlayerId);
             writer.WritePacked((int)role);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+            */
         }
     }
     public static void RpcSetCustomRole(byte PlayerId, CustomRoles role)
@@ -56,14 +61,10 @@ public static class PlayerControlExtensions
         var client = player.GetClient();
         return client == null ? -1 : client.Id;
     }
-    public static CustomRoles GetCustomRole(this GameData.PlayerInfo player)
-    {
-        return player == null || player.Object == null ? CustomRoles.Crewmate : player.Object.GetCustomRole();
-    }
     /// <summary>
     /// ※サブロールは取得できません。
     /// </summary>
-    public static CustomRoles GetCustomRole(this PlayerControl player)
+    public static CustomRole GetCustomRole(this PlayerControl player)
     {
         if (player == null)
         {
@@ -71,22 +72,35 @@ public static class PlayerControlExtensions
             var callerMethod = caller.GetMethod();
             string callerMethodName = callerMethod.Name;
             string callerClassName = callerMethod.DeclaringType.FullName;
-            Logger.Warn(callerClassName + "." + callerMethodName + "がCustomRoleを取得しようとしましたが、対象がnullでした。", "GetCustomRole");
-            return CustomRoles.Crewmate;
+            Logger.Warn(callerClassName + "." + callerMethodName + " Invalid Custom Role", "GetCustomRole");
+            return CustomRoleManager.Static.Crewmate;
         }
-        var GetValue = Main.PlayerStates.TryGetValue(player.PlayerId, out var State);
+        // var GetValue = Main.PlayerStates.TryGetValue(player.PlayerId, out var State);
 
-        return GetValue ? State.MainRole : CustomRoles.Crewmate;
+        //  return GetValue ? State.MainRole : CustomRoles.Crewmate;
+        CustomRole? role = CustomRoleManager.PlayersCustomRolesRedux.GetValueOrDefault(player.PlayerId);
+        return role ?? (player.Data.Role == null ? CustomRoleManager.Default
+            : player.Data.Role.Role switch
+            {
+                RoleTypes.Crewmate => CustomRoleManager.Static.Crewmate,
+                RoleTypes.Engineer => CustomRoleManager.Static.Engineer,
+                RoleTypes.Scientist => CustomRoleManager.Static.Scientist,
+                /*RoleTypes.GuardianAngel => CustomRoleManager.Static.GuardianAngel,*/
+                RoleTypes.Impostor => CustomRoleManager.Static.Impostor,
+                RoleTypes.Shapeshifter => CustomRoleManager.Static.Morphling,
+                _ => CustomRoleManager.Default,
+            });
     }
 
-    public static List<CustomRoles> GetCustomSubRoles(this PlayerControl player)
+    public static List<CustomRole> GetCustomSubRoles(this PlayerControl player)
     {
         if (player == null)
         {
             Logger.Warn("CustomSubRoleを取得しようとしましたが、対象がnullでした。", "getCustomSubRole");
-            return new() { CustomRoles.NotAssigned };
+            // new() { Roles.Subrole };
         }
-        return Main.PlayerStates[player.PlayerId].SubRoles;
+        //  return Main.PlayerStates[player.PlayerId].SubRoles;
+        return new();
     }
     public static void RpcSetNameEx(this PlayerControl player, string name)
     {
@@ -163,8 +177,8 @@ public static class PlayerControlExtensions
     }
     public static void SetKillCooldown(this PlayerControl player, float time)
     {
-        CustomRoles role = player.GetCustomRole();
-        if (!(role.IsImpostor() || player.IsNeutralKiller() || role is CustomRoles.Arsonist or CustomRoles.Sheriff)) return;
+        CustomRole role = player.GetCustomRole();
+        if (!(role.IsImpostor() || player.IsNeutralKiller() || role is Arsonist or Roles.Sheriff)) return;
         if (player.AmOwner)
         {
             player.SetKillTimer(time);
@@ -259,6 +273,11 @@ public static class PlayerControlExtensions
         return Main.PlayerStates[player.PlayerId].GetTaskState();
     }
 
+    public static T GetCustomRole<T>(this PlayerControl player) where T : CustomRole
+    {
+        return (T)player.GetCustomRole();
+    }
+
     /*public static GameOptionsData DeepCopy(this GameOptionsData opt)
     {
         var optByte = opt.ToBytes(5);
@@ -277,7 +296,7 @@ public static class PlayerControlExtensions
         foreach (var role in SubRoles)
         {
             if (role == CustomRoles.NotAssigned) continue;
-            sb.Append($" + {Utils.GetRoleName(role)}");
+            //   sb.Append($" + {Utils.GetRoleName(role)}");
         }
 
         return sb.ToString();
@@ -353,14 +372,14 @@ public static class PlayerControlExtensions
     {
         return pc.GetCustomRole() switch
         {
-            CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
-            CustomRoles.Mafia => Utils.CanMafiaKill(),
-            CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
-            CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
-            CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
-            CustomRoles.Arsonist => !pc.IsDouseDone(),
-            CustomRoles.Egoist or CustomRoles.Jackal => true,
-            _ => pc.Is(RoleType.Impostor),
+            Roles.FireWorks => FireWorksOLD.CanUseKillButton(pc),
+            Roles.Mafia => Utils.CanMafiaKill(),
+            Roles.Mare => Utils.IsActive(SystemTypes.Electrical),
+            Roles.Sniper => SniperOLD.CanUseKillButton(pc),
+            Roles.Sheriff => SheriffOLD.CanUseKillButton(pc.PlayerId),
+            Roles.Arsonist => !pc.IsDouseDone(),
+            Roles.Egoist or Jackal => true,
+            _ => pc.Is(Roles.RoleType.Impostor),
         };
     }
     public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
@@ -384,26 +403,26 @@ public static class PlayerControlExtensions
         Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
         switch (player.GetCustomRole())
         {
-            case CustomRoles.SerialKiller:
-                SerialKiller.ApplyKillCooldown(player.PlayerId); //シリアルキラーはシリアルキラーのキルクールに。
+            case SerialKiller:
+                SerialKillerOLD.ApplyKillCooldown(player.PlayerId); //シリアルキラーはシリアルキラーのキルクールに。
                 break;
-            case CustomRoles.TimeThief:
-                TimeThief.SetKillCooldown(player.PlayerId); //タイムシーフはタイムシーフのキルクールに。
+            case TimeThief:
+                TimeThiefOLD.SetKillCooldown(player.PlayerId); //タイムシーフはタイムシーフのキルクールに。
                 break;
-            case CustomRoles.Mare:
-                Mare.SetKillCooldown(player.PlayerId);
+            case Mare:
+                MareOLD.SetKillCooldown(player.PlayerId);
                 break;
-            case CustomRoles.Arsonist:
+            case Arsonist:
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
                 break;
-            case CustomRoles.Egoist:
-                Egoist.ApplyKillCooldown(player.PlayerId);
+            case Egoist:
+                EgoistOLD.ApplyKillCooldown(player.PlayerId);
                 break;
-            case CustomRoles.Jackal:
-                Jackal.SetKillCooldown(player.PlayerId);
+            case Jackal:
+                JackalOLD.SetKillCooldown(player.PlayerId);
                 break;
-            case CustomRoles.Sheriff:
-                Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
+            case Sheriff:
+                SheriffOLD.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
                 break;
         }
         if (player.PlayerId == LastImpostor.currentId)
@@ -428,17 +447,17 @@ public static class PlayerControlExtensions
     {
         switch (player.GetCustomRole())
         {
-            case CustomRoles.Sheriff:
+            case Sheriff:
                 DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
                 player.Data.Role.CanVent = false;
                 return;
-            case CustomRoles.Arsonist:
+            case Arsonist:
                 bool CanUse = player.IsDouseDone();
                 DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(CanUse && !player.Data.IsDead);
                 player.Data.Role.CanVent = CanUse;
                 return;
-            case CustomRoles.Jackal:
-                Jackal.CanUseVent(player);
+            case Jackal:
+                JackalOLD.CanUseVent(player);
                 return;
         }
     }
@@ -508,12 +527,12 @@ public static class PlayerControlExtensions
     {
         return
             player.GetCustomRole() is
-                CustomRoles.Egoist or
-                CustomRoles.Jackal;
+                Egoist or
+                Jackal;
     }
     public static bool KnowDeathReason(this PlayerControl seer, PlayerControl target)
-        => (seer.Is(CustomRoles.Doctor)
-            || (seer.Is(RoleType.Madmate) && Options.MadmateCanSeeDeathReason.GetBool())
+       => (seer.Is(Doctor.Ref<Doctor>())
+            || (seer.Is(Roles.RoleType.Madmate) && Options.MadmateCanSeeDeathReason.GetBool())
             || (seer.Data.IsDead && Options.GhostCanSeeDeathReason.GetBool()))
            && target.Data.IsDead;
     public static string GetRoleInfo(this PlayerControl player, bool InfoLong = false)
@@ -523,11 +542,11 @@ public static class PlayerControlExtensions
         {
             var blurb = role switch
             {
-                CustomRoles.Impostor => StringNames.ImpostorBlurb,
-                CustomRoles.Scientist => InfoLong ? StringNames.ScientistBlurbLong : StringNames.ScientistBlurb,
-                CustomRoles.Engineer => InfoLong ? StringNames.EngineerBlurbLong : StringNames.EngineerBlurb,
-                CustomRoles.GuardianAngel => InfoLong ? StringNames.GuardianAngelBlurbLong : StringNames.GuardianAngelBlurb,
-                CustomRoles.Shapeshifter => InfoLong ? StringNames.ShapeshifterBlurbLong : StringNames.ShapeshifterBlurb,
+                Morphling => InfoLong ? StringNames.ShapeshifterBlurbLong : StringNames.ShapeshifterBlurb,
+                Impostor => StringNames.ImpostorBlurb,
+                Scientist => InfoLong ? StringNames.ScientistBlurbLong : StringNames.ScientistBlurb,
+                Engineer => InfoLong ? StringNames.EngineerBlurbLong : StringNames.EngineerBlurb,
+                GuardianAngel => InfoLong ? StringNames.GuardianAngelBlurbLong : StringNames.GuardianAngelBlurb,
                 _ => StringNames.CrewmateBlurb,
             };
             return (InfoLong ? "\n" : "") + DestroyableSingleton<TranslationController>.Instance.GetString(blurb);
@@ -539,16 +558,16 @@ public static class PlayerControlExtensions
         if (!InfoLong)
             switch (role)
             {
-                case CustomRoles.Mafia:
+                case Mafia:
                     Prefix = Utils.CanMafiaKill() ? "After" : "Before";
                     break;
-                case CustomRoles.EvilWatcher:
-                case CustomRoles.NiceWatcher:
-                    text = CustomRoles.Watcher.ToString();
-                    break;
-                case CustomRoles.MadSnitch:
-                case CustomRoles.MadGuardian:
-                    text = CustomRoles.Madmate.ToString();
+                //    case EvilWatcher:
+                //    case NiceWatcher:
+                //      text = Watcher.ToString();
+                //         break;
+                case MadSnitch:
+                case MadGuardian:
+                    text = role.RoleName;
                     Prefix = player.GetPlayerTaskState().IsTaskFinished ? "" : "Before";
                     break;
             };
@@ -562,8 +581,8 @@ public static class PlayerControlExtensions
             return;
         }
         var State = Main.PlayerStates[target.PlayerId];
-        if (State.deathReason == PlayerState.DeathReason.Sniped) //スナイパー対策
-            killer = Utils.GetPlayerById(Sniper.GetSniper(target.PlayerId));
+        if (State.deathReason == PlayerStateOLD.DeathReason.Sniped) //スナイパー対策
+            killer = Utils.GetPlayerById(SniperOLD.GetSniper(target.PlayerId));
         if (State.RealKiller.Item1 != DateTime.MinValue && NotOverRide) return; //既に値がある場合上書きしない
         byte killerId = killer == null ? byte.MaxValue : killer.PlayerId;
         OldRPC.SetRealKiller(target.PlayerId, killerId);
@@ -575,9 +594,9 @@ public static class PlayerControlExtensions
     }
 
     //汎用
-    public static bool Is(this PlayerControl target, CustomRoles role) =>
-        role > CustomRoles.NotAssigned ? target.GetCustomSubRoles().Contains(role) : target.GetCustomRole() == role;
-    public static bool Is(this PlayerControl target, RoleType type) { return target.GetCustomRole().GetRoleType() == type; }
+    public static bool Is(this PlayerControl target, CustomRole role) =>
+        role.IsSubrole ? target.GetCustomSubRoles().Contains(role) : target.GetCustomRole() == role;
+    public static bool Is(this PlayerControl target, Roles.RoleType type) { return target.GetCustomRole().GetRoleType() == type; }
     public static bool IsAlive(this PlayerControl target) { return target != null && !Main.PlayerStates[target.PlayerId].IsDead; }
 
 }

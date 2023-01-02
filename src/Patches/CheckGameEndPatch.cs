@@ -5,6 +5,7 @@ using HarmonyLib;
 using Hazel;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
+using TownOfHost.Roles;
 
 namespace TownOfHost
 {
@@ -27,12 +28,12 @@ namespace TownOfHost
                 {
                     case CustomWinner.Crewmate:
                         PlayerControl.AllPlayerControls.ToArray()
-                            .Where(pc => pc.Is(RoleType.Crewmate) && !pc.Is(CustomRoles.Lovers))
+                            .Where(pc => pc.Is(Roles.RoleType.Crewmate) && !pc.Is(CustomRoles.Lovers))
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
                     case CustomWinner.Impostor:
                         PlayerControl.AllPlayerControls.ToArray()
-                                .Where(pc => (pc.Is(RoleType.Impostor) || pc.Is(RoleType.Madmate)) && !pc.Is(CustomRoles.Lovers))
+                                .Where(pc => (pc.Is(Roles.RoleType.Impostor) || pc.Is(Roles.RoleType.Madmate)) && !pc.Is(CustomRoles.Lovers))
                                 .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
                 }
@@ -62,12 +63,12 @@ namespace TownOfHost
                 {
                     switch (pc.GetCustomRole().GetRoleType())
                     {
-                        case RoleType.Impostor:
-                        case RoleType.Madmate:
+                        case Roles.RoleType.Impostor:
+                        case Roles.RoleType.Madmate:
                             SetGhostRole(ToGhostImpostor: true);
                             break;
-                        case RoleType.Neutral:
-                        case RoleType.Crewmate:
+                        case Roles.RoleType.Neutral:
+                        case Roles.RoleType.Crewmate:
                             SetGhostRole(ToGhostImpostor: false);
                             break;
                     }
@@ -76,12 +77,12 @@ namespace TownOfHost
                 {
                     switch (pc.GetCustomRole().GetRoleType())
                     {
-                        case RoleType.Impostor:
-                        case RoleType.Madmate:
-                        case RoleType.Neutral:
+                        case Roles.RoleType.Impostor:
+                        case Roles.RoleType.Madmate:
+                        case Roles.RoleType.Neutral:
                             SetGhostRole(ToGhostImpostor: true);
                             break;
-                        case RoleType.Crewmate:
+                        case Roles.RoleType.Crewmate:
                             SetGhostRole(ToGhostImpostor: false);
                             break;
                     }
@@ -177,9 +178,9 @@ namespace TownOfHost
                 reason = GameOverReason.ImpostorByKill;
 
                 int[] counts = CountLivingPlayersByPredicates(
-                    pc => pc.Is(RoleType.Impostor) || pc.Is(CustomRoles.Egoist), //インポスター
+                    pc => pc.Is(Roles.RoleType.Impostor) || pc.Is(CustomRoles.Egoist), //インポスター
                     pc => pc.Is(CustomRoles.Jackal), //ジャッカル
-                    pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Egoist) && !pc.Is(CustomRoles.Jackal) //その他
+                    pc => !pc.Is(Roles.RoleType.Impostor) && !pc.Is(CustomRoles.Egoist) && !pc.Is(CustomRoles.Jackal) //その他
                 );
                 int Imp = counts[0], Jackal = counts[1], Crew = counts[2];
 
@@ -231,8 +232,8 @@ namespace TownOfHost
                 reason = GameOverReason.ImpostorByKill;
 
                 int[] counts = CountLivingPlayersByPredicates(
-                    pc => pc.Is(RoleType.Impostor), //インポスター
-                    pc => pc.Is(RoleType.Crewmate) //クルー(Troll,Fox除く)
+                    pc => pc.Is(Roles.RoleType.Impostor), //インポスター
+                    pc => pc.Is(Roles.RoleType.Crewmate) //クルー(Troll,Fox除く)
                 );
                 int Imp = counts[0], Crew = counts[1];
 

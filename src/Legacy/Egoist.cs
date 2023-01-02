@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TownOfHost
 {
-    public static class Egoist
+    public static class EgoistOLD
     {
         private static readonly int Id = 50600;
         public static List<byte> playerIdList = new();

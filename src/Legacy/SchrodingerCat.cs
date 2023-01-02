@@ -5,7 +5,7 @@ using static TownOfHost.Options;
 
 namespace TownOfHost
 {
-    public static class SchrodingerCat
+    public static class SchrodingerCatOLD
     {
         private static readonly int Id = 50400;
         public static List<byte> playerIdList = new();

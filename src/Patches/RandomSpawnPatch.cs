@@ -5,6 +5,7 @@ using HarmonyLib;
 using Hazel;
 using TownOfHost.Extensions;
 using UnityEngine;
+using TownOfHost.Roles;
 
 namespace TownOfHost
 {
@@ -26,7 +27,7 @@ namespace TownOfHost
                         Logger.Warn("プレイヤーがnullです", "RandomSpawn");
                         return;
                     }
-                    if (player.Is(CustomRoles.GM)) return; //GMは対象外に
+                    if (player.Is(GM.Ref<GM>())) return; //GMは対象外に
 
                     NumOfTP[player.PlayerId]++;
 

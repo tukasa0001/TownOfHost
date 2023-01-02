@@ -6,6 +6,7 @@ using TownOfHost.Extensions;
 using UnityEngine;
 using TownOfHost.Modules;
 using static TownOfHost.Translator;
+using TownOfHost.Roles;
 
 namespace TownOfHost
 {
@@ -48,7 +49,7 @@ namespace TownOfHost
                         winner.Add(pc);
                 }
             }
-            Egoist.OverrideCustomWinner();
+            EgoistOLD.OverrideCustomWinner();
 
             //廃村時の処理など
             if (endGameResult.GameOverReason == GameOverReason.HumansDisconnect ||
@@ -87,7 +88,7 @@ namespace TownOfHost
                     CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
                 }
                 //SchrodingerCat
-                if (SchrodingerCat.CanWinTheCrewmateBeforeChange.GetBool())
+                if (SchrodingerCatOLD.CanWinTheCrewmateBeforeChange.GetBool())
                     if (pc.Is(CustomRoles.SchrodingerCat) && CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
                     {
                         winner.Add(pc);
@@ -138,7 +139,7 @@ namespace TownOfHost
                 Main.winnerList.Add(pc.PlayerId);
             }
 
-            BountyHunter.ChangeTimer = new();
+            BountyHunterOLD.ChangeTimer = new();
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
 
@@ -174,7 +175,7 @@ namespace TownOfHost
 
             string CustomWinnerText = "";
             string AdditionalWinnerText = "";
-            string CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Crewmate);
+            string CustomWinnerColor = Utils.GetRoleColorCode(CustomRoleManager.Static.Crewmate);
 
             var winnerRole = (CustomRoles)CustomWinnerHolder.WinnerTeam;
             if (winnerRole >= 0)
@@ -189,14 +190,14 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost && Main.PlayerStates[0].MainRole == CustomRoles.GM)
             {
                 __instance.WinText.text = "Game Over";
-                __instance.WinText.color = Utils.GetRoleColor(CustomRoles.GM);
-                __instance.BackgroundBar.material.color = Utils.GetRoleColor(CustomRoles.GM);
+                __instance.WinText.color = Utils.GetRoleColor(GM.Ref<GM>());
+                __instance.BackgroundBar.material.color = Utils.GetRoleColor(GM.Ref<GM>());
             }
             switch (CustomWinnerHolder.WinnerTeam)
             {
                 //通常勝利
                 case CustomWinner.Crewmate:
-                    CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Engineer);
+                    CustomWinnerColor = Utils.GetRoleColorCode(CustomRoleManager.Static.Engineer);
                     break;
                 //特殊勝利
                 case CustomWinner.Terrorist:

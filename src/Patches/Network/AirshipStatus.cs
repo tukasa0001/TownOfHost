@@ -1,5 +1,6 @@
 using HarmonyLib;
 using TownOfHost.Extensions;
+using TownOfHost.Roles;
 
 namespace TownOfHost
 {
@@ -9,7 +10,7 @@ namespace TownOfHost
     {
         public static bool Prefix()
         {
-            return !PlayerControl.LocalPlayer.Is(CustomRoles.GM); // GMは湧き画面をスキップ
+            return !PlayerControl.LocalPlayer.Is(GM.Ref<GM>()); // GMは湧き画面をスキップ
         }
     }
 }

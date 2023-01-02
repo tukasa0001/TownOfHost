@@ -4,13 +4,13 @@ namespace TownOfHost.Managers;
 
 public struct PlayerState
 {
-    public static PlayerState Alive = new() { state = InnerState.Alive, deathReason = null};
+    public static PlayerState Alive = new() { state = InnerState.Alive, deathReason = null };
     public static PlayerState Dead = new() { state = InnerState.Dead, deathReason = null };
 
     private InnerState state = InnerState.Unknown;
     private DeathReason? deathReason = null;
 
-    public PlayerState() {}
+    public PlayerState() { }
 
     public override bool Equals(object obj)
     {

@@ -35,9 +35,9 @@ public static class PlayerControlExtensionsRewrite
             });
     }
 
-    public static T GetCustomRoleREWRITE<T>(this PlayerControl player) where T: CustomRole
+    public static T GetCustomRoleREWRITE<T>(this PlayerControl player) where T : CustomRole
     {
-        return (T) player.GetCustomRoleREWRITE();
+        return (T)player.GetCustomRoleREWRITE();
     }
 
     public static Subrole? GetSubrole(this PlayerControl player)
@@ -47,9 +47,9 @@ public static class PlayerControlExtensionsRewrite
         return role[0];
     }
 
-    public static T GetSubrole<T>(this PlayerControl player) where T: Subrole
+    public static T GetSubrole<T>(this PlayerControl player) where T : Subrole
     {
-        return (T) player.GetSubrole()!;
+        return (T)player.GetSubrole()!;
     }
 
     public static List<Subrole> GetSubroles(this PlayerControl player)
