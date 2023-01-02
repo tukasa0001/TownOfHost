@@ -16,8 +16,6 @@ using TownOfHost.Addons;
 using TownOfHost.Interface.Menus;
 using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
-using TownOfHost.Addons;
-using TownOfHost.Roles;
 using TownOfHost.Roles;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]

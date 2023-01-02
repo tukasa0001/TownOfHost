@@ -10,6 +10,8 @@ public static class StaticOptions
 {
     public static bool EnableGM = false;
     public static bool FixFirstKillCooldown = false;
+    public static bool AutoKick = false;
+    public static bool AutoBan = false;
 
     public static bool RolesLikeTOU = true;
 
@@ -38,6 +40,13 @@ public static class StaticOptions
     //StaticOptions.EnableLastImpostor
     public static bool EnableLastImpostor = false;
 
+    public static bool GuardianAngelVoteImmunity = false;
+    public static bool TosOptions = false;
+    public static bool RoundReview = false;
+    public static bool AttackDefenseValues = false;
+    public static bool SKkillsRoleblockers = false;
+    public static bool GameProgression = false;
+    public static bool AmneRemember = false;
 
     public static string GameModeString = "Classic";
     public static string GameModeName = "Classic";
@@ -51,18 +60,15 @@ public static class StaticOptions
     public static bool SabotageTimeControl = false;
     public static bool RandomMapsMode = false;
     public static bool CamoComms = false;
-
+    // MIN/MAX STUFF
     public static int MinNK = 0;
-
-
     public static int MaxNK = 10;
-
-
     public static int MinNonNK = 0;
-
-
     public static int MaxNonNK = 10;
+    public static int MinMadmates = 0;
+    public static int MaxMadmates = 4;
 
+    //////////////////////////////////////
 
     public static bool Customise = false;
     public static object WhichDisableAdmin { get; set; }
@@ -112,7 +118,8 @@ public static class StaticOptions
     public static bool FreeForAllOn = false;
 
     public static bool STIgnoreVent = false;
-
+    public static float AdditionalEmergencyCooldownTime = 0f;
+    public static float AllAliveMeetingTime = 0f;
 
     public static bool JuggerCanVent = false;
     public static bool DisableAdmin = false;
@@ -212,6 +219,7 @@ public static class StaticOptions
     public static bool ChangeNameToRoleInfo { get; set; }
 
     public static bool AdditionalEmergencyCooldown = false;
+    public static int AdditionalEmergencyCooldownThreshold = 0;
 
     public static bool MadSnitchCanVent = false;
     public static int TasksRemainingForPhantomClicked = 1;
@@ -264,9 +272,25 @@ public static class StaticOptions
         );
 
         manager.Add(new SmartOptionBuilder()
+            .Name("AutoKick")
+            .Tab(DefaultTabs.GeneralTab)
+            .IsHeader(true)
+            .BindBool(v => AutoKick = v)
+            .ShowSubOptionsWhen(v => (bool)v)
+            .AddOnOffValues(false)
+            .AddSubOption(sub => sub
+                .Name("Ban instead of Kick")
+                .BindBool(v => AutoBan = v)
+                .AddOnOffValues(false)
+                .Build())
+            .Build()
+            );
+
+        manager.Add(new SmartOptionBuilder()
             .Name("Kill Flash Duration")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
+            .BindFloat(v => KillFlashDuration = v)
             .AddFloatRangeValues(0.1f, 0.45f, 0.05f)
             .Build()
         );
@@ -281,10 +305,52 @@ public static class StaticOptions
             .AddSubOption(sub => sub
                 .Name("Polus Reactor Time Limit")
                 .AddFloatRangeValues(1f, 60f, 1f)
+                .BindFloat(v => PolusReactorTimeLimit = v)
                 .Build())
             .AddSubOption(sub => sub
                 .Name("AirShip Reactor Time Limit")
                 .AddFloatRangeValues(1f, 90f, 1f)
+                .BindFloat(v => AirshipReactorTimeLimit = v)
+                .Build())
+            .Build()
+        );
+
+        manager.Add(new SmartOptionBuilder()
+            .Name("Tos Options")
+            .Tab(DefaultTabs.GeneralTab)
+            .IsHeader(true)
+            .BindBool(v => TosOptions = v)
+            .ShowSubOptionsWhen(v => (bool)v)
+            .AddOnOffValues(false)
+            .AddSubOption(sub => sub
+                .Name("Attack and Defense Values")
+                .BindBool(v => AttackDefenseValues = v)
+                .AddOnOffValues(false)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("Serial Killer kills RoleBlockers")
+                .BindBool(v => SKkillsRoleblockers = v)
+                .AddOnOffValues(false)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("Auto Game Progression")
+                .BindBool(v => GameProgression = v)
+                .AddOnOffValues(false)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("Round Review")
+                .BindBool(v => RoundReview = v)
+                .AddOnOffValues(false)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("Amnesiac Remember Announcement")
+                .BindBool(v => AmneRemember = v)
+                .AddOnOffValues(false)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("Guardian Angel Vote Immunity ")
+                .BindBool(v => GuardianAngelVoteImmunity = v)
+                .AddOnOffValues(false)
                 .Build())
             .Build()
         );
@@ -314,6 +380,23 @@ public static class StaticOptions
             .Build()
         );
 
+        manager.Add(new SmartOptionBuilder()
+           .Name("Players have access to /name, /color, and /level")
+           .Tab(DefaultTabs.GeneralTab)
+           .IsHeader(true)
+           .BindBool(v => Customise = v)
+           .AddOnOffValues(false)
+           .Build()
+       );
+
+        manager.Add(new SmartOptionBuilder()
+            .Name("Roles look like ToUR")
+            .Tab(DefaultTabs.GeneralTab)
+        //    .IsHeader(true)
+            .BindBool(v => RolesLikeTOU = v)
+            .AddOnOffValues(false)
+            .Build()
+        );
         manager.Add(new SmartOptionBuilder()
             .Name("Disable Tasks")
             .Tab(DefaultTabs.GeneralTab)
@@ -411,6 +494,7 @@ public static class StaticOptions
             .AddSubOption(sub => sub
                 .Name("Synced Button Count")
                 .AddIntRangeValues(0, 100, 1)
+                .BindInt(v => SyncedButtonCount = v)
                 .Build())
             .Build()
         );
@@ -462,6 +546,7 @@ public static class StaticOptions
             .AddSubOption(sub => sub
                 .Name("All Alive Meeting Time")
                 .AddFloatRangeValues(1f, 300f, 1f)
+                .BindFloat(v => AllAliveMeetingTime = v)
                 .Build())
             .Build()
         );
@@ -476,10 +561,12 @@ public static class StaticOptions
             .AddSubOption(sub => sub
                 .Name("Additional Emergency Cooldown Threshold")
                 .AddIntRangeValues(1, 15, 1)
+                .BindInt(v => AdditionalEmergencyCooldownThreshold = v)
                 .Build())
             .AddSubOption(sub => sub
                 .Name("Additional Emergency Cooldown Time")
                 .AddFloatRangeValues(1f, 60f, 1f)
+                .BindFloat(v => AdditionalEmergencyCooldownTime = v)
                 .Build())
             .Build()
         );
@@ -494,6 +581,7 @@ public static class StaticOptions
             .AddSubOption(sub => sub
                 .Name("Ladder Death Chance")
                 .AddIntRangeValues(0, 100, 10)
+                .BindInt(v => LadderDeathChance = v)
                 .Build())
             .Build()
         );
@@ -516,6 +604,53 @@ public static class StaticOptions
             .AddOnOffValues(false)
             .Build()
         );
+        // MIN / MAX STUFF //
+        manager.Add(new SmartOptionBuilder()
+            .Name("Min Neutral Killer")
+            .Tab(DefaultTabs.GeneralTab)
+            .IsHeader(true)
+            .AddIntRangeValues(0, 11, 1)
+            .BindInt(v => MinNK = v)
+            .Build()
+        );
+        manager.Add(new SmartOptionBuilder()
+            .Name("Max Neutral Killer")
+            .Tab(DefaultTabs.GeneralTab)
+            .AddIntRangeValues(0, 11, 1)
+            .BindInt(v => MaxNK = v)
+            .Build()
+        );
+        manager.Add(new SmartOptionBuilder()
+            .Name("Min Non-Killing Neutral")
+            .Tab(DefaultTabs.GeneralTab)
+            .IsHeader(true)
+            .AddIntRangeValues(0, 11, 1)
+            .BindInt(v => MinNK = v)
+            .Build()
+        );
+        manager.Add(new SmartOptionBuilder()
+            .Name("Max Non-Killing Neutral")
+            .Tab(DefaultTabs.GeneralTab)
+            .AddIntRangeValues(0, 11, 1)
+            .BindInt(v => MaxNonNK = v)
+            .Build()
+        );
+        manager.Add(new SmartOptionBuilder()
+            .Name("Min Madmates")
+            .Tab(DefaultTabs.GeneralTab)
+            .IsHeader(true)
+            .AddIntRangeValues(0, 4, 1)
+            .BindInt(v => MinMadmates = v)
+            .Build()
+        );
+        manager.Add(new SmartOptionBuilder()
+            .Name("Max Madmates")
+            .Tab(DefaultTabs.GeneralTab)
+            .AddIntRangeValues(0, 4, 1)
+            .BindInt(v => MaxMadmates = v)
+            .Build()
+        );
+        // DONE //
         manager.Add(new SmartOptionBuilder()
             .Name("NoGameEnd")
             .Tab(DefaultTabs.GeneralTab)

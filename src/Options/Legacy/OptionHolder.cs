@@ -516,7 +516,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
             DisableDevicesIgnoreImpostors = BooleanOptionItem.Create(101291, "IgnoreImpostors", false, TabGroup.MainSettings, false).SetParent(DisableDevicesIgnoreConditions)
                 .SetGameMode(CustomGameMode.Standard);
-            DisableDevicesIgnoreMadmates = BooleanOptionItem.Create(101292, "IgnoreMadmates", false, TabGroup.MainSettings, false).SetParent(Dis­ableDevicesIgnoreConditions)
+            DisableDevicesIgnoreMadmates = BooleanOptionItem.Create(101292, "IgnoreMadmates", false, TabGroup.MainSettings, false).SetParent(DisableDevicesIgnoreConditions)
                 .SetGameMode(CustomGameMode.Standard);
             DisableDevicesIgnoreNeutrals = BooleanOptionItem.Create(101293, "IgnoreNeutrals", false, TabGroup.MainSettings, false).SetParent(DisableDevicesIgnoreConditions)
                 .SetGameMode(CustomGameMode.Standard);
