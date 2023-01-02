@@ -287,7 +287,7 @@ namespace TownOfHost
                 if (StaticOptions.SabotageTimeControl) { SendMessage(GetString("SabotageTimeControlInfo"), PlayerId); }
                 if (StaticOptions.RandomMapsMode) { SendMessage(GetString("RandomMapsModeInfo"), PlayerId); }
                 if (OldOptions.IsStandardHAS) { SendMessage(GetString("StandardHASInfo"), PlayerId); }
-                if (StaticOptions.EnableGM == "") { SendMessage(GetRoleName(GM.Ref<GM>()) + GetString("GMInfoLong"), PlayerId); }
+                if (StaticOptions.EnableGM) { SendMessage(GetRoleName(GM.Ref<GM>()) + GetString("GMInfoLong"), PlayerId); }
                 foreach (var role in CustomRoleManager.Roles)
                 {
                     if (role is Fox or Troll) continue;
@@ -373,7 +373,7 @@ namespace TownOfHost
                 return;
             }
             var text = GetString("Roles") + ":";
-            text += string.Format("\n{0}:{1}", GetRoleName(GM.Ref<GM>()), StaticOptions.EnableGM.RemoveHtmlTags());
+            text += string.Format("\n{0}:{1}", GetRoleName(GM.Ref<GM>()), StaticOptions.EnableGM.ToString().RemoveHtmlTags());
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {
                 if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;

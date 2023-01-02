@@ -1,4 +1,5 @@
 using System;
+using TownOfHost.Roles;
 using TownOfHost.Options;
 
 namespace TownOfHost.ReduxOptions;
@@ -7,7 +8,8 @@ namespace TownOfHost.ReduxOptions;
 // TODO: Ideally all of TOH "static" options should end up in here with the use of the new options system
 public static class StaticOptions
 {
-    public static string EnableGM = "";
+    public static bool EnableGM = false;
+    public static bool FixFirstKillCooldown = false;
 
     public static bool RolesLikeTOU = true;
 
@@ -21,7 +23,8 @@ public static class StaticOptions
     public static bool AmnesiacArrow = false;
 
     //StaticOptions.GhostsCanSeeOtherRoles
-    public static bool GhostsCanSeeOtherRoles = false;
+    public static bool GhostsCanSeeOtherRoles = true;
+    public static bool GhostsCanSeeOtherVotes = true;
 
     //StaticOptions.ImpostorKnowsRolesOfTeam
     public static bool ImpostorKnowsRolesOfTeam = false;
@@ -68,6 +71,23 @@ public static class StaticOptions
     public static float PolusReactorTimeLimit = 10.0f;
     public static float AirshipReactorTimeLimit = 10.0f;
     public static string WhenSkipVote = "O";
+    public static readonly string[] voteModes =
+        {
+            "Default", "Suicide", "Self Vote", "Skip"
+        };
+    public static readonly string[] tieModes =
+    {
+        "Default", "All", "Random"
+    };
+    public static readonly string[] suffixModes =
+    {
+            "None",
+            "Version",
+            "Streaming",
+            "Recording",
+            "Room Host",
+            "Original Name"
+        };
     public static string WhenNonVote = ":O";
     public static bool CanTerroristSuicideWin = false;
     public static bool LadderDeath = false;
@@ -125,6 +145,7 @@ public static class StaticOptions
     public static bool AddedTheAirShip = false;
     public static bool JackalCanUseSabotage = false;
     public static bool PestiCanVent = false;
+    public static bool RandomSpawn = false;
     public static bool BKcanVent = false;
     public static bool MarksmanCanVent = false;
     public static bool HitmanCanVent = false;
@@ -154,6 +175,8 @@ public static class StaticOptions
     public static bool CanBeforeSchrodingerCatWinTheCrewmate = false;
     public static bool HitmanCanWinWithExeJes = false;
     public static bool ResetToYinYang = false;
+    public static bool DisableAirshipGapRoomLightsPanel = false;
+    public static bool DisableAirshipCargoLightsPanel = false;
     public static bool JesterCanVent = false;
     public static double VampireKillDelay = 10.0;
     public static bool VampireBuff = false;
@@ -188,11 +211,16 @@ public static class StaticOptions
 
     public static bool ChangeNameToRoleInfo { get; set; }
 
+    public static bool AdditionalEmergencyCooldown = false;
+
     public static bool MadSnitchCanVent = false;
     public static int TasksRemainingForPhantomClicked = 1;
     public static int TasksRemaningForPhantomAlert = 1;
     public static int SaboAmount = 1;
     public static bool MadmateCanFixLightsOut = false;
+    public static bool LightsOutSpecialSettings = false;
+    public static bool DisableAirshipViewingDeckLightsPanel = false;
+    public static bool AirshipAdditionalSpawn = false;
     public static bool MadmateCanFixComms = false;
     public static bool AllowCloseDoors = false;
     public static bool DisableTasks = false;
@@ -214,6 +242,7 @@ public static class StaticOptions
     public static float StoneDuration = 10.0f;
     public static float SpeedBoosterUpSpeed = 10.0f;
     public static float EvilWatcherChance = 10.0f;
+    public static bool AllAliveMeeting = false;
 
     public static bool mayhemOptions;
     public static bool debugOptions;
@@ -225,17 +254,357 @@ public static class StaticOptions
         OptionManager manager = Main.OptionManager;
 
         manager.Add(new SmartOptionBuilder()
-            .Name("NoGameEnd")
+            .Name("GM")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
-            .BindBool(v => Main.NoGameEnd = v)
+            .BindBool(v => EnableGM = v)
             .AddOnOffValues(false)
+            .Color(Utils.GetRoleColor(GM.Ref<GM>()))
             .Build()
         );
 
         manager.Add(new SmartOptionBuilder()
-            .Name("Mayhem Options")
+            .Name("Kill Flash Duration")
+            .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
+            .AddFloatRangeValues(0.1f, 0.45f, 0.05f)
+            .Build()
+        );
+
+        manager.Add(new SmartOptionBuilder()
+            .Name("Sabotage Time Control")
+            .Tab(DefaultTabs.GeneralTab)
+            .IsHeader(true)
+            .ShowSubOptionsWhen(v => (bool)v)
+            .BindBool(v => SabotageTimeControl = v)
+            .AddOnOffValues(false)
+            .AddSubOption(sub => sub
+                .Name("Polus Reactor Time Limit")
+                .AddFloatRangeValues(1f, 60f, 1f)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("AirShip Reactor Time Limit")
+                .AddFloatRangeValues(1f, 90f, 1f)
+                .Build())
+            .Build()
+        );
+
+        manager.Add(new SmartOptionBuilder()
+            .Name("Lights Out Special Settings")
+            .Tab(DefaultTabs.GeneralTab)
+            .IsHeader(true)
+            .ShowSubOptionsWhen(v => (bool)v)
+            .BindBool(v => LightsOutSpecialSettings = v)
+            .AddOnOffValues(false)
+            .AddSubOption(sub => sub
+                .Name("Disable Airship Viewing Deck Lights Panel")
+                .BindBool(v => DisableAirshipViewingDeckLightsPanel = v)
+                .AddOnOffValues(false)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("Disable Airship Gap Room Lights Panel")
+                .BindBool(v => DisableAirshipGapRoomLightsPanel = v)
+                .AddOnOffValues(false)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("Disable Airship Cargo Lights Panel")
+                .BindBool(v => DisableAirshipCargoLightsPanel = v)
+                .AddOnOffValues(false)
+                .Build())
+            .Build()
+        );
+
+        manager.Add(new SmartOptionBuilder()
+            .Name("Disable Tasks")
+            .Tab(DefaultTabs.GeneralTab)
+            .IsHeader(true)
+            .BindBool(v => DisableTasks = v)
+            .ShowSubOptionsWhen(v => (bool)v)
+            .AddOnOffValues(false)
+            .AddSubOption(sub => sub
+                .Name("Disable Swipe Card Task")
+                .BindBool(v => DisableSwipeCard = v)
+                .AddOnOffValues(false)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("Disable Submit Sacan")
+                .BindBool(v => DisableSubmitScan = v)
+                .AddOnOffValues(false)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("Disable Unlock Safe")
+                .BindBool(v => DisableUnlockSafe = v)
+                .AddOnOffValues(false)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("Disable Upload Data")
+                .BindBool(v => DisableUploadData = v)
+                .AddOnOffValues(false)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("Disable Start Reactor")
+                .BindBool(v => DisableStartReactor = v)
+                .AddOnOffValues(false)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("Disable Reset Breaker")
+                .BindBool(v => DisableResetBreaker = v)
+                .AddOnOffValues(false)
+                .Build())
+            .Build()
+        );
+
+        // TODO: DISABLE DEVICES CODE
+
+        manager.Add(new SmartOptionBuilder()
+            .Name("Random Maps Mode")
+            .Tab(DefaultTabs.GeneralTab)
+            .IsHeader(true)
+            .BindBool(v => DisableTasks = v)
+            .ShowSubOptionsWhen(v => (bool)v)
+            .AddOnOffValues(false)
+            .AddSubOption(sub => sub
+                .Name("Add The Skeld")
+                .BindBool(v => AddedTheSkeld = v)
+                .AddOnOffValues(false)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("Add Mira HQ")
+                .BindBool(v => AddedMiraHQ = v)
+                .AddOnOffValues(false)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("Add Polus")
+                .BindBool(v => AddedPolus = v)
+                .AddOnOffValues(false)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("Add The AirShip")
+                .BindBool(v => AddedTheAirShip = v)
+                .AddOnOffValues(false)
+                .Build())
+            .Build()
+        );
+
+        manager.Add(new SmartOptionBuilder()
+            .Name("Random Spawn")
+            .Tab(DefaultTabs.GeneralTab)
+            .IsHeader(true)
+            .BindBool(v => RandomSpawn = v)
+            .ShowSubOptionsWhen(v => (bool)v)
+            .AddOnOffValues(false)
+            .AddSubOption(sub => sub
+                .Name("Airship Additional Spawn")
+                .BindBool(v => AirshipAdditionalSpawn = v)
+                .AddOnOffValues(false)
+                .Build())
+            .Build()
+        );
+
+        manager.Add(new SmartOptionBuilder()
+            .Name("Sync Button Mode")
+            .Tab(DefaultTabs.GeneralTab)
+            .IsHeader(true)
+            .BindBool(v => SyncButtonMode = v)
+            .ShowSubOptionsWhen(v => (bool)v)
+            .AddOnOffValues(false)
+            .AddSubOption(sub => sub
+                .Name("Synced Button Count")
+                .AddIntRangeValues(0, 100, 1)
+                .Build())
+            .Build()
+        );
+
+        manager.Add(new SmartOptionBuilder()
+            .Name("Vote Mode")
+            .Tab(DefaultTabs.GeneralTab)
+            .IsHeader(true)
+            .BindBool(v => VoteMode = v)
+            .ShowSubOptionsWhen(v => (bool)v)
+            .AddOnOffValues(false)
+            .AddSubOption(sub => sub
+                .Name("When Skip Vote")
+                .AddValues(-1, voteModes[0..3])
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("When SkipVote Ignore First Meeting")
+                .BindBool(v => WhenSkipVoteIgnoreFirstMeeting = v)
+                .AddOnOffValues(false)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("When SkipVote Ignore No Dead Body")
+                .BindBool(v => WhenSkipVoteIgnoreNoDeadBody = v)
+                .AddOnOffValues(false)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("When SkipVote Ignore Emergency")
+                .BindBool(v => WhenSkipVoteIgnoreFirstMeeting = v)
+                .AddOnOffValues(false)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("When Non Vote")
+                .AddValues(-1, voteModes)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("When Tie")
+                .AddValues(-1, tieModes)
+                .Build())
+            .Build()
+        );
+
+        manager.Add(new SmartOptionBuilder()
+            .Name("All Alive Meeting")
+            .Tab(DefaultTabs.GeneralTab)
+            .IsHeader(true)
+            .ShowSubOptionsWhen(v => (bool)v)
+            .BindBool(v => AllAliveMeeting = v)
+            .AddOnOffValues(false)
+            .AddSubOption(sub => sub
+                .Name("All Alive Meeting Time")
+                .AddFloatRangeValues(1f, 300f, 1f)
+                .Build())
+            .Build()
+        );
+
+        manager.Add(new SmartOptionBuilder()
+            .Name("Additional Emergency Cooldown")
+            .Tab(DefaultTabs.GeneralTab)
+            .IsHeader(true)
+            .ShowSubOptionsWhen(v => (bool)v)
+            .BindBool(v => AdditionalEmergencyCooldown = v)
+            .AddOnOffValues(false)
+            .AddSubOption(sub => sub
+                .Name("Additional Emergency Cooldown Threshold")
+                .AddIntRangeValues(1, 15, 1)
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("Additional Emergency Cooldown Time")
+                .AddFloatRangeValues(1f, 60f, 1f)
+                .Build())
+            .Build()
+        );
+
+        manager.Add(new SmartOptionBuilder()
+            .Name("Ladder Death")
+            .Tab(DefaultTabs.GeneralTab)
+            .IsHeader(true)
+            .BindBool(v => LadderDeath = v)
+            .ShowSubOptionsWhen(v => (bool)v)
+            .AddOnOffValues(false)
+            .AddSubOption(sub => sub
+                .Name("Ladder Death Chance")
+                .AddIntRangeValues(0, 100, 10)
+                .Build())
+            .Build()
+        );
+
+        // TODO: STANDARDHAS STUFF
+
+        manager.Add(new SmartOptionBuilder()
+            .Name("Fix First Kill Cooldown")
+            .Tab(DefaultTabs.GeneralTab)
+            .IsHeader(true)
+            .BindBool(v => FixFirstKillCooldown = v)
+            .AddOnOffValues(false)
+            .Build()
+        );
+        manager.Add(new SmartOptionBuilder()
+            .Name("Disable Task Win")
+            .Tab(DefaultTabs.GeneralTab)
+        //    .IsHeader(true)
+            .BindBool(v => DisableTaskWin = v)
+            .AddOnOffValues(false)
+            .Build()
+        );
+        manager.Add(new SmartOptionBuilder()
+            .Name("NoGameEnd")
+            .Tab(DefaultTabs.GeneralTab)
+        //    .IsHeader(true)
+            .BindBool(v => Main.NoGameEnd = v)
+            .AddOnOffValues(false)
+            .Build()
+        );
+        manager.Add(new SmartOptionBuilder()
+            .Name("Ghost Can See Other Roles")
+            .Tab(DefaultTabs.GeneralTab)
+        //    .IsHeader(true)
+            .BindBool(v => GhostsCanSeeOtherRoles = v)
+            .AddOnOffValues(true)
+            .Build()
+        );
+        manager.Add(new SmartOptionBuilder()
+            .Name("Ghost Can See Other Votes")
+            .Tab(DefaultTabs.GeneralTab)
+        //    .IsHeader(true)
+            .BindBool(v => GhostsCanSeeOtherVotes = v)
+            .AddOnOffValues(true)
+            .Build()
+        );
+        manager.Add(new SmartOptionBuilder()
+            .Name("Ghosts Ignore Tasks")
+            .Tab(DefaultTabs.GeneralTab)
+        //    .IsHeader(true)
+            .BindBool(v => GhostIgnoreTasks = v)
+            .AddOnOffValues(false)
+            .Build()
+        );
+        manager.Add(new SmartOptionBuilder()
+           .Name("Camouflage Comms")
+           .Tab(DefaultTabs.GeneralTab)
+           //    .IsHeader(true)
+           .BindBool(v => CamoComms = v)
+           .AddOnOffValues(false)
+           .Build()
+       );
+
+        manager.Add(new SmartOptionBuilder()
+            .Name("Auto Display Last Result")
+            .Tab(DefaultTabs.GeneralTab)
+           .IsHeader(true)
+            .BindBool(v => AutoDisplayLastResult = v)
+            .AddOnOffValues(false)
+            .Build()
+        );
+        manager.Add(new SmartOptionBuilder()
+           .Name("Suffix Mode")
+           .Tab(DefaultTabs.GeneralTab)
+           //    .IsHeader(true)
+           .AddValues(-1, suffixModes)
+           .Build()
+        );
+
+        // I hate the fact this option even exists. Players SHOULD know the Lobby Options.
+        /*
+        manager.Add(new SmartOptionBuilder()
+           .Name("Hide Game Settings")
+           .Tab(DefaultTabs.GeneralTab)
+           //    .IsHeader(true)
+           .BindBool(v => HideGameSettings = v)
+           .AddOnOffValues(true)
+           .Build()
+       );
+       */
+        manager.Add(new SmartOptionBuilder()
+            .Name("Color Name Mode")
+            .Tab(DefaultTabs.GeneralTab)
+            //    .IsHeader(true)
+            .BindBool(v => ColorNameMode = v)
+            .AddOnOffValues(false)
+            .Build()
+        );
+
+        // Another option I hate that exists. I have seen multiple complaints about this option.
+        manager.Add(new SmartOptionBuilder()
+           .Name("Change Name to Role Info")
+           .Tab(DefaultTabs.GeneralTab)
+           //    .IsHeader(true)
+           .BindBool(v => ChangeNameToRoleInfo = v)
+           .AddOnOffValues(false)
+           .Build()
+       );
+        manager.Add(new SmartOptionBuilder()
+            .Name("Mayhem Options")
+            .IsHeader(false)
             .ShowSubOptionsWhen(v => (bool)v)
             .BindBool(v => mayhemOptions = v)
             .AddOnOffValues(false)
@@ -244,7 +613,8 @@ public static class StaticOptions
                 .BindBool(v => allRolesCanVent = v && mayhemOptions)
                 .AddOnOffValues(false)
                 .Build())
-            .Build());
+            .Build()
+        );
 
         manager.Add(new SmartOptionBuilder()
             .Name("Debug Options")
@@ -296,141 +666,141 @@ public static class StaticOptions
 }
 
 
-    //Options.JesterCanVent.GetBool()
-    //Options.VultureCanVent.GetBool()
-    //Options.MadSnitchCanVent.GetBool()
-    //Options.MayorHasPortableButton.GetBool()
-    //Options.TrapperBlockMoveTime.GetFloat()
-    //Options.KillFlashDuration.GetFloat()
-    //Options.DemoSuicideTime.GetFloat()
-    //Options.VetDuration.GetFloat()
-    //Options.NumOfVests.GetInt()
-    //Options.VestDuration.GetFloat()
-    //Options.VetDuration.GetFloat()
-    //Options.StoneCD.GetFloat()
-    //Options.StoneDuration.GetFloat()
-    //Options.TOuRArso.GetBool()
-    //Options.JuggerCanVent.GetBool()
-    //Options.JackalCanVent.GetBool()
-    //Options.MarksmanCanVent.GetBool()
-    //Options.PestiCanVent.GetBool()
-    //Options.STIgnoreVent.GetBool()
-    //Options.STIgnoreVent.GetBool()
-    //Options.CanMakeMadmateCount.GetInt()
-    //Options.SpeedBoosterUpSpeed.GetFloat()
-    //Options.EvilWatcherChance.GetFloat()
-    //Options.GameMode.GetName()
-    //Options.EnableLastImpostor.GetString()
-    //Options.EnableLastImpostor.GetString()
-    //Options.LastImpostorKillCooldown.GetString()
-    //Options.GlobalRoleBlockDuration.GetString()
-    //Options.TasksRemainingForPhantomClicked.GetInt()
-    //Options.TasksRemaningForPhantomAlert.GetInt()
-    //Options.CanMakeMadmateCount.GetInt()
-    //Options.TargetKnowsGA.GetBool()
-    //Options.DisableDevices.GetBool()
-    //Options.SyncButtonMode.GetBool()
-    //Options.SabotageTimeControl.GetBool()
-    //Options.RandomMapsMode.GetBool()
-    //Options.CamoComms.GetBool()
-    //Options.CamoComms.GetBool()
-    //Options.MinNK.GetString()
-    //Options.MaxNK.GetString()
-    //Options.MinNonNK.GetString()
-    //Options.MaxNonNK.GetString()
-    //Options.ImpostorKnowsRolesOfTeam.GetString()
-    //Options.CovenKnowsRolesOfTeam.GetString()
-    //Options.GameMode.GetString()
-    //Options.Customise.GetBool()
-    //Options.LastImpostorKillCooldown.GetString()
-    //Options.DisableDevices.GetBool()
-    //Options.DisableDevices.GetBool()
-    //Options.WhichDisableAdmin.GetString()
-    //Options.AirshipReactorTimeLimit.GetString()
-    //Options.PolusReactorTimeLimit.GetString()
-    //Options.VoteMode.GetBool()
-    //Options.GetWhenSkipVote()
-    //Options.CanTerroristSuicideWin.GetBool()
-    //Options.LadderDeath.GetBool()
-    //Options.LadderDeath.GetBool()
-    //Options.LadderDeathChance.GetString()
-    //Options.StandardHAS.GetBool()
-    //Options.ExeTargetShowsEvil.GetBool()
-    //Options.DisableTaskWin.GetBool()
-    //Options.GAdependsOnTaregtRole.GetBool()
-    //Options.CkshowEvil.GetBool()
-    //Options.NBshowEvil.GetBool()
-    //Options.MadmatesAreEvil.GetBool()
-    //Options.ColorNameMode.GetBool()
-    //Options.GetSuffixMode()
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
+//Options.JesterCanVent.GetBool()
+//Options.VultureCanVent.GetBool()
+//Options.MadSnitchCanVent.GetBool()
+//Options.MayorHasPortableButton.GetBool()
+//Options.TrapperBlockMoveTime.GetFloat()
+//Options.KillFlashDuration.GetFloat()
+//Options.DemoSuicideTime.GetFloat()
+//Options.VetDuration.GetFloat()
+//Options.NumOfVests.GetInt()
+//Options.VestDuration.GetFloat()
+//Options.VetDuration.GetFloat()
+//Options.StoneCD.GetFloat()
+//Options.StoneDuration.GetFloat()
+//Options.TOuRArso.GetBool()
+//Options.JuggerCanVent.GetBool()
+//Options.JackalCanVent.GetBool()
+//Options.MarksmanCanVent.GetBool()
+//Options.PestiCanVent.GetBool()
+//Options.STIgnoreVent.GetBool()
+//Options.STIgnoreVent.GetBool()
+//Options.CanMakeMadmateCount.GetInt()
+//Options.SpeedBoosterUpSpeed.GetFloat()
+//Options.EvilWatcherChance.GetFloat()
+//Options.GameMode.GetName()
+//Options.EnableLastImpostor.GetString()
+//Options.EnableLastImpostor.GetString()
+//Options.LastImpostorKillCooldown.GetString()
+//Options.GlobalRoleBlockDuration.GetString()
+//Options.TasksRemainingForPhantomClicked.GetInt()
+//Options.TasksRemaningForPhantomAlert.GetInt()
+//Options.CanMakeMadmateCount.GetInt()
+//Options.TargetKnowsGA.GetBool()
+//Options.DisableDevices.GetBool()
+//Options.SyncButtonMode.GetBool()
+//Options.SabotageTimeControl.GetBool()
+//Options.RandomMapsMode.GetBool()
+//Options.CamoComms.GetBool()
+//Options.CamoComms.GetBool()
+//Options.MinNK.GetString()
+//Options.MaxNK.GetString()
+//Options.MinNonNK.GetString()
+//Options.MaxNonNK.GetString()
+//Options.ImpostorKnowsRolesOfTeam.GetString()
+//Options.CovenKnowsRolesOfTeam.GetString()
+//Options.GameMode.GetString()
+//Options.Customise.GetBool()
+//Options.LastImpostorKillCooldown.GetString()
+//Options.DisableDevices.GetBool()
+//Options.DisableDevices.GetBool()
+//Options.WhichDisableAdmin.GetString()
+//Options.AirshipReactorTimeLimit.GetString()
+//Options.PolusReactorTimeLimit.GetString()
+//Options.VoteMode.GetBool()
+//Options.GetWhenSkipVote()
+//Options.CanTerroristSuicideWin.GetBool()
+//Options.LadderDeath.GetBool()
+//Options.LadderDeath.GetBool()
+//Options.LadderDeathChance.GetString()
+//Options.StandardHAS.GetBool()
+//Options.ExeTargetShowsEvil.GetBool()
+//Options.DisableTaskWin.GetBool()
+//Options.GAdependsOnTaregtRole.GetBool()
+//Options.CkshowEvil.GetBool()
+//Options.NBshowEvil.GetBool()
+//Options.MadmatesAreEvil.GetBool()
+//Options.ColorNameMode.GetBool()
+//Options.GetSuffixMode()
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
