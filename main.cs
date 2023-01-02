@@ -12,8 +12,12 @@ using Il2CppInterop.Runtime.Injection;
 using System.Net;
 using TownOfHost.Patches;
 using System.Net.Sockets;
+using TownOfHost.Addons;
+using TownOfHost.Interface.Menus;
+using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Addons;
+using TownOfHost.Roles;
 using TownOfHost.Roles;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
@@ -91,7 +95,16 @@ namespace TownOfHost
         public static Dictionary<byte, Color32> PlayerColors = new();
         public static Dictionary<byte, PlayerStateOLD.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
-        public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
+        public static bool IsFixedCooldown => Vampire.Ref<Vampire>().IsEnable();
+        [Obsolete]
+        public static CustomGameMode CurrentGameMode { get; set; }
+
+        public static bool NoGameEnd { get; set; }
+        [Obsolete]
+        public static bool HasNecronomicon { get; set; }
+
+        public static Dictionary<byte, Vector2> LastEnteredVentLocation { get; set; }
+
         public static float RefixCooldownDelay = 0f;
         public static List<byte> ResetCamPlayerList;
         public static List<byte> winnerList;
@@ -138,6 +151,11 @@ namespace TownOfHost
 
         public static OptionManager OptionManager;
         public static Main Instance;
+        // TODO fix
+        public static List<byte> unreportableBodies = new();
+
+        [Obsolete]
+        public static List<byte> isInfected = new();
 
         public override void Load()
         {
@@ -252,20 +270,6 @@ namespace TownOfHost
 
                     {CustomRoles.NotAssigned, "#ffffff"}
                 };
-                foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
-                {
-                    switch (role.GetRoleType())
-                    {
-                        case RoleType.Impostor:
-                            roleColors.TryAdd(role, "#ff0000");
-                            break;
-                        case RoleType.Madmate:
-                            roleColors.TryAdd(role, "#ff0000");
-                            break;
-                        default:
-                            break;
-                    }
-                }
             }
             catch (ArgumentException ex)
             {
@@ -286,6 +290,8 @@ namespace TownOfHost
             TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}", "GitVersion");
 
             ClassInjector.RegisterTypeInIl2Cpp<ErrorText>();
+
+            GameOptionTab __ = DefaultTabs.GeneralTab;
             int _ = CustomRoleManager.Roles.Count;
             Harmony.PatchAll();
             AddonManager.ImportAddons();

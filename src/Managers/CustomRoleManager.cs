@@ -50,16 +50,6 @@ public class CustomRoleManager
 
     public class StaticRoles
     {
-        public Crewmate Crewmate = new Crewmate();
-        public Engineer Engineer = new Engineer();
-        public Scientist Scientist = new Scientist();
-        public Impostor Impostor = new Impostor();
-        public Morphling Morphling = new Morphling();
-    }
-
-    // uncomment once ready to add roles
-    /*public class StaticRoles
-    {
         public Impostor Impostor = new Impostor();
         public Morphling Morphling = new Morphling();
         public Madmate Madmate = new Madmate();
@@ -119,9 +109,11 @@ public class CustomRoleManager
         public Speedrunner Speedrunner = new Speedrunner();
         public Trapper Trapper = new Trapper();
 
+        public Egoist Egoist = new Egoist();
 
         public Lovers Lovers = new Lovers();
         public Debugger Debugger = new Debugger();
 
-    }*/
+
+    }
 }

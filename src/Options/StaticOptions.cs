@@ -1,4 +1,5 @@
 using System;
+using TownOfHost.Options;
 
 namespace TownOfHost.ReduxOptions;
 
@@ -6,6 +7,8 @@ namespace TownOfHost.ReduxOptions;
 // TODO: Ideally all of TOH "static" options should end up in here with the use of the new options system
 public static class StaticOptions
 {
+    public static string EnableGM = "";
+
     public static bool RolesLikeTOU = true;
 
     //StaticOptions.VultureArrow
@@ -177,6 +180,15 @@ public static class StaticOptions
     public static bool WhenSkipVoteIgnoreNoDeadBody { get; set; }
     public static bool WhenSkipVoteIgnoreEmergency { get; set; }
     public static bool WhenTie { get; set; }
+    public static bool MadmateCanSeeDeathReason { get; set; }
+    public static bool GhostCanSeeDeathReason { get; set; }
+    public static bool AmDebugger { get; set; }
+    public static bool MadmateCanSeeKillFlash { get; set; }
+    public static bool GhostIgnoreTasks { get; set; }
+    public static bool IsStandardHAS { get; set; }
+
+
+    public static bool ChangeNameToRoleInfo { get; set; }
 
     public static bool MadSnitchCanVent = false;
     public static int TasksRemainingForPhantomClicked = 1;
@@ -213,6 +225,16 @@ public static class StaticOptions
     public static void AddStaticOptions()
     {
         OptionManager manager = Main.OptionManager;
+
+        manager.Add(new SmartOptionBuilder()
+            .Name("NoGameEnd")
+            .Tab(DefaultTabs.GeneralTab)
+            .IsHeader(true)
+            .BindBool(v => Main.NoGameEnd = v)
+            .AddOnOffValues(false)
+            .Build()
+        );
+
         manager.Add(new SmartOptionBuilder()
             .Name("Mayhem Options")
             .IsHeader(true)
@@ -229,6 +251,7 @@ public static class StaticOptions
         manager.Add(new SmartOptionBuilder()
             .Name("Debug Options")
             .IsHeader(true)
+            .Tab(DefaultTabs.GeneralTab)
             .ShowSubOptionsWhen(v => (bool)v)
             .BindBool(v => debugOptions = v)
             .AddOnOffValues(false)
@@ -239,6 +262,37 @@ public static class StaticOptions
                 .Build())
             .Build());
 
+        manager.Add(new SmartOptionBuilder()
+            .Name("Nested Options Test")
+            .IsHeader(true)
+            .Tab(DefaultTabs.GeneralTab)
+            .ShowSubOptionsWhen(v => (bool)v)
+            .AddOnOffValues(false)
+            .AddSubOption(sub => sub
+                .Name("Nested Options Test")
+                .ShowSubOptionsWhen(v => (bool)v)
+                .AddOnOffValues(false)
+                .AddSubOption(sub2 => sub2
+                    .Name("Nested Options Test")
+                    .ShowSubOptionsWhen(v => (bool)v)
+                    .AddOnOffValues(false)
+                    .AddSubOption(sub3 => sub3
+                        .Name("Nested Options Test")
+                        .ShowSubOptionsWhen(v => (bool)v)
+                        .AddOnOffValues(false)
+                        .AddSubOption(sub4 => sub4
+                            .Name("Nested Options Test")
+                            .ShowSubOptionsWhen(v => (bool)v)
+                            .AddOnOffValues(false)
+                            .AddSubOption(sub5 => sub5
+                                .Name("Nested Options Test")
+                                .AddOnOffValues(false)
+                                .Build())
+                            .Build())
+                        .Build())
+                    .Build())
+                .Build())
+            .Build());
     }
 
 }

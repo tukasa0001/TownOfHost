@@ -6,6 +6,7 @@ using AmongUs.GameOptions;
 using Hazel;
 using InnerNet;
 using TownOfHost.Modules;
+using TownOfHost.ReduxOptions;
 using UnityEngine;
 using static TownOfHost.Translator;
 using TownOfHost.Roles;
@@ -351,7 +352,7 @@ public static class PlayerControlExtensions
         // Logger.Info($"{pc}", "ReactorFlash");
         var systemtypes = SystemTypes.Reactor;
         if (Main.NormalOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
-        float FlashDuration = Options.KillFlashDuration.GetFloat();
+        float FlashDuration = StaticOptions.KillFlashDuration;
 
         pc.RpcDesyncRepairSystem(systemtypes, 128);
 
@@ -372,14 +373,13 @@ public static class PlayerControlExtensions
     {
         return pc.GetCustomRole() switch
         {
-            Roles.FireWorks => FireWorksOLD.CanUseKillButton(pc),
-            Roles.Mafia => Utils.CanMafiaKill(),
-            Roles.Mare => Utils.IsActive(SystemTypes.Electrical),
-            Roles.Sniper => SniperOLD.CanUseKillButton(pc),
-            Roles.Sheriff => SheriffOLD.CanUseKillButton(pc.PlayerId),
-            Roles.Arsonist => !pc.IsDouseDone(),
-            Roles.Egoist or Jackal => true,
-            _ => pc.Is(Roles.RoleType.Impostor),
+            FireWorks f => f.CanKill(),
+            Mafia m => ((Impostor)m).CanKill(),
+            Mare m => m.CanKill(),
+            Sheriff s => s.DesyncRole is RoleTypes.Impostor,
+            Arsonist => !pc.IsDouseDone(),
+            Egoist or Jackal => true,
+            _ => pc.Is(RoleType.Impostor),
         };
     }
     public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
@@ -400,67 +400,76 @@ public static class PlayerControlExtensions
     }
     public static void ResetKillCooldown(this PlayerControl player)
     {
-        Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
-        switch (player.GetCustomRole())
-        {
-            case SerialKiller:
-                SerialKillerOLD.ApplyKillCooldown(player.PlayerId); //シリアルキラーはシリアルキラーのキルクールに。
-                break;
-            case TimeThief:
-                TimeThiefOLD.SetKillCooldown(player.PlayerId); //タイムシーフはタイムシーフのキルクールに。
-                break;
-            case Mare:
-                MareOLD.SetKillCooldown(player.PlayerId);
-                break;
-            case Arsonist:
-                Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
-                break;
-            case Egoist:
-                EgoistOLD.ApplyKillCooldown(player.PlayerId);
-                break;
-            case Jackal:
-                JackalOLD.SetKillCooldown(player.PlayerId);
-                break;
-            case Sheriff:
-                SheriffOLD.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
-                break;
-        }
-        if (player.PlayerId == LastImpostor.currentId)
-            LastImpostor.SetKillCooldown();
+        Main.AllPlayerKillCooldown[player.PlayerId] = 0;
+        Logger.Warn("ResetKillCooldown not implemented yet", "RKC");
+        //throw new NotImplementedException("haha");
     }
-    public static void TrapperKilled(this PlayerControl killer, PlayerControl target)
-    {
-        Logger.Info($"{target?.Data?.PlayerName}はTrapperだった", "Trapper");
-        var tmpSpeed = Main.AllPlayerSpeed[killer.PlayerId];
-        Main.AllPlayerSpeed[killer.PlayerId] = Main.MinSpeed;    //tmpSpeedで後ほど値を戻すので代入しています。
-        ReportDeadBodyPatch.CanReport[killer.PlayerId] = false;
-        killer.MarkDirtySettings();
-        new DTask(() =>
-        {
-            Main.AllPlayerSpeed[killer.PlayerId] = Main.AllPlayerSpeed[killer.PlayerId] - Main.MinSpeed + tmpSpeed;
-            ReportDeadBodyPatch.CanReport[killer.PlayerId] = true;
-            killer.MarkDirtySettings();
-            OldRPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
-        }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
-    }
+
     public static void CanUseImpostorVent(this PlayerControl player)
-    {
-        switch (player.GetCustomRole())
         {
-            case Sheriff:
-                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
-                player.Data.Role.CanVent = false;
-                return;
-            case Arsonist:
-                bool CanUse = player.IsDouseDone();
-                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(CanUse && !player.Data.IsDead);
-                player.Data.Role.CanVent = CanUse;
-                return;
-            case Jackal:
-                JackalOLD.CanUseVent(player);
-                return;
+
+            switch (player.GetCustomRole())
+            {
+                case Amnesiac:
+                case Sheriff:
+                case Investigator:
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
+                    player.Data.Role.CanVent = false;
+                    return;
+                case Arsonist a:
+                    bool canUse = a.CanVent() || (StaticOptions.TOuRArso);
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(canUse && !player.Data.IsDead);
+                    player.Data.Role.CanVent = canUse;
+                    return;
+                case Juggernaut:
+                    bool jug_canUse = StaticOptions.JuggerCanVent;
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(jug_canUse && !player.Data.IsDead);
+                    player.Data.Role.CanVent = jug_canUse;
+                    return;
+                case Sidekick:
+                case Jackal:
+                    bool jackal_canUse = player.GetCustomRole().CanVent();
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(jackal_canUse && !player.Data.IsDead);
+                    player.Data.Role.CanVent = jackal_canUse;
+                    return;
+                case Marksman:
+                    bool marks_canUse = StaticOptions.MarksmanCanVent;
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(marks_canUse && !player.Data.IsDead);
+                    player.Data.Role.CanVent = marks_canUse;
+                    return;
+                case PlagueBearer:
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
+                    player.Data.Role.CanVent = false;
+                    return;
+                case Pestilence:
+                    bool pesti_CanUse = StaticOptions.PestiCanVent;
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(pesti_CanUse && !player.Data.IsDead);
+                    player.Data.Role.CanVent = pesti_CanUse;
+                    return;
+                case Glitch:
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(!player.Data.IsDead);
+                    player.Data.Role.CanVent = true;
+                    return;
+                case Werewolf:
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(!player.Data.IsDead);
+                    player.Data.Role.CanVent = true;
+                    return;
+                case CorruptedSheriff:
+                case Medusa:
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(!player.Data.IsDead);
+                    player.Data.Role.CanVent = true;
+                    return;
+                case HexMaster:
+                case CovenWitch:
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(Main.HasNecronomicon && !player.Data.IsDead);
+                    player.Data.Role.CanVent = Main.HasNecronomicon;
+                    break;
+                case Janitor:
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(StaticOptions.STIgnoreVent && !player.Data.IsDead);
+                    player.Data.Role.CanVent = StaticOptions.STIgnoreVent;
+                    break;
+            }
         }
-    }
     public static bool IsDouseDone(this PlayerControl player)
     {
         if (!player.Is(CustomRoles.Arsonist)) return false;
@@ -469,7 +478,7 @@ public static class PlayerControlExtensions
     }
     public static bool CanMakeMadmate(this PlayerControl player)
     {
-        return Options.CanMakeMadmateCount.GetInt() > Main.SKMadmateNowCount
+        return StaticOptions.CanMakeMadmateCount > Main.SKMadmateNowCount
                && player != null
                && player.Data.Role.Role == RoleTypes.Shapeshifter
                && player.GetCustomRole().CanMakeMadmate();
@@ -530,10 +539,11 @@ public static class PlayerControlExtensions
                 Egoist or
                 Jackal;
     }
+    // this is new
     public static bool KnowDeathReason(this PlayerControl seer, PlayerControl target)
        => (seer.Is(Doctor.Ref<Doctor>())
-            || (seer.Is(Roles.RoleType.Madmate) && Options.MadmateCanSeeDeathReason.GetBool())
-            || (seer.Data.IsDead && Options.GhostCanSeeDeathReason.GetBool()))
+            || (seer.Is(Roles.RoleType.Madmate) && StaticOptions.MadmateCanSeeDeathReason)
+            || (seer.Data.IsDead && StaticOptions.GhostCanSeeDeathReason))
            && target.Data.IsDead;
     public static string GetRoleInfo(this PlayerControl player, bool InfoLong = false)
     {
@@ -572,25 +582,6 @@ public static class PlayerControlExtensions
                     break;
             };
         return GetString($"{Prefix}{text}Info" + (InfoLong ? "Long" : ""));
-    }
-    public static void SetRealKiller(this PlayerControl target, PlayerControl killer, bool NotOverRide = false)
-    {
-        if (target == null)
-        {
-            Logger.Info("target=null", "SetRealKiller");
-            return;
-        }
-        var State = Main.PlayerStates[target.PlayerId];
-        if (State.deathReason == PlayerStateOLD.DeathReason.Sniped) //スナイパー対策
-            killer = Utils.GetPlayerById(SniperOLD.GetSniper(target.PlayerId));
-        if (State.RealKiller.Item1 != DateTime.MinValue && NotOverRide) return; //既に値がある場合上書きしない
-        byte killerId = killer == null ? byte.MaxValue : killer.PlayerId;
-        OldRPC.SetRealKiller(target.PlayerId, killerId);
-    }
-    public static PlayerControl GetRealKiller(this PlayerControl target)
-    {
-        var killerId = Main.PlayerStates[target.PlayerId].GetRealKiller();
-        return killerId == byte.MaxValue ? null : Utils.GetPlayerById(killerId);
     }
 
     //汎用
