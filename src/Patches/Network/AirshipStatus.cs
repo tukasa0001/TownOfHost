@@ -10,7 +10,8 @@ namespace TownOfHost
     {
         public static bool Prefix()
         {
-            return !PlayerControl.LocalPlayer.Is(GM.Ref<GM>()); // GMは湧き画面をスキップ
+            /*return !PlayerControl.LocalPlayer.Is(GM.Ref<GM>()); // GMは湧き画面をスキップ*/
+            return true;
         }
     }
 }

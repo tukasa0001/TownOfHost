@@ -24,6 +24,8 @@ public static class OldRoleSystemBridge
         return CustomRoleManager.PlayersCustomRolesRedux[playerInfo.PlayerId];
     }
 
+    public static bool Is(this CustomRole role, RoleTypes roleTypes) => role.VirtualRole == roleTypes;
+
     public static bool IsEnable(this CustomRole role) => role.Count > 0 && role.Chance > 0;
 
     public static bool IsImpostor(this CustomRole customRole) => customRole.VirtualRole is RoleTypes.Impostor or RoleTypes.ImpostorGhost or RoleTypes.Shapeshifter && !customRole.IsNeutral() && !customRole.IsNeutralKilling();
@@ -55,7 +57,7 @@ public static class OldRoleSystemBridge
         {
             Morphling => true,
             // TODO: EvilTracker => EvilTracker.CanCreateMadMate.GetBool(),
-            Egoist => EgoistOLD.CanCreateMadMate.GetBool(),
+            /*Egoist => EgoistOLD.CanCreateMadMate.GetBool(),*/
             _ => false,
         };
 
@@ -65,13 +67,6 @@ public static class OldRoleSystemBridge
     public static bool Is(this PlayerControl player, CustomRoles customRoles)
     {
         return player.GetCustomRole().GetType() == customRoles.GetReduxRole().GetType();
-    }
-
-    public static void ResetKillCooldown(this PlayerControl player)
-    {
-        Main.AllPlayerKillCooldown[player.PlayerId] = 0;
-        Logger.Warn("ResetKillCooldown not implemented yet", "RKC");
-        //throw new NotImplementedException("haha");
     }
 
 
@@ -86,22 +81,15 @@ public static class OldRoleSystemBridge
             CustomRoles.Scientist => CustomRoleManager.Static.Scientist,
             CustomRoles.Madmate => CustomRoleManager.Static.Madmate,
             CustomRoles.LastImpostor => CustomRoleManager.Static.LastImpostor,
-            CustomRoles.Miner => CustomRoleManager.Static.Miner,
 
 
             CustomRoles.Sheriff => CustomRoleManager.Static.Sheriff,
-            CustomRoles.Transporter => CustomRoleManager.Static.Transporter,
-            CustomRoles.Veteran => CustomRoleManager.Static.Veteran,
 
             CustomRoles.Jester => CustomRoleManager.Static.Jester,
             CustomRoles.Opportunist => CustomRoleManager.Static.Opportunist,
-            CustomRoles.TheGlitch => CustomRoleManager.Static.Glitch,
-            CustomRoles.Coven => CustomRoleManager.Static.Coven,
 
             CustomRoles.GuardianAngel => CustomRoleManager.Static.GuardianAngel,
             CustomRoles.Snitch => CustomRoleManager.Static.Snitch,
-            CustomRoles.Amnesiac => CustomRoleManager.Static.Amnesiac,
-            CustomRoles.Demolitionist => Demolitionist.Ref<Demolitionist>(),
             _ => CustomRoleManager.Default
         };
     }

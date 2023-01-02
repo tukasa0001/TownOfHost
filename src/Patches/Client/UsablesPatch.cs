@@ -21,7 +21,7 @@ namespace TownOfHost
     {
         public static void Postfix(EmergencyMinigame __instance)
         {
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) __instance.Close();
+            if (OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek) __instance.Close();
         }
     }
     [HarmonyPatch(typeof(Vent), nameof(Vent.CanUse))]
@@ -45,39 +45,20 @@ namespace TownOfHost
             var usableDistance = __instance.UsableDistance;
 
             if (pc.IsDead) return false; //死んでる人は強制的にfalseに。
-
-            switch (pc.GetCustomRole())
-            {
-                case Sheriff:
-                    return false;
-                case Arsonist:
-                    if (pc.Object.IsDouseDone())
-                        canUse = couldUse = VentForTrigger = true;
-                    else return false;
-                    break;
-                case Jackal:
-                    canUse = couldUse = JackalOLD.CanVent.GetBool();
-                    break;
-                default:
-                    if (pc.Role.TeamType == RoleTeamTypes.Impostor || pc.Role.Role == RoleTypes.Engineer) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue
-                        canUse = couldUse = true;
-                    break;
-            }
+            canUse = couldUse = pc._object.GetCustomRole().CanVent();
 
             canUse = couldUse = (pc.Object.inVent || canUse) && (pc.Object.CanMove || pc.Object.inVent);
 
-            if (VentForTrigger && pc.Object.inVent)
-            {
-                canUse = couldUse = false;
-                return false;
-            }
-            if (canUse)
+            if (!canUse) { }
+            else
             {
                 Vector2 truePosition = pc.Object.GetTruePosition();
                 Vector3 position = __instance.transform.position;
                 num = Vector2.Distance(truePosition, position);
-                canUse &= num <= usableDistance && !PhysicsHelpers.AnythingBetween(truePosition, position, Constants.ShipOnlyMask, false);
+                canUse &= num <= usableDistance &&
+                          !PhysicsHelpers.AnythingBetween(truePosition, position, Constants.ShipOnlyMask, false);
             }
+
             __result = num;
             return false;
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

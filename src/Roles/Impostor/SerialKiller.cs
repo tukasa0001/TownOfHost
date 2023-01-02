@@ -1,3 +1,4 @@
+using TownOfHost.Extensions;
 using TownOfHost.Interface;
 using TownOfHost.Interface.Menus.CustomNameMenu;
 using TownOfHost.ReduxOptions;
@@ -13,7 +14,7 @@ public class SerialKiller: Impostor
     private float killCooldown;
 
     [DynElement(UI.Counter)]
-    private string CustomCooldown() => deathTimer.ToString() == "0" ? "" : Helpers.ColorString(Color.white, deathTimer + "s");
+    private string CustomCooldown() => deathTimer.ToString() == "0" ? "" : Color.white.Colorize(deathTimer + "s");
 
     [RoleAction(RoleActionType.AttemptKill)]
     public new bool TryKill(PlayerControl target)

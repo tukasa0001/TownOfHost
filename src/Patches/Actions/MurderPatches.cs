@@ -70,7 +70,7 @@ public static class MurderPatches
             killer.ResetKillCooldown();
 
             //キルボタンを使えない場合の判定
-            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
+            if ((OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek || OldOptions.IsStandardHAS) && OldOptions.HideAndSeekKillDelayTimer > 0)
             {
                 Logger.Info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。", "CheckMurder");
                 return false;
@@ -86,10 +86,11 @@ public static class MurderPatches
             //キルされた時の特殊判定
             switch (target.GetCustomRole())
             {
-                case SchrodingerCat:
+                // oops TODO: oops
+                /*case SchrodingerCat:
                     if (!SchrodingerCatOLD.OnCheckMurder(killer, target))
                         return false;
-                    break;
+                    break;*/
 
                 //==========マッドメイト系役職==========//
                 case MadGuardian:
@@ -103,7 +104,7 @@ public static class MurderPatches
                     {
                         int dataCountBefore = NameColorManager.Instance.NameColors.Count;
                         NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, "#ff0000");
-                        if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
+                        if (OldOptions.MadGuardianCanSeeWhoTriedToKill.GetBool())
                             NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, "#ff0000");
 
                         if (dataCountBefore != NameColorManager.Instance.NameColors.Count)
@@ -120,17 +121,11 @@ public static class MurderPatches
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
-                    case BountyHunter: //キルが発生する前にここの処理をしないとバグる
-                        BountyHunterOLD.OnCheckMurder(killer, target);
-                        break;
-                    case SerialKiller:
-                        SerialKillerOLD.OnCheckMurder(killer);
-                        break;
                     case Vampire:
                         if (!target.Is(Baiter.Ref<Baiter>()))
                         { //キルキャンセル&自爆処理
                             Utils.MarkEveryoneDirtySettings();
-                            Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
+                            Main.AllPlayerKillCooldown[killer.PlayerId] = OldOptions.DefaultKillCooldown * 2;
                             killer.MarkDirtySettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
                             killer.RpcGuardAndKill(target);
                             Main.BitPlayers.Add(target.PlayerId, (killer.PlayerId, 0f));
@@ -156,23 +151,13 @@ public static class MurderPatches
                         }
                         if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
                         return false;
-                    case Witch:
-                        if (!WitchOLD.OnCheckMurder(killer, target))
-                        {
-                            //Spellモードの場合は終了
-                            return false;
-                        }
-                        break;
                     case Puppeteer:
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
-                        Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
+                        Main.AllPlayerKillCooldown[killer.PlayerId] = OldOptions.DefaultKillCooldown * 2;
                         killer.MarkDirtySettings(); //負荷軽減のため、killerだけがCustomSyncSettings,NotifyRolesを実行
                         Utils.NotifyRoles(SpecifySeer: killer);
                         killer.RpcGuardAndKill(target);
                         return false;
-                    case TimeThief:
-                        TimeThiefOLD.OnCheckMurder(killer);
-                        break;
 
                     //==========マッドメイト系役職==========//
 
@@ -189,10 +174,6 @@ public static class MurderPatches
                         return false;
 
                     //==========クルー役職==========//
-                    case Sheriff:
-                        if (!SheriffOLD.OnCheckMurder(killer, target))
-                            return false;
-                        break;
                 }
             }
 
@@ -219,10 +200,6 @@ public static class MurderPatches
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost) return;
 
             PlayerControl killer = __instance; //読み替え変数
-            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerStateOLD.DeathReason.Sniped)
-            {
-                killer = Utils.GetPlayerById(SniperOLD.GetSniper(target.PlayerId));
-            }
             if (Main.PlayerStates[target.PlayerId].deathReason == PlayerStateOLD.DeathReason.etc)
             {
                 //死因が設定されていない場合は死亡判定
@@ -242,23 +219,10 @@ public static class MurderPatches
                 Logger.Info(target?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
                 Utils.CheckTerroristWin(target.Data);
             }
-            if (target.Is(Trapper.Ref<Trapper>()) && !killer.Is(Trapper.Ref<Trapper>()))
-                killer.TrapperKilled(target);
-            if (ExecutionerOLD.Target.ContainsValue(target.PlayerId))
-                ExecutionerOLD.ChangeRoleByTarget(target);
-            if (target.Is(Executioner.Ref<Executioner>()) && ExecutionerOLD.Target.ContainsKey(target.PlayerId))
-            {
-                ExecutionerOLD.Target.Remove(target.PlayerId);
-                ExecutionerOLD.SendRPC(target.PlayerId);
-            }
-            if (target.Is(TimeThief.Ref<TimeThief>()))
-                target.ResetVotingTime();
-
-            LastImpostor.SetKillCooldown();
+            /*LastImpostor.SetKillCooldown();*/
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
             Main.PlayerStates[target.PlayerId].SetDead();
-            target.SetRealKiller(__instance, true); //既に追加されてたらスキップ
             Utils.CountAliveImpostors();
             Utils.MarkEveryoneDirtySettings();
             Utils.NotifyRoles();

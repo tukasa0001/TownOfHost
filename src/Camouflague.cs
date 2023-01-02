@@ -38,7 +38,7 @@ namespace TownOfHost
 
         public static void CheckCamouflage()
         {
-            if (!(AmongUsClient.Instance.AmHost && Options.CommsCamouflage.GetBool())) return;
+            if (!(AmongUsClient.Instance.AmHost && OldOptions.CommsCamouflage.GetBool())) return;
 
             var oldIsCamouflage = IsCamouflage;
 
@@ -57,7 +57,7 @@ namespace TownOfHost
         }
         public static void RpcSetSkin(PlayerControl target, bool ForceRevert = false, bool RevertToDefault = false)
         {
-            if (!(AmongUsClient.Instance.AmHost && Options.CommsCamouflage.GetBool())) return;
+            if (!(AmongUsClient.Instance.AmHost && OldOptions.CommsCamouflage.GetBool())) return;
             if (target == null) return;
 
             var id = target.PlayerId;

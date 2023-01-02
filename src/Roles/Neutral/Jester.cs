@@ -1,5 +1,7 @@
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
+using TownOfHost.Factions;
+using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 using TownOfHost.RPC;
 using UnityEngine;
@@ -19,20 +21,17 @@ public class Jester: CustomRole
     [RoleAction(RoleActionType.SelfExiled)]
     public void JesterWin()
     {
-        Main.currentWinner = CustomWinner.Jester;
-        Main.winnerAfterVote = true;
         RpcV2.Immediate(PlayerControl.LocalPlayer.PlayerId, (byte)CustomRPC.EndGame)
             .Write((byte)CustomWinner.Jester)
             .Write(MyPlayer.PlayerId)
             .SendToHost();
 
-        OldRPC.JesterExiled(MyPlayer.PlayerId);
         "Jester Won".DebugLog();
     }
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .Color(RoleColor)
+            .Tab(DefaultTabs.NeutralTab)
             .AddSubOption(opt =>
                 opt.Name("Has Impostor Vision").Bind(v => impostorVision = (bool)v).AddOnOffValues().Build())
             .AddSubOption(opt =>

@@ -57,18 +57,16 @@ namespace TownOfHost
             {//MOD入り用のボタン下テキスト変更
                 switch (player.GetCustomRole())
                 {
-                    case Sniper:
+                    /*case Sniper:
                         __instance.AbilityButton.OverrideText(SniperOLD.OverrideShapeText(player.PlayerId));
-                        break;
+                        break;*/
                     case FireWorks:
-                        if (FireWorksOLD.nowFireWorksCount[player.PlayerId] == 0)
-                            __instance.AbilityButton.OverrideText($"{GetString("FireWorksExplosionButtonText")}");
-                        else
-                            __instance.AbilityButton.OverrideText($"{GetString("FireWorksInstallAtionButtonText")}");
+                        __instance.AbilityButton.OverrideText($"{GetString("FireWorksExplosionButtonText")}");
                         break;
-                    case SerialKiller:
+                    /*case SerialKiller:
+                        // ? What ?
                         SerialKillerOLD.GetAbilityButtonText(__instance, player);
-                        break;
+                        break;*/
                     case Warlock:
                         if (!Main.CheckShapeshift[player.PlayerId] && !Main.isCurseAndKill[player.PlayerId])
                         {
@@ -79,9 +77,9 @@ namespace TownOfHost
                             __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
                         }
                         break;
-                    case Witch:
+                    /*case Witch:
                         WitchOLD.GetAbilityButtonText(__instance);
-                        break;
+                        break;*/
                     case Vampire:
                         __instance.KillButton.OverrideText($"{GetString("VampireBiteButtonText")}");
                         break;
@@ -91,12 +89,12 @@ namespace TownOfHost
                     case Puppeteer:
                         __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
                         break;
-                    case BountyHunter:
+                    /*case BountyHunter:
                         BountyHunterOLD.GetAbilityButtonText(__instance);
                         break;
                     case EvilTracker:
                         EvilTrackerOLD.GetAbilityButtonText(__instance, player.PlayerId);
-                        break;
+                        break;*/
                 }
 
                 //バウンティハンターのターゲットテキスト
@@ -113,23 +111,8 @@ namespace TownOfHost
                     LowerInfoText.fontSizeMax = 2.0f;
                 }
 
-                if (player.Is(BountyHunter.Ref<BountyHunter>())) BountyHunterOLD.DisplayTarget(player, LowerInfoText);
-                else if (player.Is(Witch.Ref<Witch>()))
-                {
-                    //魔女用処理
-                    LowerInfoText.text = WitchOLD.GetSpellModeText(player, true);
-                    LowerInfoText.enabled = true;
-                }
-                else if (player.Is(FireWorks.Ref<FireWorks>()))
-                {
-                    var stateText = FireWorksOLD.GetStateText(player);
-                    LowerInfoText.text = stateText;
-                    LowerInfoText.enabled = true;
-                }
-                else
-                {
-                    LowerInfoText.enabled = false;
-                }
+
+                LowerInfoText.enabled = false;
                 if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay)
                 {
                     LowerInfoText.enabled = false;
@@ -247,7 +230,13 @@ namespace TownOfHost
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
                 case Jackal:
-                    JackalOLD.SetHudActive(__instance, isActive, player);
+                    if (player.GetCustomRole() is not Impostor impostor) break;
+
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
+                    __instance.SabotageButton.ToggleVisible(isActive && impostor.CanSabotage());
+                    __instance.ImpostorVentButton.ToggleVisible(isActive && impostor.CanVent());
+                    __instance.AbilityButton.ToggleVisible(false);
                     break;
             }
         }

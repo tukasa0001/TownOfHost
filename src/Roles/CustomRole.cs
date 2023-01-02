@@ -48,6 +48,8 @@ public abstract class CustomRole : AbstractBaseRole
         return cloned;
     }
 
+    public bool IsEnabled() => this.Chance > 0 && this.Count > 0;
+
     public virtual void OnGameStart() { }
 
     /// <summary>

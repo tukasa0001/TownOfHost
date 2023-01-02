@@ -16,7 +16,7 @@ namespace TownOfHost
         public static bool Prefix()
         {
             if (!AmongUsClient.Instance.AmHost) return true;
-            if (Options.NoGameEnd.GetBool() && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw) return false;
+            if (Main.NoGameEnd && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw) return false;
 
             GameOverReason reason = GameOverReason.ImpostorByKill;
 
@@ -87,7 +87,7 @@ namespace TownOfHost
                             break;
                     }
                 }
-                else if (((CustomRoles)winner).IsNeutral())
+                /*else if (((CustomRoles)winner).IsNeutral())
                 {
                     if (CustomWinnerHolder.WinnerIds.Contains(pc.PlayerId) ||
                         CustomWinnerHolder.WinnerRoles.Contains(pc.GetCustomRole()))
@@ -95,7 +95,7 @@ namespace TownOfHost
                         SetGhostRole(ToGhostImpostor: true);
                     }
                     else SetGhostRole(ToGhostImpostor: false);
-                }
+                }*/
                 void SetGhostRole(bool ToGhostImpostor)
                 {
                     if (!pc.Data.IsDead) ReviveReqiredPlayerIds.Add(pc.PlayerId);
@@ -199,8 +199,8 @@ namespace TownOfHost
                 {
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jackal);
-                    CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
-                    CustomWinnerHolder.WinnerRoles.Add(CustomRoles.JSchrodingerCat);
+                    /*CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
+                    CustomWinnerHolder.WinnerRoles.Add(CustomRoles.JSchrodingerCat);*/
                 }
                 else if (Jackal == 0 && Imp == 0) //クルー勝利
                 {
@@ -286,7 +286,7 @@ namespace TownOfHost
         public virtual bool CheckGameEndByTask(out GameOverReason reason)
         {
             reason = GameOverReason.ImpostorByKill;
-            if (Options.DisableTaskWin.GetBool()) return false;
+            if (OldOptions.DisableTaskWin.GetBool()) return false;
 
             if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
             {

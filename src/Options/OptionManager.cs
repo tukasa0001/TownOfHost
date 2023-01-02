@@ -4,18 +4,19 @@ using System.Linq;
 using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
+using TownOfHost.Interface.Menus;
 
 namespace TownOfHost.ReduxOptions;
 
 public class OptionManager
 {
-    public static bool pageMode = false;
 
     /*public static OptionPage CrewmatePage = new("Crewmate Options");
     public static OptionPage ImpostorPage = new("Impostor Options");
     public static OptionPage NeutralPage = new("Neutral Options");
     public static OptionPage NeutEvilPage = new("Neutral Evil Options");*/
 
+    public List<GameOptionTab> Tabs = new();
     private List<OptionHolder> options = new();
     public List<OptionHolder> AllHolders = new();
     public ConfigFile GeneralConfig;
@@ -52,28 +53,17 @@ public class OptionManager
         OptionBindings.Add(key, value);
     }
 
-    public object GetValue(object key)
-    {
-        if (!OptionBindings.TryGetValue(key, out OptionValueHolder value))
-            // not quite the right exception but it gets the job done
-            throw new MemberAccessException($"Not value for key \"{key}\" found in options");
-        return value.GetValue();
-    }
-
-    public T GetValue<T>(object key)
-    {
-        if (!OptionBindings.TryGetValue(key, out OptionValueHolder value))
-            // not quite the right exception but it gets the job done
-            throw new MemberAccessException($"Not value for key \"{key}\" found in options");
-        return value.GetValue<T>();
-    }
-
     public IEnumerable<OptionHolder> Options() => this.options;
 
     public void Add(OptionHolder holder)
     {
         this.options.Add(holder);
         holder.GetHoldersRecursive().Do(h => h.valueHolder?.UpdateBinding());
+    }
+
+    public void AddTab(GameOptionTab tab)
+    {
+        Tabs.Add(tab);
     }
 
     private ConfigFile CreatePreset(string exactPath = null)

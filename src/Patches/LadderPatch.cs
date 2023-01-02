@@ -7,14 +7,14 @@ namespace TownOfHost
     public class FallFromLadder
     {
         public static Dictionary<byte, Vector3> TargetLadderData;
-        private static int Chance => (Options.LadderDeathChance as StringOptionItem).GetChance();
+        private static int Chance => (OldOptions.LadderDeathChance as StringOptionItem).GetChance();
         public static void Reset()
         {
             TargetLadderData = new();
         }
         public static void OnClimbLadder(PlayerPhysics player, Ladder source)
         {
-            if (!Options.LadderDeath.GetBool()) return;
+            if (!OldOptions.LadderDeath.GetBool()) return;
             var sourcePos = source.transform.position;
             var targetPos = source.Destination.transform.position;
             //降りているのかを検知
@@ -53,7 +53,7 @@ namespace TownOfHost
                         sender.SendMessage();
                         player.NetTransform.SnapTo(targetPos);
                         player.MurderPlayer(player);
-                        Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Fall;
+                        Main.PlayerStates[player.PlayerId].deathReason = PlayerStateOLD.DeathReason.Fall;
                         Main.PlayerStates[player.PlayerId].SetDead();
                     }, 0.05f, "LadderFallTask");
                 }

@@ -34,7 +34,7 @@ public class Grenadier: Impostor
             .Do(p =>
             {
                 p.GetCustomRole().SyncOptions(overrides);
-                Work.Schedule(() => p.GetCustomRole().SyncOptions(), blindDuration);
+                DTask.Schedule(() => p.GetCustomRole().SyncOptions(), blindDuration);
             });
 
         blindCooldown.Start();

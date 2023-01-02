@@ -14,7 +14,7 @@ public class Vampire: Impostor
         if (result is InteractionResult.Halt) return false;
 
         MyPlayer.RpcGuardAndKill(MyPlayer);
-        Work.Schedule(() => target.RpcMurderPlayer(target), killDelay);
+        DTask.Schedule(() => target.RpcMurderPlayer(target), killDelay);
         return true;
     }
 

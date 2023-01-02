@@ -28,7 +28,7 @@ public class Glitch: Morphling
         base.Setup(player);
     }
 
-    [RoleAction(RoleActionType.RoundStart)]
+    /*[RoleAction(RoleActionType.RoundStart)]
     public void EnterKillModeOnRoundStart() => EnterKillMode();
 
 
@@ -53,9 +53,9 @@ public class Glitch: Morphling
                 EnterKillMode();
                 break;
         }
-    }
+    }*/
 
-    [RoleAction(RoleActionType.Shapeshift)]
+    /*[RoleAction(RoleActionType.Shapeshift)]
     public void ShapeshiftIntoHunter()
     {
         MyPlayer.Shapeshift(MyPlayer, true);
@@ -69,7 +69,7 @@ public class Glitch: Morphling
     {
         "Unshapeshifted".DebugLog();
         SwapGlitchModes();
-    }
+    }*/
 
     [RoleAction(RoleActionType.AttemptKill)]
     public void OnTargetPlayer(PlayerControl target)
@@ -84,7 +84,7 @@ public class Glitch: Morphling
         };
     }
 
-    private void EnterKillMode()
+    /*private void EnterKillMode()
     {
         Main.IsHackMode = false;
         previousMode = Mode;
@@ -107,7 +107,7 @@ public class Glitch: Morphling
         new GameObject("Scream").AddComponent<HnSImpostorScreamSfx>().LocalImpostorScream();
         this.MyPlayer.MyPhysics.SetBodyType(PlayerBodyTypes.Seeker);
         Mode = GlitchMode.Hunting;
-    }
+    }*/
 
     private bool AttemptKillPlayer(PlayerControl target)
     {

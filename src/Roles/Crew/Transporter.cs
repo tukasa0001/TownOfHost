@@ -61,10 +61,6 @@ public class Transporter : CustomRole
         target2.Collider.enabled = true;
         target1.NetTransform.enabled = true;
         target2.NetTransform.enabled = true;
-
-        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTransportNumber, Hazel.SendOption.Reliable, -1);
-        writer.Write(Main.TransportsLeft);
-        AmongUsClient.Instance.FinishRpcImmediately(writer);
     }
 
     [RoleInteraction(typeof(Veteran))]

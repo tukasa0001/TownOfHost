@@ -19,7 +19,7 @@ public class Executioner: CustomRole
     private PlayerControl? target;
 
     [DynElement(UI.Misc)]
-    private string TargetDisplay() => target == null ? "" : Helpers.ColorString(Color.red, "Target: ") + Helpers.ColorString(Color.white, target.GetRawName());
+    private string TargetDisplay() => target == null ? "" : Color.red.Colorize("Target: ") + Color.white.Colorize(target.GetRawName());
 
     public override void OnGameStart()
     {
@@ -36,7 +36,7 @@ public class Executioner: CustomRole
     {
         if (target == null || target.PlayerId == exiled.PlayerId) return;
         // TODO: Add non-instant win
-        OldRPC.ExecutionerWin(MyPlayer.PlayerId);
+        //OldRPC.ExecutionerWin(MyPlayer.PlayerId);
     }
 
     [RoleAction(RoleActionType.AnyDeath)]

@@ -20,7 +20,7 @@ public class BountyHunter: Impostor
     private float punishKillCoolDown;
 
     [DynElement(UI.Misc)]
-    private string ShowTarget() => bhTarget == null ? "" : Helpers.ColorString(Color.red, "Target: ") + Helpers.ColorString(Color.white, bhTarget.GetDynamicName().RawName);
+    private string ShowTarget() => bhTarget == null ? "" : Color.red.Colorize("Target: ") + Color.white.Colorize(bhTarget.GetDynamicName().RawName);
 
     [RoleAction(RoleActionType.AttemptKill)]
     public override bool TryKill(PlayerControl target)

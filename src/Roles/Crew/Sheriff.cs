@@ -67,7 +67,6 @@ public class Sheriff : Crewmate
     [RoleInteraction(Faction.Crewmates)]
     private InteractionResult Suicide(PlayerControl target, bool checkCrewmates)
     {
-        PlayerStateOLD.SetDeathReason(MyPlayer.PlayerId, PlayerStateOLD.DeathReason.Misfire);
         MyPlayer.RpcMurderPlayer(MyPlayer);
         if (checkCrewmates && canKillCrewmates)
             MyPlayer.RpcMurderPlayer(target);
@@ -97,10 +96,10 @@ public class Sheriff : Crewmate
     [RoleInteraction(typeof(NotImplementedException))]
     public InteractionResult MedusaInteraction(PlayerControl medusa)
     {
-        if (!Main.IsGazing) return InteractionResult.Proceed;
+        //if (!Main.IsGazing) return InteractionResult.Proceed;
 
         medusa.RpcMurderPlayer(MyPlayer);
-        new Work(() =>
+        new DTask(() =>
         {
             Main.unreportableBodies.Add(MyPlayer.PlayerId);
         }, StaticOptions.StoneReport, "Medusa Stone Gazing");

@@ -17,7 +17,7 @@ namespace TownOfHost
     }
 
     [HarmonyPatch]
-    public static class Options
+    public static class OldOptions
     {
         static System.Threading.Tasks.Task taskOptionsLoad;
         [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Initialize)), HarmonyPostfix]
@@ -270,12 +270,12 @@ namespace TownOfHost
         public static bool IsEvilWatcher = false;
         public static void SetWatcherTeam(float EvilWatcherRate)
         {
-            EvilWatcherRate = Options.EvilWatcherChance.GetFloat();
+            EvilWatcherRate = OldOptions.EvilWatcherChance.GetFloat();
             IsEvilWatcher = UnityEngine.Random.Range(1, 100) < EvilWatcherRate;
         }
         public static bool IsLoaded = false;
 
-        static Options()
+        static OldOptions()
         {
             ResetRoleCounts();
         }
@@ -330,27 +330,18 @@ namespace TownOfHost
             CustomRoleSpawnChances = new();
             // GM
             EnableGM = BooleanOptionItem.Create(100, "GM", false, TabGroup.MainSettings, false)
-                .SetColor(Utils.GetRoleColor(GM.Ref<GM>()))
                 .SetHeader(true)
                 .SetGameMode(CustomGameMode.Standard);
 
             // Impostor
-            BountyHunterOLD.SetupCustomOption();
-            SerialKillerOLD.SetupCustomOption();
             // SetupRoleOptions(1200, CustomRoles.ShapeMaster);
             // ShapeMasterShapeshiftDuration = CustomOption.Create(1210, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
             SetupRoleOptions(1300, TabGroup.ImpostorRoles, CustomRoles.Vampire);
             VampireKillDelay = FloatOptionItem.Create(1310, "VampireKillDelay", new(1f, 1000f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Vampire])
                 .SetValueFormat(OptionFormat.Seconds);
             SetupRoleOptions(1400, TabGroup.ImpostorRoles, CustomRoles.Warlock);
-            WitchOLD.SetupCustomOption();
             SetupRoleOptions(1600, TabGroup.ImpostorRoles, CustomRoles.Mafia);
-            FireWorksOLD.SetupCustomOption();
-            SniperOLD.SetupCustomOption();
             SetupRoleOptions(2000, TabGroup.ImpostorRoles, CustomRoles.Puppeteer);
-            MareOLD.SetupCustomOption();
-            TimeThiefOLD.SetupCustomOption();
-            EvilTrackerOLD.SetupCustomOption();
 
             DefaultShapeshiftCooldown = FloatOptionItem.Create(5011, "DefaultShapeshiftCooldown", new(5f, 999f, 5f), 15f, TabGroup.ImpostorRoles, false)
                 .SetHeader(true)
@@ -398,8 +389,6 @@ namespace TownOfHost
             MayorHasPortableButton = BooleanOptionItem.Create(20211, "MayorHasPortableButton", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mayor]);
             MayorNumOfUseButton = IntegerOptionItem.Create(20212, "MayorNumOfUseButton", new(1, 99, 1), 1, TabGroup.CrewmateRoles, false).SetParent(MayorHasPortableButton)
                 .SetValueFormat(OptionFormat.Times);
-            SabotageMasterOLD.SetupCustomOption();
-            SheriffOLD.SetupCustomOption();
             SetupRoleOptions(20500, TabGroup.CrewmateRoles, CustomRoles.Snitch);
             SnitchEnableTargetArrow = BooleanOptionItem.Create(20510, "SnitchEnableTargetArrow", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanGetArrowColor = BooleanOptionItem.Create(20511, "SnitchCanGetArrowColor", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
@@ -435,13 +424,8 @@ namespace TownOfHost
             TerroristTasks = OverrideTasksData.Create(50220, TabGroup.NeutralRoles, CustomRoles.Terrorist, Terrorist.Ref<Terrorist>());
             SetupLoversRoleOptionsToggle(50300);
 
-            SchrodingerCatOLD.SetupCustomOption();
-            EgoistOLD.SetupCustomOption();
-            ExecutionerOLD.SetupCustomOption();
-            JackalOLD.SetupCustomOption();
 
             // Add-Ons
-            LastImpostor.SetupCustomOption();
             #endregion
 
             KillFlashDuration = FloatOptionItem.Create(90000, "KillFlashDuration", new(0.1f, 0.45f, 0.05f), 0.3f, TabGroup.MainSettings, false)
@@ -664,7 +648,7 @@ namespace TownOfHost
 
         public static void SetupRoleOptions(int id, TabGroup tab, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
-            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, tab, false).SetColor(Utils.GetRoleColor(role))
+            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, tab, false).SetColor(role.GetReduxRole().RoleColor)
                 .SetHeader(true)
                 .SetGameMode(customGameMode) as StringOptionItem;
             var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 15, 1), 1, tab, false).SetParent(spawnOption)
@@ -677,7 +661,7 @@ namespace TownOfHost
         private static void SetupLoversRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             var role = CustomRoles.Lovers;
-            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
+            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, TabGroup.Addons, false).SetColor(role.GetReduxRole().RoleColor)
                 .SetHeader(true)
                 .SetGameMode(customGameMode) as StringOptionItem;
 
@@ -690,7 +674,7 @@ namespace TownOfHost
         }
         public static void SetupSingleRoleOptions(int id, TabGroup tab, CustomRoles role, int count, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
-            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, tab, false).SetColor(Utils.GetRoleColor(role))
+            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, tab, false).SetColor(role.GetReduxRole().RoleColor)
                 .SetHeader(true)
                 .SetGameMode(customGameMode) as StringOptionItem;
             // 初期値,最大値,最小値が同じで、stepが0のどうやっても変えることができない個数オプション

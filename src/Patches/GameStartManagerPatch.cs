@@ -93,7 +93,7 @@ namespace TownOfHost
     {
         public static bool Prefix(GameStartManager __instance)
         {
-            Options.DefaultKillCooldown = Main.NormalOptions.KillCooldown;
+            OldOptions.DefaultKillCooldown = Main.NormalOptions.KillCooldown;
             Main.LastKillCooldown.Value = Main.NormalOptions.KillCooldown;
 
             __instance.ReallyBegin(false);
@@ -102,7 +102,7 @@ namespace TownOfHost
         public static bool Prefix(GameStartRandomMap __instance)
         {
             bool continueStart = true;
-            if (Options.RandomMapsMode.GetBool())
+            if (OldOptions.RandomMapsMode.GetBool())
             {
                 var rand = IRandom.Instance;
                 System.Collections.Generic.List<byte> RandomMaps = new();
@@ -111,11 +111,11 @@ namespace TownOfHost
                 Polus      = 2
                 Dleks      = 3
                 TheAirShip = 4*/
-                if (Options.AddedTheSkeld.GetBool()) RandomMaps.Add(0);
-                if (Options.AddedMiraHQ.GetBool()) RandomMaps.Add(1);
-                if (Options.AddedPolus.GetBool()) RandomMaps.Add(2);
+                if (OldOptions.AddedTheSkeld.GetBool()) RandomMaps.Add(0);
+                if (OldOptions.AddedMiraHQ.GetBool()) RandomMaps.Add(1);
+                if (OldOptions.AddedPolus.GetBool()) RandomMaps.Add(2);
                 // if (Options.AddedDleks.GetBool()) RandomMaps.Add(3);
-                if (Options.AddedTheAirShip.GetBool()) RandomMaps.Add(4);
+                if (OldOptions.AddedTheAirShip.GetBool()) RandomMaps.Add(4);
 
                 if (RandomMaps.Count <= 0) return true;
                 var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];
@@ -132,7 +132,7 @@ namespace TownOfHost
         {
             if (GameStates.IsCountDown)
             {
-                Main.NormalOptions.KillCooldown = Options.DefaultKillCooldown;
+                Main.NormalOptions.KillCooldown = OldOptions.DefaultKillCooldown;
                 PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameOptionsManager.Instance.CurrentGameOptions));
             }
         }

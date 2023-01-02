@@ -13,17 +13,17 @@ namespace TownOfHost
         public static void Prefix(ShipStatus __instance,
             [HarmonyArgument(4)] Il2CppSystem.Collections.Generic.List<NormalPlayerTask> unusedTasks)
         {
-            if (!Options.DisableTasks.GetBool()) return;
+            if (!OldOptions.DisableTasks.GetBool()) return;
             List<NormalPlayerTask> disabledTasks = new();
             for (var i = 0; i < unusedTasks.Count; i++)
             {
                 var task = unusedTasks[i];
-                if (task.TaskType == TaskTypes.SwipeCard && Options.DisableSwipeCard.GetBool()) disabledTasks.Add(task);//カードタスク
-                if (task.TaskType == TaskTypes.SubmitScan && Options.DisableSubmitScan.GetBool()) disabledTasks.Add(task);//スキャンタスク
-                if (task.TaskType == TaskTypes.UnlockSafe && Options.DisableUnlockSafe.GetBool()) disabledTasks.Add(task);//金庫タスク
-                if (task.TaskType == TaskTypes.UploadData && Options.DisableUploadData.GetBool()) disabledTasks.Add(task);//アップロードタスク
-                if (task.TaskType == TaskTypes.StartReactor && Options.DisableStartReactor.GetBool()) disabledTasks.Add(task);//リアクターの3x3タスク
-                if (task.TaskType == TaskTypes.ResetBreakers && Options.DisableResetBreaker.GetBool()) disabledTasks.Add(task);//レバータスク
+                if (task.TaskType == TaskTypes.SwipeCard && OldOptions.DisableSwipeCard.GetBool()) disabledTasks.Add(task);//カードタスク
+                if (task.TaskType == TaskTypes.SubmitScan && OldOptions.DisableSubmitScan.GetBool()) disabledTasks.Add(task);//スキャンタスク
+                if (task.TaskType == TaskTypes.UnlockSafe && OldOptions.DisableUnlockSafe.GetBool()) disabledTasks.Add(task);//金庫タスク
+                if (task.TaskType == TaskTypes.UploadData && OldOptions.DisableUploadData.GetBool()) disabledTasks.Add(task);//アップロードタスク
+                if (task.TaskType == TaskTypes.StartReactor && OldOptions.DisableStartReactor.GetBool()) disabledTasks.Add(task);//リアクターの3x3タスク
+                if (task.TaskType == TaskTypes.ResetBreakers && OldOptions.DisableResetBreaker.GetBool()) disabledTasks.Add(task);//レバータスク
             }
             foreach (var task in disabledTasks)
             {
@@ -53,8 +53,8 @@ namespace TownOfHost
             if (RoleNullable == null) return;
             CustomRole role = RoleNullable;
 
-            if (!Options.OverrideTasksData.AllData.ContainsKey(role)) return;
-            var data = Options.OverrideTasksData.AllData[role];
+            if (!OldOptions.OverrideTasksData.AllData.ContainsKey(role)) return;
+            var data = OldOptions.OverrideTasksData.AllData[role];
 
             if (!data.doOverride.GetBool()) return; // タスク数を上書きするかどうか
                                                     // falseの時、タスクの内容が変更される前にReturnされる。

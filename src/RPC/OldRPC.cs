@@ -5,6 +5,7 @@ using HarmonyLib;
 using Hazel;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
+using TownOfHost.Roles;
 using static TownOfHost.ChatCommands;
 using static TownOfHost.Translator;
 
@@ -131,17 +132,8 @@ namespace TownOfHost
                     break;
                 case CustomRPC.SetCustomRole:
                     byte CustomRoleTargetId = reader.ReadByte();
-                    CustomRoles role = (CustomRoles)reader.ReadPackedInt32();
+                    CustomRole role = CustomRoleManager.GetRoleFromId(reader.ReadPackedInt32());
                     OldRPC.SetCustomRole(CustomRoleTargetId, role);
-                    break;
-                case CustomRPC.SetBountyTarget:
-                    BountyHunterOLD.ReceiveRPC(reader);
-                    break;
-                case CustomRPC.SetKillOrSpell:
-                    WitchOLD.ReceiveRPC(reader, false);
-                    break;
-                case CustomRPC.SetSheriffShotLimit:
-                    SheriffOLD.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();
@@ -163,37 +155,17 @@ namespace TownOfHost
                 case CustomRPC.ResetNameColorData:
                     OldRPC.ResetNameColorData();
                     break;
-                case CustomRPC.DoSpell:
-                    WitchOLD.ReceiveRPC(reader, true);
-                    break;
-                case CustomRPC.SniperSync:
-                    SniperOLD.ReceiveRPC(reader);
-                    break;
                 case CustomRPC.SetLoversPlayers:
                     Main.LoversPlayers.Clear();
                     int count = reader.ReadInt32();
                     for (int i = 0; i < count; i++)
                         Main.LoversPlayers.Add(Utils.GetPlayerById(reader.ReadByte()));
                     break;
-                case CustomRPC.SetExecutionerTarget:
-                    ExecutionerOLD.ReceiveRPC(reader, SetTarget: true);
-                    break;
-                case CustomRPC.RemoveExecutionerTarget:
-                    ExecutionerOLD.ReceiveRPC(reader, SetTarget: false);
-                    break;
-                case CustomRPC.SendFireWorksState:
-                    FireWorksOLD.ReceiveRPC(reader);
-                    break;
                 case CustomRPC.SetCurrentDousingTarget:
                     byte arsonistId = reader.ReadByte();
                     byte dousingTargetId = reader.ReadByte();
                     if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
                         Main.currentDousingTarget = dousingTargetId;
-                    break;
-                case CustomRPC.SetEvilTrackerTarget:
-                    byte TrackerId = reader.ReadByte();
-                    int TargetId = reader.ReadInt32();
-                    EvilTrackerOLD.RPCSetTarget(TrackerId, TargetId);
                     break;
                 case CustomRPC.SetRealKiller:
                     byte targetId = reader.ReadByte();
@@ -283,71 +255,10 @@ namespace TownOfHost
                 }
             }
         }
-        public static void SetCustomRole(byte targetId, CustomRoles role)
+        public static void SetCustomRole(byte targetId, CustomRole role)
         {
-            if (role < CustomRoles.NotAssigned)
-            {
-                Main.PlayerStates[targetId].MainRole = role;
-            }
-            else if (role >= CustomRoles.NotAssigned)   //500:NoSubRole 501~:SubRole
-            {
-                Main.PlayerStates[targetId].SetSubRole(role);
-            }
-            switch (role)
-            {
-                case CustomRoles.BountyHunter:
-                    BountyHunterOLD.Add(targetId);
-                    break;
-                case CustomRoles.SerialKiller:
-                    SerialKillerOLD.Add(targetId);
-                    break;
-                case CustomRoles.FireWorks:
-                    FireWorksOLD.Add(targetId);
-                    break;
-                case CustomRoles.TimeThief:
-                    TimeThiefOLD.Add(targetId);
-                    break;
-                case CustomRoles.Sniper:
-                    SniperOLD.Add(targetId);
-                    break;
-                case CustomRoles.Mare:
-                    MareOLD.Add(targetId);
-                    break;
-                case CustomRoles.EvilTracker:
-                    EvilTrackerOLD.Add(targetId);
-                    break;
-                case CustomRoles.Witch:
-                    WitchOLD.Add(targetId);
-                    break;
-
-                case CustomRoles.Egoist:
-                    EgoistOLD.Add(targetId);
-                    break;
-                case CustomRoles.SchrodingerCat:
-                    SchrodingerCatOLD.Add(targetId);
-                    break;
-                case CustomRoles.EgoSchrodingerCat:
-                    TeamEgoist.Add(targetId);
-                    break;
-                case CustomRoles.Executioner:
-                    ExecutionerOLD.Add(targetId);
-                    break;
-                case CustomRoles.Jackal:
-                    JackalOLD.Add(targetId);
-                    break;
-
-                case CustomRoles.Sheriff:
-                    SheriffOLD.Add(targetId);
-                    break;
-                case CustomRoles.SabotageMaster:
-                    SabotageMasterOLD.Add(targetId);
-                    break;
-                case CustomRoles.LastImpostor:
-                    LastImpostor.Add(targetId);
-                    break;
-            }
+            CustomRoleManager.PlayersCustomRolesRedux[targetId] = role;
             HudManager.Instance.SetHudActive(true);
-            if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();
         }
         public static void AddNameColorData(byte seerId, byte targetId, string color)
         {

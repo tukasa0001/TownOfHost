@@ -35,30 +35,19 @@ namespace TownOfHost
             float maxHeight = 0f;
             if (CustomRolesFolder != null && CustomRolesFolder.FolderName == taskFolder.FolderName)
             {
-                var crewBehaviour = DestroyableSingleton<RoleManager>.Instance.AllRoles.Where(role => role.Role == RoleTypes.Crewmate).FirstOrDefault();
-                foreach (var cRoleID in Enum.GetValues(typeof(CustomRoles)))
+                var crewBehaviour = DestroyableSingleton<RoleManager>.Instance.AllRoles.FirstOrDefault(role => role.Role == RoleTypes.Crewmate);
+                foreach (CustomRole role in CustomRoleManager.Roles)
                 {
-                    CustomRoles cRole = (CustomRoles)cRoleID;
-                    /*if(cRole == CustomRoles.Crewmate ||
-                    cRole == CustomRoles.Impostor ||
-                    cRole == CustomRoles.Scientist ||
-                    cRole == CustomRoles.Engineer ||
-                    cRole == CustomRoles.GuardianAngel ||
-                    cRole == CustomRoles.Shapeshifter
-                    ) continue;*/
-
                     TaskAddButton button = UnityEngine.Object.Instantiate<TaskAddButton>(__instance.RoleButton);
-                    button.Text.text = Utils.GetRoleName(cRole);
+                    button.Text.text = role.RoleName;
                     __instance.AddFileAsChild(CustomRolesFolder, button, ref xCursor, ref yCursor, ref maxHeight);
-                    var roleBehaviour = new RoleBehaviour
-                    {
-                        Role = (RoleTypes)cRole + 1000
-                    };
+                    RoleBehaviour roleBehaviour = (RoleBehaviour)typeof(RoleBehaviour).GetConstructor(Array.Empty<Type>())!.Invoke(null);
+                    roleBehaviour.Role = (RoleTypes)CustomRoleManager.GetRoleId(role) + 1000;
                     button.Role = roleBehaviour;
 
                     Color IconColor = Color.white;
-                    var roleColor = Utils.GetRoleColor(cRole);
-                    var RoleType = cRole.GetRoleType();
+                    var roleColor = role.RoleColor;
+                    var RoleType = role.GetRoleType();
 
                     button.FileImage.color = roleColor;
                     button.RolloverHandler.OutColor = roleColor;
@@ -78,7 +67,7 @@ namespace TownOfHost
                 if ((int)__instance.Role.Role >= 1000)
                 {
                     var PlayerCustomRole = PlayerControl.LocalPlayer.GetCustomRole();
-                    CustomRoles FileCustomRole = (CustomRoles)__instance.Role.Role - 1000;
+                    CustomRole FileCustomRole = CustomRoleManager.GetRoleFromId((int)((CustomRoles)__instance.Role.Role - 1000));
                     ((Renderer)__instance.Overlay).enabled = PlayerCustomRole == FileCustomRole;
                 }
             }
@@ -119,10 +108,9 @@ namespace TownOfHost
             {
                 if ((int)__instance.Role.Role >= 1000)
                 {
-                    CustomRoles FileCustomRole = (CustomRoles)__instance.Role.Role - 1000;
+                    CustomRole FileCustomRole = CustomRoleManager.GetRoleFromId((int)((CustomRoles)__instance.Role.Role - 1000));
                     PlayerControl.LocalPlayer.RpcSetCustomRole(FileCustomRole);
-                    if (!RolePairs.TryGetValue(FileCustomRole, out RoleTypes oRole)) PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Crewmate);
-                    else PlayerControl.LocalPlayer.RpcSetRole(oRole);
+                    PlayerControl.LocalPlayer.RpcSetRole(FileCustomRole.DesyncRole ?? FileCustomRole.VirtualRole);
                     return false;
                 }
             }

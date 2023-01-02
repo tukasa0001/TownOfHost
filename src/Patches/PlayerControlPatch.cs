@@ -40,8 +40,8 @@ namespace TownOfHost
         {
             if (GameStates.IsMeeting) return false;
             Logger.Info($"{__instance.GetNameWithRole()} => {target?.Object?.GetNameWithRole() ?? "null"}", "ReportDeadBody");
-            if (Options.IsStandardHAS && target != null && __instance == target.Object) return true; //[StandardHAS] ボタンでなく、通報者と死体が同じなら許可
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) return false;
+            if (OldOptions.IsStandardHAS && target != null && __instance == target.Object) return true; //[StandardHAS] ボタンでなく、通報者と死体が同じなら許可
+            if (OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek || OldOptions.IsStandardHAS) return false;
             if (!CanReport[__instance.PlayerId])
             {
                 WaitReport[__instance.PlayerId].Add(target);
@@ -49,8 +49,6 @@ namespace TownOfHost
                 return false;
             }
             if (!AmongUsClient.Instance.AmHost) return true;
-            BountyHunterOLD.OnReportDeadBody();
-            SerialKillerOLD.OnReportDeadBody();
             Main.ArsonistTimer.Clear();
             if (target == null) //ボタン
             {
@@ -60,16 +58,16 @@ namespace TownOfHost
                 }
             }
 
-            if (Options.SyncButtonMode.GetBool() && target == null)
+            if (OldOptions.SyncButtonMode.GetBool() && target == null)
             {
-                Logger.Info("最大:" + Options.SyncedButtonCount.GetInt() + ", 現在:" + Options.UsedButtonCount, "ReportDeadBody");
-                if (Options.SyncedButtonCount.GetFloat() <= Options.UsedButtonCount)
+                Logger.Info("最大:" + OldOptions.SyncedButtonCount.GetInt() + ", 現在:" + OldOptions.UsedButtonCount, "ReportDeadBody");
+                if (OldOptions.SyncedButtonCount.GetFloat() <= OldOptions.UsedButtonCount)
                 {
                     Logger.Info("使用可能ボタン回数が最大数を超えているため、ボタンはキャンセルされました。", "ReportDeadBody");
                     return false;
                 }
-                else Options.UsedButtonCount++;
-                if (Options.SyncedButtonCount.GetFloat() == Options.UsedButtonCount)
+                else OldOptions.UsedButtonCount++;
+                if (OldOptions.SyncedButtonCount.GetFloat() == OldOptions.UsedButtonCount)
                 {
                     Logger.Info("使用可能ボタン回数が最大数に達しました。", "ReportDeadBody");
                 }
@@ -83,7 +81,7 @@ namespace TownOfHost
                 if (bitten != null && !bitten.Data.IsDead)
                 {
                     Main.PlayerStates[bitten.PlayerId].deathReason = PlayerStateOLD.DeathReason.Bite;
-                    bitten.SetRealKiller(Utils.GetPlayerById(vampireID));
+                    /*bitten.SetRealKiller(Utils.GetPlayerById(vampireID));*/
                     //Protectは強制的にはがす
                     if (bitten.protectedByGuardian)
                         bitten.RpcMurderPlayer(bitten);
@@ -96,7 +94,6 @@ namespace TownOfHost
             }
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.PuppeteerList.Clear();
-            SniperOLD.OnStartMeeting();
 
             if (__instance.Data.IsDead) return true;
             //=============================================
@@ -144,7 +141,7 @@ namespace TownOfHost
         {
             //色変更バグ対策
             if (!AmongUsClient.Instance.AmHost || __instance.CurrentOutfit.ColorId == bodyColor || IsAntiGlitchDisabled) return true;
-            if (AmongUsClient.Instance.IsGameStarted && Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+            if (AmongUsClient.Instance.IsGameStarted && OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 //ゲーム中に色を変えた場合
                 __instance.RpcMurderPlayer(__instance);

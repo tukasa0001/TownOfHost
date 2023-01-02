@@ -10,6 +10,7 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Hazel;
 using Il2CppInterop.Runtime;
+using TownOfHost.Extensions;
 
 namespace TownOfHost
 {

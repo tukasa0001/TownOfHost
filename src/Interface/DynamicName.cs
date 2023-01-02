@@ -364,6 +364,8 @@ public class DynamicName
 
         RpcV2.Immediate(myPlayer?.NetId ?? 0, RpcCalls.SetName).Write(render).Send(player.GetClientId());
     }
+
+    public string GetComponentValue(UI subrole) => valueDictionary[subrole].Value;
 }
 
 public struct DynamicString

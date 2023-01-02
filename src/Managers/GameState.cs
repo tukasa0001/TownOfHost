@@ -111,7 +111,7 @@ namespace TownOfHost
         public int CompletedTasksCount;
         public bool hasTasks;
         public int RemainingTasksCount => AllTasksCount - CompletedTasksCount;
-        public bool DoExpose => RemainingTasksCount <= Options.SnitchExposeTaskLeft && hasTasks;
+        public bool DoExpose => RemainingTasksCount <= OldOptions.SnitchExposeTaskLeft && hasTasks;
         public bool IsTaskFinished => RemainingTasksCount <= 0 && hasTasks;
         public TaskState()
         {
@@ -142,7 +142,7 @@ namespace TownOfHost
             //FIXME:SpeedBooster class transplant
             if (!player.Data.IsDead
             && player.Is(Speedrunner.Ref<Speedrunner>())
-            && (((CompletedTasksCount + 1) >= AllTasksCount) || (CompletedTasksCount + 1) >= Options.SpeedBoosterTaskTrigger.GetInt())
+            && (((CompletedTasksCount + 1) >= AllTasksCount) || (CompletedTasksCount + 1) >= OldOptions.SpeedBoosterTaskTrigger.GetInt())
             && !Main.SpeedBoostTarget.ContainsKey(player.PlayerId))
             {   //ｽﾋﾟﾌﾞが生きていて、全タスク完了orトリガー数までタスクを完了していて、SpeedBoostTargetに登録済みでない場合
                 var rand = IRandom.Instance;
@@ -158,7 +158,7 @@ namespace TownOfHost
                     PlayerControl target = targetPlayers[rand.Next(0, targetPlayers.Count)];
                     Logger.Info("スピードブースト先:" + target.cosmetics.nameText.text, "SpeedBooster");
                     Main.SpeedBoostTarget.Add(player.PlayerId, target.PlayerId);
-                    Main.AllPlayerSpeed[Main.SpeedBoostTarget[player.PlayerId]] += Options.SpeedBoosterUpSpeed.GetFloat();
+                    Main.AllPlayerSpeed[Main.SpeedBoostTarget[player.PlayerId]] += OldOptions.SpeedBoosterUpSpeed.GetFloat();
                 }
                 else
                 {

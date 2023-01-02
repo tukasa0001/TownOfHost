@@ -40,12 +40,12 @@ namespace TownOfHost
             if (player.GetCustomRole() is Necromancer)
                 switch (role)
                 {
-                    case PlagueBearer:
+                    /*case PlagueBearer:
                         foreach (var ar in PlayerControl.AllPlayerControls)
                             if (!ar.Data.IsDead && !ar.GetCustomRole().IsCoven())
                                 Main.isInfected.Add((player.PlayerId, ar.PlayerId), false);
                         currentRole = role;
-                        break;
+                        break;*/
                     case Arsonist:
                         foreach (var ar in PlayerControl.AllPlayerControls)
                             if (!ar.Data.IsDead && !ar.GetCustomRole().IsCoven())
@@ -517,8 +517,8 @@ namespace TownOfHost
                     break;
             }*/
             if (skipVetCheck) return;
-            if (target.Is(CustomRoles.Veteran) && !Main.HasNecronomicon && Main.VetIsAlerted)
-                target.RpcMurderPlayer(necromancer);
+            /*if (target.Is(CustomRoles.Veteran) && !Main.HasNecronomicon && Main.VetIsAlerted)
+                target.RpcMurderPlayer(necromancer);*/
         }
         public static void OnShapeshiftCheck(this PlayerControl pc, bool shapeshifting)
         {

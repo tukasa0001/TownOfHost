@@ -9,6 +9,7 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.Interface;
+using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
 
@@ -78,14 +79,29 @@ public abstract class AbstractBaseRole
 
         OptionHolder options = RegisterOptions(b).Build();
         if (options.Name != null || options.GetAsString() != "N/A")
+        {
             Main.OptionManager.Add(options);
+            if (options.Tab == null)
+            {
+                if (this.Factions.IsImpostor())
+                    options.Tab = DefaultTabs.ImpostorsTab;
+                else if (this.Factions.IsCrewmate())
+                    options.Tab = DefaultTabs.CrewmateTab;
+                else if (this is Subrole)
+                    options.Tab = DefaultTabs.SubrolesTab;
+                else if (this.SpecialType is SpecialType.NeutralKilling or SpecialType.Neutral)
+                    options.Tab = DefaultTabs.NeutralTab;
+                else
+                    options.Tab = DefaultTabs.MiscTab;
+            }
+        }
 
         SetupRoleActions();
         SetupRoleInteractions();
         options.valueHolder?.UpdateBinding();
         Modify(new RoleModifier(this));
 
-        this.roleSpecificGameOptionOverrides.PrettyString().DebugLog($"Overrides for {RoleName}");
+        //this.roleSpecificGameOptionOverrides.PrettyString().DebugLog($"Overrides for {RoleName}");
 
     }
 
@@ -316,7 +332,6 @@ public abstract class AbstractBaseRole
         public RoleModifier RoleColor(Color color)
         {
             myRole.RoleColor = color;
-            color.ToTextColor().DebugLog($"{myRole.RoleName} Setting COlor: ");
             return this;
         }
     }

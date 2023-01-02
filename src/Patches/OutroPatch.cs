@@ -35,7 +35,7 @@ namespace TownOfHost
                     KillLog += $"\n\t\t⇐ {Main.AllPlayerNames[killerId]}({Utils.GetDisplayRoleName(killerId)}{Utils.GetSubRolesText(killerId)})";
             }
             Logger.Info("-----------ゲーム終了-----------", "Phase");
-            Main.NormalOptions.KillCooldown = Options.DefaultKillCooldown;
+            Main.NormalOptions.KillCooldown = OldOptions.DefaultKillCooldown;
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             var winner = new List<PlayerControl>();
@@ -49,7 +49,7 @@ namespace TownOfHost
                         winner.Add(pc);
                 }
             }
-            EgoistOLD.OverrideCustomWinner();
+            /*EgoistOLD.OverrideCustomWinner();*/
 
             //廃村時の処理など
             if (endGameResult.GameOverReason == GameOverReason.HumansDisconnect ||
@@ -64,7 +64,7 @@ namespace TownOfHost
             }
 
             //単独勝利
-            if (CustomRoles.Lovers.IsEnable() && Options.CurrentGameMode == CustomGameMode.Standard && Main.LoversPlayers.Count > 0 && Main.LoversPlayers.ToArray().All(p => !Main.PlayerStates[p.PlayerId].IsDead) //ラバーズが生きていて
+            if (CustomRoleManager.Static.Lovers.IsEnable() && OldOptions.CurrentGameMode == CustomGameMode.Standard && Main.LoversPlayers.Count > 0 && Main.LoversPlayers.ToArray().All(p => !Main.PlayerStates[p.PlayerId].IsDead) //ラバーズが生きていて
             && (CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor || CustomWinnerHolder.WinnerTeam == CustomWinner.Jackal
             || (CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))))   //クルー勝利でタスク勝ちじゃなければ
             { //Loversの単独勝利
@@ -75,7 +75,7 @@ namespace TownOfHost
                     winner.Add(lp);
                 }
             }
-            TeamEgoist.SoloWin(winner);
+            /*TeamEgoist.SoloWin(winner);*/
 
             ///以降追加勝利陣営 (winnerリセット無し)
             //Opportunist
@@ -88,28 +88,28 @@ namespace TownOfHost
                     CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
                 }
                 //SchrodingerCat
-                if (SchrodingerCatOLD.CanWinTheCrewmateBeforeChange.GetBool())
+                /*if (SchrodingerCatOLD.CanWinTheCrewmateBeforeChange.GetBool())
                     if (pc.Is(CustomRoles.SchrodingerCat) && CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
                     {
                         winner.Add(pc);
                         CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.SchrodingerCat);
-                    }
+                    }*/
             }
 
             //HideAndSeek専用
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek &&
+            if (OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek &&
                 CustomWinnerHolder.WinnerTeam != CustomWinner.Draw && CustomWinnerHolder.WinnerTeam != CustomWinner.None)
             {
                 winner = new();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     var role = Main.PlayerStates[pc.PlayerId].MainRole;
-                    if (role.GetRoleType() == RoleType.Impostor)
+                    if (role.GetReduxRole().GetRoleType() == RoleType.Impostor)
                     {
                         if (CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor)
                             winner.Add(pc);
                     }
-                    else if (role.GetRoleType() == RoleType.Crewmate)
+                    else if (role.GetReduxRole().GetRoleType() == RoleType.Crewmate)
                     {
                         if (CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
                             winner.Add(pc);
@@ -139,7 +139,6 @@ namespace TownOfHost
                 Main.winnerList.Add(pc.PlayerId);
             }
 
-            BountyHunterOLD.ChangeTimer = new();
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
 
@@ -180,12 +179,12 @@ namespace TownOfHost
             var winnerRole = (CustomRoles)CustomWinnerHolder.WinnerTeam;
             if (winnerRole >= 0)
             {
-                CustomWinnerText = Utils.GetRoleName(winnerRole);
-                CustomWinnerColor = Utils.GetRoleColorCode(winnerRole);
-                if (winnerRole.IsNeutral())
+                CustomWinnerText = winnerRole.GetReduxRole().RoleName;
+                CustomWinnerColor = winnerRole.GetReduxRole().RoleColor.ToString();
+                /*if (winnerRole.IsNeutral())
                 {
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(winnerRole);
-                }
+                }*/
             }
             if (AmongUsClient.Instance.AmHost && Main.PlayerStates[0].MainRole == CustomRoles.GM)
             {
@@ -221,11 +220,11 @@ namespace TownOfHost
                     break;
             }
 
-            foreach (var additionalWinners in CustomWinnerHolder.AdditionalWinnerTeams)
+            /*foreach (var additionalWinners in CustomWinnerHolder.AdditionalWinnerTeams)
             {
                 var addWinnerRole = (CustomRoles)additionalWinners;
                 AdditionalWinnerText += "＆" + Utils.ColorString(Utils.GetRoleColor(addWinnerRole), Utils.GetRoleName(addWinnerRole));
-            }
+            }*/
             if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw and not CustomWinner.None)
             {
                 WinnerText.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}{GetString("Win")}</color>";

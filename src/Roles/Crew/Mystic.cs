@@ -33,7 +33,7 @@ public class Mystic : Crewmate
             didReactorAlert = true;
         }
 
-        Work.Schedule(() => MysticRevertAlert(didReactorAlert), flashDuration);
+        DTask.Schedule(() => MysticRevertAlert(didReactorAlert), flashDuration);
 
     }
 

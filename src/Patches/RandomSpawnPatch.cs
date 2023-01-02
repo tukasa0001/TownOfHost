@@ -27,7 +27,7 @@ namespace TownOfHost
                         Logger.Warn("プレイヤーがnullです", "RandomSpawn");
                         return;
                     }
-                    if (player.Is(GM.Ref<GM>())) return; //GMは対象外に
+                    /*if (player.Is(GM.Ref<GM>())) return; //GMは対象外に*/
 
                     NumOfTP[player.PlayerId]++;
 
@@ -35,8 +35,8 @@ namespace TownOfHost
                     {
                         if (Main.NormalOptions.MapId != 4) return; //マップがエアシップじゃなかったらreturn
                         player.RpcResetAbilityCooldown();
-                        if (Options.FixFirstKillCooldown.GetBool() && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
-                        if (!Options.RandomSpawn.GetBool()) return; //ランダムスポーンが無効ならreturn
+                        if (OldOptions.FixFirstKillCooldown.GetBool() && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
+                        if (!OldOptions.RandomSpawn.GetBool()) return; //ランダムスポーンが無効ならreturn
                         new AirshipSpawnMap().RandomTeleport(player);
                     }
                 }
@@ -161,7 +161,7 @@ namespace TownOfHost
             };
             public override Vector2 GetLocation()
             {
-                return Options.AirshipAdditionalSpawn.GetBool()
+                return OldOptions.AirshipAdditionalSpawn.GetBool()
                     ? positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value
                     : positions.ToArray()[0..6].OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
             }

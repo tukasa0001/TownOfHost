@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Hazel;
+using TownOfHost.Roles;
 
 namespace TownOfHost
 {
@@ -14,7 +15,7 @@ namespace TownOfHost
         public static HashSet<AdditionalWinners> AdditionalWinnerTeams;
         // 勝者の役職が格納され、この変数に格納されている役職のプレイヤーは全員勝利となります。
         // チームとなる第三陣営の処理に最適です。
-        public static HashSet<CustomRoles> WinnerRoles;
+        public static HashSet<CustomRole> WinnerRoles;
         // 勝者のPlayerIDが格納され、このIDを持つプレイヤーは全員勝利します。
         // 単独勝利する第三陣営の処理に最適です。
         public static HashSet<byte> WinnerIds;
@@ -61,7 +62,7 @@ namespace TownOfHost
 
             writer.Write(WinnerRoles.Count);
             foreach (var wr in WinnerRoles)
-                writer.Write((int)wr);
+                writer.Write((int)CustomRoleManager.GetRoleId(wr));
 
             writer.Write(WinnerIds.Count);
             foreach (var id in WinnerIds)
@@ -81,7 +82,7 @@ namespace TownOfHost
             WinnerRoles = new();
             int WinnerRolesCount = reader.ReadInt32();
             for (int i = 0; i < WinnerRolesCount; i++)
-                WinnerRoles.Add((CustomRoles)reader.ReadInt32());
+                WinnerRoles.Add(CustomRoleManager.GetRoleFromId(reader.ReadInt32()));
 
             WinnerIds = new();
             int WinnerIdsCount = reader.ReadInt32();

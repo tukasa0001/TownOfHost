@@ -27,7 +27,7 @@ public class Consort: Morphling
         locallyBlockedPlayers.Add(target.PlayerId);
 
         if (roleblockDuration > 0)
-            Work.Schedule(() => {
+            DTask.Schedule(() => {
                 locallyBlockedPlayers.Remove(target.PlayerId);
                 CustomRoleManager.RoleBlockedPlayers.Remove(target.PlayerId);
             }, roleblockDuration);

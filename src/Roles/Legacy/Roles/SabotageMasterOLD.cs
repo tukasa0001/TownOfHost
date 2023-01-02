@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+/*using System.Collections.Generic;
 using System.Linq;
 using Hazel;
 using TownOfHost.Extensions;
@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfHost
 {
-    public static class SabotageMasterOld
+    public static class SabotageMasterOLD
     {
         private static readonly int Id = 20300;
         public static List<byte> playerIdList = new();
@@ -30,7 +30,7 @@ namespace TownOfHost
             FixesReactors = CustomOption.Create(Id + 12, Color.white, "SabotageMasterFixesReactors", AmongUsExtensions.OptionType.Crewmate, false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
             FixesOxygens = CustomOption.Create(Id + 13, Color.white, "SabotageMasterFixesOxygens", AmongUsExtensions.OptionType.Crewmate, false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
             FixesComms = CustomOption.Create(Id + 14, Color.white, "SabotageMasterFixesCommunications", AmongUsExtensions.OptionType.Crewmate, false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            FixesElectrical = CustomOption.Create(Id + 15, Color.white, "SabotageMasterFixesElectrical", AmongUsExtensions.OptionType.Crewmate, false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);*/
+            FixesElectrical = CustomOption.Create(Id + 15, Color.white, "SabotageMasterFixesElectrical", AmongUsExtensions.OptionType.Crewmate, false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);#1#
         }
         public static void Init()
         {
@@ -191,7 +191,7 @@ namespace TownOfHost
                         RepairSystemPatch.CheckAndOpenDoorsRange(__instance, amount, 68, 70);
                         RepairSystemPatch.CheckAndOpenDoorsRange(__instance, amount, 83, 84);
                     }
-                    DoorsProgressing = false;*/
+                    DoorsProgressing = false;#1#
                     break;
             }
         }
@@ -213,7 +213,7 @@ namespace TownOfHost
         {
             /*if (SkillLimit.GetFloat() > 0 &&
                 HackerUsedSkillCount >= SkillLimit.GetFloat())
-                return;*/
+                return;#1#
             //HackerUsedSkillCount++;
 
             if (amount is >= 0 and <= 4)
@@ -224,4 +224,4 @@ namespace TownOfHost
             }
         }
     }
-}
+}*/

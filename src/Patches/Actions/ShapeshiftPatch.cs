@@ -45,7 +45,6 @@ public class ShapeshiftPatch
                     }
                     var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
                     PlayerControl targetw = min.Key;
-                    targetw.SetRealKiller(shapeshifter);
                     Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
                     cp.RpcMurderPlayerV2(targetw);//殺す
                     shapeshifter.RpcGuardAndKill(shapeshifter);
@@ -54,7 +53,7 @@ public class ShapeshiftPatch
                 Main.CursedPlayers[shapeshifter.PlayerId] = null;
             }
         }
-        if (shapeshifter.Is(EvilTracker.Ref<EvilTracker>())) EvilTrackerOLD.Shapeshift(shapeshifter, target, shapeshifting);
+        /*if (shapeshifter.Is(EvilTracker.Ref<EvilTracker>())) EvilTrackerOLD.Shapeshift(shapeshifter, target, shapeshifting);*/
 
         if (shapeshifter.CanMakeMadmate() && shapeshifting)
         {//変身したとき一番近い人をマッドメイトにする処理
@@ -63,7 +62,7 @@ public class ShapeshiftPatch
             float dis;
             foreach (PlayerControl p in PlayerControl.AllPlayerControls)
             {
-                if (!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Shapeshifter && !p.Is(Roles.RoleType.Impostor) && !p.Is(SKMadmate))
+                if (!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Shapeshifter && !p.Is(Roles.RoleType.Impostor) && !p.Is(SKMadmate.Ref<SKMadmate>()))
                 {
                     dis = Vector2.Distance(shapeshifterPosition, p.transform.position);
                     mpdistance.Add(p, dis);
@@ -73,15 +72,13 @@ public class ShapeshiftPatch
             {
                 var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
                 PlayerControl targetm = min.Key;
-                targetm.RpcSetCustomRole(SKMadmate);
+                targetm.RpcSetCustomRole(SKMadmate.Ref<SKMadmate>());
                 Logger.Info($"Make SKMadmate:{targetm.name}", "Shapeshift");
                 Main.SKMadmateNowCount++;
                 Utils.MarkEveryoneDirtySettings();
                 Utils.NotifyRoles();
             }
         }
-        if (shapeshifter.Is(FireWorks.Ref<FireWorks>())) FireWorksOLD.ShapeShiftState(shapeshifter, shapeshifting);
-        if (shapeshifter.Is(Sniper.Ref<Sniper>())) SniperOLD.ShapeShiftCheck(shapeshifter, shapeshifting);
 
         //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換え
         if (!shapeshifting)

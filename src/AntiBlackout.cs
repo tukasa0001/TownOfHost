@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Hazel;
 using AmongUs.GameOptions;
+using TownOfHost.Roles;
 
 namespace TownOfHost
 {
@@ -19,7 +20,7 @@ namespace TownOfHost
         ///<summary>
         ///AntiBlackout内の処理が必要であるかどうか
         ///</summary>
-        public static bool IsRequired => Options.NoGameEnd.GetBool() || JackalOLD.IsEnable;
+        public static bool IsRequired => Main.NoGameEnd || CustomRoleManager.Static.Jackal.IsEnabled();
         ///<summary>
         ///インポスター以外の人数とインポスターの人数の差
         ///</summary>

@@ -29,10 +29,10 @@ public class Arsonist: NeutralKillingBase
     private string DouseCounter() => RoleUtils.Counter(dousedPlayers.Count, knownAlivePlayers - 1, RoleColor);
 
     [DynElement(UI.Cooldown)]
-    private string DousingView() => dousingDuration.IsReady() ? "" : Helpers.ColorString(RoleColor, dousingDuration + "s");
+    private string DousingView() => dousingDuration.IsReady() ? "" : RoleColor.Colorize(dousingDuration + "s");
 
     [DynElement(UI.Misc)]
-    private string DisplayWin() => dousedPlayers.Count >= knownAlivePlayers - 1 ? Helpers.ColorString(RoleColor, "Press Ignite to Win") : "";
+    private string DisplayWin() => dousedPlayers.Count >= knownAlivePlayers - 1 ? RoleColor.Colorize("Press Ignite to Win") : "";
 
     [RoleAction(RoleActionType.OnPet)]
     private void KillDoused() => dousedPlayers.Select(p => Utils.GetPlayerById(p)).Where(p => !p.Data.IsDead).Do(p => p.RpcMurderPlayer(p));
@@ -87,12 +87,12 @@ public class Arsonist: NeutralKillingBase
     private void SuccessfulDouseEffects(PlayerControl target)
     {
         DynamicName targetName = target.GetDynamicName();
-        targetName.AddRule(GameState.InRoam, UI.Counter, new DynamicString(Helpers.ColorString(RoleColor, "★")), MyPlayer.PlayerId);
+        targetName.AddRule(GameState.InRoam, UI.Counter, new DynamicString(RoleColor.Colorize("★")), MyPlayer.PlayerId);
         targetName.RenderFor(MyPlayer);
 
         GameOptionOverride[] overrides = { new(Override.ImpostorLightMod, 0f) };
         SyncOptions(overrides);
-        Work.Schedule(SyncOptions, 0.3f);
+        DTask.Schedule(SyncOptions, 0.3f);
     }
 
     [RoleInteraction(typeof(Veteran))]

@@ -10,12 +10,12 @@ namespace TownOfHost
     {
         public static void Prefix(ReactorSystemType __instance)
         {
-            if (!__instance.IsActive || !Options.SabotageTimeControl.GetBool())
+            if (!__instance.IsActive || !OldOptions.SabotageTimeControl.GetBool())
                 return;
             if (ShipStatus.Instance.Type == ShipStatus.MapType.Pb)
             {
-                if (__instance.Countdown >= Options.PolusReactorTimeLimit.GetFloat())
-                    __instance.Countdown = Options.PolusReactorTimeLimit.GetFloat();
+                if (__instance.Countdown >= OldOptions.PolusReactorTimeLimit.GetFloat())
+                    __instance.Countdown = OldOptions.PolusReactorTimeLimit.GetFloat();
                 return;
             }
             return;
@@ -26,11 +26,11 @@ namespace TownOfHost
     {
         public static void Prefix(HeliSabotageSystem __instance)
         {
-            if (!__instance.IsActive || !Options.SabotageTimeControl.GetBool())
+            if (!__instance.IsActive || !OldOptions.SabotageTimeControl.GetBool())
                 return;
             if (AirshipStatus.Instance != null)
-                if (__instance.Countdown >= Options.AirshipReactorTimeLimit.GetFloat())
-                    __instance.Countdown = Options.AirshipReactorTimeLimit.GetFloat();
+                if (__instance.Countdown >= OldOptions.AirshipReactorTimeLimit.GetFloat())
+                    __instance.Countdown = OldOptions.AirshipReactorTimeLimit.GetFloat();
         }
     }
 }

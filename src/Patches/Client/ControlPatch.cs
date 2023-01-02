@@ -238,7 +238,7 @@ namespace TownOfHost
             if (player.GetButtonDown(50) && // 50:インポスターのベントボタンのactionId
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
             (PlayerControl.LocalPlayer.Is(CustomRoles.Arsonist) ||
-            (PlayerControl.LocalPlayer.Is(CustomRoles.Jackal) && JackalOLD.CanVent.GetBool())
+            (PlayerControl.LocalPlayer.Is(CustomRoles.Jackal) && CustomRoleManager.Static.Jackal.CanVent())
             ) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
             {
                 DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.DoClick();

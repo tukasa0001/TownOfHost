@@ -18,7 +18,9 @@ public class Terrorist: Crewmate
     private void TerroristWinCheck()
     {
         if (this.HasAllTasksDone)
-            RPC.OldRPC.TerroristWin(MyPlayer.PlayerId);
+        {
+        }
+        //OldRPC.TerroristWin(MyPlayer.PlayerId);
     }
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>

@@ -12,11 +12,11 @@ public static class EnterVentPatches
     {
         public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
         {
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
+            if (OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek && OldOptions.IgnoreVent.GetBool())
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
             if (pc.Is(Mayor.Ref<Mayor>()))
             {
-                if (Main.MayorUsedButtonCount.TryGetValue(pc.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt())
+                if (Main.MayorUsedButtonCount.TryGetValue(pc.PlayerId, out var count) && count < OldOptions.MayorNumOfUseButton.GetInt())
                 {
                     pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                     pc?.ReportDeadBody(null);
@@ -41,7 +41,7 @@ public static class EnterVentPatches
                             if (pc != __instance.myPlayer)
                             {
                                 //生存者は焼殺
-                                pc.SetRealKiller(__instance.myPlayer);
+                                //pc.SetRealKiller(__instance.myPlayer);
                                 pc.RpcMurderPlayer(pc);
                                 Main.PlayerStates[pc.PlayerId].deathReason = PlayerStateOLD.DeathReason.Torched;
                                 Main.PlayerStates[pc.PlayerId].SetDead();
@@ -57,8 +57,8 @@ public static class EnterVentPatches
                 if (__instance.myPlayer.Is(CustomRoles.Sheriff) ||
                 __instance.myPlayer.Is(CustomRoles.SKMadmate) ||
                 __instance.myPlayer.Is(CustomRoles.Arsonist) ||
-                (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt()) ||
-                (__instance.myPlayer.Is(CustomRoles.Jackal) && !JackalOLD.CanVent.GetBool())
+                (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= OldOptions.MayorNumOfUseButton.GetInt()) ||
+                (__instance.myPlayer.Is(CustomRoles.Jackal) && !CustomRoleManager.Static.Jackal.CanVent())
                 )
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);

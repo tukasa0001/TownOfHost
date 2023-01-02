@@ -4,6 +4,7 @@ using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Patches.Actions;
+using TownOfHost.ReduxOptions;
 using UnityEngine;
 using TownOfHost.Roles;
 using static TownOfHost.Translator;
@@ -43,15 +44,11 @@ namespace TownOfHost
                         }
                         else __instance.RpcVotingComplete(states, voteTarget.Data, false); //通常処理
 
-                        if (CustomRoles.Witch.IsEnable())
-                        {
-                            WitchOLD.OnCheckForEndVoting(pva.VotedFor);
-                        }
                         Logger.Info($"{voteTarget.GetNameWithRole()}を追放", "Dictator");
-                        FollowingSuicideOnExile(pva.VotedFor);
+                        /*FollowingSuicideOnExile(pva.VotedFor);*/
                         RevengeOnExile(pva.VotedFor);
                         Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
-                        voteTarget.SetRealKiller(pc);
+                        /*voteTarget.SetRealKiller(pc);*/
                         return true;
                     }
                 }
@@ -71,15 +68,15 @@ namespace TownOfHost
                     Logger.Info(string.Format("{0,-2}{1}:{2,-3}{3}", ps.TargetPlayerId, Utils.PadRightV2($"({Utils.GetVoteName(ps.TargetPlayerId)})", 40), ps.VotedFor, $"({Utils.GetVoteName(ps.VotedFor)})"), "Vote");
                     var voter = Utils.GetPlayerById(ps.TargetPlayerId);
                     if (voter == null || voter.Data == null || voter.Data.Disconnected) continue;
-                    if (Options.VoteMode.GetBool())
+                    if (OldOptions.VoteMode.GetBool())
                     {
                         if (ps.VotedFor == 253 && !voter.Data.IsDead && //スキップ
-                            !(Options.WhenSkipVoteIgnoreFirstMeeting.GetBool() && MeetingStates.FirstMeeting) && //初手会議を除く
-                            !(Options.WhenSkipVoteIgnoreNoDeadBody.GetBool() && !MeetingStates.IsExistDeadBody) && //死体がない時を除く
-                            !(Options.WhenSkipVoteIgnoreEmergency.GetBool() && MeetingStates.IsEmergencyMeeting) //緊急ボタンを除く
+                            !(OldOptions.WhenSkipVoteIgnoreFirstMeeting.GetBool() && MeetingStates.FirstMeeting) && //初手会議を除く
+                            !(OldOptions.WhenSkipVoteIgnoreNoDeadBody.GetBool() && !MeetingStates.IsExistDeadBody) && //死体がない時を除く
+                            !(OldOptions.WhenSkipVoteIgnoreEmergency.GetBool() && MeetingStates.IsEmergencyMeeting) //緊急ボタンを除く
                             )
                         {
-                            switch (Options.GetWhenSkipVote())
+                            switch (OldOptions.GetWhenSkipVote())
                             {
                                 case VoteMode.Suicide:
                                     TryAddAfterMeetingDeathPlayers(ps.TargetPlayerId, PlayerStateOLD.DeathReason.Suicide);
@@ -95,7 +92,7 @@ namespace TownOfHost
                         }
                         if (ps.VotedFor == 254 && !voter.Data.IsDead)//無投票
                         {
-                            switch (Options.GetWhenNonVote())
+                            switch (OldOptions.GetWhenNonVote())
                             {
                                 case VoteMode.Suicide:
                                     TryAddAfterMeetingDeathPlayers(ps.TargetPlayerId, PlayerStateOLD.DeathReason.Suicide);
@@ -121,7 +118,7 @@ namespace TownOfHost
                     });
                     if (IsMayor(ps.TargetPlayerId))//Mayorの投票数
                     {
-                        for (var i2 = 0; i2 < Options.MayorAdditionalVote.GetFloat(); i2++)
+                        for (var i2 = 0; i2 < OldOptions.MayorAdditionalVote.GetFloat(); i2++)
                         {
                             statesList.Add(new MeetingHud.VoterState()
                             {
@@ -158,9 +155,9 @@ namespace TownOfHost
 
                 Logger.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})", "Vote");
 
-                if (Options.VoteMode.GetBool() && Options.WhenTie.GetBool() && tie)
+                if (OldOptions.VoteMode.GetBool() && OldOptions.WhenTie.GetBool() && tie)
                 {
-                    switch ((TieMode)Options.WhenTie.GetValue())
+                    switch ((TieMode)OldOptions.WhenTie.GetValue())
                     {
                         case TieMode.Default:
                             exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => info.PlayerId == exileId);
@@ -169,7 +166,7 @@ namespace TownOfHost
                             VotingData.DoIf(x => x.Key < 15 && x.Value == max, x =>
                             {
                                 TryAddAfterMeetingDeathPlayers(x.Key, PlayerStateOLD.DeathReason.Vote);
-                                Utils.GetPlayerById(x.Key).SetRealKiller(null);
+                                /*Utils.GetPlayerById(x.Key).SetRealKiller(null);*/
                             });
                             exiledPlayer = null;
                             break;
@@ -181,8 +178,8 @@ namespace TownOfHost
                 }
                 else
                     exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
-                if (exiledPlayer != null)
-                    exiledPlayer.Object.SetRealKiller(null);
+                /*if (exiledPlayer != null)
+                    exiledPlayer.Object.SetRealKiller(null);*/
 
                 //RPC
                 if (AntiBlackout.OverrideExiledPlayer)
@@ -192,12 +189,7 @@ namespace TownOfHost
                 }
                 else __instance.RpcVotingComplete(states, exiledPlayer, tie); //通常処理
 
-                if (CustomRoles.Witch.IsEnable())
-                {
-                    WitchOLD.OnCheckForEndVoting(exileId);
-                }
 
-                FollowingSuicideOnExile(exileId);
                 RevengeOnExile(exileId);
 
                 return false;
@@ -217,16 +209,10 @@ namespace TownOfHost
         {
             if (Main.AfterMeetingDeathPlayers.TryAdd(playerId, deathReason))
             {
-                FollowingSuicideOnExile(playerId);
                 RevengeOnExile(playerId, deathReason);
             }
         }
-        public static void FollowingSuicideOnExile(byte playerId)
-        {
-            //Loversの後追い
-            if (CustomRoles.Lovers.IsEnable() && !Main.isLoversDead && Main.LoversPlayers.Find(lp => lp.PlayerId == playerId) != null)
-                FixedUpdatePatch.LoversSuicide(playerId, true);
-        }
+
         public static void RevengeOnExile(byte playerId, PlayerStateOLD.DeathReason deathReason = PlayerStateOLD.DeathReason.Vote)
         {
             if (deathReason == PlayerStateOLD.DeathReason.Suicide) return;
@@ -235,7 +221,7 @@ namespace TownOfHost
             var target = PickRevengeTarget(player);
             if (target == null) return;
             TryAddAfterMeetingDeathPlayers(target.PlayerId, PlayerStateOLD.DeathReason.Revenge);
-            target.SetRealKiller(player);
+            /*target.SetRealKiller(player);*/
             Logger.Info($"{player.GetNameWithRole()}の道連れ先:{target.GetNameWithRole()}", "MadmatesRevengeOnExile");
         }
         public static PlayerControl PickRevengeTarget(PlayerControl exiledplayer)//道連れ先選定
@@ -248,7 +234,7 @@ namespace TownOfHost
                 {
                     //ここに道連れ役職を追加
                     default:
-                        if (exiledplayer.Is(Roles.RoleType.Madmate) && Options.MadmateRevengeCrewmate.GetBool() //黒猫オプション
+                        if (exiledplayer.Is(Roles.RoleType.Madmate) && StaticOptions.MadmateRevengeCrewmate //黒猫オプション
                         && !candidate.Is(Roles.RoleType.Impostor))
                             TargetList.Add(candidate);
                         break;
@@ -276,7 +262,7 @@ namespace TownOfHost
                 if (ps.VotedFor is not ((byte)252) and not byte.MaxValue and not ((byte)254))
                 {
                     int VoteNum = 1;
-                    if (CheckForEndVotingPatch.IsMayor(ps.TargetPlayerId)) VoteNum += Options.MayorAdditionalVote.GetInt();
+                    if (CheckForEndVotingPatch.IsMayor(ps.TargetPlayerId)) VoteNum += OldOptions.MayorAdditionalVote.GetInt();
                     //投票を1追加 キーが定義されていない場合は1で上書きして定義
                     dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out int num) ? VoteNum : num + VoteNum;
                 }
@@ -315,13 +301,13 @@ namespace TownOfHost
                 roleTextMeeting.enableWordWrapping = false;
                 roleTextMeeting.enabled =
                     pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId ||
-                    (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) ||
+                    (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && OldOptions.GhostCanSeeOtherRoles.GetBool()) ||
                     (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Is(CustomRoles.GM));
             }
-            if (Options.SyncButtonMode.GetBool())
+            if (OldOptions.SyncButtonMode.GetBool())
             {
-                Utils.SendMessage(string.Format(GetString("Message.SyncButtonLeft"), Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount));
-                Logger.Info("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。", "SyncButtonMode");
+                Utils.SendMessage(string.Format(GetString("Message.SyncButtonLeft"), OldOptions.SyncedButtonCount.GetFloat() - OldOptions.UsedButtonCount));
+                Logger.Info("緊急会議ボタンはあと" + (OldOptions.SyncedButtonCount.GetFloat() - OldOptions.UsedButtonCount) + "回使用可能です。", "SyncButtonMode");
             }
             if (AntiBlackout.OverrideExiledPlayer)
             {
@@ -365,49 +351,11 @@ namespace TownOfHost
                 {
                     case Roles.RoleType.Impostor:
                         LocalPlayerKnowsEgoist = true;
-                        if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
+                        if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && OldOptions.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
                             pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(MadSnitch.Ref<MadSnitch>()), "★"); //変更対象にSnitchマークをつける
                         else if (target.Is(CustomRoles.Snitch) && //変更対象がSnitch
                         target.GetPlayerTaskState().DoExpose) //変更対象のタスクが終わりそう)
                             pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(Snitch.Ref<Snitch>()), "★"); //変更対象にSnitchマークをつける
-                        break;
-                }
-                switch (seer.GetCustomRole())
-                {
-                    case MadSnitch:
-                    case Snitch:
-                        if (seer.GetPlayerTaskState().IsTaskFinished) //seerがタスクを終えている
-                        {
-                            LocalPlayerKnowsImpostor = true;
-                            if (seer.Is(Snitch.Ref<Snitch>()) && Options.SnitchCanFindNeutralKiller.GetBool())
-                            {
-                                LocalPlayerKnowsJackal = true;
-                                LocalPlayerKnowsEgoist = true;
-                            }
-                        }
-                        break;
-                    case Arsonist:
-                        if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
-                            pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(Arsonist.Ref<Arsonist>()), "▲");
-                        break;
-                    case Executioner:
-                        pva.NameText.text += ExecutionerOLD.TargetMark(seer, target);
-                        break;
-                    case Egoist:
-                    case Jackal:
-                        if (Options.SnitchCanFindNeutralKiller.GetBool() &&
-                        target.Is(Snitch.Ref<Snitch>()) && //変更対象がSnitch
-                        target.GetPlayerTaskState().DoExpose) //変更対象のタスクが終わりそう)
-                            pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(Snitch.Ref<Snitch>()), "★"); //変更対象にSnitchマークをつける
-                        break;
-                    case EvilTracker:
-                        pva.NameText.text += EvilTrackerOLD.GetTargetMark(seer, target);
-                        break;
-                    case EgoSchrodingerCat:
-                        LocalPlayerKnowsEgoist = true;
-                        break;
-                    case JSchrodingerCat:
-                        LocalPlayerKnowsJackal = true;
                         break;
                 }
 
@@ -438,9 +386,6 @@ namespace TownOfHost
                     if (target != null && target.GetCustomRole().IsImpostor()) //変更先がインポスター
                         pva.NameText.color = Palette.ImpostorRed; //変更対象の名前を赤くする
                 }
-                //呪われている場合
-                if (WitchOLD.IsSpelled(target.PlayerId))
-                    pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(Impostor.Ref<Impostor>()), "†");
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
             }

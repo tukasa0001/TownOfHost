@@ -13,7 +13,7 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance)
         {
-            while (!Options.IsLoaded) System.Threading.Tasks.Task.Delay(1);
+            while (!OldOptions.IsLoaded) System.Threading.Tasks.Task.Delay(1);
             Logger.Info($"{__instance.GameId}に参加", "OnGameJoined");
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             OldRPC.RpcVersionCheck();
@@ -56,8 +56,8 @@ namespace TownOfHost
             //            main.RealNames.Remove(data.Character.PlayerId);
             if (GameStates.IsInGame)
             {
-                if (data.Character.Is(CustomRoles.TimeThief))
-                    data.Character.ResetVotingTime();
+                /*if (data.Character.Is(CustomRoles.TimeThief))
+                    data.Character.ResetVotingTime();*/
                 if (data.Character.Is(CustomRoles.Lovers) && !data.Character.Data.IsDead)
                     foreach (var lovers in Main.LoversPlayers.ToArray())
                     {
@@ -65,10 +65,6 @@ namespace TownOfHost
                         Main.LoversPlayers.Remove(lovers);
                         Main.PlayerStates[lovers.PlayerId].RemoveSubRole(CustomRoles.Lovers);
                     }
-                if (data.Character.Is(CustomRoles.Executioner) && ExecutionerOLD.Target.ContainsKey(data.Character.PlayerId))
-                    ExecutionerOLD.ChangeRole(data.Character);
-                if (ExecutionerOLD.Target.ContainsValue(data.Character.PlayerId))
-                    ExecutionerOLD.ChangeRoleByTarget(data.Character);
                 if (Main.PlayerStates[data.Character.PlayerId].deathReason == PlayerStateOLD.DeathReason.etc) //死因が設定されていなかったら
                 {
                     Main.PlayerStates[data.Character.PlayerId].deathReason = PlayerStateOLD.DeathReason.Disconnected;
@@ -92,7 +88,7 @@ namespace TownOfHost
                     if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(GetString("Message.AnnounceUsingTOH"), Main.PluginVersion + (Main.DevVersion ? " " + Main.DevVersionStr : "")), client.Character.PlayerId);
                     TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
                 }, 3f, "Welcome Message");
-                if (Options.AutoDisplayLastResult.GetBool() && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
+                if (OldOptions.AutoDisplayLastResult.GetBool() && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
                 {
                     new DTask(() =>
                     {

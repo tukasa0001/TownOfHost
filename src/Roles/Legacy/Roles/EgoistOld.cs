@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+/*using System.Collections.Generic;
 using UnityEngine;
 using AmongUs.Data;
 using TownOfHost.Extensions;
@@ -18,7 +18,7 @@ namespace TownOfHost
         {
             Options.SetupRoleOptions(Id, CustomRoles.Egoist, AmongUsExtensions.OptionType.Neutral);
             /*KillCooldown = CustomOption.Create(Id + 10, Color.white, "EgoistKillCooldown", AmongUsExtensions.OptionType.Neutral, 20f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Egoist]);
-            ImpostorsKnowEgo = CustomOption.Create(Id + 11, Color.white, "ImpostorsKnowEgo", AmongUsExtensions.OptionType.Neutral, false, Options.CustomRoleSpawnChances[CustomRoles.Egoist]);*/
+            ImpostorsKnowEgo = CustomOption.Create(Id + 11, Color.white, "ImpostorsKnowEgo", AmongUsExtensions.OptionType.Neutral, false, Options.CustomRoleSpawnChances[CustomRoles.Egoist]);#1#
         }
         public static void Init()
         {
@@ -49,4 +49,4 @@ namespace TownOfHost
                 }
         }
     }
-}
+}*/

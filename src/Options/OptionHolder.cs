@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
+using TownOfHost.Interface.Menus;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -14,9 +15,13 @@ public class OptionHolder
     public string Header;
     public StringOption Behaviour;
     public Color? color;
-
-    /*public OptionPage Page { get => _page; init { _page = value; _page?.Add(this); } }
-    private readonly OptionPage _page;*/
+    public GameOptionTab Tab { get => _tab;
+        set {
+            _tab = value;
+            value?.AddHolder(this);
+            if (value != null) Name.DebugLog("Added As Holder: ");
+        }
+    }
 
     public bool IsHeader;
 
@@ -25,6 +30,7 @@ public class OptionHolder
     public Func<object, bool> ShowOptionPredicate { private get => _showOptionPredicate; init => _showOptionPredicate = value; }
     public int Level;
 
+    private GameOptionTab _tab;
     private readonly OptionValueHolder _valueHolder;
     private readonly List<OptionHolder> _subOptions = new();
     private readonly Func<object, bool> _showOptionPredicate;
@@ -58,6 +64,12 @@ public class OptionHolder
         this.Behaviour.TitleText.text = ColorName;
         this.Behaviour.ValueText.text = valueHolder.GetAsString();
         this.Behaviour.Value = 0;
+        this.Behaviour.transform.FindChild("Background").localScale = new Vector3(1.2f, 1f, 1f);
+        this.Behaviour.transform.FindChild("Plus_TMP").localPosition += new Vector3(0.3f, 0f, 0f);
+        this.Behaviour.transform.FindChild("Minus_TMP").localPosition += new Vector3(0.3f, 0f, 0f);
+        this.Behaviour.transform.FindChild("Value_TMP").localPosition += new Vector3(0.3f, 0f, 0f);
+        this.Behaviour.transform.FindChild("Title_TMP").localPosition += new Vector3(0.15f, 0f, 0f);
+        this.Behaviour.transform.FindChild("Title_TMP").GetComponent<RectTransform>().sizeDelta = new Vector2(3.5f, 0.37f);
         this.Behaviour.FixedUpdate();
         this.Behaviour.gameObject.SetActive(false);
         behaviours.AddRange(SubOptions.SelectMany(opt => opt.CreateBehaviours(template, parent)));
@@ -71,7 +83,7 @@ public class OptionHolder
         Behaviour.gameObject.SetActive(false);
         if (!forceShow && ShowOptionPredicate != null && !ShowOptionPredicate.Invoke(GetValue()))
         {
-            GetHoldersRecursive().Do(holder => holder.Behaviour.gameObject.SetActive(false));
+            GetHoldersRecursive().Do(holder => holder?.Behaviour?.gameObject?.SetActive(false));
             return holders;
         }
 
@@ -85,6 +97,7 @@ public class OptionHolder
     {
         private string name;
         private string header;
+        private GameOptionTab tab;
         private object key;
         private Action<object> lateBinding;
         private bool isHeader;
@@ -114,15 +127,15 @@ public class OptionHolder
             return this;
         }
 
-        public SmartOptionBuilder Header(string header)
-        {
-            this.header = header;
-            return this;
-        }
-
         public SmartOptionBuilder IsHeader(bool isHeader)
         {
             this.isHeader = isHeader;
+            return this;
+        }
+
+        public SmartOptionBuilder Tab(GameOptionTab tab)
+        {
+            this.tab = tab;
             return this;
         }
 
@@ -191,12 +204,12 @@ public class OptionHolder
         /// <returns>Current builder</returns>
         public SmartOptionBuilder AddOnOffValues(bool showOnFirst = true)
         {
-            return this.AddValue(val =>
+            return this
+                .AddValue(val =>
                     val.Text(showOnFirst ? "ON" : "OFF")
                         .Value(showOnFirst)
                         .Color(showOnFirst ? UnityEngine.Color.cyan : UnityEngine.Color.red)
-                        .Build()
-                    )
+                        .Build())
                 .AddValue(val =>
                     val.Text(showOnFirst ? "OFF" : "ON")
                         .Value(!showOnFirst)
@@ -254,6 +267,7 @@ public class OptionHolder
             {
                 Name = this.name,
                 Header = this.header,
+                Tab = this.tab,
                 color =  this.color,
                 IsHeader = this.isHeader,
                 valueHolder = valueHolder,

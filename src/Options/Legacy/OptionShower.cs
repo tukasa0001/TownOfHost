@@ -24,55 +24,55 @@ namespace TownOfHost
                 GameOptionsManager.Instance.CurrentGameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10) + "\n\n"
             };
             //ゲームモードの表示
-            text += $"{Options.GameMode.GetName()}: {Options.GameMode.GetString()}\n\n";
-            if (Options.HideGameSettings.GetBool() && !AmongUsClient.Instance.AmHost)
+            text += $"{OldOptions.GameMode.GetName()}: {OldOptions.GameMode.GetString()}\n\n";
+            if (OldOptions.HideGameSettings.GetBool() && !AmongUsClient.Instance.AmHost)
             {
                 text += $"<color=#ff0000>{GetString("Message.HideGameSettings")}</color>";
             }
             else
             {
                 //Standardの時のみ実行
-                if (Options.CurrentGameMode == CustomGameMode.Standard)
+                if (OldOptions.CurrentGameMode == CustomGameMode.Standard)
                 {
                     //有効な役職一覧
-                    text += $"<color={Utils.GetRoleColorCode(GM.Ref<GM>())}>{Utils.GetRoleName(GM.Ref<GM>())}:</color> {Options.EnableGM.GetString()}\n\n";
+                    /*text += $"<color={GM.Ref<GM>().RoleColor}>{GM.Ref<GM>().RoleName}:</color> {OldOptions.EnableGM.GetString()}\n\n";*/
                     text += GetString("ActiveRolesList") + "\n";
-                    foreach (var kvp in Options.CustomRoleSpawnChances)
+                    foreach (var kvp in OldOptions.CustomRoleSpawnChances)
                         if (kvp.Value.GameMode is CustomGameMode.Standard or CustomGameMode.All && kvp.Value.GetBool()) //スタンダードか全てのゲームモードで表示する役職
-                            text += $"{Utils.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
+                            text += $"{Utils.ColorString(kvp.Key.GetReduxRole().RoleColor, kvp.Key.GetReduxRole().RoleName)}: {kvp.Value.GetString()}×{kvp.Key.GetReduxRole().Count}\n";
                     pages.Add(text + "\n\n");
                     text = "";
                 }
                 //有効な役職と詳細設定一覧
                 pages.Add("");
-                nameAndValue(Options.EnableGM);
-                foreach (var kvp in Options.CustomRoleSpawnChances)
+                nameAndValue(OldOptions.EnableGM);
+                foreach (var kvp in OldOptions.CustomRoleSpawnChances)
                 {
-                    if (!kvp.Key.IsEnable() || kvp.Value.IsHiddenOn(Options.CurrentGameMode)) continue;
+                    if (!kvp.Key.GetReduxRole().IsEnable() || kvp.Value.IsHiddenOn(OldOptions.CurrentGameMode)) continue;
                     text += "\n";
-                    text += $"{Utils.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
-                    ShowChildren(kvp.Value, ref text, Utils.GetRoleColor(kvp.Key).ShadeColor(-0.5f), 1);
+                    text += $"{Utils.ColorString(kvp.Key.GetReduxRole().RoleColor, kvp.Key.GetReduxRole().RoleName)}: {kvp.Value.GetString()}×{kvp.Key.GetReduxRole().Count}\n";
+                    ShowChildren(kvp.Value, ref text, kvp.Key.GetReduxRole().RoleColor.ShadeColor(-0.5f), 1);
                     string rule = Utils.ColorString(Palette.ImpostorRed.ShadeColor(-0.5f), "┣ ");
                     string ruleFooter = Utils.ColorString(Palette.ImpostorRed.ShadeColor(-0.5f), "┗ ");
-                    if (kvp.Key.IsMadmate()) //マッドメイトの時に追加する詳細設定
+                    if (kvp.Key.GetReduxRole().IsMadmate()) //マッドメイトの時に追加する詳細設定
                     {
-                        text += $"{rule}{Options.MadmateCanFixLightsOut.GetName()}: {Options.MadmateCanFixLightsOut.GetString()}\n";
-                        text += $"{rule}{Options.MadmateCanFixComms.GetName()}: {Options.MadmateCanFixComms.GetString()}\n";
-                        text += $"{rule}{Options.MadmateHasImpostorVision.GetName()}: {Options.MadmateHasImpostorVision.GetString()}\n";
-                        text += $"{rule}{Options.MadmateCanSeeKillFlash.GetName()}: {Options.MadmateCanSeeKillFlash.GetString()}\n";
-                        text += $"{rule}{Options.MadmateCanSeeOtherVotes.GetName()}: {Options.MadmateCanSeeOtherVotes.GetString()}\n";
-                        text += $"{rule}{Options.MadmateCanSeeDeathReason.GetName()}: {Options.MadmateCanSeeDeathReason.GetString()}\n";
-                        text += $"{rule}{Options.MadmateRevengeCrewmate.GetName()}: {Options.MadmateRevengeCrewmate.GetString()}\n";
-                        text += $"{rule}{Options.MadmateVentCooldown.GetName()}: {Options.MadmateVentCooldown.GetString()}\n";
-                        text += $"{ruleFooter}{Options.MadmateVentMaxTime.GetName()}: {Options.MadmateVentMaxTime.GetString()}\n";
+                        text += $"{rule}{OldOptions.MadmateCanFixLightsOut.GetName()}: {OldOptions.MadmateCanFixLightsOut.GetString()}\n";
+                        text += $"{rule}{OldOptions.MadmateCanFixComms.GetName()}: {OldOptions.MadmateCanFixComms.GetString()}\n";
+                        text += $"{rule}{OldOptions.MadmateHasImpostorVision.GetName()}: {OldOptions.MadmateHasImpostorVision.GetString()}\n";
+                        text += $"{rule}{OldOptions.MadmateCanSeeKillFlash.GetName()}: {OldOptions.MadmateCanSeeKillFlash.GetString()}\n";
+                        text += $"{rule}{OldOptions.MadmateCanSeeOtherVotes.GetName()}: {OldOptions.MadmateCanSeeOtherVotes.GetString()}\n";
+                        text += $"{rule}{OldOptions.MadmateCanSeeDeathReason.GetName()}: {OldOptions.MadmateCanSeeDeathReason.GetString()}\n";
+                        text += $"{rule}{OldOptions.MadmateRevengeCrewmate.GetName()}: {OldOptions.MadmateRevengeCrewmate.GetString()}\n";
+                        text += $"{rule}{OldOptions.MadmateVentCooldown.GetName()}: {OldOptions.MadmateVentCooldown.GetString()}\n";
+                        text += $"{ruleFooter}{OldOptions.MadmateVentMaxTime.GetName()}: {OldOptions.MadmateVentMaxTime.GetString()}\n";
                     }
-                    if (kvp.Key.CanMakeMadmate()) //シェイプシフター役職の時に追加する詳細設定
+                    if (kvp.Key.GetReduxRole().CanMakeMadmate()) //シェイプシフター役職の時に追加する詳細設定
                     {
-                        text += $"{ruleFooter}{Options.CanMakeMadmateCount.GetName()}: {Options.CanMakeMadmateCount.GetString()}\n";
+                        text += $"{ruleFooter}{OldOptions.CanMakeMadmateCount.GetName()}: {OldOptions.CanMakeMadmateCount.GetString()}\n";
                     }
                 }
 
-                foreach (var opt in OptionItem.AllOptions.Where(x => x.Id >= 90000 && !x.IsHiddenOn(Options.CurrentGameMode) && x.Parent == null))
+                foreach (var opt in OptionItem.AllOptions.Where(x => x.Id >= 90000 && !x.IsHiddenOn(OldOptions.CurrentGameMode) && x.Parent == null))
                 {
                     if (opt.IsHeader) text += "\n";
                     text += $"{opt.GetName()}: {opt.GetString()}\n";

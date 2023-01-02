@@ -42,6 +42,7 @@ public class OptionValueHolder
     public string GetAsString(int index = -1)
     {
         if (this.values == null || this.values.Count == 0) return "N/A";
+        this.Index = this.Index == -1 ? 0 : this.Index;
         object value = this.values[index > -1 && index < this.values.Count ? index : this.Index];
         return value is not (float or double) ? value.ToString() : Math.Round(Convert.ToDecimal(value), 2).ToString();
     }
@@ -50,6 +51,7 @@ public class OptionValueHolder
     public object UpdateBoxedValue(object value)
     {
         this._lateBinding?.Invoke(value);
+        if (this.configEntry == null) return value;
         this.configEntry.BoxedValue = this.configEntry.BoxedValue switch
         {
             bool => Convert.ToBoolean(value),
@@ -103,6 +105,7 @@ public class OptionValueHolder
         if (reference == null || other == null) return false;
         return reference switch
         {
+            OptionValue v => fuzzyEquals(v.Value, other),
             bool b => b == Convert.ToBoolean(other),
             string s => s == Convert.ToString(other),
             byte b => b == Convert.ToByte(other),

@@ -28,10 +28,10 @@ public class Sniper: Morphling
     private Vector2 lastDirection;
 
     [DynElement(UI.Counter)]
-    private string BulletCountCounter() => $"({Helpers.ColorString(Color.yellow, $"{currentBulletCount}/{totalBulletCount}")})";
+    private string BulletCountCounter() => RoleUtils.Counter(currentBulletCount, totalBulletCount);
 
     [DynElement(UI.Misc)]
-    private string LoadedBulletDisplay() => Helpers.ColorString(Color.red, "▫".Repeat(loadedBullets));
+    private string LoadedBulletDisplay() => Color.red.Colorize("▫".Repeat(loadedBullets));
 
     protected override void Setup(PlayerControl player)
     {
@@ -94,7 +94,7 @@ public class Sniper: Morphling
             if (dotProduct < 0.98 || (error < 1.0 && preciseShooting)) continue;
             InteractionResult result = CheckInteractions(target.GetCustomRole(), target);
             if (result == InteractionResult.Halt) return killed;
-            PlayerStateOLD.SetDeathReason(target.PlayerId, PlayerStateOLD.DeathReason.Sniped);
+            /*PlayerStateOLD.SetDeathReason(target.PlayerId, PlayerStateOLD.DeathReason.Sniped);*/
             target.RpcMurderPlayer(target);
             MyPlayer.RpcGuardAndKill();
             killed = true;
@@ -105,8 +105,8 @@ public class Sniper: Morphling
         DesyncOptions.SendModifiedOptions(modifiedCooldown, MyPlayer);
         killCooldown.Start(refundCooldown * 0.5f);
 
-        Work.Schedule(() => MyPlayer.RpcRevertShapeshift(true), 0.3f);
-        Work.Schedule(this.SyncOptions, 1f);
+        DTask.Schedule(() => MyPlayer.RpcRevertShapeshift(true), 0.3f);
+        DTask.Schedule(this.SyncOptions, 1f);
 
         return true;
     }

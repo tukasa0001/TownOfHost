@@ -1,3 +1,4 @@
+/*
 using System.Collections.Generic;
 using System.Linq;
 using Hazel;
@@ -40,7 +41,7 @@ namespace TownOfHost
             CanKillMultipleTimes = CustomOption.Create(Id + 30150, Color.white, "CanKillMultipleTimes", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
             Options.SetupRoleOptions(Id + 20, CustomRoles.NiceGuesser, AmongUsExtensions.OptionType.Crewmate);
             Options.SetupRoleOptions(Id + 51, CustomRoles.Pirate, AmongUsExtensions.OptionType.Neutral);
-            PirateGuessAmount = CustomOption.Create(Id + 30170, Color.white, "PirateGuessAmount", AmongUsExtensions.OptionType.Impostor, 3, 1, 10, 1, Options.CustomRoleSpawnChances[CustomRoles.Pirate]);*/
+            PirateGuessAmount = CustomOption.Create(Id + 30170, Color.white, "PirateGuessAmount", AmongUsExtensions.OptionType.Impostor, 3, 1, 10, 1, Options.CustomRoleSpawnChances[CustomRoles.Pirate]);#1#
         }
         /*public static bool SetGuesserTeam(byte PlayerId = byte.MaxValue)//確定イビルゲッサーの人数とは別でイビルゲッサーかナイスゲッサーのどちらかに決める。
         {
@@ -53,7 +54,7 @@ namespace TownOfHost
             float NeutralGuesserRate = NeutralGuesserChance.GetFloat();
             IsNeutralGuesser[PlayerId] = UnityEngine.Random.Range(1, 100) < NeutralGuesserRate;
             return IsNeutralGuesser[PlayerId];
-        }*/
+        }#1#
         public static void Init()
         {
             playerIdList = new();
@@ -110,7 +111,7 @@ namespace TownOfHost
                     //if (target.Data.IsDead) return;
                     var r = GetGuessingType(killer.GetCustomRole(), targetrolenum);
                     if (target.Data.IsDead) return;
-                    if (target.GetCustomRole() == r /*TODO: subrole | target.GetCustomSubRole() == r*/)//当たっていた場合
+                    if (target.GetCustomRole() == r /*TODO: subrole | target.GetCustomSubRole() == r#1#)//当たっていた場合
                     {
                         if (killer.Is(CustomRoles.Pirate))
                             PirateGuess[killer.PlayerId]++;
@@ -214,7 +215,7 @@ namespace TownOfHost
                     {
                         var r = GetShootChoices(killer.GetCustomRole(), targetrolenum);
                         if (target.Data.IsDead) return;
-                        if (target.GetCustomRole().Is(r) /*TODO: Subrole| target.GetCustomSubRole() == r*/)//当たっていた場合
+                        if (target.GetCustomRole().Is(r) /*TODO: Subrole| target.GetCustomSubRole() == r#1#)//当たっていた場合
                         {
                             if (killer.Is(CustomRoles.Pirate))
                             {
@@ -446,8 +447,8 @@ namespace TownOfHost
                 /*if (role.IsModifier())
                 {
                     if (!role.IsCrewModifier() && role != CustomRoles.LoversRecode) continue;
-                }*/
-                if (/*TODO: Team logic!role.IsImpostorTeam() &&*/ role is not Egoist) assassinList.Add(role);
+                }#1#
+                if (/*TODO: Team logic!role.IsImpostorTeam() &&#1# role is not Egoist) assassinList.Add(role);
                 if (role is not Pirate) pirateList.Add(role);
                 if (!role.IsCrewmate()) vigiList.Add(role);
                 if (!role.IsCoven()) covenList.Add(role);
@@ -509,10 +510,11 @@ namespace TownOfHost
                     pc.RpcSetRole(RoleTypes.Impostor);
                 }
             }
-            new Work(() =>
+            new DTask(() =>
             {
                 GameManager.Instance.RpcEndGame(reason, showAd);
             }, 0.5f, "EndGameTask");
         }
     }
 }
+*/

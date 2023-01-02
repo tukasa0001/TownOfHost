@@ -22,11 +22,11 @@ public class Impostor: CustomRole
         return true;
     }
 
-    /*[RoleInteraction(typeof(Veteran))]
+    [RoleInteraction(typeof(Veteran))]
     public InteractionResult VeteranInteraction(PlayerControl vet)
     {
         return vet.GetCustomRole<Veteran>().TryKill(MyPlayer) ? InteractionResult.Halt : InteractionResult.Proceed;
-    }*/
+    }
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>
         roleModifier
