@@ -11,6 +11,7 @@ public class OptionValueHolder
     private ConfigEntryBase configEntry;
     private List<OptionValue> values;
     public int Index;
+    public int DefaultIndex = -1;
     public int Count => this.values.Count;
     public Action<object> LateBinding { set => _lateBinding = value; }
     private Action<object> _lateBinding;
@@ -20,13 +21,15 @@ public class OptionValueHolder
     /// THIS METHOD MAKES THE ASSUMPTION THAT ALL VALUES HAVE THE SAME HEADER & ENTRY
     /// </summary>
     /// <param name="values">List of similar option values</param>
-    public OptionValueHolder(List<OptionValue> values)
+    /// <param name="defaultIndex">The default index to bind this option to</param>
+    public OptionValueHolder(List<OptionValue> values, int defaultIndex = -1)
     {
-        if (values.Count > 0)
-            BindFirstValue(values[0]);
         this.values = values;
+        DefaultIndex = defaultIndex;
+        if (values.Count > 0)
+            BindFirstValue(values[DefaultIndex != -1  && DefaultIndex < values.Count ? DefaultIndex : 0]);
         this.Index = this.values.FindIndex(v => fuzzyEquals(configEntry?.BoxedValue, v?.Value));
-        this.Index = this.Index == -1 ? -1 : this.Index;
+        this.Index = this.Index == -1 ? DefaultIndex : Index;
         this.UpdateBinding();
     }
 

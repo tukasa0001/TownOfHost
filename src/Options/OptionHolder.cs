@@ -101,7 +101,7 @@ public class OptionHolder
         private object key;
         private Action<object> lateBinding;
         private bool isHeader;
-        private int valueIndex = -1;
+        private int defaultIndex = -1;
         private int level;
         private Color? color;
         private List<Func<string[], OptionValue>> values = new();
@@ -159,21 +159,21 @@ public class OptionHolder
 
         public SmartOptionBuilder AddValues(int startIndex = -1, params object[] values)
         {
-            this.valueIndex = startIndex != -1 ? startIndex : this.valueIndex;
+            this.defaultIndex = startIndex != -1 ? startIndex : this.defaultIndex;
             this.values.AddRange(values.Select(v => (Func<string[], OptionValue>)(s => new OptionValue(v, cfgHeader: s[0], cfgEntry: s[1]))));
             return this;
         }
 
         public SmartOptionBuilder AddValues(int startIndex = -1, params OptionValue[] values)
         {
-            this.valueIndex = startIndex != -1 ? startIndex : this.valueIndex;
+            this.defaultIndex = startIndex != -1 ? startIndex : this.defaultIndex;
             this.values.AddRange(values.Select(v => (Func<string[], OptionValue>)(_ => v)));
             return this;
         }
 
         public SmartOptionBuilder AddValues(Range range, int startIndex = 0, string prefix = "", string suffix = "", Color? color = null)
         {
-            this.valueIndex = startIndex != -1 ? startIndex : this.valueIndex;
+            this.defaultIndex = startIndex != -1 ? startIndex : this.defaultIndex;
             range.ToEnumerator().Do(i => this.AddValue(i, prefix, suffix, color));
             return this;
         }
@@ -186,14 +186,14 @@ public class OptionHolder
 
         public SmartOptionBuilder AddFloatRangeValues(float start, float stop, float step = 1, int startIndex = -1, string suffix = "")
         {
-            this.valueIndex = startIndex != -1 ? startIndex : this.valueIndex;
+            this.defaultIndex = startIndex != -1 ? startIndex : this.defaultIndex;
             this.values.AddRange(new FloatRangeGenerator(start, stop, step).GetRange().Select(v => (Func<string[], OptionValue>)(s => new OptionValue(v, cfgHeader: s[0], cfgEntry: s[1], suffix: suffix))));
             return this;
         }
 
         public SmartOptionBuilder AddIntRangeValues(int start, int stop, int step = 1, int startIndex = -1, string suffix = "")
         {
-            this.valueIndex = startIndex != -1 ? startIndex : this.valueIndex;
+            this.defaultIndex = startIndex != -1 ? startIndex : this.defaultIndex;
             this.values.AddRange(new IntRangeGenerator(start, stop, step).GetRange().Select(v => (Func<string[], OptionValue>)(s => new OptionValue(v, cfgHeader: s[0], cfgEntry: s[1], suffix: suffix))));
             return this;
         }
@@ -256,13 +256,11 @@ public class OptionHolder
         public OptionHolder Build(bool createHeaderIfNull = true)
         {
             this.header ??= (!createHeaderIfNull ? this.header : (this.name + "Options"));
-            OptionValueHolder valueHolder = new(this.values.Select(value => value.Invoke(new[] { this.header, this.name })).ToList());
+            OptionValueHolder valueHolder = new(this.values.Select(value => value.Invoke(new[] { this.header, this.name })).ToList(), defaultIndex);
             if (this.key != null)
                 Main.OptionManager.BindValueHolder(this.key, valueHolder);
             if (this.lateBinding != null)
                 valueHolder.LateBinding = this.lateBinding;
-            if (valueIndex != -1 && valueHolder.Index == -1)
-                valueHolder.Index = valueIndex;
             return new OptionHolder
             {
                 Name = this.name,
