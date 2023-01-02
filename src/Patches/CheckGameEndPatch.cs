@@ -6,6 +6,7 @@ using Hazel;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Roles;
+using TownOfHost.Factions;
 
 namespace TownOfHost
 {
