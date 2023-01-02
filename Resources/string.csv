@@ -443,7 +443,7 @@
 "Command.dump","Output Log to Desktop","デスクトップにログを出力","将游戏运行日志输出到桌面","在桌面上建立遊戲輸出日誌","Вывод Журнала На Рабочий Стол","Enviar Registro (log) Para Área de Trabalho"
 "Command.h_args","Available Args (Clipped)","使用可能な引数 (略称)","可用参数（简写）","可用的參數(簡稱)","Доступные Аргументы (Ограниченные)","Argumentos Disponíveis (Atalho)"
 
-"CantUse.lastroles","Unable to use /lastroles during a game.","試合中に/lastrolesを使用することはできません。","不可以在游戏中使用/lastroles命令","不可以在遊戲中使用/lastroles指令","Не могу использовать /lastroles в игре.","Impossível usar /lastroles durante um jogo."
+"CantUse.lastresult","Unable to use /lastresult during a game.","試合中に/lastresultを使用することはできません。","不可以在游戏中使用/lastresult命令","不可以在遊戲中使用/lastresult指令","Не могу использовать /lastresult в игре.","Impossível usar /lastresult durante um jogo."
 
 "## メッセージ"
 "Message.SetToSeconds","Set to {0} seconds.","{0}秒に設定されました","信息发送冷却时间为{0}秒","訊息發送冷卻已設定為{0}秒","Установить на {0} секунд","Definido para {0} segundos."
