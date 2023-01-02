@@ -267,7 +267,7 @@ public static class StaticOptions
             .IsHeader(true)
             .BindBool(v => EnableGM = v)
             .AddOnOffValues(false)
-            .Color(Utils.GetRoleColor(GM.Ref<GM>()))
+            .Color(GM.Ref<GM>().RoleColor)
             .Build()
         );
 

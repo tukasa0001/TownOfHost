@@ -1,8 +1,6 @@
 using System;
 using System.Linq;
-using System.Text.RegularExpressions;
 using HarmonyLib;
-using TownOfHost.Extensions;
 using TownOfHost.Interface.Menus;
 using TownOfHost.ReduxOptions;
 using UnityEngine;

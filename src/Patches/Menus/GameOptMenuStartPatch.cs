@@ -5,6 +5,7 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using TownOfHost.Extensions;
 using TownOfHost.Interface.Menus;
+using TownOfHost.Interface.Menus.CustomNameMenu;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -48,7 +49,7 @@ public class GameOptMenuStartPatch
 
             var gameSettings = GameObject.Find("Game Settings");
             if (gameSettings == null) return;
-            gameSettings.transform.FindChild("GameGroup").GetComponent<Scroller>().ScrollWheelSpeed = 1f;
+            //gameSettings.transform.FindChild("GameGroup").GetComponent<Scroller>().ScrollWheelSpeed = 1f;
 
             var gameSettingMenu = Object.FindObjectsOfType<GameSettingMenu>().FirstOrDefault();
             if (gameSettingMenu == null) return;
@@ -60,10 +61,9 @@ public class GameOptMenuStartPatch
             List<GameObject> tabs = new() { gameTab, roleTab };
 
 
-            Main.OptionManager.Tabs.Count.DebugLog("Tab count: ");
             foreach (GameOptionTab tab in Main.OptionManager.Tabs)
             {
-                var obj = gameSettings.transform.parent.Find(tab + "Tab");
+                var obj = gameSettings.transform.parent.Find(tab.Name);
                 if (obj != null)
                 {
                     obj.transform.FindChild("../../GameGroup/Text").GetComponent<TMPro.TextMeshPro>().SetText(Translator.GetString("TabGroup." + tab));
@@ -111,6 +111,7 @@ public class GameOptMenuStartPatch
                     {
                         menus[j].SetActive(j == copiedIndex);
                         highlights[j].enabled = j == copiedIndex;
+                        CustomNameMenu.CloseNameScreen(true);
                     }
                 };
                 button.OnClick.AddListener(value);

@@ -6,10 +6,10 @@ namespace TownOfHost.Interface.Menus.CustomNameMenu;
 
 public class CustomNameMenu
 {
+    private static GameObject NamePositionMenu;
     public static DynamicName Name;
     private static CustomTextButton openMenuButton;
     private static GameOptionsMenu gsm;
-    private static GameObject NamePositionMenu;
     private static CustomNameMenuPane pane;
     private static DynamicName preview;
     private static UI activeComponent;
@@ -28,24 +28,27 @@ public class CustomNameMenu
     {
         public static void Postfix()
         {
-            if (NamePositionMenu != null) return;
-            Name = new();
+            if (NamePositionMenu != null) Template.Refresh();
+            Name = new DynamicName();
             Name.Deserialize();
             GameObject gameSettings = GameObject.Find("Game Settings");
+            if (gameSettings == null) return;
             gsm = gameSettings.transform
                 .FindChild("GameGroup")
                 .FindChild("SliderInner")
                 .GetComponent<GameOptionsMenu>();
+            gsm.GetComponentInParent<Scroller>().ContentYBounds.max = 5.7f;
 
 
             CustomTextButton openMenuButton = CustomTextButton.Create(gsm.transform);
-            openMenuButton.Transform.localPosition =
-                Template.GetStringOption().transform.localPosition + new Vector3(0, -2f);
+            openMenuButton.Transform.localPosition = Template.GetStringOption().transform.localPosition + new Vector3(0, -2f);
 
             openMenuButton.SetHoverBackgroundColor(Color.blue);
             openMenuButton.SetHoverTextColor(Color.yellow);
             openMenuButton.Text.text = "Modify Name Position";
+            openMenuButton.AddOnClickHandle(ShowNameScreen);
 
+            if (NamePositionMenu != null) return;
 
             NamePositionMenu = new();
             NamePositionMenu.transform.position = gameSettings.transform.position + new Vector3(1.75f, -3f);
@@ -54,9 +57,6 @@ public class CustomNameMenu
             pane.SetName(Name.PreviewName());
 
             NamePositionMenu.SetActive(false);
-
-
-            openMenuButton.AddOnClickHandle(ShowNameScreen);
             ControllerManager.Instance.ClearDestroyedSelectableUiElements();
         }
 
@@ -304,10 +304,13 @@ public class CustomNameMenu
     [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.Close))]
     public class CustomNameMenuClose
     {
-        public static void Prefix()
-        {
-            NamePositionMenu.SetActive(false);
-        }
+        public static void Prefix() => CloseNameScreen();
+    }
+
+    public static void CloseNameScreen(bool switchTab = false)
+    {
+        gsm.gameObject.SetActive(switchTab);
+        NamePositionMenu.SetActive(false);
     }
 
 }

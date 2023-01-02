@@ -26,7 +26,7 @@ public class OptionHolder
     public bool IsHeader;
 
     public OptionValueHolder valueHolder { get => _valueHolder; init => _valueHolder = value; }
-    public List<OptionHolder> SubOptions { private get => _subOptions; init => _subOptions = value; }
+    public List<OptionHolder> SubOptions { get => _subOptions; init => _subOptions = value; }
     public Func<object, bool> ShowOptionPredicate { private get => _showOptionPredicate; init => _showOptionPredicate = value; }
     public int Level;
 
@@ -75,6 +75,8 @@ public class OptionHolder
         behaviours.AddRange(SubOptions.SelectMany(opt => opt.CreateBehaviours(template, parent)));
         return behaviours;
     }
+
+    public bool MatchesPredicate() => ShowOptionPredicate != null && !ShowOptionPredicate.Invoke(GetValue());
 
     public List<OptionHolder> EnabledOptions(bool forceShow = false)
     {
