@@ -164,6 +164,7 @@ namespace TownOfHost
             // return c;
             return role.RoleColor;
         }
+        public static Color ConvertHexToColor(string hex) { ColorUtility.TryParseHtmlString(hex, out Color c); return c; }
         public static string GetRoleColorCode(CustomRole role)
         {
             Color c = role?.RoleColor ?? Color.white;
