@@ -28,7 +28,7 @@ namespace TownOfHost
                         Logger.Warn("プレイヤーがnullです", "RandomSpawn");
                         return;
                     }
-                    /*if (player.Is(GM.Ref<GM>())) return; //GMは対象外に*/
+                    /*if (player.Is(CustomRoleManager.Static.GM)) return; //GMは対象外に*/
 
                     NumOfTP[player.PlayerId]++;
 

@@ -2,9 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Extensions;
 using TownOfHost.ReduxOptions;
-using System;
 using TownOfHost.Roles;
-using TownOfHost.Options;
 using UnityEngine;
 using static TownOfHost.Translator;
 
@@ -39,7 +37,7 @@ namespace TownOfHost
                 if (OldOptions.CurrentGameMode == CustomGameMode.Standard)
                 {
                     //有効な役職一覧
-                    /*text += $"<color={GM.Ref<GM>().RoleColor}>{GM.Ref<GM>().RoleName}:</color> {OldOptions.EnableGM.GetString()}\n\n";*/
+                    /*text += $"<color={CustomRoleManager.Static.GM.RoleColor}>{CustomRoleManager.Static.GM.RoleName}:</color> {OldOptions.EnableGM.GetString()}\n\n";*/
                     text += GetString("ActiveRolesList") + "\n";
                     foreach (CustomRole role in CustomRoleManager.Roles)
                     {
@@ -56,13 +54,17 @@ namespace TownOfHost
                 //有効な役職と詳細設定一覧
                 pages.Add("");
                 // nameAndValue(OldOptions.EnableGM);
-                text += $"{Utils.ColorString(GM.Ref<GM>().RoleColor, "GM")}: {Utils.GetOnOff(StaticOptions.EnableGM)}\n";
+                text += $"{CustomRoleManager.Static.GM.RoleColor.Colorize("GM")}: {Utils.GetOnOffColored(StaticOptions.EnableGM)}\n";
+                HashSet<OptionHolder> roleHolders = new();
                 foreach (CustomRole role in CustomRoleManager.Roles)
                 {
-                    if (!role.IsEnable()) continue;
+                    OptionHolder matchingHolder = Main.OptionManager.Options().FirstOrDefault(h => h.Name == role.RoleName);
+                    if (matchingHolder != null) roleHolders.Add(matchingHolder);
+
+                    if (!role.IsEnable() || role is GM) continue;
                     text += "\n";
-                    text += $"{role.RoleColor.Colorize(role.RoleName)}: {role.Chance}%x{role.Count}\n";
-                    OptionHolder matchingHolder = Main.OptionManager.AllHolders.FirstOrDefault(h => h.Name == role.RoleName);
+                    text += $"{role.RoleColor.Colorize(role.RoleName)}: {role.Chance}%×{role.Count}\n";
+
                     if (matchingHolder != null)
                         ShowChildren(matchingHolder, ref text, role.RoleColor.ShadeColor(-0.5f), 1);
 
@@ -86,17 +88,16 @@ namespace TownOfHost
                     }*/
                 }
 
-                /*foreach (var opt in OptionItem.AllOptions.Where(x => x.Id >= 90000 && !x.IsHiddenOn(OldOptions.CurrentGameMode) && x.Parent == null))
+                foreach (OptionHolder holder in Main.OptionManager.Options().Where(o => !roleHolders.Contains(o)))
                 {
-                    if (opt.IsHeader) text += "\n";
-                    text += $"{opt.GetName()}: {opt.GetString()}\n";
-                    if (opt.GetBool())
-                        ShowChildren(opt, ref text, Color.white, 1);
-                }*/
-                //Onの時に子要素まで表示するメソッド
-                void nameAndValue(OptionItem o) => text += $"{o.GetName()}: {o.GetString()}\n";
+                    if (holder.Name == "GM") continue;
+                    if (holder.IsHeader) text += "\n";
+                    text += $"{holder.Name}: {holder.GetAsString()}\n";
+                    if (holder.MatchesPredicate())
+                        ShowChildren(holder, ref text, Color.white, 1);
+                }
             }
-            //1ページにつき35行までにする処理
+
             List<string> tmp = new(text.Split("\n\n"));
             for (var i = 0; i < tmp.Count; i++)
             {

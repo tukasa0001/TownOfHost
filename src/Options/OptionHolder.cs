@@ -75,7 +75,7 @@ public class OptionHolder
         return behaviours;
     }
 
-    public bool MatchesPredicate() => ShowOptionPredicate != null && !ShowOptionPredicate.Invoke(GetValue());
+    public bool MatchesPredicate() => ShowOptionPredicate != null && ShowOptionPredicate.Invoke(GetValue());
 
     public List<OptionHolder> EnabledOptions(bool forceShow = false)
     {

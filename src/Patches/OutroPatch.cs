@@ -186,8 +186,8 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost && Main.PlayerStates[0].MainRole == CustomRoles.GM)
             {
                 __instance.WinText.text = "Game Over";
-                __instance.WinText.color = Utils.GetRoleColor(GM.Ref<GM>());
-                __instance.BackgroundBar.material.color = Utils.GetRoleColor(GM.Ref<GM>());
+                __instance.WinText.color = Utils.GetRoleColor(CustomRoleManager.Static.GM);
+                __instance.BackgroundBar.material.color = Utils.GetRoleColor(CustomRoleManager.Static.GM);
             }
             switch (CustomWinnerHolder.WinnerTeam)
             {

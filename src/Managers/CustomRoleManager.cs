@@ -50,6 +50,7 @@ public class CustomRoleManager
 
     public class StaticRoles
     {
+        public GM GM = new GM();
         public Impostor Impostor = new Impostor();
         public Morphling Morphling = new Morphling();
         public Madmate Madmate = new Madmate();

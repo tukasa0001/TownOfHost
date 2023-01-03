@@ -1,4 +1,5 @@
 using System;
+using TownOfHost.Extensions;
 using TownOfHost.Roles;
 using TownOfHost.Options;
 using System.Collections.Generic;
@@ -274,7 +275,7 @@ public static class StaticOptions
             .IsHeader(true)
             .BindBool(v => EnableGM = v)
             .AddOnOffValues(false)
-            .Color(GM.Ref<GM>().RoleColor)
+            .Color(CustomRoleManager.Static.GM.RoleColor)
             .Build()
         );
 

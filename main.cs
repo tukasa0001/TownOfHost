@@ -289,6 +289,7 @@ namespace TownOfHost
             Harmony.PatchAll();
             AddonManager.ImportAddons();
             StaticOptions.AddStaticOptions();
+            OptionManager.AllHolders = OptionManager.Options().SelectMany(opt => opt.GetHoldersRecursive()).ToList();
         }
     }
     public enum CustomRoles

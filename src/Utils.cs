@@ -851,6 +851,7 @@ namespace TownOfHost
         }
         public static string ColorString(Color32 color, string str) => $"<color=#{color.r:x2}{color.g:x2}{color.b:x2}{color.a:x2}>{str}</color>";
         public static string GetOnOff(bool value) => value ? "ON" : "OFF";
+        public static string GetOnOffColored(bool value) => value ? Color.cyan.Colorize("ON") : Color.red.Colorize("OFF");
         /// <summary>
         /// Darkness:１の比率で黒色と元の色を混ぜる。マイナスだと白色と混ぜる。
         /// </summary>
