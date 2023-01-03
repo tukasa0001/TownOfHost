@@ -1,6 +1,9 @@
 using System;
 using TownOfHost.Roles;
 using TownOfHost.Options;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace TownOfHost.ReduxOptions;
 
@@ -95,6 +98,7 @@ public static class StaticOptions
             "Original Name"
         };
     public static string WhenNonVote = ":O";
+    public static string WhenTieVote = "";
     public static bool CanTerroristSuicideWin = false;
     public static bool LadderDeath = false;
     public static object LadderDeathChance { get; set; }
@@ -152,10 +156,12 @@ public static class StaticOptions
     public static bool AddedTheAirShip = false;
     public static bool JackalCanUseSabotage = false;
     public static bool PestiCanVent = false;
+    public static bool ResetKillCooldown = false;
     public static bool RandomSpawn = false;
     public static bool BKcanVent = false;
     public static bool MarksmanCanVent = false;
     public static bool HitmanCanVent = false;
+    public static string SuffixStr = "";
     public static bool GrenadierCanVent = false;
     public static int MayorAdditionalVote = 1;
     public static bool MayorVotesAppearBlack = false;
@@ -175,7 +181,8 @@ public static class StaticOptions
     public static bool HexMasterOn = false;
 
     public static bool MedusaOn = false;
-
+    public static string Suffix = "";
+    public static string VoteModeStr = "";
 
     public static int CovenMeetings = 1;
     public static bool ModifierRestrict = false;
@@ -316,9 +323,10 @@ public static class StaticOptions
         );
 
         manager.Add(new SmartOptionBuilder()
-            .Name("Tos Options")
+            .Name("ToS Options")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
+            .Color(Color.yellow)
             .BindBool(v => TosOptions = v)
             .ShowSubOptionsWhen(v => (bool)v)
             .AddOnOffValues(false)
@@ -326,6 +334,12 @@ public static class StaticOptions
                 .Name("Attack and Defense Values")
                 .BindBool(v => AttackDefenseValues = v)
                 .AddOnOffValues(false)
+                .ShowSubOptionsWhen(v => (bool)v)
+                .AddSubOption(sub2 => sub2
+                .Name("Reset Kill Cooldown")
+                .BindBool(v => ResetKillCooldown = v)
+                .AddOnOffValues(false)
+                .Build())
                 .Build())
             .AddSubOption(sub => sub
                 .Name("Serial Killer kills RoleBlockers")
@@ -509,6 +523,7 @@ public static class StaticOptions
             .AddSubOption(sub => sub
                 .Name("When Skip Vote")
                 .AddValues(-1, voteModes[0..3])
+                .Bind(v => VoteModeStr = (string)v)
                 .Build())
             .AddSubOption(sub => sub
                 .Name("When SkipVote Ignore First Meeting")
@@ -528,10 +543,12 @@ public static class StaticOptions
             .AddSubOption(sub => sub
                 .Name("When Non Vote")
                 .AddValues(-1, voteModes)
+                .Bind(v => WhenNonVote = (string)v)
                 .Build())
             .AddSubOption(sub => sub
                 .Name("When Tie")
                 .AddValues(-1, tieModes)
+                .Bind(v => WhenTieVote = (string)v)
                 .Build())
             .Build()
         );
@@ -654,7 +671,7 @@ public static class StaticOptions
         manager.Add(new SmartOptionBuilder()
             .Name("NoGameEnd")
             .Tab(DefaultTabs.GeneralTab)
-        //    .IsHeader(true)
+            .IsHeader(true)
             .BindBool(v => Main.NoGameEnd = v)
             .AddOnOffValues(false)
             .Build()
@@ -705,6 +722,7 @@ public static class StaticOptions
            .Tab(DefaultTabs.GeneralTab)
            //    .IsHeader(true)
            .AddValues(-1, suffixModes)
+           .Bind(v => SuffixStr = (string)v)
            .Build()
         );
 

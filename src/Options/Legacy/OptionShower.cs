@@ -2,9 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Extensions;
 using TownOfHost.ReduxOptions;
+using System;
+using TownOfHost.Roles;
+using TownOfHost.Options;
 using UnityEngine;
 using static TownOfHost.Translator;
-using TownOfHost.Roles;
 
 namespace TownOfHost
 {
@@ -53,13 +55,14 @@ namespace TownOfHost
                 }
                 //有効な役職と詳細設定一覧
                 pages.Add("");
-                nameAndValue(OldOptions.EnableGM);
+                // nameAndValue(OldOptions.EnableGM);
+                text += $"{Utils.ColorString(GM.Ref<GM>().RoleColor, "GM")}: {Utils.GetOnOff(StaticOptions.EnableGM)}\n";
                 foreach (CustomRole role in CustomRoleManager.Roles)
                 {
                     if (!role.IsEnable()) continue;
                     text += "\n";
-                    text += $"{role.RoleColor.Colorize(role.RoleName)}: {role.Chance}%×{role.Count}\n";
-                    OptionHolder matchingHolder =Main.OptionManager.AllHolders.FirstOrDefault(h => h.Name == role.RoleName);
+                    text += $"{role.RoleColor.Colorize(role.RoleName)}: {role.Chance}%x{role.Count}\n";
+                    OptionHolder matchingHolder = Main.OptionManager.AllHolders.FirstOrDefault(h => h.Name == role.RoleName);
                     if (matchingHolder != null)
                         ShowChildren(matchingHolder, ref text, role.RoleColor.ShadeColor(-0.5f), 1);
 
