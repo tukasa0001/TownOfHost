@@ -18,6 +18,7 @@ namespace TownOfHost
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             GameStates.InGame = false;
 
+            Logger.Info("-----------ゲーム終了-----------", "Phase");
             if (!GameStates.IsModHost) return;
             SummaryText = new();
             foreach (var id in Main.PlayerStates.Keys)
@@ -33,7 +34,6 @@ namespace TownOfHost
                 if (killerId != byte.MaxValue && killerId != targetId)
                     KillLog += $"\n\t\t⇐ {Main.AllPlayerNames[killerId]}({Utils.GetDisplayRoleName(killerId)}{Utils.GetSubRolesText(killerId)})";
             }
-            Logger.Info("-----------ゲーム終了-----------", "Phase");
             Main.NormalOptions.KillCooldown = Options.DefaultKillCooldown;
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
