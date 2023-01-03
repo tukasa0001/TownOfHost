@@ -7,6 +7,7 @@ using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Roles;
 using static TownOfHost.Translator;
+using TownOfHost.ReduxOptions;
 
 namespace TownOfHost
 {
@@ -254,7 +255,7 @@ namespace TownOfHost
                 if (Main.NormalOptions.MapId != 4)
                 {
                     PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcResetAbilityCooldown());
-                    if (OldOptions.FixFirstKillCooldown.GetBool())
+                    if (StaticOptions.FixFirstKillCooldown)
                         new DTask(() =>
                         {
                             PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.SetKillCooldown(Main.AllPlayerKillCooldown[pc.PlayerId] - 2f));
@@ -266,7 +267,7 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.RpcExile();
                     Main.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SetDead();
                 }
-                if (OldOptions.RandomSpawn.GetBool())
+                if (StaticOptions.RandomSpawn)
                 {
                     RandomSpawn.SpawnMap map;
                     switch (Main.NormalOptions.MapId)

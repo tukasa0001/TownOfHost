@@ -1,4 +1,5 @@
 using HarmonyLib;
+using TownOfHost.ReduxOptions;
 
 namespace TownOfHost
 {
@@ -10,12 +11,12 @@ namespace TownOfHost
     {
         public static void Prefix(ReactorSystemType __instance)
         {
-            if (!__instance.IsActive || !OldOptions.SabotageTimeControl.GetBool())
+            if (!__instance.IsActive || !StaticOptions.SabotageTimeControl)
                 return;
             if (ShipStatus.Instance.Type == ShipStatus.MapType.Pb)
             {
-                if (__instance.Countdown >= OldOptions.PolusReactorTimeLimit.GetFloat())
-                    __instance.Countdown = OldOptions.PolusReactorTimeLimit.GetFloat();
+                if (__instance.Countdown >= StaticOptions.PolusReactorTimeLimit)
+                    __instance.Countdown = StaticOptions.PolusReactorTimeLimit;
                 return;
             }
             return;
@@ -26,11 +27,11 @@ namespace TownOfHost
     {
         public static void Prefix(HeliSabotageSystem __instance)
         {
-            if (!__instance.IsActive || !OldOptions.SabotageTimeControl.GetBool())
+            if (!__instance.IsActive || !StaticOptions.SabotageTimeControl)
                 return;
             if (AirshipStatus.Instance != null)
-                if (__instance.Countdown >= OldOptions.AirshipReactorTimeLimit.GetFloat())
-                    __instance.Countdown = OldOptions.AirshipReactorTimeLimit.GetFloat();
+                if (__instance.Countdown >= StaticOptions.AirshipReactorTimeLimit)
+                    __instance.Countdown = StaticOptions.AirshipReactorTimeLimit;
         }
     }
 }

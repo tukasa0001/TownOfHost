@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
+using TownOfHost.ReduxOptions;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Roles;
@@ -51,7 +52,7 @@ public static class FixedUpdatePatch
                 }
             }
 
-            if (GameStates.IsInTask && player.IsAlive() && OldOptions.LadderDeath.GetBool())
+            if (GameStates.IsInTask && player.IsAlive() && StaticOptions.LadderDeath)
             {
                 FallFromLadder.FixedUpdate(player);
             }

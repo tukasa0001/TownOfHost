@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using HarmonyLib;
+using TownOfHost.ReduxOptions;
 using UnityEngine;
 
 namespace TownOfHost
@@ -7,14 +8,15 @@ namespace TownOfHost
     public class FallFromLadder
     {
         public static Dictionary<byte, Vector3> TargetLadderData;
-        private static int Chance => (OldOptions.LadderDeathChance as StringOptionItem).GetChance();
+        // TODO: FIX THIS LOL
+        private static int Chance => (StaticOptions.LadderDeathChance as StringOptionItem).GetChance();
         public static void Reset()
         {
             TargetLadderData = new();
         }
         public static void OnClimbLadder(PlayerPhysics player, Ladder source)
         {
-            if (!OldOptions.LadderDeath.GetBool()) return;
+            if (!StaticOptions.LadderDeath) return;
             var sourcePos = source.transform.position;
             var targetPos = source.Destination.transform.position;
             //降りているのかを検知

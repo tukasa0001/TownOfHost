@@ -4,6 +4,7 @@ using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using TownOfHost.Extensions;
 using TownOfHost.Roles;
+using TownOfHost.ReduxOptions;
 
 namespace TownOfHost
 {
@@ -13,17 +14,17 @@ namespace TownOfHost
         public static void Prefix(ShipStatus __instance,
             [HarmonyArgument(4)] Il2CppSystem.Collections.Generic.List<NormalPlayerTask> unusedTasks)
         {
-            if (!OldOptions.DisableTasks.GetBool()) return;
+            if (!StaticOptions.DisableTasks) return;
             List<NormalPlayerTask> disabledTasks = new();
             for (var i = 0; i < unusedTasks.Count; i++)
             {
                 var task = unusedTasks[i];
-                if (task.TaskType == TaskTypes.SwipeCard && OldOptions.DisableSwipeCard.GetBool()) disabledTasks.Add(task);//カードタスク
-                if (task.TaskType == TaskTypes.SubmitScan && OldOptions.DisableSubmitScan.GetBool()) disabledTasks.Add(task);//スキャンタスク
-                if (task.TaskType == TaskTypes.UnlockSafe && OldOptions.DisableUnlockSafe.GetBool()) disabledTasks.Add(task);//金庫タスク
-                if (task.TaskType == TaskTypes.UploadData && OldOptions.DisableUploadData.GetBool()) disabledTasks.Add(task);//アップロードタスク
-                if (task.TaskType == TaskTypes.StartReactor && OldOptions.DisableStartReactor.GetBool()) disabledTasks.Add(task);//リアクターの3x3タスク
-                if (task.TaskType == TaskTypes.ResetBreakers && OldOptions.DisableResetBreaker.GetBool()) disabledTasks.Add(task);//レバータスク
+                if (task.TaskType == TaskTypes.SwipeCard && StaticOptions.DisableSwipeCard) disabledTasks.Add(task);//カードタスク
+                if (task.TaskType == TaskTypes.SubmitScan && StaticOptions.DisableSubmitScan) disabledTasks.Add(task);//スキャンタスク
+                if (task.TaskType == TaskTypes.UnlockSafe && StaticOptions.DisableUnlockSafe) disabledTasks.Add(task);//金庫タスク
+                if (task.TaskType == TaskTypes.UploadData && StaticOptions.DisableUploadData) disabledTasks.Add(task);//アップロードタスク
+                if (task.TaskType == TaskTypes.StartReactor && StaticOptions.DisableStartReactor) disabledTasks.Add(task);//リアクターの3x3タスク
+                if (task.TaskType == TaskTypes.ResetBreakers && StaticOptions.DisableResetBreaker) disabledTasks.Add(task);//レバータスク
             }
             foreach (var task in disabledTasks)
             {

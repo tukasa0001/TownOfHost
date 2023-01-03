@@ -2,6 +2,7 @@ using System.Linq;
 using AmongUs.Data;
 using HarmonyLib;
 using TownOfHost.Roles;
+using TownOfHost.ReduxOptions;
 using TownOfHost.Extensions;
 
 namespace TownOfHost
@@ -95,7 +96,7 @@ namespace TownOfHost
                 Main.CursedPlayers[pc.PlayerId] = null;
                 Main.isCurseAndKill[pc.PlayerId] = false;
             }
-            if (OldOptions.RandomSpawn.GetBool())
+            if (StaticOptions.RandomSpawn)
             {
                 RandomSpawn.SpawnMap map;
                 switch (Main.NormalOptions.MapId)

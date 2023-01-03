@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using TownOfHost.ReduxOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Roles;
 
@@ -15,8 +16,8 @@ public class ReportDeadBodyPatch
     {
         if (GameStates.IsMeeting) return false;
         Logger.Info($"{__instance.GetNameWithRole()} => {target?.Object?.GetNameWithRole() ?? "null"}", "ReportDeadBody");
-        if (OldOptions.IsStandardHAS && target != null && __instance == target.Object) return true; //[StandardHAS] ボタンでなく、通報者と死体が同じなら許可
-        if (OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek || OldOptions.IsStandardHAS) return false;
+        if (StaticOptions.IsStandardHAS && target != null && __instance == target.Object) return true; //[StandardHAS] ボタンでなく、通報者と死体が同じなら許可
+        if (OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek || StaticOptions.IsStandardHAS) return false;
         if (!CanReport[__instance.PlayerId])
         {
             WaitReport[__instance.PlayerId].Add(target);
@@ -39,16 +40,16 @@ public class ReportDeadBodyPatch
             }
         }
 
-        if (OldOptions.SyncButtonMode.GetBool() && target == null)
+        if (StaticOptions.SyncButtonMode && target == null)
         {
-            Logger.Info("最大:" + OldOptions.SyncedButtonCount.GetInt() + ", 現在:" + OldOptions.UsedButtonCount, "ReportDeadBody");
-            if (OldOptions.SyncedButtonCount.GetFloat() <= OldOptions.UsedButtonCount)
+            Logger.Info("最大:" + StaticOptions.SyncedButtonCount + ", 現在:" + OldOptions.UsedButtonCount, "ReportDeadBody");
+            if (StaticOptions.SyncedButtonCount <= OldOptions.UsedButtonCount)
             {
                 Logger.Info("使用可能ボタン回数が最大数を超えているため、ボタンはキャンセルされました。", "ReportDeadBody");
                 return false;
             }
             else OldOptions.UsedButtonCount++;
-            if (OldOptions.SyncedButtonCount.GetFloat() == OldOptions.UsedButtonCount)
+            if (StaticOptions.SyncedButtonCount == OldOptions.UsedButtonCount)
             {
                 Logger.Info("使用可能ボタン回数が最大数に達しました。", "ReportDeadBody");
             }

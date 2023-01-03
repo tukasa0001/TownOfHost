@@ -1,6 +1,7 @@
 using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
+using TownOfHost.ReduxOptions;
 using UnityEngine;
 
 namespace TownOfHost
@@ -102,7 +103,7 @@ namespace TownOfHost
         public static bool Prefix(GameStartRandomMap __instance)
         {
             bool continueStart = true;
-            if (OldOptions.RandomMapsMode.GetBool())
+            if (StaticOptions.RandomMapsMode)
             {
                 var rand = IRandom.Instance;
                 System.Collections.Generic.List<byte> RandomMaps = new();
@@ -111,11 +112,11 @@ namespace TownOfHost
                 Polus      = 2
                 Dleks      = 3
                 TheAirShip = 4*/
-                if (OldOptions.AddedTheSkeld.GetBool()) RandomMaps.Add(0);
-                if (OldOptions.AddedMiraHQ.GetBool()) RandomMaps.Add(1);
-                if (OldOptions.AddedPolus.GetBool()) RandomMaps.Add(2);
+                if (StaticOptions.AddedTheSkeld) RandomMaps.Add(0);
+                if (StaticOptions.AddedMiraHQ) RandomMaps.Add(1);
+                if (StaticOptions.AddedPolus) RandomMaps.Add(2);
                 // if (Options.AddedDleks.GetBool()) RandomMaps.Add(3);
-                if (OldOptions.AddedTheAirShip.GetBool()) RandomMaps.Add(4);
+                if (StaticOptions.AddedTheAirShip) RandomMaps.Add(4);
 
                 if (RandomMaps.Count <= 0) return true;
                 var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];

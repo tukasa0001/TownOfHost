@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using UnityEngine;
 using TownOfHost.Roles;
+using TownOfHost.ReduxOptions;
 
 namespace TownOfHost
 {
@@ -53,10 +54,10 @@ namespace TownOfHost
         };
 
         // MapActive
-        public static bool IsActiveSkeld => AddedTheSkeld.GetBool() || Main.NormalOptions.MapId == 0;
-        public static bool IsActiveMiraHQ => AddedMiraHQ.GetBool() || Main.NormalOptions.MapId == 1;
-        public static bool IsActivePolus => AddedPolus.GetBool() || Main.NormalOptions.MapId == 2;
-        public static bool IsActiveAirship => AddedTheAirShip.GetBool() || Main.NormalOptions.MapId == 4;
+        public static bool IsActiveSkeld => StaticOptions.AddedTheSkeld || Main.NormalOptions.MapId == 0;
+        public static bool IsActiveMiraHQ => StaticOptions.AddedMiraHQ || Main.NormalOptions.MapId == 1;
+        public static bool IsActivePolus => StaticOptions.AddedPolus || Main.NormalOptions.MapId == 2;
+        public static bool IsActiveAirship => StaticOptions.AddedTheAirShip || Main.NormalOptions.MapId == 4;
 
         // 役職数・確率
         public static Dictionary<CustomRoles, int> roleCounts;
@@ -75,7 +76,6 @@ namespace TownOfHost
         };
 
         // 各役職の詳細設定
-        public static OptionItem EnableGM;
         public static float DefaultKillCooldown = Main.NormalOptions?.KillCooldown ?? 20;
         public static OptionItem VampireKillDelay;
         //public static CustomOption ShapeMasterShapeshiftDuration;
@@ -108,7 +108,6 @@ namespace TownOfHost
         public static OptionItem SpeedBoosterTaskTrigger; //効果を発動するタスク完了数
         public static OptionItem TrapperBlockMoveTime;
         public static OptionItem CanTerroristSuicideWin;
-        public static OptionItem KillFlashDuration;
 
         // HideAndSeek
         public static OptionItem AllowCloseDoors;
@@ -118,13 +117,6 @@ namespace TownOfHost
         public static float HideAndSeekKillDelayTimer = 0f;
 
         // タスク無効化
-        public static OptionItem DisableTasks;
-        public static OptionItem DisableSwipeCard;
-        public static OptionItem DisableSubmitScan;
-        public static OptionItem DisableUnlockSafe;
-        public static OptionItem DisableUploadData;
-        public static OptionItem DisableStartReactor;
-        public static OptionItem DisableResetBreaker;
 
         //デバイスブロック
         public static OptionItem DisableDevices;
@@ -151,25 +143,11 @@ namespace TownOfHost
         public static OptionItem DisableDevicesIgnoreAfterAnyoneDied;
 
         // ランダムマップ
-        public static OptionItem RandomMapsMode;
-        public static OptionItem AddedTheSkeld;
-        public static OptionItem AddedMiraHQ;
-        public static OptionItem AddedPolus;
-        public static OptionItem AddedTheAirShip;
         public static OptionItem AddedDleks;
 
         // ランダムスポーン
-        public static OptionItem RandomSpawn;
-        public static OptionItem AirshipAdditionalSpawn;
 
         // 投票モード
-        public static OptionItem VoteMode;
-        public static OptionItem WhenSkipVote;
-        public static OptionItem WhenSkipVoteIgnoreFirstMeeting;
-        public static OptionItem WhenSkipVoteIgnoreNoDeadBody;
-        public static OptionItem WhenSkipVoteIgnoreEmergency;
-        public static OptionItem WhenNonVote;
-        public static OptionItem WhenTie;
         public static readonly string[] voteModes =
         {
             "Default", "Suicide", "SelfVote", "Skip"
@@ -178,42 +156,25 @@ namespace TownOfHost
         {
             "TieMode.Default", "TieMode.All", "TieMode.Random"
         };
-        public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetValue();
-        public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetValue();
+        // public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetValue();
+        //   public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetValue();
 
         // ボタン回数
-        public static OptionItem SyncButtonMode;
-        public static OptionItem SyncedButtonCount;
         public static int UsedButtonCount = 0;
 
         // 全員生存時の会議時間
-        public static OptionItem AllAliveMeeting;
-        public static OptionItem AllAliveMeetingTime;
 
         // 追加の緊急ボタンクールダウン
-        public static OptionItem AdditionalEmergencyCooldown;
-        public static OptionItem AdditionalEmergencyCooldownThreshold;
-        public static OptionItem AdditionalEmergencyCooldownTime;
 
         //転落死
-        public static OptionItem LadderDeath;
-        public static OptionItem LadderDeathChance;
-
         // 通常モードでかくれんぼ
         public static bool IsStandardHAS => StandardHAS.GetBool() && CurrentGameMode == CustomGameMode.Standard;
         public static OptionItem StandardHAS;
         public static OptionItem StandardHASWaitingTime;
 
         // リアクターの時間制御
-        public static OptionItem SabotageTimeControl;
-        public static OptionItem PolusReactorTimeLimit;
-        public static OptionItem AirshipReactorTimeLimit;
 
-        // 停電の特殊設定
-        public static OptionItem LightsOutSpecialSettings;
-        public static OptionItem DisableAirshipViewingDeckLightsPanel;
-        public static OptionItem DisableAirshipGapRoomLightsPanel;
-        public static OptionItem DisableAirshipCargoLightsPanel;
+        // 停電の特殊設
 
         // タスク上書き
         public static OverrideTasksData MadGuardianTasks;
@@ -222,21 +183,9 @@ namespace TownOfHost
         public static OverrideTasksData MadSnitchTasks;
 
         // その他
-        public static OptionItem FixFirstKillCooldown;
-        public static OptionItem DisableTaskWin;
-        public static OptionItem GhostCanSeeOtherRoles;
-        public static OptionItem GhostCanSeeOtherVotes;
-        public static OptionItem GhostCanSeeDeathReason;
-        public static OptionItem GhostIgnoreTasks;
-        public static OptionItem CommsCamouflage;
 
         // プリセット対象外
-        public static OptionItem NoGameEnd;
-        public static OptionItem AutoDisplayLastResult;
-        public static OptionItem SuffixMode;
         public static OptionItem HideGameSettings;
-        public static OptionItem ColorNameMode;
-        public static OptionItem ChangeNameToRoleInfo;
         public static OptionItem RoleAssigningAlgorithm;
 
         public static readonly string[] suffixModes =
@@ -255,10 +204,10 @@ namespace TownOfHost
             "RoleAssigningAlgorithm.HashRandom",
             "RoleAssigningAlgorithm.Xorshift",
         };
-        public static SuffixModes GetSuffixMode()
-        {
-            return (SuffixModes)SuffixMode.GetValue();
-        }
+        //    public static SuffixModes GetSuffixMode()
+        //   {
+        //        return (SuffixModes)SuffixMode.GetValue();
+        //    }
 
 
 
@@ -327,9 +276,9 @@ namespace TownOfHost
             CustomRoleCounts = new();
             CustomRoleSpawnChances = new();
             // GM
-            EnableGM = BooleanOptionItem.Create(100, "GM", false, TabGroup.MainSettings, false)
-                .SetHeader(true)
-                .SetGameMode(CustomGameMode.Standard);
+            //EnableGM = BooleanOptionItem.Create(100, "GM", false, TabGroup.MainSettings, false)
+            //   .SetHeader(true)
+            //   .SetGameMode(CustomGameMode.Standard);
 
             // Impostor
             // SetupRoleOptions(1200, CustomRoles.ShapeMaster);
@@ -421,10 +370,10 @@ namespace TownOfHost
             // Add-Ons
             #endregion
 
-            KillFlashDuration = FloatOptionItem.Create(90000, "KillFlashDuration", new(0.1f, 0.45f, 0.05f), 0.3f, TabGroup.MainSettings, false)
-                .SetHeader(true)
-                .SetValueFormat(OptionFormat.Seconds)
-                .SetGameMode(CustomGameMode.Standard);
+            //  KillFlashDuration = FloatOptionItem.Create(90000, "KillFlashDuration", new(0.1f, 0.45f, 0.05f), 0.3f, TabGroup.MainSettings, false)
+            //       .SetHeader(true)
+            //       .SetValueFormat(OptionFormat.Seconds)
+            //      .SetGameMode(CustomGameMode.Standard);
 
             // HideAndSeek
             SetupRoleOptions(100000, TabGroup.MainSettings, CustomRoles.HASFox, CustomGameMode.HideAndSeek);
@@ -441,6 +390,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.HideAndSeek);
 
             // リアクターの時間制御
+            /*
             SabotageTimeControl = BooleanOptionItem.Create(100800, "SabotageTimeControl", false, TabGroup.MainSettings, false)
                 .SetHeader(true)
                 .SetGameMode(CustomGameMode.Standard);
@@ -477,7 +427,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             DisableResetBreaker = BooleanOptionItem.Create(100306, "DisableResetBreakerTask", false, TabGroup.MainSettings, false).SetParent(DisableTasks)
                 .SetGameMode(CustomGameMode.All);
-
+*/
             //デバイス無効化
             DisableDevices = BooleanOptionItem.Create(101200, "DisableDevices", false, TabGroup.MainSettings, false)
                 .SetHeader(true)
@@ -526,6 +476,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
 
             // ランダムマップ
+            /*
             RandomMapsMode = BooleanOptionItem.Create(100400, "RandomMapsMode", false, TabGroup.MainSettings, false)
                 .SetHeader(true)
                 .SetGameMode(CustomGameMode.All);
@@ -588,7 +539,7 @@ namespace TownOfHost
             LadderDeath = BooleanOptionItem.Create(101100, "LadderDeath", false, TabGroup.MainSettings, false)
                 .SetHeader(true);
             LadderDeathChance = StringOptionItem.Create(101110, "LadderDeathChance", rates[1..], 0, TabGroup.MainSettings, false).SetParent(LadderDeath);
-
+*/
             // 通常モードでかくれんぼ用
             StandardHAS = BooleanOptionItem.Create(100700, "StandardHAS", false, TabGroup.MainSettings, false)
                 .SetHeader(true)
@@ -598,6 +549,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
 
             // その他
+            /*
             FixFirstKillCooldown = BooleanOptionItem.Create(900_000, "FixFirstKillCooldown", false, TabGroup.MainSettings, false)
                 .SetHeader(true)
                 .SetGameMode(CustomGameMode.All);
@@ -633,7 +585,7 @@ namespace TownOfHost
                 .RegisterUpdateValueEvent(
                     (object obj, OptionItem.UpdateValueEventArgs args) => IRandom.SetInstanceById(args.CurrentValue)
                 );
-
+*/
             DebugModeManager.SetupCustomOption();
 
             IsLoaded = true;
