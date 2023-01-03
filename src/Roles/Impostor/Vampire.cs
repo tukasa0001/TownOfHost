@@ -3,7 +3,7 @@ using TownOfHost.ReduxOptions;
 
 namespace TownOfHost.Roles;
 
-public class Vampire: Impostor
+public class Vampire : Impostor
 {
     private float killDelay;
 
@@ -13,9 +13,14 @@ public class Vampire: Impostor
         InteractionResult result = CheckInteractions(target.GetCustomRole(), target);
         if (result is InteractionResult.Halt) return false;
 
-        MyPlayer.RpcGuardAndKill(MyPlayer);
-        DTask.Schedule(() => target.RpcMurderPlayer(target), killDelay);
-        return true;
+        bool canKillTarget = target.GetCustomRole().CanBeKilled();
+
+        if (canKillTarget)
+        {
+            MyPlayer.RpcGuardAndKill(MyPlayer);
+            DTask.Schedule(() => target.RpcMurderPlayer(target), killDelay);
+        }
+        return canKillTarget;
     }
 
     [RoleInteraction(typeof(Veteran))]

@@ -51,6 +51,8 @@ public class Phantom : Crewmate
         }
     }
 
+    public override bool CanBeKilled() => CanKill;
+
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
          base.RegisterOptions(optionStream)
              .Tab(DefaultTabs.NeutralTab)

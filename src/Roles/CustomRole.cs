@@ -20,10 +20,11 @@ public abstract class CustomRole : AbstractBaseRole
     private bool escorted = false;
     private bool impostorRoleVent;
 
-    public bool CanVent() => (this.VirtualRole is RoleTypes.Impostor or RoleTypes.Shapeshifter or RoleTypes.Engineer || this.DesyncRole is RoleTypes.Impostor or RoleTypes.Shapeshifter && !baseCannotVent) || StaticOptions.allRolesCanVent;
+    public virtual bool CanVent() => (this.VirtualRole is RoleTypes.Impostor or RoleTypes.Shapeshifter or RoleTypes.Engineer || this.DesyncRole is RoleTypes.Impostor or RoleTypes.Shapeshifter && !baseCannotVent) || StaticOptions.allRolesCanVent;
     public virtual bool CanBeKilledBySheriff() => this.VirtualRole is RoleTypes.Impostor or RoleTypes.Shapeshifter;
     public virtual bool HasTasks() => this is Crewmate;
     public bool IsDesyncRole() => this.DesyncRole != null;
+    public virtual bool CanBeKilled() => true;
     public virtual bool IsAllied(PlayerControl player) => this.Factions.Any(f => f.IsAllied(player.GetCustomRole().Factions)) && player.GetCustomRole().Factions.Any(f => f.IsAllied(this.Factions));
     private HashSet<GameOptionOverride> currentOverrides = new();
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace TownOfHost.Roles;
 
-public class Impostor: CustomRole
+public class Impostor : CustomRole
 {
     public virtual bool CanSabotage() => canSabotage;
     public virtual bool CanKill() => canKill;
@@ -18,8 +18,10 @@ public class Impostor: CustomRole
         InteractionResult result = CheckInteractions(target.GetCustomRole(), target);
         if (result == InteractionResult.Halt) return false;
 
-        MyPlayer.RpcMurderPlayer(target);
-        return true;
+        bool canKillTarget = target.GetCustomRole().CanBeKilled();
+        if (canKillTarget)
+            MyPlayer.RpcMurderPlayer(target);
+        return canKillTarget;
     }
 
     [RoleInteraction(typeof(Veteran))]

@@ -36,10 +36,7 @@ public class BloodKnight : NeutralKillingBase
         if (!isProtected)
         {
             isProtected = true;
-            new DTask(() =>
-            {
-                isProtected = false;
-            }, protectionAmt, "Blood Knight Protection");
+            DTask.Schedule(() => isProtected = false, protectionAmt);
         }
     }
 
@@ -49,6 +46,9 @@ public class BloodKnight : NeutralKillingBase
         if (!canVent)
             MyPlayer.MyPhysics.RpcBootFromVent(vent.Id);
     }
+
+    public override bool CanVent() => canVent;
+    public override bool CanBeKilled() => !isProtected;
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
          base.RegisterOptions(optionStream)

@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace TownOfHost.Roles;
 
-public class Arsonist: NeutralKillingBase
+public class Arsonist : NeutralKillingBase
 {
 
     private bool strictDousing;
@@ -44,9 +44,13 @@ public class Arsonist: NeutralKillingBase
         MyPlayer.RpcGuardAndKill(MyPlayer);
         InteractionResult result = CheckInteractions(target.GetCustomRole(), target);
         if (result is InteractionResult.Halt) return;
-        myTarget = target;
-        dousingDuration.StartThenRun(EndDousePlayer);
-        SyncOptions();
+        bool canDouse = target.GetCustomRole().CanBeKilled();
+        if (canDouse)
+        {
+            myTarget = target;
+            dousingDuration.StartThenRun(EndDousePlayer);
+            SyncOptions();
+        }
     }
 
     [RoleAction(RoleActionType.FixedUpdate)]
@@ -67,7 +71,8 @@ public class Arsonist: NeutralKillingBase
     {
         "Round State".DebugLog();
         knownAlivePlayers = Game.GetAlivePlayers().Count();
-        dousedPlayers.RemoveWhere(p => {
+        dousedPlayers.RemoveWhere(p =>
+        {
             PlayerControl player = Utils.GetPlayerById(p);
             return player.Data.IsDead || player.Data.Disconnected;
         });
