@@ -1,0 +1,10 @@
+- [ ] Move all role interactions/actions/code to respective code
+- [ ] Re-implement custom death reasons (probably move to PlayerPlus/PlayerState)
+- [ ] End of game screen is probably broken and needs fixing
+- [ ] Setup custom winners utilizing factions ++ maybe some exccptions
+- [ ] Create new RPCs for modded clients and/or setup interactions for modded clients
+- [ ] Correct and setup name rendering within meetings and correctly for teammates (DynamicName.cs)
+- [ ] Explore possibly using AU HnS timer for specific roles (Serial Killer suicide, etc)
+- [ ] Fully implement PlayerState / PlayerPlus over original TOH PlayerState
+- [ ] First round of testing after implementing all roles
+- [ ] Cleanup old/unused code

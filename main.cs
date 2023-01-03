@@ -23,7 +23,6 @@ using TownOfHost.Roles;
 namespace TownOfHost
 {
     [BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
-    [BepInIncompatibility("jp.ykundesu.supernewroles")]
     [BepInProcess("Among Us.exe")]
     public class Main : BasePlugin
     {
@@ -56,7 +55,7 @@ namespace TownOfHost
 
         // ==========
         //Sorry for many Japanese comments.
-        public const string PluginGuid = "com.emptybottle.townofhost";
+        public const string PluginGuid = "com.discussions.tohtor";
         public const string PluginVersion = "0.9.4";
         public static readonly string DevVersionStr = "dev 1";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
