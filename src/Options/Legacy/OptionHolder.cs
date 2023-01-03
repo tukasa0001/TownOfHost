@@ -185,7 +185,6 @@ namespace TownOfHost
         // その他
 
         // プリセット対象外
-        public static OptionItem HideGameSettings;
         public static OptionItem RoleAssigningAlgorithm;
 
         public static readonly string[] suffixModes =

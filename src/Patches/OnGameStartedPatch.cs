@@ -103,7 +103,7 @@ namespace TownOfHost
             FallFromLadder.Reset();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
-            IRandom.SetInstanceById(OldOptions.RoleAssigningAlgorithm.GetValue());
+            /*IRandom.SetInstanceById(OldOptions.RoleAssigningAlgorithm.GetValue());*/
 
             MeetingStates.MeetingCalled = false;
             MeetingStates.FirstMeeting = true;
@@ -212,10 +212,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
 
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                pc.GetCustomRole().SyncOptions();
-            }
+            Game.GetAllPlayers().Do(pc => pc.GetCustomRole().SyncOptions());
 
             List<Tuple<string, CustomRole>> debugList = CustomRoleManager.PlayersCustomRolesRedux
                 .Select(kvp => new Tuple<string, CustomRole>(Utils.GetPlayerById(kvp.Key).name, kvp.Value))
@@ -223,7 +220,7 @@ namespace TownOfHost
 
             Logger.Info($"Assignments: {String.Join(", ", debugList)}", "");
 
-            Main.ResetCamPlayerList.AddRange(PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is Arsonist).Select(p => p.PlayerId));
+            Main.ResetCamPlayerList.AddRange(Game.GetAllPlayers().Where(p => p.GetCustomRole() is Arsonist).Select(p => p.PlayerId));
             Utils.CountAliveImpostors();
             //Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;

@@ -299,11 +299,6 @@ namespace TownOfHost
         public static void ShowActiveSettings(byte PlayerId = byte.MaxValue)
         {
             var mapId = Main.NormalOptions.MapId;
-            if (OldOptions.HideGameSettings.GetBool() && PlayerId != byte.MaxValue)
-            {
-                SendMessage(GetString("Message.HideGameSettings"), PlayerId);
-                return;
-            }
             var text = "";
             if (OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
@@ -339,11 +334,6 @@ namespace TownOfHost
         public static void CopyCurrentSettings()
         {
             var text = "";
-            if (OldOptions.HideGameSettings.GetBool() && !AmongUsClient.Instance.AmHost)
-            {
-                ClipboardHelper.PutClipboardString(GetString("Message.HideGameSettings"));
-                return;
-            }
             text += $"━━━━━━━━━━━━【{GetString("Roles")}】━━━━━━━━━━━━";
             foreach (var role in OldOptions.CustomRoleCounts)
             {
@@ -367,11 +357,6 @@ namespace TownOfHost
         }
         public static void ShowActiveRoles(byte PlayerId = byte.MaxValue)
         {
-            if (OldOptions.HideGameSettings.GetBool() && PlayerId != byte.MaxValue)
-            {
-                SendMessage(GetString("Message.HideGameSettings"), PlayerId);
-                return;
-            }
             var text = GetString("Roles") + ":";
             text += string.Format("\n{0}:{1}", GetRoleName(GM.Ref<GM>()), StaticOptions.EnableGM.ToString().RemoveHtmlTags());
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))

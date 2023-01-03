@@ -27,50 +27,45 @@ namespace TownOfHost
             };
             //ゲームモードの表示
             text += $"{OldOptions.GameMode.GetName()}: {OldOptions.GameMode.GetString()}\n\n";
-            if (OldOptions.HideGameSettings.GetBool() && !AmongUsClient.Instance.AmHost)
-            {
-                text += $"<color=#ff0000>{GetString("Message.HideGameSettings")}</color>";
-            }
-            else
-            {
-                //Standardの時のみ実行
-                if (OldOptions.CurrentGameMode == CustomGameMode.Standard)
-                {
-                    //有効な役職一覧
-                    /*text += $"<color={CustomRoleManager.Static.GM.RoleColor}>{CustomRoleManager.Static.GM.RoleName}:</color> {OldOptions.EnableGM.GetString()}\n\n";*/
-                    text += GetString("ActiveRolesList") + "\n";
-                    foreach (CustomRole role in CustomRoleManager.Roles)
-                    {
-                        if (role.Chance > 0 && role.Count > 0)
-                            text += $"{role.RoleColor.Colorize(role.RoleName)}: {role.Chance}%×{role.Count}\n";
-                    }
 
-                    /*foreach (var kvp in OldOptions.CustomRoleSpawnChances)
-                        if (kvp.Value.GameMode is CustomGameMode.Standard or CustomGameMode.All && kvp.Value.GetBool()) //スタンダードか全てのゲームモードで表示する役職
-                            text += $"{Utils.ColorString(kvp.Key.GetReduxRole().RoleColor, kvp.Key.GetReduxRole().RoleName)}: {kvp.Value.GetString()}×{kvp.Key.GetReduxRole().Count}\n";*/
-                    pages.Add(text + "\n\n");
-                    text = "";
-                }
-                //有効な役職と詳細設定一覧
-                pages.Add("");
-                // nameAndValue(OldOptions.EnableGM);
-                text += $"{CustomRoleManager.Static.GM.RoleColor.Colorize("GM")}: {Utils.GetOnOffColored(StaticOptions.EnableGM)}\n";
-                HashSet<OptionHolder> roleHolders = new();
+            //Standardの時のみ実行
+            if (OldOptions.CurrentGameMode == CustomGameMode.Standard)
+            {
+                //有効な役職一覧
+                /*text += $"<color={CustomRoleManager.Static.GM.RoleColor}>{CustomRoleManager.Static.GM.RoleName}:</color> {OldOptions.EnableGM.GetString()}\n\n";*/
+                text += GetString("ActiveRolesList") + "\n";
                 foreach (CustomRole role in CustomRoleManager.Roles)
                 {
-                    OptionHolder matchingHolder = Main.OptionManager.Options().FirstOrDefault(h => h.Name == role.RoleName);
-                    if (matchingHolder != null) roleHolders.Add(matchingHolder);
+                    if (role.Chance > 0 && role.Count > 0)
+                        text += $"{role.RoleColor.Colorize(role.RoleName)}: {role.Chance}%×{role.Count}\n";
+                }
 
-                    if (!role.IsEnable() || role is GM) continue;
-                    text += "\n";
-                    text += $"{role.RoleColor.Colorize(role.RoleName)}: {role.Chance}%×{role.Count}\n";
+                /*foreach (var kvp in OldOptions.CustomRoleSpawnChances)
+                        if (kvp.Value.GameMode is CustomGameMode.Standard or CustomGameMode.All && kvp.Value.GetBool()) //スタンダードか全てのゲームモードで表示する役職
+                            text += $"{Utils.ColorString(kvp.Key.GetReduxRole().RoleColor, kvp.Key.GetReduxRole().RoleName)}: {kvp.Value.GetString()}×{kvp.Key.GetReduxRole().Count}\n";*/
+                pages.Add(text + "\n\n");
+                text = "";
+            }
+            //有効な役職と詳細設定一覧
+            pages.Add("");
+            // nameAndValue(OldOptions.EnableGM);
+            text += $"{CustomRoleManager.Static.GM.RoleColor.Colorize("GM")}: {Utils.GetOnOffColored(StaticOptions.EnableGM)}\n";
+            HashSet<OptionHolder> roleHolders = new();
+            foreach (CustomRole role in CustomRoleManager.Roles)
+            {
+                OptionHolder matchingHolder = Main.OptionManager.Options().FirstOrDefault(h => h.Name == role.RoleName);
+                if (matchingHolder != null) roleHolders.Add(matchingHolder);
 
-                    if (matchingHolder != null)
-                        ShowChildren(matchingHolder, ref text, role.RoleColor.ShadeColor(-0.5f), 1);
+                if (!role.IsEnable() || role is GM) continue;
+                text += "\n";
+                text += $"{role.RoleColor.Colorize(role.RoleName)}: {role.Chance}%×{role.Count}\n";
 
-                    string rule = Utils.ColorString(Palette.ImpostorRed.ShadeColor(-0.5f), "┣ ");
-                    string ruleFooter = Utils.ColorString(Palette.ImpostorRed.ShadeColor(-0.5f), "┗ ");
-                    /*if (kvp.Key.GetReduxRole().IsMadmate()) //マッドメイトの時に追加する詳細設定
+                if (matchingHolder != null)
+                    ShowChildren(matchingHolder, ref text, role.RoleColor.ShadeColor(-0.5f), 1);
+
+                string rule = Utils.ColorString(Palette.ImpostorRed.ShadeColor(-0.5f), "┣ ");
+                string ruleFooter = Utils.ColorString(Palette.ImpostorRed.ShadeColor(-0.5f), "┗ ");
+                /*if (kvp.Key.GetReduxRole().IsMadmate()) //マッドメイトの時に追加する詳細設定
                     {
                         text += $"{rule}{OldOptions.MadmateCanFixLightsOut.GetName()}: {OldOptions.MadmateCanFixLightsOut.GetString()}\n";
                         text += $"{rule}{OldOptions.MadmateCanFixComms.GetName()}: {OldOptions.MadmateCanFixComms.GetString()}\n";
@@ -82,20 +77,19 @@ namespace TownOfHost
                         text += $"{rule}{OldOptions.MadmateVentCooldown.GetName()}: {OldOptions.MadmateVentCooldown.GetString()}\n";
                         text += $"{ruleFooter}{OldOptions.MadmateVentMaxTime.GetName()}: {OldOptions.MadmateVentMaxTime.GetString()}\n";
                     }*/
-                    /*if (kvp.Key.GetReduxRole().CanMakeMadmate()) //シェイプシフター役職の時に追加する詳細設定
+                /*if (kvp.Key.GetReduxRole().CanMakeMadmate()) //シェイプシフター役職の時に追加する詳細設定
                     {
                         text += $"{ruleFooter}{OldOptions.CanMakeMadmateCount.GetName()}: {OldOptions.CanMakeMadmateCount.GetString()}\n";
                     }*/
-                }
+            }
 
-                foreach (OptionHolder holder in Main.OptionManager.Options().Where(o => !roleHolders.Contains(o)))
-                {
-                    if (holder.Name == "GM") continue;
-                    if (holder.IsHeader) text += "\n";
-                    text += $"{holder.Name}: {holder.GetAsString()}\n";
-                    if (holder.MatchesPredicate())
-                        ShowChildren(holder, ref text, Color.white, 1);
-                }
+            foreach (OptionHolder holder in Main.OptionManager.Options().Where(o => !roleHolders.Contains(o)))
+            {
+                if (holder.Name == "GM") continue;
+                if (holder.IsHeader) text += "\n";
+                text += $"{holder.Name}: {holder.GetAsString()}\n";
+                if (holder.MatchesPredicate())
+                    ShowChildren(holder, ref text, Color.white, 1);
             }
 
             List<string> tmp = new(text.Split("\n\n"));
