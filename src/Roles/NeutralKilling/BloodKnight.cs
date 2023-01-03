@@ -1,28 +1,25 @@
-using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
+using TownOfHost.Interface;
+using TownOfHost.Interface.Menus.CustomNameMenu;
 using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
-using TownOfHost.RPC;
 using UnityEngine;
-
 
 namespace TownOfHost.Roles;
 
 public class BloodKnight : NeutralKillingBase
 {
     private float protectionAmt;
-    private float KillCooldown;
     private bool canVent;
-    public bool isProtected;
-    protected override RoleModifier Modify(RoleModifier roleModifier)
-    {
-        return roleModifier
-        .RoleName("Blood Knight")
-        .RoleColor("#630000")
-        .SpecialType(SpecialType.Neutral)
-        .OptionOverride(Override.KillCooldown, () => KillCooldown);
-    }
+    private bool isProtected;
+
+    public override bool CanSabotage() => false;
+    public override bool CanBeKilled() => !isProtected;
+
+    // Usually I use Misc but because the Blood Knight's color is hard to see I'm displaying this next to the player's name which requires a bit more hacky code
+    [DynElement(UI.Name)]
+    private string ProtectedIndicator() => Color.white.Colorize(isProtected ? MyPlayer.GetRawName() + RoleColor.Colorize("•") : MyPlayer.GetRawName());
 
     [RoleAction(RoleActionType.RoundStart)]
     public void Reset()
@@ -31,23 +28,16 @@ public class BloodKnight : NeutralKillingBase
     }
 
     [RoleAction(RoleActionType.AttemptKill)]
-    public void AttemptKill()
+    public new bool TryKill(PlayerControl target)
     {
-        if (!isProtected)
-        {
-            isProtected = true;
-            new DTask(() =>
-            {
-                isProtected = false;
-            }, protectionAmt, "Blood Knight Protection");
-        }
-    }
+        // Call to Impostor.TryKill()
+        bool killed = base.TryKill(target);
+        // Possibly died due to veteran
+        if (MyPlayer.Data.IsDead) return killed;
 
-    [RoleAction(RoleActionType.VentEnter)]
-    public void VentEnter(Vent vent)
-    {
-        if (!canVent)
-            MyPlayer.MyPhysics.RpcBootFromVent(vent.Id);
+        isProtected = true;
+        DTask.Schedule(() => isProtected = false, protectionAmt);
+        return killed;
     }
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
@@ -56,16 +46,28 @@ public class BloodKnight : NeutralKillingBase
              .AddSubOption(opt =>
                 opt.Name("Kill Cooldown")
                 .BindFloat(v => KillCooldown = v)
-                .AddFloatRangeValues(2.5f, 180f, 2.5f, 11)
+                .AddFloatRangeValues(2.5f, 180f, 2.5f, 11, "s")
                 .Build())
             .AddSubOption(opt =>
-                opt.Name("Protectioon Duration")
+                opt.Name("Protection Duration")
                 .BindFloat(v => protectionAmt = v)
-                .AddFloatRangeValues(2.5f, 180, 2.5f, 5)
+                .AddFloatRangeValues(2.5f, 180, 2.5f, 5, "s")
                 .Build())
             .AddSubOption(opt =>
                 opt.Name("Can Vent")
                 .BindBool(v => canVent = v)
                 .AddOnOffValues()
                 .Build());
+
+
+
+    protected override RoleModifier Modify(RoleModifier roleModifier)
+    {
+        return base.Modify(roleModifier) // call base because we're utilizing some settings setup by NeutralKillingBase
+            .RoleName("Blood Knight")
+            .Factions(Faction.Solo)
+            .RoleColor(new Color(0.47f, 0f, 0f)) // Using Color() because it's easier to edit and get an idea for actual color
+            .CanVent(canVent);
+    }
+
 }

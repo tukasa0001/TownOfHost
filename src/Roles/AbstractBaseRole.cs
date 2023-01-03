@@ -45,7 +45,7 @@ public abstract class AbstractBaseRole
     public bool IsSubrole;
     public int Chance;
     public int Count;
-    protected bool baseCannotVent;
+    protected bool baseCanVent;
 
     protected string englishRoleName;
     protected Dictionary<Type, List<MethodInfo>> roleInteractions = new();
@@ -286,11 +286,12 @@ public abstract class AbstractBaseRole
             return this;
         }
 
-        public RoleModifier CannotVent(bool cannotVent)
+        public RoleModifier CanVent(bool canVent)
         {
-            myRole.baseCannotVent = cannotVent;
+            myRole.baseCanVent = canVent;
             return this;
         }
+
 
         public RoleModifier Subrole(bool isSubrole)
         {

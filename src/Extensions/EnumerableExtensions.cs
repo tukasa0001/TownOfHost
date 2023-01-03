@@ -21,7 +21,7 @@ public static class EnumerableExtensions
 
     public static String PrettyString<T>(this IEnumerable<T> list)
     {
-        return "[" + System.String.Join(", ", list) + "]";
+        return "[" + String.Join(", ", list) + "]";
     }
 
 

@@ -19,6 +19,7 @@ namespace TownOfHost
         {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             GameStates.InGame = false;
+            Game.State = GameState.InLobby;
 
             SummaryText = new();
             foreach (var id in Main.PlayerStates.Keys)

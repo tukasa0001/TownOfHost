@@ -116,6 +116,7 @@ namespace TownOfHost
         public static void Prefix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
+            Game.State = GameState.InIntro;
 
             DesyncOptions.OriginalHostOptions = GameOptionsManager.Instance.CurrentGameOptions;
 
@@ -192,8 +193,6 @@ namespace TownOfHost
                 assignments.Add(new System.Tuple<PlayerControl, CustomRole>(unassigned, role));
             }
 
-            assignments.Do(pair => pair.Item2.AssignRole());
-
             List<Subrole> subroles = CustomRoleManager.Roles.OfType<Subrole>().ToList();
             while (subroles.Count > 0)
             {
@@ -205,6 +204,7 @@ namespace TownOfHost
                 PlayerControl victim = victims.GetRandom();
                 CustomRoleManager.AddPlayerSubrole(victim.PlayerId, (Subrole)subrole.Instantiate(victim));
             }
+            Game.GetAllPlayers().Do(p => p.GetCustomRole().Assign());
         }
 
 
@@ -212,7 +212,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
 
-            Game.GetAllPlayers().Do(pc => pc.GetCustomRole().SyncOptions());
+            Game.GetAllPlayers().Do(p => p.GetCustomRole().SyncOptions());
 
             List<Tuple<string, CustomRole>> debugList = CustomRoleManager.PlayersCustomRolesRedux
                 .Select(kvp => new Tuple<string, CustomRole>(Utils.GetPlayerById(kvp.Key).name, kvp.Value))
@@ -222,7 +222,7 @@ namespace TownOfHost
 
             Main.ResetCamPlayerList.AddRange(Game.GetAllPlayers().Where(p => p.GetCustomRole() is Arsonist).Select(p => p.PlayerId));
             Utils.CountAliveImpostors();
-            //Utils.CustomSyncAllSettings();
+            Game.RenderAllForAll(state: GameState.InIntro);
             SetColorPatch.IsAntiGlitchDisabled = false;
         }
     }

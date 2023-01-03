@@ -48,7 +48,7 @@ public class Mare: Impostor
     {
         DynamicName myName = MyPlayer.GetDynamicName();
         DynamicString coloredName = new(() => abilityEnabled && redNameDuringSabotage ? new Color(0.36f, 0f, 0.58f).Colorize("{0}") : "");
-        myName.AddRule(GameState.InRoam, UI.Name, coloredName);
+        myName.AddRule(GameState.Roaming, UI.Name, coloredName);
     }
 
     public override bool CanKill() => canKillWithoutSabotage || abilityEnabled;

@@ -87,7 +87,7 @@ public class Arsonist: NeutralKillingBase
     private void SuccessfulDouseEffects(PlayerControl target)
     {
         DynamicName targetName = target.GetDynamicName();
-        targetName.AddRule(GameState.InRoam, UI.Counter, new DynamicString(RoleColor.Colorize("★")), MyPlayer.PlayerId);
+        targetName.AddRule(GameState.Roaming, UI.Counter, new DynamicString(RoleColor.Colorize("★")), MyPlayer.PlayerId);
         targetName.RenderFor(MyPlayer);
 
         GameOptionOverride[] overrides = { new(Override.ImpostorLightMod, 0f) };
@@ -124,7 +124,7 @@ public class Arsonist: NeutralKillingBase
     protected override RoleModifier Modify(RoleModifier roleModifier) =>
         base.Modify(roleModifier)
             .RoleColor(new Color(1f, 0.4f, 0.2f))
-            .CannotVent(!StaticOptions.TOuRArso)
+            .CanVent(false)
             .OptionOverride(Override.PlayerSpeedMod, 0f, () => IsDousing)
             .OptionOverride(Override.KillCooldown, () => douseCooldown * 2);
 }

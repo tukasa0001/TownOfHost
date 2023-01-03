@@ -275,6 +275,7 @@ namespace TownOfHost
     {
         public static void Prefix(MeetingHud __instance)
         {
+            Game.State = GameState.InMeeting;
             Logger.Info("------------会議開始------------", "Phase");
             ActionHandle handle = ActionHandle.NoInit();
             Game.TriggerForAll(RoleActionType.RoundEnd, ref handle, false);
@@ -425,6 +426,7 @@ namespace TownOfHost
     {
         public static void Postfix()
         {
+            Game.State = GameState.Roaming;
             MeetingStates.FirstMeeting = false;
             Logger.Info("------------会議終了------------", "Phase");
             if (AmongUsClient.Instance.AmHost)

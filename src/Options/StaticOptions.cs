@@ -13,7 +13,7 @@ namespace TownOfHost.ReduxOptions;
 public static class StaticOptions
 {
     public static bool EnableGM = false;
-    public static bool FixFirstKillCooldown = false;
+    public static bool FixFirstKillCooldown = true;
     public static bool AutoKick = false;
     public static bool AutoBan = false;
 

@@ -30,7 +30,7 @@ public class DynamicName
         { GameState.InLobby, new Dictionary<byte, List<Tuple<UI, DynamicString>>>() },
         { GameState.InIntro, new Dictionary<byte, List<Tuple<UI, DynamicString>>>() },
         { GameState.InMeeting, new Dictionary<byte, List<Tuple<UI, DynamicString>>>() },
-        { GameState.InRoam, new Dictionary<byte, List<Tuple<UI, DynamicString>>>() },
+        { GameState.Roaming, new Dictionary<byte, List<Tuple<UI, DynamicString>>>() },
     };
 
     private Dictionary<UI, DynamicString> valueDictionary = new()
@@ -113,7 +113,7 @@ public class DynamicName
         };
         name.Deserialize();
         name.SetupComponentOrder();
-        name.AddRule(GameState.InRoam, UI.Name);
+        name.AddRule(GameState.Roaming, UI.Name);
         name.AddRule(GameState.InMeeting, UI.Name);
         name.AddRule(GameState.InLobby, UI.Name);
         name.AddRule(GameState.InIntro, UI.Name);
@@ -309,11 +309,12 @@ public class DynamicName
 
     public void Render(int specific = -2)
     {
-        string str = GetName();
         float durationSinceLast = (float)(DateTime.Now - lastRender).TotalSeconds;
         if (durationSinceLast < ModConstants.DynamicNameTimeBetweenRenders) return;
+        string str = GetName();
         if (lastString != str)
             RpcV2.Immediate(myPlayer?.NetId ?? 0, RpcCalls.SetName).Write(str).Send(specific != -2 ? specific : myPlayer?.GetClientId() ?? -1);
+        else return;
         lastRender = DateTime.Now;
         lastString = str;
     }
@@ -329,7 +330,14 @@ public class DynamicName
 
     public void RenderFor(PlayerControl player, GameState? state = null)
     {
-        if (myPlayer != null && myPlayer.PlayerId == player.PlayerId) return;
+        float durationSinceLast = (float)(DateTime.Now - lastRender).TotalSeconds;
+        if (durationSinceLast < ModConstants.DynamicNameTimeBetweenRenders) return;
+        if (myPlayer != null && myPlayer.PlayerId == player.PlayerId)
+        {
+            if (state == null) Render();
+            else RenderAsIf(state.Value);
+            return;
+        }
         state ??= Game.State;
         if (!renderRules[state.Value].TryGetValue(player.PlayerId, out List<Tuple<UI, DynamicString>>? allowedComponents))
         {

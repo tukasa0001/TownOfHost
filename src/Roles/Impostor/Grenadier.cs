@@ -71,5 +71,5 @@ public class Grenadier: Impostor
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>
         base.Modify(roleModifier)
-            .CannotVent(!canVent);
+            .CanVent(canVent);
 }

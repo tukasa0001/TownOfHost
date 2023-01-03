@@ -11,6 +11,7 @@ public class Impostor: CustomRole
     public virtual bool CanKill() => canKill;
     protected bool canSabotage = true;
     protected bool canKill = true;
+    public float? KillCooldown = null;
 
     [RoleAction(RoleActionType.AttemptKill, Subclassing = false)]
     public virtual bool TryKill(PlayerControl target)
@@ -18,8 +19,10 @@ public class Impostor: CustomRole
         InteractionResult result = CheckInteractions(target.GetCustomRole(), target);
         if (result == InteractionResult.Halt) return false;
 
-        MyPlayer.RpcMurderPlayer(target);
-        return true;
+        bool canKillTarget = target.GetCustomRole().CanBeKilled();
+        if (canKillTarget)
+            MyPlayer.RpcMurderPlayer(target);
+        return canKillTarget;
     }
 
     [RoleInteraction(typeof(Veteran))]
@@ -32,5 +35,6 @@ public class Impostor: CustomRole
         roleModifier
             .VanillaRole(RoleTypes.Impostor)
             .Factions(Faction.Impostors)
+            .OptionOverride(Override.KillCooldown, KillCooldown)
             .RoleColor(Color.red);
 }

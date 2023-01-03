@@ -6,7 +6,6 @@ namespace TownOfHost.Roles;
 
 public class Jackal: NeutralKillingBase
 {
-    private float killCooldown;
     private bool canVent;
     private bool impostorVision;
 
@@ -17,7 +16,7 @@ public class Jackal: NeutralKillingBase
         base.RegisterOptions(optionStream)
             .AddSubOption(sub => sub
                 .Name("Kill Cooldown")
-                .Bind(v => killCooldown = (float)v)
+                .Bind(v => KillCooldown = (float)v)
                 .AddFloatRangeValues(0, 180, 2.5f, 12, "s")
                 .Build())
             .AddSubOption(sub => sub
@@ -39,7 +38,6 @@ public class Jackal: NeutralKillingBase
     protected override RoleModifier Modify(RoleModifier roleModifier) =>
         base.Modify(roleModifier)
             .RoleColor(new Color(0f, 0.71f, 0.92f))
-            .CannotVent(!canVent)
-            .OptionOverride(Override.KillCooldown, killCooldown)
+            .CanVent(canVent)
             .OptionOverride(Override.ImpostorLightMod, () => DesyncOptions.OriginalHostOptions.AsNormalOptions()!.CrewLightMod, () => !impostorVision);
 }

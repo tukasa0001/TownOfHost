@@ -25,6 +25,7 @@ public static class Game
     public static PlayerPlus GetPlayerPlus(this PlayerControl playerControl) => players[playerControl.PlayerId];
 
     public static void RenderAllNames() => players.Values.Select(p => p.DynamicName).Do(name => name.Render());
+    public static void RenderAllForAll(GameState? state = null) => players.Values.Select(p => p.DynamicName).Do(name => players.Values.Do(p => name.RenderFor(p.MyPlayer, state)));
     public static IEnumerable<PlayerControl> GetAllPlayers() => PlayerControl.AllPlayerControls.ToArray();
     public static IEnumerable<PlayerControl> GetAlivePlayers() => GetAllPlayers().Where(p => !p.Data.IsDead && !p.Data.Disconnected);
     public static PlayerControl GetHost() => GetAllPlayers().FirstOrDefault(p => p.NetId == RpcV2.GetHostNetId());
@@ -79,5 +80,5 @@ public enum GameState
     InIntro,
     InMeeting,
     InLobby,
-    InRoam // When in Rome do as the Romans do
+    Roaming // When in Rome do as the Romans do
 }

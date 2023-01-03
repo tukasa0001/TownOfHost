@@ -40,6 +40,7 @@ namespace TownOfHost
     {
         public static void Prefix()
         {
+            Game.State = GameState.InIntro;
             Logger.Info("------------名前表示------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
@@ -196,7 +197,7 @@ namespace TownOfHost
         }
         private static AudioClip GetIntroSound(RoleTypes roleType)
         {
-            return RoleManager.Instance.AllRoles.Where((role) => role.Role == roleType).FirstOrDefault().IntroSound;
+            return RoleManager.Instance.AllRoles.FirstOrDefault(role => role.Role == roleType)?.IntroSound;
         }
         private static async void StartFadeIntro(IntroCutscene __instance, Color start, Color end)
         {
@@ -248,41 +249,47 @@ namespace TownOfHost
     {
         public static void Postfix(IntroCutscene __instance)
         {
+            Game.State = GameState.Roaming;
             if (!GameStates.IsInGame) return;
             Main.introDestroyed = true;
-            if (AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance.AmHost) return;
+
+            if (Main.NormalOptions.MapId != 4)
             {
-                if (Main.NormalOptions.MapId != 4)
-                {
-                    PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcResetAbilityCooldown());
-                    if (StaticOptions.FixFirstKillCooldown)
-                        new DTask(() =>
-                        {
-                            PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.SetKillCooldown(Main.AllPlayerKillCooldown[pc.PlayerId] - 2f));
-                        }, 2f, "FixKillCooldownTask");
-                }
-                new DTask(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRoleDesync(RoleTypes.Shapeshifter, -3)), 2f, "SetImpostorForServer");
-                if (PlayerControl.LocalPlayer.Is(CustomRoleManager.Static.GM))
-                {
-                    PlayerControl.LocalPlayer.RpcExile();
-                    Main.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SetDead();
-                }
-                if (StaticOptions.RandomSpawn)
-                {
-                    RandomSpawn.SpawnMap map;
-                    switch (Main.NormalOptions.MapId)
+                PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcResetAbilityCooldown());
+                if (StaticOptions.FixFirstKillCooldown)
+                    new DTask(() =>
                     {
-                        case 0:
-                            map = new RandomSpawn.SkeldSpawnMap();
-                            PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
-                            break;
-                        case 1:
-                            map = new RandomSpawn.MiraHQSpawnMap();
-                            PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
-                            break;
-                    }
+                        PlayerControl.AllPlayerControls.ToArray().Do(pc =>
+                        {
+                            if (pc.GetCustomRole() is not Impostor impostor) return;
+                            pc.SetKillCooldown(impostor.KillCooldown ?? 25f);
+                        });
+                    }, 2f, "FixKillCooldownTask");
+            }
+            DTask.Schedule(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRoleDesync(RoleTypes.Shapeshifter, -3)), 2f);
+            if (PlayerControl.LocalPlayer.Is(CustomRoleManager.Static.GM))
+            {
+                PlayerControl.LocalPlayer.RpcExile();
+                Main.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SetDead();
+            }
+
+            if (StaticOptions.RandomSpawn)
+            {
+                RandomSpawn.SpawnMap map;
+                switch (Main.NormalOptions.MapId)
+                {
+                    case 0:
+                        map = new RandomSpawn.SkeldSpawnMap();
+                        PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                        break;
+                    case 1:
+                        map = new RandomSpawn.MiraHQSpawnMap();
+                        PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                        break;
                 }
             }
+
             Logger.Info("OnDestroy", "IntroCutscene");
         }
     }

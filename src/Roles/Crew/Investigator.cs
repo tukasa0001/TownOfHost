@@ -109,7 +109,7 @@ public class Investigator : Crewmate
         };
         Logger.Info($"{player.GetNameWithRole()} is type {role.GetType()} and falls under category \"{category}\". Player is in redRoles list? {roleIsInRoles}. Player's name should be color: {color.ToTextColor()}", "InvestigateInfo");
 
-        player.GetDynamicName().AddRule(GameState.InRoam, UI.Name, new DynamicString(color.Colorize("{0}")), MyPlayer.PlayerId);
+        player.GetDynamicName().AddRule(GameState.Roaming, UI.Name, new DynamicString(color.Colorize("{0}")), MyPlayer.PlayerId);
         player.GetDynamicName().AddRule(GameState.InMeeting, UI.Name, new DynamicString(color.Colorize("{0}")), MyPlayer.PlayerId);
         player.GetDynamicName().RenderFor(MyPlayer);
     }

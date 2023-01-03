@@ -502,6 +502,6 @@ public static class PlayerControlExtensions
     public static bool Is(this PlayerControl target, CustomRole role) =>
         role.IsSubrole ? target.GetCustomSubRoles().Contains(role) : target.GetCustomRole() == role;
     public static bool Is(this PlayerControl target, Roles.RoleType type) { return target.GetCustomRole().GetRoleType() == type; }
-    public static bool IsAlive(this PlayerControl target) { return target != null && !Main.PlayerStates[target.PlayerId].IsDead; }
+    public static bool IsAlive(this PlayerControl target) => target != null && !target.Data.IsDead && !target.Data.Disconnected;
 
 }

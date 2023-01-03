@@ -24,13 +24,13 @@ public class Executioner : CustomRole
 
     public override void OnGameStart()
     {
-        target = Game.GetAllPlayers().FirstOrDefault(p =>
+        target = Game.GetAllPlayers().Where(p =>
         {
             if (p.PlayerId == MyPlayer.PlayerId) return false;
             Faction[] factions = p.GetCustomRole().Factions;
             if (!canTargetImpostors && factions.IsImpostor()) return false;
             return canTargetNeutrals || !factions.Contains(Faction.Solo);
-        });
+        }).ToList().GetRandom();
     }
 
     [RoleAction(RoleActionType.OtherExiled)]

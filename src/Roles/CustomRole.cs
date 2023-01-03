@@ -20,7 +20,8 @@ public abstract class CustomRole : AbstractBaseRole
     private bool escorted = false;
     private bool impostorRoleVent;
 
-    public bool CanVent() => (this.VirtualRole is RoleTypes.Impostor or RoleTypes.Shapeshifter or RoleTypes.Engineer || this.DesyncRole is RoleTypes.Impostor or RoleTypes.Shapeshifter && !baseCannotVent) || StaticOptions.allRolesCanVent;
+    public virtual bool CanVent() => baseCanVent || StaticOptions.allRolesCanVent;
+    public virtual bool CanBeKilled() => true;
     public virtual bool CanBeKilledBySheriff() => this.VirtualRole is RoleTypes.Impostor or RoleTypes.Shapeshifter;
     public virtual bool HasTasks() => this is Crewmate;
     public bool IsDesyncRole() => this.DesyncRole != null;
@@ -85,7 +86,7 @@ public abstract class CustomRole : AbstractBaseRole
     }
 
 
-    public void AssignRole(bool desync = false)
+    public void Assign(bool desync = false)
     {
         Type parentType = this.GetType().BaseType;
         Logger.Info($"{MyPlayer.GetRawName()} | {parentType} | {this.RoleName}", "ROLE SET");
@@ -111,23 +112,37 @@ public abstract class CustomRole : AbstractBaseRole
             }
 
             // Determine roles that are "allied" with this one(based on method overrides)
-            int[] allies = Game.GetAllPlayers().Where(p => IsAllied(p) || p.PlayerId == MyPlayer.PlayerId).Select(p => p.GetClientId()).ToArray();
+            PlayerControl[] allies = Game.GetAllPlayers().Where(p => IsAllied(p) || p.PlayerId == MyPlayer.PlayerId).ToArray();
+            int[] alliesCID = allies.Select(p => p.GetClientId()).ToArray();
 
-            allies.Select(id => Utils.GetPlayerByClientId(id).GetRawName()).ToList().PrettyString().DebugLog($"{this.RoleName}'s allies are: ");
+            allies.Select(player => player.GetRawName()).PrettyString().DebugLog($"{this.RoleName}'s allies are: ");
             //int[] allies = allies.Where(ally => ally.is)
             // Send to all clients, excluding allies, that you're a crewmate
-            RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((byte)RoleTypes.Crewmate).SendToAll(exclude: allies);
+            RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((byte)RoleTypes.Crewmate).SendToAll(exclude: alliesCID);
             // Send to allies your real role
-            RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((byte)assignedType).SendToFollowing(include: allies);
+            RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((byte)assignedType).SendToFollowing(include: alliesCID);
             // Finally, for all players that are not your allies make them crewmates
-            PlayerControl.AllPlayerControls.ToArray()
-                .Where(pc => !allies.Contains(pc.GetClientId()) && pc.PlayerId != MyPlayer.PlayerId)
+            Game.GetAllPlayers()
+                .Where(pc => !alliesCID.Contains(pc.GetClientId()) && pc.PlayerId != MyPlayer.PlayerId)
                 .Do(pc => RpcV2.Immediate(pc.NetId, (byte)RpcCalls.SetRole).Write((byte)RoleTypes.Crewmate).Send(MyPlayer.GetClientId()));
-            if (this.Factions.Contains(Faction.Impostors)) allies.Do(p => MyPlayer.GetDynamicName().RenderAsIf(GameState.InMeeting, specific: p));
+            ShowRoleToTeammates(allies);
         }
         else
             MyPlayer.RpcSetRole(this.VirtualRole);
         HudManager.Instance.SetHudActive(true);
+    }
+
+    private void ShowRoleToTeammates(IEnumerable<PlayerControl> allies)
+    {
+        // Currently only impostors can show each other their roles
+        if (!this.Factions.IsImpostor()) return;
+        DynamicName myName = MyPlayer.GetDynamicName();
+        allies.Where(ally => ally.PlayerId != MyPlayer.PlayerId).Do(ally=>
+        {
+            myName.AddRule(GameState.InIntro, UI.Role, playerId: ally.PlayerId);
+            myName.AddRule(GameState.InMeeting, UI.Role, playerId: ally.PlayerId);
+            myName.AddRule(GameState.Roaming, UI.Role, playerId: ally.PlayerId);
+        });
     }
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream)

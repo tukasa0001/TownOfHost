@@ -53,5 +53,5 @@ public class Camouflager: Morphling
                 .Build());
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>
-        base.Modify(roleModifier).CannotVent(!canVent);
+        base.Modify(roleModifier).CanVent(canVent);
 }

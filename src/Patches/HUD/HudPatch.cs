@@ -120,7 +120,7 @@ namespace TownOfHost
 
                 if (player.CanUseKillButton())
                 {
-                    __instance.KillButton.ToggleVisible(player.IsAlive() && GameStates.IsInTask);
+                    __instance.KillButton.ToggleVisible(!player.Data.IsDead);
                 }
                 else
                 {
@@ -184,58 +184,51 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ToggleHighlight))]
     class ToggleHighlightPatch
     {
+        private static readonly int OutlineColor = Shader.PropertyToID("_OutlineColor");
+
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] bool active, [HarmonyArgument(1)] RoleTeamTypes team)
         {
             var player = PlayerControl.LocalPlayer;
-            if (!GameStates.IsInTask) return;
-
-            if ((player.GetCustomRole() is Sheriff ||
-                player.GetCustomRole() is Arsonist ||
-                player.GetCustomRole() is Jackal)
-            && !player.Data.IsDead)
-            {
-                ((Renderer)__instance.cosmetics.currentBodySprite.BodySprite).material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));
-            }
+            if (player.Data.IsDead) return;
+            __instance.cosmetics.currentBodySprite.BodySprite.material.SetColor("_OutlineColor", player.GetCustomRole().RoleColor);
         }
     }
     [HarmonyPatch(typeof(Vent), nameof(Vent.SetOutline))]
     class SetVentOutlinePatch
     {
+        private static readonly int OutlineColor = Shader.PropertyToID("_OutlineColor");
+        private static readonly int AddColor = Shader.PropertyToID("_AddColor");
+
         public static void Postfix(Vent __instance, [HarmonyArgument(1)] ref bool mainTarget)
         {
-            var player = PlayerControl.LocalPlayer;
             Color color = PlayerControl.LocalPlayer.GetRoleColor();
-            ((Renderer)__instance.myRend).material.SetColor("_OutlineColor", color);
-            ((Renderer)__instance.myRend).material.SetColor("_AddColor", mainTarget ? color : Color.clear);
+            __instance.myRend.material.SetColor(OutlineColor, color);
+            __instance.myRend.material.SetColor(AddColor, mainTarget ? color : Color.clear);
         }
     }
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]
     class SetHudActivePatch
     {
-        public static bool IsActive = false;
+        public static bool IsActive;
         public static void Postfix(HudManager __instance, [HarmonyArgument(0)] bool isActive)
         {
-            IsActive = isActive;
-            if (!isActive) return;
-
             var player = PlayerControl.LocalPlayer;
+
             switch (player.GetCustomRole())
             {
-                case Sheriff:
-                case Arsonist:
+                case Impostor impostor:
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(!player.Data.IsDead);
+                    __instance.SabotageButton.ToggleVisible(impostor.CanSabotage());
+                    __instance.ImpostorVentButton.ToggleVisible(impostor.CanVent());
+                    __instance.AbilityButton.ToggleVisible(false);
+                    break;
+                case Sheriff sheriff:
+                    if (sheriff.DesyncRole == null) return;
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(false);
-                    __instance.AbilityButton.ToggleVisible(false);
-                    break;
-                case Jackal:
-                    if (player.GetCustomRole() is not Impostor impostor) break;
-
-                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
-                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
-                    __instance.SabotageButton.ToggleVisible(isActive && impostor.CanSabotage());
-                    __instance.ImpostorVentButton.ToggleVisible(isActive && impostor.CanVent());
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
             }
@@ -274,16 +267,14 @@ namespace TownOfHost
             // 役職説明表示
             if (!player.GetCustomRole().IsVanilla())
             {
-                var RoleWithInfo = $"{player.GetDisplayRoleName()}:\r\n";
-                RoleWithInfo += player.GetRoleInfo();
-                __instance.taskText.text = Utils.ColorString(player.GetRoleColor(), RoleWithInfo) + "\n" + __instance.taskText.text;
+                string roleWithInfo = $"{player.GetDisplayRoleName()}:\r\n";
+                roleWithInfo += player.GetRoleInfo();
+                __instance.taskText.text = player.GetRoleColor().Colorize(roleWithInfo) + "\n" + __instance.taskText.text;
             }
 
             // RepairSenderの表示
             if (RepairSender.enabled && AmongUsClient.Instance.NetworkMode != NetworkModes.OnlineGame)
-            {
                 __instance.taskText.text = RepairSender.GetText();
-            }
         }
     }
 
