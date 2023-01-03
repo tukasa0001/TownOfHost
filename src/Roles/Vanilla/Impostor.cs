@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace TownOfHost.Roles;
 
-public class Impostor: CustomRole
+public class Impostor : CustomRole
 {
     public virtual bool CanSabotage() => canSabotage;
     public virtual bool CanKill() => canKill;

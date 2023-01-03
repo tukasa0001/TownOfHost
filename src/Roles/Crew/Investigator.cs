@@ -23,8 +23,8 @@ public class Investigator : Crewmate
         new Tuple<Type, Color, InvestOptCategory>(typeof(Survivor), new Color(1f, 0.9f, 0.3f), InvestOptCategory.NeutralPassive),
 
         new Tuple<Type, Color, InvestOptCategory>(typeof(Arsonist), new Color(1f, 0.4f, 0.2f), InvestOptCategory.NeutralKilling),
-        new Tuple<Type, Color, InvestOptCategory>(typeof(BloodKnight), Color.green, InvestOptCategory.NeutralKilling),
-        new Tuple<Type, Color, InvestOptCategory>(typeof(CrewPostor), Color.green, InvestOptCategory.NeutralKilling),
+        new Tuple<Type, Color, InvestOptCategory>(typeof(BloodKnight), Utils.ConvertHexToColor("#630000"), InvestOptCategory.NeutralKilling),
+        new Tuple<Type, Color, InvestOptCategory>(typeof(CrewPostor), Utils.ConvertHexToColor("#DC6601"), InvestOptCategory.NeutralKilling),
         new Tuple<Type, Color, InvestOptCategory>(typeof(Egoist), Color.green, InvestOptCategory.NeutralKilling),
         new Tuple<Type, Color, InvestOptCategory>(typeof(Glitch), Color.green, InvestOptCategory.NeutralKilling),
         new Tuple<Type, Color, InvestOptCategory>(typeof(Hacker), Color.green, InvestOptCategory.NeutralKilling),

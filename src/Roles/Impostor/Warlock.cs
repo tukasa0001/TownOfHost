@@ -5,7 +5,7 @@ using TownOfHost.ReduxOptions;
 
 namespace TownOfHost.Roles;
 
-public class Warlock: Morphling
+public class Warlock : Morphling
 {
     private List<PlayerControl> cursedPlayers;
     private bool shapeshifted;
@@ -32,11 +32,12 @@ public class Warlock: Morphling
         foreach (PlayerControl player in new List<PlayerControl>(cursedPlayers))
         {
 
-            if (player.Data.IsDead) {
+            if (player.Data.IsDead)
+            {
                 cursedPlayers.Remove(player);
                 continue;
             }
-            List<PlayerControl> inRangePlayers = player.GetPlayersInAbilityRangeSorted().Where(p => !p.GetCustomRole().IsAllied(MyPlayer)).ToList();
+            List<PlayerControl> inRangePlayers = player.GetPlayersInAbilityRangeSorted().Where(p => !p.GetCustomRole().IsAllied(MyPlayer) && p.GetCustomRole().CanBeKilled()).ToList();
             if (inRangePlayers.Count == 0) continue;
             player.RpcMurderPlayer(inRangePlayers.GetRandom());
             cursedPlayers.Remove(player);
