@@ -19,9 +19,9 @@ public class OptionValue
     {
         this.Text = text;
         this.Value = value;
-        this.Header = cfgHeader.RemoveHtmlTags().RemoveAll(new Il2CppStructArray<char>(new char[] { '\n', '\t', '\\', '"', '\'', '[', ']', '<', '>', '#', '/' }));
+        this.Header = cfgHeader.RemoveHtmlTags().RemoveAll(new Il2CppStructArray<char>(new char[] { '\n', '\t', '\\', '"', '\'', '[', ']', '<', '>', '#', '/' })).TrimEnd();
         //cfgEntry.RemoveHtmlTags().RemoveAll(new Il2CppStructArray<char>(new char[] { '\n', '\t', '\\', '"', '\'', '[', ']', '<', '>', '#', '/' })).DebugLog("Cfg Entry: ");
-        this.Entry = cfgEntry.RemoveHtmlTags().RemoveAll(new Il2CppStructArray<char>(new char[] { '\n', '\t', '\\', '"', '\'', '[', ']', '<', '>', '#', '/' }));
+        this.Entry = cfgEntry.RemoveHtmlTags().RemoveAll(new Il2CppStructArray<char>(new char[] { '\n', '\t', '\\', '"', '\'', '[', ']', '<', '>', '#', '/' })).TrimEnd();
 
         this.prefix = prefix;
         this.suffix = suffix;

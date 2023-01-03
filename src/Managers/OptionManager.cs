@@ -4,6 +4,7 @@ using System.Linq;
 using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
+using TownOfHost.Extensions;
 using TownOfHost.Interface.Menus;
 
 namespace TownOfHost.ReduxOptions;

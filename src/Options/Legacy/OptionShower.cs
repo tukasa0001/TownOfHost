@@ -114,8 +114,8 @@ namespace TownOfHost
             foreach (var opt in option.SubOptions.Select((v, i) => new { Value = v, Index = i + 1 }))
             {
                 if (opt.Value.Name == "Maximum") continue; //Maximumの項目は飛ばす
-                text += string.Concat(Enumerable.Repeat(Utils.ColorString(color, "┃"), deep - 1));
-                text += Utils.ColorString(color, opt.Index == option.SubOptions.Count ? "┗ " : "┣ ");
+                text += string.Concat(Enumerable.Repeat(color.Colorize("┃"), deep - 1));
+                text += color.Colorize(opt.Index == option.SubOptions.Count ? "┗ " : "┣ ");
                 text += $"{opt.Value.Name}: {opt.Value.GetAsString()}\n";
                 if (opt.Value.MatchesPredicate()) ShowChildren(opt.Value, ref text, color, deep + 1);
             }

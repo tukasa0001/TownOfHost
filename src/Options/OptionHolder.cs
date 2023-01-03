@@ -19,7 +19,6 @@ public class OptionHolder
         set {
             _tab = value;
             value?.AddHolder(this);
-            if (value != null) Name.DebugLog("Added As Holder: ");
         }
     }
 
