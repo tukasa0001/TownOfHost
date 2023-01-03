@@ -72,7 +72,7 @@ public class CustomRoleManager
         public Warlock Warlock = new Warlock();
         public Witch Witch = new Witch();
         public Coven Coven = new Coven();
-        public BloodKnight BloodKNight = new BloodKnight();
+        public BloodKnight BloodKnight = new BloodKnight();
 
         public LastImpostor LastImpostor = new LastImpostor();
 
@@ -104,6 +104,8 @@ public class CustomRoleManager
 
         public Sidekick Sidekick = new Sidekick();
         public SchrodingerCat SchrodingerCat = new SchrodingerCat();
+        public Demolitionist Demolitionist = new Demolitionist();
+        public Vampiress Vampiress = new Vampiress();
 
 
         public Amnesiac Amnesiac = new Amnesiac();
