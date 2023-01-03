@@ -55,6 +55,22 @@ namespace TownOfHost
                             .Where(p => p.Is(CustomRoles.Lovers) && p.IsAlive())
                             .Do(p => CustomWinnerHolder.WinnerIds.Add(p.PlayerId));
                     }
+                    //追加勝利陣営
+                    foreach (var pc in Main.AllPlayerControls)
+                    {
+                        //Opportunist
+                        if (pc.Is(CustomRoles.Opportunist) && !pc.Data.IsDead && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw && CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist)
+                        {
+                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
+                        }
+                        //SchrodingerCat
+                        if (SchrodingerCat.CanWinTheCrewmateBeforeChange.GetBool() && pc.Is(CustomRoles.SchrodingerCat) && CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
+                        {
+                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.SchrodingerCat);
+                        }
+                    }
                 }
                 ShipStatus.Instance.enabled = false;
                 StartEndGame(reason);
