@@ -46,6 +46,16 @@ namespace TownOfHost
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
                 }
+                if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw and not CustomWinner.None)
+                {
+                    if (Main.LoversPlayers.Count > 0 && Main.LoversPlayers.ToArray().All(p => p.IsAlive()) && !reason.Equals(GameOverReason.HumansByTask))
+                    {
+                        CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Lovers);
+                        Main.AllPlayerControls
+                            .Where(p => p.Is(CustomRoles.Lovers) && p.IsAlive())
+                            .Do(p => CustomWinnerHolder.WinnerIds.Add(p.PlayerId));
+                    }
+                }
                 ShipStatus.Instance.enabled = false;
                 StartEndGame(reason);
                 predicate = null;
