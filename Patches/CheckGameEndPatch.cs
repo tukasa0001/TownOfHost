@@ -94,43 +94,11 @@ namespace TownOfHost
                     SetGhostRole(ToGhostImpostor: true);
                     continue;
                 }
-                if (winner == CustomWinner.Impostor)
-                {
-                    switch (pc.GetCustomRole().GetRoleType())
-                    {
-                        case RoleType.Impostor:
-                        case RoleType.Madmate:
-                            SetGhostRole(ToGhostImpostor: true);
-                            break;
-                        case RoleType.Neutral:
-                        case RoleType.Crewmate:
-                            SetGhostRole(ToGhostImpostor: false);
-                            break;
-                    }
-                }
-                else if (winner == CustomWinner.Crewmate)
-                {
-                    switch (pc.GetCustomRole().GetRoleType())
-                    {
-                        case RoleType.Impostor:
-                        case RoleType.Madmate:
-                        case RoleType.Neutral:
-                            SetGhostRole(ToGhostImpostor: true);
-                            break;
-                        case RoleType.Crewmate:
-                            SetGhostRole(ToGhostImpostor: false);
-                            break;
-                    }
-                }
-                else if (((CustomRoles)winner).IsNeutral())
-                {
-                    if (CustomWinnerHolder.WinnerIds.Contains(pc.PlayerId) ||
-                        CustomWinnerHolder.WinnerRoles.Contains(pc.GetCustomRole()))
-                    {
-                        SetGhostRole(ToGhostImpostor: true);
-                    }
-                    else SetGhostRole(ToGhostImpostor: false);
-                }
+                bool canWin = CustomWinnerHolder.WinnerIds.Contains(pc.PlayerId) ||
+                        CustomWinnerHolder.WinnerRoles.Contains(pc.GetCustomRole());
+                bool isCrewmateWin = reason.Equals(GameOverReason.HumansByVote) || reason.Equals(GameOverReason.HumansByTask);
+                SetGhostRole(ToGhostImpostor: canWin ^ isCrewmateWin);
+
                 void SetGhostRole(bool ToGhostImpostor)
                 {
                     if (!pc.Data.IsDead) ReviveReqiredPlayerIds.Add(pc.PlayerId);
