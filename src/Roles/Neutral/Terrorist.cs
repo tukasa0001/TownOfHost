@@ -1,30 +1,38 @@
 using TownOfHost.Factions;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
+using TownOfHost.Options;
 
 namespace TownOfHost.Roles;
 
 // Inherits from crewmate because crewmate has task setup
-public class Terrorist: Crewmate
+public class Terrorist : Crewmate
 {
     private bool canWinBySuicide;
 
     [RoleAction(RoleActionType.MyDeath)]
     private void OnTerroristDeath() => TerroristWinCheck();
 
-    [RoleAction(RoleActionType.SelfExiled)]
-    private void OnTerroristExiled() => TerroristWinCheck();
+
+    //   [RoleAction(RoleActionType.SelfExiled)]
+    //  private void OnTerroristExiled() => TerroristWinCheck();
 
     private void TerroristWinCheck()
     {
         if (this.HasAllTasksDone)
         {
+            // I know we are going to redo death reasons but I will still like it here for reasons.
+            if (canWinBySuicide || Main.PlayerStates[MyPlayer.PlayerId].deathReason != (PlayerStateOLD.DeathReason.Suicide | PlayerStateOLD.DeathReason.FollowingSuicide))
+            {
+                // TERRORIST WIN
+            }
         }
         //OldRPC.TerroristWin(MyPlayer.PlayerId);
     }
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
+        .Tab(DefaultTabs.NeutralTab)
             .AddSubOption(sub => sub
                 .Name("Can Win By Suicide")
                 .Bind(v => canWinBySuicide = (bool)v)

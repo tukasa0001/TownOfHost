@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace TownOfHost.Roles;
 
-public class Jester: CustomRole
+public class Jester : CustomRole
 {
     private bool canUseVents;
     private bool canDieBySheriff;
@@ -42,7 +42,7 @@ public class Jester: CustomRole
                 .AddOnOffValues()
                 .ShowSubOptionsWhen(v => (bool)v)
                 .AddSubOption(opt => opt.Name("Vent Cooldown")
-                    .AddValues(4, 5, 10, 15, 20, 25)
+                    .AddValues(4, 0, 5, 10, 15, 20, 25)
                     .Bind(v => ventCooldown = (int)v)
                     .Build())
                 .Build());

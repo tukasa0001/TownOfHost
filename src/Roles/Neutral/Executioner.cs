@@ -7,10 +7,11 @@ using TownOfHost.Interface.Menus.CustomNameMenu;
 using TownOfHost.ReduxOptions;
 using TownOfHost.RPC;
 using UnityEngine;
+using TownOfHost.Options;
 
 namespace TownOfHost.Roles;
 
-public class Executioner: CustomRole
+public class Executioner : CustomRole
 {
     private bool canTargetImpostors;
     private bool canTargetNeutrals;
@@ -23,7 +24,8 @@ public class Executioner: CustomRole
 
     public override void OnGameStart()
     {
-        target = Game.GetAllPlayers().FirstOrDefault(p => {
+        target = Game.GetAllPlayers().FirstOrDefault(p =>
+        {
             if (p.PlayerId == MyPlayer.PlayerId) return false;
             Faction[] factions = p.GetCustomRole().Factions;
             if (!canTargetImpostors && factions.IsImpostor()) return false;
@@ -68,6 +70,7 @@ public class Executioner: CustomRole
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
+        .Tab(DefaultTabs.NeutralTab)
             .AddSubOption(sub => sub
                 .Name("Can Target Impostors")
                 .Bind(v => canTargetImpostors = (bool)v)
@@ -92,7 +95,7 @@ public class Executioner: CustomRole
     private enum ExeRoleChange
     {
         None,
-        Jester ,
+        Jester,
         Opportunist,
         SchrodingerCat,
         Crewmate

@@ -4,11 +4,12 @@ using Hazel;
 using Il2CppSystem;
 using TownOfHost.Extensions;
 using TownOfHost.ReduxOptions;
+using TownOfHost.Options;
 using TownOfHost.RPC;
 
 namespace TownOfHost.Roles;
 
-public class Amnesiac: CustomRole
+public class Amnesiac : CustomRole
 {
     private bool stealExactRole;
 
@@ -63,6 +64,7 @@ public class Amnesiac: CustomRole
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
+        .Tab(DefaultTabs.NeutralTab)
             .AddSubOption(sub => sub.Name("Steals Exact Role")
                 .Bind(v => stealExactRole = (bool)v)
                 .AddOnOffValues(false).Build());
