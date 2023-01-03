@@ -193,6 +193,11 @@ namespace TownOfHost
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.None);
                 }
+                else if (Main.AllPlayerControls.All(p => p.IsAlive() && p.Is(CustomRoles.Lovers))) //ラバーズ勝利
+                {
+                    reason = GameOverReason.ImpostorByKill;
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Lovers);
+                }
                 else if (Jackal == 0 && Crew <= Imp + Ego) //インポスター勝利
                 {
                     reason = GameOverReason.ImpostorByKill;
