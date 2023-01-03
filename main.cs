@@ -17,6 +17,12 @@ using TownOfHost.Interface.Menus;
 using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
+using Reactor;
+using Reactor.Utilities.Extensions;
+using Reactor.Networking.Attributes;
+using Il2CppInterop.Runtime;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using UnityEngine.SceneManagement;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
@@ -24,6 +30,8 @@ namespace TownOfHost
 {
     [BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
     [BepInProcess("Among Us.exe")]
+    [BepInDependency(ReactorPlugin.Id)]
+    [ReactorModFlags(Reactor.Networking.ModFlags.RequireOnHost)]
     public class Main : BasePlugin
     {
         // == プログラム設定 / Program Config ==
