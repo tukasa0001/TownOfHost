@@ -38,61 +38,13 @@ namespace TownOfHost
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             var winner = new List<PlayerControl>();
-            //勝者リスト作成
-            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
-            {
-                foreach (var pc in Main.AllPlayerControls)
-                {
-                    if (CustomWinnerHolder.WinnerRoles.Contains(pc.GetCustomRole()) ||
-                        CustomWinnerHolder.WinnerIds.Contains(pc.PlayerId))
-                        winner.Add(pc);
-                }
-            }
-            Egoist.OverrideCustomWinner();
-
-            //廃村時の処理など
-            if (endGameResult.GameOverReason == GameOverReason.HumansDisconnect ||
-            endGameResult.GameOverReason == GameOverReason.ImpostorDisconnect ||
-            CustomWinnerHolder.WinnerTeam == CustomWinner.Draw)
-            {
-                winner = new List<PlayerControl>();
-                foreach (var p in Main.AllPlayerControls)
-                {
-                    winner.Add(p);
-                }
-            }
-
-            //単独勝利
-            if (CustomRoles.Lovers.IsEnable() && Options.CurrentGameMode == CustomGameMode.Standard && Main.LoversPlayers.Count > 0 && Main.LoversPlayers.ToArray().All(p => !Main.PlayerStates[p.PlayerId].IsDead) //ラバーズが生きていて
-            && (CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor || CustomWinnerHolder.WinnerTeam == CustomWinner.Jackal
-            || (CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))))   //クルー勝利でタスク勝ちじゃなければ
-            { //Loversの単独勝利
-                winner = new();
-                CustomWinnerHolder.WinnerTeam = CustomWinner.Lovers;
-                foreach (var lp in Main.LoversPlayers)
-                {
-                    winner.Add(lp);
-                }
-            }
-            TeamEgoist.SoloWin(winner);
-
-            ///以降追加勝利陣営 (winnerリセット無し)
-            //Opportunist
             foreach (var pc in Main.AllPlayerControls)
             {
-                if (CustomWinnerHolder.WinnerTeam == CustomWinner.None) break;
-                if (pc.Is(CustomRoles.Opportunist) && !pc.Data.IsDead && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw && CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist)
-                {
-                    winner.Add(pc);
-                    CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
-                }
-                //SchrodingerCat
-                if (SchrodingerCat.CanWinTheCrewmateBeforeChange.GetBool())
-                    if (pc.Is(CustomRoles.SchrodingerCat) && CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
-                    {
-                        winner.Add(pc);
-                        CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.SchrodingerCat);
-                    }
+                if (CustomWinnerHolder.WinnerIds.Contains(pc.PlayerId)) winner.Add(pc);
+            }
+            foreach (var team in CustomWinnerHolder.WinnerRoles)
+            {
+                winner.AddRange(Main.AllPlayerControls.Where(p => p.Is(team) && !winner.Contains(p)));
             }
 
             //HideAndSeek専用
