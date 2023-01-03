@@ -72,6 +72,7 @@ public class CustomRoleManager
         public Warlock Warlock = new Warlock();
         public Witch Witch = new Witch();
         public Coven Coven = new Coven();
+        public BloodKnight BloodKNight = new BloodKnight();
 
         public LastImpostor LastImpostor = new LastImpostor();
 
@@ -109,6 +110,7 @@ public class CustomRoleManager
         public Snitch Snitch = new Snitch();
         public Speedrunner Speedrunner = new Speedrunner();
         public Trapper Trapper = new Trapper();
+        public Phantom Phantom = new Phantom();
 
         public Egoist Egoist = new Egoist();
 

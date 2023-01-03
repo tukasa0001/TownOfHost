@@ -3,7 +3,7 @@ using TownOfHost.ReduxOptions;
 
 namespace TownOfHost.Roles;
 
-public class Phantom : CustomRole
+public class Phantom : Crewmate
 {
     private int phantomClickAmt;
     private int phantomAlertAmt;
@@ -56,12 +56,12 @@ public class Phantom : CustomRole
              .Tab(DefaultTabs.NeutralTab)
              .AddSubOption(opt =>
                 opt.Name("Tasks Remaining for Phantom Click")
-                .BindInt(v => phantomClickAmt = (int)v)
+                .BindInt(v => phantomClickAmt = v)
                 .AddIntRangeValues(1, 10, 1)
                 .Build())
             .AddSubOption(opt =>
-                opt.Name("Tasks Remaining for Phantom ALert")
-                .BindInt(v => phantomAlertAmt = (int)v)
+                opt.Name("Tasks Remaining for Phantom Alert")
+                .BindInt(v => phantomAlertAmt = v)
                 .AddIntRangeValues(1, 5, 1)
                 .Build());
 }
