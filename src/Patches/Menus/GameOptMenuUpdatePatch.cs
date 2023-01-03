@@ -19,7 +19,7 @@ public class GameOptionsMenuUpdatePatch
         _timer += Time.deltaTime;
         if (_timer < 0.1f) return;
         _timer = 0f;
-        float offset = 2.7f;
+        float offset = 2.75f;
 
         if (__instance.transform.parent.parent.name == "Game Settings") return;
 

@@ -83,7 +83,8 @@ public abstract class AbstractBaseRole
             Main.OptionManager.Add(options);
             if (options.Tab == null)
             {
-                if (this.Factions.IsImpostor())
+                if (this is GM) { /*ignored*/ }
+                else if (this.Factions.IsImpostor())
                     options.Tab = DefaultTabs.ImpostorsTab;
                 else if (this.Factions.IsCrewmate())
                     options.Tab = DefaultTabs.CrewmateTab;

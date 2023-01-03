@@ -261,7 +261,7 @@ namespace TownOfHost
                         }, 2f, "FixKillCooldownTask");
                 }
                 new DTask(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRoleDesync(RoleTypes.Shapeshifter, -3)), 2f, "SetImpostorForServer");
-                if (PlayerControl.LocalPlayer.Is(GM.Ref<GM>()))
+                if (PlayerControl.LocalPlayer.Is(CustomRoleManager.Static.GM))
                 {
                     PlayerControl.LocalPlayer.RpcExile();
                     Main.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SetDead();

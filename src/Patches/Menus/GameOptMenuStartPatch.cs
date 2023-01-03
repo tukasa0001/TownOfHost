@@ -93,9 +93,6 @@ public class GameOptMenuStartPatch
                 tabs.Add(initializedTab.GameObject);
                 var tohTabHighlight = initializedTab.Transform.FindChild("Hat Button").FindChild("Tab Background").GetComponent<SpriteRenderer>();
                 highlights.Add(tohTabHighlight);
-
-                Main.OptionManager.AllHolders = Main.OptionManager.Options()
-                    .SelectMany(opt => opt.GetHoldersRecursive()).ToList();
             }
 
             for (var i = 0; i < tabs.Count; i++)
