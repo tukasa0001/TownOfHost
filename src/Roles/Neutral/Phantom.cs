@@ -41,11 +41,11 @@ public class Phantom : CustomRole
         {
             // PHANTOM WIN
         }
-        else if (taskState.CompletedTasksCount <= phantomClickAmt && !CanKill)
+        else if (taskState.RemainingTasksCount <= phantomClickAmt && !CanKill)
         {
             CanKill = true;
         }
-        else if (taskState.CompletedTasksCount <= phantomAlertAmt && !IsAlerted)
+        else if (taskState.RemainingTasksCount <= phantomAlertAmt && !IsAlerted)
         {
             IsAlerted = true;
         }
