@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using HarmonyLib;
+using TownOfHost.ReduxOptions;
 using Hazel;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
@@ -287,7 +288,7 @@ namespace TownOfHost
         public virtual bool CheckGameEndByTask(out GameOverReason reason)
         {
             reason = GameOverReason.ImpostorByKill;
-            if (OldOptions.DisableTaskWin.GetBool()) return false;
+            if (StaticOptions.DisableTaskWin) return false;
 
             if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
             {

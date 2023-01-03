@@ -5,6 +5,7 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using UnityEngine;
 using TownOfHost.Roles;
+using TownOfHost.ReduxOptions;
 
 namespace TownOfHost
 {
@@ -26,7 +27,7 @@ namespace TownOfHost
                 Main.RefixCooldownDelay = float.NaN;
                 Logger.Info("Refix Cooldown", "CoolDown");
             }
-            if ((OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek || OldOptions.IsStandardHAS) && Main.introDestroyed)
+            if ((OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek || StaticOptions.IsStandardHAS) && Main.introDestroyed)
             {
                 if (OldOptions.HideAndSeekKillDelayTimer > 0)
                 {
@@ -60,25 +61,25 @@ namespace TownOfHost
                 if (task.TaskType == TaskTypes.FixComms) IsComms = true;
 
             if (!AmongUsClient.Instance.AmHost) return true; //以下、ホストのみ実行
-            if ((OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek || OldOptions.IsStandardHAS) && systemType == SystemTypes.Sabotage) return false;
+            if ((OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek || StaticOptions.IsStandardHAS) && systemType == SystemTypes.Sabotage) return false;
             //SabotageMaster
             /*if (player.Is(CustomRoles.SabotageMaster))
                 SabotageMasterOLD.RepairSystem(__instance, systemType, amount);*/
 
             if (systemType == SystemTypes.Electrical && 0 <= amount && amount <= 4)
             {
-                if (!OldOptions.MadmateCanFixLightsOut.GetBool() && player.GetCustomRole().IsMadmate()) return false; //Madmateが停電を直せる設定がオフ
+                if (!StaticOptions.MadmateCanFixLightsOut && player.GetCustomRole().IsMadmate()) return false; //Madmateが停電を直せる設定がオフ
                 switch (Main.NormalOptions.MapId)
                 {
                     case 4:
-                        if (OldOptions.DisableAirshipViewingDeckLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(-12.93f, -11.28f)) <= 2f) return false;
-                        if (OldOptions.DisableAirshipGapRoomLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(13.92f, 6.43f)) <= 2f) return false;
-                        if (OldOptions.DisableAirshipCargoLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(30.56f, 2.12f)) <= 2f) return false;
+                        if (StaticOptions.DisableAirshipViewingDeckLightsPanel && Vector2.Distance(player.transform.position, new(-12.93f, -11.28f)) <= 2f) return false;
+                        if (StaticOptions.DisableAirshipGapRoomLightsPanel && Vector2.Distance(player.transform.position, new(13.92f, 6.43f)) <= 2f) return false;
+                        if (StaticOptions.DisableAirshipCargoLightsPanel && Vector2.Distance(player.transform.position, new(30.56f, 2.12f)) <= 2f) return false;
                         break;
                 }
             }
 
-            if (!OldOptions.MadmateCanFixComms.GetBool() && player.GetCustomRole().IsMadmate() //Madmateがコミュサボを直せる設定がオフ
+            if (!StaticOptions.MadmateCanFixComms && player.GetCustomRole().IsMadmate() //Madmateがコミュサボを直せる設定がオフ
                 && systemType == SystemTypes.Comms //システムタイプが通信室
                 && amount is 0 or 16 or 17)
                 return false;
@@ -115,7 +116,7 @@ namespace TownOfHost
     {
         public static bool Prefix(ShipStatus __instance)
         {
-            return !(OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek || OldOptions.IsStandardHAS) || OldOptions.AllowCloseDoors.GetBool();
+            return !(OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek || StaticOptions.IsStandardHAS) || StaticOptions.AllowCloseDoors;
         }
     }
     [HarmonyPatch(typeof(SwitchSystem), nameof(SwitchSystem.RepairDamage))]
@@ -162,7 +163,7 @@ namespace TownOfHost
     {
         public static bool Prefix(ref bool __result)
         {
-            if (OldOptions.DisableTaskWin.GetBool())
+            if (StaticOptions.DisableTaskWin)
             {
                 __result = false;
                 return false;

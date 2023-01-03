@@ -5,6 +5,7 @@ using InnerNet;
 using TownOfHost.Extensions;
 using static TownOfHost.Translator;
 using TownOfHost.Roles;
+using TownOfHost.ReduxOptions;
 
 namespace TownOfHost
 {
@@ -87,7 +88,7 @@ namespace TownOfHost
                     if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(GetString("Message.AnnounceUsingTOH"), Main.PluginVersion + (Main.DevVersion ? " " + Main.DevVersionStr : "")), client.Character.PlayerId);
                     TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
                 }, 3f, "Welcome Message");
-                if (OldOptions.AutoDisplayLastResult.GetBool() && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
+                if (StaticOptions.AutoDisplayLastResult && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
                 {
                     new DTask(() =>
                     {

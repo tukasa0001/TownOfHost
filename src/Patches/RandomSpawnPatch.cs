@@ -6,6 +6,7 @@ using Hazel;
 using TownOfHost.Extensions;
 using UnityEngine;
 using TownOfHost.Roles;
+using TownOfHost.ReduxOptions;
 
 namespace TownOfHost
 {
@@ -35,8 +36,8 @@ namespace TownOfHost
                     {
                         if (Main.NormalOptions.MapId != 4) return; //マップがエアシップじゃなかったらreturn
                         player.RpcResetAbilityCooldown();
-                        if (OldOptions.FixFirstKillCooldown.GetBool() && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
-                        if (!OldOptions.RandomSpawn.GetBool()) return; //ランダムスポーンが無効ならreturn
+                        if (StaticOptions.FixFirstKillCooldown && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
+                        if (!StaticOptions.RandomSpawn) return; //ランダムスポーンが無効ならreturn
                         new AirshipSpawnMap().RandomTeleport(player);
                     }
                 }
@@ -161,7 +162,7 @@ namespace TownOfHost
             };
             public override Vector2 GetLocation()
             {
-                return OldOptions.AirshipAdditionalSpawn.GetBool()
+                return StaticOptions.AirshipAdditionalSpawn
                     ? positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value
                     : positions.ToArray()[0..6].OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
             }
