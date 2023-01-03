@@ -88,6 +88,7 @@ public class CustomRoleManager
         public Investigator Investigator = new Investigator();
         public Mystic Mystic = new Mystic();
         public Jester Jester = new Jester();
+        public CrewPostor CrewPostor = new CrewPostor();
         public Opportunist Opportunist = new Opportunist();
 
 
