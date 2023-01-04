@@ -54,11 +54,9 @@ namespace TownOfHost
             return false;
         }
         [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate)), HarmonyPostfix]
-        public static void DoFirstTriggerAction()
+        public static void DoFirstTriggerAction(PlayerControl __instance)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-
-            List<byte> playerList = new(FirstTriggerTimer.Keys);
             if (!GameStates.IsInTask)
             {
                 FirstTriggerTimer.Clear();
@@ -66,18 +64,19 @@ namespace TownOfHost
                 FirstTriggerAction.Clear();
                 return;
             }
-            foreach (var player in playerList)
-            {
-                FirstTriggerTimer[player] -= Time.fixedDeltaTime;
-                if (FirstTriggerTimer[player] <= 0)
-                {
-                    Logger.Info($"{Utils.GetPlayerById(player).name} DoSingleAction", "DobbleTrigger");
-                    FirstTriggerAction[player]();
 
-                    FirstTriggerTimer.Remove(player);
-                    FirstTriggerTarget.Remove(player);
-                    FirstTriggerAction.Remove(player);
-                }
+            var player = __instance.PlayerId;
+            if (!FirstTriggerTimer.ContainsKey(player)) return;
+
+            FirstTriggerTimer[player] -= Time.fixedDeltaTime;
+            if (FirstTriggerTimer[player] <= 0)
+            {
+                Logger.Info($"{Utils.GetPlayerById(player).name} DoSingleAction", "DobbleTrigger");
+                FirstTriggerAction[player]();
+
+                FirstTriggerTimer.Remove(player);
+                FirstTriggerTarget.Remove(player);
+                FirstTriggerAction.Remove(player);
             }
         }
     }
