@@ -238,7 +238,7 @@ namespace TownOfHost
         }
 
         [HarmonyPatch(typeof(Vent), nameof(Vent.EnterVent)), HarmonyPostfix]
-        public static void OnEnterVent(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
+        public static void OnEnterVent(PlayerControl pc)
         {
             if (!AmongUsClient.Instance.AmHost) return;
             if (playerIdList.Contains(pc.PlayerId))
