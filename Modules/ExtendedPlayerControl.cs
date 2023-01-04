@@ -372,7 +372,7 @@ namespace TownOfHost
                 _ => pc.Is(RoleType.Impostor),
             };
         }
-        public static bool CanUseImpostorVentButton(this PlayerControl pc, bool OnlyEntry = false)
+        public static bool CanUseImpostorVentButton(this PlayerControl pc)
         {
             if (!pc.IsAlive() || pc.Data.Role.Role == RoleTypes.GuardianAngel) return false;
 
@@ -382,7 +382,7 @@ namespace TownOfHost
                 CustomRoles.Egoist => true,
                 CustomRoles.Jackal => Jackal.CanVent.GetBool(),
                 CustomRoles.Arsonist => pc.IsDouseDone(),
-                _ => OnlyEntry || pc.Is(RoleType.Impostor),
+                _ => pc.Is(RoleType.Impostor),
             };
         }
         public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
