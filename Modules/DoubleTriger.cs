@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using HarmonyLib;
 using UnityEngine;
 
 namespace TownOfHost
 {
+    [HarmonyPatch]
     static class DoubleTriger
     {
         public static List<byte> PlayerIdList = new();
@@ -12,6 +14,7 @@ namespace TownOfHost
         public static Dictionary<byte, byte> FirstTriggerTarget = new();
         public static Dictionary<byte, Action> FirstTriggerAction = new();
 
+        [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame)), HarmonyPostfix]
         public static void Init()
         {
             PlayerIdList = new();
@@ -43,13 +46,18 @@ namespace TownOfHost
                 FirstTriggerAction.Remove(killer.PlayerId);
                 return true;
             }
+            //シングルアクション時はキル間隔を無視
+            CheckMurderPatch.TimeSinceLastKill.Remove(killer.PlayerId);
             FirstTriggerTimer.Add(killer.PlayerId, 1f);
             FirstTriggerTarget.Add(killer.PlayerId, target.PlayerId);
             FirstTriggerAction.Add(killer.PlayerId, firstAction);
             return false;
         }
+        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate)), HarmonyPostfix]
         public static void DoFirstTriggerAction()
         {
+            if (!AmongUsClient.Instance.AmHost) return;
+
             List<byte> playerList = new(FirstTriggerTimer.Keys);
             if (!GameStates.IsInTask)
             {
