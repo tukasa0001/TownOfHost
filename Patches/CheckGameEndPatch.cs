@@ -59,7 +59,7 @@ namespace TownOfHost
                     foreach (var pc in Main.AllPlayerControls)
                     {
                         //Opportunist
-                        if (pc.Is(CustomRoles.Opportunist) && !pc.Data.IsDead && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw && CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist)
+                        if (pc.Is(CustomRoles.Opportunist) && pc.IsAlive())
                         {
                             CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
                             CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
