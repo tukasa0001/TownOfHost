@@ -202,25 +202,25 @@ namespace TownOfHost
             }
             return "";
         }
-        public static string GetSpellModeText(PlayerControl witch, bool hud)
+        public static string GetSpellModeText(PlayerControl witch, bool hud, bool isMeeting = false)
         {
-            if (witch == null) return "";
+            if (witch == null || isMeeting) return "";
 
             var str = new StringBuilder();
+            if (hud)
+            {
+                str.Append(GetString("WitchCurrentMode"));
+            }
+            else
+            {
+                str.Append("Mode:");
+            }
             if (NowSwitchTrigger == SwitchTrigger.DoubleTrigger)
             {
                 str.Append(GetString("WitchModeDouble"));
             }
             else
             {
-                if (hud)
-                {
-                    str.Append(GetString("WitchCurrentMode"));
-                }
-                else
-                {
-                    str.Append("Mode:");
-                }
                 str.Append(IsSpellMode(witch.PlayerId) ? GetString("WitchModeSpell") : GetString("WitchModeKill"));
             }
             return str.ToString();

@@ -733,7 +733,7 @@ namespace TownOfHost
                 }
                 if (seer.Is(CustomRoles.Witch))
                 {
-                    SelfSuffix = Witch.GetSpellModeText(seer, false);
+                    SelfSuffix = Witch.GetSpellModeText(seer, false, isMeeting);
                 }
 
                 //他人用の変数定義
