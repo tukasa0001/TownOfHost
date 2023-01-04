@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfHost.Roles;
 
-public class TimeThief: Impostor
+public class TimeThief : Impostor
 {
     private int meetingTimeSubtractor;
     private int minimumVotingTime;

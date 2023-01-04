@@ -75,6 +75,7 @@ public class CustomRoleManager
         public BloodKnight BloodKnight = new BloodKnight();
 
         public LastImpostor LastImpostor = new LastImpostor();
+        public Ninja Ninja = new Ninja();
 
         public Crewmate Crewmate = new Crewmate();
         public Engineer Engineer = new Engineer();

@@ -7,10 +7,10 @@ namespace TownOfHost.Roles;
 public class Opportunist : CustomRole
 {
     [RoleAction(RoleActionType.RoundEnd)]
-    public void OpportunistWin()
+    public void OpportunistWin(bool gameEnd)
     {
         // apparently we are going to redo game ending so im just going to putt his code here
-        if (MyPlayer.IsAlive())
+        if (MyPlayer.IsAlive() && gameEnd)
         {
             "Opportunist Win".DebugLog();
         }

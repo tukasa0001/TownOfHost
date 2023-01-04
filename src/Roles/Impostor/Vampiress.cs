@@ -43,7 +43,7 @@ public class Vampiress : Impostor
     }
 
     [RoleAction(RoleActionType.RoundStart)]
-    public void EnterKillModeOnRoundStart() => EnterKillMode(true);
+    public void EnterKillModeOnRoundStart(bool gameStart) => EnterKillMode(gameStart);
 
     [DynElement(UI.Misc)]
     private string CurrentMode() => Mode == VampireMode.Biting ? RoleColor.Colorize("(Bite)") : RoleColor.Colorize("(Kill)");
