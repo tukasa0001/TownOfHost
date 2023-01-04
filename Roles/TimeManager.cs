@@ -14,9 +14,9 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.TimeManager);
-            IncreaseMeetingTime = FloatOptionItem.Create(Id + 10, "TimeManagerIncreaseMeetingTime", new(20f, 0f, 100f), 1f, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeManager])
+            IncreaseMeetingTime = FloatOptionItem.Create(Id + 10, "TimeManagerIncreaseMeetingTime", new(5f, 30f, 1f), 15f, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeManager])
                 .SetValueFormat(OptionFormat.Seconds);
-            MeetingTimeLimit = FloatOptionItem.Create(Id + 11, "TimeManagerLimitMeetingTime", new(300f, 150f, 500f), 1f, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeManager])
+            MeetingTimeLimit = FloatOptionItem.Create(Id + 11, "TimeManagerLimitMeetingTime", new(200f, 900f, 10f), 300f, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeManager])
                 .SetValueFormat(OptionFormat.Seconds);
         }
         public static void Init()
