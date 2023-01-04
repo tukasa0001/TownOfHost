@@ -399,8 +399,8 @@
 "WitchModeSwitchAction","Mode Switch Action","モード変更アクション","切换击杀模式","切換模式操作","Действие смены режима",""
 "TriggerKill","Kill","キル","击杀","殺人鍵","Убийство",""
 "TriggerVent","Vent","ベント","通风管","通風口","Вентиляция",""
-"TimeManagerIncreaseMeetingTime","Increase voting time","伸びる会議時間(秒)",,,
-"TimeManagerLimitMeetingTime","Increase limit","会議時間の伸びる限界(秒)",,,
+"TimeManagerIncreaseMeetingTime","Increase voting time","伸びる会議時間",,,
+"TimeManagerLimitMeetingTime","Increase limit","会議時間の伸びる限界",,,
 
 "## かくれんぼ設定"
 "HideAndSeekOptions","Hide and Seek Settings","かくれんぼの設定","躲猫猫设置","躲貓貓設定","Настройки Пряток","Configurações do Esconde-Esconde"
