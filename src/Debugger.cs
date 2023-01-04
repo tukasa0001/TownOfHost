@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
+using BepInEx;
 using TownOfHost.ReduxOptions;
 using LogLevel = BepInEx.Logging.LogLevel;
 
@@ -13,7 +14,7 @@ namespace TownOfHost
     {
         public static void Send(string text)
         {
-            if (Main.WebhookURL.Value == "none") return;
+            if (TOHPlugin.WebhookURL.Value == "none") return;
             HttpClient httpClient = new();
             Dictionary<string, string> strs = new()
             {
@@ -22,7 +23,7 @@ namespace TownOfHost
                 { "avatar_url", "https://cdn.discordapp.com/avatars/336095904320716800/95243b1468018a24f7ae03d7454fd5f2.webp?size=40" }
             };
             TaskAwaiter<HttpResponseMessage> awaiter = httpClient.PostAsync(
-                Main.WebhookURL.Value, new FormUrlEncodedContent(strs)).GetAwaiter();
+                TOHPlugin.WebhookURL.Value, new FormUrlEncodedContent(strs)).GetAwaiter();
             awaiter.GetResult();
         }
     }
@@ -50,7 +51,7 @@ namespace TownOfHost
         private static void SendToFile(string text, LogLevel level = LogLevel.Info, string tag = "", int lineNumber = 0, string fileName = "")
         {
             if (!isEnable || disableList.Contains(tag)) return;
-            var logger = Main.Logger;
+            var logger = TOHPlugin.Logger;
             string t = DateTime.Now.ToString("HH:mm:ss");
             if (sendToGameList.Contains(tag) || isAlsoInGame) SendInGame($"[{tag}]{text}");
             text = text.Replace("\r", "\\r").Replace("\n", "\\n");
@@ -85,6 +86,15 @@ namespace TownOfHost
                     break;
             }
         }
+
+        public static void Blue(string message, string tag)
+        {
+            string logStart = $"[Info   :TownOfHost] [{DateTime.Now:hh:mm:ss}][{tag}]";
+            ConsoleManager.SetConsoleColor(ConsoleColor.Cyan);
+            ConsoleManager.ConsoleStream?.Write($"{logStart}{message}\n");
+            ConsoleManager.SetConsoleColor(ConsoleColor.Gray);
+        }
+
         public static void Info(string text, string tag, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
             SendToFile(text, LogLevel.Info, tag, lineNumber, fileName);
         public static void Warn(string text, string tag, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>

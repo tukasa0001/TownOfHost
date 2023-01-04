@@ -59,7 +59,7 @@ namespace TownOfHost
                 {
                     var text = pc.AmOwner ? "[*]" : "   ";
                     text += $"{pc.PlayerId,-2}:{pc.Data?.PlayerName?.PadRightV2(20)}:{pc.GetClient()?.PlatformData?.Platform.ToString()?.Replace("Standalone", ""),-11}";
-                    if (Main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
+                    if (TOHPlugin.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
                         text += $":Mod({pv.forkId}/{pv.version}:{pv.tag})";
                     else text += ":Vanilla";
                     Logger.Info(text, "Info");
@@ -78,7 +78,7 @@ namespace TownOfHost
                     Logger.Info($"{(o.Parent == null ? o.Name.PadRightV2(40) : $"┗ {o.Name}".PadRightV2(41))}:{o.GetString().RemoveHtmlTags()}", "Info");
             Logger.Info("-------------その他-------------", "Info");
             Logger.Info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
-            PlayerControl.AllPlayerControls.ToArray().Do(x => Main.PlayerStates[x.PlayerId].InitTask(x));
+            PlayerControl.AllPlayerControls.ToArray().Do(x => TOHPlugin.PlayerStates[x.PlayerId].InitTask(x));
 
             Utils.NotifyRoles();
 
@@ -179,7 +179,7 @@ namespace TownOfHost
 
             if (Input.GetKey(KeyCode.RightShift))
             {
-                __instance.TeamTitle.text = Main.ModName;
+                __instance.TeamTitle.text = TOHPlugin.ModName;
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = "https://github.com/music-discussion/TownOfHost-TheOtherRoles--TOH-TOR" +
                     "\r\nOut Now on Github";
@@ -251,10 +251,10 @@ namespace TownOfHost
         {
             Game.State = GameState.Roaming;
             if (!GameStates.IsInGame) return;
-            Main.introDestroyed = true;
+            TOHPlugin.introDestroyed = true;
             if (!AmongUsClient.Instance.AmHost) return;
 
-            if (Main.NormalOptions.MapId != 4)
+            if (TOHPlugin.NormalOptions.MapId != 4)
             {
                 PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcResetAbilityCooldown());
                 if (StaticOptions.FixFirstKillCooldown)
@@ -271,13 +271,13 @@ namespace TownOfHost
             if (PlayerControl.LocalPlayer.Is(CustomRoleManager.Static.GM))
             {
                 PlayerControl.LocalPlayer.RpcExile();
-                Main.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SetDead();
+                TOHPlugin.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SetDead();
             }
 
             if (StaticOptions.RandomSpawn)
             {
                 RandomSpawn.SpawnMap map;
-                switch (Main.NormalOptions.MapId)
+                switch (TOHPlugin.NormalOptions.MapId)
                 {
                     case 0:
                         map = new RandomSpawn.SkeldSpawnMap();

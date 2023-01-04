@@ -259,7 +259,7 @@ public class OptionHolder
             this.header ??= (!createHeaderIfNull ? this.header : (this.name + "Options"));
             OptionValueHolder valueHolder = new(this.values.Select(value => value.Invoke(new[] { this.header, this.name })).ToList(), defaultIndex);
             if (this.key != null)
-                Main.OptionManager.BindValueHolder(this.key, valueHolder);
+                TOHPlugin.OptionManager.BindValueHolder(this.key, valueHolder);
             if (this.lateBinding != null)
                 valueHolder.LateBinding = this.lateBinding;
             return new OptionHolder

@@ -39,8 +39,8 @@ namespace TownOfHost
         // プリセット
         private static readonly string[] presets =
         {
-            Main.Preset1.Value, Main.Preset2.Value, Main.Preset3.Value,
-            Main.Preset4.Value, Main.Preset5.Value
+            TOHPlugin.Preset1.Value, TOHPlugin.Preset2.Value, TOHPlugin.Preset3.Value,
+            TOHPlugin.Preset4.Value, TOHPlugin.Preset5.Value
         };
 
         // ゲームモード
@@ -54,10 +54,10 @@ namespace TownOfHost
         };
 
         // MapActive
-        public static bool IsActiveSkeld => StaticOptions.AddedTheSkeld || Main.NormalOptions.MapId == 0;
-        public static bool IsActiveMiraHQ => StaticOptions.AddedMiraHQ || Main.NormalOptions.MapId == 1;
-        public static bool IsActivePolus => StaticOptions.AddedPolus || Main.NormalOptions.MapId == 2;
-        public static bool IsActiveAirship => StaticOptions.AddedTheAirShip || Main.NormalOptions.MapId == 4;
+        public static bool IsActiveSkeld => StaticOptions.AddedTheSkeld || TOHPlugin.NormalOptions.MapId == 0;
+        public static bool IsActiveMiraHQ => StaticOptions.AddedMiraHQ || TOHPlugin.NormalOptions.MapId == 1;
+        public static bool IsActivePolus => StaticOptions.AddedPolus || TOHPlugin.NormalOptions.MapId == 2;
+        public static bool IsActiveAirship => StaticOptions.AddedTheAirShip || TOHPlugin.NormalOptions.MapId == 4;
 
         // 役職数・確率
         public static Dictionary<CustomRoles, int> roleCounts;
@@ -76,7 +76,7 @@ namespace TownOfHost
         };
 
         // 各役職の詳細設定
-        public static float DefaultKillCooldown = Main.NormalOptions?.KillCooldown ?? 20;
+        public static float DefaultKillCooldown = TOHPlugin.NormalOptions?.KillCooldown ?? 20;
         public static OptionItem VampireKillDelay;
         //public static CustomOption ShapeMasterShapeshiftDuration;
         public static OptionItem DefaultShapeshiftCooldown;

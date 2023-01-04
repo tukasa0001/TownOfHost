@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace TownOfHost.Roles;
 
-public class CustomRoleManager
+public static class CustomRoleManager
 {
     public static Dictionary<byte, CustomRole> PlayersCustomRolesRedux = new();
     public static Dictionary<byte, CustomRole> LastRoundCustomRoles = new();

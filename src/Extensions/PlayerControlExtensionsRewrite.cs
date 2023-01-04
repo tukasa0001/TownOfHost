@@ -39,6 +39,13 @@ public static class PlayerControlExtensionsRewrite
 
     public static string? GetRawName(this PlayerControl? player, bool isMeeting = false)
     {
-        return player.GetDynamicName()?.RawName ?? player.Data.PlayerName;
+        try
+        {
+            return player.GetDynamicName().RawName;
+        }
+        catch
+        {
+            return player.Data.PlayerName;
+        }
     }
 }

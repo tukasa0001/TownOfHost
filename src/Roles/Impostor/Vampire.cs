@@ -15,11 +15,10 @@ public class Vampire : Impostor
 
         bool canKillTarget = target.GetCustomRole().CanBeKilled();
 
-        if (canKillTarget)
-        {
-            MyPlayer.RpcGuardAndKill(MyPlayer);
-            DTask.Schedule(() => target.RpcMurderPlayer(target), killDelay);
-        }
+        if (!canKillTarget) return canKillTarget;
+
+        MyPlayer.RpcGuardAndKill(MyPlayer);
+        DTask.Schedule(() => target.RpcMurderPlayer(target), killDelay);
         return canKillTarget;
     }
 

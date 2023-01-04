@@ -22,7 +22,7 @@ public class Terrorist : Crewmate
         if (this.HasAllTasksDone)
         {
             // I know we are going to redo death reasons but I will still like it here for reasons.
-            if (canWinBySuicide || Main.PlayerStates[MyPlayer.PlayerId].deathReason != (PlayerStateOLD.DeathReason.Suicide | PlayerStateOLD.DeathReason.FollowingSuicide))
+            if (canWinBySuicide || TOHPlugin.PlayerStates[MyPlayer.PlayerId].deathReason != (PlayerStateOLD.DeathReason.Suicide | PlayerStateOLD.DeathReason.FollowingSuicide))
             {
                 // TERRORIST WIN
             }

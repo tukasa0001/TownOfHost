@@ -21,7 +21,7 @@ public class Jester : CustomRole
     [RoleAction(RoleActionType.SelfExiled)]
     public void JesterWin()
     {
-        RpcV2.Immediate(PlayerControl.LocalPlayer.PlayerId, (byte)CustomRPC.EndGame)
+        RpcV2.Immediate(PlayerControl.LocalPlayer.PlayerId, (byte)CustomRPCOLD.EndGame)
             .Write((byte)CustomWinner.Jester)
             .Write(MyPlayer.PlayerId)
             .SendToHost();

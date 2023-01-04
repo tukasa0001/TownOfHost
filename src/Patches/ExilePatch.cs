@@ -54,7 +54,7 @@ namespace TownOfHost
             if (exiled != null)
             {
                 //霊界用暗転バグ対処
-                if (!AntiBlackout.OverrideExiledPlayer && Main.ResetCamPlayerList.Contains(exiled.PlayerId))
+                if (!AntiBlackout.OverrideExiledPlayer && TOHPlugin.ResetCamPlayerList.Contains(exiled.PlayerId))
                     exiled.Object?.ResetPlayerCam(1f);
 
 
@@ -65,7 +65,7 @@ namespace TownOfHost
 
 
                 exiled.IsDead = true;
-                Main.PlayerStates[exiled.PlayerId].deathReason = PlayerStateOLD.DeathReason.Vote;
+                TOHPlugin.PlayerStates[exiled.PlayerId].deathReason = PlayerStateOLD.DeathReason.Vote;
                 var role = exiled.GetCustomRole();
                 if (role is Jester && AmongUsClient.Instance.AmHost)
                 {
@@ -81,10 +81,10 @@ namespace TownOfHost
                 }
 
 
-                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) Main.PlayerStates[exiled.PlayerId].SetDead();
+                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) TOHPlugin.PlayerStates[exiled.PlayerId].SetDead();
             }
-            if (AmongUsClient.Instance.AmHost && Main.IsFixedCooldown)
-                Main.RefixCooldownDelay = OldOptions.DefaultKillCooldown - 3f;
+            if (AmongUsClient.Instance.AmHost && TOHPlugin.IsFixedCooldown)
+                TOHPlugin.RefixCooldownDelay = OldOptions.DefaultKillCooldown - 3f;
 
 
             foreach (var pc in PlayerControl.AllPlayerControls)
@@ -93,13 +93,13 @@ namespace TownOfHost
                 if (OldOptions.MayorHasPortableButton.GetBool() && pc.Is(CustomRoles.Mayor))
                     pc.RpcResetAbilityCooldown();
                 if (!pc.Is(CustomRoles.Warlock)) continue;
-                Main.CursedPlayers[pc.PlayerId] = null;
-                Main.isCurseAndKill[pc.PlayerId] = false;
+                TOHPlugin.CursedPlayers[pc.PlayerId] = null;
+                TOHPlugin.isCurseAndKill[pc.PlayerId] = false;
             }
             if (StaticOptions.RandomSpawn)
             {
                 RandomSpawn.SpawnMap map;
-                switch (Main.NormalOptions.MapId)
+                switch (TOHPlugin.NormalOptions.MapId)
                 {
                     case 0:
                         map = new RandomSpawn.SkeldSpawnMap();
@@ -139,22 +139,22 @@ namespace TownOfHost
                 }, 0.5f, "Restore IsDead Task");
                 new DTask(() =>
                 {
-                    Main.AfterMeetingDeathPlayers.Do(x =>
+                    TOHPlugin.AfterMeetingDeathPlayers.Do(x =>
                     {
                         var player = Utils.GetPlayerById(x.Key);
                         Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
-                        Main.PlayerStates[x.Key].deathReason = x.Value;
-                        Main.PlayerStates[x.Key].SetDead();
+                        TOHPlugin.PlayerStates[x.Key].deathReason = x.Value;
+                        TOHPlugin.PlayerStates[x.Key].SetDead();
                         player?.RpcExileV2();
                         /*if (x.Value == PlayerStateOLD.DeathReason.Suicide)
                             player?.SetRealKiller(player, true);*/
-                        if (Main.ResetCamPlayerList.Contains(x.Key))
+                        if (TOHPlugin.ResetCamPlayerList.Contains(x.Key))
                             player?.ResetPlayerCam(1f);
                         // TODO: investigate reset voting time
                         /*if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerStateOLD.DeathReason.FollowingSuicide)
                             player?.ResetVotingTime();*/
                     });
-                    Main.AfterMeetingDeathPlayers.Clear();
+                    TOHPlugin.AfterMeetingDeathPlayers.Clear();
                 }, 0.5f, "AfterMeetingDeathPlayers Task");
             }
 

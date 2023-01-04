@@ -32,10 +32,10 @@ public static class FixedUpdatePatch
         }
 
         if (Game.State is not GameState.InLobby) return;
-        if (!Main.playerVersion.TryGetValue(__instance.PlayerId, out var ver)) return;
-        if (Main.ForkId != ver.forkId) // フォークIDが違う場合
+        if (!TOHPlugin.playerVersion.TryGetValue(__instance.PlayerId, out var ver)) return;
+        if (TOHPlugin.ForkId != ver.forkId) // フォークIDが違う場合
             __instance.cosmetics.nameText.text = $"<color=#ff0000><size=1.2>{ver.forkId}</size>\n{__instance?.name}</color>";
-        else if (Main.version.CompareTo(ver.version) == 0)
+        else if (TOHPlugin.version.CompareTo(ver.version) == 0)
             __instance.cosmetics.nameText.text = ver.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})" ? $"<color=#87cefa>{__instance.name}</color>" : $"<color=#ffff00><size=1.2>{ver.tag}</size>\n{__instance?.name}</color>";
         else __instance.cosmetics.nameText.text = $"<color=#ff0000><size=1.2>v{ver.version}</size>\n{__instance?.name}</color>";
     }
@@ -43,15 +43,15 @@ public static class FixedUpdatePatch
     //FIXME: 役職クラス化のタイミングで、このメソッドは移動予定
     public static void LoversSuicide(byte deathId = 0x7f, bool isExiled = false)
     {
-        if (CustomRoleManager.Static.Lovers.IsEnable() && Main.isLoversDead == false)
+        if (CustomRoleManager.Static.Lovers.IsEnable() && TOHPlugin.isLoversDead == false)
         {
-            foreach (var loversPlayer in Main.LoversPlayers)
+            foreach (var loversPlayer in TOHPlugin.LoversPlayers)
             {
                 //生きていて死ぬ予定でなければスキップ
                 if (!loversPlayer.Data.IsDead && loversPlayer.PlayerId != deathId) continue;
 
-                Main.isLoversDead = true;
-                foreach (var partnerPlayer in Main.LoversPlayers)
+                TOHPlugin.isLoversDead = true;
+                foreach (var partnerPlayer in TOHPlugin.LoversPlayers)
                 {
                     //本人ならスキップ
                     if (loversPlayer.PlayerId == partnerPlayer.PlayerId) continue;
@@ -60,7 +60,7 @@ public static class FixedUpdatePatch
                     //生きていて死ぬ予定もない場合は心中
                     if (partnerPlayer.PlayerId != deathId && !partnerPlayer.Data.IsDead)
                     {
-                        Main.PlayerStates[partnerPlayer.PlayerId].deathReason = PlayerStateOLD.DeathReason.FollowingSuicide;
+                        TOHPlugin.PlayerStates[partnerPlayer.PlayerId].deathReason = PlayerStateOLD.DeathReason.FollowingSuicide;
                         if (isExiled)
                             CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(partnerPlayer.PlayerId, PlayerStateOLD.DeathReason.FollowingSuicide);
                         else

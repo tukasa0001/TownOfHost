@@ -61,7 +61,7 @@ public class GameOptMenuStartPatch
             List<GameObject> tabs = new() { gameTab, roleTab };
 
 
-            foreach (GameOptionTab tab in Main.OptionManager.Tabs)
+            foreach (GameOptionTab tab in TOHPlugin.OptionManager.Tabs)
             {
                 var obj = gameSettings.transform.parent.Find(tab.Name);
                 if (obj != null)
@@ -83,7 +83,7 @@ public class GameOptMenuStartPatch
                 tohMenu.GetComponentsInChildren<OptionBehaviour>().Do(x => Object.Destroy(x.gameObject));
 
                 var behaviours = new List<OptionBehaviour>();
-                behaviours.AddRange(Main.OptionManager.Options().Where(opt => opt.Tab == tab).SelectMany(opt => opt.CreateBehaviours(template, tohMenu.transform)));
+                behaviours.AddRange(TOHPlugin.OptionManager.Options().Where(opt => opt.Tab == tab).SelectMany(opt => opt.CreateBehaviours(template, tohMenu.transform)));
 
                 tohMenu.Children = behaviours.ToArray();
                 tohSettings.gameObject.SetActive(false);

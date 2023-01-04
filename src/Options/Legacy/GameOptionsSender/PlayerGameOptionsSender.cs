@@ -20,7 +20,7 @@ namespace TownOfHost.Modules
             .ToList().ForEach(sender => sender.SetDirty());
 
         public override IGameOptions BasedGameOptions =>
-            Main.RealOptionsData.Restore(new NormalGameOptionsV07(new UnityLogger().Cast<ILogger>()).Cast<IGameOptions>());
+            TOHPlugin.RealOptionsData.Restore(new NormalGameOptionsV07(new UnityLogger().Cast<ILogger>()).Cast<IGameOptions>());
         public override bool IsDirty { get; protected set; }
 
         public PlayerControl player;

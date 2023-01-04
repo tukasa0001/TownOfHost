@@ -8,7 +8,7 @@ namespace TownOfHost.Patches
     {
         public static void Postfix(ChatBubble __instance)
         {
-            if (Main.isChatCommand) __instance.SetLeft();
+            if (TOHPlugin.isChatCommand) __instance.SetLeft();
         }
     }
     [HarmonyPatch(typeof(ChatBubble), nameof(ChatBubble.SetName))]

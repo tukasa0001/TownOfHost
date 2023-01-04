@@ -4,14 +4,14 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using Hazel;
 using AmongUs.GameOptions;
+using TownOfHost.Addons;
 using TownOfHost.Extensions;
 using TownOfHost.Roles;
-using static TownOfHost.ChatCommands;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    enum CustomRPC
+    enum CustomRPCOLD
     {
         VersionCheck = 60,
         RequestRetryVersionCheck = 61,
@@ -72,8 +72,8 @@ namespace TownOfHost
                     break;
             }
             if (__instance.PlayerId != 0
-                && Enum.IsDefined(typeof(CustomRPC), (int)callId)
-                && !(callId == (byte)CustomRPC.VersionCheck || callId == (byte)CustomRPC.RequestRetryVersionCheck)) //ホストではなく、CustomRPCで、VersionCheckではない
+                && Enum.IsDefined(typeof(CustomRPCOLD), (int)callId)
+                && !(callId == (byte)CustomRPCOLD.VersionCheck || callId == (byte)CustomRPCOLD.RequestRetryVersionCheck)) //ホストではなく、CustomRPCで、VersionCheckではない
             {
                 Logger.Warn($"{__instance?.Data?.PlayerName}:{callId}({OldRPC.GetRpcName(callId)}) ホスト以外から送信されたためキャンセルしました。", "CustomRPC");
                 if (AmongUsClient.Instance.AmHost)
@@ -88,66 +88,66 @@ namespace TownOfHost
         }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
         {
-            var rpcType = (CustomRPC)callId;
+            var rpcType = (CustomRPCOLD)callId;
             switch (rpcType)
             {
-                case CustomRPC.VersionCheck:
+                case CustomRPCOLD.VersionCheck:
                     try
                     {
                         Version version = Version.Parse(reader.ReadString());
                         string tag = reader.ReadString();
-                        string forkId = 3 <= version.Major ? reader.ReadString() : Main.OriginalForkId;
-                        Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag, forkId);
+                        string forkId = 3 <= version.Major ? reader.ReadString() : TOHPlugin.OriginalForkId;
+                        TOHPlugin.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag, forkId);
                     }
                     catch
                     {
                         Logger.Warn($"{__instance?.Data?.PlayerName}({__instance.PlayerId}): バージョン情報が無効です", "RpcVersionCheck");
                         new DTask(() =>
                         {
-                            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RequestRetryVersionCheck, SendOption.Reliable, __instance.GetClientId());
+                            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.RequestRetryVersionCheck, SendOption.Reliable, __instance.GetClientId());
                             AmongUsClient.Instance.FinishRpcImmediately(writer);
                         }, 1f, "Retry Version Check Task");
                     }
                     break;
-                case CustomRPC.RequestRetryVersionCheck:
+                case CustomRPCOLD.RequestRetryVersionCheck:
                     OldRPC.RpcVersionCheck();
                     break;
-                case CustomRPC.SyncCustomSettings:
+                case CustomRPCOLD.SyncCustomSettings:
                     foreach (var co in OptionItem.AllOptions)
                     {
                         //すべてのカスタムオプションについてインデックス値で受信
                         co.SetValue(reader.ReadInt32());
                     }
                     break;
-                case CustomRPC.SetDeathReason:
+                case CustomRPCOLD.SetDeathReason:
                     OldRPC.GetDeathReason(reader);
                     break;
-                case CustomRPC.EndGame:
+                case CustomRPCOLD.EndGame:
                     OldRPC.EndGame(reader);
                     break;
-                case CustomRPC.PlaySound:
+                case CustomRPCOLD.PlaySound:
                     byte playerID = reader.ReadByte();
                     Sounds sound = (Sounds)reader.ReadByte();
                     OldRPC.PlaySound(playerID, sound);
                     break;
-                case CustomRPC.SetCustomRole:
+                case CustomRPCOLD.SetCustomRole:
                     byte CustomRoleTargetId = reader.ReadByte();
                     CustomRole role = CustomRoleManager.GetRoleFromId(reader.ReadPackedInt32());
                     OldRPC.SetCustomRole(CustomRoleTargetId, role);
                     break;
-                case CustomRPC.SetLoversPlayers:
-                    Main.LoversPlayers.Clear();
+                case CustomRPCOLD.SetLoversPlayers:
+                    TOHPlugin.LoversPlayers.Clear();
                     int count = reader.ReadInt32();
                     for (int i = 0; i < count; i++)
-                        Main.LoversPlayers.Add(Utils.GetPlayerById(reader.ReadByte()));
+                        TOHPlugin.LoversPlayers.Add(Utils.GetPlayerById(reader.ReadByte()));
                     break;
-                case CustomRPC.SetCurrentDousingTarget:
+                case CustomRPCOLD.SetCurrentDousingTarget:
                     byte arsonistId = reader.ReadByte();
                     byte dousingTargetId = reader.ReadByte();
                     if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
-                        Main.currentDousingTarget = dousingTargetId;
+                        TOHPlugin.currentDousingTarget = dousingTargetId;
                     break;
-                case CustomRPC.SetRealKiller:
+                case CustomRPCOLD.SetRealKiller:
                     byte targetId = reader.ReadByte();
                     byte killerId = reader.ReadByte();
                     OldRPC.SetRealKiller(targetId, killerId);
@@ -173,7 +173,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.AmHost)
                 OldRPC.PlaySound(PlayerID, sound);
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.PlaySound, Hazel.SendOption.Reliable, -1);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.PlaySound, Hazel.SendOption.Reliable, -1);
             writer.Write(PlayerID);
             writer.Write((byte)sound);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -186,17 +186,19 @@ namespace TownOfHost
         }
         public static async void RpcVersionCheck()
         {
-            while (PlayerControl.LocalPlayer == null) await System.Threading.Tasks.Task.Delay(500);
-            MessageWriter writer = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck, SendOption.Reliable);
-            writer.Write(Main.PluginVersion);
+            while (PlayerControl.LocalPlayer == null) await Task.Delay(500);
+            if (!AmongUsClient.Instance.AmHost)
+                AddonManager.VerifyClientAddons(AddonManager.Addons.Select(AddonInfo.From).ToList());
+            MessageWriter writer = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.VersionCheck, SendOption.Reliable);
+            writer.Write(TOHPlugin.PluginVersion);
             writer.Write($"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
-            writer.Write(Main.ForkId);
+            writer.Write(TOHPlugin.ForkId);
             writer.EndMessage();
-            Main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(Main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})", Main.ForkId);
+            TOHPlugin.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(TOHPlugin.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})", TOHPlugin.ForkId);
         }
         public static void SendDeathReason(byte playerId, PlayerStateOLD.DeathReason deathReason)
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDeathReason, Hazel.SendOption.Reliable, -1);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.SetDeathReason, Hazel.SendOption.Reliable, -1);
             writer.Write(playerId);
             writer.Write((int)deathReason);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -205,8 +207,8 @@ namespace TownOfHost
         {
             var playerId = reader.ReadByte();
             var deathReason = (PlayerStateOLD.DeathReason)reader.ReadInt32();
-            Main.PlayerStates[playerId].deathReason = deathReason;
-            Main.PlayerStates[playerId].IsDead = true;
+            TOHPlugin.PlayerStates[playerId].deathReason = deathReason;
+            TOHPlugin.PlayerStates[playerId].IsDead = true;
         }
 
         public static void EndGame(MessageReader reader)
@@ -242,7 +244,7 @@ namespace TownOfHost
         }
         public static void RpcDoSpell(byte targetId, byte killerId)
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.DoSpell, Hazel.SendOption.Reliable, -1);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.DoSpell, Hazel.SendOption.Reliable, -1);
             writer.Write(targetId);
             writer.Write(killerId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -250,9 +252,9 @@ namespace TownOfHost
         public static void SyncLoversPlayers()
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetLoversPlayers, Hazel.SendOption.Reliable, -1);
-            writer.Write(Main.LoversPlayers.Count);
-            foreach (var lp in Main.LoversPlayers)
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.SetLoversPlayers, Hazel.SendOption.Reliable, -1);
+            writer.Write(TOHPlugin.LoversPlayers.Count);
+            foreach (var lp in TOHPlugin.LoversPlayers)
             {
                 writer.Write(lp.PlayerId);
             }
@@ -276,7 +278,7 @@ namespace TownOfHost
         {
             string rpcName;
             if ((rpcName = Enum.GetName(typeof(RpcCalls), callId)) != null) { }
-            else if ((rpcName = Enum.GetName(typeof(CustomRPC), callId)) != null) { }
+            else if ((rpcName = Enum.GetName(typeof(CustomRPCOLD), callId)) != null) { }
             else rpcName = callId.ToString();
             return rpcName;
         }
@@ -284,11 +286,11 @@ namespace TownOfHost
         {
             if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
             {
-                Main.currentDousingTarget = targetId;
+                TOHPlugin.currentDousingTarget = targetId;
             }
             else
             {
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCurrentDousingTarget, Hazel.SendOption.Reliable, -1);
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.SetCurrentDousingTarget, Hazel.SendOption.Reliable, -1);
                 writer.Write(arsonistId);
                 writer.Write(targetId);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -297,12 +299,12 @@ namespace TownOfHost
         public static void ResetCurrentDousingTarget(byte arsonistId) => SetCurrentDousingTarget(arsonistId, 255);
         public static void SetRealKiller(byte targetId, byte killerId)
         {
-            var state = Main.PlayerStates[targetId];
+            var state = TOHPlugin.PlayerStates[targetId];
             state.RealKiller.Item1 = DateTime.Now;
             state.RealKiller.Item2 = killerId;
 
             if (!AmongUsClient.Instance.AmHost) return;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetRealKiller, Hazel.SendOption.Reliable, -1);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.SetRealKiller, Hazel.SendOption.Reliable, -1);
             writer.Write(targetId);
             writer.Write(killerId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);

@@ -7,6 +7,7 @@ using Hazel;
 using InnerNet;
 using TownOfHost.Extensions;
 using UnityEngine;
+using VentWork;
 
 namespace TownOfHost.RPC;
 
@@ -62,6 +63,7 @@ public class RpcV2
     public RpcV2 Write(ushort value) => this.WriteAny(value);
     public RpcV2 Write(Vector2 vector) => this.WriteAny(vector, WriteType.Vector);
     public RpcV2 Write(InnerNetObject value) => this.WriteAny(value, WriteType.NetObject);
+    public RpcV2 Write(IRpcWritable value) => this.WriteAny(value, WriteType.Rpcable);
     public RpcV2 WritePacked(int value) => this.WriteAny(value, WriteType.Packed);
     public RpcV2 WritePacked(uint value) => this.WriteAny(value, WriteType.Packed);
 
@@ -93,13 +95,18 @@ public class RpcV2
         this.Send(PlayerControl.LocalPlayer.GetClientId());
     }
 
-    public void Send(int clientId = -1)
+    public void SendNet()
     {
-        if (requireHost && AmongUsClient.Instance.AmHost) return;
-        MessageWriter writer = !immediate
-            ? AmongUsClient.Instance.StartRpc(netId, callId, sendOption)
-            : AmongUsClient.Instance.StartRpcImmediately(netId, callId, sendOption, clientId);
+        foreach (uint key in AmongUsClient.Instance.allObjectsFast.Keys)
+        {
+            key.DebugLog("Key: ");
+            this.netId = key;
+            this.Send();
+        }
+    }
 
+    public void WriteTo(MessageWriter writer)
+    {
         foreach (Tuple<object, WriteType> write in writes)
             switch (write.Item2)
             {
@@ -117,6 +124,9 @@ public class RpcV2
                     continue;
                 case WriteType.Vector:
                     NetHelpers.WriteVector2((Vector2)write.Item1, writer);
+                    continue;
+                case WriteType.Rpcable:
+                    ((IRpcWritable) write.Item1).Write(writer);
                     continue;
                 case WriteType.Normal:
                 default:
@@ -153,6 +163,16 @@ public class RpcV2
 
                     break;
             }
+    }
+
+    public void Send(int clientId = -1)
+    {
+        if (requireHost && !AmongUsClient.Instance.AmHost) return;
+        MessageWriter writer = !immediate
+            ? AmongUsClient.Instance.StartRpc(netId, callId, sendOption)
+            : AmongUsClient.Instance.StartRpcImmediately(netId, callId, sendOption, clientId);
+
+        WriteTo(writer);
 
         if (!immediate)
             writer.EndMessage();
@@ -170,6 +190,7 @@ public class RpcV2
     {
         Normal,
         Packed,
+        Rpcable,
         NetObject,
         Options,
         Vector

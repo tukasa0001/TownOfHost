@@ -39,11 +39,11 @@ public class ShapeshiftPatch
 
         if (shapeshifter.Is(Warlock.Ref<Warlock>()))
         {
-            if (Main.CursedPlayers[shapeshifter.PlayerId] != null)//呪われた人がいるか確認
+            if (TOHPlugin.CursedPlayers[shapeshifter.PlayerId] != null)//呪われた人がいるか確認
             {
-                if (shapeshifting && !Main.CursedPlayers[shapeshifter.PlayerId].Data.IsDead)//変身解除の時に反応しない
+                if (shapeshifting && !TOHPlugin.CursedPlayers[shapeshifter.PlayerId].Data.IsDead)//変身解除の時に反応しない
                 {
-                    var cp = Main.CursedPlayers[shapeshifter.PlayerId];
+                    var cp = TOHPlugin.CursedPlayers[shapeshifter.PlayerId];
                     Vector2 cppos = cp.transform.position;//呪われた人の位置
                     Dictionary<PlayerControl, float> cpdistance = new();
                     float dis;
@@ -61,9 +61,9 @@ public class ShapeshiftPatch
                     Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
                     cp.RpcMurderPlayerV2(targetw);//殺す
                     shapeshifter.RpcGuardAndKill(shapeshifter);
-                    Main.isCurseAndKill[shapeshifter.PlayerId] = false;
+                    TOHPlugin.isCurseAndKill[shapeshifter.PlayerId] = false;
                 }
-                Main.CursedPlayers[shapeshifter.PlayerId] = null;
+                TOHPlugin.CursedPlayers[shapeshifter.PlayerId] = null;
             }
         }
         /*if (shapeshifter.Is(EvilTracker.Ref<EvilTracker>())) EvilTrackerOLD.Shapeshift(shapeshifter, target, shapeshifting);*/
@@ -87,7 +87,7 @@ public class ShapeshiftPatch
                 PlayerControl targetm = min.Key;
                 targetm.RpcSetCustomRole(SKMadmate.Ref<SKMadmate>());
                 Logger.Info($"Make SKMadmate:{targetm.name}", "Shapeshift");
-                Main.SKMadmateNowCount++;
+                TOHPlugin.SKMadmateNowCount++;
                 Utils.MarkEveryoneDirtySettings();
                 Utils.NotifyRoles();
             }

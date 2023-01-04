@@ -16,7 +16,7 @@ public static class EnterVentPatches
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
             if (pc.Is(Mayor.Ref<Mayor>()))
             {
-                if (Main.MayorUsedButtonCount.TryGetValue(pc.PlayerId, out var count) && count < OldOptions.MayorNumOfUseButton.GetInt())
+                if (TOHPlugin.MayorUsedButtonCount.TryGetValue(pc.PlayerId, out var count) && count < OldOptions.MayorNumOfUseButton.GetInt())
                 {
                     pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                     pc?.ReportDeadBody(null);
@@ -33,7 +33,7 @@ public static class EnterVentPatches
             {
                 if (__instance.myPlayer.Is(CustomRoles.Sheriff) ||
                     __instance.myPlayer.Is(CustomRoles.SKMadmate) ||
-                    (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= OldOptions.MayorNumOfUseButton.GetInt()) ||
+                    (__instance.myPlayer.Is(CustomRoles.Mayor) && TOHPlugin.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= OldOptions.MayorNumOfUseButton.GetInt()) ||
                     (__instance.myPlayer.Is(CustomRoles.Jackal) && !CustomRoleManager.Static.Jackal.CanVent())
                    )
                 {

@@ -68,7 +68,7 @@ namespace TownOfHost
                 //コミュサボ中
 
                 //死んでいたら処理しない
-                if (Main.PlayerStates[id].IsDead) return;
+                if (TOHPlugin.PlayerStates[id].IsDead) return;
             }
 
             var newOutfit = CamouflageOutfit;
@@ -77,10 +77,10 @@ namespace TownOfHost
             {
                 //コミュサボ解除または強制解除
 
-                if (Main.CheckShapeshift.TryGetValue(id, out var shapeshifting) && !RevertToDefault)
+                if (TOHPlugin.CheckShapeshift.TryGetValue(id, out var shapeshifting) && !RevertToDefault)
                 {
                     //シェイプシフターなら今の姿のidに変更
-                    id = Main.ShapeshiftTarget[id];
+                    id = TOHPlugin.ShapeshiftTarget[id];
                 }
 
                 newOutfit = PlayerSkins[id];

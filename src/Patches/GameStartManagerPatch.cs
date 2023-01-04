@@ -29,12 +29,12 @@ namespace TownOfHost
                 timer = 600f;
 
                 HideName = Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
-                HideName.text = ColorUtility.TryParseHtmlString(Main.HideColor.Value, out _)
-                        ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
-                        : $"<color={Main.ModColor}>{Main.HideName.Value}</color>";
+                HideName.text = ColorUtility.TryParseHtmlString(TOHPlugin.HideColor.Value, out _)
+                        ? $"<color={TOHPlugin.HideColor.Value}>{TOHPlugin.HideName.Value}</color>"
+                        : $"<color={TOHPlugin.ModColor}>{TOHPlugin.HideName.Value}</color>";
 
                 // Make Public Button
-                if ((ModUpdater.isBroken || ModUpdater.hasUpdate || !Main.AllowPublicRoom) && !ModUpdater.ForceAccept)
+                if ((ModUpdater.isBroken || ModUpdater.hasUpdate || !TOHPlugin.AllowPublicRoom) && !ModUpdater.ForceAccept)
                 {
                     __instance.MakePublicButton.color = Palette.DisabledClear;
                     __instance.privatePublicText.color = Palette.DisabledClear;
@@ -94,8 +94,8 @@ namespace TownOfHost
     {
         public static bool Prefix(GameStartManager __instance)
         {
-            OldOptions.DefaultKillCooldown = Main.NormalOptions.KillCooldown;
-            Main.LastKillCooldown.Value = Main.NormalOptions.KillCooldown;
+            OldOptions.DefaultKillCooldown = TOHPlugin.NormalOptions.KillCooldown;
+            TOHPlugin.LastKillCooldown.Value = TOHPlugin.NormalOptions.KillCooldown;
 
             __instance.ReallyBegin(false);
             return false;
@@ -120,7 +120,7 @@ namespace TownOfHost
 
                 if (RandomMaps.Count <= 0) return true;
                 var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];
-                Main.NormalOptions.MapId = MapsId;
+                TOHPlugin.NormalOptions.MapId = MapsId;
 
             }
             return continueStart;
@@ -133,7 +133,7 @@ namespace TownOfHost
         {
             if (GameStates.IsCountDown)
             {
-                Main.NormalOptions.KillCooldown = OldOptions.DefaultKillCooldown;
+                TOHPlugin.NormalOptions.KillCooldown = OldOptions.DefaultKillCooldown;
                 PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameOptionsManager.Instance.CurrentGameOptions));
             }
         }
@@ -143,7 +143,7 @@ namespace TownOfHost
     {
         public static bool Prefix(ref int __result)
         {
-            __result = Main.NormalOptions.NumImpostors;
+            __result = TOHPlugin.NormalOptions.NumImpostors;
             return false;
         }
     }

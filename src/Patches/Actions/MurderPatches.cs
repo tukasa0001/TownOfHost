@@ -110,35 +110,35 @@ public static class MurderPatches
                         if (!target.Is(Baiter.Ref<Baiter>()))
                         { //キルキャンセル&自爆処理
                             Utils.MarkEveryoneDirtySettings();
-                            Main.AllPlayerKillCooldown[killer.PlayerId] = OldOptions.DefaultKillCooldown * 2;
+                            TOHPlugin.AllPlayerKillCooldown[killer.PlayerId] = OldOptions.DefaultKillCooldown * 2;
                             killer.MarkDirtySettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
                             killer.RpcGuardAndKill(target);
-                            Main.BitPlayers.Add(target.PlayerId, (killer.PlayerId, 0f));
+                            TOHPlugin.BitPlayers.Add(target.PlayerId, (killer.PlayerId, 0f));
                             return false;
                         }
                         break;
                     case Warlock:
-                        if (!Main.CheckShapeshift[killer.PlayerId] && !Main.isCurseAndKill[killer.PlayerId])
+                        if (!TOHPlugin.CheckShapeshift[killer.PlayerId] && !TOHPlugin.isCurseAndKill[killer.PlayerId])
                         { //Warlockが変身時以外にキルしたら、呪われる処理
-                            Main.isCursed = true;
+                            TOHPlugin.isCursed = true;
                             Utils.MarkEveryoneDirtySettings();
                             killer.RpcGuardAndKill(target);
-                            Main.CursedPlayers[killer.PlayerId] = target;
-                            Main.WarlockTimer.Add(killer.PlayerId, 0f);
-                            Main.isCurseAndKill[killer.PlayerId] = true;
+                            TOHPlugin.CursedPlayers[killer.PlayerId] = target;
+                            TOHPlugin.WarlockTimer.Add(killer.PlayerId, 0f);
+                            TOHPlugin.isCurseAndKill[killer.PlayerId] = true;
                             return false;
                         }
-                        if (Main.CheckShapeshift[killer.PlayerId])
+                        if (TOHPlugin.CheckShapeshift[killer.PlayerId])
                         {//呪われてる人がいないくて変身してるときに通常キルになる
                             killer.RpcMurderPlayer(target);
                             killer.RpcGuardAndKill(target);
                             return false;
                         }
-                        if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
+                        if (TOHPlugin.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
                         return false;
                     case Puppeteer:
-                        Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
-                        Main.AllPlayerKillCooldown[killer.PlayerId] = OldOptions.DefaultKillCooldown * 2;
+                        TOHPlugin.PuppeteerList[target.PlayerId] = killer.PlayerId;
+                        TOHPlugin.AllPlayerKillCooldown[killer.PlayerId] = OldOptions.DefaultKillCooldown * 2;
                         killer.MarkDirtySettings(); //負荷軽減のため、killerだけがCustomSyncSettings,NotifyRolesを実行
                         Utils.NotifyRoles(SpecifySeer: killer);
                         killer.RpcGuardAndKill(target);
@@ -175,10 +175,10 @@ public static class MurderPatches
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost) return;
 
             PlayerControl killer = __instance; //読み替え変数
-            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerStateOLD.DeathReason.etc)
+            if (TOHPlugin.PlayerStates[target.PlayerId].deathReason == PlayerStateOLD.DeathReason.etc)
             {
                 //死因が設定されていない場合は死亡判定
-                Main.PlayerStates[target.PlayerId].deathReason = PlayerStateOLD.DeathReason.Kill;
+                TOHPlugin.PlayerStates[target.PlayerId].deathReason = PlayerStateOLD.DeathReason.Kill;
             }
 
             //When Bait is killed
@@ -197,7 +197,7 @@ public static class MurderPatches
             /*LastImpostor.SetKillCooldown();*/
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
-            Main.PlayerStates[target.PlayerId].SetDead();
+            TOHPlugin.PlayerStates[target.PlayerId].SetDead();
             Utils.CountAliveImpostors();
             Utils.MarkEveryoneDirtySettings();
             Utils.NotifyRoles();

@@ -16,11 +16,11 @@ namespace TownOfHost
         ///<summary>
         ///インポスターが一人しか存在しない設定かどうか
         ///</summary>
-        public static bool IsSingleImpostor => Main.RealOptionsData != null ? Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) == 1 : Main.NormalOptions.NumImpostors == 1;
+        public static bool IsSingleImpostor => TOHPlugin.RealOptionsData != null ? TOHPlugin.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) == 1 : TOHPlugin.NormalOptions.NumImpostors == 1;
         ///<summary>
         ///AntiBlackout内の処理が必要であるかどうか
         ///</summary>
-        public static bool IsRequired => Main.NoGameEnd || CustomRoleManager.Static.Jackal.IsEnabled();
+        public static bool IsRequired => TOHPlugin.NoGameEnd || CustomRoleManager.Static.Jackal.IsEnabled();
         ///<summary>
         ///インポスター以外の人数とインポスターの人数の差
         ///</summary>

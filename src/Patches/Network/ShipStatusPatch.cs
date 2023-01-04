@@ -17,17 +17,17 @@ namespace TownOfHost
             //ここより上、全員が実行する
             if (!AmongUsClient.Instance.AmHost) return;
             //ここより下、ホストのみが実行する
-            if (Main.IsFixedCooldown && Main.RefixCooldownDelay >= 0)
+            if (TOHPlugin.IsFixedCooldown && TOHPlugin.RefixCooldownDelay >= 0)
             {
-                Main.RefixCooldownDelay -= Time.fixedDeltaTime;
+                TOHPlugin.RefixCooldownDelay -= Time.fixedDeltaTime;
             }
-            else if (!float.IsNaN(Main.RefixCooldownDelay))
+            else if (!float.IsNaN(TOHPlugin.RefixCooldownDelay))
             {
                 Utils.MarkEveryoneDirtySettings();
-                Main.RefixCooldownDelay = float.NaN;
+                TOHPlugin.RefixCooldownDelay = float.NaN;
                 Logger.Info("Refix Cooldown", "CoolDown");
             }
-            if ((OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek || StaticOptions.IsStandardHAS) && Main.introDestroyed)
+            if ((OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek || StaticOptions.IsStandardHAS) && TOHPlugin.introDestroyed)
             {
                 if (OldOptions.HideAndSeekKillDelayTimer > 0)
                 {
@@ -69,7 +69,7 @@ namespace TownOfHost
             if (systemType == SystemTypes.Electrical && 0 <= amount && amount <= 4)
             {
                 if (!StaticOptions.MadmateCanFixLightsOut && player.GetCustomRole().IsMadmate()) return false; //Madmateが停電を直せる設定がオフ
-                switch (Main.NormalOptions.MapId)
+                switch (TOHPlugin.NormalOptions.MapId)
                 {
                     case 4:
                         if (StaticOptions.DisableAirshipViewingDeckLightsPanel && Vector2.Distance(player.transform.position, new(-12.93f, -11.28f)) <= 2f) return false;

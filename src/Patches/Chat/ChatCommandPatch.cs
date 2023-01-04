@@ -28,7 +28,7 @@ namespace TownOfHost
             string subArgs = "";
             var canceled = false;
             var cancelVal = "";
-            Main.isChatCommand = true;
+            TOHPlugin.isChatCommand = true;
             Logger.Info(text, "SendChat");
             switch (args[0])
             {
@@ -40,25 +40,25 @@ namespace TownOfHost
                 case "/version":
                     canceled = true;
                     string version_text = "";
-                    foreach (var kvp in Main.playerVersion.OrderBy(pair => pair.Key))
+                    foreach (var kvp in TOHPlugin.playerVersion.OrderBy(pair => pair.Key))
                     {
                         version_text += $"{kvp.Key}:{Utils.GetPlayerById(kvp.Key)?.Data?.PlayerName}:{kvp.Value.forkId}/{kvp.Value.version}({kvp.Value.tag})\n";
                     }
                     if (version_text != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, version_text);
                     break;
                 default:
-                    Main.isChatCommand = false;
+                    TOHPlugin.isChatCommand = false;
                     break;
             }
             if (AmongUsClient.Instance.AmHost)
             {
-                Main.isChatCommand = true;
+                TOHPlugin.isChatCommand = true;
                 switch (args[0])
                 {
                     case "/win":
                     case "/winner":
                         canceled = true;
-                        Utils.SendMessage("Winner: " + string.Join(",", Main.winnerList.Select(b => Main.AllPlayerNames[b])));
+                        Utils.SendMessage("Winner: " + string.Join(",", TOHPlugin.winnerList.Select(b => TOHPlugin.AllPlayerNames[b])));
                         break;
 
                     case "/l":
@@ -70,18 +70,18 @@ namespace TownOfHost
                     case "/r":
                     case "/rename":
                         canceled = true;
-                        Main.nickName = args.Length > 1 ? Main.nickName = args[1] : "";
+                        TOHPlugin.nickName = args.Length > 1 ? TOHPlugin.nickName = args[1] : "";
                         PlayerControl.LocalPlayer.RpcSetName(args[1]);
                         break;
 
                     case "/hn":
                     case "/hidename":
                         canceled = true;
-                        Main.HideName.Value = args.Length > 1 ? args.Skip(1).Join(delimiter: " ") : Main.HideName.DefaultValue.ToString();
+                        TOHPlugin.HideName.Value = args.Length > 1 ? args.Skip(1).Join(delimiter: " ") : TOHPlugin.HideName.DefaultValue.ToString();
                         GameStartManagerPatch.GameStartManagerStartPatch.HideName.text =
-                            ColorUtility.TryParseHtmlString(Main.HideColor.Value, out _)
-                                ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
-                                : $"<color={Main.ModColor}>{Main.HideName.Value}</color>";
+                            ColorUtility.TryParseHtmlString(TOHPlugin.HideColor.Value, out _)
+                                ? $"<color={TOHPlugin.HideColor.Value}>{TOHPlugin.HideName.Value}</color>"
+                                : $"<color={TOHPlugin.ModColor}>{TOHPlugin.HideName.Value}</color>";
                         break;
 
                     case "/n":
@@ -214,7 +214,7 @@ namespace TownOfHost
                         canceled = true;
                         if (args.Length > 1 && int.TryParse(args[1], out int sec))
                         {
-                            Main.MessageWait.Value = sec;
+                            TOHPlugin.MessageWait.Value = sec;
                             Utils.SendMessage(string.Format(GetString("Message.SetToSeconds"), sec), 0);
                         }
                         else Utils.SendMessage($"{GetString("Message.MessageWaitHelp")}\n{GetString("ForExample")}:\n{args[0]} 3", 0);
@@ -239,7 +239,7 @@ namespace TownOfHost
                         break;
 
                     default:
-                        Main.isChatCommand = false;
+                        TOHPlugin.isChatCommand = false;
                         break;
                 }
             }
@@ -411,12 +411,12 @@ namespace TownOfHost
         public static bool DoBlockChat = false;
         public static void Postfix(ChatController __instance)
         {
-            if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1 || (Main.MessagesToSend[0].Item2 == byte.MaxValue && Main.MessageWait.Value > __instance.TimeSinceLastMessage)) return;
+            if (!AmongUsClient.Instance.AmHost || TOHPlugin.MessagesToSend.Count < 1 || (TOHPlugin.MessagesToSend[0].Item2 == byte.MaxValue && TOHPlugin.MessageWait.Value > __instance.TimeSinceLastMessage)) return;
             if (DoBlockChat) return;
             var player = PlayerControl.AllPlayerControls.ToArray().OrderBy(x => x.PlayerId).Where(x => !x.Data.IsDead).FirstOrDefault();
             if (player == null) return;
-            (string msg, byte sendTo, string title) = Main.MessagesToSend[0];
-            Main.MessagesToSend.RemoveAt(0);
+            (string msg, byte sendTo, string title) = TOHPlugin.MessagesToSend[0];
+            TOHPlugin.MessagesToSend.RemoveAt(0);
             int clientId = sendTo == byte.MaxValue ? -1 : Utils.GetPlayerById(sendTo).GetClientId();
             var name = player.Data.PlayerName;
             if (clientId == -1)

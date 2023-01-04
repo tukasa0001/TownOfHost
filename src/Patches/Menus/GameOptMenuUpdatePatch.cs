@@ -25,7 +25,7 @@ public class GameOptionsMenuUpdatePatch
 
         string realTabName = __instance.transform.parent.parent.name;
 
-        GameOptionTab tab = Main.OptionManager.Tabs.FirstOrDefault(t => t.Name == realTabName);
+        GameOptionTab tab = TOHPlugin.OptionManager.Tabs.FirstOrDefault(t => t.Name == realTabName);
         if (tab == null) return;
 
         tab.GetHolders().Do(holder => ShowAllOptions(holder, ref offset));
@@ -35,7 +35,7 @@ public class GameOptionsMenuUpdatePatch
 
     private static void ShowAllOptions(OptionHolder holder, ref float offset)
     {
-        foreach (OptionHolder option in holder.EnabledOptions(Main.JapaneseRoleName.Value)) ShowOption(option, ref offset);
+        foreach (OptionHolder option in holder.EnabledOptions(TOHPlugin.JapaneseRoleName.Value)) ShowOption(option, ref offset);
     }
 
     private static void ShowOption(OptionHolder option, ref float offset)

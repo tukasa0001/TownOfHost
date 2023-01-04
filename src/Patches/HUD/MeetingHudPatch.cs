@@ -208,7 +208,7 @@ namespace TownOfHost
         }
         public static void TryAddAfterMeetingDeathPlayers(byte playerId, PlayerStateOLD.DeathReason deathReason)
         {
-            if (Main.AfterMeetingDeathPlayers.TryAdd(playerId, deathReason))
+            if (TOHPlugin.AfterMeetingDeathPlayers.TryAdd(playerId, deathReason))
             {
                 RevengeOnExile(playerId, deathReason);
             }
@@ -230,7 +230,7 @@ namespace TownOfHost
             List<PlayerControl> TargetList = new();
             foreach (var candidate in PlayerControl.AllPlayerControls)
             {
-                if (candidate == exiledplayer || candidate.Data.IsDead || Main.AfterMeetingDeathPlayers.ContainsKey(candidate.PlayerId)) continue;
+                if (candidate == exiledplayer || candidate.Data.IsDead || TOHPlugin.AfterMeetingDeathPlayers.ContainsKey(candidate.PlayerId)) continue;
                 switch (exiledplayer.GetCustomRole())
                 {
                     //ここに道連れ役職を追加
@@ -298,13 +298,13 @@ namespace TownOfHost
                 roleTextMeeting.transform.localPosition = new Vector3(0f, -0.18f, 0f);
                 roleTextMeeting.fontSize = 1.5f;
                 roleTextMeeting.text = RoleTextData.Item1;
-                if (Main.VisibleTasksCount) roleTextMeeting.text += Utils.GetProgressText(pc);
+                if (TOHPlugin.VisibleTasksCount) roleTextMeeting.text += Utils.GetProgressText(pc);
                 roleTextMeeting.color = RoleTextData.Item2;
                 roleTextMeeting.gameObject.name = "RoleTextMeeting";
                 roleTextMeeting.enableWordWrapping = false;
                 roleTextMeeting.enabled =
                     pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId ||
-                    (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && StaticOptions.GhostsCanSeeOtherRoles) ||
+                    (TOHPlugin.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && StaticOptions.GhostsCanSeeOtherRoles) ||
                     (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Is(CustomRoles.GM));
             }
             if (StaticOptions.SyncButtonMode)
@@ -402,8 +402,8 @@ namespace TownOfHost
                 {
                     var player = Utils.GetPlayerById(x.TargetPlayerId);
                     player.RpcExileV2();
-                    Main.PlayerStates[player.PlayerId].deathReason = PlayerStateOLD.DeathReason.Execution;
-                    Main.PlayerStates[player.PlayerId].SetDead();
+                    TOHPlugin.PlayerStates[player.PlayerId].deathReason = PlayerStateOLD.DeathReason.Execution;
+                    TOHPlugin.PlayerStates[player.PlayerId].SetDead();
                     Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
                     Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
                 });

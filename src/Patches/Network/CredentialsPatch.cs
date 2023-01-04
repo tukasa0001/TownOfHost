@@ -13,8 +13,8 @@ namespace TownOfHost
         static void Postfix(PingTracker __instance)
         {
             __instance.text.alignment = TMPro.TextAlignmentOptions.TopRight;
-            __instance.text.text += Main.credentialsText;
-            if (Main.NoGameEnd) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("NoGameEnd"));
+            __instance.text.text += TOHPlugin.credentialsText;
+            if (TOHPlugin.NoGameEnd) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("NoGameEnd"));
             if (OldOptions.IsStandardHAS) __instance.text.text += $"\r\n" + Utils.ColorString(Color.yellow, GetString("StandardHAS"));
             if (OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("HideAndSeek"));
             if (DebugModeManager.IsDebugMode) __instance.text.text += "\r\n" + Utils.ColorString(Color.green, "デバッグモード");
@@ -35,17 +35,17 @@ namespace TownOfHost
         static TMPro.TextMeshPro SpecialEventText;
         static void Postfix(VersionShower __instance)
         {
-            Main.credentialsText = $"\r\n<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}" + (Main.DevVersion ? " " + Main.DevVersionStr : "");
+            TOHPlugin.credentialsText = $"\r\n<color={TOHPlugin.ModColor}>{TOHPlugin.ModName}</color> v{TOHPlugin.PluginVersion}" + (TOHPlugin.DevVersion ? " " + TOHPlugin.DevVersionStr : "");
 #if DEBUG
-            Main.credentialsText += $"\r\n<color={Main.ModColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
+            TOHPlugin.credentialsText += $"\r\n<color={TOHPlugin.ModColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
 #endif
             var credentials = Object.Instantiate(__instance.text);
-            credentials.text = Main.credentialsText;
+            credentials.text = TOHPlugin.credentialsText;
             credentials.alignment = TMPro.TextAlignmentOptions.TopRight;
             credentials.transform.position = new Vector3(4.6f, 3.2f, 0);
 
             ErrorText.Create(__instance.text);
-            if (Main.hasArgumentException && ErrorText.Instance != null)
+            if (TOHPlugin.hasArgumentException && ErrorText.Instance != null)
             {
                 ErrorText.Instance.AddError(ErrorCode.Main_DictionaryError);
             }
@@ -60,13 +60,13 @@ namespace TownOfHost
                 SpecialEventText.transform.position = new Vector3(0, 0.5f, 0);
             }
             SpecialEventText.enabled = TitleLogoPatch.amongUsLogo != null;
-            if (Main.IsInitialRelease)
+            if (TOHPlugin.IsInitialRelease)
             {
-                SpecialEventText.text = $"Happy Birthday to {Main.ModName}!";
-                ColorUtility.TryParseHtmlString(Main.ModColor, out var col);
+                SpecialEventText.text = $"Happy Birthday to {TOHPlugin.ModName}!";
+                ColorUtility.TryParseHtmlString(TOHPlugin.ModColor, out var col);
                 SpecialEventText.color = col;
             }
-            if (Main.IsChristmas && CultureInfo.CurrentCulture.Name == "ja-JP")
+            if (TOHPlugin.IsChristmas && CultureInfo.CurrentCulture.Name == "ja-JP")
             {
                 //このソースコ―ドを見た人へ。口外しないでもらえると嬉しいです...
                 //To anyone who has seen this source code. I would appreciate it if you would keep your mouth shut...

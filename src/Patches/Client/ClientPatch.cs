@@ -13,7 +13,7 @@ namespace TownOfHost
         public static bool Prefix(GameStartManager __instance)
         {
             // 定数設定による公開ルームブロック
-            if (!Main.AllowPublicRoom && !ModUpdater.ForceAccept)
+            if (!TOHPlugin.AllowPublicRoom && !ModUpdater.ForceAccept)
             {
                 var message = GetString("DisabledByProgram");
                 Logger.Info(message, "MakePublicPatch");
@@ -65,6 +65,7 @@ namespace TownOfHost
             }
         }
     }
+
     [HarmonyPatch(typeof(BanMenu), nameof(BanMenu.SetVisible))]
     class BanMenuSetVisiblePatch
     {
@@ -79,7 +80,7 @@ namespace TownOfHost
             return false;
         }
     }
-    [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.CanBan))]
+    [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.CanBan))]
     class InnerNetClientCanBanPatch
     {
         public static bool Prefix(InnerNet.InnerNetClient __instance, ref bool __result)
@@ -88,10 +89,10 @@ namespace TownOfHost
             return false;
         }
     }
-    [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.KickPlayer))]
+    [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.KickPlayer))]
     class KickPlayerPatch
     {
-        public static void Prefix(InnerNet.InnerNetClient __instance, int clientId, bool ban)
+        public static void Prefix(InnerNetClient __instance, int clientId, bool ban)
         {
             if (!AmongUsClient.Instance.AmHost) return;
             if (ban) BanManager.AddBanPlayer(AmongUsClient.Instance.GetClient(clientId));

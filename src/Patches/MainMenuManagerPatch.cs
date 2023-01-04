@@ -26,11 +26,11 @@ namespace TownOfHost
             PassiveButton discordPassiveButton = discordButton.GetComponent<PassiveButton>();
             SpriteRenderer discordButtonSprite = discordButton.GetComponent<SpriteRenderer>();
             discordPassiveButton.OnClick = new();
-            discordPassiveButton.OnClick.AddListener((Action)(() => Application.OpenURL(Main.DiscordInviteUrl)));
+            discordPassiveButton.OnClick.AddListener((Action)(() => Application.OpenURL(TOHPlugin.DiscordInviteUrl)));
             discordPassiveButton.OnMouseOut.AddListener((Action)(() => discordButtonSprite.color = discordText.color = discordColor));
             __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => discordText.SetText("Discord"))));
             discordButtonSprite.color = discordText.color = discordColor;
-            discordButton.gameObject.SetActive(Main.ShowDiscordButton);
+            discordButton.gameObject.SetActive(TOHPlugin.ShowDiscordButton);
 
             //Updateボタンを生成
             if (updateButton == null) updateButton = UnityEngine.Object.Instantiate(template, template.transform.parent);

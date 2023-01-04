@@ -29,7 +29,7 @@ public class OptionManager
 
     public OptionManager()
     {
-        BepInPlugin metadata = MetadataHelper.GetMetadata(Main.Instance);
+        BepInPlugin metadata = MetadataHelper.GetMetadata(TOHPlugin.Instance);
         string path = Utility.CombinePaths(Paths.ConfigPath, metadata.GUID + ".cfg");
         this.GeneralConfig = new ConfigFile(path, true, metadata);
         this.Presets = Utility.GetUniqueFilesInDirectories(new[] { Paths.ConfigPath }, "*-preset.cfg").Select(CreatePreset).ToList();
@@ -69,7 +69,7 @@ public class OptionManager
 
     private ConfigFile CreatePreset(string exactPath = null)
     {
-        BepInPlugin metadata = MetadataHelper.GetMetadata(Main.Instance);
+        BepInPlugin metadata = MetadataHelper.GetMetadata(TOHPlugin.Instance);
         string path = exactPath ?? Utility.CombinePaths(Paths.ConfigPath, metadata.GUID + "-preset" + (Presets.Count + 1) + ".cfg");
         return new ConfigFile(path, true, metadata);
     }

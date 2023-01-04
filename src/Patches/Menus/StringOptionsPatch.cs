@@ -10,7 +10,7 @@ public class StringOptionEnablePatch
 {
     public static bool Prefix(StringOption __instance)
     {
-        var option = Main.OptionManager.AllHolders.FirstOrDefault(opt => opt.Behaviour == __instance);
+        var option = TOHPlugin.OptionManager.AllHolders.FirstOrDefault(opt => opt.Behaviour == __instance);
         if (option == null) return true;
         __instance.OnValueChanged = new Action<OptionBehaviour>((o) => { });
         __instance.TitleText.text = option.ColorName;
@@ -26,7 +26,7 @@ public class StringOptionIncreasePatch
 {
     public static bool Prefix(StringOption __instance)
     {
-        var option = Main.OptionManager.AllHolders.FirstOrDefault(opt => opt.Behaviour == __instance);
+        var option = TOHPlugin.OptionManager.AllHolders.FirstOrDefault(opt => opt.Behaviour == __instance);
         if (option == null) return true;
 
         option?.Increment();
@@ -42,7 +42,7 @@ public class StringOptionDecreasePatch
 {
     public static bool Prefix(StringOption __instance)
     {
-        var option = Main.OptionManager.AllHolders.FirstOrDefault(opt => opt.Behaviour == __instance);
+        var option = TOHPlugin.OptionManager.AllHolders.FirstOrDefault(opt => opt.Behaviour == __instance);
         if (option == null) return true;
 
         option?.Decrement();

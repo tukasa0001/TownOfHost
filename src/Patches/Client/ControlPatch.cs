@@ -87,13 +87,13 @@ namespace TownOfHost
             //現在の有効な設定の説明を表示
             if (GetKeysDown(KeyCode.N, KeyCode.LeftShift, KeyCode.LeftControl))
             {
-                Main.isChatCommand = true;
+                TOHPlugin.isChatCommand = true;
                 Utils.ShowActiveSettingsHelp();
             }
             //現在の有効な設定を表示
             if (GetKeysDown(KeyCode.N, KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift))
             {
-                Main.isChatCommand = true;
+                TOHPlugin.isChatCommand = true;
                 Utils.ShowActiveSettings();
             }
             //TOHオプションをデフォルトに設定
@@ -154,8 +154,8 @@ namespace TownOfHost
             //タスクカウントの表示切替
             if (Input.GetKeyDown(KeyCode.Equals))
             {
-                Main.VisibleTasksCount = !Main.VisibleTasksCount;
-                DestroyableSingleton<HudManager>.Instance.Notifier.AddItem("VisibleTaskCountが" + Main.VisibleTasksCount.ToString() + "に変更されました。");
+                TOHPlugin.VisibleTasksCount = !TOHPlugin.VisibleTasksCount;
+                DestroyableSingleton<HudManager>.Instance.Notifier.AddItem("VisibleTaskCountが" + TOHPlugin.VisibleTasksCount.ToString() + "に変更されました。");
             }
             //エアシップのトイレのドアを全て開ける
             if (Input.GetKeyDown(KeyCode.P))

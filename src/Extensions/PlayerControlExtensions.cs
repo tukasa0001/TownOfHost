@@ -22,14 +22,14 @@ public static class PlayerControlExtensions
         player.GetPlayerPlus().DynamicName = DynamicName.For(player);
         CustomRoleManager.PlayersCustomRolesRedux[player.PlayerId] = role.Instantiate(player);
         // TODO: eventually add back subrole logic
-        RpcV2.Immediate(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole)
+        RpcV2.Immediate(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.SetCustomRole)
             .Write(player.PlayerId)
             .WritePacked(CustomRoleManager.GetRoleId(role.GetType()))
             .Send();
     }
     public static void RpcSetCustomRole(byte playerId, CustomRoles role)
     {
-        RpcV2.Immediate(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole)
+        RpcV2.Immediate(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.SetCustomRole)
             .Write(playerId)
             .WritePacked(CustomRoleManager.GetRoleId(role.GetType()))
             .Send();
@@ -108,6 +108,7 @@ public static class PlayerControlExtensions
 
     public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
     {
+        killer.GetCustomRole().SyncOptions();
         if (target == null) target = killer;
         // Host
         if (killer.AmOwner)
@@ -141,7 +142,7 @@ public static class PlayerControlExtensions
         }
         else
         {
-            Main.AllPlayerKillCooldown[player.PlayerId] = time * 2;
+            TOHPlugin.AllPlayerKillCooldown[player.PlayerId] = time * 2;
             player.MarkDirtySettings();
             player.RpcGuardAndKill();
         }
@@ -205,7 +206,7 @@ public static class PlayerControlExtensions
     }
     public static TaskState GetPlayerTaskState(this PlayerControl player)
     {
-        return Main.PlayerStates[player.PlayerId].GetTaskState();
+        return TOHPlugin.PlayerStates[player.PlayerId].GetTaskState();
     }
 
     public static T GetCustomRole<T>(this PlayerControl player) where T : CustomRole
@@ -219,7 +220,7 @@ public static class PlayerControlExtensions
     }
     public static string GetSubRoleName(this PlayerControl player)
     {
-        var SubRoles = Main.PlayerStates[player.PlayerId].SubRoles;
+        var SubRoles = TOHPlugin.PlayerStates[player.PlayerId].SubRoles;
         if (SubRoles.Count == 0) return "";
         var sb = new StringBuilder();
         foreach (var role in SubRoles)
@@ -254,7 +255,7 @@ public static class PlayerControlExtensions
         if (pc == null || !AmongUsClient.Instance.AmHost || pc.AmOwner) return;
 
         var systemtypes = SystemTypes.Reactor;
-        if (Main.NormalOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
+        if (TOHPlugin.NormalOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
 
         new DTask(() =>
         {
@@ -269,7 +270,7 @@ public static class PlayerControlExtensions
         new DTask(() =>
         {
             pc.RpcDesyncRepairSystem(systemtypes, 16);
-            if (Main.NormalOptions.MapId == 4) //Airship用
+            if (TOHPlugin.NormalOptions.MapId == 4) //Airship用
                 pc.RpcDesyncRepairSystem(systemtypes, 17);
         }, 0.4f + delay, "Fix Desync Reactor");
     }
@@ -279,7 +280,7 @@ public static class PlayerControlExtensions
         int clientId = pc.GetClientId();
         // Logger.Info($"{pc}", "ReactorFlash");
         var systemtypes = SystemTypes.Reactor;
-        if (Main.NormalOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
+        if (TOHPlugin.NormalOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
         float FlashDuration = StaticOptions.KillFlashDuration;
 
         pc.RpcDesyncRepairSystem(systemtypes, 128);
@@ -288,7 +289,7 @@ public static class PlayerControlExtensions
         {
             pc.RpcDesyncRepairSystem(systemtypes, 16);
 
-            if (Main.NormalOptions.MapId == 4) //Airship用
+            if (TOHPlugin.NormalOptions.MapId == 4) //Airship用
                 pc.RpcDesyncRepairSystem(systemtypes, 17);
         }, FlashDuration + delay, "Fix Desync Reactor");
     }
@@ -312,7 +313,7 @@ public static class PlayerControlExtensions
     }
     public static void RpcSetDousedPlayer(this PlayerControl player, PlayerControl target, bool isDoused)
     {
-        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
         writer.Write(player.PlayerId);
         writer.Write(target.PlayerId);
         writer.Write(isDoused);
@@ -320,7 +321,7 @@ public static class PlayerControlExtensions
     }
     public static void ResetKillCooldown(this PlayerControl player)
     {
-        Main.AllPlayerKillCooldown[player.PlayerId] = 0;
+        TOHPlugin.AllPlayerKillCooldown[player.PlayerId] = 0;
         Logger.Warn("ResetKillCooldown not implemented yet", "RKC");
         //throw new NotImplementedException("haha");
     }
@@ -381,8 +382,8 @@ public static class PlayerControlExtensions
                     return;
                 case HexMaster:
                 case CovenWitch:
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(Main.HasNecronomicon && !player.Data.IsDead);
-                    player.Data.Role.CanVent = Main.HasNecronomicon;
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(TOHPlugin.HasNecronomicon && !player.Data.IsDead);
+                    player.Data.Role.CanVent = TOHPlugin.HasNecronomicon;
                     break;
                 case Janitor:
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(StaticOptions.STIgnoreVent && !player.Data.IsDead);
@@ -392,7 +393,7 @@ public static class PlayerControlExtensions
         }
     public static bool CanMakeMadmate(this PlayerControl player)
     {
-        return StaticOptions.CanMakeMadmateCount > Main.SKMadmateNowCount
+        return StaticOptions.CanMakeMadmateCount > TOHPlugin.SKMadmateNowCount
                && player != null
                && player.Data.Role.Role == RoleTypes.Shapeshifter
                && player.GetCustomRole().CanMakeMadmate();
@@ -422,7 +423,7 @@ public static class PlayerControlExtensions
         DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(reporter);
         reporter.RpcStartMeeting(target);
     }
-    public static bool IsModClient(this PlayerControl player) => Main.playerVersion.ContainsKey(player.PlayerId);
+    public static bool IsModClient(this PlayerControl player) => TOHPlugin.playerVersion.ContainsKey(player.PlayerId);
     ///<summary>
     ///プレイヤーのRoleBehaviourのGetPlayersInAbilityRangeSortedを実行し、戻り値を返します。
     ///</summary>

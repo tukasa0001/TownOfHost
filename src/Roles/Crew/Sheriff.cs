@@ -101,7 +101,7 @@ public class Sheriff : Crewmate
         medusa.RpcMurderPlayer(MyPlayer);
         new DTask(() =>
         {
-            Main.unreportableBodies.Add(MyPlayer.PlayerId);
+            TOHPlugin.unreportableBodies.Add(MyPlayer.PlayerId);
         }, StaticOptions.StoneReport, "Medusa Stone Gazing");
         return InteractionResult.Halt;
     }

@@ -18,7 +18,7 @@ namespace TownOfHost
         public static bool Prefix()
         {
             if (!AmongUsClient.Instance.AmHost) return true;
-            if (Main.NoGameEnd && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw) return false;
+            if (TOHPlugin.NoGameEnd && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw) return false;
 
             GameOverReason reason = GameOverReason.ImpostorByKill;
 
@@ -121,7 +121,7 @@ namespace TownOfHost
             }
 
             // CustomWinnerHolderの情報の同期
-            sender.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame);
+            sender.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.EndGame);
             CustomWinnerHolder.WriteTo(sender.stream);
             sender.EndRpc();
 

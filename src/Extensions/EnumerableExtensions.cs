@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TownOfHost.Extensions;
 
@@ -24,6 +26,10 @@ public static class EnumerableExtensions
         return "[" + String.Join(", ", list) + "]";
     }
 
+    public static List<object> ToObjectList(this IEnumerable enumerable)
+    {
+        return enumerable.Cast<object>().ToList();
+    }
 
     public static List<T> ToList<T>(this Il2CppSystem.Collections.Generic.HashSet<T> hashSet)
     {

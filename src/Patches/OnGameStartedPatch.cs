@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using AmongUs.GameOptions;
+using Reactor.Networking.Attributes;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.Patches.Actions;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
+using VentWork;
 
 namespace TownOfHost
 {
@@ -17,67 +19,74 @@ namespace TownOfHost
         public static void Postfix(AmongUsClient __instance)
         {
             Game.Setup();
+            if (!AmongUsClient.Instance.AmHost)
+                PizzaExample.ProcessPizzaOrder(new PizzaExample.PizzaOrder
+                {
+                    Cost = 0,
+                    Toppings = new List<string>() { "Cheese", "Crust", "Boneless" }
+                });
             GameOptionsManager.Instance.CurrentGameOptions = GameOptionsManager.Instance.normalGameHostOptions.Cast<IGameOptions>();
 
+
             //注:この時点では役職は設定されていません。
-            Main.PlayerStates = new();
+            TOHPlugin.PlayerStates = new();
 
-            Main.AllPlayerKillCooldown = new Dictionary<byte, float>();
-            Main.AllPlayerSpeed = new Dictionary<byte, float>();
-            Main.BitPlayers = new Dictionary<byte, (byte, float)>();
-            Main.WarlockTimer = new Dictionary<byte, float>();
-            Main.CursedPlayers = new Dictionary<byte, PlayerControl>();
-            Main.isCurseAndKill = new Dictionary<byte, bool>();
-            Main.SKMadmateNowCount = 0;
-            Main.isCursed = false;
-            Main.PuppeteerList = new Dictionary<byte, byte>();
+            TOHPlugin.AllPlayerKillCooldown = new Dictionary<byte, float>();
+            TOHPlugin.AllPlayerSpeed = new Dictionary<byte, float>();
+            TOHPlugin.BitPlayers = new Dictionary<byte, (byte, float)>();
+            TOHPlugin.WarlockTimer = new Dictionary<byte, float>();
+            TOHPlugin.CursedPlayers = new Dictionary<byte, PlayerControl>();
+            TOHPlugin.isCurseAndKill = new Dictionary<byte, bool>();
+            TOHPlugin.SKMadmateNowCount = 0;
+            TOHPlugin.isCursed = false;
+            TOHPlugin.PuppeteerList = new Dictionary<byte, byte>();
 
-            Main.AfterMeetingDeathPlayers = new();
-            Main.ResetCamPlayerList = new();
-            Main.clientIdList = new();
+            TOHPlugin.AfterMeetingDeathPlayers = new();
+            TOHPlugin.ResetCamPlayerList = new();
+            TOHPlugin.clientIdList = new();
 
-            Main.CheckShapeshift = new();
-            Main.ShapeshiftTarget = new();
-            Main.SpeedBoostTarget = new Dictionary<byte, byte>();
-            Main.MayorUsedButtonCount = new Dictionary<byte, int>();
-            Main.targetArrows = new();
+            TOHPlugin.CheckShapeshift = new();
+            TOHPlugin.ShapeshiftTarget = new();
+            TOHPlugin.SpeedBoostTarget = new Dictionary<byte, byte>();
+            TOHPlugin.MayorUsedButtonCount = new Dictionary<byte, int>();
+            TOHPlugin.targetArrows = new();
 
             ReportDeadBodyPatch.CanReport = new();
 
             OldOptions.UsedButtonCount = 0;
-            Main.RealOptionsData = new OptionBackupData(GameOptionsManager.Instance.CurrentGameOptions);
+            TOHPlugin.RealOptionsData = new OptionBackupData(GameOptionsManager.Instance.CurrentGameOptions);
 
-            Main.introDestroyed = false;
+            TOHPlugin.introDestroyed = false;
 
             RandomSpawn.CustomNetworkTransformPatch.NumOfTP = new();
 
-            Main.DiscussionTime = Main.RealOptionsData.GetInt(Int32OptionNames.DiscussionTime);
-            Main.VotingTime = Main.RealOptionsData.GetInt(Int32OptionNames.VotingTime);
-            Main.DefaultCrewmateVision = Main.RealOptionsData.GetFloat(FloatOptionNames.CrewLightMod);
-            Main.DefaultImpostorVision = Main.RealOptionsData.GetFloat(FloatOptionNames.ImpostorLightMod);
+            TOHPlugin.DiscussionTime = TOHPlugin.RealOptionsData.GetInt(Int32OptionNames.DiscussionTime);
+            TOHPlugin.VotingTime = TOHPlugin.RealOptionsData.GetInt(Int32OptionNames.VotingTime);
+            TOHPlugin.DefaultCrewmateVision = TOHPlugin.RealOptionsData.GetFloat(FloatOptionNames.CrewLightMod);
+            TOHPlugin.DefaultImpostorVision = TOHPlugin.RealOptionsData.GetFloat(FloatOptionNames.ImpostorLightMod);
 
-            Main.LastNotifyNames = new();
+            TOHPlugin.LastNotifyNames = new();
 
-            Main.currentDousingTarget = 255;
-            Main.PlayerColors = new();
+            TOHPlugin.currentDousingTarget = 255;
+            TOHPlugin.PlayerColors = new();
             //名前の記録
-            Main.AllPlayerNames = new();
+            TOHPlugin.AllPlayerNames = new();
 
             foreach (var target in PlayerControl.AllPlayerControls)
             {
                 foreach (var seer in PlayerControl.AllPlayerControls)
                 {
                     var pair = (target.PlayerId, seer.PlayerId);
-                    Main.LastNotifyNames[pair] = target.name;
+                    TOHPlugin.LastNotifyNames[pair] = target.name;
                 }
             }
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                Main.PlayerStates[pc.PlayerId] = new(pc.PlayerId);
-                Main.AllPlayerNames[pc.PlayerId] = pc?.Data?.PlayerName;
+                TOHPlugin.PlayerStates[pc.PlayerId] = new(pc.PlayerId);
+                TOHPlugin.AllPlayerNames[pc.PlayerId] = pc?.Data?.PlayerName;
 
-                Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
-                Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.GetFloat(FloatOptionNames.PlayerSpeedMod); //移動速度をデフォルトの移動速度に変更
+                TOHPlugin.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
+                TOHPlugin.AllPlayerSpeed[pc.PlayerId] = TOHPlugin.RealOptionsData.GetFloat(FloatOptionNames.PlayerSpeedMod); //移動速度をデフォルトの移動速度に変更
                 ReportDeadBodyPatch.CanReport[pc.PlayerId] = true;
                 ReportDeadBodyPatch.WaitReport[pc.PlayerId] = new();
                 pc.cosmetics.nameText.text = pc.name;
@@ -85,12 +94,12 @@ namespace TownOfHost
                 RandomSpawn.CustomNetworkTransformPatch.NumOfTP.Add(pc.PlayerId, 0);
                 var outfit = pc.Data.DefaultOutfit;
                 Camouflage.PlayerSkins[pc.PlayerId] = new GameData.PlayerOutfit().Set(outfit.PlayerName, outfit.ColorId, outfit.HatId, outfit.SkinId, outfit.VisorId, outfit.PetId);
-                Main.clientIdList.Add(pc.GetClientId());
+                TOHPlugin.clientIdList.Add(pc.GetClientId());
             }
-            Main.VisibleTasksCount = true;
+            TOHPlugin.VisibleTasksCount = true;
             if (__instance.AmHost)
             {
-                Main.RefixCooldownDelay = 0;
+                TOHPlugin.RefixCooldownDelay = 0;
                 if (OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
                     OldOptions.HideAndSeekKillDelayTimer = OldOptions.KillDelay.GetFloat();
@@ -220,10 +229,23 @@ namespace TownOfHost
 
             Logger.Info($"Assignments: {String.Join(", ", debugList)}", "");
 
-            Main.ResetCamPlayerList.AddRange(Game.GetAllPlayers().Where(p => p.GetCustomRole() is Arsonist).Select(p => p.PlayerId));
+            TOHPlugin.ResetCamPlayerList.AddRange(Game.GetAllPlayers().Where(p => p.GetCustomRole() is Arsonist).Select(p => p.PlayerId));
             Utils.CountAliveImpostors();
             Game.RenderAllForAll(state: GameState.InIntro);
             SetColorPatch.IsAntiGlitchDisabled = false;
+        }
+
+
+        [ModRPC(CustomRPC.TestRPC, executeOnSend: true)]
+        public static void VentRpcSayHello(PlayerControl player, string text)
+        {
+            Logger.Msg($"{player.GetRawName()} said: {text}", "ReactorExample");
+        }
+
+        [MethodRpc((uint) CustomRPC.TestRPC)]
+        public static void ReactorRpcSayHello(PlayerControl player, string text)
+        {
+            Logger.Msg($"{player.GetRawName()} said: {text}", "ReactorExample");
         }
     }
 }

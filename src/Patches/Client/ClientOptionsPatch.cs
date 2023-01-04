@@ -64,22 +64,22 @@ namespace TownOfHost
 
             if (ForceJapanese == null || ForceJapanese?.gameObject == null)
             {
-                ForceJapanese = CreateCustomToggle("Force Japanese: ", Main.ForceJapanese.Value, new Vector3(-0.375f, yOffset, 0), (UnityEngine.Events.UnityAction)ForceJapaneseButtonToggle, __instance);
+                ForceJapanese = CreateCustomToggle("Force Japanese: ", TOHPlugin.ForceJapanese.Value, new Vector3(-0.375f, yOffset, 0), (UnityEngine.Events.UnityAction)ForceJapaneseButtonToggle, __instance);
 
                 void ForceJapaneseButtonToggle()
                 {
-                    Main.ForceJapanese.Value = !Main.ForceJapanese.Value;
-                    UpdateToggle(ForceJapanese, "Force Japanese: ", Main.ForceJapanese.Value);
+                    TOHPlugin.ForceJapanese.Value = !TOHPlugin.ForceJapanese.Value;
+                    UpdateToggle(ForceJapanese, "Force Japanese: ", TOHPlugin.ForceJapanese.Value);
                 }
             }
             if (JapaneseRoleName == null || JapaneseRoleName.gameObject == null)
             {
-                JapaneseRoleName = CreateCustomToggle("Japanese Role Name: ", Main.JapaneseRoleName.Value, new Vector3(1.375f, yOffset, 0), (UnityEngine.Events.UnityAction)LangModeButtonToggle, __instance);
+                JapaneseRoleName = CreateCustomToggle("Japanese Role Name: ", TOHPlugin.JapaneseRoleName.Value, new Vector3(1.375f, yOffset, 0), (UnityEngine.Events.UnityAction)LangModeButtonToggle, __instance);
 
                 void LangModeButtonToggle()
                 {
-                    Main.JapaneseRoleName.Value = !Main.JapaneseRoleName.Value;
-                    UpdateToggle(JapaneseRoleName, "Japanese Role Name: ", Main.JapaneseRoleName.Value);
+                    TOHPlugin.JapaneseRoleName.Value = !TOHPlugin.JapaneseRoleName.Value;
+                    UpdateToggle(JapaneseRoleName, "Japanese Role Name: ", TOHPlugin.JapaneseRoleName.Value);
                 }
             }
         }

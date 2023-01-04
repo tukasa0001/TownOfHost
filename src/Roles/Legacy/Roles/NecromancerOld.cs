@@ -29,8 +29,8 @@ namespace TownOfHost
         {
             playerIdList.Add(playerId);
 
-            if (!Main.ResetCamPlayerList.Contains(playerId))
-                Main.ResetCamPlayerList.Add(playerId);
+            if (!TOHPlugin.ResetCamPlayerList.Contains(playerId))
+                TOHPlugin.ResetCamPlayerList.Add(playerId);
 
             Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : Necromancer Player", "Necromancer");
         }
@@ -64,7 +64,7 @@ namespace TownOfHost
         }
         public static void OnCheckMurder(PlayerControl necromancer, PlayerControl target)
         {
-            bool skipVetCheck = Main.HasNecronomicon;
+            bool skipVetCheck = TOHPlugin.HasNecronomicon;
             /*switch (currentRole)
             {
                 case Necromancer:
@@ -558,7 +558,7 @@ namespace TownOfHost
                 case CorruptedSheriff:
                     return true;
             }
-            if (currentRole.IsCoven() && currentRole is not Necromancer) return Main.HasNecronomicon;
+            if (currentRole.IsCoven() && currentRole is not Necromancer) return TOHPlugin.HasNecronomicon;
             return false;
         }
         public static void OnUseVent(int ventId)

@@ -27,7 +27,7 @@ public abstract class AbstractBaseRole
         if (roleId == -1)
         {
             if (ROLE_DEBUG)
-                Logger.Warn($"Illegaling Constructing Role for {typeof(T)}", "RoleWarning");
+                Logger.Warn($"Illegally Constructing Role for {typeof(T)}", "RoleWarning");
                 return (T)typeof(T).GetConstructor(Array.Empty<Type>()).Invoke(null);
             throw new NullReferenceException($"Pseudo-static reference for {typeof(T)} not set in RoleManager");
         }
@@ -35,7 +35,7 @@ public abstract class AbstractBaseRole
         return (T) CustomRoleManager.GetRoleFromId(roleId);
     }
 
-    public string RoleName => (Main.ForceJapanese.Value ? SupportedLangs.Japanese : SupportedLangs.English).GetStringOrDefault(englishRoleName);
+    public string RoleName => (TOHPlugin.ForceJapanese.Value ? SupportedLangs.Japanese : SupportedLangs.English).GetStringOrDefault(englishRoleName);
 
     public RoleTypes? DesyncRole;
     public RoleTypes VirtualRole;
@@ -80,7 +80,7 @@ public abstract class AbstractBaseRole
         OptionHolder options = RegisterOptions(b).Build();
         if (options.Name != null || options.GetAsString() != "N/A")
         {
-            Main.OptionManager.Add(options);
+            TOHPlugin.OptionManager.Add(options);
             if (options.Tab == null)
             {
                 if (this is GM) { /*ignored*/ }

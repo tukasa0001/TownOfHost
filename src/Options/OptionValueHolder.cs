@@ -81,24 +81,24 @@ public class OptionValueHolder
     private void BindFirstValue(OptionValue value)
     {
 
-        if (Main.OptionManager.GetPreset().ContainsKey(new ConfigDefinition(value.Header, value.Entry))) return;
+        if (TOHPlugin.OptionManager.GetPreset().ContainsKey(new ConfigDefinition(value.Header, value.Entry))) return;
         this.configEntry = value.Value switch
         {
-            bool b => Main.OptionManager.GetPreset().Bind(value.Header, value.Entry, b),
-            string => Main.OptionManager.GetPreset().Bind(value.Header, value.Entry, value.ToString()),
-            byte by => Main.OptionManager.GetPreset().Bind(value.Header, value.Entry, by),
-            sbyte sby => Main.OptionManager.GetPreset().Bind(value.Header, value.Entry, sby),
-            short i16 => Main.OptionManager.GetPreset().Bind(value.Header, value.Entry, Convert.ToSingle(i16)),
-            ushort u16 => Main.OptionManager.GetPreset().Bind(value.Header, value.Entry, Convert.ToSingle(u16)),
-            int i => Main.OptionManager.GetPreset().Bind(value.Header, value.Entry, Convert.ToSingle(i)),
-            uint u32 => Main.OptionManager.GetPreset().Bind(value.Header, value.Entry, Convert.ToSingle(u32)),
-            long l => Main.OptionManager.GetPreset().Bind(value.Header, value.Entry, Convert.ToDouble(l)),
-            ulong ul => Main.OptionManager.GetPreset().Bind(value.Header, value.Entry, Convert.ToDouble(ul)),
-            float f => Main.OptionManager.GetPreset().Bind(value.Header, value.Entry, f),
-            double db => Main.OptionManager.GetPreset().Bind(value.Header, value.Entry, db),
-            decimal dec => Main.OptionManager.GetPreset().Bind(value.Header, value.Entry, dec),
-            Enum en => Main.OptionManager.GetPreset().Bind(value.Header, value.Entry, en),
-            _ => Main.OptionManager.GetPreset().Bind(value.Header, value.Entry, value)
+            bool b => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, b),
+            string => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, value.ToString()),
+            byte by => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, by),
+            sbyte sby => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, sby),
+            short i16 => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, Convert.ToSingle(i16)),
+            ushort u16 => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, Convert.ToSingle(u16)),
+            int i => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, Convert.ToSingle(i)),
+            uint u32 => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, Convert.ToSingle(u32)),
+            long l => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, Convert.ToDouble(l)),
+            ulong ul => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, Convert.ToDouble(ul)),
+            float f => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, f),
+            double db => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, db),
+            decimal dec => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, dec),
+            Enum en => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, en),
+            _ => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, value)
         };
 
     }

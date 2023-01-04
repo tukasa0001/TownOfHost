@@ -26,7 +26,7 @@ public class Miner: Impostor
         if (minerAbilityCooldown.NotReady()) return;
         minerAbilityCooldown.Start();
 
-        if (!Main.LastEnteredVentLocation.TryGetValue(MyPlayer.PlayerId, out Vector2 position)) return;
+        if (!TOHPlugin.LastEnteredVentLocation.TryGetValue(MyPlayer.PlayerId, out Vector2 position)) return;
         Logger.Info($"{MyPlayer.Data.PlayerName}:{position}", "MinerTeleport");
         Utils.Teleport(MyPlayer.NetTransform, new Vector2(position.x, position.y + 0.3636f));
     }

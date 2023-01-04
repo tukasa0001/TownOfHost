@@ -61,7 +61,7 @@ namespace TownOfHost
                 ErrorText.Instance.HnSFlag = true;
                 ErrorText.Instance.AddError(ErrorCode.HnsUnload);
                 Harmony.UnpatchAll();
-                Main.Instance.Unload();
+                TOHPlugin.Instance.Unload();
             }
         }
     }

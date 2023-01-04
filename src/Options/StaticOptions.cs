@@ -267,7 +267,7 @@ public static class StaticOptions
 
     public static void AddStaticOptions()
     {
-        OptionManager manager = Main.OptionManager;
+        OptionManager manager = TOHPlugin.OptionManager;
 
         manager.Add(new SmartOptionBuilder()
             .Name("GM")
@@ -673,7 +673,7 @@ public static class StaticOptions
             .Name("NoGameEnd")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
-            .BindBool(v => Main.NoGameEnd = v)
+            .BindBool(v => TOHPlugin.NoGameEnd = v)
             .AddOnOffValues(false)
             .Build()
         );

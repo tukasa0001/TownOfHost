@@ -64,7 +64,7 @@ namespace TownOfHost
         public static string GetString(string s, Dictionary<string, string> replacementDic = null)
         {
             var langId = TranslationController.InstanceExists ? TranslationController.Instance.currentLanguage.languageID : SupportedLangs.English;
-            if (Main.ForceJapanese.Value) langId = SupportedLangs.Japanese;
+            if (TOHPlugin.ForceJapanese.Value) langId = SupportedLangs.Japanese;
             string str = GetString(s, langId);
             if (replacementDic != null)
                 foreach (var rd in replacementDic)
@@ -85,7 +85,7 @@ namespace TownOfHost
             {
                 //このソースコ―ドを見た人へ。口外しないでもらえると嬉しいです...
                 //To anyone who has seen this source code. I would appreciate it if you would keep your mouth shut...
-                if (Main.IsChristmas)
+                if (TOHPlugin.IsChristmas)
                 {
                     res = str switch
                     {
@@ -111,9 +111,9 @@ namespace TownOfHost
         {
             var CurrentLanguage = TranslationController.Instance.currentLanguage.languageID;
             var lang = CurrentLanguage;
-            if (Main.ForceJapanese.Value && Main.JapaneseRoleName.Value)
+            if (TOHPlugin.ForceJapanese.Value && TOHPlugin.JapaneseRoleName.Value)
                 lang = SupportedLangs.Japanese;
-            else if (CurrentLanguage == SupportedLangs.Japanese && !Main.JapaneseRoleName.Value)
+            else if (CurrentLanguage == SupportedLangs.Japanese && !TOHPlugin.JapaneseRoleName.Value)
                 lang = SupportedLangs.English;
 
             return GetString(str, lang);

@@ -40,7 +40,7 @@ public class GameOptionTab: IComparable<GameOptionTab>
 
     public void Register()
     {
-        Main.OptionManager.AddTab(this);
+        TOHPlugin.OptionManager.AddTab(this);
     }
 
     public void AddHolder(OptionHolder holder)

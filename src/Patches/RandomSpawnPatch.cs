@@ -34,9 +34,9 @@ namespace TownOfHost
 
                     if (NumOfTP[player.PlayerId] == 2)
                     {
-                        if (Main.NormalOptions.MapId != 4) return; //マップがエアシップじゃなかったらreturn
+                        if (TOHPlugin.NormalOptions.MapId != 4) return; //マップがエアシップじゃなかったらreturn
                         player.RpcResetAbilityCooldown();
-                        if (StaticOptions.FixFirstKillCooldown && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
+                        if (StaticOptions.FixFirstKillCooldown && !MeetingStates.MeetingCalled) player.SetKillCooldown(TOHPlugin.AllPlayerKillCooldown[player.PlayerId]);
                         if (!StaticOptions.RandomSpawn) return; //ランダムスポーンが無効ならreturn
                         new AirshipSpawnMap().RandomTeleport(player);
                     }

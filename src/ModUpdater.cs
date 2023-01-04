@@ -40,7 +40,7 @@ namespace TownOfHost
             }
             if (!isChecked)
             {
-                CheckRelease(Main.BetaBuildURL.Value != "").GetAwaiter().GetResult();
+                CheckRelease(TOHPlugin.BetaBuildURL.Value != "").GetAwaiter().GetResult();
             }
             if (ForceAccept)
             {
@@ -65,7 +65,7 @@ namespace TownOfHost
         }
         public static async Task<bool> CheckRelease(bool beta = false)
         {
-            string url = beta ? Main.BetaBuildURL.Value : URL + "/releases/latest";
+            string url = beta ? TOHPlugin.BetaBuildURL.Value : URL + "/releases/latest";
             try
             {
                 string result;
@@ -107,7 +107,7 @@ namespace TownOfHost
                         if (assets[i]["name"].ToString() == "TownOfHost.dll")
                             downloadUrl = assets[i]["browser_download_url"].ToString();
                     }
-                    hasUpdate = latestVersion.CompareTo(Main.version) > 0;
+                    hasUpdate = latestVersion.CompareTo(TOHPlugin.version) > 0;
                 }
                 if (downloadUrl == null)
                 {

@@ -36,7 +36,7 @@ public class Phantom : Crewmate
     [RoleAction(RoleActionType.TaskComplete)]
     public void TaskComplete()
     {
-        var taskState = Main.PlayerStates?[MyPlayer.PlayerId].GetTaskState();
+        var taskState = TOHPlugin.PlayerStates?[MyPlayer.PlayerId].GetTaskState();
         if (taskState.CompletedTasksCount == taskState.AllTasksCount)
         {
             // PHANTOM WIN

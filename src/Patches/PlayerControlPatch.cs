@@ -111,8 +111,8 @@ namespace TownOfHost
                 foreach (var seer in PlayerControl.AllPlayerControls)
                 {
                     var self = seer.PlayerId == target.PlayerId;
-                    var seerIsKiller = seer.Is(Roles.RoleType.Impostor) || Main.ResetCamPlayerList.Contains(seer.PlayerId);
-                    var targetIsKiller = target.Is(Roles.RoleType.Impostor) || Main.ResetCamPlayerList.Contains(target.PlayerId);
+                    var seerIsKiller = seer.Is(Roles.RoleType.Impostor) || TOHPlugin.ResetCamPlayerList.Contains(seer.PlayerId);
+                    var targetIsKiller = target.Is(Roles.RoleType.Impostor) || TOHPlugin.ResetCamPlayerList.Contains(target.PlayerId);
                     if ((self && targetIsKiller) || (!seerIsKiller && target.Is(Roles.RoleType.Impostor)))
                     {
                         Logger.Info($"Desync {target.GetNameWithRole()} =>ImpostorGhost for{seer.GetNameWithRole()}", "PlayerControl.RpcSetRole");

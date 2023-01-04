@@ -88,18 +88,18 @@ namespace TownOfHost
             AllConfigEntries = new ConfigEntry<int>[5];
             if (Id == 0)
             {
-                singleEntry = Main.Instance.Config.Bind("Current Preset", id.ToString(), DefaultValue);
+                singleEntry = TOHPlugin.Instance.Config.Bind("Current Preset", id.ToString(), DefaultValue);
                 CurrentPreset = singleEntry.Value;
             }
             else if (IsSingleValue)
             {
-                singleEntry = Main.Instance.Config.Bind("SingleEntryOptions", id.ToString(), DefaultValue);
+                singleEntry = TOHPlugin.Instance.Config.Bind("SingleEntryOptions", id.ToString(), DefaultValue);
             }
             else
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    AllConfigEntries[i] = Main.Instance.Config.Bind($"Preset{i + 1}", id.ToString(), DefaultValue);
+                    AllConfigEntries[i] = TOHPlugin.Instance.Config.Bind($"Preset{i + 1}", id.ToString(), DefaultValue);
                 }
             }
 

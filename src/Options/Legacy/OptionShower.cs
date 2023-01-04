@@ -53,7 +53,7 @@ namespace TownOfHost
             HashSet<OptionHolder> roleHolders = new();
             foreach (CustomRole role in CustomRoleManager.Roles)
             {
-                OptionHolder matchingHolder = Main.OptionManager.Options().FirstOrDefault(h => h.Name == role.RoleName);
+                OptionHolder matchingHolder = TOHPlugin.OptionManager.Options().FirstOrDefault(h => h.Name == role.RoleName);
                 if (matchingHolder != null) roleHolders.Add(matchingHolder);
 
                 if (!role.IsEnable() || role is GM) continue;
@@ -83,7 +83,7 @@ namespace TownOfHost
                     }*/
             }
 
-            foreach (OptionHolder holder in Main.OptionManager.Options().Where(o => !roleHolders.Contains(o)))
+            foreach (OptionHolder holder in TOHPlugin.OptionManager.Options().Where(o => !roleHolders.Contains(o)))
             {
                 if (holder.Name == "GM") continue;
                 if (holder.IsHeader) text += "\n";

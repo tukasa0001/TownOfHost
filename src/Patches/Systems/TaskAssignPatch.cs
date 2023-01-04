@@ -44,7 +44,7 @@ namespace TownOfHost
         [HarmonyArgument(1)] ref Il2CppStructArray<byte> taskTypeIds)
         {
             //null対策
-            if (Main.RealOptionsData == null)
+            if (TOHPlugin.RealOptionsData == null)
             {
                 Logger.Warn("警告:RealOptionsDataがnullです。", "RpcSetTasksPatch");
                 return;
@@ -78,7 +78,7 @@ namespace TownOfHost
             //不要な割り当て済みのタスクを削除する処理
             //コモンタスクを割り当てる設定ならコモンタスク以外を削除
             //コモンタスクを割り当てない設定ならリストを空にする
-            int defaultCommonTasksNum = Main.RealOptionsData.GetInt(Int32OptionNames.NumCommonTasks);
+            int defaultCommonTasksNum = TOHPlugin.RealOptionsData.GetInt(Int32OptionNames.NumCommonTasks);
             if (hasCommonTasks) TasksList.RemoveRange(defaultCommonTasksNum, TasksList.Count - defaultCommonTasksNum);
             else TasksList.Clear();
 

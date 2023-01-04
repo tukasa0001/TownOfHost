@@ -47,7 +47,7 @@ namespace TownOfHost
             }
             __instance.GameSettings.text = OptionShower.GetText();
             __instance.GameSettings.fontSizeMin =
-            __instance.GameSettings.fontSizeMax = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || Main.ForceJapanese.Value) ? 1.05f : 1.2f;
+            __instance.GameSettings.fontSizeMax = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || TOHPlugin.ForceJapanese.Value) ? 1.05f : 1.2f;
             //ゲーム中でなければ以下は実行されない
             if (!AmongUsClient.Instance.IsGameStarted) return;
 
@@ -68,7 +68,7 @@ namespace TownOfHost
                         SerialKillerOLD.GetAbilityButtonText(__instance, player);
                         break;*/
                     case Warlock:
-                        if (!Main.CheckShapeshift[player.PlayerId] && !Main.isCurseAndKill[player.PlayerId])
+                        if (!TOHPlugin.CheckShapeshift[player.PlayerId] && !TOHPlugin.isCurseAndKill[player.PlayerId])
                         {
                             __instance.KillButton.OverrideText($"{GetString("WarlockCurseButtonText")}");
                         }

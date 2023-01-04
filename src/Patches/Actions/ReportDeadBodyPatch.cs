@@ -36,7 +36,7 @@ public class ReportDeadBodyPatch
         {
             if (__instance.Is(CustomRoles.Mayor))
             {
-                Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
+                TOHPlugin.MayorUsedButtonCount[__instance.PlayerId] += 1;
             }
         }
 
@@ -55,14 +55,14 @@ public class ReportDeadBodyPatch
             }
         }
 
-        foreach (var bp in Main.BitPlayers)
+        foreach (var bp in TOHPlugin.BitPlayers)
         {
             var vampireID = bp.Value.Item1;
             var bitten = Utils.GetPlayerById(bp.Key);
 
             if (bitten != null && !bitten.Data.IsDead)
             {
-                Main.PlayerStates[bitten.PlayerId].deathReason = PlayerStateOLD.DeathReason.Bite;
+                TOHPlugin.PlayerStates[bitten.PlayerId].deathReason = PlayerStateOLD.DeathReason.Bite;
                 /*bitten.SetRealKiller(Utils.GetPlayerById(vampireID));*/
                 //Protectは強制的にはがす
                 if (bitten.protectedByGuardian)
@@ -74,8 +74,8 @@ public class ReportDeadBodyPatch
             else
                 Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "はすでに死んでいました。", "ReportDeadBody");
         }
-        Main.BitPlayers = new Dictionary<byte, (byte, float)>();
-        Main.PuppeteerList.Clear();
+        TOHPlugin.BitPlayers = new Dictionary<byte, (byte, float)>();
+        TOHPlugin.PuppeteerList.Clear();
 
         if (__instance.Data.IsDead) return true;
         //=============================================
@@ -84,7 +84,7 @@ public class ReportDeadBodyPatch
 
 
         PlayerControl.AllPlayerControls.ToArray()
-            .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
+            .Where(pc => TOHPlugin.CheckShapeshift.ContainsKey(pc.PlayerId))
             .Do(pc => Camouflage.RpcSetSkin(pc, RevertToDefault: true));
 
         Utils.MarkEveryoneDirtySettings();

@@ -47,11 +47,8 @@ public static class Game
                 bool inBlockList = actionTuple.Item3.MyPlayer != null && CustomRoleManager.RoleBlockedPlayers.Contains(actionTuple.Item3.MyPlayer.PlayerId);
                 if (StaticOptions.logAllActions)
                 {
-                    string logStart = $"[Info   :TownOfHost] [{DateTime.Now:hh:mm:ss}][ActionLog]";
-                    ConsoleManager.SetConsoleColor(ConsoleColor.Cyan);
-                    ConsoleManager.ConsoleStream?.Write($"{logStart}{actionTuple.Item3.MyPlayer.GetNameWithRole()} => {actionTuple.Item2}\n");
-                    ConsoleManager.ConsoleStream?.Write($"{logStart}Parameters: {parameters.PrettyString()} :: Blocked? {actionTuple.Item2.Blockable && inBlockList}\n");
-                    ConsoleManager.SetConsoleColor(ConsoleColor.Gray);
+                    Logger.Blue($"{actionTuple.Item3.MyPlayer.GetNameWithRole()} => {actionTuple.Item2}", "ActionLog");
+                    Logger.Blue($"Parameters: {parameters.PrettyString()} :: Blocked? {actionTuple.Item2.Blockable && inBlockList}", "ActionLog");
                 }
 
                 if (!actionTuple.Item2.Blockable || !inBlockList)

@@ -22,21 +22,21 @@ namespace TownOfHost
             Game.State = GameState.InLobby;
 
             SummaryText = new();
-            foreach (var id in Main.PlayerStates.Keys)
+            foreach (var id in TOHPlugin.PlayerStates.Keys)
                 SummaryText[id] = Utils.SummaryTexts(id, disableColor: false);
             KillLog = GetString("KillLog") + ":";
-            foreach (var kvp in Main.PlayerStates.OrderBy(x => x.Value.RealKiller.Item1.Ticks))
+            foreach (var kvp in TOHPlugin.PlayerStates.OrderBy(x => x.Value.RealKiller.Item1.Ticks))
             {
                 var date = kvp.Value.RealKiller.Item1;
                 if (date == DateTime.MinValue) continue;
                 var killerId = kvp.Value.GetRealKiller();
                 var targetId = kvp.Key;
-                KillLog += $"\n{date.ToString("T")} {Main.AllPlayerNames[targetId]}({Utils.GetDisplayRoleName(targetId)}{Utils.GetSubRolesText(targetId)}) [{Utils.GetVitalText(kvp.Key)}]";
+                KillLog += $"\n{date.ToString("T")} {TOHPlugin.AllPlayerNames[targetId]}({Utils.GetDisplayRoleName(targetId)}{Utils.GetSubRolesText(targetId)}) [{Utils.GetVitalText(kvp.Key)}]";
                 if (killerId != byte.MaxValue && killerId != targetId)
-                    KillLog += $"\n\t\t⇐ {Main.AllPlayerNames[killerId]}({Utils.GetDisplayRoleName(killerId)}{Utils.GetSubRolesText(killerId)})";
+                    KillLog += $"\n\t\t⇐ {TOHPlugin.AllPlayerNames[killerId]}({Utils.GetDisplayRoleName(killerId)}{Utils.GetSubRolesText(killerId)})";
             }
             Logger.Info("-----------ゲーム終了-----------", "Phase");
-            Main.NormalOptions.KillCooldown = OldOptions.DefaultKillCooldown;
+            TOHPlugin.NormalOptions.KillCooldown = OldOptions.DefaultKillCooldown;
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             var winner = new List<PlayerControl>();
@@ -65,13 +65,13 @@ namespace TownOfHost
             }
 
             //単独勝利
-            if (CustomRoleManager.Static.Lovers.IsEnable() && OldOptions.CurrentGameMode == CustomGameMode.Standard && Main.LoversPlayers.Count > 0 && Main.LoversPlayers.ToArray().All(p => !Main.PlayerStates[p.PlayerId].IsDead) //ラバーズが生きていて
+            if (CustomRoleManager.Static.Lovers.IsEnable() && OldOptions.CurrentGameMode == CustomGameMode.Standard && TOHPlugin.LoversPlayers.Count > 0 && TOHPlugin.LoversPlayers.ToArray().All(p => !TOHPlugin.PlayerStates[p.PlayerId].IsDead) //ラバーズが生きていて
             && (CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor || CustomWinnerHolder.WinnerTeam == CustomWinner.Jackal
             || (CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))))   //クルー勝利でタスク勝ちじゃなければ
             { //Loversの単独勝利
                 winner = new();
                 CustomWinnerHolder.WinnerTeam = CustomWinner.Lovers;
-                foreach (var lp in Main.LoversPlayers)
+                foreach (var lp in TOHPlugin.LoversPlayers)
                 {
                     winner.Add(lp);
                 }
@@ -104,7 +104,7 @@ namespace TownOfHost
                 winner = new();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    var role = Main.PlayerStates[pc.PlayerId].MainRole;
+                    var role = TOHPlugin.PlayerStates[pc.PlayerId].MainRole;
                     if (role.GetReduxRole().GetRoleType() == RoleType.Impostor)
                     {
                         if (CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor)
@@ -131,20 +131,20 @@ namespace TownOfHost
                     }
                 }
             }
-            Main.winnerList = new();
+            TOHPlugin.winnerList = new();
             foreach (var pc in winner)
             {
                 if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw && pc.Is(CustomRoles.GM)) continue;
 
                 TempData.winners.Add(new WinningPlayerData(pc.Data));
-                Main.winnerList.Add(pc.PlayerId);
+                TOHPlugin.winnerList.Add(pc.PlayerId);
             }
 
 
-            Main.VisibleTasksCount = false;
+            TOHPlugin.VisibleTasksCount = false;
             if (AmongUsClient.Instance.AmHost)
             {
-                Main.RealOptionsData.Restore(GameOptionsManager.Instance.CurrentGameOptions);
+                TOHPlugin.RealOptionsData.Restore(GameOptionsManager.Instance.CurrentGameOptions);
                 GameOptionsSender.AllSenders.Clear();
                 GameOptionsSender.AllSenders.Add(new NormalGameOptionsSender());
                 /* Send SyncSettings RPC */
@@ -158,7 +158,7 @@ namespace TownOfHost
 
         public static void Postfix(EndGameManager __instance)
         {
-            if (!Main.playerVersion.ContainsKey(0)) return;
+            if (!TOHPlugin.playerVersion.ContainsKey(0)) return;
             //#######################################
             //          ==勝利陣営表示==
             //#######################################
@@ -184,7 +184,7 @@ namespace TownOfHost
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(winnerRole);
                 }*/
             }
-            if (AmongUsClient.Instance.AmHost && Main.PlayerStates[0].MainRole == CustomRoles.GM)
+            if (AmongUsClient.Instance.AmHost && TOHPlugin.PlayerStates[0].MainRole == CustomRoles.GM)
             {
                 __instance.WinText.text = "Game Over";
                 __instance.WinText.color = Utils.GetRoleColor(CustomRoleManager.Static.GM);
@@ -241,8 +241,8 @@ namespace TownOfHost
             RoleSummaryObject.transform.localScale = new Vector3(1f, 1f, 1f);
 
             string RoleSummaryText = $"{GetString("RoleSummaryText")}";
-            List<byte> cloneRoles = new(Main.PlayerStates.Keys);
-            foreach (var id in Main.winnerList)
+            List<byte> cloneRoles = new(TOHPlugin.PlayerStates.Keys);
+            foreach (var id in TOHPlugin.winnerList)
             {
                 RoleSummaryText += $"\n<color={CustomWinnerColor}>★</color> " + EndGamePatch.SummaryText[id];
                 cloneRoles.Remove(id);

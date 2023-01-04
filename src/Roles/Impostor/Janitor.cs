@@ -28,7 +28,7 @@ public class Janitor: Impostor
         foreach (DeadBody deadBody in Object.FindObjectsOfType<DeadBody>())
             if (deadBody.ParentId == target.Object.PlayerId)
             {
-                Main.unreportableBodies.Add(target.PlayerId);
+                TOHPlugin.unreportableBodies.Add(target.PlayerId);
                 Object.Destroy(deadBody.gameObject);
             }
 

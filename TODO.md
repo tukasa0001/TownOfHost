@@ -15,3 +15,4 @@ Minor:
 - [ ] After-game lobby spams "TownOfHost.Extensions.PlayerControlExtensionsRewrite.GetRoleName Invalid Custom Role"
 - [ ] Roles that extend other roles (Blood Knight extending Impostor) show both role's tasks in the "Tasks" panel
 - [ ] Allow removing of "Maximum" setting from roles
+- [ ] Deprecate AsNormalOptions()
