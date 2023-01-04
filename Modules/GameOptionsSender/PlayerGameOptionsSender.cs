@@ -213,7 +213,7 @@ namespace TownOfHost.Modules
 
             opt.SetInt(
                 Int32OptionNames.VotingTime,
-                Mathf.Clamp(Main.VotingTime, TimeThief.LowerLimitVotingTime.GetInt(), 300));
+                Mathf.Clamp(Main.VotingTime, TimeThief.LowerLimitVotingTime.GetInt(), TimeManager.MeetingTimeLimit.GetInt()));
 
             if (Options.AllAliveMeeting.GetBool() && GameData.Instance.AllPlayers.ToArray().Where(x => !x.Object.Is(CustomRoles.GM)).All(x => !x.IsDead))
             {
