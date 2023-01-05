@@ -515,8 +515,6 @@ namespace TownOfHost
                 CustomRoles.Egoist or
                 CustomRoles.Jackal;
         }
-        public static SystemTypes GetRoom(this PlayerControl player) =>
-            ShipStatus.Instance?.AllRooms.FirstOrDefault(r => player.Collider.IsTouching(r.roomArea))?.RoomId ?? default;
         public static bool KnowDeathReason(this PlayerControl seer, PlayerControl target)
             => (seer.Is(CustomRoles.Doctor)
             || (seer.Is(RoleType.Madmate) && Options.MadmateCanSeeDeathReason.GetBool())

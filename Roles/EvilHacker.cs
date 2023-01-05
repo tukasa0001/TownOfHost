@@ -1,7 +1,7 @@
-using HarmonyLib;
-using Hazel;
 using System.Collections.Generic;
 using System.Linq;
+using HarmonyLib;
+using Hazel;
 using static TownOfHost.Options;
 using static TownOfHost.Translator;
 
@@ -51,15 +51,14 @@ namespace TownOfHost
             foreach (var room in ShipStatus.Instance.AllRooms) DeadCount[room.RoomId] = 0;
         }
 
-        public static void OnStartMeeting()
+        public static void OnReportDeadbody()
         {
             if (!AmongUsClient.Instance.AmHost) return;
             // 全生存プレイヤーの位置を取得
             foreach (var room in ShipStatus.Instance.AllRooms) PlayerCount[room.RoomId] = 0;
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllAlivePlayerControls)
             {
-                if (!pc.IsAlive()) continue;
-                var room = pc.GetRoom();
+                var room = Main.PlayerStates[pc.PlayerId].LastRoom?.RoomId ?? default;
                 PlayerCount[room]++;
                 if (CanSeeOtherImp.GetBool() && pc.GetCustomRole().IsImpostor() && !ImpRooms.Contains(room))
                     ImpRooms.Add(room);
@@ -91,7 +90,7 @@ namespace TownOfHost
         }
         public static void OnMurder(PlayerControl killer, PlayerControl target)
         {
-            var room = target.GetRoom();
+            var room = target.GetPlainShipRoom()?.RoomId ?? default;
             DeadCount[room]++;
             if (CanSeeOtherImp.GetBool() && target.GetCustomRole().IsImpostor() && !ImpRooms.Contains(room))
                 ImpRooms.Add(room);

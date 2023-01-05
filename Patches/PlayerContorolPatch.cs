@@ -434,6 +434,7 @@ namespace TownOfHost
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.PuppeteerList.Clear();
             Sniper.OnStartMeeting();
+            EvilHacker.OnReportDeadbody();
 
             if (__instance.Data.IsDead) return true;
             //=============================================

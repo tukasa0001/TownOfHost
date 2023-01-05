@@ -292,7 +292,6 @@ namespace TownOfHost
             Main.AllPlayerControls.Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
             Utils.NotifyRoles(isMeeting: true, NoCache: true);
             MeetingStates.MeetingCalled = true;
-            EvilHacker.OnStartMeeting();
         }
         public static void Postfix(MeetingHud __instance)
         {
