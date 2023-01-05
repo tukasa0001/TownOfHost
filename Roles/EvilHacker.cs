@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using HarmonyLib;
 using Hazel;
 using static TownOfHost.Options;
@@ -21,7 +22,7 @@ namespace TownOfHost
         public static Dictionary<SystemTypes, int> DeadCount = new();
         public static List<SystemTypes> ImpRooms = new();
         // (キルしたインポスター, 殺害現場の部屋)
-        public static List<(PlayerControl, SystemTypes)> KillersAndRooms = new();
+        public static List<(PlayerControl killer, SystemTypes room)> KillersAndRooms = new();
 
         public static void SetupCustomOption()
         {
@@ -66,24 +67,23 @@ namespace TownOfHost
             PlayerCount.Remove(SystemTypes.Hallway);
             DeadCount.Remove(SystemTypes.Hallway);
             // 送信するメッセージを生成
-            string message = "";
+            StringBuilder messageBuilder = new();
             foreach (var kvp in PlayerCount)
             {
-                if (ImpRooms.Contains(kvp.Key)) message += '★';
-                var roomName = DestroyableSingleton<TranslationController>.Instance.GetString(kvp.Key);
-                if (CanSeeDeadPos.GetBool())
-                {
-                    message = $"{message}{roomName}: {kvp.Value + DeadCount[kvp.Key]}";
-                    message += DeadCount[kvp.Key] > 0 ? $"({GetString("Deadbody")}\u00d7{DeadCount[kvp.Key]})\n" : '\n';
-                }
-                else
-                {
-                    message = $"{message}{roomName}: {kvp.Value + DeadCount[kvp.Key]}\n";
-                }
+                var roomName = kvp.Key.GetRoomName();
+                if (ImpRooms.Contains(kvp.Key)) messageBuilder.Append("★");
+                messageBuilder.AppendFormat("{0}: {1}", roomName, kvp.Value + DeadCount[kvp.Key]);
+                if (DeadCount[kvp.Key] > 0 && CanSeeDeadPos.GetBool())
+                    messageBuilder.AppendFormat("({0}\u00d7{1})", GetString("Deadbody"), DeadCount[kvp.Key]);
+                messageBuilder.AppendLine();
             }
             // 生存イビルハッカーに送信
-            var aliveEvilHackerIds = playerIdList.Where(x => Utils.GetPlayerById(x).IsAlive()).ToArray();
-            aliveEvilHackerIds.Do(id => Utils.SendMessage(message, id, Utils.ColorString(Palette.AcceptedGreen, $"{GetString("Message.LastAdminInfo")}")));
+            var aliveEvilHackerIds = playerIdList.Where(player => Utils.GetPlayerById(player).IsAlive()).ToArray();
+            var message = messageBuilder.ToString();
+            aliveEvilHackerIds.Do(id => Utils.SendMessage(
+                message,
+                id,
+                Utils.ColorString(Palette.AcceptedGreen, $"{GetString("Message.LastAdminInfo")}")));
 
             InitDeadCount();
             ImpRooms = new();
@@ -124,8 +124,8 @@ namespace TownOfHost
             writer.Write(KillersAndRooms.Count);
             KillersAndRooms.ForEach(tuple =>
             {
-                writer.Write(tuple.Item1.PlayerId);
-                writer.Write((byte)tuple.Item2);
+                writer.Write(tuple.killer.PlayerId);
+                writer.Write((byte)tuple.room);
             });
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
@@ -143,8 +143,8 @@ namespace TownOfHost
         {
             if (!seer.IsAlive()) return "";
             var roomNames = from tuple in KillersAndRooms
-                            where tuple.Item1 != seer  // 自身がキルしたものは除外
-                            select DestroyableSingleton<TranslationController>.Instance.GetString(tuple.Item2);
+                            where tuple.killer != seer  // 自身がキルしたものは除外
+                            select tuple.room.GetRoomName();
             if (roomNames.Count() < 1) return "";
             return $"{GetString("EvilHackerMurderOccurred")}: {string.Join(", ", roomNames)}";
         }
