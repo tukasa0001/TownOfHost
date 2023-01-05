@@ -10,6 +10,11 @@
 - [ ] First round of testing after implementing all roles
 - [ ] Cleanup old/unused code
 
+- [ ] Implement Custom Gamemode Support
+- [ ] Allow for gamemodes across addons
+- [ ] Gamemodes should also be able to change option tabs
+
+
 Minor:
 - [ ] Dynamic Name renders for a brief period before the Intro cutscene starts
 - [ ] After-game lobby spams "TownOfHost.Extensions.PlayerControlExtensionsRewrite.GetRoleName Invalid Custom Role"
