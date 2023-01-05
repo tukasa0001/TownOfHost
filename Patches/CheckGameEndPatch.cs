@@ -41,6 +41,8 @@ namespace TownOfHost
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
                     case CustomWinner.Impostor:
+                        if (Main.AllAlivePlayerControls.Count(p => p.Is(RoleType.Impostor)) == 0 && Main.AllAlivePlayerControls.Count(p => p.Is(CustomRoles.Egoist)) > 0) //インポスター全滅でエゴイストが生存
+                            goto case CustomWinner.Egoist;
                         Main.AllPlayerControls
                             .Where(pc => (pc.Is(RoleType.Impostor) || pc.Is(RoleType.Madmate)) && !pc.Is(CustomRoles.Lovers))
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
