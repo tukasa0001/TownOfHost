@@ -38,7 +38,7 @@ public class AddonInfo: RpcSendable<AddonInfo>
         return new AddonInfo
         {
             UUID = addon.UUID,
-            AssemblyName = addon.bundledAssembly.FullName,
+            AssemblyName = addon.bundledAssembly.GetName().Name,
             Name = addon.AddonName(),
             Version = addon.AddonVersion()
         };
@@ -58,6 +58,8 @@ public class AddonInfo: RpcSendable<AddonInfo>
         if (obj is not AddonInfo addon) return false;
         return addon.UUID == UUID;
     }
+
+    public override string ToString() => $"AddonInfo({Name}:{Version} (UUID: {UUID}))";
 
     public override int GetHashCode() => UUID.GetHashCode();
 }

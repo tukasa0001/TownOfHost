@@ -87,13 +87,15 @@ namespace TownOfHost
             }
         }
 
-        public static void Blue(string message, string tag)
+        public static void Color(string message, string tag, ConsoleColor color)
         {
             string logStart = $"[Info   :TownOfHost] [{DateTime.Now:hh:mm:ss}][{tag}]";
-            ConsoleManager.SetConsoleColor(ConsoleColor.Cyan);
+            ConsoleManager.SetConsoleColor(color);
             ConsoleManager.ConsoleStream?.Write($"{logStart}{message}\n");
             ConsoleManager.SetConsoleColor(ConsoleColor.Gray);
         }
+
+        public static void Blue(string message, string tag) => Logger.Color(message, tag, ConsoleColor.Cyan);
 
         public static void Info(string text, string tag, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
             SendToFile(text, LogLevel.Info, tag, lineNumber, fileName);

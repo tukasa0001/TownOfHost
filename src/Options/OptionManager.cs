@@ -4,25 +4,18 @@ using System.Linq;
 using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
-using TownOfHost.Extensions;
 using TownOfHost.Interface.Menus;
 
 namespace TownOfHost.ReduxOptions;
 
 public class OptionManager
 {
-
-    /*public static OptionPage CrewmatePage = new("Crewmate Options");
-    public static OptionPage ImpostorPage = new("Impostor Options");
-    public static OptionPage NeutralPage = new("Neutral Options");
-    public static OptionPage NeutEvilPage = new("Neutral Evil Options");*/
-
     public List<GameOptionTab> Tabs = new();
     private List<OptionHolder> options = new();
     public List<OptionHolder> AllHolders = new();
+    public List<OptionHolder> receivedOptions;
     public ConfigFile GeneralConfig;
     public List<ConfigFile> Presets = new();
-    //public List<OptionPage> Pages = new();
 
     private Dictionary<object, OptionValueHolder> OptionBindings = new();
     private int fileIndex;
@@ -36,11 +29,6 @@ public class OptionManager
         if (Presets.Count != 0) return;
         for (int i = 0; i < 4; i++)
             Presets.Add(CreatePreset());
-
-        /*Pages.Add(ImpostorPage);
-        Pages.Add(CrewmatePage);
-        Pages.Add(NeutralPage);
-        Pages.Add(NeutEvilPage);*/
     }
 
     public ConfigFile incrementPreset() => fileIndex + 1 < Presets.Count ? Presets[++fileIndex] : Presets[fileIndex = 0];
@@ -54,7 +42,9 @@ public class OptionManager
         OptionBindings.Add(key, value);
     }
 
-    public IEnumerable<OptionHolder> Options() => this.options;
+    public List<OptionHolder> Options() => this.options;
+
+    public List<OptionHolder> PreviewOptions() => AmongUsClient.Instance.AmHost ? this.options : this.receivedOptions ?? this.options;
 
     public void Add(OptionHolder holder)
     {

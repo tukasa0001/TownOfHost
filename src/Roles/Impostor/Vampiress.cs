@@ -1,11 +1,5 @@
-using TownOfHost.Factions;
 using TownOfHost.ReduxOptions;
-using UnityEngine;
 using TownOfHost.Extensions;
-using TownOfHost.RPC;
-using TownOfHost.Options;
-using System.Collections.Generic;
-using System.Linq;
 using TownOfHost.Interface;
 using TownOfHost.Interface.Menus.CustomNameMenu;
 using TownOfHost.Managers;
@@ -19,32 +13,28 @@ public class Vampiress : Impostor
 
     protected override void Setup(PlayerControl player) => Pet.Guarantee(player);
 
+    [DynElement(UI.Misc)]
+    private string CurrentMode() => Mode == VampireMode.Biting ? RoleColor.Colorize("(Bite)") : RoleColor.Colorize("(Kill)");
+
     [RoleAction(RoleActionType.AttemptKill)]
     public new bool TryKill(PlayerControl target)
     {
         InteractionResult result = CheckInteractions(target.GetCustomRole(), target);
         if (result is InteractionResult.Halt) return false;
-        bool canKillTarget = target.GetCustomRole().CanBeKilled();
+        if (Mode is VampireMode.Killing) return RoleUtils.RoleCheckedMurder(MyPlayer, target);
 
-        if (!canKillTarget) return false;
-        switch (Mode)
-        {
-            case VampireMode.Biting:
-                MyPlayer.RpcGuardAndKill(MyPlayer);
-                DTask.Schedule(() => target.RpcMurderPlayer(target), killDelay);
-                break;
-            case VampireMode.Killing:
-                MyPlayer.RpcMurderPlayer(target);
-                break;
-        }
-        return canKillTarget;
+        MyPlayer.RpcGuardAndKill(MyPlayer);
+        DTask.Schedule(() => RoleUtils.RoleCheckedMurder(target, target), killDelay);
+
+        return true;
     }
 
-    [DynElement(UI.Misc)]
-    private string CurrentMode() => Mode == VampireMode.Biting ? RoleColor.Colorize("(Bite)") : RoleColor.Colorize("(Kill)");
-
     [RoleAction(RoleActionType.RoundStart)]
-    private void EnterKillMode() => Mode = VampireMode.Killing;
+    private void EnterKillMode()
+    {
+        Logger.Blue("Round Started", "Round Start");
+        Mode = VampireMode.Killing;
+    }
 
     [RoleAction(RoleActionType.OnPet)]
     public void SwitchMode()

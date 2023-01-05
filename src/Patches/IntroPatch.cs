@@ -88,7 +88,7 @@ namespace TownOfHost
         public static void Postfix()
         {
             ActionHandle handle = ActionHandle.NoInit();
-            Game.TriggerForAll(RoleActionType.RoundStart, ref handle, false);
+            Game.TriggerForAll(RoleActionType.RoundStart, ref handle, true);
         }
     }
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]

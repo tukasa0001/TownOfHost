@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using HarmonyLib;
 using Hazel;
 using TownOfHost.Extensions;
 using TownOfHost.Roles;
-using UnityEngine;
 
 namespace TownOfHost.Patches;
 
@@ -13,14 +11,13 @@ class LocalPetPatch
 {
     public static bool Prefix(PlayerControl __instance)
     {
-        if (!(AmongUsClient.Instance.AmHost && AmongUsClient.Instance.AmClient)) return false;
+        if (!(AmongUsClient.Instance.AmHost)) return true;
         ExternalRpcPetPatch.Prefix(__instance.MyPhysics, 51, new MessageReader());
         return false;
     }
 
     public static void Postfix(PlayerControl __instance)
     {
-        if (!(AmongUsClient.Instance.AmHost && AmongUsClient.Instance.AmClient)) return;
         __instance.MyPhysics.CancelPet();
         __instance.petting = false;
     }

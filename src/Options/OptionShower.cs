@@ -12,10 +12,7 @@ namespace TownOfHost
     {
         public static int currentPage = 0;
         public static List<string> pages = new();
-        static OptionShower()
-        {
 
-        }
         public static string GetText()
         {
             //初期化
@@ -31,34 +28,46 @@ namespace TownOfHost
             //Standardの時のみ実行
             if (OldOptions.CurrentGameMode == CustomGameMode.Standard)
             {
-                //有効な役職一覧
-                /*text += $"<color={CustomRoleManager.Static.GM.RoleColor}>{CustomRoleManager.Static.GM.RoleName}:</color> {OldOptions.EnableGM.GetString()}\n\n";*/
                 text += GetString("ActiveRolesList") + "\n";
                 foreach (CustomRole role in CustomRoleManager.Roles)
                 {
-                    if (role.Chance > 0 && role.Count > 0)
-                        text += $"{role.RoleColor.Colorize(role.RoleName)}: {role.Chance}%×{role.Count}\n";
+                    OptionHolder matchingHolder = TOHPlugin.OptionManager.PreviewOptions().FirstOrDefault(h => h.Name == role.RoleName);
+                    string chance = role.Chance + "%";
+                    string count = role.Count.ToString();
+
+                    if (matchingHolder?.Pseudo ?? false)
+                    {
+                        chance = matchingHolder.GetAsString();
+                        count = matchingHolder.SubOptions[0].GetAsString();
+                    }
+
+                    if (chance != "0%" && count != "0")
+                        text += $"{role.RoleColor.Colorize(role.RoleName)}: {chance}×{count}\n";
                 }
 
-                /*foreach (var kvp in OldOptions.CustomRoleSpawnChances)
-                        if (kvp.Value.GameMode is CustomGameMode.Standard or CustomGameMode.All && kvp.Value.GetBool()) //スタンダードか全てのゲームモードで表示する役職
-                            text += $"{Utils.ColorString(kvp.Key.GetReduxRole().RoleColor, kvp.Key.GetReduxRole().RoleName)}: {kvp.Value.GetString()}×{kvp.Key.GetReduxRole().Count}\n";*/
                 pages.Add(text + "\n\n");
                 text = "";
             }
             //有効な役職と詳細設定一覧
             pages.Add("");
-            // nameAndValue(OldOptions.EnableGM);
             text += $"{CustomRoleManager.Static.GM.RoleColor.Colorize("GM")}: {Utils.GetOnOffColored(StaticOptions.EnableGM)}\n";
             HashSet<OptionHolder> roleHolders = new();
             foreach (CustomRole role in CustomRoleManager.Roles)
             {
-                OptionHolder matchingHolder = TOHPlugin.OptionManager.Options().FirstOrDefault(h => h.Name == role.RoleName);
+                string chance = role.Chance + "%";
+                string count = role.Count.ToString();
+                OptionHolder matchingHolder = TOHPlugin.OptionManager.PreviewOptions().FirstOrDefault(h => h.Name == role.RoleName);
                 if (matchingHolder != null) roleHolders.Add(matchingHolder);
 
-                if (!role.IsEnable() || role is GM) continue;
+                if (matchingHolder?.Pseudo ?? false)
+                {
+                    if (matchingHolder.GetAsString() == "0%") continue;
+                    chance = matchingHolder.GetAsString();
+                    count = matchingHolder.SubOptions[0].GetAsString();
+                }
+                else if (!role.IsEnable() || role is GM) continue;
                 text += "\n";
-                text += $"{role.RoleColor.Colorize(role.RoleName)}: {role.Chance}%×{role.Count}\n";
+                text += $"{role.RoleColor.Colorize(role.RoleName)}: {chance}×{count}\n";
 
                 if (matchingHolder != null)
                     ShowChildren(matchingHolder, ref text, role.RoleColor.ShadeColor(-0.5f), 1);
@@ -83,7 +92,7 @@ namespace TownOfHost
                     }*/
             }
 
-            foreach (OptionHolder holder in TOHPlugin.OptionManager.Options().Where(o => !roleHolders.Contains(o)))
+            foreach (OptionHolder holder in TOHPlugin.OptionManager.PreviewOptions().Where(o => !roleHolders.Contains(o)))
             {
                 if (holder.Name == "GM") continue;
                 if (holder.IsHeader) text += "\n";

@@ -5,6 +5,9 @@ using System.Reflection;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using MonoMod.RuntimeDetour;
+using TownOfHost;
+using TownOfHost.Extensions;
+using TownOfHost.RPC;
 
 namespace VentFramework;
 
@@ -52,12 +55,12 @@ public class ModRPC : Attribute
                 continue;
             }
 
+            var type = declaringType;
             attribute.instanceSupplier = () =>
             {
                 if (method.IsStatic) return null;
-                if (!IRpcInstance.Instances.TryGetValue(declaringType, out IRpcInstance instance))
-                    throw new NullReferenceException(
-                        $"Cannot invoke non-static method because IRpcInstance.EnableInstance() was never called for {declaringType}");
+                if (!IRpcInstance.Instances.TryGetValue(type, out IRpcInstance instance))
+                    throw new NullReferenceException($"Cannot invoke non-static method because IRpcInstance.EnableInstance() was never called for {type}");
                 return instance;
             };
 
@@ -76,6 +79,9 @@ public class ModRPC : Attribute
 
     public void InvokeTrampoline(object[] args)
     {
+        if (DebugConstants.LogTrampoline)
+            TownOfHost.Logger.Info($"Calling trampoline \"{this.trampoline.FullDescription()}\" with args: {args.PrettyString()}", "RPCTrampoline");
+
         trampoline.Invoke(instanceSupplier(), args);
     }
 

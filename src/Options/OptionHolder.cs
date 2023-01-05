@@ -2,17 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using Hazel;
+using Reactor.Networking;
 using TownOfHost.Extensions;
 using TownOfHost.Interface.Menus;
 using UnityEngine;
+using VentFramework;
 using Object = UnityEngine.Object;
 
 namespace TownOfHost.ReduxOptions;
 
-public class OptionHolder
+public class OptionHolder: RpcSendable<OptionHolder>
 {
     public string Name;
-    public string Header;
     public StringOption Behaviour;
     public Color? color;
     public GameOptionTab Tab { get => _tab;
@@ -28,13 +30,16 @@ public class OptionHolder
     public List<OptionHolder> SubOptions { get => _subOptions; init => _subOptions = value; }
     public Func<object, bool> ShowOptionPredicate { private get => _showOptionPredicate; init => _showOptionPredicate = value; }
     public int Level;
+    public bool Pseudo { get; private init; }
 
     private GameOptionTab _tab;
     private readonly OptionValueHolder _valueHolder;
     private readonly List<OptionHolder> _subOptions = new();
     private readonly Func<object, bool> _showOptionPredicate;
+    private string pseudoValue;
+    private bool pseudoPredicate;
 
-    public string GetAsString(int index = -1) => this.valueHolder == null ? "N/A" : this.valueHolder.GetAsString(index);
+    public string GetAsString(int index = -1) => !Pseudo ? this.valueHolder == null ? "N/A" : this.valueHolder.GetAsString(index) : pseudoValue;
     public object GetValue(int index = -1) => this.valueHolder.GetValue(index);
     public T GetValue<T>(int index = -1) => this.valueHolder.GetValue<T>(index);
 
@@ -75,7 +80,7 @@ public class OptionHolder
         return behaviours;
     }
 
-    public bool MatchesPredicate() => ShowOptionPredicate != null && ShowOptionPredicate.Invoke(GetValue());
+    public bool MatchesPredicate() => pseudoPredicate || ShowOptionPredicate != null && ShowOptionPredicate.Invoke(GetValue());
 
     public List<OptionHolder> EnabledOptions(bool forceShow = false)
     {
@@ -92,7 +97,34 @@ public class OptionHolder
         return holders;
     }
 
-    public override string ToString() => $"OptionsHolder({Name}: {valueHolder.GetAsString()} => {SubOptions.PrettyString()})";
+    public override string ToString() => $"OptionsHolder({Name}: {GetAsString()} => {SubOptions.PrettyString()})";
+
+    public override OptionHolder Read(MessageReader reader)
+    {
+        OptionHolder pseudoHolder = new()
+        {
+            Pseudo = true,
+            Name = reader.ReadString(),
+            pseudoValue = reader.ReadString(),
+            IsHeader = reader.ReadBoolean(),
+            color = reader.ReadString().ToColor(),
+            Level = reader.ReadInt32(),
+            pseudoPredicate = reader.ReadBoolean()
+        };
+        pseudoHolder._subOptions.AddRange(reader.ReadList<OptionHolder>());
+        return pseudoHolder;
+    }
+
+    public override void Write(MessageWriter writer)
+    {
+        writer.Write(Name);
+        writer.Write(GetAsString());
+        writer.Write(IsHeader);
+        writer.Write((color ?? Color.white).ToHex() );
+        writer.Write(Level);
+        writer.Write(MatchesPredicate());
+        writer.WriteList(_subOptions);
+    }
 }
  public class SmartOptionBuilder
     {
@@ -248,12 +280,6 @@ public class OptionHolder
             return this;
         }
 
-        /*public SmartOptionBuilder Page(OptionPage page)
-        {
-            this.page = page;
-            return this;
-        }*/
-
         public OptionHolder Build(bool createHeaderIfNull = true)
         {
             this.header ??= (!createHeaderIfNull ? this.header : (this.name + "Options"));
@@ -265,7 +291,6 @@ public class OptionHolder
             return new OptionHolder
             {
                 Name = this.name,
-                Header = this.header,
                 Tab = this.tab,
                 color =  this.color,
                 IsHeader = this.isHeader,

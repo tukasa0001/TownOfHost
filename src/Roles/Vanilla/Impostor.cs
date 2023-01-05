@@ -23,12 +23,7 @@ public class Impostor : CustomRole
     public virtual bool TryKill(PlayerControl target)
     {
         InteractionResult result = CheckInteractions(target.GetCustomRole(), target);
-        if (result == InteractionResult.Halt) return false;
-
-        bool canKillTarget = target.GetCustomRole().CanBeKilled();
-        if (canKillTarget)
-            MyPlayer.RpcMurderPlayer(target);
-        return canKillTarget;
+        return result != InteractionResult.Halt && RoleUtils.RoleCheckedMurder(MyPlayer, target);
     }
 
     [RoleInteraction(typeof(Veteran))]

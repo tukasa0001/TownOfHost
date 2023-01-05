@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using TownOfHost.Extensions;
 using TownOfHost.Factions;
 
 namespace TownOfHost.Addons;
@@ -14,7 +15,7 @@ public abstract class TOHAddon
 
     public TOHAddon()
     {
-        UUID = ((ulong)(bundledAssembly.GetHashCode() + AddonName().GetHashCode())) + long.MaxValue;
+        UUID = (bundledAssembly?.GetIdentity(false)?.SemiConsistentHash() ?? 0ul + AddonName().SemiConsistentHash());
     }
 
     internal string GetName(bool fullName = false) => !fullName

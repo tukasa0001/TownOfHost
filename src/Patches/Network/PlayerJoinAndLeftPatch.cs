@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
@@ -7,6 +8,7 @@ using TownOfHost.Extensions;
 using static TownOfHost.Translator;
 using TownOfHost.Roles;
 using TownOfHost.ReduxOptions;
+using TownOfHost.RPC;
 
 namespace TownOfHost
 {
@@ -41,6 +43,7 @@ namespace TownOfHost
             BanManager.CheckDenyNamePlayer(client);
             TOHPlugin.playerVersion = new Dictionary<byte, PlayerVersion>();
             OldRPC.RpcVersionCheck();
+            DTask.Schedule(() => HostRpc.RpcSendOptions(TOHPlugin.OptionManager.Options()), 0.5f);
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]

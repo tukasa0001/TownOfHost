@@ -35,6 +35,7 @@ public class AddonManager
             if (tohType == null)
                 throw new ConstraintException("TownOfHost Addons requires ONE class file that extends TOHAddon");
             TOHAddon addon = (TOHAddon)tohType.GetConstructor(new Type[] { })!.Invoke(null);
+            Logger.Color($"Loading Addon [{addon.AddonName()} {addon.AddonVersion()}]", "AddonManager", ConsoleColor.Magenta);
             Addons.Add(addon);
             MethodInfo initialize = tohType.GetMethod("Initialize");
             initialize!.Invoke(addon, null);
@@ -45,6 +46,7 @@ public class AddonManager
                 CustomRole role = (CustomRole)r.GetConstructor(new Type[] { })!.Invoke(null);
                 CustomRoleManager.AddRole(role);
             });
+
         }
         catch (Exception e)
         {
@@ -56,6 +58,7 @@ public class AddonManager
     public static void VerifyClientAddons(List<AddonInfo> addons)
     {
         List<AddonInfo> hostInfo = Addons.Select(AddonInfo.From).ToList();
+
         List<AddonInfo> mismatchInfo = hostInfo.Select(hostAddon =>
         {
             AddonInfo matchingAddon = addons.FirstOrDefault(a => a == hostAddon);
@@ -79,7 +82,7 @@ public class AddonManager
                 return clientAddon;
             }));
 
-        VerifyClientAddons(mismatchInfo.Where(addon => addon.Mismatches is not Mismatch.None).ToList());
+        VerifyClientAddons(mismatchInfo.DistinctBy(addon => addon.Name).Where(addon => addon.Mismatches is not Mismatch.None).ToList());
     }
 
     [ModRPC((uint)ModCalls.VerifyAddons, RpcActors.None, RpcActors.NonHosts)]
@@ -90,8 +93,8 @@ public class AddonManager
         Logger.Error(" -=-=-=-=-=-=-=-=-=[Errored Addons]=-=-=-=-=-=-=-=-=-", "VerifyAddons");
         foreach (var rejectReason in addons.Select(addonInfo => (addonInfo.Mismatches)
              switch {
-                 Mismatch.Version => $" {addonInfo.Name}:$”{addonInfo.Version} => Local version is not compatible with the host’s version of the addon",
-                 Mismatch.ClientMissingAddon => $" {addonInfo.Name}:{addonInfo.Version} => Missing Addon ",
+                 Mismatch.Version => $" {addonInfo.Name}:{addonInfo.Version} => Local version is not compatible with the host version of the addon",
+                 Mismatch.ClientMissingAddon => $" {addonInfo.Name}:{addonInfo.Version} => Client Missing Addon ",
                  Mismatch.HostMissingAddon => $" {addonInfo.Name}:{addonInfo.Version} => Host Missing Addon ",
                  _ => throw new ArgumentOutOfRangeException()
              }))

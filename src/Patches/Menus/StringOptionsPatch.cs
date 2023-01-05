@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
+using TownOfHost.RPC;
 
 namespace TownOfHost.Patches.Menus;
 
@@ -31,6 +32,7 @@ public class StringOptionIncreasePatch
 
         option?.Increment();
         __instance.ValueText.text = option?.GetAsString() ?? "N/A";
+        HostRpc.RpcSendOptions(TOHPlugin.OptionManager.Options());
 
 
         return false;
@@ -47,6 +49,7 @@ public class StringOptionDecreasePatch
 
         option?.Decrement();
         __instance.ValueText.text = option?.GetAsString() ?? "N/A";
+        HostRpc.RpcSendOptions(TOHPlugin.OptionManager.Options());
 
         return false;
     }

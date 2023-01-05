@@ -67,4 +67,13 @@ public class RoleUtils
         color ??= new Color(0.92f, 0.77f, 0.22f);
         return Color.white.Colorize("(" + color.Value.Colorize($"{numerator}/{denominator}") + ")");
     }
+
+    public static bool RoleCheckedMurder(PlayerControl killer, PlayerControl target)
+    {
+        if (!target.IsAlive()) return false;
+        if (!target.GetCustomRole().CanBeKilled()) return false;
+        killer.GetCustomRole().SyncOptions();
+        killer.RpcMurderPlayer(target);
+        return true;
+    }
 }

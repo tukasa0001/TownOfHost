@@ -12,4 +12,17 @@ public static class StringExtension
     }
 
     public static string RemoveColorTags(this string str) => Regex.Replace(str, "<[^size>]*?>", "");
+
+
+    public static ulong SemiConsistentHash(this object obj)
+    {
+        string read = obj.ToString() ?? "null";
+        ulong hashedValue = 3074457345618258791ul;
+        foreach (var ch in read)
+        {
+            hashedValue += ch;
+            hashedValue *= 3074457345618258799ul;
+        }
+        return hashedValue;
+    }
 }
