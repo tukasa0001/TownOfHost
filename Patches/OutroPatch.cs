@@ -154,6 +154,9 @@ namespace TownOfHost
                 case CustomWinner.Terrorist:
                     __instance.Foreground.material.color = Color.red;
                     break;
+                case CustomWinner.Lovers:
+                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(CustomRoles.Lovers);
+                    break;
                 //引き分け処理
                 case CustomWinner.Draw:
                     __instance.WinText.text = GetString("ForceEnd");
