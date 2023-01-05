@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Hazel;
 using UnityEngine;
-using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -69,14 +68,14 @@ namespace TownOfHost
             {//ターゲットをキルした場合
                 Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
                 Main.AllPlayerKillCooldown[killer.PlayerId] = SuccessKillCooldown.GetFloat();
-                killer.MarkDirtySettings();//キルクール処理を同期
+                killer.SyncSettings();//キルクール処理を同期
                 ResetTarget(killer);
             }
             else
             {
                 Logger.Info($"{killer?.Data?.PlayerName}:ターゲット以外をキル", "BountyHunter");
                 Main.AllPlayerKillCooldown[killer.PlayerId] = FailureKillCooldown.GetFloat();
-                killer.MarkDirtySettings();//キルクール処理を同期
+                killer.SyncSettings();//キルクール処理を同期
             }
         }
         public static void OnReportDeadBody()
@@ -130,10 +129,10 @@ namespace TownOfHost
             player.RpcResetAbilityCooldown(); ;//タイマー（変身クールダウン）のリセットと
 
             List<PlayerControl> cTargets = new();
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllAlivePlayerControls)
             {
-                // 死者/切断者/インポスターを除外
-                if (pc.IsAlive() && !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Egoist))
+                // インポスターを除外
+                if (!pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Egoist))
                     cTargets.Add(pc);
             }
             if (cTargets.Count >= 2 && Targets.TryGetValue(player.PlayerId, out var p)) cTargets.RemoveAll(x => x.PlayerId == p.PlayerId); //前回のターゲットは除外

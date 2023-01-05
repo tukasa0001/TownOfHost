@@ -1,8 +1,8 @@
 using System.Globalization;
 using HarmonyLib;
-using UnityEngine;
 using InnerNet;
 using TownOfHost.Modules;
+using UnityEngine;
 using static TownOfHost.Translator;
 
 namespace TownOfHost

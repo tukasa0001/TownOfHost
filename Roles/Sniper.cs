@@ -123,10 +123,10 @@ namespace TownOfHost
             //至近距離で外す対策に一歩後ろから判定を開始する
             snipePos -= dir;
 
-            foreach (var target in PlayerControl.AllPlayerControls)
+            foreach (var target in Main.AllAlivePlayerControls)
             {
-                //死者や自分には当たらない
-                if (!target.IsAlive() || target.PlayerId == sniper.PlayerId) continue;
+                //自分には当たらない
+                if (target.PlayerId == sniper.PlayerId) continue;
                 //死んでいない対象の方角ベクトル作成
                 var target_pos = target.transform.position - snipePos;
                 //自分より後ろの場合はあたらない
