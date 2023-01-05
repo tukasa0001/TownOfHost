@@ -1,6 +1,6 @@
 namespace TownOfHost.Roles;
 
-public class LastImpostor : Impostor
+public class LastImpostor : Subrole
 {
     protected override RoleModifier Modify(RoleModifier roleModifier)
     {
