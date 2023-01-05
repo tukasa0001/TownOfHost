@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Hazel;
 using AmongUs.GameOptions;
+using Hazel;
 
 namespace TownOfHost
 {
@@ -29,7 +29,7 @@ namespace TownOfHost
             {
                 int numImpostors = 0;
                 int numCrewmates = 0;
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                foreach (var pc in Main.AllPlayerControls)
                 {
                     if (pc.Data.Role.IsImpostor) numImpostors++;
                     else numCrewmates++;
@@ -123,7 +123,7 @@ namespace TownOfHost
             catch (Exception ex)
             {
                 Logger.Warn("AntiBlackout.TempRestore内で例外が発生しました", "AntiBlackout");
-                Logger.Error(ex.ToString(), "AntiBlackout.TempRestore");
+                Logger.Exception(ex, "AntiBlackout.TempRestore");
             }
             finally
             {

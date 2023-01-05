@@ -47,7 +47,7 @@ namespace TownOfHost
             if (frame != 0) return;
 
             if (!DoDisable) return;
-            foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllPlayerControls)
             {
                 try
                 {
@@ -119,7 +119,7 @@ namespace TownOfHost
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(ex.ToString(), "DisableDevice");
+                    Logger.Exception(ex, "DisableDevice");
                 }
             }
         }

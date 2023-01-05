@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Text;
 using HarmonyLib;
 using Hazel;
-using UnityEngine;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -155,9 +154,7 @@ namespace TownOfHost
             if (!IsSpelled(target.PlayerId))
             {
                 //キルクールの適正化
-                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
-                killer.MarkDirtySettings();
-                killer.RpcGuardAndKill(target);
+                killer.SetKillCooldown();
 
                 SpelledPlayer[killer.PlayerId].Add(target.PlayerId);
                 SendRPC(true, killer.PlayerId, target.PlayerId);

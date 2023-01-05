@@ -79,12 +79,12 @@ namespace TownOfHost
                 CustomRoles.CSchrodingerCat,
                 CustomRoles.MSchrodingerCat
             };
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllAlivePlayerControls)
             {
-                if (pc.Is(CustomRoles.Egoist) && !pc.Data.IsDead && Rand.Contains(CustomRoles.EgoSchrodingerCat))
+                if (pc.Is(CustomRoles.Egoist) && !Rand.Contains(CustomRoles.EgoSchrodingerCat))
                     Rand.Add(CustomRoles.EgoSchrodingerCat);
 
-                if (pc.Is(CustomRoles.Jackal) && !pc.Data.IsDead && Rand.Contains(CustomRoles.JSchrodingerCat))
+                if (pc.Is(CustomRoles.Jackal) && !Rand.Contains(CustomRoles.JSchrodingerCat))
                     Rand.Add(CustomRoles.JSchrodingerCat);
             }
             var Role = Rand[rand.Next(Rand.Count)];

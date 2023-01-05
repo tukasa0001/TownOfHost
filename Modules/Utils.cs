@@ -8,9 +8,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AmongUs.Data;
 using AmongUs.GameOptions;
-using UnityEngine;
-using UnhollowerBaseLib;
 using TownOfHost.Modules;
+using UnhollowerBaseLib;
+using UnityEngine;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -104,7 +104,7 @@ namespace TownOfHost
         public static void TargetDies(PlayerControl killer, PlayerControl target)
         {
             if (!target.Data.IsDead || GameStates.IsMeeting) return;
-            foreach (var seer in PlayerControl.AllPlayerControls)
+            foreach (var seer in Main.AllPlayerControls)
             {
                 if (!KillFlashCheck(killer, target, seer)) continue;
                 seer.KillFlash();
@@ -498,7 +498,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.IsGameStarted)
             {
-                SendMessage(GetString("CantUse.lastroles"), PlayerId);
+                SendMessage(GetString("CantUse.lastresult"), PlayerId);
                 return;
             }
             var text = GetString("LastResult") + ":";
@@ -529,7 +529,7 @@ namespace TownOfHost
                             CustomRoles.LastImpostor) continue;
 
                 var RoleText = disableColor ? GetRoleName(role) : ColorString(GetRoleColor(role), GetRoleName(role));
-                sb.Append($"</color> + {RoleText}");
+                sb.Append($"{ColorString(Color.white, " + ")}{RoleText}");
             }
 
             return sb.ToString();
@@ -557,7 +557,7 @@ namespace TownOfHost
             var taskState = GetPlayerById(Terrorist.PlayerId).GetPlayerTaskState();
             if (taskState.IsTaskFinished && (!Main.PlayerStates[Terrorist.PlayerId].IsSuicide() || Options.CanTerroristSuicideWin.GetBool())) //タスクが完了で（自殺じゃない OR 自殺勝ちが許可）されていれば
             {
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                foreach (var pc in Main.AllPlayerControls)
                 {
                     if (pc.Is(CustomRoles.Terrorist))
                     {
@@ -630,14 +630,14 @@ namespace TownOfHost
         }
         public static PlayerControl GetPlayerById(int PlayerId)
         {
-            return PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
+            return Main.AllPlayerControls.Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
         }
         public static GameData.PlayerInfo GetPlayerInfoById(int PlayerId) =>
             GameData.Instance.AllPlayers.ToArray().Where(info => info.PlayerId == PlayerId).FirstOrDefault();
         public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false, bool ForceLoop = false)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            if (PlayerControl.AllPlayerControls == null) return;
+            if (Main.AllPlayerControls == null) return;
 
             var caller = new System.Diagnostics.StackFrame(1, false);
             var callerMethod = caller.GetMethod();
@@ -651,9 +651,9 @@ namespace TownOfHost
             bool ShowSnitchWarning = false;
             if (CustomRoles.Snitch.IsEnable())
             {
-                foreach (var snitch in PlayerControl.AllPlayerControls)
+                foreach (var snitch in Main.AllAlivePlayerControls)
                 {
-                    if (snitch.Is(CustomRoles.Snitch) && !snitch.Data.IsDead && !snitch.Data.Disconnected)
+                    if (snitch.Is(CustomRoles.Snitch))
                     {
                         var taskState = snitch.GetPlayerTaskState();
                         if (taskState.DoExpose)
@@ -675,13 +675,13 @@ namespace TownOfHost
             //target:seerが見ることができる変更の対象となるプレイヤー
             foreach (var seer in seerList)
             {
+                //seerが落ちているときに何もしない
+                if (seer == null || seer.Data.Disconnected) continue;
+
                 if (seer.IsModClient()) continue;
                 string fontSize = "1.5";
                 if (isMeeting && (seer.GetClient().PlatformData.Platform.ToString() == "Playstation" || seer.GetClient().PlatformData.Platform.ToString() == "Switch")) fontSize = "70%";
                 TownOfHost.Logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":START", "NotifyRoles");
-                //Loop1-bottleのSTART-END間でKeyNotFoundException
-                //seerが落ちているときに何もしない
-                if (seer.Data.Disconnected) continue;
 
                 //タスクなど進行状況を含むテキスト
                 string SelfTaskText = GetProgressText(seer);
@@ -809,10 +809,10 @@ namespace TownOfHost
                     || ForceLoop
                 )
                 {
-                    foreach (var target in PlayerControl.AllPlayerControls)
+                    foreach (var target in Main.AllPlayerControls)
                     {
                         //targetがseer自身の場合は何もしない
-                        if (target == seer || target.Data.Disconnected) continue;
+                        if (target == seer) continue;
                         TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":START", "NotifyRoles");
 
                         //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
@@ -864,14 +864,19 @@ namespace TownOfHost
                         Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
                         Main.PuppeteerList.ContainsKey(target.PlayerId))
                             TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
-                        if (seer.Is(CustomRoles.EvilTracker))
-                            TargetMark += EvilTracker.GetTargetMark(seer, target);
 
                         //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}>{target.GetDisplayRoleName()}{TargetTaskText}</size>\r\n" : "";
 
                         if (target.Is(CustomRoles.GM))
                             TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName()}</size>\r\n";
+
+                        if (seer.Is(CustomRoles.EvilTracker))
+                        {
+                            TargetMark += EvilTracker.GetTargetMark(seer, target);
+                            if (isMeeting && EvilTracker.IsTrackTarget(seer, target) && EvilTracker.CanSeeLastRoomInMeeting.GetBool())
+                                TargetRoleText = $"<size={fontSize}>{EvilTracker.GetArrowAndLastRoom(seer, target)}</size>\r\n";
+                        }
 
                         //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                         string TargetPlayerName = target.GetRealName(isMeeting);
@@ -926,10 +931,17 @@ namespace TownOfHost
         {
             PlayerGameOptionsSender.SetDirtyToAll();
         }
+        public static void SyncAllSettings()
+        {
+            PlayerGameOptionsSender.SetDirtyToAll();
+            GameOptionsSender.SendAllGameOptions();
+        }
         public static void AfterMeetingTasks()
         {
             BountyHunter.AfterMeetingTasks();
             SerialKiller.AfterMeetingTasks();
+            if (Options.AirShipVariableElectrical.GetBool())
+                AirShipElectricalDoors.Initialize();
         }
 
         public static void ChangeInt(ref int ChangeTo, int input, int max)
@@ -941,7 +953,7 @@ namespace TownOfHost
         public static void CountAliveImpostors()
         {
             int AliveImpostorCount = 0;
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllPlayerControls)
             {
                 CustomRoles pc_role = pc.GetCustomRole();
                 if (pc_role.IsImpostor() && !Main.PlayerStates[pc.PlayerId].IsDead) AliveImpostorCount++;
@@ -982,13 +994,9 @@ namespace TownOfHost
         {
             int doused = 0, all = 0; //学校で習った書き方
                                      //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllAlivePlayerControls)
             {
-                if (pc == null ||
-                    pc.Data.IsDead ||
-                    pc.Data.Disconnected ||
-                    pc.PlayerId == playerId
-                ) continue; //塗れない人は除外 (死んでたり切断済みだったり あとアーソニスト自身も)
+                if (pc.PlayerId == playerId) continue; //塗れない人は除外 (死んでたり切断済みだったり あとアーソニスト自身も)
 
                 all++;
                 if (Main.isDoused.TryGetValue((playerId, pc.PlayerId), out var isDoused) && isDoused)
@@ -1010,10 +1018,10 @@ namespace TownOfHost
             if (Main.PlayerStates == null) return false;
             //マフィアを除いた生きているインポスターの人数  Number of Living Impostors excluding mafia
             int LivingImpostorsNum = 0;
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllAlivePlayerControls)
             {
                 var role = pc.GetCustomRole();
-                if (!pc.Data.IsDead && role != CustomRoles.Mafia && role.IsImpostor()) LivingImpostorsNum++;
+                if (role != CustomRoles.Mafia && role.IsImpostor()) LivingImpostorsNum++;
             }
 
             return LivingImpostorsNum <= 0;
@@ -1109,5 +1117,6 @@ namespace TownOfHost
             casted = obj.TryCast<T>();
             return casted != null;
         }
+        public static string GetRoomName(this SystemTypes roomId) => DestroyableSingleton<TranslationController>.Instance.GetString(roomId);
     }
 }
