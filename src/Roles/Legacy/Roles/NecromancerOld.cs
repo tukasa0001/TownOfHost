@@ -47,7 +47,7 @@ namespace TownOfHost
                         currentRole = role;
                         break;*/
                     case Sheriff:
-                    case CorruptedSheriff:
+                    case Traitor:
                         if (StaticOptions.NecroCanUseSheriff)
                             currentRole = role;
                         break;
@@ -555,7 +555,7 @@ namespace TownOfHost
                 case Werewolf:
                 case Medusa:
                 case Glitch:
-                case CorruptedSheriff:
+                case Traitor:
                     return true;
             }
             if (currentRole.IsCoven() && currentRole is not Necromancer) return TOHPlugin.HasNecronomicon;

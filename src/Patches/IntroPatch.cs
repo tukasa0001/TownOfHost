@@ -16,7 +16,7 @@ namespace TownOfHost
     {
         public static void Postfix(IntroCutscene __instance)
         {
-            new DTask(() =>
+            DTask.Schedule(() =>
             {
                 CustomRole role = PlayerControl.LocalPlayer.GetCustomRole();
                 if (!role.IsVanilla())
@@ -31,7 +31,7 @@ namespace TownOfHost
 
                 __instance.RoleText.text += Utils.GetSubRolesText(PlayerControl.LocalPlayer.PlayerId);
 
-            }, 0.01f, "Override Role Text");
+            }, 0.01f);
 
         }
     }
@@ -190,7 +190,7 @@ namespace TownOfHost
             {
                 __instance.TeamTitle.text = "Discord Server";
                 __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = "https://discord.gg/v8SFfdebpz";
+                __instance.ImpostorText.text = "https://discord.gg/tohtor";
                 __instance.TeamTitle.color = Color.magenta;
                 StartFadeIntro(__instance, Color.magenta, Color.magenta);
             }
@@ -258,14 +258,14 @@ namespace TownOfHost
             {
                 PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcResetAbilityCooldown());
                 if (StaticOptions.FixFirstKillCooldown)
-                    new DTask(() =>
+                    DTask.Schedule(() =>
                     {
                         PlayerControl.AllPlayerControls.ToArray().Do(pc =>
                         {
                             if (pc.GetCustomRole() is not Impostor impostor) return;
                             pc.SetKillCooldown(impostor.KillCooldown);
                         });
-                    }, 2f, "FixKillCooldownTask");
+                    }, 2f);
             }
             DTask.Schedule(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRoleDesync(RoleTypes.Shapeshifter, -3)), 2f);
             if (PlayerControl.LocalPlayer.Is(CustomRoleManager.Static.GM))

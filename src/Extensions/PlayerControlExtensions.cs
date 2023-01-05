@@ -328,70 +328,70 @@ public static class PlayerControlExtensions
     }
 
     public static void CanUseImpostorVent(this PlayerControl player)
-        {
+    {
 
-            switch (player.GetCustomRole())
-            {
-                case Amnesiac:
-                case Sheriff:
-                case Investigator:
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
-                    player.Data.Role.CanVent = false;
-                    return;
-                case Arsonist a:
-                    bool canUse = a.CanVent() || (StaticOptions.TOuRArso);
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(canUse && !player.Data.IsDead);
-                    player.Data.Role.CanVent = canUse;
-                    return;
-                case Juggernaut:
-                    bool jug_canUse = StaticOptions.JuggerCanVent;
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(jug_canUse && !player.Data.IsDead);
-                    player.Data.Role.CanVent = jug_canUse;
-                    return;
-                case Sidekick:
-                case Jackal:
-                    bool jackal_canUse = player.GetCustomRole().CanVent();
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(jackal_canUse && !player.Data.IsDead);
-                    player.Data.Role.CanVent = jackal_canUse;
-                    return;
-                case Marksman:
-                    bool marks_canUse = StaticOptions.MarksmanCanVent;
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(marks_canUse && !player.Data.IsDead);
-                    player.Data.Role.CanVent = marks_canUse;
-                    return;
-                case PlagueBearer:
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
-                    player.Data.Role.CanVent = false;
-                    return;
-                case Pestilence:
-                    bool pesti_CanUse = StaticOptions.PestiCanVent;
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(pesti_CanUse && !player.Data.IsDead);
-                    player.Data.Role.CanVent = pesti_CanUse;
-                    return;
-                case Glitch:
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(!player.Data.IsDead);
-                    player.Data.Role.CanVent = true;
-                    return;
-                case Werewolf:
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(!player.Data.IsDead);
-                    player.Data.Role.CanVent = true;
-                    return;
-                case CorruptedSheriff:
-                case Medusa:
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(!player.Data.IsDead);
-                    player.Data.Role.CanVent = true;
-                    return;
-                case HexMaster:
-                case CovenWitch:
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(TOHPlugin.HasNecronomicon && !player.Data.IsDead);
-                    player.Data.Role.CanVent = TOHPlugin.HasNecronomicon;
-                    break;
-                case Janitor:
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(StaticOptions.STIgnoreVent && !player.Data.IsDead);
-                    player.Data.Role.CanVent = StaticOptions.STIgnoreVent;
-                    break;
-            }
+        switch (player.GetCustomRole())
+        {
+            case Amnesiac:
+            case Sheriff:
+            case Investigator:
+                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
+                player.Data.Role.CanVent = false;
+                return;
+            case Arsonist a:
+                bool canUse = a.CanVent() || (StaticOptions.TOuRArso);
+                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(canUse && !player.Data.IsDead);
+                player.Data.Role.CanVent = canUse;
+                return;
+            case Juggernaut:
+                bool jug_canUse = StaticOptions.JuggerCanVent;
+                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(jug_canUse && !player.Data.IsDead);
+                player.Data.Role.CanVent = jug_canUse;
+                return;
+            case Sidekick:
+            case Jackal:
+                bool jackal_canUse = player.GetCustomRole().CanVent();
+                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(jackal_canUse && !player.Data.IsDead);
+                player.Data.Role.CanVent = jackal_canUse;
+                return;
+            case Marksman:
+                bool marks_canUse = StaticOptions.MarksmanCanVent;
+                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(marks_canUse && !player.Data.IsDead);
+                player.Data.Role.CanVent = marks_canUse;
+                return;
+            case PlagueBearer:
+                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
+                player.Data.Role.CanVent = false;
+                return;
+            case Pestilence:
+                bool pesti_CanUse = StaticOptions.PestiCanVent;
+                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(pesti_CanUse && !player.Data.IsDead);
+                player.Data.Role.CanVent = pesti_CanUse;
+                return;
+            case Glitch:
+                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(!player.Data.IsDead);
+                player.Data.Role.CanVent = true;
+                return;
+            case Werewolf:
+                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(!player.Data.IsDead);
+                player.Data.Role.CanVent = true;
+                return;
+            case Traitor:
+            case Medusa:
+                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(!player.Data.IsDead);
+                player.Data.Role.CanVent = true;
+                return;
+            case HexMaster:
+            case CovenWitch:
+                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(TOHPlugin.HasNecronomicon && !player.Data.IsDead);
+                player.Data.Role.CanVent = TOHPlugin.HasNecronomicon;
+                break;
+            case Janitor:
+                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(StaticOptions.STIgnoreVent && !player.Data.IsDead);
+                player.Data.Role.CanVent = StaticOptions.STIgnoreVent;
+                break;
         }
+    }
     public static bool CanMakeMadmate(this PlayerControl player)
     {
         return StaticOptions.CanMakeMadmateCount > TOHPlugin.SKMadmateNowCount
