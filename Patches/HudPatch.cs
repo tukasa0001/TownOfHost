@@ -1,8 +1,8 @@
 using System;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using UnhollowerBaseLib;
 using UnityEngine;
-using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -20,6 +20,7 @@ namespace TownOfHost
         public static TMPro.TextMeshPro LowerInfoText;
         public static void Postfix(HudManager __instance)
         {
+            if (!GameStates.IsModHost) return;
             var player = PlayerControl.LocalPlayer;
             if (player == null) return;
             var TaskTextPrefix = "";
@@ -134,6 +135,7 @@ namespace TownOfHost
                 if (player.CanUseKillButton())
                 {
                     __instance.KillButton.ToggleVisible(player.IsAlive() && GameStates.IsInTask);
+                    player.Data.Role.CanUseKillButton = true;
                 }
                 else
                 {
@@ -147,14 +149,11 @@ namespace TownOfHost
                     case CustomRoles.Jester:
                         TaskTextPrefix += FakeTasksText;
                         break;
-                    case CustomRoles.Sheriff:
-                    case CustomRoles.Arsonist:
-                    case CustomRoles.Jackal:
-                        player.CanUseImpostorVent();
-                        if (player.Data.Role.Role != RoleTypes.GuardianAngel)
-                            player.Data.Role.CanUseKillButton = true;
-                        break;
                 }
+
+                bool CanUseVent = player.CanUseImpostorVentButton();
+                __instance.ImpostorVentButton.ToggleVisible(CanUseVent);
+                player.Data.Role.CanVent = CanUseVent;
             }
 
 
@@ -202,10 +201,7 @@ namespace TownOfHost
             var player = PlayerControl.LocalPlayer;
             if (!GameStates.IsInTask) return;
 
-            if ((player.GetCustomRole() == CustomRoles.Sheriff ||
-                player.GetCustomRole() == CustomRoles.Arsonist ||
-                player.GetCustomRole() == CustomRoles.Jackal)
-            && !player.Data.IsDead)
+            if (player.CanUseKillButton())
             {
                 ((Renderer)__instance.cosmetics.currentBodySprite.BodySprite).material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));
             }
@@ -236,16 +232,15 @@ namespace TownOfHost
             {
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
-                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
-                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
-                    __instance.ImpostorVentButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Jackal:
-                    Jackal.SetHudActive(__instance, isActive, player);
+                    Jackal.SetHudActive(__instance, isActive);
                     break;
             }
+            __instance.KillButton.ToggleVisible(player.CanUseKillButton());
+            __instance.ImpostorVentButton.ToggleVisible(player.CanUseImpostorVentButton());
         }
     }
     [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowNormalMap))]
@@ -276,6 +271,7 @@ namespace TownOfHost
         // タスク表示の文章が更新・適用された後に実行される
         public static void Postfix(TaskPanelBehaviour __instance)
         {
+            if (!GameStates.IsModHost) return;
             PlayerControl player = PlayerControl.LocalPlayer;
 
             // 役職説明表示

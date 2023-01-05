@@ -46,13 +46,7 @@ namespace TownOfHost
 
             if (oldIsCamouflage != IsCamouflage)
             {
-                new LateTask(
-                    () =>
-                    {
-                        PlayerControl.AllPlayerControls.ToArray().Do(pc => Camouflage.RpcSetSkin(pc));
-                        if (!GameStates.IsMeeting)
-                            Utils.NotifyRoles(ForceLoop: true);
-                    }, 0.1f, "Camouflage");
+                Main.AllPlayerControls.Do(pc => Camouflage.RpcSetSkin(pc));
             }
         }
         public static void RpcSetSkin(PlayerControl target, bool ForceRevert = false, bool RevertToDefault = false)
@@ -76,7 +70,7 @@ namespace TownOfHost
             {
                 //コミュサボ解除または強制解除
 
-                if (Main.CheckShapeshift.TryGetValue(id, out var shapeshifting) && !RevertToDefault)
+                if (Main.CheckShapeshift.TryGetValue(id, out var shapeshifting) && shapeshifting && !RevertToDefault)
                 {
                     //シェイプシフターなら今の姿のidに変更
                     id = Main.ShapeshiftTarget[id];

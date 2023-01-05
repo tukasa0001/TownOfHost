@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using HarmonyLib;
+using System.Linq;
 using AmongUs.GameOptions;
+using HarmonyLib;
 
 namespace TownOfHost
 {
@@ -15,6 +16,7 @@ namespace TownOfHost
         public TaskState taskState;
         public bool IsBlackOut { get; set; }
         public (DateTime, byte) RealKiller;
+        public PlainShipRoom LastRoom;
         public PlayerState(byte playerId)
         {
             MainRole = CustomRoles.NotAssigned;
@@ -25,6 +27,7 @@ namespace TownOfHost
             taskState = new();
             IsBlackOut = false;
             RealKiller = (DateTime.MinValue, byte.MaxValue);
+            LastRoom = null;
         }
         public CustomRoles GetCustomRole()
         {
@@ -120,22 +123,27 @@ namespace TownOfHost
 
         public void Init(PlayerControl player)
         {
-            Logger.Info($"{player.GetNameWithRole()}: InitTask", "TaskCounts");
+            Logger.Info($"{player.GetNameWithRole()}: InitTask", "TaskState.Init");
             if (player == null || player.Data == null || player.Data.Tasks == null) return;
-            if (!Utils.HasTasks(player.Data, false)) return;
+            if (!Utils.HasTasks(player.Data, false))
+            {
+                AllTasksCount = 0;
+                return;
+            }
             hasTasks = true;
             AllTasksCount = player.Data.Tasks.Count;
-            Logger.Info($"{player.GetNameWithRole()}: {CompletedTasksCount}/{AllTasksCount}", "TaskCounts");
+            Logger.Info($"{player.GetNameWithRole()}: TaskCounts = {CompletedTasksCount}/{AllTasksCount}", "TaskState.Init");
         }
         public void Update(PlayerControl player)
         {
-            Logger.Info($"{player.GetNameWithRole()}: UpdateTask", "TaskCounts");
-            Logger.Info($"{GameData.Instance.CompletedTasks}/{GameData.Instance.TotalTasks}", "TotalTaskCounts");
-            if (!Utils.HasTasks(player.Data, false))
-                hasTasks = false;
-            if (!hasTasks) return;
+            Logger.Info($"{player.GetNameWithRole()}: UpdateTask", "TaskState.Update");
+            GameData.Instance.RecomputeTaskCounts();
+            Logger.Info($"TotalTaskCounts = {GameData.Instance.CompletedTasks}/{GameData.Instance.TotalTasks}", "TaskState.Update");
+
             //初期化出来ていなかったら初期化
             if (AllTasksCount == -1) Init(player);
+
+            if (!hasTasks) return;
 
             //FIXME:SpeedBooster class transplant
             if (!player.Data.IsDead
@@ -146,9 +154,9 @@ namespace TownOfHost
                 var rand = IRandom.Instance;
                 List<PlayerControl> targetPlayers = new();
                 //切断者と死亡者を除外
-                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                foreach (var p in Main.AllAlivePlayerControls)
                 {
-                    if (!p.Data.Disconnected && !p.Data.IsDead && !Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetPlayers.Add(p);
+                    if (!Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetPlayers.Add(p);
                 }
                 //ターゲットが0ならアップ先をプレイヤーをnullに
                 if (targetPlayers.Count >= 1)
@@ -173,7 +181,7 @@ namespace TownOfHost
 
             //調整後のタスク量までしか表示しない
             CompletedTasksCount = Math.Min(AllTasksCount, CompletedTasksCount);
-            Logger.Info($"{player.GetNameWithRole()}: {CompletedTasksCount}/{AllTasksCount}", "TaskCounts");
+            Logger.Info($"{player.GetNameWithRole()}: TaskCounts = {CompletedTasksCount}/{AllTasksCount}", "TaskState.Update");
 
         }
     }
@@ -200,6 +208,7 @@ namespace TownOfHost
     {
         public static bool InGame = false;
         public static bool AlreadyDied = false;
+        public static bool IsModHost => PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == 0 && x.IsModClient());
         public static bool IsLobby => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Joined;
         public static bool IsInGame => InGame;
         public static bool IsEnded => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Ended;

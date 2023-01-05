@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
-using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -267,7 +267,7 @@ namespace TownOfHost
             }
             catch (Exception ex)
             {
-                Logger.Error($"正常にEndGameを行えませんでした。{ex}", "EndGame");
+                Logger.Error($"正常にEndGameを行えませんでした。\n{ex}", "EndGame", false);
             }
         }
         public static void PlaySound(byte playerID, Sounds sound)
@@ -393,7 +393,7 @@ namespace TownOfHost
             try
             {
                 target = targetClientId < 0 ? "All" : AmongUsClient.Instance.GetClient(targetClientId).PlayerName;
-                from = PlayerControl.AllPlayerControls.ToArray().Where(c => c.NetId == targetNetId).FirstOrDefault()?.Data?.PlayerName;
+                from = Main.AllPlayerControls.Where(c => c.NetId == targetNetId).FirstOrDefault()?.Data?.PlayerName;
             }
             catch { }
             Logger.Info($"FromNetID:{targetNetId}({from}) TargetClientID:{targetClientId}({target}) CallID:{callId}({rpcName})", "SendRPC");

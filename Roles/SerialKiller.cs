@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using AmongUs.GameOptions;
 using static TownOfHost.Translator;
 
 namespace TownOfHost

@@ -91,7 +91,7 @@ namespace TownOfHost
 
             Witch.RemoveSpelledPlayer();
 
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in Main.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
                 if (Options.MayorHasPortableButton.GetBool() && pc.Is(CustomRoles.Mayor))
@@ -110,22 +110,22 @@ namespace TownOfHost
                 {
                     case 0:
                         map = new RandomSpawn.SkeldSpawnMap();
-                        PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                        Main.AllPlayerControls.Do(map.RandomTeleport);
                         break;
                     case 1:
                         map = new RandomSpawn.MiraHQSpawnMap();
-                        PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                        Main.AllPlayerControls.Do(map.RandomTeleport);
                         break;
                     case 2:
                         map = new RandomSpawn.PolusSpawnMap();
-                        PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
+                        Main.AllPlayerControls.Do(map.RandomTeleport);
                         break;
                 }
             }
             FallFromLadder.Reset();
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
-            Utils.MarkEveryoneDirtySettings();
+            Utils.SyncAllSettings();
             Utils.NotifyRoles();
         }
 
@@ -169,7 +169,7 @@ namespace TownOfHost
 
             GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
             RemoveDisableDevicesPatch.UpdateDisableDevices();
-            SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
+            SoundManager.Instance.ChangeAmbienceVolume(DataManager.Settings.Audio.AmbienceVolume);
             Logger.Info("タスクフェイズ開始", "Phase");
         }
     }

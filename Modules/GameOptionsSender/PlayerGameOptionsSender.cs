@@ -1,8 +1,8 @@
 using System.Linq;
+using AmongUs.GameOptions;
+using Hazel;
 using Il2CppSystem.Linq;
 using InnerNet;
-using Hazel;
-using AmongUs.GameOptions;
 using Mathf = UnityEngine.Mathf;
 
 namespace TownOfHost.Modules
@@ -55,7 +55,14 @@ namespace TownOfHost.Modules
                 }
             }
         }
-
+        public static void RemoveSender(PlayerControl player)
+        {
+            var sender = AllSenders.OfType<PlayerGameOptionsSender>()
+            .FirstOrDefault(sender => sender.player.PlayerId == player.PlayerId);
+            if (sender == null) return;
+            sender.player = null;
+            AllSenders.Remove(sender);
+        }
         public override IGameOptions BuildGameOptions()
         {
             if (Main.RealOptionsData == null)
@@ -184,7 +191,7 @@ namespace TownOfHost.Modules
             if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead)
                 opt.SetBool(BoolOptionNames.AnonymousVotes, false);
             if (Options.AdditionalEmergencyCooldown.GetBool() &&
-                Options.AdditionalEmergencyCooldownThreshold.GetInt() <= PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead))
+                Options.AdditionalEmergencyCooldownThreshold.GetInt() <= Main.AllAlivePlayerControls.Count())
             {
                 opt.SetInt(
                     Int32OptionNames.EmergencyCooldown,
@@ -220,6 +227,11 @@ namespace TownOfHost.Modules
             AURoleOptions.ProtectionDurationSeconds = 0f;
 
             return opt;
+        }
+
+        public override bool AmValid()
+        {
+            return base.AmValid() && player != null && !player.Data.Disconnected && Main.RealOptionsData != null;
         }
     }
 }
