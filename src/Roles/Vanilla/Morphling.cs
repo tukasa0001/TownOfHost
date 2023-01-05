@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TownOfHost.Roles;
 
-public class Morphling: Impostor
+public class Morphling : Impostor
 {
     protected float? shapeshiftCooldown = null;
     protected float? shapeshiftDuration = null;
@@ -16,6 +16,7 @@ public class Morphling: Impostor
     protected override RoleModifier Modify(RoleModifier roleModifier) =>
         roleModifier.VanillaRole(RoleTypes.Shapeshifter)
             .RoleColor(Color.red)
+            .CanVent(true)
             .Factions(Faction.Impostors)
             .OptionOverride(Override.ShapeshiftCooldown, shapeshiftCooldown)
             .OptionOverride(Override.ShapeshiftDuration, shapeshiftDuration);

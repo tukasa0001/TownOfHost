@@ -36,6 +36,7 @@ public class Impostor : CustomRole
         roleModifier
             .VanillaRole(RoleTypes.Impostor)
             .Factions(Faction.Impostors)
+            .CanVent(true)
             .OptionOverride(Override.KillCooldown, KillCooldown)
             .RoleColor(Color.red);
 }
