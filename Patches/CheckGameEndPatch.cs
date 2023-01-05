@@ -45,6 +45,11 @@ namespace TownOfHost
                             .Where(pc => (pc.Is(RoleType.Impostor) || pc.Is(RoleType.Madmate)) && !pc.Is(CustomRoles.Lovers))
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
+                    case CustomWinner.Egoist:
+                        CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Egoist);
+                        CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Egoist);
+                        CustomWinnerHolder.WinnerRoles.Add(CustomRoles.EgoSchrodingerCat);
+                        break;
                 }
                 if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw and not CustomWinner.None)
                 {
