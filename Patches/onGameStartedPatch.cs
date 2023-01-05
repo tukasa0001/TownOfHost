@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
-using AmongUs.GameOptions;
 using TownOfHost.Modules;
 using static TownOfHost.Translator;
 
@@ -437,7 +437,7 @@ namespace TownOfHost
 
             // ResetCamが必要なプレイヤーのリストにクラス化が済んでいない役職のプレイヤーを追加
             Main.ResetCamPlayerList.AddRange(Main.AllPlayerControls.Where(p => p.GetCustomRole() is CustomRoles.Arsonist).Select(p => p.PlayerId));
-/*
+            /*
             //インポスターのゴーストロールがクルーメイトになるバグ対策
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
@@ -446,7 +446,7 @@ namespace TownOfHost
                     pc.Data.Role.DefaultGhostRole = RoleTypes.ImpostorGhost;
                 }
             }
-*/
+            */
             Utils.CountAliveImpostors();
             Utils.SyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;

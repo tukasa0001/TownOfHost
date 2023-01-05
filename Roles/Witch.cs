@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Text;
 using HarmonyLib;
 using Hazel;
-using UnityEngine;
 using static TownOfHost.Translator;
 
 namespace TownOfHost

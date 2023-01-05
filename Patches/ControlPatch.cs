@@ -1,8 +1,6 @@
 using System.Linq;
 using HarmonyLib;
-using InnerNet;
 using UnityEngine;
-using AmongUs.GameOptions;
 
 namespace TownOfHost
 {

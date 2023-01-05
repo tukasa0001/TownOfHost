@@ -1,8 +1,8 @@
 using System.Linq;
+using AmongUs.GameOptions;
+using Hazel;
 using Il2CppSystem.Linq;
 using InnerNet;
-using Hazel;
-using AmongUs.GameOptions;
 using Mathf = UnityEngine.Mathf;
 
 namespace TownOfHost.Modules
