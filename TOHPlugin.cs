@@ -14,6 +14,8 @@ using TownOfHost.Interface.Menus;
 using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
+using Reactor;
+using Reactor.Networking.Attributes;
 using VentFramework;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.TOHPlugin.PluginVersion)]
@@ -22,8 +24,8 @@ namespace TownOfHost;
 
 [BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
 [BepInProcess("Among Us.exe")]
-/*[BepInDependency(ReactorPlugin.Id)]
-[ReactorModFlags(Reactor.Networking.ModFlags.RequireOnHost)]*/
+[BepInDependency(ReactorPlugin.Id)]
+[ReactorModFlags(Reactor.Networking.ModFlags.None)]
 public class TOHPlugin : BasePlugin
 {
     public TOHPlugin()
