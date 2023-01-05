@@ -166,7 +166,7 @@ namespace TownOfHost
     {
         public static bool Prefix(ref bool __result)
         {
-            if (Options.DisableTaskWin.GetBool() || Options.NoGameEnd.GetBool())
+            if (Options.DisableTaskWin.GetBool() || Options.NoGameEnd.GetBool() || GameData.Instance.TotalTasks == 0)
             {
                 __result = false;
                 return false;
