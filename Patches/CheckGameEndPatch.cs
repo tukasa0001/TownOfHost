@@ -209,12 +209,6 @@ namespace TownOfHost
                 {
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
-                    if (Imp == 0) //インポスター全滅ならエゴイスト勝利
-                    {
-                        CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Egoist);
-                        CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Egoist);
-                        CustomWinnerHolder.WinnerRoles.Add(CustomRoles.EgoSchrodingerCat);
-                    }
                 }
                 else if (Imp + Ego == 0 && Crew <= Jackal) //ジャッカル勝利
                 {
