@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using InnerNet;
-using Hazel;
 using AmongUs.GameOptions;
+using Hazel;
+using InnerNet;
 
 namespace TownOfHost.Modules
 {

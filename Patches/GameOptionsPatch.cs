@@ -1,5 +1,5 @@
-using HarmonyLib;
 using AmongUs.GameOptions;
+using HarmonyLib;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
