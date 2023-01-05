@@ -69,5 +69,5 @@ public class Consort: Morphling
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>
         base.Modify(roleModifier)
-            .OptionOverride(Override.KillCooldown, () => DesyncOptions.OriginalHostOptions.AsNormalOptions()!.KillCooldown * 2, () => blocking);
+            .OptionOverride(Override.KillCooldown, KillCooldown * 2, () => blocking);
 }

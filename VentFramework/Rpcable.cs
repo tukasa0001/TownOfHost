@@ -1,6 +1,6 @@
 using Hazel;
 
-namespace VentWork;
+namespace VentFramework;
 
 public abstract class RpcSendable<T>: IRpcWritable where T: RpcSendable<T>
 {

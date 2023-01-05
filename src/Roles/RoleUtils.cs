@@ -3,6 +3,7 @@ using System.Linq;
 using TownOfHost.Extensions;
 using TownOfHost.RPC;
 using UnityEngine;
+using VentFramework;
 
 namespace TownOfHost.Roles;
 

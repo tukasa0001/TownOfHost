@@ -5,6 +5,7 @@ using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 using TownOfHost.RPC;
 using UnityEngine;
+using VentFramework;
 
 namespace TownOfHost.Roles;
 

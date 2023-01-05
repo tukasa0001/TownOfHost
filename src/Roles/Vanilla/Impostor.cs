@@ -1,6 +1,7 @@
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
+using TownOfHost.ReduxOptions;
 using UnityEngine;
 
 namespace TownOfHost.Roles;
@@ -11,7 +12,12 @@ public class Impostor : CustomRole
     public virtual bool CanKill() => canKill;
     protected bool canSabotage = true;
     protected bool canKill = true;
-    public float? KillCooldown = null;
+    public float KillCooldown
+    {
+        protected set => _killCooldown = value;
+        get => _killCooldown ?? DesyncOptions.OriginalHostOptions?.AsNormalOptions()?.GetFloat(FloatOptionNames.KillCooldown) ?? 60f;
+    }
+    private float? _killCooldown;
 
     [RoleAction(RoleActionType.AttemptKill, Subclassing = false)]
     public virtual bool TryKill(PlayerControl target)

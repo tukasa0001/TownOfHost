@@ -203,18 +203,18 @@ public class OptionHolder
         /// Lazy method to add ON and OFF values to this option
         /// </summary>
         /// <returns>Current builder</returns>
-        public SmartOptionBuilder AddOnOffValues(bool showOnFirst = true)
+        public SmartOptionBuilder AddOnOffValues(bool defaultOn = true)
         {
             return this
                 .AddValue(val =>
-                    val.Text(showOnFirst ? "ON" : "OFF")
-                        .Value(showOnFirst)
-                        .Color(showOnFirst ? UnityEngine.Color.cyan : UnityEngine.Color.red)
+                    val.Text(defaultOn ? "ON" : "OFF")
+                        .Value(defaultOn)
+                        .Color(defaultOn ? UnityEngine.Color.cyan : UnityEngine.Color.red)
                         .Build())
                 .AddValue(val =>
-                    val.Text(showOnFirst ? "OFF" : "ON")
-                        .Value(!showOnFirst)
-                        .Color(showOnFirst ? UnityEngine.Color.red : UnityEngine.Color.cyan)
+                    val.Text(defaultOn ? "OFF" : "ON")
+                        .Value(!defaultOn)
+                        .Color(defaultOn ? UnityEngine.Color.red : UnityEngine.Color.cyan)
                         .Build());
         }
 

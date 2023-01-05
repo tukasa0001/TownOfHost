@@ -263,7 +263,7 @@ namespace TownOfHost
                         PlayerControl.AllPlayerControls.ToArray().Do(pc =>
                         {
                             if (pc.GetCustomRole() is not Impostor impostor) return;
-                            pc.SetKillCooldown(impostor.KillCooldown ?? 25f);
+                            pc.SetKillCooldown(impostor.KillCooldown);
                         });
                     }, 2f, "FixKillCooldownTask");
             }

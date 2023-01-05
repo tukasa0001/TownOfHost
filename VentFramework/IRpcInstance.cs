@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace VentWork;
+namespace VentFramework;
 
 public interface IRpcInstance
 {

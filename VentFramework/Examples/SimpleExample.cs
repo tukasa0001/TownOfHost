@@ -1,6 +1,6 @@
 using TownOfHost.Extensions;
 
-namespace VentWork;
+namespace VentFramework;
 
 public class SimpleExample
 {

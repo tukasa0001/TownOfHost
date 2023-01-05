@@ -6,7 +6,7 @@ using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using MonoMod.RuntimeDetour;
 
-namespace VentWork;
+namespace VentFramework;
 
 
 [AttributeUsage(AttributeTargets.Method)]
@@ -22,9 +22,6 @@ public class ModRPC : Attribute
     internal MethodBase trampoline;
     internal Func<object?> instanceSupplier;
     private IDetour hook;
-
-    public ModRPC(CustomRPC rpc, RpcActors senders = RpcActors.Everyone, RpcActors receivers = RpcActors.Everyone, bool executeOnSend = false) : this((uint)rpc, senders, receivers, executeOnSend)
-    { }
 
     public ModRPC(uint rpc, RpcActors senders = RpcActors.Everyone, RpcActors receivers = RpcActors.Everyone, bool executeOnSend = false)
     {
@@ -82,8 +79,6 @@ public class ModRPC : Attribute
         trampoline.Invoke(instanceSupplier(), args);
     }
 
-    public static PlayerControl GetLastSender(CustomRPC rpc) => GetLastSender((uint)rpc);
-
     public static PlayerControl GetLastSender(uint rpcId) => LastSenders.GetValueOrDefault(rpcId);
 }
 
@@ -94,12 +89,4 @@ public enum RpcActors
     Host,
     NonHosts,
     Everyone
-}
-
-public enum CustomRPC: uint
-{
-    VerifyAddons,
-    CamouflageActivation,
-    TestRPC,
-    WarnAddons
 }

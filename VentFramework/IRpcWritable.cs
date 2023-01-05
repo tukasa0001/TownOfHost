@@ -1,6 +1,6 @@
 using Hazel;
 
-namespace VentWork;
+namespace VentFramework;
 
 public interface IRpcWritable
 {

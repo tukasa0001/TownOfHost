@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Hazel;
 using TownOfHost.Extensions;
 
-namespace VentWork;
+namespace VentFramework;
 
 public class PizzaExample
 {

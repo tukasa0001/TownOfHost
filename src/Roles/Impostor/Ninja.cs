@@ -1,34 +1,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Extensions;
-using TownOfHost.RPC;
 using TownOfHost.ReduxOptions;
 using AmongUs.GameOptions;
-using TownOfHost.Roles;
 using TownOfHost.Interface;
 using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.Managers;
 
 namespace TownOfHost.Roles;
 
 public class Ninja : Impostor
 {
     private List<PlayerControl> playerList;
-    public bool InKillMode;
-    private bool PlayerTeleportsToNinja;
-    public string CurrentSwitchMode;
+    private bool playerTeleportsToNinja;
     public NinjaMode Mode = NinjaMode.Killing;
-    public NinjaMode previousMode = NinjaMode.Hunting;
-    private readonly string[] killModes =
+    private ActivationType activationType;
+
+    [DynElement(UI.Misc)]
+    private string CurrentMode() => RoleColor.Colorize(Mode == NinjaMode.Hunting ? "(Hunting)": "(Killing)");
+
+    protected override void Setup(PlayerControl player)
     {
-        "Shapeshift", "Pet"
-    };
-    protected override void Setup(PlayerControl player) => playerList = new List<PlayerControl>();
+        playerList = new List<PlayerControl>();
+        Pet.Guarantee(player); // TODO: Setup better pet system with no need to call inside of roles
+    }
 
     [RoleAction(RoleActionType.AttemptKill)]
     public override bool TryKill(PlayerControl target)
     {
         SyncOptions();
-        if (InKillMode) return base.TryKill(target);
+        if (Mode is NinjaMode.Killing) return base.TryKill(target);
         InteractionResult result = CheckInteractions(target.GetCustomRole(), target);
         if (result is InteractionResult.Halt) return false;
 
@@ -37,117 +38,73 @@ public class Ninja : Impostor
         return true;
     }
 
-    [DynElement(UI.Misc)]
-    private string CurrentMode() => Mode == NinjaMode.Hunting ? RoleColor.Colorize("(Hunting)") : RoleColor.Colorize("(Killing)");
-
     [RoleAction(RoleActionType.Shapeshift)]
     private void NinjaTargetCheck()
     {
-        if (CurrentSwitchMode != "Shapeshift") return;
-        InKillMode = false;
+        if (activationType is not ActivationType.Shapeshift) return;
+        Mode = NinjaMode.Hunting;
     }
 
     [RoleAction(RoleActionType.Unshapeshift)]
     private void NinjaUnShapeShift()
     {
-        if (CurrentSwitchMode != "Shapeshift") return;
-        InKillMode = true;
-        foreach (PlayerControl player in new List<PlayerControl>(playerList))
-        {
-            if (player.Data.IsDead)
-            {
-                playerList.Remove(player);
-                continue;
-            }
-            if (PlayerTeleportsToNinja)
-            {
-                Utils.Teleport(player.NetTransform, MyPlayer.transform.position);
-                DTask.Schedule(() => MyPlayer.RpcMurderPlayer(player), 0.25f);
-            }
-            else
-            {
-                MyPlayer.RpcMurderPlayer(player);
-            }
-            playerList.Remove(player);
-        }
-
-        playerList.RemoveAll(p => p.Data.IsDead);
+        if (activationType is not ActivationType.Shapeshift) return;
+        NinjaHuntAbility();
     }
 
     [RoleAction(RoleActionType.RoundStart)]
-    public void EnterKillModeOnRoundStart(bool gameStart) => EnterKillMode(gameStart);
-
-    [RoleAction(RoleActionType.OnPet)]
-    public void SwitchMode()
-    {
-        if (CurrentSwitchMode != "Pet") return;
-        "Swapping Ninja Mode".DebugLog();
-        MyPlayer.name.DebugLog("My player: s");
-        switch (Mode)
-        {
-            case NinjaMode.Killing:
-                EnterHuntMode();
-                break;
-            case NinjaMode.Hunting:
-                EnterKillMode();
-                foreach (PlayerControl player in new List<PlayerControl>(playerList))
-                {
-                    if (player.Data.IsDead)
-                    {
-                        playerList.Remove(player);
-                        continue;
-                    }
-                    if (PlayerTeleportsToNinja)
-                    {
-                        Utils.Teleport(player.NetTransform, MyPlayer.transform.position);
-                        DTask.Schedule(() => MyPlayer.RpcMurderPlayer(player), 0.25f);
-                    }
-                    else
-                    {
-                        MyPlayer.RpcMurderPlayer(player);
-                    }
-                    playerList.Remove(player);
-                }
-
-                playerList.RemoveAll(p => p.Data.IsDead);
-                break;
-        }
-    }
+    private void EnterKillMode() => Mode = NinjaMode.Killing;
 
     [RoleAction(RoleActionType.RoundEnd)]
     private void NinjaClearTarget() => playerList.Clear();
 
-    private void EnterKillMode(bool FirstTime = false)
+    [RoleAction(RoleActionType.OnPet)]
+    public void SwitchMode()
     {
-        InKillMode = true;
-        if (FirstTime)
-            RpcV2.Immediate((byte)MyPlayer.NetId, (byte)RpcCalls.SetPetStr).Write("pet_clank").Send(MyPlayer.GetClientId());
-        Mode = NinjaMode.Killing;
-        previousMode = NinjaMode.Hunting;
-    }
-    private void EnterHuntMode()
-    {
-        InKillMode = false;
-        Mode = NinjaMode.Hunting;
-        previousMode = NinjaMode.Killing;
+        if (activationType is not ActivationType.PetButton) return;
+
+        Mode = Mode is NinjaMode.Killing ? NinjaMode.Hunting : NinjaMode.Killing;
+        if (Mode is NinjaMode.Hunting) NinjaHuntAbility();
     }
 
-    protected override RoleModifier Modify(RoleModifier roleModifier) =>
-        base.Modify(roleModifier)
-        .VanillaRole(CurrentSwitchMode == "Shapeshift" ? RoleTypes.Shapeshifter : RoleTypes.Impostor);
+    // Heavily simplified logic - I think you were looking at Puppeteer but that role is a bit special since
+    // it's not solely the Puppeteer doing the killing so there's more checks needed, here because the Ninja kills all
+    // in their Ninja kill list we can just iterate through it then clear it at the end of the action
+    private void NinjaHuntAbility()
+    {
+        foreach (var target in playerList.Where(target => target.IsAlive()))
+        {
+            if (!playerTeleportsToNinja)
+                MyPlayer.RpcMurderPlayer(target);
+            else
+            {
+                Utils.Teleport(target.NetTransform, MyPlayer.transform.position);
+                DTask.Schedule(() => MyPlayer.RpcMurderPlayer(target), 0.25f);
+            }
+        }
+
+        playerList.Clear();
+    }
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
         .AddSubOption(sub => sub
             .Name("Players Teleport to Ninja")
-            .BindBool(v => PlayerTeleportsToNinja = v)
+            .BindBool(v => playerTeleportsToNinja = v)
             .AddOnOffValues(false)
             .Build())
         .AddSubOption(sub => sub
-            .Name("Ninja Switch Mode")
-            .AddValues(-1, killModes)
-            .Bind(v => CurrentSwitchMode = (string)v)
+            .Name("Ninja Ability Activation")
+            .BindInt(v => activationType = (ActivationType)v)
+            .AddValue(v => v.Text("Pet Button").Value(0).Build())
+            .AddValue(v => v.Text("Shapeshift Button").Value(1).Build())
             .Build());
+
+
+    protected override RoleModifier Modify(RoleModifier roleModifier) =>
+        base.Modify(roleModifier)
+            .VanillaRole(activationType is ActivationType.Shapeshift ? RoleTypes.Shapeshifter : RoleTypes.Impostor)
+            .OptionOverride(Override.KillCooldown, KillCooldown * 2, () => Mode is NinjaMode.Hunting);
 
     public enum NinjaMode
     {

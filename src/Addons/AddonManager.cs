@@ -9,7 +9,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.Roles;
 using TownOfHost.RPC;
-using VentWork;
+using VentFramework;
 
 namespace TownOfHost.Addons;
 
@@ -52,7 +52,7 @@ public class AddonManager
         }
     }
 
-    [ModRPC(CustomRPC.VerifyAddons, RpcActors.Everyone, RpcActors.Host)]
+    [ModRPC((uint)ModCalls.VerifyAddons, RpcActors.Everyone, RpcActors.Host)]
     public static void VerifyClientAddons(List<AddonInfo> addons)
     {
         List<AddonInfo> hostInfo = Addons.Select(AddonInfo.From).ToList();
@@ -82,7 +82,7 @@ public class AddonManager
         VerifyClientAddons(mismatchInfo.Where(addon => addon.Mismatches is not Mismatch.None).ToList());
     }
 
-    [ModRPC(CustomRPC.VerifyAddons, RpcActors.None, RpcActors.NonHosts)]
+    [ModRPC((uint)ModCalls.VerifyAddons, RpcActors.None, RpcActors.NonHosts)]
     public static void ReceiveAddonVerification(List<AddonInfo> addons)
     {
         if (addons.Count == 0) return;

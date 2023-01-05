@@ -54,5 +54,5 @@ public class Warlock : Morphling
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>
         base.Modify(roleModifier)
-            .OptionOverride(Override.KillCooldown, () => DesyncOptions.OriginalHostOptions.AsNormalOptions()!.KillCooldown * 2, () => !shapeshifted);
+            .OptionOverride(Override.KillCooldown, KillCooldown * 2, () => !shapeshifted);
 }

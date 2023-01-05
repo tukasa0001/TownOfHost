@@ -9,7 +9,7 @@ using TownOfHost.Factions;
 using TownOfHost.Patches.Actions;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
-using VentWork;
+using VentFramework;
 
 namespace TownOfHost
 {
@@ -233,19 +233,6 @@ namespace TownOfHost
             Utils.CountAliveImpostors();
             Game.RenderAllForAll(state: GameState.InIntro);
             SetColorPatch.IsAntiGlitchDisabled = false;
-        }
-
-
-        [ModRPC(CustomRPC.TestRPC, executeOnSend: true)]
-        public static void VentRpcSayHello(PlayerControl player, string text)
-        {
-            Logger.Msg($"{player.GetRawName()} said: {text}", "ReactorExample");
-        }
-
-        [MethodRpc((uint) CustomRPC.TestRPC)]
-        public static void ReactorRpcSayHello(PlayerControl player, string text)
-        {
-            Logger.Msg($"{player.GetRawName()} said: {text}", "ReactorExample");
         }
     }
 }

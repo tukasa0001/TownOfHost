@@ -12,6 +12,7 @@ using UnityEngine;
 using static TownOfHost.Translator;
 using TownOfHost.Roles;
 using TownOfHost.RPC;
+using VentFramework;
 
 namespace TownOfHost.Extensions;
 

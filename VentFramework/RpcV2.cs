@@ -7,9 +7,9 @@ using Hazel;
 using InnerNet;
 using TownOfHost.Extensions;
 using UnityEngine;
-using VentWork;
+using VentFramework;
 
-namespace TownOfHost.RPC;
+namespace VentFramework;
 
 public class RpcV2
 {

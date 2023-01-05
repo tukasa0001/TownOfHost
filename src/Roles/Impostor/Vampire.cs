@@ -38,7 +38,7 @@ public class Vampire : Impostor
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>
         base.Modify(roleModifier)
-            .OptionOverride(Override.KillCooldown, () => DesyncOptions.OriginalHostOptions.AsNormalOptions()!.KillCooldown * 2);
+            .OptionOverride(Override.KillCooldown, KillCooldown * 2);
 
     /*case Vampire:
                     __instance.KillButton.OverrideText($"{GetString("VampireBiteButtonText")}");

@@ -14,7 +14,7 @@ using TownOfHost.Interface.Menus;
 using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
-using VentWork;
+using VentFramework;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.TOHPlugin.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.TOHPlugin.PluginVersion)]

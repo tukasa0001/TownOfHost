@@ -4,7 +4,7 @@ using Hazel;
 using InnerNet;
 using TownOfHost.Extensions;
 
-namespace VentWork;
+namespace VentFramework;
 
 public static class RpcManager
 {

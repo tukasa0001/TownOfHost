@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Hazel;
 using TownOfHost.RPC;
 
-namespace VentWork;
+namespace VentFramework;
 
 public static class ReaderExtensions
 {

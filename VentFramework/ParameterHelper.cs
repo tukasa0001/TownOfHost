@@ -9,7 +9,7 @@ using InnerNet;
 using TownOfHost.Extensions;
 using UnityEngine;
 
-namespace VentWork;
+namespace VentFramework;
 
 public static class ParameterHelper
 {

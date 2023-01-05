@@ -12,6 +12,7 @@ using TownOfHost.Managers;
 using TownOfHost.Roles;
 using TownOfHost.RPC;
 using UnityEngine;
+using VentFramework;
 
 namespace TownOfHost.Interface.Menus.CustomNameMenu;
 

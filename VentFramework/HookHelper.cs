@@ -12,7 +12,7 @@ using TownOfHost.Extensions;
 using TownOfHost.RPC;
 using UnityEngine;
 
-namespace VentWork;
+namespace VentFramework;
 
 public class HookHelper
 {
