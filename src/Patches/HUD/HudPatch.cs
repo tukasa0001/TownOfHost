@@ -67,15 +67,8 @@ namespace TownOfHost
                         // ? What ?
                         SerialKillerOLD.GetAbilityButtonText(__instance, player);
                         break;*/
-                    case Warlock:
-                        if (!TOHPlugin.CheckShapeshift[player.PlayerId] && !TOHPlugin.isCurseAndKill[player.PlayerId])
-                        {
-                            __instance.KillButton.OverrideText($"{GetString("WarlockCurseButtonText")}");
-                        }
-                        else
-                        {
-                            __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
-                        }
+                    case Warlock warlock:
+                        __instance.KillButton.OverrideText(!warlock.Shapeshifted ? $"{GetString("WarlockCurseButtonText")}" : $"{GetString("KillButtonText")}");
                         break;
                     /*case Witch:
                         WitchOLD.GetAbilityButtonText(__instance);

@@ -105,48 +105,14 @@ public static class StaticOptions
     public static object LadderDeathChance { get; set; }
     public static bool DisableTaskWin = false;
 
-    public static bool StandardHAS = false;
-
-
-    public static bool ExeTargetShowsEvil = false;
-    public static bool GAdependsOnTaregtRole = false;
-    public static bool CkshowEvil = false;
-    public static bool NBshowEvil = false;
-    public static bool NEshowEvil = false;
-    public static bool MadmatesAreEvil = false;
     public static bool ColorNameMode = false;
-    public static int BodiesAmount = 1;
-
     public static bool TOuRArso = false;
-
-
-    public static bool FreeForAllOn = false;
 
     public static bool STIgnoreVent = false;
     public static float AdditionalEmergencyCooldownTime = 0f;
     public static float AllAliveMeetingTime = 0f;
 
     public static bool JuggerCanVent = false;
-    public static bool DisableAdmin = false;
-    public static bool SidekickGetsPromoted = false;
-    public static bool SchrodingerCatExiledTeamChanges = false;
-    public static bool MayorHasPortableButton = false;
-    public static float SwooperCooldown = 10.0f;
-    public static bool ExecutionerCanTargetImpostor = false;
-
-    public static float RampageCD = 10.0f;
-
-
-    public static float StoneCD = 10.0f;
-
-
-    public static bool SheriffCorrupted = false;
-
-    public static bool TraitorCanSpawnIfNK = false;
-
-
-    public static bool TraitorCanSpawnIfCoven = false;
-    public static int PlayersForTraitor = 1;
     public static bool AutoDisplayLastResult = false;
     public static bool AddedTheSkeld = false;
 
@@ -155,61 +121,19 @@ public static class StaticOptions
 
     public static bool AddedPolus = false;
     public static bool AddedTheAirShip = false;
-    public static bool JackalCanUseSabotage = false;
     public static bool PestiCanVent = false;
     public static bool ResetKillCooldown = false;
     public static bool RandomSpawn = false;
     public static bool BKcanVent = false;
     public static bool MarksmanCanVent = false;
-    public static bool HitmanCanVent = false;
     public static string SuffixStr = "";
-    public static bool GrenadierCanVent = false;
     public static int MayorAdditionalVote = 1;
-    public static bool MayorVotesAppearBlack = false;
-    public static int ExecutionerChangeRolesAfterTargetKilled = 1;
-    public static int WhenGaTargetDies = 1;
-    public static bool LoversDieTogether = false;
-    public static bool GAknowsRole = false;
-    public static bool LoversKnowRoleOfOtherLover = false;
-    public static int NumOfTransports = 1;
-    public static float KillDelay = 10.0f;
 
-    public static float StandardHASWaitingTime = 5.0f;
-
-    public static bool JackalHasSidekick = false;
-    public static bool InfectionSkip = false;
-    public static bool VampireDitchesOn = false;
-    public static bool HexMasterOn = false;
-
-    public static bool MedusaOn = false;
     public static string Suffix = "";
     public static string VoteModeStr = "";
 
-    public static int CovenMeetings = 1;
-    public static bool ModifierRestrict = false;
-    public static bool CanBeforeSchrodingerCatWinTheCrewmate = false;
-    public static bool HitmanCanWinWithExeJes = false;
-    public static bool ResetToYinYang = false;
     public static bool DisableAirshipGapRoomLightsPanel = false;
     public static bool DisableAirshipCargoLightsPanel = false;
-    public static bool JesterCanVent = false;
-    public static double VampireKillDelay = 10.0;
-    public static bool VampireBuff = false;
-    public static int InfectCooldown = 1;
-    public static bool VultureCanVent = false;
-    public static bool SplatoonOn = false;
-    public static bool GlitchCanVent = true;
-    public static bool EscortPreventsVent = false;
-    public static bool IgnoreVent = false;
-    public static int MayorNumOfUseButton = 1;
-    public static int NumOfVets = 1;
-    public static float SwooperDuration = 10.0f;
-    public static bool SwooperCanVentInvis = false;
-    public static int NumOfProtects = 1;
-    public static bool BastionVentsRemoveOnBomb = false;
-    public static bool VentWhileRampaged = false;
-    public static float RampageDur = 10.0f;
-    public static string GlobalRoleBlockDuration { get; set; }
     public static bool MadSnitchCanAlsoBeExposedToImpostor { get; set; }
     public static bool MadmateRevengeCrewmate { get; set; }
     public static bool WhenSkipVoteIgnoreFirstMeeting { get; set; }

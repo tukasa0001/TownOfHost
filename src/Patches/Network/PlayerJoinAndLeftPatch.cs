@@ -55,15 +55,6 @@ namespace TownOfHost
             //            main.RealNames.Remove(data.Character.PlayerId);
             if (GameStates.IsInGame)
             {
-                /*if (data.Character.Is(CustomRoles.TimeThief))
-                    data.Character.ResetVotingTime();*/
-                if (data.Character.Is(CustomRoles.Lovers) && !data.Character.Data.IsDead)
-                    foreach (var lovers in TOHPlugin.LoversPlayers.ToArray())
-                    {
-                        TOHPlugin.isLoversDead = true;
-                        TOHPlugin.LoversPlayers.Remove(lovers);
-                        TOHPlugin.PlayerStates[lovers.PlayerId].RemoveSubRole(CustomRoles.Lovers);
-                    }
                 if (TOHPlugin.PlayerStates[data.Character.PlayerId].deathReason == PlayerStateOLD.DeathReason.etc) //死因が設定されていなかったら
                 {
                     TOHPlugin.PlayerStates[data.Character.PlayerId].deathReason = PlayerStateOLD.DeathReason.Disconnected;

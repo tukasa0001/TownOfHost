@@ -32,21 +32,15 @@ namespace TownOfHost
             TOHPlugin.PlayerStates = new();
 
             TOHPlugin.AllPlayerKillCooldown = new Dictionary<byte, float>();
-            TOHPlugin.AllPlayerSpeed = new Dictionary<byte, float>();
-            TOHPlugin.BitPlayers = new Dictionary<byte, (byte, float)>();
-            TOHPlugin.WarlockTimer = new Dictionary<byte, float>();
             TOHPlugin.CursedPlayers = new Dictionary<byte, PlayerControl>();
             TOHPlugin.isCurseAndKill = new Dictionary<byte, bool>();
             TOHPlugin.SKMadmateNowCount = 0;
-            TOHPlugin.isCursed = false;
             TOHPlugin.PuppeteerList = new Dictionary<byte, byte>();
 
             TOHPlugin.AfterMeetingDeathPlayers = new();
             TOHPlugin.ResetCamPlayerList = new();
             TOHPlugin.clientIdList = new();
 
-            TOHPlugin.CheckShapeshift = new();
-            TOHPlugin.ShapeshiftTarget = new();
             TOHPlugin.SpeedBoostTarget = new Dictionary<byte, byte>();
             TOHPlugin.MayorUsedButtonCount = new Dictionary<byte, int>();
             TOHPlugin.targetArrows = new();
@@ -60,14 +54,8 @@ namespace TownOfHost
 
             RandomSpawn.CustomNetworkTransformPatch.NumOfTP = new();
 
-            TOHPlugin.DiscussionTime = TOHPlugin.RealOptionsData.GetInt(Int32OptionNames.DiscussionTime);
-            TOHPlugin.VotingTime = TOHPlugin.RealOptionsData.GetInt(Int32OptionNames.VotingTime);
-            TOHPlugin.DefaultCrewmateVision = TOHPlugin.RealOptionsData.GetFloat(FloatOptionNames.CrewLightMod);
-            TOHPlugin.DefaultImpostorVision = TOHPlugin.RealOptionsData.GetFloat(FloatOptionNames.ImpostorLightMod);
-
             TOHPlugin.LastNotifyNames = new();
 
-            TOHPlugin.currentDousingTarget = 255;
             TOHPlugin.PlayerColors = new();
             //名前の記録
             TOHPlugin.AllPlayerNames = new();
@@ -86,7 +74,6 @@ namespace TownOfHost
                 TOHPlugin.AllPlayerNames[pc.PlayerId] = pc?.Data?.PlayerName;
 
                 TOHPlugin.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
-                TOHPlugin.AllPlayerSpeed[pc.PlayerId] = TOHPlugin.RealOptionsData.GetFloat(FloatOptionNames.PlayerSpeedMod); //移動速度をデフォルトの移動速度に変更
                 ReportDeadBodyPatch.CanReport[pc.PlayerId] = true;
                 ReportDeadBodyPatch.WaitReport[pc.PlayerId] = new();
                 pc.cosmetics.nameText.text = pc.name;

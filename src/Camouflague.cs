@@ -74,17 +74,8 @@ namespace TownOfHost
             var newOutfit = CamouflageOutfit;
 
             if (!IsCamouflage || ForceRevert)
-            {
                 //コミュサボ解除または強制解除
-
-                if (TOHPlugin.CheckShapeshift.TryGetValue(id, out var shapeshifting) && !RevertToDefault)
-                {
-                    //シェイプシフターなら今の姿のidに変更
-                    id = TOHPlugin.ShapeshiftTarget[id];
-                }
-
                 newOutfit = PlayerSkins[id];
-            }
             Logger.Info($"newOutfit={newOutfit.GetString()}", "RpcSetSkin");
 
             var sender = CustomRpcSender.Create(name: $"Camouflage.RpcSetSkin({target.Data.PlayerName})");

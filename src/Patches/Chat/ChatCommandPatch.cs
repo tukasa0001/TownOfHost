@@ -70,7 +70,6 @@ namespace TownOfHost
                     case "/r":
                     case "/rename":
                         canceled = true;
-                        TOHPlugin.nickName = args.Length > 1 ? TOHPlugin.nickName = args[1] : "";
                         PlayerControl.LocalPlayer.RpcSetName(args[1]);
                         break;
 

@@ -18,9 +18,8 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             //ここより下、ホストのみが実行する
             if (TOHPlugin.IsFixedCooldown && TOHPlugin.RefixCooldownDelay >= 0)
-            {
                 TOHPlugin.RefixCooldownDelay -= Time.fixedDeltaTime;
-            }
+
             else if (!float.IsNaN(TOHPlugin.RefixCooldownDelay))
             {
                 Utils.MarkEveryoneDirtySettings();

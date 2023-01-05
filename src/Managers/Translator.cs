@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Csv;
 using HarmonyLib;
+using TownOfHost.Managers;
 
 namespace TownOfHost
 {
@@ -83,9 +84,7 @@ namespace TownOfHost
             }
             if (langId == SupportedLangs.Japanese)
             {
-                //このソースコ―ドを見た人へ。口外しないでもらえると嬉しいです...
-                //To anyone who has seen this source code. I would appreciate it if you would keep your mouth shut...
-                if (TOHPlugin.IsChristmas)
+                if (SpecialDates.IsChristmas)
                 {
                     res = str switch
                     {

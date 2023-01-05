@@ -16,6 +16,7 @@ using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
 using Reactor;
 using Reactor.Networking.Attributes;
+using TownOfHost.Gamemodes;
 using VentFramework;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.TOHPlugin.PluginVersion)]
@@ -69,10 +70,10 @@ public class TOHPlugin : BasePlugin
     public Harmony Harmony { get; } = new Harmony(PluginGuid);
     public static Version version = Version.Parse(PluginVersion);
     public static BepInEx.Logging.ManualLogSource Logger;
-    public static bool hasArgumentException = false;
-    public static string ExceptionMessage;
-    public static bool ExceptionMessageIsShown = false;
-    public static string credentialsText;
+
+    public static bool HasArgumentException = false;
+    public static string CredentialsText;
+
     public static NormalGameOptionsV07 NormalOptions => GameOptionsManager.Instance.currentNormalGameOptions;
     public static HideNSeekGameOptionsV07 HideNSeekSOptions => GameOptionsManager.Instance.currentHideNSeekGameOptions;
     //Client Options
@@ -83,12 +84,6 @@ public class TOHPlugin : BasePlugin
     public static ConfigEntry<int> MessageWait { get; private set; }
 
     public static Dictionary<byte, PlayerVersion> playerVersion = new();
-    //Preset Name Options
-    public static ConfigEntry<string> Preset1 { get; private set; }
-    public static ConfigEntry<string> Preset2 { get; private set; }
-    public static ConfigEntry<string> Preset3 { get; private set; }
-    public static ConfigEntry<string> Preset4 { get; private set; }
-    public static ConfigEntry<string> Preset5 { get; private set; }
     //Other Configs
     public static ConfigEntry<string> WebhookURL { get; private set; }
     public static ConfigEntry<string> BetaBuildURL { get; private set; }
@@ -101,7 +96,7 @@ public class TOHPlugin : BasePlugin
     public static Dictionary<byte, PlayerStateOLD.DeathReason> AfterMeetingDeathPlayers = new();
     public static Dictionary<CustomRoles, String> roleColors;
     public static bool IsFixedCooldown => Vampire.Ref<Vampire>().IsEnable();
-    [Obsolete]
+    [Obsolete("Switching to Gamemode Manager")]
     public static CustomGameMode CurrentGameMode { get; set; }
 
     public static bool NoGameEnd { get; set; }
@@ -116,17 +111,12 @@ public class TOHPlugin : BasePlugin
     public static List<int> clientIdList;
     public static List<(string, byte, string)> MessagesToSend;
     public static bool isChatCommand = false;
-    public static List<PlayerControl> LoversPlayers = new();
-    public static bool isLoversDead = true;
     public static Dictionary<byte, float> AllPlayerKillCooldown = new();
 
     /// <summary>
     /// 基本的に速度の代入は禁止.スピードは増減で対応してください.
     /// </summary>
-    public static Dictionary<byte, float> AllPlayerSpeed = new();
     public const float MinSpeed = 0.0001f;
-    public static Dictionary<byte, (byte, float)> BitPlayers = new();
-    public static Dictionary<byte, float> WarlockTimer = new();
     public static Dictionary<byte, PlayerControl> CursedPlayers = new();
     public static Dictionary<byte, bool> isCurseAndKill = new();
     /// <summary>
@@ -137,28 +127,17 @@ public class TOHPlugin : BasePlugin
     public static Dictionary<byte, int> MayorUsedButtonCount = new();
     public static int AliveImpostorCount;
     public static int SKMadmateNowCount;
-    public static bool isCursed;
-    public static Dictionary<byte, bool> CheckShapeshift = new();
-    public static Dictionary<byte, byte> ShapeshiftTarget = new();
     public static Dictionary<(byte, byte), string> targetArrows = new();
     public static bool VisibleTasksCount;
-    public static string nickName = "";
     public static bool introDestroyed = false;
-    public static int DiscussionTime;
-    public static int VotingTime;
-    public static byte currentDousingTarget;
-    public static float DefaultCrewmateVision;
-    public static float DefaultImpostorVision;
-    public static bool IsChristmas = DateTime.Now.Month == 12 && DateTime.Now.Day is 24 or 25;
-    public static bool IsInitialRelease = DateTime.Now.Month == 12 && DateTime.Now.Day is 4;
 
+
+    public static GamemodeManager GamemodeManager;
     public static OptionManager OptionManager;
     public static TOHPlugin Instance;
     // TODO fix
     public static List<byte> unreportableBodies = new();
 
-    [Obsolete]
-    public static List<byte> isInfected = new();
 
     public override void Load()
     {
@@ -179,6 +158,7 @@ public class TOHPlugin : BasePlugin
         global::TownOfHost.Logger.Disable("SendChat");
 
         OptionManager = new OptionManager();
+        GamemodeManager = new GamemodeManager();
 
         //TownOfHost.Logger.isDetail = true;
 
@@ -188,20 +168,12 @@ public class TOHPlugin : BasePlugin
         // 認証関連-認証
         DebugModeManager.Auth(DebugKeyAuth, DebugKeyInput.Value);
 
-        BitPlayers = new Dictionary<byte, (byte, float)>();
-        WarlockTimer = new Dictionary<byte, float>();
         CursedPlayers = new Dictionary<byte, PlayerControl>();
         MayorUsedButtonCount = new Dictionary<byte, int>();
         winnerList = new();
         VisibleTasksCount = false;
         MessagesToSend = new List<(string, byte, string)>();
-        currentDousingTarget = 255;
 
-        Preset1 = Config.Bind("Preset Name Options", "Preset1", "Preset_1");
-        Preset2 = Config.Bind("Preset Name Options", "Preset2", "Preset_2");
-        Preset3 = Config.Bind("Preset Name Options", "Preset3", "Preset_3");
-        Preset4 = Config.Bind("Preset Name Options", "Preset4", "Preset_4");
-        Preset5 = Config.Bind("Preset Name Options", "Preset5", "Preset_5");
         WebhookURL = Config.Bind("Other", "WebhookURL", "none");
         BetaBuildURL = Config.Bind("Other", "BetaBuildURL", "");
         MessageWait = Config.Bind("Other", "MessageWait", 1);
@@ -214,8 +186,7 @@ public class TOHPlugin : BasePlugin
 
         IRandom.SetInstance(new NetRandomWrapper());
 
-        hasArgumentException = false;
-        ExceptionMessage = "";
+        HasArgumentException = false;
         try
         {
 
@@ -273,9 +244,7 @@ public class TOHPlugin : BasePlugin
         {
             global::TownOfHost.Logger.Error("エラー:Dictionaryの値の重複を検出しました", "LoadDictionary");
             global::TownOfHost.Logger.Error(ex.Message, "LoadDictionary");
-            hasArgumentException = true;
-            ExceptionMessage = ex.Message;
-            ExceptionMessageIsShown = false;
+            HasArgumentException = true;
         }
         global::TownOfHost.Logger.Info($"{Application.version}", "AmongUs Version");
 
@@ -289,11 +258,14 @@ public class TOHPlugin : BasePlugin
 
         ClassInjector.RegisterTypeInIl2Cpp<ErrorText>();
 
+        // Setup, order matters here
+
         GameOptionTab __ = DefaultTabs.GeneralTab;
         int _ = CustomRoleManager.Roles.Count;
         Harmony.PatchAll();
         AddonManager.ImportAddons();
 
+        GamemodeManager.Setup();
         StaticOptions.AddStaticOptions();
         OptionManager.AllHolders = OptionManager.Options().SelectMany(opt => opt.GetHoldersRecursive()).ToList();
     }

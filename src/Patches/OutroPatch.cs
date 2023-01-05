@@ -64,18 +64,6 @@ namespace TownOfHost
                 }
             }
 
-            //単独勝利
-            if (CustomRoleManager.Static.Lovers.IsEnable() && OldOptions.CurrentGameMode == CustomGameMode.Standard && TOHPlugin.LoversPlayers.Count > 0 && TOHPlugin.LoversPlayers.ToArray().All(p => !TOHPlugin.PlayerStates[p.PlayerId].IsDead) //ラバーズが生きていて
-            && (CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor || CustomWinnerHolder.WinnerTeam == CustomWinner.Jackal
-            || (CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))))   //クルー勝利でタスク勝ちじゃなければ
-            { //Loversの単独勝利
-                winner = new();
-                CustomWinnerHolder.WinnerTeam = CustomWinner.Lovers;
-                foreach (var lp in TOHPlugin.LoversPlayers)
-                {
-                    winner.Add(lp);
-                }
-            }
             /*TeamEgoist.SoloWin(winner);*/
 
             ///以降追加勝利陣営 (winnerリセット無し)

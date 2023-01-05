@@ -33,67 +33,26 @@ public class ReportDeadBodyPatch
         if (handle.IsCanceled) return false;
 
         if (target == null) //ボタン
-        {
             if (__instance.Is(CustomRoles.Mayor))
-            {
                 TOHPlugin.MayorUsedButtonCount[__instance.PlayerId] += 1;
-            }
-        }
 
-        if (StaticOptions.SyncButtonMode && target == null)
+        if (!StaticOptions.SyncButtonMode || target != null) return true;
+
+        Logger.Info("最大:" + StaticOptions.SyncedButtonCount + ", 現在:" + OldOptions.UsedButtonCount, "ReportDeadBody");
+        if (StaticOptions.SyncedButtonCount <= OldOptions.UsedButtonCount)
         {
-            Logger.Info("最大:" + StaticOptions.SyncedButtonCount + ", 現在:" + OldOptions.UsedButtonCount, "ReportDeadBody");
-            if (StaticOptions.SyncedButtonCount <= OldOptions.UsedButtonCount)
-            {
-                Logger.Info("使用可能ボタン回数が最大数を超えているため、ボタンはキャンセルされました。", "ReportDeadBody");
-                return false;
-            }
-            else OldOptions.UsedButtonCount++;
-            if (StaticOptions.SyncedButtonCount == OldOptions.UsedButtonCount)
-            {
-                Logger.Info("使用可能ボタン回数が最大数に達しました。", "ReportDeadBody");
-            }
+            Logger.Info("使用可能ボタン回数が最大数を超えているため、ボタンはキャンセルされました。", "ReportDeadBody");
+            return false;
         }
 
-        foreach (var bp in TOHPlugin.BitPlayers)
-        {
-            var vampireID = bp.Value.Item1;
-            var bitten = Utils.GetPlayerById(bp.Key);
+        OldOptions.UsedButtonCount++;
+        if (StaticOptions.SyncedButtonCount == OldOptions.UsedButtonCount)
+            Logger.Info("使用可能ボタン回数が最大数に達しました。", "ReportDeadBody");
 
-            if (bitten != null && !bitten.Data.IsDead)
-            {
-                TOHPlugin.PlayerStates[bitten.PlayerId].deathReason = PlayerStateOLD.DeathReason.Bite;
-                /*bitten.SetRealKiller(Utils.GetPlayerById(vampireID));*/
-                //Protectは強制的にはがす
-                if (bitten.protectedByGuardian)
-                    bitten.RpcMurderPlayer(bitten);
-                bitten.RpcMurderPlayer(bitten);
-                OldRPC.PlaySoundRPC(vampireID, Sounds.KillSound);
-                Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "ReportDeadBody");
-            }
-            else
-                Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "はすでに死んでいました。", "ReportDeadBody");
-        }
-        TOHPlugin.BitPlayers = new Dictionary<byte, (byte, float)>();
-        TOHPlugin.PuppeteerList.Clear();
-
-        if (__instance.Data.IsDead) return true;
-        //=============================================
-        //以下、ボタンが押されることが確定したものとする。
-        //=============================================
-
-
-        PlayerControl.AllPlayerControls.ToArray()
+        /*PlayerControl.AllPlayerControls.ToArray()
             .Where(pc => TOHPlugin.CheckShapeshift.ContainsKey(pc.PlayerId))
-            .Do(pc => Camouflage.RpcSetSkin(pc, RevertToDefault: true));
-
-        Utils.MarkEveryoneDirtySettings();
+            .Do(pc => Camouflage.RpcSetSkin(pc, RevertToDefault: true));*/
         return true;
-    }
-    public static async void ChangeLocalNameAndRevert(string name, int time)
-    {
-        //async Taskじゃ警告出るから仕方ないよね。
-        var revertName = PlayerControl.LocalPlayer.name;
-        await System.Threading.Tasks.Task.Delay(time);
+
     }
 }

@@ -100,58 +100,6 @@ public static class MurderPatches
             }
 
             //キル時の特殊判定
-            if (killer.PlayerId != target.PlayerId)
-            {
-                //自殺でない場合のみ役職チェック
-                switch (killer.GetCustomRole())
-                {
-                    //==========インポスター役職==========//
-                    case Vampire:
-                        if (!target.Is(Baiter.Ref<Baiter>()))
-                        { //キルキャンセル&自爆処理
-                            Utils.MarkEveryoneDirtySettings();
-                            TOHPlugin.AllPlayerKillCooldown[killer.PlayerId] = OldOptions.DefaultKillCooldown * 2;
-                            killer.MarkDirtySettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
-                            killer.RpcGuardAndKill(target);
-                            TOHPlugin.BitPlayers.Add(target.PlayerId, (killer.PlayerId, 0f));
-                            return false;
-                        }
-                        break;
-                    case Warlock:
-                        if (!TOHPlugin.CheckShapeshift[killer.PlayerId] && !TOHPlugin.isCurseAndKill[killer.PlayerId])
-                        { //Warlockが変身時以外にキルしたら、呪われる処理
-                            TOHPlugin.isCursed = true;
-                            Utils.MarkEveryoneDirtySettings();
-                            killer.RpcGuardAndKill(target);
-                            TOHPlugin.CursedPlayers[killer.PlayerId] = target;
-                            TOHPlugin.WarlockTimer.Add(killer.PlayerId, 0f);
-                            TOHPlugin.isCurseAndKill[killer.PlayerId] = true;
-                            return false;
-                        }
-                        if (TOHPlugin.CheckShapeshift[killer.PlayerId])
-                        {//呪われてる人がいないくて変身してるときに通常キルになる
-                            killer.RpcMurderPlayer(target);
-                            killer.RpcGuardAndKill(target);
-                            return false;
-                        }
-                        if (TOHPlugin.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
-                        return false;
-                    case Puppeteer:
-                        TOHPlugin.PuppeteerList[target.PlayerId] = killer.PlayerId;
-                        TOHPlugin.AllPlayerKillCooldown[killer.PlayerId] = OldOptions.DefaultKillCooldown * 2;
-                        killer.MarkDirtySettings(); //負荷軽減のため、killerだけがCustomSyncSettings,NotifyRolesを実行
-                        Utils.NotifyRoles(SpecifySeer: killer);
-                        killer.RpcGuardAndKill(target);
-                        return false;
-
-                    //==========マッドメイト系役職==========//
-
-                    //==========第三陣営役職==========//
-
-                    //==========クルー役職==========//
-                }
-            }
-
             //==キル処理==
             killer.RpcMurderPlayer(target);
             //============
@@ -194,8 +142,6 @@ public static class MurderPatches
                 Logger.Info(target?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
                 Utils.CheckTerroristWin(target.Data);
             }
-            /*LastImpostor.SetKillCooldown();*/
-            FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
             TOHPlugin.PlayerStates[target.PlayerId].SetDead();
             Utils.CountAliveImpostors();

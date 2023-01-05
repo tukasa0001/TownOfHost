@@ -33,15 +33,6 @@ namespace TownOfHost
             taskOptionsLoad.Wait();
             Logger.Info("Options.Load End", "Options");
         }
-        // オプションId
-        public const int PresetId = 0;
-
-        // プリセット
-        private static readonly string[] presets =
-        {
-            TOHPlugin.Preset1.Value, TOHPlugin.Preset2.Value, TOHPlugin.Preset3.Value,
-            TOHPlugin.Preset4.Value, TOHPlugin.Preset5.Value
-        };
 
         // ゲームモード
         public static OptionItem GameMode;

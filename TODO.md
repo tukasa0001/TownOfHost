@@ -16,3 +16,8 @@ Minor:
 - [ ] Roles that extend other roles (Blood Knight extending Impostor) show both role's tasks in the "Tasks" panel
 - [ ] Allow removing of "Maximum" setting from roles
 - [ ] Deprecate AsNormalOptions()
+- [ ] Boot non-vent-allowed players out of vent
+
+Even Minor(er):
+- [ ] Vampire should kill all bitten when meeting is called
+- [ ] Miner LastEnteredVentLocation (should also actually be a local variable to miner)

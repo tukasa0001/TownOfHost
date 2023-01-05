@@ -39,35 +39,4 @@ public static class FixedUpdatePatch
             __instance.cosmetics.nameText.text = ver.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})" ? $"<color=#87cefa>{__instance.name}</color>" : $"<color=#ffff00><size=1.2>{ver.tag}</size>\n{__instance?.name}</color>";
         else __instance.cosmetics.nameText.text = $"<color=#ff0000><size=1.2>v{ver.version}</size>\n{__instance?.name}</color>";
     }
-
-    //FIXME: 役職クラス化のタイミングで、このメソッドは移動予定
-    public static void LoversSuicide(byte deathId = 0x7f, bool isExiled = false)
-    {
-        if (CustomRoleManager.Static.Lovers.IsEnable() && TOHPlugin.isLoversDead == false)
-        {
-            foreach (var loversPlayer in TOHPlugin.LoversPlayers)
-            {
-                //生きていて死ぬ予定でなければスキップ
-                if (!loversPlayer.Data.IsDead && loversPlayer.PlayerId != deathId) continue;
-
-                TOHPlugin.isLoversDead = true;
-                foreach (var partnerPlayer in TOHPlugin.LoversPlayers)
-                {
-                    //本人ならスキップ
-                    if (loversPlayer.PlayerId == partnerPlayer.PlayerId) continue;
-
-                    //残った恋人を全て殺す(2人以上可)
-                    //生きていて死ぬ予定もない場合は心中
-                    if (partnerPlayer.PlayerId != deathId && !partnerPlayer.Data.IsDead)
-                    {
-                        TOHPlugin.PlayerStates[partnerPlayer.PlayerId].deathReason = PlayerStateOLD.DeathReason.FollowingSuicide;
-                        if (isExiled)
-                            CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(partnerPlayer.PlayerId, PlayerStateOLD.DeathReason.FollowingSuicide);
-                        else
-                            partnerPlayer.RpcMurderPlayer(partnerPlayer);
-                    }
-                }
-            }
-        }
-    }
 }

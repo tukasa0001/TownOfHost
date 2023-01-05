@@ -135,18 +135,6 @@ namespace TownOfHost
                     CustomRole role = CustomRoleManager.GetRoleFromId(reader.ReadPackedInt32());
                     OldRPC.SetCustomRole(CustomRoleTargetId, role);
                     break;
-                case CustomRPCOLD.SetLoversPlayers:
-                    TOHPlugin.LoversPlayers.Clear();
-                    int count = reader.ReadInt32();
-                    for (int i = 0; i < count; i++)
-                        TOHPlugin.LoversPlayers.Add(Utils.GetPlayerById(reader.ReadByte()));
-                    break;
-                case CustomRPCOLD.SetCurrentDousingTarget:
-                    byte arsonistId = reader.ReadByte();
-                    byte dousingTargetId = reader.ReadByte();
-                    if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
-                        TOHPlugin.currentDousingTarget = dousingTargetId;
-                    break;
                 case CustomRPCOLD.SetRealKiller:
                     byte targetId = reader.ReadByte();
                     byte killerId = reader.ReadByte();
@@ -249,17 +237,6 @@ namespace TownOfHost
             writer.Write(killerId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void SyncLoversPlayers()
-        {
-            if (!AmongUsClient.Instance.AmHost) return;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.SetLoversPlayers, Hazel.SendOption.Reliable, -1);
-            writer.Write(TOHPlugin.LoversPlayers.Count);
-            foreach (var lp in TOHPlugin.LoversPlayers)
-            {
-                writer.Write(lp.PlayerId);
-            }
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
         public static void SendRpcLogger(uint targetNetId, byte callId, int targetClientId = -1)
         {
             if (!DebugModeManager.AmDebugger) return;
@@ -282,21 +259,6 @@ namespace TownOfHost
             else rpcName = callId.ToString();
             return rpcName;
         }
-        public static void SetCurrentDousingTarget(byte arsonistId, byte targetId)
-        {
-            if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
-            {
-                TOHPlugin.currentDousingTarget = targetId;
-            }
-            else
-            {
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.SetCurrentDousingTarget, Hazel.SendOption.Reliable, -1);
-                writer.Write(arsonistId);
-                writer.Write(targetId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-            }
-        }
-        public static void ResetCurrentDousingTarget(byte arsonistId) => SetCurrentDousingTarget(arsonistId, 255);
         public static void SetRealKiller(byte targetId, byte killerId)
         {
             var state = TOHPlugin.PlayerStates[targetId];

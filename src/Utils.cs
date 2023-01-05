@@ -132,17 +132,6 @@ namespace TownOfHost
                 PlayerControlExtensions.MarkDirtySettings(player);
             }, StaticOptions.KillFlashDuration, "RemoveKillFlash");
         }
-        public static void BlackOut(this IGameOptions opt, bool IsBlackOut)
-        {
-            opt.SetFloat(FloatOptionNames.ImpostorLightMod, TOHPlugin.DefaultImpostorVision);
-            opt.SetFloat(FloatOptionNames.CrewLightMod, TOHPlugin.DefaultCrewmateVision);
-            if (IsBlackOut)
-            {
-                opt.SetFloat(FloatOptionNames.ImpostorLightMod, 0);
-                opt.SetFloat(FloatOptionNames.CrewLightMod, 0);
-            }
-            return;
-        }
         public static string GetDisplayRoleName(byte playerId)
         {
             var TextData = GetRoleText(Utils.GetPlayerById(playerId));

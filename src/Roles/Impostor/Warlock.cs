@@ -8,7 +8,7 @@ namespace TownOfHost.Roles;
 public class Warlock : Morphling
 {
     private List<PlayerControl> cursedPlayers;
-    private bool shapeshifted;
+    public bool Shapeshifted;
 
     protected override void Setup(PlayerControl player) => cursedPlayers = new List<PlayerControl>();
 
@@ -16,7 +16,7 @@ public class Warlock : Morphling
     public override bool TryKill(PlayerControl target)
     {
         SyncOptions();
-        if (shapeshifted) return base.TryKill(target);
+        if (Shapeshifted) return base.TryKill(target);
         InteractionResult result = CheckInteractions(target.GetCustomRole(), target);
         if (result is InteractionResult.Halt) return false;
 
@@ -28,7 +28,7 @@ public class Warlock : Morphling
     [RoleAction(RoleActionType.Shapeshift)]
     private void WarlockKillCheck()
     {
-        shapeshifted = true;
+        Shapeshifted = true;
         foreach (PlayerControl player in new List<PlayerControl>(cursedPlayers))
         {
 
@@ -47,12 +47,12 @@ public class Warlock : Morphling
     }
 
     [RoleAction(RoleActionType.Unshapeshift)]
-    private void WarlockUnshapeshift() => shapeshifted = false;
+    private void WarlockUnshapeshift() => Shapeshifted = false;
 
     [RoleAction(RoleActionType.RoundEnd)]
     private void WarlockClearCursed() => cursedPlayers.Clear();
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>
         base.Modify(roleModifier)
-            .OptionOverride(Override.KillCooldown, KillCooldown * 2, () => !shapeshifted);
+            .OptionOverride(Override.KillCooldown, KillCooldown * 2, () => !Shapeshifted);
 }

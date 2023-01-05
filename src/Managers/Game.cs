@@ -28,6 +28,7 @@ public static class Game
     public static IEnumerable<PlayerControl> GetAlivePlayers() => GetAllPlayers().Where(p => !p.Data.IsDead && !p.Data.Disconnected);
     public static PlayerControl GetHost() => GetAllPlayers().FirstOrDefault(p => p.NetId == RpcV2.GetHostNetId());
 
+    public static void SyncAll() => Game.GetAllPlayers().Do(p => p.GetCustomRole().SyncOptions());
     public static void TriggerForAll(RoleActionType action, ref ActionHandle handle, params object[] parameters)
     {
         if (action == RoleActionType.FixedUpdate)
