@@ -351,13 +351,15 @@ namespace TownOfHost
                             EvilTracker.Add(pc.PlayerId);
                             break;
                     }
-                    // foreach (var subRole in pc.GetCustomSubRoles())
-                    // {
-                    //     switch (subRole)
-                    //     {
-
-                    //     }
-                    // }
+                    foreach (var subRole in pc.GetCustomSubRoles())
+                    {
+                        switch (subRole)
+                        {
+                            // ここに属性のAddを追加
+                            default:
+                                break;
+                        }
+                    }
                     pc.ResetKillCooldown();
 
                     //通常モードでかくれんぼをする人用
