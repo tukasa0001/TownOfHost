@@ -13,13 +13,14 @@ namespace TownOfHost.Roles;
 
 public class Veteran : Crewmate
 {
-    public bool CanKillWhileTransported;
-    private int totalAlerts;
-    private int remainingAlerts;
     [DynElement(UI.Cooldown)]
     private Cooldown veteranCooldown;
     private Cooldown veteranDuration;
+
+    private int totalAlerts;
+    private int remainingAlerts;
     private bool canKillCrewmates;
+    private bool CanKillWhileTransported;
 
     protected override void Setup(PlayerControl player)
     {

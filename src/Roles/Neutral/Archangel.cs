@@ -32,7 +32,7 @@ public class Archangel : CustomRole
         List<PlayerControl> eligiblePlayers = Game.GetAllPlayers().Where(p => p.GetCustomRole() is not Archangel).ToList();
         if (eligiblePlayers.Any())
             target = eligiblePlayers.GetRandom();
-        protectCooldown.Start();
+        protectCooldown.Start(10f);
         // Dynamic Name rules are a bit confusing but they're the way I display specific information to specific players
         // Here we add a rule for when the target is in "roaming" aka during normal game play, and we set their Cooldown component to the string value of our protection duration
         // Lastly we're only showing this rule to the player for this role
