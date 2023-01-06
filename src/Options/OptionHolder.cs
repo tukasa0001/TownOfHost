@@ -4,6 +4,7 @@ using System.Linq;
 using HarmonyLib;
 using Hazel;
 using Reactor.Networking;
+using Reactor.Utilities.Extensions;
 using TownOfHost.Extensions;
 using TownOfHost.Interface.Menus;
 using UnityEngine;
@@ -12,7 +13,7 @@ using Object = UnityEngine.Object;
 
 namespace TownOfHost.ReduxOptions;
 
-public class OptionHolder: RpcSendable<OptionHolder>
+public class OptionHolder: IRpcSendable<OptionHolder>
 {
     public string Name;
     public StringOption Behaviour;
@@ -55,11 +56,12 @@ public class OptionHolder: RpcSendable<OptionHolder>
         return holders;
     }
 
-    public List<OptionBehaviour> CreateBehaviours(StringOption template, Transform parent)
+    public List<OptionBehaviour> CreateBehaviours(StringOption template, Transform parent, bool forceNew = false)
     {
         List<OptionBehaviour> behaviours = new();
-        if (this.Behaviour == null)
+        if (forceNew || this.Behaviour == null)
         {
+            if (this.Behaviour != null) this.Behaviour.Destroy();
             this.Behaviour = Object.Instantiate(template, parent);
             behaviours.Add(this.Behaviour);
         }
@@ -76,7 +78,7 @@ public class OptionHolder: RpcSendable<OptionHolder>
         this.Behaviour.transform.FindChild("Title_TMP").GetComponent<RectTransform>().sizeDelta = new Vector2(3.5f, 0.37f);
         this.Behaviour.FixedUpdate();
         this.Behaviour.gameObject.SetActive(false);
-        behaviours.AddRange(SubOptions.SelectMany(opt => opt.CreateBehaviours(template, parent)));
+        behaviours.AddRange(SubOptions.SelectMany(opt => opt.CreateBehaviours(template, parent, forceNew)));
         return behaviours;
     }
 
@@ -99,7 +101,7 @@ public class OptionHolder: RpcSendable<OptionHolder>
 
     public override string ToString() => $"OptionsHolder({Name}: {GetAsString()} => {SubOptions.PrettyString()})";
 
-    public override OptionHolder Read(MessageReader reader)
+    public OptionHolder Read(MessageReader reader)
     {
         OptionHolder pseudoHolder = new()
         {
@@ -115,7 +117,7 @@ public class OptionHolder: RpcSendable<OptionHolder>
         return pseudoHolder;
     }
 
-    public override void Write(MessageWriter writer)
+    public void Write(MessageWriter writer)
     {
         writer.Write(Name);
         writer.Write(GetAsString());

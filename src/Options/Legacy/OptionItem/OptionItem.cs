@@ -176,7 +176,7 @@ namespace TownOfHost
             if (OptionBehaviour is not null and StringOption opt)
             {
                 opt.TitleText.text = GetName();
-                opt.ValueText.text = GetString();
+                opt.ValueText.text = "GetString()";
                 opt.oldValue = opt.Value = CurrentValue;
             }
         }

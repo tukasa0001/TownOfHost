@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using TownOfHost.Extensions;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -53,6 +52,15 @@ public class GameOptionTab: IComparable<GameOptionTab>
         if (ReferenceEquals(this, other)) return 0;
         if (ReferenceEquals(null, other)) return 1;
         return Order.CompareTo(other.Order);
+    }
+
+    public void SetActive(bool active)
+    {
+        if (GameObject == null) return;
+        try
+        {
+            GameObject.SetActive(active);
+        } catch { /* ignored */ }
     }
 }
 

@@ -267,7 +267,7 @@ public class TOHPlugin : BasePlugin
 
         GamemodeManager.Setup();
         StaticOptions.AddStaticOptions();
-        OptionManager.AllHolders = OptionManager.Options().SelectMany(opt => opt.GetHoldersRecursive()).ToList();
+        OptionManager.AllHolders.AddRange(OptionManager.Options().SelectMany(opt => opt.GetHoldersRecursive()));
     }
 }
 public enum CustomRoles

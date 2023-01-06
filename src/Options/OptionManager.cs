@@ -5,12 +5,13 @@ using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
 using TownOfHost.Interface.Menus;
+using TownOfHost.Menus;
 
 namespace TownOfHost.ReduxOptions;
 
 public class OptionManager
 {
-    public List<GameOptionTab> Tabs = new();
+    public List<GameOptionTab> Tabs { get; private set; } = new();
     private List<OptionHolder> options = new();
     public List<OptionHolder> AllHolders = new();
     public List<OptionHolder> receivedOptions;
@@ -50,6 +51,15 @@ public class OptionManager
     {
         this.options.Add(holder);
         holder.GetHoldersRecursive().Do(h => h.valueHolder?.UpdateBinding());
+    }
+
+    public void SetTabs(IEnumerable<GameOptionTab> newTabs)
+    {
+        Tabs.Do(tab => tab.SetActive(false));
+        Tabs = newTabs.ToList();
+        Tabs.Do(tab => tab.SetActive(true));
+        if (GameOptMenuStartPatch.Instance != null)
+            GameOptMenuStartPatch.Postfix(GameOptMenuStartPatch.Instance);
     }
 
     public void AddTab(GameOptionTab tab)

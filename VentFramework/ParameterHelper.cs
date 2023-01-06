@@ -16,7 +16,7 @@ public static class ParameterHelper
     public static Type[] AllowedTypes =
     {
         typeof(bool), typeof(byte), typeof(float), typeof(int), typeof(sbyte), typeof(string), typeof(uint),
-        typeof(ulong), typeof(ushort), typeof(Vector2), typeof(InnerNetObject), typeof(RpcSendable<>)
+        typeof(ulong), typeof(ushort), typeof(Vector2), typeof(InnerNetObject), typeof(IRpcSendable<>)
     };
 
     public static bool IsTypeAllowed(Type type)

@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using TownOfHost.Extensions;
+using TownOfHost.Gamemodes;
 using TownOfHost.Interface.Menus;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
@@ -12,7 +15,7 @@ public class GameOptionsMenuUpdatePatch
 {
     private static float _timer = 1f;
     public static Color[] colors = { Color.green, Color.red, Color.blue };
-
+    private static List<GameOptionTab> tabs;
 
     public static void Postfix(GameOptionsMenu __instance)
     {
@@ -21,7 +24,19 @@ public class GameOptionsMenuUpdatePatch
         _timer = 0f;
         float offset = 2.75f;
 
-        if (__instance.transform.parent.parent.name == "Game Settings") return;
+        if (__instance.transform.parent.parent.name == "Game Settings")
+        {
+            float gamemodeOffset = 2.35f;
+            OptionHolder gamemodeOption = TOHPlugin.GamemodeManager.GamemodeOption;
+            ShowOption(TOHPlugin.GamemodeManager.GamemodeOption, ref gamemodeOffset);
+            Vector2 position = gamemodeOption.Behaviour.transform.localPosition;
+            foreach (OptionBehaviour behaviour in __instance.Children.Skip(2))
+            {
+                position = new Vector2(position.x, position.y - 0.5f);
+                behaviour.transform.localPosition = position;
+            }
+            return;
+        }
 
         string realTabName = __instance.transform.parent.parent.name;
 

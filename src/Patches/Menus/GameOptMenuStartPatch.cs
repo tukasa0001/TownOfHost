@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using Reactor.Utilities.Extensions;
 using TownOfHost.Extensions;
 using TownOfHost.Interface.Menus;
 using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.ReduxOptions;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -26,92 +28,124 @@ public static class GameSettingMenuPatch
 [HarmonyPriority(Priority.First)]
 public class GameOptMenuStartPatch
 {
+    public static GameOptionsMenu Instance;
+
     public static void Postfix(GameOptionsMenu __instance)
+    {
+
+        foreach (var ob in __instance.Children)
         {
-            foreach (var ob in __instance.Children)
+            switch (ob.Title)
             {
-                switch (ob.Title)
-                {
-                    case StringNames.GameShortTasks:
-                    case StringNames.GameLongTasks:
-                    case StringNames.GameCommonTasks:
-                        ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 99);
-                        break;
-                    case StringNames.GameKillCooldown:
-                        ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 180);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            var template = Object.FindObjectsOfType<StringOption>().FirstOrDefault();
-            if (template == null) return;
-
-            var gameSettings = GameObject.Find("Game Settings");
-            if (gameSettings == null) return;
-            //gameSettings.transform.FindChild("GameGroup").GetComponent<Scroller>().ScrollWheelSpeed = 1f;
-
-            var gameSettingMenu = Object.FindObjectsOfType<GameSettingMenu>().FirstOrDefault();
-            if (gameSettingMenu == null) return;
-            List<GameObject> menus = new() { gameSettingMenu.RegularGameSettings, gameSettingMenu.RolesSettings.gameObject };
-            List<SpriteRenderer> highlights = new() { gameSettingMenu.GameSettingsHightlight, gameSettingMenu.RolesSettingsHightlight };
-
-            var roleTab = GameObject.Find("RoleTab");
-            var gameTab = GameObject.Find("GameTab");
-            List<GameObject> tabs = new() { gameTab, roleTab };
-
-
-            foreach (GameOptionTab tab in TOHPlugin.OptionManager.Tabs)
-            {
-                var obj = gameSettings.transform.parent.Find(tab.Name);
-                if (obj != null)
-                {
-                    obj.transform.FindChild("../../GameGroup/Text").GetComponent<TMPro.TextMeshPro>().SetText(Translator.GetString("TabGroup." + tab));
-                    continue;
-                }
-
-                GameObject tohSettings = Object.Instantiate(gameSettings, gameSettings.transform.parent);
-                tohSettings.name = tab.Name;
-                tohSettings.transform.FindChild("BackPanel").transform.localScale =
-                    tohSettings.transform.FindChild("Bottom Gradient").transform.localScale = new Vector3(1.2f, 1f, 1f);
-                tohSettings.transform.FindChild("Background").transform.localScale = new Vector3(1.3f, 1f, 1f);
-                tohSettings.transform.FindChild("UI_Scrollbar").transform.localPosition += new Vector3(0.35f, 0f, 0f);
-                tohSettings.transform.FindChild("UI_ScrollbarTrack").transform.localPosition += new Vector3(0.35f, 0f, 0f);
-                tohSettings.transform.FindChild("GameGroup/SliderInner").transform.localPosition += new Vector3(-0.15f, 0f, 0f);
-                GameOptionsMenu tohMenu = tohSettings.transform.FindChild("GameGroup/SliderInner").GetComponent<GameOptionsMenu>();
-
-                tohMenu.GetComponentsInChildren<OptionBehaviour>().Do(x => Object.Destroy(x.gameObject));
-
-                var behaviours = new List<OptionBehaviour>();
-                behaviours.AddRange(TOHPlugin.OptionManager.Options().Where(opt => opt.Tab == tab).SelectMany(opt => opt.CreateBehaviours(template, tohMenu.transform)));
-
-                tohMenu.Children = behaviours.ToArray();
-                tohSettings.gameObject.SetActive(false);
-                menus.Add(tohSettings.gameObject);
-
-                GameOptionTab initializedTab = tab.Instantiate(roleTab, roleTab.transform.parent);
-                tabs.Add(initializedTab.GameObject);
-                var tohTabHighlight = initializedTab.Transform.FindChild("Hat Button").FindChild("Tab Background").GetComponent<SpriteRenderer>();
-                highlights.Add(tohTabHighlight);
-            }
-
-            for (var i = 0; i < tabs.Count; i++)
-            {
-                tabs[i].transform.position = new(0.8f * (i - 1) - tabs.Count / 2f, tabs[i].transform.position.y, tabs[i].transform.position.z);
-                var button = tabs[i].GetComponentInChildren<PassiveButton>();
-                if (button == null) continue;
-                var copiedIndex = i;
-                button.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                Action value = () =>
-                {
-                    for (var j = 0; j < menus.Count; j++)
-                    {
-                        menus[j].SetActive(j == copiedIndex);
-                        highlights[j].enabled = j == copiedIndex;
-                        CustomNameMenu.CloseNameScreen(true);
-                    }
-                };
-                button.OnClick.AddListener(value);
+                case StringNames.GameShortTasks:
+                case StringNames.GameLongTasks:
+                case StringNames.GameCommonTasks:
+                    ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 99);
+                    break;
+                case StringNames.GameKillCooldown:
+                    ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 180);
+                    break;
+                default:
+                    break;
             }
         }
+        var template = Object.FindObjectsOfType<StringOption>().FirstOrDefault();
+        if (template == null) return;
+
+        var gameSettings = GameObject.Find("Game Settings");
+        if (gameSettings == null) return;
+
+        OptionHolder gamemodeOption = TOHPlugin.GamemodeManager.GamemodeOption;
+        if (Instance == null)
+        {
+
+            GameOptionsMenu gameOptionsMenu = gameSettings.transform.FindChild("GameGroup/SliderInner").GetComponent<GameOptionsMenu>();
+            List<OptionBehaviour> gamemodeBehaviours = gamemodeOption.CreateBehaviours(template, __instance.transform, true);
+
+            gamemodeOption.Behaviour.transform.FindChild("Background").localScale = new Vector3(1f, 1f, 1f);
+            gamemodeOption.Behaviour.transform.FindChild("Plus_TMP").localPosition -= new Vector3(0.3f, 0f, 0f);
+            gamemodeOption.Behaviour.transform.FindChild("Minus_TMP").localPosition -= new Vector3(0.3f, 0f, 0f);
+            gamemodeOption.Behaviour.transform.FindChild("Value_TMP").localPosition -= new Vector3(0.3f, 0f, 0f);
+            gamemodeOption.Behaviour.transform.FindChild("Title_TMP").localPosition += new Vector3(0.5f, 0f, 0f);
+            gamemodeBehaviours.AddRange(__instance.Children);
+            __instance.Children = gamemodeBehaviours.ToArray();
+        }
+
+
+        Instance = __instance;
+        var gameSettingMenu = Object.FindObjectsOfType<GameSettingMenu>().FirstOrDefault();
+        if (gameSettingMenu == null) return;
+        List<GameObject> menus = new() { gameSettingMenu.RegularGameSettings, gameSettingMenu.RolesSettings.gameObject };
+        List<SpriteRenderer> highlights = new() { gameSettingMenu.GameSettingsHightlight, gameSettingMenu.RolesSettingsHightlight };
+
+        var roleTab = GameObject.Find("RoleTab");
+        var gameTab = GameObject.Find("GameTab");
+        List<GameObject> tabs = new() { gameTab, roleTab };
+
+
+        foreach (GameOptionTab tab in TOHPlugin.OptionManager.Tabs)
+        {
+            var obj = gameSettings.transform.parent.Find(tab.Name);
+            if (obj != null)
+            {
+                var foundHighlight = tab.Transform.FindChild("Hat Button").FindChild("Tab Background").GetComponent<SpriteRenderer>();
+                menus.Add(obj.gameObject);
+                highlights.Add(foundHighlight);
+                tabs.Add(tab.GameObject);
+                continue;
+            }
+
+            GameObject tohSettings = Object.Instantiate(gameSettings, gameSettings.transform.parent);
+            tohSettings.name = tab.Name;
+            tohSettings.transform.FindChild("BackPanel").transform.localScale =
+                tohSettings.transform.FindChild("Bottom Gradient").transform.localScale = new Vector3(1.2f, 1f, 1f);
+            tohSettings.transform.FindChild("Background").transform.localScale = new Vector3(1.3f, 1f, 1f);
+            tohSettings.transform.FindChild("UI_Scrollbar").transform.localPosition += new Vector3(0.35f, 0f, 0f);
+            tohSettings.transform.FindChild("UI_ScrollbarTrack").transform.localPosition += new Vector3(0.35f, 0f, 0f);
+            tohSettings.transform.FindChild("GameGroup/SliderInner").transform.localPosition += new Vector3(-0.15f, 0f, 0f);
+            GameOptionsMenu tohMenu = tohSettings.transform.FindChild("GameGroup/SliderInner").GetComponent<GameOptionsMenu>();
+
+            tohMenu.GetComponentsInChildren<OptionBehaviour>().Do(x => Object.Destroy(x.gameObject));
+
+            var behaviours = new List<OptionBehaviour>();
+            behaviours.AddRange(TOHPlugin.OptionManager.Options().Where(opt => opt.Tab == tab).SelectMany(opt => opt.CreateBehaviours(template, tohMenu.transform, true)));
+
+            tohMenu.Children = behaviours.ToArray();
+            tohSettings.gameObject.SetActive(false);
+            menus.Add(tohSettings.gameObject);
+
+            GameOptionTab initializedTab = tab.Instantiate(roleTab, roleTab.transform.parent);
+            tabs.Add(initializedTab.GameObject);
+            var tohTabHighlight = initializedTab.Transform.FindChild("Hat Button").FindChild("Tab Background").GetComponent<SpriteRenderer>();
+            highlights.Add(tohTabHighlight);
+        }
+
+        for (var i = 0; i < tabs.Count; i++)
+        {
+            tabs[i].transform.position = new(0.8f * (i - 1) - tabs.Count / 2f, tabs[i].transform.position.y, tabs[i].transform.position.z);
+            var button = tabs[i].GetComponentInChildren<PassiveButton>();
+            if (button == null) continue;
+            var copiedIndex = i;
+            button.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
+            Action value = () =>
+            {
+                for (var j = 0; j < menus.Count; j++)
+                {
+                    menus[j].SetActive(j == copiedIndex);
+                    highlights[j].enabled = j == copiedIndex;
+                    CustomNameMenu.CloseNameScreen(true);
+                }
+            };
+            button.OnClick.AddListener(value);
+        }
+    }
+}
+
+[HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.Close))]
+public class GameOptMenuClosePatch
+{
+    public static void Prefix()
+    {
+        GameOptMenuStartPatch.Instance = null;
+    }
 }

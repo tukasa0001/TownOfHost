@@ -4,7 +4,7 @@ using VentFramework;
 
 namespace TownOfHost.Addons;
 
-public class AddonInfo: RpcSendable<AddonInfo>
+public class AddonInfo: IRpcSendable<AddonInfo>
 {
     internal ulong UUID;
     internal string AssemblyName;
@@ -12,7 +12,7 @@ public class AddonInfo: RpcSendable<AddonInfo>
     internal string Version;
     internal Mismatch Mismatches = Mismatch.None;
 
-    public override AddonInfo Read(MessageReader reader)
+    public AddonInfo Read(MessageReader reader)
     {
         return new AddonInfo
         {
@@ -24,7 +24,7 @@ public class AddonInfo: RpcSendable<AddonInfo>
         };
     }
 
-    public override void Write(MessageWriter writer)
+    public void Write(MessageWriter writer)
     {
         writer.Write(UUID);
         writer.Write(AssemblyName);

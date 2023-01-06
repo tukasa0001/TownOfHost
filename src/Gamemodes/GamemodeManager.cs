@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 
 namespace TownOfHost.Gamemodes;
@@ -7,19 +6,20 @@ namespace TownOfHost.Gamemodes;
 // As we move to the future we're going to try to use instances for managers rather than making everything static
 public class GamemodeManager
 {
-    public List<IGamemode> Gamemodes = new() { new StandardGamemode() };
+    public List<IGamemode> Gamemodes = new() { new StandardGamemode(), new TestHnsGamemode() };
     public IGamemode CurrentGamemode;
+    public OptionHolder GamemodeOption;
 
     public void SetGamemode(int id)
     {
         CurrentGamemode = Gamemodes[id];
+        CurrentGamemode.Activate();
     }
 
     public void Setup()
     {
         SmartOptionBuilder builder = new SmartOptionBuilder()
             .Name("Gamemode")
-            .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindInt(SetGamemode);
 
@@ -30,6 +30,7 @@ public class GamemodeManager
             builder.AddValue(v => v.Text(gamemode.GetName()).Value(index).Build());
         }
 
-        TOHPlugin.OptionManager.Add(builder.Build());
+        GamemodeOption = builder.Build();
+        TOHPlugin.OptionManager.AllHolders.Insert(0, GamemodeOption);
     }
 }

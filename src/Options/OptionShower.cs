@@ -23,7 +23,7 @@ namespace TownOfHost
                 GameOptionsManager.Instance.CurrentGameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10) + "\n\n"
             };
             //ゲームモードの表示
-            text += $"{OldOptions.GameMode.GetName()}: {OldOptions.GameMode.GetString()}\n\n";
+            text += $"{OldOptions.GameMode.GetName()}: {{OldOptions.GameMode.GetString()}}\n\n";
 
             //Standardの時のみ実行
             if (OldOptions.CurrentGameMode == CustomGameMode.Standard)

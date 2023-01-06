@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TownOfHost.Interface.Menus;
 
 namespace TownOfHost.Options;
@@ -12,9 +13,11 @@ public class DefaultTabs
 
     public static GameOptionTab NeutralTab = new("Neutral Settings", "TownOfHost.assets.TabIcon_NeutralRoles.png");
 
-    public static GameOptionTab SubrolesTab = new("Subrole Settings", "TownOfHost.assets.TabIcon_Addons.png");
+    //public static GameOptionTab SubrolesTab = new("Subrole Settings", "TownOfHost.assets.TabIcon_Addons.png");
 
-    public static GameOptionTab MiscTab = new("Misc Settings", "TownOfHost.assets.Remember.png", TabOrder.Last);
+    public static GameOptionTab MiscTab = new("Misc Settings", "TownOfHost.assets.TabIcon_MiscRoles.png", TabOrder.Last);
+
+    public static List<GameOptionTab> All = new() { GeneralTab, ImpostorsTab, CrewmateTab, NeutralTab, MiscTab };
 
     static DefaultTabs()
     {
@@ -22,7 +25,6 @@ public class DefaultTabs
         ImpostorsTab.Register();
         CrewmateTab.Register();
         NeutralTab.Register();
-        SubrolesTab.Register();
         MiscTab.Register();
     }
 }

@@ -6,12 +6,12 @@ namespace VentFramework;
 
 public class PizzaExample
 {
-    public class PizzaOrder: RpcSendable<PizzaOrder>
+    public class PizzaOrder: IRpcSendable<PizzaOrder>
     {
         public float Cost;
         public List<string> Toppings = new();
 
-        public override PizzaOrder Read(MessageReader reader)
+        public PizzaOrder Read(MessageReader reader)
         {
             PizzaOrder order = new()
             {
@@ -21,7 +21,7 @@ public class PizzaExample
             return order;
         }
 
-        public override void Write(MessageWriter writer)
+        public void Write(MessageWriter writer)
 
         {
             writer.Write(Cost);

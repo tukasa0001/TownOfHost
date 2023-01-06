@@ -312,7 +312,7 @@ namespace TownOfHost
                 foreach (var opt in OptionItem.AllOptions.Where(x => x.GetBool() && x.Parent == null && x.Id >= 80000 && !x.IsHiddenOn(OldOptions.CurrentGameMode)))
                 {
                     if (opt.Name is "KillFlashDuration" or "RoleAssigningAlgorithm")
-                        text += $"\n【{opt.GetName(true)}: {opt.GetString()}】\n";
+                        text += $"\n【{opt.GetName(true)}: {{opt.GetString()}}】\n";
                     else
                         text += $"\n【{opt.GetName(true)}】\n";
                     ShowChildrenSettings(opt, ref text);
@@ -336,7 +336,7 @@ namespace TownOfHost
             foreach (var opt in OptionItem.AllOptions.Where(x => x.GetBool() && x.Parent == null && x.Id >= 80000 && !x.IsHiddenOn(OldOptions.CurrentGameMode)))
             {
                 if (opt.Name == "KillFlashDuration")
-                    text += $"\n【{opt.GetName(true)}: {opt.GetString()}】\n";
+                    text += $"\n【{opt.GetName(true)}: {{opt.GetString()}}】\n";
                 else
                     text += $"\n【{opt.GetName(true)}】\n";
                 ShowChildrenSettings(opt, ref text);
@@ -380,7 +380,7 @@ namespace TownOfHost
                     text += string.Concat(Enumerable.Repeat("┃", Mathf.Max(deep - 1, 0)));
                     text += opt.Index == option.Children.Count ? "┗ " : "┣ ";
                 }
-                text += $"{opt.Value.GetName(true)}: {opt.Value.GetString()}\n";
+                text += $"{opt.Value.GetName(true)}: {{opt.Value.GetString()}}\n";
                 if (opt.Value.GetBool()) ShowChildrenSettings(opt.Value, ref text, deep + 1);
             }
         }

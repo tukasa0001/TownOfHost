@@ -89,7 +89,7 @@ public abstract class AbstractBaseRole
                 else if (this.Factions.IsCrewmate())
                     options.Tab = DefaultTabs.CrewmateTab;
                 else if (this is Subrole)
-                    options.Tab = DefaultTabs.SubrolesTab;
+                    options.Tab = DefaultTabs.MiscTab;
                 else if (this.SpecialType is SpecialType.NeutralKilling or SpecialType.Neutral)
                     options.Tab = DefaultTabs.NeutralTab;
                 else
