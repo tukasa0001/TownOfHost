@@ -877,6 +877,7 @@ namespace TownOfHost
         public static void AfterMeetingTasks()
         {
             BountyHunter.AfterMeetingTasks();
+            EvilTracker.AfterMeetingTasks();
             SerialKiller.AfterMeetingTasks();
             if (Options.AirShipVariableElectrical.GetBool())
                 AirShipElectricalDoors.Initialize();
