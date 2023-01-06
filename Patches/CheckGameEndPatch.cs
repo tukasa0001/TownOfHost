@@ -300,7 +300,7 @@ namespace TownOfHost
         public virtual bool CheckGameEndByTask(out GameOverReason reason)
         {
             reason = GameOverReason.ImpostorByKill;
-            if (Options.DisableTaskWin.GetBool() || GameData.Instance.TotalTasks == 0) return false;
+            if (Options.DisableTaskWin.GetBool() || TaskState.InitialTotalTasks == 0) return false;
 
             if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
             {

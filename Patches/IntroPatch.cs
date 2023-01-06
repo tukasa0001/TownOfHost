@@ -78,6 +78,7 @@ namespace TownOfHost
             Logger.Info("-------------その他-------------", "Info");
             Logger.Info($"プレイヤー数: {Main.AllPlayerControls.Count()}人", "Info");
             Main.AllPlayerControls.Do(x => Main.PlayerStates[x.PlayerId].InitTask(x));
+            TaskState.InitialTotalTasks = GameData.Instance.TotalTasks;
 
             Utils.NotifyRoles();
 
