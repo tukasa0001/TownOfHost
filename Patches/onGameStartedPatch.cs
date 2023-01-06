@@ -148,7 +148,7 @@ namespace TownOfHost
                 foreach (var roleTypes in RoleTypesList)
                 {
                     var roleOpt = Main.NormalOptions.roleOptions;
-                    int additionalNum = GetAddtionalRoleTypesCount(roleTypes);
+                    int additionalNum = GetAdditionalRoleTypesCount(roleTypes);
                     roleOpt.SetRoleRate(roleTypes, roleOpt.GetNumPerGame(roleTypes) + additionalNum, additionalNum > 0 ? 100 : roleOpt.GetChancePerGame(roleTypes));
                 }
 
@@ -368,7 +368,7 @@ namespace TownOfHost
                 foreach (var roleTypes in RoleTypesList)
                 {
                     var roleOpt = Main.NormalOptions.roleOptions;
-                    roleOpt.SetRoleRate(roleTypes, roleOpt.GetNumPerGame(roleTypes) - GetAddtionalRoleTypesCount(roleTypes), roleOpt.GetChancePerGame(roleTypes));
+                    roleOpt.SetRoleRate(roleTypes, roleOpt.GetNumPerGame(roleTypes) - GetAdditionalRoleTypesCount(roleTypes), roleOpt.GetChancePerGame(roleTypes));
                 }
                 GameEndChecker.SetPredicateToNormal();
 
@@ -521,7 +521,7 @@ namespace TownOfHost
             }
             RPC.SyncLoversPlayers();
         }
-        public static int GetAddtionalRoleTypesCount(RoleTypes roleTypes)
+        public static int GetAdditionalRoleTypesCount(RoleTypes roleTypes)
         {
             int count = 0;
             foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x < CustomRoles.NotAssigned))
