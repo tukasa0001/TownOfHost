@@ -41,7 +41,7 @@ namespace TownOfHost
         public static bool IsEnable => playerIdList.Count > 0;
         public static void ApplyGameOptions(byte playerId)
         {
-            AURoleOptions.ShapeshifterCooldown = CanSetTarget[playerId] ? 5f : 255f;
+            AURoleOptions.ShapeshifterCooldown = CanTarget(playerId) ? 5f : 255f;
             AURoleOptions.ShapeshifterDuration = 1f;
         }
         public static void GetAbilityButtonText(HudManager __instance, byte playerId)
@@ -49,6 +49,8 @@ namespace TownOfHost
             __instance.AbilityButton.ToggleVisible(CanSetTarget[playerId]);
             __instance.AbilityButton.OverrideText($"{GetString("EvilTrackerChangeButtonText")}");
         }
+        public static bool CanTarget(byte playerId)
+            => !Main.PlayerStates[playerId].IsDead && CanSetTarget.TryGetValue(playerId, out var value) && value;
         ///<summary>
         ///引数が両方空：再設定可能に,
         ///trackerIdのみ：該当IDのターゲット削除,
@@ -83,7 +85,7 @@ namespace TownOfHost
                 killer = target.GetRealKiller();
             return killer.Is(RoleType.Impostor) && killer != target;
         }
-        public static string GetMarker(byte playerId) => CanSetTarget[playerId] ? Utils.ColorString(Palette.ImpostorRed.ShadeColor(0.5f), "◁") : "";
+        public static string GetMarker(byte playerId) => CanTarget(playerId) ? Utils.ColorString(Palette.ImpostorRed.ShadeColor(0.5f), "◁") : "";
         public static string GetTargetMark(PlayerControl seer, PlayerControl target) => IsTrackTarget(seer, target, false) ? Utils.ColorString(Palette.ImpostorRed, "◀") : "";
         public static string GetTargetArrowForVanilla(bool isMeeting, PlayerControl seer)
         {
@@ -129,7 +131,7 @@ namespace TownOfHost
         }
         public static void OnShapeshift(PlayerControl shapeshifter, PlayerControl target, bool shapeshifting)
         {
-            if (!CanSetTarget[shapeshifter.PlayerId] || !shapeshifting) return;
+            if (!CanTarget(shapeshifter.PlayerId) || !shapeshifting) return;
             if (!target.IsAlive() || target.Is(RoleType.Impostor)) return;
 
             SetTarget(shapeshifter.PlayerId, target.PlayerId);
