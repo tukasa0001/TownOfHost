@@ -13,4 +13,6 @@ public interface IGamemode
     {
         TOHPlugin.OptionManager.SetTabs(EnabledTabs());
     }
+
+    public void AssignRoles(List<PlayerControl> players);
 }

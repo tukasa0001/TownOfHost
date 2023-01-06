@@ -44,6 +44,8 @@ public static class ParameterHelper
 
     public static dynamic ReadDynamic(this MessageReader reader, Type parameter)
     {
+        if (parameter.IsAbstract)
+            return AbstractConstructors.Transform(reader, parameter);
         if (parameter == typeof(bool))
             return reader.ReadBoolean();
         if (parameter == typeof(byte))

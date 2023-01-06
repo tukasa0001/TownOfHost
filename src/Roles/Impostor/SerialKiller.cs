@@ -1,6 +1,7 @@
 using TownOfHost.Extensions;
 using TownOfHost.Interface;
 using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.Managers;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
 
@@ -27,7 +28,6 @@ public class SerialKiller: Impostor
     [RoleAction(RoleActionType.FixedUpdate)]
     private void CheckForSuicide()
     {
-        Logger.Msg($"SerialKiller {MyPlayer.GetDynamicName().RawName} Commiting Suicide", "SKSuicide");
         if (!paused && deathTimer.IsReady() && !MyPlayer.Data.IsDead)
             MyPlayer.RpcMurderPlayer(MyPlayer);
     }

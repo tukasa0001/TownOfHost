@@ -13,6 +13,9 @@
 - [ ] Implement Custom Gamemode Support
 - [ ] Allow for gamemodes across addons
 - [ ] Gamemodes should also be able to change option tabs
+- 
+- [ ] Add Reactor "RpcLocalHandling" to ModRPC
+- [ ] Support optional parameters for ModRPC
 
 
 Minor:

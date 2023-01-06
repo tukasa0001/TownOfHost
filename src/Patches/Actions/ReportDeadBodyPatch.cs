@@ -3,6 +3,7 @@ using System.Linq;
 using HarmonyLib;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Extensions;
+using TownOfHost.Managers;
 using TownOfHost.Roles;
 
 namespace TownOfHost.Patches.Actions;

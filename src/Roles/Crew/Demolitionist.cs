@@ -5,6 +5,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Options;
 using System.Collections.Generic;
 using System.Linq;
+using TownOfHost.Managers;
 
 namespace TownOfHost.Roles;
 

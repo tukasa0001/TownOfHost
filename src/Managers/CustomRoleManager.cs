@@ -118,6 +118,7 @@ public static class CustomRoleManager
 
         public Egoist Egoist = new Egoist();
 
+        public Fox Fox = new();
         public Lovers Lovers = new Lovers();
         public Debugger Debugger = new Debugger();
 

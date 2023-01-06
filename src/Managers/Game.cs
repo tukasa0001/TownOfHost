@@ -6,12 +6,12 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.Interface.Menus.CustomNameMenu;
-using TownOfHost.Managers;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
+using TownOfHost.RPC;
 using VentFramework;
 
-namespace TownOfHost;
+namespace TownOfHost.Managers;
 
 // Managers should be non-static this one is just because im lazy :)
 // Entry points = OnJoin & OnLeave
@@ -27,6 +27,19 @@ public static class Game
     public static IEnumerable<PlayerControl> GetAllPlayers() => PlayerControl.AllPlayerControls.ToArray();
     public static IEnumerable<PlayerControl> GetAlivePlayers() => GetAllPlayers().Where(p => !p.Data.IsDead && !p.Data.Disconnected);
     public static PlayerControl GetHost() => GetAllPlayers().FirstOrDefault(p => p.NetId == RpcV2.GetHostNetId());
+
+
+    public static void AssignRole(PlayerControl player, CustomRole role, bool sendToClient = false)
+    {
+        _AssignRole(player, role); // TODO: figure out optional parameters for ModRPC
+        if (sendToClient) role.Assign();
+    }
+
+    [ModRPC((uint) ModCalls.SetCustomRole, RpcActors.Host, RpcActors.NonHosts, executeOnSend: true)]
+    private static void _AssignRole(PlayerControl player, CustomRole role)
+    {
+        CustomRoleManager.PlayersCustomRolesRedux[player.PlayerId] = role.Instantiate(player);
+    }
 
     public static void SyncAll() => Game.GetAllPlayers().Do(p => p.GetCustomRole().SyncOptions());
     public static void TriggerForAll(RoleActionType action, ref ActionHandle handle, params object[] parameters)

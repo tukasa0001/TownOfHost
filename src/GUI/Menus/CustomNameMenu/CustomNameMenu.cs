@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using HarmonyLib;
 using UnityEngine;
@@ -110,7 +111,7 @@ public class CustomNameMenu
 
 
             CustomTextButton left = CustomTextButton.Create(NamePositionMenu.transform);
-            left.Background.sprite = Utils.LoadSprite("TownOfHost.assets.ArrowLeft.png", 100f);
+            left.Background.sprite = Utils.LoadSprite("TownOfHost.assets.NameMenu.ArrowLeft.png", 100f);
             left.Background.size = new Vector2(0.5f, 0.5f);
             left.Text.text = "";
             left.Button.transform.localPosition += new Vector3(-0.5f + iconHorizontalFloat, 0 + iconVerticalFloat);
@@ -119,7 +120,7 @@ public class CustomNameMenu
             left.Background.transform.localScale = new Vector3(4f, 1);
 
             CustomTextButton right = CustomTextButton.Create(NamePositionMenu.transform);
-            right.Background.sprite = Utils.LoadSprite("TownOfHost.assets.ArrowRight.png", 100f);
+            right.Background.sprite = Utils.LoadSprite("TownOfHost.assets.NameMenu.ArrowRight.png", 100f);
             right.Background.size = new Vector2(0.5f, 0.5f);
             right.Text.text = "";
             right.Button.transform.localPosition += new Vector3(iconHorizontalFloat, iconVerticalFloat);
@@ -128,7 +129,7 @@ public class CustomNameMenu
             right.Background.transform.localScale = new Vector3(4f, 1);
 
             CustomTextButton visibility = CustomTextButton.Create(NamePositionMenu.transform);
-            visibility.Background.sprite = Utils.LoadSprite("TownOfHost.assets.Visibility.png", 100f);
+            visibility.Background.sprite = Utils.LoadSprite("TownOfHost.assets.NameMenu.Visibility.png", 100f);
             visibility.Background.size = new Vector2(0.5f, 0.5f);
             visibility.Text.text = "";
             visibility.Button.transform.localPosition += new Vector3(1f + iconHorizontalFloat, 0 + iconVerticalFloat);
@@ -137,7 +138,7 @@ public class CustomNameMenu
             visibility.Background.transform.localScale = new Vector3(4f, 1);
 
             CustomTextButton up = CustomTextButton.Create(NamePositionMenu.transform);
-            up.Background.sprite = Utils.LoadSprite("TownOfHost.assets.ArrowUp.png", 100f);
+            up.Background.sprite = Utils.LoadSprite("TownOfHost.assets.NameMenu.ArrowUp.png", 100f);
             up.Background.size = new Vector2(0.5f, 0.5f);
             up.Text.text = "";
             up.Button.transform.localPosition += new Vector3(0.5f + iconHorizontalFloat, 0.5f + iconVerticalFloat);
@@ -146,7 +147,7 @@ public class CustomNameMenu
             up.Background.transform.localScale = new Vector3(4f, 1);
 
             CustomTextButton down = CustomTextButton.Create(NamePositionMenu.transform);
-            down.Background.sprite = Utils.LoadSprite("TownOfHost.assets.ArrowDown.png", 100f);
+            down.Background.sprite = Utils.LoadSprite("TownOfHost.assets.NameMenu.ArrowDown.png", 100f);
             down.Background.size = new Vector2(0.5f, 0.5f);
             down.Text.text = "";
             down.Button.transform.localPosition += new Vector3(0.5f + iconHorizontalFloat, 0 + iconVerticalFloat);
@@ -155,7 +156,7 @@ public class CustomNameMenu
             down.Background.transform.localScale = new Vector3(4f, 1);
 
             CustomTextButton zoomIn = CustomTextButton.Create(NamePositionMenu.transform);
-            zoomIn.Background.sprite = Utils.LoadSprite("TownOfHost.assets.ZoomIn.png", 100f);
+            zoomIn.Background.sprite = Utils.LoadSprite("TownOfHost.assets.NameMenu.ZoomIn.png", 100f);
             zoomIn.Background.size = new Vector2(0.5f, 0.5f);
             zoomIn.Text.text = "";
             zoomIn.Button.transform.localPosition += new Vector3(0 + iconHorizontalFloat, 0.5f + iconVerticalFloat);
@@ -164,7 +165,7 @@ public class CustomNameMenu
             zoomIn.Background.transform.localScale = new Vector3(4f, 1);
 
             CustomTextButton zoomOut = CustomTextButton.Create(NamePositionMenu.transform);
-            zoomOut.Background.sprite = Utils.LoadSprite("TownOfHost.assets.ZoomOut.png", 100f);
+            zoomOut.Background.sprite = Utils.LoadSprite("TownOfHost.assets.NameMenu.ZoomOut.png", 100f);
             zoomOut.Background.size = new Vector2(0.5f, 0.5f);
             zoomOut.Text.text = "";
             zoomOut.Button.transform.localPosition += new Vector3(-0.5f + iconHorizontalFloat, 0.5f + iconVerticalFloat);
@@ -173,7 +174,7 @@ public class CustomNameMenu
             zoomOut.Background.transform.localScale = new Vector3(4f, 1);
 
             CustomTextButton addSpace = CustomTextButton.Create(NamePositionMenu.transform);
-            addSpace.Background.sprite = Utils.LoadSprite("TownOfHost.assets.AddSpace.png", 100f);
+            addSpace.Background.sprite = Utils.LoadSprite("TownOfHost.assets.NameMenu.AddSpace.png", 100f);
             addSpace.Background.size = new Vector2(0.5f, 0.5f);
             addSpace.Text.text = "";
             addSpace.Button.transform.localPosition += new Vector3(-1f + iconHorizontalFloat, 0.5f + iconVerticalFloat);
@@ -182,7 +183,7 @@ public class CustomNameMenu
             addSpace.Background.transform.localScale = new Vector3(4f, 1);
 
             CustomTextButton removeSpace = CustomTextButton.Create(NamePositionMenu.transform);
-            removeSpace.Background.sprite = Utils.LoadSprite("TownOfHost.assets.RemoveSpace.png", 100f);
+            removeSpace.Background.sprite = Utils.LoadSprite("TownOfHost.assets.NameMenu.RemoveSpace.png", 100f);
             removeSpace.Background.size = new Vector2(0.5f, 0.5f);
             removeSpace.Text.text = "";
             removeSpace.Button.transform.localPosition += new Vector3(-1f + iconHorizontalFloat, iconVerticalFloat);
@@ -309,8 +310,15 @@ public class CustomNameMenu
 
     public static void CloseNameScreen(bool switchTab = false)
     {
-        gsm.gameObject.SetActive(switchTab);
-        NamePositionMenu.SetActive(false);
+        try
+        {
+            gsm.gameObject.SetActive(switchTab);
+            NamePositionMenu.SetActive(false);
+        }
+        catch (Exception e)
+        {
+            Logger.Fatal("Please Evan for the love of god fix this", "CloseNameMenu");
+        }
     }
 
 }

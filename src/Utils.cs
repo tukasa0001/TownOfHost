@@ -21,6 +21,7 @@ using TownOfHost.Roles;
 using HarmonyLib;
 using Hazel;
 using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.Managers;
 using TownOfHost.ReduxOptions;
 
 namespace TownOfHost

@@ -1,3 +1,5 @@
+using TownOfHost.Managers;
+
 namespace TownOfHost.Roles;
 
 public class Mafia: Impostor

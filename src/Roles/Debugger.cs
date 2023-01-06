@@ -1,6 +1,7 @@
 using System.Linq;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
+using TownOfHost.Managers;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
 

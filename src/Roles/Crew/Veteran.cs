@@ -7,6 +7,7 @@ using TownOfHost.Interface.Menus.CustomNameMenu;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
 using TownOfHost;
+using TownOfHost.Managers;
 
 namespace TownOfHost.Roles;
 

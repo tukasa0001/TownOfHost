@@ -4,6 +4,7 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using TownOfHost.Extensions;
+using TownOfHost.Managers;
 using TownOfHost.Roles;
 
 namespace TownOfHost.ReduxOptions;

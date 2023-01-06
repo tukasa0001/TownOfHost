@@ -1,6 +1,7 @@
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.Managers;
 using TownOfHost.Patches.Systems;
 using TownOfHost.ReduxOptions;
 using UnityEngine;

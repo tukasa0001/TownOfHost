@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using HarmonyLib;
 using TownOfHost.Extensions;
+using TownOfHost.Managers;
 using UnityEngine;
 using TownOfHost.Roles;
 

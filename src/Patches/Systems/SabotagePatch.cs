@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
+using TownOfHost.Managers;
 using TownOfHost.Roles;
 
 namespace TownOfHost.Patches.Systems;

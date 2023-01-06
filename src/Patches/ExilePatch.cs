@@ -4,6 +4,7 @@ using HarmonyLib;
 using TownOfHost.Roles;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Extensions;
+using TownOfHost.Managers;
 
 namespace TownOfHost
 {

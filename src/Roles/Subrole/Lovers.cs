@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Extensions;
 using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.Managers;
 using UnityEngine;
 
 namespace TownOfHost.Roles;

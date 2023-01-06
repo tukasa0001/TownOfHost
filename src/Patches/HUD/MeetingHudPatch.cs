@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
+using TownOfHost.Managers;
 using TownOfHost.Patches.Actions;
 using TownOfHost.ReduxOptions;
 using UnityEngine;

@@ -6,6 +6,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.Interface;
 using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.Managers;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
 

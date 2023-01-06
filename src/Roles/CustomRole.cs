@@ -5,19 +5,25 @@ using System.Linq;
 using System.Reflection;
 using AmongUs.GameOptions;
 using HarmonyLib;
+using Hazel;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.Interface;
 using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.Managers;
 using TownOfHost.ReduxOptions;
-using TownOfHost.RPC;
 using UnityEngine;
 using VentFramework;
 
 namespace TownOfHost.Roles;
 
-public abstract class CustomRole : AbstractBaseRole
+public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
 {
+    static CustomRole()
+    {
+        AbstractConstructors.Register(typeof(CustomRole), r => CustomRoleManager.GetRoleFromId(r.ReadInt32()));
+    }
+
     private bool escorted = false;
     private bool impostorRoleVent;
 
@@ -197,5 +203,15 @@ public abstract class CustomRole : AbstractBaseRole
                 declaringComponents.Add(dynElement.Component, m.DeclaringType);
                 name.SetComponentValue(dynElement.Component, new DynamicString(() => m.Invoke(this, null)?.ToString() ?? "N/A"));
             });
+    }
+
+    public CustomRole Read(MessageReader reader)
+    {
+        return CustomRoleManager.GetRoleFromId(reader.ReadInt32());
+    }
+
+    public void Write(MessageWriter writer)
+    {
+        writer.Write(CustomRoleManager.GetRoleId(this));
     }
 }

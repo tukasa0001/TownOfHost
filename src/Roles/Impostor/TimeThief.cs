@@ -1,6 +1,7 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
 using TownOfHost.Extensions;
+using TownOfHost.Managers;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
 

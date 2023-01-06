@@ -6,6 +6,7 @@ using AmongUs.GameOptions;
 using Hazel;
 using InnerNet;
 using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.Managers;
 using TownOfHost.Modules;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
@@ -28,13 +29,6 @@ public static class PlayerControlExtensions
             .WritePacked(CustomRoleManager.GetRoleId(role.GetType()))
             .Send();
     }
-    public static void RpcSetCustomRole(byte playerId, CustomRoles role)
-    {
-        RpcV2.Immediate(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.SetCustomRole)
-            .Write(playerId)
-            .WritePacked(CustomRoleManager.GetRoleId(role.GetType()))
-            .Send();
-    }
 
     public static void RpcExile(this PlayerControl player)
     {
@@ -50,9 +44,20 @@ public static class PlayerControlExtensions
         var client = player.GetClient();
         return client == null ? -1 : client.Id;
     }
-    /// <summary>
-    /// ※サブロールは取得できません。
-    /// </summary>
+
+    public static void Trigger(this PlayerControl player, RoleActionType action, ref ActionHandle handle, params object[] parameters)
+    {
+        CustomRole role = player.GetCustomRole();
+        List<Subrole> subroles = player.GetSubroles();
+        role.Trigger(action, ref handle, parameters);
+        if (handle is { IsCanceled: true }) return;
+        foreach (Subrole subrole in subroles)
+        {
+            subrole.Trigger(action, ref handle, parameters);
+            if (handle is { IsCanceled: true }) return;
+        }
+    }
+
     public static CustomRole GetCustomRole(this PlayerControl player)
     {
         if (player == null)
@@ -64,9 +69,7 @@ public static class PlayerControlExtensions
             Logger.Warn(callerClassName + "." + callerMethodName + " Invalid Custom Role", "GetCustomRole");
             return CustomRoleManager.Static.Crewmate;
         }
-        // var GetValue = Main.PlayerStates.TryGetValue(player.PlayerId, out var State);
 
-        //  return GetValue ? State.MainRole : CustomRoles.Crewmate;
         CustomRole? role = CustomRoleManager.PlayersCustomRolesRedux.GetValueOrDefault(player.PlayerId);
         return role ?? (player.Data.Role == null ? CustomRoleManager.Default
             : player.Data.Role.Role switch
@@ -81,6 +84,23 @@ public static class PlayerControlExtensions
             });
     }
 
+    public static Subrole? GetSubrole(this PlayerControl player)
+    {
+        List<Subrole>? role = CustomRoleManager.PlayerSubroles.GetValueOrDefault(player.PlayerId);
+        if (role == null || role.Count == 0) return null;
+        return role[0];
+    }
+
+    public static T GetSubrole<T>(this PlayerControl player) where T : Subrole
+    {
+        return (T)player.GetSubrole()!;
+    }
+
+    public static List<Subrole> GetSubroles(this PlayerControl player)
+    {
+        return CustomRoleManager.PlayerSubroles.GetValueOrDefault(player.PlayerId, new List<Subrole>());
+    }
+
     public static List<CustomRole> GetCustomSubRoles(this PlayerControl player)
     {
         if (player == null)
@@ -90,6 +110,14 @@ public static class PlayerControlExtensions
         }
         //  return Main.PlayerStates[player.PlayerId].SubRoles;
         return new();
+    }
+
+    public static string GetRoleName(this PlayerControl player) => player.GetCustomRole().RoleName;
+
+    public static string? GetRawName(this PlayerControl? player, bool isMeeting = false)
+    {
+        try { return player.GetDynamicName().RawName; }
+        catch { return player.Data.PlayerName; }
     }
 
     public static void RpcSetRoleDesync(this PlayerControl player, RoleTypes role, int clientId)
@@ -162,18 +190,7 @@ public static class PlayerControlExtensions
             AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
         }
     }
-    [Obsolete]
-    public static void RpcSpecificProtectPlayer(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
-    {
-        if (AmongUsClient.Instance.AmClient)
-        {
-            killer.ProtectPlayer(target, colorId);
-        }
-        MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.ProtectPlayer, SendOption.Reliable, killer.GetClientId());
-        messageWriter.WriteNetObject(target);
-        messageWriter.Write(colorId);
-        AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
-    }
+
     public static void RpcResetAbilityCooldown(this PlayerControl target)
     {
         if (!AmongUsClient.Instance.AmHost) return; //ホスト以外が実行しても何も起こさない
@@ -243,10 +260,7 @@ public static class PlayerControlExtensions
     {
         return $"{player.GetRawName()}" + (GameStates.IsInGame ? $"({player?.GetAllRoleName()})" : "");
     }
-    public static string GetRoleColorCode(this PlayerControl player)
-    {
-        return Utils.GetRoleColorCode(player.GetCustomRole());
-    }
+
     public static Color GetRoleColor(this PlayerControl player)
     {
         return Utils.GetRoleColor(player.GetCustomRole());
@@ -312,14 +326,7 @@ public static class PlayerControlExtensions
             _ => pc.Is(RoleType.Impostor),
         };*/
     }
-    public static void RpcSetDousedPlayer(this PlayerControl player, PlayerControl target, bool isDoused)
-    {
-        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
-        writer.Write(player.PlayerId);
-        writer.Write(target.PlayerId);
-        writer.Write(isDoused);
-        AmongUsClient.Instance.FinishRpcImmediately(writer);
-    }
+
     public static void ResetKillCooldown(this PlayerControl player)
     {
         TOHPlugin.AllPlayerKillCooldown[player.PlayerId] = 0;

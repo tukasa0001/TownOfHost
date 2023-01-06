@@ -4,6 +4,7 @@ using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Interface;
 using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.Managers;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
 using Convert = System.Convert;

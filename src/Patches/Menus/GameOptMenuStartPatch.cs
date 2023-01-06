@@ -49,7 +49,7 @@ public class GameOptMenuStartPatch
                     break;
             }
         }
-        var template = Object.FindObjectsOfType<StringOption>().FirstOrDefault();
+        var template = Object.Instantiate(Object.FindObjectsOfType<StringOption>().FirstOrDefault());
         if (template == null) return;
 
         var gameSettings = GameObject.Find("Game Settings");
