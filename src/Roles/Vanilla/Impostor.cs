@@ -23,6 +23,7 @@ public class Impostor : CustomRole
     public virtual bool TryKill(PlayerControl target)
     {
         InteractionResult result = CheckInteractions(target.GetCustomRole(), target);
+        SyncOptions();
         return result != InteractionResult.Halt && RoleUtils.RoleCheckedMurder(MyPlayer, target);
     }
 

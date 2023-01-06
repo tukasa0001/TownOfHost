@@ -26,9 +26,6 @@ public class Archangel : CustomRole
     [DynElement(UI.Misc)]
     private string TargetDisplay() => target == null ? "" : RoleColor.Colorize("Target: ") + Color.white.Colorize(target.GetRawName());
 
-    // protectDuration.NotReady() means that it's currently counting down on the player thus they're protected
-    public bool TargetCanBeKilled() => protectDuration.NotReady();
-
     protected override void Setup(PlayerControl player)
     {
         // Since "MyPlayer" is ALWAYS an Archangel we don't need to check for playerId
@@ -49,9 +46,17 @@ public class Archangel : CustomRole
     [RoleAction(RoleActionType.OnPet)]
     public void OnPet()
     {
-        if (protectCooldown.NotReady()) return;
+        if (protectCooldown.NotReady() || target == null) return;
         protectCooldown.Start();
         protectDuration.Start();
+        SendProtection();
+    }
+
+    [RoleAction(RoleActionType.SuccessfulAngelProtect)]
+    public void AnyProtect(PlayerControl targeted)
+    {
+        if (target == null || targeted.PlayerId != target.PlayerId || protectDuration.IsReady()) return;
+        SendProtection();
     }
 
     [RoleAction(RoleActionType.AnyDeath)]
@@ -81,6 +86,13 @@ public class Archangel : CustomRole
         }
 
         MyPlayer.GetDynamicName().Render();
+    }
+
+    private void SendProtection()
+    {
+        GameOptionOverride[] overrides = { new(Override.GuardianAngelDuration, protectDuration.Duration) };
+        target.GetCustomRole().SyncOptions(overrides);
+        target.RpcProtectPlayer(target, 0);
     }
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>

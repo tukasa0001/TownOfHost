@@ -59,6 +59,12 @@ public class GameOptionOverride
             case Override.ShapeshiftCooldown:
                 normalOptions.SetFloat(FloatOptionNames.ShapeshifterCooldown, (float)(GetValue() ?? DesyncOptions.OriginalHostOptions.AsNormalOptions()!.GetFloat(FloatOptionNames.ShapeshifterCooldown)));
                 break;
+            case Override.GuardianAngelDuration:
+                normalOptions.SetFloat(FloatOptionNames.ProtectionDurationSeconds, (float)(GetValue() ?? DesyncOptions.OriginalHostOptions.AsNormalOptions()!.GetFloat(FloatOptionNames.ProtectionDurationSeconds)));
+                break;
+            case Override.GuardianAngelCooldown:
+                normalOptions.SetFloat(FloatOptionNames.GuardianAngelCooldown, (float)(GetValue() ?? DesyncOptions.OriginalHostOptions.AsNormalOptions()!.GetFloat(FloatOptionNames.GuardianAngelCooldown)));
+                break;
             default:
                 Logger.Warn($"Invalid Option Override: {this}", "ApplyOverride");
                 break;
@@ -100,5 +106,8 @@ public enum Override
 
     // Role specific overrides
     ShapeshiftDuration,
-    ShapeshiftCooldown
+    ShapeshiftCooldown,
+
+    GuardianAngelDuration,
+    GuardianAngelCooldown
 }

@@ -73,8 +73,10 @@ public class RoleUtils
     {
         if (!target.IsAlive()) return false;
         if (!target.GetCustomRole().CanBeKilled()) return false;
-        killer.GetCustomRole().SyncOptions();
+
         killer.RpcMurderPlayer(target);
+        ActionHandle ignored = ActionHandle.NoInit();
+        if (target.IsAlive()) Game.TriggerForAll(RoleActionType.SuccessfulAngelProtect, ref ignored, target, killer);
         return true;
     }
 }

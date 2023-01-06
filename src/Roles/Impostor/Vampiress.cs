@@ -21,9 +21,11 @@ public class Vampiress : Impostor
     [RoleAction(RoleActionType.AttemptKill)]
     public new bool TryKill(PlayerControl target)
     {
+        SyncOptions();
         InteractionResult result = CheckInteractions(target.GetCustomRole(), target);
         if (result is InteractionResult.Halt) return false;
-        if (Mode is VampireMode.Killing) return RoleUtils.RoleCheckedMurder(MyPlayer, target);
+        if (Mode is VampireMode.Killing)
+            return RoleUtils.RoleCheckedMurder(MyPlayer, target);
 
         MyPlayer.RpcGuardAndKill(MyPlayer);
         bitten.Add(target.PlayerId);

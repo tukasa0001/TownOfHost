@@ -24,9 +24,6 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
         AbstractConstructors.Register(typeof(CustomRole), r => CustomRoleManager.GetRoleFromId(r.ReadInt32()));
     }
 
-    private bool escorted = false;
-    private bool impostorRoleVent;
-
     public virtual bool CanVent() => baseCanVent || StaticOptions.allRolesCanVent;
     public virtual bool CanBeKilled() => true;
     public virtual bool CanBeKilledBySheriff() => this.VirtualRole is RoleTypes.Impostor or RoleTypes.Shapeshifter;

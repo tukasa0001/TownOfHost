@@ -39,6 +39,7 @@ public enum RoleActionType
     OnPet,
     VentEnter,
     VentExit,
+    SuccessfulAngelProtect,
     SabotageStarted,
     SabotagePartialFix,
     SabotageFixed,
