@@ -108,6 +108,7 @@ namespace TownOfHost
     }
     public class TaskState
     {
+        public static int InitialTotalTasks;
         public int AllTasksCount;
         public int CompletedTasksCount;
         public bool hasTasks;
