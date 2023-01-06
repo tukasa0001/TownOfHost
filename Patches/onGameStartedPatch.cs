@@ -276,6 +276,7 @@ namespace TownOfHost
                     };
                     AssignCustomRolesFromList(role, baseRoleTypes);
                 }
+                AssignLoversRoles();
 
                 //RPCによる同期
                 foreach (var pc in Main.AllPlayerControls)
@@ -349,6 +350,15 @@ namespace TownOfHost
                         case CustomRoles.EvilTracker:
                             EvilTracker.Add(pc.PlayerId);
                             break;
+                    }
+                    foreach (var subRole in pc.GetCustomSubRoles())
+                    {
+                        switch (subRole)
+                        {
+                            // ここに属性のAddを追加
+                            default:
+                                break;
+                        }
                     }
                     pc.ResetKillCooldown();
 
@@ -486,19 +496,42 @@ namespace TownOfHost
             return AssignedPlayers;
         }
 
-        private static void AssignLoversRolesFromList()
+        private static void AssignCustomSubRolesFromList(CustomRoles role, int RawCount = -1)
         {
-            if (CustomRoles.Lovers.IsEnable())
+            if (!role.IsEnable()) return;
+            var allPlayers = new List<PlayerControl>();
+            foreach (var pc in Main.AllPlayerControls)
+                if (IsAssignTarget(pc, role))
+                    allPlayers.Add(pc);
+
+            if (RawCount == -1) RawCount = role.GetCount();
+            int count = Math.Clamp(RawCount, 0, allPlayers.Count);
+            if (count <= 0) return;
+
+            var rand = IRandom.Instance;
+            for (var i = 0; i < count; i++)
             {
-                //Loversを初期化
-                Main.LoversPlayers.Clear();
-                Main.isLoversDead = false;
-                //ランダムに2人選出
-                AssignLoversRoles(2);
+                var player = allPlayers[rand.Next(allPlayers.Count)];
+                allPlayers.Remove(player);
+                Main.PlayerStates[player.PlayerId].SetSubRole(role);
+                Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + role.ToString(), "AssignCustomSubRoles");
             }
+        }
+        //属性ごとの割り当て条件
+        private static bool IsAssignTarget(PlayerControl player, CustomRoles subrole)
+        {
+            if (player.Is(CustomRoles.GM)) return false;
+            return subrole switch
+            {
+                _ => true,
+            };
         }
         private static void AssignLoversRoles(int RawCount = -1)
         {
+            if (!CustomRoles.Lovers.IsEnable()) return;
+            //Loversを初期化
+            Main.LoversPlayers.Clear();
+            Main.isLoversDead = false;
             var allPlayers = new List<PlayerControl>();
             foreach (var player in Main.AllPlayerControls)
             {
