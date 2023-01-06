@@ -825,6 +825,40 @@ namespace TownOfHost
             }
             return sprite;
         }
+        public static AudioClip LoadAudioClip(string path, string clipName = "UNNAMED_TOR_AUDIO_CLIP")
+        {
+            // must be "raw (headerless) 2-channel signed 32 bit pcm (le)" (can e.g. use Audacity� to export)
+            try
+            {
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                Stream stream = assembly.GetManifestResourceStream(path);
+                var byteAudio = new byte[stream.Length];
+                _ = stream.Read(byteAudio, 0, (int)stream.Length);
+                float[] samples = new float[byteAudio.Length / 4]; // 4 bytes per sample
+                int offset;
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    offset = i * 4;
+                    samples[i] = (float)BitConverter.ToInt32(byteAudio, offset) / Int32.MaxValue;
+                }
+                int channels = 2;
+                int sampleRate = 48000;
+                AudioClip audioClip = AudioClip.Create(clipName, samples.Length, channels, sampleRate, false);
+                audioClip.SetData(samples, 0);
+                return audioClip;
+            }
+            catch
+            {
+                System.Console.WriteLine("Error loading AudioClip from resources: " + path);
+            }
+            return null;
+
+            /* Usage example:
+            AudioClip exampleClip = Helpers.loadAudioClipFromResources("TownOfHost.assets.exampleClip.raw");
+            if (Constants.ShouldPlaySfx()) SoundManager.Instance.PlaySound(exampleClip, false, 0.8f);
+            */
+        }
+
         public static string ColorString(Color32 color, string str) => $"<color=#{color.r:x2}{color.g:x2}{color.b:x2}{color.a:x2}>{str}</color>";
         public static string GetOnOff(bool value) => value ? "ON" : "OFF";
         public static string GetOnOffColored(bool value) => value ? Color.cyan.Colorize("ON") : Color.red.Colorize("OFF");
