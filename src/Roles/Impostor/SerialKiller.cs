@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TownOfHost.Roles;
 
-public class SerialKiller: Impostor
+public class SerialKiller : Impostor
 {
     private bool paused = true;
     // TODO: move to shapeshift button or possible hns meter

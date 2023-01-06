@@ -102,6 +102,7 @@ public static class CustomRoleManager
 
 
         public GuardianAngel GuardianAngel = new GuardianAngel();
+        public Archangel Archangel = new Archangel();
 
         public Sidekick Sidekick = new Sidekick();
         public SchrodingerCat SchrodingerCat = new SchrodingerCat();

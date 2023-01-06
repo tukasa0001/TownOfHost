@@ -58,10 +58,10 @@ namespace TownOfHost
         {
             if (gameMode == GameModes.HideNSeek)
             {
-                ErrorText.Instance.HnSFlag = true;
-                ErrorText.Instance.AddError(ErrorCode.HnsUnload);
-                Harmony.UnpatchAll();
-                TOHPlugin.Instance.Unload();
+                //ErrorText.Instance.HnSFlag = true;
+                //  ErrorText.Instance.AddError(ErrorCode.HnsUnload);
+                //  Harmony.UnpatchAll();
+                //  TOHPlugin.Instance.Unload();
             }
         }
     }
