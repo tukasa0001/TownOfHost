@@ -1,3 +1,5 @@
+#nullable enable
+using System.Collections.Generic;
 using TownOfHost.Extensions;
 using TownOfHost.Interface;
 using TownOfHost.Interface.Menus.CustomNameMenu;
@@ -11,88 +13,87 @@ namespace TownOfHost.Roles;
 
 public class Archangel : CustomRole
 {
-    private Cooldown protectTimer;
-    private float protectCD;
-    private float protectDur;
-    public bool TargetKnowsGaExists;
-    public bool GaKnowsTargetRole;
-    public int roleChangeWhenTargetDies;
-    public PlayerControl? target;
+    [DynElement(UI.Cooldown)]
+    private Cooldown protectCooldown;
+    private Cooldown protectDuration; // I think this is for the amount of time the player is protected?
 
-    [DynElement(UI.Counter)]
-    private string CustomCooldown() => protectTimer.ToString() == "0" ? "" : Color.white.Colorize(protectTimer + "s");
+    // We can make these public as needed but it's usually better to stay private otherwise
+    private bool TargetKnowsGaExists;
+    private bool GaKnowsTargetRole;
+    private GARoleChange roleChangeWhenTargetDies;
+    private PlayerControl? target;
+
     [DynElement(UI.Misc)]
     private string TargetDisplay() => target == null ? "" : RoleColor.Colorize("Target: ") + Color.white.Colorize(target.GetRawName());
 
-    [RoleAction(RoleActionType.RoundStart)]
-    public void Restart(bool gameStart)
+    // protectDuration.NotReady() means that it's currently counting down on the player thus they're protected
+    public bool TargetCanBeKilled() => protectDuration.NotReady();
+
+    protected override void Setup(PlayerControl player)
     {
-        if (gameStart)
-        {
-            target = Game.GetAllPlayers().Where(p =>
-            {
-                if (p.PlayerId == MyPlayer.PlayerId) return false;
-                if (p.GetCustomRole() == CustomRoleManager.Static.Archangel) return false;
-                return true;
-            }).ToList().GetRandom();
-            protectTimer.Duration = 10f;
-            protectTimer.Start();
-        }
-        else
-        {
-            protectTimer.Duration = protectCD;
-            protectTimer.Start();
-        }
+        // Since "MyPlayer" is ALWAYS an Archangel we don't need to check for playerId
+        List<PlayerControl> eligiblePlayers = Game.GetAllPlayers().Where(p => p.GetCustomRole() is not Archangel).ToList();
+        if (eligiblePlayers.Any())
+            target = eligiblePlayers.GetRandom();
+        protectCooldown.Start();
+        // Dynamic Name rules are a bit confusing but they're the way I display specific information to specific players
+        // Here we add a rule for when the target is in "roaming" aka during normal game play, and we set their Cooldown component to the string value of our protection duration
+        // Lastly we're only showing this rule to the player for this role
+        DynamicString protectDurationHud = new(() => protectDuration.ToString() == "0" ? "" : Color.white.Colorize(protectDuration + "s"));
+        target.GetDynamicName().AddRule(GameState.Roaming, UI.Cooldown, protectDurationHud, MyPlayer.PlayerId);
+    }
+
+    [RoleAction(RoleActionType.RoundStart)]
+    public void Restart(bool gameStart) => protectCooldown.Start();
+
+    [RoleAction(RoleActionType.OnPet)]
+    public void OnPet()
+    {
+        if (protectCooldown.NotReady()) return;
+        protectCooldown.Start();
+        protectDuration.Start();
     }
 
     [RoleAction(RoleActionType.AnyDeath)]
     public void Death(PlayerControl killed, PlayerControl killer)
     {
-        if (roleChangeWhenTargetDies == 0 || target == null || target.PlayerId != killed.PlayerId) return;
-        switch ((GARoleChange)roleChangeWhenTargetDies)
+        if (!MyPlayer.IsAlive() || target == null || target.PlayerId != killed.PlayerId) return;
+        target = null;
+        if (roleChangeWhenTargetDies is GARoleChange.None) return;
+
+        switch (roleChangeWhenTargetDies)
         {
             case GARoleChange.Jester:
-                MyPlayer.RpcSetCustomRole(CustomRoleManager.Static.Jester);
+                Game.AssignRole(MyPlayer, CustomRoleManager.Static.Jester);
                 break;
             case GARoleChange.Opportunist:
-                MyPlayer.RpcSetCustomRole(CustomRoleManager.Static.Opportunist);
+                Game.AssignRole(MyPlayer, CustomRoleManager.Static.Opportunist);
                 break;
             case GARoleChange.SchrodingerCat:
-                MyPlayer.RpcSetCustomRole(CustomRoleManager.Static.SchrodingerCat);
+                Game.AssignRole(MyPlayer, CustomRoleManager.Static.SchrodingerCat);
                 break;
             case GARoleChange.Crewmate:
-                MyPlayer.RpcSetCustomRole(CustomRoleManager.Static.Crewmate);
+                Game.AssignRole(MyPlayer, CustomRoleManager.Static.Crewmate);
                 break;
             case GARoleChange.None:
             default:
                 break;
         }
 
-        target = null;
         MyPlayer.GetDynamicName().Render();
     }
 
-    [RoleAction(RoleActionType.OnPet)]
-    public void OnPet()
-    {
-        if (protectTimer.NotReady()) return;
-        protectTimer.Duration = protectCD + protectDur;
-        protectTimer.Start();
-    }
-
-    // Imma have to ask Tealeaf about this :sweat_smile:
-    public bool TargetCanBeKilled() => protectTimer.TimeRemaining() <= (protectCD + protectDur) - protectDur || protectTimer.IsReady();
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Tab(DefaultTabs.NeutralTab)
             .AddSubOption(sub => sub
                 .Name("Protect Duration")
-                .Bind(v => protectDur = (float)v)
+                .BindFloat(v => protectDuration.Duration = v)
                 .AddFloatRangeValues(2.5f, 180f, 2.5f, 11, "s")
                 .Build())
             .AddSubOption(sub => sub
                 .Name("Protect Cooldown")
-                .Bind(v => protectCD = (float)v)
+                .BindFloat(v => protectCooldown.Duration = v)
                 .AddFloatRangeValues(2.5f, 180f, 2.5f, 5, "s")
                 .Build())
             .AddSubOption(sub => sub
@@ -107,19 +108,18 @@ public class Archangel : CustomRole
                 .Build())
             .AddSubOption(sub => sub
                 .Name("Role Change When Target Dies")
-                .Bind(v => roleChangeWhenTargetDies = (int)v)
+                .BindInt(v => roleChangeWhenTargetDies = (GARoleChange)v)
                 .AddValue(v => v.Text("Jester").Value(1).Color(new Color(0.93f, 0.38f, 0.65f)).Build())
                 .AddValue(v => v.Text("Opportunist").Value(2).Color(Color.green).Build())
                 .AddValue(v => v.Text("Schrodinger's Cat").Value(3).Color(Color.black).Build())
                 .AddValue(v => v.Text("Crewmate").Value(4).Color(new Color(0.71f, 0.94f, 1f)).Build())
                 .AddValue(v => v.Text("Off").Value(0).Color(Color.red).Build())
                 .Build());
-    protected override RoleModifier Modify(RoleModifier roleModifier)
-    {
-        return roleModifier
+
+    protected override RoleModifier Modify(RoleModifier roleModifier) =>
+        roleModifier
             .SpecialType(SpecialType.Neutral)
-            .RoleColor(Utils.ConvertHexToColor("#B3FFFF"));
-    }
+            .RoleColor("#B3FFFF"); // RoleColor takes a string too and automatically converts
 
     private enum GARoleChange
     {
