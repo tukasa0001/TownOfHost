@@ -3,6 +3,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Interface;
 using TownOfHost.Interface.Menus.CustomNameMenu;
 using TownOfHost.Managers;
+using System.Collections.Generic;
 
 namespace TownOfHost.Roles;
 
@@ -10,6 +11,7 @@ public class Vampiress : Impostor
 {
     private float killDelay;
     public VampireMode Mode = VampireMode.Biting;
+    private List<byte> bitten;
 
     protected override void Setup(PlayerControl player) => Pet.Guarantee(player);
 
@@ -24,7 +26,8 @@ public class Vampiress : Impostor
         if (Mode is VampireMode.Killing) return RoleUtils.RoleCheckedMurder(MyPlayer, target);
 
         MyPlayer.RpcGuardAndKill(MyPlayer);
-        DTask.Schedule(() => RoleUtils.RoleCheckedMurder(target, target), killDelay);
+        bitten.Add(target.PlayerId);
+        DTask.Schedule(() => { if (bitten.Contains(target.PlayerId)) RoleUtils.RoleCheckedMurder(target, target); }, killDelay);
 
         return true;
     }
@@ -34,6 +37,7 @@ public class Vampiress : Impostor
     {
         Logger.Blue("Round Started", "Round Start");
         Mode = VampireMode.Killing;
+        bitten = new List<byte>();
     }
 
     [RoleAction(RoleActionType.OnPet)]
@@ -42,6 +46,18 @@ public class Vampiress : Impostor
         "Swapping Vampire Mode".DebugLog();
         MyPlayer.name.DebugLog("My player: s");
         Mode = Mode is VampireMode.Killing ? VampireMode.Biting : VampireMode.Killing;
+    }
+
+    [RoleAction(RoleActionType.RoundEnd)]
+    public void KillBitten()
+    {
+        foreach (var playerid in bitten)
+        {
+            var pc = Utils.GetPlayerById(playerid);
+            bool canKillTarget = pc.GetCustomRole().CanBeKilled();
+            if (!canKillTarget) return;
+            pc.RpcMurderPlayer(pc);
+        }
     }
 
     /*[RoleInteraction(typeof(Veteran))]

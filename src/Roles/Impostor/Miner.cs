@@ -8,10 +8,11 @@ using UnityEngine;
 
 namespace TownOfHost.Roles;
 
-public class Miner: Impostor
+public class Miner : Impostor
 {
     [DynElement(UI.Cooldown)]
     private Cooldown minerAbilityCooldown;
+    private Vector2 LastEnteredVentLocation = Vector2.zero;
 
     [RoleAction(RoleActionType.AttemptKill)]
     public override bool TryKill(PlayerControl target)
@@ -26,9 +27,9 @@ public class Miner: Impostor
         if (minerAbilityCooldown.NotReady()) return;
         minerAbilityCooldown.Start();
 
-        if (!TOHPlugin.LastEnteredVentLocation.TryGetValue(MyPlayer.PlayerId, out Vector2 position)) return;
-        Logger.Info($"{MyPlayer.Data.PlayerName}:{position}", "MinerTeleport");
-        Utils.Teleport(MyPlayer.NetTransform, new Vector2(position.x, position.y + 0.3636f));
+        if (LastEnteredVentLocation == Vector2.zero) return;
+        Logger.Info($"{MyPlayer.Data.PlayerName}:{LastEnteredVentLocation}", "MinerTeleport");
+        Utils.Teleport(MyPlayer.NetTransform, new Vector2(LastEnteredVentLocation.x, LastEnteredVentLocation.y + 0.3636f));
     }
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>

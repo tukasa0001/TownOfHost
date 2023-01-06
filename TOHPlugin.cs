@@ -103,7 +103,7 @@ public class TOHPlugin : BasePlugin
     [Obsolete]
     public static bool HasNecronomicon { get; set; }
 
-    public static Dictionary<byte, Vector2> LastEnteredVentLocation { get; set; }
+    //public static Dictionary<byte, Vector2> LastEnteredVentLocation { get; set; }
 
     public static float RefixCooldownDelay = 0f;
     public static List<byte> ResetCamPlayerList;

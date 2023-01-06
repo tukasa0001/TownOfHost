@@ -1,11 +1,13 @@
 using TownOfHost.Extensions;
 using TownOfHost.ReduxOptions;
+using System.Collections.Generic;
 
 namespace TownOfHost.Roles;
 
 public class Vampire : Impostor
 {
     private float killDelay;
+    private List<byte> bitten;
 
     [RoleAction(RoleActionType.AttemptKill)]
     public new bool TryKill(PlayerControl target)
@@ -18,7 +20,8 @@ public class Vampire : Impostor
         if (!canKillTarget) return canKillTarget;
 
         MyPlayer.RpcGuardAndKill(MyPlayer);
-        DTask.Schedule(() => target.RpcMurderPlayer(target), killDelay);
+        bitten.Add(target.PlayerId);
+        DTask.Schedule(() => { if (bitten.Contains(target.PlayerId)) target.RpcMurderPlayer(target); }, killDelay);
         return canKillTarget;
     }
 
@@ -35,6 +38,24 @@ public class Vampire : Impostor
                 .Bind(v => killDelay = (float)v)
                 .AddFloatRangeValues(2.5f, 60f, 2.5f, 2, "s")
                 .Build());
+
+    [RoleAction(RoleActionType.RoundStart)]
+    public void ResetBitten()
+    {
+        bitten = new List<byte>();
+    }
+
+    [RoleAction(RoleActionType.RoundEnd)]
+    public void KillBitten()
+    {
+        foreach (var playerid in bitten)
+        {
+            var pc = Utils.GetPlayerById(playerid);
+            bool canKillTarget = pc.GetCustomRole().CanBeKilled();
+            if (!canKillTarget) return;
+            pc.RpcMurderPlayer(pc);
+        }
+    }
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>
         base.Modify(roleModifier)

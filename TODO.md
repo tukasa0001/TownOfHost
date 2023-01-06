@@ -27,5 +27,5 @@ Minor:
 - [ ] Boot non-vent-allowed players out of vent
 
 Even Minor(er):
-- [ ] Vampire should kill all bitten when meeting is called
-- [ ] Miner LastEnteredVentLocation (should also actually be a local variable to miner)
+- [ :check: ] Vampire should kill all bitten when meeting is called
+- [ :check: ] Miner LastEnteredVentLocation (should also actually be a local variable to miner)
