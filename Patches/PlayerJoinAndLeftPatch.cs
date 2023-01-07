@@ -91,6 +91,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.AmHost)
             {
+                OptionItem.SyncAllOptions();
                 new LateTask(() =>
                 {
                     if (client.Character == null) return;
