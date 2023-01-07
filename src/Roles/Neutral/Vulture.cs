@@ -14,16 +14,16 @@ namespace TownOfHost.Roles;
 
 public class Vulture : CustomRole
 {
-    private int bodyCount;
+    private int bodyCount = 0;
     // option
     private int bodyAmount;
     private bool canUseVents;
     private bool impostorVision;
     private bool canSwitchMode;
-    private bool isEatMode;
+    private bool isEatMode = true;
 
     [RoleAction(RoleActionType.SelfReportBody)]
-    public void EatBody(PlayerControl target, ref ActionHandle handle) // I will have to ask Tealeaf If I can do This :sweat_smile:
+    public void EatBody(PlayerControl target, ref ActionHandle handle)
     {
         if (!isEatMode | TOHPlugin.unreportableBodies.Contains(target.Data.PlayerId)) return;
         TOHPlugin.unreportableBodies.Add(target.Data.PlayerId);
@@ -34,7 +34,7 @@ public class Vulture : CustomRole
         }
         else
         {
-            handle.IsCanceled = true;
+            handle.Cancel();
         }
     }
 
@@ -43,12 +43,6 @@ public class Vulture : CustomRole
     {
         if (!canSwitchMode) return;
         isEatMode = !isEatMode;
-    }
-
-    protected override void Setup(PlayerControl player)
-    {
-        isEatMode = true;
-        bodyCount = 0;
     }
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>

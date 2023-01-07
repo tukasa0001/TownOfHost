@@ -22,7 +22,7 @@ public class Swapper : CustomRole
     private string TargetDisplay() => target == null ? "" : Color.red.Colorize("Target: ") + Color.white.Colorize(target.GetRawName());
 
     [RoleAction(RoleActionType.RoundStart)]
-    public void GameStart()
+    public void RoundStart()
     {
         target = Game.GetAllPlayers().Where(p =>
         {
