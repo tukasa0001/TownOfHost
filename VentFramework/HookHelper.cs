@@ -9,7 +9,7 @@ using HarmonyLib;
 using InnerNet;
 using MonoMod.RuntimeDetour;
 using TownOfHost.Extensions;
-using TownOfHost.RPC;
+using TownOfHost.Roles;
 using UnityEngine;
 
 namespace VentFramework;
@@ -26,6 +26,8 @@ public class HookHelper
     {
         Type[] parameters = executingMethod.GetParameters().Select(p => p.ParameterType).ToArray();
 
+        System.Console.WriteLine("Calling Convention: " + executingMethod.CallingConvention);
+        System.Console.WriteLine("Method Attributes: " + executingMethod.Attributes);
         DynamicMethod m = new(
             executingMethod.Name,
             executingMethod.ReturnType,
@@ -58,6 +60,8 @@ public class HookHelper
                 ilg.Emit(_ldarg[i]);
             else
                 ilg.Emit(OpCodes.Ldarg_S, i);
+            if (parameters[i].IsPrimitive)
+                ilg.Emit(OpCodes.Box, parameters[i]);
             ilg.Emit(OpCodes.Stelem_Ref);
         }
 
@@ -69,7 +73,14 @@ public class HookHelper
     }
 
     private static DetouredSender GetSender(int index) => _senders[index];
+
+    private static void TestMethod(PlayerControl player, CustomRole role, bool t, int id)
+    {
+        GetSender(0).Send(player, role, t, id);
+    }
+
 }
+
 
 
 public class DetouredSender
@@ -87,9 +98,9 @@ public class DetouredSender
         this.senders = modRPC.Senders;
     }
 
-    public void Send(object?[] args)
+    public void Send(params object?[] args)
     {
-        if (rpcInfo.ExecuteOnSend) rpcInfo.InvokeTrampoline(args);
+        if (rpcInfo.Invocation is MethodInvocation.ExecuteBefore) rpcInfo.InvokeTrampoline(args);
         if (AmongUsClient.Instance == null || this.senders is RpcActors.None) return;
         if ((this.senders is RpcActors.Host && !AmongUsClient.Instance.AmHost) ||
             (this.senders is RpcActors.NonHosts && AmongUsClient.Instance.AmHost))
@@ -103,6 +114,7 @@ public class DetouredSender
         v2.WritePacked(PlayerControl.LocalPlayer.NetId);
         args.Do(a => WriteArg(v2, a));
         v2.Send();
+        if (rpcInfo.Invocation is MethodInvocation.ExecuteAfter) rpcInfo.InvokeTrampoline(args);
     }
 
     internal static void WriteArg(RpcV2 rpcV2, object arg)

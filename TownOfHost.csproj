@@ -13,6 +13,7 @@
     <Reference Include="$(AmongUs)\BepInEx\core\*.dll" />
     <Reference Include="$(AmongUs)\BepInEx\interop\*.dll" />
     <EmbeddedResource Include=".\assets\*.png" />
+    <EmbeddedResource Include=".\assets\*\*.png" />
     <EmbeddedResource Include=".\assets\string.csv" />
   </ItemGroup>
 

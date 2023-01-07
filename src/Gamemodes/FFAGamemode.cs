@@ -27,7 +27,7 @@ public class FFAGamemode: IGamemode
         {
             RpcV2.Immediate(player.NetId, (byte)RpcCalls.SetRole).Write((byte)RoleTypes.Impostor).Send(player.GetClientId());
             RpcV2.Immediate(player.NetId, (byte)RpcCalls.SetRole).Write((byte)RoleTypes.Crewmate).SendToAll(player.GetClientId());
-            Game.AssignRole(player, CustomRoleManager.Static.SerialKiller, false);
+            Game.AssignRole(player, CustomRoleManager.Static.SerialKiller);
         }
 
         players.Where(p => p.PlayerId != localPlayer.PlayerId).Do(p => p.SetRole(RoleTypes.Crewmate));

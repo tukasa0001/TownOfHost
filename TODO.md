@@ -12,20 +12,31 @@
 
 - [ ] Implement Custom Gamemode Support
 - [ ] Allow for gamemodes across addons
-- [ ] Gamemodes should also be able to change option tabs
-- 
-- [ ] Add Reactor "RpcLocalHandling" to ModRPC
-- [ ] Support optional parameters for ModRPC
+- [x] ~~Gamemodes should also be able to change option tabs~~
+
+- [x] ~~Add Reactor "RpcLocalHandling" to ModRPC~~
+- [x] ~~Support optional parameters for ModRPC~~
 
 
 Minor:
+- [ ] Add option propagation (display) to /m command
 - [ ] Dynamic Name renders for a brief period before the Intro cutscene starts
 - [ ] After-game lobby spams "TownOfHost.Extensions.PlayerControlExtensionsRewrite.GetRoleName Invalid Custom Role"
-- [ ] Roles that extend other roles (Blood Knight extending Impostor) show both role's tasks in the "Tasks" panel
+- [ ] FIX Roles that extend other roles (Blood Knight extending Impostor) show both role's tasks in the "Tasks" panel
 - [ ] Allow removing of "Maximum" setting from roles
 - [ ] Deprecate AsNormalOptions()
 - [ ] Boot non-vent-allowed players out of vent
 
+
+
 Even Minor(er):
-- [ :check: ] Vampire should kill all bitten when meeting is called
-- [ :check: ] Miner LastEnteredVentLocation (should also actually be a local variable to miner)
+- [x] ~~Vampire should kill all bitten when meeting is called~~
+- [x] ~~Miner LastEnteredVentLocation (should also actually be a local variable to miner)~~
+
+- [ ] Possible attempt to make transporter into ToU transporter (select players to transport). I REFUSE to force the player to use commands for it
+
+
+
+
+Investigating:
+- [ ] Role option propagation to role descriptions (and how that'd work with localization)

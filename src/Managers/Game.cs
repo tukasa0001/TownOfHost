@@ -29,19 +29,14 @@ public static class Game
     public static PlayerControl GetHost() => GetAllPlayers().FirstOrDefault(p => p.NetId == RpcV2.GetHostNetId());
 
 
+    [ModRPC((uint) ModCalls.SetCustomRole, RpcActors.Host, RpcActors.NonHosts, MethodInvocation.ExecuteBefore)]
     public static void AssignRole(PlayerControl player, CustomRole role, bool sendToClient = false)
     {
-        _AssignRole(player, role); // TODO: figure out optional parameters for ModRPC
+        CustomRoleManager.PlayersCustomRolesRedux[player.PlayerId] = role.Instantiate(player);
         if (sendToClient) role.Assign();
     }
 
-    [ModRPC((uint) ModCalls.SetCustomRole, RpcActors.Host, RpcActors.NonHosts, executeOnSend: true)]
-    private static void _AssignRole(PlayerControl player, CustomRole role)
-    {
-        CustomRoleManager.PlayersCustomRolesRedux[player.PlayerId] = role.Instantiate(player);
-    }
-
-    public static void SyncAll() => Game.GetAllPlayers().Do(p => p.GetCustomRole().SyncOptions());
+    public static void SyncAll() => GetAllPlayers().Do(p => p.GetCustomRole().SyncOptions());
     public static void TriggerForAll(RoleActionType action, ref ActionHandle handle, params object[] parameters)
     {
         if (action == RoleActionType.FixedUpdate)

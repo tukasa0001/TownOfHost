@@ -7,7 +7,6 @@ using HarmonyLib;
 using MonoMod.RuntimeDetour;
 using TownOfHost;
 using TownOfHost.Extensions;
-using TownOfHost.RPC;
 
 namespace VentFramework;
 
@@ -20,21 +19,22 @@ public class ModRPC : Attribute
     public readonly uint RPCId;
     public RpcActors Senders { get; }
     public RpcActors Receivers { get; }
-    public bool ExecuteOnSend { get; }
+    public MethodInvocation Invocation { get; }
     internal Type[] parameters;
     internal MethodBase trampoline;
     internal Func<object?> instanceSupplier;
     private IDetour hook;
+    private List<object> defaultParameters;
 
-    public ModRPC(uint rpc, RpcActors senders = RpcActors.Everyone, RpcActors receivers = RpcActors.Everyone, bool executeOnSend = false)
+    public ModRPC(uint rpc, RpcActors senders = RpcActors.Everyone, RpcActors receivers = RpcActors.Everyone, MethodInvocation invocation = MethodInvocation.ExecuteNever)
     {
         RPCId = rpc;
         this.Senders = senders;
         this.Receivers = receivers;
-        this.ExecuteOnSend = executeOnSend;
+        this.Invocation = invocation;
     }
 
-    internal static void Register(Assembly assembly, BasePlugin plugin)
+    internal static void Register(Assembly assembly)
     {
         if (RegisteredAssemblies.Contains(assembly)) return;
         RegisteredAssemblies.Add(assembly);
@@ -74,11 +74,12 @@ public class ModRPC : Attribute
 
     internal static void Initialize()
     {
-        IL2CPPChainloader.Instance.PluginLoad += (_, assembly, plugin) => Register(assembly, plugin);
+        IL2CPPChainloader.Instance.PluginLoad += (_, assembly, plugin) => Register(assembly);
     }
 
     public void InvokeTrampoline(object[] args)
     {
+        "2".DebugLog();
         if (DebugConstants.LogTrampoline)
             TownOfHost.Logger.Info($"Calling trampoline \"{this.trampoline.FullDescription()}\" with args: {args.PrettyString()}", "RPCTrampoline");
 
@@ -95,4 +96,11 @@ public enum RpcActors
     Host,
     NonHosts,
     Everyone
+}
+
+public enum MethodInvocation
+{
+    ExecuteNever,
+    ExecuteBefore,
+    ExecuteAfter
 }
