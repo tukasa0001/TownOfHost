@@ -250,6 +250,14 @@ namespace TownOfHost
             var sniperId = sniper.PlayerId;
             if (!IsAim[sniperId]) return;
 
+            if (!GameStates.IsInTask)
+            {
+                //エイム終了
+                IsAim[sniperId] = false;
+                AimTime[sniperId] = 0f;
+                return;
+            }
+
             var pos = sniper.transform.position;
             if (pos != LastPosition[sniperId])
             {
