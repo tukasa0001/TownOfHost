@@ -278,13 +278,13 @@ namespace TownOfHost
         {
             return IsThisRole(playerId) ? Utils.ColorString(Color.yellow, $"({bulletCount[playerId]})") : "";
         }
-        public static bool TryGetSniper(byte target,ref PlayerControl sniper)
+        public static bool TryGetSniper(byte target, ref PlayerControl sniper)
         {
-            foreach(var kvp in snipeTarget)
+            foreach (var kvp in snipeTarget)
             {
-                if(kvp.Value==target)
+                if (kvp.Value == target)
                 {
-                    sniper=Utils.GetPlayerById(kvp.Key);
+                    sniper = Utils.GetPlayerById(kvp.Key);
                     return true;
                 }
             }
