@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
+using TownOfHost.Managers;
 using UnityEngine;
 using TownOfHost.Roles;
 using TownOfHost.ReduxOptions;
@@ -16,6 +17,9 @@ namespace TownOfHost
         {
             //ここより上、全員が実行する
             if (!AmongUsClient.Instance.AmHost) return;
+
+            Game.CurrentGamemode.FixedUpdate();
+
             //ここより下、ホストのみが実行する
             if (TOHPlugin.IsFixedCooldown && TOHPlugin.RefixCooldownDelay >= 0)
                 TOHPlugin.RefixCooldownDelay -= Time.fixedDeltaTime;
@@ -60,7 +64,6 @@ namespace TownOfHost
                 if (task.TaskType == TaskTypes.FixComms) IsComms = true;
 
             if (!AmongUsClient.Instance.AmHost) return true; //以下、ホストのみ実行
-            if ((OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek || StaticOptions.IsStandardHAS) && systemType == SystemTypes.Sabotage) return false;
             //SabotageMaster
             /*if (player.Is(CustomRoles.SabotageMaster))
                 SabotageMasterOLD.RepairSystem(__instance, systemType, amount);*/
@@ -82,10 +85,6 @@ namespace TownOfHost
                 && systemType == SystemTypes.Comms //システムタイプが通信室
                 && amount is 0 or 16 or 17)
                 return false;
-            if (player.Is(CustomRoles.Sheriff) || (player.Is(CustomRoles.Jackal) && !CustomRoleManager.Static.Jackal.CanSabotage()))
-            {
-                if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
-            }
             return true;
         }
         public static void Postfix(ShipStatus __instance)

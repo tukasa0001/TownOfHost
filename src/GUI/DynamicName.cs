@@ -87,7 +87,7 @@ public class DynamicName
     public DynamicName()
     {
         valueDictionary[UI.Name] = new DynamicString(DataManager.Player.Customization.Name);
-        CustomRole role = CustomRoleManager.Roles.GetRandom();
+        CustomRole role = CustomRoleManager.AllRoles.GetRandom();
         valueDictionary[UI.Role] = new DynamicString(role.RoleColor.Colorize(role.RoleName));
         valueDictionary[UI.Subrole] = new DynamicString(/*CustomRoleManager.Static.Lovers.RoleColor*/Color.magenta.Colorize("♡"));
         valueDictionary[UI.Counter] = new DynamicString("(" + Color.yellow.Colorize("3/16") + ")");
@@ -310,6 +310,7 @@ public class DynamicName
 
     public void Render(int specific = -2)
     {
+        if (!AmongUsClient.Instance.AmHost) return;
         float durationSinceLast = (float)(DateTime.Now - lastRender).TotalSeconds;
         if (durationSinceLast < ModConstants.DynamicNameTimeBetweenRenders) return;
         string str = GetName();
@@ -322,6 +323,7 @@ public class DynamicName
 
     public void RenderAsIf(GameState state, Color? forceColor = null, int specific = -2)
     {
+        if (!AmongUsClient.Instance.AmHost) return;
         string str = GetName(state, forceColor);
         if (lastString != str)
             RpcV2.Immediate(myPlayer.NetId, RpcCalls.SetName).Write(str).Send(specific != -2 ? specific : myPlayer.GetClientId());
@@ -331,6 +333,7 @@ public class DynamicName
 
     public void RenderFor(PlayerControl player, GameState? state = null)
     {
+        if (!AmongUsClient.Instance.AmHost) return;
         float durationSinceLast = (float)(DateTime.Now - lastRender).TotalSeconds;
         if (durationSinceLast < ModConstants.DynamicNameTimeBetweenRenders) return;
         if (myPlayer != null && myPlayer.PlayerId == player.PlayerId)

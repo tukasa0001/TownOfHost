@@ -48,7 +48,7 @@ public static class RpcManager
                 (modRPC.Receivers is RpcActors.NonHosts && AmongUsClient.Instance.AmHost))
                 continue;
 
-            modRPC.InvokeTrampoline(ParameterHelper.Cast(modRPC.parameters, reader));
+            modRPC.InvokeTrampoline(ParameterHelper.Cast(modRPC.Parameters, reader));
         }
 
         return true;

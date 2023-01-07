@@ -29,7 +29,7 @@ namespace TownOfHost
             if (OldOptions.CurrentGameMode == CustomGameMode.Standard)
             {
                 text += GetString("ActiveRolesList") + "\n";
-                foreach (CustomRole role in CustomRoleManager.Roles)
+                foreach (CustomRole role in CustomRoleManager.AllRoles)
                 {
                     OptionHolder matchingHolder = TOHPlugin.OptionManager.PreviewOptions().FirstOrDefault(h => h.Name == role.RoleName);
                     string chance = role.Chance + "%";
@@ -50,9 +50,9 @@ namespace TownOfHost
             }
             //有効な役職と詳細設定一覧
             pages.Add("");
-            text += $"{CustomRoleManager.Static.GM.RoleColor.Colorize("GM")}: {Utils.GetOnOffColored(StaticOptions.EnableGM)}\n";
+            text += $"{CustomRoleManager.Special.GM.RoleColor.Colorize("GM")}: {Utils.GetOnOffColored(StaticOptions.EnableGM)}\n";
             HashSet<OptionHolder> roleHolders = new();
-            foreach (CustomRole role in CustomRoleManager.Roles)
+            foreach (CustomRole role in CustomRoleManager.AllRoles)
             {
                 string chance = role.Chance + "%";
                 string count = role.Count.ToString();

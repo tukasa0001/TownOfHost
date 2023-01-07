@@ -22,6 +22,7 @@ public static class SabotagePatch
         switch (systemType)
         {
             case SystemTypes.Sabotage:
+                if (!Game.CurrentGamemode.AllowSabotage()) return false;
                 if (player.GetCustomRole() is Impostor impostor && !impostor.CanSabotage()) return false;
                 SabotageType sabotage = (SystemTypes)amount switch
                 {

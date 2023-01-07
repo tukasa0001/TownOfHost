@@ -7,6 +7,7 @@ using System.Reflection;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
+using TownOfHost.Gamemodes;
 using TownOfHost.Roles;
 using TownOfHost.RPC;
 using VentFramework;
@@ -40,13 +41,9 @@ public class AddonManager
             MethodInfo initialize = tohType.GetMethod("Initialize");
             initialize!.Invoke(addon, null);
 
-            addon.factions.Do(f => FactionConstraintValidator.ValidateAndAdd(f, file.Name));
-            addon.customRoles.Do(r =>
-            {
-                CustomRole role = (CustomRole)r.GetConstructor(new Type[] { })!.Invoke(null);
-                CustomRoleManager.AddRole(role);
-            });
-
+            addon.Factions.Do(f => FactionConstraintValidator.ValidateAndAdd(f, file.Name));
+            CustomRoleManager.AllRoles.AddRange(addon.CustomRoles);
+            TOHPlugin.GamemodeManager.Gamemodes.AddRange(addon.Gamemodes);
         }
         catch (Exception e)
         {

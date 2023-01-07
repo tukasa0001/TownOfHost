@@ -176,7 +176,7 @@ public abstract class AbstractBaseRole
         bool inBlockList = MyPlayer != null && CustomRoleManager.RoleBlockedPlayers.Contains(MyPlayer.PlayerId);
         RoleActions[actionType].Do(method =>
         {
-            if (StaticOptions.logAllActions)
+            if (StaticOptions.LogAllActions)
             {
                 string logStart = $"[Info   :TownOfHost] [{DateTime.Now:hh:mm:ss}][ActionLog]";
                 ConsoleManager.SetConsoleColor(ConsoleColor.Cyan);

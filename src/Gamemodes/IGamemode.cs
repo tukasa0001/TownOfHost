@@ -1,18 +1,25 @@
 using System.Collections.Generic;
 using TownOfHost.Interface.Menus;
+using TownOfHost.Managers;
 
 namespace TownOfHost.Gamemodes;
 
 public interface IGamemode
 {
-    string GetName();
-
-    IEnumerable<GameOptionTab> EnabledTabs();
-
-    public void Activate()
+    void Activate()
     {
         TOHPlugin.OptionManager.SetTabs(EnabledTabs());
     }
 
-    public void AssignRoles(List<PlayerControl> players);
+    bool AllowSabotage() => true;
+
+    void AssignRoles(List<PlayerControl> players);
+
+    IEnumerable<GameOptionTab> EnabledTabs();
+
+    string GetName();
+
+    void FixedUpdate() { }
+
+    void SetupWinConditions(WinDelegate winDelegate) { }
 }

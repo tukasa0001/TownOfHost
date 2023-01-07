@@ -233,20 +233,17 @@ namespace TownOfHost
         public static void Prefix(ref RoleTeamTypes __state)
         {
             var player = PlayerControl.LocalPlayer;
-            if (player.Is(Sheriff.Ref<Sheriff>()) || player.Is(Arsonist.Ref<Arsonist>()))
-            {
-                __state = player.Data.Role.TeamType;
-                player.Data.Role.TeamType = RoleTeamTypes.Crewmate;
-            }
+            if (player.GetCustomRole() is not (Sheriff or Arsonist)) return;
+
+            __state = player.Data.Role.TeamType;
+            player.Data.Role.TeamType = RoleTeamTypes.Crewmate;
         }
 
         public static void Postfix(ref RoleTeamTypes __state)
         {
             var player = PlayerControl.LocalPlayer;
-            if (player.Is(Sheriff.Ref<Sheriff>()) || player.Is(Arsonist.Ref<Arsonist>()))
-            {
-                player.Data.Role.TeamType = __state;
-            }
+            if (player.GetCustomRole() is not (Sheriff or Arsonist)) return;
+            player.Data.Role.TeamType = __state;
         }
     }
     [HarmonyPatch(typeof(TaskPanelBehaviour), nameof(TaskPanelBehaviour.SetTaskText))]

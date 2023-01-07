@@ -153,10 +153,6 @@ public static class StaticOptions
     public static bool AdditionalEmergencyCooldown = false;
     public static int AdditionalEmergencyCooldownThreshold = 0;
 
-    public static bool MadSnitchCanVent = false;
-    public static int TasksRemainingForPhantomClicked = 1;
-    public static int TasksRemaningForPhantomAlert = 1;
-    public static int SaboAmount = 1;
     public static bool MadmateCanFixLightsOut = false;
     public static bool LightsOutSpecialSettings = false;
     public static bool DisableAirshipViewingDeckLightsPanel = false;
@@ -173,21 +169,19 @@ public static class StaticOptions
     public static bool DisableFixWiring = false;
     public static bool NecroCanUseSheriff = false;
     public static float StoneReport = 10.0f;
-    public static float TrapperBlockMoveTime = 10.0f;
     public static float KillFlashDuration = 10.0f;
     public static float DemoSuicideTime = 10.0f;
-    public static float VetDuration = 10.0f;
-    public static int NumOfVests = 1;
-    public static float VestDuration = 10.0f;
-    public static float StoneDuration = 10.0f;
-    public static float SpeedBoosterUpSpeed = 10.0f;
     public static float EvilWatcherChance = 10.0f;
     public static bool AllAliveMeeting = false;
 
-    public static bool mayhemOptions;
-    public static bool debugOptions;
-    public static bool allRolesCanVent;
-    public static bool logAllActions;
+    public static bool NoGameEnd;
+    public static bool MayhemOptions;
+    public static bool DebugOptions;
+    public static bool AllRolesCanVent;
+    public static bool LogAllActions;
+
+
+
 
     public static void AddStaticOptions()
     {
@@ -199,7 +193,7 @@ public static class StaticOptions
             .IsHeader(true)
             .BindBool(v => EnableGM = v)
             .AddOnOffValues(false)
-            .Color(CustomRoleManager.Static.GM.RoleColor)
+            .Color(CustomRoleManager.Special.GM.RoleColor)
             .Build()
         );
 
@@ -684,11 +678,11 @@ public static class StaticOptions
             .Name("Mayhem Options")
             .IsHeader(false)
             .ShowSubOptionsWhen(v => (bool)v)
-            .BindBool(v => mayhemOptions = v)
+            .BindBool(v => MayhemOptions = v)
             .AddOnOffValues(false)
             .AddSubOption(sub => sub
                 .Name("Most Roles Can Vent")
-                .BindBool(v => allRolesCanVent = v && mayhemOptions)
+                .BindBool(v => AllRolesCanVent = v && MayhemOptions)
                 .AddOnOffValues(false)
                 .Build())
             .Build()
@@ -699,11 +693,11 @@ public static class StaticOptions
             .IsHeader(true)
             .Tab(DefaultTabs.GeneralTab)
             .ShowSubOptionsWhen(v => (bool)v)
-            .BindBool(v => debugOptions = v)
+            .BindBool(v => DebugOptions = v)
             .AddOnOffValues(false)
             .AddSubOption(sub => sub
                 .Name("Debug All Actions")
-                .BindBool(v => logAllActions = v && debugOptions)
+                .BindBool(v => LogAllActions = v && DebugOptions)
                 .AddOnOffValues()
                 .Build())
             .Build());

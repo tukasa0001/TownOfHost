@@ -24,7 +24,7 @@ public class Debugger: CustomRole
     private void LogStats()
     {
         Logger.Info($"{MyPlayer.GetNameWithRole()} | Dead? {MyPlayer.Data.IsDead} | AURole: {MyPlayer.Data.Role.name} | Custom Role: {MyPlayer.GetCustomRole().RoleName.RemoveHtmlTags()} | Subrole: {MyPlayer.GetSubrole()?.RoleName}", "DebuggerStats");
-        Logger.Info($"Stats | Total Players: {Game.GetAllPlayers().Count()} | Alive Players: {Game.GetAlivePlayers().Count()} | Impostors: {Game.CountAliveImpostors()}", "DebuggerStats");
+        Logger.Info($"Stats | Total Players: {Game.GetAllPlayers().Count()} | Alive Players: {Game.GetAlivePlayers().Count()} | Impostors: {GameStats.CountAliveImpostors()}", "DebuggerStats");
         Logger.Info("-=-=-=-=-=-=-=-=-=-=-=-= Other Players =-=-=-=-=-=-=-=-=-=-=-=-", "DebuggerStats");
         foreach (PlayerControl player in Game.GetAllPlayers().Where(p => p.PlayerId != MyPlayer.PlayerId))
             Logger.Info($"{player.GetNameWithRole()} | Dead? {player.Data.IsDead} | AURole: {player.Data.Role.name} | Custom Role: {player.GetCustomRole().RoleName.RemoveHtmlTags()} | Subrole: {player.GetSubrole()?.RoleName}", "DebuggerStats");

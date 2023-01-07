@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ public static class PlayerControlExtensions
     {
         OldRPC.ExileAsync(player);
     }
-    public static InnerNet.ClientData GetClient(this PlayerControl player)
+    public static InnerNet.ClientData? GetClient(this PlayerControl player)
     {
         var client = AmongUsClient.Instance.allClients.ToArray().FirstOrDefault(cd => cd.Character.PlayerId == player.PlayerId);
         return client;
@@ -65,7 +66,7 @@ public static class PlayerControlExtensions
             var caller = new System.Diagnostics.StackFrame(1, false);
             var callerMethod = caller.GetMethod();
             string callerMethodName = callerMethod.Name;
-            string callerClassName = callerMethod.DeclaringType.FullName;
+            string? callerClassName = callerMethod.DeclaringType.FullName;
             Logger.Warn(callerClassName + "." + callerMethodName + " Invalid Custom Role", "GetCustomRole");
             return CustomRoleManager.Static.Crewmate;
         }
@@ -91,9 +92,9 @@ public static class PlayerControlExtensions
         return role[0];
     }
 
-    public static T GetSubrole<T>(this PlayerControl player) where T : Subrole
+    public static T? GetSubrole<T>(this PlayerControl player) where T : Subrole
     {
-        return (T)player.GetSubrole()!;
+        return (T?)player.GetSubrole()!;
     }
 
     public static List<Subrole> GetSubroles(this PlayerControl player)
@@ -249,14 +250,14 @@ public static class PlayerControlExtensions
 
         return sb.ToString();
     }
-    public static string GetAllRoleName(this PlayerControl player)
+    public static string? GetAllRoleName(this PlayerControl player)
     {
         if (!player) return null;
         var text = Utils.GetRoleName(player.GetCustomRole());
         text += player.GetSubRoleName();
         return text;
     }
-    public static string GetNameWithRole(this PlayerControl player)
+    public static string GetNameWithRole(this PlayerControl? player)
     {
         return $"{player.GetRawName()}" + (GameStates.IsInGame ? $"({player?.GetAllRoleName()})" : "");
     }
@@ -309,7 +310,7 @@ public static class PlayerControlExtensions
         }, FlashDuration + delay, "Fix Desync Reactor");
     }
 
-    public static string GetRealName(this PlayerControl player, bool isMeeting = false)
+    public static string? GetRealName(this PlayerControl? player, bool isMeeting = false)
     {
         return isMeeting ? player?.Data?.PlayerName : player?.name;
     }

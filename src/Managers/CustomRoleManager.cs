@@ -12,26 +12,34 @@ public static class CustomRoleManager
     public static Dictionary<byte, List<Subrole>> PlayerSubroles = new();
 
     public static List<byte> RoleBlockedPlayers = new();
+    public static ExtraRoles Special = new();
     public static StaticRoles Static = new();
     public static CustomRole Default = Static.Crewmate;
 
-    public static readonly List<CustomRole> Roles = Static.GetType()
+    public static readonly List<CustomRole> MainRoles = Static.GetType()
         .GetFields()
         .Select(f => (CustomRole)f.GetValue(Static))
         .ToList();
 
+    public static readonly List<CustomRole> SpecialRoles = Special.GetType()
+        .GetFields()
+        .Select(f => (CustomRole)f.GetValue(Special))
+        .ToList();
+
+    public static readonly List<CustomRole> AllRoles = MainRoles.Concat(SpecialRoles).ToList();
+
 
     public static void AddRole(CustomRole staticRole)
     {
-        Roles.Add(staticRole);
+        AllRoles.Add(staticRole);
     }
     public static int GetRoleId(CustomRole role) => role == null ? 0 : GetRoleId(role.GetType());
     public static CustomRole GetRoleFromType(Type roleType) => GetRoleFromId(GetRoleId(roleType));
 
     public static int GetRoleId(Type roleType)
     {
-        for (int i = 0; i < Roles.Count; i++)
-            if (roleType == Roles[i].GetType())
+        for (int i = 0; i < AllRoles.Count; i++)
+            if (roleType == AllRoles[i].GetType())
                 return i;
         return -1;
     }
@@ -39,7 +47,7 @@ public static class CustomRoleManager
     public static CustomRole GetRoleFromId(int id)
     {
         if (id == -1) id = 0;
-        return Roles[id] ?? Default;
+        return AllRoles[id] ?? Default;
     }
 
     public static void AddPlayerSubrole(byte playerId, Subrole subrole)
@@ -50,7 +58,7 @@ public static class CustomRoleManager
 
     public class StaticRoles
     {
-        public GM GM = new GM();
+
         public Impostor Impostor = new Impostor();
         public Morphling Morphling = new Morphling();
         public Madmate Madmate = new Madmate();
@@ -118,11 +126,14 @@ public static class CustomRoleManager
         public Phantom Phantom = new Phantom();
 
         public Egoist Egoist = new Egoist();
+    }
+
+    public class ExtraRoles
+    {
+        public GM GM = new GM();
+        public Debugger Debugger = new Debugger();
+        public Lovers Lovers = new Lovers();
 
         public Fox Fox = new();
-        public Lovers Lovers = new Lovers();
-        public Debugger Debugger = new Debugger();
-
-
     }
 }

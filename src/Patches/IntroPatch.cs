@@ -274,7 +274,7 @@ namespace TownOfHost
                     }, 2f);
             }
             DTask.Schedule(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRoleDesync(RoleTypes.Shapeshifter, -3)), 2f);
-            if (PlayerControl.LocalPlayer.Is(CustomRoleManager.Static.GM))
+            if (PlayerControl.LocalPlayer.Is(CustomRoleManager.Special.GM))
             {
                 PlayerControl.LocalPlayer.RpcExile();
                 TOHPlugin.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SetDead();

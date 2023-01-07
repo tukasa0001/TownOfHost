@@ -17,6 +17,9 @@ public class Mare: Impostor
     private float reducedKillCooldown;
     private SabotageType activationSabo;
     private bool abilityEnabled;
+    private bool abilityLightsOnly;
+
+    protected override void Setup(PlayerControl player) => activationSabo = abilityLightsOnly ? SabotageType.Lights : activationSabo;
 
     [RoleAction(RoleActionType.AttemptKill)]
     public new bool TryKill(PlayerControl target) => CanKill() && base.TryKill(target);
@@ -59,7 +62,7 @@ public class Mare: Impostor
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .AddSubOption(sub => sub
-                .Name("Speed Modifier During Lights")
+                .Name("Speed Modifier During Sabotage")
                 .Bind(v => sabotageSpeedMod = (float)v)
                 .AddFloatRangeValues(0.5f, 3, 0.1f, 10, "x").Build())
             .AddSubOption(sub => sub
@@ -74,17 +77,19 @@ public class Mare: Impostor
                     .Build())
                 .Build())
             .AddSubOption(sub => sub
-                .Name("Colored Name During Lights")
+                .Name("Colored Name During Sabotage")
                 .Bind(v => redNameDuringSabotage = (bool)v)
                 .AddOnOffValues().Build())
             .AddSubOption(sub => sub
-                .Name("Kill Cooldown During Lights")
+                .Name("Kill Cooldown During Sabotage")
                 .Bind(v => reducedKillCooldown = (float)v)
                 .AddFloatRangeValues(0, 60, 5, 3, "s").Build())
             .AddSubOption(sub => sub
-                .Name("Individual Sabotage Interaction Settings")
+                .Name("Specific Sabotage Settings")
                 .ShowSubOptionsWhen(v => (bool)v)
-                .AddOnOffValues(false)
+                .BindBool(v => abilityLightsOnly = v)
+                .AddValue(v => v.Text("Lights Only").Value(false).Build())
+                .AddValue(v => v.Text("Individual").Value(true).Build())
                 .AddSubOption(sub2 => sub2
                     .Name("Lights")
                     .Bind(v => activationSabo = (bool)v ? activationSabo | SabotageType.Lights : activationSabo & ~SabotageType.Lights)

@@ -36,7 +36,7 @@ class ShowFolderPatch
         if (CustomRolesFolder != null && CustomRolesFolder.FolderName == taskFolder.FolderName)
         {
             var crewBehaviour = DestroyableSingleton<RoleManager>.Instance.AllRoles.FirstOrDefault(role => role.Role == RoleTypes.Crewmate);
-            foreach (CustomRole role in CustomRoleManager.Roles)
+            foreach (CustomRole role in CustomRoleManager.AllRoles)
             {
                 TaskAddButton button = UnityEngine.Object.Instantiate<TaskAddButton>(__instance.RoleButton);
                 button.Text.text = role.RoleName;

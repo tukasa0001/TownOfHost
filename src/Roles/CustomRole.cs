@@ -24,7 +24,7 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
         AbstractConstructors.Register(typeof(CustomRole), r => CustomRoleManager.GetRoleFromId(r.ReadInt32()));
     }
 
-    public virtual bool CanVent() => baseCanVent || StaticOptions.allRolesCanVent;
+    public virtual bool CanVent() => baseCanVent || StaticOptions.AllRolesCanVent;
     public virtual bool CanBeKilled() => true;
     public virtual bool CanBeKilledBySheriff() => this.VirtualRole is RoleTypes.Impostor or RoleTypes.Shapeshifter;
     public virtual bool HasTasks() => this is Crewmate;
@@ -39,17 +39,23 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
     /// <returns>Shallow clone of this class (except for certain fields such as roleOptions being a deep clone)</returns>
     public CustomRole Instantiate(PlayerControl player)
     {
-        CustomRole cloned = (CustomRole)this.MemberwiseClone();
+        CustomRole cloned = Clone();
         cloned.MyPlayer = player;
-        cloned.roleSpecificGameOptionOverrides = new();
-        cloned.currentOverrides = new();
-        cloned.Modify(new RoleModifier(cloned));
 
         cloned.Setup(player);
         cloned.SetupUI(player.GetDynamicName());
         player.GetDynamicName().Render();
-        if (StaticOptions.allRolesCanVent && cloned.VirtualRole == RoleTypes.Crewmate)
+        if (StaticOptions.AllRolesCanVent && cloned.VirtualRole == RoleTypes.Crewmate)
             cloned.VirtualRole = RoleTypes.Engineer;
+        return cloned;
+    }
+
+    public CustomRole Clone()
+    {
+        CustomRole cloned = (CustomRole)this.MemberwiseClone();
+        cloned.roleSpecificGameOptionOverrides = new();
+        cloned.currentOverrides = new();
+        cloned.Modify(new RoleModifier(cloned));
         return cloned;
     }
 

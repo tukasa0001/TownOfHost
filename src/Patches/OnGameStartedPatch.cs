@@ -117,7 +117,7 @@ namespace TownOfHost
         public static void Prefix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            TOHPlugin.GamemodeManager.CurrentGamemode.AssignRoles(Game.GetAllPlayers().ToList());
+            Game.CurrentGamemode.AssignRoles(Game.GetAllPlayers().ToList());
         }
 
         public static void Postfix()

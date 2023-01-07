@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Extensions;
@@ -9,35 +10,36 @@ namespace TownOfHost.Roles;
 
 public class Lovers: Subrole
 {
+    public PlayerControl Partner;
     private bool originalLovers = true;
-    private PlayerControl partner;
 
     [RoleAction(RoleActionType.MyDeath)]
     private void LoversDies()
     {
-        if (partner != null && !partner.Data.IsDead)
-            partner.RpcMurderPlayer(partner);
+        if (Partner != null && !Partner.Data.IsDead)
+            Partner.RpcMurderPlayer(Partner);
     }
 
     protected override void Setup(PlayerControl player)
     {
+        if (!AmongUsClient.Instance.AmHost) return;
         player.GetDynamicName().SetComponentValue(UI.Subrole, new DynamicString(RoleColor.Colorize("♡")));
-        if (partner != null)
-            partner.GetDynamicName().AddRule(GameState.Roaming, UI.Subrole, new DynamicString(RoleColor.Colorize("♡")), MyPlayer.PlayerId);
+        if (Partner != null)
+            Partner.GetDynamicName().AddRule(GameState.Roaming, UI.Subrole, new DynamicString(RoleColor.Colorize("♡")), MyPlayer.PlayerId);
 
         if (!originalLovers) return;
-        originalLovers = false;
 
-        List<PlayerControl> matchCandidates = Game.GetAllPlayers().Where(p => p.PlayerId != player.PlayerId).ToList();
+        Logger.Color($"Player: {player?.GetRawName()}", "", ConsoleColor.Green);
+        List<PlayerControl> matchCandidates = Game.GetAllPlayers().Where(p => p.PlayerId != player.PlayerId && p.GetSubrole<Lovers>() == null).ToList();
         if (!matchCandidates.Any()) return;
-        partner = matchCandidates.GetRandom();
-        partner.GetDynamicName().AddRule(GameState.Roaming, UI.Subrole, new DynamicString(RoleColor.Colorize("♡")), MyPlayer.PlayerId);
-        Lovers otherLovers = (Lovers)this.Instantiate(partner);
-        otherLovers.partner = player;
+        Partner = matchCandidates.GetRandom();
+        Logger.Color($"Partner: {Partner?.GetRawName()}", "", ConsoleColor.Green);
+        Partner.GetDynamicName().AddRule(GameState.Roaming, UI.Subrole, new DynamicString(RoleColor.Colorize("♡")), MyPlayer.PlayerId);
+        Lovers otherLovers = (Lovers)this.Clone();
+        otherLovers.Partner = player;
+        otherLovers.originalLovers = false;
 
-        CustomRoleManager.AddPlayerSubrole(partner.PlayerId, otherLovers);
-
-        originalLovers = true;
+        Game.AssignSubrole(Partner, otherLovers);
     }
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>

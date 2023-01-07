@@ -14,11 +14,11 @@ public class FFAGamemode: IGamemode
 {
     public static GameOptionTab FFATab = new("Free For All Options", "TownOfHost.assets.Tabs.TabIcon_FreeForAll.png");
 
-    public string GetName() => "Free For All";
+    public virtual string GetName() => "Free For All";
 
-    public IEnumerable<GameOptionTab> EnabledTabs() => new[] { FFATab };
+    public virtual IEnumerable<GameOptionTab> EnabledTabs() => new[] { FFATab };
 
-    public void AssignRoles(List<PlayerControl> players)
+    public virtual void AssignRoles(List<PlayerControl> players)
     {
         PlayerControl localPlayer = PlayerControl.LocalPlayer;
         localPlayer.SetRole(RoleTypes.Impostor);

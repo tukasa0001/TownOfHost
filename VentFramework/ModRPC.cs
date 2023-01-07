@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +21,10 @@ public class ModRPC : Attribute
     public RpcActors Senders { get; }
     public RpcActors Receivers { get; }
     public MethodInvocation Invocation { get; }
-    internal Type[] parameters;
-    internal MethodBase trampoline;
-    internal Func<object?> instanceSupplier;
-    private IDetour hook;
-    private List<object> defaultParameters;
+    internal Type[] Parameters = null!;
+    private MethodBase trampoline = null!;
+    private Func<object?> instanceSupplier = null!;
+    private IDetour hook = null!;
 
     public ModRPC(uint rpc, RpcActors senders = RpcActors.Everyone, RpcActors receivers = RpcActors.Everyone, MethodInvocation invocation = MethodInvocation.ExecuteNever)
     {
@@ -46,7 +46,7 @@ public class ModRPC : Attribute
         foreach (var method in methods)
         {
             declaringType ??= method.DeclaringType!;
-            ModRPC attribute = method.GetCustomAttribute<ModRPC>();
+            ModRPC? attribute = method.GetCustomAttribute<ModRPC>();
             if (attribute == null) continue;
 
             if (!method.IsStatic && !declaringType.IsAssignableTo(typeof(IRpcInstance)))
@@ -59,13 +59,13 @@ public class ModRPC : Attribute
             attribute.instanceSupplier = () =>
             {
                 if (method.IsStatic) return null;
-                if (!IRpcInstance.Instances.TryGetValue(type, out IRpcInstance instance))
+                if (!IRpcInstance.Instances.TryGetValue(type, out IRpcInstance? instance))
                     throw new NullReferenceException($"Cannot invoke non-static method because IRpcInstance.EnableInstance() was never called for {type}");
                 return instance;
             };
 
             RpcManager.Register(attribute);
-            attribute.parameters = ParameterHelper.Verify(method.GetParameters());
+            attribute.Parameters = ParameterHelper.Verify(method.GetParameters());
             attribute.hook = HookHelper.Generate(method, attribute);
             attribute.trampoline = attribute.hook.GenerateTrampoline();
         }
@@ -74,7 +74,7 @@ public class ModRPC : Attribute
 
     internal static void Initialize()
     {
-        IL2CPPChainloader.Instance.PluginLoad += (_, assembly, plugin) => Register(assembly);
+        IL2CPPChainloader.Instance.PluginLoad += (_, assembly, _) => Register(assembly);
     }
 
     public void InvokeTrampoline(object[] args)
@@ -86,7 +86,7 @@ public class ModRPC : Attribute
         trampoline.Invoke(instanceSupplier(), args);
     }
 
-    public static PlayerControl GetLastSender(uint rpcId) => LastSenders.GetValueOrDefault(rpcId);
+    public static PlayerControl? GetLastSender(uint rpcId) => LastSenders.GetValueOrDefault(rpcId);
 }
 
 

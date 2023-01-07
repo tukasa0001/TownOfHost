@@ -17,20 +17,20 @@ class StandardAssignRoles
         int impostors = GameOptionsManager.Instance.CurrentGameOptions.NumImpostors;
 
         List<CustomRole> impostorRoles =
-            RoleAssignments.RolesForGame(RoleAssignments.EnabledRoles(CustomRoleManager.Roles.Where(r => r.Factions.IsImpostor())), 0, impostors);
+            RoleAssignments.RolesForGame(RoleAssignments.EnabledRoles(CustomRoleManager.AllRoles.Where(r => r.Factions.IsImpostor())), 0, impostors);
 
 
         while (impostorRoles.Count < impostors)
             impostorRoles.Add(CustomRoleManager.Static.Impostor);
 
         List<CustomRole> neutralKillingRoles =
-            RoleAssignments.RolesForGame(RoleAssignments.EnabledRoles(CustomRoleManager.Roles.Where(r => r.SpecialType is SpecialType.NeutralKilling)), StaticOptions.MinNK, StaticOptions.MaxNK);
+            RoleAssignments.RolesForGame(RoleAssignments.EnabledRoles(CustomRoleManager.AllRoles.Where(r => r.SpecialType is SpecialType.NeutralKilling)), StaticOptions.MinNK, StaticOptions.MaxNK);
 
         List<CustomRole> neutralPassiveRoles =
-            RoleAssignments.RolesForGame(RoleAssignments.EnabledRoles(CustomRoleManager.Roles.Where(r => r.SpecialType is SpecialType.Neutral)), StaticOptions.MinNonNK, StaticOptions.MaxNK);
+            RoleAssignments.RolesForGame(RoleAssignments.EnabledRoles(CustomRoleManager.AllRoles.Where(r => r.SpecialType is SpecialType.Neutral)), StaticOptions.MinNonNK, StaticOptions.MaxNK);
 
         List<CustomRole> crewMateRoles =
-            RoleAssignments.RolesForGame(RoleAssignments.EnabledRoles(CustomRoleManager.Roles.Where(r => r.Factions.IsCrewmate())), 0, ModConstants.MaxPlayers);
+            RoleAssignments.RolesForGame(RoleAssignments.EnabledRoles(CustomRoleManager.AllRoles.Where(r => r.Factions.IsCrewmate())), 0, ModConstants.MaxPlayers);
 
         List<CustomRole> joinedRoleSelection = new(impostorRoles);
         joinedRoleSelection.AddRange(neutralKillingRoles);
@@ -44,7 +44,7 @@ class StandardAssignRoles
         while (i < unassignedPlayers.Count)
         {
             PlayerControl player = unassignedPlayers[i];
-            CustomRole role = CustomRoleManager.Roles.FirstOrDefault(r => r.RoleName.RemoveHtmlTags().ToLower().StartsWith(player.GetRawName()?.ToLower() ?? "HEHXD"));
+            CustomRole role = CustomRoleManager.AllRoles.FirstOrDefault(r => r.RoleName.RemoveHtmlTags().ToLower().StartsWith(player.GetRawName()?.ToLower() ?? "HEHXD"));
             if (role != null && role.GetType() != typeof(Crewmate))
             {
                 role = CustomRoleManager.PlayersCustomRolesRedux[player.PlayerId] = role.Instantiate(player);
@@ -77,7 +77,7 @@ class StandardAssignRoles
             assignments.Add(new System.Tuple<PlayerControl, CustomRole>(unassigned, role));
         }
 
-        List<Subrole> subroles = CustomRoleManager.Roles.OfType<Subrole>().ToList();
+        List<Subrole> subroles = CustomRoleManager.AllRoles.OfType<Subrole>().ToList();
         while (subroles.Count > 0)
         {
             Subrole subrole = subroles.PopRandom();

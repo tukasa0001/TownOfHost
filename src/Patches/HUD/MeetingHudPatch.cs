@@ -365,27 +365,8 @@ namespace TownOfHost
                         if (LocalPlayerKnowsEgoist)
                             pva.NameText.color = Utils.GetRoleColor(Egoist.Ref<Egoist>()); //変更対象の名前の色変更
                         break;
-                    case Jackal:
-                        if (LocalPlayerKnowsJackal)
-                            pva.NameText.color = Utils.GetRoleColor(Jackal.Ref<Jackal>()); //変更対象の名前をジャッカル色にする
-                        break;
-                }
-                foreach (var subRole in target.GetCustomSubRoles())
-                {
-                    switch (subRole)
-                    {
-                        case Lovers:
-                            if (seer.Is(Lovers.Ref<Lovers>()) || seer.Data.IsDead)
-                                pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(Lovers.Ref<Lovers>()), "♡");
-                            break;
-                    }
                 }
 
-                if (LocalPlayerKnowsImpostor)
-                {
-                    if (target != null && target.GetCustomRole().IsImpostor()) //変更先がインポスター
-                        pva.NameText.color = Palette.ImpostorRed; //変更対象の名前を赤くする
-                }
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
             }

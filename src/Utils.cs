@@ -279,7 +279,7 @@ namespace TownOfHost
                 if (StaticOptions.RandomMapsMode) { SendMessage(GetString("RandomMapsModeInfo"), PlayerId); }
                 if (OldOptions.IsStandardHAS) { SendMessage(GetString("StandardHASInfo"), PlayerId); }
                 if (StaticOptions.EnableGM) { SendMessage(GetRoleName(GM.Ref<GM>()) + GetString("GMInfoLong"), PlayerId); }
-                foreach (var role in CustomRoleManager.Roles)
+                foreach (var role in CustomRoleManager.AllRoles)
                 {
                     if (role is Fox or Troll) continue;
                     if (role.IsEnable() && !role.IsVanilla()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"), PlayerId);
@@ -542,55 +542,8 @@ namespace TownOfHost
                 /*var canFindSnitchRole = seer.GetCustomRole().IsImpostor() || //LocalPlayerがインポスター
                     (StaticOptions.SnitchCanFindNeutralKiller.GetBool() && seer.IsNeutralKiller());//or エゴイスト*/
 
-                if (/*canFindSnitchRole && */ShowSnitchWarning && !isMeeting)
-                {
-                    var arrows = "";
-                    foreach (var arrow in TOHPlugin.targetArrows)
-                    {
-                        if (arrow.Key.Item1 == seer.PlayerId && !TOHPlugin.PlayerStates[arrow.Key.Item2].IsDead && GetPlayerById(arrow.Key.Item2).Is(CustomRoles.Snitch))
-                        {
-                            //自分用の矢印で対象が死んでない時
-                            arrows += arrow.Value;
-                        }
-                    }
-                    SelfMark += $"<color={GetRoleColorCode(Snitch.Ref<Snitch>())}>★{arrows}</color>";
-                }
 
-                //ハートマークを付ける(自分に)
-                if (seer.Is(CustomRoles.Lovers)) SelfMark += $"<color={GetRoleColorCode(Lovers.Ref<Lovers>())}>♡</color>";
 
-                //呪われている場合
-                //Markとは違い、改行してから追記されます。
-                string SelfSuffix = "";
-                //他人用の変数定義
-                bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
-
-                //タスクを終えたSnitchがインポスター/キル可能な第三陣営の方角を確認できる
-                if (seer.Is(CustomRoles.Snitch))
-                {
-                    var TaskState = seer.GetPlayerTaskState();
-                    if (TaskState.IsTaskFinished)
-                    {
-                        SeerKnowsImpostors = true;
-                        //ミーティング以外では矢印表示
-                        if (!isMeeting)
-                        {
-                            foreach (var arrow in TOHPlugin.targetArrows)
-                            {
-                                //自分用の矢印で対象が死んでない時
-                                if (arrow.Key.Item1 == seer.PlayerId && !TOHPlugin.PlayerStates[arrow.Key.Item2].IsDead)
-                                    SelfSuffix += arrow.Value;
-                            }
-                        }
-                    }
-                }
-
-                if (seer.Is(CustomRoles.MadSnitch))
-                {
-                    var TaskState = seer.GetPlayerTaskState();
-                    if (TaskState.IsTaskFinished)
-                        SeerKnowsImpostors = true;
-                }
 
                 /*if (seer.Is(CustomRoles.EvilTracker)) SelfSuffix += EvilTrackerOLD.UtilsGetTargetArrow(isMeeting, seer);*/
 
@@ -605,19 +558,16 @@ namespace TownOfHost
                 string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({ColorString(GetRoleColor(Doctor.Ref<Doctor>()), GetVitalText(seer.PlayerId))})" : "";
                 string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
                 SelfName = SelfRoleName + "\r\n" + SelfName;
-                SelfName += SelfSuffix == "" ? "" : "\r\n " + SelfSuffix;
                 if (!isMeeting) SelfName += "\r\n";
 
                 //適用
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
-                    || SeerKnowsImpostors //seerがインポスターを知っている状態
                     || seer.GetCustomRole().IsImpostor() //seerがインポスター
                     || seer.Is(CustomRoles.EgoSchrodingerCat) //seerがエゴイストのシュレディンガーの猫
                     || seer.Is(CustomRoles.JSchrodingerCat) //seerがJackal陣営のシュレディンガーの猫
                     || seer.Is(CustomRoles.MSchrodingerCat) //seerがインポスター陣営のシュレディンガーの猫
-                    || seer.Is(CustomRoles.Lovers)
                     || seer.Is(CustomRoles.Executioner)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
@@ -642,35 +592,6 @@ namespace TownOfHost
 
                         //呪われている人
 
-                        //タスク完了直前のSnitchにマークを表示
-                        /*canFindSnitchRole = seer.GetCustomRole().IsImpostor() || //Seerがインポスター
-                            (Options.SnitchCanFindNeutralKiller.GetBool() && seer.IsNeutralKiller());//or エゴイスト*/
-
-                        if (target.Is(CustomRoles.Snitch)/* && canFindSnitchRole*/)
-                        {
-                            var taskState = target.GetPlayerTaskState();
-                            if (taskState.DoExpose)
-                                TargetMark += $"<color={GetRoleColorCode(Snitch.Ref<Snitch>())}>★</color>";
-                        }
-
-                        //ハートマークを付ける(相手に)
-                        if (seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers))
-                        {
-                            TargetMark += $"<color={GetRoleColorCode(Lovers.Ref<Lovers>())}>♡</color>";
-                        }
-                        //霊界からラバーズ視認
-                        else if (seer.Data.IsDead && !seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers))
-                        {
-                            TargetMark += $"<color={GetRoleColorCode(Lovers.Ref<Lovers>())}>♡</color>";
-                        }
-
-                        if (seer.Is(CustomRoles.Puppeteer) &&
-                        TOHPlugin.PuppeteerList.ContainsValue(seer.PlayerId) &&
-                        TOHPlugin.PuppeteerList.ContainsKey(target.PlayerId))
-                            TargetMark += $"<color={Utils.GetRoleColorCode(Impostor.Ref<Impostor>())}>◆</color>";
-                        /*if (seer.Is(CustomRoles.EvilTracker))
-                            TargetMark += EvilTrackerOLD.GetTargetMark(seer, target);*/
-
                         //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetRoleText = seer.Data.IsDead && StaticOptions.GhostsCanSeeOtherRoles ? $"<size={fontSize}>{target.GetDisplayRoleName()}{TargetTaskText}</size>\r\n" : "";
 
@@ -680,16 +601,8 @@ namespace TownOfHost
                         //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                         string TargetPlayerName = target.GetRealName(isMeeting);
 
-                        //ターゲットのプレイヤー名の色を書き換えます。
-                        if (SeerKnowsImpostors) //Seerがインポスターが誰かわかる状態
-                        {
-                            //スニッチはオプション有効なら第三陣営のキル可能役職も見れる
-                            var snitchOption = seer.Is(CustomRoles.Snitch)/* && Options.SnitchCanFindNeutralKiller.GetBool()*/;
-                            var foundCheck = target.GetCustomRole().IsImpostor() || (snitchOption && target.IsNeutralKiller());
-                            if (foundCheck)
-                                TargetPlayerName = ColorString(target.GetRoleColor(), TargetPlayerName);
-                        }
-                        else if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.Egoist))
+
+                        if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.Egoist))
                             TargetPlayerName = ColorString(GetRoleColor(Egoist.Ref<Egoist>()), TargetPlayerName);
                         else if ((seer.Is(CustomRoles.EgoSchrodingerCat) && target.Is(CustomRoles.Egoist)) || //エゴ猫 --> エゴイスト
                                  (seer.Is(CustomRoles.JSchrodingerCat) && target.Is(CustomRoles.Jackal)) || // J猫 --> ジャッカル

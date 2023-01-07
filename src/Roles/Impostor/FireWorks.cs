@@ -57,7 +57,7 @@ public class FireWorks: Morphling
     private void Detonate(ActionHandle handle)
     {
         handle.Cancel();
-        if (exploding || mustBeLastImpostor && Game.CountAliveImpostors() > 1) return;
+        if (exploding || mustBeLastImpostor && GameStats.CountAliveImpostors() > 1) return;
         if (!WarnPlayers)
         {
             Logger.Info($"FireWorks Explosion Activated, Time Until Explosion: {fireworkDelay}. Not Warning Players", "FireWorksDebug");

@@ -4,5 +4,6 @@ public enum ModCalls: uint
 {
     VerifyAddons,
     SendOptionPreview,
-    SetCustomRole
+    SetCustomRole,
+    SetSubrole
 }

@@ -261,7 +261,7 @@ public class TOHPlugin : BasePlugin
         // Setup, order matters here
 
         GameOptionTab __ = DefaultTabs.GeneralTab;
-        int _ = CustomRoleManager.Roles.Count;
+        int _ = CustomRoleManager.AllRoles.Count;
         Harmony.PatchAll();
         AddonManager.ImportAddons();
 

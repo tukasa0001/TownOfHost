@@ -39,7 +39,7 @@ public static class RoleAssignments
 
         name.DebugLog("REAL NAME: ");
         CustomRole matchingRole =
-            CustomRoleManager.Roles.FirstOrDefault(role =>
+            CustomRoleManager.AllRoles.FirstOrDefault(role =>
             {
                 string roleString = role.ToString().ToLower();
                 roleString = roleString.Length >= 5 ? roleString[..5] : roleString[..roleString.Length];
