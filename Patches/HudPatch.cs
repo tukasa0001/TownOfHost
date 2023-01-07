@@ -55,7 +55,7 @@ namespace TownOfHost
                 switch (player.GetCustomRole())
                 {
                     case CustomRoles.Sniper:
-                        __instance.AbilityButton.OverrideText(Sniper.OverrideShapeText(player.PlayerId));
+                        Sniper.OverrideShapeText(player.PlayerId);
                         break;
                     case CustomRoles.FireWorks:
                         if (FireWorks.nowFireWorksCount[player.PlayerId] == 0)

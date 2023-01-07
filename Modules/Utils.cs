@@ -714,11 +714,8 @@ namespace TownOfHost
                 if (Witch.IsSpelled(seer.PlayerId) && isMeeting)
                     SelfMark += "<color=#ff0000>†</color>";
 
-                if (Sniper.IsEnable())
-                {
-                    //銃声が聞こえるかチェック
-                    SelfMark += Sniper.GetShotNotify(seer.PlayerId);
-                }
+                //銃声が聞こえるかチェック
+                SelfMark += Sniper.GetShotNotify(seer.PlayerId);
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
 

@@ -103,7 +103,7 @@ namespace TownOfHost
             }
 
             //実際のキラーとkillerが違う場合の入れ替え処理
-            if (Sniper.IsEnable())
+            if (Sniper.IsEnable)
             {
                 Sniper.TryGetSniper(target.PlayerId, ref killer);
             }
@@ -243,7 +243,7 @@ namespace TownOfHost
             PlayerControl killer = __instance; //読み替え変数
 
             //実際のキラーとkillerが違う場合の入れ替え処理
-            if (Sniper.IsEnable())
+            if (Sniper.IsEnable)
             {
                 if (Sniper.TryGetSniper(target.PlayerId, ref killer))
                 {
@@ -812,7 +812,7 @@ namespace TownOfHost
                         Main.PuppeteerList.ContainsKey(target.PlayerId))
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
                     }
-                    if (Sniper.IsEnable() && target.AmOwner)
+                    if (Sniper.IsEnable && target.AmOwner)
                     {
                         //銃声が聞こえるかチェック
                         Mark += Sniper.GetShotNotify(target.PlayerId);

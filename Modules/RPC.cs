@@ -164,9 +164,6 @@ namespace TownOfHost
                 case CustomRPC.DoSpell:
                     Witch.ReceiveRPC(reader, true);
                     break;
-                case CustomRPC.SniperSync:
-                    Sniper.ReceiveRPC(reader);
-                    break;
                 case CustomRPC.SetLoversPlayers:
                     Main.LoversPlayers.Clear();
                     int count = reader.ReadInt32();
