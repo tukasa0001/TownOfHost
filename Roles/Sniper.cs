@@ -71,10 +71,8 @@ namespace TownOfHost
             IsAim[playerId] = false;
             AimTime[playerId] = 0f;
         }
-        public static bool IsEnable()
-        {
-            return playerIdList.Count > 0;
-        }
+        public static bool IsEnable => playerIdList.Count > 0;
+        public static bool IsThisRole(byte playerId) => playerIdList.Contains(playerId);
         public static void SendRPC(byte playerId)
         {
             Logger.Info($"Player{playerId}:SendRPC", "Sniper");
@@ -166,9 +164,12 @@ namespace TownOfHost
         }
         public static void Sniping(PlayerControl pc, bool shapeshifting)
         {
-            if (!pc.Is(CustomRoles.Sniper) || !pc.IsAlive()) return;
+            if (!IsThisRole(pc.PlayerId) || !pc.IsAlive()) return;
 
-            if (bulletCount[pc.PlayerId] <= 0) return;
+            var sniper = pc;
+            var sniperId = sniper.PlayerId;
+
+            if (bulletCount[sniperId] <= 0) return;
 
             //スナイパーで弾が残ってたら
             if (shapeshifting)
@@ -177,18 +178,18 @@ namespace TownOfHost
                 meetingReset = false;
 
                 //スナイプ地点の登録
-                snipeBasePosition[pc.PlayerId] = pc.transform.position;
+                snipeBasePosition[sniperId] = sniper.transform.position;
 
-                LastPosition[pc.PlayerId] = pc.transform.position;
-                IsAim[pc.PlayerId] = true;
-                AimTime[pc.PlayerId] = 0f;
+                LastPosition[sniperId] = sniper.transform.position;
+                IsAim[sniperId] = true;
+                AimTime[sniperId] = 0f;
 
                 return;
             }
 
             //エイム終了
-            IsAim[pc.PlayerId] = false;
-            AimTime[pc.PlayerId] = 0f;
+            IsAim[sniperId] = false;
+            AimTime[sniperId] = 0f;
 
             //ミーティングによる変身解除なら射撃しない
             if (meetingReset)
@@ -198,33 +199,33 @@ namespace TownOfHost
             }
 
             //一発消費して
-            bulletCount[pc.PlayerId]--;
+            bulletCount[sniperId]--;
 
             //命中判定はホストのみ行う
             if (!AmongUsClient.Instance.AmHost) return;
 
-            var targets = GetSnipeTargets(pc);
+            var targets = GetSnipeTargets(sniper);
 
             if (targets.Count != 0)
             {
                 //一番正確な対象がターゲット
                 var snipedTarget = targets.OrderBy(c => c.Value).First().Key;
-                snipeTarget[pc.PlayerId] = snipedTarget.PlayerId;
+                snipeTarget[sniperId] = snipedTarget.PlayerId;
                 snipedTarget.CheckMurder(snipedTarget);
                 //あたった通知
-                pc.RpcGuardAndKill();
-                snipeTarget[pc.PlayerId] = 0x7F;
+                sniper.RpcGuardAndKill();
+                snipeTarget[sniperId] = 0x7F;
 
                 //スナイプが起きたことを聞こえそうな対象に通知したい
                 targets.Remove(snipedTarget);
-                var snList = shotNotify[pc.PlayerId];
+                var snList = shotNotify[sniperId];
                 snList.Clear();
                 foreach (var otherPc in targets.Keys)
                 {
                     snList.Add(otherPc.PlayerId);
                     Utils.NotifyRoles(SpecifySeer: otherPc);
                 }
-                SendRPC(pc.PlayerId);
+                SendRPC(sniperId);
                 new LateTask(
                     () =>
                     {
@@ -233,7 +234,7 @@ namespace TownOfHost
                         {
                             Utils.NotifyRoles(SpecifySeer: otherPc);
                         }
-                        SendRPC(pc.PlayerId);
+                        SendRPC(sniperId);
                     },
                     0.5f, "Sniper shot Notify"
                     );
@@ -241,8 +242,7 @@ namespace TownOfHost
         }
         public static void Aiming(PlayerControl pc)
         {
-            if (!GameStates.IsInTask) return;
-            if (!playerIdList.Contains(pc.PlayerId) || !pc.IsAlive()) return;
+            if (!IsThisRole(pc.PlayerId) || !pc.IsAlive()) return;
 
             if (!AimAssist) return;
 
@@ -268,7 +268,7 @@ namespace TownOfHost
         }
         public static string GetBulletCount(byte playerId)
         {
-            return Utils.ColorString(Color.yellow, $"({bulletCount[playerId]})");
+            return IsThisRole(playerId) ? Utils.ColorString(Color.yellow, $"({bulletCount[playerId]})") : "";
         }
         public static bool TryGetSniper(byte target,ref PlayerControl sniper)
         {
@@ -284,7 +284,7 @@ namespace TownOfHost
         }
         public static string GetShotNotify(byte seer)
         {
-            if (AimAssist && playerIdList.Contains(seer))
+            if (AimAssist && IsThisRole(seer))
             {
                 //エイムアシスト中のスナイパー
                 if (0.5f < AimTime[seer] && (!AimAssistOneshot || AimTime[seer] < 1.0f))
@@ -309,7 +309,11 @@ namespace TownOfHost
             }
             return "";
         }
-        public static string OverrideShapeText(byte id) => GetString(bulletCount[id] <= 0 ? "DefaultShapeshiftText" : "SniperSnipeButtonText");
+        public static void OverrideShapeText(byte id)
+        {
+            if (IsThisRole(id))
+                HudManager.Instance.AbilityButton.OverrideText(bulletCount[id] <= 0 ? "DefaultShapeshiftText" : "SniperSnipeButtonText");
+        }
 
         [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ReportDeadBody)),HarmonyPostfix]
         public static void OnReportDeadBody(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo target)
