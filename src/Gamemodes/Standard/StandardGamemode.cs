@@ -21,5 +21,8 @@ public class StandardGamemode: IGamemode
     {
         winDelegate.AddWinCondition(new VanillaCrewmateWin());
         winDelegate.AddWinCondition(new VanillaImpostorWin());
+        winDelegate.AddWinCondition(new StandardWinConditions.LoversWin());
+        winDelegate.AddWinCondition(new StandardWinConditions.SoloKillingWin());
+        winDelegate.AddWinCondition(new StandardWinConditions.SoloRoleWin());
     }
 }

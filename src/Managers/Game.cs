@@ -49,11 +49,9 @@ public static class Game
     public static List<PlayerControl> GetAliveImpostors() => GetAlivePlayers().Where(p => p.GetCustomRole().Factions.IsImpostor()).ToList();
     public static PlayerControl GetHost() => GetAllPlayers().FirstOrDefault(p => p.NetId == RpcV2.GetHostNetId());
 
-    public static List<PlayerControl> FindPlayersWithRole(bool aliveOnly = false, params CustomRole[] roles) =>
+    public static IEnumerable<PlayerControl> FindAlivePlayersWithRole(params CustomRole[] roles) =>
         GetAllPlayers()
-            .Where(p => p.IsAlive() || !aliveOnly)
-            .Where(p => roles.Any(r => r.Is(p.GetCustomRole()) || p.GetSubroles().Any(s => s.Is(r))))
-            .ToList();
+            .Where(p => roles.Any(r => r.Is(p.GetCustomRole()) || p.GetSubroles().Any(s => s.Is(r))));
 
 
     public static void SyncAll() => GetAllPlayers().Do(p => p.GetCustomRole().SyncOptions());

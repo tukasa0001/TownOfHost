@@ -38,6 +38,7 @@ public static class FactionMethods
         return !enumerableThis.Contains(Faction.Solo) && !enumerableOthers.Contains(Faction.Solo) && (enumerableThis.Any(f => enumerableOthers.Contains(f) || enumerableOthers.Any(f => enumerableThis.Contains(f))));
     }
 
+    public static bool IsSolo(this IEnumerable<Faction> factions) => factions.Contains(Faction.Solo);
     public static bool IsImpostor(this IEnumerable<Faction> factions) => factions.Contains(Faction.Impostors);
     public static bool IsCrewmate(this IEnumerable<Faction> factions) => factions.Contains(Faction.Crewmates);
 }

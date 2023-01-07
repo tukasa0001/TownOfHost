@@ -591,7 +591,11 @@ public static class StaticOptions
             .Name("NoGameEnd")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
-            .BindBool(v => TOHPlugin.NoGameEnd = v)
+            .BindBool(v =>
+            {
+                NoGameEnd = v;
+                TOHPlugin.NoGameEnd = v;
+            })
             .AddOnOffValues(false)
             .Build()
         );

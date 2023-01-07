@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
@@ -96,7 +96,7 @@ class GameEndChecker
                     SetGhostRole(ToGhostImpostor: true);
                 }
                 else SetGhostRole(ToGhostImpostor: false);
-            }*/
+            }#1#
             void SetGhostRole(bool ToGhostImpostor)
             {
                 if (!pc.Data.IsDead) ReviveReqiredPlayerIds.Add(pc.PlayerId);
@@ -201,7 +201,7 @@ class GameEndChecker
                 reason = GameOverReason.ImpostorByKill;
                 CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jackal);
                 /*CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
-                CustomWinnerHolder.WinnerRoles.Add(CustomRoles.JSchrodingerCat);*/
+                CustomWinnerHolder.WinnerRoles.Add(CustomRoles.JSchrodingerCat);#1#
             }
             else if (Jackal == 0 && Imp == 0) //クルー勝利
             {
@@ -335,4 +335,4 @@ public abstract class GameEndPredicate
 
         return false;
     }
-}
+}*/

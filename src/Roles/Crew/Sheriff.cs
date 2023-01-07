@@ -6,6 +6,7 @@ using TownOfHost.Factions;
 using TownOfHost.Interface;
 using TownOfHost.Interface.Menus.CustomNameMenu;
 using TownOfHost.ReduxOptions;
+using TownOfHost.Roles.Neutral;
 using UnityEngine;
 
 namespace TownOfHost.Roles;

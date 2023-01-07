@@ -5,6 +5,7 @@ using TownOfHost.Roles;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
+using TownOfHost.Roles.Neutral;
 
 namespace TownOfHost
 {

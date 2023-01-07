@@ -1,13 +1,12 @@
+using System.Collections.Generic;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
-using TownOfHost.Factions;
+using TownOfHost.Gamemodes.Conditions;
 using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
-using TownOfHost.RPC;
 using UnityEngine;
-using VentFramework;
 
-namespace TownOfHost.Roles;
+namespace TownOfHost.Roles.Neutral;
 
 public class Jester : CustomRole
 {
@@ -18,16 +17,11 @@ public class Jester : CustomRole
 
     public override bool CanBeKilledBySheriff() => canDieBySheriff;
 
-
     [RoleAction(RoleActionType.SelfExiled)]
     public void JesterWin()
     {
-        RpcV2.Immediate(PlayerControl.LocalPlayer.PlayerId, (byte)CustomRPCOLD.EndGame)
-            .Write((byte)CustomWinner.Jester)
-            .Write(MyPlayer.PlayerId)
-            .SendToHost();
-
-        "Jester Won".DebugLog();
+        ManualWin jesterWin = new(new List<PlayerControl> { MyPlayer }, WinReason.RoleSpecificWin, 999);
+        jesterWin.Activate();
     }
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>

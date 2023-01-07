@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using HarmonyLib;
+using TownOfHost.Extensions;
 using TownOfHost.Gamemodes.Conditions;
 
 namespace TownOfHost.Managers;
@@ -11,10 +13,14 @@ public class WinDelegate
     private readonly List<Action<WinDelegate>> winNotifiers = new();
 
     private List<PlayerControl> winners = new();
+    private WinReason winReason;
     private bool forcedWin;
     private bool forcedCancel;
 
+    public WinReason GetWinReason() => winReason;
+    public void SetWinReason(WinReason reason) => winReason = reason;
     public List<PlayerControl> GetWinners() => winners;
+    public void SetWinners(List<PlayerControl> winners) => this.winners = winners;
 
     public bool IsGameOver()
     {
@@ -23,12 +29,16 @@ public class WinDelegate
         {
             isWin = winCondition.IsConditionMet(out winners);
             if (!isWin) continue;
+            winReason = winCondition.WinReason();
+            Logger.Msg($"Triggering Win by \"{winCondition.GetType()}\", winners={winners.Select(p => p.GetRawName().PrettyString())}, reason={winReason}", "WinCondition");
             break;
         }
 
         if (isWin)
             winNotifiers.Do(notify => notify(this));
-        return forcedWin || (isWin && !forcedCancel);
+        isWin = forcedWin || (isWin && !forcedCancel);
+        forcedCancel = false;
+        return isWin;
     }
 
     /// <summary>
@@ -36,7 +46,7 @@ public class WinDelegate
     /// as well as the possibility to cancel a game win via CancelGameWin() or to modify the game winners
     /// </summary>
     /// <param name="consumer"></param>
-    public void AddWinNotifier(Action<WinDelegate> consumer)
+    public void AddSubscriber(Action<WinDelegate> consumer)
     {
         winNotifiers.Add(consumer);
     }
@@ -44,6 +54,7 @@ public class WinDelegate
     public void AddWinCondition(IWinCondition condition)
     {
         winConditions.Add(condition);
+        winConditions.Sort();
     }
 
     public void ForceGameWin()

@@ -8,6 +8,7 @@ using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using static TownOfHost.Translator;
 using TownOfHost.Roles;
+using TownOfHost.Roles.Neutral;
 
 namespace TownOfHost
 {

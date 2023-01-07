@@ -4,4 +4,5 @@ public enum WinReason
 {
     FactionLastStanding,
     TasksComplete,
+    RoleSpecificWin
 }

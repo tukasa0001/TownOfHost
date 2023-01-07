@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
+using TownOfHost.Managers;
 using TownOfHost.ReduxOptions;
 using TownOfHost.RPC;
 using UnityEngine;
@@ -25,8 +27,25 @@ public class Glitch: Morphling
         {
             ImpostorScreamSfx = gameObject.GetComponent<HnSImpostorScreamSfx>();
         }
+
+        Game.GetWinDelegate().AddSubscriber(GlitchWinCondition);
+
+
         base.Setup(player);
     }
+
+    private void GlitchWinCondition(WinDelegate winDelegate)
+    {
+        // idk some dumb code about why glitch should specifically win
+
+        winDelegate.SetWinners(new List<PlayerControl> { MyPlayer });
+        winDelegate.ForceGameWin();
+    }
+
+
+
+
+
 
     /*[RoleAction(RoleActionType.RoundStart)]
     public void EnterKillModeOnRoundStart() => EnterKillMode();
