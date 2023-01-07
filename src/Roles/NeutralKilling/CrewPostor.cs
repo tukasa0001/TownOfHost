@@ -13,7 +13,7 @@ public class CrewPostor : Crewmate
     protected override void OnTaskComplete()
     {
         if (MyPlayer.Data.IsDead) return;
-        List<PlayerControl> inRangePlayers = MyPlayer.GetPlayersInAbilityRangeSorted().Where(p => !p.GetCustomRole().IsAllied(MyPlayer)).ToList();
+        List<PlayerControl> inRangePlayers = MyPlayer.GetPlayersInAbilityRangeSorted(true).Where(p => !p.GetCustomRole().IsAllied(MyPlayer)).ToList();
         if (inRangePlayers.Count == 0) return;
         MyPlayer.RpcMurderPlayer(inRangePlayers.GetRandom());
     }

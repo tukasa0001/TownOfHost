@@ -22,6 +22,7 @@ namespace TownOfHost
             TOHPlugin.playerVersion = new Dictionary<byte, PlayerVersion>();
             OldRPC.RpcVersionCheck();
             SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
+            ChatPatch.ChatHistory = new();
 
             ChatUpdatePatch.DoBlockChat = false;
             GameStates.InGame = false;

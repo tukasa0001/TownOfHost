@@ -13,6 +13,18 @@ using TownOfHost.Roles;
 
 namespace TownOfHost
 {
+    //[HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
+    public class ChatPatch
+    {
+        public static Dictionary<string, ChatController> ChatHistory = new();
+        /* public static void Postfix(ChatController __instance)
+         {
+             ChatHistory.Add(__instance.TextArea.text, __instance);
+             // return false;
+         }
+         */
+    }
+
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.SendChat))]
     class ChatCommands
     {
@@ -30,6 +42,7 @@ namespace TownOfHost
             var cancelVal = "";
             TOHPlugin.isChatCommand = true;
             Logger.Info(text, "SendChat");
+            ChatPatch.ChatHistory.Remove(__instance.TextArea.text);
             switch (args[0])
             {
                 case "/dump":
@@ -350,9 +363,23 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             string[] args = text.Split(' ');
+            string cancelVal = "";
             string subArgs = "";
+            ChatController controller = null;
+            if (text != "")
+            {
+                if (ChatPatch.ChatHistory.ContainsKey(text))
+                    controller = ChatPatch.ChatHistory[text];
+            }
             switch (args[0])
             {
+                case "/test":
+                    if (controller == null) break;
+                    Logger.Info("Command Canceled", "ChatCommand");
+                    controller.TextArea.Clear();
+                    controller.TextArea.SetText(cancelVal);
+                    controller.quickChatMenu.ResetGlyphs();
+                    break;
                 case "/l":
                 case "/lastresult":
                     Utils.ShowLastResult(player.PlayerId);

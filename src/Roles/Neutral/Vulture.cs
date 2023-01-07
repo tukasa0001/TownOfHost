@@ -1,5 +1,83 @@
+using System.Linq;
+using TownOfHost.Extensions;
+using TownOfHost.Factions;
+using TownOfHost.Interface;
+using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.Managers;
+using TownOfHost.ReduxOptions;
+using TownOfHost.RPC;
+using UnityEngine;
+using TownOfHost.Options;
+using AmongUs.GameOptions;
+
 namespace TownOfHost.Roles;
 
-public class Vulture: NotImplemented
+public class Vulture : CustomRole
 {
+    private int bodyCount;
+    // option
+    private int bodyAmount;
+    private bool canUseVents;
+    private bool impostorVision;
+    private bool canSwitchMode;
+    private bool isEatMode;
+
+    [RoleAction(RoleActionType.SelfReportBody)]
+    public void EatBody(PlayerControl target, ref ActionHandle handle) // I will have to ask Tealeaf If I can do This :sweat_smile:
+    {
+        if (!isEatMode | TOHPlugin.unreportableBodies.Contains(target.Data.PlayerId)) return;
+        TOHPlugin.unreportableBodies.Add(target.Data.PlayerId);
+        bodyCount++;
+        if (bodyCount >= bodyAmount)
+        {
+            // they won
+        }
+        else
+        {
+            handle.IsCanceled = true;
+        }
+    }
+
+    [RoleAction(RoleActionType.OnPet)]
+    public void Switch()
+    {
+        if (!canSwitchMode) return;
+        isEatMode = !isEatMode;
+    }
+
+    protected override void Setup(PlayerControl player)
+    {
+        isEatMode = true;
+        bodyCount = 0;
+    }
+
+    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+        base.RegisterOptions(optionStream)
+        .Tab(DefaultTabs.NeutralTab)
+            .AddSubOption(sub => sub
+                .Name("Bodies")
+                .Bind(v => bodyAmount = (int)v)
+                .AddIntRangeValues(1, 10, 1, 2)
+                .Build())
+            .AddSubOption(opt =>
+                opt.Name("Has Impostor Vision")
+                .Bind(v => impostorVision = (bool)v)
+                .AddOnOffValues()
+                .Build())
+            .AddSubOption(opt =>
+                opt.Name("Can Switch between Eat and Report")
+                .Bind(v => canSwitchMode = (bool)v)
+                .AddOnOffValues()
+                .Build())
+            .AddSubOption(opt => opt.Name("Can Use Vents")
+                .Bind(v => canUseVents = (bool)v)
+                .AddOnOffValues()
+                .Build());
+    protected override RoleModifier Modify(RoleModifier roleModifier) =>
+        roleModifier.RoleColor("#a36727")
+        .VanillaRole(canUseVents ? RoleTypes.Engineer : RoleTypes.Crewmate)
+        .SpecialType(SpecialType.Neutral)
+        .OptionOverride(Override.CrewLightMod,
+            () => GameOptionsManager.Instance.CurrentGameOptions.AsNormalOptions()!.ImpostorLightMod,
+            () => impostorVision);
 }

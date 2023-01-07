@@ -1,5 +1,67 @@
+using System.Linq;
+using TownOfHost.Extensions;
+using TownOfHost.Factions;
+using TownOfHost.Interface;
+using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.Managers;
+using TownOfHost.ReduxOptions;
+using TownOfHost.RPC;
+using UnityEngine;
+using TownOfHost.Options;
+
 namespace TownOfHost.Roles;
 
-public class Swapper: NotImplemented
+public class Swapper : CustomRole
 {
+    private bool canTargetImpostors;
+    private bool canTargetNeutrals;
+
+    private PlayerControl? target;
+
+    [DynElement(UI.Misc)]
+    private string TargetDisplay() => target == null ? "" : Color.red.Colorize("Target: ") + Color.white.Colorize(target.GetRawName());
+
+    [RoleAction(RoleActionType.RoundStart)]
+    public void GameStart()
+    {
+        target = Game.GetAllPlayers().Where(p =>
+        {
+            if (p.PlayerId == MyPlayer.PlayerId) return false;
+            Faction[] factions = p.GetCustomRole().Factions;
+            if (!canTargetImpostors && factions.IsImpostor()) return false;
+            return canTargetNeutrals || !factions.Contains(Faction.Solo);
+        }).ToList().GetRandom();
+    }
+
+
+    [RoleAction(RoleActionType.OtherExiled)]
+    private void CheckExecutionerWin(PlayerControl exiled)
+    {
+        if (target == null || target.PlayerId == exiled.PlayerId) return;
+        // TODO: Add non-instant win
+        //OldRPC.SwapperWin(MyPlayer.PlayerId);
+    }
+
+    [RoleAction(RoleActionType.AnyDeath)]
+    private void CheckChangeRole(PlayerControl dead)
+    {
+        if (target == null || target.PlayerId != dead.PlayerId) return;
+        target = null;
+        MyPlayer.GetDynamicName().Render();
+    }
+
+    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+        base.RegisterOptions(optionStream)
+        .Tab(DefaultTabs.NeutralTab)
+            .AddSubOption(sub => sub
+                .Name("Can Target Impostors")
+                .Bind(v => canTargetImpostors = (bool)v)
+                .AddOnOffValues(false).Build())
+            .AddSubOption(sub => sub
+                .Name("Can Target Neutrals")
+                .Bind(v => canTargetNeutrals = (bool)v)
+                .AddOnOffValues(false).Build());
+
+    protected override RoleModifier Modify(RoleModifier roleModifier) =>
+        roleModifier.RoleColor("#66E666").SpecialType(SpecialType.Neutral);
 }
