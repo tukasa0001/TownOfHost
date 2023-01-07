@@ -7,7 +7,6 @@ using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    [HarmonyPatch]
     public static class Sniper
     {
         static readonly int Id = 1800;
@@ -322,22 +321,32 @@ namespace TownOfHost
             if (IsThisRole(id))
                 HudManager.Instance.AbilityButton.OverrideText(bulletCount[id] <= 0 ? "DefaultShapeshiftText" : "SniperSnipeButtonText");
         }
+        [HarmonyPatch]
+        class Pathces
+        {
+            [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc)), HarmonyPostfix]
+            public static void HandleRPC(byte callId, MessageReader reader)
+            {
+                if ((CustomRPC)callId != CustomRPC.SniperSync) return;
 
-        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ReportDeadBody)),HarmonyPostfix]
-        public static void OnReportDeadBody(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo target)
-        {
-            OnStartMeeting();
-        }
-        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift)),HarmonyPrefix]
-        public static void OnShapeshift(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
-        {
-            var shapeshifting = __instance.PlayerId != target.PlayerId;
-            Sniping(__instance, shapeshifting);
-        }
-        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate)),HarmonyPostfix]
-        public static void OnFixedUpdate(PlayerControl __instance)
-        {
-            Aiming(__instance);
+                ReceiveRPC(reader);
+            }
+            [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ReportDeadBody)), HarmonyPostfix]
+            public static void OnReportDeadBody(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo target)
+            {
+                OnStartMeeting();
+            }
+            [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift)), HarmonyPrefix]
+            public static void OnShapeshift(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+            {
+                var shapeshifting = __instance.PlayerId != target.PlayerId;
+                Sniping(__instance, shapeshifting);
+            }
+            [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate)), HarmonyPostfix]
+            public static void OnFixedUpdate(PlayerControl __instance)
+            {
+                Aiming(__instance);
+            }
         }
     }
 }
