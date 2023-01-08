@@ -182,7 +182,7 @@ namespace TownOfHost
                 var target = Utils.GetPlayerById(arrow.Key.Item2);
                 bool BountyTarget = GetTarget(seer) == target;
                 if (arrow.Key.Item1 == seer.PlayerId && !Main.PlayerStates[arrow.Key.Item2].IsDead && (target.GetCustomRole().IsImpostor() || BountyTarget))
-                    SelfSuffix += BountyTarget ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), arrow.Value) : arrow.Value;
+                    SelfSuffix += BountyTarget ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Crewmate), arrow.Value) : arrow.Value;
             }
             return SelfSuffix;
         }
@@ -202,7 +202,7 @@ namespace TownOfHost
                 update = FixedUpdatePatch.CheckArrowUpdate(target, pc, update, pc.GetCustomRole().IsImpostor());
                 var key = (target.PlayerId, pc.PlayerId);
                 var arrow = Main.targetArrows[key];
-                if (BountyTarget) arrow = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), arrow);
+                if (BountyTarget) arrow = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Crewmate), arrow);
                 if (target.AmOwner)
                 {
                     //MODなら矢印表示
