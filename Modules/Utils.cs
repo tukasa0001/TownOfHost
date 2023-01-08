@@ -767,6 +767,7 @@ namespace TownOfHost
                 }
 
                 if (seer.Is(CustomRoles.EvilTracker)) SelfSuffix += EvilTracker.UtilsGetTargetArrow(isMeeting, seer);
+                if (seer.Is(CustomRoles.BountyHunter) && BountyHunter.ShowTargetArrow.GetBool()) SelfSuffix += BountyHunter.UtilsGetTargetArrow(isMeeting, seer);
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.GetRealName(isMeeting);
