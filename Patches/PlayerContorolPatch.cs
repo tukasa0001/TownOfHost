@@ -287,6 +287,12 @@ namespace TownOfHost
             var shapeshifter = __instance;
             var shapeshifting = shapeshifter.PlayerId != target.PlayerId;
 
+            if (Main.CheckShapeshift.TryGetValue(shapeshifter.PlayerId, out var last) && last == shapeshifting)
+            {
+                Logger.Info($"{__instance?.GetNameWithRole()}:Cancel Shapeshift.Prefix", "Shapeshift");
+                return;
+            }
+
             Main.CheckShapeshift[shapeshifter.PlayerId] = shapeshifting;
             Main.ShapeshiftTarget[shapeshifter.PlayerId] = target.PlayerId;
 
