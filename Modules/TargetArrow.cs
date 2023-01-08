@@ -89,6 +89,11 @@ namespace TownOfHost
         [HarmonyPatch]
         class Patches
         {
+            [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame)), HarmonyPostfix]
+            static void OnGameStart()
+            {
+                Init();
+            }
             /// <summary>
             /// FixedUpdate毎にターゲット矢印を確認
             /// 更新があったらNotifyRolesを発行
@@ -111,6 +116,7 @@ namespace TownOfHost
                     if (!target.IsAlive())
                     {
                         Remove(seer.PlayerId, targetId);
+                        update= true;
                         continue;
                     }
                     //対象の方角ベクトルを取る
