@@ -6,7 +6,7 @@ using UnityEngine;
 namespace TownOfHost
 {
     [HarmonyPatch]
-    static class DoubleTriger
+    static class DoubleTrigger
     {
         public static List<byte> PlayerIdList = new();
 
