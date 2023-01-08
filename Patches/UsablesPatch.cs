@@ -1,6 +1,6 @@
+using AmongUs.GameOptions;
 using HarmonyLib;
 using UnityEngine;
-using AmongUs.GameOptions;
 
 namespace TownOfHost
 {
@@ -44,23 +44,19 @@ namespace TownOfHost
 
             if (pc.IsDead) return false; //死んでる人は強制的にfalseに。
 
+            canUse = couldUse = pc.Object.CanUseImpostorVentButton();
             switch (pc.GetCustomRole())
             {
-                case CustomRoles.Sheriff:
-                    return false;
                 case CustomRoles.Arsonist:
                     if (pc.Object.IsDouseDone())
-                        canUse = couldUse = VentForTrigger = true;
-                    else return false;
-                    break;
-                case CustomRoles.Jackal:
-                    canUse = couldUse = Jackal.CanVent.GetBool();
+                        VentForTrigger = true;
                     break;
                 default:
-                    if (pc.Role.TeamType == RoleTeamTypes.Impostor || pc.Role.Role == RoleTypes.Engineer) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue
+                    if (pc.Role.Role == RoleTypes.Engineer) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue
                         canUse = couldUse = true;
                     break;
             }
+            if (!canUse) return false;
 
             canUse = couldUse = (pc.Object.inVent || canUse) && (pc.Object.CanMove || pc.Object.inVent);
 

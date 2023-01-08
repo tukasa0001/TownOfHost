@@ -108,6 +108,7 @@ namespace TownOfHost
     }
     public class TaskState
     {
+        public static int InitialTotalTasks;
         public int AllTasksCount;
         public int CompletedTasksCount;
         public bool hasTasks;
@@ -123,22 +124,27 @@ namespace TownOfHost
 
         public void Init(PlayerControl player)
         {
-            Logger.Info($"{player.GetNameWithRole()}: InitTask", "TaskCounts");
+            Logger.Info($"{player.GetNameWithRole()}: InitTask", "TaskState.Init");
             if (player == null || player.Data == null || player.Data.Tasks == null) return;
-            if (!Utils.HasTasks(player.Data, false)) return;
+            if (!Utils.HasTasks(player.Data, false))
+            {
+                AllTasksCount = 0;
+                return;
+            }
             hasTasks = true;
             AllTasksCount = player.Data.Tasks.Count;
-            Logger.Info($"{player.GetNameWithRole()}: {CompletedTasksCount}/{AllTasksCount}", "TaskCounts");
+            Logger.Info($"{player.GetNameWithRole()}: TaskCounts = {CompletedTasksCount}/{AllTasksCount}", "TaskState.Init");
         }
         public void Update(PlayerControl player)
         {
-            Logger.Info($"{player.GetNameWithRole()}: UpdateTask", "TaskCounts");
-            Logger.Info($"{GameData.Instance.CompletedTasks}/{GameData.Instance.TotalTasks}", "TotalTaskCounts");
-            if (!Utils.HasTasks(player.Data, false))
-                hasTasks = false;
-            if (!hasTasks) return;
+            Logger.Info($"{player.GetNameWithRole()}: UpdateTask", "TaskState.Update");
+            GameData.Instance.RecomputeTaskCounts();
+            Logger.Info($"TotalTaskCounts = {GameData.Instance.CompletedTasks}/{GameData.Instance.TotalTasks}", "TaskState.Update");
+
             //初期化出来ていなかったら初期化
             if (AllTasksCount == -1) Init(player);
+
+            if (!hasTasks) return;
 
             //FIXME:SpeedBooster class transplant
             if (!player.Data.IsDead
@@ -176,7 +182,7 @@ namespace TownOfHost
 
             //調整後のタスク量までしか表示しない
             CompletedTasksCount = Math.Min(AllTasksCount, CompletedTasksCount);
-            Logger.Info($"{player.GetNameWithRole()}: {CompletedTasksCount}/{AllTasksCount}", "TaskCounts");
+            Logger.Info($"{player.GetNameWithRole()}: TaskCounts = {CompletedTasksCount}/{AllTasksCount}", "TaskState.Update");
 
         }
     }

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Hazel;
 using AmongUs.GameOptions;
+using Hazel;
 
 namespace TownOfHost
 {

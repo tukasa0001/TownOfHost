@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using InnerNet;
-using Hazel;
 using AmongUs.GameOptions;
+using Hazel;
+using InnerNet;
 
 namespace TownOfHost.Modules
 {
@@ -13,6 +13,7 @@ namespace TownOfHost.Modules
 
         public static void SendAllGameOptions()
         {
+            AllSenders.RemoveAll(s => !s.AmValid());
             foreach (var sender in AllSenders)
             {
                 if (sender.IsDirty) sender.SendGameOptions();
@@ -90,5 +91,7 @@ namespace TownOfHost.Modules
             writer.Recycle();
         }
         public abstract IGameOptions BuildGameOptions();
+
+        public virtual bool AmValid() => true;
     }
 }

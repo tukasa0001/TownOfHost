@@ -1,8 +1,8 @@
 using System;
+using AmongUs.GameOptions;
 using Hazel;
 using InnerNet;
 using UnhollowerBaseLib;
-using AmongUs.GameOptions;
 
 namespace TownOfHost
 {
