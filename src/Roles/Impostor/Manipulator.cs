@@ -1,3 +1,4 @@
+
 namespace TownOfHost.Roles;
 
 public class Manipulator : Impostor

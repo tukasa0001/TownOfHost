@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TownOfHost.Gamemodes.Conditions;
+namespace TownOfHost.Victory.Conditions;
 
 public interface IWinCondition: IComparable<IWinCondition>
 {
@@ -15,7 +15,7 @@ public interface IWinCondition: IComparable<IWinCondition>
     /// <returns></returns>
     int Priority() => 0;
 
-    WinReason WinReason();
+    WinReason GetWinReason();
 
     int IComparable<IWinCondition>.CompareTo(IWinCondition other) => other.Priority().CompareTo(Priority());
 }

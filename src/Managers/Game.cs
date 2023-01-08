@@ -10,6 +10,7 @@ using TownOfHost.Interface.Menus.CustomNameMenu;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
 using TownOfHost.RPC;
+using TownOfHost.Victory;
 using VentFramework;
 
 namespace TownOfHost.Managers;
@@ -46,6 +47,7 @@ public static class Game
     //public static void RenderAllForAll(GameState? state = null) => GetAllPlayers().Select(p => p.GetDynamicName()).Do(name => GetAllPlayers().Do(pp => name.RenderFor(pp, state)));
     public static IEnumerable<PlayerControl> GetAllPlayers() => PlayerControl.AllPlayerControls.ToArray();
     public static IEnumerable<PlayerControl> GetAlivePlayers() => GetAllPlayers().Where(p => !p.Data.IsDead && !p.Data.Disconnected);
+    public static IEnumerable<PlayerControl> GetDeadPlayers(bool disconnected = false) => GetAllPlayers().Where(p => p.Data.IsDead || (disconnected && p.Data.Disconnected));
     public static List<PlayerControl> GetAliveImpostors() => GetAlivePlayers().Where(p => p.GetCustomRole().Factions.IsImpostor()).ToList();
     public static PlayerControl GetHost() => GetAllPlayers().FirstOrDefault(p => p.NetId == RpcV2.GetHostNetId());
 
@@ -97,6 +99,12 @@ public static class Game
         GetAllPlayers().Do(p => players.Add(p.PlayerId, new PlayerPlus(p)));
         _winDelegate = new WinDelegate();
         CurrentGamemode.SetupWinConditions(_winDelegate);
+    }
+
+    public static void Cleanup()
+    {
+        players.Clear();
+        CustomRoleManager.PlayersCustomRolesRedux.Clear();
     }
 }
 

@@ -10,4 +10,7 @@ public static class ModConstants
     public const float DynamicNameTimeBetweenRenders = 0.15f;
 
     public const double RoleFixedUpdateCooldown = 0.25;
+
+    public const float DeriveDelayMultiplier = 0.0003f;
+    public const float DeriveDelayFlatValue = 0.4f;
 }

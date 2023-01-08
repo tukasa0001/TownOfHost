@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using TownOfHost.Gamemodes.Colorwars;
+using TownOfHost.Gamemodes.FFA;
 using TownOfHost.Gamemodes.Standard;
 using TownOfHost.ReduxOptions;
 
@@ -7,7 +9,7 @@ namespace TownOfHost.Gamemodes;
 // As we move to the future we're going to try to use instances for managers rather than making everything static
 public class GamemodeManager
 {
-    public List<IGamemode> Gamemodes = new() { new StandardGamemode(), new TestHnsGamemode(), new FFAGamemode() };
+    public List<IGamemode> Gamemodes = new() { new StandardGamemode(), new TestHnsGamemode(), new FreeForAllGamemode(), new ColorwarsGamemode() };
     public IGamemode CurrentGamemode;
     public OptionHolder GamemodeOption;
 

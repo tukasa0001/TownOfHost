@@ -6,19 +6,20 @@ using TownOfHost.Extensions;
 using TownOfHost.Interface.Menus;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
+using TownOfHost.Victory;
 using VentFramework;
 
-namespace TownOfHost.Gamemodes;
+namespace TownOfHost.Gamemodes.FFA;
 
-public class FFAGamemode: IGamemode
+public class FreeForAllGamemode: Gamemode
 {
     public static GameOptionTab FFATab = new("Free For All Options", "TownOfHost.assets.Tabs.TabIcon_FreeForAll.png");
 
-    public virtual string GetName() => "Free For All";
+    public override string GetName() => "Free For All";
 
-    public virtual IEnumerable<GameOptionTab> EnabledTabs() => new[] { FFATab };
+    public override IEnumerable<GameOptionTab> EnabledTabs() => new[] { FFATab };
 
-    public virtual void AssignRoles(List<PlayerControl> players)
+    public override void AssignRoles(List<PlayerControl> players)
     {
         PlayerControl localPlayer = PlayerControl.LocalPlayer;
         localPlayer.SetRole(RoleTypes.Impostor);
@@ -32,4 +33,13 @@ public class FFAGamemode: IGamemode
 
         players.Where(p => p.PlayerId != localPlayer.PlayerId).Do(p => p.SetRole(RoleTypes.Crewmate));
     }
+
+    public override bool AllowSabotage() => false;
+    public override bool AllowBodyReport() => false;
+
+    public override void SetupWinConditions(WinDelegate winDelegate)
+    {
+        winDelegate.AddWinCondition(new FFAWinCondition());
+    }
+
 }

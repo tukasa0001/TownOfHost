@@ -85,8 +85,6 @@ namespace TownOfHost
 
                 if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) TOHPlugin.PlayerStates[exiled.PlayerId].SetDead();
             }
-            if (AmongUsClient.Instance.AmHost && TOHPlugin.IsFixedCooldown)
-                TOHPlugin.RefixCooldownDelay = OldOptions.DefaultKillCooldown - 3f;
 
 
             foreach (var pc in PlayerControl.AllPlayerControls)

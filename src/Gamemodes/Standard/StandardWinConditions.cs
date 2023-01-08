@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
-using TownOfHost.Gamemodes.Conditions;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
+using TownOfHost.Victory.Conditions;
 
 namespace TownOfHost.Gamemodes.Standard;
 
@@ -22,7 +22,7 @@ public static class StandardWinConditions
             return lastPlayer.GetCustomRole().Factions.IsSolo();
         }
 
-        public WinReason WinReason() => Conditions.WinReason.FactionLastStanding;
+        public WinReason GetWinReason() => Victory.Conditions.WinReason.FactionLastStanding;
     }
 
     public class SoloKillingWin : IWinCondition
@@ -40,7 +40,7 @@ public static class StandardWinConditions
             return true;
         }
 
-        public WinReason WinReason() => Conditions.WinReason.FactionLastStanding;
+        public WinReason GetWinReason() => Victory.Conditions.WinReason.FactionLastStanding;
     }
 
     public class LoversWin : IWinCondition
@@ -56,7 +56,7 @@ public static class StandardWinConditions
             return loversRole.Partner != null && loversRole.Partner.PlayerId == lovers[1].PlayerId;
         }
 
-        public WinReason WinReason() => Conditions.WinReason.RoleSpecificWin;
+        public WinReason GetWinReason() => Victory.Conditions.WinReason.RoleSpecificWin;
 
         public int Priority() => 100;
     }

@@ -1,23 +1,23 @@
 using System.Collections.Generic;
-using TownOfHost.Gamemodes.Conditions;
 using TownOfHost.Interface.Menus;
-using TownOfHost.Managers;
 using TownOfHost.Options;
+using TownOfHost.Victory;
+using TownOfHost.Victory.Conditions;
 
 namespace TownOfHost.Gamemodes.Standard;
 
-public class StandardGamemode: IGamemode
+public class StandardGamemode: Gamemode
 {
-    public void AssignRoles(List<PlayerControl> players)
+    public override string GetName() => "Standard";
+
+    public override void AssignRoles(List<PlayerControl> players)
     {
         StandardAssignRoles.StandardAssign(players);
     }
 
-    public IEnumerable<GameOptionTab> EnabledTabs() => DefaultTabs.All;
+    public override IEnumerable<GameOptionTab> EnabledTabs() => DefaultTabs.All;
 
-    public string GetName() => "Standard";
-
-    public void SetupWinConditions(WinDelegate winDelegate)
+    public override void SetupWinConditions(WinDelegate winDelegate)
     {
         winDelegate.AddWinCondition(new VanillaCrewmateWin());
         winDelegate.AddWinCondition(new VanillaImpostorWin());

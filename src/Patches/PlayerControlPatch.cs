@@ -103,6 +103,7 @@ namespace TownOfHost
     {
         public static bool Prefix(PlayerControl __instance, ref RoleTypes roleType)
         {
+            return true;
             var target = __instance;
             Logger.Info($"{__instance.GetNameWithRole()} =>{roleType}", "PlayerControl.RpcSetRole");
             if (!ShipStatus.Instance.enabled) return true;

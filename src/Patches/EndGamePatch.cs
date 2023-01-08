@@ -21,6 +21,7 @@ class EndGamePatch
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         GameStates.InGame = false;
         Game.State = GameState.InLobby;
+        Game.Cleanup();
 
         SummaryText = new();
         foreach (var id in TOHPlugin.PlayerStates.Keys)
@@ -37,7 +38,6 @@ class EndGamePatch
                 KillLog += $"\n\t\t⇐ {TOHPlugin.AllPlayerNames[killerId]}({Utils.GetDisplayRoleName(killerId)}{Utils.GetSubRolesText(killerId)})";
         }
         Logger.Info("-----------ゲーム終了-----------", "Phase");
-        TOHPlugin.NormalOptions.KillCooldown = OldOptions.DefaultKillCooldown;
         //winnerListリセット
         TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
         var winner = new List<PlayerControl>();

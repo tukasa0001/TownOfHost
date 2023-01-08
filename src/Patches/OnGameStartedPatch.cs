@@ -127,7 +127,7 @@ namespace TownOfHost
             Game.GetAllPlayers().Do(p => p.GetCustomRole().SyncOptions());
 
             List<Tuple<string, CustomRole>> debugList = CustomRoleManager.PlayersCustomRolesRedux
-                .Select(kvp => new Tuple<string, CustomRole>(Utils.GetPlayerById(kvp.Key).name, kvp.Value))
+                .Select(kvp => new Tuple<string, CustomRole>(Utils.GetPlayerById(kvp.Key).GetRawName(), kvp.Value))
                 .ToList();
 
             Logger.Info($"Assignments: {String.Join(", ", debugList)}", "");

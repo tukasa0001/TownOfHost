@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using InnerNet;
@@ -5,6 +6,7 @@ using UnityEngine;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Roles;
+using TownOfHost.Victory.Conditions;
 
 namespace TownOfHost
 {
@@ -64,7 +66,8 @@ namespace TownOfHost
             //廃村
             if (GetKeysDown(KeyCode.Return, KeyCode.L, KeyCode.LeftShift) && GameStates.IsInGame)
             {
-                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Draw);
+                ManualWin manualWin = new(new List<PlayerControl>(), WinReason.HostForceEnd);
+                manualWin.Activate();
                 GameManager.Instance.LogicFlow.CheckEndCriteria();
             }
             //ミーティングを強制終了

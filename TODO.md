@@ -35,8 +35,18 @@ Even Minor(er):
 
 - [ ] Possible attempt to make transporter into ToU transporter (select players to transport). I REFUSE to force the player to use commands for it
 
-
+- [ ] Derive certain delays (game end delay) from current AU server ping
 
 
 Investigating:
 - [ ] Role option propagation to role descriptions (and how that'd work with localization)
+
+
+
+BUGS:
+- [ ] Serial Killer in FFA/Color wars cannot kill twice
+- [ ] Player turning into ghost instead of dying in Color wars
+- [ ] Custom win screen not working when host wins (otherwise works great)
+- [ ] Issue with settings menu? Sometimes?
+- [ ] Discussions randomly dying in a vent? (skill issue?) (probably ping)
+- [ ] Black screen when connecting to lobby (good chance just an AU issue)

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using TownOfHost.Managers;
 
-namespace TownOfHost.Gamemodes.Conditions;
+namespace TownOfHost.Victory.Conditions;
 
 /// <summary>
 /// Creates a ManualWin which upon calling Activate() causes a game win
@@ -23,6 +23,7 @@ public class ManualWin: IWinCondition
     public void Activate()
     {
         Game.GetWinDelegate().AddWinCondition(this);
+        Game.GetWinDelegate().ForceGameWin();
     }
 
     public bool IsConditionMet(out List<PlayerControl> winners)
@@ -31,7 +32,7 @@ public class ManualWin: IWinCondition
         return true;
     }
 
-    public WinReason WinReason() => winReason;
+    public WinReason GetWinReason() => winReason;
 
     public int Priority() => priority;
 }

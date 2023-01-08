@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
-using TownOfHost.Gamemodes.Conditions;
+using TownOfHost.Victory.Conditions;
 
-namespace TownOfHost.Managers;
+namespace TownOfHost.Victory;
 
 public class WinDelegate
 {
-    private readonly List<IWinCondition> winConditions = new();
+    private readonly List<IWinCondition> winConditions = new() { new FallbackCondition() };
     private readonly List<Action<WinDelegate>> winNotifiers = new();
 
     private List<PlayerControl> winners = new();
@@ -29,8 +29,8 @@ public class WinDelegate
         {
             isWin = winCondition.IsConditionMet(out winners);
             if (!isWin) continue;
-            winReason = winCondition.WinReason();
-            Logger.Msg($"Triggering Win by \"{winCondition.GetType()}\", winners={winners.Select(p => p.GetRawName().PrettyString())}, reason={winReason}", "WinCondition");
+            winReason = winCondition.GetWinReason();
+            Logger.Msg($"Triggering Win by \"{winCondition.GetType()}\", winners={winners.Select(p => p.GetRawName()).PrettyString()}, reason={winReason}", "WinCondition");
             break;
         }
 

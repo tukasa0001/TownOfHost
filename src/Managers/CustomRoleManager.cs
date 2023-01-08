@@ -70,7 +70,7 @@ public static class CustomRoleManager
         public Janitor Janitor = new Janitor();
         public Disperser Disperser = new Disperser();
         public Consort Consort = new Consort();
-        public FireWorks FireWorks = new FireWorks();
+        public Fireworker Fireworker = new Fireworker();
         public Puppeteer Puppeteer = new Puppeteer();
         public Vampire Vampire = new Vampire();
         public SerialKiller SerialKiller = new SerialKiller();

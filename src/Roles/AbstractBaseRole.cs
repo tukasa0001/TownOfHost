@@ -4,7 +4,6 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using AmongUs.GameOptions;
-using BepInEx;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
@@ -178,17 +177,15 @@ public abstract class AbstractBaseRole
         {
             if (StaticOptions.LogAllActions)
             {
-                string logStart = $"[Info   :TownOfHost] [{DateTime.Now:hh:mm:ss}][ActionLog]";
-                ConsoleManager.SetConsoleColor(ConsoleColor.Cyan);
-                ConsoleManager.ConsoleStream?.Write($"{logStart}{MyPlayer.GetNameWithRole()} :: {actionType.ToString()}\n");
-                ConsoleManager.ConsoleStream?.Write($"{logStart}Parameters: {parameters.PrettyString()} :: Blocked? {inBlockList && method.Item2.Blockable}\n");
-                ConsoleManager.SetConsoleColor(ConsoleColor.Gray);
+                Logger.Blue($"{MyPlayer.GetNameWithRole()} :: {actionType.ToString()}", "ActionLog");
+                Logger.Blue($"Parameters: {parameters.PrettyString()} :: Blocked? {inBlockList && method.Item2.Blockable}", "ActionLog");
             }
             if (!inBlockList || !method.Item2.Blockable)
                 method.Item1.InvokeAligned(this, parameters);
         });
     }
 
+    // lol this method is such a hack it's funny
     public IEnumerable<Tuple<MethodInfo, RoleAction, AbstractBaseRole>> GetActions(RoleActionType actionType) => RoleActions[actionType].Select(tuple => new Tuple<MethodInfo, RoleAction, AbstractBaseRole>(tuple.Item1, tuple.Item2, this));
 
 

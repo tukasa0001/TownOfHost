@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
-using TownOfHost.Gamemodes.Conditions;
 using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
+using TownOfHost.Victory.Conditions;
 using UnityEngine;
 
 namespace TownOfHost.Roles.Neutral;

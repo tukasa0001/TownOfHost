@@ -7,6 +7,7 @@ using TownOfHost.Factions;
 using TownOfHost.Managers;
 using TownOfHost.ReduxOptions;
 using TownOfHost.RPC;
+using TownOfHost.Victory;
 using UnityEngine;
 
 namespace TownOfHost.Roles;

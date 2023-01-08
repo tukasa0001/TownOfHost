@@ -10,7 +10,6 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
-using TownOfHost.RPC;
 using UnityEngine;
 using VentFramework;
 
@@ -24,6 +23,8 @@ public class DynamicName
     private string lastString;
     private DateTime lastRender;
     private PlayerControl? myPlayer;
+
+    private Dictionary<byte, string> previousRenders = new();
 
     private Dictionary<GameState, Dictionary<byte, List<Tuple<UI, DynamicString>>>> renderRules = new()
     {
@@ -324,6 +325,8 @@ public class DynamicName
     public void RenderAsIf(GameState state, Color? forceColor = null, int specific = -2)
     {
         if (!AmongUsClient.Instance.AmHost) return;
+        float durationSinceLast = (float)(DateTime.Now - lastRender).TotalSeconds;
+        if (durationSinceLast < ModConstants.DynamicNameTimeBetweenRenders) return;
         string str = GetName(state, forceColor);
         if (lastString != str)
             RpcV2.Immediate(myPlayer.NetId, RpcCalls.SetName).Write(str).Send(specific != -2 ? specific : myPlayer.GetClientId());
@@ -334,8 +337,6 @@ public class DynamicName
     public void RenderFor(PlayerControl player, GameState? state = null)
     {
         if (!AmongUsClient.Instance.AmHost) return;
-        float durationSinceLast = (float)(DateTime.Now - lastRender).TotalSeconds;
-        if (durationSinceLast < ModConstants.DynamicNameTimeBetweenRenders) return;
         if (myPlayer != null && myPlayer.PlayerId == player.PlayerId)
         {
             if (state == null) Render();
@@ -374,7 +375,10 @@ public class DynamicName
             i++;
         }
 
-        RpcV2.Immediate(myPlayer?.NetId ?? 0, RpcCalls.SetName).Write(render).Send(player.GetClientId());
+        string previousRender = previousRenders.GetValueOrDefault(player.PlayerId, "");
+        if (previousRender != render)
+            RpcV2.Immediate(myPlayer?.NetId ?? 0, RpcCalls.SetName).Write(render).Send(player.GetClientId());
+        previousRenders[player.PlayerId] = render;
     }
 
     public string GetComponentValue(UI subrole) => valueDictionary[subrole].Value;

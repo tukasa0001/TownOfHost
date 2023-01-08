@@ -1,7 +1,4 @@
-using System;
 using HarmonyLib;
-using BepInEx.Unity.IL2CPP;
-using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using AmongUs.GameOptions;
@@ -61,7 +58,7 @@ namespace TownOfHost
                     /*case Sniper:
                         __instance.AbilityButton.OverrideText(SniperOLD.OverrideShapeText(player.PlayerId));
                         break;*/
-                    case FireWorks:
+                    case Fireworker:
                         __instance.AbilityButton.OverrideText($"{GetString("FireWorksExplosionButtonText")}");
                         break;
                     /*case SerialKiller:
@@ -215,7 +212,7 @@ namespace TownOfHost
                         __instance.KillButton.ToggleVisible(!player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(impostor.CanSabotage());
                     __instance.ImpostorVentButton.ToggleVisible(impostor.CanVent());
-                    __instance.AbilityButton.ToggleVisible(false);
+                   // __instance.AbilityButton.ToggleVisible(true);
                     break;
                 case Sheriff sheriff:
                     if (sheriff.DesyncRole == null) return;

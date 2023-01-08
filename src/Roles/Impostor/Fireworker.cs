@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.Extensions;
 using TownOfHost.Interface;
 using TownOfHost.Interface.Menus.CustomNameMenu;
 using TownOfHost.Managers;
@@ -12,7 +11,7 @@ using UnityEngine;
 
 namespace TownOfHost.Roles;
 
-public class FireWorks: Morphling
+public class Fireworker: Morphling
 {
     [DynElement(UI.Cooldown)]
     private Cooldown fireworkCooldown;
@@ -42,6 +41,9 @@ public class FireWorks: Morphling
         fireworkLocations = new List<Vector2>();
         playersInRadius = new List<PlayerControl>();
     }
+
+    [RoleAction(RoleActionType.AttemptKill)]
+    public new void TryKill(PlayerControl target) => base.TryKill(target);
 
     [RoleAction(RoleActionType.OnPet)]
     private void FireworksPlantBomb()

@@ -94,7 +94,6 @@ namespace TownOfHost
     {
         public static bool Prefix(GameStartManager __instance)
         {
-            OldOptions.DefaultKillCooldown = TOHPlugin.NormalOptions.KillCooldown;
             TOHPlugin.LastKillCooldown.Value = TOHPlugin.NormalOptions.KillCooldown;
 
             __instance.ReallyBegin(false);
@@ -133,7 +132,6 @@ namespace TownOfHost
         {
             if (GameStates.IsCountDown)
             {
-                TOHPlugin.NormalOptions.KillCooldown = OldOptions.DefaultKillCooldown;
                 PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameOptionsManager.Instance.CurrentGameOptions));
             }
         }

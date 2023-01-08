@@ -1,21 +1,33 @@
+using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.ReduxOptions;
+using TownOfHost.Victory.Conditions;
 using UnityEngine;
 
 namespace TownOfHost.Roles;
 
 public class Debugger: CustomRole
 {
-
     [RoleAction(RoleActionType.OnPet)]
     private void OnPet()
     {
         Logger.Info("OnPet Called", "DebuggerCall");
         LogStats();
 
+        CustomWinTest();
+    }
+
+    private void CustomWinTest()
+    {
+        ManualWin manualWin = new(new List<PlayerControl> { MyPlayer }, WinReason.RoleSpecificWin);
+        manualWin.Activate();
+    }
+
+    private void RangeTest()
+    {
         Vector2 location = MyPlayer.GetTruePosition();
         foreach (PlayerControl player in Game.GetAlivePlayers().Where(p => p.PlayerId != MyPlayer.PlayerId))
             Logger.Info($"Distance from {MyPlayer.GetRawName()} to {player.GetRawName()} :: {Vector2.Distance(location, player.GetTruePosition())}", "DebuggerDistance");

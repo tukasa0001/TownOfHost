@@ -4,7 +4,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.Managers;
 
-namespace TownOfHost.Gamemodes.Conditions;
+namespace TownOfHost.Victory.Conditions;
 
 public interface IFactionWinCondition: IWinCondition
 {
@@ -12,7 +12,7 @@ public interface IFactionWinCondition: IWinCondition
     {
         winners = null;
         if (!IsConditionMet(out List<Faction> factions)) return false;
-        winners = Game.GetAllPlayers().Where(p => p.GetCustomRole().Factions.IsAllied(factions)).ToList();
+        winners = Game.GetAllPlayers().Where(p => factions.IsAllied(p.GetCustomRole().Factions)).ToList();
         return true;
     }
 
