@@ -13,7 +13,7 @@ namespace TownOfHost
         private static OptionItem TargetChangeTime;
         private static OptionItem SuccessKillCooldown;
         private static OptionItem FailureKillCooldown;
-        private static OptionItem ShowTargetArrow;
+        public static OptionItem ShowTargetArrow;
 
         public static Dictionary<byte, PlayerControl> Targets = new();
         public static Dictionary<byte, float> ChangeTimer = new();
