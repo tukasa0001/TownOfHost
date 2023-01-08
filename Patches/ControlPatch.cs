@@ -1,8 +1,6 @@
 using System.Linq;
 using HarmonyLib;
-using InnerNet;
 using UnityEngine;
-using AmongUs.GameOptions;
 
 namespace TownOfHost
 {
@@ -229,15 +227,13 @@ namespace TownOfHost
         {
             if (player.GetButtonDown(8) && // 8:キルボタンのactionId
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
-            (PlayerControl.LocalPlayer.GetCustomRole() is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.Jackal) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
+            PlayerControl.LocalPlayer.CanUseKillButton())
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.DoClick();
             }
             if (player.GetButtonDown(50) && // 50:インポスターのベントボタンのactionId
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
-            (PlayerControl.LocalPlayer.Is(CustomRoles.Arsonist) ||
-            (PlayerControl.LocalPlayer.Is(CustomRoles.Jackal) && Jackal.CanVent.GetBool())
-            ) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
+            PlayerControl.LocalPlayer.CanUseImpostorVentButton())
             {
                 DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.DoClick();
             }

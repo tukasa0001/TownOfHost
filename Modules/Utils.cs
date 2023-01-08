@@ -8,9 +8,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AmongUs.Data;
 using AmongUs.GameOptions;
-using UnityEngine;
-using UnhollowerBaseLib;
 using TownOfHost.Modules;
+using UnhollowerBaseLib;
+using UnityEngine;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -498,7 +498,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.IsGameStarted)
             {
-                SendMessage(GetString("CantUse.lastroles"), PlayerId);
+                SendMessage(GetString("CantUse.lastresult"), PlayerId);
                 return;
             }
             var text = GetString("LastResult") + ":";
@@ -711,8 +711,7 @@ namespace TownOfHost
                 if (seer.Is(CustomRoles.Lovers)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
 
                 //呪われている場合
-                if (Witch.IsSpelled(seer.PlayerId) && isMeeting)
-                    SelfMark += "<color=#ff0000>†</color>";
+                SelfMark += Witch.GetSpelledMark(seer.PlayerId, isMeeting);
 
                 if (Sniper.IsEnable())
                 {
@@ -734,7 +733,7 @@ namespace TownOfHost
                 }
                 if (seer.Is(CustomRoles.Witch))
                 {
-                    SelfSuffix = Witch.GetSpellModeText(seer, false);
+                    SelfSuffix = Witch.GetSpellModeText(seer, false, isMeeting);
                 }
 
                 //他人用の変数定義

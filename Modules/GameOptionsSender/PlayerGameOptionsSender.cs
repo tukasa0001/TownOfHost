@@ -1,8 +1,8 @@
 using System.Linq;
+using AmongUs.GameOptions;
+using Hazel;
 using Il2CppSystem.Linq;
 using InnerNet;
-using Hazel;
-using AmongUs.GameOptions;
 using Mathf = UnityEngine.Mathf;
 
 namespace TownOfHost.Modules
@@ -227,6 +227,11 @@ namespace TownOfHost.Modules
             AURoleOptions.ProtectionDurationSeconds = 0f;
 
             return opt;
+        }
+
+        public override bool AmValid()
+        {
+            return base.AmValid() && player != null && !player.Data.Disconnected && Main.RealOptionsData != null;
         }
     }
 }

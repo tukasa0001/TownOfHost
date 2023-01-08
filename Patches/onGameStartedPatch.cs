@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
-using AmongUs.GameOptions;
 using TownOfHost.Modules;
 using static TownOfHost.Translator;
 
@@ -144,30 +144,13 @@ namespace TownOfHost
 
             if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
             {
-                //役職の人数を指定
-                var roleOpt = Main.NormalOptions.roleOptions;
-                int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
-                int AdditionalScientistNum = CustomRoles.Doctor.GetCount();
-                roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum + AdditionalScientistNum, AdditionalScientistNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Scientist));
-
-                int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
-
-                int AdditionalEngineerNum = CustomRoles.Madmate.GetCount() + CustomRoles.Terrorist.GetCount();// - EngineerNum;
-
-                if (Options.MayorHasPortableButton.GetBool())
-                    AdditionalEngineerNum += CustomRoles.Mayor.GetCount();
-
-                if (Options.MadSnitchCanVent.GetBool())
-                    AdditionalEngineerNum += CustomRoles.MadSnitch.GetCount();
-
-                roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
-
-                int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                int AdditionalShapeshifterNum = CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount()/* + CustomRoles.ShapeMaster.GetCount()*/ + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.EvilTracker.GetCount();//- ShapeshifterNum;
-                if (Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1)
-                    AdditionalShapeshifterNum += CustomRoles.Egoist.GetCount();
-                roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
-
+                RoleTypes[] RoleTypesList = { RoleTypes.Scientist, RoleTypes.Engineer, RoleTypes.Shapeshifter };
+                foreach (var roleTypes in RoleTypesList)
+                {
+                    var roleOpt = Main.NormalOptions.roleOptions;
+                    int additionalNum = GetAdditionalRoleTypesCount(roleTypes);
+                    roleOpt.SetRoleRate(roleTypes, roleOpt.GetNumPerGame(roleTypes) + additionalNum, additionalNum > 0 ? 100 : roleOpt.GetChancePerGame(roleTypes));
+                }
 
                 List<PlayerControl> AllPlayers = new();
                 foreach (var pc in Main.AllPlayerControls)
@@ -276,43 +259,24 @@ namespace TownOfHost
             }
             else
             {
-
-                AssignCustomRolesFromList(CustomRoles.FireWorks, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Sniper, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Jester, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Madmate, Engineers);
-                AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.MadSnitch, Options.MadSnitchCanVent.GetBool() ? Engineers : Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Mayor, Options.MayorHasPortableButton.GetBool() ? Engineers : Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.SabotageMaster, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Mafia, Impostors);
-                AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
-                AssignCustomRolesFromList(CustomRoles.Executioner, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
-                AssignCustomRolesFromList(CustomRoles.BountyHunter, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Witch, Impostors);
-                //AssignCustomRolesFromList(CustomRoles.ShapeMaster, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
-                AssignLoversRolesFromList();
-                AssignCustomRolesFromList(CustomRoles.SpeedBooster, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Trapper, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Dictator, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.SchrodingerCat, Crewmates);
-                if (Options.IsEvilWatcher) AssignCustomRolesFromList(CustomRoles.Watcher, Impostors);
-                else AssignCustomRolesFromList(CustomRoles.Watcher, Crewmates);
-                if (Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1)
-                    AssignCustomRolesFromList(CustomRoles.Egoist, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Mare, Impostors);
-                AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
-                AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
-                AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
-                AssignCustomRolesFromList(CustomRoles.EvilTracker, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Seer, Crewmates);
+                foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x < CustomRoles.NotAssigned))
+                {
+                    if (role.IsVanilla()) continue;
+                    if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
+                    if (role is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.Jackal) continue;
+                    if (role == CustomRoles.Egoist && Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) <= 1) continue;
+                    var baseRoleTypes = role.GetRoleTypes() switch
+                    {
+                        RoleTypes.Impostor => Impostors,
+                        RoleTypes.Shapeshifter => Shapeshifters,
+                        RoleTypes.Scientist => Scientists,
+                        RoleTypes.Engineer => Engineers,
+                        RoleTypes.GuardianAngel => GuardianAngels,
+                        _ => Crewmates,
+                    };
+                    AssignCustomRolesFromList(role, baseRoleTypes);
+                }
+                AssignLoversRoles();
 
                 //RPCによる同期
                 foreach (var pc in Main.AllPlayerControls)
@@ -387,6 +351,15 @@ namespace TownOfHost
                             EvilTracker.Add(pc.PlayerId);
                             break;
                     }
+                    foreach (var subRole in pc.GetCustomSubRoles())
+                    {
+                        switch (subRole)
+                        {
+                            // ここに属性のAddを追加
+                            default:
+                                break;
+                        }
+                    }
                     pc.ResetKillCooldown();
 
                     //通常モードでかくれんぼをする人用
@@ -401,29 +374,12 @@ namespace TownOfHost
                     }
                 }
 
-                //役職の人数を戻す
-                var roleOpt = Main.NormalOptions.roleOptions;
-                int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
-                ScientistNum -= CustomRoles.Doctor.GetCount();
-                roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum, roleOpt.GetChancePerGame(RoleTypes.Scientist));
-
-                int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
-
-                EngineerNum -= CustomRoles.Madmate.GetCount() + CustomRoles.Terrorist.GetCount();
-
-                if (Options.MayorHasPortableButton.GetBool())
-                    EngineerNum -= CustomRoles.Mayor.GetCount();
-
-                if (Options.MadSnitchCanVent.GetBool())
-                    EngineerNum -= CustomRoles.MadSnitch.GetCount();
-
-                roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
-
-                int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount()/* + CustomRoles.ShapeMaster.GetCount()*/ + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.EvilTracker.GetCount();
-                if (Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1)
-                    ShapeshifterNum -= CustomRoles.Egoist.GetCount();
-                roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
+                RoleTypes[] RoleTypesList = { RoleTypes.Scientist, RoleTypes.Engineer, RoleTypes.Shapeshifter };
+                foreach (var roleTypes in RoleTypesList)
+                {
+                    var roleOpt = Main.NormalOptions.roleOptions;
+                    roleOpt.SetRoleRate(roleTypes, roleOpt.GetNumPerGame(roleTypes) - GetAdditionalRoleTypesCount(roleTypes), roleOpt.GetChancePerGame(roleTypes));
+                }
                 GameEndChecker.SetPredicateToNormal();
 
                 GameOptionsSender.AllSenders.Clear();
@@ -437,7 +393,7 @@ namespace TownOfHost
 
             // ResetCamが必要なプレイヤーのリストにクラス化が済んでいない役職のプレイヤーを追加
             Main.ResetCamPlayerList.AddRange(Main.AllPlayerControls.Where(p => p.GetCustomRole() is CustomRoles.Arsonist).Select(p => p.PlayerId));
-/*
+            /*
             //インポスターのゴーストロールがクルーメイトになるバグ対策
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
@@ -446,7 +402,7 @@ namespace TownOfHost
                     pc.Data.Role.DefaultGhostRole = RoleTypes.ImpostorGhost;
                 }
             }
-*/
+            */
             Utils.CountAliveImpostors();
             Utils.SyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
@@ -540,19 +496,42 @@ namespace TownOfHost
             return AssignedPlayers;
         }
 
-        private static void AssignLoversRolesFromList()
+        private static void AssignCustomSubRolesFromList(CustomRoles role, int RawCount = -1)
         {
-            if (CustomRoles.Lovers.IsEnable())
+            if (!role.IsEnable()) return;
+            var allPlayers = new List<PlayerControl>();
+            foreach (var pc in Main.AllPlayerControls)
+                if (IsAssignTarget(pc, role))
+                    allPlayers.Add(pc);
+
+            if (RawCount == -1) RawCount = role.GetCount();
+            int count = Math.Clamp(RawCount, 0, allPlayers.Count);
+            if (count <= 0) return;
+
+            var rand = IRandom.Instance;
+            for (var i = 0; i < count; i++)
             {
-                //Loversを初期化
-                Main.LoversPlayers.Clear();
-                Main.isLoversDead = false;
-                //ランダムに2人選出
-                AssignLoversRoles(2);
+                var player = allPlayers[rand.Next(allPlayers.Count)];
+                allPlayers.Remove(player);
+                Main.PlayerStates[player.PlayerId].SetSubRole(role);
+                Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + role.ToString(), "AssignCustomSubRoles");
             }
+        }
+        //属性ごとの割り当て条件
+        private static bool IsAssignTarget(PlayerControl player, CustomRoles subrole)
+        {
+            if (player.Is(CustomRoles.GM)) return false;
+            return subrole switch
+            {
+                _ => true,
+            };
         }
         private static void AssignLoversRoles(int RawCount = -1)
         {
+            if (!CustomRoles.Lovers.IsEnable()) return;
+            //Loversを初期化
+            Main.LoversPlayers.Clear();
+            Main.isLoversDead = false;
             var allPlayers = new List<PlayerControl>();
             foreach (var player in Main.AllPlayerControls)
             {
@@ -575,7 +554,19 @@ namespace TownOfHost
             }
             RPC.SyncLoversPlayers();
         }
-
+        public static int GetAdditionalRoleTypesCount(RoleTypes roleTypes)
+        {
+            int count = 0;
+            foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x < CustomRoles.NotAssigned))
+            {
+                if (role.IsVanilla()) continue;
+                if (role is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.Jackal) continue;
+                if (role == CustomRoles.Egoist && Main.NormalOptions.GetInt(Int32OptionNames.NumImpostors) <= 1) continue;
+                if (role.GetRoleTypes() == roleTypes)
+                    count += role.GetCount();
+            }
+            return count;
+        }
         [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSetRole))]
         class RpcSetRoleReplacer
         {

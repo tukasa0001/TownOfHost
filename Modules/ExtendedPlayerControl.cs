@@ -5,8 +5,8 @@ using System.Text;
 using AmongUs.GameOptions;
 using Hazel;
 using InnerNet;
-using UnityEngine;
 using TownOfHost.Modules;
+using UnityEngine;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -165,7 +165,7 @@ namespace TownOfHost
         {
             if (player == null) return;
             CustomRoles role = player.GetCustomRole();
-            if (!(role.IsImpostor() || player.IsNeutralKiller() || role is CustomRoles.Arsonist or CustomRoles.Sheriff)) return;
+            if (!player.CanUseKillButton()) return;
             if (time >= 0f)
             {
                 Main.AllPlayerKillCooldown[player.PlayerId] = time * 2;
@@ -358,6 +358,8 @@ namespace TownOfHost
         }
         public static bool CanUseKillButton(this PlayerControl pc)
         {
+            if (!pc.IsAlive() || pc.Data.Role.Role == RoleTypes.GuardianAngel) return false;
+
             return pc.GetCustomRole() switch
             {
                 CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
@@ -367,6 +369,19 @@ namespace TownOfHost
                 CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
                 CustomRoles.Egoist or CustomRoles.Jackal => true,
+                _ => pc.Is(RoleType.Impostor),
+            };
+        }
+        public static bool CanUseImpostorVentButton(this PlayerControl pc)
+        {
+            if (!pc.IsAlive() || pc.Data.Role.Role == RoleTypes.GuardianAngel) return false;
+
+            return pc.GetCustomRole() switch
+            {
+                CustomRoles.Sheriff => false,
+                CustomRoles.Egoist => true,
+                CustomRoles.Jackal => Jackal.CanVent.GetBool(),
+                CustomRoles.Arsonist => pc.IsDouseDone(),
                 _ => pc.Is(RoleType.Impostor),
             };
         }
@@ -430,24 +445,6 @@ namespace TownOfHost
                 killer.MarkDirtySettings();
                 RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
             }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
-        }
-        public static void CanUseImpostorVent(this PlayerControl player)
-        {
-            switch (player.GetCustomRole())
-            {
-                case CustomRoles.Sheriff:
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
-                    player.Data.Role.CanVent = false;
-                    return;
-                case CustomRoles.Arsonist:
-                    bool CanUse = player.IsDouseDone();
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(CanUse && !player.Data.IsDead);
-                    player.Data.Role.CanVent = CanUse;
-                    return;
-                case CustomRoles.Jackal:
-                    Jackal.CanUseVent(player);
-                    return;
-            }
         }
         public static bool IsDouseDone(this PlayerControl player)
         {
@@ -598,6 +595,7 @@ namespace TownOfHost
         public static bool Is(this PlayerControl target, CustomRoles role) =>
             role > CustomRoles.NotAssigned ? target.GetCustomSubRoles().Contains(role) : target.GetCustomRole() == role;
         public static bool Is(this PlayerControl target, RoleType type) { return target.GetCustomRole().GetRoleType() == type; }
+        public static bool Is(this PlayerControl target, RoleTypes type) { return target.GetCustomRole().GetRoleTypes() == type; }
         public static bool IsAlive(this PlayerControl target)
         {
             //ロビーなら生きている

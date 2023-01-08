@@ -1,6 +1,6 @@
+using AmongUs.Data;
 using HarmonyLib;
 using UnityEngine;
-using AmongUs.Data;
 
 namespace TownOfHost
 {

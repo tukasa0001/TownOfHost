@@ -1,9 +1,9 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
-using AmongUs.GameOptions;
 
 namespace TownOfHost
 {
@@ -41,10 +41,43 @@ namespace TownOfHost
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
                     case CustomWinner.Impostor:
+                        if (Main.AllAlivePlayerControls.Count(p => p.Is(RoleType.Impostor)) == 0 && Main.AllAlivePlayerControls.Count(p => p.Is(CustomRoles.Egoist)) > 0) //インポスター全滅でエゴイストが生存
+                            goto case CustomWinner.Egoist;
                         Main.AllPlayerControls
                             .Where(pc => (pc.Is(RoleType.Impostor) || pc.Is(RoleType.Madmate)) && !pc.Is(CustomRoles.Lovers))
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
+                    case CustomWinner.Egoist:
+                        CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Egoist);
+                        CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Egoist);
+                        CustomWinnerHolder.WinnerRoles.Add(CustomRoles.EgoSchrodingerCat);
+                        break;
+                }
+                if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw and not CustomWinner.None)
+                {
+                    if (Main.LoversPlayers.Count > 0 && Main.LoversPlayers.ToArray().All(p => p.IsAlive()) && !reason.Equals(GameOverReason.HumansByTask))
+                    {
+                        CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Lovers);
+                        Main.AllPlayerControls
+                            .Where(p => p.Is(CustomRoles.Lovers) && p.IsAlive())
+                            .Do(p => CustomWinnerHolder.WinnerIds.Add(p.PlayerId));
+                    }
+                    //追加勝利陣営
+                    foreach (var pc in Main.AllPlayerControls)
+                    {
+                        //Opportunist
+                        if (pc.Is(CustomRoles.Opportunist) && pc.IsAlive())
+                        {
+                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
+                        }
+                        //SchrodingerCat
+                        if (SchrodingerCat.CanWinTheCrewmateBeforeChange.GetBool() && pc.Is(CustomRoles.SchrodingerCat) && CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
+                        {
+                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.SchrodingerCat);
+                        }
+                    }
                 }
                 ShipStatus.Instance.enabled = false;
                 StartEndGame(reason);
@@ -59,7 +92,7 @@ namespace TownOfHost
             MessageWriter writer = sender.stream;
 
             //ゴーストロール化
-            List<byte> ReviveReqiredPlayerIds = new();
+            List<byte> ReviveRequiredPlayerIds = new();
             var winner = CustomWinnerHolder.WinnerTeam;
             foreach (var pc in Main.AllPlayerControls)
             {
@@ -68,46 +101,14 @@ namespace TownOfHost
                     SetGhostRole(ToGhostImpostor: true);
                     continue;
                 }
-                if (winner == CustomWinner.Impostor)
-                {
-                    switch (pc.GetCustomRole().GetRoleType())
-                    {
-                        case RoleType.Impostor:
-                        case RoleType.Madmate:
-                            SetGhostRole(ToGhostImpostor: true);
-                            break;
-                        case RoleType.Neutral:
-                        case RoleType.Crewmate:
-                            SetGhostRole(ToGhostImpostor: false);
-                            break;
-                    }
-                }
-                else if (winner == CustomWinner.Crewmate)
-                {
-                    switch (pc.GetCustomRole().GetRoleType())
-                    {
-                        case RoleType.Impostor:
-                        case RoleType.Madmate:
-                        case RoleType.Neutral:
-                            SetGhostRole(ToGhostImpostor: true);
-                            break;
-                        case RoleType.Crewmate:
-                            SetGhostRole(ToGhostImpostor: false);
-                            break;
-                    }
-                }
-                else if (((CustomRoles)winner).IsNeutral())
-                {
-                    if (CustomWinnerHolder.WinnerIds.Contains(pc.PlayerId) ||
-                        CustomWinnerHolder.WinnerRoles.Contains(pc.GetCustomRole()))
-                    {
-                        SetGhostRole(ToGhostImpostor: true);
-                    }
-                    else SetGhostRole(ToGhostImpostor: false);
-                }
+                bool canWin = CustomWinnerHolder.WinnerIds.Contains(pc.PlayerId) ||
+                        CustomWinnerHolder.WinnerRoles.Contains(pc.GetCustomRole());
+                bool isCrewmateWin = reason.Equals(GameOverReason.HumansByVote) || reason.Equals(GameOverReason.HumansByTask);
+                SetGhostRole(ToGhostImpostor: canWin ^ isCrewmateWin);
+
                 void SetGhostRole(bool ToGhostImpostor)
                 {
-                    if (!pc.Data.IsDead) ReviveReqiredPlayerIds.Add(pc.PlayerId);
+                    if (!pc.Data.IsDead) ReviveRequiredPlayerIds.Add(pc.PlayerId);
                     if (ToGhostImpostor)
                     {
                         Logger.Info($"{pc.GetNameWithRole()}: ImpostorGhostに変更", "ResetRoleAndEndGame");
@@ -138,7 +139,7 @@ namespace TownOfHost
                 writer.WritePacked(GameData.Instance.NetId); // NetId
                 foreach (var info in GameData.Instance.AllPlayers)
                 {
-                    if (ReviveReqiredPlayerIds.Contains(info.PlayerId))
+                    if (ReviveRequiredPlayerIds.Contains(info.PlayerId))
                     {
                         // 蘇生&メッセージ書き込み
                         info.IsDead = false;
@@ -187,30 +188,36 @@ namespace TownOfHost
                 reason = GameOverReason.ImpostorByKill;
 
                 int[] counts = CountLivingPlayersByPredicates(
-                    pc => pc.Is(RoleType.Impostor) || pc.Is(CustomRoles.Egoist), //インポスター
+                    pc => pc.Is(RoleType.Impostor), //インポスター
+                    pc => pc.Is(CustomRoles.Egoist), //エゴイスト
                     pc => pc.Is(CustomRoles.Jackal), //ジャッカル
                     pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Egoist) && !pc.Is(CustomRoles.Jackal) //その他
                 );
-                int Imp = counts[0], Jackal = counts[1], Crew = counts[2];
+                int Imp = counts[0], Ego = counts[1], Jackal = counts[2], Crew = counts[3];
 
-                if (Imp == 0 && Crew == 0 && Jackal == 0) //全滅
+                if (Imp + Ego == 0 && Crew == 0 && Jackal == 0) //全滅
                 {
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.None);
                 }
-                else if (Jackal == 0 && Crew <= Imp) //インポスター勝利
+                else if (Main.AllAlivePlayerControls.All(p => p.Is(CustomRoles.Lovers))) //ラバーズ勝利
+                {
+                    reason = GameOverReason.ImpostorByKill;
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Lovers);
+                }
+                else if (Jackal == 0 && Crew <= Imp + Ego) //インポスター勝利
                 {
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
                 }
-                else if (Imp == 0 && Crew <= Jackal) //ジャッカル勝利
+                else if (Imp + Ego == 0 && Crew <= Jackal) //ジャッカル勝利
                 {
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jackal);
                     CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
                     CustomWinnerHolder.WinnerRoles.Add(CustomRoles.JSchrodingerCat);
                 }
-                else if (Jackal == 0 && Imp == 0) //クルー勝利
+                else if (Jackal == 0 && Imp + Ego == 0) //クルー勝利
                 {
                     reason = GameOverReason.HumansByVote;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
@@ -294,7 +301,7 @@ namespace TownOfHost
         public virtual bool CheckGameEndByTask(out GameOverReason reason)
         {
             reason = GameOverReason.ImpostorByKill;
-            if (Options.DisableTaskWin.GetBool()) return false;
+            if (Options.DisableTaskWin.GetBool() || TaskState.InitialTotalTasks == 0) return false;
 
             if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
             {
