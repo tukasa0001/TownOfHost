@@ -9,12 +9,19 @@ namespace TownOfHost.Roles;
 
 public class TimeThief : Impostor
 {
+    private int kills;
     private int meetingTimeSubtractor;
     private int minimumVotingTime;
     private bool returnTimeAfterDeath;
 
     [RoleAction(RoleActionType.AttemptKill)]
-    public new bool TryKill(PlayerControl target) => base.TryKill(target);
+    public new bool TryKill(PlayerControl target)
+    {
+        var flag = base.TryKill(target);
+        if (flag)
+            kills++;
+        return flag;
+    }
 
     [RoleAction(RoleActionType.RoundEnd)]
     private void TimeThiefSubtractMeetingTime()
@@ -27,7 +34,7 @@ public class TimeThief : Impostor
             int votingTime = normalOptions.VotingTime;
 
             int remainingStolenTime = 0;
-            discussionTime -= meetingTimeSubtractor;
+            discussionTime -= meetingTimeSubtractor * kills;
             if (discussionTime < 0)
             {
                 remainingStolenTime = discussionTime;
@@ -51,7 +58,7 @@ public class TimeThief : Impostor
             .AddSubOption(sub => sub
                 .Name("Minimum Voting Time")
                 .Bind(v => minimumVotingTime = (int)v)
-                .AddIntRangeValues(5, 120, 5, 2, "s")
+                .AddIntRangeValues(5, 120, 5, 1, "s")
                 .Build())
             .AddSubOption(sub => sub
                 .Name("Return Stolen Time After Death")

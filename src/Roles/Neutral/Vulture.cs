@@ -23,7 +23,7 @@ public class Vulture : CustomRole
     private bool isEatMode = true;
 
     [RoleAction(RoleActionType.SelfReportBody)]
-    public void EatBody(PlayerControl target, ref ActionHandle handle)
+    public void EatBody(PlayerControl target, ActionHandle handle)
     {
         if (!isEatMode | TOHPlugin.unreportableBodies.Contains(target.Data.PlayerId)) return;
         TOHPlugin.unreportableBodies.Add(target.Data.PlayerId);
