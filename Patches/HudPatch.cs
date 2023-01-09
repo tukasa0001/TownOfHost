@@ -265,6 +265,21 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.Show))]
+    class MapBehaviourShowPatch
+    {
+        public static void Prefix(MapBehaviour __instance, ref MapOptions opts)
+        {
+            if (opts.Mode is MapOptions.Modes.Normal or MapOptions.Modes.Sabotage)
+            {
+                var player = PlayerControl.LocalPlayer;
+                if (player.Is(RoleType.Impostor) || (player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
+                    opts.Mode = MapOptions.Modes.Sabotage;
+                else
+                    opts.Mode = MapOptions.Modes.Normal;
+            }
+        }
+    }
     [HarmonyPatch(typeof(TaskPanelBehaviour), nameof(TaskPanelBehaviour.SetTaskText))]
     class TaskPanelBehaviourPatch
     {
