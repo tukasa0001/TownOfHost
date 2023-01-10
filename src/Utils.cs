@@ -126,7 +126,7 @@ namespace TownOfHost
             if (player.PlayerId == 0)
             {
                 FlashColor(new(1f, 0f, 0f, 0.5f));
-                if (Constants.ShouldPlaySfx()) OldRPC.PlaySound(player.PlayerId, Sounds.KillSound);
+                /*if (Constants.ShouldPlaySfx()) OldRPC.PlaySound(player.PlayerId, Sounds.KillSound);*/
             }
             else if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
 
@@ -486,11 +486,11 @@ namespace TownOfHost
             var text = GetString("LastResult") + ":";
             List<byte> cloneRoles = new(TOHPlugin.PlayerStates.Keys);
             text += $"\n{SetEverythingUpPatch.LastWinsText}\n";
-            foreach (var id in TOHPlugin.winnerList)
+            /*foreach (var id in TOHPlugin.winnerList)
             {
                 text += $"\n★ " + EndGamePatch.SummaryText[id].RemoveHtmlTags();
                 cloneRoles.Remove(id);
-            }
+            }*/
 
             foreach (var id in cloneRoles)
             {
@@ -582,202 +582,12 @@ namespace TownOfHost
         public static GameData.PlayerInfo GetPlayerInfoById(int PlayerId) =>
             GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => info.PlayerId == PlayerId);
 
-        public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false,
-            bool ForceLoop = false)
-        {
-            return;
-            if (!AmongUsClient.Instance.AmHost) return;
-            if (PlayerControl.AllPlayerControls == null) return;
-
-            var caller = new System.Diagnostics.StackFrame(1, false);
-            var callerMethod = caller.GetMethod();
-            string callerMethodName = callerMethod.Name;
-            string callerClassName = callerMethod.DeclaringType.FullName;
-            global::TownOfHost.Logger.Info("NotifyRolesが" + callerClassName + "." + callerMethodName + "から呼び出されました",
-                "NotifyRoles");
-            HudManagerPatch.NowCallNotifyRolesCount++;
-            HudManagerPatch.LastSetNameDesyncCount = 0;
-
-            //Snitch警告表示のON/OFF
-            bool ShowSnitchWarning = false;
-            if (CustomRoleManager.Static.Snitch.IsEnable())
-            {
-                foreach (var snitch in PlayerControl.AllPlayerControls)
-                {
-                    if (snitch.Is(CustomRoles.Snitch) && !snitch.Data.IsDead && !snitch.Data.Disconnected)
-                    {
-                        var taskState = snitch.GetPlayerTaskState();
-                        if (taskState.DoExpose)
-                        {
-                            ShowSnitchWarning = true;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            var seerList = PlayerControl.AllPlayerControls;
-            if (SpecifySeer != null)
-            {
-                seerList = new();
-                seerList.Add(SpecifySeer);
-            }
-
-            //seer:ここで行われた変更を見ることができるプレイヤー
-            //target:seerが見ることができる変更の対象となるプレイヤー
-            foreach (var seer in seerList)
-            {
-                if (seer.IsModClient()) continue;
-                string fontSize = "1.5";
-                if (isMeeting && (seer.GetClient().PlatformData.Platform.ToString() == "Playstation" ||
-                                  seer.GetClient().PlatformData.Platform.ToString() == "Switch")) fontSize = "70%";
-                global::TownOfHost.Logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":START", "NotifyRoles");
-                //Loop1-bottleのSTART-END間でKeyNotFoundException
-                //seerが落ちているときに何もしない
-                if (seer.Data.Disconnected) continue;
-
-                //タスクなど進行状況を含むテキスト
-                string SelfTaskText = GetProgressText(seer);
-
-                //名前の後ろに付けるマーカー
-                string SelfMark = "";
-
-                //インポスター/キル可能な第三陣営に対するSnitch警告
-                /*var canFindSnitchRole = seer.GetCustomRole().IsImpostor() || //LocalPlayerがインポスター
-                    (StaticOptions.SnitchCanFindNeutralKiller.GetBool() && seer.IsNeutralKiller());//or エゴイスト*/
-
-
-
-
-                /*if (seer.Is(CustomRoles.EvilTracker)) SelfSuffix += EvilTrackerOLD.UtilsGetTargetArrow(isMeeting, seer);*/
-
-                //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                string SeerRealName = seer.GetRealName(isMeeting);
-
-                if (!isMeeting && MeetingStates.FirstMeeting && StaticOptions.ChangeNameToRoleInfo)
-                    SeerRealName = seer.GetRoleInfo();
-
-                //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
-                string SelfRoleName = $"<size={fontSize}>{seer.GetDisplayRoleName()}{SelfTaskText}</size>";
-                string SelfDeathReason = seer.KnowDeathReason(seer)
-                    ? $"({ColorString(GetRoleColor(Doctor.Ref<Doctor>()), GetVitalText(seer.PlayerId))})"
-                    : "";
-                string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
-                SelfName = SelfRoleName + "\r\n" + SelfName;
-                if (!isMeeting) SelfName += "\r\n";
-
-                //適用
-
-                //seerが死んでいる場合など、必要なときのみ第二ループを実行する
-                if (seer.Data.IsDead //seerが死んでいる
-                    || seer.GetCustomRole().IsImpostor() //seerがインポスター
-                    || seer.Is(CustomRoles.EgoSchrodingerCat) //seerがエゴイストのシュレディンガーの猫
-                    || seer.Is(CustomRoles.JSchrodingerCat) //seerがJackal陣営のシュレディンガーの猫
-                    || seer.Is(CustomRoles.MSchrodingerCat) //seerがインポスター陣営のシュレディンガーの猫
-                    || seer.Is(CustomRoles.Executioner)
-                    || seer.Is(CustomRoles.Doctor) //seerがドクター
-                    || seer.Is(CustomRoles.Puppeteer)
-                    || seer.IsNeutralKiller() //seerがキル出来る第三陣営
-                    || IsActive(SystemTypes.Electrical)
-                    || IsActive(SystemTypes.Comms)
-                    || NoCache
-                    || ForceLoop
-                   )
-                {
-                    foreach (var target in PlayerControl.AllPlayerControls)
-                    {
-                        //targetがseer自身の場合は何もしない
-                        if (target == seer || target.Data.Disconnected) continue;
-                        global::TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":START",
-                            "NotifyRoles");
-
-                        //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                        string TargetTaskText = seer.Data.IsDead && StaticOptions.GhostsCanSeeOtherRoles
-                            ? $"{GetProgressText(target)}"
-                            : "";
-
-                        //名前の後ろに付けるマーカー
-                        string TargetMark = "";
-
-                        //呪われている人
-
-                        //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                        string TargetRoleText = seer.Data.IsDead && StaticOptions.GhostsCanSeeOtherRoles
-                            ? $"<size={fontSize}>{target.GetDisplayRoleName()}{TargetTaskText}</size>\r\n"
-                            : "";
-
-                        if (target.Is(CustomRoles.GM))
-                            TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName()}</size>\r\n";
-
-                        //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                        string TargetPlayerName = target.GetRealName(isMeeting);
-
-
-                        if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.Egoist))
-                            TargetPlayerName = ColorString(GetRoleColor(Egoist.Ref<Egoist>()), TargetPlayerName);
-                        else if ((seer.Is(CustomRoles.EgoSchrodingerCat) &&
-                                  target.Is(CustomRoles.Egoist)) || //エゴ猫 --> エゴイスト
-                                 (seer.Is(CustomRoles.JSchrodingerCat) &&
-                                  target.Is(CustomRoles.Jackal)) || // J猫 --> ジャッカル
-                                 (seer.Is(CustomRoles.MSchrodingerCat) &&
-                                  target.Is(Roles.RoleType.Impostor))) // M猫 --> インポスター
-                            TargetPlayerName = ColorString(target.GetRoleColor(), TargetPlayerName);
-                        else if (Utils.IsActive(SystemTypes.Electrical) && target.Is(CustomRoles.Mare) && !isMeeting)
-                            TargetPlayerName =
-                                ColorString(GetRoleColor(Impostor.Ref<Impostor>()), TargetPlayerName); //targetの赤色で表示
-
-                        if (seer.Is(Roles.RoleType.Impostor) && target.Is(CustomRoles.MadSnitch) &&
-                            target.GetPlayerTaskState().IsTaskFinished &&
-                            StaticOptions.MadSnitchCanAlsoBeExposedToImpostor)
-                            TargetMark += ColorString(GetRoleColor(MadSnitch.Ref<MadSnitch>()), "★");
-
-                        string TargetDeathReason = "";
-                        if (seer.KnowDeathReason(target))
-                            TargetDeathReason =
-                                $"({ColorString(GetRoleColor(Doctor.Ref<Doctor>()), GetVitalText(target.PlayerId))})";
-
-                        /*if (IsActive(SystemTypes.Comms) && Options.CommsCamouflage.GetBool() && !isMeeting)
-                            TargetPlayerName = $"<size=0%>{TargetPlayerName}</size>";*/
-
-                        //全てのテキストを合成します。
-                        string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
-
-                        //適用
-
-                        global::TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":END",
-                            "NotifyRoles");
-                    }
-                }
-
-                global::TownOfHost.Logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":END", "NotifyRoles");
-            }
-        }
-
-        public static void MarkEveryoneDirtySettings()
-        {
-            PlayerGameOptionsSender.SetDirtyToAll();
-        }
 
         public static void ChangeInt(ref int ChangeTo, int input, int max)
         {
             var tmp = ChangeTo * 10;
             tmp += input;
             ChangeTo = Math.Clamp(tmp, 0, max);
-        }
-
-        public static void CountAliveImpostors()
-        {
-            int AliveImpostorCount = 0;
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                CustomRole pc_role = pc.GetCustomRole();
-                if (pc_role.IsImpostor() && !TOHPlugin.PlayerStates[pc.PlayerId].IsDead) AliveImpostorCount++;
-            }
-
-            if (TOHPlugin.AliveImpostorCount == AliveImpostorCount) return;
-            global::TownOfHost.Logger.Info("生存しているインポスター:" + AliveImpostorCount + "人", "CountAliveImpostors");
-            TOHPlugin.AliveImpostorCount = AliveImpostorCount;
-            /*LastImpostor.SetSubRole();*/
         }
 
         public static string GetVoteName(byte num)
@@ -856,12 +666,13 @@ namespace TownOfHost
             })));
         }
 
-        public static Sprite LoadSprite(string path, float pixelsPerUnit = 1f)
+        public static Sprite LoadSprite(string path, float pixelsPerUnit = 100f)
         {
             Sprite sprite = null;
             try
             {
-                var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path);
+                var stream = Assembly.GetCallingAssembly().GetManifestResourceStream(path);
+                Assembly.GetExecutingAssembly().GetName().DebugLog("Exe Assembly Name: ");
                 var texture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
                 using MemoryStream ms = new();
                 stream.CopyTo(ms);
@@ -869,9 +680,10 @@ namespace TownOfHost
                 sprite = Sprite.Create(texture, new(0, 0, texture.width, texture.height), new(0.5f, 0.5f),
                     pixelsPerUnit);
             }
-            catch
+            catch (Exception e)
             {
-                Logger.Error($"\"{path}\"の読み込みに失敗しました。", "LoadImage");
+                Logger.Error($"Error Loading Asset: \"{path}\"", "LoadImage");
+                Logger.Exception(e, "LoadImage");
             }
 
             return sprite;

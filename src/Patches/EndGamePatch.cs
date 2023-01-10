@@ -120,14 +120,6 @@ class EndGamePatch
                 }
             }
         }
-        TOHPlugin.winnerList = new();
-        foreach (var pc in winner)
-        {
-            if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw && pc.Is(CustomRoles.GM)) continue;
-
-            TempData.winners.Add(new WinningPlayerData(pc.Data));
-            TOHPlugin.winnerList.Add(pc.PlayerId);
-        }
 
 
         TOHPlugin.VisibleTasksCount = false;
@@ -231,11 +223,11 @@ class SetEverythingUpPatch
 
         string RoleSummaryText = $"{GetString("RoleSummaryText")}";
         List<byte> cloneRoles = new(TOHPlugin.PlayerStates.Keys);
-        foreach (var id in TOHPlugin.winnerList)
+        /*foreach (var id in TOHPlugin.winnerList)
         {
             RoleSummaryText += $"\n<color={CustomWinnerColor}>★</color> " + EndGamePatch.SummaryText[id];
             cloneRoles.Remove(id);
-        }
+        }*/
         foreach (var id in cloneRoles)
         {
             RoleSummaryText += $"\n　 " + EndGamePatch.SummaryText[id];

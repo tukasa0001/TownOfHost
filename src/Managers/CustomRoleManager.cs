@@ -13,8 +13,8 @@ public static class CustomRoleManager
     public static Dictionary<byte, List<Subrole>> PlayerSubroles = new();
 
     public static List<byte> RoleBlockedPlayers = new();
-    public static ExtraRoles Special = new();
     public static StaticRoles Static = new();
+    public static ExtraRoles Special = new();
     public static CustomRole Default = Static.Crewmate;
 
     public static readonly List<CustomRole> MainRoles = Static.GetType()
@@ -34,6 +34,7 @@ public static class CustomRoleManager
     {
         AllRoles.Add(staticRole);
     }
+
     public static int GetRoleId(CustomRole role) => role == null ? 0 : GetRoleId(role.GetType());
     public static CustomRole GetRoleFromType(Type roleType) => GetRoleFromId(GetRoleId(roleType));
 

@@ -77,8 +77,6 @@ namespace TownOfHost
             Logger.Info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
             PlayerControl.AllPlayerControls.ToArray().Do(x => TOHPlugin.PlayerStates[x.PlayerId].InitTask(x));
 
-            Utils.NotifyRoles();
-
             GameStates.InGame = true;
         }
 
@@ -257,7 +255,6 @@ namespace TownOfHost
         {
             Game.State = GameState.Roaming;
             if (!GameStates.IsInGame) return;
-            TOHPlugin.introDestroyed = true;
             if (!AmongUsClient.Instance.AmHost) return;
 
             if (TOHPlugin.NormalOptions.MapId != 4)

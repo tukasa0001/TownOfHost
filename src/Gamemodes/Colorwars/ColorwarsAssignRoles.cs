@@ -4,6 +4,7 @@ using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using TownOfHost.Extensions;
+using TownOfHost.Gamemodes.FFA;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
 using VentFramework;
@@ -12,10 +13,9 @@ namespace TownOfHost.Gamemodes.Colorwars;
 
 public class ColorwarsAssignRoles
 {
-    private static readonly List<byte> ColorCodes = new() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
-
     public static void AssignRoles(List<PlayerControl> players)
     {
+        List<byte> colorCodes = new() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
         List<PlayerControl> colorwarPlayers = new(players);
 
         List<List<PlayerControl>> teams = new();
@@ -23,7 +23,7 @@ public class ColorwarsAssignRoles
         while (colorwarPlayers.Any())
         {
             List<PlayerControl> team = new();
-            byte color = ColorCodes.PopRandom();
+            byte color = colorCodes.PopRandom();
             for (int i = 0; i < ColorwarsGamemode.TeamSize && colorwarPlayers.Any(); i++)
             {
                 PlayerControl player = colorwarPlayers.PopRandom();
@@ -33,8 +33,14 @@ public class ColorwarsAssignRoles
             teams.Add(team);
         }
 
-        PlayerControl localPlayer = PlayerControl.LocalPlayer;
+        if (ColorwarsGamemode.ConvertColorMode)
+        {
+            FFAAssignRoles.AssignRoles(players);
+            players.Do(p => p.GetCustomRole<SerialKiller>().KillCooldown *= 2);
+            return;
+        }
 
+        PlayerControl localPlayer = PlayerControl.LocalPlayer;
         foreach (List<PlayerControl> team in teams)
         {
             int[] teamClientIds = team.Select(p => p.GetClientId()).ToArray();
@@ -43,7 +49,7 @@ public class ColorwarsAssignRoles
                 if (player.PlayerId == localPlayer.PlayerId) player.SetRole(RoleTypes.Impostor);
                 RpcV2.Immediate(player.NetId, (byte)RpcCalls.SetRole).Write((byte)RoleTypes.Impostor).SendToFollowing(teamClientIds);
                 RpcV2.Immediate(player.NetId, (byte)RpcCalls.SetRole).Write((byte)RoleTypes.Crewmate).SendToAll(teamClientIds);
-                Game.AssignRole(player, CustomRoleManager.Static.Impostor);
+                Game.AssignRole(player, CustomRoleManager.Static.SerialKiller);
             }
         }
 

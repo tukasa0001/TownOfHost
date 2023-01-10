@@ -20,8 +20,17 @@ public static class DesyncOptions
 
     public static void SyncToAll(IGameOptions options) => Game.GetAllPlayers().Do(p => SyncToPlayer(options, p));
 
-    public static void SyncToPlayer(IGameOptions options, PlayerControl player) =>
-        SyncToClient(options, AmongUsClient.Instance.GetClientFromCharacter(player).Id);
+    public static void SyncToPlayer(IGameOptions options, PlayerControl player)
+    {
+        if (!AmongUsClient.Instance.AmHost) return;
+        if (player.PlayerId != PlayerControl.LocalPlayer.PlayerId)
+        {
+            SyncToClient(options, AmongUsClient.Instance.GetClientFromCharacter(player).Id);
+            return;
+        }
+
+        GameOptionsManager.Instance.currentGameOptions = options;
+    }
 
     public static void SyncToClient(IGameOptions options, int clientId)
     {
@@ -64,14 +73,7 @@ public static class DesyncOptions
     {
         IGameOptions clonedOptions = OriginalHostOptions.DeepCopy();
         overrides.Where(o => o != null).Do(optionOverride => optionOverride.ApplyTo(clonedOptions));
-        if (AmongUsClient.Instance.AmHost && player.PlayerId == PlayerControl.LocalPlayer.PlayerId)
-        {
-            GameOptionsManager.Instance.currentGameOptions = clonedOptions;
-            GameOptionsManager.Instance.currentNormalGameOptions = clonedOptions.AsNormalOptions();
-            GameManager.Instance.LogicOptions.Cast<LogicOptionsNormal>().GameOptions = clonedOptions.AsNormalOptions();
-        }
-        else
-            SyncToPlayer(clonedOptions, player);
+        SyncToPlayer(clonedOptions, player);
     }
 
 }

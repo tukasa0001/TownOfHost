@@ -157,13 +157,6 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream)
     {
-        /*OptionPage page = this.SpecialType switch
-        {
-            SpecialType.Neutral => OptionManager.NeutralPage,
-            SpecialType.NeutralKilling => OptionManager.NeutEvilPage,
-            SpecialType.Coven => OptionManager.ImpostorPage,
-            _ => this.IsImpostor() ? OptionManager.ImpostorPage : OptionManager.CrewmatePage
-        };*/
         optionStream.Name(RoleName).IsHeader(true);
         return optionStream;
     }

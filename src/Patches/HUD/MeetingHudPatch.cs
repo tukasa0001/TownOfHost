@@ -204,7 +204,7 @@ namespace TownOfHost
         }
         public static bool IsMayor(byte id)
         {
-            var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
+            var player = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(pc => pc.PlayerId == id);
             return player != null && player.Is(Mayor.Ref<Mayor>());
         }
         public static void TryAddAfterMeetingDeathPlayers(byte playerId, PlayerStateOLD.DeathReason deathReason)
@@ -277,13 +277,13 @@ namespace TownOfHost
         public static void Prefix(MeetingHud __instance)
         {
             Game.State = GameState.InMeeting;
+            Game.RenderAllForAll();
             Logger.Info("------------会議開始------------", "Phase");
             ActionHandle handle = ActionHandle.NoInit();
             Game.TriggerForAll(RoleActionType.RoundEnd, ref handle, false);
             ChatUpdatePatch.DoBlockChat = true;
             GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
             PlayerControl.AllPlayerControls.ToArray().Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
-            Utils.NotifyRoles(isMeeting: true, NoCache: true);
             MeetingStates.MeetingCalled = true;
         }
         public static void Postfix(MeetingHud __instance)

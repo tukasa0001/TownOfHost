@@ -6,6 +6,8 @@ using BepInEx.Configuration;
 using HarmonyLib;
 using TownOfHost.Interface.Menus;
 using TownOfHost.Menus;
+using TownOfHost.Options;
+using TownOfHost.Roles;
 
 namespace TownOfHost.ReduxOptions;
 

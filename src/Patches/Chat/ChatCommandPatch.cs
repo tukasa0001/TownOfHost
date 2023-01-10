@@ -71,7 +71,6 @@ namespace TownOfHost
                     case "/win":
                     case "/winner":
                         canceled = true;
-                        Utils.SendMessage("Winner: " + string.Join(",", TOHPlugin.winnerList.Select(b => TOHPlugin.AllPlayerNames[b])));
                         break;
 
                     case "/l":

@@ -26,6 +26,10 @@ Minor:
 - [ ] Allow removing of "Maximum" setting from roles
 - [ ] Deprecate AsNormalOptions()
 - [ ] Boot non-vent-allowed players out of vent
+- [ ] Gamemodes should always have unique options regardless of if they use the same tab as other gamemodes or not
+- [ ] To a similar extent, gamemodes should have unique config files (to store their options)
+- [ ] Switching gamemode should enforce the current gamemode's settings
+  - Currently setting an option in one gamemode overrides the option in other gamemodes if they're referencing the same values
 
 
 
@@ -44,9 +48,9 @@ Investigating:
 
 
 BUGS:
-- [ ] Serial Killer in FFA/Color wars cannot kill twice
+- [x] ~~Serial Killer in FFA/Color wars cannot kill twice~~
 - [ ] Player turning into ghost instead of dying in Color wars
-- [ ] Custom win screen not working when host wins (otherwise works great)
+- [ ] ~~Custom win screen not working when host wins (otherwise works great)~~
 - [ ] Issue with settings menu? Sometimes?
 - [ ] Discussions randomly dying in a vent? (skill issue?) (probably ping)
 - [ ] Black screen when connecting to lobby (good chance just an AU issue)

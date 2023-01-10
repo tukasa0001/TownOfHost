@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Reflection;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
-using TownOfHost.Gamemodes;
 using TownOfHost.Roles;
 
 namespace TownOfHost.Addons;
 
 public abstract class TOHAddon
 {
-    internal List<CustomRole> CustomRoles = new();
-    internal List<Faction> Factions = new();
-    internal List<IGamemode> Gamemodes = new();
+    internal readonly List<CustomRole> CustomRoles = new();
+    internal readonly List<Faction> Factions = new();
+    internal readonly List<Type> Gamemodes = new();
 
     internal Assembly bundledAssembly = Assembly.GetCallingAssembly();
     internal ulong UUID;
@@ -34,7 +33,7 @@ public abstract class TOHAddon
 
     public void RegisterRole(CustomRole customRole) => CustomRoles.Add(customRole);
 
-    public void RegisterGamemode(IGamemode gamemode) => Gamemodes.Add(gamemode);
+    public void RegisterGamemode(Type gamemode) => Gamemodes.Add(gamemode);
 
     public void RegisterFaction(Faction faction) => Factions.Add(faction);
 

@@ -5,6 +5,7 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Gamemodes;
 using TownOfHost.Interface.Menus;
+using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
 

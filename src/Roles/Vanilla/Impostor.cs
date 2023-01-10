@@ -14,7 +14,7 @@ public class Impostor : CustomRole
     protected bool canKill = true;
     public float KillCooldown
     {
-        protected set => _killCooldown = value;
+        set => _killCooldown = value;
         get => _killCooldown ?? DesyncOptions.OriginalHostOptions?.AsNormalOptions()?.GetFloat(FloatOptionNames.KillCooldown) ?? 60f;
     }
     private float? _killCooldown;

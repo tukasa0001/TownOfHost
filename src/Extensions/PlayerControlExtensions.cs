@@ -13,13 +13,15 @@ using TownOfHost.ReduxOptions;
 using UnityEngine;
 using static TownOfHost.Translator;
 using TownOfHost.Roles;
-using TownOfHost.RPC;
 using VentFramework;
 
 namespace TownOfHost.Extensions;
 
 public static class PlayerControlExtensions
 {
+    public static bool IsHost(this PlayerControl player) =>
+        AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.PlayerId == player.PlayerId;
+
     public static void RpcSetCustomRole(this PlayerControl player, CustomRole role)
     {
         player.GetPlayerPlus().DynamicName = DynamicName.For(player);
@@ -138,7 +140,6 @@ public static class PlayerControlExtensions
 
     public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
     {
-        killer.GetCustomRole().SyncOptions();
         if (target == null) target = killer;
         // Host
         if (killer.AmOwner)
@@ -191,6 +192,7 @@ public static class PlayerControlExtensions
             AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
         }
     }
+
 
     public static void RpcResetAbilityCooldown(this PlayerControl target)
     {
@@ -314,26 +316,8 @@ public static class PlayerControlExtensions
     {
         return isMeeting ? player?.Data?.PlayerName : player?.name;
     }
-    public static bool CanUseKillButton(this PlayerControl pc)
-    {
-        return pc.GetCustomRole() is Impostor i && i.CanKill();
-        /*return pc.GetCustomRole() switch
-        {
-            FireWorks f => f.CanKill(),
-            Mafia m => ((Impostor)m).CanKill(),
-            Mare m => m.CanKill(),
-            Sheriff s => s.DesyncRole is RoleTypes.Impostor,
-            Egoist or Jackal => true,
-            _ => pc.Is(RoleType.Impostor),
-        };*/
-    }
 
-    public static void ResetKillCooldown(this PlayerControl player)
-    {
-        TOHPlugin.AllPlayerKillCooldown[player.PlayerId] = 0;
-        Logger.Warn("ResetKillCooldown not implemented yet", "RKC");
-        //throw new NotImplementedException("haha");
-    }
+    public static bool CanUseKillButton(this PlayerControl pc) => pc.GetCustomRole() is Impostor i && i.CanKill();
 
     public static void CanUseImpostorVent(this PlayerControl player)
     {
@@ -417,13 +401,10 @@ public static class PlayerControlExtensions
     {
         if (target == null) target = killer;
         if (AmongUsClient.Instance.AmClient)
-        {
             killer.MurderPlayer(target);
-        }
         MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.None, -1);
         messageWriter.WriteNetObject(target);
         AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
-        Utils.NotifyRoles();
     }
     public static void NoCheckStartMeeting(this PlayerControl reporter, GameData.PlayerInfo target)
     { /*サボタージュ中でも関係なしに会議を起こせるメソッド

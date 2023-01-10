@@ -3,6 +3,7 @@ using System.Linq;
 using HarmonyLib;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Extensions;
+using TownOfHost.Gamemodes;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
 
@@ -20,7 +21,7 @@ public class ReportDeadBodyPatch
             if (TOHPlugin.unreportableBodies.Contains(target.PlayerId)) return false;
         Logger.Info($"{__instance.GetNameWithRole()} => {target?.Object?.GetNameWithRole() ?? "null"}", "ReportDeadBody");
         if (StaticOptions.IsStandardHAS && target != null && __instance == target.Object) return true; //[StandardHAS] ボタンでなく、通報者と死体が同じなら許可
-        if (OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek || StaticOptions.IsStandardHAS) return false;
+        if (Game.CurrentGamemode.IgnoredActions().HasFlag(GameAction.ReportBody)) return false;
         if (!CanReport[__instance.PlayerId])
         {
             WaitReport[__instance.PlayerId].Add(target);
@@ -35,9 +36,6 @@ public class ReportDeadBodyPatch
         Game.TriggerForAll(RoleActionType.AnyReportedBody, ref handle, __instance, target);
         if (handle.IsCanceled) return false;
 
-        if (target == null) //ボタン
-            if (__instance.Is(CustomRoles.Mayor))
-                TOHPlugin.MayorUsedButtonCount[__instance.PlayerId] += 1;
 
         if (!StaticOptions.SyncButtonMode || target != null) return true;
 

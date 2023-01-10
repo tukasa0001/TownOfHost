@@ -7,6 +7,7 @@ using Reactor.Utilities.Extensions;
 using TownOfHost.Extensions;
 using TownOfHost.Interface.Menus;
 using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
 using Object = UnityEngine.Object;

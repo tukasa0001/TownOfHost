@@ -24,7 +24,7 @@ public class Camouflager: Morphling
     {
         if (camouflaged) return;
         camouflaged = true;
-        Game.GetAlivePlayers().Where(p => p.PlayerId != MyPlayer.PlayerId).Do(p => p.RpcShapeshiftV2(target, true));
+        Game.GetAlivePlayers().Where(p => p.PlayerId != MyPlayer.PlayerId).Do(p => p.CRpcShapeshift(target, true));
     }
 
     [RoleAction(RoleActionType.Unshapeshift)]
@@ -32,7 +32,7 @@ public class Camouflager: Morphling
     {
         if (!camouflaged) return;
         camouflaged = false;
-        Game.GetAlivePlayers().Where(p => p.PlayerId != MyPlayer.PlayerId).Do(p => p.RpcRevertShapeshiftV2(true));
+        Game.GetAlivePlayers().Where(p => p.PlayerId != MyPlayer.PlayerId).Do(p => p.CRpcRevertShapeshift(true));
     }
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>

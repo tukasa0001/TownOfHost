@@ -7,6 +7,7 @@ using Reactor.Networking;
 using Reactor.Utilities.Extensions;
 using TownOfHost.Extensions;
 using TownOfHost.Interface.Menus;
+using TownOfHost.Options;
 using UnityEngine;
 using VentFramework;
 using Object = UnityEngine.Object;
@@ -18,9 +19,9 @@ public class OptionHolder: IRpcSendable<OptionHolder>
     public string Name;
     public StringOption Behaviour;
     public Color? color;
-    public GameOptionTab Tab { get => _tab;
+    public GameOptionTab Tab { get => tab;
         set {
-            _tab = value;
+            tab = value;
             value?.AddHolder(this);
         }
     }
@@ -33,7 +34,7 @@ public class OptionHolder: IRpcSendable<OptionHolder>
     public int Level;
     public bool Pseudo { get; private init; }
 
-    private GameOptionTab _tab;
+    private GameOptionTab tab;
     private readonly OptionValueHolder _valueHolder;
     private readonly List<OptionHolder> _subOptions = new();
     private readonly Func<object, bool> _showOptionPredicate;

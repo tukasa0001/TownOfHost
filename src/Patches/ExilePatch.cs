@@ -93,8 +93,6 @@ namespace TownOfHost
                 if (OldOptions.MayorHasPortableButton.GetBool() && pc.Is(CustomRoles.Mayor))
                     pc.RpcResetAbilityCooldown();
                 if (!pc.Is(CustomRoles.Warlock)) continue;
-                TOHPlugin.CursedPlayers[pc.PlayerId] = null;
-                TOHPlugin.isCurseAndKill[pc.PlayerId] = false;
             }
             if (StaticOptions.RandomSpawn)
             {
@@ -116,9 +114,6 @@ namespace TownOfHost
                 }
             }
             FallFromLadder.Reset();
-            Utils.CountAliveImpostors();
-            Utils.MarkEveryoneDirtySettings();
-            Utils.NotifyRoles();
         }
 
         static void WrapUpFinalizer(GameData.PlayerInfo exiled)

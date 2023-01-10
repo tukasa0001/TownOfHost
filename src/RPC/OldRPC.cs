@@ -125,20 +125,10 @@ namespace TownOfHost
                 case CustomRPCOLD.EndGame:
                     OldRPC.EndGame(reader);
                     break;
-                case CustomRPCOLD.PlaySound:
-                    byte playerID = reader.ReadByte();
-                    Sounds sound = (Sounds)reader.ReadByte();
-                    OldRPC.PlaySound(playerID, sound);
-                    break;
                 case CustomRPCOLD.SetCustomRole:
                     byte CustomRoleTargetId = reader.ReadByte();
                     CustomRole role = CustomRoleManager.GetRoleFromId(reader.ReadPackedInt32());
                     OldRPC.SetCustomRole(CustomRoleTargetId, role);
-                    break;
-                case CustomRPCOLD.SetRealKiller:
-                    byte targetId = reader.ReadByte();
-                    byte killerId = reader.ReadByte();
-                    OldRPC.SetRealKiller(targetId, killerId);
                     break;
             }
         }
@@ -155,15 +145,6 @@ namespace TownOfHost
                 //すべてのカスタムオプションについてインデックス値で送信
                 writer.Write(co.GetValue());
             }
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
-        public static void PlaySoundRPC(byte PlayerID, Sounds sound)
-        {
-            if (AmongUsClient.Instance.AmHost)
-                OldRPC.PlaySound(PlayerID, sound);
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.PlaySound, Hazel.SendOption.Reliable, -1);
-            writer.Write(PlayerID);
-            writer.Write((byte)sound);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void ExileAsync(PlayerControl player)
@@ -258,18 +239,6 @@ namespace TownOfHost
             else if ((rpcName = Enum.GetName(typeof(CustomRPCOLD), callId)) != null) { }
             else rpcName = callId.ToString();
             return rpcName;
-        }
-        public static void SetRealKiller(byte targetId, byte killerId)
-        {
-            var state = TOHPlugin.PlayerStates[targetId];
-            state.RealKiller.Item1 = DateTime.Now;
-            state.RealKiller.Item2 = killerId;
-
-            if (!AmongUsClient.Instance.AmHost) return;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.SetRealKiller, Hazel.SendOption.Reliable, -1);
-            writer.Write(targetId);
-            writer.Write(killerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
     }
     [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpc))]

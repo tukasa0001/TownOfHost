@@ -5,6 +5,8 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
+using TownOfHost.RPC;
+
 // ReSharper disable ConvertIfStatementToSwitchStatement
 
 namespace TownOfHost.Victory;
@@ -15,22 +17,24 @@ public static class VictoryScreen
     {
         bool impostorsWin = IsImpostorsWin(reason);
 
-        List<PlayerControl> allPlayers = Game.GetAllPlayers().ToList();
+        List<PlayerControl> losers = Game.GetAllPlayers().ToList();
 
         winners.Do(winner =>
         {
-            if (impostorsWin && !winner.Data.Role.IsImpostor) winner.RpcSetRole(RoleTypes.ImpostorGhost);
-            if (!impostorsWin && winner.Data.Role.IsImpostor) winner.RpcSetRole(RoleTypes.CrewmateGhost);
-            allPlayers.RemoveAll(p => p.PlayerId == winner.PlayerId);
+            if (impostorsWin && !winner.Data.Role.IsImpostor) winner.CRpcSetRole(RoleTypes.ImpostorGhost);
+            if (!impostorsWin && winner.Data.Role.IsImpostor) winner.CRpcSetRole(RoleTypes.CrewmateGhost);
+            losers.RemoveAll(p => p.PlayerId == winner.PlayerId);
         });
 
-        allPlayers.Do(loser =>
+        if (winners.Any(p => p.IsHost())) winners.Do(p => p.SetRole(impostorsWin ? RoleTypes.ImpostorGhost : RoleTypes.CrewmateGhost));
+
+        losers.Do(loser =>
         {
-            if (impostorsWin && loser.Data.Role.IsImpostor) loser.RpcSetRole(RoleTypes.CrewmateGhost);
-            if (!impostorsWin && !loser.Data.Role.IsImpostor) loser.RpcSetRole(RoleTypes.ImpostorGhost);
+            if (impostorsWin && loser.Data.Role.IsImpostor) loser.CRpcSetRole(RoleTypes.CrewmateGhost);
+            if (!impostorsWin && !loser.Data.Role.IsImpostor) loser.CRpcSetRole(RoleTypes.ImpostorGhost);
         });
 
-        allPlayers.Select(p => p.GetRawName()).PrettyString().DebugLog("LOSERRS HAHAHAHAHAHHAHAHAH: ");
+        if (winners.Any(p => p.IsHost())) losers.Do(p => p.SetRole(impostorsWin ? RoleTypes.CrewmateGhost : RoleTypes.ImpostorGhost));
     }
 
     private static bool IsImpostorsWin(GameOverReason reason)

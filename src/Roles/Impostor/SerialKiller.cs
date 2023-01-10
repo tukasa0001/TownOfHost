@@ -1,3 +1,4 @@
+using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Interface;
 using TownOfHost.Interface.Menus.CustomNameMenu;
@@ -11,24 +12,30 @@ public class SerialKiller : Impostor
 {
     private bool paused = true;
     // TODO: move to shapeshift button or possible hns meter
-    private Cooldown deathTimer;
+    public Cooldown DeathTimer;
     private float killCooldown;
+    private HideAndSeekTimerBar timerBar;
 
     [DynElement(UI.Counter)]
-    private string CustomCooldown() => deathTimer.ToString() == "0" ? "" : Color.white.Colorize(deathTimer + "s");
+    private string CustomCooldown() => DeathTimer.IsReady() ? "" : Color.white.Colorize(DeathTimer + "s");
+
+    protected override void Setup(PlayerControl player)
+    {
+        base.Setup(player);
+    }
 
     [RoleAction(RoleActionType.AttemptKill)]
     public new bool TryKill(PlayerControl target)
     {
         bool success = base.TryKill(target);
-        if (success) deathTimer.Start();
+        if (success) DeathTimer.Start();
         return success;
     }
 
     [RoleAction(RoleActionType.FixedUpdate)]
     private void CheckForSuicide()
     {
-        if (!paused && deathTimer.IsReady() && !MyPlayer.Data.IsDead)
+        if (!paused && DeathTimer.IsReady() && !MyPlayer.Data.IsDead)
             MyPlayer.RpcMurderPlayer(MyPlayer);
     }
 
@@ -36,7 +43,7 @@ public class SerialKiller : Impostor
     private void SetupSuicideTimer()
     {
         paused = false;
-        deathTimer.Start();
+        DeathTimer.Start();
     }
 
     [RoleAction(RoleActionType.RoundEnd)]
@@ -51,7 +58,7 @@ public class SerialKiller : Impostor
                 .Build())
             .AddSubOption(sub => sub
                 .Name("Time Until Suicide")
-                .Bind(v => deathTimer.Duration = (float)v)
+                .Bind(v => DeathTimer.Duration = (float)v)
                 .AddFloatRangeValues(5, 120, 2.5f, 30, "s")
                 .Build());
 

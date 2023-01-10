@@ -12,7 +12,7 @@ public static class FixedUpdatePatch
     public static void Postfix(PlayerControl __instance)
     {
         DisplayModVersion(__instance);
-        if (!AmongUsClient.Instance.AmHost) return;
+        if (!AmongUsClient.Instance.AmHost || Game.State is not GameState.Roaming) return;
 
         var player = __instance;
         ActionHandle handle = null;
@@ -20,19 +20,10 @@ public static class FixedUpdatePatch
         Game.RenderAllForAll(state: GameState.Roaming);
         Game.TriggerForAll(RoleActionType.FixedUpdate, ref handle);
 
-
         if (Game.State is not GameState.Roaming) return; //実行クライアントがホストの場合のみ実行
 
-        if (ReportDeadBodyPatch.CanReport[__instance.PlayerId] && ReportDeadBodyPatch.WaitReport[__instance.PlayerId].Count > 0)
-        {
-            var info = ReportDeadBodyPatch.WaitReport[__instance.PlayerId][0];
-            ReportDeadBodyPatch.WaitReport[__instance.PlayerId].Clear();
-            Logger.Info($"{__instance.GetNameWithRole()}:通報可能になったため通報処理を行います", "ReportDeadbody");
-            __instance.ReportDeadBody(info);
-        }
-
         if (player.IsAlive() && StaticOptions.LadderDeath) FallFromLadder.FixedUpdate(player);
-        if (player == PlayerControl.LocalPlayer) DisableDevice.FixedUpdate();
+        if (player.PlayerId == PlayerControl.LocalPlayer.PlayerId) DisableDevice.FixedUpdate();
     }
 
     private static void DisplayModVersion(PlayerControl player)

@@ -26,8 +26,6 @@ public class HookHelper
     {
         Type[] parameters = executingMethod.GetParameters().Select(p => p.ParameterType).ToArray();
 
-        System.Console.WriteLine("Calling Convention: " + executingMethod.CallingConvention);
-        System.Console.WriteLine("Method Attributes: " + executingMethod.Attributes);
         DynamicMethod m = new(
             executingMethod.Name,
             executingMethod.ReturnType,
@@ -82,7 +80,6 @@ public class HookHelper
 }
 
 
-
 public class DetouredSender
 {
     private int uuid = UnityEngine.Random.RandomRangeInt(0, 999999);
@@ -107,7 +104,8 @@ public class DetouredSender
             return;
 
         string senderString = AmongUsClient.Instance.AmHost ? "Host" : "NonHost";
-        TownOfHost.Logger.Msg($"Sending RPC ({callId}) as {senderString} | ({this.senders} | {args.PrettyString()} | {localSendCount}::{uuid}::{HookHelper.globalSendCount}", "DetouredSender");
+
+        TownOfHost.Logger.Msg($"Sending RPC ({callId}) as {senderString} | ({this.senders} | {args} | {localSendCount}::{uuid}::{HookHelper.globalSendCount}", "DetouredSender");
         localSendCount++;
         HookHelper.globalSendCount++;
         RpcV2 v2 = RpcV2.Immediate(PlayerControl.LocalPlayer.NetId, 203).WritePacked(callId).RequireHost(false);

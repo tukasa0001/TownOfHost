@@ -41,7 +41,7 @@ public class Consort: Morphling
     {
         if (!blocking) return;
         blocking = false;
-        MyPlayer.RpcShapeshiftV2(MyPlayer, false);
+        MyPlayer.CRpcShapeshift(MyPlayer, false);
     }
 
     [RoleAction(RoleActionType.Unshapeshift)]

@@ -70,13 +70,7 @@ public abstract class AbstractBaseRole
         try { Modify(new RoleModifier(this)); } catch { }
         this.roleSpecificGameOptionOverrides.Clear();
 
-        SmartOptionBuilder b = RoleOptionsBuilder.Color(RoleColor).Bind(val => this.Chance = (int)val)
-            .AddSubOption(s => s.Name("Maximum")
-                .AddValues(1..15)
-                .Bind(val => this.Count = (int)val)
-                .Build());
-
-        OptionHolder options = RegisterOptions(b).Build();
+        OptionHolder options = GetOptionBuilder().Build();
         if (options.Name != null || options.GetAsString() != "N/A")
         {
             TOHPlugin.OptionManager.Add(options);
@@ -238,7 +232,18 @@ public abstract class AbstractBaseRole
     /// <returns>Provided <b>OR</b> new RoleFactory</returns>
     protected abstract RoleModifier Modify(RoleModifier roleModifier);
 
-    // TODO: eventually make abstract
+
+    public SmartOptionBuilder GetOptionBuilder()
+    {
+        SmartOptionBuilder b = RoleOptionsBuilder.Color(RoleColor).Bind(val => this.Chance = (int)val)
+            .AddSubOption(s => s.Name("Maximum")
+                .AddValues(1..15)
+                .Bind(val => this.Count = (int)val)
+                .Build());
+
+        return RegisterOptions(b);
+    }
+
     protected abstract SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream);
 
 

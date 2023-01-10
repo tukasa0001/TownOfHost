@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
+using TownOfHost.Gamemodes;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
 
@@ -22,7 +23,7 @@ public static class SabotagePatch
         switch (systemType)
         {
             case SystemTypes.Sabotage:
-                if (!Game.CurrentGamemode.AllowSabotage()) return false;
+                if (Game.CurrentGamemode.IgnoredActions().HasFlag(GameAction.CallSabotage)) return false;
                 if (player.GetCustomRole() is Impostor impostor && !impostor.CanSabotage()) return false;
                 SabotageType sabotage = (SystemTypes)amount switch
                 {

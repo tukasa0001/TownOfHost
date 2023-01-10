@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Linq;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace TownOfHost.Interface.Menus;
+namespace TownOfHost.Options;
 
 public class GameOptionTab: IComparable<GameOptionTab>
 {
@@ -17,8 +17,6 @@ public class GameOptionTab: IComparable<GameOptionTab>
     private List<OptionHolder> options = new();
 
     private string assetPath;
-    // Used for possible future tab sorting
-    private Assembly originatingAssembly = Assembly.GetCallingAssembly();
 
     public List<OptionHolder> GetHolders() => this.options;
 
@@ -44,7 +42,8 @@ public class GameOptionTab: IComparable<GameOptionTab>
 
     public void AddHolder(OptionHolder holder)
     {
-        this.options.Add(holder);
+        if (this.options.All(h => h.Name != holder.Name))
+            this.options.Add(holder);
     }
 
     public int CompareTo(GameOptionTab other)

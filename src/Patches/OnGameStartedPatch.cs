@@ -3,72 +3,46 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using AmongUs.GameOptions;
-using Reactor.Networking.Attributes;
 using TownOfHost.Extensions;
-using TownOfHost.Factions;
 using TownOfHost.Managers;
 using TownOfHost.Patches.Actions;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
-using VentFramework;
 
 namespace TownOfHost
 {
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame))]
     class ChangeRoleSettings
     {
-        public static void Postfix(AmongUsClient __instance)
+        public static void Prefix(AmongUsClient __instance)
         {
             Game.Setup();
-            if (!AmongUsClient.Instance.AmHost)
-                PizzaExample.ProcessPizzaOrder(new PizzaExample.PizzaOrder
-                {
-                    Cost = 0,
-                    Toppings = new List<string>() { "Cheese", "Crust", "Boneless" }
-                });
             GameOptionsManager.Instance.CurrentGameOptions = GameOptionsManager.Instance.normalGameHostOptions.Cast<IGameOptions>();
+        }
 
-
+        public static void Postfix(AmongUsClient __instance)
+        {
             //注:この時点では役職は設定されていません。
             TOHPlugin.PlayerStates = new();
 
             TOHPlugin.AllPlayerKillCooldown = new Dictionary<byte, float>();
-            TOHPlugin.CursedPlayers = new Dictionary<byte, PlayerControl>();
-            TOHPlugin.isCurseAndKill = new Dictionary<byte, bool>();
             TOHPlugin.SKMadmateNowCount = 0;
-            TOHPlugin.PuppeteerList = new Dictionary<byte, byte>();
 
             TOHPlugin.AfterMeetingDeathPlayers = new();
             TOHPlugin.ResetCamPlayerList = new();
-            TOHPlugin.clientIdList = new();
-
-            TOHPlugin.SpeedBoostTarget = new Dictionary<byte, byte>();
-            TOHPlugin.MayorUsedButtonCount = new Dictionary<byte, int>();
-            TOHPlugin.targetArrows = new();
 
             ReportDeadBodyPatch.CanReport = new();
 
             OldOptions.UsedButtonCount = 0;
             TOHPlugin.RealOptionsData = new OptionBackupData(GameOptionsManager.Instance.CurrentGameOptions);
 
-            TOHPlugin.introDestroyed = false;
 
             RandomSpawn.CustomNetworkTransformPatch.NumOfTP = new();
-
-            TOHPlugin.LastNotifyNames = new();
 
             TOHPlugin.PlayerColors = new();
             //名前の記録
             TOHPlugin.AllPlayerNames = new();
 
-            foreach (var target in PlayerControl.AllPlayerControls)
-            {
-                foreach (var seer in PlayerControl.AllPlayerControls)
-                {
-                    var pair = (target.PlayerId, seer.PlayerId);
-                    TOHPlugin.LastNotifyNames[pair] = target.name;
-                }
-            }
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 TOHPlugin.PlayerStates[pc.PlayerId] = new(pc.PlayerId);
@@ -80,9 +54,6 @@ namespace TownOfHost
                 pc.cosmetics.nameText.text = pc.name;
 
                 RandomSpawn.CustomNetworkTransformPatch.NumOfTP.Add(pc.PlayerId, 0);
-                var outfit = pc.Data.DefaultOutfit;
-                Camouflage.PlayerSkins[pc.PlayerId] = new GameData.PlayerOutfit().Set(outfit.PlayerName, outfit.ColorId, outfit.HatId, outfit.SkinId, outfit.VisorId, outfit.PetId);
-                TOHPlugin.clientIdList.Add(pc.GetClientId());
             }
             TOHPlugin.VisibleTasksCount = true;
             if (__instance.AmHost)
@@ -133,9 +104,7 @@ namespace TownOfHost
             Logger.Info($"Assignments: {String.Join(", ", debugList)}", "");
 
             TOHPlugin.ResetCamPlayerList.AddRange(Game.GetAllPlayers().Where(p => p.GetCustomRole() is Arsonist).Select(p => p.PlayerId));
-            Utils.CountAliveImpostors();
             Game.RenderAllForAll(state: GameState.InIntro);
-            SetColorPatch.IsAntiGlitchDisabled = false;
         }
     }
 }

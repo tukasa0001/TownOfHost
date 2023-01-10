@@ -79,17 +79,6 @@ namespace TownOfHost
                     if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(GetString("Message.AnnounceUsingTOH"), TOHPlugin.PluginVersion + (TOHPlugin.DevVersion ? " " + TOHPlugin.DevVersionStr : "")), client.Character.PlayerId);
                     TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
                 }, 3f, "Welcome Message");
-                if (StaticOptions.AutoDisplayLastResult && TOHPlugin.PlayerStates.Count != 0 && TOHPlugin.clientIdList.Contains(client.Id))
-                {
-                    new DTask(() =>
-                    {
-                        if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
-                        {
-                            TOHPlugin.isChatCommand = true;
-                            Utils.ShowLastResult(client.Character.PlayerId);
-                        }
-                    }, 3f, "DisplayLastRoles");
-                }
             }
         }
     }

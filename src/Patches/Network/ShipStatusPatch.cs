@@ -26,22 +26,8 @@ namespace TownOfHost
 
             else if (!float.IsNaN(TOHPlugin.RefixCooldownDelay))
             {
-                Utils.MarkEveryoneDirtySettings();
                 TOHPlugin.RefixCooldownDelay = float.NaN;
                 Logger.Info("Refix Cooldown", "CoolDown");
-            }
-            if ((OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek || StaticOptions.IsStandardHAS) && TOHPlugin.introDestroyed)
-            {
-                if (OldOptions.HideAndSeekKillDelayTimer > 0)
-                {
-                    OldOptions.HideAndSeekKillDelayTimer -= Time.fixedDeltaTime;
-                }
-                else if (!float.IsNaN(OldOptions.HideAndSeekKillDelayTimer))
-                {
-                    Utils.MarkEveryoneDirtySettings();
-                    OldOptions.HideAndSeekKillDelayTimer = float.NaN;
-                    Logger.Info("キル能力解禁", "HideAndSeek");
-                }
             }
         }
     }
@@ -87,11 +73,6 @@ namespace TownOfHost
                 return false;
             return true;
         }
-        public static void Postfix(ShipStatus __instance)
-        {
-            Utils.MarkEveryoneDirtySettings();
-            Camouflage.CheckCamouflage();
-        }
         public static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max)
         {
             var Ids = new List<int>();
@@ -133,8 +114,6 @@ namespace TownOfHost
         {
             Logger.CurrentMethod();
             Logger.Info("-----------ゲーム開始-----------", "Phase");
-
-            Utils.CountAliveImpostors();
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.StartMeeting))]

@@ -49,7 +49,6 @@ namespace TownOfHost
             //ゲーム中でなければ以下は実行されない
             if (!AmongUsClient.Instance.IsGameStarted) return;
 
-            Utils.CountAliveImpostors();
 
             if (SetHudActivePatch.IsActive)
             {//MOD入り用のボタン下テキスト変更

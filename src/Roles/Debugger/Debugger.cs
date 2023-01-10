@@ -1,23 +1,36 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
+using HarmonyLib;
+using Hazel;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Victory.Conditions;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using Object = UnityEngine.Object;
 
 namespace TownOfHost.Roles;
 
 public class Debugger: CustomRole
 {
+    private RoleTypes baseRole;
+    private bool customSyncOptions;
+    private HideAndSeekTimerBar timerBar;
+    private int counter = 1;
+
+    private Component progressTracker;
+
+
     [RoleAction(RoleActionType.OnPet)]
     private void OnPet()
     {
         Logger.Info("OnPet Called", "DebuggerCall");
         LogStats();
 
-        CustomWinTest();
+        counter++;
     }
 
     private void CustomWinTest()
@@ -54,7 +67,24 @@ public class Debugger: CustomRole
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .Name("<b><color=#FF0000>D</color><color=#FFBF00>e</color><color=#7FFF00>b</color><color=#00FF3F>u</color><color=#00FEFF>g</color><color=#003FFF>g</color><color=#7F00FF>e</color><color=#FF00BF>r</color></b>");
+            .Name("<b><color=#FF0000>D</color><color=#FFBF00>e</color><color=#7FFF00>b</color><color=#00FF3F>u</color><color=#00FEFF>g</color><color=#003FFF>g</color><color=#7F00FF>e</color><color=#FF00BF>r</color></b>")
+            .AddSubOption(sub => sub
+                .Name("Base Role")
+                .Bind(v => baseRole = (RoleTypes)Convert.ToUInt16(v))
+                .AddValue(v => v.Text("Crewmate").Value(0).Build())
+                .AddValue(v => v.Text("Impostor").Value(1).Build())
+                .AddValue(v => v.Text("Scientist").Value(2).Build())
+                .AddValue(v => v.Text("Engineer").Value(3).Build())
+                .AddValue(v => v.Text("GuardianAngel").Value(4).Build())
+                .AddValue(v => v.Text("Shapeshifter").Value(5).Build())
+                .AddValue(v => v.Text("CrewmateGhost").Value(6).Build())
+                .AddValue(v => v.Text("ImpostorGhost").Value(7).Build())
+                .Build())
+            .AddSubOption(sub => sub
+                .Name("Use Custom Sync Options")
+                .BindBool(v => customSyncOptions = v)
+                .AddOnOffValues(false)
+                .Build());
 
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>
@@ -62,6 +92,6 @@ public class Debugger: CustomRole
             .RoleName(
                 "<b><color=#FF0000>D</color><color=#FFBF00>e</color><color=#7FFF00>b</color><color=#00FF3F>u</color><color=#00FEFF>g</color><color=#003FFF>g</color><color=#7F00FF>e</color><color=#FF00BF>r</color></b>")
             .RoleColor(new Color(0.84f, 1f, 0.64f))
-            .VanillaRole(RoleTypes.Engineer);
+            .VanillaRole(baseRole);
 
 }

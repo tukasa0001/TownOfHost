@@ -27,7 +27,6 @@ public class CheckEndGamePatch2
 
         List<PlayerControl> winners = winDelegate.GetWinners();
         bool impostorsWon = winners.Count == 0 || winners[0].Data.Role.IsImpostor;
-        impostorsWon.DebugLog("Impostors Won?????????????????? ");
 
         GameOverReason reason = winDelegate.GetWinReason() switch
         {
@@ -43,10 +42,8 @@ public class CheckEndGamePatch2
 
         VictoryScreen.ShowWinners(winDelegate.GetWinners(), reason);
 
-        reason.DebugLog("REASON!!!!!?????? ");
-
         deferred = true;
-        DTask.Schedule(() => DelayedWin(reason), 2f);
+        DTask.Schedule(() => DelayedWin(reason), GameStats.DeriveDelay());
 
         return false;
     }
@@ -54,6 +51,8 @@ public class CheckEndGamePatch2
     private static void DelayedWin(GameOverReason reason)
     {
         deferred = false;
+        Logger.Info("Sending Game Over", "DelayedWin");
         GameManager.Instance.RpcEndGame(reason, false);
+        DTask.Schedule(() => GameManager.Instance.EndGame(), 0.1f);
     }
 }

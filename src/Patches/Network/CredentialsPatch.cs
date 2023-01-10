@@ -89,7 +89,6 @@ class ModManagerLateUpdatePatch
         __instance.ShowModStamp();
 
         DTask.Update(Time.deltaTime);
-        MurderPatches.CheckMurderPatch.Update();
     }
     public static void Postfix(ModManager __instance)
     {

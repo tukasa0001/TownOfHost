@@ -43,7 +43,7 @@ public class AddonManager
 
             addon.Factions.Do(f => FactionConstraintValidator.ValidateAndAdd(f, file.Name));
             CustomRoleManager.AllRoles.AddRange(addon.CustomRoles);
-            TOHPlugin.GamemodeManager.Gamemodes.AddRange(addon.Gamemodes);
+            TOHPlugin.GamemodeManager.GamemodeTypes.AddRange(addon.Gamemodes);
         }
         catch (Exception e)
         {

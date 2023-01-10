@@ -67,7 +67,7 @@ public class TOHPlugin : BasePlugin
     public const string PluginGuid = "com.discussions.tohtor";
     public const string PluginVersion = "0.9.4";
     public static readonly string DevVersionStr = "dev 1";
-    public Harmony Harmony { get; } = new Harmony(PluginGuid);
+    public Harmony Harmony { get; } = new(PluginGuid);
     public static Version version = Version.Parse(PluginVersion);
     public static BepInEx.Logging.ManualLogSource Logger;
 
@@ -91,7 +91,6 @@ public class TOHPlugin : BasePlugin
     public static OptionBackupData RealOptionsData;
     public static Dictionary<byte, PlayerStateOLD> PlayerStates = new();
     public static Dictionary<byte, string> AllPlayerNames;
-    public static Dictionary<(byte, byte), string> LastNotifyNames;
     public static Dictionary<byte, Color32> PlayerColors = new();
     public static Dictionary<byte, PlayerStateOLD.DeathReason> AfterMeetingDeathPlayers = new();
     public static Dictionary<CustomRoles, String> roleColors;
@@ -107,29 +106,15 @@ public class TOHPlugin : BasePlugin
 
     public static float RefixCooldownDelay = 0f;
     public static List<byte> ResetCamPlayerList;
-    public static List<byte> winnerList;
-    public static List<int> clientIdList;
     public static List<(string, byte, string)> MessagesToSend;
     public static bool isChatCommand = false;
     public static Dictionary<byte, float> AllPlayerKillCooldown = new();
 
     /// <summary>
-    /// 基本的に速度の代入は禁止.スピードは増減で対応してください.
-    /// </summary>
-    public const float MinSpeed = 0.0001f;
-    public static Dictionary<byte, PlayerControl> CursedPlayers = new();
-    public static Dictionary<byte, bool> isCurseAndKill = new();
-    /// <summary>
     /// Key: ターゲットのPlayerId, Value: パペッティアのPlayerId
     /// </summary>
-    public static Dictionary<byte, byte> PuppeteerList = new();
-    public static Dictionary<byte, byte> SpeedBoostTarget = new();
-    public static Dictionary<byte, int> MayorUsedButtonCount = new();
-    public static int AliveImpostorCount;
     public static int SKMadmateNowCount;
-    public static Dictionary<(byte, byte), string> targetArrows = new();
     public static bool VisibleTasksCount;
-    public static bool introDestroyed = false;
 
 
     public static GamemodeManager GamemodeManager;
@@ -168,9 +153,6 @@ public class TOHPlugin : BasePlugin
         // 認証関連-認証
         DebugModeManager.Auth(DebugKeyAuth, DebugKeyInput.Value);
 
-        CursedPlayers = new Dictionary<byte, PlayerControl>();
-        MayorUsedButtonCount = new Dictionary<byte, int>();
-        winnerList = new();
         VisibleTasksCount = false;
         MessagesToSend = new List<(string, byte, string)>();
 
