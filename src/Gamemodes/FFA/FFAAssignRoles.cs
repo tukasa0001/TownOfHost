@@ -5,7 +5,7 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
-using VentFramework;
+using VentLib;
 
 namespace TownOfHost.Gamemodes.FFA;
 

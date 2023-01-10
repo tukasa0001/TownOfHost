@@ -4,6 +4,7 @@ using TownOfHost.Interface;
 using TownOfHost.Interface.Menus.CustomNameMenu;
 using TownOfHost.Managers;
 using System.Collections.Generic;
+using TownOfHost.Player;
 
 namespace TownOfHost.Roles;
 

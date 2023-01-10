@@ -7,10 +7,9 @@ using System.Reflection;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
-using TownOfHost.Gamemodes;
 using TownOfHost.Roles;
 using TownOfHost.RPC;
-using VentFramework;
+using VentLib;
 
 namespace TownOfHost.Addons;
 
@@ -37,6 +36,7 @@ public class AddonManager
                 throw new ConstraintException("TownOfHost Addons requires ONE class file that extends TOHAddon");
             TOHAddon addon = (TOHAddon)tohType.GetConstructor(new Type[] { })!.Invoke(null);
             Logger.Color($"Loading Addon [{addon.AddonName()} {addon.AddonVersion()}]", "AddonManager", ConsoleColor.Magenta);
+            VentFramework.Register(assembly);
             Addons.Add(addon);
             MethodInfo initialize = tohType.GetMethod("Initialize");
             initialize!.Invoke(addon, null);
@@ -55,14 +55,17 @@ public class AddonManager
     public static void VerifyClientAddons(List<AddonInfo> addons)
     {
         List<AddonInfo> hostInfo = Addons.Select(AddonInfo.From).ToList();
+        int[] senderId = { VentFramework.GetLastSender((uint)ModCalls.VerifyAddons)?.GetClientId() ?? 999 };
 
-        List<AddonInfo> mismatchInfo = hostInfo.Select(hostAddon =>
+        List<AddonInfo> mismatchInfo = Addons.Select(hostAddon =>
         {
-            AddonInfo matchingAddon = addons.FirstOrDefault(a => a == hostAddon);
+            AddonInfo haInfo = AddonInfo.From(hostAddon);
+            AddonInfo matchingAddon = addons.FirstOrDefault(a => a == haInfo);
             if (matchingAddon == null)
             {
-                hostAddon.Mismatches = Mismatch.ClientMissingAddon;
-                return hostAddon;
+                haInfo.Mismatches = Mismatch.ClientMissingAddon;
+                VentFramework.BlockClient(hostAddon.bundledAssembly, senderId[0]);
+                return haInfo;
             }
 
             matchingAddon.CheckVersion(matchingAddon);
@@ -79,16 +82,17 @@ public class AddonManager
                 return clientAddon;
             }));
 
+        mismatchInfo.DistinctBy(addon => addon.Name).Where(addon => addon.Mismatches is not (Mismatch.None or Mismatch.ClientMissingAddon)).Do(a => VentFramework.FindRPC(1017)!.Send(senderId, a.AssemblyFullName, 0));
         VerifyClientAddons(mismatchInfo.DistinctBy(addon => addon.Name).Where(addon => addon.Mismatches is not Mismatch.None).ToList());
     }
 
-    [ModRPC((uint)ModCalls.VerifyAddons, RpcActors.None, RpcActors.NonHosts)]
+    [ModRPC((uint)ModCalls.VerifyAddons, RpcActors.None, RpcActors.LastSender)]
     public static void ReceiveAddonVerification(List<AddonInfo> addons)
     {
         if (addons.Count == 0) return;
         Logger.Error(" Error Validating Addons. All CustomRPCs between the host and this client have been disabled.", "VerifyAddons");
         Logger.Error(" -=-=-=-=-=-=-=-=-=[Errored Addons]=-=-=-=-=-=-=-=-=-", "VerifyAddons");
-        foreach (var rejectReason in addons.Select(addonInfo => (addonInfo.Mismatches)
+        foreach (var rejectReason in addons.Where(info => info.Mismatches is not Mismatch.None).Select(addonInfo => (addonInfo.Mismatches)
              switch {
                  Mismatch.Version => $" {addonInfo.Name}:{addonInfo.Version} => Local version is not compatible with the host version of the addon",
                  Mismatch.ClientMissingAddon => $" {addonInfo.Name}:{addonInfo.Version} => Client Missing Addon ",

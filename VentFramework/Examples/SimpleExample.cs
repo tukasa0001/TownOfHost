@@ -1,6 +1,6 @@
 using TownOfHost.Extensions;
 
-namespace VentFramework;
+namespace VentLib;
 
 public class SimpleExample
 {
@@ -43,7 +43,7 @@ public class SimpleExample
     [ModRPC((uint) ExampleRpc.ClientRespondsToHostCheck, senders: RpcActors.NonHosts, receivers: RpcActors.Host)]
     public static void ClientHatesHost(int number)
     {
-        PlayerControl sender = ModRPC.GetLastSender((uint)ExampleRpc.ClientRespondsToHostCheck);
+        PlayerControl sender = VentFramework.GetLastSender((uint)ExampleRpc.ClientRespondsToHostCheck);
         TownOfHost.Logger.Info($"{sender} has the number: {number}", "VentNumber");
     }
 

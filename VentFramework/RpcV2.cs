@@ -7,9 +7,9 @@ using Hazel;
 using InnerNet;
 using TownOfHost.Extensions;
 using UnityEngine;
-using VentFramework;
+using VentLib;
 
-namespace VentFramework;
+namespace VentLib;
 
 public class RpcV2
 {
@@ -99,7 +99,6 @@ public class RpcV2
     {
         foreach (uint key in AmongUsClient.Instance.allObjectsFast.Keys)
         {
-            key.DebugLog("Key: ");
             this.netId = key;
             this.Send();
         }

@@ -10,17 +10,16 @@ using AmongUs.GameOptions;
 using BepInEx.Unity.IL2CPP;
 using Il2CppInterop.Runtime.Injection;
 using TownOfHost.Addons;
-using TownOfHost.Interface.Menus;
 using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
 using Reactor;
 using Reactor.Networking.Attributes;
 using TownOfHost.Gamemodes;
-using VentFramework;
+using VentLib;
 
-[assembly: AssemblyFileVersionAttribute(TownOfHost.TOHPlugin.PluginVersion)]
-[assembly: AssemblyInformationalVersionAttribute(TownOfHost.TOHPlugin.PluginVersion)]
+[assembly: AssemblyFileVersion(TownOfHost.TOHPlugin.PluginVersion)]
+[assembly: AssemblyInformationalVersion(TownOfHost.TOHPlugin.PluginVersion)]
 namespace TownOfHost;
 
 [BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
@@ -32,7 +31,7 @@ public class TOHPlugin : BasePlugin
     public TOHPlugin()
     {
         Instance = this;
-        ModRPC.Initialize();
+        VentFramework.Initialize();
     }
 
     // == プログラム設定 / Program Config ==

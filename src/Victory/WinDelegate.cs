@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
+using TownOfHost.ReduxOptions;
 using TownOfHost.Victory.Conditions;
 
 namespace TownOfHost.Victory;
@@ -30,7 +31,8 @@ public class WinDelegate
             isWin = winCondition.IsConditionMet(out winners);
             if (!isWin) continue;
             winReason = winCondition.GetWinReason();
-            Logger.Msg($"Triggering Win by \"{winCondition.GetType()}\", winners={winners.Select(p => p.GetRawName()).PrettyString()}, reason={winReason}", "WinCondition");
+            if (!StaticOptions.NoGameEnd)
+                Logger.Msg($"Triggering Win by \"{winCondition.GetType()}\", winners={winners.Select(p => p.GetRawName()).PrettyString()}, reason={winReason}", "WinCondition");
             break;
         }
 

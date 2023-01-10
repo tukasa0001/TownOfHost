@@ -1,7 +1,7 @@
 using TownOfHost.Extensions;
-using VentFramework;
+using VentLib;
 
-namespace TownOfHost.Managers;
+namespace TownOfHost.Player;
 
 public class Pet
 {

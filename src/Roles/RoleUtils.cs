@@ -2,9 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
-using TownOfHost.RPC;
 using UnityEngine;
-using VentFramework;
+using VentLib;
 
 namespace TownOfHost.Roles;
 

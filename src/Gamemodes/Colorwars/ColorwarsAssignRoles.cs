@@ -7,7 +7,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Gamemodes.FFA;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
-using VentFramework;
+using VentLib;
 
 namespace TownOfHost.Gamemodes.Colorwars;
 

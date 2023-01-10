@@ -13,7 +13,7 @@ using TownOfHost.ReduxOptions;
 using UnityEngine;
 using static TownOfHost.Translator;
 using TownOfHost.Roles;
-using VentFramework;
+using VentLib;
 
 namespace TownOfHost.Extensions;
 
@@ -45,7 +45,7 @@ public static class PlayerControlExtensions
     public static int GetClientId(this PlayerControl player)
     {
         var client = player.GetClient();
-        return client == null ? -1 : client.Id;
+        return client?.Id ?? -1;
     }
 
     public static void Trigger(this PlayerControl player, RoleActionType action, ref ActionHandle handle, params object[] parameters)

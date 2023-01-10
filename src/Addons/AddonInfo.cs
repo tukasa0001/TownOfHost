@@ -1,13 +1,14 @@
 using System;
 using Hazel;
-using VentFramework;
+using VentLib;
 
 namespace TownOfHost.Addons;
 
 public class AddonInfo: IRpcSendable<AddonInfo>
 {
     internal ulong UUID;
-    internal string AssemblyName;
+    internal string AssemblyShortName;
+    internal string AssemblyFullName;
     internal string Name;
     internal string Version;
     internal Mismatch Mismatches = Mismatch.None;
@@ -17,7 +18,8 @@ public class AddonInfo: IRpcSendable<AddonInfo>
         return new AddonInfo
         {
             UUID = reader.ReadUInt64(),
-            AssemblyName = reader.ReadString(),
+            AssemblyShortName = reader.ReadString(),
+            AssemblyFullName = reader.ReadString(),
             Name = reader.ReadString(),
             Version = reader.ReadString(),
             Mismatches = (Mismatch)reader.ReadInt32(),
@@ -27,7 +29,8 @@ public class AddonInfo: IRpcSendable<AddonInfo>
     public void Write(MessageWriter writer)
     {
         writer.Write(UUID);
-        writer.Write(AssemblyName);
+        writer.Write(AssemblyShortName);
+        writer.Write(AssemblyFullName);
         writer.Write(Name);
         writer.Write(Version);
         writer.Write((int)Mismatches);
@@ -38,7 +41,8 @@ public class AddonInfo: IRpcSendable<AddonInfo>
         return new AddonInfo
         {
             UUID = addon.UUID,
-            AssemblyName = addon.bundledAssembly.GetName().Name,
+            AssemblyShortName = addon.bundledAssembly.GetName().Name,
+            AssemblyFullName = addon.bundledAssembly.GetName().FullName,
             Name = addon.AddonName(),
             Version = addon.AddonVersion()
         };

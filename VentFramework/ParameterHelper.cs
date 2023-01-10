@@ -9,7 +9,7 @@ using InnerNet;
 using TownOfHost.Extensions;
 using UnityEngine;
 
-namespace VentFramework;
+namespace VentLib;
 
 public static class ParameterHelper
 {
@@ -33,9 +33,7 @@ public static class ParameterHelper
         return parameters.Select(p =>
         {
             if (!IsTypeAllowed(p.ParameterType))
-                throw new ArgumentException($"\"Parameter \"{p.Name}\" cannot be type {p.ParameterType}\". Allowed Types: {AllowedTypes.PrettyString()}");
-            /*if (p.IsOptional)
-                throw new ArgumentException($"Optional parameter {p} is not allowed for methods annotated with ModRPC");*/
+                throw new ArgumentException($"\"Parameter \"{p.Name}\" cannot be type {p.ParameterType}\". Allowed Types: [{String.Join(", ", AllowedTypes.GetEnumerator())}");
             return p.ParameterType;
         }).ToArray();
     }
@@ -90,7 +88,7 @@ public static class ParameterHelper
             object objectList = Activator.CreateInstance(parameter);
             MethodInfo Add = AccessTools.Method(parameter, "Add");
 
-            uint amount = reader.ReadPackedUInt32();
+            ushort amount = reader.ReadUInt16();
             for (uint i = 0; i < amount; i++)
                 Add.Invoke(objectList, new object[] {reader.ReadDynamic(genericType)});
             return (IEnumerable<dynamic>)objectList;

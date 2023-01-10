@@ -6,6 +6,7 @@ using AmongUs.GameOptions;
 using TownOfHost.Interface;
 using TownOfHost.Interface.Menus.CustomNameMenu;
 using TownOfHost.Managers;
+using TownOfHost.Player;
 
 namespace TownOfHost.Roles;
 

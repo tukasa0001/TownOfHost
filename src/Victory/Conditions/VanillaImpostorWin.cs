@@ -17,9 +17,6 @@ public class VanillaImpostorWin: IFactionWinCondition
 
         List<PlayerControl> others = Game.GetAlivePlayers().Where(p => !byteImpostors.Contains(p.PlayerId)).ToList();
 
-        aliveImpostors.Count.DebugLog("Alive Impostors");
-        others.Count.DebugLog("Others Count");
-
         return aliveImpostors.Count >= others.Count;
     }
 

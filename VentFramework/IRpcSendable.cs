@@ -1,6 +1,6 @@
 using Hazel;
 
-namespace VentFramework;
+namespace VentLib;
 
 public interface IRpcSendable<out T>: IRpcWritable where T: IRpcSendable<T>
 {

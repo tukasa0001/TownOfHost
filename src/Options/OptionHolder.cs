@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using Hazel;
-using Reactor.Networking;
 using Reactor.Utilities.Extensions;
 using TownOfHost.Extensions;
-using TownOfHost.Interface.Menus;
 using TownOfHost.Options;
 using UnityEngine;
-using VentFramework;
+using VentLib;
 using Object = UnityEngine.Object;
 
 namespace TownOfHost.ReduxOptions;

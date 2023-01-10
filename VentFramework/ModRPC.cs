@@ -1,106 +1,62 @@
 #nullable enable
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using MonoMod.RuntimeDetour;
 using TownOfHost;
 using TownOfHost.Extensions;
 
-namespace VentFramework;
+namespace VentLib;
 
-
-[AttributeUsage(AttributeTargets.Method)]
-public class ModRPC : Attribute
+public class ModRPC
 {
-    private static readonly HashSet<Assembly> RegisteredAssemblies = new();
-    internal static readonly Dictionary<uint, PlayerControl> LastSenders = new();
-    public readonly uint RPCId;
+    public readonly uint CallId;
     public RpcActors Senders { get; }
     public RpcActors Receivers { get; }
     public MethodInvocation Invocation { get; }
-    internal Type[] Parameters = null!;
-    private MethodBase trampoline = null!;
-    private Func<object?> instanceSupplier = null!;
-    private IDetour hook = null!;
+    internal readonly Type[] Parameters;
+    internal readonly Assembly? Assembly;
+    internal readonly MethodInfo TargetMethod;
+    internal DetouredSender Sender;
+    private readonly Hook hook;
+    private readonly MethodBase trampoline;
+    private readonly Func<object?> instanceSupplier;
 
-    public ModRPC(uint rpc, RpcActors senders = RpcActors.Everyone, RpcActors receivers = RpcActors.Everyone, MethodInvocation invocation = MethodInvocation.ExecuteNever)
+    public ModRPC(ModRPCAttribute attribute, MethodInfo targetMethod)
     {
-        RPCId = rpc;
-        this.Senders = senders;
-        this.Receivers = receivers;
-        this.Invocation = invocation;
-    }
+        this.TargetMethod = targetMethod;
+        CallId = attribute.CallId;
+        Senders = attribute.Senders;
+        Receivers = attribute.Receivers;
+        Invocation = attribute.Invocation;
+        Parameters = ParameterHelper.Verify(targetMethod.GetParameters());
+        Type? declaringType = targetMethod.DeclaringType;
+        if (declaringType == null)
+            throw new ArgumentException($"Unable to Register: {targetMethod.Name}. Reason: VentFramework does not current allow for methods without declaring types");
 
-    internal static void Register(Assembly assembly)
-    {
-        if (RegisteredAssemblies.Contains(assembly)) return;
-        RegisteredAssemblies.Add(assembly);
+        Assembly = declaringType.Assembly;
+        hook = HookHelper.Generate(this);
+        trampoline = hook.GenerateTrampoline();
 
-        var methods = assembly.GetTypes()
-            .SelectMany(t => t.GetMethods(BindingFlags.Static | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public));
-
-        Type declaringType = null;
-        foreach (var method in methods)
+        instanceSupplier = () =>
         {
-            declaringType ??= method.DeclaringType!;
-            ModRPC? attribute = method.GetCustomAttribute<ModRPC>();
-            if (attribute == null) continue;
-
-            if (!method.IsStatic && !declaringType.IsAssignableTo(typeof(IRpcInstance)))
-            {
-                TownOfHost.Logger.Error($"Unable to Register Method {method.Name}. Reason: Declaring Class of non-static methods must implement IRpcInstance", "VentFramework");
-                continue;
-            }
-
-            var type = declaringType;
-            attribute.instanceSupplier = () =>
-            {
-                if (method.IsStatic) return null;
-                if (!IRpcInstance.Instances.TryGetValue(type, out IRpcInstance? instance))
-                    throw new NullReferenceException($"Cannot invoke non-static method because IRpcInstance.EnableInstance() was never called for {type}");
-                return instance;
-            };
-
-            RpcManager.Register(attribute);
-            attribute.Parameters = ParameterHelper.Verify(method.GetParameters());
-            attribute.hook = HookHelper.Generate(method, attribute);
-            attribute.trampoline = attribute.hook.GenerateTrampoline();
-        }
+            if (targetMethod.IsStatic) return null;
+            if (!IRpcInstance.Instances.TryGetValue(declaringType, out IRpcInstance? instance))
+                throw new NullReferenceException($"Cannot invoke non-static method because IRpcInstance.EnableInstance() was never called for {declaringType}");
+            return instance;
+        };
     }
 
-
-    internal static void Initialize()
+    public void Send(int[]? clientIds, params object[] args)
     {
-        IL2CPPChainloader.Instance.PluginLoad += (_, assembly, _) => Register(assembly);
+        Sender.Send(clientIds, args);
     }
 
     public void InvokeTrampoline(object[] args)
     {
-        "2".DebugLog();
         if (DebugConstants.LogTrampoline)
             TownOfHost.Logger.Info($"Calling trampoline \"{this.trampoline.FullDescription()}\" with args: {args.PrettyString()}", "RPCTrampoline");
 
         trampoline.Invoke(instanceSupplier(), args);
     }
-
-    public static PlayerControl? GetLastSender(uint rpcId) => LastSenders.GetValueOrDefault(rpcId);
-}
-
-
-public enum RpcActors
-{
-    None,
-    Host,
-    NonHosts,
-    Everyone
-}
-
-public enum MethodInvocation
-{
-    ExecuteNever,
-    ExecuteBefore,
-    ExecuteAfter
 }

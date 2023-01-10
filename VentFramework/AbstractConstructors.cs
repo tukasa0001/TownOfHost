@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Hazel;
 
-namespace VentFramework;
+namespace VentLib;
 
 public static class AbstractConstructors
 {

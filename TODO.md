@@ -6,7 +6,7 @@
 - [ ] Create new RPCs for modded clients and/or setup interactions for modded clients
 - [ ] Correct and setup name rendering within meetings and correctly for teammates (DynamicName.cs)
 - [ ] Explore possibly using AU HnS timer for specific roles (Serial Killer suicide, etc)
-- [ ] Fully implement PlayerState / PlayerPlus over original TOH PlayerState
+- [ ] Fully implement PlayerState / PlayerPlus over original TOH PlayerState this is probably bad code practice
 - [ ] First round of testing after implementing all roles
 - [ ] Cleanup old/unused code
 

@@ -11,7 +11,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
 using UnityEngine;
-using VentFramework;
+using VentLib;
 
 namespace TownOfHost.Interface.Menus.CustomNameMenu;
 
@@ -160,6 +160,7 @@ public class DynamicName
         int i = 0;
         foreach (List<UI> components in componentOrder)
         {
+            bool rendered = false;
             foreach (UI component in components)
             {
                 if (state is GameState.InMeeting && component is not (UI.Name or UI.Role)) continue;
@@ -167,10 +168,12 @@ public class DynamicName
                 int spaces = SpacesDictionary[component];
                 float size = sizeDictionary[component];
                 string text = valueDictionary[component].Value;
+                if (text != "") rendered = true;
                 render += $"<size={size / 1.5}>" + text + "</size>" + " ".Repeat(spaces);
             }
 
-            render += "\n";
+            if (rendered)
+                render += "\n";
             i++;
         }
 
@@ -313,9 +316,9 @@ public class DynamicName
     {
         if (!AmongUsClient.Instance.AmHost) return;
         float durationSinceLast = (float)(DateTime.Now - lastRender).TotalSeconds;
-        if (durationSinceLast < ModConstants.DynamicNameTimeBetweenRenders) return;
+        if (durationSinceLast < ModConstants.DynamicNameTimeBetweenRenders && Game.State is not GameState.InMeeting) return;
         string str = GetName();
-        if (lastString != str)
+        if (lastString != str || Game.State is GameState.InMeeting)
             RpcV2.Immediate(myPlayer?.NetId ?? 0, RpcCalls.SetName).Write(str).Send(specific != -2 ? specific : myPlayer?.GetClientId() ?? -1);
         else return;
         lastRender = DateTime.Now;
@@ -334,7 +337,7 @@ public class DynamicName
         lastString = str;
     }
 
-    public void RenderFor(PlayerControl player, GameState? state = null)
+    public void RenderFor(PlayerControl player, GameState? state = null, bool force = false)
     {
         if (!AmongUsClient.Instance.AmHost) return;
         if (myPlayer != null && myPlayer.PlayerId == player.PlayerId)
@@ -354,8 +357,10 @@ public class DynamicName
         string render = "";
 
         int i = 0;
+
         foreach (List<UI> components in componentOrder)
         {
+            bool rendered = false;
             foreach (UI component in components)
             {
                 Tuple<UI, DynamicString>? specificOverride = allowedComponents?.FirstOrDefault(p => p.Item1 == component);
@@ -368,15 +373,17 @@ public class DynamicName
                     text = String.Format(overrideValue, valueDictionary[component].Value.RemoveColorTags());
                 else
                     text = overrideValue == "" ? valueDictionary[component].Value : overrideValue;
+                if (text != "") rendered = true;
                 render += $"<size={size / 1.5}>" + text + "</size>" + " ".Repeat(spaces);
             }
 
-            render += "\n";
+            if (rendered)
+                render += "\n";
             i++;
         }
 
         string previousRender = previousRenders.GetValueOrDefault(player.PlayerId, "");
-        if (previousRender != render)
+        if (previousRender != render || state is GameState.InMeeting or GameState.InIntro || force)
             RpcV2.Immediate(myPlayer?.NetId ?? 0, RpcCalls.SetName).Write(render).Send(player.GetClientId());
         previousRenders[player.PlayerId] = render;
     }

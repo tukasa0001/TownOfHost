@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Hazel;
 using TownOfHost.Extensions;
 
-namespace VentFramework;
+namespace VentLib;
 
 public class PizzaExample
 {
@@ -48,7 +48,7 @@ public class PizzaExample
     [ModRPC(400, senders: RpcActors.None, receivers: RpcActors.NonHosts)]
     public static void PrintFinalOrder(PizzaOrder order)
     {
-        PlayerControl player = ModRPC.GetLastSender(400);
+        PlayerControl player = VentFramework.GetLastSender(400);
         TownOfHost.Logger.Blue($"{player.GetRawName()} sent over the order: {order}", "PizzaOrder");
     }
 }

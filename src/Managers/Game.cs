@@ -11,7 +11,7 @@ using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
 using TownOfHost.RPC;
 using TownOfHost.Victory;
-using VentFramework;
+using VentLib;
 
 namespace TownOfHost.Managers;
 

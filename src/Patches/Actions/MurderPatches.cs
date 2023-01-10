@@ -16,11 +16,9 @@ public static class MurderPatches
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             if (!AmongUsClient.Instance.AmHost) return false;
-            if (Game.CurrentGamemode.IgnoredActions().HasFlag(GameAction.KillPlayers)) return false;
-
-            var killer = __instance; //読み替え変数
-
+            var killer = __instance;
             Logger.Info($"{killer.GetNameWithRole()} => {target.GetNameWithRole()}", "CheckMurder");
+            if (Game.CurrentGamemode.IgnoredActions().HasFlag(GameAction.KillPlayers)) return false;
 
             //死人はキルできない
             if (killer.Data.IsDead)
@@ -30,9 +28,7 @@ public static class MurderPatches
             }
 
             //不正キル防止処理
-            if (target.Data == null || //PlayerDataがnullじゃないか確認
-                target.inVent || target.inMovingPlat //targetの状態をチェック
-            )
+            if (target.Data == null || target.inVent || target.inMovingPlat)
             {
                 Logger.Info("targetは現在キルできない状態です。", "CheckMurder");
                 return false;
@@ -45,13 +41,6 @@ public static class MurderPatches
             if (MeetingHud.Instance != null) //会議中でないかの判定
             {
                 Logger.Info("会議が始まっていたため、キルをキャンセルしました。", "CheckMurder");
-                return false;
-            }
-
-            //キルボタンを使えない場合の判定
-            if ((OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek || OldOptions.IsStandardHAS) && OldOptions.HideAndSeekKillDelayTimer > 0)
-            {
-                Logger.Info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。", "CheckMurder");
                 return false;
             }
 

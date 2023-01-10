@@ -16,11 +16,8 @@ public static class FixedUpdatePatch
 
         var player = __instance;
         ActionHandle handle = null;
-        Game.RenderAllNames();
-        Game.RenderAllForAll(state: GameState.Roaming);
+        Game.RenderAllForAll();
         Game.TriggerForAll(RoleActionType.FixedUpdate, ref handle);
-
-        if (Game.State is not GameState.Roaming) return; //実行クライアントがホストの場合のみ実行
 
         if (player.IsAlive() && StaticOptions.LadderDeath) FallFromLadder.FixedUpdate(player);
         if (player.PlayerId == PlayerControl.LocalPlayer.PlayerId) DisableDevice.FixedUpdate();

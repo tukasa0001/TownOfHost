@@ -9,10 +9,9 @@ using HarmonyLib;
 using InnerNet;
 using MonoMod.RuntimeDetour;
 using TownOfHost.Extensions;
-using TownOfHost.Roles;
 using UnityEngine;
 
-namespace VentFramework;
+namespace VentLib;
 
 public class HookHelper
 {
@@ -22,8 +21,9 @@ public class HookHelper
     private static readonly OpCode[] _ldc = { OpCodes.Ldc_I4_0, OpCodes.Ldc_I4_1, OpCodes.Ldc_I4_2, OpCodes.Ldc_I4_3, OpCodes.Ldc_I4_4, OpCodes.Ldc_I4_5, OpCodes.Ldc_I4_6, OpCodes.Ldc_I4_7, OpCodes.Ldc_I4_8 };
     private static readonly OpCode[] _ldarg = { OpCodes.Ldarg_0, OpCodes.Ldarg_1, OpCodes.Ldarg_2, OpCodes.Ldarg_3 };
 
-    public static Hook Generate(MethodInfo executingMethod, ModRPC attribute)
+    public static Hook Generate(ModRPC modRPC)
     {
+        MethodInfo executingMethod = modRPC.TargetMethod;
         Type[] parameters = executingMethod.GetParameters().Select(p => p.ParameterType).ToArray();
 
         DynamicMethod m = new(
@@ -63,19 +63,14 @@ public class HookHelper
             ilg.Emit(OpCodes.Stelem_Ref);
         }
 
-        ilg.Emit(OpCodes.Callvirt, AccessTools.Method(typeof(DetouredSender), nameof(DetouredSender.Send)));
+        ilg.Emit(OpCodes.Callvirt, AccessTools.Method(typeof(DetouredSender), nameof(DetouredSender.IntermediateSend)));
         ilg.Emit(OpCodes.Ret);
 
-        _senders.Add(new DetouredSender(attribute));
+        _senders.Add(new DetouredSender(modRPC));
         return new Hook(executingMethod, m);
     }
 
     private static DetouredSender GetSender(int index) => _senders[index];
-
-    private static void TestMethod(PlayerControl player, CustomRole role, bool t, int id)
-    {
-        GetSender(0).Send(player, role, t, id);
-    }
 
 }
 
@@ -84,35 +79,72 @@ public class DetouredSender
 {
     private int uuid = UnityEngine.Random.RandomRangeInt(0, 999999);
     private int localSendCount;
-    private ModRPC rpcInfo;
+    private ModRPC modRPC;
     private uint callId;
     private RpcActors senders;
+    private RpcActors receivers;
+    private Queue<int[]> clientQueue = new();
 
     public DetouredSender(ModRPC modRPC)
     {
-        this.rpcInfo = modRPC;
-        this.callId = this.rpcInfo.RPCId;
+        this.modRPC = modRPC;
+        this.callId = this.modRPC.CallId;
         this.senders = modRPC.Senders;
+        this.receivers = this.modRPC.Receivers;
+        modRPC.Sender = this;
     }
 
-    public void Send(params object?[] args)
+    public void IntermediateSend(params object?[] args)
     {
-        if (rpcInfo.Invocation is MethodInvocation.ExecuteBefore) rpcInfo.InvokeTrampoline(args);
-        if (AmongUsClient.Instance == null || this.senders is RpcActors.None) return;
-        if ((this.senders is RpcActors.Host && !AmongUsClient.Instance.AmHost) ||
-            (this.senders is RpcActors.NonHosts && AmongUsClient.Instance.AmHost))
-            return;
+        if (modRPC.Invocation is MethodInvocation.ExecuteBefore) modRPC.InvokeTrampoline(args);
+        Send(null, args);
+        if (modRPC.Invocation is MethodInvocation.ExecuteAfter) modRPC.InvokeTrampoline(args);
+    }
 
-        string senderString = AmongUsClient.Instance.AmHost ? "Host" : "NonHost";
+    public void Send(int[]? targets, object?[] args)
+    {
+        if (AmongUsClient.Instance == null) return;
+        if (!CanSend(out int[]? lastSender) || !VentFramework.CallingAssemblyFlag().HasFlag(VentControlFlag.AllowedSender)) return;
+        lastSender ??= targets;
+        RealSend(lastSender, args);
+    }
 
-        TownOfHost.Logger.Msg($"Sending RPC ({callId}) as {senderString} | ({this.senders} | {args} | {localSendCount}::{uuid}::{HookHelper.globalSendCount}", "DetouredSender");
-        localSendCount++;
-        HookHelper.globalSendCount++;
-        RpcV2 v2 = RpcV2.Immediate(PlayerControl.LocalPlayer.NetId, 203).WritePacked(callId).RequireHost(false);
+    private void RealSend(int[]? targets, object?[] args)
+    {
+        HookHelper.globalSendCount++; localSendCount++;
+        RpcV2 v2 = RpcV2.Immediate(PlayerControl.LocalPlayer.NetId, 203).Write(callId).RequireHost(false);
+        v2.Write((byte)receivers);
         v2.WritePacked(PlayerControl.LocalPlayer.NetId);
         args.Do(a => WriteArg(v2, a));
-        v2.Send();
-        if (rpcInfo.Invocation is MethodInvocation.ExecuteAfter) rpcInfo.InvokeTrampoline(args);
+        int[]? blockedClients = VentFramework.CallingAssemblyBlacklist();
+
+        string senderString = AmongUsClient.Instance.AmHost ? "Host" : "NonHost";
+        if (targets != null) {
+            TownOfHost.Logger.Msg($"({PlayerControl.LocalPlayer.GetRawName()}) Sending RPC ({callId}) as {senderString} to {targets.PrettyString()} | ({this.senders} | {args} | {localSendCount}::{uuid}::{HookHelper.globalSendCount}", "DetouredSender");
+            v2.SendToFollowing(blockedClients == null ? targets : targets.Except(blockedClients).ToArray());
+        } else if (blockedClients != null) {
+            TownOfHost.Logger.Msg($"({PlayerControl.LocalPlayer.GetRawName()}) Sending RPC ({callId}) as {senderString} to all except {blockedClients.PrettyString()} | ({this.senders} | {args} | {localSendCount}::{uuid}::{HookHelper.globalSendCount}", "DetouredSender");
+            v2.SendToAll(blockedClients);
+        } else {
+            TownOfHost.Logger.Msg($"({PlayerControl.LocalPlayer.GetRawName()}) Sending RPC ({callId}) as {senderString} to all | ({this.senders} | {args} | {localSendCount}::{uuid}::{HookHelper.globalSendCount}", "DetouredSender");
+            v2.Send();
+        }
+    }
+
+    private bool CanSend(out int[]? targets)
+    {
+        targets = null;
+        if (this.receivers is RpcActors.LastSender) targets = new[] { VentFramework.GetLastSender(this.callId)?.GetClientId() ?? 999 };
+
+        return this.senders switch
+        {
+            RpcActors.None => false,
+            RpcActors.Host => AmongUsClient.Instance.AmHost,
+            RpcActors.NonHosts => !AmongUsClient.Instance.AmHost,
+            RpcActors.LastSender => true,
+            RpcActors.Everyone => true,
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 
     internal static void WriteArg(RpcV2 rpcV2, object arg)
@@ -140,8 +172,8 @@ public class DetouredSender
         switch (arg)
         {
             case IEnumerable enumerable:
-                List<object> list = enumerable.ToObjectList();
-                rpcV2.WritePacked((uint)list.Count);
+                List<object> list = enumerable.Cast<object>().ToList();
+                rpcV2.Write((ushort)list.Count);
                 foreach (object obj in list)
                     WriteArg(rpcV2, obj);
                 break;
