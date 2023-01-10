@@ -38,7 +38,7 @@ namespace TownOfHost
 
         public static void Init()
         {
-            IsCamouflage= false;
+            IsCamouflage = false;
             PlayerSkins.Clear();
         }
         public static void CheckCamouflage()
