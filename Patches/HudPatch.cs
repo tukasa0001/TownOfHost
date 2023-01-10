@@ -243,25 +243,18 @@ namespace TownOfHost
             __instance.ImpostorVentButton.ToggleVisible(player.CanUseImpostorVentButton());
         }
     }
-    [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowNormalMap))]
-    class ShowNormalMapPatch
+    [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.Show))]
+    class MapBehaviourShowPatch
     {
-        public static void Prefix(ref RoleTeamTypes __state)
+        public static void Prefix(MapBehaviour __instance, ref MapOptions opts)
         {
-            var player = PlayerControl.LocalPlayer;
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist))
+            if (opts.Mode is MapOptions.Modes.Normal or MapOptions.Modes.Sabotage)
             {
-                __state = player.Data.Role.TeamType;
-                player.Data.Role.TeamType = RoleTeamTypes.Crewmate;
-            }
-        }
-
-        public static void Postfix(ref RoleTeamTypes __state)
-        {
-            var player = PlayerControl.LocalPlayer;
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist))
-            {
-                player.Data.Role.TeamType = __state;
+                var player = PlayerControl.LocalPlayer;
+                if (player.Is(RoleType.Impostor) || (player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
+                    opts.Mode = MapOptions.Modes.Sabotage;
+                else
+                    opts.Mode = MapOptions.Modes.Normal;
             }
         }
     }
