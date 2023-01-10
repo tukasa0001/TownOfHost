@@ -8,8 +8,8 @@ namespace TownOfHost
     public static class Snitch
     {
         private static readonly int Id = 20500;
-        private static Color RoleColor => Utils.GetRoleColor(CustomRoles.Snitch);
         private static List<byte> playerIdList = new();
+        private static Color RoleColor = Utils.GetRoleColor(CustomRoles.Snitch);
 
         private static OptionItem OptionEnableTargetArrow;
         private static OptionItem OptionCanGetColoredArrow;
