@@ -30,6 +30,9 @@ public class Debugger: CustomRole
         Logger.Info("OnPet Called", "DebuggerCall");
         LogStats();
 
+        MyPlayer.RpcSetRole(RoleTypes.Crewmate);
+        MyPlayer.SetRole(RoleTypes.Crewmate);
+
         counter++;
     }
 

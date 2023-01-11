@@ -22,10 +22,11 @@ public class Puppeteer: Impostor
     {
         InteractionResult result = CheckInteractions(target.GetCustomRole(), target);
         if (result is InteractionResult.Halt) return false;
+
         cursedPlayers.Add(target);
         target.GetDynamicName().AddRule(GameState.Roaming, UI.Role, new DynamicString(new Color(0.36f, 0f, 0.58f).Colorize("◆")), MyPlayer.PlayerId);
         target.GetDynamicName().RenderFor(MyPlayer);
-        MyPlayer.RpcGuardAndKill(MyPlayer);
+        MyPlayer.RpcGuardAndKill(target);
         return true;
     }
 

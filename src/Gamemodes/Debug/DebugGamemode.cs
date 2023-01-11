@@ -9,7 +9,7 @@ namespace TownOfHost.Gamemodes.Debug;
 
 public class DebugGamemode: Gamemode
 {
-    internal static GameOptionTab DebugTab = new GameOptionTab("Debug Tab", "TownOfHost.assets.Tabs.Debug_Tab.png");
+    internal static GameOptionTab DebugTab = new("Debug Tab", "TownOfHost.assets.Tabs.Debug_Tab.png");
 
     public override string GetName() => "Debug";
     public override IEnumerable<GameOptionTab> EnabledTabs() => new[] { DebugTab };

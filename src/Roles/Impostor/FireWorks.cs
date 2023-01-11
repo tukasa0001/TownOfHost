@@ -43,6 +43,9 @@ public class FireWorks: Morphling
         playersInRadius = new List<PlayerControl>();
     }
 
+    [RoleAction(RoleActionType.AttemptKill)]
+    public new void TryKill(PlayerControl target) => base.TryKill(target);
+
     [RoleAction(RoleActionType.OnPet)]
     private void FireworksPlantBomb()
     {

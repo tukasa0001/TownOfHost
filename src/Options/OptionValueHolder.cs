@@ -50,6 +50,11 @@ public class OptionValueHolder
         return value is not (float or double) ? value.ToString() : Math.Round(Convert.ToDecimal(value), 2).ToString();
     }
 
+    public void Default()
+    {
+        if (this.configEntry != null)
+            UpdateBoxedValue(this.configEntry.DefaultValue);
+    }
 
     public object UpdateBoxedValue(object value)
     {

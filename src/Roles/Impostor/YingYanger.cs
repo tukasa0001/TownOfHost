@@ -27,15 +27,14 @@ public class YingYanger : Impostor
     {
         InteractionResult result = CheckInteractions(target.GetCustomRole(), target);
         if (result is InteractionResult.Halt) return false;
-        if (InYingMode)
-        {
-            cursedPlayers.Add(target);
-            target.GetDynamicName().AddRule(GameState.Roaming, UI.Role, new DynamicString(new Color(0.36f, 0f, 0.58f).Colorize("◆")), MyPlayer.PlayerId);
-            target.GetDynamicName().RenderFor(MyPlayer);
-            MyPlayer.RpcGuardAndKill(MyPlayer);
-            if (cursedPlayers.Count >= 2)
-                InYingMode = false;
-        }
+        if (!InYingMode) return true;
+
+        cursedPlayers.Add(target);
+        target.GetDynamicName().AddRule(GameState.Roaming, UI.Misc, new DynamicString(new Color(0.36f, 0f, 0.58f).Colorize("◆")), MyPlayer.PlayerId);
+        target.GetDynamicName().RenderFor(MyPlayer);
+        MyPlayer.RpcGuardAndKill(target);
+
+        if (cursedPlayers.Count >= 2) InYingMode = false;
         return true;
     }
 
@@ -43,7 +42,7 @@ public class YingYanger : Impostor
     private void RoundStart() => InYingMode = true;
 
     [RoleAction(RoleActionType.RoundEnd)]
-    private void RoundEnd() => cursedPlayers = new List<PlayerControl>();
+    private void RoundEnd() => cursedPlayers.Clear();
 
     [RoleAction(RoleActionType.FixedUpdate)]
     private void YingYangerKillCheck()
@@ -64,8 +63,7 @@ public class YingYanger : Impostor
             RemovePuppet(player);
         }
         cursedPlayers.Where(p => p.Data.IsDead).ToArray().Do(RemovePuppet);
-        if (cursedPlayers.Count <= 2 && !InYingMode && ResetToYingYang)
-            InYingMode = true;
+        if (cursedPlayers.Count <= 2 && !InYingMode && ResetToYingYang) InYingMode = true;
     }
 
     private void RemovePuppet(PlayerControl puppet)

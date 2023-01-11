@@ -153,7 +153,7 @@ namespace TownOfHost
             //TOHオプションをデフォルトに設定
             if (GetKeysDown(KeyCode.Delete, KeyCode.LeftControl))
             {
-                OptionItem.AllOptions.ToArray().Where(x => x.Id > 0).Do(x => x.SetValue(x.DefaultValue));
+                TOHPlugin.OptionManager.AllHolders.Do(h => h.valueHolder.Default());
             }
 
             //--以下デバッグモード用コマンド--//
