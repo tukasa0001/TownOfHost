@@ -76,7 +76,7 @@ namespace TownOfHost
 
             SetTarget(shapeshifter.PlayerId, target.PlayerId);
             Logger.Info($"{shapeshifter.GetNameWithRole()}のターゲットを{target.GetNameWithRole()}に設定", "EvilTrackerTarget");
-            Utils.MarkEveryoneDirtySettings();
+            shapeshifter.MarkDirtySettings();
             Utils.NotifyRoles();
         }
         public static void FixedUpdate(PlayerControl pc)
