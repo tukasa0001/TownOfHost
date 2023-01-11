@@ -79,12 +79,12 @@ namespace TownOfHost
                     case Puppeteer:
                         __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
                         break;
-                    /*case BountyHunter:
-                        BountyHunterOLD.GetAbilityButtonText(__instance);
-                        break;
-                    case EvilTracker:
-                        EvilTrackerOLD.GetAbilityButtonText(__instance, player.PlayerId);
-                        break;*/
+                        /*case BountyHunter:
+                            BountyHunterOLD.GetAbilityButtonText(__instance);
+                            break;
+                        case EvilTracker:
+                            EvilTrackerOLD.GetAbilityButtonText(__instance, player.PlayerId);
+                            break;*/
                 }
 
                 //バウンティハンターのターゲットテキスト
@@ -133,7 +133,6 @@ namespace TownOfHost
                         break;
                 }
             }
-
 
             if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay)
             {
@@ -211,7 +210,7 @@ namespace TownOfHost
                         __instance.KillButton.ToggleVisible(!player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(impostor.CanSabotage());
                     __instance.ImpostorVentButton.ToggleVisible(impostor.CanVent());
-                   // __instance.AbilityButton.ToggleVisible(true);
+                    // __instance.AbilityButton.ToggleVisible(true);
                     break;
                 case Sheriff sheriff:
                     if (sheriff.DesyncRole == null) return;

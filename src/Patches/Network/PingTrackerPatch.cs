@@ -1,5 +1,6 @@
 using HarmonyLib;
 using TownOfHost.Roles;
+using TownOfHost;
 using UnityEngine;
 using static TownOfHost.Translator;
 
@@ -14,7 +15,8 @@ class PingTrackerPatch
     {
         LastPing = int.Parse(__instance.text.text.Replace("Ping: ", "").Replace(" ms", ""));
         __instance.text.alignment = TMPro.TextAlignmentOptions.TopRight;
-        __instance.text.text += TOHPlugin.CredentialsText;
+        if (ControllerManagerUpdatePatch.showPing)
+            __instance.text.text += TOHPlugin.CredentialsText;
         if (TOHPlugin.NoGameEnd) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("NoGameEnd"));
         if (OldOptions.IsStandardHAS) __instance.text.text += $"\r\n" + Utils.ColorString(Color.yellow, GetString("StandardHAS"));
         if (OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("HideAndSeek"));
@@ -28,5 +30,7 @@ class PingTrackerPatch
         if (!GameStates.IsLobby) return;
         if (OldOptions.IsStandardHAS && !CustomRoleManager.Static.Sheriff.IsEnable() && !CustomRoleManager.Static.SerialKiller.IsEnable() && CustomRoleManager.Static.Egoist.IsEnable()) // Egoist
             __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("Warning.EgoistCannotWin"));
+        if (!ControllerManagerUpdatePatch.showPing)
+            __instance.text.text = "";
     }
 }

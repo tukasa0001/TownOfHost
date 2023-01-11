@@ -118,6 +118,7 @@ public static class CustomRoleManager
         public SchrodingerCat SchrodingerCat = new SchrodingerCat();
         public Demolitionist Demolitionist = new Demolitionist();
         public Vampiress Vampiress = new Vampiress();
+        public YingYanger YingYanger = new YingYanger();
 
 
         public Amnesiac Amnesiac = new Amnesiac();

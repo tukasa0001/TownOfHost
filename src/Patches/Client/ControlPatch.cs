@@ -4,6 +4,7 @@ using HarmonyLib;
 using InnerNet;
 using UnityEngine;
 using AmongUs.GameOptions;
+using TownOfHost.Managers;
 using TownOfHost.Extensions;
 using TownOfHost.Roles;
 using TownOfHost.Victory.Conditions;
@@ -15,6 +16,7 @@ namespace TownOfHost
     {
         static readonly (int, int)[] resolutions = { (480, 270), (640, 360), (800, 450), (1280, 720), (1600, 900), (1920, 1080) };
         static int resolutionIndex = 0;
+        public static bool showPing = true;
         public static void Postfix(ControllerManager __instance)
         {
             //カスタム設定切り替え
@@ -36,6 +38,55 @@ namespace TownOfHost
                 resolutionIndex++;
                 if (resolutionIndex >= resolutions.Length) resolutionIndex = 0;
                 ResolutionManager.SetResolution(resolutions[resolutionIndex].Item1, resolutions[resolutionIndex].Item2, false);
+            }
+            if (GetKeysDown(KeyCode.LeftShift | KeyCode.RightShift, KeyCode.F12))
+            {
+                var hudManager = DestroyableSingleton<HudManager>.Instance;
+                // probably a better way to do this ngl
+                if (Game.State is GameState.None or GameState.InLobby) return;
+                hudManager.MapButton.gameObject.SetActive(!hudManager.MapButton.gameObject.active);
+                hudManager.SettingsButton.gameObject.SetActive(!hudManager.SettingsButton.gameObject.active);
+                if (Game.State is GameState.None or GameState.InLobby) return;
+                hudManager.TaskPanel.gameObject.SetActive(!hudManager.TaskPanel.gameObject.active);
+                //   if (Game.State is not GameState.Freeplay) return; // WHERE TF IS MY FREEPLAY ONE
+                if (Game.State is GameState.None or GameState.InLobby) return;
+                hudManager.TaskStuff.gameObject.SetActive(!hudManager.TaskStuff.gameObject.active);
+                hudManager.UseButton.gameObject.SetActive(!hudManager.UseButton.gameObject.active);
+                if (Game.State is GameState.None or GameState.InLobby) return;
+                hudManager.ReportButton.gameObject.SetActive(!hudManager.ReportButton.gameObject.active);
+                if (PlayerControl.LocalPlayer.Data.RoleType is not RoleTypes.Impostor or RoleTypes.Crewmate)
+                    hudManager.AbilityButton.gameObject.SetActive(!hudManager.AbilityButton.gameObject.active);
+                if (PlayerControl.LocalPlayer.Data.Role.IsImpostor)
+                {
+                    hudManager.ImpostorVentButton.gameObject.SetActive(!hudManager.ImpostorVentButton.gameObject.active);
+                    hudManager.SabotageButton.gameObject.SetActive(!hudManager.SabotageButton.gameObject.active);
+                    hudManager.KillButton.gameObject.SetActive(!hudManager.KillButton.gameObject.active);
+                }
+                showPing = !showPing;
+            }
+            else if (Input.GetKeyDown(KeyCode.F12))
+            {
+                var hudManager = DestroyableSingleton<HudManager>.Instance;
+                // probably a better way to do this ngl
+                if (Game.State is GameState.None or GameState.InLobby) return;
+                hudManager.MapButton.gameObject.SetActive(!hudManager.MapButton.gameObject.active);
+                hudManager.SettingsButton.gameObject.SetActive(!hudManager.SettingsButton.gameObject.active);
+                if (Game.State is GameState.None or GameState.InLobby) return;
+                hudManager.TaskPanel.gameObject.SetActive(!hudManager.TaskPanel.gameObject.active);
+                //   if (Game.State is not GameState.Freeplay) return; // WHERE TF IS MY FREEPLAY ONE
+                if (Game.State is GameState.None or GameState.InLobby) return;
+                hudManager.TaskStuff.gameObject.SetActive(!hudManager.TaskStuff.gameObject.active);
+                hudManager.UseButton.gameObject.SetActive(!hudManager.UseButton.gameObject.active);
+                if (Game.State is GameState.None or GameState.InLobby) return;
+                hudManager.ReportButton.gameObject.SetActive(!hudManager.ReportButton.gameObject.active);
+                if (PlayerControl.LocalPlayer.Data.RoleType is not RoleTypes.Impostor or RoleTypes.Crewmate)
+                    hudManager.AbilityButton.gameObject.SetActive(!hudManager.AbilityButton.gameObject.active);
+                if (PlayerControl.LocalPlayer.Data.Role.IsImpostor)
+                {
+                    hudManager.ImpostorVentButton.gameObject.SetActive(!hudManager.ImpostorVentButton.gameObject.active);
+                    hudManager.SabotageButton.gameObject.SetActive(!hudManager.SabotageButton.gameObject.active);
+                    hudManager.KillButton.gameObject.SetActive(!hudManager.KillButton.gameObject.active);
+                }
             }
             //カスタム翻訳のリロード
             if (GetKeysDown(KeyCode.F5, KeyCode.T))
