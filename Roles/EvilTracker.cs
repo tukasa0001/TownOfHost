@@ -120,6 +120,12 @@ namespace TownOfHost
             writer.Write(targetId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static void ReceiveRPC(MessageReader reader)
+        {
+            byte trackerId = reader.ReadByte();
+            byte targetId = reader.ReadByte();
+            SetTarget(trackerId, targetId);
+        }
 
         // 表示系の関数
         public static string GetMarker(byte playerId) => CanTarget(playerId) ? Utils.ColorString(Palette.ImpostorRed.ShadeColor(0.5f), "◁") : "";

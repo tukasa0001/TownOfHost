@@ -189,9 +189,7 @@ namespace TownOfHost
                         Main.currentDousingTarget = dousingTargetId;
                     break;
                 case CustomRPC.SetEvilTrackerTarget:
-                    byte trackerId = reader.ReadByte();
-                    byte trackTargetId = reader.ReadByte();
-                    EvilTracker.SetTarget(trackerId, trackTargetId);
+                    EvilTracker.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetRealKiller:
                     byte targetId = reader.ReadByte();
