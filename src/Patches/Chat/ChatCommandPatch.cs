@@ -438,7 +438,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost || TOHPlugin.MessagesToSend.Count < 1 || (TOHPlugin.MessagesToSend[0].Item2 == byte.MaxValue && TOHPlugin.MessageWait.Value > __instance.TimeSinceLastMessage)) return;
             if (DoBlockChat) return;
-            var player = PlayerControl.AllPlayerControls.ToArray().OrderBy(x => x.PlayerId).Where(x => !x.Data.IsDead).FirstOrDefault();
+            var player = PlayerControl.AllPlayerControls.ToArray().OrderBy(x => x.PlayerId).FirstOrDefault(x => !x.Data.IsDead);
             if (player == null) return;
             (string msg, byte sendTo, string title) = TOHPlugin.MessagesToSend[0];
             TOHPlugin.MessagesToSend.RemoveAt(0);

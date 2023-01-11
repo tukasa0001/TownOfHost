@@ -6,8 +6,8 @@ using System.Reflection;
 using HarmonyLib;
 using Hazel;
 using InnerNet;
-using TownOfHost.Extensions;
 using UnityEngine;
+using VentLib.Interfaces;
 
 namespace VentLib;
 

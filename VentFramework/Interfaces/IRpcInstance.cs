@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace VentLib;
+namespace VentLib.Interfaces;
 
 public interface IRpcInstance
 {

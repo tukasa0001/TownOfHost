@@ -8,6 +8,7 @@ using InnerNet;
 using TownOfHost.Extensions;
 using UnityEngine;
 using VentLib;
+using VentLib.Interfaces;
 
 namespace VentLib;
 

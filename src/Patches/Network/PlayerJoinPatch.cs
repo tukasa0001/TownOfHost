@@ -1,9 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
+using TownOfHost.Addons;
 using TownOfHost.Managers;
 using TownOfHost.RPC;
+using VentLib;
 using static TownOfHost.Translator;
 
 namespace TownOfHost.Patches.Network;
@@ -23,6 +26,7 @@ class OnGameJoinedPatch
         ChatUpdatePatch.DoBlockChat = false;
         GameStates.InGame = false;
         ErrorText.Instance.Clear();
+        DTask.Schedule(() => AddonManager.VerifyClientAddons(AddonManager.Addons.Select(AddonInfo.From).ToList()), GameStats.DeriveDelay(0.4f));
     }
 }
 
@@ -41,7 +45,7 @@ class OnPlayerJoinedPatch
         BanManager.CheckDenyNamePlayer(client);
         TOHPlugin.playerVersion = new Dictionary<byte, PlayerVersion>();
         OldRPC.RpcVersionCheck();
-        DTask.Schedule(() => HostRpc.RpcSendOptions(TOHPlugin.OptionManager.Options()), 0.5f);
+        DTask.Schedule(() => VentFramework.FindRPC((uint)ModCalls.SendOptionPreview)!.Send(new[] { client.Id }, TOHPlugin.OptionManager.Options()), GameStats.DeriveDelay(0.4f));
     }
 }
 
@@ -50,14 +54,12 @@ class CreatePlayerPatch
 {
     public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
     {
-        if (AmongUsClient.Instance.AmHost)
+        if (!AmongUsClient.Instance.AmHost) return;
+        DTask.Schedule(() =>
         {
-            new DTask(() =>
-            {
-                if (client.Character == null) return;
-                if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(GetString("Message.AnnounceUsingTOH"), TOHPlugin.PluginVersion + (TOHPlugin.DevVersion ? " " + TOHPlugin.DevVersionStr : "")), client.Character.PlayerId);
-                TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
-            }, 3f, "Welcome Message");
-        }
+            if (client.Character == null) return;
+            if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(GetString("Message.AnnounceUsingTOH"), TOHPlugin.PluginVersion + (TOHPlugin.DevVersion ? " " + TOHPlugin.DevVersionStr : "")), client.Character.PlayerId);
+            TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
+        }, 3f);
     }
 }

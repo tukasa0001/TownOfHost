@@ -7,7 +7,8 @@ using Reactor.Utilities.Extensions;
 using TownOfHost.Extensions;
 using TownOfHost.Options;
 using UnityEngine;
-using VentLib;
+using VentLib.Extensions;
+using VentLib.Interfaces;
 using Object = UnityEngine.Object;
 
 namespace TownOfHost.ReduxOptions;

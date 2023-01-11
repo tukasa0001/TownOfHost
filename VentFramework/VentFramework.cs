@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
+using VentLib.Interfaces;
 
 namespace VentLib;
 

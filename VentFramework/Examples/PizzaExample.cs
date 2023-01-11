@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Hazel;
 using TownOfHost.Extensions;
+using VentLib.Extensions;
+using VentLib.Interfaces;
 
 namespace VentLib;
 

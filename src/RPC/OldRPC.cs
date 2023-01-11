@@ -156,8 +156,6 @@ namespace TownOfHost
         public static async void RpcVersionCheck()
         {
             while (PlayerControl.LocalPlayer == null) await Task.Delay(500);
-            if (!AmongUsClient.Instance.AmHost)
-                AddonManager.VerifyClientAddons(AddonManager.Addons.Select(AddonInfo.From).ToList());
             MessageWriter writer = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.VersionCheck, SendOption.Reliable);
             writer.Write(TOHPlugin.PluginVersion);
             writer.Write($"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");

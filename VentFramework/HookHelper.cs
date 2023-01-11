@@ -10,6 +10,7 @@ using InnerNet;
 using MonoMod.RuntimeDetour;
 using TownOfHost.Extensions;
 using UnityEngine;
+using VentLib.Interfaces;
 
 namespace VentLib;
 

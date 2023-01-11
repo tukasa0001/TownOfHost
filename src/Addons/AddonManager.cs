@@ -51,7 +51,7 @@ public class AddonManager
         }
     }
 
-    [ModRPC((uint)ModCalls.VerifyAddons, RpcActors.Everyone, RpcActors.Host)]
+    [ModRPC((uint)ModCalls.VerifyAddons, RpcActors.NonHosts, RpcActors.Host)]
     public static void VerifyClientAddons(List<AddonInfo> addons)
     {
         List<AddonInfo> hostInfo = Addons.Select(AddonInfo.From).ToList();
@@ -83,10 +83,10 @@ public class AddonManager
             }));
 
         mismatchInfo.DistinctBy(addon => addon.Name).Where(addon => addon.Mismatches is not (Mismatch.None or Mismatch.ClientMissingAddon)).Do(a => VentFramework.FindRPC(1017)!.Send(senderId, a.AssemblyFullName, 0));
-        VerifyClientAddons(mismatchInfo.DistinctBy(addon => addon.Name).Where(addon => addon.Mismatches is not Mismatch.None).ToList());
+        ReceiveAddonVerification(mismatchInfo.DistinctBy(addon => addon.Name).Where(addon => addon.Mismatches is not Mismatch.None).ToList());
     }
 
-    [ModRPC((uint)ModCalls.VerifyAddons, RpcActors.None, RpcActors.LastSender)]
+    [ModRPC((uint)ModCalls.VerifyAddons, RpcActors.Host, RpcActors.LastSender)]
     public static void ReceiveAddonVerification(List<AddonInfo> addons)
     {
         if (addons.Count == 0) return;

@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Hazel;
-using TownOfHost.RPC;
 
-namespace VentLib;
+namespace VentLib.Extensions;
 
 public static class ReaderExtensions
 {

@@ -14,6 +14,7 @@ using TownOfHost.Managers;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
 using VentLib;
+using VentLib.Interfaces;
 
 namespace TownOfHost.Roles;
 
@@ -112,13 +113,15 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
             RoleTypes assignedType = this.DesyncRole ?? this.VirtualRole;
             // Get the opposite type of this role
             if (MyPlayer == PlayerControl.LocalPlayer && AmongUsClient.Instance.AmHost)
+            {
+                MyPlayer.RpcSetRole(assignedType);
                 MyPlayer.SetRole(assignedType); // Required because the rpc below doesn't target host
+            }
             else
             {
                 // Send information to client about their new role
                 Logger.Info($"Sending role ({assignedType}) information to {MyPlayer.GetRawName()}", "");
-                RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((byte)assignedType)
-                    .Send(MyPlayer.GetClientId());
+                RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((ushort)assignedType).Send(MyPlayer.GetClientId());
             }
 
             // Determine roles that are "allied" with this one(based on method overrides)
@@ -128,13 +131,13 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
             allies.Select(player => player.GetRawName()).PrettyString().DebugLog($"{this.RoleName}'s allies are: ");
             //int[] allies = allies.Where(ally => ally.is)
             // Send to all clients, excluding allies, that you're a crewmate
-            RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((byte)RoleTypes.Crewmate).SendToAll(exclude: alliesCID);
+            RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((ushort)RoleTypes.Crewmate).SendToAll(exclude: alliesCID);
             // Send to allies your real role
-            RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((byte)assignedType).SendToFollowing(include: alliesCID);
+            RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((ushort)assignedType).SendToFollowing(include: alliesCID);
             // Finally, for all players that are not your allies make them crewmates
             Game.GetAllPlayers()
                 .Where(pc => !alliesCID.Contains(pc.GetClientId()) && pc.PlayerId != MyPlayer.PlayerId)
-                .Do(pc => RpcV2.Immediate(pc.NetId, (byte)RpcCalls.SetRole).Write((byte)RoleTypes.Crewmate).Send(MyPlayer.GetClientId()));
+                .Do(pc => RpcV2.Immediate(pc.NetId, (byte)RpcCalls.SetRole).Write((ushort)RoleTypes.Crewmate).Send(MyPlayer.GetClientId()));
             ShowRoleToTeammates(allies);
         }
         else

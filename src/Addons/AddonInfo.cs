@@ -1,6 +1,7 @@
 using System;
 using Hazel;
 using VentLib;
+using VentLib.Interfaces;
 
 namespace TownOfHost.Addons;
 

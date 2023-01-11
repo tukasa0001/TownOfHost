@@ -19,8 +19,8 @@ public static class FFAAssignRoles
 
         foreach (PlayerControl player in players)
         {
-            RpcV2.Immediate(player.NetId, (byte)RpcCalls.SetRole).Write((byte)RoleTypes.Impostor).Send(player.GetClientId());
-            RpcV2.Immediate(player.NetId, (byte)RpcCalls.SetRole).Write((byte)RoleTypes.Crewmate).SendToAll(player.GetClientId());
+            RpcV2.Immediate(player.NetId, (byte)RpcCalls.SetRole).Write((ushort)RoleTypes.Impostor).Send(player.GetClientId());
+            RpcV2.Immediate(player.NetId, (byte)RpcCalls.SetRole).Write((ushort)RoleTypes.Crewmate).SendToAll(player.GetClientId());
             Game.AssignRole(player, CustomRoleManager.Static.SerialKiller);
         }
 

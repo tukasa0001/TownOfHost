@@ -5,6 +5,7 @@ using HarmonyLib;
 using MonoMod.RuntimeDetour;
 using TownOfHost;
 using TownOfHost.Extensions;
+using VentLib.Interfaces;
 
 namespace VentLib;
 
