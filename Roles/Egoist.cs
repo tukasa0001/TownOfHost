@@ -5,8 +5,8 @@ namespace TownOfHost
 {
     public static class Egoist
     {
-        private static readonly int Id = 50600;
-        public static List<byte> playerIdList = new();
+        static readonly int Id = 50600;
+        static List<byte> playerIdList = new();
 
         static OptionItem OptionKillCooldown;
         static OptionItem OptionCanCreateMadmate;
