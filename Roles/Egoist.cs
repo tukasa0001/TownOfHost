@@ -22,16 +22,18 @@ namespace TownOfHost
         }
         public static void Init()
         {
+            IsEnable = false;
             playerIdList = new();
             KillCooldown = OptionKillCooldown.GetFloat();
             CanCreateMadmate = OptionCanCreateMadmate.GetBool();
         }
         public static void Add(byte ego)
         {
+            IsEnable = true;
             playerIdList.Add(ego);
             TeamEgoist.Add(ego);
         }
-        public static bool IsEnable => playerIdList.Count > 0;
+        public static bool IsEnable = false;
         public static void ApplyKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown;
         public static void OverrideCustomWinner()
         {
