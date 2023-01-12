@@ -13,6 +13,7 @@ namespace TownOfHost
         public static bool Prefix(MeetingHud __instance)
         {
             if (!AmongUsClient.Instance.AmHost) return true;
+            var voteLog = Logger.Handler("Vote");
             try
             {
                 List<MeetingHud.VoterState> statesList = new();
@@ -65,7 +66,7 @@ namespace TownOfHost
                 {
                     PlayerVoteArea ps = __instance.playerStates[i];
                     if (ps == null) continue;
-                    Logger.Info(string.Format("{0,-2}{1}:{2,-3}{3}", ps.TargetPlayerId, Utils.PadRightV2($"({Utils.GetVoteName(ps.TargetPlayerId)})", 40), ps.VotedFor, $"({Utils.GetVoteName(ps.VotedFor)})"), "Vote");
+                    voteLog.Info(string.Format("{0,-2}{1}:{2,-3}{3}", ps.TargetPlayerId, Utils.PadRightV2($"({Utils.GetVoteName(ps.TargetPlayerId)})", 40), ps.VotedFor, $"({Utils.GetVoteName(ps.VotedFor)})"));
                     var voter = Utils.GetPlayerById(ps.TargetPlayerId);
                     if (voter == null || voter.Data == null || voter.Data.Disconnected) continue;
                     if (Options.VoteMode.GetBool())
@@ -80,11 +81,11 @@ namespace TownOfHost
                             {
                                 case VoteMode.Suicide:
                                     TryAddAfterMeetingDeathPlayers(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                    Logger.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました", "Vote");
+                                    voteLog.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました");
                                     break;
                                 case VoteMode.SelfVote:
                                     ps.VotedFor = ps.TargetPlayerId;
-                                    Logger.Info($"スキップしたため{voter.GetNameWithRole()}に自投票させました", "Vote");
+                                    voteLog.Info($"スキップしたため{voter.GetNameWithRole()}に自投票させました");
                                     break;
                                 default:
                                     break;
@@ -96,15 +97,15 @@ namespace TownOfHost
                             {
                                 case VoteMode.Suicide:
                                     TryAddAfterMeetingDeathPlayers(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                    Logger.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました", "Vote");
+                                    voteLog.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました");
                                     break;
                                 case VoteMode.SelfVote:
                                     ps.VotedFor = ps.TargetPlayerId;
-                                    Logger.Info($"無投票のため{voter.GetNameWithRole()}に自投票させました", "Vote");
+                                    voteLog.Info($"無投票のため{voter.GetNameWithRole()}に自投票させました");
                                     break;
                                 case VoteMode.Skip:
                                     ps.VotedFor = 253;
-                                    Logger.Info($"無投票のため{voter.GetNameWithRole()}にスキップさせました", "Vote");
+                                    voteLog.Info($"無投票のため{voter.GetNameWithRole()}にスキップさせました");
                                     break;
                                 default:
                                     break;
@@ -133,27 +134,27 @@ namespace TownOfHost
                 var VotingData = __instance.CustomCalculateVotes();
                 byte exileId = byte.MaxValue;
                 int max = 0;
-                Logger.Info("===追放者確認処理開始===", "Vote");
+                voteLog.Info("===追放者確認処理開始===");
                 foreach (var data in VotingData)
                 {
-                    Logger.Info($"{data.Key}({Utils.GetVoteName(data.Key)}):{data.Value}票", "Vote");
+                    voteLog.Info($"{data.Key}({Utils.GetVoteName(data.Key)}):{data.Value}票");
                     if (data.Value > max)
                     {
-                        Logger.Info(data.Key + "番が最高値を更新(" + data.Value + ")", "Vote");
+                        voteLog.Info(data.Key + "番が最高値を更新(" + data.Value + ")");
                         exileId = data.Key;
                         max = data.Value;
                         tie = false;
                     }
                     else if (data.Value == max)
                     {
-                        Logger.Info(data.Key + "番が" + exileId + "番と同数(" + data.Value + ")", "Vote");
+                        voteLog.Info(data.Key + "番が" + exileId + "番と同数(" + data.Value + ")");
                         exileId = byte.MaxValue;
                         tie = true;
                     }
-                    Logger.Info($"exileId: {exileId}, max: {max}票", "Vote");
+                    voteLog.Info($"exileId: {exileId}, max: {max}票");
                 }
 
-                Logger.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})", "Vote");
+                voteLog.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})");
 
                 if (Options.VoteMode.GetBool() && Options.WhenTie.GetBool() && tie)
                 {
