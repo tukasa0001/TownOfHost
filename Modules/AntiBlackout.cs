@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using AmongUs.GameOptions;
 using Hazel;
+using TownOfHost.Modules;
 
 namespace TownOfHost
 {
@@ -39,13 +40,14 @@ namespace TownOfHost
         }
         public static bool IsCached { get; private set; } = false;
         private static Dictionary<byte, (bool isDead, bool Disconnected)> isDeadCache = new();
+        private readonly static LogHandler logger = Logger.Handler("AntiBlackout");
 
         public static void SetIsDead(bool doSend = true, [CallerMemberName] string callerMethodName = "")
         {
-            Logger.Info($"SetIsDead is called from {callerMethodName}", "AntiBlackout");
+            logger.Info($"SetIsDead is called from {callerMethodName}");
             if (IsCached)
             {
-                Logger.Info("再度SetIsDeadを実行する前に、RestoreIsDeadを実行してください。", "AntiBlackout.Error");
+                logger.Info("再度SetIsDeadを実行する前に、RestoreIsDeadを実行してください。");
                 return;
             }
             isDeadCache.Clear();
@@ -61,7 +63,7 @@ namespace TownOfHost
         }
         public static void RestoreIsDead(bool doSend = true, [CallerMemberName] string callerMethodName = "")
         {
-            Logger.Info($"RestoreIsDead is called from {callerMethodName}", "AntiBlackout");
+            logger.Info($"RestoreIsDead is called from {callerMethodName}");
             foreach (var info in GameData.Instance.AllPlayers)
             {
                 if (info == null) continue;
@@ -78,7 +80,7 @@ namespace TownOfHost
 
         public static void SendGameData([CallerMemberName] string callerMethodName = "")
         {
-            Logger.Info($"SendGameData is called from {callerMethodName}", "AntiBlackout");
+            logger.Info($"SendGameData is called from {callerMethodName}");
             MessageWriter writer = MessageWriter.Get(SendOption.Reliable);
             // 書き込み {}は読みやすさのためです。
             writer.StartMessage(5); //0x05 GameData
@@ -112,7 +114,7 @@ namespace TownOfHost
         ///</summary>
         public static void TempRestore(Action action)
         {
-            Logger.Info("==Temp Restore==", "AntiBlackout");
+            logger.Info("==Temp Restore==");
             //IsDeadが上書きされた状態でTempRestoreが実行されたかどうか
             bool before_IsCached = IsCached;
             try
@@ -122,19 +124,19 @@ namespace TownOfHost
             }
             catch (Exception ex)
             {
-                Logger.Warn("AntiBlackout.TempRestore内で例外が発生しました", "AntiBlackout");
-                Logger.Exception(ex, "AntiBlackout.TempRestore");
+                logger.Warn("AntiBlackout.TempRestore内で例外が発生しました");
+                logger.Exception(ex);
             }
             finally
             {
                 if (before_IsCached) SetIsDead(doSend: false);
-                Logger.Info("==/Temp Restore==", "AntiBlackout");
+                logger.Info("==/Temp Restore==");
             }
         }
 
         public static void Reset()
         {
-            Logger.Info("==Reset==", "AntiBlackout");
+            logger.Info("==Reset==");
             if (isDeadCache == null) isDeadCache = new();
             isDeadCache.Clear();
             IsCached = false;
