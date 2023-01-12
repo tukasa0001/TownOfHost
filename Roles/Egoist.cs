@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace TownOfHost
@@ -7,6 +8,8 @@ namespace TownOfHost
     {
         static readonly int Id = 50600;
         static List<byte> playerIdList = new();
+        static Color RoleColor = Utils.GetRoleColor(CustomRoles.Egoist);
+        static string RoleColorCode = Utils.GetRoleColorCode(CustomRoles.Egoist);
 
         static OptionItem OptionKillCooldown;
         static OptionItem OptionCanCreateMadmate;
@@ -32,6 +35,10 @@ namespace TownOfHost
             IsEnable = true;
             playerIdList.Add(ego);
             TeamEgoist.Add(ego);
+            foreach (var impostor in Main.AllPlayerControls.Where(pc => pc.Is(RoleType.Impostor)))
+            {
+                NameColorManager.Instance.RpcAdd(impostor.PlayerId, ego, RoleColorCode);
+            }
         }
         public static bool IsEnable = false;
         public static void ApplyKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown;
