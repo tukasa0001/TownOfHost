@@ -367,7 +367,6 @@ namespace TownOfHost
                     pva.NameText.text += $"({Utils.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), Utils.GetVitalText(target.PlayerId))})";
 
                 //インポスター表示
-                bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
                 switch (seer.GetCustomRole().GetRoleType())
                 {
                     case RoleType.Impostor:
@@ -378,12 +377,6 @@ namespace TownOfHost
                 }
                 switch (seer.GetCustomRole())
                 {
-                    case CustomRoles.MadSnitch:
-                        if (seer.GetPlayerTaskState().IsTaskFinished) //seerがタスクを終えている
-                        {
-                            LocalPlayerKnowsImpostor = true;
-                        }
-                        break;
                     case CustomRoles.Arsonist:
                         if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
                             pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), "▲");
@@ -411,11 +404,6 @@ namespace TownOfHost
                     }
                 }
 
-                if (LocalPlayerKnowsImpostor)
-                {
-                    if (target != null && target.GetCustomRole().IsImpostor()) //変更先がインポスター
-                        pva.NameText.color = Palette.ImpostorRed; //変更対象の名前を赤くする
-                }
                 //呪われている場合
                 if (Witch.IsSpelled(target.PlayerId))
                     pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "†");
