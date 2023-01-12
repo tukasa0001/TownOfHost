@@ -775,7 +775,7 @@ namespace TownOfHost
                         TargetMark += Witch.GetSpelledMark(target.PlayerId, isMeeting);
 
                         //タスク完了直前のSnitchにマークを表示
-                        TargetMark += Snitch.GetWarningMark(seer,target);
+                        TargetMark += Snitch.GetWarningMark(seer, target);
 
                         //ハートマークを付ける(相手に)
                         if (seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers))
