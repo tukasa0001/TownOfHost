@@ -24,7 +24,6 @@ namespace TownOfHost
             var player = PlayerControl.LocalPlayer;
             if (player == null) return;
             var TaskTextPrefix = "";
-            var FakeTasksText = DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.FakeTasks, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
             //壁抜け
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
@@ -150,7 +149,7 @@ namespace TownOfHost
                     case CustomRoles.Madmate:
                     case CustomRoles.SKMadmate:
                     case CustomRoles.Jester:
-                        TaskTextPrefix += FakeTasksText;
+                        TaskTextPrefix += GetString(StringNames.FakeTasks);
                         break;
                 }
 
