@@ -643,8 +643,7 @@ namespace TownOfHost
             var callerMethod = caller.GetMethod();
             string callerMethodName = callerMethod.Name;
             string callerClassName = callerMethod.DeclaringType.FullName;
-            var logger = Logger.Handler("NotifyRoles");
-            logger.Info("NotifyRolesが" + callerClassName + "." + callerMethodName + "から呼び出されました");
+            TownOfHost.Logger.Info("NotifyRolesが" + callerClassName + "." + callerMethodName + "から呼び出されました", "NotifyRoles");
             HudManagerPatch.NowCallNotifyRolesCount++;
             HudManagerPatch.LastSetNameDesyncCount = 0;
 
@@ -682,7 +681,7 @@ namespace TownOfHost
                 if (seer.IsModClient()) continue;
                 string fontSize = "1.5";
                 if (isMeeting && (seer.GetClient().PlatformData.Platform.ToString() == "Playstation" || seer.GetClient().PlatformData.Platform.ToString() == "Switch")) fontSize = "70%";
-                logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":START");
+                TownOfHost.Logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":START", "NotifyRoles");
 
                 //タスクなど進行状況を含むテキスト
                 string SelfTaskText = GetProgressText(seer);
@@ -814,7 +813,7 @@ namespace TownOfHost
                     {
                         //targetがseer自身の場合は何もしない
                         if (target == seer) continue;
-                        logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":START");
+                        TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":START", "NotifyRoles");
 
                         //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetTaskText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"{GetProgressText(target)}" : "";
@@ -922,10 +921,10 @@ namespace TownOfHost
                         //適用
                         target.RpcSetNamePrivate(TargetName, true, seer, force: NoCache);
 
-                        logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":END");
+                        TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":END", "NotifyRoles");
                     }
                 }
-                logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":END");
+                TownOfHost.Logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":END", "NotifyRoles");
             }
         }
         public static void MarkEveryoneDirtySettings()
