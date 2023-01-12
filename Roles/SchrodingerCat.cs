@@ -119,5 +119,14 @@ namespace TownOfHost
             var Role = Rand[rand.Next(Rand.Count)];
             player.RpcSetCustomRole(Role);
         }
+        [HarmonyPatch]
+        class Patches
+        {
+            [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame)), HarmonyPostfix]
+            static void OnGameStart()
+            {
+                Init();
+            }
+        }
     }
 }

@@ -353,6 +353,9 @@ namespace TownOfHost
                         case CustomRoles.Snitch:
                             Snitch.Add(pc.PlayerId);
                             break;
+                        case CustomRoles.SchrodingerCat:
+                            SchrodingerCat.Add(pc.PlayerId);
+                            break;
                     }
                     foreach (var subRole in pc.GetCustomSubRoles())
                     {
