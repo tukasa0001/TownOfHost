@@ -13,22 +13,26 @@ namespace TownOfHost
         static Color RoleColor = Utils.GetRoleColor(CustomRoles.SchrodingerCat);
         static string RoleColorCode = Utils.GetRoleColorCode(CustomRoles.SchrodingerCat);
 
-        public static OptionItem CanWinTheCrewmateBeforeChange;
-        private static OptionItem ChangeTeamWhenExile;
+        static OptionItem OptionCanWinTheCrewmateBeforeChange;
+        static OptionItem OptionChangeTeamWhenExile;
         static OptionItem OptionCanSeeKillableTeammate;
 
+        static bool CanWinTheCrewmateBeforeChange;
+        static bool ChangeTeamWhenExile;
         static bool CanSeeKillableTeammate;
 
         public static void SetupCustomOption()
         {
             SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.SchrodingerCat);
-            CanWinTheCrewmateBeforeChange = BooleanOptionItem.Create(Id + 10, "CanBeforeSchrodingerCatWinTheCrewmate", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
-            ChangeTeamWhenExile = BooleanOptionItem.Create(Id + 11, "SchrodingerCatExiledTeamChanges", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
+            OptionCanWinTheCrewmateBeforeChange = BooleanOptionItem.Create(Id + 10, "CanBeforeSchrodingerCatWinTheCrewmate", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
+            OptionChangeTeamWhenExile = BooleanOptionItem.Create(Id + 11, "SchrodingerCatExiledTeamChanges", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
             OptionCanSeeKillableTeammate = BooleanOptionItem.Create(Id + 12, "SchrodingerCatCanSeeKillableTeammate", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
         }
         public static void Init()
         {
             playerIdList = new();
+            CanWinTheCrewmateBeforeChange = OptionCanWinTheCrewmateBeforeChange.GetBool();
+            ChangeTeamWhenExile = OptionChangeTeamWhenExile.GetBool();
             CanSeeKillableTeammate = OptionCanSeeKillableTeammate.GetBool();
         }
         public static void Add(byte playerId)
@@ -100,7 +104,7 @@ namespace TownOfHost
         }
         public static void ChangeTeam(PlayerControl player)
         {
-            if (!(ChangeTeamWhenExile.GetBool() && player.Is(CustomRoles.SchrodingerCat))) return;
+            if (!(ChangeTeamWhenExile && player.Is(CustomRoles.SchrodingerCat))) return;
 
             var rand = IRandom.Instance;
             List<CustomRoles> Rand = new()
@@ -118,6 +122,16 @@ namespace TownOfHost
             }
             var Role = Rand[rand.Next(Rand.Count)];
             player.RpcSetCustomRole(Role);
+        }
+        public static void CheckAdditionalWin(PlayerControl player)
+        {
+            if (!player || !player.Is(CustomRoles.SchrodingerCat)) return;
+
+            if (CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate && CanWinTheCrewmateBeforeChange)
+            {
+                CustomWinnerHolder.WinnerIds.Add(player.PlayerId);
+                CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.SchrodingerCat);
+            }
         }
         [HarmonyPatch]
         class Patches

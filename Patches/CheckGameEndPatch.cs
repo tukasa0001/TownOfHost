@@ -72,11 +72,7 @@ namespace TownOfHost
                             CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
                         }
                         //SchrodingerCat
-                        if (SchrodingerCat.CanWinTheCrewmateBeforeChange.GetBool() && pc.Is(CustomRoles.SchrodingerCat) && CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
-                        {
-                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
-                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.SchrodingerCat);
-                        }
+                        SchrodingerCat.CheckAdditionalWin(pc);
                     }
                 }
                 ShipStatus.Instance.enabled = false;
