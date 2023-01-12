@@ -8,8 +8,8 @@ namespace TownOfHost
 {
     public static class SchrodingerCat
     {
-        private static readonly int Id = 50400;
-        public static List<byte> playerIdList = new();
+        static readonly int Id = 50400;
+        static List<byte> playerIdList = new();
         static Color RoleColor = Utils.GetRoleColor(CustomRoles.SchrodingerCat);
         static string RoleColorCode = Utils.GetRoleColorCode(CustomRoles.SchrodingerCat);
 
@@ -30,16 +30,20 @@ namespace TownOfHost
         }
         public static void Init()
         {
-            playerIdList = new();
+            IsEnable = false;
+            playerIdList.Clear();
+
             CanWinTheCrewmateBeforeChange = OptionCanWinTheCrewmateBeforeChange.GetBool();
             ChangeTeamWhenExile = OptionChangeTeamWhenExile.GetBool();
             CanSeeKillableTeammate = OptionCanSeeKillableTeammate.GetBool();
         }
         public static void Add(byte playerId)
         {
+            IsEnable = true;
             playerIdList.Add(playerId);
         }
-        public static bool IsEnable() => playerIdList.Count > 0;
+        public static bool IsEnable = false;
+        public static bool IsThisRole(byte playerId) => playerIdList.Contains(playerId);
         public static bool OnCheckMurder(PlayerControl killer, PlayerControl target)
         {
             //シュレディンガーの猫が切られた場合の役職変化スタート
@@ -112,14 +116,12 @@ namespace TownOfHost
                 CustomRoles.CSchrodingerCat,
                 CustomRoles.MSchrodingerCat
             };
-            foreach (var pc in Main.AllAlivePlayerControls)
-            {
-                if (pc.Is(CustomRoles.Egoist) && !Rand.Contains(CustomRoles.EgoSchrodingerCat))
-                    Rand.Add(CustomRoles.EgoSchrodingerCat);
 
-                if (pc.Is(CustomRoles.Jackal) && !Rand.Contains(CustomRoles.JSchrodingerCat))
-                    Rand.Add(CustomRoles.JSchrodingerCat);
-            }
+            if (Egoist.IsEnable)
+                Rand.Add(CustomRoles.EgoSchrodingerCat);
+            if (Jackal.IsEnable)
+                Rand.Add(CustomRoles.JSchrodingerCat);
+
             var Role = Rand[rand.Next(Rand.Count)];
             player.RpcSetCustomRole(Role);
         }
