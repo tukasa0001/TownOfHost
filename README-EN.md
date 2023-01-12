@@ -672,8 +672,8 @@ Basis : Crewmate<br>
 
 Once all of the snitch's tasks are completed, the imposters names will be displayed in red.<br>
 Dependent on the settings, the snitch may also see arrows pointed in the remaining impostors directions when their tasks are completed.<br>
-When the snitch has 0 or 1 tasks remaining, the impostors will be able to see a star next to the name of the snitch and that there is an alive snitch who has 0 or 1 tasks left.<br>
-The imposters also see an arrow pointed in the snitch's direction when the snitch has one or less tasks remaining.<br>
+When the amount of remaining tasks in a snitch falls below a set amount, the imposter displays a star next to the snitch's name.<br>
+The imposter also displays an arrow in the direction of the snitch.<br>
 
 #### Game Options
 
@@ -682,6 +682,7 @@ The imposters also see an arrow pointed in the snitch's direction when the snitc
 | Snitch Can See Target Arrow    |
 | Snitch Can See Colored Arrow   |
 | Snitch Can Find Neutral Killer |
+| Remaining tasks to be found    |
 
 ### SpeedBooster
 

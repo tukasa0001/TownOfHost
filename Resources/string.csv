@@ -368,6 +368,7 @@
 "SnitchEnableTargetArrow","Can See Arrow To Target","ターゲットを示す矢印が見える","告密者完成任务后可以通过箭头确认所有被发现目标","告密者完成任務後可以看到目標的箭頭","Может Видеть Стрелку Цели","Pode Ver Seta Para o Alvo"
 "SnitchCanGetArrowColor","Can See Target Team Colored Arrow","矢印の色で陣営がわかる","告密者对不同阵营的目标使用不同颜色的箭头确认","對不同陣營的目標使用不同顏色的箭頭標示","Может Видеть Цвета Стрелок","Pode Ver Seta Colorida Para Time Alvo"
 "SnitchCanFindNeutralKiller","Can Find Neutral Killers","第三陣営のキル可能役職を見つけることが出来る","告密者也可以和拥有击杀能力的独立阵营玩家互相发现","告密者也可以和中立陣營帶刀職業互認","Может Видеть Нейтральных Убийц","Pode Achar Assassinos Neutros"
+"SnitchRemainingTaskFound","Remaining tasks to be found","敵陣営に見つかるタスク残量"
 "SpeedBoosterUpSpeed","Random Player's Speed Boost","加速値","增速者加速时的移动速度","被加速器加速的玩家的移動速度","Повышенная Скорость Игрока","Impulso de Velocidade"
 "SpeedBoosterTaskTrigger","Tasks Until Boost Activated","効果を発動するタスク数","效果发动所需任务数","效果發動所需任務數","Повышенные Триггерные Задания","Tarefas Para Ativar Impulso"
 "MayorAdditionalVote","Additional Votes Count","追加投票の個数","附加票数","附加票數","Дополнительные Голоса","Votos Adicionais"

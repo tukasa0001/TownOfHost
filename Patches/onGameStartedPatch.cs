@@ -352,6 +352,9 @@ namespace TownOfHost
                         case CustomRoles.EvilTracker:
                             EvilTracker.Add(pc.PlayerId);
                             break;
+                        case CustomRoles.Snitch:
+                            Snitch.Add(pc.PlayerId);
+                            break;
                     }
                     foreach (var subRole in pc.GetCustomSubRoles())
                     {

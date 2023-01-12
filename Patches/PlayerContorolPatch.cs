@@ -740,16 +740,6 @@ namespace TownOfHost
                     {
                         RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの名前を赤色で表示
                     }
-                    //タスクを終わらせたSnitchがインポスターを確認できる
-                    else if (PlayerControl.LocalPlayer.Is(CustomRoles.Snitch) && //LocalPlayerがSnitch
-                        PlayerControl.LocalPlayer.GetPlayerTaskState().IsTaskFinished) //LocalPlayerのタスクが終わっている
-                    {
-                        var targetCheck = target.GetCustomRole().IsImpostor() || (Options.SnitchCanFindNeutralKiller.GetBool() && target.IsNeutralKiller());
-                        if (targetCheck)//__instanceがターゲット
-                        {
-                            RealName = Utils.ColorString(target.GetRoleColor(), RealName); //targetの名前を役職色で表示
-                        }
-                    }
                     else if (seer.GetCustomRole().IsImpostor()) //seerがインポスター
                     {
                         if (target.Is(CustomRoles.Egoist)) //targetがエゴイスト
@@ -771,14 +761,8 @@ namespace TownOfHost
                     if (ncd.color != null) RealName = ncd.OpenTag + RealName + ncd.CloseTag;
 
                     //インポスター/キル可能な第三陣営がタスクが終わりそうなSnitchを確認できる
-                    var canFindSnitchRole = seer.GetCustomRole().IsImpostor() || //LocalPlayerがインポスター
-                        (Options.SnitchCanFindNeutralKiller.GetBool() && seer.IsNeutralKiller());//or キル可能な第三陣営
+                    Mark += Snitch.GetWarningMark(seer, target);
 
-                    if (canFindSnitchRole && target.Is(CustomRoles.Snitch) && target.GetPlayerTaskState().DoExpose //targetがタスクが終わりそうなSnitch
-                    )
-                    {
-                        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告をつける
-                    }
                     if (seer.Is(CustomRoles.Arsonist))
                     {
                         if (seer.IsDousedPlayer(target))
@@ -809,32 +793,7 @@ namespace TownOfHost
                     }
                     if (seer.Is(CustomRoles.EvilTracker)) Mark += EvilTracker.GetTargetMark(seer, target);
                     //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能な第三陣営に警告が表示される
-                    if (!GameStates.IsMeeting && (target.GetCustomRole().IsImpostor()
-                        || (Options.SnitchCanFindNeutralKiller.GetBool() && target.IsNeutralKiller())))
-                    { //targetがインポスターかつ自分自身
-                        var found = false;
-                        var update = false;
-                        var arrows = "";
-                        foreach (var pc in Main.AllAlivePlayerControls)
-                        { //全員分ループ
-                            if (!pc.Is(CustomRoles.Snitch)) continue; //スニッチ以外に用はない
-                            if (pc.GetPlayerTaskState().DoExpose)
-                            { //タスクが終わりそうなSnitchが見つかった時
-                                found = true;
-                                //矢印表示しないならこれ以上は不要
-                                if (!Options.SnitchEnableTargetArrow.GetBool()) break;
-                                update = CheckArrowUpdate(target, pc, update, false);
-                                var key = (target.PlayerId, pc.PlayerId);
-                                arrows += Main.targetArrows[key];
-                            }
-                        }
-                        if (found && target.AmOwner) Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Snitch)}>★{arrows}</color>"; //Snitch警告を表示
-                        if (AmongUsClient.Instance.AmHost && seer.PlayerId != target.PlayerId && update)
-                        {
-                            //更新があったら非Modに通知
-                            Utils.NotifyRoles(SpecifySeer: target);
-                        }
-                    }
+                    Mark += Snitch.GetWarningArrow(seer, target);
 
                     //ハートマークを付ける(会議中MOD視点)
                     if (__instance.Is(CustomRoles.Lovers) && PlayerControl.LocalPlayer.Is(CustomRoles.Lovers))
@@ -847,37 +806,8 @@ namespace TownOfHost
                     }
 
                     //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能な第三陣営の方角がわかる
-                    if (GameStates.IsInTask && Options.SnitchEnableTargetArrow.GetBool() && target.Is(CustomRoles.Snitch))
-                    {
-                        var TaskState = target.GetPlayerTaskState();
-                        if (TaskState.IsTaskFinished)
-                        {
-                            var coloredArrow = Options.SnitchCanGetArrowColor.GetBool();
-                            var update = false;
-                            foreach (var pc in Main.AllPlayerControls)
-                            {
-                                var foundCheck =
-                                    pc.GetCustomRole().IsImpostor() ||
-                                    (Options.SnitchCanFindNeutralKiller.GetBool() && pc.IsNeutralKiller());
+                    Suffix += Snitch.GetSnitchArrow(seer, target);
 
-                                //発見対象じゃ無ければ次
-                                if (!foundCheck) continue;
-
-                                update = CheckArrowUpdate(target, pc, update, coloredArrow);
-                                var key = (target.PlayerId, pc.PlayerId);
-                                if (target.AmOwner)
-                                {
-                                    //MODなら矢印表示
-                                    Suffix += Main.targetArrows[key];
-                                }
-                            }
-                            if (AmongUsClient.Instance.AmHost && seer.PlayerId != target.PlayerId && update)
-                            {
-                                //更新があったら非Modに通知
-                                Utils.NotifyRoles(SpecifySeer: target);
-                            }
-                        }
-                    }
                     if (GameStates.IsInTask && target.Is(CustomRoles.EvilTracker)) Suffix += EvilTracker.PCGetTargetArrow(seer, target);
                     if (GameStates.IsInTask && target.Is(CustomRoles.BountyHunter) && BountyHunter.ShowTargetArrow.GetBool()) Suffix += BountyHunter.PCGetTargetArrow(seer, target);
 
@@ -1088,15 +1018,23 @@ namespace TownOfHost
         {
         }
     }
+    [HarmonyPatch(typeof(GameData), nameof(GameData.CompleteTask))]
+    class GameDataCompleteTaskPatch
+    {
+        public static void Postfix(PlayerControl pc)
+        {
+            Logger.Info($"TaskComplete:{pc.GetNameWithRole()}", "CompleteTask");
+            Main.PlayerStates[pc.PlayerId].UpdateTask(pc);
+            Utils.NotifyRoles();
+        }
+    }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CompleteTask))]
     class PlayerControlCompleteTaskPatch
     {
         public static void Postfix(PlayerControl __instance)
         {
             var pc = __instance;
-            Logger.Info($"TaskComplete:{pc.GetNameWithRole()}", "CompleteTask");
-            Main.PlayerStates[pc.PlayerId].UpdateTask(pc);
-            Utils.NotifyRoles();
+
             if ((pc.GetPlayerTaskState().IsTaskFinished &&
                 pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor) ||
                 pc.GetCustomRole() is CustomRoles.SpeedBooster)
@@ -1104,7 +1042,6 @@ namespace TownOfHost
                 //ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
                 Utils.MarkEveryoneDirtySettings();
             }
-
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ProtectPlayer))]
