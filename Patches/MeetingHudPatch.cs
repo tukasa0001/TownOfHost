@@ -368,7 +368,6 @@ namespace TownOfHost
 
                 //インポスター表示
                 bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
-                bool LocalPlayerKnowsJackal = false; //trueの時にジャッカルの名前の色を変える
                 bool LocalPlayerKnowsEgoist = false; //trueの時にエゴイストの名前の色を変える
                 switch (seer.GetCustomRole().GetRoleType())
                 {
@@ -401,12 +400,6 @@ namespace TownOfHost
                     case CustomRoles.EvilTracker:
                         pva.NameText.text += EvilTracker.GetTargetMark(seer, target);
                         break;
-                    case CustomRoles.EgoSchrodingerCat:
-                        LocalPlayerKnowsEgoist = true;
-                        break;
-                    case CustomRoles.JSchrodingerCat:
-                        LocalPlayerKnowsJackal = true;
-                        break;
                 }
 
                 switch (target.GetCustomRole())
@@ -414,10 +407,6 @@ namespace TownOfHost
                     case CustomRoles.Egoist:
                         if (LocalPlayerKnowsEgoist)
                             pva.NameText.color = Utils.GetRoleColor(CustomRoles.Egoist); //変更対象の名前の色変更
-                        break;
-                    case CustomRoles.Jackal:
-                        if (LocalPlayerKnowsJackal)
-                            pva.NameText.color = Utils.GetRoleColor(CustomRoles.Jackal); //変更対象の名前をジャッカル色にする
                         break;
                 }
                 foreach (var subRole in target.GetCustomSubRoles())

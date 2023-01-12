@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using HarmonyLib;
 using UnityEngine;
 using static TownOfHost.Options;
 
@@ -8,20 +10,26 @@ namespace TownOfHost
     {
         private static readonly int Id = 50400;
         public static List<byte> playerIdList = new();
+        static Color RoleColor = Utils.GetRoleColor(CustomRoles.SchrodingerCat);
+        static string RoleColorCode = Utils.GetRoleColorCode(CustomRoles.SchrodingerCat);
 
         public static OptionItem CanWinTheCrewmateBeforeChange;
         private static OptionItem ChangeTeamWhenExile;
+        static OptionItem OptionCanSeeKillableTeammate;
 
+        static bool CanSeeKillableTeammate;
 
         public static void SetupCustomOption()
         {
             SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.SchrodingerCat);
             CanWinTheCrewmateBeforeChange = BooleanOptionItem.Create(Id + 10, "CanBeforeSchrodingerCatWinTheCrewmate", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
             ChangeTeamWhenExile = BooleanOptionItem.Create(Id + 11, "SchrodingerCatExiledTeamChanges", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
+            OptionCanSeeKillableTeammate = BooleanOptionItem.Create(Id + 12, "SchrodingerCatCanSeeKillableTeammate", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
         }
         public static void Init()
         {
             playerIdList = new();
+            CanSeeKillableTeammate = OptionCanSeeKillableTeammate.GetBool();
         }
         public static void Add(byte playerId)
         {
@@ -62,7 +70,28 @@ namespace TownOfHost
             if (killer.Is(RoleType.Impostor))
                 target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
 
-            NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, $"{Utils.GetRoleColorCode(CustomRoles.SchrodingerCat)}");
+            var killerColorCode = killer.GetRoleColorCode();
+            if (CanSeeKillableTeammate)
+            {
+                var roleType = killer.GetCustomRole().GetRoleType();
+                System.Func<PlayerControl, bool> isTarget = roleType switch
+                {
+                    RoleType.Impostor => (pc) => pc.GetCustomRole().GetRoleType() == roleType,
+                    _ => (pc) => pc.GetCustomRole() == killer.GetCustomRole()
+                };
+                ;
+                var killerTeam = Main.AllPlayerControls.Where(pc => isTarget(pc));
+                foreach (var member in killerTeam)
+                {
+                    NameColorManager.Instance.RpcAdd(member.PlayerId, target.PlayerId, RoleColorCode);
+                    NameColorManager.Instance.RpcAdd(target.PlayerId, member.PlayerId, killerColorCode);
+                }
+            }
+            else
+            {
+                NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, RoleColorCode);
+                NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, killerColorCode);
+            }
             Utils.NotifyRoles();
             Utils.MarkEveryoneDirtySettings();
             //シュレディンガーの猫の役職変化処理終了
