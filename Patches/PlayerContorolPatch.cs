@@ -733,7 +733,6 @@ namespace TownOfHost
                     {
                         RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの名前を赤色で表示
                     }
-                    //タスクを終わらせたSnitchがインポスターを確認できる
                     else if (seer.GetCustomRole().IsImpostor()) //seerがインポスター
                     {
                         if (target.Is(CustomRoles.Egoist)) //targetがエゴイスト
