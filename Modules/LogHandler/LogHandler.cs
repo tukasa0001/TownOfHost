@@ -13,17 +13,17 @@ namespace TownOfHost.Modules
             Tag = tag;
         }
 
-        public void Info(string text, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "")
-            => Logger.Info(text, Tag, true, lineNumber, fileName);
-        public void Warn(string text, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "")
-            => Logger.Warn(text, Tag, true, lineNumber, fileName);
-        public void Error(string text, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "")
-            => Logger.Error(text, Tag, true, lineNumber, fileName);
-        public void Fatal(string text, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "")
-            => Logger.Fatal(text, Tag, true, lineNumber, fileName);
-        public void Msg(string text, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "")
-            => Logger.Msg(text, Tag, true, lineNumber, fileName);
-        public void Exception(Exception ex, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "")
-            => Logger.Exception(ex, Tag, lineNumber, fileName);
+        public void Info(string text)
+            => Logger.Info(text, Tag, true);
+        public void Warn(string text)
+            => Logger.Warn(text, Tag, true);
+        public void Error(string text)
+            => Logger.Error(text, Tag, true);
+        public void Fatal(string text)
+            => Logger.Fatal(text, Tag, true);
+        public void Msg(string text)
+            => Logger.Msg(text, Tag, true);
+        public void Exception(Exception ex)
+            => Logger.Exception(ex, Tag);
     }
 }
