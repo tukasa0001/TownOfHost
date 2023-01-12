@@ -40,19 +40,18 @@ namespace TownOfHost
     {
         public static void Prefix()
         {
-            var logger = Logger.Handler("Info");
-            logger.Info("------------名前表示------------");
+            Logger.Info("------------名前表示------------", "Info");
             foreach (var pc in Main.AllPlayerControls)
             {
-                logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc.name.PadRightV2(20)}:{pc.cosmetics.nameText.text}({Palette.ColorNames[pc.Data.DefaultOutfit.ColorId].ToString().Replace("Color", "")})");
+                Logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc.name.PadRightV2(20)}:{pc.cosmetics.nameText.text}({Palette.ColorNames[pc.Data.DefaultOutfit.ColorId].ToString().Replace("Color", "")})", "Info");
                 pc.cosmetics.nameText.text = pc.name;
             }
-            logger.Info("----------役職割り当て----------");
+            Logger.Info("----------役職割り当て----------", "Info");
             foreach (var pc in Main.AllPlayerControls)
             {
-                logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc?.Data?.PlayerName?.PadRightV2(20)}:{pc.GetAllRoleName().RemoveHtmlTags()}");
+                Logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc?.Data?.PlayerName?.PadRightV2(20)}:{pc.GetAllRoleName().RemoveHtmlTags()}", "Info");
             }
-            logger.Info("--------------環境--------------");
+            Logger.Info("--------------環境--------------", "Info");
             foreach (var pc in Main.AllPlayerControls)
             {
                 try
@@ -62,22 +61,22 @@ namespace TownOfHost
                     if (Main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
                         text += $":Mod({pv.forkId}/{pv.version}:{pv.tag})";
                     else text += ":Vanilla";
-                    logger.Info(text);
+                    Logger.Info(text, "Info");
                 }
                 catch (Exception ex)
                 {
                     Logger.Exception(ex, "Platform");
                 }
             }
-            logger.Info("------------基本設定------------");
+            Logger.Info("------------基本設定------------", "Info");
             var tmp = GameOptionsManager.Instance.CurrentGameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
-            foreach (var t in tmp) logger.Info(t);
-            logger.Info("------------詳細設定------------");
+            foreach (var t in tmp) Logger.Info(t, "Info");
+            Logger.Info("------------詳細設定------------", "Info");
             foreach (var o in OptionItem.AllOptions)
                 if (!o.IsHiddenOn(Options.CurrentGameMode) && (o.Parent == null ? !o.GetString().Equals("0%") : o.Parent.GetBool()))
-                    logger.Info($"{(o.Parent == null ? o.Name.PadRightV2(40) : $"┗ {o.Name}".PadRightV2(41))}:{o.GetString().RemoveHtmlTags()}");
-            logger.Info("-------------その他-------------");
-            logger.Info($"プレイヤー数: {Main.AllPlayerControls.Count()}人");
+                    Logger.Info($"{(o.Parent == null ? o.Name.PadRightV2(40) : $"┗ {o.Name}".PadRightV2(41))}:{o.GetString().RemoveHtmlTags()}", "Info");
+            Logger.Info("-------------その他-------------", "Info");
+            Logger.Info($"プレイヤー数: {Main.AllPlayerControls.Count()}人", "Info");
             Main.AllPlayerControls.Do(x => Main.PlayerStates[x.PlayerId].InitTask(x));
             GameData.Instance.RecomputeTaskCounts();
             TaskState.InitialTotalTasks = GameData.Instance.TotalTasks;
