@@ -376,6 +376,7 @@
 "MayorNumOfUseButton","Number Of Mobile Emergency Button","ポータブルボタンの使用可能回数","市长紧急会议最大次数","隨時拍桌最大次數","Количество Портативных Кнопок","Número de Botões de Emergência"
 "CanBeforeSchrodingerCatWinTheCrewmate","Can Win With Crewmates If No Team","役職変化前であれば、クルー陣営と勝利できる","薛定谔的猫未加入其他阵营前可以跟随船员阵营获胜","薛定諤的貓的陣營轉變前可以和船員一起贏","Без Команды Он Может Победить С Членами Экипажа","Pode Ganhar Com Tripulantes"
 "SchrodingerCatExiledTeamChanges","Team Changes When Ejected","吊られた際、陣営が変化する","薛定谔的猫被放逐时会加入其他阵营","薛定諤的貓被丟出時陣營會改變","Команда может измениться после его изгнания","Time Muda Quando Exilado"
+"SchrodingerCatCanSeeKillableTeammate","Can See Killable Teammate","変化した陣営のキル役職が分かる"
 "ExecutionerCanTargetImpostor","Can Target Impostors","インポスターもターゲットにできる","内鬼阵营玩家可以成为处刑人的目标","劊子手的目標可以是狼人陣營的玩家","Может Иметь Цель Изгнать Предателя","Alvo Pode Ser Impostor"
 "ExecutionerCanTargetNeutralKiller","Can Target Neutrals","キルできる第三陣営もターゲットにできる","独立阵营玩家可以成为处刑人的目标","劊子手的目標可以是中立陣營的玩家","Может Иметь Цель Изгнать Нейтрального Убийцу","Pode Ter Alvo Neutro"
 "ExecutionerChangeRolesAfterTargetKilled","Role Changes When Target Dies","ターゲットがキルされた後に変化する役職","处刑人目标死亡后将变为的职业","劊子手的目標被殺後轉變的職業","Роль После Смерти Его Цели","Mudar Classe Caso Alvo Morra"
