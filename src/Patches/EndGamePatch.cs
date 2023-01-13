@@ -4,10 +4,11 @@ using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
+using TownOfHost.Options.Legacy.GameOptionsSender;
 using UnityEngine;
-using TownOfHost.Modules;
-using static TownOfHost.Translator;
+using static TownOfHost.Managers.Translator;
 using TownOfHost.Roles;
+using VentLib.Logging;
 
 namespace TownOfHost.Patches;
 
@@ -37,7 +38,7 @@ class EndGamePatch
             if (killerId != byte.MaxValue && killerId != targetId)
                 KillLog += $"\n\t\t⇐ {TOHPlugin.AllPlayerNames[killerId]}({Utils.GetDisplayRoleName(killerId)}{Utils.GetSubRolesText(killerId)})";
         }
-        Logger.Info("-----------ゲーム終了-----------", "Phase");
+        VentLogger.Old("-----------ゲーム終了-----------", "Phase");
         //winnerListリセット
         TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
         var winner = new List<PlayerControl>();

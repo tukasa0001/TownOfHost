@@ -7,7 +7,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
 
-namespace TownOfHost.ReduxOptions;
+namespace TownOfHost.Options;
 
 public static class DesyncOptions
 {

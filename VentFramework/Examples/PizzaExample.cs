@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Hazel;
-using TownOfHost.Extensions;
 using VentLib.Extensions;
 using VentLib.Interfaces;
+using VentLib.Logging;
 
 namespace VentLib;
 
@@ -30,7 +30,7 @@ public class PizzaExample
             writer.WriteList(Toppings);
         }
 
-        public override string ToString() => $"Pizza(cost={Cost}, toppings={Toppings.PrettyString()})";
+        public override string ToString() => $"Pizza(cost={Cost}, toppings={Toppings})";
     }
 
     [ModRPC(400, senders: RpcActors.Everyone, receivers: RpcActors.Host)]
@@ -51,6 +51,6 @@ public class PizzaExample
     public static void PrintFinalOrder(PizzaOrder order)
     {
         PlayerControl player = VentFramework.GetLastSender(400);
-        TownOfHost.Logger.Blue($"{player.GetRawName()} sent over the order: {order}", "PizzaOrder");
+        VentLogger.Info($"{player.name} sent over the order: {order}", "PizzaOrder");
     }
 }

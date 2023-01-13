@@ -4,6 +4,7 @@ using HarmonyLib;
 using AmongUs.GameOptions;
 using TownOfHost.Roles;
 using TownOfHost.Extensions;
+using VentLib.Logging;
 
 namespace TownOfHost
 {
@@ -118,12 +119,12 @@ namespace TownOfHost
 
         public void Init(PlayerControl player)
         {
-            Logger.Info($"{player.GetNameWithRole()}: InitTask", "TaskCounts");
+            VentLogger.Old($"{player.GetNameWithRole()}: InitTask", "TaskCounts");
             if (player == null || player.Data == null || player.Data.Tasks == null) return;
             if (!Utils.HasTasks(player.Data, false)) return;
             hasTasks = true;
             AllTasksCount = player.Data.Tasks.Count;
-            Logger.Info($"{player.GetNameWithRole()}: {CompletedTasksCount}/{AllTasksCount}", "TaskCounts");
+            VentLogger.Old($"{player.GetNameWithRole()}: {CompletedTasksCount}/{AllTasksCount}", "TaskCounts");
         }
     }
     public class PlayerVersion

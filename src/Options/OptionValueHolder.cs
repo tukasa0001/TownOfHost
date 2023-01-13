@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 using BepInEx.Configuration;
-using TownOfHost.Extensions;
-using UnityEngine;
+using TownOfHost.Options;
 
 namespace TownOfHost.ReduxOptions;
 
@@ -54,6 +53,9 @@ public class OptionValueHolder
     {
         if (this.configEntry != null)
             UpdateBoxedValue(this.configEntry.DefaultValue);
+        this.Index = this.values.FindIndex(v => fuzzyEquals(configEntry?.BoxedValue, v?.Value));
+        this.Index = this.Index == -1 ? DefaultIndex : Index;
+        UpdateBinding();
     }
 
     public object UpdateBoxedValue(object value)
@@ -95,7 +97,7 @@ public class OptionValueHolder
             sbyte sby => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, sby),
             short i16 => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, Convert.ToSingle(i16)),
             ushort u16 => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, Convert.ToSingle(u16)),
-            int i => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, Convert.ToSingle(i)),
+            int i => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, Convert.ToInt32(i)),
             uint u32 => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, Convert.ToSingle(u32)),
             long l => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, Convert.ToDouble(l)),
             ulong ul => TOHPlugin.OptionManager.GetPreset().Bind(value.Header, value.Entry, Convert.ToDouble(ul)),

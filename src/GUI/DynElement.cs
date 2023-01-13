@@ -1,6 +1,6 @@
 using System;
-using TownOfHost.Interface.Menus.CustomNameMenu;
-namespace TownOfHost.Interface;
+
+namespace TownOfHost.GUI;
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Method)]
 public class DynElement: Attribute

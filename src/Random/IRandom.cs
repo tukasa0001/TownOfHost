@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using VentLib.Logging;
 
 namespace TownOfHost
 {
@@ -37,7 +38,7 @@ namespace TownOfHost
                     Instance = Activator.CreateInstance(type) as IRandom ?? Instance;
                 }
             }
-            else Logger.Warn($"無効なID: {id}", "IRandom.SetInstanceById");
+            else VentLogger.Warn($"無効なID: {id}", "IRandom.SetInstanceById");
         }
     }
 }

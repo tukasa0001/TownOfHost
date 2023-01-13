@@ -5,6 +5,7 @@ using System.IO;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using BepInEx;
+using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 using LogLevel = BepInEx.Logging.LogLevel;
 
@@ -27,6 +28,7 @@ namespace TownOfHost
             awaiter.GetResult();
         }
     }
+    [Obsolete("Use VentLogger instead")]
     class Logger
     {
         public static bool isEnable;

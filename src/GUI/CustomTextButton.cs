@@ -7,7 +7,7 @@ using UnityEngine.Events;
 using Button = UnityEngine.UI.Button;
 using Object = UnityEngine.Object;
 
-namespace TownOfHost.Interface;
+namespace TownOfHost.GUI;
 
 public class CustomTextButton
 {

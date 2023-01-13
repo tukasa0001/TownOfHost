@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TownOfHost.Interface.Menus;
 using TownOfHost.Options;
 using TownOfHost.Victory;
 using TownOfHost.Victory.Conditions;

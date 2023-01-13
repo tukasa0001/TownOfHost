@@ -2,7 +2,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using static TownOfHost.Translator;
+using VentLib.Logging;
+using static TownOfHost.Managers.Translator;
 
 namespace TownOfHost
 {
@@ -75,7 +76,7 @@ namespace TownOfHost
         {
             var error = new ErrorData(code);
             if (0 < error.ErrorLevel)
-                Logger.Error($"エラー発生: {error}: {error.Message}", "ErrorText");
+                VentLogger.Error($"エラー発生: {error}: {error.Message}", "ErrorText");
 
             if (!AllErrors.Any(e => e.Code == code))
             {

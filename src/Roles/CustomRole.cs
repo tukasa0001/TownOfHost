@@ -8,13 +8,13 @@ using HarmonyLib;
 using Hazel;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
-using TownOfHost.Interface;
-using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.GUI;
 using TownOfHost.Managers;
-using TownOfHost.ReduxOptions;
+using TownOfHost.Options;
 using UnityEngine;
 using VentLib;
 using VentLib.Interfaces;
+using VentLib.Logging;
 
 namespace TownOfHost.Roles;
 
@@ -100,13 +100,13 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
     public void Assign(bool desync = false)
     {
         Type parentType = this.GetType().BaseType;
-        Logger.Info($"{MyPlayer.GetRawName()} | {parentType} | {this.RoleName}", "ROLE SET");
+        VentLogger.Old($"{MyPlayer.GetRawName()} | {parentType} | {this.RoleName}", "ROLE SET");
         // Always will be desynced
         // Here we do a "lazy" check for (all?) conditions that'd cause a role to need to be desync
         if (this.DesyncRole != null || this is Impostor)
         {
 
-            Logger.Info($"{this.RoleName} is desync", "DesyncInfo");
+            VentLogger.Old($"{this.RoleName} is desync", "DesyncInfo");
 
 
             // Get the ACTUAL role to assign the player
@@ -120,7 +120,7 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
             else
             {
                 // Send information to client about their new role
-                Logger.Info($"Sending role ({assignedType}) information to {MyPlayer.GetRawName()}", "");
+                VentLogger.Old($"Sending role ({assignedType}) information to {MyPlayer.GetRawName()}", "");
                 RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((ushort)assignedType).Send(MyPlayer.GetClientId());
             }
 
@@ -129,9 +129,16 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
             int[] alliesCID = allies.Select(p => p.GetClientId()).ToArray();
 
             allies.Select(player => player.GetRawName()).PrettyString().DebugLog($"{this.RoleName}'s allies are: ");
+
+            int[] crewmateReceivers = Game.GetAlivePlayers()
+                .Where(p => p.GetCustomRole().RealRole is not (RoleTypes.Impostor or RoleTypes.Shapeshifter))
+                .Select(p => p.GetClientId()).ToArray();
+
             //int[] allies = allies.Where(ally => ally.is)
             // Send to all clients, excluding allies, that you're a crewmate
-            RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((ushort)RoleTypes.Crewmate).SendToAll(exclude: alliesCID);
+            RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((ushort)RoleTypes.Impostor).SendToFollowing(include: crewmateReceivers);
+
+            RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((ushort)RoleTypes.Crewmate).SendToAll(exclude: alliesCID.Union(crewmateReceivers).ToArray());
             // Send to allies your real role
             RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((ushort)assignedType).SendToFollowing(include: alliesCID);
             // Finally, for all players that are not your allies make them crewmates

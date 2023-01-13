@@ -47,7 +47,7 @@ namespace TownOfHost
         public static void ShapeShiftCheck(this PlayerControl pc, bool shapeshifting)
         {
             if (!shapeshifting)
-                Logger.Info("ShapeShift Release", "Ninja");
+                VentLogger.Old("ShapeShift Release", "Ninja");
             {
                 foreach (var ni in NinjaKillTarget)
                 {

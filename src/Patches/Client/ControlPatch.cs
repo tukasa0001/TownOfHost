@@ -6,8 +6,10 @@ using UnityEngine;
 using AmongUs.GameOptions;
 using TownOfHost.Managers;
 using TownOfHost.Extensions;
+using TownOfHost.Options;
 using TownOfHost.Roles;
 using TownOfHost.Victory.Conditions;
+using VentLib.Logging;
 
 namespace TownOfHost
 {
@@ -91,14 +93,14 @@ namespace TownOfHost
             //カスタム翻訳のリロード
             if (GetKeysDown(KeyCode.F5, KeyCode.T))
             {
-                Logger.Info("Reload Custom Translation File", "KeyCommand");
+                VentLogger.Old("Reload Custom Translation File", "KeyCommand");
                 Translator.LoadLangs();
                 Logger.SendInGame("Reloaded Custom Translation File");
             }
             //ログファイルのダンプ
             if (GetKeysDown(KeyCode.F1, KeyCode.LeftControl))
             {
-                Logger.Info("Dump Logs", "KeyCommand");
+                VentLogger.Old("Dump Logs", "KeyCommand");
                 Utils.DumpLog();
             }
             //現在の設定をテキストとしてコピー
@@ -129,13 +131,13 @@ namespace TownOfHost
             //即スタート
             if (Input.GetKeyDown(KeyCode.LeftShift) && GameStates.IsCountDown)
             {
-                Logger.Info("CountDownTimer set to 0", "KeyCommand");
+                VentLogger.Old("CountDownTimer set to 0", "KeyCommand");
                 GameStartManager.Instance.countDownTimer = 0;
             }
             //カウントダウンキャンセル
             if (Input.GetKeyDown(KeyCode.C) && GameStates.IsCountDown)
             {
-                Logger.Info("Reset CountDownTimer", "KeyCommand");
+                VentLogger.Old("Reset CountDownTimer", "KeyCommand");
                 GameStartManager.Instance.ResetStartState();
             }
             //現在の有効な設定の説明を表示
@@ -221,7 +223,7 @@ namespace TownOfHost
             }
             //現在の座標を取得
             if (Input.GetKeyDown(KeyCode.I))
-                Logger.Info(PlayerControl.LocalPlayer.GetTruePosition().ToString(), "GetLocalPlayerPos");
+                VentLogger.Old(PlayerControl.LocalPlayer.GetTruePosition().ToString(), "GetLocalPlayerPos");
             //マスゲーム用コード
             /*if (Input.GetKeyDown(KeyCode.C))
             {
@@ -255,7 +257,7 @@ namespace TownOfHost
         {
             if (keys.Any(k => Input.GetKeyDown(k)) && keys.All(k => Input.GetKey(k)))
             {
-                Logger.Info($"KeyDown:{keys.Where(k => Input.GetKeyDown(k)).First()} in [{string.Join(",", keys)}]", "GetKeysDown");
+                VentLogger.Old($"KeyDown:{keys.Where(k => Input.GetKeyDown(k)).First()} in [{string.Join(",", keys)}]", "GetKeysDown");
                 return true;
             }
             return false;

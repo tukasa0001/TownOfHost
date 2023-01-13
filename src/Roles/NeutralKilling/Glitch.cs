@@ -5,6 +5,7 @@ using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.Managers;
+using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 using TownOfHost.RPC;
 using TownOfHost.Victory;

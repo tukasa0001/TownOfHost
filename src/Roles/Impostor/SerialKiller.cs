@@ -1,9 +1,6 @@
-using AmongUs.GameOptions;
 using TownOfHost.Extensions;
-using TownOfHost.Interface;
-using TownOfHost.Interface.Menus.CustomNameMenu;
-using TownOfHost.Managers;
-using TownOfHost.ReduxOptions;
+using TownOfHost.GUI;
+using TownOfHost.Options;
 using UnityEngine;
 
 namespace TownOfHost.Roles;
@@ -18,11 +15,6 @@ public class SerialKiller : Impostor
 
     [DynElement(UI.Counter)]
     private string CustomCooldown() => DeathTimer.IsReady() ? "" : Color.white.Colorize(DeathTimer + "s");
-
-    protected override void Setup(PlayerControl player)
-    {
-        base.Setup(player);
-    }
 
     [RoleAction(RoleActionType.AttemptKill)]
     public new bool TryKill(PlayerControl target)

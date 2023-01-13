@@ -2,6 +2,7 @@ using TownOfHost.ReduxOptions;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
+using TownOfHost.Options;
 using TownOfHost.Roles;
 
 namespace TownOfHost.Patches.Actions;

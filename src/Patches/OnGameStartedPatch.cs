@@ -5,9 +5,11 @@ using HarmonyLib;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
+using TownOfHost.Options;
 using TownOfHost.Patches.Actions;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
+using VentLib.Logging;
 
 namespace TownOfHost
 {
@@ -31,8 +33,6 @@ namespace TownOfHost
             TOHPlugin.AfterMeetingDeathPlayers = new();
             TOHPlugin.ResetCamPlayerList = new();
 
-            ReportDeadBodyPatch.CanReport = new();
-
             OldOptions.UsedButtonCount = 0;
             TOHPlugin.RealOptionsData = new OptionBackupData(GameOptionsManager.Instance.CurrentGameOptions);
 
@@ -49,7 +49,6 @@ namespace TownOfHost
                 TOHPlugin.AllPlayerNames[pc.PlayerId] = pc?.Data?.PlayerName;
 
                 TOHPlugin.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
-                ReportDeadBodyPatch.CanReport[pc.PlayerId] = true;
                 pc.cosmetics.nameText.text = pc.name;
 
                 RandomSpawn.CustomNetworkTransformPatch.NumOfTP.Add(pc.PlayerId, 0);
@@ -100,7 +99,7 @@ namespace TownOfHost
                 .Select(kvp => new Tuple<string, CustomRole>(Utils.GetPlayerById(kvp.Key).GetRawName(), kvp.Value))
                 .ToList();
 
-            Logger.Info($"Assignments: {String.Join(", ", debugList)}", "");
+            VentLogger.Old($"Assignments: {String.Join(", ", debugList)}", "");
 
             TOHPlugin.ResetCamPlayerList.AddRange(Game.GetAllPlayers().Where(p => p.GetCustomRole() is Arsonist).Select(p => p.PlayerId));
             Game.RenderAllForAll(state: GameState.InIntro);

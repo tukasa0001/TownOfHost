@@ -6,6 +6,7 @@ using System.Reflection;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using VentLib.Interfaces;
+using VentLib.Logging;
 
 namespace VentLib;
 
@@ -16,15 +17,10 @@ namespace VentLib;
 public static class VentFramework
 {
     public static uint[] BuiltinRPCs = { 1017 };
-    private static Harmony harmony;
-    /*static VentFramework()
-    {
-        harmony = new Harmony("com.tealeaf.VentFramework");
-        harmony.PatchAll();
-    }*/
-
+    private static Harmony Harmony;
     internal static readonly Dictionary<uint, List<ModRPC>> RpcBindings = new();
     internal static readonly Dictionary<Assembly, VentControlFlag> RegisteredAssemblies = new();
+    internal static readonly Dictionary<Assembly, string> AssemblyNames = new();
     internal static readonly Dictionary<Assembly, int[]> BlockedReceivers = new();
     internal static readonly Dictionary<uint, PlayerControl> LastSenders = new();
 
@@ -42,7 +38,7 @@ public static class VentFramework
         int[] newBlockedArray = BlockedReceivers.TryGetValue(assembly, out int[]? blockedClients)
             ? blockedClients.AddToArray(clientId)
             : new[] { clientId };
-        BlockedReceivers[Assembly.GetCallingAssembly()] = newBlockedArray;
+        BlockedReceivers[assembly] = newBlockedArray;
     }
 
     internal static void SetControlFlag(Assembly assembly, VentControlFlag flag)
@@ -52,11 +48,16 @@ public static class VentFramework
         RegisteredAssemblies[assembly] = flag;
     }
 
+    public static void SetAssemblyRefName(Assembly assembly, string name)
+    {
+        AssemblyNames[assembly] = name;
+    }
+
     public static ModRPC? FindRPC(uint callId, MethodInfo? targetMethod = null)
     {
         if (!RpcBindings.TryGetValue(callId, out List<ModRPC>? RPCs))
         {
-            TownOfHost.Logger.Warn($"Attempted to find unregistered RPC: {callId}", "VentFramework");
+            VentLogger.Warn($"Attempted to find unregistered RPC: {callId}", "VentFramework");
             return null;
         }
 
@@ -69,12 +70,13 @@ public static class VentFramework
     {
         if (RegisteredAssemblies.ContainsKey(assembly)) return;
         RegisteredAssemblies.Add(assembly, VentControlFlag.AllowedReceiver | VentControlFlag.AllowedSender);
+        AssemblyNames.Add(assembly, assembly.GetName().Name);
 
         var methods = assembly.GetTypes()
             .SelectMany(t => t.GetMethods(BindingFlags.Static | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
             .Where(m => m.GetCustomAttribute<ModRPCAttribute>() != null).ToList();
 
-        TownOfHost.Logger.Info($"Registering {methods.Count} methods from {assembly.GetName().Name}", "VentFramework");
+        VentLogger.Info($"Registering {methods.Count} methods from {assembly.GetName().Name}", "VentFramework");
         foreach (var method in methods)
         {
             ModRPCAttribute attribute = method.GetCustomAttribute<ModRPCAttribute>()!;
@@ -87,9 +89,11 @@ public static class VentFramework
         }
     }
 
-    internal static void Initialize()
+    public static void Initialize(bool requirePatch = false)
     {
         IL2CPPChainloader.Instance.PluginLoad += (_, assembly, _) => Register(assembly);
+        Harmony = new Harmony("me.tealeaf.VentFramework");
+        if (requirePatch) Harmony.PatchAll(Assembly.GetExecutingAssembly());
     }
 }
 

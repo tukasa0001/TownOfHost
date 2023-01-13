@@ -6,8 +6,10 @@ using Hazel;
 using AmongUs.GameOptions;
 using TownOfHost.Addons;
 using TownOfHost.Extensions;
+using TownOfHost.Patches.Chat;
 using TownOfHost.Roles;
-using static TownOfHost.Translator;
+using VentLib.Logging;
+using static TownOfHost.Managers.Translator;
 
 namespace TownOfHost
 {
@@ -48,38 +50,38 @@ namespace TownOfHost
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
         {
             var rpcType = (RpcCalls)callId;
-            Logger.Info($"{__instance?.Data?.PlayerId}({__instance?.Data?.PlayerName}):{callId}({OldRPC.GetRpcName(callId)})", "ReceiveRPC");
+            VentLogger.Old($"{__instance?.Data?.PlayerId}({__instance?.Data?.PlayerName}):{callId}({OldRPC.GetRpcName(callId)})", "ReceiveRPC");
             MessageReader subReader = MessageReader.Get(reader);
             switch (rpcType)
             {
                 case RpcCalls.SetName: //SetNameRPC
                     string name = subReader.ReadString();
                     if (subReader.BytesRemaining > 0 && subReader.ReadBoolean()) return false;
-                    Logger.Info("名前変更:" + __instance.GetNameWithRole() + " => " + name, "SetName");
+                    VentLogger.Old("名前変更:" + __instance.GetNameWithRole() + " => " + name, "SetName");
                     break;
                 case RpcCalls.SetRole: //SetNameRPC
                     var role = (RoleTypes)subReader.ReadUInt16();
-                    Logger.Info("役職:" + __instance.GetRealName() + " => " + role, "SetRole");
+                    VentLogger.Old("役職:" + __instance.GetRealName() + " => " + role, "SetRole");
                     break;
                 case RpcCalls.SendChat:
                     var text = subReader.ReadString();
-                    Logger.Info($"{__instance.GetNameWithRole()}:{text}", "SendChat");
+                    VentLogger.Old($"{__instance.GetNameWithRole()}:{text}", "SendChat");
                     ChatCommands.OnReceiveChat(__instance, text);
                     break;
                 case RpcCalls.StartMeeting:
                     var p = Utils.GetPlayerById(subReader.ReadByte());
-                    Logger.Info($"{__instance.GetNameWithRole()} => {p?.GetNameWithRole() ?? "null"}", "StartMeeting");
+                    VentLogger.Old($"{__instance.GetNameWithRole()} => {p?.GetNameWithRole() ?? "null"}", "StartMeeting");
                     break;
             }
             if (__instance.PlayerId != 0
                 && Enum.IsDefined(typeof(CustomRPCOLD), (int)callId)
                 && !(callId == (byte)CustomRPCOLD.VersionCheck || callId == (byte)CustomRPCOLD.RequestRetryVersionCheck)) //ホストではなく、CustomRPCで、VersionCheckではない
             {
-                Logger.Warn($"{__instance?.Data?.PlayerName}:{callId}({OldRPC.GetRpcName(callId)}) ホスト以外から送信されたためキャンセルしました。", "CustomRPC");
+                VentLogger.Warn($"{__instance?.Data?.PlayerName}:{callId}({OldRPC.GetRpcName(callId)}) ホスト以外から送信されたためキャンセルしました。", "CustomRPC");
                 if (AmongUsClient.Instance.AmHost)
                 {
                     AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
-                    Logger.Warn($"不正なRPCを受信したため{__instance?.Data?.PlayerName}をキックしました。", "Kick");
+                    VentLogger.Warn($"不正なRPCを受信したため{__instance?.Data?.PlayerName}をキックしました。", "Kick");
                     Logger.SendInGame(string.Format(GetString("Warning.InvalidRpc"), __instance?.Data?.PlayerName));
                 }
                 return false;
@@ -101,7 +103,7 @@ namespace TownOfHost
                     }
                     catch
                     {
-                        Logger.Warn($"{__instance?.Data?.PlayerName}({__instance.PlayerId}): バージョン情報が無効です", "RpcVersionCheck");
+                        VentLogger.Warn($"{__instance?.Data?.PlayerName}({__instance.PlayerId}): バージョン情報が無効です", "RpcVersionCheck");
                         new DTask(() =>
                         {
                             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.RequestRetryVersionCheck, SendOption.Reliable, __instance.GetClientId());
@@ -186,7 +188,7 @@ namespace TownOfHost
             }
             catch (Exception ex)
             {
-                Logger.Error($"正常にEndGameを行えませんでした。{ex}", "EndGame");
+                VentLogger.Error($"正常にEndGameを行えませんでした。{ex}", "EndGame");
             }
         }
         public static void PlaySound(byte playerID, Sounds sound)
@@ -228,7 +230,7 @@ namespace TownOfHost
                 from = PlayerControl.AllPlayerControls.ToArray().Where(c => c.NetId == targetNetId).FirstOrDefault()?.Data?.PlayerName;
             }
             catch { }
-            Logger.Info($"FromNetID:{targetNetId}({from}) TargetClientID:{targetClientId}({target}) CallID:{callId}({rpcName})", "SendRPC");
+            VentLogger.Old($"FromNetID:{targetNetId}({from}) TargetClientID:{targetClientId}({target}) CallID:{callId}({rpcName})", "SendRPC");
         }
         public static string GetRpcName(byte callId)
         {

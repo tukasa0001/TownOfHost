@@ -4,6 +4,7 @@ using System.Linq;
 using Newtonsoft.Json.Utilities;
 using TownOfHost.Extensions;
 using TownOfHost.Roles;
+using VentLib.Logging;
 
 namespace TownOfHost;
 
@@ -51,7 +52,7 @@ public static class RoleAssignments
             return debugRoles;
 
         int amount = !name.Contains("X") ? 1 : int.Parse(name.Split("X")[1]);
-        Logger.Info($"Creating #{amount} of {matchingRole}", "Debug");
+        VentLogger.Old($"Creating #{amount} of {matchingRole}", "Debug");
 
         for (int i = 0; i < amount * 10; i++)
             debugRoles.Add(matchingRole);
@@ -62,7 +63,7 @@ public static class RoleAssignments
     public static List<CustomRole> EnabledRoles(IEnumerable<CustomRole> roles)
     {
         /*foreach (CustomRoles customRoles in roles)
-            Logger.Info($"{customRoles} enabled = {customRoles.IsEnable()}", "DebugRoles");*/
+            VentLogger.Old($"{customRoles} enabled = {customRoles.IsEnable()}", "DebugRoles");*/
 
         return roles.Where(role => role.IsEnabled()).ToList();
     }

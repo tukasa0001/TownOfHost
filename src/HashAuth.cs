@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using VentLib.Logging;
+#pragma warning disable CS8625
 
 namespace TownOfHost
 {
@@ -59,8 +61,8 @@ namespace TownOfHost
             // 2.ハッシュ値のログ出力
             //  salt有: ハッシュ値算出結果:<value> => <hashValue> (salt: <saltValue>)
             //  salt無: ハッシュ値算出結果:<value> => <hashValue>
-            Logger.Info($"ハッシュ値算出結果: {value} => {hashValue} {(salt == null ? "" : $"(salt: {salt})")}", "HashAuth");
-            Logger.Warn("以上の値をソースコード上にペーストしてください。", "HashAuth");
+            VentLogger.Old($"ハッシュ値算出結果: {value} => {hashValue} {(salt == null ? "" : $"(salt: {salt})")}", "HashAuth");
+            VentLogger.Warn("以上の値をソースコード上にペーストしてください。", "HashAuth");
 
             // 3.HashAuthインスタンスの生成・リターン
             return new HashAuth(hashValue, salt, algorithm);

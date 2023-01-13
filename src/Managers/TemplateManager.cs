@@ -6,7 +6,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AmongUs.Data;
 using HarmonyLib;
-using static TownOfHost.Translator;
+using VentLib.Logging;
+using static TownOfHost.Managers.Translator;
 
 namespace TownOfHost
 {
@@ -53,13 +54,13 @@ namespace TownOfHost
                     }
                     else
                     {
-                        Logger.Info("Among Us.exeと同じフォルダにtemplate.txtが見つかりませんでした。新規作成します。", "TemplateManager");
+                        VentLogger.Old("Among Us.exeと同じフォルダにtemplate.txtが見つかりませんでした。新規作成します。", "TemplateManager");
                         File.WriteAllText(TEMPLATE_FILE_PATH, "test:This is template text.\\nLine breaks are also possible.\ntest:これは定型文です。\\n改行も可能です。");
                     }
                 }
                 catch (Exception ex)
                 {
-                    Logger.Exception(ex, "TemplateManager");
+                    VentLogger.Exception(ex, "TemplateManager");
                 }
             }
         }

@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.Extensions;
-using TownOfHost.Interface;
-using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.GUI;
 using TownOfHost.Managers;
+using TownOfHost.Options;
 using TownOfHost.Patches.Systems;
-using TownOfHost.ReduxOptions;
 using UnityEngine;
+using VentLib.Logging;
 
 namespace TownOfHost.Roles;
 
@@ -63,13 +62,13 @@ public class FireWorks: Morphling
         if (exploding || mustBeLastImpostor && GameStats.CountAliveImpostors() > 1) return;
         if (!WarnPlayers)
         {
-            Logger.Info($"FireWorks Explosion Activated, Time Until Explosion: {fireworkDelay}. Not Warning Players", "FireWorksDebug");
+            VentLogger.Old($"FireWorks Explosion Activated, Time Until Explosion: {fireworkDelay}. Not Warning Players", "FireWorksDebug");
             fireworkLocations.Do(pos => DTask.Schedule(() => KillPlayersInRadius(pos), fireworkDelay));
             fireworkLocations.Clear();
         }
         else
         {
-            Logger.Info($"FireWorks Explosion Activated, Time Until Explosion: {fireworkDelay}", "FireWorksDebug");
+            VentLogger.Old($"FireWorks Explosion Activated, Time Until Explosion: {fireworkDelay}", "FireWorksDebug");
             exploding = true;
             DTask.Schedule(() => exploding = false, fireworkDelay);
         }

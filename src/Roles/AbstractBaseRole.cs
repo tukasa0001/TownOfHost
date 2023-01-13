@@ -7,10 +7,11 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
-using TownOfHost.Interface;
+using TownOfHost.GUI;
+using TownOfHost.Managers;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
 using UnityEngine;
+using VentLib.Logging;
 
 namespace TownOfHost.Roles;
 
@@ -26,7 +27,7 @@ public abstract class AbstractBaseRole
         if (roleId == -1)
         {
             if (ROLE_DEBUG)
-                Logger.Warn($"Illegally Constructing Role for {typeof(T)}", "RoleWarning");
+                VentLogger.Warn($"Illegally Constructing Role for {typeof(T)}", "RoleWarning");
                 return (T)typeof(T).GetConstructor(Array.Empty<Type>()).Invoke(null);
             throw new NullReferenceException($"Pseudo-static reference for {typeof(T)} not set in RoleManager");
         }
@@ -38,6 +39,7 @@ public abstract class AbstractBaseRole
 
     public RoleTypes? DesyncRole;
     public RoleTypes VirtualRole;
+    public RoleTypes RealRole => DesyncRole ?? VirtualRole;
     public Faction[] Factions = { Faction.Crewmates };
     public SpecialType SpecialType = SpecialType.None;
     public Color RoleColor = Color.white;
@@ -171,7 +173,7 @@ public abstract class AbstractBaseRole
         {
             if (StaticOptions.LogAllActions)
             {
-                Logger.Blue($"{MyPlayer.GetNameWithRole()} :: {actionType.ToString()}", "ActionLog");
+                VentLogger.Trace($"{MyPlayer.GetNameWithRole()} :: {actionType.ToString()}", "ActionLog");
                 Logger.Blue($"Parameters: {parameters.PrettyString()} :: Blocked? {inBlockList && method.Item2.Blockable}", "ActionLog");
             }
             if (!inBlockList || !method.Item2.Blockable)

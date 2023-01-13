@@ -1,9 +1,9 @@
 using TownOfHost.Extensions;
-using TownOfHost.Interface;
-using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.GUI;
+using TownOfHost.Managers;
 using TownOfHost.Roles;
 
-namespace TownOfHost.Managers;
+namespace TownOfHost.Player;
 
 public class PlayerPlus
 {

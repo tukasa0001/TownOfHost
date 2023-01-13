@@ -10,13 +10,14 @@ using TownOfHost.Factions;
 using TownOfHost.Roles;
 using TownOfHost.RPC;
 using VentLib;
+using VentLib.Logging;
 
 namespace TownOfHost.Addons;
 
 public class AddonManager
 {
+    public static LogLevel AddonLL = LogLevel.Info.Similar("ADDON", ConsoleColor.Magenta);
     public static List<TOHAddon> Addons = new();
-
 
     public static void ImportAddons()
     {
@@ -35,7 +36,7 @@ public class AddonManager
             if (tohType == null)
                 throw new ConstraintException("TownOfHost Addons requires ONE class file that extends TOHAddon");
             TOHAddon addon = (TOHAddon)tohType.GetConstructor(new Type[] { })!.Invoke(null);
-            Logger.Color($"Loading Addon [{addon.AddonName()} {addon.AddonVersion()}]", "AddonManager", ConsoleColor.Magenta);
+            VentLogger.Log(AddonLL,$"Loading Addon [{addon.AddonName()} {addon.AddonVersion()}]", "AddonManager");
             VentFramework.Register(assembly);
             Addons.Add(addon);
             MethodInfo initialize = tohType.GetMethod("Initialize");
@@ -56,6 +57,7 @@ public class AddonManager
     {
         List<AddonInfo> hostInfo = Addons.Select(AddonInfo.From).ToList();
         int[] senderId = { VentFramework.GetLastSender((uint)ModCalls.VerifyAddons)?.GetClientId() ?? 999 };
+        $"Last Sender: {senderId}".DebugLog();
 
         List<AddonInfo> mismatchInfo = Addons.Select(hostAddon =>
         {
@@ -90,8 +92,8 @@ public class AddonManager
     public static void ReceiveAddonVerification(List<AddonInfo> addons)
     {
         if (addons.Count == 0) return;
-        Logger.Error(" Error Validating Addons. All CustomRPCs between the host and this client have been disabled.", "VerifyAddons");
-        Logger.Error(" -=-=-=-=-=-=-=-=-=[Errored Addons]=-=-=-=-=-=-=-=-=-", "VerifyAddons");
+        VentLogger.Error(" Error Validating Addons. All CustomRPCs between the host and this client have been disabled.", "VerifyAddons");
+        VentLogger.Error(" -=-=-=-=-=-=-=-=-=[Errored Addons]=-=-=-=-=-=-=-=-=-", "VerifyAddons");
         foreach (var rejectReason in addons.Where(info => info.Mismatches is not Mismatch.None).Select(addonInfo => (addonInfo.Mismatches)
              switch {
                  Mismatch.Version => $" {addonInfo.Name}:{addonInfo.Version} => Local version is not compatible with the host version of the addon",
@@ -99,6 +101,6 @@ public class AddonManager
                  Mismatch.HostMissingAddon => $" {addonInfo.Name}:{addonInfo.Version} => Host Missing Addon ",
                  _ => throw new ArgumentOutOfRangeException()
              }))
-            Logger.Error(rejectReason, "VerifyAddons");
+            VentLogger.Error(rejectReason, "VerifyAddons");
     }
 }

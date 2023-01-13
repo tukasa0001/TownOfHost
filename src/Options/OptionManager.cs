@@ -4,12 +4,11 @@ using System.Linq;
 using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
-using TownOfHost.Interface.Menus;
 using TownOfHost.Menus;
-using TownOfHost.Options;
-using TownOfHost.Roles;
+using TownOfHost.Patches.Menus;
+using TownOfHost.ReduxOptions;
 
-namespace TownOfHost.ReduxOptions;
+namespace TownOfHost.Options;
 
 public class OptionManager
 {

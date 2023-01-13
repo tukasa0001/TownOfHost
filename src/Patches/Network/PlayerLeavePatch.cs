@@ -1,6 +1,7 @@
 using HarmonyLib;
 using InnerNet;
 using TownOfHost.Managers;
+using VentLib.Logging;
 
 namespace TownOfHost.Patches.Network;
 
@@ -18,7 +19,7 @@ class OnPlayerLeftPatch
 {
     public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData data, [HarmonyArgument(1)] DisconnectReasons reason)
     {
-        Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
+        VentLogger.Old($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
         if (Game.State is GameState.InLobby) return;
         Game.players.Remove(data.Character.PlayerId);
         AntiBlackout.OnDisconnect(data.Character.Data);

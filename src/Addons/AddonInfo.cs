@@ -58,7 +58,7 @@ public class AddonInfo: IRpcSendable<AddonInfo>
     public static bool operator ==(AddonInfo addon1, AddonInfo addon2) => addon1?.Equals(addon2) ?? addon2 is null;
     public static bool operator !=(AddonInfo addon1, AddonInfo addon2) => !addon1?.Equals(addon2) ?? addon2 is not null;
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj is not AddonInfo addon) return false;
         return addon.UUID == UUID;

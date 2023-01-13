@@ -6,9 +6,11 @@ using UnityEngine;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
+using TownOfHost.Options;
 using TownOfHost.Roles;
-using static TownOfHost.Translator;
+using static TownOfHost.Managers.Translator;
 using TownOfHost.ReduxOptions;
+using VentLib.Logging;
 
 namespace TownOfHost
 {
@@ -42,18 +44,18 @@ namespace TownOfHost
         public static void Prefix()
         {
             Game.State = GameState.InIntro;
-            Logger.Info("------------名前表示------------", "Info");
+            VentLogger.Old("------------名前表示------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                Logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc.name.PadRightV2(20)}:{pc.cosmetics.nameText.text}({Palette.ColorNames[pc.Data.DefaultOutfit.ColorId].ToString().Replace("Color", "")})", "Info");
+                VentLogger.Old($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc.name.PadRightV2(20)}:{pc.cosmetics.nameText.text}({Palette.ColorNames[pc.Data.DefaultOutfit.ColorId].ToString().Replace("Color", "")})", "Info");
                 pc.cosmetics.nameText.text = pc.name;
             }
-            Logger.Info("----------役職割り当て----------", "Info");
+            VentLogger.Old("----------役職割り当て----------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                Logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc?.Data?.PlayerName?.PadRightV2(20)}:{pc.GetAllRoleName()}", "Info");
+                VentLogger.Old($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc?.Data?.PlayerName?.PadRightV2(20)}:{pc.GetAllRoleName()}", "Info");
             }
-            Logger.Info("--------------環境--------------", "Info");
+            VentLogger.Old("--------------環境--------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 try
@@ -63,18 +65,18 @@ namespace TownOfHost
                     if (TOHPlugin.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
                         text += $":Mod({pv.forkId}/{pv.version}:{pv.tag})";
                     else text += ":Vanilla";
-                    Logger.Info(text, "Info");
+                    VentLogger.Old(text, "Info");
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(ex.ToString(), "Platform");
+                    VentLogger.Error(ex.ToString(), "Platform");
                 }
             }
-            Logger.Info("------------基本設定------------", "Info");
+            VentLogger.Old("------------基本設定------------", "Info");
             var tmp = GameOptionsManager.Instance.CurrentGameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
-            foreach (var t in tmp) Logger.Info(t, "Info");
-            Logger.Info("------------詳細設定------------", "Info");
-            Logger.Info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
+            foreach (var t in tmp) VentLogger.Old(t, "Info");
+            VentLogger.Old("------------詳細設定------------", "Info");
+            VentLogger.Old($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
             PlayerControl.AllPlayerControls.ToArray().Do(x => TOHPlugin.PlayerStates[x.PlayerId].InitTask(x));
 
             GameStates.InGame = true;
@@ -215,7 +217,7 @@ namespace TownOfHost
                 Color LerpingColor = Color.Lerp(start, end, time);
                 if (__instance == null || milliseconds > 500)
                 {
-                    Logger.Info("ループを終了します", "StartFadeIntro");
+                    VentLogger.Old("ループを終了します", "StartFadeIntro");
                     break;
                 }
                 __instance.BackgroundBar.material.color = LerpingColor;
@@ -293,7 +295,7 @@ namespace TownOfHost
                 }
             }
 
-            Logger.Info("OnDestroy", "IntroCutscene");
+            VentLogger.Old("OnDestroy", "IntroCutscene");
         }
     }
 }

@@ -6,10 +6,12 @@ using HarmonyLib;
 using Hazel;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
+using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Victory.Conditions;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using VentLib.Logging;
 using Object = UnityEngine.Object;
 
 namespace TownOfHost.Roles;
@@ -27,7 +29,7 @@ public class Debugger: CustomRole
     [RoleAction(RoleActionType.OnPet)]
     private void OnPet()
     {
-        Logger.Info("OnPet Called", "DebuggerCall");
+        VentLogger.Old("OnPet Called", "DebuggerCall");
         LogStats();
 
         MyPlayer.RpcSetRole(RoleTypes.Crewmate);
@@ -46,25 +48,25 @@ public class Debugger: CustomRole
     {
         Vector2 location = MyPlayer.GetTruePosition();
         foreach (PlayerControl player in Game.GetAlivePlayers().Where(p => p.PlayerId != MyPlayer.PlayerId))
-            Logger.Info($"Distance from {MyPlayer.GetRawName()} to {player.GetRawName()} :: {Vector2.Distance(location, player.GetTruePosition())}", "DebuggerDistance");
+            VentLogger.Old($"Distance from {MyPlayer.GetRawName()} to {player.GetRawName()} :: {Vector2.Distance(location, player.GetTruePosition())}", "DebuggerDistance");
     }
 
     private void LogStats()
     {
-        Logger.Info($"{MyPlayer.GetNameWithRole()} | Dead? {MyPlayer.Data.IsDead} | AURole: {MyPlayer.Data.Role.name} | Custom Role: {MyPlayer.GetCustomRole().RoleName.RemoveHtmlTags()} | Subrole: {MyPlayer.GetSubrole()?.RoleName}", "DebuggerStats");
-        Logger.Info($"Stats | Total Players: {Game.GetAllPlayers().Count()} | Alive Players: {Game.GetAlivePlayers().Count()} | Impostors: {GameStats.CountAliveImpostors()}", "DebuggerStats");
-        Logger.Info("-=-=-=-=-=-=-=-=-=-=-=-= Other Players =-=-=-=-=-=-=-=-=-=-=-=-", "DebuggerStats");
+        VentLogger.Old($"{MyPlayer.GetNameWithRole()} | Dead? {MyPlayer.Data.IsDead} | AURole: {MyPlayer.Data.Role.name} | Custom Role: {MyPlayer.GetCustomRole().RoleName.RemoveHtmlTags()} | Subrole: {MyPlayer.GetSubrole()?.RoleName}", "DebuggerStats");
+        VentLogger.Old($"Stats | Total Players: {Game.GetAllPlayers().Count()} | Alive Players: {Game.GetAlivePlayers().Count()} | Impostors: {GameStats.CountAliveImpostors()}", "DebuggerStats");
+        VentLogger.Old("-=-=-=-=-=-=-=-=-=-=-=-= Other Players =-=-=-=-=-=-=-=-=-=-=-=-", "DebuggerStats");
         foreach (PlayerControl player in Game.GetAllPlayers().Where(p => p.PlayerId != MyPlayer.PlayerId))
-            Logger.Info($"{player.GetNameWithRole()} | Dead? {player.Data.IsDead} | AURole: {player.Data.Role.name} | Custom Role: {player.GetCustomRole().RoleName.RemoveHtmlTags()} | Subrole: {player.GetSubrole()?.RoleName}", "DebuggerStats");
+            VentLogger.Old($"{player.GetNameWithRole()} | Dead? {player.Data.IsDead} | AURole: {player.Data.Role.name} | Custom Role: {player.GetCustomRole().RoleName.RemoveHtmlTags()} | Subrole: {player.GetSubrole()?.RoleName}", "DebuggerStats");
 
-        Logger.Info("-=-=-=-=-=-=-=-=-=- Role Blocked Players -=-=-=-=-=-=-=-=-=-", "DebuggerStats");
+        VentLogger.Old("-=-=-=-=-=-=-=-=-=- Role Blocked Players -=-=-=-=-=-=-=-=-=-", "DebuggerStats");
         foreach (byte playerId in CustomRoleManager.RoleBlockedPlayers.Distinct())
         {
             int count = CustomRoleManager.RoleBlockedPlayers.Count(b => b == playerId);
-            Logger.Info($"{Utils.GetPlayerById(playerId).GetNameWithRole()}: {count}", "DebuggerStats");
+            VentLogger.Old($"{Utils.GetPlayerById(playerId).GetNameWithRole()}: {count}", "DebuggerStats");
         }
 
-        Logger.Info("-=-=-=-=-=-=-=-= End Of Debugger =-=-=-=-=-=-=-=-", "DebuggerStats");
+        VentLogger.Old("-=-=-=-=-=-=-=-= End Of Debugger =-=-=-=-=-=-=-=-", "DebuggerStats");
     }
 
 

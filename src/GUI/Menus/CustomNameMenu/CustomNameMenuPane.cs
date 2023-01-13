@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TownOfHost.Interface.Menus.CustomNameMenu;
+namespace TownOfHost.GUI.Menus.CustomNameMenu;
 
 public class CustomNameMenuPane
 {

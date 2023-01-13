@@ -1,7 +1,8 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
-namespace TownOfHost.Interface;
+namespace TownOfHost.GUI;
 
 public class Cooldown
 {

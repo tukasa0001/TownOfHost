@@ -5,10 +5,12 @@ using UnityEngine;
 using System;
 using InnerNet;
 using TownOfHost.Extensions;
+using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
 using TownOfHost.RPC;
-using static TownOfHost.Translator;
+using VentLib.Logging;
+using static TownOfHost.Managers.Translator;
 
 namespace TownOfHost
 {
@@ -32,7 +34,7 @@ namespace TownOfHost
             if (!TOHPlugin.ResetCamPlayerList.Contains(playerId))
                 TOHPlugin.ResetCamPlayerList.Add(playerId);
 
-            Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : Necromancer Player", "Necromancer");
+            VentLogger.Old($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : Necromancer Player", "Necromancer");
         }
 
         public static void OnReportBody(CustomRole role, PlayerControl player)
@@ -60,7 +62,7 @@ namespace TownOfHost
                             }
                         break;
                 }
-            Logger.Info($"{Utils.GetPlayerById(player.PlayerId)?.GetNameWithRole()} : Attempted to Take {role.ToString()}", "Necromancer");
+            VentLogger.Old($"{Utils.GetPlayerById(player.PlayerId)?.GetNameWithRole()} : Attempted to Take {role.ToString()}", "Necromancer");
         }
         public static void OnCheckMurder(PlayerControl necromancer, PlayerControl target)
         {

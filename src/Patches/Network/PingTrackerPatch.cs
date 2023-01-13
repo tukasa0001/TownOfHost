@@ -2,7 +2,7 @@ using HarmonyLib;
 using TownOfHost.Roles;
 using TownOfHost;
 using UnityEngine;
-using static TownOfHost.Translator;
+using static TownOfHost.Managers.Translator;
 
 namespace TownOfHost.Patches.Network;
 

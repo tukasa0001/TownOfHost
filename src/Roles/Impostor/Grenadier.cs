@@ -2,9 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
-using TownOfHost.Interface;
-using TownOfHost.Interface.Menus.CustomNameMenu;
-using TownOfHost.ReduxOptions;
+using TownOfHost.GUI;
+using TownOfHost.Options;
 
 namespace TownOfHost.Roles;
 

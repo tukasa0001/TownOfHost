@@ -1,5 +1,6 @@
 using System.Reflection;
 using HarmonyLib;
+using VentLib.Logging;
 
 namespace VentLib.Patches;
 
@@ -13,6 +14,6 @@ class GameJoinPatch
             VentFramework.RegisteredAssemblies[assembly] = VentControlFlag.AllowedReceiver | VentControlFlag.AllowedSender;
             VentFramework.BlockedReceivers[assembly] = null;
         }
-        TownOfHost.Logger.Info("Refreshed Assembly Flags", "VentFramework");
+        VentLogger.Info("Refreshed Assembly Flags", "VentFramework");
     }
 }

@@ -2,7 +2,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-namespace TownOfHost.Interface;
+namespace TownOfHost.GUI;
 
 public static class Template
 {

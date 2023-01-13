@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BepInEx.Configuration;
+using TownOfHost.Managers;
 using UnityEngine;
+using VentLib.Logging;
 
 namespace TownOfHost
 {
@@ -105,7 +107,7 @@ namespace TownOfHost
 
             if (AllOptions.Any(op => op.Id == id))
             {
-                Logger.Error($"ID:{id}が重複しています", "OptionItem");
+                VentLogger.Error($"ID:{id}が重複しています", "OptionItem");
             }
             _allOptions.Add(this);
         }
@@ -228,8 +230,8 @@ namespace TownOfHost
             }
             catch (Exception ex)
             {
-                Logger.Error($"[{Name}] UpdateValueEventの呼び出し時に例外が発生しました", "OptionItem.UpdateValueEvent");
-                Logger.Exception(ex, "OptionItem.UpdateValueEvent");
+                VentLogger.Error($"[{Name}] UpdateValueEventの呼び出し時に例外が発生しました", "OptionItem.UpdateValueEvent");
+                VentLogger.Exception(ex, "OptionItem.UpdateValueEvent");
             }
         }
 

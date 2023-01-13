@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TownOfHost.Interface.Menus;
 
 namespace TownOfHost.Options;
 

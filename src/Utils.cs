@@ -13,16 +13,17 @@ using UnityEngine;
 using BepInEx.Unity.IL2CPP;
 using Il2CppInterop.Runtime;
 using TownOfHost.Extensions;
-using TownOfHost.Modules;
 using TownOfHost.Patches;
-using static TownOfHost.Translator;
+using static TownOfHost.Managers.Translator;
 using TownOfHost.Roles;
 
 using HarmonyLib;
 using Hazel;
-using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.GUI;
 using TownOfHost.Managers;
+using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
+using VentLib.Logging;
 
 namespace TownOfHost
 {
@@ -30,7 +31,7 @@ namespace TownOfHost
     {
         public static bool IsActive(SystemTypes type)
         {
-            //Logger.Info($"SystemTypes:{type}", "IsActive");
+            //VentLogger.Old($"SystemTypes:{type}", "IsActive");
             int mapId = TOHPlugin.NormalOptions.MapId;
             switch (type)
             {
@@ -682,8 +683,8 @@ namespace TownOfHost
             }
             catch (Exception e)
             {
-                Logger.Error($"Error Loading Asset: \"{path}\"", "LoadImage");
-                Logger.Exception(e, "LoadImage");
+                VentLogger.Error($"Error Loading Asset: \"{path}\"", "LoadImage");
+                VentLogger.Exception(e, "LoadImage");
             }
 
             return sprite;

@@ -1,6 +1,7 @@
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
+using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
 

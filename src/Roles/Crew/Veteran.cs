@@ -1,13 +1,10 @@
-using System;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
-using TownOfHost.Interface;
-using TownOfHost.Interface.Menus.CustomNameMenu;
-using TownOfHost.ReduxOptions;
 using UnityEngine;
-using TownOfHost;
+using TownOfHost.GUI;
 using TownOfHost.Managers;
+using TownOfHost.Options;
 
 namespace TownOfHost.Roles;
 

@@ -11,12 +11,13 @@ using BepInEx.Unity.IL2CPP;
 using Il2CppInterop.Runtime.Injection;
 using TownOfHost.Addons;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
 using Reactor;
 using Reactor.Networking.Attributes;
 using TownOfHost.Gamemodes;
+using TownOfHost.Managers;
 using VentLib;
+using VentLib.Logging;
 
 [assembly: AssemblyFileVersion(TownOfHost.TOHPlugin.PluginVersion)]
 [assembly: AssemblyInformationalVersion(TownOfHost.TOHPlugin.PluginVersion)]
@@ -32,6 +33,7 @@ public class TOHPlugin : BasePlugin
     {
         Instance = this;
         VentFramework.Initialize();
+        VentLogger.Configuration.SetLevel(LogLevel.All);
     }
 
     // == プログラム設定 / Program Config ==
@@ -223,19 +225,19 @@ public class TOHPlugin : BasePlugin
         }
         catch (ArgumentException ex)
         {
-            global::TownOfHost.Logger.Error("エラー:Dictionaryの値の重複を検出しました", "LoadDictionary");
-            global::TownOfHost.Logger.Error(ex.Message, "LoadDictionary");
+            VentLogger.Error("エラー:Dictionaryの値の重複を検出しました", "LoadDictionary");
+            VentLogger.Error(ex.Message, "LoadDictionary");
             HasArgumentException = true;
         }
-        global::TownOfHost.Logger.Info($"{Application.version}", "AmongUs Version");
+        VentLogger.Info($"{Application.version}", "AmongUs Version");
 
-        global::TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Branch)}: {ThisAssembly.Git.Branch}", "GitVersion");
-        global::TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.BaseTag)}: {ThisAssembly.Git.BaseTag}", "GitVersion");
-        global::TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Commit)}: {ThisAssembly.Git.Commit}", "GitVersion");
-        global::TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Commits)}: {ThisAssembly.Git.Commits}", "GitVersion");
-        global::TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.IsDirty)}: {ThisAssembly.Git.IsDirty}", "GitVersion");
-        global::TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}", "GitVersion");
-        global::TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}", "GitVersion");
+        VentLogger.Info($"{nameof(ThisAssembly.Git.Branch)}: {ThisAssembly.Git.Branch}", "GitVersion");
+        VentLogger.Info($"{nameof(ThisAssembly.Git.BaseTag)}: {ThisAssembly.Git.BaseTag}", "GitVersion");
+        VentLogger.Info($"{nameof(ThisAssembly.Git.Commit)}: {ThisAssembly.Git.Commit}", "GitVersion");
+        VentLogger.Info($"{nameof(ThisAssembly.Git.Commits)}: {ThisAssembly.Git.Commits}", "GitVersion");
+        VentLogger.Info($"{nameof(ThisAssembly.Git.IsDirty)}: {ThisAssembly.Git.IsDirty}", "GitVersion");
+        VentLogger.Info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}", "GitVersion");
+        VentLogger.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}", "GitVersion");
 
         ClassInjector.RegisterTypeInIl2Cpp<ErrorText>();
 

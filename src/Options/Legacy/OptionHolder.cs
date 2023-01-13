@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using HarmonyLib;
+using TownOfHost.Options;
 using UnityEngine;
 using TownOfHost.Roles;
-using TownOfHost.ReduxOptions;
+using VentLib.Logging;
 
 namespace TownOfHost
 {
@@ -24,14 +24,14 @@ namespace TownOfHost
         [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Initialize)), HarmonyPostfix]
         public static void OptionsLoadStart()
         {
-            Logger.Info("Options.Load Start", "Options");
+            VentLogger.Old("Options.Load Start", "Options");
             taskOptionsLoad = System.Threading.Tasks.Task.Run(Load);
         }
         [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPostfix]
         public static void WaitOptionsLoad()
         {
             taskOptionsLoad.Wait();
-            Logger.Info("Options.Load End", "Options");
+            VentLogger.Old("Options.Load End", "Options");
         }
 
         // ゲームモード
@@ -647,7 +647,7 @@ namespace TownOfHost
                 numShortTasks.ReplacementDictionary = replacementDic;
 
                 if (!AllData.ContainsKey(crole)) AllData.Add(crole, this);
-                else Logger.Warn("重複したCustomRolesを対象とするOverrideTasksDataが作成されました", "OverrideTasksData");
+                else VentLogger.Warn("重複したCustomRolesを対象とするOverrideTasksDataが作成されました", "OverrideTasksData");
             }
             public static OverrideTasksData Create(int idStart, TabGroup tab, CustomRoles role, CustomRole crole)
             {

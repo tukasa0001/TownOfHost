@@ -5,7 +5,9 @@ using TownOfHost.Gamemodes.Colorwars;
 using TownOfHost.Gamemodes.Debug;
 using TownOfHost.Gamemodes.FFA;
 using TownOfHost.Gamemodes.Standard;
+using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
+using VentLib.Logging;
 
 namespace TownOfHost.Gamemodes;
 
@@ -21,7 +23,7 @@ public class GamemodeManager
     {
         CurrentGamemode?.Deactivate();
         CurrentGamemode = Gamemodes[id];
-        Logger.Info($"Setting Gamemode {CurrentGamemode.GetName()}", "Gamemode");
+        VentLogger.Old($"Setting Gamemode {CurrentGamemode.GetName()}", "Gamemode");
         CurrentGamemode.InternalActivate();
     }
 

@@ -1,12 +1,4 @@
-using System.Linq;
 using TownOfHost.Extensions;
-using TownOfHost.Factions;
-using TownOfHost.Interface;
-using TownOfHost.Interface.Menus.CustomNameMenu;
-using TownOfHost.Managers;
-using TownOfHost.ReduxOptions;
-using TownOfHost.RPC;
-using UnityEngine;
 using TownOfHost.Options;
 using AmongUs.GameOptions;
 
@@ -67,11 +59,11 @@ public class Vulture : CustomRole
                 .Bind(v => canUseVents = (bool)v)
                 .AddOnOffValues()
                 .Build());
+
     protected override RoleModifier Modify(RoleModifier roleModifier) =>
         roleModifier.RoleColor("#a36727")
         .VanillaRole(canUseVents ? RoleTypes.Engineer : RoleTypes.Crewmate)
         .SpecialType(SpecialType.Neutral)
         .OptionOverride(Override.CrewLightMod,
-            () => GameOptionsManager.Instance.CurrentGameOptions.AsNormalOptions()!.ImpostorLightMod,
-            () => impostorVision);
+            () => GameOptionsManager.Instance.CurrentGameOptions.AsNormalOptions()!.ImpostorLightMod, () => impostorVision);
 }

@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using Reactor.Utilities.Extensions;
-using TownOfHost.Extensions;
-using TownOfHost.Interface.Menus;
-using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.GUI.Menus.CustomNameMenu;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace TownOfHost.Menus;
+namespace TownOfHost.Patches.Menus;
 
 [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.InitializeOptions))]
 public static class GameSettingMenuPatch

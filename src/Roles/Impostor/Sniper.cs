@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
-using TownOfHost.Interface;
-using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.GUI;
 using TownOfHost.Managers;
-using TownOfHost.ReduxOptions;
+using TownOfHost.Options;
 using UnityEngine;
 using Convert = System.Convert;
 

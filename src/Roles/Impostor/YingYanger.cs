@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
-using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.GUI;
 using TownOfHost.Managers;
-using TownOfHost.ReduxOptions;
+using TownOfHost.Options;
 using UnityEngine;
 
 namespace TownOfHost.Roles;
@@ -17,7 +17,6 @@ public class YingYanger : Impostor
 
     private float YingYangCD;
     private bool ResetToYingYang;
-
     private bool InYingMode;
 
     protected override void Setup(PlayerControl player) => cursedPlayers = new List<PlayerControl>();
@@ -27,7 +26,7 @@ public class YingYanger : Impostor
     {
         InteractionResult result = CheckInteractions(target.GetCustomRole(), target);
         if (result is InteractionResult.Halt) return false;
-        if (!InYingMode) return true;
+        if (!InYingMode) return false;
 
         cursedPlayers.Add(target);
         target.GetDynamicName().AddRule(GameState.Roaming, UI.Misc, new DynamicString(new Color(0.36f, 0f, 0.58f).Colorize("◆")), MyPlayer.PlayerId);
@@ -73,19 +72,20 @@ public class YingYanger : Impostor
         cursedPlayers.Remove(puppet);
     }
 
-    protected override RoleModifier Modify(RoleModifier roleModifier) =>
-        base.Modify(roleModifier)
-            .OptionOverride(Override.KillCooldown, KillCooldown * 2, () => InYingMode);
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
         .AddSubOption(sub => sub
             .Name("Ying Yang Cooldown")
             .BindFloat(v => YingYangCD = v)
-            .AddFloatRangeValues(2.5f, 180, 2.5f, 5)
+            .AddFloatRangeValues(2.5f, 180, 2.5f, 5, "s")
             .Build())
         .AddSubOption(sub => sub
             .Name("Reset to Ying Yang on Target Death")
-            .Bind(v => ResetToYingYang = (bool)v)
+            .BindBool(v => ResetToYingYang = v)
             .AddOnOffValues()
             .Build());
+
+    protected override RoleModifier Modify(RoleModifier roleModifier) =>
+        base.Modify(roleModifier)
+            .OptionOverride(Override.KillCooldown, YingYangCD * 2, () => InYingMode);
 }

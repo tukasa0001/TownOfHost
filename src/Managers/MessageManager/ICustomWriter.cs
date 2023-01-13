@@ -1,27 +1,23 @@
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using InnerNet;
-using BepInEx.Unity.IL2CPP;
-using Il2CppInterop.Runtime;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 
-namespace TownOfHost
+namespace TownOfHost.Managers.MessageManager;
+
+public interface ICustomWriter
 {
-    public interface ICustomWriter
-    {
-        public void Write(float val);
-        public void Write(string val);
-        public void Write(ulong val);
-        public void Write(int val);
-        public void Write(uint val);
-        public void Write(ushort val);
-        public void Write(byte val);
-        public void Write(sbyte val);
-        public void Write(bool val);
-        public void Write(Il2CppStructArray<byte> bytes);
-        public void Write(Il2CppStructArray<byte> bytes, int offset, int length);
-        public void WriteBytesAndSize(Il2CppStructArray<byte> bytes);
-        public void WritePacked(int val);
-        public void WritePacked(uint val);
-        public void WriteNetObject(InnerNetObject obj);
-    }
+    public void Write(float val);
+    public void Write(string val);
+    public void Write(ulong val);
+    public void Write(int val);
+    public void Write(uint val);
+    public void Write(ushort val);
+    public void Write(byte val);
+    public void Write(sbyte val);
+    public void Write(bool val);
+    public void Write(Il2CppStructArray<byte> bytes);
+    public void Write(Il2CppStructArray<byte> bytes, int offset, int length);
+    public void WriteBytesAndSize(Il2CppStructArray<byte> bytes);
+    public void WritePacked(int val);
+    public void WritePacked(uint val);
+    public void WriteNetObject(InnerNetObject obj);
 }

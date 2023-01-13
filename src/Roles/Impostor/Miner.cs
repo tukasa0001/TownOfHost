@@ -1,9 +1,9 @@
 using System;
 using TownOfHost.Extensions;
-using TownOfHost.Interface;
-using TownOfHost.Interface.Menus.CustomNameMenu;
-using TownOfHost.ReduxOptions;
+using TownOfHost.GUI;
+using TownOfHost.Options;
 using UnityEngine;
+using VentLib.Logging;
 
 
 namespace TownOfHost.Roles;
@@ -28,7 +28,7 @@ public class Miner : Impostor
         minerAbilityCooldown.Start();
 
         if (LastEnteredVentLocation == Vector2.zero) return;
-        Logger.Info($"{MyPlayer.Data.PlayerName}:{LastEnteredVentLocation}", "MinerTeleport");
+        VentLogger.Old($"{MyPlayer.Data.PlayerName}:{LastEnteredVentLocation}", "MinerTeleport");
         Utils.Teleport(MyPlayer.NetTransform, new Vector2(LastEnteredVentLocation.x, LastEnteredVentLocation.y + 0.3636f));
     }
 

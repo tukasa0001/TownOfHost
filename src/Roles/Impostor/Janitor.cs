@@ -1,7 +1,7 @@
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
-using TownOfHost.Interface;
-using TownOfHost.ReduxOptions;
+using TownOfHost.GUI;
+using TownOfHost.Options;
 using UnityEngine;
 
 namespace TownOfHost.Roles;

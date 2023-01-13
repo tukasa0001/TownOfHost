@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using HarmonyLib;
 using Hazel;
 using InnerNet;
-using TownOfHost.Extensions;
+using VentLib.Extensions;
+using VentLib.Logging;
+using VentLib.Utilities;
 
 namespace VentLib;
 
@@ -14,14 +15,13 @@ public static class RpcManager
     public static void Register(Assembly assembly, ModRPC rpc)
     {
         if (VentFramework.BuiltinRPCs.Contains(rpc.CallId) && Assembly.GetExecutingAssembly() != assembly)
-            throw new ArgumentException($"RPC {rpc.CallId} shares an ID with a Builtin-VentFramework RPC. Please choose a different ID. (Builtin-IDs: {VentFramework.BuiltinRPCs.PrettyString()})");
+            throw new ArgumentException($"RPC {rpc.CallId} shares an ID with a Builtin-VentFramework RPC. Please choose a different ID. (Builtin-IDs: {VentFramework.BuiltinRPCs.StrJoin()})");
 
         if (!VentFramework.RpcBindings.ContainsKey(rpc.CallId))
             VentFramework.RpcBindings.Add(rpc.CallId, new List<ModRPC>());
 
         VentFramework.RpcBindings[rpc.CallId].Add(rpc);
     }
-
 
     internal static bool HandleRpc(byte callId, MessageReader reader)
     {
@@ -38,15 +38,15 @@ public static class RpcManager
         }
 
         if (player != null && player.PlayerId == PlayerControl.LocalPlayer.PlayerId) return true;
-        string sender = player == null ? "Unknown" : player.GetRawName();
+        string sender = "Client: " + (player == null ? "?" : player.GetClientId());
         string receiverType = AmongUsClient.Instance.AmHost ? "Host" : "NonHost";
-        TownOfHost.Logger.Info($"Custom RPC Received ({customId}) from \"{sender}\" as {receiverType}", "VentFramework");
+        VentLogger.Info($"Custom RPC Received ({customId}) from \"{sender}\" as {receiverType}", "VentFramework");
         if (!VentFramework.RpcBindings.TryGetValue(customId, out List<ModRPC> RPCs))
         {
-            TownOfHost.Logger.Warn($"Received Unknown RPC: {customId}", "VentFramework");
-            return true;
+            VentLogger.Warn($"Received Unknown RPC: {customId}", "VentFramework");
+            reader.Recycle();
+            return false;
         }
-
 
         foreach (ModRPC modRPC in RPCs)
         {
@@ -70,16 +70,6 @@ public static class RpcManager
             RpcActors.Everyone => true,
             _ => throw new ArgumentOutOfRangeException()
         };
-    }
-
-}
-
-[HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc))]
-public class RpcHandlerPC
-{
-    public static bool Prefix(InnerNetObject __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
-    {
-        return RpcManager.HandleRpc(callId, reader);
     }
 }
 

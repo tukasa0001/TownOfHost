@@ -2,7 +2,9 @@
 using System;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
+using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
+using VentLib.Logging;
 
 namespace TownOfHost.Roles;
 
@@ -66,7 +68,7 @@ public class GameOptionOverride
                 normalOptions.SetFloat(FloatOptionNames.GuardianAngelCooldown, (float)(GetValue() ?? DesyncOptions.OriginalHostOptions.AsNormalOptions()!.GetFloat(FloatOptionNames.GuardianAngelCooldown)));
                 break;
             default:
-                Logger.Warn($"Invalid Option Override: {this}", "ApplyOverride");
+                VentLogger.Warn($"Invalid Option Override: {this}", "ApplyOverride");
                 break;
         }
     }

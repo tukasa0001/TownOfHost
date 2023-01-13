@@ -6,6 +6,7 @@ using InnerNet;
 using TownOfHost.Extensions;
 using TownOfHost.Roles;
 using UnityEngine;
+using VentLib.Logging;
 
 namespace TownOfHost
 {
@@ -121,7 +122,7 @@ namespace TownOfHost
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(ex.ToString(), "DisableDevice");
+                    VentLogger.Error(ex.ToString(), "DisableDevice");
                 }
             }
         }

@@ -9,11 +9,12 @@ using AmongUs.Data;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
+using TownOfHost.Player;
 using TownOfHost.Roles;
 using UnityEngine;
 using VentLib;
 
-namespace TownOfHost.Interface.Menus.CustomNameMenu;
+namespace TownOfHost.GUI;
 
 public class DynamicName
 {

@@ -1,5 +1,7 @@
 using AmongUs.GameOptions;
+using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
+using VentLib.Logging;
 
 namespace TownOfHost.Roles;
 
@@ -9,7 +11,7 @@ public class CrewmateGhost : GuardianAngel
     {
         base.Modify(roleModifier)
         .VanillaRole(RoleTypes.CrewmateGhost);
-        Logger.Warn($"{this.RoleName} Not Implemented Yet", "RoleImplementation");
+        VentLogger.Warn($"{this.RoleName} Not Implemented Yet", "RoleImplementation");
         return roleModifier;
     }
 

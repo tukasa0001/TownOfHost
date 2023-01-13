@@ -1,6 +1,7 @@
 using HarmonyLib;
 using TownOfHost.Extensions;
 using UnityEngine;
+using VentLib.Logging;
 
 namespace TownOfHost.Patches;
 
@@ -10,7 +11,7 @@ class CheckProtectPatch
     public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
     {
         if (!AmongUsClient.Instance.AmHost) return false;
-        Logger.Info("CheckProtect発生: " + __instance.GetNameWithRole() + "=>" + target.GetNameWithRole(), "CheckProtect");
+        VentLogger.Old("CheckProtect発生: " + __instance.GetNameWithRole() + "=>" + target.GetNameWithRole(), "CheckProtect");
         return true;
     }
 }
@@ -36,7 +37,7 @@ class PlayerControlProtectPlayerPatch
 {
     public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
     {
-        Logger.Info($"{__instance.GetNameWithRole()} => {target.GetNameWithRole()}", "ProtectPlayer");
+        VentLogger.Old($"{__instance.GetNameWithRole()} => {target.GetNameWithRole()}", "ProtectPlayer");
     }
 }
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RemoveProtection))]
@@ -44,6 +45,6 @@ class PlayerControlRemoveProtectionPatch
 {
     public static void Postfix(PlayerControl __instance)
     {
-        Logger.Info($"{__instance.GetNameWithRole()}", "RemoveProtection");
+        VentLogger.Old($"{__instance.GetNameWithRole()}", "RemoveProtection");
     }
 }

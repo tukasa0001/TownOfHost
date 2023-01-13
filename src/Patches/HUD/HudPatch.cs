@@ -3,7 +3,8 @@ using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
-using static TownOfHost.Translator;
+using TownOfHost.Options;
+using static TownOfHost.Managers.Translator;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Neutral;
 
@@ -57,7 +58,7 @@ namespace TownOfHost
                     /*case Sniper:
                         __instance.AbilityButton.OverrideText(SniperOLD.OverrideShapeText(player.PlayerId));
                         break;*/
-                    case Fireworker:
+                    case FireWorks:
                         __instance.AbilityButton.OverrideText($"{GetString("FireWorksExplosionButtonText")}");
                         break;
                     /*case SerialKiller:

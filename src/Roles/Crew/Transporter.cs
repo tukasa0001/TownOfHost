@@ -2,12 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
-using Hazel;
 using TownOfHost.Extensions;
-using TownOfHost.Interface;
-using TownOfHost.Interface.Menus.CustomNameMenu;
-using TownOfHost.ReduxOptions;
-using TownOfHost.RPC;
+using TownOfHost.GUI;
+using TownOfHost.Options;
 using UnityEngine;
 
 namespace TownOfHost.Roles;

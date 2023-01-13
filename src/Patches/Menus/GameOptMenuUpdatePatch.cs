@@ -2,14 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.Extensions;
-using TownOfHost.Gamemodes;
-using TownOfHost.Interface.Menus;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
 using UnityEngine;
 
-namespace TownOfHost.Menus;
+namespace TownOfHost.Patches.Menus;
 
 [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.Update))]
 public class GameOptionsMenuUpdatePatch

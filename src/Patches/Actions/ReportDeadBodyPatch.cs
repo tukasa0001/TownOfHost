@@ -1,26 +1,21 @@
-using System.Collections.Generic;
-using System.Linq;
 using HarmonyLib;
-using TownOfHost.ReduxOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Gamemodes;
-using TownOfHost.Interface.Menus.CustomNameMenu;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
-using VentLib;
+using VentLib.Logging;
 
 namespace TownOfHost.Patches.Actions;
 
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ReportDeadBody))]
 public class ReportDeadBodyPatch
 {
-    public static Dictionary<byte, bool> CanReport;
-
     public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo target)
     {
-        Logger.Info($"{__instance.GetNameWithRole()} => {target?.Object?.GetNameWithRole() ?? "null"}", "ReportDeadBody");
+        VentLogger.Old($"{__instance.GetNameWithRole()} => {target?.Object?.GetNameWithRole() ?? "null"}", "ReportDeadBody");
         if (Game.CurrentGamemode.IgnoredActions().HasFlag(GameAction.ReportBody)) return false;
         if (!AmongUsClient.Instance.AmHost) return true;
+        if (target == null) return true;
         if (target != null && TOHPlugin.unreportableBodies.Contains(target.PlayerId)) return false;
 
         ActionHandle handle = ActionHandle.NoInit();

@@ -5,10 +5,9 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using InnerNet;
-using TownOfHost.Extensions;
 using UnityEngine;
-using VentLib;
 using VentLib.Interfaces;
+using VentLib.Utilities;
 
 namespace VentLib;
 
@@ -92,16 +91,16 @@ public class RpcV2
 
     public void SendToHost()
     {
-        this.netId = (byte)GetHostNetId();
-        this.Send(PlayerControl.LocalPlayer.GetClientId());
+        netId = (byte)GetHostNetId();
+        Send(PlayerControl.LocalPlayer.GetClientId());
     }
 
     public void SendNet()
     {
         foreach (uint key in AmongUsClient.Instance.allObjectsFast.Keys)
         {
-            this.netId = key;
-            this.Send();
+            netId = key;
+            Send();
         }
     }
 
@@ -120,7 +119,7 @@ public class RpcV2
                     continue;
                 }
                 case WriteType.Options:
-                    writer.WriteBytesAndSize(((IGameOptions) write.Item1).ToBytes());
+                    writer.WriteBytesAndSize(GameOptionsManager.Instance.gameOptionsFactory.ToBytes((IGameOptions) write.Item1));
                     continue;
                 case WriteType.Vector:
                     NetHelpers.WriteVector2((Vector2)write.Item1, writer);

@@ -1,6 +1,7 @@
 using HarmonyLib;
 using UnityEngine;
 using AmongUs.Data;
+using TownOfHost.Patches.Chat;
 
 namespace TownOfHost
 {

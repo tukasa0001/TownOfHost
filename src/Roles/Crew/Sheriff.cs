@@ -3,9 +3,8 @@ using AmongUs.GameOptions;
 using Il2CppSystem;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
-using TownOfHost.Interface;
-using TownOfHost.Interface.Menus.CustomNameMenu;
-using TownOfHost.ReduxOptions;
+using TownOfHost.GUI;
+using TownOfHost.Options;
 using TownOfHost.Roles.Neutral;
 using UnityEngine;
 

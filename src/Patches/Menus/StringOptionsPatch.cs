@@ -16,8 +16,6 @@ public class StringOptionEnablePatch
         __instance.OnValueChanged = new Action<OptionBehaviour>((o) => { });
         __instance.TitleText.text = option.ColorName;
         __instance.ValueText.text = option.GetAsString();
-
-
         return false;
     }
 }
@@ -32,8 +30,7 @@ public class StringOptionIncreasePatch
 
         option?.Increment();
         __instance.ValueText.text = option?.GetAsString() ?? "N/A";
-        HostRpc.RpcSendOptions(TOHPlugin.OptionManager.Options());
-
+        SendOptionsDelayed.SendOptions();
 
         return false;
     }
@@ -49,8 +46,26 @@ public class StringOptionDecreasePatch
 
         option?.Decrement();
         __instance.ValueText.text = option?.GetAsString() ?? "N/A";
-        HostRpc.RpcSendOptions(TOHPlugin.OptionManager.Options());
+        SendOptionsDelayed.SendOptions();
 
         return false;
+    }
+}
+
+// It's really bad to constantly send options to clients whenever they get modified, this gives clients 3 seconds to get the new options
+public static class SendOptionsDelayed
+{
+    private static bool _blocked;
+    public static void SendOptions()
+    {
+        if (_blocked) return;
+        _blocked = true;
+        DTask.Schedule(_Send, 3f);
+    }
+
+    private static void _Send()
+    {
+        HostRpc.RpcSendOptions(TOHPlugin.OptionManager.Options());
+        _blocked = false;
     }
 }

@@ -1,4 +1,5 @@
 using TownOfHost.Extensions;
+using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
 
@@ -52,7 +53,7 @@ public class Speedrunner : Crewmate
                 .AddSubOption(sub2 => sub2
                     .Name("Temporary Boost Duration")
                     .Bind(v => smalRewardDuration = (float)v)
-                    .AddFloatRangeValues(2f, 12f, 0.5f, 2, "6")
+                    .AddFloatRangeValues(2f, 12f, 0.5f, 2, "s")
                     .Build())
                 .Build())
             .AddSubOption(sub => sub

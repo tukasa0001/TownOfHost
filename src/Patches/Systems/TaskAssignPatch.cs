@@ -3,8 +3,10 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using TownOfHost.Extensions;
+using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
+using VentLib.Logging;
 
 namespace TownOfHost.Patches.Systems;
 
@@ -46,7 +48,7 @@ class RpcSetTasksPatch
         //null対策
         if (TOHPlugin.RealOptionsData == null)
         {
-            Logger.Warn("警告:RealOptionsDataがnullです。", "RpcSetTasksPatch");
+            VentLogger.Warn("警告:RealOptionsDataがnullです。", "RpcSetTasksPatch");
             return;
         }
 

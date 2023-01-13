@@ -1,9 +1,9 @@
 using HarmonyLib;
 using TownOfHost.Extensions;
-using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.GUI;
 using TownOfHost.Managers;
+using TownOfHost.Options;
 using TownOfHost.Patches.Systems;
-using TownOfHost.ReduxOptions;
 using UnityEngine;
 
 namespace TownOfHost.Roles;

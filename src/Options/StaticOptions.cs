@@ -1,12 +1,8 @@
-using System;
-using TownOfHost.Extensions;
+using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
-using TownOfHost.Options;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-namespace TownOfHost.ReduxOptions;
+namespace TownOfHost.Options;
 
 // TODO: This whole class needs to be looked over and refactored, a lot of this is old TOH-TOR code and a lot of it is new TOH code
 // TODO: Ideally all of TOH "static" options should end up in here with the use of the new options system

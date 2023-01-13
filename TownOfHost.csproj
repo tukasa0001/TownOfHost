@@ -5,36 +5,48 @@
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
     <Description>Town Of Host: The Other Roles</Description>
     <Authors>Discussions, Tealeaf</Authors>
-    <langVersion>preview</langVersion>
-    <AmongUs>C:\Program Files\Epic Games\AmongUs</AmongUs>
+    <langVersion>latest</langVersion>
+    <AmongUs>E:\SteamLibrary\steamapps\common\Among Us</AmongUs>
+    <RootNamespace>TownOfHost</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="$(AmongUs)\BepInEx\core\*.dll" />
-    <Reference Include="$(AmongUs)\BepInEx\interop\*.dll" />
-    <EmbeddedResource Include=".\assets\*.png" />
-    <EmbeddedResource Include=".\assets\*\*.png" />
-    <EmbeddedResource Include=".\assets\string.csv" />
-  </ItemGroup>
-
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <GamePlatform Condition="'$(GamePlatform)' == ''">Steam</GamePlatform>
+    <GameVersion>2022.12.14</GameVersion>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="Costura.Fody" Version="5.7.0">
       <IncludeAssets>runtime; compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    
+    <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.663" />
+    <PackageReference Include="AmongUs.GameLibs.$(GamePlatform)" Version="$(GameVersion)" PrivateAssets="all" />
+    <PackageReference Include="Reactor" Version="2.1.0" />
+
+    <PackageReference Include="BepInEx.AutoPlugin" Version="1.1.0" PrivateAssets="all" />
+    <PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="2.0.1" PrivateAssets="all" />
+    
     <PackageReference Include="csv" Version="2.0.87" />
-    <PackageReference Include="Reactor" Version="2.0.0" />
     <PackageReference Include="GitInfo" Version="2.0.20">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include=".\assets\*.png" />
+    <EmbeddedResource Include=".\assets\*\*.png" />
+    <EmbeddedResource Include=".\assets\string.csv" />
+  </ItemGroup>
+  
   <Target Name="Copy" AfterTargets="Build" Condition="'$(AmongUs)' != ''">
     <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(AmongUs)/BepInEx/plugins/" Condition="'$(Configuration)' == 'Debug'" />
   </Target>
-
-  <PropertyGroup>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
 </Project>

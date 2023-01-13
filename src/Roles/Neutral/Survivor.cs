@@ -1,9 +1,5 @@
 using TownOfHost.Extensions;
-using TownOfHost.Interface;
-using TownOfHost.Interface.Menus.CustomNameMenu;
-using TownOfHost.Managers;
-using TownOfHost.ReduxOptions;
-using UnityEngine;
+using TownOfHost.GUI;
 using TownOfHost.Options;
 
 namespace TownOfHost.Roles;

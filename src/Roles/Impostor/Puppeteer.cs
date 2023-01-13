@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
-using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.GUI;
 using TownOfHost.Managers;
-using TownOfHost.ReduxOptions;
 using UnityEngine;
 
 namespace TownOfHost.Roles;

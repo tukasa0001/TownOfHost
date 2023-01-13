@@ -3,9 +3,9 @@ using System;
 using System.Reflection;
 using HarmonyLib;
 using MonoMod.RuntimeDetour;
-using TownOfHost;
-using TownOfHost.Extensions;
+using VentLib.Extensions;
 using VentLib.Interfaces;
+using VentLib.Logging;
 
 namespace VentLib;
 
@@ -55,9 +55,7 @@ public class ModRPC
 
     public void InvokeTrampoline(object[] args)
     {
-        if (DebugConstants.LogTrampoline)
-            TownOfHost.Logger.Info($"Calling trampoline \"{this.trampoline.FullDescription()}\" with args: {args.PrettyString()}", "RPCTrampoline");
-
+        VentLogger.Log(LogLevel.All,$"Calling trampoline \"{trampoline.FullDescription()}\" with args: {args.StrJoin()}", "RPCTrampoline");
         trampoline.Invoke(instanceSupplier(), args);
     }
 }

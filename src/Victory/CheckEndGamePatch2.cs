@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
+using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Victory.Conditions;
+using VentLib.Logging;
 
 namespace TownOfHost.Victory;
 
@@ -51,7 +53,7 @@ public class CheckEndGamePatch2
     private static void DelayedWin(GameOverReason reason)
     {
         deferred = false;
-        Logger.Info("Sending Game Over", "DelayedWin");
+        VentLogger.Old("Sending Game Over", "DelayedWin");
         GameManager.Instance.RpcEndGame(reason, false);
         DTask.Schedule(() => GameManager.Instance.EndGame(), 0.1f);
     }

@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Extensions;
-using TownOfHost.ReduxOptions;
 using AmongUs.GameOptions;
-using TownOfHost.Interface;
-using TownOfHost.Interface.Menus.CustomNameMenu;
-using TownOfHost.Managers;
+using TownOfHost.GUI;
+using TownOfHost.Options;
 using TownOfHost.Player;
 
 namespace TownOfHost.Roles;

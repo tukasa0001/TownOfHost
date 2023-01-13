@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
-using TownOfHost.Interface;
-using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.GUI;
 using TownOfHost.Managers;
-using TownOfHost.ReduxOptions;
+using TownOfHost.Options;
 using TownOfHost.Roles.Neutral;
 using UnityEngine;
+using VentLib.Logging;
 
 namespace TownOfHost.Roles;
 
@@ -109,7 +109,7 @@ public class Investigator : Crewmate
             InvestOptCategory.Madmate => madmateRed is NIOpt.All ? bad : madmateRed is NIOpt.None ? good : roleIsInRoles ? bad : good,
             _ => throw new ArgumentOutOfRangeException()
         };
-        Logger.Info($"{player.GetNameWithRole()} is type {role.GetType()} and falls under category \"{category}\". Player is in redRoles list? {roleIsInRoles}. Player's name should be color: {color.ToTextColor()}", "InvestigateInfo");
+        VentLogger.Old($"{player.GetNameWithRole()} is type {role.GetType()} and falls under category \"{category}\". Player is in redRoles list? {roleIsInRoles}. Player's name should be color: {color.ToTextColor()}", "InvestigateInfo");
 
         player.GetDynamicName().AddRule(GameState.Roaming, UI.Name, new DynamicString(color.Colorize("{0}")), MyPlayer.PlayerId);
         player.GetDynamicName().AddRule(GameState.InMeeting, UI.Name, new DynamicString(color.Colorize("{0}")), MyPlayer.PlayerId);

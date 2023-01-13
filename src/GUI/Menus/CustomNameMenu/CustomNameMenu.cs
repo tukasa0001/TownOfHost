@@ -2,8 +2,9 @@ using System;
 using System.Linq;
 using HarmonyLib;
 using UnityEngine;
+using VentLib.Logging;
 
-namespace TownOfHost.Interface.Menus.CustomNameMenu;
+namespace TownOfHost.GUI.Menus.CustomNameMenu;
 
 public class CustomNameMenu
 {
@@ -317,7 +318,7 @@ public class CustomNameMenu
         }
         catch (Exception e)
         {
-            Logger.Fatal("Please Evan for the love of god fix this", "CloseNameMenu");
+            VentLogger.Fatal("Please Evan for the love of god fix this", "CloseNameMenu");
         }
     }
 

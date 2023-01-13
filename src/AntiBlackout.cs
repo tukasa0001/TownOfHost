@@ -1,144 +1,157 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using HarmonyLib;
 using Hazel;
-using AmongUs.GameOptions;
+using TownOfHost.Extensions;
+using TownOfHost.Managers;
+using TownOfHost.Options;
 using TownOfHost.Roles;
+using TownOfHost.RPC;
+using VentLib.Logging;
 
-namespace TownOfHost
+namespace TownOfHost;
+
+public static class AntiBlackout
 {
-    public static class AntiBlackout
+    ///<summary>
+    ///追放処理を上書きするかどうか
+    ///</summary>
+    public static bool OverrideExiledPlayer => StaticOptions.NoGameEnd || GameStats.CountAliveRealImpostors() >= GameStats.CountAliveRealCrew();
+    public static GameData.PlayerInfo? ExiledPlayer;
+
+    public static bool IsCached { get; private set; }
+    private static Dictionary<byte, (bool isDead, bool Disconnected)> isDeadCache = new();
+    private static Dictionary<byte, (string playerName, Il2CppSystem.Collections.Generic.Dictionary<PlayerOutfitType, GameData.PlayerOutfit> outfits)> cosmeticsCache = new();
+
+    public static void SaveCosmetics()
     {
-        ///<summary>
-        ///追放処理を上書きするかどうか
-        ///</summary>
-        public static bool OverrideExiledPlayer => IsRequired && (IsSingleImpostor || Diff_CrewImp == 1);
-        ///<summary>
-        ///インポスターが一人しか存在しない設定かどうか
-        ///</summary>
-        public static bool IsSingleImpostor => TOHPlugin.RealOptionsData != null ? TOHPlugin.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) == 1 : TOHPlugin.NormalOptions.NumImpostors == 1;
-        ///<summary>
-        ///AntiBlackout内の処理が必要であるかどうか
-        ///</summary>
-        public static bool IsRequired => TOHPlugin.NoGameEnd || CustomRoleManager.Static.Jackal.IsEnabled();
-        ///<summary>
-        ///インポスター以外の人数とインポスターの人数の差
-        ///</summary>
-        public static int Diff_CrewImp
-        {
-            get
-            {
-                int numImpostors = 0;
-                int numCrewmates = 0;
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (pc.Data.Role.IsImpostor) numImpostors++;
-                    else numCrewmates++;
-                }
-                return numCrewmates - numImpostors;
-            }
-        }
-        public static bool IsCached { get; private set; } = false;
-        private static Dictionary<byte, (bool isDead, bool Disconnected)> isDeadCache = new();
+        GameData.Instance.AllPlayers.ToArray().Where(i => i != null).Do(i => cosmeticsCache[i.PlayerId] = (i.PlayerName, i.Outfits));
+    }
 
-        public static void SetIsDead(bool doSend = true, [CallerMemberName] string callerMethodName = "")
+    public static void LoadCosmetics()
+    {
+        GameData.PlayerInfo[] playerInfos = GameData.Instance.AllPlayers.ToArray();
+        foreach (byte playerId in cosmeticsCache.Keys)
         {
-            Logger.Info($"SetIsDead is called from {callerMethodName}", "AntiBlackout");
-            if (IsCached)
-            {
-                Logger.Info("再度SetIsDeadを実行する前に、RestoreIsDeadを実行してください。", "AntiBlackout.Error");
-                return;
-            }
-            isDeadCache.Clear();
-            foreach (var info in GameData.Instance.AllPlayers)
-            {
-                if (info == null) continue;
-                isDeadCache[info.PlayerId] = (info.IsDead, info.Disconnected);
-                info.IsDead = false;
-                info.Disconnected = false;
-            }
-            IsCached = true;
-            if (doSend) SendGameData();
+            GameData.PlayerInfo? playerInfo = playerInfos.FirstOrDefault(p => p.PlayerId == playerId);
+            if (playerInfo == null) continue;
+            playerInfo.PlayerName = cosmeticsCache[playerId].playerName;
+            playerInfo.Outfits = cosmeticsCache[playerId].outfits;
         }
-        public static void RestoreIsDead(bool doSend = true, [CallerMemberName] string callerMethodName = "")
+    }
+
+    public static GameData.PlayerInfo? CreateFakePlayer(GameData.PlayerInfo? realPlayer)
+    {
+        if (realPlayer == null) return null;
+        GameData.PlayerInfo? deadPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(p => p.Disconnected || p.IsDead);
+        if (deadPlayer == null) return null;
+        VentLogger.Info($"Created Fake Player Using: {deadPlayer.Object.GetRawName()} => {realPlayer.Object.GetRawName()}");
+        deadPlayer.PlayerName = realPlayer.Object.GetRawName();
+        deadPlayer.Outfits = realPlayer.Outfits;
+        return deadPlayer;
+    }
+
+    public static void SetIsDead(bool doSend = true, [CallerMemberName] string callerMethodName = "")
+    {
+        VentLogger.Old($"SetIsDead is called from {callerMethodName}", "AntiBlackout");
+        if (IsCached)
         {
-            Logger.Info($"RestoreIsDead is called from {callerMethodName}", "AntiBlackout");
-            foreach (var info in GameData.Instance.AllPlayers)
-            {
-                if (info == null) continue;
-                if (isDeadCache.TryGetValue(info.PlayerId, out var val))
-                {
-                    info.IsDead = val.isDead;
-                    info.Disconnected = val.Disconnected;
-                }
-            }
-            isDeadCache.Clear();
-            IsCached = false;
-            if (doSend) SendGameData();
+            VentLogger.Old("再度SetIsDeadを実行する前に、RestoreIsDeadを実行してください。", "AntiBlackout.Error");
+            return;
         }
+        isDeadCache.Clear();
+        GameData.Instance.AllPlayers.ToArray().Where(i => i != null).Do(i => isDeadCache[i.PlayerId] = (i.IsDead, i.Disconnected));
+        IsCached = true;
 
-        public static void SendGameData([CallerMemberName] string callerMethodName = "")
+        if (doSend) SendPatchedData();
+    }
+    public static void RestoreIsDead(bool doSend = true, [CallerMemberName] string callerMethodName = "")
+    {
+        VentLogger.Old($"RestoreIsDead is called from {callerMethodName}", "AntiBlackout");
+        GameData.Instance.AllPlayers.ToArray().Where(i => i != null).Do(info =>
         {
-            Logger.Info($"SendGameData is called from {callerMethodName}", "AntiBlackout");
-            MessageWriter writer = MessageWriter.Get(SendOption.Reliable);
-            // 書き込み {}は読みやすさのためです。
-            writer.StartMessage(5); //0x05 GameData
-            {
-                writer.Write(AmongUsClient.Instance.GameId);
-                writer.StartMessage(1); //0x01 Data
-                {
-                    writer.WritePacked(GameData.Instance.NetId);
-                    GameData.Instance.Serialize(writer, true);
+            if (!isDeadCache.TryGetValue(info.PlayerId, out var val)) return;
+            info.IsDead = val.isDead;
+            info.Disconnected = val.Disconnected;
+        });
+        isDeadCache.Clear();
+        IsCached = false;
+        if (doSend) RestoreGameData();
+    }
 
+    private static void RestoreGameData([CallerMemberName] string callerMethodName = "")
+    {
+        VentLogger.Old($"RestoreGameData is called from {callerMethodName}", "AntiBlackout");
+        SendGameData();
+    }
+
+    private static void SendPatchedData()
+    {
+        HostRpc.RpcDebug("Game Data BEFORE Patch");
+        int aliveCrew = GameStats.CountRealCrew();
+        int aliveImpostors = GameStats.CountAliveRealImpostors();
+        if (aliveCrew > aliveImpostors) RestoreIsDead();
+        foreach (PlayerControl player in Game.GetAllPlayers())
+        {
+            int aliveImpostorsLower = aliveImpostors;
+            bool impostor = player.GetCustomRole().RealRole.IsImpostor();
+            if (!impostor && GameStats.CountAliveRealCrew() <= aliveImpostors)
+                foreach (var info in GameData.Instance.AllPlayers)
+                {
+                    info.IsDead = false;
+                    info.Disconnected = false;
+
+                    if (aliveImpostorsLower < aliveCrew) continue;
+                    if (player.PlayerId == info.PlayerId || !info.GetCustomRole().RealRole.IsImpostor()) continue;
+
+                    if (info.Object.IsHost()) info.IsDead = true;
+                    else info.Disconnected = true;
+                    aliveImpostorsLower--;
                 }
-                writer.EndMessage();
+
+            SendGameData(player.GetClientId());
+        }
+        HostRpc.RpcDebug("Game Data AFTER Patch");
+    }
+
+    public static void SendGameData(int clientId = -1)
+    {
+        MessageWriter writer = MessageWriter.Get(SendOption.Reliable);
+        // 書き込み {}は読みやすさのためです。
+        writer.StartMessage((byte)(clientId == -1 ? 5 : 6)); //0x05 GameData
+        {
+            writer.Write(AmongUsClient.Instance.GameId);
+            if (clientId != -1)
+                writer.WritePacked(clientId);
+            writer.StartMessage(1); //0x01 Data
+            {
+                writer.WritePacked(GameData.Instance.NetId);
+                GameData.Instance.Serialize(writer, true);
+
             }
             writer.EndMessage();
+        }
+        writer.EndMessage();
 
-            AmongUsClient.Instance.SendOrDisconnect(writer);
-            writer.Recycle();
-        }
-        public static void OnDisconnect(GameData.PlayerInfo player)
-        {
-            // 実行条件: クライアントがホストである, IsDeadが上書きされている, playerが切断済み
-            if (!AmongUsClient.Instance.AmHost || !IsCached || !player.Disconnected) return;
-            isDeadCache[player.PlayerId] = (true, true);
-            player.IsDead = player.Disconnected = false;
-            SendGameData();
-        }
+        AmongUsClient.Instance.SendOrDisconnect(writer);
+        writer.Recycle();
+    }
 
-        ///<summary>
-        ///一時的にIsDeadを本来のものに戻した状態でコードを実行します
-        ///<param name="action">実行内容</param>
-        ///</summary>
-        public static void TempRestore(Action action)
-        {
-            Logger.Info("==Temp Restore==", "AntiBlackout");
-            //IsDeadが上書きされた状態でTempRestoreが実行されたかどうか
-            bool before_IsCached = IsCached;
-            try
-            {
-                if (before_IsCached) RestoreIsDead(doSend: false);
-                action();
-            }
-            catch (Exception ex)
-            {
-                Logger.Warn("AntiBlackout.TempRestore内で例外が発生しました", "AntiBlackout");
-                Logger.Error(ex.ToString(), "AntiBlackout.TempRestore");
-            }
-            finally
-            {
-                if (before_IsCached) SetIsDead(doSend: false);
-                Logger.Info("==/Temp Restore==", "AntiBlackout");
-            }
-        }
+    public static void OnDisconnect(GameData.PlayerInfo player)
+    {
+        // 実行条件: クライアントがホストである, IsDeadが上書きされている, playerが切断済み
+        if (!AmongUsClient.Instance.AmHost || !IsCached || !player.Disconnected) return;
+        isDeadCache[player.PlayerId] = (true, true);
+        player.IsDead = player.Disconnected = false;
+        RestoreGameData();
+    }
 
-        public static void Reset()
-        {
-            Logger.Info("==Reset==", "AntiBlackout");
-            if (isDeadCache == null) isDeadCache = new();
-            isDeadCache.Clear();
-            IsCached = false;
-        }
+    public static void Reset()
+    {
+        VentLogger.Old("==Reset==", "AntiBlackout");
+        if (isDeadCache == null) isDeadCache = new();
+        isDeadCache.Clear();
+        IsCached = false;
     }
 }

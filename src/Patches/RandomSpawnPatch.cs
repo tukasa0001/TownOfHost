@@ -4,9 +4,11 @@ using System.Linq;
 using HarmonyLib;
 using Hazel;
 using TownOfHost.Extensions;
+using TownOfHost.Options;
 using UnityEngine;
 using TownOfHost.Roles;
 using TownOfHost.ReduxOptions;
+using VentLib.Logging;
 
 namespace TownOfHost
 {
@@ -25,7 +27,7 @@ namespace TownOfHost
                     var player = PlayerControl.AllPlayerControls.ToArray().Where(p => p.NetTransform == __instance).FirstOrDefault();
                     if (player == null)
                     {
-                        Logger.Warn("プレイヤーがnullです", "RandomSpawn");
+                        VentLogger.Warn("プレイヤーがnullです", "RandomSpawn");
                         return;
                     }
                     /*if (player.Is(CustomRoleManager.Static.GM)) return; //GMは対象外に*/
@@ -57,7 +59,7 @@ namespace TownOfHost
             public virtual void RandomTeleport(PlayerControl player)
             {
                 var location = GetLocation();
-                Logger.Info($"{player.Data.PlayerName}:{location}", "RandomSpawn");
+                VentLogger.Old($"{player.Data.PlayerName}:{location}", "RandomSpawn");
                 TP(player.NetTransform, location);
             }
             public abstract Vector2 GetLocation();

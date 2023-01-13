@@ -6,6 +6,7 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Roles;
 using UnityEngine;
+using VentLib.Logging;
 
 namespace TownOfHost.Patches.Systems;
 
@@ -29,7 +30,7 @@ class ShowFolderPatch
     }
     public static void Postfix(TaskAdderGame __instance, [HarmonyArgument(0)] TaskFolder taskFolder)
     {
-        Logger.Info("Opened " + taskFolder.FolderName, "TaskFolder");
+        VentLogger.Old("Opened " + taskFolder.FolderName, "TaskFolder");
         float xCursor = 0f;
         float yCursor = 0f;
         float maxHeight = 0f;

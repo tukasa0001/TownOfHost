@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using TownOfHost.Options;
 using TownOfHost.Patches.Systems;
 using TownOfHost.Roles;
 

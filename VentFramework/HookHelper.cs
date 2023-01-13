@@ -8,9 +8,11 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using InnerNet;
 using MonoMod.RuntimeDetour;
-using TownOfHost.Extensions;
 using UnityEngine;
+using VentLib.Extensions;
 using VentLib.Interfaces;
+using VentLib.Logging;
+using VentLib.Utilities;
 
 namespace VentLib;
 
@@ -75,7 +77,6 @@ public class HookHelper
 
 }
 
-
 public class DetouredSender
 {
     private int uuid = UnityEngine.Random.RandomRangeInt(0, 999999);
@@ -84,7 +85,6 @@ public class DetouredSender
     private uint callId;
     private RpcActors senders;
     private RpcActors receivers;
-    private Queue<int[]> clientQueue = new();
 
     public DetouredSender(ModRPC modRPC)
     {
@@ -120,14 +120,15 @@ public class DetouredSender
         int[]? blockedClients = VentFramework.CallingAssemblyBlacklist();
 
         string senderString = AmongUsClient.Instance.AmHost ? "Host" : "NonHost";
+        int clientId = PlayerControl.LocalPlayer.GetClientId();
         if (targets != null) {
-            TownOfHost.Logger.Msg($"({PlayerControl.LocalPlayer.GetRawName()}) Sending RPC ({callId}) as {senderString} to {targets.PrettyString()} | ({this.senders} | {args} | {localSendCount}::{uuid}::{HookHelper.globalSendCount}", "DetouredSender");
+            VentLogger.Debug($"(Client: {clientId}) Sending RPC ({callId}) as {senderString} to {targets.StrJoin()} | ({senders} | {args} | {localSendCount}::{uuid}::{HookHelper.globalSendCount}", "DetouredSender");
             v2.SendToFollowing(blockedClients == null ? targets : targets.Except(blockedClients).ToArray());
         } else if (blockedClients != null) {
-            TownOfHost.Logger.Msg($"({PlayerControl.LocalPlayer.GetRawName()}) Sending RPC ({callId}) as {senderString} to all except {blockedClients.PrettyString()} | ({this.senders} | {args} | {localSendCount}::{uuid}::{HookHelper.globalSendCount}", "DetouredSender");
+            VentLogger.Debug($"(Client: {clientId}) Sending RPC ({callId}) as {senderString} to all except {blockedClients.StrJoin()} | ({senders} | {args} | {localSendCount}::{uuid}::{HookHelper.globalSendCount}", "DetouredSender");
             v2.SendToAll(blockedClients);
         } else {
-            TownOfHost.Logger.Msg($"({PlayerControl.LocalPlayer.GetRawName()}) Sending RPC ({callId}) as {senderString} to all | ({this.senders} | {args} | {localSendCount}::{uuid}::{HookHelper.globalSendCount}", "DetouredSender");
+            VentLogger.Debug($"(Client: {clientId}) Sending RPC ({callId}) as {senderString} to all | ({this.senders} | {args} | {localSendCount}::{uuid}::{HookHelper.globalSendCount}", "DetouredSender");
             v2.Send();
         }
     }
@@ -135,9 +136,9 @@ public class DetouredSender
     private bool CanSend(out int[]? targets)
     {
         targets = null;
-        if (this.receivers is RpcActors.LastSender) targets = new[] { VentFramework.GetLastSender(this.callId)?.GetClientId() ?? 999 };
+        if (receivers is RpcActors.LastSender) targets = new[] { VentFramework.GetLastSender(callId)?.GetClientId() ?? 999 };
 
-        return this.senders switch
+        return senders switch
         {
             RpcActors.None => false,
             RpcActors.Host => AmongUsClient.Instance.AmHost,

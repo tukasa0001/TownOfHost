@@ -5,13 +5,13 @@ using HarmonyLib;
 using Hazel;
 using Reactor.Utilities.Extensions;
 using TownOfHost.Extensions;
-using TownOfHost.Options;
+using TownOfHost.ReduxOptions;
 using UnityEngine;
 using VentLib.Extensions;
 using VentLib.Interfaces;
 using Object = UnityEngine.Object;
 
-namespace TownOfHost.ReduxOptions;
+namespace TownOfHost.Options;
 
 public class OptionHolder: IRpcSendable<OptionHolder>
 {

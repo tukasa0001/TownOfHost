@@ -1,6 +1,7 @@
 using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
+using TownOfHost.Options;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
 

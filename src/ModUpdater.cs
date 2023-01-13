@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
-using static TownOfHost.Translator;
+using VentLib.Logging;
+using static TownOfHost.Managers.Translator;
 
 namespace TownOfHost
 {
@@ -75,7 +76,7 @@ namespace TownOfHost
                     using var response = await client.GetAsync(new Uri(url), HttpCompletionOption.ResponseContentRead);
                     if (!response.IsSuccessStatusCode || response.Content == null)
                     {
-                        Logger.Error($"ステータスコード: {response.StatusCode}", "CheckRelease");
+                        VentLogger.Error($"ステータスコード: {response.StatusCode}", "CheckRelease");
                         return false;
                     }
                     result = await response.Content.ReadAsStringAsync();
@@ -111,7 +112,7 @@ namespace TownOfHost
                 }
                 if (downloadUrl == null)
                 {
-                    Logger.Error("ダウンロードURLを取得できませんでした。", "CheckRelease");
+                    VentLogger.Error("ダウンロードURLを取得できませんでした。", "CheckRelease");
                     return false;
                 }
                 isChecked = true;
@@ -128,7 +129,7 @@ namespace TownOfHost
                     isChecked = true;
                     hasUpdate = false;
                 }
-                Logger.Error($"リリースのチェックに失敗しました。 / Release check failed. \n{ex}", "CheckRelease");
+                VentLogger.Error($"リリースのチェックに失敗しました。 / Release check failed. \n{ex}", "CheckRelease");
                 return flag;
             }
             return true;
@@ -152,7 +153,7 @@ namespace TownOfHost
             }
             catch
             {
-                Logger.Error("バックアップに失敗しました", "BackupDLL");
+                VentLogger.Error("バックアップに失敗しました", "BackupDLL");
                 return false;
             }
             return true;
@@ -163,13 +164,13 @@ namespace TownOfHost
             {
                 foreach (var path in Directory.EnumerateFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.bak"))
                 {
-                    Logger.Info($"{Path.GetFileName(path)}を削除", "DeleteOldDLL");
+                    VentLogger.Old($"{Path.GetFileName(path)}を削除", "DeleteOldDLL");
                     File.Delete(path);
                 }
             }
             catch
             {
-                Logger.Error("削除に失敗しました", "DeleteOldDLL");
+                VentLogger.Error("削除に失敗しました", "DeleteOldDLL");
             }
             return;
         }
@@ -185,7 +186,7 @@ namespace TownOfHost
             }
             catch (Exception ex)
             {
-                Logger.Error($"ダウンロードに失敗しました。\n{ex}", "DownloadDLL");
+                VentLogger.Error($"ダウンロードに失敗しました。\n{ex}", "DownloadDLL");
                 ShowPopup(GetString("updateManually"), true);
                 return false;
             }

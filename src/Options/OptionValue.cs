@@ -2,7 +2,7 @@ using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using TownOfHost.Extensions;
 using UnityEngine;
 
-namespace TownOfHost.ReduxOptions;
+namespace TownOfHost.Options;
 
 public class OptionValue
 {

@@ -6,14 +6,17 @@ using System.Text;
 using AmongUs.GameOptions;
 using Hazel;
 using InnerNet;
-using TownOfHost.Interface.Menus.CustomNameMenu;
+using TownOfHost.GUI;
 using TownOfHost.Managers;
-using TownOfHost.Modules;
+using TownOfHost.Options;
+using TownOfHost.Options.Legacy.GameOptionsSender;
 using TownOfHost.ReduxOptions;
 using UnityEngine;
-using static TownOfHost.Translator;
+using static TownOfHost.Managers.Translator;
 using TownOfHost.Roles;
+using TownOfHost.RPC;
 using VentLib;
+using VentLib.Logging;
 
 namespace TownOfHost.Extensions;
 
@@ -37,7 +40,7 @@ public static class PlayerControlExtensions
     {
         OldRPC.ExileAsync(player);
     }
-    public static InnerNet.ClientData? GetClient(this PlayerControl player)
+    public static ClientData? GetClient(this PlayerControl player)
     {
         var client = AmongUsClient.Instance.allClients.ToArray().FirstOrDefault(cd => cd.Character.PlayerId == player.PlayerId);
         return client;
@@ -69,7 +72,7 @@ public static class PlayerControlExtensions
             var callerMethod = caller.GetMethod();
             string callerMethodName = callerMethod.Name;
             string? callerClassName = callerMethod.DeclaringType.FullName;
-            Logger.Warn(callerClassName + "." + callerMethodName + " Invalid Custom Role", "GetCustomRole");
+            VentLogger.Warn(callerClassName + "." + callerMethodName + " Invalid Custom Role", "GetCustomRole");
             return CustomRoleManager.Static.Crewmate;
         }
 
@@ -108,7 +111,7 @@ public static class PlayerControlExtensions
     {
         if (player == null)
         {
-            Logger.Warn("CustomSubRoleを取得しようとしましたが、対象がnullでした。", "getCustomSubRole");
+            VentLogger.Warn("CustomSubRoleを取得しようとしましたが、対象がnullでした。", "getCustomSubRole");
             // new() { Roles.Subrole };
         }
         //  return Main.PlayerStates[player.PlayerId].SubRoles;
@@ -117,7 +120,7 @@ public static class PlayerControlExtensions
 
     public static string GetRoleName(this PlayerControl player) => player.GetCustomRole().RoleName;
 
-    public static string? GetRawName(this PlayerControl? player, bool isMeeting = false)
+    public static string GetRawName(this PlayerControl? player, bool isMeeting = false)
     {
         try { return player.GetDynamicName().RawName; }
         catch { return player.Data.PlayerName; }
@@ -197,7 +200,7 @@ public static class PlayerControlExtensions
     public static void RpcResetAbilityCooldown(this PlayerControl target)
     {
         if (!AmongUsClient.Instance.AmHost) return; //ホスト以外が実行しても何も起こさない
-        Logger.Info($"アビリティクールダウンのリセット:{target.name}({target.PlayerId})", "RpcResetAbilityCooldown");
+        VentLogger.Old($"アビリティクールダウンのリセット:{target.name}({target.PlayerId})", "RpcResetAbilityCooldown");
         if (PlayerControl.LocalPlayer == target)
         {
             //targetがホストだった場合
@@ -296,7 +299,7 @@ public static class PlayerControlExtensions
     {
         if (pc == null) return;
         int clientId = pc.GetClientId();
-        // Logger.Info($"{pc}", "ReactorFlash");
+        // VentLogger.Old($"{pc}", "ReactorFlash");
         var systemtypes = SystemTypes.Reactor;
         if (TOHPlugin.NormalOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
         float FlashDuration = StaticOptions.KillFlashDuration;

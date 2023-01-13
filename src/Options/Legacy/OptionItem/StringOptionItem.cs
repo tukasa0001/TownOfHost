@@ -1,3 +1,5 @@
+using TownOfHost.Managers;
+
 namespace TownOfHost
 {
     public class StringOptionItem : OptionItem

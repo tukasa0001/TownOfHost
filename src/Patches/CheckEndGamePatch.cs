@@ -102,7 +102,7 @@ class GameEndChecker
                 if (!pc.Data.IsDead) ReviveReqiredPlayerIds.Add(pc.PlayerId);
                 if (ToGhostImpostor)
                 {
-                    Logger.Info($"{pc.GetNameWithRole()}: ImpostorGhostに変更", "ResetRoleAndEndGame");
+                    VentLogger.Old($"{pc.GetNameWithRole()}: ImpostorGhostに変更", "ResetRoleAndEndGame");
                     sender.StartRpc(pc.NetId, RpcCalls.SetRole)
                         .Write((ushort)RoleTypes.ImpostorGhost)
                         .EndRpc();
@@ -110,7 +110,7 @@ class GameEndChecker
                 }
                 else
                 {
-                    Logger.Info($"{pc.GetNameWithRole()}: CrewmateGhostに変更", "ResetRoleAndEndGame");
+                    VentLogger.Old($"{pc.GetNameWithRole()}: CrewmateGhostに変更", "ResetRoleAndEndGame");
                     sender.StartRpc(pc.NetId, RpcCalls.SetRole)
                         .Write((ushort)RoleTypes.CrewmateGhost)
                         .EndRpc();

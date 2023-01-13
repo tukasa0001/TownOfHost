@@ -4,10 +4,13 @@ using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
 using TownOfHost.Addons;
+using TownOfHost.Extensions;
 using TownOfHost.Managers;
+using TownOfHost.Patches.Chat;
 using TownOfHost.RPC;
 using VentLib;
-using static TownOfHost.Translator;
+using VentLib.Logging;
+using static TownOfHost.Managers.Translator;
 
 namespace TownOfHost.Patches.Network;
 
@@ -16,8 +19,9 @@ class OnGameJoinedPatch
 {
     public static void Postfix(AmongUsClient __instance)
     {
+        VentLogger.Info("HELLO WORLD!!");
         while (!OldOptions.IsLoaded) System.Threading.Tasks.Task.Delay(1);
-        Logger.Info($"{__instance.GameId}に参加", "OnGameJoined");
+        VentLogger.Old($"{__instance.GameId}に参加", "OnGameJoined");
         TOHPlugin.playerVersion = new Dictionary<byte, PlayerVersion>();
         OldRPC.RpcVersionCheck();
         SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
@@ -26,7 +30,7 @@ class OnGameJoinedPatch
         ChatUpdatePatch.DoBlockChat = false;
         GameStates.InGame = false;
         ErrorText.Instance.Clear();
-        DTask.Schedule(() => AddonManager.VerifyClientAddons(AddonManager.Addons.Select(AddonInfo.From).ToList()), GameStats.DeriveDelay(0.4f));
+        DTask.Schedule(() => AddonManager.VerifyClientAddons(AddonManager.Addons.Select(AddonInfo.From).ToList()), GameStats.DeriveDelay(0.5f));
     }
 }
 
@@ -35,17 +39,17 @@ class OnPlayerJoinedPatch
 {
     public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
     {
-        Logger.Info($"{client.PlayerName}(ClientID:{client.Id})が参加", "Session");
+        VentLogger.Old($"{client.PlayerName}(ClientID:{client.Id})が参加", "Session");
         if (DestroyableSingleton<FriendsListManager>.Instance.IsPlayerBlockedUsername(client.FriendCode) && AmongUsClient.Instance.AmHost)
         {
             AmongUsClient.Instance.KickPlayer(client.Id, true);
-            Logger.Info($"ブロック済みのプレイヤー{client?.PlayerName}({client.FriendCode})をBANしました。", "BAN");
+            VentLogger.Old($"ブロック済みのプレイヤー{client?.PlayerName}({client.FriendCode})をBANしました。", "BAN");
         }
         BanManager.CheckBanPlayer(client);
         BanManager.CheckDenyNamePlayer(client);
         TOHPlugin.playerVersion = new Dictionary<byte, PlayerVersion>();
         OldRPC.RpcVersionCheck();
-        DTask.Schedule(() => VentFramework.FindRPC((uint)ModCalls.SendOptionPreview)!.Send(new[] { client.Id }, TOHPlugin.OptionManager.Options()), GameStats.DeriveDelay(0.4f));
+        DTask.Schedule(() => VentFramework.FindRPC((uint)ModCalls.SendOptionPreview)!.Send(new[] { client.Character.GetClientId() }, TOHPlugin.OptionManager.Options()), GameStats.DeriveDelay(1f));
     }
 }
 
