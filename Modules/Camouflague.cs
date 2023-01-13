@@ -36,6 +36,11 @@ namespace TownOfHost
         public static bool IsCamouflage;
         public static Dictionary<byte, GameData.PlayerOutfit> PlayerSkins = new();
 
+        public static void Init()
+        {
+            IsCamouflage = false;
+            PlayerSkins.Clear();
+        }
         public static void CheckCamouflage()
         {
             if (!(AmongUsClient.Instance.AmHost && Options.CommsCamouflage.GetBool())) return;
