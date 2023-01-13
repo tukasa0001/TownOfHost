@@ -68,8 +68,14 @@ namespace TownOfHost
         {
             byte bountyId = reader.ReadByte();
             byte targetId = reader.ReadByte();
+            if (ShowTargetArrow) TargetArrow.RemoveAllTarget(bountyId);
             var target = Utils.GetPlayerById(targetId);
-            if (target != null) Targets[bountyId] = target;
+            if (target != null)
+            {
+                Targets[bountyId] = target;
+                if (ShowTargetArrow) TargetArrow.Add(bountyId, targetId, false);
+
+            }
         }
         //public static void SetKillCooldown(byte id, float amount) => Main.AllPlayerKillCooldown[id] = amount;
         public static void ApplyGameOptions() => AURoleOptions.ShapeshifterCooldown = TargetChangeTime;
@@ -137,6 +143,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return null;
 
             ChangeTimer[player.PlayerId] = 0f;
+            if (ShowTargetArrow) TargetArrow.RemoveAllTarget(player.PlayerId);
             Logger.Info($"{player.GetNameWithRole()}:ターゲットリセット", "BountyHunter");
             player.RpcResetAbilityCooldown(); ;//タイマー（変身クールダウン）のリセットと
 
@@ -157,6 +164,7 @@ namespace TownOfHost
             }
             var target = cTargets[rand.Next(0, cTargets.Count)];
             Targets[player.PlayerId] = target;
+            if (ShowTargetArrow) TargetArrow.Add(player.PlayerId, target.PlayerId, false);
             Logger.Info($"{player.GetNameWithRole()}のターゲットを{target.GetNameWithRole()}に変更", "BountyHunter");
 
             //RPCによる同期
@@ -181,50 +189,12 @@ namespace TownOfHost
                 }
             }
         }
-
-        public static string UtilsGetTargetArrow(bool isMeeting, PlayerControl seer)
+        public static string GetTargetArrow(PlayerControl seer, bool isMeeting = false)
         {
-            //ミーティング以外では矢印表示
-            if (isMeeting) return "";
-            string SelfSuffix = "";
-            foreach (var arrow in Main.targetArrows)
-            {
-                var target = Utils.GetPlayerById(arrow.Key.Item2);
-                bool BountyTarget = GetTarget(seer) == target;
-                if (arrow.Key.Item1 == seer.PlayerId && !Main.PlayerStates[arrow.Key.Item2].IsDead && (target.GetCustomRole().IsImpostor() || BountyTarget))
-                    SelfSuffix += BountyTarget ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Crewmate), arrow.Value) : arrow.Value;
-            }
-            return SelfSuffix;
-        }
-        public static string PCGetTargetArrow(PlayerControl seer, PlayerControl target)
-        {
-            var update = false;
-            string Suffix = "";
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                bool BountyTarget = GetTarget(target) == pc;
-                bool foundCheck =
-                    pc != target && (pc.GetCustomRole().IsImpostor() || BountyTarget);
+            //矢印オプションがありミーティング以外では矢印表示
+            if (!seer.Is(CustomRoles.BountyHunter) || !ShowTargetArrow || isMeeting) return "";
 
-                //発見対象じゃ無ければ次
-                if (!foundCheck) continue;
-
-                update = FixedUpdatePatch.CheckArrowUpdate(target, pc, update, pc.GetCustomRole().IsImpostor());
-                var key = (target.PlayerId, pc.PlayerId);
-                var arrow = Main.targetArrows[key];
-                if (BountyTarget) arrow = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Crewmate), arrow);
-                if (target.AmOwner)
-                {
-                    //MODなら矢印表示
-                    Suffix += arrow;
-                }
-            }
-            if (AmongUsClient.Instance.AmHost && seer.PlayerId != target.PlayerId && update)
-            {
-                //更新があったら非Modに通知
-                Utils.NotifyRoles(SpecifySeer: target);
-            }
-            return Suffix;
+            return TargetArrow.GetArrows(seer);
         }
     }
 }
