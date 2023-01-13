@@ -1031,6 +1031,8 @@ namespace TownOfHost
         {
             var pc = __instance;
 
+            Snitch.OnCompleteTask(pc);
+
             if ((pc.GetPlayerTaskState().IsTaskFinished &&
                 pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor) ||
                 pc.GetCustomRole() is CustomRoles.SpeedBooster)
