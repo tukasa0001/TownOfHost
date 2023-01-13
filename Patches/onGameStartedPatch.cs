@@ -117,6 +117,7 @@ namespace TownOfHost
             Sheriff.Init();
             EvilTracker.Init();
             Snitch.Init();
+            SchrodingerCat.Init();
             LastImpostor.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
