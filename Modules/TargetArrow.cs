@@ -86,68 +86,58 @@ namespace TownOfHost
             }
             return arrows.ToString();
         }
-        [HarmonyPatch]
-        class Patches
+        /// <summary>
+        /// FixedUpdate毎にターゲット矢印を確認
+        /// 更新があったらNotifyRolesを発行
+        /// </summary>
+        /// <param name="__instance"></param>
+        public static void OnFIxedUpdate(PlayerControl __instance)
         {
-            [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame)), HarmonyPostfix]
-            static void OnGameStart()
+            var seer = __instance;
+            var seerId = seer.PlayerId;
+
+            var targetList = new List<byte>(TargetArrows.Keys.Where(k => k.Item1 == seer.PlayerId).Select(k => k.Item2));
+            if (targetList.Count == 0) return;
+
+            var colored = TargetArrowsColored[seerId];
+            var update = false;
+            foreach (var targetId in targetList)
             {
-                Init();
+                var target = Utils.GetPlayerById(targetId);
+                if (!target.IsAlive())
+                {
+                    Remove(seer.PlayerId, targetId);
+                    update = true;
+                    continue;
+                }
+                //対象の方角ベクトルを取る
+                var dir = target.transform.position - seer.transform.position;
+                byte index;
+                if (dir.magnitude < 2)
+                {
+                    //近い時はドット表示
+                    index = 8;
+                }
+                else
+                {
+                    //-22.5～22.5度を0とするindexに変換
+                    var angle = Vector3.SignedAngle(Vector3.down, dir, Vector3.back) + 180 + 22.5;
+                    index = (byte)(((int)(angle / 45)) % 8);
+                }
+                var arrow = Arrows[index];
+                if (colored)
+                {
+                    arrow = $"<color={target.GetRoleColorCode()}>{arrow}</color>";
+                }
+                if (TargetArrows[(seerId, targetId)] != arrow)
+                {
+                    TargetArrows[(seerId, targetId)] = arrow;
+                    update = true;
+                }
             }
-            /// <summary>
-            /// FixedUpdate毎にターゲット矢印を確認
-            /// 更新があったらNotifyRolesを発行
-            /// </summary>
-            /// <param name="__instance"></param>
-            [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate)), HarmonyPrefix]
-            static void ArrowUpdate(PlayerControl __instance)
+            if (update)
             {
-                var seer = __instance;
-                var seerId = seer.PlayerId;
-
-                var targetList = new List<byte>(TargetArrows.Keys.Where(k => k.Item1 == seer.PlayerId).Select(k => k.Item2));
-                if (targetList.Count == 0) return;
-
-                var colored = TargetArrowsColored[seerId];
-                var update = false;
-                foreach (var targetId in targetList)
-                {
-                    var target = Utils.GetPlayerById(targetId);
-                    if (!target.IsAlive())
-                    {
-                        Remove(seer.PlayerId, targetId);
-                        update= true;
-                        continue;
-                    }
-                    //対象の方角ベクトルを取る
-                    var dir = target.transform.position - seer.transform.position;
-                    byte index;
-                    if (dir.magnitude < 2)
-                    {
-                        //近い時はドット表示
-                        index = 8;
-                    }
-                    else
-                    {
-                        //-22.5～22.5度を0とするindexに変換
-                        var angle = Vector3.SignedAngle(Vector3.down, dir, Vector3.back) + 180 + 22.5;
-                        index = (byte)(((int)(angle / 45)) % 8);
-                    }
-                    var arrow = Arrows[index];
-                    if (colored)
-                    {
-                        arrow = $"<color={target.GetRoleColorCode()}>{arrow}</color>";
-                    }
-                    if (TargetArrows[(seerId, targetId)] != arrow)
-                    {
-                        TargetArrows[(seerId, targetId)] = arrow;
-                        update = true;
-                    }
-                }
-                if (update)
-                {
-                    Utils.NotifyRoles(SpecifySeer: seer);
-                }
+                Utils.NotifyRoles(SpecifySeer: seer);
             }
         }
     }

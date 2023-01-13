@@ -468,8 +468,10 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance)
         {
-            if (!GameStates.IsModHost) return;
             var player = __instance;
+            TargetArrow.OnFIxedUpdate(player);
+
+            if (!GameStates.IsModHost) return;
 
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行

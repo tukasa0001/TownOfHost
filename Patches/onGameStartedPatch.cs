@@ -119,6 +119,7 @@ namespace TownOfHost
             Snitch.Init();
             SchrodingerCat.Init();
             LastImpostor.Init();
+            TargetArrow.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
