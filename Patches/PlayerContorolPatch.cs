@@ -486,6 +486,8 @@ namespace TownOfHost
                     __instance.ReportDeadBody(info);
                 }
 
+                DoubleTrigger.OnFixedUpdate(player);
+
                 if (GameStates.IsInTask && CustomRoles.Vampire.IsEnable())
                 {
                     //Vampireの処理

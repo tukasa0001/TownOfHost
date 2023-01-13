@@ -120,6 +120,7 @@ namespace TownOfHost
             SchrodingerCat.Init();
             LastImpostor.Init();
             TargetArrow.Init();
+            DoubleTrigger.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
