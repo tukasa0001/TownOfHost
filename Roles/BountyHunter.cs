@@ -8,12 +8,17 @@ namespace TownOfHost
     public static class BountyHunter
     {
         private static readonly int Id = 1000;
-        public static List<byte> playerIdList = new();
+        private static List<byte> playerIdList = new();
 
-        private static OptionItem TargetChangeTime;
-        private static OptionItem SuccessKillCooldown;
-        private static OptionItem FailureKillCooldown;
-        public static OptionItem ShowTargetArrow;
+        private static OptionItem OptionTargetChangeTime;
+        private static OptionItem OptionSuccessKillCooldown;
+        private static OptionItem OptionFailureKillCooldown;
+        private static OptionItem OptionShowTargetArrow;
+
+        private static float TargetChangeTime;
+        private static float SuccessKillCooldown;
+        private static float FailureKillCooldown;
+        private static bool ShowTargetArrow;
 
         public static Dictionary<byte, PlayerControl> Targets = new();
         public static Dictionary<byte, float> ChangeTimer = new();
@@ -21,13 +26,13 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.BountyHunter);
-            TargetChangeTime = FloatOptionItem.Create(Id + 10, "BountyTargetChangeTime", new(10f, 900f, 2.5f), 60f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter])
+            OptionTargetChangeTime = FloatOptionItem.Create(Id + 10, "BountyTargetChangeTime", new(10f, 900f, 2.5f), 60f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter])
                 .SetValueFormat(OptionFormat.Seconds);
-            SuccessKillCooldown = FloatOptionItem.Create(Id + 11, "BountySuccessKillCooldown", new(0f, 180f, 2.5f), 2.5f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter])
+            OptionSuccessKillCooldown = FloatOptionItem.Create(Id + 11, "BountySuccessKillCooldown", new(0f, 180f, 2.5f), 2.5f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter])
                 .SetValueFormat(OptionFormat.Seconds);
-            FailureKillCooldown = FloatOptionItem.Create(Id + 12, "BountyFailureKillCooldown", new(0f, 180f, 2.5f), 50f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter])
+            OptionFailureKillCooldown = FloatOptionItem.Create(Id + 12, "BountyFailureKillCooldown", new(0f, 180f, 2.5f), 50f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter])
                 .SetValueFormat(OptionFormat.Seconds);
-            ShowTargetArrow = BooleanOptionItem.Create(Id + 13, "BountyShowTargetArrow", false, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            OptionShowTargetArrow = BooleanOptionItem.Create(Id + 13, "BountyShowTargetArrow", false, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
         }
         public static void Init()
         {
@@ -38,6 +43,11 @@ namespace TownOfHost
         public static void Add(byte playerId)
         {
             playerIdList.Add(playerId);
+
+            TargetChangeTime = OptionTargetChangeTime.GetFloat();
+            SuccessKillCooldown = OptionSuccessKillCooldown.GetFloat();
+            FailureKillCooldown = OptionFailureKillCooldown.GetFloat();
+            ShowTargetArrow = OptionShowTargetArrow.GetBool();
 
             if (AmongUsClient.Instance.AmHost)
                 ResetTarget(Utils.GetPlayerById(playerId));
@@ -62,21 +72,21 @@ namespace TownOfHost
             if (target != null) Targets[bountyId] = target;
         }
         //public static void SetKillCooldown(byte id, float amount) => Main.AllPlayerKillCooldown[id] = amount;
-        public static void ApplyGameOptions() => AURoleOptions.ShapeshifterCooldown = TargetChangeTime.GetFloat();
+        public static void ApplyGameOptions() => AURoleOptions.ShapeshifterCooldown = TargetChangeTime;
 
         public static void OnCheckMurder(PlayerControl killer, PlayerControl target)
         {
             if (GetTarget(killer) == target)
             {//ターゲットをキルした場合
                 Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
-                Main.AllPlayerKillCooldown[killer.PlayerId] = SuccessKillCooldown.GetFloat();
+                Main.AllPlayerKillCooldown[killer.PlayerId] = SuccessKillCooldown;
                 killer.SyncSettings();//キルクール処理を同期
                 ResetTarget(killer);
             }
             else
             {
                 Logger.Info($"{killer?.Data?.PlayerName}:ターゲット以外をキル", "BountyHunter");
-                Main.AllPlayerKillCooldown[killer.PlayerId] = FailureKillCooldown.GetFloat();
+                Main.AllPlayerKillCooldown[killer.PlayerId] = FailureKillCooldown;
                 killer.SyncSettings();//キルクール処理を同期
             }
         }
@@ -95,7 +105,7 @@ namespace TownOfHost
                 else
                 {
                     var target = GetTarget(player);
-                    if (ChangeTimer[player.PlayerId] >= TargetChangeTime.GetFloat())//時間経過でターゲットをリセットする処理
+                    if (ChangeTimer[player.PlayerId] >= TargetChangeTime)//時間経過でターゲットをリセットする処理
                     {
                         ResetTarget(player);//ターゲットの選びなおし
                         Utils.NotifyRoles(SpecifySeer: player);
