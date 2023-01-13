@@ -6,7 +6,7 @@ namespace TownOfHost
 {
     public static class TimeManager
     {
-        static readonly int Id = 4000;
+        static readonly int Id = 21500;
         static List<byte> playerIdList = new();
         public static Dictionary<byte, int> TimeManagerTaskCount = new();
         public static OptionItem IncreaseMeetingTime;
@@ -28,7 +28,6 @@ namespace TownOfHost
         {
             playerIdList.Add(playerId);
             TimeManagerTaskCount[playerId] = 0;
-            Utils.GetPlayerById(playerId)?.RpcSetTimeManagerTaskCount();
         }
         public static bool IsEnable() => playerIdList.Count > 0;
         public static void ReceiveRPC(MessageReader msg)
@@ -57,13 +56,16 @@ namespace TownOfHost
         }
         public static void OnCheckCompleteTask(PlayerControl player)
         {
-            TimeManagerTaskCount[player.PlayerId]++;
-            player.RpcSetTimeManagerTaskCount();
-            Main.DiscussionTime += IncreaseMeetingTime.GetInt();//会議時間に増える分の会議時間を加算
-            if (Main.DiscussionTime > 0)
+            if (player.Is(CustomRoles.TimeManager))
             {
-                Main.VotingTime += Main.DiscussionTime;
-                Main.DiscussionTime = 0;//投票時間+会議時間を投票時間とし、会議時間を0にする
+                TimeManagerTaskCount[player.PlayerId]++;
+                player.RpcSetTimeManagerTaskCount();
+                Main.DiscussionTime += IncreaseMeetingTime.GetInt();//会議時間に増える分の会議時間を加算
+                if (Main.DiscussionTime > 0)
+                {
+                    Main.VotingTime += Main.DiscussionTime;
+                    Main.DiscussionTime = 0;//投票時間+会議時間を投票時間とし、会議時間を0にする
+                }
             }
         }
     }
