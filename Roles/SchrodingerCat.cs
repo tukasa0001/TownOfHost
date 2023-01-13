@@ -116,12 +116,14 @@ namespace TownOfHost
                 CustomRoles.CSchrodingerCat,
                 CustomRoles.MSchrodingerCat
             };
+            foreach (var pc in Main.AllAlivePlayerControls)
+            {
+                if (pc.Is(CustomRoles.Egoist) && !Rand.Contains(CustomRoles.EgoSchrodingerCat))
+                    Rand.Add(CustomRoles.EgoSchrodingerCat);
 
-            if (Egoist.IsEnable)
-                Rand.Add(CustomRoles.EgoSchrodingerCat);
-            if (Jackal.IsEnable)
-                Rand.Add(CustomRoles.JSchrodingerCat);
-
+                if (pc.Is(CustomRoles.Jackal) && !Rand.Contains(CustomRoles.JSchrodingerCat))
+                    Rand.Add(CustomRoles.JSchrodingerCat);
+            }
             var Role = Rand[rand.Next(Rand.Count)];
             player.RpcSetCustomRole(Role);
         }
