@@ -114,7 +114,6 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
             // Get the opposite type of this role
             if (MyPlayer == PlayerControl.LocalPlayer && AmongUsClient.Instance.AmHost)
             {
-                MyPlayer.RpcSetRole(assignedType);
                 MyPlayer.SetRole(assignedType); // Required because the rpc below doesn't target host
             }
             else
@@ -130,17 +129,17 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
 
             allies.Select(player => player.GetRawName()).PrettyString().DebugLog($"{this.RoleName}'s allies are: ");
 
-            int[] crewmateReceivers = Game.GetAlivePlayers()
-                .Where(p => p.GetCustomRole().RealRole is not (RoleTypes.Impostor or RoleTypes.Shapeshifter))
+            int[] crewmateReceivers = Game.GetAllPlayers()
+                .Where(p => p.GetCustomRole().RealRole.IsCrewmate())
                 .Select(p => p.GetClientId()).ToArray();
 
             //int[] allies = allies.Where(ally => ally.is)
             // Send to all clients, excluding allies, that you're a crewmate
-            RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((ushort)RoleTypes.Impostor).SendToFollowing(include: crewmateReceivers);
+            RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((ushort)RoleTypes.Impostor).SendInclusive(include: crewmateReceivers);
 
-            RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((ushort)RoleTypes.Crewmate).SendToAll(exclude: alliesCID.Union(crewmateReceivers).ToArray());
+            RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((ushort)RoleTypes.Crewmate).SendExclusive(exclude: alliesCID.Union(crewmateReceivers).ToArray());
             // Send to allies your real role
-            RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((ushort)assignedType).SendToFollowing(include: alliesCID);
+            RpcV2.Immediate(MyPlayer.NetId, (byte)RpcCalls.SetRole).Write((ushort)assignedType).SendInclusive(include: alliesCID);
             // Finally, for all players that are not your allies make them crewmates
             Game.GetAllPlayers()
                 .Where(pc => !alliesCID.Contains(pc.GetClientId()) && pc.PlayerId != MyPlayer.PlayerId)

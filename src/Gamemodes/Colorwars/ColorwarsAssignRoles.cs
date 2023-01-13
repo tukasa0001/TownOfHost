@@ -48,8 +48,8 @@ public static class ColorwarsAssignRoles
             foreach (PlayerControl player in team)
             {
                 if (player.PlayerId == localPlayer.PlayerId) player.SetRole(RoleTypes.Impostor);
-                RpcV2.Immediate(player.NetId, (byte)RpcCalls.SetRole).Write((ushort)RoleTypes.Impostor).SendToFollowing(teamClientIds);
-                RpcV2.Immediate(player.NetId, (byte)RpcCalls.SetRole).Write((ushort)RoleTypes.Crewmate).SendToAll(teamClientIds);
+                RpcV2.Immediate(player.NetId, (byte)RpcCalls.SetRole).Write((ushort)RoleTypes.Impostor).SendInclusive(teamClientIds);
+                RpcV2.Immediate(player.NetId, (byte)RpcCalls.SetRole).Write((ushort)RoleTypes.Crewmate).SendExclusive(teamClientIds);
                 Game.AssignRole(player, CustomRoleManager.Static.SerialKiller);
             }
         }

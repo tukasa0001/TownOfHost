@@ -62,7 +62,7 @@ public static class Translator
         }
     }
 
-    public static string GetString(string s, Dictionary<string, string> replacementDic = null)
+    public static string GetString(string s, Dictionary<string, string>? replacementDic = null)
     {
         var langId = TranslationController.InstanceExists ? TranslationController.Instance.currentLanguage.languageID : SupportedLangs.English;
         if (TOHPlugin.ForceJapanese.Value) langId = SupportedLangs.Japanese;
@@ -97,7 +97,7 @@ public static class Translator
         return res;
     }
 
-    public static string GetStringOrDefault(this SupportedLangs langId, string str, string def = null)
+    public static string GetStringOrDefault(this SupportedLangs langId, string str, string? def = null)
     {
         def ??= str;
         var res = def;

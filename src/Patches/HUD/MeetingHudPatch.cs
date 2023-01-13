@@ -9,6 +9,7 @@ using TownOfHost.Options;
 using TownOfHost.Patches.Chat;
 using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
+using TownOfHost.RPC;
 using UnityEngine;
 using VentLib.Logging;
 using static TownOfHost.Managers.Translator;
@@ -93,8 +94,10 @@ class CheckForEndVotingPatch
                 return false;
             }
 
-            AntiBlackout.SendGameData();
-            __instance.RpcVotingComplete(states, fakeExiled, tie); //通常処理
+            /*if (!AntiBlackoutManager.OverrideExiledPlayer)
+                AssignRoleOnDeathPatch.Postfix(null, exiledPlayer!.Object, false);*/
+
+            __instance.ComplexVotingComplete(states, fakeExiled, tie); //通常処理
             return false;
         }
         catch (Exception ex)
@@ -210,7 +213,7 @@ class MeetingHudOnDestroyPatch
     public static void Prefix()
     {
         AntiBlackout.SetIsDead();
-        Thread.Sleep(30);
+        Thread.Sleep(300);
     }
 
     public static void Postfix()

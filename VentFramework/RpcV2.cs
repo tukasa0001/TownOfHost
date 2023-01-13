@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
@@ -66,6 +67,7 @@ public class RpcV2
     public RpcV2 Write(IRpcWritable value) => this.WriteAny(value, WriteType.Rpcable);
     public RpcV2 WritePacked(int value) => this.WriteAny(value, WriteType.Packed);
     public RpcV2 WritePacked(uint value) => this.WriteAny(value, WriteType.Packed);
+    public RpcV2 WriteSerializable(object value) => this.WriteAny(value, WriteType.Serializable);
 
     public RpcV2 WriteOptions(IGameOptions options) => this.WriteAny(options, WriteType.Options);
 
@@ -75,14 +77,14 @@ public class RpcV2
         return this;
     }
 
-    public void SendToFollowing(params int[] include)
+    public void SendInclusive(params int[] include)
     {
         PlayerControl.AllPlayerControls.ToArray()
             .Where(pc => include.Contains(pc.GetClientId()))
             .Do(pc => this.Send(pc.GetClientId()));
     }
 
-    public void SendToAll(params int[] exclude)
+    public void SendExclusive(params int[] exclude)
     {
         PlayerControl.AllPlayerControls.ToArray()
             .Where(pc => !exclude.Contains(pc.GetClientId()))
@@ -102,6 +104,13 @@ public class RpcV2
             netId = key;
             Send();
         }
+    }
+
+    private static void Serialize(MessageWriter writer, object obj)
+    {
+        MethodInfo serialzeMethod = obj.GetType().GetMethod("Serialize", BindingFlags.Default | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)!;
+        serialzeMethod.Invoke(obj,
+            serialzeMethod.GetParameters().Length == 1 ? new object?[] { writer } : new object?[] { writer, false });
     }
 
     public void WriteTo(MessageWriter writer)
@@ -126,6 +135,9 @@ public class RpcV2
                     continue;
                 case WriteType.Rpcable:
                     ((IRpcWritable) write.Item1).Write(writer);
+                    continue;
+                case WriteType.Serializable:
+                    Serialize(writer, write.Item1);
                     continue;
                 case WriteType.Normal:
                 default:
@@ -192,6 +204,7 @@ public class RpcV2
         Rpcable,
         NetObject,
         Options,
-        Vector
+        Vector,
+        Serializable
     }
 }

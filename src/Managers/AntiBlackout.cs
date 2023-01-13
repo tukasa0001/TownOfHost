@@ -4,13 +4,11 @@ using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Hazel;
 using TownOfHost.Extensions;
-using TownOfHost.Managers;
 using TownOfHost.Options;
-using TownOfHost.Roles;
 using TownOfHost.RPC;
 using VentLib.Logging;
 
-namespace TownOfHost;
+namespace TownOfHost.Managers;
 
 public static class AntiBlackout
 {
@@ -19,6 +17,7 @@ public static class AntiBlackout
     ///</summary>
     public static bool OverrideExiledPlayer => StaticOptions.NoGameEnd || GameStats.CountAliveRealImpostors() >= GameStats.CountAliveRealCrew();
     public static GameData.PlayerInfo? ExiledPlayer;
+    public static GameData.PlayerInfo? FakeExiled;
 
     public static bool IsCached { get; private set; }
     private static Dictionary<byte, (bool isDead, bool Disconnected)> isDeadCache = new();
@@ -43,14 +42,21 @@ public static class AntiBlackout
 
     public static GameData.PlayerInfo? CreateFakePlayer(GameData.PlayerInfo? realPlayer)
     {
+        //return null;
         if (realPlayer == null) return null;
-        GameData.PlayerInfo? deadPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(p => p.Disconnected || p.IsDead);
+        GameData.PlayerInfo? deadPlayer = GameData.Instance.AllPlayers.ToArray().Where(p => p.Disconnected || p.IsDead).FirstOrDefault(AntiBlackoutLogic.IsFakeable);
         if (deadPlayer == null) return null;
         VentLogger.Info($"Created Fake Player Using: {deadPlayer.Object.GetRawName()} => {realPlayer.Object.GetRawName()}");
-        deadPlayer.PlayerName = realPlayer.Object.GetRawName();
-        deadPlayer.Outfits = realPlayer.Outfits;
+
+        GameData.PlayerOutfit outfit = realPlayer.Outfits[PlayerOutfitType.Default].Clone();
+        outfit.PlayerName = deadPlayer.PlayerName = "Modified " + realPlayer.Object.GetRawName();
+
+        deadPlayer.Outfits[PlayerOutfitType.Default] = outfit;
+        FakeExiled = deadPlayer;
         return deadPlayer;
     }
+
+
 
     public static void SetIsDead(bool doSend = true, [CallerMemberName] string callerMethodName = "")
     {
@@ -89,29 +95,7 @@ public static class AntiBlackout
     private static void SendPatchedData()
     {
         HostRpc.RpcDebug("Game Data BEFORE Patch");
-        int aliveCrew = GameStats.CountRealCrew();
-        int aliveImpostors = GameStats.CountAliveRealImpostors();
-        if (aliveCrew > aliveImpostors) RestoreIsDead();
-        foreach (PlayerControl player in Game.GetAllPlayers())
-        {
-            int aliveImpostorsLower = aliveImpostors;
-            bool impostor = player.GetCustomRole().RealRole.IsImpostor();
-            if (!impostor && GameStats.CountAliveRealCrew() <= aliveImpostors)
-                foreach (var info in GameData.Instance.AllPlayers)
-                {
-                    info.IsDead = false;
-                    info.Disconnected = false;
-
-                    if (aliveImpostorsLower < aliveCrew) continue;
-                    if (player.PlayerId == info.PlayerId || !info.GetCustomRole().RealRole.IsImpostor()) continue;
-
-                    if (info.Object.IsHost()) info.IsDead = true;
-                    else info.Disconnected = true;
-                    aliveImpostorsLower--;
-                }
-
-            SendGameData(player.GetClientId());
-        }
+        AntiBlackoutLogic.PatchedDataLogic();
         HostRpc.RpcDebug("Game Data AFTER Patch");
     }
 
@@ -144,7 +128,6 @@ public static class AntiBlackout
         if (!AmongUsClient.Instance.AmHost || !IsCached || !player.Disconnected) return;
         isDeadCache[player.PlayerId] = (true, true);
         player.IsDead = player.Disconnected = false;
-        RestoreGameData();
     }
 
     public static void Reset()

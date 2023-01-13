@@ -123,10 +123,10 @@ public class DetouredSender
         int clientId = PlayerControl.LocalPlayer.GetClientId();
         if (targets != null) {
             VentLogger.Debug($"(Client: {clientId}) Sending RPC ({callId}) as {senderString} to {targets.StrJoin()} | ({senders} | {args} | {localSendCount}::{uuid}::{HookHelper.globalSendCount}", "DetouredSender");
-            v2.SendToFollowing(blockedClients == null ? targets : targets.Except(blockedClients).ToArray());
+            v2.SendInclusive(blockedClients == null ? targets : targets.Except(blockedClients).ToArray());
         } else if (blockedClients != null) {
             VentLogger.Debug($"(Client: {clientId}) Sending RPC ({callId}) as {senderString} to all except {blockedClients.StrJoin()} | ({senders} | {args} | {localSendCount}::{uuid}::{HookHelper.globalSendCount}", "DetouredSender");
-            v2.SendToAll(blockedClients);
+            v2.SendExclusive(blockedClients);
         } else {
             VentLogger.Debug($"(Client: {clientId}) Sending RPC ({callId}) as {senderString} to all | ({this.senders} | {args} | {localSendCount}::{uuid}::{HookHelper.globalSendCount}", "DetouredSender");
             v2.Send();

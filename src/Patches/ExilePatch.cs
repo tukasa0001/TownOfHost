@@ -55,7 +55,6 @@ static class ExileControllerWrapUpPatch
             ActionHandle otherExiledHandle = ActionHandle.NoInit();
             exiled.Object.Trigger(RoleActionType.SelfExiled, ref selfExiledHandle);
             Game.TriggerForAll(RoleActionType.OtherExiled, ref otherExiledHandle, exiled);
-            exiled.Object.Data.IsDead = exiled.IsDead = true;
         }
         FallFromLadder.Reset();
     }
@@ -76,6 +75,7 @@ static class ExileControllerWrapUpPatch
         VentLogger.Old("タスクフェイズ開始", "Phase");
 
         AntiBlackout.LoadCosmetics();
+        AntiBlackout.FakeExiled = null;
     }
 }
 
