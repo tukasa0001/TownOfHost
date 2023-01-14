@@ -469,7 +469,7 @@ namespace TownOfHost
         public static void Postfix(PlayerControl __instance)
         {
             var player = __instance;
-            TargetArrow.OnFIxedUpdate(player);
+            TargetArrow.OnFixedUpdate(player);
 
             if (!GameStates.IsModHost) return;
 

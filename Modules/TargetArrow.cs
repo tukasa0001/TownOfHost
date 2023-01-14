@@ -91,7 +91,7 @@ namespace TownOfHost
         /// 更新があったらNotifyRolesを発行
         /// </summary>
         /// <param name="__instance"></param>
-        public static void OnFIxedUpdate(PlayerControl __instance)
+        public static void OnFixedUpdate(PlayerControl __instance)
         {
             var seer = __instance;
             var seerId = seer.PlayerId;
