@@ -405,8 +405,7 @@ namespace TownOfHost
                 }
 
                 //呪われている場合
-                if (Witch.IsSpelled(target.PlayerId))
-                    pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "†");
+                pva.NameText.text += Witch.GetSpelledMark(target.PlayerId, true);
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
             }

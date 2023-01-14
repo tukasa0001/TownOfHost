@@ -678,8 +678,7 @@ namespace TownOfHost
                 if (seer.Is(CustomRoles.Lovers)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
 
                 //呪われている場合
-                if (Witch.IsSpelled(seer.PlayerId) && isMeeting)
-                    SelfMark += "<color=#ff0000>†</color>";
+                SelfMark += Witch.GetSpelledMark(seer.PlayerId, isMeeting);
 
                 if (Sniper.IsEnable())
                 {
@@ -701,13 +700,14 @@ namespace TownOfHost
                 }
                 if (seer.Is(CustomRoles.Witch))
                 {
-                    SelfSuffix = Witch.GetSpellModeText(seer, false);
+                    SelfSuffix = Witch.GetSpellModeText(seer, false, isMeeting);
                 }
 
                 //タスクを終えたSnitchがインポスター/キル可能な第三陣営の方角を確認できる
                 SelfSuffix += Snitch.GetSnitchArrow(seer);
 
                 if (seer.Is(CustomRoles.EvilTracker)) SelfSuffix += EvilTracker.UtilsGetTargetArrow(isMeeting, seer);
+                if (seer.Is(CustomRoles.BountyHunter) && BountyHunter.ShowTargetArrow.GetBool()) SelfSuffix += BountyHunter.UtilsGetTargetArrow(isMeeting, seer);
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.GetRealName(isMeeting);

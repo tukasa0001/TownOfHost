@@ -106,20 +106,10 @@ namespace TownOfHost
             if (!EnableTargetArrow) return "";
             return TargetArrow.GetArrows(seer);
         }
-        [HarmonyPatch]
-        class Patches
+        public static void OnCompleteTask(PlayerControl __instance)
         {
-            [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame)), HarmonyPostfix]
-            static void OnGameStart()
-            {
-                Init();
-            }
-            [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CompleteTask)), HarmonyPostfix]
-            static void OnCompleteTask(PlayerControl __instance)
-            {
-                if (!IsThisRole(__instance.PlayerId)) return;
-                CheckTask(__instance);
-            }
+            if (!IsThisRole(__instance.PlayerId)) return;
+            CheckTask(__instance);
         }
     }
 }
