@@ -125,7 +125,7 @@ namespace TownOfHost
             {
                 CustomRoles.Shapeshifter => true,
                 CustomRoles.EvilTracker => EvilTracker.CanCreateMadmate.GetBool(),
-                CustomRoles.Egoist => Egoist.CanCreateMadmate.GetBool(),
+                CustomRoles.Egoist => Egoist.CanCreateMadmate,
                 _ => false,
             };
         public static RoleTypes GetRoleTypes(this CustomRoles role)
