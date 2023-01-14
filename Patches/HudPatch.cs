@@ -24,7 +24,6 @@ namespace TownOfHost
             var player = PlayerControl.LocalPlayer;
             if (player == null) return;
             var TaskTextPrefix = "";
-            var FakeTasksText = DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.FakeTasks, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
             //壁抜け
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
@@ -42,9 +41,12 @@ namespace TownOfHost
                     player.Collider.offset = new Vector2(0f, -0.3636f);
                 }
             }
-            __instance.GameSettings.text = OptionShower.GetText();
-            __instance.GameSettings.fontSizeMin =
-            __instance.GameSettings.fontSizeMax = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || Main.ForceJapanese.Value) ? 1.05f : 1.2f;
+            if (GameStates.IsLobby)
+            {
+                __instance.GameSettings.text = OptionShower.GetText();
+                __instance.GameSettings.fontSizeMin =
+                __instance.GameSettings.fontSizeMax = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || Main.ForceJapanese.Value) ? 1.05f : 1.2f;
+            }
             //ゲーム中でなければ以下は実行されない
             if (!AmongUsClient.Instance.IsGameStarted) return;
 
@@ -147,7 +149,7 @@ namespace TownOfHost
                     case CustomRoles.Madmate:
                     case CustomRoles.SKMadmate:
                     case CustomRoles.Jester:
-                        TaskTextPrefix += FakeTasksText;
+                        TaskTextPrefix += GetString(StringNames.FakeTasks);
                         break;
                 }
 
@@ -243,25 +245,18 @@ namespace TownOfHost
             __instance.ImpostorVentButton.ToggleVisible(player.CanUseImpostorVentButton());
         }
     }
-    [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowNormalMap))]
-    class ShowNormalMapPatch
+    [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.Show))]
+    class MapBehaviourShowPatch
     {
-        public static void Prefix(ref RoleTeamTypes __state)
+        public static void Prefix(MapBehaviour __instance, ref MapOptions opts)
         {
-            var player = PlayerControl.LocalPlayer;
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist))
+            if (opts.Mode is MapOptions.Modes.Normal or MapOptions.Modes.Sabotage)
             {
-                __state = player.Data.Role.TeamType;
-                player.Data.Role.TeamType = RoleTeamTypes.Crewmate;
-            }
-        }
-
-        public static void Postfix(ref RoleTeamTypes __state)
-        {
-            var player = PlayerControl.LocalPlayer;
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist))
-            {
-                player.Data.Role.TeamType = __state;
+                var player = PlayerControl.LocalPlayer;
+                if (player.Is(RoleType.Impostor) || (player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
+                    opts.Mode = MapOptions.Modes.Sabotage;
+                else
+                    opts.Mode = MapOptions.Modes.Normal;
             }
         }
     }

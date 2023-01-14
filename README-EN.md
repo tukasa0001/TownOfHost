@@ -240,6 +240,7 @@ The target swaps after a configurable amount of time.<br>
 | Time To Swap Bounty(s)                |
 | Kill Cooldown After Killing Bounty(s) |
 | Kill Cooldown After Killing Others(s) |
+| Show arrow pointing to target         |
 
 ### EvilTracker
 
@@ -423,13 +424,14 @@ Team : Impostors<br>
 Basis : Impostor<br>
 
 The Witches can perform kills or spells switched by Actions.<br>
+In Double Click mode, Single Click for spell, Double Clicks for kill.
 The players spelled by Witches before a meeting are marked "cross" in the meeting, and unless exiling Witches, they all die just after the meeting.<br>
 
 #### Game Options
 
-| Name               |           |
-| ------------------ | --------- |
-| Mode Switch Action | Kill/Vent |
+| Name               |                         |
+| ------------------ | ----------------------- |
+| Mode Switch Action | Kill/Vent/Double Click |
 
 ### Mafia
 
@@ -676,8 +678,8 @@ Basis : Crewmate<br>
 
 Once all of the snitch's tasks are completed, the imposters names will be displayed in red.<br>
 Dependent on the settings, the snitch may also see arrows pointed in the remaining impostors directions when their tasks are completed.<br>
-When the snitch has 0 or 1 tasks remaining, the impostors will be able to see a star next to the name of the snitch and that there is an alive snitch who has 0 or 1 tasks left.<br>
-The imposters also see an arrow pointed in the snitch's direction when the snitch has one or less tasks remaining.<br>
+When the amount of remaining tasks in a snitch falls below a set amount, the imposter displays a star next to the snitch's name.<br>
+The imposter also displays an arrow in the direction of the snitch.<br>
 
 #### Game Options
 
@@ -686,6 +688,7 @@ The imposters also see an arrow pointed in the snitch's direction when the snitc
 | Snitch Can See Target Arrow    |
 | Snitch Can See Colored Arrow   |
 | Snitch Can Find Neutral Killer |
+| Remaining tasks to be found    |
 
 ### SpeedBooster
 

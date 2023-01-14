@@ -12,7 +12,7 @@ namespace TownOfHost
             foreach (var p in __instance.AllPlayers)
             {
                 if (p == null) continue;
-                var hasTasks = Utils.HasTasks(p);
+                var hasTasks = Utils.HasTasks(p) && Main.PlayerStates[p.PlayerId].GetTaskState().AllTasksCount > 0;
                 if (hasTasks)
                 {
                     // if (p.Tasks == null)
