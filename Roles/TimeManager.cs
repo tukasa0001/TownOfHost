@@ -33,7 +33,7 @@ namespace TownOfHost
         public static void TimeManagerResetVotingTime(this PlayerControl timemanager)
         {
             for (var i = 0; i < TimeManagerTaskCount[timemanager.PlayerId]; i++)
-                Main.VotingTime -= IncreaseMeetingTime.GetInt();
+                Main.VotingTime -= IncreaseMeetingTime.GetInt() * TimeManagerTaskCount[timemanager.PlayerId];
             TimeManagerTaskCount[timemanager.PlayerId] = 0; //会議時間の初期化
         }
         public static void OnCheckCompleteTask(PlayerControl player)
@@ -41,7 +41,7 @@ namespace TownOfHost
             if (player.Is(CustomRoles.TimeManager))
             {
                 TimeManagerTaskCount[player.PlayerId]++;
-                Main.VotingTime -= IncreaseMeetingTime.GetInt() * TimeManagerTaskCount[player.PlayerId];//会議時間に増える分の会議時間を加算
+                Main.VotingTime -= IncreaseMeetingTime.GetInt();//会議時間に増える分の会議時間を加算
                 if (Main.DiscussionTime > 0)
                 {
                     Main.VotingTime += Main.DiscussionTime;
