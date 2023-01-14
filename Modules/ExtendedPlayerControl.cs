@@ -523,19 +523,8 @@ namespace TownOfHost
         public static string GetRoleInfo(this PlayerControl player, bool InfoLong = false)
         {
             var role = player.GetCustomRole();
-            if (role.IsVanilla())
-            {
-                var blurb = role switch
-                {
-                    CustomRoles.Impostor => StringNames.ImpostorBlurb,
-                    CustomRoles.Scientist => InfoLong ? StringNames.ScientistBlurbLong : StringNames.ScientistBlurb,
-                    CustomRoles.Engineer => InfoLong ? StringNames.EngineerBlurbLong : StringNames.EngineerBlurb,
-                    CustomRoles.GuardianAngel => InfoLong ? StringNames.GuardianAngelBlurbLong : StringNames.GuardianAngelBlurb,
-                    CustomRoles.Shapeshifter => InfoLong ? StringNames.ShapeshifterBlurbLong : StringNames.ShapeshifterBlurb,
-                    _ => StringNames.CrewmateBlurb,
-                };
-                return (InfoLong ? "\n" : "") + DestroyableSingleton<TranslationController>.Instance.GetString(blurb);
-            }
+            if (role is CustomRoles.Crewmate or CustomRoles.Impostor)
+                InfoLong = false;
 
             var text = role.ToString();
 
@@ -556,7 +545,8 @@ namespace TownOfHost
                         Prefix = player.GetPlayerTaskState().IsTaskFinished ? "" : "Before";
                         break;
                 };
-            return GetString($"{Prefix}{text}Info" + (InfoLong ? "Long" : ""));
+            var Info = (role.IsVanilla() ? "Blurb" : "Info") + (InfoLong ? "Long" : "");
+            return GetString($"{Prefix}{text}{Info}");
         }
         public static void SetRealKiller(this PlayerControl target, PlayerControl killer, bool NotOverRide = false)
         {
