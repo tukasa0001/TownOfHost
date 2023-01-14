@@ -468,8 +468,10 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance)
         {
-            if (!GameStates.IsModHost) return;
             var player = __instance;
+            TargetArrow.OnFixedUpdate(player);
+
+            if (!GameStates.IsModHost) return;
 
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
@@ -483,6 +485,8 @@ namespace TownOfHost
                     Logger.Info($"{__instance.GetNameWithRole()}:通報可能になったため通報処理を行います", "ReportDeadbody");
                     __instance.ReportDeadBody(info);
                 }
+
+                DoubleTrigger.OnFixedUpdate(player);
 
                 if (GameStates.IsInTask && CustomRoles.Vampire.IsEnable())
                 {
@@ -946,6 +950,8 @@ namespace TownOfHost
         {
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
+
+            Witch.OnEnterVent(pc);
             if (pc.Is(CustomRoles.Mayor))
             {
                 if (Main.MayorUsedButtonCount.TryGetValue(pc.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt())
@@ -1028,6 +1034,8 @@ namespace TownOfHost
         public static void Postfix(PlayerControl __instance)
         {
             var pc = __instance;
+
+            Snitch.OnCompleteTask(pc);
 
             if ((pc.GetPlayerTaskState().IsTaskFinished &&
                 pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor) ||

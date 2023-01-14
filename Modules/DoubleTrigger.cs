@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace TownOfHost
 {
-    [HarmonyPatch]
     static class DoubleTrigger
     {
         public static List<byte> PlayerIdList = new();
@@ -14,7 +13,6 @@ namespace TownOfHost
         public static Dictionary<byte, byte> FirstTriggerTarget = new();
         public static Dictionary<byte, Action> FirstTriggerAction = new();
 
-        [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame)), HarmonyPostfix]
         public static void Init()
         {
             PlayerIdList = new();
@@ -40,7 +38,7 @@ namespace TownOfHost
                     //2回目がターゲットずれてたら最初の相手にシングルアクション
                     return false;
                 }
-                Logger.Info($"{killer.name} DoDoubleAction", "DobbleTrigger");
+                Logger.Info($"{killer.name} DoDoubleAction", "DoubleTrigger");
                 FirstTriggerTimer.Remove(killer.PlayerId);
                 FirstTriggerTarget.Remove(killer.PlayerId);
                 FirstTriggerAction.Remove(killer.PlayerId);
@@ -53,10 +51,8 @@ namespace TownOfHost
             FirstTriggerAction.Add(killer.PlayerId, firstAction);
             return false;
         }
-        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate)), HarmonyPostfix]
-        public static void DoFirstTriggerAction(PlayerControl __instance)
+        public static void OnFixedUpdate(PlayerControl player)
         {
-            if (!AmongUsClient.Instance.AmHost) return;
             if (!GameStates.IsInTask)
             {
                 FirstTriggerTimer.Clear();
@@ -65,18 +61,18 @@ namespace TownOfHost
                 return;
             }
 
-            var player = __instance.PlayerId;
-            if (!FirstTriggerTimer.ContainsKey(player)) return;
+            var playerId = player.PlayerId;
+            if (!FirstTriggerTimer.ContainsKey(playerId)) return;
 
-            FirstTriggerTimer[player] -= Time.fixedDeltaTime;
-            if (FirstTriggerTimer[player] <= 0)
+            FirstTriggerTimer[playerId] -= Time.fixedDeltaTime;
+            if (FirstTriggerTimer[playerId] <= 0)
             {
-                Logger.Info($"{Utils.GetPlayerById(player).name} DoSingleAction", "DobbleTrigger");
-                FirstTriggerAction[player]();
+                Logger.Info($"{player.name} DoSingleAction", "DoubleTrigger");
+                FirstTriggerAction[playerId]();
 
-                FirstTriggerTimer.Remove(player);
-                FirstTriggerTarget.Remove(player);
-                FirstTriggerAction.Remove(player);
+                FirstTriggerTimer.Remove(playerId);
+                FirstTriggerTarget.Remove(playerId);
+                FirstTriggerAction.Remove(playerId);
             }
         }
     }
