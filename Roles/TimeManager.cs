@@ -41,7 +41,7 @@ namespace TownOfHost
             if (player.Is(CustomRoles.TimeManager))
             {
                 TimeManagerTaskCount[player.PlayerId]++;
-                Main.VotingTime -= IncreaseMeetingTime.GetInt();//会議時間に増える分の会議時間を加算
+                Main.VotingTime += IncreaseMeetingTime.GetInt();//会議時間に増える分の会議時間を加算
                 if (Main.DiscussionTime > 0)
                 {
                     Main.VotingTime += Main.DiscussionTime;
