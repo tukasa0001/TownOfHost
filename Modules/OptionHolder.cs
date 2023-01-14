@@ -337,9 +337,7 @@ namespace TownOfHost
             SerialKiller.SetupCustomOption();
             // SetupRoleOptions(1200, CustomRoles.ShapeMaster);
             // ShapeMasterShapeshiftDuration = CustomOption.Create(1210, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
-            SetupRoleOptions(1300, TabGroup.ImpostorRoles, CustomRoles.Vampire);
-            VampireKillDelay = FloatOptionItem.Create(1310, "VampireKillDelay", new(1f, 1000f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Vampire])
-                .SetValueFormat(OptionFormat.Seconds);
+            Vampire.SetupCustomOption();
             SetupRoleOptions(1400, TabGroup.ImpostorRoles, CustomRoles.Warlock);
             Witch.SetupCustomOption();
             SetupRoleOptions(1600, TabGroup.ImpostorRoles, CustomRoles.Mafia);

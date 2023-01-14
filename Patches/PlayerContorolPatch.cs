@@ -146,12 +146,7 @@ namespace TownOfHost
                         SerialKiller.OnCheckMurder(killer);
                         break;
                     case CustomRoles.Vampire:
-                        if (!target.Is(CustomRoles.Bait))
-                        { //キルキャンセル&自爆処理
-                            killer.SetKillCooldown();
-                            Main.BitPlayers.Add(target.PlayerId, (killer.PlayerId, 0f));
-                            return false;
-                        }
+                        if (!Vampire.OnCheckMurder(killer, target)) return false;
                         break;
                     case CustomRoles.Warlock:
                         if (!Main.CheckShapeshift[killer.PlayerId] && !Main.isCurseAndKill[killer.PlayerId])
@@ -223,7 +218,7 @@ namespace TownOfHost
             Logger.Info($"{__instance.GetNameWithRole()} => {target.GetNameWithRole()}{(target.protectedByGuardian ? "(Protected)" : "")}", "MurderPlayer");
 
             if (RandomSpawn.CustomNetworkTransformPatch.NumOfTP.TryGetValue(__instance.PlayerId, out var num) && num > 2) RandomSpawn.CustomNetworkTransformPatch.NumOfTP[__instance.PlayerId] = 3;
-            if(!target.protectedByGuardian)
+            if (!target.protectedByGuardian)
                 Camouflage.RpcSetSkin(target, ForceRevert: true);
         }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
@@ -418,28 +413,9 @@ namespace TownOfHost
                 }
             }
 
-            foreach (var bp in Main.BitPlayers)
-            {
-                var vampireID = bp.Value.Item1;
-                var bitten = Utils.GetPlayerById(bp.Key);
-
-                if (bitten != null && !bitten.Data.IsDead)
-                {
-                    Main.PlayerStates[bitten.PlayerId].deathReason = PlayerState.DeathReason.Bite;
-                    bitten.SetRealKiller(Utils.GetPlayerById(vampireID));
-                    //Protectは強制的にはがす
-                    if (bitten.protectedByGuardian)
-                        bitten.RpcMurderPlayer(bitten);
-                    bitten.RpcMurderPlayer(bitten);
-                    RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
-                    Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "ReportDeadBody");
-                }
-                else
-                    Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "はすでに死んでいました。", "ReportDeadBody");
-            }
-            Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.PuppeteerList.Clear();
             Sniper.OnStartMeeting();
+            Vampire.OnStartMeeting();
 
             if (__instance.Data.IsDead) return true;
             //=============================================
@@ -487,47 +463,8 @@ namespace TownOfHost
                 }
 
                 DoubleTrigger.OnFixedUpdate(player);
+                Vampire.OnFixedUpdate(player);
 
-                if (GameStates.IsInTask && CustomRoles.Vampire.IsEnable())
-                {
-                    //Vampireの処理
-                    if (Main.BitPlayers.ContainsKey(player.PlayerId))
-                    {
-                        //__instance:キルされる予定のプレイヤー
-                        //main.BitPlayers[__instance.PlayerId].Item1:キルしたプレイヤーのID
-                        //main.BitPlayers[__instance.PlayerId].Item2:キルするまでの秒数
-                        byte vampireID = Main.BitPlayers[player.PlayerId].Item1;
-                        float killTimer = Main.BitPlayers[player.PlayerId].Item2;
-                        if (killTimer >= Options.VampireKillDelay.GetFloat())
-                        {
-                            var bitten = player;
-                            if (!bitten.Data.IsDead)
-                            {
-                                Main.PlayerStates[bitten.PlayerId].deathReason = PlayerState.DeathReason.Bite;
-                                var vampirePC = Utils.GetPlayerById(vampireID);
-                                bitten.SetRealKiller(vampirePC);
-                                bitten.RpcMurderPlayer(bitten);
-                                Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "Vampire");
-                                if (vampirePC.IsAlive())
-                                {
-                                    RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
-                                    if (bitten.Is(CustomRoles.Trapper))
-                                        vampirePC.TrapperKilled(bitten);
-                                }
-                            }
-                            else
-                            {
-                                Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "はすでに死んでいました。", "Vampire");
-                            }
-                            Main.BitPlayers.Remove(bitten.PlayerId);
-                        }
-                        else
-                        {
-                            Main.BitPlayers[player.PlayerId] =
-                            (vampireID, killTimer + Time.fixedDeltaTime);
-                        }
-                    }
-                }
                 if (GameStates.IsInTask && CustomRoles.SerialKiller.IsEnable()) SerialKiller.FixedUpdate(player);
                 if (GameStates.IsInTask && Main.WarlockTimer.ContainsKey(player.PlayerId))//処理を1秒遅らせる
                 {
