@@ -12,7 +12,7 @@ namespace TownOfHost
                 CustomRoles.BountyHunter or
                 CustomRoles.Vampire or
                 CustomRoles.Witch or
-                //CustomRoles.ShapeMaster or
+                CustomRoles.ShapeMaster or
                 CustomRoles.Warlock or
                 CustomRoles.SerialKiller or
                 CustomRoles.Mare or
@@ -155,7 +155,7 @@ namespace TownOfHost
                 CustomRoles.SerialKiller or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
-                // CustomRoles.ShapeMaster or
+                CustomRoles.ShapeMaster or
                 CustomRoles.Warlock or
                 CustomRoles.Egoist => RoleTypes.Shapeshifter,
 
