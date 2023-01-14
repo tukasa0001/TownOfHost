@@ -30,24 +30,6 @@ namespace TownOfHost
             TimeManagerTaskCount[playerId] = 0;
         }
         public static bool IsEnable() => playerIdList.Count > 0;
-        public static void ReceiveRPC(MessageReader msg)
-        {
-            byte TimeManagerId = msg.ReadByte();
-            int TimeManagerTaskCount = msg.ReadInt32();
-            if (TimeManager.TimeManagerTaskCount.ContainsKey(TimeManagerId))
-                TimeManager.TimeManagerTaskCount[TimeManagerId] = TimeManagerTaskCount;
-            else
-                TimeManager.TimeManagerTaskCount.Add(TimeManagerId, 0);
-            Logger.Info($"Player{TimeManagerId}:ReceiveRPC", "TimeManager");
-        }
-        public static void RpcSetTimeManagerTaskCount(this PlayerControl player)
-        {
-            if (!AmongUsClient.Instance.AmHost) return;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTimeManagerTaskCount, Hazel.SendOption.Reliable, -1);
-            writer.Write(player.PlayerId);
-            writer.Write(TimeManagerTaskCount[player.PlayerId]);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
         public static void TimeManagerResetVotingTime(this PlayerControl timemanager)
         {
             for (var i = 0; i < TimeManagerTaskCount[timemanager.PlayerId]; i++)
@@ -59,8 +41,7 @@ namespace TownOfHost
             if (player.Is(CustomRoles.TimeManager))
             {
                 TimeManagerTaskCount[player.PlayerId]++;
-                player.RpcSetTimeManagerTaskCount();
-                Main.DiscussionTime += IncreaseMeetingTime.GetInt();//会議時間に増える分の会議時間を加算
+                Main.VotingTime -= IncreaseMeetingTime.GetInt() * TimeManagerTaskCount[player.PlayerId];//会議時間に増える分の会議時間を加算
                 if (Main.DiscussionTime > 0)
                 {
                     Main.VotingTime += Main.DiscussionTime;

@@ -33,7 +33,6 @@ namespace TownOfHost
         SetCurrentDousingTarget,
         SetEvilTrackerTarget,
         SetRealKiller,
-        SetTimeManagerTaskCount,
     }
     public enum Sounds
     {
@@ -198,9 +197,6 @@ namespace TownOfHost
                     byte targetId = reader.ReadByte();
                     byte killerId = reader.ReadByte();
                     RPC.SetRealKiller(targetId, killerId);
-                    break;
-                case CustomRPC.SetTimeManagerTaskCount:
-                    TimeManager.ReceiveRPC(reader);
                     break;
             }
         }
