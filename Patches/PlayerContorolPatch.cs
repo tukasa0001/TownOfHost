@@ -302,7 +302,6 @@ namespace TownOfHost
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             Logger.Info($"{__instance?.GetNameWithRole()} => {target?.GetNameWithRole()}", "Shapeshift");
-            if (!AmongUsClient.Instance.AmHost) return;
 
             var shapeshifter = __instance;
             var shapeshifting = shapeshifter.PlayerId != target.PlayerId;
@@ -310,6 +309,9 @@ namespace TownOfHost
             Main.CheckShapeshift[shapeshifter.PlayerId] = shapeshifting;
             Main.ShapeshiftTarget[shapeshifter.PlayerId] = target.PlayerId;
 
+            Sniper.OnShapeshift(shapeshifter, shapeshifting);
+
+            if (!AmongUsClient.Instance.AmHost) return;
             if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
 
             if (shapeshifter.Is(CustomRoles.Warlock))
@@ -457,6 +459,7 @@ namespace TownOfHost
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
 
+            Sniper.OnReportDeadBody();
 
             Main.AllPlayerControls
                 .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
@@ -479,8 +482,11 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance)
         {
-            if (!GameStates.IsModHost) return;
             var player = __instance;
+
+            Sniper.OnFixedUpdate(player);
+
+            if (!GameStates.IsModHost) return;
 
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行

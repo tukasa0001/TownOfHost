@@ -102,6 +102,11 @@ namespace TownOfHost
         {
             if (!pc.IsAlive()) return false;
             var canUse = false;
+            if (!bulletCount.ContainsKey(pc.PlayerId))
+            {
+                Logger.Info($" Sniper not Init yet.", "Sniper");
+                return false;
+            }
             if (bulletCount[pc.PlayerId] <= 0)
             {
                 canUse = true;
@@ -161,7 +166,7 @@ namespace TownOfHost
             return targets;
 
         }
-        public static void Sniping(PlayerControl pc, bool shapeshifting)
+        public static void OnShapeshift(PlayerControl pc, bool shapeshifting)
         {
             if (!IsThisRole(pc.PlayerId) || !pc.IsAlive()) return;
 
@@ -239,7 +244,7 @@ namespace TownOfHost
                     );
             }
         }
-        public static void Aiming(PlayerControl pc)
+        public static void OnFixedUpdate(PlayerControl pc)
         {
             if (!IsThisRole(pc.PlayerId) || !pc.IsAlive()) return;
 
@@ -269,7 +274,7 @@ namespace TownOfHost
                 Utils.NotifyRoles(SpecifySeer: sniper);
             }
         }
-        public static void OnStartMeeting()
+        public static void OnReportDeadBody()
         {
             meetingReset = true;
         }
@@ -319,34 +324,7 @@ namespace TownOfHost
         public static void OverrideShapeText(byte id)
         {
             if (IsThisRole(id))
-                HudManager.Instance.AbilityButton.OverrideText(bulletCount[id] <= 0 ? "DefaultShapeshiftText" : "SniperSnipeButtonText");
-        }
-        [HarmonyPatch]
-        class Pathces
-        {
-            [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc)), HarmonyPostfix]
-            public static void HandleRPC(byte callId, MessageReader reader)
-            {
-                if ((CustomRPC)callId != CustomRPC.SniperSync) return;
-
-                ReceiveRPC(reader);
-            }
-            [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ReportDeadBody)), HarmonyPostfix]
-            public static void OnReportDeadBody(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo target)
-            {
-                OnStartMeeting();
-            }
-            [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift)), HarmonyPrefix]
-            public static void OnShapeshift(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
-            {
-                var shapeshifting = __instance.PlayerId != target.PlayerId;
-                Sniping(__instance, shapeshifting);
-            }
-            [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate)), HarmonyPostfix]
-            public static void OnFixedUpdate(PlayerControl __instance)
-            {
-                Aiming(__instance);
-            }
+                HudManager.Instance.AbilityButton.OverrideText(GetString(bulletCount[id] <= 0 ? "DefaultShapeshiftText" : "SniperSnipeButtonText"));
         }
     }
 }
