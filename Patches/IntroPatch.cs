@@ -153,8 +153,8 @@ namespace TownOfHost
                     __instance.ImpostorText.gameObject.SetActive(true);
                     var numImpostors = Main.NormalOptions.NumImpostors;
                     __instance.ImpostorText.text = numImpostors == 1
-                        ? DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.NumImpostorsS)
-                        : __instance.ImpostorText.text = string.Format(DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.NumImpostorsP), numImpostors);
+                        ? GetString(StringNames.NumImpostorsS)
+                        : __instance.ImpostorText.text = string.Format(GetString(StringNames.NumImpostorsP), numImpostors);
                     __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("[FF1919FF]", "<color=#FF1919FF>").Replace("[]", "</color>");
                     break;
                 case CustomRoles.Arsonist:
