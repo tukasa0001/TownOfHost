@@ -235,7 +235,7 @@ namespace TownOfHost
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
                     __instance.SabotageButton.ToggleVisible(false);
-                    __instance.AbilityButton.ToggleVisible(false);
+                    __instance.AbilityButton.ToggleVisible(!player.IsAlive());
                     break;
                 case CustomRoles.Jackal:
                     Jackal.SetHudActive(__instance, isActive);
