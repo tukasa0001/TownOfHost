@@ -12,7 +12,7 @@ namespace TownOfHost
                 CustomRoles.BountyHunter or
                 CustomRoles.Vampire or
                 CustomRoles.Witch or
-                //CustomRoles.ShapeMaster or
+                CustomRoles.ShapeMaster or
                 CustomRoles.Warlock or
                 CustomRoles.SerialKiller or
                 CustomRoles.Mare or
@@ -125,7 +125,7 @@ namespace TownOfHost
             {
                 CustomRoles.Shapeshifter => true,
                 CustomRoles.EvilTracker => EvilTracker.CanCreateMadmate.GetBool(),
-                CustomRoles.Egoist => Egoist.CanCreateMadmate.GetBool(),
+                CustomRoles.Egoist => Egoist.CanCreateMadmate,
                 _ => false,
             };
         public static RoleTypes GetRoleTypes(this CustomRoles role)
@@ -155,7 +155,7 @@ namespace TownOfHost
                 CustomRoles.SerialKiller or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
-                // CustomRoles.ShapeMaster or
+                CustomRoles.ShapeMaster or
                 CustomRoles.Warlock or
                 CustomRoles.Egoist => RoleTypes.Shapeshifter,
 

@@ -116,7 +116,11 @@ namespace TownOfHost
             Jackal.Init();
             Sheriff.Init();
             EvilTracker.Init();
+            Snitch.Init();
+            SchrodingerCat.Init();
             LastImpostor.Init();
+            TargetArrow.Init();
+            DoubleTrigger.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());

@@ -294,7 +294,7 @@ namespace TownOfHost
         FireWorks,
         Mafia,
         SerialKiller,
-        //ShapeMaster,
+        ShapeMaster,
         Sniper,
         Vampire,
         Witch,

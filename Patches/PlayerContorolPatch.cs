@@ -299,37 +299,47 @@ namespace TownOfHost
 
             if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
 
-            if (shapeshifter.Is(CustomRoles.Warlock))
+            switch (shapeshifter.GetCustomRole())
             {
-                if (Main.CursedPlayers[shapeshifter.PlayerId] != null)//呪われた人がいるか確認
-                {
-                    if (shapeshifting && !Main.CursedPlayers[shapeshifter.PlayerId].Data.IsDead)//変身解除の時に反応しない
+                case CustomRoles.EvilTracker:
+                    EvilTracker.OnShapeshift(shapeshifter, target, shapeshifting);
+                    break;
+                case CustomRoles.FireWorks:
+                    FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
+                    break;
+                case CustomRoles.Sniper:
+                    Sniper.ShapeShiftCheck(shapeshifter, shapeshifting);
+                    break;
+                case CustomRoles.Warlock:
+                    if (Main.CursedPlayers[shapeshifter.PlayerId] != null)//呪われた人がいるか確認
                     {
-                        var cp = Main.CursedPlayers[shapeshifter.PlayerId];
-                        Vector2 cppos = cp.transform.position;//呪われた人の位置
-                        Dictionary<PlayerControl, float> cpdistance = new();
-                        float dis;
-                        foreach (PlayerControl p in Main.AllAlivePlayerControls)
+                        if (shapeshifting && !Main.CursedPlayers[shapeshifter.PlayerId].Data.IsDead)//変身解除の時に反応しない
                         {
-                            if (p != cp)
+                            var cp = Main.CursedPlayers[shapeshifter.PlayerId];
+                            Vector2 cppos = cp.transform.position;//呪われた人の位置
+                            Dictionary<PlayerControl, float> cpdistance = new();
+                            float dis;
+                            foreach (PlayerControl p in Main.AllAlivePlayerControls)
                             {
-                                dis = Vector2.Distance(cppos, p.transform.position);
-                                cpdistance.Add(p, dis);
-                                Logger.Info($"{p?.Data?.PlayerName}の位置{dis}", "Warlock");
+                                if (p != cp)
+                                {
+                                    dis = Vector2.Distance(cppos, p.transform.position);
+                                    cpdistance.Add(p, dis);
+                                    Logger.Info($"{p?.Data?.PlayerName}の位置{dis}", "Warlock");
+                                }
                             }
+                            var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
+                            PlayerControl targetw = min.Key;
+                            targetw.SetRealKiller(shapeshifter);
+                            Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
+                            cp.RpcMurderPlayerV2(targetw);//殺す
+                            shapeshifter.RpcGuardAndKill(shapeshifter);
+                            Main.isCurseAndKill[shapeshifter.PlayerId] = false;
                         }
-                        var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
-                        PlayerControl targetw = min.Key;
-                        targetw.SetRealKiller(shapeshifter);
-                        Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
-                        cp.RpcMurderPlayerV2(targetw);//殺す
-                        shapeshifter.RpcGuardAndKill(shapeshifter);
-                        Main.isCurseAndKill[shapeshifter.PlayerId] = false;
+                        Main.CursedPlayers[shapeshifter.PlayerId] = null;
                     }
-                    Main.CursedPlayers[shapeshifter.PlayerId] = null;
-                }
+                    break;
             }
-            if (shapeshifter.Is(CustomRoles.EvilTracker)) EvilTracker.Shapeshift(shapeshifter, target, shapeshifting);
 
             if (shapeshifter.CanMakeMadmate() && shapeshifting)
             {//変身したとき一番近い人をマッドメイトにする処理
@@ -355,8 +365,6 @@ namespace TownOfHost
                     Utils.NotifyRoles();
                 }
             }
-            if (shapeshifter.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
-            if (shapeshifter.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(shapeshifter, shapeshifting);
 
             //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換え
             if (!shapeshifting)
@@ -468,8 +476,10 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance)
         {
-            if (!GameStates.IsModHost) return;
             var player = __instance;
+            TargetArrow.OnFixedUpdate(player);
+
+            if (!GameStates.IsModHost) return;
 
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
@@ -483,6 +493,8 @@ namespace TownOfHost
                     Logger.Info($"{__instance.GetNameWithRole()}:通報可能になったため通報処理を行います", "ReportDeadbody");
                     __instance.ReportDeadBody(info);
                 }
+
+                DoubleTrigger.OnFixedUpdate(player);
 
                 if (GameStates.IsInTask && CustomRoles.Vampire.IsEnable())
                 {
@@ -742,9 +754,7 @@ namespace TownOfHost
                     }
                     else if (seer.GetCustomRole().IsImpostor()) //seerがインポスター
                     {
-                        if (target.Is(CustomRoles.Egoist)) //targetがエゴイスト
-                            RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Egoist), RealName); //targetの名前をエゴイスト色で表示
-                        else if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool()) //targetがタスクを終わらせたマッドスニッチ
+                        if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool()) //targetがタスクを終わらせたマッドスニッチ
                             Mark += Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★"); //targetにマーク付与
                     }
                     else if (target.Is(CustomRoles.Mare) && Utils.IsActive(SystemTypes.Electrical))
@@ -802,8 +812,9 @@ namespace TownOfHost
                     //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能な第三陣営の方角がわかる
                     Suffix += Snitch.GetSnitchArrow(seer, target);
 
-                    if (GameStates.IsInTask && target.Is(CustomRoles.EvilTracker)) Suffix += EvilTracker.PCGetTargetArrow(seer, target);
                     if (GameStates.IsInTask) Suffix += BountyHunter.GetTargetArrow(seer);
+                    if (GameStates.IsInTask && target.Is(CustomRoles.EvilTracker))
+                        Suffix += EvilTracker.GetTargetArrowForModClient(seer, target);
 
                     /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(target.PlayerId, out var isBlocked)) {
                         Mark = isBlocked ? "(true)" : "(false)";
@@ -946,6 +957,8 @@ namespace TownOfHost
         {
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
+
+            Witch.OnEnterVent(pc);
             if (pc.Is(CustomRoles.Mayor))
             {
                 if (Main.MayorUsedButtonCount.TryGetValue(pc.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt())
@@ -1028,6 +1041,8 @@ namespace TownOfHost
         public static void Postfix(PlayerControl __instance)
         {
             var pc = __instance;
+
+            Snitch.OnCompleteTask(pc);
 
             if ((pc.GetPlayerTaskState().IsTaskFinished &&
                 pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor) ||
