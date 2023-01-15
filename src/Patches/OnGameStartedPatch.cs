@@ -6,6 +6,7 @@ using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
+using TownOfHost.Patches;
 using TownOfHost.Patches.Actions;
 using TownOfHost.Roles;
 using VentLib.Logging;

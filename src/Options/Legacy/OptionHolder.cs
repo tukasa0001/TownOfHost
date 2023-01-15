@@ -227,26 +227,6 @@ namespace TownOfHost
             }
         }
 
-        public static void SetRoleCount(CustomRoles role, int count)
-        {
-            roleCounts[role] = count;
-
-            if (CustomRoleCounts.TryGetValue(role, out var option))
-            {
-                option.SetValue(count - 1);
-            }
-        }
-
-        public static int GetRoleCount(CustomRoles role)
-        {
-            var chance = CustomRoleSpawnChances.TryGetValue(role, out var sc) ? sc.GetChance() : 0;
-            return chance == 0 ? 0 : CustomRoleCounts.TryGetValue(role, out var option) ? option.GetInt() : roleCounts[role];
-        }
-
-        public static float GetRoleChance(CustomRoles role)
-        {
-            return CustomRoleSpawnChances.TryGetValue(role, out var option) ? option.GetValue()/* / 10f */ : roleSpawnChances[role];
-        }
         public static void Load()
         {
             if (IsLoaded) return;

@@ -89,53 +89,6 @@ namespace TownOfHost
             return GetPlayerById(player.PlayerId)?.GetNameWithRole() ?? "";
         }
 
-        //誰かが死亡したときのメソッド
-        public static void TargetDies(PlayerControl killer, PlayerControl target)
-        {
-            if (!target.Data.IsDead || GameStates.IsMeeting) return;
-            foreach (var seer in PlayerControl.AllPlayerControls)
-            {
-                if (!KillFlashCheck(killer, target, seer)) continue;
-                seer.KillFlash();
-            }
-        }
-
-        public static bool KillFlashCheck(PlayerControl killer, PlayerControl target, PlayerControl seer)
-        {
-            //if (seer.Is(GameMaster)) return true;
-            if (seer.Data.IsDead || killer == seer || target == seer) return false;
-            return seer.GetCustomRole() switch
-            {
-                //CustomRoles.EvilTracker => EvilTracker.KillFlashCheck(killer, target),
-                Mystic => true,
-                _ => seer.Is(Roles.RoleType.Madmate) && StaticOptions.MadmateCanSeeKillFlash,
-            };
-        }
-
-        public static void KillFlash(this PlayerControl player)
-        {
-            //キルフラッシュ(ブラックアウト+リアクターフラッシュ)の処理
-            bool ReactorCheck = false; //リアクターフラッシュの確認
-            if (TOHPlugin.NormalOptions.MapId == 2) ReactorCheck = IsActive(SystemTypes.Laboratory);
-            else ReactorCheck = IsActive(SystemTypes.Reactor);
-
-            var Duration = StaticOptions.KillFlashDuration;
-            if (ReactorCheck) Duration += 0.2f; //リアクター中はブラックアウトを長くする
-
-            if (player.PlayerId == 0)
-            {
-                FlashColor(new(1f, 0f, 0f, 0.5f));
-                /*if (Constants.ShouldPlaySfx()) OldRPC.PlaySound(player.PlayerId, Sounds.KillSound);*/
-            }
-            else if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
-        }
-
-        public static string GetDisplayRoleName(byte playerId)
-        {
-            var TextData = GetRoleText(Utils.GetPlayerById(playerId));
-            return ColorString(TextData.Item2, TextData.Item1);
-        }
-
         public static string GetRoleName(CustomRole role)
         {
             // return GetRoleString(Enum.GetName(typeof(CustomRoles), role));
@@ -333,10 +286,6 @@ namespace TownOfHost
             return Game.GetAllPlayers().FirstOrDefault(pc => pc.PlayerId == playerId);
         }
 
-        public static GameData.PlayerInfo GetPlayerInfoById(int PlayerId) =>
-            GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => info.PlayerId == PlayerId);
-
-
         public static string GetVoteName(byte num)
         {
             string name = "invalid";
@@ -460,8 +409,6 @@ namespace TownOfHost
         public static string ColorString(Color32 color, string str) =>
             $"<color=#{color.r:x2}{color.g:x2}{color.b:x2}{color.a:x2}>{str}</color>";
 
-        public static string GetOnOff(bool value) => value ? "ON" : "OFF";
-
         public static string GetOnOffColored(bool value) =>
             value ? Color.cyan.Colorize("ON") : Color.red.Colorize("OFF");
 
@@ -477,54 +424,6 @@ namespace TownOfHost
             float G = (color.g + Weight) / (Darkness + 1);
             float B = (color.b + Weight) / (Darkness + 1);
             return new Color(R, G, B, color.a);
-        }
-
-        /// <summary>
-        /// 乱数の簡易的なヒストグラムを取得する関数
-        /// <params name="nums">生成した乱数を格納したint配列</params>
-        /// <params name="scale">ヒストグラムの倍率 大量の乱数を扱う場合、この値を下げることをお勧めします。</params>
-        /// </summary>
-        public static string WriteRandomHistgram(int[] nums, float scale = 1.0f)
-        {
-            int[] countData = new int[nums.Max() + 1];
-            foreach (var num in nums)
-            {
-                if (0 <= num) countData[num]++;
-            }
-
-            StringBuilder sb = new();
-            for (int i = 0; i < countData.Length; i++)
-            {
-                // 倍率適用
-                countData[i] = (int)(countData[i] * scale);
-
-                // 行タイトル
-                sb.AppendFormat("{0:D2}", i).Append(" : ");
-
-                // ヒストグラム部分
-                for (int j = 0; j < countData[i]; j++)
-                    sb.Append('|');
-
-                // 改行
-                sb.Append('\n');
-            }
-
-            // その他の情報
-            sb.Append("最大数 - 最小数: ").Append(countData.Max() - countData.Min());
-
-            return sb.ToString();
-        }
-
-        public static bool TryCast<T>(this Il2CppObjectBase obj, out T casted)
-            where T : Il2CppObjectBase
-        {
-            casted = obj.TryCast<T>();
-            return casted != null;
-        }
-
-        public static List<T> SingletonList<T>(T t)
-        {
-            return new List<T> { t };
         }
     }
 }

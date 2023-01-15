@@ -28,11 +28,11 @@ public static class HostRpc
         GameData.Instance.AllPlayers.ToArray().Select(p => (p.GetNameWithRole(), p.IsDead, p.IsIncomplete)).PrettyString().DebugLog("All Players: ");
     }
 
-    [ModRPC((uint)VentRPC.VersionCheck, RpcActors.None, RpcActors.Host)]
+    [VentRPC(VentCall.VersionCheck, RpcActors.None, RpcActors.Host)]
     public static void ReceiveVersion(string assemblyName, string? version, bool isCorrect)
     {
         if (version == null) return;
         Version parsed = new(version);
-        TOHPlugin.playerVersion[VentFramework.GetLastSender((uint)VentRPC.VersionCheck)?.PlayerId ?? 255] = new PlayerVersion(version, "", "");
+        TOHPlugin.playerVersion[VentFramework.GetLastSender((uint)VentCall.VersionCheck)?.PlayerId ?? 255] = new PlayerVersion(version, "", "");
     }
 }

@@ -245,33 +245,25 @@ public static class PlayerControlExtensions
         var systemtypes = SystemTypes.Reactor;
         if (TOHPlugin.NormalOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
 
-        new DTask(() =>
-        {
-            pc.RpcDesyncRepairSystem(systemtypes, 128);
-        }, 0f + delay, "Reactor Desync");
+        DTask.Schedule(() => pc.RpcDesyncRepairSystem(systemtypes, 128), 0f + delay);
+        DTask.Schedule(() => pc.RpcSpecificMurderPlayer(), 0.2f + delay);
 
-        new DTask(() =>
-        {
-            pc.RpcSpecificMurderPlayer();
-        }, 0.2f + delay, "Murder To Reset Cam");
-
-        new DTask(() =>
-        {
+        DTask.Schedule(() => {
             pc.RpcDesyncRepairSystem(systemtypes, 16);
             if (TOHPlugin.NormalOptions.MapId == 4) //Airship用
                 pc.RpcDesyncRepairSystem(systemtypes, 17);
-        }, 0.4f + delay, "Fix Desync Reactor");
+        }, 0.4f + delay);
     }
     public static void ReactorFlash(this PlayerControl pc, float delay = 0f)
     {
         if (pc == null) return;
-        int clientId = pc.GetClientId();
-        // VentLogger.Old($"{pc}", "ReactorFlash");
         var systemtypes = SystemTypes.Reactor;
         if (TOHPlugin.NormalOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
         float FlashDuration = StaticOptions.KillFlashDuration;
 
         pc.RpcDesyncRepairSystem(systemtypes, 128);
+
+
 
         new DTask(() =>
         {

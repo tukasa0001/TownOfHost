@@ -1,5 +1,4 @@
 using TownOfHost.Extensions;
-using VentLib;
 using VentLib.RPC;
 
 namespace TownOfHost.Player;

@@ -96,8 +96,6 @@ public class GameStartRandomMap
 {
     public static bool Prefix(GameStartManager __instance)
     {
-        TOHPlugin.LastKillCooldown.Value = TOHPlugin.NormalOptions.KillCooldown;
-
         if (StaticOptions.EnableGM) VentLogger.SendInGame("[Info] GM is Enabled");
 
         __instance.ReallyBegin(false);
@@ -108,7 +106,6 @@ public class GameStartRandomMap
         bool continueStart = true;
         if (StaticOptions.RandomMapsMode)
         {
-            var rand = IRandom.Instance;
             System.Collections.Generic.List<byte> RandomMaps = new();
             /*TheSkeld   = 0
             MIRAHQ     = 1
@@ -122,7 +119,7 @@ public class GameStartRandomMap
             if (StaticOptions.AddedTheAirShip) RandomMaps.Add(4);
 
             if (RandomMaps.Count <= 0) return true;
-            var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];
+            var MapsId = RandomMaps.GetRandom();
             TOHPlugin.NormalOptions.MapId = MapsId;
 
         }
