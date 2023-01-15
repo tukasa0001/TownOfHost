@@ -3,6 +3,7 @@
     <IncludeAssemblies>
       Csv
       YamlDotNet
+      VentFramework
     </IncludeAssemblies>
   </Costura>
 </Weavers>

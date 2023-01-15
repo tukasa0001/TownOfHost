@@ -1,6 +1,6 @@
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
-using VentLib;
+using VentLib.RPC;
 
 namespace TownOfHost.RPC;
 

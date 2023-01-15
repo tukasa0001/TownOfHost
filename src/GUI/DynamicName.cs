@@ -13,6 +13,7 @@ using TownOfHost.Player;
 using TownOfHost.Roles;
 using UnityEngine;
 using VentLib;
+using VentLib.RPC;
 
 namespace TownOfHost.GUI;
 

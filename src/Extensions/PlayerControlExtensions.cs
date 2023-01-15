@@ -10,11 +10,10 @@ using TownOfHost.GUI;
 using TownOfHost.Managers;
 using TownOfHost.Options;
 using UnityEngine;
-using static TownOfHost.Managers.Translator;
 using TownOfHost.Roles;
 using TownOfHost.RPC;
-using VentLib;
 using VentLib.Logging;
+using VentLib.RPC;
 
 namespace TownOfHost.Extensions;
 

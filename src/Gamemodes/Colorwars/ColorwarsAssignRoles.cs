@@ -9,6 +9,7 @@ using TownOfHost.Managers;
 using TownOfHost.Roles;
 using VentLib;
 using VentLib.Extensions;
+using VentLib.RPC;
 
 namespace TownOfHost.Gamemodes.Colorwars;
 

@@ -6,6 +6,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
 using VentLib;
+using VentLib.RPC;
 
 namespace TownOfHost.Gamemodes.FFA;
 

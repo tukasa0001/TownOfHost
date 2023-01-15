@@ -15,6 +15,7 @@ using TownOfHost.RPC;
 using TownOfHost.Victory;
 using VentLib;
 using VentLib.Logging;
+using VentLib.RPC;
 
 namespace TownOfHost.Managers;
 
