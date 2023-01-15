@@ -66,7 +66,7 @@ public class TOHPlugin : BasePlugin
     // ==========
     //Sorry for many Japanese comments.
     public const string PluginGuid = "com.discussions.tohtor";
-    public const string PluginVersion = "0.9.4";
+    public const string PluginVersion = "1.0.0";
     public static readonly string DevVersionStr = "dev 1";
     public Harmony Harmony { get; } = new(PluginGuid);
     public static Version version = Version.Parse(PluginVersion);

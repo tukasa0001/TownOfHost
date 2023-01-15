@@ -1,0 +1,11 @@
+// ig we can store changes here.
+
+- Overhauled the Entire Mod's Code
+- Updated to TOH 4.0.2
+- Custom Addon Support (Allows Developers to Add new Roles and Gamemodes to the mod without having a different version of the mod)
+- Some Roles, like Sheriff, given the ability to Use Pet Button (allows tasks)
+- Desync Impostor Code was Completely Overhauled 
+- Renamed the Mod
+- Added Buttons for Different Teams
+- Fixed Bug where Descyned Impostors could see real Impostors if too many (allows coven to be used)
+- Fixed issue where Pets sometimes wouldn't appear
