@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using HarmonyLib;
-using Sentry.Unity.NativeUtils;
 using UnityEngine;
 
 namespace TownOfHost
@@ -20,6 +18,8 @@ namespace TownOfHost
         private static bool CanGetColoredArrow;
         private static bool CanFindNeutralKiller;
         private static int RemainingTasksToBeFound;
+
+        private static Dictionary<byte, bool> IsExposed = new();
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.Snitch);
@@ -31,23 +31,43 @@ namespace TownOfHost
         }
         public static void Init()
         {
-            playerIdList = new();
+            playerIdList.Clear();
+
             EnableTargetArrow = OptionEnableTargetArrow.GetBool();
             CanGetColoredArrow = OptionCanGetColoredArrow.GetBool();
             CanFindNeutralKiller = OptionCanFindNeutralKiller.GetBool();
             RemainingTasksToBeFound = OptionRemainingTasks.GetInt();
+
+            IsExposed.Clear();
         }
 
-        public static void Add(byte playerId) => playerIdList.Add(playerId);
+        public static void Add(byte playerId)
+        {
+            playerIdList.Add(playerId);
+            IsExposed[playerId] = false;
+        }
+
         public static bool IsEnable => playerIdList.Count > 0;
         public static bool IsThisRole(byte playerId) => playerIdList.Contains(playerId);
-        private static bool DoExpose(PlayerControl pc)
-            => IsThisRole(pc.PlayerId) && pc.IsAlive()
-            && pc.GetPlayerTaskState().RemainingTasksCount <= RemainingTasksToBeFound;
+        private static bool GetExpose(PlayerControl pc)
+        {
+            if (!IsThisRole(pc.PlayerId) || !pc.IsAlive()) return false;
+
+            var snitchId = pc.PlayerId;
+            return IsExposed[snitchId];
+        }
+        private static bool CheckFirstExpose(PlayerControl pc)
+        {
+            var snitchId = pc.PlayerId;
+            if (IsExposed[snitchId]) return false;
+            IsExposed[snitchId] = pc.GetPlayerTaskState().RemainingTasksCount <= RemainingTasksToBeFound;
+            return IsExposed[snitchId];
+        }
+
         private static bool IsSnitchTarget(PlayerControl target) => IsEnable && (target.Is(RoleType.Impostor) || (target.IsNeutralKiller() && CanFindNeutralKiller));
         public static void CheckTask(PlayerControl snitch)
         {
-            if (DoExpose(snitch))
+            if (CheckFirstExpose(snitch))
             {
                 foreach (var target in Main.AllAlivePlayerControls)
                 {
@@ -73,7 +93,7 @@ namespace TownOfHost
         /// <param name="target">スニッチの場合有効</param>
         /// <returns></returns>
         public static string GetWarningMark(PlayerControl seer, PlayerControl target)
-            => IsSnitchTarget(seer) && DoExpose(target) ? Utils.ColorString(RoleColor, "★") : "";
+            => IsSnitchTarget(seer) && GetExpose(target) ? Utils.ColorString(RoleColor, "★") : "";
 
         /// <summary>
         /// キラーからスニッチに対する矢印
