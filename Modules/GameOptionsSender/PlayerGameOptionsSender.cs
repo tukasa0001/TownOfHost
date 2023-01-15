@@ -96,11 +96,11 @@ namespace TownOfHost.Modules
             {
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
-                // case CustomRoles.ShapeMaster:
-                //     roleOpt.ShapeshifterCooldown = 0.1f;
-                //     roleOpt.ShapeshifterLeaveSkin = false;
-                //     roleOpt.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
-                //     break;
+                case CustomRoles.ShapeMaster:
+                    AURoleOptions.ShapeshifterCooldown = 0f;
+                    AURoleOptions.ShapeshifterLeaveSkin = false;
+                    AURoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
+                    break;
                 case CustomRoles.Warlock:
                     AURoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
                     break;

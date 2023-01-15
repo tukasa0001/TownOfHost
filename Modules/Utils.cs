@@ -716,8 +716,9 @@ namespace TownOfHost
                         SeerKnowsImpostors = true;
                 }
 
-                if (seer.Is(CustomRoles.EvilTracker)) SelfSuffix += EvilTracker.UtilsGetTargetArrow(isMeeting, seer);
                 if (seer.Is(CustomRoles.BountyHunter) && BountyHunter.ShowTargetArrow.GetBool()) SelfSuffix += BountyHunter.UtilsGetTargetArrow(isMeeting, seer);
+                if (seer.Is(CustomRoles.EvilTracker))
+                    SelfSuffix += EvilTracker.GetTargetArrowForVanilla(isMeeting, seer);
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.GetRealName(isMeeting);
@@ -831,8 +832,6 @@ namespace TownOfHost
                             if (foundCheck)
                                 TargetPlayerName = ColorString(target.GetRoleColor(), TargetPlayerName);
                         }
-                        else if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.Egoist))
-                            TargetPlayerName = ColorString(GetRoleColor(CustomRoles.Egoist), TargetPlayerName);
                         else if (Utils.IsActive(SystemTypes.Electrical) && target.Is(CustomRoles.Mare) && !isMeeting)
                             TargetPlayerName = ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName); //targetの赤色で表示
                         else
@@ -876,6 +875,7 @@ namespace TownOfHost
         public static void AfterMeetingTasks()
         {
             BountyHunter.AfterMeetingTasks();
+            EvilTracker.AfterMeetingTasks();
             SerialKiller.AfterMeetingTasks();
             if (Options.AirShipVariableElectrical.GetBool())
                 AirShipElectricalDoors.Initialize();
