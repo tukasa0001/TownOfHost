@@ -3,7 +3,6 @@ using System;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
 using VentLib.Logging;
 
 namespace TownOfHost.Roles;

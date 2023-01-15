@@ -9,8 +9,6 @@ using InnerNet;
 using TownOfHost.GUI;
 using TownOfHost.Managers;
 using TownOfHost.Options;
-using TownOfHost.Options.Legacy.GameOptionsSender;
-using TownOfHost.ReduxOptions;
 using UnityEngine;
 using static TownOfHost.Managers.Translator;
 using TownOfHost.Roles;
@@ -177,7 +175,6 @@ public static class PlayerControlExtensions
         else
         {
             TOHPlugin.AllPlayerKillCooldown[player.PlayerId] = time * 2;
-            player.MarkDirtySettings();
             player.RpcGuardAndKill();
         }
     }
@@ -222,11 +219,6 @@ public static class PlayerControlExtensions
         messageWriter.WriteNetObject(target);
         messageWriter.Write((byte)amount);
         AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
-    }
-
-    public static void MarkDirtySettings(this PlayerControl player)
-    {
-        PlayerGameOptionsSender.SetDirty(player.PlayerId);
     }
     public static TaskState GetPlayerTaskState(this PlayerControl player)
     {

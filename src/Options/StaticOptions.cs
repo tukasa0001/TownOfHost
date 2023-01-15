@@ -1,6 +1,6 @@
-using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
 using UnityEngine;
+using VentLib.Localization;
 
 namespace TownOfHost.Options;
 
@@ -8,7 +8,7 @@ namespace TownOfHost.Options;
 // TODO: Ideally all of TOH "static" options should end up in here with the use of the new options system
 public static class StaticOptions
 {
-    public static bool EnableGM = false;
+    public static bool EnableGM;
     public static bool FixFirstKillCooldown = true;
     public static bool AutoKick = false;
     public static bool AutoBan = false;
@@ -170,6 +170,7 @@ public static class StaticOptions
     public static float EvilWatcherChance = 10.0f;
     public static bool AllAliveMeeting = false;
 
+    public static bool ShowHistoryTimestamp;
     public static bool NoGameEnd;
     public static bool MayhemOptions;
     public static bool DebugOptions;
@@ -177,14 +178,12 @@ public static class StaticOptions
     public static bool LogAllActions;
 
 
-
-
     public static void AddStaticOptions()
     {
         OptionManager manager = TOHPlugin.OptionManager;
 
         manager.Add(new SmartOptionBuilder()
-            .Name("GM")
+            .Name(Localizer.Get("StaticOptions.EnableGM"))
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v => EnableGM = v)
@@ -194,7 +193,7 @@ public static class StaticOptions
         );
 
         manager.Add(new SmartOptionBuilder()
-            .Name("AutoKick")
+            .Name(Localizer.Get("StaticOptions.AutoKick"))
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v => AutoKick = v)
@@ -209,7 +208,7 @@ public static class StaticOptions
             );
 
         manager.Add(new SmartOptionBuilder()
-            .Name("Kill Flash Duration")
+            .Name(Localizer.Get("StaticOptions.KillFlashDuration"))
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindFloat(v => KillFlashDuration = v)
@@ -218,19 +217,19 @@ public static class StaticOptions
         );
 
         manager.Add(new SmartOptionBuilder()
-            .Name("Sabotage Time Control")
+            .Name(Localizer.Get("StaticOptions.SabotageTimeControl.Enable"))
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .ShowSubOptionsWhen(v => (bool)v)
             .BindBool(v => SabotageTimeControl = v)
             .AddOnOffValues(false)
             .AddSubOption(sub => sub
-                .Name("Polus Reactor Time Limit")
+                .Name(Localizer.Get("StaticOptions.SabotageTimeControl.PolusReactorTime"))
                 .AddFloatRangeValues(1f, 60f, 1f)
                 .BindFloat(v => PolusReactorTimeLimit = v)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("AirShip Reactor Time Limit")
+                .Name(Localizer.Get("StaticOptions.SabotageTimeControl.AirshipReactorTime"))
                 .AddFloatRangeValues(1f, 90f, 1f)
                 .BindFloat(v => AirshipReactorTimeLimit = v)
                 .Build())
@@ -238,7 +237,7 @@ public static class StaticOptions
         );
 
         manager.Add(new SmartOptionBuilder()
-            .Name("ToS Options")
+            .Name(Localizer.Get("StaticOptions.TOSOptions.Enable"))
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .Color(Color.yellow)
@@ -246,38 +245,38 @@ public static class StaticOptions
             .ShowSubOptionsWhen(v => (bool)v)
             .AddOnOffValues(false)
             .AddSubOption(sub => sub
-                .Name("Attack and Defense Values")
+                .Name(Localizer.Get("StaticOptions.TOSOptions.AttackDefense"))
                 .BindBool(v => AttackDefenseValues = v)
                 .AddOnOffValues(false)
                 .ShowSubOptionsWhen(v => (bool)v)
                 .AddSubOption(sub2 => sub2
-                .Name("Reset Kill Cooldown")
+                .Name(Localizer.Get("StaticOptions.TOSOptions.ResetKillcooldown"))
                 .BindBool(v => ResetKillCooldown = v)
                 .AddOnOffValues(false)
                 .Build())
                 .Build())
             .AddSubOption(sub => sub
-                .Name("Serial Killer kills RoleBlockers")
+                .Name(Localizer.Get("StaticOptions.TOSOptions.SkKillsRB"))
                 .BindBool(v => SKkillsRoleblockers = v)
                 .AddOnOffValues(false)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("Auto Game Progression")
+                .Name(Localizer.Get("StaticOptions.TOSOptions.AutoGameProgress"))
                 .BindBool(v => GameProgression = v)
                 .AddOnOffValues(false)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("Round Review")
+                .Name(Localizer.Get("StaticOptions.TOSOptions.RoundReview"))
                 .BindBool(v => RoundReview = v)
                 .AddOnOffValues(false)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("Amnesiac Remember Announcement")
+                .Name(Localizer.Get("StaticOptions.TOSOptions.AmnesiacRememberAnnouncement"))
                 .BindBool(v => AmneRemember = v)
                 .AddOnOffValues(false)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("Guardian Angel Vote Immunity ")
+                .Name(Localizer.Get("StaticOptions.TOSOptions.GAVoteImmunity"))
                 .BindBool(v => GuardianAngelVoteImmunity = v)
                 .AddOnOffValues(false)
                 .Build())
@@ -645,17 +644,6 @@ public static class StaticOptions
            .Build()
         );
 
-        // I hate the fact this option even exists. Players SHOULD know the Lobby Options.
-        /*
-        manager.Add(new SmartOptionBuilder()
-           .Name("Hide Game Settings")
-           .Tab(DefaultTabs.GeneralTab)
-           //    .IsHeader(true)
-           .BindBool(v => HideGameSettings = v)
-           .AddOnOffValues(true)
-           .Build()
-       );
-       */
         manager.Add(new SmartOptionBuilder()
             .Name("Color Name Mode")
             .Tab(DefaultTabs.GeneralTab)
@@ -674,6 +662,14 @@ public static class StaticOptions
            .AddOnOffValues(false)
            .Build()
        );
+
+        manager.Add(new SmartOptionBuilder()
+            .Name("Show History Timestamps")
+            .Tab(DefaultTabs.GeneralTab)
+            .BindBool(v => ShowHistoryTimestamp = v)
+            .AddOnOffValues()
+            .Build());
+
         manager.Add(new SmartOptionBuilder()
             .Name("Mayhem Options")
             .IsHeader(false)
@@ -734,7 +730,6 @@ public static class StaticOptions
                 .Build())
             .Build());
     }
-
 }
 
 

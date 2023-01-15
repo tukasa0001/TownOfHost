@@ -6,7 +6,6 @@ using TownOfHost.Gamemodes.Debug;
 using TownOfHost.Gamemodes.FFA;
 using TownOfHost.Gamemodes.Standard;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
 using VentLib.Logging;
 
 namespace TownOfHost.Gamemodes;
@@ -15,16 +14,26 @@ namespace TownOfHost.Gamemodes;
 public class GamemodeManager
 {
     public List<IGamemode> Gamemodes = new();
-    public IGamemode CurrentGamemode;
+
+    public IGamemode CurrentGamemode
+    {
+        get => _currentGamemode;
+        set
+        {
+            _currentGamemode?.InternalDeactivate();
+            _currentGamemode = value;
+            _currentGamemode?.InternalActivate();
+        }
+    }
+
+    private IGamemode _currentGamemode;
     public OptionHolder GamemodeOption;
     internal readonly List<Type> GamemodeTypes = new() { typeof(StandardGamemode), typeof(TestHnsGamemode), typeof(FreeForAllGamemode), typeof(ColorwarsGamemode), typeof(DebugGamemode)};
 
     public void SetGamemode(int id)
     {
-        CurrentGamemode?.Deactivate();
         CurrentGamemode = Gamemodes[id];
         VentLogger.Old($"Setting Gamemode {CurrentGamemode.GetName()}", "Gamemode");
-        CurrentGamemode.InternalActivate();
     }
 
     public void Setup()

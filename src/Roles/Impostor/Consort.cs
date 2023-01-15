@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
 using TownOfHost.RPC;
 
 namespace TownOfHost.Roles;

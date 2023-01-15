@@ -313,26 +313,26 @@ public class DynamicName
         this.componentOrder = def.componentOrder;
     }
 
-    public void Render(int specific = -2)
+    public void Render(int specific = -2, bool force = false)
     {
         if (!AmongUsClient.Instance.AmHost) return;
         float durationSinceLast = (float)(DateTime.Now - lastRender).TotalSeconds;
-        if (durationSinceLast < ModConstants.DynamicNameTimeBetweenRenders && Game.State is not GameState.InMeeting) return;
+        if (!force && durationSinceLast < ModConstants.DynamicNameTimeBetweenRenders && Game.State is not GameState.InMeeting) return;
         string str = GetName();
-        if (lastString != str || Game.State is GameState.InMeeting)
+        if (lastString != str || Game.State is GameState.InMeeting || force)
             RpcV2.Immediate(myPlayer?.NetId ?? 0, RpcCalls.SetName).Write(str).Send(specific != -2 ? specific : myPlayer?.GetClientId() ?? -1);
         else return;
         lastRender = DateTime.Now;
         lastString = str;
     }
 
-    public void RenderAsIf(GameState state, Color? forceColor = null, int specific = -2)
+    public void RenderAsIf(GameState state, Color? forceColor = null, int specific = -2, bool force = false)
     {
         if (!AmongUsClient.Instance.AmHost) return;
         float durationSinceLast = (float)(DateTime.Now - lastRender).TotalSeconds;
-        if (durationSinceLast < ModConstants.DynamicNameTimeBetweenRenders) return;
+        if (!force && durationSinceLast < ModConstants.DynamicNameTimeBetweenRenders) return;
         string str = GetName(state, forceColor);
-        if (lastString != str)
+        if (lastString != str || force)
             RpcV2.Immediate(myPlayer.NetId, RpcCalls.SetName).Write(str).Send(specific != -2 ? specific : myPlayer.GetClientId());
         lastRender = DateTime.Now;
         lastString = str;
@@ -343,8 +343,8 @@ public class DynamicName
         if (!AmongUsClient.Instance.AmHost) return;
         if (myPlayer != null && myPlayer.PlayerId == player.PlayerId)
         {
-            if (state == null) Render();
-            else RenderAsIf(state.Value);
+            if (state == null) Render(force: force);
+            else RenderAsIf(state.Value, force:force);
             return;
         }
         state ??= Game.State;

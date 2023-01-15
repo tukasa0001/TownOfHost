@@ -5,21 +5,30 @@ using HarmonyLib;
 using InnerNet;
 using TownOfHost.Addons;
 using TownOfHost.Extensions;
+using TownOfHost.Gamemodes;
 using TownOfHost.Managers;
 using TownOfHost.Patches.Chat;
 using TownOfHost.RPC;
 using VentLib;
+using VentLib.Localization;
 using VentLib.Logging;
 using static TownOfHost.Managers.Translator;
 
 namespace TownOfHost.Patches.Network;
 
+[Localized(Group = "GameJoin")]
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
 class OnGameJoinedPatch
 {
+
+    [Localized("HelloWorldMessage")]
+    public static string HelloWorldMessage;
+
+
     public static void Postfix(AmongUsClient __instance)
     {
-        VentLogger.Info("HELLO WORLD!!");
+        VentLogger.Fatal(HelloWorldMessage);
+
         while (!OldOptions.IsLoaded) System.Threading.Tasks.Task.Delay(1);
         VentLogger.Old($"{__instance.GameId}に参加", "OnGameJoined");
         TOHPlugin.playerVersion = new Dictionary<byte, PlayerVersion>();
@@ -50,6 +59,7 @@ class OnPlayerJoinedPatch
         TOHPlugin.playerVersion = new Dictionary<byte, PlayerVersion>();
         OldRPC.RpcVersionCheck();
         DTask.Schedule(() => VentFramework.FindRPC((uint)ModCalls.SendOptionPreview)!.Send(new[] { client.Character.GetClientId() }, TOHPlugin.OptionManager.Options()), GameStats.DeriveDelay(1f));
+        Game.CurrentGamemode.Trigger(GameAction.GameJoin, client);
     }
 }
 

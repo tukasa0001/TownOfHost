@@ -1,5 +1,4 @@
 using TownOfHost.Extensions;
-using TownOfHost.ReduxOptions;
 using TownOfHost.RPC;
 using UnityEngine;
 

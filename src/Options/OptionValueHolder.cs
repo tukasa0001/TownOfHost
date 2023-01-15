@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using BepInEx.Configuration;
-using TownOfHost.Options;
 
-namespace TownOfHost.ReduxOptions;
+namespace TownOfHost.Options;
 
 public class OptionValueHolder
 {

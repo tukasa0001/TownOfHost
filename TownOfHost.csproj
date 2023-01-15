@@ -20,6 +20,7 @@
     <GameVersion>2022.12.14</GameVersion>
   </PropertyGroup>
   
+  
   <ItemGroup>
     <PackageReference Include="Costura.Fody" Version="5.7.0">
       <IncludeAssets>runtime; compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -38,6 +39,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="YamlDotNet" Version="12.3.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,5 +50,6 @@
   
   <Target Name="Copy" AfterTargets="Build" Condition="'$(AmongUs)' != ''">
     <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(AmongUs)/BepInEx/plugins/" Condition="'$(Configuration)' == 'Debug'" />
+    <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(AmongUs) - Copy/BepInEx/plugins/" Condition="'$(Configuration)' == 'Debug'" />
   </Target>
 </Project>

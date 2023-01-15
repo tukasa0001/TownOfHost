@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using TownOfHost.Extensions;
+using TownOfHost.Managers;
 
 namespace TownOfHost.Factions;
 
@@ -41,4 +43,6 @@ public static class FactionMethods
     public static bool IsSolo(this IEnumerable<Faction> factions) => factions.Contains(Faction.Solo);
     public static bool IsImpostor(this IEnumerable<Faction> factions) => factions.Contains(Faction.Impostors);
     public static bool IsCrewmate(this IEnumerable<Faction> factions) => factions.Contains(Faction.Crewmates);
+
+    public static List<PlayerControl> GetAllies(this IEnumerable<Faction> factions) => Game.GetAllPlayers().Where(p => factions.IsAllied(p.GetCustomRole().Factions)).ToList();
 }

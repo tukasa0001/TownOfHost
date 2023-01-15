@@ -8,14 +8,15 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.GUI;
-using TownOfHost.Managers;
 using TownOfHost.Options;
 using UnityEngine;
+using VentLib.Localization;
 using VentLib.Logging;
 
 namespace TownOfHost.Roles;
 
 // Some people hate using "Base" and "Abstract" in class names but I used both so now I'm a war-criminal :)
+[Localized(Group = "Roles")]
 public abstract class AbstractBaseRole
 {
     public PlayerControl MyPlayer { get; protected set;  }
@@ -35,7 +36,8 @@ public abstract class AbstractBaseRole
         return (T) CustomRoleManager.GetRoleFromId(roleId);
     }
 
-    public string RoleName => (TOHPlugin.ForceJapanese.Value ? SupportedLangs.Japanese : SupportedLangs.English).GetStringOrDefault(englishRoleName);
+    [Localized("RoleName")]
+    public string RoleName => EnglishRoleName;
 
     public RoleTypes? DesyncRole;
     public RoleTypes VirtualRole;
@@ -48,7 +50,8 @@ public abstract class AbstractBaseRole
     public int Count;
     protected bool baseCanVent;
 
-    protected string englishRoleName;
+    [SubgroupProvider]
+    protected string EnglishRoleName { get; set; }
     protected Dictionary<Type, List<MethodInfo>> roleInteractions = new();
     protected Dictionary<Faction, List<MethodInfo>> factionInteractions = new();
     protected Dictionary<RoleActionType, List<Tuple<MethodInfo, RoleAction>>> RoleActions = new();
@@ -63,7 +66,7 @@ public abstract class AbstractBaseRole
 
     protected AbstractBaseRole()
     {
-        this.englishRoleName = this.GetType().Name.Replace("CRole", "").Replace("Role", "");
+        this.EnglishRoleName = this.GetType().Name.Replace("CRole", "").Replace("Role", "");
         CreateCooldowns();
         // Why? Modify may reference uncreated options, yet when setting up options developers may try to reference
         // RoleColor (which is white until after Modify)
@@ -174,7 +177,7 @@ public abstract class AbstractBaseRole
             if (StaticOptions.LogAllActions)
             {
                 VentLogger.Trace($"{MyPlayer.GetNameWithRole()} :: {actionType.ToString()}", "ActionLog");
-                Logger.Blue($"Parameters: {parameters.PrettyString()} :: Blocked? {inBlockList && method.Item2.Blockable}", "ActionLog");
+                VentLogger.Trace($"Parameters: {parameters.PrettyString()} :: Blocked? {inBlockList && method.Item2.Blockable}", "ActionLog");
             }
             if (!inBlockList || !method.Item2.Blockable)
                 method.Item1.InvokeAligned(this, parameters);
@@ -324,7 +327,7 @@ public abstract class AbstractBaseRole
 
         public RoleModifier RoleName(string adjustedName)
         {
-            myRole.englishRoleName = adjustedName;
+            myRole.EnglishRoleName = adjustedName;
             return this;
         }
 

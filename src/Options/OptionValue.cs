@@ -9,13 +9,13 @@ public class OptionValue
     public readonly string Text;
     public readonly string Header;
     public readonly string Entry;
-    public object Value;
+    public object? Value;
     private string prefix;
     private string suffix;
     private Color? color;
 
 
-    public OptionValue(object value, string cfgHeader, string cfgEntry, string text = null, string prefix = "", string suffix = "", Color? color = null)
+    public OptionValue(object? value, string cfgHeader, string cfgEntry, string text = null, string prefix = "", string suffix = "", Color? color = null)
     {
         this.Text = text;
         this.Value = value;
@@ -34,7 +34,7 @@ public class OptionValue
         return color == null ? str : color.Value.Colorize(str);
     }
 
-    public static Builder ToBuilder(object value = null, string cfgHeader = null, string cfgEntry = null, string prefix = "", string suffix = "", Color? color = null)
+    public static Builder ToBuilder(object? value = null, string cfgHeader = null, string cfgEntry = null, string prefix = "", string suffix = "", Color? color = null)
     {
         return new Builder(value, cfgHeader, cfgEntry, prefix, suffix, color);
     }
@@ -42,14 +42,14 @@ public class OptionValue
     public class Builder
     {
         private string text;
-        private object value;
+        private object? value;
         private string cfgHeader;
         private string cfgEntry;
         private string prefix;
         private string suffix;
         private Color? color;
 
-        public Builder(object value = null, string cfgHeader = null, string cfgEntry = null,
+        public Builder(object? value = null, string cfgHeader = null, string cfgEntry = null,
             string prefix = "", string suffix = "", Color? color = null)
         {
             this.text = null;
@@ -67,7 +67,7 @@ public class OptionValue
             return this;
         }
 
-        public Builder Value(object value)
+        public Builder Value(object? value)
         {
             this.value = value;
             return this;

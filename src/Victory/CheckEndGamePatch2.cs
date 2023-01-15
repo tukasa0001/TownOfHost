@@ -4,7 +4,6 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
 using TownOfHost.Victory.Conditions;
 using VentLib.Logging;
 

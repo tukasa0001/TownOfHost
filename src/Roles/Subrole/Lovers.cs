@@ -29,11 +29,9 @@ public class Lovers: Subrole
 
         if (!originalLovers) return;
 
-        Logger.Color($"Player: {player?.GetRawName()}", "", ConsoleColor.Green);
         List<PlayerControl> matchCandidates = Game.GetAllPlayers().Where(p => p.PlayerId != player.PlayerId && p.GetSubrole<Lovers>() == null).ToList();
         if (!matchCandidates.Any()) return;
         Partner = matchCandidates.GetRandom();
-        Logger.Color($"Partner: {Partner?.GetRawName()}", "", ConsoleColor.Green);
         Partner.GetDynamicName().AddRule(GameState.Roaming, UI.Subrole, new DynamicString(RoleColor.Colorize("♡")), MyPlayer.PlayerId);
         Lovers otherLovers = (Lovers)this.Clone();
         otherLovers.Partner = player;

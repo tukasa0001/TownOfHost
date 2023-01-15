@@ -9,9 +9,8 @@ namespace TownOfHost.Options;
 public class GameOptionTab: IComparable<GameOptionTab>
 {
     public string Name;
-    public Sprite Sprite;
-    public Transform Transform;
-    public GameObject GameObject;
+    public Transform Transform = null!;
+    public GameObject GameObject = null!;
     public TabOrder Order { get; }
     private List<OptionHolder> options = new();
 
@@ -30,7 +29,7 @@ public class GameOptionTab: IComparable<GameOptionTab>
     {
         this.GameObject = Object.Instantiate(originalTab, parent);
         this.Transform = this.GameObject.transform;
-        this.GameObject.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = this.Sprite = Utils.LoadSprite(assetPath, 100);
+        this.GameObject.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Utils.LoadSprite(assetPath, 100);
         return this;
     }
 
@@ -45,7 +44,7 @@ public class GameOptionTab: IComparable<GameOptionTab>
             this.options.Add(holder);
     }
 
-    public int CompareTo(GameOptionTab other)
+    public int CompareTo(GameOptionTab? other)
     {
         if (ReferenceEquals(this, other)) return 0;
         if (ReferenceEquals(null, other)) return 1;

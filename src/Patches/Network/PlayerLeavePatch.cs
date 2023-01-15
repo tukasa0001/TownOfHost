@@ -1,5 +1,6 @@
 using HarmonyLib;
 using InnerNet;
+using TownOfHost.Gamemodes;
 using TownOfHost.Managers;
 using VentLib.Logging;
 
@@ -23,5 +24,6 @@ class OnPlayerLeftPatch
         if (Game.State is GameState.InLobby) return;
         Game.players.Remove(data.Character.PlayerId);
         AntiBlackout.OnDisconnect(data.Character.Data);
+        Game.CurrentGamemode.Trigger(GameAction.GameLeave, data);
     }
 }

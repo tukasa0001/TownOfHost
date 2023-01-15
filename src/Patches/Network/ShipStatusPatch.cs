@@ -40,10 +40,10 @@ class RepairSystemPatch
         [HarmonyArgument(1)] PlayerControl player,
         [HarmonyArgument(2)] byte amount)
     {
-        Logger.Msg("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount, "RepairSystem");
+        VentLogger.Info("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount, "RepairSystem");
         if (RepairSender.enabled && AmongUsClient.Instance.NetworkMode != NetworkModes.OnlineGame)
         {
-            Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount);
+            VentLogger.SendInGame("SystemType: " + systemType + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount);
         }
         IsComms = false;
         foreach (PlayerTask task in PlayerControl.LocalPlayer.myTasks)
@@ -98,22 +98,13 @@ class CloseDoorsPatch
         return !(OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek || StaticOptions.IsStandardHAS) || StaticOptions.AllowCloseDoors;
     }
 }
-[HarmonyPatch(typeof(SwitchSystem), nameof(SwitchSystem.RepairDamage))]
-class SwitchSystemRepairPatch
-{
-    public static void Postfix(SwitchSystem __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] byte amount)
-    {
-        /*if (player.Is(CustomRoles.SabotageMaster))
-            SabotageMasterOLD.SwitchSystemRepair(__instance, amount);*/
-    }
-}
+
 [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Start))]
 class StartPatch
 {
     public static void Postfix()
     {
-        Logger.CurrentMethod();
-        VentLogger.Old("-----------ゲーム開始-----------", "Phase");
+        VentLogger.Old("-----------Start Game-----------", "Phase");
     }
 }
 [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.StartMeeting))]
@@ -125,16 +116,7 @@ class StartMeetingPatch
         MeetingStates.DeadBodies = UnityEngine.Object.FindObjectsOfType<DeadBody>();
     }
 }
-[HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]
-class BeginPatch
-{
-    public static void Postfix()
-    {
-        Logger.CurrentMethod();
 
-        //ホストの役職初期設定はここで行うべき？
-    }
-}
 [HarmonyPatch(typeof(GameManager), nameof(GameManager.CheckTaskCompletion))]
 class CheckTaskCompletionPatch
 {

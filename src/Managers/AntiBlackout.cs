@@ -112,7 +112,6 @@ public static class AntiBlackout
             {
                 writer.WritePacked(GameData.Instance.NetId);
                 GameData.Instance.Serialize(writer, true);
-
             }
             writer.EndMessage();
         }

@@ -4,8 +4,8 @@ using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
 using TownOfHost.Victory.Conditions;
+using VentLib.Logging;
 
 namespace TownOfHost.Victory;
 
@@ -33,7 +33,7 @@ public class WinDelegate
             if (!isWin) continue;
             winReason = winCondition.GetWinReason();
             if (!StaticOptions.NoGameEnd)
-                Logger.Msg($"Triggering Win by \"{winCondition.GetType()}\", winners={winners.Select(p => p.GetRawName()).PrettyString()}, reason={winReason}", "WinCondition");
+                VentLogger.Info($"Triggering Win by \"{winCondition.GetType()}\", winners={winners.Select(p => p.GetRawName()).PrettyString()}, reason={winReason}", "WinCondition");
             break;
         }
 

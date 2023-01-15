@@ -7,7 +7,6 @@ using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
 using TownOfHost.Patches.Chat;
-using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
 using TownOfHost.RPC;
 using UnityEngine;
@@ -94,15 +93,12 @@ class CheckForEndVotingPatch
                 return false;
             }
 
-            /*if (!AntiBlackoutManager.OverrideExiledPlayer)
-                AssignRoleOnDeathPatch.Postfix(null, exiledPlayer!.Object, false);*/
-
             __instance.ComplexVotingComplete(states, fakeExiled, tie); //通常処理
             return false;
         }
         catch (Exception ex)
         {
-            Logger.SendInGame(string.Format(GetString("Error.MeetingException"), ex.Message), true);
+            VentLogger.SendInGame(string.Format(GetString("Error.MeetingException"), ex.Message));
             throw;
         }
     }
@@ -146,8 +142,9 @@ class MeetingHudStartPatch
         ChatUpdatePatch.DoBlockChat = true;
         GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
         MeetingStates.MeetingCalled = true;
-        Game.RenderAllForAll();
+        Game.RenderAllForAll(force: true);
         "Meeting Call Done".DebugLog();
+        DTask.Schedule(() => Game.GetAllPlayers().Do(p => p.RpcSetName(p.GetRawName())), GameStats.DeriveDelay(0.4f));
     }
     public static void Postfix(MeetingHud __instance)
     {
@@ -227,5 +224,6 @@ class MeetingHudOnDestroyPatch
         }
         ActionHandle handle = ActionHandle.NoInit();
         Game.TriggerForAll(RoleActionType.RoundStart, ref handle, false);
+        Game.RenderAllForAll(force: true);
     }
 }

@@ -7,13 +7,14 @@ using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.Gamemodes;
 using TownOfHost.GUI;
+using TownOfHost.Managers.History;
 using TownOfHost.Options;
 using TownOfHost.Player;
-using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
 using TownOfHost.RPC;
 using TownOfHost.Victory;
 using VentLib;
+using VentLib.Logging;
 
 namespace TownOfHost.Managers;
 
@@ -21,7 +22,9 @@ namespace TownOfHost.Managers;
 // Entry points = OnJoin & OnLeave
 public static class Game
 {
+    public static DateTime StartTime;
     public static Dictionary<byte, PlayerPlus> players = new();
+    public static GameHistory GameHistory;
 
     [ModRPC((uint) ModCalls.SetCustomRole, RpcActors.Host, RpcActors.NonHosts, MethodInvocation.ExecuteBefore)]
     public static void AssignRole(PlayerControl player, CustomRole role, bool sendToClient = false)
@@ -45,7 +48,7 @@ public static class Game
     public static PlayerPlus GetPlayerPlus(this PlayerControl playerControl) => players[playerControl.PlayerId];
 
     public static void RenderAllNames() => players.Values.Select(p => p.DynamicName).Do(name => name.Render());
-    public static void RenderAllForAll(GameState? state = null) => players.Values.Select(p => p.DynamicName).Do(name => players.Values.Do(p => name.RenderFor(p.MyPlayer, state)));
+    public static void RenderAllForAll(GameState? state = null, bool force = false) => players.Values.Select(p => p.DynamicName).Do(name => players.Values.Do(p => name.RenderFor(p.MyPlayer, state, force)));
     //public static void RenderAllForAll(GameState? state = null) => GetAllPlayers().Select(p => p.GetDynamicName()).Do(name => GetAllPlayers().Do(pp => name.RenderFor(pp, state)));
     public static IEnumerable<PlayerControl> GetAllPlayers() => PlayerControl.AllPlayerControls.ToArray();
     public static IEnumerable<PlayerControl> GetAlivePlayers() => GetAllPlayers().Where(p => !p.Data.IsDead && !p.Data.Disconnected);
@@ -76,8 +79,8 @@ public static class Game
                 bool inBlockList = actionTuple.Item3.MyPlayer != null && CustomRoleManager.RoleBlockedPlayers.Contains(actionTuple.Item3.MyPlayer.PlayerId);
                 if (StaticOptions.LogAllActions)
                 {
-                    Logger.Blue($"{actionTuple.Item3.MyPlayer.GetNameWithRole()} => {actionTuple.Item2}", "ActionLog");
-                    Logger.Blue($"Parameters: {parameters.PrettyString()} :: Blocked? {actionTuple.Item2.Blockable && inBlockList}", "ActionLog");
+                    VentLogger.Trace($"{actionTuple.Item3.MyPlayer.GetNameWithRole()} => {actionTuple.Item2}", "ActionLog");
+                    VentLogger.Trace($"Parameters: {parameters.PrettyString()} :: Blocked? {actionTuple.Item2.Blockable && inBlockList}", "ActionLog");
                 }
 
                 if (!actionTuple.Item2.Blockable || !inBlockList)
@@ -97,6 +100,8 @@ public static class Game
 
     public static void Setup()
     {
+        StartTime = DateTime.Now;
+        GameHistory = new();
         players.Clear();
         GetAllPlayers().Do(p => players.Add(p.PlayerId, new PlayerPlus(p)));
         _winDelegate = new WinDelegate();

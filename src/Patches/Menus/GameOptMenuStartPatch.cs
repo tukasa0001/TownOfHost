@@ -4,6 +4,7 @@ using System.Linq;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using TownOfHost.GUI.Menus.CustomNameMenu;
+using TownOfHost.Managers;
 using TownOfHost.Options;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -25,11 +26,15 @@ public static class GameSettingMenuPatch
 [HarmonyPriority(Priority.First)]
 public class GameOptMenuStartPatch
 {
-    public static GameOptionsMenu Instance;
+#pragma warning disable CA2211
+    public static GameOptionsMenu? Instance;
+#pragma warning restore CA2211
 
     public static void Postfix(GameOptionsMenu __instance)
     {
 
+        if (Instance == null)
+            Game.CurrentGamemode.InternalActivate();
         foreach (var ob in __instance.Children)
         {
             switch (ob.Title)
@@ -70,6 +75,8 @@ public class GameOptMenuStartPatch
 
 
         Instance = __instance;
+
+
         var gameSettingMenu = Object.FindObjectsOfType<GameSettingMenu>().FirstOrDefault();
         if (gameSettingMenu == null) return;
         List<GameObject> menus = new() { gameSettingMenu.RegularGameSettings, gameSettingMenu.RolesSettings.gameObject };
@@ -82,15 +89,7 @@ public class GameOptMenuStartPatch
 
         foreach (GameOptionTab tab in TOHPlugin.OptionManager.Tabs)
         {
-            var obj = gameSettings.transform.parent.Find(tab.Name);
-            if (obj != null)
-            {
-                var foundHighlight = tab.Transform.FindChild("Hat Button").FindChild("Tab Background").GetComponent<SpriteRenderer>();
-                menus.Add(obj.gameObject);
-                highlights.Add(foundHighlight);
-                tabs.Add(tab.GameObject);
-                continue;
-            }
+            bool initialized = gameSettings.transform.parent.Find(tab.Name) != null;
 
             GameObject tohSettings = Object.Instantiate(gameSettings, gameSettings.transform.parent);
             tohSettings.name = tab.Name;
@@ -111,7 +110,7 @@ public class GameOptMenuStartPatch
             tohSettings.gameObject.SetActive(false);
             menus.Add(tohSettings.gameObject);
 
-            GameOptionTab initializedTab = tab.Instantiate(roleTab, roleTab.transform.parent);
+            GameOptionTab initializedTab = initialized ? tab : tab.Instantiate(roleTab, roleTab.transform.parent);
             tabs.Add(initializedTab.GameObject);
             var tohTabHighlight = initializedTab.Transform.FindChild("Hat Button").FindChild("Tab Background").GetComponent<SpriteRenderer>();
             highlights.Add(tohTabHighlight);
@@ -135,6 +134,7 @@ public class GameOptMenuStartPatch
             };
             button.OnClick.AddListener(value);
         }
+
     }
 }
 

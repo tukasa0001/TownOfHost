@@ -9,4 +9,7 @@ public enum GameAction
     KillPlayers = 2,
     CallSabotage = 4,
     EnterVent = 8,
+
+    GameJoin = 16,
+    GameLeave = 32,
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using HarmonyLib;
 using TownOfHost.Options;
 using TownOfHost.Victory;
 
@@ -24,7 +25,15 @@ public interface IGamemode
 
     internal void InternalActivate()
     {
-        TOHPlugin.OptionManager.SetTabs(EnabledTabs());
         Activate();
+        TOHPlugin.OptionManager.SetTabs(EnabledTabs());
     }
+
+    internal void InternalDeactivate()
+    {
+        Deactivate();
+        EnabledTabs().Do(tab => tab.SetActive(false));
+    }
+
+    public void Trigger(GameAction action, params object[] args);
 }

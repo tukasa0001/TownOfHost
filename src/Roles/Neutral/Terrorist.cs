@@ -1,5 +1,4 @@
 using TownOfHost.Factions;
-using TownOfHost.ReduxOptions;
 using UnityEngine;
 using TownOfHost.Options;
 

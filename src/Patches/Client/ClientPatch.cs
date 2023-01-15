@@ -1,7 +1,6 @@
 using HarmonyLib;
 using InnerNet;
 using TownOfHost.Managers;
-using TownOfHost.Options.Legacy.GameOptionsSender;
 using UnityEngine;
 using VentLib.Logging;
 using static TownOfHost.Managers.Translator;
@@ -18,7 +17,7 @@ class MakePublicPatch
         {
             var message = GetString("DisabledByProgram");
             VentLogger.Old(message, "MakePublicPatch");
-            Logger.SendInGame(message);
+            VentLogger.SendInGame(message);
             return false;
         }
         if ((ModUpdater.isBroken | ModUpdater.hasUpdate) && !ModUpdater.ForceAccept)
@@ -27,7 +26,7 @@ class MakePublicPatch
             if (ModUpdater.isBroken) message = GetString("ModBrokenMessage");
             if (ModUpdater.hasUpdate) message = GetString("CanNotJoinPublicRoomNoLatest");
             VentLogger.Old(message, "MakePublicPatch");
-            Logger.SendInGame(message);
+            VentLogger.SendInGame(message);
             return false;
         }
         return true;
@@ -108,15 +107,5 @@ class SetResolutionManager
             MainMenuManagerPatch.discordButton.transform.position = Vector3.Reflect(MainMenuManagerPatch.template.transform.position, Vector3.left);
         if (MainMenuManagerPatch.updateButton != null)
             MainMenuManagerPatch.updateButton.transform.position = MainMenuManagerPatch.template.transform.position + new Vector3(0.25f, 0.75f);
-    }
-}
-
-[HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.SendAllStreamedObjects))]
-class InnerNetObjectSerializePatch
-{
-    public static void Prefix()
-    {
-        if (AmongUsClient.Instance.AmHost)
-            GameOptionsSender.SendAllGameOptions();
     }
 }

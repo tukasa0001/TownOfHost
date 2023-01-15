@@ -5,12 +5,12 @@ namespace TownOfHost.GUI.Menus.CustomNameMenu;
 public class CustomNameMenuPane
 {
     public PoolablePlayer PreviewArea;
-    public UiElement BackButton;
+    //public UiElement BackButton;
     public GameObject GameObject = new();
 
     private const float ViewScale = 0.65f;
 
-    public CustomNameMenuPane(Transform parent = null)
+    public CustomNameMenuPane(Transform? parent = null)
     {
         parent ??= GameObject.transform;
         PreviewArea = Object.Instantiate(HudManager.Instance.IntroPrefab.PlayerPrefab, parent);

@@ -1,5 +1,7 @@
 using HarmonyLib;
-using TownOfHost.Extensions;
+using TownOfHost.GUI;
+using TownOfHost.Managers;
+using UnityEngine;
 
 namespace TownOfHost.Patches
 {
@@ -14,10 +16,19 @@ namespace TownOfHost.Patches
     [HarmonyPatch(typeof(ChatBubble), nameof(ChatBubble.SetName))]
     class ChatBubbleSetNamePatch
     {
-        public static void Postfix(ChatBubble __instance)
+        public static void Prefix(ChatBubble __instance)
         {
-            if (GameStates.IsInGame && __instance.playerInfo.PlayerId == PlayerControl.LocalPlayer.PlayerId)
-                __instance.NameText.color = PlayerControl.LocalPlayer.GetRoleColor();
+            PlayerControl relatedPlayer = __instance.playerInfo.Object;
+            if (relatedPlayer == null) return;
+            DynamicName name = relatedPlayer.GetDynamicName();
+            relatedPlayer.RpcSetName(name.RawName);
+            __instance.NameText.color = Color.white;
         }
+
+        /*public static void Postfix(ChatBubble __instance)
+        {
+            PlayerControl relatedPlayer = __instance.playerInfo.Object;
+            if (relatedPlayer == null) return; ;
+        }*/
     }
 }

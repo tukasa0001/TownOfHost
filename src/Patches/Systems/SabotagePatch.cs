@@ -5,6 +5,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Gamemodes;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
+using VentLib.Logging;
 
 namespace TownOfHost.Patches.Systems;
 
@@ -47,7 +48,7 @@ public static class SabotagePatch
                 else
                     currentSwitches ^= (byte) (1U << amount);
                 if (currentSwitches != electrical.ExpectedSwitches) break;
-                Logger.Msg($"Electrical Sabotage Fixed by {player.GetRawName()}", "SabotageFix");
+                VentLogger.Info($"Electrical Sabotage Fixed by {player.GetRawName()}", "SabotageFix");
                 Game.TriggerForAll(RoleActionType.SabotageFixed, ref handle, SabotageType.Lights, player);
                 CurrentSabotage = null;
                 break;
@@ -72,7 +73,7 @@ public static class SabotagePatch
                     CurrentSabotage = null;
                 }
                 if (CurrentSabotage == null)
-                    Logger.Msg($"Communications Sabotage Fixed by {player.GetRawName()}", "SabotageFix");
+                    VentLogger.Info($"Communications Sabotage Fixed by {player.GetRawName()}", "SabotageFix");
                 break;
             case SystemTypes.LifeSupp:
                 if (CurrentSabotage != SabotageType.Oxygen) break;
@@ -84,7 +85,7 @@ public static class SabotagePatch
                 if (oxygen.UserCount == 0) break;
                 Game.TriggerForAll(RoleActionType.SabotageFixed, ref handle, SabotageType.Oxygen);
                 CurrentSabotage = null;
-                Logger.Msg($"Oxygen Sabotage Fixed by {player.GetRawName()}", "SabotageFix");
+                VentLogger.Info($"Oxygen Sabotage Fixed by {player.GetRawName()}", "SabotageFix");
                 break;
             case SystemTypes.Laboratory:
             case SystemTypes.Reactor:
@@ -97,7 +98,7 @@ public static class SabotagePatch
                 if (reactor.UserCount == 0) break;
                 Game.TriggerForAll(RoleActionType.SabotageFixed, ref handle, SabotageType.Reactor);
                 CurrentSabotage = null;
-                Logger.Msg($"Reactor Sabotage Fixed by {player.GetRawName()}", "SabotageFix");
+                VentLogger.Info($"Reactor Sabotage Fixed by {player.GetRawName()}", "SabotageFix");
                 break;
             default:
                 return true;

@@ -36,7 +36,6 @@ public class Vampiress : Impostor
     [RoleAction(RoleActionType.RoundStart)]
     private void EnterKillMode()
     {
-        Logger.Blue("Round Started", "Round Start");
         Mode = VampireMode.Killing;
         bitten = new List<byte>();
     }

@@ -1,4 +1,3 @@
-using TownOfHost.ReduxOptions;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;

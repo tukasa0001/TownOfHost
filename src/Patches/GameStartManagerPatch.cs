@@ -2,148 +2,150 @@ using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
+using TownOfHost.Roles;
 using UnityEngine;
+using VentLib.Logging;
 
-namespace TownOfHost
+namespace TownOfHost.Patches;
+
+[HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Update))]
+public static class GameStartManagerUpdatePatch
 {
-    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Update))]
-    public static class GameStartManagerUpdatePatch
+    public static void Prefix(GameStartManager __instance)
     {
+        __instance.MinPlayers = 1;
+    }
+}
+//タイマーとコード隠し
+public static class GameStartManagerPatch
+{
+    private static float timer = 600f;
+    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
+    public class GameStartManagerStartPatch
+    {
+        public static TMPro.TextMeshPro HideName;
+        public static void Postfix(GameStartManager __instance)
+        {
+            __instance.GameRoomNameCode.text = GameCode.IntToGameName(AmongUsClient.Instance.GameId);
+            // Reset lobby countdown timer
+            timer = 600f;
+
+            HideName = Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
+            HideName.text = ColorUtility.TryParseHtmlString(TOHPlugin.HideColor.Value, out _)
+                ? $"<color={TOHPlugin.HideColor.Value}>{TOHPlugin.HideName.Value}</color>"
+                : $"<color={TOHPlugin.ModColor}>{TOHPlugin.HideName.Value}</color>";
+
+            // Make Public Button
+            if ((ModUpdater.isBroken || ModUpdater.hasUpdate || !TOHPlugin.AllowPublicRoom) && !ModUpdater.ForceAccept)
+            {
+                __instance.MakePublicButton.color = Palette.DisabledClear;
+                __instance.privatePublicText.color = Palette.DisabledClear;
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Update))]
+    public class GameStartManagerUpdatePatch
+    {
+        private static bool update = false;
+        private static string currentText = "";
         public static void Prefix(GameStartManager __instance)
         {
-            __instance.MinPlayers = 1;
+            // Lobby code
+            if (DataManager.Settings.Gameplay.StreamerMode)
+            {
+                __instance.GameRoomNameCode.color = new(255, 255, 255, 0);
+                GameStartManagerStartPatch.HideName.enabled = true;
+            }
+            else
+            {
+                __instance.GameRoomNameCode.color = new(255, 255, 255, 255);
+                GameStartManagerStartPatch.HideName.enabled = false;
+            }
+            if (!AmongUsClient.Instance.AmHost || !GameData.Instance || AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame) return; // Not host or no instance or LocalGame
+            update = GameData.Instance.PlayerCount != __instance.LastPlayerCount;
+        }
+        public static void Postfix(GameStartManager __instance)
+        {
+            // Lobby timer
+            if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return;
+
+            if (update) currentText = __instance.PlayerCounter.text;
+
+            timer = Mathf.Max(0f, timer -= Time.deltaTime);
+            int minutes = (int)timer / 60;
+            int seconds = (int)timer % 60;
+            string suffix = $" ({minutes:00}:{seconds:00})";
+            if (timer <= 60) suffix = Utils.ColorString(Color.red, suffix);
+
+            __instance.PlayerCounter.text = currentText + suffix;
+            __instance.PlayerCounter.autoSizeTextContainer = true;
         }
     }
-    //タイマーとコード隠し
-    public class GameStartManagerPatch
+    [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.SetText))]
+    public static class HiddenTextPatch
     {
-        private static float timer = 600f;
-        [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
-        public class GameStartManagerStartPatch
+        private static void Postfix(TextBoxTMP __instance)
         {
-            public static TMPro.TextMeshPro HideName;
-            public static void Postfix(GameStartManager __instance)
-            {
-                __instance.GameRoomNameCode.text = GameCode.IntToGameName(AmongUsClient.Instance.GameId);
-                // Reset lobby countdown timer
-                timer = 600f;
-
-                HideName = Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
-                HideName.text = ColorUtility.TryParseHtmlString(TOHPlugin.HideColor.Value, out _)
-                        ? $"<color={TOHPlugin.HideColor.Value}>{TOHPlugin.HideName.Value}</color>"
-                        : $"<color={TOHPlugin.ModColor}>{TOHPlugin.HideName.Value}</color>";
-
-                // Make Public Button
-                if ((ModUpdater.isBroken || ModUpdater.hasUpdate || !TOHPlugin.AllowPublicRoom) && !ModUpdater.ForceAccept)
-                {
-                    __instance.MakePublicButton.color = Palette.DisabledClear;
-                    __instance.privatePublicText.color = Palette.DisabledClear;
-                }
-            }
-        }
-
-        [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Update))]
-        public class GameStartManagerUpdatePatch
-        {
-            private static bool update = false;
-            private static string currentText = "";
-            public static void Prefix(GameStartManager __instance)
-            {
-                // Lobby code
-                if (DataManager.Settings.Gameplay.StreamerMode)
-                {
-                    __instance.GameRoomNameCode.color = new(255, 255, 255, 0);
-                    GameStartManagerStartPatch.HideName.enabled = true;
-                }
-                else
-                {
-                    __instance.GameRoomNameCode.color = new(255, 255, 255, 255);
-                    GameStartManagerStartPatch.HideName.enabled = false;
-                }
-                if (!AmongUsClient.Instance.AmHost || !GameData.Instance || AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame) return; // Not host or no instance or LocalGame
-                update = GameData.Instance.PlayerCount != __instance.LastPlayerCount;
-            }
-            public static void Postfix(GameStartManager __instance)
-            {
-                // Lobby timer
-                if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return;
-
-                if (update) currentText = __instance.PlayerCounter.text;
-
-                timer = Mathf.Max(0f, timer -= Time.deltaTime);
-                int minutes = (int)timer / 60;
-                int seconds = (int)timer % 60;
-                string suffix = $" ({minutes:00}:{seconds:00})";
-                if (timer <= 60) suffix = Utils.ColorString(Color.red, suffix);
-
-                __instance.PlayerCounter.text = currentText + suffix;
-                __instance.PlayerCounter.autoSizeTextContainer = true;
-            }
-        }
-        [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.SetText))]
-        public static class HiddenTextPatch
-        {
-            private static void Postfix(TextBoxTMP __instance)
-            {
-                if (__instance.name == "GameIdText") __instance.outputText.text = new string('*', __instance.text.Length);
-            }
+            if (__instance.name == "GameIdText") __instance.outputText.text = new string('*', __instance.text.Length);
         }
     }
-    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.BeginGame))]
-    public class GameStartRandomMap
+}
+[HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.BeginGame))]
+public class GameStartRandomMap
+{
+    public static bool Prefix(GameStartManager __instance)
     {
-        public static bool Prefix(GameStartManager __instance)
-        {
-            TOHPlugin.LastKillCooldown.Value = TOHPlugin.NormalOptions.KillCooldown;
+        TOHPlugin.LastKillCooldown.Value = TOHPlugin.NormalOptions.KillCooldown;
 
-            __instance.ReallyBegin(false);
-            return false;
+        if (StaticOptions.EnableGM) VentLogger.SendInGame("[Info] GM is Enabled");
+
+        __instance.ReallyBegin(false);
+        return false;
+    }
+    public static bool Prefix(GameStartRandomMap __instance)
+    {
+        bool continueStart = true;
+        if (StaticOptions.RandomMapsMode)
+        {
+            var rand = IRandom.Instance;
+            System.Collections.Generic.List<byte> RandomMaps = new();
+            /*TheSkeld   = 0
+            MIRAHQ     = 1
+            Polus      = 2
+            Dleks      = 3
+            TheAirShip = 4*/
+            if (StaticOptions.AddedTheSkeld) RandomMaps.Add(0);
+            if (StaticOptions.AddedMiraHQ) RandomMaps.Add(1);
+            if (StaticOptions.AddedPolus) RandomMaps.Add(2);
+            // if (Options.AddedDleks.GetBool()) RandomMaps.Add(3);
+            if (StaticOptions.AddedTheAirShip) RandomMaps.Add(4);
+
+            if (RandomMaps.Count <= 0) return true;
+            var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];
+            TOHPlugin.NormalOptions.MapId = MapsId;
+
         }
-        public static bool Prefix(GameStartRandomMap __instance)
+        return continueStart;
+    }
+}
+[HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.ResetStartState))]
+class ResetStartStatePatch
+{
+    public static void Prefix()
+    {
+        if (GameStates.IsCountDown)
         {
-            bool continueStart = true;
-            if (StaticOptions.RandomMapsMode)
-            {
-                var rand = IRandom.Instance;
-                System.Collections.Generic.List<byte> RandomMaps = new();
-                /*TheSkeld   = 0
-                MIRAHQ     = 1
-                Polus      = 2
-                Dleks      = 3
-                TheAirShip = 4*/
-                if (StaticOptions.AddedTheSkeld) RandomMaps.Add(0);
-                if (StaticOptions.AddedMiraHQ) RandomMaps.Add(1);
-                if (StaticOptions.AddedPolus) RandomMaps.Add(2);
-                // if (Options.AddedDleks.GetBool()) RandomMaps.Add(3);
-                if (StaticOptions.AddedTheAirShip) RandomMaps.Add(4);
-
-                if (RandomMaps.Count <= 0) return true;
-                var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];
-                TOHPlugin.NormalOptions.MapId = MapsId;
-
-            }
-            return continueStart;
+            PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameOptionsManager.Instance.CurrentGameOptions));
         }
     }
-    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.ResetStartState))]
-    class ResetStartStatePatch
+}
+[HarmonyPatch(typeof(IGameOptionsExtensions), nameof(IGameOptionsExtensions.GetAdjustedNumImpostors))]
+class UnrestrictedNumImpostorsPatch
+{
+    public static bool Prefix(ref int __result)
     {
-        public static void Prefix()
-        {
-            if (GameStates.IsCountDown)
-            {
-                PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameOptionsManager.Instance.CurrentGameOptions));
-            }
-        }
-    }
-    [HarmonyPatch(typeof(IGameOptionsExtensions), nameof(IGameOptionsExtensions.GetAdjustedNumImpostors))]
-    class UnrestrictedNumImpostorsPatch
-    {
-        public static bool Prefix(ref int __result)
-        {
-            __result = TOHPlugin.NormalOptions.NumImpostors;
-            return false;
-        }
+        __result = TOHPlugin.NormalOptions.NumImpostors;
+        return false;
     }
 }

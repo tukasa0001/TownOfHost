@@ -39,7 +39,7 @@ public static class BanManager
                 if (Regex.IsMatch(player.PlayerName, line))
                 {
                     AmongUsClient.Instance.KickPlayer(player.Id, false);
-                    Logger.SendInGame(string.Format(GetString("Message.KickedByDenyName"), player.PlayerName, line));
+                    VentLogger.SendInGame(string.Format(GetString("Message.KickedByDenyName"), player.PlayerName, line));
                     VentLogger.Old($"{player.PlayerName}は名前が「{line}」に一致したためキックされました。", "Kick");
                     return;
                 }
@@ -56,7 +56,7 @@ public static class BanManager
         if (CheckBanList(player))
         {
             AmongUsClient.Instance.KickPlayer(player.Id, true);
-            Logger.SendInGame(string.Format(GetString("Message.BanedByBanList"), player.PlayerName));
+            VentLogger.SendInGame(string.Format(GetString("Message.BanedByBanList"), player.PlayerName));
             VentLogger.Old($"{player.PlayerName}は過去にBAN済みのためBANされました。", "BAN");
             return;
         }

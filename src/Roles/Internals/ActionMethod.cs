@@ -21,9 +21,6 @@ public static class MethodInfoExtension
         List<object?> allParametersList = allParameters.ToList();
         List<object> functionSpecificParameters = new();
 
-        /*allParametersList.String().DebugLog("Parameters passed into function: ");
-        method.GetParameters().ToList().String().DebugLog("Required parameters: ");*/
-
         int i = 1;
         foreach (ParameterInfo parameter in method.GetParameters())
         {

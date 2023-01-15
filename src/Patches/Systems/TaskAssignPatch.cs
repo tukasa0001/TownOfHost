@@ -4,7 +4,6 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using TownOfHost.Extensions;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
 using VentLib.Logging;
 
@@ -30,7 +29,7 @@ class AddTasksFromListPatch
         }
         foreach (var task in disabledTasks)
         {
-            Logger.Msg("削除: " + task.TaskType.ToString(), "AddTask");
+            VentLogger.Info("削除: " + task.TaskType.ToString(), "AddTask");
             unusedTasks.Remove(task);
         }
     }
@@ -45,19 +44,12 @@ class RpcSetTasksPatch
         [HarmonyArgument(0)] byte playerId,
         [HarmonyArgument(1)] ref Il2CppStructArray<byte> taskTypeIds)
     {
-        //null対策
-        if (TOHPlugin.RealOptionsData == null)
-        {
-            VentLogger.Warn("警告:RealOptionsDataがnullです。", "RpcSetTasksPatch");
-            return;
-        }
 
-        CustomRole? RoleNullable = Utils.GetPlayerById(playerId)?.GetCustomRole();
-        if (RoleNullable == null) return;
-        CustomRole role = RoleNullable;
+        CustomRole? roleNullable = Utils.GetPlayerById(playerId)?.GetCustomRole();
+        if (roleNullable == null) return;
 
-        if (!OldOptions.OverrideTasksData.AllData.ContainsKey(role)) return;
-        var data = OldOptions.OverrideTasksData.AllData[role];
+        if (!OldOptions.OverrideTasksData.AllData.ContainsKey(roleNullable)) return;
+        var data = OldOptions.OverrideTasksData.AllData[roleNullable];
 
         if (!data.doOverride.GetBool()) return; // タスク数を上書きするかどうか
         // falseの時、タスクの内容が変更される前にReturnされる。
@@ -65,24 +57,24 @@ class RpcSetTasksPatch
         bool hasCommonTasks = data.assignCommonTasks.GetBool(); // コモンタスク(通常タスク)を割り当てるかどうか
         // 割り当てる場合でも再割り当てはされず、他のクルーと同じコモンタスクが割り当てられる。
 
-        int NumLongTasks = (int)data.numLongTasks.GetFloat(); // 割り当てるロングタスクの数
-        int NumShortTasks = (int)data.numShortTasks.GetFloat(); // 割り当てるショートタスクの数
+        int numLongTasks = (int)data.numLongTasks.GetFloat(); // 割り当てるロングタスクの数
+        int numShortTasks = (int)data.numShortTasks.GetFloat(); // 割り当てるショートタスクの数
         // ロングとショートは常時再割り当てが行われる。
-        if (!hasCommonTasks && NumLongTasks == 0 && NumShortTasks == 0) NumShortTasks = 1; //タスク0対策
+        if (!hasCommonTasks && numLongTasks == 0 && numShortTasks == 0) numShortTasks = 1; //タスク0対策
 
         //割り当て可能なタスクのIDが入ったリスト
         //本来のRpcSetTasksの第二引数のクローン
-        Il2CppSystem.Collections.Generic.List<byte> TasksList = new();
+        Il2CppSystem.Collections.Generic.List<byte> tasksList = new();
         foreach (var num in taskTypeIds)
-            TasksList.Add(num);
+            tasksList.Add(num);
 
         //参考:ShipStatus.Begin
         //不要な割り当て済みのタスクを削除する処理
         //コモンタスクを割り当てる設定ならコモンタスク以外を削除
         //コモンタスクを割り当てない設定ならリストを空にする
-        int defaultCommonTasksNum = TOHPlugin.RealOptionsData.GetInt(Int32OptionNames.NumCommonTasks);
-        if (hasCommonTasks) TasksList.RemoveRange(defaultCommonTasksNum, TasksList.Count - defaultCommonTasksNum);
-        else TasksList.Clear();
+        int defaultCommonTasksNum = DesyncOptions.OriginalHostOptions.GetInt(Int32OptionNames.NumCommonTasks);
+        if (hasCommonTasks) tasksList.RemoveRange(defaultCommonTasksNum, tasksList.Count - defaultCommonTasksNum);
+        else tasksList.Clear();
 
         //割り当て済みのタスクが入れられるHashSet
         //同じタスクが複数割り当てられるのを防ぐ
@@ -105,24 +97,24 @@ class RpcSetTasksPatch
         //実際にAmong Us側で使われているタスクを割り当てる関数を使う。
         ShipStatus.Instance.AddTasksFromList(
             ref start2,
-            NumLongTasks,
-            TasksList,
+            numLongTasks,
+            tasksList,
             usedTaskTypes,
             LongTasks
         );
         ShipStatus.Instance.AddTasksFromList(
             ref start3,
-            NumShortTasks,
-            TasksList,
+            numShortTasks,
+            tasksList,
             usedTaskTypes,
             ShortTasks
         );
 
         //タスクのリストを配列(Il2CppStructArray)に変換する
-        taskTypeIds = new Il2CppStructArray<byte>(TasksList.Count);
-        for (int i = 0; i < TasksList.Count; i++)
+        taskTypeIds = new Il2CppStructArray<byte>(tasksList.Count);
+        for (int i = 0; i < tasksList.Count; i++)
         {
-            taskTypeIds[i] = TasksList[i];
+            taskTypeIds[i] = tasksList[i];
         }
 
     }

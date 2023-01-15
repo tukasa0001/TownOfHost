@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using TownOfHost.Extensions;
 
-namespace TownOfHost.ReduxOptions;
+namespace TownOfHost.Options.Generators;
 
 public class FloatRangeGenerator: IRangeGenerator
 {
@@ -17,9 +16,9 @@ public class FloatRangeGenerator: IRangeGenerator
         this.step = step;
     }
 
-    public IEnumerable<object> GetRange()
+    public IEnumerable<object?> GetRange()
     {
-        List<object> values = new();
+        List<object?> values = new();
         for (float i = start; i <= end; i += step) values.Add(Convert.ToSingle(Math.Round(Convert.ToDecimal(i), 2)));
         return values;
     }

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
-using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
 using UnityEngine;
 using static TownOfHost.Managers.Translator;
@@ -51,7 +50,8 @@ public static class OptionShower
         }
         //有効な役職と詳細設定一覧
         pages.Add("");
-        text += $"{CustomRoleManager.Special.GM.RoleColor.Colorize("GM")}: {Utils.GetOnOffColored(StaticOptions.EnableGM)}\n";
+        if (Game.CurrentGamemode.EnabledTabs().Contains(DefaultTabs.GeneralTab))
+            text += $"{CustomRoleManager.Special.GM.RoleColor.Colorize("GM")}: {Utils.GetOnOffColored(StaticOptions.EnableGM)}\n";
         HashSet<OptionHolder> roleHolders = new();
         foreach (CustomRole role in CustomRoleManager.AllRoles)
         {
@@ -93,9 +93,9 @@ public static class OptionShower
                 }*/
         }
 
-        foreach (OptionHolder holder in TOHPlugin.OptionManager.PreviewOptions().Where(o => !roleHolders.Contains(o)))
+        foreach (OptionHolder holder in TOHPlugin.OptionManager.PreviewOptions().Where(o => !roleHolders.Contains(o) && Game.CurrentGamemode.EnabledTabs().Contains(o.Tab)))
         {
-            if (holder.Name == "GM") continue;
+            if (holder.Name == "Host GM") continue;
             if (holder.IsHeader) text += "\n";
             text += $"{holder.Name}: {holder.GetAsString()}\n";
             if (holder.MatchesPredicate())

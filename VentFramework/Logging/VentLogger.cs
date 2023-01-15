@@ -13,8 +13,14 @@ public static class VentLogger
     public static void Info(string message, string? tag = null) => Log(LogLevel.Info, message, tag);
     public static void Warn(string message, string? tag = null) => Log(LogLevel.Warn, message, tag);
     public static void Error(string message, string? tag = null) => Log(LogLevel.Error, message, tag);
-    public static void Exception(Exception exception, string? tag = null) => Log(LogLevel.Error, exception.ToString(), tag);
+    public static void Exception(Exception exception, string? message = "", string? tag = null) => Log(LogLevel.Error, message + exception, tag);
     public static void Fatal(string message, string? tag = null) => Log(LogLevel.Fatal, message, tag);
+
+    public static void SendInGame(string message)
+    {
+        VentLogger.Debug($"Sending In Game: {message}");
+        if (DestroyableSingleton<HudManager>.Instance) DestroyableSingleton<HudManager>.Instance.Notifier.AddItem(message);
+    }
 
     public static void Log(LogLevel level, string message, string? tag = null)
     {

@@ -82,7 +82,7 @@ namespace TownOfHost
                 {
                     AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
                     VentLogger.Warn($"不正なRPCを受信したため{__instance?.Data?.PlayerName}をキックしました。", "Kick");
-                    Logger.SendInGame(string.Format(GetString("Warning.InvalidRpc"), __instance?.Data?.PlayerName));
+                    VentLogger.SendInGame(string.Format(GetString("Warning.InvalidRpc"), __instance?.Data?.PlayerName));
                 }
                 return false;
             }

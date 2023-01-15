@@ -4,7 +4,6 @@ using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
-using TownOfHost.Options.Legacy.GameOptionsSender;
 using UnityEngine;
 using static TownOfHost.Managers.Translator;
 using TownOfHost.Roles;
@@ -124,13 +123,6 @@ class EndGamePatch
 
 
         TOHPlugin.VisibleTasksCount = false;
-        if (AmongUsClient.Instance.AmHost)
-        {
-            TOHPlugin.RealOptionsData.Restore(GameOptionsManager.Instance.CurrentGameOptions);
-            GameOptionsSender.AllSenders.Clear();
-            GameOptionsSender.AllSenders.Add(new NormalGameOptionsSender());
-            /* Send SyncSettings RPC */
-        }
     }
 }
 [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.SetEverythingUp))]

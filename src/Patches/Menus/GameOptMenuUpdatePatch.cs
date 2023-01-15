@@ -4,6 +4,7 @@ using System.Linq;
 using HarmonyLib;
 using TownOfHost.Options;
 using UnityEngine;
+using VentLib.Logging;
 
 namespace TownOfHost.Patches.Menus;
 
@@ -26,7 +27,7 @@ public class GameOptionsMenuUpdatePatch
             float gamemodeOffset = 2.35f;
             OptionHolder gamemodeOption = TOHPlugin.GamemodeManager.GamemodeOption;
             ShowOption(TOHPlugin.GamemodeManager.GamemodeOption, ref gamemodeOffset);
-            Vector2 position = gamemodeOption.Behaviour.transform.localPosition;
+            Vector2 position = gamemodeOption.Behaviour!.transform.localPosition;
             foreach (OptionBehaviour behaviour in __instance.Children.Skip(2))
             {
                 position = new Vector2(position.x, position.y - 0.5f);
@@ -37,7 +38,7 @@ public class GameOptionsMenuUpdatePatch
 
         string realTabName = __instance.transform.parent.parent.name;
 
-        GameOptionTab tab = TOHPlugin.OptionManager.Tabs.FirstOrDefault(t => t.Name == realTabName);
+        GameOptionTab? tab = TOHPlugin.OptionManager.Tabs.FirstOrDefault(t => t.Name == realTabName);
         if (tab == null) return;
 
         tab.GetHolders().Do(holder => ShowAllOptions(holder, ref offset));
@@ -52,7 +53,7 @@ public class GameOptionsMenuUpdatePatch
 
     private static void ShowOption(OptionHolder option, ref float offset)
     {
-        option.Behaviour.gameObject.SetActive(true);
+        option.Behaviour!.gameObject.SetActive(true);
         Transform transform = option.Behaviour.transform;
         SpriteRenderer render = option.Behaviour.transform.Find("Background").GetComponent<SpriteRenderer>();
         if (option.Level > 0)

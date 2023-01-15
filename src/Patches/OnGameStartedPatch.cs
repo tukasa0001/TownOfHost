@@ -7,7 +7,6 @@ using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
 using TownOfHost.Patches.Actions;
-using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
 using VentLib.Logging;
 
@@ -34,7 +33,6 @@ namespace TownOfHost
             TOHPlugin.ResetCamPlayerList = new();
 
             OldOptions.UsedButtonCount = 0;
-            TOHPlugin.RealOptionsData = new OptionBackupData(GameOptionsManager.Instance.CurrentGameOptions);
 
 
             RandomSpawn.CustomNetworkTransformPatch.NumOfTP = new();

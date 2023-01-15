@@ -6,6 +6,7 @@ using System.Reflection;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using VentLib.Interfaces;
+using VentLib.Localization;
 using VentLib.Logging;
 
 namespace VentLib;
@@ -66,11 +67,13 @@ public static class VentFramework
 
     public static PlayerControl? GetLastSender(uint rpcId) => VentFramework.LastSenders.GetValueOrDefault(rpcId);
 
-    public static void Register(Assembly assembly)
+    public static void Register(Assembly assembly, bool rootAssembly = false)
     {
         if (RegisteredAssemblies.ContainsKey(assembly)) return;
         RegisteredAssemblies.Add(assembly, VentControlFlag.AllowedReceiver | VentControlFlag.AllowedSender);
         AssemblyNames.Add(assembly, assembly.GetName().Name);
+
+        Localizer.Load(assembly, rootAssembly);
 
         var methods = assembly.GetTypes()
             .SelectMany(t => t.GetMethods(BindingFlags.Static | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
@@ -91,7 +94,9 @@ public static class VentFramework
 
     public static void Initialize(bool requirePatch = false)
     {
-        IL2CPPChainloader.Instance.PluginLoad += (_, assembly, _) => Register(assembly);
+
+        Localizer.Initialize();
+        IL2CPPChainloader.Instance.PluginLoad += (_, assembly, _) => Register(assembly, true);
         Harmony = new Harmony("me.tealeaf.VentFramework");
         if (requirePatch) Harmony.PatchAll(Assembly.GetExecutingAssembly());
     }

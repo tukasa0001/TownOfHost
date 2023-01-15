@@ -1,5 +1,7 @@
+using System;
 using System.Linq;
 using TownOfHost.Extensions;
+using TownOfHost.Factions;
 using TownOfHost.Roles;
 using VentLib.Logging;
 
@@ -28,6 +30,9 @@ public static class AntiBlackoutLogic
         foreach (PlayerControl player in Game.GetAllPlayers())
         {
             int localImpostors = aliveImpostors;
+            /*CustomRole playerRole = player.GetCustomRole();
+            if (playerRole.IsDesyncRole() && playerRole.RealRole.IsImpostor())
+                localImpostors = Math.Max(localImpostors, playerRole.Factions.GetAllies().Count);*/
             ReviveEveryone();
             VentLogger.Trace($"Patching for {player.GetRawName()}");
             foreach (var info in allPlayers.Where(p => AntiBlackout.FakeExiled != p))

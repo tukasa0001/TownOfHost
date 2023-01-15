@@ -1,6 +1,5 @@
 using HarmonyLib;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
 
 namespace TownOfHost.Patches.Systems;
 //参考

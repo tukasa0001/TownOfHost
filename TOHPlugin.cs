@@ -89,7 +89,6 @@ public class TOHPlugin : BasePlugin
     public static ConfigEntry<string> WebhookURL { get; private set; }
     public static ConfigEntry<string> BetaBuildURL { get; private set; }
     public static ConfigEntry<float> LastKillCooldown { get; private set; }
-    public static OptionBackupData RealOptionsData;
     public static Dictionary<byte, PlayerStateOLD> PlayerStates = new();
     public static Dictionary<byte, string> AllPlayerNames;
     public static Dictionary<byte, Color32> PlayerColors = new();
@@ -103,7 +102,7 @@ public class TOHPlugin : BasePlugin
     [Obsolete]
     public static bool HasNecronomicon { get; set; }
 
-    //public static Dictionary<byte, Vector2> LastEnteredVentLocation { get; set; }
+    public static bool Initialized;
 
     public static float RefixCooldownDelay = 0f;
     public static List<byte> ResetCamPlayerList;
@@ -135,13 +134,6 @@ public class TOHPlugin : BasePlugin
         DebugKeyInput = Config.Bind("Authentication", "Debug Key", "");
 
         Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
-        global::TownOfHost.Logger.Enable();
-        global::TownOfHost.Logger.Disable("NotifyRoles");
-        global::TownOfHost.Logger.Disable("SendRPC");
-        global::TownOfHost.Logger.Disable("ReceiveRPC");
-        global::TownOfHost.Logger.Disable("SwitchSystem");
-        global::TownOfHost.Logger.Disable("CustomRpcSender");
-        global::TownOfHost.Logger.Disable("SendChat");
 
         OptionManager = new OptionManager();
         GamemodeManager = new GamemodeManager();
@@ -251,6 +243,7 @@ public class TOHPlugin : BasePlugin
         GamemodeManager.Setup();
         StaticOptions.AddStaticOptions();
         OptionManager.AllHolders.AddRange(OptionManager.Options().SelectMany(opt => opt.GetHoldersRecursive()));
+        Initialized = true;
     }
 }
 public enum CustomRoles

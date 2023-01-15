@@ -1,6 +1,5 @@
 using TownOfHost.Extensions;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
 using UnityEngine;
 
 namespace TownOfHost.Roles;

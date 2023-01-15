@@ -22,7 +22,6 @@ using Hazel;
 using TownOfHost.GUI;
 using TownOfHost.Managers;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
 using VentLib.Logging;
 
 namespace TownOfHost
@@ -130,13 +129,6 @@ namespace TownOfHost
                 /*if (Constants.ShouldPlaySfx()) OldRPC.PlaySound(player.PlayerId, Sounds.KillSound);*/
             }
             else if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
-
-            PlayerControlExtensions.MarkDirtySettings(player);
-            new DTask(() =>
-            {
-                TOHPlugin.PlayerStates[player.PlayerId].IsBlackOut = false; //ブラックアウト解除
-                PlayerControlExtensions.MarkDirtySettings(player);
-            }, StaticOptions.KillFlashDuration, "RemoveKillFlash");
         }
 
         public static string GetDisplayRoleName(byte playerId)
@@ -568,9 +560,9 @@ namespace TownOfHost
             TOHPlugin.MessagesToSend.Add((text.RemoveHtmlTags(), sendTo, title));
         }
 
-        public static PlayerControl GetPlayerById(int PlayerId)
+        public static PlayerControl? GetPlayerById(int playerId)
         {
-            return Game.GetAllPlayers().FirstOrDefault(pc => pc.PlayerId == PlayerId);
+            return Game.GetAllPlayers().FirstOrDefault(pc => pc.PlayerId == playerId);
         }
 
         public static PlayerControl GetPlayerByClientId(int clientId)
@@ -673,7 +665,6 @@ namespace TownOfHost
             try
             {
                 var stream = Assembly.GetCallingAssembly().GetManifestResourceStream(path);
-                Assembly.GetExecutingAssembly().GetName().DebugLog("Exe Assembly Name: ");
                 var texture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
                 using MemoryStream ms = new();
                 stream.CopyTo(ms);

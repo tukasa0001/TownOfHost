@@ -1,6 +1,7 @@
+using AmongUs.GameOptions;
 using TownOfHost.Extensions;
+using TownOfHost.Factions;
 using TownOfHost.Managers;
-using TownOfHost.ReduxOptions;
 using TownOfHost.Options;
 using UnityEngine;
 using VentLib.Logging;
@@ -40,5 +41,5 @@ public class Amnesiac : CustomRole
                 .AddOnOffValues(false).Build());
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>
-        roleModifier.RoleColor(new Color(0.51f, 0.87f, 0.99f));
+        roleModifier.RoleColor(new Color(0.51f, 0.87f, 0.99f)).DesyncRole(RoleTypes.Impostor).Factions(Faction.Solo);
 }

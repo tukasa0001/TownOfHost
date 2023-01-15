@@ -1,6 +1,5 @@
 using AmongUs.GameOptions;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
 using VentLib.Logging;
 
 namespace TownOfHost.Roles;

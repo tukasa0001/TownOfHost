@@ -3,8 +3,8 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
 using UnityEngine;
+using VentLib.Logging;
 
 namespace TownOfHost.Roles;
 
@@ -42,7 +42,7 @@ public class TimeThief : Impostor
                 discussionTime = 1;
             }
 
-            Logger.Msg($"{MyPlayer.GetDynamicName().RawName} | Time Thief | Meeting Time: {discussionTime} | Voting Time: {votingTime}", "TimeThiefStolen");
+            VentLogger.Info($"{MyPlayer.GetDynamicName().RawName} | Time Thief | Meeting Time: {discussionTime} | Voting Time: {votingTime}", "TimeThiefStolen");
             votingTime = Mathf.Clamp(votingTime - remainingStolenTime, minimumVotingTime, votingTime);
             overrides = new GameOptionOverride[] { new(Override.DiscussionTime, discussionTime), new(Override.VotingTime, votingTime) };
         }

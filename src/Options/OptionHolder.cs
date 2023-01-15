@@ -5,20 +5,22 @@ using HarmonyLib;
 using Hazel;
 using Reactor.Utilities.Extensions;
 using TownOfHost.Extensions;
-using TownOfHost.ReduxOptions;
+using TownOfHost.Options.Generators;
 using UnityEngine;
 using VentLib.Extensions;
 using VentLib.Interfaces;
+using VentLib.Localization;
 using Object = UnityEngine.Object;
+// ReSharper disable ParameterHidesMember
 
 namespace TownOfHost.Options;
 
 public class OptionHolder: IRpcSendable<OptionHolder>
 {
-    public string Name;
-    public StringOption Behaviour;
-    public Color? color;
-    public GameOptionTab Tab { get => tab;
+    public string Name = null!;
+    public StringOption? Behaviour;
+    public Color? Color;
+    public GameOptionTab? Tab { get => tab;
         set {
             tab = value;
             value?.AddHolder(this);
@@ -27,27 +29,27 @@ public class OptionHolder: IRpcSendable<OptionHolder>
 
     public bool IsHeader;
 
-    public OptionValueHolder valueHolder { get => _valueHolder; init => _valueHolder = value; }
+    public OptionValueHolder? valueHolder { get => _valueHolder; init => _valueHolder = value; }
     public List<OptionHolder> SubOptions { get => _subOptions; init => _subOptions = value; }
-    public Func<object, bool> ShowOptionPredicate { private get => _showOptionPredicate; init => _showOptionPredicate = value; }
+    public Func<object, bool>? ShowOptionPredicate { private get => _showOptionPredicate; init => _showOptionPredicate = value; }
     public int Level;
     public bool Pseudo { get; private init; }
 
-    private GameOptionTab tab;
-    private readonly OptionValueHolder _valueHolder;
+    private GameOptionTab? tab;
+    private readonly OptionValueHolder? _valueHolder;
     private readonly List<OptionHolder> _subOptions = new();
-    private readonly Func<object, bool> _showOptionPredicate;
-    private string pseudoValue;
+    private readonly Func<object, bool>? _showOptionPredicate;
+    private string? pseudoValue;
     private bool pseudoPredicate;
 
-    public string GetAsString(int index = -1) => !Pseudo ? this.valueHolder == null ? "N/A" : this.valueHolder.GetAsString(index) : pseudoValue;
-    public object GetValue(int index = -1) => this.valueHolder.GetValue(index);
-    public T GetValue<T>(int index = -1) => this.valueHolder.GetValue<T>(index);
+    public string GetAsString(int index = -1) => (!Pseudo ? this.valueHolder == null ? "N/A" : this.valueHolder.GetAsString(index) : pseudoValue)!;
+    public object? GetValue(int index = -1) => this.valueHolder!.GetValue(index);
+    public T? GetValue<T>(int index = -1) => this.valueHolder!.GetValue<T>(index);
 
-    public object Increment() => this.valueHolder.Increment();
-    public object Decrement() => this.valueHolder.Decrement();
+    public object? Increment() => this.valueHolder!.Increment();
+    public object? Decrement() => this.valueHolder!.Decrement();
 
-    public string ColorName => color == null ? Name : color.Value.Colorize(Name);
+    public string ColorName => Color == null ? Name : Color.Value.Colorize(Name);
 
     public List<OptionHolder> GetHoldersRecursive() {
         List<OptionHolder> holders = new();
@@ -68,7 +70,7 @@ public class OptionHolder: IRpcSendable<OptionHolder>
         this.Behaviour.name = ColorName;
         this.Behaviour.gameObject.SetActive(true);
         this.Behaviour.TitleText.text = ColorName;
-        this.Behaviour.ValueText.text = valueHolder.GetAsString();
+        this.Behaviour.ValueText.text = valueHolder!.GetAsString();
         this.Behaviour.Value = 0;
         this.Behaviour.transform.FindChild("Background").localScale = new Vector3(1.2f, 1f, 1f);
         this.Behaviour.transform.FindChild("Plus_TMP").localPosition += new Vector3(0.3f, 0f, 0f);
@@ -88,7 +90,7 @@ public class OptionHolder: IRpcSendable<OptionHolder>
     {
         List<OptionHolder> holders = new();
         holders.Add(this);
-        Behaviour.gameObject.SetActive(false);
+        Behaviour!.gameObject.SetActive(false);
         if (!forceShow && ShowOptionPredicate != null && !ShowOptionPredicate.Invoke(GetValue()))
         {
             GetHoldersRecursive().Do(holder => holder?.Behaviour?.gameObject?.SetActive(false));
@@ -109,7 +111,7 @@ public class OptionHolder: IRpcSendable<OptionHolder>
             Name = reader.ReadString(),
             pseudoValue = reader.ReadString(),
             IsHeader = reader.ReadBoolean(),
-            color = reader.ReadString().ToColor(),
+            Color = reader.ReadString().ToColor(),
             Level = reader.ReadInt32(),
             pseudoPredicate = reader.ReadBoolean()
         };
@@ -122,7 +124,7 @@ public class OptionHolder: IRpcSendable<OptionHolder>
         writer.Write(Name);
         writer.Write(GetAsString());
         writer.Write(IsHeader);
-        writer.Write((color ?? Color.white).ToHex() );
+        writer.Write((Color ?? UnityEngine.Color.white).ToHex() );
         writer.Write(Level);
         writer.Write(MatchesPredicate());
         writer.WriteList(_subOptions);
@@ -131,10 +133,9 @@ public class OptionHolder: IRpcSendable<OptionHolder>
  public class SmartOptionBuilder
     {
         private string name;
-        private string header;
+        private string? header;
         private GameOptionTab tab;
-        private object key;
-        private Action<object> lateBinding;
+        private Action<object>? lateBinding;
         private bool isHeader;
         private int defaultIndex = -1;
         private int level;
@@ -180,7 +181,7 @@ public class OptionHolder: IRpcSendable<OptionHolder>
             return this;
         }
 
-        public SmartOptionBuilder AddValue(object value, string prefix = "", string suffix = "", Color? color = null)
+        public SmartOptionBuilder AddValue(object? value, string prefix = "", string suffix = "", Color? color = null)
         {
             this.values.Add(v => new OptionValue(value, cfgHeader: v[0], cfgEntry: v[1], null, prefix, suffix, color));
             return this;
@@ -252,12 +253,6 @@ public class OptionHolder: IRpcSendable<OptionHolder>
                         .Build());
         }
 
-        public SmartOptionBuilder Bind(object key)
-        {
-            this.key = key;
-            return this;
-        }
-
         public SmartOptionBuilder Bind(Action<object> lateBinding)
         {
             this.lateBinding = lateBinding;
@@ -285,22 +280,19 @@ public class OptionHolder: IRpcSendable<OptionHolder>
         public OptionHolder Build(bool createHeaderIfNull = true)
         {
             this.header ??= (!createHeaderIfNull ? this.header : (this.name + "Options"));
-            OptionValueHolder valueHolder = new(this.values.Select(value => value.Invoke(new[] { this.header, this.name })).ToList(), defaultIndex);
-            if (this.key != null)
-                TOHPlugin.OptionManager.BindValueHolder(this.key, valueHolder);
+            OptionValueHolder valueHolder = new(this.values.Select(value => value.Invoke(new[] { this.header!, this.name })).ToList(), defaultIndex);
             if (this.lateBinding != null)
                 valueHolder.LateBinding = this.lateBinding;
             return new OptionHolder
             {
                 Name = this.name,
                 Tab = this.tab,
-                color =  this.color,
+                Color =  this.color,
                 IsHeader = this.isHeader,
                 valueHolder = valueHolder,
                 Level = level,
                 ShowOptionPredicate = this.showOptionsPredicate,
-                SubOptions = this.SubOptions.SelectMany(opt => opt.Invoke(this.header)).ToList(),
-                //Page = this.page
+                SubOptions = this.SubOptions.SelectMany(opt => opt.Invoke(this.header!)).ToList(),
             };
         }
 

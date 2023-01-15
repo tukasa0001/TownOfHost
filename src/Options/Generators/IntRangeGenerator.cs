@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using TownOfHost.Extensions;
 
-namespace TownOfHost.ReduxOptions;
+namespace TownOfHost.Options.Generators;
 
 public class IntRangeGenerator: IRangeGenerator
 {
@@ -17,9 +16,9 @@ public class IntRangeGenerator: IRangeGenerator
         this.step = step;
     }
 
-    public IEnumerable<object> GetRange()
+    public IEnumerable<object?> GetRange()
     {
-        List<object> values = new();
+        List<object?> values = new();
         for (int i = start; i <= end; i += step) values.Add(Convert.ToInt32(Math.Round(Convert.ToDecimal(i), 2)));
         return values;
     }

@@ -1,6 +1,5 @@
 using System.Linq;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
 
 namespace TownOfHost.Extensions;

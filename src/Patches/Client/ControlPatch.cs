@@ -95,7 +95,7 @@ namespace TownOfHost
             {
                 VentLogger.Old("Reload Custom Translation File", "KeyCommand");
                 Translator.LoadLangs();
-                Logger.SendInGame("Reloaded Custom Translation File");
+                VentLogger.SendInGame("Reloaded Custom Translation File");
             }
             //ログファイルのダンプ
             if (GetKeysDown(KeyCode.F1, KeyCode.LeftControl))
@@ -180,12 +180,6 @@ namespace TownOfHost
             if (GetKeysDown(KeyCode.Return, KeyCode.E, KeyCode.LeftShift) && GameStates.IsInGame)
             {
                 PlayerControl.LocalPlayer.RpcExile();
-            }
-            //ログをゲーム内にも出力するかトグル
-            if (GetKeysDown(KeyCode.F2, KeyCode.LeftControl))
-            {
-                Logger.isAlsoInGame = !Logger.isAlsoInGame;
-                Logger.SendInGame($"ログのゲーム内出力: {Logger.isAlsoInGame}");
             }
 
             //--以下フリープレイ用コマンド--//

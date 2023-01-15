@@ -6,7 +6,6 @@ using System;
 using InnerNet;
 using TownOfHost.Extensions;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
 using TownOfHost.Roles;
 using TownOfHost.RPC;
 using VentLib.Logging;

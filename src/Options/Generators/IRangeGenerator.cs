@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace TownOfHost.ReduxOptions;
+namespace TownOfHost.Options.Generators;
 
 public interface IRangeGenerator
 {
-    IEnumerable<object> GetRange();
+    IEnumerable<object?> GetRange();
 }

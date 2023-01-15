@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using HarmonyLib;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
 using TownOfHost.RPC;
 using UnityEngine;
 

@@ -7,7 +7,6 @@ using Hazel;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
-using TownOfHost.ReduxOptions;
 using TownOfHost.Victory.Conditions;
 using UnityEngine;
 using UnityEngine.Tilemaps;
