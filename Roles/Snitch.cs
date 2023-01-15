@@ -53,7 +53,7 @@ namespace TownOfHost
                 {
                     if (IsSnitchTarget(target))
                     {
-                        TargetArrow.Add(target.PlayerId, snitch.PlayerId, false);
+                        TargetArrow.Add(target.PlayerId, snitch.PlayerId, ArrowType.SnitchWarning, false);
                     }
                 }
             }
@@ -61,7 +61,7 @@ namespace TownOfHost
             foreach (var target in Main.AllAlivePlayerControls)
             {
                 if (!IsSnitchTarget(target)) continue;
-                TargetArrow.Add(snitch.PlayerId, target.PlayerId, CanGetColoredArrow);
+                TargetArrow.Add(snitch.PlayerId, target.PlayerId, ArrowType.Target, CanGetColoredArrow);
                 NameColorManager.Instance.RpcAdd(snitch.PlayerId, target.PlayerId, target.GetRoleColorCode());
             }
         }
@@ -85,7 +85,7 @@ namespace TownOfHost
         {
             if (target != null && seer.PlayerId != target.PlayerId) return "";
             if (!IsSnitchTarget(seer)) return "";
-            string arrows = TargetArrow.GetArrows(seer);
+            string arrows = TargetArrow.GetArrows(seer, ArrowType.SnitchWarning);
             if (arrows.Length == 0)
             {
                 return "";

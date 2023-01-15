@@ -73,7 +73,7 @@ namespace TownOfHost
             if (target != null)
             {
                 Targets[bountyId] = target;
-                if (ShowTargetArrow) TargetArrow.Add(bountyId, targetId, false);
+                if (ShowTargetArrow) TargetArrow.Add(bountyId, targetId);
 
             }
         }
@@ -164,7 +164,7 @@ namespace TownOfHost
             }
             var target = cTargets[rand.Next(0, cTargets.Count)];
             Targets[player.PlayerId] = target;
-            if (ShowTargetArrow) TargetArrow.Add(player.PlayerId, target.PlayerId, false);
+            if (ShowTargetArrow) TargetArrow.Add(player.PlayerId, target.PlayerId);
             Logger.Info($"{player.GetNameWithRole()}のターゲットを{target.GetNameWithRole()}に変更", "BountyHunter");
 
             //RPCによる同期
