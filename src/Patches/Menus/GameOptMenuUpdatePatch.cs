@@ -4,7 +4,6 @@ using System.Linq;
 using HarmonyLib;
 using TownOfHost.Options;
 using UnityEngine;
-using VentLib.Logging;
 
 namespace TownOfHost.Patches.Menus;
 

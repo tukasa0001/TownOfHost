@@ -4,15 +4,13 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using MonoMod.RuntimeDetour;
-using TownOfHost.Extensions;
-using VentLib.Logging;
 using static VentLib.Localization.LocalizedAttribute;
 
 namespace VentLib.Localization;
 
 public class ReflectionLoader
 {
-    internal static Dictionary<Type, LocalizedAttribute?> BoundGroups = new();
+    private static Dictionary<string, string> lookupCache = new ();
 
 
     public static void RegisterClass(Type cls, string? parentGroup = null, string? group = null)
@@ -79,12 +77,6 @@ public class ReflectionLoader
     {
         // DO NOT REMOVE BELOW. THIS IS REQUIRED TO POSSIBLY INVOKE ANY REQS
         getter(self);
-        string path = target.GetPath();
-        //VentLogger.Fatal(path);
-
-        string value = Localizer.Get(target.GetPath(), assemblyName);
-        //VentLogger.Debug(value);
-
-        return value ?? getter(self);
+        return Localizer.Get(target.GetPath(), assemblyName);
     }
 }

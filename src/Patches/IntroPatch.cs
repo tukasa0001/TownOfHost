@@ -28,7 +28,7 @@ namespace TownOfHost
                     __instance.RoleText.color = Utils.GetRoleColor(role);
                     __instance.RoleBlurbText.color = Utils.GetRoleColor(role);
 
-                    __instance.RoleBlurbText.text = PlayerControl.LocalPlayer.GetRoleInfo();
+                    __instance.RoleBlurbText.text = PlayerControl.LocalPlayer.GetCustomRole().Description;
                 }
 
                 __instance.RoleText.text += Utils.GetSubRolesText(PlayerControl.LocalPlayer.PlayerId);

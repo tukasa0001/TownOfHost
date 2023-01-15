@@ -43,7 +43,7 @@ public class DTask
         this.repeat = repeat;
         Tasks.Add(this);
         if (name != null)
-            VentLogger.Old("\"" + name + "\" is created", "LateTask");
+            VentLogger.Trace("\"" + name + "\" is created", "LateTask");
     }
 
     public static void Update(float deltaTime)
@@ -54,7 +54,7 @@ public class DTask
             DTask dTask = Tasks[i];
             if (!dTask.Execute(deltaTime)) i++;
             else {
-                if (DebugScheduler) VentLogger.Old($"\"{dTask.name ?? "No Name Task"}\" is finished", "LateTask");
+                if (DebugScheduler) VentLogger.Trace($"\"{dTask.name ?? "No Name Task"}\" is finished", "LateTask");
                 if (dTask.repeat) dTask.instanceDelay = dTask.delay;
                 else Tasks.Pop(i);
             }

@@ -3,7 +3,6 @@
     <IncludeAssemblies>
       Csv
       YamlDotNet
-      Castle.Core
     </IncludeAssemblies>
   </Costura>
 </Weavers>

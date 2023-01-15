@@ -8,7 +8,7 @@ public static class CollectionExtensions
     {
         return "[" + string.Join(", ", list) + "]";
     }
-    
+
     public static bool TryGet<TKey, TValue>(this Il2CppSystem.Collections.Generic.Dictionary<TKey, TValue> dictionary, TKey key, out TValue? v)
     {
         v = default;
@@ -16,5 +16,5 @@ public static class CollectionExtensions
         v = dictionary[key];
         return true;
     }
-    
+
 }

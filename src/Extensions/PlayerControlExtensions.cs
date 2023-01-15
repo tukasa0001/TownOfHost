@@ -445,44 +445,7 @@ public static class PlayerControlExtensions
             || (seer.Is(Roles.RoleType.Madmate) && StaticOptions.MadmateCanSeeDeathReason)
             || (seer.Data.IsDead && StaticOptions.GhostCanSeeDeathReason))
            && target.Data.IsDead;
-    public static string GetRoleInfo(this PlayerControl player, bool InfoLong = false)
-    {
-        var role = player.GetCustomRole();
-        if (role.IsVanilla())
-        {
-            var blurb = role switch
-            {
-                Morphling => InfoLong ? StringNames.ShapeshifterBlurbLong : StringNames.ShapeshifterBlurb,
-                Impostor => StringNames.ImpostorBlurb,
-                Scientist => InfoLong ? StringNames.ScientistBlurbLong : StringNames.ScientistBlurb,
-                Engineer => InfoLong ? StringNames.EngineerBlurbLong : StringNames.EngineerBlurb,
-                GuardianAngel => InfoLong ? StringNames.GuardianAngelBlurbLong : StringNames.GuardianAngelBlurb,
-                _ => StringNames.CrewmateBlurb,
-            };
-            return (InfoLong ? "\n" : "") + DestroyableSingleton<TranslationController>.Instance.GetString(blurb);
-        }
 
-        var text = role.ToString();
-
-        var Prefix = "";
-        if (!InfoLong)
-            switch (role)
-            {
-                case Mafia:
-                    Prefix = Utils.CanMafiaKill() ? "After" : "Before";
-                    break;
-                //    case EvilWatcher:
-                //    case NiceWatcher:
-                //      text = Watcher.ToString();
-                //         break;
-                case MadSnitch:
-                case MadGuardian:
-                    text = role.RoleName;
-                    Prefix = player.GetPlayerTaskState().IsTaskFinished ? "" : "Before";
-                    break;
-            };
-        return GetString($"{Prefix}{text}Info" + (InfoLong ? "Long" : ""));
-    }
 
     //汎用
     public static bool Is(this PlayerControl target, CustomRole role) =>

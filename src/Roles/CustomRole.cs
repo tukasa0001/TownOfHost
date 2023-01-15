@@ -25,7 +25,7 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
         AbstractConstructors.Register(typeof(CustomRole), r => CustomRoleManager.GetRoleFromId(r.ReadInt32()));
     }
 
-    public virtual bool CanVent() => baseCanVent || StaticOptions.AllRolesCanVent;
+    public virtual bool CanVent() => BaseCanVent || StaticOptions.AllRolesCanVent;
     public virtual bool CanBeKilled() => true;
     public virtual bool CanBeKilledBySheriff() => this.VirtualRole is RoleTypes.Impostor or RoleTypes.Shapeshifter;
     public virtual bool HasTasks() => this is Crewmate;
@@ -166,7 +166,7 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream)
     {
-        optionStream.Name(RoleName).IsHeader(true);
+        optionStream.Display(EnglishRoleName, () => RoleName).IsHeader(true);
         return optionStream;
     }
 

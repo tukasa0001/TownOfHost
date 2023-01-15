@@ -46,6 +46,7 @@ public class Jester : CustomRole
         return roleModifier
             .VanillaRole(canUseVents ? RoleTypes.Engineer : RoleTypes.Crewmate)
             .SpecialType(SpecialType.Neutral)
+            .CanVent(canUseVents)
             .RoleColor(new Color(0.93f, 0.38f, 0.65f))
             .OptionOverride(Override.CrewLightMod,
                 () => GameOptionsManager.Instance.CurrentGameOptions.AsNormalOptions()!.ImpostorLightMod,

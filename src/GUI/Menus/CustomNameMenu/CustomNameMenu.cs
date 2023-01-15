@@ -3,6 +3,7 @@ using System.Linq;
 using HarmonyLib;
 using UnityEngine;
 using VentLib.Logging;
+using Object = UnityEngine.Object;
 
 namespace TownOfHost.GUI.Menus.CustomNameMenu;
 
@@ -30,20 +31,24 @@ public class CustomNameMenu
     {
         public static void Postfix()
         {
-            if (NamePositionMenu != null) Template.Refresh();
+            var template = Object.Instantiate(Object.FindObjectsOfType<StringOption>().FirstOrDefault());
+            if (template == null) return;
+
+            var gameSettings = GameObject.Find("Game Settings");
+            if (gameSettings == null) return;
+
+
             Name = new DynamicName();
             Name.Deserialize();
-            GameObject gameSettings = GameObject.Find("Game Settings");
-            if (gameSettings == null) return;
             gsm = gameSettings.transform
                 .FindChild("GameGroup")
                 .FindChild("SliderInner")
                 .GetComponent<GameOptionsMenu>();
-            gsm.GetComponentInParent<Scroller>().ContentYBounds.max = 5.7f;
+            gsm.GetComponentInParent<Scroller>().ContentYBounds.max = 6.2f;
 
 
             CustomTextButton openMenuButton = CustomTextButton.Create(gsm.transform);
-            openMenuButton.Transform.localPosition = Template.GetStringOption().transform.localPosition + new Vector3(0, -2f);
+            openMenuButton.Transform.localPosition = template.transform.localPosition + new Vector3(0, -2.5f);
 
             openMenuButton.SetHoverBackgroundColor(Color.blue);
             openMenuButton.SetHoverTextColor(Color.yellow);

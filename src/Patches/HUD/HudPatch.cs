@@ -250,13 +250,15 @@ namespace TownOfHost
         public static void Postfix(TaskPanelBehaviour __instance)
         {
             PlayerControl player = PlayerControl.LocalPlayer;
+            CustomRole role = player.GetCustomRole();
 
             // 役職説明表示
             if (!player.GetCustomRole().IsVanilla())
             {
-                string roleWithInfo = $"{player.GetDisplayRoleName()}:\r\n";
-                roleWithInfo += player.GetRoleInfo();
-                __instance.taskText.text = player.GetRoleColor().Colorize(roleWithInfo) + "\n" + __instance.taskText.text;
+                __instance.taskText.text = __instance.taskText.text.Replace("Sabotage and kill everyone.\r\nFake Tasks:", "");
+                string roleWithInfo = $"{role.RoleName}:\r\n";
+                roleWithInfo += role.Description;
+                __instance.taskText.text = role.RoleColor.Colorize(roleWithInfo) + "\n" + __instance.taskText.text;
             }
 
             // RepairSenderの表示

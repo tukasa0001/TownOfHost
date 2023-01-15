@@ -21,6 +21,7 @@ public static class EnumerableExtensions
         return value;
     }
 
+    [Obsolete("Use VentLib.StrJoin")]
     public static String PrettyString<T>(this IEnumerable<T> list)
     {
         return "[" + String.Join(", ", list) + "]";

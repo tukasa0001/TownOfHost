@@ -17,7 +17,9 @@ namespace TownOfHost.Options;
 
 public class OptionHolder: IRpcSendable<OptionHolder>
 {
+    public string Display => display?.Invoke() ?? Name;
     public string Name = null!;
+    internal Func<string>? display;
     public StringOption? Behaviour;
     public Color? Color;
     public GameOptionTab? Tab { get => tab;
@@ -49,7 +51,7 @@ public class OptionHolder: IRpcSendable<OptionHolder>
     public object? Increment() => this.valueHolder!.Increment();
     public object? Decrement() => this.valueHolder!.Decrement();
 
-    public string ColorName => Color == null ? Name : Color.Value.Colorize(Name);
+    public string ColorName => Color == null ? Display : Color.Value.Colorize(Display);
 
     public List<OptionHolder> GetHoldersRecursive() {
         List<OptionHolder> holders = new();
@@ -133,6 +135,7 @@ public class OptionHolder: IRpcSendable<OptionHolder>
  public class SmartOptionBuilder
     {
         private string name;
+        private Func<string>? display;
         private string? header;
         private GameOptionTab tab;
         private Action<object>? lateBinding;
@@ -154,6 +157,13 @@ public class OptionHolder: IRpcSendable<OptionHolder>
         public SmartOptionBuilder Name(string name)
         {
             this.name = name;
+            return this;
+        }
+
+        public SmartOptionBuilder Display(string optionEntry, Func<string> display)
+        {
+            this.name = optionEntry;
+            this.display = display;
             return this;
         }
 
@@ -286,6 +296,7 @@ public class OptionHolder: IRpcSendable<OptionHolder>
             return new OptionHolder
             {
                 Name = this.name,
+                display = this.display,
                 Tab = this.tab,
                 Color =  this.color,
                 IsHeader = this.isHeader,

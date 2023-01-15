@@ -25,19 +25,15 @@ public abstract class AbstractBaseRole
     public static T Ref<T>() where T : CustomRole
     {
         int roleId = CustomRoleManager.GetRoleId(typeof(T));
-        if (roleId == -1)
-        {
-            if (ROLE_DEBUG)
-                VentLogger.Warn($"Illegally Constructing Role for {typeof(T)}", "RoleWarning");
-                return (T)typeof(T).GetConstructor(Array.Empty<Type>()).Invoke(null);
-            throw new NullReferenceException($"Pseudo-static reference for {typeof(T)} not set in RoleManager");
-        }
+        if (roleId != -1) return (T)CustomRoleManager.GetRoleFromId(roleId);
+        if (ROLE_DEBUG)
+            VentLogger.Warn($"Illegally Constructing Role for {typeof(T)}", "RoleWarning");
+        return (T)typeof(T).GetConstructor(Array.Empty<Type>()).Invoke(null);
 
-        return (T) CustomRoleManager.GetRoleFromId(roleId);
     }
 
-    [Localized("RoleName")]
-    public string RoleName => EnglishRoleName;
+    public string Description => Localizer.Get($"Roles.{EnglishRoleName}.Description");
+    public string RoleName => Localizer.Get($"Roles.{EnglishRoleName}.RoleName");
 
     public RoleTypes? DesyncRole;
     public RoleTypes VirtualRole;
@@ -48,9 +44,8 @@ public abstract class AbstractBaseRole
     public bool IsSubrole;
     public int Chance;
     public int Count;
-    protected bool baseCanVent;
+    protected bool BaseCanVent;
 
-    [SubgroupProvider]
     protected string EnglishRoleName { get; set; }
     protected Dictionary<Type, List<MethodInfo>> roleInteractions = new();
     protected Dictionary<Faction, List<MethodInfo>> factionInteractions = new();
@@ -59,9 +54,7 @@ public abstract class AbstractBaseRole
 
     private static SmartOptionBuilder RoleOptionsBuilder => roleOptionsBuilder.Clone();
     private static SmartOptionBuilder roleOptionsBuilder = new SmartOptionBuilder()
-        //.Page(OptionManager.CrewmatePage)
-        .AddValue(0, suffix: "%").AddValue(10, suffix: "%").AddValue(20, suffix: "%").AddValue(30, suffix: "%").AddValue(40, suffix: "%")
-        .AddValue(50, suffix: "%").AddValue(60, suffix: "%").AddValue(70, suffix: "%").AddValue(80, suffix: "%").AddValue(90, suffix: "%").AddValue(100, suffix: "%")
+        .AddIntRangeValues(0, 100, 10, 0, "%")
         .ShowSubOptionsWhen(value => ((int)value) > 0);
 
     protected AbstractBaseRole()
@@ -122,7 +115,7 @@ public abstract class AbstractBaseRole
                     return;
                 }
 
-                $"{this.GetType()} || {attribute.ActionType} => {method.Name}".DebugLog();
+                VentLogger.Trace($"Registering Action {this.GetType()} || {attribute.ActionType} => {method.Name}");
                 if (attribute.ActionType is RoleActionType.FixedUpdate &&
                     this.RoleActions[RoleActionType.FixedUpdate].Count > 0)
                     throw new ConstraintException("RoleActionType.FixedUpdate is limited to one per class. If you're inheriting a class that uses FixedUpdate you can add Override=METHOD_NAME to your annotation to override its Update method.");
@@ -295,7 +288,7 @@ public abstract class AbstractBaseRole
 
         public RoleModifier CanVent(bool canVent)
         {
-            myRole.baseCanVent = canVent;
+            myRole.BaseCanVent = canVent;
             return this;
         }
 

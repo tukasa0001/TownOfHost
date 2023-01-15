@@ -35,7 +35,6 @@ public class ReflectionObject
         }
 
     }
-
 }
 
 public enum ReflectionType

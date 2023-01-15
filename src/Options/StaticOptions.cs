@@ -284,24 +284,24 @@ public static class StaticOptions
         );
 
         manager.Add(new SmartOptionBuilder()
-            .Name("Lights Out Special Settings")
+            .Name(Localizer.Get("StaticOptions.LightsPanelSettings.Enable"))
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .ShowSubOptionsWhen(v => (bool)v)
             .BindBool(v => LightsOutSpecialSettings = v)
             .AddOnOffValues(false)
             .AddSubOption(sub => sub
-                .Name("Disable Airship Viewing Deck Lights Panel")
+                .Name(Localizer.Get("StaticOptions.LightsPanelSettings.AirshipViewingDeck"))
                 .BindBool(v => DisableAirshipViewingDeckLightsPanel = v)
                 .AddOnOffValues(false)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("Disable Airship Gap Room Lights Panel")
+                .Name(Localizer.Get("StaticOptions.LightsPanelSettings.AirshipGapRoom"))
                 .BindBool(v => DisableAirshipGapRoomLightsPanel = v)
                 .AddOnOffValues(false)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("Disable Airship Cargo Lights Panel")
+                .Name(Localizer.Get("StaticOptions.LightsPanelSettings.AirshipCargoRoom"))
                 .BindBool(v => DisableAirshipCargoLightsPanel = v)
                 .AddOnOffValues(false)
                 .Build())
@@ -309,7 +309,7 @@ public static class StaticOptions
         );
 
         manager.Add(new SmartOptionBuilder()
-           .Name("Players have access to /name, /color, and /level")
+           .Name(Localizer.Get("StaticOptions.PlayerAppearanceCommands"))
            .Tab(DefaultTabs.GeneralTab)
            .IsHeader(true)
            .BindBool(v => Customise = v)
@@ -318,47 +318,39 @@ public static class StaticOptions
        );
 
         manager.Add(new SmartOptionBuilder()
-            .Name("Roles look like ToUR")
-            .Tab(DefaultTabs.GeneralTab)
-        //    .IsHeader(true)
-            .BindBool(v => RolesLikeTOU = v)
-            .AddOnOffValues(false)
-            .Build()
-        );
-        manager.Add(new SmartOptionBuilder()
-            .Name("Disable Tasks")
+            .Name(Localizer.Get("StaticOptions.DisableTasks.Enable"))
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v => DisableTasks = v)
             .ShowSubOptionsWhen(v => (bool)v)
             .AddOnOffValues(false)
             .AddSubOption(sub => sub
-                .Name("Disable Swipe Card Task")
+                .Name(Localizer.Get("StaticOptions.DisableTasks.CardSwipe"))
                 .BindBool(v => DisableSwipeCard = v)
                 .AddOnOffValues(false)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("Disable Submit Sacan")
+                .Name(Localizer.Get("StaticOptions.DisableTasks.CardScan"))
                 .BindBool(v => DisableSubmitScan = v)
                 .AddOnOffValues(false)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("Disable Unlock Safe")
+                .Name(Localizer.Get("StaticOptions.DisableTasks.UnlockSafe"))
                 .BindBool(v => DisableUnlockSafe = v)
                 .AddOnOffValues(false)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("Disable Upload Data")
+                .Name(Localizer.Get("StaticOptions.DisableTasks.UploadData"))
                 .BindBool(v => DisableUploadData = v)
                 .AddOnOffValues(false)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("Disable Start Reactor")
+                .Name(Localizer.Get("StaticOptions.DisableTasks.StartReactor"))
                 .BindBool(v => DisableStartReactor = v)
                 .AddOnOffValues(false)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("Disable Reset Breaker")
+                .Name(Localizer.Get("StaticOptions.DisableTasks.ResetBreaker"))
                 .BindBool(v => DisableResetBreaker = v)
                 .AddOnOffValues(false)
                 .Build())
@@ -368,29 +360,29 @@ public static class StaticOptions
         // TODO: DISABLE DEVICES CODE
 
         manager.Add(new SmartOptionBuilder()
-            .Name("Random Maps Mode")
+            .Name(Localizer.Get("StaticOptions.RandomMap.Enable"))
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v => DisableTasks = v)
             .ShowSubOptionsWhen(v => (bool)v)
             .AddOnOffValues(false)
             .AddSubOption(sub => sub
-                .Name("Add The Skeld")
+                .Name(Localizer.Get("StaticOptions.RandomMap.Skeld"))
                 .BindBool(v => AddedTheSkeld = v)
                 .AddOnOffValues(false)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("Add Mira HQ")
+                .Name(Localizer.Get("StaticOptions.RandomMap.Mira"))
                 .BindBool(v => AddedMiraHQ = v)
                 .AddOnOffValues(false)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("Add Polus")
+                .Name(Localizer.Get("StaticOptions.RandomMap.Polus"))
                 .BindBool(v => AddedPolus = v)
                 .AddOnOffValues(false)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("Add The AirShip")
+                .Name(Localizer.Get("StaticOptions.RandomMap.Airship"))
                 .BindBool(v => AddedTheAirShip = v)
                 .AddOnOffValues(false)
                 .Build())
@@ -398,14 +390,14 @@ public static class StaticOptions
         );
 
         manager.Add(new SmartOptionBuilder()
-            .Name("Random Spawn")
+            .Name(Localizer.Get("StaticOptions.RandomSpawn.Enable"))
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v => RandomSpawn = v)
             .ShowSubOptionsWhen(v => (bool)v)
             .AddOnOffValues(false)
             .AddSubOption(sub => sub
-                .Name("Airship Additional Spawn")
+                .Name(Localizer.Get("StaticOptions.RandomSpawn.AirshipExtraSpawn"))
                 .BindBool(v => AirshipAdditionalSpawn = v)
                 .AddOnOffValues(false)
                 .Build())
@@ -413,14 +405,14 @@ public static class StaticOptions
         );
 
         manager.Add(new SmartOptionBuilder()
-            .Name("Sync Button Mode")
+            .Name(Localizer.Get("StaticOptions.SyncButton.Enable"))
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v => SyncButtonMode = v)
             .ShowSubOptionsWhen(v => (bool)v)
             .AddOnOffValues(false)
             .AddSubOption(sub => sub
-                .Name("Synced Button Count")
+                .Name(Localizer.Get("StaticOptions.SyncButton.Count"))
                 .AddIntRangeValues(0, 100, 1)
                 .BindInt(v => SyncedButtonCount = v)
                 .Build())
@@ -428,54 +420,62 @@ public static class StaticOptions
         );
 
         manager.Add(new SmartOptionBuilder()
-            .Name("Vote Mode")
+            .Name(Localizer.Get("StaticOptions.VoteMode.Enable"))
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v => VoteMode = v)
             .ShowSubOptionsWhen(v => (bool)v)
             .AddOnOffValues(false)
             .AddSubOption(sub => sub
-                .Name("When Skip Vote")
-                .AddValues(-1, voteModes[0..3])
+                .Name(Localizer.Get("StaticOptions.VoteMode.SkipMode"))
+                .AddValue(v => v.Text(Localizer.Get("StaticOptions.VoteMode.Mode.Default")).Value("Default").Build())
+                .AddValue(v => v.Text(Localizer.Get("StaticOptions.VoteMode.Mode.Suicide")).Value("Suicide").Build())
+                .AddValue(v => v.Text(Localizer.Get("StaticOptions.VoteMode.Mode.SelfVote")).Value("Self Vote").Build())
+                .AddValue(v => v.Text(Localizer.Get("StaticOptions.VoteMode.Mode.Skip")).Value("Skip").Build())
                 .Bind(v => VoteModeStr = (string)v)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("When SkipVote Ignore First Meeting")
+                .Name(Localizer.Get("StaticOptions.VoteMode.SkipFirstMeeting"))
                 .BindBool(v => WhenSkipVoteIgnoreFirstMeeting = v)
                 .AddOnOffValues(false)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("When SkipVote Ignore No Dead Body")
+                .Name(Localizer.Get("StaticOptions.VoteMode.IgnoreNoBody"))
                 .BindBool(v => WhenSkipVoteIgnoreNoDeadBody = v)
                 .AddOnOffValues(false)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("When SkipVote Ignore Emergency")
+                .Name(Localizer.Get("StaticOptions.VoteMode.IgnoreEmergencyMeeting"))
                 .BindBool(v => WhenSkipVoteIgnoreFirstMeeting = v)
                 .AddOnOffValues(false)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("When Non Vote")
-                .AddValues(-1, voteModes)
+                .Name(Localizer.Get("StaticOptions.VoteMode.NonVote"))
+                .AddValue(v => v.Text(Localizer.Get("StaticOptions.VoteMode.Mode.Default")).Value("Default").Build())
+                .AddValue(v => v.Text(Localizer.Get("StaticOptions.VoteMode.Mode.Suicide")).Value("Suicide").Build())
+                .AddValue(v => v.Text(Localizer.Get("StaticOptions.VoteMode.Mode.SelfVote")).Value("Self Vote").Build())
+                .AddValue(v => v.Text(Localizer.Get("StaticOptions.VoteMode.Mode.Skip")).Value("Skip").Build())
                 .Bind(v => WhenNonVote = (string)v)
                 .Build())
             .AddSubOption(sub => sub
-                .Name("When Tie")
-                .AddValues(-1, tieModes)
+                .Name(Localizer.Get("StaticOptions.VoteMode.Tie"))
+                .AddValue(v => v.Text(Localizer.Get("StaticOptions.VoteMode.TieMode.Default")).Value("Default").Build())
+                .AddValue(v => v.Text(Localizer.Get("StaticOptions.VoteMode.TieMode.All")).Value("All").Build())
+                .AddValue(v => v.Text(Localizer.Get("StaticOptions.VoteMode.TieMode.Random")).Value("Random").Build())
                 .Bind(v => WhenTieVote = (string)v)
                 .Build())
             .Build()
         );
 
         manager.Add(new SmartOptionBuilder()
-            .Name("All Alive Meeting")
+            .Name(Localizer.Get("StaticOptions.AllAliveMeeting.Enable"))
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .ShowSubOptionsWhen(v => (bool)v)
             .BindBool(v => AllAliveMeeting = v)
             .AddOnOffValues(false)
             .AddSubOption(sub => sub
-                .Name("All Alive Meeting Time")
+                .Name(Localizer.Get("StaticOptions.AllAliveMeeting.Time"))
                 .AddFloatRangeValues(1f, 300f, 1f)
                 .BindFloat(v => AllAliveMeetingTime = v)
                 .Build())
@@ -483,7 +483,7 @@ public static class StaticOptions
         );
 
         manager.Add(new SmartOptionBuilder()
-            .Name("Additional Emergency Cooldown")
+            .Name(Localizer.Get("StaticOptions.AdditionalEmergencyCooldown.Enable"))
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .ShowSubOptionsWhen(v => (bool)v)
@@ -503,14 +503,14 @@ public static class StaticOptions
         );
 
         manager.Add(new SmartOptionBuilder()
-            .Name("Ladder Death")
+            .Name(Localizer.Get("StaticOptions.LadderDeath.Enable"))
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v => LadderDeath = v)
             .ShowSubOptionsWhen(v => (bool)v)
             .AddOnOffValues(false)
             .AddSubOption(sub => sub
-                .Name("Ladder Death Chance")
+                .Name(Localizer.Get("StaticOptions.LadderDeath.Chance"))
                 .AddIntRangeValues(0, 100, 10)
                 .BindInt(v => LadderDeathChance = v)
                 .Build())
@@ -520,7 +520,7 @@ public static class StaticOptions
         // TODO: STANDARDHAS STUFF
 
         manager.Add(new SmartOptionBuilder()
-            .Name("Fix First Kill Cooldown")
+            .Name(Localizer.Get("StaticOptions.FixFirstCooldown"))
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v => FixFirstKillCooldown = v)
@@ -528,7 +528,7 @@ public static class StaticOptions
             .Build()
         );
         manager.Add(new SmartOptionBuilder()
-            .Name("Disable Task Win")
+            .Name(Localizer.Get("StaticOptions.DisableTaskWin"))
             .Tab(DefaultTabs.GeneralTab)
         //    .IsHeader(true)
             .BindBool(v => DisableTaskWin = v)
@@ -537,7 +537,7 @@ public static class StaticOptions
         );
         // MIN / MAX STUFF //
         manager.Add(new SmartOptionBuilder()
-            .Name("Min Neutral Killer")
+            .Name(Localizer.Get("StaticOptions.MinMax.MinNeutralKiller"))
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .AddIntRangeValues(0, 11, 1)
@@ -545,14 +545,14 @@ public static class StaticOptions
             .Build()
         );
         manager.Add(new SmartOptionBuilder()
-            .Name("Max Neutral Killer")
+            .Name(Localizer.Get("StaticOptions.MinMax.MaxNeutralKiller"))
             .Tab(DefaultTabs.GeneralTab)
             .AddIntRangeValues(0, 11, 1)
             .BindInt(v => MaxNK = v)
             .Build()
         );
         manager.Add(new SmartOptionBuilder()
-            .Name("Min Non-Killing Neutral")
+            .Name(Localizer.Get("StaticOptions.MinMax.MinNeutralNonKiller"))
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .AddIntRangeValues(0, 11, 1)
@@ -560,14 +560,14 @@ public static class StaticOptions
             .Build()
         );
         manager.Add(new SmartOptionBuilder()
-            .Name("Max Non-Killing Neutral")
+            .Name(Localizer.Get("StaticOptions.MinMax.MaxNeutralNonKiller"))
             .Tab(DefaultTabs.GeneralTab)
             .AddIntRangeValues(0, 11, 1)
             .BindInt(v => MaxNonNK = v)
             .Build()
         );
         manager.Add(new SmartOptionBuilder()
-            .Name("Min Madmates")
+            .Name(Localizer.Get("StaticOptions.MadMates.MinMadmates"))
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .AddIntRangeValues(0, 4, 1)
@@ -575,7 +575,7 @@ public static class StaticOptions
             .Build()
         );
         manager.Add(new SmartOptionBuilder()
-            .Name("Max Madmates")
+            .Name(Localizer.Get("StaticOptions.MadMates.MaxMadmates"))
             .Tab(DefaultTabs.GeneralTab)
             .AddIntRangeValues(0, 4, 1)
             .BindInt(v => MaxMadmates = v)
@@ -583,7 +583,7 @@ public static class StaticOptions
         );
         // DONE //
         manager.Add(new SmartOptionBuilder()
-            .Name("NoGameEnd")
+            .Name(Localizer.Get("StaticOptions.NoGameEnd"))
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v =>
@@ -595,7 +595,7 @@ public static class StaticOptions
             .Build()
         );
         manager.Add(new SmartOptionBuilder()
-            .Name("Ghost Can See Other Roles")
+            .Name(Localizer.Get("StaticOptions.GhostsCanSeeRoles"))
             .Tab(DefaultTabs.GeneralTab)
         //    .IsHeader(true)
             .BindBool(v => GhostsCanSeeOtherRoles = v)
@@ -603,7 +603,7 @@ public static class StaticOptions
             .Build()
         );
         manager.Add(new SmartOptionBuilder()
-            .Name("Ghost Can See Other Votes")
+            .Name(Localizer.Get("StaticOptions.GhostsCanSeeVotes"))
             .Tab(DefaultTabs.GeneralTab)
         //    .IsHeader(true)
             .BindBool(v => GhostsCanSeeOtherVotes = v)
@@ -611,7 +611,7 @@ public static class StaticOptions
             .Build()
         );
         manager.Add(new SmartOptionBuilder()
-            .Name("Ghosts Ignore Tasks")
+            .Name(Localizer.Get("StaticOptions.GhostIgnoreTasks"))
             .Tab(DefaultTabs.GeneralTab)
         //    .IsHeader(true)
             .BindBool(v => GhostIgnoreTasks = v)
@@ -619,7 +619,7 @@ public static class StaticOptions
             .Build()
         );
         manager.Add(new SmartOptionBuilder()
-           .Name("Camouflage Comms")
+           .Name(Localizer.Get("StaticOptions.CamoComms"))
            .Tab(DefaultTabs.GeneralTab)
            //    .IsHeader(true)
            .BindBool(v => CamoComms = v)
@@ -628,7 +628,7 @@ public static class StaticOptions
        );
 
         manager.Add(new SmartOptionBuilder()
-            .Name("Auto Display Last Result")
+            .Name(Localizer.Get("StaticOptions.AutoDisplayResult"))
             .Tab(DefaultTabs.GeneralTab)
            .IsHeader(true)
             .BindBool(v => AutoDisplayLastResult = v)
@@ -636,7 +636,7 @@ public static class StaticOptions
             .Build()
         );
         manager.Add(new SmartOptionBuilder()
-           .Name("Suffix Mode")
+           .Name(Localizer.Get("StaticOptions.SuffixMode"))
            .Tab(DefaultTabs.GeneralTab)
            //    .IsHeader(true)
            .AddValues(-1, suffixModes)
@@ -645,7 +645,7 @@ public static class StaticOptions
         );
 
         manager.Add(new SmartOptionBuilder()
-            .Name("Color Name Mode")
+            .Name(Localizer.Get("StaticOptions.ColorNameMode"))
             .Tab(DefaultTabs.GeneralTab)
             //    .IsHeader(true)
             .BindBool(v => ColorNameMode = v)
@@ -655,7 +655,7 @@ public static class StaticOptions
 
         // Another option I hate that exists. I have seen multiple complaints about this option.
         manager.Add(new SmartOptionBuilder()
-           .Name("Change Name to Role Info")
+           .Name(Localizer.Get("StaticOptions.ChangeNameToRoleInfo"))
            .Tab(DefaultTabs.GeneralTab)
            //    .IsHeader(true)
            .BindBool(v => ChangeNameToRoleInfo = v)
@@ -664,20 +664,20 @@ public static class StaticOptions
        );
 
         manager.Add(new SmartOptionBuilder()
-            .Name("Show History Timestamps")
+            .Name(Localizer.Get("StaticOptions.ShowHistoryTimestamp"))
             .Tab(DefaultTabs.GeneralTab)
             .BindBool(v => ShowHistoryTimestamp = v)
             .AddOnOffValues()
             .Build());
 
         manager.Add(new SmartOptionBuilder()
-            .Name("Mayhem Options")
+            .Name(Localizer.Get("StaticOptions.MayhemOptions.Enable"))
             .IsHeader(false)
             .ShowSubOptionsWhen(v => (bool)v)
             .BindBool(v => MayhemOptions = v)
             .AddOnOffValues(false)
             .AddSubOption(sub => sub
-                .Name("Most Roles Can Vent")
+                .Name(Localizer.Get("StaticOptions.MayhemOptions.AllRolesVent"))
                 .BindBool(v => AllRolesCanVent = v && MayhemOptions)
                 .AddOnOffValues(false)
                 .Build())
@@ -695,38 +695,6 @@ public static class StaticOptions
                 .Name("Debug All Actions")
                 .BindBool(v => LogAllActions = v && DebugOptions)
                 .AddOnOffValues()
-                .Build())
-            .Build());
-
-        manager.Add(new SmartOptionBuilder()
-            .Name("Nested Options Test")
-            .IsHeader(true)
-            .Tab(DefaultTabs.GeneralTab)
-            .ShowSubOptionsWhen(v => (bool)v)
-            .AddOnOffValues(false)
-            .AddSubOption(sub => sub
-                .Name("Nested Options Test")
-                .ShowSubOptionsWhen(v => (bool)v)
-                .AddOnOffValues(false)
-                .AddSubOption(sub2 => sub2
-                    .Name("Nested Options Test")
-                    .ShowSubOptionsWhen(v => (bool)v)
-                    .AddOnOffValues(false)
-                    .AddSubOption(sub3 => sub3
-                        .Name("Nested Options Test")
-                        .ShowSubOptionsWhen(v => (bool)v)
-                        .AddOnOffValues(false)
-                        .AddSubOption(sub4 => sub4
-                            .Name("Nested Options Test")
-                            .ShowSubOptionsWhen(v => (bool)v)
-                            .AddOnOffValues(false)
-                            .AddSubOption(sub5 => sub5
-                                .Name("Nested Options Test")
-                                .AddOnOffValues(false)
-                                .Build())
-                            .Build())
-                        .Build())
-                    .Build())
                 .Build())
             .Build());
     }

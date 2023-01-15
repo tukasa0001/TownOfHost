@@ -16,7 +16,7 @@ using VentLib.Utilities;
 
 namespace VentLib;
 
-public class HookHelper
+public class RpcHookHelper
 {
     internal static long globalSendCount;
     private static List<DetouredSender> _senders = new();
@@ -41,7 +41,7 @@ public class HookHelper
             ilg.Emit(_ldc[senderSize]);
         else
             ilg.Emit(OpCodes.Ldc_I4_S, senderSize);
-        ilg.Emit(OpCodes.Call, AccessTools.Method(typeof(HookHelper), nameof(GetSender)));
+        ilg.Emit(OpCodes.Call, AccessTools.Method(typeof(RpcHookHelper), nameof(GetSender)));
 
         if (parameters.Length <= 8)
             ilg.Emit(_ldc[parameters.Length]);
@@ -112,7 +112,7 @@ public class DetouredSender
 
     private void RealSend(int[]? targets, object?[] args)
     {
-        HookHelper.globalSendCount++; localSendCount++;
+        RpcHookHelper.globalSendCount++; localSendCount++;
         RpcV2 v2 = RpcV2.Immediate(PlayerControl.LocalPlayer.NetId, 203).Write(callId).RequireHost(false);
         v2.Write((byte)receivers);
         v2.WritePacked(PlayerControl.LocalPlayer.NetId);
@@ -122,13 +122,13 @@ public class DetouredSender
         string senderString = AmongUsClient.Instance.AmHost ? "Host" : "NonHost";
         int clientId = PlayerControl.LocalPlayer.GetClientId();
         if (targets != null) {
-            VentLogger.Debug($"(Client: {clientId}) Sending RPC ({callId}) as {senderString} to {targets.StrJoin()} | ({senders} | {args} | {localSendCount}::{uuid}::{HookHelper.globalSendCount}", "DetouredSender");
+            VentLogger.Debug($"(Client: {clientId}) Sending RPC ({callId}) as {senderString} to {targets.StrJoin()} | ({senders} | {args} | {localSendCount}::{uuid}::{RpcHookHelper.globalSendCount}", "DetouredSender");
             v2.SendInclusive(blockedClients == null ? targets : targets.Except(blockedClients).ToArray());
         } else if (blockedClients != null) {
-            VentLogger.Debug($"(Client: {clientId}) Sending RPC ({callId}) as {senderString} to all except {blockedClients.StrJoin()} | ({senders} | {args} | {localSendCount}::{uuid}::{HookHelper.globalSendCount}", "DetouredSender");
+            VentLogger.Debug($"(Client: {clientId}) Sending RPC ({callId}) as {senderString} to all except {blockedClients.StrJoin()} | ({senders} | {args} | {localSendCount}::{uuid}::{RpcHookHelper.globalSendCount}", "DetouredSender");
             v2.SendExclusive(blockedClients);
         } else {
-            VentLogger.Debug($"(Client: {clientId}) Sending RPC ({callId}) as {senderString} to all | ({this.senders} | {args} | {localSendCount}::{uuid}::{HookHelper.globalSendCount}", "DetouredSender");
+            VentLogger.Debug($"(Client: {clientId}) Sending RPC ({callId}) as {senderString} to all | ({this.senders} | {args} | {localSendCount}::{uuid}::{RpcHookHelper.globalSendCount}", "DetouredSender");
             v2.Send();
         }
     }

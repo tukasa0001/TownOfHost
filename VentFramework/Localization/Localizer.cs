@@ -2,13 +2,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using AmongUs.Data;
 using HarmonyLib;
 using VentLib.Logging;
 using static VentLib.Localization.LocalizedAttribute;
 
 namespace VentLib.Localization;
 
-public class Localizer
+public static class Localizer
 {
     /// <summary>
     /// Get or set the folder where languages for the Localizer exist
@@ -19,30 +20,47 @@ public class Localizer
     {
         get => _currentLanguage;
         set {
+            bool different = _currentLanguage != value;
             _currentLanguage = value;
+            if (!different) return;
             translations = _loader.Get(_currentLanguage);
+            _translationCache.Clear();
         }
     }
 
     private static Dictionary<string, Language> translations;
+    private static Dictionary<(string, string), string> _translationCache = new();
+
     private static string _currentLanguage = DefaultLanguage;
     private static LanguageLoader _loader = null!;
     private static string root;
 
-
-    public static string Get(string keyPath, string? assemblyName = null)
+    public static string Get(string keyPath, string? assemblyName = null, bool useCache = true)
     {
         assemblyName ??= Assembly.GetCallingAssembly().GetName().Name!;
         assemblyName = root == assemblyName ? "root" : assemblyName;
+
+        var cacheKey = (keyPath, assemblyName);
+
+        string? translation;
+        if (useCache) {
+            translation = _translationCache.GetValueOrDefault(cacheKey);
+            if (translation != null) return translation;
+        }
+
         if (translations.TryGetValue(assemblyName, out Language? language))
             return GetValueFromPath(language, keyPath);
         VentLogger.Fatal($"No Translations Exist for {keyPath}! Attempting to use Root Translations");
         language = translations["root"];
-        return GetValueFromPath(language, keyPath);
+
+        translation = GetValueFromPath(language, keyPath);
+        if (useCache) _translationCache[cacheKey] = translation;
+        return translation;
     }
 
     public static void Initialize()
     {
+        _currentLanguage = DataManager.Settings.Language.CurrentLanguage.ToString();
         _loader = LanguageLoader.Load(LanguageFolder);
         translations = _loader.Get(CurrentLanguage);
     }
@@ -109,5 +127,10 @@ public class Localizer
         if (created) language.Dump();
 
         return (string)dictionary[finalPath];
+    }
+
+    private static void LanguageChangeCallback()
+    {
+
     }
 }

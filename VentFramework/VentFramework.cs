@@ -18,7 +18,7 @@ namespace VentLib;
 public static class VentFramework
 {
     public static uint[] BuiltinRPCs = { 1017 };
-    private static Harmony Harmony;
+    internal static Harmony Harmony;
     internal static readonly Dictionary<uint, List<ModRPC>> RpcBindings = new();
     internal static readonly Dictionary<Assembly, VentControlFlag> RegisteredAssemblies = new();
     internal static readonly Dictionary<Assembly, string> AssemblyNames = new();

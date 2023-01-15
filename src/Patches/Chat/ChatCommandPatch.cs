@@ -210,7 +210,7 @@ class ChatCommands
                     canceled = true;
                     var role = PlayerControl.LocalPlayer.GetCustomRole();
                     if (GameStates.IsInGame)
-                        HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString(role.ToString()) + PlayerControl.LocalPlayer.GetRoleInfo(true));
+                        HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString(role.ToString()) + PlayerControl.LocalPlayer.GetCustomRole().Description);
                     break;
 
                 case "/t":
@@ -416,7 +416,7 @@ class ChatCommands
             case "/myrole":
                 var role = player.GetCustomRole();
                 if (GameStates.IsInGame)
-                    Utils.SendMessage(GetString(role.ToString()) + player.GetRoleInfo(true), player.PlayerId);
+                    Utils.SendMessage(GetString(role.ToString()) + player.GetCustomRole().Description, player.PlayerId);
                 break;
 
             case "/t":

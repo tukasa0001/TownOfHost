@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Gamemodes;
 using TownOfHost.Managers;
-using UnityEngine;
 using TownOfHost.Roles;
 using VentLib.Logging;
 
