@@ -89,10 +89,8 @@ public class TOHPlugin : BasePlugin
     public static ConfigEntry<string> WebhookURL { get; private set; }
     public static ConfigEntry<string> BetaBuildURL { get; private set; }
     public static ConfigEntry<float> LastKillCooldown { get; private set; }
-    public static Dictionary<byte, PlayerStateOLD> PlayerStates = new();
     public static Dictionary<byte, string> AllPlayerNames;
     public static Dictionary<byte, Color32> PlayerColors = new();
-    public static Dictionary<byte, PlayerStateOLD.DeathReason> AfterMeetingDeathPlayers = new();
     public static Dictionary<CustomRoles, String> roleColors;
     public static bool IsFixedCooldown => Vampire.Ref<Vampire>().IsEnable();
     [Obsolete("Switching to Gamemode Manager")]
@@ -140,12 +138,6 @@ public class TOHPlugin : BasePlugin
 
         //TownOfHost.Logger.isDetail = true;
 
-        // 認証関連-初期化
-        DebugKeyAuth = new HashAuth(DebugKeyHash, DebugKeySalt);
-
-        // 認証関連-認証
-        DebugModeManager.Auth(DebugKeyAuth, DebugKeyInput.Value);
-
         VisibleTasksCount = false;
         MessagesToSend = new List<(string, byte, string)>();
 
@@ -154,8 +146,6 @@ public class TOHPlugin : BasePlugin
         MessageWait = Config.Bind("Other", "MessageWait", 1);
         LastKillCooldown = Config.Bind("Other", "LastKillCooldown", (float)30);
 
-        CustomWinnerHolder.Reset();
-        Translator.Init();
         BanManager.Init();
         TemplateManager.Init();
 
@@ -230,8 +220,6 @@ public class TOHPlugin : BasePlugin
         VentLogger.Info($"{nameof(ThisAssembly.Git.IsDirty)}: {ThisAssembly.Git.IsDirty}", "GitVersion");
         VentLogger.Info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}", "GitVersion");
         VentLogger.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}", "GitVersion");
-
-        ClassInjector.RegisterTypeInIl2Cpp<ErrorText>();
 
         // Setup, order matters here
 

@@ -8,7 +8,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
 using TownOfHost.Roles;
-using static TownOfHost.Managers.Translator;
+using VentLib.Localization;
 using VentLib.Logging;
 
 namespace TownOfHost
@@ -76,7 +76,7 @@ namespace TownOfHost
             foreach (var t in tmp) VentLogger.Old(t, "Info");
             VentLogger.Old("------------詳細設定------------", "Info");
             VentLogger.Old($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
-            PlayerControl.AllPlayerControls.ToArray().Do(x => TOHPlugin.PlayerStates[x.PlayerId].InitTask(x));
+            //PlayerControl.AllPlayerControls.ToArray().Do(x => TOHPlugin.PlayerStates[x.PlayerId].InitTask(x));
 
             GameStates.InGame = true;
         }
@@ -104,26 +104,26 @@ namespace TownOfHost
         {
             //チーム表示変更
             CustomRole role = PlayerControl.LocalPlayer.GetCustomRole();
-            Roles.RoleType roleType = role.GetRoleType();
+            RoleType roleType = role.GetRoleType();
 
             switch (roleType)
             {
-                case Roles.RoleType.Neutral:
+                case RoleType.Neutral:
                     __instance.TeamTitle.text = Utils.GetRoleName(role);
                     __instance.TeamTitle.color = Utils.GetRoleColor(role);
                     __instance.ImpostorText.gameObject.SetActive(true);
                     __instance.ImpostorText.text = role switch
                     {
-                        Egoist => GetString("TeamEgoist"),
-                        Jackal => GetString("TeamJackal"),
-                        _ => GetString("NeutralInfo"),
+                        Egoist => Localizer.Get("Roles.Egoist.TeamEgoist"),
+                        Jackal => Localizer.Get("Roles.Jackal.TeamJackal"),
+                        _ => Localizer.Get("Roles.Miscellaneous.NeutralText"),
                     };
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                     break;
-                case Roles.RoleType.Madmate:
-                    __instance.TeamTitle.text = GetString("Madmate");
-                    __instance.TeamTitle.color = Utils.GetRoleColor(Madmate.Ref<Madmate>());
-                    __instance.ImpostorText.text = GetString("TeamImpostor");
+                case RoleType.Madmate:
+                    __instance.TeamTitle.text = Localizer.Get("Roles.Madmate.Rolename");
+                    __instance.TeamTitle.color = CustomRoleManager.Static.Madmate.RoleColor;
+                    __instance.ImpostorText.text = Localizer.Get("Roles.Miscellaneous.ImpostorText");
                     StartFadeIntro(__instance, Palette.CrewmateBlue, Palette.ImpostorRed);
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
@@ -131,8 +131,7 @@ namespace TownOfHost
             switch (role)
             {
                 case Terrorist:
-                    var sound = ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault()
-                    .MinigamePrefab.OpenSound;
+                    var sound = ShipStatus.Instance.CommonTasks.FirstOrDefault(task => task.TaskType == TaskTypes.FixWiring)?.MinigamePrefab.OpenSound;
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
                     break;
 
@@ -274,8 +273,7 @@ namespace TownOfHost
             DTask.Schedule(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRoleDesync(RoleTypes.Shapeshifter, -3)), 2f);
             if (PlayerControl.LocalPlayer.Is(CustomRoleManager.Special.GM))
             {
-                PlayerControl.LocalPlayer.RpcExile();
-                TOHPlugin.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SetDead();
+                PlayerControl.LocalPlayer.RpcExileV2();
             }
 
             if (StaticOptions.RandomSpawn)

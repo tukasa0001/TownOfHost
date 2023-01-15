@@ -2,36 +2,35 @@ using HarmonyLib;
 using InnerNet;
 using TownOfHost.Managers;
 using UnityEngine;
+using VentLib.Localization;
 using VentLib.Logging;
-using static TownOfHost.Managers.Translator;
+// ReSharper disable FieldCanBeMadeReadOnly.Local
+// ReSharper disable InconsistentNaming
+
 
 namespace TownOfHost.Patches.Client;
 
+[Localized(Group = "ModUpdater")]
 [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.MakePublic))]
 class MakePublicPatch
 {
+    [Localized("ModBrokenMessage")]
+    public static string ModBrokenMessage = null!;
+    [Localized("ModUpdateMessage")]
+    public static string ModUpdateMessage = null!;
+
     public static bool Prefix(GameStartManager __instance)
     {
-        // 定数設定による公開ルームブロック
-        if (!TOHPlugin.AllowPublicRoom && !ModUpdater.ForceAccept)
-        {
-            var message = GetString("DisabledByProgram");
-            VentLogger.Old(message, "MakePublicPatch");
-            VentLogger.SendInGame(message);
-            return false;
-        }
-        if ((ModUpdater.isBroken | ModUpdater.hasUpdate) && !ModUpdater.ForceAccept)
-        {
-            var message = "";
-            if (ModUpdater.isBroken) message = GetString("ModBrokenMessage");
-            if (ModUpdater.hasUpdate) message = GetString("CanNotJoinPublicRoomNoLatest");
-            VentLogger.Old(message, "MakePublicPatch");
-            VentLogger.SendInGame(message);
-            return false;
-        }
-        return true;
+        if ((!(ModUpdater.isBroken | ModUpdater.hasUpdate)) || ModUpdater.ForceAccept) return true;
+        var message = "";
+        if (ModUpdater.isBroken) message = ModBrokenMessage;
+        if (ModUpdater.hasUpdate) message = ModUpdateMessage;
+        VentLogger.Old(message, "MakePublicPatch");
+        VentLogger.SendInGame(message);
+        return false;
     }
 }
+
 [HarmonyPatch(typeof(MMOnlineManager), nameof(MMOnlineManager.Start))]
 class MMOnlineManagerStartPatch
 {
@@ -40,29 +39,16 @@ class MMOnlineManagerStartPatch
         if (!(ModUpdater.hasUpdate || ModUpdater.isBroken)) return;
         if (ModUpdater.ForceAccept) return;
         var obj = GameObject.Find("FindGameButton");
-        if (obj)
-        {
-            obj?.SetActive(false);
-            var parentObj = obj.transform.parent.gameObject;
-            var textObj = Object.Instantiate<TMPro.TextMeshPro>(obj.transform.FindChild("Text_TMP").GetComponent<TMPro.TextMeshPro>());
-            textObj.transform.position = new Vector3(1f, -0.3f, 0);
-            textObj.name = "CanNotJoinPublic";
-            var message = ModUpdater.isBroken ? $"<size=2>{Utils.ColorString(Color.red, GetString("ModBrokenMessage"))}</size>"
-                : $"<size=2>{Utils.ColorString(Color.red, GetString("CanNotJoinPublicRoomNoLatest"))}</size>";
-            new DTask(() => { textObj.text = message; }, 0.01f, "CanNotJoinPublic");
-        }
-    }
-}
-[HarmonyPatch(typeof(SplashManager), nameof(SplashManager.Update))]
-class SplashLogoAnimatorPatch
-{
-    public static void Prefix(SplashManager __instance)
-    {
-        if (DebugModeManager.AmDebugger)
-        {
-            __instance.sceneChanger.AllowFinishLoadingScene();
-            __instance.startedSceneLoad = true;
-        }
+        if (!obj) return;
+
+        obj?.SetActive(false);
+        var parentObj = obj.transform.parent.gameObject;
+        var textObj = Object.Instantiate<TMPro.TextMeshPro>(obj.transform.FindChild("Text_TMP").GetComponent<TMPro.TextMeshPro>());
+        textObj.transform.position = new Vector3(1f, -0.3f, 0);
+        textObj.name = "CanNotJoinPublic";
+        var message = ModUpdater.isBroken ? $"<size=2>{Utils.ColorString(Color.red, MakePublicPatch.ModBrokenMessage)}</size>"
+            : $"<size=2>{Utils.ColorString(Color.red, MakePublicPatch.ModUpdateMessage)}</size>";
+        DTask.Schedule(() => { textObj.text = message; }, 0.01f);
     }
 }
 

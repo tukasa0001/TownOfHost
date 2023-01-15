@@ -46,7 +46,7 @@ public abstract class AbstractBaseRole
     public int Count;
     protected bool BaseCanVent;
 
-    protected string EnglishRoleName { get; set; }
+    public string EnglishRoleName { get; private set; }
     protected Dictionary<Type, List<MethodInfo>> roleInteractions = new();
     protected Dictionary<Faction, List<MethodInfo>> factionInteractions = new();
     protected Dictionary<RoleActionType, List<Tuple<MethodInfo, RoleAction>>> RoleActions = new();

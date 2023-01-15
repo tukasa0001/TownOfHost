@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
+using VentLib.Localization;
 using VentLib.Logging;
-using static TownOfHost.Managers.Translator;
+
 
 namespace TownOfHost
 {
@@ -55,7 +56,7 @@ namespace TownOfHost
             {
                 MainMenuManagerPatch.updateButton.transform
                     .GetChild(0).GetComponent<TMPro.TMP_Text>()
-                    .SetText($"{GetString("updateButton")}\n{latestTitle}");
+                    .SetText($"{Localizer.Get("ModUpdater.UpdateButton")}\n{latestTitle}");
             })));
             if (ForceAccept)
             {
@@ -136,10 +137,10 @@ namespace TownOfHost
         }
         public static void StartUpdate(string url)
         {
-            ShowPopup(GetString("updatePleaseWait"));
+            ShowPopup(Localizer.Get("ModUpdater.WaitMessage"));
             if (!BackupDLL())
             {
-                ShowPopup(GetString("updateManually"), true);
+                ShowPopup(Localizer.Get("ModUpdater.UpdateManually"), true);
                 return;
             }
             _ = DownloadDLL(url);
@@ -182,19 +183,19 @@ namespace TownOfHost
                 client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadCallBack);
                 client.DownloadFileAsync(new Uri(url), "BepInEx/plugins/TownOfHost.dll");
                 while (client.IsBusy) await System.Threading.Tasks.Task.Delay(1);
-                ShowPopup(GetString("updateRestart"), true);
+                ShowPopup(Localizer.Get("ModUpater.UpdateRestart"), true);
             }
             catch (Exception ex)
             {
                 VentLogger.Error($"ダウンロードに失敗しました。\n{ex}", "DownloadDLL");
-                ShowPopup(GetString("updateManually"), true);
+                ShowPopup(Localizer.Get("ModUpdater.UpdateManually"), true);
                 return false;
             }
             return true;
         }
         private static void DownloadCallBack(object sender, DownloadProgressChangedEventArgs e)
         {
-            ShowPopup($"{GetString("updateInProgress")}\n{e.BytesReceived}/{e.TotalBytesToReceive}({e.ProgressPercentage}%)");
+            ShowPopup($"{Localizer.Get("ModUpdater.UpdateInProgress")}\n{e.BytesReceived}/{e.TotalBytesToReceive}({e.ProgressPercentage}%)");
         }
         private static void ShowPopup(string message, bool showButton = false)
         {

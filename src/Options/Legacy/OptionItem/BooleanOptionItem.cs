@@ -22,10 +22,6 @@ namespace TownOfHost
         }
 
         // Getter
-        public override string GetString()
-        {
-            return Translator.GetString(GetBool() ? TEXT_true : TEXT_false);
-        }
 
         // Setter
         public override void SetValue(int value)

@@ -9,6 +9,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Options;
 using TownOfHost.Roles;
 using TownOfHost.Victory.Conditions;
+using VentLib.Localization;
 using VentLib.Logging;
 
 namespace TownOfHost
@@ -94,7 +95,7 @@ namespace TownOfHost
             if (GetKeysDown(KeyCode.F5, KeyCode.T))
             {
                 VentLogger.Old("Reload Custom Translation File", "KeyCommand");
-                Translator.LoadLangs();
+                Localizer.Initialize();
                 VentLogger.SendInGame("Reloaded Custom Translation File");
             }
             //ログファイルのダンプ
@@ -102,11 +103,6 @@ namespace TownOfHost
             {
                 VentLogger.Old("Dump Logs", "KeyCommand");
                 Utils.DumpLog();
-            }
-            //現在の設定をテキストとしてコピー
-            if (GetKeysDown(KeyCode.LeftAlt, KeyCode.C) && !Input.GetKey(KeyCode.LeftShift) && !GameStates.IsNotJoined)
-            {
-                Utils.CopyCurrentSettings();
             }
             //実行ファイルのフォルダを開く
             if (GetKeysDown(KeyCode.F10))
@@ -150,21 +146,12 @@ namespace TownOfHost
             if (GetKeysDown(KeyCode.N, KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift))
             {
                 TOHPlugin.isChatCommand = true;
-                Utils.ShowActiveSettings();
+                /*Utils.ShowActiveSettings();*/
             }
             //TOHオプションをデフォルトに設定
             if (GetKeysDown(KeyCode.Delete, KeyCode.LeftControl))
             {
                 TOHPlugin.OptionManager.AllHolders.Do(h => h.valueHolder.Default());
-            }
-
-            //--以下デバッグモード用コマンド--//
-            if (!DebugModeManager.IsDebugMode) return;
-
-            //設定の同期
-            if (Input.GetKeyDown(KeyCode.Y))
-            {
-                OldRPC.SyncCustomSettingsRPC();
             }
             //投票をクリア
             if (Input.GetKeyDown(KeyCode.V) && GameStates.IsMeeting && !GameStates.IsOnlineGame)
@@ -177,11 +164,6 @@ namespace TownOfHost
                 PlayerControl.LocalPlayer.NoCheckStartMeeting(PlayerControl.LocalPlayer.Data);
             }
             //自分自身を追放
-            if (GetKeysDown(KeyCode.Return, KeyCode.E, KeyCode.LeftShift) && GameStates.IsInGame)
-            {
-                PlayerControl.LocalPlayer.RpcExile();
-            }
-
             //--以下フリープレイ用コマンド--//
             if (!GameStates.IsFreePlay) return;
             //キルクールを0秒に設定

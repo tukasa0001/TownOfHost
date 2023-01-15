@@ -21,10 +21,6 @@ namespace TownOfHost
         // Getter
         public override int GetInt() => Rule.GetValueByIndex(CurrentValue);
         public override float GetFloat() => Rule.GetValueByIndex(CurrentValue);
-        public override string GetString()
-        {
-            throw new NotImplementedException("Decommissioning Method");
-        }
         public override int GetValue()
             => Rule.RepeatIndex(base.GetValue());
 

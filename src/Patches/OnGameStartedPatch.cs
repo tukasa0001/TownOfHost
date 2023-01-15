@@ -23,13 +23,10 @@ namespace TownOfHost
 
         public static void Postfix(AmongUsClient __instance)
         {
-            //注:この時点では役職は設定されていません。
-            TOHPlugin.PlayerStates = new();
 
             TOHPlugin.AllPlayerKillCooldown = new Dictionary<byte, float>();
             TOHPlugin.SKMadmateNowCount = 0;
 
-            TOHPlugin.AfterMeetingDeathPlayers = new();
             TOHPlugin.ResetCamPlayerList = new();
 
             OldOptions.UsedButtonCount = 0;
@@ -43,7 +40,6 @@ namespace TownOfHost
 
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                TOHPlugin.PlayerStates[pc.PlayerId] = new(pc.PlayerId);
                 TOHPlugin.AllPlayerNames[pc.PlayerId] = pc?.Data?.PlayerName;
 
                 TOHPlugin.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
@@ -65,9 +61,7 @@ namespace TownOfHost
                 }
             }
             FallFromLadder.Reset();
-            CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
-            /*IRandom.SetInstanceById(OldOptions.RoleAssigningAlgorithm.GetValue());*/
 
             MeetingStates.MeetingCalled = false;
             MeetingStates.FirstMeeting = true;

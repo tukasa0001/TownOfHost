@@ -1,11 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using HarmonyLib;
 using TownOfHost.Extensions;
-using TownOfHost.Managers;
 using TownOfHost.Options;
 using VentLib;
 using VentLib.Logging;
+using VentLib.RPC;
 
 namespace TownOfHost.RPC;
 
@@ -26,5 +26,13 @@ public static class HostRpc
         VentLogger.Info($"Message from {VentFramework.GetLastSender((uint)ModCalls.Debug).GetRawName()} => {message}", "RpcDebug");
 
         GameData.Instance.AllPlayers.ToArray().Select(p => (p.GetNameWithRole(), p.IsDead, p.IsIncomplete)).PrettyString().DebugLog("All Players: ");
+    }
+
+    [ModRPC((uint)VentRPC.VersionCheck, RpcActors.None, RpcActors.Host)]
+    public static void ReceiveVersion(string assemblyName, string? version, bool isCorrect)
+    {
+        if (version == null) return;
+        Version parsed = new(version);
+        TOHPlugin.playerVersion[VentFramework.GetLastSender((uint)VentRPC.VersionCheck)?.PlayerId ?? 255] = new PlayerVersion(version, "", "");
     }
 }

@@ -4,12 +4,19 @@ using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
 using UnityEngine;
-using static TownOfHost.Managers.Translator;
+using VentLib.Localization;
 
 namespace TownOfHost.Options;
 
+[Localized(Group = "OptionShower")]
 public static class OptionShower
 {
+
+    [Localized("ActiveRolesList")]
+    private static string ActiveRolesList;
+    [Localized("NextPage")]
+    private static string NextPageString;
+
     public static int currentPage = 0;
     public static List<string> pages = new();
 
@@ -28,7 +35,7 @@ public static class OptionShower
         //Standardの時のみ実行
         if (OldOptions.CurrentGameMode == CustomGameMode.Standard)
         {
-            text += GetString("ActiveRolesList") + "\n";
+            text += ActiveRolesList + "\n";
             foreach (CustomRole role in CustomRoleManager.AllRoles)
             {
                 OptionHolder matchingHolder = TOHPlugin.OptionManager.PreviewOptions().FirstOrDefault(h => h.Name == role.RoleName);
@@ -110,7 +117,7 @@ public static class OptionShower
             else pages[^1] += tmp[i] + "\n\n";
         }
         if (currentPage >= pages.Count) currentPage = pages.Count - 1; //現在のページが最大ページ数を超えていれば最後のページに修正
-        return $"{pages[currentPage]}{GetString("PressTabToNextPage")}({currentPage + 1}/{pages.Count})";
+        return $"{pages[currentPage]}{NextPageString}({currentPage + 1}/{pages.Count})";
     }
     public static void Next()
     {

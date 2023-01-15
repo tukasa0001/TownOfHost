@@ -4,9 +4,10 @@ using UnityEngine;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Options;
-using static TownOfHost.Managers.Translator;
+
 using TownOfHost.Roles;
 using TownOfHost.Roles.Neutral;
+using VentLib.Localization;
 
 namespace TownOfHost
 {
@@ -59,26 +60,28 @@ namespace TownOfHost
                         __instance.AbilityButton.OverrideText(SniperOLD.OverrideShapeText(player.PlayerId));
                         break;*/
                     case FireWorks:
-                        __instance.AbilityButton.OverrideText($"{GetString("FireWorksExplosionButtonText")}");
+                        __instance.AbilityButton.OverrideText($"{Localizer.Get("Roles.FireWorks.AbilityText")}");
                         break;
                     /*case SerialKiller:
                         // ? What ?
                         SerialKillerOLD.GetAbilityButtonText(__instance, player);
                         break;*/
                     case Warlock warlock:
-                        __instance.KillButton.OverrideText(!warlock.Shapeshifted ? $"{GetString("WarlockCurseButtonText")}" : $"{GetString("KillButtonText")}");
+                        __instance.KillButton.OverrideText(Localizer.Get(!warlock.Shapeshifted
+                            ? "Roles.Warlock.CurseButtonText"
+                            : Localizer.Get("Roles.Warlock.KillButtonText")));
                         break;
                     /*case Witch:
                         WitchOLD.GetAbilityButtonText(__instance);
                         break;*/
                     case Vampire:
-                        __instance.KillButton.OverrideText($"{GetString("VampireBiteButtonText")}");
+                        __instance.KillButton.OverrideText($"{Localizer.Get("Roles.Vampire.KillButtonText")}");
                         break;
                     case Arsonist:
-                        __instance.KillButton.OverrideText($"{GetString("ArsonistDouseButtonText")}");
+                        __instance.KillButton.OverrideText($"{Localizer.Get("Roles.Arsonist.KillButtonText")}");
                         break;
                     case Puppeteer:
-                        __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
+                        __instance.KillButton.OverrideText($"{Localizer.Get("Roles.Puppeteer.KillButtonText")}");
                         break;
                         /*case BountyHunter:
                             BountyHunterOLD.GetAbilityButtonText(__instance);

@@ -31,11 +31,11 @@ class VersionShowerStartPatch
         credentials.alignment = TMPro.TextAlignmentOptions.TopRight;
         credentials.transform.position = new Vector3(4.6f, 3.2f, 0);
 
-        ErrorText.Create(__instance.text);
+        /*ErrorText.Create(__instance.text);
         if (TOHPlugin.HasArgumentException && ErrorText.Instance != null)
         {
             ErrorText.Instance.AddError(ErrorCode.Main_DictionaryError);
-        }
+        }*/
 
         if (SpecialEventText == null)
         {

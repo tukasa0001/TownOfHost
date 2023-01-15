@@ -9,7 +9,7 @@ using TownOfHost.Options;
 using TownOfHost.Roles;
 using TownOfHost.RPC;
 using VentLib.Logging;
-using static TownOfHost.Managers.Translator;
+
 
 namespace TownOfHost
 {

@@ -1,8 +1,9 @@
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using VentLib.Localization;
 using VentLib.Logging;
-using static TownOfHost.Managers.Translator;
+
 namespace TownOfHost.Managers;
 
 public static class BanManager
@@ -39,7 +40,7 @@ public static class BanManager
                 if (Regex.IsMatch(player.PlayerName, line))
                 {
                     AmongUsClient.Instance.KickPlayer(player.Id, false);
-                    VentLogger.SendInGame(string.Format(GetString("Message.KickedByDenyName"), player.PlayerName, line));
+                    VentLogger.SendInGame(string.Format(Localizer.Get("Messages.KickedByDenyName"), player.PlayerName, line));
                     VentLogger.Old($"{player.PlayerName}は名前が「{line}」に一致したためキックされました。", "Kick");
                     return;
                 }
@@ -56,7 +57,7 @@ public static class BanManager
         if (CheckBanList(player))
         {
             AmongUsClient.Instance.KickPlayer(player.Id, true);
-            VentLogger.SendInGame(string.Format(GetString("Message.BanedByBanList"), player.PlayerName));
+            VentLogger.SendInGame(string.Format(Localizer.Get("Messages.BanedByBanList"), player.PlayerName));
             VentLogger.Old($"{player.PlayerName}は過去にBAN済みのためBANされました。", "BAN");
             return;
         }

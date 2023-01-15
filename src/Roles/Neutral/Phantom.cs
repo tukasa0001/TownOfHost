@@ -32,24 +32,6 @@ public class Phantom : Crewmate
         }
     }
 
-    [RoleAction(RoleActionType.TaskComplete)]
-    public void TaskComplete()
-    {
-        var taskState = TOHPlugin.PlayerStates?[MyPlayer.PlayerId].GetTaskState();
-        if (taskState.CompletedTasksCount == taskState.AllTasksCount)
-        {
-            // PHANTOM WIN
-        }
-        else if (taskState.RemainingTasksCount <= phantomClickAmt && !CanKill)
-        {
-            CanKill = true;
-        }
-        else if (taskState.RemainingTasksCount <= phantomAlertAmt && !IsAlerted)
-        {
-            IsAlerted = true;
-        }
-    }
-
     public override bool CanBeKilled() => CanKill;
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>

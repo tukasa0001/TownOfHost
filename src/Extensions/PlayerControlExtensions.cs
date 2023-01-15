@@ -12,8 +12,8 @@ using TownOfHost.Options;
 using UnityEngine;
 using TownOfHost.Roles;
 using TownOfHost.RPC;
+using VentLib.Extensions;
 using VentLib.Logging;
-using VentLib.RPC;
 
 namespace TownOfHost.Extensions;
 
@@ -27,16 +27,12 @@ public static class PlayerControlExtensions
         player.GetPlayerPlus().DynamicName = DynamicName.For(player);
         CustomRoleManager.PlayersCustomRolesRedux[player.PlayerId] = role.Instantiate(player);
         // TODO: eventually add back subrole logic
-        RpcV2.Immediate(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.SetCustomRole)
+        /*RpcV2.Immediate(PlayerControl.LocalPlayer.NetId, (byte)CustomRPCOLD.SetCustomRole)
             .Write(player.PlayerId)
             .WritePacked(CustomRoleManager.GetRoleId(role.GetType()))
-            .Send();
+            .Send();*/
     }
 
-    public static void RpcExile(this PlayerControl player)
-    {
-        OldRPC.ExileAsync(player);
-    }
     public static ClientData? GetClient(this PlayerControl player)
     {
         var client = AmongUsClient.Instance.allClients.ToArray().FirstOrDefault(cd => cd.Character.PlayerId == player.PlayerId);
@@ -219,40 +215,20 @@ public static class PlayerControlExtensions
         messageWriter.Write((byte)amount);
         AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
     }
-    public static TaskState GetPlayerTaskState(this PlayerControl player)
-    {
-        return TOHPlugin.PlayerStates[player.PlayerId].GetTaskState();
-    }
 
     public static T GetCustomRole<T>(this PlayerControl player) where T : CustomRole
     {
         return (T)player.GetCustomRole();
     }
 
-    public static string GetDisplayRoleName(this PlayerControl player)
-    {
-        return Utils.GetDisplayRoleName(player.PlayerId);
-    }
-    public static string GetSubRoleName(this PlayerControl player)
-    {
-        var SubRoles = TOHPlugin.PlayerStates[player.PlayerId].SubRoles;
-        if (SubRoles.Count == 0) return "";
-        var sb = new StringBuilder();
-        foreach (var role in SubRoles)
-        {
-            if (role == CustomRoles.NotAssigned) continue;
-            //   sb.Append($" + {Utils.GetRoleName(role)}");
-        }
-
-        return sb.ToString();
-    }
     public static string? GetAllRoleName(this PlayerControl player)
     {
         if (!player) return null;
         var text = Utils.GetRoleName(player.GetCustomRole());
-        text += player.GetSubRoleName();
+        text += player.GetSubroles().Select(r => r.RoleName).StrJoin();
         return text;
     }
+
     public static string GetNameWithRole(this PlayerControl? player)
     {
         return $"{player.GetRawName()}" + (GameStates.IsInGame ? $"({player?.GetAllRoleName()})" : "");

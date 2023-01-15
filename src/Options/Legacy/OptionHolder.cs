@@ -575,7 +575,6 @@ namespace TownOfHost
                     (object obj, OptionItem.UpdateValueEventArgs args) => IRandom.SetInstanceById(args.CurrentValue)
                 );
 */
-            DebugModeManager.SetupCustomOption();
 
             IsLoaded = true;
         }

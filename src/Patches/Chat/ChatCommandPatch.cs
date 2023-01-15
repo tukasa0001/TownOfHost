@@ -8,26 +8,17 @@ using Hazel;
 using TownOfHost.Extensions;
 using TownOfHost.RPC;
 using UnityEngine;
+using VentLib.Localization;
 using VentLib.Logging;
-using static TownOfHost.Managers.Translator;
+
 
 namespace TownOfHost.Patches.Chat;
 
-//[HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
-public class ChatPatch
-{
-    public static Dictionary<string, ChatController> ChatHistory = new();
-    /* public static void Postfix(ChatController __instance)
-     {
-         ChatHistory.Add(__instance.TextArea.text, __instance);
-         // return false;
-     }
-     */
-}
-
+[Localized(Group = "Commands")]
 [HarmonyPatch(typeof(ChatController), nameof(ChatController.SendChat))]
 class ChatCommands
 {
+    public static Dictionary<string, ChatController> ChatHistoryDictionary = new();
     public static List<string> ChatHistory = new();
     public static bool Prefix(ChatController __instance)
     {
@@ -42,7 +33,6 @@ class ChatCommands
         var cancelVal = "";
         TOHPlugin.isChatCommand = true;
         VentLogger.Old(text, "SendChat");
-        ChatPatch.ChatHistory.Remove(__instance.TextArea.text);
         switch (args[0])
         {
             case "/dump":
@@ -76,7 +66,6 @@ class ChatCommands
                 case "/l":
                 case "/lastresult":
                     canceled = true;
-                    Utils.ShowLastResult();
                     break;
 
                 case "/r":
@@ -101,13 +90,13 @@ class ChatCommands
                     subArgs = args.Length < 2 ? "" : args[1];
                     switch (subArgs)
                     {
-                        case "r":
+                        /*case "r":
                         case "roles":
                             Utils.ShowActiveRoles();
                             break;
                         default:
                             Utils.ShowActiveSettings();
-                            break;
+                            break;*/
                     }
                     break;
 
@@ -143,54 +132,7 @@ class ChatCommands
                         case "r":
                         case "roles":
                             subArgs = args.Length < 3 ? "" : args[2];
-                            GetRolesInfo(subArgs);
-                            break;
-
-                        case "a":
-                        case "addons":
-                            subArgs = args.Length < 3 ? "" : args[2];
-                            switch (subArgs)
-                            {
-                                case "lastimpostor":
-                                case "limp":
-                                    Utils.SendMessage(Utils.GetRoleName(Roles.LastImpostor.Ref<Roles.LastImpostor>()) + GetString("LastImpostorInfoLong"));
-                                    break;
-
-                                default:
-                                    Utils.SendMessage($"{GetString("Command.h_args")}:\n lastimpostor(limp)");
-                                    break;
-                            }
-                            break;
-
-                        case "m":
-                        case "modes":
-                            subArgs = args.Length < 3 ? "" : args[2];
-                            switch (subArgs)
-                            {
-                                case "hideandseek":
-                                case "has":
-                                    Utils.SendMessage(GetString("HideAndSeekInfo"));
-                                    break;
-
-                                case "nogameend":
-                                case "nge":
-                                    Utils.SendMessage(GetString("NoGameEndInfo"));
-                                    break;
-
-                                case "syncbuttonmode":
-                                case "sbm":
-                                    Utils.SendMessage(GetString("SyncButtonModeInfo"));
-                                    break;
-
-                                case "randommapsmode":
-                                case "rmm":
-                                    Utils.SendMessage(GetString("RandomMapsModeInfo"));
-                                    break;
-
-                                default:
-                                    Utils.SendMessage($"{GetString("Command.h_args")}:\n hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
-                                    break;
-                            }
+                            //GetRolesInfo(subArgs);
                             break;
 
 
@@ -200,7 +142,7 @@ class ChatCommands
                             break;
 
                         default:
-                            Utils.ShowHelp();
+                            /*Utils.ShowHelp();*/
                             break;
                     }
                     break;
@@ -210,17 +152,17 @@ class ChatCommands
                     canceled = true;
                     var role = PlayerControl.LocalPlayer.GetCustomRole();
                     if (GameStates.IsInGame)
-                        HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString(role.ToString()) + PlayerControl.LocalPlayer.GetCustomRole().Description);
+                        HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, role.RoleName + role.Description);
                     break;
 
-                case "/t":
+                /*case "/t":
                 case "/template":
                     canceled = true;
                     if (args.Length > 1) TemplateManager.SendTemplate(args[1]);
                     else HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"{GetString("ForExample")}:\n{args[0]} test");
-                    break;
+                    break;*/
 
-                case "/mw":
+                /*case "/mw":
                 case "/messagewait":
                     canceled = true;
                     if (args.Length > 1 && int.TryParse(args[1], out int sec))
@@ -229,12 +171,12 @@ class ChatCommands
                         Utils.SendMessage(string.Format(GetString("Message.SetToSeconds"), sec), 0);
                     }
                     else Utils.SendMessage($"{GetString("Message.MessageWaitHelp")}\n{GetString("ForExample")}:\n{args[0]} 3", 0);
-                    break;
+                    break;*/
 
                 case "/say":
                     canceled = true;
                     if (args.Length > 1)
-                        Utils.SendMessage(args.Skip(1).Join(delimiter: " "), title: $"<color=#ff0000>{GetString("MessageFromTheHost")}</color>");
+                        Utils.SendMessage(args.Skip(1).Join(delimiter: " "), title: $"<color=#ff0000>{Localizer.Get("Commands.MessageFromHost")}</color>");
                     break;
 
                 case "/exile":
@@ -264,100 +206,6 @@ class ChatCommands
         return !canceled;
     }
 
-    public static void GetRolesInfo(string role)
-    {
-        var roleList = new Dictionary<CustomRoles, string>
-        {
-            //GM
-            { CustomRoles.GM, "gm" },
-            //Impostor役職
-            { (CustomRoles)(-1), $"== {GetString("Impostor")} ==" }, //区切り用
-            { CustomRoles.BountyHunter, "bo" },
-            { CustomRoles.EvilTracker,"et" },
-            { CustomRoles.FireWorks, "fw" },
-            { CustomRoles.Mare, "ma" },
-            { CustomRoles.Mafia, "mf" },
-            { CustomRoles.SerialKiller, "sk" },
-            //{ CustomRoles.ShapeMaster, "sha" },
-            { CustomRoles.TimeThief, "tt"},
-            { CustomRoles.Sniper, "snp" },
-            { CustomRoles.Puppeteer, "pup" },
-            { CustomRoles.Vampire, "va" },
-            { CustomRoles.Warlock, "wa" },
-            { CustomRoles.Witch, "wi" },
-            //Madmate役職
-            { (CustomRoles)(-2), $"== {GetString("Madmate")} ==" }, //区切り用
-            { CustomRoles.MadGuardian, "mg" },
-            { CustomRoles.Madmate, "mm" },
-            { CustomRoles.MadSnitch, "msn" },
-            { CustomRoles.SKMadmate, "sm" },
-            //両陣営役職
-            { (CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==" }, //区切り用
-            { CustomRoles.Watcher, "wat" },
-            //Crewmate役職
-            { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
-            { CustomRoles.Bait, "ba" },
-            { CustomRoles.Dictator, "dic" },
-            { CustomRoles.Doctor, "doc" },
-            { CustomRoles.Lighter, "li" },
-            { CustomRoles.Mayor, "my" },
-            { CustomRoles.SabotageMaster, "sa" },
-            { CustomRoles.Seer,"se" },
-            { CustomRoles.Sheriff, "sh" },
-            { CustomRoles.Snitch, "sn" },
-            { CustomRoles.SpeedBooster, "sb" },
-            { CustomRoles.Trapper, "tra" },
-            //Neutral役職
-            { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
-            { CustomRoles.Arsonist, "ar" },
-            { CustomRoles.Egoist, "eg" },
-            { CustomRoles.Executioner, "exe" },
-            { CustomRoles.Jester, "je" },
-            { CustomRoles.Opportunist, "op" },
-            { CustomRoles.SchrodingerCat, "sc" },
-            { CustomRoles.Terrorist, "te" },
-            { CustomRoles.Jackal, "jac" },
-            //属性
-            { (CustomRoles)(-6), $"== {GetString("Addons")} ==" }, //区切り用
-            {CustomRoles.Lovers, "lo" },
-            //HAS
-            { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
-            { CustomRoles.HASFox, "hfo" },
-            { CustomRoles.HASTroll, "htr" },
-
-        };
-        var msg = "";
-        var rolemsg = $"{GetString("Command.h_args")}";
-        foreach (var r in roleList)
-        {
-            var roleName = r.Key.ToString();
-            var roleShort = r.Value;
-
-            if (String.Compare(role, roleName, true) == 0 || String.Compare(role, roleShort, true) == 0)
-            {
-                Utils.SendMessage(GetString(roleName) + GetString($"{roleName}InfoLong"));
-                return;
-            }
-
-            var roleText = $"{roleName.ToLower()}({roleShort.ToLower()}), ";
-            if ((int)r.Key < 0)
-            {
-                msg += rolemsg + "\n" + roleShort + "\n";
-                rolemsg = "";
-            }
-            else if ((rolemsg.Length + roleText.Length) > 40)
-            {
-                msg += rolemsg + "\n";
-                rolemsg = roleText;
-            }
-            else
-            {
-                rolemsg += roleText;
-            }
-        }
-        msg += rolemsg;
-        Utils.SendMessage(msg);
-    }
     public static void OnReceiveChat(PlayerControl player, string text)
     {
         if (!AmongUsClient.Instance.AmHost) return;
@@ -367,8 +215,8 @@ class ChatCommands
         ChatController controller = null;
         if (text != "")
         {
-            if (ChatPatch.ChatHistory.ContainsKey(text))
-                controller = ChatPatch.ChatHistory[text];
+            if (ChatHistoryDictionary.ContainsKey(text))
+                controller = ChatHistoryDictionary[text];
         }
         switch (args[0])
         {
@@ -381,7 +229,7 @@ class ChatCommands
                 break;
             case "/l":
             case "/lastresult":
-                Utils.ShowLastResult(player.PlayerId);
+                /*Utils.ShowLastResult(player.PlayerId);*/
                 break;
 
             case "/n":
@@ -389,14 +237,14 @@ class ChatCommands
                 subArgs = args.Length < 2 ? "" : args[1];
                 switch (subArgs)
                 {
-                    case "r":
+                    /*case "r":
                     case "roles":
                         Utils.ShowActiveRoles(player.PlayerId);
                         break;
 
                     default:
                         Utils.ShowActiveSettings(player.PlayerId);
-                        break;
+                        break;*/
                 }
                 break;
 
@@ -416,14 +264,14 @@ class ChatCommands
             case "/myrole":
                 var role = player.GetCustomRole();
                 if (GameStates.IsInGame)
-                    Utils.SendMessage(GetString(role.ToString()) + player.GetCustomRole().Description, player.PlayerId);
+                    Utils.SendMessage(role.RoleName + role.Description, player.PlayerId);
                 break;
 
-            case "/t":
+            /*case "/t":
             case "/template":
                 if (args.Length > 1) TemplateManager.SendTemplate(args[1], player.PlayerId);
                 else Utils.SendMessage($"{GetString("ForExample")}:\n{args[0]} test", player.PlayerId);
-                break;
+                break;*/
 
             default:
                 break;

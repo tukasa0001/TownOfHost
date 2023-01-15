@@ -6,8 +6,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AmongUs.Data;
 using HarmonyLib;
+using VentLib.Localization;
 using VentLib.Logging;
-using static TownOfHost.Managers.Translator;
+
 
 namespace TownOfHost
 {
@@ -85,8 +86,8 @@ namespace TownOfHost
             if (sendList.Count == 0 && !noErr)
             {
                 if (playerId == 0xff)
-                    HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, string.Format(GetString("Message.TemplateNotFoundHost"), str, tags.Join(delimiter: ", ")));
-                else Utils.SendMessage(string.Format(GetString("Message.TemplateNotFoundClient"), str), playerId);
+                    HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, string.Format(Localizer.Get("Messages.TemplateNotFoundHost"), str, tags.Join(delimiter: ", ")));
+                else Utils.SendMessage(string.Format(Localizer.Get("Messages.TemplateNotFoundClient"), str), playerId);
             }
             else for (int i = 0; i < sendList.Count; i++) Utils.SendMessage(ApplyReplaceDictionary(sendList[i]), playerId);
         }

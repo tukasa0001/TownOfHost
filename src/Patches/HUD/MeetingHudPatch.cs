@@ -10,8 +10,9 @@ using TownOfHost.Patches.Chat;
 using TownOfHost.Roles;
 using TownOfHost.RPC;
 using UnityEngine;
+using VentLib.Localization;
 using VentLib.Logging;
-using static TownOfHost.Managers.Translator;
+
 
 namespace TownOfHost.Patches.HUD;
 
@@ -98,7 +99,7 @@ class CheckForEndVotingPatch
         }
         catch (Exception ex)
         {
-            VentLogger.SendInGame(string.Format(GetString("Error.MeetingException"), ex.Message));
+            VentLogger.SendInGame(string.Format(Localizer.Get("Errors.MeetingError"), ex.Message));
             throw;
         }
     }
@@ -151,11 +152,9 @@ class MeetingHudStartPatch
         SoundManager.Instance.ChangeMusicVolume(0f);
         if (StaticOptions.SyncButtonMode)
         {
-            Utils.SendMessage(string.Format(GetString("Message.SyncButtonLeft"), StaticOptions.SyncedButtonCount - OldOptions.UsedButtonCount));
+            Utils.SendMessage(string.Format(Localizer.Get("StaticOptions.SyncButton.SyncButtonsLeft"), StaticOptions.SyncedButtonCount - OldOptions.UsedButtonCount));
             VentLogger.Old("緊急会議ボタンはあと" + (StaticOptions.SyncedButtonCount - OldOptions.UsedButtonCount) + "回使用可能です。", "SyncButtonMode");
         }
-        if (AntiBlackout.OverrideExiledPlayer)
-            Utils.SendMessage(GetString("Warning.OverrideExiledPlayer"));
 
         if (AmongUsClient.Instance.AmHost)
             DTask.Schedule(() => ChatUpdatePatch.DoBlockChat = false, 3f);
@@ -173,9 +172,7 @@ class MeetingHudUpdatePatch
             {
                 var player = Utils.GetPlayerById(x.TargetPlayerId);
                 player.RpcExileV2();
-                TOHPlugin.PlayerStates[player.PlayerId].deathReason = PlayerStateOLD.DeathReason.Execution;
-                TOHPlugin.PlayerStates[player.PlayerId].SetDead();
-                Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
+                /*Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));*/
                 VentLogger.Old($"{player.GetNameWithRole()}を処刑しました", "Execution");
             });
         }

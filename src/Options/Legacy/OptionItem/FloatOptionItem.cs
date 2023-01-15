@@ -23,10 +23,6 @@ namespace TownOfHost
         // Getter
         public override int GetInt() => (int)Rule.GetValueByIndex(CurrentValue);
         public override float GetFloat() => Rule.GetValueByIndex(CurrentValue);
-        public override string GetString()
-        {
-            return ApplyFormat(Rule.GetValueByIndex(CurrentValue).ToString());
-        }
         public override int GetValue()
             => Rule.RepeatIndex(base.GetValue());
 

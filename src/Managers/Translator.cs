@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -157,4 +157,4 @@ public static class Translator
         foreach (var title in translateMaps) text += $"{title.Key}:{title.Value[0].Replace("\n", "\\n").Replace("\r", "\\r")}\n";
         File.WriteAllText(@$"./{LANGUAGE_FOLDER_NAME}/template_English.dat", text);
     }
-}
+}*/

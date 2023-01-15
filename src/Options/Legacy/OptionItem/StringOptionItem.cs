@@ -27,10 +27,6 @@ namespace TownOfHost
         // Getter
         public override int GetInt() => Rule.GetValueByIndex(CurrentValue);
         public override float GetFloat() => Rule.GetValueByIndex(CurrentValue);
-        public override string GetString()
-        {
-            return Translator.GetString(Selections[Rule.GetValueByIndex(CurrentValue)]);
-        }
         public int GetChance()
         {
             //0%or100%の場合

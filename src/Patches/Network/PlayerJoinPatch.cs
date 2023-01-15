@@ -12,33 +12,25 @@ using TownOfHost.RPC;
 using VentLib;
 using VentLib.Localization;
 using VentLib.Logging;
-using static TownOfHost.Managers.Translator;
+
 
 namespace TownOfHost.Patches.Network;
 
-[Localized(Group = "GameJoin")]
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
 class OnGameJoinedPatch
 {
 
-    [Localized("HelloWorldMessage")]
-    public static string HelloWorldMessage;
-
-
     public static void Postfix(AmongUsClient __instance)
     {
-        VentLogger.Fatal(HelloWorldMessage);
-
         while (!OldOptions.IsLoaded) System.Threading.Tasks.Task.Delay(1);
         VentLogger.Old($"{__instance.GameId}に参加", "OnGameJoined");
         TOHPlugin.playerVersion = new Dictionary<byte, PlayerVersion>();
-        OldRPC.RpcVersionCheck();
+        /*OldRPC.RpcVersionCheck();*/
         SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
-        ChatPatch.ChatHistory = new();
+        ChatCommands.ChatHistoryDictionary = new();
 
         ChatUpdatePatch.DoBlockChat = false;
         GameStates.InGame = false;
-        ErrorText.Instance.Clear();
         DTask.Schedule(() => AddonManager.VerifyClientAddons(AddonManager.Addons.Select(AddonInfo.From).ToList()), GameStats.DeriveDelay(0.5f));
     }
 }
@@ -57,7 +49,7 @@ class OnPlayerJoinedPatch
         BanManager.CheckBanPlayer(client);
         BanManager.CheckDenyNamePlayer(client);
         TOHPlugin.playerVersion = new Dictionary<byte, PlayerVersion>();
-        OldRPC.RpcVersionCheck();
+        /*OldRPC.RpcVersionCheck();*/
         DTask.Schedule(() => VentFramework.FindRPC((uint)ModCalls.SendOptionPreview)!.Send(new[] { client.Character.GetClientId() }, TOHPlugin.OptionManager.Options()), GameStats.DeriveDelay(1f));
         Game.CurrentGamemode.Trigger(GameAction.GameJoin, client);
     }
@@ -72,7 +64,7 @@ class CreatePlayerPatch
         DTask.Schedule(() =>
         {
             if (client.Character == null) return;
-            if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(GetString("Message.AnnounceUsingTOH"), TOHPlugin.PluginVersion + (TOHPlugin.DevVersion ? " " + TOHPlugin.DevVersionStr : "")), client.Character.PlayerId);
+            if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(Localizer.Get("Announcements.UsingTOH"), TOHPlugin.PluginVersion + (TOHPlugin.DevVersion ? " " + TOHPlugin.DevVersionStr : "")), client.Character.PlayerId);
             TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
         }, 3f);
     }
