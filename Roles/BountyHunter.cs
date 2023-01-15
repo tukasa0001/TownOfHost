@@ -119,16 +119,16 @@ namespace TownOfHost
                     if (ChangeTimer[player.PlayerId] >= 0)
                         ChangeTimer[player.PlayerId] += Time.fixedDeltaTime;
 
-                    //BountyHunterのターゲット更新
+                        //BountyHunterのターゲット更新
                     if (Main.PlayerStates[target.PlayerId].IsDead)
-                    {
-                        ResetTarget(player);
-                        Logger.Info($"{player.GetNameWithRole()}のターゲットが無効だったため、ターゲットを更新しました", "BountyHunter");
-                        Utils.NotifyRoles(SpecifySeer: player);
+                        {
+                            ResetTarget(player);
+                            Logger.Info($"{player.GetNameWithRole()}のターゲットが無効だったため、ターゲットを更新しました", "BountyHunter");
+                            Utils.NotifyRoles(SpecifySeer: player);
+                        }
                     }
                 }
             }
-        }
         public static PlayerControl GetTarget(PlayerControl player)
         {
             if (player == null) return null;
@@ -171,13 +171,7 @@ namespace TownOfHost
             SendRPC(player.PlayerId, target.PlayerId);
             return target;
         }
-        public static void GetAbilityButtonText(HudManager __instance) => __instance.AbilityButton.OverrideText($"{GetString("BountyHunterChangeButtonText")}");
-        public static void DisplayTarget(PlayerControl bounty, TMPro.TextMeshPro LowerInfoText)
-        {
-            var target = GetTarget(bounty);
-            LowerInfoText.text = target == null ? "null" : $"{GetString("BountyCurrentTarget")}:{GetTarget(bounty).name}";
-            LowerInfoText.enabled = target != null || DebugModeManager.IsDebugMode;
-        }
+        public static void SetAbilityButtonText(HudManager __instance) => __instance.AbilityButton.OverrideText($"{GetString("BountyHunterChangeButtonText")}");
         public static void AfterMeetingTasks()
         {
             foreach (var id in playerIdList)
@@ -188,6 +182,11 @@ namespace TownOfHost
                     ChangeTimer[id] = 0f;
                 }
             }
+        }
+        public static string GetTargetText(PlayerControl bounty, bool hud)
+        {
+            var target = GetTarget(bounty);
+            return target != null ? $"{(hud ? GetString("BountyCurrentTarget") : "Target")}:{target.name}" : "";
         }
         public static string GetTargetArrow(PlayerControl seer, bool isMeeting = false)
         {
