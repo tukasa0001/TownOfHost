@@ -1043,9 +1043,6 @@ namespace TownOfHost
         public static void Postfix(PlayerControl __instance)
         {
             var pc = __instance;
-            Logger.Info($"TaskComplete:{pc.GetNameWithRole()}", "CompleteTask");
-            Main.PlayerStates[pc.PlayerId].UpdateTask(pc);
-            Utils.NotifyRoles();
             TimeManager.OnCheckCompleteTask(pc);//タスク1つ終わるごとに処理
             Snitch.OnCompleteTask(pc);
 
