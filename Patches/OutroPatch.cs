@@ -91,7 +91,6 @@ namespace TownOfHost
             }
 
             BountyHunter.ChangeTimer = new();
-            Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
 
             NameColorManager.Instance.RpcReset();
