@@ -18,7 +18,7 @@ namespace TownOfHost
                 KillTimer = killTimer;
             }
         }
-        static readonly int Id = 1500;
+        static readonly int Id = 1300;
         static List<byte> PlayerIdList = new();
 
         static OptionItem OptionKillDelay;
@@ -28,8 +28,8 @@ namespace TownOfHost
         static Dictionary<byte, BittenInfo> BittenPlayers = new();
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(1300, TabGroup.ImpostorRoles, CustomRoles.Vampire);
-            OptionKillDelay = FloatOptionItem.Create(1310, "VampireKillDelay", new(1f, 1000f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Vampire])
+            Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Vampire);
+            OptionKillDelay = FloatOptionItem.Create(Id + 10, "VampireKillDelay", new(1f, 1000f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Vampire])
                 .SetValueFormat(OptionFormat.Seconds);
         }
         public static void Init()
