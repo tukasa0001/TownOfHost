@@ -99,7 +99,6 @@ namespace TownOfHost
         /// </summary>
         public static Dictionary<byte, float> AllPlayerSpeed = new();
         public const float MinSpeed = 0.0001f;
-        public static Dictionary<byte, (byte, float)> BitPlayers = new();
         public static Dictionary<byte, float> WarlockTimer = new();
         public static Dictionary<byte, PlayerControl> CursedPlayers = new();
         public static Dictionary<byte, bool> isCurseAndKill = new();
@@ -159,7 +158,6 @@ namespace TownOfHost
             // 認証関連-認証
             DebugModeManager.Auth(DebugKeyAuth, DebugKeyInput.Value);
 
-            BitPlayers = new Dictionary<byte, (byte, float)>();
             WarlockTimer = new Dictionary<byte, float>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
             isDoused = new Dictionary<(byte, byte), bool>();
