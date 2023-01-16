@@ -682,18 +682,6 @@ namespace TownOfHost
                         if (target.Is(CustomRoles.Arsonist) && target.IsDouseDone())
                             RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), GetString("EnterVentToWin"));
                     }
-                    //タスクを終わらせたMadSnitchがインポスターを確認できる
-                    else if (seer.Is(CustomRoles.MadSnitch) && //seerがMadSnitch
-                        target.GetCustomRole().IsImpostor() && //targetがインポスター
-                        seer.GetPlayerTaskState().IsTaskFinished) //seerのタスクが終わっている
-                    {
-                        RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの名前を赤色で表示
-                    }
-                    else if (seer.GetCustomRole().IsImpostor()) //seerがインポスター
-                    {
-                        if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool()) //targetがタスクを終わらせたマッドスニッチ
-                            Mark += Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★"); //targetにマーク付与
-                    }
                     else if (target.Is(CustomRoles.Mare) && Utils.IsActive(SystemTypes.Electrical))
                         RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの赤色で表示
 
@@ -701,6 +689,11 @@ namespace TownOfHost
                     var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
                     if (ncd.color != null) RealName = ncd.OpenTag + RealName + ncd.CloseTag;
 
+                    if (seer.GetCustomRole().IsImpostor()) //seerがインポスター
+                    {
+                        if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool()) //targetがタスクを終わらせたマッドスニッチ
+                            Mark += Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★"); //targetにマーク付与
+                    }
                     //インポスター/キル可能な第三陣営がタスクが終わりそうなSnitchを確認できる
                     Mark += Snitch.GetWarningMark(seer, target);
 
@@ -981,7 +974,16 @@ namespace TownOfHost
 
             Snitch.OnCompleteTask(pc);
 
-            if ((pc.GetPlayerTaskState().IsTaskFinished &&
+            var isTaskFinish = pc.GetPlayerTaskState().IsTaskFinished;
+            if (isTaskFinish && pc.Is(CustomRoles.MadSnitch))
+            {
+                foreach(var impostor in Main.AllAlivePlayerControls.Where(pc=>pc.Is(RoleType.Impostor)))
+                {
+                    NameColorManager.Instance.RpcAdd(pc.PlayerId, impostor.PlayerId, impostor.GetRoleColorCode());
+                }
+                Utils.NotifyRoles(SpecifySeer: pc);
+            }
+            if ((isTaskFinish &&
                 pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor) ||
                 pc.GetCustomRole() is CustomRoles.SpeedBooster)
             {
