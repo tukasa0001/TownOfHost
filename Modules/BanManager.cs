@@ -18,7 +18,7 @@ namespace TownOfHost
         public static void AddBanPlayer(InnerNet.ClientData player)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            if (!CheckBanList(player))
+            if (!CheckBanList(player) && player.FriendCode != "")
             {
                 File.AppendAllText(BAN_LIST_PATH, $"{player.FriendCode},{player.PlayerName}\n");
             }
