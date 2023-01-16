@@ -62,6 +62,7 @@ namespace TownOfHost
         }
         public static bool CheckBanList(InnerNet.ClientData player)
         {
+            if (player.FriendCode == "") return false;
             try
             {
                 Directory.CreateDirectory("TOH_DATA");
