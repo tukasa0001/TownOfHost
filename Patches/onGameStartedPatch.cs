@@ -19,7 +19,7 @@ namespace TownOfHost
 
             Main.AllPlayerKillCooldown = new Dictionary<byte, float>();
             Main.AllPlayerSpeed = new Dictionary<byte, float>();
-            Main.BitPlayers = new Dictionary<byte, (byte, float)>();
+
             Main.WarlockTimer = new Dictionary<byte, float>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
             Main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
@@ -118,6 +118,7 @@ namespace TownOfHost
             EvilTracker.Init();
             Snitch.Init();
             SchrodingerCat.Init();
+            Vampire.Init();
             LastImpostor.Init();
             TargetArrow.Init();
             DoubleTrigger.Init();
@@ -328,6 +329,9 @@ namespace TownOfHost
                             break;
                         case CustomRoles.Mare:
                             Mare.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.Vampire:
+                            Vampire.Add(pc.PlayerId);
                             break;
 
                         case CustomRoles.Arsonist:

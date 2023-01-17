@@ -82,7 +82,7 @@ namespace TownOfHost
                         Witch.GetAbilityButtonText(__instance);
                         break;
                     case CustomRoles.Vampire:
-                        __instance.KillButton.OverrideText($"{GetString("VampireBiteButtonText")}");
+                        Vampire.SetKillButtonText();
                         break;
                     case CustomRoles.Arsonist:
                         __instance.KillButton.OverrideText($"{GetString("ArsonistDouseButtonText")}");
