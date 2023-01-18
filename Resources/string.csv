@@ -220,7 +220,7 @@
 
 "# 属性"
 "LastImpostorInfoLong","(Add-ons):\nAn Add-on granted to the last Impostor remaining.\nKill cooldown is reduced according to this setting.\nNot granted to Bounty Hunters, Serial Killers, or Vampires.","(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。","（效果）:\n这个效果在内鬼仅剩一人时赋予该内鬼。\n使其击杀冷却缩短。\n该效果对赏金猎人、嗜血杀手以及吸血鬼不适用。","(附加效果):\n該效果給予在場上的最後一隻狼人,擁有該效果的狼人刀人冷卻時間會變短,該效果不會給予:\n賞金獵人,連環殺手或吸血鬼 (可以設定冷卻)","(Атрибут):\nАтрибут, присваивается последнему Предателю. \nВремя отката убийства становится меньше, чем обычно. \nНе назначается BountyHunter, SerialKiller или Vampire.","(Atributos): \nUm Atributo dado ao último Impostor. \nO tempo de recarga (abate) é reduzido segundo a configuração. \nNão é dado para Caçadores de Recompensas, Serial Killers ou Vampiros."
-"WorkhorseInfoLong","(Add-ons):\nAn Add-on granted to the first living Crewmate finishing all the tasks.\nYou are assigned additional tasks necessary for the tasks win.\nNot granted to roles with no tasks or task trigger.","(属性):\n最初に生きてタスクを終えたクルーに付与される属性。\n追加タスクが割り当てられる。\nクルーメイト以外にも割り当てる設定でもタスクが無い、タスク完了で能力が発動する役職には付与されない。"
+"WorkhorseInfoLong","(Add-ons):\nAn Add-on granted to the first living Crewmate finishing all the tasks.\nYou are assigned additional tasks necessary for the tasks win.\nNot granted to roles with no tasks or with abilities triggered by finishing tasks.","(属性):\n最初に生きてタスクを終えたクルーに付与される属性。\n追加タスクが割り当てられる。\nクルーメイト以外にも割り当てる設定でもタスクが無い、タスク完了で能力が発動する役職には付与されない。"
 
 "#モードオプション"
 "HideAndSeek","Hide and Seek","かくれんぼ","躲猫猫","躲貓貓","Прятки","Esconde-Esconde"
