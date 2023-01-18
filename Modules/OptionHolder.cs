@@ -239,6 +239,10 @@ namespace TownOfHost
         public static OptionItem ChangeNameToRoleInfo;
         public static OptionItem RoleAssigningAlgorithm;
 
+        public static OptionItem ApplyDenyNameList;
+        public static OptionItem KickPlayerFriendCodeNotExist;
+        public static OptionItem ApplyBanList;
+
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -651,6 +655,14 @@ namespace TownOfHost
                 .RegisterUpdateValueEvent(
                     (object obj, OptionItem.UpdateValueEventArgs args) => IRandom.SetInstanceById(args.CurrentValue)
                 );
+
+            ApplyDenyNameList = BooleanOptionItem.Create(1_000_100, "ApplyDenyNameList", true, TabGroup.MainSettings, true)
+                .SetHeader(true)
+                .SetGameMode(CustomGameMode.All);
+            KickPlayerFriendCodeNotExist = BooleanOptionItem.Create(1_000_101, "KickPlayerFriendCodeNotExist", false, TabGroup.MainSettings, true)
+                .SetGameMode(CustomGameMode.All);
+            ApplyBanList = BooleanOptionItem.Create(1_000_110, "ApplyBanList", true, TabGroup.MainSettings, true)
+                .SetGameMode(CustomGameMode.All);
 
             DebugModeManager.SetupCustomOption();
 
