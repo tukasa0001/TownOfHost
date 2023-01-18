@@ -49,5 +49,15 @@ namespace TownOfHost
 
             return true;
         }
+        public static (Color, int, int) GetTaskTextData(TaskState taskState)
+        {
+            var opt = Main.NormalOptions;
+            int NumFormerTasks = opt.NumCommonTasks + opt.NumLongTasks + opt.NumShortTasks;
+            int NumCompleted = NumFormerTasks + taskState.CompletedTasksCount;
+            int NumAllTasks = NumFormerTasks + taskState.AllTasksCount;
+
+            Color color = taskState.IsTaskFinished ? Color.green : Utils.GetRoleColor(CustomRoles.Workhorse);
+            return (color, NumCompleted, NumAllTasks);
+        }
     }
 }
