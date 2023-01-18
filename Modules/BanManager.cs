@@ -51,7 +51,7 @@ namespace TownOfHost
         }
         public static void CheckBanPlayer(InnerNet.ClientData player)
         {
-            if (!AmongUsClient.Instance.AmHost) return;
+            if (!AmongUsClient.Instance.AmHost || !Options.ApplyBanList.GetBool()) return;
             if (CheckBanList(player))
             {
                 AmongUsClient.Instance.KickPlayer(player.Id, true);
