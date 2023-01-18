@@ -119,6 +119,7 @@ namespace TownOfHost
             Snitch.Init();
             SchrodingerCat.Init();
             Vampire.Init();
+            TimeManager.Init();
             LastImpostor.Init();
             TargetArrow.Init();
             DoubleTrigger.Init();
@@ -365,6 +366,9 @@ namespace TownOfHost
                             break;
                         case CustomRoles.SchrodingerCat:
                             SchrodingerCat.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.TimeManager:
+                            TimeManager.Add(pc.PlayerId);
                             break;
                     }
                     foreach (var subRole in pc.GetCustomSubRoles())
