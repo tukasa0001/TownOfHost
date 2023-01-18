@@ -32,8 +32,8 @@ public abstract class AbstractBaseRole
 
     }
 
-    public string Description => Localizer.Get($"Roles.{EnglishRoleName}.Description");
-    public string RoleName => Localizer.Get($"Roles.{EnglishRoleName}.RoleName");
+    public string Description => Localizer.Get($"Roles.{EnglishRoleName.RemoveHtmlTags()}.Description");
+    public string RoleName => Localizer.Get($"Roles.{EnglishRoleName.RemoveHtmlTags()}.RoleName");
 
     public RoleTypes? DesyncRole;
     public RoleTypes VirtualRole;

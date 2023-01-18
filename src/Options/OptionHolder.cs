@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using Hazel;
-using Reactor.Utilities.Extensions;
 using TownOfHost.Extensions;
 using TownOfHost.Options.Generators;
 using UnityEngine;
 using VentLib.Extensions;
-using VentLib.Interfaces;
-using VentLib.Localization;
+using VentLib.RPC.Interfaces;
 using Object = UnityEngine.Object;
+
 // ReSharper disable ParameterHidesMember
 
 namespace TownOfHost.Options;
@@ -65,7 +64,7 @@ public class OptionHolder: IRpcSendable<OptionHolder>
         List<OptionBehaviour> behaviours = new();
         if (forceNew || this.Behaviour == null)
         {
-            if (this.Behaviour != null) this.Behaviour.Destroy();
+            if (this.Behaviour != null) Object.Destroy(this.Behaviour);
             this.Behaviour = Object.Instantiate(template, parent);
             behaviours.Add(this.Behaviour);
         }

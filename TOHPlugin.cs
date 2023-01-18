@@ -8,16 +8,17 @@ using HarmonyLib;
 using UnityEngine;
 using AmongUs.GameOptions;
 using BepInEx.Unity.IL2CPP;
-using Il2CppInterop.Runtime.Injection;
 using TownOfHost.Addons;
 using TownOfHost.Options;
 using TownOfHost.Roles;
-using Reactor;
-using Reactor.Networking.Attributes;
 using TownOfHost.Gamemodes;
 using TownOfHost.Managers;
 using VentLib;
 using VentLib.Logging;
+using VentLib.Version;
+using VentLib.Version.Git;
+using VentLib.Version.Handshake;
+using Version = VentLib.Version.Version;
 
 [assembly: AssemblyFileVersion(TownOfHost.TOHPlugin.PluginVersion)]
 [assembly: AssemblyInformationalVersion(TownOfHost.TOHPlugin.PluginVersion)]
@@ -25,15 +26,20 @@ namespace TownOfHost;
 
 [BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
 [BepInProcess("Among Us.exe")]
-[BepInDependency(ReactorPlugin.Id)]
-[ReactorModFlags(Reactor.Networking.ModFlags.None)]
-public class TOHPlugin : BasePlugin
+public class TOHPlugin : BasePlugin, IGitVersionEmitter
 {
+    public readonly GitVersion CurrentVersion = new();
+
     public TOHPlugin()
     {
         Instance = this;
-        VentFramework.Initialize();
-        VentLogger.Configuration.SetLevel(LogLevel.All);
+        Vents.Initialize(false);
+        Vents.VersionControl.For(this);
+        Vents.VersionControl.AddVersionReceiver(
+            (ver, player) => playerVersion[player.PlayerId] = (GitVersion)ver,
+            ReceiveExecutionFlag.OnSuccessfulHandshake);
+
+        VentLogger.Configuration.SetLevel(LogLevel.Trace);
     }
 
     // == プログラム設定 / Program Config ==
@@ -55,7 +61,6 @@ public class TOHPlugin : BasePlugin
     public const string PluginVersion = "1.0.0";
     public static readonly string DevVersionStr = "dev 1";
     public Harmony Harmony { get; } = new(PluginGuid);
-    public static Version version = Version.Parse(PluginVersion);
     public static BepInEx.Logging.ManualLogSource Logger;
 
     public static string CredentialsText;
@@ -67,7 +72,7 @@ public class TOHPlugin : BasePlugin
     public static ConfigEntry<string> HideColor { get; private set; }
     public static ConfigEntry<int> MessageWait { get; private set; }
 
-    public static Dictionary<byte, PlayerVersion> playerVersion = new();
+    public static Dictionary<byte, GitVersion> playerVersion = new();
     //Other Configs
     public static ConfigEntry<string> WebhookURL { get; private set; }
     public static ConfigEntry<string> BetaBuildURL { get; private set; }
@@ -107,8 +112,6 @@ public class TOHPlugin : BasePlugin
         HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{ModColor}");
         DebugKeyInput = Config.Bind("Authentication", "Debug Key", "");
 
-        Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
-
         OptionManager = new OptionManager();
         GamemodeManager = new GamemodeManager();
 
@@ -124,25 +127,29 @@ public class TOHPlugin : BasePlugin
 
         VentLogger.Info($"{Application.version}", "AmongUs Version");
 
-        VentLogger.Info($"{nameof(ThisAssembly.Git.Branch)}: {ThisAssembly.Git.Branch}", "GitVersion");
-        VentLogger.Info($"{nameof(ThisAssembly.Git.BaseTag)}: {ThisAssembly.Git.BaseTag}", "GitVersion");
-        VentLogger.Info($"{nameof(ThisAssembly.Git.Commit)}: {ThisAssembly.Git.Commit}", "GitVersion");
-        VentLogger.Info($"{nameof(ThisAssembly.Git.Commits)}: {ThisAssembly.Git.Commits}", "GitVersion");
-        VentLogger.Info($"{nameof(ThisAssembly.Git.IsDirty)}: {ThisAssembly.Git.IsDirty}", "GitVersion");
-        VentLogger.Info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}", "GitVersion");
-        VentLogger.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}", "GitVersion");
+        VentLogger.Info(CurrentVersion.ToString(), "GitVersion");
 
         // Setup, order matters here
 
         GameOptionTab __ = DefaultTabs.GeneralTab;
         int _ = CustomRoleManager.AllRoles.Count;
-        Harmony.PatchAll();
+        Harmony.PatchAll(Assembly.GetExecutingAssembly());
         AddonManager.ImportAddons();
 
         GamemodeManager.Setup();
         StaticOptions.AddStaticOptions();
         OptionManager.AllHolders.AddRange(OptionManager.Options().SelectMany(opt => opt.GetHoldersRecursive()));
         Initialized = true;
+    }
+
+    public GitVersion Version() => CurrentVersion;
+
+    public HandshakeResult HandshakeFilter(Version handshake)
+    {
+        if (handshake is NoVersion) return HandshakeResult.FailDoNothing;
+        if (handshake is not GitVersion git) return HandshakeResult.DisableRPC;
+        if (git.MajorVersion != CurrentVersion.MajorVersion && git.MinorVersion != CurrentVersion.MinorVersion) return HandshakeResult.FailDoNothing;
+        return HandshakeResult.PassDoNothing;
     }
 }
 public enum CustomRoles
@@ -213,58 +220,4 @@ public enum CustomRoles
     NotAssigned = 500,
     LastImpostor,
     Lovers,
-}
-//WinData
-public enum CustomWinner
-{
-    Draw = -1,
-    Default = -2,
-    None = -3,
-    Impostor = CustomRoles.Impostor,
-    Crewmate = CustomRoles.Crewmate,
-    Jester = CustomRoles.Jester,
-    Terrorist = CustomRoles.Terrorist,
-    Lovers = CustomRoles.Lovers,
-    Executioner = CustomRoles.Executioner,
-    Arsonist = CustomRoles.Arsonist,
-    Egoist = CustomRoles.Egoist,
-    Jackal = CustomRoles.Jackal,
-    HASTroll = CustomRoles.HASTroll,
-}
-public enum AdditionalWinners
-{
-    None = -1,
-    Opportunist = CustomRoles.Opportunist,
-    SchrodingerCat = CustomRoles.SchrodingerCat,
-    Executioner = CustomRoles.Executioner,
-    HASFox = CustomRoles.HASFox,
-}
-/*public enum CustomRoles : byte
-{
-    Default = 0,
-    HASTroll = 1,
-    HASHox = 2
-}*/
-public enum SuffixModes
-{
-    None = 0,
-    TOH,
-    Streaming,
-    Recording,
-    RoomHost,
-    OriginalName
-}
-public enum VoteMode
-{
-    Default,
-    Suicide,
-    SelfVote,
-    Skip
-}
-
-public enum TieMode
-{
-    Default,
-    All,
-    Random
 }

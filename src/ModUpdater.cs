@@ -109,7 +109,8 @@ namespace TownOfHost
                         if (assets[i]["name"].ToString() == "TownOfHost.dll")
                             downloadUrl = assets[i]["browser_download_url"].ToString();
                     }
-                    hasUpdate = latestVersion.CompareTo(TOHPlugin.version) > 0;
+                    /*hasUpdate = latestVersion.CompareTo(TOHPlugin) > 0;*/
+                    hasUpdate = false;
                 }
                 if (downloadUrl == null)
                 {

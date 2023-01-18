@@ -23,16 +23,7 @@ public static class HostRpc
     [ModRPC((uint) ModCalls.Debug, RpcActors.Host, RpcActors.NonHosts)]
     public static void RpcDebug(string message)
     {
-        VentLogger.Info($"Message from {VentFramework.GetLastSender((uint)ModCalls.Debug).GetRawName()} => {message}", "RpcDebug");
-
+        VentLogger.Info($"Message from {Vents.GetLastSender((uint)ModCalls.Debug).GetRawName()} => {message}", "RpcDebug");
         GameData.Instance.AllPlayers.ToArray().Select(p => (p.GetNameWithRole(), p.IsDead, p.IsIncomplete)).PrettyString().DebugLog("All Players: ");
-    }
-
-    [VentRPC(VentCall.VersionCheck, RpcActors.None, RpcActors.Host)]
-    public static void ReceiveVersion(string assemblyName, string? version, bool isCorrect)
-    {
-        if (version == null) return;
-        Version parsed = new(version);
-        TOHPlugin.playerVersion[VentFramework.GetLastSender((uint)VentCall.VersionCheck)?.PlayerId ?? 255] = new PlayerVersion(version, "", "");
     }
 }

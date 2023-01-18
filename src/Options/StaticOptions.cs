@@ -1,11 +1,13 @@
 using TownOfHost.Roles;
 using UnityEngine;
 using VentLib.Localization;
+using VentLib.Logging;
 
 namespace TownOfHost.Options;
 
 // TODO: This whole class needs to be looked over and refactored, a lot of this is old TOH-TOR code and a lot of it is new TOH code
 // TODO: Ideally all of TOH "static" options should end up in here with the use of the new options system
+[Localized("StaticOptions")]
 public static class StaticOptions
 {
     public static bool EnableGM;
@@ -698,6 +700,26 @@ public static class StaticOptions
                 .Build())
             .Build());
     }
+
+
+    // Keys
+    [Localized("PetOptions")]
+    private static class PetOptionsNames
+    {
+        [Localized("Enabled")]
+        public static string PetOptions => "Override";
+        [Localized("ShowPetAnimation")]
+        private static string ShowPetAnimation => "Show Pet Animation";
+        [Localized("AssignedPet")]
+        private static string AssignedPet => "Assigned Pet";
+
+        static PetOptionsNames()
+        {
+            FrozenContext fc = new("SS");
+            VentLogger.Fatal(fc.Resolve());
+        }
+    }
+
 }
 
 

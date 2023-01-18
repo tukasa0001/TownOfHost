@@ -28,6 +28,8 @@ public class DebugGamemode: Gamemode
             CustomRole? role = CustomRoleManager.AllRoles.FirstOrDefault(r => r.RoleName.RemoveHtmlTags().ToLower().StartsWith(_roleAssignments.GetValueOrDefault(p.PlayerId)?.ToLower() ?? "HEHEXD"));
             Game.AssignRole(p, role ?? CustomRoleManager.Special.Debugger);
         });
+
+        AntiBlackout.SendGameData();
     }
 
     public override void SetupWinConditions(WinDelegate winDelegate)

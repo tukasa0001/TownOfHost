@@ -23,7 +23,7 @@ namespace TownOfHost
         public static void Postfix(ControllerManager __instance)
         {
             //カスタム設定切り替え
-            if (GameStates.IsLobby)
+            /*if (GameStates.IsLobby)
             {
                 if (Input.GetKeyDown(KeyCode.Tab))
                 {
@@ -34,7 +34,7 @@ namespace TownOfHost
                     if (ORGetKeysDown(KeyCode.Alpha1 + i, KeyCode.Keypad1 + i) && OptionShower.pages.Count >= i + 1)
                         OptionShower.currentPage = i;
                 }
-            }
+            }*/
             //解像度変更
             if (Input.GetKeyDown(KeyCode.F11))
             {

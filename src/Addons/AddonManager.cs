@@ -38,7 +38,7 @@ public class AddonManager
                 throw new ConstraintException("TownOfHost Addons requires ONE class file that extends TOHAddon");
             TOHAddon addon = (TOHAddon)tohType.GetConstructor(new Type[] { })!.Invoke(null);
             VentLogger.Log(AddonLL,$"Loading Addon [{addon.AddonName()} {addon.AddonVersion()}]", "AddonManager");
-            VentFramework.Register(assembly);
+            Vents.Register(assembly);
             Addons.Add(addon);
             MethodInfo initialize = tohType.GetMethod("Initialize");
             initialize!.Invoke(addon, null);
@@ -57,7 +57,7 @@ public class AddonManager
     public static void VerifyClientAddons(List<AddonInfo> addons)
     {
         List<AddonInfo> hostInfo = Addons.Select(AddonInfo.From).ToList();
-        int[] senderId = { VentFramework.GetLastSender((uint)ModCalls.VerifyAddons)?.GetClientId() ?? 999 };
+        int[] senderId = { Vents.GetLastSender((uint)ModCalls.VerifyAddons)?.GetClientId() ?? 999 };
         $"Last Sender: {senderId}".DebugLog();
 
         List<AddonInfo> mismatchInfo = Addons.Select(hostAddon =>
@@ -67,7 +67,7 @@ public class AddonManager
             if (matchingAddon == null)
             {
                 haInfo.Mismatches = Mismatch.ClientMissingAddon;
-                VentFramework.BlockClient(hostAddon.bundledAssembly, senderId[0]);
+                Vents.BlockClient(hostAddon.bundledAssembly, senderId[0]);
                 return haInfo;
             }
 
@@ -85,7 +85,7 @@ public class AddonManager
                 return clientAddon;
             }));
 
-        mismatchInfo.DistinctBy(addon => addon.Name).Where(addon => addon.Mismatches is not (Mismatch.None or Mismatch.ClientMissingAddon)).Do(a => VentFramework.FindRPC(1017)!.Send(senderId, a.AssemblyFullName, 0));
+        mismatchInfo.DistinctBy(addon => addon.Name).Where(addon => addon.Mismatches is not (Mismatch.None or Mismatch.ClientMissingAddon)).Do(a => Vents.FindRPC(1017)!.Send(senderId, a.AssemblyFullName, 0));
         ReceiveAddonVerification(mismatchInfo.DistinctBy(addon => addon.Name).Where(addon => addon.Mismatches is not Mismatch.None).ToList());
     }
 

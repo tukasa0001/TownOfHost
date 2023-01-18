@@ -1,5 +1,6 @@
 using TownOfHost.Extensions;
 using System.Collections.Generic;
+using HarmonyLib;
 using TownOfHost.Options;
 
 namespace TownOfHost.Roles;
@@ -7,7 +8,9 @@ namespace TownOfHost.Roles;
 public class Vampire : Impostor
 {
     private float killDelay;
-    private List<byte> bitten;
+    private List<PlayerControl> bitten = null!;
+
+    protected override void Setup(PlayerControl player) => bitten = new List<PlayerControl>();
 
     [RoleAction(RoleActionType.AttemptKill)]
     public new bool TryKill(PlayerControl target)
@@ -20,16 +23,21 @@ public class Vampire : Impostor
         if (!canKillTarget) return canKillTarget;
 
         MyPlayer.RpcGuardAndKill(MyPlayer);
-        bitten.Add(target.PlayerId);
-        DTask.Schedule(() => { if (bitten.Contains(target.PlayerId)) target.RpcMurderPlayer(target); }, killDelay);
+        bitten.Add(target);
+        DTask.Schedule(() => RoleUtils.RoleCheckedMurder(target, target), killDelay);
         return canKillTarget;
     }
+
+    [RoleAction(RoleActionType.RoundStart)]
+    public void ResetBitten() => bitten.Clear();
+
+    [RoleAction(RoleActionType.RoundEnd)]
+    public void KillBitten() => bitten.Do(p => RoleUtils.RoleCheckedMurder(p, p));
 
     [RoleInteraction(typeof(Veteran))]
     private InteractionResult VeteranBite(PlayerControl veteran) => veteran.GetCustomRole<Veteran>().TryKill(MyPlayer)
         ? InteractionResult.Halt
         : InteractionResult.Proceed;
-
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
@@ -38,24 +46,6 @@ public class Vampire : Impostor
                 .Bind(v => killDelay = (float)v)
                 .AddFloatRangeValues(2.5f, 60f, 2.5f, 2, "s")
                 .Build());
-
-    [RoleAction(RoleActionType.RoundStart)]
-    public void ResetBitten()
-    {
-        bitten = new List<byte>();
-    }
-
-    [RoleAction(RoleActionType.RoundEnd)]
-    public void KillBitten()
-    {
-        foreach (var playerid in bitten)
-        {
-            var pc = Utils.GetPlayerById(playerid);
-            bool canKillTarget = pc.GetCustomRole().CanBeKilled();
-            if (!canKillTarget) return;
-            pc.RpcMurderPlayer(pc);
-        }
-    }
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>
         base.Modify(roleModifier)

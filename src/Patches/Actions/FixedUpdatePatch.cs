@@ -26,11 +26,11 @@ public static class FixedUpdatePatch
     private static void DisplayModVersion(PlayerControl player)
     {
         if (Game.State is not GameState.InLobby) return;
-        if (!TOHPlugin.playerVersion.TryGetValue(player.PlayerId, out var ver)) return;
-        if (TOHPlugin.ForkId != ver.forkId) // フォークIDが違う場合
-            player.cosmetics.nameText.text = $"<color=#ff0000><size=1.2>{ver.forkId}</size>\n{player?.name}</color>";
-        else if (TOHPlugin.version.CompareTo(ver.version) == 0)
+        /*if (!TOHPlugin.playerVersion.TryGetValue(player.PlayerId, out var ver)) return;
+        /*if (TOHPlugin.ForkId != ver.forkId) // フォークIDが違う場合
+            player.cosmetics.nameText.text = $"<color=#ff0000><size=1.2>{ver.forkId}</size>\n{player?.name}</color>";#1#
+        if (TOHPlugin.version.CompareTo(ver.version) == 0)
             player.cosmetics.nameText.text = ver.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})" ? $"<color=#87cefa>{player.name}</color>" : $"<color=#ffff00><size=1.2>{ver.tag}</size>\n{player?.name}</color>";
-        else player.cosmetics.nameText.text = $"<color=#ff0000><size=1.2>v{ver.version}</size>\n{player?.name}</color>";
+        else player.cosmetics.nameText.text = $"<color=#ff0000><size=1.2>v{ver.version}</size>\n{player?.name}</color>";*/
     }
 }

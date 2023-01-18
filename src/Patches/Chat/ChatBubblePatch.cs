@@ -13,7 +13,7 @@ namespace TownOfHost.Patches
             if (TOHPlugin.isChatCommand) __instance.SetLeft();
         }
     }
-    [HarmonyPatch(typeof(ChatBubble), nameof(ChatBubble.SetName))]
+    /*[HarmonyPatch(typeof(ChatBubble), nameof(ChatBubble.SetName))]
     class ChatBubbleSetNamePatch
     {
         public static void Prefix(ChatBubble __instance)
@@ -29,6 +29,6 @@ namespace TownOfHost.Patches
         {
             PlayerControl relatedPlayer = __instance.playerInfo.Object;
             if (relatedPlayer == null) return; ;
-        }*/
-    }
+        }#1#
+    }*/
 }

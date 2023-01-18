@@ -2,16 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
-using HarmonyLib;
-using Hazel;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
 using TownOfHost.Victory.Conditions;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using VentLib.Logging;
-using Object = UnityEngine.Object;
 
 namespace TownOfHost.Roles;
 
@@ -30,9 +26,6 @@ public class Debugger: CustomRole
     {
         VentLogger.Old("OnPet Called", "DebuggerCall");
         LogStats();
-
-        MyPlayer.RpcSetRole(RoleTypes.Crewmate);
-        MyPlayer.SetRole(RoleTypes.Crewmate);
 
         counter++;
     }

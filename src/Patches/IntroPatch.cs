@@ -10,6 +10,7 @@ using TownOfHost.Options;
 using TownOfHost.Roles;
 using VentLib.Localization;
 using VentLib.Logging;
+using VentLib.Version.Git;
 
 namespace TownOfHost
 {
@@ -61,8 +62,8 @@ namespace TownOfHost
                 {
                     var text = pc.AmOwner ? "[*]" : "   ";
                     text += $"{pc.PlayerId,-2}:{pc.Data?.PlayerName?.PadRightV2(20)}:{pc.GetClient()?.PlatformData?.Platform.ToString()?.Replace("Standalone", ""),-11}";
-                    if (TOHPlugin.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
-                        text += $":Mod({pv.forkId}/{pv.version}:{pv.tag})";
+                    if (TOHPlugin.playerVersion.TryGetValue(pc.PlayerId, out GitVersion pv))
+                        text += $":Mod({pv.MajorVersion}.{pv.MinorVersion}:{pv.Tag})";
                     else text += ":Vanilla";
                     VentLogger.Old(text, "Info");
                 }
@@ -121,7 +122,7 @@ namespace TownOfHost
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                     break;
                 case RoleType.Madmate:
-                    __instance.TeamTitle.text = Localizer.Get("Roles.Madmate.Rolename");
+                    __instance.TeamTitle.text = Localizer.Get("Roles.Madmate.RoleName");
                     __instance.TeamTitle.color = CustomRoleManager.Static.Madmate.RoleColor;
                     __instance.ImpostorText.text = Localizer.Get("Roles.Miscellaneous.ImpostorText");
                     StartFadeIntro(__instance, Palette.CrewmateBlue, Palette.ImpostorRed);

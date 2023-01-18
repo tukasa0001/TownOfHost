@@ -12,9 +12,9 @@ using TownOfHost.GUI;
 using TownOfHost.Managers;
 using TownOfHost.Options;
 using UnityEngine;
-using VentLib.Interfaces;
 using VentLib.Logging;
 using VentLib.RPC;
+using VentLib.RPC.Interfaces;
 
 namespace TownOfHost.Roles;
 

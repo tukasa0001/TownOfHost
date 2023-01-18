@@ -12,6 +12,7 @@ using TownOfHost.RPC;
 using VentLib;
 using VentLib.Localization;
 using VentLib.Logging;
+using VentLib.Version.Git;
 
 
 namespace TownOfHost.Patches.Network;
@@ -24,8 +25,7 @@ class OnGameJoinedPatch
     {
         while (!OldOptions.IsLoaded) System.Threading.Tasks.Task.Delay(1);
         VentLogger.Old($"{__instance.GameId}に参加", "OnGameJoined");
-        TOHPlugin.playerVersion = new Dictionary<byte, PlayerVersion>();
-        /*OldRPC.RpcVersionCheck();*/
+        TOHPlugin.playerVersion = new Dictionary<byte, GitVersion>();
         SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
         ChatCommands.ChatHistoryDictionary = new();
 
@@ -48,9 +48,8 @@ class OnPlayerJoinedPatch
         }
         BanManager.CheckBanPlayer(client);
         BanManager.CheckDenyNamePlayer(client);
-        TOHPlugin.playerVersion = new Dictionary<byte, PlayerVersion>();
-        /*OldRPC.RpcVersionCheck();*/
-        DTask.Schedule(() => VentFramework.FindRPC((uint)ModCalls.SendOptionPreview)!.Send(new[] { client.Character.GetClientId() }, TOHPlugin.OptionManager.Options()), GameStats.DeriveDelay(1f));
+        TOHPlugin.playerVersion = new Dictionary<byte, GitVersion>();
+        DTask.Schedule(() => Vents.FindRPC((uint)ModCalls.SendOptionPreview)!.Send(new[] { client.Character.GetClientId() }, TOHPlugin.OptionManager.Options()), GameStats.DeriveDelay(1f));
         Game.CurrentGamemode.Trigger(GameAction.GameJoin, client);
     }
 }
