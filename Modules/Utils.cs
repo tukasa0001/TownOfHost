@@ -356,8 +356,10 @@ namespace TownOfHost
                         var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
                         int numCompleted = taskState.CompletedTasksCount;
                         int numAllTasks = taskState.AllTasksCount;
+
                         if (Workhorse.IsThisRole(playerId))
                             (NormalColor, numCompleted, numAllTasks) = Workhorse.GetTaskTextData(taskState);
+
                         TextColor = comms ? Color.gray : NormalColor;
                         string Completed = comms ? "?" : $"{numCompleted}";
                         ProgressText = ColorString(TextColor, $"({Completed}/{numAllTasks})");
