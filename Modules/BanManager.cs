@@ -25,7 +25,7 @@ namespace TownOfHost
         }
         public static void CheckDenyNamePlayer(InnerNet.ClientData player)
         {
-            if (!AmongUsClient.Instance.AmHost) return;
+            if (!AmongUsClient.Instance.AmHost || !Options.ApplyDenyNameList.GetBool()) return;
             try
             {
                 Directory.CreateDirectory("TOH_DATA");
