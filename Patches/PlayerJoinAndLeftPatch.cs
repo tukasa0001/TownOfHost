@@ -40,6 +40,12 @@ namespace TownOfHost
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
         {
             Logger.Info($"{client.PlayerName}(ClientID:{client.Id})が参加", "Session");
+            if (AmongUsClient.Instance.AmHost && client.FriendCode == "" && Options.KickPlayerFriendCodeNotExist.GetBool())
+            {
+                AmongUsClient.Instance.KickPlayer(client.Id, false);
+                Logger.SendInGame(string.Format(GetString("Message.KickedByNoFriendCode"), client.PlayerName));
+                Logger.Info($"フレンドコードがないプレイヤーを{client?.PlayerName}をキックしました。", "Kick");
+            }
             if (DestroyableSingleton<FriendsListManager>.Instance.IsPlayerBlockedUsername(client.FriendCode) && AmongUsClient.Instance.AmHost)
             {
                 AmongUsClient.Instance.KickPlayer(client.Id, true);
