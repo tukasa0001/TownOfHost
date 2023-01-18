@@ -155,7 +155,7 @@
 "GMInfo","You are the Game Master","ゲームマスターだ","你是管理员，在旁边看戏吧","當吃瓜群眾在一旁看戲吧","Вы Мастер Игры","Você é o Mestre do Jogo (GM)"
 
 "# 属性"
-"WorkhorseInfo","You have Extra works","仕事はまだ終わらない"
+"WorkhorseInfo","You have Extra tasks","タスクはまだ終わらない"
 
 "## 役職説明ロング"
 
@@ -415,7 +415,7 @@
 "TimeManagerIncreaseMeetingTime","Increase voting time","伸びる会議時間",,,
 "TimeManagerLimitMeetingTime","Increase limit","会議時間の伸びる限界",,,
 "TriggerDouble","Double Click","ダブルクリック","","","",""
-"AssignOnlyToCrewmate","Assign Only To Crewmate","クルーメイトのみに割り当てる"
+"AssignOnlyToCrewmate","Assign Only To Crewmate","「クルーメイト」のみに割り当てる"
 "WorkhorseNumLongTasks","Additional Long Tasks","追加ロングタスクの個数"
 "WorkhorseNumShortTasks","Additional Short Tasks","追加ショートタスクの個数"
 
