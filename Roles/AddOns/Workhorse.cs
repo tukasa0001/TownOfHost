@@ -20,8 +20,14 @@ namespace TownOfHost
             NumShortTasks = IntegerOptionItem.Create(Id + 12, "WorkhorseNumShortTasks", new(0, 5, 1), 1, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Workhorse])
                 .SetValueFormat(OptionFormat.Pieces);
         }
-        public static void Init() => playerIdList = new();
-        public static void Add(byte playerId) => playerIdList.Add(playerId);
+        public static void Init()
+        {
+            playerIdList = new();
+        }
+        public static void Add(byte playerId)
+        {
+            playerIdList.Add(playerId);
+        }
         public static bool IsEnable => playerIdList.Count > 0;
         public static bool IsThisRole(byte playerId) => playerIdList.Contains(playerId);
         public static (bool, int, int) TaskData => (false, NumLongTasks.GetInt(), NumShortTasks.GetInt());
