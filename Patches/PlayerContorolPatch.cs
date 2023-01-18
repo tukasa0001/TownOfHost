@@ -993,7 +993,7 @@ namespace TownOfHost
     {
         public static bool Prefix(PlayerControl __instance)
         {
-            if (Workhorse.OnCompleteTask(__instance))
+            if (Workhorse.OnCompleteTask(__instance)) //タスク勝利をキャンセル
                 return false;
             return true;
         }

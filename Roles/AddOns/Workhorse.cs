@@ -29,9 +29,11 @@ namespace TownOfHost
             => pc.IsAlive()
             && !pc.Is(CustomRoles.Workhorse)
             && (AssignOnlyToCrewmate.GetBool()
-                ? pc.Is(CustomRoles.Crewmate)
-                : pc.Is(RoleType.Crewmate) && Utils.HasTasks(pc.Data) && !Options.OverrideTasksData.AllData.ContainsKey(pc.GetCustomRole())
-                    && pc.GetCustomRole() is not CustomRoles.Lighter);
+                ? pc.Is(CustomRoles.Crewmate) //クルーのみ
+                : pc.Is(RoleType.Crewmate)
+                    && Utils.HasTasks(pc.Data) //タスクがある
+                    && !OverrideTasksData.AllData.ContainsKey(pc.GetCustomRole()) //タスク上書きオプションが無い
+                    && pc.GetCustomRole() is not CustomRoles.Lighter); //タスクトリガーのある役職でない
         public static bool OnCompleteTask(PlayerControl pc)
         {
             if (!CustomRoles.Workhorse.IsEnable() || playerIdList.Count >= CustomRoles.Workhorse.GetCount()) return false;
@@ -42,8 +44,8 @@ namespace TownOfHost
             Logger.Info($"{pc?.GetNameWithRole()}({IsAssignTarget(pc)}): ({taskState.CompletedTasksCount}/{taskState.AllTasksCount})", "Workhorse");
             pc.RpcSetCustomRole(CustomRoles.Workhorse);
             Add(pc.PlayerId);
-            GameData.Instance.RpcSetTasks(pc.PlayerId, new byte[0]);
-            Main.PlayerStates[pc.PlayerId].InitTask(pc);
+            GameData.Instance.RpcSetTasks(pc.PlayerId, new byte[0]); //タスクを再配布
+            Main.PlayerStates[pc.PlayerId].InitTask(pc); //TaskStatesをリセット
             pc.SyncSettings();
             Utils.NotifyRoles();
 
