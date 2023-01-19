@@ -5,6 +5,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
 using VentLib.Logging;
+using VentLib.Utilities;
 
 namespace TownOfHost.Patches;
 
@@ -61,13 +62,13 @@ static class ExileControllerWrapUpPatch
 
     static void WrapUpFinalizer()
     {
-        if (AmongUsClient.Instance.AmHost) DTask.Schedule(() => {
+        if (AmongUsClient.Instance.AmHost) Async.ScheduleInStep(() => {
             GameData.PlayerInfo? exiled = AntiBlackout.ExiledPlayer;
             AntiBlackout.LoadCosmetics();
             AntiBlackout.RestoreIsDead(doSend: true);
             if (AntiBlackout.OverrideExiledPlayer && exiled?.Object != null)
                 exiled.Object.RpcExileV2();
-        }, GameStats.DeriveDelay(1.2f));
+        }, NetUtils.DeriveDelay(1.2f));
 
         GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
         RemoveDisableDevicesPatch.UpdateDisableDevices();

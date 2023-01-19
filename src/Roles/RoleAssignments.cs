@@ -1,21 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json.Utilities;
 using TownOfHost.Extensions;
-using TownOfHost.Roles;
+using VentLib.Extensions;
 using VentLib.Logging;
 
-namespace TownOfHost;
+namespace TownOfHost.Roles;
 
 public static class RoleAssignments
 {
     public static List<CustomRole> RolesForGame(List<CustomRole> enabledRoles, int minRoles, int maxRoles)
     {
         List<CustomRole> gameRoles = new();
-        enabledRoles.PrettyString().DebugLog("Enabled Roles: ");
+        enabledRoles.StrJoin().DebugLog("Enabled Roles: ");
         List<CustomRole> distributionList = GetDistributionList(enabledRoles);
-        distributionList.PrettyString().DebugLog("Distribution List: ");
+        distributionList.StrJoin().DebugLog("Distribution List: ");
         Random random = new();
         while (distributionList.Count > 0 && gameRoles.Count < maxRoles)
         {

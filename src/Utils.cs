@@ -106,20 +106,7 @@ namespace TownOfHost
             return c;
         }
 
-        public static (string, Color) GetRoleText(PlayerControl player)
-        {
-            CustomRole role = player.GetCustomRole();
-            return (role.RoleName, role.RoleColor);
-        }
-
-        public static bool HasTasks(GameData.PlayerInfo p, bool ForRecompute = true)
-        {
-            //Tasksがnullの場合があるのでその場合タスク無しとする
-            if (p.Tasks == null || p.Role == null || p.Disconnected) return false;
-
-            return CustomRoleManager.PlayersCustomRolesRedux.TryGetValue(p.PlayerId, out CustomRole? role) &&
-                   role.HasTasks();
-        }
+        public static bool HasTasks(GameData.PlayerInfo p) => p.GetCustomRole().HasTasks();
 
         // GM.Ref<GM>()
         public static void ShowActiveSettingsHelp(byte PlayerId = byte.MaxValue)

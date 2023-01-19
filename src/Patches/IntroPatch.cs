@@ -8,8 +8,10 @@ using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
 using TownOfHost.Roles;
+using VentLib.Anticheat;
 using VentLib.Localization;
 using VentLib.Logging;
+using VentLib.Utilities;
 using VentLib.Version.Git;
 
 namespace TownOfHost
@@ -19,7 +21,7 @@ namespace TownOfHost
     {
         public static void Postfix(IntroCutscene __instance)
         {
-            DTask.Schedule(() =>
+            Async.ScheduleInStep(() =>
             {
                 CustomRole role = PlayerControl.LocalPlayer.GetCustomRole();
                 if (!role.IsVanilla())
@@ -61,7 +63,7 @@ namespace TownOfHost
                 try
                 {
                     var text = pc.AmOwner ? "[*]" : "   ";
-                    text += $"{pc.PlayerId,-2}:{pc.Data?.PlayerName?.PadRightV2(20)}:{pc.GetClient()?.PlatformData?.Platform.ToString()?.Replace("Standalone", ""),-11}";
+                    text += $"{pc.PlayerId,-2}:{pc.Data?.PlayerName?.PadRightV2(20)}:{PlayerControlExtensions.GetClient(pc)?.PlatformData?.Platform.ToString()?.Replace("Standalone", ""),-11}";
                     if (TOHPlugin.playerVersion.TryGetValue(pc.PlayerId, out GitVersion pv))
                         text += $":Mod({pv.MajorVersion}.{pv.MinorVersion}:{pv.Tag})";
                     else text += ":Vanilla";
@@ -262,7 +264,7 @@ namespace TownOfHost
             {
                 PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcResetAbilityCooldown());
                 if (StaticOptions.FixFirstKillCooldown)
-                    DTask.Schedule(() =>
+                    Async.ScheduleInStep(() =>
                     {
                         PlayerControl.AllPlayerControls.ToArray().Do(pc =>
                         {
@@ -271,7 +273,7 @@ namespace TownOfHost
                         });
                     }, 2f);
             }
-            DTask.Schedule(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRoleDesync(RoleTypes.Shapeshifter, -3)), 2f);
+            Async.ScheduleInStep(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRoleDesync(RoleTypes.Shapeshifter, -3)), 2f);
             if (PlayerControl.LocalPlayer.Is(CustomRoleManager.Special.GM))
             {
                 PlayerControl.LocalPlayer.RpcExileV2();
@@ -293,6 +295,7 @@ namespace TownOfHost
                 }
             }
 
+            Async.ScheduleInStep(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => PetBypass.SetPet(pc, "pet_Doggy", true)), 2f);
             VentLogger.Old("OnDestroy", "IntroCutscene");
         }
     }

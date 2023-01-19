@@ -14,6 +14,7 @@ using TownOfHost.Roles;
 using TownOfHost.RPC;
 using VentLib.Extensions;
 using VentLib.Logging;
+using VentLib.Utilities;
 
 namespace TownOfHost.Extensions;
 
@@ -37,11 +38,6 @@ public static class PlayerControlExtensions
     {
         var client = AmongUsClient.Instance.allClients.ToArray().FirstOrDefault(cd => cd.Character.PlayerId == player.PlayerId);
         return client;
-    }
-    public static int GetClientId(this PlayerControl player)
-    {
-        var client = player.GetClient();
-        return client?.Id ?? -1;
     }
 
     public static void Trigger(this PlayerControl player, RoleActionType action, ref ActionHandle handle, params object[] parameters)
@@ -134,7 +130,7 @@ public static class PlayerControlExtensions
         AmongUsClient.Instance.FinishRpcImmediately(writer);
     }
 
-    public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
+    public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl? target = null, int colorId = 0)
     {
         if (target == null) target = killer;
         // Host
@@ -173,7 +169,7 @@ public static class PlayerControlExtensions
             player.RpcGuardAndKill();
         }
     }
-    public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
+    public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl? target = null)
     {
         if (target == null) target = killer;
         if (killer.AmOwner)
@@ -245,10 +241,10 @@ public static class PlayerControlExtensions
         var systemtypes = SystemTypes.Reactor;
         if (TOHPlugin.NormalOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
 
-        DTask.Schedule(() => pc.RpcDesyncRepairSystem(systemtypes, 128), 0f + delay);
-        DTask.Schedule(() => pc.RpcSpecificMurderPlayer(), 0.2f + delay);
+        Async.ScheduleInStep(() => pc.RpcDesyncRepairSystem(systemtypes, 128), 0f + delay);
+        Async.ScheduleInStep(() => pc.RpcSpecificMurderPlayer(), 0.2f + delay);
 
-        DTask.Schedule(() => {
+        Async.ScheduleInStep(() => {
             pc.RpcDesyncRepairSystem(systemtypes, 16);
             if (TOHPlugin.NormalOptions.MapId == 4) //Airship用
                 pc.RpcDesyncRepairSystem(systemtypes, 17);

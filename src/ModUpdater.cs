@@ -87,7 +87,7 @@ namespace TownOfHost
                 {
                     latestTitle = data["name"].ToString();
                     downloadUrl = data["url"].ToString();
-                    hasUpdate = latestTitle != ThisAssembly.Git.Commit;
+                    hasUpdate = false; /*latestTitle != ThisAssembly.Git.Commit;*/
                 }
                 else
                 {

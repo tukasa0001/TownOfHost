@@ -1,4 +1,5 @@
 #nullable enable
+using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
@@ -6,6 +7,9 @@ using TownOfHost.GUI;
 using TownOfHost.Managers;
 using UnityEngine;
 using TownOfHost.Options;
+using TownOfHost.Roles.Neutral;
+using TownOfHost.Victory.Conditions;
+using VentLib.Extensions;
 
 namespace TownOfHost.Roles;
 
@@ -17,8 +21,8 @@ public class Executioner : CustomRole
 
     private PlayerControl? target;
 
-    [DynElement(UI.Misc)]
-    private string TargetDisplay() => target == null ? "" : Color.red.Colorize("Target: ") + Color.white.Colorize(target.GetRawName());
+    /*[DynElement(UI.Misc)]
+    private string TargetDisplay() => target == null ? "" : Color.red.Colorize("Target: ") + Color.white.Colorize(target.GetRawName());*/
 
     public override void OnGameStart()
     {
@@ -29,14 +33,19 @@ public class Executioner : CustomRole
             if (!canTargetImpostors && factions.IsImpostor()) return false;
             return canTargetNeutrals || !factions.Contains(Faction.Solo);
         }).ToList().GetRandom();
+        DynamicName targetName = target.GetDynamicName();
+        targetName.AddRule(GameState.Roaming, UI.Name, new DynamicString(RoleColor.Colorize("{0}")), MyPlayer.PlayerId);
+        targetName.AddRule(GameState.InMeeting, UI.Name, new DynamicString(RoleColor.Colorize("{0}")), MyPlayer.PlayerId);
     }
 
     [RoleAction(RoleActionType.OtherExiled)]
     private void CheckExecutionerWin(PlayerControl exiled)
     {
-        if (target == null || target.PlayerId == exiled.PlayerId) return;
-        // TODO: Add non-instant win
-        //OldRPC.ExecutionerWin(MyPlayer.PlayerId);
+        if (target == null || target.PlayerId != exiled.PlayerId) return;
+        List<PlayerControl> winners = new() { MyPlayer };
+        if (target.GetCustomRole() is Jester) winners.Add(target);
+        ManualWin win = new(winners, WinReason.SoloWinner);
+        win.Activate();
     }
 
     [RoleAction(RoleActionType.AnyDeath)]

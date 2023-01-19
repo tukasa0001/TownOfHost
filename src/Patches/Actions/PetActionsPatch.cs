@@ -2,6 +2,7 @@ using HarmonyLib;
 using Hazel;
 using TownOfHost.Extensions;
 using TownOfHost.Roles;
+using VentLib.Utilities;
 
 namespace TownOfHost.Patches;
 

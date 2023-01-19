@@ -1,11 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Extensions;
 using TownOfHost.Options;
 using VentLib;
+using VentLib.Extensions;
 using VentLib.Logging;
-using VentLib.RPC;
+using VentLib.RPC.Attributes;
 
 namespace TownOfHost.RPC;
 
@@ -24,6 +24,6 @@ public static class HostRpc
     public static void RpcDebug(string message)
     {
         VentLogger.Info($"Message from {Vents.GetLastSender((uint)ModCalls.Debug).GetRawName()} => {message}", "RpcDebug");
-        GameData.Instance.AllPlayers.ToArray().Select(p => (p.GetNameWithRole(), p.IsDead, p.IsIncomplete)).PrettyString().DebugLog("All Players: ");
+        GameData.Instance.AllPlayers.ToArray().Select(p => (p.GetNameWithRole(), p.IsDead, p.IsIncomplete)).StrJoin().DebugLog("All Players: ");
     }
 }

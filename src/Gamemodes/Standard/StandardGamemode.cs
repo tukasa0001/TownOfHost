@@ -20,6 +20,7 @@ public class StandardGamemode: Gamemode
     {
         winDelegate.AddWinCondition(new VanillaCrewmateWin());
         winDelegate.AddWinCondition(new VanillaImpostorWin());
+        winDelegate.AddWinCondition(new SabotageWin());
         winDelegate.AddWinCondition(new StandardWinConditions.LoversWin());
         winDelegate.AddWinCondition(new StandardWinConditions.SoloKillingWin());
         winDelegate.AddWinCondition(new StandardWinConditions.SoloRoleWin());

@@ -4,6 +4,7 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.GUI;
 using TownOfHost.Options;
+using VentLib.Utilities;
 
 namespace TownOfHost.Roles;
 
@@ -33,7 +34,7 @@ public class Grenadier: Impostor
             .Do(p =>
             {
                 p.GetCustomRole().SyncOptions(overrides);
-                DTask.Schedule(() => p.GetCustomRole().SyncOptions(), blindDuration);
+                Async.ScheduleInStep(() => p.GetCustomRole().SyncOptions(), blindDuration);
             });
 
         blindCooldown.Start();

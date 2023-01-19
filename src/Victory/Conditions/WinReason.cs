@@ -6,6 +6,11 @@ public enum WinReason
     HostForceEnd,
     FactionLastStanding,
     TasksComplete,
+    GamemodeSpecificWin,
+    Sabotage,
     RoleSpecificWin,
-    GamemodeSpecificWin
+    /// <summary>
+    /// This reason should be used when only the players marked by the initial condition should win (prevents things like Survivor from winning)
+    /// </summary>
+    SoloWinner
 }

@@ -7,6 +7,7 @@ using TownOfHost.GUI;
 using TownOfHost.Managers;
 using TownOfHost.Options;
 using UnityEngine;
+using VentLib.Utilities;
 
 namespace TownOfHost.Roles;
 
@@ -97,7 +98,7 @@ public class Arsonist : NeutralKillingBase
 
         GameOptionOverride[] overrides = { new(Override.ImpostorLightMod, 0f) };
         SyncOptions(overrides);
-        DTask.Schedule(SyncOptions, 0.3f);
+        Async.ScheduleInStep(SyncOptions, 0.3f);
     }
 
     [RoleInteraction(typeof(Veteran))]

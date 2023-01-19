@@ -9,7 +9,9 @@ using TownOfHost.Extensions;
 using TownOfHost.RPC;
 using UnityEngine;
 using VentLib.Localization;
+using VentLib.Localization.Attributes;
 using VentLib.Logging;
+using VentLib.Utilities;
 
 
 namespace TownOfHost.Patches.Chat;

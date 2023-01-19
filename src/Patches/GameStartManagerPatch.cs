@@ -5,6 +5,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Options;
 using TownOfHost.Player;
 using UnityEngine;
+using VentLib.Extensions;
 using VentLib.Logging;
 
 namespace TownOfHost.Patches;
@@ -72,9 +73,6 @@ public static class GameStartManagerPatch
             if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return;
 
             if (update) currentText = __instance.PlayerCounter.text;
-
-
-            PlayerControl.AllPlayerControls.ToArray().Do(Pet.Guarantee);
 
             timer = Mathf.Max(0f, timer -= Time.deltaTime);
             int minutes = (int)timer / 60;

@@ -5,6 +5,7 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Options;
 using TownOfHost.Victory.Conditions;
+using VentLib.Extensions;
 using VentLib.Logging;
 
 namespace TownOfHost.Victory;
@@ -33,7 +34,7 @@ public class WinDelegate
             if (!isWin) continue;
             winReason = winCondition.GetWinReason();
             if (!StaticOptions.NoGameEnd)
-                VentLogger.Info($"Triggering Win by \"{winCondition.GetType()}\", winners={winners.Select(p => p.GetRawName()).PrettyString()}, reason={winReason}", "WinCondition");
+                VentLogger.Info($"Triggering Win by \"{winCondition.GetType()}\", winners={winners.Select(p => p.GetRawName()).StrJoin()}, reason={winReason}", "WinCondition");
             break;
         }
 

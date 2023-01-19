@@ -3,6 +3,7 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Options;
 using TownOfHost.RPC;
+using VentLib.Utilities;
 
 namespace TownOfHost.Roles;
 
@@ -27,7 +28,7 @@ public class Consort: Morphling
         locallyBlockedPlayers.Add(target.PlayerId);
 
         if (roleblockDuration > 0)
-            DTask.Schedule(() => {
+            Async.ScheduleInStep(() => {
                 locallyBlockedPlayers.Remove(target.PlayerId);
                 CustomRoleManager.RoleBlockedPlayers.Remove(target.PlayerId);
             }, roleblockDuration);

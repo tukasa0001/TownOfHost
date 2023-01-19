@@ -1,5 +1,6 @@
 using TownOfHost.Extensions;
 using TownOfHost.Options;
+using VentLib.Utilities;
 
 namespace TownOfHost.Roles;
 
@@ -13,7 +14,7 @@ public class Trapper : Crewmate
         GameOptionOverride[] overrides = { new(Override.PlayerSpeedMod, 0f) };
         killer.GetCustomRole().SyncOptions(overrides);
 
-        DTask.Schedule(() => killer.GetCustomRole().SyncOptions(), trappedDuration);
+        Async.ScheduleInStep(() => killer.GetCustomRole().SyncOptions(), trappedDuration);
     }
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>

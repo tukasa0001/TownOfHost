@@ -2,6 +2,7 @@ using TownOfHost.Extensions;
 using System.Collections.Generic;
 using HarmonyLib;
 using TownOfHost.Options;
+using VentLib.Utilities;
 
 namespace TownOfHost.Roles;
 
@@ -22,9 +23,9 @@ public class Vampire : Impostor
 
         if (!canKillTarget) return canKillTarget;
 
-        MyPlayer.RpcGuardAndKill(MyPlayer);
+        MyPlayer.RpcGuardAndKill(target);
         bitten.Add(target);
-        DTask.Schedule(() => RoleUtils.RoleCheckedMurder(target, target), killDelay);
+        Async.ScheduleInStep(() => RoleUtils.RoleCheckedMurder(target, target), killDelay);
         return canKillTarget;
     }
 

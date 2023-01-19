@@ -10,7 +10,9 @@ using TownOfHost.Factions;
 using TownOfHost.GUI;
 using TownOfHost.Options;
 using UnityEngine;
+using VentLib.Extensions;
 using VentLib.Localization;
+using VentLib.Localization.Attributes;
 using VentLib.Logging;
 
 namespace TownOfHost.Roles;
@@ -93,7 +95,7 @@ public abstract class AbstractBaseRole
         options.valueHolder?.UpdateBinding();
         Modify(new RoleModifier(this));
 
-        //this.roleSpecificGameOptionOverrides.PrettyString().DebugLog($"Overrides for {RoleName}");
+        //this.roleSpecificGameOptionOverrides.StrJoin().DebugLog($"Overrides for {RoleName}");
 
     }
 
@@ -115,7 +117,7 @@ public abstract class AbstractBaseRole
                     return;
                 }
 
-                VentLogger.Trace($"Registering Action {this.GetType()} || {attribute.ActionType} => {method.Name}");
+                VentLogger.Log(LogLevel.All, $"Registering Action {this.GetType()} || {attribute.ActionType} => {method.Name}");
                 if (attribute.ActionType is RoleActionType.FixedUpdate &&
                     this.RoleActions[RoleActionType.FixedUpdate].Count > 0)
                     throw new ConstraintException("RoleActionType.FixedUpdate is limited to one per class. If you're inheriting a class that uses FixedUpdate you can add Override=METHOD_NAME to your annotation to override its Update method.");
@@ -170,7 +172,7 @@ public abstract class AbstractBaseRole
             if (StaticOptions.LogAllActions)
             {
                 VentLogger.Trace($"{MyPlayer.GetNameWithRole()} :: {actionType.ToString()}", "ActionLog");
-                VentLogger.Trace($"Parameters: {parameters.PrettyString()} :: Blocked? {inBlockList && method.Item2.Blockable}", "ActionLog");
+                VentLogger.Trace($"Parameters: {parameters.StrJoin()} :: Blocked? {inBlockList && method.Item2.Blockable}", "ActionLog");
             }
             if (!inBlockList || !method.Item2.Blockable)
                 method.Item1.InvokeAligned(this, parameters);

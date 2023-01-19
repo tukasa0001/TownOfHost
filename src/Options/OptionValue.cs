@@ -15,7 +15,7 @@ public class OptionValue
     private Color? color;
 
 
-    public OptionValue(object? value, string cfgHeader, string cfgEntry, string text = null, string prefix = "", string suffix = "", Color? color = null)
+    public OptionValue(object? value, string cfgHeader, string cfgEntry, string text = null!, string prefix = "", string suffix = "", Color? color = null)
     {
         this.Text = text;
         this.Value = value;

@@ -12,9 +12,11 @@ using TownOfHost.GUI;
 using TownOfHost.Managers;
 using TownOfHost.Options;
 using UnityEngine;
+using VentLib.Extensions;
 using VentLib.Logging;
 using VentLib.RPC;
 using VentLib.RPC.Interfaces;
+using VentLib.Utilities;
 
 namespace TownOfHost.Roles;
 
@@ -68,7 +70,7 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
     /// Adds a GameOverride that continuously modifies this instances game options until removed
     /// </summary>
     /// <param name="optionOverride">Override to apply whenever SyncOptions is called</param>
-    protected void AddOverride(GameOptionOverride optionOverride) => currentOverrides.Add(optionOverride);
+    public void AddOverride(GameOptionOverride optionOverride) => currentOverrides.Add(optionOverride);
     /// <summary>
     /// Removes a continuous GameOverride
     /// </summary>
@@ -91,7 +93,7 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
         thisList.AddRange(this.roleSpecificGameOptionOverrides);
         if (newOverrides != null) thisList.AddRange(newOverrides);
 
-        thisList.PrettyString().DebugLog($"Sending Overrides To {MyPlayer.GetNameWithRole()}: ");
+        thisList.StrJoin().DebugLog($"Sending Overrides To {MyPlayer.GetNameWithRole()}: ");
 
         DesyncOptions.SendModifiedOptions(thisList, MyPlayer);
     }
@@ -127,7 +129,7 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
             PlayerControl[] allies = Game.GetAllPlayers().Where(p => IsAllied(p) || p.PlayerId == MyPlayer.PlayerId).ToArray();
             int[] alliesCID = allies.Select(p => p.GetClientId()).ToArray();
 
-            allies.Select(player => player.GetRawName()).PrettyString().DebugLog($"{this.RoleName}'s allies are: ");
+            allies.Select(player => player.GetRawName()).StrJoin().DebugLog($"{this.RoleName}'s allies are: ");
 
             int[] crewmateReceivers = Game.GetAllPlayers()
                 .Where(p => p.GetCustomRole().RealRole.IsCrewmate())

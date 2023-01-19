@@ -5,6 +5,7 @@ using TownOfHost.GUI;
 using TownOfHost.Managers;
 using TownOfHost.Options;
 using UnityEngine;
+using VentLib.Utilities;
 using Convert = System.Convert;
 
 namespace TownOfHost.Roles;
@@ -104,8 +105,8 @@ public class Sniper: Morphling
         DesyncOptions.SendModifiedOptions(modifiedCooldown, MyPlayer);
         killCooldown.Start(refundCooldown * 0.5f);
 
-        DTask.Schedule(() => MyPlayer.RpcRevertShapeshift(true), 0.3f);
-        DTask.Schedule(this.SyncOptions, 1f);
+        Async.ScheduleInStep(() => MyPlayer.RpcRevertShapeshift(true), 0.3f);
+        Async.ScheduleInStep(this.SyncOptions, 1f);
 
         return true;
     }

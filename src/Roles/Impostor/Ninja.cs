@@ -5,6 +5,7 @@ using AmongUs.GameOptions;
 using TownOfHost.GUI;
 using TownOfHost.Options;
 using TownOfHost.Player;
+using VentLib.Utilities;
 
 namespace TownOfHost.Roles;
 
@@ -18,11 +19,7 @@ public class Ninja : Impostor
     [DynElement(UI.Misc)]
     private string CurrentMode() => RoleColor.Colorize(Mode == NinjaMode.Hunting ? "(Hunting)": "(Killing)");
 
-    protected override void Setup(PlayerControl player)
-    {
-        playerList = new List<PlayerControl>();
-        Pet.Guarantee(player); // TODO: Setup better pet system with no need to call inside of roles
-    }
+    protected override void Setup(PlayerControl player) => playerList = new List<PlayerControl>();
 
     [RoleAction(RoleActionType.AttemptKill)]
     public override bool TryKill(PlayerControl target)
@@ -78,7 +75,7 @@ public class Ninja : Impostor
             else
             {
                 Utils.Teleport(target.NetTransform, MyPlayer.transform.position);
-                DTask.Schedule(() => MyPlayer.RpcMurderPlayer(target), 0.25f);
+                Async.ScheduleInStep(() => MyPlayer.RpcMurderPlayer(target), 0.25f);
             }
         }
 

@@ -7,6 +7,7 @@ using TownOfHost.Factions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
 using TownOfHost.Roles;
+using VentLib.Extensions;
 
 namespace TownOfHost.Gamemodes.Standard;
 
@@ -37,7 +38,7 @@ class StandardAssignRoles
         joinedRoleSelection.AddRange(neutralPassiveRoles);
         joinedRoleSelection.AddRange(crewMateRoles);
 
-        joinedRoleSelection.PrettyString().DebugLog("Remaining Roles: ");
+        joinedRoleSelection.StrJoin().DebugLog("Remaining Roles: ");
         List<Tuple<PlayerControl, CustomRole>> assignments = new();
 
         int i = 0;

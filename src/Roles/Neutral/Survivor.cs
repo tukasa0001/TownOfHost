@@ -1,6 +1,9 @@
 using TownOfHost.Extensions;
 using TownOfHost.GUI;
+using TownOfHost.Managers;
 using TownOfHost.Options;
+using TownOfHost.Victory;
+using TownOfHost.Victory.Conditions;
 
 namespace TownOfHost.Roles;
 
@@ -13,24 +16,30 @@ public class Survivor : CustomRole
     [DynElement(UI.Misc)]
     private string GetVestString() => vestDuration.IsReady() ? "" : RoleColor.Colorize("♣");
 
-    // When vestDuration isReady() it means that it's done ticking down thus Survivor can be killed
     public override bool CanBeKilled() => vestDuration.IsReady();
 
     protected override void Setup(PlayerControl player)
     {
         base.Setup(player);
         vestDuration.Start(10f);
+        Game.GetWinDelegate().AddSubscriber(GameEnd);
     }
 
     [RoleAction(RoleActionType.RoundStart)]
-    public void Restart() => vestDuration.Start();
+    public void Restart() => vestCooldown.Start();
 
     [RoleAction(RoleActionType.OnPet)]
     public void OnPet()
     {
-        if (vestDuration.NotReady()) return;
+        if (vestCooldown.NotReady()) return;
         vestCooldown.Start();
         vestDuration.Start();
+    }
+
+    private void GameEnd(WinDelegate winDelegate)
+    {
+        if (!MyPlayer.IsAlive() || winDelegate.GetWinReason() is WinReason.SoloWinner) return;
+        winDelegate.GetWinners().Add(MyPlayer);
     }
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>

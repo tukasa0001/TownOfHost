@@ -12,6 +12,9 @@ public class Amnesiac : CustomRole
 {
     private bool stealExactRole;
 
+    [RoleAction(RoleActionType.AttemptKill)]
+    private void IgnoreKill(ActionHandle handle) => handle.Cancel();
+
     [RoleAction(RoleActionType.AnyReportedBody)]
     public void AmnesiacRememberAction(PlayerControl reporter, GameData.PlayerInfo reported, ActionHandle handle)
     {
@@ -31,6 +34,7 @@ public class Amnesiac : CustomRole
         }
 
         Game.AssignRole(MyPlayer, newRole);
+        handle.Cancel();
     }
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>

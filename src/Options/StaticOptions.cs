@@ -1,6 +1,7 @@
 using TownOfHost.Roles;
 using UnityEngine;
 using VentLib.Localization;
+using VentLib.Localization.Attributes;
 using VentLib.Logging;
 
 namespace TownOfHost.Options;
@@ -171,6 +172,8 @@ public static class StaticOptions
     public static float DemoSuicideTime = 10.0f;
     public static float EvilWatcherChance = 10.0f;
     public static bool AllAliveMeeting = false;
+
+    public static bool AllowMultipleSubroles;
 
     public static bool ShowHistoryTimestamp;
     public static bool NoGameEnd;
@@ -532,16 +535,15 @@ public static class StaticOptions
         manager.Add(new SmartOptionBuilder()
             .Name(Localizer.Get("StaticOptions.DisableTaskWin"))
             .Tab(DefaultTabs.GeneralTab)
-        //    .IsHeader(true)
             .BindBool(v => DisableTaskWin = v)
             .AddOnOffValues(false)
             .Build()
         );
+
         // MIN / MAX STUFF //
         manager.Add(new SmartOptionBuilder()
             .Name(Localizer.Get("StaticOptions.MinMax.MinNeutralKiller"))
             .Tab(DefaultTabs.GeneralTab)
-            .IsHeader(true)
             .AddIntRangeValues(0, 11, 1)
             .BindInt(v => MinNK = v)
             .Build()
@@ -596,6 +598,7 @@ public static class StaticOptions
             .AddOnOffValues(false)
             .Build()
         );
+
         manager.Add(new SmartOptionBuilder()
             .Name(Localizer.Get("StaticOptions.GhostsCanSeeRoles"))
             .Tab(DefaultTabs.GeneralTab)
@@ -698,6 +701,16 @@ public static class StaticOptions
                 .BindBool(v => LogAllActions = v && DebugOptions)
                 .AddOnOffValues()
                 .Build())
+            .Build());
+
+
+
+        manager.Add(new SmartOptionBuilder()
+            .Name("Players Can Have Multiple Modifiers")
+            .IsHeader(true)
+            .Tab(DefaultTabs.MiscTab)
+            .BindBool(v => AllowMultipleSubroles = v)
+            .AddOnOffValues()
             .Build());
     }
 

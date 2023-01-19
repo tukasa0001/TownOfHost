@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace TownOfHost.Managers;
+namespace TownOfHost.Player;
 
 public struct PlayerState
 {
@@ -12,7 +10,7 @@ public struct PlayerState
 
     public PlayerState() { }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj is not PlayerState other) return false;
         return other.state == this.state;

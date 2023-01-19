@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using HarmonyLib;
 using TownOfHost.Managers;
+using TownOfHost.Patches.Client;
 using UnityEngine;
 using VentLib.Localization;
 
@@ -10,12 +11,8 @@ namespace TownOfHost.Patches.Network;
 [HarmonyPatch(typeof(PingTracker), nameof(PingTracker.Update))]
 class PingTrackerPatch
 {
-    public static int LastPing;
-    private static Regex re = new("(\\d*) ms");
-
     static void Postfix(PingTracker __instance)
     {
-        LastPing = int.Parse(re.GroupNameFromNumber(0));
         __instance.text.alignment = TMPro.TextAlignmentOptions.TopRight;
         if (ControllerManagerUpdatePatch.showPing)
             __instance.text.text += TOHPlugin.CredentialsText;

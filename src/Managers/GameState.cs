@@ -23,7 +23,7 @@ public class TaskState
     {
         VentLogger.Old($"{player.GetNameWithRole()}: InitTask", "TaskCounts");
         if (player == null || player.Data == null || player.Data.Tasks == null) return;
-        if (!Utils.HasTasks(player.Data, false)) return;
+        if (!Utils.HasTasks(player.Data)) return;
         hasTasks = true;
         AllTasksCount = player.Data.Tasks.Count;
         VentLogger.Old($"{player.GetNameWithRole()}: {CompletedTasksCount}/{AllTasksCount}", "TaskCounts");

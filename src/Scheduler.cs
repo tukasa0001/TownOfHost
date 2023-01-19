@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TownOfHost.Extensions;
+using VentLib.Extensions;
 using VentLib.Logging;
 
 namespace TownOfHost;
@@ -20,7 +21,7 @@ public class DTask
     private bool repeat;
     private readonly string name;
 
-    public bool Execute(float deltaTime)
+    private bool Execute(float deltaTime)
     {
         instanceDelay -= deltaTime;
         if (instanceDelay > 0) return false;
@@ -28,12 +29,7 @@ public class DTask
         return true;
     }
 
-    public static void Schedule(Action action, float delay, bool repeat = false)
-    {
-        DTask _ = new(action, delay, repeat: repeat);
-    }
-
-    [Obsolete("Use DTask.Schedule instead. In the future this constructor will not automatically register tasks.")]
+    [Obsolete("Use Async.ScheduleInStep instead. In the future this constructor will not automatically register tasks.")]
     public DTask(Action action, float delay, string name = null, bool repeat = false)
     {
         this.action = action;

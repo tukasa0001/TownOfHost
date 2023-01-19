@@ -4,7 +4,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
 using UnityEngine;
-using VentLib.Localization;
+using VentLib.Localization.Attributes;
 
 namespace TownOfHost.Options;
 

@@ -2,8 +2,10 @@ using HarmonyLib;
 using InnerNet;
 using TownOfHost.Managers;
 using UnityEngine;
-using VentLib.Localization;
+using VentLib.Localization.Attributes;
 using VentLib.Logging;
+using VentLib.Utilities;
+
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable InconsistentNaming
 
@@ -48,7 +50,7 @@ class MMOnlineManagerStartPatch
         textObj.name = "CanNotJoinPublic";
         var message = ModUpdater.isBroken ? $"<size=2>{Utils.ColorString(Color.red, MakePublicPatch.ModBrokenMessage)}</size>"
             : $"<size=2>{Utils.ColorString(Color.red, MakePublicPatch.ModUpdateMessage)}</size>";
-        DTask.Schedule(() => { textObj.text = message; }, 0.01f);
+        Async.ScheduleInStep(() => { textObj.text = message; }, 0.01f);
     }
 }
 

@@ -3,6 +3,7 @@ using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.RPC;
+using VentLib.Utilities;
 
 namespace TownOfHost.Patches.Menus;
 
@@ -60,7 +61,7 @@ public static class SendOptionsDelayed
     {
         if (_blocked) return;
         _blocked = true;
-        DTask.Schedule(_Send, 3f);
+        Async.ScheduleInStep(_Send, 3f);
     }
 
     private static void _Send()

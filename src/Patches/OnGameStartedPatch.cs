@@ -10,6 +10,7 @@ using TownOfHost.Patches;
 using TownOfHost.Patches.Actions;
 using TownOfHost.Roles;
 using VentLib.Logging;
+using VentLib.RPC;
 
 namespace TownOfHost
 {

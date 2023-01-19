@@ -12,6 +12,7 @@ using TownOfHost.RPC;
 using UnityEngine;
 using VentLib.Localization;
 using VentLib.Logging;
+using VentLib.Utilities;
 
 
 namespace TownOfHost.Patches.HUD;
@@ -145,7 +146,7 @@ class MeetingHudStartPatch
         MeetingStates.MeetingCalled = true;
         Game.RenderAllForAll(force: true);
         "Meeting Call Done".DebugLog();
-        DTask.Schedule(() => Game.GetAllPlayers().Do(p => p.RpcSetName(p.GetRawName())), GameStats.DeriveDelay(0.4f));
+        Async.ScheduleInStep(() => Game.GetAllPlayers().Do(p => p.RpcSetName(p.GetRawName())), NetUtils.DeriveDelay(0.4f));
     }
     public static void Postfix(MeetingHud __instance)
     {
@@ -157,7 +158,7 @@ class MeetingHudStartPatch
         }
 
         if (AmongUsClient.Instance.AmHost)
-            DTask.Schedule(() => ChatUpdatePatch.DoBlockChat = false, 3f);
+            Async.ScheduleInStep(() => ChatUpdatePatch.DoBlockChat = false, 3f);
     }
 }
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]

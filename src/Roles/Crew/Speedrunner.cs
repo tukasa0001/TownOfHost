@@ -1,6 +1,7 @@
 using TownOfHost.Extensions;
 using TownOfHost.Options;
 using UnityEngine;
+using VentLib.Utilities;
 
 namespace TownOfHost.Roles;
 
@@ -27,7 +28,7 @@ public class Speedrunner : Crewmate
         if (speedBoostOnTaskComplete)
         {
             currentSpeedBoost += smallRewardBoost;
-            DTask.Schedule(() =>
+            Async.ScheduleInStep(() =>
             {
                 currentSpeedBoost -= smallRewardBoost;
                 this.SyncOptions();

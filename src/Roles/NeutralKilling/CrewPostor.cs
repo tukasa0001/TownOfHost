@@ -4,6 +4,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Options;
 using System.Collections.Generic;
 using System.Linq;
+using VentLib.Extensions;
 
 namespace TownOfHost.Roles;
 

@@ -33,7 +33,7 @@ public class TOHPlugin : BasePlugin, IGitVersionEmitter
     public TOHPlugin()
     {
         Instance = this;
-        Vents.Initialize(false);
+        Vents.Initialize();
         Vents.VersionControl.For(this);
         Vents.VersionControl.AddVersionReceiver(
             (ver, player) => playerVersion[player.PlayerId] = (GitVersion)ver,

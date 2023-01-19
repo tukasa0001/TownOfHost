@@ -7,17 +7,17 @@ namespace TownOfHost.Victory.Conditions;
 public class VanillaCrewmateWin: IFactionWinCondition
 {
     private static readonly List<Faction> CrewmateFaction = new() { Faction.Crewmates };
-    private WinReason winReason = Conditions.WinReason.TasksComplete;
+    private WinReason winReason = WinReason.TasksComplete;
 
     public bool IsConditionMet(out List<Faction> factions)
     {
         factions = CrewmateFaction;
-        winReason = Conditions.WinReason.TasksComplete;
+        winReason = WinReason.TasksComplete;
 
         if (GameStats.CountAliveImpostors() != 0)
             return GameData.Instance.TotalTasks == GameData.Instance.CompletedTasks;
 
-        winReason = Conditions.WinReason.FactionLastStanding;
+        winReason = WinReason.FactionLastStanding;
         return true;
     }
 

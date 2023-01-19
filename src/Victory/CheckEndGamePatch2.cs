@@ -6,6 +6,7 @@ using TownOfHost.Managers;
 using TownOfHost.Options;
 using TownOfHost.Victory.Conditions;
 using VentLib.Logging;
+using VentLib.Utilities;
 
 namespace TownOfHost.Victory;
 
@@ -34,6 +35,7 @@ public class CheckEndGamePatch2
             WinReason.FactionLastStanding => impostorsWon ? GameOverReason.ImpostorByKill : GameOverReason.HumansByVote,
             WinReason.RoleSpecificWin => impostorsWon ? GameOverReason.ImpostorByKill : GameOverReason.HumansByVote,
             WinReason.TasksComplete => GameOverReason.HumansByTask,
+            WinReason.Sabotage => GameOverReason.ImpostorBySabotage,
             WinReason.NoWinCondition => GameOverReason.ImpostorDisconnect,
             WinReason.HostForceEnd => GameOverReason.ImpostorDisconnect,
             WinReason.GamemodeSpecificWin => GameOverReason.ImpostorByKill,
@@ -44,7 +46,7 @@ public class CheckEndGamePatch2
         VictoryScreen.ShowWinners(winDelegate.GetWinners(), reason);
 
         deferred = true;
-        DTask.Schedule(() => DelayedWin(reason), GameStats.DeriveDelay());
+        Async.ScheduleInStep(() => DelayedWin(reason), NetUtils.DeriveDelay());
 
         return false;
     }
@@ -54,6 +56,6 @@ public class CheckEndGamePatch2
         deferred = false;
         VentLogger.Old("Sending Game Over", "DelayedWin");
         GameManager.Instance.RpcEndGame(reason, false);
-        DTask.Schedule(() => GameManager.Instance.EndGame(), 0.1f);
+        Async.ScheduleInStep(() => GameManager.Instance.EndGame(), 0.1f);
     }
 }

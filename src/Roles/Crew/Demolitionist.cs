@@ -5,6 +5,7 @@ using TownOfHost.Options;
 using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Managers;
+using VentLib.Utilities;
 
 namespace TownOfHost.Roles;
 
@@ -23,7 +24,7 @@ public class Demolitionist : Crewmate
     public void DemoDeath(PlayerControl killer)
     {
         inDemoTime.Add(killer.PlayerId);
-        DTask.Schedule(() =>
+        Async.ScheduleInStep(() =>
         {
             inDemoTime.Remove(killer.PlayerId);
             if (Game.State is not GameState.InMeeting)

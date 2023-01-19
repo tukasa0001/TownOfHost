@@ -2,16 +2,16 @@ NEW BUGS AFTER FIRST TESTING SESSION:
 - [ ] ~~Client player names don't render at all~~ Only occurs on modded server
 - [ ] ~~Host player name sometimes renders during meeting / chatting~~ also might be modded server only
 - [ ] ~~All players show up as "wwww" for host~~
-- [ ] Arsonist kills everyone on ignite
+- [ ] ~~Arsonist kills everyone on ignite~~
 - [ ] Desync impostor for host
-- [ ] No sabotage win condition
+- [x] ~~No sabotage win condition~~
 - [ ] End screen not working like at all
 - [ ] Setting roles with a count higher than 2 does not work
-- [ ] Host settings are out of sync
+- [ ] ~~Host settings are out of sync~~
 - [ ] Host kills straight away with vampire
-- [ ] Vampire should GA target not self
+- [x] ~~Vampire should GA target not self~~
 - [ ] Time thief not stealing time accurately (investigate)
-- [ ] Miner pet does not teleport back to vent
+- [x] ~~Miner pet does not teleport back to vent~~
 - [ ] Donks in discussions skin when voted out
 - [ ] Host skin doesnt change when voted out and is desynced
 

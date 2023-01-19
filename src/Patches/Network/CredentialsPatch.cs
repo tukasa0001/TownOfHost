@@ -17,7 +17,7 @@ class VersionShowerStartPatch
     {
         TOHPlugin.CredentialsText = $"\r\n<color={TOHPlugin.ModColor}>{TOHPlugin.ModName}</color> v{TOHPlugin.PluginVersion}" + (TOHPlugin.DevVersion ? " " + TOHPlugin.DevVersionStr : "");
 #if DEBUG
-        TOHPlugin.CredentialsText += $"\r\n<color={TOHPlugin.ModColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
+        TOHPlugin.CredentialsText += $"\r\n<color={TOHPlugin.ModColor}>{TOHPlugin.Instance.Version().Branch}({TOHPlugin.Instance.Version().CommitNumber})</color>";
 #endif
 
         int addonCount = AddonManager.Addons.Count;

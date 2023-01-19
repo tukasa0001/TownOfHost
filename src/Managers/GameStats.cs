@@ -16,7 +16,7 @@ public static class GameStats
 
     // ReSharper disable once CompareOfFloatsByEqualityOperator
     public static float DeriveDelay(float flatDelay = float.MinValue) =>
-        (PingTrackerPatch.LastPing * ModConstants.DeriveDelayMultiplier)
+        (AmongUsClient.Instance.Ping * ModConstants.DeriveDelayMultiplier)
         + (flatDelay == float.MinValue ? ModConstants.DeriveDelayFlatValue : flatDelay);
 
 }

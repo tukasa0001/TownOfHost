@@ -6,7 +6,6 @@ namespace TownOfHost.Victory.Conditions;
 public interface IWinCondition: IComparable<IWinCondition>
 {
     bool IsConditionMet(out List<PlayerControl> winners);
-    bool IsConditionMet() => IsConditionMet(out List<PlayerControl> winners);
 
     /// <summary>
     /// Gets the priority of this win condition, win conditions get checked in order of priority.
@@ -17,5 +16,5 @@ public interface IWinCondition: IComparable<IWinCondition>
 
     WinReason GetWinReason();
 
-    int IComparable<IWinCondition>.CompareTo(IWinCondition other) => other.Priority().CompareTo(Priority());
+    int IComparable<IWinCondition>.CompareTo(IWinCondition? other) => other.Priority().CompareTo(Priority());
 }

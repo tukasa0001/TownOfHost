@@ -4,6 +4,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.Roles;
 using VentLib.Logging;
+using VentLib.Utilities;
 
 namespace TownOfHost.Managers;
 

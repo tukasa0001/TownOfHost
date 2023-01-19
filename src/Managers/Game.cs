@@ -13,9 +13,10 @@ using TownOfHost.Player;
 using TownOfHost.Roles;
 using TownOfHost.RPC;
 using TownOfHost.Victory;
-using VentLib;
+using VentLib.Extensions;
 using VentLib.Logging;
 using VentLib.RPC;
+using VentLib.RPC.Attributes;
 
 namespace TownOfHost.Managers;
 
@@ -50,7 +51,6 @@ public static class Game
 
     public static void RenderAllNames() => players.Values.Select(p => p.DynamicName).Do(name => name.Render());
     public static void RenderAllForAll(GameState? state = null, bool force = false) => players.Values.Select(p => p.DynamicName).Do(name => players.Values.Do(p => name.RenderFor(p.MyPlayer, state, force)));
-    //public static void RenderAllForAll(GameState? state = null) => GetAllPlayers().Select(p => p.GetDynamicName()).Do(name => GetAllPlayers().Do(pp => name.RenderFor(pp, state)));
     public static IEnumerable<PlayerControl> GetAllPlayers() => PlayerControl.AllPlayerControls.ToArray();
     public static IEnumerable<PlayerControl> GetAlivePlayers() => GetAllPlayers().Where(p => !p.Data.IsDead && !p.Data.Disconnected);
     public static IEnumerable<PlayerControl> GetDeadPlayers(bool disconnected = false) => GetAllPlayers().Where(p => p.Data.IsDead || (disconnected && p.Data.Disconnected));
@@ -81,7 +81,7 @@ public static class Game
                 if (StaticOptions.LogAllActions)
                 {
                     VentLogger.Trace($"{actionTuple.Item3.MyPlayer.GetNameWithRole()} => {actionTuple.Item2}", "ActionLog");
-                    VentLogger.Trace($"Parameters: {parameters.PrettyString()} :: Blocked? {actionTuple.Item2.Blockable && inBlockList}", "ActionLog");
+                    VentLogger.Trace($"Parameters: {parameters.StrJoin()} :: Blocked? {actionTuple.Item2.Blockable && inBlockList}", "ActionLog");
                 }
 
                 if (!actionTuple.Item2.Blockable || !inBlockList)

@@ -11,7 +11,7 @@ public class RoleAction: Attribute
     /// <summary>
     /// If provided, overrides any methods of the same action with the same name from any parent classes
     /// </summary>
-    public String Override;
+    public String? Override;
     /// <summary>
     /// Dictates whether this action should be utilized in subclasses of the class declaring this method <b>Default: True</b>
     /// </summary>

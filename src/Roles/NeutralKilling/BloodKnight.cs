@@ -3,6 +3,7 @@ using TownOfHost.Factions;
 using TownOfHost.GUI;
 using TownOfHost.Options;
 using UnityEngine;
+using VentLib.Utilities;
 
 namespace TownOfHost.Roles;
 
@@ -34,7 +35,7 @@ public class BloodKnight : NeutralKillingBase
         if (MyPlayer.Data.IsDead) return killed;
 
         isProtected = true;
-        DTask.Schedule(() => isProtected = false, protectionAmt);
+        Async.ScheduleInStep(() => isProtected = false, protectionAmt);
         return killed;
     }
 

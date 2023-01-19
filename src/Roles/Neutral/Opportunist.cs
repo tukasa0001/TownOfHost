@@ -1,19 +1,21 @@
 using TownOfHost.Extensions;
+using TownOfHost.Managers;
 using TownOfHost.Options;
+using TownOfHost.Victory;
+using TownOfHost.Victory.Conditions;
 
 namespace TownOfHost.Roles;
 
 public class Opportunist : CustomRole
 {
-    [RoleAction(RoleActionType.RoundEnd)]
-    public void OpportunistWin(bool gameEnd)
+    protected override void Setup(PlayerControl player) => Game.GetWinDelegate().AddSubscriber(WinSubscriber);
+
+    private void WinSubscriber(WinDelegate winDelegate)
     {
-        // apparently we are going to redo game ending so im just going to putt his code here
-        if (MyPlayer.IsAlive() && gameEnd)
-        {
-            "Opportunist Win".DebugLog();
-        }
+        if (!MyPlayer.IsAlive() || winDelegate.GetWinReason() is WinReason.SoloWinner) return;
+        winDelegate.GetWinners().Add(MyPlayer);
     }
+
     protected override RoleModifier Modify(RoleModifier roleModifier)
     {
         return roleModifier

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TownOfHost.GUI;
 using TownOfHost.Options;
 using TownOfHost.Player;
+using VentLib.Utilities;
 
 namespace TownOfHost.Roles;
 
@@ -12,7 +13,7 @@ public class Vampiress : Impostor
     public VampireMode Mode = VampireMode.Biting;
     private List<byte> bitten;
 
-    protected override void Setup(PlayerControl player) => Pet.Guarantee(player);
+    protected override void Setup(PlayerControl player) => bitten = new List<byte>();
 
     [DynElement(UI.Misc)]
     private string CurrentMode() => Mode == VampireMode.Biting ? RoleColor.Colorize("(Bite)") : RoleColor.Colorize("(Kill)");
@@ -26,9 +27,9 @@ public class Vampiress : Impostor
         if (Mode is VampireMode.Killing)
             return RoleUtils.RoleCheckedMurder(MyPlayer, target);
 
-        MyPlayer.RpcGuardAndKill(MyPlayer);
+        MyPlayer.RpcGuardAndKill(target);
         bitten.Add(target.PlayerId);
-        DTask.Schedule(() => { if (bitten.Contains(target.PlayerId)) RoleUtils.RoleCheckedMurder(target, target); }, killDelay);
+        Async.ScheduleInStep(() => { if (bitten.Contains(target.PlayerId)) RoleUtils.RoleCheckedMurder(target, target); }, killDelay);
 
         return true;
     }

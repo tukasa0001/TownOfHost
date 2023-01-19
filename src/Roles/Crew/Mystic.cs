@@ -8,6 +8,7 @@ using HarmonyLib;
 using TownOfHost.Options;
 using TownOfHost.Patches.Systems;
 using TownOfHost.Roles;
+using VentLib.Utilities;
 
 namespace TownOfHost.Roles;
 
@@ -34,7 +35,7 @@ public class Mystic : Crewmate
             didReactorAlert = true;
         }
 
-        DTask.Schedule(() => MysticRevertAlert(didReactorAlert), flashDuration);
+        Async.ScheduleInStep(() => MysticRevertAlert(didReactorAlert), flashDuration);
 
     }
 

@@ -102,7 +102,7 @@ public class OptionHolder: IRpcSendable<OptionHolder>
         return holders;
     }
 
-    public override string ToString() => $"OptionsHolder({Name}: {GetAsString()} => {SubOptions.PrettyString()})";
+    public override string ToString() => $"OptionsHolder({Name}: {GetAsString()} => {SubOptions.StrJoin()})";
 
     public OptionHolder Read(MessageReader reader)
     {
@@ -147,7 +147,7 @@ public class OptionHolder: IRpcSendable<OptionHolder>
         private Func<object, bool> showOptionsPredicate;
         //private OptionPage page;
 
-        public SmartOptionBuilder(string header = null, int level = 0)
+        public SmartOptionBuilder(string? header = null, int level = 0)
         {
             this.header = header;
             this.level = level;

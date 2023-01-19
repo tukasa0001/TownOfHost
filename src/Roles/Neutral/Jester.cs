@@ -19,7 +19,7 @@ public class Jester : CustomRole
     [RoleAction(RoleActionType.SelfExiled)]
     public void JesterWin()
     {
-        ManualWin jesterWin = new(new List<PlayerControl> { MyPlayer }, WinReason.RoleSpecificWin, 999);
+        ManualWin jesterWin = new(MyPlayer, WinReason.SoloWinner, 999);
         jesterWin.Activate();
     }
 

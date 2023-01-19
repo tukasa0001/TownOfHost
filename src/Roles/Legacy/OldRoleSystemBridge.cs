@@ -19,9 +19,10 @@ public static class OldRoleSystemBridge
                 : RoleType.Crewmate;
     }
 
-    public static CustomRole GetCustomRole(this GameData.PlayerInfo playerInfo)
+    public static CustomRole GetCustomRole(this GameData.PlayerInfo? playerInfo)
     {
-        return CustomRoleManager.PlayersCustomRolesRedux[playerInfo.PlayerId];
+        if (playerInfo == null || playerInfo.Object == null) return CustomRoleManager.Default;
+        return playerInfo.Object.GetCustomRole();
     }
 
     public static bool Is(this CustomRole role, RoleTypes roleTypes) => role.VirtualRole == roleTypes;

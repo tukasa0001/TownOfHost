@@ -13,8 +13,10 @@ namespace TownOfHost.Patches.Systems;
 public static class SabotagePatch
 {
     public static SabotageType? CurrentSabotage;
+    public static float SabotageCountdown;
+    public static PlayerControl? SabotageCaller;
 
-    public static bool Prefix(ShipStatus __instance,
+    internal static bool Prefix(ShipStatus __instance,
         [HarmonyArgument(0)] SystemTypes systemType,
         [HarmonyArgument(1)] PlayerControl player,
         [HarmonyArgument(2)] byte amount)
@@ -35,6 +37,7 @@ public static class SabotagePatch
                     SystemTypes.Laboratory => SabotageType.Reactor,
                     _ => throw new Exception("Invalid Sabotage Type")
                 };
+                SabotageCaller = player;
                 Game.TriggerForAll(RoleActionType.SabotageStarted, ref handle, sabotage, player);
                 if (!handle.IsCanceled) CurrentSabotage = sabotage;
                 break;
@@ -51,6 +54,7 @@ public static class SabotagePatch
                 VentLogger.Info($"Electrical Sabotage Fixed by {player.GetRawName()}", "SabotageFix");
                 Game.TriggerForAll(RoleActionType.SabotageFixed, ref handle, SabotageType.Lights, player);
                 CurrentSabotage = null;
+                SabotageCaller = null;
                 break;
             case SystemTypes.Comms:
                 if (CurrentSabotage != SabotageType.Communications) break;
@@ -59,6 +63,7 @@ public static class SabotagePatch
                 {
                     Game.TriggerForAll(RoleActionType.SabotageFixed, ref handle, SabotageType.Communications, player);
                     CurrentSabotage = null;
+                    SabotageCaller = null;
                 } else if (systemInstance.GetType() == typeof(HqHudSystemType)) // Mira has a special communications which requires two people
                 {
                     HqHudSystemType miraComms = systemInstance.Cast<HqHudSystemType>(); // Get mira comm instance
@@ -71,6 +76,7 @@ public static class SabotagePatch
                     if (miraComms.NumComplete == 0) break;
                     Game.TriggerForAll(RoleActionType.SabotageFixed, ref handle, SabotageType.Communications, player);
                     CurrentSabotage = null;
+                    SabotageCaller = null;
                 }
                 if (CurrentSabotage == null)
                     VentLogger.Info($"Communications Sabotage Fixed by {player.GetRawName()}", "SabotageFix");
@@ -85,6 +91,7 @@ public static class SabotagePatch
                 if (oxygen.UserCount == 0) break;
                 Game.TriggerForAll(RoleActionType.SabotageFixed, ref handle, SabotageType.Oxygen);
                 CurrentSabotage = null;
+                SabotageCaller = null;
                 VentLogger.Info($"Oxygen Sabotage Fixed by {player.GetRawName()}", "SabotageFix");
                 break;
             case SystemTypes.Laboratory:
@@ -98,6 +105,7 @@ public static class SabotagePatch
                 if (reactor.UserCount == 0) break;
                 Game.TriggerForAll(RoleActionType.SabotageFixed, ref handle, SabotageType.Reactor);
                 CurrentSabotage = null;
+                SabotageCaller = null;
                 VentLogger.Info($"Reactor Sabotage Fixed by {player.GetRawName()}", "SabotageFix");
                 break;
             default:
