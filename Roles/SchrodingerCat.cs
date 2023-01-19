@@ -135,14 +135,5 @@ namespace TownOfHost
                 CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.SchrodingerCat);
             }
         }
-        [HarmonyPatch]
-        class Patches
-        {
-            [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame)), HarmonyPostfix]
-            static void OnGameStart()
-            {
-                Init();
-            }
-        }
     }
 }

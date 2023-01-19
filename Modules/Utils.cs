@@ -643,7 +643,8 @@ namespace TownOfHost
             var callerMethod = caller.GetMethod();
             string callerMethodName = callerMethod.Name;
             string callerClassName = callerMethod.DeclaringType.FullName;
-            TownOfHost.Logger.Info("NotifyRolesが" + callerClassName + "." + callerMethodName + "から呼び出されました", "NotifyRoles");
+            var logger = Logger.Handler("NotifyRoles");
+            logger.Info("NotifyRolesが" + callerClassName + "." + callerMethodName + "から呼び出されました");
             HudManagerPatch.NowCallNotifyRolesCount++;
             HudManagerPatch.LastSetNameDesyncCount = 0;
 
@@ -663,7 +664,7 @@ namespace TownOfHost
                 if (seer.IsModClient()) continue;
                 string fontSize = "1.5";
                 if (isMeeting && (seer.GetClient().PlatformData.Platform.ToString() == "Playstation" || seer.GetClient().PlatformData.Platform.ToString() == "Switch")) fontSize = "70%";
-                TownOfHost.Logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":START", "NotifyRoles");
+                logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":START");
 
                 //タスクなど進行状況を含むテキスト
                 string SelfTaskText = GetProgressText(seer);
@@ -700,21 +701,12 @@ namespace TownOfHost
                     SelfSuffix = Witch.GetSpellModeText(seer, false, isMeeting);
                 }
 
-                //他人用の変数定義
-                bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
-
                 //タスクを終えたSnitchがインポスター/キル可能な第三陣営の方角を確認できる
                 SelfSuffix += Snitch.GetSnitchArrow(seer);
 
-                if (seer.Is(CustomRoles.MadSnitch))
-                {
-                    var TaskState = seer.GetPlayerTaskState();
-                    if (TaskState.IsTaskFinished)
-                        SeerKnowsImpostors = true;
-                }
-
-                if (seer.Is(CustomRoles.EvilTracker)) SelfSuffix += EvilTracker.UtilsGetTargetArrow(isMeeting, seer);
                 if (seer.Is(CustomRoles.BountyHunter) && BountyHunter.ShowTargetArrow.GetBool()) SelfSuffix += BountyHunter.UtilsGetTargetArrow(isMeeting, seer);
+                if (seer.Is(CustomRoles.EvilTracker))
+                    SelfSuffix += EvilTracker.GetTargetArrowForVanilla(isMeeting, seer);
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.GetRealName(isMeeting);
@@ -737,11 +729,7 @@ namespace TownOfHost
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
-                    || SeerKnowsImpostors //seerがインポスターを知っている状態
                     || seer.GetCustomRole().IsImpostor() //seerがインポスター
-                    || seer.Is(CustomRoles.EgoSchrodingerCat) //seerがエゴイストのシュレディンガーの猫
-                    || seer.Is(CustomRoles.JSchrodingerCat) //seerがJackal陣営のシュレディンガーの猫
-                    || seer.Is(CustomRoles.MSchrodingerCat) //seerがインポスター陣営のシュレディンガーの猫
                     || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.Is(CustomRoles.Arsonist)
                     || seer.Is(CustomRoles.Lovers)
@@ -760,7 +748,7 @@ namespace TownOfHost
                     {
                         //targetがseer自身の場合は何もしない
                         if (target == seer) continue;
-                        TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":START", "NotifyRoles");
+                        logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":START");
 
                         //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetTaskText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"{GetProgressText(target)}" : "";
@@ -821,16 +809,7 @@ namespace TownOfHost
                         string TargetPlayerName = target.GetRealName(isMeeting);
 
                         //ターゲットのプレイヤー名の色を書き換えます。
-                        if (SeerKnowsImpostors) //Seerがインポスターが誰かわかる状態
-                        {
-                            //スニッチはオプション有効なら第三陣営のキル可能役職も見れる
-                            var foundCheck = target.GetCustomRole().IsImpostor();
-                            if (foundCheck)
-                                TargetPlayerName = ColorString(target.GetRoleColor(), TargetPlayerName);
-                        }
-                        else if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.Egoist))
-                            TargetPlayerName = ColorString(GetRoleColor(CustomRoles.Egoist), TargetPlayerName);
-                        else if (Utils.IsActive(SystemTypes.Electrical) && target.Is(CustomRoles.Mare) && !isMeeting)
+                        if (Utils.IsActive(SystemTypes.Electrical) && target.Is(CustomRoles.Mare) && !isMeeting)
                             TargetPlayerName = ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName); //targetの赤色で表示
                         else
                         {
@@ -855,10 +834,10 @@ namespace TownOfHost
                         //適用
                         target.RpcSetNamePrivate(TargetName, true, seer, force: NoCache);
 
-                        TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":END", "NotifyRoles");
+                        logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":END");
                     }
                 }
-                TownOfHost.Logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":END", "NotifyRoles");
+                logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":END");
             }
         }
         public static void MarkEveryoneDirtySettings()
@@ -873,6 +852,7 @@ namespace TownOfHost
         public static void AfterMeetingTasks()
         {
             BountyHunter.AfterMeetingTasks();
+            EvilTracker.AfterMeetingTasks();
             SerialKiller.AfterMeetingTasks();
             if (Options.AirShipVariableElectrical.GetBool())
                 AirShipElectricalDoors.Initialize();

@@ -264,7 +264,7 @@ namespace TownOfHost
                 { CustomRoles.Mare, "ma" },
                 { CustomRoles.Mafia, "mf" },
                 { CustomRoles.SerialKiller, "sk" },
-                //{ CustomRoles.ShapeMaster, "sha" },
+                { CustomRoles.ShapeMaster, "sha" },
                 { CustomRoles.TimeThief, "tt"},
                 { CustomRoles.Sniper, "snp" },
                 { CustomRoles.Puppeteer, "pup" },
@@ -293,6 +293,7 @@ namespace TownOfHost
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
                 { CustomRoles.Trapper, "tra" },
+                { CustomRoles.TimeManager, "tm"},
                 //Neutral役職
                 { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
                 { CustomRoles.Arsonist, "ar" },

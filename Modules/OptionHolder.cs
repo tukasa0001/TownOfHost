@@ -77,7 +77,7 @@ namespace TownOfHost
         public static OptionItem EnableGM;
         public static float DefaultKillCooldown = Main.NormalOptions?.KillCooldown ?? 20;
         public static OptionItem VampireKillDelay;
-        //public static CustomOption ShapeMasterShapeshiftDuration;
+        public static OptionItem ShapeMasterShapeshiftDuration;
         public static OptionItem DefaultShapeshiftCooldown;
         public static OptionItem CanMakeMadmateCount;
         public static OptionItem MadGuardianCanSeeWhoTriedToKill;
@@ -335,11 +335,9 @@ namespace TownOfHost
             // Impostor
             BountyHunter.SetupCustomOption();
             SerialKiller.SetupCustomOption();
-            // SetupRoleOptions(1200, CustomRoles.ShapeMaster);
-            // ShapeMasterShapeshiftDuration = CustomOption.Create(1210, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
-            SetupRoleOptions(1300, TabGroup.ImpostorRoles, CustomRoles.Vampire);
-            VampireKillDelay = FloatOptionItem.Create(1310, "VampireKillDelay", new(1f, 1000f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Vampire])
-                .SetValueFormat(OptionFormat.Seconds);
+            SetupRoleOptions(1200, TabGroup.ImpostorRoles, CustomRoles.ShapeMaster);
+            ShapeMasterShapeshiftDuration = FloatOptionItem.Create(1210, "ShapeMasterShapeshiftDuration", new(1, 1000, 1), 10, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
+            Vampire.SetupCustomOption();
             SetupRoleOptions(1400, TabGroup.ImpostorRoles, CustomRoles.Warlock);
             Witch.SetupCustomOption();
             SetupRoleOptions(1600, TabGroup.ImpostorRoles, CustomRoles.Mafia);
@@ -412,6 +410,7 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Seconds);
             SetupRoleOptions(20900, TabGroup.CrewmateRoles, CustomRoles.Dictator);
             SetupRoleOptions(21000, TabGroup.CrewmateRoles, CustomRoles.Seer);
+            TimeManager.SetupCustomOption();
 
             // Neutral
             SetupRoleOptions(50500, TabGroup.NeutralRoles, CustomRoles.Arsonist);
