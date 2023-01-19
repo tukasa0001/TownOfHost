@@ -156,6 +156,8 @@ namespace TownOfHost
                 bool CanUseVent = player.CanUseImpostorVentButton();
                 __instance.ImpostorVentButton.ToggleVisible(CanUseVent);
                 player.Data.Role.CanVent = CanUseVent;
+
+                SetButtonsForGhost();
             }
 
 
@@ -192,6 +194,18 @@ namespace TownOfHost
                 if (Input.GetKeyDown(KeyCode.Alpha8)) RepairSender.Input(8);
                 if (Input.GetKeyDown(KeyCode.Alpha9)) RepairSender.Input(9);
                 if (Input.GetKeyDown(KeyCode.Return)) RepairSender.InputEnter();
+            }
+
+            void SetButtonsForGhost()
+            {
+                if (!player.IsAlive())
+                {
+                    __instance.ReportButton.Hide();
+                    __instance.ImpostorVentButton.Hide();
+                    __instance.KillButton.Hide();
+                    __instance.AbilityButton.Show();
+                    __instance.AbilityButton.OverrideText(GetString(StringNames.HauntAbilityName));
+                }
             }
         }
     }
@@ -235,7 +249,6 @@ namespace TownOfHost
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
                     __instance.SabotageButton.ToggleVisible(false);
-                    __instance.AbilityButton.ToggleVisible(!player.IsAlive());
                     break;
                 case CustomRoles.Jackal:
                     Jackal.SetHudActive(__instance, isActive);
