@@ -17,7 +17,7 @@ namespace TownOfHost
         }
         public static void AddBanPlayer(InnerNet.ClientData player)
         {
-            if (!AmongUsClient.Instance.AmHost) return;
+            if (!AmongUsClient.Instance.AmHost || player == null) return;
             if (!CheckBanList(player) && player.FriendCode != "")
             {
                 File.AppendAllText(BAN_LIST_PATH, $"{player.FriendCode},{player.PlayerName}\n");
@@ -62,7 +62,7 @@ namespace TownOfHost
         }
         public static bool CheckBanList(InnerNet.ClientData player)
         {
-            if (player.FriendCode == "") return false;
+            if (player == null || player?.FriendCode == "") return false;
             try
             {
                 Directory.CreateDirectory("TOH_DATA");
