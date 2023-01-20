@@ -465,6 +465,7 @@
 "Message.KickedByDenyName","{0} was kicked because its name matched ""{1}"".","{0}は名前が「{1}」に一致したためキックされました。","{0} 被踢出，因其昵称违规 ""{1}"".","","{0} был исключен, поскольку его имя соответствует ""{1}""",""
 "Message.BanedByBanList","{0} has been banned because it has been banned in the past.","{0}は過去にBAN済みのためBANされました。","{0} 已被封禁，因其之前就被封禁过","","{0} был заблокирован, потому что он Был заблокирован в прошлый раз",""
 "Message.KickedByNoFriendCode","{0} was kicked because the friend code does not exist.","{0}はフレンドコードが存在しないためキックされました。","","","",""
+"Message.AddedPlayerToBanList","Added {0} to the ban list.","{0}をBANリストに追記しました。","","","",""
 
 "## 警告"
 "Warning.EgoistCannotWin","Egoist cannot win","エゴイストが勝利できません","野心家无法获胜","利己主義者無法獲勝","Egoist не может победить!","Egoísta não pode vencer"
