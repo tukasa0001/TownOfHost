@@ -15,6 +15,7 @@ using TownOfHost.RPC;
 using VentLib.Extensions;
 using VentLib.Logging;
 using VentLib.Utilities;
+using GameStates = TownOfHost.Managers.GameStates;
 
 namespace TownOfHost.Extensions;
 
@@ -332,9 +333,9 @@ public static class PlayerControlExtensions
                 player.Data.Role.CanVent = true;
                 return;
             case HexMaster:
-            case CovenWitch:
+            /*case CovenWitch:
                 DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(TOHPlugin.HasNecronomicon && !player.Data.IsDead);
-                player.Data.Role.CanVent = TOHPlugin.HasNecronomicon;
+                player.Data.Role.CanVent = TOHPlugin.HasNecronomicon;*/
                 break;
             case Janitor:
                 DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(StaticOptions.STIgnoreVent && !player.Data.IsDead);

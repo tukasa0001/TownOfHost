@@ -65,7 +65,6 @@ namespace TownOfHost
         }
         public static void OnCheckMurder(PlayerControl necromancer, PlayerControl target)
         {
-            bool skipVetCheck = TOHPlugin.HasNecronomicon;
             /*switch (currentRole)
             {
                 case Necromancer:
@@ -511,7 +510,6 @@ namespace TownOfHost
                     }
                     break;
             }*/
-            if (skipVetCheck) return;
             /*if (target.Is(CustomRoles.Veteran) && !Main.HasNecronomicon && Main.VetIsAlerted)
                 target.RpcMurderPlayer(necromancer);*/
         }
@@ -559,7 +557,6 @@ namespace TownOfHost
                 case Traitor:
                     return true;
             }
-            if (currentRole.IsCoven() && currentRole is not Necromancer) return TOHPlugin.HasNecronomicon;
             return false;
         }
         public static void OnUseVent(int ventId)

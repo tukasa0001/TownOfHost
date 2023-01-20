@@ -15,8 +15,8 @@ public static class AntiBlackoutLogic
     public static void PatchedDataLogic()
     {
         VentLogger.Debug("Patching GameData", "AntiBlackout");
-        int aliveCrew = GameStats.CountRealCrew();
-        int aliveImpostors = GameStats.CountRealImpostors();
+        int aliveCrew = GameStates.CountRealCrew();
+        int aliveImpostors = GameStates.CountRealImpostors();
 
         if (AntiBlackout.FakeExiled != null)
         {
@@ -70,8 +70,8 @@ public static class AntiBlackoutLogic
     public static bool IsFakeable(GameData.PlayerInfo? checkedPlayer)
     {
         if (checkedPlayer == null || checkedPlayer.Object == null) return false;
-        int aliveCrew = GameStats.CountRealCrew();
-        int aliveImpostors = GameStats.CountRealImpostors();
+        int aliveCrew = GameStates.CountRealCrew();
+        int aliveImpostors = GameStates.CountRealImpostors();
 
         if (checkedPlayer.Object.GetCustomRole().RealRole.IsImpostor()) aliveImpostors -= 1;
         else aliveCrew -= 1;

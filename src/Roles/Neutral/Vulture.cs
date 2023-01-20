@@ -1,6 +1,9 @@
+using System.Collections.Generic;
 using TownOfHost.Extensions;
 using TownOfHost.Options;
 using AmongUs.GameOptions;
+using TownOfHost.Managers;
+using TownOfHost.Victory.Conditions;
 
 namespace TownOfHost.Roles;
 
@@ -15,19 +18,16 @@ public class Vulture : CustomRole
     private bool isEatMode = true;
 
     [RoleAction(RoleActionType.SelfReportBody)]
-    public void EatBody(PlayerControl target, ActionHandle handle)
+    private void EatBody(GameData.PlayerInfo body, ActionHandle handle)
     {
-        if (!isEatMode | TOHPlugin.unreportableBodies.Contains(target.Data.PlayerId)) return;
-        TOHPlugin.unreportableBodies.Add(target.Data.PlayerId);
-        bodyCount++;
-        if (bodyCount >= bodyAmount)
-        {
-            // they won
-        }
-        else
-        {
-            handle.Cancel();
-        }
+        List<byte> blockedBodies = Game.GameStates.UnreportableBodies;
+        if (!isEatMode || blockedBodies.Contains(body.PlayerId)) return;
+        blockedBodies.Add(body.PlayerId);
+
+        if (++bodyCount >= bodyAmount)
+           new ManualWin(MyPlayer, WinReason.RoleSpecificWin).Activate();
+
+        handle.Cancel();
     }
 
     [RoleAction(RoleActionType.OnPet)]
@@ -41,7 +41,7 @@ public class Vulture : CustomRole
         base.RegisterOptions(optionStream)
         .Tab(DefaultTabs.NeutralTab)
             .AddSubOption(sub => sub
-                .Name("Bodies")
+                .Name("Required Bodies")
                 .Bind(v => bodyAmount = (int)v)
                 .AddIntRangeValues(1, 10, 1, 2)
                 .Build())

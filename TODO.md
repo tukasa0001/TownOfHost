@@ -8,7 +8,7 @@ NEW BUGS AFTER FIRST TESTING SESSION:
 - [ ] End screen not working like at all
 - [ ] Setting roles with a count higher than 2 does not work
 - [ ] ~~Host settings are out of sync~~
-- [ ] Host kills straight away with vampire
+- [x] ~~Host kills straight away with vampire~~
 - [x] ~~Vampire should GA target not self~~
 - [ ] Time thief not stealing time accurately (investigate)
 - [x] ~~Miner pet does not teleport back to vent~~
@@ -19,7 +19,7 @@ NEW BUGS AFTER FIRST TESTING SESSION:
 
 
 
-- [ ] Move all role interactions/actions/code to respective code
+- [x] ~~Move all role interactions/actions/code to respective code~~
 - [ ] Fix desync impostor code (we are NOT using TOH's desync code)
 - [ ] Re-implement custom death reasons (probably move to PlayerPlus/PlayerState)
 - [x] ~~End of game screen is probably broken and needs fixing~~
@@ -27,7 +27,7 @@ NEW BUGS AFTER FIRST TESTING SESSION:
 - [x] ~~Create new RPCs for modded clients and/or setup interactions for modded clients~~
 - [x] ~~Correct and setup name rendering within meetings and correctly for teammates (DynamicName.cs)~~
 - [x] ~~Explore possibly using AU HnS timer for specific roles (Serial Killer suicide, etc)~~
-- [ ] Fully implement PlayerState / PlayerPlus over original TOH PlayerState this is probably bad code practice
+- [ ] ~~Fully implement PlayerState / PlayerPlus over original TOH PlayerState this is probably bad code practice~~
 - [ ] First round of testing after implementing all roles
 - [ ] Cleanup old/unused code
 

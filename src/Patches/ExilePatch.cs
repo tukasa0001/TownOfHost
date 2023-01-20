@@ -70,8 +70,8 @@ static class ExileControllerWrapUpPatch
                 exiled.Object.RpcExileV2();
         }, NetUtils.DeriveDelay(1.2f));
 
-        GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
-        RemoveDisableDevicesPatch.UpdateDisableDevices();
+        GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
+        /*RemoveDisableDevicesPatch.UpdateDisableDevices();*/
         SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
         VentLogger.Old("タスクフェイズ開始", "Phase");
 

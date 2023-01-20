@@ -1,6 +1,7 @@
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.GUI;
+using TownOfHost.Managers;
 using TownOfHost.Options;
 using UnityEngine;
 
@@ -28,7 +29,7 @@ public class Janitor: Impostor
         foreach (DeadBody deadBody in Object.FindObjectsOfType<DeadBody>())
             if (deadBody.ParentId == target.Object.PlayerId)
             {
-                TOHPlugin.unreportableBodies.Add(target.PlayerId);
+                Game.GameStates.UnreportableBodies.Add(target.PlayerId);
                 Object.Destroy(deadBody.gameObject);
             }
 

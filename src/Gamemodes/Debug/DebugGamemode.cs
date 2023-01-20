@@ -26,10 +26,8 @@ public class DebugGamemode: Gamemode
         {
             VentLogger.Debug($"Assigning {p.GetRawName()} => {_roleAssignments.GetValueOrDefault(p.PlayerId)}");
             CustomRole? role = CustomRoleManager.AllRoles.FirstOrDefault(r => r.RoleName.RemoveHtmlTags().ToLower().StartsWith(_roleAssignments.GetValueOrDefault(p.PlayerId)?.ToLower() ?? "HEHEXD"));
-            Game.AssignRole(p, role ?? CustomRoleManager.Special.Debugger);
+            Game.AssignRole(p, role ?? CustomRoleManager.Special.Debugger, true);
         });
-
-        AntiBlackout.SendGameData();
     }
 
     public override void SetupWinConditions(WinDelegate winDelegate)

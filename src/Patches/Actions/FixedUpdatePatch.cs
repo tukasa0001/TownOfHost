@@ -20,7 +20,7 @@ public static class FixedUpdatePatch
         Game.TriggerForAll(RoleActionType.FixedUpdate, ref handle);
 
         if (player.IsAlive() && StaticOptions.LadderDeath) FallFromLadder.FixedUpdate(player);
-        if (player.PlayerId == PlayerControl.LocalPlayer.PlayerId) DisableDevice.FixedUpdate();
+        /*if (player.PlayerId == PlayerControl.LocalPlayer.PlayerId) DisableDevice.FixedUpdate();*/
     }
 
     private static void DisplayModVersion(PlayerControl player)

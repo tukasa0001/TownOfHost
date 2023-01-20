@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using HarmonyLib;
 using UnityEngine;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
+using TownOfHost.Patches;
 using TownOfHost.Roles;
 using VentLib.Anticheat;
 using VentLib.Localization;
@@ -273,7 +273,7 @@ namespace TownOfHost
                         });
                     }, 2f);
             }
-            Async.ScheduleInStep(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRoleDesync(RoleTypes.Shapeshifter, -3)), 2f);
+            //Async.ScheduleInStep(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRoleDesync(RoleTypes.Shapeshifter, -3)), 2f);
             if (PlayerControl.LocalPlayer.Is(CustomRoleManager.Special.GM))
             {
                 PlayerControl.LocalPlayer.RpcExileV2();
@@ -295,7 +295,7 @@ namespace TownOfHost
                 }
             }
 
-            Async.ScheduleInStep(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => PetBypass.SetPet(pc, "pet_Doggy", true)), 2f);
+            Async.ScheduleInStep(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => PetBypass.SetPet(pc, "pet_Doggy", true)), 0.3f);
             VentLogger.Old("OnDestroy", "IntroCutscene");
         }
     }

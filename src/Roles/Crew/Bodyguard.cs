@@ -1,6 +1,10 @@
 namespace TownOfHost.Roles;
 
-public class Bodyguard: NotImplemented
+public class Bodyguard: Crewmate
 {
+    private PlayerControl guardedPlayer;
+
+
+
 
 }

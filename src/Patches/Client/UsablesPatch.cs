@@ -16,14 +16,6 @@ namespace TownOfHost
             return __instance.AllowImpostor || Utils.HasTasks(PlayerControl.LocalPlayer.Data);
         }
     }
-    [HarmonyPatch(typeof(EmergencyMinigame), nameof(EmergencyMinigame.Update))]
-    class EmergencyMinigamePatch
-    {
-        public static void Postfix(EmergencyMinigame __instance)
-        {
-            if (OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek) __instance.Close();
-        }
-    }
     [HarmonyPatch(typeof(Vent), nameof(Vent.CanUse))]
     class CanUseVentPatch
     {

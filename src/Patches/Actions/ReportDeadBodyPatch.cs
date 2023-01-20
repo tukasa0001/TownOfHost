@@ -16,7 +16,7 @@ public class ReportDeadBodyPatch
         if (Game.CurrentGamemode.IgnoredActions().HasFlag(GameAction.ReportBody)) return false;
         if (!AmongUsClient.Instance.AmHost) return true;
         if (target == null) return true;
-        if (target != null && TOHPlugin.unreportableBodies.Contains(target.PlayerId)) return false;
+        if (Game.GameStates.UnreportableBodies.Contains(target.PlayerId)) return false;
 
         ActionHandle handle = ActionHandle.NoInit();
         __instance.Trigger(RoleActionType.SelfReportBody, ref handle, target);
@@ -24,7 +24,7 @@ public class ReportDeadBodyPatch
         Game.TriggerForAll(RoleActionType.AnyReportedBody, ref handle, __instance, target);
         if (handle.IsCanceled) return false;
 
-        target.PlayerName = Utils.GetPlayerById(target.PlayerId).GetDynamicName().GetName(state: GameState.InIntro);
+        target.PlayerName = Utils.GetPlayerById(target.PlayerId)!.GetDynamicName().GetName(state: GameState.InIntro);
         Game.RenderAllForAll(state: GameState.InMeeting);
         Game.GetAllPlayers().Do(p => p.GetDynamicName().RenderFor(PlayerControl.LocalPlayer, state: GameState.InIntro));
 

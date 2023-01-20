@@ -4,6 +4,7 @@ using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
+using TownOfHost.Options;
 using UnityEngine;
 
 using TownOfHost.Roles;
@@ -23,6 +24,7 @@ class EndGamePatch
         GameStates.InGame = false;
         Game.State = GameState.InLobby;
         Game.Cleanup();
+        GameOptionsManager.Instance.CurrentGameOptions = DesyncOptions.OriginalHostOptions;
 
         SummaryText = new();
         /*foreach (var id in TOHPlugin.PlayerStates.Keys)

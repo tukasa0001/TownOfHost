@@ -7,6 +7,7 @@ using TownOfHost.Player;
 using UnityEngine;
 using VentLib.Extensions;
 using VentLib.Logging;
+using GameStates = TownOfHost.Managers.GameStates;
 
 namespace TownOfHost.Patches;
 
@@ -33,16 +34,16 @@ public static class GameStartManagerPatch
             timer = 600f;
 
             HideName = Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
-            HideName.text = ColorUtility.TryParseHtmlString(TOHPlugin.HideColor.Value, out _)
+            /*HideName.text = ColorUtility.TryParseHtmlString(TOHPlugin.HideColor.Value, out _)
                 ? $"<color={TOHPlugin.HideColor.Value}>{TOHPlugin.HideName.Value}</color>"
-                : $"<color={TOHPlugin.ModColor}>{TOHPlugin.HideName.Value}</color>";
+                : $"<color={TOHPlugin.ModColor}>{TOHPlugin.HideName.Value}</color>";*/
 
             // Make Public Button
-            if ((ModUpdater.isBroken || ModUpdater.hasUpdate || !TOHPlugin.AllowPublicRoom) && !ModUpdater.ForceAccept)
+            /*if ((ModUpdater.isBroken || ModUpdater.hasUpdate || !TOHPlugin.AllowPublicRoom) && !ModUpdater.ForceAccept)
             {
                 __instance.MakePublicButton.color = Palette.DisabledClear;
                 __instance.privatePublicText.color = Palette.DisabledClear;
-            }
+            }*/
         }
     }
 

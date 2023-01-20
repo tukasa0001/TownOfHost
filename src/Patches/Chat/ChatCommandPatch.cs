@@ -6,6 +6,7 @@ using Assets.CoreScripts;
 using HarmonyLib;
 using Hazel;
 using TownOfHost.Extensions;
+using TownOfHost.Managers;
 using TownOfHost.RPC;
 using UnityEngine;
 using VentLib.Localization;
@@ -79,11 +80,11 @@ class ChatCommands
                 case "/hn":
                 case "/hidename":
                     canceled = true;
-                    TOHPlugin.HideName.Value = args.Length > 1 ? args.Skip(1).Join(delimiter: " ") : TOHPlugin.HideName.DefaultValue.ToString();
+                    /*TOHPlugin.HideName.Value = args.Length > 1 ? args.Skip(1).Join(delimiter: " ") : TOHPlugin.HideName.DefaultValue.ToString();
                     GameStartManagerPatch.GameStartManagerStartPatch.HideName.text =
                         ColorUtility.TryParseHtmlString(TOHPlugin.HideColor.Value, out _)
                             ? $"<color={TOHPlugin.HideColor.Value}>{TOHPlugin.HideName.Value}</color>"
-                            : $"<color={TOHPlugin.ModColor}>{TOHPlugin.HideName.Value}</color>";
+                            : $"<color={TOHPlugin.ModColor}>{TOHPlugin.HideName.Value}</color>";*/
                     break;
 
                 case "/n":
@@ -286,7 +287,7 @@ class ChatUpdatePatch
     public static bool DoBlockChat = false;
     public static void Postfix(ChatController __instance)
     {
-        if (!AmongUsClient.Instance.AmHost || TOHPlugin.MessagesToSend.Count < 1 || (TOHPlugin.MessagesToSend[0].Item2 == byte.MaxValue && TOHPlugin.MessageWait.Value > __instance.TimeSinceLastMessage)) return;
+        /*if (!AmongUsClient.Instance.AmHost || TOHPlugin.MessagesToSend.Count < 1 || (TOHPlugin.MessagesToSend[0].Item2 == byte.MaxValue && TOHPlugin.MessageWait.Value > __instance.TimeSinceLastMessage)) return;*/
         if (DoBlockChat) return;
         var player = PlayerControl.AllPlayerControls.ToArray().OrderBy(x => x.PlayerId).FirstOrDefault(x => !x.Data.IsDead);
         if (player == null) return;

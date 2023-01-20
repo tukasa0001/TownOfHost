@@ -76,6 +76,7 @@ public static class StaticOptions
     public static bool Customise = false;
     public static object WhichDisableAdmin { get; set; }
     public static int SyncedButtonCount = 1;
+    public static int UsedButtonCount = 0;
     public static bool VoteMode = false;
     public static float PolusReactorTimeLimit = 10.0f;
     public static float AirshipReactorTimeLimit = 10.0f;
@@ -101,7 +102,7 @@ public static class StaticOptions
     public static string WhenTieVote = "";
     public static bool CanTerroristSuicideWin = false;
     public static bool LadderDeath = false;
-    public static object LadderDeathChance { get; set; }
+    public static int LadderDeathChance = 0;
     public static bool DisableTaskWin = false;
 
     public static bool ColorNameMode = false;
@@ -593,7 +594,6 @@ public static class StaticOptions
             .BindBool(v =>
             {
                 NoGameEnd = v;
-                TOHPlugin.NoGameEnd = v;
             })
             .AddOnOffValues(false)
             .Build()

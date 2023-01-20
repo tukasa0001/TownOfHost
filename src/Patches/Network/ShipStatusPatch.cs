@@ -21,7 +21,7 @@ class ShipFixedUpdatePatch
         Game.CurrentGamemode.FixedUpdate();
 
         //ここより下、ホストのみが実行する
-        if (TOHPlugin.IsFixedCooldown && TOHPlugin.RefixCooldownDelay >= 0)
+        if (CustomRoleManager.Static.Vampire.IsEnabled() && TOHPlugin.RefixCooldownDelay >= 0)
             TOHPlugin.RefixCooldownDelay -= Time.fixedDeltaTime;
 
         else if (!float.IsNaN(TOHPlugin.RefixCooldownDelay))
@@ -90,14 +90,14 @@ class RepairSystemPatch
         }
     }
 }
-[HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CloseDoorsOfType))]
+/*[HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CloseDoorsOfType))]
 class CloseDoorsPatch
 {
     public static bool Prefix(ShipStatus __instance)
     {
         return !(OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek || StaticOptions.IsStandardHAS) || StaticOptions.AllowCloseDoors;
     }
-}
+}*/
 
 [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Start))]
 class StartPatch
@@ -112,8 +112,7 @@ class StartMeetingPatch
 {
     public static void Prefix(ShipStatus __instance, PlayerControl reporter, GameData.PlayerInfo target)
     {
-        MeetingStates.ReportTarget = target;
-        MeetingStates.DeadBodies = UnityEngine.Object.FindObjectsOfType<DeadBody>();
+        UnityEngine.Object.FindObjectsOfType<DeadBody>();
     }
 }
 

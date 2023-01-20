@@ -3,6 +3,7 @@ using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
+using TownOfHost.Managers;
 using TownOfHost.Options;
 
 using TownOfHost.Roles;

@@ -31,7 +31,7 @@ public static class StandardWinConditions
         {
             winners = null;
             List<PlayerControl> alivePlayers = Game.GetAlivePlayers().ToList();
-            if (alivePlayers.Count > 2 || GameStats.CountAliveImpostors() > 0) return false;
+            if (alivePlayers.Count > 2 || GameStates.CountAliveImpostors() > 0) return false;
 
             // Maybe add a setting for crewmate killing to be able to duel neutral killing :thinking:
             List<PlayerControl> soloKilling = alivePlayers.Where(p => p.GetCustomRole().Factions.IsSolo() && p.GetCustomRole().IsNeutralKilling()).ToList();

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Extensions;
+using TownOfHost.Gamemodes.Standard;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
 using UnityEngine;
@@ -33,7 +34,7 @@ public static class OptionShower
         text += $"Gamemode: {Game.CurrentGamemode.GetName()}\n\n";
 
         //Standardの時のみ実行
-        if (OldOptions.CurrentGameMode == CustomGameMode.Standard)
+        if (Game.CurrentGamemode is StandardGamemode)
         {
             text += ActiveRolesList + "\n";
             foreach (CustomRole role in CustomRoleManager.AllRoles)

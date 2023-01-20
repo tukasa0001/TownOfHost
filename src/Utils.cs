@@ -140,7 +140,7 @@ namespace TownOfHost
                     SendMessage(role.RoleName + Localizer.Get($"StaticOptions.{role.EnglishRoleName}.Description"), PlayerId);
             }
 
-            if (TOHPlugin.NoGameEnd) SendMessage(Localizer.Get("StaticOptions.NoGameEndInfo"), PlayerId);
+            if (StaticOptions.NoGameEnd) SendMessage(Localizer.Get("StaticOptions.NoGameEndInfo"), PlayerId);
         }
 
         /*public static void ShowActiveSettings(byte PlayerId = byte.MaxValue)

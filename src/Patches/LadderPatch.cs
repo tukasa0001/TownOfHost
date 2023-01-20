@@ -10,7 +10,7 @@ namespace TownOfHost.Patches
     {
         public static Dictionary<byte, Vector3> TargetLadderData;
         // TODO: FIX THIS LOL
-        private static int Chance => (StaticOptions.LadderDeathChance as StringOptionItem).GetChance();
+        private static int Chance => StaticOptions.LadderDeathChance;
         public static void Reset()
         {
             TargetLadderData = new();

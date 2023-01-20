@@ -66,6 +66,12 @@ public class GameOptionOverride
             case Override.GuardianAngelCooldown:
                 normalOptions.SetFloat(FloatOptionNames.GuardianAngelCooldown, (float)(GetValue() ?? DesyncOptions.OriginalHostOptions.AsNormalOptions()!.GetFloat(FloatOptionNames.GuardianAngelCooldown)));
                 break;
+            case Override.EngVentCooldown:
+                normalOptions.SetFloat(FloatOptionNames.EngineerCooldown, (float)(GetValue() ?? DesyncOptions.OriginalHostOptions.AsNormalOptions()!.GetFloat(FloatOptionNames.EngineerCooldown)));
+                break;
+            case Override.EngVentDuration:
+                normalOptions.SetFloat(FloatOptionNames.EngineerInVentMaxTime, (float)(GetValue() ?? DesyncOptions.OriginalHostOptions.AsNormalOptions()!.GetFloat(FloatOptionNames.EngineerInVentMaxTime)));
+                break;
             default:
                 VentLogger.Warn($"Invalid Option Override: {this}", "ApplyOverride");
                 break;
@@ -110,5 +116,8 @@ public enum Override
     ShapeshiftCooldown,
 
     GuardianAngelDuration,
-    GuardianAngelCooldown
+    GuardianAngelCooldown,
+
+    EngVentCooldown,
+    EngVentDuration,
 }

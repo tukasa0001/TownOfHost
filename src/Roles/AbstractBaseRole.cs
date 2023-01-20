@@ -77,12 +77,12 @@ public abstract class AbstractBaseRole
             if (options.Tab == null)
             {
                 if (this is GM) { /*ignored*/ }
+                if (this is Subrole)
+                    options.Tab = DefaultTabs.MiscTab;
                 else if (this.Factions.IsImpostor())
                     options.Tab = DefaultTabs.ImpostorsTab;
                 else if (this.Factions.IsCrewmate())
                     options.Tab = DefaultTabs.CrewmateTab;
-                else if (this is Subrole)
-                    options.Tab = DefaultTabs.MiscTab;
                 else if (this.SpecialType is SpecialType.NeutralKilling or SpecialType.Neutral)
                     options.Tab = DefaultTabs.NeutralTab;
                 else

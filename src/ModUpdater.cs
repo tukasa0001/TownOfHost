@@ -42,7 +42,7 @@ namespace TownOfHost
             }
             if (!isChecked)
             {
-                CheckRelease(TOHPlugin.BetaBuildURL.Value != "").GetAwaiter().GetResult();
+                /*CheckRelease(TOHPlugin.BetaBuildURL.Value != "").GetAwaiter().GetResult();*/
             }
             if (ForceAccept)
             {
@@ -65,7 +65,7 @@ namespace TownOfHost
                 hasUpdate = false;
             }
         }
-        public static async Task<bool> CheckRelease(bool beta = false)
+        /*public static async Task<bool> CheckRelease(bool beta = false)
         {
             string url = beta ? TOHPlugin.BetaBuildURL.Value : URL + "/releases/latest";
             try
@@ -87,7 +87,7 @@ namespace TownOfHost
                 {
                     latestTitle = data["name"].ToString();
                     downloadUrl = data["url"].ToString();
-                    hasUpdate = false; /*latestTitle != ThisAssembly.Git.Commit;*/
+                    hasUpdate = false; /*latestTitle != ThisAssembly.Git.Commit;#1#
                 }
                 else
                 {
@@ -109,7 +109,7 @@ namespace TownOfHost
                         if (assets[i]["name"].ToString() == "TownOfHost.dll")
                             downloadUrl = assets[i]["browser_download_url"].ToString();
                     }
-                    /*hasUpdate = latestVersion.CompareTo(TOHPlugin) > 0;*/
+                    /*hasUpdate = latestVersion.CompareTo(TOHPlugin) > 0;#1#
                     hasUpdate = false;
                 }
                 if (downloadUrl == null)
@@ -135,7 +135,7 @@ namespace TownOfHost
                 return flag;
             }
             return true;
-        }
+        }*/
         public static void StartUpdate(string url)
         {
             ShowPopup(Localizer.Get("ModUpdater.WaitMessage"));

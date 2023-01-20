@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using HarmonyLib;
 
@@ -11,8 +12,8 @@ public class RecomputeTaskPatch
         __instance.TotalTasks = 0;
         __instance.CompletedTasks = 0;
         __instance.AllPlayers.ToArray()
-            .Where(p => p != null && Utils.HasTasks(p))
-            .SelectMany(p => p.Tasks.ToArray())
+            .Where(Utils.HasTasks)
+            .SelectMany(p => p?.Tasks?.ToArray() ?? Array.Empty<GameData.TaskInfo>())
             .Do(task =>
             {
                 __instance.TotalTasks++;

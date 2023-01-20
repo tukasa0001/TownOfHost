@@ -14,7 +14,7 @@ public class VanillaCrewmateWin: IFactionWinCondition
         factions = CrewmateFaction;
         winReason = WinReason.TasksComplete;
 
-        if (GameStats.CountAliveImpostors() != 0)
+        if (GameStates.CountAliveImpostors() != 0)
             return GameData.Instance.TotalTasks == GameData.Instance.CompletedTasks;
 
         winReason = WinReason.FactionLastStanding;

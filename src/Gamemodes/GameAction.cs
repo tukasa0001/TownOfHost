@@ -10,6 +10,8 @@ public enum GameAction
     CallSabotage = 4,
     EnterVent = 8,
 
+    // These flags cannot be blocked so it doesn't matter if we set them to the following
     GameJoin = 16,
-    GameLeave = 32,
+    GameLeave = 17,
+    GameStart = 18,
 }

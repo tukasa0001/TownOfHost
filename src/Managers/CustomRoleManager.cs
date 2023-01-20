@@ -92,6 +92,7 @@ public static class CustomRoleManager
         public Scientist Scientist = new Scientist();
 
         public Baiter Baiter = new Baiter();
+        public Bastion Bastion = new Bastion();
         public Observer Observer = new Observer();
         public Sheriff Sheriff = new Sheriff();
         public Transporter Transporter = new Transporter();
@@ -136,6 +137,9 @@ public static class CustomRoleManager
         public GM GM = new GM();
         public Debugger Debugger = new Debugger();
         public Lovers Lovers = new Lovers();
+        public Bait Bait = new Bait();
+        public Bewilder Bewilder = new Bewilder();
+        public Diseased Diseased = new Diseased();
 
         public Fox Fox = new();
     }

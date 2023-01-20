@@ -1,4 +1,3 @@
-using System;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 
@@ -25,8 +24,6 @@ public static class OldRoleSystemBridge
         return playerInfo.Object.GetCustomRole();
     }
 
-    public static bool Is(this CustomRole role, RoleTypes roleTypes) => role.VirtualRole == roleTypes;
-
     public static bool IsEnable(this CustomRole role) => role.Count > 0 && role.Chance > 0;
 
     public static bool IsImpostor(this CustomRole customRole) => customRole.VirtualRole is RoleTypes.Impostor or RoleTypes.ImpostorGhost or RoleTypes.Shapeshifter && !customRole.IsNeutral() && !customRole.IsNeutralKilling();
@@ -47,12 +44,6 @@ public static class OldRoleSystemBridge
 
     public static bool IsCoven(this CustomRole customRole) => customRole.SpecialType is SpecialType.Coven;
 
-    public static bool IsJackalTeam(this CustomRole role)
-    {
-        return role is Jackal or Sidekick;
-    }
-
-    public static bool HostRedName(this CustomRole role) => AmongUsClient.Instance.AmHost && role is Hitman or Crusader or Escort or NeutWitch;
     public static bool CanMakeMadmate(this CustomRole role)
         => role switch
         {
@@ -63,37 +54,6 @@ public static class OldRoleSystemBridge
         };
 
     // TODO;
-    public static bool CanRoleBlock(this CustomRole customRole) => false;
-
-    public static bool Is(this PlayerControl player, CustomRoles customRoles)
-    {
-        return player.GetCustomRole().GetType() == customRoles.GetReduxRole().GetType();
-    }
-
-
-    public static CustomRole GetReduxRole(this CustomRoles role)
-    {
-        return role switch
-        {
-            CustomRoles.Crewmate => CustomRoleManager.Static.Crewmate,
-            CustomRoles.Impostor => CustomRoleManager.Static.Impostor,
-            CustomRoles.Shapeshifter => CustomRoleManager.Static.Morphling,
-            CustomRoles.Engineer => CustomRoleManager.Static.Engineer,
-            CustomRoles.Scientist => CustomRoleManager.Static.Scientist,
-            CustomRoles.Madmate => CustomRoleManager.Static.Madmate,
-            CustomRoles.LastImpostor => CustomRoleManager.Static.LastImpostor,
-
-
-            CustomRoles.Sheriff => CustomRoleManager.Static.Sheriff,
-
-            CustomRoles.Jester => CustomRoleManager.Static.Jester,
-            CustomRoles.Opportunist => CustomRoleManager.Static.Opportunist,
-
-            CustomRoles.GuardianAngel => CustomRoleManager.Static.GuardianAngel,
-            CustomRoles.Snitch => CustomRoleManager.Static.Snitch,
-            _ => CustomRoleManager.Default
-        };
-    }
 }
 
 public enum RoleType

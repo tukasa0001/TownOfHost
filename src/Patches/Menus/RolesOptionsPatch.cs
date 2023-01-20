@@ -57,7 +57,7 @@ public static class SetRecommendationsPatch
         __instance.roleOptions.SetRoleRecommended(RoleTypes.GuardianAngel);
         __instance.roleOptions.SetRoleRecommended(RoleTypes.Engineer);
 
-        if (OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek) //HideAndSeek
+        /*if (OldOptions.CurrentGameMode == CustomGameMode.HideAndSeek) //HideAndSeek
         {
             __instance.PlayerSpeedMod = 1.75f;
             __instance.CrewLightMod = 5f;
@@ -78,7 +78,7 @@ public static class SetRecommendationsPatch
             __instance.NumLongTasks = 0;
             __instance.NumShortTasks = 10;
             __instance.KillCooldown = 10f;
-        }
+        }*/
         return false;
     }
 }

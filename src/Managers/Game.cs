@@ -20,13 +20,12 @@ using VentLib.RPC.Attributes;
 
 namespace TownOfHost.Managers;
 
-// Managers should be non-static this one is just because im lazy :)
-// Entry points = OnJoin & OnLeave
 public static class Game
 {
     public static DateTime StartTime;
     public static Dictionary<byte, PlayerPlus> players = new();
     public static GameHistory GameHistory;
+    public static GameStates GameStates;
 
     [ModRPC((uint) ModCalls.SetCustomRole, RpcActors.Host, RpcActors.NonHosts, MethodInvocation.ExecuteBefore)]
     public static void AssignRole(PlayerControl player, CustomRole role, bool sendToClient = false)
@@ -103,6 +102,7 @@ public static class Game
     {
         StartTime = DateTime.Now;
         GameHistory = new();
+        GameStates = new();
         players.Clear();
         GetAllPlayers().Do(p => players.Add(p.PlayerId, new PlayerPlus(p)));
         _winDelegate = new WinDelegate();

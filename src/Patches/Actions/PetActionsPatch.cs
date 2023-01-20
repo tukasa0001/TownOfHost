@@ -4,7 +4,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Roles;
 using VentLib.Utilities;
 
-namespace TownOfHost.Patches;
+namespace TownOfHost.Patches.Actions;
 
 
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.TryPet))]

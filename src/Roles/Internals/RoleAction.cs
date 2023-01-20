@@ -37,10 +37,14 @@ public enum Priority
 public enum RoleActionType
 {
     OnPet,
-    VentEnter,
+    AnyEnterVent,
     VentExit,
     SuccessfulAngelProtect,
     SabotageStarted,
+    /// <summary>
+    /// Triggered when any one player fixes any part of a sabotage (I.E MiraHQ Comms) <br></br>
+    /// Parameters: (SabotageType type, PlayerControl fixer, byte fixBit)
+    /// </summary>
     SabotagePartialFix,
     SabotageFixed,
     Shapeshift,
@@ -52,6 +56,9 @@ public enum RoleActionType
     RoundStart,
     RoundEnd,
     SelfReportBody,
+    /// <summary>
+    /// Triggers when any player reports a body. <br></br>Parameters: (PlayerControl reporter, PlayerInfo reported)
+    /// </summary>
     AnyReportedBody,
     TaskComplete,
     FixedUpdate,

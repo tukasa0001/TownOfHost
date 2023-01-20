@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using TownOfHost.Extensions;
@@ -45,36 +44,23 @@ class RpcSetTasksPatch
         [HarmonyArgument(1)] ref Il2CppStructArray<byte> taskTypeIds)
     {
 
-        CustomRole? roleNullable = Utils.GetPlayerById(playerId)?.GetCustomRole();
-        if (roleNullable == null) return;
+        CustomRole role = Utils.GetPlayerById(playerId)?.GetCustomRole();
+        if (role is not Crewmate { HasOverridenTasks: true } crewmate) return;
 
-        if (!OldOptions.OverrideTasksData.AllData.ContainsKey(roleNullable)) return;
-        var data = OldOptions.OverrideTasksData.AllData[roleNullable];
+        bool hasCommonTasks = crewmate.HasCommonTasks; // コモンタスク(通常タスク)を割り当てるかどうか
+                                                                // 割り当てる場合でも再割り当てはされず、他のクルーと同じコモンタスクが割り当てられる。
 
-        if (!data.doOverride.GetBool()) return; // タスク数を上書きするかどうか
-        // falseの時、タスクの内容が変更される前にReturnされる。
-
-        bool hasCommonTasks = data.assignCommonTasks.GetBool(); // コモンタスク(通常タスク)を割り当てるかどうか
-        // 割り当てる場合でも再割り当てはされず、他のクルーと同じコモンタスクが割り当てられる。
-
-        int numLongTasks = (int)data.numLongTasks.GetFloat(); // 割り当てるロングタスクの数
-        int numShortTasks = (int)data.numShortTasks.GetFloat(); // 割り当てるショートタスクの数
-        // ロングとショートは常時再割り当てが行われる。
-        if (!hasCommonTasks && numLongTasks == 0 && numShortTasks == 0) numShortTasks = 1; //タスク0対策
-
-        //割り当て可能なタスクのIDが入ったリスト
         //本来のRpcSetTasksの第二引数のクローン
-        Il2CppSystem.Collections.Generic.List<byte> tasksList = new();
+        Il2CppSystem.Collections.Generic.List<byte> TasksList = new();
         foreach (var num in taskTypeIds)
-            tasksList.Add(num);
+            TasksList.Add(num);
 
         //参考:ShipStatus.Begin
         //不要な割り当て済みのタスクを削除する処理
         //コモンタスクを割り当てる設定ならコモンタスク以外を削除
         //コモンタスクを割り当てない設定ならリストを空にする
-        int defaultCommonTasksNum = DesyncOptions.OriginalHostOptions.GetInt(Int32OptionNames.NumCommonTasks);
-        if (hasCommonTasks) tasksList.RemoveRange(defaultCommonTasksNum, tasksList.Count - defaultCommonTasksNum);
-        else tasksList.Clear();
+        if (hasCommonTasks) TasksList.RemoveRange(DesyncOptions.OriginalHostOptions.AsNormalOptions()!.NumCommonTasks, TasksList.Count - DesyncOptions.OriginalHostOptions.AsNormalOptions()!.NumCommonTasks);
+        else TasksList.Clear();
 
         //割り当て済みのタスクが入れられるHashSet
         //同じタスクが複数割り当てられるのを防ぐ
@@ -86,35 +72,35 @@ class RpcSetTasksPatch
         Il2CppSystem.Collections.Generic.List<NormalPlayerTask> LongTasks = new();
         foreach (var task in ShipStatus.Instance.LongTasks)
             LongTasks.Add(task);
-        Shuffle<NormalPlayerTask>(LongTasks);
+        Shuffle(LongTasks);
 
         //割り当て可能なショートタスクのリスト
         Il2CppSystem.Collections.Generic.List<NormalPlayerTask> ShortTasks = new();
         foreach (var task in ShipStatus.Instance.NormalTasks)
             ShortTasks.Add(task);
-        Shuffle<NormalPlayerTask>(ShortTasks);
+        Shuffle(ShortTasks);
 
         //実際にAmong Us側で使われているタスクを割り当てる関数を使う。
         ShipStatus.Instance.AddTasksFromList(
             ref start2,
-            numLongTasks,
-            tasksList,
+            crewmate.LongTasks,
+            TasksList,
             usedTaskTypes,
             LongTasks
         );
         ShipStatus.Instance.AddTasksFromList(
             ref start3,
-            numShortTasks,
-            tasksList,
+            !hasCommonTasks && crewmate.ShortTasks == 0 && crewmate.LongTasks == 0 ? 1 : crewmate.ShortTasks,
+            TasksList,
             usedTaskTypes,
-            ShortTasks
+            LongTasks
         );
 
         //タスクのリストを配列(Il2CppStructArray)に変換する
-        taskTypeIds = new Il2CppStructArray<byte>(tasksList.Count);
-        for (int i = 0; i < tasksList.Count; i++)
+        taskTypeIds = new Il2CppStructArray<byte>(TasksList.Count);
+        for (int i = 0; i < TasksList.Count; i++)
         {
-            taskTypeIds[i] = tasksList[i];
+            taskTypeIds[i] = TasksList[i];
         }
 
     }

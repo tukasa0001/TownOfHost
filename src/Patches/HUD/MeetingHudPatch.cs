@@ -142,8 +142,7 @@ class MeetingHudStartPatch
         ActionHandle handle = ActionHandle.NoInit();
         Game.TriggerForAll(RoleActionType.RoundEnd, ref handle, false);
         ChatUpdatePatch.DoBlockChat = true;
-        GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
-        MeetingStates.MeetingCalled = true;
+        GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
         Game.RenderAllForAll(force: true);
         "Meeting Call Done".DebugLog();
         Async.ScheduleInStep(() => Game.GetAllPlayers().Do(p => p.RpcSetName(p.GetRawName())), NetUtils.DeriveDelay(0.4f));
@@ -153,8 +152,8 @@ class MeetingHudStartPatch
         SoundManager.Instance.ChangeMusicVolume(0f);
         if (StaticOptions.SyncButtonMode)
         {
-            Utils.SendMessage(string.Format(Localizer.Get("StaticOptions.SyncButton.SyncButtonsLeft"), StaticOptions.SyncedButtonCount - OldOptions.UsedButtonCount));
-            VentLogger.Old("緊急会議ボタンはあと" + (StaticOptions.SyncedButtonCount - OldOptions.UsedButtonCount) + "回使用可能です。", "SyncButtonMode");
+            Utils.SendMessage(string.Format(Localizer.Get("StaticOptions.SyncButton.SyncButtonsLeft"), StaticOptions.SyncedButtonCount - StaticOptions.UsedButtonCount));
+            VentLogger.Old("緊急会議ボタンはあと" + (StaticOptions.SyncedButtonCount - StaticOptions.UsedButtonCount) + "回使用可能です。", "SyncButtonMode");
         }
 
         if (AmongUsClient.Instance.AmHost)
@@ -214,7 +213,6 @@ class MeetingHudOnDestroyPatch
     public static void Postfix()
     {
         Game.State = GameState.Roaming;
-        MeetingStates.FirstMeeting = false;
         VentLogger.Old("------------会議終了------------", "Phase");
         if (AmongUsClient.Instance.AmHost)
         {

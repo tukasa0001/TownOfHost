@@ -29,7 +29,7 @@ public static class EnterVentPatches
             ActionHandle handle = ActionHandle.NoInit();
             Vent? vent = ShipStatus.Instance.AllVents.FirstOrDefault(v => v.Id == id);
             if (vent != null)
-                role.Trigger(RoleActionType.VentEnter, ref handle, vent);
+                role.Trigger(RoleActionType.AnyEnterVent, ref handle, vent, __instance);
             return true;
         }
     }

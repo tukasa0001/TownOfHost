@@ -58,7 +58,7 @@ class ShowFolderPatch
     }
 }
 
-[HarmonyPatch(typeof(TaskAddButton), nameof(TaskAddButton.Update))]
+/*[HarmonyPatch(typeof(TaskAddButton), nameof(TaskAddButton.Update))]
 class TaskAddButtonUpdatePatch
 {
     public static bool Prefix(TaskAddButton __instance)
@@ -75,34 +75,10 @@ class TaskAddButtonUpdatePatch
         catch { }
         return true;
     }
-}
-[HarmonyPatch(typeof(TaskAddButton), nameof(TaskAddButton.AddTask))]
+}*/
+/*[HarmonyPatch(typeof(TaskAddButton), nameof(TaskAddButton.AddTask))]
 class AddTaskButtonPatch
 {
-    private static readonly Dictionary<CustomRoles, RoleTypes> RolePairs = new()
-    {
-        //デフォルトでクルーなので、クルー判定役職は書かなくてOK
-        { CustomRoles.GM, RoleTypes.GuardianAngel },
-        { CustomRoles.Engineer, RoleTypes.Engineer },
-        { CustomRoles.Scientist, RoleTypes.Scientist },
-        { CustomRoles.Shapeshifter, RoleTypes.Shapeshifter },
-        { CustomRoles.Impostor, RoleTypes.Impostor },
-        { CustomRoles.GuardianAngel, RoleTypes.GuardianAngel },
-        { CustomRoles.Mafia, RoleTypes.Impostor },
-        { CustomRoles.BountyHunter, RoleTypes.Shapeshifter },
-        { CustomRoles.Witch, RoleTypes.Impostor },
-        { CustomRoles.Warlock, RoleTypes.Shapeshifter },
-        { CustomRoles.SerialKiller, RoleTypes.Shapeshifter },
-        { CustomRoles.Vampire, RoleTypes.Impostor },
-        //{ CustomRoles.ShapeMaster, RoleTypes.Shapeshifter },
-        { CustomRoles.Madmate, RoleTypes.Engineer },
-        { CustomRoles.Terrorist, RoleTypes.Engineer },
-        { CustomRoles.EvilWatcher, RoleTypes.Impostor },
-        { CustomRoles.Mare, RoleTypes.Impostor },
-        { CustomRoles.Doctor, RoleTypes.Scientist },
-        { CustomRoles.TimeThief, RoleTypes.Impostor },
-        { CustomRoles.EvilTracker, RoleTypes.Shapeshifter },
-    };
     public static bool Prefix(TaskAddButton __instance)
     {
         try
@@ -118,4 +94,4 @@ class AddTaskButtonPatch
         catch { }
         return true;
     }
-}
+}*/

@@ -15,7 +15,7 @@ public static class AntiBlackout
     ///<summary>
     ///追放処理を上書きするかどうか
     ///</summary>
-    public static bool OverrideExiledPlayer => StaticOptions.NoGameEnd || GameStats.CountAliveRealImpostors() >= GameStats.CountAliveRealCrew();
+    public static bool OverrideExiledPlayer => StaticOptions.NoGameEnd || GameStates.CountAliveRealImpostors() >= GameStates.CountAliveRealCrew();
     public static GameData.PlayerInfo? ExiledPlayer;
     public static GameData.PlayerInfo? FakeExiled;
 

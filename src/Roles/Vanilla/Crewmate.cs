@@ -7,7 +7,7 @@ namespace TownOfHost.Roles;
 
 public class Crewmate : CustomRole
 {
-    public int TotalTasks => taskSupplier();
+    public int TotalTasks => taskSupplier?.Invoke() ?? 0;
     public int TasksComplete;
     public bool HasAllTasksDone => TasksComplete >= TotalTasks;
 
@@ -17,7 +17,7 @@ public class Crewmate : CustomRole
     public int ShortTasks;
     public int LongTasks;
 
-    private Func<int> taskSupplier;
+    private Func<int>? taskSupplier;
 
     // TODO: Maybe make color customizable idk that's pretty extreme
     [DynElement(UI.Counter)]

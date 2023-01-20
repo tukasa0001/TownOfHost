@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using HarmonyLib;
 using TownOfHost.Managers;
+using TownOfHost.Options;
 using TownOfHost.Patches.Client;
 using UnityEngine;
 using VentLib.Localization;
@@ -16,7 +17,7 @@ class PingTrackerPatch
         __instance.text.alignment = TMPro.TextAlignmentOptions.TopRight;
         if (ControllerManagerUpdatePatch.showPing)
             __instance.text.text += TOHPlugin.CredentialsText;
-        if (TOHPlugin.NoGameEnd) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, Localizer.Get("StaticOptions.NoGameEnd"));
+        if (StaticOptions.NoGameEnd) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, Localizer.Get("StaticOptions.NoGameEnd"));
         __instance.text.text += $"\r\n" + Game.CurrentGamemode.GetName();
 
         var offsetX = 1.2f; //右端からのオフセット

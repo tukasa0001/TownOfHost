@@ -15,6 +15,7 @@ using VentLib.Logging;
 using VentLib.RPC;
 using VentLib.Utilities;
 using VentLib.Version.Git;
+using GameStates = TownOfHost.Managers.GameStates;
 
 
 namespace TownOfHost.Patches.Network;
@@ -25,7 +26,7 @@ class OnGameJoinedPatch
 
     public static void Postfix(AmongUsClient __instance)
     {
-        while (!OldOptions.IsLoaded) System.Threading.Tasks.Task.Delay(1);
+        /*while (!OldOptions.IsLoaded) System.Threading.Tasks.Task.Delay(1);*/
         VentLogger.Old($"{__instance.GameId}に参加", "OnGameJoined");
         TOHPlugin.playerVersion = new Dictionary<byte, GitVersion>();
         SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
