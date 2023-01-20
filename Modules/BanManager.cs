@@ -21,6 +21,7 @@ namespace TownOfHost
             if (!CheckBanList(player) && player.FriendCode != "")
             {
                 File.AppendAllText(BAN_LIST_PATH, $"{player.FriendCode},{player.PlayerName}\n");
+                Logger.SendInGame(string.Format(GetString("Message.AddedPlayerToBanList"), player.PlayerName));
             }
         }
         public static void CheckDenyNamePlayer(InnerNet.ClientData player)
