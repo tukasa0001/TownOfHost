@@ -18,7 +18,6 @@ namespace TownOfHost
             { 1, typeof(NetRandomWrapper) },
             { 2, typeof(HashRandomWrapper) },
             { 3, typeof(Xorshift) },
-            { 4, typeof(MersenneTwister) },
         };
 
         public static IRandom Instance { get; private set; }
