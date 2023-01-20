@@ -415,7 +415,7 @@
 "TimeManagerIncreaseMeetingTime","Increase voting time","伸びる会議時間",,,
 "TimeManagerLimitMeetingTime","Increase limit","会議時間の伸びる限界",,,
 "TriggerDouble","Double Click","ダブルクリック","","","",""
-"AssignOnlyToCrewmate","Assign Only To Crewmate","「クルーメイト」のみに割り当てる"
+"AssignOnlyTo%role%","Assign Only To %role%","%role%のみに割り当てる"
 "WorkhorseNumLongTasks","Additional Long Tasks","追加ロングタスクの個数"
 "WorkhorseNumShortTasks","Additional Short Tasks","追加ショートタスクの個数"
 
