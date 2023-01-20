@@ -34,12 +34,11 @@ namespace TownOfHost
         public static bool IsAssignTarget(PlayerControl pc)
             => pc.IsAlive()
             && !pc.Is(CustomRoles.Workhorse)
-            && (AssignOnlyToCrewmate.GetBool()
-                ? pc.Is(CustomRoles.Crewmate) //クルーのみ
-                : pc.Is(RoleType.Crewmate)
-                    && Utils.HasTasks(pc.Data) //タスクがある
-                    && !OverrideTasksData.AllData.ContainsKey(pc.GetCustomRole()) //タスク上書きオプションが無い
-                    && pc.GetCustomRole() is not CustomRoles.Lighter); //タスクトリガーのある役職でない
+            && (!AssignOnlyToCrewmate.GetBool() || pc.Is(CustomRoles.Crewmate)) //クルーメイトのみか否か
+            && pc.Is(RoleType.Crewmate) //クルー役職
+            && Utils.HasTasks(pc.Data) //タスクがある
+            && !OverrideTasksData.AllData.ContainsKey(pc.GetCustomRole()) //タスク上書きオプションが無い
+            && pc.GetCustomRole() is not CustomRoles.Lighter; //タスクトリガーのある役職でない
         public static bool OnCompleteTask(PlayerControl pc)
         {
             if (!CustomRoles.Workhorse.IsEnable() || playerIdList.Count >= CustomRoles.Workhorse.GetCount()) return false;
