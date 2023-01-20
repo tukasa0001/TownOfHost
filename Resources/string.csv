@@ -315,7 +315,7 @@
 "RoleAssigningAlgorithm.NetRandom",".NET System.Random",".NET System.Random",".NET 系统随机算法","NET系統隨機算法","Случайный",""
 "RoleAssigningAlgorithm.HashRandom","HashRandom","HashRandom","哈希随机算法","Hash值隨機算法","HashRandom",""
 "RoleAssigningAlgorithm.Xorshift","Xorshift","Xorshift","Xorshift随机算法","Xorshift隨機算法","Xorshift",""
-"RoleAssigningAlgorithm.MersenneTwister","MersenneTwister","MersenneTwister","MersenneTwister随机算法","MersenneTwister隨機算法","MersenneTwister",""
+"RoleAssigningAlgorithm.MersenneTwister","Mersenne Twister","Mersenne Twister","Mersenne Twister随机算法","Mersenne Twister隨機算法","Mersenne Twister",""
 "AirShipVariableElectrical","Variable Electrical(AirShip)","電気室の構造変化（エアシップ）","","","Двери В Электрощитовой Закрываются Случайно (Airship)",""
 "ApplyDenyNameList","Apply DenyName List","DenyNameリストを適用する","","","",""
 "KickPlayerFriendCodeNotExist","Kick Players Whose Friend Code Does Not Exist","フレンドコードが存在しないプレイヤーをキックする","","","",""
