@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using HarmonyLib;
 using static TownOfHost.Translator;
 namespace TownOfHost
 {
@@ -82,6 +83,15 @@ namespace TownOfHost
             }
             return false;
         }
-
+    }
+    [HarmonyPatch(typeof(BanMenu), nameof(BanMenu.Select))]
+    class BanMenuSelectPatch
+    {
+        public static void Postfix(BanMenu __instance, int clientId)
+        {
+            InnerNet.ClientData recentClient = AmongUsClient.Instance.GetRecentClient(clientId);
+            if (recentClient == null) return;
+            if (!BanManager.CheckBanList(recentClient)) __instance.BanButton.GetComponent<ButtonRolloverHandler>().SetEnabledColors();
+        }
     }
 }
