@@ -75,7 +75,6 @@ public class TOHPlugin : BasePlugin, IGitVersionEmitter
 
     public static float RefixCooldownDelay = 0f;
     public static List<byte> ResetCamPlayerList;
-    public static List<(string, byte, string)> MessagesToSend;
     public static bool isChatCommand = false;
     public static Dictionary<byte, float> AllPlayerKillCooldown = new();
 
@@ -98,7 +97,6 @@ public class TOHPlugin : BasePlugin, IGitVersionEmitter
         GamemodeManager = new GamemodeManager();
 
         VisibleTasksCount = false;
-        MessagesToSend = new List<(string, byte, string)>();
 
         BanManager.Init();
         TemplateManager.Init();

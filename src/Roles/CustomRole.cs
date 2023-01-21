@@ -101,20 +101,14 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
 
     public void Assign(bool desync = false)
     {
-        Type parentType = this.GetType().BaseType;
-        VentLogger.Old($"{MyPlayer.GetRawName()} | {parentType} | {this.RoleName}", "ROLE SET");
-        // Always will be desynced
         // Here we do a "lazy" check for (all?) conditions that'd cause a role to need to be desync
         if (this.DesyncRole != null || this is Impostor)
         {
 
-            VentLogger.Old($"{this.RoleName} is desync", "DesyncInfo");
-
-
             // Get the ACTUAL role to assign the player
             RoleTypes assignedType = this.DesyncRole ?? this.VirtualRole;
             // Get the opposite type of this role
-            if (MyPlayer == PlayerControl.LocalPlayer && AmongUsClient.Instance.AmHost)
+            if (MyPlayer.IsHost())
             {
                 MyPlayer.SetRole(assignedType); // Required because the rpc below doesn't target host
             }
@@ -147,6 +141,9 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
                 .Where(pc => !alliesCID.Contains(pc.GetClientId()) && pc.PlayerId != MyPlayer.PlayerId)
                 .Do(pc => RpcV2.Immediate(pc.NetId, (byte)RpcCalls.SetRole).Write((ushort)RoleTypes.Crewmate).Send(MyPlayer.GetClientId()));
             ShowRoleToTeammates(allies);
+
+            if (MyPlayer.IsHost())
+                Game.GetAlivePlayers().Except(allies).Do(p => p.Data.Role.Role = RoleTypes.Crewmate);
         }
         else
             MyPlayer.RpcSetRole(this.VirtualRole);

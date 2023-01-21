@@ -30,9 +30,9 @@ class OnGameJoinedPatch
         VentLogger.Old($"{__instance.GameId}に参加", "OnGameJoined");
         TOHPlugin.playerVersion = new Dictionary<byte, GitVersion>();
         SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
-        ChatCommands.ChatHistoryDictionary = new();
+        /*ChatCommands.ChatHistoryDictionary = new();*/
 
-        ChatUpdatePatch.DoBlockChat = false;
+        /*ChatUpdatePatch.DoBlockChat = false;*/
         GameStates.InGame = false;
         Async.ScheduleInStep(() => AddonManager.VerifyClientAddons(AddonManager.Addons.Select(AddonInfo.From).ToList()), NetUtils.DeriveDelay(0.5f));
     }

@@ -3,6 +3,7 @@ using HarmonyLib;
 using TownOfHost.Options;
 using TownOfHost.RPC;
 using UnityEngine;
+using VentLib.Utilities;
 
 namespace TownOfHost.Patches
 {
@@ -40,7 +41,7 @@ namespace TownOfHost.Patches
                     if (player.Data.IsDead) return;
                     //LateTaskを入れるため、先に死亡判定を入れておく
                     player.Data.IsDead = true;
-                    new DTask(() =>
+                    Async.ScheduleInStep(() =>
                     {
                         Vector2 targetPos = (Vector2)TargetLadderData[player.PlayerId] + new Vector2(0.1f, 0f);
                         ushort num = (ushort)(NetHelpers.XRange.ReverseLerp(targetPos.x) * 65535f);
@@ -56,7 +57,7 @@ namespace TownOfHost.Patches
                         sender.SendMessage();
                         player.NetTransform.SnapTo(targetPos);
                         player.MurderPlayer(player);
-                    }, 0.05f, "LadderFallTask");
+                    }, 0.05f);
                 }
             }
         }

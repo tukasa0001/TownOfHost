@@ -141,7 +141,7 @@ class MeetingHudStartPatch
         VentLogger.Old("------------会議開始------------", "Phase");
         ActionHandle handle = ActionHandle.NoInit();
         Game.TriggerForAll(RoleActionType.RoundEnd, ref handle, false);
-        ChatUpdatePatch.DoBlockChat = true;
+        /*ChatUpdatePatch.DoBlockChat = true;*/
         GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
         Game.RenderAllForAll(force: true);
         "Meeting Call Done".DebugLog();
@@ -156,8 +156,8 @@ class MeetingHudStartPatch
             VentLogger.Old("緊急会議ボタンはあと" + (StaticOptions.SyncedButtonCount - StaticOptions.UsedButtonCount) + "回使用可能です。", "SyncButtonMode");
         }
 
-        if (AmongUsClient.Instance.AmHost)
-            Async.ScheduleInStep(() => ChatUpdatePatch.DoBlockChat = false, 3f);
+        /*if (AmongUsClient.Instance.AmHost)
+            Async.ScheduleInStep(() => ChatUpdatePatch.DoBlockChat = false, 3f);*/
     }
 }
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]

@@ -22,6 +22,7 @@ using Hazel;
 using TownOfHost.GUI;
 using TownOfHost.Managers;
 using TownOfHost.Options;
+using TownOfHost.Patches.Chat;
 using VentLib.Localization;
 using VentLib.Logging;
 
@@ -265,13 +266,10 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             if (title == "") title = "<color=#aaaaff>" + Localizer.Get("Announcements.SystemMessage") + "</color>";
-            TOHPlugin.MessagesToSend.Add((text.RemoveHtmlTags(), sendTo, title));
+            ChatUpdatePatch.MessagesToSend.Add((text.RemoveHtmlTags(), sendTo, title));
         }
 
-        public static PlayerControl? GetPlayerById(int playerId)
-        {
-            return Game.GetAllPlayers().FirstOrDefault(pc => pc.PlayerId == playerId);
-        }
+        public static PlayerControl? GetPlayerById(int playerId) => PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(pc => pc.PlayerId == playerId);
 
         public static string GetVoteName(byte num)
         {

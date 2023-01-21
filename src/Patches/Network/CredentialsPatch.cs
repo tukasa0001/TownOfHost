@@ -87,9 +87,8 @@ class ModManagerLateUpdatePatch
     public static void Prefix(ModManager __instance)
     {
         __instance.ShowModStamp();
-
-        DTask.Update(Time.deltaTime);
     }
+
     public static void Postfix(ModManager __instance)
     {
         var offsetY = HudManager.InstanceExists ? 1.6f : 0.9f;

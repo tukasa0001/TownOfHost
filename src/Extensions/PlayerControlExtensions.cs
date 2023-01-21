@@ -251,30 +251,6 @@ public static class PlayerControlExtensions
                 pc.RpcDesyncRepairSystem(systemtypes, 17);
         }, 0.4f + delay);
     }
-    public static void ReactorFlash(this PlayerControl pc, float delay = 0f)
-    {
-        if (pc == null) return;
-        var systemtypes = SystemTypes.Reactor;
-        if (TOHPlugin.NormalOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
-        float FlashDuration = StaticOptions.KillFlashDuration;
-
-        pc.RpcDesyncRepairSystem(systemtypes, 128);
-
-
-
-        new DTask(() =>
-        {
-            pc.RpcDesyncRepairSystem(systemtypes, 16);
-
-            if (TOHPlugin.NormalOptions.MapId == 4) //Airship用
-                pc.RpcDesyncRepairSystem(systemtypes, 17);
-        }, FlashDuration + delay, "Fix Desync Reactor");
-    }
-
-    public static string? GetRealName(this PlayerControl? player, bool isMeeting = false)
-    {
-        return isMeeting ? player?.Data?.PlayerName : player?.name;
-    }
 
     public static bool CanUseKillButton(this PlayerControl pc) => pc.GetCustomRole() is Impostor i && i.CanKill();
 
