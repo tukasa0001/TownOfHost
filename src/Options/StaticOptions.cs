@@ -70,6 +70,7 @@ public static class StaticOptions
     public static int MaxNonNK = 10;
     public static int MinMadmates = 0;
     public static int MaxMadmates = 4;
+    public static bool CustomServerMode = false;
 
     //////////////////////////////////////
 
@@ -702,16 +703,14 @@ public static class StaticOptions
                 .AddOnOffValues()
                 .Build())
             .Build());
-
-
-
         manager.Add(new SmartOptionBuilder()
-            .Name("Players Can Have Multiple Modifiers")
-            .IsHeader(true)
-            .Tab(DefaultTabs.MiscTab)
-            .BindBool(v => AllowMultipleSubroles = v)
-            .AddOnOffValues()
-            .Build());
+               .Name(Localizer.Get("StaticOptions.CustomServerMode"))
+               .Tab(DefaultTabs.GeneralTab)
+               .IsHeader(true)
+               .BindBool(v => CustomServerMode = v)
+               .AddOnOffValues(false)
+               .Build()
+           );
     }
 
 
