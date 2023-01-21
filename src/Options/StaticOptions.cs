@@ -658,6 +658,13 @@ public static class StaticOptions
             .AddOnOffValues(false)
             .Build()
         );
+        manager.Add(new SmartOptionBuilder()
+            .Name("Players Can Have Multiple Modifiers")
+            // .IsHeader(true)
+            .Tab(DefaultTabs.GeneralTab)
+            .BindBool(v => AllowMultipleSubroles = v)
+            .AddOnOffValues(false)
+            .Build());
 
         // Another option I hate that exists. I have seen multiple complaints about this option.
         manager.Add(new SmartOptionBuilder()
@@ -703,6 +710,7 @@ public static class StaticOptions
                 .AddOnOffValues()
                 .Build())
             .Build());
+
         manager.Add(new SmartOptionBuilder()
                .Name(Localizer.Get("StaticOptions.CustomServerMode"))
                .Tab(DefaultTabs.GeneralTab)
