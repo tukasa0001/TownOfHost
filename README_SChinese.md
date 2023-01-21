@@ -908,6 +908,7 @@ Kihi的想法
 [陷阱师](#Trapper/陷阱师)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [恋人](#Lovers/恋人) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 Translate-Chinese : 四个憨批汉化组:氢氧则名；两个少年汉化组:晖儿和小巾 <br>
+Mersenne Twister: Copyright (c) 2015 vpmedia [MIT License](https://raw.githubusercontent.com//vpmedia/template-unity/master/LICENSE)<br>
 
 翻译来自https://www.deepl.com<br>
 

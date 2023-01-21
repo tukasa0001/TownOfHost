@@ -1,4 +1,4 @@
-// Copyright(c) 2023 vpmedia
+// Copyright(c) 2015 vpmedia
 // Released under the MIT license
 
 // Permission is hereby granted, free of charge, to any person obtaining a
