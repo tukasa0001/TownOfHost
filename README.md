@@ -1185,6 +1185,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 中国語翻訳 : fivefirex、ZeMingOH233<br>
 オプションタブのアイコン製作者 : 花海<br>
 Csv: Copyright (c) 2015 Steve Hansen [MIT License](https://raw.githubusercontent.com/stevehansen/csv/master/LICENSE)<br>
+Mersenne Twister: Copyright (c) 2015 vpmedia [MIT License](https://raw.githubusercontent.com//vpmedia/template-unity/master/LICENSE)<br>
 
 ## 開発者
 <!--
