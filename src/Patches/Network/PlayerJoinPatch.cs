@@ -34,7 +34,7 @@ class OnGameJoinedPatch
 
         /*ChatUpdatePatch.DoBlockChat = false;*/
         GameStates.InGame = false;
-        Async.ScheduleInStep(() => AddonManager.VerifyClientAddons(AddonManager.Addons.Select(AddonInfo.From).ToList()), NetUtils.DeriveDelay(0.5f));
+        Async.Schedule(() => AddonManager.VerifyClientAddons(AddonManager.Addons.Select(AddonInfo.From).ToList()), NetUtils.DeriveDelay(0.5f));
     }
 }
 
@@ -52,7 +52,7 @@ class OnPlayerJoinedPatch
         BanManager.CheckBanPlayer(client);
         BanManager.CheckDenyNamePlayer(client);
         TOHPlugin.playerVersion = new Dictionary<byte, GitVersion>();
-        Async.ScheduleInStep(() => Vents.FindRPC((uint)ModCalls.SendOptionPreview)!.Send(new[] { client.Character.GetClientId() }, TOHPlugin.OptionManager.Options()), NetUtils.DeriveDelay(1f));
+        Async.Schedule(() => Vents.FindRPC((uint)ModCalls.SendOptionPreview)!.Send(new[] { client.Character.GetClientId() }, TOHPlugin.OptionManager.Options()), NetUtils.DeriveDelay(1f));
         Game.CurrentGamemode.Trigger(GameAction.GameJoin, client);
     }
 }
@@ -63,7 +63,7 @@ class CreatePlayerPatch
     public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
     {
         if (!AmongUsClient.Instance.AmHost) return;
-        Async.ScheduleInStep(() =>
+        Async.Schedule(() =>
         {
             if (client.Character == null) return;
             if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(Localizer.Get("Announcements.UsingTOH"), TOHPlugin.PluginVersion + (TOHPlugin.DevVersion ? " " + TOHPlugin.DevVersionStr : "")), client.Character.PlayerId);

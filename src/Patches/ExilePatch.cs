@@ -16,12 +16,10 @@ static class ExileControllerWrapUpPatch
     {
         public static void Postfix(ExileController __instance)
         {
-            try
-            {
+            try {
                 WrapUpPostfix(__instance.exiled);
             }
-            finally
-            {
+            finally {
                 WrapUpFinalizer();
             }
         }
@@ -32,17 +30,15 @@ static class ExileControllerWrapUpPatch
     {
         public static void Postfix(AirshipExileController __instance)
         {
-            try
-            {
+            try {
                 WrapUpPostfix(__instance.exiled);
             }
-            finally
-            {
+            finally {
                 WrapUpFinalizer();
             }
         }
     }
-    static void WrapUpPostfix(GameData.PlayerInfo exiled)
+    static void WrapUpPostfix(GameData.PlayerInfo? exiled)
     {
         if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
         if (exiled != null)
@@ -54,15 +50,17 @@ static class ExileControllerWrapUpPatch
 
             ActionHandle selfExiledHandle = ActionHandle.NoInit();
             ActionHandle otherExiledHandle = ActionHandle.NoInit();
-            exiled.Object.Trigger(RoleActionType.SelfExiled, ref selfExiledHandle);
-            Game.TriggerForAll(RoleActionType.OtherExiled, ref otherExiledHandle, exiled);
+            GameData.PlayerInfo realExiled = AntiBlackout.ExiledPlayer ?? exiled;
+
+            realExiled.Object.Trigger(RoleActionType.SelfExiled, ref selfExiledHandle);
+            Game.TriggerForAll(RoleActionType.OtherExiled, ref otherExiledHandle, realExiled);
         }
         FallFromLadder.Reset();
     }
 
     static void WrapUpFinalizer()
     {
-        if (AmongUsClient.Instance.AmHost) Async.ScheduleInStep(() => {
+        if (AmongUsClient.Instance.AmHost) Async.Schedule(() => {
             GameData.PlayerInfo? exiled = AntiBlackout.ExiledPlayer;
             AntiBlackout.LoadCosmetics();
             AntiBlackout.RestoreIsDead(doSend: true);
@@ -70,7 +68,6 @@ static class ExileControllerWrapUpPatch
                 exiled.Object.RpcExileV2();
         }, NetUtils.DeriveDelay(1.2f));
 
-        GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
         /*RemoveDisableDevicesPatch.UpdateDisableDevices();*/
         SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
         VentLogger.Old("タスクフェイズ開始", "Phase");

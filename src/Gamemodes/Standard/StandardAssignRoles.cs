@@ -15,67 +15,44 @@ class StandardAssignRoles
 {
     internal static void StandardAssign(List<PlayerControl> unassignedPlayers)
     {
+        // Only constant
         int impostors = GameOptionsManager.Instance.CurrentGameOptions.NumImpostors;
 
-        List<CustomRole> impostorRoles =
-            RoleAssignments.RolesForGame(RoleAssignments.EnabledRoles(CustomRoleManager.AllRoles.Where(r => r.Factions.IsImpostor())), 0, impostors);
+        Queue<CustomRole> roles = new Queue<CustomRole>();
+        RoleDistributor.DistributeImpostors(roles, impostors);
+        RoleDistributor.DistributeNonImpostors(roles, unassignedPlayers.Count);
 
-
-        while (impostorRoles.Count < impostors)
-            impostorRoles.Add(CustomRoleManager.Static.Impostor);
-
-        List<CustomRole> neutralKillingRoles =
-            RoleAssignments.RolesForGame(RoleAssignments.EnabledRoles(CustomRoleManager.AllRoles.Where(r => r.SpecialType is SpecialType.NeutralKilling)), StaticOptions.MinNK, StaticOptions.MaxNK);
-
-        List<CustomRole> neutralPassiveRoles =
-            RoleAssignments.RolesForGame(RoleAssignments.EnabledRoles(CustomRoleManager.AllRoles.Where(r => r.SpecialType is SpecialType.Neutral)), StaticOptions.MinNonNK, StaticOptions.MaxNK);
-
-        List<CustomRole> crewMateRoles =
-            RoleAssignments.RolesForGame(RoleAssignments.EnabledRoles(CustomRoleManager.AllRoles.Where(r => r.Factions.IsCrewmate())), 0, ModConstants.MaxPlayers);
-
-        List<CustomRole> joinedRoleSelection = new(impostorRoles);
-        joinedRoleSelection.AddRange(neutralKillingRoles);
-        joinedRoleSelection.AddRange(neutralPassiveRoles);
-        joinedRoleSelection.AddRange(crewMateRoles);
-
-        joinedRoleSelection.StrJoin().DebugLog("Remaining Roles: ");
-        List<Tuple<PlayerControl, CustomRole>> assignments = new();
 
         int i = 0;
         while (i < unassignedPlayers.Count)
         {
             PlayerControl player = unassignedPlayers[i];
-            CustomRole role = CustomRoleManager.AllRoles.FirstOrDefault(r => r.RoleName.RemoveHtmlTags().ToLower().StartsWith(player.GetRawName()?.ToLower() ?? "HEHXD"));
+            CustomRole? role = CustomRoleManager.AllRoles.FirstOrDefault(r => r.RoleName.RemoveHtmlTags().ToLower().StartsWith(player.GetRawName()?.ToLower() ?? "HEHXD"));
             if (role != null && role.GetType() != typeof(Crewmate))
             {
                 role = CustomRoleManager.PlayersCustomRolesRedux[player.PlayerId] = role.Instantiate(player);
                 role.SyncOptions();
-                assignments.Add(new Tuple<PlayerControl, CustomRole>(player, role));
                 unassignedPlayers.Pop(i);
             }
             else i++;
         }
 
-
-        while (unassignedPlayers.Count > 0 && joinedRoleSelection.Count > 0)
+        while (unassignedPlayers.Count > 0 && roles.Count > 0)
         {
             PlayerControl assignedPlayer = unassignedPlayers.PopRandom();
-            CustomRole role = joinedRoleSelection.Pop(0);
-            //CustomRoleManager.PlayersCustomRolesRedux[assignedPlayer.PlayerId] = role;
+            CustomRole role = roles.Dequeue();
 
             // We have to initialize the role past its "static" phase
-            role = CustomRoleManager.PlayersCustomRolesRedux[assignedPlayer.PlayerId] = role.Instantiate(assignedPlayer);
+            Game.AssignRole(assignedPlayer, role);
             role.SyncOptions();
-            assignments.Add(new Tuple<PlayerControl, CustomRole>(assignedPlayer, role));
-
         }
 
         while (unassignedPlayers.Count > 0)
         {
             PlayerControl unassigned = unassignedPlayers.Pop(0);
-            CustomRole role = CustomRoleManager.PlayersCustomRolesRedux[unassigned.PlayerId] = CustomRoleManager.Static.Crewmate.Instantiate(unassigned);
-            role.SyncOptions();
-            assignments.Add(new System.Tuple<PlayerControl, CustomRole>(unassigned, role));
+            CustomRole crewmate = CustomRoleManager.Default;
+            Game.AssignRole(unassigned, crewmate);
+            crewmate.SyncOptions();
         }
 
         List<Subrole> subroles = CustomRoleManager.AllRoles.OfType<Subrole>().ToList();

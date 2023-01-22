@@ -72,11 +72,22 @@ public class RoleUtils
     public static bool RoleCheckedMurder(PlayerControl killer, PlayerControl target)
     {
         if (!target.IsAlive()) return false;
-        if (!target.GetCustomRole().CanBeKilled()) return false;
+        if (!target.GetCustomRole().CanBeKilled()) {
+            ShowGuardianShield(target);
+            return false;
+        }
 
         killer.RpcMurderPlayer(target);
         ActionHandle ignored = ActionHandle.NoInit();
         if (target.IsAlive()) Game.TriggerForAll(RoleActionType.SuccessfulAngelProtect, ref ignored, target, killer);
         return true;
+    }
+
+    public static void ShowGuardianShield(PlayerControl target) {
+        PlayerControl? randomPlayer = Game.GetAllPlayers().FirstOrDefault(p => p.PlayerId != target.PlayerId);
+        if (randomPlayer == null) return;
+
+        RpcV2.Immediate(target.NetId, RpcCalls.ProtectPlayer).Write(target).Write(0).Send(target.GetClientId());
+        Async.Schedule(() => RpcV2.Immediate(randomPlayer.NetId, RpcCalls.MurderPlayer).Write(target).Send(target.GetClientId()), NetUtils.DeriveDelay(0.1f));
     }
 }

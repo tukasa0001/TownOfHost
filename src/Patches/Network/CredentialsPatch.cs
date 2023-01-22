@@ -1,18 +1,23 @@
 using System.Globalization;
 using HarmonyLib;
+using TMPro;
 using TownOfHost.Addons;
 using TownOfHost.Extensions;
-using TownOfHost.Managers;
-using TownOfHost.Patches.Actions;
+using TownOfHost.Managers.Date;
 using TownOfHost.Roles;
 using UnityEngine;
+using VentLib.Localization.Attributes;
 
 namespace TownOfHost.Patches.Network;
 
+[Localized("PingDisplay")]
 [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
-class VersionShowerStartPatch
+public class VersionShowerStartPatch
 {
-    static TMPro.TextMeshPro SpecialEventText;
+    [Localized("AddonsLoaded")]
+    private static string addonsLoaded;
+
+    public static TextMeshPro? SpecialEventText;
     static void Postfix(VersionShower __instance)
     {
         TOHPlugin.CredentialsText = $"\r\n<color={TOHPlugin.ModColor}>{TOHPlugin.ModName}</color> v{TOHPlugin.PluginVersion}" + (TOHPlugin.DevVersion ? " " + TOHPlugin.DevVersionStr : "");
@@ -21,9 +26,8 @@ class VersionShowerStartPatch
 #endif
 
         int addonCount = AddonManager.Addons.Count;
-        string plural = addonCount == 1 ? "" : "s";
         if (addonCount > 0)
-            TOHPlugin.CredentialsText += $"\r\n{new Color(1f, 0.67f, 0.37f).Colorize($"{addonCount} Addon{plural} Loaded")}";
+            TOHPlugin.CredentialsText += $"\r\n{new Color(1f, 0.67f, 0.37f).Colorize($"{addonCount} {addonsLoaded}")}";
 
 
         var credentials = Object.Instantiate(__instance.text);
@@ -31,11 +35,6 @@ class VersionShowerStartPatch
         credentials.alignment = TMPro.TextAlignmentOptions.TopRight;
         credentials.transform.position = new Vector3(4.6f, 3.2f, 0);
 
-        /*ErrorText.Create(__instance.text);
-        if (TOHPlugin.HasArgumentException && ErrorText.Instance != null)
-        {
-            ErrorText.Instance.AddError(ErrorCode.Main_DictionaryError);
-        }*/
 
         if (SpecialEventText == null)
         {
@@ -46,19 +45,8 @@ class VersionShowerStartPatch
             SpecialEventText.alignment = TMPro.TextAlignmentOptions.Top;
             SpecialEventText.transform.position = new Vector3(0, 0.5f, 0);
         }
-        SpecialEventText.enabled = TitleLogoPatch.AmongUsLogo != null;
-        if (SpecialDates.IsInitialRelease)
-        {
-            SpecialEventText.text = $"Happy Birthday to {TOHPlugin.ModName}!";
-            ColorUtility.TryParseHtmlString(TOHPlugin.ModColor, out var col);
-            SpecialEventText.color = col;
-        }
 
-        if (!SpecialDates.IsChristmas || CultureInfo.CurrentCulture.Name != "ja-JP") return;
-        //このソースコ―ドを見た人へ。口外しないでもらえると嬉しいです...
-        //To anyone who has seen this source code. I would appreciate it if you would keep your mouth shut...
-        SpecialEventText.text = "何とは言いませんが、特別な日ですね。\n<size=15%>\n\n末永く爆発しろ</size>";
-        SpecialEventText.color = Utils.GetRoleColor(Lovers.Ref<Lovers>());
+        SpecialEventText.enabled = TitleLogoPatch.AmongUsLogo != null;
     }
 }
 

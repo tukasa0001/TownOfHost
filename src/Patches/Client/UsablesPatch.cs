@@ -24,20 +24,12 @@ namespace TownOfHost
             [HarmonyArgument(2)] ref bool couldUse,
             ref float __result)
         {
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-            //#######################################
-            //     ==ベント処理==
-            //#######################################
-            //参考:https://github.com/Eisbison/TheOtherRoles/blob/main/TheOtherRoles/Patches/UsablesPatch.cs
-
-            bool VentForTrigger = false;
             float num = float.MaxValue;
 
             var usableDistance = __instance.UsableDistance;
 
             if (pc.IsDead) return false; //死んでる人は強制的にfalseに。
-            canUse = couldUse = pc._object.GetCustomRole().CanVent();
+            canUse = couldUse = true;/*pc._object.GetCustomRole().CanVent();*/
 
             canUse = couldUse = (pc.Object.inVent || canUse) && (pc.Object.CanMove || pc.Object.inVent);
 

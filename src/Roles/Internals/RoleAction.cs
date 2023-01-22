@@ -37,6 +37,15 @@ public enum Priority
 public enum RoleActionType
 {
     OnPet,
+    /// <summary>
+    /// Triggers whenever the player enters a vent (this INCLUDES vent activation)
+    /// Parameters: (Vent vent)
+    /// </summary>
+    MyEnterVent,
+    /// <summary>
+    /// Triggered when a player ACTUALLY enters a vent (not just Vent activation)
+    /// Parameters: (Vent vent, PlayerControl venter)
+    /// </summary>
     AnyEnterVent,
     VentExit,
     SuccessfulAngelProtect,

@@ -28,7 +28,7 @@ public class Speedrunner : Crewmate
         if (speedBoostOnTaskComplete)
         {
             currentSpeedBoost += smallRewardBoost;
-            Async.ScheduleInStep(() =>
+            Async.Schedule(() =>
             {
                 currentSpeedBoost -= smallRewardBoost;
                 this.SyncOptions();

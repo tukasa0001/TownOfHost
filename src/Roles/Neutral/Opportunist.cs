@@ -24,6 +24,5 @@ public class Opportunist : CustomRole
     }
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
-         base.RegisterOptions(optionStream)
-             .Tab(DefaultTabs.NeutralTab);
+         base.RegisterOptions(optionStream).Tab(DefaultTabs.NeutralTab);
 }

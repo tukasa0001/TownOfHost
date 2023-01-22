@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Extensions;
+using TownOfHost.Roles;
 using VentLib.Extensions;
 using VentLib.Logging;
 
-namespace TownOfHost.Roles;
+namespace TownOfHost.Gamemodes.Standard;
 
 public static class RoleAssignments
 {

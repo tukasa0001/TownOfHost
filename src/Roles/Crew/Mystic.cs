@@ -35,7 +35,7 @@ public class Mystic : Crewmate
             didReactorAlert = true;
         }
 
-        Async.ScheduleInStep(() => MysticRevertAlert(didReactorAlert), flashDuration);
+        Async.Schedule(() => MysticRevertAlert(didReactorAlert), flashDuration);
 
     }
 

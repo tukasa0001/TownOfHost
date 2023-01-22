@@ -46,7 +46,7 @@ Minor:
 - [ ] FIX Roles that extend other roles (Blood Knight extending Impostor) show both role's tasks in the "Tasks" panel
 - [ ] Allow removing of "Maximum" setting from roles
 - [ ] Deprecate AsNormalOptions()
-- [ ] Boot non-vent-allowed players out of vent
+- [x] ~~Boot non-vent-allowed players out of vent~~
 - [ ] **RETHINKING** ~~Gamemodes should always have unique options regardless of if they use the same tab as other gamemodes or not~~
 - [ ] **RETHINKING** ~~To a similar extent, gamemodes should have unique config files (to store their options)~~
 - [ ] Switching gamemode should enforce the current gamemode's settings

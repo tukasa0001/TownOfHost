@@ -64,14 +64,14 @@ public class FireWorks: Morphling
         if (!WarnPlayers)
         {
             VentLogger.Old($"FireWorks Explosion Activated, Time Until Explosion: {fireworkDelay}. Not Warning Players", "FireWorksDebug");
-            fireworkLocations.Do(pos => Async.ScheduleInStep(() => KillPlayersInRadius(pos), fireworkDelay));
+            fireworkLocations.Do(pos => Async.Schedule(() => KillPlayersInRadius(pos), fireworkDelay));
             fireworkLocations.Clear();
         }
         else
         {
             VentLogger.Old($"FireWorks Explosion Activated, Time Until Explosion: {fireworkDelay}", "FireWorksDebug");
             exploding = true;
-            Async.ScheduleInStep(() => exploding = false, fireworkDelay);
+            Async.Schedule(() => exploding = false, fireworkDelay);
         }
     }
 

@@ -28,10 +28,11 @@ public static class Game
     public static GameStates GameStates;
 
     [ModRPC((uint) ModCalls.SetCustomRole, RpcActors.Host, RpcActors.NonHosts, MethodInvocation.ExecuteBefore)]
-    public static void AssignRole(PlayerControl player, CustomRole role, bool sendToClient = false)
+    public static CustomRole AssignRole(PlayerControl player, CustomRole role, bool sendToClient = false)
     {
-        CustomRoleManager.PlayersCustomRolesRedux[player.PlayerId] = role.Instantiate(player);
-        if (sendToClient) role.Assign();
+        CustomRole assigned = CustomRoleManager.PlayersCustomRolesRedux[player.PlayerId] = role.Instantiate(player);
+        if (sendToClient) assigned.Assign();
+        return assigned;
     }
 
     [ModRPC((uint) ModCalls.SetSubrole, RpcActors.Host, RpcActors.NonHosts, MethodInvocation.ExecuteBefore)]

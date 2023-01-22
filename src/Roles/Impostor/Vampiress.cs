@@ -29,7 +29,7 @@ public class Vampiress : Impostor
 
         MyPlayer.RpcGuardAndKill(target);
         bitten.Add(target.PlayerId);
-        Async.ScheduleInStep(() => { if (bitten.Contains(target.PlayerId)) RoleUtils.RoleCheckedMurder(target, target); }, killDelay);
+        Async.Schedule(() => { if (bitten.Contains(target.PlayerId)) RoleUtils.RoleCheckedMurder(target, target); }, killDelay);
 
         return true;
     }

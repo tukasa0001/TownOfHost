@@ -14,14 +14,21 @@ public class Bastion: Engineer
         bombedVents = new HashSet<int>();
     }
 
+    [RoleAction(RoleActionType.MyEnterVent)]
+    private void PlantBomb(Vent vent)
+    {
+        if (bombedVents.Contains(vent.Id))
+            RoleUtils.RoleCheckedMurder(MyPlayer, MyPlayer);
+        else
+            bombedVents.Add(vent.Id);
+    }
+
     [RoleAction(RoleActionType.AnyEnterVent)]
     private void EnterVent(Vent vent, PlayerControl player)
     {
         bool isBombed = bombedVents.Remove(vent.Id);
         if (isBombed)
             RoleUtils.RoleCheckedMurder(player, player);
-        else if (MyPlayer.PlayerId == player.PlayerId)
-            bombedVents.Add(vent.Id);
     }
 
     [RoleAction(RoleActionType.RoundEnd)]

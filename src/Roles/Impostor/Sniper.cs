@@ -105,8 +105,8 @@ public class Sniper: Morphling
         DesyncOptions.SendModifiedOptions(modifiedCooldown, MyPlayer);
         killCooldown.Start(refundCooldown * 0.5f);
 
-        Async.ScheduleInStep(() => MyPlayer.RpcRevertShapeshift(true), 0.3f);
-        Async.ScheduleInStep(this.SyncOptions, 1f);
+        Async.Schedule(() => MyPlayer.RpcRevertShapeshift(true), 0.3f);
+        Async.Schedule(this.SyncOptions, 1f);
 
         return true;
     }

@@ -3,7 +3,6 @@ using TownOfHost.Factions;
 
 namespace TownOfHost.Roles;
 
-// Impostor because I'm lazy
 public class NeutralKillingBase: Impostor
 {
     public override bool IsAllied(PlayerControl player) => false;

@@ -95,7 +95,7 @@ public class ColorwarsGamemode: Gamemode
 
     public override void AssignRoles(List<PlayerControl> players)
     {
-        for (int i = 0; i < manualTeamsOption.SubOptions.Count; i++)
+        for (int i = 0; i < manualTeamsOption.SubOptions.Count && ManualTeams; i++)
         {
             OptionHolder option = manualTeamsOption.SubOptions[i];
             if (option.Name.StartsWith("Team")) continue;

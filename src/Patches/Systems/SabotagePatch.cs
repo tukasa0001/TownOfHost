@@ -13,7 +13,7 @@ namespace TownOfHost.Patches.Systems;
 public static class SabotagePatch
 {
     public static SabotageType? CurrentSabotage;
-    public static float SabotageCountdown;
+    public static float SabotageCountdown = -1;
     public static PlayerControl? SabotageCaller;
 
     internal static bool Prefix(ShipStatus __instance,
@@ -28,6 +28,7 @@ public static class SabotagePatch
             case SystemTypes.Sabotage:
                 if (Game.CurrentGamemode.IgnoredActions().HasFlag(GameAction.CallSabotage)) return false;
                 if (player.GetCustomRole() is Impostor impostor && !impostor.CanSabotage()) return false;
+                SabotageCountdown = -1;
                 SabotageType sabotage = (SystemTypes)amount switch
                 {
                     SystemTypes.Electrical => SabotageType.Lights,

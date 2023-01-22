@@ -27,7 +27,7 @@ public class ShapeshiftPatch
         ActionHandle handle = ActionHandle.NoInit();
         __instance.Trigger(shapeshifting ? RoleActionType.Shapeshift : RoleActionType.Unshapeshift, ref handle, target);
         if (!handle.IsCanceled) return true;
-        Async.ScheduleInStep(() => __instance.CRpcRevertShapeshift(false), 0.3f);
+        Async.Schedule(() => __instance.CRpcRevertShapeshift(false), 0.3f);
         return false;
     }
 }

@@ -242,10 +242,10 @@ public static class PlayerControlExtensions
         var systemtypes = SystemTypes.Reactor;
         if (TOHPlugin.NormalOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
 
-        Async.ScheduleInStep(() => pc.RpcDesyncRepairSystem(systemtypes, 128), 0f + delay);
-        Async.ScheduleInStep(() => pc.RpcSpecificMurderPlayer(), 0.2f + delay);
+        Async.Schedule(() => pc.RpcDesyncRepairSystem(systemtypes, 128), 0f + delay);
+        Async.Schedule(() => pc.RpcSpecificMurderPlayer(), 0.2f + delay);
 
-        Async.ScheduleInStep(() => {
+        Async.Schedule(() => {
             pc.RpcDesyncRepairSystem(systemtypes, 16);
             if (TOHPlugin.NormalOptions.MapId == 4) //Airship用
                 pc.RpcDesyncRepairSystem(systemtypes, 17);

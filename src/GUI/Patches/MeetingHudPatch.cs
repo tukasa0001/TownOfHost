@@ -6,7 +6,7 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
-using TownOfHost.Patches.Chat;
+using TownOfHost.Patches;
 using TownOfHost.Roles;
 using TownOfHost.RPC;
 using UnityEngine;
@@ -14,8 +14,7 @@ using VentLib.Localization;
 using VentLib.Logging;
 using VentLib.Utilities;
 
-
-namespace TownOfHost.Patches.HUD;
+namespace TownOfHost.GUI.Patches;
 
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CheckForEndVoting))]
 class CheckForEndVotingPatch
@@ -145,7 +144,7 @@ class MeetingHudStartPatch
         GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
         Game.RenderAllForAll(force: true);
         "Meeting Call Done".DebugLog();
-        Async.ScheduleInStep(() => Game.GetAllPlayers().Do(p => p.RpcSetName(p.GetRawName())), NetUtils.DeriveDelay(0.4f));
+        Async.Schedule(() => Game.GetAllPlayers().Do(p => p.RpcSetName(p.GetRawName())), NetUtils.DeriveDelay(0.4f));
     }
     public static void Postfix(MeetingHud __instance)
     {
@@ -157,7 +156,7 @@ class MeetingHudStartPatch
         }
 
         /*if (AmongUsClient.Instance.AmHost)
-            Async.ScheduleInStep(() => ChatUpdatePatch.DoBlockChat = false, 3f);*/
+            Async.Schedule(() => ChatUpdatePatch.DoBlockChat = false, 3f);*/
     }
 }
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]

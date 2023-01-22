@@ -5,7 +5,7 @@ using HarmonyLib;
 using TownOfHost.Options;
 using UnityEngine;
 
-namespace TownOfHost.Patches.Menus;
+namespace TownOfHost.GUI.Menus.Patches;
 
 [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.Update))]
 public class GameOptionsMenuUpdatePatch

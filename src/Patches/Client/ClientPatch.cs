@@ -50,7 +50,7 @@ class MMOnlineManagerStartPatch
         textObj.name = "CanNotJoinPublic";
         var message = ModUpdater.isBroken ? $"<size=2>{Utils.ColorString(Color.red, MakePublicPatch.ModBrokenMessage)}</size>"
             : $"<size=2>{Utils.ColorString(Color.red, MakePublicPatch.ModUpdateMessage)}</size>";
-        Async.ScheduleInStep(() => { textObj.text = message; }, 0.01f);
+        Async.Schedule(() => { textObj.text = message; }, 0.01f);
     }
 }
 

@@ -1,11 +1,10 @@
 using System;
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.Extensions;
 using TownOfHost.RPC;
 using VentLib.Utilities;
 
-namespace TownOfHost.Patches.Menus;
+namespace TownOfHost.GUI.Menus.Patches;
 
 [HarmonyPatch(typeof(StringOption), nameof(StringOption.OnEnable))]
 public class StringOptionEnablePatch
@@ -61,7 +60,7 @@ public static class SendOptionsDelayed
     {
         if (_blocked) return;
         _blocked = true;
-        Async.ScheduleInStep(_Send, 3f);
+        Async.Schedule(_Send, 3f);
     }
 
     private static void _Send()

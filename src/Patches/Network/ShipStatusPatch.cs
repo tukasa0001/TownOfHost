@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
+using TownOfHost.GUI.Patches;
 using TownOfHost.Managers;
 using TownOfHost.Options;
 using TownOfHost.Roles;

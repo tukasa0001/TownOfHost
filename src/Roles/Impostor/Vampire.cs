@@ -25,7 +25,7 @@ public class Vampire : Impostor
 
         MyPlayer.RpcGuardAndKill(target);
         bitten.Add(target);
-        Async.ScheduleInStep(() => RoleUtils.RoleCheckedMurder(target, target), killDelay);
+        Async.Schedule(() => RoleUtils.RoleCheckedMurder(target, target), killDelay);
         return canKillTarget;
     }
 

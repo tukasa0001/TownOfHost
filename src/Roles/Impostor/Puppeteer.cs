@@ -24,7 +24,8 @@ public class Puppeteer: Impostor
         if (result is InteractionResult.Halt) return false;
 
         cursedPlayers.Add(target);
-        target.GetDynamicName().AddRule(GameState.Roaming, UI.Role, new DynamicString(new Color(0.36f, 0f, 0.58f).Colorize("◆")), MyPlayer.PlayerId);
+        target.GetDynamicName().AddRule(GameState.Roaming, UI.Misc, new DynamicString(new Color(0.36f, 0f, 0.58f).Colorize("◆")), MyPlayer.PlayerId);
+        target.GetDynamicName().AddRule(GameState.InMeeting, UI.Name, new DynamicString(new Color(0.36f, 0f, 0.58f).Colorize("{0} ◆")), MyPlayer.PlayerId);
         target.GetDynamicName().RenderFor(MyPlayer);
         MyPlayer.RpcGuardAndKill(target);
         return true;

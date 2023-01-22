@@ -17,11 +17,10 @@ public class Miner : Impostor
     [RoleAction(RoleActionType.AttemptKill)]
     public override bool TryKill(PlayerControl target) => base.TryKill(target);
 
-    [RoleAction(RoleActionType.AnyEnterVent)]
-    private void EnterVent(Vent vent, PlayerControl player)
+    [RoleAction(RoleActionType.MyEnterVent)]
+    private void EnterVent(Vent vent)
     {
-        if (player.PlayerId == MyPlayer.PlayerId)
-            lastEnteredVentLocation = vent.transform.position;
+        lastEnteredVentLocation = vent.transform.position;
     }
 
     [RoleAction(RoleActionType.OnPet)]

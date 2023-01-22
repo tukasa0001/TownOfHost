@@ -41,7 +41,7 @@ namespace TownOfHost.Patches
                     if (player.Data.IsDead) return;
                     //LateTaskを入れるため、先に死亡判定を入れておく
                     player.Data.IsDead = true;
-                    Async.ScheduleInStep(() =>
+                    Async.Schedule(() =>
                     {
                         Vector2 targetPos = (Vector2)TargetLadderData[player.PlayerId] + new Vector2(0.1f, 0f);
                         ushort num = (ushort)(NetHelpers.XRange.ReverseLerp(targetPos.x) * 65535f);

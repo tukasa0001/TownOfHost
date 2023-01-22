@@ -13,6 +13,7 @@ using TownOfHost.Options;
 using TownOfHost.Roles;
 using TownOfHost.Gamemodes;
 using TownOfHost.Managers;
+using TownOfHost.Managers.Date;
 using VentLib;
 using VentLib.Logging;
 using VentLib.Version;
@@ -115,6 +116,7 @@ public class TOHPlugin : BasePlugin, IGitVersionEmitter
         GamemodeManager.Setup();
         StaticOptions.AddStaticOptions();
         OptionManager.AllHolders.AddRange(OptionManager.Options().SelectMany(opt => opt.GetHoldersRecursive()));
+        ISpecialDate.CheckDates();
         Initialized = true;
     }
 

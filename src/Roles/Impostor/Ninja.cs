@@ -77,7 +77,7 @@ public class Ninja : Impostor
             else
             {
                 Utils.Teleport(target.NetTransform, MyPlayer.transform.position);
-                Async.ScheduleInStep(() => MyPlayer.RpcMurderPlayer(target), 0.25f);
+                Async.Schedule(() => MyPlayer.RpcMurderPlayer(target), 0.25f);
             }
         }
 

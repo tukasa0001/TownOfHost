@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using TownOfHost.GUI.Menus.CustomNameMenu;
 using TownOfHost.Managers;
 using TownOfHost.Options;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace TownOfHost.Patches.Menus;
+namespace TownOfHost.GUI.Menus.Patches;
 
 [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.InitializeOptions))]
 public static class GameSettingMenuPatch
@@ -129,7 +128,7 @@ public class GameOptMenuStartPatch
                 {
                     menus[j].SetActive(j == copiedIndex);
                     highlights[j].enabled = j == copiedIndex;
-                    CustomNameMenu.CloseNameScreen(true);
+                    CustomNameMenu.CustomNameMenu.CloseNameScreen(true);
                 }
             };
             button.OnClick.AddListener(value);

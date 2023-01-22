@@ -29,7 +29,7 @@
     <PackageReference Include="BepInEx.AutoPlugin" Version="1.1.0" PrivateAssets="all" />
     <PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="2.0.1" PrivateAssets="all" />
     
-    <PackageReference Include="VentFramework" Version="1.0.7.4"/>
+    <PackageReference Include="VentFramework" Version="1.0.7.32"/>
 
     <PackageReference Include="GitInfo" Version="2.3.0" />
   </ItemGroup>

@@ -70,7 +70,6 @@ public class Arsonist : NeutralKillingBase
     [RoleAction(RoleActionType.RoundStart)]
     private void UpdatePlayerCounts()
     {
-        "Round State".DebugLog();
         knownAlivePlayers = Game.GetAlivePlayers().Count();
         dousedPlayers.RemoveWhere(p =>
         {
@@ -94,11 +93,12 @@ public class Arsonist : NeutralKillingBase
     {
         DynamicName targetName = target.GetDynamicName();
         targetName.AddRule(GameState.Roaming, UI.Counter, new DynamicString(RoleColor.Colorize("★")), MyPlayer.PlayerId);
+        targetName.AddRule(GameState.InMeeting, UI.Name, new DynamicString(RoleColor.Colorize("{0} ★")), MyPlayer.PlayerId);
         targetName.RenderFor(MyPlayer);
 
         GameOptionOverride[] overrides = { new(Override.ImpostorLightMod, 0f) };
         SyncOptions(overrides);
-        Async.ScheduleInStep(SyncOptions, 0.3f);
+        Async.Schedule(SyncOptions, 0.3f);
     }
 
     [RoleInteraction(typeof(Veteran))]

@@ -20,7 +20,7 @@ public class Medium: Crewmate
         DeathEvent? deathEvent = Game.GameHistory.GetEvents<DeathEvent>().FirstOrDefault(e => e.Killed.PlayerId == reported.PlayerId);
         if (deathEvent == null) return;
         CustomRole killerRole = deathEvent.Killer!.GetCustomRole();
-        Async.Schedule(() => MediumSendMessage(killerRole), 2f);
+        Async.ScheduleThreaded(() => MediumSendMessage(killerRole), 2f);
     }
 
     private void MediumSendMessage(CustomRole killerRole)

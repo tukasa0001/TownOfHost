@@ -14,7 +14,7 @@ public class Trapper : Crewmate
         GameOptionOverride[] overrides = { new(Override.PlayerSpeedMod, 0f) };
         killer.GetCustomRole().SyncOptions(overrides);
 
-        Async.ScheduleInStep(() => killer.GetCustomRole().SyncOptions(), trappedDuration);
+        Async.Schedule(() => killer.GetCustomRole().SyncOptions(), trappedDuration);
     }
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>

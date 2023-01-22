@@ -3,7 +3,7 @@ using System.Linq;
 using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
-using TownOfHost.Patches.Menus;
+using TownOfHost.GUI.Menus.Patches;
 
 namespace TownOfHost.Options;
 

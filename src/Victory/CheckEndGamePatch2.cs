@@ -13,12 +13,12 @@ namespace TownOfHost.Victory;
 [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.CheckEndCriteria))]
 public class CheckEndGamePatch2
 {
-    private static bool deferred;
+    private static bool _deferred;
 
     public static bool Prefix()
     {
         if (!AmongUsClient.Instance.AmHost) return true;
-        if (deferred) return false;
+        if (_deferred) return false;
         WinDelegate winDelegate = Game.GetWinDelegate();
         if (StaticOptions.NoGameEnd)
             winDelegate.CancelGameWin();
@@ -45,17 +45,17 @@ public class CheckEndGamePatch2
 
         VictoryScreen.ShowWinners(winDelegate.GetWinners(), reason);
 
-        deferred = true;
-        Async.ScheduleInStep(() => DelayedWin(reason), NetUtils.DeriveDelay());
+        _deferred = true;
+        Async.Schedule(() => DelayedWin(reason), NetUtils.DeriveDelay(0.6f));
 
         return false;
     }
 
     private static void DelayedWin(GameOverReason reason)
     {
-        deferred = false;
-        VentLogger.Old("Sending Game Over", "DelayedWin");
+        _deferred = false;
+        VentLogger.Info("Ending Game", "DelayedWin");
         GameManager.Instance.RpcEndGame(reason, false);
-        Async.ScheduleInStep(() => GameManager.Instance.EndGame(), 0.1f);
+        Async.Schedule(() => GameManager.Instance.EndGame(), 0.1f);
     }
 }

@@ -47,12 +47,6 @@ public static class MurderPatches
             if (killer.PlayerId == target.PlayerId) return false;
             ActionHandle handle = ActionHandle.NoInit();
             killer.Trigger(RoleActionType.AttemptKill, ref handle, target);
-            if (handle.IsCanceled) return false;
-
-            ActionHandle ignored = ActionHandle.NoInit();
-            target.Trigger(RoleActionType.MyDeath, ref ignored, killer);
-
-            Game.TriggerForAll(RoleActionType.AnyDeath, ref ignored, target, killer);
             return false;
         }
     }
@@ -67,7 +61,10 @@ public static class MurderPatches
         }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
-            /*if (target.AmOwner) RemoveDisableDevicesPatch.UpdateDisableDevices();*/
+            if (!target.Data.IsDead) return;
+            ActionHandle ignored = ActionHandle.NoInit();
+            target.Trigger(RoleActionType.MyDeath, ref ignored, __instance);
+            Game.TriggerForAll(RoleActionType.AnyDeath, ref ignored, target, __instance);
         }
     }
 }

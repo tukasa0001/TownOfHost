@@ -35,7 +35,7 @@ public class BloodKnight : NeutralKillingBase
         if (MyPlayer.Data.IsDead) return killed;
 
         isProtected = true;
-        Async.ScheduleInStep(() => isProtected = false, protectionAmt);
+        Async.Schedule(() => isProtected = false, protectionAmt);
         return killed;
     }
 

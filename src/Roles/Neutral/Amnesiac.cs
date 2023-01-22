@@ -8,12 +8,8 @@ using VentLib.Logging;
 
 namespace TownOfHost.Roles;
 
-public class Amnesiac : CustomRole
-{
+public class Amnesiac : CustomRole {
     private bool stealExactRole;
-
-    [RoleAction(RoleActionType.AttemptKill)]
-    private void IgnoreKill(ActionHandle handle) => handle.Cancel();
 
     [RoleAction(RoleActionType.AnyReportedBody)]
     public void AmnesiacRememberAction(PlayerControl reporter, GameData.PlayerInfo reported, ActionHandle handle)
@@ -33,13 +29,14 @@ public class Amnesiac : CustomRole
                 newRole = Ref<Traitor>();
         }
 
-        Game.AssignRole(MyPlayer, newRole);
+        CustomRole role = Game.AssignRole(MyPlayer, newRole);
+        role.DesyncRole = RoleTypes.Impostor;
         handle.Cancel();
     }
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-        .Tab(DefaultTabs.NeutralTab)
+            .Tab(DefaultTabs.NeutralTab)
             .AddSubOption(sub => sub.Name("Steals Exact Role")
                 .Bind(v => stealExactRole = (bool)v)
                 .AddOnOffValues(false).Build());

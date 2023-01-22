@@ -35,6 +35,7 @@ public abstract class AbstractBaseRole
     }
 
     public string Description => Localizer.Get($"Roles.{EnglishRoleName.RemoveHtmlTags()}.Description");
+    public string Blurb => Localizer.Get($"Roles.{EnglishRoleName.RemoveHtmlTags()}.Blurb");
     public string RoleName => Localizer.Get($"Roles.{EnglishRoleName.RemoveHtmlTags()}.RoleName");
 
     public RoleTypes? DesyncRole;
@@ -46,6 +47,7 @@ public abstract class AbstractBaseRole
     public bool IsSubrole;
     public int Chance;
     public int Count;
+    public int AdditionalChance;
     protected bool BaseCanVent;
 
     public string EnglishRoleName { get; private set; }
@@ -233,12 +235,17 @@ public abstract class AbstractBaseRole
     protected abstract RoleModifier Modify(RoleModifier roleModifier);
 
 
-    public SmartOptionBuilder GetOptionBuilder()
-    {
+    public SmartOptionBuilder GetOptionBuilder() {
         SmartOptionBuilder b = RoleOptionsBuilder.Color(RoleColor).Bind(val => this.Chance = (int)val)
             .AddSubOption(s => s.Name("Maximum")
                 .AddValues(1..15)
                 .Bind(val => this.Count = (int)val)
+                .ShowSubOptionsWhen(v => 1 < (int)v)
+                .AddSubOption(subsequent => subsequent
+                    .Name(Localizer.Get("Roles.Options.SubsequentChance"))
+                    .AddIntRangeValues(10, 100, 10, 0, "%")
+                    .BindInt(v => AdditionalChance = v)
+                    .Build())
                 .Build());
 
         return RegisterOptions(b);

@@ -1,56 +1,47 @@
-using TownOfHost.Factions;
-using UnityEngine;
-using TownOfHost.Extensions;
 using TownOfHost.Options;
 using System.Collections.Generic;
-using System.Linq;
 using TownOfHost.Managers;
+using TownOfHost.Patches.Systems;
 using VentLib.Utilities;
-using TownOfHost.RPC;
 
 namespace TownOfHost.Roles;
 
 public class Demolitionist : Crewmate
 {
     private float demoTime;
-    public List<byte> inDemoTime;
+    private List<byte> inDemoTime;
 
     [RoleAction(RoleActionType.RoundStart)]
-    public void Reset()
-    {
-        inDemoTime = new List<byte>();
-    }
+    private void Reset() => inDemoTime = new List<byte>();
 
     [RoleAction(RoleActionType.MyDeath)]
-    public void DemoDeath(PlayerControl killer)
+    private void DemoDeath(PlayerControl killer)
     {
         inDemoTime.Add(killer.PlayerId);
-        Async.ScheduleInStep(() =>
+        Async.Schedule(() => DelayedDeath(killer), demoTime);
+    }
+
+    private void DelayedDeath(PlayerControl killer)
+    {
+        inDemoTime.Remove(killer.PlayerId);
+        if (Game.State is GameState.InMeeting) return;
+        if (killer.Data.IsDead || killer.inVent)
         {
-            inDemoTime.Remove(killer.PlayerId);
-            if (Game.State is not GameState.InMeeting)
-                if (killer.Data.IsDead || killer.inVent)
-                {
-                    // Well you died by other causes. F
-                    // or you are just in a vent :grin:
-                    if (SabotagePatch.CurrentSabotage is not SabotageType.Reactor)
-                    {
-                        RoleUtils.PlayReactorsForPlayer(MyPlayer);
-                        Async.ScheduleInStep(() => RoleUtils.EndReactorsForPlayer(MyPlayer), 1f);
-                    }
-                }
-                else
-                {
-                    //  if (killer.Is(CustomRoleManager.Static.Pestilence)) // role not implemented yet
-                    killer.RpcMurderPlayer(killer);
-                    // SET DEATH REASON
-                }
-        }, demoTime);
+            if (SabotagePatch.CurrentSabotage is SabotageType.Reactor) return;
+            RoleUtils.PlayReactorsForPlayer(MyPlayer);
+            Async.Schedule(() => RoleUtils.EndReactorsForPlayer(MyPlayer), 1f);
+        }
+        else
+        {
+            //  if (killer.Is(CustomRoleManager.Static.Pestilence)) // role not implemented yet
+            RoleUtils.RoleCheckedMurder(killer, killer);
+            // SET DEATH REASON
+        }
     }
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-        .Tab(DefaultTabs.CrewmateTab)
+            .Tab(DefaultTabs.CrewmateTab)
             .AddSubOption(sub => sub
                 .Name("Demo Time")
                 .BindFloat(v => demoTime = v)
