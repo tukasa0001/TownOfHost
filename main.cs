@@ -115,9 +115,11 @@ namespace TownOfHost
         public static Dictionary<byte, byte> PuppeteerList = new();
         public static Dictionary<byte, byte> SpeedBoostTarget = new();
         public static Dictionary<byte, int> MayorUsedButtonCount = new();
+        public static Dictionary<byte, int> ParaUsedButtonCount = new();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static bool isCursed;
+        public static bool isMarked;
         public static Dictionary<byte, bool> CheckShapeshift = new();
         public static Dictionary<byte, byte> ShapeshiftTarget = new();
         public static Dictionary<(byte, byte), string> targetArrows = new();
@@ -142,10 +144,8 @@ namespace TownOfHost
             Instance = this;
 
             //Client Options
-            HideName = Config.Bind("Client Options", "Hide Game Code Name", "Town Of Host");
+            HideName = Config.Bind("Client Options", "Hide Game Code Name", "TOHE");
             HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{ModColor}");
-            ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
-            JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", true);
             DebugKeyInput = Config.Bind("Authentication", "Debug Key", "");
 
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
@@ -165,7 +165,9 @@ namespace TownOfHost
 
             BitPlayers = new Dictionary<byte, (byte, float)>();
             WarlockTimer = new Dictionary<byte, float>();
+            AssassinTimer = new Dictionary<byte, float>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
+            MarkedPlayers = new Dictionary<byte, PlayerControl>();
             isDoused = new Dictionary<(byte, byte), bool>();
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
@@ -214,11 +216,16 @@ namespace TownOfHost
                     //特殊クルー役職
                     {CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
                     {CustomRoles.Bait, "#00f7ff"},
+                    {CustomRoles.Needy, "#a4dffe"},
                     {CustomRoles.SabotageMaster, "#0000ff"},
                     {CustomRoles.Snitch, "#b8fb4f"},
                     {CustomRoles.Mayor, "#204d42"},
+                    {CustomRoles.Paranoia, "#c993f5"},
+                    {CustomRoles.Psychic, "#6F698C"},
                     {CustomRoles.Sheriff, "#f8cd46"},
                     {CustomRoles.Lighter, "#eee5be"},
+                    {CustomRoles.SuperStar, "#f6f657"},
+                    {CustomRoles.Plumber,"#962d00" },
                     {CustomRoles.SpeedBooster, "#00ffff"},
                     {CustomRoles.Doctor, "#80ffdd"},
                     {CustomRoles.Trapper, "#5a8fd0"},
@@ -303,6 +310,9 @@ namespace TownOfHost
         Vampire,
         Witch,
         Warlock,
+        Assassin,
+        Hacker,
+        Miner,
         Mare,
         Puppeteer,
         TimeThief,
@@ -321,8 +331,13 @@ namespace TownOfHost
         Scientist,
         //Crewmate
         Bait,
+        Needy,
         Lighter,
+        SuperStar,
+        Plumber,
         Mayor,
+        Paranoia,
+        Psychic,
         NiceWatcher,
         SabotageMaster,
         Sheriff,
