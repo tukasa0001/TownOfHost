@@ -17,7 +17,7 @@ public class Ninja : Impostor
     private ActivationType activationType;
 
     [DynElement(UI.Misc)]
-    private string CurrentMode() => RoleColor.Colorize(Mode == NinjaMode.Hunting ? "(Hunting)": "(Killing)");
+    private string CurrentMode() => RoleColor.Colorize(Mode == NinjaMode.Hunting ? "(Hunting)" : "(Killing)");
 
     protected override void Setup(PlayerControl player) => playerList = new List<PlayerControl>();
 
@@ -59,8 +59,9 @@ public class Ninja : Impostor
     {
         if (activationType is not ActivationType.PetButton) return;
 
-        Mode = Mode is NinjaMode.Killing ? NinjaMode.Hunting : NinjaMode.Killing;
         if (Mode is NinjaMode.Hunting) NinjaHuntAbility();
+
+        Mode = Mode is NinjaMode.Killing ? NinjaMode.Hunting : NinjaMode.Killing;
     }
 
     // Heavily simplified logic - I think you were looking at Puppeteer but that role is a bit special since
@@ -68,6 +69,7 @@ public class Ninja : Impostor
     // in their Ninja kill list we can just iterate through it then clear it at the end of the action
     private void NinjaHuntAbility()
     {
+        if (playerList.Count == 0) return;
         foreach (var target in playerList.Where(target => target.IsAlive()))
         {
             if (!playerTeleportsToNinja)
