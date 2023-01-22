@@ -20,8 +20,8 @@ public class Miner : Impostor
     [RoleAction(RoleActionType.AnyEnterVent)]
     private void EnterVent(Vent vent, PlayerControl player)
     {
-        if (player.PlayerId != MyPlayer.PlayerId) return;
-        lastEnteredVentLocation = vent.transform.position;
+        if (player.PlayerId == MyPlayer.PlayerId)
+            lastEnteredVentLocation = vent.transform.position;
     }
 
     [RoleAction(RoleActionType.OnPet)]

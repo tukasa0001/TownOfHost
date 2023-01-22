@@ -150,5 +150,6 @@ public class Sheriff : Crewmate
             .VanillaRole(RoleTypes.Crewmate)
             .DesyncRole(!isSheriffDesync ? null : RoleTypes.Impostor)
             .Factions(Faction.Crewmates)
+            .CanVent(false)
             .RoleColor(new Color(0.97f, 0.8f, 0.27f));
 }

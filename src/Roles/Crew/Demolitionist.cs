@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Managers;
 using VentLib.Utilities;
+using TownOfHost.RPC;
 
 namespace TownOfHost.Roles;
 
@@ -32,6 +33,11 @@ public class Demolitionist : Crewmate
                 {
                     // Well you died by other causes. F
                     // or you are just in a vent :grin:
+                    if (SabotagePatch.CurrentSabotage is not SabotageType.Reactor)
+                    {
+                        RoleUtils.PlayReactorsForPlayer(MyPlayer);
+                        Async.ScheduleInStep(() => RoleUtils.EndReactorsForPlayer(MyPlayer), 1f);
+                    }
                 }
                 else
                 {

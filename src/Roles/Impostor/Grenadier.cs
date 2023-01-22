@@ -8,7 +8,7 @@ using VentLib.Utilities;
 
 namespace TownOfHost.Roles;
 
-public class Grenadier: Impostor
+public class Grenadier : Impostor
 {
     [DynElement(UI.Cooldown)]
     private Cooldown blindCooldown;
@@ -16,6 +16,8 @@ public class Grenadier: Impostor
     private float blindDistance;
     private bool canVent;
     private bool canBlindAllies;
+    private int grenadeAmount;
+    private int grenadesLeft;
 
     [RoleAction(RoleActionType.AttemptKill)]
     public new bool TryKill(PlayerControl target) => base.TryKill(target);
@@ -23,7 +25,7 @@ public class Grenadier: Impostor
     [RoleAction(RoleActionType.OnPet)]
     private void GrenadierBlind()
     {
-        if (blindCooldown.NotReady()) return;
+        if (blindCooldown.NotReady() || grenadesLeft <= 0) return;
 
         GameOptionOverride[] overrides = { new(Override.CrewLightMod, 0f), new(Override.ImpostorLightMod, 0f) };
         List<PlayerControl> playersInDistance = blindDistance > 0
@@ -38,10 +40,19 @@ public class Grenadier: Impostor
             });
 
         blindCooldown.Start();
+        grenadesLeft--;
     }
+
+    [RoleAction(RoleActionType.RoundStart)]
+    private void SetGrenadeAmount() => grenadesLeft = grenadeAmount;
 
     protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
+            .AddSubOption(sub => sub
+                .Name("Amount of Grenades")
+                .Bind(v => grenadeAmount = (int)v)
+                .AddIntRangeValues(1, 5, 1, 2, "s")
+                .Build())
             .AddSubOption(sub => sub
                 .Name("Blind Cooldown")
                 .Bind(v => blindCooldown.Duration = (float)v)
