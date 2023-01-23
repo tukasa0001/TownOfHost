@@ -502,7 +502,7 @@ namespace TownOfHost
             LastImpostor.SetupCustomOption();
             #endregion
 
-            TrueRandomeRoles = BooleanOptionItem.Create(6090055, "TrueRandomeRoles", false, TabGroup.MainSettings, false)
+            TrueRandomeRoles = BooleanOptionItem.Create(6090055, "TrueRandomeRoles", true, TabGroup.MainSettings, false)
                 .SetHeader(true)
                 .SetColor(Color.green);
 
@@ -736,7 +736,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             ChangeNameToRoleInfo = BooleanOptionItem.Create(1_000_004, "ChangeNameToRoleInfo", false, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
-            RoleAssigningAlgorithm = StringOptionItem.Create(1_000_005, "RoleAssigningAlgorithm", RoleAssigningAlgorithms, 0, TabGroup.MainSettings, true)
+            RoleAssigningAlgorithm = StringOptionItem.Create(1_000_005, "RoleAssigningAlgorithm", RoleAssigningAlgorithms, 2, TabGroup.MainSettings, true)
                 .SetGameMode(CustomGameMode.All)
                 .RegisterUpdateValueEvent(
                     (object obj, OptionItem.UpdateValueEventArgs args) => IRandom.SetInstanceById(args.CurrentValue)
@@ -766,7 +766,7 @@ namespace TownOfHost
                 .SetHeader(true)
                 .SetGameMode(customGameMode) as StringOptionItem;
 
-            LoverSpawnChances = StringOptionItem.Create(id + 2, "LoverSpawnChances", rates, 3, TabGroup.Addons, false).SetParent(spawnOption)
+            LoverSpawnChances = StringOptionItem.Create(id + 2, "LoverSpawnChances", rates, 6, TabGroup.Addons, false).SetParent(spawnOption)
                 .SetGameMode(customGameMode) as StringOptionItem;
 
             var countOption = IntegerOptionItem.Create(id + 1, "NumberOfLovers", new(2, 2, 1), 2, TabGroup.Addons, false).SetParent(spawnOption)

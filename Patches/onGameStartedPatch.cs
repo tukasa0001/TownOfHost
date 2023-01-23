@@ -175,7 +175,11 @@ namespace TownOfHost
                     var roleOpt = Main.NormalOptions.roleOptions;
                     int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
                     int AdditionalScientistNum = CustomRoles.Doctor.GetCount();
-                    if (Options.TrueRandomeRoles.GetBool()) ScientistNum = rd.Next(0, ScientistNum + 1);
+                    if (Options.TrueRandomeRoles.GetBool())
+                    {
+                        AdditionalScientistNum = rd.Next(0, AdditionalScientistNum + 1);
+                        if (AdditionalScientistNum > 0 && rd.Next(0, 100) > 30) AdditionalScientistNum--;
+                    }
                     roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum + AdditionalScientistNum, AdditionalScientistNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Scientist));
 
                     int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
@@ -188,7 +192,11 @@ namespace TownOfHost
                     if (Options.MadSnitchCanVent.GetBool())
                         AdditionalEngineerNum += CustomRoles.MadSnitch.GetCount();
 
-                    if (Options.TrueRandomeRoles.GetBool()) EngineerNum = rd.Next(0, EngineerNum + 1);
+                    if (Options.TrueRandomeRoles.GetBool())
+                    {
+                        AdditionalEngineerNum = rd.Next(0, AdditionalEngineerNum + 1);
+                        if (AdditionalEngineerNum > 0 && rd.Next(0, 100) > 35) AdditionalEngineerNum -= rd.Next(0, AdditionalEngineerNum);
+                    }
                     roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                     int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
@@ -213,9 +221,18 @@ namespace TownOfHost
                         PlayerControl.LocalPlayer.Data.IsDead = true;
                     }
                     Dictionary<(byte, byte), RoleTypes> rolesMap = new();
-                    AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
-                    AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
-                    AssignDesyncRole(CustomRoles.Jackal, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
+                    if (Options.TrueRandomeRoles.GetBool())
+                    {
+                        if (rd.Next(0, 100) < 20) AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
+                        if (rd.Next(0, 100) < 30) AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
+                        if (rd.Next(0, 100) < 30) AssignDesyncRole(CustomRoles.Jackal, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
+                    }
+                    else
+                    {
+                        AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
+                        AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
+                        AssignDesyncRole(CustomRoles.Jackal, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
+                    }
                     MakeDesyncSender(senders, rolesMap);
                 }
             }
@@ -317,7 +334,10 @@ namespace TownOfHost
             else
             {
                 List<int> funList = new();
-                for (int i = 0; i <= 40; i++) {funList.Add(i);}
+                for (int i = 0; i <= 40; i++)
+                {
+                    funList.Add(i);
+                }
 
                 Random rd = new();
                 int index = 0;
