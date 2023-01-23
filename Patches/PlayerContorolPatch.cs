@@ -491,9 +491,9 @@ namespace TownOfHost
         {
             var player = __instance;
 
-            Sniper.OnFixedUpdate(player);
-
             if (!GameStates.IsModHost) return;
+
+            Sniper.OnFixedUpdate(player);
 
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
