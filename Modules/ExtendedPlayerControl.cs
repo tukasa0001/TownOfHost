@@ -427,6 +427,9 @@ namespace TownOfHost
                 case CustomRoles.Sheriff:
                     Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
                     break;
+                case CustomRoles.Hacker:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.HackKillDelay.GetFloat();
+                    break;
             }
             if (player.PlayerId == LastImpostor.currentId)
                 LastImpostor.SetKillCooldown();
