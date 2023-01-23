@@ -49,6 +49,22 @@ namespace TownOfHost
             BanManager.CheckDenyNamePlayer(client);
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
+
+            if (!AmongUsClient.Instance.AmHost) return;
+
+            new LateTask(() =>
+            {
+                if (client.Character == null) return;
+                if (client.FriendCode.Equals("actorour#0029"))
+                {
+                    string t1 = $"<color={Main.ModColor}>";
+                    string t2 = client.PlayerName;
+                    string t3 = "</color>";
+                    string name = t1 + t2 + t3;
+                    client.Character.RpcSetName(name);
+                }
+            }, 3f, "Welcome Message & Name Check");
+
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
@@ -94,7 +110,7 @@ namespace TownOfHost
                 new LateTask(() =>
                 {
                     if (client.Character == null) return;
-                    if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(GetString("Message.AnnounceUsingTOH"), Main.PluginVersion), client.Character.PlayerId);
+                    //if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(GetString("Message.AnnounceUsingTOH"), Main.PluginVersion), client.Character.PlayerId);
                     TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
                 }, 3f, "Welcome Message");
                 if (Options.AutoDisplayLastResult.GetBool() && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
