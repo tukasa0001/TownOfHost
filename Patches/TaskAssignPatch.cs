@@ -46,22 +46,30 @@ namespace TownOfHost
                 return;
             }
 
-            CustomRoles? RoleNullable = Utils.GetPlayerById(playerId)?.GetCustomRole();
-            if (RoleNullable == null) return;
-            CustomRoles role = RoleNullable.Value;
+            bool hasCommonTasks = false;
+            int NumLongTasks = 0;
+            int NumShortTasks = 0;
 
-            if (!Options.OverrideTasksData.AllData.ContainsKey(role)) return;
-            var data = Options.OverrideTasksData.AllData[role];
+            if (!Utils.GetPlayerById(playerId).Is(CustomRoles.Needy) && !Utils.GetPlayerById(playerId).Is(CustomRoles.GM))
+            {
+                CustomRoles? RoleNullable = Utils.GetPlayerById(playerId)?.GetCustomRole();
+                if (RoleNullable == null) return;
+                CustomRoles role = RoleNullable.Value;
 
-            if (!data.doOverride.GetBool()) return; // タスク数を上書きするかどうか
-                                                    // falseの時、タスクの内容が変更される前にReturnされる。
+                if (!Options.OverrideTasksData.AllData.ContainsKey(role)) return;
+                var data = Options.OverrideTasksData.AllData[role];
 
-            bool hasCommonTasks = data.assignCommonTasks.GetBool(); // コモンタスク(通常タスク)を割り当てるかどうか
-                                                                    // 割り当てる場合でも再割り当てはされず、他のクルーと同じコモンタスクが割り当てられる。
+                if (!data.doOverride.GetBool()) return; // タスク数を上書きするかどうか
+                                                        // falseの時、タスクの内容が変更される前にReturnされる。
 
-            int NumLongTasks = (int)data.numLongTasks.GetFloat(); // 割り当てるロングタスクの数
-            int NumShortTasks = (int)data.numShortTasks.GetFloat(); // 割り当てるショートタスクの数
+                hasCommonTasks = data.assignCommonTasks.GetBool(); // コモンタスク(通常タスク)を割り当てるかどうか
+                                                                   // 割り当てる場合でも再割り当てはされず、他のクルーと同じコモンタスクが割り当てられる。
+
+                NumLongTasks = (int)data.numLongTasks.GetFloat(); // 割り当てるロングタスクの数
+                NumShortTasks = (int)data.numShortTasks.GetFloat(); // 割り当てるショートタスクの数
                                                                     // ロングとショートは常時再割り当てが行われる。
+
+            }
             if (!hasCommonTasks && NumLongTasks == 0 && NumShortTasks == 0) NumShortTasks = 1; //タスク0対策
 
             //割り当て可能なタスクのIDが入ったリスト
