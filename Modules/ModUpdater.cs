@@ -46,6 +46,10 @@ namespace TownOfHost
         }
         public static async Task<bool> CheckRelease(bool beta = false)
         {
+            isChecked = true;
+            isBroken = false;
+            return true;
+
             string url = beta ? Main.BetaBuildURL.Value : URL + "/releases/latest";
             try
             {
