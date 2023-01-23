@@ -17,7 +17,7 @@ namespace TownOfHost
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.TimeThief);
             KillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(2.5f, 180f, 2.5f), 30f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeThief])
                 .SetValueFormat(OptionFormat.Seconds);
-            DecreaseMeetingTime = FloatOptionItem.Create(Id + 11, "TimeThiefDecreaseMeetingTime", new(0f, 100f, 1f), 20f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeThief])
+            DecreaseMeetingTime = FloatOptionItem.Create(Id + 11, "TimeThiefDecreaseMeetingTime", new(0f, 100f, 1f), 25f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeThief])
                 .SetValueFormat(OptionFormat.Seconds);
             LowerLimitVotingTime = FloatOptionItem.Create(Id + 12, "TimeThiefLowerLimitVotingTime", new(1f, 300f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeThief])
                 .SetValueFormat(OptionFormat.Seconds);
