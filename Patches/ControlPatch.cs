@@ -11,7 +11,7 @@ namespace TownOfHost
         static int resolutionIndex = 0;
         public static void Postfix(ControllerManager __instance)
         {
-            //カスタム設定切り替え
+            //切换自定义设置的页面
             if (GameStates.IsLobby)
             {
                 if (Input.GetKeyDown(KeyCode.Tab))
@@ -24,144 +24,152 @@ namespace TownOfHost
                         OptionShower.currentPage = i;
                 }
             }
-            //解像度変更
+            //更改分辨率
             if (Input.GetKeyDown(KeyCode.F11))
             {
                 resolutionIndex++;
                 if (resolutionIndex >= resolutions.Length) resolutionIndex = 0;
                 ResolutionManager.SetResolution(resolutions[resolutionIndex].Item1, resolutions[resolutionIndex].Item2, false);
             }
-            //カスタム翻訳のリロード
+            //重新加载自定义翻译
             if (GetKeysDown(KeyCode.F5, KeyCode.T))
             {
                 Logger.Info("Reload Custom Translation File", "KeyCommand");
                 Translator.LoadLangs();
                 Logger.SendInGame("Reloaded Custom Translation File");
             }
-            //ログファイルのダンプ
+            //日志文件转储
             if (GetKeysDown(KeyCode.F1, KeyCode.LeftControl))
             {
                 Logger.Info("Dump Logs", "KeyCommand");
                 Utils.DumpLog();
             }
-            //現在の設定をテキストとしてコピー
+            //将当前设置复制为文本
             if (GetKeysDown(KeyCode.LeftAlt, KeyCode.C) && !Input.GetKey(KeyCode.LeftShift) && !GameStates.IsNotJoined)
             {
                 Utils.CopyCurrentSettings();
             }
-            //実行ファイルのフォルダを開く
+            //打开游戏目录
             if (GetKeysDown(KeyCode.F10))
             {
                 System.Diagnostics.Process.Start(System.Environment.CurrentDirectory);
             }
 
-            //--以下ホスト専用コマンド--//
+            //-- 下面是主机专用的命令--//
             if (!AmongUsClient.Instance.AmHost) return;
-            //廃村
+            //强制结束游戏
             if (GetKeysDown(KeyCode.Return, KeyCode.L, KeyCode.LeftShift) && GameStates.IsInGame)
             {
                 CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Draw);
                 GameManager.Instance.LogicFlow.CheckEndCriteria();
             }
-            //ミーティングを強制終了
-            if (GetKeysDown(KeyCode.Return, KeyCode.M, KeyCode.LeftShift) && GameStates.IsMeeting)
+            //强制结束会议或召开会议
+            if (GetKeysDown(KeyCode.Return, KeyCode.M, KeyCode.LeftShift) && GameStates.IsInGame)
             {
-                MeetingHud.Instance.RpcClose();
+                if (GameStates.IsMeeting) MeetingHud.Instance.RpcClose();
+                else PlayerControl.LocalPlayer.CmdReportDeadBody(null);
             }
-            //即スタート
+            //立即开始
             if (Input.GetKeyDown(KeyCode.LeftShift) && GameStates.IsCountDown)
             {
                 Logger.Info("CountDownTimer set to 0", "KeyCommand");
                 GameStartManager.Instance.countDownTimer = 0;
             }
-            //カウントダウンキャンセル
+            //倒计时取消
             if (Input.GetKeyDown(KeyCode.C) && GameStates.IsCountDown)
             {
                 Logger.Info("Reset CountDownTimer", "KeyCommand");
                 GameStartManager.Instance.ResetStartState();
+                Logger.SendInGame("开始倒计时被取消");
             }
-            //現在の有効な設定の説明を表示
+            //显示当前有效设置的说明
             if (GetKeysDown(KeyCode.N, KeyCode.LeftShift, KeyCode.LeftControl))
             {
                 Main.isChatCommand = true;
                 Utils.ShowActiveSettingsHelp();
             }
-            //現在の有効な設定を表示
+            //显示当前有效设置
             if (GetKeysDown(KeyCode.N, KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift))
             {
                 Main.isChatCommand = true;
                 Utils.ShowActiveSettings();
             }
-            //TOHオプションをデフォルトに設定
+            //将 TOH 选项设置为默认值
             if (GetKeysDown(KeyCode.Delete, KeyCode.LeftControl))
             {
                 OptionItem.AllOptions.ToArray().Where(x => x.Id > 0).Do(x => x.SetValue(x.DefaultValue));
+                Logger.SendInGame("已恢复TOH的默认设置");
             }
-
-            //--以下デバッグモード用コマンド--//
-            if (!DebugModeManager.IsDebugMode) return;
-
-            //設定の同期
-            if (Input.GetKeyDown(KeyCode.Y))
-            {
-                RPC.SyncCustomSettingsRPC();
-            }
-            //投票をクリア
-            if (Input.GetKeyDown(KeyCode.V) && GameStates.IsMeeting && !GameStates.IsOnlineGame)
+            //实名投票
+            if (GetKeysDown(KeyCode.Return, KeyCode.V, KeyCode.LeftShift) && GameStates.IsMeeting && !GameStates.IsOnlineGame)
             {
                 MeetingHud.Instance.RpcClearVote(AmongUsClient.Instance.ClientId);
             }
-            //自分自身の死体をレポート
-            if (GetKeysDown(KeyCode.Return, KeyCode.M, KeyCode.RightShift) && GameStates.IsInGame)
+            //强制报告自己的尸体
+            if (GetKeysDown(KeyCode.Return, KeyCode.R, KeyCode.LeftShift) && GameStates.IsInGame)
             {
                 PlayerControl.LocalPlayer.NoCheckStartMeeting(PlayerControl.LocalPlayer.Data);
             }
-            //自分自身を追放
+            //放逐自己
             if (GetKeysDown(KeyCode.Return, KeyCode.E, KeyCode.LeftShift) && GameStates.IsInGame)
             {
                 PlayerControl.LocalPlayer.RpcExile();
+                PlayerControl.LocalPlayer.Data.IsDead = true;
+                Utils.SendMessage("房主选择自杀", title: $"<color=#ff0000>{"【 ★ 系统信息 ★ 】"}</color>");
             }
-            //ログをゲーム内にも出力するかトグル
+            //切换日志是否也在游戏中输出
             if (GetKeysDown(KeyCode.F2, KeyCode.LeftControl))
             {
                 Logger.isAlsoInGame = !Logger.isAlsoInGame;
                 Logger.SendInGame($"ログのゲーム内出力: {Logger.isAlsoInGame}");
             }
-
-            //--以下フリープレイ用コマンド--//
-            if (!GameStates.IsFreePlay) return;
-            //キルクールを0秒に設定
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                PlayerControl.LocalPlayer.Data.Object.SetKillTimer(0f);
-            }
-            //自身のタスクをすべて完了
-            if (Input.GetKeyDown(KeyCode.O))
-            {
-                foreach (var task in PlayerControl.LocalPlayer.myTasks)
-                    PlayerControl.LocalPlayer.RpcCompleteTask(task.Id);
-            }
-            //イントロテスト
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black));
-                HudManager.Instance.StartCoroutine(DestroyableSingleton<HudManager>.Instance.CoShowIntro());
-            }
-            //タスクカウントの表示切替
-            if (Input.GetKeyDown(KeyCode.Equals))
-            {
-                Main.VisibleTasksCount = !Main.VisibleTasksCount;
-                DestroyableSingleton<HudManager>.Instance.Notifier.AddItem("VisibleTaskCountが" + Main.VisibleTasksCount.ToString() + "に変更されました。");
-            }
-            //エアシップのトイレのドアを全て開ける
-            if (Input.GetKeyDown(KeyCode.P))
+            //打开飞艇所有的门
+            if (GetKeysDown(KeyCode.Return, KeyCode.D, KeyCode.LeftShift) && GameStates.IsInGame)
             {
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 79);
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 80);
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 81);
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 82);
             }
-            //現在の座標を取得
+            //将击杀冷却设定为0秒
+            if (GetKeysDown(KeyCode.Return, KeyCode.K, KeyCode.LeftShift) && GameStates.IsInGame)
+            {
+                PlayerControl.LocalPlayer.Data.Object.SetKillTimer(0f);
+            }
+            //完成你的所有任务
+            if (GetKeysDown(KeyCode.Return, KeyCode.T, KeyCode.LeftShift) && GameStates.IsInGame)
+            {
+                foreach (var task in PlayerControl.LocalPlayer.myTasks)
+                    PlayerControl.LocalPlayer.RpcCompleteTask(task.Id);
+            }
+
+            //--下面是调试模式的命令--//
+            if (!DebugModeManager.IsDebugMode) return;
+
+            //同步设置
+            if (Input.GetKeyDown(KeyCode.Y))
+            {
+                RPC.SyncCustomSettingsRPC();
+                Logger.SendInGame("已同步RPC");
+            }
+
+            //--下面是自由模式的命令--//
+            if (!GameStates.IsFreePlay) return;
+
+            //入门测试
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black));
+                HudManager.Instance.StartCoroutine(DestroyableSingleton<HudManager>.Instance.CoShowIntro());
+            }
+            //任务数显示切换
+            if (Input.GetKeyDown(KeyCode.Equals))
+            {
+                Main.VisibleTasksCount = !Main.VisibleTasksCount;
+                DestroyableSingleton<HudManager>.Instance.Notifier.AddItem("VisibleTaskCountが" + Main.VisibleTasksCount.ToString() + "に変更されました。");
+            }
+
+            //获取现在的坐标
             if (Input.GetKeyDown(KeyCode.I))
                 Logger.Info(PlayerControl.LocalPlayer.GetTruePosition().ToString(), "GetLocalPlayerPos");
             //マスゲーム用コード
