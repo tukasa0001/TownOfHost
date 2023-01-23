@@ -334,7 +334,7 @@ namespace TownOfHost
             else
             {
                 List<int> funList = new();
-                for (int i = 0; i <= 40; i++)
+                for (int i = 0; i <= 41; i++)
                 {
                     funList.Add(i);
                 }
@@ -402,6 +402,7 @@ namespace TownOfHost
                         case 38: AssignCustomRolesFromList(CustomRoles.SuperStar, Crewmates); break;
                         case 39: AssignCustomRolesFromList(CustomRoles.Hacker, Impostors); break;
                         case 40: AssignCustomRolesFromList(CustomRoles.Assassin, Shapeshifters); break;
+                        case 41: AssignCustomRolesFromList(CustomRoles.Luckey, Crewmates); break;
                     }
                 }
 

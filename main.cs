@@ -226,6 +226,7 @@ namespace TownOfHost
                     //特殊クルー役職
                     {CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
                     {CustomRoles.Bait, "#00f7ff"},
+                    {CustomRoles.Luckey, "#b8d7a3" },
                     {CustomRoles.Needy, "#a4dffe"},
                     {CustomRoles.SabotageMaster, "#0000ff"},
                     {CustomRoles.Snitch, "#b8fb4f"},
@@ -341,6 +342,7 @@ namespace TownOfHost
         Scientist,
         //Crewmate
         Bait,
+        Luckey,
         Needy,
         Lighter,
         SuperStar,

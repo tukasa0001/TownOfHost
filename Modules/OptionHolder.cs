@@ -97,6 +97,7 @@ namespace TownOfHost
         public static OptionItem MadmateVentMaxTime;
 
         public static OptionItem EvilWatcherChance;
+        public static OptionItem LuckeyProbability;
         public static OptionItem LighterTaskCompletedVision;
         public static OptionItem LighterTaskCompletedDisableLightOut;
         public static OptionItem MayorAdditionalVote;
@@ -432,6 +433,9 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Percent);
             // Crewmate
             SetupRoleOptions(20000, TabGroup.CrewmateRoles, CustomRoles.Bait);
+            SetupRoleOptions(1020195, TabGroup.CrewmateRoles, CustomRoles.Luckey);
+            LuckeyProbability = IntegerOptionItem.Create(1020197, "LuckeyProbability ", new(0, 100, 5), 50, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Luckey])
+                .SetValueFormat(OptionFormat.Percent);
             SetupRoleOptions(1020095, TabGroup.CrewmateRoles, CustomRoles.Needy);
             SetupRoleOptions(20100, TabGroup.CrewmateRoles, CustomRoles.Lighter);
             LighterTaskCompletedVision = FloatOptionItem.Create(20110, "LighterTaskCompletedVision", new(0f, 5f, 0.25f), 5f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Lighter])
@@ -766,8 +770,9 @@ namespace TownOfHost
                 .SetHeader(true)
                 .SetGameMode(customGameMode) as StringOptionItem;
 
-            LoverSpawnChances = StringOptionItem.Create(id + 2, "LoverSpawnChances", rates, 6, TabGroup.Addons, false).SetParent(spawnOption)
-                .SetGameMode(customGameMode) as StringOptionItem;
+            LoverSpawnChances = IntegerOptionItem.Create(id + 2, "LoverSpawnChances", new(0, 100 ,5), 50, TabGroup.Addons, false).SetParent(spawnOption)
+                .SetValueFormat(OptionFormat.Percent)
+                .SetGameMode(customGameMode);
 
             var countOption = IntegerOptionItem.Create(id + 1, "NumberOfLovers", new(2, 2, 1), 2, TabGroup.Addons, false).SetParent(spawnOption)
                 .SetHidden(true)

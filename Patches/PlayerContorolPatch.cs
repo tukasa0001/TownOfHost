@@ -105,6 +105,15 @@ namespace TownOfHost
             //キルされた時の特殊判定
             switch (target.GetCustomRole())
             {
+                case CustomRoles.Luckey:
+                    System.Random rd = Utils.RandomSeedByGuid();
+                    if (rd.Next(0, 100) < Options.LuckeyProbability.GetInt())
+                    {
+                        killer.RpcGuardAndKill(target);
+                        return false;
+                    }
+                    break;
+
                 case CustomRoles.SchrodingerCat:
                     if (!SchrodingerCat.OnCheckMurder(killer, target))
                         return false;
