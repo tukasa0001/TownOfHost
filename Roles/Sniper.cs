@@ -286,11 +286,11 @@ namespace TownOfHost
         {
             return IsThisRole(playerId) ? Utils.ColorString(Color.yellow, $"({bulletCount[playerId]})") : "";
         }
-        public static bool TryGetSniper(byte target, ref PlayerControl sniper)
+        public static bool TryGetSniper(byte targetId, ref PlayerControl sniper)
         {
             foreach (var kvp in snipeTarget)
             {
-                if (kvp.Value == target)
+                if (kvp.Value == targetId)
                 {
                     sniper = Utils.GetPlayerById(kvp.Key);
                     return true;
@@ -298,14 +298,14 @@ namespace TownOfHost
             }
             return false;
         }
-        public static string GetShotNotify(byte seer)
+        public static string GetShotNotify(byte seerId)
         {
-            if (AimAssist && IsThisRole(seer))
+            if (AimAssist && IsThisRole(seerId))
             {
                 //エイムアシスト中のスナイパー
-                if (0.5f < AimTime[seer] && (!AimAssistOneshot || AimTime[seer] < 1.0f))
+                if (0.5f < AimTime[seerId] && (!AimAssistOneshot || AimTime[seerId] < 1.0f))
                 {
-                    if (GetSnipeTargets(Utils.GetPlayerById(seer)).Count > 0)
+                    if (GetSnipeTargets(Utils.GetPlayerById(seerId)).Count > 0)
                     {
                         return $"<size=200%>{Utils.ColorString(Color.red, "◎")}</size>";
                     }
@@ -314,10 +314,10 @@ namespace TownOfHost
             else
             {
                 //射撃音が聞こえるプレイヤー
-                foreach (var sniper in playerIdList)
+                foreach (var sniperId in PlayerIdList)
                 {
-                    var snList = shotNotify[sniper];
-                    if (snList.Count() > 0 && snList.Contains(seer))
+                    var snList = shotNotify[sniperId];
+                    if (snList.Count() > 0 && snList.Contains(seerId))
                     {
                         return $"<size=200%>{Utils.ColorString(Color.red, "!")}</size>";
                     }
