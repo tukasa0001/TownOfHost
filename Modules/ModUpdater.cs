@@ -14,7 +14,7 @@ namespace TownOfHost
     [HarmonyPatch]
     public class ModUpdater
     {
-        private static readonly string URL = "https://api.github.com/repos/tukasa0001/TownOfHost";
+        private static readonly string URL = "https://github.com/KARPED1EM/TownOfHostEdited";
         public static bool hasUpdate = false;
         public static bool isBroken = false;
         public static bool isChecked = false;
@@ -100,8 +100,10 @@ namespace TownOfHost
             }
             catch (Exception ex)
             {
-                isBroken = true;
-                Logger.Error($"リリースのチェックに失敗しました。\n{ex}", "CheckRelease", false);
+                isChecked = true;
+                isBroken = false;
+                //这他妈居然是检查更新失败造成的
+                Logger.Error($"检查更新失败了，但是谁在乎呢？\n{ex}", "CheckRelease", false);
                 return false;
             }
             return true;

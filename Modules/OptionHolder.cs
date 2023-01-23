@@ -111,6 +111,18 @@ namespace TownOfHost
         public static OptionItem ArsonistCooldown;
         public static OptionItem KillFlashDuration;
 
+        public static OptionItem ParanoiaVentCooldown;
+        public static OptionItem ParanoiaNumOfUseButton;
+        public static OptionItem PsychicCanSeeNum;
+        public static OptionItem PsychicFresh;
+        public static OptionItem CkshowEvil;
+        public static OptionItem NBshowEvil;
+        public static OptionItem NEshowEvil;
+        public static OptionItem EveryOneKnowSuperStar;
+
+        public static OptionItem HackUsedMaxTime;
+        public static OptionItem HackKillDelay;
+
         // HideAndSeek
         public static OptionItem AllowCloseDoors;
         public static OptionItem KillDelay;
@@ -242,6 +254,13 @@ namespace TownOfHost
         public static OptionItem ChangeNameToRoleInfo;
         public static OptionItem RoleAssigningAlgorithm;
 
+        public static OptionItem AutoKickStart;
+        public static OptionItem AutoKickStopWords;
+        public static OptionItem AutoWarnStopWords;
+
+        public static OptionItem DIYGameSettings;
+        public static OptionItem PlayerCanSerColor;
+
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -344,6 +363,13 @@ namespace TownOfHost
             VampireKillDelay = FloatOptionItem.Create(1310, "VampireKillDelay", new(1f, 1000f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Vampire])
                 .SetValueFormat(OptionFormat.Seconds);
             SetupRoleOptions(1400, TabGroup.ImpostorRoles, CustomRoles.Warlock);
+            SetupRoleOptions(901455, TabGroup.ImpostorRoles, CustomRoles.Assassin);
+            SetupRoleOptions(901585, TabGroup.ImpostorRoles, CustomRoles.Hacker);
+            HackKillDelay = FloatOptionItem.Create(901587, "HackKillDelay", new(5f, 999f, 5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
+                .SetValueFormat(OptionFormat.Seconds);
+            HackUsedMaxTime = IntegerOptionItem.Create(901589, "HackUsedMaxTime", new(1, 15, 1), 3, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
+                .SetValueFormat(OptionFormat.Times);
+            SetupRoleOptions(901590, TabGroup.ImpostorRoles, CustomRoles.Miner);
             Witch.SetupCustomOption();
             SetupRoleOptions(1600, TabGroup.ImpostorRoles, CustomRoles.Mafia);
             FireWorks.SetupCustomOption();
@@ -389,18 +415,32 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Percent);
             // Crewmate
             SetupRoleOptions(20000, TabGroup.CrewmateRoles, CustomRoles.Bait);
+            SetupRoleOptions(1020095, TabGroup.CrewmateRoles, CustomRoles.Needy);
             SetupRoleOptions(20100, TabGroup.CrewmateRoles, CustomRoles.Lighter);
-            LighterTaskCompletedVision = FloatOptionItem.Create(20110, "LighterTaskCompletedVision", new(0f, 5f, 0.25f), 2f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Lighter])
+            LighterTaskCompletedVision = FloatOptionItem.Create(20110, "LighterTaskCompletedVision", new(0f, 5f, 0.25f), 5f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Lighter])
                 .SetValueFormat(OptionFormat.Multiplier);
             LighterTaskCompletedDisableLightOut = BooleanOptionItem.Create(20111, "LighterTaskCompletedDisableLightOut", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Lighter]);
+            SetupRoleOptions(8020165, TabGroup.CrewmateRoles, CustomRoles.SuperStar);
+            EveryOneKnowSuperStar = BooleanOptionItem.Create(8020168, "EveryOneKnowSuperStar", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SuperStar]);
+            SetupRoleOptions(8020195, TabGroup.CrewmateRoles, CustomRoles.Plumber);
             SetupRoleOptions(20200, TabGroup.CrewmateRoles, CustomRoles.Mayor);
-            MayorAdditionalVote = IntegerOptionItem.Create(20210, "MayorAdditionalVote", new(1, 99, 1), 1, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mayor])
+            MayorAdditionalVote = IntegerOptionItem.Create(20210, "MayorAdditionalVote", new(1, 99, 1), 3, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mayor])
                 .SetValueFormat(OptionFormat.Votes);
             MayorHasPortableButton = BooleanOptionItem.Create(20211, "MayorHasPortableButton", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mayor]);
             MayorNumOfUseButton = IntegerOptionItem.Create(20212, "MayorNumOfUseButton", new(1, 99, 1), 1, TabGroup.CrewmateRoles, false).SetParent(MayorHasPortableButton)
                 .SetValueFormat(OptionFormat.Times);
             SabotageMaster.SetupCustomOption();
             Sheriff.SetupCustomOption();
+            SetupRoleOptions(8020490, TabGroup.CrewmateRoles, CustomRoles.Paranoia);
+            ParanoiaNumOfUseButton = IntegerOptionItem.Create(8020493, "ParanoiaNumOfUseButton", new(1, 99, 1), 3, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Paranoia])
+                .SetValueFormat(OptionFormat.Times);
+            SetupRoleOptions(8020450, TabGroup.CrewmateRoles, CustomRoles.Psychic);
+            PsychicCanSeeNum = IntegerOptionItem.Create(8020452, "PsychicCanSeeNum", new(1, 15, 1), 3, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic])
+                .SetValueFormat(OptionFormat.Players);
+            PsychicFresh = BooleanOptionItem.Create(8020456, "PsychicFresh", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic]);
+            CkshowEvil = BooleanOptionItem.Create(8020453, "CrewKillingRed", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic]);
+            NBshowEvil = BooleanOptionItem.Create(8020454, "NBareRed", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic]);
+            NEshowEvil = BooleanOptionItem.Create(800455, "NEareRed", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic]);
             SetupRoleOptions(20500, TabGroup.CrewmateRoles, CustomRoles.Snitch);
             SnitchEnableTargetArrow = BooleanOptionItem.Create(20510, "SnitchEnableTargetArrow", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanGetArrowColor = BooleanOptionItem.Create(20511, "SnitchCanGetArrowColor", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
@@ -408,10 +448,10 @@ namespace TownOfHost
             //20520~20523を使用
             SnitchTasks = OverrideTasksData.Create(20520, TabGroup.CrewmateRoles, CustomRoles.Snitch);
             SetupRoleOptions(20600, TabGroup.CrewmateRoles, CustomRoles.SpeedBooster);
-            SpeedBoosterUpSpeed = FloatOptionItem.Create(20610, "SpeedBoosterUpSpeed", new(0.1f, 0.5f, 0.1f), 0.3f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
+            SpeedBoosterUpSpeed = FloatOptionItem.Create(20610, "SpeedBoosterUpSpeed", new(0.1f, 1.0f, 0.1f), 0.2f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
                 .SetValueFormat(OptionFormat.Multiplier);
-            SpeedBoosterTaskTrigger = IntegerOptionItem.Create(20611, "SpeedBoosterTaskTrigger", new(1, 99, 1), 5, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
-                .SetValueFormat(OptionFormat.Pieces);
+            SpeedBoosterTimes = IntegerOptionItem.Create(20611, "SpeedBoosterTimes", new(1, 99, 1), 5, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
+                .SetValueFormat(OptionFormat.Times);
             SetupRoleOptions(20700, TabGroup.CrewmateRoles, CustomRoles.Doctor);
             DoctorTaskCompletedBatteryCharge = FloatOptionItem.Create(20710, "DoctorTaskCompletedBatteryCharge", new(0f, 10f, 1f), 5f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Doctor])
                 .SetValueFormat(OptionFormat.Seconds);
@@ -445,7 +485,7 @@ namespace TownOfHost
             LastImpostor.SetupCustomOption();
             #endregion
 
-            KillFlashDuration = FloatOptionItem.Create(90000, "KillFlashDuration", new(0.1f, 0.45f, 0.05f), 0.3f, TabGroup.MainSettings, false)
+            KillFlashDuration = FloatOptionItem.Create(90000, "KillFlashDuration", new(0.1f, 0.45f, 0.05f), 0.2f, TabGroup.MainSettings, false)
                 .SetHeader(true)
                 .SetValueFormat(OptionFormat.Seconds)
                 .SetGameMode(CustomGameMode.Standard);
@@ -637,7 +677,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherVotes = BooleanOptionItem.Create(900_011, "GhostCanSeeOtherVotes", true, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
-            GhostCanSeeDeathReason = BooleanOptionItem.Create(900_014, "GhostCanSeeDeathReason", false, TabGroup.MainSettings, false)
+            GhostCanSeeDeathReason = BooleanOptionItem.Create(900_014, "GhostCanSeeDeathReason", true, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
             GhostIgnoreTasks = BooleanOptionItem.Create(900_012, "GhostIgnoreTasks", false, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
@@ -648,13 +688,23 @@ namespace TownOfHost
             AutoDisplayLastResult = BooleanOptionItem.Create(1_000_000, "AutoDisplayLastResult", true, TabGroup.MainSettings, false)
                 .SetHeader(true)
                 .SetGameMode(CustomGameMode.All);
+            AutoKickStart = BooleanOptionItem.Create(1_000_010, "AutoKickStart", false, TabGroup.MainSettings, false)
+                .SetGameMode(CustomGameMode.All);
+            AutoKickStopWords = BooleanOptionItem.Create(1_000_011, "AutoKickStopWords", false, TabGroup.MainSettings, false)
+                .SetGameMode(CustomGameMode.All);
+            AutoWarnStopWords = BooleanOptionItem.Create(1_000_012, "AutoWarnStopWords", false, TabGroup.MainSettings, false)
+                .SetGameMode(CustomGameMode.All);
             SuffixMode = StringOptionItem.Create(1_000_001, "SuffixMode", suffixModes, 0, TabGroup.MainSettings, true)
                 .SetGameMode(CustomGameMode.All);
             HideGameSettings = BooleanOptionItem.Create(1_000_002, "HideGameSettings", false, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
+            DIYGameSettings = BooleanOptionItem.Create(1_000_013, "DIYGameSettings", false, TabGroup.MainSettings, false)
+                .SetGameMode(CustomGameMode.All);
+            PlayerCanSerColor = BooleanOptionItem.Create(1_000_014, "PlayerCanSerColor", true, TabGroup.MainSettings, false)
+                .SetGameMode(CustomGameMode.All);
             ColorNameMode = BooleanOptionItem.Create(1_000_003, "ColorNameMode", false, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
-            ChangeNameToRoleInfo = BooleanOptionItem.Create(1_000_004, "ChangeNameToRoleInfo", true, TabGroup.MainSettings, false)
+            ChangeNameToRoleInfo = BooleanOptionItem.Create(1_000_004, "ChangeNameToRoleInfo", false, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
             RoleAssigningAlgorithm = StringOptionItem.Create(1_000_005, "RoleAssigningAlgorithm", RoleAssigningAlgorithms, 0, TabGroup.MainSettings, true)
                 .SetGameMode(CustomGameMode.All)
