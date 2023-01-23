@@ -16,7 +16,7 @@ namespace TownOfHost
             if (Options.IsStandardHAS) __instance.text.text += $"\r\n" + Utils.ColorString(Color.yellow, GetString("StandardHAS"));
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("HideAndSeek"));
             if (!GameStates.IsModHost) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("Warning.NoModHost"));
-            if (DebugModeManager.IsDebugMode) __instance.text.text += "\r\n" + Utils.ColorString(Color.green, "デバッグモード");
+            if (DebugModeManager.IsDebugMode) __instance.text.text += "\r\n" + Utils.ColorString(Color.green, "调试模式");
 
             var offset_x = 1.2f; //右端からのオフセット
             if (HudManager.InstanceExists && HudManager._instance.Chat.ChatButton.active) offset_x += 0.8f; //チャットボタンがある場合の追加オフセット
@@ -36,7 +36,7 @@ namespace TownOfHost
         {
             Main.credentialsText = $"\r\n<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}";
 #if DEBUG
-            Main.credentialsText += $"\r\n<color={Main.ModColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
+            Main.credentialsText += $"\r\n<color={Main.ModColor}>内测({ThisAssembly.Git.Commit})</color>";
 #endif
             var credentials = Object.Instantiate(__instance.text);
             credentials.text = Main.credentialsText;
@@ -65,13 +65,15 @@ namespace TownOfHost
                 ColorUtility.TryParseHtmlString(Main.ModColor, out var col);
                 SpecialEventText.color = col;
             }
-            if (Main.IsChristmas && CultureInfo.CurrentCulture.Name == "ja-JP")
+            else
             {
-                //このソースコ―ドを見た人へ。口外しないでもらえると嬉しいです...
-                //To anyone who has seen this source code. I would appreciate it if you would keep your mouth shut...
-                SpecialEventText.text = "何とは言いませんが、特別な日ですね。\n<size=15%>\n\n末永く爆発しろ</size>";
-                SpecialEventText.color = Utils.GetRoleColor(CustomRoles.Lovers);
+                SpecialEventText.text = $"{Main.MainMenuText}";
+                SpecialEventText.fontSize = 0.9f;
+                SpecialEventText.color = Color.white;
+                SpecialEventText.alignment = TMPro.TextAlignmentOptions.TopRight;
+                SpecialEventText.transform.position = new Vector3(4.6f, 2.7f, 0);
             }
+
         }
     }
 
@@ -89,7 +91,8 @@ namespace TownOfHost
 
             var tohLogo = new GameObject("titleLogo_TOH");
             tohLogo.transform.position = Vector3.up;
-            tohLogo.transform.localScale *= 1.2f;
+            tohLogo.transform.position -= Vector3.up * 0.20f;
+            tohLogo.transform.localScale *= 1.3f;
             var renderer = tohLogo.AddComponent<SpriteRenderer>();
             renderer.sprite = Utils.LoadSprite("TownOfHost.Resources.TownOfHost-Logo.png", 300f);
         }
