@@ -102,6 +102,16 @@ namespace TownOfHost
                 return false;
             }
 
+            //実際のキラーとkillerが違う場合の入れ替え処理
+            if (Sniper.IsEnable)
+            {
+                Sniper.TryGetSniper(target.PlayerId, ref killer);
+            }
+            if (killer != __instance)
+            {
+                Logger.Info($"Real Killer={killer.GetNameWithRole()}", "CheckMurder");
+
+            }
             //キルされた時の特殊判定
             switch (target.GetCustomRole())
             {
@@ -204,7 +214,7 @@ namespace TownOfHost
             }
 
             //==キル処理==
-            killer.RpcMurderPlayer(target);
+            __instance.RpcMurderPlayer(target);
             //============
 
             return false;
@@ -227,9 +237,19 @@ namespace TownOfHost
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost) return;
 
             PlayerControl killer = __instance; //読み替え変数
-            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.Sniped)
+
+            //実際のキラーとkillerが違う場合の入れ替え処理
+            if (Sniper.IsEnable)
             {
-                killer = Utils.GetPlayerById(Sniper.GetSniper(target.PlayerId));
+                if (Sniper.TryGetSniper(target.PlayerId, ref killer))
+                {
+                    Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Sniped;
+                }
+            }
+            if (killer != __instance)
+            {
+                Logger.Info($"Real Killer={killer.GetNameWithRole()}", "MurderPlayer");
+
             }
             if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.etc)
             {
@@ -267,7 +287,7 @@ namespace TownOfHost
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
             Main.PlayerStates[target.PlayerId].SetDead();
-            target.SetRealKiller(__instance, true); //既に追加されてたらスキップ
+            target.SetRealKiller(killer, true); //既に追加されてたらスキップ
             Utils.CountAliveImpostors();
             Utils.SyncAllSettings();
             Utils.NotifyRoles();
@@ -280,7 +300,6 @@ namespace TownOfHost
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             Logger.Info($"{__instance?.GetNameWithRole()} => {target?.GetNameWithRole()}", "Shapeshift");
-            if (!AmongUsClient.Instance.AmHost) return;
 
             var shapeshifter = __instance;
             var shapeshifting = shapeshifter.PlayerId != target.PlayerId;
@@ -294,6 +313,9 @@ namespace TownOfHost
             Main.CheckShapeshift[shapeshifter.PlayerId] = shapeshifting;
             Main.ShapeshiftTarget[shapeshifter.PlayerId] = target.PlayerId;
 
+            Sniper.OnShapeshift(shapeshifter, shapeshifting);
+
+            if (!AmongUsClient.Instance.AmHost) return;
             if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
 
             switch (shapeshifter.GetCustomRole())
@@ -303,9 +325,6 @@ namespace TownOfHost
                     break;
                 case CustomRoles.FireWorks:
                     FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
-                    break;
-                case CustomRoles.Sniper:
-                    Sniper.ShapeShiftCheck(shapeshifter, shapeshifting);
                     break;
                 case CustomRoles.Warlock:
                     if (Main.CursedPlayers[shapeshifter.PlayerId] != null)//呪われた人がいるか確認
@@ -424,14 +443,13 @@ namespace TownOfHost
             }
 
             Main.PuppeteerList.Clear();
-            Sniper.OnStartMeeting();
+            Sniper.OnReportDeadBody();
             Vampire.OnStartMeeting();
 
             if (__instance.Data.IsDead) return true;
             //=============================================
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
-
 
             Main.AllPlayerControls
                 .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
@@ -455,9 +473,11 @@ namespace TownOfHost
         public static void Postfix(PlayerControl __instance)
         {
             var player = __instance;
-            TargetArrow.OnFixedUpdate(player);
 
             if (!GameStates.IsModHost) return;
+
+            TargetArrow.OnFixedUpdate(player);
+            Sniper.OnFixedUpdate(player);
 
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
@@ -721,7 +741,7 @@ namespace TownOfHost
                         Main.PuppeteerList.ContainsKey(target.PlayerId))
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
                     }
-                    if (Sniper.IsEnable() && target.AmOwner)
+                    if (Sniper.IsEnable && target.AmOwner)
                     {
                         //銃声が聞こえるかチェック
                         Mark += Sniper.GetShotNotify(target.PlayerId);

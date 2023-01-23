@@ -391,6 +391,8 @@
 "FireWorksRadius","Firework Explosion Radius","花火の爆発半径","烟花商人烟花爆炸半径","煙火工匠的煙火爆炸半徑","Радиус Фейерверка","Alcance da Explosão"
 "SniperBulletCount","Ammo","所持弾数","最大子弹数量","子彈最大數量","Количество Пуль у Sniper","Balas"
 "SniperPrecisionShooting","Precision Firing","精密射撃モード","精准射击模式","精準射擊模式","Точный Выстрел","Tiro Com Precisão"
+"SniperAimAssist","Aim Assist","エイムアシスト","","","",""
+"SniperAimAssistOneshot","One shot Assist","単発アシスト","","","",""
 "NumberOfLovers","Number Of Lovers (Pairs)","ラバーズの組数(x2人数)","恋人对数","戀人最大數量(2位玩家)","Количество Lovers (x2участника)","Quantidade de Amantes (Pares)"
 "TimeThiefDecreaseMeetingTime","Time Thief Time Stolen","減少する会議時間","蚀时者每次击杀缩短的会议时间","時間小偷每次殺人減少的會議時間","Уменьшить Длительность Обсуждения На","Tempo Roubado de Reunião"
 "TimeThiefLowerLimitVotingTime","Minimum Voting Time","投票時間の下限","蚀时者存活时会议时间最低下限","時間小偷在場時會議時間最低下限","Уменьшить Длительность Голосования На","Tempo Mínimo de Votação"

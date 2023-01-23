@@ -681,11 +681,8 @@ namespace TownOfHost
                 //呪われている場合
                 SelfMark += Witch.GetSpelledMark(seer.PlayerId, isMeeting);
 
-                if (Sniper.IsEnable())
-                {
-                    //銃声が聞こえるかチェック
-                    SelfMark += Sniper.GetShotNotify(seer.PlayerId);
-                }
+                //銃声が聞こえるかチェック
+                SelfMark += Sniper.GetShotNotify(seer.PlayerId);
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
 
