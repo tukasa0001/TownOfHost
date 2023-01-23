@@ -44,7 +44,7 @@ namespace TownOfHost
             }
             __instance.GameSettings.text = OptionShower.GetText();
             __instance.GameSettings.fontSizeMin =
-            __instance.GameSettings.fontSizeMax = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || Main.ForceJapanese.Value) ? 1.05f : 1.2f;
+            __instance.GameSettings.fontSizeMax = 1.2f;
             //ゲーム中でなければ以下は実行されない
             if (!AmongUsClient.Instance.IsGameStarted) return;
 
@@ -58,7 +58,7 @@ namespace TownOfHost
                         __instance.AbilityButton.OverrideText(Sniper.OverrideShapeText(player.PlayerId));
                         break;
                     case CustomRoles.FireWorks:
-                        if (FireWorks.nowFireWorksCount[player.PlayerId] == 0)
+                        if (FireWorks.nowFireWorksCount.ContainsKey(player.PlayerId) && FireWorks.nowFireWorksCount[player.PlayerId] == 0)
                             __instance.AbilityButton.OverrideText($"{GetString("FireWorksExplosionButtonText")}");
                         else
                             __instance.AbilityButton.OverrideText($"{GetString("FireWorksInstallAtionButtonText")}");
@@ -67,7 +67,7 @@ namespace TownOfHost
                         SerialKiller.GetAbilityButtonText(__instance, player);
                         break;
                     case CustomRoles.Warlock:
-                        if (!Main.CheckShapeshift[player.PlayerId] && !Main.isCurseAndKill[player.PlayerId])
+                        if (Main.CheckShapeshift.ContainsKey(player.PlayerId) && !Main.CheckShapeshift[player.PlayerId] && !Main.isCurseAndKill[player.PlayerId])
                         {
                             __instance.KillButton.OverrideText($"{GetString("WarlockCurseButtonText")}");
                         }
@@ -75,6 +75,19 @@ namespace TownOfHost
                         {
                             __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
                         }
+                        break;
+                    case CustomRoles.Assassin:
+                        if (Main.CheckShapeshift.ContainsKey(player.PlayerId) && !Main.CheckShapeshift[player.PlayerId] && !Main.isMarkAndKill[player.PlayerId])
+                        {
+                            __instance.KillButton.OverrideText($"{GetString("AssassinMarkButtonText")}");
+                        }
+                        else
+                        {
+                            __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
+                        }
+                        break;
+                    case CustomRoles.Miner:
+                        __instance.AbilityButton.OverrideText($"{GetString("MinerTeleButtonText")}");
                         break;
                     case CustomRoles.Witch:
                         Witch.GetAbilityButtonText(__instance);
