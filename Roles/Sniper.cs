@@ -45,6 +45,8 @@ namespace TownOfHost
             Logger.Disable("Sniper");
 
             playerIdList = new();
+            IsEnable = false;
+
             snipeBasePosition = new();
             LastPosition = new();
             snipeTarget = new();
@@ -62,6 +64,8 @@ namespace TownOfHost
         public static void Add(byte playerId)
         {
             playerIdList.Add(playerId);
+            IsEnable= true;
+
             snipeBasePosition[playerId] = new();
             LastPosition[playerId] = new();
             snipeTarget[playerId] = 0x7F;
@@ -70,7 +74,7 @@ namespace TownOfHost
             IsAim[playerId] = false;
             AimTime[playerId] = 0f;
         }
-        public static bool IsEnable => playerIdList.Count > 0;
+        public static bool IsEnable;
         public static bool IsThisRole(byte playerId) => playerIdList.Contains(playerId);
         public static void SendRPC(byte playerId)
         {
