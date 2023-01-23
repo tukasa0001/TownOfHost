@@ -362,12 +362,11 @@ namespace TownOfHost
                         float dis;
                         foreach (PlayerControl p in Main.AllAlivePlayerControls)
                         {
-                            if (p != cp)
-                            {
-                                dis = Vector2.Distance(cppos, p.transform.position);
-                                cpdistance.Add(p, dis);
-                                Logger.Info($"{p?.Data?.PlayerName}の位置{dis}", "Warlock");
-                            }
+                            if (!Options.WarlockCanKillSelf.GetBool() && cp == p) continue;
+                            if (!Options.WarlockCanKillAllies.GetBool() && p.Is(CustomRoles.Impostor)) continue;
+                            dis = Vector2.Distance(cppos, p.transform.position);
+                            cpdistance.Add(p, dis);
+                            Logger.Info($"{p?.Data?.PlayerName}の位置{dis}", "Warlock");
                         }
                         var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
                         PlayerControl targetw = min.Key;

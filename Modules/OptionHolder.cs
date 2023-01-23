@@ -77,6 +77,8 @@ namespace TownOfHost
         public static OptionItem EnableGM;
         public static float DefaultKillCooldown = Main.NormalOptions?.KillCooldown ?? 20;
         public static OptionItem VampireKillDelay;
+        public static OptionItem WarlockCanKillAllies;
+        public static OptionItem WarlockCanKillSelf;
         //public static CustomOption ShapeMasterShapeshiftDuration;
         public static OptionItem DefaultShapeshiftCooldown;
         public static OptionItem CanMakeMadmateCount;
@@ -363,6 +365,8 @@ namespace TownOfHost
             VampireKillDelay = FloatOptionItem.Create(1310, "VampireKillDelay", new(1f, 1000f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Vampire])
                 .SetValueFormat(OptionFormat.Seconds);
             SetupRoleOptions(1400, TabGroup.ImpostorRoles, CustomRoles.Warlock);
+            WarlockCanKillAllies = BooleanOptionItem.Create(901406, "WarlockCanKillAllies", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Warlock]);
+            WarlockCanKillSelf = BooleanOptionItem.Create(901408, "WarlockCanKillSelf", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Warlock]);
             SetupRoleOptions(901455, TabGroup.ImpostorRoles, CustomRoles.Assassin);
             SetupRoleOptions(901585, TabGroup.ImpostorRoles, CustomRoles.Hacker);
             HackKillDelay = FloatOptionItem.Create(901587, "HackKillDelay", new(5f, 999f, 5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])

@@ -362,12 +362,6 @@ RandomMapsModeInfo,随机地图:\n随机选择地图游玩的模式。(可以进
 DisableDevicesInfo,禁用设备:\n可以禁用各种设备。,禁用設備:\n可以禁用各種設備。
 
 ## 詳細設定
-MaxNNotity,警告：设置小于15可能出现普通工程师,警告：設置小於15可能出現普通工程師
-MinNK,最小带刀中立人数,最少帶刀中立人數
-MaxNK,最大带刀中立人数,最多帶刀中立人數
-MinNNK,最小无刀中立人数,最少無刀中立人數
-MaxNNK,最大无刀中立人数,最多無刀中立人數
-TestAssignMode,尝试随机分配职业（别开）,嘗試隨機分配職業（別開）
 Cooldown,冷却时间,冷卻時間
 KillCooldown,击杀冷却时间,殺人冷卻時間
 CanVent,可以使用通风管道,可以使用通風口
@@ -375,6 +369,8 @@ ImpostorVision,拥有内鬼视野,擁有狼人的視野
 CanUseSabotage,可以破坏,可以破壞
 CanCreateMadmate,可以指名叛徒,可以招募叛徒
 
+WarlockCanKillAllies,可以击杀队友,可以擊殺隊友
+WarlockCanKillSelf,可以击杀自己,可以擊殺自己
 BountyTargetChangeTime,赏金目标切换时间,賞金目標切換時間
 BountySuccessKillCooldown,赏金猎人击杀赏金目标的奖励冷却时间,賞金獵人殺死賞金目標冷卻
 BountyFailureKillCooldown,赏金猎人击杀赏金目标以外玩家的惩罚冷却时间,賞金獵人殺死非賞金目標冷卻
