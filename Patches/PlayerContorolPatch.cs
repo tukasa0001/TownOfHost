@@ -473,12 +473,10 @@ namespace TownOfHost
         public static void Postfix(PlayerControl __instance)
         {
             var player = __instance;
+
+            if (!GameStates.IsModHost) return;
+
             TargetArrow.OnFixedUpdate(player);
-
-            if (!GameStates.IsModHost) return;
-
-            if (!GameStates.IsModHost) return;
-
             Sniper.OnFixedUpdate(player);
 
             if (AmongUsClient.Instance.AmHost)
