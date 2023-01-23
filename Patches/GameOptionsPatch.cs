@@ -39,12 +39,12 @@ namespace TownOfHost
             if (__instance.Role.Role == RoleTypes.Shapeshifter)
             {
                 __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.Shapeshifter);
-                if (CustomRoles.SerialKiller.IsEnable() || CustomRoles.Warlock.IsEnable() || CustomRoles.BountyHunter.IsEnable()/* || CustomRoles.ShapeMaster.IsEnable()*/) forced = true;
+                if (CustomRoles.SerialKiller.IsEnable() || CustomRoles.Warlock.IsEnable() || CustomRoles.Assassin.IsEnable() || CustomRoles.BountyHunter.IsEnable() || CustomRoles.Miner.IsEnable()) forced = true;
             }
 
             if (forced)
             {
-                ((TMPro.TMP_Text)__instance.ChanceText).text = "Always";
+                ((TMPro.TMP_Text)__instance.ChanceText).text = "禁用概率";
             }
         }
     }
