@@ -162,6 +162,8 @@ namespace TownOfHost.Modules
                 case CustomRoles.JSchrodingerCat:
                     Jackal.ApplyGameOptions(opt);
                     break;
+                case CustomRoles.Plumber:
+                    goto InfinityVent;
 
 
                 InfinityVent:
