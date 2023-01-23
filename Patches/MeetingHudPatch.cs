@@ -13,6 +13,7 @@ namespace TownOfHost
         public static bool Prefix(MeetingHud __instance)
         {
             if (!AmongUsClient.Instance.AmHost) return true;
+            var voteLog = Logger.Handler("Vote");
             try
             {
                 List<MeetingHud.VoterState> statesList = new();
@@ -65,7 +66,7 @@ namespace TownOfHost
                 {
                     PlayerVoteArea ps = __instance.playerStates[i];
                     if (ps == null) continue;
-                    Logger.Info(string.Format("{0,-2}{1}:{2,-3}{3}", ps.TargetPlayerId, Utils.PadRightV2($"({Utils.GetVoteName(ps.TargetPlayerId)})", 40), ps.VotedFor, $"({Utils.GetVoteName(ps.VotedFor)})"), "Vote");
+                    voteLog.Info(string.Format("{0,-2}{1}:{2,-3}{3}", ps.TargetPlayerId, Utils.PadRightV2($"({Utils.GetVoteName(ps.TargetPlayerId)})", 40), ps.VotedFor, $"({Utils.GetVoteName(ps.VotedFor)})"));
                     var voter = Utils.GetPlayerById(ps.TargetPlayerId);
                     if (voter == null || voter.Data == null || voter.Data.Disconnected) continue;
                     if (Options.VoteMode.GetBool())
@@ -80,11 +81,11 @@ namespace TownOfHost
                             {
                                 case VoteMode.Suicide:
                                     TryAddAfterMeetingDeathPlayers(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                    Logger.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました", "Vote");
+                                    voteLog.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました");
                                     break;
                                 case VoteMode.SelfVote:
                                     ps.VotedFor = ps.TargetPlayerId;
-                                    Logger.Info($"スキップしたため{voter.GetNameWithRole()}に自投票させました", "Vote");
+                                    voteLog.Info($"スキップしたため{voter.GetNameWithRole()}に自投票させました");
                                     break;
                                 default:
                                     break;
@@ -96,15 +97,15 @@ namespace TownOfHost
                             {
                                 case VoteMode.Suicide:
                                     TryAddAfterMeetingDeathPlayers(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                    Logger.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました", "Vote");
+                                    voteLog.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました");
                                     break;
                                 case VoteMode.SelfVote:
                                     ps.VotedFor = ps.TargetPlayerId;
-                                    Logger.Info($"無投票のため{voter.GetNameWithRole()}に自投票させました", "Vote");
+                                    voteLog.Info($"無投票のため{voter.GetNameWithRole()}に自投票させました");
                                     break;
                                 case VoteMode.Skip:
                                     ps.VotedFor = 253;
-                                    Logger.Info($"無投票のため{voter.GetNameWithRole()}にスキップさせました", "Vote");
+                                    voteLog.Info($"無投票のため{voter.GetNameWithRole()}にスキップさせました");
                                     break;
                                 default:
                                     break;
@@ -133,27 +134,27 @@ namespace TownOfHost
                 var VotingData = __instance.CustomCalculateVotes();
                 byte exileId = byte.MaxValue;
                 int max = 0;
-                Logger.Info("===追放者確認処理開始===", "Vote");
+                voteLog.Info("===追放者確認処理開始===");
                 foreach (var data in VotingData)
                 {
-                    Logger.Info($"{data.Key}({Utils.GetVoteName(data.Key)}):{data.Value}票", "Vote");
+                    voteLog.Info($"{data.Key}({Utils.GetVoteName(data.Key)}):{data.Value}票");
                     if (data.Value > max)
                     {
-                        Logger.Info(data.Key + "番が最高値を更新(" + data.Value + ")", "Vote");
+                        voteLog.Info(data.Key + "番が最高値を更新(" + data.Value + ")");
                         exileId = data.Key;
                         max = data.Value;
                         tie = false;
                     }
                     else if (data.Value == max)
                     {
-                        Logger.Info(data.Key + "番が" + exileId + "番と同数(" + data.Value + ")", "Vote");
+                        voteLog.Info(data.Key + "番が" + exileId + "番と同数(" + data.Value + ")");
                         exileId = byte.MaxValue;
                         tie = true;
                     }
-                    Logger.Info($"exileId: {exileId}, max: {max}票", "Vote");
+                    voteLog.Info($"exileId: {exileId}, max: {max}票");
                 }
 
-                Logger.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})", "Vote");
+                voteLog.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})");
 
                 if (Options.VoteMode.GetBool() && Options.WhenTie.GetBool() && tie)
                 {
@@ -367,12 +368,9 @@ namespace TownOfHost
                     pva.NameText.text += $"({Utils.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), Utils.GetVitalText(target.PlayerId))})";
 
                 //インポスター表示
-                bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
-                bool LocalPlayerKnowsEgoist = false; //trueの時にエゴイストの名前の色を変える
                 switch (seer.GetCustomRole().GetRoleType())
                 {
                     case RoleType.Impostor:
-                        LocalPlayerKnowsEgoist = true;
                         if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
                             pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★"); //変更対象にSnitchマークをつける
                         pva.NameText.text += Snitch.GetWarningMark(seer, target);
@@ -380,12 +378,6 @@ namespace TownOfHost
                 }
                 switch (seer.GetCustomRole())
                 {
-                    case CustomRoles.MadSnitch:
-                        if (seer.GetPlayerTaskState().IsTaskFinished) //seerがタスクを終えている
-                        {
-                            LocalPlayerKnowsImpostor = true;
-                        }
-                        break;
                     case CustomRoles.Arsonist:
                         if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
                             pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), "▲");
@@ -402,13 +394,6 @@ namespace TownOfHost
                         break;
                 }
 
-                switch (target.GetCustomRole())
-                {
-                    case CustomRoles.Egoist:
-                        if (LocalPlayerKnowsEgoist)
-                            pva.NameText.color = Utils.GetRoleColor(CustomRoles.Egoist); //変更対象の名前の色変更
-                        break;
-                }
                 foreach (var subRole in target.GetCustomSubRoles())
                 {
                     switch (subRole)
@@ -420,11 +405,6 @@ namespace TownOfHost
                     }
                 }
 
-                if (LocalPlayerKnowsImpostor)
-                {
-                    if (target != null && target.GetCustomRole().IsImpostor()) //変更先がインポスター
-                        pva.NameText.color = Palette.ImpostorRed; //変更対象の名前を赤くする
-                }
                 //呪われている場合
                 pva.NameText.text += Witch.GetSpelledMark(target.PlayerId, true);
 

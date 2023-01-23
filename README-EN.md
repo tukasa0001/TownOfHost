@@ -328,9 +328,6 @@ Unless they kill before the time runs out, they kill themselves instantly.<br>
 
 ### ShapeMaster
 
-> **Warning**
-> Unavailable.
-
 Create and idea by しゅー<br>
 
 Team : Impostors<br>
@@ -726,6 +723,24 @@ the word contains prohibited characters
 | Name            |
 | --------------- |
 | Freeze Duration |
+
+### TimeManager
+
+Created by じゅきまぐろ<br>
+Original idea by おしゅし<br>
+
+Team : Crewmates<br>
+Basis : Crewmate<br>
+
+The more tasks you do, the longer your meeting will last.<br>
+When you die, the meeting time will be restored.<br>
+
+#### Game Options
+
+| Name                 |
+| -------------------- |
+| Increase Voting Time |
+| Increase Limit       |
 
 
 ## Neutral
