@@ -56,6 +56,12 @@ namespace TownOfHost
 
                 exiled.IsDead = true;
                 Main.PlayerStates[exiled.PlayerId].deathReason = PlayerState.DeathReason.Vote;
+                //if (Main.showEjections)
+                //{
+                //    //exiled.Object.Data.PlayerName = Main.LastVotedPlayer;
+                //    //exiled.Object.name = Main.LastVotedPlayer;
+                //    exiled.Object.RpcSetName(Main.LastVotedPlayer);
+                //}
                 var role = exiled.GetCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {

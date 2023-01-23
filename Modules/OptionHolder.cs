@@ -113,6 +113,14 @@ namespace TownOfHost
         public static OptionItem ArsonistCooldown;
         public static OptionItem KillFlashDuration;
 
+        public static OptionItem ConfirmEjections;
+        public static OptionItem ConfirmEjectionsNK;
+        public static OptionItem ConfirmEjectionsNonNK;
+        public static OptionItem ConfirmEjectionsNKAsImp;
+        public static OptionItem ConfirmEjectionsRoles;
+        public static OptionItem ShowImpRemainOnEject;
+        public static OptionItem ShowNKRemainOnEject;
+
         public static OptionItem ParanoiaVentCooldown;
         public static OptionItem ParanoiaNumOfUseButton;
         public static OptionItem PsychicCanSeeNum;
@@ -493,6 +501,15 @@ namespace TownOfHost
                 .SetHeader(true)
                 .SetValueFormat(OptionFormat.Seconds)
                 .SetGameMode(CustomGameMode.Standard);
+
+            ConfirmEjections = BooleanOptionItem.Create(6090105, "ConfirmEjections", true, TabGroup.MainSettings, false)
+                .SetHeader(true);
+            ConfirmEjectionsNK = BooleanOptionItem.Create(6090107, "ConfirmEjectionsNK", false, TabGroup.MainSettings, false).SetParent(ConfirmEjections);
+            ConfirmEjectionsNonNK = BooleanOptionItem.Create(6090109, "ConfirmEjectionsNonNK", false, TabGroup.MainSettings, false).SetParent(ConfirmEjections);
+            ConfirmEjectionsNKAsImp = BooleanOptionItem.Create(6090111, "ConfirmEjectionsNKAsImp", false, TabGroup.MainSettings, false).SetParent(ConfirmEjections);
+            ConfirmEjectionsRoles = BooleanOptionItem.Create(6090113, "ConfirmEjectionsRoles", false, TabGroup.MainSettings, false);
+            ShowImpRemainOnEject = BooleanOptionItem.Create(6090115, "ShowImpRemainOnEject", true, TabGroup.MainSettings, false);
+            ShowNKRemainOnEject = BooleanOptionItem.Create(6090119, "ShowNKRemainOnEject", true, TabGroup.MainSettings, false).SetParent(ShowImpRemainOnEject);
 
             // HideAndSeek
             SetupRoleOptions(100000, TabGroup.MainSettings, CustomRoles.HASFox, CustomGameMode.HideAndSeek);

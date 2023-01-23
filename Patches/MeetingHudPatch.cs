@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using Il2CppSystem.Web.Util;
 using UnityEngine;
 using static TownOfHost.Translator;
+using static UnityEngine.GraphicsBuffer;
 
 namespace TownOfHost
 {
@@ -194,9 +196,92 @@ namespace TownOfHost
                     Witch.OnCheckForEndVoting(exileId);
                 }
 
+                var realName = exiledPlayer.Object.GetRealName(isMeeting: true);
+                Main.LastVotedPlayer = realName;
+                // 驱逐确认，参考：https://github.com/music-discussion/TownOfHost-TheOtherRoles
+                if (exiledPlayer.PlayerId == exileId)
+                {
+                    var player = Utils.GetPlayerById(exiledPlayer.PlayerId);
+                    var role = GetString(exiledPlayer.GetCustomRole().ToString());
+                    var crole = exiledPlayer.GetCustomRole();
+                    var coloredRole = Utils.ColorString(Utils.GetRoleColor(exiledPlayer.GetCustomRole()), $"{role}");
+                    var name = "";
+                    int impnum = 0;
+                    int neutralnum = 0;
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc == null || pc.Data.IsDead || pc.Data.Disconnected) continue;
+                        var pc_role = pc.GetCustomRole();
+                        if (pc_role.IsImpostor() && pc != exiledPlayer.Object)
+                            impnum++;
+                        else if (pc_role.IsNeutralKilling() && pc != exiledPlayer.Object)
+                            neutralnum++;
+                    }
+                    if (Options.ConfirmEjectionsRoles.GetBool())
+                    {
+                        name = $"{realName} 是 {coloredRole}";
+                    }
+                    else
+                    {
+                        if (CustomRolesHelper.IsImpostor(player.GetCustomRole()))
+                        {
+                            name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
+                        }
+                        else
+                        {
+                            name = $"{realName} 是个好人，真的";
+                        }
+                        if (Options.ConfirmEjectionsNK.GetBool() && CustomRolesHelper.IsNK(player.GetCustomRole())){
+                            if (Options.ConfirmEjectionsNKAsImp.GetBool())
+                            {
+                                name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
+                            }
+                            else
+                            {
+                                name = $"{realName} 属于 " + Utils.ColorString(Color.cyan, "中立阵营");
+                            }
+                        }
+                        if (Options.ConfirmEjectionsNonNK.GetBool() && CustomRolesHelper.IsNNK(player.GetCustomRole())){
+                            if (Options.ConfirmEjectionsNKAsImp.GetBool())
+                            {
+                                name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
+                            }
+                            else
+                            {
+                                name = $"{realName} 属于 " + Utils.ColorString(Color.cyan, "中立阵营");
+                            }
+                        }
+                    }
+                    if (crole == CustomRoles.Jester)
+                        name = $"票出 {realName} 让你有种不详的预感\n{coloredRole} 在狂笑着...<size=0>";
+                    if (Executioner.Target.ContainsValue(exileId))
+                        name = $"票出 {realName} 让你有种不详的预感\n他是 {coloredRole}，而他的背后传来处刑者阴沉的笑声...<size=0>";
+                    if (Options.ShowImpRemainOnEject.GetBool() && crole != CustomRoles.Jester && !Executioner.Target.ContainsValue(exileId))
+                    {
+                        name += "\n";
+                        string comma = neutralnum != 0 ? "，" : "";
+                        if (impnum != 0)
+                        {
+                            name += $"已经没有内鬼啦{comma}";
+                        }
+                        else
+                        {
+                            name += $"剩余 {impnum} 个内鬼{comma}";
+                        }
+                        
+                        if (Options.ShowNKRemainOnEject.GetBool() && neutralnum != 0)
+                            name += $"剩余 {neutralnum} 个中立";
+                        name += "<size=0>";
+                    }
+                    player.RpcSetName(name);
+                    new LateTask(() =>
+                    {
+                        player.RpcSetName(realName);
+                    }, 10.5f, "Change Back Exiled Player Name");
+                }
+
                 FollowingSuicideOnExile(exileId);
                 RevengeOnExile(exileId);
-
                 return false;
             }
             catch (Exception ex)

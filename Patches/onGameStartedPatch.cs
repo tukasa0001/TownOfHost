@@ -54,6 +54,8 @@ namespace TownOfHost
                 ReportDeadBodyPatch.CanReport = new();
 
                 Options.UsedButtonCount = 0;
+
+                GameOptionsManager.Instance.currentNormalGameOptions.ConfirmImpostor = false;
                 Main.RealOptionsData = new OptionBackupData(GameOptionsManager.Instance.CurrentGameOptions);
 
                 Main.introDestroyed = false;
