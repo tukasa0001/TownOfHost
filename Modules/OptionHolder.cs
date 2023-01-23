@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HarmonyLib;
+using Steamworks;
 using UnityEngine;
 
 namespace TownOfHost
@@ -113,6 +114,7 @@ namespace TownOfHost
         public static OptionItem ArsonistCooldown;
         public static OptionItem KillFlashDuration;
 
+        public static OptionItem TrueRandomeRoles;
         public static OptionItem ConfirmEjections;
         public static OptionItem ConfirmEjectionsNK;
         public static OptionItem ConfirmEjectionsNonNK;
@@ -270,6 +272,9 @@ namespace TownOfHost
 
         public static OptionItem DIYGameSettings;
         public static OptionItem PlayerCanSerColor;
+
+        //Add-Ons
+        public static OptionItem LoverSpawnChances;
 
         public static readonly string[] suffixModes =
         {
@@ -497,12 +502,11 @@ namespace TownOfHost
             LastImpostor.SetupCustomOption();
             #endregion
 
-            KillFlashDuration = FloatOptionItem.Create(90000, "KillFlashDuration", new(0.1f, 0.45f, 0.05f), 0.2f, TabGroup.MainSettings, false)
+            TrueRandomeRoles = BooleanOptionItem.Create(6090055, "TrueRandomeRoles", true, TabGroup.MainSettings, false)
                 .SetHeader(true)
-                .SetValueFormat(OptionFormat.Seconds)
-                .SetGameMode(CustomGameMode.Standard);
+                .SetColor(Color.green);
 
-            ConfirmEjections = BooleanOptionItem.Create(6090105, "ConfirmEjections", true, TabGroup.MainSettings, false)
+            ConfirmEjections = BooleanOptionItem.Create(6090105, "ConfirmEjections", false, TabGroup.MainSettings, false)
                 .SetHeader(true);
             ConfirmEjectionsNK = BooleanOptionItem.Create(6090107, "ConfirmEjectionsNK", false, TabGroup.MainSettings, false).SetParent(ConfirmEjections);
             ConfirmEjectionsNonNK = BooleanOptionItem.Create(6090109, "ConfirmEjectionsNonNK", false, TabGroup.MainSettings, false).SetParent(ConfirmEjections);
@@ -510,6 +514,11 @@ namespace TownOfHost
             ConfirmEjectionsRoles = BooleanOptionItem.Create(6090113, "ConfirmEjectionsRoles", false, TabGroup.MainSettings, false);
             ShowImpRemainOnEject = BooleanOptionItem.Create(6090115, "ShowImpRemainOnEject", true, TabGroup.MainSettings, false);
             ShowNKRemainOnEject = BooleanOptionItem.Create(6090119, "ShowNKRemainOnEject", true, TabGroup.MainSettings, false).SetParent(ShowImpRemainOnEject);
+
+            KillFlashDuration = FloatOptionItem.Create(90000, "KillFlashDuration", new(0.1f, 0.45f, 0.05f), 0.2f, TabGroup.MainSettings, false)
+                .SetHeader(true)
+                .SetValueFormat(OptionFormat.Seconds)
+                .SetGameMode(CustomGameMode.Standard);
 
             // HideAndSeek
             SetupRoleOptions(100000, TabGroup.MainSettings, CustomRoles.HASFox, CustomGameMode.HideAndSeek);
@@ -755,6 +764,9 @@ namespace TownOfHost
             var role = CustomRoles.Lovers;
             var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
                 .SetHeader(true)
+                .SetGameMode(customGameMode) as StringOptionItem;
+
+            LoverSpawnChances = StringOptionItem.Create(id + 2, "LoverSpawnChances", rates, 3, TabGroup.Addons, false).SetParent(spawnOption)
                 .SetGameMode(customGameMode) as StringOptionItem;
 
             var countOption = IntegerOptionItem.Create(id + 1, "NumberOfLovers", new(2, 2, 1), 2, TabGroup.Addons, false).SetParent(spawnOption)

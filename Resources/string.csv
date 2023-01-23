@@ -438,6 +438,7 @@ EvilTrackerCanSeeKillFlash,内鬼进行击杀时可见击杀闪光,當狼人隊�
 EvilTrackerResetTargetAfterMeeting,会议后重置追踪目标,會議後重置追蹤目標
 EvilTrackerCanSeeLastRoomInMeeting,邪恶追踪者可以看见船员位置,邪惡追踪者可以看見船員位置
 KillFlashDuration,击杀闪烁持续时间,殺人閃光持續時間
+TrueRandomeRoles,尝试真随机分配职业（试验性）,嘗試真隨機分配職業（試驗性）
 ConfirmEjections,驱逐时确认阵营
 ConfirmEjectionsNK,确认带刀中立阵营
 ConfirmEjectionsNonNK,确认无刀中立阵营
@@ -445,7 +446,6 @@ ConfirmEjectionsNKAsImp,确认时中立阵营视作内鬼阵营
 ConfirmEjectionsRoles,驱逐时确认具体职业
 ShowImpRemainOnEject,驱逐时显示剩余内鬼
 ShowNKRemainOnEject,同时显示剩余中立
-
 WitchModeSwitchAction,切换击杀模式,切換模式操作
 TriggerKill,击杀,殺人鍵
 TriggerVent,通风管,通風口

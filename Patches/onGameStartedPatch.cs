@@ -171,9 +171,11 @@ namespace TownOfHost
                 if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
                 {
                     //役職の人数を指定
+                    Random rd = Utils.RandomSeedByGuid();
                     var roleOpt = Main.NormalOptions.roleOptions;
                     int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
                     int AdditionalScientistNum = CustomRoles.Doctor.GetCount();
+                    if (Options.TrueRandomeRoles.GetBool()) ScientistNum = rd.Next(0, ScientistNum + 1);
                     roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum + AdditionalScientistNum, AdditionalScientistNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Scientist));
 
                     int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
@@ -186,12 +188,14 @@ namespace TownOfHost
                     if (Options.MadSnitchCanVent.GetBool())
                         AdditionalEngineerNum += CustomRoles.MadSnitch.GetCount();
 
+                    if (Options.TrueRandomeRoles.GetBool()) EngineerNum = rd.Next(0, EngineerNum + 1);
                     roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                     int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
                     int AdditionalShapeshifterNum = CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount() + CustomRoles.Assassin.GetCount() + CustomRoles.Miner.GetCount() + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.EvilTracker.GetCount();//- ShapeshifterNum;
                     if (Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1)
                         AdditionalShapeshifterNum += CustomRoles.Egoist.GetCount();
+                    if (Options.TrueRandomeRoles.GetBool()) ShapeshifterNum = rd.Next(0, ShapeshifterNum + 1);
                     roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
 
@@ -312,51 +316,74 @@ namespace TownOfHost
             }
             else
             {
+                List<int> funList = new();
+                for (int i = 0; i <= 40; i++) {funList.Add(i);}
 
-                AssignCustomRolesFromList(CustomRoles.FireWorks, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Sniper, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Jester, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Madmate, Engineers);
-                AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.MadSnitch, Options.MadSnitchCanVent.GetBool() ? Engineers : Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Mayor, Options.MayorHasPortableButton.GetBool() ? Engineers : Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.SabotageMaster, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Mafia, Impostors);
-                AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
-                AssignCustomRolesFromList(CustomRoles.Executioner, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
-                AssignCustomRolesFromList(CustomRoles.BountyHunter, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Witch, Impostors);
-                //AssignCustomRolesFromList(CustomRoles.ShapeMaster, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
-                AssignLoversRolesFromList();
-                AssignCustomRolesFromList(CustomRoles.SpeedBooster, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Trapper, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Dictator, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.SchrodingerCat, Crewmates);
-                if (Options.IsEvilWatcher) AssignCustomRolesFromList(CustomRoles.Watcher, Impostors);
-                else AssignCustomRolesFromList(CustomRoles.Watcher, Crewmates);
-                if (Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1)
-                    AssignCustomRolesFromList(CustomRoles.Egoist, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Mare, Impostors);
-                AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
-                AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
-                AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
-                AssignCustomRolesFromList(CustomRoles.EvilTracker, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Seer, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Paranoia, Engineers);
-                AssignCustomRolesFromList(CustomRoles.Miner, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Psychic, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Plumber, Engineers);
-                AssignCustomRolesFromList(CustomRoles.Needy, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.SuperStar, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Hacker, Impostors);
-                AssignCustomRolesFromList(CustomRoles.Assassin, Shapeshifters);
+                Random rd = new();
+                int index = 0;
+                int temp;
+                for (int i = 0; i < funList.Count; i++)
+                {
+                    index = rd.Next(0, funList.Count - 1);
+                    if (index != i)
+                    {
+                        temp = funList[i];
+                        funList[i] = funList[index];
+                        funList[index] = temp;
+                    }
+                }
+
+                funList.Remove(0);
+                if (rd.Next(0, 100) <= Options.LoverSpawnChances.GetInt()) funList.Insert(0, 0);
+                Dictionary<byte, int> tryTime = new();
+
+                foreach (int i in funList)
+                {
+                    switch (i)
+                    {
+                        case 0: AssignLoversRolesFromList(); break;
+                        case 1: AssignCustomRolesFromList(CustomRoles.Sniper, Shapeshifters); break;
+                        case 2: AssignCustomRolesFromList(CustomRoles.Jester, Crewmates); break;
+                        case 3: AssignCustomRolesFromList(CustomRoles.Madmate, Engineers); break;
+                        case 4: AssignCustomRolesFromList(CustomRoles.Bait, Crewmates); break;
+                        case 5: AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates); break;
+                        case 6: AssignCustomRolesFromList(CustomRoles.MadSnitch, Options.MadSnitchCanVent.GetBool() ? Engineers : Crewmates); break;
+                        case 7: AssignCustomRolesFromList(CustomRoles.Mayor, Options.MayorHasPortableButton.GetBool() ? Engineers : Crewmates); break;
+                        case 8: AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates); break;
+                        case 9: AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates); break;
+                        case 10: AssignCustomRolesFromList(CustomRoles.SabotageMaster, Crewmates); break;
+                        case 11: AssignCustomRolesFromList(CustomRoles.Mafia, Impostors); break;
+                        case 12: AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers); break;
+                        case 13: AssignCustomRolesFromList(CustomRoles.Executioner, Crewmates); break;
+                        case 14: AssignCustomRolesFromList(CustomRoles.Vampire, Impostors); break;
+                        case 15: AssignCustomRolesFromList(CustomRoles.BountyHunter, Shapeshifters); break;
+                        case 16: AssignCustomRolesFromList(CustomRoles.Witch, Impostors); break;
+                        case 17: AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters); break;
+                        case 18: AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters); break;
+                        case 19: AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates); break;
+                        case 20: AssignCustomRolesFromList(CustomRoles.FireWorks, Shapeshifters); break;
+                        case 21: AssignCustomRolesFromList(CustomRoles.SpeedBooster, Crewmates); break;
+                        case 22: AssignCustomRolesFromList(CustomRoles.Trapper, Crewmates); break;
+                        case 23: AssignCustomRolesFromList(CustomRoles.Dictator, Crewmates); break;
+                        case 24: AssignCustomRolesFromList(CustomRoles.SchrodingerCat, Crewmates); break;
+                        case 25: if (Options.IsEvilWatcher) AssignCustomRolesFromList(CustomRoles.Watcher, Impostors); else AssignCustomRolesFromList(CustomRoles.Watcher, Crewmates); break;
+                        case 26: if (Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1) AssignCustomRolesFromList(CustomRoles.Egoist, Shapeshifters); break;
+                        case 27: AssignCustomRolesFromList(CustomRoles.Mare, Impostors); break;
+                        case 28: AssignCustomRolesFromList(CustomRoles.Doctor, Scientists); break;
+                        case 29: AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors); break;
+                        case 30: AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors); break;
+                        case 31: AssignCustomRolesFromList(CustomRoles.EvilTracker, Shapeshifters); break;
+                        case 32: AssignCustomRolesFromList(CustomRoles.Seer, Crewmates); break;
+                        case 33: AssignCustomRolesFromList(CustomRoles.Paranoia, Engineers); break;
+                        case 34: AssignCustomRolesFromList(CustomRoles.Miner, Shapeshifters); break;
+                        case 35: AssignCustomRolesFromList(CustomRoles.Psychic, Crewmates); break;
+                        case 36: AssignCustomRolesFromList(CustomRoles.Plumber, Engineers); break;
+                        case 37: AssignCustomRolesFromList(CustomRoles.Needy, Crewmates); break;
+                        case 38: AssignCustomRolesFromList(CustomRoles.SuperStar, Crewmates); break;
+                        case 39: AssignCustomRolesFromList(CustomRoles.Hacker, Impostors); break;
+                        case 40: AssignCustomRolesFromList(CustomRoles.Assassin, Shapeshifters); break;
+                    }
+                }
 
                 //RPCによる同期
                 foreach (var pc in Main.AllPlayerControls)

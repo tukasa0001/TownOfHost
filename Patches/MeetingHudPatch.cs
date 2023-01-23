@@ -221,7 +221,7 @@ namespace TownOfHost
                     {
                         name = $"{realName} 是 {coloredRole}";
                     }
-                    else
+                    else if (Options.ConfirmEjections.GetBool())
                     {
                         if (CustomRolesHelper.IsImpostor(player.GetCustomRole()))
                         {
@@ -251,6 +251,10 @@ namespace TownOfHost
                                 name = $"{realName} 属于 " + Utils.ColorString(Color.cyan, "中立阵营");
                             }
                         }
+                    }
+                    else
+                    {
+                        name = $"{realName} 被驱逐了...";
                     }
                     if (crole == CustomRoles.Jester)
                         name = $"票出 {realName} 让你有种不详的预感\n{coloredRole} 在狂笑着...<size=0>";
