@@ -10,7 +10,7 @@ namespace TownOfHost
     public static class Sniper
     {
         static readonly int Id = 1800;
-        static List<byte> playerIdList = new();
+        static List<byte> PlayerIdList = new();
 
         static OptionItem SniperBulletCount;
         static OptionItem SniperPrecisionShooting;
@@ -44,7 +44,7 @@ namespace TownOfHost
         {
             Logger.Disable("Sniper");
 
-            playerIdList = new();
+            PlayerIdList = new();
             IsEnable = false;
 
             snipeBasePosition = new();
@@ -63,7 +63,7 @@ namespace TownOfHost
         }
         public static void Add(byte playerId)
         {
-            playerIdList.Add(playerId);
+            PlayerIdList.Add(playerId);
             IsEnable= true;
 
             snipeBasePosition[playerId] = new();
@@ -75,7 +75,7 @@ namespace TownOfHost
             AimTime[playerId] = 0f;
         }
         public static bool IsEnable;
-        public static bool IsThisRole(byte playerId) => playerIdList.Contains(playerId);
+        public static bool IsThisRole(byte playerId) => PlayerIdList.Contains(playerId);
         public static void SendRPC(byte playerId)
         {
             Logger.Info($"Player{playerId}:SendRPC", "Sniper");
