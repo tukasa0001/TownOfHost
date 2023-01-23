@@ -98,6 +98,12 @@ namespace TownOfHost
         public static bool isLoversDead = true;
         public static Dictionary<byte, float> AllPlayerKillCooldown = new();
 
+        public static Dictionary<byte, Vent> LastEnteredVent = new();
+        public static Dictionary<byte, Vector2> LastEnteredVentLocation = new();
+
+        public static Dictionary<byte, int> HackerUsedCount = new();
+        public static Dictionary<byte, List<byte>> PsychicTarget = new();
+
         /// <summary>
         /// 基本的に速度の代入は禁止.スピードは増減で対応してください.
         /// </summary>
@@ -105,8 +111,11 @@ namespace TownOfHost
         public const float MinSpeed = 0.0001f;
         public static Dictionary<byte, (byte, float)> BitPlayers = new();
         public static Dictionary<byte, float> WarlockTimer = new();
+        public static Dictionary<byte, float> AssassinTimer = new();
         public static Dictionary<byte, PlayerControl> CursedPlayers = new();
         public static Dictionary<byte, bool> isCurseAndKill = new();
+        public static Dictionary<byte, PlayerControl> MarkedPlayers = new();
+        public static Dictionary<byte, bool> isMarkAndKill = new();
         public static Dictionary<(byte, byte), bool> isDoused = new();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
         /// <summary>
