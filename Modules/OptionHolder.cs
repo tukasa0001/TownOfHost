@@ -502,16 +502,16 @@ namespace TownOfHost
             LastImpostor.SetupCustomOption();
             #endregion
 
-            TrueRandomeRoles = BooleanOptionItem.Create(6090055, "TrueRandomeRoles", true, TabGroup.MainSettings, false)
+            TrueRandomeRoles = BooleanOptionItem.Create(6090055, "TrueRandomeRoles", false, TabGroup.MainSettings, false)
                 .SetHeader(true)
                 .SetColor(Color.green);
 
             ConfirmEjections = BooleanOptionItem.Create(6090105, "ConfirmEjections", false, TabGroup.MainSettings, false)
                 .SetHeader(true);
-            ConfirmEjectionsNK = BooleanOptionItem.Create(6090107, "ConfirmEjectionsNK", false, TabGroup.MainSettings, false).SetParent(ConfirmEjections);
-            ConfirmEjectionsNonNK = BooleanOptionItem.Create(6090109, "ConfirmEjectionsNonNK", false, TabGroup.MainSettings, false).SetParent(ConfirmEjections);
+            ConfirmEjectionsNK = BooleanOptionItem.Create(6090107, "ConfirmEjectionsNK", true, TabGroup.MainSettings, false).SetParent(ConfirmEjections);
+            ConfirmEjectionsNonNK = BooleanOptionItem.Create(6090109, "ConfirmEjectionsNonNK", true, TabGroup.MainSettings, false).SetParent(ConfirmEjections);
             ConfirmEjectionsNKAsImp = BooleanOptionItem.Create(6090111, "ConfirmEjectionsNKAsImp", false, TabGroup.MainSettings, false).SetParent(ConfirmEjections);
-            ConfirmEjectionsRoles = BooleanOptionItem.Create(6090113, "ConfirmEjectionsRoles", false, TabGroup.MainSettings, false);
+            ConfirmEjectionsRoles = BooleanOptionItem.Create(6090113, "ConfirmEjectionsRoles", true, TabGroup.MainSettings, false);
             ShowImpRemainOnEject = BooleanOptionItem.Create(6090115, "ShowImpRemainOnEject", true, TabGroup.MainSettings, false);
             ShowNKRemainOnEject = BooleanOptionItem.Create(6090119, "ShowNKRemainOnEject", true, TabGroup.MainSettings, false).SetParent(ShowImpRemainOnEject);
 
