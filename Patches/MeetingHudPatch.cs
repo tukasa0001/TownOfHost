@@ -321,6 +321,104 @@ namespace TownOfHost
                     roleTextMeeting.enabled = true;
                 }
             }
+
+            if(AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Is(CustomRoles.Psychic))
+            {
+                System.Random rd = new();
+                int numOfPsychicBad = 0;
+                for (int i = 0; i < Options.PsychicCanSeeNum.GetInt(); i++)
+                {
+                    if (rd.Next(1, 100) < 18) numOfPsychicBad++;
+                }
+                if (numOfPsychicBad > Options.PsychicCanSeeNum.GetInt() || numOfPsychicBad < 1) numOfPsychicBad = 1;
+
+                List<byte> goodids = new();
+                List<byte> badids = new();
+                Dictionary<byte, bool> isGood = new();
+                if (!PlayerControl.LocalPlayer.Data.IsDead)
+                {
+                    if (PlayerControl.LocalPlayer.Is(CustomRoles.Psychic))
+                    {
+                        if (Options.PsychicFresh.GetBool() || !Main.PsychicTarget.ContainsKey(PlayerControl.LocalPlayer.PlayerId))
+                        {
+                            List<PlayerControl> badPlayers = new();
+                            List<PlayerControl> goodPlayers = new();
+                            foreach (var pc in PlayerControl.AllPlayerControls)
+                            {
+                                if (pc == null || pc.Data.IsDead || pc.Data.Disconnected || pc.PlayerId == PlayerControl.LocalPlayer.PlayerId) continue;
+                                isGood.Add(pc.PlayerId, true);
+                                var role = pc.GetCustomRole();
+                                switch (role.GetRoleType())
+                                {
+                                    case RoleType.Crewmate:
+                                        if (!Options.CkshowEvil.GetBool()) break;
+                                        if (role is CustomRoles.Sheriff)
+                                        {
+                                            badPlayers.Add(pc);
+                                            isGood[pc.PlayerId] = false;
+                                        }
+                                        break;
+                                    case RoleType.Impostor:
+                                        badPlayers.Add(pc); isGood[pc.PlayerId] = false;
+                                        break;
+                                    case RoleType.Neutral:
+                                        if (Options.NBshowEvil.GetBool())
+                                            if (role is CustomRoles.Opportunist or CustomRoles.SchrodingerCat)
+                                            {
+                                                badPlayers.Add(pc);
+                                                isGood[pc.PlayerId] = false;
+                                            }
+                                        if (Options.NEshowEvil.GetBool())
+                                        {
+                                            if (role.IsNeutralKilling()) badPlayers.Add(pc); isGood[pc.PlayerId] = false;
+                                            if (role is CustomRoles.Jester or CustomRoles.Terrorist or CustomRoles.Executioner)
+                                            {
+                                                badPlayers.Add(pc);
+                                                isGood[pc.PlayerId] = false;
+                                            }
+                                        }
+                                        break;
+                                }
+                                if (isGood[pc.PlayerId]) goodPlayers.Add(pc);
+                            }
+                            List<byte> badpcids = new();
+                            foreach (var p in badPlayers)
+                            {
+                                badpcids.Add(p.PlayerId);
+                            }
+                            if (numOfPsychicBad > Options.PsychicCanSeeNum.GetInt() || numOfPsychicBad < 1) numOfPsychicBad = 1;
+                            int goodPeople = Options.PsychicCanSeeNum.GetInt() - numOfPsychicBad;
+
+                            if (numOfPsychicBad != 0)
+                                for (var i = 0; i < numOfPsychicBad; i++)
+                                {
+                                    if (badPlayers.Count <= 0) break;
+                                    var rando = new System.Random();
+                                    var player = badPlayers[rando.Next(0, badPlayers.Count)];
+                                    badPlayers.Remove(player);
+                                    badids.Add(player.PlayerId);
+                                }
+                            if (goodPeople != 0)
+                                for (var i = 0; i < goodPeople; i++)
+                                {
+                                    if (goodPlayers.Count <= 0) break;
+                                    var rando = new System.Random();
+                                    var player = goodPlayers[rando.Next(0, goodPlayers.Count)];
+                                    goodPlayers.Remove(player);
+                                    goodids.Add(player.PlayerId);
+                                }
+
+                            byte pcid = PlayerControl.LocalPlayer.PlayerId;
+                            if (!Main.PsychicTarget.ContainsKey(pcid)) Main.PsychicTarget.Add(pcid, new List<byte>());
+                            Main.PsychicTarget[pcid] = new();
+                            Main.PsychicTarget[pcid].AddRange(goodids);
+                            Main.PsychicTarget[pcid].AddRange(badids);
+                        }
+
+                    }
+                }
+            }
+
             if (Options.SyncButtonMode.GetBool())
             {
                 Utils.SendMessage(string.Format(GetString("Message.SyncButtonLeft"), Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount));
@@ -414,6 +512,12 @@ namespace TownOfHost
                     case CustomRoles.JSchrodingerCat:
                         LocalPlayerKnowsJackal = true;
                         break;
+                    case CustomRoles.Psychic:
+                        foreach (var id in Main.PsychicTarget[seer.PlayerId])
+                        {
+                            if (target.PlayerId == id) pva.NameText.text = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), pva.NameText.text);
+                        }
+                        break;
                 }
 
                 switch (target.GetCustomRole())
@@ -446,6 +550,9 @@ namespace TownOfHost
                 //呪われている場合
                 if (Witch.IsSpelled(target.PlayerId))
                     pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "†");
+
+                if (target.Is(CustomRoles.SuperStar) && Options.EveryOneKnowSuperStar.GetBool())
+                    pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.SuperStar), "★");
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
             }
