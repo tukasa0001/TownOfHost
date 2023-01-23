@@ -104,7 +104,7 @@ namespace TownOfHost
         public static OptionItem SnitchCanGetArrowColor;
         public static OptionItem SnitchCanFindNeutralKiller;
         public static OptionItem SpeedBoosterUpSpeed; //加速値
-        public static OptionItem SpeedBoosterTaskTrigger; //効果を発動するタスク完了数
+        public static OptionItem SpeedBoosterTimes;
         public static OptionItem TrapperBlockMoveTime;
         public static OptionItem CanTerroristSuicideWin;
         public static OptionItem ArsonistDouseTime;
