@@ -254,7 +254,20 @@ namespace TownOfHost
             Main.PlayerStates[playerId].deathReason = deathReason;
             Main.PlayerStates[playerId].IsDead = true;
         }
-
+        public static void ForceEndGame()
+        {
+            if (ShipStatus.Instance == null) return;
+            try { CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Draw); }
+            catch { }
+            if (AmongUsClient.Instance.AmHost)
+            {
+                ShipStatus.Instance.enabled = false;
+                try { GameManager.Instance.LogicFlow.CheckEndCriteria(); }
+                catch { }
+                try { GameManager.Instance.RpcEndGame(GameOverReason.ImpostorByKill, false); }
+                catch { }
+            }
+        }
         public static void EndGame(MessageReader reader)
         {
             try
