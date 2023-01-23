@@ -4,6 +4,32 @@ namespace TownOfHost
 {
     static class CustomRolesHelper
     {
+        public static bool IsNK(this CustomRoles role) // 是否带刀中立
+        {
+            return
+                role is CustomRoles.Egoist or
+                CustomRoles.Jackal;
+        }
+
+        public static bool IsNNK(this CustomRoles role) // 是否无刀中立
+        {
+            return
+                role is CustomRoles.Arsonist or
+                CustomRoles.Opportunist or
+                CustomRoles.Jester or
+                CustomRoles.Terrorist or
+                CustomRoles.EgoSchrodingerCat or
+                CustomRoles.Executioner;
+        }
+
+
+        public static bool IsNeutralKilling(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.Arsonist or
+                CustomRoles.Egoist or
+                CustomRoles.Jackal;
+        }
         public static bool IsImpostor(this CustomRoles role)
         {
             return
@@ -14,6 +40,9 @@ namespace TownOfHost
                 CustomRoles.Witch or
                 //CustomRoles.ShapeMaster or
                 CustomRoles.Warlock or
+                CustomRoles.Assassin or
+                CustomRoles.Hacker or
+                CustomRoles.Miner or
                 CustomRoles.SerialKiller or
                 CustomRoles.Mare or
                 CustomRoles.Puppeteer or
