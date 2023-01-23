@@ -8,6 +8,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AmongUs.Data;
 using AmongUs.GameOptions;
+using Hazel;
+using Il2CppSystem.Web.Util;
 using TownOfHost.Modules;
 using UnhollowerBaseLib;
 using UnityEngine;
@@ -17,6 +19,31 @@ namespace TownOfHost
 {
     public static class Utils
     {
+        public static System.Random RandomSeedByGuid()
+        {
+            byte[] buffer = Guid.NewGuid().ToByteArray();
+            int iRoot = BitConverter.ToInt32(buffer, 0);
+            System.Random rdmNum = new(iRoot);
+            return rdmNum;
+        }
+        public static void TPAll(Vector2 location)
+        {
+            foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.Data.IsDead || pc.Is(CustomRoles.Needy)) break;
+                Utils.TP(pc.NetTransform, new Vector2(location.x, location.y + 0.3636f));
+            }
+        }
+
+        public static void TP(CustomNetworkTransform nt, Vector2 location)
+        {
+            if (AmongUsClient.Instance.AmHost) nt.SnapTo(location);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(nt.NetId, (byte)RpcCalls.SnapTo, SendOption.None);
+            //nt.WriteVector2(location, writer);
+            NetHelpers.WriteVector2(location, writer);
+            writer.Write(nt.lastSequenceId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
         public static bool IsActive(SystemTypes type)
         {
             //Logger.Info($"SystemTypes:{type}", "IsActive");
@@ -501,9 +528,8 @@ namespace TownOfHost
                 SendMessage(GetString("CantUse.lastresult"), PlayerId);
                 return;
             }
-            var text = GetString("LastResult") + ":";
+            var text = "玩家信息:";
             List<byte> cloneRoles = new(Main.PlayerStates.Keys);
-            text += $"\n{SetEverythingUpPatch.LastWinsText}\n";
             foreach (var id in Main.winnerList)
             {
                 text += $"\n★ " + EndGamePatch.SummaryText[id].RemoveHtmlTags();
@@ -513,8 +539,13 @@ namespace TownOfHost
             {
                 text += $"\n　 " + EndGamePatch.SummaryText[id].RemoveHtmlTags();
             }
+
+            var sumText = GetString("LastResult") + ": ";
+            sumText += $"{SetEverythingUpPatch.LastWinsText}";
+
             SendMessage(text, PlayerId);
             SendMessage(EndGamePatch.KillLog, PlayerId);
+            SendMessage(sumText, PlayerId);
         }
 
 
@@ -535,21 +566,170 @@ namespace TownOfHost
             return sb.ToString();
         }
 
-        public static void ShowHelp()
+        public static byte MsgToColor(string text)
+        {
+            text = text.ToLowerInvariant();
+            text = text.Replace("色", string.Empty);
+            int color = int.Parse(text);
+            switch (text)
+            {
+                case "0": case "红": case "紅": case "red": color = 0; break;
+                case "1": case "蓝": case "藍": case "深蓝": case "blue": color = 1; break;
+                case "2": case "绿": case "綠": case "深绿": case "green": color = 2; break;
+                case "3": case "粉红": case "pink": color = 3; break;
+                case "4": case "橘": case "orange": color = 4; break;
+                case "5": case "黄": case "黃": case "yellow": color = 5; break;
+                case "6": case "黑": case "black": color = 6; break;
+                case "7": case "白": case "white": color = 7; break;
+                case "8": case "紫": case "purple": color = 8; break;
+                case "9": case "棕": case "brown": color = 9; break;
+                case "10": case "青": case "cyan": color = 10; break;
+                case "11": case "黄绿": case "黃綠": case "浅绿": case "lime": color = 11; break;
+                case "12": case "红褐": case "紅褐": case "深红": case "maroon": color = 12; break;
+                case "13": case "玫红": case "玫紅": case "浅粉": case "rose": color = 13; break;
+                case "14": case "焦黄": case "焦黃": case "淡黄": case "banana": color = 14; break;
+                case "15": case "灰": case "gray": color = 15; break;
+                case "16": case "茶": case "tan": color = 16; break;
+                case "17": case "珊瑚": case "coral": color = 17; break;
+                case "18": case "隐藏": case "?": color = 18; break;
+            }
+            if (color is < 0 or > 18) return System.Convert.ToByte(99);
+            return System.Convert.ToByte(color);
+        }
+
+        public static void ShowHelpToClient(byte ID)
         {
             SendMessage(
                 GetString("CommandList")
-                + $"\n/winner - {GetString("Command.winner")}"
-                + $"\n/lastresult - {GetString("Command.lastresult")}"
-                + $"\n/rename - {GetString("Command.rename")}"
-                + $"\n/now - {GetString("Command.now")}"
-                + $"\n/h now - {GetString("Command.h_now")}"
-                + $"\n/h roles {GetString("Command.h_roles")}"
-                + $"\n/h addons {GetString("Command.h_addons")}"
-                + $"\n/h modes {GetString("Command.h_modes")}"
-                + $"\n/dump - {GetString("Command.dump")}"
-                );
+                + $"\n  ○ /n {GetString("Command.now")}"
+                + $"\n  ○ /r {GetString("Command.roles")}"
+                + $"\n  ○ /m {GetString("Command.myrole")}"
+                + $"\n  ○ /l {GetString("Command.lastresult")}"
+                + $"\n  ○ /win {GetString("Command.winner")}"
+                + "\n\n" + GetString("CommandOtherList")
+                + $"\n  ○ /color {GetString("Command.color")}"
+                + $"\n  ○ /qt {GetString("Command.quit")}"
+                , ID);
+        }
 
+        public static void ShowHelp(byte ID)
+        {
+            SendMessage(
+                GetString("CommandList")
+                + $"\n  ○ /n {GetString("Command.now")}"
+                + $"\n  ○ /r {GetString("Command.roles")}"
+                + $"\n  ○ /m {GetString("Command.myrole")}"
+                + $"\n  ○ /l {GetString("Command.lastresult")}"
+                + $"\n  ○ /win {GetString("Command.winner")}"
+                + "\n\n" + GetString("CommandOtherList")
+                + $"\n  ○ /color {GetString("Command.color")}"
+                + $"\n  ○ /rn {GetString("Command.rename")}"
+                + $"\n  ○ /qt {GetString("Command.quit")}"
+                + "\n\n" + GetString("CommandHostList")
+                + $"\n  ○ /s {GetString("Command.say")}"
+                + $"\n  ○ /rn {GetString("Command.rename")}"
+                + $"\n  ○ /mw {GetString("Command.mw")}"
+                + $"\n  ○ /kill {GetString("Command.kill")}"
+                + $"\n  ○ /exe {GetString("Command.exe")}"
+                + $"\n  ○ /level {GetString("Command.level")}"
+                + $"\n  ○ /dump {GetString("Command.dump")}"
+                , ID);
+        }
+
+        public static void GetPsychicStuff(PlayerControl seer)
+        {
+            if (Options.PsychicFresh.GetBool() || !Main.PsychicTarget.ContainsKey(seer.PlayerId))
+            {
+                System.Random rd = RandomSeedByGuid();
+                int numOfPsychicBad = 0;
+                for (int i = 0; i < Options.PsychicCanSeeNum.GetInt(); i++)
+                {
+                    if (rd.Next(1, 100) < 18) numOfPsychicBad++;
+                }
+                if (numOfPsychicBad > Options.PsychicCanSeeNum.GetInt() || numOfPsychicBad < 1) numOfPsychicBad = 1;
+
+                List<byte> goodids = new();
+                List<byte> badids = new();
+                Dictionary<byte, bool> isGood = new();
+                if (!seer.Data.IsDead)
+                {
+                    List<PlayerControl> badPlayers = new();
+                    List<PlayerControl> goodPlayers = new();
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc.Data.IsDead || pc.Data.Disconnected || pc == seer || pc == null) continue;
+                        isGood.Add(pc.PlayerId, true);
+                        var role = pc.GetCustomRole();
+                        switch (role.GetRoleType())
+                        {
+                            case RoleType.Crewmate:
+                                if (!Options.CkshowEvil.GetBool()) break;
+                                if (role is CustomRoles.Sheriff)
+                                {
+                                    badPlayers.Add(pc);
+                                    isGood[pc.PlayerId] = false;
+                                }
+                                break;
+                            case RoleType.Impostor:
+                                badPlayers.Add(pc); isGood[pc.PlayerId] = false;
+                                break;
+                            case RoleType.Neutral:
+                                if (Options.NBshowEvil.GetBool())
+                                    if (role is CustomRoles.Opportunist or CustomRoles.SchrodingerCat)
+                                    {
+                                        badPlayers.Add(pc);
+                                        isGood[pc.PlayerId] = false;
+                                    }
+                                if (Options.NEshowEvil.GetBool())
+                                {
+                                    if (role.IsNeutralKilling())
+                                    {
+                                        badPlayers.Add(pc);
+                                        isGood[pc.PlayerId] = false;
+                                    }
+
+                                    if (role is CustomRoles.Jester or CustomRoles.Terrorist or CustomRoles.Executioner)
+                                    {
+                                        badPlayers.Add(pc);
+                                        isGood[pc.PlayerId] = false;
+                                    }
+                                }
+                                break;
+                        }
+                        if (isGood[pc.PlayerId]) goodPlayers.Add(pc);
+                    }
+                    List<byte> badpcids = new();
+                    foreach (var p in badPlayers)
+                    {
+                        badpcids.Add(p.PlayerId);
+                    }
+                    if (numOfPsychicBad > Options.PsychicCanSeeNum.GetInt() || numOfPsychicBad < 1) numOfPsychicBad = 1;
+                    int goodPeople = Options.PsychicCanSeeNum.GetInt() - numOfPsychicBad;
+
+                    if (numOfPsychicBad != 0)
+                        for (var i = 0; i < numOfPsychicBad; i++)
+                        {
+                            if (badPlayers.Count <= 0) break;
+                            var rando = new System.Random();
+                            var player = badPlayers[rando.Next(0, badPlayers.Count)];
+                            badPlayers.Remove(player);
+                            badids.Add(player.PlayerId);
+                        }
+                    if (goodPeople != 0)
+                        for (var i = 0; i < goodPeople; i++)
+                        {
+                            if (goodPlayers.Count <= 0) break;
+                            var rando = new System.Random();
+                            var player = goodPlayers[rando.Next(0, goodPlayers.Count)];
+                            goodPlayers.Remove(player);
+                            goodids.Add(player.PlayerId);
+                        }
+                    if (!Main.PsychicTarget.ContainsKey(seer.PlayerId)) Main.PsychicTarget.Add(seer.PlayerId, new List<byte>());
+                    Main.PsychicTarget[seer.PlayerId] = new();
+                    Main.PsychicTarget[seer.PlayerId].AddRange(goodids);
+                    Main.PsychicTarget[seer.PlayerId].AddRange(badids);
+                }
+            }
         }
         public static void CheckTerroristWin(GameData.PlayerInfo Terrorist)
         {
@@ -604,13 +784,13 @@ namespace TownOfHost
             else
             {
                 if (AmongUsClient.Instance.IsGamePublic)
-                    name = $"<color={Main.ModColor}>TownOfHost v{Main.PluginVersion}</color>\r\n" + name;
+                    name = $"<color=#ffd6ec>TOHE</color><color=#baf7ca>★</color>" + name;
                 switch (Options.GetSuffixMode())
                 {
                     case SuffixModes.None:
                         break;
                     case SuffixModes.TOH:
-                        name += $"\r\n<color={Main.ModColor}>TOH v{Main.PluginVersion}</color>";
+                        name += $"\r\n<color={Main.ModColor}>TOHE v{Main.PluginVersion}</color>";
                         break;
                     case SuffixModes.Streaming:
                         name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Streaming")}</color>";
@@ -707,12 +887,17 @@ namespace TownOfHost
                     SelfMark += $"<color={GetRoleColorCode(CustomRoles.Snitch)}>★{arrows}</color>";
                 }
 
+                if (seer.Is(CustomRoles.Psychic)) GetPsychicStuff(seer);
+
                 //ハートマークを付ける(自分に)
                 if (seer.Is(CustomRoles.Lovers)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
 
                 //呪われている場合
                 if (Witch.IsSpelled(seer.PlayerId) && isMeeting)
                     SelfMark += "<color=#ff0000>†</color>";
+
+                if (seer.Is(CustomRoles.SuperStar) && Options.EveryOneKnowSuperStar.GetBool())
+                    SelfMark += $"<color={GetRoleColorCode(CustomRoles.SuperStar)}>★</color>";
 
                 if (Sniper.IsEnable())
                 {
@@ -824,6 +1009,11 @@ namespace TownOfHost
                         //呪われている人
                         TargetMark += Witch.GetSpelledMark(target.PlayerId, isMeeting);
 
+                        if (target.Is(CustomRoles.SuperStar) && Options.EveryOneKnowSuperStar.GetBool())
+                        {
+                            TargetMark += $"<color={GetRoleColorCode(CustomRoles.SuperStar)}>★</color>";
+                        }
+
                         //タスク完了直前のSnitchにマークを表示
                         canFindSnitchRole = seer.GetCustomRole().IsImpostor() || //Seerがインポスター
                             (Options.SnitchCanFindNeutralKiller.GetBool() && seer.IsNeutralKiller());//or エゴイスト
@@ -881,17 +1071,28 @@ namespace TownOfHost
                         //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                         string TargetPlayerName = target.GetRealName(isMeeting);
 
+                        if (seer.Is(CustomRoles.Psychic))
+                        {
+                            foreach (var id in Main.PsychicTarget[seer.PlayerId])
+                            {
+                                if (target.PlayerId == id)
+                                    TargetPlayerName = Utils.ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName);
+                            }
+                        }
+
                         //ターゲットのプレイヤー名の色を書き換えます。
                         if (SeerKnowsImpostors) //Seerがインポスターが誰かわかる状態
                         {
                             //スニッチはオプション有効なら第三陣営のキル可能役職も見れる
                             var snitchOption = seer.Is(CustomRoles.Snitch) && Options.SnitchCanFindNeutralKiller.GetBool();
-                            var foundCheck = target.GetCustomRole().IsImpostor() || (snitchOption && target.IsNeutralKiller());
+                            var foundCheck = target.GetCustomRole().IsImpostor() || target.Is(CustomRoles.Undercover) || (snitchOption && target.IsNeutralKiller());
                             if (foundCheck)
                                 TargetPlayerName = ColorString(target.GetRoleColor(), TargetPlayerName);
                         }
                         else if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.Egoist))
                             TargetPlayerName = ColorString(GetRoleColor(CustomRoles.Egoist), TargetPlayerName);
+                        else if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.Undercover))
+                            TargetPlayerName = ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName);
                         else if ((seer.Is(CustomRoles.EgoSchrodingerCat) && target.Is(CustomRoles.Egoist)) || //エゴ猫 --> エゴイスト
                                  (seer.Is(CustomRoles.JSchrodingerCat) && target.Is(CustomRoles.Jackal)) || // J猫 --> ジャッカル
                                  (seer.Is(CustomRoles.MSchrodingerCat) && target.Is(RoleType.Impostor))) // M猫 --> インポスター
