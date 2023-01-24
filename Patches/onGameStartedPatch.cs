@@ -37,6 +37,7 @@ namespace TownOfHost
                 Main.isMarked = false;
                 Main.PuppeteerList = new Dictionary<byte, byte>();
                 Main.HackerUsedCount = new Dictionary<byte, int>();
+                Main.CyberStarDead = new List<byte>();
 
                 Main.LastEnteredVent = new Dictionary<byte, Vent>();
                 Main.LastEnteredVentLocation = new Dictionary<byte, UnityEngine.Vector2>();
@@ -335,7 +336,7 @@ namespace TownOfHost
             else
             {
                 List<int> funList = new();
-                for (int i = 0; i <= 41; i++)
+                for (int i = 0; i <= 42; i++)
                 {
                     funList.Add(i);
                 }
@@ -404,6 +405,7 @@ namespace TownOfHost
                         case 39: AssignCustomRolesFromList(CustomRoles.Hacker, Impostors); break;
                         case 40: AssignCustomRolesFromList(CustomRoles.Assassin, Shapeshifters); break;
                         case 41: AssignCustomRolesFromList(CustomRoles.Luckey, Crewmates); break;
+                        case 42: AssignCustomRolesFromList(CustomRoles.CyberStar, Crewmates); break;
                     }
                 }
 

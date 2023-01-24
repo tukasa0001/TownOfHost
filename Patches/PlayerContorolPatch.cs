@@ -319,6 +319,8 @@ namespace TownOfHost
             }
             if (target.Is(CustomRoles.TimeThief))
                 target.ResetVotingTime();
+            if (target.Is(CustomRoles.CyberStar) && Main.CyberStarDead.Contains(target.PlayerId))
+                Main.CyberStarDead.Add(target.PlayerId);
 
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
 

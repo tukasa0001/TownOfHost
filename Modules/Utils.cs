@@ -133,9 +133,19 @@ namespace TownOfHost
             if (!target.Data.IsDead || GameStates.IsMeeting) return;
             foreach (var seer in Main.AllPlayerControls)
             {
-                if (!KillFlashCheck(killer, target, seer)) continue;
-                seer.KillFlash();
+                if (KillFlashCheck(killer, target, seer))
+                {
+                    seer.KillFlash();
+                    continue;
+                }
+                else if (target.Is(CustomRoles.CyberStar))
+                {
+                    if (!Options.ImpKnowCyberStarDead.GetBool() && CustomRolesHelper.IsImpostor(seer.GetCustomRole())) continue;
+                    if (!Options.NeutralKnowCyberStarDead.GetBool() && CustomRolesHelper.IsNeutral(seer.GetCustomRole())) continue;
+                    seer.KillFlash();
+                }
             }
+            if (target.Is(CustomRoles.CyberStar) && !Main.CyberStarDead.Contains(target.PlayerId)) Main.CyberStarDead.Add(target.PlayerId);
         }
         public static bool KillFlashCheck(PlayerControl killer, PlayerControl target, PlayerControl seer)
         {

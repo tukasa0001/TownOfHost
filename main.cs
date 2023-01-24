@@ -105,6 +105,8 @@ namespace TownOfHost
         public static Dictionary<byte, int> HackerUsedCount = new();
         public static Dictionary<byte, List<byte>> PsychicTarget = new();
 
+        public static List<byte> CyberStarDead = new();
+
         /// <summary>
         /// 基本的に速度の代入は禁止.スピードは増減で対応してください.
         /// </summary>
@@ -238,6 +240,7 @@ namespace TownOfHost
                     {CustomRoles.Sheriff, "#f8cd46"},
                     {CustomRoles.Lighter, "#eee5be"},
                     {CustomRoles.SuperStar, "#f6f657"},
+                    {CustomRoles.CyberStar, "#ee4a55" },
                     {CustomRoles.Plumber,"#962d00" },
                     {CustomRoles.SpeedBooster, "#00ffff"},
                     {CustomRoles.Doctor, "#80ffdd"},
@@ -348,6 +351,7 @@ namespace TownOfHost
         Needy,
         Lighter,
         SuperStar,
+        CyberStar,
         Plumber,
         Mayor,
         Paranoia,

@@ -131,6 +131,8 @@ namespace TownOfHost
         public static OptionItem CkshowEvil;
         public static OptionItem NBshowEvil;
         public static OptionItem NEshowEvil;
+        public static OptionItem ImpKnowCyberStarDead;
+        public static OptionItem NeutralKnowCyberStarDead;
         public static OptionItem EveryOneKnowSuperStar;
 
         public static OptionItem HackUsedMaxTime;
@@ -447,6 +449,9 @@ namespace TownOfHost
             LighterTaskCompletedDisableLightOut = BooleanOptionItem.Create(20111, "LighterTaskCompletedDisableLightOut", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Lighter]);
             SetupRoleOptions(8020165, TabGroup.CrewmateRoles, CustomRoles.SuperStar);
             EveryOneKnowSuperStar = BooleanOptionItem.Create(8020168, "EveryOneKnowSuperStar", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SuperStar]);
+            SetupRoleOptions(8020176, TabGroup.CrewmateRoles, CustomRoles.CyberStar);
+            ImpKnowCyberStarDead = BooleanOptionItem.Create(8020178, "ImpKnowCyberStarDead", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.CyberStar]);
+            NeutralKnowCyberStarDead = BooleanOptionItem.Create(8020180, "NeutralKnowCyberStarDead", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.CyberStar]);
             SetupRoleOptions(8020195, TabGroup.CrewmateRoles, CustomRoles.Plumber);
             SetupRoleOptions(20200, TabGroup.CrewmateRoles, CustomRoles.Mayor);
             MayorAdditionalVote = IntegerOptionItem.Create(20210, "MayorAdditionalVote", new(1, 99, 1), 3, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mayor])
@@ -738,7 +743,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             DIYGameSettings = BooleanOptionItem.Create(1_000_013, "DIYGameSettings", false, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
-            PlayerCanSerColor = BooleanOptionItem.Create(1_000_014, "PlayerCanSerColor", true, TabGroup.MainSettings, false)
+            PlayerCanSerColor = BooleanOptionItem.Create(1_000_014, "PlayerCanSerColor", false, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
             ColorNameMode = BooleanOptionItem.Create(1_000_003, "ColorNameMode", false, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);

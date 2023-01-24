@@ -8,6 +8,7 @@ using Sentry.Internal.Extensions;
 using UnityEngine;
 using static TownOfHost.Translator;
 using static UnityEngine.GraphicsBuffer;
+using static UnityEngine.ParticleSystem.PlaybackState;
 
 namespace TownOfHost
 {
@@ -381,7 +382,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
     class MeetingHudStartPatch
     {
-        public static void NoticeSkill()
+        public static void NoticeMafiaSkill()
         {
             if (!AmongUsClient.Instance.AmHost) return;
             foreach (var pc in PlayerControl.AllPlayerControls)
@@ -395,8 +396,24 @@ namespace TownOfHost
                         }, 5.0f, "Notice Mafia Skill");
                     break;
                 }
-
             }
+        }
+        public static void NoticeCyberStarSkill()
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (!Options.ImpKnowCyberStarDead.GetBool() && CustomRolesHelper.IsImpostor(pc.GetCustomRole())) continue;
+                if (!Options.NeutralKnowCyberStarDead.GetBool() && CustomRolesHelper.IsNeutral(pc.GetCustomRole())) continue;
+                foreach (var cs in Main.CyberStarDead)
+                    {
+                        new LateTask(() =>
+                        {
+                            Utils.SendMessage(GetString("CyberStarDead") + " " + pc.GetRealName(), pc.PlayerId, Utils.ColorString(    Utils.GetRoleColor(CustomRoles.CyberStar)  , " ★ 紧急新闻 ★ ")   );
+                        }, 5.0f, "Notice CyberStar Skill");
+                    }
+            }
+            Main.CyberStarDead.Clear();
         }
         public static void Prefix(MeetingHud __instance)
         {
@@ -406,7 +423,8 @@ namespace TownOfHost
             Main.AllPlayerControls.Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
             Utils.NotifyRoles(isMeeting: true, NoCache: true);
             MeetingStates.MeetingCalled = true;
-            if (AmongUsClient.Instance.AmHost && Options.MafiaCanKillNum.GetInt() > 0) NoticeSkill();
+            if (AmongUsClient.Instance.AmHost && Options.MafiaCanKillNum.GetInt() > 0) NoticeMafiaSkill();
+            if (AmongUsClient.Instance.AmHost && Main.CyberStarDead.Count > 0) NoticeCyberStarSkill();
         }
         public static void Postfix(MeetingHud __instance)
         {
