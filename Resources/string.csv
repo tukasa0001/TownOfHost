@@ -311,6 +311,9 @@
 "RoleAssigningAlgorithm.HashRandom","HashRandom","HashRandom","哈希随机算法","Hash值隨機算法","HashRandom",""
 "RoleAssigningAlgorithm.Xorshift","Xorshift","Xorshift","Xorshift随机算法","Xorshift隨機算法","Xorshift",""
 "AirShipVariableElectrical","Variable Electrical(AirShip)","電気室の構造変化（エアシップ）","","","Двери В Электрощитовой Закрываются Случайно (Airship)",""
+"ApplyDenyNameList","Apply DenyName List","DenyNameリストを適用する","","","",""
+"KickPlayerFriendCodeNotExist","Kick Players Whose Friend Code Does Not Exist","フレンドコードが存在しないプレイヤーをキックする","","","",""
+"ApplyBanList","Apply BanList","BANリストを適用する","","","",""
 
 "## モード説明"
 "HideAndSeekInfo","Hide and Seek:\nNo emergency meetings. Crewmates (Blue) can only win by finishing tasks\nand impostors (Red) can only win by killing all crewmates.","かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。\nインポスターは赤、クルーは青に体の色が変更される。","躲猫猫:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利；\n内鬼的皮肤颜色将变为红色，船员变为蓝色，以示区分。","躲貓貓:\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色。","Прятки:\nНикто не может созвать срочное собрание, Члены Экипажа могут победить, только выполняя задания. \nПредатели меняют цвет тела на красный, а экипажи на синий.","Esconde-Esconde:\nNão há reuniões de emergência. Tripulantes (Azul) podem ganhar apenas ao completar todas as tarefas,\ne Impostores (Vermelho) ganham apenas quando matarem todos os tripulantes."
@@ -468,6 +471,8 @@
 "Message.NoDescription","No description.","説明はありません。","无描述","","Описание отсутствует","Sem descrição."
 "Message.KickedByDenyName","{0} was kicked because its name matched ""{1}"".","{0}は名前が「{1}」に一致したためキックされました。","{0} 被踢出，因其昵称违规 ""{1}"".","","{0} был исключен, поскольку его имя соответствует ""{1}""",""
 "Message.BanedByBanList","{0} has been banned because it has been banned in the past.","{0}は過去にBAN済みのためBANされました。","{0} 已被封禁，因其之前就被封禁过","","{0} был заблокирован, потому что он Был заблокирован в прошлый раз",""
+"Message.KickedByNoFriendCode","{0} was kicked because the friend code does not exist.","{0}はフレンドコードが存在しないためキックされました。","","","",""
+"Message.AddedPlayerToBanList","Added {0} to the ban list.","{0}をBANリストに追記しました。","","","",""
 
 "## 警告"
 "Warning.EgoistCannotWin","Egoist cannot win","エゴイストが勝利できません","野心家无法获胜","利己主義者無法獲勝","Egoist не может победить!","Egoísta não pode vencer"
