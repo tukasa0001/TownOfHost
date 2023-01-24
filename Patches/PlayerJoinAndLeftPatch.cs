@@ -34,6 +34,14 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.DisconnectInternal))]
+    class DisconnectInternalPatch
+    {
+        public static void Prefix(InnerNetClient __instance, DisconnectReasons reason, string stringReason)
+        {
+            Logger.Info($"切断(理由:{reason}:{stringReason}, ping:{__instance.Ping})", "Session");
+        }
+    }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
     class OnPlayerJoinedPatch
     {
