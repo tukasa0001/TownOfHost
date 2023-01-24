@@ -17,8 +17,73 @@ namespace TownOfHost
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.SendChat))]
     class ChatCommands
     {
-
         public static List<string> ChatHistory = new();
+
+        public static bool MafiaMsgCheck(PlayerControl pc, string msg)
+        {
+            if (!AmongUsClient.Instance.AmHost) return false;
+            msg = msg.Trim();
+            if (msg.Length < 3 || msg[..3] != "/rv") return false;
+            if (!pc.Is(CustomRoles.Mafia)) return false;
+            if (Options.MafiaCanKillNum.GetInt() < 1)
+            {
+                Utils.SendMessage(GetString("MafiaKillDisable"), pc.PlayerId);
+                return true;
+            }
+            if (msg == "/rv")
+            {
+                string text = "玩家编号：";
+                foreach (var npc in PlayerControl.AllPlayerControls)
+                {
+                    if (npc.Data.IsDead) continue;
+                    text += "\n" + npc.PlayerId.ToString() + " → (" + npc.GetDisplayRoleName() + ") " + npc.GetRealName();
+                }
+                Utils.SendMessage(text, pc.PlayerId);
+                return true;
+            }
+            if (Main.MafiaRevenged.ContainsKey(pc.PlayerId))
+            {
+                
+                if (Main.MafiaRevenged[pc.PlayerId] >= Options.MafiaCanKillNum.GetInt())
+                {
+                    Utils.SendMessage(GetString("MafiaKillMax"), pc.PlayerId);
+                    return true;
+                }
+            }
+            else
+            {
+                Main.MafiaRevenged.Add(pc.PlayerId, 0);
+            }
+
+            if (!pc.Data.IsDead)
+            {
+                Utils.SendMessage(GetString("MafiaAliveKill"), pc.PlayerId);
+                return true;
+            }
+
+            int targetId = int.Parse(msg.Replace("/rv", String.Empty));
+            var target = Utils.GetPlayerById(targetId);
+            if (target == null || target.Data.IsDead)
+            {
+                Utils.SendMessage(GetString("MafiaKillDead"), pc.PlayerId);
+                return true;
+            }
+
+            target.SetRealKiller(pc);
+            target.RpcMurderPlayer(target);
+            Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Revenge;
+            Main.PlayerStates[target.PlayerId].SetDead();
+            Main.MafiaRevenged[pc.PlayerId]++;
+            string Name = target.GetRealName();
+            foreach (var cpc in Main.AllPlayerControls)
+            {
+                cpc.RpcSetNameEx(cpc.GetRealName(isMeeting: true));
+            }
+            ChatUpdatePatch.DoBlockChat = false;
+            Utils.NotifyRoles(isMeeting: true, NoCache: true);
+            Utils.SendMessage(Name + " " + GetString("MafiaKillSucceed"), pc.PlayerId);
+            return true;
+        }
 
         public static bool ContainsStart(string text)
         {
@@ -116,6 +181,7 @@ namespace TownOfHost
             if (__instance.TextArea.text == "") return false;
             __instance.TimeSinceLastMessage = 3f;
             var text = __instance.TextArea.text;
+            if (MafiaMsgCheck(PlayerControl.LocalPlayer, text)) return false;
             if (ProhibitedCheck(PlayerControl.LocalPlayer, text)) return false;
             if (ChatHistory.Count == 0 || ChatHistory[^1] != text) ChatHistory.Add(text);
             ChatControllerUpdatePatch.CurrentHistorySelection = ChatHistory.Count;
@@ -328,6 +394,16 @@ namespace TownOfHost
                         Utils.SendMessage("很抱歉，房主无法使用该指令", PlayerControl.LocalPlayer.PlayerId);
                         break;
 
+                    case "/xf":
+                        foreach (var pc in Main.AllPlayerControls)
+                        {
+                            pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
+                        }
+                        ChatUpdatePatch.DoBlockChat = false;
+                        Utils.NotifyRoles(isMeeting: true, NoCache: true);
+                        Utils.SendMessage("已尝试修复名字遮挡", PlayerControl.LocalPlayer.PlayerId);
+                        break;
+
                     default:
                         Main.isChatCommand = false;
                         break;
@@ -345,59 +421,59 @@ namespace TownOfHost
 
         public static string ToSimplified(string text)
         {
-            switch (text)
+            return text switch
             {
-                case "管理員": case "管理": return "管理员";
-                case "賞金獵人": case "赏金": return "赏金猎人";
-                case "邪惡的追踪者": case "邪恶追踪者": return "邪恶的追踪者";
-                case "煙花商人": case "烟花": return "烟花商人";
-                case "夢魘": return "梦魇";
-                case "黑手黨": return "黑手党";
-                case "嗜血殺手": case "嗜血": return "嗜血杀手";
-                case "蝕時者": case "蚀时": return "蚀时者";
-                case "狙擊手": case "狙击": return "狙击手";
-                case "傀儡師": case "傀儡": return "傀儡师";
-                case "吸血鬼": case "吸血": return "吸血鬼";
-                case "術士": return "术士";
-                case "駭客": case "黑客": return "骇客";
-                case "忍者": return "忍者";
-                case "礦工": return "矿工";
-                case "女巫": return "女巫";
-                case "背叛的守衛": case "背叛守卫": return "背叛的守卫";
-                case "叛徒": return "叛徒";
-                case "背叛的告密者": case "背叛告密": return "背叛的告密者";
-                case "叛徒跟班": return "叛徒跟班";
-                case "窺視者": case "窥视": return "窥视者";
-                case "誘餌": case "大奖": case "头奖": return "诱饵";
-                case "擺爛人": case "摆烂": return "摆烂人";
-                case "獨裁者": case "独裁": return "独裁者";
-                case "醫生": return "医生";
-                case "執燈人": case "执灯": case "灯人": return "执灯人";
-                case "大明星": case "明星": return "大明星";
-                case "工程師": case "工程": return "工程师";
-                case "市長": return "市长";
-                case "被害妄想症": case "被害妄想": case "被迫害妄想症": case "被害": case "妄想": case "妄想症": return "被害妄想症";
-                case "愚者": case "愚": return "愚者";
-                case "修理大師": case "修理大师": case "维修大师": return "修理大师";
-                case "靈媒": return "灵媒";
-                case "警長": return "警长";
-                case "告密者": case "告密": return "告密者";
-                case "增速者": case "增速": return "增速者";
-                case "陷阱師": case "陷阱": case "小奖": return "陷阱师";
-                case "縱火犯": case "纵火": return "纵火犯";
-                case "野心家": case "野心": return "野心家";
-                case "處刑人": case "处刑": return "处刑人";
-                case "小丑": return "小丑";
-                case "投機者": case "投机": return "投机者";
-                case "薛定諤的貓": case "薛定谔猫": case "猫": return "薛定谔的猫";
-                case "恐怖分子": case "恐怖": return "恐怖分子";
-                case "豺狼": return "豺狼";
-                case "情人": case "愛人": case "链子": return "恋人";
-                case "狐狸": return "狐狸";
-                case "巨魔": return "巨魔";
-                default: return text;
-            }
-
+                "管理員" or "管理" => "管理员",
+                "賞金獵人" or "赏金" => "赏金猎人",
+                "邪惡的追踪者" or "邪恶追踪者" => "邪恶的追踪者",
+                "煙花商人" or "烟花" => "烟花商人",
+                "夢魘" => "梦魇",
+                "黑手黨" or "黑手" => "黑手党",
+                "嗜血殺手" or "嗜血" => "嗜血杀手",
+                "蝕時者" or "蚀时" => "蚀时者",
+                "狙擊手" or "狙击" => "狙击手",
+                "傀儡師" or "傀儡" => "傀儡师",
+                "吸血鬼" or "吸血" => "吸血鬼",
+                "術士" => "术士",
+                "駭客" or "黑客" => "骇客",
+                "刺客" => "刺客",
+                "礦工" => "矿工",
+                "女巫" => "女巫",
+                "背叛的守衛" or "背叛守卫" => "背叛的守卫",
+                "叛徒" => "叛徒",
+                "背叛的告密者" or "背叛告密" => "背叛的告密者",
+                "叛徒跟班" => "叛徒跟班",
+                "窺視者" or "窥视" => "窥视者",
+                "誘餌" or "大奖" or "头奖" => "诱饵",
+                "擺爛人" or "摆烂" => "摆烂人",
+                "獨裁者" or "独裁" => "独裁者",
+                "醫生" => "医生",
+                "執燈人" or "执灯" or "灯人" => "执灯人",
+                "幸運兒" or "幸运" => "幸运儿",
+                "大明星" or "明星" => "大明星",
+                "工程師" or "工程" => "工程师",
+                "市長" => "市长",
+                "被害妄想症" or "被害妄想" or "被迫害妄想症" or "被害" or "妄想" or "妄想症" => "被害妄想症",
+                "愚者" or "愚" => "愚者",
+                "修理大師" or "修理大师" or "维修大师" => "修理大师",
+                "靈媒" => "灵媒",
+                "警長" => "警长",
+                "告密者" or "告密" => "告密者",
+                "增速者" or "增速" => "增速者",
+                "陷阱師" or "陷阱" or "小奖" => "陷阱师",
+                "縱火犯" or "纵火" => "纵火犯",
+                "野心家" or "野心" => "野心家",
+                "處刑人" or "处刑" => "处刑人",
+                "小丑" => "小丑",
+                "投機者" or "投机" => "投机者",
+                "薛定諤的貓" or "薛定谔猫" or "猫" => "薛定谔的猫",
+                "恐怖分子" or "恐怖" => "恐怖分子",
+                "豺狼" => "豺狼",
+                "情人" or "愛人" or "链子" => "恋人",
+                "狐狸" => "狐狸",
+                "巨魔" => "巨魔",
+                _ => text,
+            };
         }
         public static void GetRolesInfo(string role, PlayerControl player)
         {
@@ -419,7 +495,7 @@ namespace TownOfHost
                 { CustomRoles.Puppeteer, "傀儡师" },
                 { CustomRoles.Vampire, "吸血鬼" },
                 { CustomRoles.Warlock, "术士" },
-                { CustomRoles.Assassin, "忍者" },
+                { CustomRoles.Assassin, "刺客" },
                 { CustomRoles.Hacker, "骇客" },
                 { CustomRoles.Miner, "矿工" },
                 { CustomRoles.Witch, "女巫" },
@@ -435,6 +511,7 @@ namespace TownOfHost
                 //Crewmate役職
                 { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
                 { CustomRoles.Bait, "诱饵" },
+                { CustomRoles.Luckey, "幸运儿" },
                 { CustomRoles.Needy, "摆烂人" },
                 { CustomRoles.Dictator, "独裁者" },
                 { CustomRoles.Doctor, "医生" },
@@ -514,6 +591,7 @@ namespace TownOfHost
         public static void OnReceiveChat(PlayerControl player, string text)
         {
             if (!AmongUsClient.Instance.AmHost) return;
+            if (MafiaMsgCheck(player, text)) return;
             if (ProhibitedCheck(player, text)) return;
             string[] args = text.Split(' ');
             string subArgs = "";

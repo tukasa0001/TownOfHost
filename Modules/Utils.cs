@@ -1036,6 +1036,11 @@ namespace TownOfHost
                             TargetMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                         }
 
+                        if (seer.Is(CustomRoles.Mafia) && seer.Data.IsDead && !target.Data.IsDead)
+                        {
+                            TargetMark += "(" + target.PlayerId.ToString() + ")";
+                        }
+
                         if (seer.Is(CustomRoles.Arsonist))//seerがアーソニストの時
                         {
                             if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)

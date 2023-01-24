@@ -116,6 +116,7 @@ namespace TownOfHost
         public static Dictionary<byte, PlayerControl> CursedPlayers = new();
         public static Dictionary<byte, bool> isCurseAndKill = new();
         public static Dictionary<byte, PlayerControl> MarkedPlayers = new();
+        public static Dictionary<byte, int> MafiaRevenged = new();
         public static Dictionary<byte, bool> isMarkAndKill = new();
         public static Dictionary<(byte, byte), bool> isDoused = new();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
@@ -178,6 +179,7 @@ namespace TownOfHost
             AssassinTimer = new Dictionary<byte, float>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
             MarkedPlayers = new Dictionary<byte, PlayerControl>();
+            MafiaRevenged = new Dictionary<byte, int>();
             isDoused = new Dictionary<(byte, byte), bool>();
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             MayorUsedButtonCount = new Dictionary<byte, int>();

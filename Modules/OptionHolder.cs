@@ -135,7 +135,8 @@ namespace TownOfHost
 
         public static OptionItem HackUsedMaxTime;
         public static OptionItem HackKillDelay;
-
+        public static OptionItem MafiaCanKillNum;
+        
         // HideAndSeek
         public static OptionItem AllowCloseDoors;
         public static OptionItem KillDelay;
@@ -390,6 +391,8 @@ namespace TownOfHost
             SetupRoleOptions(901590, TabGroup.ImpostorRoles, CustomRoles.Miner);
             Witch.SetupCustomOption();
             SetupRoleOptions(1600, TabGroup.ImpostorRoles, CustomRoles.Mafia);
+            MafiaCanKillNum = IntegerOptionItem.Create(901615, "MafiaCanKillNum", new(0, 15, 1), 1, TabGroup.ImpostorRoles,false).SetParent(CustomRoleSpawnChances[CustomRoles.Mafia])
+                .SetValueFormat(OptionFormat.Players);
             FireWorks.SetupCustomOption();
             Sniper.SetupCustomOption();
             SetupRoleOptions(2000, TabGroup.ImpostorRoles, CustomRoles.Puppeteer);
@@ -434,7 +437,7 @@ namespace TownOfHost
             // Crewmate
             SetupRoleOptions(20000, TabGroup.CrewmateRoles, CustomRoles.Bait);
             SetupRoleOptions(1020195, TabGroup.CrewmateRoles, CustomRoles.Luckey);
-            LuckeyProbability = IntegerOptionItem.Create(1020197, "LuckeyProbability ", new(0, 100, 5), 50, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Luckey])
+            LuckeyProbability = IntegerOptionItem.Create(1020197, "LuckeyProbability", new(0, 100, 5), 50, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Luckey])
                 .SetValueFormat(OptionFormat.Percent);
             SetupRoleOptions(1020095, TabGroup.CrewmateRoles, CustomRoles.Needy);
             SetupRoleOptions(20100, TabGroup.CrewmateRoles, CustomRoles.Lighter);

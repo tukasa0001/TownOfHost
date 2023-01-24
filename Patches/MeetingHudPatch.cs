@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using Hazel;
 using Il2CppSystem.Web.Util;
 using UnityEngine;
 using static TownOfHost.Translator;
@@ -373,6 +374,23 @@ namespace TownOfHost
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
     class MeetingHudStartPatch
     {
+        public static void NoticeSkill()
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                switch (pc.GetCustomRole())
+                {
+                    case CustomRoles.Mafia:
+                        new LateTask(() =>
+                        {
+                            Utils.SendMessage(GetString("MafiaDeadMsg"), pc.PlayerId);
+                        }, 5.0f, "Notice Mafia Skill");
+                    break;
+                }
+
+            }
+        }
         public static void Prefix(MeetingHud __instance)
         {
             Logger.Info("------------会議開始------------", "Phase");
@@ -381,6 +399,7 @@ namespace TownOfHost
             Main.AllPlayerControls.Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
             Utils.NotifyRoles(isMeeting: true, NoCache: true);
             MeetingStates.MeetingCalled = true;
+            if (AmongUsClient.Instance.AmHost && Options.MafiaCanKillNum.GetInt() > 0) NoticeSkill();
         }
         public static void Postfix(MeetingHud __instance)
         {
@@ -530,6 +549,14 @@ namespace TownOfHost
                     }
                     ChatUpdatePatch.DoBlockChat = false;
                 }, 3f, "SetName To Chat");
+                _ = new LateTask(() =>
+                {
+                    foreach (var pc in Main.AllPlayerControls)
+                    {
+                        pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
+                    }
+                    ChatUpdatePatch.DoBlockChat = false;
+                }, 6f, "SetName To Chat Again");
             }
 
             foreach (var pva in __instance.playerStates)
@@ -605,6 +632,12 @@ namespace TownOfHost
                         foreach (var id in Main.PsychicTarget[seer.PlayerId])
                         {
                             if (target.PlayerId == id) pva.NameText.text = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), pva.NameText.text);
+                        }
+                        break;
+                    case CustomRoles.Mafia:
+                        if (seer.Data.IsDead && !target.Data.IsDead)
+                        {
+                            pva.NameText.text += "(" + target.PlayerId.ToString() + ")";
                         }
                         break;
                 }

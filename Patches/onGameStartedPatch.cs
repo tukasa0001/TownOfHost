@@ -30,6 +30,7 @@ namespace TownOfHost
                 Main.CursedPlayers = new Dictionary<byte, PlayerControl>();
                 Main.isMarkAndKill = new Dictionary<byte, bool>();
                 Main.MarkedPlayers = new Dictionary<byte, PlayerControl>();
+                Main.MafiaRevenged = new Dictionary<byte, int>();
                 Main.isCurseAndKill = new Dictionary<byte, bool>();
                 Main.SKMadmateNowCount = 0;
                 Main.isCursed = false;

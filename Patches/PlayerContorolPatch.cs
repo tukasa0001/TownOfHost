@@ -1135,7 +1135,7 @@ namespace TownOfHost
                     new LateTask(() =>
                     {
                         Utils.SendMessage(GetString("SkillUsedLeft") + (Options.ParanoiaNumOfUseButton.GetInt() - Main.ParaUsedButtonCount[pc.PlayerId]).ToString(), pc.PlayerId);
-                    }, 3.0f, "Skill Remain Message");
+                    }, 4.0f, "Skill Remain Message");
                     pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                     pc?.NoCheckStartMeeting(pc?.Data);
                 }
