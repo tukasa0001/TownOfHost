@@ -579,10 +579,9 @@ namespace TownOfHost
         public static byte MsgToColor(string text)
         {
             text = text.ToLowerInvariant();
-            Logger.Fatal(text, "########################");
             text = text.Replace("色", string.Empty);
-            Logger.Fatal(text, "########################");
-            int color = int.Parse(text);
+            int color = -1;
+            try { color = int.Parse(text); } catch { color = -1; }
             switch (text)
             {
                 case "0": case "红": case "紅": case "red": color = 0; break;

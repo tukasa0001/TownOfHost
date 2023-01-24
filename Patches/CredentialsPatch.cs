@@ -95,6 +95,12 @@ namespace TownOfHost
             tohLogo.transform.localScale *= 1.3f;
             var renderer = tohLogo.AddComponent<SpriteRenderer>();
             renderer.sprite = Utils.LoadSprite("TownOfHost.Resources.TownOfHost-Logo.png", 300f);
+            
+            var bq = new GameObject("title_BQ");
+            bq.transform.position = new Vector3(3.8f, -1.5f, 0);
+            bq.transform.localScale *= 1.8f;
+            var bqRenderer = bq.AddComponent<SpriteRenderer>();
+            bqRenderer.sprite = Utils.LoadSprite("TownOfHost.Resources.BQ.png", 300f);
         }
     }
     [HarmonyPatch(typeof(ModManager), nameof(ModManager.LateUpdate))]

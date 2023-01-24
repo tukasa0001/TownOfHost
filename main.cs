@@ -64,8 +64,8 @@ namespace TownOfHost
         //Client Options
         public static ConfigEntry<string> HideName { get; private set; }
         public static ConfigEntry<string> HideColor { get; private set; }
-        public static ConfigEntry<bool> ForceJapanese { get; private set; }
-        public static ConfigEntry<bool> JapaneseRoleName { get; private set; }
+        public static ConfigEntry<bool> AutoStart { get; private set; }
+        public static ConfigEntry<bool> DisableTOHE { get; private set; }
         public static ConfigEntry<int> MessageWait { get; private set; }
 
         public static Dictionary<byte, PlayerVersion> playerVersion = new();
@@ -106,6 +106,8 @@ namespace TownOfHost
         public static Dictionary<byte, List<byte>> PsychicTarget = new();
 
         public static List<byte> CyberStarDead = new();
+
+        public static int updateTime;
 
         /// <summary>
         /// 基本的に速度の代入は禁止.スピードは増減で対応してください.
@@ -159,6 +161,8 @@ namespace TownOfHost
             //Client Options
             HideName = Config.Bind("Client Options", "Hide Game Code Name", "TOHE");
             HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{ModColor}");
+            AutoStart = Config.Bind("Client Options", "AutoStart", false);
+            DisableTOHE = Config.Bind("Client Options", "DisableTOHE", false);
             DebugKeyInput = Config.Bind("Authentication", "Debug Key", "");
 
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");

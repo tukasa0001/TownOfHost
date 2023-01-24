@@ -61,8 +61,19 @@ namespace TownOfHost
                 return true;
             }
 
-            int targetId = int.Parse(msg.Replace("/rv", String.Empty));
-            var target = Utils.GetPlayerById(targetId);
+            int targetId;
+            PlayerControl target;
+            try
+            {
+                targetId = int.Parse(msg.Replace("/rv", String.Empty));
+                target = Utils.GetPlayerById(targetId);
+            }
+            catch
+            {
+                Utils.SendMessage(GetString("MafiaKillDead"), pc.PlayerId);
+                return true;
+            }
+            
             if (target == null || target.Data.IsDead)
             {
                 Utils.SendMessage(GetString("MafiaKillDead"), pc.PlayerId);

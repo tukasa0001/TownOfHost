@@ -288,7 +288,8 @@ DIYGameSettings,显示自定义的/n消息,顯示自定義的/n消息
 PlayerCanSerColor,允许玩家使用/color指令,允許玩家使用/color指令
 RoleOptions,职业设置,職業設定
 ModeOptions,模组设置,模式設定
-ForceJapanese,强制使用日语,強制使用日語
+AutoStart,人满自动开始,人滿自動開始
+DisableTOHE,切换为原版,切換為原版
 AutoDisplayLastResult,自动显示最终结果,自動顯示上一回合結果
 AutoKickStart,踢出催开始的人,踢出催開始的人
 AutoKickStopWords,踢出使用违禁词的人,踢出使用違禁詞的人
