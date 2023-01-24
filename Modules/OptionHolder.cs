@@ -449,8 +449,10 @@ namespace TownOfHost
             SetupRoleOptions(1020095, TabGroup.CrewmateRoles, CustomRoles.Needy);
             SetupRoleOptions(20100, TabGroup.CrewmateRoles, CustomRoles.Lighter);
             LighterTaskCompletedVision = FloatOptionItem.Create(20110, "LighterTaskCompletedVision", new(0f, 5f, 0.25f), 5f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Lighter])
+                .SetHidden(true)
                 .SetValueFormat(OptionFormat.Multiplier);
-            LighterTaskCompletedDisableLightOut = BooleanOptionItem.Create(20111, "LighterTaskCompletedDisableLightOut", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Lighter]);
+            LighterTaskCompletedDisableLightOut = BooleanOptionItem.Create(20111, "LighterTaskCompletedDisableLightOut", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Lighter])
+                .SetHidden(true);
             SetupRoleOptions(8020165, TabGroup.CrewmateRoles, CustomRoles.SuperStar);
             EveryOneKnowSuperStar = BooleanOptionItem.Create(8020168, "EveryOneKnowSuperStar", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SuperStar]);
             SetupRoleOptions(8020176, TabGroup.CrewmateRoles, CustomRoles.CyberStar);

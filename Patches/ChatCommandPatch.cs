@@ -175,7 +175,7 @@ namespace TownOfHost
 
             if (banned && player.PlayerId != PlayerControl.LocalPlayer.PlayerId)
             {
-                if (Options.AutoWarnStopWords.GetBool()) Utils.SendMessage($"{name} ，请友善讨论，杜绝脏话哦~");
+                if (Options.AutoWarnStopWords.GetBool()) Utils.SendMessage($"{name} ，请友善讨论哦~");
                 Logger.Msg($"{name} 触发违禁词： {banedWord}.", "Blocked Word");
 
                 if (!Options.AutoKickStopWords.GetBool()) return true;
