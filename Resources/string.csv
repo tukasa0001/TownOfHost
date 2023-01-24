@@ -355,6 +355,7 @@ RoleAssigningAlgorithm.NetRandom,.NET 系统随机算法,NET系統隨機算法
 RoleAssigningAlgorithm.HashRandom,哈希随机算法,Hash值隨機算法
 RoleAssigningAlgorithm.Xorshift,Xorshift随机算法,Xorshift隨機算法
 AirShipVariableElectrical,电气室门随机关闭（飞艇地图）,電氣室門隨機關閉（飛艇）
+PreventSBServerKick,阻止来自游戏服务器的踢人事件,阻止來自遊戲服務器的踢人事件
 
 ## モード説明
 HideAndSeekInfo,躲猫猫:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利；\n内鬼的皮肤颜色将变为红色，船员变为蓝色，以示区分。,"躲貓貓:\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色。"

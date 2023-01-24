@@ -265,7 +265,7 @@ namespace TownOfHost
                     {
                         name += "\n";
                         string comma = neutralnum != 0 ? "，" : "";
-                        if (impnum != 0)
+                        if (impnum == 0)
                         {
                             name += $"已经没有内鬼啦{comma}";
                         }
@@ -276,8 +276,8 @@ namespace TownOfHost
                         
                         if (Options.ShowNKRemainOnEject.GetBool() && neutralnum != 0)
                             name += $"剩余 {neutralnum} 个中立";
-                        name += "<size=0>";
                     }
+                    name += "<size=0>";
                     player.RpcSetName(name);
                     new LateTask(() =>
                     {
@@ -549,14 +549,6 @@ namespace TownOfHost
                     }
                     ChatUpdatePatch.DoBlockChat = false;
                 }, 3f, "SetName To Chat");
-                _ = new LateTask(() =>
-                {
-                    foreach (var pc in Main.AllPlayerControls)
-                    {
-                        pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
-                    }
-                    ChatUpdatePatch.DoBlockChat = false;
-                }, 6f, "SetName To Chat Again");
             }
 
             foreach (var pva in __instance.playerStates)

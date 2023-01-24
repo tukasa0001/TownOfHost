@@ -8,6 +8,23 @@ using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
+    [HarmonyPatch(typeof(InnerNet.InnerNetServer), nameof(InnerNet.InnerNetServer.KickPlayer))]
+    class InnerNetServerPatch
+    {
+        public static bool Prefix()
+        {
+            if (Options.PreventSBServerKick.GetBool())
+            {
+                Logger.SendInGame("刚才树懒的游戏服务器想踢人，但是被我们拦截了");
+            }
+            else
+            {
+                Logger.Fatal("因设置允许了来自服务器的踢人事件", "SB Server Kick");
+            }
+            return false;
+        }
+    }
+
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
     class OnGameJoinedPatch
     {
@@ -96,6 +113,13 @@ namespace TownOfHost
                 }
                 AntiBlackout.OnDisconnect(data.Character.Data);
                 PlayerGameOptionsSender.RemoveSender(data.Character);
+            }
+            if (reason == DisconnectReasons.Hacking)
+            {
+                Logger.SendInGame($"{data.PlayerName} 被树懒超级厉害的反作弊踢出去啦~ QwQ");
+            }else if (AmongUsClient.Instance.Ping > 300)
+            {
+                Logger.SendInGame($"{data.PlayerName} 在火星和你联机但是断了 (Ping:{AmongUsClient.Instance.Ping}) QwQ");
             }
             Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
         }

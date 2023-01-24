@@ -267,6 +267,7 @@ namespace TownOfHost
         public static OptionItem ColorNameMode;
         public static OptionItem ChangeNameToRoleInfo;
         public static OptionItem RoleAssigningAlgorithm;
+        public static OptionItem PreventSBServerKick;
 
         public static OptionItem AutoKickStart;
         public static OptionItem AutoKickStopWords;
@@ -463,7 +464,7 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Players);
             PsychicFresh = BooleanOptionItem.Create(8020456, "PsychicFresh", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic]);
             CkshowEvil = BooleanOptionItem.Create(8020453, "CrewKillingRed", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic]);
-            NBshowEvil = BooleanOptionItem.Create(8020454, "NBareRed", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic]);
+            NBshowEvil = BooleanOptionItem.Create(8020454, "NBareRed", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic]);
             NEshowEvil = BooleanOptionItem.Create(800455, "NEareRed", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic]);
             SetupRoleOptions(20500, TabGroup.CrewmateRoles, CustomRoles.Snitch);
             SnitchEnableTargetArrow = BooleanOptionItem.Create(20510, "SnitchEnableTargetArrow", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
@@ -743,11 +744,13 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             ChangeNameToRoleInfo = BooleanOptionItem.Create(1_000_004, "ChangeNameToRoleInfo", false, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
-            RoleAssigningAlgorithm = StringOptionItem.Create(1_000_005, "RoleAssigningAlgorithm", RoleAssigningAlgorithms, 2, TabGroup.MainSettings, true)
+            RoleAssigningAlgorithm = StringOptionItem.Create(1_000_005, "RoleAssigningAlgorithm", RoleAssigningAlgorithms, 1, TabGroup.MainSettings, true)
                 .SetGameMode(CustomGameMode.All)
                 .RegisterUpdateValueEvent(
                     (object obj, OptionItem.UpdateValueEventArgs args) => IRandom.SetInstanceById(args.CurrentValue)
                 );
+            PreventSBServerKick = BooleanOptionItem.Create(1_000_020, "PreventSBServerKick", true, TabGroup.MainSettings, false)
+                .SetColor(Color.blue);
 
             DebugModeManager.SetupCustomOption();
 
