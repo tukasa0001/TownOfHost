@@ -31,24 +31,7 @@ namespace TownOfHost
         {
             playerIdList.Add(playerId);
         }
-        public static bool IsEnable() => playerIdList.Count > 0;
-        public static void ResetVotingTime(this PlayerControl thief)
-        {
-            if (!ReturnStolenTimeUponDeath.GetBool()) return;
-
-            for (var i = 0; i < Main.PlayerStates[thief.PlayerId].GetKillCount(true); i++)
-                Main.VotingTime += DecreaseMeetingTime.GetInt();
-        }
+        public static bool IsEnable => playerIdList.Count > 0;
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown.GetFloat();
-        public static void OnCheckMurder(PlayerControl killer)
-        {
-            Main.DiscussionTime -= DecreaseMeetingTime.GetInt();
-            if (Main.DiscussionTime < 0)
-            {
-                Main.VotingTime += Main.DiscussionTime;
-                Main.DiscussionTime = 0;
-            }
-            Utils.MarkEveryoneDirtySettings();
-        }
     }
 }

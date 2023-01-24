@@ -188,9 +188,6 @@ namespace TownOfHost
                         killer.SetKillCooldown();
                         Utils.NotifyRoles(SpecifySeer: killer);
                         return false;
-                    case CustomRoles.TimeThief:
-                        TimeThief.OnCheckMurder(killer);
-                        break;
 
                     //==========マッドメイト系役職==========//
 
@@ -279,10 +276,6 @@ namespace TownOfHost
                 Executioner.Target.Remove(target.PlayerId);
                 Executioner.SendRPC(target.PlayerId);
             }
-            if (target.Is(CustomRoles.TimeThief))
-                target.ResetVotingTime();
-            if (target.Is(CustomRoles.TimeManager))
-                target.TimeManagerResetVotingTime();
 
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
@@ -454,6 +447,7 @@ namespace TownOfHost
             Main.AllPlayerControls
                 .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
                 .Do(pc => Camouflage.RpcSetSkin(pc, RevertToDefault: true));
+            MeetingTimeManager.OnReportDeadBody();
 
             Utils.SyncAllSettings();
             return true;
@@ -993,13 +987,12 @@ namespace TownOfHost
         public static void Postfix(PlayerControl __instance)
         {
             var pc = __instance;
-            TimeManager.OnCheckCompleteTask(pc);//タスク1つ終わるごとに処理
             Snitch.OnCompleteTask(pc);
 
             var isTaskFinish = pc.GetPlayerTaskState().IsTaskFinished;
             if (isTaskFinish && pc.Is(CustomRoles.MadSnitch))
             {
-                foreach(var impostor in Main.AllAlivePlayerControls.Where(pc=>pc.Is(RoleType.Impostor)))
+                foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.Is(RoleType.Impostor)))
                 {
                     NameColorManager.Instance.RpcAdd(pc.PlayerId, impostor.PlayerId, impostor.GetRoleColorCode());
                 }

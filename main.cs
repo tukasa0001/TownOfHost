@@ -119,8 +119,6 @@ namespace TownOfHost
         public static bool VisibleTasksCount;
         public static string nickName = "";
         public static bool introDestroyed = false;
-        public static int DiscussionTime;
-        public static int VotingTime;
         public static byte currentDousingTarget;
         public static float DefaultCrewmateVision;
         public static float DefaultImpostorVision;

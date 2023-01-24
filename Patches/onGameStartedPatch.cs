@@ -48,8 +48,7 @@ namespace TownOfHost
 
             RandomSpawn.CustomNetworkTransformPatch.NumOfTP = new();
 
-            Main.DiscussionTime = Main.RealOptionsData.GetInt(Int32OptionNames.DiscussionTime);
-            Main.VotingTime = Main.RealOptionsData.GetInt(Int32OptionNames.VotingTime);
+            MeetingTimeManager.Init();
             Main.DefaultCrewmateVision = Main.RealOptionsData.GetFloat(FloatOptionNames.CrewLightMod);
             Main.DefaultImpostorVision = Main.RealOptionsData.GetFloat(FloatOptionNames.ImpostorLightMod);
 
