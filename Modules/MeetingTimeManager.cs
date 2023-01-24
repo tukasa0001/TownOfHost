@@ -37,19 +37,18 @@ namespace TownOfHost
             int MeetingTimeMax = 300;
 
             int TotalMeetingTime = DiscussionTime + VotingTime;
+            //時間の下限、上限で刈り込み
             BonusMeetingTime = Math.Clamp(TotalMeetingTime + BonusMeetingTime, MeetingTimeMin, MeetingTimeMax) - TotalMeetingTime;
-            if (DiscussionTime > 0)
-            {
-                DiscussionTime += BonusMeetingTime;
-                if (DiscussionTime < 0)
-                {
-                    VotingTime += DiscussionTime;
-                    DiscussionTime = 0;
-                }
-            }
+            if (BonusMeetingTime >= 0)
+                VotingTime += BonusMeetingTime; //投票時間を延長
             else
             {
-                VotingTime += BonusMeetingTime;
+                DiscussionTime += BonusMeetingTime; //会議時間を優先的に短縮
+                if (DiscussionTime < 0) //会議時間だけでは賄えない場合
+                {
+                    VotingTime += DiscussionTime; //足りない分投票時間を短縮
+                    DiscussionTime = 0;
+                }
             }
             Logger.Info($"DiscussionTime:{DiscussionTime}, VotingTime{VotingTime}", "MeetingTimeManager.OnReportDeadBody");
         }
