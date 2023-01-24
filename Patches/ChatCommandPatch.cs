@@ -391,10 +391,12 @@ namespace TownOfHost
 
                     case "/quit":
                     case "/qt":
+                        canceled = true;
                         Utils.SendMessage("很抱歉，房主无法使用该指令", PlayerControl.LocalPlayer.PlayerId);
                         break;
 
                     case "/xf":
+                        canceled = true;
                         foreach (var pc in Main.AllPlayerControls)
                         {
                             pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
@@ -402,6 +404,16 @@ namespace TownOfHost
                         ChatUpdatePatch.DoBlockChat = false;
                         Utils.NotifyRoles(isMeeting: true, NoCache: true);
                         Utils.SendMessage("已尝试修复名字遮挡", PlayerControl.LocalPlayer.PlayerId);
+                        break;
+
+                    case "/id":
+                        canceled = true;
+                        string msgText = "玩家编号列表：";
+                        foreach(var pc in PlayerControl.AllPlayerControls)
+                        {
+                            msgText += pc.PlayerId.ToString() + " → " + pc.GetRealName();
+                        }
+                        Utils.SendMessage(msgText, PlayerControl.LocalPlayer.PlayerId);
                         break;
 
                     default:
