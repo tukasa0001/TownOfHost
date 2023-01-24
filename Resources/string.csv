@@ -507,9 +507,11 @@ Command.quit,→ 我不想再遇到这个房,→ 我不想再遇到這個房
 CommandHostList,▲ 房主指令:,▲ 房主指令:
 Command.say,[内容] → 发送房主消息,
 Command.mw,[秒] → 设置消息发送间隔,[秒] → 設置消息發送間隔
+Command.solvecover,→ 修复名字遮挡消息内容的问题,→ 修復名字遮擋消息內容的問題
 Command.kill,[玩家ID] → 击杀指定玩家,[玩家ID] → 擊殺指定玩家
 Command.exe,[玩家ID] → 放逐指定玩家,[玩家ID] → 放逐指定玩家
 Command.level,[等级] → 修改您的游戏等级,[等級] → 修改您的遊戲等級
+Command.idlist,→ 显示玩家编号列表,→ 顯示玩家編號列表
 Command.dump,→ 将游戏运行日志输出到桌面,→ 在桌面上建立遊戲輸出日誌
 
 CantUse.lastresult,不可以在游戏中使用/l命令,不可以在遊戲中使用/l指令

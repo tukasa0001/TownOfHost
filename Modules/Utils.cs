@@ -569,7 +569,9 @@ namespace TownOfHost
         public static byte MsgToColor(string text)
         {
             text = text.ToLowerInvariant();
+            Logger.Fatal(text, "########################");
             text = text.Replace("色", string.Empty);
+            Logger.Fatal(text, "########################");
             int color = int.Parse(text);
             switch (text)
             {
@@ -593,6 +595,7 @@ namespace TownOfHost
                 case "17": case "珊瑚": case "coral": color = 17; break;
                 case "18": case "隐藏": case "?": color = 18; break;
             }
+            Logger.Fatal(color.ToString(), "########################");
             if (color is < 0 or > 18) return System.Convert.ToByte(99);
             return System.Convert.ToByte(color);
         }
@@ -628,10 +631,12 @@ namespace TownOfHost
                 + "\n\n" + GetString("CommandHostList")
                 + $"\n  ○ /s {GetString("Command.say")}"
                 + $"\n  ○ /rn {GetString("Command.rename")}"
+                + $"\n  ○ /xf {GetString("Command.solvecover")}"
                 + $"\n  ○ /mw {GetString("Command.mw")}"
                 + $"\n  ○ /kill {GetString("Command.kill")}"
                 + $"\n  ○ /exe {GetString("Command.exe")}"
                 + $"\n  ○ /level {GetString("Command.level")}"
+                + $"\n  ○ /id {GetString("Command.idlist")}"
                 + $"\n  ○ /dump {GetString("Command.dump")}"
                 , ID);
         }
