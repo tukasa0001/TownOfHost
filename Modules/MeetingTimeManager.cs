@@ -31,6 +31,14 @@ namespace TownOfHost
         }
         public static void OnReportDeadBody()
         {
+            if (Options.AllAliveMeeting.GetBool() && GameData.Instance.AllPlayers.ToArray().Where(x => !x.Object.Is(CustomRoles.GM)).All(x => !x.IsDead))
+            {
+                DiscussionTime = 0;
+                VotingTime = Options.AllAliveMeetingTime.GetInt();
+                Logger.Info($"DiscussionTime:{DiscussionTime}, VotingTime{VotingTime}", "MeetingTimeManager.OnReportDeadBody");
+                return;
+            }
+
             ResetMeetingTime();
             int BonusMeetingTime = 0;
             int MeetingTimeMin = 0;
