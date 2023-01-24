@@ -44,6 +44,17 @@ namespace TownOfHost
             int MeetingTimeMin = 0;
             int MeetingTimeMax = 300;
 
+            if (TimeThief.IsEnable)
+            {
+                MeetingTimeMin = TimeThief.LowerLimitVotingTime.GetInt();
+                BonusMeetingTime += TimeThief.TotalDecreasedMeetingTime();
+            }
+            if (TimeManager.IsEnable)
+            {
+                MeetingTimeMax = TimeManager.MeetingTimeLimit.GetInt();
+                BonusMeetingTime += TimeManager.TotalIncreasedMeetingTime();
+            }
+
             int TotalMeetingTime = DiscussionTime + VotingTime;
             //時間の下限、上限で刈り込み
             BonusMeetingTime = Math.Clamp(TotalMeetingTime + BonusMeetingTime, MeetingTimeMin, MeetingTimeMax) - TotalMeetingTime;

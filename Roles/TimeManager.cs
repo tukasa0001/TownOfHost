@@ -13,9 +13,9 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.TimeManager);
-            IncreaseMeetingTime = FloatOptionItem.Create(Id + 10, "TimeManagerIncreaseMeetingTime", new(5f, 30f, 1f), 15f, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeManager])
+            IncreaseMeetingTime = IntegerOptionItem.Create(Id + 10, "TimeManagerIncreaseMeetingTime", new(5, 30, 1), 15, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeManager])
                 .SetValueFormat(OptionFormat.Seconds);
-            MeetingTimeLimit = FloatOptionItem.Create(Id + 11, "TimeManagerLimitMeetingTime", new(200f, 900f, 10f), 300f, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeManager])
+            MeetingTimeLimit = IntegerOptionItem.Create(Id + 11, "TimeManagerLimitMeetingTime", new(200, 900, 10), 300, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeManager])
                 .SetValueFormat(OptionFormat.Seconds);
         }
         public static void Init()
@@ -27,5 +27,19 @@ namespace TownOfHost
             playerIdList.Add(playerId);
         }
         public static bool IsEnable => playerIdList.Count > 0;
+        private static int AdditionalTime(byte id)
+        {
+            var pc = Utils.GetPlayerById(id);
+            if (playerIdList.Contains(id) && pc.IsAlive())
+                return IncreaseMeetingTime.GetInt() * pc.GetPlayerTaskState().CompletedTasksCount;
+            return 0;
+        }
+        public static int TotalIncreasedMeetingTime()
+        {
+            int sec = 0;
+            foreach (var playerId in playerIdList)
+                sec += AdditionalTime(playerId);
+            return sec;
+        }
     }
 }
