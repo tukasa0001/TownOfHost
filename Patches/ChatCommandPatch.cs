@@ -422,7 +422,7 @@ namespace TownOfHost
                         string msgText = "玩家编号列表：";
                         foreach(var pc in PlayerControl.AllPlayerControls)
                         {
-                            msgText += pc.PlayerId.ToString() + " → " + pc.GetRealName();
+                            msgText += "\n" + pc.PlayerId.ToString() + " → " + pc.GetRealName();
                         }
                         Utils.SendMessage(msgText, PlayerControl.LocalPlayer.PlayerId);
                         break;
