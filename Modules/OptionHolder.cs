@@ -73,6 +73,10 @@ namespace TownOfHost
             "Rate0", /*"Rate10", "Rate20", "Rate30", "Rate40", "Rate50",
             "Rate60", "Rate70", "Rate80", "Rate90", */"Rate100",
         };
+        public static readonly string[] ratesToggle =
+        {
+            "RateOff", "RateOn",
+        };
 
         // 各役職の詳細設定
         public static OptionItem EnableGM;
@@ -765,7 +769,7 @@ namespace TownOfHost
 
         public static void SetupRoleOptions(int id, TabGroup tab, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
-            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, tab, false).SetColor(Utils.GetRoleColor(role))
+            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesToggle, 0, tab, false).SetColor(Utils.GetRoleColor(role))
                 .SetHeader(true)
                 .SetGameMode(customGameMode) as StringOptionItem;
             var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 15, 1), 1, tab, false).SetParent(spawnOption)
@@ -778,7 +782,7 @@ namespace TownOfHost
         private static void SetupLoversRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             var role = CustomRoles.Lovers;
-            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
+            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesToggle, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
                 .SetHeader(true)
                 .SetGameMode(customGameMode) as StringOptionItem;
 
@@ -795,7 +799,7 @@ namespace TownOfHost
         }
         public static void SetupSingleRoleOptions(int id, TabGroup tab, CustomRoles role, int count, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
-            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, tab, false).SetColor(Utils.GetRoleColor(role))
+            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesToggle, 0, tab, false).SetColor(Utils.GetRoleColor(role))
                 .SetHeader(true)
                 .SetGameMode(customGameMode) as StringOptionItem;
             // 初期値,最大値,最小値が同じで、stepが0のどうやっても変えることができない個数オプション
