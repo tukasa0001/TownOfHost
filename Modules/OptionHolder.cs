@@ -750,6 +750,7 @@ namespace TownOfHost
                     (object obj, OptionItem.UpdateValueEventArgs args) => IRandom.SetInstanceById(args.CurrentValue)
                 );
             PreventSBServerKick = BooleanOptionItem.Create(1_000_020, "PreventSBServerKick", true, TabGroup.MainSettings, false)
+                .SetGameMode(CustomGameMode.All)
                 .SetColor(Color.blue);
 
             DebugModeManager.SetupCustomOption();
