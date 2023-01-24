@@ -348,6 +348,25 @@ namespace TownOfHost
 
             if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
 
+            //逃逸者的变形
+            if (shapeshifter.Is(CustomRoles.Escapee))
+            {
+                if (shapeshifting)
+                {
+                    if (Main.EscapeeLocation.ContainsKey(shapeshifter.PlayerId))
+                    {
+                        var position = Main.EscapeeLocation[shapeshifter.PlayerId];
+                        Main.EscapeeLocation.Remove(shapeshifter.PlayerId);
+                        Logger.Msg($"{shapeshifter.GetNameWithRole()}:{position}", "EscapeeTeleport");
+                        Utils.TP(shapeshifter.NetTransform, new Vector2(position.x, position.y + 0.3636f));
+                    }
+                    else
+                    {
+                        Main.EscapeeLocation.Add(shapeshifter.PlayerId, shapeshifter.GetTruePosition());
+                    }
+                }
+            }
+
             //矿工传送
             if (shapeshifter.Is(CustomRoles.Miner))
             {

@@ -396,6 +396,7 @@ namespace TownOfHost
             HackUsedMaxTime = IntegerOptionItem.Create(901589, "HackUsedMaxTime", new(1, 15, 1), 3, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
                 .SetValueFormat(OptionFormat.Times);
             SetupRoleOptions(901590, TabGroup.ImpostorRoles, CustomRoles.Miner);
+            SetupRoleOptions(901595, TabGroup.ImpostorRoles, CustomRoles.Escapee);
             Witch.SetupCustomOption();
             SetupRoleOptions(1600, TabGroup.ImpostorRoles, CustomRoles.Mafia);
             MafiaCanKillNum = IntegerOptionItem.Create(901615, "MafiaCanKillNum", new(0, 15, 1), 1, TabGroup.ImpostorRoles,false).SetParent(CustomRoleSpawnChances[CustomRoles.Mafia])

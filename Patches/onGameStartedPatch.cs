@@ -41,6 +41,7 @@ namespace TownOfHost
 
                 Main.LastEnteredVent = new Dictionary<byte, Vent>();
                 Main.LastEnteredVentLocation = new Dictionary<byte, UnityEngine.Vector2>();
+                Main.EscapeeLocation = new Dictionary<byte, UnityEngine.Vector2>();
 
                 Main.AfterMeetingDeathPlayers = new();
                 Main.ResetCamPlayerList = new();
@@ -202,7 +203,7 @@ namespace TownOfHost
                     roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                     int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                    int AdditionalShapeshifterNum = CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount() + CustomRoles.Assassin.GetCount() + CustomRoles.Miner.GetCount() + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.EvilTracker.GetCount();//- ShapeshifterNum;
+                    int AdditionalShapeshifterNum = CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount() + CustomRoles.Assassin.GetCount() + CustomRoles.Miner.GetCount() + CustomRoles.Escapee.GetCount() + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.EvilTracker.GetCount();//- ShapeshifterNum;
                     if (Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1)
                         AdditionalShapeshifterNum += CustomRoles.Egoist.GetCount();
                     if (Options.TrueRandomeRoles.GetBool()) ShapeshifterNum = rd.Next(0, ShapeshifterNum + 1);
@@ -336,7 +337,7 @@ namespace TownOfHost
             else
             {
                 List<int> funList = new();
-                for (int i = 0; i <= 42; i++)
+                for (int i = 0; i <= 43; i++)
                 {
                     funList.Add(i);
                 }
@@ -406,6 +407,7 @@ namespace TownOfHost
                         case 40: AssignCustomRolesFromList(CustomRoles.Assassin, Shapeshifters); break;
                         case 41: AssignCustomRolesFromList(CustomRoles.Luckey, Crewmates); break;
                         case 42: AssignCustomRolesFromList(CustomRoles.CyberStar, Crewmates); break;
+                        case 43: AssignCustomRolesFromList(CustomRoles.Escapee, Shapeshifters); break;
                     }
                 }
 
@@ -528,7 +530,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount() + CustomRoles.Miner.GetCount() + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.EvilTracker.GetCount();
+                ShapeshifterNum -= CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount() + CustomRoles.Miner.GetCount() + CustomRoles.Escapee.GetCount() + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.EvilTracker.GetCount();
                 if (Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1)
                     ShapeshifterNum -= CustomRoles.Egoist.GetCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));

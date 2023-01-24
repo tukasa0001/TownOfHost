@@ -138,6 +138,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> CheckShapeshift = new();
         public static Dictionary<byte, byte> ShapeshiftTarget = new();
         public static Dictionary<(byte, byte), string> targetArrows = new();
+        public static Dictionary<byte, Vector2> EscapeeLocation = new();
         public static bool VisibleTasksCount;
         public static string nickName = "";
         public static bool introDestroyed = false;
@@ -333,6 +334,7 @@ namespace TownOfHost
         Assassin,
         Hacker,
         Miner,
+        Escapee,
         Mare,
         Puppeteer,
         TimeThief,

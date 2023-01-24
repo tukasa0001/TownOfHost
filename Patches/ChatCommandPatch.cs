@@ -461,6 +461,7 @@ namespace TownOfHost
                 "駭客" or "黑客" => "骇客",
                 "刺客" => "刺客",
                 "礦工" => "矿工",
+                "逃逸者" or "逃逸" => "逃逸者",
                 "女巫" => "女巫",
                 "背叛的守衛" or "背叛守卫" => "背叛的守卫",
                 "叛徒" => "叛徒",
@@ -522,6 +523,7 @@ namespace TownOfHost
                 { CustomRoles.Assassin, "刺客" },
                 { CustomRoles.Hacker, "骇客" },
                 { CustomRoles.Miner, "矿工" },
+                { CustomRoles.Escapee, "逃逸者" },
                 { CustomRoles.Witch, "女巫" },
                 //Madmate役職
                 { (CustomRoles)(-2), $"== {GetString("Madmate")} ==" }, //区切り用

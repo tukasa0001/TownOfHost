@@ -43,6 +43,7 @@ namespace TownOfHost
                 CustomRoles.Assassin or
                 CustomRoles.Hacker or
                 CustomRoles.Miner or
+                CustomRoles.Escapee or
                 CustomRoles.SerialKiller or
                 CustomRoles.Mare or
                 CustomRoles.Puppeteer or
