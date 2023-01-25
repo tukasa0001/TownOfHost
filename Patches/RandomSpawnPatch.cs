@@ -14,6 +14,7 @@ namespace TownOfHost
         // 生存プレイヤーが全員スポーン選択を終えたときにスポーンの準備が完了します
         // 死亡済みプレイヤーは準備完了まで待機しますが，条件には含まれません
         public static bool IsSpawnReady => AirshipSpawnedPlayerCount >= Main.AllAlivePlayerControls.Count();
+        public static bool IsProcessing => AirshipSpawnedPlayerCount > 0;
 
         [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.SnapTo), typeof(Vector2), typeof(ushort))]
         public class CustomNetworkTransformPatch
