@@ -260,6 +260,7 @@
 "ModeOptions","Mode Options","モード設定","模组设置","模式設定","Настройка Режима","Opções de Modos"
 "ForceJapanese","Force Japanese","日本語に強制","强制使用日语","強制使用日語","Принудительный Японский","Forçar Japonês"
 "AutoDisplayLastResult","Auto Display Last Result","自動的に試合結果を表示","自动显示最终结果","自動顯示上一回合結果","Отображать Результат Последней Игры","Mostrar Ultimo Resultado"
+"AutoDisplayKillLog","Auto Display KillLog","自動的にキルログを表示","","","",""
 "VoteMode","Voting Mode","投票モード","投票相关设定","投票設定","Режим Голосования","Modo de Votação"
 "WhenSkipVote","When Skip Vote","スキップ時","跳过投票相当于投给自己","當跳過投票時","Когда Пропускаете Голосование","Quando Pular Voto"
 "WhenSkipVoteIgnoreFirstMeeting","Ignore First Meeting","初回会議を除く","忽略首次会议","忽略首次會議","Игнорировать Первую Встречу","Ignorar Primeira Reunião"
@@ -458,6 +459,7 @@
 "Command.h_args","Available Args (Clipped)","使用可能な引数 (略称)","可用参数（简写）","可用的參數(簡稱)","Доступные Аргументы (Ограниченные)","Argumentos Disponíveis (Atalho)"
 
 "CantUse.lastresult","Unable to use /lastresult during a game.","試合中に/lastresultを使用することはできません。","不可以在游戏中使用/lastresult命令","不可以在遊戲中使用/lastresult指令","Нельзя использовать /lastresult во время игры","Impossível usar /lastresult durante um jogo."
+"CantUse.killlog","Unable to use /killlog during a game.","試合中に/killlogを使用することはできません。","不可以在游戏中使用/killlog命令","不可以在遊戲中使用/killlog指令","Нельзя использовать /killlog во время игры","Impossível usar /killlog durante um jogo."
 
 "## メッセージ"
 "Message.SetToSeconds","Set to {0} seconds.","{0}秒に設定されました","信息发送冷却时间为{0}秒","訊息發送冷卻已設定為{0}秒","Установить на {0} секунд","Definido para {0} segundos."
