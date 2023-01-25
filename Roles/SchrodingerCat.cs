@@ -51,6 +51,9 @@ namespace TownOfHost
                 case CustomRoles.Sheriff:
                     target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
                     break;
+                case CustomRoles.ChivalrousExpert:
+                    target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
+                    break;
                 case CustomRoles.Egoist:
                     TeamEgoist.Add(target.PlayerId);
                     target.RpcSetCustomRole(CustomRoles.EgoSchrodingerCat);
