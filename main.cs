@@ -160,6 +160,7 @@ namespace TownOfHost
             Instance = this;
 
             //Client Options
+            AutoStart.Value = false;
             HideName = Config.Bind("Client Options", "Hide Game Code Name", "TOHE");
             HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{ModColor}");
             AutoStart = Config.Bind("Client Options", "AutoStart", false);

@@ -62,8 +62,6 @@ namespace TownOfHost
             __instance.StreamerModeButton.transform.localPosition = origin.Value + Vector3.right * 1.375f + Vector3.up * 1.071f;
             __instance.StreamerModeButton.transform.localScale = Vector3.one * 0.7f;
 
-
-            Main.AutoStart.Value = false;
             Main.DisableTOHE.Value = false;
 
             if (DisableTOHE == null || DisableTOHE?.gameObject == null)

@@ -573,17 +573,7 @@ namespace TownOfHost
                         pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
                     }
                     ChatUpdatePatch.DoBlockChat = false;
-                }, 3f, "SetName To Chat");
-
-                _ = new LateTask(() =>
-                {
-                    foreach (var pc in Main.AllPlayerControls)
-                    {
-                        pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
-                        Utils.NotifyRoles(isMeeting: true, NoCache: true);
-                    }
-                    ChatUpdatePatch.DoBlockChat = false;
-                }, 7.5f, "SetName To Chat Again");
+                }, 3.5f, "SetName To Chat");
             }
 
             foreach (var pva in __instance.playerStates)
