@@ -127,6 +127,10 @@ namespace TownOfHost.Modules
                 case CustomRoles.Arsonist:
                     opt.SetVision(false);
                     break;
+                case CustomRoles.ChivalrousExpert:
+                    // AURoleOptions.
+                    opt.SetVision(false);
+                    break;
                 case CustomRoles.Lighter:
                     opt.SetVision(true);
                     break;

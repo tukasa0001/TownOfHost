@@ -473,6 +473,7 @@ namespace TownOfHost
                 "幸運兒" or "幸运" => "幸运儿",
                 "大明星" or "明星" => "大明星",
                 "網紅" => "网红",
+                "俠客" => "侠客",
                 "工程師" or "工程" => "工程师",
                 "市長" => "市长",
                 "被害妄想症" or "被害妄想" or "被迫害妄想症" or "被害" or "妄想" or "妄想症" => "被害妄想症",
@@ -551,6 +552,7 @@ namespace TownOfHost
                 { CustomRoles.Snitch, "告密者" },
                 { CustomRoles.SpeedBooster, "增速者" },
                 { CustomRoles.Trapper, "陷阱师" },
+                { CustomRoles.ChivalrousExpert, "侠客" },
                 //Neutral役職
                 { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
                 { CustomRoles.Arsonist, "纵火犯" },
