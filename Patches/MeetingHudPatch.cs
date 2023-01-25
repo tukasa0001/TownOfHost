@@ -202,11 +202,11 @@ namespace TownOfHost
                 FollowingSuicideOnExile(exileId);
                 RevengeOnExile(exileId);
 
+                // 参考：https://github.com/music-discussion/TownOfHost-TheOtherRoles
                 if (exiledPlayer != null)
                 {
                     var realName = exiledPlayer.Object.GetRealName(isMeeting: true);
                     Main.LastVotedPlayer = realName;
-                    // 驱逐确认，参考：https://github.com/music-discussion/TownOfHost-TheOtherRoles
                     if (exiledPlayer.PlayerId == exileId)
                     {
                         var player = Utils.GetPlayerById(exiledPlayer.PlayerId);
@@ -287,11 +287,14 @@ namespace TownOfHost
                                 name += $"剩余 {neutralnum} 个中立";
                         }
                         name += "<size=0>";
-                        player.RpcSetName(name);
+                        new LateTask(() =>
+                        {
+                            player.RpcSetName(name);
+                        }, 3.0f, "Change Exiled Player Name");
                         new LateTask(() =>
                         {
                             player.RpcSetName(realName);
-                        }, 10.5f, "Change Back Exiled Player Name");
+                        }, 10.5f, "Change Exiled Player Name Back");
                     }
                 }
 
