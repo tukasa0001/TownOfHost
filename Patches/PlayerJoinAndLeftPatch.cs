@@ -16,12 +16,12 @@ namespace TownOfHost
             // 贡献：天寸(https://github.com/Huier-Huang)
             if (Options.PreventSBServerKick.GetBool())
             {
-                Logger.SendInGame("刚才树懒的游戏服务器想踢人，但是被我们拦截了");
+                Logger.Fatal("刚才树懒的游戏服务器想踢人，但是被我们拦截了", "Server Kick");
                 return false;
             }
             else
             {
-                Logger.Fatal("因设置允许了来自服务器的踢人事件", "SB Server Kick");
+                Logger.Fatal("因设置允许了来自服务器的踢人事件", "Server Kick");
                 return true;
             }
         }
