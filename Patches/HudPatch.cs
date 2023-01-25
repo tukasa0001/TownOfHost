@@ -226,6 +226,7 @@ namespace TownOfHost
         public static bool IsActive = false;
         public static void Postfix(HudManager __instance, [HarmonyArgument(0)] bool isActive)
         {
+            if (!GameStates.IsModHost) return;
             IsActive = isActive;
             if (!isActive) return;
 
