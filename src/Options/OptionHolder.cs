@@ -6,7 +6,7 @@ using Hazel;
 using TownOfHost.Extensions;
 using TownOfHost.Options.Generators;
 using UnityEngine;
-using VentLib.Extensions;
+using VentLib.Utilities.Extensions;
 using VentLib.RPC.Interfaces;
 using Object = UnityEngine.Object;
 

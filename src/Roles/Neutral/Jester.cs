@@ -1,6 +1,8 @@
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Options;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.Victory.Conditions;
 using UnityEngine;
 

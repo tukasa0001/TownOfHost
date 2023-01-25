@@ -2,6 +2,7 @@ using System;
 using TownOfHost.Extensions;
 using TownOfHost.GUI;
 using TownOfHost.Options;
+using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.Logging;
 

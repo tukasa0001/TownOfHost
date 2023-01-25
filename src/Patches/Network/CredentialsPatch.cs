@@ -17,12 +17,14 @@ public class VersionShowerStartPatch
     [Localized("AddonsLoaded")]
     private static string addonsLoaded;
 
+    private static bool _init = false;
+
     public static TextMeshPro? SpecialEventText;
     static void Postfix(VersionShower __instance)
     {
         TOHPlugin.CredentialsText = $"\r\n<color={TOHPlugin.ModColor}>{TOHPlugin.ModName}</color> v{TOHPlugin.PluginVersion}" + (TOHPlugin.DevVersion ? " " + TOHPlugin.DevVersionStr : "");
 #if DEBUG
-        TOHPlugin.CredentialsText += $"\r\n<color={TOHPlugin.ModColor}>{TOHPlugin.Instance.Version().Branch}({TOHPlugin.Instance.Version().CommitNumber})</color>";
+        TOHPlugin.CredentialsText += $"\r\n<color={TOHPlugin.ModColor}>{TOHPlugin.Instance.Version()}({TOHPlugin.Instance.Version()})</color>";
 #endif
 
         int addonCount = AddonManager.Addons.Count;
@@ -47,6 +49,9 @@ public class VersionShowerStartPatch
         }
 
         SpecialEventText.enabled = TitleLogoPatch.AmongUsLogo != null;
+        if (!_init)
+            ISpecialDate.CheckDates();
+        _init = true;
     }
 }
 

@@ -7,7 +7,8 @@ using TownOfHost.Factions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
 using TownOfHost.Roles;
-using VentLib.Extensions;
+using VentLib.Utilities.Extensions;
+using VentLib.Logging;
 
 namespace TownOfHost.Gamemodes.Standard;
 
@@ -18,7 +19,7 @@ class StandardAssignRoles
         // Only constant
         int impostors = GameOptionsManager.Instance.CurrentGameOptions.NumImpostors;
 
-        Queue<CustomRole> roles = new Queue<CustomRole>();
+        Queue<CustomRole> roles = new();
         RoleDistributor.DistributeImpostors(roles, impostors);
         RoleDistributor.DistributeNonImpostors(roles, unassignedPlayers.Count);
 
@@ -43,7 +44,7 @@ class StandardAssignRoles
             CustomRole role = roles.Dequeue();
 
             // We have to initialize the role past its "static" phase
-            Game.AssignRole(assignedPlayer, role);
+            Game.AssignRole(assignedPlayer, role, true);
             role.SyncOptions();
         }
 

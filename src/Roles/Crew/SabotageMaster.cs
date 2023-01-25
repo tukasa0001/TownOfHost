@@ -1,4 +1,5 @@
 using TownOfHost.Patches.Systems;
+using TownOfHost.Roles.Internals.Attributes;
 
 namespace TownOfHost.Roles;
 

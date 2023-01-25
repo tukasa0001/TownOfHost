@@ -8,6 +8,8 @@ using TownOfHost.Managers;
 using TownOfHost.Options;
 using TownOfHost.Patches;
 using TownOfHost.Roles;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.RPC;
 using UnityEngine;
 using VentLib.Localization;
@@ -213,10 +215,10 @@ class MeetingHudOnDestroyPatch
     {
         Game.State = GameState.Roaming;
         VentLogger.Old("------------会議終了------------", "Phase");
-        if (AmongUsClient.Instance.AmHost)
+        /*if (AmongUsClient.Instance.AmHost)
         {
             Game.GetAllPlayers().Do(pc => RandomSpawn.CustomNetworkTransformPatch.NumOfTP[pc.PlayerId] = 0);
-        }
+        }*/
         ActionHandle handle = ActionHandle.NoInit();
         Game.TriggerForAll(RoleActionType.RoundStart, ref handle, false);
         Game.RenderAllForAll(force: true);

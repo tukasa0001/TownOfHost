@@ -19,10 +19,10 @@ using TownOfHost.Roles;
 
 using HarmonyLib;
 using Hazel;
+using TownOfHost.Chat.Patches;
 using TownOfHost.GUI;
 using TownOfHost.Managers;
 using TownOfHost.Options;
-using TownOfHost.Patches.Chat;
 using VentLib.Localization;
 using VentLib.Logging;
 

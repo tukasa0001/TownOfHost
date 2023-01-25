@@ -22,7 +22,7 @@ class OnPlayerLeftPatch
     {
         VentLogger.Old($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
         if (Game.State is GameState.InLobby) return;
-        Game.players.Remove(data.Character.PlayerId);
+        Game.Players.Remove(data.Character.PlayerId);
         AntiBlackout.OnDisconnect(data.Character.Data);
         Game.CurrentGamemode.Trigger(GameAction.GameLeave, data);
     }

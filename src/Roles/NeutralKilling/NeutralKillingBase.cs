@@ -1,5 +1,6 @@
 using AmongUs.GameOptions;
 using TownOfHost.Factions;
+using TownOfHost.Roles.Internals;
 
 namespace TownOfHost.Roles;
 

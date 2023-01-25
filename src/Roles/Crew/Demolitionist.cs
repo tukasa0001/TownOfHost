@@ -2,6 +2,7 @@ using TownOfHost.Options;
 using System.Collections.Generic;
 using TownOfHost.Managers;
 using TownOfHost.Patches.Systems;
+using TownOfHost.Roles.Internals.Attributes;
 using VentLib.Utilities;
 
 namespace TownOfHost.Roles;

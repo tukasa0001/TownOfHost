@@ -1,25 +1,30 @@
 using System;
+using TMPro;
 using TownOfHost.Extensions;
 using TownOfHost.Patches.Network;
 using UnityEngine;
-using VentLib.Utilities;
 
 namespace TownOfHost.Managers.Date;
 
-public struct SpecialDate: ISpecialDate
+public class SpecialDate: ISpecialDate
 {
     public static SpecialDate Christmas = new((12, 24), (12, 25));
+    public static SpecialDate ShiftyBirthday = new((1, 24), (1, 26));
 
     static SpecialDate()
     {
         ((ISpecialDate)Christmas).Create();
         Christmas.text = "Merry Christmas!";
         Christmas.color = TOHPlugin.ModColor.ToColor();
+
+        ((ISpecialDate)ShiftyBirthday).Create();
+        ShiftyBirthday.text = "Happy Birthday\nShifty!";
+        ShiftyBirthday.color = new Color(1f, 0.64f, 0.79f);
     }
 
     private (int, int) dayRange;
     private (int, int) monthRange;
-    private int year;
+    private int year = -1;
 
     internal string text;
     internal Color color;
@@ -41,24 +46,17 @@ public struct SpecialDate: ISpecialDate
     public bool IsDate()
     {
         DateTime now = DateTime.Now;
-        if (this.year != -1 && now.Year != this.year) return false;
-        if (monthRange.Item1 > now.Month) return false; // If the start month is greater than the current month false
-        if (monthRange.Item2 < now.Month) return false; // If the end month is less than the current month return false
-        if (dayRange.Item1 > now.Day) return false; // If the start day is greater than the current day false
-        return dayRange.Item2 >= now.Day; // If the end day is greater than or equal to the current day, true
+        DateTime startDate = new(year == -1 ? now.Year : year, monthRange.Item1, dayRange.Item1);
+        DateTime endDate = new(year == -1 ? now.Year : year, monthRange.Item2, dayRange.Item2);
+        return startDate.CompareTo(now) <= 0 && endDate.CompareTo(now) >= 0;
     }
-
-    public static bool IsChristmas = DateTime.Now is { Month: 12, Day: 24 or 25 };
-    /*public static bool IsInitialRelease = DateTime.Now is { Month: 12, Day: 4 };*/
 
     public void DoDuringDate()
     {
         string text = this.text;
         Color color = this.color;
-        Async.ScheduleThreaded(() =>
-        {
-            VersionShowerStartPatch.SpecialEventText!.text = text;
-            VersionShowerStartPatch.SpecialEventText.color = color;
-        }, 5);
+        VersionShowerStartPatch.SpecialEventText!.text = text;
+        VersionShowerStartPatch.SpecialEventText.color = color;
+        VersionShowerStartPatch.SpecialEventText.fontStyle = FontStyles.Bold;
     }
 }

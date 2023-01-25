@@ -5,6 +5,7 @@ using UnityEngine;
 using TownOfHost.GUI;
 using TownOfHost.Managers;
 using TownOfHost.Options;
+using TownOfHost.Roles.Internals.Attributes;
 
 namespace TownOfHost.Roles;
 

@@ -3,22 +3,10 @@ using System.Linq;
 using HarmonyLib;
 using Hazel;
 using TownOfHost.RPC;
-using VentLib.Extensions;
-using VentLib.Localization.Attributes;
 using VentLib.Utilities;
+using VentLib.Utilities.Extensions;
 
-
-namespace TownOfHost.Patches.Chat;
-
-[Localized(Group = "Commands")]
-[HarmonyPatch(typeof(ChatController), nameof(ChatController.SendChat))]
-class ChatCommands
-{
-    public static void Prefix(ChatController __instance)
-    {
-        __instance.TimeSinceLastMessage = 3f;
-    }
-}
+namespace TownOfHost.Chat.Patches;
 
 [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]
 public class ChatUpdatePatch

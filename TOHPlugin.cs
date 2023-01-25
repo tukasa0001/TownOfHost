@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using BepInEx;
-using BepInEx.Configuration;
 using HarmonyLib;
 using UnityEngine;
 using AmongUs.GameOptions;
@@ -14,6 +12,7 @@ using TownOfHost.Roles;
 using TownOfHost.Gamemodes;
 using TownOfHost.Managers;
 using TownOfHost.Managers.Date;
+using TownOfHost.Roles.Internals.Attributes;
 using VentLib;
 using VentLib.Logging;
 using VentLib.Version;
@@ -27,11 +26,11 @@ namespace TownOfHost;
 
 [BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
 [BepInProcess("Among Us.exe")]
-public class TOHPlugin : BasePlugin, IGitVersionEmitter
+public class TOHPlugin : BasePlugin
 {
     public const string PluginGuid = "com.discussions.tohtor";
     public const string PluginVersion = "1.0.0";
-    public readonly GitVersion CurrentVersion = new();
+    public readonly Version CurrentVersion = new NoVersion();
 
     public static readonly string ModName = "Town Of Host: The Other Roles";
     public static readonly string ModColor = "#4FF918";
@@ -51,10 +50,12 @@ public class TOHPlugin : BasePlugin, IGitVersionEmitter
     {
         Instance = this;
         Vents.Initialize();
-        Vents.VersionControl.For(this);
+        Vents.VersionControl.DisableHandshake();
+        /*Vents.VersionControl.For(this);
         Vents.VersionControl.AddVersionReceiver(
             (ver, player) => playerVersion[player.PlayerId] = (GitVersion)ver,
             ReceiveExecutionFlag.OnSuccessfulHandshake);
+            */
 
         VentLogger.Configuration.SetLevel(LogLevel.Trace);
     }
@@ -94,6 +95,7 @@ public class TOHPlugin : BasePlugin, IGitVersionEmitter
 
     public override void Load()
     {
+        var d = SpecialDate.Christmas;
         OptionManager = new OptionManager();
         GamemodeManager = new GamemodeManager();
 
@@ -110,23 +112,23 @@ public class TOHPlugin : BasePlugin, IGitVersionEmitter
 
         GameOptionTab __ = DefaultTabs.GeneralTab;
         int _ = CustomRoleManager.AllRoles.Count;
+        StaticEditor.Register(Assembly.GetExecutingAssembly());
         Harmony.PatchAll(Assembly.GetExecutingAssembly());
         AddonManager.ImportAddons();
 
         GamemodeManager.Setup();
         StaticOptions.AddStaticOptions();
         OptionManager.AllHolders.AddRange(OptionManager.Options().SelectMany(opt => opt.GetHoldersRecursive()));
-        ISpecialDate.CheckDates();
         Initialized = true;
     }
 
-    public GitVersion Version() => CurrentVersion;
+    public Version Version() => CurrentVersion;
 
-    public HandshakeResult HandshakeFilter(Version handshake)
+    /*public HandshakeResult HandshakeFilter(Version handshake)
     {
         if (handshake is NoVersion) return HandshakeResult.FailDoNothing;
         if (handshake is not GitVersion git) return HandshakeResult.DisableRPC;
         if (git.MajorVersion != CurrentVersion.MajorVersion && git.MinorVersion != CurrentVersion.MinorVersion) return HandshakeResult.FailDoNothing;
         return HandshakeResult.PassDoNothing;
-    }
+    }*/
 }

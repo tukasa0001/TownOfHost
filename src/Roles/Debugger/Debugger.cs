@@ -5,6 +5,7 @@ using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
+using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.Victory.Conditions;
 using UnityEngine;
 using VentLib.Logging;

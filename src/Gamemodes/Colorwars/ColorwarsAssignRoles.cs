@@ -7,8 +7,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Gamemodes.FFA;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
-using VentLib;
-using VentLib.Extensions;
+using VentLib.Utilities.Extensions;
 using VentLib.RPC;
 using VentLib.Utilities;
 
@@ -28,6 +27,11 @@ public static class ColorwarsAssignRoles
             return;
         }
 
+        AssignTeams(teams, players);
+    }
+
+    public static void AssignTeams(List<List<PlayerControl>> teams, List<PlayerControl> players)
+    {
         PlayerControl localPlayer = PlayerControl.LocalPlayer;
         foreach (List<PlayerControl> team in teams)
         {

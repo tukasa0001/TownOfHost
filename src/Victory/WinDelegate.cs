@@ -5,7 +5,7 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Options;
 using TownOfHost.Victory.Conditions;
-using VentLib.Extensions;
+using VentLib.Utilities.Extensions;
 using VentLib.Logging;
 
 namespace TownOfHost.Victory;

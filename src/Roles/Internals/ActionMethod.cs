@@ -3,10 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using TownOfHost.Extensions;
-using VentLib.Extensions;
+using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Roles;
+namespace TownOfHost.Roles.Internals;
 
 
 public static class MethodInfoExtension

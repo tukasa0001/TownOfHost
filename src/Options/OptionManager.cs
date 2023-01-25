@@ -42,6 +42,7 @@ public class OptionManager
     public void Add(OptionHolder holder)
     {
         this.options.Add(holder);
+
         if (Loaded)
             this.AllHolders.Add(holder);
         holder.GetHoldersRecursive().Do(h => h.valueHolder?.UpdateBinding());

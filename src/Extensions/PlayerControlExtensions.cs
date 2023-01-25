@@ -11,8 +11,10 @@ using TownOfHost.Managers;
 using TownOfHost.Options;
 using UnityEngine;
 using TownOfHost.Roles;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.RPC;
-using VentLib.Extensions;
+using VentLib.Utilities.Extensions;
 using VentLib.Logging;
 using VentLib.Utilities;
 using GameStates = TownOfHost.Managers.GameStates;
@@ -110,10 +112,10 @@ public static class PlayerControlExtensions
 
     public static string GetRoleName(this PlayerControl player) => player.GetCustomRole().RoleName;
 
-    public static string GetRawName(this PlayerControl? player, bool isMeeting = false)
+    public static string GetRawName(this PlayerControl? player)
     {
-        try { return player.GetDynamicName().RawName; }
-        catch { return player.Data.PlayerName; }
+        try { return player != null ? player.GetDynamicName().RawName : "Unknown"; }
+        catch { return player != null ? player.Data.PlayerName : "Unknown"; }
     }
 
     public static void RpcSetRoleDesync(this PlayerControl player, RoleTypes role, int clientId)
@@ -222,7 +224,10 @@ public static class PlayerControlExtensions
     {
         if (!player) return null;
         var text = Utils.GetRoleName(player.GetCustomRole());
-        text += player.GetSubroles().Select(r => r.RoleName).StrJoin();
+        List<Subrole> subroles = player.GetSubroles();
+        if (subroles.Count == 0) return text;
+
+        text += subroles.StrJoin().Replace("[", " (").Replace("]", ")");
         return text;
     }
 

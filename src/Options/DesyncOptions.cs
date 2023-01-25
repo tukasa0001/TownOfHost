@@ -6,6 +6,8 @@ using Hazel;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
+using TownOfHost.Roles.Internals;
+using VentLib.Logging;
 
 namespace TownOfHost.Options;
 
@@ -13,22 +15,27 @@ public static class DesyncOptions
 {
     public static IGameOptions OriginalHostOptions {
         set => originalHostOptions = value;
-        get => originalHostOptions ?? GameOptionsManager.Instance?.CurrentGameOptions;
+        get => originalHostOptions ?? GameOptionsManager.Instance?.CurrentGameOptions!;
     }
 
-    private static IGameOptions originalHostOptions;
+    private static IGameOptions? originalHostOptions;
 
     public static void SyncToAll(IGameOptions options) => Game.GetAllPlayers().Do(p => SyncToPlayer(options, p));
 
     public static void SyncToPlayer(IGameOptions options, PlayerControl player)
     {
         if (!AmongUsClient.Instance.AmHost) return;
-        if (player.PlayerId != PlayerControl.LocalPlayer.PlayerId)
+        if (!player.AmOwner)
         {
             SyncToClient(options, AmongUsClient.Instance.GetClientFromCharacter(player).Id);
             return;
         }
 
+        GameOptionsManager.Instance.currentGameOptions = options;
+
+        var normalOptions = options.TryCast<NormalGameOptionsV07>();
+        if (normalOptions != null)
+            GameManager.Instance.LogicOptions.Cast<LogicOptionsNormal>().GameOptions = normalOptions;
         GameOptionsManager.Instance.currentGameOptions = options;
     }
 
@@ -73,6 +80,7 @@ public static class DesyncOptions
     {
         IGameOptions clonedOptions = OriginalHostOptions.DeepCopy();
         overrides.Where(o => o != null).Do(optionOverride => optionOverride.ApplyTo(clonedOptions));
+        VentLogger.Fatal($"Player Speed: {clonedOptions.GetFloat(FloatOptionNames.PlayerSpeedMod)}");
         SyncToPlayer(clonedOptions, player);
     }
 

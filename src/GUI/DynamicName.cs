@@ -13,7 +13,7 @@ using TownOfHost.Player;
 using TownOfHost.Roles;
 using UnityEngine;
 using VentLib;
-using VentLib.Extensions;
+using VentLib.Utilities.Extensions;
 using VentLib.RPC;
 using VentLib.Utilities;
 
@@ -103,7 +103,7 @@ public class DynamicName
 
     public static DynamicName For(PlayerControl player)
     {
-        string playerName = (Game.players.TryGetValue(player.PlayerId, out PlayerPlus? pp)) && pp?.DynamicName != null ? pp.DynamicName.RawName : player.Data.PlayerName;
+        string playerName = (Game.Players.TryGetValue(player.PlayerId, out PlayerPlus? pp)) && pp?.DynamicName != null ? pp.DynamicName.RawName : player.Data.PlayerName;
 
         DynamicName name = new() {
             valueDictionary = {

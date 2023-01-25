@@ -4,7 +4,10 @@ using TownOfHost.GUI;
 using TownOfHost.Managers;
 using TownOfHost.Options;
 using TownOfHost.Patches.Systems;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
+using Priority = TownOfHost.Roles.Internals.Attributes.Priority;
 
 namespace TownOfHost.Roles;
 

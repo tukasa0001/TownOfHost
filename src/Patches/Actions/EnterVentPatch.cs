@@ -3,6 +3,8 @@ using TownOfHost.Extensions;
 using TownOfHost.Gamemodes;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
 using VentLib.Logging;
 
 namespace TownOfHost.Patches.Actions;
@@ -12,7 +14,7 @@ class EnterVentPatch
 {
     public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
     {
-        VentLogger.Trace($"{pc.GetNameWithRole()} Entered Vent!!!! ({__instance.Id})", "CoEnterVent");
+        VentLogger.Trace($"{pc.GetNameWithRole()} Entered Vent (ID: {__instance.Id})", "CoEnterVent");
         CustomRole role = pc.GetCustomRole();
         if (Game.CurrentGamemode.IgnoredActions().HasFlag(GameAction.EnterVent)) pc.MyPhysics.RpcBootFromVent(__instance.Id);
         ActionHandle vented = ActionHandle.NoInit();

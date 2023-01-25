@@ -6,6 +6,8 @@ using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.RPC;
 using TownOfHost.Victory;
 using UnityEngine;

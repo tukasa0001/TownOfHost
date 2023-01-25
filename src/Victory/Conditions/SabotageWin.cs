@@ -5,7 +5,7 @@ using TownOfHost.Factions;
 using TownOfHost.Managers;
 using TownOfHost.Patches.Systems;
 using TownOfHost.Roles;
-using VentLib.Extensions;
+using VentLib.Utilities.Extensions;
 
 namespace TownOfHost.Victory.Conditions;
 

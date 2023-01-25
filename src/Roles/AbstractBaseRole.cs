@@ -9,11 +9,13 @@ using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.GUI;
 using TownOfHost.Options;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
-using VentLib.Extensions;
 using VentLib.Localization;
 using VentLib.Localization.Attributes;
 using VentLib.Logging;
+using VentLib.Utilities.Extensions;
 
 namespace TownOfHost.Roles;
 
@@ -31,29 +33,41 @@ public abstract class AbstractBaseRole
         if (ROLE_DEBUG)
             VentLogger.Warn($"Illegally Constructing Role for {typeof(T)}", "RoleWarning");
         return (T)typeof(T).GetConstructor(Array.Empty<Type>()).Invoke(null);
-
     }
+
+    public RoleEditor? Editor { get; internal set; }
+    private static List<RoleEditor> _editors = new();
+
 
     public string Description => Localizer.Get($"Roles.{EnglishRoleName.RemoveHtmlTags()}.Description");
     public string Blurb => Localizer.Get($"Roles.{EnglishRoleName.RemoveHtmlTags()}.Blurb");
-    public string RoleName => Localizer.Get($"Roles.{EnglishRoleName.RemoveHtmlTags()}.RoleName");
 
+    public string RoleName {
+        get {
+            string name = Localizer.Get($"Roles.{EnglishRoleName.RemoveHtmlTags()}.RoleName");
+            return name == "N/A" ? EnglishRoleName : name;
+        }
+    }
+
+    public RoleTypes RealRole => DesyncRole ?? VirtualRole;
     public RoleTypes? DesyncRole;
     public RoleTypes VirtualRole;
-    public RoleTypes RealRole => DesyncRole ?? VirtualRole;
-    public Faction[] Factions = { Faction.Crewmates };
+    public Faction[] Factions { get; private set; } = { Faction.Crewmates };
     public SpecialType SpecialType = SpecialType.None;
     public Color RoleColor = Color.white;
-    public bool IsSubrole;
-    public int Chance;
-    public int Count;
-    public int AdditionalChance;
+    public bool IsSubrole { get; private set; }
+    public int Chance { get; private set;  }
+    public int Count { get; private set; }
+    public int AdditionalChance { get; private set; }
     protected bool BaseCanVent;
 
+    private OptionHolder options;
+
     public string EnglishRoleName { get; private set; }
-    protected Dictionary<Type, List<MethodInfo>> roleInteractions = new();
-    protected Dictionary<Faction, List<MethodInfo>> factionInteractions = new();
-    protected Dictionary<RoleActionType, List<Tuple<MethodInfo, RoleAction>>> RoleActions = new();
+    private readonly Dictionary<Type, List<MethodInfo>> roleInteractions = new();
+    private readonly Dictionary<Faction, List<MethodInfo>> factionInteractions = new();
+    private readonly Dictionary<RoleActionType, List<RoleAction>> roleActions = new();
+
     protected List<GameOptionOverride> roleSpecificGameOptionOverrides = new();
 
     private static SmartOptionBuilder RoleOptionsBuilder => roleOptionsBuilder.Clone();
@@ -69,10 +83,13 @@ public abstract class AbstractBaseRole
         // RoleColor (which is white until after Modify)
         // To solve this we call Modify to TRY to setup the role color, crashing once it requires uncreated options
         // The modify at the end of this method is the "real" modify
-        try { Modify(new RoleModifier(this)); } catch { }
+        RoleModifier _;
+        try {
+            _ = _editors.Aggregate(Modify(new RoleModifier(this)), (current, editor) => editor.HookModifier(current));
+        } catch { }
         this.roleSpecificGameOptionOverrides.Clear();
 
-        OptionHolder options = GetOptionBuilder().Build();
+        options = _editors.Aggregate(GetOptionBuilder(), (current, editor) => editor.HookOptions(current)).Build();
         if (options.Name != null || options.GetAsString() != "N/A")
         {
             TOHPlugin.OptionManager.Add(options);
@@ -95,38 +112,40 @@ public abstract class AbstractBaseRole
         SetupRoleActions();
         SetupRoleInteractions();
         options.valueHolder?.UpdateBinding();
-        Modify(new RoleModifier(this));
-
-        //this.roleSpecificGameOptionOverrides.StrJoin().DebugLog($"Overrides for {RoleName}");
-
+        _ = _editors.Aggregate(Modify(new RoleModifier(this)), (current, editor) => editor.HookModifier(current));
+        options.Name = RoleName;
     }
 
     private void SetupRoleActions()
     {
-        Enum.GetValues<RoleActionType>().Do(action => this.RoleActions.Add(action, new List<Tuple<MethodInfo, RoleAction>>()));
+        Enum.GetValues<RoleActionType>().Do(action => this.roleActions.Add(action, new List<RoleAction>()));
 
         this.GetType().GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-            .Where(method => method.GetCustomAttribute<RoleAction>() != null)
-            .Do(method =>
-            {
-                RoleAction attribute = method.GetCustomAttribute<RoleAction>()!;
-                List<Tuple<MethodInfo, RoleAction>> currentMethods = this.RoleActions[attribute.ActionType];
+            .SelectWhere(method => (method.GetCustomAttribute<RoleActionAttribute>(), method), t => t.Item1 != null)
+            .Select(t => new RoleAction(t.Item1!, t.method))
+            .Do(AddRoleAction);
+    }
 
+    private void AddRoleAction(RoleAction action)
+    {
+        List<RoleAction> currentActions = this.roleActions.GetValueOrDefault(action.ActionType, new List<RoleAction>());
 
-                if (attribute.Override != null) {
-                    int overrideIndex = currentMethods.FindIndex(m => m.Item1.Name == attribute.Override);
-                    if (overrideIndex != -1) currentMethods[overrideIndex] = new Tuple<MethodInfo, RoleAction>(method, attribute);
-                    return;
-                }
+        if (action.Attribute.Override != null) {
+            int overrideIndex = currentActions.FindIndex(m => m.method.Name == action.Attribute.Override);
+            if (overrideIndex != -1) currentActions[overrideIndex] = action;
+            this.roleActions[action.ActionType] = currentActions;
+            return;
+        }
 
-                VentLogger.Log(LogLevel.All, $"Registering Action {this.GetType()} || {attribute.ActionType} => {method.Name}");
-                if (attribute.ActionType is RoleActionType.FixedUpdate &&
-                    this.RoleActions[RoleActionType.FixedUpdate].Count > 0)
-                    throw new ConstraintException("RoleActionType.FixedUpdate is limited to one per class. If you're inheriting a class that uses FixedUpdate you can add Override=METHOD_NAME to your annotation to override its Update method.");
+        VentLogger.Log(LogLevel.All, $"Registering Action {this.GetType()} || {action.ActionType} => {action.method.Name}");
+        if (action.ActionType is RoleActionType.FixedUpdate &&
+            currentActions.Count > 0)
+            throw new ConstraintException("RoleActionType.FixedUpdate is limited to one per class. If you're inheriting a class that uses FixedUpdate you can add Override=METHOD_NAME to your annotation to override its Update method.");
 
-                if (attribute.Subclassing || method.DeclaringType == this.GetType())
-                    this.RoleActions[attribute.ActionType].Add(new Tuple<MethodInfo, RoleAction>(method, attribute));
-            });
+        if (action.Attribute.Subclassing || action.method.DeclaringType == this.GetType())
+            currentActions.Add(action);
+
+        this.roleActions[action.ActionType] = currentActions;
     }
 
     private void SetupRoleInteractions()
@@ -157,9 +176,9 @@ public abstract class AbstractBaseRole
         if (!AmongUsClient.Instance.AmHost) return;
         if (actionType == RoleActionType.FixedUpdate)
         {
-            List<Tuple<MethodInfo, RoleAction>> methods = RoleActions[RoleActionType.FixedUpdate];
+            List<RoleAction> methods = roleActions[RoleActionType.FixedUpdate];
             if (methods.Count == 0) return;
-            methods[0].Item1.Invoke(this, null);
+            methods[0].ExecuteFixed(this);
             return;
         }
 
@@ -169,20 +188,20 @@ public abstract class AbstractBaseRole
 
 
         bool inBlockList = MyPlayer != null && CustomRoleManager.RoleBlockedPlayers.Contains(MyPlayer.PlayerId);
-        RoleActions[actionType].Do(method =>
+        roleActions[actionType].Do(action =>
         {
             if (StaticOptions.LogAllActions)
             {
                 VentLogger.Trace($"{MyPlayer.GetNameWithRole()} :: {actionType.ToString()}", "ActionLog");
-                VentLogger.Trace($"Parameters: {parameters.StrJoin()} :: Blocked? {inBlockList && method.Item2.Blockable}", "ActionLog");
+                VentLogger.Trace($"Parameters: {parameters.StrJoin()} :: Blocked? {inBlockList && action.Blockable}", "ActionLog");
             }
-            if (!inBlockList || !method.Item2.Blockable)
-                method.Item1.InvokeAligned(this, parameters);
+            if (!inBlockList || !action.Blockable)
+                action.Execute(this, parameters);
         });
     }
 
     // lol this method is such a hack it's funny
-    public IEnumerable<Tuple<MethodInfo, RoleAction, AbstractBaseRole>> GetActions(RoleActionType actionType) => RoleActions[actionType].Select(tuple => new Tuple<MethodInfo, RoleAction, AbstractBaseRole>(tuple.Item1, tuple.Item2, this));
+    public IEnumerable<(RoleAction, AbstractBaseRole)> GetActions(RoleActionType actionType) => roleActions[actionType].Select(action => (action, this));
 
 
     // Currently role interaction >> faction interaction and I do not trigger faction interaction if role interaction was triggered
@@ -251,11 +270,13 @@ public abstract class AbstractBaseRole
         return RegisterOptions(b);
     }
 
-    protected abstract SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream);
-
+    protected virtual SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream)
+    {
+        optionStream.Display(EnglishRoleName, () => RoleName).IsHeader(true);
+        return optionStream;
+    }
 
     public bool Is(CustomRole role) => this.GetType() == role.GetType();
-
 
     public override string ToString()
     {
@@ -344,6 +365,93 @@ public abstract class AbstractBaseRole
         {
             myRole.RoleColor = color;
             return this;
+        }
+    }
+
+    public abstract class RoleEditor
+    {
+        internal AbstractBaseRole FrozenRole { get; }
+        internal AbstractBaseRole ModdedRole = null!;
+        internal CustomRole? RoleInstance;
+
+        internal RoleEditor(AbstractBaseRole baseRole)
+        {
+            this.FrozenRole = baseRole;
+        }
+
+        internal AbstractBaseRole StartLink()
+        {
+            _editors.Clear();
+            _editors.Add(this);
+            this.ModdedRole = (AbstractBaseRole)Activator.CreateInstance(FrozenRole.GetType())!;
+            this.ModdedRole.Editor = this;
+            _editors.Clear();
+            this.SetupActions();
+            OnLink();
+            return ModdedRole;
+        }
+
+        internal RoleEditor Instantiate(CustomRole role, PlayerControl player)
+        {
+            RoleEditor cloned = (RoleEditor)this.MemberwiseClone();
+            cloned.RoleInstance = role;
+            cloned.HookSetup(player);
+            return cloned;
+        }
+
+        public virtual void HookSetup(PlayerControl myPlayer) { }
+
+        public virtual RoleModifier HookModifier(RoleModifier modifier) {
+            return modifier;
+        }
+
+        public virtual SmartOptionBuilder HookOptions(SmartOptionBuilder optionStream) {
+            return optionStream;
+        }
+
+        public abstract void OnLink();
+
+        private void PatchHook(object?[] args, ModifiedAction action, MethodInfo baseMethod)
+        {
+            if (action.Behaviour is ModifiedBehaviour.PatchBefore)
+            {
+                object? result = action.method.InvokeAligned(args);
+                if (action.method.ReturnType == typeof(bool) && (result == null || (bool)result))
+                    baseMethod.InvokeAligned(args);
+                return;
+            }
+
+            baseMethod.InvokeAligned(args);
+            action.method.InvokeAligned(args);
+        }
+
+        private void SetupActions()
+        {
+            this.GetType().GetMethods(BindingFlags.Default | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                .SelectWhere(method => (method.GetCustomAttribute<RoleActionAttribute>(), method), t => t.Item1 != null)
+                .Select(t => t.Item1 is ModifiedActionAttribute modded ? new ModifiedAction(modded, t.method) : new RoleAction(t.Item1!, t.method))
+                .Do(action =>
+                {
+                    if (action is not ModifiedAction modded) ModdedRole.AddRoleAction(action);
+                    else {
+                        List<RoleAction> currentActions = ModdedRole.roleActions.GetValueOrDefault(action.ActionType, new List<RoleAction>());
+
+                        switch (modded.Behaviour)
+                        {
+                            case ModifiedBehaviour.Replace:
+                                currentActions.Clear();
+                                currentActions.Add(modded);
+                                break;
+                            case ModifiedBehaviour.Addition:
+                                currentActions.Add(modded);
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+
+                        ModdedRole.roleActions[action.ActionType] = currentActions;
+                    }
+                });
         }
     }
 }

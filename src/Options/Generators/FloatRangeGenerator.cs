@@ -19,7 +19,7 @@ public class FloatRangeGenerator: IRangeGenerator
     public IEnumerable<object?> GetRange()
     {
         List<object?> values = new();
-        for (float i = start; i <= end; i += step) values.Add(Convert.ToSingle(Math.Round(Convert.ToDecimal(i), 2)));
+        for (float i = start; i < end || Math.Abs(end - i) < 0.005f ; i += step) values.Add(Convert.ToSingle(Math.Round(Convert.ToDecimal(i), 2)));
         return values;
     }
 }

@@ -5,7 +5,9 @@ using TownOfHost.GUI;
 using TownOfHost.Managers;
 using UnityEngine;
 using TownOfHost.Options;
-using VentLib.Extensions;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
+using VentLib.Utilities.Extensions;
 
 namespace TownOfHost.Roles;
 

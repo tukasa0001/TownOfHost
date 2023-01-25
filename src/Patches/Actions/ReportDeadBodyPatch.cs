@@ -3,6 +3,8 @@ using TownOfHost.Extensions;
 using TownOfHost.Gamemodes;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
 using VentLib.Logging;
 
 namespace TownOfHost.Patches.Actions;
@@ -13,7 +15,8 @@ public class ReportDeadBodyPatch
     public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo target)
     {
         VentLogger.Old($"{__instance.GetNameWithRole()} => {target?.Object?.GetNameWithRole() ?? "null"}", "ReportDeadBody");
-        if (Game.CurrentGamemode.IgnoredActions().HasFlag(GameAction.ReportBody)) return false;
+        if (Game.CurrentGamemode.IgnoredActions().HasFlag(GameAction.ReportBody) && target != null) return false;
+        if (Game.CurrentGamemode.IgnoredActions().HasFlag(GameAction.CallMeeting) && target == null) return false;
         if (!AmongUsClient.Instance.AmHost) return true;
         if (target == null) return true;
         if (Game.GameStates.UnreportableBodies.Contains(target.PlayerId)) return false;

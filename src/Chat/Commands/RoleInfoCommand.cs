@@ -1,26 +1,62 @@
+using System.Linq;
 using TownOfHost.Extensions;
+using TownOfHost.Managers;
+using TownOfHost.Options;
+using TownOfHost.Roles;
 using VentLib.Commands;
 using VentLib.Commands.Attributes;
 using VentLib.Commands.Interfaces;
-using VentLib.Extensions;
-using VentLib.Logging;
+using VentLib.Utilities.Extensions;
 
 namespace TownOfHost.Chat.Commands;
 
-[Command(new[] {"r", "role"}, user: CommandUser.Host)]
+[Command("m", "myrole")]
 public class RoleInfoCommand: ICommandReceiver
 {
+    private int previousLevel = 0;
+
     public void Receive(PlayerControl source, CommandContext context)
     {
-        VentLogger.Fatal($"Received Message: {source.GetRawName()} => {context.Args.StrJoin()}", "TESTEST");
+        if (Game.State is GameState.InLobby) return;
+        if (context.Args.Length == 0) {
+            ShowRoleDescription(source);
+            return;
+        }
+        string pageString = context.Args[0];
+        if (!int.TryParse(pageString, out int page) || page <= 1) ShowRoleDescription(source);
+        else ShowRoleOptions(source, page);
     }
 
-    [Command(new[] { "set" }, user: CommandUser.Host)]
-    public class Subcommand : ICommandReceiver
+    private void ShowRoleDescription(PlayerControl source)
     {
-        public void Receive(PlayerControl source, CommandContext context)
-        {
-            VentLogger.Fatal($"Received Message: {source.GetRawName()} => {context.Args.StrJoin()}", "TESTEST");
-        }
+        CustomRole role = source.GetCustomRole();
+        string output = $"{role} {role.Factions.StrJoin()}:";
+        output += $"\n{role.Description}";
+        Utils.SendMessage(output, source.PlayerId);
+    }
+
+    private void ShowRoleOptions(PlayerControl source, int page)
+    {
+        CustomRole role = source.GetCustomRole();
+        string output = $"{role} {role.Factions.StrJoin()}:";
+
+        OptionHolder? optionMatch = TOHPlugin.OptionManager.Options().FirstOrDefault(h => h.Name == role.RoleName);
+        if (optionMatch == null) { ShowRoleDescription(source); return; }
+
+        foreach (var child in optionMatch.GetHoldersRecursive().Where(child => child != optionMatch))
+            UpdateOutput(ref output, child);
+
+        Utils.SendMessage(output, source.PlayerId);
+    }
+
+    private void UpdateOutput(ref string output, OptionHolder options)
+    {
+        if (options.Level < previousLevel)
+            output += "\n";
+        previousLevel = options.Level;
+        if (options.Color != null)
+            output += $"\n{options.Name} => {options.Color.Value.Colorize(options.GetAsString())}";
+        else
+            output += $"\n{options.Name} => {options.GetAsString()}";
     }
 }

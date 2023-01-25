@@ -21,21 +21,13 @@ namespace TownOfHost
         public static void Prefix(AmongUsClient __instance)
         {
             Game.Setup();
-            GameOptionsManager.Instance.CurrentGameOptions = GameOptionsManager.Instance.normalGameHostOptions.Cast<IGameOptions>();
+            /*GameOptionsManager.Instance.CurrentGameOptions = GameOptionsManager.Instance.normalGameHostOptions.Cast<IGameOptions>();*/
         }
 
         public static void Postfix(AmongUsClient __instance)
         {
             TOHPlugin.ResetCamPlayerList = new List<byte>();
             StaticOptions.UsedButtonCount = 0;
-            RandomSpawn.CustomNetworkTransformPatch.NumOfTP = new();
-
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                pc.cosmetics.nameText.text = pc.name;
-                RandomSpawn.CustomNetworkTransformPatch.NumOfTP.Add(pc.PlayerId, 0);
-            }
-
             TOHPlugin.VisibleTasksCount = true;
             FallFromLadder.Reset();
             AntiBlackout.Reset();

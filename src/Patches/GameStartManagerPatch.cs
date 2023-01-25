@@ -5,7 +5,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Options;
 using TownOfHost.Player;
 using UnityEngine;
-using VentLib.Extensions;
+using VentLib.Utilities.Extensions;
 using VentLib.Logging;
 using GameStates = TownOfHost.Managers.GameStates;
 

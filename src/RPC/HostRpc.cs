@@ -3,7 +3,7 @@ using System.Linq;
 using TownOfHost.Extensions;
 using TownOfHost.Options;
 using VentLib;
-using VentLib.Extensions;
+using VentLib.Utilities.Extensions;
 using VentLib.Logging;
 using VentLib.RPC.Attributes;
 

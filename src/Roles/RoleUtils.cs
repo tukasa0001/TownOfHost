@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Extensions;
+using TownOfHost.GUI;
 using TownOfHost.Managers;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.RPC;
 using VentLib.Utilities;
@@ -63,10 +66,17 @@ public class RoleUtils
             .Write(player).Write((byte)17).Send(player.GetClientId());
     }
 
-    public static string Counter(object numerator, object denominator, Color? color = null)
+    public static string Counter(object numerator, object? denominator = null, Color? color = null)
     {
         color ??= new Color(0.92f, 0.77f, 0.22f);
-        return Color.white.Colorize("(" + color.Value.Colorize($"{numerator}/{denominator}") + ")");
+        return denominator == null
+            ? Color.white.Colorize("(" + color.Value.Colorize($"{numerator}") + ")")
+            : Color.white.Colorize("(" + color.Value.Colorize($"{numerator}/{denominator}") + ")");
+    }
+
+    public static string Cooldown(Cooldown cooldown)
+    {
+        return cooldown.ToString() == "0" ? "" : $"<color=#ed9247>CD:</color> {Color.white.Colorize(cooldown + "s")}";
     }
 
     public static bool RoleCheckedMurder(PlayerControl killer, PlayerControl target)

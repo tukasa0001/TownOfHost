@@ -5,7 +5,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Options;
 using VentLib.Logging;
 
-namespace TownOfHost.Roles;
+namespace TownOfHost.Roles.Internals;
 
 public class GameOptionOverride
 {
@@ -43,7 +43,8 @@ public class GameOptionOverride
                 normalOptions.VotingTime = (int)(GetValue() ?? DesyncOptions.OriginalHostOptions.AsNormalOptions()!.VotingTime);
                 break;
             case Override.PlayerSpeedMod:
-                normalOptions.PlayerSpeedMod = (float)(GetValue() ?? DesyncOptions.OriginalHostOptions.AsNormalOptions()!.PlayerSpeedMod);
+                VentLogger.Fatal("Setting Player Speed Mod");
+                options.SetFloat(FloatOptionNames.PlayerSpeedMod, (float)(GetValue() ?? DesyncOptions.OriginalHostOptions.AsNormalOptions()!.PlayerSpeedMod));
                 break;
             case Override.CrewLightMod:
                 normalOptions.CrewLightMod = (float)(GetValue() ?? DesyncOptions.OriginalHostOptions.AsNormalOptions()!.CrewLightMod);

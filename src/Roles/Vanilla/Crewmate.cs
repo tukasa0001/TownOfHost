@@ -2,6 +2,7 @@ using System;
 using AmongUs.GameOptions;
 using TownOfHost.Factions;
 using TownOfHost.GUI;
+using TownOfHost.Roles.Internals.Attributes;
 
 namespace TownOfHost.Roles;
 

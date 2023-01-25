@@ -4,12 +4,10 @@ using TownOfHost.Roles;
 using VentLib.Commands;
 using VentLib.Commands.Attributes;
 using VentLib.Commands.Interfaces;
-using VentLib.Extensions;
 using VentLib.Localization;
 using VentLib.Localization.Attributes;
-using VentLib.Logging;
 
-namespace TownOfHost.Chat.Commands.Help;
+namespace TownOfHost.Chat.Commands;
 
 [Localized(Group = "Commands", Subgroup = "Help")]
 [Command(new[] {"Commands.Help.Alias"}, "h", "help")]

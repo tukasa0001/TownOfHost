@@ -5,6 +5,7 @@ using Hazel;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
+using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.RPC;
 
 namespace TownOfHost.Roles;

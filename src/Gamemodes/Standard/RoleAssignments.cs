@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Extensions;
 using TownOfHost.Roles;
-using VentLib.Extensions;
+using VentLib.Utilities.Extensions;
 using VentLib.Logging;
 
 namespace TownOfHost.Gamemodes.Standard;

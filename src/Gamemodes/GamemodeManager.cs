@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TownOfHost.Gamemodes.CaptureTheFlag;
 using TownOfHost.Gamemodes.Colorwars;
 using TownOfHost.Gamemodes.Debug;
 using TownOfHost.Gamemodes.FFA;
@@ -28,7 +29,7 @@ public class GamemodeManager
 
     private IGamemode _currentGamemode;
     public OptionHolder GamemodeOption;
-    internal readonly List<Type> GamemodeTypes = new() { typeof(StandardGamemode), typeof(TestHnsGamemode), typeof(ColorwarsGamemode), typeof(DebugGamemode)};
+    internal readonly List<Type> GamemodeTypes = new() { typeof(StandardGamemode), typeof(TestHnsGamemode), typeof(ColorwarsGamemode), typeof(DebugGamemode), typeof(CTFGamemode)};
 
     public void SetGamemode(int id)
     {

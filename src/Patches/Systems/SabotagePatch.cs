@@ -5,6 +5,8 @@ using TownOfHost.Extensions;
 using TownOfHost.Gamemodes;
 using TownOfHost.Managers;
 using TownOfHost.Roles;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
 using VentLib.Logging;
 
 namespace TownOfHost.Patches.Systems;

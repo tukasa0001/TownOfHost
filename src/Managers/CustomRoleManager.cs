@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using TownOfHost.Roles.Neutral;
+using VentLib.Logging;
+using VentLib.Utilities.Extensions;
+using static TownOfHost.Roles.AbstractBaseRole;
 
 namespace TownOfHost.Roles;
 
@@ -49,13 +53,63 @@ public static class CustomRoleManager
     public static CustomRole GetRoleFromId(int id)
     {
         if (id == -1) id = 0;
-        return AllRoles[id] ?? Default;
+        return AllRoles[id];
     }
 
     public static void AddPlayerSubrole(byte playerId, Subrole subrole)
     {
         if (!PlayerSubroles.ContainsKey(playerId)) PlayerSubroles[playerId] = new List<Subrole>();
         PlayerSubroles[playerId].Add(subrole);
+    }
+
+    internal static void LinkEditor(Type editorType)
+    {
+        if (!editorType.IsAssignableTo(typeof(RoleEditor)))
+            throw new ArgumentException("Editor Type MUST be a subclass of AbstractBaseRole.RoleEditor");
+        Type roleType = editorType.BaseType!.DeclaringType!;
+        bool isStatic = typeof(StaticRoles).GetFields().Any(f => f.FieldType == roleType);
+        bool isExtra = typeof(ExtraRoles).GetFields().Any(f => f.FieldType == roleType);
+
+        CustomRole role = GetRoleFromType(roleType);
+        ConstructorInfo editorCtor = editorType.GetConstructor(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic, new Type[] { roleType })!;
+        RoleEditor editor = (RoleEditor)editorCtor.Invoke(new object?[] {role});
+        CustomRole modified = (CustomRole)editor.StartLink();
+
+        if (isStatic) {
+            typeof(StaticRoles).GetField(roleType.Name)?.SetValue(Static, modified);
+            MainRoles.Replace(role, modified);
+        }
+
+        if (isExtra) {
+            typeof(ExtraRoles).GetField(roleType.Name)?.SetValue(Special, modified);
+            SpecialRoles.Replace(role, modified);
+        }
+
+        AllRoles.Replace(role, modified);
+    }
+
+    internal static void RemoveEditor(Type editorType)
+    {
+        if (!editorType.IsAssignableTo(typeof(RoleEditor)))
+            throw new ArgumentException("Editor Type MUST be a subclass of AbstractBaseRole.RoleEditor");
+        Type roleType = editorType.BaseType!.DeclaringType!;
+        bool isStatic = typeof(StaticRoles).GetFields().Any(f => f.FieldType == roleType);
+        bool isExtra = typeof(ExtraRoles).GetFields().Any(f => f.FieldType == roleType);
+
+        CustomRole role = GetRoleFromType(roleType);
+        RoleEditor editor = role.Editor;
+
+        if (isStatic) {
+            typeof(StaticRoles).GetField(roleType.Name)?.SetValue(Static, editor.FrozenRole);
+            MainRoles.Replace(role, (CustomRole)editor.FrozenRole);
+        }
+
+        if (isExtra) {
+            typeof(ExtraRoles).GetField(roleType.Name)?.SetValue(Special, editor.FrozenRole);
+            SpecialRoles.Replace(role, (CustomRole)editor.FrozenRole);
+        }
+
+        AllRoles.Replace(role, (CustomRole)editor.FrozenRole);
     }
 
     public class StaticRoles
@@ -102,6 +156,7 @@ public static class CustomRoleManager
         public Jester Jester = new Jester();
         public CrewPostor CrewPostor = new CrewPostor();
         public Opportunist Opportunist = new Opportunist();
+        public Medium Medium = new Medium();
 
 
         public Glitch Glitch = new Glitch();

@@ -1,76 +1,35 @@
-using System;
+using System.Reflection;
+using TownOfHost.Roles.Internals.Attributes;
 
-namespace TownOfHost.Roles;
+namespace TownOfHost.Roles.Internals;
 
-[AttributeUsage(AttributeTargets.Method)]
-public class RoleAction: Attribute
+public class RoleAction
 {
     public RoleActionType ActionType { get; }
     public Priority Priority { get; }
-    public bool Blockable { set; get; }
-    /// <summary>
-    /// If provided, overrides any methods of the same action with the same name from any parent classes
-    /// </summary>
-    public String? Override;
-    /// <summary>
-    /// Dictates whether this action should be utilized in subclasses of the class declaring this method <b>Default: True</b>
-    /// </summary>
-    public bool Subclassing = true;
+    public bool Blockable { get; }
 
-    public RoleAction(RoleActionType actionType, Priority priority = Priority.NoPriority)
+    internal RoleActionAttribute Attribute;
+    internal MethodInfo method;
+
+    public RoleAction(RoleActionAttribute attribute, MethodInfo method)
     {
-        this.ActionType = actionType;
-        this.Priority = priority;
-        this.Blockable = actionType is not RoleActionType.AnyDeath or RoleActionType.FixedUpdate or RoleActionType.Unshapeshift or RoleActionType.RoundStart or RoleActionType.RoundEnd;
+        this.method = method;
+        this.ActionType = attribute.ActionType;
+        this.Priority = attribute.Priority;
+        this.Blockable = attribute.Blockable;
+        this.Attribute = attribute;
     }
 
-    public override string ToString() => $"RoleAction(type={ActionType}, Priority={Priority}, Blockable={Blockable}, Subclassing={Subclassing}, Override={Override})";
-}
+    public virtual void Execute(AbstractBaseRole role, object[] args)
+    {
+        method.InvokeAligned(role, args);
+    }
 
-public enum Priority
-{
-    First,
-    NoPriority,
-    Last
-}
+    public virtual void ExecuteFixed(AbstractBaseRole role)
+    {
+        method.Invoke(role, null);
+    }
 
-public enum RoleActionType
-{
-    OnPet,
-    /// <summary>
-    /// Triggers whenever the player enters a vent (this INCLUDES vent activation)
-    /// Parameters: (Vent vent)
-    /// </summary>
-    MyEnterVent,
-    /// <summary>
-    /// Triggered when a player ACTUALLY enters a vent (not just Vent activation)
-    /// Parameters: (Vent vent, PlayerControl venter)
-    /// </summary>
-    AnyEnterVent,
-    VentExit,
-    SuccessfulAngelProtect,
-    SabotageStarted,
-    /// <summary>
-    /// Triggered when any one player fixes any part of a sabotage (I.E MiraHQ Comms) <br></br>
-    /// Parameters: (SabotageType type, PlayerControl fixer, byte fixBit)
-    /// </summary>
-    SabotagePartialFix,
-    SabotageFixed,
-    Shapeshift,
-    Unshapeshift,
-    AttemptKill,
-    MyDeath,
-    SelfExiled,
-    OtherExiled,
-    RoundStart,
-    RoundEnd,
-    SelfReportBody,
-    /// <summary>
-    /// Triggers when any player reports a body. <br></br>Parameters: (PlayerControl reporter, PlayerInfo reported)
-    /// </summary>
-    AnyReportedBody,
-    TaskComplete,
-    FixedUpdate,
-    AnyDeath,
-
+    public override string ToString() => $"RoleAction(type={ActionType}, Priority={Priority}, Blockable={Blockable})";
 }

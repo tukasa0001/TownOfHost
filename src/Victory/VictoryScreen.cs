@@ -6,8 +6,8 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.RPC;
-using VentLib.Extensions;
 using VentLib.Logging;
+using VentLib.Utilities.Extensions;
 
 // ReSharper disable ConvertIfStatementToSwitchStatement
 
@@ -17,7 +17,8 @@ public static class VictoryScreen
 {
     public static void ShowWinners(List<PlayerControl> winners, GameOverReason reason)
     {
-        VentLogger.Info($"Setting Up Win Screen | Winners: {winners.Select(w => w.GetNameWithRole()).StrJoin()}");
+        List<string> winnerString = Game.GameHistory.LastWinners = winners.Select(w => w.GetNameWithRole()).ToList();
+        VentLogger.Info($"Setting Up Win Screen | Winners: {winnerString.StrJoin()}");
 
         bool impostorsWin = IsImpostorsWin(reason);
 

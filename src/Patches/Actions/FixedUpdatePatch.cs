@@ -3,6 +3,8 @@ using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
 using TownOfHost.Roles;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
 
 namespace TownOfHost.Patches.Actions;
 

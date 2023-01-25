@@ -2,13 +2,15 @@ using System.Linq;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Managers.History;
+using TownOfHost.Roles.Internals.Attributes;
+using TownOfHost.Roles.Internals.Interfaces;
 using VentLib.Localization.Attributes;
 using VentLib.Utilities;
 
 namespace TownOfHost.Roles;
 
 [Localized(Group = "Roles", Subgroup = "Medium")]
-public class Medium: Crewmate
+public partial class Medium: Crewmate, IModdable
 {
     [Localized("MediumMessage")]
     private static string _mediumMessage = null!;
@@ -17,6 +19,7 @@ public class Medium: Crewmate
     [RoleAction(RoleActionType.AnyReportedBody)]
     private void MediumDetermineRole(PlayerControl reporter, GameData.PlayerInfo reported)
     {
+        if (reporter.PlayerId != MyPlayer.PlayerId) return;
         DeathEvent? deathEvent = Game.GameHistory.GetEvents<DeathEvent>().FirstOrDefault(e => e.Killed.PlayerId == reported.PlayerId);
         if (deathEvent == null) return;
         CustomRole killerRole = deathEvent.Killer!.GetCustomRole();
@@ -32,3 +35,4 @@ public class Medium: Crewmate
         base.Modify(roleModifier)
             .RoleColor("#A680FF");
 }
+

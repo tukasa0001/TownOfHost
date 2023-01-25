@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
 using TownOfHost.Options;
-using TownOfHost.Roles;
+using TownOfHost.Roles.Internals;
 using TownOfHost.Victory;
 
 namespace TownOfHost.Gamemodes;

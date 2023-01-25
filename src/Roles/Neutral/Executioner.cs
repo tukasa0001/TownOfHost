@@ -7,9 +7,10 @@ using TownOfHost.GUI;
 using TownOfHost.Managers;
 using UnityEngine;
 using TownOfHost.Options;
+using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.Roles.Neutral;
 using TownOfHost.Victory.Conditions;
-using VentLib.Extensions;
+using VentLib.Utilities.Extensions;
 
 namespace TownOfHost.Roles;
 

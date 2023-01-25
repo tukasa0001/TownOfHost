@@ -8,6 +8,8 @@ using HarmonyLib;
 using TownOfHost.Options;
 using TownOfHost.Patches.Systems;
 using TownOfHost.Roles;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
 using VentLib.Utilities;
 
 namespace TownOfHost.Roles;

@@ -3,6 +3,8 @@ using TownOfHost.Extensions;
 using TownOfHost.Options;
 using AmongUs.GameOptions;
 using TownOfHost.Managers;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.Victory.Conditions;
 
 namespace TownOfHost.Roles;

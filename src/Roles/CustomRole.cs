@@ -11,12 +11,13 @@ using TownOfHost.Factions;
 using TownOfHost.GUI;
 using TownOfHost.Managers;
 using TownOfHost.Options;
+using TownOfHost.Roles.Internals;
 using UnityEngine;
-using VentLib.Extensions;
 using VentLib.Logging;
 using VentLib.RPC;
 using VentLib.RPC.Interfaces;
 using VentLib.Utilities;
+using VentLib.Utilities.Extensions;
 
 namespace TownOfHost.Roles;
 
@@ -33,7 +34,9 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
     public virtual bool HasTasks() => this is Crewmate;
     public bool IsDesyncRole() => this.DesyncRole != null;
     public virtual bool IsAllied(PlayerControl player) => this.Factions.Any(f => f.IsAllied(player.GetCustomRole().Factions)) && player.GetCustomRole().Factions.Any(f => f.IsAllied(this.Factions));
+
     private HashSet<GameOptionOverride> currentOverrides = new();
+    private List<RoleEditor> injections;
 
 
     /// <summary>
@@ -44,6 +47,9 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
     {
         CustomRole cloned = Clone();
         cloned.MyPlayer = player;
+
+        if (cloned.Editor != null)
+            cloned.Editor = cloned.Editor.Instantiate(cloned, player);
 
         cloned.Setup(player);
         cloned.SetupUI(player.GetDynamicName());
@@ -161,12 +167,6 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
             myName.AddRule(GameState.InMeeting, UI.Role, playerId: ally.PlayerId);
             myName.AddRule(GameState.Roaming, UI.Role, playerId: ally.PlayerId);
         });
-    }
-
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream)
-    {
-        optionStream.Display(EnglishRoleName, () => RoleName).IsHeader(true);
-        return optionStream;
     }
 
     private void SetupUI(DynamicName name)

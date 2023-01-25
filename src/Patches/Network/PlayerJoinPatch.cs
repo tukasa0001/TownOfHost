@@ -7,7 +7,6 @@ using TownOfHost.Addons;
 using TownOfHost.Extensions;
 using TownOfHost.Gamemodes;
 using TownOfHost.Managers;
-using TownOfHost.Patches.Chat;
 using TownOfHost.RPC;
 using VentLib;
 using VentLib.Localization;

@@ -3,6 +3,8 @@ using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.Logging;
 
@@ -29,8 +31,11 @@ public class Amnesiac : CustomRole {
                 newRole = Ref<Traitor>();
         }
 
-        CustomRole role = Game.AssignRole(MyPlayer, newRole);
+        Game.AssignRole(MyPlayer, newRole);
+
+        CustomRole role = MyPlayer.GetCustomRole();
         role.DesyncRole = RoleTypes.Impostor;
+
         handle.Cancel();
     }
 

@@ -1,4 +1,6 @@
-namespace TownOfHost.Roles;
+using TownOfHost.Roles.Internals.Attributes;
+
+namespace TownOfHost.Roles.Internals;
 
 public class ActionHandle
 {

@@ -1,5 +1,6 @@
 using TownOfHost.Extensions;
 using TownOfHost.Options;
+using TownOfHost.Roles.Internals;
 using UnityEngine;
 using VentLib.Utilities;
 

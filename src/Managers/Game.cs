@@ -11,9 +11,11 @@ using TownOfHost.Managers.History;
 using TownOfHost.Options;
 using TownOfHost.Player;
 using TownOfHost.Roles;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.RPC;
 using TownOfHost.Victory;
-using VentLib.Extensions;
+using VentLib.Utilities.Extensions;
 using VentLib.Logging;
 using VentLib.RPC;
 using VentLib.RPC.Attributes;
@@ -23,16 +25,16 @@ namespace TownOfHost.Managers;
 public static class Game
 {
     public static DateTime StartTime;
-    public static Dictionary<byte, PlayerPlus> players = new();
-    public static GameHistory GameHistory;
-    public static GameStates GameStates;
+    public static Dictionary<byte, PlayerPlus> Players = new();
+    public static GameHistory GameHistory = null!;
+    public static GameStates GameStates = null!;
+    public static RandomSpawn RandomSpawn = null!;
 
     [ModRPC((uint) ModCalls.SetCustomRole, RpcActors.Host, RpcActors.NonHosts, MethodInvocation.ExecuteBefore)]
-    public static CustomRole AssignRole(PlayerControl player, CustomRole role, bool sendToClient = false)
+    public static void AssignRole(PlayerControl player, CustomRole role, bool sendToClient = false)
     {
         CustomRole assigned = CustomRoleManager.PlayersCustomRolesRedux[player.PlayerId] = role.Instantiate(player);
         if (sendToClient) assigned.Assign();
-        return assigned;
     }
 
     [ModRPC((uint) ModCalls.SetSubrole, RpcActors.Host, RpcActors.NonHosts, MethodInvocation.ExecuteBefore)]
@@ -46,11 +48,11 @@ public static class Game
         if (sendToClient) role.Assign();
     }
 
-    public static DynamicName GetDynamicName(this PlayerControl playerControl) => players[playerControl.PlayerId].DynamicName;
-    public static PlayerPlus GetPlayerPlus(this PlayerControl playerControl) => players[playerControl.PlayerId];
+    public static DynamicName GetDynamicName(this PlayerControl playerControl) => Players[playerControl.PlayerId].DynamicName;
+    public static PlayerPlus GetPlayerPlus(this PlayerControl playerControl) => Players[playerControl.PlayerId];
 
-    public static void RenderAllNames() => players.Values.Select(p => p.DynamicName).Do(name => name.Render());
-    public static void RenderAllForAll(GameState? state = null, bool force = false) => players.Values.Select(p => p.DynamicName).Do(name => players.Values.Do(p => name.RenderFor(p.MyPlayer, state, force)));
+    public static void RenderAllNames() => Players.Values.Select(p => p.DynamicName).Do(name => name.Render());
+    public static void RenderAllForAll(GameState? state = null, bool force = false) => Players.Values.Select(p => p.DynamicName).Do(name => Players.Values.Do(p => name.RenderFor(p.MyPlayer, state, force)));
     public static IEnumerable<PlayerControl> GetAllPlayers() => PlayerControl.AllPlayerControls.ToArray();
     public static IEnumerable<PlayerControl> GetAlivePlayers() => GetAllPlayers().Where(p => !p.Data.IsDead && !p.Data.Disconnected);
     public static IEnumerable<PlayerControl> GetDeadPlayers(bool disconnected = false) => GetAllPlayers().Where(p => p.Data.IsDead || (disconnected && p.Data.Disconnected));
@@ -72,20 +74,20 @@ public static class Game
         {
             handle.ActionType = action;
             parameters = parameters.AddToArray(handle);
-            List<Tuple<MethodInfo, RoleAction, AbstractBaseRole>> actionList = GetAllPlayers().SelectMany(p => p.GetCustomRole().GetActions(action)).ToList();
+            List<(RoleAction, AbstractBaseRole)> actionList = GetAllPlayers().SelectMany(p => p.GetCustomRole().GetActions(action)).ToList();
             actionList.AddRange(GetAllPlayers().SelectMany(p => p.GetSubroles().SelectMany(r => r.GetActions(action))));
-            actionList.Sort((a1, a2) => a1.Item2.Priority.CompareTo(a2.Item2.Priority));
-            foreach (Tuple<MethodInfo, RoleAction, AbstractBaseRole> actionTuple in actionList)
+            actionList.Sort((a1, a2) => a1.Item1.Priority.CompareTo(a2.Item1.Priority));
+            foreach ((RoleAction roleAction, AbstractBaseRole role) in actionList)
             {
-                bool inBlockList = actionTuple.Item3.MyPlayer != null && CustomRoleManager.RoleBlockedPlayers.Contains(actionTuple.Item3.MyPlayer.PlayerId);
+                bool inBlockList = role.MyPlayer != null && CustomRoleManager.RoleBlockedPlayers.Contains(role.MyPlayer.PlayerId);
                 if (StaticOptions.LogAllActions)
                 {
-                    VentLogger.Trace($"{actionTuple.Item3.MyPlayer.GetNameWithRole()} => {actionTuple.Item2}", "ActionLog");
-                    VentLogger.Trace($"Parameters: {parameters.StrJoin()} :: Blocked? {actionTuple.Item2.Blockable && inBlockList}", "ActionLog");
+                    VentLogger.Trace($"{role.MyPlayer.GetNameWithRole()} => {roleAction}", "ActionLog");
+                    VentLogger.Trace($"Parameters: {parameters.StrJoin()} :: Blocked? {roleAction.Blockable && inBlockList}", "ActionLog");
                 }
 
-                if (!actionTuple.Item2.Blockable || !inBlockList)
-                    actionTuple.Item1.InvokeAligned(actionTuple.Item3, parameters);
+                if (!roleAction.Blockable || !inBlockList)
+                    roleAction.Execute(role, parameters);
             }
 
         }
@@ -101,18 +103,19 @@ public static class Game
 
     public static void Setup()
     {
+        RandomSpawn = new RandomSpawn();
         StartTime = DateTime.Now;
         GameHistory = new();
         GameStates = new();
-        players.Clear();
-        GetAllPlayers().Do(p => players.Add(p.PlayerId, new PlayerPlus(p)));
+        Players.Clear();
+        GetAllPlayers().Do(p => Players.Add(p.PlayerId, new PlayerPlus(p)));
         _winDelegate = new WinDelegate();
         CurrentGamemode.SetupWinConditions(_winDelegate);
     }
 
     public static void Cleanup()
     {
-        players.Clear();
+        Players.Clear();
         CustomRoleManager.PlayersCustomRolesRedux.Clear();
     }
 }

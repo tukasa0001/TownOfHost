@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using TownOfHost.GUI;
 using TownOfHost.Options;
 using TownOfHost.Player;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
 using VentLib.Utilities;
 
 namespace TownOfHost.Roles;

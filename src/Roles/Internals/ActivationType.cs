@@ -1,4 +1,4 @@
-namespace TownOfHost.Roles;
+namespace TownOfHost.Roles.Internals;
 
 public enum ActivationType
 {

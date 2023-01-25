@@ -1,5 +1,7 @@
 using TownOfHost.Extensions;
 using TownOfHost.Options;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
 using VentLib.Utilities;
 
 namespace TownOfHost.Roles;

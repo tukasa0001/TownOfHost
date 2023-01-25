@@ -1,3 +1,4 @@
+using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
 
 namespace TownOfHost.Roles;

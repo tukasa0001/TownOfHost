@@ -4,6 +4,8 @@ using TownOfHost.Gamemodes;
 using TownOfHost.Managers;
 using TownOfHost.Managers.History;
 using TownOfHost.Roles;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
 using VentLib.Logging;
 
 namespace TownOfHost.Patches.Actions;
@@ -57,7 +59,6 @@ public static class MurderPatches
         {
             VentLogger.Old($"{__instance.GetNameWithRole()} => {target.GetNameWithRole()}{(target.protectedByGuardian ? "(Protected)" : "")}", "MurderPlayer");
             Game.GameHistory.AddEvent(new DeathEvent(target, __instance.PlayerId == target.PlayerId ? null : __instance));
-            if (RandomSpawn.CustomNetworkTransformPatch.NumOfTP.TryGetValue(__instance.PlayerId, out var num) && num > 2) RandomSpawn.CustomNetworkTransformPatch.NumOfTP[__instance.PlayerId] = 3;
         }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {

@@ -5,8 +5,9 @@ using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.GUI;
 using TownOfHost.Options;
+using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
-using VentLib.Extensions;
+using VentLib.Utilities.Extensions;
 
 namespace TownOfHost.Roles;
 

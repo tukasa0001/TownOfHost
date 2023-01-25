@@ -1,17 +1,18 @@
 using TownOfHost.Extensions;
 using TownOfHost.GUI;
 using TownOfHost.Options;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
+using TownOfHost.Roles.Internals.Interfaces;
 using UnityEngine;
 
 namespace TownOfHost.Roles;
 
-public class SerialKiller : Impostor
+public partial class SerialKiller : Impostor, IModdable
 {
     private bool paused = true;
-    // TODO: move to shapeshift button or possible hns meter
     public Cooldown DeathTimer;
     private float killCooldown;
-    private HideAndSeekTimerBar timerBar;
 
     [DynElement(UI.Counter)]
     private string CustomCooldown() => DeathTimer.IsReady() ? "" : Color.white.Colorize(DeathTimer + "s");

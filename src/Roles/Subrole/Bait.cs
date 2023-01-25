@@ -1,5 +1,6 @@
 using TownOfHost.Extensions;
 using TownOfHost.GUI;
+using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
 
 namespace TownOfHost.Roles;

@@ -4,7 +4,7 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.Roles;
-using VentLib.Extensions;
+using VentLib.Utilities.Extensions;
 
 namespace TownOfHost.Gamemodes.Standard;
 

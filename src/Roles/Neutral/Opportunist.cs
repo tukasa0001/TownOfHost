@@ -1,6 +1,7 @@
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
+using TownOfHost.Roles.Internals;
 using TownOfHost.Victory;
 using TownOfHost.Victory.Conditions;
 

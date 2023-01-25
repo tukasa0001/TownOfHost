@@ -6,6 +6,8 @@ using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
 using TownOfHost.Roles;
+using TownOfHost.Roles.Internals;
+using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.Anticheat;
 using VentLib.Localization;
@@ -276,21 +278,7 @@ class IntroCutsceneDestroyPatch
         if (PlayerControl.LocalPlayer.Is(CustomRoleManager.Special.GM))
             PlayerControl.LocalPlayer.RpcExileV2();
 
-        if (StaticOptions.RandomSpawn)
-        {
-            RandomSpawn.SpawnMap map;
-            switch (TOHPlugin.NormalOptions.MapId)
-            {
-                case 0:
-                    map = new RandomSpawn.SkeldSpawnMap();
-                    PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
-                    break;
-                case 1:
-                    map = new RandomSpawn.MiraHQSpawnMap();
-                    PlayerControl.AllPlayerControls.ToArray().Do(map.RandomTeleport);
-                    break;
-            }
-        }
+        if (StaticOptions.RandomSpawn) Game.GetAllPlayers().Do(p => Game.RandomSpawn.Spawn(p));
 
         Async.Schedule(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRoleDesync(RoleTypes.Shapeshifter, -3)), NetUtils.DeriveDelay(0.15f));
         Async.Schedule(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => PetBypass.SetPet(pc, "pet_Doggy", true)), NetUtils.DeriveDelay(0.3f));

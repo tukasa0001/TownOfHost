@@ -74,7 +74,7 @@ public static class StaticOptions
 
     //////////////////////////////////////
 
-    public static bool Customise = false;
+    public static bool AllowCustomizeCommands = false;
     public static object WhichDisableAdmin { get; set; }
     public static int SyncedButtonCount = 1;
     public static int UsedButtonCount = 0;
@@ -319,7 +319,7 @@ public static class StaticOptions
            .Name(Localizer.Get("StaticOptions.PlayerAppearanceCommands"))
            .Tab(DefaultTabs.GeneralTab)
            .IsHeader(true)
-           .BindBool(v => Customise = v)
+           .BindBool(v => AllowCustomizeCommands = v)
            .AddOnOffValues(false)
            .Build()
        );

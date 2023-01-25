@@ -1,4 +1,6 @@
 
+using TownOfHost.Roles.Internals;
+
 namespace TownOfHost.Roles;
 
 public class Coven: Impostor

@@ -6,9 +6,10 @@ namespace TownOfHost.Gamemodes;
 public enum GameAction
 {
     ReportBody = 1,
-    KillPlayers = 2,
-    CallSabotage = 4,
-    EnterVent = 8,
+    CallMeeting = 2,
+    KillPlayers = 4,
+    CallSabotage = 8,
+    EnterVent = 16,
 
     // These flags cannot be blocked so it doesn't matter if we set them to the following
     GameJoin = 16,
