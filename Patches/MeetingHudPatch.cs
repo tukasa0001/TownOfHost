@@ -428,6 +428,7 @@ namespace TownOfHost
                     Main.PlayerStates[player.PlayerId].SetDead();
                     Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
                     Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
+                    __instance.CheckForEndVoting();
                 });
             }
         }
