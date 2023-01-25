@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Hazel;
-using UnityEngine;
-using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -44,18 +41,11 @@ namespace TownOfHost
 
         public static bool CanUseKillButton(byte playerId)
             => !Main.PlayerStates[playerId].IsDead
-            && !GameStates.AlreadyDied
-            &&  !isKilled(playerId);
+            && !GameStates.AlreadyDied;
 
         public static bool isKilled(byte playerId) {
             //return killed.Contains(playerId);
-            foreach (byte id in playerIdList) {
-                if (killed.Contains(id)) {
-                    return true;
-                }
-            }
-
-            return false;
+            return killed.Contains(playerId);
         }
 
         public static void Add(byte playerId) {
