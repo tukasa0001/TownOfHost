@@ -65,6 +65,12 @@ namespace TownOfHost
                         Utils.ShowLastResult();
                         break;
 
+                    case "/kl":
+                    case "/killlog":
+                        canceled = true;
+                        Utils.ShowKillLog();
+                        break;
+
                     case "/r":
                     case "/rename":
                         canceled = true;
@@ -355,6 +361,11 @@ namespace TownOfHost
                 case "/l":
                 case "/lastresult":
                     Utils.ShowLastResult(player.PlayerId);
+                    break;
+
+                case "/kl":
+                case "/killlog":
+                    Utils.ShowKillLog(player.PlayerId);
                     break;
 
                 case "/n":
