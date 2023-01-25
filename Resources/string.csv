@@ -132,7 +132,7 @@ WatcherInfo,你可以看见所有人的投票，注意他们的选择,注意所�
 
 # 特殊クルー役職
 BaitInfo,好消息，杀了我可以吃席,好消息，殺了我可以吃席
-LuckeyInfo,运气好也是实力阿,運氣好也是實力阿
+LuckeyInfo,你擅长治疗内鬼的低血压,運氣好也是實力阿
 NeedyInfo,摆烂快乐！摆烂万岁！,擺爛快樂！擺爛萬歲！
 LighterInfo,嘿！你在发光诶！,照亮黑暗中的一切吧
 SuperStarInfo,全体目光向我看齐！,所有人目光向我看齊！
@@ -529,7 +529,7 @@ SureUse.quit,我们将踢出您并封禁您以防止您再次遇到这个糟糕�
 
 # 给玩家的技能提示信息
 SkillUsedLeft,您发动技能召开了会议。\n您的技能剩余使用次数：,您發動技能召開了會議。 \n您的技能剩餘使用次數：
-MafiaDeadMsg,黑手党的死亡，意味着复仇的开始\n请使用/rv + [玩家编号] 以击杀指定玩家\n玩家编号显示在玩家名字后方的括号内\n或输入/r获取玩家编号列表,黑手黨的死亡，意味著復仇的開始\n請使用/rv + [玩家編號] 以擊殺指定玩家\n玩家編號顯示在玩家名字後方的括號內\n或輸入/r獲取玩家編號列表
+MafiaDeadMsg,黑手党的死亡，意味着复仇的开始\n请使用/rv + [玩家编号] 以击杀指定玩家\n玩家编号显示在玩家名字后方的括号内\n或输入/rv获取玩家编号列表,黑手黨的死亡，意味著復仇的開始\n請使用/rv + [玩家編號] 以擊殺指定玩家\n玩家編號顯示在玩家名字後方的括號內\n或輸入/rv獲取玩家編號列表
 MafiaAliveKill,黑手党的复仇只能在死亡后发动,黑手黨的複仇只能在死亡後發動
 MafiaKillMax,您达到复仇的上限了，已经不能再复仇了,您達到複仇的上限了，已經不能再复仇了
 MafiaKillDead,请选择一个在场的存活角色进行复仇,請選擇一個在場的存活角色進行複仇
@@ -545,7 +545,7 @@ Message.TemplateNotFoundClient,未找到与“{0}”相关的消息,沒有找到
 Message.SyncButtonLeft,剩余紧急会议次数: {0}次，少拍桌多做事哦~,"全場拍桌數量還剩下{0}次,請謹慎拍桌"
 Message.Executed,{0}被房主处决了，请不要干坏事哦~,{0}被處刑了
 Message.HideGameSettings,游戏设置被房主隐藏,遊戲設定被房主隱藏
-Message.NowOverrideText,请房主在游戏根目录的 .\Language\SChinese.dat 文件中修改 Message.NowOverrideText 的文本\n如果您不需要此功能或希望显示普通的/n消息\n请在设置里关掉“显示自定义的/n消息”,請房主在遊戲根目錄的 .\Language\SChinese.dat 文件中修改 Message.NowOverrideText 的文本\n如果您不需要此功能或希望顯示普通的/n消息\n請在設置里關掉“顯示自定義的/n消息”
+Message.NowOverrideText,请房主在游戏根目录的 .\Language\SChinese.dat 文件中修改这段文本\n如果您不需要此功能或希望显示普通的/n消息\n请在设置里关掉“显示自定义的/n消息”,請房主在遊戲根目錄的 .\Language\SChinese.dat 文件中修改 Message.NowOverrideText 的文本\n如果您不需要此功能或希望顯示普通的/n消息\n請在設置里關掉“顯示自定義的/n消息”
 Message.AnnounceUsingTOH,本房间使用TownOfHostEdited mod v{0}。\n未安装MOD也可以直接玩\n请前往本mod的Github页面来获取详细的职业信息。,本房間使用TownOfHostEdited v{0}。\n可以使用/n來查詢目前設定。\n若要獲得進一步的職業介紹(並沒有繁體中文翻譯版本)請前往本模組的Github頁面來獲得。
 Message.NoDescription,无描述,无描述
 Message.KickedByDenyName,{0} 被踢出，因其昵称违规 {1},

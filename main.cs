@@ -28,7 +28,7 @@ namespace TownOfHost
         // 公開ルームを許可する / Allow Public Room (Default: true)
         public static readonly bool AllowPublicRoom = true;
         // フォークID / ForkId (Default: OriginalTOH)
-        public static readonly string ForkId = "OriginalTOH";
+        public static readonly string ForkId = "TOHE";
         // Discordボタンを表示するか / Show Discord Button (Default: true)
         public static readonly bool ShowDiscordButton = false;
         // Discordサーバーの招待リンク / Discord Server Invite URL (Default: https://discord.gg/W5ug6hXB9V)
@@ -150,6 +150,7 @@ namespace TownOfHost
         public static float DefaultImpostorVision;
         public static bool IsChristmas = DateTime.Now.Month == 12 && DateTime.Now.Day is 24 or 25;
         public static bool IsInitialRelease = DateTime.Now.Month == 12 && DateTime.Now.Day is 4;
+        public static bool SetAutoStartToDisable = false;
 
         public static IEnumerable<PlayerControl> AllPlayerControls => PlayerControl.AllPlayerControls.ToArray().Where(p => p != null);
         public static IEnumerable<PlayerControl> AllAlivePlayerControls => PlayerControl.AllPlayerControls.ToArray().Where(p => p != null && p.IsAlive());

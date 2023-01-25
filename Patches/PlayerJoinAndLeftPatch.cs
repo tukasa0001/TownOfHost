@@ -13,15 +13,17 @@ namespace TownOfHost
     {
         public static bool Prefix()
         {
+            // 贡献：天寸(https://github.com/Huier-Huang)
             if (Options.PreventSBServerKick.GetBool())
             {
-                Logger.SendInGame("刚才树懒的游戏服务器想踢人，但是被我们拦截了");
+                Logger.Fatal("刚才树懒的游戏服务器想踢人，但是被我们拦截了", "Server Kick");
+                return false;
             }
             else
             {
-                Logger.Fatal("因设置允许了来自服务器的踢人事件", "SB Server Kick");
+                Logger.Fatal("因设置允许了来自服务器的踢人事件", "Server Kick");
+                return true;
             }
-            return false;
         }
     }
 
@@ -117,7 +119,7 @@ namespace TownOfHost
             if (reason == DisconnectReasons.Hacking)
             {
                 Logger.SendInGame($"{data.PlayerName} 被树懒超级厉害的反作弊踢出去啦~ QwQ");
-            }else if (AmongUsClient.Instance.Ping > 350)
+            }else if (AmongUsClient.Instance.Ping > 500)
             {
                 Logger.SendInGame($"{data.PlayerName} 在火星和你联机但是断了 (Ping:{AmongUsClient.Instance.Ping}) QwQ");
             }

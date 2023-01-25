@@ -690,7 +690,7 @@ namespace TownOfHost
                             Utils.SendMessage(GetString("IllegalColor"), PlayerControl.LocalPlayer.PlayerId);
                             break;
                         }
-                        PlayerControl.LocalPlayer.RpcSetColor(color);
+                        player.RpcSetColor(color);
                         Utils.SendMessage("颜色设置为：" + subArgs, player.PlayerId);
                     }
                     else
@@ -712,6 +712,16 @@ namespace TownOfHost
                     {
                         Utils.SendMessage(GetString("SureUse.quit"), player.PlayerId);
                     }
+                    break;
+
+                case "/xf":
+                    foreach (var pc in Main.AllPlayerControls)
+                    {
+                        pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
+                    }
+                    ChatUpdatePatch.DoBlockChat = false;
+                    Utils.NotifyRoles(isMeeting: true, NoCache: true);
+                    Utils.SendMessage("已尝试修复名字遮挡", PlayerControl.LocalPlayer.PlayerId);
                     break;
 
                 default:

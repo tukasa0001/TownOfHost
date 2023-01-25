@@ -202,11 +202,11 @@ namespace TownOfHost
                 FollowingSuicideOnExile(exileId);
                 RevengeOnExile(exileId);
 
+                // 参考：https://github.com/music-discussion/TownOfHost-TheOtherRoles
                 if (exiledPlayer != null)
                 {
                     var realName = exiledPlayer.Object.GetRealName(isMeeting: true);
                     Main.LastVotedPlayer = realName;
-                    // 驱逐确认，参考：https://github.com/music-discussion/TownOfHost-TheOtherRoles
                     if (exiledPlayer.PlayerId == exileId)
                     {
                         var player = Utils.GetPlayerById(exiledPlayer.PlayerId);
@@ -287,11 +287,14 @@ namespace TownOfHost
                                 name += $"剩余 {neutralnum} 个中立";
                         }
                         name += "<size=0>";
-                        player.RpcSetName(name);
+                        new LateTask(() =>
+                        {
+                            player.RpcSetName(name);
+                        }, 3.0f, "Change Exiled Player Name");
                         new LateTask(() =>
                         {
                             player.RpcSetName(realName);
-                        }, 10.5f, "Change Back Exiled Player Name");
+                        }, 10.5f, "Change Exiled Player Name Back");
                     }
                 }
 
@@ -405,11 +408,13 @@ namespace TownOfHost
             {
                 if (!Options.ImpKnowCyberStarDead.GetBool() && CustomRolesHelper.IsImpostor(pc.GetCustomRole())) continue;
                 if (!Options.NeutralKnowCyberStarDead.GetBool() && CustomRolesHelper.IsNeutral(pc.GetCustomRole())) continue;
-                foreach (var cs in Main.CyberStarDead)
+                foreach (var csId in Main.CyberStarDead)
                     {
+                    var cs = Utils.GetPlayerById(csId);
+                    if (cs == null) continue;
                         new LateTask(() =>
                         {
-                            Utils.SendMessage(GetString("CyberStarDead") + " " + pc.GetRealName(), pc.PlayerId, Utils.ColorString(    Utils.GetRoleColor(CustomRoles.CyberStar)  , " ★ 紧急新闻 ★ ")   );
+                            Utils.SendMessage(GetString("CyberStarDead") + " " + cs.GetRealName(), pc.PlayerId, Utils.ColorString(    Utils.GetRoleColor(CustomRoles.CyberStar)  , " ★ 紧急新闻 ★ ")   );
                         }, 5.0f, "Notice CyberStar Skill");
                     }
             }
@@ -573,17 +578,7 @@ namespace TownOfHost
                         pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
                     }
                     ChatUpdatePatch.DoBlockChat = false;
-                }, 3f, "SetName To Chat");
-
-                _ = new LateTask(() =>
-                {
-                    foreach (var pc in Main.AllPlayerControls)
-                    {
-                        pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
-                        Utils.NotifyRoles(isMeeting: true, NoCache: true);
-                    }
-                    ChatUpdatePatch.DoBlockChat = false;
-                }, 7.5f, "SetName To Chat Again");
+                }, 3.5f, "SetName To Chat");
             }
 
             foreach (var pva in __instance.playerStates)

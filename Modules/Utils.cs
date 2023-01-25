@@ -616,6 +616,7 @@ namespace TownOfHost
                 + $"\n  ○ /n {GetString("Command.now")}"
                 + $"\n  ○ /r {GetString("Command.roles")}"
                 + $"\n  ○ /m {GetString("Command.myrole")}"
+                + $"\n  ○ /xf {GetString("Command.solvecover")}"
                 + $"\n  ○ /l {GetString("Command.lastresult")}"
                 + $"\n  ○ /win {GetString("Command.winner")}"
                 + "\n\n" + GetString("CommandOtherList")
