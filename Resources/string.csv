@@ -299,6 +299,7 @@
 "DisableAirshipCargoLightsPanel","Disable Cargo Lights Panel(Airship)","貨物室の配電盤を無効化（エアシップ）","禁用货舱配电箱(飞艇地图)","","Отключить починку света в грузовом отсеке на Airship","Desativar Painel de Luzes das Cargas(Airship)"
 "RandomSpawn","Random Spawn","ランダムスポーン","随机出生点","隨機出生點","Случайный Спавн","Spawn Aleatório"
 "AirshipAdditionalSpawn","Additional Spawn(Airship)","追加スポーン位置(エアシップ)","额外出生点（飞艇地图）","額外出生點(The Airship地圖)","Дополнительный Спавн(Airship)","Spawn Adicional(Airship)"
+"AirshipSynchronizeSpawn","Synchronize Spawn Timing(Airship)","スポーンのタイミングを同期する(エアシップ)",,,,
 "CommsCamouflage","Camouflage During Comms","コミュサボ時のカモフラージュ","通信破坏时伪装","","Камуфляж При Саботаже Связи","Camuflagem Durante Comunicação"
 "EnableDebugMode","Enable Debug Mode","デバッグモードを有効化する","开启调试模式","","Включить режим отладки","Ativar Modo de Depuração"
 "ChangeNameToRoleInfo","Show Role Descriptions to Unmodded Client","役職説明を非modクライアントにも表示する","对未安装本mod的玩家显示职业说明","","Показать описания ролей игрокам играющие без модов","Mostrar Descrição de Classe para Clientes Não Modificados"
