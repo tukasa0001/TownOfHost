@@ -691,7 +691,7 @@ namespace TownOfHost
                 if (seer.Is(CustomRoles.BountyHunter) && BountyHunter.GetTarget(seer) != null)
                 {
                     string BountyTargetName = BountyHunter.GetTarget(seer).GetRealName(isMeeting);
-                    SelfSuffix =BountyHunter.GetTargetText(seer,false);
+                    SelfSuffix = BountyHunter.GetTargetText(seer, false);
                 }
                 if (seer.Is(CustomRoles.FireWorks))
                 {

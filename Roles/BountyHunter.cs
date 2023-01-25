@@ -119,16 +119,16 @@ namespace TownOfHost
                     if (ChangeTimer[player.PlayerId] >= 0)
                         ChangeTimer[player.PlayerId] += Time.fixedDeltaTime;
 
-                        //BountyHunterのターゲット更新
+                    //BountyHunterのターゲット更新
                     if (Main.PlayerStates[target.PlayerId].IsDead)
-                        {
-                            ResetTarget(player);
-                            Logger.Info($"{player.GetNameWithRole()}のターゲットが無効だったため、ターゲットを更新しました", "BountyHunter");
-                            Utils.NotifyRoles(SpecifySeer: player);
-                        }
+                    {
+                        ResetTarget(player);
+                        Logger.Info($"{player.GetNameWithRole()}のターゲットが無効だったため、ターゲットを更新しました", "BountyHunter");
+                        Utils.NotifyRoles(SpecifySeer: player);
                     }
                 }
             }
+        }
         public static PlayerControl GetTarget(PlayerControl player)
         {
             if (player == null) return null;
