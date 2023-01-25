@@ -426,7 +426,6 @@ namespace TownOfHost
             ChatUpdatePatch.DoBlockChat = true;
             GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
             Main.AllPlayerControls.Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
-            Utils.NotifyRoles(isMeeting: true, NoCache: true);
             MeetingStates.MeetingCalled = true;
             if (AmongUsClient.Instance.AmHost && Options.MafiaCanKillNum.GetInt() > 0) NoticeMafiaSkill();
             if (AmongUsClient.Instance.AmHost && Main.CyberStarDead.Count > 0) NoticeCyberStarSkill();
@@ -577,6 +576,7 @@ namespace TownOfHost
                     {
                         pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
                     }
+                    Utils.NotifyRoles(isMeeting: true, NoCache: true);
                     ChatUpdatePatch.DoBlockChat = false;
                 }, 3.5f, "SetName To Chat");
             }
