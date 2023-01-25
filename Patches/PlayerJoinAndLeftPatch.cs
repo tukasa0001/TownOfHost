@@ -123,6 +123,17 @@ namespace TownOfHost
                         }
                     }, 3f, "DisplayLastRoles");
                 }
+                if (Options.AutoDisplayKillLog.GetBool() && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
+                {
+                    new LateTask(() =>
+                    {
+                        if (!GameStates.IsInGame && client.Character != null)
+                        {
+                            Main.isChatCommand = true;
+                            Utils.ShowKillLog(client.Character.PlayerId);
+                        }
+                    }, 3f, "DisplayKillLog");
+                }
             }
         }
     }
