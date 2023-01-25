@@ -43,6 +43,14 @@ public class CTFGamemode: Gamemode
         }
         this.BindAction(GameAction.GameStart, SetupNames);
         CustomRoleManager.AddRole(Striker);
+
+        TOHPlugin.OptionManager.Add(new SmartOptionBuilder()
+            .Name("Game Length")
+            .Tab(CTFTab)
+            .IsHeader(true)
+            .BindFloat(v => GameDuration = v)
+            .AddFloatRangeValues(60, 600, 15f, 3, "s")
+            .Build());
     }
 
     // new(16.5f, -4.8f) Navigation
