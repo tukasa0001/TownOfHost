@@ -6,7 +6,7 @@ namespace TownOfHost
 {
     public static class ChivalrousExpert
     {
-        private static readonly int Id = 114514;
+        private static readonly int Id = 8021075;
         public static List<byte> playerIdList = new();
         public static Dictionary<byte, float> CurrentKillCooldown = new();
         //public static bool isKilled = false;
@@ -21,20 +21,6 @@ namespace TownOfHost
             playerIdList = new();
             CurrentKillCooldown = new();
             // isKilled = false;
-
-            SetUpNeutralOptions(Id + 30);
-        }
-
-        public static void SetUpNeutralOptions(int Id)
-        {
-            foreach (var neutral in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x.IsNeutral()))
-            {
-                if (neutral is CustomRoles.SchrodingerCat
-                            or CustomRoles.HASFox
-                            or CustomRoles.HASTroll) continue;
-                // SetUpKillTargetOption(neutral, Id, true, CanKillNeutrals);
-                Id++;
-            }
         }
 
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CanUseKillButton(id) ? CurrentKillCooldown[id] : 0f;

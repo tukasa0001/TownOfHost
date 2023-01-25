@@ -683,6 +683,11 @@ namespace TownOfHost
                                     badPlayers.Add(pc);
                                     isGood[pc.PlayerId] = false;
                                 }
+                                if (role is CustomRoles.ChivalrousExpert)
+                                {
+                                    badPlayers.Add(pc);
+                                    isGood[pc.PlayerId] = false;
+                                }
                                 break;
                             case RoleType.Impostor:
                                 badPlayers.Add(pc); isGood[pc.PlayerId] = false;
