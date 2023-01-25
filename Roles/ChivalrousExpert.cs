@@ -1,4 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Hazel;
+using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -7,7 +12,8 @@ namespace TownOfHost
         private static readonly int Id = 114514;
         public static List<byte> playerIdList = new();
         public static Dictionary<byte, float> CurrentKillCooldown = new();
-        public static bool isKilled = false;
+        //public static bool isKilled = false;
+        public static List<byte> killed = new();
 
         public static void SetupCustomOption() {
             Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.ChivalrousExpert);
@@ -17,11 +23,44 @@ namespace TownOfHost
         {
             playerIdList = new();
             CurrentKillCooldown = new();
-            isKilled = false;
+            // isKilled = false;
+
+            SetUpNeutralOptions(Id + 30);
         }
+
+        public static void SetUpNeutralOptions(int Id)
+        {
+            foreach (var neutral in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x.IsNeutral()))
+            {
+                if (neutral is CustomRoles.SchrodingerCat
+                            or CustomRoles.HASFox
+                            or CustomRoles.HASTroll) continue;
+                // SetUpKillTargetOption(neutral, Id, true, CanKillNeutrals);
+                Id++;
+            }
+        }
+
+        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CanUseKillButton(id) ? CurrentKillCooldown[id] : 0f;
+
+        public static bool CanUseKillButton(byte playerId)
+            => !Main.PlayerStates[playerId].IsDead
+            && !GameStates.AlreadyDied
+            &&  !isKilled(playerId);
+
+        public static bool isKilled(byte playerId) {
+            //return killed.Contains(playerId);
+            foreach (byte id in playerIdList) {
+                if (killed.Contains(id)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public static void Add(byte playerId) {
             playerIdList.Add(playerId);
-            CurrentKillCooldown.Add(playerId, 0);
+            CurrentKillCooldown.Add(playerId, 1);
 
             if (!Main.ResetCamPlayerList.Contains(playerId)) {
                 Main.ResetCamPlayerList.Add(playerId);
