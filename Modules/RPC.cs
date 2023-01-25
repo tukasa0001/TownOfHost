@@ -330,7 +330,6 @@ namespace TownOfHost
                 case CustomRoles.Witch:
                     Witch.Add(targetId);
                     break;
-
                 case CustomRoles.Egoist:
                     Egoist.Add(targetId);
                     break;
@@ -346,9 +345,11 @@ namespace TownOfHost
                 case CustomRoles.Jackal:
                     Jackal.Add(targetId);
                     break;
-
                 case CustomRoles.Sheriff:
                     Sheriff.Add(targetId);
+                    break;
+                case CustomRoles.ChivalrousExpert:
+                    ChivalrousExpert.Add(targetId);
                     break;
                 case CustomRoles.SabotageMaster:
                     SabotageMaster.Add(targetId);

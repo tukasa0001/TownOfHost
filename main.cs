@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Reflection;
 using AmongUs.GameOptions;
 using BepInEx;
@@ -48,7 +49,7 @@ namespace TownOfHost
 
         // ==========
         //文件路径
-        public static readonly string BANNEDWORDS_FILE_PATH = "./TOH_DATA/BanWords.txt";
+        public static readonly string BANNEDWORDS_FILE_PATH = "./TOH_DATA/BanWords.txt"; // File.Exists("./TOH_DATA/BanWords.txt") ? "./TOH_DATA/BanWords.txt" : "./TOH_DATA/bannedwords.txt";
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.karped1em.townofhost";
         public const string PluginVersion = "4.0.2.3";
@@ -254,6 +255,7 @@ namespace TownOfHost
                     {CustomRoles.Dictator, "#df9b00"},
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     {CustomRoles.Seer, "#61b26c"},
+                    {CustomRoles.ChivalrousExpert, "#f0e68c"},
                     //第三陣営役職
                     {CustomRoles.Arsonist, "#ff6633"},
                     {CustomRoles.Jester, "#ec62a5"},
@@ -373,6 +375,7 @@ namespace TownOfHost
         Doctor,
         Seer,
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
+        ChivalrousExpert,
         //Neutral
         Arsonist,
         Egoist,

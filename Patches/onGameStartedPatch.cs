@@ -130,6 +130,7 @@ namespace TownOfHost
                 Executioner.Init();
                 Jackal.Init();
                 Sheriff.Init();
+                ChivalrousExpert.Init();
                 EvilTracker.Init();
                 LastImpostor.Init();
                 CustomWinnerHolder.Reset();
@@ -227,6 +228,7 @@ namespace TownOfHost
                     if (Options.TrueRandomeRoles.GetBool())
                     {
                         if (rd.Next(0, 100) < 20) AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
+                        if (rd.Next(0, 100) < 20) AssignDesyncRole(CustomRoles.ChivalrousExpert, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
                         if (rd.Next(0, 100) < 30) AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
                         if (rd.Next(0, 100) < 30) AssignDesyncRole(CustomRoles.Jackal, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
                     }
@@ -235,6 +237,7 @@ namespace TownOfHost
                         AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
                         AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
                         AssignDesyncRole(CustomRoles.Jackal, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
+                        AssignDesyncRole(CustomRoles.ChivalrousExpert, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
                     }
                     MakeDesyncSender(senders, rolesMap);
                 }
@@ -408,6 +411,7 @@ namespace TownOfHost
                         case 41: AssignCustomRolesFromList(CustomRoles.Luckey, Crewmates); break;
                         case 42: AssignCustomRolesFromList(CustomRoles.CyberStar, Crewmates); break;
                         case 43: AssignCustomRolesFromList(CustomRoles.Escapee, Shapeshifters); break;
+                        // case 44: AssignCustomRolesFromList(CustomRoles.ChivalrousExpert, Crewmates); break;
                     }
                 }
 
@@ -474,9 +478,11 @@ namespace TownOfHost
                         case CustomRoles.Jackal:
                             Jackal.Add(pc.PlayerId);
                             break;
-
                         case CustomRoles.Sheriff:
                             Sheriff.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.ChivalrousExpert:
+                            ChivalrousExpert.Add(pc.PlayerId);
                             break;
                         case CustomRoles.Mayor:
                             Main.MayorUsedButtonCount[pc.PlayerId] = 0;

@@ -368,6 +368,7 @@ namespace TownOfHost
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
                 CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
+                CustomRoles.ChivalrousExpert => true,
                 CustomRoles.Egoist or CustomRoles.Jackal => true,
                 _ => pc.Is(RoleType.Impostor),
             };
@@ -379,6 +380,7 @@ namespace TownOfHost
             return pc.GetCustomRole() switch
             {
                 CustomRoles.Sheriff => false,
+                CustomRoles.ChivalrousExpert => false,
                 CustomRoles.Egoist => true,
                 CustomRoles.Jackal => Jackal.CanVent.GetBool(),
                 CustomRoles.Arsonist => pc.IsDouseDone(),
@@ -426,6 +428,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Sheriff:
                     Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
+                    break;
+                case CustomRoles.ChivalrousExpert:
+                    ChivalrousExpert.SetKillCooldown(player.PlayerId);
                     break;
                 case CustomRoles.Hacker:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.HackKillDelay.GetFloat();

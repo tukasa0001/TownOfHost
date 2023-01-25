@@ -234,6 +234,22 @@ namespace TownOfHost
                         if (!Sheriff.OnCheckMurder(killer, target))
                             return false;
                         break;
+                    case CustomRoles.ChivalrousExpert:
+                        if (!ChivalrousExpert.isKilled(killer.PlayerId))
+                        {
+                            ChivalrousExpert.killed.Add(killer.PlayerId);
+                        }
+                        else {
+                            return false;
+                        }
+                        /*
+                        if (ChivalrousExpert.isKilled)
+                        {
+                            return false;
+                        } else {
+                            ChivalrousExpert.isKilled = true;
+                        }*/
+                        break;
                 }
             }
 
