@@ -117,7 +117,7 @@ namespace TownOfHost
             if (reason == DisconnectReasons.Hacking)
             {
                 Logger.SendInGame($"{data.PlayerName} 被树懒超级厉害的反作弊踢出去啦~ QwQ");
-            }else if (AmongUsClient.Instance.Ping > 350)
+            }else if (AmongUsClient.Instance.Ping > 500)
             {
                 Logger.SendInGame($"{data.PlayerName} 在火星和你联机但是断了 (Ping:{AmongUsClient.Instance.Ping}) QwQ");
             }

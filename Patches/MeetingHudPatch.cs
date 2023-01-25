@@ -405,11 +405,13 @@ namespace TownOfHost
             {
                 if (!Options.ImpKnowCyberStarDead.GetBool() && CustomRolesHelper.IsImpostor(pc.GetCustomRole())) continue;
                 if (!Options.NeutralKnowCyberStarDead.GetBool() && CustomRolesHelper.IsNeutral(pc.GetCustomRole())) continue;
-                foreach (var cs in Main.CyberStarDead)
+                foreach (var csId in Main.CyberStarDead)
                     {
+                    var cs = Utils.GetPlayerById(csId);
+                    if (cs == null) continue;
                         new LateTask(() =>
                         {
-                            Utils.SendMessage(GetString("CyberStarDead") + " " + pc.GetRealName(), pc.PlayerId, Utils.ColorString(    Utils.GetRoleColor(CustomRoles.CyberStar)  , " ★ 紧急新闻 ★ ")   );
+                            Utils.SendMessage(GetString("CyberStarDead") + " " + cs.GetRealName(), pc.PlayerId, Utils.ColorString(    Utils.GetRoleColor(CustomRoles.CyberStar)  , " ★ 紧急新闻 ★ ")   );
                         }, 5.0f, "Notice CyberStar Skill");
                     }
             }

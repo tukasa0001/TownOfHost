@@ -12,6 +12,7 @@ namespace TownOfHost
         private static ToggleButtonBehaviour DisableTOHE;
         public static float xOffset = 1.75f;
         public static float yOffset = -0.25f;
+
         private static void UpdateToggle(ToggleButtonBehaviour button, string text, bool on)
         {
             if (button == null || button.gameObject == null) return;
@@ -63,8 +64,13 @@ namespace TownOfHost
             __instance.StreamerModeButton.transform.localScale = Vector3.one * 0.7f;
 
             Main.DisableTOHE.Value = false;
+            if (!Main.SetAutoStartToDisable)
+            {
+                Main.AutoStart.Value = false;
+                Main.SetAutoStartToDisable = true;
+            }
 
-            if (DisableTOHE == null || DisableTOHE?.gameObject == null)
+                if (DisableTOHE == null || DisableTOHE?.gameObject == null)
             {
                 DisableTOHE = CreateCustomToggle(Translator.GetString("DisableTOHE") + ": ", Main.DisableTOHE.Value, new Vector3(-0.375f, yOffset, 0), (UnityEngine.Events.UnityAction)DisableTOHEButtonToggle, __instance);
 
