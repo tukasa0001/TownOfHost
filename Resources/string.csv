@@ -545,7 +545,7 @@ Message.TemplateNotFoundClient,未找到与“{0}”相关的消息,沒有找到
 Message.SyncButtonLeft,剩余紧急会议次数: {0}次，少拍桌多做事哦~,"全場拍桌數量還剩下{0}次,請謹慎拍桌"
 Message.Executed,{0}被房主处决了，请不要干坏事哦~,{0}被處刑了
 Message.HideGameSettings,游戏设置被房主隐藏,遊戲設定被房主隱藏
-Message.NowOverrideText,请房主在游戏根目录的 .\Language\SChinese.dat 文件中修改 Message.NowOverrideText 的文本\n如果您不需要此功能或希望显示普通的/n消息\n请在设置里关掉“显示自定义的/n消息”,請房主在遊戲根目錄的 .\Language\SChinese.dat 文件中修改 Message.NowOverrideText 的文本\n如果您不需要此功能或希望顯示普通的/n消息\n請在設置里關掉“顯示自定義的/n消息”
+Message.NowOverrideText,请房主在游戏根目录的 .\Language\SChinese.dat 文件中修改这段文本\n如果您不需要此功能或希望显示普通的/n消息\n请在设置里关掉“显示自定义的/n消息”,請房主在遊戲根目錄的 .\Language\SChinese.dat 文件中修改 Message.NowOverrideText 的文本\n如果您不需要此功能或希望顯示普通的/n消息\n請在設置里關掉“顯示自定義的/n消息”
 Message.AnnounceUsingTOH,本房间使用TownOfHostEdited mod v{0}。\n未安装MOD也可以直接玩\n请前往本mod的Github页面来获取详细的职业信息。,本房間使用TownOfHostEdited v{0}。\n可以使用/n來查詢目前設定。\n若要獲得進一步的職業介紹(並沒有繁體中文翻譯版本)請前往本模組的Github頁面來獲得。
 Message.NoDescription,无描述,无描述
 Message.KickedByDenyName,{0} 被踢出，因其昵称违规 {1},
