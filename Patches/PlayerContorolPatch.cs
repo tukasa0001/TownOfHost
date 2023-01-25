@@ -502,6 +502,8 @@ namespace TownOfHost
                 }
             }
 
+            if (__instance.Is(CustomRoles.Jester) && !Options.JesterCanUseButton.GetBool()) return false;
+
             if (Options.SyncButtonMode.GetBool() && target == null)
             {
                 Logger.Info("最大:" + Options.SyncedButtonCount.GetInt() + ", 現在:" + Options.UsedButtonCount, "ReportDeadBody");

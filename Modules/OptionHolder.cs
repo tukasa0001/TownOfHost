@@ -117,6 +117,9 @@ namespace TownOfHost
         public static OptionItem CanTerroristSuicideWin;
         public static OptionItem ArsonistDouseTime;
         public static OptionItem ArsonistCooldown;
+        public static OptionItem JesterCanVent;
+        public static OptionItem JesterCooldown;
+        public static OptionItem JesterCanUseButton;
         public static OptionItem KillFlashDuration;
 
         public static OptionItem TrueRandomeRoles;
@@ -391,7 +394,7 @@ namespace TownOfHost
             WarlockCanKillSelf = BooleanOptionItem.Create(901408, "WarlockCanKillSelf", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Warlock]);
             SetupRoleOptions(901455, TabGroup.ImpostorRoles, CustomRoles.Assassin);
             SetupRoleOptions(901585, TabGroup.ImpostorRoles, CustomRoles.Hacker);
-            HackKillDelay = FloatOptionItem.Create(901587, "HackKillDelay", new(5f, 999f, 5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
+            HackKillDelay = FloatOptionItem.Create(901587, "KillCooldown", new(5f, 999f, 5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
                 .SetValueFormat(OptionFormat.Seconds);
             HackUsedMaxTime = IntegerOptionItem.Create(901589, "HackUsedMaxTime", new(1, 15, 1), 3, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
                 .SetValueFormat(OptionFormat.Times);
@@ -505,6 +508,12 @@ namespace TownOfHost
             ArsonistCooldown = FloatOptionItem.Create(50511, "Cooldown", new(5f, 100f, 1f), 10f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Arsonist])
                 .SetValueFormat(OptionFormat.Seconds);
             SetupRoleOptions(50000, TabGroup.NeutralRoles, CustomRoles.Jester);
+            JesterCanUseButton = BooleanOptionItem.Create(6050007, "JesterCanUseButton", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Jester]);
+            JesterCanVent = BooleanOptionItem.Create(6050008, "CanVent", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Jester])
+                .SetHidden(true);
+            JesterCooldown = FloatOptionItem.Create(6050009, "Cooldown", new(5f, 100f, 1f), 30f, TabGroup.NeutralRoles, false).SetParent(JesterCanVent)
+                .SetValueFormat(OptionFormat.Seconds)
+                .SetHidden(true);
             SetupRoleOptions(50100, TabGroup.NeutralRoles, CustomRoles.Opportunist);
             SetupRoleOptions(50200, TabGroup.NeutralRoles, CustomRoles.Terrorist);
             CanTerroristSuicideWin = BooleanOptionItem.Create(50210, "CanTerroristSuicideWin", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Terrorist])

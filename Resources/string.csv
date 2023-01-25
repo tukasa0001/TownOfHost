@@ -307,11 +307,10 @@ ParanoiaVentCooldown,使用通风管冷却时长,使用通風管冷卻時長
 ParanoiaNumOfUseButton,可以使用通风管次数,可以使用通風管次數
 EveryOneKnowSuperStar,所有人知道谁是明星,所有人知道誰是明星
 HackUsedMaxTime,骇客技能可使用次数,骇客技能最大次數
-HackKillDelay,骇客击杀冷却,駭客擊殺冷卻
 MafiaCanKillNum,最大可复仇人数,最大可複仇人數
-UndercoverCanVent,可以使用通风管,可以使用通風管
-ImpKnowCyberStarDead,内鬼能知道网红死亡,內鬼能知道網紅死亡
-NeutralKnowCyberStarDead,中立能知道网红死亡,中立能知道網紅死亡
+ImpKnowCyberStarDead,内鬼可以知道网红死亡,內鬼可以知道網紅死亡
+NeutralKnowCyberStarDead,中立可以知道网红死亡,中立可以知道網紅死亡
+JesterCanUseButton,允许小丑召开紧急会议,允許小丑召開緊急會議
 
 VoteMode,投票相关设定,投票設定
 WhenSkipVote,跳过投票相当于投给自己,當跳過投票時
