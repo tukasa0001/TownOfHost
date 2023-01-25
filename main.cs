@@ -48,7 +48,7 @@ namespace TownOfHost
 
         // ==========
         //文件路径
-        public static readonly string BANNEDWORDS_FILE_PATH = "./TOH_DATA/banwords.txt";
+        public static readonly string BANNEDWORDS_FILE_PATH = "./TOH_DATA/BanWords.txt";
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.karped1em.townofhost";
         public const string PluginVersion = "4.0.2.3";
