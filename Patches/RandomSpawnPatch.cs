@@ -43,7 +43,6 @@ namespace TownOfHost
                         if (Options.FixFirstKillCooldown.GetBool() && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
                         if (!Options.RandomSpawn.GetBool()) return; //ランダムスポーンが無効ならreturn
 
-                        if (player.IsAlive()) AirshipSpawnedPlayerCount++;
                         if (Options.AirshipSynchronizeSpawn.GetBool()) AirshipSynchronizedRandomTeleport(player);
                         else new AirshipSpawnMap().RandomTeleport(player);
                     }
@@ -53,6 +52,7 @@ namespace TownOfHost
             private static void AirshipSynchronizedRandomTeleport(PlayerControl player)
             {
                 CloneSpeed ??= new(Main.AllPlayerSpeed);
+                if (player.IsAlive()) AirshipSpawnedPlayerCount++;
                 if (!IsSpawnReady)
                 {
                     Main.PlayerStates[player.PlayerId].IsBlackOut = true;
