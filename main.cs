@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Reflection;
 using AmongUs.GameOptions;
 using BepInEx;
@@ -48,7 +49,7 @@ namespace TownOfHost
 
         // ==========
         //文件路径
-        public static readonly string BANNEDWORDS_FILE_PATH = "./TOH_DATA/BanWords.txt";
+        public static readonly string BANNEDWORDS_FILE_PATH = File.Exists("./TOH_DATA/BanWords.txt") ? "./TOH_DATA/BanWords.txt" : "./TOH_DATA/banwords.txt";
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.karped1em.townofhost";
         public const string PluginVersion = "4.0.2.3";
