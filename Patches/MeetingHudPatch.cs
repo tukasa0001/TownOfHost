@@ -56,7 +56,7 @@ namespace TownOfHost
                 foreach (var ps in __instance.playerStates)
                 {
                     //死んでいないプレイヤーが投票していない
-                    if (!(ps.AmDead || ps.DidVote)) return false;
+                    if (!(Main.PlayerStates[ps.TargetPlayerId].IsDead || ps.DidVote)) return false;
                 }
 
                 GameData.PlayerInfo exiledPlayer = PlayerControl.LocalPlayer.Data;
