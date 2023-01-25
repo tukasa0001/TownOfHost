@@ -9,7 +9,6 @@ using System.Text.RegularExpressions;
 using AmongUs.Data;
 using AmongUs.GameOptions;
 using Hazel;
-using Il2CppSystem.Web.Util;
 using TownOfHost.Modules;
 using UnhollowerBaseLib;
 using UnityEngine;

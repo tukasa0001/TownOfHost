@@ -244,6 +244,7 @@ namespace TownOfHost
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Sheriff:
+                case CustomRoles.ChivalrousExpert:
                 case CustomRoles.Arsonist:
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
