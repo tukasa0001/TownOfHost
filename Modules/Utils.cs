@@ -514,10 +514,16 @@ namespace TownOfHost
                 text += $"\n　 " + EndGamePatch.SummaryText[id].RemoveHtmlTags();
             }
             SendMessage(text, PlayerId);
+        }
+        public static void ShowKillLog(byte PlayerId = byte.MaxValue)
+        {
+            if (GameStates.IsInGame)
+            {
+                SendMessage(GetString("CantUse.killlog"), PlayerId);
+                return;
+            }
             SendMessage(EndGamePatch.KillLog, PlayerId);
         }
-
-
         public static string GetSubRolesText(byte id, bool disableColor = false)
         {
             var SubRoles = Main.PlayerStates[id].SubRoles;
