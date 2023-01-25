@@ -693,7 +693,7 @@ namespace TownOfHost
                             Utils.SendMessage(GetString("IllegalColor"), PlayerControl.LocalPlayer.PlayerId);
                             break;
                         }
-                        PlayerControl.LocalPlayer.RpcSetColor(color);
+                        player.RpcSetColor(color);
                         Utils.SendMessage("颜色设置为：" + subArgs, player.PlayerId);
                     }
                     else
