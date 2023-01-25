@@ -580,6 +580,7 @@ namespace TownOfHost
                     foreach (var pc in Main.AllPlayerControls)
                     {
                         pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
+                        Utils.NotifyRoles(isMeeting: true, NoCache: true);
                     }
                     ChatUpdatePatch.DoBlockChat = false;
                 }, 7.5f, "SetName To Chat Again");
