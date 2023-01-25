@@ -13,6 +13,7 @@ namespace TownOfHost
     {
         public static bool Prefix()
         {
+            // 贡献：天寸(https://github.com/Huier-Huang)
             if (Options.PreventSBServerKick.GetBool())
             {
                 Logger.SendInGame("刚才树懒的游戏服务器想踢人，但是被我们拦截了");
