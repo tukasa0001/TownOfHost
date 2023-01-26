@@ -46,5 +46,7 @@ namespace TownOfHost
                 sec -= StolenTime(playerId);
             return sec;
         }
+        public static string GetProgressText(byte playerId)
+            => StolenTime(playerId) > 0 ? Utils.ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $"{-StolenTime(playerId)}s") : "";
     }
 }
