@@ -56,7 +56,7 @@ namespace TownOfHost
                 foreach (var ps in __instance.playerStates)
                 {
                     //死んでいないプレイヤーが投票していない
-                    if (!(ps.AmDead || ps.DidVote)) return false;
+                    if (!(Main.PlayerStates[ps.TargetPlayerId].IsDead || ps.DidVote)) return false;
                 }
 
                 GameData.PlayerInfo exiledPlayer = PlayerControl.LocalPlayer.Data;
@@ -428,6 +428,7 @@ namespace TownOfHost
                     Main.PlayerStates[player.PlayerId].SetDead();
                     Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
                     Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
+                    __instance.CheckForEndVoting();
                 });
             }
         }
