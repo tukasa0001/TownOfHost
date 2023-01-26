@@ -411,7 +411,6 @@ namespace TownOfHost
                         case 41: AssignCustomRolesFromList(CustomRoles.Luckey, Crewmates); break;
                         case 42: AssignCustomRolesFromList(CustomRoles.CyberStar, Crewmates); break;
                         case 43: AssignCustomRolesFromList(CustomRoles.Escapee, Shapeshifters); break;
-                        // case 44: AssignCustomRolesFromList(CustomRoles.ChivalrousExpert, Crewmates); break;
                     }
                 }
 
