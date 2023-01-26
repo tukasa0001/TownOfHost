@@ -160,7 +160,6 @@ namespace TownOfHost
 
         public static Dictionary<byte, byte> LastRPC = new();
 
-
         public override void Load()
         {
             Instance = this;

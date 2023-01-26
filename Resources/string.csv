@@ -472,6 +472,11 @@ ShowNKRemainOnEject,同时显示剩余中立
 WitchModeSwitchAction,切换击杀模式,切換模式操作
 TriggerKill,击杀,殺人鍵
 TriggerVent,通风管,通風口
+Ban,封禁
+Kick,踢出
+NoticeMe,通知我
+NoticeEveryone,通知所有人（除了它）
+CheatResponses,检测到外挂时
 
 ## かくれんぼ設定
 HideAndSeekOptions,躲猫猫设置,躲貓貓設定

@@ -1,9 +1,11 @@
 using System;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
+using UnityEngine;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -77,12 +79,36 @@ namespace TownOfHost
                 {
                     if (Main.LastRPC.ContainsKey(__instance.PlayerId))
                     {
+                        if (Main.LastRPC[__instance.PlayerId] == byte.MaxValue) return false; //已处理
                         string text = "";
                         if (Main.LastRPC[__instance.PlayerId] == callId && Cloud.CheckCheat(callId, ref text))
                         {
-                            AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
-                            Logger.Warn($"检测到 {__instance?.Data?.PlayerName} 正在使用作弊程序，因此将其踢出：{text}", "Kick");
-                            Logger.SendInGame(string.Format($"封禁 {__instance?.Data?.PlayerName}，理由：{text}", __instance?.Data?.PlayerName));
+                            switch (Options.CheatResponses.GetInt())
+                            {
+                                case 0:
+                                    AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), true);
+                                    Logger.Warn($"检测到 {__instance?.Data?.PlayerName} 正在使用作弊程序，因此将其踢出：{text}", "Kick");
+                                    Logger.SendInGame(string.Format($"封禁 {__instance?.Data?.PlayerName}，理由：{text}", __instance?.Data?.PlayerName));
+                                    break;
+                                case 1:
+                                    AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
+                                    Logger.Warn($"检测到 {__instance?.Data?.PlayerName} 正在使用作弊程序，因此将其踢出：{text}", "Kick");
+                                    Logger.SendInGame(string.Format($"踢出 {__instance?.Data?.PlayerName}，理由：{text}", __instance?.Data?.PlayerName));
+                                    break;
+                                case 2:
+                                    Utils.SendMessage($"检测到 {__instance?.Data?.PlayerName}：{text}", PlayerControl.LocalPlayer.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "【 ★ 作弊检测 ★ 】"));
+                                    break;
+                                case 3:
+                                    foreach(var pc in PlayerControl.AllPlayerControls)
+                                    {
+                                        if(pc != null && pc.PlayerId != __instance?.Data?.PlayerId)
+                                        {
+                                            Utils.SendMessage($"检测到 {__instance?.Data?.PlayerName}：{text}", pc.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "【 ★ 作弊检测 ★ 】"));
+                                        }
+                                    }
+                                    break;
+                            }
+                            Main.LastRPC[__instance.PlayerId] = byte.MaxValue;
                             return false;
                         }
                     }

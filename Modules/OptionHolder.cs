@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using Steamworks;
 using UnityEngine;
+using static UnityEngine.RemoteConfigSettingsHelper;
 
 namespace TownOfHost
 {
@@ -77,6 +78,10 @@ namespace TownOfHost
         {
             "RateOff", "RateOn",
         };
+        public static readonly string[] CheatResponsesName =
+        {
+            "Ban", "Kick", "NoticeMe","NoticeEveryone"
+        };
 
         // 各役職の詳細設定
         public static OptionItem EnableGM;
@@ -130,6 +135,7 @@ namespace TownOfHost
         public static OptionItem ConfirmEjectionsRoles;
         public static OptionItem ShowImpRemainOnEject;
         public static OptionItem ShowNKRemainOnEject;
+        public static OptionItem CheatResponses;
 
         public static OptionItem ParanoiaVentCooldown;
         public static OptionItem ParanoiaNumOfUseButton;
@@ -546,6 +552,9 @@ namespace TownOfHost
             ConfirmEjectionsRoles = BooleanOptionItem.Create(6090113, "ConfirmEjectionsRoles", true, TabGroup.MainSettings, false);
             ShowImpRemainOnEject = BooleanOptionItem.Create(6090115, "ShowImpRemainOnEject", true, TabGroup.MainSettings, false);
             ShowNKRemainOnEject = BooleanOptionItem.Create(6090119, "ShowNKRemainOnEject", true, TabGroup.MainSettings, false).SetParent(ShowImpRemainOnEject);
+
+            CheatResponses = StringOptionItem.Create(6090121, "CheatResponses", CheatResponsesName, 0, TabGroup.MainSettings, false)
+                .SetHeader(true);
 
             KillFlashDuration = FloatOptionItem.Create(90000, "KillFlashDuration", new(0.1f, 0.45f, 0.05f), 0.2f, TabGroup.MainSettings, false)
                 .SetHeader(true)
