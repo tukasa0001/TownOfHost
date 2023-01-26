@@ -131,6 +131,8 @@ namespace TownOfHost
                 Jackal.Init();
                 Sheriff.Init();
                 ChivalrousExpert.Init();
+                NiceGuesser.Init();
+                EvilGuesser.Init();
                 EvilTracker.Init();
                 LastImpostor.Init();
                 CustomWinnerHolder.Reset();
@@ -340,7 +342,7 @@ namespace TownOfHost
             else
             {
                 List<int> funList = new();
-                for (int i = 0; i <= 43; i++)
+                for (int i = 0; i <= 45; i++)
                 {
                     funList.Add(i);
                 }
@@ -411,6 +413,8 @@ namespace TownOfHost
                         case 41: AssignCustomRolesFromList(CustomRoles.Luckey, Crewmates); break;
                         case 42: AssignCustomRolesFromList(CustomRoles.CyberStar, Crewmates); break;
                         case 43: AssignCustomRolesFromList(CustomRoles.Escapee, Shapeshifters); break;
+                        case 44: AssignCustomRolesFromList(CustomRoles.NiceGuesser, Crewmates); break;
+                        case 45: AssignCustomRolesFromList(CustomRoles.EvilGuesser, Impostors); break;
                     }
                 }
 

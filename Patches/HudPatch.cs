@@ -249,6 +249,10 @@ namespace TownOfHost
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
+                case CustomRoles.EvilGuesser:
+                    __instance.SabotageButton.ToggleVisible(true);
+                    __instance.AbilityButton.ToggleVisible(true);
+                    break;
                 case CustomRoles.Jackal:
                     Jackal.SetHudActive(__instance, isActive);
                     break;

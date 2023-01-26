@@ -255,6 +255,7 @@ namespace TownOfHost
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     {CustomRoles.Seer, "#61b26c"},
                     {CustomRoles.ChivalrousExpert, "#f0e68c"},
+                    {CustomRoles.NiceGuesser, "#f0e68c"},
                     //第三陣営役職
                     {CustomRoles.Arsonist, "#ff6633"},
                     {CustomRoles.Jester, "#ec62a5"},
@@ -275,7 +276,9 @@ namespace TownOfHost
                     {CustomRoles.LastImpostor, "#ff0000"},
                     {CustomRoles.Lovers, "#ff6be4"},
 
-                    {CustomRoles.NotAssigned, "#ffffff"}
+                    {CustomRoles.NotAssigned, "#ffffff"},
+
+                    {CustomRoles.EvilGuesser, "#ff0000"}
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -328,6 +331,7 @@ namespace TownOfHost
         FireWorks,
         Mafia,
         SerialKiller,
+        EvilGuesser,
         //ShapeMaster,
         Sniper,
         Vampire,
@@ -375,6 +379,7 @@ namespace TownOfHost
         Seer,
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
         ChivalrousExpert,
+        NiceGuesser,
         //Neutral
         Arsonist,
         Egoist,

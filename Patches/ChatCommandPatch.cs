@@ -40,7 +40,7 @@ namespace TownOfHost
             }
             if (Main.MafiaRevenged.ContainsKey(pc.PlayerId))
             {
-                
+
                 if (Main.MafiaRevenged[pc.PlayerId] >= Options.MafiaCanKillNum.GetInt())
                 {
                     Utils.SendMessage(GetString("MafiaKillMax"), pc.PlayerId);
@@ -70,7 +70,7 @@ namespace TownOfHost
                 Utils.SendMessage(GetString("MafiaKillDead"), pc.PlayerId);
                 return true;
             }
-            
+
             if (target == null || target.Data.IsDead)
             {
                 Utils.SendMessage(GetString("MafiaKillDead"), pc.PlayerId);
@@ -258,7 +258,7 @@ namespace TownOfHost
                         subArgs = args.Length < 2 ? "" : args[1];
                         Utils.SendMessage("您的等级设置为：" + subArgs, PlayerControl.LocalPlayer.PlayerId);
                         //nt32.Parse("-105");
-                        var number = System.Convert.ToUInt32(subArgs);
+                        var number = Convert.ToUInt32(subArgs);
                         PlayerControl.LocalPlayer.RpcSetLevel(number - 1);
                         break;
 
@@ -314,12 +314,12 @@ namespace TownOfHost
                     case "/r":
                         canceled = true;
                         subArgs = text.Remove(0, 2);
-                        GetRolesInfo(subArgs, PlayerControl.LocalPlayer);
+                        SendRolesInfo(subArgs, PlayerControl.LocalPlayer);
                         break;
                     case "/roles":
                         canceled = true;
                         subArgs = text.Remove(0, 6);
-                        GetRolesInfo(subArgs, PlayerControl.LocalPlayer);
+                        SendRolesInfo(subArgs, PlayerControl.LocalPlayer);
                         break;
 
                     case "/h":
@@ -417,13 +417,75 @@ namespace TownOfHost
                     case "/id":
                         canceled = true;
                         string msgText = "玩家编号列表：";
-                        foreach(var pc in PlayerControl.AllPlayerControls)
+                        foreach (var pc in PlayerControl.AllPlayerControls)
                         {
                             msgText += "\n" + pc.PlayerId.ToString() + " → " + pc.GetRealName();
                         }
                         Utils.SendMessage(msgText, PlayerControl.LocalPlayer.PlayerId);
                         break;
+                    case "/guesslist":
+                        canceled = true;
+                        if (!PlayerControl.LocalPlayer.IsAlive())
+                        {
+                            Utils.SendMessage("死亡后不能赌注", PlayerControl.LocalPlayer.PlayerId);
+                            break;
+                        }
+                        if (GameStates.IsLobby)
+                        {
+                            Utils.SendMessage("准备阶段无法使用", PlayerControl.LocalPlayer.PlayerId);
+                            break;
+                        }
+                        if (!GuessManager.isGuesser(PlayerControl.LocalPlayer.PlayerId)) break;
+                        Utils.SendMessage(GuessManager.getFormatString(), PlayerControl.LocalPlayer.PlayerId);
+                        break;
+                    case "/guess":
+                        canceled = true;
+                        if (!PlayerControl.LocalPlayer.IsAlive())
+                        {
+                            Utils.SendMessage("死亡后不能赌注", PlayerControl.LocalPlayer.PlayerId);
+                            break;
+                        }
+                        if (GameStates.IsLobby)
+                        {
+                            Utils.SendMessage("准备阶段无法使用", PlayerControl.LocalPlayer.PlayerId);
+                            break;
+                        }
+                        if (!GuessManager.isGuesser(PlayerControl.LocalPlayer.PlayerId)) break;
+                        if (args.Length < 3) break;
+                        var i = int.Parse(args[1]);
+                        CustomRoles customRole = getRoleByName(args[2]);
 
+                        PlayerControl typePlayer = GuessManager.GetPlayerByNum(i);
+
+                        if (!typePlayer.IsAlive())
+                        {
+                            Utils.SendMessage("猜测对象已经死亡", PlayerControl.LocalPlayer.PlayerId);
+                            break;
+                        }
+
+                        PlayerControl diedPlayer;
+
+                        if (customRole.IsCrewmate() && GuessManager.isGood(PlayerControl.LocalPlayer.PlayerId))
+                        {
+                            Utils.SendMessage("你只能猜测非船员阵营", PlayerControl.LocalPlayer.PlayerId);
+                            break;
+                        }
+
+                        if (GuessManager.isRealRole(typePlayer.PlayerId, customRole))
+                        {
+                            // typePlayer.RpcExileV2();
+                            typePlayer?.RpcMurderPlayer(typePlayer);
+                            diedPlayer = typePlayer;
+                        }
+                        else
+                        {
+                            // PlayerControl.LocalPlayer.RpcExileV2();
+                            PlayerControl.LocalPlayer?.RpcMurderPlayer(PlayerControl.LocalPlayer);
+                            diedPlayer = PlayerControl.LocalPlayer;
+                        }
+
+                        Utils.SendMessage(diedPlayer.GetRealName() + " 在赌局中失利");
+                        break;
                     default:
                         Main.isChatCommand = false;
                         break;
@@ -474,6 +536,8 @@ namespace TownOfHost
                 "大明星" or "明星" => "大明星",
                 "網紅" => "网红",
                 "俠客" => "侠客",
+                "正義賭怪" => "正义赌怪",
+                "邪惡賭怪" => "邪恶赌怪",
                 "工程師" or "工程" => "工程师",
                 "市長" => "市长",
                 "被害妄想症" or "被害妄想" or "被迫害妄想症" or "被害" or "妄想" or "妄想症" => "被害妄想症",
@@ -498,10 +562,9 @@ namespace TownOfHost
                 _ => text,
             };
         }
-        public static void GetRolesInfo(string role, PlayerControl player)
+
+        private static readonly Dictionary<CustomRoles, string> roleList = new()
         {
-            var roleList = new Dictionary<CustomRoles, string>
-            {
                 //GM
                 { CustomRoles.GM, "管理员" },
                 //Impostor役職
@@ -553,6 +616,8 @@ namespace TownOfHost
                 { CustomRoles.SpeedBooster, "增速者" },
                 { CustomRoles.Trapper, "陷阱师" },
                 { CustomRoles.ChivalrousExpert, "侠客" },
+                { CustomRoles.NiceGuesser, "正义赌怪" },
+                { CustomRoles.EvilGuesser, "邪恶赌怪" },
                 //Neutral役職
                 { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
                 { CustomRoles.Arsonist, "纵火犯" },
@@ -573,6 +638,30 @@ namespace TownOfHost
 
             };
 
+        private static CustomRoles getRoleByName(string name) {
+            name = name.Trim();
+            if (name == "" || name == String.Empty)
+            {
+                return CustomRoles.Crewmate;
+            }
+
+            name = ToSimplified(name);
+
+            foreach (var r in roleList) {
+                var roleName = r.Key.ToString();
+                var roleShort = r.Value;
+
+                if (String.Compare(name, roleName, true) == 0 || String.Compare(name, roleShort, true) == 0)
+                {
+                    return r.Key;
+                }
+            }
+
+            return CustomRoles.Crewmate;
+        }
+
+    public static void SendRolesInfo(string role, PlayerControl player)
+        {
             role = role.Trim();
             if (role == "" || role == String.Empty)
             {
@@ -655,11 +744,11 @@ namespace TownOfHost
 
                 case "/r":
                     subArgs = text.Remove(0, 2);
-                    GetRolesInfo(subArgs, player);
+                    SendRolesInfo(subArgs, player);
                     break;
                 case "/roles":
                     subArgs = text.Remove(0, 6);
-                    GetRolesInfo(subArgs, player);
+                    SendRolesInfo(subArgs, player);
                     break;
 
                 case "/h":
@@ -725,7 +814,66 @@ namespace TownOfHost
                     Utils.NotifyRoles(isMeeting: true, NoCache: true);
                     Utils.SendMessage("已尝试修复名字遮挡", PlayerControl.LocalPlayer.PlayerId);
                     break;
+                case "/guesslist":
+                    if (GameStates.IsLobby)
+                    {
+                        Utils.SendMessage("准备阶段无法使用", player.PlayerId);
+                        break;
+                    }
+                    if (!player.IsAlive())
+                    {
+                        Utils.SendMessage("死亡后不能赌注", player.PlayerId);
+                        break;
+                    }
+                    if (!GuessManager.isGuesser(player.PlayerId)) break;
+                    Utils.SendMessage(GuessManager.getFormatString(), player.PlayerId);
+                    break;
+                case "/guess":
+                    if (GameStates.IsLobby)
+                    {
+                        Utils.SendMessage("准备阶段无法使用", player.PlayerId);
+                        break;
+                    }
+                    if (!player.IsAlive()) {
+                        Utils.SendMessage("死亡后不能赌注", player.PlayerId);
+                        break;
+                    }
+                    if (!GuessManager.isGuesser(player.PlayerId)) break;
+                    if (args.Length < 3) break;
+                    var i = int.Parse(args[1]);
+                    CustomRoles customRole = getRoleByName(args[2]);
 
+                    PlayerControl typePlayer = GuessManager.GetPlayerByNum(i);
+
+                    PlayerControl diedPlayer;
+
+                    if (customRole.IsCrewmate() && GuessManager.isGood(player.PlayerId))
+                    {
+                        Utils.SendMessage("你只能猜测非船员阵营", player.PlayerId);
+                        break;
+                    }
+                    else if (customRole.IsImpostor() && !GuessManager.isGood(player.PlayerId)) {
+                        Utils.SendMessage("你只能猜测非伪装者阵营", player.PlayerId);
+                        break;
+                    }
+
+                    if (!typePlayer.IsAlive()) {
+                        Utils.SendMessage("猜测对象已经死亡", player.PlayerId);
+                        break;
+                    }
+
+                    if (GuessManager.isRealRole(typePlayer.PlayerId, customRole))
+                    {
+                        typePlayer?.RpcMurderPlayer(typePlayer);
+                        diedPlayer = typePlayer;
+                    }
+                    else {
+                        player?.RpcMurderPlayer(player);
+                        diedPlayer = player;
+                    }
+
+                    Utils.SendMessage(diedPlayer.GetRealName() + " 在赌局中失利");
+                    break;
                 default:
                     break;
             }

@@ -27,7 +27,7 @@ namespace TownOfHost
 
         public static bool CanUseKillButton(byte playerId)
             => !Main.PlayerStates[playerId].IsDead
-            && !GameStates.AlreadyDied;
+            && !isKilled(playerId);
 
         public static bool isKilled(byte playerId) {
             //return killed.Contains(playerId);
@@ -41,9 +41,6 @@ namespace TownOfHost
             if (!Main.ResetCamPlayerList.Contains(playerId)) {
                 Main.ResetCamPlayerList.Add(playerId);
             }
-
-            // Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : 残り{ShotLimit[playerId]}発", "Sheriff");
-            // Logger.Info(Utils.GetPlayerById(playerId)?.GetNameWithRole() + " is ChivalrousExpert");
         }
     }
 }
