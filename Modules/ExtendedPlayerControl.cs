@@ -381,7 +381,6 @@ namespace TownOfHost
             {
                 CustomRoles.Sheriff => false,
                 CustomRoles.ChivalrousExpert => false,
-                CustomRoles.EvilGuesser => true,
                 CustomRoles.Egoist => true,
                 CustomRoles.Jackal => Jackal.CanVent.GetBool(),
                 CustomRoles.Arsonist => pc.IsDouseDone(),

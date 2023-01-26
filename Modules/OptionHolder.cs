@@ -485,7 +485,7 @@ namespace TownOfHost
             SnitchEnableTargetArrow = BooleanOptionItem.Create(20510, "SnitchEnableTargetArrow", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanGetArrowColor = BooleanOptionItem.Create(20511, "SnitchCanGetArrowColor", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanFindNeutralKiller = BooleanOptionItem.Create(20512, "SnitchCanFindNeutralKiller", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
-
+            //20520~20523を使用
             SnitchTasks = OverrideTasksData.Create(20520, TabGroup.CrewmateRoles, CustomRoles.Snitch);
             SetupRoleOptions(20600, TabGroup.CrewmateRoles, CustomRoles.SpeedBooster);
             SpeedBoosterUpSpeed = FloatOptionItem.Create(20610, "SpeedBoosterUpSpeed", new(0.1f, 1.0f, 0.1f), 0.2f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
