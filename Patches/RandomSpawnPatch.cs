@@ -10,11 +10,13 @@ namespace TownOfHost
     class RandomSpawn
     {
         private static Dictionary<byte, float> CloneSpeed;
-        private static int AirshipSpawnedPlayerCount;
+        private static int AirshipAliveSpawnedPlayerCount;
+        private static int AirshipAllSpawnedPlayerCount;
         // 生存プレイヤーが全員スポーン選択を終えたときにスポーンの準備が完了します
         // 死亡済みプレイヤーは準備完了まで待機しますが，条件には含まれません
-        public static bool IsSpawnReady => AirshipSpawnedPlayerCount >= Main.AllAlivePlayerControls.Count();
-        public static bool IsProcessing => AirshipSpawnedPlayerCount > 0;
+        public static bool IsSpawnReady => AirshipAliveSpawnedPlayerCount >= Main.AllAlivePlayerControls.Count();
+        public static bool IsProcessing => AirshipAllSpawnedPlayerCount > 0;
+        public static bool IsSpawnCompleted => AirshipAllSpawnedPlayerCount >= Main.AllPlayerControls.Where(player => player.Data?.Disconnected == false).Count();
 
         [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.SnapTo), typeof(Vector2), typeof(ushort))]
         public class CustomNetworkTransformPatch
@@ -52,13 +54,20 @@ namespace TownOfHost
             private static void AirshipSynchronizedRandomTeleport(PlayerControl player)
             {
                 CloneSpeed ??= new(Main.AllPlayerSpeed);
-                if (player.IsAlive()) AirshipSpawnedPlayerCount++;
+                AirshipAllSpawnedPlayerCount++;
+                if (player.IsAlive()) AirshipAliveSpawnedPlayerCount++;
                 if (!IsSpawnReady)
                 {
                     Main.PlayerStates[player.PlayerId].IsBlackOut = true;
                     // 後で戻すので代入
                     Main.AllPlayerSpeed[player.PlayerId] = Main.MinSpeed;
                     player.MarkDirtySettings();
+                    return;
+                }
+                else if (!player.IsAlive())
+                {
+                    new AirshipSpawnMap().RandomTeleport(player);
+                    if (IsSpawnCompleted) InitAirshipSpawnState();
                     return;
                 }
                 SpawnAll(player.PlayerId);
@@ -68,6 +77,7 @@ namespace TownOfHost
         {
             foreach (var target in Main.AllPlayerControls)
             {
+                if (CustomNetworkTransformPatch.NumOfTP[target.PlayerId] != 2) continue;
                 // 最後にスポーンしたプレイヤーはクールリセットの必要がない
                 if (target.PlayerId != lastSpawnedPlayerId && target.IsAlive())
                 {
@@ -92,12 +102,16 @@ namespace TownOfHost
                 }
             }
             Utils.AfterMeetingTasks();
-            InitAirshipSpawnState();
+            if (IsSpawnCompleted) InitAirshipSpawnState();
             CloneSpeed = null;
         }
         public static void InitAirshipSpawnState()
         {
-            if (Main.NormalOptions.MapId == 4) AirshipSpawnedPlayerCount = new();
+            if (Main.NormalOptions.MapId == 4)
+            {
+                AirshipAliveSpawnedPlayerCount = AirshipAllSpawnedPlayerCount = 0;
+                Logger.Info("初期化", "RandomSpawn");
+            }
         }
         public static void TP(CustomNetworkTransform nt, Vector2 location)
         {
