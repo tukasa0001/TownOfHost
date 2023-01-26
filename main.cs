@@ -156,6 +156,11 @@ namespace TownOfHost
 
         public static Main Instance;
 
+        //一些很新的东东
+
+        public static Dictionary<byte, byte> LastRPC = new();
+
+
         public override void Load()
         {
             Instance = this;

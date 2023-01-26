@@ -4,7 +4,7 @@ namespace TownOfHost
 {
     public static class NiceGuesser
     {
-        private static readonly int Id = 1919810;
+        private static readonly int Id = 102255;
         public static List<byte> playerIdList = new();
 
         public static void Init() {

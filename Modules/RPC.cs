@@ -72,11 +72,27 @@ namespace TownOfHost
                 && Enum.IsDefined(typeof(CustomRPC), (int)callId)
                 && !(callId == (byte)CustomRPC.VersionCheck || callId == (byte)CustomRPC.RequestRetryVersionCheck)) //ホストではなく、CustomRPCで、VersionCheckではない
             {
-                Logger.Warn($"{__instance?.Data?.PlayerName}:{callId}({RPC.GetRpcName(callId)}) ホスト以外から送信されたためキャンセルしました。", "CustomRPC");
+                Logger.Warn($"{__instance?.Data?.PlayerName}:{callId}({RPC.GetRpcName(callId)}) 已取消，因为它是由主机以外的其他人发送的。", "CustomRPC");
                 if (AmongUsClient.Instance.AmHost)
                 {
+                    if (Main.LastRPC.ContainsKey(__instance.PlayerId))
+                    {
+                        string text = "";
+                        if (Main.LastRPC[__instance.PlayerId] == callId && Cloud.CheckCheat(callId, ref text))
+                        {
+                            AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
+                            Logger.Warn($"检测到 {__instance?.Data?.PlayerName} 正在使用作弊程序，因此将其踢出：{text}", "Kick");
+                            Logger.SendInGame(string.Format($"封禁 {__instance?.Data?.PlayerName}，理由：{text}", __instance?.Data?.PlayerName));
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        Main.LastRPC.Add(__instance.PlayerId, callId);
+                        return false;
+                    }
                     AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
-                    Logger.Warn($"不正なRPCを受信したため{__instance?.Data?.PlayerName}をキックしました。", "Kick");
+                    Logger.Warn($"多次收到来自 {__instance?.Data?.PlayerName} 的不受信用的RPC，因此将其踢出。", "Kick");
                     Logger.SendInGame(string.Format(GetString("Warning.InvalidRpc"), __instance?.Data?.PlayerName));
                 }
                 return false;
