@@ -80,10 +80,7 @@ namespace TownOfHost
                 }
                 AntiBlackout.OnDisconnect(data.Character.Data);
                 PlayerGameOptionsSender.RemoveSender(data.Character);
-                if (Options.AirshipSynchronizeSpawn.GetBool() && RandomSpawn.IsProcessing && RandomSpawn.IsSpawnReady)
-                {
-                    RandomSpawn.SpawnAll();
-                }
+                RandomSpawn.OnDisconnect();
             }
             Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
         }

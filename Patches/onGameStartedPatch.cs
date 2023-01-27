@@ -118,7 +118,7 @@ namespace TownOfHost
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
-            RandomSpawn.InitAirshipSpawnState();
+            RandomSpawn.InitSpawnState();
 
             MeetingStates.MeetingCalled = false;
             MeetingStates.FirstMeeting = true;
