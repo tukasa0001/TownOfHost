@@ -93,6 +93,7 @@ namespace TownOfHost
             Sniped,
             Revenge,
             Execution,
+            Gambled,
             Disconnected,
             Fall,
             etc = -1

@@ -512,13 +512,9 @@ namespace TownOfHost
             Main.ArsonistTimer.Clear();
             if (target == null) //ボタン
             {
-                if (__instance.Is(CustomRoles.Mayor))
-                {
-                    Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
-                }
+                if (__instance.Is(CustomRoles.Mayor)) Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
+                if (__instance.Is(CustomRoles.Jester) && !Options.JesterCanUseButton.GetBool()) return false;
             }
-
-            if (__instance.Is(CustomRoles.Jester) && !Options.JesterCanUseButton.GetBool()) return false;
 
             if (Options.SyncButtonMode.GetBool() && target == null)
             {

@@ -85,6 +85,8 @@ namespace TownOfHost
                     break;
             }
         }
+        public static void Test(string text, string tag = "######Test######", bool escapeCRLF = true, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
+            SendToFile(text, LogLevel.Fatal, tag, escapeCRLF, lineNumber, fileName);
         public static void Info(string text, string tag, bool escapeCRLF = true, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
             SendToFile(text, LogLevel.Info, tag, escapeCRLF, lineNumber, fileName);
         public static void Warn(string text, string tag, bool escapeCRLF = true, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>

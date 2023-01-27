@@ -56,7 +56,6 @@ namespace TownOfHost
                     if (playerId == target.PlayerId) continue;
                     else if (!CanTargetImpostor.GetBool() && target.Is(RoleType.Impostor)) continue;
                     else if (!CanTargetNeutralKiller.GetBool() && target.IsNeutralKiller()) continue;
-                    else if (target.Is(CustomRoles.Needy)) continue;
                     if (target.Is(CustomRoles.GM)) continue;
 
                     targetList.Add(target);

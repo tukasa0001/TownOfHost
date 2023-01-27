@@ -666,6 +666,13 @@ namespace TownOfHost
                             pva.NameText.text += "(" + target.PlayerId.ToString() + ")";
                         }
                         break;
+                    case CustomRoles.NiceGuesser:
+                    case CustomRoles.EvilGuesser:
+                        if (!seer.Data.IsDead && !target.Data.IsDead)
+                        {
+                            pva.NameText.text += "(" + target.PlayerId.ToString() + ")";
+                        }
+                        break;
                 }
 
                 switch (target.GetCustomRole())

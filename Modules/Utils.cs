@@ -603,9 +603,8 @@ namespace TownOfHost
                 case "17": case "珊瑚": case "coral": color = 17; break;
                 case "18": case "隐藏": case "?": color = 18; break;
             }
-            Logger.Fatal(color.ToString(), "########################");
-            if (color is < 0 or > 18) return System.Convert.ToByte(99);
-            return System.Convert.ToByte(color);
+            if (color is < 0 or > 18) return byte.MaxValue;
+            return Convert.ToByte(color);
         }
 
         public static void ShowHelpToClient(byte ID)
@@ -1058,6 +1057,13 @@ namespace TownOfHost
                         if (seer.Is(CustomRoles.Mafia) && seer.Data.IsDead && !target.Data.IsDead)
                         {
                             TargetMark += "(" + target.PlayerId.ToString() + ")";
+                        }
+                        if (seer.Is(CustomRoles.NiceGuesser) || seer.Is(CustomRoles.EvilGuesser))
+                        {
+                            if (!seer.Data.IsDead && !target.Data.IsDead)
+                            {
+                                TargetMark += "(" + target.PlayerId.ToString() + ")";
+                            }
                         }
 
                         if (seer.Is(CustomRoles.Arsonist))//seerがアーソニストの時

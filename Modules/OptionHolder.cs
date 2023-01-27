@@ -86,6 +86,8 @@ namespace TownOfHost
         // 各役職の詳細設定
         public static OptionItem EnableGM;
         public static float DefaultKillCooldown = Main.NormalOptions?.KillCooldown ?? 20;
+        public static OptionItem EGCanGuessImp;
+        public static OptionItem EGCanGuessTime;
         public static OptionItem VampireKillDelay;
         public static OptionItem WarlockCanKillAllies;
         public static OptionItem WarlockCanKillSelf;
@@ -106,6 +108,8 @@ namespace TownOfHost
         public static OptionItem MadmateVentMaxTime;
 
         public static OptionItem EvilWatcherChance;
+        public static OptionItem GGCanGuessCrew;
+        public static OptionItem GGCanGuessTime;
         public static OptionItem LuckeyProbability;
         public static OptionItem LighterTaskCompletedVision;
         public static OptionItem LighterTaskCompletedDisableLightOut;
@@ -388,7 +392,11 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
 
             // Impostor
-            EvilGuesser.SetupCustomOption();
+            Options.SetupRoleOptions(901065, TabGroup.ImpostorRoles, CustomRoles.EvilGuesser);
+            EGCanGuessTime = IntegerOptionItem.Create(901067, "EGCanGuessTime", new(1, 15, 1), 15, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser])
+                .SetValueFormat(OptionFormat.Times)
+                .SetHidden(true);
+            EGCanGuessImp = BooleanOptionItem.Create(901069, "EGCanGuessImp", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
             BountyHunter.SetupCustomOption();
             SerialKiller.SetupCustomOption();
             // SetupRoleOptions(1200, CustomRoles.ShapeMaster);
@@ -453,7 +461,11 @@ namespace TownOfHost
             EvilWatcherChance = IntegerOptionItem.Create(30010, "EvilWatcherChance", new(0, 100, 10), 0, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Watcher])
                 .SetValueFormat(OptionFormat.Percent);
             // Crewmate
-            NiceGuesser.SetupCustomOption();
+            Options.SetupRoleOptions(102255, TabGroup.CrewmateRoles, CustomRoles.NiceGuesser);
+            GGCanGuessTime = IntegerOptionItem.Create(102257, "GGCanGuessTime", new(1, 15, 1), 15, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.NiceGuesser])
+                .SetValueFormat(OptionFormat.Times)
+                .SetHidden(true);
+            GGCanGuessCrew = BooleanOptionItem.Create(102259, "GGCanGuessCrew", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.NiceGuesser]);
             SetupRoleOptions(20000, TabGroup.CrewmateRoles, CustomRoles.Bait);
             SetupRoleOptions(1020195, TabGroup.CrewmateRoles, CustomRoles.Luckey);
             LuckeyProbability = IntegerOptionItem.Create(1020197, "LuckeyProbability", new(0, 100, 5), 50, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Luckey])

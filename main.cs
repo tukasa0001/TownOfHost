@@ -259,7 +259,7 @@ namespace TownOfHost
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     {CustomRoles.Seer, "#61b26c"},
                     {CustomRoles.ChivalrousExpert, "#f0e68c"},
-                    {CustomRoles.NiceGuesser, "#f0e68c"},
+                    {CustomRoles.NiceGuesser, "#eede26"},
                     //第三陣営役職
                     {CustomRoles.Arsonist, "#ff6633"},
                     {CustomRoles.Jester, "#ec62a5"},

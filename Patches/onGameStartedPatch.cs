@@ -131,8 +131,6 @@ namespace TownOfHost
                 Jackal.Init();
                 Sheriff.Init();
                 ChivalrousExpert.Init();
-                NiceGuesser.Init();
-                EvilGuesser.Init();
                 EvilTracker.Init();
                 LastImpostor.Init();
                 CustomWinnerHolder.Reset();
@@ -467,6 +465,12 @@ namespace TownOfHost
                         case CustomRoles.Mare:
                             Mare.Add(pc.PlayerId);
                             break;
+                        case CustomRoles.ChivalrousExpert:
+                            ChivalrousExpert.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.Hacker:
+                            Main.HackerUsedCount[pc.PlayerId] = 0;
+                            break;
 
                         case CustomRoles.Arsonist:
                             foreach (var ar in Main.AllPlayerControls)
@@ -484,9 +488,6 @@ namespace TownOfHost
                         case CustomRoles.Sheriff:
                             Sheriff.Add(pc.PlayerId);
                             break;
-                        case CustomRoles.ChivalrousExpert:
-                            ChivalrousExpert.Add(pc.PlayerId);
-                            break;
                         case CustomRoles.Mayor:
                             Main.MayorUsedButtonCount[pc.PlayerId] = 0;
                             break;
@@ -498,9 +499,6 @@ namespace TownOfHost
                             break;
                         case CustomRoles.EvilTracker:
                             EvilTracker.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.Hacker:
-                            Main.HackerUsedCount[pc.PlayerId] = 0;
                             break;
                         case CustomRoles.Psychic:
                             Main.PsychicTarget.Clear();
