@@ -109,6 +109,11 @@ namespace TownOfHost
                 if (target != null)
                 {
                     bool guesserSuicide = false;
+                    if (role == CustomRoles.SuperStar && target.Is(CustomRoles.SuperStar))
+                    {
+                        Utils.SendMessage("大明星才不会和你赌博，选个别的目标吧？", pc.PlayerId, Utils.ColorString(Color.cyan, "咔皮呆留言"));
+                        return true;
+                    }
                     if (pc == target)
                     {
                         Utils.SendMessage("有一说一，你是懂赌怪的",pc.PlayerId, Utils.ColorString(Color.cyan, "咔皮呆留言"));
@@ -121,10 +126,14 @@ namespace TownOfHost
 
                     string Name = dp.GetRealName();
                     Utils.SendMessage($"{Name} 在赌局中失利了");
-                    dp.SetRealKiller(pc);
-                    dp.RpcMurderPlayer(dp);
-                    Main.PlayerStates[dp.PlayerId].deathReason = PlayerState.DeathReason.Gambled;
-                    Main.PlayerStates[dp.PlayerId].SetDead();
+
+                    new LateTask(() =>
+                    {
+                        dp.SetRealKiller(pc);
+                        dp.RpcMurderPlayer(dp);
+                        Main.PlayerStates[dp.PlayerId].deathReason = PlayerState.DeathReason.Gambled;
+                        Main.PlayerStates[dp.PlayerId].SetDead();
+                    }, 0.8f, "Guesser Killed");
 
                     foreach (var cpc in Main.AllPlayerControls)
                     {
