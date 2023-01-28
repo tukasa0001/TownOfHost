@@ -548,13 +548,18 @@ namespace TownOfHost
             {
                 text += $"\n　 " + EndGamePatch.SummaryText[id].RemoveHtmlTags();
             }
+            if (text == "玩家信息:") text = "";
 
             var sumText = GetString("LastResult") + ": ";
             sumText += $"{SetEverythingUpPatch.LastWinsText}";
+            if (sumText == GetString("LastResult") + ": ") sumText = "";
 
-            SendMessage(text, PlayerId);
-            SendMessage(EndGamePatch.KillLog, PlayerId);
-            SendMessage(sumText, PlayerId);
+            if (text != "") SendMessage(text, PlayerId);
+            if (EndGamePatch.KillLog != "") SendMessage(EndGamePatch.KillLog, PlayerId);
+            if (sumText != "") SendMessage(sumText, PlayerId);
+
+            if (text == "" && EndGamePatch.KillLog == "" && sumText == "") SendMessage("没有存在的上局信息", PlayerId);
+
         }
 
 

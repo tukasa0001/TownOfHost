@@ -23,7 +23,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return false;
             if (!GameStates.IsInGame || pc == null) return false;
-            if (!pc.Is(CustomRoles.Miner)) return false;
+            if (!pc.Is(CustomRoles.Mafia)) return false;
             msg = msg.Trim().ToLower();
             if (msg.Length < 3 || msg[..3] != "/rv") return false;
             if (Options.MafiaCanKillNum.GetInt() < 1)
