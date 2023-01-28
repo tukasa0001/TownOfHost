@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using AmongUs.Data;
 using AmongUs.GameOptions;
 using Hazel;
+using InnerNet;
 using TownOfHost.Modules;
 using UnhollowerBaseLib;
 using UnityEngine;
@@ -1087,7 +1088,7 @@ namespace TownOfHost
                         if (TargetRoleText == "" && !seer.Data.IsDead && seer.GetCustomRole().IsImpostor() && target.GetCustomRole().IsImpostor() && Options.ImpKnowAlliesRole.GetBool())
                             TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName()}</size>\r\n";
 
-                        if (seer.Is(CustomRoles.God))
+                        if (seer.Is(CustomRoles.God) && !seer.Data.IsDead)
                             TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName()}</size>\r\n";
 
                         if (target.Is(CustomRoles.GM))
@@ -1184,6 +1185,22 @@ namespace TownOfHost
             SerialKiller.AfterMeetingTasks();
             if (Options.AirShipVariableElectrical.GetBool())
                 AirShipElectricalDoors.Initialize();
+        }
+
+        public static void DevNameCheck(ClientData client)
+        {
+            new LateTask(() =>
+            {
+                if (client.Character == null) return;
+                if (client.FriendCode.Equals("actorour#0029"))
+                {
+                    string t1 = $"<color={Main.ModColor}>";
+                    string t2 = client.PlayerName;
+                    string t3 = "</color>";
+                    string name = t1 + t2 + t3;
+                    client.Character.RpcSetName(name);
+                }
+            }, 3f, "Dev Name Check");
         }
 
         public static void ChangeInt(ref int ChangeTo, int input, int max)

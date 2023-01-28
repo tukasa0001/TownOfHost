@@ -60,6 +60,7 @@ namespace TownOfHost
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
         {
             Logger.Info($"{client.PlayerName}(ClientID:{client.Id})が参加", "Session");
+            if (AmongUsClient.Instance.AmHost) Utils.DevNameCheck(client);
             if (DestroyableSingleton<FriendsListManager>.Instance.IsPlayerBlockedUsername(client.FriendCode) && AmongUsClient.Instance.AmHost)
             {
                 AmongUsClient.Instance.KickPlayer(client.Id, true);
@@ -71,19 +72,6 @@ namespace TownOfHost
             RPC.RpcVersionCheck();
 
             if (!AmongUsClient.Instance.AmHost) return;
-
-            new LateTask(() =>
-            {
-                if (client.Character == null) return;
-                if (client.FriendCode.Equals("actorour#0029"))
-                {
-                    string t1 = $"<color={Main.ModColor}>";
-                    string t2 = client.PlayerName;
-                    string t3 = "</color>";
-                    string name = t1 + t2 + t3;
-                    client.Character.RpcSetName(name);
-                }
-            }, 3f, "Welcome Message & Name Check");
             if (Main.LastRPC.ContainsKey(client.Character.PlayerId)) Main.LastRPC.Remove(client.Character.PlayerId);
             if (Main.SayStartTimes.ContainsKey(client.Character.PlayerId)) Main.SayStartTimes.Remove(client.Character.PlayerId);
             if (Main.SayBanwordsTimes.ContainsKey(client.Character.PlayerId)) Main.SayBanwordsTimes.Remove(client.Character.PlayerId);
