@@ -339,6 +339,7 @@ namespace TownOfHost
         Mafia,
         SerialKiller,
         EvilGuesser,
+        Minimalism,
         //ShapeMaster,
         Sniper,
         Vampire,

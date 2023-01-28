@@ -155,8 +155,8 @@ namespace TownOfHost
         public static OptionItem ImpKnowCyberStarDead;
         public static OptionItem NeutralKnowCyberStarDead;
         public static OptionItem EveryOneKnowSuperStar;
-
         public static OptionItem HackUsedMaxTime;
+        public static OptionItem MNKillCooldown;
         public static OptionItem HackKillDelay;
         public static OptionItem MafiaCanKillNum;
         
@@ -425,6 +425,9 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Times);
             SetupRoleOptions(901590, TabGroup.ImpostorRoles, CustomRoles.Miner);
             SetupRoleOptions(901595, TabGroup.ImpostorRoles, CustomRoles.Escapee);
+            SetupRoleOptions(901635, TabGroup.ImpostorRoles, CustomRoles.Minimalism);
+            MNKillCooldown = FloatOptionItem.Create(901638, "KillCooldown", new(2.5f, 999f, 2.5f), 10f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Minimalism])
+                .SetValueFormat(OptionFormat.Seconds);
             Witch.SetupCustomOption();
             SetupRoleOptions(1600, TabGroup.ImpostorRoles, CustomRoles.Mafia);
             MafiaCanKillNum = IntegerOptionItem.Create(901615, "MafiaCanKillNum", new(0, 15, 1), 1, TabGroup.ImpostorRoles,false).SetParent(CustomRoleSpawnChances[CustomRoles.Mafia])

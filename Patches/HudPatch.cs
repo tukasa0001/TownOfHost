@@ -250,6 +250,11 @@ namespace TownOfHost
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
+                case CustomRoles.Minimalism:
+                    __instance.SabotageButton.ToggleVisible(false);
+                    __instance.AbilityButton.ToggleVisible(false);
+                    __instance.ReportButton.ToggleVisible(false);
+                    break;
                 case CustomRoles.Jackal:
                     Jackal.SetHudActive(__instance, isActive);
                     break;
@@ -264,7 +269,7 @@ namespace TownOfHost
         public static void Prefix(ref RoleTeamTypes __state)
         {
             var player = PlayerControl.LocalPlayer;
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.OpportunistKiller) || player.Is(CustomRoles.ChivalrousExpert))
+            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.OpportunistKiller) || player.Is(CustomRoles.ChivalrousExpert) || player.Is(CustomRoles.Minimalism))
             {
                 __state = player.Data.Role.TeamType;
                 player.Data.Role.TeamType = RoleTeamTypes.Crewmate;
@@ -274,7 +279,7 @@ namespace TownOfHost
         public static void Postfix(ref RoleTeamTypes __state)
         {
             var player = PlayerControl.LocalPlayer;
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.OpportunistKiller) || player.Is(CustomRoles.ChivalrousExpert))
+            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.OpportunistKiller) || player.Is(CustomRoles.ChivalrousExpert) || player.Is(CustomRoles.Minimalism))
             {
                 player.Data.Role.TeamType = __state;
             }

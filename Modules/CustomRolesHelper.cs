@@ -52,6 +52,7 @@ namespace TownOfHost
                 CustomRoles.EvilWatcher or
                 CustomRoles.TimeThief or
                 CustomRoles.Mafia or
+                CustomRoles.Minimalism or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
                 CustomRoles.EvilTracker or

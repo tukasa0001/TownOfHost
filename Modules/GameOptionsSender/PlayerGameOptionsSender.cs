@@ -127,11 +127,10 @@ namespace TownOfHost.Modules
                 case CustomRoles.ChivalrousExpert:
                 case CustomRoles.Arsonist:
                 case CustomRoles.OpportunistKiller:
+                case CustomRoles.Minimalism:
                     opt.SetVision(false);
                     break;
                 case CustomRoles.Lighter:
-                    opt.SetVision(true);
-                    break;
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(true);
                     break;
@@ -158,7 +157,6 @@ namespace TownOfHost.Modules
                     break;
                 case CustomRoles.Plumber:
                     goto InfinityVent;
-
 
                 InfinityVent:
                     AURoleOptions.EngineerCooldown = 0;
