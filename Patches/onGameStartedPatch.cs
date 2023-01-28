@@ -146,7 +146,7 @@ namespace TownOfHost
                 Logger.Fatal("Change Role Setting Postfix 错误，触发防黑屏措施", "Anti-black");
                 CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Draw);
                 GameManager.Instance.LogicFlow.CheckEndCriteria();
-                Utils.SendMessage("由于未知错误发生，已终止游戏以防止黑屏\n若您是房主，如果可以的话请发送/dump并将桌面上的文件发送给咔皮呆，非常感谢您的贡献！\n");
+                Utils.SendMessage("由于未知错误发生，已终止游戏以防止黑屏\n若您是房主，如果可以的话请发送/dump并将桌面上的文件发送给咔皮呆，非常感谢您的贡献！");
                 RPC.ForceEndGame();
             }
         }
@@ -247,7 +247,7 @@ namespace TownOfHost
                 Logger.Fatal("Select Roles Prefix 错误，触发防黑屏措施", "Anti-black");
                 CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Draw);
                 GameManager.Instance.LogicFlow.CheckEndCriteria();
-                Utils.SendMessage("由于未知错误发生，已终止游戏以防止黑屏\n若您是房主，如果可以的话请发送/dump并将桌面上的文件发送给咔皮呆，非常感谢您的贡献！\n");
+                Utils.SendMessage("由于未知错误发生，已终止游戏以防止黑屏\n若您是房主，如果可以的话请发送/dump并将桌面上的文件发送给咔皮呆，非常感谢您的贡献！");
                 RPC.ForceEndGame();
             }
             //以下、バニラ側の役職割り当てが入る
