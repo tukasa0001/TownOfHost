@@ -125,12 +125,14 @@ namespace TownOfHost
         public static OptionItem SpeedBoosterUpSpeed; //加速値
         public static OptionItem SpeedBoosterTimes;
         public static OptionItem TrapperBlockMoveTime;
+        public static OptionItem DetectiveCanknowKiller;
         public static OptionItem CanTerroristSuicideWin;
         public static OptionItem ArsonistDouseTime;
         public static OptionItem ArsonistCooldown;
         public static OptionItem JesterCanVent;
         public static OptionItem JesterCooldown;
         public static OptionItem JesterCanUseButton;
+        public static OptionItem OKKillCooldown;
         public static OptionItem KillFlashDuration;
 
         public static OptionItem TrueRandomeRoles;
@@ -529,6 +531,9 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Seconds);
             SetupRoleOptions(20900, TabGroup.CrewmateRoles, CustomRoles.Dictator);
             SetupRoleOptions(21000, TabGroup.CrewmateRoles, CustomRoles.Seer);
+            SetupRoleOptions(8021015, TabGroup.CrewmateRoles, CustomRoles.Detective);
+            DetectiveCanknowKiller = BooleanOptionItem.Create(8021015, "DetectiveCanknowKiller", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Detective]);
+
             ChivalrousExpert.SetupCustomOption();
 
             // Neutral
@@ -545,6 +550,9 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Seconds)
                 .SetHidden(true);
             SetupRoleOptions(50100, TabGroup.NeutralRoles, CustomRoles.Opportunist);
+            SetupRoleOptions(5050100, TabGroup.NeutralRoles, CustomRoles.OpportunistKiller);
+            OKKillCooldown = FloatOptionItem.Create(5050105, "KillCooldown", new(5f, 999f, 5f), 35f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.OpportunistKiller])
+                .SetValueFormat(OptionFormat.Seconds);
             SetupRoleOptions(50200, TabGroup.NeutralRoles, CustomRoles.Terrorist);
             CanTerroristSuicideWin = BooleanOptionItem.Create(50210, "CanTerroristSuicideWin", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Terrorist])
                 .SetGameMode(CustomGameMode.Standard);

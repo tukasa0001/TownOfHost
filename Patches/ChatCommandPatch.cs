@@ -82,10 +82,10 @@ namespace TownOfHost
             }
 
             string Name = target.GetRealName();
-            Utils.SendMessage(Name + " " + GetString("MafiaKillSucceed"));
+            Utils.SendMessage(Name + " " + GetString("MafiaKillSucceed"), 255, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Mafia), " ★ 特供情报 ★ "));
 
             new LateTask (() =>
-            { 
+            {
             target.SetRealKiller(pc);
             target.RpcMurderPlayer(target);
             Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Revenge;
@@ -500,6 +500,7 @@ namespace TownOfHost
                 "擺爛人" or "摆烂" => "摆烂人",
                 "獨裁者" or "独裁" => "独裁者",
                 "醫生" => "医生",
+                "偵探" => "侦探",
                 "執燈人" or "执灯" or "灯人" => "执灯人",
                 "幸運兒" or "幸运" => "幸运儿",
                 "大明星" or "明星" => "大明星",
@@ -522,6 +523,7 @@ namespace TownOfHost
                 "處刑人" or "处刑" => "处刑人",
                 "小丑" => "小丑",
                 "投機者" or "投机" => "投机者",
+                "投機者殺手" or "投机杀手" or "杀手投机" => "投机者杀手",
                 "薛定諤的貓" or "薛定谔猫" or "猫" => "薛定谔的猫",
                 "恐怖分子" or "恐怖" => "恐怖分子",
                 "豺狼" => "豺狼",
@@ -580,6 +582,7 @@ namespace TownOfHost
                 { CustomRoles.Psychic, "愚者" },
                 { CustomRoles.SabotageMaster, "修理大师" },
                 { CustomRoles.Seer,"灵媒" },
+                { CustomRoles.Detective,"侦探" },
                 { CustomRoles.Sheriff, "警长" },
                 { CustomRoles.Snitch, "告密者" },
                 { CustomRoles.SpeedBooster, "增速者" },
@@ -594,6 +597,7 @@ namespace TownOfHost
                 { CustomRoles.Executioner, "处刑人" },
                 { CustomRoles.Jester, "小丑" },
                 { CustomRoles.Opportunist, "投机者" },
+                { CustomRoles.OpportunistKiller, "投机者杀手" },
                 { CustomRoles.SchrodingerCat, "薛定谔的猫" },
                 { CustomRoles.Terrorist, "恐怖分子" },
                 { CustomRoles.Jackal, "豺狼" },

@@ -228,9 +228,10 @@ namespace TownOfHost
                     if (Options.TrueRandomeRoles.GetBool())
                     {
                         if (rd.Next(0, 100) < 20) AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
-                        if (rd.Next(0, 100) < 20) AssignDesyncRole(CustomRoles.ChivalrousExpert, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
                         if (rd.Next(0, 100) < 30) AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
                         if (rd.Next(0, 100) < 30) AssignDesyncRole(CustomRoles.Jackal, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
+                        if (rd.Next(0, 100) < 20) AssignDesyncRole(CustomRoles.ChivalrousExpert, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
+                        if (rd.Next(0, 100) < 30) AssignDesyncRole(CustomRoles.OpportunistKiller, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
                     }
                     else
                     {
@@ -238,6 +239,7 @@ namespace TownOfHost
                         AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
                         AssignDesyncRole(CustomRoles.Jackal, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
                         AssignDesyncRole(CustomRoles.ChivalrousExpert, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
+                        AssignDesyncRole(CustomRoles.OpportunistKiller, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
                     }
                     MakeDesyncSender(senders, rolesMap);
                 }
@@ -340,7 +342,7 @@ namespace TownOfHost
             else
             {
                 List<int> funList = new();
-                for (int i = 0; i <= 45; i++)
+                for (int i = 0; i <= 46; i++)
                 {
                     funList.Add(i);
                 }
@@ -413,6 +415,7 @@ namespace TownOfHost
                         case 43: AssignCustomRolesFromList(CustomRoles.Escapee, Shapeshifters); break;
                         case 44: AssignCustomRolesFromList(CustomRoles.NiceGuesser, Crewmates); break;
                         case 45: AssignCustomRolesFromList(CustomRoles.EvilGuesser, Impostors); break;
+                        case 46: AssignCustomRolesFromList(CustomRoles.Detective, Crewmates); break;
                     }
                 }
 

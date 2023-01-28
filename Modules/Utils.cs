@@ -314,6 +314,7 @@ namespace TownOfHost
                     case CustomRoles.Jackal:
                     case CustomRoles.Jester:
                     case CustomRoles.Opportunist:
+                    case CustomRoles.OpportunistKiller:
                         hasTasks = false;
                         break;
                     case CustomRoles.MadGuardian:

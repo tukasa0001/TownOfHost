@@ -261,6 +261,7 @@ namespace TownOfHost
                     {CustomRoles.Dictator, "#df9b00"},
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     {CustomRoles.Seer, "#61b26c"},
+                    {CustomRoles.Detective, "#7160e8" },
                     {CustomRoles.ChivalrousExpert, "#f0e68c"},
                     {CustomRoles.NiceGuesser, "#eede26"},
                     //第三陣営役職
@@ -269,6 +270,7 @@ namespace TownOfHost
                     {CustomRoles.Terrorist, "#00ff00"},
                     {CustomRoles.Executioner, "#611c3a"},
                     {CustomRoles.Opportunist, "#00ff00"},
+                    {CustomRoles.OpportunistKiller, "#51802c"},
                     {CustomRoles.SchrodingerCat, "#696969"},
                     {CustomRoles.Egoist, "#5600ff"},
                     {CustomRoles.EgoSchrodingerCat, "#5600ff"},
@@ -382,6 +384,7 @@ namespace TownOfHost
         Dictator,
         Doctor,
         Seer,
+        Detective,
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
         ChivalrousExpert,
         NiceGuesser,
@@ -391,6 +394,7 @@ namespace TownOfHost
         EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Jester,
         Opportunist,
+        OpportunistKiller,
         SchrodingerCat,//第三陣営のシュレディンガーの猫
         Terrorist,
         Executioner,
@@ -427,6 +431,7 @@ namespace TownOfHost
     {
         None = -1,
         Opportunist = CustomRoles.Opportunist,
+        OpportunistKiller = CustomRoles.OpportunistKiller,
         SchrodingerCat = CustomRoles.SchrodingerCat,
         Executioner = CustomRoles.Executioner,
         HASFox = CustomRoles.HASFox,

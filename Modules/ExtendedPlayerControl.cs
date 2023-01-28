@@ -369,6 +369,7 @@ namespace TownOfHost
                 CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
                 CustomRoles.ChivalrousExpert => true,
+                CustomRoles.OpportunistKiller => true,
                 CustomRoles.Egoist or CustomRoles.Jackal => true,
                 _ => pc.Is(RoleType.Impostor),
             };
@@ -380,12 +381,13 @@ namespace TownOfHost
             return pc.GetCustomRole() switch
             {
                 CustomRoles.Sheriff => false,
+                CustomRoles.OpportunistKiller => false,
                 CustomRoles.ChivalrousExpert => false,
                 CustomRoles.Egoist => true,
                 CustomRoles.Jackal => Jackal.CanVent.GetBool(),
                 CustomRoles.Arsonist => pc.IsDouseDone(),
                 _ => pc.Is(RoleType.Impostor),
-            };
+            }; ;
         }
         public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
         {
@@ -428,6 +430,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Sheriff:
                     Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
+                    break;
+                case CustomRoles.OpportunistKiller:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.OKKillCooldown.GetFloat();
                     break;
                 case CustomRoles.ChivalrousExpert:
                     ChivalrousExpert.SetKillCooldown(player.PlayerId);

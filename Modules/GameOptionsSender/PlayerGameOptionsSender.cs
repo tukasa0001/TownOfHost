@@ -126,6 +126,7 @@ namespace TownOfHost.Modules
                 case CustomRoles.Sheriff:
                 case CustomRoles.ChivalrousExpert:
                 case CustomRoles.Arsonist:
+                case CustomRoles.OpportunistKiller:
                     opt.SetVision(false);
                     break;
                 case CustomRoles.Lighter:

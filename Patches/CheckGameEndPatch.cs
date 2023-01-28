@@ -58,11 +58,17 @@ namespace TownOfHost
                     //追加勝利陣営
                     foreach (var pc in Main.AllPlayerControls)
                     {
+
                         //Opportunist
                         if (pc.Is(CustomRoles.Opportunist) && pc.IsAlive())
                         {
                             CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
                             CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
+                        }//OpportunistKiller
+                        if (pc.Is(CustomRoles.OpportunistKiller) && pc.IsAlive())
+                        {
+                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.OpportunistKiller);
                         }
                         //SchrodingerCat
                         if (SchrodingerCat.CanWinTheCrewmateBeforeChange.GetBool() && pc.Is(CustomRoles.SchrodingerCat) && CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
