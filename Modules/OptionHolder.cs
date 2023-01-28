@@ -86,6 +86,7 @@ namespace TownOfHost
         // 各役職の詳細設定
         public static OptionItem EnableGM;
         public static float DefaultKillCooldown = Main.NormalOptions?.KillCooldown ?? 20;
+        public static OptionItem ImpKnowAlliesRole;
         public static OptionItem EGCanGuessImp;
         public static OptionItem EGCanGuessTime;
         public static OptionItem VampireKillDelay;
@@ -396,6 +397,8 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
 
             // Impostor
+            ImpKnowAlliesRole = BooleanOptionItem.Create(900045, "ImpKnowAlliesRole", true, TabGroup.ImpostorRoles, false)
+                .SetHeader(true);
             Options.SetupRoleOptions(901065, TabGroup.ImpostorRoles, CustomRoles.EvilGuesser);
             EGCanGuessTime = IntegerOptionItem.Create(901067, "EGCanGuessTime", new(1, 15, 1), 15, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser])
                 .SetValueFormat(OptionFormat.Times)

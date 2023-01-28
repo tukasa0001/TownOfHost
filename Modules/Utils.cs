@@ -1076,6 +1076,9 @@ namespace TownOfHost
                         //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}>{target.GetDisplayRoleName()}{TargetTaskText}</size>\r\n" : "";
 
+                        if (TargetRoleText == "" && !seer.Data.IsDead && CustomRolesHelper.IsImpostor(target.GetCustomRole()) && Options.ImpKnowAlliesRole.GetBool())
+                            TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName()}</size>\r\n";
+
                         if (target.Is(CustomRoles.GM))
                             TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName()}</size>\r\n";
 

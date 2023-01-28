@@ -133,14 +133,13 @@ namespace TownOfHost
                         dp.RpcMurderPlayer(dp);
                         Main.PlayerStates[dp.PlayerId].deathReason = PlayerState.DeathReason.Gambled;
                         Main.PlayerStates[dp.PlayerId].SetDead();
+                        foreach (var cpc in Main.AllPlayerControls)
+                        {
+                            cpc.RpcSetNameEx(cpc.GetRealName(isMeeting: true));
+                        }
+                        ChatUpdatePatch.DoBlockChat = false;
+                        Utils.NotifyRoles(isMeeting: true, NoCache: true);
                     }, 0.9f, "Guesser Killed");
-
-                    foreach (var cpc in Main.AllPlayerControls)
-                    {
-                        cpc.RpcSetNameEx(cpc.GetRealName(isMeeting: true));
-                    }
-                    ChatUpdatePatch.DoBlockChat = false;
-                    Utils.NotifyRoles(isMeeting: true, NoCache: true);
                 }
 
             }

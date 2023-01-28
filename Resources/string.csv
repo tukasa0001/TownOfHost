@@ -395,6 +395,7 @@ ImpostorVision,拥有内鬼视野,擁有狼人的視野
 CanUseSabotage,可以破坏,可以破壞
 CanCreateMadmate,可以指名叛徒,可以招募叛徒
 
+ImpKnowAlliesRole,内鬼知道队友的职业,內鬼知道隊友的職業
 WarlockCanKillAllies,可以击杀队友,可以擊殺隊友
 WarlockCanKillSelf,可以击杀自己,可以擊殺自己
 EGCanGuessImp,可以赌杀内鬼,可以賭殺內鬼
