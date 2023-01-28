@@ -305,6 +305,7 @@ namespace TownOfHost
 
         //Add-Ons
         public static OptionItem LoverSpawnChances;
+        public static OptionItem LoverSuicide;
 
         public static readonly string[] suffixModes =
         {
@@ -535,7 +536,7 @@ namespace TownOfHost
             SetupRoleOptions(20900, TabGroup.CrewmateRoles, CustomRoles.Dictator);
             SetupRoleOptions(21000, TabGroup.CrewmateRoles, CustomRoles.Seer);
             SetupRoleOptions(8021015, TabGroup.CrewmateRoles, CustomRoles.Detective);
-            DetectiveCanknowKiller = BooleanOptionItem.Create(8021015, "DetectiveCanknowKiller", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Detective]);
+            DetectiveCanknowKiller = BooleanOptionItem.Create(8021017, "DetectiveCanknowKiller", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Detective]);
 
             ChivalrousExpert.SetupCustomOption();
 
@@ -567,6 +568,7 @@ namespace TownOfHost
             Egoist.SetupCustomOption();
             Executioner.SetupCustomOption();
             Jackal.SetupCustomOption();
+            SetupRoleOptions(5050965, TabGroup.NeutralRoles, CustomRoles.God);
 
             // Add-Ons
             LastImpostor.SetupCustomOption();
@@ -853,6 +855,10 @@ namespace TownOfHost
                 .SetGameMode(customGameMode) as StringOptionItem;
 
             LoverSpawnChances = IntegerOptionItem.Create(id + 2, "LoverSpawnChances", new(0, 100 ,5), 50, TabGroup.Addons, false).SetParent(spawnOption)
+                .SetValueFormat(OptionFormat.Percent)
+                .SetGameMode(customGameMode);
+
+            LoverSuicide = BooleanOptionItem.Create(id + 3, "LoverSuicide", true, TabGroup.Addons, false).SetParent(spawnOption)
                 .SetValueFormat(OptionFormat.Percent)
                 .SetGameMode(customGameMode);
 

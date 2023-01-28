@@ -48,17 +48,39 @@ namespace TownOfHost
                 }
                 if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw and not CustomWinner.None)
                 {
-                    if (Main.LoversPlayers.Count > 0 && Main.LoversPlayers.ToArray().All(p => p.IsAlive()) && !reason.Equals(GameOverReason.HumansByTask))
+                    foreach (var pc in Main.AllPlayerControls)
                     {
-                        CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Lovers);
-                        Main.AllPlayerControls
-                            .Where(p => p.Is(CustomRoles.Lovers) && p.IsAlive())
-                            .Do(p => CustomWinnerHolder.WinnerIds.Add(p.PlayerId));
+                        //神抢夺胜利
+                        if (pc.Is(CustomRoles.God) && pc.IsAlive())
+                        {
+                            CustomWinnerHolder.ResetAndSetWinner(CustomWinner.God);
+                            Main.AllPlayerControls
+                                .Where(p => p.Is(CustomRoles.God) && p.IsAlive())
+                                .Do(p => CustomWinnerHolder.WinnerIds.Add(p.PlayerId));
+                        }
+                    }
+                    if (CustomWinnerHolder.WinnerTeam != CustomWinner.God)
+                    {
+                        if (Main.LoversPlayers.Count > 0 && !reason.Equals(GameOverReason.HumansByTask))
+                        {
+                            PlayerControl[]  lovers = Main.LoversPlayers.ToArray();
+                            foreach (var pc in lovers)
+                            {
+                                if (pc.IsAlive())
+                                {
+                                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Lovers);
+                                    Main.AllPlayerControls
+                                        .Where(p => p.Is(CustomRoles.Lovers) && p.IsAlive())
+                                        .Do(p => CustomWinnerHolder.WinnerIds.Add(p.PlayerId));
+                                    break;
+                                }
+                            }
+                        }
                     }
                     //追加勝利陣営
                     foreach (var pc in Main.AllPlayerControls)
                     {
-
+                        
                         //Opportunist
                         if (pc.Is(CustomRoles.Opportunist) && pc.IsAlive())
                         {

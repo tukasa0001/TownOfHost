@@ -84,9 +84,9 @@ namespace TownOfHost
                     client.Character.RpcSetName(name);
                 }
             }, 3f, "Welcome Message & Name Check");
-
-            Main.SayStartTimes.Remove(client.Character.PlayerId);
-            Main.SayBanwordsTimes.Remove(client.Character.PlayerId);
+            if (Main.LastRPC.ContainsKey(client.Character.PlayerId)) Main.LastRPC.Remove(client.Character.PlayerId);
+            if (Main.SayStartTimes.ContainsKey(client.Character.PlayerId)) Main.SayStartTimes.Remove(client.Character.PlayerId);
+            if (Main.SayBanwordsTimes.ContainsKey(client.Character.PlayerId)) Main.SayBanwordsTimes.Remove(client.Character.PlayerId);
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
@@ -128,9 +128,9 @@ namespace TownOfHost
                 Logger.SendInGame($"{data.PlayerName} 在火星和你联机但是断了 (Ping:{AmongUsClient.Instance.Ping}) QwQ");
             }
             Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
-            Main.LastRPC.Remove(data.Character.PlayerId);
-            Main.SayStartTimes.Remove(data.Character.PlayerId);
-            Main.SayBanwordsTimes.Remove(data.Character.PlayerId);
+            if (Main.LastRPC.ContainsKey(data.Character.PlayerId)) Main.LastRPC.Remove(data.Character.PlayerId);
+            if (Main.SayStartTimes.ContainsKey(data.Character.PlayerId)) Main.SayStartTimes.Remove(data.Character.PlayerId);
+            if (Main.SayBanwordsTimes.ContainsKey(data.Character.PlayerId)) Main.SayBanwordsTimes.Remove(data.Character.PlayerId);
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CreatePlayer))]

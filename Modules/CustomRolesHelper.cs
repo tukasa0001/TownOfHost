@@ -17,6 +17,7 @@ namespace TownOfHost
             return
                 role is CustomRoles.Arsonist or
                 CustomRoles.Opportunist or
+                CustomRoles.God or
                 CustomRoles.Jester or
                 CustomRoles.Terrorist or
                 CustomRoles.EgoSchrodingerCat or
@@ -30,7 +31,8 @@ namespace TownOfHost
                 role is CustomRoles.Arsonist or
                 CustomRoles.Egoist or
                 CustomRoles.Jackal or
-                CustomRoles.OpportunistKiller;
+                CustomRoles.OpportunistKiller or
+                CustomRoles.God;
         }
         public static bool IsImpostor(this CustomRoles role)
         {
@@ -83,7 +85,8 @@ namespace TownOfHost
                 CustomRoles.JSchrodingerCat or
                 CustomRoles.HASTroll or
                 CustomRoles.HASFox or
-                CustomRoles.OpportunistKiller;
+                CustomRoles.OpportunistKiller or
+                CustomRoles.God;
         }
         public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
         public static bool IsVanilla(this CustomRoles role)

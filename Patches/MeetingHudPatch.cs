@@ -452,7 +452,8 @@ namespace TownOfHost
                     pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId ||
                     (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) ||
                     (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Is(CustomRoles.GM)) ||
-                    (pc.GetCustomRole().IsImpostor() && PlayerControl.LocalPlayer.GetCustomRole().IsImpostor() && !PlayerControl.LocalPlayer.Data.IsDead && Options.ImpKnowAlliesRole.GetBool());
+                    (pc.GetCustomRole().IsImpostor() && PlayerControl.LocalPlayer.GetCustomRole().IsImpostor() && !PlayerControl.LocalPlayer.Data.IsDead && Options.ImpKnowAlliesRole.GetBool()) ||
+                    (PlayerControl.LocalPlayer.Is(CustomRoles.God) && !PlayerControl.LocalPlayer.Data.IsDead);
                 if (EvilTracker.IsTrackTarget(PlayerControl.LocalPlayer, pc) && EvilTracker.CanSeeLastRoomInMeeting.GetBool())
                 {
                     roleTextMeeting.text = EvilTracker.GetArrowAndLastRoom(PlayerControl.LocalPlayer, pc);
@@ -505,7 +506,7 @@ namespace TownOfHost
                                         break;
                                     case RoleType.Neutral:
                                         if (Options.NBshowEvil.GetBool())
-                                            if (role is CustomRoles.Opportunist or CustomRoles.SchrodingerCat)
+                                            if (role is CustomRoles.Opportunist or CustomRoles.SchrodingerCat or CustomRoles.God)
                                             {
                                                 badPlayers.Add(pc);
                                                 isGood[pc.PlayerId] = false;

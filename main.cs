@@ -269,6 +269,7 @@ namespace TownOfHost
                     {CustomRoles.Jester, "#ec62a5"},
                     {CustomRoles.Terrorist, "#00ff00"},
                     {CustomRoles.Executioner, "#611c3a"},
+                    {CustomRoles.God, "#f96464"},
                     {CustomRoles.Opportunist, "#00ff00"},
                     {CustomRoles.OpportunistKiller, "#51802c"},
                     {CustomRoles.SchrodingerCat, "#696969"},
@@ -394,6 +395,7 @@ namespace TownOfHost
         Egoist,
         EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Jester,
+        God,
         Opportunist,
         OpportunistKiller,
         SchrodingerCat,//第三陣営のシュレディンガーの猫
@@ -426,6 +428,7 @@ namespace TownOfHost
         Arsonist = CustomRoles.Arsonist,
         Egoist = CustomRoles.Egoist,
         Jackal = CustomRoles.Jackal,
+        God = CustomRoles.God,
         HASTroll = CustomRoles.HASTroll,
     }
     public enum AdditionalWinners

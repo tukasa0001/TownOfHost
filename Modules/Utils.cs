@@ -315,6 +315,7 @@ namespace TownOfHost
                     case CustomRoles.Jester:
                     case CustomRoles.Opportunist:
                     case CustomRoles.OpportunistKiller:
+                    case CustomRoles.God:
                         hasTasks = false;
                         break;
                     case CustomRoles.MadGuardian:
@@ -699,7 +700,7 @@ namespace TownOfHost
                                 break;
                             case RoleType.Neutral:
                                 if (Options.NBshowEvil.GetBool())
-                                    if (role is CustomRoles.Opportunist or CustomRoles.SchrodingerCat)
+                                    if (role is CustomRoles.Opportunist or CustomRoles.SchrodingerCat or CustomRoles.God)
                                     {
                                         badPlayers.Add(pc);
                                         isGood[pc.PlayerId] = false;
@@ -1011,6 +1012,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Executioner)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
+                    || seer.Is(CustomRoles.God)
                     || seer.IsNeutralKiller() //seerがキル出来る第三陣営
                     || IsActive(SystemTypes.Electrical)
                     || IsActive(SystemTypes.Comms)
@@ -1082,7 +1084,10 @@ namespace TownOfHost
                         //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}>{target.GetDisplayRoleName()}{TargetTaskText}</size>\r\n" : "";
 
-                        if (TargetRoleText == "" && !seer.Data.IsDead && CustomRolesHelper.IsImpostor(target.GetCustomRole()) && Options.ImpKnowAlliesRole.GetBool())
+                        if (TargetRoleText == "" && !seer.Data.IsDead && seer.GetCustomRole().IsImpostor() && target.GetCustomRole().IsImpostor() && Options.ImpKnowAlliesRole.GetBool())
+                            TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName()}</size>\r\n";
+
+                        if (seer.Is(CustomRoles.God))
                             TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName()}</size>\r\n";
 
                         if (target.Is(CustomRoles.GM))
