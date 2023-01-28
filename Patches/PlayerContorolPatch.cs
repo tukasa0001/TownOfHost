@@ -835,7 +835,7 @@ namespace TownOfHost
                     RoleText.color = RoleTextData.Item2;
                     if (__instance.AmOwner) RoleText.enabled = true; //自分ならロールを表示
                     else if (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) RoleText.enabled = true; //他プレイヤーでVisibleTasksCountが有効なおかつ自分が死んでいるならロールを表示
-                    else if (CustomRolesHelper.IsImpostor(__instance.GetCustomRole()) && !PlayerControl.LocalPlayer.Data.IsDead && Options.ImpKnowAlliesRole.GetBool()) RoleText.enabled = true;
+                    else if (__instance.GetCustomRole().IsImpostor() && PlayerControl.LocalPlayer.GetCustomRole().IsImpostor() && !PlayerControl.LocalPlayer.Data.IsDead && Options.ImpKnowAlliesRole.GetBool()) RoleText.enabled = true;
                     else RoleText.enabled = false; //そうでなければロールを非表示
                     if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay)
                     {

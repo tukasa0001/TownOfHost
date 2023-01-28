@@ -1106,7 +1106,7 @@ namespace TownOfHost
                         }
                         if (seer.Is(CustomRoles.NiceGuesser) || seer.Is(CustomRoles.EvilGuesser))
                         {
-                            if (!seer.Data.IsDead && !target.Data.IsDead)
+                            if (!seer.Data.IsDead && !target.Data.IsDead && isMeeting)
                             {
                                 TargetPlayerName = Utils.ColorString(Utils.GetRoleColor(seer.Is(CustomRoles.NiceGuesser) ? CustomRoles.NiceGuesser : CustomRoles.EvilGuesser), target.PlayerId.ToString()) + " " + TargetPlayerName;
                             }
