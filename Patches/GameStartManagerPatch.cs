@@ -1,3 +1,4 @@
+using System.Linq;
 using AmongUs.Data;
 using AmongUs.GameOptions;
 using HarmonyLib;
@@ -101,6 +102,16 @@ namespace TownOfHost
     {
         public static bool Prefix(GameStartManager __instance)
         {
+            var invalidColor = Main.AllPlayerControls.Where(p => p.Data.DefaultOutfit.ColorId >= Palette.PlayerColors.Length);
+            if (invalidColor.Count() != 0)
+            {
+                var msg = Translator.GetString("Error.InvalidColor");
+                Logger.SendInGame(msg);
+                msg += "\n" + string.Join(",", invalidColor.Select(p => p.name));
+                Utils.SendMessage(msg);
+                return false;
+            }
+
             Options.DefaultKillCooldown = Main.NormalOptions.KillCooldown;
             Main.LastKillCooldown.Value = Main.NormalOptions.KillCooldown;
             Main.NormalOptions.KillCooldown = 0f;
