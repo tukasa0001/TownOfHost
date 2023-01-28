@@ -1054,18 +1054,6 @@ namespace TownOfHost
                             TargetMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                         }
 
-                        if (seer.Is(CustomRoles.Mafia) && seer.Data.IsDead && !target.Data.IsDead)
-                        {
-                            TargetMark += "(" + target.PlayerId.ToString() + ")";
-                        }
-                        if (seer.Is(CustomRoles.NiceGuesser) || seer.Is(CustomRoles.EvilGuesser))
-                        {
-                            if (!seer.Data.IsDead && !target.Data.IsDead)
-                            {
-                                TargetMark += "(" + target.PlayerId.ToString() + ")";
-                            }
-                        }
-
                         if (seer.Is(CustomRoles.Arsonist))//seerがアーソニストの時
                         {
                             if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
@@ -1107,6 +1095,17 @@ namespace TownOfHost
                             {
                                 if (target.PlayerId == id)
                                     TargetPlayerName = Utils.ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName);
+                            }
+                        }
+                        if (seer.Is(CustomRoles.Mafia) && seer.Data.IsDead && !target.Data.IsDead)
+                        {
+                            TargetPlayerName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Mafia), target.PlayerId.ToString()) + " " + TargetPlayerName;
+                        }
+                        if (seer.Is(CustomRoles.NiceGuesser) || seer.Is(CustomRoles.EvilGuesser))
+                        {
+                            if (!seer.Data.IsDead && !target.Data.IsDead)
+                            {
+                                TargetPlayerName = Utils.ColorString(Utils.GetRoleColor(seer.Is(CustomRoles.NiceGuesser) ? CustomRoles.NiceGuesser : CustomRoles.EvilGuesser), target.PlayerId.ToString()) + " " + TargetPlayerName;
                             }
                         }
 

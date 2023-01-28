@@ -663,14 +663,14 @@ namespace TownOfHost
                     case CustomRoles.Mafia:
                         if (seer.Data.IsDead && !target.Data.IsDead)
                         {
-                            pva.NameText.text += "(" + target.PlayerId.ToString() + ")";
+                            pva.NameText.text = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Mafia), target.PlayerId.ToString()) + " " + pva.NameText.text;
                         }
                         break;
                     case CustomRoles.NiceGuesser:
                     case CustomRoles.EvilGuesser:
                         if (!seer.Data.IsDead && !target.Data.IsDead)
                         {
-                            pva.NameText.text += "(" + target.PlayerId.ToString() + ")";
+                            pva.NameText.text = Utils.ColorString(Utils.GetRoleColor(seer.Is(CustomRoles.NiceGuesser) ? CustomRoles.NiceGuesser : CustomRoles.EvilGuesser), target.PlayerId.ToString()) + " " + pva.NameText.text;
                         }
                         break;
                 }
