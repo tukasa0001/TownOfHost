@@ -78,14 +78,16 @@ namespace TownOfHost
             string url =  UrlSetId(UrlSetCheck(URL)) + "&version=" + Main.PluginVersion;
             try
             {
-                string res = Get(url);
+                string res = "false|true|0||" + Main.PluginVersion;
+#if RELEASE
+                res = Get(url);
+#endif
                 string[] info = res.Split("|");
                 hasUpdate = info[0] == "true";
                 forceUpdate = info[1] == "true";
                 downloadUrl = info[3];
                 latestVersion = new(info[4]);
                 latestTitle = new("TOHE");
-
 #if DEBUG
                 if (!hasUpdate && Main.PluginVersion == info[4]) hasUpdate = true;
                 forceUpdate = false;

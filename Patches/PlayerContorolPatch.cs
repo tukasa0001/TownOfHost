@@ -183,7 +183,7 @@ namespace TownOfHost
                         return false;
                     case CustomRoles.Assassin:
                         if (!Main.CheckShapeshift[killer.PlayerId] && !Main.isMarkAndKill[killer.PlayerId])
-                        { //Assassinが変身時以外にキルしたら、呪われる処理
+                        { //Assassinが変身時以外にキルしたら
                             Main.isMarked = true;
                             killer.SetKillCooldown();
                             Main.MarkedPlayers[killer.PlayerId] = target;
