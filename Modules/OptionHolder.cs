@@ -117,6 +117,7 @@ namespace TownOfHost
         public static OptionItem MayorAdditionalVote;
         public static OptionItem MayorHasPortableButton;
         public static OptionItem MayorNumOfUseButton;
+        public static OptionItem MayorHideVote;
         public static OptionItem DoctorTaskCompletedBatteryCharge;
         public static OptionItem SnitchEnableTargetArrow;
         public static OptionItem SnitchCanGetArrowColor;
@@ -496,6 +497,7 @@ namespace TownOfHost
             MayorHasPortableButton = BooleanOptionItem.Create(20211, "MayorHasPortableButton", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mayor]);
             MayorNumOfUseButton = IntegerOptionItem.Create(20212, "MayorNumOfUseButton", new(1, 99, 1), 1, TabGroup.CrewmateRoles, false).SetParent(MayorHasPortableButton)
                 .SetValueFormat(OptionFormat.Times);
+            MayorHideVote = BooleanOptionItem.Create(20213, "MayorHideVote", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mayor]);
             SabotageMaster.SetupCustomOption();
             Sheriff.SetupCustomOption();
             SetupRoleOptions(8020490, TabGroup.CrewmateRoles, CustomRoles.Paranoia);

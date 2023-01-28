@@ -82,7 +82,10 @@ namespace TownOfHost
             }
 
             string Name = target.GetRealName();
-            Utils.SendMessage(Name + " " + GetString("MafiaKillSucceed"), pc.PlayerId);
+            Utils.SendMessage(Name + " " + GetString("MafiaKillSucceed"));
+
+            new LateTask (() =>
+            { 
             target.SetRealKiller(pc);
             target.RpcMurderPlayer(target);
             Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Revenge;
@@ -94,6 +97,7 @@ namespace TownOfHost
             }
             ChatUpdatePatch.DoBlockChat = false;
             Utils.NotifyRoles(isMeeting: true, NoCache: true);
+            }, 0.9f, "Mafia Kill");
             return true;
         }
 

@@ -121,7 +121,7 @@ namespace TownOfHost
                         VoterId = ps.TargetPlayerId,
                         VotedForId = ps.VotedFor
                     });
-                    if (IsMayor(ps.TargetPlayerId))//Mayorの投票数
+                    if (IsMayor(ps.TargetPlayerId) && !Options.MayorHideVote.GetBool())//Mayorの投票数
                     {
                         for (var i2 = 0; i2 < Options.MayorAdditionalVote.GetFloat(); i2++)
                         {

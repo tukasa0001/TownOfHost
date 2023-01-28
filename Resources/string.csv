@@ -447,6 +447,7 @@ SpeedBoosterTimes,最多能增速几次,最多能增加幾次
 MayorAdditionalVote,附加票数,附加票數
 MayorHasPortableButton,跳通风管触发紧急会议,可以隨時拍桌
 MayorNumOfUseButton,紧急会议最大次数,隨時拍桌最大次數
+MayorHideVote,隐藏市长附加的投票,隱藏市長附加的投票
 CanBeforeSchrodingerCatWinTheCrewmate,未加入其他阵营前可以跟随船员阵营获胜,薛定諤的貓的陣營轉變前可以和船員一起贏
 SchrodingerCatExiledTeamChanges,被放逐时会加入其他阵营,薛定諤的貓被丟出時陣營會改變
 ExecutionerCanTargetImpostor,内鬼阵营玩家可以成为的目标,劊子手的目標可以是狼人陣營的玩家

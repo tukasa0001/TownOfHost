@@ -139,7 +139,7 @@ namespace TownOfHost
                         }
                         ChatUpdatePatch.DoBlockChat = false;
                         Utils.NotifyRoles(isMeeting: true, NoCache: true);
-                    }, 0.9f, "Guesser Killed");
+                    }, 0.9f, "Guesser Kill");
                 }
 
             }
