@@ -4,6 +4,7 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
 using TownOfHost.Modules;
+using static Il2CppSystem.Globalization.CultureInfo;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -84,6 +85,8 @@ namespace TownOfHost
                 }
             }, 3f, "Welcome Message & Name Check");
 
+            Main.SayStartTimes.Remove(client.Character.PlayerId);
+            Main.SayBanwordsTimes.Remove(client.Character.PlayerId);
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
@@ -125,6 +128,8 @@ namespace TownOfHost
             }
             Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
             Main.LastRPC.Remove(data.Character.PlayerId);
+            Main.SayStartTimes.Remove(data.Character.PlayerId);
+            Main.SayBanwordsTimes.Remove(data.Character.PlayerId);
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CreatePlayer))]

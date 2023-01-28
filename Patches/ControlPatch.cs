@@ -98,7 +98,7 @@ namespace TownOfHost
             if (GetKeysDown(KeyCode.Delete, KeyCode.LeftControl))
             {
                 OptionItem.AllOptions.ToArray().Where(x => x.Id > 0).Do(x => x.SetValue(x.DefaultValue));
-                Logger.SendInGame("已恢复TOH的默认设置");
+                Logger.SendInGame("已恢复TOHE的默认设置");
             }
             //实名投票
             if (GetKeysDown(KeyCode.Return, KeyCode.V, KeyCode.LeftShift) && GameStates.IsMeeting && !GameStates.IsOnlineGame)

@@ -20,7 +20,7 @@ namespace TownOfHost
                 Logger.SendInGame(message);
                 return false;
             }
-            if (ModUpdater.isBroken || ModUpdater.hasUpdate)
+            if (ModUpdater.isBroken || (ModUpdater.hasUpdate && ModUpdater.forceUpdate))
             {
                 var message = "";
                 if (ModUpdater.isBroken) message = GetString("ModBrokenMessage");
@@ -37,7 +37,7 @@ namespace TownOfHost
     {
         public static void Postfix(MMOnlineManager __instance)
         {
-            if (!(ModUpdater.hasUpdate || ModUpdater.isBroken)) return;
+            if (!((ModUpdater.hasUpdate && ModUpdater.forceUpdate) || ModUpdater.isBroken)) return;
             var obj = GameObject.Find("FindGameButton");
             if (obj)
             {

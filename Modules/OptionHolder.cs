@@ -289,7 +289,11 @@ namespace TownOfHost
         public static OptionItem PreventSBServerKick;
 
         public static OptionItem AutoKickStart;
+        public static OptionItem AutoKickStartAsBan;
+        public static OptionItem AutoKickStartTimes;
         public static OptionItem AutoKickStopWords;
+        public static OptionItem AutoKickStopWordsAsBan;
+        public static OptionItem AutoKickStopWordsTimes;
         public static OptionItem AutoWarnStopWords;
 
         public static OptionItem DIYGameSettings;
@@ -773,7 +777,17 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             AutoKickStart = BooleanOptionItem.Create(1_000_010, "AutoKickStart", false, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
+            AutoKickStartTimes = IntegerOptionItem.Create(1_000_024, "AutoKickStartTimes", new(0, 99, 1), 1, TabGroup.MainSettings, false).SetParent(AutoKickStart)
+                .SetGameMode(CustomGameMode.All)
+                .SetValueFormat(OptionFormat.Times);
+            AutoKickStartAsBan = BooleanOptionItem.Create(1_000_026, "AutoKickStartAsBan", false, TabGroup.MainSettings, false).SetParent(AutoKickStart)
+                .SetGameMode(CustomGameMode.All);
             AutoKickStopWords = BooleanOptionItem.Create(1_000_011, "AutoKickStopWords", false, TabGroup.MainSettings, false)
+                .SetGameMode(CustomGameMode.All);
+            AutoKickStopWordsTimes = IntegerOptionItem.Create(1_000_022, "AutoKickStopWordsTimes", new(0, 99, 1), 3, TabGroup.MainSettings, false).SetParent(AutoKickStopWords)
+                .SetGameMode(CustomGameMode.All)
+                .SetValueFormat(OptionFormat.Times);
+            AutoKickStopWordsAsBan = BooleanOptionItem.Create(1_000_028, "AutoKickStopWordsAsBan", false, TabGroup.MainSettings, false).SetParent(AutoKickStopWords)
                 .SetGameMode(CustomGameMode.All);
             AutoWarnStopWords = BooleanOptionItem.Create(1_000_012, "AutoWarnStopWords", false, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);

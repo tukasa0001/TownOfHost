@@ -4,9 +4,12 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
+using GooglePlayGames;
 using HarmonyLib;
+using Il2CppSystem.Diagnostics.Tracing;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -14,8 +17,9 @@ namespace TownOfHost
     [HarmonyPatch]
     public class ModUpdater
     {
-        private static readonly string URL = "https://github.com/KARPED1EM/TownOfHostEdited";
+        private static readonly string URL = "http://api.2018k.cn";
         public static bool hasUpdate = false;
+        public static bool forceUpdate = true;
         public static bool isBroken = false;
         public static bool isChecked = false;
         public static Version latestVersion = null;
@@ -33,7 +37,7 @@ namespace TownOfHost
             InfoPopup.TextAreaTMP.GetComponent<RectTransform>().sizeDelta = new(2.5f, 2f);
             if (!isChecked)
             {
-                CheckRelease(Main.BetaBuildURL.Value != "").GetAwaiter().GetResult();
+                CheckRelease().GetAwaiter().GetResult();
             }
             MainMenuManagerPatch.updateButton.SetActive(hasUpdate);
             MainMenuManagerPatch.updateButton.transform.position = MainMenuManagerPatch.template.transform.position + new Vector3(0.25f, 0.75f);
@@ -44,73 +48,65 @@ namespace TownOfHost
                     .SetText($"{GetString("updateButton")}\n{latestTitle}");
             })));
         }
-        public static async Task<bool> CheckRelease(bool beta = false)
-        {
-            isChecked = true;
-            isBroken = false;
-            return true;
 
-            string url = beta ? Main.BetaBuildURL.Value : URL + "/releases/latest";
+        public static string UrlSetId(string url) => url + "?id=05ACF8DE5AE047D59372E733D5B3172B";
+        public static string UrlSetCheck(string url) => url + "/checkVersion";
+        public static string UrlSetInfo(string url) => url + "/getExample";
+        public static string UrlSetToday(string url) => url + "/today";
+
+        public static string Get(string url)
+        {
+            string result = "";
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+            HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
+            Stream stream = resp.GetResponseStream();
             try
             {
-                string result;
-                using (HttpClient client = new())
+                //获取内容
+                using StreamReader reader = new(stream);
+                result = reader.ReadToEnd();
+            }
+            finally
+            {
+                stream.Close();
+            }
+            return result;
+        }
+
+        public static Task<bool> CheckRelease()
+        {
+            string url =  UrlSetId(UrlSetCheck(URL)) + "&version=" + Main.PluginVersion;
+            try
+            {
+                string res = Get(url);
+                string[] info = res.Split("|");
+                hasUpdate = info[0] == "true";
+                forceUpdate = info[1] == "true";
+                downloadUrl = info[3];
+                latestVersion = new(info[4]);
+                latestTitle = new("TOHE");
+
+#if DEBUG
+                if (!hasUpdate && Main.PluginVersion == info[4]) hasUpdate = true;
+                forceUpdate = false;
+#endif
+
+                if (downloadUrl == null && downloadUrl == "")
                 {
-                    client.DefaultRequestHeaders.Add("User-Agent", "TownOfHost Updater");
-                    using var response = await client.GetAsync(new Uri(url), HttpCompletionOption.ResponseContentRead);
-                    if (!response.IsSuccessStatusCode || response.Content == null)
-                    {
-                        Logger.Error($"ステータスコード: {response.StatusCode}", "CheckRelease");
-                        return false;
-                    }
-                    result = await response.Content.ReadAsStringAsync();
-                }
-                JObject data = JObject.Parse(result);
-                if (beta)
-                {
-                    latestTitle = data["name"].ToString();
-                    downloadUrl = data["url"].ToString();
-                    hasUpdate = latestTitle != ThisAssembly.Git.Commit;
-                }
-                else
-                {
-                    latestVersion = new(data["tag_name"]?.ToString().TrimStart('v'));
-                    latestTitle = $"Ver. {latestVersion}";
-                    JArray assets = data["assets"].Cast<JArray>();
-                    for (int i = 0; i < assets.Count; i++)
-                    {
-                        if (assets[i]["name"].ToString() == "TownOfHost_Steam.dll" && Constants.GetPlatformType() == Platforms.StandaloneSteamPC)
-                        {
-                            downloadUrl = assets[i]["browser_download_url"].ToString();
-                            break;
-                        }
-                        if (assets[i]["name"].ToString() == "TownOfHost_Epic.dll" && Constants.GetPlatformType() == Platforms.StandaloneEpicPC)
-                        {
-                            downloadUrl = assets[i]["browser_download_url"].ToString();
-                            break;
-                        }
-                        if (assets[i]["name"].ToString() == "TownOfHost.dll")
-                            downloadUrl = assets[i]["browser_download_url"].ToString();
-                    }
-                    hasUpdate = latestVersion.CompareTo(Main.version) > 0;
-                }
-                if (downloadUrl == null)
-                {
-                    Logger.Error("ダウンロードURLを取得できませんでした。", "CheckRelease");
-                    return false;
+                    Logger.Error("获取下载地址失败", "CheckRelease");
+                    return Task.FromResult(false);
                 }
                 isChecked = true;
                 isBroken = false;
             }
             catch (Exception ex)
             {
-                isChecked = true;
-                isBroken = false;
-                //这他妈居然是检查更新失败造成的
-                Logger.Error($"检查更新失败了，但是谁在乎呢？\n{ex}", "CheckRelease", false);
-                return false;
+                isChecked = false;
+                isBroken = true;
+                Logger.Error($"检查更新时发生错误\n{ex}", "CheckRelease", false);
+                return Task.FromResult(false);
             }
-            return true;
+            return Task.FromResult(true);
         }
         public static void StartUpdate(string url)
         {

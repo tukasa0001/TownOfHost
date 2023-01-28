@@ -51,7 +51,7 @@ namespace TownOfHost
         public static readonly string BANNEDWORDS_FILE_PATH = "./TOH_DATA/BanWords.txt"; // File.Exists("./TOH_DATA/BanWords.txt") ? "./TOH_DATA/BanWords.txt" : "./TOH_DATA/bannedwords.txt";
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.karped1em.townofhost";
-        public const string PluginVersion = "4.0.2.3";
+        public const string PluginVersion = "0.1.0";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -108,6 +108,9 @@ namespace TownOfHost
         public static List<byte> CyberStarDead = new();
 
         public static int updateTime;
+
+        public static Dictionary<byte, int> SayStartTimes = new();
+        public static Dictionary<byte, int> SayBanwordsTimes = new();
 
         /// <summary>
         /// 基本的に速度の代入は禁止.スピードは増減で対応してください.

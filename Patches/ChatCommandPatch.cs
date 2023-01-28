@@ -99,15 +99,16 @@ namespace TownOfHost
 
         public static bool ContainsStart(string text)
         {
-            text = text.Trim();
+            text = text.Trim().ToLower();
             if (text == "Start") return true;
             if (text == "start") return true;
             if (text == "开") return true;
+            if (text == "快开") return true;
             if (text == "开始") return true;
             if (text == "开啊") return true;
             if (text == "开阿") return true;
             if (text == "kai") return true;
-            if (text == "KAI") return true;
+            if (text == "kaishi") return true;
             if (text.Contains("started")) return false;
             if (text.Contains("starter")) return false;
             if (text.Contains("Starting")) return false;
@@ -138,32 +139,37 @@ namespace TownOfHost
             if (text.Contains("begin")) return true;
             if (text.Contains("开")) return true;
             if (text.Contains("kai")) return true;
-            if (text.Contains("KAI")) return true;
             return false;
         }
 
         public static bool ProhibitedCheck(PlayerControl player, string text)
         {
-
+            if (player.PlayerId == PlayerControl.LocalPlayer.PlayerId) return false;
             string name = player.GetRealName();
+            bool kick = false;
+            string msg = "";
 
             if (Options.AutoKickStart.GetBool())
             {
-                if (ContainsStart(text) && GameStates.IsLobby && player.PlayerId != PlayerControl.LocalPlayer.PlayerId)
+                if (ContainsStart(text) && GameStates.IsLobby)
                 {
-                    Utils.SendMessage($"{name} 被系统请离\n请不要催开始，可能会被判定为违规信息");
-                    AmongUsClient.Instance.KickPlayer(player.GetClientId(), false);
-                    Logger.Msg($"{name} 因催促开始被请离", "Blocked Word");
+                    msg = $"{name} 被系统请离\n请不要催开始，可能会被判定为违规信息";
+                    if (Options.AutoKickStart.GetBool())
+                    {
+                        if (!Main.SayStartTimes.ContainsKey(player.PlayerId)) Main.SayStartTimes.Add(player.PlayerId, 0);
+                        if (Main.SayStartTimes[player.PlayerId] >= Options.AutoKickStartTimes.GetInt()) kick = true;
+                        Main.SayStartTimes[player.PlayerId]++;
+                        msg = $"{name} 被警告：{Main.SayStartTimes[player.PlayerId]}次\n请不要催开始，可能会被判定为违规信息";
+                    }
+                    if (msg != "") Utils.SendMessage(msg);
+                    if (kick) AmongUsClient.Instance.KickPlayer(player.GetClientId(), Options.AutoKickStartAsBan.GetBool());
                     return true;
                 }
             }
 
-            if (!Options.AutoKickStopWords.GetBool() && !Options.AutoWarnStopWords.GetBool()) return false;
-
             var list = ReturnAllNewLinesInFile(Main.BANNEDWORDS_FILE_PATH, noErr: true);
             bool banned = false;
             var banedWord = "";
-
             foreach (var word in list)
             {
                 if (word != null && text.Contains(word))
@@ -173,19 +179,19 @@ namespace TownOfHost
                     break;
                 }
             }
+            if (!banned) return false;
 
-            if (banned && player.PlayerId != PlayerControl.LocalPlayer.PlayerId)
+            if (Options.AutoWarnStopWords.GetBool()) msg = $"{name} ，请友善讨论哦~";
+            if (Options.AutoKickStopWords.GetBool())
             {
-                if (Options.AutoWarnStopWords.GetBool()) Utils.SendMessage($"{name} ，请友善讨论哦~");
-                Logger.Msg($"{name} 触发违禁词： {banedWord}.", "Blocked Word");
-
-                if (!Options.AutoKickStopWords.GetBool()) return true;
-                Utils.SendMessage($"{name} 被踢出因其触发了违禁词");
-                AmongUsClient.Instance.KickPlayer(player.GetClientId(), false);
-                Logger.Msg($"{name} said a word blocked by this host. The blocked word was {banedWord}.", "Blocked Word");
-                return true;
+                if (!Main.SayBanwordsTimes.ContainsKey(player.PlayerId)) Main.SayBanwordsTimes.Add(player.PlayerId, 0);
+                if (Main.SayBanwordsTimes[player.PlayerId] >= Options.AutoKickStopWordsTimes.GetInt()) kick = true;
+                Main.SayBanwordsTimes[player.PlayerId]++;
+                msg = $"{name} 被警告：{Main.SayBanwordsTimes[player.PlayerId]}次\n请友善讨论哦~";
             }
-            return false;
+            if (msg != "") Utils.SendMessage(msg);
+            if (kick) AmongUsClient.Instance.KickPlayer(player.GetClientId(), Options.AutoKickStopWordsAsBan.GetBool());
+            return true;
         }
 
         public static bool Prefix(ChatController __instance)
