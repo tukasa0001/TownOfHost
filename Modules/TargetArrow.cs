@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -5,31 +6,24 @@ using UnityEngine;
 
 namespace TownOfHost
 {
-    enum ArrowType
-    {
-        All = 0xff,
-        Target = 0x01,
-        SnitchWarning = 0x02,
-    }
     static class TargetArrow
     {
         class ArrowInfo
         {
             public byte From;
             public byte To;
-            public ArrowType Type;
-            public bool Colored;
-            public ArrowInfo(byte from, byte to, ArrowType type, bool colored)
+            public ArrowInfo(byte from, byte to)
             {
                 From = from;
                 To = to;
-                Colored = colored;
-                Type = type;
             }
             public bool Equals(ArrowInfo obj)
             {
-                var checkType = (Type & obj.Type) != 0;
-                return checkType && From == obj.From && To == obj.To;
+                return From == obj.From && To == obj.To;
+            }
+            public override string ToString()
+            {
+                return $"(From:{From} To:{To})";
             }
         }
 
@@ -56,9 +50,9 @@ namespace TownOfHost
         /// <param name="seer"></param>
         /// <param name="target"></param>
         /// <param name="coloredArrow"></param>
-        public static void Add(byte seer, byte target, ArrowType type = ArrowType.Target, bool coloredArrow = false)
+        public static void Add(byte seer, byte target)
         {
-            var arrowInfo = new ArrowInfo(seer, target, type, coloredArrow);
+            var arrowInfo = new ArrowInfo(seer, target);
             if (!TargetArrows.Any(a => a.Key.Equals(arrowInfo)))
                 TargetArrows[arrowInfo] = "・";
         }
@@ -67,9 +61,9 @@ namespace TownOfHost
         /// </summary>
         /// <param name="seer"></param>
         /// <param name="target"></param>
-        public static void Remove(byte seer, byte target, ArrowType type = ArrowType.Target, bool coloredArrow = false)
+        public static void Remove(byte seer, byte target)
         {
-            var arrowInfo = new ArrowInfo(seer, target, type, coloredArrow);
+            var arrowInfo = new ArrowInfo(seer, target);
             var removeList = new List<ArrowInfo>(TargetArrows.Keys.Where(k => k.Equals(arrowInfo)));
             foreach (var a in removeList)
             {
@@ -80,9 +74,9 @@ namespace TownOfHost
         /// タイプの同じターゲットの全削除
         /// </summary>
         /// <param name="seer"></param>
-        public static void RemoveAllTarget(byte seer, ArrowType type = ArrowType.Target)
+        public static void RemoveAllTarget(byte seer)
         {
-            var removeList = new List<ArrowInfo>(TargetArrows.Keys.Where(k => k.From == seer && k.Type == type));
+            var removeList = new List<ArrowInfo>(TargetArrows.Keys.Where(k => k.From == seer));
             foreach (var arrowInfo in removeList)
             {
                 TargetArrows.Remove(arrowInfo);
@@ -93,26 +87,26 @@ namespace TownOfHost
         /// </summary>
         /// <param name="seer"></param>
         /// <returns></returns>
-        public static string GetArrows(PlayerControl seer, ArrowType type = ArrowType.Target)
+        public static string GetArrows(PlayerControl seer, params byte[] targets)
         {
-            var arrowList = new List<ArrowInfo>(TargetArrows.Keys.Where(a => a.From == seer.PlayerId && a.Type == type));
-            if (arrowList.Count == 0) return "";
-            var arrows = new StringBuilder(120);
-            foreach (var arrow in arrowList)
+            var arrows = "";
+            foreach (var arrowInfo in TargetArrows.Keys.Where(ai => ai.From == seer.PlayerId && targets.Contains(ai.To)))
             {
-                arrows.Append(TargetArrows[arrow]);
+                arrows += TargetArrows[arrowInfo];
             }
-            return arrows.ToString();
+            return arrows;
         }
         /// <summary>
         /// FixedUpdate毎にターゲット矢印を確認
         /// 更新があったらNotifyRolesを発行
         /// </summary>
-        /// <param name="__instance"></param>
-        public static void OnFixedUpdate(PlayerControl __instance)
+        /// <param name="seer"></param>
+        public static void OnFixedUpdate(PlayerControl seer)
         {
-            var seer = __instance;
+            if (!GameStates.IsInTask) return;
+
             var seerId = seer.PlayerId;
+            var seerIsDead = !seer.IsAlive();
 
             var arrowList = new List<ArrowInfo>(TargetArrows.Keys.Where(a => a.From == seer.PlayerId));
             if (arrowList.Count == 0) return;
@@ -121,9 +115,8 @@ namespace TownOfHost
             foreach (var arrowInfo in arrowList)
             {
                 var targetId = arrowInfo.To;
-                var colored = arrowInfo.Colored;
                 var target = Utils.GetPlayerById(targetId);
-                if (!target.IsAlive())
+                if (seerIsDead || !target.IsAlive())
                 {
                     TargetArrows.Remove(arrowInfo);
                     update = true;
@@ -147,10 +140,6 @@ namespace TownOfHost
                     index = ((int)(angle / 45)) % 8;
                 }
                 var arrow = Arrows[index];
-                if (colored)
-                {
-                    arrow = $"<color={target.GetRoleColorCode()}>{arrow}</color>";
-                }
                 if (TargetArrows[arrowInfo] != arrow)
                 {
                     TargetArrows[arrowInfo] = arrow;
