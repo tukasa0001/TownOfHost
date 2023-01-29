@@ -80,14 +80,29 @@ namespace TownOfHost
             {
                 string res = Get(url);
                 string[] info = res.Split("|");
-                hasUpdate = info[0] == "true";
+                hasUpdate = false;
                 forceUpdate = info[1] == "true";
                 downloadUrl = info[3];
                 latestVersion = new(info[4]);
                 latestTitle = new("TOHE");
+
+                string[] num = info[4].Split(".");
+                string[] inum = Main.PluginVersion.Split(".");
+                if (num.Length > inum.Length) inum.AddItem("0");
+                for (int i = 0; i < num.Length; i++)
+                {
+                    int c = int.Parse(num[i]);
+                    int m = int.Parse(inum[i]);
+                    if (c > m)hasUpdate= true;
+                    if (c != m) break;
+                }
+
 #if DEBUG
-                if (!hasUpdate && Main.PluginVersion == info[4]) hasUpdate = true;
-                forceUpdate = false;
+                if (!hasUpdate && Main.PluginVersion == info[4])
+                {
+                    hasUpdate = true;
+                    forceUpdate = false;
+                }
 #endif
 
                 if (downloadUrl == null && downloadUrl == "")
