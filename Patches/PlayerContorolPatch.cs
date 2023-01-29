@@ -742,7 +742,8 @@ namespace TownOfHost
                     //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能な第三陣営の方角がわかる
                     Suffix += Snitch.GetSnitchArrow(seer, target);
 
-                    if (GameStates.IsInTask) Suffix += BountyHunter.GetTargetArrow(seer);
+                    Suffix += BountyHunter.GetTargetArrow(seer, target);
+
                     if (GameStates.IsInTask && target.Is(CustomRoles.EvilTracker))
                         Suffix += EvilTracker.GetTargetArrowForModClient(seer, target);
 

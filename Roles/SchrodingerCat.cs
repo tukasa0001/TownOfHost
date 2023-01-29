@@ -58,7 +58,7 @@ namespace TownOfHost
             switch (killer.GetCustomRole())
             {
                 case CustomRoles.BountyHunter:
-                    if (BountyHunter.GetTarget(killer) == target)
+                    if (BountyHunter.GetTarget(killer) == target.PlayerId)
                         BountyHunter.ResetTarget(killer);//ターゲットの選びなおし
                     break;
                 case CustomRoles.SerialKiller:

@@ -124,6 +124,10 @@ namespace TownOfHost
                     var stateText = FireWorks.GetStateText(player);
                     LowerInfoText.text = stateText;
                 }
+                else
+                {
+                    LowerInfoText.text = "";
+                }
                 LowerInfoText.enabled = LowerInfoText.text != "";
 
                 if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay)
