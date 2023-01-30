@@ -152,7 +152,7 @@ namespace TownOfHost
         public static string GetSnitchArrow(PlayerControl seer, PlayerControl target = null)
         {
             if (!IsThisRole(seer.PlayerId)) return "";
-            if (!EnableTargetArrow) return "";
+            if (!EnableTargetArrow || GameStates.IsMeeting) return "";
             if (target != null && seer.PlayerId != target.PlayerId) return "";
             var arrows = "";
             foreach (var targetId in TargetList)
