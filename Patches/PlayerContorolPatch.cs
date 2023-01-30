@@ -764,7 +764,8 @@ namespace TownOfHost
                     //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能な第三陣営の方角がわかる
                     Suffix += Snitch.GetSnitchArrow(seer, target);
 
-                    if (GameStates.IsInTask && target.Is(CustomRoles.BountyHunter) && BountyHunter.ShowTargetArrow.GetBool()) Suffix += BountyHunter.PCGetTargetArrow(seer, target);
+                    Suffix += BountyHunter.GetTargetArrow(seer, target);
+
                     if (GameStates.IsInTask && target.Is(CustomRoles.EvilTracker))
                         Suffix += EvilTracker.GetTargetArrowForModClient(seer, target);
 
@@ -999,7 +1000,7 @@ namespace TownOfHost
             var isTaskFinish = pc.GetPlayerTaskState().IsTaskFinished;
             if (isTaskFinish && pc.Is(CustomRoles.MadSnitch))
             {
-                foreach(var impostor in Main.AllAlivePlayerControls.Where(pc=>pc.Is(RoleType.Impostor)))
+                foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.Is(RoleType.Impostor)))
                 {
                     NameColorManager.Instance.RpcAdd(pc.PlayerId, impostor.PlayerId, impostor.GetRoleColorCode());
                 }

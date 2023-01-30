@@ -91,14 +91,13 @@ namespace TownOfHost
                         __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
                         break;
                     case CustomRoles.BountyHunter:
-                        BountyHunter.GetAbilityButtonText(__instance);
+                        BountyHunter.SetAbilityButtonText(__instance);
                         break;
                     case CustomRoles.EvilTracker:
                         EvilTracker.GetAbilityButtonText(__instance, player.PlayerId);
                         break;
                 }
 
-                //バウンティハンターのターゲットテキスト
                 if (LowerInfoText == null)
                 {
                     LowerInfoText = UnityEngine.Object.Instantiate(__instance.KillButton.buttonLabelText);
@@ -112,23 +111,25 @@ namespace TownOfHost
                     LowerInfoText.fontSizeMax = 2.0f;
                 }
 
-                if (player.Is(CustomRoles.BountyHunter)) BountyHunter.DisplayTarget(player, LowerInfoText);
+                if (player.Is(CustomRoles.BountyHunter))
+                {
+                    LowerInfoText.text = BountyHunter.GetTargetText(player, true);
+                }
                 else if (player.Is(CustomRoles.Witch))
                 {
-                    //魔女用処理
                     LowerInfoText.text = Witch.GetSpellModeText(player, true);
-                    LowerInfoText.enabled = true;
                 }
                 else if (player.Is(CustomRoles.FireWorks))
                 {
                     var stateText = FireWorks.GetStateText(player);
                     LowerInfoText.text = stateText;
-                    LowerInfoText.enabled = true;
                 }
                 else
                 {
-                    LowerInfoText.enabled = false;
+                    LowerInfoText.text = "";
                 }
+                LowerInfoText.enabled = LowerInfoText.text != "";
+
                 if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay)
                 {
                     LowerInfoText.enabled = false;

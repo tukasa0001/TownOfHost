@@ -686,11 +686,12 @@ namespace TownOfHost
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
 
-                if (seer.Is(CustomRoles.BountyHunter) && BountyHunter.GetTarget(seer) != null)
+                if (seer.Is(CustomRoles.BountyHunter))
                 {
-                    string BountyTargetName = BountyHunter.GetTarget(seer).GetRealName(isMeeting);
-                    SelfSuffix = $"<size={fontSize}>Target:{BountyTargetName}</size>";
+                    SelfSuffix = BountyHunter.GetTargetText(seer, false);
+                    SelfSuffix += BountyHunter.GetTargetArrow(seer);
                 }
+
                 if (seer.Is(CustomRoles.FireWorks))
                 {
                     string stateText = FireWorks.GetStateText(seer);
@@ -704,7 +705,6 @@ namespace TownOfHost
                 //タスクを終えたSnitchがインポスター/キル可能な第三陣営の方角を確認できる
                 SelfSuffix += Snitch.GetSnitchArrow(seer);
 
-                if (seer.Is(CustomRoles.BountyHunter) && BountyHunter.ShowTargetArrow.GetBool()) SelfSuffix += BountyHunter.UtilsGetTargetArrow(isMeeting, seer);
                 if (seer.Is(CustomRoles.EvilTracker))
                     SelfSuffix += EvilTracker.GetTargetArrowForVanilla(isMeeting, seer);
 
