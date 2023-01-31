@@ -583,7 +583,7 @@ namespace TownOfHost
             SendCodeToQQ = BooleanOptionItem.Create(6090065, "SendCodeToQQ", true, TabGroup.MainSettings, false)
                 .SetHeader(true)
                 .SetColor(Color.cyan);
-            SendCodeMinPlayer = IntegerOptionItem.Create(6090067, "SendCodeMinPlayer", new(3, 15, 1), 5, TabGroup.MainSettings, false)
+            SendCodeMinPlayer = IntegerOptionItem.Create(6090067, "SendCodeMinPlayer", new(3, 15, 1), 5, TabGroup.MainSettings, false).SetParent(SendCodeToQQ)
                 .SetValueFormat(OptionFormat.Players)
                 .SetColor(Color.cyan);
 
