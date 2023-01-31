@@ -33,4 +33,22 @@ namespace TownOfHost
                     __instance.Countdown = Options.AirshipReactorTimeLimit.GetFloat();
         }
     }
+    [HarmonyPatch(typeof(ElectricTask), nameof(ElectricTask.Initialize))]
+    public static class ElectricTaskInitializePatch
+    {
+        public static void Postfix(ElectricTask __instance)
+        {
+            if (!GameStates.IsMeeting)
+                Utils.NotifyRoles(ForceLoop: true);
+        }
+    }
+    [HarmonyPatch(typeof(ElectricTask), nameof(ElectricTask.Complete))]
+    public static class ElectricTaskCompletePatch
+    {
+        public static void Postfix(ElectricTask __instance)
+        {
+            if (!GameStates.IsMeeting)
+                Utils.NotifyRoles(ForceLoop: true);
+        }
+    }
 }
