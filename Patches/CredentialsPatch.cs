@@ -26,9 +26,11 @@ namespace TownOfHost
             if (FriendsListManager.InstanceExists && FriendsListManager._instance.FriendsListButton.Button.active) offset_x += 0.8f; //フレンドリストボタンがある場合の追加オフセット
             __instance.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(offset_x, 0f, 0f);
 
-            if (!GameStates.IsLobby) return;
-            if (Options.IsStandardHAS && !CustomRoles.Sheriff.IsEnable() && !CustomRoles.SerialKiller.IsEnable() && CustomRoles.Egoist.IsEnable())
-                sb.Append($"\r\n" + Utils.ColorString(Color.red, GetString("Warning.EgoistCannotWin")));
+            if (GameStates.IsLobby)
+            {
+                if (Options.IsStandardHAS && !CustomRoles.Sheriff.IsEnable() && !CustomRoles.SerialKiller.IsEnable() && CustomRoles.Egoist.IsEnable())
+                    sb.Append($"\r\n" + Utils.ColorString(Color.red, GetString("Warning.EgoistCannotWin")));
+            }
 
             __instance.text.text += sb.ToString();
         }
