@@ -44,7 +44,7 @@ namespace TownOfHost
             string additionalCredentials = GetString("TextBelowVersionText");
             if (additionalCredentials != null && additionalCredentials != "空")
             {
-                Main.credentialsText += $"\n<color=#569bc2><size=1.4>{additionalCredentials}</size></color>";
+                Main.credentialsText += $"\n{additionalCredentials}";
             }
 #endif
             var credentials = Object.Instantiate(__instance.text);

@@ -511,14 +511,14 @@ namespace TownOfHost
             {
                 if (__instance.Is(CustomRoles.Detective))
                 {
+                    var tpc = Utils.GetPlayerById(target.PlayerId);
+                    string msg;
+                    msg = $"根据您的调查，{tpc.GetRealName()}(被害者) 的职业是：{tpc.GetDisplayRoleName()}";
+                    if (Options.DetectiveCanknowKiller.GetBool()) msg += $"；而凶手的职业则是：{tpc.GetRealKiller().GetDisplayRoleName()}";
                     new LateTask (() =>
                     {
-                        var tpc = Utils.GetPlayerById(target.PlayerId);
-                        string msg;
-                        msg = $"根据您的调查，{tpc.GetRealName()}(被害者) 的职业是：{tpc.GetDisplayRoleName()}";
-                        if (Options.DetectiveCanknowKiller.GetBool()) msg += $"；而凶手的职业则是：{tpc.GetRealKiller().GetDisplayRoleName()}";
                         Utils.SendMessage(msg, __instance.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Detective), " ★ 侦探线索 ★ "));
-                    }, 5.0f, "DetectiveNotify");
+                    }, 8f, "DetectiveNotify");
                 }
             }
             foreach (var kvp in Main.PlayerStates)

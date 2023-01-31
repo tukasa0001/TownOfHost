@@ -293,11 +293,11 @@ namespace TownOfHost
                         new LateTask(() =>
                         {
                             player.RpcSetName(name);
-                        }, 3.0f, "Change Exiled Player Name");
+                        }, 2.5f, "Change Exiled Player Name");
                         new LateTask(() =>
                         {
                             player.RpcSetName(realName);
-                        }, 10.5f, "Change Exiled Player Name Back");
+                        }, 11f, "Change Exiled Player Name Back");
                     }
                 }
 
@@ -423,6 +423,26 @@ namespace TownOfHost
             }
             Main.CyberStarDead.Clear();
         }
+        public static void NoticeDetectiveSkill()
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (!Options.ImpKnowCyberStarDead.GetBool() && CustomRolesHelper.IsImpostor(pc.GetCustomRole())) continue;
+                if (!Options.NeutralKnowCyberStarDead.GetBool() && CustomRolesHelper.IsNeutral(pc.GetCustomRole())) continue;
+                foreach (var csId in Main.CyberStarDead)
+                {
+                    var cs = Utils.GetPlayerById(csId);
+                    if (cs == null) continue;
+                    new LateTask(() =>
+                    {
+                        Utils.SendMessage(string.Format(GetString("CyberStarDead"), cs.GetRealName()), pc.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.CyberStar), " ★ 紧急新闻 ★ "));
+                    }, 5.0f, "Notice CyberStar Skill");
+                }
+            }
+            Main.CyberStarDead.Clear();
+        }
+
         public static void Prefix(MeetingHud __instance)
         {
             Logger.Info("------------会議開始------------", "Phase");
