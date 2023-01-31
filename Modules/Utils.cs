@@ -1247,7 +1247,7 @@ namespace TownOfHost
             file.CopyTo(@filename);
             System.Diagnostics.Process.Start(@$"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}");
             if (PlayerControl.LocalPlayer != null)
-                HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, "デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
+                HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, string.Format(GetString("Message.DumpfileSaved"), $"TownOfHost - v{Main.PluginVersion}-{t}.log"));
         }
         public static (int, int) GetDousedPlayerCount(byte playerId)
         {

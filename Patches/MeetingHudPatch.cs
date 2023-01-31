@@ -2,13 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using Hazel;
-using Il2CppSystem.Web.Util;
-using Sentry.Internal.Extensions;
 using UnityEngine;
 using static TownOfHost.Translator;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.ParticleSystem.PlaybackState;
 
 namespace TownOfHost
 {
@@ -198,7 +193,7 @@ namespace TownOfHost
                 {
                     Witch.OnCheckForEndVoting(exileId);
                 }
-
+                
                 FollowingSuicideOnExile(exileId);
                 RevengeOnExile(exileId);
 
@@ -227,7 +222,8 @@ namespace TownOfHost
                         }
                         if (Options.ConfirmEjectionsRoles.GetBool())
                         {
-                            name = $"{realName} 是 {coloredRole}";
+                            //name = $"{realName} 是 {coloredRole}";
+                            name = string.Format(GetString("PlayerIsRole"), realName, coloredRole);
                         }
                         else if (Options.ConfirmEjections.GetBool())
                         {
@@ -264,27 +260,34 @@ namespace TownOfHost
                         }
                         else
                         {
-                            name = $"{realName} 被驱逐了...";
+                            //name = $"{realName} 被驱逐了...";
+                            name = string.Format(GetString("PlayerExiled"), realName);
                         }
                         if (crole == CustomRoles.Jester)
-                            name = $"票出 {realName} 让你有种不详的预感\n{coloredRole} 在狂笑着...<size=0>";
+                            name = string.Format(GetString("ExiledJester"), realName, coloredRole) + "<size=0>";
+                        //name = $"票出 {realName} 让你有种不详的预感\n{coloredRole} 在狂笑着...<size=0>";
+
                         if (Executioner.Target.ContainsValue(exileId))
-                            name = $"票出 {realName} 让你有种不详的预感\n他是 {coloredRole}，而他的背后传来处刑者阴沉的笑声...<size=0>";
+                            name = string.Format(GetString("ExiledExeTarget"), realName, coloredRole) + "<size=0>";
+                        //name = $"票出 {realName} 让你有种不详的预感\n他是 {coloredRole}，而他的背后传来处刑者阴沉的笑声...<size=0>";
                         if (Options.ShowImpRemainOnEject.GetBool() && crole != CustomRoles.Jester && !Executioner.Target.ContainsValue(exileId))
                         {
                             name += "\n";
                             string comma = neutralnum != 0 ? "，" : "";
                             if (impnum == 0)
                             {
-                                name += $"已经没有内鬼啦{comma}";
+                                //name += $"已经没有内鬼啦{comma}";
+                                name += GetString("NoImpRemain") + comma;
                             }
                             else
                             {
-                                name += $"剩余 {impnum} 个内鬼{comma}";
+                                //name += $"剩余 {impnum} 个内鬼{comma}";
+                                name += string.Format(GetString("ImpRemain"), impnum) + comma;
                             }
 
                             if (Options.ShowNKRemainOnEject.GetBool() && neutralnum != 0)
-                                name += $"剩余 {neutralnum} 个中立";
+                                //name += $"剩余 {neutralnum} 个中立";
+                                name += string.Format(GetString("NeutralRemain"), neutralnum);
                         }
                         name += "<size=0>";
                         new LateTask(() =>
@@ -414,7 +417,7 @@ namespace TownOfHost
                     if (cs == null) continue;
                         new LateTask(() =>
                         {
-                            Utils.SendMessage(GetString("CyberStarDead") + " " + cs.GetRealName(), pc.PlayerId, Utils.ColorString(    Utils.GetRoleColor(CustomRoles.CyberStar)  , " ★ 紧急新闻 ★ ")   );
+                            Utils.SendMessage(string.Format(GetString("CyberStarDead"), cs.GetRealName()), pc.PlayerId, Utils.ColorString(    Utils.GetRoleColor(CustomRoles.CyberStar)  , " ★ 紧急新闻 ★ ")   );
                         }, 5.0f, "Notice CyberStar Skill");
                     }
             }

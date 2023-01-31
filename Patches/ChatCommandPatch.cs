@@ -448,6 +448,19 @@ namespace TownOfHost
                         }
                         Utils.SendMessage(msgText, PlayerControl.LocalPlayer.PlayerId);
                         break;
+
+                    case "/qq":
+                        canceled = true;
+                        if (Main.newLobby)
+                        {
+                            Cloud.SendCodeToQQ(true);
+                        }
+                        else
+                        {
+                            Utils.SendMessage("很抱歉，每个房间车队姬只会发一次", PlayerControl.LocalPlayer.PlayerId);
+                        }
+                        break;
+                        
                     
                     default:
                         Main.isChatCommand = false;

@@ -65,7 +65,8 @@ namespace TownOfHost
             return byte.MaxValue;
         }
 
-        private static bool ComfirmIncludeMsg(string msg, string key)
+
+        static bool ComfirmIncludeMsg(string msg, string key)
         {
             var keys = key.Split('|');
             for (int i = 0; i < keys.Count(); i++)
@@ -89,7 +90,7 @@ namespace TownOfHost
 
             if (pc.Data.IsDead)
             {
-                Utils.SendMessage("死亡后不能进行赌注", pc.PlayerId);
+                Utils.SendMessage(GetString("GuessDead"), pc.PlayerId);
                 return true;
             }
 
@@ -111,7 +112,7 @@ namespace TownOfHost
                     bool guesserSuicide = false;
                     if (role == CustomRoles.SuperStar && target.Is(CustomRoles.SuperStar))
                     {
-                        Utils.SendMessage("大明星才不会和你赌博，选个别的目标吧？", pc.PlayerId);
+                        Utils.SendMessage(GetString("GuessSuperStar"), pc.PlayerId);
                         return true;
                     }
                     if (pc == target)
@@ -125,7 +126,7 @@ namespace TownOfHost
                     var dp = guesserSuicide ? pc : target;
 
                     string Name = dp.GetRealName();
-                    Utils.SendMessage($"很遗憾，{Name} 在赌局中失利了");
+                    Utils.SendMessage(string.Format(GetString("GuessKill"), Name));
 
                     new LateTask(() =>
                     {
@@ -169,7 +170,7 @@ namespace TownOfHost
                 //byte color = GetColorFromMsg(msg);
                 //好吧我不知道怎么取某位玩家的颜色，等会了的时候再来把这里补上
                 id = byte.MaxValue;
-                error = "指令格式：/bt [玩家编号] [职业名]\n示例：/bt 3 告密者\n玩家编号会显示在玩家名字旁边的括号内\n或者使用/id查看玩家编号列表";
+                error = GetString("GuessHelp");
                 role = new();
                 return false;
             }
@@ -181,14 +182,14 @@ namespace TownOfHost
             catch {targetIsNull = true; }
             if (targetIsNull || target == null || target.Data.IsDead)
             {
-                error = "请选择一个在场的存活角色进行赌注";
+                error = GetString("GuessNull");
                 role = new();
                 return false;
             }
 
             if (!ChatCommands.GetRoleByName(msg, out role))
             {
-                error = "指令格式：/bt [玩家编号] [职业名]\n示例：/bt 3 告密者\n玩家编号会显示在玩家名字旁边的括号内\n或者使用/id查看玩家编号列表";
+                error = GetString("GuessHelp");
                 return false;
             }
 

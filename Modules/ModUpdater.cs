@@ -26,6 +26,7 @@ namespace TownOfHost
         public static string latestTitle = null;
         public static string downloadUrl = null;
         public static GenericPopup InfoPopup;
+        public static int today = 0;
 
         [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPrefix]
         [HarmonyPriority(2)]

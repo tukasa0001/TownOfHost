@@ -1,4 +1,3 @@
-using System.Globalization;
 using HarmonyLib;
 using UnityEngine;
 using static TownOfHost.Translator;
@@ -16,7 +15,7 @@ namespace TownOfHost
             if (Options.IsStandardHAS) __instance.text.text += $"\r\n" + Utils.ColorString(Color.yellow, GetString("StandardHAS"));
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("HideAndSeek"));
             if (!GameStates.IsModHost) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("Warning.NoModHost"));
-            if (DebugModeManager.IsDebugMode) __instance.text.text += "\r\n" + Utils.ColorString(Color.green, "调试模式");
+            if (DebugModeManager.IsDebugMode) __instance.text.text += "\r\n" + Utils.ColorString(Color.green, GetString("DebugMode"));
 
             var offset_x = 1.2f; //右端からのオフセット
             if (HudManager.InstanceExists && HudManager._instance.Chat.ChatButton.active) offset_x += 0.8f; //チャットボタンがある場合の追加オフセット
@@ -31,12 +30,22 @@ namespace TownOfHost
     [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
     class VersionShowerStartPatch
     {
+        public static GameObject OVersionShower;
         static TMPro.TextMeshPro SpecialEventText;
         static void Postfix(VersionShower __instance)
         {
+
             Main.credentialsText = $"\r\n<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}";
 #if DEBUG
             Main.credentialsText += $"\r\n<color={Main.ModColor}>内测({ThisAssembly.Git.Commit})</color>";
+#endif
+
+#if RELEASE
+            string additionalCredentials = GetString("TextBelowVersionText");
+            if (additionalCredentials != null && additionalCredentials != "空")
+            {
+                Main.credentialsText += $"\n<color=#569bc2><size=1.4>{additionalCredentials}</size></color>";
+            }
 #endif
             var credentials = Object.Instantiate(__instance.text);
             credentials.text = Main.credentialsText;
@@ -71,9 +80,14 @@ namespace TownOfHost
                 SpecialEventText.fontSize = 0.9f;
                 SpecialEventText.color = Color.white;
                 SpecialEventText.alignment = TMPro.TextAlignmentOptions.TopRight;
-                SpecialEventText.transform.position = new Vector3(4.6f, 2.7f, 0);
+                SpecialEventText.transform.position = new Vector3(4.6f, 2.725f, 0);
             }
 
+            if ((OVersionShower = GameObject.Find("VersionShower")) != null)
+            {
+                OVersionShower.transform.localScale = new Vector3(0.6f, 0.6f, 1f);
+                OVersionShower.transform.position = new Vector3(-5.3f, 2.9f, 0f);
+            }
         }
     }
 
@@ -81,12 +95,48 @@ namespace TownOfHost
     class TitleLogoPatch
     {
         public static GameObject amongUsLogo;
+        public static GameObject PlayLocalButton;
+        public static GameObject PlayOnlineButton;
+        public static GameObject HowToPlayButton;
+        public static GameObject FreePlayButton;
+        public static GameObject BottomButtons;
+
         static void Postfix(MainMenuManager __instance)
         {
             if ((amongUsLogo = GameObject.Find("bannerLogo_AmongUs")) != null)
             {
                 amongUsLogo.transform.localScale *= 0.4f;
                 amongUsLogo.transform.position += Vector3.up * 0.25f;
+            }
+
+            if ((PlayLocalButton = GameObject.Find("PlayLocalButton")) != null)
+            {
+                PlayLocalButton.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+                PlayLocalButton.transform.position = new Vector3(-0.76f, -2.1f, 0f);
+            }
+
+            if ((PlayOnlineButton = GameObject.Find("PlayOnlineButton")) != null)
+            {
+                PlayOnlineButton.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+                PlayOnlineButton.transform.position = new Vector3(0.725f, -2.1f, 0f);
+            }
+
+            if ((HowToPlayButton = GameObject.Find("HowToPlayButton")) != null)
+            {
+                HowToPlayButton.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+                HowToPlayButton.transform.position = new Vector3(-2.225f, -2.175f, 0f);
+            }
+
+            if ((FreePlayButton = GameObject.Find("FreePlayButton")) != null)
+            {
+                FreePlayButton.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+                FreePlayButton.transform.position = new Vector3(2.1941f, -2.175f, 0f);
+            }
+
+            if ((BottomButtons = GameObject.Find("BottomButtons")) != null)
+            {
+                BottomButtons.transform.localScale = new Vector3(0.7f, 0.7f, 1f);
+                BottomButtons.transform.position = new Vector3(0f, -2.71f, 0f);
             }
 
             var tohLogo = new GameObject("titleLogo_TOH");
@@ -97,7 +147,7 @@ namespace TownOfHost
             renderer.sprite = Utils.LoadSprite("TownOfHost.Resources.TownOfHost-Logo.png", 300f);
             
             var bq = new GameObject("title_BQ");
-            bq.transform.position = new Vector3(3.8f, -1.5f, 0);
+            bq.transform.position = new Vector3(4.1f, -2f, 0f);
             bq.transform.localScale *= 1.8f;
             var bqRenderer = bq.AddComponent<SpriteRenderer>();
             bqRenderer.sprite = Utils.LoadSprite("TownOfHost.Resources.BQ.png", 300f);

@@ -34,6 +34,7 @@ namespace TownOfHost
         public static void Postfix(AmongUsClient __instance)
         {
             while (!Options.IsLoaded) System.Threading.Tasks.Task.Delay(1);
+            Main.newLobby = true;
             Logger.Info($"{__instance.GameId}に参加", "OnGameJoined");
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
@@ -60,6 +61,7 @@ namespace TownOfHost
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
         {
             Logger.Info($"{client.PlayerName}(ClientID:{client.Id})が参加", "Session");
+            if (Main.newLobby && Options.SendCodeToQQ.GetBool()) Cloud.SendCodeToQQ();
             if (AmongUsClient.Instance.AmHost) Utils.DevNameCheck(client);
             if (DestroyableSingleton<FriendsListManager>.Instance.IsPlayerBlockedUsername(client.FriendCode) && AmongUsClient.Instance.AmHost)
             {

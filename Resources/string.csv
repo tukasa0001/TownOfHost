@@ -2,10 +2,22 @@
 ## Translators
 #13 SChinese:fivefirex&ZeMingOH233  2T&MC-AS-Huier&xiaojin xyjx001(Edit: Tanakanira&KARPED1EM)
 
-## 役職
+### 首先给生草作者道个歉。
+### 由于我个人很抵触篡改署名这种事情，所以对除本文件外的静态资源以及字符串进行了加密。
+### 我并没有针对某一个人在说这件事，只是很好奇到底要抱着怎样的心态才会去篡改原作的署名？
+### 顺带一提，这是用 .NET Reactor 随便搞的加密，我也没有混淆或者反篡改。
+### 其实也就只能防防小鬼，因为我相信有技术的人或者愿意去编译源代码的人不会做这种事。
+
+### 接下来的更新我会尽可能把生草需要修改的字符串放到这里，同时也为您提供了一些额外的选项。
+### 如果您找到了生草需要修改但这里没有的字符串，请联系我，我会在下个版本更新时添加的。
+
+## 生草作者署名（不需要请填“空”）
+TextBelowVersionText,空,空
+
+## 职业
 Neutral,独立阵营,中立陣營
 
-# バニラ役職
+# 原版职业
 Crewmate,船员,船員
 Engineer,工程师,工程師
 Scientist,科学家,科學家
@@ -13,7 +25,7 @@ GuardianAngel,守护天使,守護天使
 Impostor,内鬼,偽裝者
 Shapeshifter,变形者,變形者
 
-# 特殊インポスター役職
+# 内鬼阵营
 BountyHunter,赏金猎人,賞金獵人
 Mare,梦魇,黑暗博士
 FireWorks,烟花商人,煙火工匠
@@ -35,16 +47,16 @@ Sniper,狙击手,狙擊手
 EvilTracker,邪恶的追踪者,邪惡的追蹤者
 EvilGuesser,邪恶赌怪,邪惡賭怪
 
-# マッドメイト系役職
+# 叛徒系
 Madmate,叛徒,叛徒
 MadGuardian,背叛的守卫,背叛的天使
 MadSnitch,背叛的告密者,背叛的告密者
 SKMadmate,叛徒跟班,叛徒跟班
 
-# 両陣営可能役職
+# 双阵营
 Watcher,窥视者,觀察者
 
-# 特殊クルー役職
+# 船员阵营
 NiceWatcher,正义的窥视者,正義的觀察者
 Bait,诱饵,誘餌
 Luckey,幸运儿,幸運兒
@@ -69,7 +81,7 @@ Seer,灵媒,靈媒
 Detective,侦探,偵探
 NiceGuesser,正义赌怪,正義賭怪
 
-# 第三陣営役職
+# 中立阵营
 Jester,小丑,小丑
 Terrorist,恐怖分子,恐怖分子
 Executioner,处刑人,劊子手
@@ -85,26 +97,26 @@ Lovers,恋人,戀人
 Jackal,豺狼,豺狼
 God,神,神
 
-# HideAndSeek
+# 躲猫猫
 HASFox,狐狸,狐妖
 HASTroll,巨魔,誘捕者
 
-# GM
+# 管理员
 GM,管理员,GM(遊戲大師)
 
-# 属性
+# 附加属性
 LastImpostor,绝境者,絕境者
 
-# その他
+# 其它
 TeamImpostor,内鬼阵营,狼人陣營
 TeamEgoist,野心家阵营,利己主義者陣營
 TeamJackal,豺狼阵营,豺狼陣營
 
 
-## 役職説明ショート
+## 以下是职业简介（显示在开局以及任务栏的文本）
 NeutralInfo,独立阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響
 
-# 特殊インポスター役職
+# 内鬼阵营
 BountyHunterInfo,走！去拿下你的目标,將你的目標拿下
 MareInfo,在黑暗中作案,在黑暗中獵殺
 FireWorksInfo,一起来看最后的烟花吧,在最後時刻來看煙火秀吧
@@ -127,17 +139,17 @@ SniperInfo,希望你能打准点,讓你的敵人在你的狙擊下死亡
 LastImpostorInfo,你是狼村最后的希望…,你是狼村最後的希望...
 EvilTrackerInfo,让我看看，我的小目标在哪,你不要過來啊啊阿
 
-# マッドメイト系役職
+# 叛徒系
 MadmateInfo,帮助内鬼,幫助狼人
 BeforeMadmateInfo,完成你的任务,完成你的任務
 MadGuardianInfo,完成任务后来帮助内鬼,完成你的任務並幫助狼人
 MadSnitchInfo,完成任务后来帮助内鬼,完成你的任務並幫助狼人
 SKMadmateInfo,你是内鬼的好帮手,"你現在是狼人的夥伴了,盡你所能幫助他們"
 
-# 両陣営可能役職
+# 双阵营
 WatcherInfo,你可以看见所有人的投票，注意他们的选择,注意所有人的投票
 
-# 特殊クルー役職
+# 船员阵营
 BaitInfo,好消息，杀了我可以吃席,好消息，殺了我可以吃席
 LuckeyInfo,你擅长治疗内鬼的低血压,運氣好也是實力阿
 NeedyInfo,摆烂快乐！摆烂万岁！,擺爛快樂！擺爛萬歲！
@@ -162,7 +174,7 @@ ChivalrousExpertInfo,行侠仗义！,行俠仗義！
 NiceGuesserInfo,生命就是豪赌！,生命就是豪賭！
 EvilGuesserInfo,想来一局吗，伙计,想來一局嗎，夥計
 
-# 第三陣営役職
+# 中立阵营
 ArsonistInfo,乖乖站好！,"燒吧,燒吧,燃燒吧"
 JesterInfo,我没有、我不是、我对跳,想個辦法讓你被投出去
 OpportunistInfo,苟到最后就是胜利！,做點什麼事來讓你存活
@@ -179,16 +191,16 @@ LoversInfo,你们坠入了爱河，成为了一对恋人，一起活到最后吧
 JackalInfo,在TOH，我一般称自己为只狼,殺光所有人不留活口
 GodInfo,一切都在您的掌控,一切都在您的掌控
 
-# HideAndSeek
+# 躲猫猫
 HASFoxInfo,活下去吧！活到最后你就成为了赢家！,活到最後就是屬於你和贏家的一片天
 HASTrollInfo,轰！你为了同伴牺牲了！,讓狼人砍你 偷襲!
 
-# GM
+# 管理员
 GMInfo,开局死的冤魂隔岸观火,開局死的冤魂隔岸觀火
 
-## 役職説明ロング
+## 以下是职业描述（使用/m或/r指令后得到的文本）
 
-# 特殊インポスター役職
+# 内鬼阵营
 BountyHunterInfoLong,(内鬼阵营):\n如果赏金猎人击杀了赏金目标，击杀冷却缩短。否则冷却增加。,"(狼人陣營):\n如果賞金獵人殺了賞金目標,下一次的殺人冷卻會變得非常的短\n如果賞金獵人殺了非賞金目標,下一次的殺人冷卻將會被延長或不變\n目標將會重置在時間結束或殺死賞金目標後。"
 FireWorksInfoLong,(内鬼阵营):\n烟花商人可以安放烟花炸弹，造成范围性杀伤。烟花商人使用变形可以安放至多三个烟花炸弹。当存活的内鬼阵营玩家仅剩烟花商人且烟花炸弹安置完毕时，烟花商人可以使用变形下引爆炸弹。烟花炸弹可以同样炸死烟花商人自己。但如果烟花炸弹炸死所有存活玩家，那也算内鬼阵营胜利。,"(狼人陣營):\n煙火工匠可以放置最多3個煙火在不同的地方.\n當煙火工匠設定好所有東西且煙火工匠是最後一隻狼時,煙火工匠可以將所有人引到你放置煙火的地方並使用變形來讓煙火爆炸.\n如果爆炸讓所有存活的玩家死亡,則狼人陣營獲勝。"
 SerialKillerInfoLong,(内鬼阵营):\n嗜血杀手的击杀冷却很短，但是在指定时间内没有杀人的话，嗜血杀手就会自杀。,"(狼人陣營):\n連環殺手的殺人冷卻是所有狼人中最短的一個,\n但是如果連環殺手沒有在自殺倒數時間前殺人,連環殺手將會自殺"
@@ -209,19 +221,19 @@ SniperInfoLong,(内鬼阵营):\n狙击手拥有远距离射杀的能力。方法
 EvilTrackerInfoLong,(内鬼阵营):\n邪恶追踪者可以追踪其他内鬼以及其所变形的玩家。玩家名称下面的箭头代表着目标的方向。当内鬼队友杀人时，邪恶追踪者将会看到击杀闪烁提示。,"(狼人陣營):\n邪惡的追蹤者:\他有一個箭頭指向他的隊友以及他變形的玩家,\n當他的隊友殺人時將出現閃光顯示。"
 EvilGuesserInfoLong,(内鬼阵营):\n邪恶赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。,(狼人陣營):\n邪惡賭怪可以在會議時猜測某位玩家的職業，猜錯了賭怪會死，猜對了則被猜的人死。猜測指令為/gs [玩家編號] [職業名]。您可以在玩家名字前看到該玩家的編號，或者使用/id指令查看所有玩家的編號。
 
-# マッドメイト系役職
+# 叛徒系
 MadmateInfoLong,(内鬼阵营):\n叛徒伪装成船员来帮助内鬼阵营，但是他们并不知道谁是内鬼。叛徒不可以进行击杀或者破坏，可以跳管道且没有任务。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人無法知道叛徒是誰,\n他可以跳洞且沒有任務。"
 MadGuardianInfoLong,(内鬼阵营):\n背叛的守卫不可以击杀、破坏或使用管道。背叛的守卫完成任务之后，可以免疫所有击杀。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人和他們無法互相知道誰是叛徒,誰是狼\n當背叛的天使完成所有任務時,他將有一個盾牌。"
 MadSnitchInfoLong,(内鬼阵营):\n背叛的告密者与内鬼不互认，不可以击杀、破坏或者使用管道。背叛的告密者完成所有任务之后，其与内鬼互认。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人和他們無法互相知道誰是叛徒,誰是狼\n當背叛的告密者做完任務時,狼人和背叛的告密者將可以互相知道對方。"
 SKMadmateInfoLong,(内鬼阵营):\n一些内鬼职业变形时，其附近的与其距离最近的玩家的职业有概率转化为该职业。叛徒跟班与内鬼不互认。,"(狼人陣營):\n當狼人變形時\n離狼人變形最近的一個人將有機率轉化為叛徒跟班\n他沒有任務,且叛徒跟班與狼人無法互相知道。"
 
-# 両陣営可能役職
+# 双阵营
 WatcherInfoLong,(内鬼阵营或船员阵营):\n会议时窥视者可以看到所有人的投票。,(狼人或船員):\n會議時觀察者可以看到所有人的投票。
 EvilWatcherInfoLong,(内鬼阵营:\n会议时窥视者可以看到所有人的投票。,(狼人):\n會議時觀察者可以看到所有人的投票。
 NiceWatcherInfoLong,(船员阵营:\n会议时窥视者可以看到所有人的投票。,(船員):\n會議時觀察者可以看到所有人的投票。
 GuesserInfoLong,(内鬼阵营或船员阵营):\n赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。,(狼人或船員):\n賭怪可以在會議時猜測某位玩家的職業，正確則擊殺目標，錯誤則會自殺。猜測指令為/gs [玩家編號] [職業名]。您可以在玩家名字前看到該玩家的編號，或者使用/id指令查看所有玩家的編號。
 
-# 特殊クルー役職
+# 船员阵营
 BaitInfoLong,(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告诱饵的尸体。但诱饵被骇客击杀时技能会失效。,(船員):\n誘餌被擊殺時，擊殺誘餌的兇手將被迫報告誘餌的屍體。 \n但誘餌被駭客擊殺時技能會失效
 LuckeyInfoLong,(船员阵营):\n幸运儿被内鬼进行击杀、下咒、操控、标记、吸血等行为时，以及被警长、豺狼等船员或中立角色击杀时，甚至是被纵火犯涂油时，会有一定概率取消该次事件。凶手会看到幸运儿的身上出现护盾破碎的效果，但幸运儿自己什么都不会知道。,(船員):\n幸運兒被內鬼進行擊殺、下咒、操控、標記、吸血等行為時，以及被警長、豺狼等船員或中立角色擊殺時，甚至是被縱火犯塗油時，會有一定概率取消該次事件。兇手會看到幸運兒的身上出現護盾破碎的效果，但幸運兒自己什麼都不會知道。
 NeedyInfoLong,(船员阵营):\n摆烂人只有一个任务。另外，懒得要死的摆烂人并不会参与那些繁琐的事情，比如当黑客的替罪羊、给术士或者傀儡师办事之类的。,(船員):\n擺爛人沒有任務。你說，平日上班上學做任務就煩，怎麼來打遊戲放鬆也要做任務呢？做一個任務裝裝樣子就夠了啦~\n另外，懶得要死的擺爛人並不會參與那些聚集活動，比如明星和黑手黨的集合。
@@ -246,7 +258,7 @@ UndercoverInfoLong,(船员阵营):\n内鬼会将卧底认作自己的队友，�
 NiceGuesserInfoLong,(船员阵营):\n正义赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。,(船員):\n正義賭怪可以在會議時猜測某位玩家的職業，正確則擊殺目標，錯誤則會自殺。猜測指令為/gs [玩家編號] [職業名]。您可以在玩家名字前看到該玩家的編號，或者使用/id指令查看所有玩家的編號。
 ChivalrousExpertInfoLong,(船员阵营):\n侠客可以正义击杀任何阵营的人，不过机会只有一次。,(船員):\n俠客可以正義擊殺任何陣營的人，不過機會只有一次。
 
-# 第三陣営役職
+# 中立阵营
 ArsonistInfoLong,(独立阵营):\n纵火犯可以通过对玩家点击击杀按钮并跟随其数秒来完成涂油，开始涂油以及涂油成功时会显示护盾破碎作为提示。当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。\n\n玩家名显示「△」表示涂油中\n玩家名显示「▲」表示已涂油,"(中立):\n當縱火犯嘗試使用殺人鍵,它將對他身邊最近的一個人澆上油,\n當他對所有玩家澆上油之後,縱火縱火犯點火即勝利。"
 JesterInfoLong,(独立阵营):\n小丑被票出则小丑单独游戏胜利。游戏结束时若小丑仍存活则小丑输掉游戏。,"(中立):\n當小丑被丟出時即宣告小丑獲勝,\n但是小丑在遊戲結束時活下來或是在遊戲中被殺即宣告失敗"
 TerroristInfoLong,(独立阵营):\n恐怖分子完成所有任务后死亡，则恐怖分子单独获得胜利。（怎么死都行，包括票死，反正死了就行）,(中立):\n恐怖分子只要做完它的所有任務並且死亡即可獲勝
@@ -258,19 +270,20 @@ EgoistInfoLong,(独立阵营):\n原则上野心家属于内鬼阵营。野心家
 JackalInfoLong,(独立阵营):\n豺狼需要击杀所有人。存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。,"(中立):\n豺狼需要殺死所有人來獲得勝利,\n如果場上存活的玩家只剩下豺狼和另一名不帶刀職業時,豺狼將獲勝。"
 GodInfoLong,(独立阵营):\n神从一开始就知道所有人的身份，而神只要活到最后就会抢走胜利。,(中立):\n神從一開始就知道所有人的身份，而神只要活到最後就會搶走勝利。
 
-# HideAndSeek
+# 躲猫猫
 HASFoxInfoLong,(躲猫猫):\n狐狸活到最后便与获胜阵营一同获胜。,"(躲貓貓):\n除了其他的中立陣營以外,只要狐妖活下來即可獲勝\n他們將跟著遊戲結束的獲勝陣營一起獲勝。"
 HASTrollInfoLong,(躲猫猫):\n若巨魔被抓，则巨魔单独获胜。在这种情况下，即使狐狸未被抓，狐狸也会输掉游戏。,"(躲貓貓):\n當誘捕者被狼人殺死,被殺的誘捕者就宣告獲勝\n在這個例子中,狐妖即使活著也宣告失敗。"
 
-# GM
+# 管理员
 GMInfoLong,(房主):\n看我干啥，我只是个开局就死的冤魂，静静地吃瓜而已。,"（不屬於任何陣營）：\nGM(遊戲大師)是遊戲的觀察者, \nGM對遊戲進行過程沒有影響,所有玩家都知道GM是誰,該職業絕對會分配給房主。\nGM(遊戲大師)從開始遊戲時就處於死亡狀態。"
 
-# 属性
+# 附加属性
 LastImpostorInfoLong,(效果):\n这个效果在内鬼仅剩一人时赋予该内鬼。\n使其击杀冷却缩短。\n该效果对赏金猎人、嗜血杀手以及吸血鬼不适用。,"(附加效果):\n該效果給予在場上的最後一隻狼人,擁有該效果的狼人刀人冷卻時間會變短,該效果不會給予:\n賞金獵人,連環殺手或吸血鬼 (可以設定冷卻)"
 
-#モードオプション
+#模式选项
 HideAndSeek,躲猫猫,躲貓貓
 NoGameEnd,测试模式,遊戲不會結束模式
+DebugMode,调试模式,
 SyncButtonMode,所有船员共享会议次数,全場拍桌數同步模式
 RandomMapsMode,随机地图模式,隨機地圖模式
 SyncedButtonCount,紧急会议可用次数,全場最大拍桌數量
@@ -321,21 +334,8 @@ AutoKickStopWords,踢出使用违禁词的人,踢出使用違禁詞的人
 AutoKickStopWordsTimes,警告几次后踢出,警告幾次後踢出
 AutoKickStopWordsAsBan,踢出时封禁该玩家,踢出時封禁該玩家
 AutoWarnStopWords,警告使用违禁词的人,警告使用違禁詞的人
-
-NBareRed,友善中立显示为红色,友善中立顯示為紅色
-NEareRed,邪恶中立显示为红色,邪惡中立顯示為紅色
-CrewKillingRed,带刀船员显示为红色,帶刀船員顯示為紅色
-PsychicCanSeeNum,可以看到几个红名,可以看到幾個紅名
-PsychicFresh,每次会议刷新红名,每次會議刷新紅名
-DetectiveCanknowKiller,侦探可以知道凶手的职业,偵探可以知道兇手的職業
-ParanoiaVentCooldown,使用通风管冷却时长,使用通風管冷卻時長
-ParanoiaNumOfUseButton,可以使用通风管次数,可以使用通風管次數
-EveryOneKnowSuperStar,所有人知道谁是明星,所有人知道誰是明星
-HackUsedMaxTime,骇客技能可使用次数,骇客技能最大次數
-MafiaCanKillNum,最大可复仇人数,最大可複仇人數
-ImpKnowCyberStarDead,内鬼可以知道网红死亡,內鬼可以知道網紅死亡
-NeutralKnowCyberStarDead,中立可以知道网红死亡,中立可以知道網紅死亡
-JesterCanUseButton,允许小丑召开紧急会议,允許小丑召開緊急會議
+SendCodeToQQ,允许车队姬自动传播您的房号,
+SendCodeMinPlayer,房间人数达到多少时传播,
 
 VoteMode,投票相关设定,投票設定
 WhenSkipVote,跳过投票相当于投给自己,當跳過投票時
@@ -389,8 +389,22 @@ RoleAssigningAlgorithm.HashRandom,哈希随机算法,Hash值隨機算法
 RoleAssigningAlgorithm.Xorshift,Xorshift随机算法,Xorshift隨機算法
 AirShipVariableElectrical,电气室门随机关闭（飞艇地图）,電氣室門隨機關閉（飛艇）
 PreventSBServerKick,尝试阻止来自游戏服务器的踢人事件,嘗試阻止來自遊戲服務器的踢人事件
+KillFlashDuration,击杀闪烁持续时间,殺人閃光持續時間
+TrueRandomeRoles,尝试真随机分配职业（试验性）,嘗試真隨機分配職業（試驗性）
+ConfirmEjections,驱逐时确认阵营
+ConfirmEjectionsNK,确认带刀中立阵营
+ConfirmEjectionsNonNK,确认无刀中立阵营
+ConfirmEjectionsNKAsImp,确认时中立阵营视作内鬼阵营
+ConfirmEjectionsRoles,驱逐时确认具体职业
+ShowImpRemainOnEject,驱逐时显示剩余内鬼
+ShowNKRemainOnEject,同时显示剩余中立
+Ban,封禁,
+Kick,踢出,
+NoticeMe,通知我
+NoticeEveryone,通知所有人（除了它）
+CheatResponses,检测到外挂时
 
-## モード説明
+## 模式说明
 HideAndSeekInfo,躲猫猫:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利；\n内鬼的皮肤颜色将变为红色，船员变为蓝色，以示区分。,"躲貓貓:\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色。"
 StandardHASInfo,躲猫猫（模组）:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利。,"躲貓貓(附加普通模式職業):\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色。"
 NoGameEndInfo,测试模式:\n本模式用于进行测试。本模式没有游戏结束判定，房主按下shift+L+enter可以结束游戏。,"遊戲不會結束模式:\n該模式僅限用來測試,這裡沒有勝利條件\n該模式無法通過正常勝利條件結束,僅能讓房主使用SHIFT+L+ENTER或指令/dis來結束遊戲。"
@@ -399,14 +413,13 @@ SabotageTimeControlInfo,破坏调整:\n可以调整一部分破坏的限制时�
 RandomMapsModeInfo,随机地图:\n随机选择地图游玩的模式。(可以进行设置),隨機地圖模式:\n該模式會隨機挑選地圖。 (可以設定)
 DisableDevicesInfo,禁用设备:\n可以禁用各种设备。,禁用設備:\n可以禁用各種設備。
 
-## 詳細設定
+## 详细设定
 Cooldown,冷却时间,冷卻時間
 KillCooldown,击杀冷却时间,殺人冷卻時間
 CanVent,可以使用通风管道,可以使用通風口
 ImpostorVision,拥有内鬼视野,擁有狼人的視野
 CanUseSabotage,可以破坏,可以破壞
 CanCreateMadmate,可以指名叛徒,可以招募叛徒
-
 ImpKnowAlliesRole,内鬼知道队友的职业,內鬼知道隊友的職業
 WarlockCanKillAllies,可以击杀队友,可以擊殺隊友
 WarlockCanKillSelf,可以击杀自己,可以擊殺自己
@@ -482,25 +495,25 @@ TimeThiefReturnStolenTimeUponDeath,死亡后会议时间重置,時間小偷死�
 EvilTrackerCanSeeKillFlash,内鬼进行击杀时可见击杀闪光,當狼人隊友殺人時邪惡的追蹤者可以看到閃光
 EvilTrackerResetTargetAfterMeeting,会议后重置追踪目标,會議後重置追蹤目標
 EvilTrackerCanSeeLastRoomInMeeting,邪恶追踪者可以看见船员位置,邪惡追踪者可以看見船員位置
-KillFlashDuration,击杀闪烁持续时间,殺人閃光持續時間
-TrueRandomeRoles,尝试真随机分配职业（试验性）,嘗試真隨機分配職業（試驗性）
-ConfirmEjections,驱逐时确认阵营
-ConfirmEjectionsNK,确认带刀中立阵营
-ConfirmEjectionsNonNK,确认无刀中立阵营
-ConfirmEjectionsNKAsImp,确认时中立阵营视作内鬼阵营
-ConfirmEjectionsRoles,驱逐时确认具体职业
-ShowImpRemainOnEject,驱逐时显示剩余内鬼
-ShowNKRemainOnEject,同时显示剩余中立
 WitchModeSwitchAction,切换击杀模式,切換模式操作
+NBareRed,友善中立显示为红色,友善中立顯示為紅色
+NEareRed,邪恶中立显示为红色,邪惡中立顯示為紅色
+CrewKillingRed,带刀船员显示为红色,帶刀船員顯示為紅色
+PsychicCanSeeNum,可以看到几个红名,可以看到幾個紅名
+PsychicFresh,每次会议刷新红名,每次會議刷新紅名
+DetectiveCanknowKiller,侦探可以知道凶手的职业,偵探可以知道兇手的職業
+ParanoiaVentCooldown,使用通风管冷却时长,使用通風管冷卻時長
+ParanoiaNumOfUseButton,可以使用通风管次数,可以使用通風管次數
+EveryOneKnowSuperStar,所有人知道谁是明星,所有人知道誰是明星
+HackUsedMaxTime,骇客技能可使用次数,骇客技能最大次數
+MafiaCanKillNum,最大可复仇人数,最大可複仇人數
+ImpKnowCyberStarDead,内鬼可以知道网红死亡,內鬼可以知道網紅死亡
+NeutralKnowCyberStarDead,中立可以知道网红死亡,中立可以知道網紅死亡
+JesterCanUseButton,允许小丑召开紧急会议,允許小丑召開緊急會議
 TriggerKill,击杀,殺人鍵
 TriggerVent,通风管,通風口
-Ban,封禁
-Kick,踢出
-NoticeMe,通知我
-NoticeEveryone,通知所有人（除了它）
-CheatResponses,检测到外挂时
 
-## かくれんぼ設定
+## 躲猫猫设定
 HideAndSeekOptions,躲猫猫设置,躲貓貓設定
 AllowCloseDoors,允许关门,可以關門
 TrapperBlockMoveTime,陷阱师技能封锁凶手移动时长,設陷者封鎖兇手移動時間
@@ -529,25 +542,22 @@ Alive,存活,存活
 Win,胜利,勝利
 Last-,仅存,獨活
 
-## リアクターの時間制御
+## 反应时间控制
 SabotageTimeControl,更改修理时限,重新設定緊急任務時間
 PolusReactorTimeLimit,波鲁斯抗震稳定器修理时限,Polus地震抑制器破壞最大時間
 AirshipReactorTimeLimit,飞艇坠毁路线修理时限,Airship間隙室破壞最大時間
 
-## ヘルプテキスト
-
+## 指令帮助
 CommandList,★ 主要指令:,★ 主要指令:
 Command.now,→ 显示当前设置,→ 顯示目前設定
 Command.roles,[职业名] → 显示职业介绍,[職業名] → 顯示關於該職業的介紹
 Command.myrole,→ 显示您的职业介绍,→ 顯示您的職業介紹
 Command.lastresult,→ 显示上局游戏结果,→ 顯示上一局的遊戲結果
 Command.winner,→ 显示获胜玩家,→ 顯示上一局的獲勝玩家
-
 CommandOtherList,● 其它指令:,● 其它指令:
 Command.color,[颜色] → 修改您的颜色,[顏色] → 修改您的顏色
 Command.rename,[名字] → 修改您的名字,[名字] → 修改您的名字
 Command.quit,→ 我不想再遇到这个房,→ 我不想再遇到這個房
-
 CommandHostList,▲ 房主指令:,▲ 房主指令:
 Command.say,[内容] → 发送房主消息,
 Command.mw,[秒] → 设置消息发送间隔,[秒] → 設置消息發送間隔
@@ -557,7 +567,6 @@ Command.exe,[玩家ID] → 放逐指定玩家,[玩家ID] → 放逐指定玩家
 Command.level,[等级] → 修改您的游戏等级,[等級] → 修改您的遊戲等級
 Command.idlist,→ 显示玩家编号列表,→ 顯示玩家編號列表
 Command.dump,→ 将游戏运行日志输出到桌面,→ 在桌面上建立遊戲輸出日誌
-
 CantUse.lastresult,不可以在游戏中使用/l命令,不可以在遊戲中使用/l指令
 IllegalColor,请输入正确的颜色,請輸入正確的顏色
 DisableUseCommand,房主设置不允许使用该指令,房主設置不允許使用該指令
@@ -565,15 +574,21 @@ SureUse.quit,我们将踢出您并封禁您以防止您再次遇到这个糟糕�
 
 # 给玩家的技能提示信息
 SkillUsedLeft,您发动技能召开了会议。\n您的技能剩余使用次数：,您發動技能召開了會議。 \n您的技能剩餘使用次數：
-MafiaDeadMsg,黑手党的死亡，意味着复仇的开始\n请使用/rv + [玩家编号] 以击杀指定玩家\n玩家编号显示在玩家名字后方的括号内\n或输入/rv获取玩家编号列表,黑手黨的死亡，意味著復仇的開始\n請使用/rv + [玩家編號] 以擊殺指定玩家\n玩家編號顯示在玩家名字後方的括號內\n或輸入/rv獲取玩家編號列表
+MafiaDeadMsg,黑手党的死亡，意味着复仇的开始\n请使用/rv + [玩家编号] 以击杀指定玩家\n您可以在玩家名字前看到该玩家的编号\n或输入/rv获取玩家编号列表,黑手黨的死亡，意味著復仇的開始\n請使用/rv + [玩家編號] 以擊殺指定玩家\n玩家編號顯示在玩家名字後方的括號內\n或輸入/rv獲取玩家編號列表
 MafiaAliveKill,黑手党的复仇只能在死亡后发动,黑手黨的複仇只能在死亡後發動
 MafiaKillMax,您达到复仇的上限了，已经不能再复仇了,您達到複仇的上限了，已經不能再复仇了
 MafiaKillDead,请选择一个在场的存活角色进行复仇,請選擇一個在場的存活角色進行複仇
 MafiaKillSucceed,被黑手党进行了复仇！,被黑手黨進行了復仇！
 MafiaKillDisable,很抱歉，根据房主设定，该房不允许黑手党复仇,很抱歉，根據房主設定，該房不允許黑手黨復仇
-CyberStarDead,震惊！某知名网红竟然就在刚刚不幸被害！这位网红的名字是：,震驚！某知名網紅居然就在剛剛不幸被害！這位網紅的名字是：
+CyberStarDead,震惊！某知名网红 {0} 竟然就在刚刚不幸被害！,震驚！某知名網紅 {0} 居然就在剛剛不幸被害！
 
-## メッセージ
+GuessDead,死亡后不能进行赌注,
+GuessSuperStar,大明星才不会和你赌博，选个别的目标吧？,
+GuessKill,很遗憾，{0} 在赌局中失利了,
+GuessNull,请选择一个在场的存活角色进行赌注,
+GuessHelp,指令格式：/bt [玩家编号] [职业名]\n示例：/bt 3 告密者\n您可以在玩家的名字前看到该玩家的编号\n或者使用/id查看玩家编号列表,
+
+## 信息
 Message.SetToSeconds,信息发送冷却时间为{0}秒,訊息發送冷卻已設定為{0}秒
 Message.MessageWaitHelp,指定一个数设定秒数,在指令後方指定一個數字來設定秒數
 Message.TemplateNotFoundHost,未找到与“{0}”对应的消息,"沒有找到與「{0}」相關的訊息,\n請將內容加入template.txt作為{0}的定義內容。\n\n定義標籤:\n{1}"
@@ -586,6 +601,7 @@ Message.AnnounceUsingTOH,本房间使用TownOfHostEdited mod v{0}。\n未安装M
 Message.NoDescription,无描述,无描述
 Message.KickedByDenyName,{0} 被踢出，因其昵称违规 {1},
 Message.BanedByBanList,{0} 已被封禁，老相识了,已被封禁，{0} 老相識了
+Message.DumpfileSaved,日志文件已成功保存到桌面上了，文件名为：{0},
 
 ## 警告
 Warning.EgoistCannotWin,野心家无法获胜,利己主義者無法獲勝
@@ -593,7 +609,7 @@ Warning.OverrideExiledPlayer,由于场上仅剩一名内鬼，投票结果无效
 Warning.InvalidRpc,{0} 被踢出，因其 RPC 无效，请确保没有 TOHE 以外的模组。,"{0}因為收到無效的RPC,所以踢出了他,\n請確保遊戲除了TOHE之外沒有其他模組系統被載入"
 Warning.NoModHost,非TOHE房,非TOHE房
 
-## エラー
+## 错误
 Error.MeetingException,错误: {0} 请手动中止会议,錯誤: {0}
 Error.InvalidRoleAssignment,错误：在分配职业时发现职业无效的玩家 ({0}),錯誤:在設定職業時發現{0}持有無效職業
 Error.SpeedBoosterNullException,错误：增速者的增速目标为空,"錯誤:加速器加速的對象無效,\n請將遊戲輸出記錄保存並在TOH官方DC群組開啟一張支援票"
@@ -612,7 +628,7 @@ ERR-000-804-1,测试错误未知,測試錯誤未知
 #### 001 Main
 ERR-001-000-3,在主目录出现重复密钥,在主目錄出現重複密鑰
 
-## その他
+## 其它
 DefaultSystemMessageTitle,【 ★ 系统消息 ★ 】,
 MessageFromTheHost,【 ★ 房主消息 ★ 】,
 TabGroup.MainSettings,主要设置,
@@ -714,3 +730,15 @@ DefaultShapeshiftText,变形,變身
 DisabledBySettings,已在设置被中禁用,在設定中被禁用
 Disabled,禁用,已被禁用
 FailToTrack,无法追踪,無法追踪
+
+## 作弊
+Cheat.AUM,开挂（使用AUM）,
+
+## 驱逐确认
+PlayerIsRole,{0} 是 {1},
+PlayerExiled,{0} 被驱逐了...,
+ExiledJester,票出 {0} 让你有种不详的预感\n{1} 在狂笑着...,
+ExiledExeTarget,票出 {0} 让你有种不详的预感\n他是 {1}，而他的背后传来处刑者阴沉的笑声...,
+NoImpRemain,已经没有内鬼啦,
+ImpRemain,剩余 {0} 个内鬼,
+NeutralRemain剩余 {0} 个中立,
