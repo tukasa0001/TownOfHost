@@ -471,6 +471,8 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
     class FixedUpdatePatch
     {
+        private static StringBuilder Mark = new(20);
+        private static StringBuilder Suffix = new(120);
         public static void Postfix(PlayerControl __instance)
         {
             var player = __instance;
@@ -691,8 +693,8 @@ namespace TownOfHost
                     var target = __instance;
 
                     string RealName;
-                    var Mark = new StringBuilder();
-                    var Suffix = new StringBuilder();
+                    Mark.Clear();
+                    Suffix.Clear();
 
                     //名前変更
                     RealName = target.GetRealName();
