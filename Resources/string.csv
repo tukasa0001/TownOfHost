@@ -334,8 +334,8 @@ AutoKickStopWords,踢出使用违禁词的人,踢出使用違禁詞的人
 AutoKickStopWordsTimes,警告几次后踢出,警告幾次後踢出
 AutoKickStopWordsAsBan,踢出时封禁该玩家,踢出時封禁該玩家
 AutoWarnStopWords,警告使用违禁词的人,警告使用違禁詞的人
-SendCodeToQQ,允许车队姬自动传播您的房号,
-SendCodeMinPlayer,房间人数达到多少时传播,
+SendCodeToQQ,允许车队姬自动群发您的房号,
+SendCodeMinPlayer,房间人数达到多少时群发,
 
 VoteMode,投票相关设定,投票設定
 WhenSkipVote,跳过投票相当于投给自己,當跳過投票時
