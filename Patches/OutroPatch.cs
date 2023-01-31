@@ -204,12 +204,12 @@ namespace TownOfHost
             List<byte> cloneRoles = new(Main.PlayerStates.Keys);
             foreach (var id in Main.winnerList)
             {
-                sb.Append($"\n<color={CustomWinnerColor}>★</color> " + EndGamePatch.SummaryText[id]);
+                sb.Append($"\n<color={CustomWinnerColor}>★</color> ").Append(EndGamePatch.SummaryText[id]);
                 cloneRoles.Remove(id);
             }
             foreach (var id in cloneRoles)
             {
-                sb.Append($"\n　 " + EndGamePatch.SummaryText[id]);
+                sb.Append($"\n　 ").Append(EndGamePatch.SummaryText[id]);
             }
             var RoleSummary = RoleSummaryObject.GetComponent<TMPro.TextMeshPro>();
             RoleSummary.alignment = TMPro.TextAlignmentOptions.TopLeft;

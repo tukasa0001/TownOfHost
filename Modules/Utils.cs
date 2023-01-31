@@ -415,7 +415,8 @@ namespace TownOfHost
                     if (!role.Key.IsEnable()) continue;
                     sb.Append($"\n【{GetRoleName(role.Key)}×{role.Key.GetCount()}】\n");
                     ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref sb);
-                    sb.Clear().Append(sb.ToString().RemoveHtmlTags());
+                    var text = sb.ToString();
+                    sb.Clear().Append(text.RemoveHtmlTags());
                 }
                 foreach (var opt in OptionItem.AllOptions.Where(x => x.GetBool() && x.Parent == null && x.Id >= 80000 && !x.IsHiddenOn(Options.CurrentGameMode)))
                 {
@@ -506,20 +507,20 @@ namespace TownOfHost
             }
             var sb = new StringBuilder();
 
-            sb.Append(GetString("LastResult") + ":");
+            sb.Append(GetString("LastResult")).Append(":");
             List<byte> cloneRoles = new(Main.PlayerStates.Keys);
             sb.Append($"\n{SetEverythingUpPatch.LastWinsText}\n");
             foreach (var id in Main.winnerList)
             {
-                sb.Append($"\n★ " + EndGamePatch.SummaryText[id].RemoveHtmlTags());
+                sb.Append($"\n★ ").Append(EndGamePatch.SummaryText[id].RemoveHtmlTags());
                 cloneRoles.Remove(id);
             }
             foreach (var id in cloneRoles)
             {
-                sb.Append($"\n　 " + EndGamePatch.SummaryText[id].RemoveHtmlTags());
+                sb.Append($"\n　 ").Append(EndGamePatch.SummaryText[id].RemoveHtmlTags());
+                SendMessage(sb.ToString(), PlayerId);
+                SendMessage(EndGamePatch.KillLog, PlayerId);
             }
-            SendMessage(sb.ToString(), PlayerId);
-            SendMessage(EndGamePatch.KillLog, PlayerId);
         }
 
 
