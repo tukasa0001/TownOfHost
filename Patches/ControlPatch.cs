@@ -57,6 +57,11 @@ namespace TownOfHost
 
             //-- 下面是主机专用的命令--//
             if (!AmongUsClient.Instance.AmHost) return;
+            // 强制显示聊天框
+            if (GetKeysDown(KeyCode.Return, KeyCode.C, KeyCode.LeftShift))
+            {
+                HudManager.Instance.Chat.SetVisible(true);
+            }
             //强制结束游戏
             if (GetKeysDown(KeyCode.Return, KeyCode.L, KeyCode.LeftShift) && GameStates.IsInGame)
             {
