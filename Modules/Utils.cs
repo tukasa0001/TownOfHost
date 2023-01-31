@@ -639,6 +639,9 @@ namespace TownOfHost
         }
         public static GameData.PlayerInfo GetPlayerInfoById(int PlayerId) =>
             GameData.Instance.AllPlayers.ToArray().Where(info => info.PlayerId == PlayerId).FirstOrDefault();
+        private static StringBuilder SelfSuffix = new();
+        private static StringBuilder SelfMark = new(20);
+        private static StringBuilder TargetMark = new(20);
         public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false, bool ForceLoop = false)
         {
             if (!AmongUsClient.Instance.AmHost) return;
@@ -675,7 +678,7 @@ namespace TownOfHost
                 string SelfTaskText = GetProgressText(seer);
 
                 //名前の後ろに付けるマーカー
-                var SelfMark = new StringBuilder();
+                SelfMark.Clear();
 
                 //インポスター/キル可能な第三陣営に対するSnitch警告
                 SelfMark.Append(Snitch.GetWarningArrow(seer));
@@ -689,11 +692,11 @@ namespace TownOfHost
                 //銃声が聞こえるかチェック
                 SelfMark.Append(Sniper.GetShotNotify(seer.PlayerId));
                 //Markとは違い、改行してから追記されます。
-                var SelfSuffix = new StringBuilder();
+                SelfSuffix.Clear();
 
                 if (seer.Is(CustomRoles.BountyHunter))
                 {
-                    SelfSuffix.Clear().Append(BountyHunter.GetTargetText(seer, false));
+                    SelfSuffix.Append(BountyHunter.GetTargetText(seer, false));
                     SelfSuffix.Append(BountyHunter.GetTargetArrow(seer));
                 }
 
@@ -759,7 +762,7 @@ namespace TownOfHost
                         string TargetTaskText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"{GetProgressText(target)}" : "";
 
                         //名前の後ろに付けるマーカー
-                        var TargetMark = new StringBuilder();
+                        TargetMark.Clear();
 
                         //呪われている人
                         TargetMark.Append(Witch.GetSpelledMark(target.PlayerId, isMeeting));
