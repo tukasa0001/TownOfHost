@@ -19,7 +19,7 @@ namespace TownOfHost
 
             Main.AllPlayerKillCooldown = new Dictionary<byte, float>();
             Main.AllPlayerSpeed = new Dictionary<byte, float>();
-            Main.BitPlayers = new Dictionary<byte, (byte, float)>();
+
             Main.WarlockTimer = new Dictionary<byte, float>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
             Main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
@@ -118,6 +118,8 @@ namespace TownOfHost
             EvilTracker.Init();
             Snitch.Init();
             SchrodingerCat.Init();
+            Vampire.Init();
+            TimeManager.Init();
             LastImpostor.Init();
             TargetArrow.Init();
             DoubleTrigger.Init();
@@ -329,6 +331,9 @@ namespace TownOfHost
                         case CustomRoles.Mare:
                             Mare.Add(pc.PlayerId);
                             break;
+                        case CustomRoles.Vampire:
+                            Vampire.Add(pc.PlayerId);
+                            break;
 
                         case CustomRoles.Arsonist:
                             foreach (var ar in Main.AllPlayerControls)
@@ -361,6 +366,9 @@ namespace TownOfHost
                             break;
                         case CustomRoles.SchrodingerCat:
                             SchrodingerCat.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.TimeManager:
+                            TimeManager.Add(pc.PlayerId);
                             break;
                     }
                     foreach (var subRole in pc.GetCustomSubRoles())
@@ -406,7 +414,7 @@ namespace TownOfHost
             // ResetCamが必要なプレイヤーのリストにクラス化が済んでいない役職のプレイヤーを追加
             Main.ResetCamPlayerList.AddRange(Main.AllPlayerControls.Where(p => p.GetCustomRole() is CustomRoles.Arsonist).Select(p => p.PlayerId));
             /*
-            //インポスターのゴーストロールがクルーメイトになるバグ対策
+            //インポスターのゴーストロールがクルーになるバグ対策
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc.Data.Role.IsImpostor || Main.ResetCamPlayerList.Contains(pc.PlayerId))

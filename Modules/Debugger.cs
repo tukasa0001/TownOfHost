@@ -5,6 +5,7 @@ using System.IO;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using LogLevel = BepInEx.Logging.LogLevel;
+using TownOfHost.Modules;
 
 namespace TownOfHost
 {
@@ -102,5 +103,8 @@ namespace TownOfHost
             StackFrame stack = new(1);
             Logger.Msg($"\"{stack.GetMethod().ReflectedType.Name}.{stack.GetMethod().Name}\" Called in \"{Path.GetFileName(fileName)}({lineNumber})\"", "Method");
         }
+
+        public static LogHandler Handler(string tag)
+            => new(tag);
     }
 }

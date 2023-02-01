@@ -2,15 +2,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using HarmonyLib;
 using UnityEngine;
 
 namespace TownOfHost
 {
     static class TargetArrow
     {
-        static Dictionary<(byte, byte), string> TargetArrows = new();
-        static Dictionary<byte, bool> TargetArrowsColored = new();
+        class ArrowInfo
+        {
+            public byte From;
+            public byte To;
+            public ArrowInfo(byte from, byte to)
+            {
+                From = from;
+                To = to;
+            }
+            public bool Equals(ArrowInfo obj)
+            {
+                return From == obj.From && To == obj.To;
+            }
+            public override string ToString()
+            {
+                return $"(From:{From} To:{To})";
+            }
+        }
+
+        static Dictionary<ArrowInfo, string> TargetArrows = new();
         static readonly string[] Arrows = {
             "↑",
             "↗",
@@ -26,7 +43,6 @@ namespace TownOfHost
         public static void Init()
         {
             TargetArrows.Clear();
-            TargetArrowsColored.Clear();
         }
         /// <summary>
         /// 新たにターゲット矢印対象を登録
@@ -34,20 +50,11 @@ namespace TownOfHost
         /// <param name="seer"></param>
         /// <param name="target"></param>
         /// <param name="coloredArrow"></param>
-        public static void Add(byte seer, byte target, bool coloredArrow)
+        public static void Add(byte seer, byte target)
         {
-            TargetArrows[(seer, target)] = "・";
-            TargetArrowsColored[seer] = coloredArrow;
-        }
-        /// <summary>
-        /// 既存のターゲットの代わりを登録
-        /// </summary>
-        /// <param name="seer"></param>
-        /// <param name="target"></param>
-        public static void Change(byte seer, byte target)
-        {
-            RemoveAllTarget(seer);
-            Add(seer, target, TargetArrowsColored[seer]);
+            var arrowInfo = new ArrowInfo(seer, target);
+            if (!TargetArrows.Any(a => a.Key.Equals(arrowInfo)))
+                TargetArrows[arrowInfo] = "・";
         }
         /// <summary>
         /// ターゲットの削除
@@ -56,18 +63,23 @@ namespace TownOfHost
         /// <param name="target"></param>
         public static void Remove(byte seer, byte target)
         {
-            TargetArrows.Remove((seer, target));
+            var arrowInfo = new ArrowInfo(seer, target);
+            var removeList = new List<ArrowInfo>(TargetArrows.Keys.Where(k => k.Equals(arrowInfo)));
+            foreach (var a in removeList)
+            {
+                TargetArrows.Remove(a);
+            }
         }
         /// <summary>
-        /// ターゲットの全削除
+        /// タイプの同じターゲットの全削除
         /// </summary>
         /// <param name="seer"></param>
         public static void RemoveAllTarget(byte seer)
         {
-            var targetList = new List<byte>(TargetArrows.Keys.Where(k => k.Item1 == seer).Select(k => k.Item2));
-            foreach (var target in targetList)
+            var removeList = new List<ArrowInfo>(TargetArrows.Keys.Where(k => k.From == seer));
+            foreach (var arrowInfo in removeList)
             {
-                TargetArrows.Remove((seer, target));
+                TargetArrows.Remove(arrowInfo);
             }
         }
         /// <summary>
@@ -75,44 +87,44 @@ namespace TownOfHost
         /// </summary>
         /// <param name="seer"></param>
         /// <returns></returns>
-        public static string GetArrows(PlayerControl seer)
+        public static string GetArrows(PlayerControl seer, params byte[] targets)
         {
-            var targetList = new List<byte>(TargetArrows.Keys.Where(k => k.Item1 == seer.PlayerId).Select(k => k.Item2));
-            if (targetList.Count == 0) return "";
-            var arrows = new StringBuilder(120);
-            foreach (var target in targetList)
+            var arrows = "";
+            foreach (var arrowInfo in TargetArrows.Keys.Where(ai => ai.From == seer.PlayerId && targets.Contains(ai.To)))
             {
-                arrows.Append(TargetArrows[(seer.PlayerId, target)]);
+                arrows += TargetArrows[arrowInfo];
             }
-            return arrows.ToString();
+            return arrows;
         }
         /// <summary>
         /// FixedUpdate毎にターゲット矢印を確認
         /// 更新があったらNotifyRolesを発行
         /// </summary>
-        /// <param name="__instance"></param>
-        public static void OnFixedUpdate(PlayerControl __instance)
+        /// <param name="seer"></param>
+        public static void OnFixedUpdate(PlayerControl seer)
         {
-            var seer = __instance;
+            if (!GameStates.IsInTask) return;
+
             var seerId = seer.PlayerId;
+            var seerIsDead = !seer.IsAlive();
 
-            var targetList = new List<byte>(TargetArrows.Keys.Where(k => k.Item1 == seer.PlayerId).Select(k => k.Item2));
-            if (targetList.Count == 0) return;
+            var arrowList = new List<ArrowInfo>(TargetArrows.Keys.Where(a => a.From == seer.PlayerId));
+            if (arrowList.Count == 0) return;
 
-            var colored = TargetArrowsColored[seerId];
             var update = false;
-            foreach (var targetId in targetList)
+            foreach (var arrowInfo in arrowList)
             {
+                var targetId = arrowInfo.To;
                 var target = Utils.GetPlayerById(targetId);
-                if (!target.IsAlive())
+                if (seerIsDead || !target.IsAlive())
                 {
-                    Remove(seer.PlayerId, targetId);
+                    TargetArrows.Remove(arrowInfo);
                     update = true;
                     continue;
                 }
                 //対象の方角ベクトルを取る
                 var dir = target.transform.position - seer.transform.position;
-                byte index;
+                int index;
                 if (dir.magnitude < 2)
                 {
                     //近い時はドット表示
@@ -121,17 +133,16 @@ namespace TownOfHost
                 else
                 {
                     //-22.5～22.5度を0とするindexに変換
+                    // 下が0度、左側が+180まで右側が-180まで
+                    // 180度足すことで上が0度の時計回り
+                    // 45度単位のindexにするため45/2を加算
                     var angle = Vector3.SignedAngle(Vector3.down, dir, Vector3.back) + 180 + 22.5;
-                    index = (byte)(((int)(angle / 45)) % 8);
+                    index = ((int)(angle / 45)) % 8;
                 }
                 var arrow = Arrows[index];
-                if (colored)
+                if (TargetArrows[arrowInfo] != arrow)
                 {
-                    arrow = $"<color={target.GetRoleColorCode()}>{arrow}</color>";
-                }
-                if (TargetArrows[(seerId, targetId)] != arrow)
-                {
-                    TargetArrows[(seerId, targetId)] = arrow;
+                    TargetArrows[arrowInfo] = arrow;
                     update = true;
                 }
             }

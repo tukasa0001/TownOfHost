@@ -81,6 +81,8 @@ namespace TownOfHost
                 Executioner.CheckExileTarget(exiled, DecidedWinner);
                 if (exiled.Object.Is(CustomRoles.TimeThief))
                     exiled.Object.ResetVotingTime();
+                if (exiled.Object.Is(CustomRoles.TimeManager))
+                    exiled.Object.TimeManagerResetVotingTime();
                 SchrodingerCat.ChangeTeam(exiled.Object);
 
 
@@ -158,6 +160,8 @@ namespace TownOfHost
                         if (Main.ResetCamPlayerList.Contains(x.Key))
                             player?.ResetPlayerCam(1f);
                         if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.FollowingSuicide)
+                            player?.ResetVotingTime();
+                        if (player.Is(CustomRoles.TimeManager) && x.Value == PlayerState.DeathReason.FollowingSuicide)
                             player?.ResetVotingTime();
                         if (Executioner.Target.ContainsValue(x.Key))
                             Executioner.ChangeRoleByTarget(player);

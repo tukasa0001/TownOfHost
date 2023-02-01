@@ -53,12 +53,10 @@ namespace TownOfHost
 
             killer.RpcGuardAndKill(target);
 
-            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.Sniped) //スナイプされた時killerをSniperに
-                killer = Utils.GetPlayerById(Sniper.GetSniper(target.PlayerId));
             switch (killer.GetCustomRole())
             {
                 case CustomRoles.BountyHunter:
-                    if (BountyHunter.GetTarget(killer) == target)
+                    if (BountyHunter.GetTarget(killer) == target.PlayerId)
                         BountyHunter.ResetTarget(killer);//ターゲットの選びなおし
                     break;
                 case CustomRoles.SerialKiller:

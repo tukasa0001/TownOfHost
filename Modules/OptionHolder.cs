@@ -239,6 +239,10 @@ namespace TownOfHost
         public static OptionItem ChangeNameToRoleInfo;
         public static OptionItem RoleAssigningAlgorithm;
 
+        public static OptionItem ApplyDenyNameList;
+        public static OptionItem KickPlayerFriendCodeNotExist;
+        public static OptionItem ApplyBanList;
+
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -337,9 +341,7 @@ namespace TownOfHost
             SerialKiller.SetupCustomOption();
             SetupRoleOptions(1200, TabGroup.ImpostorRoles, CustomRoles.ShapeMaster);
             ShapeMasterShapeshiftDuration = FloatOptionItem.Create(1210, "ShapeMasterShapeshiftDuration", new(1, 1000, 1), 10, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
-            SetupRoleOptions(1300, TabGroup.ImpostorRoles, CustomRoles.Vampire);
-            VampireKillDelay = FloatOptionItem.Create(1310, "VampireKillDelay", new(1f, 1000f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Vampire])
-                .SetValueFormat(OptionFormat.Seconds);
+            Vampire.SetupCustomOption();
             SetupRoleOptions(1400, TabGroup.ImpostorRoles, CustomRoles.Warlock);
             Witch.SetupCustomOption();
             SetupRoleOptions(1600, TabGroup.ImpostorRoles, CustomRoles.Mafia);
@@ -412,6 +414,7 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Seconds);
             SetupRoleOptions(20900, TabGroup.CrewmateRoles, CustomRoles.Dictator);
             SetupRoleOptions(21000, TabGroup.CrewmateRoles, CustomRoles.Seer);
+            TimeManager.SetupCustomOption();
 
             // Neutral
             SetupRoleOptions(50500, TabGroup.NeutralRoles, CustomRoles.Arsonist);
@@ -653,6 +656,14 @@ namespace TownOfHost
                 .RegisterUpdateValueEvent(
                     (object obj, OptionItem.UpdateValueEventArgs args) => IRandom.SetInstanceById(args.CurrentValue)
                 );
+
+            ApplyDenyNameList = BooleanOptionItem.Create(1_000_100, "ApplyDenyNameList", true, TabGroup.MainSettings, true)
+                .SetHeader(true)
+                .SetGameMode(CustomGameMode.All);
+            KickPlayerFriendCodeNotExist = BooleanOptionItem.Create(1_000_101, "KickPlayerFriendCodeNotExist", false, TabGroup.MainSettings, true)
+                .SetGameMode(CustomGameMode.All);
+            ApplyBanList = BooleanOptionItem.Create(1_000_110, "ApplyBanList", true, TabGroup.MainSettings, true)
+                .SetGameMode(CustomGameMode.All);
 
             DebugModeManager.SetupCustomOption();
 

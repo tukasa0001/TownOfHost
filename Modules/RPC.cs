@@ -315,6 +315,9 @@ namespace TownOfHost
                 case CustomRoles.Witch:
                     Witch.Add(targetId);
                     break;
+                case CustomRoles.Vampire:
+                    Vampire.Add(targetId);
+                    break;
 
                 case CustomRoles.Egoist:
                     Egoist.Add(targetId);
@@ -343,6 +346,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.LastImpostor:
                     LastImpostor.Add(targetId);
+                    break;
+                case CustomRoles.TimeManager:
+                    TimeManager.Add(targetId);
                     break;
             }
             HudManager.Instance.SetHudActive(true);
