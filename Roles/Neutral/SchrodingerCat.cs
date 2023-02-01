@@ -90,14 +90,14 @@ namespace TownOfHost.Roles.Neutral
                 var killerTeam = Main.AllPlayerControls.Where(pc => isTarget(pc));
                 foreach (var member in killerTeam)
                 {
-                    NameColorManager.Instance.RpcAdd(member.PlayerId, target.PlayerId, RoleColorCode);
-                    NameColorManager.Instance.RpcAdd(target.PlayerId, member.PlayerId, killerColorCode);
+                    NameColorManager.RpcAdd(member.PlayerId, target.PlayerId, RoleColorCode);
+                    NameColorManager.RpcAdd(target.PlayerId, member.PlayerId, killerColorCode);
                 }
             }
             else
             {
-                NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, RoleColorCode);
-                NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, killerColorCode);
+                NameColorManager.RpcAdd(killer.PlayerId, target.PlayerId, RoleColorCode);
+                NameColorManager.RpcAdd(target.PlayerId, killer.PlayerId, killerColorCode);
             }
             Utils.NotifyRoles();
             Utils.MarkEveryoneDirtySettings();

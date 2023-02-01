@@ -6,26 +6,23 @@ namespace TownOfHost
 {
     public class NameColorManager
     {
-        public static NameColorManager Instance;
-        public NameColorData DefaultData;
-
-        public NameColorData GetData(byte seerId, byte targetId)
+        public static NameColorData GetData(byte seerId, byte targetId)
         {
             if (!Main.PlayerStates[seerId].TargetColorData.TryGetValue(targetId, out var color))
-                return DefaultData;
+                return new NameColorData(0, null);
             return new NameColorData(targetId, color);
         }
-        public void Add(byte seerId, byte targetId, string color)
+        public static void Add(byte seerId, byte targetId, string color)
         {
             Remove(seerId, targetId);
             Main.PlayerStates[seerId].TargetColorData.Add(targetId, color);
         }
-        public void Remove(byte seerId, byte targetId)
+        public static void Remove(byte seerId, byte targetId)
         {
             Main.PlayerStates[seerId].TargetColorData.Remove(targetId);
         }
 
-        public void RpcAdd(byte seerId, byte targetId, string color)
+        public static void RpcAdd(byte seerId, byte targetId, string color)
         {
             if (!AmongUsClient.Instance.AmHost) return;
 
@@ -36,9 +33,9 @@ namespace TownOfHost
 
             AmongUsClient.Instance.FinishRpcImmediately(writer);
 
-            RPC.AddNameColorData(seerId, targetId, color);
+            Add(seerId, targetId, color);
         }
-        public void RpcRemove(byte seerId, byte targetId)
+        public static void RpcRemove(byte seerId, byte targetId)
         {
             if (!AmongUsClient.Instance.AmHost) return;
 
@@ -47,27 +44,7 @@ namespace TownOfHost
             writer.Write(targetId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
 
-            RPC.RemoveNameColorData(seerId, targetId);
-        }
-        public void RpcReset()
-        {
-            if (!AmongUsClient.Instance.AmHost) return;
-
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ResetNameColorData, SendOption.Reliable, -1);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-
-            RPC.ResetNameColorData();
-        }
-
-        public NameColorManager()
-        {
-            DefaultData = new NameColorData(0, null);
-        }
-
-        public static void Begin()
-        {
-            Logger.Info("NameColorManagerをリセット", "NameColorManager");
-            Instance = new NameColorManager();
+            Remove(seerId, targetId);
         }
     }
     public class NameColorData

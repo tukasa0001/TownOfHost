@@ -98,7 +98,7 @@ namespace TownOfHost.Roles.Crewmate
                 if (!IsSnitchTarget(target)) continue;
 
                 var targetId = target.PlayerId;
-                NameColorManager.Instance.RpcAdd(snitchId, targetId, target.GetRoleColorCode());
+                NameColorManager.RpcAdd(snitchId, targetId, target.GetRoleColorCode());
 
                 if (!EnableTargetArrow) continue;
 

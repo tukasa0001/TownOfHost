@@ -138,9 +138,9 @@ namespace TownOfHost
                     if (taskState.IsTaskFinished)
                     {
                         var colorCode = Utils.GetRoleColorCode(CustomRoles.MadGuardian);
-                        NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, colorCode);
+                        NameColorManager.RpcAdd(killer.PlayerId, target.PlayerId, colorCode);
                         if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
-                            NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, colorCode);
+                            NameColorManager.RpcAdd(target.PlayerId, killer.PlayerId, colorCode);
                         Utils.NotifyRoles();
                         return false;
                     }
@@ -708,7 +708,7 @@ namespace TownOfHost
                         RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの赤色で表示
 
                     //NameColorManager準拠の処理
-                    var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
+                    var ncd = NameColorManager.GetData(seer.PlayerId, target.PlayerId);
                     if (ncd.color != null) RealName = ncd.OpenTag + RealName + ncd.CloseTag;
 
                     if (seer.GetCustomRole().IsImpostor()) //seerがインポスター
@@ -964,7 +964,7 @@ namespace TownOfHost
             {
                 foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
                 {
-                    NameColorManager.Instance.RpcAdd(pc.PlayerId, impostor.PlayerId, impostor.GetRoleColorCode());
+                    NameColorManager.RpcAdd(pc.PlayerId, impostor.PlayerId, impostor.GetRoleColorCode());
                 }
                 Utils.NotifyRoles(SpecifySeer: pc);
             }

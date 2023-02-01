@@ -23,7 +23,6 @@ namespace TownOfHost
 
             ChatUpdatePatch.DoBlockChat = false;
             GameStates.InGame = false;
-            NameColorManager.Begin();
             ErrorText.Instance.Clear();
             if (AmongUsClient.Instance.AmHost) //以下、ホストのみ実行
             {

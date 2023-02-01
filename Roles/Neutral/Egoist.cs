@@ -39,7 +39,7 @@ namespace TownOfHost.Roles.Neutral
             TeamEgoist.Add(ego);
             foreach (var impostor in Main.AllPlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
             {
-                NameColorManager.Instance.RpcAdd(impostor.PlayerId, ego, RoleColorCode);
+                NameColorManager.RpcAdd(impostor.PlayerId, ego, RoleColorCode);
             }
         }
         public static bool IsEnable = false;
