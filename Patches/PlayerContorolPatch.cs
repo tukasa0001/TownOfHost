@@ -131,9 +131,9 @@ namespace TownOfHost
                     if (taskState.IsTaskFinished)
                     {
                         int dataCountBefore = NameColorManager.Instance.NameColors.Count;
-                        NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, "#ff0000");
+                        NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, "#ff1919");
                         if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
-                            NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, "#ff0000");
+                            NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, "#ff1919");
 
                         if (dataCountBefore != NameColorManager.Instance.NameColors.Count)
                             Utils.NotifyRoles();

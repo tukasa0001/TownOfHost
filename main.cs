@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -237,7 +237,7 @@ namespace TownOfHost
                     // GM
                     {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
-                    {CustomRoles.LastImpostor, "#ff0000"},
+                    {CustomRoles.LastImpostor, "#ff1919"},
                     {CustomRoles.Lovers, "#ff6be4"},
 
                     {CustomRoles.NotAssigned, "#ffffff"}
@@ -247,10 +247,10 @@ namespace TownOfHost
                     switch (role.GetRoleType())
                     {
                         case RoleType.Impostor:
-                            roleColors.TryAdd(role, "#ff0000");
+                            roleColors.TryAdd(role, "#ff1919");
                             break;
                         case RoleType.Madmate:
-                            roleColors.TryAdd(role, "#ff0000");
+                            roleColors.TryAdd(role, "#ff1919");
                             break;
                         default:
                             break;
