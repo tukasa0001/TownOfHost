@@ -39,6 +39,7 @@ namespace TownOfHost
             int sec = 0;
             foreach (var playerId in playerIdList)
                 sec += AdditionalTime(playerId);
+            Logger.Info($"{sec}second", "TimeManager.TotalIncreasedMeetingTime");
             return sec;
         }
     }

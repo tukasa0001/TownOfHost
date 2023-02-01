@@ -44,6 +44,7 @@ namespace TownOfHost
             int sec = 0;
             foreach (var playerId in playerIdList)
                 sec -= StolenTime(playerId);
+            Logger.Info($"{sec}second", "TimeThief.TotalDecreasedMeetingTime");
             return sec;
         }
         public static string GetProgressText(byte playerId)
