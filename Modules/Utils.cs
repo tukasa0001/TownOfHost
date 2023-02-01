@@ -760,7 +760,7 @@ namespace TownOfHost
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
                     || seer.GetCustomRole().IsImpostor() //seerがインポスター
-                    || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
+                    || Main.PlayerStates[seer.PlayerId].TargetColorData.Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.Is(CustomRoles.Arsonist)
                     || seer.Is(CustomRoles.Lovers)
                     || Witch.HaveSpelledPlayer()

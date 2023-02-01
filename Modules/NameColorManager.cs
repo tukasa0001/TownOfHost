@@ -7,31 +7,22 @@ namespace TownOfHost
     public class NameColorManager
     {
         public static NameColorManager Instance;
-
-        public List<NameColorData> NameColors;
         public NameColorData DefaultData;
-
-        public List<NameColorData> GetDataBySeer(byte seerId)
-            => NameColors.Where(data => data.seerId == seerId).ToList();
 
         public NameColorData GetData(byte seerId, byte targetId)
         {
-            NameColorData data = NameColors.Where(data => data.seerId == seerId && data.targetId == targetId).FirstOrDefault();
-            if (data == null) data = DefaultData;
-            return data;
+            if (!Main.PlayerStates[seerId].TargetColorData.TryGetValue(targetId, out var color))
+                return DefaultData;
+            return new NameColorData(targetId, color);
         }
         public void Add(byte seerId, byte targetId, string color)
         {
-            Add(new NameColorData(seerId, targetId, color));
-        }
-        public void Add(NameColorData data)
-        {
-            Remove(data.seerId, data.targetId);
-            NameColors.Add(data);
+            Remove(seerId, targetId);
+            Main.PlayerStates[seerId].TargetColorData.Add(targetId, color);
         }
         public void Remove(byte seerId, byte targetId)
         {
-            NameColors.RemoveAll(data => data.seerId == seerId && data.targetId == targetId);
+            Main.PlayerStates[seerId].TargetColorData.Remove(targetId);
         }
 
         public void RpcAdd(byte seerId, byte targetId, string color)
@@ -70,8 +61,7 @@ namespace TownOfHost
 
         public NameColorManager()
         {
-            NameColors = new List<NameColorData>();
-            DefaultData = new NameColorData(0, 0, null);
+            DefaultData = new NameColorData(0, null);
         }
 
         public static void Begin()
@@ -82,12 +72,10 @@ namespace TownOfHost
     }
     public class NameColorData
     {
-        public byte seerId;
         public byte targetId;
         public string color;
-        public NameColorData(byte seerId, byte targetId, string color)
+        public NameColorData(byte targetId, string color)
         {
-            this.seerId = seerId;
             this.targetId = targetId;
             this.color = color == null || color.StartsWith('#') ? color : "#" + color;
         }

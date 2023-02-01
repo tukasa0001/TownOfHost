@@ -137,14 +137,11 @@ namespace TownOfHost
                     var taskState = target.GetPlayerTaskState();
                     if (taskState.IsTaskFinished)
                     {
-                        int dataCountBefore = NameColorManager.Instance.NameColors.Count;
                         var colorCode = Utils.GetRoleColorCode(CustomRoles.MadGuardian);
                         NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, colorCode);
                         if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
                             NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, colorCode);
-
-                        if (dataCountBefore != NameColorManager.Instance.NameColors.Count)
-                            Utils.NotifyRoles();
+                        Utils.NotifyRoles();
                         return false;
                     }
                     break;
