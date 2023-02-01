@@ -400,16 +400,16 @@ namespace TownOfHost
             var sb = new StringBuilder();
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
-                sb.Append(GetString("Roles") + ":");
+                sb.Append(GetString("Roles")).Append(":");
                 if (CustomRoles.HASFox.IsEnable()) sb.AppendFormat("\n{0}:{1}", GetRoleName(CustomRoles.HASFox), CustomRoles.HASFox.GetCount());
                 if (CustomRoles.HASTroll.IsEnable()) sb.AppendFormat("\n{0}:{1}", GetRoleName(CustomRoles.HASTroll), CustomRoles.HASTroll.GetCount());
                 SendMessage(sb.ToString(), PlayerId);
-                sb.Clear().Append(GetString("Settings") + ":");
+                sb.Clear().Append(GetString("Settings")).Append(":");
                 sb.Append(GetString("HideAndSeek"));
             }
             else
             {
-                sb.Append(GetString("Settings") + ":");
+                sb.Append(GetString("Settings")).Append(":");
                 foreach (var role in Options.CustomRoleCounts)
                 {
                     if (!role.Key.IsEnable()) continue;
@@ -433,7 +433,7 @@ namespace TownOfHost
         }
         public static void CopyCurrentSettings()
         {
-            var sb = new StringBuilder("");
+            var sb = new StringBuilder();
             if (Options.HideGameSettings.GetBool() && !AmongUsClient.Instance.AmHost)
             {
                 ClipboardHelper.PutClipboardString(GetString("Message.HideGameSettings"));
@@ -469,7 +469,7 @@ namespace TownOfHost
                 SendMessage(GetString("Message.HideGameSettings"), PlayerId);
                 return;
             }
-            var sb = new StringBuilder(GetString("Roles") + ":");
+            var sb = new StringBuilder(GetString("Roles")).Append(":");
             sb.AppendFormat("\n{0}:{1}", GetRoleName(CustomRoles.GM), Options.EnableGM.GetString().RemoveHtmlTags());
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {
@@ -708,7 +708,7 @@ namespace TownOfHost
                 }
                 if (seer.Is(CustomRoles.Witch))
                 {
-                    SelfSuffix.Clear().Append(Witch.GetSpellModeText(seer, false, isMeeting));
+                    SelfSuffix.Append(Witch.GetSpellModeText(seer, false, isMeeting));
                 }
 
                 //タスクを終えたSnitchがインポスター/キル可能な第三陣営の方角を確認できる
