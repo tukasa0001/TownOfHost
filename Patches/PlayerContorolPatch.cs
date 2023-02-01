@@ -499,14 +499,11 @@ namespace TownOfHost
             {
                 if (__instance.Is(CustomRoles.Detective))
                 {
-                    new LateTask (() =>
-                    {
-                        var tpc = Utils.GetPlayerById(target.PlayerId);
-                        string msg;
-                        msg = string.Format(GetString("DetectiveNoticeVictim"), tpc.GetRealName(), tpc.GetDisplayRoleName());
-                        if (Options.DetectiveCanknowKiller.GetBool()) msg += "；" + string.Format(GetString("DetectiveNoticeKiller"), tpc.GetRealKiller().GetDisplayRoleName());
-                        Utils.SendMessage(msg, __instance.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Detective), GetString("DetectiveNotiveTitle")));
-                    }, 8f, "DetectiveNotify");
+                    var tpc = Utils.GetPlayerById(target.PlayerId);
+                    string msg;
+                    msg = string.Format(GetString("DetectiveNoticeVictim"), tpc.GetRealName(), tpc.GetDisplayRoleName());
+                    if (Options.DetectiveCanknowKiller.GetBool()) msg += "；" + string.Format(GetString("DetectiveNoticeKiller"), tpc.GetRealKiller().GetDisplayRoleName());
+                    Main.DetectiveNotify.Add(__instance.PlayerId, msg);
                 }
             }
             foreach (var kvp in Main.PlayerStates)

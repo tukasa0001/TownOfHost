@@ -36,6 +36,7 @@ namespace TownOfHost
                 Main.isCursed = false;
                 Main.isMarked = false;
                 Main.PuppeteerList = new Dictionary<byte, byte>();
+                Main.DetectiveNotify = new Dictionary<byte, string>();
                 Main.HackerUsedCount = new Dictionary<byte, int>();
                 Main.CyberStarDead = new List<byte>();
 
@@ -156,7 +157,7 @@ namespace TownOfHost
                 {
                     __instance.ExitGame(DisconnectReasons.Destroy);
                     Logger.Fatal("Change Role Setting Postfix 错误", "Anti-black");
-                    Logger.SendInGame("很不幸，您似乎触发了TOH古老的半屏Bug", true);
+                    Logger.SendInGame("很不幸，您似乎触发了TOH古老的半屏Bug\n记住，这100%是原生TOH的锅哈~", true);
                 }
             }
         }

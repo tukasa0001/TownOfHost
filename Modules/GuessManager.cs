@@ -232,7 +232,7 @@ namespace TownOfHost
         public static void TryHideMsg()
         {
             string msg = "";
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 300; i++)
             {
                 msg += "-\n";
             }

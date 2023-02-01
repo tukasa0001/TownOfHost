@@ -807,7 +807,7 @@ namespace TownOfHost
                         var color = Utils.MsgToColor(subArgs);
                         if (color == Byte.MaxValue)
                         {
-                            Utils.SendMessage(GetString("IllegalColor"), PlayerControl.LocalPlayer.PlayerId);
+                            Utils.SendMessage(GetString("IllegalColor"), player.PlayerId);
                             break;
                         }
                         player.RpcSetColor(color);

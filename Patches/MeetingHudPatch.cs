@@ -412,30 +412,24 @@ namespace TownOfHost
                     if (cs == null) continue;
                         new LateTask(() =>
                         {
-                            Utils.SendMessage(string.Format(GetString("CyberStarDead"), cs.GetRealName()), pc.PlayerId, Utils.ColorString(    Utils.GetRoleColor(CustomRoles.CyberStar)  , GetString("CyberStarNewsTitle"))   );
+                            Utils.SendMessage(string.Format(GetString("CyberStarDead"), cs.GetRealName()), pc.PlayerId, Utils.ColorString(    Utils.GetRoleColor(CustomRoles.CyberStar)  , GetString("CyberStarNewsTitle")));
                         }, 5.0f, "Notice CyberStar Skill");
                     }
             }
-            Main.CyberStarDead.Clear();
         }
         public static void NoticeDetectiveSkill()
         {
             if (!AmongUsClient.Instance.AmHost) return;
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (!Options.ImpKnowCyberStarDead.GetBool() && CustomRolesHelper.IsImpostor(pc.GetCustomRole())) continue;
-                if (!Options.NeutralKnowCyberStarDead.GetBool() && CustomRolesHelper.IsNeutral(pc.GetCustomRole())) continue;
-                foreach (var csId in Main.CyberStarDead)
+                if (Main.DetectiveNotify.ContainsKey(pc.PlayerId))
                 {
-                    var cs = Utils.GetPlayerById(csId);
-                    if (cs == null) continue;
                     new LateTask(() =>
                     {
-                        Utils.SendMessage(string.Format(GetString("CyberStarDead"), cs.GetRealName()), pc.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.CyberStar), " ★ 紧急新闻 ★ "));
-                    }, 5.0f, "Notice CyberStar Skill");
+                        Utils.SendMessage(Main.DetectiveNotify[pc.PlayerId], pc.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Detective), GetString("DetectiveNotiveTitle")));
+                    }, 5.0f, "Notice Detective Skill");
                 }
             }
-            Main.CyberStarDead.Clear();
         }
 
         public static void Prefix(MeetingHud __instance)
@@ -448,6 +442,7 @@ namespace TownOfHost
             Main.GuesserGuessed.Clear();
             if (AmongUsClient.Instance.AmHost && Options.MafiaCanKillNum.GetInt() > 0) NoticeMafiaSkill();
             if (AmongUsClient.Instance.AmHost && Main.CyberStarDead.Count > 0) NoticeCyberStarSkill();
+            if (AmongUsClient.Instance.AmHost && Main.DetectiveNotify.Count > 0) NoticeDetectiveSkill();
         }
         public static void Postfix(MeetingHud __instance)
         {
@@ -771,6 +766,8 @@ namespace TownOfHost
             {
                 AntiBlackout.SetIsDead();
                 Main.AllPlayerControls.Do(pc => RandomSpawn.CustomNetworkTransformPatch.NumOfTP[pc.PlayerId] = 0);
+                Main.CyberStarDead.Clear();
+                Main.DetectiveNotify.Clear();
             }
         }
     }

@@ -432,7 +432,7 @@ WarlockCanKillSelf,可以击杀自己,可以擊殺自己
 EGCanGuessImp,可以赌杀内鬼,可以賭殺內鬼
 GGCanGuessCrew,可以赌杀船员,可以賭殺船員
 GuesserCanGuessTimes,每次会议可以下注,每次會議可以下注
-GuesserTryHideMsg,尝试刷屏顶掉赌怪的指令,
+GuesserTryHideMsg,尝试刷屏顶掉赌怪的指令（无效）,
 BountyTargetChangeTime,赏金目标切换时间,賞金目標切換時間
 BountySuccessKillCooldown,赏金猎人击杀赏金目标的奖励冷却时间,賞金獵人殺死賞金目標冷卻
 BountyFailureKillCooldown,赏金猎人击杀赏金目标以外玩家的惩罚冷却时间,賞金獵人殺死非賞金目標冷卻
@@ -589,7 +589,7 @@ MafiaKillDead,请选择一个在场的存活角色进行复仇,請選擇一個�
 MafiaKillSucceed,被黑手党进行了复仇！,被黑手黨進行了復仇！
 MafiaKillDisable,很抱歉，根据房主设定，该房不允许黑手党复仇,很抱歉，根據房主設定，該房不允許黑手黨復仇
 CyberStarDead,震惊！某知名网红【{0}】竟然就在刚刚不幸被害！,震驚！某知名網紅【{0}】居然就在剛剛不幸被害！
-DetectiveNoticeVictim,根据您的调查，【{0}】(被害者) 的职业是 【{2}】,根據您的調查，【{0}】(被害者) 的職業是 【{2}】
+DetectiveNoticeVictim,根据您的调查，【{0}】(被害者) 的职业是 【{1}】,根據您的調查，【{0}】(被害者) 的職業是 【{1}】
 DetectiveNoticeKiller,而凶手的职业则是【{0}】,而兇手的職業則是【{0}】
 
 GuessDead,死亡后不能进行赌注,
@@ -657,13 +657,13 @@ ForceEnd,强制结束游戏,遊戲已被強制結束
 EveryoneDied,没有人存活,沒有人存活
 ForceEndText,房主强制结束了游戏,房主已強制結束遊戲
 HideGameCodes,直播模式,隱藏遊戲代碼
-updateButton,更新,
+updateButton,一键更新,
 updatePleaseWait,请稍候……,請稍後...
 updateManually,更新失败，请尝试手动更新。,"更新失敗,\n請嘗試手動更新"
 updateInProgress,更新中……,更新中...
 announcementUpdate,<size=3f>更新到v{0}</size>\n{1},<size=3f>更新v{0}</size>\n{1}
 announcementChangelog,<size=3f>更新日志 v{0}</size>\n{1},<size=3f>更新內容v{0}</size>\n{1}
-updateRestart,更新完毕啦！\n请重启游戏生效~,更新完成!\n請重新啟動遊戲
+updateRestart,更新好啦！\n请重启游戏生效~,更新完成!\n請重新啟動遊戲
 updateFailed,更新失败。,更新失敗
 onSetPublicNoLatest,我们有一个重要的更新，请更新本模组\n否则您无法公开房间,"無法建立一個公共房間,因為使用的不是最新版本的模組\n請更新本模組"
 CanNotJoinPublicRoomNoLatest,我们有一个重要的更新，请更新本模组\n否则您无法加入公开房间,無法在未安裝最新版本的前提下進入公開房間\n請更新本模組

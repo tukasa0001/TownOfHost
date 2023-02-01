@@ -106,6 +106,7 @@ namespace TownOfHost
         public static Dictionary<byte, List<byte>> PsychicTarget = new();
 
         public static List<byte> CyberStarDead = new();
+        public static Dictionary<byte, string> DetectiveNotify = new();
 
         public static int updateTime;
         public static bool newLobby = false;
