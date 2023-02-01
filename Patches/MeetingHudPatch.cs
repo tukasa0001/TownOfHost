@@ -222,7 +222,6 @@ namespace TownOfHost
                         }
                         if (Options.ConfirmEjectionsRoles.GetBool())
                         {
-                            //name = $"{realName} 是 {coloredRole}";
                             name = string.Format(GetString("PlayerIsRole"), realName, coloredRole);
                         }
                         else if (Options.ConfirmEjections.GetBool())
@@ -233,7 +232,7 @@ namespace TownOfHost
                             }
                             else
                             {
-                                name = $"{realName} 是个好人，真的";
+                                name = string.Format(GetString("IsGood"), realName);
                             }
                             if (Options.ConfirmEjectionsNK.GetBool() && CustomRolesHelper.IsNK(player.GetCustomRole()))
                             {
@@ -260,44 +259,38 @@ namespace TownOfHost
                         }
                         else
                         {
-                            //name = $"{realName} 被驱逐了...";
                             name = string.Format(GetString("PlayerExiled"), realName);
                         }
                         if (crole == CustomRoles.Jester)
                             name = string.Format(GetString("ExiledJester"), realName, coloredRole) + "<size=0>";
-                        //name = $"票出 {realName} 让你有种不详的预感\n{coloredRole} 在狂笑着...<size=0>";
 
                         if (Executioner.Target.ContainsValue(exileId))
                             name = string.Format(GetString("ExiledExeTarget"), realName, coloredRole) + "<size=0>";
-                        //name = $"票出 {realName} 让你有种不详的预感\n他是 {coloredRole}，而他的背后传来处刑者阴沉的笑声...<size=0>";
                         if (Options.ShowImpRemainOnEject.GetBool() && crole != CustomRoles.Jester && !Executioner.Target.ContainsValue(exileId))
                         {
                             name += "\n";
                             string comma = neutralnum != 0 ? "，" : "";
                             if (impnum == 0)
                             {
-                                //name += $"已经没有内鬼啦{comma}";
                                 name += GetString("NoImpRemain") + comma;
                             }
                             else
                             {
-                                //name += $"剩余 {impnum} 个内鬼{comma}";
                                 name += string.Format(GetString("ImpRemain"), impnum) + comma;
                             }
 
                             if (Options.ShowNKRemainOnEject.GetBool() && neutralnum != 0)
-                                //name += $"剩余 {neutralnum} 个中立";
                                 name += string.Format(GetString("NeutralRemain"), neutralnum);
                         }
                         name += "<size=0>";
                         new LateTask(() =>
                         {
                             player.RpcSetName(name);
-                        }, 2.5f, "Change Exiled Player Name");
+                        }, 3.0f, "Change Exiled Player Name");
                         new LateTask(() =>
                         {
                             player.RpcSetName(realName);
-                        }, 11f, "Change Exiled Player Name Back");
+                        }, 11.5f, "Change Exiled Player Name Back");
                     }
                 }
 
@@ -378,6 +371,8 @@ namespace TownOfHost
                 {
                     int VoteNum = 1;
                     if (CheckForEndVotingPatch.IsMayor(ps.TargetPlayerId)) VoteNum += Options.MayorAdditionalVote.GetInt();
+                    var target = Utils.GetPlayerById(ps.VotedFor);
+                    if (target != null && target.Is(CustomRoles.Zombie)) VoteNum = 0;
                     //投票を1追加 キーが定義されていない場合は1で上書きして定義
                     dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out int num) ? VoteNum : num + VoteNum;
                 }
@@ -417,7 +412,7 @@ namespace TownOfHost
                     if (cs == null) continue;
                         new LateTask(() =>
                         {
-                            Utils.SendMessage(string.Format(GetString("CyberStarDead"), cs.GetRealName()), pc.PlayerId, Utils.ColorString(    Utils.GetRoleColor(CustomRoles.CyberStar)  , " ★ 紧急新闻 ★ ")   );
+                            Utils.SendMessage(string.Format(GetString("CyberStarDead"), cs.GetRealName()), pc.PlayerId, Utils.ColorString(    Utils.GetRoleColor(CustomRoles.CyberStar)  , GetString("CyberStarNewsTitle"))   );
                         }, 5.0f, "Notice CyberStar Skill");
                     }
             }
@@ -450,6 +445,7 @@ namespace TownOfHost
             GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
             Main.AllPlayerControls.Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
             MeetingStates.MeetingCalled = true;
+            Main.GuesserGuessed.Clear();
             if (AmongUsClient.Instance.AmHost && Options.MafiaCanKillNum.GetInt() > 0) NoticeMafiaSkill();
             if (AmongUsClient.Instance.AmHost && Main.CyberStarDead.Count > 0) NoticeCyberStarSkill();
         }
@@ -513,31 +509,26 @@ namespace TownOfHost
                                 switch (role.GetRoleType())
                                 {
                                     case RoleType.Crewmate:
-                                        if (!Options.CkshowEvil.GetBool()) break;
-                                        if (role is CustomRoles.Sheriff)
-                                        {
-                                            badPlayers.Add(pc);
-                                            isGood[pc.PlayerId] = false;
-                                        }
-                                        if (role is CustomRoles.ChivalrousExpert) {
-                                            badPlayers.Add(pc);
-                                            isGood[pc.PlayerId] = false;
-                                        }
+                                        if (Options.CkshowEvil.GetBool())
+                                            if (!role.IsCK())
+                                            {
+                                                badPlayers.Add(pc);
+                                                isGood[pc.PlayerId] = false;
+                                            }
                                         break;
                                     case RoleType.Impostor:
                                         badPlayers.Add(pc); isGood[pc.PlayerId] = false;
                                         break;
                                     case RoleType.Neutral:
                                         if (Options.NBshowEvil.GetBool())
-                                            if (role is CustomRoles.Opportunist or CustomRoles.SchrodingerCat or CustomRoles.God)
+                                            if (!role.IsNeutralKilling())
                                             {
                                                 badPlayers.Add(pc);
                                                 isGood[pc.PlayerId] = false;
                                             }
                                         if (Options.NEshowEvil.GetBool())
                                         {
-                                            if (role.IsNeutralKilling()) badPlayers.Add(pc); isGood[pc.PlayerId] = false;
-                                            if (role is CustomRoles.Jester or CustomRoles.Terrorist or CustomRoles.Executioner)
+                                            if (role.IsNeutralKilling())
                                             {
                                                 badPlayers.Add(pc);
                                                 isGood[pc.PlayerId] = false;

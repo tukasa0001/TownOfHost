@@ -315,6 +315,7 @@ namespace TownOfHost
                     case CustomRoles.Jackal:
                     case CustomRoles.Jester:
                     case CustomRoles.Opportunist:
+                    case CustomRoles.Mario:
                     case CustomRoles.OpportunistKiller:
                     case CustomRoles.God:
                         hasTasks = false;
@@ -370,6 +371,9 @@ namespace TownOfHost
             var role = Main.PlayerStates[playerId].MainRole;
             switch (role)
             {
+                case CustomRoles.Mario:
+                    ProgressText = ColorString(GetRoleColor(CustomRoles.Mario).ShadeColor(0.25f), $"({(Main.MarioVentCount.TryGetValue(playerId, out var count) ? count : 0)}/{Options.MarioVentNumWin.GetInt()})");
+                    break;
                 case CustomRoles.Arsonist:
                     var doused = GetDousedPlayerCount(playerId);
                     ProgressText = ColorString(GetRoleColor(CustomRoles.Arsonist).ShadeColor(0.25f), $"({doused.Item1}/{doused.Item2})");
@@ -583,7 +587,7 @@ namespace TownOfHost
             return sb.ToString();
         }
 
-        public static byte MsgToColor(string text)
+        public static byte MsgToColor(string text, bool isHost = false)
         {
             text = text.ToLowerInvariant();
             text = text.Replace("色", string.Empty);
@@ -611,6 +615,7 @@ namespace TownOfHost
                 case "17": case "珊瑚": case "coral": color = 17; break;
                 case "18": case "隐藏": case "?": color = 18; break;
             }
+            if (!isHost && color == 18) return byte.MaxValue;
             if (color is < 0 or > 18) return byte.MaxValue;
             return Convert.ToByte(color);
         }
@@ -684,24 +689,19 @@ namespace TownOfHost
                         switch (role.GetRoleType())
                         {
                             case RoleType.Crewmate:
-                                if (!Options.CkshowEvil.GetBool()) break;
-                                if (role is CustomRoles.Sheriff)
-                                {
-                                    badPlayers.Add(pc);
-                                    isGood[pc.PlayerId] = false;
-                                }
-                                if (role is CustomRoles.ChivalrousExpert)
-                                {
-                                    badPlayers.Add(pc);
-                                    isGood[pc.PlayerId] = false;
-                                }
+                                if (Options.CkshowEvil.GetBool())
+                                    if (!role.IsCK())
+                                    {
+                                        badPlayers.Add(pc);
+                                        isGood[pc.PlayerId] = false;
+                                    }
                                 break;
                             case RoleType.Impostor:
                                 badPlayers.Add(pc); isGood[pc.PlayerId] = false;
                                 break;
                             case RoleType.Neutral:
                                 if (Options.NBshowEvil.GetBool())
-                                    if (role is CustomRoles.Opportunist or CustomRoles.SchrodingerCat or CustomRoles.God)
+                                    if (!role.IsNeutralKilling())
                                     {
                                         badPlayers.Add(pc);
                                         isGood[pc.PlayerId] = false;
@@ -709,12 +709,6 @@ namespace TownOfHost
                                 if (Options.NEshowEvil.GetBool())
                                 {
                                     if (role.IsNeutralKilling())
-                                    {
-                                        badPlayers.Add(pc);
-                                        isGood[pc.PlayerId] = false;
-                                    }
-
-                                    if (role is CustomRoles.Jester or CustomRoles.Terrorist or CustomRoles.Executioner)
                                     {
                                         badPlayers.Add(pc);
                                         isGood[pc.PlayerId] = false;
@@ -1014,6 +1008,8 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
                     || seer.Is(CustomRoles.God)
+                    || seer.Is(CustomRoles.NiceGuesser)
+                    || seer.Is(CustomRoles.Psychic)
                     || seer.IsNeutralKiller() //seerがキル出来る第三陣営
                     || IsActive(SystemTypes.Electrical)
                     || IsActive(SystemTypes.Comms)

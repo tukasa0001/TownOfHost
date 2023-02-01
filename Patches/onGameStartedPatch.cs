@@ -52,6 +52,7 @@ namespace TownOfHost
                 Main.SpeedBoostTarget = new Dictionary<byte, byte>();
                 Main.MayorUsedButtonCount = new Dictionary<byte, int>();
                 Main.ParaUsedButtonCount = new Dictionary<byte, int>();
+                Main.MarioVentCount = new Dictionary<byte, int>();
                 Main.targetArrows = new();
 
                 ReportDeadBodyPatch.CanReport = new();
@@ -143,11 +144,20 @@ namespace TownOfHost
             }
             catch
             {
-                Logger.Fatal("Change Role Setting Postfix 错误，触发防黑屏措施", "Anti-black");
-                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Draw);
-                GameManager.Instance.LogicFlow.CheckEndCriteria();
-                Utils.SendMessage("由于未知错误发生，已终止游戏以防止黑屏\n若您是房主，如果可以的话请发送/dump并将桌面上的文件发送给咔皮呆，非常感谢您的贡献！");
-                RPC.ForceEndGame();
+                if (__instance.AmHost)
+                {
+                    Logger.Fatal("Change Role Setting Postfix 错误，触发防黑屏措施", "Anti-black");
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Draw);
+                    GameManager.Instance.LogicFlow.CheckEndCriteria();
+                    Utils.SendMessage("由于未知错误发生，已终止游戏以防止黑屏\n若您是房主，如果可以的话请发送/dump并将桌面上的文件发送给咔皮呆，非常感谢您的贡献！");
+                    RPC.ForceEndGame();
+                }
+                else
+                {
+                    __instance.ExitGame(DisconnectReasons.Destroy);
+                    Logger.Fatal("Change Role Setting Postfix 错误", "Anti-black");
+                    Logger.SendInGame("很不幸，您似乎触发了TOH古老的半屏Bug", true);
+                }
             }
         }
     }
@@ -188,7 +198,7 @@ namespace TownOfHost
 
                     int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
 
-                    int AdditionalEngineerNum = CustomRoles.Madmate.GetCount() + CustomRoles.Terrorist.GetCount() + CustomRoles.Paranoia.GetCount() + CustomRoles.Plumber.GetCount();// - EngineerNum;
+                    int AdditionalEngineerNum = CustomRoles.Madmate.GetCount() + CustomRoles.Terrorist.GetCount() + CustomRoles.Paranoia.GetCount() + CustomRoles.Plumber.GetCount() + CustomRoles.Mario.GetCount();// - EngineerNum;
 
                     if (Options.MayorHasPortableButton.GetBool())
                         AdditionalEngineerNum += CustomRoles.Mayor.GetCount();
@@ -342,7 +352,7 @@ namespace TownOfHost
             else
             {
                 List<int> funList = new();
-                for (int i = 0; i <= 48; i++)
+                for (int i = 0; i <= 50; i++)
                 {
                     funList.Add(i);
                 }
@@ -418,6 +428,8 @@ namespace TownOfHost
                         case 46: AssignCustomRolesFromList(CustomRoles.Detective, Crewmates); break;
                         case 47: AssignCustomRolesFromList(CustomRoles.Minimalism, Impostors); break;
                         case 48: AssignCustomRolesFromList(CustomRoles.God, Crewmates); break;
+                        case 49: AssignCustomRolesFromList(CustomRoles.Zombie, Impostors); break;
+                        case 50: AssignCustomRolesFromList(CustomRoles.Mario, Engineers); break;
                     }
                 }
 
@@ -508,6 +520,9 @@ namespace TownOfHost
                         case CustomRoles.Psychic:
                             Main.PsychicTarget.Clear();
                             break;
+                        case CustomRoles.Mario:
+                            Main.MarioVentCount[pc.PlayerId] = 0;
+                            break;
                     }
                     pc.ResetKillCooldown();
 
@@ -531,7 +546,7 @@ namespace TownOfHost
 
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
 
-                EngineerNum -= CustomRoles.Madmate.GetCount() + CustomRoles.Terrorist.GetCount() + CustomRoles.Paranoia.GetCount() + CustomRoles.Plumber.GetCount();
+                EngineerNum -= CustomRoles.Madmate.GetCount() + CustomRoles.Terrorist.GetCount() + CustomRoles.Paranoia.GetCount() + CustomRoles.Plumber.GetCount() + CustomRoles.Mario.GetCount();
 
                 if (Options.MayorHasPortableButton.GetBool())
                     EngineerNum -= CustomRoles.Mayor.GetCount();
@@ -542,7 +557,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount() + CustomRoles.Miner.GetCount() + CustomRoles.Escapee.GetCount() + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.EvilTracker.GetCount();
+                ShapeshifterNum -= CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount() + CustomRoles.Assassin.GetCount() + CustomRoles.Miner.GetCount() + CustomRoles.Escapee.GetCount() + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.EvilTracker.GetCount();
                 if (Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1)
                     ShapeshifterNum -= CustomRoles.Egoist.GetCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));

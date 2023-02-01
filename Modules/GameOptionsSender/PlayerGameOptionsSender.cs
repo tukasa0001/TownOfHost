@@ -95,12 +95,9 @@ namespace TownOfHost.Modules
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Terrorist:
+                case CustomRoles.Plumber:
+                case CustomRoles.Mario:
                     goto InfinityVent;
-                // case CustomRoles.ShapeMaster:
-                //     roleOpt.ShapeshifterCooldown = 0.1f;
-                //     roleOpt.ShapeshifterLeaveSkin = false;
-                //     roleOpt.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
-                //     break;
                 case CustomRoles.Warlock:
                     AURoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
                     break;
@@ -134,6 +131,10 @@ namespace TownOfHost.Modules
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(true);
                     break;
+                case CustomRoles.Zombie:
+                    opt.SetFloat(
+                        FloatOptionNames.ImpostorLightMod, 0.2f);
+                    break;
                 case CustomRoles.Doctor:
                     AURoleOptions.ScientistCooldown = 0f;
                     AURoleOptions.ScientistBatteryCharge = Options.DoctorTaskCompletedBatteryCharge.GetFloat();
@@ -155,8 +156,6 @@ namespace TownOfHost.Modules
                 case CustomRoles.JSchrodingerCat:
                     Jackal.ApplyGameOptions(opt);
                     break;
-                case CustomRoles.Plumber:
-                    goto InfinityVent;
 
                 InfinityVent:
                     AURoleOptions.EngineerCooldown = 0;

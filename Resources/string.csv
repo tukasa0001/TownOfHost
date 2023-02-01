@@ -34,6 +34,7 @@ ShapeMaster,千面鬼,變形大師
 Vampire,吸血鬼,吸血鬼
 Warlock,术士,術士
 Assassin,刺客,刺客
+Zombie,僵尸,殭屍
 Hacker,骇客,駭客
 Miner,矿工,礦工
 Minimalism,杀戮机器,殺戮機器
@@ -93,6 +94,7 @@ JSchrodingerCat,薛定谔的猫,薛定諤的貓
 Opportunist,投机者,投機主義者
 OpportunistKiller,投机者杀手,投機者殺手
 Egoist,野心家,利己主義者
+Mario,马里奥,馬里奧
 Lovers,恋人,戀人
 Jackal,豺狼,豺狼
 God,神,神
@@ -125,6 +127,7 @@ ShapeMasterInfo,变成他人，迷惑对手,變換外表來迷惑他人
 VampireInfo,快去榨干他们,使用你的牙齒吸乾所有人的血吧
 WarlockInfo,给你的敌人下咒,詛咒並殺光你的敵人
 AssassinInfo,信仰的一击！,信仰的一擊！
+ZombieInfo,咬死他们，碾碎他们！,咬死他們，碾碎他們！
 HackerInfo,藏在黑暗背后吧,藏在黑暗背後吧
 MinerInfo,条条管道通罗马,讓我挖出一個通道吧！
 MinimalismInfo,简单地弄死他们,簡單地弄死他們
@@ -187,6 +190,7 @@ JSchrodingerCatInfo,你是豺狼的跟班，传宗接代是个好选择,"你是�
 TerroristInfo,多说不宜 Rush B！,"一個一個來,都別想給我活!"
 ExecutionerInfo,确实，我其实是看他不爽,想出一切辦法來投出你的目標
 EgoistInfo,听说独赢经验多阿,讓我們來奪取狼人的勝利
+MarioInfo,听说你的公主在管道里,聽說你的公主在管道裡
 LoversInfo,你们坠入了爱河，成为了一对恋人，一起活到最后吧！,你墜入了愛河(心理)
 JackalInfo,在TOH，我一般称自己为只狼,殺光所有人不留活口
 GodInfo,一切都在您的掌控,一切都在您的掌控
@@ -208,6 +212,7 @@ ShapeMasterInfoLong,(内鬼阵营):\n千面鬼没有变形冷却与次数限制�
 MareInfoLong,(内鬼阵营):\n梦魇只能在停电时下进行击杀。若梦魇击杀成功，梦魇的击杀冷却将变成原来的一半。此外，停电持续的时间内梦魇的移动速度也会增加，但是请注意，停电时间内内所有玩家都能看到梦魇的名字以红色表示。,"(狼人陣營):\n黑暗博士在燈還沒關閉前不能殺人\n但是當燈關閉時,如果他殺人,他的冷卻會減少一半\n並且他的的移動速度會變快,但是他的的名字會變成紅色且所有玩家可見。"
 VampireInfoLong,(内鬼阵营):\n在吸血鬼的吸血的对象不会立刻死亡，而是延迟一段时间突然暴毙。若在这段时间内进入会议阶段，该目标将立即死亡。当被击杀目标为诱饵时，吸血鬼还是会被迫报告诱饵的尸体。,"(狼人陣營):\n通過咬玩家的方式來讓延遲殺人變成可能.\n(被咬的玩家將會死亡在時間結束或會議開始時.)\n若嘗試吸血的對象為誘餌,則會顯示正常殺人。"
 WarlockInfoLong,(内鬼阵营):\n术士可以使用击杀键给目标下咒，出现盾牌破碎则是下咒成功（放心，只有你能看见）。当术士变形时，被下咒的玩家会自动击杀离自己最近的玩家。请注意，摆烂人不会替你办事，诅咒摆烂人只会浪费你的时间。\n\n（听说最近误杀队友和自杀的术士越来越多了）,(狼人陣營):\n術士在不變形的情況下嘗試殺人時，目標會被下咒。\n如果已下咒某人，那麼術士變形時最靠近被下咒者的人將會被下咒者殺死。\n術士如果在變形的情況下嘗試殺人，那麼它將可以正常殺人。
+ZombieInfoLong,(内鬼阵营):\n僵尸的击杀冷却很短，但移动速度很慢且视野极小。僵尸不会被独裁者以外的人票出。,(狼人陣營):\n殭屍的擊殺冷卻很短，但移動速度很慢且視野極小。殭屍不會被獨裁者以外的人票出。
 AssassinInfoLong,(内鬼阵营):\n刺客可以使用击杀键标记一个目标，出现盾牌破碎则是下咒成功（放心，只有你能看见）。之后刺客可以随时使用变形传送至被标记者的身边并击杀被标记者。,(內鬼陣營):\n刺客可以使用擊殺鍵標記一個目標，出現盾牌破碎則是下咒成功（放心，只有你能看見）。之後刺客可以隨時使用變形傳送至被標記者的身邊並擊殺被標記者。
 HackerInfoLong,(内鬼阵营):\n骇客击杀玩家后会随机找个人报告被害者的尸体，若找不到替罪羊就会自己报告尸体。请注意：摆烂人不会成为替罪羊。,(狼人陣營):\n駭客擊殺後會隨機找個人報告被害者的屍體，若找不到替罪羊就會自己報告。
 MinerInfoLong,(内鬼阵营):\n矿工变形以及解除变形的时候会传送至上一个进入的通风口。（注意，是进去的通风管而不是出来的通风管）,(狼人陣營):\n礦工變形以及解除變形的時候會傳送至上一個進入的通風口
@@ -266,6 +271,7 @@ ExecutionerInfoLong,(独立阵营):\n游戏开始时处刑人会被分配到一�
 SchrodingerCatInfoLong,(独立阵营):\n薛定谔的猫一开始是没有胜利条件的。薛定谔的猫被击杀后，其会复活且加入凶手阵营，获得与凶手所在阵营相同的胜利条件。\n注:\n1.被放逐的薛定谔的猫死亡并不再变更胜利条件。\n2.被术士击杀的薛定谔的猫死亡并不再变更胜利条件。\n3.除吸血鬼的击杀外，一切显示为玩家自杀的情况内薛定谔的猫死亡并不再变更胜利条件。,"(中立):\n當薛定諤的貓第一次被殺時,他將轉入殺他的那個陣營。\n(P.S:1.薛定諤的貓如果被丟出則陣營不更改\n2.薛定諤的貓如果被術士下咒對象咒死時則陣營不更改\n3.如果薛定諤的貓有戀人且戀人死亡受到戀人共死影響自殺則陣營不更改)"
 OpportunistInfoLong,(独立阵营):\n若投机者在游戏结束时存活，则投机者跟随获胜玩家一同获得胜利。\n\n（人畜无害小可爱）,"(中立):\n如果投機主義者活到最後,他將跟著遊戲結束獲勝的陣營一起獲勝。"
 OpportunistKillerInfoLong,(独立阵营):\n若投机者杀手在游戏结束时存活，则投机者杀手跟随获胜玩家一同获得胜利。比起普通投机者，投机者杀手可以进行击杀。,(中立):\n若投機者殺手在遊戲結束時存活，則投機者殺手跟隨獲勝玩家一同獲得勝利。比起普通投機者，投機者殺手可以進行擊殺。
+MarioInfoLong,(独立阵营):\n马里奥跳管达到一定次数就会单独获得胜利,(中立):\n馬里奧跳管達到一定次數就會單獨獲得勝利
 EgoistInfoLong,(独立阵营):\n原则上野心家属于内鬼阵营。野心家与内鬼阵营玩家互认但不可以击杀对方。当其他内鬼阵营玩家全部死亡后，若野心家存活且内鬼阵营达成胜利条件，则野心家单独获得胜利。,"(中立):\n如果所有的狼人都死光了且利己主義者活著,利己主義者將獨自獲勝。\n(狼人和利己主義者互相知道對方但是不可以互刀對方)"
 JackalInfoLong,(独立阵营):\n豺狼需要击杀所有人。存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。,"(中立):\n豺狼需要殺死所有人來獲得勝利,\n如果場上存活的玩家只剩下豺狼和另一名不帶刀職業時,豺狼將獲勝。"
 GodInfoLong,(独立阵营):\n神从一开始就知道所有人的身份，而神只要活到最后就会抢走胜利。,(中立):\n神從一開始就知道所有人的身份，而神只要活到最後就會搶走勝利。
@@ -328,10 +334,10 @@ AutoStart,人满自动开始,人滿自動開始
 DisableTOHE,切换为原版,切換為原版
 AutoDisplayLastResult,自动显示最终结果,自動顯示上一回合結果
 AutoKickStart,踢出催开始的人,踢出催開始的人
-AutoKickStartTimes,警告几次后踢出,警告幾次後踢出
+AutoKickStartTimes,踢出前警告次数,踢出前警告次數
 AutoKickStartAsBan,踢出时封禁该玩家,踢出時封禁該玩家
 AutoKickStopWords,踢出使用违禁词的人,踢出使用違禁詞的人
-AutoKickStopWordsTimes,警告几次后踢出,警告幾次後踢出
+AutoKickStopWordsTimes,踢出前警告次数,踢出前警告次數
 AutoKickStopWordsAsBan,踢出时封禁该玩家,踢出時封禁該玩家
 AutoWarnStopWords,警告使用违禁词的人,警告使用違禁詞的人
 SendCodeToQQ,允许车队姬自动群发您的房号,
@@ -425,6 +431,8 @@ WarlockCanKillAllies,可以击杀队友,可以擊殺隊友
 WarlockCanKillSelf,可以击杀自己,可以擊殺自己
 EGCanGuessImp,可以赌杀内鬼,可以賭殺內鬼
 GGCanGuessCrew,可以赌杀船员,可以賭殺船員
+GuesserCanGuessTimes,每次会议可以下注,每次會議可以下注
+GuesserTryHideMsg,尝试刷屏顶掉赌怪的指令,
 BountyTargetChangeTime,赏金目标切换时间,賞金目標切換時間
 BountySuccessKillCooldown,赏金猎人击杀赏金目标的奖励冷却时间,賞金獵人殺死賞金目標冷卻
 BountyFailureKillCooldown,赏金猎人击杀赏金目标以外玩家的惩罚冷却时间,賞金獵人殺死非賞金目標冷卻
@@ -448,8 +456,6 @@ MadmateVentCooldown,叛徒系职业跳管道冷却时间,叛徒職業的玩家�
 MadmateVentMaxTime,叛徒系职业在管道中停留的最大时间,叛徒職業的玩家在管道中可以停留的最大時間
 EvilWatcherChance,成为内鬼阵营的概率,成為邪惡觀察者的機率
 LuckeyProbability,触发挡伤的概率,觸發擋傷的概率
-LighterTaskCompletedVision,完成任务后的视野,做完任務的視野
-LighterTaskCompletedDisableLightOut,完成任务的执灯人不受熄灯影响,完成任務的小燈人視野不受關燈影響
 SabotageMasterFixesDoors,打开多扇关闭的门,破壞大師可以修理多扇門
 SabotageMasterFixesReactors,可以一人修理核反应堆,破壞大師可以一個人同時修理兩邊的反應堆
 SabotageMasterFixesOxygens,修理氧气破坏时另一边的氧气设备将会被同时修理,破壞大師可以一個人同時修理兩邊的氧氣
@@ -506,10 +512,12 @@ ParanoiaVentCooldown,使用通风管冷却时长,使用通風管冷卻時長
 ParanoiaNumOfUseButton,可以使用通风管次数,可以使用通風管次數
 EveryOneKnowSuperStar,所有人知道谁是明星,所有人知道誰是明星
 HackUsedMaxTime,骇客技能可使用次数,骇客技能最大次數
+ZombieSpeedReduce,僵尸减少移动速度,殭屍減少移動速度
 MafiaCanKillNum,最大可复仇人数,最大可複仇人數
 ImpKnowCyberStarDead,内鬼可以知道网红死亡,內鬼可以知道網紅死亡
 NeutralKnowCyberStarDead,中立可以知道网红死亡,中立可以知道網紅死亡
 JesterCanUseButton,允许小丑召开紧急会议,允許小丑召開緊急會議
+MarioVentNumWin,马里奥胜利需要跳管次数,馬里奧勝利需要跳管次數
 TriggerKill,击杀,殺人鍵
 TriggerVent,通风管,通風口
 
@@ -580,13 +588,17 @@ MafiaKillMax,您达到复仇的上限了，已经不能再复仇了,您達到複
 MafiaKillDead,请选择一个在场的存活角色进行复仇,請選擇一個在場的存活角色進行複仇
 MafiaKillSucceed,被黑手党进行了复仇！,被黑手黨進行了復仇！
 MafiaKillDisable,很抱歉，根据房主设定，该房不允许黑手党复仇,很抱歉，根據房主設定，該房不允許黑手黨復仇
-CyberStarDead,震惊！某知名网红 {0} 竟然就在刚刚不幸被害！,震驚！某知名網紅 {0} 居然就在剛剛不幸被害！
+CyberStarDead,震惊！某知名网红【{0}】竟然就在刚刚不幸被害！,震驚！某知名網紅【{0}】居然就在剛剛不幸被害！
+DetectiveNoticeVictim,根据您的调查，【{0}】(被害者) 的职业是 【{2}】,根據您的調查，【{0}】(被害者) 的職業是 【{2}】
+DetectiveNoticeKiller,而凶手的职业则是【{0}】,而兇手的職業則是【{0}】
 
 GuessDead,死亡后不能进行赌注,
 GuessSuperStar,大明星才不会和你赌博，选个别的目标吧？,
-GuessKill,很遗憾，{0} 在赌局中失利了,
+GuessKill,很遗憾，【{0}】在赌局中失利了,
 GuessNull,请选择一个在场的存活角色进行赌注,
 GuessHelp,指令格式：/bt [玩家编号] [职业名]\n示例：/bt 3 告密者\n您可以在玩家的名字前看到该玩家的编号\n或者使用/id查看玩家编号列表,
+GGGuessMax,您已经达到每次会议的赌注上限，不能再进行赌注啦！,
+EGGuessMax,您已经达到每次会议的赌注上限，不能再进行赌注啦！,
 
 ## 信息
 Message.SetToSeconds,信息发送冷却时间为{0}秒,訊息發送冷卻已設定為{0}秒
@@ -611,8 +623,8 @@ Warning.NoModHost,非TOHE房,非TOHE房
 
 ## 错误
 Error.MeetingException,错误: {0} 请手动中止会议,錯誤: {0}
-Error.InvalidRoleAssignment,错误：在分配职业时发现职业无效的玩家 ({0}),錯誤:在設定職業時發現{0}持有無效職業
-Error.SpeedBoosterNullException,错误：增速者的增速目标为空,"錯誤:加速器加速的對象無效,\n請將遊戲輸出記錄保存並在TOH官方DC群組開啟一張支援票"
+Error.InvalidRoleAssignment,错误：在分配职业时发现职业无效的玩家 ({0}),錯誤:在設定職業時發現 {0} 持有無效職業
+Error.SpeedBoosterNullException,错误：增速者的增速目标为空,"錯誤:加速器加速的對象無效,\n請將遊戲輸出記錄保存並在TOHE官方DC群組開啟一張支援票"
 ### ErrorText関連
 ErrorLevel1,可能同时产生多个bug,
 ErrorLevel2,可能出现bug,
@@ -631,6 +643,9 @@ ERR-001-000-3,在主目录出现重复密钥,在主目錄出現重複密鑰
 ## 其它
 DefaultSystemMessageTitle,【 ★ 系统消息 ★ 】,
 MessageFromTheHost,【 ★ 房主消息 ★ 】,
+DetectiveNotiveTitle,【 ★ 侦探线索 ★ 】,
+GuessKillTitle,【 ★ 赌场事件 ★ 】,
+CyberStarNewsTitle,【 ★ 紧急新闻 ★ 】,
 TabGroup.MainSettings,主要设置,
 TabGroup.CrewmateRoles,船员阵营职业,
 TabGroup.NeutralRoles,独立阵营职业,
@@ -741,4 +756,5 @@ ExiledJester,票出 {0} 让你有种不详的预感\n{1} 在狂笑着...,
 ExiledExeTarget,票出 {0} 让你有种不详的预感\n他是 {1}，而他的背后传来处刑者阴沉的笑声...,
 NoImpRemain,已经没有内鬼啦,
 ImpRemain,剩余 {0} 个内鬼,
-NeutralRemain剩余 {0} 个中立,
+NeutralRemain,剩余 {0} 个中立,
+IsGood,{0} 是个好人，真的,

@@ -89,9 +89,12 @@ namespace TownOfHost
         public static OptionItem ImpKnowAlliesRole;
         public static OptionItem EGCanGuessImp;
         public static OptionItem EGCanGuessTime;
+        public static OptionItem EGTryHideMsg;
         public static OptionItem VampireKillDelay;
         public static OptionItem WarlockCanKillAllies;
         public static OptionItem WarlockCanKillSelf;
+        public static OptionItem ZombieKillCooldown;
+        public static OptionItem ZombieSpeedReduce;
         //public static CustomOption ShapeMasterShapeshiftDuration;
         public static OptionItem DefaultShapeshiftCooldown;
         public static OptionItem CanMakeMadmateCount;
@@ -111,9 +114,8 @@ namespace TownOfHost
         public static OptionItem EvilWatcherChance;
         public static OptionItem GGCanGuessCrew;
         public static OptionItem GGCanGuessTime;
+        public static OptionItem GGTryHideMsg;
         public static OptionItem LuckeyProbability;
-        public static OptionItem LighterTaskCompletedVision;
-        public static OptionItem LighterTaskCompletedDisableLightOut;
         public static OptionItem MayorAdditionalVote;
         public static OptionItem MayorHasPortableButton;
         public static OptionItem MayorNumOfUseButton;
@@ -129,9 +131,8 @@ namespace TownOfHost
         public static OptionItem CanTerroristSuicideWin;
         public static OptionItem ArsonistDouseTime;
         public static OptionItem ArsonistCooldown;
-        public static OptionItem JesterCanVent;
-        public static OptionItem JesterCooldown;
         public static OptionItem JesterCanUseButton;
+        public static OptionItem MarioVentNumWin;
         public static OptionItem OKKillCooldown;
         public static OptionItem KillFlashDuration;
 
@@ -159,7 +160,7 @@ namespace TownOfHost
         public static OptionItem EveryOneKnowSuperStar;
         public static OptionItem HackUsedMaxTime;
         public static OptionItem MNKillCooldown;
-        public static OptionItem HackKillDelay;
+        public static OptionItem HackKillCooldown;
         public static OptionItem MafiaCanKillNum;
         
         // HideAndSeek
@@ -406,10 +407,10 @@ namespace TownOfHost
             ImpKnowAlliesRole = BooleanOptionItem.Create(900045, "ImpKnowAlliesRole", true, TabGroup.ImpostorRoles, false)
                 .SetHeader(true);
             Options.SetupRoleOptions(901065, TabGroup.ImpostorRoles, CustomRoles.EvilGuesser);
-            EGCanGuessTime = IntegerOptionItem.Create(901067, "EGCanGuessTime", new(1, 15, 1), 15, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser])
-                .SetValueFormat(OptionFormat.Times)
-                .SetHidden(true);
+            EGCanGuessTime = IntegerOptionItem.Create(901067, "GuesserCanGuessTimes", new(1, 15, 1), 15, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser])
+                .SetValueFormat(OptionFormat.Times);
             EGCanGuessImp = BooleanOptionItem.Create(901069, "EGCanGuessImp", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
+            EGTryHideMsg = BooleanOptionItem.Create(901071, "GuesserTryHideMsg", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
             BountyHunter.SetupCustomOption();
             SerialKiller.SetupCustomOption();
             // SetupRoleOptions(1200, CustomRoles.ShapeMaster);
@@ -422,7 +423,12 @@ namespace TownOfHost
             WarlockCanKillSelf = BooleanOptionItem.Create(901408, "WarlockCanKillSelf", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Warlock]);
             SetupRoleOptions(901455, TabGroup.ImpostorRoles, CustomRoles.Assassin);
             SetupRoleOptions(901585, TabGroup.ImpostorRoles, CustomRoles.Hacker);
-            HackKillDelay = FloatOptionItem.Create(901587, "KillCooldown", new(5f, 999f, 5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
+            SetupRoleOptions(901790, TabGroup.ImpostorRoles, CustomRoles.Zombie);
+            ZombieKillCooldown = FloatOptionItem.Create(901792, "KillCooldown", new(0f, 999f, 2.5f), 5f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Zombie])
+                .SetValueFormat(OptionFormat.Seconds);
+            ZombieSpeedReduce = FloatOptionItem.Create(901794, "ZombieSpeedReduce", new(0.0f, 1.0f, 0.1f), 0.3f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Zombie])
+                .SetValueFormat(OptionFormat.Multiplier);
+            HackKillCooldown = FloatOptionItem.Create(901587, "KillCooldown", new(5f, 999f, 5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
                 .SetValueFormat(OptionFormat.Seconds);
             HackUsedMaxTime = IntegerOptionItem.Create(901589, "HackUsedMaxTime", new(1, 15, 1), 3, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
                 .SetValueFormat(OptionFormat.Times);
@@ -478,21 +484,16 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Percent);
             // Crewmate
             Options.SetupRoleOptions(102255, TabGroup.CrewmateRoles, CustomRoles.NiceGuesser);
-            GGCanGuessTime = IntegerOptionItem.Create(102257, "GGCanGuessTime", new(1, 15, 1), 15, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.NiceGuesser])
-                .SetValueFormat(OptionFormat.Times)
-                .SetHidden(true);
+            GGCanGuessTime = IntegerOptionItem.Create(102257, "GuesserCanGuessTimes", new(1, 15, 1), 15, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.NiceGuesser])
+                .SetValueFormat(OptionFormat.Times);
             GGCanGuessCrew = BooleanOptionItem.Create(102259, "GGCanGuessCrew", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.NiceGuesser]);
+            GGTryHideMsg = BooleanOptionItem.Create(102261, "GuesserTryHideMsg", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.NiceGuesser]);
             SetupRoleOptions(20000, TabGroup.CrewmateRoles, CustomRoles.Bait);
             SetupRoleOptions(1020195, TabGroup.CrewmateRoles, CustomRoles.Luckey);
             LuckeyProbability = IntegerOptionItem.Create(1020197, "LuckeyProbability", new(0, 100, 5), 50, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Luckey])
                 .SetValueFormat(OptionFormat.Percent);
             SetupRoleOptions(1020095, TabGroup.CrewmateRoles, CustomRoles.Needy);
             SetupRoleOptions(20100, TabGroup.CrewmateRoles, CustomRoles.Lighter);
-            LighterTaskCompletedVision = FloatOptionItem.Create(20110, "LighterTaskCompletedVision", new(0f, 5f, 0.25f), 5f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Lighter])
-                .SetHidden(true)
-                .SetValueFormat(OptionFormat.Multiplier);
-            LighterTaskCompletedDisableLightOut = BooleanOptionItem.Create(20111, "LighterTaskCompletedDisableLightOut", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Lighter])
-                .SetHidden(true);
             SetupRoleOptions(8020165, TabGroup.CrewmateRoles, CustomRoles.SuperStar);
             EveryOneKnowSuperStar = BooleanOptionItem.Create(8020168, "EveryOneKnowSuperStar", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SuperStar]);
             SetupRoleOptions(8020176, TabGroup.CrewmateRoles, CustomRoles.CyberStar);
@@ -550,11 +551,6 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Seconds);
             SetupRoleOptions(50000, TabGroup.NeutralRoles, CustomRoles.Jester);
             JesterCanUseButton = BooleanOptionItem.Create(6050007, "JesterCanUseButton", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Jester]);
-            JesterCanVent = BooleanOptionItem.Create(6050008, "CanVent", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Jester])
-                .SetHidden(true);
-            JesterCooldown = FloatOptionItem.Create(6050009, "Cooldown", new(5f, 100f, 1f), 30f, TabGroup.NeutralRoles, false).SetParent(JesterCanVent)
-                .SetValueFormat(OptionFormat.Seconds)
-                .SetHidden(true);
             SetupRoleOptions(50100, TabGroup.NeutralRoles, CustomRoles.Opportunist);
             SetupRoleOptions(5050100, TabGroup.NeutralRoles, CustomRoles.OpportunistKiller);
             OKKillCooldown = FloatOptionItem.Create(5050105, "KillCooldown", new(5f, 999f, 5f), 35f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.OpportunistKiller])
@@ -571,6 +567,9 @@ namespace TownOfHost
             Executioner.SetupCustomOption();
             Jackal.SetupCustomOption();
             SetupRoleOptions(5050965, TabGroup.NeutralRoles, CustomRoles.God);
+            SetupRoleOptions(5050110, TabGroup.NeutralRoles, CustomRoles.Mario);
+            MarioVentNumWin = IntegerOptionItem.Create(5050112, "MarioVentNumWin", new(5, 900, 5), 55, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mario])
+                .SetValueFormat(OptionFormat.Times);
 
             // Add-Ons
             LastImpostor.SetupCustomOption();
@@ -829,7 +828,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             ChangeNameToRoleInfo = BooleanOptionItem.Create(1_000_004, "ChangeNameToRoleInfo", false, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
-            RoleAssigningAlgorithm = StringOptionItem.Create(1_000_005, "RoleAssigningAlgorithm", RoleAssigningAlgorithms, 1, TabGroup.MainSettings, true)
+            RoleAssigningAlgorithm = StringOptionItem.Create(1_000_005, "RoleAssigningAlgorithm", RoleAssigningAlgorithms, 0, TabGroup.MainSettings, true)
                 .SetGameMode(CustomGameMode.All)
                 .RegisterUpdateValueEvent(
                     (object obj, OptionItem.UpdateValueEventArgs args) => IRandom.SetInstanceById(args.CurrentValue)

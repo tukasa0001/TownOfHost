@@ -157,13 +157,17 @@ namespace TownOfHost
             {
                 if (ContainsStart(text) && GameStates.IsLobby)
                 {
-                    msg = $"{name} 被系统请离\n请不要催开始，可能会被判定为违规信息";
+                    msg = $"【{name}】被系统请离\n请不要催开始，可能会被判定为违规信息";
                     if (Options.AutoKickStart.GetBool())
                     {
-                        if (!Main.SayStartTimes.ContainsKey(player.PlayerId)) Main.SayStartTimes.Add(player.PlayerId, 0);
-                        if (Main.SayStartTimes[player.PlayerId] >= Options.AutoKickStartTimes.GetInt()) kick = true;
-                        Main.SayStartTimes[player.PlayerId]++;
-                        msg = $"{name} 被警告：{Main.SayStartTimes[player.PlayerId]}次\n请不要催开始，可能会被判定为违规信息";
+                        if (!Main.SayStartTimes.ContainsKey(player.GetClientId())) Main.SayStartTimes.Add(player.GetClientId(), 0);
+                        Main.SayStartTimes[player.GetClientId()]++;
+                        msg = $"【{name}】被警告：{Main.SayStartTimes[player.GetClientId()]}次\n请不要催开始，可能会被判定为违规信息";
+                        if (Main.SayStartTimes[player.GetClientId()] > Options.AutoKickStartTimes.GetInt())
+                        {
+                            msg = $"【{name}】达到 {Main.SayStartTimes[player.GetClientId()]} 次警告被请离房间\n请不要催开始，可能会被判定为违规信息";
+                            kick = true;
+                        }
                     }
                     if (msg != "") Utils.SendMessage(msg);
                     if (kick) AmongUsClient.Instance.KickPlayer(player.GetClientId(), Options.AutoKickStartAsBan.GetBool());
@@ -185,15 +189,30 @@ namespace TownOfHost
             }
             if (!banned) return false;
 
-            if (Options.AutoWarnStopWords.GetBool()) msg = $"{name} ，请友善讨论哦~";
+            if (Options.AutoWarnStopWords.GetBool()) msg = $"【{name}】，请友善讨论哦~";
             if (Options.AutoKickStopWords.GetBool())
             {
-                if (!Main.SayBanwordsTimes.ContainsKey(player.PlayerId)) Main.SayBanwordsTimes.Add(player.PlayerId, 0);
-                if (Main.SayBanwordsTimes[player.PlayerId] >= Options.AutoKickStopWordsTimes.GetInt()) kick = true;
-                Main.SayBanwordsTimes[player.PlayerId]++;
-                msg = $"{name} 被警告：{Main.SayBanwordsTimes[player.PlayerId]}次\n请友善讨论哦~";
+                if (!Main.SayBanwordsTimes.ContainsKey(player.GetClientId())) Main.SayBanwordsTimes.Add(player.GetClientId(), 0);
+                Main.SayBanwordsTimes[player.GetClientId()]++;
+                msg = $"【{name}】被警告：{Main.SayBanwordsTimes[player.GetClientId()]}次\n请友善讨论哦~";
+                if (Main.SayBanwordsTimes[player.GetClientId()] > Options.AutoKickStopWordsTimes.GetInt())
+                {
+                    msg = $"【{name}】达到 {Main.SayBanwordsTimes[player.GetClientId()]} 次警告被请离房间\n请友善讨论哦~";
+                    kick = true;
+                }
             }
-            if (msg != "") Utils.SendMessage(msg);
+
+            if (msg != "")
+            {
+                if (kick || !GameStates.IsInGame) Utils.SendMessage(msg);
+                else
+                {
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc != null && pc.IsAlive() == player.IsAlive()) Utils.SendMessage(msg, pc.PlayerId);
+                    }
+                }
+            }
             if (kick) AmongUsClient.Instance.KickPlayer(player.GetClientId(), Options.AutoKickStopWordsAsBan.GetBool());
             return true;
         }
@@ -412,7 +431,7 @@ namespace TownOfHost
                     case "/color":
                         canceled = true;
                         subArgs = args.Length < 2 ? "" : args[1];
-                        var color = Utils.MsgToColor(subArgs);
+                        var color = Utils.MsgToColor(subArgs, true);
                         if (color == Byte.MaxValue)
                         {
                             Utils.SendMessage(GetString("IllegalColor"), PlayerControl.LocalPlayer.PlayerId);
@@ -498,6 +517,7 @@ namespace TownOfHost
                 "蝕時者" or "蚀时" => "蚀时者",
                 "狙擊手" or "狙击" => "狙击手",
                 "傀儡師" or "傀儡" => "傀儡师",
+                "殭屍" or "丧尸" => "僵尸",
                 "吸血鬼" or "吸血" => "吸血鬼",
                 "術士" => "术士",
                 "駭客" or "黑客" => "骇客",
@@ -538,6 +558,7 @@ namespace TownOfHost
                 "小丑" => "小丑",
                 "投機者" or "投机" => "投机者",
                 "投機者殺手" or "投机杀手" or "杀手投机" => "投机者杀手",
+                "馬里奧" => "马里奥",
                 "薛定諤的貓" or "薛定谔猫" or "猫" => "薛定谔的猫",
                 "恐怖分子" or "恐怖" => "恐怖分子",
                 "豺狼" => "豺狼",
@@ -564,6 +585,7 @@ namespace TownOfHost
                 { CustomRoles.SerialKiller, GetString("SerialKiller") },
                 { CustomRoles.TimeThief, GetString("TimeThief")},
                 { CustomRoles.Sniper, GetString("Sniper") },
+                { CustomRoles.Zombie, GetString("Zombie") },
                 { CustomRoles.Puppeteer, GetString("Puppeteer") },
                 { CustomRoles.Vampire, GetString("Vampire") },
                 { CustomRoles.Warlock, GetString("Warlock") },
@@ -614,6 +636,7 @@ namespace TownOfHost
                 { CustomRoles.God, GetString("God") },
                 { CustomRoles.Opportunist, GetString("Opportunist") },
                 { CustomRoles.OpportunistKiller, GetString("OpportunistKiller") },
+                { CustomRoles.Mario, GetString("Mario") },
                 { CustomRoles.SchrodingerCat, GetString("SchrodingerCat") },
                 { CustomRoles.Terrorist, GetString("Terrorist") },
                 { CustomRoles.Jackal, GetString("Jackal") },
@@ -802,7 +825,7 @@ namespace TownOfHost
                     if (subArgs.Equals("sure"))
                     {
                         string name = player.GetRealName();
-                        Utils.SendMessage($"{name} 选择自愿离开\n很抱歉给大家带来了糟糕的游戏体验\n我们真的很努力地在进步了");
+                        Utils.SendMessage($"【{name}】选择自愿离开\n很抱歉给大家带来了糟糕的游戏体验\n我们真的很努力地在进步了");
                         AmongUsClient.Instance.KickPlayer(player.GetClientId(), true);
                     }
                     else
@@ -818,7 +841,7 @@ namespace TownOfHost
                     }
                     ChatUpdatePatch.DoBlockChat = false;
                     Utils.NotifyRoles(isMeeting: true, NoCache: true);
-                    Utils.SendMessage("已尝试修复名字遮挡", PlayerControl.LocalPlayer.PlayerId);
+                    Utils.SendMessage("已尝试修复名字遮挡", player.PlayerId);
                     break;
 
                 default:

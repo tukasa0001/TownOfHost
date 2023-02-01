@@ -74,9 +74,9 @@ namespace TownOfHost
             RPC.RpcVersionCheck();
 
             if (!AmongUsClient.Instance.AmHost) return;
-            if (Main.LastRPC.ContainsKey(client.Character.PlayerId)) Main.LastRPC.Remove(client.Character.PlayerId);
-            if (Main.SayStartTimes.ContainsKey(client.Character.PlayerId)) Main.SayStartTimes.Remove(client.Character.PlayerId);
-            if (Main.SayBanwordsTimes.ContainsKey(client.Character.PlayerId)) Main.SayBanwordsTimes.Remove(client.Character.PlayerId);
+            if (Main.LastRPC.ContainsKey(client.Id)) Main.LastRPC.Remove(client.Id);
+            if (Main.SayStartTimes.ContainsKey(client.Id)) Main.SayStartTimes.Remove(client.Id);
+            if (Main.SayBanwordsTimes.ContainsKey(client.Id)) Main.SayBanwordsTimes.Remove(client.Id);
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
@@ -109,18 +109,23 @@ namespace TownOfHost
                 AntiBlackout.OnDisconnect(data.Character.Data);
                 PlayerGameOptionsSender.RemoveSender(data.Character);
             }
-            if (reason == DisconnectReasons.Hacking)
+            switch (reason)
             {
-                Logger.SendInGame($"{data.PlayerName} 被树懒超级厉害的反作弊踢出去啦~ QwQ");
+                case DisconnectReasons.Hacking:
+                    Logger.SendInGame($"{data.PlayerName} 被树懒超级厉害的反作弊踢出去啦~ QwQ");
+                    break;
+                case DisconnectReasons.Destroy:
+                    Logger.SendInGame($"{data.PlayerName} 很不幸地遇到Bug卡退了~ QwQ");
+                    break;
             }
-            else if (AmongUsClient.Instance.Ping > 500)
+            if (AmongUsClient.Instance.Ping > 700)
             {
                 Logger.SendInGame($"{data.PlayerName} 在火星和你联机但是断了 (Ping:{AmongUsClient.Instance.Ping}) QwQ");
             }
             Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
-            if (Main.LastRPC.ContainsKey(data.Character.PlayerId)) Main.LastRPC.Remove(data.Character.PlayerId);
-            if (Main.SayStartTimes.ContainsKey(data.Character.PlayerId)) Main.SayStartTimes.Remove(data.Character.PlayerId);
-            if (Main.SayBanwordsTimes.ContainsKey(data.Character.PlayerId)) Main.SayBanwordsTimes.Remove(data.Character.PlayerId);
+            if (Main.LastRPC.ContainsKey(__instance.ClientId)) Main.LastRPC.Remove(__instance.ClientId);
+            if (Main.SayStartTimes.ContainsKey(__instance.ClientId)) Main.SayStartTimes.Remove(__instance.ClientId);
+            if (Main.SayBanwordsTimes.ContainsKey(__instance.ClientId)) Main.SayBanwordsTimes.Remove(__instance.ClientId);
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CreatePlayer))]

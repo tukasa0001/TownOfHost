@@ -235,20 +235,8 @@ namespace TownOfHost
                             return false;
                         break;
                     case CustomRoles.ChivalrousExpert:
-                        if (!ChivalrousExpert.isKilled(killer.PlayerId))
-                        {
-                            ChivalrousExpert.killed.Add(killer.PlayerId);
-                        }
-                        else {
-                            return false;
-                        }
-                        /*
-                        if (ChivalrousExpert.isKilled)
-                        {
-                            return false;
-                        } else {
-                            ChivalrousExpert.isKilled = true;
-                        }*/
+                        if (!ChivalrousExpert.isKilled(killer.PlayerId)) ChivalrousExpert.killed.Add(killer.PlayerId);
+                        else return false;
                         break;
                 }
             }
@@ -511,13 +499,13 @@ namespace TownOfHost
             {
                 if (__instance.Is(CustomRoles.Detective))
                 {
-                    var tpc = Utils.GetPlayerById(target.PlayerId);
-                    string msg;
-                    msg = $"根据您的调查，{tpc.GetRealName()}(被害者) 的职业是：{tpc.GetDisplayRoleName()}";
-                    if (Options.DetectiveCanknowKiller.GetBool()) msg += $"；而凶手的职业则是：{tpc.GetRealKiller().GetDisplayRoleName()}";
                     new LateTask (() =>
                     {
-                        Utils.SendMessage(msg, __instance.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Detective), " ★ 侦探线索 ★ "));
+                        var tpc = Utils.GetPlayerById(target.PlayerId);
+                        string msg;
+                        msg = string.Format(GetString("DetectiveNoticeVictim"), tpc.GetRealName(), tpc.GetDisplayRoleName());
+                        if (Options.DetectiveCanknowKiller.GetBool()) msg += "；" + string.Format(GetString("DetectiveNoticeKiller"), tpc.GetRealKiller().GetDisplayRoleName());
+                        Utils.SendMessage(msg, __instance.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Detective), GetString("DetectiveNotiveTitle")));
                     }, 8f, "DetectiveNotify");
                 }
             }
@@ -1201,6 +1189,17 @@ namespace TownOfHost
                 {
                     pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                     pc?.ReportDeadBody(null);
+                }
+            }
+            if (pc.Is(CustomRoles.Mario))
+            {
+                if (!Main.MarioVentCount.ContainsKey(pc.PlayerId)) Main.MarioVentCount.Add(pc.PlayerId, 0);
+                Main.MarioVentCount[pc.PlayerId]++;
+                Utils.NotifyRoles(SpecifySeer: pc);
+                if (Main.MarioVentCount[pc.PlayerId] >= Options.MarioVentNumWin.GetInt())
+                {
+                    CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Mario); //马里奥这个多动症赢了
+                    CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
                 }
             }
         }

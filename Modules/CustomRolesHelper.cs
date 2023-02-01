@@ -17,6 +17,7 @@ namespace TownOfHost
             return
                 role is CustomRoles.Arsonist or
                 CustomRoles.Opportunist or
+                CustomRoles.Mario or
                 CustomRoles.God or
                 CustomRoles.Jester or
                 CustomRoles.Terrorist or
@@ -25,15 +26,22 @@ namespace TownOfHost
         }
 
 
-        public static bool IsNeutralKilling(this CustomRoles role)
+        public static bool IsNeutralKilling(this CustomRoles role) //是否邪恶中立（抢夺或单独胜利的中立）
         {
             return
                 role is CustomRoles.Arsonist or
                 CustomRoles.Egoist or
                 CustomRoles.Jackal or
-                CustomRoles.OpportunistKiller or
-                CustomRoles.God;
+                CustomRoles.God or
+                CustomRoles.Mario;
         }
+        public static bool IsCK(this CustomRoles role) //是否带刀船员
+        {
+            return
+                role is CustomRoles.ChivalrousExpert or
+                CustomRoles.Sheriff;
+        }
+
         public static bool IsImpostor(this CustomRoles role)
         {
             return
@@ -42,7 +50,7 @@ namespace TownOfHost
                 CustomRoles.BountyHunter or
                 CustomRoles.Vampire or
                 CustomRoles.Witch or
-                //CustomRoles.ShapeMaster or
+                CustomRoles.Zombie or
                 CustomRoles.Warlock or
                 CustomRoles.Assassin or
                 CustomRoles.Hacker or
@@ -75,6 +83,7 @@ namespace TownOfHost
             return
                 role is CustomRoles.Jester or
                 CustomRoles.Opportunist or
+                CustomRoles.Mario or
                 CustomRoles.SchrodingerCat or
                 CustomRoles.Terrorist or
                 CustomRoles.Executioner or

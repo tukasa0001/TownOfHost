@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
 
@@ -78,6 +79,8 @@ namespace TownOfHost
 
         public static bool GuesserMsg(PlayerControl pc, string msg)
         {
+            var originMsg = msg;
+
             if (!AmongUsClient.Instance.AmHost) return false;
             if (!GameStates.IsInGame || pc == null) return false;
             if (!pc.Is(CustomRoles.NiceGuesser) && !pc.Is(CustomRoles.EvilGuesser)) return false;
@@ -92,6 +95,22 @@ namespace TownOfHost
             {
                 Utils.SendMessage(GetString("GuessDead"), pc.PlayerId);
                 return true;
+            }
+
+            if (
+                (pc.Is(CustomRoles.NiceGuesser) && Options.GGTryHideMsg.GetBool()) ||
+                (pc.Is(CustomRoles.EvilGuesser) && Options.EGTryHideMsg.GetBool())
+                )
+            {
+                TryHideMsg();
+                TryHideMsg();
+            }
+            else
+            {
+                if (pc == PlayerControl.LocalPlayer) //房主的消息会被撤销，所以这里强制发送一条一样的消息补上
+                {
+                    Utils.SendMessage(originMsg, 255, pc.GetRealName());
+                }
             }
 
             if (operate == 1)
@@ -110,6 +129,17 @@ namespace TownOfHost
                 if (target != null)
                 {
                     bool guesserSuicide = false;
+                    if (!Main.GuesserGuessed.ContainsKey(pc.PlayerId)) Main.GuesserGuessed.Add(pc.PlayerId, 0);
+                    if (pc.Is(CustomRoles.NiceGuesser) && Main.GuesserGuessed[pc.PlayerId] >= Options.GGCanGuessTime.GetInt())
+                    {
+                        Utils.SendMessage(GetString("GGGuessMax"), pc.PlayerId);
+                        return true;
+                    }
+                    if (pc.Is(CustomRoles.EvilGuesser) && Main.GuesserGuessed[pc.PlayerId] >= Options.EGCanGuessTime.GetInt())
+                    {
+                        Utils.SendMessage(GetString("EGGuessMax"), pc.PlayerId);
+                        return true;
+                    }
                     if (role == CustomRoles.SuperStar && target.Is(CustomRoles.SuperStar))
                     {
                         Utils.SendMessage(GetString("GuessSuperStar"), pc.PlayerId);
@@ -117,7 +147,7 @@ namespace TownOfHost
                     }
                     if (pc == target)
                     {
-                        Utils.SendMessage("有一说一，你是懂赌怪的",pc.PlayerId, Utils.ColorString(Color.cyan, "咔皮呆留言"));
+                        Utils.SendMessage("有一说一，你是懂赌怪的",pc.PlayerId, Utils.ColorString(Color.cyan, "【 ★ 咔皮呆留言 ★ 】"));
                         guesserSuicide = true;
                     }
                     else if (pc.Is(CustomRoles.NiceGuesser) && role.IsCrewmate() && !Options.GGCanGuessCrew.GetBool()) guesserSuicide = true;
@@ -126,7 +156,9 @@ namespace TownOfHost
                     var dp = guesserSuicide ? pc : target;
 
                     string Name = dp.GetRealName();
-                    Utils.SendMessage(string.Format(GetString("GuessKill"), Name));
+                    Utils.SendMessage(string.Format(GetString("GuessKill"), Name), 255, Utils.ColorString(Utils.GetRoleColor(CustomRoles.NiceGuesser), GetString("GuessKillTitle")));
+
+                    Main.GuesserGuessed[pc.PlayerId] ++;
 
                     new LateTask(() =>
                     {
@@ -140,7 +172,7 @@ namespace TownOfHost
                         }
                         ChatUpdatePatch.DoBlockChat = false;
                         Utils.NotifyRoles(isMeeting: true, NoCache: true);
-                    }, 0.9f, "Guesser Kill");
+                    }, 0.2f, "Guesser Kill");
                 }
 
             }
@@ -195,6 +227,36 @@ namespace TownOfHost
 
             error= string.Empty;
             return true;
+        }
+
+        public static void TryHideMsg()
+        {
+            string msg = "";
+            for (int i = 0; i < 100; i++)
+            {
+                msg += "-\n";
+            }
+            msg += "\n该消息用于顶掉赌怪的指令以防止赌怪身份暴露，请诸位谅解";
+
+            var player = Main.AllAlivePlayerControls.OrderBy(x => x.PlayerId).FirstOrDefault();
+            if (player == null) return;
+
+            int clientId = -1;
+            var name = player.Data.PlayerName;
+            DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, msg);
+            var writer = CustomRpcSender.Create("MessagesToSend", SendOption.None);
+            writer.StartMessage(clientId);
+            writer.StartRpc(player.NetId, (byte)RpcCalls.SetName)
+                .Write("刷屏保护")
+                .EndRpc();
+            writer.StartRpc(player.NetId, (byte)RpcCalls.SendChat)
+                .Write(msg)
+                .EndRpc();
+            writer.StartRpc(player.NetId, (byte)RpcCalls.SetName)
+                .Write(player.Data.PlayerName)
+                .EndRpc();
+            writer.EndMessage();
+            writer.SendMessage();
         }
 
     }

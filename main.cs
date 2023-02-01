@@ -110,8 +110,8 @@ namespace TownOfHost
         public static int updateTime;
         public static bool newLobby = false;
 
-        public static Dictionary<byte, int> SayStartTimes = new();
-        public static Dictionary<byte, int> SayBanwordsTimes = new();
+        public static Dictionary<int, int> SayStartTimes = new();
+        public static Dictionary<int, int> SayBanwordsTimes = new();
 
         /// <summary>
         /// 基本的に速度の代入は禁止.スピードは増減で対応してください.
@@ -125,6 +125,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> isCurseAndKill = new();
         public static Dictionary<byte, PlayerControl> MarkedPlayers = new();
         public static Dictionary<byte, int> MafiaRevenged = new();
+        public static Dictionary<byte, int> GuesserGuessed = new();
         public static Dictionary<byte, bool> isMarkAndKill = new();
         public static Dictionary<(byte, byte), bool> isDoused = new();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
@@ -135,6 +136,7 @@ namespace TownOfHost
         public static Dictionary<byte, byte> SpeedBoostTarget = new();
         public static Dictionary<byte, int> MayorUsedButtonCount = new();
         public static Dictionary<byte, int> ParaUsedButtonCount = new();
+        public static Dictionary<byte, int> MarioVentCount = new();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static bool isCursed;
@@ -162,7 +164,7 @@ namespace TownOfHost
 
         //一些很新的东东
 
-        public static Dictionary<byte, byte> LastRPC = new();
+        public static Dictionary<int, byte> LastRPC = new();
 
         public override void Load()
         {
@@ -199,6 +201,11 @@ namespace TownOfHost
             isDoused = new Dictionary<(byte, byte), bool>();
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
+            HackerUsedCount = new Dictionary<byte, int>();
+            ParaUsedButtonCount= new Dictionary<byte, int>();
+            MarioVentCount = new Dictionary<byte, int>();
+            MafiaRevenged = new Dictionary<byte, int>();
+            GuesserGuessed = new Dictionary<byte, int>();
             winnerList = new();
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte, string)>();
@@ -273,6 +280,7 @@ namespace TownOfHost
                     {CustomRoles.God, "#f96464"},
                     {CustomRoles.Opportunist, "#00ff00"},
                     {CustomRoles.OpportunistKiller, "#51802c"},
+                    {CustomRoles.Mario, "#ff6201"},
                     {CustomRoles.SchrodingerCat, "#696969"},
                     {CustomRoles.Egoist, "#5600ff"},
                     {CustomRoles.EgoSchrodingerCat, "#5600ff"},
@@ -342,7 +350,7 @@ namespace TownOfHost
         SerialKiller,
         EvilGuesser,
         Minimalism,
-        //ShapeMaster,
+        Zombie,
         Sniper,
         Vampire,
         Witch,
@@ -399,6 +407,7 @@ namespace TownOfHost
         God,
         Opportunist,
         OpportunistKiller,
+        Mario,
         SchrodingerCat,//第三陣営のシュレディンガーの猫
         Terrorist,
         Executioner,
@@ -430,6 +439,7 @@ namespace TownOfHost
         Egoist = CustomRoles.Egoist,
         Jackal = CustomRoles.Jackal,
         God = CustomRoles.God,
+        Mario = CustomRoles.Mario,
         HASTroll = CustomRoles.HASTroll,
     }
     public enum AdditionalWinners

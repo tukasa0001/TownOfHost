@@ -442,7 +442,11 @@ namespace TownOfHost
                     ChivalrousExpert.SetKillCooldown(player.PlayerId);
                     break;
                 case CustomRoles.Hacker:
-                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.HackKillDelay.GetFloat();
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.HackKillCooldown.GetFloat();
+                    break;
+                case CustomRoles.Zombie:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.ZombieKillCooldown.GetFloat();
+                    Main.AllPlayerSpeed[player.PlayerId] -= Options.ZombieSpeedReduce.GetFloat();
                     break;
             }
             if (player.PlayerId == LastImpostor.currentId)
