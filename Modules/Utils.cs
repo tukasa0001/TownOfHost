@@ -704,7 +704,7 @@ namespace TownOfHost
                 if (seer.Is(CustomRoles.FireWorks))
                 {
                     string stateText = FireWorks.GetStateText(seer);
-                    SelfSuffix.Clear().Append(stateText);
+                    SelfSuffix.Append(stateText);
                 }
                 if (seer.Is(CustomRoles.Witch))
                 {
