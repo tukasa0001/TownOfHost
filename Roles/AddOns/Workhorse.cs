@@ -7,6 +7,12 @@ namespace TownOfHost
     public static class Workhorse
     {
         private static readonly int Id = 80100;
+        private static Color RoleColor = Utils.GetRoleColor(CustomRoles.Workhorse);
+        private static readonly List<CustomRoles> NoAssignList = new()
+        {
+            CustomRoles.Lighter,
+            CustomRoles.TimeManager,
+        };
         public static List<byte> playerIdList = new();
         public static OptionItem AssignOnlyToCrewmate;
         public static OptionItem NumLongTasks;
@@ -32,22 +38,22 @@ namespace TownOfHost
         public static bool IsEnable => playerIdList.Count > 0;
         public static bool IsThisRole(byte playerId) => playerIdList.Contains(playerId);
         public static (bool, int, int) TaskData => (false, NumLongTasks.GetInt(), NumShortTasks.GetInt());
-        public static bool IsAssignTarget(PlayerControl pc)
-            => pc.IsAlive()
-            && !pc.Is(CustomRoles.Workhorse)
-            && (!AssignOnlyToCrewmate.GetBool() || pc.Is(CustomRoles.Crewmate)) //クルーメイトのみか否か
-            && pc.Is(RoleType.Crewmate) //クルー役職
-            && Utils.HasTasks(pc.Data) //タスクがある
-            && !OverrideTasksData.AllData.ContainsKey(pc.GetCustomRole()) //タスク上書きオプションが無い
-            && pc.GetCustomRole() is not CustomRoles.Lighter; //タスクトリガーのある役職でない
+        private static bool IsAssignTarget(PlayerControl pc)
+        {
+            if (!pc.IsAlive() || IsThisRole(pc.PlayerId)) return false;
+            var taskState = pc.GetPlayerTaskState();
+            if (taskState.CompletedTasksCount + 1 < taskState.AllTasksCount) return false;
+            if (AssignOnlyToCrewmate.GetBool()) //クルーメイトのみ
+                return pc.Is(CustomRoles.Crewmate);
+            return Utils.HasTasks(pc.Data) //タスクがある
+                && !OverrideTasksData.AllData.ContainsKey(pc.GetCustomRole()) //タスク上書きオプションが無い
+                && !NoAssignList.Contains(pc.GetCustomRole()); //タスクトリガーのある役職でない
+        }
         public static bool OnCompleteTask(PlayerControl pc)
         {
             if (!CustomRoles.Workhorse.IsEnable() || playerIdList.Count >= CustomRoles.Workhorse.GetCount()) return false;
-            var taskState = pc.GetPlayerTaskState();
-            if (taskState.CompletedTasksCount + 1 < taskState.AllTasksCount) return false;
             if (!IsAssignTarget(pc)) return false;
 
-            Logger.Info($"{pc?.GetNameWithRole()}({IsAssignTarget(pc)}): ({taskState.CompletedTasksCount}/{taskState.AllTasksCount})", "Workhorse");
             pc.RpcSetCustomRole(CustomRoles.Workhorse);
             Add(pc.PlayerId);
             GameData.Instance.RpcSetTasks(pc.PlayerId, new byte[0]); //タスクを再配布
@@ -64,7 +70,7 @@ namespace TownOfHost
             int NumCompleted = NumFormerTasks + taskState.CompletedTasksCount;
             int NumAllTasks = NumFormerTasks + taskState.AllTasksCount;
 
-            Color color = taskState.IsTaskFinished ? Color.green : Utils.GetRoleColor(CustomRoles.Workhorse);
+            Color color = taskState.IsTaskFinished ? Color.green : RoleColor;
             return (color, NumCompleted, NumAllTasks);
         }
     }
