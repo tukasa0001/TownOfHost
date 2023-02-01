@@ -38,6 +38,7 @@ namespace TownOfHost
     {
         public static void Postfix()
         {
+            Utils.MarkEveryoneDirtySettings();
             if (!GameStates.IsMeeting)
                 Utils.NotifyRoles(ForceLoop: true);
         }
@@ -47,6 +48,7 @@ namespace TownOfHost
     {
         public static void Postfix()
         {
+            Utils.MarkEveryoneDirtySettings();
             if (!GameStates.IsMeeting)
                 Utils.NotifyRoles(ForceLoop: true);
         }

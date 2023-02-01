@@ -88,7 +88,6 @@ namespace TownOfHost
         }
         public static void Postfix(ShipStatus __instance)
         {
-            Utils.MarkEveryoneDirtySettings();
             Camouflage.CheckCamouflage();
         }
         public static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max)
