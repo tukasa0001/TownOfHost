@@ -4,13 +4,19 @@ using Hazel;
 
 namespace TownOfHost
 {
-    public class NameColorManager
+    public static class NameColorManager
     {
-        public static NameColorData GetData(byte seerId, byte targetId)
+        public static string ApplyNameColorData(this string name, byte seerId, byte targetId)
         {
-            if (!Main.PlayerStates[seerId].TargetColorData.TryGetValue(targetId, out var color))
-                return new NameColorData(0, null);
-            return new NameColorData(targetId, color);
+            string openTag = "", closeTag = "";
+            if (Main.PlayerStates[seerId].TargetColorData.TryGetValue(targetId, out var color) && color != null)
+            {
+                if (!color.StartsWith('#'))
+                    color = "#" + color;
+                openTag = $"<color={color}>";
+                closeTag = "</color>";
+            }
+            return openTag + name + closeTag;
         }
         public static void Add(byte seerId, byte targetId, string color)
         {
@@ -46,17 +52,5 @@ namespace TownOfHost
 
             Remove(seerId, targetId);
         }
-    }
-    public class NameColorData
-    {
-        public byte targetId;
-        public string color;
-        public NameColorData(byte targetId, string color)
-        {
-            this.targetId = targetId;
-            this.color = color == null || color.StartsWith('#') ? color : "#" + color;
-        }
-        public string OpenTag => color != null ? $"<color={color}>" : "";
-        public string CloseTag => color != null ? "</color>" : "";
     }
 }

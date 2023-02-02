@@ -841,8 +841,7 @@ namespace TownOfHost
                         else
                         {
                             //NameColorManager準拠の処理
-                            var ncd = NameColorManager.GetData(seer.PlayerId, target.PlayerId);
-                            TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
+                            TargetPlayerName = TargetPlayerName.ApplyNameColorData(seer.PlayerId, target.PlayerId);
                         }
                         if (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
                             TargetMark.Append(ColorString(GetRoleColor(CustomRoles.MadSnitch), "★"));

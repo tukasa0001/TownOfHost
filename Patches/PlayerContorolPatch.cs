@@ -708,8 +708,7 @@ namespace TownOfHost
                         RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの赤色で表示
 
                     //NameColorManager準拠の処理
-                    var ncd = NameColorManager.GetData(seer.PlayerId, target.PlayerId);
-                    if (ncd.color != null) RealName = ncd.OpenTag + RealName + ncd.CloseTag;
+                    RealName = RealName.ApplyNameColorData(seer.PlayerId, target.PlayerId);
 
                     if (seer.GetCustomRole().IsImpostor()) //seerがインポスター
                     {
