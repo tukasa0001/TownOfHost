@@ -12,6 +12,7 @@ namespace TownOfHost.Roles.Neutral
         static readonly int Id = 50400;
         static List<byte> playerIdList = new();
         static Color RoleColor = Utils.GetRoleColor(CustomRoles.SchrodingerCat);
+        static string RoleColorCode = Utils.GetRoleColorCode(CustomRoles.SchrodingerCat);
 
         static OptionItem OptionCanWinTheCrewmateBeforeChange;
         static OptionItem OptionChangeTeamWhenExile;
@@ -88,13 +89,13 @@ namespace TownOfHost.Roles.Neutral
                 var killerTeam = Main.AllPlayerControls.Where(pc => isTarget(pc));
                 foreach (var member in killerTeam)
                 {
-                    NameColorManager.Add(member.PlayerId, target.PlayerId, RoleColor);
+                    NameColorManager.Add(member.PlayerId, target.PlayerId, RoleColorCode);
                     NameColorManager.Add(target.PlayerId, member.PlayerId);
                 }
             }
             else
             {
-                NameColorManager.Add(killer.PlayerId, target.PlayerId, RoleColor);
+                NameColorManager.Add(killer.PlayerId, target.PlayerId, RoleColorCode);
                 NameColorManager.Add(target.PlayerId, killer.PlayerId);
             }
             Utils.NotifyRoles();

@@ -836,13 +836,8 @@ namespace TownOfHost
                         string TargetPlayerName = target.GetRealName(isMeeting);
 
                         //ターゲットのプレイヤー名の色を書き換えます。
-                        if (Utils.IsActive(SystemTypes.Electrical) && target.Is(CustomRoles.Mare) && !isMeeting)
-                            TargetPlayerName = ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName); //targetの赤色で表示
-                        else
-                        {
-                            //NameColorManager準拠の処理
-                            TargetPlayerName = TargetPlayerName.ApplyNameColorData(seer.PlayerId, target.PlayerId);
-                        }
+                        TargetPlayerName = TargetPlayerName.ApplyNameColorData(seer, target, isMeeting);
+
                         if (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
                             TargetMark.Append(ColorString(GetRoleColor(CustomRoles.MadSnitch), "★"));
                         TargetMark.Append(Executioner.TargetMark(seer, target));

@@ -358,7 +358,7 @@ namespace TownOfHost
                     pva.NameText.color = seer.GetRoleColor();//名前の色を変更
 
                 //NameColorManager準拠の処理
-                pva.NameText.text = pva.NameText.text.ApplyNameColorData(seer.PlayerId, target.PlayerId);
+                pva.NameText.text = pva.NameText.text.ApplyNameColorData(seer, target, true);
 
                 //とりあえずSnitchは会議中にもインポスターを確認することができる仕様にしていますが、変更する可能性があります。
 

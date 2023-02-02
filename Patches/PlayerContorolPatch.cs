@@ -137,10 +137,10 @@ namespace TownOfHost
                     var taskState = target.GetPlayerTaskState();
                     if (taskState.IsTaskFinished)
                     {
-                        var color = Utils.GetRoleColor(CustomRoles.MadGuardian);
+                        var colorCode = Utils.GetRoleColorCode(CustomRoles.MadGuardian);
                         NameColorManager.Add(killer.PlayerId, target.PlayerId);
                         if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
-                            NameColorManager.Add(target.PlayerId, killer.PlayerId, color);
+                            NameColorManager.Add(target.PlayerId, killer.PlayerId, colorCode);
                         Utils.NotifyRoles();
                         return false;
                     }
@@ -700,15 +700,12 @@ namespace TownOfHost
                     //自分自身の名前の色を変更
                     if (target.AmOwner && AmongUsClient.Instance.IsGameStarted)
                     { //targetが自分自身
-                        RealName = Utils.ColorString(target.GetRoleColor(), RealName); //名前の色を変更
                         if (target.Is(CustomRoles.Arsonist) && target.IsDouseDone())
                             RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), GetString("EnterVentToWin"));
                     }
-                    else if (target.Is(CustomRoles.Mare) && Utils.IsActive(SystemTypes.Electrical))
-                        RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの赤色で表示
 
                     //NameColorManager準拠の処理
-                    RealName = RealName.ApplyNameColorData(seer.PlayerId, target.PlayerId);
+                    RealName = RealName.ApplyNameColorData(seer, target, false);
 
                     if (seer.GetCustomRole().IsImpostor()) //seerがインポスター
                     {

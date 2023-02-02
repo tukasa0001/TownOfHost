@@ -47,11 +47,9 @@ namespace TownOfHost.Roles.Impostor
             }
         }
 
-        public static void OnCheckMurder(PlayerControl killer)
-        {
-        }
-        public static void FixedUpdate(PlayerControl player)
-        {
-        }
+        public static bool KnowTargetRoleColor(PlayerControl target, bool isMeeting)
+            => !isMeeting
+            && playerIdList.Contains(target.PlayerId)
+            && Utils.IsActive(SystemTypes.Electrical);
     }
 }

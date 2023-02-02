@@ -2,23 +2,50 @@ using System.Collections.Generic;
 using System.Linq;
 using Hazel;
 using UnityEngine;
+using TownOfHost.Roles.Impostor;
 
 namespace TownOfHost
 {
     public static class NameColorManager
     {
-        public static string ApplyNameColorData(this string name, byte seerId, byte targetId)
+        public static string ApplyNameColorData(this string name, PlayerControl seer, PlayerControl target, bool isMeeting)
         {
-            string openTag = "", closeTag = "";
-            if (Main.PlayerStates[seerId].TargetColorData.TryGetValue(targetId, out var color) && color != null)
+            if (!AmongUsClient.Instance.IsGameStarted) return name;
+
+            if (!TryGetData(seer.PlayerId, target.PlayerId, out var colorCode))
             {
-                if (!color.StartsWith('#'))
-                    color = "#" + color;
-                openTag = $"<color={color}>";
+                if (KnowTargetRoleColor(seer, target, isMeeting))
+                    colorCode = target.GetRoleColorCode();
+            }
+            string openTag = "", closeTag = "";
+            if (colorCode != "")
+            {
+                if (!colorCode.StartsWith('#'))
+                    colorCode = "#" + colorCode;
+                openTag = $"<color={colorCode}>";
                 closeTag = "</color>";
             }
             return openTag + name + closeTag;
         }
+        private static bool KnowTargetRoleColor(PlayerControl seer, PlayerControl target, bool isMeeting)
+        {
+            return seer == target
+                || target.Is(CustomRoles.GM)
+                || Mare.KnowTargetRoleColor(target, isMeeting);
+        }
+        private static bool TryGetData(byte seerId, byte targetId, out string colorCode)
+        {
+            colorCode = "";
+            var seer = Utils.GetPlayerById(seerId);
+            var target = Utils.GetPlayerById(targetId);
+            if (seer == null || target == null) return false;
+
+            var state = Main.PlayerStates[seerId];
+            if (!state.TargetColorData.TryGetValue(targetId, out var value)) return false;
+            colorCode = value;
+            return true;
+        }
+
         public static void Add(byte seerId, byte targetId, string colorCode = "")
         {
             var seer = Utils.GetPlayerById(seerId);
