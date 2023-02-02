@@ -668,7 +668,7 @@ updateRestart,更新好啦！\n请重启游戏生效~,更新完成!\n請重新�
 updateFailed,更新失败。,更新失敗
 onSetPublicNoLatest,我们有一个重要的更新，请更新本模组\n否则您无法公开房间,"無法建立一個公共房間,因為使用的不是最新版本的模組\n請更新本模組"
 CanNotJoinPublicRoomNoLatest,我们有一个重要的更新，请更新本模组\n否则您无法加入公开房间,無法在未安裝最新版本的前提下進入公開房間\n請更新本模組
-ModBrokenMessage,模组文件损坏，请重新安装本模组,模組檔案損壞\n請重新安裝模組
+ModBrokenMessage,模组文件损坏，请重启游戏或重装本模组,模組檔案損壞\n請重新安裝模組
 DisabledByProgram,公开房间的操作已被程序禁用,
 EnterVentToWin,跳管道来获得胜利！,跳管道來獲得勝利!!
 FireworksPutPhase,还要安放{0}枚烟花,還需要安裝{0}枚煙火

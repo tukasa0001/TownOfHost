@@ -424,12 +424,12 @@ namespace TownOfHost
             WarlockCanKillAllies = BooleanOptionItem.Create(901406, "WarlockCanKillAllies", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Warlock]);
             WarlockCanKillSelf = BooleanOptionItem.Create(901408, "WarlockCanKillSelf", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Warlock]);
             SetupRoleOptions(901455, TabGroup.ImpostorRoles, CustomRoles.Assassin);
-            SetupRoleOptions(901585, TabGroup.ImpostorRoles, CustomRoles.Hacker);
             SetupRoleOptions(901790, TabGroup.ImpostorRoles, CustomRoles.Zombie);
             ZombieKillCooldown = FloatOptionItem.Create(901792, "KillCooldown", new(0f, 999f, 2.5f), 5f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Zombie])
                 .SetValueFormat(OptionFormat.Seconds);
             ZombieSpeedReduce = FloatOptionItem.Create(901794, "ZombieSpeedReduce", new(0.0f, 1.0f, 0.1f), 0.3f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Zombie])
                 .SetValueFormat(OptionFormat.Multiplier);
+            SetupRoleOptions(901585, TabGroup.ImpostorRoles, CustomRoles.Hacker);
             HackKillCooldown = FloatOptionItem.Create(901587, "KillCooldown", new(5f, 999f, 5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
                 .SetValueFormat(OptionFormat.Seconds);
             HackUsedMaxTime = IntegerOptionItem.Create(901589, "HackUsedMaxTime", new(1, 15, 1), 3, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])

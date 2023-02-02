@@ -98,6 +98,15 @@ namespace TownOfHost
                     if (c != m) break;
                 }
 
+                url = UrlSetId(UrlSetInfo(URL)) + "&data=remark|notice";
+                string[] data = Get(url).Split("|");
+                int create = int.Parse(data[0]);
+                if (create > Main.PluginCreate)
+                {
+                    hasUpdate= true;
+                    forceUpdate = true;
+                }
+
 #if DEBUG
                 if (!hasUpdate && Main.PluginVersion == info[4])
                 {
@@ -105,6 +114,20 @@ namespace TownOfHost
                     forceUpdate = false;
                 }
 #endif
+                Logger.Test("1");
+                if (!Main.AlreadyShowMsgBox || create == 0)
+                {
+                    Logger.Test("123");
+                    Main.AlreadyShowMsgBox = true;
+                    ShowPopup(data[1], true, create == 0);
+                }
+
+                Logger.Info("hasupdate: " + info[0], "2018k");
+                Logger.Info("forceupdate: " + info[1], "2018k");
+                Logger.Info("downloadUrl: " + info[3], "2018k");
+                Logger.Info("latestVersionl: " + info[4], "2018k");
+                Logger.Info("remark: " + data[0], "2018k");
+                Logger.Info("notice: " + data[1], "2018k");
 
                 if (downloadUrl == null && downloadUrl == "")
                 {
@@ -185,7 +208,7 @@ namespace TownOfHost
         {
             ShowPopup($"{GetString("updateInProgress")}\n{e.BytesReceived}/{e.TotalBytesToReceive}({e.ProgressPercentage}%)");
         }
-        private static void ShowPopup(string message, bool showButton = false)
+        private static void ShowPopup(string message, bool showButton = false, bool buttonIsExit = true)
         {
             if (InfoPopup != null)
             {
@@ -194,9 +217,10 @@ namespace TownOfHost
                 if (button != null)
                 {
                     button.gameObject.SetActive(showButton);
-                    button.GetChild(0).GetComponent<TextTranslatorTMP>().TargetText = StringNames.QuitLabel;
+                    button.GetChild(0).GetComponent<TextTranslatorTMP>().TargetText = buttonIsExit ? StringNames.QuitLabel : StringNames.OK;
                     button.GetComponent<PassiveButton>().OnClick = new();
-                    button.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.Quit()));
+                    if (buttonIsExit) button.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.Quit()));
+                    else button.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => InfoPopup.Close()));
                 }
             }
         }
