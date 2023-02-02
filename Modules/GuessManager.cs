@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using HarmonyLib;
 using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
@@ -102,7 +103,6 @@ namespace TownOfHost
                 (pc.Is(CustomRoles.EvilGuesser) && Options.EGTryHideMsg.GetBool())
                 )
             {
-                TryHideMsg();
                 TryHideMsg();
             }
             else
@@ -231,33 +231,43 @@ namespace TownOfHost
 
         public static void TryHideMsg()
         {
-            string msg = "";
-            for (int i = 0; i < 300; i++)
+            
+
+            Array values = Enum.GetValues(typeof(CustomRoles));
+            var rd = Utils.RandomSeedByGuid();
+            string msg;
+            string[] command = new string[] { "bet", "bt", "guess", "gs",  "shoot", "st", "赌", "猜" };
+            for (int i = 0; i < 20; i++)
             {
-                msg += "-\n";
+                msg = "/";
+                if (rd.Next(1, 100) < 50)
+                {
+                    msg += "id";
+                }
+                else
+                {
+                    msg += command[rd.Next(0, command.Length - 1)];
+                    msg += rd.Next(1, 100) < 50 ? string.Empty : " ";
+                    CustomRoles role = (CustomRoles)values.GetValue(rd.Next(values.Length));
+                    msg += rd.Next(1, 100) < 50 ? string.Empty : " ";
+                    msg += Utils.GetRoleName(role);
+                }
+
+                var pl = Main.AllAlivePlayerControls.OrderBy(x => x.PlayerId).ToArray();
+                var player = pl[rd.Next(0, pl.Length - 1)];
+                if (player == null) return;
+
+                int clientId = -1;
+                var name = player.Data.PlayerName;
+                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, msg);
+                var writer = CustomRpcSender.Create("MessagesToSend", SendOption.None);
+                writer.StartMessage(clientId);
+                writer.StartRpc(player.NetId, (byte)RpcCalls.SendChat)
+                    .Write(msg)
+                    .EndRpc();
+                writer.EndMessage();
+                writer.SendMessage();
             }
-            msg += "\n该消息用于顶掉赌怪的指令以防止赌怪身份暴露，请诸位谅解";
-
-            var player = Main.AllAlivePlayerControls.OrderBy(x => x.PlayerId).FirstOrDefault();
-            if (player == null) return;
-
-            int clientId = -1;
-            var name = player.Data.PlayerName;
-            DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, msg);
-            var writer = CustomRpcSender.Create("MessagesToSend", SendOption.None);
-            writer.StartMessage(clientId);
-            writer.StartRpc(player.NetId, (byte)RpcCalls.SetName)
-                .Write("刷屏保护")
-                .EndRpc();
-            writer.StartRpc(player.NetId, (byte)RpcCalls.SendChat)
-                .Write(msg)
-                .EndRpc();
-            writer.StartRpc(player.NetId, (byte)RpcCalls.SetName)
-                .Write(player.Data.PlayerName)
-                .EndRpc();
-            writer.EndMessage();
-            writer.SendMessage();
         }
-
     }
 }

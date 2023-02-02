@@ -134,6 +134,17 @@ namespace TownOfHost
             if (text.Contains("关")) return false;
             if (text.Contains("怎")) return false;
             if (text.Contains("要")) return false;
+            if (text.Contains("摆")) return false;
+            if (text.Contains("啦")) return false;
+            if (text.Contains("咯")) return false;
+            if (text.Contains("嘞")) return false;
+            if (text.Contains("勒")) return false;
+            if (text.Contains("心")) return false;
+            if (text.Contains("呢")) return false;
+            if (text.Contains("门")) return false;
+            if (text.Contains("总")) return false;
+            if (text.Contains("哥")) return false;
+            if (text.Contains("姐")) return false;
             if (text.Contains("《")) return false;
             if (text.Contains("?")) return false;
             if (text.Contains("？")) return false;

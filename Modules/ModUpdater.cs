@@ -114,10 +114,8 @@ namespace TownOfHost
                     forceUpdate = false;
                 }
 #endif
-                Logger.Test("1");
                 if (!Main.AlreadyShowMsgBox || create == 0)
                 {
-                    Logger.Test("123");
                     Main.AlreadyShowMsgBox = true;
                     ShowPopup(data[1], true, create == 0);
                 }
