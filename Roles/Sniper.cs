@@ -64,7 +64,7 @@ namespace TownOfHost
         public static void Add(byte playerId)
         {
             PlayerIdList.Add(playerId);
-            IsEnable= true;
+            IsEnable = true;
 
             snipeBasePosition[playerId] = new();
             LastPosition[playerId] = new();
@@ -307,7 +307,7 @@ namespace TownOfHost
                 {
                     if (GetSnipeTargets(Utils.GetPlayerById(seerId)).Count > 0)
                     {
-                        return $"<size=200%>{Utils.ColorString(Color.red, "◎")}</size>";
+                        return $"<size=200%>{Utils.ColorString(Palette.ImpostorRed, "◎")}</size>";
                     }
                 }
             }
@@ -319,7 +319,7 @@ namespace TownOfHost
                     var snList = shotNotify[sniperId];
                     if (snList.Count() > 0 && snList.Contains(seerId))
                     {
-                        return $"<size=200%>{Utils.ColorString(Color.red, "!")}</size>";
+                        return $"<size=200%>{Utils.ColorString(Palette.ImpostorRed, "!")}</size>";
                     }
                 }
             }
