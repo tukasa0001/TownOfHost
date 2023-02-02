@@ -252,6 +252,8 @@ namespace TownOfHost
     {
         public static void Prefix(MapBehaviour __instance, ref MapOptions opts)
         {
+            if (GameStates.IsMeeting) return;
+
             if (opts.Mode is MapOptions.Modes.Normal or MapOptions.Modes.Sabotage)
             {
                 var player = PlayerControl.LocalPlayer;
