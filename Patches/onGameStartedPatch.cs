@@ -406,7 +406,7 @@ namespace TownOfHost
                         {
                             if (seer == pc) continue;
                             if (pc.GetCustomRole().IsImpostor() || pc.IsNeutralKiller()) //変更対象がインポスター陣営orキル可能な第三陣営
-                                NameColorManager.RpcAdd(seer.PlayerId, pc.PlayerId, $"{pc.GetRoleColorCode()}");
+                                NameColorManager.Add(seer.PlayerId, pc.PlayerId);
                         }
                     }
                 }

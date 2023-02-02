@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Hazel;
+using UnityEngine;
 
 namespace TownOfHost
 {
@@ -18,39 +19,70 @@ namespace TownOfHost
             }
             return openTag + name + closeTag;
         }
-        public static void Add(byte seerId, byte targetId, string color)
+        public static void Add(byte seerId, byte targetId, Color color = default)
         {
-            Remove(seerId, targetId);
-            Main.PlayerStates[seerId].TargetColorData.Add(targetId, color);
+            var seer = Utils.GetPlayerById(seerId);
+            var target = Utils.GetPlayerById(targetId);
+            if (seer == null || target == null) return;
+
+            if (color == default)
+                color = target.GetRoleColor();
+            string colorCode = ColorUtility.ToHtmlStringRGBA(color);
+
+            Add(seerId, targetId, colorCode);
+        }
+        private static void Add(byte seerId, byte targetId, string colorCode)
+        {
+            var state = Main.PlayerStates[seerId];
+            if (state.TargetColorData.TryGetValue(targetId, out var value) && colorCode == value) return;
+            state.TargetColorData.Add(targetId, colorCode);
+
+            SendRPC(seerId, targetId, colorCode);
         }
         public static void Remove(byte seerId, byte targetId)
         {
-            Main.PlayerStates[seerId].TargetColorData.Remove(targetId);
-        }
+            var seer = Utils.GetPlayerById(seerId);
+            var target = Utils.GetPlayerById(targetId);
+            if (seer == null || target == null) return;
 
-        public static void RpcAdd(byte seerId, byte targetId, string color)
+            var state = Main.PlayerStates[seerId];
+            if (!state.TargetColorData.ContainsKey(targetId)) return;
+            state.TargetColorData.Remove(targetId);
+
+            SendRPC(seerId, targetId);
+
+        }
+        public static void RemoveAll(byte seerId)
+        {
+            var seer = Utils.GetPlayerById(seerId);
+            if (seer == null) return;
+
+            Main.PlayerStates[seerId].TargetColorData.Clear();
+
+            SendRPC(seerId);
+        }
+        private static void SendRPC(byte seerId, byte targetId = byte.MaxValue, string colorCode = "")
         {
             if (!AmongUsClient.Instance.AmHost) return;
 
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.AddNameColorData, SendOption.Reliable, -1);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetNameColorData, SendOption.Reliable, -1);
             writer.Write(seerId);
             writer.Write(targetId);
-            writer.Write(color);
-
+            writer.Write(colorCode);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
-
-            Add(seerId, targetId, color);
         }
-        public static void RpcRemove(byte seerId, byte targetId)
+        public static void ReceiveRPC(MessageReader reader)
         {
-            if (!AmongUsClient.Instance.AmHost) return;
+            byte seerId = reader.ReadByte();
+            byte targetId = reader.ReadByte();
+            string colorCode = reader.ReadString();
 
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveNameColorData, SendOption.Reliable, -1);
-            writer.Write(seerId);
-            writer.Write(targetId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-
-            Remove(seerId, targetId);
+            if (targetId == byte.MaxValue)
+                RemoveAll(seerId);
+            else if (colorCode == "")
+                Remove(seerId, targetId);
+            else
+                Add(seerId, targetId, colorCode);
         }
     }
 }

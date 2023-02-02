@@ -27,8 +27,7 @@ namespace TownOfHost
         SetKillOrSpell,
         SetSheriffShotLimit,
         SetDousedPlayer,
-        AddNameColorData,
-        RemoveNameColorData,
+        SetNameColorData,
         DoSpell,
         SniperSync,
         SetLoversPlayers,
@@ -152,16 +151,8 @@ namespace TownOfHost
                     bool doused = reader.ReadBoolean();
                     Main.isDoused[(ArsonistId, DousedId)] = doused;
                     break;
-                case CustomRPC.AddNameColorData:
-                    byte addSeerId = reader.ReadByte();
-                    byte addTargetId = reader.ReadByte();
-                    string color = reader.ReadString();
-                    NameColorManager.Add(addSeerId, addTargetId, color);
-                    break;
-                case CustomRPC.RemoveNameColorData:
-                    byte removeSeerId = reader.ReadByte();
-                    byte removeTargetId = reader.ReadByte();
-                    NameColorManager.Remove(removeSeerId, removeTargetId);
+                case CustomRPC.SetNameColorData:
+                    NameColorManager.ReceiveRPC(reader);
                     break;
                 case CustomRPC.DoSpell:
                     Witch.ReceiveRPC(reader, true);

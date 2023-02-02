@@ -137,10 +137,10 @@ namespace TownOfHost
                     var taskState = target.GetPlayerTaskState();
                     if (taskState.IsTaskFinished)
                     {
-                        var colorCode = Utils.GetRoleColorCode(CustomRoles.MadGuardian);
-                        NameColorManager.RpcAdd(killer.PlayerId, target.PlayerId, colorCode);
+                        var color = Utils.GetRoleColor(CustomRoles.MadGuardian);
+                        NameColorManager.Add(killer.PlayerId, target.PlayerId);
                         if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
-                            NameColorManager.RpcAdd(target.PlayerId, killer.PlayerId, colorCode);
+                            NameColorManager.Add(target.PlayerId, killer.PlayerId, color);
                         Utils.NotifyRoles();
                         return false;
                     }
@@ -963,7 +963,7 @@ namespace TownOfHost
             {
                 foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
                 {
-                    NameColorManager.RpcAdd(pc.PlayerId, impostor.PlayerId, impostor.GetRoleColorCode());
+                    NameColorManager.Add(pc.PlayerId, impostor.PlayerId);
                 }
                 Utils.NotifyRoles(SpecifySeer: pc);
             }
