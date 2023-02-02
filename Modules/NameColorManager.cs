@@ -19,20 +19,15 @@ namespace TownOfHost
             }
             return openTag + name + closeTag;
         }
-        public static void Add(byte seerId, byte targetId, Color color = default)
+        public static void Add(byte seerId, byte targetId, string colorCode = "")
         {
             var seer = Utils.GetPlayerById(seerId);
             var target = Utils.GetPlayerById(targetId);
             if (seer == null || target == null) return;
 
-            if (color == default)
-                color = target.GetRoleColor();
-            string colorCode = ColorUtility.ToHtmlStringRGBA(color);
+            if (colorCode == "")
+                colorCode = target.GetRoleColorCode();
 
-            Add(seerId, targetId, colorCode);
-        }
-        private static void Add(byte seerId, byte targetId, string colorCode)
-        {
             var state = Main.PlayerStates[seerId];
             if (state.TargetColorData.TryGetValue(targetId, out var value) && colorCode == value) return;
             state.TargetColorData.Add(targetId, colorCode);
