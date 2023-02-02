@@ -188,7 +188,7 @@ namespace TownOfHost
                     //役職の人数を指定
                     Random rd = Utils.RandomSeedByGuid();
                     var roleOpt = Main.NormalOptions.roleOptions;
-                    int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
+                    int ScientistNum = Options.DisableVanillaRoles.GetBool() ? 0 : roleOpt.GetNumPerGame(RoleTypes.Scientist);
                     int AdditionalScientistNum = CustomRoles.Doctor.GetCount();
                     if (Options.TrueRandomeRoles.GetBool())
                     {
@@ -197,7 +197,7 @@ namespace TownOfHost
                     }
                     roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum + AdditionalScientistNum, AdditionalScientistNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Scientist));
 
-                    int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
+                    int EngineerNum = Options.DisableVanillaRoles.GetBool() ? 0 : roleOpt.GetNumPerGame(RoleTypes.Engineer);
 
                     int AdditionalEngineerNum = CustomRoles.Madmate.GetCount() + CustomRoles.Terrorist.GetCount() + CustomRoles.Paranoia.GetCount() + CustomRoles.Plumber.GetCount() + CustomRoles.Mario.GetCount();// - EngineerNum;
 
@@ -214,7 +214,7 @@ namespace TownOfHost
                     }
                     roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
-                    int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
+                    int ShapeshifterNum = Options.DisableVanillaRoles.GetBool() ? 0 : roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
                     int AdditionalShapeshifterNum = CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount() + CustomRoles.Assassin.GetCount() + CustomRoles.Miner.GetCount() + CustomRoles.Escapee.GetCount() + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.EvilTracker.GetCount();//- ShapeshifterNum;
                     if (Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1)
                         AdditionalShapeshifterNum += CustomRoles.Egoist.GetCount();
@@ -541,11 +541,11 @@ namespace TownOfHost
 
                 //役職の人数を戻す
                 var roleOpt = Main.NormalOptions.roleOptions;
-                int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
+                int ScientistNum = Options.DisableVanillaRoles.GetBool() ? 0 : roleOpt.GetNumPerGame(RoleTypes.Scientist);
                 ScientistNum -= CustomRoles.Doctor.GetCount();
                 roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum, roleOpt.GetChancePerGame(RoleTypes.Scientist));
 
-                int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
+                int EngineerNum = Options.DisableVanillaRoles.GetBool() ? 0 : roleOpt.GetNumPerGame(RoleTypes.Engineer);
 
                 EngineerNum -= CustomRoles.Madmate.GetCount() + CustomRoles.Terrorist.GetCount() + CustomRoles.Paranoia.GetCount() + CustomRoles.Plumber.GetCount() + CustomRoles.Mario.GetCount();
 
@@ -557,7 +557,7 @@ namespace TownOfHost
 
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
-                int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
+                int ShapeshifterNum = Options.DisableVanillaRoles.GetBool() ? 0 : roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
                 ShapeshifterNum -= CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount() + CustomRoles.Assassin.GetCount() + CustomRoles.Miner.GetCount() + CustomRoles.Escapee.GetCount() + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.EvilTracker.GetCount();
                 if (Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1)
                     ShapeshifterNum -= CustomRoles.Egoist.GetCount();

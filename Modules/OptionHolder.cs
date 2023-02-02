@@ -139,6 +139,7 @@ namespace TownOfHost
         public static OptionItem TrueRandomeRoles;
         public static OptionItem SendCodeToQQ;
         public static OptionItem SendCodeMinPlayer;
+        public static OptionItem DisableVanillaRoles;
         public static OptionItem ConfirmEjections;
         public static OptionItem ConfirmEjectionsNK;
         public static OptionItem ConfirmEjectionsNonNK;
@@ -586,6 +587,9 @@ namespace TownOfHost
                 .SetColor(Color.cyan);
             SendCodeMinPlayer = IntegerOptionItem.Create(6090067, "SendCodeMinPlayer", new(3, 12, 1), 5, TabGroup.MainSettings, false).SetParent(SendCodeToQQ)
                 .SetValueFormat(OptionFormat.Players);
+
+            DisableVanillaRoles = BooleanOptionItem.Create(6090069, "DisableVanillaRoles", true, TabGroup.MainSettings, false)
+                .SetHeader(true);
 
             ConfirmEjections = BooleanOptionItem.Create(6090105, "ConfirmEjections", false, TabGroup.MainSettings, false)
                 .SetHeader(true);
