@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
 using Hazel;
-using UnityEngine;
 using TownOfHost.Roles.Impostor;
 
 namespace TownOfHost
