@@ -271,7 +271,7 @@ ExecutionerInfoLong,(独立阵营):\n游戏开始时处刑人会被分配到一�
 SchrodingerCatInfoLong,(独立阵营):\n薛定谔的猫一开始是没有胜利条件的。薛定谔的猫被击杀后，其会复活且加入凶手阵营，获得与凶手所在阵营相同的胜利条件。\n注:\n1.被放逐的薛定谔的猫死亡并不再变更胜利条件。\n2.被术士击杀的薛定谔的猫死亡并不再变更胜利条件。\n3.除吸血鬼的击杀外，一切显示为玩家自杀的情况内薛定谔的猫死亡并不再变更胜利条件。,"(中立):\n當薛定諤的貓第一次被殺時,他將轉入殺他的那個陣營。\n(P.S:1.薛定諤的貓如果被丟出則陣營不更改\n2.薛定諤的貓如果被術士下咒對象咒死時則陣營不更改\n3.如果薛定諤的貓有戀人且戀人死亡受到戀人共死影響自殺則陣營不更改)"
 OpportunistInfoLong,(独立阵营):\n若投机者在游戏结束时存活，则投机者跟随获胜玩家一同获得胜利。\n\n（人畜无害小可爱）,"(中立):\n如果投機主義者活到最後,他將跟著遊戲結束獲勝的陣營一起獲勝。"
 OpportunistKillerInfoLong,(独立阵营):\n若投机者杀手在游戏结束时存活，则投机者杀手跟随获胜玩家一同获得胜利。比起普通投机者，投机者杀手可以进行击杀。,(中立):\n若投機者殺手在遊戲結束時存活，則投機者殺手跟隨獲勝玩家一同獲得勝利。比起普通投機者，投機者殺手可以進行擊殺。
-MarioInfoLong,(独立阵营):\n马里奥跳管达到一定次数就会单独获得胜利,(中立):\n馬里奧跳管達到一定次數就會單獨獲得勝利
+MarioInfoLong,(独立阵营):\n马里奥跳管达到一定次数就会单独获得胜利。,(中立):\n馬里奧跳管達到一定次數就會單獨獲得勝利
 EgoistInfoLong,(独立阵营):\n原则上野心家属于内鬼阵营。野心家与内鬼阵营玩家互认但不可以击杀对方。当其他内鬼阵营玩家全部死亡后，若野心家存活且内鬼阵营达成胜利条件，则野心家单独获得胜利。,"(中立):\n如果所有的狼人都死光了且利己主義者活著,利己主義者將獨自獲勝。\n(狼人和利己主義者互相知道對方但是不可以互刀對方)"
 JackalInfoLong,(独立阵营):\n豺狼需要击杀所有人。存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。,"(中立):\n豺狼需要殺死所有人來獲得勝利,\n如果場上存活的玩家只剩下豺狼和另一名不帶刀職業時,豺狼將獲勝。"
 GodInfoLong,(独立阵营):\n神从一开始就知道所有人的身份，而神只要活到最后就会抢走胜利。,(中立):\n神從一開始就知道所有人的身份，而神只要活到最後就會搶走勝利。
@@ -459,8 +459,8 @@ EvilWatcherChance,成为内鬼阵营的概率,成為邪惡觀察者的機率
 LuckeyProbability,触发挡伤的概率,觸發擋傷的概率
 SabotageMasterFixesDoors,打开多扇关闭的门,破壞大師可以修理多扇門
 SabotageMasterFixesReactors,可以一人修理核反应堆,破壞大師可以一個人同時修理兩邊的反應堆
-SabotageMasterFixesOxygens,修理氧气破坏时另一边的氧气设备将会被同时修理,破壞大師可以一個人同時修理兩邊的氧氣
-SabotageMasterFixesCommunications,在米拉总部地图修理通信破坏时另一边的通信破坏同时被修理,破壞大師可以一個人同時修理兩邊的通訊(Mira HQ)
+SabotageMasterFixesOxygens,可以一人修理氧气破坏,破壞大師可以一個人同時修理兩邊的氧氣
+SabotageMasterFixesCommunications,可以一人修复通讯破坏（米拉总部地图）,破壞大師可以一個人同時修理兩邊的通訊(Mira HQ)
 SabotageMasterFixesElectrical,按一个按钮就可以修复照明破坏,破壞大師拉一根拉桿就可以修理電燈
 SheriffCanKill%role%,可以执法%role%,警長可以槍死%role%
 SheriffCanKillNeutrals,可以执法独立阵营,警長可以槍死中立
@@ -482,8 +482,8 @@ MayorNumOfUseButton,紧急会议最大次数,隨時拍桌最大次數
 MayorHideVote,隐藏市长附加的投票,隱藏市長附加的投票
 CanBeforeSchrodingerCatWinTheCrewmate,未加入其他阵营前可以跟随船员阵营获胜,薛定諤的貓的陣營轉變前可以和船員一起贏
 SchrodingerCatExiledTeamChanges,被放逐时会加入其他阵营,薛定諤的貓被丟出時陣營會改變
-ExecutionerCanTargetImpostor,内鬼阵营玩家可以成为的目标,劊子手的目標可以是狼人陣營的玩家
-ExecutionerCanTargetNeutralKiller,独立阵营玩家可以成为的目标,劊子手的目標可以是中立陣營的玩家
+ExecutionerCanTargetImpostor,内鬼阵营玩家可以成为目标,劊子手的目標可以是狼人陣營的玩家
+ExecutionerCanTargetNeutralKiller,独立阵营玩家可以成为目标,劊子手的目標可以是中立陣營的玩家
 ExecutionerChangeRolesAfterTargetKilled,目标死亡后将变为,劊子手的目標被殺後轉變的職業
 SerialKillerLimit,自杀倒计时,連環殺手自殺倒數
 ArsonistDouseTime,涂油所需时间,澆油所需時間
