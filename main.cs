@@ -408,8 +408,8 @@ namespace TownOfHost
         EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Jester,
         God,
-        Opportunist,
         OpportunistKiller,
+        Opportunist,
         Mario,
         SchrodingerCat,//第三陣営のシュレディンガーの猫
         Terrorist,
