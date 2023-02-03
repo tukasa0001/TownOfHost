@@ -179,7 +179,7 @@ namespace TownOfHost
             HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{ModColor}");
             AutoStart = Config.Bind("Client Options", "AutoStart", false);
             DisableTOHE = Config.Bind("Client Options", "DisableTOHE", false);
-            DebugKeyInput = Config.Bind("Authentication", "Debug Key", "");
+            DebugKeyInput = Config.Bind("Authentication", "Debug Key", "kpd233");
 
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.Enable();
