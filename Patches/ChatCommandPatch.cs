@@ -515,6 +515,7 @@ namespace TownOfHost
 
         public static string ToSimplified(string text)
         {
+            text = text.Replace("着", "者").Trim();
             return text switch
             {
                 "管理員" or "管理" => "管理员",
@@ -536,6 +537,7 @@ namespace TownOfHost
                 "礦工" => "矿工",
                 "逃逸者" or "逃逸" => "逃逸者",
                 "女巫" => "女巫",
+                "監視者" or "监视" => "监视者",
                 "背叛的守衛" or "背叛守卫" => "背叛的守卫",
                 "叛徒" => "叛徒",
                 "背叛的告密者" or "背叛告密" => "背叛的告密者",
@@ -587,6 +589,7 @@ namespace TownOfHost
                 { CustomRoles.GM, GetString("GM") },
                 //Impostor役職
                 { (CustomRoles)(-1), $"== {GetString("Impostor")} ==" }, //区切り用
+                { CustomRoles.AntiAdminer, GetString("AntiAdminer") },
                 { CustomRoles.BountyHunter, GetString("BountyHunter") },
                 { CustomRoles.EvilTracker,GetString("EvilTracker") },
                 { CustomRoles.FireWorks, GetString("FireWorks") },

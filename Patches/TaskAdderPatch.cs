@@ -120,6 +120,7 @@ namespace TownOfHost
             { CustomRoles.Plumber, RoleTypes.Engineer },
             { CustomRoles.TimeThief, RoleTypes.Impostor },
             { CustomRoles.EvilTracker, RoleTypes.Shapeshifter },
+            { CustomRoles.AntiAdminer, RoleTypes.Impostor },
         };
         public static bool Prefix(TaskAddButton __instance)
         {

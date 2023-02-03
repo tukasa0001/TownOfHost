@@ -134,6 +134,7 @@ namespace TownOfHost
                 Sheriff.Init();
                 ChivalrousExpert.Init();
                 EvilTracker.Init();
+                AntiAdminer.Init();
                 LastImpostor.Init();
                 CustomWinnerHolder.Reset();
                 AntiBlackout.Reset();
@@ -353,7 +354,7 @@ namespace TownOfHost
             else
             {
                 List<int> funList = new();
-                for (int i = 0; i <= 50; i++)
+                for (int i = 0; i <= 51; i++)
                 {
                     funList.Add(i);
                 }
@@ -431,6 +432,7 @@ namespace TownOfHost
                         case 48: AssignCustomRolesFromList(CustomRoles.God, Crewmates); break;
                         case 49: AssignCustomRolesFromList(CustomRoles.Zombie, Impostors); break;
                         case 50: AssignCustomRolesFromList(CustomRoles.Mario, Engineers); break;
+                        case 51: AssignCustomRolesFromList(CustomRoles.AntiAdminer, Impostors); break;
                     }
                 }
 
@@ -517,6 +519,9 @@ namespace TownOfHost
                             break;
                         case CustomRoles.EvilTracker:
                             EvilTracker.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.AntiAdminer:
+                            AntiAdminer.Add(pc.PlayerId);
                             break;
                         case CustomRoles.Psychic:
                             Main.PsychicTarget.Clear();

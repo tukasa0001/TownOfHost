@@ -47,6 +47,7 @@ TimeThief,蚀时者,時間小偷
 Sniper,狙击手,狙擊手
 EvilTracker,邪恶的追踪者,邪惡的追蹤者
 EvilGuesser,邪恶赌怪,邪惡賭怪
+AntiAdminer,监视者,監視者
 
 # 叛徒系
 Madmate,叛徒,叛徒
@@ -135,12 +136,13 @@ EscapeeInfo,追杀？不存在的,追殺？不存在的
 WitchInfo,诅咒你的敌人,使用你的魔法來讓你的敵人死亡
 MafiaInfo,潜伏以等候时机,潛伏以等待時機
 BeforeMafiaInfo,潜伏以等候时机,潛伏以等待時機
-AfterMafiaInfo,杀光所有人,殺光所有人吧
+AfterMafiaInfo,开始你的复仇吧！,殺光所有人吧
 PuppeteerInfo,操纵敌人，杀光船员,操控對象並殺光所有船員
 TimeThiefInfo,阻止开会模拟器的诞生,殺光你的敵人並將會議時間縮短
 SniperInfo,希望你能打准点,讓你的敵人在你的狙擊下死亡
 LastImpostorInfo,你是狼村最后的希望…,你是狼村最後的希望...
-EvilTrackerInfo,让我看看，我的小目标在哪,你不要過來啊啊阿
+EvilTrackerInfo,你不要过来啊啊啊,你不要過來啊啊阿
+AntiAdminerInfo,一切都在掌控之中,一切都在掌控之中
 
 # 叛徒系
 MadmateInfo,帮助内鬼,幫助狼人
@@ -225,6 +227,7 @@ TimeThiefInfoLong,(内鬼阵营):\n蚀时者每击杀一个人，会议时间就
 SniperInfoLong,(内鬼阵营):\n狙击手拥有远距离射杀的能力。方法为：进入变形到解除变形的位置连成一条线，这条线包括这条线的射线上距离最近的玩家会被狙杀。狙击手在子弹用完后可以进行正常击杀。,"(狼人陣營):\n狙擊手\狙擊手可以進行遠程殺人\n他的子彈將從變形處延伸到取消變形處並往直線前進並殺死在這條線上非狼人陣營的人。\n在狙擊手用光子彈前,狙擊手無法正常殺人。"
 EvilTrackerInfoLong,(内鬼阵营):\n邪恶追踪者可以追踪其他内鬼以及其所变形的玩家。玩家名称下面的箭头代表着目标的方向。当内鬼队友杀人时，邪恶追踪者将会看到击杀闪烁提示。,"(狼人陣營):\n邪惡的追蹤者:\他有一個箭頭指向他的隊友以及他變形的玩家,\n當他的隊友殺人時將出現閃光顯示。"
 EvilGuesserInfoLong,(内鬼阵营):\n邪恶赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。,(狼人陣營):\n邪惡賭怪可以在會議時猜測某位玩家的職業，猜錯了賭怪會死，猜對了則被猜的人死。猜測指令為/gs [玩家編號] [職業名]。您可以在玩家名字前看到該玩家的編號，或者使用/id指令查看所有玩家的編號。
+AntiAdminerInfoLong,(内鬼阵营):\n监视者可以随时知道是否有船员阵营玩家或中立阵营玩家靠近监控面板、管理室地图、生命检测、通行记录等设备。注意：监视者并不知道靠近的人是否真的在使用设备，只是知道有人靠近设备。,(狼人陣營):\n監視者可以隨時知道是否有人靠近或使用監控面板、管理室地圖面板、生命檢測儀、通行記錄儀等。
 
 # 叛徒系
 MadmateInfoLong,(内鬼阵营):\n叛徒伪装成船员来帮助内鬼阵营，但是他们并不知道谁是内鬼。叛徒不可以进行击杀或者破坏，可以跳管道且没有任务。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人無法知道叛徒是誰,\n他可以跳洞且沒有任務。"
@@ -519,6 +522,7 @@ ImpKnowCyberStarDead,内鬼可以知道网红死亡,內鬼可以知道網紅死�
 NeutralKnowCyberStarDead,中立可以知道网红死亡,中立可以知道網紅死亡
 JesterCanUseButton,允许小丑召开紧急会议,允許小丑召開緊急會議
 MarioVentNumWin,马里奥胜利需要跳管次数,馬里奧勝利需要跳管次數
+CanCheckCamera,可以监视到是否有人使用监控,
 TriggerKill,击杀,殺人鍵
 TriggerVent,通风管,通風口
 
@@ -686,6 +690,10 @@ WitchCurrentMode,当前模式,現在模式
 WitchModeKill,击杀,殺人
 WitchModeSpell,诅咒,下咒
 BountyCurrentTarget,当前目标,目標
+AntiAdminerAD,管理室地图警告,
+AntiAdminerVI,生命检测仪警告,
+AntiAdminerDL,日志警告,
+AntiAdminerCA,摄像头警告,
 Roles,职业,職業
 Settings,设定,
 Addons,附加效果,屬性

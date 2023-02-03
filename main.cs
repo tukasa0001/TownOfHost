@@ -366,6 +366,7 @@ namespace TownOfHost
         Puppeteer,
         TimeThief,
         EvilTracker,
+        AntiAdminer,
         //Madmate
         MadGuardian,
         Madmate,

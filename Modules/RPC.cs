@@ -397,6 +397,9 @@ namespace TownOfHost
                 case CustomRoles.SabotageMaster:
                     SabotageMaster.Add(targetId);
                     break;
+                case CustomRoles.AntiAdminer:
+                    AntiAdminer.Add(targetId);
+                    break;
                 case CustomRoles.LastImpostor:
                     LastImpostor.Add(targetId);
                     break;
