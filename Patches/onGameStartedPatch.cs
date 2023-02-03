@@ -14,7 +14,7 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance)
         {
-
+                
             try
             {
                 //注:この時点では役職は設定されていません。
@@ -145,7 +145,7 @@ namespace TownOfHost
             }
             catch
             {
-                if (__instance.AmHost)
+                if (AmongUsClient.Instance.AmHost)
                 {
                     Logger.Fatal("Change Role Setting Postfix 错误，触发防黑屏措施", "Anti-black");
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Draw);
@@ -155,7 +155,7 @@ namespace TownOfHost
                 }
                 else
                 {
-                    __instance.ExitGame(DisconnectReasons.Destroy);
+                    AmongUsClient.Instance.ExitGame(DisconnectReasons.Destroy);
                     Logger.Fatal("Change Role Setting Postfix 错误", "Anti-black");
                     Logger.SendInGame("很不幸，您似乎触发了TOH古老的半屏Bug\n记住，这100%是原生TOH的锅哈~", true);
                 }
