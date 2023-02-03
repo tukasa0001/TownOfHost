@@ -67,7 +67,9 @@ namespace TownOfHost
                 CustomRoles.Sniper or
                 CustomRoles.EvilTracker or
                 CustomRoles.EvilGuesser or
-                CustomRoles.AntiAdminer;
+                CustomRoles.AntiAdminer or
+                CustomRoles.Sans or
+                CustomRoles.Bomber;
         }
         public static bool IsMadmate(this CustomRoles role)
         {

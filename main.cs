@@ -144,6 +144,7 @@ namespace TownOfHost
         public static int SKMadmateNowCount;
         public static bool isCursed;
         public static bool isMarked;
+        public static Dictionary<byte, float> SansKillCooldown = new();
         public static Dictionary<byte, bool> CheckShapeshift = new();
         public static Dictionary<byte, byte> ShapeshiftTarget = new();
         public static Dictionary<(byte, byte), string> targetArrows = new();
@@ -367,6 +368,8 @@ namespace TownOfHost
         TimeThief,
         EvilTracker,
         AntiAdminer,
+        Sans,
+        Bomber,
         //Madmate
         MadGuardian,
         Madmate,

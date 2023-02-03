@@ -104,12 +104,6 @@ namespace TownOfHost.Modules
                 case CustomRoles.Assassin:
                     AURoleOptions.ShapeshifterCooldown = Main.isMarked ? 1f : Options.DefaultKillCooldown;
                     break;
-                case CustomRoles.Miner:
-                    AURoleOptions.ShapeshifterCooldown = Options.DefaultKillCooldown;
-                    break;
-                case CustomRoles.Escapee:
-                    AURoleOptions.ShapeshifterCooldown = Options.DefaultKillCooldown;
-                    break;
                 case CustomRoles.SerialKiller:
                     SerialKiller.ApplyGameOptions(player);
                     break;

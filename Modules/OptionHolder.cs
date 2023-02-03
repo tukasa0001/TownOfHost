@@ -163,6 +163,10 @@ namespace TownOfHost
         public static OptionItem MNKillCooldown;
         public static OptionItem HackKillCooldown;
         public static OptionItem MafiaCanKillNum;
+        public static OptionItem SansDefaultKillCooldown;
+        public static OptionItem SansReduceKillCooldown;
+        public static OptionItem SansMinKillCooldown;
+        public static OptionItem BomberRadius;
         
         // HideAndSeek
         public static OptionItem AllowCloseDoors;
@@ -450,6 +454,16 @@ namespace TownOfHost
             TimeThief.SetupCustomOption();
             EvilTracker.SetupCustomOption();
             AntiAdminer.SetupCustomOption();
+            SetupRoleOptions(902055, TabGroup.ImpostorRoles, CustomRoles.Sans);
+            SansDefaultKillCooldown = FloatOptionItem.Create(902057, "SansDefaultKillCooldown", new(2.5f, 900f, 2.5f), 65f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Sans])
+                .SetValueFormat(OptionFormat.Seconds);
+            SansReduceKillCooldown = FloatOptionItem.Create(902059, "SansReduceKillCooldown", new(0f, 120f, 2.5f), 15f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Sans])
+                .SetValueFormat(OptionFormat.Seconds);
+            SansMinKillCooldown = FloatOptionItem.Create(902061, "SansMinKillCooldown", new(0f, 900f, 2.5f), 2.5f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Sans])
+                .SetValueFormat(OptionFormat.Seconds);
+            SetupRoleOptions(902135, TabGroup.ImpostorRoles, CustomRoles.Bomber);
+            BomberRadius = FloatOptionItem.Create(902137, "BomberRadius", new(0.5f, 5f, 0.5f), 2f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Bomber])
+                .SetValueFormat(OptionFormat.Multiplier);
 
             DefaultShapeshiftCooldown = FloatOptionItem.Create(5011, "DefaultShapeshiftCooldown", new(5f, 999f, 5f), 15f, TabGroup.ImpostorRoles, false)
                 .SetHeader(true)

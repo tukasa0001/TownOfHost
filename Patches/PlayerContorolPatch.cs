@@ -106,6 +106,7 @@ namespace TownOfHost
             switch (target.GetCustomRole())
             {
                 case CustomRoles.Luckey:
+                    if (killer.Is(CustomRoles.ChivalrousExpert) && ChivalrousExpert.isKilled(killer.PlayerId)) return false;
                     System.Random rd = Utils.RandomSeedByGuid();
                     if (rd.Next(0, 100) < Options.LuckeyProbability.GetInt())
                     {
@@ -238,6 +239,8 @@ namespace TownOfHost
                         if (!ChivalrousExpert.isKilled(killer.PlayerId)) ChivalrousExpert.killed.Add(killer.PlayerId);
                         else return false;
                         break;
+                    case CustomRoles.Bomber:
+                        return false;
                 }
             }
 
@@ -296,7 +299,6 @@ namespace TownOfHost
                     Logger.Info(target?.Data?.PlayerName + "被骇客击杀，随机报告者：" + playerList[hackinPlayer]?.Data?.PlayerName, "MurderPlayer");
                     new LateTask(() => playerList[hackinPlayer].CmdReportDeadBody(target.Data), 0.15f, "Hacker Hackin Report");
                 }
-
             }
 
             //When Bait is killed
@@ -325,6 +327,14 @@ namespace TownOfHost
                 target.ResetVotingTime();
             if (target.Is(CustomRoles.CyberStar) && Main.CyberStarDead.Contains(target.PlayerId))
                 Main.CyberStarDead.Add(target.PlayerId);
+            if (killer.Is(CustomRoles.Sans))
+            {
+                if (!Main.SansKillCooldown.ContainsKey(killer.PlayerId))
+                    Main.SansKillCooldown.Add(killer.PlayerId, Options.SansDefaultKillCooldown.GetFloat());
+                Main.SansKillCooldown[killer.PlayerId] -= Options.SansReduceKillCooldown.GetFloat();
+                if (Main.SansKillCooldown[killer.PlayerId] < Options.SansMinKillCooldown.GetFloat())
+                    Main.SansKillCooldown[killer.PlayerId] = Options.SansMinKillCooldown.GetFloat();
+            }
 
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
@@ -382,6 +392,34 @@ namespace TownOfHost
                     Logger.Msg($"{shapeshifter.GetNameWithRole()}:{position}", "MinerTeleport");
                     Utils.TP(shapeshifter.NetTransform, new Vector2(position.x, position.y + 0.3636f));
                 }
+            }
+
+            //自爆兵自爆了
+            if (shapeshifter.Is(CustomRoles.Bomber) && shapeshifting)
+            {
+                Logger.Info("炸弹爆炸了", "Boom");
+                foreach (var tg in Main.AllAlivePlayerControls)
+                {
+                    var pos = shapeshifter.transform.position;
+                    var dis = Vector2.Distance(pos, target.transform.position);
+                    if (dis > Options.BomberRadius.GetFloat()) continue;
+                    if (tg == shapeshifter) continue;
+                    Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
+                    target.SetRealKiller(shapeshifter);
+                    target.RpcMurderPlayer(target);
+                }
+
+                new LateTask(() =>
+                {
+                    var totalAlive = Main.AllAlivePlayerControls.Count();
+                    //自分が最後の生き残りの場合は勝利のために死なない
+                    if (totalAlive != 1)
+                    {
+                        Main.PlayerStates[shapeshifter.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
+                        shapeshifter.RpcMurderPlayer(shapeshifter);
+                    }
+                    Utils.NotifyRoles();
+                }, 1f, "Bomber Suiscide");
             }
 
             if (shapeshifter.Is(CustomRoles.Warlock))

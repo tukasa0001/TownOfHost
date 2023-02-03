@@ -5,8 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Assets.CoreScripts;
-using Beebyte.Obfuscator;
-using Epic.OnlineServices.AntiCheatCommon;
 using HarmonyLib;
 using Hazel;
 using UnityEngine;
@@ -520,11 +518,13 @@ namespace TownOfHost
             {
                 "管理員" or "管理" => "管理员",
                 "賞金獵人" or "赏金" => "赏金猎人",
+                "自爆兵" or "自爆" => "自爆兵",
                 "邪惡的追踪者" or "邪恶追踪者" => "邪恶的追踪者",
                 "煙花商人" or "烟花" => "烟花商人",
                 "夢魘" => "梦魇",
                 "黑手黨" or "黑手" => "黑手党",
                 "嗜血殺手" or "嗜血" => "嗜血杀手",
+                "狂妄殺手" or "狂妄" => "狂妄杀手",
                 "殺戮機器" or "杀戮" or "机器" => "杀戮机器",
                 "蝕時者" or "蚀时" => "蚀时者",
                 "狙擊手" or "狙击" => "狙击手",
@@ -537,7 +537,7 @@ namespace TownOfHost
                 "礦工" => "矿工",
                 "逃逸者" or "逃逸" => "逃逸者",
                 "女巫" => "女巫",
-                "監視者" or "监视" => "监视者",
+                "監視者" or "监管" => "监管者",
                 "背叛的守衛" or "背叛守卫" => "背叛的守卫",
                 "叛徒" => "叛徒",
                 "背叛的告密者" or "背叛告密" => "背叛的告密者",
@@ -590,6 +590,7 @@ namespace TownOfHost
                 //Impostor役職
                 { (CustomRoles)(-1), $"== {GetString("Impostor")} ==" }, //区切り用
                 { CustomRoles.AntiAdminer, GetString("AntiAdminer") },
+                { CustomRoles.Bomber, GetString("Bomber") },
                 { CustomRoles.BountyHunter, GetString("BountyHunter") },
                 { CustomRoles.EvilTracker,GetString("EvilTracker") },
                 { CustomRoles.FireWorks, GetString("FireWorks") },
@@ -608,6 +609,7 @@ namespace TownOfHost
                 { CustomRoles.Miner, GetString("Miner") },
                 { CustomRoles.Escapee, GetString("Escapee") },
                 { CustomRoles.Witch, GetString("Witch") },
+                { CustomRoles.Sans, GetString("Sans") },
                 //Madmate役職
                 { (CustomRoles)(-2), $"== {GetString("Madmate")} ==" }, //区切り用
                 { CustomRoles.MadGuardian, GetString("MadGuardian") },

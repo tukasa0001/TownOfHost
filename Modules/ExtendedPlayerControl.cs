@@ -371,8 +371,9 @@ namespace TownOfHost
                 CustomRoles.ChivalrousExpert => true,
                 CustomRoles.OpportunistKiller => true,
                 CustomRoles.Egoist or CustomRoles.Jackal => true,
+                CustomRoles.Bomber => false,
                 _ => pc.Is(RoleType.Impostor),
-            };
+            }; ;
         }
         public static bool CanUseImpostorVentButton(this PlayerControl pc)
         {
@@ -413,6 +414,10 @@ namespace TownOfHost
             {
                 case CustomRoles.SerialKiller:
                     SerialKiller.ApplyKillCooldown(player.PlayerId); //シリアルキラーはシリアルキラーのキルクールに。
+                    break;
+                case CustomRoles.Sans:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Main.SansKillCooldown.TryGetValue(player.PlayerId, out float x) ? x : Options.SansDefaultKillCooldown.GetFloat();
+                    Logger.Test(Main.AllPlayerKillCooldown[player.PlayerId].ToString());
                     break;
                 case CustomRoles.TimeThief:
                     TimeThief.SetKillCooldown(player.PlayerId); //タイムシーフはタイムシーフのキルクールに。

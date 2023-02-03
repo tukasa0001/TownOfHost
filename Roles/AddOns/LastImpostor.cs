@@ -22,13 +22,16 @@ namespace TownOfHost
             Main.AllPlayerKillCooldown[currentId] = KillCooldown.GetFloat();
         }
         public static bool CanBeLastImpostor(PlayerControl pc)
-            => pc.IsAlive()
-            && !pc.Is(CustomRoles.LastImpostor)
-            && pc.Is(RoleType.Impostor)
-            && pc.GetCustomRole()
+        {
+            if (!pc.IsAlive() || pc.Is(CustomRoles.LastImpostor) || !pc.Is(RoleType.Impostor)) return false;
+            if (Main.AllPlayerKillCooldown[pc.PlayerId] <= KillCooldown.GetFloat()) return false;
+            return pc.GetCustomRole()
             is not CustomRoles.Vampire
                 and not CustomRoles.BountyHunter
-                and not CustomRoles.SerialKiller;
+                and not CustomRoles.SerialKiller
+                and not CustomRoles.Sans;
+        }
+
         public static void SetSubRole()
         {
             //ラストインポスターがすでにいれば処理不要
