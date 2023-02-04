@@ -400,6 +400,7 @@ namespace TownOfHost
                 Logger.Info("炸弹爆炸了", "Boom");
                 foreach (var tg in Main.AllAlivePlayerControls)
                 {
+                    tg.KillFlash();
                     var pos = shapeshifter.transform.position;
                     var dis = Vector2.Distance(pos, target.transform.position);
                     if (dis > Options.BomberRadius.GetFloat()) continue;
