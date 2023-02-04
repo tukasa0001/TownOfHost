@@ -103,6 +103,10 @@ namespace TownOfHost
                 (pc.Is(CustomRoles.EvilGuesser) && Options.EGTryHideMsg.GetBool())
                 )
             {
+                new LateTask(() =>
+                {
+                    TryHideMsg(true);
+                }, 0.01f, "Hide Guesser Messgae To Host");
                 TryHideMsg();
             }
             else
@@ -230,7 +234,7 @@ namespace TownOfHost
             return true;
         }
 
-        public static void TryHideMsg()
+        public static void TryHideMsg(bool toHost = false)
         {
             ChatUpdatePatch.DoBlockChat = true;
             Array values = Enum.GetValues(typeof(CustomRoles));
@@ -259,7 +263,7 @@ namespace TownOfHost
                 var player = pl[rd.Next(0, pl.Length)];
                 if (player == null) return;
 
-                int clientId = -1;
+                int clientId = toHost ? PlayerControl.LocalPlayer.PlayerId : -1;
                 var name = player.Data.PlayerName;
                 DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, msg);
                 var writer = CustomRpcSender.Create("MessagesToSend", SendOption.None);
@@ -269,19 +273,6 @@ namespace TownOfHost
                     .EndRpc();
                 writer.EndMessage();
                 writer.SendMessage();
-                new LateTask(() =>
-                {
-                    int clientId = PlayerControl.LocalPlayer.PlayerId;
-                    var name = player.Data.PlayerName;
-                    DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, msg);
-                    var writer = CustomRpcSender.Create("MessagesToSend", SendOption.None);
-                    writer.StartMessage(clientId);
-                    writer.StartRpc(player.NetId, (byte)RpcCalls.SendChat)
-                        .Write(msg)
-                        .EndRpc();
-                    writer.EndMessage();
-                    writer.SendMessage();
-                }, 0.01f, "Hide Guesser Messgae To Host");
             }
             ChatUpdatePatch.DoBlockChat = false;
         }

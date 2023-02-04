@@ -406,18 +406,20 @@ namespace TownOfHost
             if (shapeshifter.Is(CustomRoles.Bomber) && shapeshifting)
             {
                 Logger.Info("炸弹爆炸了", "Boom");
-                foreach (var tg in Main.AllAlivePlayerControls)
+                foreach (var tg in Main.AllPlayerControls)
                 {
                     tg.KillFlash();
                     var pos = shapeshifter.transform.position;
-                    var dis = Vector2.Distance(pos, target.transform.position);
+                    var dis = Vector2.Distance(pos, tg.transform.position);
+
+                    if (!tg.IsAlive()) continue;
                     if (dis > Options.BomberRadius.GetFloat()) continue;
                     if (tg == shapeshifter) continue;
-                    Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
-                    target.SetRealKiller(shapeshifter);
-                    target.RpcMurderPlayer(target);
-                }
 
+                    Main.PlayerStates[tg.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
+                    tg.SetRealKiller(shapeshifter);
+                    tg.RpcMurderPlayer(tg);
+                }
                 new LateTask(() =>
                 {
                     var totalAlive = Main.AllAlivePlayerControls.Count();
@@ -468,15 +470,14 @@ namespace TownOfHost
                 {
                     if (shapeshifting && !Main.MarkedPlayers[shapeshifter.PlayerId].Data.IsDead)//解除变形时不执行操作
                     {
+                        PlayerControl targetw = Main.MarkedPlayers[shapeshifter.PlayerId];
+                        targetw.SetRealKiller(shapeshifter);
+                        Logger.Info($"{targetw.GetNameWithRole()} was killed", "Assassin");
                         new LateTask(() =>
                         {
-                            PlayerControl targetw = Main.MarkedPlayers[shapeshifter.PlayerId];
-                            targetw.SetRealKiller(shapeshifter);
-                            Logger.Info($"{targetw.GetNameWithRole()} was killed", "Assassin");
-                            shapeshifter.RpcMurderPlayerV2(targetw);//殺す
-                            shapeshifter.RpcGuardAndKill(shapeshifter);
-                            Main.isMarkAndKill[shapeshifter.PlayerId] = false;
-                        }, 2f, "Assassin Kill");
+                            shapeshifter.RpcMurderPlayer(targetw);//殺す
+                        }, 1f, "Assassin Kill");
+                        Main.isMarkAndKill[shapeshifter.PlayerId] = false;
                     }
                     Main.MarkedPlayers[shapeshifter.PlayerId] = null;
                 }
