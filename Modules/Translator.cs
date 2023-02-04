@@ -96,7 +96,7 @@ namespace TownOfHost
         public static string GetRoleString(string str)
         {
             var CurrentLanguage = TranslationController.Instance.currentLanguage.languageID;
-            if (CurrentLanguage != SupportedLangs.SChinese || CurrentLanguage != SupportedLangs.TChinese) CurrentLanguage = SupportedLangs.SChinese;
+            CurrentLanguage = SupportedLangs.SChinese;
             var lang = CurrentLanguage;
 
             return GetString(str, lang);

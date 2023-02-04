@@ -426,10 +426,34 @@ namespace TownOfHost
                 {
                     new LateTask(() =>
                     {
-                        Utils.SendMessage(Main.DetectiveNotify[pc.PlayerId], pc.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Detective), GetString("DetectiveNotiveTitle")));
+                        Utils.SendMessage(Main.DetectiveNotify[pc.PlayerId], pc.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Detective), GetString("DetecticeNotiveTitle")));
                     }, 5.0f, "Notice Detective Skill");
                 }
             }
+        }
+
+        public static void NoticeGodAlive()
+        {
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.Is(CustomRoles.God) && pc.IsAlive())
+                {
+                    new LateTask(() =>
+                    {
+                        Utils.SendMessage(GetString("GodNoticeAlive"), 255, Utils.ColorString(Utils.GetRoleColor(CustomRoles.God), GetString("GodAliveTitle")));
+                    }, 5.0f, "Notice God Alive");
+                    return;
+                }
+            }
+        }
+
+        public static void NoticeSkill()
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            if (Options.MafiaCanKillNum.GetInt() > 0) NoticeMafiaSkill();
+            if (Main.CyberStarDead.Count > 0) NoticeCyberStarSkill();
+            if (Main.DetectiveNotify.Count > 0) NoticeDetectiveSkill();
+            if (Options.NotifyGodAlive.GetBool()) NoticeGodAlive();
         }
 
         public static void Prefix(MeetingHud __instance)
@@ -440,9 +464,7 @@ namespace TownOfHost
             Main.AllPlayerControls.Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
             MeetingStates.MeetingCalled = true;
             Main.GuesserGuessed.Clear();
-            if (AmongUsClient.Instance.AmHost && Options.MafiaCanKillNum.GetInt() > 0) NoticeMafiaSkill();
-            if (AmongUsClient.Instance.AmHost && Main.CyberStarDead.Count > 0) NoticeCyberStarSkill();
-            if (AmongUsClient.Instance.AmHost && Main.DetectiveNotify.Count > 0) NoticeDetectiveSkill();
+            NoticeSkill();
         }
         public static void Postfix(MeetingHud __instance)
         {

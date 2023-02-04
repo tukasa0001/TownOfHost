@@ -132,6 +132,7 @@ namespace TownOfHost
         public static OptionItem ArsonistDouseTime;
         public static OptionItem ArsonistCooldown;
         public static OptionItem JesterCanUseButton;
+        public static OptionItem NotifyGodAlive;
         public static OptionItem MarioVentNumWin;
         public static OptionItem OKKillCooldown;
         public static OptionItem KillFlashDuration;
@@ -585,6 +586,7 @@ namespace TownOfHost
             Executioner.SetupCustomOption();
             Jackal.SetupCustomOption();
             SetupRoleOptions(5050965, TabGroup.NeutralRoles, CustomRoles.God);
+            NotifyGodAlive = BooleanOptionItem.Create(5050967, "NotifyGodAlive", true, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.God]);
             SetupRoleOptions(5050110, TabGroup.NeutralRoles, CustomRoles.Mario);
             MarioVentNumWin = IntegerOptionItem.Create(5050112, "MarioVentNumWin", new(5, 900, 5), 55, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mario])
                 .SetValueFormat(OptionFormat.Times);
