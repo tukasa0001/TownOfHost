@@ -1115,13 +1115,13 @@ namespace TownOfHost
                                     TargetPlayerName = Utils.ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName);
                             }
                         }
-                        if (seer.Is(CustomRoles.Mafia) && seer.Data.IsDead && !target.Data.IsDead)
+                        if (seer.Is(CustomRoles.Mafia) && !seer.IsAlive() && target.IsAlive())
                         {
                             TargetPlayerName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Mafia), target.PlayerId.ToString()) + " " + TargetPlayerName;
                         }
                         if (seer.Is(CustomRoles.NiceGuesser) || seer.Is(CustomRoles.EvilGuesser))
                         {
-                            if (!seer.Data.IsDead && !target.Data.IsDead && isMeeting)
+                            if (seer.IsAlive() && target.IsAlive() && isMeeting)
                             {
                                 TargetPlayerName = Utils.ColorString(Utils.GetRoleColor(seer.Is(CustomRoles.NiceGuesser) ? CustomRoles.NiceGuesser : CustomRoles.EvilGuesser), target.PlayerId.ToString()) + " " + TargetPlayerName;
                             }

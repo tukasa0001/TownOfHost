@@ -51,6 +51,7 @@ EvilGuesser,邪恶赌怪
 AntiAdminer,监管者
 Sans,狂妄杀手
 Bomber,自爆兵
+BoobyTrap,诡雷
 
 # 叛徒系
 Madmate,叛徒
@@ -148,6 +149,7 @@ EvilTrackerInfo,你不要过来啊啊啊
 AntiAdminerInfo,没什么能逃过你的眼睛
 SansInfo,降下审判！
 BomberInfo,BOOM！！！！
+BoobyTrapInfo,艺术就是爆炸！
 
 # 叛徒系
 MadmateInfo,帮助内鬼
@@ -235,6 +237,7 @@ EvilGuesserInfoLong,(内鬼阵营):\n邪恶赌怪可以在会议时猜测某位�
 AntiAdminerInfoLong,(内鬼阵营):\n监管者可以随时知道是否有船员阵营玩家或中立阵营玩家靠近监控面板、管理室地图、生命检测、通行记录等设备。注意：监管者并不知道靠近的人是否真的在使用设备，只是知道有人靠近设备。
 SansInfoLong,(内鬼阵营):\n狂妄杀手每次成功击杀都会减少他的击杀冷却。请注意：狂妄杀手的首次击杀冷却是相对较短的，从第二次开始的击杀冷却才会由长到短递减。
 BomberInfoLong,(内鬼阵营):\n自爆兵可以使用他的变形按钮来进行自爆，炸死一定范围里的玩家。但是作为代价，自爆兵自己也会被炸死。注意：自爆兵爆炸的时候全体玩家会看到杀戮闪烁，这个闪烁和网红死亡时的闪烁是一样的，请注意甄别。
+BoobyTrapInfoLong,(内鬼阵营):\n诡雷在进行击杀后会在受害者尸体上装上诡雷，报告该尸体的玩家会立刻被炸死，被炸死的玩家也会附带诡雷的效果，以此类推。但作为代价，诡雷在进行击杀后会立刻自杀。请注意：诡雷自身的尸体并不附带诡雷效果。
 
 # 叛徒系
 MadmateInfoLong,(内鬼阵营):\n叛徒伪装成船员来帮助内鬼阵营，但是他们并不知道谁是内鬼。叛徒不可以进行击杀或者破坏，可以跳管道且没有任务。
@@ -442,8 +445,8 @@ WarlockCanKillAllies,可以击杀队友
 WarlockCanKillSelf,可以击杀自己
 EGCanGuessImp,可以赌杀内鬼
 GGCanGuessCrew,可以赌杀船员
-GuesserCanGuessTimes,每次会议可以下注
-GuesserTryHideMsg,尝试刷屏顶掉赌怪的指令（无效）
+GuesserCanGuessTimes,每次会议猜测次数上限
+GuesserTryHideMsg,尝试混淆赌怪指令（试验性）
 BountyTargetChangeTime,赏金目标切换时间
 BountySuccessKillCooldown,赏金猎人击杀赏金目标的奖励冷却时间
 BountyFailureKillCooldown,赏金猎人击杀赏金目标以外玩家的惩罚冷却时间

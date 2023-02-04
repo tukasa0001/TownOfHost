@@ -123,6 +123,7 @@ namespace TownOfHost
             { CustomRoles.AntiAdminer, RoleTypes.Impostor },
             { CustomRoles.Sans, RoleTypes.Impostor },
             { CustomRoles.Bomber, RoleTypes.Shapeshifter },
+            { CustomRoles.BoobyTrap, RoleTypes.Impostor },
         };
         public static bool Prefix(TaskAddButton __instance)
         {

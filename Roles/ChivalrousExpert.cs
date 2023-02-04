@@ -23,7 +23,7 @@ namespace TownOfHost
             // isKilled = false;
         }
 
-        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CanUseKillButton(id) ? CurrentKillCooldown[id] : 0f;
+        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CanUseKillButton(id) ? CurrentKillCooldown[id] : 255f;
 
         public static bool CanUseKillButton(byte playerId)
             => !Main.PlayerStates[playerId].IsDead

@@ -168,6 +168,7 @@ namespace TownOfHost
         public static OptionItem SansReduceKillCooldown;
         public static OptionItem SansMinKillCooldown;
         public static OptionItem BomberRadius;
+        public static OptionItem FlashWhenTrapBoobyTrap;
         
         // HideAndSeek
         public static OptionItem AllowCloseDoors;
@@ -417,7 +418,7 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Times);
             EGCanGuessImp = BooleanOptionItem.Create(901069, "EGCanGuessImp", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
             EGTryHideMsg = BooleanOptionItem.Create(901071, "GuesserTryHideMsg", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser])
-                .SetColor(Color.gray);
+                .SetColor(Color.green);
             BountyHunter.SetupCustomOption();
             SerialKiller.SetupCustomOption();
             // SetupRoleOptions(1200, CustomRoles.ShapeMaster);
@@ -465,6 +466,8 @@ namespace TownOfHost
             SetupRoleOptions(902135, TabGroup.ImpostorRoles, CustomRoles.Bomber);
             BomberRadius = FloatOptionItem.Create(902137, "BomberRadius", new(0.5f, 5f, 0.5f), 2f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Bomber])
                 .SetValueFormat(OptionFormat.Multiplier);
+            SetupRoleOptions(902265, TabGroup.ImpostorRoles, CustomRoles.BoobyTrap);
+            //FlashWhenTrapBoobyTrap = BooleanOptionItem.Create(902267, "KillFlashWhenTrap", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.BoobyTrap]);
 
             DefaultShapeshiftCooldown = FloatOptionItem.Create(5011, "DefaultShapeshiftCooldown", new(5f, 999f, 5f), 15f, TabGroup.ImpostorRoles, false)
                 .SetHeader(true)
@@ -506,7 +509,7 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Times);
             GGCanGuessCrew = BooleanOptionItem.Create(102259, "GGCanGuessCrew", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.NiceGuesser]);
             GGTryHideMsg = BooleanOptionItem.Create(102261, "GuesserTryHideMsg", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.NiceGuesser])
-                .SetColor(Color.gray);
+                .SetColor(Color.green);
             SetupRoleOptions(20000, TabGroup.CrewmateRoles, CustomRoles.Bait);
             SetupRoleOptions(1020195, TabGroup.CrewmateRoles, CustomRoles.Luckey);
             LuckeyProbability = IntegerOptionItem.Create(1020197, "LuckeyProbability", new(0, 100, 5), 50, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Luckey])

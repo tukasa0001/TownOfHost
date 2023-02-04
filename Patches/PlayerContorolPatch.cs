@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
+using MS.Internal.Xml.XPath;
 using UnityEngine;
 using static TownOfHost.Translator;
 
@@ -335,6 +336,13 @@ namespace TownOfHost
                 if (Main.SansKillCooldown[killer.PlayerId] < Options.SansMinKillCooldown.GetFloat())
                     Main.SansKillCooldown[killer.PlayerId] = Options.SansMinKillCooldown.GetFloat();
             }
+            if (killer.Is(CustomRoles.BoobyTrap) && killer != target)
+            {
+                if (!Main.BoobyTrapBody.Contains(target.PlayerId)) Main.BoobyTrapBody.Add(target.PlayerId);
+                if (!Main.KillerOfBoobyTrapBody.ContainsKey(target.PlayerId)) Main.KillerOfBoobyTrapBody.Add(target.PlayerId, killer.PlayerId);
+                Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
+                killer.RpcMurderPlayer(killer);
+            }
 
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
@@ -531,14 +539,30 @@ namespace TownOfHost
                 Logger.Warn($"{__instance.GetNameWithRole()}:通報禁止中のため可能になるまで待機します", "ReportDeadBody");
                 return false;
             }
+
+            //杀戮机器无法报告或拍灯
             if (__instance.Is(CustomRoles.Minimalism)) return false;
-            if (target == null) //ボタン
+
+            if (target == null) //拍灯事件
             {
                 if (__instance.Is(CustomRoles.Mayor)) Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
                 if (__instance.Is(CustomRoles.Jester) && !Options.JesterCanUseButton.GetBool()) return false;
             }
-            else
+            else //报告尸体事件
             {
+                if (Main.BoobyTrapBody.Contains(target.PlayerId) && __instance.IsAlive()) //报告了诡雷尸体
+                {
+                    var killerID = Main.KillerOfBoobyTrapBody[target.PlayerId];
+                    Main.PlayerStates[__instance.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
+                    __instance.SetRealKiller(Utils.GetPlayerById(killerID));
+
+                    __instance.RpcMurderPlayer(__instance);
+                    RPC.PlaySoundRPC(killerID, Sounds.KillSound);
+
+                    if (!Main.BoobyTrapBody.Contains(__instance.PlayerId)) Main.BoobyTrapBody.Add(__instance.PlayerId); 
+                    if (!Main.KillerOfBoobyTrapBody.ContainsKey(__instance.PlayerId)) Main.KillerOfBoobyTrapBody.Add(__instance.PlayerId, killerID);
+                    return false;
+                }
                 if (__instance.Is(CustomRoles.Detective))
                 {
                     var tpc = Utils.GetPlayerById(target.PlayerId);

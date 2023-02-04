@@ -108,6 +108,8 @@ namespace TownOfHost
         public static Dictionary<byte, List<byte>> PsychicTarget = new();
 
         public static List<byte> CyberStarDead = new();
+        public static List<byte> BoobyTrapBody = new();
+        public static Dictionary<byte, byte> KillerOfBoobyTrapBody = new();
         public static Dictionary<byte, string> DetectiveNotify = new();
 
         public static int updateTime;
@@ -370,6 +372,7 @@ namespace TownOfHost
         AntiAdminer,
         Sans,
         Bomber,
+        BoobyTrap,
         //Madmate
         MadGuardian,
         Madmate,

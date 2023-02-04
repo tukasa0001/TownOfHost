@@ -168,6 +168,7 @@ namespace TownOfHost
                         Main.PlayerStates[dp.PlayerId].SetDead();
                         foreach (var cpc in Main.AllPlayerControls)
                         {
+                            RPC.PlaySoundRPC(cpc.PlayerId, Sounds.KillSound);
                             cpc.RpcSetNameEx(cpc.GetRealName(isMeeting: true));
                         }
                         ChatUpdatePatch.DoBlockChat = false;
@@ -231,8 +232,7 @@ namespace TownOfHost
 
         public static void TryHideMsg()
         {
-            
-
+            ChatUpdatePatch.DoBlockChat = true;
             Array values = Enum.GetValues(typeof(CustomRoles));
             var rd = Utils.RandomSeedByGuid();
             string msg;
@@ -248,13 +248,15 @@ namespace TownOfHost
                 {
                     msg += command[rd.Next(0, command.Length - 1)];
                     msg += rd.Next(1, 100) < 50 ? string.Empty : " ";
+                    msg += rd.Next(0, 15).ToString();
+                    msg += rd.Next(1, 100) < 50 ? string.Empty : " ";
                     CustomRoles role = (CustomRoles)values.GetValue(rd.Next(values.Length));
                     msg += rd.Next(1, 100) < 50 ? string.Empty : " ";
                     msg += Utils.GetRoleName(role);
                 }
 
                 var pl = Main.AllAlivePlayerControls.OrderBy(x => x.PlayerId).ToArray();
-                var player = pl[rd.Next(0, pl.Length - 1)];
+                var player = pl[rd.Next(0, pl.Length)];
                 if (player == null) return;
 
                 int clientId = -1;
@@ -267,7 +269,21 @@ namespace TownOfHost
                     .EndRpc();
                 writer.EndMessage();
                 writer.SendMessage();
+                new LateTask(() =>
+                {
+                    int clientId = PlayerControl.LocalPlayer.PlayerId;
+                    var name = player.Data.PlayerName;
+                    DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, msg);
+                    var writer = CustomRpcSender.Create("MessagesToSend", SendOption.None);
+                    writer.StartMessage(clientId);
+                    writer.StartRpc(player.NetId, (byte)RpcCalls.SendChat)
+                        .Write(msg)
+                        .EndRpc();
+                    writer.EndMessage();
+                    writer.SendMessage();
+                }, 0.01f, "Hide Guesser Messgae To Host");
             }
+            ChatUpdatePatch.DoBlockChat = false;
         }
     }
 }

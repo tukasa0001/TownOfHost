@@ -91,6 +91,7 @@ namespace TownOfHost
             Main.MafiaRevenged[pc.PlayerId]++;
             foreach (var cpc in Main.AllPlayerControls)
             {
+                RPC.PlaySoundRPC(cpc.PlayerId, Sounds.KillSound);
                 cpc.RpcSetNameEx(cpc.GetRealName(isMeeting: true));
             }
             ChatUpdatePatch.DoBlockChat = false;
@@ -522,6 +523,7 @@ namespace TownOfHost
                 "邪惡的追踪者" or "邪恶追踪者" => "邪恶的追踪者",
                 "煙花商人" or "烟花" => "烟花商人",
                 "夢魘" => "梦魇",
+                "詭雷" => "诡雷",
                 "黑手黨" or "黑手" => "黑手党",
                 "嗜血殺手" or "嗜血" => "嗜血杀手",
                 "狂妄殺手" or "狂妄" => "狂妄杀手",
@@ -610,6 +612,7 @@ namespace TownOfHost
                 { CustomRoles.Escapee, GetString("Escapee") },
                 { CustomRoles.Witch, GetString("Witch") },
                 { CustomRoles.Sans, GetString("Sans") },
+                { CustomRoles.BoobyTrap, GetString("BoobyTrap") },
                 //Madmate役職
                 { (CustomRoles)(-2), $"== {GetString("Madmate")} ==" }, //区切り用
                 { CustomRoles.MadGuardian, GetString("MadGuardian") },
