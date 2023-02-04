@@ -443,7 +443,7 @@ namespace TownOfHost
                         var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
                         PlayerControl targetw = min.Key;
                         targetw.SetRealKiller(shapeshifter);
-                        Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
+                        Logger.Info($"{targetw.GetNameWithRole()} was killed", "Warlock");
                         cp.RpcMurderPlayerV2(targetw);//殺す
                         shapeshifter.RpcGuardAndKill(shapeshifter);
                         Main.isCurseAndKill[shapeshifter.PlayerId] = false;
@@ -459,12 +459,15 @@ namespace TownOfHost
                 {
                     if (shapeshifting && !Main.MarkedPlayers[shapeshifter.PlayerId].Data.IsDead)//解除变形时不执行操作
                     {
-                        PlayerControl targetw = Main.MarkedPlayers[shapeshifter.PlayerId];
-                        targetw.SetRealKiller(shapeshifter);
-                        Logger.Info($"{targetw.GetNameWithRole()}was killed", "Assassin");
-                        shapeshifter.RpcMurderPlayerV2(targetw);//殺す
-                        shapeshifter.RpcGuardAndKill(shapeshifter);
-                        Main.isMarkAndKill[shapeshifter.PlayerId] = false;
+                        new LateTask(() =>
+                        {
+                            PlayerControl targetw = Main.MarkedPlayers[shapeshifter.PlayerId];
+                            targetw.SetRealKiller(shapeshifter);
+                            Logger.Info($"{targetw.GetNameWithRole()} was killed", "Assassin");
+                            shapeshifter.RpcMurderPlayerV2(targetw);//殺す
+                            shapeshifter.RpcGuardAndKill(shapeshifter);
+                            Main.isMarkAndKill[shapeshifter.PlayerId] = false;
+                        }, 2f, "Assassin Kill");
                     }
                     Main.MarkedPlayers[shapeshifter.PlayerId] = null;
                 }
