@@ -686,7 +686,8 @@ updateInProgress,更新中……
 announcementUpdate,<size=3f>更新到v{0}</size>\n{1}
 announcementChangelog,<size=3f>更新日志 v{0}</size>\n{1}
 updateRestart,更新好啦！\n请重启游戏生效~
-updateFailed,更新失败。
+updateFailed,更新失败！
+downloadFailed,下载文件失败！\n请稍后或重启游戏后重试...
 onSetPublicNoLatest,我们有一个重要的更新，请更新本模组\n否则您无法公开房间
 CanNotJoinPublicRoomNoLatest,我们有一个重要的更新，请更新本模组\n否则您无法加入公开房间
 ModBrokenMessage,模组文件损坏，请重启游戏或重装本模组

@@ -1,15 +1,11 @@
 using System;
 using System.IO;
 using System.Net;
-using System.Net.Http;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
-using GooglePlayGames;
 using HarmonyLib;
-using Il2CppSystem.Diagnostics.Tracing;
-using Newtonsoft.Json.Linq;
 using UnityEngine;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -25,6 +21,7 @@ namespace TownOfHost
         public static Version latestVersion = null;
         public static string latestTitle = null;
         public static string downloadUrl = null;
+        public static string MD5 = null;
         public static GenericPopup InfoPopup;
         public static int today = 0;
 
@@ -98,9 +95,10 @@ namespace TownOfHost
                     if (c != m) break;
                 }
 
-                url = UrlSetId(UrlSetInfo(URL)) + "&data=remark|notice";
+                url = UrlSetId(UrlSetInfo(URL)) + "&data=remark|notice|md5";
                 string[] data = Get(url).Split("|");
                 int create = int.Parse(data[0]);
+                MD5 = data[2];
                 if (create > Main.PluginCreate)
                 {
                     hasUpdate= true;
@@ -126,6 +124,7 @@ namespace TownOfHost
                 Logger.Info("latestVersionl: " + info[4], "2018k");
                 Logger.Info("remark: " + data[0], "2018k");
                 Logger.Info("notice: " + data[1], "2018k");
+                Logger.Info("MD5: " + data[2], "2018k");
 
                 if (downloadUrl == null && downloadUrl == "")
                 {
@@ -168,6 +167,24 @@ namespace TownOfHost
             }
             return true;
         }
+        public static bool BackOldDLL()
+        {
+            try
+            {
+                foreach (var path in Directory.EnumerateFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.dll"))
+                {
+                    Logger.Info($"{Path.GetFileName(path)}を削除", "DeleteDownloadDLL");
+                    File.Delete(path);
+                }
+                File.Move(Assembly.GetExecutingAssembly().Location + ".bak", Assembly.GetExecutingAssembly().Location);
+            }
+            catch
+            {
+                Logger.Error("バックアップに失敗しました", "BackupDLL");
+                return false;
+            }
+            return true;
+        }
         public static void DeleteOldDLL()
         {
             try
@@ -192,7 +209,18 @@ namespace TownOfHost
                 client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadCallBack);
                 client.DownloadFileAsync(new Uri(url), "BepInEx/plugins/TownOfHost.dll");
                 while (client.IsBusy) await Task.Delay(1);
-                ShowPopup(GetString("updateRestart"), true);
+                if (GetMD5HashFromFile("BepInEx/plugins/TownOfHost.dll") != MD5)
+                {
+                    BackOldDLL();
+                    ShowPopup(GetString("downloadFailed"), true, false);
+                    MainMenuManagerPatch.updateButton.SetActive(true);
+                    MainMenuManagerPatch.updateButton.transform.position = MainMenuManagerPatch.template.transform.position + new Vector3(0.25f, 0.75f);
+                }
+                else
+                {
+                    ShowPopup(GetString("updateRestart"), true);
+                }
+                
             }
             catch (Exception ex)
             {
@@ -201,6 +229,27 @@ namespace TownOfHost
                 return false;
             }
             return true;
+        }
+        public static string GetMD5HashFromFile(string fileName)
+        {
+            try
+            {
+                FileStream file = new(fileName, FileMode.Open);
+                System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+                byte[] retVal = md5.ComputeHash(file);
+                file.Close();
+
+                StringBuilder sb = new();
+                for (int i = 0; i < retVal.Length; i++)
+                {
+                    sb.Append(retVal[i].ToString("x2"));
+                }
+                return sb.ToString();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetMD5HashFromFile() fail,error:" + ex.Message);
+            }
         }
         private static void DownloadCallBack(object sender, DownloadProgressChangedEventArgs e)
         {

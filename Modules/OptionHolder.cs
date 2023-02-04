@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HarmonyLib;
-using Steamworks;
 using UnityEngine;
-using static UnityEngine.RemoteConfigSettingsHelper;
 
 namespace TownOfHost
 {
