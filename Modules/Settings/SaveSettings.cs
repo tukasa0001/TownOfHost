@@ -105,6 +105,7 @@ public static class SaveSettings
         XmlDocument xmlDocument = new();
         XmlDeclaration declaration = xmlDocument.CreateXmlDeclaration("1.0", "utf-8", null);
         XmlElement element = xmlDocument.CreateElement("settings");
+        xmlDocument.AppendChild(declaration);
         xmlDocument.AppendChild(element);
 
         // Bool
