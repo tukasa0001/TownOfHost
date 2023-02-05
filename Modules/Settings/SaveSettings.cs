@@ -110,6 +110,7 @@ public static class SaveSettings
 
         // ルート要素
         XmlDocument xmlDocument = new();
+        XmlDeclaration declaration = xmlDocument.CreateXmlDeclaration("1.0", "utf-8", null);
         XmlElement element = xmlDocument.CreateElement("settings");
         xmlDocument.AppendChild(element);
 
@@ -120,6 +121,14 @@ public static class SaveSettings
             XmlElement settingElement = xmlDocument.CreateElement("setting");
             settingElement.SetAttribute("name", boolSetting.Name);
             element.AppendChild(settingElement);
+
+            // 設定の値の種類
+            XmlElement ValueType = xmlDocument.CreateElement("type");
+            settingElement.AppendChild(ValueType);
+
+            XmlNode valueType = xmlDocument.CreateNode(XmlNodeType.Text, "", "");
+            valueType.Value = "Boolean";
+            ValueType.AppendChild(valueType);
 
             // 設定の値
             XmlElement Value = xmlDocument.CreateElement("value");
@@ -138,6 +147,14 @@ public static class SaveSettings
             settingElement.SetAttribute("name", intSetting.Name);
             element.AppendChild(settingElement);
 
+            // 設定の値の種類
+            XmlElement ValueType = xmlDocument.CreateElement("type");
+            settingElement.AppendChild(ValueType);
+
+            XmlNode valueType = xmlDocument.CreateNode(XmlNodeType.Text, "", "");
+            valueType.Value = "Int32";
+            ValueType.AppendChild(valueType);
+
             // 設定の値
             XmlElement Value = xmlDocument.CreateElement("value");
             settingElement.AppendChild(Value);
@@ -155,6 +172,14 @@ public static class SaveSettings
             settingElement.SetAttribute("name", floatSetting.Name);
             element.AppendChild(settingElement);
 
+            // 設定の値の種類
+            XmlElement ValueType = xmlDocument.CreateElement("type");
+            settingElement.AppendChild(ValueType);
+
+            XmlNode valueType = xmlDocument.CreateNode(XmlNodeType.Text, "", "");
+            valueType.Value = "Float";
+            ValueType.AppendChild(valueType);
+
             // 設定の値
             XmlElement Value = xmlDocument.CreateElement("value");
             settingElement.AppendChild(Value);
@@ -171,6 +196,14 @@ public static class SaveSettings
             XmlElement settingElement = xmlDocument.CreateElement("setting");
             settingElement.SetAttribute("name", byteSetting.Name);
             element.AppendChild(settingElement);
+
+            // 設定の値の種類
+            XmlElement ValueType = xmlDocument.CreateElement("type");
+            settingElement.AppendChild(ValueType);
+
+            XmlNode valueType = xmlDocument.CreateNode(XmlNodeType.Text, "", "");
+            valueType.Value = "Byte";
+            ValueType.AppendChild(valueType);
 
             // 設定の値
             XmlElement Value = xmlDocument.CreateElement("value");

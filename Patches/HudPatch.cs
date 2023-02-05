@@ -25,6 +25,16 @@ namespace TownOfHost
             if (player == null) return;
             var TaskTextPrefix = "";
             var FakeTasksText = DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.FakeTasks, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
+
+            // 設定読み込み
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                if ((!AmongUsClient.Instance.IsGameStarted || !GameStates.IsOnlineGame) && player.CanMove)
+                {
+                    Modules.LoadSettings.Load();
+                }
+            }
+
             //壁抜け
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
