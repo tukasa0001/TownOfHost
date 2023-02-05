@@ -120,6 +120,7 @@ public static class LoadSettings
                         break;
                 }
             }
+            GameManager.Instance.LogicOptions.SyncOptions();
         }
         else
         {
