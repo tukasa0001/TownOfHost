@@ -157,6 +157,11 @@ namespace TownOfHost
                     else if (pc.Is(CustomRoles.NiceGuesser) && role.IsCrewmate() && !Options.GGCanGuessCrew.GetBool()) guesserSuicide = true;
                     else if (pc.Is(CustomRoles.EvilGuesser) && role.IsImpostor() && !Options.EGCanGuessImp.GetBool()) guesserSuicide = true;
                     else if(!target.Is(role)) guesserSuicide = true;
+
+                    if (role is CustomRoles.CSchrodingerCat or CustomRoles.EgoSchrodingerCat or CustomRoles.SchrodingerCat or CustomRoles.JSchrodingerCat)
+                        if (target.GetCustomRole() is CustomRoles.CSchrodingerCat or CustomRoles.EgoSchrodingerCat or CustomRoles.SchrodingerCat or CustomRoles.JSchrodingerCat)
+                            guesserSuicide = false;
+
                     var dp = guesserSuicide ? pc : target;
 
                     string Name = dp.GetRealName();
