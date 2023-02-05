@@ -8,7 +8,7 @@ namespace TownOfHost
     {
         public static bool Prefix(GameManager __instance, [HarmonyArgument(0)] MessageWriter writer, [HarmonyArgument(1)] bool initialState, ref bool __result)
         {
-            Modules.SaveSettings.Save();
+            if (AmongUsClient.Instance.AmHost) Modules.SettingButtons.ButtonsVisible(true);
             bool flag = false;
             for (int index = 0; index < __instance.LogicComponents.Count; ++index)
             {

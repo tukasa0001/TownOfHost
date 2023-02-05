@@ -122,6 +122,7 @@ namespace TownOfHost
             MeetingStates.MeetingCalled = false;
             MeetingStates.FirstMeeting = true;
             GameStates.AlreadyDied = false;
+            Modules.SettingButtons.ButtonsVisible(false);
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -216,5 +217,6 @@ public static class SaveSettings
 
         Generate();
         Logger.Info("保存に成功しました。", "SaveSettings");
+        Logger.SendInGame(string.Format(Translator.GetString("SettingsSaved")), false);
     }
 }

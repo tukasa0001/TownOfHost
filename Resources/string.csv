@@ -580,3 +580,5 @@
 "DisabledBySettings","Disabled by Settings","設定で無効化されています","已在设置被中禁用","在設定中被禁用","Отключено настройкой","Desativado Pelas Configurações"
 "Disabled","Disabled","無効","禁用","已被禁用","Неполноценный","Desativado"
 "FailToTrack","Failed To Track","追跡不可","","","Не Удалось Отследить",""
+"SettingsLoaded","Settings were successfully loaded!","設定が正常に読み込まれました!","","","",""
+"SettingsSaved","Settings were successfully saveed!","設定が正常に保存されました!","","","",""

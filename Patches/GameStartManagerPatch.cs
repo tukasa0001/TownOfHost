@@ -24,6 +24,7 @@ namespace TownOfHost
             public static TMPro.TextMeshPro HideName;
             public static void Postfix(GameStartManager __instance)
             {
+                Modules.SettingButtons.SetButtons();
                 __instance.GameRoomNameCode.text = GameCode.IntToGameName(AmongUsClient.Instance.GameId);
                 // Reset lobby countdown timer
                 timer = 600f;

@@ -76,7 +76,6 @@ public static class LoadSettings
 
     public static void Load()
     {
-        Logger.Info("開始", "LoadSettings");
         if (File.Exists(@$"./{SaveSettings.SETTINGS_FOLDER}/GameSettings.xml"))
         {
             XmlDocument xml = new();
@@ -119,6 +118,8 @@ public static class LoadSettings
         {
             Logger.Warn("設定ファイルが存在しません。", "LoadSettings");
         }
+        Logger.Info("設定が正常に読み込まれました。", "LoadSettings");
+        Logger.SendInGame(string.Format(Translator.GetString("SettingsLoaded")), false);
     }
 
     public static bool GetBool(this string value)
