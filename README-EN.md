@@ -421,8 +421,9 @@ Team : Impostors<br>
 Basis : Impostor<br>
 
 The Witches can perform kills or spells switched by Actions.<br>
-In Double Click mode, Single Click for spell, Double Clicks for kill.
+In Double Click mode, Single Click for spell, Double Clicks for kill.<br>
 The players spelled by Witches before a meeting are marked "cross" in the meeting, and unless exiling Witches, they all die just after the meeting.<br>
+If the witch dies other than by exile, the curse is not lifted.<br>
 
 #### Game Options
 
