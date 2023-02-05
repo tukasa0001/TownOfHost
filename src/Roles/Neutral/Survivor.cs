@@ -2,10 +2,12 @@ using TownOfHost.Extensions;
 using TownOfHost.GUI;
 using TownOfHost.Managers;
 using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.Victory;
 using TownOfHost.Victory.Conditions;
+using VentLib.Utilities;
 
 namespace TownOfHost.Roles;
 
@@ -44,18 +46,18 @@ public class Survivor : CustomRole
         winDelegate.GetWinners().Add(MyPlayer);
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Tab(DefaultTabs.NeutralTab)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Vest Duration")
                 .BindFloat(v => vestDuration.Duration = v)
-                .AddFloatRangeValues(2.5f, 180f, 2.5f, 11, "s")
+                .AddFloatRange(2.5f, 180f, 2.5f, 11, "s")
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Vest Cooldown")
                 .BindFloat(v => vestCooldown.Duration = v)
-                .AddFloatRangeValues(2.5f, 180f, 2.5f, 5, "s")
+                .AddFloatRange(2.5f, 180f, 2.5f, 5, "s")
                 .Build());
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>

@@ -1,5 +1,5 @@
 using TownOfHost.Extensions;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using VentLib.Utilities;
@@ -19,12 +19,12 @@ public class Trapper : Crewmate
         Async.Schedule(() => killer.GetCustomRole().SyncOptions(), trappedDuration);
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Trapped Duration")
                 .Bind(v => trappedDuration = (float)v)
-                .AddFloatRangeValues(1, 10, 0.5f, 8, "s")
+                .AddFloatRange(1, 10, 0.5f, 8, "s")
                 .Build());
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>

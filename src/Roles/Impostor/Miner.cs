@@ -1,7 +1,6 @@
 using System;
-using TownOfHost.Extensions;
 using TownOfHost.GUI;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.Logging;
@@ -37,10 +36,10 @@ public class Miner : Impostor
 
 
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
-        base.RegisterOptions(optionStream).AddSubOption(sub =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+        base.RegisterOptions(optionStream).SubOption(sub =>
             sub.Name("Miner Ability Cooldown")
                 .Bind(v => minerAbilityCooldown.Duration = Convert.ToSingle(v))
-                .AddFloatRangeValues(5, 50, 2.5f, 5, "s")
+                .AddFloatRange(5, 50, 2.5f, 5, "s")
                 .Build());
 }

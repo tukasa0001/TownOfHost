@@ -1,6 +1,7 @@
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Victory;
 using TownOfHost.Victory.Conditions;
@@ -24,6 +25,6 @@ public class Opportunist : CustomRole
         .SpecialType(SpecialType.Neutral);
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
          base.RegisterOptions(optionStream).Tab(DefaultTabs.NeutralTab);
 }

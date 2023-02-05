@@ -1,13 +1,7 @@
 using TownOfHost.Extensions;
-using TownOfHost.RPC;
 using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using HarmonyLib;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Patches.Systems;
-using TownOfHost.Roles;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using VentLib.Utilities;
@@ -49,14 +43,14 @@ public class Mystic : Crewmate
     }
 
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Flash Duration")
                 .Bind(v => flashDuration = (float)v)
-                .AddFloatRangeValues(0, 1.5f, 0.1f, 4, "s")
+                .AddFloatRange(0, 1.5f, 0.1f, 4, "s")
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Send Audio Alert")
                 .BindBool(v => sendAudioAlert = v)
                 .AddOnOffValues()

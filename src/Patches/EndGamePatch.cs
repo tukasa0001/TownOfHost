@@ -1,13 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using HarmonyLib;
-using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
-using UnityEngine;
-
-using TownOfHost.Roles;
 using VentLib.Logging;
 
 namespace TownOfHost.Patches;

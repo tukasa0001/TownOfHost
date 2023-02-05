@@ -1,6 +1,7 @@
-using TownOfHost.Options;
+using VentLib.Options;
 using System.Collections.Generic;
 using TownOfHost.Managers;
+using TownOfHost.Options;
 using TownOfHost.Patches.Systems;
 using TownOfHost.Roles.Internals.Attributes;
 using VentLib.Utilities;
@@ -40,13 +41,13 @@ public class Demolitionist : Crewmate
         }
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Tab(DefaultTabs.CrewmateTab)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Demo Time")
                 .BindFloat(v => demoTime = v)
-                .AddFloatRangeValues(0.5f, 10f, 0.5f, 2)
+                .AddFloatRange(0.5f, 10f, 0.5f, 2)
                 .Build());
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>

@@ -4,7 +4,7 @@ using System.Linq;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.Victory.Conditions;
 using UnityEngine;
@@ -63,22 +63,22 @@ public class Debugger: CustomRole
     }
 
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Name("<b><color=#FF0000>D</color><color=#FFBF00>e</color><color=#7FFF00>b</color><color=#00FF3F>u</color><color=#00FEFF>g</color><color=#003FFF>g</color><color=#7F00FF>e</color><color=#FF00BF>r</color></b>")
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Base Role")
                 .Bind(v => baseRole = (RoleTypes)Convert.ToUInt16(v))
-                .AddValue(v => v.Text("Crewmate").Value(0).Build())
-                .AddValue(v => v.Text("Impostor").Value(1).Build())
-                .AddValue(v => v.Text("Scientist").Value(2).Build())
-                .AddValue(v => v.Text("Engineer").Value(3).Build())
-                .AddValue(v => v.Text("GuardianAngel").Value(4).Build())
-                .AddValue(v => v.Text("Shapeshifter").Value(5).Build())
-                .AddValue(v => v.Text("CrewmateGhost").Value(6).Build())
-                .AddValue(v => v.Text("ImpostorGhost").Value(7).Build())
+                .Value(v => v.Text("Crewmate").Value(0).Build())
+                .Value(v => v.Text("Impostor").Value(1).Build())
+                .Value(v => v.Text("Scientist").Value(2).Build())
+                .Value(v => v.Text("Engineer").Value(3).Build())
+                .Value(v => v.Text("GuardianAngel").Value(4).Build())
+                .Value(v => v.Text("Shapeshifter").Value(5).Build())
+                .Value(v => v.Text("CrewmateGhost").Value(6).Build())
+                .Value(v => v.Text("ImpostorGhost").Value(7).Build())
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Use Custom Sync Options")
                 .BindBool(v => customSyncOptions = v)
                 .AddOnOffValues(false)

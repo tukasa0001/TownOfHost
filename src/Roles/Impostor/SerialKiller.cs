@@ -1,10 +1,10 @@
-using TownOfHost.Extensions;
 using TownOfHost.GUI;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.Roles.Internals.Interfaces;
 using UnityEngine;
+using VentLib.Utilities;
 
 namespace TownOfHost.Roles;
 
@@ -42,17 +42,17 @@ public partial class SerialKiller : Impostor, IModdable
     [RoleAction(RoleActionType.RoundEnd)]
     private void StopDeathTimer() => paused = true;
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Kill Cooldown")
                 .Bind(v => killCooldown = (float)v)
-                .AddFloatRangeValues(0, 90, 0.5f, 30, "s")
+                .AddFloatRange(0, 90, 0.5f, 30, "s")
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Time Until Suicide")
                 .Bind(v => DeathTimer.Duration = (float)v)
-                .AddFloatRangeValues(5, 120, 2.5f, 30, "s")
+                .AddFloatRange(5, 120, 2.5f, 30, "s")
                 .Build());
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>

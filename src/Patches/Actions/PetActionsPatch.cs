@@ -1,7 +1,6 @@
 using HarmonyLib;
 using Hazel;
 using TownOfHost.Extensions;
-using TownOfHost.Roles;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using VentLib.Utilities;

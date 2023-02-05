@@ -1,12 +1,11 @@
 using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
-using TownOfHost.Extensions;
 using TownOfHost.Options;
-using TownOfHost.Player;
 using UnityEngine;
 using VentLib.Utilities.Extensions;
 using VentLib.Logging;
+using VentLib.Utilities;
 using GameStates = TownOfHost.Managers.GameStates;
 
 namespace TownOfHost.Patches;

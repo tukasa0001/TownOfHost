@@ -6,9 +6,11 @@ using TownOfHost.Factions;
 using TownOfHost.GUI;
 using TownOfHost.Managers;
 using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
+using VentLib.Utilities;
 using VentLib.Utilities.Extensions;
 
 namespace TownOfHost.Roles;
@@ -68,22 +70,22 @@ public class BountyHunter: Impostor
         DesyncOptions.SendModifiedOptions(modifiedCooldown, MyPlayer);
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Color(RoleColor)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Time Until New Target")
                 .Bind(v => acquireNewTarget.Duration = (float)v)
-                .AddFloatRangeValues(5f, 120, 5, 11)
+                .AddFloatRange(5f, 120, 5, 11)
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Kill Cooldown After Killing Target")
                 .Bind(v => bountyKillCoolDown = (float)v)
-                .AddFloatRangeValues(0, 30, 0.5f, 6)
+                .AddFloatRange(0, 30, 0.5f, 6)
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Kill Cooldown After Killing Other")
                 .Bind(v => punishKillCoolDown = (float)v)
-                .AddFloatRangeValues(30, 180, 2.5f, 15)
+                .AddFloatRange(30, 180, 2.5f, 15)
                 .Build());
 }

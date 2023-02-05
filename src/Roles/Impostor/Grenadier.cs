@@ -3,7 +3,7 @@ using System.Linq;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.GUI;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using VentLib.Utilities;
@@ -48,35 +48,35 @@ public class Grenadier : Impostor
     [RoleAction(RoleActionType.RoundStart)]
     private void SetGrenadeAmount() => grenadesLeft = grenadeAmount;
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Amount of Grenades")
                 .Bind(v => grenadeAmount = (int)v)
-                .AddIntRangeValues(1, 5, 1, 2, "s")
+                .AddIntRange(1, 5, 1, 2, "s")
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Blind Cooldown")
                 .Bind(v => blindCooldown.Duration = (float)v)
-                .AddFloatRangeValues(5f, 120f, 2.5f, 10, "s")
+                .AddFloatRange(5f, 120f, 2.5f, 10, "s")
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Blind Duration")
                 .Bind(v => blindDuration = (float)v)
-                .AddFloatRangeValues(5f, 60f, 2.5f, 4, "s")
+                .AddFloatRange(5f, 60f, 2.5f, 4, "s")
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Blind Distance")
                 .Bind(v => blindDistance = (float)v)
-                .AddValue(v => v.Text("Kill Distance").Value(-1f).Build())
-                .AddFloatRangeValues(1.5f, 3f, 0.1f, 4)
+                .Value(v => v.Text("Kill Distance").Value(-1f).Build())
+                .AddFloatRange(1.5f, 3f, 0.1f, 4)
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Can Blind Allies")
                 .Bind(v => canBlindAllies = (bool)v)
                 .AddOnOffValues(false)
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Can Vent")
                 .Bind(v => canVent = (bool)v)
                 .AddOnOffValues()

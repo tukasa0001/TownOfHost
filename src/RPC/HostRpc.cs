@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Extensions;
-using TownOfHost.Options;
+using VentLib.Options;
 using VentLib;
 using VentLib.Utilities.Extensions;
 using VentLib.Logging;
@@ -12,7 +12,7 @@ namespace TownOfHost.RPC;
 public static class HostRpc
 {
     [ModRPC((uint) ModCalls.SendOptionPreview, RpcActors.Host, RpcActors.NonHosts)]
-    public static void RpcSendOptions(List<OptionHolder> options)
+    public static void RpcSendOptions(List<Option> options)
     {
         if (TOHPlugin.OptionManager.ReceivedOptions == null)
             VentLogger.Old($"Received {options.Count} Options From Host", "HostOptions");

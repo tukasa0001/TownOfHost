@@ -1,12 +1,9 @@
-using System;
-using System.Linq;
-using HarmonyLib;
 using TownOfHost.RPC;
 using VentLib.Utilities;
 
 namespace TownOfHost.GUI.Menus.Patches;
 
-[HarmonyPatch(typeof(StringOption), nameof(StringOption.OnEnable))]
+/*[HarmonyPatch(typeof(StringOption), nameof(StringOption.OnEnable))]
 public class StringOptionEnablePatch
 {
     public static bool Prefix(StringOption __instance)
@@ -15,12 +12,12 @@ public class StringOptionEnablePatch
         if (option == null) return true;
         __instance.OnValueChanged = new Action<OptionBehaviour>((o) => { });
         __instance.TitleText.text = option.ColorName;
-        __instance.ValueText.text = option.GetAsString();
+        __instance.ValueText.text = option.GetValueAsString();
         return false;
     }
-}
+}*/
 
-[HarmonyPatch(typeof(StringOption), nameof(StringOption.Increase))]
+/*[HarmonyPatch(typeof(StringOption), nameof(StringOption.Increase))]
 public class StringOptionIncreasePatch
 {
     public static bool Prefix(StringOption __instance)
@@ -29,7 +26,7 @@ public class StringOptionIncreasePatch
         if (option == null) return true;
 
         option?.Increment();
-        __instance.ValueText.text = option?.GetAsString() ?? "N/A";
+        __instance.ValueText.text = option?.GetValueAsString() ?? "N/A";
         SendOptionsDelayed.SendOptions();
 
         return false;
@@ -45,12 +42,12 @@ public class StringOptionDecreasePatch
         if (option == null) return true;
 
         option?.Decrement();
-        __instance.ValueText.text = option?.GetAsString() ?? "N/A";
+        __instance.ValueText.text = option?.GetValueAsString() ?? "N/A";
         SendOptionsDelayed.SendOptions();
 
         return false;
     }
-}
+}*/
 
 // It's really bad to constantly send options to clients whenever they get modified, this gives clients 3 seconds to get the new options
 public static class SendOptionsDelayed

@@ -9,6 +9,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.GUI;
 using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
@@ -61,7 +62,7 @@ public abstract class AbstractBaseRole
     public int AdditionalChance { get; private set; }
     protected bool BaseCanVent;
 
-    private OptionHolder options;
+    private Option options;
 
     public string EnglishRoleName { get; private set; }
     private readonly Dictionary<Type, List<MethodInfo>> roleInteractions = new();
@@ -70,14 +71,15 @@ public abstract class AbstractBaseRole
 
     protected List<GameOptionOverride> roleSpecificGameOptionOverrides = new();
 
-    private static SmartOptionBuilder RoleOptionsBuilder => roleOptionsBuilder.Clone();
-    private static SmartOptionBuilder roleOptionsBuilder = new SmartOptionBuilder()
-        .AddIntRangeValues(0, 100, 10, 0, "%")
-        .ShowSubOptionsWhen(value => ((int)value) > 0);
+    private static OptionBuilder RoleOptionsBuilder => roleOptionsBuilder.Clone();
+    private static OptionBuilder roleOptionsBuilder = new OptionBuilder()
+        .AddIntRange(0, 100, 10, 0, "%")
+        .ShowSubOptionPredicate(value => ((int)value) > 0);
 
     protected AbstractBaseRole()
     {
         this.EnglishRoleName = this.GetType().Name.Replace("CRole", "").Replace("Role", "");
+        VentLogger.Debug($"Role Name: {EnglishRoleName}");
         CreateCooldowns();
         // Why? Modify may reference uncreated options, yet when setting up options developers may try to reference
         // RoleColor (which is white until after Modify)
@@ -90,9 +92,8 @@ public abstract class AbstractBaseRole
         this.roleSpecificGameOptionOverrides.Clear();
 
         options = _editors.Aggregate(GetOptionBuilder(), (current, editor) => editor.HookOptions(current)).Build();
-        if (options.Name != null || options.GetAsString() != "N/A")
+        if (options.Name != null || options.GetValueAsString() != "N/A")
         {
-            TOHPlugin.OptionManager.Add(options);
             if (options.Tab == null)
             {
                 if (this is GM) { /*ignored*/ }
@@ -107,13 +108,14 @@ public abstract class AbstractBaseRole
                 else
                     options.Tab = DefaultTabs.MiscTab;
             }
+            options.Register();
         }
 
         SetupRoleActions();
         SetupRoleInteractions();
-        options.valueHolder?.UpdateBinding();
+        //options.valueHolder?.UpdateBinding();
         _ = _editors.Aggregate(Modify(new RoleModifier(this)), (current, editor) => editor.HookModifier(current));
-        options.Name = RoleName;
+        //options. = RoleName;
     }
 
     private void SetupRoleActions()
@@ -254,15 +256,15 @@ public abstract class AbstractBaseRole
     protected abstract RoleModifier Modify(RoleModifier roleModifier);
 
 
-    public SmartOptionBuilder GetOptionBuilder() {
-        SmartOptionBuilder b = RoleOptionsBuilder.Color(RoleColor).Bind(val => this.Chance = (int)val)
-            .AddSubOption(s => s.Name("Maximum")
-                .AddValues(1..15)
+    public OptionBuilder GetOptionBuilder() {
+        OptionBuilder b = RoleOptionsBuilder.Color(RoleColor).Bind(val => this.Chance = (int)val)
+            .SubOption(s => s.Name("Maximum")
+                .AddIntRange(1, 15)
                 .Bind(val => this.Count = (int)val)
-                .ShowSubOptionsWhen(v => 1 < (int)v)
-                .AddSubOption(subsequent => subsequent
+                .ShowSubOptionPredicate(v => 1 < (int)v)
+                .SubOption(subsequent => subsequent
                     .Name(Localizer.Get("Roles.Options.SubsequentChance"))
-                    .AddIntRangeValues(10, 100, 10, 0, "%")
+                    .AddIntRange(10, 100, 10, 0, "%")
                     .BindInt(v => AdditionalChance = v)
                     .Build())
                 .Build());
@@ -270,9 +272,9 @@ public abstract class AbstractBaseRole
         return RegisterOptions(b);
     }
 
-    protected virtual SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream)
+    protected virtual OptionBuilder RegisterOptions(OptionBuilder optionStream)
     {
-        optionStream.Display(EnglishRoleName, () => RoleName).IsHeader(true);
+        optionStream.LocaleName($"Roles.{EnglishRoleName}.RoleName").IsHeader(true);
         return optionStream;
     }
 
@@ -405,7 +407,7 @@ public abstract class AbstractBaseRole
             return modifier;
         }
 
-        public virtual SmartOptionBuilder HookOptions(SmartOptionBuilder optionStream) {
+        public virtual OptionBuilder HookOptions(OptionBuilder optionStream) {
             return optionStream;
         }
 

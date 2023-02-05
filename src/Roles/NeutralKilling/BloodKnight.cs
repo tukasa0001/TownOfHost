@@ -2,6 +2,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.GUI;
 using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.Utilities;
@@ -40,20 +41,20 @@ public class BloodKnight : NeutralKillingBase
         return killed;
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
          base.RegisterOptions(optionStream)
              .Tab(DefaultTabs.NeutralTab)
-             .AddSubOption(opt =>
+             .SubOption(opt =>
                 opt.Name("Kill Cooldown")
                 .BindFloat(v => KillCooldown = v)
-                .AddFloatRangeValues(2.5f, 180f, 2.5f, 11, "s")
+                .AddFloatRange(2.5f, 180f, 2.5f, 11, "s")
                 .Build())
-            .AddSubOption(opt =>
+            .SubOption(opt =>
                 opt.Name("Protection Duration")
                 .BindFloat(v => protectionAmt = v)
-                .AddFloatRangeValues(2.5f, 180, 2.5f, 5, "s")
+                .AddFloatRange(2.5f, 180, 2.5f, 5, "s")
                 .Build())
-            .AddSubOption(opt =>
+            .SubOption(opt =>
                 opt.Name("Can Vent")
                 .BindBool(v => canVent = v)
                 .AddOnOffValues()

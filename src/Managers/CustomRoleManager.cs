@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using TownOfHost.Roles.Neutral;
-using VentLib.Logging;
 using VentLib.Utilities.Extensions;
 using static TownOfHost.Roles.AbstractBaseRole;
 

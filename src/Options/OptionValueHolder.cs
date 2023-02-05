@@ -40,7 +40,7 @@ public class OptionValueHolder
     public object Decrement() =>
         UpdateBoxedValue((this.Index - 1 >= 0 ? this.values[--this.Index] : this.values[this.Index = this.values.Count - 1]).Value);
 
-    public string GetAsString(int index = -1)
+    public string GetValueAsString(int index = -1)
     {
         if (this.values == null || this.values.Count == 0) return "N/A";
         this.Index = this.Index == -1 ? 0 : this.Index;

@@ -1,8 +1,5 @@
 using HarmonyLib;
 using UnityEngine;
-using AmongUs.GameOptions;
-using TownOfHost.Extensions;
-using TownOfHost.Roles;
 
 namespace TownOfHost
 {

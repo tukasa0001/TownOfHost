@@ -1,5 +1,6 @@
 using TownOfHost.Extensions;
 using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
@@ -14,24 +15,24 @@ public class Jackal: NeutralKillingBase
     [RoleAction(RoleActionType.AttemptKill)]
     public new bool TryKill(PlayerControl target) => base.TryKill(target);
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Kill Cooldown")
                 .Bind(v => KillCooldown = (float)v)
-                .AddFloatRangeValues(0, 180, 2.5f, 12, "s")
+                .AddFloatRange(0, 180, 2.5f, 12, "s")
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Can Vent")
                 .Bind(v => canVent = (bool)v)
                 .AddOnOffValues()
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Can Sabotage")
                 .Bind(v => canSabotage = (bool)v)
                 .AddOnOffValues()
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Impostor Vision")
                 .Bind(v => impostorVision = (bool)v)
                 .AddOnOffValues()

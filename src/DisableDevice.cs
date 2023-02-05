@@ -4,7 +4,7 @@ using HarmonyLib;
 using Hazel;
 using InnerNet;
 using TownOfHost.Extensions;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles;
 using UnityEngine;
 using VentLib.Logging;

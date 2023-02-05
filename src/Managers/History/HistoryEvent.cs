@@ -1,5 +1,4 @@
 using System;
-using VentLib.Localization;
 
 namespace TownOfHost.Managers.History;
 

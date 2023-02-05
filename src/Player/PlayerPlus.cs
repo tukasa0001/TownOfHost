@@ -1,6 +1,5 @@
 using TownOfHost.Extensions;
 using TownOfHost.GUI;
-using TownOfHost.Managers;
 using TownOfHost.Roles;
 
 namespace TownOfHost.Player;

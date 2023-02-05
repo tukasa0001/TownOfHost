@@ -1,6 +1,7 @@
 using TownOfHost.Factions;
-using UnityEngine;
 using TownOfHost.Options;
+using UnityEngine;
+using VentLib.Options;
 using TownOfHost.Roles.Internals.Attributes;
 
 namespace TownOfHost.Roles;
@@ -30,32 +31,32 @@ public class Terrorist : Crewmate
         //OldRPC.TerroristWin(MyPlayer.PlayerId);
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
         .Tab(DefaultTabs.NeutralTab)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Can Win By Suicide")
                 .Bind(v => canWinBySuicide = (bool)v)
                 .AddOnOffValues(false).Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Override Terrorist's Tasks")
                 .Bind(v => HasOverridenTasks = (bool)v)
-                .ShowSubOptionsWhen(v => (bool)v)
+                .ShowSubOptionPredicate(v => (bool)v)
                 .AddOnOffValues(false)
-                .AddSubOption(sub2 => sub2
+                .SubOption(sub2 => sub2
                     .Name("Allow Common Tasks")
                     .Bind(v => HasCommonTasks = (bool)v)
                     .AddOnOffValues()
                     .Build())
-                .AddSubOption(sub2 => sub2
+                .SubOption(sub2 => sub2
                     .Name("Terrorist Long Tasks")
                     .Bind(v => LongTasks = (int)v)
-                    .AddIntRangeValues(0, 20, 1, 5)
+                    .AddIntRange(0, 20, 1, 5)
                     .Build())
-                .AddSubOption(sub2 => sub2
+                .SubOption(sub2 => sub2
                     .Name("Terrorist Short Tasks")
                     .Bind(v => ShortTasks = (int)v)
-                    .AddIntRangeValues(1, 20, 1, 5)
+                    .AddIntRange(1, 20, 1, 5)
                     .Build())
                 .Build());
 

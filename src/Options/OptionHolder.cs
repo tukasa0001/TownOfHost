@@ -1,20 +1,20 @@
-using System;
+/*using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using Hazel;
 using TownOfHost.Extensions;
-using TownOfHost.Options.Generators;
 using UnityEngine;
 using VentLib.Utilities.Extensions;
 using VentLib.RPC.Interfaces;
+using VentLib.Utilities;
 using Object = UnityEngine.Object;
 
 // ReSharper disable ParameterHidesMember
 
 namespace TownOfHost.Options;
 
-public class OptionHolder: IRpcSendable<OptionHolder>
+public class Option: IRpcSendable<Option>
 {
     public string Display => display?.Invoke() ?? Name;
     public string Name = null!;
@@ -31,19 +31,19 @@ public class OptionHolder: IRpcSendable<OptionHolder>
     public bool IsHeader;
 
     public OptionValueHolder? valueHolder { get => _valueHolder; init => _valueHolder = value; }
-    public List<OptionHolder> SubOptions { get => _subOptions; init => _subOptions = value; }
+    public List<Option> SubOptions { get => _subOptions; init => _subOptions = value; }
     public Func<object, bool>? ShowOptionPredicate { private get => _showOptionPredicate; init => _showOptionPredicate = value; }
     public int Level;
     public bool Pseudo { get; private init; }
 
     private GameOptionTab? tab;
     private readonly OptionValueHolder? _valueHolder;
-    private readonly List<OptionHolder> _subOptions = new();
+    private readonly List<Option> _subOptions = new();
     private readonly Func<object, bool>? _showOptionPredicate;
     private string? pseudoValue;
     private bool pseudoPredicate;
 
-    public string GetAsString(int index = -1) => (!Pseudo ? this.valueHolder == null ? "N/A" : this.valueHolder.GetAsString(index) : pseudoValue)!;
+    public string GetValueAsString(int index = -1) => (!Pseudo ? this.valueHolder == null ? "N/A" : this.valueHolder.GetValueAsString(index) : pseudoValue)!;
     public object? GetValue(int index = -1) => this.valueHolder!.GetValue(index);
     public T? GetValue<T>(int index = -1) => this.valueHolder!.GetValue<T>(index);
 
@@ -52,8 +52,8 @@ public class OptionHolder: IRpcSendable<OptionHolder>
 
     public string ColorName => Color == null ? Display : Color.Value.Colorize(Display);
 
-    public List<OptionHolder> GetHoldersRecursive() {
-        List<OptionHolder> holders = new();
+    public List<Option> GetHoldersRecursive() {
+        List<Option> holders = new();
         holders.Add(this);
         holders.AddRange(this.SubOptions.SelectMany(opt => opt.GetHoldersRecursive()));
         return holders;
@@ -71,7 +71,7 @@ public class OptionHolder: IRpcSendable<OptionHolder>
         this.Behaviour.name = ColorName;
         this.Behaviour.gameObject.SetActive(true);
         this.Behaviour.TitleText.text = ColorName;
-        this.Behaviour.ValueText.text = valueHolder!.GetAsString();
+        this.Behaviour.ValueText.text = valueHolder!.GetValueAsString();
         this.Behaviour.Value = 0;
         this.Behaviour.transform.FindChild("Background").localScale = new Vector3(1.2f, 1f, 1f);
         this.Behaviour.transform.FindChild("Plus_TMP").localPosition += new Vector3(0.3f, 0f, 0f);
@@ -87,9 +87,9 @@ public class OptionHolder: IRpcSendable<OptionHolder>
 
     public bool MatchesPredicate() => pseudoPredicate || ShowOptionPredicate != null && ShowOptionPredicate.Invoke(GetValue());
 
-    public List<OptionHolder> EnabledOptions(bool forceShow = false)
+    public List<Option> EnabledOptions(bool forceShow = false)
     {
-        List<OptionHolder> holders = new();
+        List<Option> holders = new();
         holders.Add(this);
         Behaviour!.gameObject.SetActive(false);
         if (!forceShow && ShowOptionPredicate != null && !ShowOptionPredicate.Invoke(GetValue()))
@@ -102,11 +102,11 @@ public class OptionHolder: IRpcSendable<OptionHolder>
         return holders;
     }
 
-    public override string ToString() => $"OptionsHolder({Name}: {GetAsString()} => {SubOptions.StrJoin()})";
+    public override string ToString() => $"OptionsHolder({Name}: {GetValueAsString()} => {SubOptions.StrJoin()})";
 
-    public OptionHolder Read(MessageReader reader)
+    public Option Read(MessageReader reader)
     {
-        OptionHolder pseudoHolder = new()
+        Option pseudoHolder = new()
         {
             Pseudo = true,
             Name = reader.ReadString(),
@@ -116,14 +116,14 @@ public class OptionHolder: IRpcSendable<OptionHolder>
             Level = reader.ReadInt32(),
             pseudoPredicate = reader.ReadBoolean()
         };
-        pseudoHolder._subOptions.AddRange(reader.ReadList<OptionHolder>());
+        pseudoHolder._subOptions.AddRange(reader.ReadList<Option>());
         return pseudoHolder;
     }
 
     public void Write(MessageWriter writer)
     {
         writer.Write(Name);
-        writer.Write(GetAsString());
+        writer.Write(GetValueAsString());
         writer.Write(IsHeader);
         writer.Write((Color ?? UnityEngine.Color.white).ToHex() );
         writer.Write(Level);
@@ -143,100 +143,100 @@ public class OptionHolder: IRpcSendable<OptionHolder>
         private int level;
         private Color? color;
         private List<Func<string[], OptionValue>> values = new();
-        public List<Func<string, OptionHolder[]>> SubOptions = new();
+        public List<Func<string, Option[]>> SubOptions = new();
         private Func<object, bool> showOptionsPredicate;
         //private OptionPage page;
 
-        public SmartOptionBuilder(string? header = null, int level = 0)
+        public OptionBuilder(string? header = null, int level = 0)
         {
             this.header = header;
             this.level = level;
         }
 
-        public SmartOptionBuilder Name(string name)
+        public OptionBuilder Name(string name)
         {
             this.name = name;
             return this;
         }
 
-        public SmartOptionBuilder Display(string optionEntry, Func<string> display)
+        public OptionBuilder Display(string optionEntry, Func<string> display)
         {
             this.name = optionEntry;
             this.display = display;
             return this;
         }
 
-        public SmartOptionBuilder Color(Color color)
+        public OptionBuilder Color(Color color)
         {
             this.color = color;
             return this;
         }
 
-        public SmartOptionBuilder IsHeader(bool isHeader)
+        public OptionBuilder IsHeader(bool isHeader)
         {
             this.isHeader = isHeader;
             return this;
         }
 
-        public SmartOptionBuilder Tab(GameOptionTab tab)
+        public OptionBuilder Tab(GameOptionTab tab)
         {
             this.tab = tab;
             return this;
         }
 
-        public SmartOptionBuilder ShowSubOptionsWhen(Func<object, bool> predicate)
+        public OptionBuilder ShowSubOptionPredicate(Func<object, bool> predicate)
         {
             showOptionsPredicate = predicate;
             return this;
         }
 
-        public SmartOptionBuilder AddValue(object? value, string prefix = "", string suffix = "", Color? color = null)
+        public OptionBuilder Value(object? value, string prefix = "", string suffix = "", Color? color = null)
         {
             this.values.Add(v => new OptionValue(value, cfgHeader: v[0], cfgEntry: v[1], null, prefix, suffix, color));
             return this;
         }
 
-        public SmartOptionBuilder AddValue(Func<OptionValue.Builder, OptionValue> value)
+        public OptionBuilder Value(Func<OptionValue.Builder, OptionValue> value)
         {
             this.values.Add(v => value.Invoke(OptionValue.ToBuilder(null, cfgHeader: v[0], cfgEntry: v[1])));
             return this;
         }
 
-        public SmartOptionBuilder AddValues(int startIndex = -1, params object[] values)
+        public OptionBuilder Values(int startIndex = -1, params object[] values)
         {
             this.defaultIndex = startIndex != -1 ? startIndex : this.defaultIndex;
             this.values.AddRange(values.Select(v => (Func<string[], OptionValue>)(s => new OptionValue(v, cfgHeader: s[0], cfgEntry: s[1]))));
             return this;
         }
 
-        public SmartOptionBuilder AddValues(int startIndex = -1, params OptionValue[] values)
+        public OptionBuilder Values(int startIndex = -1, params OptionValue[] values)
         {
             this.defaultIndex = startIndex != -1 ? startIndex : this.defaultIndex;
             this.values.AddRange(values.Select(v => (Func<string[], OptionValue>)(_ => v)));
             return this;
         }
 
-        public SmartOptionBuilder AddValues(Range range, int startIndex = 0, string prefix = "", string suffix = "", Color? color = null)
+        public OptionBuilder Values(Range range, int startIndex = 0, string prefix = "", string suffix = "", Color? color = null)
         {
             this.defaultIndex = startIndex != -1 ? startIndex : this.defaultIndex;
-            range.ToEnumerator().Do(i => this.AddValue(i, prefix, suffix, color));
+            range.ToEnumerator().Do(i => this.Value(i, prefix, suffix, color));
             return this;
         }
 
-        public SmartOptionBuilder AddSubOption(Func<SmartOptionBuilder, OptionHolder> subOptionBuilder)
+        public OptionBuilder AddSubOption(Func<OptionBuilder, Option> subOptionBuilder)
         {
-            this.SubOptions.Add(h =>  new [] {subOptionBuilder.Invoke(new SmartOptionBuilder(h, level + 1))});
+            this.SubOptions.Add(h =>  new [] {subOptionBuilder.Invoke(new OptionBuilder(h, level + 1))});
             return this;
         }
 
-        public SmartOptionBuilder AddFloatRangeValues(float start, float stop, float step = 1, int startIndex = -1, string suffix = "")
+        public OptionBuilder AddFloatRange(float start, float stop, float step = 1, int startIndex = -1, string suffix = "")
         {
             this.defaultIndex = startIndex != -1 ? startIndex : this.defaultIndex;
             this.values.AddRange(new FloatRangeGenerator(start, stop, step).GetRange().Select(v => (Func<string[], OptionValue>)(s => new OptionValue(v, cfgHeader: s[0], cfgEntry: s[1], suffix: suffix))));
             return this;
         }
 
-        public SmartOptionBuilder AddIntRangeValues(int start, int stop, int step = 1, int startIndex = -1, string suffix = "")
+        public OptionBuilder AddIntRange(int start, int stop, int step = 1, int startIndex = -1, string suffix = "")
         {
             this.defaultIndex = startIndex != -1 ? startIndex : this.defaultIndex;
             this.values.AddRange(new IntRangeGenerator(start, stop, step).GetRange().Select(v => (Func<string[], OptionValue>)(s => new OptionValue(v, cfgHeader: s[0], cfgEntry: s[1], suffix: suffix))));
@@ -247,52 +247,52 @@ public class OptionHolder: IRpcSendable<OptionHolder>
         /// Lazy method to add ON and OFF values to this option
         /// </summary>
         /// <returns>Current builder</returns>
-        public SmartOptionBuilder AddOnOffValues(bool defaultOn = true)
+        public OptionBuilder AddOnOffValues(bool defaultOn = true)
         {
             return this
-                .AddValue(val =>
+                .Value(val =>
                     val.Text(defaultOn ? "ON" : "OFF")
                         .Value(defaultOn)
                         .Color(defaultOn ? UnityEngine.Color.cyan : UnityEngine.Color.red)
                         .Build())
-                .AddValue(val =>
+                .Value(val =>
                     val.Text(defaultOn ? "OFF" : "ON")
                         .Value(!defaultOn)
                         .Color(defaultOn ? UnityEngine.Color.red : UnityEngine.Color.cyan)
                         .Build());
         }
 
-        public SmartOptionBuilder Bind(Action<object> lateBinding)
+        public OptionBuilder Bind(Action<object> lateBinding)
         {
             this.lateBinding = lateBinding;
             return this;
         }
 
-        public SmartOptionBuilder BindInt(Action<int> lateBinding)
+        public OptionBuilder BindInt(Action<int> lateBinding)
         {
             this.lateBinding = obj => lateBinding.Invoke((int)obj);
             return this;
         }
 
-        public SmartOptionBuilder BindBool(Action<bool> lateBinding)
+        public OptionBuilder BindBool(Action<bool> lateBinding)
         {
             this.lateBinding = obj => lateBinding.Invoke((bool)obj);
             return this;
         }
 
-        public SmartOptionBuilder BindFloat(Action<float> lateBinding)
+        public OptionBuilder BindFloat(Action<float> lateBinding)
         {
             this.lateBinding = obj => lateBinding.Invoke((float)obj);
             return this;
         }
 
-        public OptionHolder Build(bool createHeaderIfNull = true)
+        public Option Build(bool createHeaderIfNull = true)
         {
             this.header ??= (!createHeaderIfNull ? this.header : (this.name + "Options"));
             OptionValueHolder valueHolder = new(this.values.Select(value => value.Invoke(new[] { this.header!, this.name })).ToList(), defaultIndex);
             if (this.lateBinding != null)
                 valueHolder.LateBinding = this.lateBinding;
-            return new OptionHolder
+            return new Option
             {
                 Name = this.name,
                 display = this.display,
@@ -306,11 +306,11 @@ public class OptionHolder: IRpcSendable<OptionHolder>
             };
         }
 
-        public SmartOptionBuilder Clone()
+        public OptionBuilder Clone()
         {
-            SmartOptionBuilder builder = (SmartOptionBuilder)this.MemberwiseClone();
-            builder.SubOptions = new List<Func<string, OptionHolder[]>>(builder.SubOptions);
+            OptionBuilder builder = (OptionBuilder)this.MemberwiseClone();
+            builder.SubOptions = new List<Func<string, Option[]>>(builder.SubOptions);
             builder.values = new List<Func<string[], OptionValue>>(builder.values);
             return builder;
         }
-    }
+    }*/

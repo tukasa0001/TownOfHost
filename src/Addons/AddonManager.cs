@@ -11,7 +11,6 @@ using TownOfHost.Roles;
 using TownOfHost.RPC;
 using VentLib;
 using VentLib.Logging;
-using VentLib.RPC;
 using VentLib.RPC.Attributes;
 using VentLib.Utilities;
 

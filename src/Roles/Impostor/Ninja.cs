@@ -3,8 +3,7 @@ using System.Linq;
 using TownOfHost.Extensions;
 using AmongUs.GameOptions;
 using TownOfHost.GUI;
-using TownOfHost.Options;
-using TownOfHost.Player;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using VentLib.Utilities;
@@ -86,18 +85,18 @@ public class Ninja : Impostor
         playerList.Clear();
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-        .AddSubOption(sub => sub
+        .SubOption(sub => sub
             .Name("Players Teleport to Ninja")
             .BindBool(v => playerTeleportsToNinja = v)
             .AddOnOffValues(false)
             .Build())
-        .AddSubOption(sub => sub
+        .SubOption(sub => sub
             .Name("Ninja Ability Activation")
             .BindInt(v => activationType = (ActivationType)v)
-            .AddValue(v => v.Text("Pet Button").Value(0).Build())
-            .AddValue(v => v.Text("Shapeshift Button").Value(1).Build())
+            .Value(v => v.Text("Pet Button").Value(0).Build())
+            .Value(v => v.Text("Shapeshift Button").Value(1).Build())
             .Build());
 
 

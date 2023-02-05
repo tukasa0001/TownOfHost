@@ -1,4 +1,3 @@
-using System.Text.RegularExpressions;
 using HarmonyLib;
 using TownOfHost.Managers;
 using TownOfHost.Options;

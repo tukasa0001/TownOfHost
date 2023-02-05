@@ -1,11 +1,12 @@
 using System.Linq;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles;
 using VentLib.Commands;
 using VentLib.Commands.Attributes;
 using VentLib.Commands.Interfaces;
+using VentLib.Utilities;
 using VentLib.Utilities.Extensions;
 
 namespace TownOfHost.Chat.Commands;
@@ -40,23 +41,23 @@ public class RoleInfoCommand: ICommandReceiver
         CustomRole role = source.GetCustomRole();
         string output = $"{role} {role.Factions.StrJoin()}:";
 
-        OptionHolder? optionMatch = TOHPlugin.OptionManager.Options().FirstOrDefault(h => h.Name == role.RoleName);
+        Option? optionMatch = TOHPlugin.OptionManager.Options().FirstOrDefault(h => h.Name == role.RoleName);
         if (optionMatch == null) { ShowRoleDescription(source); return; }
 
-        foreach (var child in optionMatch.GetHoldersRecursive().Where(child => child != optionMatch))
-            UpdateOutput(ref output, child);
+        /*foreach (var child in optionMatch.GetHoldersRecursive().Where(child => child != optionMatch))
+            UpdateOutput(ref output, child);*/
 
         Utils.SendMessage(output, source.PlayerId);
     }
 
-    private void UpdateOutput(ref string output, OptionHolder options)
+    private void UpdateOutput(ref string output, Option options)
     {
         if (options.Level < previousLevel)
             output += "\n";
         previousLevel = options.Level;
         if (options.Color != null)
-            output += $"\n{options.Name} => {options.Color.Value.Colorize(options.GetAsString())}";
+            output += $"\n{options.Name} => {options.Color.Colorize(options.GetValueAsString())}";
         else
-            output += $"\n{options.Name} => {options.GetAsString()}";
+            output += $"\n{options.Name} => {options.GetValueAsString()}";
     }
 }

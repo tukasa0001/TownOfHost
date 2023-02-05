@@ -1,8 +1,7 @@
 using TownOfHost.Extensions;
 using System.Collections.Generic;
 using TownOfHost.GUI;
-using TownOfHost.Options;
-using TownOfHost.Player;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using VentLib.Utilities;
@@ -68,12 +67,12 @@ public class Vampiress : Impostor
         ? InteractionResult.Halt
         : InteractionResult.Proceed;*/
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Kill Delay")
                 .Bind(v => killDelay = (float)v)
-                .AddFloatRangeValues(2.5f, 60f, 2.5f, 2, "s")
+                .AddFloatRange(2.5f, 60f, 2.5f, 2, "s")
                 .Build());
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>

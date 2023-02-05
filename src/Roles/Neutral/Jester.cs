@@ -1,6 +1,7 @@
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.Victory.Conditions;
@@ -20,12 +21,12 @@ public class Jester : CustomRole
         jesterWin.Activate();
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Tab(DefaultTabs.NeutralTab)
-            .AddSubOption(opt =>
+            .SubOption(opt =>
                 opt.Name("Has Impostor Vision").Bind(v => impostorVision = (bool)v).AddOnOffValues().Build())
-            .AddSubOption(opt => opt.Name("Can Use Vents")
+            .SubOption(opt => opt.Name("Can Use Vents")
                 .Bind(v => canUseVents = (bool)v)
                 .AddOnOffValues()
                 .Build());

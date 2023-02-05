@@ -1,10 +1,9 @@
 using System;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Internals.Attributes;
-using VentLib.Logging;
 using static TownOfHost.Roles.SerialKiller;
 
 namespace TownOfHost.Gamemodes.Colorwars;
@@ -47,7 +46,7 @@ public class CwPainter: SerialKillerModifier
         this.DeathTimer.Start();
     }
 
-    public override SmartOptionBuilder HookOptions(SmartOptionBuilder optionStream) =>
+    public override OptionBuilder HookOptions(OptionBuilder optionStream) =>
         base.HookOptions(optionStream)
             .Tab(ColorwarsGamemode.ColorwarsTab);
 

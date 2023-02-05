@@ -12,7 +12,6 @@ using TownOfHost.Managers;
 using TownOfHost.Player;
 using TownOfHost.Roles;
 using UnityEngine;
-using VentLib;
 using VentLib.Utilities.Extensions;
 using VentLib.RPC;
 using VentLib.Utilities;

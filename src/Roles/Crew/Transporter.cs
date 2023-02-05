@@ -4,7 +4,7 @@ using System.Linq;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.GUI;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.Utilities.Extensions;
@@ -69,14 +69,14 @@ public class Transporter : CustomRole
         return InteractionResult.Proceed;
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .AddSubOption(sub => sub.Name("Number of Transports")
+            .SubOption(sub => sub.Name("Number of Transports")
                 .Bind(v => this.totalTransports = (int)v)
-                .AddValues(4, 5, 10, 15, 20, 25).Build())
-            .AddSubOption(sub => sub.Name("Transport Cooldown")
+                .Values(4, 5, 10, 15, 20, 25).Build())
+            .SubOption(sub => sub.Name("Transport Cooldown")
                 .Bind(v => this.transportCooldown.Duration = Convert.ToSingle((int)v))
-                .AddValues(4, 10, 15, 20, 25, 30).Build());
+                .Values(4, 10, 15, 20, 25, 30).Build());
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>
         roleModifier

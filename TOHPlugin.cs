@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using BepInEx;
 using HarmonyLib;
@@ -7,17 +6,19 @@ using UnityEngine;
 using AmongUs.GameOptions;
 using BepInEx.Unity.IL2CPP;
 using TownOfHost.Addons;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles;
 using TownOfHost.Gamemodes;
 using TownOfHost.Managers;
 using TownOfHost.Managers.Date;
+using TownOfHost.Options;
 using TownOfHost.Roles.Internals.Attributes;
 using VentLib;
 using VentLib.Logging;
 using VentLib.Version;
 using VentLib.Version.Git;
 using VentLib.Version.Handshake;
+using OptionManager = TownOfHost.Options.OptionManager;
 using Version = VentLib.Version.Version;
 
 [assembly: AssemblyFileVersion(TownOfHost.TOHPlugin.PluginVersion)]
@@ -26,11 +27,11 @@ namespace TownOfHost;
 
 [BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
 [BepInProcess("Among Us.exe")]
-public class TOHPlugin : BasePlugin
+public class TOHPlugin : BasePlugin, IGitVersionEmitter
 {
     public const string PluginGuid = "com.discussions.tohtor";
     public const string PluginVersion = "1.0.0";
-    public readonly Version CurrentVersion = new NoVersion();
+    public readonly GitVersion CurrentVersion = new GitVersion();
 
     public static readonly string ModName = "Town Of Host: The Other Roles";
     public static readonly string ModColor = "#4FF918";
@@ -51,22 +52,14 @@ public class TOHPlugin : BasePlugin
         Instance = this;
         Vents.Initialize();
         Vents.VersionControl.DisableHandshake();
-        /*Vents.VersionControl.For(this);
+        Vents.VersionControl.For(this);
         Vents.VersionControl.AddVersionReceiver(
             (ver, player) => playerVersion[player.PlayerId] = (GitVersion)ver,
             ReceiveExecutionFlag.OnSuccessfulHandshake);
-            */
 
         VentLogger.Configuration.SetLevel(LogLevel.Trace);
+        Option.SetTransformAssigner(AssignTransform);
     }
-
-
-
-
-
-
-
-
 
 
     public static NormalGameOptionsV07 NormalOptions => GameOptionsManager.Instance.currentNormalGameOptions;
@@ -91,12 +84,14 @@ public class TOHPlugin : BasePlugin
     public static OptionManager OptionManager;
     public static TOHPlugin Instance;
 
+    public static Option TestOption;
 
 
     public override void Load()
     {
         var d = SpecialDate.Christmas;
         OptionManager = new OptionManager();
+        GameOptionTab __ = DefaultTabs.GeneralTab;
         GamemodeManager = new GamemodeManager();
 
         VisibleTasksCount = false;
@@ -105,12 +100,10 @@ public class TOHPlugin : BasePlugin
         TemplateManager.Init();
 
         VentLogger.Info($"{Application.version}", "AmongUs Version");
-
         VentLogger.Info(CurrentVersion.ToString(), "GitVersion");
 
         // Setup, order matters here
 
-        GameOptionTab __ = DefaultTabs.GeneralTab;
         int _ = CustomRoleManager.AllRoles.Count;
         StaticEditor.Register(Assembly.GetExecutingAssembly());
         Harmony.PatchAll(Assembly.GetExecutingAssembly());
@@ -118,17 +111,25 @@ public class TOHPlugin : BasePlugin
 
         GamemodeManager.Setup();
         StaticOptions.AddStaticOptions();
-        OptionManager.AllHolders.AddRange(OptionManager.Options().SelectMany(opt => opt.GetHoldersRecursive()));
+        //OptionManager.AllHolders.AddRange(OptionManager.Options().SelectMany(opt => opt.GetHoldersRecursive()));
         Initialized = true;
     }
 
-    public Version Version() => CurrentVersion;
+    public GitVersion Version() => CurrentVersion;
 
-    /*public HandshakeResult HandshakeFilter(Version handshake)
+    public HandshakeResult HandshakeFilter(Version handshake)
     {
         if (handshake is NoVersion) return HandshakeResult.FailDoNothing;
         if (handshake is not GitVersion git) return HandshakeResult.DisableRPC;
         if (git.MajorVersion != CurrentVersion.MajorVersion && git.MinorVersion != CurrentVersion.MinorVersion) return HandshakeResult.FailDoNothing;
         return HandshakeResult.PassDoNothing;
-    }*/
+    }
+
+
+    private static Transform AssignTransform(Option option)
+    {
+        if (option.Tab is not GameOptionTab got) return Option.SharedGameObject.transform;
+        VentLogger.Log(LogLevel.All, $"Assigning Transformer: {option} - {got.Menu}");
+        return got.Menu == null ? Option.SharedGameObject.transform : got.Menu.transform;
+    }
 }

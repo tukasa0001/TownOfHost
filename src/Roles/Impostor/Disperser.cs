@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.Extensions;
 using TownOfHost.GUI;
 using TownOfHost.Managers;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.Utilities.Extensions;
@@ -35,11 +34,11 @@ public class Disperser: Impostor
             });
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Disperse Cooldown")
                 .BindFloat(v => abilityCooldown.Duration = v)
-                .AddFloatRangeValues(0, 120, 2.5f, 5, "s")
+                .AddFloatRange(0, 120, 2.5f, 5, "s")
                 .Build());
 }

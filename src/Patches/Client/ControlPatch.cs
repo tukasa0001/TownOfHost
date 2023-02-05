@@ -4,7 +4,6 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
-using TownOfHost.Options;
 using TownOfHost.Roles;
 using TownOfHost.Victory.Conditions;
 using UnityEngine;
@@ -26,12 +25,12 @@ class ControllerManagerUpdatePatch
         {
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                OptionShower.Next();
+                //OptionShower.Next();
             }
             for (var i = 0; i < 9; i++)
             {
-                if (ORGetKeysDown(KeyCode.Alpha1 + i, KeyCode.Keypad1 + i) && OptionShower.pages.Count >= i + 1)
-                    OptionShower.currentPage = i;
+                /*if (ORGetKeysDown(KeyCode.Alpha1 + i, KeyCode.Keypad1 + i) && OptionShower.pages.Count >= i + 1)
+                    OptionShower.currentPage = i;*/
             }
         }
         //解像度変更
@@ -150,7 +149,7 @@ class ControllerManagerUpdatePatch
         //TOHオプションをデフォルトに設定
         if (GetKeysDown(KeyCode.Delete, KeyCode.LeftControl))
         {
-            TOHPlugin.OptionManager.AllHolders.Do(h => h.valueHolder.Default());
+            /*TOHPlugin.OptionManager.AllHolders.Do(h => h.valueHolder.Default());*/
         }
         //投票をクリア
         if (Input.GetKeyDown(KeyCode.V) && GameStates.IsMeeting && !GameStates.IsOnlineGame)

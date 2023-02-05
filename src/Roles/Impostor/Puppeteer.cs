@@ -8,6 +8,7 @@ using TownOfHost.Managers;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
+using VentLib.Utilities;
 using VentLib.Utilities.Extensions;
 
 namespace TownOfHost.Roles;

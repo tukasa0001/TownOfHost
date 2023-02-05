@@ -4,15 +4,17 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles;
 using TownOfHost.Victory;
 using VentLib.Logging;
+using VentLib.Utilities;
 
 namespace TownOfHost.Gamemodes.Debug;
 
 public class DebugGamemode: Gamemode
 {
-    private List<OptionHolder> specificOptions = new();
+    private List<Option> specificOptions = new();
     private readonly Dictionary<byte, string> _roleAssignments = new();
 
     internal static GameOptionTab DebugTab = new("Debug Tab", "TownOfHost.assets.Tabs.Debug_Tab.png");
@@ -39,11 +41,11 @@ public class DebugGamemode: Gamemode
     {
         foreach (PlayerControl player in PlayerControl.AllPlayerControls)
         {
-            OptionHolder option = new SmartOptionBuilder()
+            Option option = new OptionBuilder()
                 .Name(player.GetRawName())
                 .IsHeader(true)
                 .Bind(v => _roleAssignments[player.PlayerId] = ((string)v).RemoveHtmlTags())
-                .AddValues(0, CustomRoleManager.AllRoles.Select(s => s.RoleColor.Colorize(s.RoleName)).ToArray())
+                .Values(CustomRoleManager.AllRoles.Select(s => s.RoleColor.Colorize(s.RoleName)))
                 .Tab(DebugTab)
                 .Build();
             specificOptions.Add(option);
@@ -53,13 +55,13 @@ public class DebugGamemode: Gamemode
 
     public override void Deactivate()
     {
-        List<OptionHolder> allHolders = specificOptions.SelectMany(o => o.GetHoldersRecursive()).ToList();
+        /*List<Option> allHolders = specificOptions.SelectMany(o => o.GetHoldersRecursive()).ToList();
         TOHPlugin.OptionManager.Options().RemoveAll(p => allHolders.Contains(p));
         TOHPlugin.OptionManager.Options().RemoveAll(p => allHolders.Contains(p));
         allHolders.Do(h =>
         {
             if (h.Tab == null) return;
             h.Tab.GetHolders().Remove(h);
-        });
+        });*/
     }
 }

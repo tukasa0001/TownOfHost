@@ -5,10 +5,9 @@ using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.Managers;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
-using TownOfHost.RPC;
 using TownOfHost.Victory;
 using UnityEngine;
 
@@ -142,7 +141,7 @@ public class Glitch: Morphling
         throw new NotImplementedException("Implement hack");
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream).Color(Color.green);
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>

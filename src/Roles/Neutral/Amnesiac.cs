@@ -3,6 +3,7 @@ using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
@@ -39,10 +40,10 @@ public class Amnesiac : CustomRole {
         handle.Cancel();
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Tab(DefaultTabs.NeutralTab)
-            .AddSubOption(sub => sub.Name("Steals Exact Role")
+            .SubOption(sub => sub.Name("Steals Exact Role")
                 .Bind(v => stealExactRole = (bool)v)
                 .AddOnOffValues(false).Build());
 

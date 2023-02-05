@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
-using TownOfHost.Roles;
 using VentLib.Localization;
 using VentLib.Logging;
 

@@ -3,11 +3,11 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
-using TownOfHost.Options;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Neutral;
 using UnityEngine;
 using VentLib.Localization;
+using VentLib.Utilities;
 
 namespace TownOfHost.GUI.Patches;
 
@@ -45,7 +45,7 @@ class HudManagerPatch
                 player.Collider.offset = new Vector2(0f, -0.3636f);
             }
         }
-        __instance.GameSettings.text = OptionShower.GetText();
+        //__instance.GameSettings.text = OptionShower.GetText();
         //ゲーム中でなければ以下は実行されない
         if (!AmongUsClient.Instance.IsGameStarted) return;
 

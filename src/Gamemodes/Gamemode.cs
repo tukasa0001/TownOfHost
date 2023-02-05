@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
 using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Victory;
 
@@ -11,6 +12,7 @@ namespace TownOfHost.Gamemodes;
 public abstract class Gamemode: IGamemode
 {
     public Dictionary<GameAction, List<MethodInfo>> boundActions = new();
+    //private TempOption tempOption = new();
 
 
     public abstract string GetName();
@@ -37,5 +39,10 @@ public abstract class Gamemode: IGamemode
     public void Trigger(GameAction action, params object[] args)
     {
         boundActions.GetValueOrDefault(action, new List<MethodInfo>()).Do(m => m.InvokeAligned(this, args));
+    }
+
+    public void AddOption(Option Option)
+    {
+        //tempOption.Add(Option);
     }
 }

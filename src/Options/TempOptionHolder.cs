@@ -1,25 +1,26 @@
-using System.Collections.Generic;
+/*using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using VentLib.Options;
 
 namespace TownOfHost.Options;
 
-public class TempOptionHolder
+public class TempOption
 {
-    private List<OptionHolder> temporaryOptions = new();
+    private List<Option> temporaryOptions = new();
 
 
-    public void Add(OptionHolder option)
+    public void Add(Option option)
     {
         temporaryOptions.Add(option);
         TOHPlugin.OptionManager.Add(option);
     }
 
-    public List<OptionHolder> GetTempOptions() => temporaryOptions;
+    public List<Option> GetTempOptions() => temporaryOptions;
 
     public void DeleteAll()
     {
-        List<OptionHolder> allHolders = temporaryOptions.SelectMany(o => o.GetHoldersRecursive()).ToList();
+        List<Option> allHolders = temporaryOptions.SelectMany(o => o.GetHoldersRecursive()).ToList();
         TOHPlugin.OptionManager.Options().RemoveAll(p => allHolders.Contains(p));
         TOHPlugin.OptionManager.Options().RemoveAll(p => allHolders.Contains(p));
         allHolders.Do(h =>
@@ -29,4 +30,4 @@ public class TempOptionHolder
         });
         temporaryOptions.Clear();
     }
-}
+}*/

@@ -1,4 +1,5 @@
 using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 
@@ -36,17 +37,17 @@ public class Phantom : Crewmate
 
     public override bool CanBeKilled() => CanKill;
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
          base.RegisterOptions(optionStream)
              .Tab(DefaultTabs.NeutralTab)
-             .AddSubOption(opt =>
+             .SubOption(opt =>
                 opt.Name("Tasks Remaining for Phantom Click")
                 .BindInt(v => phantomClickAmt = v)
-                .AddIntRangeValues(1, 10, 1)
+                .AddIntRange(1, 10, 1)
                 .Build())
-            .AddSubOption(opt =>
+            .SubOption(opt =>
                 opt.Name("Tasks Remaining for Phantom Alert")
                 .BindInt(v => phantomAlertAmt = v)
-                .AddIntRangeValues(1, 5, 1)
+                .AddIntRange(1, 5, 1)
                 .Build());
 }

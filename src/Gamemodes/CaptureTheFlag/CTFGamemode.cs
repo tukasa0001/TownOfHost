@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.GUI;
 using TownOfHost.Managers;
 using TownOfHost.Managers.Date;
 using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles;
 using TownOfHost.Victory;
 using UnityEngine;
@@ -14,7 +14,6 @@ using VentLib.Anticheat;
 using VentLib.Logging;
 using VentLib.RPC;
 using VentLib.Utilities;
-using VentLib.Utilities.Extensions;
 
 namespace TownOfHost.Gamemodes.CaptureTheFlag;
 
@@ -42,15 +41,24 @@ public class CTFGamemode: Gamemode
             return;
         }
         this.BindAction(GameAction.GameStart, SetupNames);
-        CustomRoleManager.AddRole(Striker);
 
-        TOHPlugin.OptionManager.Add(new SmartOptionBuilder()
+        AddOption(new OptionBuilder()
             .Name("Game Length")
             .Tab(CTFTab)
             .IsHeader(true)
             .BindFloat(v => GameDuration = v)
-            .AddFloatRangeValues(60, 600, 15f, 3, "s")
+            .AddFloatRange(60, 600, 15f, 3, "s")
             .Build());
+    }
+
+    public override void Activate()
+    {
+        CustomRoleManager.AddRole(Striker);
+    }
+
+    public override void Deactivate()
+    {
+        CustomRoleManager.AllRoles.Remove(Striker);
     }
 
     // new(16.5f, -4.8f) Navigation

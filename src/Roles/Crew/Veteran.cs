@@ -4,7 +4,7 @@ using TownOfHost.Factions;
 using UnityEngine;
 using TownOfHost.GUI;
 using TownOfHost.Managers;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals.Attributes;
 
 namespace TownOfHost.Roles;
@@ -56,22 +56,22 @@ public class Veteran : Crewmate
     [RoleInteraction(Faction.Crewmates)]
     public InteractionResult CrewmateAttacked() => canKillCrewmates ? InteractionResult.Proceed : InteractionResult.Halt;
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream).Color(RoleColor)
-            .AddSubOption(sub => sub.Name("Number of Alerts")
+            .SubOption(sub => sub.Name("Number of Alerts")
                 .Bind(v => totalAlerts = (int)v)
-                .AddIntRangeValues(1, 10, 1, 9).Build())
-            .AddSubOption(sub => sub.Name("Alert Cooldown")
+                .AddIntRange(1, 10, 1, 9).Build())
+            .SubOption(sub => sub.Name("Alert Cooldown")
                 .Bind(v => veteranCooldown.Duration = (float)v)
-                .AddFloatRangeValues(2.5f, 120, 2.5f, 5, "s")
+                .AddFloatRange(2.5f, 120, 2.5f, 5, "s")
                 .Build())
-            .AddSubOption(sub => sub.Name("Alert Duration")
+            .SubOption(sub => sub.Name("Alert Duration")
                 .Bind(v => veteranDuration.Duration = (float)v)
-                .AddFloatRangeValues(1, 20, 0.5f, 5, "s").Build())
-            .AddSubOption(sub => sub.Name("Can Kill Crewmates")
+                .AddFloatRange(1, 20, 0.5f, 5, "s").Build())
+            .SubOption(sub => sub.Name("Can Kill Crewmates")
                 .Bind(v => canKillCrewmates = (bool)v)
                 .AddOnOffValues().Build())
-            .AddSubOption(sub => sub.Name("Can Kill While Transported")
+            .SubOption(sub => sub.Name("Can Kill While Transported")
                 .Bind(v => CanKillWhileTransported = (bool)v)
                 .AddOnOffValues().Build());
 

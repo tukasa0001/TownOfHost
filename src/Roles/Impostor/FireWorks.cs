@@ -4,7 +4,7 @@ using System.Linq;
 using HarmonyLib;
 using TownOfHost.GUI;
 using TownOfHost.Managers;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Patches.Systems;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
@@ -122,38 +122,38 @@ public class FireWorks: Morphling
     [RoleAction(RoleActionType.RoundStart)]
     private void ResetFireworkCount() => fireworksThisRound = 0;
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Total Firework Count")
                 .BindInt(v => totalFireworkCount = v)
-                .AddIntRangeValues(1, 40, 1, 2).Build())
-            .AddSubOption(sub => sub
+                .AddIntRange(1, 40, 1, 2).Build())
+            .SubOption(sub => sub
                 .Name("Fireworks Per Round")
                 .BindInt(v => fireworksPerRound = v)
-                .AddValue(v => v.Text("No Limit").Value(-1).Build())
-                .AddIntRangeValues(1, 20)
-                .ShowSubOptionsWhen(v => (int)v > 1 || (int)v == -1)
-                .AddSubOption(sub2 => sub2
+                .Value(v => v.Text("No Limit").Value(-1).Build())
+                .AddIntRange(1, 20)
+                .ShowSubOptionPredicate(v => (int)v > 1 || (int)v == -1)
+                .SubOption(sub2 => sub2
                     .Name("FireWorks Ability Cooldown")
                     .BindFloat(v => fireworkCooldown.Duration = v)
-                    .AddFloatRangeValues(0, 120, 2.5f,8, "s").Build())
+                    .AddFloatRange(0, 120, 2.5f,8, "s").Build())
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Firework Explosion Radius")
                 .BindFloat(v => fireworkRadius = v)
-                .AddFloatRangeValues(0.5f, 3f, 0.1f, 3).Build())
-            .AddSubOption(sub => sub
+                .AddFloatRange(0.5f, 3f, 0.1f, 3).Build())
+            .SubOption(sub => sub
                 .Name("Firework Delay")
                 .BindFloat(v => fireworkDelay = v)
-                .AddFloatRangeValues(0f, 10f, 0.25f, 4, "s")
-                .ShowSubOptionsWhen(v => (float)v > 0.26f)
-                .AddSubOption(sub2 => sub2
+                .AddFloatRange(0f, 10f, 0.25f, 4, "s")
+                .ShowSubOptionPredicate(v => (float)v > 0.26f)
+                .SubOption(sub2 => sub2
                     .Name("Warn Players Before Explosion")
                     .BindBool(v => warnPlayers = v)
                     .AddOnOffValues().Build())
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Must Be Last Impostor")
                 .BindBool(v => mustBeLastImpostor = v)
                 .AddOnOffValues().Build());

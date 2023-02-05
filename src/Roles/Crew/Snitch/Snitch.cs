@@ -1,6 +1,6 @@
 using TownOfHost.GUI;
 using TownOfHost.Managers;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals.Attributes;
 
 namespace TownOfHost.Roles;
@@ -98,22 +98,22 @@ public class Snitch: CustomRole
     protected override RoleModifier Modify(RoleModifier roleModifier) =>
         roleModifier.RoleColor("#b8fb4f");
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .AddSubOption(s => s.Name("Enable Arrow")
+            .SubOption(s => s.Name("Enable Arrow")
                 .Bind(v => enableTargetArrow = (bool)v)
                 .AddOnOffValues()
-                .ShowSubOptionsWhen(o => (bool)o)
-                .AddSubOption(arrow => arrow.Name("Colored Arrow")
+                .ShowSubOptionPredicate(o => (bool)o)
+                .SubOption(arrow => arrow.Name("Colored Arrow")
                     .Bind(v => arrowIsColored = (bool)v)
                     .AddOnOffValues()
                     .Build())
                 .Build())
-            .AddSubOption(s => s.Name("Snitch Can Track Neutral Killing")
+            .SubOption(s => s.Name("Snitch Can Track Neutral Killing")
                 .Bind(v => snitchCanTrackNK = (bool)v)
                 .AddOnOffValues()
                 .Build())
-            .AddSubOption(s => s.Name("Snitch Can Track Coven")
+            .SubOption(s => s.Name("Snitch Can Track Coven")
                 .Bind(v => snitchCanTrackCoven = (bool)v)
                 .AddOnOffValues()
                 .Build());

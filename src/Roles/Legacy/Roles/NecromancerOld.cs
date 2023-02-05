@@ -1,13 +1,7 @@
 using System.Collections.Generic;
-using System.Linq;
-using Hazel;
-using UnityEngine;
-using System;
-using InnerNet;
 using TownOfHost.Extensions;
 using TownOfHost.Options;
 using TownOfHost.Roles;
-using TownOfHost.RPC;
 using VentLib.Logging;
 
 

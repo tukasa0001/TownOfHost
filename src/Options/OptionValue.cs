@@ -1,6 +1,6 @@
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using TownOfHost.Extensions;
 using UnityEngine;
+using VentLib.Utilities;
 
 namespace TownOfHost.Options;
 

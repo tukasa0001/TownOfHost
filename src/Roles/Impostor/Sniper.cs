@@ -4,10 +4,12 @@ using TownOfHost.Extensions;
 using TownOfHost.GUI;
 using TownOfHost.Managers;
 using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.Utilities;
+using VentLib.Utilities.Extensions;
 using Convert = System.Convert;
 
 namespace TownOfHost.Roles;
@@ -122,38 +124,38 @@ public class Sniper: Morphling
 
 
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Sniper Bullet Count")
                 .Bind(v => totalBulletCount = (int)v)
-                .AddValues(5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+                .Values(5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Precise Shooting")
                 .Bind(v => preciseShooting = (bool)v)
                 .AddOnOffValues()
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Can Be Vetted On Snipe")
                 .Bind(v => canBeVetted = (bool)v)
                 .AddOnOffValues()
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Sniper Mode")
                 .Bind(v => sniperMode = (int)v)
-                .AddValue(v => v.Text("Normal Mode").Value(0).Build())
-                .AddValue(v => v.Text("Load Bullet Mode").Value(1).Build())
-                .ShowSubOptionsWhen(obj => SniperMode.LoadBullet == (SniperMode)obj)
-                .AddSubOption(sub2 => sub2
+                .Value(v => v.Text("Normal Mode").Value(0).Build())
+                .Value(v => v.Text("Load Bullet Mode").Value(1).Build())
+                .ShowSubOptionPredicate(obj => SniperMode.LoadBullet == (SniperMode)obj)
+                .SubOption(sub2 => sub2
                     .Name("Load Bullet Cooldown")
                     .Bind(v => loadBulletCooldown.Duration = Convert.ToSingle(v))
-                    .AddValues(5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30)
+                    .Values(5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30)
                     .Build())
-                .AddSubOption(sub2 => sub2
+                .SubOption(sub2 => sub2
                     .Name("Max Loaded Bullets")
                     .Bind(v => maxLoadedBullets = (int)v)
-                    .AddValues(0, 1, 2, 3, 4, 5)
+                    .Values(0, 1, 2, 3, 4, 5)
                     .Build())
                 .Build());
 

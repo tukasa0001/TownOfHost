@@ -4,15 +4,16 @@ using System.Linq;
 using HarmonyLib;
 using TownOfHost.Options;
 using UnityEngine;
+using VentLib.Options;
 
 namespace TownOfHost.GUI.Menus.Patches;
 
+[HarmonyPriority(Priority.Last)]
 [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.Update))]
 public class GameOptionsMenuUpdatePatch
 {
     private static float _timer = 1f;
     public static Color[] colors = { Color.green, Color.red, Color.blue };
-    private static List<GameOptionTab> tabs;
 
     public static void Postfix(GameOptionsMenu __instance)
     {
@@ -24,7 +25,7 @@ public class GameOptionsMenuUpdatePatch
         if (__instance.transform.parent.parent.name == "Game Settings")
         {
             float gamemodeOffset = 2.35f;
-            OptionHolder gamemodeOption = TOHPlugin.GamemodeManager.GamemodeOption;
+            Option gamemodeOption = TOHPlugin.GamemodeManager.GamemodeOption;
             ShowOption(TOHPlugin.GamemodeManager.GamemodeOption, ref gamemodeOffset);
             Vector2 position = gamemodeOption.Behaviour!.transform.localPosition;
             foreach (OptionBehaviour behaviour in __instance.Children.Skip(2))
@@ -40,17 +41,17 @@ public class GameOptionsMenuUpdatePatch
         GameOptionTab? tab = TOHPlugin.OptionManager.Tabs.FirstOrDefault(t => t.Name == realTabName);
         if (tab == null) return;
 
-        tab.GetHolders().Do(holder => ShowAllOptions(holder, ref offset));
+        tab.Options.Do(option => ShowAllOptions(option, ref offset));
 
         __instance.GetComponentInParent<Scroller>().ContentYBounds.max = (-offset) - 1.5f;
     }
 
-    private static void ShowAllOptions(OptionHolder holder, ref float offset)
+    private static void ShowAllOptions(Option holder, ref float offset)
     {
-        foreach (OptionHolder option in holder.EnabledOptions()) ShowOption(option, ref offset);
+        foreach (Option option in holder.ActiveOptions()) ShowOption(option, ref offset);
     }
 
-    private static void ShowOption(OptionHolder option, ref float offset)
+    private static void ShowOption(Option option, ref float offset)
     {
         option.Behaviour!.gameObject.SetActive(true);
         Transform transform = option.Behaviour.transform;
@@ -65,7 +66,7 @@ public class GameOptionsMenuUpdatePatch
         }
 
         Vector3 pos = transform.localPosition;
-        offset -= option.IsHeader ? 0.75f : 0.5f;
+        offset -= (bool)option.Attributes.GetValueOrDefault("IsHeader", false) ? 0.75f : 0.5f;
         transform.localPosition = new Vector3(pos.x, offset, pos.z);
     }
 }

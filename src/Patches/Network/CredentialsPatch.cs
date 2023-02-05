@@ -1,12 +1,10 @@
-using System.Globalization;
 using HarmonyLib;
 using TMPro;
 using TownOfHost.Addons;
-using TownOfHost.Extensions;
 using TownOfHost.Managers.Date;
-using TownOfHost.Roles;
 using UnityEngine;
 using VentLib.Localization.Attributes;
+using VentLib.Utilities;
 
 namespace TownOfHost.Patches.Network;
 
@@ -24,7 +22,7 @@ public class VersionShowerStartPatch
     {
         TOHPlugin.CredentialsText = $"\r\n<color={TOHPlugin.ModColor}>{TOHPlugin.ModName}</color> v{TOHPlugin.PluginVersion}" + (TOHPlugin.DevVersion ? " " + TOHPlugin.DevVersionStr : "");
 #if DEBUG
-        TOHPlugin.CredentialsText += $"\r\n<color={TOHPlugin.ModColor}>{TOHPlugin.Instance.Version()}({TOHPlugin.Instance.Version()})</color>";
+        TOHPlugin.CredentialsText += $"\r\n<color={TOHPlugin.ModColor}>{TOHPlugin.Instance.Version().Branch}({TOHPlugin.Instance.Version().CommitNumber})</color>";
 #endif
 
         int addonCount = AddonManager.Addons.Count;

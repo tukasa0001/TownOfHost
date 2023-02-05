@@ -4,10 +4,11 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.GUI;
 using TownOfHost.Managers;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
+using VentLib.Utilities;
 
 namespace TownOfHost.Roles;
 
@@ -63,9 +64,9 @@ public class Witch: Impostor
     [RoleAction(RoleActionType.OnPet)]
     private void WitchSwitchModes() => mode = canSwitchWithButton ? mode is WitchMode.Killing ? mode = WitchMode.Cursing : WitchMode.Killing : mode;
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Can Freely Switch Modes")
                 .Bind(v => canSwitchWithButton = (bool)v)
                 .AddOnOffValues().Build());

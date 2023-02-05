@@ -1,22 +1,23 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using VentLib.Options.Interfaces;
+using VentLib.Options;
 using Object = UnityEngine.Object;
 
 namespace TownOfHost.Options;
 
-public class GameOptionTab: IComparable<GameOptionTab>
+public class GameOptionTab: AbstractOptionTab, IComparable<GameOptionTab>
 {
     public string Name;
     public Transform Transform = null!;
     public GameObject GameObject = null!;
+    public GameObject ParentMenu;
+    public GameOptionsMenu Menu;
     public TabOrder Order { get; }
-    private List<OptionHolder> options = new();
+    internal List<Option> Options = new();
 
     private string assetPath;
-
-    public List<OptionHolder> GetHolders() => this.options;
 
     public GameOptionTab(string name, string assetPath, TabOrder order = TabOrder.None)
     {
@@ -33,15 +34,16 @@ public class GameOptionTab: IComparable<GameOptionTab>
         return this;
     }
 
+    public void SetParentMenu(GameObject parentMenu)
+    {
+        ParentMenu = parentMenu;
+        Menu = ParentMenu.transform.FindChild("GameGroup/SliderInner").GetComponent<GameOptionsMenu>();
+
+    }
+
     public void Register()
     {
         TOHPlugin.OptionManager.AddTab(this);
-    }
-
-    public void AddHolder(OptionHolder holder)
-    {
-        if (this.options.All(h => h.Name != holder.Name))
-            this.options.Add(holder);
     }
 
     public int CompareTo(GameOptionTab? other)
@@ -59,6 +61,28 @@ public class GameOptionTab: IComparable<GameOptionTab>
             GameObject.SetActive(active);
         } catch { /* ignored */ }
     }
+
+    public override void Load()
+    {
+        base.Load();
+        SetActive(true);
+    }
+
+    public override void Unload()
+    {
+        base.Unload();
+        SetActive(false);
+    }
+
+    public override Transform GetTransform() => Menu.transform;
+
+    public override void AddOption(Option option) => Options.Add(option);
+
+    public override void RemoveOption(Option option) => Options.Remove(option);
+
+    public override List<Option> GetOptions() => Options;
+
+    public override void SetOptions(List<Option> options) => Options = options;
 }
 
 // We use an enum instead of an index so that addons can't steal the positions of the main mod's tabs

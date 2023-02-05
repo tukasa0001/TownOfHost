@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals.Attributes;
 
 namespace TownOfHost.Roles;
@@ -35,12 +35,12 @@ public class Bastion: Engineer
     [RoleAction(RoleActionType.RoundEnd)]
     private void ClearVents() => bombedVents.Clear();
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Plant Bomb Cooldown")
                 .BindFloat(v => VentCooldown = v)
-                .AddFloatRangeValues(2, 120, 2.5f, 8, "s")
+                .AddFloatRange(2, 120, 2.5f, 8, "s")
                 .Build());
 
 

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using UnityEngine;
-using TownOfHost.Options;
+using VentLib.Options;
 using System.Linq;
 using TownOfHost.GUI;
+using TownOfHost.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
+using VentLib.Utilities;
 using VentLib.Utilities.Extensions;
 
 namespace TownOfHost.Roles;
@@ -96,37 +98,37 @@ public class Archangel : CustomRole
         target.RpcProtectPlayer(target, 0);
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Tab(DefaultTabs.NeutralTab)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Protect Duration")
                 .BindFloat(v => protectDuration.Duration = v)
-                .AddFloatRangeValues(2.5f, 180f, 2.5f, 11, "s")
+                .AddFloatRange(2.5f, 180f, 2.5f, 11, "s")
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Protect Cooldown")
                 .BindFloat(v => protectCooldown.Duration = v)
-                .AddFloatRangeValues(2.5f, 180f, 2.5f, 5, "s")
+                .AddFloatRange(2.5f, 180f, 2.5f, 5, "s")
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Target Knows They have A GA")
                 .Bind(v => TargetKnowsGaExists = (bool)v)
                 .AddOnOffValues()
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("GA Knows Target Role")
                 .Bind(v => GaKnowsTargetRole = (bool)v)
                 .AddOnOffValues()
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Role Change When Target Dies")
                 .BindInt(v => roleChangeWhenTargetDies = (GARoleChange)v)
-                .AddValue(v => v.Text("Jester").Value(1).Color(new Color(0.93f, 0.38f, 0.65f)).Build())
-                .AddValue(v => v.Text("Opportunist").Value(2).Color(Color.green).Build())
-                .AddValue(v => v.Text("Schrodinger's Cat").Value(3).Color(Color.black).Build())
-                .AddValue(v => v.Text("Crewmate").Value(4).Color(new Color(0.71f, 0.94f, 1f)).Build())
-                .AddValue(v => v.Text("Off").Value(0).Color(Color.red).Build())
+                .Value(v => v.Text("Jester").Value(1).Color(new Color(0.93f, 0.38f, 0.65f)).Build())
+                .Value(v => v.Text("Opportunist").Value(2).Color(Color.green).Build())
+                .Value(v => v.Text("Schrodinger's Cat").Value(3).Color(Color.black).Build())
+                .Value(v => v.Text("Crewmate").Value(4).Color(new Color(0.71f, 0.94f, 1f)).Build())
+                .Value(v => v.Text("Off").Value(0).Color(Color.red).Build())
                 .Build());
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>

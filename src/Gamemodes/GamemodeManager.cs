@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TownOfHost.Extensions;
 using TownOfHost.Gamemodes.CaptureTheFlag;
 using TownOfHost.Gamemodes.Colorwars;
 using TownOfHost.Gamemodes.Debug;
-using TownOfHost.Gamemodes.FFA;
 using TownOfHost.Gamemodes.Standard;
-using TownOfHost.Options;
+using VentLib.Options;
 using VentLib.Logging;
 
 namespace TownOfHost.Gamemodes;
@@ -28,7 +28,7 @@ public class GamemodeManager
     }
 
     private IGamemode _currentGamemode;
-    public OptionHolder GamemodeOption;
+    public Option GamemodeOption;
     internal readonly List<Type> GamemodeTypes = new() { typeof(StandardGamemode), typeof(TestHnsGamemode), typeof(ColorwarsGamemode), typeof(DebugGamemode), typeof(CTFGamemode)};
 
     public void SetGamemode(int id)
@@ -41,7 +41,7 @@ public class GamemodeManager
     {
         Gamemodes = GamemodeTypes.Select(g => (IGamemode)g.GetConstructor(Array.Empty<Type>())!.Invoke(null)).ToList();
 
-        SmartOptionBuilder builder = new SmartOptionBuilder()
+        OptionBuilder builder = new OptionBuilder()
             .Name("Gamemode")
             .IsHeader(true)
             .BindInt(SetGamemode);
@@ -50,11 +50,11 @@ public class GamemodeManager
         {
             IGamemode gamemode = Gamemodes[i];
             var index = i;
-            builder.AddValue(v => v.Text(gamemode.GetName()).Value(index).Build());
+            builder.Value(v => v.Text(gamemode.GetName()).Value(index).Build());
         }
 
         GamemodeOption = builder.Build();
-        TOHPlugin.OptionManager.AllHolders.Insert(0, GamemodeOption);
-        GamemodeOption.valueHolder.UpdateBinding();
+        //TOHPlugin.OptionManager.AllHolders.Insert(0, GamemodeOption);
+        //GamemodeOption.valueHolder.UpdateBinding();
     }
 }

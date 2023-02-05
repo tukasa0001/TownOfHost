@@ -5,8 +5,10 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using TownOfHost.Managers;
 using TownOfHost.Options;
+using VentLib.Options;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using OptionManager = VentLib.Options.OptionManager;
 
 namespace TownOfHost.GUI.Menus.Patches;
 
@@ -22,7 +24,7 @@ public static class GameSettingMenuPatch
 }
 
 [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.Start))]
-[HarmonyPriority(Priority.First)]
+[HarmonyPriority(Priority.Last)]
 public class GameOptMenuStartPatch
 {
 #pragma warning disable CA2211
@@ -56,20 +58,15 @@ public class GameOptMenuStartPatch
         var gameSettings = GameObject.Find("Game Settings");
         if (gameSettings == null) return;
 
-        OptionHolder gamemodeOption = TOHPlugin.GamemodeManager.GamemodeOption;
+        Option gamemodeOption = TOHPlugin.GamemodeManager.GamemodeOption;
         if (Instance == null)
         {
-
             GameOptionsMenu gameOptionsMenu = gameSettings.transform.FindChild("GameGroup/SliderInner").GetComponent<GameOptionsMenu>();
-            List<OptionBehaviour> gamemodeBehaviours = gamemodeOption.CreateBehaviours(template, __instance.transform, true);
-
-            gamemodeOption.Behaviour.transform.FindChild("Background").localScale = new Vector3(1f, 1f, 1f);
-            gamemodeOption.Behaviour.transform.FindChild("Plus_TMP").localPosition -= new Vector3(0.3f, 0f, 0f);
-            gamemodeOption.Behaviour.transform.FindChild("Minus_TMP").localPosition -= new Vector3(0.3f, 0f, 0f);
-            gamemodeOption.Behaviour.transform.FindChild("Value_TMP").localPosition -= new Vector3(0.3f, 0f, 0f);
-            gamemodeOption.Behaviour.transform.FindChild("Title_TMP").localPosition += new Vector3(0.5f, 0f, 0f);
-            gamemodeBehaviours.AddRange(__instance.Children);
-            __instance.Children = gamemodeBehaviours.ToArray();
+            OptionManager.GetManager().LoadAndAdd(gamemodeOption, true);
+            gamemodeOption.Behaviour = Object.Instantiate(template, __instance.transform);
+            List<OptionBehaviour> behaviours = new() { gamemodeOption.Behaviour };
+            behaviours.AddRange(__instance.Children);
+            __instance.Children = behaviours.ToArray();
         }
 
 
@@ -103,13 +100,14 @@ public class GameOptMenuStartPatch
             tohMenu.GetComponentsInChildren<OptionBehaviour>().Do(x => Object.Destroy(x.gameObject));
 
             var behaviours = new List<OptionBehaviour>();
-            behaviours.AddRange(TOHPlugin.OptionManager.Options().Where(opt => opt.Tab == tab).SelectMany(opt => opt.CreateBehaviours(template, tohMenu.transform, true)));
+            //behaviours.AddRange(TOHPlugin.OptionManager.Options().Where(opt => opt.Tab == tab).SelectMany(opt => opt.CreateBehaviours(template, tohMenu.transform, true)));
 
             tohMenu.Children = behaviours.ToArray();
             tohSettings.gameObject.SetActive(false);
             menus.Add(tohSettings.gameObject);
 
             GameOptionTab initializedTab = initialized ? tab : tab.Instantiate(roleTab, roleTab.transform.parent);
+            initializedTab.SetParentMenu(tohSettings);
             tabs.Add(initializedTab.GameObject);
             var tohTabHighlight = initializedTab.Transform.FindChild("Hat Button").FindChild("Tab Background").GetComponent<SpriteRenderer>();
             highlights.Add(tohTabHighlight);

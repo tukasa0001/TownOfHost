@@ -2,7 +2,6 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
-using TownOfHost.Roles;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 
@@ -23,6 +22,7 @@ public static class FixedUpdatePatch
 
         if (player.IsAlive() && StaticOptions.LadderDeath) FallFromLadder.FixedUpdate(player);
         /*if (player.PlayerId == PlayerControl.LocalPlayer.PlayerId) DisableDevice.FixedUpdate();*/
+        /*EnterVentPatch.CheckVentSwap(__instance);*/
     }
 
     private static void DisplayModVersion(PlayerControl player)

@@ -1,5 +1,6 @@
 using TownOfHost.Extensions;
 using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
@@ -54,33 +55,33 @@ public class Observer: Crewmate
     }
 
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Slowly Gains Vision")
                 .Bind(v => slowlyGainsVision = (bool)v)
                 .AddOnOffValues(false)
-                .ShowSubOptionsWhen(v => (bool)v)
-                .AddSubOption(sub2 => sub2
+                .ShowSubOptionPredicate(v => (bool)v)
+                .SubOption(sub2 => sub2
                     .Name("Vision Gain On Task Complete")
                     .Bind(v => visionGain = (float)v)
-                    .AddFloatRangeValues(0.05f, 1, 0.05f, 2, "x").Build())
+                    .AddFloatRange(0.05f, 1, 0.05f, 2, "x").Build())
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Override Starting Vision")
                 .Bind(v => overrideStartingVision = (bool)v)
-                .ShowSubOptionsWhen(v => (bool)v)
+                .ShowSubOptionPredicate(v => (bool)v)
                 .AddOnOffValues(false)
-                .AddSubOption(sub2 => sub2
+                .SubOption(sub2 => sub2
                     .Name("Starting Vision Modifier")
                     .Bind(v => startingVision = (float)v)
-                    .AddFloatRangeValues(0.25f, 2, 0.25f, 0, "x").Build())
+                    .AddFloatRange(0.25f, 2, 0.25f, 0, "x").Build())
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Finished Tasks Vision")
                 .Bind(v => totalVisionMod = (float)v)
-                .AddFloatRangeValues(0.25f, 5f, 0.25f, 8, "x").Build())
-            .AddSubOption(sub => sub
+                .AddFloatRange(0.25f, 5f, 0.25f, 8, "x").Build())
+            .SubOption(sub => sub
                 .Name("Lights Immunity If Tasks Finished")
                 .Bind(v => sabotageImmunity = ((bool)v) ? 1 : 0)
                 .AddOnOffValues().Build());

@@ -1,11 +1,10 @@
 using TownOfHost.Factions;
-using UnityEngine;
 using TownOfHost.Extensions;
-using TownOfHost.Options;
+using VentLib.Options;
 using System.Collections.Generic;
 using System.Linq;
+using TownOfHost.Options;
 using VentLib.Utilities.Extensions;
-using TownOfHost.Roles;
 
 namespace TownOfHost.Roles;
 
@@ -18,28 +17,28 @@ public class CrewPostor : Crewmate
         if (inRangePlayers.Count == 0) return;
         MyPlayer.RpcMurderPlayer(inRangePlayers.GetRandom());
     }
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
         .Tab(DefaultTabs.NeutralTab)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Override CrewPostor's Tasks")
                 .Bind(v => HasOverridenTasks = (bool)v)
-                .ShowSubOptionsWhen(v => (bool)v)
+                .ShowSubOptionPredicate(v => (bool)v)
                 .AddOnOffValues(false)
-                .AddSubOption(sub2 => sub2
+                .SubOption(sub2 => sub2
                     .Name("Allow Common Tasks")
                     .Bind(v => HasCommonTasks = (bool)v)
                     .AddOnOffValues()
                     .Build())
-                .AddSubOption(sub2 => sub2
+                .SubOption(sub2 => sub2
                     .Name("CrewPostor Long Tasks")
                     .Bind(v => LongTasks = (int)v)
-                    .AddIntRangeValues(0, 20, 1, 5)
+                    .AddIntRange(0, 20, 1, 5)
                     .Build())
-                .AddSubOption(sub2 => sub2
+                .SubOption(sub2 => sub2
                     .Name("CrewPostor Short Tasks")
                     .Bind(v => ShortTasks = (int)v)
-                    .AddIntRangeValues(1, 20, 1, 5)
+                    .AddIntRange(1, 20, 1, 5)
                     .Build())
                 .Build());
 

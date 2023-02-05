@@ -3,10 +3,12 @@ using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.GUI;
 using TownOfHost.Managers;
-using UnityEngine;
 using TownOfHost.Options;
+using UnityEngine;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
+using VentLib.Utilities;
 using VentLib.Utilities.Extensions;
 
 namespace TownOfHost.Roles;
@@ -50,14 +52,14 @@ public class Swapper : CustomRole
         MyPlayer.GetDynamicName().Render();
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
         .Tab(DefaultTabs.NeutralTab)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Can Target Impostors")
                 .Bind(v => canTargetImpostors = (bool)v)
                 .AddOnOffValues(false).Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Can Target Neutrals")
                 .Bind(v => canTargetNeutrals = (bool)v)
                 .AddOnOffValues(false).Build());

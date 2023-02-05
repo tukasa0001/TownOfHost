@@ -1,12 +1,12 @@
 using HarmonyLib;
-using TownOfHost.Extensions;
 using TownOfHost.GUI;
 using TownOfHost.Managers;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Patches.Systems;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
+using VentLib.Utilities;
 using Priority = TownOfHost.Roles.Internals.Attributes.Priority;
 
 namespace TownOfHost.Roles;
@@ -62,54 +62,54 @@ public class Mare: Impostor
     public override bool CanKill() => canKillWithoutSabotage || abilityEnabled;
 
     // lol this was fun because of the bitwise operators
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Speed Modifier During Sabotage")
                 .Bind(v => sabotageSpeedMod = (float)v)
-                .AddFloatRangeValues(0.5f, 3, 0.1f, 10, "x").Build())
-            .AddSubOption(sub => sub
+                .AddFloatRange(0.5f, 3, 0.1f, 10, "x").Build())
+            .SubOption(sub => sub
                 .Name("Can Kill Without Sabotage")
                 .Bind(v => canKillWithoutSabotage = (bool)v)
-                .ShowSubOptionsWhen(v => (bool)v)
+                .ShowSubOptionPredicate(v => (bool)v)
                 .AddOnOffValues()
-                .AddSubOption(sub2 => sub2
+                .SubOption(sub2 => sub2
                     .Name("Normal Kill Cooldown")
                     .Bind(v => normalKillCooldown = (float)v)
-                    .AddFloatRangeValues(10, 120, 5, 4, "s")
+                    .AddFloatRange(10, 120, 5, 4, "s")
                     .Build())
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Colored Name During Sabotage")
                 .Bind(v => redNameDuringSabotage = (bool)v)
                 .AddOnOffValues().Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Kill Cooldown During Sabotage")
                 .Bind(v => reducedKillCooldown = (float)v)
-                .AddFloatRangeValues(0, 60, 5, 3, "s").Build())
-            .AddSubOption(sub => sub
+                .AddFloatRange(0, 60, 5, 3, "s").Build())
+            .SubOption(sub => sub
                 .Name("Specific Sabotage Settings")
-                .ShowSubOptionsWhen(v => (bool)v)
+                .ShowSubOptionPredicate(v => (bool)v)
                 .BindBool(v => abilityLightsOnly = v)
-                .AddValue(v => v.Text("Lights Only").Value(false).Build())
-                .AddValue(v => v.Text("Individual").Value(true).Build())
-                .AddSubOption(sub2 => sub2
+                .Value(v => v.Text("Lights Only").Value(false).Build())
+                .Value(v => v.Text("Individual").Value(true).Build())
+                .SubOption(sub2 => sub2
                     .Name("Lights")
                     .Bind(v => activationSabo = (bool)v ? activationSabo | SabotageType.Lights : activationSabo & ~SabotageType.Lights)
                     .AddOnOffValues().Build())
-                .AddSubOption(sub2 => sub2
+                .SubOption(sub2 => sub2
                     .Name("Communications")
                     .Bind(v => activationSabo = (bool)v ? activationSabo | SabotageType.Communications : activationSabo & ~SabotageType.Communications)
                     .AddOnOffValues(false).Build())
-                .AddSubOption(sub2 => sub2
+                .SubOption(sub2 => sub2
                     .Name("Oxygen")
                     .Bind(v => activationSabo = (bool)v ? activationSabo | SabotageType.Oxygen : activationSabo & ~SabotageType.Oxygen)
                     .AddOnOffValues(false).Build())
-                .AddSubOption(sub2 => sub2
+                .SubOption(sub2 => sub2
                     .Name("Reactor")
                     .Bind(v => activationSabo = (bool)v ? activationSabo | SabotageType.Reactor : activationSabo & ~SabotageType.Reactor)
                     .AddOnOffValues(false).Build())
-                .AddSubOption(sub2 => sub2
+                .SubOption(sub2 => sub2
                     .Name("Helicopter")
                     .Bind(v => activationSabo = (bool)v ? activationSabo | SabotageType.Helicopter : activationSabo & ~SabotageType.Helicopter)
                     .AddOnOffValues(false).Build())

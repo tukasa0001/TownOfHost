@@ -5,11 +5,12 @@ using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.GUI;
 using TownOfHost.Managers;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.Roles.Neutral;
 using UnityEngine;
 using VentLib.Logging;
+using VentLib.Utilities;
 
 namespace TownOfHost.Roles;
 
@@ -122,53 +123,53 @@ public class Investigator : Crewmate
 
 
     // This is the most complicated options because of all the individual settings
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream)
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream)
     {
-        SmartOptionBuilder neutPassiveBuilder = new SmartOptionBuilder(null, 1)
+        OptionBuilder neutPassiveBuilder = new OptionBuilder()
             .Name("Neutral Passive are Red")
             .BindInt(v => neutralPassiveRed = (NIOpt)v)
-            .ShowSubOptionsWhen(v => (int)v >= 2)
-            .AddValue(v => v.Text("None").Value(1).Color(Color.red).Build())
-            .AddValue(v => v.Text("All").Value(0).Color(Color.cyan).Build())
-            .AddValue(v => v.Text("Individual").Value(2).Color(new Color(0.73f, 0.58f, 1f)).Build());
-        SmartOptionBuilder neutKillBuilder = new SmartOptionBuilder(null, 1)
+            .ShowSubOptionPredicate(v => (int)v >= 2)
+            .Value(v => v.Text("None").Value(1).Color(Color.red).Build())
+            .Value(v => v.Text("All").Value(0).Color(Color.cyan).Build())
+            .Value(v => v.Text("Individual").Value(2).Color(new Color(0.73f, 0.58f, 1f)).Build());
+        OptionBuilder neutKillBuilder = new OptionBuilder()
             .Name("Neutral Killing are Red")
             .BindInt(v => neutralKillingRed = (NIOpt)v)
-            .ShowSubOptionsWhen(v => (int)v >= 2)
-            .AddValue(v => v.Text("None").Value(1).Color(Color.red).Build())
-            .AddValue(v => v.Text("All").Value(0).Color(Color.cyan).Build())
-            .AddValue(v => v.Text("Individual").Value(2).Color(new Color(0.73f, 0.58f, 1f)).Build());
-        SmartOptionBuilder crewmateKillBuilder = new SmartOptionBuilder(null, 1)
+            .ShowSubOptionPredicate(v => (int)v >= 2)
+            .Value(v => v.Text("None").Value(1).Color(Color.red).Build())
+            .Value(v => v.Text("All").Value(0).Color(Color.cyan).Build())
+            .Value(v => v.Text("Individual").Value(2).Color(new Color(0.73f, 0.58f, 1f)).Build());
+        OptionBuilder crewmateKillBuilder = new OptionBuilder()
             .Name("Crewmate Killing are Red")
             .BindInt(v => crewmateKillingRed = (NIOpt)v)
-            .ShowSubOptionsWhen(v => (int)v >= 2)
-            .AddValue(v => v.Text("None").Value(1).Color(Color.red).Build())
-            .AddValue(v => v.Text("All").Value(0).Color(Color.cyan).Build())
-            .AddValue(v => v.Text("Individual").Value(2).Color(new Color(0.73f, 0.58f, 1f)).Build());
-        SmartOptionBuilder covenBuilder = new SmartOptionBuilder(null, 1)
+            .ShowSubOptionPredicate(v => (int)v >= 2)
+            .Value(v => v.Text("None").Value(1).Color(Color.red).Build())
+            .Value(v => v.Text("All").Value(0).Color(Color.cyan).Build())
+            .Value(v => v.Text("Individual").Value(2).Color(new Color(0.73f, 0.58f, 1f)).Build());
+        OptionBuilder covenBuilder = new OptionBuilder()
             .Name("Coven are Purple")
             .BindInt(v => covenPurple = (NIOpt)v)
-            .ShowSubOptionsWhen(v => (int)v >= 2)
-            .AddValue(v => v.Text("None").Value(1).Color(Color.red).Build())
-            .AddValue(v => v.Text("All").Value(0).Color(Color.cyan).Build())
-            .AddValue(v => v.Text("Individual").Value(2).Color(new Color(0.73f, 0.58f, 1f)).Build());
-        SmartOptionBuilder madmateBuilder = new SmartOptionBuilder(null, 1)
+            .ShowSubOptionPredicate(v => (int)v >= 2)
+            .Value(v => v.Text("None").Value(1).Color(Color.red).Build())
+            .Value(v => v.Text("All").Value(0).Color(Color.cyan).Build())
+            .Value(v => v.Text("Individual").Value(2).Color(new Color(0.73f, 0.58f, 1f)).Build());
+        OptionBuilder madmateBuilder = new OptionBuilder()
             .Name("Madmate are Red")
             .BindInt(v => madmateRed = (NIOpt)v)
-            .ShowSubOptionsWhen(v => (int)v >= 2)
-            .AddValue(v => v.Text("None").Value(1).Color(Color.red).Build())
-            .AddValue(v => v.Text("All").Value(0).Color(Color.cyan).Build())
-            .AddValue(v => v.Text("Individual").Value(2).Color(new Color(0.73f, 0.58f, 1f)).Build());
+            .ShowSubOptionPredicate(v => (int)v >= 2)
+            .Value(v => v.Text("None").Value(1).Color(Color.red).Build())
+            .Value(v => v.Text("All").Value(0).Color(Color.cyan).Build())
+            .Value(v => v.Text("Individual").Value(2).Color(new Color(0.73f, 0.58f, 1f)).Build());
 
-        SmartOptionBuilder[] builders = { neutPassiveBuilder, neutKillBuilder, crewmateKillBuilder, covenBuilder, madmateBuilder };
+        OptionBuilder[] builders = { neutPassiveBuilder, neutKillBuilder, crewmateKillBuilder, covenBuilder, madmateBuilder };
 
         for (int i = 0; i < InvestCategoryList.Count; i++)
         {
             Tuple<Type, Color, InvestOptCategory> item = InvestCategoryList[i];
-            SmartOptionBuilder builder = builders[(int)item.Item3 - 1];
+            OptionBuilder builder = builders[(int)item.Item3 - 1];
 
             var i1 = i;
-            builder.AddSubOption(sub => sub
+            builder.SubOption(sub => sub
                 .Name(item.Item1.Name)
                 .Color(item.Item2)
                 .Bind(v =>
@@ -184,16 +185,16 @@ public class Investigator : Crewmate
 
 
         return base.RegisterOptions(optionStream)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Investigate Cooldown")
                 .BindFloat(v => abilityCooldown.Duration = v)
-                .AddFloatRangeValues(2.5f, 120, 2.5f, 10, "s")
+                .AddFloatRange(2.5f, 120, 2.5f, 10, "s")
                 .Build())
-            .AddSubOption(_ => builders[0].Build())
-            .AddSubOption(_ => builders[1].Build())
-            .AddSubOption(_ => builders[2].Build())
-            .AddSubOption(_ => builders[3].Build())
-            .AddSubOption(_ => builders[4].Build());
+            .SubOption(_ => builders[0].Build())
+            .SubOption(_ => builders[1].Build())
+            .SubOption(_ => builders[2].Build())
+            .SubOption(_ => builders[3].Build())
+            .SubOption(_ => builders[4].Build());
     }
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>

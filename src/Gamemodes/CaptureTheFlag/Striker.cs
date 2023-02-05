@@ -2,7 +2,7 @@ using System.Linq;
 using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.GUI;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
@@ -83,28 +83,28 @@ public class Striker: Impostor
         if (inEnemySpawn && CTFGamemode.Carriers[myTeam] == 255) CTFGamemode.GrabFlag(MyPlayer);
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Tab(CTFGamemode.CTFTab)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Kill Cooldown")
                 .BindFloat(v => this.KillCooldown = v)
-                .AddFloatRangeValues(0.5f, 10f, 0.25f, 4, "s")
+                .AddFloatRange(0.5f, 10f, 0.25f, 4, "s")
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Speed Boost Additive")
-                .AddFloatRangeValues(0, 1.0f, 0.1f, 3, "x")
+                .AddFloatRange(0, 1.0f, 0.1f, 3, "x")
                 .BindFloat(v => speedAdditive = v)
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Speed Boost Duration")
-                .AddFloatRangeValues(0, 10, 0.25f, 6, "s")
+                .AddFloatRange(0, 10, 0.25f, 6, "s")
                 .BindFloat(v => duration = v)
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Speed Boost Cooldown")
                 .BindFloat(v => speedCooldown.Duration = v)
-                .AddFloatRangeValues(0, 120, 2.5f, 16, "s")
+                .AddFloatRange(0, 120, 2.5f, 16, "s")
                 .Build());
 
     protected override RoleModifier Modify(RoleModifier modifier) =>

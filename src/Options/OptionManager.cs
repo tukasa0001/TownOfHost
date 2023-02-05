@@ -4,15 +4,16 @@ using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
 using TownOfHost.GUI.Menus.Patches;
+using VentLib.Options;
 
 namespace TownOfHost.Options;
 
 public class OptionManager
 {
     public List<GameOptionTab> Tabs { get; private set; } = new();
-    private List<OptionHolder> options = new();
-    public List<OptionHolder> AllHolders = new();
-    public List<OptionHolder>? ReceivedOptions;
+    private List<Option> options = new();
+    public List<Option> AllHolders = new();
+    public List<Option>? ReceivedOptions;
     public ConfigFile GeneralConfig;
     public List<ConfigFile> Presets;
 
@@ -35,24 +36,24 @@ public class OptionManager
     public ConfigFile decrementPreset() => fileIndex - 1 > 0 ? Presets[--fileIndex] : Presets[fileIndex = Presets.Count];
     public ConfigFile GetPreset() => Presets[fileIndex];
 
-    public List<OptionHolder> Options() => this.options;
+    public List<Option> Options() => this.options;
 
-    public List<OptionHolder> PreviewOptions() => AmongUsClient.Instance.AmHost ? this.options : this.ReceivedOptions ?? this.options;
+    public List<Option> PreviewOptions() => AmongUsClient.Instance.AmHost ? this.options : this.ReceivedOptions ?? this.options;
 
-    public void Add(OptionHolder holder)
+    public void Add(Option holder)
     {
         this.options.Add(holder);
 
         if (Loaded)
             this.AllHolders.Add(holder);
-        holder.GetHoldersRecursive().Do(h => h.valueHolder?.UpdateBinding());
+        /*holder.GetHoldersRecursive().Do(h => h.valueHolder?.UpdateBinding());*/
     }
 
     public void SetTabs(IEnumerable<GameOptionTab> newTabs)
     {
-        Tabs.Do(tab => tab.SetActive(false));
+        Tabs.Do(tab => tab.Unload());
         Tabs = newTabs.ToList();
-        Tabs.Do(tab => tab.SetActive(true));
+        Tabs.Do(tab => tab.Load());
         if (GameOptMenuStartPatch.Instance != null)
             GameOptMenuStartPatch.Postfix(__instance: GameOptMenuStartPatch.Instance);
     }

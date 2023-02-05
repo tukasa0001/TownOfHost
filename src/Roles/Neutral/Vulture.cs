@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using TownOfHost.Extensions;
-using TownOfHost.Options;
+using VentLib.Options;
 using AmongUs.GameOptions;
 using TownOfHost.Managers;
+using TownOfHost.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.Victory.Conditions;
@@ -39,25 +40,25 @@ public class Vulture : CustomRole
         isEatMode = !isEatMode;
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
         .Tab(DefaultTabs.NeutralTab)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Required Bodies")
                 .Bind(v => bodyAmount = (int)v)
-                .AddIntRangeValues(1, 10, 1, 2)
+                .AddIntRange(1, 10, 1, 2)
                 .Build())
-            .AddSubOption(opt =>
+            .SubOption(opt =>
                 opt.Name("Has Impostor Vision")
                 .Bind(v => impostorVision = (bool)v)
                 .AddOnOffValues()
                 .Build())
-            .AddSubOption(opt =>
+            .SubOption(opt =>
                 opt.Name("Can Switch between Eat and Report")
                 .Bind(v => canSwitchMode = (bool)v)
                 .AddOnOffValues()
                 .Build())
-            .AddSubOption(opt => opt.Name("Can Use Vents")
+            .SubOption(opt => opt.Name("Can Use Vents")
                 .Bind(v => canUseVents = (bool)v)
                 .AddOnOffValues()
                 .Build());

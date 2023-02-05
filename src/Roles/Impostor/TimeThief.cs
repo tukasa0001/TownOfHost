@@ -3,6 +3,7 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
@@ -51,19 +52,19 @@ public class TimeThief : Impostor
         Game.GetAllPlayers().Do(p => p.GetCustomRole().SyncOptions(overrides));
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Meeting Time Stolen")
                 .Bind(v => meetingTimeSubtractor = (int)v)
-                .AddIntRangeValues(5, 120, 5, 4, "s")
+                .AddIntRange(5, 120, 5, 4, "s")
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Minimum Voting Time")
                 .Bind(v => minimumVotingTime = (int)v)
-                .AddIntRangeValues(5, 120, 5, 1, "s")
+                .AddIntRange(5, 120, 5, 1, "s")
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Return Stolen Time After Death")
                 .Bind(v => returnTimeAfterDeath = (bool)v)
                 .AddOnOffValues()

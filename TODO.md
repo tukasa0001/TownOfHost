@@ -6,7 +6,7 @@ NEW BUGS AFTER FIRST TESTING SESSION:
 - [ ] Desync impostor for host
 - [x] ~~No sabotage win condition~~
 - [ ] End screen not working like at all
-- [ ] Setting roles with a count higher than 2 does not work
+- [x] ~~Setting roles with a count higher than 2 does not work~~
 - [ ] ~~Host settings are out of sync~~
 - [x] ~~Host kills straight away with vampire~~
 - [x] ~~Vampire should GA target not self~~

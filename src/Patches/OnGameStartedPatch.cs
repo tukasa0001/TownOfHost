@@ -2,16 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using AmongUs.GameOptions;
 using TownOfHost.Extensions;
 using TownOfHost.Gamemodes;
 using TownOfHost.Managers;
 using TownOfHost.Options;
 using TownOfHost.Patches;
-using TownOfHost.Patches.Actions;
 using TownOfHost.Roles;
 using VentLib.Logging;
-using VentLib.RPC;
 
 namespace TownOfHost
 {

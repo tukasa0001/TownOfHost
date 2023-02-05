@@ -4,7 +4,7 @@ using Il2CppSystem;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.GUI;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.Roles.Neutral;
@@ -110,36 +110,36 @@ public class Sheriff : Crewmate
 
     // OPTIONS
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Color(RoleColor)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Can Kill Crewmates")
                 .Bind(v => canKillCrewmates = (bool)v)
                 .AddOnOffValues(false)
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Kill Cooldown")
                 .Bind(v => this.shootCooldown.Duration = Convert.ToSingle((int)v))
-                .AddValues(3, 10, 15, 20, 25, 30)
+                .Values(3, 10, 15, 20, 25, 30)
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Total Shots")
                 .Bind(v => this.totalShots = (int)v)
-                .AddValues(1..5, 4)
+                .AddIntRange(1, 5, 1, 4)
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("One Shot Per Round")
                 .Bind(v => this.oneShotPerRound = (bool)v)
                 .AddOnOffValues()
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Sheriff Action Button")
                 .Bind(v => isSheriffDesync = (bool)v)
-                .AddValue(v => v.Text("Kill Button (legacy)").Value(true).Color(Color.green).Build())
-                .AddValue(v => v.Text("Pet Button").Value(false).Color(Color.cyan).Build())
-                .ShowSubOptionsWhen(v => !(bool)v)
-                .AddSubOption(sub2 => sub2
+                .Value(v => v.Text("Kill Button (legacy)").Value(true).Color(Color.green).Build())
+                .Value(v => v.Text("Pet Button").Value(false).Color(Color.cyan).Build())
+                .ShowSubOptionPredicate(v => !(bool)v)
+                .SubOption(sub2 => sub2
                     .Name("Sheriff Has Tasks")
                     .Bind(v => this.sheriffHasTasks = (bool)v)
                     .AddOnOffValues()

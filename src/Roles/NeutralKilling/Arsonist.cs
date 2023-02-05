@@ -5,7 +5,7 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.GUI;
 using TownOfHost.Managers;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
@@ -110,23 +110,23 @@ public class Arsonist : NeutralKillingBase
     [RoleInteraction(typeof(Phantom))]
     private InteractionResult NotDousable() => InteractionResult.Halt;
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Color(RoleColor)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Time Until Douse Complete")
                 .Bind(v => dousingDuration.Duration = (float)v)
-                .AddFloatRangeValues(0.5f, 5, 0.25f, 3, "s")
+                .AddFloatRange(0.5f, 5, 0.25f, 3, "s")
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Strict Dousing")
                 .Bind(v => strictDousing = (bool)v)
                 .AddOnOffValues()
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Douse Cooldown")
                 .Bind(v => douseCooldown = (float)v)
-                .AddFloatRangeValues(5, 60, 2.5f, 4, "s")
+                .AddFloatRange(5, 60, 2.5f, 4, "s")
                 .Build());
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>

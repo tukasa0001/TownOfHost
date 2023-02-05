@@ -5,11 +5,13 @@ using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.GUI;
 using TownOfHost.Managers;
-using UnityEngine;
 using TownOfHost.Options;
+using UnityEngine;
+using VentLib.Options;
 using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.Roles.Neutral;
 using TownOfHost.Victory.Conditions;
+using VentLib.Utilities;
 using VentLib.Utilities.Extensions;
 
 namespace TownOfHost.Roles;
@@ -76,25 +78,25 @@ public class Executioner : CustomRole
         MyPlayer.GetDynamicName().Render();
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
         .Tab(DefaultTabs.NeutralTab)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Can Target Impostors")
                 .Bind(v => canTargetImpostors = (bool)v)
                 .AddOnOffValues(false).Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Can Target Neutrals")
                 .Bind(v => canTargetNeutrals = (bool)v)
                 .AddOnOffValues(false).Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Role Change When Target Dies")
                 .Bind(v => roleChangeWhenTargetDies = (int)v)
-                .AddValue(v => v.Text("Jester").Value(1).Color(new Color(0.93f, 0.38f, 0.65f)).Build())
-                .AddValue(v => v.Text("Opportunist").Value(2).Color(Color.green).Build())
-                .AddValue(v => v.Text("Schrodinger's Cat").Value(3).Color(Color.black).Build())
-                .AddValue(v => v.Text("Crewmate").Value(4).Color(new Color(0.71f, 0.94f, 1f)).Build())
-                .AddValue(v => v.Text("Off").Value(0).Color(Color.red).Build())
+                .Value(v => v.Text("Jester").Value(1).Color(new Color(0.93f, 0.38f, 0.65f)).Build())
+                .Value(v => v.Text("Opportunist").Value(2).Color(Color.green).Build())
+                .Value(v => v.Text("Schrodinger's Cat").Value(3).Color(Color.black).Build())
+                .Value(v => v.Text("Crewmate").Value(4).Color(new Color(0.71f, 0.94f, 1f)).Build())
+                .Value(v => v.Text("Off").Value(0).Color(Color.red).Build())
                 .Build());
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>

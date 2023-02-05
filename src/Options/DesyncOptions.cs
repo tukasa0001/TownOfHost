@@ -5,7 +5,6 @@ using HarmonyLib;
 using Hazel;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
-using TownOfHost.Roles;
 using TownOfHost.Roles.Internals;
 using VentLib.Logging;
 

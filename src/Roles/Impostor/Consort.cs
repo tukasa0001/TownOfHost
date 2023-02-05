@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using HarmonyLib;
 using TownOfHost.Extensions;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.RPC;
@@ -60,13 +60,13 @@ public class Consort: Morphling
         locallyBlockedPlayers.Clear();
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Roleblock Duration")
                 .Bind(v => roleblockDuration = (float)v)
-                .AddValue(v => v.Text("Until Meeting").Value(-1f).Build())
-                .AddFloatRangeValues(5, 120, 5, suffix: "s")
+                .Value(v => v.Text("Until Meeting").Value(-1f).Build())
+                .AddFloatRange(5, 120, 5, suffix: "s")
                 .Build());
 
 

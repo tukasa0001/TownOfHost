@@ -1,5 +1,5 @@
 using TownOfHost.Gamemodes;
-using TownOfHost.Options;
+using VentLib.Options;
 
 namespace TownOfHost.Roles;
 
@@ -9,7 +9,7 @@ public class Troll : NotImplemented
 
 
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Tab(TestHnsGamemode.HnsTab);
 }

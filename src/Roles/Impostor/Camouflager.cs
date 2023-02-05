@@ -1,10 +1,8 @@
 using System;
 using System.Linq;
 using HarmonyLib;
-using Hazel;
-using TownOfHost.Extensions;
 using TownOfHost.Managers;
-using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.RPC;
 
@@ -36,19 +34,19 @@ public class Camouflager: Morphling
         Game.GetAlivePlayers().Where(p => p.PlayerId != MyPlayer.PlayerId).Do(p => p.CRpcRevertShapeshift(true));
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Camouflage Cooldown")
                 .Bind(v => shapeshiftCooldown = (float)v)
-                .AddFloatRangeValues(5, 120, 2.5f, 5, "s")
+                .AddFloatRange(5, 120, 2.5f, 5, "s")
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Camouflage Duration")
                 .Bind(v => shapeshiftDuration = (float)v)
-                .AddFloatRangeValues(5, 60, 2.5f, 5, "s")
+                .AddFloatRange(5, 60, 2.5f, 5, "s")
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Can Vent")
                 .Bind(v => canVent = (bool)v)
                 .AddOnOffValues()

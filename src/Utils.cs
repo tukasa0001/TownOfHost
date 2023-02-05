@@ -1,23 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using AmongUs.Data;
-using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.InteropTypes;
 using UnityEngine;
-using BepInEx.Unity.IL2CPP;
-using Il2CppInterop.Runtime;
 using TownOfHost.Extensions;
-using TownOfHost.Patches;
-
 using TownOfHost.Roles;
-
-using HarmonyLib;
 using Hazel;
 using TownOfHost.Chat.Patches;
 using TownOfHost.GUI;
@@ -25,6 +14,7 @@ using TownOfHost.Managers;
 using TownOfHost.Options;
 using VentLib.Localization;
 using VentLib.Logging;
+using VentLib.Utilities;
 
 namespace TownOfHost
 {

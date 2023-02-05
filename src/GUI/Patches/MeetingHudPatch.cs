@@ -6,7 +6,6 @@ using HarmonyLib;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
-using TownOfHost.Patches;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;

@@ -1,7 +1,7 @@
-using TownOfHost.Extensions;
 using TownOfHost.GUI;
 using TownOfHost.Roles.Internals.Attributes;
 using UnityEngine;
+using VentLib.Utilities;
 
 namespace TownOfHost.Roles;
 

@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using HarmonyLib;
 using TownOfHost.Extensions;
-using TownOfHost.Roles;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.RPC;

@@ -1,5 +1,6 @@
 using TownOfHost.Extensions;
 using TownOfHost.Options;
+using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using UnityEngine;
 using VentLib.Utilities;
@@ -39,44 +40,44 @@ public class Speedrunner : Crewmate
         SyncOptions();
     }
 
-    protected override SmartOptionBuilder RegisterOptions(SmartOptionBuilder optionStream) =>
+    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Small Boost When Finishing a Task")
                 .Bind(v => speedBoostOnTaskComplete = (bool)v)
-                .ShowSubOptionsWhen(v => (bool)v)
+                .ShowSubOptionPredicate(v => (bool)v)
                 .AddOnOffValues(false)
-                .AddSubOption(sub2 => sub2
+                .SubOption(sub2 => sub2
                     .Name("Temporary Speed Boost")
                     .Bind(v => smallRewardBoost = (float)v)
-                    .AddFloatRangeValues(0.1f, 1f, 0.05f, 1, "x")
+                    .AddFloatRange(0.1f, 1f, 0.05f, 1, "x")
                     .Build())
-                .AddSubOption(sub2 => sub2
+                .SubOption(sub2 => sub2
                     .Name("Temporary Boost Duration")
                     .Bind(v => smalRewardDuration = (float)v)
-                    .AddFloatRangeValues(2f, 12f, 0.5f, 2, "s")
+                    .AddFloatRange(2f, 12f, 0.5f, 2, "s")
                     .Build())
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Tasks Until Speed Boost")
                 .Bind(v => tasksUntilSpeedBoost = (int)v)
-                .AddIntRangeValues(1, 20, 1, 5)
+                .AddIntRange(1, 20, 1, 5)
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Slowly Gain Speed Boost")
                 .Bind(v => slowlyAcquireSpeedBoost = (bool)v)
-                .ShowSubOptionsWhen(v => (bool)v)
+                .ShowSubOptionPredicate(v => (bool)v)
                 .AddOnOffValues(false)
-                .AddSubOption(sub2 => sub2
+                .SubOption(sub2 => sub2
                     .Name("Permanent Gain")
                     .Bind(v => speedBoostGain = (float)v)
-                    .AddFloatRangeValues(0.1f, 1f, 0.1f, 1, "x")
+                    .AddFloatRange(0.1f, 1f, 0.1f, 1, "x")
                     .Build())
                 .Build())
-            .AddSubOption(sub => sub
+            .SubOption(sub => sub
                 .Name("Final Speed Boost")
                 .Bind(v => totalSpeedBoost = (float)v)
-                .AddFloatRangeValues(0.5f, 3f, 0.25f, 7, "x")
+                .AddFloatRange(0.5f, 3f, 0.25f, 7, "x")
                 .Build());
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>

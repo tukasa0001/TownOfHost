@@ -1,7 +1,5 @@
-using System;
 using System.Linq;
 using TownOfHost.Extensions;
-using TownOfHost.Factions;
 using TownOfHost.Roles;
 using VentLib.Logging;
 using VentLib.Utilities;
