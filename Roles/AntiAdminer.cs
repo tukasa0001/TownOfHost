@@ -39,11 +39,12 @@ namespace TownOfHost
         private static int Count = 0;
         public static void FixedUpdate()
         {
+            if (!Main.existAntiAdminer) return;
+            if (CustomRoles.AntiAdminer.GetCount() < 1) return;
+
             Count--;
             if (Count > 0) return;
-            Count = 3;
-
-            if (CustomRoles.AntiAdminer.GetCount() < 1) return;
+            Count = 5;
 
             bool Admin = false, Camera = false, DoorLog = false, Vital = false;
             foreach (PlayerControl pc in PlayerControl.AllPlayerControls)

@@ -1085,7 +1085,7 @@ namespace TownOfHost
                     }
                     if (GameStates.IsInTask && target.Is(CustomRoles.EvilTracker)) Suffix += EvilTracker.PCGetTargetArrow(seer, target);
 
-                    if (seer.Is(CustomRoles.AntiAdminer))
+                    if (GameStates.IsInTask && seer.Is(CustomRoles.AntiAdminer))
                     {
                         AntiAdminer.FixedUpdate();
                         if (target.AmOwner)

@@ -33,6 +33,7 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance)
         {
+            Main.existAntiAdminer = false;
             while (!Options.IsLoaded) System.Threading.Tasks.Task.Delay(1);
             Main.newLobby = true;
             Logger.Info($"{__instance.GameId}に参加", "OnGameJoined");

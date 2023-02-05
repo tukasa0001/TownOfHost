@@ -77,7 +77,6 @@ Paranoia,被害妄想症
 Psychic,愚者
 SabotageMaster,修理大师
 Sheriff,警长
-Arsonist,纵火犯
 Snitch,告密者
 SpeedBooster,增速者
 Doctor,医生
@@ -89,6 +88,7 @@ NiceGuesser,正义赌怪
 
 # 中立阵营
 Jester,小丑
+Arsonist,纵火犯
 Terrorist,恐怖分子
 Executioner,处刑人
 SchrodingerCat,薛定谔的猫

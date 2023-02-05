@@ -130,6 +130,16 @@ namespace TownOfHost
             if (role.IsMadmate()) type = RoleType.Madmate;
             return type;
         }
+
+        public static bool RoleExist(this CustomRoles role)
+        {
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.Is(role) && pc.IsAlive()) return true;
+            }
+            return false;
+        }
+
         public static int GetCount(this CustomRoles role)
         {
             if (role.IsVanilla())

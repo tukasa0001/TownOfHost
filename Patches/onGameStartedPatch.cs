@@ -35,6 +35,7 @@ namespace TownOfHost
                 Main.SKMadmateNowCount = 0;
                 Main.isCursed = false;
                 Main.isMarked = false;
+                Main.existAntiAdminer = false;
                 Main.PuppeteerList = new Dictionary<byte, byte>();
                 Main.DetectiveNotify = new Dictionary<byte, string>();
                 Main.HackerUsedCount = new Dictionary<byte, int>();
@@ -435,7 +436,7 @@ namespace TownOfHost
                         case 48: AssignCustomRolesFromList(CustomRoles.God, Crewmates); break;
                         case 49: AssignCustomRolesFromList(CustomRoles.Zombie, Impostors); break;
                         case 50: AssignCustomRolesFromList(CustomRoles.Mario, Engineers); break;
-                        case 51: AssignCustomRolesFromList(CustomRoles.AntiAdminer, Impostors); break;
+                        case 51: AssignCustomRolesFromList(CustomRoles.AntiAdminer, Impostors); Main.existAntiAdminer = true; break;
                         case 52: AssignCustomRolesFromList(CustomRoles.Sans, Impostors); break;
                         case 53: AssignCustomRolesFromList(CustomRoles.Bomber, Shapeshifters); break;
                         case 54: AssignCustomRolesFromList(CustomRoles.BoobyTrap, Impostors); break;

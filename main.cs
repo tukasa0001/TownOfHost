@@ -146,6 +146,7 @@ namespace TownOfHost
         public static int SKMadmateNowCount;
         public static bool isCursed;
         public static bool isMarked;
+        public static bool existAntiAdminer;
         public static Dictionary<byte, float> SansKillCooldown = new();
         public static Dictionary<byte, bool> CheckShapeshift = new();
         public static Dictionary<byte, byte> ShapeshiftTarget = new();
