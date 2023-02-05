@@ -176,6 +176,7 @@ You can also reload the translation by pressing key `T`+`F5`.
 ### BAN Function
 The host can ban players even during the game without requiring other players to vote. <br>
 Also, if you ban, that player will not be able to enter the room you host from now on. <br>
+Players who have already left can also be added to the ban list by selecting them and pressing the ban button.<br>
 Banned players are recorded in `./TOH_DATA/BanList.txt` as `friend code, player name`, and you can remove the ban by deleting the corresponding line. <br>
 Even if you block it with a friend list, it will automatically ban. <br>
 
