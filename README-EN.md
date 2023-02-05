@@ -427,8 +427,8 @@ If the witch dies other than by exile, the curse is not lifted.<br>
 
 #### Game Options
 
-| Name               |                         |
-| ------------------ | ----------------------- |
+| Name               |                        |
+| ------------------ | ---------------------- |
 | Mode Switch Action | Kill/Vent/Double Click |
 
 ### Mafia
