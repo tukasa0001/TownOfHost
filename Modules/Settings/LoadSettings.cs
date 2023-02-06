@@ -121,7 +121,7 @@ public static class LoadSettings
         GameManager.Instance.LogicOptions.SyncOptions();
 
         Logger.Info("設定が正常に読み込まれました。", "LoadSettings");
-        Logger.SendInGame(string.Format(Translator.GetString("SettingsLoaded")), false);
+        Logger.SendInGame(Translator.GetString("SettingsLoaded"), false);
     }
 
     public static bool GetBool(this string value)
