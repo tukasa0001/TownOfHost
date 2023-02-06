@@ -4,7 +4,7 @@ using System.IO;
 using System.Xml;
 using AmongUs.GameOptions;
 
-namespace TownOfHost.Modules;
+namespace TownOfHost.Modules.Settings;
 
 public class BoolSettings
 {

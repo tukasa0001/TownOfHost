@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace TownOfHost.Modules;
+namespace TownOfHost.Modules.Settings;
 
 public static class SettingButtons
 {

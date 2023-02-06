@@ -4,7 +4,7 @@ using System.Xml;
 using AmongUs.GameOptions;
 using TownOfHost.Modules.Extensions;
 
-namespace TownOfHost.Modules;
+namespace TownOfHost.Modules.Settings;
 
 public static class LoadSettings
 {
