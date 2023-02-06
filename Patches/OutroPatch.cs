@@ -193,7 +193,7 @@ namespace TownOfHost
 
             var Pos = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, Camera.main.nearClipPlane));
             var RoleSummaryObject = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
-            RoleSummaryObject.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, Pos.y - 0.1f, -14f);
+            RoleSummaryObject.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, Pos.y - 0.1f, -15f);
             RoleSummaryObject.transform.localScale = new Vector3(1f, 1f, 1f);
 
             string RoleSummaryText = $"{GetString("RoleSummaryText")}";
