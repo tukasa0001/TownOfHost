@@ -34,7 +34,7 @@ public static class SettingButtons
         LoadRenderer.sprite = Utils.LoadSprite("TownOfHost.Resources.Load.png", 300f);
         PassiveLoadButton = LoadButton.AddComponent<PassiveButton>();
         PassiveLoadButton.OnClick = new();
-        PassiveLoadButton.OnClick.AddListener((System.Action)delegate
+        PassiveLoadButton.OnClick.AddListener((UnityAction)delegate
         {
             LoadSettings.Load();
         });
