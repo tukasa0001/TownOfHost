@@ -74,7 +74,7 @@ public static class LoadSettings
         ByteOptionNames.MapId,
     };
 
-    public static IGameOptions CurrentOptions => GameOptionsManager.Instance.currentGameOptions;
+    public static IGameOptions CurrentOptions => GameOptionsManager.Instance.CurrentGameOptions;
 
     public static void Load()
     {
