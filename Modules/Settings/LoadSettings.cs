@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -76,48 +78,48 @@ public static class LoadSettings
 
     public static void Load()
     {
-        if (File.Exists(@$"./{SaveSettings.SETTINGS_FOLDER}/GameSettings.xml"))
-        {
-            XmlDocument xml = new();
-            xml.Load(@$"./{SaveSettings.SETTINGS_FOLDER}/GameSettings.xml");
-            XmlElement settings = xml.DocumentElement;
-
-            for (int i = 0; settings.ChildNodes.Count > i; i++)
-            {
-                XmlElement type = (XmlElement)settings.ChildNodes[i].ChildNodes[0];
-                switch (type.FirstChild.Value)
-                {
-                    case "Boolean":
-                        XmlElement boolValue = (XmlElement)settings.ChildNodes[i].ChildNodes[1];
-                        BoolSettingNames[i].Set(GetBool(boolValue.FirstChild.Value), CurrentOptions);
-                        Logger.Info($"Boolean設定番号{i}を読み込みました。", "LoadSettings");
-                        break;
-                    case "Int32":
-                        XmlElement intValue = (XmlElement)settings.ChildNodes[i].ChildNodes[1];
-                        IntSettingNames[i - 12].Set(GetInt(intValue.FirstChild.Value), CurrentOptions);
-                        Logger.Info($"Int32設定番号{i}を読み込みました。", "LoadSettings");
-                        break;
-                    case "Float":
-                        XmlElement floatValue = (XmlElement)settings.ChildNodes[i].ChildNodes[1];
-                        FloatSettingNames[i - 28].Set(GetFloat(floatValue.FirstChild.Value), CurrentOptions);
-                        Logger.Info($"Float設定番号{i}を読み込みました。", "LoadSettings");
-                        break;
-                    case "Byte":
-                        XmlElement byteValue = (XmlElement)settings.ChildNodes[i].ChildNodes[1];
-                        ByteSettingNames[i - 47].Set(GetByte(byteValue.FirstChild.Value), CurrentOptions);
-                        Logger.Info($"Byte設定番号{i}を読み込みました。", "LoadSettings");
-                        break;
-                    default:
-                        Logger.Warn($"設定番号{i}の値の種類が不適切です。", "LoadSettings");
-                        break;
-                }
-            }
-            GameManager.Instance.LogicOptions.SyncOptions();
-        }
-        else
+        if (!File.Exists(@$"./{SaveSettings.SETTINGS_FOLDER}/GameSettings.xml"))
         {
             Logger.Warn("設定ファイルが存在しません。", "LoadSettings");
+            return;
         }
+
+        XmlDocument xml = new();
+        xml.Load(@$"./{SaveSettings.SETTINGS_FOLDER}/GameSettings.xml");
+        XmlElement settings = xml.DocumentElement;
+
+        for (int i = 0; settings.ChildNodes.Count > i; i++)
+        {
+            XmlElement type = (XmlElement)settings.ChildNodes[i].ChildNodes[0];
+            switch (type.FirstChild.Value)
+            {
+                case "Boolean":
+                    XmlElement boolValue = (XmlElement)settings.ChildNodes[i].ChildNodes[1];
+                    BoolSettingNames[i].Set(GetBool(boolValue.FirstChild.Value), CurrentOptions);
+                    Logger.Info($"Boolean設定番号{i}を読み込みました。", "LoadSettings");
+                    break;
+                case "Int32":
+                    XmlElement intValue = (XmlElement)settings.ChildNodes[i].ChildNodes[1];
+                    IntSettingNames[i - 12].Set(GetInt(intValue.FirstChild.Value), CurrentOptions);
+                    Logger.Info($"Int32設定番号{i}を読み込みました。", "LoadSettings");
+                    break;
+                case "Float":
+                    XmlElement floatValue = (XmlElement)settings.ChildNodes[i].ChildNodes[1];
+                    FloatSettingNames[i - 28].Set(GetFloat(floatValue.FirstChild.Value), CurrentOptions);
+                    Logger.Info($"Float設定番号{i}を読み込みました。", "LoadSettings");
+                    break;
+                case "Byte":
+                    XmlElement byteValue = (XmlElement)settings.ChildNodes[i].ChildNodes[1];
+                    ByteSettingNames[i - 47].Set(GetByte(byteValue.FirstChild.Value), CurrentOptions);
+                    Logger.Info($"Byte設定番号{i}を読み込みました。", "LoadSettings");
+                    break;
+                default:
+                    Logger.Warn($"設定番号{i}の値の種類が不適切です。", "LoadSettings");
+                    break;
+            }
+        }
+        GameManager.Instance.LogicOptions.SyncOptions();
+
         Logger.Info("設定が正常に読み込まれました。", "LoadSettings");
         Logger.SendInGame(string.Format(Translator.GetString("SettingsLoaded")), false);
     }
