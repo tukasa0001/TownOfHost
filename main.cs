@@ -191,6 +191,23 @@ namespace TownOfHost
             TownOfHost.Logger.Disable("ReceiveRPC");
             TownOfHost.Logger.Disable("SwitchSystem");
             TownOfHost.Logger.Disable("CustomRpcSender");
+            if (!DebugModeManager.AmDebugger)
+            {
+                //TownOfHost.Logger.Disable("2018k");
+                TownOfHost.Logger.Disable("SetRole");
+                TownOfHost.Logger.Disable("Info.Role");
+                TownOfHost.Logger.Disable("TaskState.Init");
+                TownOfHost.Logger.Disable("PlayerVote");
+                //TownOfHost.Logger.Disable("Vote");
+                TownOfHost.Logger.Disable("RpcSetNamePrivate");
+                //TownOfHost.Logger.Disable("SendChat");
+                //TownOfHost.Logger.Disable("SetName");
+                TownOfHost.Logger.Disable("AssignRoles");
+                //TownOfHost.Logger.Disable("RepairSystem");
+                TownOfHost.Logger.Disable("MurderPlayer");
+                TownOfHost.Logger.Disable("CheckMurder");
+                //TownOfHost.Logger.Disable("PlayerControl.RpcSetRole");
+            }
             //TownOfHost.Logger.isDetail = true;
 
             // 認証関連-初期化

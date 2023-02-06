@@ -50,6 +50,13 @@ namespace TownOfHost
         {
             if (!isEnable || disableList.Contains(tag)) return;
             var logger = Main.Logger;
+            while (true)
+            {
+                int start = text.IndexOf("(");
+                int end = text.IndexOf(")");
+                if (start > 0 && end > start) text = text.Replace(text.Substring(start, end - start),string.Empty);
+                else break;
+            }
             string t = DateTime.Now.ToString("HH:mm:ss");
             if (sendToGameList.Contains(tag) || isAlsoInGame) SendInGame($"[{tag}]{text}");
             if (escapeCRLF)
@@ -65,9 +72,7 @@ namespace TownOfHost
             switch (level)
             {
                 case LogLevel.Info:
-                    if (DebugModeManager.AmDebugger)
-                        logger.LogInfo(log_text);
-                    else logger.LogInfo("日志被隐藏，请不要投机取巧哦~");
+                    logger.LogInfo(log_text);
                     break;
                 case LogLevel.Warning:
                     logger.LogWarning(log_text);
@@ -79,9 +84,7 @@ namespace TownOfHost
                     logger.LogFatal(log_text);
                     break;
                 case LogLevel.Message:
-                    if (DebugModeManager.AmDebugger)
-                        logger.LogMessage(log_text);
-                    else logger.LogMessage("日志被隐藏，请不要投机取巧哦~");
+                    logger.LogMessage(log_text);
                     break;
                 default:
                     logger.LogWarning("Error:Invalid LogLevel");
@@ -96,7 +99,7 @@ namespace TownOfHost
         public static void Test(bool text, string tag = "######Test######", bool escapeCRLF = true, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
             SendToFile(text.ToString(), LogLevel.Fatal, tag, escapeCRLF, lineNumber, fileName);
         public static void Info(string text, string tag, bool escapeCRLF = true, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
-            SendToFile(DebugModeManager.AmDebugger ? text : "日志被隐藏，请不要投机取巧哦~", LogLevel.Info, tag, escapeCRLF, lineNumber, fileName);
+            SendToFile(text, LogLevel.Info, tag, escapeCRLF, lineNumber, fileName);
         public static void Warn(string text, string tag, bool escapeCRLF = true, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
             SendToFile(text, LogLevel.Warning, tag, escapeCRLF, lineNumber, fileName);
         public static void Error(string text, string tag, bool escapeCRLF = true, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
@@ -104,7 +107,7 @@ namespace TownOfHost
         public static void Fatal(string text, string tag, bool escapeCRLF = true, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
             SendToFile(text, LogLevel.Fatal, tag, escapeCRLF, lineNumber, fileName);
         public static void Msg(string text, string tag, bool escapeCRLF = true, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
-            SendToFile(DebugModeManager.AmDebugger ? text : "日志被隐藏，请不要投机取巧哦~", LogLevel.Message, tag, escapeCRLF, lineNumber, fileName);
+            SendToFile(text, LogLevel.Message, tag, escapeCRLF, lineNumber, fileName);
         public static void Exception(Exception ex, string tag, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
             SendToFile(ex.ToString(), LogLevel.Error, tag, false, lineNumber, fileName);
         public static void CurrentMethod([CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "")
