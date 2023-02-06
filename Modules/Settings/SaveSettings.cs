@@ -32,7 +32,7 @@ public class ByteSettings
 
 public static class SaveSettings
 {
-    public const string SETTINGS_FOLDER = "Settings";
+    public const string SETTINGS_FOLDER = @"./TOH_DATA/Settings";
 
     public static void Generate()
     {
@@ -208,7 +208,7 @@ public static class SaveSettings
             Value.AppendChild(value);
         }
 
-        xmlDocument.Save(@$"./{SETTINGS_FOLDER}/GameSettings.xml");
+        xmlDocument.Save(@$"{SETTINGS_FOLDER}/GameSettings.xml");
     }
 
     public static void Save()

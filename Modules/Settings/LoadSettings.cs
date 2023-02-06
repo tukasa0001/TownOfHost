@@ -78,14 +78,14 @@ public static class LoadSettings
 
     public static void Load()
     {
-        if (!File.Exists(@$"./{SaveSettings.SETTINGS_FOLDER}/GameSettings.xml"))
+        if (!File.Exists(@$"{SaveSettings.SETTINGS_FOLDER}/GameSettings.xml"))
         {
             Logger.Warn("設定ファイルが存在しません。", "LoadSettings");
             return;
         }
 
         XmlDocument xml = new();
-        xml.Load(@$"./{SaveSettings.SETTINGS_FOLDER}/GameSettings.xml");
+        xml.Load(@$"{SaveSettings.SETTINGS_FOLDER}/GameSettings.xml");
         XmlElement settings = xml.DocumentElement;
 
         for (int i = 0; settings.ChildNodes.Count > i; i++)
