@@ -44,14 +44,14 @@ namespace TownOfHost
         // デバッグキーのコンフィグ入力
         public static ConfigEntry<string> DebugKeyInput { get; private set; }
         // 首页右上角的说明文本
-        public static readonly string MainMenuText = "一人开发 做着玩玩  更新随缘  感谢支持";
+        public static readonly string MainMenuText = "开源社区项目  更新随缘  感谢支持";
 
         // ==========
         //文件路径
         public static readonly string BANNEDWORDS_FILE_PATH = "./TOH_DATA/BanWords.txt"; // File.Exists("./TOH_DATA/BanWords.txt") ? "./TOH_DATA/BanWords.txt" : "./TOH_DATA/bannedwords.txt";
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.karped1em.townofhost";
-        public const string PluginVersion = "1.1.0";
+        public const string PluginVersion = "1.1.1";
         public const int PluginCreate = 5;
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);

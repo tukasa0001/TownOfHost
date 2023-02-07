@@ -103,6 +103,15 @@ namespace TownOfHost
         public static bool ContainsStart(string text)
         {
             text = text.Trim().ToLower();
+
+            int stNum = 0;
+            for (int i = 0 ; i < text.Length; i++)
+            {
+                if (text[i..].Equals("k")) stNum++;
+                if (text[i..].Equals("开")) stNum++;
+            }
+            if (stNum >= 3) return true;
+
             if (text == "Start") return true;
             if (text == "start") return true;
             if (text == "开") return true;
@@ -119,8 +128,8 @@ namespace TownOfHost
             if (text.Contains("beginner")) return false;
             if (text.Contains("beginned")) return false;
             if (text.Contains("了")) return false;
+            if (text.Contains("没")) return false;
             if (text.Contains("吗")) return false;
-            if (text.Contains("吧")) return false;
             if (text.Contains("哈")) return false;
             if (text.Contains("还")) return false;
             if (text.Contains("现")) return false;
@@ -243,7 +252,6 @@ namespace TownOfHost
             if (text.Length >= 3) if (text[..2] == "/r" && text[..3] != "/rn") args[0] = "/r";
             if (GuessManager.GuesserMsg(PlayerControl.LocalPlayer, text)) goto Canceled;
             if (MafiaMsgCheck(PlayerControl.LocalPlayer, text)) goto Canceled;
-            if (ProhibitedCheck(PlayerControl.LocalPlayer, text)) goto Canceled;
             switch (args[0])
             {
                 case "/dump":
