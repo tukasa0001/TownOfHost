@@ -395,7 +395,13 @@ namespace TownOfHost
                         canceled = true;
                         var role = PlayerControl.LocalPlayer.GetCustomRole();
                         if (GameStates.IsInGame)
-                            HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString(role.ToString()) + PlayerControl.LocalPlayer.GetRoleInfo(true));
+                            if (GameStates.IsInGame)
+                            {
+                                string mtext = GetString(role.ToString()) + PlayerControl.LocalPlayer.GetRoleInfo(true);
+                                foreach (var subRole in Main.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SubRoles)
+                                    mtext += $"\n\n"+ GetString($"{subRole}") + GetString($"{subRole}InfoLong");
+                                HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, mtext);
+                            }
                         break;
 
                     case "/t":
@@ -818,7 +824,12 @@ namespace TownOfHost
                 case "/myrole":
                     var role = player.GetCustomRole();
                     if (GameStates.IsInGame)
-                        Utils.SendMessage(GetString(role.ToString()) + player.GetRoleInfo(true), player.PlayerId);
+                    {
+                        string mtext = GetString(role.ToString()) + player.GetRoleInfo(true);
+                        foreach (var subRole in Main.PlayerStates[player.PlayerId].SubRoles)
+                            mtext += $"\n\n" + GetString($"{subRole}") + GetString($"{subRole}InfoLong");
+                        Utils.SendMessage(mtext, player.PlayerId);
+                    }
                     break;
 
                 case "/t":

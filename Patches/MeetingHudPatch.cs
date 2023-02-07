@@ -615,7 +615,7 @@ namespace TownOfHost
                     }
                     Utils.NotifyRoles(isMeeting: true, NoCache: true);
                     ChatUpdatePatch.DoBlockChat = false;
-                }, 3.5f, "SetName To Chat");
+                }, 3f, "SetName To Chat");
             }
 
             foreach (var pva in __instance.playerStates)
@@ -736,7 +736,7 @@ namespace TownOfHost
                 }
                 if ((seer.Is(CustomRoles.Ntr) || target.Is(CustomRoles.Ntr)) && !seer.Data.IsDead && !isLover)
                     pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Lovers), "♡");
-                else if (seer == target && CustomRolesHelper.RoleExist(CustomRoles.Ntr))
+                else if (seer == target && CustomRolesHelper.RoleExist(CustomRoles.Ntr) && !isLover)
                     pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Lovers), "♡");
 
                 if (LocalPlayerKnowsImpostor)

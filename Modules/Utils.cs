@@ -570,10 +570,10 @@ namespace TownOfHost
         }
 
 
-        public static string GetSubRolesText(byte id, bool disableColor = false)
+        public static string GetSubRolesText(byte id, bool disableColor = false, bool intro = false)
         {
             var SubRoles = Main.PlayerStates[id].SubRoles;
-            if (SubRoles.Count == 0 && !CustomRolesHelper.RoleExist(CustomRoles.Ntr)) return "";
+            if (SubRoles.Count == 0 && intro == false) return "";
             var sb = new StringBuilder();
             foreach (var role in SubRoles)
             {
@@ -584,7 +584,7 @@ namespace TownOfHost
                 sb.Append($"{ColorString(Color.white, " + ")}{RoleText}");
             }
             
-            if (!SubRoles.Contains(CustomRoles.Lovers) && !SubRoles.Contains(CustomRoles.Ntr) && CustomRolesHelper.RoleExist(CustomRoles.Ntr))
+            if (intro && !SubRoles.Contains(CustomRoles.Lovers) && !SubRoles.Contains(CustomRoles.Ntr) && CustomRolesHelper.RoleExist(CustomRoles.Ntr))
             {
                 var RoleText = disableColor ? GetRoleName(CustomRoles.Lovers) : ColorString(GetRoleColor(CustomRoles.Lovers), GetRoleName(CustomRoles.Lovers));
                 sb.Append($"{ColorString(Color.white, " + ")}{RoleText}");
