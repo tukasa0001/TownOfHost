@@ -992,6 +992,12 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CompleteTask))]
     class PlayerControlCompleteTaskPatch
     {
+        public static bool Prefix(PlayerControl __instance)
+        {
+            if (Workhorse.OnCompleteTask(__instance)) //タスク勝利をキャンセル
+                return false;
+            return true;
+        }
         public static void Postfix(PlayerControl __instance)
         {
             var pc = __instance;

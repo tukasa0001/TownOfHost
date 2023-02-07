@@ -239,6 +239,7 @@ namespace TownOfHost
                     //サブ役職
                     {CustomRoles.LastImpostor, "#ff1919"},
                     {CustomRoles.Lovers, "#ff6be4"},
+                    {CustomRoles.Workhorse, "#00ffff"},
 
                     {CustomRoles.NotAssigned, "#ffffff"}
                 };
@@ -350,6 +351,7 @@ namespace TownOfHost
         NotAssigned = 500,
         LastImpostor,
         Lovers,
+        Workhorse,
     }
     //WinData
     public enum CustomWinner

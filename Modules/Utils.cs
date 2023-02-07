@@ -354,9 +354,15 @@ namespace TownOfHost
                         var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(role).ShadeColor(0.5f); //タスク完了後の色
                         var NonCompleteColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
                         var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
+                        int numCompleted = taskState.CompletedTasksCount;
+                        int numAllTasks = taskState.AllTasksCount;
+
+                        if (Workhorse.IsThisRole(playerId))
+                            (NormalColor, numCompleted, numAllTasks) = Workhorse.GetTaskTextData(taskState);
+
                         TextColor = comms ? Color.gray : NormalColor;
-                        string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-                        ProgressText = ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})");
+                        string Completed = comms ? "?" : $"{numCompleted}";
+                        ProgressText = ColorString(TextColor, $"({Completed}/{numAllTasks})");
                     }
                     break;
             }
