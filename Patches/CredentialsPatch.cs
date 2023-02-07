@@ -9,11 +9,14 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PingTracker), nameof(PingTracker.Update))]
     class PingTrackerUpdatePatch
     {
+        static StringBuilder sb = new();
         static void Postfix(PingTracker __instance)
         {
             __instance.text.alignment = TMPro.TextAlignmentOptions.TopRight;
 
-            var sb = new StringBuilder(Main.credentialsText);
+            sb.Clear();
+
+            sb.Append(Main.credentialsText);
 
             if (Options.NoGameEnd.GetBool()) sb.Append($"\r\n").Append(Utils.ColorString(Color.red, GetString("NoGameEnd")));
             if (Options.IsStandardHAS) sb.Append($"\r\n").Append(Utils.ColorString(Color.yellow, GetString("StandardHAS")));
