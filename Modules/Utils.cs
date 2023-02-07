@@ -361,10 +361,7 @@ namespace TownOfHost
                     break;
             }
             if (ProgressText.Length != 0)
-            {
-                var progressText = ProgressText.ToString();
-                ProgressText.Clear().Append(" ").Append(progressText); //空じゃなければ空白を追加
-            }
+                ProgressText.Insert(0," "); //空じゃなければ空白を追加
             if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText.Append(ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]"));
 
             return ProgressText.ToString();
