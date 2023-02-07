@@ -613,7 +613,7 @@ MafiaKillMax,您达到复仇的上限了，已经不能再复仇了
 MafiaKillDead,请选择一个在场的存活角色进行复仇
 MafiaKillSucceed,被黑手党进行了复仇！
 MafiaKillDisable,很抱歉，根据房主设定，该房不允许黑手党复仇
-CyberStarDead,震惊！某知名网红【{0}】竟然就在刚刚不幸被害！
+CyberStarDead,震惊！知名网红【{0}】在最近一段时间内不幸遇害！
 DetectiveNoticeVictim,根据您的调查，【{0}】(被害者) 的职业是 【{1}】
 DetectiveNoticeKiller,而凶手的职业则是【{0}】
 GodNoticeAlive,会议中大家感受到了上天的启示，神似乎就在你们的背后陪伴着你们
