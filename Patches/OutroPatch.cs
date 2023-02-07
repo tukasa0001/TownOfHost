@@ -116,8 +116,9 @@ namespace TownOfHost
             //          ==勝利陣営表示==
             //#######################################
 
+            __instance.WinText.alignment = TMPro.TextAlignmentOptions.Right;
             var WinnerTextObject = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
-            WinnerTextObject.transform.position = new(__instance.WinText.transform.position.x, __instance.WinText.transform.position.y - 0.5f, __instance.WinText.transform.position.z);
+            WinnerTextObject.transform.position = new(__instance.WinText.transform.position.x + 2.4f, __instance.WinText.transform.position.y - 0.5f, __instance.WinText.transform.position.z);
             WinnerTextObject.transform.localScale = new(0.6f, 0.6f, 0.6f);
             var WinnerText = WinnerTextObject.GetComponent<TMPro.TextMeshPro>(); //WinTextと同じ型のコンポーネントを取得
             WinnerText.fontSizeMin = 3f;
@@ -193,7 +194,7 @@ namespace TownOfHost
 
             var Pos = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, Camera.main.nearClipPlane));
             var RoleSummaryObject = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
-            RoleSummaryObject.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, Pos.y - 0.1f, -14f);
+            RoleSummaryObject.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, Pos.y - 0.1f, -15f);
             RoleSummaryObject.transform.localScale = new Vector3(1f, 1f, 1f);
 
             string RoleSummaryText = $"{GetString("RoleSummaryText")}";
