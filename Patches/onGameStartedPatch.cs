@@ -15,6 +15,8 @@ namespace TownOfHost
         public static void Postfix(AmongUsClient __instance)
         {
             //注:この時点では役職は設定されていません。
+            Main.NormalOptions.roleOptions.SetRoleRate(RoleTypes.GuardianAngel, 0, 0);
+
             Main.PlayerStates = new();
 
             Main.AllPlayerKillCooldown = new Dictionary<byte, float>();
