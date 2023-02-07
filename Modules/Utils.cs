@@ -354,14 +354,20 @@ namespace TownOfHost
                         var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(role).ShadeColor(0.5f); //タスク完了後の色
                         var NonCompleteColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
                         var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
+                        int numCompleted = taskState.CompletedTasksCount;
+                        int numAllTasks = taskState.AllTasksCount;
+
+                        if (Workhorse.IsThisRole(playerId))
+                            (NormalColor, numCompleted, numAllTasks) = Workhorse.GetTaskTextData(taskState);
+
                         TextColor = comms ? Color.gray : NormalColor;
-                        string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-                        ProgressText.Append(ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})"));
+                        string Completed = comms ? "?" : $"{numCompleted}";
+                        ProgressText.Append(ColorString(TextColor, $"({Completed}/{numAllTasks})"));
                     }
                     break;
             }
             if (ProgressText.Length != 0)
-                ProgressText.Insert(0," "); //空じゃなければ空白を追加
+                ProgressText.Insert(0, " "); //空じゃなければ空白を追加
             if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText.Append(ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]"));
 
             return ProgressText.ToString();

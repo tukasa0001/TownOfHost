@@ -79,6 +79,7 @@
 
 "# 属性"
 "LastImpostor","Last Impostor","ラストインポスター","绝境者","絕境者","Последний Предатель","Último Impostor"
+"Workhorse","Workhorse","ワークホース"
 
 "# その他"
 "TeamImpostor","Team Impostors","インポスター陣営","内鬼阵营","狼人陣營","Команда Предателей","Time Impostor"
@@ -153,6 +154,9 @@
 "# GM"
 "GMInfo","You are the Game Master","ゲームマスターだ","你是管理员，在旁边看戏吧","當吃瓜群眾在一旁看戲吧","Вы Мастер Игры","Você é o Mestre do Jogo (GM)"
 
+"# 属性"
+"WorkhorseInfo","You have Extra tasks","タスクはまだ終わらない"
+
 "## 役職説明ロング"
 
 "# 特殊インポスター役職"
@@ -216,6 +220,7 @@
 
 "# 属性"
 "LastImpostorInfoLong","(Add-ons):\nAn Add-on granted to the last Impostor remaining.\nKill cooldown is reduced according to this setting.\nNot granted to Bounty Hunters, Serial Killers, or Vampires.","(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。","（效果）:\n这个效果在内鬼仅剩一人时赋予该内鬼。\n使其击杀冷却缩短。\n该效果对赏金猎人、嗜血杀手以及吸血鬼不适用。","(附加效果):\n該效果給予在場上的最後一隻狼人,擁有該效果的狼人刀人冷卻時間會變短,該效果不會給予:\n賞金獵人,連環殺手或吸血鬼 (可以設定冷卻)","(Атрибут):\nАтрибут, присваивается последнему Предателю. \nВремя отката убийства становится меньше, чем обычно. \nНе назначается BountyHunter, SerialKiller или Vampire.","(Atributos): \nUm Atributo dado ao último Impostor. \nO tempo de recarga (abate) é reduzido segundo a configuração. \nNão é dado para Caçadores de Recompensas, Serial Killers ou Vampiros."
+"WorkhorseInfoLong","(Add-ons):\nAn Add-on granted to the first living Crewmate finishing all the tasks.\nYou are assigned additional tasks necessary for the tasks win.\nNot granted to roles with no tasks or with abilities triggered by finishing tasks.","(属性):\n最初に生きてタスクを終えたクルーに付与される属性。\n追加タスクが割り当てられる。\nクルーメイト以外にも割り当てる設定でもタスクが無い、タスク完了で能力が発動する役職には付与されない。"
 
 "#モードオプション"
 "HideAndSeek","Hide and Seek","かくれんぼ","躲猫猫","躲貓貓","Прятки","Esconde-Esconde"
@@ -410,6 +415,9 @@
 "TimeManagerIncreaseMeetingTime","Increase voting time","伸びる会議時間",,,
 "TimeManagerLimitMeetingTime","Increase limit","会議時間の伸びる限界",,,
 "TriggerDouble","Double Click","ダブルクリック","","","",""
+"AssignOnlyTo%role%","Assign Only To %role%","%role%のみに割り当てる"
+"WorkhorseNumLongTasks","Additional Long Tasks","追加ロングタスクの個数"
+"WorkhorseNumShortTasks","Additional Short Tasks","追加ショートタスクの個数"
 
 "## かくれんぼ設定"
 "HideAndSeekOptions","Hide and Seek Settings","かくれんぼの設定","躲猫猫设置","躲貓貓設定","Настройки Пряток","Configurações do Esconde-Esconde"

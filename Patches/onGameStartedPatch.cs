@@ -123,6 +123,7 @@ namespace TownOfHost
             LastImpostor.Init();
             TargetArrow.Init();
             DoubleTrigger.Init();
+            Workhorse.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());

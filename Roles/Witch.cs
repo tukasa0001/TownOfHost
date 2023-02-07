@@ -196,7 +196,7 @@ namespace TownOfHost
         {
             if (isMeeting && IsEnable && IsSpelled(target))
             {
-                return "<color=#ff0000>†</color>";
+                return Utils.ColorString(Palette.ImpostorRed, "†");
             }
             return "";
         }

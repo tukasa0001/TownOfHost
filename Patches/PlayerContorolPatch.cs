@@ -132,9 +132,10 @@ namespace TownOfHost
                     if (taskState.IsTaskFinished)
                     {
                         int dataCountBefore = NameColorManager.Instance.NameColors.Count;
-                        NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, "#ff0000");
+                        var colorCode = Utils.GetRoleColorCode(CustomRoles.MadGuardian);
+                        NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, colorCode);
                         if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
-                            NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, "#ff0000");
+                            NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, colorCode);
 
                         if (dataCountBefore != NameColorManager.Instance.NameColors.Count)
                             Utils.NotifyRoles();
@@ -994,6 +995,12 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CompleteTask))]
     class PlayerControlCompleteTaskPatch
     {
+        public static bool Prefix(PlayerControl __instance)
+        {
+            if (Workhorse.OnCompleteTask(__instance)) //タスク勝利をキャンセル
+                return false;
+            return true;
+        }
         public static void Postfix(PlayerControl __instance)
         {
             var pc = __instance;
