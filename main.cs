@@ -198,15 +198,15 @@ namespace TownOfHost
                 TownOfHost.Logger.Disable("Info.Role");
                 TownOfHost.Logger.Disable("TaskState.Init");
                 TownOfHost.Logger.Disable("PlayerVote");
-                //TownOfHost.Logger.Disable("Vote");
+                TownOfHost.Logger.Disable("Vote");
                 TownOfHost.Logger.Disable("RpcSetNamePrivate");
                 //TownOfHost.Logger.Disable("SendChat");
-                //TownOfHost.Logger.Disable("SetName");
+                TownOfHost.Logger.Disable("SetName");
                 TownOfHost.Logger.Disable("AssignRoles");
                 //TownOfHost.Logger.Disable("RepairSystem");
                 TownOfHost.Logger.Disable("MurderPlayer");
                 TownOfHost.Logger.Disable("CheckMurder");
-                //TownOfHost.Logger.Disable("PlayerControl.RpcSetRole");
+                TownOfHost.Logger.Disable("PlayerControl.RpcSetRole");
             }
             //TownOfHost.Logger.isDetail = true;
 
@@ -318,6 +318,7 @@ namespace TownOfHost
                     //サブ役職
                     {CustomRoles.LastImpostor, "#ff0000"},
                     {CustomRoles.Lovers, "#ff6be4"},
+                    {CustomRoles.Ntr, "#00a4ff"},
 
                     {CustomRoles.NotAssigned, "#ffffff"},
                 };
@@ -450,6 +451,7 @@ namespace TownOfHost
         NotAssigned = 500,
         LastImpostor,
         Lovers,
+        Ntr,
     }
     //WinData
     public enum CustomWinner

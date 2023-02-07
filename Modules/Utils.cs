@@ -573,7 +573,7 @@ namespace TownOfHost
         public static string GetSubRolesText(byte id, bool disableColor = false)
         {
             var SubRoles = Main.PlayerStates[id].SubRoles;
-            if (SubRoles.Count == 0) return "";
+            if (SubRoles.Count == 0 && !CustomRolesHelper.RoleExist(CustomRoles.Ntr)) return "";
             var sb = new StringBuilder();
             foreach (var role in SubRoles)
             {
@@ -581,6 +581,12 @@ namespace TownOfHost
                             CustomRoles.LastImpostor) continue;
 
                 var RoleText = disableColor ? GetRoleName(role) : ColorString(GetRoleColor(role), GetRoleName(role));
+                sb.Append($"{ColorString(Color.white, " + ")}{RoleText}");
+            }
+            
+            if (!SubRoles.Contains(CustomRoles.Lovers) && !SubRoles.Contains(CustomRoles.Ntr) && CustomRolesHelper.RoleExist(CustomRoles.Ntr))
+            {
+                var RoleText = disableColor ? GetRoleName(CustomRoles.Lovers) : ColorString(GetRoleColor(CustomRoles.Lovers), GetRoleName(CustomRoles.Lovers));
                 sb.Append($"{ColorString(Color.white, " + ")}{RoleText}");
             }
 
@@ -910,7 +916,7 @@ namespace TownOfHost
                 if (seer.Is(CustomRoles.Psychic)) GetPsychicStuff(seer);
 
                 //ハートマークを付ける(自分に)
-                if (seer.Is(CustomRoles.Lovers)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                if (seer.Is(CustomRoles.Lovers) || CustomRolesHelper.RoleExist(CustomRoles.Ntr)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
 
                 //呪われている場合
                 if (Witch.IsSpelled(seer.PlayerId) && isMeeting)
@@ -1010,6 +1016,7 @@ namespace TownOfHost
                     || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.Is(CustomRoles.Arsonist)
                     || seer.Is(CustomRoles.Lovers)
+                    || CustomRolesHelper.RoleExist(CustomRoles.Ntr)
                     || Witch.HaveSpelledPlayer()
                     || seer.Is(CustomRoles.Executioner)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
@@ -1062,6 +1069,10 @@ namespace TownOfHost
                         }
                         //霊界からラバーズ視認
                         else if (seer.Data.IsDead && !seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers))
+                        {
+                            TargetMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                        }
+                        else if (target.Is(CustomRoles.Ntr) || seer.Is(CustomRoles.Ntr))
                         {
                             TargetMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                         }

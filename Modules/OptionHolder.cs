@@ -312,6 +312,7 @@ namespace TownOfHost
         public static OptionItem PlayerCanSerColor;
 
         //Add-Ons
+        public static OptionItem NtrSpawnChances;
         public static OptionItem LoverSpawnChances;
         public static OptionItem LoverSuicide;
 
@@ -581,6 +582,7 @@ namespace TownOfHost
             //50220~50223を使用
             TerroristTasks = OverrideTasksData.Create(50220, TabGroup.NeutralRoles, CustomRoles.Terrorist);
             SetupLoversRoleOptionsToggle(50300);
+            SetupNtrRoleOptionsToggle(6050315);
 
             SchrodingerCat.SetupCustomOption();
             Egoist.SetupCustomOption();
@@ -894,6 +896,25 @@ namespace TownOfHost
                 .SetGameMode(customGameMode);
 
             var countOption = IntegerOptionItem.Create(id + 1, "NumberOfLovers", new(2, 2, 1), 2, TabGroup.Addons, false).SetParent(spawnOption)
+                .SetHidden(true)
+                .SetGameMode(customGameMode);
+
+            CustomRoleSpawnChances.Add(role, spawnOption);
+            CustomRoleCounts.Add(role, countOption);
+        }
+
+        private static void SetupNtrRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
+        {
+            var role = CustomRoles.Ntr;
+            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesToggle, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
+                .SetHeader(true)
+                .SetGameMode(customGameMode) as StringOptionItem;
+
+            NtrSpawnChances = IntegerOptionItem.Create(id + 2, "NtrSpawnChances", new(0, 100, 5), 50, TabGroup.Addons, false).SetParent(spawnOption)
+                .SetValueFormat(OptionFormat.Percent)
+                .SetGameMode(customGameMode);
+
+            var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 1, 1), 1, TabGroup.Addons, false).SetParent(spawnOption)
                 .SetHidden(true)
                 .SetGameMode(customGameMode);
 

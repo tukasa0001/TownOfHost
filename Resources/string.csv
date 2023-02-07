@@ -101,6 +101,7 @@ OpportunistKiller,投机者杀手
 Egoist,野心家
 Mario,马里奥
 Lovers,恋人
+Ntr,海王
 Jackal,豺狼
 God,神
 
@@ -201,6 +202,7 @@ ExecutionerInfo,确实，我其实是看他不爽
 EgoistInfo,听说独赢经验多阿
 MarioInfo,听说你的公主在管道里
 LoversInfo,最重要的是，记得照顾好你的另一半
+NtrInfo,笨蛋，我只爱你一个人哦
 JackalInfo,在TOH，我一般称自己为只狼
 GodInfo,一切都在您的掌控
 
@@ -266,6 +268,7 @@ SabotageMasterInfoLong,(船员阵营):\n氧气泄露、核反应堆熔毁以及�
 SheriffInfoLong,(船员阵营):\n警长可以击杀内鬼（根据房间设置，警长也可以击杀独立阵营玩家）。警长若尝试击杀船员阵营的玩家，警长将会走火自杀。此外警长没有任务。
 SnitchInfoLong,(船员阵营):\n告密者完成所有任务后，将可以看到以红色昵称表示的所有内鬼。\n当告密者仅剩一个任务的时候，内鬼将会看到自己以及告密者的昵称旁边有「★」作为提示。\n（注:告密者同时作为恋人时，其技能将失效）
 LoversInfoLong,恋人为两名玩家的组合。恋人存活到游戏结束则恋人独自获胜。船员阵营的恋人玩家没有任务。从恋人阵营玩家可以看到两名恋人玩家昵称旁有心形标志。恋人其中一人死亡则另一人殉情。恋人中的一方在会议中被放逐时，另一方将死亡并变为不可以被报告的尸体。
+NtrInfoLong,当场上存在海王时，所有玩家将看到自己与海王为恋人关系，实际并不会一起殉情也不会改变胜利条件。请注意：恋人不会成为海王，海王也不会成为恋人。
 SpeedBoosterInfoLong,(船员阵营):\n增速者每次完成任务都会增加自己的移动速度。但是由于速度过快可能在别的玩家眼中增速者在疯狂瞬移。\n\n现在他是整个游戏最快乐的人了。
 DoctorInfoLong,(船员阵营):\n医生可以查看生命监测装置并确认死亡玩家的死因。查看的时间长短与设备的充能数挂钩。
 TrapperInfoLong,(船员阵营):\n陷阱师被击杀时，凶手一段时间内将不能移动。
@@ -506,6 +509,7 @@ FireWorksMaxCount,可放置烟花的最大数量
 FireWorksRadius,烟花爆炸半径
 SniperBulletCount,最大子弹数量
 SniperPrecisionShooting,精准射击模式
+NtrSpawnChances,海王出现概率
 LoverSpawnChances,恋人出现概率
 LoverSuicide,恋人共生死
 NumberOfLovers,恋人对数

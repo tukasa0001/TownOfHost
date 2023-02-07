@@ -152,6 +152,7 @@ namespace TownOfHost
             {
                 if (AmongUsClient.Instance.AmHost)
                 {
+                    ChatUpdatePatch.DoBlockChat = true;
                     Logger.Fatal("Change Role Setting Postfix 错误，触发防黑屏措施", "Anti-black");
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Draw);
                     GameManager.Instance.LogicFlow.CheckEndCriteria();
@@ -191,7 +192,7 @@ namespace TownOfHost
                 if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
                 {
                     //役職の人数を指定
-                    Random rd = Utils.RandomSeedByGuid();
+                    var rd = Utils.RandomSeedByGuid();
                     var roleOpt = Main.NormalOptions.roleOptions;
                     int ScientistNum = Options.DisableVanillaRoles.GetBool() ? 0 : roleOpt.GetNumPerGame(RoleTypes.Scientist);
                     int AdditionalScientistNum = CustomRoles.Doctor.GetCount();
@@ -262,6 +263,7 @@ namespace TownOfHost
             }
             catch
             {
+                ChatUpdatePatch.DoBlockChat = true;
                 Logger.Fatal("Select Roles Prefix 错误，触发防黑屏措施", "Anti-black");
                 CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Draw);
                 GameManager.Instance.LogicFlow.CheckEndCriteria();
@@ -358,7 +360,7 @@ namespace TownOfHost
             else
             {
                 List<int> funList = new();
-                for (int i = 0; i <= 54; i++)
+                for (int i = 0; i <= 55; i++)
                 {
                     funList.Add(i);
                 }
@@ -379,7 +381,8 @@ namespace TownOfHost
 
                 funList.Remove(0);
                 if (rd.Next(0, 100) <= Options.LoverSpawnChances.GetInt()) funList.Insert(0, 0);
-                Dictionary<byte, int> tryTime = new();
+                funList.Remove(55);
+                if (rd.Next(0, 100) <= Options.NtrSpawnChances.GetInt()) funList.Insert(0, 55);
 
                 foreach (int i in funList)
                 {
@@ -440,6 +443,7 @@ namespace TownOfHost
                         case 52: AssignCustomRolesFromList(CustomRoles.Sans, Impostors); break;
                         case 53: AssignCustomRolesFromList(CustomRoles.Bomber, Shapeshifters); break;
                         case 54: AssignCustomRolesFromList(CustomRoles.BoobyTrap, Impostors); break;
+                        case 55: AssignNtrRoles(); break;
                     }
                 }
 
@@ -706,7 +710,7 @@ namespace TownOfHost
             var allPlayers = new List<PlayerControl>();
             foreach (var player in Main.AllPlayerControls)
             {
-                if (player.Is(CustomRoles.GM)) continue;
+                if (player.Is(CustomRoles.GM) || player.Is(CustomRoles.Ntr) || player.Is(CustomRoles.Needy)) continue;
                 allPlayers.Add(player);
             }
             var loversRole = CustomRoles.Lovers;
@@ -724,6 +728,20 @@ namespace TownOfHost
                 Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignLovers");
             }
             RPC.SyncLoversPlayers();
+        }
+        private static void AssignNtrRoles()
+        {
+            var allPlayers = new List<PlayerControl>();
+            foreach (var ntrPc in Main.AllPlayerControls)
+            {
+                if (ntrPc.Is(CustomRoles.GM) || ntrPc.Is(CustomRoles.Lovers) || ntrPc.Is(CustomRoles.Needy)) continue;
+                allPlayers.Add(ntrPc);
+            }
+            var ntrRole = CustomRoles.Ntr;
+            var rd = Utils.RandomSeedByGuid();
+            var player = allPlayers[rd.Next(0, allPlayers.Count)];
+            Main.PlayerStates[player.PlayerId].SetSubRole(ntrRole);
+            Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + ntrRole.ToString(), "AssignLovers");
         }
 
         [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSetRole))]
