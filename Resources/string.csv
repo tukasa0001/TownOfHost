@@ -408,9 +408,10 @@ EnableDebugMode,开启调试模式
 ChangeNameToRoleInfo,首次会议替换名字为介绍
 RoleAssigningAlgorithm,职业分配算法
 RoleAssigningAlgorithm.Default,默认随机算法
-RoleAssigningAlgorithm.NetRandom,.NET 系统随机算法
+RoleAssigningAlgorithm.NetRandom,.NET系统随机算法
 RoleAssigningAlgorithm.HashRandom,哈希随机算法
 RoleAssigningAlgorithm.Xorshift,Xorshift随机算法
+RoleAssigningAlgorithm.MersenneTwister,Twister随机算法
 AirShipVariableElectrical,电气室门随机关闭（飞艇地图）
 PreventSBServerKick,尝试阻止来自游戏服务器的踢人事件
 KillFlashDuration,击杀闪烁持续时间
