@@ -14,6 +14,7 @@ namespace TownOfHost
     {
         VersionCheck = 60,
         RequestRetryVersionCheck = 61,
+        AntiBlack = 62,
         SyncCustomSettings = 80,
         SetDeathReason,
         EndGame,
@@ -72,7 +73,7 @@ namespace TownOfHost
             }
             if (__instance.PlayerId != 0
                 && Enum.IsDefined(typeof(CustomRPC), (int)callId)
-                && !(callId == (byte)CustomRPC.VersionCheck || callId == (byte)CustomRPC.RequestRetryVersionCheck)) //ホストではなく、CustomRPCで、VersionCheckではない
+                && !(callId == (byte)CustomRPC.VersionCheck || callId == (byte)CustomRPC.RequestRetryVersionCheck || callId == (byte)CustomRPC.AntiBlack)) //ホストではなく、CustomRPCで、VersionCheckではない
             {
                 Logger.Warn($"{__instance?.Data?.PlayerName}:{callId}({RPC.GetRpcName(callId)}) 已取消，因为它是由主机以外的其他人发送的。", "CustomRPC");
                 if (AmongUsClient.Instance.AmHost)
@@ -130,6 +131,29 @@ namespace TownOfHost
             var rpcType = (CustomRPC)callId;
             switch (rpcType)
             {
+                case CustomRPC.AntiBlack:
+                    if (Options.EndWhenPlayerBug.GetBool())
+                    {
+                        Logger.Fatal($"{__instance?.Data?.PlayerName}({__instance.PlayerId}): {reader.ReadString()} 错误，根据设定终止游戏", "Anti-black");
+                        ChatUpdatePatch.DoBlockChat = true;
+                        Main.OverrideWelcomeMsg = $"由于玩家【{__instance?.Data?.PlayerName}】发生未知错误，已终止游戏防止卡房";
+                        new LateTask(() =>
+                        {
+                            Logger.SendInGame($"由于玩家【{__instance?.Data?.PlayerName}】发生未知错误，将终止游戏以防止黑屏", true);
+                        }, 3f, "Anti-Black Msg SendInGame");
+                        CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Error);
+                        GameManager.Instance.LogicFlow.CheckEndCriteria();
+                        RPC.ForceEndGame();
+                    }
+                    else
+                    {
+                        Logger.Fatal($"{__instance?.Data?.PlayerName}({__instance.PlayerId}): Change Role Setting Postfix 错误，根据设定继续游戏", "Anti-black");
+                        new LateTask(() =>
+                        {
+                            Logger.SendInGame($"玩家【{__instance?.Data?.PlayerName}】发生未知错误，根据房主设置将忽略该玩家", true);
+                        }, 3f, "Anti-Black Msg SendInGame");
+                    }
+                    break;
                 case CustomRPC.VersionCheck:
                     try
                     {

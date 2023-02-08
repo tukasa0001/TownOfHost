@@ -298,6 +298,7 @@ namespace TownOfHost
         public static OptionItem ColorNameMode;
         public static OptionItem ChangeNameToRoleInfo;
         public static OptionItem RoleAssigningAlgorithm;
+        public static OptionItem EndWhenPlayerBug;
         public static OptionItem PreventSBServerKick;
 
         public static OptionItem AutoKickStart;
@@ -860,6 +861,10 @@ namespace TownOfHost
                 .RegisterUpdateValueEvent(
                     (object obj, OptionItem.UpdateValueEventArgs args) => IRandom.SetInstanceById(args.CurrentValue)
                 );
+
+            EndWhenPlayerBug = BooleanOptionItem.Create(1_000_025, "EndWhenPlayerBug", true, TabGroup.MainSettings, false)
+                .SetGameMode(CustomGameMode.All)
+                .SetColor(Color.blue);
             PreventSBServerKick = BooleanOptionItem.Create(1_000_020, "PreventSBServerKick", true, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All)
                 .SetColor(Color.blue);

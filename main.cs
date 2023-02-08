@@ -172,6 +172,7 @@ namespace TownOfHost
         //一些很新的东东
 
         public static Dictionary<int, byte> LastRPC = new();
+        public static string OverrideWelcomeMsg = "";
 
         public override void Load()
         {
@@ -459,6 +460,7 @@ namespace TownOfHost
         Draw = -1,
         Default = -2,
         None = -3,
+        Error = -4,
         Impostor = CustomRoles.Impostor,
         Crewmate = CustomRoles.Crewmate,
         Jester = CustomRoles.Jester,

@@ -14,7 +14,7 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance)
         {
-                
+            Main.OverrideWelcomeMsg = "";
             try
             {
                 //注:この時点では役職は設定されていません。
@@ -152,18 +152,41 @@ namespace TownOfHost
             {
                 if (AmongUsClient.Instance.AmHost)
                 {
-                    ChatUpdatePatch.DoBlockChat = true;
                     Logger.Fatal("Change Role Setting Postfix 错误，触发防黑屏措施", "Anti-black");
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Draw);
+                    ChatUpdatePatch.DoBlockChat = true;
+                    Main.OverrideWelcomeMsg = "由于未知错误发生，已终止游戏以防止黑屏";
+                    new LateTask(() =>
+                    {
+                        Logger.SendInGame("由于未知错误发生，将终止游戏以防止黑屏", true);
+                    }, 3f, "Anti-Black Msg SendInGame");
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Error);
                     GameManager.Instance.LogicFlow.CheckEndCriteria();
-                    Utils.SendMessage("由于未知错误发生，已终止游戏以防止黑屏\n若您是房主，如果可以的话请发送/dump并将桌面上的文件发送给咔皮呆，非常感谢您的贡献！");
                     RPC.ForceEndGame();
                 }
                 else
                 {
-                    AmongUsClient.Instance.ExitGame(DisconnectReasons.Destroy);
-                    Logger.Fatal("Change Role Setting Postfix 错误", "Anti-black");
-                    Logger.SendInGame("很不幸，您似乎触发了TOH古老的半屏Bug\n记住，这100%是原生TOH的锅哈~", true);
+                    MessageWriter writer = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.AntiBlack, SendOption.Reliable);
+                    writer.Write("Change Role Setting Postfix");
+                    writer.EndMessage();
+                    if (Options.EndWhenPlayerBug.GetBool())
+                    {
+                        new LateTask(() =>
+                        {
+                            Logger.SendInGame("您触发了黑屏Bug，已请求房主终止游戏...", true);
+                        }, 3f, "Anti-Black Msg SendInGame");
+                    }
+                    else
+                    {
+                        new LateTask(() =>
+                        {
+                            Logger.SendInGame($"您触发了黑屏Bug，房主拒绝终止游戏，稍后将为您断开连接", true);
+                        }, 3f, "Anti-Black Msg SendInGame");
+                        new LateTask(() =>
+                        {
+                            AmongUsClient.Instance.ExitGame(DisconnectReasons.Destroy);
+                            Logger.Fatal("Change Role Setting Postfix 错误，已断开游戏", "Anti-black");
+                        }, 8f, "Anti-Black Exit Game");
+                    }
                 }
             }
         }
@@ -263,11 +286,15 @@ namespace TownOfHost
             }
             catch
             {
+                Logger.Fatal("Select Role Prefix 错误，触发防黑屏措施", "Anti-black");
                 ChatUpdatePatch.DoBlockChat = true;
-                Logger.Fatal("Select Roles Prefix 错误，触发防黑屏措施", "Anti-black");
-                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Draw);
+                Main.OverrideWelcomeMsg = "由于未知错误发生，已终止游戏以防止黑屏";
+                new LateTask(() =>
+                {
+                    Logger.SendInGame("由于未知错误发生，将终止游戏以防止黑屏", true);
+                }, 3f, "Anti-Black Msg SendInGame");
+                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Error);
                 GameManager.Instance.LogicFlow.CheckEndCriteria();
-                Utils.SendMessage("由于未知错误发生，已终止游戏以防止黑屏\n若您是房主，如果可以的话请发送/dump并将桌面上的文件发送给咔皮呆，非常感谢您的贡献！");
                 RPC.ForceEndGame();
             }
             //以下、バニラ側の役職割り当てが入る
