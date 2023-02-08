@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using AmongUs.GameOptions;
 
-namespace TownOfHost
+namespace TownOfHost.Modules
 {
     public class MeetingTimeManager
     {
@@ -29,7 +29,7 @@ namespace TownOfHost
             DiscussionTime = DefaultDiscussionTime;
             VotingTime = DefaultVotingTime;
         }
-        public static void OnReportDeadBody()
+        public static void GetMeetingTime()
         {
             if (Options.AllAliveMeeting.GetBool() && GameData.Instance.AllPlayers.ToArray().Where(x => !x.Object.Is(CustomRoles.GM)).All(x => !x.IsDead))
             {

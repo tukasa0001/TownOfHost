@@ -6,6 +6,7 @@ using HarmonyLib;
 using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
+using static TownOfHost.Modules.MeetingTimeManager;
 
 namespace TownOfHost
 {
@@ -447,7 +448,7 @@ namespace TownOfHost
             Main.AllPlayerControls
                 .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
                 .Do(pc => Camouflage.RpcSetSkin(pc, RevertToDefault: true));
-            MeetingTimeManager.OnReportDeadBody();
+            GetMeetingTime();
 
             Utils.SyncAllSettings();
             return true;
