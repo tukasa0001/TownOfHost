@@ -9,25 +9,6 @@ using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(InnerNet.InnerNetServer), nameof(InnerNet.InnerNetServer.KickPlayer))]
-    class InnerNetServerPatch
-    {
-        public static bool Prefix()
-        {
-            // 贡献：天寸(https://github.com/Huier-Huang)
-            if (Options.PreventSBServerKick.GetBool())
-            {
-                Logger.Fatal("刚才树懒的游戏服务器想踢人，但是被我们拦截了", "Server Kick");
-                return false;
-            }
-            else
-            {
-                Logger.Fatal("因设置允许了来自服务器的踢人事件", "Server Kick");
-                return true;
-            }
-        }
-    }
-
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
     class OnGameJoinedPatch
     {

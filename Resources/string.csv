@@ -414,7 +414,6 @@ RoleAssigningAlgorithm.Xorshift,Xorshift随机算法
 RoleAssigningAlgorithm.MersenneTwister,Twister随机算法
 AirShipVariableElectrical,电气室门随机关闭（飞艇地图）
 EndWhenPlayerBug,当有玩家因Bug无法游戏时终止游戏
-PreventSBServerKick,尝试阻止来自游戏服务器的踢人事件
 KillFlashDuration,击杀闪烁持续时间
 TrueRandomeRoles,尝试真随机分配职业（试验性）
 ConfirmEjections,驱逐时确认阵营
