@@ -600,6 +600,7 @@ Command.kill,[玩家ID] → 击杀指定玩家
 Command.exe,[玩家ID] → 放逐指定玩家
 Command.level,[等级] → 修改您的游戏等级
 Command.idlist,→ 显示玩家编号列表
+Command.qq,→ 让车队姬在群里发房号
 Command.dump,→ 将游戏运行日志输出到桌面
 CantUse.lastresult,不可以在游戏中使用/l命令
 IllegalColor,请输入正确的颜色

@@ -664,6 +664,7 @@ namespace TownOfHost
                 + $"\n  ○ /exe {GetString("Command.exe")}"
                 + $"\n  ○ /level {GetString("Command.level")}"
                 + $"\n  ○ /id {GetString("Command.idlist")}"
+                + $"\n  ○ /qq {GetString("Command.qq")}"
                 + $"\n  ○ /dump {GetString("Command.dump")}"
                 , ID);
         }
