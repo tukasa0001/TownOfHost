@@ -387,7 +387,7 @@ namespace TownOfHost
             else
             {
                 List<int> funList = new();
-                for (int i = 0; i <= 55; i++)
+                for (int i = 1; i <= 54; i++)
                 {
                     funList.Add(i);
                 }
@@ -406,16 +406,13 @@ namespace TownOfHost
                     }
                 }
 
-                funList.Remove(0);
-                if (rd.Next(0, 100) <= Options.LoverSpawnChances.GetInt()) funList.Insert(0, 0);
-                funList.Remove(55);
-                if (rd.Next(0, 100) <= Options.NtrSpawnChances.GetInt()) funList.Insert(0, 55);
+                if (rd.Next(0, 100) <= Options.LoverSpawnChances.GetInt()) AssignLoversRolesFromList();
+                if (rd.Next(0, 100) <= Options.NtrSpawnChances.GetInt()) AssignNtrRoles();
 
                 foreach (int i in funList)
                 {
                     switch (i)
                     {
-                        case 0: AssignLoversRolesFromList(); break;
                         case 1: AssignCustomRolesFromList(CustomRoles.Sniper, Shapeshifters); break;
                         case 2: AssignCustomRolesFromList(CustomRoles.Jester, Crewmates); break;
                         case 3: AssignCustomRolesFromList(CustomRoles.Madmate, Engineers); break;
@@ -470,7 +467,6 @@ namespace TownOfHost
                         case 52: AssignCustomRolesFromList(CustomRoles.Sans, Impostors); break;
                         case 53: AssignCustomRolesFromList(CustomRoles.Bomber, Shapeshifters); break;
                         case 54: AssignCustomRolesFromList(CustomRoles.BoobyTrap, Impostors); break;
-                        case 55: AssignNtrRoles(); break;
                     }
                 }
 
