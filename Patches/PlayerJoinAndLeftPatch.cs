@@ -4,7 +4,6 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
 using TownOfHost.Modules;
-using static Il2CppSystem.Globalization.CultureInfo;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
