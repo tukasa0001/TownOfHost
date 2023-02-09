@@ -515,6 +515,7 @@ SniperPrecisionShooting,精准射击模式
 NtrSpawnChances,海王出现概率
 LoverSpawnChances,恋人出现概率
 LoverSuicide,恋人共生死
+LoverHasNoTask,船员成为恋人后没有任务
 NumberOfLovers,恋人对数
 TimeThiefDecreaseMeetingTime,每次击杀缩短的会议时间
 TimeThiefLowerLimitVotingTime,存活时会议时间最低下限
