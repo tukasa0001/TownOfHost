@@ -289,6 +289,7 @@ namespace TownOfHost
         public static OptionItem GhostCanSeeDeathReason;
         public static OptionItem GhostIgnoreTasks;
         public static OptionItem CommsCamouflage;
+        public static OptionItem DisableReportWhenCC;
 
         // プリセット対象外
         public static OptionItem NoGameEnd;
@@ -821,6 +822,8 @@ namespace TownOfHost
             GhostIgnoreTasks = BooleanOptionItem.Create(900_012, "GhostIgnoreTasks", false, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
             CommsCamouflage = BooleanOptionItem.Create(900_013, "CommsCamouflage", false, TabGroup.MainSettings, false)
+                .SetGameMode(CustomGameMode.All);
+            DisableReportWhenCC = BooleanOptionItem.Create(900_015, "DisableReportWhenCC", false, TabGroup.MainSettings, false).SetParent(CommsCamouflage)
                 .SetGameMode(CustomGameMode.All);
 
             // プリセット対象外

@@ -403,7 +403,8 @@ DisableAirshipGapRoomLightsPanel,禁用升降机配电箱(飞艇地图)
 DisableAirshipCargoLightsPanel,禁用货舱配电箱(飞艇地图)
 RandomSpawn,随机出生点
 AirshipAdditionalSpawn,额外出生点（飞艇地图）
-CommsCamouflage,通信破坏时伪装（有Bug慎开）
+CommsCamouflage,通信破坏时小黑人（有Bug慎开）
+DisableReportWhenCC,小黑人时禁止报告尸体
 EnableDebugMode,开启调试模式
 ChangeNameToRoleInfo,首次会议替换名字为介绍
 RoleAssigningAlgorithm,职业分配算法

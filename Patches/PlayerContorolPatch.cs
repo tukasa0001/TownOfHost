@@ -543,6 +543,8 @@ namespace TownOfHost
 
             //杀戮机器无法报告或拍灯
             if (__instance.Is(CustomRoles.Minimalism)) return false;
+            //禁止小黑人报告
+            if (Utils.IsActive(SystemTypes.Comms) && Options.CommsCamouflage.GetBool() && Options.DisableReportWhenCC.GetBool()) return false;
 
             if (target == null) //拍灯事件
             {

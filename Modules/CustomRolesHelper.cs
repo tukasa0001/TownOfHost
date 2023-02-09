@@ -131,11 +131,11 @@ namespace TownOfHost
             return type;
         }
 
-        public static bool RoleExist(this CustomRoles role)
+        public static bool RoleExist(this CustomRoles role, bool countDead = false)
         {
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (pc.Is(role) && pc.IsAlive()) return true;
+                if (pc.Is(role) && (pc.IsAlive() || countDead)) return true;
             }
             return false;
         }

@@ -400,6 +400,8 @@ namespace TownOfHost
                                 string mtext = GetString(role.ToString()) + PlayerControl.LocalPlayer.GetRoleInfo(true);
                                 foreach (var subRole in Main.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SubRoles)
                                     mtext += $"\n\n"+ GetString($"{subRole}") + GetString($"{subRole}InfoLong");
+                                if (CustomRolesHelper.RoleExist(CustomRoles.Ntr) && role != CustomRoles.GM)
+                                    mtext += $"\n\n" + GetString($"Lovers") + GetString($"LoversInfoLong");
                                 HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, mtext);
                             }
                         break;
@@ -828,6 +830,8 @@ namespace TownOfHost
                         string mtext = GetString(role.ToString()) + player.GetRoleInfo(true);
                         foreach (var subRole in Main.PlayerStates[player.PlayerId].SubRoles)
                             mtext += $"\n\n" + GetString($"{subRole}") + GetString($"{subRole}InfoLong");
+                        if (CustomRolesHelper.RoleExist(CustomRoles.Ntr) && role != CustomRoles.GM)
+                            mtext += $"\n\n" + GetString($"Lovers") + GetString($"LoversInfoLong");
                         Utils.SendMessage(mtext, player.PlayerId);
                     }
                     break;
