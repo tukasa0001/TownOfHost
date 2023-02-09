@@ -3,6 +3,7 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
 using UnityEngine;
+using TownOfHost.Modules.Settings;
 
 namespace TownOfHost
 {
@@ -24,7 +25,8 @@ namespace TownOfHost
             public static TMPro.TextMeshPro HideName;
             public static void Postfix(GameStartManager __instance)
             {
-                Modules.SettingButtons.SetButtons();
+                SettingButtons.SetButtons();
+                if (AmongUsClient.Instance.AmHost) SettingButtons.ButtonsVisible(true);
                 __instance.GameRoomNameCode.text = GameCode.IntToGameName(AmongUsClient.Instance.GameId);
                 // Reset lobby countdown timer
                 timer = 600f;

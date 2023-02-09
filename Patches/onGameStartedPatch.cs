@@ -5,6 +5,7 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using TownOfHost.Modules;
+using TownOfHost.Modules.Settings;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -122,7 +123,7 @@ namespace TownOfHost
             MeetingStates.MeetingCalled = false;
             MeetingStates.FirstMeeting = true;
             GameStates.AlreadyDied = false;
-            Modules.SettingButtons.ButtonsVisible(false);
+            SettingButtons.ButtonsVisible(false);
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]

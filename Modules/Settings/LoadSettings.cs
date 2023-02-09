@@ -10,134 +10,124 @@ namespace TownOfHost.Modules.Settings;
 
 public static class LoadSettings
 {
-    public static List<BoolOptionNames> BoolSettingNames = new()
-    {
-        BoolOptionNames.VisualTasks,
-        BoolOptionNames.GhostsDoTasks,
-        BoolOptionNames.ConfirmImpostor,
-        BoolOptionNames.AnonymousVotes,
-        BoolOptionNames.IsDefaults,
-        BoolOptionNames.UseFlashlight,
-        BoolOptionNames.SeekerFinalVents,
-        BoolOptionNames.SeekerFinalMap,
-        BoolOptionNames.SeekerPings,
-        BoolOptionNames.ShowCrewmateNames,
-        BoolOptionNames.ShapeshifterLeaveSkin,
-        BoolOptionNames.ImpostorsCanSeeProtect,
-    };
-
-    public static List<Int32OptionNames> IntSettingNames = new()
-    {
-        Int32OptionNames.NumImpostors,
-        Int32OptionNames.KillDistance,
-        Int32OptionNames.NumEmergencyMeetings,
-        Int32OptionNames.EmergencyCooldown,
-        Int32OptionNames.DiscussionTime,
-        Int32OptionNames.VotingTime,
-        Int32OptionNames.MaxImpostors,
-        Int32OptionNames.MinPlayers,
-        Int32OptionNames.MaxPlayers,
-        Int32OptionNames.NumCommonTasks,
-        Int32OptionNames.NumShortTasks,
-        Int32OptionNames.NumLongTasks,
-        Int32OptionNames.TaskBarMode,
-        Int32OptionNames.CrewmatesRemainingForVitals,
-        Int32OptionNames.CrewmateVentUses,
-        Int32OptionNames.ImpostorPlayerID,
-    };
-
-    public static List<FloatOptionNames> FloatSettingNames = new()
-    {
-        FloatOptionNames.KillCooldown,
-        FloatOptionNames.PlayerSpeedMod,
-        FloatOptionNames.ImpostorLightMod,
-        FloatOptionNames.CrewLightMod,
-        FloatOptionNames.CrewmateTimeInVent,
-        FloatOptionNames.FinalEscapeTime,
-        FloatOptionNames.EscapeTime,
-        FloatOptionNames.SeekerFinalSpeed,
-        FloatOptionNames.MaxPingTime,
-        FloatOptionNames.CrewmateFlashlightSize,
-        FloatOptionNames.ImpostorFlashlightSize,
-        FloatOptionNames.ShapeshifterCooldown,
-        FloatOptionNames.ShapeshifterDuration,
-        FloatOptionNames.ProtectionDurationSeconds,
-        FloatOptionNames.GuardianAngelCooldown,
-        FloatOptionNames.ScientistCooldown,
-        FloatOptionNames.ScientistBatteryCharge,
-        FloatOptionNames.EngineerCooldown,
-        FloatOptionNames.EngineerInVentMaxTime,
-    };
-
-    public static List<ByteOptionNames> ByteSettingNames = new()
-    {
-        ByteOptionNames.MapId,
-    };
-
-    public static IGameOptions CurrentOptions => GameOptionsManager.Instance.CurrentGameOptions;
-
     public static void Load()
     {
-        if (!File.Exists(@$"{SaveSettings.SETTINGS_FOLDER}/GameSettings.xml"))
+        Logger.Info("設定の読み込みを開始", "LoadSettings");
+        LoadAndSetSettings(1);
+        Logger.Info("設定の読み込みが完了", "LoadSettings");
+    }
+
+    /// <summary>
+    /// ファイルが有るか確認する。
+    /// なかった場合はエラーを表示してfalseを返す。
+    /// </summary>
+    /// <param name="path">ファイルパス</param>
+    /// <returns>ファイルの有無</returns>
+    public static bool CheckFileExists(string path)
+    {
+        if (!File.Exists(path))
         {
-            Logger.Warn("設定ファイルが存在しません。", "LoadSettings");
-            return;
+            Logger.Warn($"プリセットファイル[{path}]が存在しません。", "LoadSettings");
+            Logger.SendInGame(Translator.GetString("NoPresetFile"), false);
+            return false;
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// 設定をロードしてセットする。
+    /// 同期も行う。
+    /// </summary>
+    /// <param name="id">プリセットID</param>
+    public static void LoadAndSetSettings(int id)
+    {
+        string path = string.Empty;
+        switch (id)
+        {
+            case 1:
+                path = SettingsGeneral.PRESET_FILE_1;
+                break;
+            case 2:
+                path = SettingsGeneral.PRESET_FILE_2;
+                break;
+            case 3:
+                path = SettingsGeneral.PRESET_FILE_3;
+                break;
         }
 
-        XmlDocument xml = new();
-        xml.Load(@$"{SaveSettings.SETTINGS_FOLDER}/GameSettings.xml");
-        XmlElement settings = xml.DocumentElement;
+        if (!CheckFileExists(path)) return;
 
-        for (int i = 0; settings.ChildNodes.Count > i; i++)
+        // 設定を格納する辞書
+        Dictionary<int, string> Settings = new();
+        string[] settings = File.ReadAllLines(path);
+        // 行数
+        int i = 1;
+        foreach (var setting in settings)
         {
-            XmlElement type = (XmlElement)settings.ChildNodes[i].ChildNodes[0];
-            switch (type.FirstChild.Value)
+            Settings.Add(i, setting.Split(":")[1]);
+            i++;
+        }
+
+        // 辞書から行数で値を取り出す
+        foreach (var s in Settings)
+        {
+            switch (s.Key)
             {
-                case "Boolean":
-                    XmlElement boolValue = (XmlElement)settings.ChildNodes[i].ChildNodes[1];
-                    BoolSettingNames[i].Set(GetBool(boolValue.FirstChild.Value), CurrentOptions);
-                    Logger.Info($"Boolean設定番号{i}を読み込みました。", "LoadSettings");
-                    break;
-                case "Int32":
-                    XmlElement intValue = (XmlElement)settings.ChildNodes[i].ChildNodes[1];
-                    IntSettingNames[i - 12].Set(GetInt(intValue.FirstChild.Value), CurrentOptions);
-                    Logger.Info($"Int32設定番号{i}を読み込みました。", "LoadSettings");
-                    break;
-                case "Float":
-                    XmlElement floatValue = (XmlElement)settings.ChildNodes[i].ChildNodes[1];
-                    FloatSettingNames[i - 28].Set(GetFloat(floatValue.FirstChild.Value), CurrentOptions);
-                    Logger.Info($"Float設定番号{i}を読み込みました。", "LoadSettings");
-                    break;
-                case "Byte":
-                    XmlElement byteValue = (XmlElement)settings.ChildNodes[i].ChildNodes[1];
-                    ByteSettingNames[i - 47].Set(GetByte(byteValue.FirstChild.Value), CurrentOptions);
-                    Logger.Info($"Byte設定番号{i}を読み込みました。", "LoadSettings");
-                    break;
-                default:
-                    Logger.Warn($"設定番号{i}の値の種類が不適切です。", "LoadSettings");
-                    break;
+                case 1: BoolOptionNames.VisualTasks.Set(SettingsGeneral.GetBoolOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 2: BoolOptionNames.GhostsDoTasks.Set(SettingsGeneral.GetBoolOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 3: BoolOptionNames.ConfirmImpostor.Set(SettingsGeneral.GetBoolOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 4: BoolOptionNames.AnonymousVotes.Set(SettingsGeneral.GetBoolOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 5: BoolOptionNames.IsDefaults.Set(SettingsGeneral.GetBoolOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 6: BoolOptionNames.UseFlashlight.Set(SettingsGeneral.GetBoolOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 7: BoolOptionNames.SeekerFinalVents.Set(SettingsGeneral.GetBoolOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 8: BoolOptionNames.SeekerFinalMap.Set(SettingsGeneral.GetBoolOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 9: BoolOptionNames.SeekerPings.Set(SettingsGeneral.GetBoolOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 10: BoolOptionNames.ShowCrewmateNames.Set(SettingsGeneral.GetBoolOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 11: BoolOptionNames.ShapeshifterLeaveSkin.Set(SettingsGeneral.GetBoolOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 12: BoolOptionNames.ImpostorsCanSeeProtect.Set(SettingsGeneral.GetBoolOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 13: Int32OptionNames.NumImpostors.Set(SettingsGeneral.GetIntOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 14: Int32OptionNames.KillDistance.Set(SettingsGeneral.GetIntOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 15: Int32OptionNames.NumEmergencyMeetings.Set(SettingsGeneral.GetIntOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 16: Int32OptionNames.EmergencyCooldown.Set(SettingsGeneral.GetIntOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 17: Int32OptionNames.DiscussionTime.Set(SettingsGeneral.GetIntOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 18: Int32OptionNames.VotingTime.Set(SettingsGeneral.GetIntOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 19: Int32OptionNames.MaxImpostors.Set(SettingsGeneral.GetIntOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 20: Int32OptionNames.MinPlayers.Set(SettingsGeneral.GetIntOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 21: Int32OptionNames.MaxPlayers.Set(SettingsGeneral.GetIntOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 22: Int32OptionNames.NumCommonTasks.Set(SettingsGeneral.GetIntOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 23: Int32OptionNames.NumShortTasks.Set(SettingsGeneral.GetIntOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 24: Int32OptionNames.NumLongTasks.Set(SettingsGeneral.GetIntOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 25: Int32OptionNames.TaskBarMode.Set(SettingsGeneral.GetIntOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 26: Int32OptionNames.CrewmatesRemainingForVitals.Set(SettingsGeneral.GetIntOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 27: Int32OptionNames.CrewmateVentUses.Set(SettingsGeneral.GetIntOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 28: Int32OptionNames.ImpostorPlayerID.Set(SettingsGeneral.GetIntOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 29: FloatOptionNames.KillCooldown.Set(SettingsGeneral.GetFloatOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 30: FloatOptionNames.PlayerSpeedMod.Set(SettingsGeneral.GetFloatOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 31: FloatOptionNames.ImpostorLightMod.Set(SettingsGeneral.GetFloatOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 32: FloatOptionNames.CrewLightMod.Set(SettingsGeneral.GetFloatOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 33: FloatOptionNames.CrewmateTimeInVent.Set(SettingsGeneral.GetFloatOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 34: FloatOptionNames.FinalEscapeTime.Set(SettingsGeneral.GetFloatOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 35: FloatOptionNames.EscapeTime.Set(SettingsGeneral.GetFloatOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 36: FloatOptionNames.SeekerFinalSpeed.Set(SettingsGeneral.GetFloatOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 37: FloatOptionNames.MaxPingTime.Set(SettingsGeneral.GetFloatOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 38: FloatOptionNames.CrewmateFlashlightSize.Set(SettingsGeneral.GetFloatOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 39: FloatOptionNames.ImpostorFlashlightSize.Set(SettingsGeneral.GetFloatOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 40: FloatOptionNames.ShapeshifterCooldown.Set(SettingsGeneral.GetFloatOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 41: FloatOptionNames.ShapeshifterDuration.Set(SettingsGeneral.GetFloatOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 42: FloatOptionNames.ProtectionDurationSeconds.Set(SettingsGeneral.GetFloatOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 43: FloatOptionNames.GuardianAngelCooldown.Set(SettingsGeneral.GetFloatOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 44: FloatOptionNames.ScientistCooldown.Set(SettingsGeneral.GetFloatOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 45: FloatOptionNames.ScientistBatteryCharge.Set(SettingsGeneral.GetFloatOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 46: FloatOptionNames.EngineerCooldown.Set(SettingsGeneral.GetFloatOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 47: FloatOptionNames.EngineerInVentMaxTime.Set(SettingsGeneral.GetFloatOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                case 48: ByteOptionNames.MapId.Set(SettingsGeneral.GetByteOption(s.Value), SettingsGeneral.CurrentOptions); break;
+                default: break;
             }
         }
+
+        // 同期
         GameManager.Instance.LogicOptions.SyncOptions();
 
-        Logger.Info("設定が正常に読み込まれました。", "LoadSettings");
         Logger.SendInGame(Translator.GetString("SettingsLoaded"), false);
-    }
-
-    public static bool GetBool(this string value)
-    {
-        return bool.Parse(value);
-    }
-    public static int GetInt(this string value)
-    {
-        return int.Parse(value);
-    }
-    public static float GetFloat(this string value)
-    {
-        return float.Parse(value);
-    }
-    public static byte GetByte(this string value)
-    {
-        return byte.Parse(value);
     }
 }

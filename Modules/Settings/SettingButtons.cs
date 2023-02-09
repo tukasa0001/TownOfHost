@@ -26,7 +26,7 @@ public static class SettingButtons
         LoadButton = new()
         {
             layer = 5,
-            active = true,
+            active = false,
             name = "LoadButton",
         };
         LoadButton.transform.parent = HudManager.Instance.transform;
@@ -59,7 +59,7 @@ public static class SettingButtons
         SaveButton = new()
         {
             layer = 5,
-            active = true,
+            active = false,
             name = "SaveButton",
         };
         SaveButton.transform.parent = HudManager.Instance.transform;

@@ -9,7 +9,6 @@ namespace TownOfHost
     {
         public static bool Prefix(GameManager __instance, [HarmonyArgument(0)] MessageWriter writer, [HarmonyArgument(1)] bool initialState, ref bool __result)
         {
-            if (AmongUsClient.Instance.AmHost) SettingButtons.ButtonsVisible(true);
             bool flag = false;
             for (int index = 0; index < __instance.LogicComponents.Count; ++index)
             {
