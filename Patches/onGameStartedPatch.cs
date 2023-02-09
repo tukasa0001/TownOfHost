@@ -406,8 +406,8 @@ namespace TownOfHost
                     }
                 }
 
-                if (rd.Next(0, 100) <= Options.LoverSpawnChances.GetInt()) AssignLoversRolesFromList();
-                if (rd.Next(0, 100) <= Options.NtrSpawnChances.GetInt()) AssignNtrRoles();
+                if (CustomRoles.Lovers.GetCount() > 0 && rd.Next(1, 100) <= Options.LoverSpawnChances.GetInt()) AssignLoversRolesFromList();
+                if (CustomRoles.Ntr.GetCount() > 0 && rd.Next(1, 100) <= Options.NtrSpawnChances.GetInt()) AssignNtrRoles();
 
                 foreach (int i in funList)
                 {
