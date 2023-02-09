@@ -128,6 +128,7 @@ namespace TownOfHost
         }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
         {
+
             var rpcType = (CustomRPC)callId;
             switch (rpcType)
             {
@@ -136,21 +137,24 @@ namespace TownOfHost
                     {
                         Logger.Fatal($"{__instance?.Data?.PlayerName}({__instance.PlayerId}): {reader.ReadString()} 错误，根据设定终止游戏", "Anti-black");
                         ChatUpdatePatch.DoBlockChat = true;
-                        Main.OverrideWelcomeMsg = $"由于玩家【{__instance?.Data?.PlayerName}】发生未知错误，已终止游戏防止卡房";
+                        Main.OverrideWelcomeMsg = $"由于玩家【{__instance?.Data?.PlayerName}】发生未知错误，已终止游戏防止卡房。若您不希望在其他玩家发生错误时终止游戏，请在设置关闭【{GetString("EndWhenPlayerBug")}】";
                         new LateTask(() =>
                         {
-                            Logger.SendInGame($"由于玩家【{__instance?.Data?.PlayerName}】发生未知错误，将终止游戏以防止黑屏", true);
+                            Logger.SendInGame($"【{__instance?.Data?.PlayerName}】发生未知错误，将终止游戏以防止黑屏", true);
                         }, 3f, "Anti-Black Msg SendInGame");
-                        CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Error);
-                        GameManager.Instance.LogicFlow.CheckEndCriteria();
-                        RPC.ForceEndGame();
+                        new LateTask(() =>
+                        {
+                            CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Error);
+                            GameManager.Instance.LogicFlow.CheckEndCriteria();
+                            RPC.ForceEndGame(CustomWinner.Error);
+                        }, 5.5f, "Anti-Black End Game");
                     }
                     else
                     {
                         Logger.Fatal($"{__instance?.Data?.PlayerName}({__instance.PlayerId}): Change Role Setting Postfix 错误，根据设定继续游戏", "Anti-black");
                         new LateTask(() =>
                         {
-                            Logger.SendInGame($"玩家【{__instance?.Data?.PlayerName}】发生未知错误，根据房主设置将忽略该玩家", true);
+                            Logger.SendInGame($"【{__instance?.Data?.PlayerName}】发生未知错误，根据房主设置将忽略该玩家", true);
                         }, 3f, "Anti-Black Msg SendInGame");
                     }
                     break;
@@ -159,9 +163,15 @@ namespace TownOfHost
                     {
                         Version version = Version.Parse(reader.ReadString());
                         string tag = reader.ReadString();
-                        //string forkId = 3 <= version.Major ? reader.ReadString() : Main.OriginalForkId;
+                        //string forkId = 4 <= version.Major ? reader.ReadString() : Main.OriginalForkId;
                         string forkId = reader.ReadString();
                         Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag, forkId);
+                        if (tag != $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})")
+                        {
+                            AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
+                            Logger.Warn($"{__instance?.Data?.PlayerName} 安装了与房主版本不同的模组，故将其踢出", "Version Kick");
+                            Logger.SendInGame($"【{__instance?.Data?.PlayerName}】因安装了与房主版本不同的模组被踢出");
+                        }
                     }
                     catch
                     {
@@ -321,17 +331,17 @@ namespace TownOfHost
             Main.PlayerStates[playerId].deathReason = deathReason;
             Main.PlayerStates[playerId].IsDead = true;
         }
-        public static void ForceEndGame()
+        public static void ForceEndGame(CustomWinner win)
         {
             if (ShipStatus.Instance == null) return;
-            try { CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Draw); }
+            try { CustomWinnerHolder.ResetAndSetWinner(win); }
             catch { }
             if (AmongUsClient.Instance.AmHost)
             {
                 ShipStatus.Instance.enabled = false;
                 try { GameManager.Instance.LogicFlow.CheckEndCriteria(); }
                 catch { }
-                try { GameManager.Instance.RpcEndGame(GameOverReason.ImpostorByKill, false); }
+                try { GameManager.Instance.RpcEndGame(GameOverReason.ImpostorDisconnect, false); }
                 catch { }
             }
         }

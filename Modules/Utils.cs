@@ -19,6 +19,50 @@ namespace TownOfHost
 {
     public static class Utils
     {
+        public static void ErrorEnd(string text)
+        {
+            if (AmongUsClient.Instance.AmHost)
+            {
+                Logger.Fatal($"{text} 错误，触发防黑屏措施", "Anti-black");
+                ChatUpdatePatch.DoBlockChat = true;
+               Main.OverrideWelcomeMsg = "由于未知错误发生，已终止游戏以防止黑屏。很抱歉，所有的H系列模组都存在这个问题，自动结束游戏是必要的保护措施，否则游戏将无法运行。";
+                new LateTask(() =>
+                {
+                    Logger.SendInGame("由于未知错误发生，将终止游戏以防止黑屏", true);
+                }, 3f, "Anti-Black Msg SendInGame");
+                new LateTask(() =>
+                {
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Error);
+                    GameManager.Instance.LogicFlow.CheckEndCriteria();
+                    RPC.ForceEndGame(CustomWinner.Error);
+                }, 5.5f, "Anti-Black End Game");
+            }
+            else
+            {
+                MessageWriter writer = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.AntiBlack, SendOption.Reliable);
+                writer.Write(text);
+                writer.EndMessage();
+                if (Options.EndWhenPlayerBug.GetBool())
+                {
+                    new LateTask(() =>
+                    {
+                        Logger.SendInGame("您触发了黑屏Bug，正在请求房主终止游戏...", true);
+                    }, 3f, "Anti-Black Msg SendInGame");
+                }
+                else
+                {
+                    new LateTask(() =>
+                    {
+                        Logger.SendInGame("您触发了黑屏Bug，房主拒绝终止游戏，稍后将为您断开连接", true);
+                    }, 3f, "Anti-Black Msg SendInGame");
+                    new LateTask(() =>
+                    {
+                        AmongUsClient.Instance.ExitGame(DisconnectReasons.Custom);
+                        Logger.Fatal($"{text} 错误，已断开游戏", "Anti-black");
+                    }, 8f, "Anti-Black Exit Game");
+                }
+            }
+        }
         public static System.Random RandomSeedByGuid()
         {
             byte[] buffer = Guid.NewGuid().ToByteArray();
