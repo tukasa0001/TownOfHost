@@ -199,18 +199,17 @@ Example:
 | Impostors                           | Crewmates                         | Neutrals                          | Others    |
 | ----------------------------------- | --------------------------------- | --------------------------------- | --------- |
 | [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             | [GM](#GM) |
-| [EvilHacker](#EvilHacker)           | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |           |
-| [EvilTracker](#EvilTracker)         | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |           |
-| [Evil Watcher](#Watcher)            | [Lighter](#Lighter)               | [Jackal](#Jackal)                 |           |
-| [FireWorks](#FireWorks)             | [Mayor](#Mayor)                   | [Jester](#Jester)                 |           |
-| [Mare](#Mare)                       | [Nice Watcher](#Watcher)          | [Lovers](#Lovers)                 |           |
-| [Puppeteer](#Puppeteer)             | [SabotageMaster](#SabotageMaster) | [Opportunist](#Opportunist)       |           |
-| [SerialKiller](#SerialKiller)       | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |           |
-| [Sniper](#Sniper)                   | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |           |
-| [TimeThief](#TimeThief)             | [Snitch](#Snitch)                 |                                   |           |
-| [Vampire](#Vampire)                 | [SpeedBooster](#SpeedBooster)     |                                   |           |
-| [Warlock](#Warlock)                 | [Beartrap](#Beartrap)             |                                   |           |
-| [Witch](#Witch)                     |                                   |                                   |           |
+| [EvilTracker](#EvilTracker)         | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |           |
+| [Evil Watcher](#Watcher)            | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |           |
+| [FireWorks](#FireWorks)             | [Lighter](#Lighter)               | [Jackal](#Jackal)                 |           |
+| [Mare](#Mare)                       | [Mayor](#Mayor)                   | [Jester](#Jester)                 |           |
+| [Puppeteer](#Puppeteer)             | [Nice Watcher](#Watcher)          | [Lovers](#Lovers)                 |           |
+| [SerialKiller](#SerialKiller)       | [SabotageMaster](#SabotageMaster) | [Opportunist](#Opportunist)       |           |
+| [Sniper](#Sniper)                   | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |           |
+| [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |           |
+| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |           |
+| [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |           |
+| [Witch](#Witch)                     | [Beartrap](#Beartrap)             |                                   |           |
 | [Mafia](#Mafia)                     |                                   |                                   |           |
 | [Madmate](#Madmate)                 |                                   |                                   |           |
 | [MadGuardian](#MadGuardian)         |                                   |                                   |           |
