@@ -65,10 +65,6 @@ namespace TownOfHost
                         text += $"{rule}{Options.MadmateVentCooldown.GetName()}: {Options.MadmateVentCooldown.GetString()}\n";
                         text += $"{ruleFooter}{Options.MadmateVentMaxTime.GetName()}: {Options.MadmateVentMaxTime.GetString()}\n";
                     }
-                    if (kvp.Key.CanMakeMadmate()) //シェイプシフター役職の時に追加する詳細設定
-                    {
-                        text += $"{ruleFooter}{Options.CanMakeMadmateCount.GetName()}: {Options.CanMakeMadmateCount.GetString()}\n";
-                    }
                 }
 
                 foreach (var opt in OptionItem.AllOptions.Where(x => x.Id >= 90000 && !x.IsHiddenOn(Options.CurrentGameMode) && x.Parent == null))

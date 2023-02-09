@@ -157,8 +157,6 @@ namespace TownOfHost
                 }
                 switch (player.GetCustomRole())
                 {
-                    case CustomRoles.Madmate:
-                    case CustomRoles.SKMadmate:
                     case CustomRoles.Jester:
                         TaskTextPrefix += FakeTasksText;
                         break;

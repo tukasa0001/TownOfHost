@@ -191,13 +191,10 @@ namespace TownOfHost
 
                     int EngineerNum = Options.DisableVanillaRoles.GetBool() ? 0 : roleOpt.GetNumPerGame(RoleTypes.Engineer);
 
-                    int AdditionalEngineerNum = CustomRoles.Madmate.GetCount() + CustomRoles.Terrorist.GetCount() + CustomRoles.Paranoia.GetCount() + CustomRoles.Plumber.GetCount() + CustomRoles.Mario.GetCount();// - EngineerNum;
+                    int AdditionalEngineerNum = CustomRoles.Terrorist.GetCount() + CustomRoles.Paranoia.GetCount() + CustomRoles.Plumber.GetCount() + CustomRoles.Mario.GetCount();// - EngineerNum;
 
                     if (Options.MayorHasPortableButton.GetBool())
                         AdditionalEngineerNum += CustomRoles.Mayor.GetCount();
-
-                    if (Options.MadSnitchCanVent.GetBool())
-                        AdditionalEngineerNum += CustomRoles.MadSnitch.GetCount();
 
                     if (Options.TrueRandomeRoles.GetBool())
                     {
@@ -372,10 +369,7 @@ namespace TownOfHost
                         {
                             case 1: AssignCustomRolesFromList(CustomRoles.Sniper, Shapeshifters); break;
                             case 2: AssignCustomRolesFromList(CustomRoles.Jester, Crewmates); break;
-                            case 3: AssignCustomRolesFromList(CustomRoles.Madmate, Engineers); break;
                             case 4: AssignCustomRolesFromList(CustomRoles.Bait, Crewmates); break;
-                            case 5: AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates); break;
-                            case 6: AssignCustomRolesFromList(CustomRoles.MadSnitch, Options.MadSnitchCanVent.GetBool() ? Engineers : Crewmates); break;
                             case 7: AssignCustomRolesFromList(CustomRoles.Mayor, Options.MayorHasPortableButton.GetBool() ? Engineers : Crewmates); break;
                             case 8: AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates); break;
                             case 9: AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates); break;
@@ -543,13 +537,10 @@ namespace TownOfHost
 
                     int EngineerNum = Options.DisableVanillaRoles.GetBool() ? 0 : roleOpt.GetNumPerGame(RoleTypes.Engineer);
 
-                    EngineerNum -= CustomRoles.Madmate.GetCount() + CustomRoles.Terrorist.GetCount() + CustomRoles.Paranoia.GetCount() + CustomRoles.Plumber.GetCount() + CustomRoles.Mario.GetCount();
+                    EngineerNum -=  CustomRoles.Terrorist.GetCount() + CustomRoles.Paranoia.GetCount() + CustomRoles.Plumber.GetCount() + CustomRoles.Mario.GetCount();
 
                     if (Options.MayorHasPortableButton.GetBool())
                         EngineerNum -= CustomRoles.Mayor.GetCount();
-
-                    if (Options.MadSnitchCanVent.GetBool())
-                        EngineerNum -= CustomRoles.MadSnitch.GetCount();
 
                     roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 

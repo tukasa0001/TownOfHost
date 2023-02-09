@@ -1,6 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using UnityEngine;
 
 namespace TownOfHost
 {
@@ -25,14 +24,11 @@ namespace TownOfHost
 
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = isKilled(id) ? 255f : CurrentKillCooldown[id];
 
+        public static string GetKillLimit(byte id) => Utils.ColorString(CanUseKillButton(id)? Color.yellow : Color.white, isKilled(id)? $"(0)" : "(1)");
         public static bool CanUseKillButton(byte playerId)
             => !Main.PlayerStates[playerId].IsDead
             && !isKilled(playerId);
-
-        public static bool isKilled(byte playerId) {
-            //return killed.Contains(playerId);
-            return killed.Contains(playerId);
-        }
+        public static bool isKilled(byte playerId) => killed.Contains(playerId);
 
         public static void Add(byte playerId) {
             playerIdList.Add(playerId);

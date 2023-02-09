@@ -48,7 +48,7 @@ namespace TownOfHost
 
         // ==========
         //文件路径
-        public static readonly string BANNEDWORDS_FILE_PATH = "./TOH_DATA/BanWords.txt"; // File.Exists("./TOH_DATA/BanWords.txt") ? "./TOH_DATA/BanWords.txt" : "./TOH_DATA/bannedwords.txt";
+        public static readonly string BANNEDWORDS_FILE_PATH = "./TOH_DATA/BanWords.txt";
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.karped1em.townofhost";
         public const string PluginVersion = "1.1.3";
@@ -394,11 +394,7 @@ namespace TownOfHost
         Bomber,
         BoobyTrap,
         //Madmate
-        MadGuardian,
-        Madmate,
-        MadSnitch,
-        SKMadmate,
-        MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
+        MSchrodingerCat,//红猫
         //両陣営
         Watcher,
         //Crewmate(Vanilla)
@@ -426,23 +422,23 @@ namespace TownOfHost
         Doctor,
         Seer,
         Detective,
-        CSchrodingerCat,//クルー陣営のシュレディンガーの猫
+        CSchrodingerCat,//白猫
         ChivalrousExpert,
         NiceGuesser,
         //Neutral
         Arsonist,
         Egoist,
-        EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
+        EgoSchrodingerCat,//紫猫
         Jester,
         God,
         OpportunistKiller,
         Opportunist,
         Mario,
-        SchrodingerCat,//第三陣営のシュレディンガーの猫
+        SchrodingerCat,//灰猫
         Terrorist,
         Executioner,
         Jackal,
-        JSchrodingerCat,//ジャッカル陣営のシュレディンガーの猫
+        JSchrodingerCat,//蓝猫
         //HideAndSeek
         HASFox,
         HASTroll,

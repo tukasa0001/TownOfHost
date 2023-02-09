@@ -119,13 +119,6 @@ namespace TownOfHost
                     };
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                     break;
-                case RoleType.Madmate:
-                    __instance.TeamTitle.text = GetString("Madmate");
-                    __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Madmate);
-                    __instance.ImpostorText.text = GetString("TeamImpostor");
-                    StartFadeIntro(__instance, Palette.CrewmateBlue, Palette.ImpostorRed);
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
-                    break;
             }
             switch (role)
             {
@@ -233,7 +226,7 @@ namespace TownOfHost
     {
         public static bool Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
-            if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff))
+            if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff) || PlayerControl.LocalPlayer.Is(CustomRoles.ChivalrousExpert))
             {
                 //シェリフの場合はキャンセルしてBeginCrewmateに繋ぐ
                 yourTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();

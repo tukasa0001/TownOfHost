@@ -481,13 +481,6 @@ namespace TownOfHost
             var count = Utils.GetDousedPlayerCount(player.PlayerId);
             return count.Item1 == count.Item2;
         }
-        public static bool CanMakeMadmate(this PlayerControl player)
-        {
-            return Options.CanMakeMadmateCount.GetInt() > Main.SKMadmateNowCount
-                    && player != null
-                    && player.Data.Role.Role == RoleTypes.Shapeshifter
-                    && player.GetCustomRole().CanMakeMadmate();
-        }
         public static void RpcExileV2(this PlayerControl player)
         {
             player.Exiled();
@@ -578,11 +571,6 @@ namespace TownOfHost
                     case CustomRoles.EvilWatcher:
                     case CustomRoles.NiceWatcher:
                         text = CustomRoles.Watcher.ToString();
-                        break;
-                    case CustomRoles.MadSnitch:
-                    case CustomRoles.MadGuardian:
-                        text = CustomRoles.Madmate.ToString();
-                        Prefix = player.GetPlayerTaskState().IsTaskFinished ? "" : "Before";
                         break;
                 };
             return GetString($"{Prefix}{text}Info" + (InfoLong ? "Long" : ""));

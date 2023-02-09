@@ -53,12 +53,6 @@ Sans,狂妄杀手
 Bomber,自爆兵
 BoobyTrap,诡雷
 
-# 叛徒系
-Madmate,叛徒
-MadGuardian,背叛的守卫
-MadSnitch,背叛的告密者
-SKMadmate,叛徒跟班
-
 # 双阵营
 Watcher,窥视者
 
@@ -154,13 +148,6 @@ SansInfo,降下审判！
 BomberInfo,BOOM！！！！
 BoobyTrapInfo,艺术就是爆炸！
 
-# 叛徒系
-MadmateInfo,帮助内鬼
-BeforeMadmateInfo,完成你的任务
-MadGuardianInfo,完成任务后来帮助内鬼
-MadSnitchInfo,完成任务后来帮助内鬼
-SKMadmateInfo,你是内鬼的好帮手
-
 # 双阵营
 WatcherInfo,你可以看见所有人的投票，注意他们的选择
 
@@ -240,12 +227,6 @@ AntiAdminerInfoLong,(内鬼阵营):\n监管者可以随时知道是否有船员�
 SansInfoLong,(内鬼阵营):\n狂妄杀手每次成功击杀都会减少他的击杀冷却。请注意：狂妄杀手的首次击杀冷却是相对较短的，从第二次开始的击杀冷却才会由长到短递减。
 BomberInfoLong,(内鬼阵营):\n自爆兵可以使用变形按钮来进行自爆，炸死一定范围里的玩家。但是作为代价，自爆兵自己也会被炸死。请注意：自爆兵爆炸的时候全体玩家会看到杀戮闪烁，这个闪烁和网红死亡时的闪烁是一样的，请注意甄别。
 BoobyTrapInfoLong,(内鬼阵营):\n诡雷在进行击杀后会在受害者尸体上装上诡雷，报告该尸体的玩家会立刻被炸死，被炸死的玩家也会附带诡雷的效果，以此类推。但作为代价，诡雷在进行击杀后会立刻自杀。请注意：诡雷自身的尸体并不附带诡雷效果。
-
-# 叛徒系
-MadmateInfoLong,(内鬼阵营):\n叛徒伪装成船员来帮助内鬼阵营，但是他们并不知道谁是内鬼。叛徒不可以进行击杀或者破坏，可以跳管道且没有任务。
-MadGuardianInfoLong,(内鬼阵营):\n背叛的守卫不可以击杀、破坏或使用管道。背叛的守卫完成任务之后，可以免疫所有击杀。
-MadSnitchInfoLong,(内鬼阵营):\n背叛的告密者与内鬼不互认，不可以击杀、破坏或者使用管道。背叛的告密者完成所有任务之后，其与内鬼互认。
-SKMadmateInfoLong,(内鬼阵营):\n一些内鬼职业变形时，其附近的与其距离最近的玩家的职业有概率转化为该职业。叛徒跟班与内鬼不互认。
 
 # 双阵营
 WatcherInfoLong,(内鬼阵营或船员阵营):\n会议时窥视者可以看到所有人的投票。
@@ -393,7 +374,6 @@ DisablePolusVital,禁用波鲁斯生命监测装置
 DisableAirshipVital,禁用飞艇生命监测装置
 IgnoreConditions,忽略条件
 IgnoreImpostors,忽略内鬼
-IgnoreMadmates,忽略叛徒
 IgnoreNeutrals,忽略独立阵营
 IgnoreCrewmates,忽略船员
 IgnoreAfterAnyoneDied,忽略幽灵
@@ -445,7 +425,6 @@ KillCooldown,击杀冷却时间
 CanVent,可以使用通风管道
 ImpostorVision,拥有内鬼视野
 CanUseSabotage,可以破坏
-CanCreateMadmate,可以指名叛徒
 ImpKnowAlliesRole,内鬼知道队友的职业
 WarlockCanKillAllies,可以击杀队友
 WarlockCanKillSelf,可以击杀自己
@@ -461,19 +440,6 @@ VampireKillDelay,吸血目标延迟死亡时间
 MareAddSpeedInLightsOut,梦魇熄灯时的额外速度
 MareKillCooldownInLightsOut,梦魇熄灯时的击杀冷却
 SabotageMasterSkillLimit,修理大师修理破坏的最大次数
-CanMakeMadmateCount,变形者可以招募叛徒的数量
-MadSnitchTasks,背叛的告密者任务数
-MadSnitchCanAlsoBeExposedToImpostor,对内鬼同样可见
-MadGuardianCanSeeWhoTriedToKill,背叛的守卫可以得知尝试对其击杀的玩家
-MadmateCanFixLightsOut,叛徒系职业可以修理照明破坏
-MadmateCanFixComms,叛徒系职业可以修理通讯
-MadmateHasImpostorVision,叛徒系职业拥有内鬼视野
-MadmateCanSeeKillFlash,叛徒系职业可以看到击杀闪光
-MadmateCanSeeOtherVotes,叛徒系职业可以看到其他人所投的票
-MadmateCanSeeDeathReason,叛徒系职业可以看见死因
-MadmateExileCrewmate,"叛徒系职业在被放逐时复仇, 带走一名船员垫背"
-MadmateVentCooldown,叛徒系职业跳管道冷却时间
-MadmateVentMaxTime,叛徒系职业在管道中停留的最大时间
 EvilWatcherChance,成为内鬼阵营的概率
 LuckeyProbability,触发挡伤的概率
 SabotageMasterFixesDoors,打开多扇关闭的门

@@ -629,12 +629,6 @@ namespace TownOfHost
                 { CustomRoles.Witch, GetString("Witch") },
                 { CustomRoles.Sans, GetString("Sans") },
                 { CustomRoles.BoobyTrap, GetString("BoobyTrap") },
-                //Madmate役職
-                { (CustomRoles)(-2), $"== {GetString("Madmate")} ==" }, //区切り用
-                { CustomRoles.MadGuardian, GetString("MadGuardian") },
-                { CustomRoles.Madmate, GetString("Madmate") },
-                { CustomRoles.MadSnitch, GetString("MadSnitch") },
-                { CustomRoles.SKMadmate, GetString("SKMadmate") },
                 //両陣営役職
                 { (CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==" }, //区切り用
                 { CustomRoles.Watcher, GetString("Watcher") },

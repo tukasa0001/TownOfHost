@@ -33,7 +33,6 @@ namespace TownOfHost
             ShotLimitOpt = IntegerOptionItem.Create(Id + 12, "SheriffShotLimit", new(1, 15, 1), 6, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sheriff])
                 .SetValueFormat(OptionFormat.Times);
             CanKillAllAlive = BooleanOptionItem.Create(Id + 15, "SheriffCanKillAllAlive", true, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            SetUpKillTargetOption(CustomRoles.Madmate, Id + 13);
             CanKillNeutrals = StringOptionItem.Create(Id + 14, "SheriffCanKillNeutrals", KillOption, 0, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SetUpNeutralOptions(Id + 30);
         }
@@ -122,7 +121,6 @@ namespace TownOfHost
             return cRole.GetRoleType() switch
             {
                 RoleType.Impostor => true,
-                RoleType.Madmate => KillTargetOptions.TryGetValue(CustomRoles.Madmate, out var option) && option.GetBool(),
                 RoleType.Neutral => CanKillNeutrals.GetValue() == 0 || !KillTargetOptions.TryGetValue(cRole, out var option) || option.GetBool(),
                 _ => false,
             };

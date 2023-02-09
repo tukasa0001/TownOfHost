@@ -351,8 +351,6 @@ namespace TownOfHost
                 switch (role)
                 {
                     case CustomRoles.GM:
-                    case CustomRoles.Madmate:
-                    case CustomRoles.SKMadmate:
                     case CustomRoles.Sheriff:
                     case CustomRoles.Arsonist:
                     case CustomRoles.Egoist:
@@ -362,10 +360,9 @@ namespace TownOfHost
                     case CustomRoles.Mario:
                     case CustomRoles.OpportunistKiller:
                     case CustomRoles.God:
+                    case CustomRoles.ChivalrousExpert:
                         hasTasks = false;
                         break;
-                    case CustomRoles.MadGuardian:
-                    case CustomRoles.MadSnitch:
                     case CustomRoles.Terrorist:
                         if (ForRecompute)
                             hasTasks = false;
@@ -431,6 +428,9 @@ namespace TownOfHost
                 case CustomRoles.EvilTracker:
                     ProgressText += EvilTracker.GetMarker(playerId);
                     break;
+                case CustomRoles.ChivalrousExpert:
+                    ProgressText += ChivalrousExpert.GetKillLimit(playerId);
+                    break;
                 default:
                     //タスクテキスト
                     var taskState = Main.PlayerStates?[playerId].GetTaskState();
@@ -447,7 +447,6 @@ namespace TownOfHost
                     }
                     break;
             }
-            if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText += ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]");
 
             return ProgressText;
         }
@@ -1023,13 +1022,6 @@ namespace TownOfHost
                     }
                 }
 
-                if (seer.Is(CustomRoles.MadSnitch))
-                {
-                    var TaskState = seer.GetPlayerTaskState();
-                    if (TaskState.IsTaskFinished)
-                        SeerKnowsImpostors = true;
-                }
-
                 if (seer.Is(CustomRoles.EvilTracker)) SelfSuffix += EvilTracker.UtilsGetTargetArrow(isMeeting, seer);
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
@@ -1206,9 +1198,6 @@ namespace TownOfHost
                             var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
                             TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
                         }
-                        if (seer.Is(RoleType.Impostor) && target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
-                            TargetMark += ColorString(GetRoleColor(CustomRoles.MadSnitch), "★");
-                        TargetMark += Executioner.TargetMark(seer, target);
 
                         string TargetDeathReason = "";
                         if (seer.KnowDeathReason(target))

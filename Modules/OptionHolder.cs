@@ -95,7 +95,6 @@ namespace TownOfHost
         public static OptionItem ZombieSpeedReduce;
         //public static CustomOption ShapeMasterShapeshiftDuration;
         public static OptionItem DefaultShapeshiftCooldown;
-        public static OptionItem CanMakeMadmateCount;
         public static OptionItem MadGuardianCanSeeWhoTriedToKill;
         public static OptionItem MadSnitchCanVent;
         public static OptionItem MadSnitchCanAlsoBeExposedToImpostor;
@@ -406,6 +405,7 @@ namespace TownOfHost
             #region 役職・詳細設定
             CustomRoleCounts = new();
             CustomRoleSpawnChances = new();
+
             // GM
             EnableGM = BooleanOptionItem.Create(100, "GM", false, TabGroup.MainSettings, false)
                 .SetColor(Utils.GetRoleColor(CustomRoles.GM))
@@ -415,6 +415,9 @@ namespace TownOfHost
             // Impostor
             ImpKnowAlliesRole = BooleanOptionItem.Create(900045, "ImpKnowAlliesRole", true, TabGroup.ImpostorRoles, false)
                 .SetHeader(true);
+            DefaultShapeshiftCooldown = FloatOptionItem.Create(5011, "DefaultShapeshiftCooldown", new(5f, 999f, 5f), 15f, TabGroup.ImpostorRoles, false)
+                .SetValueFormat(OptionFormat.Seconds);
+
             Options.SetupRoleOptions(901065, TabGroup.ImpostorRoles, CustomRoles.EvilGuesser);
             EGCanGuessTime = IntegerOptionItem.Create(901067, "GuesserCanGuessTimes", new(1, 15, 1), 15, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser])
                 .SetValueFormat(OptionFormat.Times);
@@ -423,8 +426,6 @@ namespace TownOfHost
                 .SetColor(Color.green);
             BountyHunter.SetupCustomOption();
             SerialKiller.SetupCustomOption();
-            // SetupRoleOptions(1200, CustomRoles.ShapeMaster);
-            // ShapeMasterShapeshiftDuration = CustomOption.Create(1210, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
             SetupRoleOptions(1300, TabGroup.ImpostorRoles, CustomRoles.Vampire);
             VampireKillDelay = FloatOptionItem.Create(1310, "VampireKillDelay", new(1f, 1000f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Vampire])
                 .SetValueFormat(OptionFormat.Seconds);
@@ -469,38 +470,7 @@ namespace TownOfHost
             BomberRadius = FloatOptionItem.Create(902137, "BomberRadius", new(0.5f, 5f, 0.5f), 2f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Bomber])
                 .SetValueFormat(OptionFormat.Multiplier);
             SetupRoleOptions(902265, TabGroup.ImpostorRoles, CustomRoles.BoobyTrap);
-            //FlashWhenTrapBoobyTrap = BooleanOptionItem.Create(902267, "KillFlashWhenTrap", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.BoobyTrap]);
 
-            DefaultShapeshiftCooldown = FloatOptionItem.Create(5011, "DefaultShapeshiftCooldown", new(5f, 999f, 5f), 15f, TabGroup.ImpostorRoles, false)
-                .SetHeader(true)
-                .SetValueFormat(OptionFormat.Seconds);
-            CanMakeMadmateCount = IntegerOptionItem.Create(5012, "CanMakeMadmateCount", new(0, 15, 1), 0, TabGroup.ImpostorRoles, false)
-                .SetValueFormat(OptionFormat.Times);
-
-            // Madmate
-            SetupRoleOptions(10000, TabGroup.ImpostorRoles, CustomRoles.Madmate);
-            SetupRoleOptions(10100, TabGroup.ImpostorRoles, CustomRoles.MadGuardian);
-            MadGuardianCanSeeWhoTriedToKill = BooleanOptionItem.Create(10110, "MadGuardianCanSeeWhoTriedToKill", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.MadGuardian]);
-            //ID10120~10123を使用
-            MadGuardianTasks = OverrideTasksData.Create(10120, TabGroup.ImpostorRoles, CustomRoles.MadGuardian);
-            SetupRoleOptions(10200, TabGroup.ImpostorRoles, CustomRoles.MadSnitch);
-            MadSnitchCanVent = BooleanOptionItem.Create(10210, "CanVent", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.MadSnitch]);
-            MadSnitchCanAlsoBeExposedToImpostor = BooleanOptionItem.Create(10211, "MadSnitchCanAlsoBeExposedToImpostor", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.MadSnitch]);
-            //ID10220~10223を使用
-            MadSnitchTasks = OverrideTasksData.Create(10220, TabGroup.ImpostorRoles, CustomRoles.MadSnitch);
-            // Madmate Common Options
-            MadmateCanFixLightsOut = BooleanOptionItem.Create(15010, "MadmateCanFixLightsOut", false, TabGroup.ImpostorRoles, false)
-                .SetHeader(true);
-            MadmateCanFixComms = BooleanOptionItem.Create(15011, "MadmateCanFixComms", false, TabGroup.ImpostorRoles, false);
-            MadmateHasImpostorVision = BooleanOptionItem.Create(15012, "MadmateHasImpostorVision", false, TabGroup.ImpostorRoles, false);
-            MadmateCanSeeKillFlash = BooleanOptionItem.Create(15015, "MadmateCanSeeKillFlash", false, TabGroup.ImpostorRoles, false);
-            MadmateCanSeeOtherVotes = BooleanOptionItem.Create(15016, "MadmateCanSeeOtherVotes", false, TabGroup.ImpostorRoles, false);
-            MadmateCanSeeDeathReason = BooleanOptionItem.Create(15017, "MadmateCanSeeDeathReason", false, TabGroup.ImpostorRoles, false);
-            MadmateRevengeCrewmate = BooleanOptionItem.Create(15018, "MadmateExileCrewmate", false, TabGroup.ImpostorRoles, false);
-            MadmateVentCooldown = FloatOptionItem.Create(15213, "MadmateVentCooldown", new(0f, 180f, 5f), 0f, TabGroup.ImpostorRoles, false)
-                .SetValueFormat(OptionFormat.Seconds);
-            MadmateVentMaxTime = FloatOptionItem.Create(15214, "MadmateVentMaxTime", new(0f, 180f, 5f), 0f, TabGroup.ImpostorRoles, false)
-                .SetValueFormat(OptionFormat.Seconds);
             // Both
             SetupRoleOptions(30000, TabGroup.NeutralRoles, CustomRoles.Watcher);
             EvilWatcherChance = IntegerOptionItem.Create(30010, "EvilWatcherChance", new(0, 100, 10), 0, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Watcher])
@@ -610,6 +580,11 @@ namespace TownOfHost
                 .SetColor(Color.cyan);
             SendCodeMinPlayer = IntegerOptionItem.Create(6090067, "SendCodeMinPlayer", new(3, 12, 1), 5, TabGroup.MainSettings, false).SetParent(SendCodeToQQ)
                 .SetValueFormat(OptionFormat.Players);
+
+            EndWhenPlayerBug = BooleanOptionItem.Create(1_000_025, "EndWhenPlayerBug", true, TabGroup.MainSettings, false)
+                .SetHeader(true)
+                .SetGameMode(CustomGameMode.All)
+                .SetColor(Color.blue);
 
             DisableVanillaRoles = BooleanOptionItem.Create(6090069, "DisableVanillaRoles", true, TabGroup.MainSettings, false)
                 .SetHeader(true);
@@ -721,8 +696,6 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
             DisableDevicesIgnoreImpostors = BooleanOptionItem.Create(101291, "IgnoreImpostors", false, TabGroup.MainSettings, false).SetParent(DisableDevicesIgnoreConditions)
                 .SetGameMode(CustomGameMode.Standard);
-            DisableDevicesIgnoreMadmates = BooleanOptionItem.Create(101292, "IgnoreMadmates", false, TabGroup.MainSettings, false).SetParent(DisableDevicesIgnoreConditions)
-                .SetGameMode(CustomGameMode.Standard);
             DisableDevicesIgnoreNeutrals = BooleanOptionItem.Create(101293, "IgnoreNeutrals", false, TabGroup.MainSettings, false).SetParent(DisableDevicesIgnoreConditions)
                 .SetGameMode(CustomGameMode.Standard);
             DisableDevicesIgnoreCrewmates = BooleanOptionItem.Create(101294, "IgnoreCrewmates", false, TabGroup.MainSettings, false).SetParent(DisableDevicesIgnoreConditions)
@@ -812,8 +785,6 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             DisableTaskWin = BooleanOptionItem.Create(900_001, "DisableTaskWin", false, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
-            NoGameEnd = BooleanOptionItem.Create(900_002, "NoGameEnd", false, TabGroup.MainSettings, false)
-                .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherRoles = BooleanOptionItem.Create(900_010, "GhostCanSeeOtherRoles", true, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherVotes = BooleanOptionItem.Create(900_011, "GhostCanSeeOtherVotes", true, TabGroup.MainSettings, false)
@@ -859,15 +830,13 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             ChangeNameToRoleInfo = BooleanOptionItem.Create(1_000_004, "ChangeNameToRoleInfo", false, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
-            RoleAssigningAlgorithm = StringOptionItem.Create(1_000_005, "RoleAssigningAlgorithm", RoleAssigningAlgorithms, 0, TabGroup.MainSettings, true)
+            NoGameEnd = BooleanOptionItem.Create(900_002, "NoGameEnd", false, TabGroup.MainSettings, false)
+                .SetGameMode(CustomGameMode.All);
+            RoleAssigningAlgorithm = StringOptionItem.Create(1_000_005, "RoleAssigningAlgorithm", RoleAssigningAlgorithms, 4, TabGroup.MainSettings, true)
                 .SetGameMode(CustomGameMode.All)
                 .RegisterUpdateValueEvent(
                     (object obj, OptionItem.UpdateValueEventArgs args) => IRandom.SetInstanceById(args.CurrentValue)
                 );
-
-            EndWhenPlayerBug = BooleanOptionItem.Create(1_000_025, "EndWhenPlayerBug", true, TabGroup.MainSettings, false)
-                .SetGameMode(CustomGameMode.All)
-                .SetColor(Color.blue);
 
             DebugModeManager.SetupCustomOption();
 

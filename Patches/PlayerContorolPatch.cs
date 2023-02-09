@@ -121,26 +121,6 @@ namespace TownOfHost
                         return false;
                     break;
 
-                //==========マッドメイト系役職==========//
-                case CustomRoles.MadGuardian:
-                    //killerがキルできないインポスター判定役職の場合はスキップ
-                    if (killer.Is(CustomRoles.Arsonist) //アーソニスト
-                    ) break;
-
-                    //MadGuardianを切れるかの判定処理
-                    var taskState = target.GetPlayerTaskState();
-                    if (taskState.IsTaskFinished)
-                    {
-                        int dataCountBefore = NameColorManager.Instance.NameColors.Count;
-                        NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, "#ff0000");
-                        if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
-                            NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, "#ff0000");
-
-                        if (dataCountBefore != NameColorManager.Instance.NameColors.Count)
-                            Utils.NotifyRoles();
-                        return false;
-                    }
-                    break;
             }
 
             //キル時の特殊判定
@@ -484,31 +464,6 @@ namespace TownOfHost
             }
 
             if (shapeshifter.Is(CustomRoles.EvilTracker)) EvilTracker.Shapeshift(shapeshifter, target, shapeshifting);
-
-            if (shapeshifter.CanMakeMadmate() && shapeshifting)
-            {//変身したとき一番近い人をマッドメイトにする処理
-                Vector2 shapeshifterPosition = shapeshifter.transform.position;//変身者の位置
-                Dictionary<PlayerControl, float> mpdistance = new();
-                float dis;
-                foreach (var p in Main.AllAlivePlayerControls)
-                {
-                    if (p.Data.Role.Role != RoleTypes.Shapeshifter && !p.Is(RoleType.Impostor) && !p.Is(CustomRoles.SKMadmate))
-                    {
-                        dis = Vector2.Distance(shapeshifterPosition, p.transform.position);
-                        mpdistance.Add(p, dis);
-                    }
-                }
-                if (mpdistance.Count() != 0)
-                {
-                    var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
-                    PlayerControl targetm = min.Key;
-                    targetm.RpcSetCustomRole(CustomRoles.SKMadmate);
-                    Logger.Info($"Make SKMadmate:{targetm.name}", "Shapeshift");
-                    Main.SKMadmateNowCount++;
-                    Utils.MarkEveryoneDirtySettings();
-                    Utils.NotifyRoles();
-                }
-            }
             if (shapeshifter.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
             if (shapeshifter.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(shapeshifter, shapeshifting);
 
@@ -937,13 +892,6 @@ namespace TownOfHost
                         if (target.Is(CustomRoles.Arsonist) && target.IsDouseDone())
                             RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), GetString("EnterVentToWin"));
                     }
-                    //タスクを終わらせたMadSnitchがインポスターを確認できる
-                    else if (seer.Is(CustomRoles.MadSnitch) && //seerがMadSnitch
-                        target.GetCustomRole().IsImpostor() && //targetがインポスター
-                        seer.GetPlayerTaskState().IsTaskFinished) //seerのタスクが終わっている
-                    {
-                        RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの名前を赤色で表示
-                    }
                     //タスクを終わらせたSnitchがインポスターを確認できる
                     else if (PlayerControl.LocalPlayer.Is(CustomRoles.Snitch) && //LocalPlayerがSnitch
                         PlayerControl.LocalPlayer.GetPlayerTaskState().IsTaskFinished) //LocalPlayerのタスクが終わっている
@@ -958,8 +906,6 @@ namespace TownOfHost
                     {
                         if (target.Is(CustomRoles.Egoist)) //targetがエゴイスト
                             RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Egoist), RealName); //targetの名前をエゴイスト色で表示
-                        else if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool()) //targetがタスクを終わらせたマッドスニッチ
-                            Mark += Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★"); //targetにマーク付与
                     }
 
                     else if ((seer.Is(CustomRoles.EgoSchrodingerCat) && target.Is(CustomRoles.Egoist)) || //エゴ猫 --> エゴイスト

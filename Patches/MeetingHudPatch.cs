@@ -643,16 +643,13 @@ namespace TownOfHost
                 {
                     case RoleType.Impostor:
                         LocalPlayerKnowsEgoist = true;
-                        if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
-                            pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★"); //変更対象にSnitchマークをつける
-                        else if (target.Is(CustomRoles.Snitch) && //変更対象がSnitch
+                        if (target.Is(CustomRoles.Snitch) && //変更対象がSnitch
                         target.GetPlayerTaskState().DoExpose) //変更対象のタスクが終わりそう)
                             pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), "★"); //変更対象にSnitchマークをつける
                         break;
                 }
                 switch (seer.GetCustomRole())
                 {
-                    case CustomRoles.MadSnitch:
                     case CustomRoles.Snitch:
                         if (seer.GetPlayerTaskState().IsTaskFinished) //seerがタスクを終えている
                         {
