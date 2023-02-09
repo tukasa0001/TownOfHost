@@ -345,7 +345,7 @@ namespace TownOfHost
                     ProgressText.Append(EvilTracker.GetMarker(playerId));
                     break;
                 case CustomRoles.TimeThief:
-                    ProgressText += TimeThief.GetProgressText(playerId);
+                    ProgressText.Append(TimeThief.GetProgressText(playerId));
                     break;
                 default:
                     //タスクテキスト
