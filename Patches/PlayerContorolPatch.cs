@@ -7,6 +7,7 @@ using HarmonyLib;
 using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
+using TownOfHost.Modules;
 
 namespace TownOfHost
 {
@@ -190,9 +191,6 @@ namespace TownOfHost
                         killer.SetKillCooldown();
                         Utils.NotifyRoles(SpecifySeer: killer);
                         return false;
-                    case CustomRoles.TimeThief:
-                        TimeThief.OnCheckMurder(killer);
-                        break;
 
                     //==========マッドメイト系役職==========//
 
@@ -281,10 +279,6 @@ namespace TownOfHost
                 Executioner.Target.Remove(target.PlayerId);
                 Executioner.SendRPC(target.PlayerId);
             }
-            if (target.Is(CustomRoles.TimeThief))
-                target.ResetVotingTime();
-            if (target.Is(CustomRoles.TimeManager))
-                target.TimeManagerResetVotingTime();
 
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
@@ -456,6 +450,7 @@ namespace TownOfHost
             Main.AllPlayerControls
                 .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
                 .Do(pc => Camouflage.RpcSetSkin(pc, RevertToDefault: true));
+            MeetingTimeManager.OnReportDeadBody();
 
             Utils.SyncAllSettings();
             return true;
@@ -1004,7 +999,6 @@ namespace TownOfHost
         public static void Postfix(PlayerControl __instance)
         {
             var pc = __instance;
-            TimeManager.OnCheckCompleteTask(pc);//タスク1つ終わるごとに処理
             Snitch.OnCompleteTask(pc);
 
             var isTaskFinish = pc.GetPlayerTaskState().IsTaskFinished;
