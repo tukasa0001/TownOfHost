@@ -95,18 +95,6 @@ namespace TownOfHost
         public static OptionItem ZombieSpeedReduce;
         //public static CustomOption ShapeMasterShapeshiftDuration;
         public static OptionItem DefaultShapeshiftCooldown;
-        public static OptionItem MadGuardianCanSeeWhoTriedToKill;
-        public static OptionItem MadSnitchCanVent;
-        public static OptionItem MadSnitchCanAlsoBeExposedToImpostor;
-        public static OptionItem MadmateCanFixLightsOut; // TODO:mii-47 マッド役職統一
-        public static OptionItem MadmateCanFixComms;
-        public static OptionItem MadmateHasImpostorVision;
-        public static OptionItem MadmateCanSeeKillFlash;
-        public static OptionItem MadmateCanSeeOtherVotes;
-        public static OptionItem MadmateCanSeeDeathReason;
-        public static OptionItem MadmateRevengeCrewmate;
-        public static OptionItem MadmateVentCooldown;
-        public static OptionItem MadmateVentMaxTime;
 
         public static OptionItem EvilWatcherChance;
         public static OptionItem GGCanGuessCrew;

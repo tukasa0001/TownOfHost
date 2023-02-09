@@ -82,14 +82,6 @@ namespace TownOfHost.Modules
                 case RoleType.Impostor:
                     AURoleOptions.ShapeshifterCooldown = Options.DefaultShapeshiftCooldown.GetFloat();
                     break;
-                case RoleType.Madmate:
-                    AURoleOptions.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
-                    AURoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
-                    if (Options.MadmateHasImpostorVision.GetBool())
-                        opt.SetVision(true);
-                    if (Options.MadmateCanSeeOtherVotes.GetBool())
-                        opt.SetBool(BoolOptionNames.AnonymousVotes, false);
-                    break;
             }
 
             switch (player.GetCustomRole())

@@ -65,7 +65,6 @@ namespace TownOfHost
 
             if (systemType == SystemTypes.Electrical && 0 <= amount && amount <= 4)
             {
-                if (!Options.MadmateCanFixLightsOut.GetBool() && player.GetCustomRole().IsMadmate()) return false; //Madmateが停電を直せる設定がオフ
                 switch (Main.NormalOptions.MapId)
                 {
                     case 4:
@@ -76,10 +75,6 @@ namespace TownOfHost
                 }
             }
 
-            if (!Options.MadmateCanFixComms.GetBool() && player.GetCustomRole().IsMadmate() //Madmateがコミュサボを直せる設定がオフ
-                && systemType == SystemTypes.Comms //システムタイプが通信室
-                && amount is 0 or 16 or 17)
-                return false;
             if (!player.Is(RoleType.Impostor) && !(player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
             {
                 if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外

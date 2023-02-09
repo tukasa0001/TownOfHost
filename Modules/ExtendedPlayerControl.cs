@@ -539,7 +539,6 @@ namespace TownOfHost
         }
         public static bool KnowDeathReason(this PlayerControl seer, PlayerControl target)
             => (seer.Is(CustomRoles.Doctor)
-            || (seer.Is(RoleType.Madmate) && Options.MadmateCanSeeDeathReason.GetBool())
             || (seer.Data.IsDead && Options.GhostCanSeeDeathReason.GetBool()))
             && target.Data.IsDead;
         public static string GetRoleInfo(this PlayerControl player, bool InfoLong = false)

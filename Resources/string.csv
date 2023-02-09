@@ -46,7 +46,7 @@ EvilWatcher,邪恶的窥视者
 Puppeteer,傀儡师
 TimeThief,蚀时者
 Sniper,狙击手
-EvilTracker,邪恶的追踪者
+EvilTracker,追踪者
 EvilGuesser,邪恶赌怪
 AntiAdminer,监管者
 Sans,狂妄杀手
@@ -221,7 +221,7 @@ MafiaInfoLong,(内鬼阵营):\n黑手党在游戏中有其他内鬼存活时不�
 PuppeteerInfoLong,(内鬼阵营):\n傀儡师的操控对象会击杀其遇到的下一个船员。若后者在接触的同时死亡，则前者死亡。傀儡师不可以正常击杀。请注意，摆烂人不会替你办事，操控摆烂人只会浪费你的时间。
 TimeThiefInfoLong,(内鬼阵营):\n蚀时者每击杀一个人，会议时间就将减少一定时间。如果蚀时者死亡，会议时间会恢复正常。
 SniperInfoLong,(内鬼阵营):\n狙击手拥有远距离射杀的能力。方法为：进入变形到解除变形的位置连成一条线，这条线包括这条线的射线上距离最近的玩家会被狙杀。狙击手在子弹用完后可以进行正常击杀。
-EvilTrackerInfoLong,(内鬼阵营):\n邪恶追踪者可以追踪其他内鬼以及其所变形的玩家。玩家名称下面的箭头代表着目标的方向。当内鬼队友杀人时，邪恶追踪者将会看到击杀闪烁提示。
+EvilTrackerInfoLong,(内鬼阵营):\n追踪者可以追踪其他内鬼以及其所变形的玩家。玩家名称下面的箭头代表着目标的方向。当内鬼队友杀人时，追踪者将会看到击杀闪烁提示。
 EvilGuesserInfoLong,(内鬼阵营):\n邪恶赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。
 AntiAdminerInfoLong,(内鬼阵营):\n监管者可以随时知道是否有船员阵营玩家或中立阵营玩家靠近监控面板、管理室地图、生命检测、通行记录等设备。请注意：监管者并不知道靠近的人是否真的在使用设备，只是知道有人靠近设备。
 SansInfoLong,(内鬼阵营):\n狂妄杀手每次成功击杀都会减少他的击杀冷却。请注意：狂妄杀手的首次击杀冷却是相对较短的，从第二次开始的击杀冷却才会由长到短递减。
@@ -488,7 +488,7 @@ TimeThiefLowerLimitVotingTime,存活时会议时间最低下限
 TimeThiefReturnStolenTimeUponDeath,死亡后会议时间重置
 EvilTrackerCanSeeKillFlash,内鬼进行击杀时可见击杀闪光
 EvilTrackerResetTargetAfterMeeting,会议后重置追踪目标
-EvilTrackerCanSeeLastRoomInMeeting,邪恶追踪者可以看见船员位置
+EvilTrackerCanSeeLastRoomInMeeting,追踪者可以看见船员位置
 WitchModeSwitchAction,切换击杀模式
 NBareRed,友善中立显示为红色
 NEareRed,邪恶中立显示为红色

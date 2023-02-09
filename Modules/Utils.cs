@@ -199,7 +199,7 @@ namespace TownOfHost
             {
                 CustomRoles.EvilTracker => EvilTracker.KillFlashCheck(killer, target),
                 CustomRoles.Seer => true,
-                _ => seer.Is(RoleType.Madmate) && Options.MadmateCanSeeKillFlash.GetBool(),
+                _ => false
             };
         }
         public static void KillFlash(this PlayerControl player)
