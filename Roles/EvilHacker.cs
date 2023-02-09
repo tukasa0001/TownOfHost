@@ -142,10 +142,11 @@ namespace TownOfHost
         public static string GetMurderSceneText(PlayerControl seer)
         {
             if (!seer.IsAlive()) return "";
-            var roomNames = from tuple in KillersAndRooms
-                            where tuple.killer != seer  // 自身がキルしたものは除外
-                            select tuple.room.GetRoomName();
-            if (roomNames.Count() < 1) return "";
+            var roomNames = (
+                from tuple in KillersAndRooms
+                where tuple.killer != seer  // 自身がキルしたものは除外
+                select tuple.room.GetRoomName()).ToArray();
+            if (roomNames.Length < 1) return "";
             return $"{GetString("EvilHackerMurderOccurred")}: {string.Join(", ", roomNames)}";
         }
         public static bool KillFlashCheck(PlayerControl killer, PlayerControl target) =>
