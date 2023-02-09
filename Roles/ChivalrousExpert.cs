@@ -23,7 +23,6 @@ namespace TownOfHost
         }
 
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = isKilled(id) ? 255f : CurrentKillCooldown[id];
-
         public static string GetKillLimit(byte id) => Utils.ColorString(CanUseKillButton(id)? Color.yellow : Color.white, isKilled(id)? $"(0)" : "(1)");
         public static bool CanUseKillButton(byte playerId)
             => !Main.PlayerStates[playerId].IsDead
