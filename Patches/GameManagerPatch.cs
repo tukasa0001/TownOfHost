@@ -1,6 +1,5 @@
 using HarmonyLib;
 using Hazel;
-using TownOfHost.Modules.Settings;
 
 namespace TownOfHost
 {
