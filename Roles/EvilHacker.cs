@@ -122,11 +122,11 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SyncEvilHackerScenes, SendOption.Reliable, -1);
             writer.Write(KillersAndRooms.Count);
-            KillersAndRooms.ForEach(tuple =>
+            foreach (var (killer, room) in KillersAndRooms)
             {
-                writer.Write(tuple.killer.PlayerId);
-                writer.Write((byte)tuple.room);
-            });
+                writer.Write(killer.PlayerId);
+                writer.Write((byte)room);
+            }
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void ReceiveRPC(MessageReader reader)
