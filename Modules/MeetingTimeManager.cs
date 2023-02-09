@@ -29,7 +29,7 @@ namespace TownOfHost.Modules
             DiscussionTime = DefaultDiscussionTime;
             VotingTime = DefaultVotingTime;
         }
-        public static void GetMeetingTime()
+        public static void OnReportDeadBody()
         {
             if (Options.AllAliveMeeting.GetBool() && GameData.Instance.AllPlayers.ToArray().Where(x => !x.Object.Is(CustomRoles.GM)).All(x => !x.IsDead))
             {
