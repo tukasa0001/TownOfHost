@@ -160,7 +160,6 @@ namespace TownOfHost
         }
         public static bool IsImpostorKill(PlayerControl killer, PlayerControl target)
         {
-            //インポスターによるキルかどうかの判別
             if (target.GetRealKiller() != null)
                 killer = target.GetRealKiller();
             return killer.Is(RoleType.Impostor) && killer != target;

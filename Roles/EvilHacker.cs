@@ -155,7 +155,8 @@ namespace TownOfHost
             if (!seer.IsAlive()) return "";
             var roomNames = (
                 from tuple in KillerIdsAndRooms
-                where tuple.killerId != seer.PlayerId  // 自身がキルしたものは除外
+                    // 自身がキルしたものは除外
+                where tuple.killerId != seer.PlayerId
                 select tuple.room.GetRoomName()).ToArray();
             if (roomNames.Length < 1) return "";
             return $"{GetString("EvilHackerMurderOccurred")}: {string.Join(", ", roomNames)}";
