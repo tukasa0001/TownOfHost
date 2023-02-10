@@ -28,7 +28,7 @@ namespace TownOfHost
         }
         public static void SetupCustomOption()
         {
-            EnableDebugMode = BooleanOptionItem.Create(2, "EnableDebugMode", false, TabGroup.MainSettings, true)
+            EnableDebugMode = BooleanOptionItem.Create(2, "EnableDebugMode", false, TabGroup.SystemSettings, true)
                 .SetColor(Color.green)
                 .SetHidden(!AmDebugger);
         }

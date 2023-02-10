@@ -247,7 +247,8 @@ namespace TownOfHost
 
     public enum TabGroup
     {
-        MainSettings,
+        SystemSettings,
+        GameSettings,
         ImpostorRoles,
         CrewmateRoles,
         NeutralRoles,

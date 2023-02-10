@@ -146,8 +146,19 @@ namespace TownOfHost
             if (__instance.transform.parent.parent.name == "Game Settings") return;
             foreach (var tab in Enum.GetValues(typeof(TabGroup)))
             {
+                string tabcolor = "";
+                tabcolor = tab switch
+                {
+                    TabGroup.SystemSettings => Main.ModColor,
+                    TabGroup.GameSettings => "#59ef83",
+                    TabGroup.ImpostorRoles => "#f74631",
+                    TabGroup.CrewmateRoles => "#29ffce",
+                    TabGroup.NeutralRoles => "#ffab1b",
+                    TabGroup.Addons => "#ff9ace",
+                    _ => "#ffffff",
+                };
                 if (__instance.transform.parent.parent.name != tab + "Tab") continue;
-                __instance.transform.FindChild("../../GameGroup/Text").GetComponent<TMPro.TextMeshPro>().SetText(GetString("TabGroup." + tab));
+                __instance.transform.FindChild("../../GameGroup/Text").GetComponent<TMPro.TextMeshPro>().SetText($"<color={tabcolor}>" + GetString("TabGroup." + tab) + "</color>");
 
                 _timer += Time.deltaTime;
                 if (_timer < 0.1f) return;

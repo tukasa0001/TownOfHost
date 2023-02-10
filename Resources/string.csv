@@ -386,7 +386,7 @@ AirshipAdditionalSpawn,额外出生点（飞艇地图）
 CommsCamouflage,通信破坏时小黑人（有Bug慎开）
 DisableReportWhenCC,小黑人时禁止报告尸体
 EnableDebugMode,开启调试模式
-ChangeNameToRoleInfo,首次会议替换名字为介绍
+ChangeNameToRoleInfo,首次会议替换玩家名字为介绍
 RoleAssigningAlgorithm,职业分配算法
 RoleAssigningAlgorithm.Default,默认随机算法
 RoleAssigningAlgorithm.NetRandom,.NET系统随机算法
@@ -409,15 +409,6 @@ Kick,踢出
 NoticeMe,通知我
 NoticeEveryone,通知所有人（除了它）
 CheatResponses,检测到外挂时
-
-## 模式说明
-HideAndSeekInfo,躲猫猫:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利；\n内鬼的皮肤颜色将变为红色，船员变为蓝色，以示区分。
-StandardHASInfo,躲猫猫（模组）:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利。
-NoGameEndInfo,测试模式:\n本模式用于进行测试。本模式没有游戏结束判定，房主按下shift+L+enter可以结束游戏。
-SyncButtonModeInfo,所有船员共享会议次数:\n游戏中存在全员共有的最大紧急会议次数。(可以进行设置)
-SabotageTimeControlInfo,破坏调整:\n可以调整一部分破坏的限制时间。(可以进行设置)
-RandomMapsModeInfo,随机地图:\n随机选择地图游玩的模式。(可以进行设置)
-DisableDevicesInfo,禁用设备:\n可以禁用各种设备。
 
 ## 详细设定
 Cooldown,冷却时间
@@ -643,11 +634,12 @@ DetectiveNoticeTitle,【 ★ 侦探线索 ★ 】
 GuessKillTitle,【 ★ 赌场事件 ★ 】
 CyberStarNewsTitle,【 ★ 紧急新闻 ★ 】
 GodAliveTitle,【 ★ 神的共鸣 ★ 】
-TabGroup.MainSettings,主要设置
+TabGroup.SystemSettings,系统设置
+TabGroup.GameSettings,游戏设置
 TabGroup.CrewmateRoles,船员阵营职业
 TabGroup.NeutralRoles,独立阵营职业
 TabGroup.ImpostorRoles,内鬼阵营职业
-TabGroup.Addons,附加效果
+TabGroup.Addons,附加职业
 ActiveRolesList,有效职业一览
 ForExample,使用例子
 ForceEnd,强制结束游戏

@@ -168,9 +168,12 @@ namespace TownOfHost
                         Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag, forkId);
                         if (tag != $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})")
                         {
-                            AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
-                            Logger.Warn($"{__instance?.Data?.PlayerName} 安装了与房主版本不同的模组，故将其踢出", "Version Kick");
-                            Logger.SendInGame($"【{__instance?.Data?.PlayerName}】因安装了与房主版本不同的模组被踢出");
+                            new LateTask(() =>
+                            {
+                                AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
+                                Logger.Warn($"{__instance?.Data?.PlayerName} 安装了与房主版本不同的模组，故将其踢出", "Version Kick");
+                                Logger.SendInGame($"【{__instance?.Data?.PlayerName}】因安装了与房主版本不同的模组被踢出");
+                            }, 3f, "Kick");
                         }
                     }
                     catch
