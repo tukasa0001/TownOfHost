@@ -161,7 +161,9 @@ namespace TownOfHost
         public static bool IsImpostorKill(PlayerControl killer, PlayerControl target)
         {
             if (target.GetRealKiller() != null)
+            {
                 killer = target.GetRealKiller();
+            }
             return killer.Is(RoleType.Impostor) && killer != target;
         }
         public static string GetDisplayRoleName(byte playerId)

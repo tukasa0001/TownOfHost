@@ -60,20 +60,28 @@ namespace TownOfHost
                 Logger.Warn("死者カウントの初期化時にShipStatus.Instanceがnullでした", "EvilHacker");
                 return;
             }
-            foreach (var room in ShipStatus.Instance.AllRooms) DeadCount[room.RoomId] = 0;
+            foreach (var room in ShipStatus.Instance.AllRooms)
+            {
+                DeadCount[room.RoomId] = 0;
+            }
         }
 
         public static void OnReportDeadbody()
         {
             if (!AmongUsClient.Instance.AmHost) return;
             // 全生存プレイヤーの位置を取得
-            foreach (var room in ShipStatus.Instance.AllRooms) PlayerCount[room.RoomId] = 0;
+            foreach (var room in ShipStatus.Instance.AllRooms)
+            {
+                PlayerCount[room.RoomId] = 0;
+            }
             foreach (var pc in Main.AllAlivePlayerControls)
             {
                 var room = Main.PlayerStates[pc.PlayerId].LastRoom?.RoomId ?? default;
                 PlayerCount[room]++;
                 if (canSeeOtherImp && pc.GetCustomRole().IsImpostor() && !ImpRooms.Contains(room))
+                {
                     ImpRooms.Add(room);
+                }
             }
             PlayerCount.Remove(SystemTypes.Hallway);
             DeadCount.Remove(SystemTypes.Hallway);
@@ -82,10 +90,15 @@ namespace TownOfHost
             foreach (var kvp in PlayerCount)
             {
                 var roomName = kvp.Key.GetRoomName();
-                if (ImpRooms.Contains(kvp.Key)) messageBuilder.Append("★");
+                if (ImpRooms.Contains(kvp.Key))
+                {
+                    messageBuilder.Append("★");
+                }
                 messageBuilder.AppendFormat("{0}: {1}", roomName, kvp.Value + DeadCount[kvp.Key]);
                 if (DeadCount[kvp.Key] > 0 && canSeeDeadPos)
+                {
                     messageBuilder.AppendFormat("({0}\u00d7{1})", GetString("Deadbody"), DeadCount[kvp.Key]);
+                }
                 messageBuilder.AppendLine();
             }
             // 生存イビルハッカーに送信
@@ -104,7 +117,9 @@ namespace TownOfHost
             var room = target.GetPlainShipRoom()?.RoomId ?? default;
             DeadCount[room]++;
             if (canSeeOtherImp && target.GetCustomRole().IsImpostor() && !ImpRooms.Contains(room))
+            {
                 ImpRooms.Add(room);
+            }
             if (canSeeMurderScene && Utils.IsImpostorKill(killer, target))
             {
                 var realKiller = target.GetRealKiller() ?? killer;
@@ -124,7 +139,10 @@ namespace TownOfHost
                         let player = Utils.GetPlayerById(id)
                         where player.IsAlive()
                         select player).ToArray();
-                    foreach (var player in aliveEvilHackers) Utils.NotifyRoles(false, player);
+                    foreach (var player in aliveEvilHackers)
+                    {
+                        Utils.NotifyRoles(false, player);
+                    }
                 }, 10f, "Remove EvilHacker KillersAndRooms");
             }
         }
@@ -132,7 +150,10 @@ namespace TownOfHost
         {
             // タプルの数，キル者ID1，キル現場1，キル者ID2，キル現場2，......
             if (!AmongUsClient.Instance.AmHost) return;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SyncEvilHackerScenes, SendOption.Reliable, -1);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(
+                PlayerControl.LocalPlayer.NetId,
+                (byte)CustomRPC.SyncEvilHackerScenes,
+                SendOption.Reliable, -1);
             writer.Write(KillerIdsAndRooms.Count);
             foreach (var (killerId, room) in KillerIdsAndRooms)
             {
