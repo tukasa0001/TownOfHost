@@ -4,6 +4,7 @@ using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -147,6 +148,11 @@ namespace TownOfHost
                         pc.SetRole(RoleTypes.Crewmate);
                     }
                 }
+                if (winner is CustomWinner.Crewmate or CustomWinner.Impostor)
+                    SetEverythingUpPatch.LastWinsReason = GetString($"GameOverReason.{reason}");
+                else
+                    SetEverythingUpPatch.LastWinsReason = "";
+
             }
 
             // CustomWinnerHolderの情報の同期

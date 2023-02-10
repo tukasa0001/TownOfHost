@@ -683,6 +683,7 @@ Roles,职业
 Settings,设定
 Addons,附加效果
 LastResult,游戏结果
+LastEndReason,结束原因
 KillLog,击杀日志
 Maximum,最大人数
 RateOff,<color=#ff6633>关闭</color>
@@ -752,3 +753,12 @@ NoImpRemain,已经没有内鬼啦
 ImpRemain,剩余 {0} 个内鬼
 NeutralRemain,剩余 {0} 个邪恶中立
 IsGood,{0} 是个好人，真的
+
+## 游戏结束原因
+GameOverReason.HumansByTask,船员完成了任务
+GameOverReason.HumansByVote,内鬼被驱逐
+GameOverReason.HumansDisconnect,船员断线
+GameOverReason.ImpostorByKill,内鬼人数占优
+GameOverReason.ImpostorBySabotage,内鬼破坏了设施
+GameOverReason.ImpostorByVote,船员被驱逐
+GameOverReason.ImpostorDisconnect,内鬼断线

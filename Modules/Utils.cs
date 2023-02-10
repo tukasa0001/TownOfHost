@@ -600,9 +600,9 @@ namespace TownOfHost
             }
             if (text == "玩家信息:") text = "";
 
-            var sumText = GetString("LastResult") + ": ";
-            sumText += $"{SetEverythingUpPatch.LastWinsText}";
-            if (sumText == GetString("LastResult") + ": ") sumText = "";
+            string sumText = "";
+            if (SetEverythingUpPatch.LastWinsText != "") sumText += GetString("LastResult") + ": " + $"{SetEverythingUpPatch.LastWinsText}";
+            if (SetEverythingUpPatch.LastWinsReason != "") sumText += "\n" + GetString("LastEndReason") + ": " + $"{SetEverythingUpPatch.LastWinsReason}";
 
             if (text != "") SendMessage(text, PlayerId);
             if (EndGamePatch.KillLog != "") SendMessage(EndGamePatch.KillLog, PlayerId);

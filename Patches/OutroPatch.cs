@@ -110,6 +110,7 @@ namespace TownOfHost
     class SetEverythingUpPatch
     {
         public static string LastWinsText = "";
+        public static string LastWinsReason = "";
 
         public static void Postfix(EndGameManager __instance)
         {
@@ -189,9 +190,9 @@ namespace TownOfHost
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            //#######################################
-            //           ==最終結果表示==
-            //#######################################
+                //#######################################
+                //           ==最終結果表示==
+                //#######################################
 
             var Pos = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, Camera.main.nearClipPlane));
             var RoleSummaryObject = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
