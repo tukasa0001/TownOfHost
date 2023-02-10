@@ -42,15 +42,9 @@ namespace TownOfHost
             //clientSocket.BeginReceive(data, 0, data.Length, SocketFlags.None, CallBack, null);
             clientSocket.Send(buffer);
             clientSocket.Close();
-            Utils.SendMessage("提示：车队姬已经把您的房号发出去啦~", PlayerControl.LocalPlayer.PlayerId);
+            Utils.SendMessage("已请求车队姬群发您的房号", PlayerControl.LocalPlayer.PlayerId);
             return true;
         }
-
-        private static void CallBack(IAsyncResult ar)
-        {
-            clientSocket.EndReceive(ar);
-        }
-
 
     }
 }

@@ -400,7 +400,7 @@ namespace TownOfHost
                                 string mtext = GetString(role.ToString()) + PlayerControl.LocalPlayer.GetRoleInfo(true);
                                 foreach (var subRole in Main.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SubRoles)
                                     mtext += $"\n\n"+ GetString($"{subRole}") + GetString($"{subRole}InfoLong");
-                                if (CustomRolesHelper.RoleExist(CustomRoles.Ntr) && role != CustomRoles.GM)
+                                if (CustomRolesHelper.RoleExist(CustomRoles.Ntr) && (role is not CustomRoles.GM and CustomRoles.Ntr))
                                     mtext += $"\n\n" + GetString($"Lovers") + GetString($"LoversInfoLong");
                                 HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, mtext);
                             }
@@ -496,17 +496,10 @@ namespace TownOfHost
 
                     case "/qq":
                         canceled = true;
-                        if (Main.newLobby)
-                        {
-                            Cloud.SendCodeToQQ(true);
-                        }
-                        else
-                        {
-                            Utils.SendMessage("很抱歉，每个房间车队姬只会发一次", PlayerControl.LocalPlayer.PlayerId);
-                        }
+                        if (Main.newLobby) Cloud.SendCodeToQQ(true);
+                        else Utils.SendMessage("很抱歉，每个房间车队姬只会发一次", PlayerControl.LocalPlayer.PlayerId);
                         break;
                         
-                    
                     default:
                         Main.isChatCommand = false;
                         break;
@@ -824,7 +817,7 @@ namespace TownOfHost
                         string mtext = GetString(role.ToString()) + player.GetRoleInfo(true);
                         foreach (var subRole in Main.PlayerStates[player.PlayerId].SubRoles)
                             mtext += $"\n\n" + GetString($"{subRole}") + GetString($"{subRole}InfoLong");
-                        if (CustomRolesHelper.RoleExist(CustomRoles.Ntr) && role != CustomRoles.GM)
+                        if (CustomRolesHelper.RoleExist(CustomRoles.Ntr) && (role is not CustomRoles.GM and CustomRoles.Ntr))
                             mtext += $"\n\n" + GetString($"Lovers") + GetString($"LoversInfoLong");
                         Utils.SendMessage(mtext, player.PlayerId);
                     }
