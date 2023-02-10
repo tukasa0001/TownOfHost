@@ -86,6 +86,7 @@ namespace TownOfHost
         public static float DefaultKillCooldown = Main.NormalOptions?.KillCooldown ?? 20;
         public static OptionItem ImpKnowAlliesRole;
         public static OptionItem EGCanGuessImp;
+        public static OptionItem EGCanGuessAdt;
         public static OptionItem EGCanGuessTime;
         public static OptionItem EGTryHideMsg;
         public static OptionItem VampireKillDelay;
@@ -98,6 +99,7 @@ namespace TownOfHost
 
         public static OptionItem EvilWatcherChance;
         public static OptionItem GGCanGuessCrew;
+        public static OptionItem GGCanGuessAdt;
         public static OptionItem GGCanGuessTime;
         public static OptionItem GGTryHideMsg;
         public static OptionItem LuckeyProbability;
@@ -411,6 +413,7 @@ namespace TownOfHost
             EGCanGuessTime = IntegerOptionItem.Create(901067, "GuesserCanGuessTimes", new(1, 15, 1), 15, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser])
                 .SetValueFormat(OptionFormat.Times);
             EGCanGuessImp = BooleanOptionItem.Create(901069, "EGCanGuessImp", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
+            EGCanGuessAdt = BooleanOptionItem.Create(901073, "EGCanGuessAdt", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
             EGTryHideMsg = BooleanOptionItem.Create(901071, "GuesserTryHideMsg", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser])
                 .SetColor(Color.green);
             BountyHunter.SetupCustomOption();
@@ -469,6 +472,7 @@ namespace TownOfHost
             GGCanGuessTime = IntegerOptionItem.Create(102257, "GuesserCanGuessTimes", new(1, 15, 1), 15, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.NiceGuesser])
                 .SetValueFormat(OptionFormat.Times);
             GGCanGuessCrew = BooleanOptionItem.Create(102259, "GGCanGuessCrew", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.NiceGuesser]);
+            GGCanGuessAdt = BooleanOptionItem.Create(102263, "GGCanGuessAdt", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.NiceGuesser]);
             GGTryHideMsg = BooleanOptionItem.Create(102261, "GuesserTryHideMsg", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.NiceGuesser])
                 .SetColor(Color.green);
             SetupRoleOptions(20000, TabGroup.CrewmateRoles, CustomRoles.Bait);

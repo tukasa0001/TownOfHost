@@ -4,18 +4,25 @@ namespace TownOfHost
 {
     static class CustomRolesHelper
     {
+        public static bool IsAdditionRole(this CustomRoles role)
+        {
+            return role is
+                CustomRoles.Lovers or
+                CustomRoles.LastImpostor or
+                CustomRoles.Ntr;
+        }
         public static bool IsNK(this CustomRoles role) // 是否带刀中立
         {
-            return
-                role is CustomRoles.Egoist or
+            return role is
+                CustomRoles.Egoist or
                 CustomRoles.Jackal or
                 CustomRoles.OpportunistKiller;
         }
 
         public static bool IsNNK(this CustomRoles role) // 是否无刀中立
         {
-            return
-                role is CustomRoles.Arsonist or
+            return role is
+                CustomRoles.Arsonist or
                 CustomRoles.Opportunist or
                 CustomRoles.Mario or
                 CustomRoles.God or
@@ -28,8 +35,8 @@ namespace TownOfHost
 
         public static bool IsNeutralKilling(this CustomRoles role) //是否邪恶中立（抢夺或单独胜利的中立）
         {
-            return
-                role is CustomRoles.Arsonist or
+            return role is
+                CustomRoles.Arsonist or
                 CustomRoles.Egoist or
                 CustomRoles.Jackal or
                 CustomRoles.God or
@@ -37,15 +44,15 @@ namespace TownOfHost
         }
         public static bool IsCK(this CustomRoles role) //是否带刀船员
         {
-            return
-                role is CustomRoles.ChivalrousExpert or
+            return role is
+                CustomRoles.ChivalrousExpert or
                 CustomRoles.Sheriff;
         }
 
         public static bool IsImpostor(this CustomRoles role)
         {
-            return
-                role is CustomRoles.Impostor or
+            return role is
+                CustomRoles.Impostor or
                 CustomRoles.Shapeshifter or
                 CustomRoles.BountyHunter or
                 CustomRoles.Vampire or
@@ -74,14 +81,14 @@ namespace TownOfHost
         }
         public static bool IsMadmate(this CustomRoles role)
         {
-            return
-                role is CustomRoles.MSchrodingerCat;
+            return role is
+                CustomRoles.MSchrodingerCat;
         }
         public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role.IsMadmate();
         public static bool IsNeutral(this CustomRoles role)
         {
-            return
-                role is CustomRoles.Jester or
+            return role is
+                CustomRoles.Jester or
                 CustomRoles.Opportunist or
                 CustomRoles.Mario or
                 CustomRoles.SchrodingerCat or
@@ -100,8 +107,8 @@ namespace TownOfHost
         public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
         public static bool IsVanilla(this CustomRoles role)
         {
-            return
-                role is CustomRoles.Crewmate or
+            return role is
+                CustomRoles.Crewmate or
                 CustomRoles.Engineer or
                 CustomRoles.Scientist or
                 CustomRoles.GuardianAngel or

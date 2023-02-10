@@ -419,8 +419,10 @@ CanUseSabotage,可以破坏
 ImpKnowAlliesRole,内鬼知道队友的职业
 WarlockCanKillAllies,可以击杀队友
 WarlockCanKillSelf,可以击杀自己
-EGCanGuessImp,可以赌杀内鬼
-GGCanGuessCrew,可以赌杀船员
+EGCanGuessImp,邪恶赌怪可以猜测内鬼
+GGCanGuessCrew,正义赌怪可以猜测船员
+EGCanGuessAdt,邪恶赌怪可以猜测附加职业
+GGCanGuessAdt,正义赌怪可以猜测附加职业
 GuesserCanGuessTimes,每次会议猜测次数上限
 GuesserTryHideMsg,尝试混淆赌怪指令（试验性）
 BountyTargetChangeTime,赏金目标切换时间
@@ -579,13 +581,15 @@ DetectiveNoticeVictim,根据您的调查，【{0}】(被害者) 的职业是 【
 DetectiveNoticeKiller,而凶手的职业则是【{0}】
 GodNoticeAlive,会议中大家感受到了上天的启示，神似乎就在你们的背后陪伴着你们
 
-GuessDead,死亡后不能进行赌注
+GuessDead,很抱歉，死亡后不能进行猜测
 GuessSuperStar,大明星才不会和你赌博，选个别的目标吧？
+GuessGM,能想出这个也是把你闲的
+GuessAdtRole,很抱歉，该房设置不允许猜测附加职业
 GuessKill,很遗憾，【{0}】在赌局中失利了
 GuessNull,请选择一个在场的存活角色进行赌注
 GuessHelp,指令格式：/bt [玩家编号] [职业名]\n示例：/bt 3 告密者\n您可以在玩家的名字前看到该玩家的编号\n或者使用/id查看玩家编号列表
-GGGuessMax,您已经达到每次会议的赌注上限，不能再进行赌注啦！
-EGGuessMax,您已经达到每次会议的赌注上限，不能再进行赌注啦！
+GGGuessMax,您已经达到每次会议的猜测上限，不能再猜测啦！
+EGGuessMax,您已经达到每次会议的猜测上限，不能再猜测啦！
 
 ## 信息
 Message.SetToSeconds,信息发送冷却时间为{0}秒

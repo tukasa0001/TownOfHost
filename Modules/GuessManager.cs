@@ -149,6 +149,22 @@ namespace TownOfHost
                         Utils.SendMessage(GetString("GuessSuperStar"), pc.PlayerId);
                         return true;
                     }
+                    if (role == CustomRoles.GM)
+                    {
+                        Utils.SendMessage(GetString("GuessGM"), pc.PlayerId);
+                        return true;
+                    }
+                    if (role.IsAdditionRole())
+                    {
+                        if (
+                            (pc.Is(CustomRoles.NiceGuesser) && !Options.GGCanGuessAdt.GetBool()) ||
+                            (pc.Is(CustomRoles.EvilGuesser) && !Options.EGCanGuessAdt.GetBool())
+                            )
+                        {
+                            Utils.SendMessage(GetString("GuessAdtRole"), pc.PlayerId);
+                            return true;
+                        }
+                    }
                     if (pc == target)
                     {
                         Utils.SendMessage("有一说一，你是懂赌怪的",pc.PlayerId, Utils.ColorString(Color.cyan, "【 ★ 咔皮呆留言 ★ 】"));
@@ -158,6 +174,7 @@ namespace TownOfHost
                     else if (pc.Is(CustomRoles.EvilGuesser) && role.IsImpostor() && !Options.EGCanGuessImp.GetBool()) guesserSuicide = true;
                     else if(!target.Is(role)) guesserSuicide = true;
 
+                    //判断赌猫
                     if (role is CustomRoles.CSchrodingerCat or CustomRoles.EgoSchrodingerCat or CustomRoles.SchrodingerCat or CustomRoles.JSchrodingerCat)
                         if (target.GetCustomRole() is CustomRoles.CSchrodingerCat or CustomRoles.EgoSchrodingerCat or CustomRoles.SchrodingerCat or CustomRoles.JSchrodingerCat)
                             guesserSuicide = false;
