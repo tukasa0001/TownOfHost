@@ -15,6 +15,8 @@ namespace TownOfHost
         public static void Postfix(AmongUsClient __instance)
         {
             //注:この時点では役職は設定されていません。
+            Main.NormalOptions.roleOptions.SetRoleRate(RoleTypes.GuardianAngel, 0, 0);
+
             Main.PlayerStates = new();
 
             Main.AllPlayerKillCooldown = new Dictionary<byte, float>();
@@ -48,8 +50,7 @@ namespace TownOfHost
 
             RandomSpawn.CustomNetworkTransformPatch.NumOfTP = new();
 
-            Main.DiscussionTime = Main.RealOptionsData.GetInt(Int32OptionNames.DiscussionTime);
-            Main.VotingTime = Main.RealOptionsData.GetInt(Int32OptionNames.VotingTime);
+            MeetingTimeManager.Init();
             Main.DefaultCrewmateVision = Main.RealOptionsData.GetFloat(FloatOptionNames.CrewLightMod);
             Main.DefaultImpostorVision = Main.RealOptionsData.GetFloat(FloatOptionNames.ImpostorLightMod);
 
@@ -123,6 +124,7 @@ namespace TownOfHost
             LastImpostor.Init();
             TargetArrow.Init();
             DoubleTrigger.Init();
+            Workhorse.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
@@ -414,7 +416,7 @@ namespace TownOfHost
             // ResetCamが必要なプレイヤーのリストにクラス化が済んでいない役職のプレイヤーを追加
             Main.ResetCamPlayerList.AddRange(Main.AllPlayerControls.Where(p => p.GetCustomRole() is CustomRoles.Arsonist).Select(p => p.PlayerId));
             /*
-            //インポスターのゴーストロールがクルーメイトになるバグ対策
+            //インポスターのゴーストロールがクルーになるバグ対策
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc.Data.Role.IsImpostor || Main.ResetCamPlayerList.Contains(pc.PlayerId))

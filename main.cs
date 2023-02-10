@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -119,8 +119,6 @@ namespace TownOfHost
         public static bool VisibleTasksCount;
         public static string nickName = "";
         public static bool introDestroyed = false;
-        public static int DiscussionTime;
-        public static int VotingTime;
         public static byte currentDousingTarget;
         public static float DefaultCrewmateVision;
         public static float DefaultImpostorVision;
@@ -237,8 +235,9 @@ namespace TownOfHost
                     // GM
                     {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
-                    {CustomRoles.LastImpostor, "#ff0000"},
+                    {CustomRoles.LastImpostor, "#ff1919"},
                     {CustomRoles.Lovers, "#ff6be4"},
+                    {CustomRoles.Workhorse, "#00ffff"},
 
                     {CustomRoles.NotAssigned, "#ffffff"}
                 };
@@ -247,10 +246,10 @@ namespace TownOfHost
                     switch (role.GetRoleType())
                     {
                         case RoleType.Impostor:
-                            roleColors.TryAdd(role, "#ff0000");
+                            roleColors.TryAdd(role, "#ff1919");
                             break;
                         case RoleType.Madmate:
-                            roleColors.TryAdd(role, "#ff0000");
+                            roleColors.TryAdd(role, "#ff1919");
                             break;
                         default:
                             break;
@@ -350,6 +349,7 @@ namespace TownOfHost
         NotAssigned = 500,
         LastImpostor,
         Lovers,
+        Workhorse,
     }
     //WinData
     public enum CustomWinner

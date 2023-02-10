@@ -150,12 +150,12 @@ namespace TownOfHost
 
         private static void CreateTemplateFile()
         {
-            var text = "";
-            foreach (var title in translateMaps) text += $"{title.Key}:\n";
-            File.WriteAllText(@$"./{LANGUAGE_FOLDER_NAME}/template.dat", text);
-            text = "";
-            foreach (var title in translateMaps) text += $"{title.Key}:{title.Value[0].Replace("\n", "\\n").Replace("\r", "\\r")}\n";
-            File.WriteAllText(@$"./{LANGUAGE_FOLDER_NAME}/template_English.dat", text);
+            var sb = new StringBuilder();
+            foreach (var title in translateMaps) sb.Append($"{title.Key}:\n");
+            File.WriteAllText(@$"./{LANGUAGE_FOLDER_NAME}/template.dat", sb.ToString());
+            sb.Clear();
+            foreach (var title in translateMaps) sb.Append($"{title.Key}:{title.Value[0].Replace("\n", "\\n").Replace("\r", "\\r")}\n");
+            File.WriteAllText(@$"./{LANGUAGE_FOLDER_NAME}/template_English.dat", sb.ToString());
         }
     }
 }

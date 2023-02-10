@@ -46,23 +46,30 @@ namespace TownOfHost
                 return;
             }
 
-            CustomRoles? RoleNullable = Utils.GetPlayerById(playerId)?.GetCustomRole();
+            var pc = Utils.GetPlayerById(playerId);
+            CustomRoles? RoleNullable = pc?.GetCustomRole();
             if (RoleNullable == null) return;
             CustomRoles role = RoleNullable.Value;
 
-            if (!Options.OverrideTasksData.AllData.ContainsKey(role)) return;
-            var data = Options.OverrideTasksData.AllData[role];
+            //デフォルトのタスク数
+            bool hasCommonTasks = true;
+            int NumLongTasks = Main.NormalOptions.NumLongTasks;
+            int NumShortTasks = Main.NormalOptions.NumShortTasks;
 
-            if (!data.doOverride.GetBool()) return; // タスク数を上書きするかどうか
-                                                    // falseの時、タスクの内容が変更される前にReturnされる。
+            if (Options.OverrideTasksData.AllData.TryGetValue(role, out var data) && data.doOverride.GetBool())
+            {
+                hasCommonTasks = data.assignCommonTasks.GetBool(); // コモンタスク(通常タスク)を割り当てるかどうか
+                                                                   // 割り当てる場合でも再割り当てはされず、他のクルーと同じコモンタスクが割り当てられる。
+                NumLongTasks = data.numLongTasks.GetInt(); // 割り当てるロングタスクの数
+                NumShortTasks = data.numShortTasks.GetInt(); // 割り当てるショートタスクの数
+                                                             // ロングとショートは常時再割り当てが行われる。
+            }
+            if (pc.Is(CustomRoles.Workhorse))
+                (hasCommonTasks, NumLongTasks, NumShortTasks) = Workhorse.TaskData;
 
-            bool hasCommonTasks = data.assignCommonTasks.GetBool(); // コモンタスク(通常タスク)を割り当てるかどうか
-                                                                    // 割り当てる場合でも再割り当てはされず、他のクルーと同じコモンタスクが割り当てられる。
-
-            int NumLongTasks = (int)data.numLongTasks.GetFloat(); // 割り当てるロングタスクの数
-            int NumShortTasks = (int)data.numShortTasks.GetFloat(); // 割り当てるショートタスクの数
-                                                                    // ロングとショートは常時再割り当てが行われる。
+            if (taskTypeIds.Count == 0) hasCommonTasks = false; //タスク再配布時はコモンを0に
             if (!hasCommonTasks && NumLongTasks == 0 && NumShortTasks == 0) NumShortTasks = 1; //タスク0対策
+            if (hasCommonTasks && NumLongTasks == Main.NormalOptions.NumLongTasks && NumShortTasks == Main.NormalOptions.NumShortTasks) return; //変更点がない場合
 
             //割り当て可能なタスクのIDが入ったリスト
             //本来のRpcSetTasksの第二引数のクローン

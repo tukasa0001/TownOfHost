@@ -313,6 +313,7 @@ namespace TownOfHost
                 //属性
                 { (CustomRoles)(-6), $"== {GetString("Addons")} ==" }, //区切り用
                 {CustomRoles.Lovers, "lo" },
+                {CustomRoles.Workhorse, "wh" },
                 //HAS
                 { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
                 { CustomRoles.HASFox, "hfo" },
