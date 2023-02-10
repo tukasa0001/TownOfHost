@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using HarmonyLib;
+using UnityEngine;
 using Hazel;
 using static TownOfHost.Options;
 using static TownOfHost.Translator;
@@ -93,7 +94,7 @@ namespace TownOfHost
             aliveEvilHackerIds.Do(id => Utils.SendMessage(
                 message,
                 id,
-                Utils.ColorString(Palette.AcceptedGreen, $"{GetString("Message.LastAdminInfo")}")));
+                Utils.ColorString(Color.green, $"{GetString("Message.LastAdminInfo")}")));
 
             InitDeadCount();
             ImpRooms = new();
