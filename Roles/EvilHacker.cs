@@ -27,7 +27,7 @@ namespace TownOfHost
         public static Dictionary<SystemTypes, int> DeadCount = new();
         public static List<SystemTypes> ImpRooms = new();
         // (キルしたインポスター, 殺害現場の部屋)
-        public static List<(PlayerControl killer, SystemTypes room)> KillersAndRooms = new();
+        public static List<(byte killerId, SystemTypes room)> KillerIdsAndRooms = new();
 
         public static void SetupCustomOption()
         {
@@ -43,7 +43,7 @@ namespace TownOfHost
             PlayerCount = new();
             DeadCount = new();
             ImpRooms = new();
-            KillersAndRooms = new();
+            KillerIdsAndRooms = new();
 
             canSeeDeadPos = OptionCanSeeDeadPos.GetBool();
             canSeeOtherImp = OptionCanSeeOtherImp.GetBool();
@@ -107,7 +107,7 @@ namespace TownOfHost
             if (canSeeMurderScene && Utils.IsImpostorKill(killer, target))
             {
                 var realKiller = target.GetRealKiller() ?? killer;
-                KillersAndRooms.Add((realKiller, room));
+                KillerIdsAndRooms.Add((realKiller.PlayerId, room));
                 RpcSyncMurderScenes();
                 new LateTask(() =>
                 {
@@ -116,7 +116,7 @@ namespace TownOfHost
                         Logger.Info("待機中にゲームが終了したためキャンセル", "EvilHacker");
                         return;
                     }
-                    KillersAndRooms.Remove((realKiller, room));
+                    KillerIdsAndRooms.Remove((realKiller.PlayerId, room));
                     RpcSyncMurderScenes();
                     var aliveEvilHackers = from id in playerIdList
                                            let player = Utils.GetPlayerById(id)
@@ -131,10 +131,10 @@ namespace TownOfHost
             // タプルの数，キル者ID1，キル現場1，キル者ID2，キル現場2，......
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SyncEvilHackerScenes, SendOption.Reliable, -1);
-            writer.Write(KillersAndRooms.Count);
-            foreach (var (killer, room) in KillersAndRooms)
+            writer.Write(KillerIdsAndRooms.Count);
+            foreach (var (killerId, room) in KillerIdsAndRooms)
             {
-                writer.Write(killer.PlayerId);
+                writer.Write(killerId);
                 writer.Write((byte)room);
             }
             AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -142,19 +142,19 @@ namespace TownOfHost
         public static void ReceiveRPC(MessageReader reader)
         {
             int count = reader.ReadInt32();
-            List<(PlayerControl, SystemTypes)> rooms = new(count);
+            List<(byte, SystemTypes)> rooms = new(count);
             for (int i = 0; i < count; i++)
             {
-                rooms.Add((Utils.GetPlayerById(reader.ReadByte()), (SystemTypes)reader.ReadByte()));
+                rooms.Add((reader.ReadByte(), (SystemTypes)reader.ReadByte()));
             }
-            KillersAndRooms = rooms;
+            KillerIdsAndRooms = rooms;
         }
         public static string GetMurderSceneText(PlayerControl seer)
         {
             if (!seer.IsAlive()) return "";
             var roomNames = (
-                from tuple in KillersAndRooms
-                where tuple.killer != seer  // 自身がキルしたものは除外
+                from tuple in KillerIdsAndRooms
+                where tuple.killerId != seer.PlayerId  // 自身がキルしたものは除外
                 select tuple.room.GetRoomName()).ToArray();
             if (roomNames.Length < 1) return "";
             return $"{GetString("EvilHackerMurderOccurred")}: {string.Join(", ", roomNames)}";
