@@ -529,12 +529,18 @@ namespace TownOfHost
             foreach (var id in cloneRoles)
             {
                 sb.Append($"\n　 ").Append(EndGamePatch.SummaryText[id].RemoveHtmlTags());
-                SendMessage(sb.ToString(), PlayerId);
-                SendMessage(EndGamePatch.KillLog, PlayerId);
             }
+            SendMessage(sb.ToString(), PlayerId);
         }
-
-
+        public static void ShowKillLog(byte PlayerId = byte.MaxValue)
+        {
+            if (GameStates.IsInGame)
+            {
+                SendMessage(GetString("CantUse.killlog"), PlayerId);
+                return;
+            }
+            SendMessage(EndGamePatch.KillLog, PlayerId);
+        }
         public static string GetSubRolesText(byte id, bool disableColor = false)
         {
             var SubRoles = Main.PlayerStates[id].SubRoles;
