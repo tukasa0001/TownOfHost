@@ -169,7 +169,7 @@ namespace TownOfHost
         public static CountTypes GetCountTypes(this CustomRoles role)
             => role switch
             {
-                CustomRoles.GM => CountTypes.GM,
+                CustomRoles.GM => CountTypes.OutOfGame,
                 CustomRoles.Egoist => CountTypes.Impostor,
                 CustomRoles.Jackal => CountTypes.Jackal,
                 CustomRoles.HASFox or
@@ -186,7 +186,7 @@ namespace TownOfHost
     }
     public enum CountTypes
     {
-        GM,
+        OutOfGame,
         None,
         Crewmate,
         Impostor,
