@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Text;
-using HarmonyLib;
 using Hazel;
+
 using static TownOfHost.Translator;
+using static TownOfHost.Options;
 
 namespace TownOfHost.Roles.Impostor
 {
@@ -29,8 +30,8 @@ namespace TownOfHost.Roles.Impostor
         public static SwitchTrigger NowSwitchTrigger;
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Witch);
-            ModeSwitchAction = StringOptionItem.Create(Id + 10, "WitchModeSwitchAction", SwitchTriggerText, 0, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Witch]);
+            SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Witch);
+            ModeSwitchAction = StringOptionItem.Create(Id + 10, "WitchModeSwitchAction", SwitchTriggerText, 0, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Witch]);
         }
         public static void Init()
         {

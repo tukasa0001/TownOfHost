@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using UnityEngine;
+using static TownOfHost.Options;
 
 namespace TownOfHost.Roles.AddOns.Impostor
 {
@@ -10,8 +9,8 @@ namespace TownOfHost.Roles.AddOns.Impostor
         public static OptionItem KillCooldown;
         public static void SetupCustomOption()
         {
-            Options.SetupSingleRoleOptions(Id, TabGroup.Addons, CustomRoles.LastImpostor, 1);
-            KillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(0f, 180f, 1f), 15f, TabGroup.Addons, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.LastImpostor])
+            SetupSingleRoleOptions(Id, TabGroup.Addons, CustomRoles.LastImpostor, 1);
+            KillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(0f, 180f, 1f), 15f, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.LastImpostor])
                 .SetValueFormat(OptionFormat.Seconds);
         }
         public static void Init() => currentId = byte.MaxValue;
@@ -33,7 +32,7 @@ namespace TownOfHost.Roles.AddOns.Impostor
         {
             //ラストインポスターがすでにいれば処理不要
             if (currentId != byte.MaxValue) return;
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek
+            if (CurrentGameMode == CustomGameMode.HideAndSeek
             || !CustomRoles.LastImpostor.IsEnable() || Main.AliveImpostorCount != 1)
                 return;
             foreach (var pc in Main.AllAlivePlayerControls)

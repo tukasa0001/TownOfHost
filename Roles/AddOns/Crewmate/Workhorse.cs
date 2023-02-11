@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+
 using static TownOfHost.Options;
 
 namespace TownOfHost.Roles.AddOns.Crewmate

@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+using static TownOfHost.Options;
+
 namespace TownOfHost.Roles.Neutral
 {
     public static class Egoist
@@ -18,10 +20,10 @@ namespace TownOfHost.Roles.Neutral
         public static bool CanCreateMadmate;
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Egoist);
-            OptionKillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(2.5f, 180f, 2.5f), 20f, TabGroup.NeutralRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Egoist])
+            SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Egoist);
+            OptionKillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(2.5f, 180f, 2.5f), 20f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Egoist])
                 .SetValueFormat(OptionFormat.Seconds);
-            OptionCanCreateMadmate = BooleanOptionItem.Create(Id + 11, "CanCreateMadmate", false, TabGroup.NeutralRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Egoist]);
+            OptionCanCreateMadmate = BooleanOptionItem.Create(Id + 11, "CanCreateMadmate", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Egoist]);
         }
         public static void Init()
         {
