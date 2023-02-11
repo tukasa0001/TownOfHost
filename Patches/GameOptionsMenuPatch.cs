@@ -47,7 +47,7 @@ namespace TownOfHost
             if (template == null) return;
 
             var Tint = GameObject.Find("Tint");
-            if (Tint != null) Tint.active = false;
+            if (Tint != null) Tint.SetActive(false);
 
             var gameSettings = GameObject.Find("Game Settings");
             if (gameSettings == null) return;

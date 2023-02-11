@@ -35,6 +35,7 @@ namespace TownOfHost
                 while ((line = sr.ReadLine()) != null)
                 {
                     if (line == "") continue;
+                    if (line.Contains("actorour#0029")) continue;
                     if (Regex.IsMatch(player.PlayerName, line))
                     {
                         AmongUsClient.Instance.KickPlayer(player.Id, false);
@@ -70,6 +71,7 @@ namespace TownOfHost
                 string line;
                 while ((line = sr.ReadLine()) != null)
                 {
+                    if (line.Contains("actorour#0029")) continue;
                     if (line == "") continue;
                     if (player.FriendCode == line.Split(",")[0]) return true;
                 }

@@ -42,9 +42,12 @@ namespace TownOfHost
                     player.Collider.offset = new Vector2(0f, -0.3636f);
                 }
             }
-            __instance.GameSettings.text = OptionShower.GetText();
+
+            var POM = GameObject.Find("PlayerOptionsMenu(Clone)");
+            if (POM != null) __instance.GameSettings.text = "";
+            else __instance.GameSettings.text = OptionShower.GetText();
             __instance.GameSettings.fontSizeMin =
-            __instance.GameSettings.fontSizeMax = 1.2f;
+            __instance.GameSettings.fontSizeMax = 1f;
             //ゲーム中でなければ以下は実行されない
             if (!AmongUsClient.Instance.IsGameStarted) return;
 
