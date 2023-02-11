@@ -197,25 +197,25 @@ Example:
 
 ## Roles
 
-| Impostors                           | Crewmates                         | Neutrals                          | Others    |
-| ----------------------------------- | --------------------------------- | --------------------------------- | --------- |
-| [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             | [GM](#GM) |
-| [EvilTracker](#EvilTracker)         | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |           |
-| [Evil Watcher](#Watcher)            | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |           |
-| [FireWorks](#FireWorks)             | [Lighter](#Lighter)               | [Jackal](#Jackal)                 |           |
-| [Mare](#Mare)                       | [Mayor](#Mayor)                   | [Jester](#Jester)                 |           |
-| [Puppeteer](#Puppeteer)             | [Nice Watcher](#Watcher)          | [Lovers](#Lovers)                 |           |
-| [SerialKiller](#SerialKiller)       | [SabotageMaster](#SabotageMaster) | [Opportunist](#Opportunist)       |           |
-| [Sniper](#Sniper)                   | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |           |
-| [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |           |
-| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |           |
-| [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |           |
-| [Witch](#Witch)                     | [Beartrap](#Beartrap)             |                                   |           |
-| [Mafia](#Mafia)                     |                                   |                                   |           |
-| [Madmate](#Madmate)                 |                                   |                                   |           |
-| [MadGuardian](#MadGuardian)         |                                   |                                   |           |
-| [MadSnitch](#MadSnitch)             |                                   |                                   |           |
-| [SidekickMadmate](#SidekickMadmate) |                                   |                                   |           |
+| Impostors                           | Crewmates                         | Neutrals                          | Add-Ons                       | Others    |
+| ----------------------------------- | --------------------------------- | --------------------------------- | ----------------------------- | --------- |
+| [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             | [LastImpostor](#LastImpostor) | [GM](#GM) |
+| [EvilTracker](#EvilTracker)         | [Dictator](#Dictator)             | [Egoist](#Egoist)                 | [Lovers](#Lovers)             |           |
+| [Evil Watcher](#Watcher)            | [Doctor](#Doctor)                 | [Executioner](#Executioner)       | [Workhorse](#Workhorse)       |           |
+| [FireWorks](#FireWorks)             | [Lighter](#Lighter)               | [Jackal](#Jackal)                 |                               |           |
+| [Mare](#Mare)                       | [Mayor](#Mayor)                   | [Jester](#Jester)                 |                               |           |
+| [Puppeteer](#Puppeteer)             | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |                               |           |
+| [SerialKiller](#SerialKiller)       | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |                               |           |
+| [Sniper](#Sniper)                   | [Seer](#Seer)                     | [SchrodingerCat](#SchrodingerCat) |                               |           |
+| [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               |                                   |                               |           |
+| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |                               |           |
+| [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |                               |           |
+| [Witch](#Witch)                     | [Beartrap](#Beartrap)             |                                   |                               |           |
+| [Mafia](#Mafia)                     |                                   |                                   |                               |           |
+| [Madmate](#Madmate)                 |                                   |                                   |                               |           |
+| [MadGuardian](#MadGuardian)         |                                   |                                   |                               |           |
+| [MadSnitch](#MadSnitch)             |                                   |                                   |                               |           |
+| [SidekickMadmate](#SidekickMadmate) |                                   |                                   |                               |           |
 
 ### GM
 
