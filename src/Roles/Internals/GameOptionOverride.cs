@@ -67,6 +67,9 @@ public class GameOptionOverride
             case Override.GuardianAngelCooldown:
                 normalOptions.SetFloat(FloatOptionNames.GuardianAngelCooldown, (float)(GetValue() ?? DesyncOptions.OriginalHostOptions.AsNormalOptions()!.GetFloat(FloatOptionNames.GuardianAngelCooldown)));
                 break;
+            case Override.KillDistance:
+                normalOptions.KillDistance = (int)(GetValue() ?? DesyncOptions.OriginalHostOptions.AsNormalOptions()!.KillDistance);
+                break;
             case Override.EngVentCooldown:
                 normalOptions.SetFloat(FloatOptionNames.EngineerCooldown, (float)(GetValue() ?? DesyncOptions.OriginalHostOptions.AsNormalOptions()!.GetFloat(FloatOptionNames.EngineerCooldown)));
                 break;
@@ -111,6 +114,7 @@ public enum Override
     CrewLightMod,
     ImpostorLightMod,
     KillCooldown,
+    KillDistance,
 
     // Role specific overrides
     ShapeshiftDuration,
