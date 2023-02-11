@@ -46,6 +46,7 @@ namespace TownOfHost
                         }
                         Logger.Info($"{voteTarget.GetNameWithRole()}を追放", "Dictator");
                         FollowingSuicideOnExile(pva.VotedFor);
+                        RevengeOnExile(pva.VotedFor);
                         Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
                         voteTarget.SetRealKiller(pc);
                         return true;
@@ -194,6 +195,7 @@ namespace TownOfHost
                 }
                 
                 FollowingSuicideOnExile(exileId);
+                RevengeOnExile(exileId);
 
                 // 参考：https://github.com/music-discussion/TownOfHost-TheOtherRoles
                 if (exiledPlayer != null)
@@ -310,6 +312,7 @@ namespace TownOfHost
             if (Main.AfterMeetingDeathPlayers.TryAdd(playerId, deathReason))
             {
                 FollowingSuicideOnExile(playerId);
+                RevengeOnExile(playerId, deathReason);
             }
         }
         public static void FollowingSuicideOnExile(byte playerId)
@@ -317,6 +320,30 @@ namespace TownOfHost
             //Loversの後追い
             if (CustomRoles.Lovers.IsEnable() && !Main.isLoversDead && Main.LoversPlayers.Find(lp => lp.PlayerId == playerId) != null)
                 FixedUpdatePatch.LoversSuicide(playerId, true);
+        }
+        public static void RevengeOnExile(byte playerId, PlayerState.DeathReason deathReason = PlayerState.DeathReason.Vote)
+        {
+            if (deathReason == PlayerState.DeathReason.Suicide) return;
+            var player = Utils.GetPlayerById(playerId);
+            if (player == null) return;
+            var target = PickRevengeTarget(player);
+            if (target == null) return;
+            TryAddAfterMeetingDeathPlayers(target.PlayerId, PlayerState.DeathReason.Revenge);
+            target.SetRealKiller(player);
+            Logger.Info($"{player.GetNameWithRole()}の道連れ先:{target.GetNameWithRole()}", "MadmatesRevengeOnExile");
+        }
+        public static PlayerControl PickRevengeTarget(PlayerControl exiledplayer)//道連れ先選定
+        {
+            List<PlayerControl> TargetList = new();
+            foreach (var candidate in Main.AllPlayerControls)
+            {
+                if (candidate == exiledplayer || candidate.Data.IsDead || Main.AfterMeetingDeathPlayers.ContainsKey(candidate.PlayerId)) continue;
+            }
+            if (TargetList == null || TargetList.Count == 0) return null;
+            var rand = IRandom.Instance;
+            var target = TargetList[rand.Next(TargetList.Count)];
+            Logger.Info($"{exiledplayer.GetNameWithRole()}の道連れ先:{target.GetNameWithRole()}", "PickRevengeTarget");
+            return target;
         }
     }
 

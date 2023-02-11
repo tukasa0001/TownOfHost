@@ -381,19 +381,19 @@ namespace TownOfHost
         public static void Load()
         {
             if (IsLoaded) return;
-            // プリセット
+            // 预设
             _ = PresetOptionItem.Create(0, TabGroup.SystemSettings)
                 .SetColor(new Color32(204, 204, 0, 255))
                 .SetHeader(true)
                 .SetGameMode(CustomGameMode.All);
 
-            // ゲームモード
+            // 游戏模式
             GameMode = StringOptionItem.Create(1, "GameMode", gameModes, 0, TabGroup.GameSettings, false)
                 .SetHidden(true)
                 .SetHeader(true)
                 .SetGameMode(CustomGameMode.All);
 
-            #region 役職・詳細設定
+            #region 职业详细设置
             CustomRoleCounts = new();
             CustomRoleSpawnChances = new();
 
@@ -425,11 +425,6 @@ namespace TownOfHost
             WarlockCanKillAllies = BooleanOptionItem.Create(901406, "WarlockCanKillAllies", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Warlock]);
             WarlockCanKillSelf = BooleanOptionItem.Create(901408, "WarlockCanKillSelf", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Warlock]);
             SetupRoleOptions(901455, TabGroup.ImpostorRoles, CustomRoles.Assassin);
-            SetupRoleOptions(901790, TabGroup.ImpostorRoles, CustomRoles.Zombie);
-            ZombieKillCooldown = FloatOptionItem.Create(901792, "KillCooldown", new(0f, 999f, 2.5f), 5f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Zombie])
-                .SetValueFormat(OptionFormat.Seconds);
-            ZombieSpeedReduce = FloatOptionItem.Create(901794, "ZombieSpeedReduce", new(0.0f, 1.0f, 0.1f), 0.3f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Zombie])
-                .SetValueFormat(OptionFormat.Multiplier);
             SetupRoleOptions(901585, TabGroup.ImpostorRoles, CustomRoles.Hacker);
             HackKillCooldown = FloatOptionItem.Create(901587, "KillCooldown", new(5f, 999f, 5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
                 .SetValueFormat(OptionFormat.Seconds);
@@ -437,9 +432,6 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Times);
             SetupRoleOptions(901590, TabGroup.ImpostorRoles, CustomRoles.Miner);
             SetupRoleOptions(901595, TabGroup.ImpostorRoles, CustomRoles.Escapee);
-            SetupRoleOptions(901635, TabGroup.ImpostorRoles, CustomRoles.Minimalism);
-            MNKillCooldown = FloatOptionItem.Create(901638, "KillCooldown", new(2.5f, 999f, 2.5f), 10f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Minimalism])
-                .SetValueFormat(OptionFormat.Seconds);
             Witch.SetupCustomOption();
             SetupRoleOptions(1600, TabGroup.ImpostorRoles, CustomRoles.Mafia);
             MafiaCanKillNum = IntegerOptionItem.Create(901615, "MafiaCanKillNum", new(0, 15, 1), 1, TabGroup.ImpostorRoles,false).SetParent(CustomRoleSpawnChances[CustomRoles.Mafia])
@@ -461,7 +453,6 @@ namespace TownOfHost
             SetupRoleOptions(902135, TabGroup.ImpostorRoles, CustomRoles.Bomber);
             BomberRadius = FloatOptionItem.Create(902137, "BomberRadius", new(0.5f, 5f, 0.5f), 2f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Bomber])
                 .SetValueFormat(OptionFormat.Multiplier);
-            SetupRoleOptions(902265, TabGroup.ImpostorRoles, CustomRoles.BoobyTrap);
 
             // Both
             SetupRoleOptions(30000, TabGroup.NeutralRoles, CustomRoles.Watcher);
@@ -554,16 +545,35 @@ namespace TownOfHost
             Egoist.SetupCustomOption();
             Executioner.SetupCustomOption();
             Jackal.SetupCustomOption();
-            SetupRoleOptions(5050965, TabGroup.NeutralRoles, CustomRoles.God);
-            NotifyGodAlive = BooleanOptionItem.Create(5050967, "NotifyGodAlive", true, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.God]);
-            SetupRoleOptions(5050110, TabGroup.NeutralRoles, CustomRoles.Mario);
-            MarioVentNumWin = IntegerOptionItem.Create(5050112, "MarioVentNumWin", new(5, 900, 5), 55, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mario])
-                .SetValueFormat(OptionFormat.Times);
 
             // Add-Ons
             LastImpostor.SetupCustomOption();
+
+            // 乐子职业
+
+            // 内鬼
+            SetupRoleOptions(901635, TabGroup.ImpostorRoles, CustomRoles.Minimalism);
+            MNKillCooldown = FloatOptionItem.Create(901638, "KillCooldown", new(2.5f, 999f, 2.5f), 10f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Minimalism])
+                .SetValueFormat(OptionFormat.Seconds);
+            SetupRoleOptions(901790, TabGroup.ImpostorRoles, CustomRoles.Zombie);
+            ZombieKillCooldown = FloatOptionItem.Create(901792, "KillCooldown", new(0f, 999f, 2.5f), 5f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Zombie])
+                .SetValueFormat(OptionFormat.Seconds);
+            ZombieSpeedReduce = FloatOptionItem.Create(901794, "ZombieSpeedReduce", new(0.0f, 1.0f, 0.1f), 0.3f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Zombie])
+                .SetValueFormat(OptionFormat.Multiplier);
+            SetupRoleOptions(902265, TabGroup.ImpostorRoles, CustomRoles.BoobyTrap);
+
+            // 船员
+
+            // 中立
+            SetupRoleOptions(5050965, TabGroup.NeutralRoles, CustomRoles.God);
+            NotifyGodAlive = BooleanOptionItem.Create(5050967, "NotifyGodAlive", true, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.God]);
+            SetupRoleOptions(5050110, TabGroup.NeutralRoles, CustomRoles.Mario);
+            MarioVentNumWin = IntegerOptionItem.Create(5050112, "MarioVentNumWin", new(5, 900, 5), 55, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mario])
+                .SetValueFormat(OptionFormat.Times);
+
             #endregion
 
+            #region 系统设置
             TrueRandomeRoles = BooleanOptionItem.Create(6090055, "TrueRandomeRoles", true, TabGroup.SystemSettings, false)
                 .SetHeader(true)
                 .SetColor(Color.green);
@@ -579,6 +589,52 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All)
                 .SetColor(Color.blue);
 
+            CheatResponses = StringOptionItem.Create(6090121, "CheatResponses", CheatResponsesName, 0, TabGroup.SystemSettings, false)
+                .SetHeader(true);
+
+            AutoDisplayLastResult = BooleanOptionItem.Create(1_000_000, "AutoDisplayLastResult", true, TabGroup.SystemSettings, false)
+                .SetHeader(true)
+                .SetGameMode(CustomGameMode.All);
+            AutoKickStart = BooleanOptionItem.Create(1_000_010, "AutoKickStart", false, TabGroup.SystemSettings, false)
+                .SetGameMode(CustomGameMode.All);
+            AutoKickStartTimes = IntegerOptionItem.Create(1_000_024, "AutoKickStartTimes", new(0, 99, 1), 1, TabGroup.SystemSettings, false).SetParent(AutoKickStart)
+                .SetGameMode(CustomGameMode.All)
+                .SetValueFormat(OptionFormat.Times);
+            AutoKickStartAsBan = BooleanOptionItem.Create(1_000_026, "AutoKickStartAsBan", false, TabGroup.SystemSettings, false).SetParent(AutoKickStart)
+                .SetGameMode(CustomGameMode.All);
+            AutoKickStopWords = BooleanOptionItem.Create(1_000_011, "AutoKickStopWords", false, TabGroup.SystemSettings, false)
+                .SetGameMode(CustomGameMode.All);
+            AutoKickStopWordsTimes = IntegerOptionItem.Create(1_000_022, "AutoKickStopWordsTimes", new(0, 99, 1), 3, TabGroup.SystemSettings, false).SetParent(AutoKickStopWords)
+                .SetGameMode(CustomGameMode.All)
+                .SetValueFormat(OptionFormat.Times);
+            AutoKickStopWordsAsBan = BooleanOptionItem.Create(1_000_028, "AutoKickStopWordsAsBan", false, TabGroup.SystemSettings, false).SetParent(AutoKickStopWords)
+                .SetGameMode(CustomGameMode.All);
+            AutoWarnStopWords = BooleanOptionItem.Create(1_000_012, "AutoWarnStopWords", false, TabGroup.SystemSettings, false)
+                .SetGameMode(CustomGameMode.All);
+            SuffixMode = StringOptionItem.Create(1_000_001, "SuffixMode", suffixModes, 0, TabGroup.SystemSettings, true)
+                .SetGameMode(CustomGameMode.All);
+            HideGameSettings = BooleanOptionItem.Create(1_000_002, "HideGameSettings", false, TabGroup.SystemSettings, false)
+                .SetGameMode(CustomGameMode.All);
+            DIYGameSettings = BooleanOptionItem.Create(1_000_013, "DIYGameSettings", false, TabGroup.SystemSettings, false)
+                .SetGameMode(CustomGameMode.All);
+            PlayerCanSerColor = BooleanOptionItem.Create(1_000_014, "PlayerCanSerColor", false, TabGroup.SystemSettings, false)
+                .SetGameMode(CustomGameMode.All);
+            ColorNameMode = BooleanOptionItem.Create(1_000_003, "ColorNameMode", false, TabGroup.SystemSettings, false)
+                .SetGameMode(CustomGameMode.All);
+            ChangeNameToRoleInfo = BooleanOptionItem.Create(1_000_004, "ChangeNameToRoleInfo", false, TabGroup.SystemSettings, false)
+                .SetGameMode(CustomGameMode.All);
+            NoGameEnd = BooleanOptionItem.Create(900_002, "NoGameEnd", false, TabGroup.SystemSettings, false)
+                .SetGameMode(CustomGameMode.All);
+            RoleAssigningAlgorithm = StringOptionItem.Create(1_000_005, "RoleAssigningAlgorithm", RoleAssigningAlgorithms, 4, TabGroup.SystemSettings, true)
+                .SetGameMode(CustomGameMode.All)
+                .RegisterUpdateValueEvent(
+                    (object obj, OptionItem.UpdateValueEventArgs args) => IRandom.SetInstanceById(args.CurrentValue)
+                );
+
+            DebugModeManager.SetupCustomOption();
+            #endregion 
+
+            #region 游戏设置
             DisableVanillaRoles = BooleanOptionItem.Create(6090069, "DisableVanillaRoles", true, TabGroup.GameSettings, false)
                 .SetHeader(true);
 
@@ -590,9 +646,6 @@ namespace TownOfHost
             ConfirmEjectionsRoles = BooleanOptionItem.Create(6090113, "ConfirmEjectionsRoles", true, TabGroup.GameSettings, false);
             ShowImpRemainOnEject = BooleanOptionItem.Create(6090115, "ShowImpRemainOnEject", true, TabGroup.GameSettings, false);
             ShowNKRemainOnEject = BooleanOptionItem.Create(6090119, "ShowNKRemainOnEject", true, TabGroup.GameSettings, false).SetParent(ShowImpRemainOnEject);
-
-            CheatResponses = StringOptionItem.Create(6090121, "CheatResponses", CheatResponsesName, 0, TabGroup.SystemSettings, false)
-                .SetHeader(true);
 
             KillFlashDuration = FloatOptionItem.Create(90000, "KillFlashDuration", new(0.1f, 0.45f, 0.05f), 0.2f, TabGroup.GameSettings, false)
                 .SetHeader(true)
@@ -791,48 +844,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             DisableReportWhenCC = BooleanOptionItem.Create(900_015, "DisableReportWhenCC", false, TabGroup.GameSettings, false).SetParent(CommsCamouflage)
                 .SetGameMode(CustomGameMode.All);
-
-            // プリセット対象外
-            AutoDisplayLastResult = BooleanOptionItem.Create(1_000_000, "AutoDisplayLastResult", true, TabGroup.SystemSettings, false)
-                .SetHeader(true)
-                .SetGameMode(CustomGameMode.All);
-            AutoKickStart = BooleanOptionItem.Create(1_000_010, "AutoKickStart", false, TabGroup.SystemSettings, false)
-                .SetGameMode(CustomGameMode.All);
-            AutoKickStartTimes = IntegerOptionItem.Create(1_000_024, "AutoKickStartTimes", new(0, 99, 1), 1, TabGroup.SystemSettings, false).SetParent(AutoKickStart)
-                .SetGameMode(CustomGameMode.All)
-                .SetValueFormat(OptionFormat.Times);
-            AutoKickStartAsBan = BooleanOptionItem.Create(1_000_026, "AutoKickStartAsBan", false, TabGroup.SystemSettings, false).SetParent(AutoKickStart)
-                .SetGameMode(CustomGameMode.All);
-            AutoKickStopWords = BooleanOptionItem.Create(1_000_011, "AutoKickStopWords", false, TabGroup.SystemSettings, false)
-                .SetGameMode(CustomGameMode.All);
-            AutoKickStopWordsTimes = IntegerOptionItem.Create(1_000_022, "AutoKickStopWordsTimes", new(0, 99, 1), 3, TabGroup.SystemSettings, false).SetParent(AutoKickStopWords)
-                .SetGameMode(CustomGameMode.All)
-                .SetValueFormat(OptionFormat.Times);
-            AutoKickStopWordsAsBan = BooleanOptionItem.Create(1_000_028, "AutoKickStopWordsAsBan", false, TabGroup.SystemSettings, false).SetParent(AutoKickStopWords)
-                .SetGameMode(CustomGameMode.All);
-            AutoWarnStopWords = BooleanOptionItem.Create(1_000_012, "AutoWarnStopWords", false, TabGroup.SystemSettings, false)
-                .SetGameMode(CustomGameMode.All);
-            SuffixMode = StringOptionItem.Create(1_000_001, "SuffixMode", suffixModes, 0, TabGroup.SystemSettings, true)
-                .SetGameMode(CustomGameMode.All);
-            HideGameSettings = BooleanOptionItem.Create(1_000_002, "HideGameSettings", false, TabGroup.SystemSettings, false)
-                .SetGameMode(CustomGameMode.All);
-            DIYGameSettings = BooleanOptionItem.Create(1_000_013, "DIYGameSettings", false, TabGroup.SystemSettings, false)
-                .SetGameMode(CustomGameMode.All);
-            PlayerCanSerColor = BooleanOptionItem.Create(1_000_014, "PlayerCanSerColor", false, TabGroup.SystemSettings, false)
-                .SetGameMode(CustomGameMode.All);
-            ColorNameMode = BooleanOptionItem.Create(1_000_003, "ColorNameMode", false, TabGroup.SystemSettings, false)
-                .SetGameMode(CustomGameMode.All);
-            ChangeNameToRoleInfo = BooleanOptionItem.Create(1_000_004, "ChangeNameToRoleInfo", false, TabGroup.SystemSettings, false)
-                .SetGameMode(CustomGameMode.All);
-            NoGameEnd = BooleanOptionItem.Create(900_002, "NoGameEnd", false, TabGroup.SystemSettings, false)
-                .SetGameMode(CustomGameMode.All);
-            RoleAssigningAlgorithm = StringOptionItem.Create(1_000_005, "RoleAssigningAlgorithm", RoleAssigningAlgorithms, 4, TabGroup.SystemSettings, true)
-                .SetGameMode(CustomGameMode.All)
-                .RegisterUpdateValueEvent(
-                    (object obj, OptionItem.UpdateValueEventArgs args) => IRandom.SetInstanceById(args.CurrentValue)
-                );
-
-            DebugModeManager.SetupCustomOption();
+            #endregion 
 
             IsLoaded = true;
         }

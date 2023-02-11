@@ -252,7 +252,8 @@ namespace TownOfHost
         ImpostorRoles,
         CrewmateRoles,
         NeutralRoles,
-        Addons
+        Addons,
+        OtherRoles
     }
     public enum OptionFormat
     {

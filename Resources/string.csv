@@ -642,6 +642,7 @@ TabGroup.CrewmateRoles,船员阵营职业
 TabGroup.NeutralRoles,独立阵营职业
 TabGroup.ImpostorRoles,内鬼阵营职业
 TabGroup.Addons,附加职业
+TabGroup.OtherRoles,乐子职业
 ActiveRolesList,有效职业一览
 ForExample,使用例子
 ForceEnd,强制结束游戏
