@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TownOfHost
+namespace TownOfHost.Roles.Neutral
 {
     public static class TeamEgoist
     {

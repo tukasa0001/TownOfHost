@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TownOfHost
+namespace TownOfHost.Roles.AddOns.Impostor
 {
     public static class LastImpostor
     {

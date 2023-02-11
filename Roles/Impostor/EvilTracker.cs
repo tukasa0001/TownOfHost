@@ -3,7 +3,7 @@ using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
 
-namespace TownOfHost
+namespace TownOfHost.Roles.Impostor
 {
     public static class EvilTracker
     {

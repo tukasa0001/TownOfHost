@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static TownOfHost.Translator;
 
-namespace TownOfHost
+namespace TownOfHost.Roles.Impostor
 {
     public static class SerialKiller
     {
