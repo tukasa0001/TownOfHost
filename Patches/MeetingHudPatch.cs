@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using HarmonyLib;
 using UnityEngine;
+
+using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.Crewmate;
+using TownOfHost.Roles.Neutral;
 using static TownOfHost.Translator;
 
 namespace TownOfHost

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+using TownOfHost.Roles.Impostor;
 using static TownOfHost.Options;
 
 namespace TownOfHost.Roles.Neutral

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using AmongUs.GameOptions;
 using Hazel;
+
 using TownOfHost.Modules;
+using TownOfHost.Roles.Neutral;
 
 namespace TownOfHost
 {

@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using AmongUs.GameOptions;
 using HarmonyLib;
 
+using TownOfHost.Roles.AddOns.Crewmate;
+
 namespace TownOfHost
 {
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.AddTasksFromList))]

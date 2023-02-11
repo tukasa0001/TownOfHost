@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using HarmonyLib;
-using TownOfHost.Modules;
 using UnityEngine;
+
+using TownOfHost.Modules;
+using TownOfHost.Roles.Impostor;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
