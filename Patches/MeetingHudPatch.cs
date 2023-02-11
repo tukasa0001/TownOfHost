@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using HarmonyLib;
 using UnityEngine;
 using static TownOfHost.Translator;
@@ -353,6 +354,8 @@ namespace TownOfHost
                 PlayerControl target = Utils.GetPlayerById(pva.TargetPlayerId);
                 if (target == null) continue;
 
+                var sb = new StringBuilder();
+
                 //会議画面での名前変更
                 //自分自身の名前の色を変更
                 if (target != null && target.AmOwner && AmongUsClient.Instance.IsGameStarted) //変更先が自分自身
@@ -365,32 +368,32 @@ namespace TownOfHost
                 //とりあえずSnitchは会議中にもインポスターを確認することができる仕様にしていますが、変更する可能性があります。
 
                 if (seer.KnowDeathReason(target))
-                    pva.NameText.text += $"({Utils.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), Utils.GetVitalText(target.PlayerId))})";
+                    sb.Append($"({Utils.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), Utils.GetVitalText(target.PlayerId))})");
 
                 //インポスター表示
                 switch (seer.GetCustomRole().GetRoleType())
                 {
                     case RoleType.Impostor:
                         if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
-                            pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★"); //変更対象にSnitchマークをつける
-                        pva.NameText.text += Snitch.GetWarningMark(seer, target);
+                            sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★")); //変更対象にSnitchマークをつける
+                        sb.Append(Snitch.GetWarningMark(seer, target));
                         break;
                 }
                 switch (seer.GetCustomRole())
                 {
                     case CustomRoles.Arsonist:
                         if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
-                            pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), "▲");
+                            sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), "▲"));
                         break;
                     case CustomRoles.Executioner:
-                        pva.NameText.text += Executioner.TargetMark(seer, target);
+                        sb.Append(Executioner.TargetMark(seer, target));
                         break;
                     case CustomRoles.Egoist:
                     case CustomRoles.Jackal:
-                        pva.NameText.text += Snitch.GetWarningMark(seer, target);
+                        sb.Append(Snitch.GetWarningMark(seer, target));
                         break;
                     case CustomRoles.EvilTracker:
-                        pva.NameText.text += EvilTracker.GetTargetMark(seer, target);
+                        sb.Append(EvilTracker.GetTargetMark(seer, target));
                         break;
                 }
 
@@ -400,15 +403,17 @@ namespace TownOfHost
                     {
                         case CustomRoles.Lovers:
                             if (seer.Is(CustomRoles.Lovers) || seer.Data.IsDead)
-                                pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Lovers), "♡");
+                                sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Lovers), "♡"));
                             break;
                     }
                 }
 
                 //呪われている場合
-                pva.NameText.text += Witch.GetSpelledMark(target.PlayerId, true);
+                sb.Append(Witch.GetSpelledMark(target.PlayerId, true));
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
+
+                pva.NameText.text += sb.ToString();
             }
         }
     }

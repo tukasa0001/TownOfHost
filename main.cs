@@ -119,8 +119,6 @@ namespace TownOfHost
         public static bool VisibleTasksCount;
         public static string nickName = "";
         public static bool introDestroyed = false;
-        public static int DiscussionTime;
-        public static int VotingTime;
         public static byte currentDousingTarget;
         public static float DefaultCrewmateVision;
         public static float DefaultImpostorVision;
@@ -239,6 +237,7 @@ namespace TownOfHost
                     //サブ役職
                     {CustomRoles.LastImpostor, "#ff1919"},
                     {CustomRoles.Lovers, "#ff6be4"},
+                    {CustomRoles.Workhorse, "#00ffff"},
 
                     {CustomRoles.NotAssigned, "#ffffff"}
                 };
@@ -350,6 +349,7 @@ namespace TownOfHost
         NotAssigned = 500,
         LastImpostor,
         Lovers,
+        Workhorse,
     }
     //WinData
     public enum CustomWinner

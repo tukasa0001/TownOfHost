@@ -233,6 +233,7 @@ namespace TownOfHost
         // プリセット対象外
         public static OptionItem NoGameEnd;
         public static OptionItem AutoDisplayLastResult;
+        public static OptionItem AutoDisplayKillLog;
         public static OptionItem SuffixMode;
         public static OptionItem HideGameSettings;
         public static OptionItem ColorNameMode;
@@ -438,6 +439,7 @@ namespace TownOfHost
 
             // Add-Ons
             LastImpostor.SetupCustomOption();
+            Workhorse.SetupCustomOption();
             #endregion
 
             KillFlashDuration = FloatOptionItem.Create(90000, "KillFlashDuration", new(0.1f, 0.45f, 0.05f), 0.3f, TabGroup.MainSettings, false)
@@ -642,6 +644,8 @@ namespace TownOfHost
             // プリセット対象外
             AutoDisplayLastResult = BooleanOptionItem.Create(1_000_000, "AutoDisplayLastResult", true, TabGroup.MainSettings, false)
                 .SetHeader(true)
+                .SetGameMode(CustomGameMode.All);
+            AutoDisplayKillLog = BooleanOptionItem.Create(1_000_006, "AutoDisplayKillLog", true, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
             SuffixMode = StringOptionItem.Create(1_000_001, "SuffixMode", suffixModes, 0, TabGroup.MainSettings, true)
                 .SetGameMode(CustomGameMode.All);

@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
+using TownOfHost.Modules;
 
 namespace TownOfHost
 {
@@ -189,9 +191,6 @@ namespace TownOfHost
                         killer.SetKillCooldown();
                         Utils.NotifyRoles(SpecifySeer: killer);
                         return false;
-                    case CustomRoles.TimeThief:
-                        TimeThief.OnCheckMurder(killer);
-                        break;
 
                     //==========マッドメイト系役職==========//
 
@@ -280,10 +279,6 @@ namespace TownOfHost
                 Executioner.Target.Remove(target.PlayerId);
                 Executioner.SendRPC(target.PlayerId);
             }
-            if (target.Is(CustomRoles.TimeThief))
-                target.ResetVotingTime();
-            if (target.Is(CustomRoles.TimeManager))
-                target.TimeManagerResetVotingTime();
 
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
@@ -455,6 +450,7 @@ namespace TownOfHost
             Main.AllPlayerControls
                 .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
                 .Do(pc => Camouflage.RpcSetSkin(pc, RevertToDefault: true));
+            MeetingTimeManager.OnReportDeadBody();
 
             Utils.SyncAllSettings();
             return true;
@@ -471,6 +467,8 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
     class FixedUpdatePatch
     {
+        private static StringBuilder Mark = new(20);
+        private static StringBuilder Suffix = new(120);
         public static void Postfix(PlayerControl __instance)
         {
             var player = __instance;
@@ -691,8 +689,8 @@ namespace TownOfHost
                     var target = __instance;
 
                     string RealName;
-                    string Mark = "";
-                    string Suffix = "";
+                    Mark.Clear();
+                    Suffix.Clear();
 
                     //名前変更
                     RealName = target.GetRealName();
@@ -715,60 +713,60 @@ namespace TownOfHost
                     if (seer.GetCustomRole().IsImpostor()) //seerがインポスター
                     {
                         if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool()) //targetがタスクを終わらせたマッドスニッチ
-                            Mark += Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★"); //targetにマーク付与
+                            Mark.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★")); //targetにマーク付与
                     }
                     //インポスター/キル可能な第三陣営がタスクが終わりそうなSnitchを確認できる
-                    Mark += Snitch.GetWarningMark(seer, target);
+                    Mark.Append(Snitch.GetWarningMark(seer, target));
 
                     if (seer.Is(CustomRoles.Arsonist))
                     {
                         if (seer.IsDousedPlayer(target))
                         {
-                            Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
+                            Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>");
                         }
                         else if (
                             Main.currentDousingTarget != 255 &&
                             Main.currentDousingTarget == target.PlayerId
                         )
                         {
-                            Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>△</color>";
+                            Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>△</color>");
                         }
                     }
-                    Mark += Executioner.TargetMark(seer, target);
+                    Mark.Append(Executioner.TargetMark(seer, target));
                     if (seer.Is(CustomRoles.Puppeteer))
                     {
                         if (seer.Is(CustomRoles.Puppeteer) &&
                         Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
                         Main.PuppeteerList.ContainsKey(target.PlayerId))
-                            Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
+                            Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>");
                     }
                     if (Sniper.IsEnable && target.AmOwner)
                     {
                         //銃声が聞こえるかチェック
-                        Mark += Sniper.GetShotNotify(target.PlayerId);
+                        Mark.Append(Sniper.GetShotNotify(target.PlayerId));
 
                     }
-                    if (seer.Is(CustomRoles.EvilTracker)) Mark += EvilTracker.GetTargetMark(seer, target);
+                    if (seer.Is(CustomRoles.EvilTracker)) Mark.Append(EvilTracker.GetTargetMark(seer, target));
                     //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能な第三陣営に警告が表示される
-                    Mark += Snitch.GetWarningArrow(seer, target);
+                    Mark.Append(Snitch.GetWarningArrow(seer, target));
 
                     //ハートマークを付ける(会議中MOD視点)
                     if (__instance.Is(CustomRoles.Lovers) && PlayerControl.LocalPlayer.Is(CustomRoles.Lovers))
                     {
-                        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                        Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>");
                     }
                     else if (__instance.Is(CustomRoles.Lovers) && PlayerControl.LocalPlayer.Data.IsDead)
                     {
-                        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                        Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>");
                     }
 
                     //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能な第三陣営の方角がわかる
-                    Suffix += Snitch.GetSnitchArrow(seer, target);
+                    Suffix.Append(Snitch.GetSnitchArrow(seer, target));
 
-                    Suffix += BountyHunter.GetTargetArrow(seer, target);
+                    Suffix.Append(BountyHunter.GetTargetArrow(seer, target));
 
                     if (GameStates.IsInTask && target.Is(CustomRoles.EvilTracker))
-                        Suffix += EvilTracker.GetTargetArrowForModClient(seer, target);
+                        Suffix.Append(EvilTracker.GetTargetArrowForModClient(seer, target));
 
                     /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(target.PlayerId, out var isBlocked)) {
                         Mark = isBlocked ? "(true)" : "(false)";
@@ -780,11 +778,11 @@ namespace TownOfHost
                     //Mark・Suffixの適用
                     target.cosmetics.nameText.text = $"{RealName}{DeathReason}{Mark}";
 
-                    if (Suffix != "")
+                    if (Suffix.ToString() != "")
                     {
                         //名前が2行になると役職テキストを上にずらす必要がある
                         RoleText.transform.SetLocalY(0.35f);
-                        target.cosmetics.nameText.text += "\r\n" + Suffix;
+                        target.cosmetics.nameText.text += "\r\n" + Suffix.ToString();
 
                     }
                     else
@@ -992,10 +990,15 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CompleteTask))]
     class PlayerControlCompleteTaskPatch
     {
+        public static bool Prefix(PlayerControl __instance)
+        {
+            if (Workhorse.OnCompleteTask(__instance)) //タスク勝利をキャンセル
+                return false;
+            return true;
+        }
         public static void Postfix(PlayerControl __instance)
         {
             var pc = __instance;
-            TimeManager.OnCheckCompleteTask(pc);//タスク1つ終わるごとに処理
             Snitch.OnCompleteTask(pc);
 
             var isTaskFinish = pc.GetPlayerTaskState().IsTaskFinished;

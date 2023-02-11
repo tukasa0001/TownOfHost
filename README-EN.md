@@ -950,6 +950,22 @@ Example of overlapping Roles: <br>
 - [Jester](#jester) Lover: If you are voted out, you will win as Jester. If the other Lover is voted out, you are defeated. <br>
 - [Bait](#bait) Lover: When the other Lover is killed and you die afterwards, the other Lover immediately reports you. <br>
 
+### Workhorse
+
+Create and idea by Masami<br>
+
+An Add-on granted to the first living Crewmate finishing all the tasks.<br>
+You are assigned additional tasks necessary for the tasks win.<br>
+Not granted to roles with no tasks or with abilities triggered by finishing tasks.<br>
+
+#### Game Options
+
+| Name                    |
+| ----------------------- |
+| Assign Only To Crewmate |
+| Additional Long Tasks   |
+| Additional Short Tasks  |
+
 ## DisableDevices
 
 Various devices can be disabled.

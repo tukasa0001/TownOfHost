@@ -8,45 +8,39 @@ namespace TownOfHost
     {
         static readonly int Id = 21500;
         static List<byte> playerIdList = new();
-        public static Dictionary<byte, int> TimeManagerTaskCount = new();
         public static OptionItem IncreaseMeetingTime;
         public static OptionItem MeetingTimeLimit;
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.TimeManager);
-            IncreaseMeetingTime = FloatOptionItem.Create(Id + 10, "TimeManagerIncreaseMeetingTime", new(5f, 30f, 1f), 15f, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeManager])
+            IncreaseMeetingTime = IntegerOptionItem.Create(Id + 10, "TimeManagerIncreaseMeetingTime", new(5, 30, 1), 15, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeManager])
                 .SetValueFormat(OptionFormat.Seconds);
-            MeetingTimeLimit = FloatOptionItem.Create(Id + 11, "TimeManagerLimitMeetingTime", new(200f, 900f, 10f), 300f, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeManager])
+            MeetingTimeLimit = IntegerOptionItem.Create(Id + 11, "TimeManagerLimitMeetingTime", new(200, 900, 10), 300, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeManager])
                 .SetValueFormat(OptionFormat.Seconds);
         }
         public static void Init()
         {
-            TimeManagerTaskCount = new();
             playerIdList = new();
         }
         public static void Add(byte playerId)
         {
             playerIdList.Add(playerId);
-            TimeManagerTaskCount[playerId] = 0;
         }
-        public static bool IsEnable() => playerIdList.Count > 0;
-        public static void TimeManagerResetVotingTime(this PlayerControl timemanager)
+        public static bool IsEnable => playerIdList.Count > 0;
+        private static int AdditionalTime(byte id)
         {
-            Main.VotingTime -= IncreaseMeetingTime.GetInt() * TimeManagerTaskCount[timemanager.PlayerId];
-            TimeManagerTaskCount[timemanager.PlayerId] = 0; //会議時間の初期化
+            var pc = Utils.GetPlayerById(id);
+            if (playerIdList.Contains(id) && pc.IsAlive())
+                return IncreaseMeetingTime.GetInt() * pc.GetPlayerTaskState().CompletedTasksCount;
+            return 0;
         }
-        public static void OnCheckCompleteTask(PlayerControl player)
+        public static int TotalIncreasedMeetingTime()
         {
-            if (player.Is(CustomRoles.TimeManager))
-            {
-                TimeManagerTaskCount[player.PlayerId]++;
-                Main.VotingTime += IncreaseMeetingTime.GetInt();//会議時間に増える分の会議時間を加算
-                if (Main.DiscussionTime > 0)
-                {
-                    Main.VotingTime += Main.DiscussionTime;
-                    Main.DiscussionTime = 0;//投票時間+会議時間を投票時間とし、会議時間を0にする
-                }
-            }
+            int sec = 0;
+            foreach (var playerId in playerIdList)
+                sec += AdditionalTime(playerId);
+            Logger.Info($"{sec}second", "TimeManager.TotalIncreasedMeetingTime");
+            return sec;
         }
     }
 }
