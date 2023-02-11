@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using TownOfHost.Managers;
+using TownOfHost.API;
 using VentLib.RPC;
 using VentLib.Utilities;
 using VentLib.Utilities.Extensions;

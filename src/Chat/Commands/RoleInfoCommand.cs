@@ -1,11 +1,11 @@
 using System.Linq;
+using TownOfHost.API;
 using TownOfHost.Extensions;
-using TownOfHost.Managers;
-using VentLib.Options;
 using TownOfHost.Roles;
 using VentLib.Commands;
 using VentLib.Commands.Attributes;
 using VentLib.Commands.Interfaces;
+using VentLib.Options.OptionElement;
 using VentLib.Utilities;
 using VentLib.Utilities.Extensions;
 

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using TownOfHost.API;
 using TownOfHost.Extensions;
 using TownOfHost.GUI;
-using TownOfHost.Managers;
 using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;

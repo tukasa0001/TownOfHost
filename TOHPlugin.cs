@@ -6,7 +6,6 @@ using UnityEngine;
 using AmongUs.GameOptions;
 using BepInEx.Unity.IL2CPP;
 using TownOfHost.Addons;
-using VentLib.Options;
 using TownOfHost.Roles;
 using TownOfHost.Gamemodes;
 using TownOfHost.Managers;
@@ -15,6 +14,8 @@ using TownOfHost.Options;
 using TownOfHost.Roles.Internals.Attributes;
 using VentLib;
 using VentLib.Logging;
+using VentLib.Options.OptionElement;
+using VentLib.Utilities.Extensions;
 using VentLib.Version;
 using VentLib.Version.Git;
 using VentLib.Version.Handshake;
@@ -79,7 +80,7 @@ public class TOHPlugin : BasePlugin, IGitVersionEmitter
     public static int SKMadmateNowCount;
     public static bool VisibleTasksCount;
 
-
+    public static PluginDataManager PluginDataManager;
     public static GamemodeManager GamemodeManager;
     public static OptionManager OptionManager;
     public static TOHPlugin Instance;
@@ -93,8 +94,11 @@ public class TOHPlugin : BasePlugin, IGitVersionEmitter
         OptionManager = new OptionManager();
         GameOptionTab __ = DefaultTabs.GeneralTab;
         GamemodeManager = new GamemodeManager();
+        PluginDataManager = new PluginDataManager();
 
         VisibleTasksCount = false;
+
+        VentLogger.Fatal($"Test: {new string[] { "a", "b", "c", "d" }.Indexed().StrJoin()})");
 
         BanManager.Init();
         TemplateManager.Init();

@@ -6,7 +6,7 @@ using UnityEngine;
 using VentLib.Utilities.Extensions;
 using VentLib.Logging;
 using VentLib.Utilities;
-using GameStates = TownOfHost.Managers.GameStates;
+using GameStates = TownOfHost.API.GameStates;
 
 namespace TownOfHost.Patches;
 

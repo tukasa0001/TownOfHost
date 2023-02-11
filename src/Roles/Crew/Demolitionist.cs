@@ -1,6 +1,6 @@
 using VentLib.Options;
 using System.Collections.Generic;
-using TownOfHost.Managers;
+using TownOfHost.API;
 using TownOfHost.Options;
 using TownOfHost.Patches.Systems;
 using TownOfHost.Roles.Internals.Attributes;

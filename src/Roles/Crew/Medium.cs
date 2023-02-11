@@ -1,6 +1,6 @@
 using System.Linq;
+using TownOfHost.API;
 using TownOfHost.Extensions;
-using TownOfHost.Managers;
 using TownOfHost.Managers.History;
 using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.Roles.Internals.Interfaces;

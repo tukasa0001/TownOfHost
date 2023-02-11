@@ -1,6 +1,6 @@
+using TownOfHost.API;
 using TownOfHost.Extensions;
 using TownOfHost.GUI;
-using TownOfHost.Managers;
 using TownOfHost.Options;
 using VentLib.Options;
 using TownOfHost.Roles.Internals;

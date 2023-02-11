@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Extensions;
 
-namespace TownOfHost.Managers;
+namespace TownOfHost.API;
 
 public class GameStates
 {
@@ -22,4 +22,5 @@ public class GameStates
     public static int CountRealCrew() => Game.GetAllPlayers().Count(p => p.GetCustomRole().RealRole.IsCrewmate());
 
     public List<byte> UnreportableBodies = new();
+    public int MeetingCalled;
 }

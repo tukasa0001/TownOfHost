@@ -13,4 +13,10 @@ public static class ModConstants
 
     public const float DeriveDelayMultiplier = 0.0003f;
     public const float DeriveDelayFlatValue = 0.4f;
+
+    public static string[] ColorNames = new[]
+    {
+        "Red", "Blue", "Green", "Pink", "Orange", "Yellow", "Black", "White", "Purple", "Brown", "Cyan", "Lime",
+        "Maroon", "Rose", "Banana", "Gray", "Tan", "Coral"
+    };
 }

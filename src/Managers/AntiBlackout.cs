@@ -3,6 +3,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Hazel;
+using TownOfHost.API;
 using TownOfHost.Extensions;
 using TownOfHost.Options;
 using TownOfHost.RPC;

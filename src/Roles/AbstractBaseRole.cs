@@ -16,6 +16,7 @@ using UnityEngine;
 using VentLib.Localization;
 using VentLib.Localization.Attributes;
 using VentLib.Logging;
+using VentLib.Options.OptionElement;
 using VentLib.Utilities.Extensions;
 
 namespace TownOfHost.Roles;
@@ -331,13 +332,13 @@ public abstract class AbstractBaseRole
             return this;
         }
 
-        public RoleModifier OptionOverride(Override option, object value, Func<bool> condition = null)
+        public RoleModifier OptionOverride(Override option, object? value, Func<bool>? condition = null)
         {
             myRole.roleSpecificGameOptionOverrides.Add(new GameOptionOverride(option, value, condition));
             return this;
         }
 
-        public RoleModifier OptionOverride(Override option, Func<object> valueSupplier, Func<bool> condition = null)
+        public RoleModifier OptionOverride(Override option, Func<object> valueSupplier, Func<bool>? condition = null)
         {
             $"Setting Option Override For {option}".DebugLog();
             myRole.roleSpecificGameOptionOverrides.Add(new GameOptionOverride(option, valueSupplier, condition));

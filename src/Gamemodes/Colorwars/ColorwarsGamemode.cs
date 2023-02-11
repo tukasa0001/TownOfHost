@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using TownOfHost.API;
 using TownOfHost.Extensions;
-using TownOfHost.Managers;
 using TownOfHost.Options;
 using VentLib.Options;
 using TownOfHost.Victory;
 using UnityEngine;
 using VentLib.Localization.Attributes;
+using VentLib.Options.OptionElement;
 using VentLib.Utilities;
 using OptionValue = VentLib.Options.OptionValue;
 
@@ -43,7 +44,7 @@ public class ColorwarsGamemode: Gamemode
 
     public ColorwarsGamemode()
     {
-        new OptionBuilder()
+       new OptionBuilder()
             .Name("Team Size")
             .IsHeader(true)
             .Tab(ColorwarsTab)
@@ -88,7 +89,7 @@ public class ColorwarsGamemode: Gamemode
         int playerCount = allPlayers.Count;
         int teams = Mathf.CeilToInt((float)playerCount / TeamSize);
 
-        List<OptionValue> teamOptions = new VentLib.Options.Ranges.IntRange(1, teams)
+        List<OptionValue> teamOptions = new VentLib.Ranges.IntRange(1, teams)
             .AsEnumerable()
             .Select(i => new OptionValue.OptionValueBuilder().Text($"Team {i}").Value(i-1).Build())
             .ToList();

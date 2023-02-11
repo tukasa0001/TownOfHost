@@ -1,4 +1,4 @@
-using TownOfHost.Managers;
+using TownOfHost.API;
 using TownOfHost.Roles.Internals.Attributes;
 
 namespace TownOfHost.Roles;

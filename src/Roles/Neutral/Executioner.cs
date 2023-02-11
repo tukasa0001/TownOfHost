@@ -1,10 +1,10 @@
 #nullable enable
 using System.Collections.Generic;
 using System.Linq;
+using TownOfHost.API;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.GUI;
-using TownOfHost.Managers;
 using TownOfHost.Options;
 using UnityEngine;
 using VentLib.Options;

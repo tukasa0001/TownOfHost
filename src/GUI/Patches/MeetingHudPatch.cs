@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using HarmonyLib;
+using TownOfHost.API;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Options;
@@ -111,6 +112,7 @@ class CheckForEndVotingPatch
     }
 }
 
+
 static class ExtendedMeetingHud
 {
     public static Dictionary<byte, int> CustomCalculateVotes(this MeetingHud __instance)
@@ -141,10 +143,18 @@ class MeetingHudStartPatch
         VentLogger.Old("------------会議開始------------", "Phase");
         ActionHandle handle = ActionHandle.NoInit();
         Game.TriggerForAll(RoleActionType.RoundEnd, ref handle, false);
-        /*ChatUpdatePatch.DoBlockChat = true;*/
         GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
         Game.RenderAllForAll(force: true);
         "Meeting Call Done".DebugLog();
+        Game.GetAlivePlayers().Do(p =>
+        {
+            if (Game.GameStates.MeetingCalled == 0 && TOHPlugin.PluginDataManager.TemplateManager.TryFormat(p, "meeting-first", out string msg))
+                Utils.SendMessage(msg, p.PlayerId);
+
+            if (TOHPlugin.PluginDataManager.TemplateManager.TryFormat(p, "meeting-start", out string message))
+                Utils.SendMessage(message, p.PlayerId);
+        });
+        Game.GameStates.MeetingCalled++;
         Async.Schedule(() => Game.GetAllPlayers().Do(p => p.RpcSetName(p.GetRawName())), NetUtils.DeriveDelay(0.4f));
     }
     public static void Postfix(MeetingHud __instance)

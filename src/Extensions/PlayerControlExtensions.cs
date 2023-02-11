@@ -5,8 +5,8 @@ using System.Linq;
 using AmongUs.GameOptions;
 using Hazel;
 using InnerNet;
+using TownOfHost.API;
 using TownOfHost.GUI;
-using TownOfHost.Managers;
 using TownOfHost.Options;
 using UnityEngine;
 using TownOfHost.Roles;
@@ -16,7 +16,7 @@ using TownOfHost.RPC;
 using VentLib.Utilities.Extensions;
 using VentLib.Logging;
 using VentLib.Utilities;
-using GameStates = TownOfHost.Managers.GameStates;
+using GameStates = TownOfHost.API.GameStates;
 
 namespace TownOfHost.Extensions;
 

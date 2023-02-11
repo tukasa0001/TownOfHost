@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using TownOfHost.API;
 using TownOfHost.Extensions;
-using TownOfHost.Managers;
 
 namespace TownOfHost.Factions;
 

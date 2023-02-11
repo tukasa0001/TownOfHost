@@ -3,8 +3,8 @@ using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
+using TownOfHost.API;
 using TownOfHost.Extensions;
-using TownOfHost.Managers;
 using TownOfHost.Roles.Internals;
 using VentLib.Logging;
 

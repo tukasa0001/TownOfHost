@@ -1,5 +1,6 @@
 using AmongUs.Data;
 using HarmonyLib;
+using TownOfHost.API;
 using TownOfHost.Extensions;
 using TownOfHost.Managers;
 using TownOfHost.Roles.Internals;

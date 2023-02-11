@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using TownOfHost.Extensions;
-using VentLib.Options;
 using VentLib;
 using VentLib.Utilities.Extensions;
 using VentLib.Logging;
+using VentLib.Options.OptionElement;
 using VentLib.RPC.Attributes;
 
 namespace TownOfHost.RPC;

@@ -4,6 +4,7 @@ using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
 using TownOfHost.Addons;
+using TownOfHost.API;
 using TownOfHost.Gamemodes;
 using TownOfHost.Managers;
 using TownOfHost.RPC;
@@ -12,7 +13,7 @@ using VentLib.Localization;
 using VentLib.Logging;
 using VentLib.Utilities;
 using VentLib.Version.Git;
-using GameStates = TownOfHost.Managers.GameStates;
+using GameStates = TownOfHost.API.GameStates;
 
 
 namespace TownOfHost.Patches.Network;
@@ -50,6 +51,10 @@ class OnPlayerJoinedPatch
         BanManager.CheckDenyNamePlayer(client);
         TOHPlugin.playerVersion = new Dictionary<byte, GitVersion>();
         Async.Schedule(() => Vents.FindRPC((uint)ModCalls.SendOptionPreview)!.Send(new[] { client.Character.GetClientId() }, TOHPlugin.OptionManager.Options()), NetUtils.DeriveDelay(1f));
+        Async.Schedule(() =>
+        {
+            if (TOHPlugin.PluginDataManager.TemplateManager.TryFormat(client.Character, "lobby-join", out string message)) Utils.SendMessage(message, client.Character.PlayerId);
+        }, NetUtils.DeriveDelay(1f));
         Game.CurrentGamemode.Trigger(GameAction.GameJoin, client);
     }
 }

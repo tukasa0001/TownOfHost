@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using TownOfHost.Managers;
+using TownOfHost.API;
 
 namespace TownOfHost.Victory.Conditions;
 

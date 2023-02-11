@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using VentLib.Utilities.Extensions;
 
 namespace TownOfHost.Extensions;
 
@@ -11,6 +13,11 @@ public static class EnumerableExtensions
         foreach (T item in hashSet)
             list.Add(item);
         return list;
+    }
+
+    public static T Random<T>(this IEnumerable<T> source, Func<T, bool> filter)
+    {
+        return source.Where(filter).ToList().GetRandom();
     }
 
     private static Random rng = new Random();

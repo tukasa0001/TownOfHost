@@ -1,6 +1,6 @@
 using System.Linq;
-using VentLib.Options;
 using TownOfHost.Roles;
+using VentLib.Options.OptionElement;
 
 namespace TownOfHost.Extensions;
 

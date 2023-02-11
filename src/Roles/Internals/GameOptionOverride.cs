@@ -10,11 +10,11 @@ namespace TownOfHost.Roles.Internals;
 public class GameOptionOverride
 {
     public readonly Override Option;
-    private readonly object value;
+    private readonly object? value;
     private readonly Func<object>? supplier;
     private readonly Func<bool>? condition;
 
-    public GameOptionOverride(Override option, object value, Func<bool>? condition = null)
+    public GameOptionOverride(Override option, object? value, Func<bool>? condition = null)
     {
         this.Option = option;
         this.value = value;

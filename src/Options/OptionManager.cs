@@ -4,7 +4,7 @@ using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
 using TownOfHost.GUI.Menus.Patches;
-using VentLib.Options;
+using VentLib.Options.OptionElement;
 
 namespace TownOfHost.Options;
 

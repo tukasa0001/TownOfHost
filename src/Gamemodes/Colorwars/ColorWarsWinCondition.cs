@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.Managers;
+using TownOfHost.API;
 using TownOfHost.Victory.Conditions;
 
 namespace TownOfHost.Gamemodes.Colorwars;

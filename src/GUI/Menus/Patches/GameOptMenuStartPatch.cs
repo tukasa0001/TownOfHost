@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using TownOfHost.Managers;
+using TownOfHost.API;
 using TownOfHost.Options;
-using VentLib.Options;
 using UnityEngine;
+using VentLib.Options.OptionElement;
 using Object = UnityEngine.Object;
 using OptionManager = VentLib.Options.OptionManager;
 

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using HarmonyLib;
-using TownOfHost.Managers;
+using TownOfHost.API;
 using TownOfHost.Options;
 using VentLib.Logging;
 

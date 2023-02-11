@@ -1,5 +1,5 @@
 using HarmonyLib;
-using TownOfHost.Managers;
+using TownOfHost.API;
 using TownOfHost.Options;
 using TownOfHost.Patches.Client;
 using UnityEngine;

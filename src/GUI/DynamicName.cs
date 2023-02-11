@@ -7,8 +7,9 @@ using System.Text;
 using System.Text.Json;
 using AmongUs.Data;
 using HarmonyLib;
+using TownOfHost.API;
 using TownOfHost.Extensions;
-using TownOfHost.Managers;
+using TownOfHost.Patches.Actions;
 using TownOfHost.Player;
 using TownOfHost.Roles;
 using UnityEngine;
@@ -321,6 +322,10 @@ public class DynamicName
         float durationSinceLast = (float)(DateTime.Now - lastRender).TotalSeconds;
         if (!force && durationSinceLast < ModConstants.DynamicNameTimeBetweenRenders && Game.State is not GameState.InMeeting) return;
         string str = GetName();
+
+        if (myPlayer.IsShapeshifted())
+            str = GetRender(Utils.GetPlayerById(myPlayer.GetShapeshifted()));
+
         if (lastString != str || Game.State is GameState.InMeeting || force)
             RpcV2.Immediate(myPlayer?.NetId ?? 0, RpcCalls.SetName).Write(str).Send(specific != -2 ? specific : myPlayer?.GetClientId() ?? -1);
         else return;
@@ -334,6 +339,10 @@ public class DynamicName
         float durationSinceLast = (float)(DateTime.Now - lastRender).TotalSeconds;
         if (!force && durationSinceLast < ModConstants.DynamicNameTimeBetweenRenders) return;
         string str = GetName(state, forceColor);
+
+        if (myPlayer.IsShapeshifted())
+            str = GetRender(Utils.GetPlayerById(myPlayer.GetShapeshifted()), state);
+
         if (lastString != str || force)
             RpcV2.Immediate(myPlayer.NetId, RpcCalls.SetName).Write(str).Send(specific != -2 ? specific : myPlayer.GetClientId());
         lastRender = DateTime.Now;
@@ -349,6 +358,17 @@ public class DynamicName
             else RenderAsIf(state.Value, force:force);
             return;
         }
+
+        string render = !player.IsShapeshifted() ? GetRender(player, state) : GetRender(Utils.GetPlayerById(player.GetShapeshifted())!, state);
+
+        string previousRender = previousRenders.GetValueOrDefault(player.PlayerId, "");
+        if (previousRender != render || state is GameState.InMeeting or GameState.InIntro || force)
+            RpcV2.Immediate(myPlayer?.NetId ?? 0, RpcCalls.SetName).Write(render).Send(player.GetClientId());
+        previousRenders[player.PlayerId] = render;
+    }
+
+    public string GetRender(PlayerControl player, GameState? state = null)
+    {
         state ??= Game.State;
         if (!renderRules[state.Value].TryGetValue(player.PlayerId, out List<Tuple<UI, DynamicString>>? allowedComponents))
         {
@@ -385,10 +405,7 @@ public class DynamicName
             i++;
         }
 
-        string previousRender = previousRenders.GetValueOrDefault(player.PlayerId, "");
-        if (previousRender != render || state is GameState.InMeeting or GameState.InIntro || force)
-            RpcV2.Immediate(myPlayer?.NetId ?? 0, RpcCalls.SetName).Write(render).Send(player.GetClientId());
-        previousRenders[player.PlayerId] = render;
+        return render;
     }
 
     public string GetComponentValue(UI subrole) => valueDictionary[subrole].Value;

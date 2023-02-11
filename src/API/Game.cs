@@ -14,12 +14,12 @@ using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.RPC;
 using TownOfHost.Victory;
-using VentLib.Utilities.Extensions;
 using VentLib.Logging;
 using VentLib.RPC;
 using VentLib.RPC.Attributes;
+using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Managers;
+namespace TownOfHost.API;
 
 public static class Game
 {

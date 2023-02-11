@@ -4,7 +4,7 @@ using System.Linq;
 using HarmonyLib;
 using TownOfHost.Options;
 using UnityEngine;
-using VentLib.Options;
+using VentLib.Options.OptionElement;
 
 namespace TownOfHost.GUI.Menus.Patches;
 
@@ -68,5 +68,6 @@ public class GameOptionsMenuUpdatePatch
         Vector3 pos = transform.localPosition;
         offset -= (bool)option.Attributes.GetValueOrDefault("IsHeader", false) ? 0.75f : 0.5f;
         transform.localPosition = new Vector3(pos.x, offset, pos.z);
+        option.Render(ref offset);
     }
 }

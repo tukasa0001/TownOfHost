@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using TownOfHost.Extensions;
 using VentLib.Options;
 using AmongUs.GameOptions;
-using TownOfHost.Managers;
+using TownOfHost.API;
 using TownOfHost.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;

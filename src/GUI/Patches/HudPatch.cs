@@ -1,8 +1,8 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using TownOfHost.API;
 using TownOfHost.Extensions;
-using TownOfHost.Managers;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Neutral;
 using UnityEngine;

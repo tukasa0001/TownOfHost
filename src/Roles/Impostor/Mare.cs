@@ -1,6 +1,6 @@
 using HarmonyLib;
+using TownOfHost.API;
 using TownOfHost.GUI;
-using TownOfHost.Managers;
 using VentLib.Options;
 using TownOfHost.Patches.Systems;
 using TownOfHost.Roles.Internals;

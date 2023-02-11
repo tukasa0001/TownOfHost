@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TownOfHost.API;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using TownOfHost.GUI;
-using TownOfHost.Managers;
 using VentLib.Options;
 using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.Roles.Neutral;

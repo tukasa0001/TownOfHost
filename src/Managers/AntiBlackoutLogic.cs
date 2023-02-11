@@ -1,4 +1,5 @@
 using System.Linq;
+using TownOfHost.API;
 using TownOfHost.Extensions;
 using TownOfHost.Roles;
 using VentLib.Logging;

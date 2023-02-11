@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.Managers;
+using TownOfHost.API;
 using VentLib.Options;
 using TownOfHost.Roles.Internals.Attributes;
 using TownOfHost.RPC;

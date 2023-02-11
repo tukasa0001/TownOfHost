@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
+using TownOfHost.API;
 using TownOfHost.Extensions;
-using TownOfHost.Managers;
 using TownOfHost.Roles;
 using TownOfHost.Victory.Conditions;
 using UnityEngine;
@@ -103,10 +103,10 @@ class ControllerManagerUpdatePatch
             Utils.DumpLog();
         }
         //実行ファイルのフォルダを開く
-        if (GetKeysDown(KeyCode.F10))
+        /*if (GetKeysDown(KeyCode.F10))
         {
             System.Diagnostics.Process.Start(System.Environment.CurrentDirectory);
-        }
+        }*/
 
         //--以下ホスト専用コマンド--//
         if (!AmongUsClient.Instance.AmHost) return;

@@ -1,6 +1,6 @@
 using System;
+using TownOfHost.API;
 using TownOfHost.Extensions;
-using TownOfHost.Managers;
 using VentLib.Options;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Internals.Attributes;

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
 using TownOfHost.Options;
-using VentLib.Options;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Victory;
+using VentLib.Options.OptionElement;
 
 namespace TownOfHost.Gamemodes;
 

@@ -1,7 +1,7 @@
 using HarmonyLib;
+using TownOfHost.API;
 using TownOfHost.Extensions;
 using TownOfHost.Gamemodes;
-using TownOfHost.Managers;
 using TownOfHost.Managers.History;
 using TownOfHost.Roles.Internals;
 using TownOfHost.Roles.Internals.Attributes;

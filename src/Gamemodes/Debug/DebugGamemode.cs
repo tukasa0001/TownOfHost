@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using TownOfHost.API;
 using TownOfHost.Extensions;
-using TownOfHost.Managers;
 using TownOfHost.Options;
 using VentLib.Options;
 using TownOfHost.Roles;
 using TownOfHost.Victory;
 using VentLib.Logging;
+using VentLib.Options.OptionElement;
 using VentLib.Utilities;
 
 namespace TownOfHost.Gamemodes.Debug;

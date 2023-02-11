@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using VentLib.Options.Interfaces;
-using VentLib.Options;
+using VentLib.Options.OptionElement;
 using Object = UnityEngine.Object;
 
 namespace TownOfHost.Options;

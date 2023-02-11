@@ -1,5 +1,6 @@
 using HarmonyLib;
 using InnerNet;
+using TownOfHost.API;
 using TownOfHost.Gamemodes;
 using TownOfHost.Managers;
 using VentLib.Logging;

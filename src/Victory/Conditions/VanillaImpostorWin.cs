@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using TownOfHost.API;
 using TownOfHost.Factions;
-using TownOfHost.Managers;
 
 namespace TownOfHost.Victory.Conditions;
 

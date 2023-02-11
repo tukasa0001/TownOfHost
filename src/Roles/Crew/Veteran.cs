@@ -1,9 +1,9 @@
 using AmongUs.GameOptions;
+using TownOfHost.API;
 using TownOfHost.Extensions;
 using TownOfHost.Factions;
 using UnityEngine;
 using TownOfHost.GUI;
-using TownOfHost.Managers;
 using VentLib.Options;
 using TownOfHost.Roles.Internals.Attributes;
 
