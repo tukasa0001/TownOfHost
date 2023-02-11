@@ -552,22 +552,32 @@ namespace TownOfHost
             // 乐子职业
 
             // 内鬼
-            SetupRoleOptions(901635, TabGroup.ImpostorRoles, CustomRoles.Minimalism);
+            _ = BooleanOptionItem.Create(909090, "TabGroup.ImpostorRoles", false, TabGroup.OtherRoles, false)
+                .SetHeader(true)
+                .SetText(true);
+            SetupRoleOptions(901635, TabGroup.OtherRoles, CustomRoles.Minimalism);
             MNKillCooldown = FloatOptionItem.Create(901638, "KillCooldown", new(2.5f, 999f, 2.5f), 10f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Minimalism])
                 .SetValueFormat(OptionFormat.Seconds);
-            SetupRoleOptions(901790, TabGroup.ImpostorRoles, CustomRoles.Zombie);
+            SetupRoleOptions(901790, TabGroup.OtherRoles, CustomRoles.Zombie);
             ZombieKillCooldown = FloatOptionItem.Create(901792, "KillCooldown", new(0f, 999f, 2.5f), 5f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Zombie])
                 .SetValueFormat(OptionFormat.Seconds);
             ZombieSpeedReduce = FloatOptionItem.Create(901794, "ZombieSpeedReduce", new(0.0f, 1.0f, 0.1f), 0.3f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Zombie])
                 .SetValueFormat(OptionFormat.Multiplier);
-            SetupRoleOptions(902265, TabGroup.ImpostorRoles, CustomRoles.BoobyTrap);
+            SetupRoleOptions(902265, TabGroup.OtherRoles, CustomRoles.BoobyTrap);
 
             // 船员
+            _ = BooleanOptionItem.Create(909092, "TabGroup.CrewmateRoles", false, TabGroup.OtherRoles, false)
+                .SetHidden(true)
+                .SetHeader(true)
+                .SetText(true);
 
             // 中立
-            SetupRoleOptions(5050965, TabGroup.NeutralRoles, CustomRoles.God);
+            _ = BooleanOptionItem.Create(909094, "TabGroup.NeutralRoles", false, TabGroup.OtherRoles, false)
+                .SetHeader(true)
+                .SetText(true);
+            SetupRoleOptions(5050965, TabGroup.OtherRoles, CustomRoles.God);
             NotifyGodAlive = BooleanOptionItem.Create(5050967, "NotifyGodAlive", true, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.God]);
-            SetupRoleOptions(5050110, TabGroup.NeutralRoles, CustomRoles.Mario);
+            SetupRoleOptions(5050110, TabGroup.OtherRoles, CustomRoles.Mario);
             MarioVentNumWin = IntegerOptionItem.Create(5050112, "MarioVentNumWin", new(5, 900, 5), 55, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mario])
                 .SetValueFormat(OptionFormat.Times);
 
@@ -577,6 +587,8 @@ namespace TownOfHost
             TrueRandomeRoles = BooleanOptionItem.Create(6090055, "TrueRandomeRoles", true, TabGroup.SystemSettings, false)
                 .SetHeader(true)
                 .SetColor(Color.green);
+            _ = BooleanOptionItem.Create(6090057, "TrueRandomeRolesText", false, TabGroup.SystemSettings, false)
+                .SetText(true);
 
             SendCodeToQQ = BooleanOptionItem.Create(6090065, "SendCodeToQQ", true, TabGroup.SystemSettings, false)
                 .SetHeader(true)

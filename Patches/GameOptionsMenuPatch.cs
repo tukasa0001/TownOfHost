@@ -46,6 +46,9 @@ namespace TownOfHost
             var template = Object.FindObjectsOfType<StringOption>().FirstOrDefault();
             if (template == null) return;
 
+            var Tint = GameObject.Find("Tint");
+            if (Tint != null) Tint.active = false;
+
             var gameSettings = GameObject.Find("Game Settings");
             if (gameSettings == null) return;
             gameSettings.transform.FindChild("GameGroup").GetComponent<Scroller>().ScrollWheelSpeed = 1f;
@@ -89,16 +92,16 @@ namespace TownOfHost
                     {
                         var stringOption = Object.Instantiate(template, tohMenu.transform);
                         scOptions.Add(stringOption);
-                        stringOption.OnValueChanged = new System.Action<OptionBehaviour>((o) => { });
+                        stringOption.OnValueChanged = new Action<OptionBehaviour>((o) => { });
                         stringOption.TitleText.text = option.Name;
                         stringOption.Value = stringOption.oldValue = option.CurrentValue;
                         stringOption.ValueText.text = option.GetString();
                         stringOption.name = option.Name;
                         stringOption.transform.FindChild("Background").localScale = new Vector3(1.2f, 1f, 1f);
-                        stringOption.transform.FindChild("Plus_TMP").localPosition += new Vector3(0.3f, 0f, 0f);
-                        stringOption.transform.FindChild("Minus_TMP").localPosition += new Vector3(0.3f, 0f, 0f);
-                        stringOption.transform.FindChild("Value_TMP").localPosition += new Vector3(0.3f, 0f, 0f);
-                        stringOption.transform.FindChild("Title_TMP").localPosition += new Vector3(0.15f, 0f, 0f);
+                        stringOption.transform.FindChild("Plus_TMP").localPosition += new Vector3(0.3f, option.IsText ? 100f : 0f, 0f);
+                        stringOption.transform.FindChild("Minus_TMP").localPosition += new Vector3(0.3f, option.IsText ? 100f : 0f, 0f);
+                        stringOption.transform.FindChild("Value_TMP").localPosition += new Vector3(0.3f, option.IsText ? 100f : 0f, 0f);
+                        stringOption.transform.FindChild("Title_TMP").localPosition += new Vector3(option.IsText ? 0.3f : 0.15f, 0f, 0f);
                         stringOption.transform.FindChild("Title_TMP").GetComponent<RectTransform>().sizeDelta = new Vector2(3.5f, 0.37f);
 
                         option.OptionBehaviour = stringOption;
@@ -180,7 +183,8 @@ namespace TownOfHost
                         !option.IsHiddenOn(Options.CurrentGameMode);
 
                     var opt = option.OptionBehaviour.transform.Find("Background").GetComponent<SpriteRenderer>();
-                    opt.size = new(5.0f, 0.45f);
+                    if (option.IsText) opt.enabled = false;
+                    else opt.size = new(5.0f, 0.45f);
                     while (parent != null && enabled)
                     {
                         enabled = parent.GetBool();
@@ -207,8 +211,7 @@ namespace TownOfHost
                             }
                         }
                     }
-
-                    option.OptionBehaviour.gameObject.SetActive(enabled);
+                    if (!option.IsText) option.OptionBehaviour.gameObject.SetActive(enabled);
                     if (enabled)
                     {
                         offset -= option.IsHeader ? 0.7f : 0.5f;
@@ -311,18 +314,18 @@ namespace TownOfHost
         {
             numPlayers = Mathf.Clamp(numPlayers, 4, 15);
             __instance.PlayerSpeedMod = __instance.MapId == 4 ? 1.25f : 1f; //AirShipなら1.25、それ以外は1
-            __instance.CrewLightMod = 0.5f;
+            __instance.CrewLightMod = 1.0f;
             __instance.ImpostorLightMod = 1.75f;
-            __instance.KillCooldown = 25f;
+            __instance.KillCooldown = 27.5f;
             __instance.NumCommonTasks = 2;
-            __instance.NumLongTasks = 4;
-            __instance.NumShortTasks = 6;
-            __instance.NumEmergencyMeetings = 1;
+            __instance.NumLongTasks = 1;
+            __instance.NumShortTasks = 2;
+            __instance.NumEmergencyMeetings = 3;
             if (!isOnline)
                 __instance.NumImpostors = NormalGameOptionsV07.RecommendedImpostors[numPlayers];
             __instance.KillDistance = 0;
             __instance.DiscussionTime = 0;
-            __instance.VotingTime = 150;
+            __instance.VotingTime = 120;
             __instance.IsDefaults = true;
             __instance.ConfirmImpostor = false;
             __instance.VisualTasks = false;

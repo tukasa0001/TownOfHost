@@ -114,7 +114,6 @@ TeamImpostor,内鬼阵营
 TeamEgoist,野心家阵营
 TeamJackal,豺狼阵营
 
-
 ## 以下是职业简介（显示在开局以及任务栏的文本）
 NeutralInfo,独立阵营
 
@@ -743,6 +742,7 @@ DefaultShapeshiftText,变形
 DisabledBySettings,已在设置被中禁用
 Disabled,禁用
 FailToTrack,无法追踪
+TrueRandomeRolesText,提示：若启用的职业较少时打开<color=00ff00>真随机</color>可能出现白板
 
 ## 作弊
 Cheat.AUM,开挂（使用AUM）
