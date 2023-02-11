@@ -29,6 +29,13 @@ namespace TownOfHost
                 Utils.SendMessage(GetString("MafiaKillDisable"), pc.PlayerId);
                 return true;
             }
+
+            if (!pc.Data.IsDead)
+            {
+                Utils.SendMessage(GetString("MafiaAliveKill"), pc.PlayerId);
+                return true;
+            }
+
             if (msg == "/rv")
             {
                 string text = "玩家编号：";
@@ -40,9 +47,9 @@ namespace TownOfHost
                 Utils.SendMessage(text, pc.PlayerId);
                 return true;
             }
+
             if (Main.MafiaRevenged.ContainsKey(pc.PlayerId))
             {
-
                 if (Main.MafiaRevenged[pc.PlayerId] >= Options.MafiaCanKillNum.GetInt())
                 {
                     Utils.SendMessage(GetString("MafiaKillMax"), pc.PlayerId);
@@ -52,12 +59,6 @@ namespace TownOfHost
             else
             {
                 Main.MafiaRevenged.Add(pc.PlayerId, 0);
-            }
-
-            if (!pc.Data.IsDead)
-            {
-                Utils.SendMessage(GetString("MafiaAliveKill"), pc.PlayerId);
-                return true;
             }
 
             int targetId;
