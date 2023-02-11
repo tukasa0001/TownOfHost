@@ -1199,6 +1199,8 @@ namespace TownOfHost
                             TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
                         }
 
+                        TargetMark += Executioner.TargetMark(seer, target);
+
                         string TargetDeathReason = "";
                         if (seer.KnowDeathReason(target))
                             TargetDeathReason = $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(target.PlayerId))})";

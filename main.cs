@@ -10,8 +10,8 @@ using HarmonyLib;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 
-[assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
-[assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
+[assembly: AssemblyFileVersion(TownOfHost.Main.PluginVersion)]
+[assembly: AssemblyInformationalVersion(TownOfHost.Main.PluginVersion)]
 namespace TownOfHost
 {
     [BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
@@ -44,14 +44,14 @@ namespace TownOfHost
         // デバッグキーのコンフィグ入力
         public static ConfigEntry<string> DebugKeyInput { get; private set; }
         // 首页右上角的说明文本
-        public static readonly string MainMenuText = "开源社区项目  更新随缘  感谢支持";
+        public static readonly string MainMenuText = "能做出来这个模组，就已经值啦";
 
         // ==========
         //文件路径
         public static readonly string BANNEDWORDS_FILE_PATH = "./TOH_DATA/BanWords.txt";
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.karped1em.townofhost";
-        public const string PluginVersion = "1.1.3";
+        public const string PluginVersion = "1.1.4";
         public const int PluginCreate = 5;
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
