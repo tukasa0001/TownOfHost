@@ -443,7 +443,7 @@ namespace TownOfHost
                 }
             }
             */
-            Utils.CountAliveImpostors();
+            Utils.CountAlivePlayers(true);
             Utils.SyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
         }

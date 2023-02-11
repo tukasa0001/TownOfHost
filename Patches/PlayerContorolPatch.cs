@@ -289,7 +289,7 @@ namespace TownOfHost
 
             Main.PlayerStates[target.PlayerId].SetDead();
             target.SetRealKiller(killer, true); //既に追加されてたらスキップ
-            Utils.CountAliveImpostors();
+            Utils.CountAlivePlayers(true);
             Utils.SyncAllSettings();
             Utils.NotifyRoles();
             Utils.TargetDies(__instance, target);
