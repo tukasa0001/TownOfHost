@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TownOfHost.Roles;
 
-public class Jackal: NeutralKillingBase
+public class Jackal : NeutralKillingBase
 {
     private bool canVent;
     private bool impostorVision;
