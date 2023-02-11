@@ -23,6 +23,7 @@ namespace TownOfHost
             if (role < CustomRoles.NotAssigned)
             {
                 Main.PlayerStates[player.PlayerId].MainRole = role;
+                Main.PlayerStates[player.PlayerId].countTypes = role.GetCountTypes();
             }
             else if (role >= CustomRoles.NotAssigned)   //500:NoSubRole 501~:SubRole
             {
@@ -92,6 +93,20 @@ namespace TownOfHost
                 return new() { CustomRoles.NotAssigned };
             }
             return Main.PlayerStates[player.PlayerId].SubRoles;
+        }
+        public static CountTypes GetCountTypes(this PlayerControl player)
+        {
+            if (player == null)
+            {
+                var caller = new System.Diagnostics.StackFrame(1, false);
+                var callerMethod = caller.GetMethod();
+                string callerMethodName = callerMethod.Name;
+                string callerClassName = callerMethod.DeclaringType.FullName;
+                Logger.Warn(callerClassName + "." + callerMethodName + "がCountTypesを取得しようとしましたが、対象がnullでした。", "GetCountTypes");
+                return CountTypes.None;
+            }
+
+            return Main.PlayerStates.TryGetValue(player.PlayerId, out var State) ? State.countTypes : CountTypes.None;
         }
         public static void RpcSetNameEx(this PlayerControl player, string name)
         {
@@ -589,6 +604,7 @@ namespace TownOfHost
             role > CustomRoles.NotAssigned ? target.GetCustomSubRoles().Contains(role) : target.GetCustomRole() == role;
         public static bool Is(this PlayerControl target, CustomRoleTypes type) { return target.GetCustomRole().GetCustomRoleTypes() == type; }
         public static bool Is(this PlayerControl target, RoleTypes type) { return target.GetCustomRole().GetRoleTypes() == type; }
+        public static bool Is(this PlayerControl target, CountTypes type) { return target.GetCountTypes() == type; }
         public static bool IsAlive(this PlayerControl target)
         {
             //ロビーなら生きている

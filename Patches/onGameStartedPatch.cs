@@ -255,6 +255,7 @@ namespace TownOfHost
                         break;
                 }
                 Main.PlayerStates[pc.PlayerId].MainRole = role;
+                Main.PlayerStates[pc.PlayerId].countTypes = role.GetCountTypes();
             }
 
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
@@ -306,7 +307,10 @@ namespace TownOfHost
                 foreach (var pc in Main.AllPlayerControls)
                 {
                     if (pc.Is(CustomRoles.Watcher))
+                    {
                         Main.PlayerStates[pc.PlayerId].MainRole = Options.IsEvilWatcher ? CustomRoles.EvilWatcher : CustomRoles.NiceWatcher;
+                        Main.PlayerStates[pc.PlayerId].countTypes = Options.IsEvilWatcher ? CountTypes.Impostor : CountTypes.Crewmate;
+                    }
                 }
                 foreach (var pair in Main.PlayerStates)
                 {
@@ -456,6 +460,7 @@ namespace TownOfHost
                 var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
                 AllPlayers.Remove(player);
                 Main.PlayerStates[player.PlayerId].MainRole = role;
+                Main.PlayerStates[player.PlayerId].countTypes = role.GetCountTypes();
 
                 var selfRole = player.PlayerId == hostId ? hostBaseRole : BaseRole;
                 var othersRole = player.PlayerId == hostId ? RoleTypes.Crewmate : RoleTypes.Scientist;
@@ -518,6 +523,7 @@ namespace TownOfHost
                 AssignedPlayers.Add(player);
                 players.Remove(player);
                 Main.PlayerStates[player.PlayerId].MainRole = role;
+                Main.PlayerStates[player.PlayerId].countTypes = role.GetCountTypes();
                 Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + role.ToString(), "AssignRoles");
 
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
