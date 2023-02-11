@@ -302,7 +302,6 @@ namespace TownOfHost
                         ExtendedPlayerControl.RpcSetCustomRole(pair.Key, subRole);
                 }
 
-                HudManager.Instance.SetHudActive(true);
                 foreach (var pc in Main.AllPlayerControls)
                 {
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
@@ -382,6 +381,7 @@ namespace TownOfHost
                                 break;
                         }
                     }
+                    HudManager.Instance.SetHudActive(true);
                     pc.ResetKillCooldown();
 
                     //通常モードでかくれんぼをする人用
