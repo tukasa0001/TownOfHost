@@ -1058,5 +1058,8 @@ namespace TownOfHost
             casted = obj.TryCast<T>();
             return casted != null;
         }
+        public static int AllPlayersCount => Main.PlayerStates.Count(kvp => kvp.Value.countTypes != CountTypes.OutOfGame);
+        public static int PlayersCount(CountTypes countTypes) => Main.PlayerStates.Count(kvp => kvp.Value.countTypes == countTypes);
+        public static int AlivePlayersCount(CountTypes countTypes) => Main.AllAlivePlayerControls.Count(pc => pc.Is(countTypes));
     }
 }

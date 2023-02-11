@@ -188,7 +188,7 @@ namespace TownOfHost.Modules
             if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
             {
                 opt.SetFloat(FloatOptionNames.ImpostorLightMod, 0f);
-                if (player.GetCustomRole().IsImpostor() || player.Is(CustomRoles.Egoist))
+                if (player.Is(CountTypes.Impostor))
                 {
                     AURoleOptions.PlayerSpeedMod = Main.MinSpeed;
                 }
