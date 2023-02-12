@@ -7,7 +7,6 @@ namespace TownOfHost
     {
         private static readonly int Id = 8021075;
         public static List<byte> playerIdList = new();
-        public static Dictionary<byte, float> CurrentKillCooldown = new();
         //public static bool isKilled = false;
         public static List<byte> killed = new();
 
@@ -18,11 +17,9 @@ namespace TownOfHost
         public static void Init()
         {
             playerIdList = new();
-            CurrentKillCooldown = new();
-            // isKilled = false;
         }
 
-        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = isKilled(id) ? 255f : CurrentKillCooldown[id];
+        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = isKilled(id) ? 255f : 1f;
         public static string GetKillLimit(byte id) => Utils.ColorString(CanUseKillButton(id)? Color.yellow : Color.white, isKilled(id)? $"(0)" : "(1)");
         public static bool CanUseKillButton(byte playerId)
             => !Main.PlayerStates[playerId].IsDead
@@ -31,7 +28,6 @@ namespace TownOfHost
 
         public static void Add(byte playerId) {
             playerIdList.Add(playerId);
-            CurrentKillCooldown.Add(playerId, 1);
 
             if (!Main.ResetCamPlayerList.Contains(playerId)) {
                 Main.ResetCamPlayerList.Add(playerId);

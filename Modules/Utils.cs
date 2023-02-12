@@ -859,7 +859,7 @@ namespace TownOfHost
                 {
                     case SuffixModes.None:
                         break;
-                    case SuffixModes.TOH:
+                    case SuffixModes.TOHE:
                         name += $"\r\n<color={Main.ModColor}>TOHE v{Main.PluginVersion}</color>";
                         break;
                     case SuffixModes.Streaming:
@@ -888,7 +888,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             if (Main.AllPlayerControls == null) return;
-
+            
             var caller = new System.Diagnostics.StackFrame(1, false);
             var callerMethod = caller.GetMethod();
             string callerMethodName = callerMethod.Name;

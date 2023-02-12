@@ -456,6 +456,10 @@ namespace TownOfHost
             MeetingStates.MeetingCalled = true;
             Main.GuesserGuessed.Clear();
             NoticeSkill();
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.shapeshifting) pc.RpcRevertShapeshift(false);
+            }
         }
         public static void Postfix(MeetingHud __instance)
         {

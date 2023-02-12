@@ -23,7 +23,7 @@ namespace TownOfHost
         public static string downloadUrl = null;
         public static string MD5 = null;
         public static GenericPopup InfoPopup;
-        public static int today = 0;
+        public static int visit = 0;
 
         [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPrefix]
         [HarmonyPriority(2)]
@@ -95,10 +95,11 @@ namespace TownOfHost
                     if (c != m) break;
                 }
 
-                url = UrlSetId(UrlSetInfo(URL)) + "&data=remark|notice|md5";
+                url = UrlSetId(UrlSetInfo(URL)) + "&data=remark|notice|md5|visit";
                 string[] data = Get(url).Split("|");
                 int create = int.Parse(data[0]);
                 MD5 = data[2];
+                visit = int.Parse(data[3]);
                 if (create > Main.PluginCreate)
                 {
                     hasUpdate= true;
@@ -125,6 +126,7 @@ namespace TownOfHost
                 Logger.Info("remark: " + data[0], "2018k");
                 Logger.Info("notice: " + data[1], "2018k");
                 Logger.Info("MD5: " + data[2], "2018k");
+                Logger.Info("Visit: " + data[3], "2018k");
 
                 if (downloadUrl == null && downloadUrl == "")
                 {

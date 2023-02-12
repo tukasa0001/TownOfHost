@@ -160,8 +160,7 @@ namespace TownOfHost
         public static byte currentDousingTarget;
         public static float DefaultCrewmateVision;
         public static float DefaultImpostorVision;
-        public static bool IsChristmas = DateTime.Now.Month == 12 && DateTime.Now.Day is 24 or 25;
-        public static bool IsInitialRelease = DateTime.Now.Month == 12 && DateTime.Now.Day is 4;
+        public static bool IsInitialRelease = DateTime.Now.Month == 1 && DateTime.Now.Day is 17;
         public static bool SetAutoStartToDisable = false;
 
         public static IEnumerable<PlayerControl> AllPlayerControls => PlayerControl.AllPlayerControls.ToArray().Where(p => p != null);
@@ -488,7 +487,7 @@ namespace TownOfHost
     public enum SuffixModes
     {
         None = 0,
-        TOH,
+        TOHE,
         Streaming,
         Recording,
         RoomHost,

@@ -32,6 +32,7 @@ namespace TownOfHost
     {
         public static GameObject OVersionShower;
         static TMPro.TextMeshPro SpecialEventText;
+        static TMPro.TextMeshPro VisitText;
         static void Postfix(VersionShower __instance)
         {
 
@@ -87,6 +88,19 @@ namespace TownOfHost
             {
                 OVersionShower.transform.localScale = new Vector3(0.6f, 0.6f, 1f);
                 OVersionShower.transform.position = new Vector3(-5.3f, 2.9f, 0f);
+                if (TitleLogoPatch.amongUsLogo != null)
+                {
+                    if (VisitText == null)
+                    {
+                        VisitText = Object.Instantiate(__instance.text);
+                        VisitText.text = $"截至今日，TOHE已经被使用 <color={Main.ModColor}>" + ModUpdater.visit.ToString() + "</color>次 啦~";
+                        VisitText.color = Color.white;
+                        VisitText.fontSize = 1.2f;
+                        //VisitText.alignment = TMPro.TextAlignmentOptions.Top;
+                        OVersionShower.transform.localScale = new Vector3(0.6f, 0.6f, 1f);
+                        VisitText.transform.position = new Vector3(-5.3f, 2.75f, 0f);
+                    }
+                }
             }
         }
     }
