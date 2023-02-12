@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using Csv;
 using HarmonyLib;
-using static Il2CppSystem.Net.ServicePointManager;
 
 namespace TownOfHost
 {
@@ -76,8 +75,6 @@ namespace TownOfHost
 
         public static string GetString(string str, SupportedLangs langId)
         {
-
-            if (langId != SupportedLangs.SChinese || langId != SupportedLangs.TChinese) langId = SupportedLangs.SChinese;
             var res = $"<INVALID:{str}>";
             try
             {
@@ -96,7 +93,6 @@ namespace TownOfHost
         public static string GetRoleString(string str)
         {
             var CurrentLanguage = TranslationController.Instance.currentLanguage.languageID;
-            CurrentLanguage = SupportedLangs.SChinese;
             var lang = CurrentLanguage;
 
             return GetString(str, lang);
