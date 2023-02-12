@@ -26,5 +26,31 @@ public abstract class RoleBase
         TabGroup tab = TabGroup.MainSettings
     )
     {
+        RoleName = roleName;
+        CustomRoleType = type;
+        ConfigId = configId;
+
+        if (colorCode == "")
+            colorCode = type switch
+            {
+                RoleType.Impostor or RoleType.Madmate => "#ff1919",
+                _ => "#ffffff"
+            };
+        RoleColorCode = colorCode;
+
+        if (tab == TabGroup.MainSettings)
+            tab = type switch
+            {
+                RoleType.Impostor => TabGroup.ImpostorRoles,
+                RoleType.Madmate => TabGroup.ImpostorRoles,
+                RoleType.Crewmate => TabGroup.CrewmateRoles,
+                RoleType.Neutral => TabGroup.NeutralRoles,
+                _ => tab
+            };
+        Tab = tab;
+
+        CustomRoleManager.AllRoles.Add(this);
+
+        RoleColor = Utils.GetRoleColor(roleName);
     }
 }
