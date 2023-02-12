@@ -96,12 +96,16 @@ public abstract class RoleBase
         string Completed = comms ? "?" : $"{numCompleted}";
         return Utils.ColorString(TextColor, $"({Completed}/{numAllTasks})");
     }
+    // == CheckMurder関連処理 ==
     public virtual IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target) => null;
+    // ==/CheckMurder関連処理 ==
     public virtual void OnMurderPlayer(PlayerControl killer, PlayerControl target)
+    { }
+    public virtual void OnShapeshift(PlayerControl shapeshifter, PlayerControl target)
     { }
     public virtual void OnFixedUpdate(PlayerControl player)
     { }
-    public virtual bool OnReportDeadBody() => true;
+    public virtual bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target) => true;
     public virtual void OnStartMeeting()
     { }
 }
