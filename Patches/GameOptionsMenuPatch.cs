@@ -49,6 +49,9 @@ namespace TownOfHost
             var Tint = GameObject.Find("Tint");
             if (Tint != null) Tint.SetActive(false);
 
+            //var Tabs = GameObject.Find("Tabs");
+            //if (Tabs != null) Tabs.transform.position = new Vector3(-0.4973f, 5.0121f, -100);
+
             var gameSettings = GameObject.Find("Game Settings");
             if (gameSettings == null) return;
             gameSettings.transform.FindChild("GameGroup").GetComponent<Scroller>().ScrollWheelSpeed = 1f;
