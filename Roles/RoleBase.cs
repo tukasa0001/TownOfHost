@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Hazel;
 
 using static TownOfHost.Options;
 
@@ -53,4 +54,49 @@ public abstract class RoleBase
 
         RoleColor = Utils.GetRoleColor(roleName);
     }
+    public virtual void SetupCustomOption() => SetupRoleOptions(ConfigId, Tab, RoleName);
+    public virtual void Init()
+    {
+        PlayerIdList = new(GameData.Instance.PlayerCount);
+    }
+    public virtual void Add(byte playerId)
+    {
+        PlayerIdList.Add(playerId);
+    }
+    public virtual void ReceiveRPC(MessageReader reader)
+    { }
+    public virtual bool CanUseKillButton() => false;
+    public virtual void SetKillCooldown(byte playerId)
+    { }
+    public virtual void ApplyGameOptions(byte playerId)
+    { }
+    public virtual string GetProgressText(byte playerId, bool comms = false)
+    {
+        //タスクテキスト
+        var taskState = Main.PlayerStates?[playerId].GetTaskState();
+        if (!taskState.hasTasks) return "";
+
+        Color TextColor = Color.yellow;
+        var info = Utils.GetPlayerInfoById(playerId);
+        var TaskCompleteColor = Utils.HasTasks(info) ? Color.green : Utils.GetRoleColor(RoleName).ShadeColor(0.5f); //タスク完了後の色
+        var NonCompleteColor = Utils.HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
+        var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
+        int numCompleted = taskState.CompletedTasksCount;
+        int numAllTasks = taskState.AllTasksCount;
+
+        if (Workhorse.IsThisRole(playerId))
+            (NormalColor, numCompleted, numAllTasks) = Workhorse.GetTaskTextData(taskState);
+
+        TextColor = comms ? Color.gray : NormalColor;
+        string Completed = comms ? "?" : $"{numCompleted}";
+        return Utils.ColorString(TextColor, $"({Completed}/{numAllTasks})");
+    }
+    public virtual bool OnCheckMurder(PlayerControl killer, PlayerControl target) => true;
+    public virtual void OnMurderPlayer(PlayerControl killer, PlayerControl target)
+    { }
+    public virtual void OnFixedUpdate(PlayerControl player)
+    { }
+    public virtual bool OnReportDeadBody() => true;
+    public virtual void OnStartMeeting()
+    { }
 }
