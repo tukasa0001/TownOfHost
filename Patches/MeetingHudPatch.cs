@@ -417,7 +417,7 @@ namespace TownOfHost
                 {
                     new LateTask(() =>
                     {
-                        Utils.SendMessage(Main.DetectiveNotify[pc.PlayerId], pc.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Detective), GetString("DetecticeNotiveTitle")));
+                        Utils.SendMessage(Main.DetectiveNotify[pc.PlayerId], pc.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Detective), GetString("DetectiveNoticeTitle")));
                     }, 5.0f, "Notice Detective Skill");
                 }
             }
