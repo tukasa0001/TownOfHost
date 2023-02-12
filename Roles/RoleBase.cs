@@ -70,7 +70,7 @@ public abstract class RoleBase
     }
     public virtual void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
     { }
-    public virtual bool CanUseKillButton() => false;
+    public virtual bool CanUseKillButton(byte playerId) => false;
     public virtual void SetKillCooldown(byte playerId)
     { }
     public virtual void ApplyGameOptions(byte playerId)
