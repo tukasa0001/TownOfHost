@@ -56,7 +56,8 @@ namespace TownOfHost
                     if (playerId == target.PlayerId) continue;
                     else if (!CanTargetImpostor.GetBool() && target.Is(RoleType.Impostor)) continue;
                     else if (!CanTargetNeutralKiller.GetBool() && target.IsNeutralKiller()) continue;
-                    if (target.Is(CustomRoles.GM)) continue;
+                    if (target.GetCustomRole() is CustomRoles.GM or CustomRoles.SuperStar) continue;
+                    if (Utils.GetPlayerById(playerId).Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers)) continue;
 
                     targetList.Add(target);
                 }

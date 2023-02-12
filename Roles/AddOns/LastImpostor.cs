@@ -29,7 +29,8 @@ namespace TownOfHost
             is not CustomRoles.Vampire
                 and not CustomRoles.BountyHunter
                 and not CustomRoles.SerialKiller
-                and not CustomRoles.Sans;
+                and not CustomRoles.Sans
+                and not CustomRoles.Mare;
         }
 
         public static void SetSubRole()
