@@ -93,7 +93,7 @@ public abstract class RoleBase
         string Completed = comms ? "?" : $"{numCompleted}";
         return Utils.ColorString(TextColor, $"({Completed}/{numAllTasks})");
     }
-    public virtual bool OnCheckMurder(PlayerControl killer, PlayerControl target) => true;
+    public virtual IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target) => null;
     public virtual void OnMurderPlayer(PlayerControl killer, PlayerControl target)
     { }
     public virtual void OnFixedUpdate(PlayerControl player)
