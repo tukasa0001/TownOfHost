@@ -161,19 +161,30 @@ namespace TownOfHost
                 case CustomRPC.VersionCheck:
                     try
                     {
-                        Version version = Version.Parse(reader.ReadString());
-                        string tag = reader.ReadString();
-                        //string forkId = 4 <= version.Major ? reader.ReadString() : Main.OriginalForkId;
-                        string forkId = reader.ReadString();
-                        Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag, forkId);
-                        if (tag != $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})")
+                        if (AmongUsClient.Instance.AmHost)
                         {
-                            new LateTask(() =>
+                            Version version = Version.Parse(reader.ReadString());
+                            string tag = reader.ReadString();
+                            //string forkId = 4 <= version.Major ? reader.ReadString() : Main.OriginalForkId;
+                            string forkId = reader.ReadString();
+                            Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag, forkId);
+                            if (tag != $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})")
                             {
-                                AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
-                                Logger.Warn($"{__instance?.Data?.PlayerName} 安装了与房主版本不同的模组，故将其踢出", "Version Kick");
-                                Logger.SendInGame($"【{__instance?.Data?.PlayerName}】因安装了与房主版本不同的模组被踢出");
-                            }, 3f, "Kick");
+                                new LateTask(() =>
+                                {
+                                    AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
+                                    Logger.Warn($"{__instance?.Data?.PlayerName} 安装了与房主版本不同的模组，故将其踢出", "Version Kick");
+                                    Logger.SendInGame($"【{__instance?.Data?.PlayerName}】因安装了与房主版本不同的模组被踢出");
+                                }, 3f, "Kick");
+                            }
+                        }
+                        else
+                        {
+                            if (GameStates.IsLobby)
+                            {
+                                ErrorText.Instance.ModConflict = true;
+                                ErrorText.Instance.AddError(ErrorCode.TestError1);
+                            }
                         }
                     }
                     catch
