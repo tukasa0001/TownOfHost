@@ -101,7 +101,7 @@ namespace TownOfHost
             Utils.NotifyRoles();
             Utils.MarkEveryoneDirtySettings();
             //シュレディンガーの猫の役職変化処理終了
-            //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
+            //ニュートラルのキル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
             return false;
         }
         public static void ChangeTeam(PlayerControl player)

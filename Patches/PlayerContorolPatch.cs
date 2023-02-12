@@ -194,7 +194,7 @@ namespace TownOfHost
 
                     //==========マッドメイト系役職==========//
 
-                    //==========第三陣営役職==========//
+                    //==========ニュートラル役職==========//
                     case CustomRoles.Arsonist:
                         killer.SetKillCooldown(Options.ArsonistDouseTime.GetFloat());
                         if (!Main.isDoused[(killer.PlayerId, target.PlayerId)] && !Main.ArsonistTimer.ContainsKey(killer.PlayerId))
@@ -715,7 +715,7 @@ namespace TownOfHost
                         if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool()) //targetがタスクを終わらせたマッドスニッチ
                             Mark.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★")); //targetにマーク付与
                     }
-                    //インポスター/キル可能な第三陣営がタスクが終わりそうなSnitchを確認できる
+                    //インポスター/キル可能なニュートラルがタスクが終わりそうなSnitchを確認できる
                     Mark.Append(Snitch.GetWarningMark(seer, target));
 
                     if (seer.Is(CustomRoles.Arsonist))
@@ -747,7 +747,7 @@ namespace TownOfHost
 
                     }
                     if (seer.Is(CustomRoles.EvilTracker)) Mark.Append(EvilTracker.GetTargetMark(seer, target));
-                    //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能な第三陣営に警告が表示される
+                    //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能なニュートラルに警告が表示される
                     Mark.Append(Snitch.GetWarningArrow(seer, target));
 
                     //ハートマークを付ける(会議中MOD視点)
@@ -760,7 +760,7 @@ namespace TownOfHost
                         Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>");
                     }
 
-                    //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能な第三陣営の方角がわかる
+                    //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能なニュートラルの方角がわかる
                     Suffix.Append(Snitch.GetSnitchArrow(seer, target));
 
                     Suffix.Append(BountyHunter.GetTargetArrow(seer, target));
