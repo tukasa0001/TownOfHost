@@ -209,7 +209,6 @@ namespace TownOfHost
                     {CustomRoles.SabotageMaster, "#0000ff"},
                     {CustomRoles.Snitch, "#b8fb4f"},
                     {CustomRoles.Mayor, "#204d42"},
-                    {CustomRoles.Sheriff, "#f8cd46"},
                     {CustomRoles.Lighter, "#eee5be"},
                     {CustomRoles.SpeedBooster, "#00ffff"},
                     {CustomRoles.Doctor, "#80ffdd"},
@@ -255,6 +254,7 @@ namespace TownOfHost
                             break;
                     }
                 }
+                _ = new Sheriff();
             }
             catch (ArgumentException ex)
             {

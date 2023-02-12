@@ -8,9 +8,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AmongUs.Data;
 using AmongUs.GameOptions;
-using TownOfHost.Modules;
 using UnhollowerBaseLib;
 using UnityEngine;
+
+using TownOfHost.Modules;
+//using TownOfHost.Roles;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -176,6 +178,14 @@ namespace TownOfHost
             ColorUtility.TryParseHtmlString(hexColor, out Color c);
             return c;
         }
+        // public static Color GetRoleColor(CustomRoles role)
+        // {
+        //     var hexColor = CustomRoleManager.AllRoles.Where(roleClass => roleClass.RoleName == role).FirstOrDefault().RoleColorCode;
+        //     ColorUtility.TryParseHtmlString(hexColor, out Color c);
+        //     return c;
+        // }
+        // public static string GetRoleColorCode(CustomRoles role) =>
+        //     CustomRoleManager.AllRoles.Where(roleClass => roleClass.RoleName == role).FirstOrDefault().RoleColorCode;
         public static string GetRoleColorCode(CustomRoles role)
         {
             if (!Main.roleColors.TryGetValue(role, out var hexColor)) hexColor = "#ffffff";
@@ -328,7 +338,11 @@ namespace TownOfHost
         {
             if (!Main.playerVersion.ContainsKey(0)) return ""; //ホストがMODを入れていなければ未記入を返す
             var ProgressText = new StringBuilder();
-            var role = Main.PlayerStates[playerId].MainRole;
+            var State = Main.PlayerStates[playerId];
+            var role = State.MainRole;
+            // var role = CustomRoleManager.AllRoles.Get(State.MainRole);
+            // ProgressText.Append(role?.GetProgressText(playerId, comms));
+            // switch (role.RoleName)
             switch (role)
             {
                 case CustomRoles.Arsonist:

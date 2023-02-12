@@ -15,4 +15,6 @@ public static class CustomRoleManager
     }
     public static RoleBase Get(this List<RoleBase> roleBase, CustomRoles role) => roleBase.ToArray().Where(roleClass => roleClass.RoleName == role).FirstOrDefault();
     public static void Do(this List<RoleBase> roleBase, Action<RoleBase> action) => roleBase.ToArray().Do(action);
+    // == CheckMurder関連処理 ==
+    // ==/CheckMurder関連処理 ==
 }

@@ -4,11 +4,13 @@ using System.Threading.Tasks;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
+
+using TownOfHost.Roles;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    enum CustomRPC
+    public enum CustomRPC
     {
         VersionCheck = 60,
         RequestRetryVersionCheck = 61,
@@ -138,9 +140,6 @@ namespace TownOfHost
                 case CustomRPC.SetKillOrSpell:
                     Witch.ReceiveRPC(reader, false);
                     break;
-                case CustomRPC.SetSheriffShotLimit:
-                    Sheriff.ReceiveRPC(reader);
-                    break;
                 case CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();
                     byte DousedId = reader.ReadByte();
@@ -197,6 +196,7 @@ namespace TownOfHost
                     RPC.SetRealKiller(targetId, killerId);
                     break;
             }
+            CustomRoleManager.AllRoles.Do(role => role.ReceiveRPC(reader, rpcType));
         }
     }
     static class RPC
@@ -289,6 +289,8 @@ namespace TownOfHost
             {
                 Main.PlayerStates[targetId].SetSubRole(role);
             }
+
+            CustomRoleManager.AllRoles.Do(role => role.Add(targetId));
             switch (role)
             {
                 case CustomRoles.BountyHunter:
@@ -335,9 +337,6 @@ namespace TownOfHost
                     Jackal.Add(targetId);
                     break;
 
-                case CustomRoles.Sheriff:
-                    Sheriff.Add(targetId);
-                    break;
                 case CustomRoles.SabotageMaster:
                     SabotageMaster.Add(targetId);
                     break;

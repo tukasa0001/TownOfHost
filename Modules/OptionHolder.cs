@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using UnityEngine;
 
+using TownOfHost.Roles;
+
 namespace TownOfHost
 {
     [Flags]
@@ -331,6 +333,8 @@ namespace TownOfHost
             #region 役職・詳細設定
             CustomRoleCounts = new();
             CustomRoleSpawnChances = new();
+
+            var sortedRoleClass = CustomRoleManager.AllRoles.OrderBy(role => role.ConfigId);
             // GM
             EnableGM = BooleanOptionItem.Create(100, "GM", false, TabGroup.MainSettings, false)
                 .SetColor(Utils.GetRoleColor(CustomRoles.GM))
@@ -349,8 +353,7 @@ namespace TownOfHost
             FireWorks.SetupCustomOption();
             Sniper.SetupCustomOption();
             SetupRoleOptions(2000, TabGroup.ImpostorRoles, CustomRoles.Puppeteer);
-            Mare.SetupCustomOption();
-            TimeThief.SetupCustomOption();
+            sortedRoleClass.Where(role => role.RoleName.IsImpostor()).Do(role => role.SetupCustomOption());
             EvilTracker.SetupCustomOption();
 
             DefaultShapeshiftCooldown = FloatOptionItem.Create(5011, "DefaultShapeshiftCooldown", new(5f, 999f, 5f), 15f, TabGroup.ImpostorRoles, false)
@@ -400,7 +403,7 @@ namespace TownOfHost
             MayorNumOfUseButton = IntegerOptionItem.Create(20212, "MayorNumOfUseButton", new(1, 99, 1), 1, TabGroup.CrewmateRoles, false).SetParent(MayorHasPortableButton)
                 .SetValueFormat(OptionFormat.Times);
             SabotageMaster.SetupCustomOption();
-            Sheriff.SetupCustomOption();
+            sortedRoleClass.Where(role => role.RoleName.IsCrewmate()).Do(role => role.SetupCustomOption());
             Snitch.SetupCustomOption();
             SetupRoleOptions(20600, TabGroup.CrewmateRoles, CustomRoles.SpeedBooster);
             SpeedBoosterUpSpeed = FloatOptionItem.Create(20610, "SpeedBoosterUpSpeed", new(0.1f, 0.5f, 0.1f), 0.3f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])

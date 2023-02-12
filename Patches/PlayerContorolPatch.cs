@@ -6,8 +6,10 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using UnityEngine;
-using static TownOfHost.Translator;
+
 using TownOfHost.Modules;
+using TownOfHost.Roles;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -148,6 +150,9 @@ namespace TownOfHost
             //キル時の特殊判定
             if (killer.PlayerId != target.PlayerId)
             {
+                var roleClass = CustomRoleManager.AllRoles.Get(killer.GetCustomRole());
+                // if (!roleClass.OnCheckMurder(killer, target))
+                //     return false;
                 //自殺でない場合のみ役職チェック
                 switch (killer.GetCustomRole())
                 {
@@ -204,12 +209,6 @@ namespace TownOfHost
                             RPC.SetCurrentDousingTarget(killer.PlayerId, target.PlayerId);
                         }
                         return false;
-
-                    //==========クルー役職==========//
-                    case CustomRoles.Sheriff:
-                        if (!Sheriff.OnCheckMurder(killer, target))
-                            return false;
-                        break;
                 }
             }
 
@@ -237,6 +236,8 @@ namespace TownOfHost
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost) return;
 
             PlayerControl killer = __instance; //読み替え変数
+
+            CustomRoleManager.AllRoles.Do(role => role.OnMurderPlayer(killer, target));
 
             //実際のキラーとkillerが違う場合の入れ替え処理
             if (Sniper.IsEnable)
@@ -312,6 +313,9 @@ namespace TownOfHost
             Sniper.OnShapeshift(shapeshifter, shapeshifting);
 
             if (!AmongUsClient.Instance.AmHost) return;
+
+            CustomRoleManager.AllRoles.Do(role => role.OnShapeshift(shapeshifter, target));
+
             if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
 
             switch (shapeshifter.GetCustomRole())
@@ -438,6 +442,8 @@ namespace TownOfHost
                 }
             }
 
+            CustomRoleManager.AllRoles.Do(role => role.OnReportDeadBody(__instance, target));
+
             Main.PuppeteerList.Clear();
             Sniper.OnReportDeadBody();
             Vampire.OnStartMeeting();
@@ -490,6 +496,8 @@ namespace TownOfHost
                     Logger.Info($"{__instance.GetNameWithRole()}:通報可能になったため通報処理を行います", "ReportDeadbody");
                     __instance.ReportDeadBody(info);
                 }
+
+                CustomRoleManager.AllRoles.Do(role => role.OnFixedUpdate(__instance));
 
                 DoubleTrigger.OnFixedUpdate(player);
                 Vampire.OnFixedUpdate(player);

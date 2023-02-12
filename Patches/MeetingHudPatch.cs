@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using HarmonyLib;
 using UnityEngine;
+
+using TownOfHost.Roles;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -323,6 +325,7 @@ namespace TownOfHost
                     roleTextMeeting.enabled = true;
                 }
             }
+            CustomRoleManager.AllRoles.Do(role => role.OnStartMeeting());
             if (Options.SyncButtonMode.GetBool())
             {
                 Utils.SendMessage(string.Format(GetString("Message.SyncButtonLeft"), Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount));

@@ -5,6 +5,8 @@ using Il2CppSystem.Linq;
 using InnerNet;
 using Mathf = UnityEngine.Mathf;
 
+using TownOfHost.Roles;
+
 namespace TownOfHost.Modules
 {
     public class PlayerGameOptionsSender : GameOptionsSender
@@ -92,6 +94,7 @@ namespace TownOfHost.Modules
                     break;
             }
 
+            CustomRoleManager.AllRoles.Do(role => role.ApplyGameOptions(player.PlayerId));
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Terrorist:

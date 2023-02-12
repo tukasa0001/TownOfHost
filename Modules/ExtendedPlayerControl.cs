@@ -7,6 +7,7 @@ using Hazel;
 using InnerNet;
 using TownOfHost.Modules;
 using UnityEngine;
+using TownOfHost.Roles;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -366,10 +367,9 @@ namespace TownOfHost
                 CustomRoles.Mafia => Utils.CanMafiaKill(),
                 CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
-                CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
                 CustomRoles.Egoist or CustomRoles.Jackal => true,
-                _ => pc.Is(RoleType.Impostor),
+                _ => CustomRoleManager.AllRoles.Get(pc.GetCustomRole()).CanUseKillButton(pc.PlayerId) || pc.Is(RoleType.Impostor),
             };
         }
         public static bool CanUseImpostorVentButton(this PlayerControl pc)
@@ -404,6 +404,7 @@ namespace TownOfHost
         public static void ResetKillCooldown(this PlayerControl player)
         {
             Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
+            CustomRoleManager.AllRoles.Do(role => role.SetKillCooldown(player.PlayerId));
             switch (player.GetCustomRole())
             {
                 case CustomRoles.SerialKiller:
@@ -423,9 +424,6 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Jackal:
                     Jackal.SetKillCooldown(player.PlayerId);
-                    break;
-                case CustomRoles.Sheriff:
-                    Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
                     break;
             }
             if (player.PlayerId == LastImpostor.currentId)

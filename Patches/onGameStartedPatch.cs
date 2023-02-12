@@ -4,7 +4,9 @@ using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
+
 using TownOfHost.Modules;
+using TownOfHost.Roles;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -103,19 +105,19 @@ namespace TownOfHost
                     Options.HideAndSeekKillDelayTimer = Options.StandardHASWaitingTime.GetFloat();
                 }
             }
+            CustomRoleManager.Initialize();
+            CustomRoleManager.AllRoles.Do(role => role.Init());
             FallFromLadder.Reset();
             BountyHunter.Init();
             SerialKiller.Init();
             FireWorks.Init();
             Sniper.Init();
             TimeThief.Init();
-            Mare.Init();
             Witch.Init();
             SabotageMaster.Init();
             Egoist.Init();
             Executioner.Init();
             Jackal.Init();
-            Sheriff.Init();
             EvilTracker.Init();
             Snitch.Init();
             SchrodingerCat.Init();
@@ -306,6 +308,7 @@ namespace TownOfHost
                 foreach (var pc in Main.AllPlayerControls)
                 {
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
+                    CustomRoleManager.AllRoles.Do(role => role.Add(pc.PlayerId));
                     switch (pc.GetCustomRole())
                     {
                         case CustomRoles.BountyHunter:
@@ -351,9 +354,6 @@ namespace TownOfHost
                             Jackal.Add(pc.PlayerId);
                             break;
 
-                        case CustomRoles.Sheriff:
-                            Sheriff.Add(pc.PlayerId);
-                            break;
                         case CustomRoles.Mayor:
                             Main.MayorUsedButtonCount[pc.PlayerId] = 0;
                             break;
