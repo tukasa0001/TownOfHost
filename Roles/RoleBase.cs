@@ -18,12 +18,14 @@ public abstract class RoleBase
     public TabGroup Tab;
     public OptionItem RoleOption => CustomRoleSpawnChances[RoleName];
     public bool IsEnable = false;
+    public bool HasTasks = false;
 
 
     public RoleBase(
         CustomRoles roleName,
         RoleType type,
         int configId,
+        bool hasTasks,
         string colorCode = "",
         TabGroup tab = TabGroup.MainSettings
     )
@@ -31,6 +33,7 @@ public abstract class RoleBase
         RoleName = roleName;
         CustomRoleType = type;
         ConfigId = configId;
+        HasTasks = hasTasks;
 
         if (colorCode == "")
             colorCode = type switch
