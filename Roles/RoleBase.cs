@@ -65,7 +65,7 @@ public abstract class RoleBase
     {
         PlayerIdList.Add(playerId);
     }
-    public virtual void ReceiveRPC(MessageReader reader)
+    public virtual void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
     { }
     public virtual bool CanUseKillButton() => false;
     public virtual void SetKillCooldown(byte playerId)
