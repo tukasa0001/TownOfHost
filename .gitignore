@@ -1,8 +1,7 @@
 
 .vs/
 bin/
-Resources/Original/
-Resources/TOHY/
+Img Sources/
 
 FodyWeavers.xsd
 
