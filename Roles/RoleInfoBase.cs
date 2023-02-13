@@ -5,7 +5,7 @@ using static TownOfHost.Options;
 
 namespace TownOfHost.Roles;
 
-public class RoleInfoBase
+public abstract class RoleInfoBase
 {
     public static RoleInfoBase Instance;
     public List<byte> PlayerIdList;
