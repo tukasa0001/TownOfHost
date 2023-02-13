@@ -21,8 +21,6 @@ namespace TownOfHost
             __instance.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(offset_x, 0f, 0f);
 
             if (!GameStates.IsLobby) return;
-            if (!CustomRoles.Sheriff.IsEnable() && !CustomRoles.ChivalrousExpert.IsEnable() && !CustomRoles.SerialKiller.IsEnable())
-                __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("Warning.EgoistCannotWin"));
         }
     }
     [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
