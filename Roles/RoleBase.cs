@@ -8,16 +8,11 @@ public abstract class RoleBase : RoleInfoBase
 {
     public bool HasTasks = false;
     public RoleBase(
-        RoleInfoBase basicInfo
+        bool hasTasks
     )
-    : base(
-        basicInfo.RoleName,
-        basicInfo.CustomRoleType,
-        basicInfo.ConfigId,
-        basicInfo.RoleColorCode,
-        basicInfo.Tab
-    )
-    { }
+    {
+        HasTasks = hasTasks;
+    }
     public virtual void Init()
     {
         PlayerIdList = new(GameData.Instance.PlayerCount);

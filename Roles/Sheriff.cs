@@ -12,14 +12,15 @@ namespace TownOfHost
 {
     public class Sheriff : RoleBase
     {
-        public static readonly RoleInfoBase BasicInfo = new(
+        public static readonly RoleInfoBase BasicInfo = new RoleInfoBase().Create(
                 CustomRoles.Sheriff,
                 RoleType.Crewmate,
                 20400,
                 "#f8cd46"
             );
-        public Sheriff() : base(
-            BasicInfo
+        public Sheriff()
+        : base(
+            false
         )
         { }
 
