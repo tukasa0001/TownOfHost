@@ -151,6 +151,12 @@ namespace TownOfHost
                 case CustomRoles.Sheriff:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
+                    __instance.ImpostorText.gameObject.SetActive(true);
+                    var numImpostors = Main.NormalOptions.NumImpostors;
+                    var text = numImpostors == 1
+                        ? GetString(StringNames.NumImpostorsS)
+                        : string.Format(GetString(StringNames.NumImpostorsP), numImpostors);
+                    __instance.ImpostorText.text = text.Replace("[FF1919FF]", "<color=#FF1919FF>").Replace("[]", "</color>");
                     break;
                 case CustomRoles.Arsonist:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
