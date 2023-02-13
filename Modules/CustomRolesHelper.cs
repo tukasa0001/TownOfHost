@@ -1,9 +1,80 @@
 using AmongUs.GameOptions;
+using Il2CppSystem.Net;
 
 namespace TownOfHost
 {
     static class CustomRolesHelper
     {
+        public static CustomRoles GetVNRole( this CustomRoles role) // 对应原版职业
+        {
+            return role switch
+            {
+                CustomRoles.Sniper => CustomRoles.Shapeshifter,
+                CustomRoles.Jester => CustomRoles.Crewmate,
+                CustomRoles.Bait => CustomRoles.Crewmate,
+                CustomRoles.Mayor => Options.MayorHasPortableButton.GetBool() ? CustomRoles.Engineer : CustomRoles.Crewmate,
+                CustomRoles.Opportunist => CustomRoles.Crewmate,
+                CustomRoles.Snitch => CustomRoles.Crewmate,
+                CustomRoles.SabotageMaster => CustomRoles.Crewmate,
+                CustomRoles.Mafia=> CustomRoles.Impostor,
+                CustomRoles.Terrorist => CustomRoles.Engineer,
+                CustomRoles.Executioner => CustomRoles.Crewmate,
+                CustomRoles.Watcher => Options.IsEvilWatcher ? CustomRoles.Impostor : CustomRoles.Crewmate,
+                CustomRoles.Vampire => CustomRoles.Impostor,
+                CustomRoles.BountyHunter => CustomRoles.Shapeshifter,
+                CustomRoles.Witch => CustomRoles.Impostor,
+                CustomRoles.Warlock => CustomRoles.Shapeshifter,
+                CustomRoles.SerialKiller => CustomRoles.Shapeshifter,
+                CustomRoles.Lighter => CustomRoles.Crewmate,
+                CustomRoles.FireWorks => CustomRoles.Shapeshifter,
+                CustomRoles.SpeedBooster => CustomRoles.Crewmate,
+                CustomRoles.Trapper =>CustomRoles.Crewmate,
+                CustomRoles.Dictator => CustomRoles.Crewmate,
+                CustomRoles.SchrodingerCat => CustomRoles.Crewmate,
+                CustomRoles.Mare => CustomRoles.Impostor,
+                CustomRoles.Doctor => CustomRoles.Scientist,
+                CustomRoles.Puppeteer => CustomRoles.Impostor,
+                CustomRoles.TimeThief => CustomRoles.Impostor,
+                CustomRoles.EvilTracker => CustomRoles.Shapeshifter,
+                CustomRoles.Seer => CustomRoles.Crewmate,
+                CustomRoles.Paranoia => CustomRoles.Engineer,
+                CustomRoles.Miner => CustomRoles.Shapeshifter,
+                CustomRoles.Psychic => CustomRoles.Crewmate,
+                CustomRoles.Plumber => CustomRoles.Engineer,
+                CustomRoles.Needy => CustomRoles.Crewmate,
+                CustomRoles.SuperStar => CustomRoles.Crewmate,
+                CustomRoles.Hacker => CustomRoles.Impostor,
+                CustomRoles.Assassin => CustomRoles.Shapeshifter,
+                CustomRoles.Luckey => CustomRoles.Crewmate,
+                CustomRoles.CyberStar => CustomRoles.Crewmate,
+                CustomRoles.Escapee => CustomRoles.Shapeshifter,
+                CustomRoles.NiceGuesser => CustomRoles.Crewmate,
+                CustomRoles.EvilGuesser => CustomRoles.Impostor,
+                CustomRoles.Detective => CustomRoles.Crewmate,
+                CustomRoles.Minimalism => CustomRoles.Impostor,
+                CustomRoles.God => CustomRoles.Crewmate,
+                CustomRoles.Zombie =>CustomRoles.Impostor,
+                CustomRoles.Mario => CustomRoles.Engineer,
+                CustomRoles.AntiAdminer => CustomRoles.Impostor,
+                CustomRoles.Sans => CustomRoles.Impostor,
+                CustomRoles.Bomber => CustomRoles.Shapeshifter,
+                CustomRoles.BoobyTrap => CustomRoles.Impostor,
+                _ => CustomRoles.Crewmate
+            };
+        }
+        public static bool IsDesyncRole(this CustomRoles role) => role.GetDYRole() != RoleTypes.Scientist;
+        public static RoleTypes GetDYRole(this CustomRoles role) // 对应原版职业（反职业）
+        {
+            return role switch
+            {
+                CustomRoles.Sheriff => RoleTypes.Impostor,
+                CustomRoles.Arsonist => RoleTypes.Impostor,
+                CustomRoles.Jackal => RoleTypes.Impostor,
+                CustomRoles.ChivalrousExpert => RoleTypes.Impostor,
+                CustomRoles.OpportunistKiller => RoleTypes.Impostor,
+                _ => RoleTypes.Scientist
+            };
+        }
         public static bool IsAdditionRole(this CustomRoles role)
         {
             return role is
@@ -18,7 +89,6 @@ namespace TownOfHost
                 CustomRoles.Jackal or
                 CustomRoles.OpportunistKiller;
         }
-
         public static bool IsNNK(this CustomRoles role) // 是否无刀中立
         {
             return role is
@@ -31,8 +101,6 @@ namespace TownOfHost
                 CustomRoles.EgoSchrodingerCat or
                 CustomRoles.Executioner;
         }
-
-
         public static bool IsNeutralKilling(this CustomRoles role) //是否邪恶中立（抢夺或单独胜利的中立）
         {
             return role is
@@ -42,14 +110,13 @@ namespace TownOfHost
                 CustomRoles.God or
                 CustomRoles.Mario;
         }
-        public static bool IsCK(this CustomRoles role) //是否带刀船员
+        public static bool IsCK(this CustomRoles role) // 是否带刀船员
         {
             return role is
                 CustomRoles.ChivalrousExpert or
                 CustomRoles.Sheriff;
         }
-
-        public static bool IsImpostor(this CustomRoles role)
+        public static bool IsImpostor(this CustomRoles role) // 是否内鬼
         {
             return role is
                 CustomRoles.Impostor or
@@ -79,13 +146,13 @@ namespace TownOfHost
                 CustomRoles.Bomber or
                 CustomRoles.BoobyTrap;
         }
-        public static bool IsMadmate(this CustomRoles role)
+        public static bool IsMadmate(this CustomRoles role) // 是否叛徒
         {
             return role is
                 CustomRoles.MSchrodingerCat;
         }
         public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role.IsMadmate();
-        public static bool IsNeutral(this CustomRoles role)
+        public static bool IsNeutral(this CustomRoles role) // 是否中立
         {
             return role is
                 CustomRoles.Jester or
@@ -105,7 +172,7 @@ namespace TownOfHost
                 CustomRoles.God;
         }
         public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
-        public static bool IsVanilla(this CustomRoles role)
+        public static bool IsVanilla(this CustomRoles role) // 是否原版职业
         {
             return role is
                 CustomRoles.Crewmate or
@@ -124,7 +191,6 @@ namespace TownOfHost
                 CustomRoles.EgoSchrodingerCat or
                 CustomRoles.JSchrodingerCat;
         }
-
         public static RoleType GetRoleType(this CustomRoles role)
         {
             RoleType type = RoleType.Crewmate;
@@ -133,7 +199,6 @@ namespace TownOfHost
             if (role.IsMadmate()) type = RoleType.Madmate;
             return type;
         }
-
         public static bool RoleExist(this CustomRoles role, bool countDead = false)
         {
             foreach (var pc in PlayerControl.AllPlayerControls)
@@ -142,7 +207,6 @@ namespace TownOfHost
             }
             return false;
         }
-
         public static int GetCount(this CustomRoles role)
         {
             if (role.IsVanilla())
@@ -163,6 +227,7 @@ namespace TownOfHost
                 return Options.GetRoleCount(role);
             }
         }
+        public static int GetMode(this CustomRoles role) => Options.GetRoleSpawnMode(role);
         public static float GetChance(this CustomRoles role)
         {
             if (role.IsVanilla())

@@ -14,7 +14,7 @@
 TextBelowVersionText,空
 
 ## 职业
-Neutral,独立阵营
+Neutral,中立阵营
 
 # 原版职业,
 Crewmate,船员
@@ -115,7 +115,7 @@ TeamEgoist,野心家阵营
 TeamJackal,豺狼阵营
 
 ## 以下是职业简介（显示在开局以及任务栏的文本）
-NeutralInfo,独立阵营
+NeutralInfo,中立阵营
 
 # 内鬼阵营
 BountyHunterInfo,走，去拿下你的目标！
@@ -243,7 +243,7 @@ MayorInfoLong,(船员阵营):\n市长在投票时一票算多票。
 ParanoiaInfoLong,(船员阵营):\n被害妄想症使用通风管后会幻想出一个尸体并报告，实际上并不会死人，但的确可以召开会议。
 PsychicInfoLong,(船员阵营):\n愚者能够在会议期间看到潜在的邪恶。愚者将看到数名玩家的名字以红色突出显示，其中至少一名是邪恶的。
 SabotageMasterInfoLong,(船员阵营):\n氧气泄露、核反应堆熔毁以及米拉总部的通讯破坏维修大师只需要修复一边则另一边即可同时被修复。维修大师只需要按一个开关便可以修复照明破坏。维修大师打开波鲁斯与飞艇地图的门时维修大师所在房间的所有门同时打开。
-SheriffInfoLong,(船员阵营):\n警长可以击杀内鬼（根据房间设置，警长也可以击杀独立阵营玩家）。警长若尝试击杀船员阵营的玩家，警长将会走火自杀。此外警长没有任务。
+SheriffInfoLong,(船员阵营):\n警长可以击杀内鬼（根据房间设置，警长也可以击杀中立阵营玩家）。警长若尝试击杀船员阵营的玩家，警长将会走火自杀。此外警长没有任务。
 SnitchInfoLong,(船员阵营):\n告密者完成所有任务后，将可以看到以红色昵称表示的所有内鬼。\n当告密者仅剩一个任务的时候，内鬼将会看到自己以及告密者的昵称旁边有「★」作为提示。\n（注:告密者同时作为恋人时，其技能将失效）
 SpeedBoosterInfoLong,(船员阵营):\n增速者每次完成任务都会增加自己的移动速度。但是由于速度过快可能在别的玩家眼中增速者在疯狂瞬移。\n\n现在他是整个游戏最快乐的人了。
 DoctorInfoLong,(船员阵营):\n医生可以查看生命监测装置并确认死亡玩家的死因。查看的时间长短与设备的充能数挂钩。
@@ -256,17 +256,17 @@ NiceGuesserInfoLong,(船员阵营):\n正义赌怪可以在会议时猜测某位�
 ChivalrousExpertInfoLong,(船员阵营):\n侠客可以正义击杀任何阵营的人，不过机会只有一次。
 
 # 中立阵营
-ArsonistInfoLong,(独立阵营):\n纵火犯可以通过对玩家点击击杀按钮并跟随其数秒来完成涂油，开始涂油以及涂油成功时会显示护盾破碎作为提示。当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。\n\n玩家名显示「△」表示涂油中\n玩家名显示「▲」表示已涂油
-JesterInfoLong,(独立阵营):\n小丑被票出则小丑单独游戏胜利。游戏结束时若小丑仍存活则小丑输掉游戏。
-TerroristInfoLong,(独立阵营):\n恐怖分子完成所有任务后死亡，则恐怖分子单独获得胜利。（怎么死都行，包括票死，反正死了就行）
-ExecutionerInfoLong,(独立阵营):\n游戏开始时处刑人会被分配到一个处刑目标，并在其昵称旁用菱形「♦」表示。若处刑目标被击杀，则处刑的职业会根据设置变为船员，小丑或投机者。如果处刑目标在会议中被票出则处行者独自获得胜利。若小丑作为处刑目标被放逐时，小丑与处刑人共同获得胜利。
-SchrodingerCatInfoLong,(独立阵营):\n薛定谔的猫一开始是没有胜利条件的。薛定谔的猫被击杀后，其会复活且加入凶手阵营，获得与凶手所在阵营相同的胜利条件。\n注:\n1.被放逐的薛定谔的猫死亡并不再变更胜利条件。\n2.被术士击杀的薛定谔的猫死亡并不再变更胜利条件。\n3.除吸血鬼的击杀外，一切显示为玩家自杀的情况内薛定谔的猫死亡并不再变更胜利条件。
-OpportunistInfoLong,(独立阵营):\n若投机者在游戏结束时存活，则投机者跟随获胜玩家一同获得胜利。\n\n（人畜无害小可爱）
-OpportunistKillerInfoLong,(独立阵营):\n若投机者杀手在游戏结束时存活，则投机者杀手跟随获胜玩家一同获得胜利。比起普通投机者，投机者杀手可以进行击杀。
-MarioInfoLong,(独立阵营):\n马里奥跳管达到一定次数就会单独获得胜利。
-EgoistInfoLong,(独立阵营):\n原则上野心家属于内鬼阵营。野心家与内鬼阵营玩家互认但不可以击杀对方。当其他内鬼阵营玩家全部死亡后，若野心家存活且内鬼阵营达成胜利条件，则野心家单独获得胜利。
-JackalInfoLong,(独立阵营):\n豺狼需要击杀所有人。存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。
-GodInfoLong,(独立阵营):\n神从一开始就知道所有人的身份，而神只要活到最后就会抢走胜利。
+ArsonistInfoLong,(中立阵营):\n纵火犯可以通过对玩家点击击杀按钮并跟随其数秒来完成涂油，开始涂油以及涂油成功时会显示护盾破碎作为提示。当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。\n\n玩家名显示「△」表示涂油中\n玩家名显示「▲」表示已涂油
+JesterInfoLong,(中立阵营):\n小丑被票出则小丑单独游戏胜利。游戏结束时若小丑仍存活则小丑输掉游戏。
+TerroristInfoLong,(中立阵营):\n恐怖分子完成所有任务后死亡，则恐怖分子单独获得胜利。（怎么死都行，包括票死，反正死了就行）
+ExecutionerInfoLong,(中立阵营):\n游戏开始时处刑人会被分配到一个处刑目标，并在其昵称旁用菱形「♦」表示。若处刑目标被击杀，则处刑的职业会根据设置变为船员，小丑或投机者。如果处刑目标在会议中被票出则处行者独自获得胜利。若小丑作为处刑目标被放逐时，小丑与处刑人共同获得胜利。
+SchrodingerCatInfoLong,(中立阵营):\n薛定谔的猫一开始是没有胜利条件的。薛定谔的猫被击杀后，其会复活且加入凶手阵营，获得与凶手所在阵营相同的胜利条件。\n注:\n1.被放逐的薛定谔的猫死亡并不再变更胜利条件。\n2.被术士击杀的薛定谔的猫死亡并不再变更胜利条件。\n3.除吸血鬼的击杀外，一切显示为玩家自杀的情况内薛定谔的猫死亡并不再变更胜利条件。
+OpportunistInfoLong,(中立阵营):\n若投机者在游戏结束时存活，则投机者跟随获胜玩家一同获得胜利。\n\n（人畜无害小可爱）
+OpportunistKillerInfoLong,(中立阵营):\n若投机者杀手在游戏结束时存活，则投机者杀手跟随获胜玩家一同获得胜利。比起普通投机者，投机者杀手可以进行击杀。
+MarioInfoLong,(中立阵营):\n马里奥跳管达到一定次数就会单独获得胜利。
+EgoistInfoLong,(中立阵营):\n原则上野心家属于内鬼阵营。野心家与内鬼阵营玩家互认但不可以击杀对方。当其他内鬼阵营玩家全部死亡后，若野心家存活且内鬼阵营达成胜利条件，则野心家单独获得胜利。
+JackalInfoLong,(中立阵营):\n豺狼需要击杀所有人。存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。
+GodInfoLong,(中立阵营):\n神从一开始就知道所有人的身份，而神只要活到最后就会抢走胜利。
 
 # 躲猫猫
 HASFoxInfoLong,(躲猫猫):\n狐狸活到最后便与获胜阵营一同获胜。
@@ -371,7 +371,7 @@ DisablePolusVital,禁用波鲁斯生命监测装置
 DisableAirshipVital,禁用飞艇生命监测装置
 IgnoreConditions,忽略条件
 IgnoreImpostors,忽略内鬼
-IgnoreNeutrals,忽略独立阵营
+IgnoreNeutrals,忽略中立阵营
 IgnoreCrewmates,忽略船员
 IgnoreAfterAnyoneDied,忽略幽灵
 LightsOutSpecialSettings,停电特殊设定
@@ -393,7 +393,6 @@ RoleAssigningAlgorithm.MersenneTwister,Twister随机算法
 AirShipVariableElectrical,电气室门随机关闭（飞艇地图）
 EndWhenPlayerBug,当有玩家因Bug无法游戏时终止游戏
 KillFlashDuration,击杀闪烁持续时间
-TrueRandomeRoles,尝试真随机分配职业（试验性）
 ConfirmEjections,驱逐时确认阵营
 ConfirmEjectionsNK,确认带刀中立阵营
 ConfirmEjectionsNonNK,确认无刀中立阵营
@@ -413,6 +412,8 @@ KillCooldown,击杀冷却时间
 CanVent,可以使用通风管道
 ImpostorVision,拥有内鬼视野
 CanUseSabotage,可以破坏
+NeutralRolesMinPlayer,中立阵营玩家数量下限
+NeutralRolesMaxPlayer,中立阵营玩家数量上限
 ImpKnowAlliesRole,内鬼知道队友的职业
 WarlockCanKillAllies,可以击杀队友
 WarlockCanKillSelf,可以击杀自己
@@ -438,7 +439,7 @@ SabotageMasterFixesOxygens,可以一人修理氧气破坏
 SabotageMasterFixesCommunications,可以一人修复通讯破坏（米拉总部地图）
 SabotageMasterFixesElectrical,按一个按钮就可以修复照明破坏
 SheriffCanKill%role%,可以执法%role%
-SheriffCanKillNeutrals,可以执法独立阵营
+SheriffCanKillNeutrals,可以执法中立阵营
 SheriffCanKillAll,<color=#00fefe>全开</color>
 SheriffCanKillSeparately,个别设定
 In%team%,(%team%阵营)
@@ -448,7 +449,7 @@ SheriffCanKillAllAlive,全员存活时可以执法
 DoctorTaskCompletedBatteryCharge,每次完成任务增加的设备充能数
 SnitchEnableTargetArrow,告密者完成任务后可以通过箭头确认所有被发现目标
 SnitchCanGetArrowColor,告密者对不同阵营的目标使用不同颜色的箭头确认
-SnitchCanFindNeutralKiller,告密者也可以和拥有击杀能力的独立阵营玩家互相发现
+SnitchCanFindNeutralKiller,告密者也可以和拥有击杀能力的中立阵营玩家互相发现
 SpeedBoosterUpSpeed,增速者每次加速
 SpeedBoosterTimes,最多能增速几次
 MayorAdditionalVote,附加票数
@@ -458,7 +459,7 @@ MayorHideVote,隐藏市长附加的投票
 CanBeforeSchrodingerCatWinTheCrewmate,未加入其他阵营前可以跟随船员阵营获胜
 SchrodingerCatExiledTeamChanges,被放逐时会加入其他阵营
 ExecutionerCanTargetImpostor,内鬼阵营玩家可以成为目标
-ExecutionerCanTargetNeutralKiller,独立阵营玩家可以成为目标
+ExecutionerCanTargetNeutralKiller,中立阵营玩家可以成为目标
 ExecutionerChangeRolesAfterTargetKilled,目标死亡后将变为
 SerialKillerLimit,自杀倒计时
 ArsonistDouseTime,涂油所需时间
@@ -638,7 +639,7 @@ GodAliveTitle,【 ★ 神的共鸣 ★ 】
 TabGroup.SystemSettings,系统设置
 TabGroup.GameSettings,游戏设置
 TabGroup.CrewmateRoles,船员阵营职业
-TabGroup.NeutralRoles,独立阵营职业
+TabGroup.NeutralRoles,中立阵营职业
 TabGroup.ImpostorRoles,内鬼阵营职业
 TabGroup.Addons,附加职业
 TabGroup.OtherRoles,其它职业（不建议开）
@@ -688,8 +689,9 @@ LastResult,游戏结果
 LastEndReason,结束原因
 KillLog,击杀日志
 Maximum,最大人数
-RateOff,<color=#ff6633>关闭</color>
-RateOn,<color=#00ff00>开启</color>
+RoleRate,<color=#00ff00>启用</color>
+RoleOn,<color=#ffc51e>优先</color>
+RoleOff,<color=#ff6633>禁用</color>
 Rate0,0%
 Rate5,5%
 Rate10,10%
@@ -742,7 +744,6 @@ DefaultShapeshiftText,变形
 DisabledBySettings,已在设置被中禁用
 Disabled,禁用
 FailToTrack,无法追踪
-TrueRandomeRolesText,提示：若启用的职业较少时打开<color=#00ff00>真随机</color>可能出现白板
 
 ## 作弊
 Cheat.AUM,开挂（使用AUM）

@@ -74,7 +74,7 @@ namespace TownOfHost
         };
         public static readonly string[] ratesToggle =
         {
-            "RateOff", "RateOn",
+            "RoleOff", "RoleRate", "RoleOn"
         };
         public static readonly string[] CheatResponsesName =
         {
@@ -84,7 +84,26 @@ namespace TownOfHost
         // 各役職の詳細設定
         public static OptionItem EnableGM;
         public static float DefaultKillCooldown = Main.NormalOptions?.KillCooldown ?? 20;
+
+        public static OptionItem KillFlashDuration;
+        public static OptionItem SendCodeToQQ;
+        public static OptionItem SendCodeMinPlayer;
+        public static OptionItem DisableVanillaRoles;
+        public static OptionItem ConfirmEjections;
+        public static OptionItem ConfirmEjectionsNK;
+        public static OptionItem ConfirmEjectionsNonNK;
+        public static OptionItem ConfirmEjectionsNKAsImp;
+        public static OptionItem ConfirmEjectionsRoles;
+        public static OptionItem ShowImpRemainOnEject;
+        public static OptionItem ShowNKRemainOnEject;
+        public static OptionItem CheatResponses;
+
+        public static OptionItem NeutralRolesMinPlayer;
+        public static OptionItem NeutralRolesMaxPlayer;
+
+        public static OptionItem DefaultShapeshiftCooldown;
         public static OptionItem ImpKnowAlliesRole;
+
         public static OptionItem EGCanGuessImp;
         public static OptionItem EGCanGuessAdt;
         public static OptionItem EGCanGuessTime;
@@ -94,9 +113,7 @@ namespace TownOfHost
         public static OptionItem WarlockCanKillSelf;
         public static OptionItem ZombieKillCooldown;
         public static OptionItem ZombieSpeedReduce;
-        //public static CustomOption ShapeMasterShapeshiftDuration;
-        public static OptionItem DefaultShapeshiftCooldown;
-
+        
         public static OptionItem EvilWatcherChance;
         public static OptionItem GGCanGuessCrew;
         public static OptionItem GGCanGuessAdt;
@@ -111,7 +128,7 @@ namespace TownOfHost
         public static OptionItem SnitchEnableTargetArrow;
         public static OptionItem SnitchCanGetArrowColor;
         public static OptionItem SnitchCanFindNeutralKiller;
-        public static OptionItem SpeedBoosterUpSpeed; //加速値
+        public static OptionItem SpeedBoosterUpSpeed;
         public static OptionItem SpeedBoosterTimes;
         public static OptionItem TrapperBlockMoveTime;
         public static OptionItem DetectiveCanknowKiller;
@@ -122,20 +139,6 @@ namespace TownOfHost
         public static OptionItem NotifyGodAlive;
         public static OptionItem MarioVentNumWin;
         public static OptionItem OKKillCooldown;
-        public static OptionItem KillFlashDuration;
-
-        public static OptionItem TrueRandomeRoles;
-        public static OptionItem SendCodeToQQ;
-        public static OptionItem SendCodeMinPlayer;
-        public static OptionItem DisableVanillaRoles;
-        public static OptionItem ConfirmEjections;
-        public static OptionItem ConfirmEjectionsNK;
-        public static OptionItem ConfirmEjectionsNonNK;
-        public static OptionItem ConfirmEjectionsNKAsImp;
-        public static OptionItem ConfirmEjectionsRoles;
-        public static OptionItem ShowImpRemainOnEject;
-        public static OptionItem ShowNKRemainOnEject;
-        public static OptionItem CheatResponses;
 
         public static OptionItem ParanoiaVentCooldown;
         public static OptionItem ParanoiaNumOfUseButton;
@@ -368,6 +371,11 @@ namespace TownOfHost
             }
         }
 
+        public static int GetRoleSpawnMode(CustomRoles role)
+        {
+            var mode = CustomRoleSpawnChances.TryGetValue(role, out var sc) ? sc.GetChance() : 0;
+            return mode;
+        }
         public static int GetRoleCount(CustomRoles role)
         {
             var chance = CustomRoleSpawnChances.TryGetValue(role, out var sc) ? sc.GetChance() : 0;
@@ -397,6 +405,18 @@ namespace TownOfHost
             CustomRoleCounts = new();
             CustomRoleSpawnChances = new();
 
+            // 各职业的总体设定
+            ImpKnowAlliesRole = BooleanOptionItem.Create(900045, "ImpKnowAlliesRole", true, TabGroup.ImpostorRoles, false)
+               .SetHeader(true);
+            DefaultShapeshiftCooldown = FloatOptionItem.Create(5011, "DefaultShapeshiftCooldown", new(5f, 999f, 5f), 15f, TabGroup.ImpostorRoles, false)
+                .SetValueFormat(OptionFormat.Seconds);
+
+            NeutralRolesMinPlayer = IntegerOptionItem.Create(505007, "NeutralRolesMinPlayer", new(0, 15, 1), 0, TabGroup.NeutralRoles, false)
+                .SetHeader(true)
+                .SetValueFormat(OptionFormat.Players);
+            NeutralRolesMaxPlayer = IntegerOptionItem.Create(505009, "NeutralRolesMaxPlayer", new(0, 15, 1), 0, TabGroup.NeutralRoles, false)
+                .SetValueFormat(OptionFormat.Players);
+
             // GM
             EnableGM = BooleanOptionItem.Create(100, "GM", false, TabGroup.GameSettings, false)
                 .SetColor(Utils.GetRoleColor(CustomRoles.GM))
@@ -404,12 +424,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
 
             // Impostor
-            ImpKnowAlliesRole = BooleanOptionItem.Create(900045, "ImpKnowAlliesRole", true, TabGroup.ImpostorRoles, false)
-                .SetHeader(true);
-            DefaultShapeshiftCooldown = FloatOptionItem.Create(5011, "DefaultShapeshiftCooldown", new(5f, 999f, 5f), 15f, TabGroup.ImpostorRoles, false)
-                .SetValueFormat(OptionFormat.Seconds);
-
-            Options.SetupRoleOptions(901065, TabGroup.ImpostorRoles, CustomRoles.EvilGuesser);
+            SetupRoleOptions(901065, TabGroup.ImpostorRoles, CustomRoles.EvilGuesser);
             EGCanGuessTime = IntegerOptionItem.Create(901067, "GuesserCanGuessTimes", new(1, 15, 1), 15, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser])
                 .SetValueFormat(OptionFormat.Times);
             EGCanGuessImp = BooleanOptionItem.Create(901069, "EGCanGuessImp", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
@@ -458,8 +473,9 @@ namespace TownOfHost
             SetupRoleOptions(30000, TabGroup.NeutralRoles, CustomRoles.Watcher);
             EvilWatcherChance = IntegerOptionItem.Create(30010, "EvilWatcherChance", new(0, 100, 10), 0, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Watcher])
                 .SetValueFormat(OptionFormat.Percent);
+
             // Crewmate
-            Options.SetupRoleOptions(102255, TabGroup.CrewmateRoles, CustomRoles.NiceGuesser);
+            SetupRoleOptions(102255, TabGroup.CrewmateRoles, CustomRoles.NiceGuesser);
             GGCanGuessTime = IntegerOptionItem.Create(102257, "GuesserCanGuessTimes", new(1, 15, 1), 15, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.NiceGuesser])
                 .SetValueFormat(OptionFormat.Times);
             GGCanGuessCrew = BooleanOptionItem.Create(102259, "GGCanGuessCrew", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.NiceGuesser]);
@@ -518,7 +534,6 @@ namespace TownOfHost
             SetupRoleOptions(21000, TabGroup.CrewmateRoles, CustomRoles.Seer);
             SetupRoleOptions(8021015, TabGroup.CrewmateRoles, CustomRoles.Detective);
             DetectiveCanknowKiller = BooleanOptionItem.Create(8021017, "DetectiveCanknowKiller", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Detective]);
-
             ChivalrousExpert.SetupCustomOption();
 
             // Neutral
@@ -584,11 +599,6 @@ namespace TownOfHost
             #endregion
 
             #region 系统设置
-            TrueRandomeRoles = BooleanOptionItem.Create(6090055, "TrueRandomeRoles", true, TabGroup.SystemSettings, false)
-                .SetHeader(true)
-                .SetColor(Color.green);
-            _ = BooleanOptionItem.Create(6090057, "TrueRandomeRolesText", false, TabGroup.SystemSettings, false)
-                .SetText(true);
 
             SendCodeToQQ = BooleanOptionItem.Create(6090065, "SendCodeToQQ", true, TabGroup.SystemSettings, false)
                 .SetHeader(true)

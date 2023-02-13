@@ -34,6 +34,9 @@ namespace TownOfHost
             //0%or100%の場合
             if (Selections.Length == 2) return CurrentValue * 100;
 
+            //TOHE的职业生成模式
+            if (Selections.Length == 3) return CurrentValue;
+
             //0%～100%or5%～100%の場合
             var offset = 12 - Selections.Length;
             var index = CurrentValue + offset;

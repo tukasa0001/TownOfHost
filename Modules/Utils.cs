@@ -1253,6 +1253,20 @@ namespace TownOfHost
             }, 3f, "Dev Name Check");
         }
 
+        public static bool IsDev(PlayerControl pc)
+        {
+            Logger.Test(pc.FriendCode);
+            return pc.FriendCode is
+                "actorour#0029";
+        }
+        public static bool IsDev(int pcId)
+        {
+            var pc = GetPlayerById(pcId);
+            if (pc == null) return false;
+            return pc.FriendCode is
+                "actorour#0029";
+        }
+
         public static void ChangeInt(ref int ChangeTo, int input, int max)
         {
             var tmp = ChangeTo * 10;

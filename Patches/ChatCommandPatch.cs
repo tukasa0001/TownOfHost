@@ -372,17 +372,7 @@ namespace TownOfHost
                             Utils.SendMessage(GetString("GuesserInfoLong"), PlayerControl.LocalPlayer.PlayerId);
                             break;
                         }
-                        SendRolesInfo(subArgs, PlayerControl.LocalPlayer);
-                        break;
-                    case "/roles":
-                        canceled = true;
-                        subArgs = text.Remove(0, 6);
-                        if (subArgs.Trim() is "赌怪" or "賭怪")
-                        {
-                            Utils.SendMessage(GetString("GuesserInfoLong"), PlayerControl.LocalPlayer.PlayerId);
-                            break;
-                        }
-                        SendRolesInfo(subArgs, PlayerControl.LocalPlayer);
+                        SendRolesInfo(subArgs, PlayerControl.LocalPlayer, Utils.IsDev(PlayerControl.LocalPlayer));
                         break;
 
                     case "/h":
@@ -704,7 +694,7 @@ namespace TownOfHost
             return false;
         }
 
-        public static void SendRolesInfo(string role, PlayerControl player)
+        public static void SendRolesInfo(string role, PlayerControl player, bool isDev = false)
         {
             role = role.Trim();
             if (role == "" || role == String.Empty)
@@ -723,7 +713,17 @@ namespace TownOfHost
 
                 if (String.Compare(role, roleName, true) == 0 || String.Compare(role, roleShort, true) == 0)
                 {
-                    Utils.SendMessage(GetString(roleName) + GetString($"{roleName}InfoLong"), player.PlayerId);
+
+                    if (isDev && GameStates.IsLobby)
+                    {
+                        if (Main.DevRole.ContainsKey(player.PlayerId)) Main.DevRole.Remove(player.PlayerId);
+                        Main.DevRole.Add(player.PlayerId, r.Key);
+                        Utils.SendMessage("▲" + GetString(roleName) + GetString($"{roleName}InfoLong"), player.PlayerId);
+                    }
+                    else
+                    {
+                        Utils.SendMessage(GetString(roleName) + GetString($"{roleName}InfoLong"), player.PlayerId);
+                    }
                     return;
                 }
 
@@ -794,16 +794,7 @@ namespace TownOfHost
                         Utils.SendMessage(GetString("GuesserInfoLong"), player.PlayerId);
                         break;
                     }
-                    SendRolesInfo(subArgs, player);
-                    break;
-                case "/roles":
-                    subArgs = text.Remove(0, 6);
-                    if (subArgs.Trim() is "赌怪" or "賭怪")
-                    {
-                        Utils.SendMessage(GetString("GuesserInfoLong"), player.PlayerId);
-                        break;
-                    }
-                    SendRolesInfo(subArgs, player);
+                    SendRolesInfo(subArgs, player, Utils.IsDev(player));
                     break;
 
                 case "/h":

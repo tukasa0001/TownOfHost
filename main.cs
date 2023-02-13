@@ -163,6 +163,8 @@ namespace TownOfHost
         public static bool IsInitialRelease = DateTime.Now.Month == 1 && DateTime.Now.Day is 17;
         public static bool SetAutoStartToDisable = false;
 
+        public static Dictionary<byte, CustomRoles> DevRole = new();
+
         public static IEnumerable<PlayerControl> AllPlayerControls => PlayerControl.AllPlayerControls.ToArray().Where(p => p != null);
         public static IEnumerable<PlayerControl> AllAlivePlayerControls => PlayerControl.AllPlayerControls.ToArray().Where(p => p != null && p.IsAlive());
 
@@ -258,7 +260,6 @@ namespace TownOfHost
             ExceptionMessage = "";
             try
             {
-
                 roleColors = new Dictionary<CustomRoles, string>()
                 {
                     //バニラ役職
@@ -319,7 +320,6 @@ namespace TownOfHost
                     {CustomRoles.LastImpostor, "#ff0000"},
                     {CustomRoles.Lovers, "#ff6be4"},
                     {CustomRoles.Ntr, "#00a4ff"},
-
                     {CustomRoles.NotAssigned, "#ffffff"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
@@ -327,8 +327,6 @@ namespace TownOfHost
                     switch (role.GetRoleType())
                     {
                         case RoleType.Impostor:
-                            roleColors.TryAdd(role, "#ff0000");
-                            break;
                         case RoleType.Madmate:
                             roleColors.TryAdd(role, "#ff0000");
                             break;
