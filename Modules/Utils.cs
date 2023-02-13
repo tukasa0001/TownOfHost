@@ -1009,26 +1009,7 @@ namespace TownOfHost
                 seer.RpcSetNamePrivate(SelfName, true, force: NoCache);
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
-                if (seer.Data.IsDead //seerが死んでいる
-                    || SeerKnowsImpostors //seerがインポスターを知っている状態
-                    || seer.GetCustomRole().IsImpostor() //seerがインポスター
-                    || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
-                    || seer.Is(CustomRoles.Arsonist)
-                    || seer.Is(CustomRoles.Lovers)
-                    || CustomRolesHelper.RoleExist(CustomRoles.Ntr)
-                    || Witch.HaveSpelledPlayer()
-                    || seer.Is(CustomRoles.Executioner)
-                    || seer.Is(CustomRoles.Doctor) //seerがドクター
-                    || seer.Is(CustomRoles.Puppeteer)
-                    || seer.Is(CustomRoles.God)
-                    || seer.Is(CustomRoles.NiceGuesser)
-                    || seer.Is(CustomRoles.Psychic)
-                    || seer.IsNeutralKiller() //seerがキル出来る第三陣営
-                    || IsActive(SystemTypes.Electrical)
-                    || IsActive(SystemTypes.Comms)
-                    || NoCache
-                    || ForceLoop
-                )
+                if (true)
                 {
                     foreach (var target in Main.AllPlayerControls)
                     {

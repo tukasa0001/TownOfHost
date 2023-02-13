@@ -633,11 +633,9 @@ namespace TownOfHost
                 //インポスター表示
                 bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
                 bool LocalPlayerKnowsJackal = false; //trueの時にジャッカルの名前の色を変える
-                bool LocalPlayerKnowsEgoist = false; //trueの時にエゴイストの名前の色を変える
                 switch (seer.GetCustomRole().GetRoleType())
                 {
                     case RoleType.Impostor:
-                        LocalPlayerKnowsEgoist = true;
                         if (target.Is(CustomRoles.Snitch) && //変更対象がSnitch
                         target.GetPlayerTaskState().DoExpose) //変更対象のタスクが終わりそう)
                             pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), "★"); //変更対象にSnitchマークをつける
@@ -652,7 +650,6 @@ namespace TownOfHost
                             if (seer.Is(CustomRoles.Snitch) && Options.SnitchCanFindNeutralKiller.GetBool())
                             {
                                 LocalPlayerKnowsJackal = true;
-                                LocalPlayerKnowsEgoist = true;
                             }
                         }
                         break;

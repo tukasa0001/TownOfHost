@@ -213,33 +213,12 @@ namespace TownOfHost
                     pc => pc.Is(CustomRoles.Jackal), //ジャッカル
                     pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Jackal) //その他
                 );
-                int Imp = counts[0], Ego = counts[1], Jackal = counts[2], Crew = counts[3];
+                int Imp = counts[0], Jackal = counts[1], Crew = counts[2];
 
-                if (Imp + Ego == 0 && Crew == 0 && Jackal == 0) //全滅
-                {
-                    reason = GameOverReason.ImpostorByKill;
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.None);
-                }
-                else if (Main.AllAlivePlayerControls.All(p => p.Is(CustomRoles.Lovers))) //ラバーズ勝利
+                if (Main.AllAlivePlayerControls.All(p => p.Is(CustomRoles.Lovers))) //ラバーズ勝利
                 {
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Lovers);
-                }
-                else if (Jackal == 0 && Crew <= Imp + Ego) //インポスター勝利
-                {
-                    reason = GameOverReason.ImpostorByKill;
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
-                }
-                else if (Imp + Ego == 0 && Crew <= Jackal) //ジャッカル勝利
-                {
-                    reason = GameOverReason.ImpostorByKill;
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jackal);
-                    CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
-                }
-                else if (Jackal == 0 && Imp + Ego == 0) //クルー勝利
-                {
-                    reason = GameOverReason.HumansByVote;
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
                 }
                 else return false; //勝利条件未達成
 
