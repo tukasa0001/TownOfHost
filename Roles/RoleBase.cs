@@ -2,64 +2,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using Hazel;
 
-using static TownOfHost.Options;
-
 namespace TownOfHost.Roles;
 
-public abstract class RoleBase
+public abstract class RoleBase : RoleInfoBase
 {
-    public static RoleBase Instance;
-    public List<byte> PlayerIdList;
-    public CustomRoles RoleName;
-    public RoleType CustomRoleType;
-    public Color32 RoleColor;
-    public string RoleColorCode;
-    public int ConfigId;
-    public TabGroup Tab;
-    public OptionItem RoleOption => CustomRoleSpawnChances[RoleName];
-    public bool IsEnable = false;
     public bool HasTasks = false;
-
-
     public RoleBase(
-        CustomRoles roleName,
-        RoleType type,
-        int configId,
-        bool hasTasks,
-        string colorCode = "",
-        TabGroup tab = TabGroup.MainSettings
+        RoleInfoBase basicInfo
     )
-    {
-        RoleName = roleName;
-        CustomRoleType = type;
-        ConfigId = configId;
-        HasTasks = hasTasks;
-
-        if (colorCode == "")
-            colorCode = type switch
-            {
-                RoleType.Impostor or RoleType.Madmate => "#ff1919",
-                _ => "#ffffff"
-            };
-        RoleColorCode = colorCode;
-
-        if (tab == TabGroup.MainSettings)
-            tab = type switch
-            {
-                RoleType.Impostor => TabGroup.ImpostorRoles,
-                RoleType.Madmate => TabGroup.ImpostorRoles,
-                RoleType.Crewmate => TabGroup.CrewmateRoles,
-                RoleType.Neutral => TabGroup.NeutralRoles,
-                _ => tab
-            };
-        Tab = tab;
-
-        CustomRoleManager.AllRoles.Add(this);
-
-        RoleColor = Utils.GetRoleColor(roleName);
-        Instance = this;
-    }
-    public virtual void SetupCustomOption() => SetupRoleOptions(ConfigId, Tab, RoleName);
+    : base(
+        basicInfo.RoleName,
+        basicInfo.CustomRoleType,
+        basicInfo.ConfigId,
+        basicInfo.RoleColorCode,
+        basicInfo.Tab
+    )
+    { }
     public virtual void Init()
     {
         PlayerIdList = new(GameData.Instance.PlayerCount);
