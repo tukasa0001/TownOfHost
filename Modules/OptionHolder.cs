@@ -11,7 +11,6 @@ namespace TownOfHost
     public enum CustomGameMode
     {
         Standard = 0x01,
-        HideAndSeek = 0x02,
         All = int.MaxValue
     }
 
@@ -44,7 +43,7 @@ namespace TownOfHost
         // ゲームモード
         public static OptionItem GameMode;
         public static CustomGameMode CurrentGameMode
-            => GameMode.CurrentValue == 0 ? CustomGameMode.Standard : CustomGameMode.HideAndSeek;
+            => CustomGameMode.Standard;
 
         public static readonly string[] gameModes =
         {
@@ -250,11 +249,6 @@ namespace TownOfHost
         public static OptionItem LadderDeathChance;
         //エレキ構造変化
         public static OptionItem AirShipVariableElectrical;
-
-        // 通常モードでかくれんぼ
-        public static bool IsStandardHAS => StandardHAS.GetBool() && CurrentGameMode == CustomGameMode.Standard;
-        public static OptionItem StandardHAS;
-        public static OptionItem StandardHASWaitingTime;
 
         // リアクターの時間制御
         public static OptionItem SabotageTimeControl;
@@ -555,9 +549,6 @@ namespace TownOfHost
             TerroristTasks = OverrideTasksData.Create(50220, TabGroup.NeutralRoles, CustomRoles.Terrorist);
             SetupLoversRoleOptionsToggle(50300);
             SetupNtrRoleOptionsToggle(6050315);
-
-            SchrodingerCat.SetupCustomOption();
-            Egoist.SetupCustomOption();
             Executioner.SetupCustomOption();
             Jackal.SetupCustomOption();
 
@@ -673,20 +664,6 @@ namespace TownOfHost
                 .SetHeader(true)
                 .SetValueFormat(OptionFormat.Seconds)
                 .SetGameMode(CustomGameMode.Standard);
-
-            // HideAndSeek
-            SetupRoleOptions(100000, TabGroup.GameSettings, CustomRoles.HASFox, CustomGameMode.HideAndSeek);
-            SetupRoleOptions(100100, TabGroup.GameSettings, CustomRoles.HASTroll, CustomGameMode.HideAndSeek);
-            AllowCloseDoors = BooleanOptionItem.Create(101000, "AllowCloseDoors", false, TabGroup.GameSettings, false)
-                .SetHeader(true)
-                .SetGameMode(CustomGameMode.HideAndSeek);
-            KillDelay = FloatOptionItem.Create(101001, "HideAndSeekWaitingTime", new(0f, 180f, 5f), 10f, TabGroup.GameSettings, false)
-                .SetValueFormat(OptionFormat.Seconds)
-                .SetGameMode(CustomGameMode.HideAndSeek);
-            //IgnoreCosmetics = CustomOption.Create(101002, Color.white, "IgnoreCosmetics", false)
-            //    .SetGameMode(CustomGameMode.HideAndSeek);
-            IgnoreVent = BooleanOptionItem.Create(101003, "IgnoreVent", false, TabGroup.GameSettings, false)
-                .SetGameMode(CustomGameMode.HideAndSeek);
 
             // リアクターの時間制御
             SabotageTimeControl = BooleanOptionItem.Create(100800, "SabotageTimeControl", false, TabGroup.GameSettings, false)
@@ -838,15 +815,6 @@ namespace TownOfHost
             //エレキ構造変化
             AirShipVariableElectrical = BooleanOptionItem.Create(101600, "AirShipVariableElectrical", false, TabGroup.GameSettings, false)
                 .SetHeader(true);
-
-            // 通常モードでかくれんぼ用
-            StandardHAS = BooleanOptionItem.Create(100700, "StandardHAS", false, TabGroup.GameSettings, false)
-                .SetHidden(true)
-                .SetHeader(true)
-                .SetGameMode(CustomGameMode.Standard);
-            StandardHASWaitingTime = FloatOptionItem.Create(100701, "StandardHASWaitingTime", new(0f, 180f, 2.5f), 10f, TabGroup.GameSettings, false).SetParent(StandardHAS)
-                .SetValueFormat(OptionFormat.Seconds)
-                .SetGameMode(CustomGameMode.Standard);
 
             // その他
             FixFirstKillCooldown = BooleanOptionItem.Create(900_000, "FixFirstKillCooldown", false, TabGroup.GameSettings, false)

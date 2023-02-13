@@ -113,7 +113,6 @@ namespace TownOfHost
                     __instance.ImpostorText.gameObject.SetActive(true);
                     __instance.ImpostorText.text = role switch
                     {
-                        CustomRoles.Egoist => GetString("TeamEgoist"),
                         CustomRoles.Jackal => GetString("TeamJackal"),
                         _ => GetString("NeutralInfo"),
                     };
@@ -153,10 +152,6 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Arsonist:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
-                    break;
-
-                case CustomRoles.SchrodingerCat:
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
 
                 case CustomRoles.Mayor:

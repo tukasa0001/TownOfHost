@@ -663,7 +663,6 @@ namespace TownOfHost
                     case CustomRoles.Executioner:
                         pva.NameText.text += Executioner.TargetMark(seer, target);
                         break;
-                    case CustomRoles.Egoist:
                     case CustomRoles.Jackal:
                         if (Options.SnitchCanFindNeutralKiller.GetBool() &&
                         target.Is(CustomRoles.Snitch) && //変更対象がSnitch
@@ -672,12 +671,6 @@ namespace TownOfHost
                         break;
                     case CustomRoles.EvilTracker:
                         pva.NameText.text += EvilTracker.GetTargetMark(seer, target);
-                        break;
-                    case CustomRoles.EgoSchrodingerCat:
-                        LocalPlayerKnowsEgoist = true;
-                        break;
-                    case CustomRoles.JSchrodingerCat:
-                        LocalPlayerKnowsJackal = true;
                         break;
                     case CustomRoles.Psychic:
                         foreach (var id in Main.PsychicTarget[seer.PlayerId])
@@ -702,10 +695,6 @@ namespace TownOfHost
 
                 switch (target.GetCustomRole())
                 {
-                    case CustomRoles.Egoist:
-                        if (LocalPlayerKnowsEgoist)
-                            pva.NameText.color = Utils.GetRoleColor(CustomRoles.Egoist); //変更対象の名前の色変更
-                        break;
                     case CustomRoles.Jackal:
                         if (LocalPlayerKnowsJackal)
                             pva.NameText.color = Utils.GetRoleColor(CustomRoles.Jackal); //変更対象の名前をジャッカル色にする

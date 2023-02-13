@@ -30,7 +30,6 @@ namespace TownOfHost
                 CustomRoles.SpeedBooster => CustomRoles.Crewmate,
                 CustomRoles.Trapper =>CustomRoles.Crewmate,
                 CustomRoles.Dictator => CustomRoles.Crewmate,
-                CustomRoles.SchrodingerCat => CustomRoles.Crewmate,
                 CustomRoles.Mare => CustomRoles.Impostor,
                 CustomRoles.Doctor => CustomRoles.Scientist,
                 CustomRoles.Puppeteer => CustomRoles.Impostor,
@@ -85,7 +84,6 @@ namespace TownOfHost
         public static bool IsNK(this CustomRoles role) // 是否带刀中立
         {
             return role is
-                CustomRoles.Egoist or
                 CustomRoles.Jackal or
                 CustomRoles.OpportunistKiller;
         }
@@ -98,14 +96,12 @@ namespace TownOfHost
                 CustomRoles.God or
                 CustomRoles.Jester or
                 CustomRoles.Terrorist or
-                CustomRoles.EgoSchrodingerCat or
                 CustomRoles.Executioner;
         }
         public static bool IsNeutralKilling(this CustomRoles role) //是否邪恶中立（抢夺或单独胜利的中立）
         {
             return role is
                 CustomRoles.Arsonist or
-                CustomRoles.Egoist or
                 CustomRoles.Jackal or
                 CustomRoles.God or
                 CustomRoles.Mario;
@@ -146,28 +142,17 @@ namespace TownOfHost
                 CustomRoles.Bomber or
                 CustomRoles.BoobyTrap;
         }
-        public static bool IsMadmate(this CustomRoles role) // 是否叛徒
-        {
-            return role is
-                CustomRoles.MSchrodingerCat;
-        }
-        public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role.IsMadmate();
+        public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor();
         public static bool IsNeutral(this CustomRoles role) // 是否中立
         {
             return role is
                 CustomRoles.Jester or
                 CustomRoles.Opportunist or
                 CustomRoles.Mario or
-                CustomRoles.SchrodingerCat or
                 CustomRoles.Terrorist or
                 CustomRoles.Executioner or
                 CustomRoles.Arsonist or
-                CustomRoles.Egoist or
-                CustomRoles.EgoSchrodingerCat or
                 CustomRoles.Jackal or
-                CustomRoles.JSchrodingerCat or
-                CustomRoles.HASTroll or
-                CustomRoles.HASFox or
                 CustomRoles.OpportunistKiller or
                 CustomRoles.God;
         }
@@ -182,21 +167,11 @@ namespace TownOfHost
                 CustomRoles.Impostor or
                 CustomRoles.Shapeshifter;
         }
-        public static bool IsKilledSchrodingerCat(this CustomRoles role)
-        {
-            return role is
-                CustomRoles.SchrodingerCat or
-                CustomRoles.MSchrodingerCat or
-                CustomRoles.CSchrodingerCat or
-                CustomRoles.EgoSchrodingerCat or
-                CustomRoles.JSchrodingerCat;
-        }
         public static RoleType GetRoleType(this CustomRoles role)
         {
             RoleType type = RoleType.Crewmate;
             if (role.IsImpostor()) type = RoleType.Impostor;
             if (role.IsNeutral()) type = RoleType.Neutral;
-            if (role.IsMadmate()) type = RoleType.Madmate;
             return type;
         }
         public static bool RoleExist(this CustomRoles role, bool countDead = false)
@@ -254,7 +229,6 @@ namespace TownOfHost
     {
         Crewmate,
         Impostor,
-        Neutral,
-        Madmate
+        Neutral
     }
 }

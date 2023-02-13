@@ -132,7 +132,7 @@ namespace TownOfHost
             foreach (var pc in Main.AllAlivePlayerControls)
             {
                 // インポスターを除外
-                if (!pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Egoist))
+                if (!pc.Is(RoleType.Impostor))
                     cTargets.Add(pc);
             }
             if (cTargets.Count >= 2 && Targets.TryGetValue(player.PlayerId, out var p)) cTargets.RemoveAll(x => x.PlayerId == p.PlayerId); //前回のターゲットは除外

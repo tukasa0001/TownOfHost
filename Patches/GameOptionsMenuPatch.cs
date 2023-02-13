@@ -341,29 +341,6 @@ namespace TownOfHost
             __instance.roleOptions.SetRoleRecommended(RoleTypes.Scientist);
             __instance.roleOptions.SetRoleRecommended(RoleTypes.GuardianAngel);
             __instance.roleOptions.SetRoleRecommended(RoleTypes.Engineer);
-
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) //HideAndSeek
-            {
-                __instance.PlayerSpeedMod = 1.75f;
-                __instance.CrewLightMod = 5f;
-                __instance.ImpostorLightMod = 0.25f;
-                __instance.NumImpostors = 1;
-                __instance.NumCommonTasks = 0;
-                __instance.NumLongTasks = 0;
-                __instance.NumShortTasks = 10;
-                __instance.KillCooldown = 10f;
-            }
-            if (Options.IsStandardHAS) //StandardHAS
-            {
-                __instance.PlayerSpeedMod = 1.75f;
-                __instance.CrewLightMod = 5f;
-                __instance.ImpostorLightMod = 0.25f;
-                __instance.NumImpostors = 1;
-                __instance.NumCommonTasks = 0;
-                __instance.NumLongTasks = 0;
-                __instance.NumShortTasks = 10;
-                __instance.KillCooldown = 10f;
-            }
             return false;
         }
     }

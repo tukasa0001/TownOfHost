@@ -115,14 +115,6 @@ namespace TownOfHost
                 {
                     RPC.SyncCustomSettingsRPC();
                     Main.RefixCooldownDelay = 0;
-                    if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
-                    {
-                        Options.HideAndSeekKillDelayTimer = Options.KillDelay.GetFloat();
-                    }
-                    if (Options.IsStandardHAS)
-                    {
-                        Options.HideAndSeekKillDelayTimer = Options.StandardHASWaitingTime.GetFloat();
-                    }
                 }
                 FallFromLadder.Reset();
                 BountyHunter.Init();
@@ -133,7 +125,6 @@ namespace TownOfHost
                 Mare.Init();
                 Witch.Init();
                 SabotageMaster.Init();
-                Egoist.Init();
                 Executioner.Init();
                 Jackal.Init();
                 Sheriff.Init();
@@ -551,9 +542,6 @@ namespace TownOfHost
                             case CustomRoles.Executioner:
                                 Executioner.Add(pc.PlayerId);
                                 break;
-                            case CustomRoles.Egoist:
-                                Egoist.Add(pc.PlayerId);
-                                break;
                             case CustomRoles.Jackal:
                                 Jackal.Add(pc.PlayerId);
                                 break;
@@ -712,14 +700,6 @@ namespace TownOfHost
                 players.Remove(player);
                 Main.PlayerStates[player.PlayerId].MainRole = role;
                 Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + role.ToString(), "AssignRoles");
-
-                if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
-                {
-                    if (player.Is(CustomRoles.HASTroll))
-                        player.RpcSetColor(2);
-                    else if (player.Is(CustomRoles.HASFox))
-                        player.RpcSetColor(3);
-                }
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
             if (role == CustomRoles.AntiAdminer) Main.existAntiAdminer = true;

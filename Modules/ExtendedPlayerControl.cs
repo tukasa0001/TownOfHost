@@ -370,7 +370,7 @@ namespace TownOfHost
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
                 CustomRoles.ChivalrousExpert => true,
                 CustomRoles.OpportunistKiller => true,
-                CustomRoles.Egoist or CustomRoles.Jackal => true,
+                CustomRoles.Jackal => true,
                 CustomRoles.Bomber => false,
                 _ => pc.Is(RoleType.Impostor),
             }; ;
@@ -385,7 +385,6 @@ namespace TownOfHost
                 CustomRoles.Sheriff => false,
                 CustomRoles.OpportunistKiller => false,
                 CustomRoles.ChivalrousExpert => false,
-                CustomRoles.Egoist => true,
                 CustomRoles.Jackal => Jackal.CanVent.GetBool(),
                 CustomRoles.Arsonist => pc.IsDouseDone(),
                 _ => pc.Is(RoleType.Impostor),
@@ -427,9 +426,6 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Arsonist:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
-                    break;
-                case CustomRoles.Egoist:
-                    Egoist.ApplyKillCooldown(player.PlayerId);
                     break;
                 case CustomRoles.Jackal:
                     Jackal.SetKillCooldown(player.PlayerId);
@@ -534,7 +530,6 @@ namespace TownOfHost
         {
             return
                 player.GetCustomRole() is
-                CustomRoles.Egoist or
                 CustomRoles.Jackal;
         }
         public static bool KnowDeathReason(this PlayerControl seer, PlayerControl target)

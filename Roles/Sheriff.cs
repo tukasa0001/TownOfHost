@@ -40,9 +40,6 @@ namespace TownOfHost
         {
             foreach (var neutral in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x.IsNeutral()))
             {
-                if (neutral is CustomRoles.SchrodingerCat
-                            or CustomRoles.HASFox
-                            or CustomRoles.HASTroll) continue;
                 SetUpKillTargetOption(neutral, Id, true, CanKillNeutrals);
                 Id++;
             }
@@ -50,12 +47,7 @@ namespace TownOfHost
         public static void SetUpKillTargetOption(CustomRoles role, int Id, bool defaultValue = true, OptionItem parent = null)
         {
             if (parent == null) parent = Options.CustomRoleSpawnChances[CustomRoles.Sheriff];
-            var roleName = Utils.GetRoleName(role) + role switch
-            {
-                CustomRoles.EgoSchrodingerCat => $" {GetString("In%team%", new Dictionary<string, string>() { { "%team%", Utils.GetRoleName(CustomRoles.Egoist) } })}",
-                CustomRoles.JSchrodingerCat => $" {GetString("In%team%", new Dictionary<string, string>() { { "%team%", Utils.GetRoleName(CustomRoles.Jackal) } })}",
-                _ => "",
-            };
+            var roleName = Utils.GetRoleName(role);
             Dictionary<string, string> replacementDic = new() { { "%role%", Utils.ColorString(Utils.GetRoleColor(role), roleName) } };
             KillTargetOptions[role] = BooleanOptionItem.Create(Id, "SheriffCanKill%role%", defaultValue, TabGroup.CrewmateRoles, false).SetParent(parent);
             KillTargetOptions[role].ReplacementDictionary = replacementDic;

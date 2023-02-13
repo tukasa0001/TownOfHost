@@ -313,14 +313,6 @@ namespace TownOfHost
                             text = "Crewmate";
                             color = Color.white;
                             break;
-                        case CustomRoles.HASFox:
-                            text = "Fox";
-                            color = Color.magenta;
-                            break;
-                        case CustomRoles.HASTroll:
-                            text = "Troll";
-                            color = Color.green;
-                            break;
                     }
                     break;
             }
@@ -339,54 +331,47 @@ namespace TownOfHost
             if (p.Disconnected) hasTasks = false;
             if (p.Role.IsImpostor)
                 hasTasks = false; //タスクはCustomRoleを元に判定する
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+
+            if (p.IsDead && Options.GhostIgnoreTasks.GetBool()) hasTasks = false;
+            var role = States.MainRole;
+            switch (role)
             {
-                if (p.IsDead) hasTasks = false;
-                if (States.MainRole is CustomRoles.HASFox or CustomRoles.HASTroll) hasTasks = false;
-            }
-            else
-            {
-                if (p.IsDead && Options.GhostIgnoreTasks.GetBool()) hasTasks = false;
-                var role = States.MainRole;
-                switch (role)
-                {
-                    case CustomRoles.GM:
-                    case CustomRoles.Sheriff:
-                    case CustomRoles.Arsonist:
-                    case CustomRoles.Egoist:
-                    case CustomRoles.Jackal:
-                    case CustomRoles.Jester:
-                    case CustomRoles.Opportunist:
-                    case CustomRoles.Mario:
-                    case CustomRoles.OpportunistKiller:
-                    case CustomRoles.God:
-                    case CustomRoles.ChivalrousExpert:
+                case CustomRoles.GM:
+                case CustomRoles.Sheriff:
+                case CustomRoles.Arsonist:
+                case CustomRoles.Jackal:
+                case CustomRoles.Jester:
+                case CustomRoles.Opportunist:
+                case CustomRoles.Mario:
+                case CustomRoles.OpportunistKiller:
+                case CustomRoles.God:
+                case CustomRoles.ChivalrousExpert:
+                    hasTasks = false;
+                    break;
+                case CustomRoles.Terrorist:
+                    if (ForRecompute)
                         hasTasks = false;
-                        break;
-                    case CustomRoles.Terrorist:
-                        if (ForRecompute)
+                    break;
+                case CustomRoles.Executioner:
+                    if (Executioner.ChangeRolesAfterTargetKilled.GetValue() == 0)
+                        hasTasks = !ForRecompute;
+                    else hasTasks = false;
+                    break;
+                default:
+                    if (role.IsImpostor()) hasTasks = false;
+                    break;
+            }
+
+            foreach (var subRole in States.SubRoles)
+                switch (subRole)
+                {
+                    case CustomRoles.Lovers:
+                        //ラバーズがクルー陣営の場合タスクを付与しない
+                        if (role.IsCrewmate() && Options.LoverHasNoTask.GetBool())
                             hasTasks = false;
-                        break;
-                    case CustomRoles.Executioner:
-                        if (Executioner.ChangeRolesAfterTargetKilled.GetValue() == 0)
-                            hasTasks = !ForRecompute;
-                        else hasTasks = false;
-                        break;
-                    default:
-                        if (role.IsImpostor() || role.IsKilledSchrodingerCat()) hasTasks = false;
                         break;
                 }
 
-                foreach (var subRole in States.SubRoles)
-                    switch (subRole)
-                    {
-                        case CustomRoles.Lovers:
-                            //ラバーズがクルー陣営の場合タスクを付与しない
-                            if (role.IsCrewmate() && Options.LoverHasNoTask.GetBool())
-                                hasTasks = false;
-                            break;
-                    }
-            }
             return hasTasks;
         }
         public static string GetProgressText(PlayerControl pc)
@@ -453,26 +438,17 @@ namespace TownOfHost
         public static void ShowActiveSettingsHelp(byte PlayerId = byte.MaxValue)
         {
             SendMessage(GetString("CurrentActiveSettingsHelp") + ":", PlayerId);
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+
+            if (Options.DisableDevices.GetBool()) { SendMessage(GetString("DisableDevicesInfo"), PlayerId); }
+            if (Options.SyncButtonMode.GetBool()) { SendMessage(GetString("SyncButtonModeInfo"), PlayerId); }
+            if (Options.SabotageTimeControl.GetBool()) { SendMessage(GetString("SabotageTimeControlInfo"), PlayerId); }
+            if (Options.RandomMapsMode.GetBool()) { SendMessage(GetString("RandomMapsModeInfo"), PlayerId); }
+            if (Options.EnableGM.GetBool()) { SendMessage(GetRoleName(CustomRoles.GM) + GetString("GMInfoLong"), PlayerId); }
+            foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
             {
-                SendMessage(GetString("HideAndSeekInfo"), PlayerId);
-                if (CustomRoles.HASFox.IsEnable()) { SendMessage(GetRoleName(CustomRoles.HASFox) + GetString("HASFoxInfoLong"), PlayerId); }
-                if (CustomRoles.HASTroll.IsEnable()) { SendMessage(GetRoleName(CustomRoles.HASTroll) + GetString("HASTrollInfoLong"), PlayerId); }
+                if (role.IsEnable() && !role.IsVanilla()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"), PlayerId);
             }
-            else
-            {
-                if (Options.DisableDevices.GetBool()) { SendMessage(GetString("DisableDevicesInfo"), PlayerId); }
-                if (Options.SyncButtonMode.GetBool()) { SendMessage(GetString("SyncButtonModeInfo"), PlayerId); }
-                if (Options.SabotageTimeControl.GetBool()) { SendMessage(GetString("SabotageTimeControlInfo"), PlayerId); }
-                if (Options.RandomMapsMode.GetBool()) { SendMessage(GetString("RandomMapsModeInfo"), PlayerId); }
-                if (Options.IsStandardHAS) { SendMessage(GetString("StandardHASInfo"), PlayerId); }
-                if (Options.EnableGM.GetBool()) { SendMessage(GetRoleName(CustomRoles.GM) + GetString("GMInfoLong"), PlayerId); }
-                foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
-                {
-                    if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
-                    if (role.IsEnable() && !role.IsVanilla()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"), PlayerId);
-                }
-            }
+
             if (Options.NoGameEnd.GetBool()) { SendMessage(GetString("NoGameEndInfo"), PlayerId); }
         }
         public static void ShowActiveSettings(byte PlayerId = byte.MaxValue)
@@ -484,35 +460,25 @@ namespace TownOfHost
                 return;
             }
             var text = "";
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+
+            text = GetString("Settings") + ":";
+            foreach (var role in Options.CustomRoleCounts)
             {
-                text = GetString("Roles") + ":";
-                if (CustomRoles.HASFox.IsEnable()) text += String.Format("\n{0}:{1}", GetRoleName(CustomRoles.HASFox), CustomRoles.HASFox.GetCount());
-                if (CustomRoles.HASTroll.IsEnable()) text += String.Format("\n{0}:{1}", GetRoleName(CustomRoles.HASTroll), CustomRoles.HASTroll.GetCount());
-                SendMessage(text, PlayerId);
-                text = GetString("Settings") + ":";
-                text += GetString("HideAndSeek");
+                if (!role.Key.IsEnable()) continue;
+                text += $"\n【{GetRoleName(role.Key)}×{role.Key.GetCount()}】\n";
+                ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref text);
+                text = text.RemoveHtmlTags();
             }
-            else
+            foreach (var opt in OptionItem.AllOptions.Where(x => x.GetBool() && x.Parent == null && x.Id >= 80000 && !x.IsHiddenOn(Options.CurrentGameMode)))
             {
-                text = GetString("Settings") + ":";
-                foreach (var role in Options.CustomRoleCounts)
-                {
-                    if (!role.Key.IsEnable()) continue;
-                    text += $"\n【{GetRoleName(role.Key)}×{role.Key.GetCount()}】\n";
-                    ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref text);
-                    text = text.RemoveHtmlTags();
-                }
-                foreach (var opt in OptionItem.AllOptions.Where(x => x.GetBool() && x.Parent == null && x.Id >= 80000 && !x.IsHiddenOn(Options.CurrentGameMode)))
-                {
-                    if (opt.Name is "KillFlashDuration" or "RoleAssigningAlgorithm")
-                        text += $"\n【{opt.GetName(true)}: {opt.GetString()}】\n";
-                    else
-                        text += $"\n【{opt.GetName(true)}】\n";
-                    ShowChildrenSettings(opt, ref text);
-                    text = text.RemoveHtmlTags();
-                }
+                if (opt.Name is "KillFlashDuration" or "RoleAssigningAlgorithm")
+                    text += $"\n【{opt.GetName(true)}: {opt.GetString()}】\n";
+                else
+                    text += $"\n【{opt.GetName(true)}】\n";
+                ShowChildrenSettings(opt, ref text);
+                text = text.RemoveHtmlTags();
             }
+
             SendMessage(text, PlayerId);
         }
         public static void CopyCurrentSettings()
@@ -555,7 +521,6 @@ namespace TownOfHost
             text += string.Format("\n{0}:{1}", GetRoleName(CustomRoles.GM), Options.EnableGM.GetString().RemoveHtmlTags());
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {
-                if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                 if (role.IsEnable()) text += string.Format("\n{0}:{1}x{2}", GetRoleName(role), $"{role.GetChance() * 100}%", role.GetCount());
             }
             SendMessage(text, PlayerId);
@@ -1047,9 +1012,6 @@ namespace TownOfHost
                 if (seer.Data.IsDead //seerが死んでいる
                     || SeerKnowsImpostors //seerがインポスターを知っている状態
                     || seer.GetCustomRole().IsImpostor() //seerがインポスター
-                    || seer.Is(CustomRoles.EgoSchrodingerCat) //seerがエゴイストのシュレディンガーの猫
-                    || seer.Is(CustomRoles.JSchrodingerCat) //seerがJackal陣営のシュレディンガーの猫
-                    || seer.Is(CustomRoles.MSchrodingerCat) //seerがインポスター陣営のシュレディンガーの猫
                     || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.Is(CustomRoles.Arsonist)
                     || seer.Is(CustomRoles.Lovers)
@@ -1184,12 +1146,6 @@ namespace TownOfHost
                             if (foundCheck)
                                 TargetPlayerName = ColorString(target.GetRoleColor(), TargetPlayerName);
                         }
-                        else if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.Egoist))
-                            TargetPlayerName = ColorString(GetRoleColor(CustomRoles.Egoist), TargetPlayerName);
-                        else if ((seer.Is(CustomRoles.EgoSchrodingerCat) && target.Is(CustomRoles.Egoist)) || //エゴ猫 --> エゴイスト
-                                 (seer.Is(CustomRoles.JSchrodingerCat) && target.Is(CustomRoles.Jackal)) || // J猫 --> ジャッカル
-                                 (seer.Is(CustomRoles.MSchrodingerCat) && target.Is(RoleType.Impostor))) // M猫 --> インポスター
-                            TargetPlayerName = ColorString(target.GetRoleColor(), TargetPlayerName);
                         else if (Utils.IsActive(SystemTypes.Electrical) && target.Is(CustomRoles.Mare) && !isMeeting)
                             TargetPlayerName = ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName); //targetの赤色で表示
                         else

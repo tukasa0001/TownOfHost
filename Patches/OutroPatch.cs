@@ -48,40 +48,6 @@ namespace TownOfHost
                 winner.AddRange(Main.AllPlayerControls.Where(p => p.Is(team) && !winner.Contains(p)));
             }
 
-            //HideAndSeek専用
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek &&
-                CustomWinnerHolder.WinnerTeam != CustomWinner.Draw && CustomWinnerHolder.WinnerTeam != CustomWinner.None)
-            {
-                winner = new();
-                foreach (var pc in Main.AllPlayerControls)
-                {
-                    var role = Main.PlayerStates[pc.PlayerId].MainRole;
-                    if (role.GetRoleType() == RoleType.Impostor)
-                    {
-                        if (CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor)
-                            winner.Add(pc);
-                    }
-                    else if (role.GetRoleType() == RoleType.Crewmate)
-                    {
-                        if (CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
-                            winner.Add(pc);
-                    }
-                    else if (role == CustomRoles.HASTroll && pc.Data.IsDead)
-                    {
-                        //トロールが殺されていれば単独勝ち
-                        winner = new()
-                        {
-                            pc
-                        };
-                        break;
-                    }
-                    else if (role == CustomRoles.HASFox && CustomWinnerHolder.WinnerTeam != CustomWinner.HASTroll && !pc.Data.IsDead)
-                    {
-                        winner.Add(pc);
-                        CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.HASFox);
-                    }
-                }
-            }
             Main.winnerList = new();
             foreach (var pc in winner)
             {

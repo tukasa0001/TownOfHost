@@ -292,7 +292,6 @@ namespace TownOfHost
                     {CustomRoles.Doctor, "#80ffdd"},
                     {CustomRoles.Trapper, "#5a8fd0"},
                     {CustomRoles.Dictator, "#df9b00"},
-                    {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     {CustomRoles.Seer, "#61b26c"},
                     {CustomRoles.Detective, "#7160e8" },
                     {CustomRoles.ChivalrousExpert, "#f0e68c"},
@@ -306,14 +305,7 @@ namespace TownOfHost
                     {CustomRoles.Opportunist, "#00ff00"},
                     {CustomRoles.OpportunistKiller, "#51802c"},
                     {CustomRoles.Mario, "#ff6201"},
-                    {CustomRoles.SchrodingerCat, "#696969"},
-                    {CustomRoles.Egoist, "#5600ff"},
-                    {CustomRoles.EgoSchrodingerCat, "#5600ff"},
                     {CustomRoles.Jackal, "#00b4eb"},
-                    {CustomRoles.JSchrodingerCat, "#00b4eb"},
-                    //HideAndSeek
-                    {CustomRoles.HASFox, "#e478ff"},
-                    {CustomRoles.HASTroll, "#00ff00"},
                     // GM
                     {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
@@ -327,7 +319,6 @@ namespace TownOfHost
                     switch (role.GetRoleType())
                     {
                         case RoleType.Impostor:
-                        case RoleType.Madmate:
                             roleColors.TryAdd(role, "#ff0000");
                             break;
                         default:
@@ -390,8 +381,6 @@ namespace TownOfHost
         Sans,
         Bomber,
         BoobyTrap,
-        //Madmate
-        MSchrodingerCat,//红猫
         //両陣営
         Watcher,
         //Crewmate(Vanilla)
@@ -419,26 +408,18 @@ namespace TownOfHost
         Doctor,
         Seer,
         Detective,
-        CSchrodingerCat,//白猫
         ChivalrousExpert,
         NiceGuesser,
         //Neutral
         Arsonist,
-        Egoist,
-        EgoSchrodingerCat,//紫猫
         Jester,
         God,
         OpportunistKiller,
         Opportunist,
         Mario,
-        SchrodingerCat,//灰猫
         Terrorist,
         Executioner,
         Jackal,
-        JSchrodingerCat,//蓝猫
-        //HideAndSeek
-        HASFox,
-        HASTroll,
         //GM
         GM,
         // Sub-roll after 500
@@ -461,27 +442,17 @@ namespace TownOfHost
         Lovers = CustomRoles.Lovers,
         Executioner = CustomRoles.Executioner,
         Arsonist = CustomRoles.Arsonist,
-        Egoist = CustomRoles.Egoist,
         Jackal = CustomRoles.Jackal,
         God = CustomRoles.God,
         Mario = CustomRoles.Mario,
-        HASTroll = CustomRoles.HASTroll,
     }
     public enum AdditionalWinners
     {
         None = -1,
         Opportunist = CustomRoles.Opportunist,
         OpportunistKiller = CustomRoles.OpportunistKiller,
-        SchrodingerCat = CustomRoles.SchrodingerCat,
         Executioner = CustomRoles.Executioner,
-        HASFox = CustomRoles.HASFox,
     }
-    /*public enum CustomRoles : byte
-    {
-        Default = 0,
-        HASTroll = 1,
-        HASHox = 2
-    }*/
     public enum SuffixModes
     {
         None = 0,
@@ -498,7 +469,6 @@ namespace TownOfHost
         SelfVote,
         Skip
     }
-
     public enum TieMode
     {
         Default,

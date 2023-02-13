@@ -114,7 +114,6 @@ namespace TownOfHost.Modules
                     opt.SetVision(false);
                     break;
                 case CustomRoles.Lighter:
-                case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(true);
                     break;
                 case CustomRoles.Zombie:
@@ -139,7 +138,6 @@ namespace TownOfHost.Modules
                     EvilTracker.ApplyGameOptions(player.PlayerId);
                     break;
                 case CustomRoles.Jackal:
-                case CustomRoles.JSchrodingerCat:
                     Jackal.ApplyGameOptions(opt);
                     break;
 
@@ -186,10 +184,10 @@ namespace TownOfHost.Modules
             {
                 opt.SetInt(Int32OptionNames.EmergencyCooldown, 3600);
             }
-            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
+            if (Options.HideAndSeekKillDelayTimer > 0)
             {
                 opt.SetFloat(FloatOptionNames.ImpostorLightMod, 0f);
-                if (player.GetCustomRole().IsImpostor() || player.Is(CustomRoles.Egoist))
+                if (player.GetCustomRole().IsImpostor())
                 {
                     opt.SetFloat(FloatOptionNames.PlayerSpeedMod, Main.MinSpeed);
                 }

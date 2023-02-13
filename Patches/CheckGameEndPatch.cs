@@ -43,7 +43,7 @@ namespace TownOfHost
                         break;
                     case CustomWinner.Impostor:
                         Main.AllPlayerControls
-                            .Where(pc => (pc.Is(RoleType.Impostor) || pc.Is(RoleType.Madmate)) && !pc.Is(CustomRoles.Lovers))
+                            .Where(pc => pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Lovers))
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
                 }
@@ -92,12 +92,6 @@ namespace TownOfHost
                         {
                             CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
                             CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.OpportunistKiller);
-                        }
-                        //SchrodingerCat
-                        if (SchrodingerCat.CanWinTheCrewmateBeforeChange.GetBool() && pc.Is(CustomRoles.SchrodingerCat) && CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
-                        {
-                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
-                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.SchrodingerCat);
                         }
                     }
                 }
@@ -216,9 +210,8 @@ namespace TownOfHost
 
                 int[] counts = CountLivingPlayersByPredicates(
                     pc => pc.Is(RoleType.Impostor), //インポスター
-                    pc => pc.Is(CustomRoles.Egoist), //エゴイスト
                     pc => pc.Is(CustomRoles.Jackal), //ジャッカル
-                    pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Egoist) && !pc.Is(CustomRoles.Jackal) //その他
+                    pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Jackal) //その他
                 );
                 int Imp = counts[0], Ego = counts[1], Jackal = counts[2], Crew = counts[3];
 
@@ -236,19 +229,12 @@ namespace TownOfHost
                 {
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
-                    if (Imp == 0) //インポスター全滅ならエゴイスト勝利
-                    {
-                        CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Egoist);
-                        CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Egoist);
-                        CustomWinnerHolder.WinnerRoles.Add(CustomRoles.EgoSchrodingerCat);
-                    }
                 }
                 else if (Imp + Ego == 0 && Crew <= Jackal) //ジャッカル勝利
                 {
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jackal);
                     CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
-                    CustomWinnerHolder.WinnerRoles.Add(CustomRoles.JSchrodingerCat);
                 }
                 else if (Jackal == 0 && Imp + Ego == 0) //クルー勝利
                 {

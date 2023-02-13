@@ -10,7 +10,7 @@ namespace TownOfHost
     //参考元 : https://github.com/ykundesu/SuperNewRoles/blob/master/SuperNewRoles/Mode/SuperHostRoles/BlockTool.cs
     class DisableDevice
     {
-        public static bool DoDisable => Options.DisableDevices.GetBool() || Options.IsStandardHAS;
+        public static bool DoDisable => Options.DisableDevices.GetBool();
         private static List<byte> DesyncComms = new();
         private static int frame = 0;
         public static readonly Dictionary<string, Vector2> DevicePos = new()
@@ -56,7 +56,6 @@ namespace TownOfHost
                     bool doComms = false;
                     Vector2 PlayerPos = pc.GetTruePosition();
                     bool ignore = (Options.DisableDevicesIgnoreImpostors.GetBool() && pc.Is(RoleType.Impostor)) ||
-                            (Options.DisableDevicesIgnoreMadmates.GetBool() && pc.Is(RoleType.Madmate)) ||
                             (Options.DisableDevicesIgnoreNeutrals.GetBool() && pc.Is(RoleType.Neutral)) ||
                             (Options.DisableDevicesIgnoreCrewmates.GetBool() && pc.Is(RoleType.Crewmate)) ||
                             (Options.DisableDevicesIgnoreAfterAnyoneDied.GetBool() && GameStates.AlreadyDied);
@@ -139,7 +138,6 @@ namespace TownOfHost
             bool ignore = player.Is(CustomRoles.GM) ||
                 player.Data.IsDead ||
                 (Options.DisableDevicesIgnoreImpostors.GetBool() && player.Is(RoleType.Impostor)) ||
-                (Options.DisableDevicesIgnoreMadmates.GetBool() && player.Is(RoleType.Madmate)) ||
                 (Options.DisableDevicesIgnoreNeutrals.GetBool() && player.Is(RoleType.Neutral)) ||
                 (Options.DisableDevicesIgnoreCrewmates.GetBool() && player.Is(RoleType.Crewmate)) ||
                 (Options.DisableDevicesIgnoreAfterAnyoneDied.GetBool() && GameStates.AlreadyDied);

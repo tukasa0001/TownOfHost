@@ -37,8 +37,7 @@ namespace TownOfHost
         {
             //ラストインポスターがすでにいれば処理不要
             if (currentId != byte.MaxValue) return;
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek
-            || !CustomRoles.LastImpostor.IsEnable() || Main.AliveImpostorCount != 1)
+            if (!CustomRoles.LastImpostor.IsEnable() || Main.AliveImpostorCount != 1)
                 return;
             foreach (var pc in Main.AllAlivePlayerControls)
             {

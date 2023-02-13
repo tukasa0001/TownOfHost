@@ -12,8 +12,6 @@ namespace TownOfHost
             __instance.text.alignment = TMPro.TextAlignmentOptions.TopRight;
             __instance.text.text += Main.credentialsText;
             if (Options.NoGameEnd.GetBool()) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("NoGameEnd"));
-            if (Options.IsStandardHAS) __instance.text.text += $"\r\n" + Utils.ColorString(Color.yellow, GetString("StandardHAS"));
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("HideAndSeek"));
             if (!GameStates.IsModHost) __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("Warning.NoModHost"));
             if (DebugModeManager.IsDebugMode) __instance.text.text += "\r\n" + Utils.ColorString(Color.green, GetString("DebugMode"));
 
@@ -23,7 +21,7 @@ namespace TownOfHost
             __instance.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(offset_x, 0f, 0f);
 
             if (!GameStates.IsLobby) return;
-            if (Options.IsStandardHAS && !CustomRoles.Sheriff.IsEnable() && !CustomRoles.ChivalrousExpert.IsEnable() && !CustomRoles.SerialKiller.IsEnable() && CustomRoles.Egoist.IsEnable())
+            if (!CustomRoles.Sheriff.IsEnable() && !CustomRoles.ChivalrousExpert.IsEnable() && !CustomRoles.SerialKiller.IsEnable())
                 __instance.text.text += $"\r\n" + Utils.ColorString(Color.red, GetString("Warning.EgoistCannotWin"));
         }
     }
