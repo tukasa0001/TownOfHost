@@ -242,12 +242,10 @@ namespace TownOfHost
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
-                    switch (role.GetRoleType())
+                    switch (role.GetCustomRoleTypes())
                     {
-                        case RoleType.Impostor:
-                            roleColors.TryAdd(role, "#ff1919");
-                            break;
-                        case RoleType.Madmate:
+                        case CustomRoleTypes.Impostor:
+                        case CustomRoleTypes.Madmate:
                             roleColors.TryAdd(role, "#ff1919");
                             break;
                         default:

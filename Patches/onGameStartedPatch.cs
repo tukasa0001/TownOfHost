@@ -247,9 +247,9 @@ namespace TownOfHost
                 SetColorPatch.IsAntiGlitchDisabled = true;
                 foreach (var pc in Main.AllPlayerControls)
                 {
-                    if (pc.Is(RoleType.Impostor))
+                    if (pc.Is(CustomRoleTypes.Impostor))
                         pc.RpcSetColor(0);
-                    else if (pc.Is(RoleType.Crewmate))
+                    else if (pc.Is(CustomRoleTypes.Crewmate))
                         pc.RpcSetColor(1);
                 }
 

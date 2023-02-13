@@ -59,12 +59,12 @@ namespace TownOfHost
                 foreach (var pc in Main.AllPlayerControls)
                 {
                     var role = Main.PlayerStates[pc.PlayerId].MainRole;
-                    if (role.GetRoleType() == RoleType.Impostor)
+                    if (role.GetCustomRoleTypes() == CustomRoleTypes.Impostor)
                     {
                         if (CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor)
                             winner.Add(pc);
                     }
-                    else if (role.GetRoleType() == RoleType.Crewmate)
+                    else if (role.GetCustomRoleTypes() == CustomRoleTypes.Crewmate)
                     {
                         if (CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
                             winner.Add(pc);
