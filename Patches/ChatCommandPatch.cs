@@ -310,8 +310,13 @@ namespace TownOfHost
                         canceled = true;
                         subArgs = args.Length < 2 ? "" : args[1];
                         Utils.SendMessage("您的等级设置为：" + subArgs, PlayerControl.LocalPlayer.PlayerId);
-                        //nt32.Parse("-105");
-                        var number = Convert.ToUInt32(subArgs);
+                        int.TryParse(subArgs, out int input);
+                        if (input is < 1 or > 100)
+                        {
+                            Utils.SendMessage("等级可设置范围：0 - 100", PlayerControl.LocalPlayer.PlayerId);
+                            break;
+                        }
+                        var number = Convert.ToUInt32(input);
                         PlayerControl.LocalPlayer.RpcSetLevel(number - 1);
                         break;
 

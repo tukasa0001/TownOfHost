@@ -519,9 +519,32 @@ namespace TownOfHost
             }
             var text = GetString("Roles") + ":";
             text += string.Format("\n{0}:{1}", GetRoleName(CustomRoles.GM), Options.EnableGM.GetString().RemoveHtmlTags());
+            int headCount = 0;
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {
-                if (role.IsEnable()) text += string.Format("\n{0}:{1}x{2}", GetRoleName(role), $"{role.GetChance() * 100}%", role.GetCount());
+                if (role.IsImpostor() && headCount == 0)
+                {
+                    headCount++;
+                    text += "\n\n● " + GetString("TabGroup.ImpostorRoles");
+                }
+                else if(role.IsBoth() && headCount == 1)
+                {
+                    headCount++;
+                    text += "\n\n● " + GetString("TabGroup.BothRoles");
+                }else if(role.IsCrewmate() && headCount == 2)
+                {
+                    headCount++;
+                    text += "\n\n● " + GetString("TabGroup.CrewmateRoles");
+                }
+                else if (role.IsNeutral() && headCount == 3)
+                {
+                    headCount++;
+                    text += "\n\n● " + GetString("TabGroup.NeutralRoles");
+                }
+                string mode = "禁用";
+                if (role.GetChance() == 1) mode = "启用";
+                if (role.GetChance() == 2) mode = "优先";
+                if (role.IsEnable()) text += string.Format("\n{0}:{1}x{2}", GetRoleName(role), $"{mode}", role.GetCount());
             }
             SendMessage(text, PlayerId);
         }

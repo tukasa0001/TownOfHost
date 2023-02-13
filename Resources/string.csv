@@ -612,6 +612,7 @@ CyberStarNewsTitle,【 ★ 紧急新闻 ★ 】
 GodAliveTitle,【 ★ 神的共鸣 ★ 】
 TabGroup.SystemSettings,系统设置
 TabGroup.GameSettings,游戏设置
+TabGroup.BothRoles,双阵营职业
 TabGroup.CrewmateRoles,船员阵营职业
 TabGroup.NeutralRoles,中立阵营职业
 TabGroup.ImpostorRoles,内鬼阵营职业

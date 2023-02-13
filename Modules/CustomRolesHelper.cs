@@ -156,6 +156,11 @@ namespace TownOfHost
                 CustomRoles.OpportunistKiller or
                 CustomRoles.God;
         }
+        public static bool IsBoth(this CustomRoles role) // 是否双阵营
+        {
+            return role is
+                CustomRoles.Watcher;
+        }
         public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
         public static bool IsVanilla(this CustomRoles role) // 是否原版职业
         {
