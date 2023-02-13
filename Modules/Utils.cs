@@ -180,12 +180,12 @@ namespace TownOfHost
         }
         // public static Color GetRoleColor(CustomRoles role)
         // {
-        //     var hexColor = CustomRoleManager.AllRoles.Where(roleClass => roleClass.RoleName == role).FirstOrDefault().RoleColorCode;
+        //     var hexColor = CustomRoleManager.AllRoleBasicInfo.Where(roleClass => roleClass.RoleName == role).FirstOrDefault().RoleColorCode;
         //     ColorUtility.TryParseHtmlString(hexColor, out Color c);
         //     return c;
         // }
         // public static string GetRoleColorCode(CustomRoles role) =>
-        //     CustomRoleManager.AllRoles.Where(roleClass => roleClass.RoleName == role).FirstOrDefault().RoleColorCode;
+        //     CustomRoleManager.AllRoleBasicInfo.Where(roleClass => roleClass.RoleName == role).FirstOrDefault().RoleColorCode;
         public static string GetRoleColorCode(CustomRoles role)
         {
             if (!Main.roleColors.TryGetValue(role, out var hexColor)) hexColor = "#ffffff";
@@ -340,7 +340,7 @@ namespace TownOfHost
             var ProgressText = new StringBuilder();
             var State = Main.PlayerStates[playerId];
             var role = State.MainRole;
-            // var role = CustomRoleManager.AllRoles.Get(State.MainRole);
+            // var role = CustomRoleManager.AllRoleBasicInfo.Get(State.MainRole);
             // ProgressText.Append(role?.GetProgressText(playerId, comms));
             // switch (role.RoleName)
             switch (role)

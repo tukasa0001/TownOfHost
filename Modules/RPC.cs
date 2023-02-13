@@ -196,7 +196,7 @@ namespace TownOfHost
                     RPC.SetRealKiller(targetId, killerId);
                     break;
             }
-            CustomRoleManager.AllRoles.Do(role => role.ReceiveRPC(reader, rpcType));
+            CustomRoleManager.AllRoleBasicInfo.Do(role => role.ReceiveRPC(reader, rpcType));
         }
     }
     static class RPC
@@ -290,7 +290,7 @@ namespace TownOfHost
                 Main.PlayerStates[targetId].SetSubRole(role);
             }
 
-            CustomRoleManager.AllRoles.Do(role => role.Add(targetId));
+            CustomRoleManager.AllRoleBasicInfo.Do(role => role.Add(targetId));
             switch (role)
             {
                 case CustomRoles.BountyHunter:
