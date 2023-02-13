@@ -17,16 +17,13 @@ public class RoleInfoBase
     public TabGroup Tab;
     public OptionItem RoleOption => CustomRoleSpawnChances[RoleName];
     public bool IsEnable = false;
-    public RoleInfoBase()
-    {
-        Instance = this;
-    }
-    public RoleInfoBase Create(
+    public RoleInfoBase(
         CustomRoles roleName,
         RoleType type,
         int configId,
         string colorCode = "",
-        TabGroup tab = TabGroup.MainSettings)
+        TabGroup tab = TabGroup.MainSettings
+    )
     {
         RoleName = roleName;
         CustomRoleType = type;
@@ -54,7 +51,7 @@ public class RoleInfoBase
 
         RoleColor = Utils.GetRoleColor(roleName);
         CustomRoleManager.AllRoleBasicInfo.Add(this);
-        return this;
+        Instance = this;
     }
     public virtual void SetupCustomOption() => SetupRoleOptions(ConfigId, Tab, RoleName);
 }
