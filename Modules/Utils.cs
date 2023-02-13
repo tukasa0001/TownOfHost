@@ -12,7 +12,7 @@ using UnhollowerBaseLib;
 using UnityEngine;
 
 using TownOfHost.Modules;
-//using TownOfHost.Roles;
+using TownOfHost.Roles;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -350,7 +350,7 @@ namespace TownOfHost
                     ProgressText.Append(ColorString(GetRoleColor(CustomRoles.Arsonist).ShadeColor(0.25f), $"({doused.Item1}/{doused.Item2})"));
                     break;
                 case CustomRoles.Sheriff:
-                    ProgressText.Append(Sheriff.Instance.GetProgressText(playerId));
+                    ProgressText.Append(((RoleBase)Sheriff.Instance).GetProgressText(playerId));
                     break;
                 case CustomRoles.Sniper:
                     ProgressText.Append(Sniper.GetBulletCount(playerId));

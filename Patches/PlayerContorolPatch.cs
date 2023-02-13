@@ -237,7 +237,7 @@ namespace TownOfHost
 
             PlayerControl killer = __instance; //読み替え変数
 
-            CustomRoleManager.AllRoleBasicInfo.Do(role => role.OnMurderPlayer(killer, target));
+            CustomRoleManager.AllActiveRoles.Do(role => role.OnMurderPlayer(killer, target));
 
             //実際のキラーとkillerが違う場合の入れ替え処理
             if (Sniper.IsEnable)
@@ -314,7 +314,7 @@ namespace TownOfHost
 
             if (!AmongUsClient.Instance.AmHost) return;
 
-            CustomRoleManager.AllRoleBasicInfo.Do(role => role.OnShapeshift(shapeshifter, target));
+            CustomRoleManager.AllActiveRoles.Do(role => role.OnShapeshift(shapeshifter, target));
 
             if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
 
@@ -442,7 +442,7 @@ namespace TownOfHost
                 }
             }
 
-            CustomRoleManager.AllRoleBasicInfo.Do(role => role.OnReportDeadBody(__instance, target));
+            CustomRoleManager.AllActiveRoles.Do(role => role.OnReportDeadBody(__instance, target));
 
             Main.PuppeteerList.Clear();
             Sniper.OnReportDeadBody();
@@ -497,7 +497,7 @@ namespace TownOfHost
                     __instance.ReportDeadBody(info);
                 }
 
-                CustomRoleManager.AllRoleBasicInfo.Do(role => role.OnFixedUpdate(__instance));
+                CustomRoleManager.AllActiveRoles.Do(role => role.OnFixedUpdate(__instance));
 
                 DoubleTrigger.OnFixedUpdate(player);
                 Vampire.OnFixedUpdate(player);

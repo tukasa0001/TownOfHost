@@ -106,7 +106,7 @@ namespace TownOfHost
                 }
             }
             CustomRoleManager.Initialize();
-            CustomRoleManager.AllRoleBasicInfo.Do(role => role.Init());
+            CustomRoleManager.AllActiveRoles.Do(role => role.Init());
             FallFromLadder.Reset();
             BountyHunter.Init();
             SerialKiller.Init();
@@ -308,7 +308,7 @@ namespace TownOfHost
                 foreach (var pc in Main.AllPlayerControls)
                 {
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
-                    CustomRoleManager.AllRoleBasicInfo.Do(role => role.Add(pc.PlayerId));
+                    CustomRoleManager.AllActiveRoles.Do(role => role.Add(pc.PlayerId));
                     switch (pc.GetCustomRole())
                     {
                         case CustomRoles.BountyHunter:
