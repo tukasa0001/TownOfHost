@@ -7,14 +7,14 @@ namespace TownOfHost.Roles;
 
 public static class CustomRoleManager
 {
-    public static List<RoleBase> AllRoles = new(Enum.GetValues(typeof(CustomRoles)).Length);
+    public static List<RoleInfoBase> AllRoleBasicInfo = new(Enum.GetValues(typeof(CustomRoles)).Length);
 
     public static void Initialize()
     {
-        AllRoles.Do(role => role.IsEnable = role.RoleName.IsEnable());
+        AllRoleBasicInfo.Do(role => role.IsEnable = role.RoleName.IsEnable());
     }
-    public static RoleBase Get(this List<RoleBase> roleBase, CustomRoles role) => roleBase.ToArray().Where(roleClass => roleClass.RoleName == role).FirstOrDefault();
-    public static void Do(this List<RoleBase> roleBase, Action<RoleBase> action) => roleBase.ToArray().Do(action);
+    public static T Get<T>(this List<T> roleBase, CustomRoles role) where T : RoleInfoBase => roleBase.ToArray().Where(roleClass => roleClass.RoleName == role).FirstOrDefault();
+    public static void Do<T>(this List<T> roleBase, Action<T> action) where T : RoleInfoBase => roleBase.ToArray().Do(action);
     // == CheckMurder関連処理 ==
     // ==/CheckMurder関連処理 ==
 }
