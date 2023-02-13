@@ -228,7 +228,7 @@ Always assigned to a host and is ghosted from the start.<br>
 ### BountyHunter
 
 Team : Impostors<br>
-Basis : Impostor<br>
+Basis : Shapeshifter<br>
 
 If the BountyHunters kill their designated target, their next kill cooldown will be much less than usual.<br>
 Killing a player except their current target results in an increased kill cooldown.<br>
