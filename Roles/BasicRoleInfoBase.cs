@@ -7,6 +7,7 @@ namespace TownOfHost.Roles;
 
 public class RoleInfoBase
 {
+    public static RoleInfoBase Instance;
     public List<byte> PlayerIdList;
     public CustomRoles RoleName;
     public RoleType CustomRoleType;
@@ -50,6 +51,7 @@ public class RoleInfoBase
         CustomRoleManager.AllRoleBasicInfo.Add(this);
 
         RoleColor = Utils.GetRoleColor(roleName);
+        Instance = this;
     }
     public virtual void SetupCustomOption() => SetupRoleOptions(ConfigId, Tab, RoleName);
 }
