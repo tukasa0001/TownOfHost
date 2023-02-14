@@ -63,4 +63,6 @@ public abstract class RoleBase
     public virtual bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target) => true;
     public virtual void OnStartMeeting()
     { }
+    public virtual void AfterMeetingTasks()
+    { }
 }
