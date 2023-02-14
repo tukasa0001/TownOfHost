@@ -3,6 +3,8 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using UnhollowerBaseLib;
 using UnityEngine;
+
+using TownOfHost.Roles;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -54,6 +56,9 @@ namespace TownOfHost
 
             if (SetHudActivePatch.IsActive)
             {//MOD入り用のボタン下テキスト変更
+
+                CustomRoleManager.AllActiveRoles.Do(roleClass => __instance.KillButton.OverrideText(roleClass.GetKillButtonText()));
+                CustomRoleManager.AllActiveRoles.Do(roleClass => __instance.AbilityButton.OverrideText(roleClass.GetAbilityButtonText()));
                 switch (player.GetCustomRole())
                 {
                     case CustomRoles.Sniper:
