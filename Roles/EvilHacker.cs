@@ -143,7 +143,7 @@ namespace TownOfHost
                     {
                         Utils.NotifyRoles(false, player);
                     }
-                }, 10f, "Remove EvilHacker KillersAndRooms");
+                }, 10f, "Remove EvilHacker KillerIdsAndRooms");
             }
         }
         public static void RpcSyncMurderScenes()
