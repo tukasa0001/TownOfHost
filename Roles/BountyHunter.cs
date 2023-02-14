@@ -102,10 +102,11 @@ namespace TownOfHost
             }
             yield break;
         }
-        public override void OnFixedUpdate(PlayerControl player)
+        public override void OnFixedUpdate()
         {
             if (GameStates.IsInTask)
             {
+                var player = Player;
                 if (player.IsAlive())
                 {
                     var targetId = GetTarget().PlayerId;
@@ -167,7 +168,7 @@ namespace TownOfHost
             SendRPC(targetId);
             return target;
         }
-        public static void SetAbilityButtonText(HudManager __instance) => __instance.AbilityButton.OverrideText($"{GetString("BountyHunterChangeButtonText")}");
+        public override string GetAbilityButtonText() => GetString("BountyHunterChangeButtonText");
         public override void AfterMeetingTasks()
         {
             if (!Main.PlayerStates[Player.PlayerId].IsDead)
