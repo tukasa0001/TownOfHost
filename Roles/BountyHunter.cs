@@ -51,7 +51,7 @@ namespace TownOfHost
             var id = RoleInfo.ConfigId;
             var tab = RoleInfo.Tab;
             var roleName = RoleInfo.RoleName;
-            SetupRoleOptions(id, TabGroup.ImpostorRoles, CustomRoles.BountyHunter);
+            SetupRoleOptions(id, tab, roleName);
             var parent = RoleInfo.RoleOption;
             OptionTargetChangeTime = FloatOptionItem.Create(id + 10, "BountyTargetChangeTime", new(10f, 900f, 2.5f), 60f, tab, false).SetParent(parent)
                 .SetValueFormat(OptionFormat.Seconds);
