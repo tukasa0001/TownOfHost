@@ -145,9 +145,7 @@ namespace TownOfHost
                 }
                 if (winner is CustomWinner.Crewmate or CustomWinner.Impostor)
                     SetEverythingUpPatch.LastWinsReason = GetString($"GameOverReason.{reason}");
-                else
-                    SetEverythingUpPatch.LastWinsReason = "";
-
+                else SetEverythingUpPatch.LastWinsReason = "";
             }
 
             // CustomWinnerHolderの情報の同期
