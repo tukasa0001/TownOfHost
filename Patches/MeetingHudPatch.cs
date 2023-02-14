@@ -285,11 +285,13 @@ namespace TownOfHost
                         name += "<size=0>";
                         new LateTask(() =>
                         {
+                            Main.DoBlockNameChange = true;
                             player.RpcSetName(name);
                         }, 3.0f, "Change Exiled Player Name");
                         new LateTask(() =>
                         {
                             player.RpcSetName(realName);
+                            Main.DoBlockNameChange = false;
                         }, 11.5f, "Change Exiled Player Name Back");
                     }
                 }

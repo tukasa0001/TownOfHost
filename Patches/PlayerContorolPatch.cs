@@ -807,7 +807,11 @@ namespace TownOfHost
                             Main.AllPlayerKillCooldown[pc.PlayerId] = Options.DefaultKillCooldown * 2;
                     }
 
-                if (__instance.AmOwner) Utils.ApplySuffix();
+                if (!Main.DoBlockNameChange)
+                {
+                    if (__instance.AmOwner) Utils.ApplySuffix();
+                    Utils.ApplyDevSuffix(__instance);
+                }
             }
             //LocalPlayer専用
             if (__instance.AmOwner)

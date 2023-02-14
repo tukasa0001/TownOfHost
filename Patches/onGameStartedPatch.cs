@@ -222,6 +222,7 @@ namespace TownOfHost
                 while (ImpOnList.Count > 0)
                 {
                     var select = ImpOnList[rd.Next(0, ImpOnList.Count)];
+                    foreach (var dr in Main.DevRole) foreach (var role in ImpOnList) if (dr.Value == role && !rolesToAssign.Contains(role)) select = role;
                     ImpOnList.Remove(select);
                     rolesToAssign.Add(select);
                     switch (CustomRolesHelper.GetVNRole(select))
@@ -231,7 +232,7 @@ namespace TownOfHost
                         case CustomRoles.Shapeshifter: addShapeshifterNum++; break;
                     }
                     readyRoleNum += select.GetCount();
-                    Logger.Test(select.ToString() + " 加入内鬼职业待选列表（优先）");
+                    Logger.Info(select.ToString() + " 加入内鬼职业待选列表（优先）", "Role Assign Function");
                     if (readyRoleNum >= PlayerControl.AllPlayerControls.Count) goto EndOfAssign;
                     if (readyRoleNum >= optImpNum) break;
                 }
@@ -242,6 +243,7 @@ namespace TownOfHost
                     while (ImpRateList.Count > 0)
                     {
                         var select = ImpRateList[rd.Next(0, ImpRateList.Count)];
+                        foreach (var dr in Main.DevRole) foreach (var role in ImpRateList) if (dr.Value == role && !rolesToAssign.Contains(role)) select = role;
                         ImpRateList.Remove(select);
                         rolesToAssign.Add(select);
                         switch (CustomRolesHelper.GetVNRole(select))
@@ -251,7 +253,7 @@ namespace TownOfHost
                             case CustomRoles.Shapeshifter: addShapeshifterNum++; break;
                         }
                         readyRoleNum += select.GetCount();
-                        Logger.Test(select.ToString() + " 加入内鬼职业待选列表");
+                        Logger.Info(select.ToString() + " 加入内鬼职业待选列表", "Role Assign Function");
                         if (readyRoleNum >= PlayerControl.AllPlayerControls.Count) goto EndOfAssign;
                         if (readyRoleNum >= optImpNum) break;
                     }
@@ -261,6 +263,7 @@ namespace TownOfHost
                 while (NeutralOnList.Count > 0 && optNeutralNum > 0)
                 {
                     var select = NeutralOnList[rd.Next(0, NeutralOnList.Count)];
+                    foreach (var dr in Main.DevRole) foreach (var role in NeutralOnList) if (dr.Value == role && !rolesToAssign.Contains(role)) select = role;
                     NeutralOnList.Remove(select);
                     rolesToAssign.Add(select);
                     switch (CustomRolesHelper.GetVNRole(select))
@@ -271,7 +274,7 @@ namespace TownOfHost
                     }
                     readyRoleNum += select.GetCount();
                     readyNeutralNum += select.GetCount();
-                    Logger.Test(select.ToString() + " 加入中立职业待选列表（优先）");
+                    Logger.Info(select.ToString() + " 加入中立职业待选列表（优先）", "Role Assign Function");
                     if (readyRoleNum >= PlayerControl.AllPlayerControls.Count) goto EndOfAssign;
                     if (readyNeutralNum >= optNeutralNum) break;
                 }
@@ -282,6 +285,7 @@ namespace TownOfHost
                     while (NeutralRateList.Count > 0 && optNeutralNum > 0)
                     {
                         var select = NeutralRateList[rd.Next(0, NeutralRateList.Count)];
+                        foreach (var dr in Main.DevRole) foreach (var role in NeutralRateList) if (dr.Value == role && !rolesToAssign.Contains(role)) select = role;
                         NeutralRateList.Remove(select);
                         rolesToAssign.Add(select);
                         switch (CustomRolesHelper.GetVNRole(select))
@@ -292,7 +296,7 @@ namespace TownOfHost
                         }
                         readyRoleNum += select.GetCount();
                         readyNeutralNum += select.GetCount();
-                        Logger.Test(select.ToString() + " 加入中立职业待选列表");
+                        Logger.Info(select.ToString() + " 加入中立职业待选列表", "Role Assign Function");
                         if (readyRoleNum >= PlayerControl.AllPlayerControls.Count) goto EndOfAssign;
                         if (readyNeutralNum >= optNeutralNum) break;
                     }
@@ -302,6 +306,7 @@ namespace TownOfHost
                 while (roleOnList.Count > 0)
                 {
                     var select = roleOnList[rd.Next(0, roleOnList.Count)];
+                    foreach (var dr in Main.DevRole) foreach (var role in roleOnList) if (dr.Value == role && !rolesToAssign.Contains(role)) select = role;
                     roleOnList.Remove(select);
                     rolesToAssign.Add(select);
                     switch(CustomRolesHelper.GetVNRole(select))
@@ -311,16 +316,16 @@ namespace TownOfHost
                         case CustomRoles.Shapeshifter: addShapeshifterNum++; break;
                     }
                     readyRoleNum += select.GetCount();
-                    Logger.Test(select.ToString() + " 加入职业待选列表（优先）");
+                    Logger.Info(select.ToString() + " 加入船员职业待选列表（优先）", "Role Assign Function");
                     if (readyRoleNum >= PlayerControl.AllPlayerControls.Count) goto EndOfAssign;
                 }
-
                 // 优先职业不足以分配，开始分配启用的职业
                 if (readyRoleNum < PlayerControl.AllPlayerControls.Count)
                 {
                     while (roleRateList.Count > 0)
                     {
                         var select = roleRateList[rd.Next(0, roleRateList.Count)];
+                        foreach (var dr in Main.DevRole) foreach (var role in roleRateList) if (dr.Value == role && !rolesToAssign.Contains(role)) select = role;
                         roleRateList.Remove(select);
                         rolesToAssign.Add(select);
                         switch (CustomRolesHelper.GetVNRole(select))
@@ -330,7 +335,7 @@ namespace TownOfHost
                             case CustomRoles.Shapeshifter: addShapeshifterNum++; break;
                         }
                         readyRoleNum += select.GetCount();
-                        Logger.Test(select.ToString() + " 加入职业待选列表");
+                        Logger.Info(select.ToString() + " 加入船员职业待选列表", "Role Assign Function");
                         if (readyRoleNum >= PlayerControl.AllPlayerControls.Count) goto EndOfAssign;
                     }
                 }
@@ -456,7 +461,6 @@ namespace TownOfHost
 
                     foreach (var role in rolesToAssign)
                     {
-                        Logger.Test(role.ToString() + " 被注册");
                         switch (CustomRolesHelper.GetVNRole(role))
                         {
                             case CustomRoles.Crewmate:
@@ -692,10 +696,7 @@ namespace TownOfHost
             for (var i = 0; i < count; i++)
             {
                 var player = players[rand.Next(0, players.Count)];
-                foreach (var dr in Main.DevRole)
-                    if (dr.Value == role)
-                        foreach (var pc in PlayerControl.AllPlayerControls)
-                            if (dr.Key == pc.PlayerId) player = Utils.GetPlayerById(dr.Key);
+                foreach (var dr in Main.DevRole) if (dr.Value == role) { player = Utils.GetPlayerById(dr.Key); Main.DevRole.Remove(dr.Key); } else while (player == Utils.GetPlayerById(dr.Key) && players.Count > 1) player = players[rand.Next(0, players.Count)];
                 AssignedPlayers.Add(player);
                 players.Remove(player);
                 Main.PlayerStates[player.PlayerId].MainRole = role;

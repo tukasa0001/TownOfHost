@@ -416,7 +416,6 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Sans:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Main.SansKillCooldown.TryGetValue(player.PlayerId, out float x) ? x : Options.SansDefaultKillCooldown.GetFloat();
-                    Logger.Test(Main.AllPlayerKillCooldown[player.PlayerId].ToString());
                     break;
                 case CustomRoles.TimeThief:
                     TimeThief.SetKillCooldown(player.PlayerId); //タイムシーフはタイムシーフのキルクールに。

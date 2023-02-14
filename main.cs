@@ -112,6 +112,7 @@ namespace TownOfHost
         public static Dictionary<byte, byte> KillerOfBoobyTrapBody = new();
         public static Dictionary<byte, string> DetectiveNotify = new();
 
+        public static bool DoBlockNameChange = false;
         public static int updateTime;
         public static bool newLobby = false;
 

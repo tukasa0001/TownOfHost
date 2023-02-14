@@ -839,6 +839,7 @@ namespace TownOfHost
         public static void ApplySuffix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
+            if (IsDev(PlayerControl.LocalPlayer)) return;
             string name = DataManager.player.Customization.Name;
             if (Main.nickName != "") name = Main.nickName;
             if (AmongUsClient.Instance.IsGameStarted)
@@ -870,6 +871,7 @@ namespace TownOfHost
                         break;
                 }
             }
+            if (name.CompareTo(PlayerControl.LocalPlayer.name) == 0) return;
             if (name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
         }
         public static PlayerControl GetPlayerById(int PlayerId)
@@ -1202,37 +1204,66 @@ namespace TownOfHost
             if (Options.AirShipVariableElectrical.GetBool())
                 AirShipElectricalDoors.Initialize();
         }
-
         public static void DevNameCheck(ClientData client)
         {
             new LateTask(() =>
             {
                 if (client.Character == null) return;
-                if (client.FriendCode.Equals("actorour#0029"))
+                Dictionary<string, string> DevColor = new()
                 {
-                    string t1 = $"<color={Main.ModColor}>";
-                    string t2 = client.PlayerName;
-                    string t3 = "</color>";
-                    string name = t1 + t2 + t3;
-                    client.Character.RpcSetName(name);
+                    { "actorour#0029", Main.ModColor },
+                };
+                foreach (var dc in DevColor)
+                {
+                    if (client.FriendCode.Equals(dc.Key))
+                    {
+                        string t1 = $"<color={dc.Value}>";
+                        string t2 = client.PlayerName;
+                        string t3 = "</color>";
+                        string name = t1 + t2 + t3;
+                        client.Character.RpcSetName(name);
+                    }
                 }
             }, 3f, "Dev Name Check");
         }
-
+        public static void ApplyDevSuffix(PlayerControl player)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            if (!IsDev(player)) return;
+            string name = DataManager.player.Customization.Name;
+            if (Main.nickName != "") name = Main.nickName;
+            if (AmongUsClient.Instance.IsGameStarted)
+            {
+                if (Options.ColorNameMode.GetBool() && Main.nickName == "") name = Palette.GetColorName(player.Data.DefaultOutfit.ColorId);
+            }
+            else
+            {
+                switch (player.FriendCode)
+                {
+                    case "actorour#0029":
+                        name = $"<color={Main.ModColor}><size=1.7>开发者</size></color>\n" + name;
+                        break;
+                }
+            }
+            if (name.CompareTo(player.name) == 0) return;
+            if (name != player.name && player.CurrentOutfitType == PlayerOutfitType.Default)
+            {
+                Logger.Info("设置玩家名字后缀", "ApplyDevSuffix");
+                player.RpcSetName(name);
+            }
+        }
         public static bool IsDev(PlayerControl pc)
         {
-            Logger.Test(pc.FriendCode);
             return pc.FriendCode is
-                "actorour#0029";
+                "actorour#0029" or
+                "recentduct#6068";
         }
         public static bool IsDev(int pcId)
         {
             var pc = GetPlayerById(pcId);
             if (pc == null) return false;
-            return pc.FriendCode is
-                "actorour#0029";
+            return IsDev(pc);
         }
-
         public static void ChangeInt(ref int ChangeTo, int input, int max)
         {
             var tmp = ChangeTo * 10;
