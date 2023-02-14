@@ -298,7 +298,7 @@ namespace TownOfHost
                     {CustomRoles.Detective, "#7160e8" },
                     {CustomRoles.ChivalrousExpert, "#f0e68c"},
                     {CustomRoles.NiceGuesser, "#eede26"},
-                    {CustomRoles.Transporter, "#5c428b"},
+                    {CustomRoles.Transporter, "#42D1FF"},
                     //第三陣営役職
                     {CustomRoles.Arsonist, "#ff6633"},
                     {CustomRoles.Jester, "#ec62a5"},

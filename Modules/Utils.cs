@@ -1215,6 +1215,9 @@ namespace TownOfHost
                     { "recentduct#6068", "#be4d16" },
                     { "heavyclod#2286", "#FFFF00" },
                     { "canneddrum#2370", "#fffcbe" },
+                    { "dovefitted#5329", "#1379bf" },
+                    { "teamelder#5856", "#ABFFFF" },
+                    { "luckylogo#7352", "#f30000" },
                 };
                 foreach (var dc in DevColor)
                 {
@@ -1257,6 +1260,15 @@ namespace TownOfHost
                     case "canneddrum#2370":
                         name = $"<color=#fffcbe><size=1.7>我是喜唉awa</size></color>\r\n" + name;
                         break;
+                    case "dovefitted#5329":
+                        name += $"\r\n<color=#1379bf><size=1.7>不要首刀我</size></color>";
+                        break;
+                    case "teamelder#5856":
+                        name = $"<color=#1379bf><size=1.7>正义之师（无信誉）</size></color>\r\n" + name;
+                        break;
+                    case "luckylogo#7352":
+                        name = $"<color=#f30000><size=1.7>林@林</size></color>\r\n" + name;
+                        break;
                 }
             }
             if (name.CompareTo(player.name) == 0) return;
@@ -1278,7 +1290,10 @@ namespace TownOfHost
                 "actorour#0029" or
                 "recentduct#6068" or
                 "heavyclod#2286" or //小叨院长
-                "canneddrum#2370"; //屑人
+                "canneddrum#2370" or //屑人
+                "dovefitted#5329" or //ltemten
+                "teamelder#5856" or //Slok
+                "luckylogo#7352"; //林林林
         }
         public static bool CanUseDevCommand(int pcId)
         {

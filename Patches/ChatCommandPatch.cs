@@ -574,6 +574,7 @@ namespace TownOfHost
                 "告密者" or "告密" => "告密者",
                 "增速者" or "增速" => "增速者",
                 "陷阱師" or "陷阱" or "小奖" => "陷阱师",
+                "傳送師" or "传送" => "传送师",
                 "縱火犯" or "纵火" => "纵火犯",
                 "野心家" or "野心" => "野心家",
                 "處刑人" or "处刑" => "处刑人",
@@ -620,8 +621,9 @@ namespace TownOfHost
                 { CustomRoles.Witch, GetString("Witch") },
                 { CustomRoles.Sans, GetString("Sans") },
                 { CustomRoles.BoobyTrap, GetString("BoobyTrap") },
+                { CustomRoles.EvilGuesser, GetString("EvilGuesser") },
                 //両陣営役職
-                { (CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==" }, //区切り用
+                { (CustomRoles)(-3), $"== {GetString("Impostor")} 或 {GetString("Crewmate")} ==" }, //区切り用
                 { CustomRoles.Watcher, GetString("Watcher") },
                 //Crewmate役職
                 { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
@@ -646,7 +648,7 @@ namespace TownOfHost
                 { CustomRoles.Trapper, GetString("Trapper") },
                 { CustomRoles.ChivalrousExpert, GetString("ChivalrousExpert") },
                 { CustomRoles.NiceGuesser, GetString("NiceGuesser") },
-                { CustomRoles.EvilGuesser, GetString("EvilGuesser") },
+                { CustomRoles.Transporter, GetString("Transporter") },
                 //Neutral役職
                 { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
                 { CustomRoles.Arsonist, GetString("Arsonist") },
@@ -662,6 +664,7 @@ namespace TownOfHost
                 { (CustomRoles)(-6), $"== {GetString("Addons")} ==" }, //区切り用
                 {CustomRoles.Lovers, GetString("Lovers") },
                 {CustomRoles.Ntr, GetString("Ntr") },
+                {CustomRoles.LastImpostor, GetString("LastImpostor") },
 
             };
 
