@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Hazel;
+using AmongUs.GameOptions;
+
+using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles;
 
@@ -66,8 +69,18 @@ public abstract class RoleBase
     public virtual void AfterMeetingTasks()
     { }
     public virtual string GetTargetArrow() => "";
-    public virtual void GetKillButtonText()
-    { }
-    public virtual void GetAbilityButtonText()
-    { }
+    public virtual string GetKillButtonText() => GetString(StringNames.KillLabel);
+    public virtual string GetAbilityButtonText()
+    {
+        StringNames str = Player.Data.Role.Role switch
+        {
+            RoleTypes.Engineer => StringNames.VentAbility,
+            RoleTypes.Scientist => StringNames.VitalsAbility,
+            RoleTypes.Shapeshifter => StringNames.ShapeshiftAbility,
+            RoleTypes.GuardianAngel => StringNames.ProtectAbility,
+            RoleTypes.ImpostorGhost or RoleTypes.CrewmateGhost => StringNames.HauntAbilityName,
+            _ => StringNames.ErrorInvalidName
+        };
+        return GetString(str);
+    }
 }
