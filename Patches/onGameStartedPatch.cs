@@ -304,6 +304,7 @@ namespace TownOfHost
                 }
 
                 HudManager.Instance.SetHudActive(true);
+                CustomRoleManager.CreateInstance();
                 foreach (var pc in Main.AllPlayerControls)
                 {
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
