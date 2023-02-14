@@ -493,7 +493,8 @@ namespace TownOfHost
                     __instance.ReportDeadBody(info);
                 }
 
-                __instance.GetRoleClass().OnFixedUpdate();
+                if (GameStates.IsInTask)
+                    __instance.GetRoleClass()?.OnFixedUpdate();
 
                 DoubleTrigger.OnFixedUpdate(player);
                 Vampire.OnFixedUpdate(player);
@@ -765,7 +766,7 @@ namespace TownOfHost
                     //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能な第三陣営の方角がわかる
                     Suffix.Append(Snitch.GetSnitchArrow(seer, target));
 
-                    Suffix.Append(seer.GetRoleClass().GetTargetArrow());
+                    Suffix.Append(seer.GetRoleClass()?.GetTargetArrow());
 
                     if (GameStates.IsInTask && target.Is(CustomRoles.EvilTracker))
                         Suffix.Append(EvilTracker.GetTargetArrowForModClient(seer, target));

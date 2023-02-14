@@ -94,7 +94,7 @@ namespace TownOfHost.Modules
                     break;
             }
 
-            player.GetRoleClass().ApplyGameOptions();
+            player.GetRoleClass()?.ApplyGameOptions();
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Terrorist:

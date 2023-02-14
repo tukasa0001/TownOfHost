@@ -406,7 +406,7 @@ namespace TownOfHost
         public static void ResetKillCooldown(this PlayerControl player)
         {
             Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
-            player.GetRoleClass().SetKillCooldown();
+            player.GetRoleClass()?.SetKillCooldown();
             switch (player.GetCustomRole())
             {
                 case CustomRoles.SerialKiller:
