@@ -310,7 +310,6 @@ namespace TownOfHost
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
                     CustomRoleManager.AllActiveRoles.Do(role =>
                     {
-                        role.Init();
                         role.Add();
                     });
                     switch (pc.GetCustomRole())
