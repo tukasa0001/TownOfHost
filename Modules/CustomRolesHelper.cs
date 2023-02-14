@@ -230,6 +230,8 @@ namespace TownOfHost
             }
         }
         public static bool IsEnable(this CustomRoles role) => role.GetCount() > 0;
+
+        public static bool HasSubRole(this PlayerControl pc) => Main.PlayerStates[pc.PlayerId].SubRoles.Count > 0;
     }
     public enum RoleType
     {

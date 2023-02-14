@@ -315,6 +315,7 @@ namespace TownOfHost
                     {CustomRoles.LastImpostor, "#ff0000"},
                     {CustomRoles.Lovers, "#ff6be4"},
                     {CustomRoles.Ntr, "#00a4ff"},
+                    {CustomRoles.Madmate, "#ff0000"},
                     {CustomRoles.NotAssigned, "#ffffff"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
@@ -431,6 +432,7 @@ namespace TownOfHost
         LastImpostor,
         Lovers,
         Ntr,
+        Madmate,
     }
     //WinData
     public enum CustomWinner

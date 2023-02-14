@@ -68,8 +68,8 @@ namespace TownOfHost
         };
         public static readonly string[] ratesZeroOne =
         {
-            "Rate0", /*"Rate10", "Rate20", "Rate30", "Rate40", "Rate50",
-            "Rate60", "Rate70", "Rate80", "Rate90", */"Rate100",
+            "RoleOff", /*"Rate10", "Rate20", "Rate30", "Rate40", "Rate50",
+            "Rate60", "Rate70", "Rate80", "Rate90", */"RoleRate",
         };
         public static readonly string[] ratesToggle =
         {
@@ -303,6 +303,7 @@ namespace TownOfHost
         public static OptionItem PlayerCanSerColor;
 
         //Add-Ons
+        public static OptionItem MadmateSpawnChances;
         public static OptionItem NtrSpawnChances;
         public static OptionItem LoverSpawnChances;
         public static OptionItem LoverSuicide;
@@ -555,12 +556,13 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
             //50220~50223を使用
             TerroristTasks = OverrideTasksData.Create(50220, TabGroup.NeutralRoles, CustomRoles.Terrorist);
-            SetupLoversRoleOptionsToggle(50300);
-            SetupNtrRoleOptionsToggle(6050315);
             Executioner.SetupCustomOption();
             Jackal.SetupCustomOption();
 
             // Add-Ons
+            SetupLoversRoleOptionsToggle(50300);
+            SetupNtrRoleOptionsToggle(6050315);
+            //SetupMadmateRoleOptionsToggle(6050323);
             LastImpostor.SetupCustomOption();
 
             // 乐子职业
@@ -866,7 +868,7 @@ namespace TownOfHost
         private static void SetupLoversRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             var role = CustomRoles.Lovers;
-            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesToggle, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
+            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
                 .SetHeader(true)
                 .SetGameMode(customGameMode) as StringOptionItem;
 
@@ -891,7 +893,7 @@ namespace TownOfHost
         private static void SetupNtrRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             var role = CustomRoles.Ntr;
-            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesToggle, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
+            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
                 .SetHeader(true)
                 .SetGameMode(customGameMode) as StringOptionItem;
 
@@ -906,9 +908,26 @@ namespace TownOfHost
             CustomRoleSpawnChances.Add(role, spawnOption);
             CustomRoleCounts.Add(role, countOption);
         }
+        private static void SetupMadmateRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
+        {
+            var role = CustomRoles.Madmate;
+            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
+                .SetHeader(true)
+                .SetGameMode(customGameMode) as StringOptionItem;
+
+            MadmateSpawnChances = IntegerOptionItem.Create(id + 2, "MadmateSpawnChances", new(0, 100, 5), 50, TabGroup.Addons, false).SetParent(spawnOption)
+                .SetValueFormat(OptionFormat.Percent)
+                .SetGameMode(customGameMode);
+
+            var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 15, 1), 1, TabGroup.Addons, false).SetParent(spawnOption)
+                .SetGameMode(customGameMode);
+
+            CustomRoleSpawnChances.Add(role, spawnOption);
+            CustomRoleCounts.Add(role, countOption);
+        }
         public static void SetupSingleRoleOptions(int id, TabGroup tab, CustomRoles role, int count, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
-            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesToggle, 0, tab, false).SetColor(Utils.GetRoleColor(role))
+            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, tab, false).SetColor(Utils.GetRoleColor(role))
                 .SetHeader(true)
                 .SetGameMode(customGameMode) as StringOptionItem;
             // 初期値,最大値,最小値が同じで、stepが0のどうやっても変えることができない個数オプション
