@@ -15,6 +15,8 @@ public abstract class RoleBase
     {
         Player = player;
         HasTasks = hasTasks;
+
+        CustomRoleManager.AllActiveRoles.Add(this);
     }
     public virtual void Init()
     { }
