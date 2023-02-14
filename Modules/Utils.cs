@@ -877,7 +877,7 @@ namespace TownOfHost
         }
         public static void AfterMeetingTasks()
         {
-            BountyHunter.AfterMeetingTasks();
+            CustomRoleManager.AllActiveRoles.Do(roleClass => roleClass.AfterMeetingTasks());
             EvilTracker.AfterMeetingTasks();
             SerialKiller.AfterMeetingTasks();
             if (Options.AirShipVariableElectrical.GetBool())
