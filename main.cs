@@ -115,6 +115,7 @@ namespace TownOfHost
         public static bool DoBlockNameChange = false;
         public static int updateTime;
         public static bool newLobby = false;
+        public static Dictionary<int, string> OriginalName = new();
 
         public static Dictionary<int, int> SayStartTimes = new();
         public static Dictionary<int, int> SayBanwordsTimes = new();

@@ -175,11 +175,12 @@ namespace TownOfHost
 
                 // 开始职业抽取
                 var rd = Utils.RandomSeedByGuid();
+                int playerCount = Options.EnableGM.GetBool() ? PlayerControl.AllPlayerControls.Count - 1 : PlayerControl.AllPlayerControls.Count;
                 int optImpNum = Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors);
                 int optNeutralNum = 0;
                 if (Options.NeutralRolesMaxPlayer.GetInt() > 0 && Options.NeutralRolesMaxPlayer.GetInt() >= Options.NeutralRolesMinPlayer.GetInt())
                     optNeutralNum = rd.Next(Options.NeutralRolesMinPlayer.GetInt(), Options.NeutralRolesMaxPlayer.GetInt() + 1);
-                int readyRoleNum = Options.EnableGM.GetBool() ? 1 : 0;
+                int readyRoleNum = 0;
                 int readyNeutralNum = 0;
                 rolesToAssign.Clear();
 
@@ -224,12 +225,12 @@ namespace TownOfHost
                     rolesToAssign.Add(select);
                     readyRoleNum += select.GetCount();
                     Logger.Info(select.ToString() + " 加入内鬼职业待选列表（优先）", "Role Assign Function");
-                    if (readyRoleNum >= PlayerControl.AllPlayerControls.Count) goto EndOfAssign;
+                    if (readyRoleNum >= playerCount) goto EndOfAssign;
                     if (readyRoleNum >= optImpNum) break;
                 }
 
                 // 优先职业不足以分配，开始分配启用的职业（内鬼）
-                if (readyRoleNum < PlayerControl.AllPlayerControls.Count && readyRoleNum < optImpNum)
+                if (readyRoleNum < playerCount && readyRoleNum < optImpNum)
                 {
                     while (ImpRateList.Count > 0)
                     {
@@ -239,7 +240,7 @@ namespace TownOfHost
                         rolesToAssign.Add(select);
                         readyRoleNum += select.GetCount();
                         Logger.Info(select.ToString() + " 加入内鬼职业待选列表", "Role Assign Function");
-                        if (readyRoleNum >= PlayerControl.AllPlayerControls.Count) goto EndOfAssign;
+                        if (readyRoleNum >= playerCount) goto EndOfAssign;
                         if (readyRoleNum >= optImpNum) break;
                     }
                 }
@@ -254,12 +255,12 @@ namespace TownOfHost
                     readyRoleNum += select.GetCount();
                     readyNeutralNum += select.GetCount();
                     Logger.Info(select.ToString() + " 加入中立职业待选列表（优先）", "Role Assign Function");
-                    if (readyRoleNum >= PlayerControl.AllPlayerControls.Count) goto EndOfAssign;
+                    if (readyRoleNum >= playerCount) goto EndOfAssign;
                     if (readyNeutralNum >= optNeutralNum) break;
                 }
 
                 // 优先职业不足以分配，开始分配启用的职业（中立）
-                if (readyRoleNum < PlayerControl.AllPlayerControls.Count && readyNeutralNum < optNeutralNum)
+                if (readyRoleNum < playerCount && readyNeutralNum < optNeutralNum)
                 {
                     while (NeutralRateList.Count > 0 && optNeutralNum > 0)
                     {
@@ -270,7 +271,7 @@ namespace TownOfHost
                         readyRoleNum += select.GetCount();
                         readyNeutralNum += select.GetCount();
                         Logger.Info(select.ToString() + " 加入中立职业待选列表", "Role Assign Function");
-                        if (readyRoleNum >= PlayerControl.AllPlayerControls.Count) goto EndOfAssign;
+                        if (readyRoleNum >= playerCount) goto EndOfAssign;
                         if (readyNeutralNum >= optNeutralNum) break;
                     }
                 }
@@ -284,10 +285,10 @@ namespace TownOfHost
                     rolesToAssign.Add(select);
                     readyRoleNum += select.GetCount();
                     Logger.Info(select.ToString() + " 加入船员职业待选列表（优先）", "Role Assign Function");
-                    if (readyRoleNum >= PlayerControl.AllPlayerControls.Count) goto EndOfAssign;
+                    if (readyRoleNum >= playerCount) goto EndOfAssign;
                 }
                 // 优先职业不足以分配，开始分配启用的职业
-                if (readyRoleNum < PlayerControl.AllPlayerControls.Count)
+                if (readyRoleNum < playerCount)
                 {
                     while (roleRateList.Count > 0)
                     {
@@ -297,7 +298,7 @@ namespace TownOfHost
                         rolesToAssign.Add(select);
                         readyRoleNum += select.GetCount();
                         Logger.Info(select.ToString() + " 加入船员职业待选列表", "Role Assign Function");
-                        if (readyRoleNum >= PlayerControl.AllPlayerControls.Count) goto EndOfAssign;
+                        if (readyRoleNum >= playerCount) goto EndOfAssign;
                     }
                 }
 

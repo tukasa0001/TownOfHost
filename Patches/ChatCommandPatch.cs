@@ -377,7 +377,7 @@ namespace TownOfHost
                             Utils.SendMessage(GetString("GuesserInfoLong"), PlayerControl.LocalPlayer.PlayerId);
                             break;
                         }
-                        SendRolesInfo(subArgs, PlayerControl.LocalPlayer, Utils.IsDev(PlayerControl.LocalPlayer));
+                        SendRolesInfo(subArgs, PlayerControl.LocalPlayer, Utils.CanUseDevCommand(PlayerControl.LocalPlayer));
                         break;
 
                     case "/h":
@@ -793,7 +793,7 @@ namespace TownOfHost
                         Utils.SendMessage(GetString("GuesserInfoLong"), player.PlayerId);
                         break;
                     }
-                    SendRolesInfo(subArgs, player, Utils.IsDev(player));
+                    SendRolesInfo(subArgs, player, Utils.CanUseDevCommand(player));
                     break;
 
                 case "/h":

@@ -1212,6 +1212,8 @@ namespace TownOfHost
                 Dictionary<string, string> DevColor = new()
                 {
                     { "actorour#0029", Main.ModColor },
+                    { "recentduct#6068", "#be4d16" },
+                    { "heavyclod#2286", "#FFFF00" },
                 };
                 foreach (var dc in DevColor)
                 {
@@ -1231,6 +1233,8 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             if (!IsDev(player)) return;
             string name = DataManager.player.Customization.Name;
+            if (player != PlayerControl.LocalPlayer) name = Main.OriginalName[player.GetClientId()];
+            //string name = DataManager.player.Customization.Name;
             if (Main.nickName != "") name = Main.nickName;
             if (AmongUsClient.Instance.IsGameStarted)
             {
@@ -1241,7 +1245,13 @@ namespace TownOfHost
                 switch (player.FriendCode)
                 {
                     case "actorour#0029":
-                        name = $"<color={Main.ModColor}><size=1.7>开发者</size></color>\n" + name;
+                        name = $"<color={Main.ModColor}><size=1.7>开发者</size></color>\r\n" + name;
+                        break;
+                    case "recentduct#6068":
+                        name += $"\r\n<color=#be4d16><size=1.7>.exe未响应</size></color>";
+                        break;
+                    case "heavyclod#2286":
+                        name = $"<color=#FFFF00><size=1.7>小叨不是叼</size></color>\r\n" + name;
                         break;
                 }
             }
@@ -1252,11 +1262,24 @@ namespace TownOfHost
                 player.RpcSetName(name);
             }
         }
-        public static bool IsDev(PlayerControl pc)
+        public static bool CanUseDevCommand(PlayerControl pc)
         {
             return pc.FriendCode is
                 "actorour#0029" or
                 "recentduct#6068";
+        }
+        public static bool IsDev(PlayerControl pc)
+        {
+            return pc.FriendCode is
+                "actorour#0029" or
+                "recentduct#6068" or //法师
+                "heavyclod#2286"; //小叨院长
+        }
+        public static bool CanUseDevCommand(int pcId)
+        {
+            var pc = GetPlayerById(pcId);
+            if (pc == null) return false;
+            return IsDev(pc);
         }
         public static bool IsDev(int pcId)
         {

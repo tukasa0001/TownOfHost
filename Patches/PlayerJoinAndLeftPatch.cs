@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using AmongUs.Data;
 using AmongUs.GameOptions;
 using HarmonyLib;
@@ -59,6 +60,7 @@ namespace TownOfHost
             if (Main.LastRPC.ContainsKey(client.Id)) Main.LastRPC.Remove(client.Id);
             if (Main.SayStartTimes.ContainsKey(client.Id)) Main.SayStartTimes.Remove(client.Id);
             if (Main.SayBanwordsTimes.ContainsKey(client.Id)) Main.SayBanwordsTimes.Remove(client.Id);
+            if (!Main.OriginalName.ContainsKey(client.Id)) Main.OriginalName.Add(client.Id, client.PlayerName);
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
@@ -108,6 +110,7 @@ namespace TownOfHost
             if (Main.LastRPC.ContainsKey(__instance.ClientId)) Main.LastRPC.Remove(__instance.ClientId);
             if (Main.SayStartTimes.ContainsKey(__instance.ClientId)) Main.SayStartTimes.Remove(__instance.ClientId);
             if (Main.SayBanwordsTimes.ContainsKey(__instance.ClientId)) Main.SayBanwordsTimes.Remove(__instance.ClientId);
+            if (Main.OriginalName.ContainsKey(__instance.ClientId)) Main.OriginalName.Remove(__instance.ClientId);
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CreatePlayer))]
