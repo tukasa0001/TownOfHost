@@ -65,4 +65,9 @@ public abstract class RoleBase
     { }
     public virtual void AfterMeetingTasks()
     { }
+    public virtual string GetTargetArrow() => "";
+    public virtual void GetKillButtonText()
+    { }
+    public virtual void GetAbilityButtonText()
+    { }
 }
