@@ -262,7 +262,7 @@ namespace TownOfHost
                     .Where(x => x.IsSubclassOf(type)).ToArray();
 
                 foreach (var roleClassType in roleClassArray)
-                    roleClassType.GetProperty("RoleInfo")?.GetValue(type);
+                    roleClassType.GetField("RoleInfo")?.GetValue(type);
             }
             catch (ArgumentException ex)
             {
