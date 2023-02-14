@@ -17,8 +17,8 @@ namespace TownOfHost
                 CustomRoles.Sheriff,
                 RoleType.Crewmate,
                 20400,
-                "#f8cd46",
-                SetupCustomOption
+                SetupCustomOption,
+                "#f8cd46"
             );
 
         private static OptionItem KillCooldown;

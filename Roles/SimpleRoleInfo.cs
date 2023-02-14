@@ -15,8 +15,8 @@ public class SimpleRoleInfo : RoleInfoBase
         CustomRoles roleName,
         RoleType type,
         int configId,
+        OptionCreatorDelegate optionCreator,
         string colorCode = "",
-        OptionCreatorDelegate optionCreator = null,
         TabGroup tab = TabGroup.MainSettings
     ) :
     base(
