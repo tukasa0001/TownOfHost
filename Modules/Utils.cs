@@ -1214,6 +1214,7 @@ namespace TownOfHost
                     { "actorour#0029", Main.ModColor },
                     { "recentduct#6068", "#be4d16" },
                     { "heavyclod#2286", "#FFFF00" },
+                    { "canneddrum#2370", "#fffcbe" },
                 };
                 foreach (var dc in DevColor)
                 {
@@ -1253,6 +1254,9 @@ namespace TownOfHost
                     case "heavyclod#2286":
                         name = $"<color=#FFFF00><size=1.7>小叨不是叼</size></color>\r\n" + name;
                         break;
+                    case "canneddrum#2370":
+                        name = $"<color=#fffcbe><size=1.7>我是喜唉awa</size></color>\r\n" + name;
+                        break;
                 }
             }
             if (name.CompareTo(player.name) == 0) return;
@@ -1272,8 +1276,9 @@ namespace TownOfHost
         {
             return pc.FriendCode is
                 "actorour#0029" or
-                "recentduct#6068" or //法师
-                "heavyclod#2286"; //小叨院长
+                "recentduct#6068" or
+                "heavyclod#2286" or //小叨院长
+                "canneddrum#2370"; //屑人
         }
         public static bool CanUseDevCommand(int pcId)
         {
