@@ -174,21 +174,13 @@ namespace TownOfHost
         }
         public static Color GetRoleColor(CustomRoles role)
         {
-            if (!Main.roleColors.TryGetValue(role, out var hexColor)) hexColor = "#ffffff";
+            if (!Main.roleColors.TryGetValue(role, out var hexColor)) hexColor = role.GetRoleInfo()?.RoleColorCode;
             ColorUtility.TryParseHtmlString(hexColor, out Color c);
             return c;
         }
-        // public static Color GetRoleColor(CustomRoles role)
-        // {
-        //     var hexColor = CustomRoleManager.AllRoleBasicInfo.Where(roleClass => roleClass.RoleName == role).FirstOrDefault().RoleColorCode;
-        //     ColorUtility.TryParseHtmlString(hexColor, out Color c);
-        //     return c;
-        // }
-        // public static string GetRoleColorCode(CustomRoles role) =>
-        //     CustomRoleManager.AllRoleBasicInfo.Where(roleClass => roleClass.RoleName == role).FirstOrDefault().RoleColorCode;
         public static string GetRoleColorCode(CustomRoles role)
         {
-            if (!Main.roleColors.TryGetValue(role, out var hexColor)) hexColor = "#ffffff";
+            if (!Main.roleColors.TryGetValue(role, out var hexColor)) hexColor = role.GetRoleInfo()?.RoleColorCode;
             return hexColor;
         }
         public static (string, Color) GetRoleText(byte playerId)
