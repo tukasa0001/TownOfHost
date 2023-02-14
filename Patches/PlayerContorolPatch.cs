@@ -395,13 +395,13 @@ namespace TownOfHost
                 {
                     var totalAlive = Main.AllAlivePlayerControls.Count();
                     //自分が最後の生き残りの場合は勝利のために死なない
-                    if (totalAlive != 1)
+                    if (totalAlive != 1 && !GameStates.IsEnded)
                     {
                         Main.PlayerStates[shapeshifter.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
                         shapeshifter.RpcMurderPlayer(shapeshifter);
                     }
                     Utils.NotifyRoles();
-                }, 1f, "Bomber Suiscide");
+                }, 1.5f, "Bomber Suiscide");
             }
 
             if (shapeshifter.Is(CustomRoles.Warlock))
@@ -446,8 +446,11 @@ namespace TownOfHost
                         Logger.Info($"{targetw.GetNameWithRole()} was killed", "Assassin");
                         new LateTask(() =>
                         {
-                            shapeshifter.RpcMurderPlayer(targetw);//殺す
-                        }, 1f, "Assassin Kill");
+                            if (!GameStates.IsMeeting && !GameStates.IsEnded)
+                            {
+                                shapeshifter.RpcMurderPlayer(targetw);//殺す
+                            }
+                        }, 1.5f, "Assassin Kill");
                         Main.isMarkAndKill[shapeshifter.PlayerId] = false;
                     }
                     Main.MarkedPlayers[shapeshifter.PlayerId] = null;
