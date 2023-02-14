@@ -290,7 +290,7 @@ namespace TownOfHost
                 Main.PlayerStates[targetId].SetSubRole(role);
             }
 
-            CustomRoleManager.AllActiveRoles.Do(role => role.Add(targetId));
+            CustomRoleManager.AllActiveRoles.Do(role => role.Add());
             switch (role)
             {
                 case CustomRoles.BountyHunter:

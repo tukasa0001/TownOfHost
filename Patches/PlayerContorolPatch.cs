@@ -150,7 +150,7 @@ namespace TownOfHost
             //キル時の特殊判定
             if (killer.PlayerId != target.PlayerId)
             {
-                var roleClass = CustomRoleManager.AllRoleBasicInfo.Get(killer.GetCustomRole());
+                var roleClass = killer.GetRoleClass();
                 // if (!roleClass.OnCheckMurder(killer, target))
                 //     return false;
                 //自殺でない場合のみ役職チェック

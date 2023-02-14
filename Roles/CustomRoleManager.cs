@@ -7,23 +7,17 @@ namespace TownOfHost.Roles;
 
 public static class CustomRoleManager
 {
-    public static List<RoleInfoBase> AllRoleBasicInfo = new(Enum.GetValues(typeof(CustomRoles)).Length);
+    public static List<SimpleRoleInfo> AllRolesInfo = new(Enum.GetValues(typeof(CustomRoles)).Length);
     public static List<RoleBase> AllActiveRoles = new(Enum.GetValues(typeof(CustomRoles)).Length);
 
     public static void Initialize()
     {
-        AllRoleBasicInfo.Do(role => role.IsEnable = role.RoleName.IsEnable());
+        AllRolesInfo.Do(role => role.IsEnable = role.RoleName.IsEnable());
         AllActiveRoles.Clear();
-
-        foreach (var basic in AllRoleBasicInfo)
-        {
-            if (!basic.IsEnable) continue;
-
-            AllActiveRoles.Add((RoleBase)basic);
-        }
     }
-    public static T Get<T>(this List<T> roleBase, CustomRoles role) where T : RoleInfoBase => roleBase.ToArray().Where(roleClass => roleClass.RoleName == role).FirstOrDefault();
-    public static void Do<T>(this List<T> roleBase, Action<T> action) where T : RoleInfoBase => roleBase.ToArray().Do(action);
+    public static RoleBase GetRoleClass(this PlayerControl player) => GetByPlayerId(player.PlayerId);
+    public static RoleBase GetByPlayerId(byte playerId) => AllActiveRoles.ToArray().Where(roleClass => roleClass.Player.PlayerId == playerId).FirstOrDefault();
+    public static void Do<T>(this List<T> roleBase, Action<T> action) => roleBase.ToArray().Do(action);
     // == CheckMurder関連処理 ==
     // ==/CheckMurder関連処理 ==
 }

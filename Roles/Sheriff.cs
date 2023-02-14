@@ -12,18 +12,14 @@ namespace TownOfHost
 {
     public class Sheriff : RoleBase
     {
-        public static readonly RoleInfoBase BasicInfo = new(
+        public static SimpleRoleInfo RoleInfo { get; } =
+            new(
                 CustomRoles.Sheriff,
                 RoleType.Crewmate,
                 20400,
-                "#f8cd46"
+                "#f8cd46",
+                SetupCustomOption
             );
-        public Sheriff()
-        : base(
-            BasicInfo,
-            false
-        )
-        { }
 
         private static OptionItem KillCooldown;
         private static OptionItem MisfireKillsTarget;
@@ -31,26 +27,36 @@ namespace TownOfHost
         private static OptionItem CanKillAllAlive;
         public static OptionItem CanKillNeutrals;
         public static Dictionary<CustomRoles, OptionItem> KillTargetOptions = new();
-        public static Dictionary<byte, float> ShotLimit = new();
-        public static Dictionary<byte, float> CurrentKillCooldown = new();
+        public Sheriff(PlayerControl player)
+        : base(
+            player,
+            false
+        )
+        { }
+        public int ShotLimit = 0;
+        public float CurrentKillCooldown = 30;
         public static readonly string[] KillOption =
         {
             "SheriffCanKillAll", "SheriffCanKillSeparately"
         };
-        public override void SetupCustomOption()
+        public static void SetupCustomOption()
         {
-            SetupRoleOptions(ConfigId, TabGroup.CrewmateRoles, CustomRoles.Sheriff);
-            KillCooldown = FloatOptionItem.Create(ConfigId + 10, "KillCooldown", new(0f, 990f, 1f), 30f, Tab, false).SetParent(RoleOption)
+            var id = RoleInfo.ConfigId;
+            var tab = RoleInfo.Tab;
+            var roleName = RoleInfo.RoleName;
+            SetupRoleOptions(id, tab, roleName);
+            var roleOption = RoleInfo.RoleOption;
+            KillCooldown = FloatOptionItem.Create(id + 10, "KillCooldown", new(0f, 990f, 1f), 30f, tab, false).SetParent(roleOption)
                 .SetValueFormat(OptionFormat.Seconds);
-            MisfireKillsTarget = BooleanOptionItem.Create(ConfigId + 11, "SheriffMisfireKillsTarget", false, Tab, false).SetParent(RoleOption);
-            ShotLimitOpt = IntegerOptionItem.Create(ConfigId + 12, "SheriffShotLimit", new(1, 15, 1), 15, Tab, false).SetParent(RoleOption)
+            MisfireKillsTarget = BooleanOptionItem.Create(id + 11, "SheriffMisfireKillsTarget", false, tab, false).SetParent(roleOption);
+            ShotLimitOpt = IntegerOptionItem.Create(id + 12, "SheriffShotLimit", new(1, 15, 1), 15, tab, false).SetParent(roleOption)
                 .SetValueFormat(OptionFormat.Times);
-            CanKillAllAlive = BooleanOptionItem.Create(ConfigId + 15, "SheriffCanKillAllAlive", true, Tab, false).SetParent(RoleOption);
-            SetUpKillTargetOption(CustomRoles.Madmate, ConfigId + 13);
-            CanKillNeutrals = StringOptionItem.Create(ConfigId + 14, "SheriffCanKillNeutrals", KillOption, 0, Tab, false).SetParent(RoleOption);
-            SetUpNeutralOptions(ConfigId + 30);
+            CanKillAllAlive = BooleanOptionItem.Create(id + 15, "SheriffCanKillAllAlive", true, tab, false).SetParent(roleOption);
+            SetUpKillTargetOption(CustomRoles.Madmate, id + 13);
+            CanKillNeutrals = StringOptionItem.Create(id + 14, "SheriffCanKillNeutrals", KillOption, 0, tab, false).SetParent(roleOption);
+            SetUpNeutralOptions(id + 30);
         }
-        public void SetUpNeutralOptions(int id)
+        public static void SetUpNeutralOptions(int id)
         {
             foreach (var neutral in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x.IsNeutral()).ToArray())
             {
@@ -61,9 +67,9 @@ namespace TownOfHost
                 id++;
             }
         }
-        public void SetUpKillTargetOption(CustomRoles role, int id, bool defaultValue = true, OptionItem parent = null)
+        public static void SetUpKillTargetOption(CustomRoles role, int id, bool defaultValue = true, OptionItem parent = null)
         {
-            if (parent == null) parent = RoleOption;
+            if (parent == null) parent = RoleInfo.RoleOption;
             var roleName = Utils.GetRoleName(role) + role switch
             {
                 CustomRoles.EgoSchrodingerCat => $" {GetString("In%team%", new Dictionary<string, string>() { { "%team%", Utils.GetRoleName(CustomRoles.Egoist) } })}",
@@ -71,49 +77,43 @@ namespace TownOfHost
                 _ => "",
             };
             Dictionary<string, string> replacementDic = new() { { "%role%", Utils.ColorString(Utils.GetRoleColor(role), roleName) } };
-            KillTargetOptions[role] = BooleanOptionItem.Create(id, "SheriffCanKill%role%", defaultValue, Tab, false).SetParent(parent);
+            KillTargetOptions[role] = BooleanOptionItem.Create(id, "SheriffCanKill%role%", defaultValue, RoleInfo.Tab, false).SetParent(parent);
             KillTargetOptions[role].ReplacementDictionary = replacementDic;
         }
         public override void Init()
         {
             base.Init();
-            ShotLimit = new();
-            CurrentKillCooldown = new();
+            ShotLimit = ShotLimitOpt.GetInt();
+            CurrentKillCooldown = KillCooldown.GetFloat();
         }
-        public override void Add(byte playerId)
+        public override void Add()
         {
-            base.Add(playerId);
-            CurrentKillCooldown.Add(playerId, KillCooldown.GetFloat());
+            var playerId = Player.PlayerId;
+            CurrentKillCooldown = KillCooldown.GetFloat();
 
             if (!Main.ResetCamPlayerList.Contains(playerId))
                 Main.ResetCamPlayerList.Add(playerId);
 
-            ShotLimit.TryAdd(playerId, ShotLimitOpt.GetFloat());
-            Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : 残り{ShotLimit[playerId]}発", "Sheriff");
+            ShotLimit = ShotLimitOpt.GetInt();
+            Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : 残り{ShotLimit}発", "Sheriff");
         }
-        private static void SendRPC(byte playerId)
+        private void SendRPC()
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetSheriffShotLimit, SendOption.Reliable, -1);
-            writer.Write(playerId);
-            writer.Write(ShotLimit[playerId]);
+            writer.Write(ShotLimit);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
         {
             if (rpcType != CustomRPC.SetSheriffShotLimit) return;
 
-            byte SheriffId = reader.ReadByte();
-            float Limit = reader.ReadSingle();
-            if (ShotLimit.ContainsKey(SheriffId))
-                ShotLimit[SheriffId] = Limit;
-            else
-                ShotLimit.Add(SheriffId, ShotLimitOpt.GetFloat());
+            ShotLimit = reader.ReadInt32();
         }
-        public override void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CanUseKillButton(id) ? CurrentKillCooldown[id] : 0f;
-        public override bool CanUseKillButton(byte playerId)
-            => !Main.PlayerStates[playerId].IsDead
+        public override void SetKillCooldown() => Main.AllPlayerKillCooldown[Player.PlayerId] = CanUseKillButton() ? CurrentKillCooldown : 0f;
+        public override bool CanUseKillButton()
+            => !Main.PlayerStates[Player.PlayerId].IsDead
             && (CanKillAllAlive.GetBool() || GameStates.AlreadyDied)
-            && ShotLimit[playerId] > 0;
+            && ShotLimit > 0;
 
         // == CheckMurder関連処理 ==
         /*public override IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target)
@@ -131,7 +131,7 @@ namespace TownOfHost
             return true;
         }*/
         // ==/CheckMurder関連処理 ==
-        public override string GetProgressText(byte playerId, bool comms = false) => Utils.ColorString(CanUseKillButton(playerId) ? Color.yellow : Color.gray, ShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid");
+        public override string GetProgressText(bool comms = false) => Utils.ColorString(CanUseKillButton() ? Color.yellow : Color.gray, $"({ShotLimit})");
         public static bool CanBeKilledBy(PlayerControl player)
         {
             var cRole = player.GetCustomRole();

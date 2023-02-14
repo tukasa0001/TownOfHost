@@ -340,17 +340,14 @@ namespace TownOfHost
             var ProgressText = new StringBuilder();
             var State = Main.PlayerStates[playerId];
             var role = State.MainRole;
-            // var role = CustomRoleManager.AllRoleBasicInfo.Get(State.MainRole);
-            // ProgressText.Append(role?.GetProgressText(playerId, comms));
+            var roleClass = CustomRoleManager.GetByPlayerId(playerId);
+            ProgressText.Append(roleClass?.GetProgressText(comms));
             // switch (role.RoleName)
             switch (role)
             {
                 case CustomRoles.Arsonist:
                     var doused = GetDousedPlayerCount(playerId);
                     ProgressText.Append(ColorString(GetRoleColor(CustomRoles.Arsonist).ShadeColor(0.25f), $"({doused.Item1}/{doused.Item2})"));
-                    break;
-                case CustomRoles.Sheriff:
-                    ProgressText.Append(((RoleBase)Sheriff.Instance).GetProgressText(playerId));
                     break;
                 case CustomRoles.Sniper:
                     ProgressText.Append(Sniper.GetBulletCount(playerId));

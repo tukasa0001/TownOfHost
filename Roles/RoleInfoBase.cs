@@ -7,27 +7,18 @@ namespace TownOfHost.Roles;
 
 public abstract class RoleInfoBase
 {
-    public static RoleInfoBase Instance;
-    public List<byte> PlayerIdList;
     public CustomRoles RoleName;
     public RoleType CustomRoleType;
     public Color32 RoleColor;
     public string RoleColorCode;
-    public int ConfigId;
-    public TabGroup Tab;
-    public OptionItem RoleOption => CustomRoleSpawnChances[RoleName];
-    public bool IsEnable = false;
     public RoleInfoBase(
         CustomRoles roleName,
         RoleType type,
-        int configId,
-        string colorCode = "",
-        TabGroup tab = TabGroup.MainSettings
+        string colorCode
     )
     {
         RoleName = roleName;
         CustomRoleType = type;
-        ConfigId = configId;
 
         if (colorCode == "")
             colorCode = type switch
@@ -37,21 +28,7 @@ public abstract class RoleInfoBase
             };
         RoleColorCode = colorCode;
 
-        if (tab == TabGroup.MainSettings)
-            tab = type switch
-            {
-                RoleType.Impostor => TabGroup.ImpostorRoles,
-                RoleType.Madmate => TabGroup.ImpostorRoles,
-                RoleType.Crewmate => TabGroup.CrewmateRoles,
-                RoleType.Neutral => TabGroup.NeutralRoles,
-                _ => tab
-            };
-        Tab = tab;
-
-
         RoleColor = Utils.GetRoleColor(roleName);
-        CustomRoleManager.AllRoleBasicInfo.Add(this);
-        Instance = this;
     }
-    public virtual void SetupCustomOption() => SetupRoleOptions(ConfigId, Tab, RoleName);
+    public delegate void OptionCreatorDelegate();
 }

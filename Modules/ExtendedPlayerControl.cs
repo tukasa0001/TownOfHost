@@ -369,7 +369,7 @@ namespace TownOfHost
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
                 CustomRoles.Egoist or CustomRoles.Jackal => true,
-                _ => CustomRoleManager.AllActiveRoles.Get(pc.GetCustomRole()).CanUseKillButton(pc.PlayerId) || pc.Is(RoleType.Impostor),
+                _ => pc.GetRoleClass().CanUseKillButton() || pc.Is(RoleType.Impostor),
             };
         }
         public static bool CanUseImpostorVentButton(this PlayerControl pc)
@@ -404,7 +404,7 @@ namespace TownOfHost
         public static void ResetKillCooldown(this PlayerControl player)
         {
             Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
-            CustomRoleManager.AllActiveRoles.Do(role => role.SetKillCooldown(player.PlayerId));
+            player.GetRoleClass().SetKillCooldown();
             switch (player.GetCustomRole())
             {
                 case CustomRoles.SerialKiller:

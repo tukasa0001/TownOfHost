@@ -94,7 +94,7 @@ namespace TownOfHost.Modules
                     break;
             }
 
-            CustomRoleManager.AllActiveRoles.Do(role => role.ApplyGameOptions(player.PlayerId));
+            player.GetRoleClass().ApplyGameOptions();
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Terrorist:

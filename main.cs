@@ -254,7 +254,7 @@ namespace TownOfHost
                             break;
                     }
                 }
-                _ = new Sheriff();
+                _ = Sheriff.RoleInfo;
             }
             catch (ArgumentException ex)
             {
