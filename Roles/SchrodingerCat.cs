@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using UnityEngine;
+
+using TownOfHost.Roles;
 using static TownOfHost.Options;
 
 namespace TownOfHost
@@ -56,8 +58,9 @@ namespace TownOfHost
             switch (killer.GetCustomRole())
             {
                 case CustomRoles.BountyHunter:
-                    if (BountyHunter.GetTarget(killer) == target.PlayerId)
-                        BountyHunter.ResetTarget(killer);//ターゲットの選びなおし
+                    var bountyHunter = (BountyHunter)killer.GetRoleClass();
+                    if (bountyHunter.GetTarget() == target)
+                        bountyHunter.ResetTarget();//ターゲットの選びなおし
                     break;
                 case CustomRoles.SerialKiller:
                     SerialKiller.OnCheckMurder(killer, false);

@@ -110,9 +110,6 @@ namespace TownOfHost.Modules
                 case CustomRoles.SerialKiller:
                     SerialKiller.ApplyGameOptions(player);
                     break;
-                case CustomRoles.BountyHunter:
-                    BountyHunter.ApplyGameOptions();
-                    break;
                 case CustomRoles.EvilWatcher:
                 case CustomRoles.NiceWatcher:
                     opt.SetBool(BoolOptionNames.AnonymousVotes, false);

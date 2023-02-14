@@ -157,9 +157,6 @@ namespace TownOfHost
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
-                    case CustomRoles.BountyHunter: //キルが発生する前にここの処理をしないとバグる
-                        BountyHunter.OnCheckMurder(killer, target);
-                        break;
                     case CustomRoles.SerialKiller:
                         SerialKiller.OnCheckMurder(killer);
                         break;
@@ -416,7 +413,6 @@ namespace TownOfHost
                 kvp.Value.LastRoom = pc.GetPlainShipRoom();
             }
             if (!AmongUsClient.Instance.AmHost) return true;
-            BountyHunter.OnReportDeadBody();
             SerialKiller.OnReportDeadBody();
             Main.ArsonistTimer.Clear();
             if (target == null) //ボタン
@@ -521,8 +517,6 @@ namespace TownOfHost
                         Main.WarlockTimer.Remove(player.PlayerId);
                     }
                 }
-                //ターゲットのリセット
-                BountyHunter.FixedUpdate(player);
                 EvilTracker.FixedUpdate(player);
                 if (GameStates.IsInTask && player.IsAlive() && Options.LadderDeath.GetBool())
                 {

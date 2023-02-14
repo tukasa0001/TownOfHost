@@ -2,88 +2,97 @@ using System.Collections.Generic;
 using System.Linq;
 using Hazel;
 using UnityEngine;
+
+using TownOfHost.Roles;
+using static TownOfHost.Options;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    public static class BountyHunter
+    public class BountyHunter : RoleBase
     {
-        private static readonly int Id = 1000;
-        private static List<byte> playerIdList = new();
+        public static readonly SimpleRoleInfo RoleInfo =
+            new(
+                CustomRoles.BountyHunter,
+                RoleType.Impostor,
+                1000,
+                SetupCustomOption
+            );
 
         private static OptionItem OptionTargetChangeTime;
         private static OptionItem OptionSuccessKillCooldown;
         private static OptionItem OptionFailureKillCooldown;
         private static OptionItem OptionShowTargetArrow;
 
-        private static float TargetChangeTime;
-        private static float SuccessKillCooldown;
-        private static float FailureKillCooldown;
-        private static bool ShowTargetArrow;
-
-        public static Dictionary<byte, byte> Targets = new();
-        public static Dictionary<byte, float> ChangeTimer = new();
-
-        public static void SetupCustomOption()
+        public BountyHunter(PlayerControl player)
+        : base(
+            player,
+            false
+        )
         {
-            Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.BountyHunter);
-            OptionTargetChangeTime = FloatOptionItem.Create(Id + 10, "BountyTargetChangeTime", new(10f, 900f, 2.5f), 60f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter])
-                .SetValueFormat(OptionFormat.Seconds);
-            OptionSuccessKillCooldown = FloatOptionItem.Create(Id + 11, "BountySuccessKillCooldown", new(0f, 180f, 2.5f), 2.5f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter])
-                .SetValueFormat(OptionFormat.Seconds);
-            OptionFailureKillCooldown = FloatOptionItem.Create(Id + 12, "BountyFailureKillCooldown", new(0f, 180f, 2.5f), 50f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter])
-                .SetValueFormat(OptionFormat.Seconds);
-            OptionShowTargetArrow = BooleanOptionItem.Create(Id + 13, "BountyShowTargetArrow", false, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-        }
-        public static void Init()
-        {
-            playerIdList = new();
-            IsEnable = false;
-
-            Targets = new();
-            ChangeTimer = new();
-        }
-        public static void Add(byte playerId)
-        {
-            playerIdList.Add(playerId);
-            IsEnable = true;
-
             TargetChangeTime = OptionTargetChangeTime.GetFloat();
             SuccessKillCooldown = OptionSuccessKillCooldown.GetFloat();
             FailureKillCooldown = OptionFailureKillCooldown.GetFloat();
             ShowTargetArrow = OptionShowTargetArrow.GetBool();
 
-            if (AmongUsClient.Instance.AmHost)
-                ResetTarget(Utils.GetPlayerById(playerId));
+            ChangeTimer = OptionTargetChangeTime.GetFloat();
         }
-        public static bool IsEnable;
-        private static void SendRPC(byte bountyId, byte targetId)
+
+        private static float TargetChangeTime;
+        private static float SuccessKillCooldown;
+        private static float FailureKillCooldown;
+        private static bool ShowTargetArrow;
+
+        public PlayerControl Target;
+        public float ChangeTimer;
+
+        public static void SetupCustomOption()
+        {
+            var id = RoleInfo.ConfigId;
+            var tab = RoleInfo.Tab;
+            var roleName = RoleInfo.RoleName;
+            SetupRoleOptions(id, TabGroup.ImpostorRoles, CustomRoles.BountyHunter);
+            var parent = RoleInfo.RoleOption;
+            OptionTargetChangeTime = FloatOptionItem.Create(id + 10, "BountyTargetChangeTime", new(10f, 900f, 2.5f), 60f, tab, false).SetParent(parent)
+                .SetValueFormat(OptionFormat.Seconds);
+            OptionSuccessKillCooldown = FloatOptionItem.Create(id + 11, "BountySuccessKillCooldown", new(0f, 180f, 2.5f), 2.5f, tab, false).SetParent(parent)
+                .SetValueFormat(OptionFormat.Seconds);
+            OptionFailureKillCooldown = FloatOptionItem.Create(id + 12, "BountyFailureKillCooldown", new(0f, 180f, 2.5f), 50f, tab, false).SetParent(parent)
+                .SetValueFormat(OptionFormat.Seconds);
+            OptionShowTargetArrow = BooleanOptionItem.Create(id + 13, "BountyShowTargetArrow", false, tab, false).SetParent(parent);
+        }
+        public override void Add()
+        {
+            if (AmongUsClient.Instance.AmHost)
+                ResetTarget();
+        }
+        private static void SendRPC(byte targetId)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetBountyTarget, SendOption.Reliable, -1);
-            writer.Write(bountyId);
             writer.Write(targetId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
-        public static void ReceiveRPC(MessageReader reader)
+        public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
         {
-            byte bountyId = reader.ReadByte();
+            if (rpcType != CustomRPC.SetBountyTarget) return;
+
             byte targetId = reader.ReadByte();
 
-            Targets[bountyId] = targetId;
-            if (ShowTargetArrow) TargetArrow.Add(bountyId, targetId);
+            Target = Utils.GetPlayerById(targetId);
+            if (ShowTargetArrow) TargetArrow.Add(Player.PlayerId, targetId);
         }
         //public static void SetKillCooldown(byte id, float amount) => Main.AllPlayerKillCooldown[id] = amount;
-        public static void ApplyGameOptions() => AURoleOptions.ShapeshifterCooldown = TargetChangeTime;
+        public override void ApplyGameOptions() => AURoleOptions.ShapeshifterCooldown = TargetChangeTime;
 
-        public static void OnCheckMurder(PlayerControl killer, PlayerControl target)
+        public override IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target)
         {
-            if (GetTarget(killer) == target.PlayerId)
+            if (GetTarget() == target)
             {//ターゲットをキルした場合
                 Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
                 Main.AllPlayerKillCooldown[killer.PlayerId] = SuccessKillCooldown;
                 killer.SyncSettings();//キルクール処理を同期
-                ResetTarget(killer);
+                ResetTarget();
             }
             else
             {
@@ -91,114 +100,95 @@ namespace TownOfHost
                 Main.AllPlayerKillCooldown[killer.PlayerId] = FailureKillCooldown;
                 killer.SyncSettings();//キルクール処理を同期
             }
+            yield return RoleInfo.ConfigId;
         }
-        public static void OnReportDeadBody()
+        public override void OnFixedUpdate(PlayerControl player)
         {
-            ChangeTimer.Clear();
-        }
-        public static void FixedUpdate(PlayerControl player)
-        {
-            if (!player.Is(CustomRoles.BountyHunter)) return; //以下、バウンティハンターのみ実行
-
-            if (GameStates.IsInTask && ChangeTimer.ContainsKey(player.PlayerId))
+            if (GameStates.IsInTask)
             {
-                if (!player.IsAlive())
-                    ChangeTimer.Remove(player.PlayerId);
-                else
+                if (player.IsAlive())
                 {
-                    var targetId = GetTarget(player);
-                    if (ChangeTimer[player.PlayerId] >= TargetChangeTime)//時間経過でターゲットをリセットする処理
+                    var targetId = GetTarget().PlayerId;
+                    if (ChangeTimer >= TargetChangeTime)//時間経過でターゲットをリセットする処理
                     {
-                        ResetTarget(player);//ターゲットの選びなおし
+                        ResetTarget();//ターゲットの選びなおし
                         Utils.NotifyRoles(SpecifySeer: player);
                     }
-                    if (ChangeTimer[player.PlayerId] >= 0)
-                        ChangeTimer[player.PlayerId] += Time.fixedDeltaTime;
+                    if (ChangeTimer >= 0)
+                        ChangeTimer += Time.fixedDeltaTime;
 
                     //BountyHunterのターゲット更新
                     if (Main.PlayerStates[targetId].IsDead)
                     {
-                        ResetTarget(player);
+                        ResetTarget();
                         Logger.Info($"{player.GetNameWithRole()}のターゲットが無効だったため、ターゲットを更新しました", "BountyHunter");
                         Utils.NotifyRoles(SpecifySeer: player);
                     }
                 }
             }
         }
-        public static byte GetTarget(PlayerControl player)
+        public PlayerControl GetTarget()
         {
-            if (player == null) return 0xff;
-            if (Targets == null) Targets = new();
+            if (Target == null)
+                Target = ResetTarget();
 
-            if (!Targets.TryGetValue(player.PlayerId, out var targetId))
-                targetId = ResetTarget(player);
-            return targetId;
+            return Target;
         }
-        public static PlayerControl GetTargetPC(PlayerControl player)
+        public PlayerControl ResetTarget()
         {
-            var targetId = GetTarget(player);
-            return targetId == 0xff ? null : Utils.GetPlayerById(targetId);
-        }
-        public static byte ResetTarget(PlayerControl player)
-        {
-            if (!AmongUsClient.Instance.AmHost) return 0xff;
+            if (!AmongUsClient.Instance.AmHost) return null;
 
-            var playerId = player.PlayerId;
+            var playerId = Player.PlayerId;
 
-            ChangeTimer[playerId] = 0f;
+            ChangeTimer = 0f;
 
-            Logger.Info($"{player.GetNameWithRole()}:ターゲットリセット", "BountyHunter");
-            player.RpcResetAbilityCooldown(); ;//タイマー（変身クールダウン）のリセットと
+            Logger.Info($"{Player.GetNameWithRole()}:ターゲットリセット", "BountyHunter");
+            Player.RpcResetAbilityCooldown(); ;//タイマー（変身クールダウン）のリセットと
 
             var cTargets = new List<PlayerControl>(Main.AllAlivePlayerControls.Where(pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Egoist)));
 
-            if (cTargets.Count() >= 2 && Targets.TryGetValue(player.PlayerId, out var nowTarget))
-                cTargets.RemoveAll(x => x.PlayerId == nowTarget); //前回のターゲットは除外
+            if (cTargets.Count() >= 2)
+                cTargets.RemoveAll(x => x == Target); //前回のターゲットは除外
 
             if (cTargets.Count <= 0)
             {
                 Logger.Warn("ターゲットの指定に失敗しました:ターゲット候補が存在しません", "BountyHunter");
-                return 0xff;
+                return null;
             }
 
             var rand = IRandom.Instance;
             var target = cTargets[rand.Next(0, cTargets.Count)];
             var targetId = target.PlayerId;
-            Targets[playerId] = targetId;
+            Target = target;
             if (ShowTargetArrow) TargetArrow.Add(playerId, targetId);
-            Logger.Info($"{player.GetNameWithRole()}のターゲットを{target.GetNameWithRole()}に変更", "BountyHunter");
+            Logger.Info($"{Player.GetNameWithRole()}のターゲットを{target.GetNameWithRole()}に変更", "BountyHunter");
 
             //RPCによる同期
-            SendRPC(player.PlayerId, targetId);
-            return targetId;
+            SendRPC(targetId);
+            return target;
         }
         public static void SetAbilityButtonText(HudManager __instance) => __instance.AbilityButton.OverrideText($"{GetString("BountyHunterChangeButtonText")}");
-        public static void AfterMeetingTasks()
+        public override void AfterMeetingTasks()
         {
-            foreach (var id in playerIdList)
+            if (!Main.PlayerStates[Player.PlayerId].IsDead)
             {
-                if (!Main.PlayerStates[id].IsDead)
-                {
-                    Utils.GetPlayerById(id)?.RpcResetAbilityCooldown();
-                    ChangeTimer[id] = 0f;
-                }
+                Player.RpcResetAbilityCooldown();
+                ChangeTimer = 0f;
             }
         }
-        public static string GetTargetText(PlayerControl bounty, bool hud)
+        public string GetTargetText(bool hud)
         {
-            var targetId = GetTarget(bounty);
-            return targetId != 0xff ? $"{(hud ? GetString("BountyCurrentTarget") : "Target")}:{Main.AllPlayerNames[targetId]}" : "";
+            var target = GetTarget();
+            return target != null ? $"{(hud ? GetString("BountyCurrentTarget") : "Target")}:{Main.AllPlayerNames[target.PlayerId]}" : "";
         }
-        public static string GetTargetArrow(PlayerControl seer, PlayerControl target = null)
+        public override string GetTargetArrow()
         {
-            if (!seer.Is(CustomRoles.BountyHunter)) return "";
-            if (target != null && seer.PlayerId != target.PlayerId) return "";
+            if (Target != null) return "";
             if (!ShowTargetArrow || GameStates.IsMeeting) return "";
 
             //seerがtarget自身でBountyHunterのとき、
             //矢印オプションがありミーティング以外で矢印表示
-            var targetId = GetTarget(seer);
-            return TargetArrow.GetArrows(seer, targetId);
+            return TargetArrow.GetArrows(Player, Target.PlayerId);
         }
     }
 }

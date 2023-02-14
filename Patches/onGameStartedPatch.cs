@@ -107,7 +107,6 @@ namespace TownOfHost
             }
             CustomRoleManager.Initialize();
             FallFromLadder.Reset();
-            BountyHunter.Init();
             SerialKiller.Init();
             FireWorks.Init();
             Sniper.Init();
@@ -314,9 +313,6 @@ namespace TownOfHost
                     });
                     switch (pc.GetCustomRole())
                     {
-                        case CustomRoles.BountyHunter:
-                            BountyHunter.Add(pc.PlayerId);
-                            break;
                         case CustomRoles.SerialKiller:
                             SerialKiller.Add(pc.PlayerId);
                             break;

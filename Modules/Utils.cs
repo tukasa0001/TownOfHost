@@ -717,7 +717,7 @@ namespace TownOfHost
 
                 if (seer.Is(CustomRoles.BountyHunter))
                 {
-                    SelfSuffix.Append(BountyHunter.GetTargetText(seer, false));
+                    SelfSuffix.Append(((BountyHunter)seer.GetRoleClass()).GetTargetText(false));
                 }
                 CustomRoleManager.AllActiveRoles.Do(roleClass => SelfSuffix.Append(roleClass.GetTargetArrow()));
 

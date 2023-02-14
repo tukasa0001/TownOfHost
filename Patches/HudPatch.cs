@@ -118,7 +118,8 @@ namespace TownOfHost
 
                 if (player.Is(CustomRoles.BountyHunter))
                 {
-                    LowerInfoText.text = BountyHunter.GetTargetText(player, true);
+                    var bountyHunter = (BountyHunter)player.GetRoleClass();
+                    LowerInfoText.text = bountyHunter.GetTargetText(true);
                 }
                 else if (player.Is(CustomRoles.Witch))
                 {

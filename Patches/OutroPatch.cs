@@ -94,7 +94,6 @@ namespace TownOfHost
                 Main.winnerList.Add(pc.PlayerId);
             }
 
-            BountyHunter.ChangeTimer = new();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
 
             NameColorManager.Instance.RpcReset();

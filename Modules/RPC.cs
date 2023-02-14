@@ -134,9 +134,6 @@ namespace TownOfHost
                     CustomRoles role = (CustomRoles)reader.ReadPackedInt32();
                     RPC.SetCustomRole(CustomRoleTargetId, role);
                     break;
-                case CustomRPC.SetBountyTarget:
-                    BountyHunter.ReceiveRPC(reader);
-                    break;
                 case CustomRPC.SetKillOrSpell:
                     Witch.ReceiveRPC(reader, false);
                     break;
@@ -293,9 +290,6 @@ namespace TownOfHost
             CustomRoleManager.AllActiveRoles.Do(role => role.Add());
             switch (role)
             {
-                case CustomRoles.BountyHunter:
-                    BountyHunter.Add(targetId);
-                    break;
                 case CustomRoles.SerialKiller:
                     SerialKiller.Add(targetId);
                     break;
