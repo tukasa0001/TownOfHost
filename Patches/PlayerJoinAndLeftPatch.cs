@@ -44,6 +44,18 @@ namespace TownOfHost
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
         {
             Logger.Info($"{client.PlayerName}(ClientID:{client.Id})が参加", "Session");
+            if (Options.KickAndroidPlayer.GetBool())
+            {
+                if (client.PlatformData.Platform == Platforms.Android)
+                {
+                    new LateTask(() =>
+                    {
+                        Logger.Warn($"{client?.PlayerName} 因该房禁止安卓被踢出", "Android Kick");
+                        Logger.SendInGame($"【{client?.PlayerName}】因该房禁止安卓被踢出");
+                        AmongUsClient.Instance.KickPlayer(client.Id, false);
+                    }, 3f, "Kick");
+                }
+            }
             if (Main.newLobby && Options.SendCodeToQQ.GetBool()) Cloud.SendCodeToQQ();
             if (AmongUsClient.Instance.AmHost) Utils.DevNameCheck(client);
             if (DestroyableSingleton<FriendsListManager>.Instance.IsPlayerBlockedUsername(client.FriendCode) && AmongUsClient.Instance.AmHost)

@@ -157,6 +157,26 @@ namespace TownOfHost
                 Main.AllPlayerSpeed[player.PlayerId] += Options.SpeedBoosterUpSpeed.GetFloat();
             }
 
+            //传送师完成任务
+            if (!player.Data.IsDead
+            && player.Is(CustomRoles.Transporter)
+            && ((CompletedTasksCount + 1) <= Options.TransporterTeleportMax.GetInt()))
+            {
+                Logger.Info("传送师触发传送:" + player.cosmetics.nameText.text, "Transporter");
+                var rd = Utils.RandomSeedByGuid();
+                List<PlayerControl> AllAlivePlayer = new();
+                foreach (var pc in PlayerControl.AllPlayerControls) if (pc.IsAlive() && !pc.inVent) AllAlivePlayer.Add(pc);
+                if (AllAlivePlayer.Count >= 2)
+                {
+                    var tar1 = AllAlivePlayer[rd.Next(0, AllAlivePlayer.Count)];
+                    AllAlivePlayer.Remove(tar1);
+                    var tar2 = AllAlivePlayer[rd.Next(0, AllAlivePlayer.Count)];
+                    var pos = tar1.GetTruePosition();
+                    Utils.TP(tar1.NetTransform, new Vector2(tar2.GetTruePosition().x, tar2.GetTruePosition().y + 0.3636f));
+                    Utils.TP(tar2.NetTransform, new Vector2(pos.x, pos.y + 0.3636f));
+                }
+            }
+
             //クリアしてたらカウントしない
             if (CompletedTasksCount >= AllTasksCount) return;
 

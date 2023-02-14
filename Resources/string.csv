@@ -76,6 +76,7 @@ Dictator,独裁者
 Seer,灵媒
 Detective,侦探
 NiceGuesser,正义赌怪
+Transporter, 传送师
 
 # 中立阵营
 Jester,小丑
@@ -136,8 +137,9 @@ LastImpostorInfo,你是狼村最后的希望…
 EvilTrackerInfo,你不要过来啊啊啊
 AntiAdminerInfo,没什么能逃过你的眼睛
 SansInfo,降下审判！
-BomberInfo,BOOM！！！！
+BomberInfo,Creeper? Aww Man..
 BoobyTrapInfo,艺术就是爆炸！
+EvilGuesserInfo,想来一把吗，伙计
 
 # 双阵营
 WatcherInfo,你可以看见所有人的投票，注意他们的选择
@@ -165,7 +167,7 @@ DetectiveInfo,我福尔摩斯来辣！
 UndercoverInfo,碟中谍了属于是
 ChivalrousExpertInfo,行侠仗义！
 NiceGuesserInfo,生命就是豪赌！
-EvilGuesserInfo,想来一把吗，伙计
+TransporterInfo,移形换影，扭转乾坤！
 
 # 中立阵营
 ArsonistInfo,乖乖站好！
@@ -243,6 +245,7 @@ DetectiveInfoLong,(船员阵营):\n侦探报告尸体后，会收到一条线索
 UndercoverInfoLong,(船员阵营):\n内鬼会将卧底认作自己的队友，但卧底并不知道内鬼是谁。
 NiceGuesserInfoLong,(船员阵营):\n正义赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。
 ChivalrousExpertInfoLong,(船员阵营):\n侠客可以正义击杀任何阵营的人，不过机会只有一次。
+TransporterInfoLong,(船员阵营):\n每当传送师完成任务，就会有随机两位玩家交换位置，但若剩余玩家不足将什么都不会发生。请注意：管道中的玩家不会被选中。
 
 # 中立阵营
 ArsonistInfoLong,(中立阵营):\n纵火犯可以通过对玩家点击击杀按钮并跟随其数秒来完成涂油，开始涂油以及涂油成功时会显示护盾破碎作为提示。当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。\n\n玩家名显示「△」表示涂油中\n玩家名显示「▲」表示已涂油
@@ -264,7 +267,6 @@ GMInfoLong,(房主):\n看我干啥，我只是个开局就死的冤魂，静静�
 LastImpostorInfoLong,(附加职业):\n这个效果在内鬼仅剩一人时赋予该内鬼。使其击杀冷却缩短。该效果对赏金猎人、嗜血杀手以及吸血鬼等击杀方式特殊的职业不适用。
 LoversInfoLong,(附加职业):\n恋人为两名玩家的组合。恋人存活到游戏结束则恋人独自获胜。船员阵营的恋人玩家没有任务。从恋人阵营玩家可以看到两名恋人玩家昵称旁有心形标志。恋人其中一人死亡则另一人殉情。恋人中的一方在会议中被放逐时，另一方将死亡并变为不可以被报告的尸体。
 NtrInfoLong,(附加职业):\n当场上存在海王时，所有玩家将看到自己与海王为恋人关系，实际并不会一起殉情也不会改变胜利条件。请注意：恋人不会成为海王，海王也不会成为恋人。
-
 
 #模式选项
 NoGameEnd,测试模式
@@ -319,6 +321,8 @@ AutoKickStopWords,踢出使用违禁词的人
 AutoKickStopWordsTimes,踢出前警告次数
 AutoKickStopWordsAsBan,踢出时封禁该玩家
 AutoWarnStopWords,警告使用违禁词的人
+KickAndroidPlayer,踢出使用安卓的玩家
+KickNonTOHEPlayer,踢出使用TOHE以外的模组的瓦纳基
 SendCodeToQQ,允许车队姬自动群发您的房号
 SendCodeMinPlayer,房间人数达到多少时群发
 DisableVanillaRoles,禁用原版职业
@@ -486,6 +490,7 @@ SansReduceKillCooldown,击杀成功减少冷却
 SansMinKillCooldown,击杀冷却下限
 BomberRadius,自爆兵的爆炸范围（5x能炸半个食堂）
 NotifyGodAlive,如果神存活则在会议上通知所有人
+TransporterTeleportMax,传送师传送次数上限
 TriggerKill,击杀
 TriggerVent,通风管
 

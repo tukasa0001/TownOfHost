@@ -298,6 +298,7 @@ namespace TownOfHost
                     {CustomRoles.Detective, "#7160e8" },
                     {CustomRoles.ChivalrousExpert, "#f0e68c"},
                     {CustomRoles.NiceGuesser, "#eede26"},
+                    {CustomRoles.Transporter, "#5c428b"},
                     //第三陣営役職
                     {CustomRoles.Arsonist, "#ff6633"},
                     {CustomRoles.Jester, "#ec62a5"},
@@ -412,6 +413,7 @@ namespace TownOfHost
         Detective,
         ChivalrousExpert,
         NiceGuesser,
+        Transporter,
         //Neutral
         Arsonist,
         Jester,

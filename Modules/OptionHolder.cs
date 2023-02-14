@@ -85,6 +85,8 @@ namespace TownOfHost
         public static float DefaultKillCooldown = Main.NormalOptions?.KillCooldown ?? 20;
 
         public static OptionItem KillFlashDuration;
+        public static OptionItem KickAndroidPlayer;
+        public static OptionItem KickNonTOHEPlayer;
         public static OptionItem SendCodeToQQ;
         public static OptionItem SendCodeMinPlayer;
         public static OptionItem DisableVanillaRoles;
@@ -131,6 +133,7 @@ namespace TownOfHost
         public static OptionItem SpeedBoosterTimes;
         public static OptionItem TrapperBlockMoveTime;
         public static OptionItem DetectiveCanknowKiller;
+        public static OptionItem TransporterTeleportMax;
         public static OptionItem CanTerroristSuicideWin;
         public static OptionItem ArsonistDouseTime;
         public static OptionItem ArsonistCooldown;
@@ -265,6 +268,7 @@ namespace TownOfHost
         public static OverrideTasksData MadGuardianTasks;
         public static OverrideTasksData TerroristTasks;
         public static OverrideTasksData SnitchTasks;
+        public static OverrideTasksData TransporterTasks;
         public static OverrideTasksData MadSnitchTasks;
 
         // その他
@@ -529,6 +533,10 @@ namespace TownOfHost
             SetupRoleOptions(8021015, TabGroup.CrewmateRoles, CustomRoles.Detective);
             DetectiveCanknowKiller = BooleanOptionItem.Create(8021017, "DetectiveCanknowKiller", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Detective]);
             ChivalrousExpert.SetupCustomOption();
+            SetupRoleOptions(8021115, TabGroup.CrewmateRoles, CustomRoles.Transporter);
+            TransporterTeleportMax = IntegerOptionItem.Create(8021117, "TransporterTeleportMax", new(1, 99, 1), 5, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Transporter])
+                .SetValueFormat(OptionFormat.Times);
+            TransporterTasks = OverrideTasksData.Create(8021119, TabGroup.CrewmateRoles, CustomRoles.Transporter);
 
             // Neutral
             SetupRoleOptions(50500, TabGroup.NeutralRoles, CustomRoles.Arsonist);
@@ -590,6 +598,10 @@ namespace TownOfHost
             #endregion
 
             #region 系统设置
+
+            KickAndroidPlayer = BooleanOptionItem.Create(6090071, "KickAndroidPlayer", false, TabGroup.SystemSettings, false)
+                .SetHeader(true);
+            KickNonTOHEPlayer = BooleanOptionItem.Create(6090073, "KickNonTOHEPlayer", true, TabGroup.SystemSettings, false);
 
             SendCodeToQQ = BooleanOptionItem.Create(6090065, "SendCodeToQQ", true, TabGroup.SystemSettings, false)
                 .SetHeader(true)

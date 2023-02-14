@@ -58,6 +58,7 @@ namespace TownOfHost
                 CustomRoles.Sans => CustomRoles.Impostor,
                 CustomRoles.Bomber => CustomRoles.Shapeshifter,
                 CustomRoles.BoobyTrap => CustomRoles.Impostor,
+                CustomRoles.Transporter => CustomRoles.Crewmate,
                 _ => CustomRoles.Crewmate
             };
         }
