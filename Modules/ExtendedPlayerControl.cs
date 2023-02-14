@@ -361,6 +361,8 @@ namespace TownOfHost
         {
             if (!pc.IsAlive() || pc.Data.Role.Role == RoleTypes.GuardianAngel) return false;
 
+            var roleClassCanUse = pc.GetRoleClass()?.CanUseKillButton();
+
             return pc.GetCustomRole() switch
             {
                 CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
@@ -369,7 +371,7 @@ namespace TownOfHost
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
                 CustomRoles.Egoist or CustomRoles.Jackal => true,
-                _ => pc.GetRoleClass().CanUseKillButton() || pc.Is(RoleType.Impostor),
+                _ => (roleClassCanUse != null && roleClassCanUse.Value) || pc.Is(RoleType.Impostor),
             };
         }
         public static bool CanUseImpostorVentButton(this PlayerControl pc)
