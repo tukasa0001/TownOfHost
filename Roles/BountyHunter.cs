@@ -16,7 +16,7 @@ namespace TownOfHost
                 CustomRoles.BountyHunter,
                 RoleType.Impostor,
                 1000,
-                SetupCustomOption
+                SetupOptionItem
             );
 
         private static OptionItem OptionTargetChangeTime;
@@ -46,7 +46,7 @@ namespace TownOfHost
         public PlayerControl Target;
         public float ChangeTimer;
 
-        public static void SetupCustomOption()
+        private static void SetupOptionItem()
         {
             var id = RoleInfo.ConfigId;
             var tab = RoleInfo.Tab;

@@ -17,7 +17,7 @@ namespace TownOfHost
                 CustomRoles.Sheriff,
                 RoleType.Crewmate,
                 20400,
-                SetupCustomOption,
+                SetupOptionItem,
                 "#f8cd46"
             );
 
@@ -42,7 +42,7 @@ namespace TownOfHost
         {
             "SheriffCanKillAll", "SheriffCanKillSeparately"
         };
-        public static void SetupCustomOption()
+        private static void SetupOptionItem()
         {
             var id = RoleInfo.ConfigId;
             var tab = RoleInfo.Tab;
