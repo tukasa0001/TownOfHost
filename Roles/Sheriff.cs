@@ -32,7 +32,10 @@ namespace TownOfHost
             player,
             false
         )
-        { }
+        {
+            ShotLimit = ShotLimitOpt.GetInt();
+            CurrentKillCooldown = KillCooldown.GetFloat();
+        }
         public int ShotLimit = 0;
         public float CurrentKillCooldown = 30;
         public static readonly string[] KillOption =
@@ -79,11 +82,6 @@ namespace TownOfHost
             Dictionary<string, string> replacementDic = new() { { "%role%", Utils.ColorString(Utils.GetRoleColor(role), roleName) } };
             KillTargetOptions[role] = BooleanOptionItem.Create(id, "SheriffCanKill%role%", defaultValue, RoleInfo.Tab, false).SetParent(parent);
             KillTargetOptions[role].ReplacementDictionary = replacementDic;
-        }
-        public override void Init()
-        {
-            ShotLimit = ShotLimitOpt.GetInt();
-            CurrentKillCooldown = KillCooldown.GetFloat();
         }
         public override void Add()
         {

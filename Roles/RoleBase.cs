@@ -18,8 +18,6 @@ public abstract class RoleBase
 
         CustomRoleManager.AllActiveRoles.Add(this);
     }
-    public virtual void Init()
-    { }
     public virtual void Add()
     { }
     public virtual void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
