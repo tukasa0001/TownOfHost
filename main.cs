@@ -10,6 +10,8 @@ using HarmonyLib;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 
+using TownOfHost.Roles;
+
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
 namespace TownOfHost
@@ -254,7 +256,13 @@ namespace TownOfHost
                             break;
                     }
                 }
-                _ = Sheriff.RoleInfo;
+                var type = typeof(RoleBase);
+                var roleClassArray = Assembly.GetAssembly(type)
+                    .GetTypes()
+                    .Where(x => x.IsSubclassOf(type)).ToArray();
+
+                foreach (var roleClassType in roleClassArray)
+                    roleClassType.GetProperty("RoleInfo")?.GetValue(type);
             }
             catch (ArgumentException ex)
             {
