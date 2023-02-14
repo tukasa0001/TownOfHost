@@ -100,7 +100,7 @@ namespace TownOfHost
                 Main.AllPlayerKillCooldown[killer.PlayerId] = FailureKillCooldown;
                 killer.SyncSettings();//キルクール処理を同期
             }
-            yield return RoleInfo.ConfigId;
+            yield break;
         }
         public override void OnFixedUpdate(PlayerControl player)
         {
