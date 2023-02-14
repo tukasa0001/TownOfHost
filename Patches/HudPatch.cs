@@ -57,8 +57,12 @@ namespace TownOfHost
             if (SetHudActivePatch.IsActive)
             {//MOD入り用のボタン下テキスト変更
 
-                CustomRoleManager.AllActiveRoles.Do(roleClass => __instance.KillButton.OverrideText(roleClass.GetKillButtonText()));
-                CustomRoleManager.AllActiveRoles.Do(roleClass => __instance.AbilityButton.OverrideText(roleClass.GetAbilityButtonText()));
+                var roleClass = player.GetRoleClass();
+                if (roleClass != null)
+                {
+                    __instance.KillButton.OverrideText(roleClass.GetKillButtonText());
+                    __instance.AbilityButton.OverrideText(roleClass.GetAbilityButtonText());
+                }
                 switch (player.GetCustomRole())
                 {
                     case CustomRoles.Sniper:
@@ -95,9 +99,6 @@ namespace TownOfHost
                     case CustomRoles.Puppeteer:
                         __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
                         break;
-                    case CustomRoles.BountyHunter:
-                        BountyHunter.SetAbilityButtonText(__instance);
-                        break;
                     case CustomRoles.EvilTracker:
                         EvilTracker.GetAbilityButtonText(__instance, player.PlayerId);
                         break;
@@ -118,7 +119,7 @@ namespace TownOfHost
 
                 if (player.Is(CustomRoles.BountyHunter))
                 {
-                    var bountyHunter = (BountyHunter)player.GetRoleClass();
+                    var bountyHunter = (BountyHunter)roleClass;
                     LowerInfoText.text = bountyHunter.GetTargetText(true);
                 }
                 else if (player.Is(CustomRoles.Witch))
