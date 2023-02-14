@@ -82,7 +82,6 @@ namespace TownOfHost
         }
         public override void Init()
         {
-            base.Init();
             ShotLimit = ShotLimitOpt.GetInt();
             CurrentKillCooldown = KillCooldown.GetFloat();
         }
