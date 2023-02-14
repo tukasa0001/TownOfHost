@@ -64,7 +64,7 @@ namespace TownOfHost
                     {
                         if (Main.LoversPlayers.Count > 0 && !reason.Equals(GameOverReason.HumansByTask))
                         {
-                            PlayerControl[]  lovers = Main.LoversPlayers.ToArray();
+                            PlayerControl[] lovers = Main.LoversPlayers.ToArray();
                             foreach (var pc in lovers)
                             {
                                 if (pc.IsAlive())
@@ -81,7 +81,7 @@ namespace TownOfHost
                     //追加勝利陣営
                     foreach (var pc in Main.AllPlayerControls)
                     {
-                        
+
                         //Opportunist
                         if (pc.Is(CustomRoles.Opportunist) && pc.IsAlive())
                         {
@@ -215,10 +215,26 @@ namespace TownOfHost
                 );
                 int Imp = counts[0], Jackal = counts[1], Crew = counts[2];
 
-                if (Main.AllAlivePlayerControls.All(p => p.Is(CustomRoles.Lovers))) //ラバーズ勝利
+                if (Imp== 0 && Crew == 0 && Jackal == 0) //全滅
+                {
+                    reason = GameOverReason.ImpostorByKill;
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.None);
+                }
+                else if (Main.AllAlivePlayerControls.All(p => p.Is(CustomRoles.Lovers))) //ラバーズ勝利
                 {
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Lovers);
+                }
+                else if (Imp == 0 && Crew <= Jackal) //ジャッカル勝利
+                {
+                    reason = GameOverReason.ImpostorByKill;
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jackal);
+                    CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
+                }
+                else if (Jackal == 0 && Imp == 0) //クルー勝利
+                {
+                    reason = GameOverReason.HumansByVote;
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
                 }
                 else return false; //勝利条件未達成
 
