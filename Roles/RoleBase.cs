@@ -61,7 +61,7 @@ public abstract class RoleBase
     { }
     public virtual void OnShapeshift(PlayerControl shapeshifter, PlayerControl target)
     { }
-    public virtual void OnFixedUpdate(PlayerControl player)
+    public virtual void OnFixedUpdate()
     { }
     public virtual bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target) => true;
     public virtual void OnStartMeeting()
