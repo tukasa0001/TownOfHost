@@ -179,12 +179,9 @@ namespace TownOfHost
                 int optNeutralNum = 0;
                 if (Options.NeutralRolesMaxPlayer.GetInt() > 0 && Options.NeutralRolesMaxPlayer.GetInt() >= Options.NeutralRolesMinPlayer.GetInt())
                     optNeutralNum = rd.Next(Options.NeutralRolesMinPlayer.GetInt(), Options.NeutralRolesMaxPlayer.GetInt() + 1);
-                int readyRoleNum = 0;
+                int readyRoleNum = Options.EnableGM.GetBool() ? 1 : 0;
                 int readyNeutralNum = 0;
                 rolesToAssign.Clear();
-                addEngineerNum = 0;
-                addScientistNum = 0;
-                addShapeshifterNum = 0;
 
                 List<CustomRoles> roleList = new();
                 List<CustomRoles> roleOnList = new();
@@ -225,12 +222,6 @@ namespace TownOfHost
                     foreach (var dr in Main.DevRole) foreach (var role in ImpOnList) if (dr.Value == role && !rolesToAssign.Contains(role)) select = role;
                     ImpOnList.Remove(select);
                     rolesToAssign.Add(select);
-                    switch (CustomRolesHelper.GetVNRole(select))
-                    {
-                        case CustomRoles.Scientist: addScientistNum++; break;
-                        case CustomRoles.Engineer: addEngineerNum++; break;
-                        case CustomRoles.Shapeshifter: addShapeshifterNum++; break;
-                    }
                     readyRoleNum += select.GetCount();
                     Logger.Info(select.ToString() + " 加入内鬼职业待选列表（优先）", "Role Assign Function");
                     if (readyRoleNum >= PlayerControl.AllPlayerControls.Count) goto EndOfAssign;
@@ -246,12 +237,6 @@ namespace TownOfHost
                         foreach (var dr in Main.DevRole) foreach (var role in ImpRateList) if (dr.Value == role && !rolesToAssign.Contains(role)) select = role;
                         ImpRateList.Remove(select);
                         rolesToAssign.Add(select);
-                        switch (CustomRolesHelper.GetVNRole(select))
-                        {
-                            case CustomRoles.Scientist: addScientistNum++; break;
-                            case CustomRoles.Engineer: addEngineerNum++; break;
-                            case CustomRoles.Shapeshifter: addShapeshifterNum++; break;
-                        }
                         readyRoleNum += select.GetCount();
                         Logger.Info(select.ToString() + " 加入内鬼职业待选列表", "Role Assign Function");
                         if (readyRoleNum >= PlayerControl.AllPlayerControls.Count) goto EndOfAssign;
@@ -266,12 +251,6 @@ namespace TownOfHost
                     foreach (var dr in Main.DevRole) foreach (var role in NeutralOnList) if (dr.Value == role && !rolesToAssign.Contains(role)) select = role;
                     NeutralOnList.Remove(select);
                     rolesToAssign.Add(select);
-                    switch (CustomRolesHelper.GetVNRole(select))
-                    {
-                        case CustomRoles.Scientist: addScientistNum++; break;
-                        case CustomRoles.Engineer: addEngineerNum++; break;
-                        case CustomRoles.Shapeshifter: addShapeshifterNum++; break;
-                    }
                     readyRoleNum += select.GetCount();
                     readyNeutralNum += select.GetCount();
                     Logger.Info(select.ToString() + " 加入中立职业待选列表（优先）", "Role Assign Function");
@@ -288,12 +267,6 @@ namespace TownOfHost
                         foreach (var dr in Main.DevRole) foreach (var role in NeutralRateList) if (dr.Value == role && !rolesToAssign.Contains(role)) select = role;
                         NeutralRateList.Remove(select);
                         rolesToAssign.Add(select);
-                        switch (CustomRolesHelper.GetVNRole(select))
-                        {
-                            case CustomRoles.Scientist: addScientistNum++; break;
-                            case CustomRoles.Engineer: addEngineerNum++; break;
-                            case CustomRoles.Shapeshifter: addShapeshifterNum++; break;
-                        }
                         readyRoleNum += select.GetCount();
                         readyNeutralNum += select.GetCount();
                         Logger.Info(select.ToString() + " 加入中立职业待选列表", "Role Assign Function");
@@ -309,12 +282,6 @@ namespace TownOfHost
                     foreach (var dr in Main.DevRole) foreach (var role in roleOnList) if (dr.Value == role && !rolesToAssign.Contains(role)) select = role;
                     roleOnList.Remove(select);
                     rolesToAssign.Add(select);
-                    switch(CustomRolesHelper.GetVNRole(select))
-                    {
-                        case CustomRoles.Scientist: addScientistNum++; break;
-                        case CustomRoles.Engineer: addEngineerNum++; break;
-                        case CustomRoles.Shapeshifter: addShapeshifterNum++; break;
-                    }
                     readyRoleNum += select.GetCount();
                     Logger.Info(select.ToString() + " 加入船员职业待选列表（优先）", "Role Assign Function");
                     if (readyRoleNum >= PlayerControl.AllPlayerControls.Count) goto EndOfAssign;
@@ -328,12 +295,6 @@ namespace TownOfHost
                         foreach (var dr in Main.DevRole) foreach (var role in roleRateList) if (dr.Value == role && !rolesToAssign.Contains(role)) select = role;
                         roleRateList.Remove(select);
                         rolesToAssign.Add(select);
-                        switch (CustomRolesHelper.GetVNRole(select))
-                        {
-                            case CustomRoles.Scientist: addScientistNum++; break;
-                            case CustomRoles.Engineer: addEngineerNum++; break;
-                            case CustomRoles.Shapeshifter: addShapeshifterNum++; break;
-                        }
                         readyRoleNum += select.GetCount();
                         Logger.Info(select.ToString() + " 加入船员职业待选列表", "Role Assign Function");
                         if (readyRoleNum >= PlayerControl.AllPlayerControls.Count) goto EndOfAssign;
@@ -343,7 +304,21 @@ namespace TownOfHost
                 // 职业抽取结束
                 EndOfAssign:
 
-                //役職の人数を指定
+                // 计算原版特殊职业数量
+                addEngineerNum = 0;
+                addScientistNum = 0;
+                addShapeshifterNum = 0;
+                foreach (var role in rolesToAssign)
+                {
+                    switch (CustomRolesHelper.GetVNRole(role))
+                    {
+                        case CustomRoles.Scientist: addScientistNum++; break;
+                        case CustomRoles.Engineer: addEngineerNum++; break;
+                        case CustomRoles.Shapeshifter: addShapeshifterNum++; break;
+                    }
+                }
+
+                //指定原版特殊职业数量
                 var roleOpt = Main.NormalOptions.roleOptions;
 
                 int ScientistNum = Options.DisableVanillaRoles.GetBool() ? 0 : roleOpt.GetNumPerGame(RoleTypes.Scientist);
