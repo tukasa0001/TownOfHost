@@ -103,6 +103,7 @@ namespace TownOfHost
         }
         public static void StartEndGame(GameOverReason reason)
         {
+            Logger.Test("StartEndGame");
             var sender = new CustomRpcSender("EndGameSender", SendOption.Reliable, true);
             sender.StartMessage(-1); // 5: GameData
             MessageWriter writer = sender.stream;
@@ -187,7 +188,6 @@ namespace TownOfHost
         }
 
         public static void SetPredicateToNormal() => predicate = new NormalGameEndPredicate();
-        public static void SetPredicateToHideAndSeek() => predicate = new HideAndSeekGameEndPredicate();
 
         // ===== ゲーム終了条件 =====
         // 通常ゲーム用
@@ -196,9 +196,13 @@ namespace TownOfHost
             public override bool CheckForEndGame(out GameOverReason reason)
             {
                 reason = GameOverReason.ImpostorByKill;
+                Logger.Test("CheckForEndGame");
                 if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return false;
+                Logger.Test("CheckGameEndByLivingPlayers");
                 if (CheckGameEndByLivingPlayers(out reason)) return true;
+                Logger.Test("CheckGameEndByTask");
                 if (CheckGameEndByTask(out reason)) return true;
+                Logger.Test("CheckGameEndBySabotage");
                 if (CheckGameEndBySabotage(out reason)) return true;
 
                 return false;
@@ -215,7 +219,7 @@ namespace TownOfHost
                 );
                 int Imp = counts[0], Jackal = counts[1], Crew = counts[2];
 
-                if (Imp== 0 && Crew == 0 && Jackal == 0) //全滅
+                if (Imp == 0 && Crew == 0 && Jackal == 0) //全滅
                 {
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.None);
@@ -225,6 +229,11 @@ namespace TownOfHost
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Lovers);
                 }
+                else if (Jackal == 0 && Crew <= Imp) //インポスター勝利
+                {
+                    reason = GameOverReason.ImpostorByKill;
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
+                }
                 else if (Imp == 0 && Crew <= Jackal) //ジャッカル勝利
                 {
                     reason = GameOverReason.ImpostorByKill;
@@ -232,52 +241,6 @@ namespace TownOfHost
                     CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
                 }
                 else if (Jackal == 0 && Imp == 0) //クルー勝利
-                {
-                    reason = GameOverReason.HumansByVote;
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
-                }
-                else return false; //勝利条件未達成
-
-                return true;
-            }
-        }
-
-        // HideAndSeek用
-        class HideAndSeekGameEndPredicate : GameEndPredicate
-        {
-            public override bool CheckForEndGame(out GameOverReason reason)
-            {
-                reason = GameOverReason.ImpostorByKill;
-                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return false;
-
-                if (CheckGameEndByLivingPlayers(out reason)) return true;
-                if (CheckGameEndByTask(out reason)) return true;
-
-                return false;
-            }
-
-            public bool CheckGameEndByLivingPlayers(out GameOverReason reason)
-            {
-                reason = GameOverReason.ImpostorByKill;
-
-                int[] counts = CountLivingPlayersByPredicates(
-                    pc => pc.Is(RoleType.Impostor), //インポスター
-                    pc => pc.Is(RoleType.Crewmate) //クルー(Troll,Fox除く)
-                );
-                int Imp = counts[0], Crew = counts[1];
-
-
-                if (Imp == 0 && Crew == 0) //全滅
-                {
-                    reason = GameOverReason.ImpostorByKill;
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.None);
-                }
-                else if (Crew <= 0) //インポスター勝利
-                {
-                    reason = GameOverReason.ImpostorByKill;
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
-                }
-                else if (Imp == 0) //クルー勝利(インポスター切断など)
                 {
                     reason = GameOverReason.HumansByVote;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
