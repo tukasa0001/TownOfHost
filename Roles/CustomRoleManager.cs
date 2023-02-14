@@ -21,4 +21,25 @@ public static class CustomRoleManager
         AllRolesInfo.Do(role => role.IsEnable = role.RoleName.IsEnable());
         AllActiveRoles.Clear();
     }
+    public static void CreateInstance()
+    {
+        foreach (var pc in Main.AllPlayerControls.ToArray())
+        {
+            _ = pc.GetCustomRole() switch
+            {
+                //インポスター役職
+                //CustomRoles.BountyHunter => new BountyHunter(pc),
+
+                //マッドメイト役職
+                //CustomRoles.Madmate => new Madmate(pc),
+
+                //クルー役職
+                CustomRoles.Sheriff => new Sheriff(pc),
+
+                //第三陣営
+                //CustomRoles.Arsonist => new Arsonist(pc),
+                _ => null
+            };
+        }
+    }
 }
