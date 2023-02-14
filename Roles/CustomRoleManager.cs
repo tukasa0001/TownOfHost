@@ -25,10 +25,10 @@ public static class CustomRoleManager
     {
         foreach (var pc in Main.AllPlayerControls.ToArray())
         {
-            _ = pc.GetCustomRole() switch
+            RoleBase _ = pc.GetCustomRole() switch
             {
                 //インポスター役職
-                //CustomRoles.BountyHunter => new BountyHunter(pc),
+                CustomRoles.BountyHunter => new BountyHunter(pc),
 
                 //マッドメイト役職
                 //CustomRoles.Madmate => new Madmate(pc),
