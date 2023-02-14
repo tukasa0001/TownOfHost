@@ -459,13 +459,16 @@ namespace TownOfHost
                 SendMessage(GetString("Message.HideGameSettings"), PlayerId);
                 return;
             }
-            var text = "";
 
+            var text = "";
             text = GetString("Settings") + ":";
             foreach (var role in Options.CustomRoleCounts)
             {
                 if (!role.Key.IsEnable()) continue;
-                text += $"\n【{GetRoleName(role.Key)}×{role.Key.GetCount()}】\n";
+                string mode = "禁用";
+                if (role.Key.GetChance() == 1) mode = "启用";
+                if (role.Key.GetChance() == 2) mode = "优先";
+                text += $"\n【{GetRoleName(role.Key)}:{mode}×{role.Key.GetCount()}】\n";
                 ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref text);
                 text = text.RemoveHtmlTags();
             }
@@ -493,7 +496,10 @@ namespace TownOfHost
             foreach (var role in Options.CustomRoleCounts)
             {
                 if (!role.Key.IsEnable()) continue;
-                text += $"\n【{GetRoleName(role.Key)}×{role.Key.GetCount()}】\n";
+                string mode = "禁用";
+                if (role.Key.GetChance() == 1) mode = "启用";
+                if (role.Key.GetChance() == 2) mode = "优先";
+                text += $"\n【{GetRoleName(role.Key)}:{mode}×{role.Key.GetCount()}】\n";
                 ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref text);
                 text = text.RemoveHtmlTags();
             }

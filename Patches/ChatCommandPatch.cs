@@ -335,11 +335,11 @@ namespace TownOfHost
                             {
                                 case "r":
                                 case "roles":
-                                    Utils.ShowActiveRoles(PlayerControl.LocalPlayer.PlayerId);
+                                    Utils.ShowActiveRoles();
                                     break;
 
                                 default:
-                                    Utils.ShowActiveSettings(PlayerControl.LocalPlayer.PlayerId);
+                                    Utils.ShowActiveSettings();
                                     break;
                             }
                         }
@@ -698,7 +698,7 @@ namespace TownOfHost
             role = role.Trim();
             if (role == "" || role == String.Empty)
             {
-                Utils.SendMessage("指令格式：/r [职业]\n例如：/r 灵媒", player.PlayerId);
+                Utils.ShowActiveRoles();
                 return;
             }
             role = ToSimplified(role);
@@ -743,7 +743,7 @@ namespace TownOfHost
                 }
             }
 
-            Utils.SendMessage("请正确拼写您要查询的职业哦~\n查看所有职业请输入/n", player.PlayerId);
+            Utils.SendMessage("请正确拼写您要查询的职业哦~\n查看所有职业请直接输入/r", player.PlayerId);
             return;
         }
         public static void OnReceiveChat(PlayerControl player, string text)
