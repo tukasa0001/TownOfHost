@@ -25,7 +25,6 @@ namespace TownOfHost.Modules
         {
             opt.SetInt(Int32OptionNames.DiscussionTime, DiscussionTime);
             opt.SetInt(Int32OptionNames.VotingTime, VotingTime);
-            Logger.Info($"DiscussionTime:{DiscussionTime}, VotingTime{VotingTime}", "MeetingTimeManager.ApplyGameOptions");
         }
         private static void ResetMeetingTime()
         {
