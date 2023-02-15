@@ -163,7 +163,7 @@ namespace TownOfHost
             RpcSetRoleReplacer.StartReplace(senders);
 
             //ウォッチャーの陣営抽選
-            Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
+            Options.SetWatcherTeam();
 
             if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
             {

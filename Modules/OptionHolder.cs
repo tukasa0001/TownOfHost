@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HarmonyLib;
 using UnityEngine;
+using TownOfHost.Modules;
 
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Crewmate;
@@ -64,19 +65,12 @@ namespace TownOfHost
         public static bool IsActiveAirship => AddedTheAirShip.GetBool() || Main.NormalOptions.MapId == 4;
 
         // 役職数・確率
-        public static Dictionary<CustomRoles, int> roleCounts;
-        public static Dictionary<CustomRoles, float> roleSpawnChances;
         public static Dictionary<CustomRoles, OptionItem> CustomRoleCounts;
-        public static Dictionary<CustomRoles, StringOptionItem> CustomRoleSpawnChances;
+        public static Dictionary<CustomRoles, IntegerOptionItem> CustomRoleSpawnChances;
         public static readonly string[] rates =
         {
             "Rate0",  "Rate5",  "Rate10", "Rate20", "Rate30", "Rate40",
             "Rate50", "Rate60", "Rate70", "Rate80", "Rate90", "Rate100",
-        };
-        public static readonly string[] ratesZeroOne =
-        {
-            "Rate0", /*"Rate10", "Rate20", "Rate30", "Rate40", "Rate50",
-            "Rate60", "Rate70", "Rate80", "Rate90", */"Rate100",
         };
 
         // 各役職の詳細設定
@@ -278,48 +272,19 @@ namespace TownOfHost
 
 
         public static bool IsEvilWatcher = false;
-        public static void SetWatcherTeam(float EvilWatcherRate)
+        public static void SetWatcherTeam()
         {
-            EvilWatcherRate = Options.EvilWatcherChance.GetFloat();
-            IsEvilWatcher = UnityEngine.Random.Range(1, 100) < EvilWatcherRate;
+            IsEvilWatcher = IRandom.Instance.Next(100) < EvilWatcherChance.GetInt();
         }
         public static bool IsLoaded = false;
-
-        static Options()
-        {
-            ResetRoleCounts();
-        }
-        public static void ResetRoleCounts()
-        {
-            roleCounts = new Dictionary<CustomRoles, int>();
-            roleSpawnChances = new Dictionary<CustomRoles, float>();
-
-            foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
-            {
-                roleCounts.Add(role, 0);
-                roleSpawnChances.Add(role, 0);
-            }
-        }
-
-        public static void SetRoleCount(CustomRoles role, int count)
-        {
-            roleCounts[role] = count;
-
-            if (CustomRoleCounts.TryGetValue(role, out var option))
-            {
-                option.SetValue(count - 1);
-            }
-        }
-
         public static int GetRoleCount(CustomRoles role)
         {
-            var chance = CustomRoleSpawnChances.TryGetValue(role, out var sc) ? sc.GetChance() : 0;
-            return chance == 0 ? 0 : CustomRoleCounts.TryGetValue(role, out var option) ? option.GetInt() : roleCounts[role];
+            return GetRoleChance(role) == 0 ? 0 : CustomRoleCounts.TryGetValue(role, out var option) ? option.GetInt() : 0;
         }
 
-        public static float GetRoleChance(CustomRoles role)
+        public static int GetRoleChance(CustomRoles role)
         {
-            return CustomRoleSpawnChances.TryGetValue(role, out var option) ? option.GetValue()/* / 10f */ : roleSpawnChances[role];
+            return CustomRoleSpawnChances.TryGetValue(role, out var option) ? option.GetInt() : 0;
         }
         public static void Load()
         {
@@ -683,9 +648,10 @@ namespace TownOfHost
 
         public static void SetupRoleOptions(int id, TabGroup tab, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
-            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, tab, false).SetColor(Utils.GetRoleColor(role))
+            var spawnOption = IntegerOptionItem.Create(id, role.ToString(), new(0, 100, 10), 0, tab, false).SetColor(Utils.GetRoleColor(role))
+                .SetValueFormat(OptionFormat.Percent)
                 .SetHeader(true)
-                .SetGameMode(customGameMode) as StringOptionItem;
+                .SetGameMode(customGameMode) as IntegerOptionItem;
             var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 15, 1), 1, tab, false).SetParent(spawnOption)
                 .SetValueFormat(OptionFormat.Players)
                 .SetGameMode(customGameMode);
@@ -696,9 +662,10 @@ namespace TownOfHost
         private static void SetupLoversRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             var role = CustomRoles.Lovers;
-            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
+            var spawnOption = IntegerOptionItem.Create(id, role.ToString(), new(0, 100, 10), 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
+                .SetValueFormat(OptionFormat.Percent)
                 .SetHeader(true)
-                .SetGameMode(customGameMode) as StringOptionItem;
+                .SetGameMode(customGameMode) as IntegerOptionItem;
 
             var countOption = IntegerOptionItem.Create(id + 1, "NumberOfLovers", new(2, 2, 1), 2, TabGroup.Addons, false).SetParent(spawnOption)
                 .SetHidden(true)
@@ -709,9 +676,10 @@ namespace TownOfHost
         }
         public static void SetupSingleRoleOptions(int id, TabGroup tab, CustomRoles role, int count, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
-            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, tab, false).SetColor(Utils.GetRoleColor(role))
+            var spawnOption = IntegerOptionItem.Create(id, role.ToString(), new(0, 100, 10), 0, tab, false).SetColor(Utils.GetRoleColor(role))
+                .SetValueFormat(OptionFormat.Percent)
                 .SetHeader(true)
-                .SetGameMode(customGameMode) as StringOptionItem;
+                .SetGameMode(customGameMode) as IntegerOptionItem;
             // 初期値,最大値,最小値が同じで、stepが0のどうやっても変えることができない個数オプション
             var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(count, count, count), count, tab, false).SetParent(spawnOption)
                 .SetGameMode(customGameMode);

@@ -102,7 +102,7 @@ namespace TownOfHost
                 return Options.GetRoleCount(role);
             }
         }
-        public static float GetChance(this CustomRoles role)
+        public static int GetChance(this CustomRoles role)
         {
             if (role.IsVanilla())
             {
@@ -115,7 +115,7 @@ namespace TownOfHost
                     CustomRoles.GuardianAngel => roleOpt.GetChancePerGame(RoleTypes.GuardianAngel),
                     CustomRoles.Crewmate => roleOpt.GetChancePerGame(RoleTypes.Crewmate),
                     _ => 0
-                } / 100f;
+                };
             }
             else
             {
