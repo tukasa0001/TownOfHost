@@ -14,7 +14,7 @@ namespace TownOfHost
             CustomRoles.TimeManager,
         };
         public static List<byte> playerIdList = new();
-        public static OptionItem OptionAssignOnlyToCrewmate;
+        private static OptionItem OptionAssignOnlyToCrewmate;
         private static OptionItem OptionNumLongTasks;
         private static OptionItem OptionNumShortTasks;
         public static bool AssignOnlyToCrewmate;
