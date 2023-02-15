@@ -155,7 +155,32 @@ namespace TownOfHost
 
                 Logger.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})", "Vote");
 
-                if (Options.VoteMode.GetBool() && Options.WhenTie.GetBool() && tie)
+                bool brakar = false;
+                if (tie)
+                {
+                    byte target = byte.MaxValue;
+                    foreach (var data in VotingData)
+                    {
+                        if (Main.BrakarVoteFor.Contains(data.Key))
+                        {
+                            if (target != byte.MaxValue)
+                            {
+                                target = byte.MaxValue;
+                                break;
+                            }
+                            target = data.Key;
+                        }
+                    }
+                    if (target != byte.MaxValue)
+                    {
+                        Logger.Info("破平者覆盖驱逐玩家", "Brakar Vote");
+                        exiledPlayer = Utils.GetPlayerInfoById(target);
+                        tie = false;
+                        brakar = true;
+                    }
+                }
+
+                if (Options.VoteMode.GetBool() && Options.WhenTie.GetBool() && tie && !brakar)
                 {
                     switch ((TieMode)Options.WhenTie.GetValue())
                     {
@@ -176,7 +201,7 @@ namespace TownOfHost
                             break;
                     }
                 }
-                else
+                else if (!brakar)
                     exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
                 if (exiledPlayer != null)
                     exiledPlayer.Object.SetRealKiller(null);
@@ -309,6 +334,11 @@ namespace TownOfHost
             var player = Main.AllPlayerControls.Where(pc => pc.PlayerId == id).FirstOrDefault();
             return player != null && player.Is(CustomRoles.Mayor);
         }
+        public static bool IsBrakar(byte id)
+        {
+            var player = Main.AllPlayerControls.Where(pc => pc.PlayerId == id).FirstOrDefault();
+            return player != null && player.Is(CustomRoles.Brakar);
+        }
         public static void TryAddAfterMeetingDeathPlayers(byte playerId, PlayerState.DeathReason deathReason)
         {
             if (Main.AfterMeetingDeathPlayers.TryAdd(playerId, deathReason))
@@ -355,6 +385,7 @@ namespace TownOfHost
         {
             Logger.Info("CustomCalculateVotes開始", "Vote");
             Dictionary<byte, int> dic = new();
+            Main.BrakarVoteFor = new();
             //| 投票された人 | 投票された回数 |
             for (int i = 0; i < __instance.playerStates.Length; i++)
             {
@@ -363,9 +394,15 @@ namespace TownOfHost
                 if (ps.VotedFor is not ((byte)252) and not byte.MaxValue and not ((byte)254))
                 {
                     int VoteNum = 1;
-                    if (CheckForEndVotingPatch.IsMayor(ps.TargetPlayerId)) VoteNum += Options.MayorAdditionalVote.GetInt();
                     var target = Utils.GetPlayerById(ps.VotedFor);
-                    if (target != null && target.Is(CustomRoles.Zombie)) VoteNum = 0;
+                    if (target != null)
+                    {
+                        if (target.Is(CustomRoles.Zombie)) VoteNum = 0;
+                        if (CheckForEndVotingPatch.IsBrakar(ps.TargetPlayerId))
+                            if (!Main.BrakarVoteFor.Contains(target.PlayerId))
+                                Main.BrakarVoteFor.Add(target.PlayerId);
+                    }
+                    if (CheckForEndVotingPatch.IsMayor(ps.TargetPlayerId)) VoteNum += Options.MayorAdditionalVote.GetInt();
                     //投票を1追加 キーが定義されていない場合は1で上書きして定義
                     dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out int num) ? VoteNum : num + VoteNum;
                 }

@@ -192,7 +192,6 @@ namespace TownOfHost
             return seer.GetCustomRole() switch
             {
                 CustomRoles.EvilTracker => EvilTracker.KillFlashCheck(killer, target),
-                CustomRoles.Seer => true,
                 _ => false
             };
         }

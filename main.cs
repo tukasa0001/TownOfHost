@@ -125,6 +125,7 @@ namespace TownOfHost
         /// </summary>
         public static Dictionary<byte, float> AllPlayerSpeed = new();
         public const float MinSpeed = 0.0001f;
+        public static List<byte> BrakarVoteFor = new();
         public static Dictionary<byte, (byte, float)> BitPlayers = new();
         public static Dictionary<byte, float> WarlockTimer = new();
         public static Dictionary<byte, float> AssassinTimer = new();
@@ -220,6 +221,7 @@ namespace TownOfHost
             // 認証関連-認証
             DebugModeManager.Auth(DebugKeyAuth, DebugKeyInput.Value);
 
+            BrakarVoteFor = new List<byte>();
             BitPlayers = new Dictionary<byte, (byte, float)>();
             WarlockTimer = new Dictionary<byte, float>();
             AssassinTimer = new Dictionary<byte, float>();
@@ -315,6 +317,7 @@ namespace TownOfHost
                     {CustomRoles.Flashman, "#ff8400"},
                     {CustomRoles.Lighter, "#eee5be"},
                     {CustomRoles.Seer, "#61b26c"},
+                    {CustomRoles.Brakar, "#1447af"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -428,6 +431,7 @@ namespace TownOfHost
         Flashman,
         Lighter,
         Seer,
+        Brakar,
     }
     //WinData
     public enum CustomWinner

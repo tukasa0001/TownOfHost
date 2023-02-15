@@ -551,7 +551,6 @@ namespace TownOfHost
                 "獨裁者" or "独裁" => "独裁者",
                 "醫生" => "医生",
                 "偵探" => "侦探",
-                "執燈人" or "执灯" or "灯人" => "执灯人",
                 "幸運兒" or "幸运" => "幸运儿",
                 "大明星" or "明星" => "大明星",
                 "網紅" => "网红",
@@ -563,7 +562,6 @@ namespace TownOfHost
                 "被害妄想症" or "被害妄想" or "被迫害妄想症" or "被害" or "妄想" or "妄想症" => "被害妄想症",
                 "愚者" or "愚" => "愚者",
                 "修理大师" or "修理" or "维修" => "修理工",
-                "靈媒" => "灵媒",
                 "警長" => "警长",
                 "告密者" or "告密" => "告密者",
                 "增速者" or "增速" => "增速者",
@@ -583,6 +581,9 @@ namespace TownOfHost
                 "情人" or "愛人" or "链子" => "恋人",
                 "絕境者" or "绝境" => "绝境者",
                 "閃電俠" or"闪电" => "闪电侠",
+                "靈媒" => "灵媒",
+                "破平者" or "破平" => "破平者",
+                "執燈人" or "执灯" or "灯人" => "执灯人",
                 _ => text,
             };
         }
@@ -658,6 +659,7 @@ namespace TownOfHost
                 {CustomRoles.Flashman, GetString("Flashman") },
                 { CustomRoles.Lighter, GetString("Lighter") },
                 { CustomRoles.Seer,GetString("Seer") },
+                { CustomRoles.Brakar,GetString("Brakar") },
             };
 
         public static bool GetRoleByName(string name, out CustomRoles role)
