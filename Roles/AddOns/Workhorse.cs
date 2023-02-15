@@ -7,7 +7,7 @@ namespace TownOfHost
     public static class Workhorse
     {
         private static readonly int Id = 80100;
-        private static Color RoleColor = Utils.GetRoleColor(CustomRoles.Workhorse);
+        public static Color RoleColor = Utils.GetRoleColor(CustomRoles.Workhorse);
         private static readonly List<CustomRoles> NoAssignList = new()
         {
             CustomRoles.Lighter,
