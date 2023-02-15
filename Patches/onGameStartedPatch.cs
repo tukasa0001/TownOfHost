@@ -39,7 +39,6 @@ namespace TownOfHost
             Main.ShapeshiftTarget = new();
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();
-            Main.targetArrows = new();
 
             ReportDeadBodyPatch.CanReport = new();
 

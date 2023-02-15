@@ -766,7 +766,7 @@ namespace TownOfHost
                     Suffix.Append(BountyHunter.GetTargetArrow(seer, target));
 
                     if (GameStates.IsInTask && target.Is(CustomRoles.EvilTracker))
-                        Suffix.Append(EvilTracker.GetTargetArrowForModClient(seer, target));
+                        Suffix.Append(EvilTracker.GetTargetArrow(seer, target));
 
                     /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(target.PlayerId, out var isBlocked)) {
                         Mark = isBlocked ? "(true)" : "(false)";
@@ -827,48 +827,6 @@ namespace TownOfHost
                     }
                 }
             }
-        }
-
-        public static bool CheckArrowUpdate(PlayerControl seer, PlayerControl target, bool updateFlag, bool coloredArrow)
-        {
-            var key = (seer.PlayerId, target.PlayerId);
-            if (!Main.targetArrows.TryGetValue(key, out var oldArrow))
-            {
-                //初回は必ず被らないもの
-                oldArrow = "_";
-            }
-            //初期値は死んでる場合の空白にしておく
-            var arrow = "";
-            if (!Main.PlayerStates[seer.PlayerId].IsDead && !Main.PlayerStates[target.PlayerId].IsDead)
-            {
-                //対象の方角ベクトルを取る
-                var dir = target.transform.position - seer.transform.position;
-                byte index;
-                if (dir.magnitude < 2)
-                {
-                    //近い時はドット表示
-                    index = 8;
-                }
-                else
-                {
-                    //-22.5～22.5度を0とするindexに変換
-                    var angle = Vector3.SignedAngle(Vector3.down, dir, Vector3.back) + 180 + 22.5;
-                    index = (byte)(((int)(angle / 45)) % 8);
-                }
-                arrow = "↑↗→↘↓↙←↖・"[index].ToString();
-                if (coloredArrow)
-                {
-                    arrow = $"<color={target.GetRoleColorCode()}>{arrow}</color>";
-                }
-            }
-            if (oldArrow != arrow)
-            {
-                //前回から変わってたら登録して更新フラグ
-                Main.targetArrows[key] = arrow;
-                updateFlag = true;
-                //Logger.info($"{seer.name}->{target.name}:{arrow}");
-            }
-            return updateFlag;
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Start))]
