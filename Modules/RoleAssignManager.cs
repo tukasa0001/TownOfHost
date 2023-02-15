@@ -50,6 +50,7 @@ namespace TownOfHost.Modules
         {
             SetAssignCount();
             SetAssignRoleList();
+            SetAddOnsList();
             AssignRoleList.Sort();
             Logger.Info($"{String.Join(", ", AssignRoleList)}", "SelectAssignRoles");
         }
@@ -169,6 +170,25 @@ namespace TownOfHost.Modules
                 }
                 //1-9個ある同じチケットを削除
                 randomRoleTicketPool.RemoveAll(x => x == selectedTicket);
+            }
+        }
+        ///<summary>
+        ///属性のアサイン抽選
+        ///枠制限が無いので個別に抽選
+        ///</summary>
+        private static void SetAddOnsList()
+        {
+            foreach (var subRole in RolesArray.Where(x => x > CustomRoles.NotAssigned))
+            {
+                var chance = subRole.GetChance();
+                var count = subRole.GetCount();
+                if (chance == 0 || count == 0) continue;
+                var numAssignUnit = 1; //アサインの最小単位
+                if (subRole == CustomRoles.Lovers)
+                    numAssignUnit = 2;
+                for (var i = 0; i < count / numAssignUnit; i++) //役職の単位数ごとに抽選
+                    if (IRandom.Instance.Next(100) < chance)
+                        AssignRoleList.AddRange(subRole.GetAssignTargetRolesArray());
             }
         }
         ///<summary>
