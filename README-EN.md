@@ -954,7 +954,7 @@ Create and idea by Masami<br>
 
 An Add-on granted to the first living Crewmate finishing all the tasks.<br>
 You are assigned additional tasks necessary for the tasks win.<br>
-Not granted to roles with no tasks or with abilities triggered by finishing tasks.<br>
+Never granted to Sheriff or Snitch.<br>
 
 #### Game Options
 

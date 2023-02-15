@@ -8,11 +8,6 @@ namespace TownOfHost
     {
         private static readonly int Id = 80100;
         public static Color RoleColor = Utils.GetRoleColor(CustomRoles.Workhorse);
-        private static readonly List<CustomRoles> NoAssignList = new()
-        {
-            CustomRoles.Lighter,
-            CustomRoles.TimeManager,
-        };
         public static List<byte> playerIdList = new();
         private static OptionItem OptionAssignOnlyToCrewmate;
         private static OptionItem OptionNumLongTasks;
@@ -53,8 +48,7 @@ namespace TownOfHost
             if (AssignOnlyToCrewmate) //クルーメイトのみ
                 return pc.Is(CustomRoles.Crewmate);
             return Utils.HasTasks(pc.Data) //タスクがある
-                && !OverrideTasksData.AllData.ContainsKey(pc.GetCustomRole()) //タスク上書きオプションが無い
-                && !NoAssignList.Contains(pc.GetCustomRole()); //タスクトリガーのある役職でない
+                && !OverrideTasksData.AllData.ContainsKey(pc.GetCustomRole()); //タスク上書きオプションが無い
         }
         public static bool OnCompleteTask(PlayerControl pc)
         {
