@@ -150,6 +150,11 @@ namespace TownOfHost.Modules
                     case CustomRoles.Watcher:
                         opt.SetBool(BoolOptionNames.AnonymousVotes, false);
                         break;
+                    case CustomRoles.Flashman:
+                        Logger.Test("!!!!!!!!!!!!!!!!");
+                        Main.AllPlayerSpeed[player.PlayerId] = Options.FlashmanSpeed.GetFloat();
+                        //opt.SetFloat(FloatOptionNames.PlayerSpeedMod, Options.FlashmanSpeed.GetFloat());
+                        break;
                 }
             }
 

@@ -305,6 +305,8 @@ namespace TownOfHost
         //Add-Ons
         public static OptionItem MadmateSpawnChances;
         public static OptionItem WatcherSpawnChances;
+        public static OptionItem FlashmanSpawnChances;
+        public static OptionItem FlashmanSpeed;
         public static OptionItem NtrSpawnChances;
         public static OptionItem LoverSpawnChances;
         public static OptionItem LoverSuicide;
@@ -551,7 +553,8 @@ namespace TownOfHost
             SetupLoversRoleOptionsToggle(50300);
             SetupNtrRoleOptionsToggle(6050315);
             SetupWatcherRoleOptionsToggle(6050319);
-            //SetupMadmateRoleOptionsToggle(6050323);
+            SetupFlashmanRoleOptionsToggle(6050322);
+            //SetupMadmateRoleOptionsToggle(6050327);
             LastImpostor.SetupCustomOption();
 
             // 乐子职业
@@ -566,7 +569,7 @@ namespace TownOfHost
             SetupRoleOptions(901790, TabGroup.OtherRoles, CustomRoles.Zombie);
             ZombieKillCooldown = FloatOptionItem.Create(901792, "KillCooldown", new(0f, 999f, 2.5f), 5f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Zombie])
                 .SetValueFormat(OptionFormat.Seconds);
-            ZombieSpeedReduce = FloatOptionItem.Create(901794, "ZombieSpeedReduce", new(0.0f, 1.0f, 0.1f), 0.3f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Zombie])
+            ZombieSpeedReduce = FloatOptionItem.Create(901794, "ZombieSpeedReduce", new(0.0f, 1.0f, 0.1f), 0.1f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Zombie])
                 .SetValueFormat(OptionFormat.Multiplier);
             SetupRoleOptions(902265, TabGroup.OtherRoles, CustomRoles.BoobyTrap);
 
@@ -927,6 +930,28 @@ namespace TownOfHost
 
             var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 15, 1), 1, TabGroup.Addons, false).SetParent(spawnOption)
                 .SetGameMode(customGameMode);
+
+            CustomRoleSpawnChances.Add(role, spawnOption);
+            CustomRoleCounts.Add(role, countOption);
+        }
+
+        private static void SetupFlashmanRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
+        {
+            var role = CustomRoles.Flashman;
+            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
+                .SetHeader(true)
+                .SetGameMode(customGameMode) as StringOptionItem;
+
+            FlashmanSpawnChances = IntegerOptionItem.Create(id + 2, "FlashmanSpawnChances", new(0, 100, 5), 50, TabGroup.Addons, false).SetParent(spawnOption)
+                .SetValueFormat(OptionFormat.Percent)
+                .SetGameMode(customGameMode);
+
+            var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 15, 1), 1, TabGroup.Addons, false).SetParent(spawnOption)
+                .SetGameMode(customGameMode);
+
+            FlashmanSpeed = FloatOptionItem.Create(id + 3, "FlashmanSpeed", new(0.25f, 5f, 0.25f), 2.5f, TabGroup.Addons, false).SetParent(spawnOption)
+                .SetGameMode(customGameMode)
+                .SetValueFormat(OptionFormat.Multiplier);
 
             CustomRoleSpawnChances.Add(role, spawnOption);
             CustomRoleCounts.Add(role, countOption);

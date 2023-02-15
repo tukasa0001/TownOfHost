@@ -452,8 +452,6 @@ namespace TownOfHost
                     Main.AllPlayerKillCooldown[player.PlayerId] = 255;
                     break;
             }
-            if (player.PlayerId == LastImpostor.currentId)
-                LastImpostor.SetKillCooldown();
         }
         public static void TrapperKilled(this PlayerControl killer, PlayerControl target)
         {

@@ -80,7 +80,8 @@ namespace TownOfHost
                 CustomRoles.LastImpostor or
                 CustomRoles.Ntr or
                 CustomRoles.Madmate or
-                CustomRoles.Watcher;
+                CustomRoles.Watcher or
+                CustomRoles.Flashman;
         }
         public static bool IsNK(this CustomRoles role) // 是否带刀中立
         {

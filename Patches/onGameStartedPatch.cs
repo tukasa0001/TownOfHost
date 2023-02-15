@@ -429,6 +429,7 @@ namespace TownOfHost
                 if (CustomRoles.Ntr.IsEnable() && rd.Next(1, 100) <= Options.NtrSpawnChances.GetInt()) AssignSubRoles(CustomRoles.Ntr);
                 if (CustomRoles.Madmate.IsEnable() && rd.Next(1, 100) <= Options.MadmateSpawnChances.GetInt()) AssignSubRoles(CustomRoles.Madmate);
                 if (CustomRoles.Watcher.IsEnable() && rd.Next(1, 100) <= Options.WatcherSpawnChances.GetInt()) AssignSubRoles(CustomRoles.Watcher);
+                if (CustomRoles.Flashman.IsEnable() && rd.Next(1, 100) <= Options.FlashmanSpawnChances.GetInt()) AssignSubRoles(CustomRoles.Flashman);
 
                 foreach (var role in rolesToAssign)
                 {

@@ -173,7 +173,7 @@ namespace TownOfHost
             if (currentRpcTarget != targetClientId)
             {
                 //StartMessage処理
-                if (currentState == State.InRootMessage) this.EndMessage();
+                if (currentState == State.InRootMessage) EndMessage();
                 this.StartMessage(targetClientId);
             }
             this.StartRpc(targetNetId, callId);
@@ -182,7 +182,7 @@ namespace TownOfHost
         }
         public void SendMessage()
         {
-            if (currentState == State.InRootMessage) this.EndMessage();
+            if (currentState == State.InRootMessage) EndMessage();
             if (currentState != State.Ready)
             {
                 string errorMsg = $"RPCを送信しようとしましたが、StateがReadyではありません (in: \"{name}\")";

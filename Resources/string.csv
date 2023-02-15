@@ -95,6 +95,7 @@ Lovers,恋人
 Madmate,叛徒
 Ntr,海王
 Watcher,窥视者
+Flashman,闪电侠（损坏）
 
 # 管理员
 GM,管理员
@@ -127,7 +128,6 @@ AfterMafiaInfo,开始你的复仇吧！
 PuppeteerInfo,操纵敌人，杀光船员
 TimeThiefInfo,阻止开会模拟器的诞生
 SniperInfo,希望你能打准点
-LastImpostorInfo,你是狼村最后的希望…
 EvilTrackerInfo,你不要过来啊啊啊
 AntiAdminerInfo,没什么能逃过你的眼睛
 SansInfo,降下审判！
@@ -182,6 +182,7 @@ MadmateInfo,结局掌握在你的手中
 NtrInfo,笨蛋，我只爱你亿个人哦
 WatcherInfo,窥视到一切的阴暗面
 LastImpostorInfo,你是狼村最后的希望
+FlashmanInfo,卡其脱离太！
 
 # 管理员
 GMInfo,开局死的冤魂隔岸观火
@@ -195,7 +196,7 @@ SerialKillerInfoLong,(内鬼阵营):\n嗜血杀手的击杀冷却很短，但是
 MareInfoLong,(内鬼阵营):\n梦魇只能在停电时下进行击杀。若梦魇击杀成功，梦魇的击杀冷却将变成原来的一半。此外，停电持续的时间内梦魇的移动速度也会增加，但是请注意，停电时间内内所有玩家都能看到梦魇的名字以红色表示。
 VampireInfoLong,(内鬼阵营):\n在吸血鬼的吸血的对象不会立刻死亡，而是延迟一段时间突然暴毙。若在这段时间内进入会议阶段，该目标将立即死亡。当被击杀目标为诱饵时，吸血鬼还是会被迫报告诱饵的尸体。
 WarlockInfoLong,(内鬼阵营):\n术士可以使用击杀键给目标下咒，出现盾牌破碎则是下咒成功（放心，只有你能看见）。当术士变形时，被下咒的玩家会自动击杀离自己最近的玩家。请注意，摆烂人不会替你办事，诅咒摆烂人只会浪费你的时间。\n\n（听说最近误杀队友和自杀的术士越来越多了）
-ZombieInfoLong,(内鬼阵营):\n僵尸的击杀冷却很短，但移动速度很慢且视野极小。僵尸不会被独裁者以外的人票出。
+ZombieInfoLong,(内鬼阵营):\n僵尸的击杀冷却很短，但移动速度很慢且视野极小。僵尸不会被独裁者以外的人票出，僵尸的移动速度会随着击杀或时间流逝逐渐变慢。
 AssassinInfoLong,(内鬼阵营):\n刺客可以使用击杀键标记一个目标，出现盾牌破碎则是下咒成功（放心，只有你能看见）。之后刺客可以随时使用变形传送至被标记者的身边并击杀被标记者。注意：刺客无法进行正常击杀。
 HackerInfoLong,(内鬼阵营):\n骇客击杀玩家后会随机找个人报告被害者的尸体，若找不到替罪羊就会自己报告尸体。请注意：摆烂人不会成为替罪羊。
 MinerInfoLong,(内鬼阵营):\n矿工变形以及解除变形的时候会传送至上一个进入的通风口。（注意，是进去的通风管而不是出来的通风管）
@@ -262,6 +263,7 @@ LoversInfoLong,(附加职业):\n恋人为两名玩家的组合。恋人存活到
 MadmateInfoLong,(附加职业):\n只有船员会成为叛徒，叛徒需要帮助内鬼阵营获得胜利，当内鬼阵营失败时叛徒也会失败。
 NtrInfoLong,(附加职业):\n当场上存在海王时，所有玩家将看到自己与海王为恋人关系，实际并不会一起殉情也不会改变胜利条件。请注意：恋人不会成为海王，海王也不会成为恋人。
 WatcherInfoLong,(附加职业):\n窥视者可以直接看到每个人投的票。
+FlashmanInfoLong,(附加职业):\n闪电侠的初始移动速度比其他人快。（具体速度看房主设定）
 
 #模式选项
 NoGameEnd,测试模式
@@ -448,6 +450,8 @@ FireWorksMaxCount,可放置烟花的最大数量
 FireWorksRadius,烟花爆炸半径
 SniperBulletCount,最大子弹数量
 SniperPrecisionShooting,精准射击模式
+FlashmanSpeed,闪电侠初始移动速度
+FlashmanSpawnChances,闪电侠出现概率
 WatcherSpawnChances,窥视者出现概率
 MadmateSpawnChances,叛徒出现概率
 NtrSpawnChances,海王出现概率
@@ -473,7 +477,7 @@ ParanoiaVentCooldown,使用通风管冷却时长
 ParanoiaNumOfUseButton,可以使用通风管次数
 EveryOneKnowSuperStar,所有人知道谁是明星
 HackUsedMaxTime,骇客技能可使用次数
-ZombieSpeedReduce,僵尸减少移动速度
+ZombieSpeedReduce,僵尸每次减少移动速度
 MafiaCanKillNum,最大可复仇人数
 ImpKnowCyberStarDead,内鬼可以知道网红死亡
 NeutralKnowCyberStarDead,中立可以知道网红死亡
