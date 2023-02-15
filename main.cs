@@ -273,10 +273,7 @@ namespace TownOfHost
                     //特殊インポスター役職
                     //マッドメイト系役職
                         //後で追加
-                    //両陣営可能役職
-                    {CustomRoles.Watcher, "#800080"},
                     //特殊クルー役職
-                    {CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
                     {CustomRoles.Bait, "#00f7ff"},
                     {CustomRoles.Luckey, "#b8d7a3" },
                     {CustomRoles.Needy, "#a4dffe"},
@@ -289,7 +286,6 @@ namespace TownOfHost
                     {CustomRoles.Lighter, "#eee5be"},
                     {CustomRoles.SuperStar, "#f6f657"},
                     {CustomRoles.CyberStar, "#ee4a55" },
-                    {CustomRoles.Plumber,"#962d00" },
                     {CustomRoles.SpeedBooster, "#00ffff"},
                     {CustomRoles.Doctor, "#80ffdd"},
                     {CustomRoles.Trapper, "#5a8fd0"},
@@ -316,6 +312,7 @@ namespace TownOfHost
                     {CustomRoles.Lovers, "#ff6be4"},
                     {CustomRoles.Ntr, "#00a4ff"},
                     {CustomRoles.Madmate, "#ff0000"},
+                    {CustomRoles.Watcher, "#800080"},
                     {CustomRoles.NotAssigned, "#ffffff"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
@@ -362,7 +359,6 @@ namespace TownOfHost
         Shapeshifter,
         //Impostor
         BountyHunter,
-        EvilWatcher,
         FireWorks,
         Mafia,
         SerialKiller,
@@ -385,8 +381,6 @@ namespace TownOfHost
         Sans,
         Bomber,
         BoobyTrap,
-        //両陣営
-        Watcher,
         //Crewmate(Vanilla)
         Engineer,
         GuardianAngel,
@@ -398,11 +392,9 @@ namespace TownOfHost
         Lighter,
         SuperStar,
         CyberStar,
-        Plumber,
         Mayor,
         Paranoia,
         Psychic,
-        NiceWatcher,
         SabotageMaster,
         Sheriff,
         Snitch,
@@ -433,6 +425,7 @@ namespace TownOfHost
         Lovers,
         Ntr,
         Madmate,
+        Watcher,
     }
     //WinData
     public enum CustomWinner

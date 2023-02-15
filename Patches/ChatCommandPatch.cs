@@ -568,7 +568,7 @@ namespace TownOfHost
                 "市長" => "市长",
                 "被害妄想症" or "被害妄想" or "被迫害妄想症" or "被害" or "妄想" or "妄想症" => "被害妄想症",
                 "愚者" or "愚" => "愚者",
-                "修理大師" or "修理大师" or "维修大师" => "修理大师",
+                "修理大师" or "修理" or "维修" => "修理工",
                 "靈媒" => "灵媒",
                 "警長" => "警长",
                 "告密者" or "告密" => "告密者",
@@ -622,9 +622,6 @@ namespace TownOfHost
                 { CustomRoles.Sans, GetString("Sans") },
                 { CustomRoles.BoobyTrap, GetString("BoobyTrap") },
                 { CustomRoles.EvilGuesser, GetString("EvilGuesser") },
-                //両陣営役職
-                { (CustomRoles)(-3), $"== {GetString("Impostor")} 或 {GetString("Crewmate")} ==" }, //区切り用
-                { CustomRoles.Watcher, GetString("Watcher") },
                 //Crewmate役職
                 { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
                 { CustomRoles.Bait, GetString("Bait") },
@@ -635,7 +632,6 @@ namespace TownOfHost
                 { CustomRoles.Lighter, GetString("Lighter") },
                 { CustomRoles.SuperStar, GetString("SuperStar") },
                 { CustomRoles.CyberStar, GetString("CyberStar") },
-                { CustomRoles.Plumber, GetString("Plumber") },
                 { CustomRoles.Mayor, GetString("Mayor") },
                 { CustomRoles.Paranoia, GetString("Paranoia") },
                 { CustomRoles.Psychic, GetString("Psychic") },

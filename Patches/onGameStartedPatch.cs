@@ -169,9 +169,6 @@ namespace TownOfHost
                 }
                 RpcSetRoleReplacer.StartReplace(senders);
 
-                //ウォッチャーの陣営抽選
-                Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
-
                 // 开始职业抽取
                 var rd = Utils.RandomSeedByGuid();
                 int playerCount = Options.EnableGM.GetBool() ? PlayerControl.AllPlayerControls.Count - 1 : PlayerControl.AllPlayerControls.Count;
@@ -431,6 +428,7 @@ namespace TownOfHost
                 if (CustomRoles.Lovers.IsEnable() && rd.Next(1, 100) <= Options.LoverSpawnChances.GetInt()) AssignLoversRolesFromList();
                 if (CustomRoles.Ntr.IsEnable() && rd.Next(1, 100) <= Options.NtrSpawnChances.GetInt()) AssignSubRoles(CustomRoles.Ntr);
                 if (CustomRoles.Madmate.IsEnable() && rd.Next(1, 100) <= Options.MadmateSpawnChances.GetInt()) AssignSubRoles(CustomRoles.Madmate);
+                if (CustomRoles.Watcher.IsEnable() && rd.Next(1, 100) <= Options.WatcherSpawnChances.GetInt()) AssignSubRoles(CustomRoles.Watcher);
 
                 foreach (var role in rolesToAssign)
                 {
@@ -458,11 +456,6 @@ namespace TownOfHost
                 }
 
                 //RPCによる同期
-                foreach (var pc in Main.AllPlayerControls)
-                {
-                    if (pc.Is(CustomRoles.Watcher))
-                        Main.PlayerStates[pc.PlayerId].MainRole = Options.IsEvilWatcher ? CustomRoles.EvilWatcher : CustomRoles.NiceWatcher;
-                }
                 foreach (var pair in Main.PlayerStates)
                 {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value.MainRole);

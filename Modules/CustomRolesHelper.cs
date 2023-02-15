@@ -15,11 +15,10 @@ namespace TownOfHost
                 CustomRoles.Mayor => Options.MayorHasPortableButton.GetBool() ? CustomRoles.Engineer : CustomRoles.Crewmate,
                 CustomRoles.Opportunist => CustomRoles.Crewmate,
                 CustomRoles.Snitch => CustomRoles.Crewmate,
-                CustomRoles.SabotageMaster => CustomRoles.Crewmate,
+                CustomRoles.SabotageMaster => CustomRoles.Engineer,
                 CustomRoles.Mafia=> CustomRoles.Impostor,
                 CustomRoles.Terrorist => CustomRoles.Engineer,
                 CustomRoles.Executioner => CustomRoles.Crewmate,
-                CustomRoles.Watcher => Options.IsEvilWatcher ? CustomRoles.Impostor : CustomRoles.Crewmate,
                 CustomRoles.Vampire => CustomRoles.Impostor,
                 CustomRoles.BountyHunter => CustomRoles.Shapeshifter,
                 CustomRoles.Witch => CustomRoles.Impostor,
@@ -39,7 +38,6 @@ namespace TownOfHost
                 CustomRoles.Paranoia => CustomRoles.Engineer,
                 CustomRoles.Miner => CustomRoles.Shapeshifter,
                 CustomRoles.Psychic => CustomRoles.Crewmate,
-                CustomRoles.Plumber => CustomRoles.Engineer,
                 CustomRoles.Needy => CustomRoles.Crewmate,
                 CustomRoles.SuperStar => CustomRoles.Crewmate,
                 CustomRoles.Hacker => CustomRoles.Impostor,
@@ -80,7 +78,9 @@ namespace TownOfHost
             return role is
                 CustomRoles.Lovers or
                 CustomRoles.LastImpostor or
-                CustomRoles.Ntr;
+                CustomRoles.Ntr or
+                CustomRoles.Madmate or
+                CustomRoles.Watcher;
         }
         public static bool IsNK(this CustomRoles role) // 是否带刀中立
         {
@@ -130,7 +130,6 @@ namespace TownOfHost
                 CustomRoles.SerialKiller or
                 CustomRoles.Mare or
                 CustomRoles.Puppeteer or
-                CustomRoles.EvilWatcher or
                 CustomRoles.TimeThief or
                 CustomRoles.Mafia or
                 CustomRoles.Minimalism or
@@ -156,11 +155,6 @@ namespace TownOfHost
                 CustomRoles.Jackal or
                 CustomRoles.OpportunistKiller or
                 CustomRoles.God;
-        }
-        public static bool IsBoth(this CustomRoles role) // 是否双阵营
-        {
-            return role is
-                CustomRoles.Watcher;
         }
         public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
         public static bool IsVanilla(this CustomRoles role) // 是否原版职业

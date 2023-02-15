@@ -87,7 +87,7 @@ namespace TownOfHost.Modules
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Terrorist:
-                case CustomRoles.Plumber:
+                case CustomRoles.SabotageMaster:
                 case CustomRoles.Mario:
                     goto InfinityVent;
                 case CustomRoles.Warlock:
@@ -101,10 +101,6 @@ namespace TownOfHost.Modules
                     break;
                 case CustomRoles.BountyHunter:
                     BountyHunter.ApplyGameOptions();
-                    break;
-                case CustomRoles.EvilWatcher:
-                case CustomRoles.NiceWatcher:
-                    opt.SetBool(BoolOptionNames.AnonymousVotes, false);
                     break;
                 case CustomRoles.Sheriff:
                 case CustomRoles.ChivalrousExpert:
@@ -146,6 +142,17 @@ namespace TownOfHost.Modules
                     AURoleOptions.EngineerInVentMaxTime = 0;
                     break;
             }
+
+            foreach (var subRole in Main.PlayerStates[player.PlayerId].SubRoles)
+            {
+                switch (subRole)
+                {
+                    case CustomRoles.Watcher:
+                        opt.SetBool(BoolOptionNames.AnonymousVotes, false);
+                        break;
+                }
+            }
+
             if (Main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
             {
                 foreach (var kc in Main.AllPlayerKillCooldown)

@@ -533,16 +533,12 @@ namespace TownOfHost
                     headCount++;
                     text += "\n\n● " + GetString("TabGroup.ImpostorRoles");
                 }
-                else if(role.IsBoth() && headCount == 1)
-                {
-                    headCount++;
-                    text += "\n\n● " + GetString("TabGroup.BothRoles");
-                }else if(role.IsCrewmate() && headCount == 2)
+                else if(role.IsCrewmate() && headCount == 1)
                 {
                     headCount++;
                     text += "\n\n● " + GetString("TabGroup.CrewmateRoles");
                 }
-                else if (role.IsNeutral() && headCount == 3)
+                else if (role.IsNeutral() && headCount == 2)
                 {
                     headCount++;
                     text += "\n\n● " + GetString("TabGroup.NeutralRoles");

@@ -162,10 +162,6 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     break;
 
-                case CustomRoles.Plumber:
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
-                    break;
-
                 case CustomRoles.GM:
                     __instance.TeamTitle.text = Utils.GetRoleName(role);
                     __instance.TeamTitle.color = Utils.GetRoleColor(role);

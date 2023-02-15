@@ -39,7 +39,6 @@ Minimalism,杀戮机器
 Escapee,逃逸者
 Witch,女巫
 Mafia,黑手党
-EvilWatcher,邪恶的窥视者
 Puppeteer,傀儡师
 TimeThief,蚀时者
 Sniper,狙击手
@@ -50,11 +49,7 @@ Sans,狂妄杀手
 Bomber,自爆兵
 BoobyTrap,诡雷
 
-# 双阵营
-Watcher,窥视者
-
 # 船员阵营
-NiceWatcher,正义的窥视者
 Bait,诱饵
 Luckey,幸运儿
 Needy,摆烂人
@@ -62,11 +57,10 @@ Lighter,执灯人
 SuperStar,大明星
 CyberStar,网红
 ChivalrousExpert,侠客
-Plumber,工程师
 Mayor,市长
 Paranoia,被害妄想症
 Psychic,愚者
-SabotageMaster,修理大师
+SabotageMaster,修理工
 Sheriff,警长
 Snitch,告密者
 SpeedBooster,增速者
@@ -92,20 +86,18 @@ Opportunist,投机者
 OpportunistKiller,投机者杀手
 Egoist,野心家
 Mario,马里奥
-Lovers,恋人
-Madmate,叛徒
-Ntr,海王
 Jackal,豺狼
 God,神
 
-# 管理员
-GM,管理员
-
 # 附加职业
 LastImpostor,绝境者
-LoversInfo,最重要的是，记得照顾好你的另一半
-MadmateInfo,结局掌握在你的手中
-NtrInfo,笨蛋，我只爱你亿个人哦
+Lovers,恋人
+Madmate,叛徒
+Ntr,海王
+Watcher,窥视者
+
+# 管理员
+GM,管理员
 
 # 其它
 TeamImpostor,内鬼阵营
@@ -143,9 +135,6 @@ BomberInfo,Creeper? Aww Man..
 BoobyTrapInfo,艺术就是爆炸！
 EvilGuesserInfo,想来一把吗，伙计
 
-# 双阵营
-WatcherInfo,你可以看见所有人的投票，注意他们的选择
-
 # 船员阵营
 BaitInfo,好消息，杀了我可以吃席
 LuckeyInfo,你擅长治疗内鬼的低血压
@@ -153,7 +142,6 @@ NeedyInfo,摆烂快乐！摆烂万岁！
 LighterInfo,嘿！你在发光诶！
 SuperStarInfo,全体目光向我看齐！
 CyberStarInfo,放心去吧，会有人报道你的
-PlumberInfo,内鬼报职位的不二之选
 MayorInfo,你拥有让独裁羡慕死的技能
 ParanoiaInfo,我好像快死了诶
 PsychicInfo,太好了，我逐渐理解一切
@@ -188,6 +176,13 @@ MarioInfo,听说你的公主在管道里
 JackalInfo,在TOH，我一般称自己为只狼
 GodInfo,一切都在您的掌控
 
+# 附加职业
+LoversInfo,最重要的是，记得照顾好你的另一半
+MadmateInfo,结局掌握在你的手中
+NtrInfo,笨蛋，我只爱你亿个人哦
+WatcherInfo,窥视到一切的阴暗面
+LastImpostorInfo,你是狼村最后的希望
+
 # 管理员
 GMInfo,开局死的冤魂隔岸观火
 
@@ -219,9 +214,6 @@ BomberInfoLong,(内鬼阵营):\n自爆兵可以使用变形按钮来进行自爆
 BoobyTrapInfoLong,(内鬼阵营):\n诡雷在进行击杀后会在受害者尸体上装上诡雷，报告该尸体的玩家会立刻被炸死，被炸死的玩家也会附带诡雷的效果，以此类推。但作为代价，诡雷在进行击杀后会立刻自杀。请注意：诡雷自身的尸体并不附带诡雷效果。
 
 # 双阵营
-WatcherInfoLong,(内鬼阵营或船员阵营):\n会议时窥视者可以看到所有人的投票。
-EvilWatcherInfoLong,(内鬼阵营:\n会议时窥视者可以看到所有人的投票。
-NiceWatcherInfoLong,(船员阵营:\n会议时窥视者可以看到所有人的投票。
 GuesserInfoLong,(内鬼阵营或船员阵营):\n赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。
 
 # 船员阵营
@@ -231,11 +223,10 @@ NeedyInfoLong,(船员阵营):\n摆烂人只有一个任务。另外，懒得要�
 LighterInfoLong,(船员阵营):\n执灯人默认拥有内鬼的视野。
 SuperStarInfoLong,(船员阵营):\n明星的名字旁会有星星的标识，所以大家都知道谁是大明星。此外，大明星不会参与赌博这种事情哦。（无法被赌怪赌死）
 CyberStarInfoLong,(船员阵营):\n网红死亡时所有船员会看到杀戮闪烁并在下次会议时收到新闻报告，而内鬼则全程什么都不知道。
-PlumberInfoLong,(船员阵营):\n工程师可以随意使用通风管道，你甚至可以把通风管当成自己的家永远不出来。
 MayorInfoLong,(船员阵营):\n市长在投票时一票算多票。
 ParanoiaInfoLong,(船员阵营):\n被害妄想症使用通风管后会幻想出一个尸体并报告，实际上并不会死人，但的确可以召开会议。
 PsychicInfoLong,(船员阵营):\n愚者能够在会议期间看到潜在的邪恶。愚者将看到数名玩家的名字以红色突出显示，其中至少一名是邪恶的。
-SabotageMasterInfoLong,(船员阵营):\n氧气泄露、核反应堆熔毁以及米拉总部的通讯破坏维修大师只需要修复一边则另一边即可同时被修复。维修大师只需要按一个开关便可以修复照明破坏。维修大师打开波鲁斯与飞艇地图的门时维修大师所在房间的所有门同时打开。
+SabotageMasterInfoLong,(船员阵营):\n修理工可以随意使用通风管道，你甚至可以把通风管当成自己的家永远不出来。氧气泄露、核反应堆熔毁以及米拉总部的通讯破坏修理工只需要修复一边则另一边即可同时被修复。修理工只需要按一个开关便可以修复照明破坏。修理工打开波鲁斯与飞艇地图的门时修理工所在房间的所有门同时打开。
 SheriffInfoLong,(船员阵营):\n警长可以击杀内鬼（根据房间设置，警长也可以击杀中立阵营玩家）。警长若尝试击杀船员阵营的玩家，警长将会走火自杀。此外警长没有任务。
 SnitchInfoLong,(船员阵营):\n告密者完成所有任务后，将可以看到以红色昵称表示的所有内鬼。\n当告密者仅剩一个任务的时候，内鬼将会看到自己以及告密者的昵称旁边有「★」作为提示。\n（注:告密者同时作为恋人时，其技能将失效）
 SpeedBoosterInfoLong,(船员阵营):\n增速者每次完成任务都会增加自己的移动速度。但是由于速度过快可能在别的玩家眼中增速者在疯狂瞬移。\n\n现在他是整个游戏最快乐的人了。
@@ -255,7 +246,7 @@ JesterInfoLong,(中立阵营):\n小丑被票出则小丑单独游戏胜利。游
 TerroristInfoLong,(中立阵营):\n恐怖分子完成所有任务后死亡，则恐怖分子单独获得胜利。（怎么死都行，包括票死，反正死了就行）
 ExecutionerInfoLong,(中立阵营):\n游戏开始时处刑人会被分配到一个处刑目标，并在其昵称旁用菱形「♦」表示。若处刑目标被击杀，则处刑的职业会根据设置变为船员，小丑或投机者。如果处刑目标在会议中被票出则处行者独自获得胜利。若小丑作为处刑目标被放逐时，小丑与处刑人共同获得胜利。
 SchrodingerCatInfoLong,(中立阵营):\n薛定谔的猫一开始是没有胜利条件的。薛定谔的猫被击杀后，其会复活且加入凶手阵营，获得与凶手所在阵营相同的胜利条件。\n注:\n1.被放逐的薛定谔的猫死亡并不再变更胜利条件。\n2.被术士击杀的薛定谔的猫死亡并不再变更胜利条件。\n3.除吸血鬼的击杀外，一切显示为玩家自杀的情况内薛定谔的猫死亡并不再变更胜利条件。
-OpportunistInfoLong,(中立阵营):\n若投机者在游戏结束时存活，则投机者跟随获胜玩家一同获得胜利。\n\n（人畜无害小可爱）
+OpportunistInfoLong,(中立阵营):\n若投机者在游戏结束时存活，则投机者跟随获胜玩家一同获得胜利。
 OpportunistKillerInfoLong,(中立阵营):\n若投机者杀手在游戏结束时存活，则投机者杀手跟随获胜玩家一同获得胜利。比起普通投机者，投机者杀手可以进行击杀。
 MarioInfoLong,(中立阵营):\n马里奥跳管达到一定次数就会单独获得胜利。
 EgoistInfoLong,(中立阵营):\n原则上野心家属于内鬼阵营。野心家与内鬼阵营玩家互认但不可以击杀对方。当其他内鬼阵营玩家全部死亡后，若野心家存活且内鬼阵营达成胜利条件，则野心家单独获得胜利。
@@ -270,6 +261,7 @@ LastImpostorInfoLong,(附加职业):\n这个效果在内鬼仅剩一人时赋予
 LoversInfoLong,(附加职业):\n恋人为两名玩家的组合。恋人存活到游戏结束则恋人独自获胜。船员阵营的恋人玩家没有任务。从恋人阵营玩家可以看到两名恋人玩家昵称旁有心形标志。恋人其中一人死亡则另一人殉情。恋人中的一方在会议中被放逐时，另一方将死亡并变为不可以被报告的尸体。
 MadmateInfoLong,(附加职业):\n只有船员会成为叛徒，叛徒需要帮助内鬼阵营获得胜利，当内鬼阵营失败时叛徒也会失败。
 NtrInfoLong,(附加职业):\n当场上存在海王时，所有玩家将看到自己与海王为恋人关系，实际并不会一起殉情也不会改变胜利条件。请注意：恋人不会成为海王，海王也不会成为恋人。
+WatcherInfoLong,(附加职业):\n窥视者可以直接看到每个人投的票。
 
 #模式选项
 NoGameEnd,测试模式
@@ -421,8 +413,7 @@ DefaultShapeshiftCooldown,默认变形冷却时间
 VampireKillDelay,吸血目标延迟死亡时间
 MareAddSpeedInLightsOut,梦魇熄灯时的额外速度
 MareKillCooldownInLightsOut,梦魇熄灯时的击杀冷却
-SabotageMasterSkillLimit,修理大师修理破坏的最大次数
-EvilWatcherChance,成为内鬼阵营的概率
+SabotageMasterSkillLimit,修理工修理破坏的最大次数
 LuckeyProbability,触发挡伤的概率
 SabotageMasterFixesDoors,打开多扇关闭的门
 SabotageMasterFixesReactors,可以一人修理核反应堆
@@ -447,8 +438,6 @@ MayorAdditionalVote,附加票数
 MayorHasPortableButton,跳通风管触发紧急会议
 MayorNumOfUseButton,紧急会议最大次数
 MayorHideVote,隐藏市长附加的投票
-CanBeforeSchrodingerCatWinTheCrewmate,未加入其他阵营前可以跟随船员阵营获胜
-SchrodingerCatExiledTeamChanges,被放逐时会加入其他阵营
 ExecutionerCanTargetImpostor,内鬼阵营玩家可以成为目标
 ExecutionerCanTargetNeutralKiller,中立阵营玩家可以成为目标
 ExecutionerChangeRolesAfterTargetKilled,目标死亡后将变为
@@ -459,6 +448,7 @@ FireWorksMaxCount,可放置烟花的最大数量
 FireWorksRadius,烟花爆炸半径
 SniperBulletCount,最大子弹数量
 SniperPrecisionShooting,精准射击模式
+WatcherSpawnChances,窥视者出现概率
 MadmateSpawnChances,叛徒出现概率
 NtrSpawnChances,海王出现概率
 LoverSpawnChances,恋人出现概率

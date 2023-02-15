@@ -194,13 +194,9 @@ namespace TownOfHost
             public override bool CheckForEndGame(out GameOverReason reason)
             {
                 reason = GameOverReason.ImpostorByKill;
-                Logger.Test("CheckForEndGame");
                 if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return false;
-                Logger.Test("CheckGameEndByLivingPlayers");
                 if (CheckGameEndByLivingPlayers(out reason)) return true;
-                Logger.Test("CheckGameEndByTask");
                 if (CheckGameEndByTask(out reason)) return true;
-                Logger.Test("CheckGameEndBySabotage");
                 if (CheckGameEndBySabotage(out reason)) return true;
 
                 return false;

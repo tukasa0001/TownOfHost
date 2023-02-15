@@ -304,6 +304,7 @@ namespace TownOfHost
 
         //Add-Ons
         public static OptionItem MadmateSpawnChances;
+        public static OptionItem WatcherSpawnChances;
         public static OptionItem NtrSpawnChances;
         public static OptionItem LoverSpawnChances;
         public static OptionItem LoverSuicide;
@@ -335,13 +336,6 @@ namespace TownOfHost
 
         public static int SnitchExposeTaskLeft = 1;
 
-
-        public static bool IsEvilWatcher = false;
-        public static void SetWatcherTeam(float EvilWatcherRate)
-        {
-            EvilWatcherRate = Options.EvilWatcherChance.GetFloat();
-            IsEvilWatcher = UnityEngine.Random.Range(1, 100) < EvilWatcherRate;
-        }
         public static bool IsLoaded = false;
 
         static Options()
@@ -468,11 +462,6 @@ namespace TownOfHost
             BomberRadius = FloatOptionItem.Create(902137, "BomberRadius", new(0.5f, 5f, 0.5f), 2f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Bomber])
                 .SetValueFormat(OptionFormat.Multiplier);
 
-            // Both
-            SetupRoleOptions(30000, TabGroup.NeutralRoles, CustomRoles.Watcher);
-            EvilWatcherChance = IntegerOptionItem.Create(30010, "EvilWatcherChance", new(0, 100, 10), 0, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Watcher])
-                .SetValueFormat(OptionFormat.Percent);
-
             // Crewmate
             SetupRoleOptions(102255, TabGroup.CrewmateRoles, CustomRoles.NiceGuesser);
             GGCanGuessTime = IntegerOptionItem.Create(102257, "GuesserCanGuessTimes", new(1, 15, 1), 15, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.NiceGuesser])
@@ -492,7 +481,6 @@ namespace TownOfHost
             SetupRoleOptions(8020176, TabGroup.CrewmateRoles, CustomRoles.CyberStar);
             ImpKnowCyberStarDead = BooleanOptionItem.Create(8020178, "ImpKnowCyberStarDead", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.CyberStar]);
             NeutralKnowCyberStarDead = BooleanOptionItem.Create(8020180, "NeutralKnowCyberStarDead", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.CyberStar]);
-            SetupRoleOptions(8020195, TabGroup.CrewmateRoles, CustomRoles.Plumber);
             SetupRoleOptions(20200, TabGroup.CrewmateRoles, CustomRoles.Mayor);
             MayorAdditionalVote = IntegerOptionItem.Create(20210, "MayorAdditionalVote", new(1, 99, 1), 3, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mayor])
                 .SetValueFormat(OptionFormat.Votes);
@@ -562,6 +550,7 @@ namespace TownOfHost
             // Add-Ons
             SetupLoversRoleOptionsToggle(50300);
             SetupNtrRoleOptionsToggle(6050315);
+            SetupWatcherRoleOptionsToggle(6050319);
             //SetupMadmateRoleOptionsToggle(6050323);
             LastImpostor.SetupCustomOption();
 
@@ -916,6 +905,23 @@ namespace TownOfHost
                 .SetGameMode(customGameMode) as StringOptionItem;
 
             MadmateSpawnChances = IntegerOptionItem.Create(id + 2, "MadmateSpawnChances", new(0, 100, 5), 50, TabGroup.Addons, false).SetParent(spawnOption)
+                .SetValueFormat(OptionFormat.Percent)
+                .SetGameMode(customGameMode);
+
+            var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 15, 1), 1, TabGroup.Addons, false).SetParent(spawnOption)
+                .SetGameMode(customGameMode);
+
+            CustomRoleSpawnChances.Add(role, spawnOption);
+            CustomRoleCounts.Add(role, countOption);
+        }
+        private static void SetupWatcherRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
+        {
+            var role = CustomRoles.Watcher;
+            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
+                .SetHeader(true)
+                .SetGameMode(customGameMode) as StringOptionItem;
+
+            WatcherSpawnChances = IntegerOptionItem.Create(id + 2, "WatcherSpawnChances", new(0, 100, 5), 50, TabGroup.Addons, false).SetParent(spawnOption)
                 .SetValueFormat(OptionFormat.Percent)
                 .SetGameMode(customGameMode);
 
