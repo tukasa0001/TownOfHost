@@ -543,6 +543,11 @@ namespace TownOfHost
                     headCount++;
                     text += "\n\n● " + GetString("TabGroup.NeutralRoles");
                 }
+                else if (role.IsAdditionRole() && headCount == 3)
+                {
+                    headCount++;
+                    text += "\n\n● " + GetString("TabGroup.Addons");
+                }
                 string mode = "禁用";
                 if (role.GetChance() == 1) mode = "启用";
                 if (role.GetChance() == 2) mode = "优先";

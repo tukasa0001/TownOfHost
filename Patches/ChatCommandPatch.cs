@@ -545,12 +545,6 @@ namespace TownOfHost
                 "逃逸者" or "逃逸" => "逃逸者",
                 "女巫" => "女巫",
                 "監視者" or "监管" => "监管者",
-                "背叛的守衛" or "背叛守卫" or "守卫背叛" or "叛徒守卫" => "背叛的守卫",
-                "背叛的告密者" or "背叛告密" or "叛徒告密" or "告密叛徒" => "背叛的告密者",
-                "叛徒跟班" or "背叛跟班" or "跟班叛徒" => "叛徒跟班",
-                "叛徒" => "叛徒",
-                "正義的窺視者" or "正义窥视" => "正义的窥视者",
-                "邪惡的窺視者" or "邪恶窥视" => "邪恶的窥视者",
                 "窺視者" or "窥视" => "窥视者",
                 "誘餌" or "大奖" or "头奖" => "诱饵",
                 "擺爛人" or "摆烂" => "摆烂人",
@@ -587,8 +581,6 @@ namespace TownOfHost
                 "豺狼" => "豺狼",
                 "神" => "神",
                 "情人" or "愛人" or "链子" => "恋人",
-                "狐狸" => "狐狸",
-                "巨魔" => "巨魔",
                 _ => text,
             };
         }
@@ -661,6 +653,8 @@ namespace TownOfHost
                 {CustomRoles.Lovers, GetString("Lovers") },
                 {CustomRoles.Ntr, GetString("Ntr") },
                 {CustomRoles.LastImpostor, GetString("LastImpostor") },
+                {CustomRoles.Madmate, GetString("Madmate") },
+                {CustomRoles.Watcher, GetString("Watcher") },
 
             };
 
