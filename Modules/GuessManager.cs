@@ -255,7 +255,7 @@ namespace TownOfHost
         {
             ChatUpdatePatch.DoBlockChat = true;
             Array values = Enum.GetValues(typeof(CustomRoles));
-            var rd = Utils.RandomSeedByGuid();
+            var rd = IRandom.Instance;
             string msg;
             string[] command = new string[] { "bet", "bt", "guess", "gs",  "shoot", "st", "赌", "猜" };
             for (int i = 0; i < 20; i++)

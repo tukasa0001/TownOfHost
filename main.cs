@@ -283,7 +283,6 @@ namespace TownOfHost
                     {CustomRoles.Paranoia, "#c993f5"},
                     {CustomRoles.Psychic, "#6F698C"},
                     {CustomRoles.Sheriff, "#f8cd46"},
-                    {CustomRoles.Lighter, "#eee5be"},
                     {CustomRoles.SuperStar, "#f6f657"},
                     {CustomRoles.CyberStar, "#ee4a55" },
                     {CustomRoles.SpeedBooster, "#00ffff"},
@@ -314,6 +313,7 @@ namespace TownOfHost
                     {CustomRoles.Madmate, "#ff0000"},
                     {CustomRoles.Watcher, "#800080"},
                     {CustomRoles.Flashman, "#ff8400"},
+                    {CustomRoles.Lighter, "#eee5be"},
                     {CustomRoles.NotAssigned, "#ffffff"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
@@ -390,7 +390,6 @@ namespace TownOfHost
         Bait,
         Luckey,
         Needy,
-        Lighter,
         SuperStar,
         CyberStar,
         Mayor,
@@ -427,7 +426,8 @@ namespace TownOfHost
         Ntr,
         Madmate,
         Watcher,
-        Flashman
+        Flashman,
+        Lighter,
     }
     //WinData
     public enum CustomWinner

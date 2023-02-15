@@ -163,7 +163,7 @@ namespace TownOfHost
             && ((CompletedTasksCount + 1) <= Options.TransporterTeleportMax.GetInt()))
             {
                 Logger.Info("传送师触发传送:" + player.cosmetics.nameText.text, "Transporter");
-                var rd = Utils.RandomSeedByGuid();
+                var rd = IRandom.Instance;
                 List<PlayerControl> AllAlivePlayer = new();
                 foreach (var pc in PlayerControl.AllPlayerControls) if (pc.IsAlive() && !pc.inVent) AllAlivePlayer.Add(pc);
                 if (AllAlivePlayer.Count >= 2)

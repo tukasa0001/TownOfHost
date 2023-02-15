@@ -53,7 +53,6 @@ BoobyTrap,诡雷
 Bait,诱饵
 Luckey,幸运儿
 Needy,摆烂人
-Lighter,执灯人
 SuperStar,大明星
 CyberStar,网红
 ChivalrousExpert,侠客
@@ -95,7 +94,8 @@ Lovers,恋人
 Madmate,叛徒
 Ntr,海王
 Watcher,窥视者
-Flashman,闪电侠（损坏）
+Flashman,闪电侠
+Lighter,执灯人
 
 # 管理员
 GM,管理员
@@ -139,7 +139,6 @@ EvilGuesserInfo,想来一把吗，伙计
 BaitInfo,好消息，杀了我可以吃席
 LuckeyInfo,你擅长治疗内鬼的低血压
 NeedyInfo,摆烂快乐！摆烂万岁！
-LighterInfo,嘿！你在发光诶！
 SuperStarInfo,全体目光向我看齐！
 CyberStarInfo,放心去吧，会有人报道你的
 MayorInfo,你拥有让独裁羡慕死的技能
@@ -183,6 +182,7 @@ NtrInfo,笨蛋，我只爱你亿个人哦
 WatcherInfo,窥视到一切的阴暗面
 LastImpostorInfo,你是狼村最后的希望
 FlashmanInfo,卡其脱离太！
+LighterInfo,嘿！你在发光诶！
 
 # 管理员
 GMInfo,开局死的冤魂隔岸观火
@@ -221,7 +221,6 @@ GuesserInfoLong,(内鬼阵营或船员阵营):\n赌怪可以在会议时猜测�
 BaitInfoLong,(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告诱饵的尸体。但诱饵被骇客击杀时技能会失效。
 LuckeyInfoLong,(船员阵营):\n幸运儿被内鬼进行击杀、下咒、操控、标记、吸血等行为时，以及被警长、豺狼等船员或中立角色击杀时，甚至是被纵火犯涂油时，会有一定概率取消该次事件。凶手会看到幸运儿的身上出现护盾破碎的效果，但幸运儿自己什么都不会知道。
 NeedyInfoLong,(船员阵营):\n摆烂人只有一个任务。另外，懒得要死的摆烂人并不会参与那些繁琐的事情，比如当黑客的替罪羊、给术士或者傀儡师办事之类的。摆烂人也不会拥有附加职业。
-LighterInfoLong,(船员阵营):\n执灯人默认拥有内鬼的视野。
 SuperStarInfoLong,(船员阵营):\n明星的名字旁会有星星的标识，所以大家都知道谁是大明星。此外，大明星不会参与赌博这种事情哦。（无法被赌怪赌死）
 CyberStarInfoLong,(船员阵营):\n网红死亡时所有船员会看到杀戮闪烁并在下次会议时收到新闻报告，而内鬼则全程什么都不知道。
 MayorInfoLong,(船员阵营):\n市长在投票时一票算多票。
@@ -263,7 +262,8 @@ LoversInfoLong,(附加职业):\n恋人为两名玩家的组合。恋人存活到
 MadmateInfoLong,(附加职业):\n只有船员会成为叛徒，叛徒需要帮助内鬼阵营获得胜利，当内鬼阵营失败时叛徒也会失败。
 NtrInfoLong,(附加职业):\n当场上存在海王时，所有玩家将看到自己与海王为恋人关系，实际并不会一起殉情也不会改变胜利条件。请注意：恋人不会成为海王，海王也不会成为恋人。
 WatcherInfoLong,(附加职业):\n窥视者可以直接看到每个人投的票。
-FlashmanInfoLong,(附加职业):\n闪电侠的初始移动速度比其他人快。（具体速度看房主设定）
+FlashmanInfoLong,(附加职业):\n闪电侠的初始移动速度比其他人快。（具体速度看房主设定）请注意：闪电侠同理增速者，在其他人眼中为正常速度，所以会以闪现的方式移动，不建议开启。
+LighterInfoLong,(附加职业):\只有船员会成为执灯人，执灯人默认拥有内鬼的视野。
 
 #模式选项
 NoGameEnd,测试模式
@@ -450,12 +450,9 @@ FireWorksMaxCount,可放置烟花的最大数量
 FireWorksRadius,烟花爆炸半径
 SniperBulletCount,最大子弹数量
 SniperPrecisionShooting,精准射击模式
+LoverSpawnChances,出现概率
+AdditionRolesSpawnRate,出现概率
 FlashmanSpeed,闪电侠初始移动速度
-FlashmanSpawnChances,闪电侠出现概率
-WatcherSpawnChances,窥视者出现概率
-MadmateSpawnChances,叛徒出现概率
-NtrSpawnChances,海王出现概率
-LoverSpawnChances,恋人出现概率
 LoverSuicide,恋人共生死
 LoverHasNoTask,船员成为恋人后没有任务
 NumberOfLovers,恋人对数

@@ -61,6 +61,7 @@ namespace TownOfHost
         public static Dictionary<CustomRoles, float> roleSpawnChances;
         public static Dictionary<CustomRoles, OptionItem> CustomRoleCounts;
         public static Dictionary<CustomRoles, StringOptionItem> CustomRoleSpawnChances;
+        public static Dictionary<CustomRoles, IntegerOptionItem> CustomAdtRoleSpawnRate;
         public static readonly string[] rates =
         {
             "Rate0",  "Rate5",  "Rate10", "Rate20", "Rate30", "Rate40",
@@ -303,11 +304,7 @@ namespace TownOfHost
         public static OptionItem PlayerCanSerColor;
 
         //Add-Ons
-        public static OptionItem MadmateSpawnChances;
-        public static OptionItem WatcherSpawnChances;
-        public static OptionItem FlashmanSpawnChances;
         public static OptionItem FlashmanSpeed;
-        public static OptionItem NtrSpawnChances;
         public static OptionItem LoverSpawnChances;
         public static OptionItem LoverSuicide;
         public static OptionItem LoverHasNoTask;
@@ -369,14 +366,20 @@ namespace TownOfHost
         public static int GetRoleSpawnMode(CustomRoles role)
         {
             var mode = CustomRoleSpawnChances.TryGetValue(role, out var sc) ? sc.GetChance() : 0;
-            return mode;
+            return mode switch
+            {
+                0 => 0,
+                1 => 1,
+                2 => 2,
+                100 => 1,
+                _ => 1,
+            };
         }
         public static int GetRoleCount(CustomRoles role)
         {
-            var chance = CustomRoleSpawnChances.TryGetValue(role, out var sc) ? sc.GetChance() : 0;
-            return chance == 0 ? 0 : CustomRoleCounts.TryGetValue(role, out var option) ? option.GetInt() : roleCounts[role];
+            var mode = GetRoleSpawnMode(role);
+            return mode is 0  ? 0 : CustomRoleCounts.TryGetValue(role, out var option) ? option.GetInt() : roleCounts[role];
         }
-
         public static float GetRoleChance(CustomRoles role)
         {
             return CustomRoleSpawnChances.TryGetValue(role, out var option) ? option.GetValue()/* / 10f */ : roleSpawnChances[role];
@@ -399,6 +402,7 @@ namespace TownOfHost
             #region 职业详细设置
             CustomRoleCounts = new();
             CustomRoleSpawnChances = new();
+            CustomAdtRoleSpawnRate = new();
 
             // 各职业的总体设定
             ImpKnowAlliesRole = BooleanOptionItem.Create(900045, "ImpKnowAlliesRole", true, TabGroup.ImpostorRoles, false)
@@ -477,7 +481,6 @@ namespace TownOfHost
             LuckeyProbability = IntegerOptionItem.Create(1020197, "LuckeyProbability", new(0, 100, 5), 50, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Luckey])
                 .SetValueFormat(OptionFormat.Percent);
             SetupRoleOptions(1020095, TabGroup.CrewmateRoles, CustomRoles.Needy);
-            SetupRoleOptions(20100, TabGroup.CrewmateRoles, CustomRoles.Lighter);
             SetupRoleOptions(8020165, TabGroup.CrewmateRoles, CustomRoles.SuperStar);
             EveryOneKnowSuperStar = BooleanOptionItem.Create(8020168, "EveryOneKnowSuperStar", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SuperStar]);
             SetupRoleOptions(8020176, TabGroup.CrewmateRoles, CustomRoles.CyberStar);
@@ -551,10 +554,11 @@ namespace TownOfHost
 
             // Add-Ons
             SetupLoversRoleOptionsToggle(50300);
-            SetupNtrRoleOptionsToggle(6050315);
-            SetupWatcherRoleOptionsToggle(6050319);
-            SetupFlashmanRoleOptionsToggle(6050322);
-            //SetupMadmateRoleOptionsToggle(6050327);
+            SetupAdtRoleOptions(6050310, CustomRoles.Ntr);
+            SetupAdtRoleOptions(6050320, CustomRoles.Watcher, canSetNum: true);
+            SetupAdtRoleOptions(6050340, CustomRoles.Lighter, canSetNum: true);
+            
+            //SetupAdtRoleOptions(6050360, CustomRoles.Madmate, canSetNum: true);
             LastImpostor.SetupCustomOption();
 
             // 乐子职业
@@ -588,6 +592,14 @@ namespace TownOfHost
             SetupRoleOptions(5050110, TabGroup.OtherRoles, CustomRoles.Mario);
             MarioVentNumWin = IntegerOptionItem.Create(5050112, "MarioVentNumWin", new(5, 900, 5), 55, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mario])
                 .SetValueFormat(OptionFormat.Times);
+
+            // 副职
+            _ = BooleanOptionItem.Create(909096, "TabGroup.Addons", false, TabGroup.OtherRoles, false)
+                .SetHeader(true)
+                .SetText(true);
+            SetupAdtRoleOptions(6050330, CustomRoles.Flashman, canSetNum: true);
+            FlashmanSpeed = FloatOptionItem.Create(6050335, "FlashmanSpeed", new(0.25f, 5f, 0.25f), 2.5f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Flashman])
+                .SetValueFormat(OptionFormat.Multiplier);
 
             #endregion
 
@@ -882,80 +894,25 @@ namespace TownOfHost
             CustomRoleCounts.Add(role, countOption);
         }
 
-        private static void SetupNtrRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
+        private static void SetupAdtRoleOptions(int id, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard, bool canSetNum = false)
         {
-            var role = CustomRoles.Ntr;
             var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
                 .SetHeader(true)
                 .SetGameMode(customGameMode) as StringOptionItem;
 
-            NtrSpawnChances = IntegerOptionItem.Create(id + 2, "NtrSpawnChances", new(0, 100, 5), 50, TabGroup.Addons, false).SetParent(spawnOption)
+            var spawnRateOption = IntegerOptionItem.Create(id + 2, "AdditionRolesSpawnRate", new(0, 100, 5), 65, TabGroup.Addons, false).SetParent(spawnOption)
                 .SetValueFormat(OptionFormat.Percent)
-                .SetGameMode(customGameMode);
+                .SetGameMode(customGameMode) as IntegerOptionItem;
 
             var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 1, 1), 1, TabGroup.Addons, false).SetParent(spawnOption)
-                .SetHidden(true)
+                .SetHidden(!canSetNum)
                 .SetGameMode(customGameMode);
 
-            CustomRoleSpawnChances.Add(role, spawnOption);
-            CustomRoleCounts.Add(role, countOption);
-        }
-        private static void SetupMadmateRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
-        {
-            var role = CustomRoles.Madmate;
-            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
-                .SetHeader(true)
-                .SetGameMode(customGameMode) as StringOptionItem;
-
-            MadmateSpawnChances = IntegerOptionItem.Create(id + 2, "MadmateSpawnChances", new(0, 100, 5), 50, TabGroup.Addons, false).SetParent(spawnOption)
-                .SetValueFormat(OptionFormat.Percent)
-                .SetGameMode(customGameMode);
-
-            var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 15, 1), 1, TabGroup.Addons, false).SetParent(spawnOption)
-                .SetGameMode(customGameMode);
-
-            CustomRoleSpawnChances.Add(role, spawnOption);
-            CustomRoleCounts.Add(role, countOption);
-        }
-        private static void SetupWatcherRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
-        {
-            var role = CustomRoles.Watcher;
-            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
-                .SetHeader(true)
-                .SetGameMode(customGameMode) as StringOptionItem;
-
-            WatcherSpawnChances = IntegerOptionItem.Create(id + 2, "WatcherSpawnChances", new(0, 100, 5), 50, TabGroup.Addons, false).SetParent(spawnOption)
-                .SetValueFormat(OptionFormat.Percent)
-                .SetGameMode(customGameMode);
-
-            var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 15, 1), 1, TabGroup.Addons, false).SetParent(spawnOption)
-                .SetGameMode(customGameMode);
-
+            CustomAdtRoleSpawnRate.Add(role, spawnRateOption);
             CustomRoleSpawnChances.Add(role, spawnOption);
             CustomRoleCounts.Add(role, countOption);
         }
 
-        private static void SetupFlashmanRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
-        {
-            var role = CustomRoles.Flashman;
-            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
-                .SetHeader(true)
-                .SetGameMode(customGameMode) as StringOptionItem;
-
-            FlashmanSpawnChances = IntegerOptionItem.Create(id + 2, "FlashmanSpawnChances", new(0, 100, 5), 50, TabGroup.Addons, false).SetParent(spawnOption)
-                .SetValueFormat(OptionFormat.Percent)
-                .SetGameMode(customGameMode);
-
-            var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 15, 1), 1, TabGroup.Addons, false).SetParent(spawnOption)
-                .SetGameMode(customGameMode);
-
-            FlashmanSpeed = FloatOptionItem.Create(id + 3, "FlashmanSpeed", new(0.25f, 5f, 0.25f), 2.5f, TabGroup.Addons, false).SetParent(spawnOption)
-                .SetGameMode(customGameMode)
-                .SetValueFormat(OptionFormat.Multiplier);
-
-            CustomRoleSpawnChances.Add(role, spawnOption);
-            CustomRoleCounts.Add(role, countOption);
-        }
         public static void SetupSingleRoleOptions(int id, TabGroup tab, CustomRoles role, int count, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, tab, false).SetColor(Utils.GetRoleColor(role))

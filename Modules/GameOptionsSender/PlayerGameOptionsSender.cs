@@ -109,12 +109,8 @@ namespace TownOfHost.Modules
                 case CustomRoles.Minimalism:
                     opt.SetVision(false);
                     break;
-                case CustomRoles.Lighter:
-                    opt.SetVision(true);
-                    break;
                 case CustomRoles.Zombie:
-                    opt.SetFloat(
-                        FloatOptionNames.ImpostorLightMod, 0.2f);
+                    opt.SetFloat(FloatOptionNames.ImpostorLightMod, 0.2f);
                     break;
                 case CustomRoles.Doctor:
                     AURoleOptions.ScientistCooldown = 0f;
@@ -151,9 +147,10 @@ namespace TownOfHost.Modules
                         opt.SetBool(BoolOptionNames.AnonymousVotes, false);
                         break;
                     case CustomRoles.Flashman:
-                        Logger.Test("!!!!!!!!!!!!!!!!");
                         Main.AllPlayerSpeed[player.PlayerId] = Options.FlashmanSpeed.GetFloat();
-                        //opt.SetFloat(FloatOptionNames.PlayerSpeedMod, Options.FlashmanSpeed.GetFloat());
+                        break;
+                    case CustomRoles.Lighter:
+                        opt.SetVision(false);
                         break;
                 }
             }

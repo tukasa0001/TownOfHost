@@ -24,7 +24,6 @@ namespace TownOfHost
                 CustomRoles.Witch => CustomRoles.Impostor,
                 CustomRoles.Warlock => CustomRoles.Shapeshifter,
                 CustomRoles.SerialKiller => CustomRoles.Shapeshifter,
-                CustomRoles.Lighter => CustomRoles.Crewmate,
                 CustomRoles.FireWorks => CustomRoles.Shapeshifter,
                 CustomRoles.SpeedBooster => CustomRoles.Crewmate,
                 CustomRoles.Trapper =>CustomRoles.Crewmate,
@@ -81,7 +80,8 @@ namespace TownOfHost
                 CustomRoles.Ntr or
                 CustomRoles.Madmate or
                 CustomRoles.Watcher or
-                CustomRoles.Flashman;
+                CustomRoles.Flashman or
+                CustomRoles.Lighter;
         }
         public static bool IsNK(this CustomRoles role) // 是否带刀中立
         {
@@ -187,6 +187,7 @@ namespace TownOfHost
         {
             if (role.IsVanilla())
             {
+                if (Options.DisableVanillaRoles.GetBool()) return 0;
                 var roleOpt = Main.NormalOptions.RoleOptions;
                 return role switch
                 {

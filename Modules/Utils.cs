@@ -63,19 +63,12 @@ namespace TownOfHost
                 }
             }
         }
-        public static System.Random RandomSeedByGuid()
-        {
-            byte[] buffer = Guid.NewGuid().ToByteArray();
-            int iRoot = BitConverter.ToInt32(buffer, 0);
-            System.Random rdmNum = new(iRoot);
-            return rdmNum;
-        }
         public static void TPAll(Vector2 location)
         {
             foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
             {
-                if (pc.Data.IsDead || pc.Is(CustomRoles.Needy)) break;
-                Utils.TP(pc.NetTransform, new Vector2(location.x, location.y + 0.3636f));
+                if (!pc.IsAlive()) break;
+                TP(pc.NetTransform, new Vector2(location.x, location.y + 0.3636f));
             }
         }
 
@@ -466,8 +459,8 @@ namespace TownOfHost
             {
                 if (!role.Key.IsEnable()) continue;
                 string mode = "禁用";
-                if (role.Key.GetChance() == 1) mode = "启用";
-                if (role.Key.GetChance() == 2) mode = "优先";
+                if (role.Key.GetMode() == 1) mode = "启用";
+                if (role.Key.GetMode() == 2) mode = "优先";
                 text += $"\n【{GetRoleName(role.Key)}:{mode}×{role.Key.GetCount()}】\n";
                 ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref text);
                 text = text.RemoveHtmlTags();
@@ -497,8 +490,8 @@ namespace TownOfHost
             {
                 if (!role.Key.IsEnable()) continue;
                 string mode = "禁用";
-                if (role.Key.GetChance() == 1) mode = "启用";
-                if (role.Key.GetChance() == 2) mode = "优先";
+                if (role.Key.GetMode() == 1) mode = "启用";
+                if (role.Key.GetMode() == 2) mode = "优先";
                 text += $"\n【{GetRoleName(role.Key)}:{mode}×{role.Key.GetCount()}】\n";
                 ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref text);
                 text = text.RemoveHtmlTags();
@@ -549,8 +542,8 @@ namespace TownOfHost
                     text += "\n\n● " + GetString("TabGroup.Addons");
                 }
                 string mode = "禁用";
-                if (role.GetChance() == 1) mode = "启用";
-                if (role.GetChance() == 2) mode = "优先";
+                if (role.GetMode() == 1) mode = "启用";
+                if (role.GetMode() == 2) mode = "优先";
                 if (role.IsEnable()) text += string.Format("\n{0}:{1}x{2}", GetRoleName(role), $"{mode}", role.GetCount());
             }
             SendMessage(text, PlayerId);
@@ -711,7 +704,7 @@ namespace TownOfHost
         {
             if (Options.PsychicFresh.GetBool() || !Main.PsychicTarget.ContainsKey(seer.PlayerId))
             {
-                System.Random rd = RandomSeedByGuid();
+                var rd = IRandom.Instance;
                 int numOfPsychicBad = 0;
                 for (int i = 0; i < Options.PsychicCanSeeNum.GetInt(); i++)
                 {

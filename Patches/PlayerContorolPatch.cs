@@ -101,7 +101,7 @@ namespace TownOfHost
             {
                 case CustomRoles.Luckey:
                     if (killer.Is(CustomRoles.ChivalrousExpert) && ChivalrousExpert.isKilled(killer.PlayerId)) return false;
-                    System.Random rd = Utils.RandomSeedByGuid();
+                    var rd = IRandom.Instance;
                     if (rd.Next(0, 100) < Options.LuckeyProbability.GetInt())
                     {
                         killer.RpcGuardAndKill(target);
@@ -1299,7 +1299,7 @@ namespace TownOfHost
             Main.PlayerStates[pc.PlayerId].UpdateTask(pc);
             Utils.NotifyRoles();
             if ((pc.GetPlayerTaskState().IsTaskFinished &&
-                pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor) ||
+                pc.GetCustomRole() is CustomRoles.Doctor) ||
                 pc.GetCustomRole() is CustomRoles.SpeedBooster)
             {
                 //ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する

@@ -103,7 +103,6 @@ namespace TownOfHost
         }
         public static void StartEndGame(GameOverReason reason)
         {
-            Logger.Test("StartEndGame");
             var sender = new CustomRpcSender("EndGameSender", SendOption.Reliable, true);
             sender.StartMessage(-1); // 5: GameData
             MessageWriter writer = sender.stream;

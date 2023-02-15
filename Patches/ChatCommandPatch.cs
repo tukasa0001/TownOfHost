@@ -572,8 +572,8 @@ namespace TownOfHost
                 "縱火犯" or "纵火" => "纵火犯",
                 "野心家" or "野心" => "野心家",
                 "處刑人" or "处刑" => "处刑人",
-                "小丑" => "小丑",
-                "投機者殺手" or "投机杀手" or "杀手投机" => "投机者杀手",
+                "小丑" or "丑皇" => "小丑",
+                "投機者殺手" or "投机杀手" or "带刀投机" or "杀手投机" => "投机者杀手",
                 "投機者" or "投机" => "投机者",
                 "馬里奧" => "马里奥",
                 "薛定諤的貓" or "薛定谔猫" or "猫" => "薛定谔的猫",
@@ -581,6 +581,8 @@ namespace TownOfHost
                 "豺狼" => "豺狼",
                 "神" => "神",
                 "情人" or "愛人" or "链子" => "恋人",
+                "絕境者" or "绝境" => "绝境者",
+                "閃電俠" or"闪电" => "闪电侠",
                 _ => text,
             };
         }
@@ -621,7 +623,6 @@ namespace TownOfHost
                 { CustomRoles.Needy, GetString("Needy") },
                 { CustomRoles.Dictator, GetString("Dictator") },
                 { CustomRoles.Doctor, GetString("Doctor") },
-                { CustomRoles.Lighter, GetString("Lighter") },
                 { CustomRoles.SuperStar, GetString("SuperStar") },
                 { CustomRoles.CyberStar, GetString("CyberStar") },
                 { CustomRoles.Mayor, GetString("Mayor") },
@@ -655,7 +656,8 @@ namespace TownOfHost
                 {CustomRoles.LastImpostor, GetString("LastImpostor") },
                 {CustomRoles.Madmate, GetString("Madmate") },
                 {CustomRoles.Watcher, GetString("Watcher") },
-
+                {CustomRoles.Flashman, GetString("Flashman") },
+                { CustomRoles.Lighter, GetString("Lighter") },
             };
 
         public static bool GetRoleByName(string name, out CustomRoles role)
