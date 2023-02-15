@@ -903,7 +903,7 @@ namespace TownOfHost
                 .SetHeader(true)
                 .SetGameMode(customGameMode) as StringOptionItem;
 
-            var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 1, 1), 1, tab, false).SetParent(spawnOption)
+            var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, canSetNum ? 15 : 1, 1), 1, tab, false).SetParent(spawnOption)
                 .SetHidden(!canSetNum)
                 .SetGameMode(customGameMode);
 
