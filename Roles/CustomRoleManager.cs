@@ -13,7 +13,7 @@ public static class CustomRoleManager
     public static SimpleRoleInfo GetRoleInfo(this CustomRoles role) => AllRolesInfo.ToArray().Where(info => info.RoleName == role).FirstOrDefault();
     public static RoleBase GetRoleClass(this PlayerControl player) => GetByPlayerId(player.PlayerId);
     public static RoleBase GetByPlayerId(byte playerId) => AllActiveRoles.ToArray().Where(roleClass => roleClass.Player.PlayerId == playerId).FirstOrDefault();
-    public static void Do<T>(this List<T> list, Action<T> action) where T : SimpleRoleInfo => list.ToArray().Do(action);
+    public static void Do<T>(this List<T> list, Action<T> action) => list.ToArray().Do(action);
     // == CheckMurder関連処理 ==
     // ==/CheckMurder関連処理 ==
     public static void Initialize()
