@@ -554,6 +554,9 @@ namespace TownOfHost
             // Add-Ons
             SetupLoversRoleOptionsToggle(50300);
             SetupAdtRoleOptions(6050320, CustomRoles.Watcher, canSetNum: true);
+            SetupAdtRoleOptions(6050330, CustomRoles.Flashman, canSetNum: true);
+            FlashmanSpeed = FloatOptionItem.Create(6050335, "FlashmanSpeed", new(0.25f, 5f, 0.25f), 2.5f, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Flashman])
+                .SetValueFormat(OptionFormat.Multiplier);
             SetupAdtRoleOptions(6050340, CustomRoles.Lighter, canSetNum: true);
             SetupAdtRoleOptions(6050350, CustomRoles.Seer, canSetNum: true);
             SetupAdtRoleOptions(6050360, CustomRoles.Brakar, canSetNum: true);
@@ -598,9 +601,7 @@ namespace TownOfHost
                 .SetHeader(true)
                 .SetText(true);
             SetupAdtRoleOptions(6050310, CustomRoles.Ntr, tab: TabGroup.OtherRoles);
-            SetupAdtRoleOptions(6050330, CustomRoles.Flashman, canSetNum: true, tab: TabGroup.OtherRoles);
-            FlashmanSpeed = FloatOptionItem.Create(6050335, "FlashmanSpeed", new(0.25f, 5f, 0.25f), 2.5f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Flashman])
-                .SetValueFormat(OptionFormat.Multiplier);
+            
 
             #endregion
 
