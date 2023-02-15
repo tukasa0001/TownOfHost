@@ -765,8 +765,7 @@ namespace TownOfHost
 
                     Suffix.Append(BountyHunter.GetTargetArrow(seer, target));
 
-                    if (GameStates.IsInTask && target.Is(CustomRoles.EvilTracker))
-                        Suffix.Append(EvilTracker.GetTargetArrow(seer, target));
+                    Suffix.Append(EvilTracker.GetTargetArrow(seer, target));
 
                     /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(target.PlayerId, out var isBlocked)) {
                         Mark = isBlocked ? "(true)" : "(false)";
