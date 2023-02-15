@@ -719,7 +719,7 @@ namespace TownOfHost
                 {
                     SelfSuffix.Append(((BountyHunter)seer.GetRoleClass()).GetTargetText(false));
                 }
-                CustomRoleManager.AllActiveRoles.Do(roleClass => SelfSuffix.Append(roleClass.GetTargetArrow()));
+                SelfSuffix.Append(seer.GetRoleClass().GetTargetArrow());
 
                 if (seer.Is(CustomRoles.FireWorks))
                 {

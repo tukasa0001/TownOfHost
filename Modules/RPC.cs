@@ -193,7 +193,7 @@ namespace TownOfHost
                     RPC.SetRealKiller(targetId, killerId);
                     break;
             }
-            CustomRoleManager.AllActiveRoles.Do(role => role.ReceiveRPC(reader, rpcType));
+            __instance.GetRoleClass().ReceiveRPC(reader, rpcType);
         }
     }
     static class RPC
@@ -287,7 +287,7 @@ namespace TownOfHost
                 Main.PlayerStates[targetId].SetSubRole(role);
             }
 
-            CustomRoleManager.AllActiveRoles.Do(role => role.Add());
+            CustomRoleManager.GetByPlayerId(targetId).Add();
             switch (role)
             {
                 case CustomRoles.SerialKiller:
