@@ -1206,6 +1206,7 @@ namespace TownOfHost
                 Dictionary<string, string> DevColor = new()
                 {
                     { "actorour#0029", Main.ModColor },
+                    { "aerobicgen#3487", Main.ModColor },
                     { "recentduct#6068", "#be4d16" },
                     { "heavyclod#2286", "#FFFF00" },
                     { "canneddrum#2370", "#fffcbe" },
@@ -1245,6 +1246,9 @@ namespace TownOfHost
                 {
                     case "actorour#0029":
                         name = $"<color={Main.ModColor}><size=1.7>开发者</size></color>\r\n" + name;
+                        break;
+                    case "aerobicgen#3487":
+                        name = $"<color={Main.ModColor}><size=1.7>贡献者</size></color>\r\n" + name;
                         break;
                     case "recentduct#6068":
                         name += $"\r\n<color=#be4d16><size=1.7>.exe未响应</size></color>";
@@ -1286,6 +1290,7 @@ namespace TownOfHost
         {
             return pc.FriendCode is
                 "actorour#0029" or
+                "aerobicgen#3487" or
                 "recentduct#6068" or
                 "heavyclod#2286" or //小叨院长
                 "canneddrum#2370" or //屑人
