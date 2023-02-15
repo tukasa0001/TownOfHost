@@ -560,6 +560,7 @@ namespace TownOfHost
             SetupAdtRoleOptions(6050340, CustomRoles.Lighter, canSetNum: true);
             SetupAdtRoleOptions(6050350, CustomRoles.Seer, canSetNum: true);
             SetupAdtRoleOptions(6050360, CustomRoles.Brakar, canSetNum: true);
+            SetupAdtRoleOptions(6050370, CustomRoles.Oblivious, canSetNum: true);
 
             //SetupAdtRoleOptions(6050360, CustomRoles.Madmate, canSetNum: true);
             LastImpostor.SetupCustomOption();

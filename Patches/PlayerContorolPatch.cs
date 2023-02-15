@@ -500,6 +500,14 @@ namespace TownOfHost
             }
             else //报告尸体事件
             {
+
+                if (__instance.Is(CustomRoles.Oblivious)) // 胆小鬼不敢报告
+                {
+                    var tpc = Utils.GetPlayerById(target.PlayerId);
+                    if ((!tpc.GetRealKiller().Is(CustomRoles.Hacker)) && !tpc.Is(CustomRoles.Bait))
+                        return false;
+                }
+
                 if (Main.BoobyTrapBody.Contains(target.PlayerId) && __instance.IsAlive()) //报告了诡雷尸体
                 {
                     var killerID = Main.KillerOfBoobyTrapBody[target.PlayerId];

@@ -97,6 +97,7 @@ Flashman,闪电侠
 Lighter,执灯人
 Seer,灵媒
 Brakar,破平者
+Oblivious,胆小鬼
 
 # 管理员
 GM,管理员
@@ -185,6 +186,7 @@ FlashmanInfo,卡其脱离太！
 LighterInfo,嘿！你在发光诶！
 SeerInfo,卧槽有人寄了，卧槽！
 BrakarInfo,打破这无聊的规则
+ObliviousInfo,我的天哪，好恐怖
 
 # 管理员
 GMInfo,开局死的冤魂隔岸观火
@@ -267,6 +269,7 @@ FlashmanInfoLong,(附加职业):\n闪电侠的初始移动速度比其他人快�
 LighterInfoLong,(附加职业):\只有船员会成为执灯人，执灯人默认拥有内鬼的视野。
 SeerInfoLong,(附加职业):\n每当有玩家死亡时，灵媒会看到杀戮闪烁。
 BrakarInfoLong,(附加职业):\n放逐投票平票时，会优先驱逐破平者投票的目标。请注意：若多个破平者同时选择了不同的平票目标，则破平者的技能不会生效。
+ObliviousInfoLong,(附加职业):\n胆小鬼无法报告尸体。请注意：胆小鬼击杀诱饵还是会自动报告，此外胆小鬼可以照常成为骇客的替罪羊。
 
 #模式选项
 NoGameEnd,测试模式

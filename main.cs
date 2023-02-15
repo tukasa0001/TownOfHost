@@ -318,6 +318,7 @@ namespace TownOfHost
                     {CustomRoles.Lighter, "#eee5be"},
                     {CustomRoles.Seer, "#61b26c"},
                     {CustomRoles.Brakar, "#1447af"},
+                    {CustomRoles.Oblivious, "#424242"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -432,6 +433,7 @@ namespace TownOfHost
         Lighter,
         Seer,
         Brakar,
+        Oblivious,
     }
     //WinData
     public enum CustomWinner
