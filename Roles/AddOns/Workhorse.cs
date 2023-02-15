@@ -63,22 +63,14 @@ namespace TownOfHost
 
             pc.RpcSetCustomRole(CustomRoles.Workhorse);
             Add(pc.PlayerId);
+            var taskState = pc.GetPlayerTaskState();
+            taskState.AllTasksCount += NumLongTasks + NumShortTasks;
+            taskState.CompletedTasksCount++; //今回の完了分加算
             GameData.Instance.RpcSetTasks(pc.PlayerId, new byte[0]); //タスクを再配布
-            Main.PlayerStates[pc.PlayerId].InitTask(pc); //TaskStatesをリセット
             pc.SyncSettings();
             Utils.NotifyRoles();
 
             return true;
-        }
-        public static (Color, int, int) GetTaskTextData(TaskState taskState)
-        {
-            var opt = Main.NormalOptions;
-            int NumFormerTasks = opt.NumCommonTasks + opt.NumLongTasks + opt.NumShortTasks;
-            int NumCompleted = NumFormerTasks + taskState.CompletedTasksCount;
-            int NumAllTasks = NumFormerTasks + taskState.AllTasksCount;
-
-            Color color = taskState.IsTaskFinished ? Color.green : RoleColor;
-            return (color, NumCompleted, NumAllTasks);
         }
     }
 }
