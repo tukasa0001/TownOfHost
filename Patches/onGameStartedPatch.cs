@@ -164,6 +164,7 @@ namespace TownOfHost
 
             //ウォッチャーの陣営抽選
             Options.SetWatcherTeam();
+            RoleAssignManager.SelectAssignRoles();
 
             if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
             {
@@ -451,7 +452,7 @@ namespace TownOfHost
             var hostId = PlayerControl.LocalPlayer.PlayerId;
             var rand = IRandom.Instance;
 
-            for (var i = 0; i < role.GetCount(); i++)
+            for (var i = 0; i < role.GetRealCount(); i++)
             {
                 if (AllPlayers.Count <= 0) break;
                 var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
@@ -509,7 +510,7 @@ namespace TownOfHost
             if (players == null || players.Count <= 0) return null;
             var rand = IRandom.Instance;
             var count = Math.Clamp(RawCount, 0, players.Count);
-            if (RawCount == -1) count = Math.Clamp(role.GetCount(), 0, players.Count);
+            if (RawCount == -1) count = Math.Clamp(role.GetRealCount(), 0, players.Count);
             if (count <= 0) return null;
             List<PlayerControl> AssignedPlayers = new();
             SetColorPatch.IsAntiGlitchDisabled = true;
@@ -600,7 +601,7 @@ namespace TownOfHost
                 if (role is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.Jackal) continue;
                 if (role == CustomRoles.Egoist && Main.NormalOptions.GetInt(Int32OptionNames.NumImpostors) <= 1) continue;
                 if (role.GetRoleTypes() == roleTypes)
-                    count += role.GetCount();
+                    count += role.GetRealCount();
             }
             return count;
         }

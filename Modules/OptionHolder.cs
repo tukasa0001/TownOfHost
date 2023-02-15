@@ -309,6 +309,7 @@ namespace TownOfHost
                 .SetHeader(true)
                 .SetGameMode(CustomGameMode.Standard);
 
+            RoleAssignManager.SetupCustomOption();
             // Impostor
             BountyHunter.SetupCustomOption();
             SerialKiller.SetupCustomOption();
