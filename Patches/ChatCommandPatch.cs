@@ -629,7 +629,6 @@ namespace TownOfHost
                 { CustomRoles.Paranoia, GetString("Paranoia") },
                 { CustomRoles.Psychic, GetString("Psychic") },
                 { CustomRoles.SabotageMaster, GetString("SabotageMaster") },
-                { CustomRoles.Seer,GetString("Seer") },
                 { CustomRoles.Detective,GetString("Detective") },
                 { CustomRoles.Sheriff, GetString("Sheriff") },
                 { CustomRoles.Snitch, GetString("Snitch") },
@@ -658,6 +657,7 @@ namespace TownOfHost
                 {CustomRoles.Watcher, GetString("Watcher") },
                 {CustomRoles.Flashman, GetString("Flashman") },
                 { CustomRoles.Lighter, GetString("Lighter") },
+                { CustomRoles.Seer,GetString("Seer") },
             };
 
         public static bool GetRoleByName(string name, out CustomRoles role)

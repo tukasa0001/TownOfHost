@@ -66,7 +66,6 @@ SpeedBooster,增速者
 Doctor,医生
 Trapper,陷阱师
 Dictator,独裁者
-Seer,灵媒
 Detective,侦探
 NiceGuesser,正义赌怪
 Transporter,传送师
@@ -96,6 +95,7 @@ Ntr,海王
 Watcher,窥视者
 Flashman,闪电侠
 Lighter,执灯人
+Seer,灵媒
 
 # 管理员
 GM,管理员
@@ -151,7 +151,6 @@ SpeedBoosterInfo,随风奔跑自由是方向
 DoctorInfo,信我，学医救不了太空人~
 TrapperInfo,大奖小奖，能记住就是好奖
 DictatorInfo,请您不要随意自杀
-SeerInfo,卧槽有人寄了，卧槽！
 DetectiveInfo,我福尔摩斯来辣！
 UndercoverInfo,碟中谍了属于是
 ChivalrousExpertInfo,行侠仗义！
@@ -183,6 +182,7 @@ WatcherInfo,窥视到一切的阴暗面
 LastImpostorInfo,你是狼村最后的希望
 FlashmanInfo,卡其脱离太！
 LighterInfo,嘿！你在发光诶！
+SeerInfo,卧槽有人寄了，卧槽！
 
 # 管理员
 GMInfo,开局死的冤魂隔岸观火
@@ -233,7 +233,6 @@ SpeedBoosterInfoLong,(船员阵营):\n增速者每次完成任务都会增加自
 DoctorInfoLong,(船员阵营):\n医生可以查看生命监测装置并确认死亡玩家的死因。查看的时间长短与设备的充能数挂钩。
 TrapperInfoLong,(船员阵营):\n陷阱师被击杀时，凶手一段时间内将不能移动。
 DictatorInfoLong,(船员阵营):\n当独裁者在会议阶段投票给玩家后，会议会被强制结束并放逐其投票对象。该技能发动的代价是独裁者会自杀。说白了就是一换一。
-SeerInfoLong,(船员阵营):\n每当玩家死亡时，灵媒会看到杀戮闪烁。
 DetectiveInfoLong,(船员阵营):\n侦探报告尸体后，会收到一条线索消息，该消息会告诉侦探被害者的职业是什么，根据房主设定，侦探甚至可能知道凶手的职业是什么。
 UndercoverInfoLong,(船员阵营):\n内鬼会将卧底认作自己的队友，但卧底并不知道内鬼是谁。
 NiceGuesserInfoLong,(船员阵营):\n正义赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。
@@ -264,6 +263,7 @@ NtrInfoLong,(附加职业):\n当场上存在海王时，所有玩家将看到自
 WatcherInfoLong,(附加职业):\n窥视者可以直接看到每个人投的票。
 FlashmanInfoLong,(附加职业):\n闪电侠的初始移动速度比其他人快。（具体速度看房主设定）请注意：闪电侠同理增速者，在其他人眼中为正常速度，所以会以闪现的方式移动，不建议开启。
 LighterInfoLong,(附加职业):\只有船员会成为执灯人，执灯人默认拥有内鬼的视野。
+SeerInfoLong,(附加职业):\n每当有玩家死亡时，灵媒会看到杀戮闪烁。
 
 #模式选项
 NoGameEnd,测试模式
@@ -618,7 +618,7 @@ TabGroup.CrewmateRoles,船员阵营职业
 TabGroup.NeutralRoles,中立阵营职业
 TabGroup.ImpostorRoles,内鬼阵营职业
 TabGroup.Addons,附加职业
-TabGroup.OtherRoles,其它职业（不建议开）
+TabGroup.OtherRoles,试验性职业（不建议开）
 ActiveRolesList,有效职业一览
 ForExample,使用例子
 ForceEnd,强制结束游戏

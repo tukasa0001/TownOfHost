@@ -289,7 +289,6 @@ namespace TownOfHost
                     {CustomRoles.Doctor, "#80ffdd"},
                     {CustomRoles.Trapper, "#5a8fd0"},
                     {CustomRoles.Dictator, "#df9b00"},
-                    {CustomRoles.Seer, "#61b26c"},
                     {CustomRoles.Detective, "#7160e8" },
                     {CustomRoles.ChivalrousExpert, "#f0e68c"},
                     {CustomRoles.NiceGuesser, "#eede26"},
@@ -307,6 +306,7 @@ namespace TownOfHost
                     // GM
                     {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
+                    {CustomRoles.NotAssigned, "#ffffff"},
                     {CustomRoles.LastImpostor, "#ff0000"},
                     {CustomRoles.Lovers, "#ff6be4"},
                     {CustomRoles.Ntr, "#00a4ff"},
@@ -314,7 +314,7 @@ namespace TownOfHost
                     {CustomRoles.Watcher, "#800080"},
                     {CustomRoles.Flashman, "#ff8400"},
                     {CustomRoles.Lighter, "#eee5be"},
-                    {CustomRoles.NotAssigned, "#ffffff"},
+                    {CustomRoles.Seer, "#61b26c"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -402,7 +402,6 @@ namespace TownOfHost
         Trapper,
         Dictator,
         Doctor,
-        Seer,
         Detective,
         ChivalrousExpert,
         NiceGuesser,
@@ -428,6 +427,7 @@ namespace TownOfHost
         Watcher,
         Flashman,
         Lighter,
+        Seer,
     }
     //WinData
     public enum CustomWinner

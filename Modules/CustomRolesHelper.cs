@@ -33,7 +33,6 @@ namespace TownOfHost
                 CustomRoles.Puppeteer => CustomRoles.Impostor,
                 CustomRoles.TimeThief => CustomRoles.Impostor,
                 CustomRoles.EvilTracker => CustomRoles.Shapeshifter,
-                CustomRoles.Seer => CustomRoles.Crewmate,
                 CustomRoles.Paranoia => CustomRoles.Engineer,
                 CustomRoles.Miner => CustomRoles.Shapeshifter,
                 CustomRoles.Psychic => CustomRoles.Crewmate,

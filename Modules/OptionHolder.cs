@@ -523,7 +523,6 @@ namespace TownOfHost
             TrapperBlockMoveTime = FloatOptionItem.Create(20810, "TrapperBlockMoveTime", new(1f, 180f, 1f), 5f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Trapper])
                 .SetValueFormat(OptionFormat.Seconds);
             SetupRoleOptions(20900, TabGroup.CrewmateRoles, CustomRoles.Dictator);
-            SetupRoleOptions(21000, TabGroup.CrewmateRoles, CustomRoles.Seer);
             SetupRoleOptions(8021015, TabGroup.CrewmateRoles, CustomRoles.Detective);
             DetectiveCanknowKiller = BooleanOptionItem.Create(8021017, "DetectiveCanknowKiller", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Detective]);
             ChivalrousExpert.SetupCustomOption();
@@ -554,10 +553,10 @@ namespace TownOfHost
 
             // Add-Ons
             SetupLoversRoleOptionsToggle(50300);
-            SetupAdtRoleOptions(6050310, CustomRoles.Ntr);
             SetupAdtRoleOptions(6050320, CustomRoles.Watcher, canSetNum: true);
             SetupAdtRoleOptions(6050340, CustomRoles.Lighter, canSetNum: true);
-            
+            SetupAdtRoleOptions(6050350, CustomRoles.Seer, canSetNum: true);
+
             //SetupAdtRoleOptions(6050360, CustomRoles.Madmate, canSetNum: true);
             LastImpostor.SetupCustomOption();
 
@@ -577,11 +576,11 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Multiplier);
             SetupRoleOptions(902265, TabGroup.OtherRoles, CustomRoles.BoobyTrap);
 
-            // 船员
-            _ = BooleanOptionItem.Create(909092, "TabGroup.CrewmateRoles", false, TabGroup.OtherRoles, false)
-                .SetHidden(true)
-                .SetHeader(true)
-                .SetText(true);
+            //// 船员
+            //_ = BooleanOptionItem.Create(909092, "TabGroup.CrewmateRoles", false, TabGroup.OtherRoles, false)
+            //    .SetHidden(true)s
+            //    .SetHeader(true)
+            //    .SetText(true);
 
             // 中立
             _ = BooleanOptionItem.Create(909094, "TabGroup.NeutralRoles", false, TabGroup.OtherRoles, false)
@@ -597,7 +596,8 @@ namespace TownOfHost
             _ = BooleanOptionItem.Create(909096, "TabGroup.Addons", false, TabGroup.OtherRoles, false)
                 .SetHeader(true)
                 .SetText(true);
-            SetupAdtRoleOptions(6050330, CustomRoles.Flashman, canSetNum: true);
+            SetupAdtRoleOptions(6050310, CustomRoles.Ntr, tab: TabGroup.OtherRoles);
+            SetupAdtRoleOptions(6050330, CustomRoles.Flashman, canSetNum: true, tab: TabGroup.OtherRoles);
             FlashmanSpeed = FloatOptionItem.Create(6050335, "FlashmanSpeed", new(0.25f, 5f, 0.25f), 2.5f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Flashman])
                 .SetValueFormat(OptionFormat.Multiplier);
 
@@ -894,19 +894,19 @@ namespace TownOfHost
             CustomRoleCounts.Add(role, countOption);
         }
 
-        private static void SetupAdtRoleOptions(int id, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard, bool canSetNum = false)
+        private static void SetupAdtRoleOptions(int id, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard, bool canSetNum = false, TabGroup tab = TabGroup.Addons)
         {
-            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
+            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, tab, false).SetColor(Utils.GetRoleColor(role))
                 .SetHeader(true)
                 .SetGameMode(customGameMode) as StringOptionItem;
 
-            var spawnRateOption = IntegerOptionItem.Create(id + 2, "AdditionRolesSpawnRate", new(0, 100, 5), 65, TabGroup.Addons, false).SetParent(spawnOption)
-                .SetValueFormat(OptionFormat.Percent)
-                .SetGameMode(customGameMode) as IntegerOptionItem;
-
-            var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 1, 1), 1, TabGroup.Addons, false).SetParent(spawnOption)
+            var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 1, 1), 1, tab, false).SetParent(spawnOption)
                 .SetHidden(!canSetNum)
                 .SetGameMode(customGameMode);
+
+            var spawnRateOption = IntegerOptionItem.Create(id + 2, "AdditionRolesSpawnRate", new(0, 100, 5), 65, tab, false).SetParent(spawnOption)
+                .SetValueFormat(OptionFormat.Percent)
+                .SetGameMode(customGameMode) as IntegerOptionItem;
 
             CustomAdtRoleSpawnRate.Add(role, spawnRateOption);
             CustomRoleSpawnChances.Add(role, spawnOption);
