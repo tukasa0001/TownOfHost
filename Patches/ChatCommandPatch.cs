@@ -584,6 +584,7 @@ namespace TownOfHost
                 "靈媒" => "灵媒",
                 "破平者" or "破平" => "破平者",
                 "執燈人" or "执灯" or "灯人" => "执灯人",
+                "膽小" or "胆小" => "胆小鬼",
                 _ => text,
             };
         }
@@ -660,6 +661,7 @@ namespace TownOfHost
                 { CustomRoles.Lighter, GetString("Lighter") },
                 { CustomRoles.Seer,GetString("Seer") },
                 { CustomRoles.Brakar,GetString("Brakar") },
+                { CustomRoles.Oblivious,GetString("Oblivious") },
             };
 
         public static bool GetRoleByName(string name, out CustomRoles role)
