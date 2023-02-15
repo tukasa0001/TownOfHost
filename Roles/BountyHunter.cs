@@ -9,7 +9,7 @@ using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    public class BountyHunter : RoleBase
+    public sealed class BountyHunter : RoleBase
     {
         public static readonly SimpleRoleInfo RoleInfo =
             new(

@@ -10,7 +10,7 @@ using static TownOfHost.Options;
 
 namespace TownOfHost
 {
-    public class Sheriff : RoleBase
+    public sealed class Sheriff : RoleBase
     {
         public static readonly SimpleRoleInfo RoleInfo =
             new(
