@@ -36,6 +36,7 @@ namespace TownOfHost
                     AURoleOptions.ShapeshifterCooldown = Main.LastShapeshifterCooldown.Value;
             }
             ChatUpdatePatch.DoBlockChat = false;
+            Main.OriginalName.Clear();
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]

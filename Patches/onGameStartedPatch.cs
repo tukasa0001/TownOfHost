@@ -354,9 +354,7 @@ namespace TownOfHost
 
                 // 注册反职业
                 foreach (var role in rolesToAssign.Where(x => x.IsDesyncRole()))
-                {
                     AssignDesyncRole(role, AllPlayers, senders, rolesMap, BaseRole: role.GetDYRole());
-                }
 
                 MakeDesyncSender(senders, rolesMap);
             }
@@ -440,6 +438,7 @@ namespace TownOfHost
 
                 foreach (var role in rolesToAssign)
                 {
+                    if (role.IsDesyncRole()) continue;
                     switch (CustomRolesHelper.GetVNRole(role))
                     {
                         case CustomRoles.Crewmate:
