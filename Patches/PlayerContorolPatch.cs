@@ -234,7 +234,7 @@ namespace TownOfHost
 
             PlayerControl killer = __instance; //読み替え変数
 
-            killer.GetRoleClass().OnMurderPlayer(killer, target);
+            killer.GetRoleClass()?.OnMurderPlayer(killer, target);
 
             //実際のキラーとkillerが違う場合の入れ替え処理
             if (Sniper.IsEnable)
@@ -311,7 +311,7 @@ namespace TownOfHost
 
             if (!AmongUsClient.Instance.AmHost) return;
 
-            shapeshifter.GetRoleClass().OnShapeshift(shapeshifter, target);
+            shapeshifter.GetRoleClass()?.OnShapeshift(shapeshifter, target);
 
             if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
 
@@ -438,7 +438,7 @@ namespace TownOfHost
                 }
             }
 
-            __instance.GetRoleClass().OnReportDeadBody(__instance, target);
+            __instance.GetRoleClass()?.OnReportDeadBody(__instance, target);
 
             Main.PuppeteerList.Clear();
             Sniper.OnReportDeadBody();

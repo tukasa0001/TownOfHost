@@ -307,7 +307,7 @@ namespace TownOfHost
                 foreach (var pc in Main.AllPlayerControls)
                 {
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
-                    pc.GetRoleClass().Add();
+                    pc.GetRoleClass()?.Add();
                     switch (pc.GetCustomRole())
                     {
                         case CustomRoles.SerialKiller:
