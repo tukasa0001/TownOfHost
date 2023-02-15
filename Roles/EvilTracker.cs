@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Hazel;
 using UnityEngine;
-using UnityEngine.Purchasing;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
