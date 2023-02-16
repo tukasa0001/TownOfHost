@@ -187,7 +187,7 @@ namespace TownOfHost
 
                 int Imp = Utils.AlivePlayersCount(CountTypes.Impostor);
                 int Jackal = Utils.AlivePlayersCount(CountTypes.Jackal);
-                int Crew = Utils.AlivePlayersCount(CountTypes.Crewmate);
+                int Crew = Utils.AlivePlayersCount(CountTypes.Crew);
 
                 if (Imp == 0 && Crew == 0 && Jackal == 0) //全滅
                 {
@@ -241,7 +241,7 @@ namespace TownOfHost
                 reason = GameOverReason.ImpostorByKill;
 
                 int Imp = Utils.AlivePlayersCount(CountTypes.Impostor);
-                int Crew = Utils.AlivePlayersCount(CountTypes.Crewmate);
+                int Crew = Utils.AlivePlayersCount(CountTypes.Crew);
 
 
                 if (Imp == 0 && Crew == 0) //全滅

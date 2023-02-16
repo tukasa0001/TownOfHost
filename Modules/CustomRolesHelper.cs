@@ -174,7 +174,7 @@ namespace TownOfHost
                 CustomRoles.Jackal => CountTypes.Jackal,
                 CustomRoles.HASFox or
                 CustomRoles.HASTroll => CountTypes.None,
-                _ => role.IsImpostor() ? CountTypes.Impostor : CountTypes.Crewmate,
+                _ => role.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew,
             };
     }
     public enum CustomRoleTypes
@@ -188,7 +188,7 @@ namespace TownOfHost
     {
         OutOfGame,
         None,
-        Crewmate,
+        Crew,
         Impostor,
         Jackal,
     }

@@ -309,7 +309,7 @@ namespace TownOfHost
                     if (pc.Is(CustomRoles.Watcher))
                     {
                         Main.PlayerStates[pc.PlayerId].MainRole = Options.IsEvilWatcher ? CustomRoles.EvilWatcher : CustomRoles.NiceWatcher;
-                        Main.PlayerStates[pc.PlayerId].countTypes = Options.IsEvilWatcher ? CountTypes.Impostor : CountTypes.Crewmate;
+                        Main.PlayerStates[pc.PlayerId].countTypes = Options.IsEvilWatcher ? CountTypes.Impostor : CountTypes.Crew;
                     }
                 }
                 foreach (var pair in Main.PlayerStates)
