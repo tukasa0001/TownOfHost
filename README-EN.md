@@ -37,6 +37,10 @@ Note that if a player other than the host plays with this mod installed, the fol
 - Add additional settings.
 - etc.
 
+## Announcements
+- Sheriff, Arsonists, Jackal, and other roles can close doors, but please don't use it because the system can't limit it.
+- The dead player chat can be seen when exile screen by anti blackout, but this is not a bug.
+
 ## Features
 ### Hotkeys
 
