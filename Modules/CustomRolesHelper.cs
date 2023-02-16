@@ -1,11 +1,15 @@
 using AmongUs.GameOptions;
 
+using TownOfHost.Roles;
 namespace TownOfHost
 {
     static class CustomRolesHelper
     {
         public static bool IsImpostor(this CustomRoles role)
         {
+            var roleInfo = role.GetRoleInfo();
+            if (roleInfo != null)
+                return roleInfo.CustomRoleType == RoleType.Impostor;
             return
                 role is CustomRoles.Impostor or
                 CustomRoles.Shapeshifter or
@@ -26,6 +30,9 @@ namespace TownOfHost
         }
         public static bool IsMadmate(this CustomRoles role)
         {
+            var roleInfo = role.GetRoleInfo();
+            if (roleInfo != null)
+                return roleInfo.CustomRoleType == RoleType.Madmate;
             return
                 role is CustomRoles.Madmate or
                 CustomRoles.SKMadmate or
@@ -36,6 +43,9 @@ namespace TownOfHost
         public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role.IsMadmate();
         public static bool IsNeutral(this CustomRoles role)
         {
+            var roleInfo = role.GetRoleInfo();
+            if (roleInfo != null)
+                return roleInfo.CustomRoleType == RoleType.Neutral;
             return
                 role is CustomRoles.Jester or
                 CustomRoles.Opportunist or
@@ -50,7 +60,7 @@ namespace TownOfHost
                 CustomRoles.HASTroll or
                 CustomRoles.HASFox;
         }
-        public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
+        public static bool IsCrewmate(this CustomRoles role) => role.GetRoleInfo()?.CustomRoleType == RoleType.Crewmate || (!role.IsImpostorTeam() && !role.IsNeutral());
         public static bool IsVanilla(this CustomRoles role)
         {
             return
@@ -74,6 +84,11 @@ namespace TownOfHost
         public static RoleType GetRoleType(this CustomRoles role)
         {
             RoleType type = RoleType.Crewmate;
+
+            var roleInfo = role.GetRoleInfo();
+            if (roleInfo != null)
+                return roleInfo.CustomRoleType;
+
             if (role.IsImpostor()) type = RoleType.Impostor;
             if (role.IsNeutral()) type = RoleType.Neutral;
             if (role.IsMadmate()) type = RoleType.Madmate;
