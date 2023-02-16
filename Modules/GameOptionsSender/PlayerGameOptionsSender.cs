@@ -139,6 +139,14 @@ namespace TownOfHost.Modules
                     break;
             }
 
+            // 为迷惑者的凶手
+            if (PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Bewilder) && !x.IsAlive() && x.GetRealKiller() == player).Count() > 0)
+            {
+                opt.SetVision(false);
+                opt.SetFloat(FloatOptionNames.CrewLightMod, Options.BewilderVision.GetFloat());
+                opt.SetFloat(FloatOptionNames.ImpostorLightMod, Options.BewilderVision.GetFloat());
+            }
+
             foreach (var subRole in Main.PlayerStates[player.PlayerId].SubRoles)
             {
                 switch (subRole)
@@ -151,6 +159,9 @@ namespace TownOfHost.Modules
                         break;
                     case CustomRoles.Lighter:
                         opt.SetVision(false);
+                        break;
+                    case CustomRoles.Bewilder:
+                        opt.SetFloat(FloatOptionNames.CrewLightMod, Options.BewilderVision.GetFloat());
                         break;
                 }
             }

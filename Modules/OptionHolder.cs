@@ -298,6 +298,7 @@ namespace TownOfHost
 
         //Add-Ons
         public static OptionItem NoLimitAddonsNum;
+        public static OptionItem BewilderVision;
         public static OptionItem FlashmanSpeed;
         public static OptionItem LoverSpawnChances;
         public static OptionItem LoverSuicide;
@@ -558,6 +559,9 @@ namespace TownOfHost
             SetupAdtRoleOptions(6050350, CustomRoles.Seer, canSetNum: true);
             SetupAdtRoleOptions(6050360, CustomRoles.Brakar, canSetNum: true);
             SetupAdtRoleOptions(6050370, CustomRoles.Oblivious, canSetNum: true);
+            SetupAdtRoleOptions(6050380, CustomRoles.Bewilder, canSetNum: true);
+            BewilderVision = FloatOptionItem.Create(6050383, "BewilderVision", new(0f, 5f, 0.1f), 0.6f, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Bewilder])
+                .SetValueFormat(OptionFormat.Multiplier);
 
             //SetupAdtRoleOptions(6050360, CustomRoles.Madmate, canSetNum: true);
             LastImpostor.SetupCustomOption();

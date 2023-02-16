@@ -319,6 +319,7 @@ namespace TownOfHost
                     {CustomRoles.Seer, "#61b26c"},
                     {CustomRoles.Brakar, "#1447af"},
                     {CustomRoles.Oblivious, "#424242"},
+                    {CustomRoles.Bewilder, "#c894f5"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -422,7 +423,7 @@ namespace TownOfHost
         Jackal,
         //GM
         GM,
-        // Sub-roll after 500
+        // Sub-role after 500
         NotAssigned = 500,
         LastImpostor,
         Lovers,
@@ -434,6 +435,7 @@ namespace TownOfHost
         Seer,
         Brakar,
         Oblivious,
+        Bewilder,
     }
     //WinData
     public enum CustomWinner

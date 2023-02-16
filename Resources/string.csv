@@ -98,6 +98,7 @@ Lighter,执灯人
 Seer,灵媒
 Brakar,破平者
 Oblivious,胆小鬼
+Bewilder,迷惑者
 
 # 管理员
 GM,管理员
@@ -187,6 +188,7 @@ LighterInfo,嘿！你在发光诶！
 SeerInfo,卧槽有人寄了，卧槽！
 BrakarInfo,打破这无聊的规则
 ObliviousInfo,我的天哪，好恐怖
+BewilderInfo,红伞伞白杆杆，好好吃
 
 # 管理员
 GMInfo,开局死的冤魂隔岸观火
@@ -270,6 +272,7 @@ LighterInfoLong,(附加职业):\只有船员会成为执灯人，执灯人默认
 SeerInfoLong,(附加职业):\n每当有玩家死亡时，灵媒会看到杀戮闪烁。
 BrakarInfoLong,(附加职业):\n放逐投票平票时，会优先驱逐破平者投票的目标。请注意：若多个破平者同时选择了不同的平票目标，则破平者的技能不会生效。
 ObliviousInfoLong,(附加职业):\n胆小鬼无法报告尸体。请注意：胆小鬼击杀诱饵还是会自动报告，此外胆小鬼可以照常成为骇客的替罪羊。
+BewilderInfoLong,(附加职业):\n内鬼不会成为迷惑者。迷惑者默认拥有“较”小的视野，当迷惑者被击杀时，凶手的视野将变得跟迷惑者一样小。
 
 #模式选项
 NoGameEnd,测试模式

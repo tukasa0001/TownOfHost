@@ -288,6 +288,10 @@ namespace TownOfHost
             }
             if (target.Is(CustomRoles.Trapper) && !killer.Is(CustomRoles.Trapper))
                 killer.TrapperKilled(target);
+            if (target.Is(CustomRoles.Bewilder) && !killer.Is(CustomRoles.Bewilder))
+            {
+
+            }
             if (Executioner.Target.ContainsValue(target.PlayerId))
                 Executioner.ChangeRoleByTarget(target);
             if (target.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(target.PlayerId))
