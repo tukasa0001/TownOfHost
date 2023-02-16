@@ -80,7 +80,7 @@ namespace TownOfHost
             {
                 if (translateMaps.TryGetValue(str, out var dic) && (!dic.TryGetValue((int)langId, out res) || res == "")) //匹配 str & 无效的 langId 或 res 为空
                 {
-                    res = $"*{dic[0]}";
+                    res = $"*{str}";
                 }
             }
             catch (Exception Ex)
