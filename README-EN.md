@@ -97,6 +97,7 @@ You can execute chat commands by typing in chat.
 | Command                     | Function                                |
 | --------------------------- | --------------------------------------- |
 | /lastresult<br>/l           | Show game result                        |
+| /killlog<br>/kl             | Show kill log                           |
 | /now<br>/n                  | Show active settings                    |
 | /now roles<br>/n r          | Show active roles settings              |
 | /help now<br>/help n        | Show active setting descriptions        |
