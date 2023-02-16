@@ -37,6 +37,10 @@ Note that if a player other than the host plays with this mod installed, the fol
 - Add additional settings.
 - etc.
 
+## Announcements
+- Sheriff, Arsonist, Jackal, and other roles can close doors, but please don't use it because the system can't limit it.
+- The dead player chat can be seen when exile screen by anti blackout, but this is not a bug.
+
 ## Features
 ### Hotkeys
 
@@ -176,6 +180,7 @@ You can also reload the translation by pressing key `T`+`F5`.
 ### BAN Function
 The host can ban players even during the game without requiring other players to vote. <br>
 Also, if you ban, that player will not be able to enter the room you host from now on. <br>
+Players who have already left can also be added to the ban list by selecting them and pressing the ban button.<br>
 Banned players are recorded in `./TOH_DATA/BanList.txt` as `friend code, player name`, and you can remove the ban by deleting the corresponding line. <br>
 Even if you block it with a friend list, it will automatically ban. <br>
 
@@ -196,25 +201,25 @@ Example:
 
 ## Roles
 
-| Impostors                           | Crewmates                         | Neutrals                          | Others    |
-| ----------------------------------- | --------------------------------- | --------------------------------- | --------- |
-| [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             | [GM](#GM) |
-| [EvilTracker](#EvilTracker)         | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |           |
-| [Evil Watcher](#Watcher)            | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |           |
-| [FireWorks](#FireWorks)             | [Lighter](#Lighter)               | [Jackal](#Jackal)                 |           |
-| [Mare](#Mare)                       | [Mayor](#Mayor)                   | [Jester](#Jester)                 |           |
-| [Puppeteer](#Puppeteer)             | [Nice Watcher](#Watcher)          | [Lovers](#Lovers)                 |           |
-| [SerialKiller](#SerialKiller)       | [SabotageMaster](#SabotageMaster) | [Opportunist](#Opportunist)       |           |
-| [Sniper](#Sniper)                   | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |           |
-| [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |           |
-| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |           |
-| [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |           |
-| [Witch](#Witch)                     | [Beartrap](#Beartrap)             |                                   |           |
-| [Mafia](#Mafia)                     |                                   |                                   |           |
-| [Madmate](#Madmate)                 |                                   |                                   |           |
-| [MadGuardian](#MadGuardian)         |                                   |                                   |           |
-| [MadSnitch](#MadSnitch)             |                                   |                                   |           |
-| [SidekickMadmate](#SidekickMadmate) |                                   |                                   |           |
+| Impostors                           | Crewmates                         | Neutrals                          | Add-Ons                       | Others    |
+| ----------------------------------- | --------------------------------- | --------------------------------- | ----------------------------- | --------- |
+| [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             | [LastImpostor](#LastImpostor) | [GM](#GM) |
+| [EvilTracker](#EvilTracker)         | [Dictator](#Dictator)             | [Egoist](#Egoist)                 | [Lovers](#Lovers)             |           |
+| [Evil Watcher](#Watcher)            | [Doctor](#Doctor)                 | [Executioner](#Executioner)       | [Workhorse](#Workhorse)       |           |
+| [FireWorks](#FireWorks)             | [Lighter](#Lighter)               | [Jackal](#Jackal)                 |                               |           |
+| [Mare](#Mare)                       | [Mayor](#Mayor)                   | [Jester](#Jester)                 |                               |           |
+| [Puppeteer](#Puppeteer)             | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |                               |           |
+| [SerialKiller](#SerialKiller)       | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |                               |           |
+| [Sniper](#Sniper)                   | [Seer](#Seer)                     | [SchrodingerCat](#SchrodingerCat) |                               |           |
+| [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               |                                   |                               |           |
+| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |                               |           |
+| [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |                               |           |
+| [Witch](#Witch)                     | [Beartrap](#Beartrap)             |                                   |                               |           |
+| [Mafia](#Mafia)                     | [TimeManager](#TimeManager)       |                                   |                               |           |
+| [Madmate](#Madmate)                 |                                   |                                   |                               |           |
+| [MadGuardian](#MadGuardian)         |                                   |                                   |                               |           |
+| [MadSnitch](#MadSnitch)             |                                   |                                   |                               |           |
+| [SidekickMadmate](#SidekickMadmate) |                                   |                                   |                               |           |
 
 ### GM
 
@@ -227,7 +232,7 @@ Always assigned to a host and is ghosted from the start.<br>
 ### BountyHunter
 
 Team : Impostors<br>
-Basis : Impostor<br>
+Basis : Shapeshifter<br>
 
 If the BountyHunters kill their designated target, their next kill cooldown will be much less than usual.<br>
 Killing a player except their current target results in an increased kill cooldown.<br>
@@ -421,8 +426,9 @@ Team : Impostors<br>
 Basis : Impostor<br>
 
 The Witches can perform kills or spells switched by Actions.<br>
-In Double Click mode, Single Click for spell, Double Clicks for kill.
+In Double Click mode, Single Click for spell, Double Clicks for kill.<br>
 The players spelled by Witches before a meeting are marked "cross" in the meeting, and unless exiling Witches, they all die just after the meeting.<br>
+If the witch dies other than by exile, the curse is not lifted.<br>
 
 #### Game Options
 
