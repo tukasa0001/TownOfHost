@@ -107,7 +107,7 @@ Lighter,执灯人,Lighter,Фонарик
 Seer,灵媒,Seer,Провидец
 Brakar,破平者,Tiebreaker,Тай-брейкер
 Oblivious,胆小鬼,Oblivious,Забывчивый
-Bewilder,迷惑者,,
+Bewilder,迷惑者,Bewilder,Сбитый с Толку
 
 # 管理员
 GM,管理员,GM,GM (Призрак)
@@ -195,7 +195,7 @@ LighterInfo,嘿！你在发光诶！,Your viewing range is many more,Ваш об
 SeerInfo,卧槽有人寄了，卧槽！,You see the moment someone dies,Вы видите когда умирают игроки
 BrakarInfo,打破这无聊的规则,You have another invisible vote,У вас ещё один невидимый голос
 ObliviousInfo,我的天哪，好恐怖,You cannot report body,Вы не можете ркпортить трупы
-BewilderInfo,红伞伞白杆杆，好好吃,,
+BewilderInfo,红伞伞白杆杆，好好吃,He has a small field of vision,У него маленькое поле зрение
 
 # 管理员
 GMInfo,开局死的冤魂隔岸观火,You are the Game Master,Вы Мастер Игры
@@ -279,7 +279,7 @@ LighterInfoLong,(附加职业):\只有船员会成为执灯人，执灯人默认
 SeerInfoLong,(附加职业):\n每当有玩家死亡时，灵媒会看到杀戮闪烁。,"(Add-ons):\nWhenever someone dies, you will see a ""kill flash"".","(Атрибут):\nПровидец видит ''Вспышку Убийства'' каждый раз, когда игроки умирают."
 BrakarInfoLong,(附加职业):\n放逐投票平票时，会优先驱逐破平者投票的目标。请注意：若多个破平者同时选择了不同的平票目标，则破平者的技能不会生效。,"(Add-ons):\nWhen a tie occurs during a vote, the player with the Tiebreaker has more vote priority than the other players, and therefore the player who the Tiebreaker voted for will be ejected in the event of a tie. Please note that if multiple players with a Tiebreaker vote for different goals at the same time in a tie, the Tiebreaker skills will not trigger","(Атрибут):\nКогда во время голосования происходит ничья, то у игрока с Тай-брейкером приоритет голоса больше чем у остальных игроков, и поэтому при ничье будет изгнан тот, за кого проголосовал сам игрок Тай-брейком. Пожалуйста, обратите внимание: если несколько игроков с тай-брейкером одновременно проголосуют за разные цели при ничье, навыки тай-брейкеров не сработают."
 ObliviousInfoLong,(附加职业):\n胆小鬼无法报告尸体。请注意：胆小鬼击杀诱饵还是会自动报告，此外胆小鬼可以照常成为骇客的替罪羊。,"(Add-ons):\nOblivious can't report the body. Please note: If the player has the role of Bait and Oblivious, then Bait's ability will work normally, and he can also be the one to report the body to the Hacker.","(Атрибут):\nЗабывчивый не может репортить трупы. Пожалуйста, обратите внимание: Если у игрока есть роль Байта и атрибут Забывчевого то способность Байта сработает как обычно, и так же он может стать тем кто может зарепортить труп для Хакера."
-BewilderInfoLong,(附加职业):\n内鬼不会成为迷惑者。迷惑者默认拥有“较”小的视野，当迷惑者被击杀时，凶手的视野将变得跟迷惑者一样小。,,
+BewilderInfoLong,(附加职业):\n内鬼不会成为迷惑者。迷惑者默认拥有“较”小的视野，当迷惑者被击杀时，凶手的视野将变得跟迷惑者一样小。,"(Add-ons):\nImpostors cannot become Bewilder. The Bewilder player has a small field of view by default. When the Bewilder player is killed, the killer's field of view will become as small as the Bewilder's.","(Атрибут):\nПредатели не могут стать Сбитым с Толку. Сбитый с Толку игрок по умолчанию имеет маленькое поле зрения. Но когда Сбитый с Толку игрок будет убит, то поле зрения убийцы станет таким же маленьким, как и у Сбитого с Толку."
 
 #模式选项
 NoGameEnd,测试模式,NoGameEnd,Игра Не Закончится
@@ -466,10 +466,10 @@ FireWorksMaxCount,可放置烟花的最大数量,Fireworks Count,Количес�
 FireWorksRadius,烟花爆炸半径,Firework Explosion Radius,Радиус фейерверка
 SniperBulletCount,最大子弹数量,Ammo,Количество пуль
 SniperPrecisionShooting,精准射击模式,Precision Firing,Точный выстрел
-NoLimitAddonsNum,不限制每位玩家的附职业上限,,
+NoLimitAddonsNum,不限制每位玩家的附职业上限,The number of Add-ons for one player is not limited,Количество Атрибутов для одного игрока не ограничено 
 LoverSpawnChances,出现概率,Spawn Chance of Lovers,Шанс появления Любовников
 AdditionRolesSpawnRate,出现概率,Spawn Chance,Шанс появления
-BewilderVision,迷幻者视野,,
+BewilderVision,迷幻者视野,Bewilder Vision,Дальность обзора Сбитого с Толку
 FlashmanSpeed,闪电侠初始移动速度,Flash Speed,Скорость Флеша
 LoverSuicide,恋人共生死,Lovers can commit suicide,Любовники могут суициднуться
 LoverHasNoTask,船员成为恋人后没有任务,Lovers don't have tasks,Любовники не имеют задания
