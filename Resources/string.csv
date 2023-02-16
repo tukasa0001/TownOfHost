@@ -758,7 +758,7 @@ Cheat.AUM,开挂（使用AUM）,Cheating usage detected (Used by AUM),Обнар
 PlayerIsRole,{0} 是 {1},{0} is {1},{0} имеет роль {1}
 PlayerExiled,{0} 被驱逐了...,{0} was ejected...,{0} был изгнан...
 ExiledJester,票出 {0} 让你有种不详的预感\n{1} 在狂笑着...,Ticket {0} gives you a bad feeling \nbut {1} laughs wildly...,Билет {0} вызывает у вас дурное предчувствие\nно {1} дико смеется...
-ExiledExeTarget,票出 {0} 让你有种不详的预感\n他是 {1}，而他的背后传来处刑者阴沉的笑声...,"The ticket {0} gives you a bad feeling \nit is {1}, and behind it the Executioner's gloomy laughter sounds...","Билет {0} вызывает у вас дурное предчувствие \nЭто {1}, а позади него звучит мрачный смех Палача..."
+ExiledExeTarget,票出 {0} 让你有种不详的预感\n他是 {1}，而他的背后传来处刑人阴沉的笑声...,"The ticket {0} gives you a bad feeling \nit is {1}, and behind it the Executioner's gloomy laughter sounds...","Билет {0} вызывает у вас дурное предчувствие \nЭто {1}, а позади него звучит мрачный смех Палача..."
 NoImpRemain,已经没有内鬼啦,There are no more impostors left,Предателей больше не осталось
 ImpRemain,剩余 {0} 个内鬼,There are {0} Impostors left,Осталось {0} Предателя
 NeutralRemain,剩余 {0} 个邪恶中立,There Are {0} Evil Neutrals Left,Осталось {0} Злых Нейтралов
