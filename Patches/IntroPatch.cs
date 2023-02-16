@@ -173,18 +173,17 @@ namespace TownOfHost
 
             if (Input.GetKey(KeyCode.RightShift))
             {
-                __instance.TeamTitle.text = Main.ModName;
+                __instance.TeamTitle.text = "明天就跑路啦";
                 __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = "https://github.com/tukasa0001/TownOfHost" +
-                    "\r\nOut Now on Github";
+                __instance.ImpostorText.text = "嘿嘿嘿嘿嘿嘿";
                 __instance.TeamTitle.color = Color.cyan;
                 StartFadeIntro(__instance, Color.cyan, Color.yellow);
             }
             if (Input.GetKey(KeyCode.RightControl))
             {
-                __instance.TeamTitle.text = "Discord Server";
+                __instance.TeamTitle.text = "警告";
                 __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = "https://discord.gg/v8SFfdebpz";
+                __instance.ImpostorText.text = "请远离无知的玩家";
                 __instance.TeamTitle.color = Color.magenta;
                 StartFadeIntro(__instance, Color.magenta, Color.magenta);
             }

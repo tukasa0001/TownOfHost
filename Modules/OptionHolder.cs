@@ -546,7 +546,7 @@ namespace TownOfHost
             Jackal.SetupCustomOption();
 
             // Add-Ons
-            NoLimitAddonsNum = BooleanOptionItem.Create(6050250, "NoLimitAddOnsNum", false, TabGroup.Addons, false)
+            NoLimitAddonsNum = BooleanOptionItem.Create(6050250, "NoLimitAddonsNum", false, TabGroup.Addons, false)
                 .SetHeader(true)
                 .SetColor(Color.cyan);
             SetupLoversRoleOptionsToggle(50300);

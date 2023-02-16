@@ -1259,7 +1259,7 @@ namespace TownOfHost
                         name += $"\r\n<color=#be4d16><size=1.7>.exe未响应</size></color>";
                         break;
                     case "heavyclod#2286":
-                        name = $"<color=#FFFF00><size=1.7>小叨.exe已停止运行\n</size></color>\r\n" + name;
+                        name = $"<color=#FFFF00><size=1.7>小叨.exe已停止运行</size></color>\r\n" + name;
                         break;
                     case "canneddrum#2370":
                         name = $"<color=#fffcbe><size=1.7>我是喜唉awa</size></color>\r\n" + name;
@@ -1289,6 +1289,7 @@ namespace TownOfHost
         {
             return pc.FriendCode is
                 "actorour#0029" or
+                "aerobicgen#3487" or
                 "recentduct#6068";
         }
         public static bool IsDev(PlayerControl pc)

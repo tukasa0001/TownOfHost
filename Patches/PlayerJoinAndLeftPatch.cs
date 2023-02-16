@@ -36,6 +36,7 @@ namespace TownOfHost
             }
             ChatUpdatePatch.DoBlockChat = false;
             Main.OriginalName = new();
+            Main.DevRole = new();
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]

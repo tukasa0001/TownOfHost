@@ -695,7 +695,7 @@ namespace TownOfHost
         public static void SendRolesInfo(string role, PlayerControl player, bool isDev = false)
         {
             role = role.Trim();
-            if (role == "" || role == String.Empty)
+            if (role == "" || role == string.Empty)
             {
                 Utils.ShowActiveRoles();
                 return;
@@ -709,14 +709,17 @@ namespace TownOfHost
                 var roleName = r.Key.ToString();
                 var roleShort = r.Value;
 
-                if (String.Compare(role, roleName, true) == 0 || String.Compare(role, roleShort, true) == 0)
+                if (string.Compare(role, roleName, true) == 0 || string.Compare(role, roleShort, true) == 0)
                 {
 
                     if (isDev && GameStates.IsLobby)
                     {
+                        string devMark = "";
+                        if (CustomRolesHelper.IsAdditionRole(r.Key)) devMark = "▲";
+                        if (r.Key is CustomRoles.GM) devMark = "▲";
                         if (Main.DevRole.ContainsKey(player.PlayerId)) Main.DevRole.Remove(player.PlayerId);
                         Main.DevRole.Add(player.PlayerId, r.Key);
-                        Utils.SendMessage("▲" + GetString(roleName) + GetString($"{roleName}InfoLong"), player.PlayerId);
+                        Utils.SendMessage(devMark + GetString(roleName) + GetString($"{roleName}InfoLong"), player.PlayerId);
                     }
                     else
                     {
