@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Text;
-using HarmonyLib;
 using Hazel;
 using static TownOfHost.Translator;
 
@@ -30,7 +29,7 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Witch);
-            ModeSwitchAction = StringOptionItem.Create(Id + 10, "WitchModeSwitchAction", SwitchTriggerText, 0, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Witch]);
+            ModeSwitchAction = StringOptionItem.Create(Id + 10, "WitchModeSwitchAction", SwitchTriggerText, 2, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Witch]);
         }
         public static void Init()
         {
@@ -211,10 +210,11 @@ namespace TownOfHost
             }
             else
             {
-                str.Append("Mode:");
+                str.Append("模式:");
             }
             if (NowSwitchTrigger == SwitchTrigger.DoubleTrigger)
             {
+                str.Clear();
                 str.Append(GetString("WitchModeDouble"));
             }
             else
