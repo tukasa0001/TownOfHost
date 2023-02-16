@@ -708,7 +708,7 @@ namespace TownOfHost
             var allPlayers = new List<PlayerControl>();
             foreach (var pc in Main.AllPlayerControls)
             {
-                if (pc.Is(CustomRoles.GM) || pc.HasSubRole() || pc.Is(CustomRoles.Needy)) continue;
+                if (pc.Is(CustomRoles.GM) || (pc.HasSubRole() && !Options.NoLimitAddonsNum.GetBool()) || pc.Is(CustomRoles.Needy)) continue;
                 if ((role is CustomRoles.Madmate or CustomRoles.Lighter) && !pc.GetCustomRole().IsCrewmate()) continue;
                 allPlayers.Add(pc);
             }

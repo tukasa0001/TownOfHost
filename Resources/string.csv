@@ -329,7 +329,7 @@ KickNonTOHEPlayer,踢出使用TOHE以外的模组的玩家
 SendCodeToQQ,允许车队姬自动群发您的房号
 SendCodeMinPlayer,房间人数达到多少时群发
 DisableVanillaRoles,禁用原版职业
-
+NoLimitAddonsNum,不限制每位玩家的附加职业数量（娱乐性）
 VoteMode,投票相关设定
 WhenSkipVote,跳过投票相当于投给自己
 WhenSkipVoteIgnoreFirstMeeting,忽略首次会议

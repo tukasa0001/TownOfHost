@@ -47,7 +47,7 @@ namespace TownOfHost
 
         public static readonly string[] gameModes =
         {
-            "Standard", "HideAndSeek",
+            "Standard"
         };
 
         // MapActive
@@ -297,6 +297,7 @@ namespace TownOfHost
         public static OptionItem PlayerCanSerColor;
 
         //Add-Ons
+        public static OptionItem NoLimitAddonsNum;
         public static OptionItem FlashmanSpeed;
         public static OptionItem LoverSpawnChances;
         public static OptionItem LoverSuicide;
@@ -545,6 +546,9 @@ namespace TownOfHost
             Jackal.SetupCustomOption();
 
             // Add-Ons
+            NoLimitAddonsNum = BooleanOptionItem.Create(6050250, "NoLimitAddOnsNum", false, TabGroup.Addons, false)
+                .SetHeader(true)
+                .SetColor(Color.cyan);
             SetupLoversRoleOptionsToggle(50300);
             SetupAdtRoleOptions(6050320, CustomRoles.Watcher, canSetNum: true);
             SetupAdtRoleOptions(6050330, CustomRoles.Flashman, canSetNum: true);
@@ -896,7 +900,7 @@ namespace TownOfHost
                 .SetHeader(true)
                 .SetGameMode(customGameMode) as StringOptionItem;
 
-            var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, canSetNum ? 15 : 1, 1), 1, tab, false).SetParent(spawnOption)
+            var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, canSetNum ? 3 : 1, 1), 1, tab, false).SetParent(spawnOption)
                 .SetHidden(!canSetNum)
                 .SetGameMode(customGameMode);
 
