@@ -466,8 +466,10 @@ FireWorksMaxCount,可放置烟花的最大数量,Fireworks Count,Количес�
 FireWorksRadius,烟花爆炸半径,Firework Explosion Radius,Радиус фейерверка
 SniperBulletCount,最大子弹数量,Ammo,Количество пуль
 SniperPrecisionShooting,精准射击模式,Precision Firing,Точный выстрел
+NoLimitAddonsNum,不限制每位玩家的附职业上限,,
 LoverSpawnChances,出现概率,Spawn Chance of Lovers,Шанс появления Любовников
 AdditionRolesSpawnRate,出现概率,Spawn Chance,Шанс появления
+BewilderVision,迷幻者视野,,
 FlashmanSpeed,闪电侠初始移动速度,Flash Speed,Скорость Флеша
 LoverSuicide,恋人共生死,Lovers can commit suicide,Любовники могут суициднуться
 LoverHasNoTask,船员成为恋人后没有任务,Lovers don't have tasks,Любовники не имеют задания
