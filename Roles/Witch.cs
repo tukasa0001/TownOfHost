@@ -10,12 +10,13 @@ namespace TownOfHost
     {
         public enum SwitchTrigger
         {
-            Kill = 0,
-            Vent = 1,
+            Kill,
+            Vent,
+            DoubleTrigger,
         };
         public static readonly string[] SwitchTriggerText =
         {
-            "TriggerKill", "TriggerVent",
+            "TriggerKill", "TriggerVent","TriggerDouble"
         };
 
         private static readonly int Id = 1500;
@@ -43,11 +44,11 @@ namespace TownOfHost
             SpellMode.Add(playerId, false);
             SpelledPlayer.Add(playerId, new());
             NowSwitchTrigger = (SwitchTrigger)ModeSwitchAction.GetValue();
+            var pc = Utils.GetPlayerById(playerId);
+            pc.AddDoubleTrigger();
+
         }
-        public static bool IsEnable()
-        {
-            return playerIdList.Count > 0;
-        }
+        public static bool IsEnable => playerIdList.Count > 0;
         private static void SendRPC(bool doSpell, byte witchId, byte target = 255)
         {
             if (doSpell)
@@ -134,6 +135,16 @@ namespace TownOfHost
             }
             return false;
         }
+        public static void SetSpelled(PlayerControl killer, PlayerControl target)
+        {
+            if (!IsSpelled(target.PlayerId))
+            {
+                SpelledPlayer[killer.PlayerId].Add(target.PlayerId);
+                SendRPC(true, killer.PlayerId, target.PlayerId);
+                //キルクールの適正化
+                killer.SetKillCooldown();
+            }
+        }
         public static void RemoveSpelledPlayer()
         {
             foreach (var witch in playerIdList)
@@ -144,21 +155,18 @@ namespace TownOfHost
         }
         public static bool OnCheckMurder(PlayerControl killer, PlayerControl target)
         {
+            if (NowSwitchTrigger == SwitchTrigger.DoubleTrigger)
+            {
+                return killer.CheckDoubleTrigger(target, () => { SetSpelled(killer, target); });
+            }
             if (!IsSpellMode(killer.PlayerId))
             {
                 SwitchSpellMode(killer.PlayerId, true);
                 //キルモードなら通常処理に戻る
                 return true;
             }
+            SetSpelled(killer, target);
 
-            if (!IsSpelled(target.PlayerId))
-            {
-                //キルクールの適正化
-                killer.SetKillCooldown();
-
-                SpelledPlayer[killer.PlayerId].Add(target.PlayerId);
-                SendRPC(true, killer.PlayerId, target.PlayerId);
-            }
             //スペルに失敗してもスイッチ判定
             SwitchSpellMode(killer.PlayerId, true);
             //キル処理終了させる
@@ -184,40 +192,40 @@ namespace TownOfHost
                 SpelledPlayer[witch].Clear();
             }
         }
-        public static void OnEnterVent(byte playerId)
+        public static string GetSpelledMark(byte target, bool isMeeting)
         {
-            if (NowSwitchTrigger is SwitchTrigger.Vent)
+            if (isMeeting && IsEnable && IsSpelled(target))
             {
-                SwitchSpellMode(playerId, false);
-            }
-        }
-        public static string GetSpelledMark(byte targetId, bool isMeeting)
-        {
-            if (isMeeting && IsEnable() && Witch.IsSpelled(targetId))
-            {
-                return "<color=#ff0000>†</color>";
+                return Utils.ColorString(Palette.ImpostorRed, "†");
             }
             return "";
         }
-        public static string GetSpellModeText(PlayerControl witch, bool hud)
+        public static string GetSpellModeText(PlayerControl witch, bool hud, bool isMeeting = false)
         {
-            if (witch == null) return "";
+            if (witch == null || isMeeting) return "";
 
             var str = new StringBuilder();
             if (hud)
             {
-                str.Append(GetString("WitchCurrentMode") + ":");
+                str.Append(GetString("WitchCurrentMode"));
             }
             else
             {
                 str.Append("Mode:");
             }
-            str.Append(IsSpellMode(witch.PlayerId) ? GetString("WitchModeSpell") : GetString("WitchModeKill"));
+            if (NowSwitchTrigger == SwitchTrigger.DoubleTrigger)
+            {
+                str.Append(GetString("WitchModeDouble"));
+            }
+            else
+            {
+                str.Append(IsSpellMode(witch.PlayerId) ? GetString("WitchModeSpell") : GetString("WitchModeKill"));
+            }
             return str.ToString();
         }
         public static void GetAbilityButtonText(HudManager hud)
         {
-            if (IsSpellMode(PlayerControl.LocalPlayer.PlayerId))
+            if (IsSpellMode(PlayerControl.LocalPlayer.PlayerId) && NowSwitchTrigger != SwitchTrigger.DoubleTrigger)
             {
                 hud.KillButton.OverrideText($"{GetString("WitchSpellButtonText")}");
             }
@@ -227,15 +235,14 @@ namespace TownOfHost
             }
         }
 
-        [HarmonyPatch(typeof(Vent), nameof(Vent.EnterVent))]
-        class EnterVentPatch
+        public static void OnEnterVent(PlayerControl pc)
         {
-            public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
+            if (!AmongUsClient.Instance.AmHost) return;
+            if (playerIdList.Contains(pc.PlayerId))
             {
-                if (!AmongUsClient.Instance.AmHost) return;
-                if (pc.Is(CustomRoles.Witch))
+                if (NowSwitchTrigger is SwitchTrigger.Vent)
                 {
-                    Witch.OnEnterVent(pc.PlayerId);
+                    SwitchSpellMode(pc.PlayerId, false);
                 }
             }
         }

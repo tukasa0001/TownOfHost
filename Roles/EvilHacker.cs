@@ -11,24 +11,24 @@ namespace TownOfHost
 {
     public static class EvilHacker
     {
-        public static readonly int Id = 3100;
-        public static List<byte> playerIdList = new();
+        private static readonly int Id = 3100;
+        private static List<byte> playerIdList = new();
 
-        public static OptionItem OptionCanSeeDeadPos;
-        public static OptionItem OptionCanSeeOtherImp;
-        public static OptionItem OptionCanSeeKillFlash;
-        public static OptionItem OptionCanSeeMurderScene;
+        private static OptionItem OptionCanSeeDeadPos;
+        private static OptionItem OptionCanSeeOtherImp;
+        private static OptionItem OptionCanSeeKillFlash;
+        private static OptionItem OptionCanSeeMurderScene;
 
-        private static bool canSeeDeadPos;
-        private static bool canSeeOtherImp;
-        private static bool canSeeKillFlash;
-        private static bool canSeeMurderScene;
+        private static bool CanSeeDeadPos;
+        private static bool CanSeeOtherImp;
+        private static bool CanSeeKillFlash;
+        private static bool CanSeeMurderScene;
 
-        public static Dictionary<SystemTypes, int> PlayerCount = new();
-        public static Dictionary<SystemTypes, int> DeadCount = new();
-        public static List<SystemTypes> ImpRooms = new();
+        private static Dictionary<SystemTypes, int> PlayerCount = new();
+        private static Dictionary<SystemTypes, int> DeadCount = new();
+        private static List<SystemTypes> ImpRooms = new();
         // (キルしたインポスター, 殺害現場の部屋)
-        public static List<(byte killerId, SystemTypes room)> KillerIdsAndRooms = new();
+        private static List<(byte killerId, SystemTypes room)> KillerIdsAndRooms = new();
 
         public static void SetupCustomOption()
         {
@@ -46,13 +46,13 @@ namespace TownOfHost
             ImpRooms = new();
             KillerIdsAndRooms = new();
 
-            canSeeDeadPos = OptionCanSeeDeadPos.GetBool();
-            canSeeOtherImp = OptionCanSeeOtherImp.GetBool();
-            canSeeKillFlash = OptionCanSeeKillFlash.GetBool();
-            canSeeMurderScene = OptionCanSeeMurderScene.GetBool();
+            CanSeeDeadPos = OptionCanSeeDeadPos.GetBool();
+            CanSeeOtherImp = OptionCanSeeOtherImp.GetBool();
+            CanSeeKillFlash = OptionCanSeeKillFlash.GetBool();
+            CanSeeMurderScene = OptionCanSeeMurderScene.GetBool();
         }
         public static void Add(byte playerId) => playerIdList.Add(playerId);
-        public static bool IsEnable() => playerIdList.Count > 0;
+        public static bool IsEnable => playerIdList.Count > 0;
         public static void InitDeadCount()
         {
             if (ShipStatus.Instance == null)
@@ -78,7 +78,7 @@ namespace TownOfHost
             {
                 var room = Main.PlayerStates[pc.PlayerId].LastRoom?.RoomId ?? default;
                 PlayerCount[room]++;
-                if (canSeeOtherImp && pc.GetCustomRole().IsImpostor() && !ImpRooms.Contains(room))
+                if (CanSeeOtherImp && pc.GetCustomRole().IsImpostor() && !ImpRooms.Contains(room))
                 {
                     ImpRooms.Add(room);
                 }
@@ -95,7 +95,7 @@ namespace TownOfHost
                     messageBuilder.Append("★");
                 }
                 messageBuilder.AppendFormat("{0}: {1}", roomName, kvp.Value + DeadCount[kvp.Key]);
-                if (DeadCount[kvp.Key] > 0 && canSeeDeadPos)
+                if (DeadCount[kvp.Key] > 0 && CanSeeDeadPos)
                 {
                     messageBuilder.AppendFormat("({0}\u00d7{1})", GetString("Deadbody"), DeadCount[kvp.Key]);
                 }
@@ -116,11 +116,11 @@ namespace TownOfHost
         {
             var room = target.GetPlainShipRoom()?.RoomId ?? default;
             DeadCount[room]++;
-            if (canSeeOtherImp && target.GetCustomRole().IsImpostor() && !ImpRooms.Contains(room))
+            if (CanSeeOtherImp && target.GetCustomRole().IsImpostor() && !ImpRooms.Contains(room))
             {
                 ImpRooms.Add(room);
             }
-            if (canSeeMurderScene && Utils.IsImpostorKill(killer, target))
+            if (CanSeeMurderScene && Utils.IsImpostorKill(killer, target))
             {
                 var realKiller = target.GetRealKiller() ?? killer;
                 KillerIdsAndRooms.Add((realKiller.PlayerId, room));
@@ -184,6 +184,6 @@ namespace TownOfHost
             return $"{GetString("EvilHackerMurderOccurred")}: {string.Join(", ", roomNames)}";
         }
         public static bool KillFlashCheck(PlayerControl killer, PlayerControl target) =>
-            canSeeKillFlash && Utils.IsImpostorKill(killer, target);
+            CanSeeKillFlash && Utils.IsImpostorKill(killer, target);
     }
 }

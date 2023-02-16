@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using HarmonyLib;
 using TownOfHost.Modules;
 using UnityEngine;
@@ -23,17 +24,20 @@ namespace TownOfHost
             SummaryText = new();
             foreach (var id in Main.PlayerStates.Keys)
                 SummaryText[id] = Utils.SummaryTexts(id, disableColor: false);
-            KillLog = GetString("KillLog") + ":";
+
+            var sb = new StringBuilder(GetString("KillLog") + ":");
             foreach (var kvp in Main.PlayerStates.OrderBy(x => x.Value.RealKiller.Item1.Ticks))
             {
                 var date = kvp.Value.RealKiller.Item1;
                 if (date == DateTime.MinValue) continue;
                 var killerId = kvp.Value.GetRealKiller();
                 var targetId = kvp.Key;
-                KillLog += $"\n{date:T} {Main.AllPlayerNames[targetId]}({Utils.GetDisplayRoleName(targetId)}{Utils.GetSubRolesText(targetId)}) [{Utils.GetVitalText(kvp.Key)}]";
+                sb.Append($"\n{date:T} {Main.AllPlayerNames[targetId]}({Utils.GetDisplayRoleName(targetId)}{Utils.GetSubRolesText(targetId)}) [{Utils.GetVitalText(kvp.Key)}]");
                 if (killerId != byte.MaxValue && killerId != targetId)
-                    KillLog += $"\n\t\t⇐ {Main.AllPlayerNames[killerId]}({Utils.GetDisplayRoleName(killerId)}{Utils.GetSubRolesText(killerId)})";
+                    sb.Append($"\n\t\t⇐ {Main.AllPlayerNames[killerId]}({Utils.GetDisplayRoleName(killerId)}{Utils.GetSubRolesText(killerId)})");
             }
+            KillLog = sb.ToString();
+
             Main.NormalOptions.KillCooldown = Options.DefaultKillCooldown;
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
@@ -91,7 +95,6 @@ namespace TownOfHost
             }
 
             BountyHunter.ChangeTimer = new();
-            Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
 
             NameColorManager.Instance.RpcReset();
@@ -117,8 +120,9 @@ namespace TownOfHost
             //          ==勝利陣営表示==
             //#######################################
 
+            __instance.WinText.alignment = TMPro.TextAlignmentOptions.Right;
             var WinnerTextObject = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
-            WinnerTextObject.transform.position = new(__instance.WinText.transform.position.x, __instance.WinText.transform.position.y - 0.5f, __instance.WinText.transform.position.z);
+            WinnerTextObject.transform.position = new(__instance.WinText.transform.position.x + 2.4f, __instance.WinText.transform.position.y - 0.5f, __instance.WinText.transform.position.z);
             WinnerTextObject.transform.localScale = new(0.6f, 0.6f, 0.6f);
             var WinnerText = WinnerTextObject.GetComponent<TMPro.TextMeshPro>(); //WinTextと同じ型のコンポーネントを取得
             WinnerText.fontSizeMin = 3f;
@@ -194,19 +198,19 @@ namespace TownOfHost
 
             var Pos = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, Camera.main.nearClipPlane));
             var RoleSummaryObject = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
-            RoleSummaryObject.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, Pos.y - 0.1f, -14f);
+            RoleSummaryObject.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, Pos.y - 0.1f, -15f);
             RoleSummaryObject.transform.localScale = new Vector3(1f, 1f, 1f);
 
-            string RoleSummaryText = $"{GetString("RoleSummaryText")}";
+            StringBuilder sb = new($"{GetString("RoleSummaryText")}");
             List<byte> cloneRoles = new(Main.PlayerStates.Keys);
             foreach (var id in Main.winnerList)
             {
-                RoleSummaryText += $"\n<color={CustomWinnerColor}>★</color> " + EndGamePatch.SummaryText[id];
+                sb.Append($"\n<color={CustomWinnerColor}>★</color> ").Append(EndGamePatch.SummaryText[id]);
                 cloneRoles.Remove(id);
             }
             foreach (var id in cloneRoles)
             {
-                RoleSummaryText += $"\n　 " + EndGamePatch.SummaryText[id];
+                sb.Append($"\n　 ").Append(EndGamePatch.SummaryText[id]);
             }
             var RoleSummary = RoleSummaryObject.GetComponent<TMPro.TextMeshPro>();
             RoleSummary.alignment = TMPro.TextAlignmentOptions.TopLeft;
@@ -216,7 +220,7 @@ namespace TownOfHost
 
             var RoleSummaryRectTransform = RoleSummary.GetComponent<RectTransform>();
             RoleSummaryRectTransform.anchoredPosition = new Vector2(Pos.x + 3.5f, Pos.y - 0.1f);
-            RoleSummary.text = RoleSummaryText;
+            RoleSummary.text = sb.ToString();
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

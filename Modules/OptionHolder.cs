@@ -77,7 +77,7 @@ namespace TownOfHost
         public static OptionItem EnableGM;
         public static float DefaultKillCooldown = Main.NormalOptions?.KillCooldown ?? 20;
         public static OptionItem VampireKillDelay;
-        //public static CustomOption ShapeMasterShapeshiftDuration;
+        public static OptionItem ShapeMasterShapeshiftDuration;
         public static OptionItem DefaultShapeshiftCooldown;
         public static OptionItem CanMakeMadmateCount;
         public static OptionItem MadGuardianCanSeeWhoTriedToKill;
@@ -100,9 +100,6 @@ namespace TownOfHost
         public static OptionItem MayorHasPortableButton;
         public static OptionItem MayorNumOfUseButton;
         public static OptionItem DoctorTaskCompletedBatteryCharge;
-        public static OptionItem SnitchEnableTargetArrow;
-        public static OptionItem SnitchCanGetArrowColor;
-        public static OptionItem SnitchCanFindNeutralKiller;
         public static OptionItem SpeedBoosterUpSpeed; //加速値
         public static OptionItem SpeedBoosterTaskTrigger; //効果を発動するタスク完了数
         public static OptionItem TrapperBlockMoveTime;
@@ -236,11 +233,16 @@ namespace TownOfHost
         // プリセット対象外
         public static OptionItem NoGameEnd;
         public static OptionItem AutoDisplayLastResult;
+        public static OptionItem AutoDisplayKillLog;
         public static OptionItem SuffixMode;
         public static OptionItem HideGameSettings;
         public static OptionItem ColorNameMode;
         public static OptionItem ChangeNameToRoleInfo;
         public static OptionItem RoleAssigningAlgorithm;
+
+        public static OptionItem ApplyDenyNameList;
+        public static OptionItem KickPlayerFriendCodeNotExist;
+        public static OptionItem ApplyBanList;
 
         public static readonly string[] suffixModes =
         {
@@ -338,11 +340,9 @@ namespace TownOfHost
             // Impostor
             BountyHunter.SetupCustomOption();
             SerialKiller.SetupCustomOption();
-            // SetupRoleOptions(1200, CustomRoles.ShapeMaster);
-            // ShapeMasterShapeshiftDuration = CustomOption.Create(1210, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
-            SetupRoleOptions(1300, TabGroup.ImpostorRoles, CustomRoles.Vampire);
-            VampireKillDelay = FloatOptionItem.Create(1310, "VampireKillDelay", new(1f, 1000f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Vampire])
-                .SetValueFormat(OptionFormat.Seconds);
+            SetupRoleOptions(1200, TabGroup.ImpostorRoles, CustomRoles.ShapeMaster);
+            ShapeMasterShapeshiftDuration = FloatOptionItem.Create(1210, "ShapeMasterShapeshiftDuration", new(1, 1000, 1), 10, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
+            Vampire.SetupCustomOption();
             SetupRoleOptions(1400, TabGroup.ImpostorRoles, CustomRoles.Warlock);
             Witch.SetupCustomOption();
             SetupRoleOptions(1600, TabGroup.ImpostorRoles, CustomRoles.Mafia);
@@ -402,12 +402,7 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Times);
             SabotageMaster.SetupCustomOption();
             Sheriff.SetupCustomOption();
-            SetupRoleOptions(20500, TabGroup.CrewmateRoles, CustomRoles.Snitch);
-            SnitchEnableTargetArrow = BooleanOptionItem.Create(20510, "SnitchEnableTargetArrow", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
-            SnitchCanGetArrowColor = BooleanOptionItem.Create(20511, "SnitchCanGetArrowColor", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
-            SnitchCanFindNeutralKiller = BooleanOptionItem.Create(20512, "SnitchCanFindNeutralKiller", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
-            //20520~20523を使用
-            SnitchTasks = OverrideTasksData.Create(20520, TabGroup.CrewmateRoles, CustomRoles.Snitch);
+            Snitch.SetupCustomOption();
             SetupRoleOptions(20600, TabGroup.CrewmateRoles, CustomRoles.SpeedBooster);
             SpeedBoosterUpSpeed = FloatOptionItem.Create(20610, "SpeedBoosterUpSpeed", new(0.1f, 0.5f, 0.1f), 0.3f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
                 .SetValueFormat(OptionFormat.Multiplier);
@@ -421,6 +416,7 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Seconds);
             SetupRoleOptions(20900, TabGroup.CrewmateRoles, CustomRoles.Dictator);
             SetupRoleOptions(21000, TabGroup.CrewmateRoles, CustomRoles.Seer);
+            TimeManager.SetupCustomOption();
 
             // Neutral
             SetupRoleOptions(50500, TabGroup.NeutralRoles, CustomRoles.Arsonist);
@@ -444,6 +440,7 @@ namespace TownOfHost
 
             // Add-Ons
             LastImpostor.SetupCustomOption();
+            Workhorse.SetupCustomOption();
             #endregion
 
             KillFlashDuration = FloatOptionItem.Create(90000, "KillFlashDuration", new(0.1f, 0.45f, 0.05f), 0.3f, TabGroup.MainSettings, false)
@@ -649,6 +646,8 @@ namespace TownOfHost
             AutoDisplayLastResult = BooleanOptionItem.Create(1_000_000, "AutoDisplayLastResult", true, TabGroup.MainSettings, false)
                 .SetHeader(true)
                 .SetGameMode(CustomGameMode.All);
+            AutoDisplayKillLog = BooleanOptionItem.Create(1_000_006, "AutoDisplayKillLog", true, TabGroup.MainSettings, false)
+                .SetGameMode(CustomGameMode.All);
             SuffixMode = StringOptionItem.Create(1_000_001, "SuffixMode", suffixModes, 0, TabGroup.MainSettings, true)
                 .SetGameMode(CustomGameMode.All);
             HideGameSettings = BooleanOptionItem.Create(1_000_002, "HideGameSettings", false, TabGroup.MainSettings, false)
@@ -662,6 +661,14 @@ namespace TownOfHost
                 .RegisterUpdateValueEvent(
                     (object obj, OptionItem.UpdateValueEventArgs args) => IRandom.SetInstanceById(args.CurrentValue)
                 );
+
+            ApplyDenyNameList = BooleanOptionItem.Create(1_000_100, "ApplyDenyNameList", true, TabGroup.MainSettings, true)
+                .SetHeader(true)
+                .SetGameMode(CustomGameMode.All);
+            KickPlayerFriendCodeNotExist = BooleanOptionItem.Create(1_000_101, "KickPlayerFriendCodeNotExist", false, TabGroup.MainSettings, true)
+                .SetGameMode(CustomGameMode.All);
+            ApplyBanList = BooleanOptionItem.Create(1_000_110, "ApplyBanList", true, TabGroup.MainSettings, true)
+                .SetGameMode(CustomGameMode.All);
 
             DebugModeManager.SetupCustomOption();
 

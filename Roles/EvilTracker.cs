@@ -8,14 +8,14 @@ namespace TownOfHost
     public static class EvilTracker
     {
         private static readonly int Id = 2900;
-        public static List<byte> playerIdList = new();
+        private static List<byte> playerIdList = new();
 
-        public static OptionItem CanSeeKillFlash;
-        public static OptionItem CanResetTargetAfterMeeting;
+        private static OptionItem CanSeeKillFlash;
+        private static OptionItem CanResetTargetAfterMeeting;
         public static OptionItem CanSeeLastRoomInMeeting;
         public static OptionItem CanCreateMadmate;
 
-        public static Dictionary<byte, PlayerControl> Target = new();
+        public static Dictionary<byte, byte> Target = new();
         public static Dictionary<byte, bool> CanSetTarget = new();
 
         public static void SetupCustomOption()
@@ -35,37 +35,13 @@ namespace TownOfHost
         public static void Add(byte playerId)
         {
             playerIdList.Add(playerId);
+            Target.Add(playerId, byte.MaxValue);
             CanSetTarget.Add(playerId, true);
-            Utils.GetPlayerById(playerId).GetTarget();
         }
-        public static bool IsEnable()
-        {
-            return playerIdList.Count > 0;
-        }
-        public static void RPCSetTarget(byte trackerId, int targetId)
-        {
-            switch (targetId)
-            {
-                case -2:
-                    CanSetTarget[trackerId] = true;
-                    return;
-                case -1:
-                    Target.Remove(trackerId);
-                    return;
-                default:
-                    var target = Utils.GetPlayerById(targetId);
-                    if (target != null)
-                    {
-                        Target[trackerId] = target;
-                        CanSetTarget[trackerId] = false;
-                    }
-                    return;
-            }
-        }
-
+        public static bool IsEnable => playerIdList.Count > 0;
         public static void ApplyGameOptions(byte playerId)
         {
-            AURoleOptions.ShapeshifterCooldown = CanSetTarget[playerId] ? 5f : 255f;
+            AURoleOptions.ShapeshifterCooldown = CanTarget(playerId) ? 5f : 255f;
             AURoleOptions.ShapeshifterDuration = 1f;
         }
         public static void GetAbilityButtonText(HudManager __instance, byte playerId)
@@ -73,60 +49,84 @@ namespace TownOfHost
             __instance.AbilityButton.ToggleVisible(CanSetTarget[playerId]);
             __instance.AbilityButton.OverrideText($"{GetString("EvilTrackerChangeButtonText")}");
         }
-        public static void SendTarget(byte EvilTrackerId, byte targetId)
-        {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetEvilTrackerTarget, Hazel.SendOption.Reliable, -1);
-            writer.Write(EvilTrackerId);
-            writer.Write(targetId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
-        public static void SendRemoveTarget(byte EvilTrackerId)
-        {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetEvilTrackerTarget, Hazel.SendOption.Reliable, -1);
-            writer.Write(EvilTrackerId);
-            writer.Write(-1);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
-        public static PlayerControl GetTarget(this PlayerControl player)
-        {
-            if (player == null) return null;
-            if (Target == null) Target = new Dictionary<byte, PlayerControl>();
-            if (!Target.TryGetValue(player.PlayerId, out var target))
-            {
-                Target.Add(player.PlayerId, null);
-                target = player.RemoveTarget();
-            }
-            return target;
-        }
-        public static PlayerControl RemoveTarget(this PlayerControl player)
-        {
-            if (!AmongUsClient.Instance.AmHost) return null;
-            Target[player.PlayerId] = null;
-            Logger.Info($"プレイヤー{player.GetNameWithRole()}のターゲットを削除", "EvilTracker");
-            SendRemoveTarget(player.PlayerId);
-            return Target[player.PlayerId];
-        }
+
+        // 値取得の関数
+        private static bool CanTarget(byte playerId)
+            => !Main.PlayerStates[playerId].IsDead && CanSetTarget.TryGetValue(playerId, out var value) && value;
+        private static byte GetTarget(byte playerId)
+            => Target.TryGetValue(playerId, out var targetId) ? targetId : byte.MaxValue;
+        public static bool IsTrackTarget(PlayerControl seer, PlayerControl target, bool includeImpostors = true)
+            => seer.IsAlive() && seer.Is(CustomRoles.EvilTracker)
+            && target.IsAlive() && seer != target
+            && ((includeImpostors && target.Is(RoleType.Impostor)) || GetTarget(seer.PlayerId) == target.PlayerId);
         public static bool KillFlashCheck(PlayerControl killer, PlayerControl target)
         {
             return CanSeeKillFlash.GetBool() && Utils.IsImpostorKill(killer, target);
         }
-        public static string GetMarker(byte playerId) => Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor).ShadeColor(0.5f), CanSetTarget[playerId] ? "◁" : "");
-        public static string GetTargetMark(PlayerControl seer, PlayerControl target) => Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), seer.GetTarget() == target ? "◀" : "");
-        public static string UtilsGetTargetArrow(bool isMeeting, PlayerControl seer)
+
+        // 各所で呼ばれる処理
+        public static void OnShapeshift(PlayerControl shapeshifter, PlayerControl target, bool shapeshifting)
         {
-            //ミーティング以外では矢印表示
-            if (isMeeting) return "";
-            string SelfSuffix = "";
-            foreach (var arrow in Main.targetArrows)
-            {
-                var target = Utils.GetPlayerById(arrow.Key.Item2);
-                bool EvilTrackerTarget = seer.GetTarget() == target;
-                if (arrow.Key.Item1 == seer.PlayerId && !Main.PlayerStates[arrow.Key.Item2].IsDead && (target.GetCustomRole().IsImpostor() || EvilTrackerTarget))
-                    SelfSuffix += EvilTrackerTarget ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Crewmate), arrow.Value) : arrow.Value;
-            }
-            return SelfSuffix;
+            if (!CanTarget(shapeshifter.PlayerId) || !shapeshifting) return;
+            if (!target.IsAlive() || target.Is(RoleType.Impostor)) return;
+
+            SetTarget(shapeshifter.PlayerId, target.PlayerId);
+            Logger.Info($"{shapeshifter.GetNameWithRole()}のターゲットを{target.GetNameWithRole()}に設定", "EvilTrackerTarget");
+            shapeshifter.MarkDirtySettings();
+            Utils.NotifyRoles();
         }
-        public static string PCGetTargetArrow(PlayerControl seer, PlayerControl target)
+        public static void FixedUpdate(PlayerControl pc)
+        {
+            if (!pc.Is(CustomRoles.EvilTracker)) return;
+            var targetId = GetTarget(pc.PlayerId);
+            if (targetId == byte.MaxValue) return;
+            var target = Utils.GetPlayerById(targetId);
+            if (pc.IsAlive() && target.IsAlive()) return;
+            //EvilTrackerのターゲット削除
+            SetTarget(pc.PlayerId);
+            Logger.Info($"{pc.GetNameWithRole()}のターゲットが無効だったため、ターゲットを削除しました", "EvilTracker");
+            Utils.NotifyRoles();
+        }
+        public static void AfterMeetingTasks()
+        {
+            if (CanResetTargetAfterMeeting.GetBool())
+                SetTarget();
+        }
+        ///<summary>
+        ///引数が両方空：再設定可能に,
+        ///trackerIdのみ：該当IDのターゲット削除,
+        ///trackerIdとtargetId両方あり：該当IDのプレイヤーをターゲットに設定
+        ///</summary>
+        public static void SetTarget(byte trackerId = byte.MaxValue, byte targetId = byte.MaxValue)
+        {
+            if (trackerId == byte.MaxValue) // ターゲット再設定可能に
+                foreach (var playerId in playerIdList)
+                    CanSetTarget[playerId] = true;
+            else if (targetId == byte.MaxValue) // ターゲット削除
+                Target[trackerId] = byte.MaxValue;
+            else
+            {
+                Target[trackerId] = targetId; // ターゲット設定
+                CanSetTarget[trackerId] = false; // ターゲット再設定不可に
+            }
+
+            if (!AmongUsClient.Instance.AmHost) return;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetEvilTrackerTarget, SendOption.Reliable, -1);
+            writer.Write(trackerId);
+            writer.Write(targetId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void ReceiveRPC(MessageReader reader)
+        {
+            byte trackerId = reader.ReadByte();
+            byte targetId = reader.ReadByte();
+            SetTarget(trackerId, targetId);
+        }
+
+        // 表示系の関数
+        public static string GetMarker(byte playerId) => CanTarget(playerId) ? Utils.ColorString(Palette.ImpostorRed.ShadeColor(0.5f), "◁") : "";
+        public static string GetTargetMark(PlayerControl seer, PlayerControl target) => IsTrackTarget(seer, target, false) ? Utils.ColorString(Palette.ImpostorRed, "◀") : "";
+        public static string GetTargetArrowForModClient(PlayerControl seer, PlayerControl target)
         {
             var update = false;
             string Suffix = "";
@@ -134,11 +134,9 @@ namespace TownOfHost
             {
                 //発見対象じゃ無ければ次
                 if (!IsTrackTarget(target, pc)) continue;
-
-                update = FixedUpdatePatch.CheckArrowUpdate(target, pc, update, pc.GetCustomRole().IsImpostor());
-                var key = (target.PlayerId, pc.PlayerId);
-                var arrow = Main.targetArrows[key];
-                if (target.GetTarget() == pc) arrow = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Crewmate), arrow);
+                update = FixedUpdatePatch.CheckArrowUpdate(target, pc, update, pc.Is(RoleType.Impostor));
+                var arrow = Main.targetArrows[(target.PlayerId, pc.PlayerId)];
+                if (IsTrackTarget(target, pc, false)) arrow = Utils.ColorString(Color.white, arrow);
                 if (target.AmOwner)
                 {
                     //MODなら矢印表示
@@ -152,48 +150,19 @@ namespace TownOfHost
             }
             return Suffix;
         }
-        public static void EnableResetTargetAfterMeeting(PlayerControl pc)
+        public static string GetTargetArrowForVanilla(bool isMeeting, PlayerControl seer)
         {
-            if (!CanResetTargetAfterMeeting.GetBool()) return;
-            CanSetTarget[pc.PlayerId] = true;
-            if (!AmongUsClient.Instance.AmHost) return;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetEvilTrackerTarget, Hazel.SendOption.Reliable, -1);
-            writer.Write(pc.PlayerId);
-            writer.Write(-2);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
-        public static void Shapeshift(PlayerControl shapeshifter, PlayerControl target, bool shapeshifting)
-        {
-            if (CanSetTarget[shapeshifter.PlayerId] && shapeshifting)
+            //ミーティング以外では矢印表示
+            if (isMeeting) return "";
+            string SelfSuffix = "";
+            foreach (var arrow in Main.targetArrows)
             {
-                if (!target.Data.IsDead && !target.GetCustomRole().IsImpostor())
-                {
-                    Target[shapeshifter.PlayerId] = target;
-                    CanSetTarget[shapeshifter.PlayerId] = false;
-                    SendTarget(shapeshifter.PlayerId, target.PlayerId);
-                    Logger.Info($"{shapeshifter.GetNameWithRole()}のターゲットを{Target[shapeshifter.PlayerId].GetNameWithRole()}に設定", "EvilTrackerTarget");
-                }
-                Utils.MarkEveryoneDirtySettings();
-                Utils.NotifyRoles();
+                var target = Utils.GetPlayerById(arrow.Key.Item2);
+                if (arrow.Key.Item1 == seer.PlayerId && IsTrackTarget(seer, target))
+                    SelfSuffix += Utils.ColorString(target.Is(RoleType.Impostor) ? Palette.ImpostorRed : Color.white, arrow.Value);
             }
+            return SelfSuffix;
         }
-        public static void FixedUpdate(PlayerControl pc)
-        {
-            if (!pc.Is(CustomRoles.EvilTracker)) return;
-            var target = pc.GetTarget();
-            //EvilTrackerのターゲット削除
-            if (pc != target && target != null && (target.Data.IsDead || target.Data.Disconnected))
-            {
-                Target[pc.PlayerId] = null;
-                pc.RemoveTarget();
-                Logger.Info($"{pc.GetNameWithRole()}のターゲットが無効だったため、ターゲットを削除しました", "EvilTracker");
-                Utils.NotifyRoles();
-            }
-        }
-        public static bool IsTrackTarget(PlayerControl seer, PlayerControl target)
-            => seer.IsAlive() && seer.Is(CustomRoles.EvilTracker)
-            && target.IsAlive() && seer != target
-            && (target.Is(RoleType.Impostor) || seer.GetTarget() == target);
         public static string GetArrowAndLastRoom(PlayerControl seer, PlayerControl target)
         {
             string text = Utils.ColorString(Palette.ImpostorRed, Main.targetArrows[(seer.PlayerId, target.PlayerId)]);

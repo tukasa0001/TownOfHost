@@ -96,11 +96,11 @@ namespace TownOfHost.Modules
             {
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
-                // case CustomRoles.ShapeMaster:
-                //     roleOpt.ShapeshifterCooldown = 0.1f;
-                //     roleOpt.ShapeshifterLeaveSkin = false;
-                //     roleOpt.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
-                //     break;
+                case CustomRoles.ShapeMaster:
+                    AURoleOptions.ShapeshifterCooldown = 0f;
+                    AURoleOptions.ShapeshifterLeaveSkin = false;
+                    AURoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
+                    break;
                 case CustomRoles.Warlock:
                     AURoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
                     break;
@@ -209,19 +209,7 @@ namespace TownOfHost.Modules
                     opt.SetFloat(FloatOptionNames.PlayerSpeedMod, Main.MinSpeed);
                 }
             }
-            opt.SetInt(Int32OptionNames.DiscussionTime, Mathf.Clamp(Main.DiscussionTime, 0, 300));
-
-            opt.SetInt(
-                Int32OptionNames.VotingTime,
-                Mathf.Clamp(Main.VotingTime, TimeThief.LowerLimitVotingTime.GetInt(), 300));
-
-            if (Options.AllAliveMeeting.GetBool() && GameData.Instance.AllPlayers.ToArray().Where(x => !x.Object.Is(CustomRoles.GM)).All(x => !x.IsDead))
-            {
-                opt.SetInt(Int32OptionNames.DiscussionTime, 0);
-                opt.SetInt(
-                Int32OptionNames.VotingTime,
-                Options.AllAliveMeetingTime.GetInt());
-            }
+            MeetingTimeManager.ApplyGameOptions(opt);
 
             AURoleOptions.ShapeshifterCooldown = Mathf.Max(1f, AURoleOptions.ShapeshifterCooldown);
             AURoleOptions.ProtectionDurationSeconds = 0f;

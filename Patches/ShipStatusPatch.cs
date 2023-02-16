@@ -80,7 +80,7 @@ namespace TownOfHost
                 && systemType == SystemTypes.Comms //システムタイプが通信室
                 && amount is 0 or 16 or 17)
                 return false;
-            if (!player.Is(RoleType.Impostor) && !(player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
+            if (!player.Is(RoleType.Impostor) && !player.Is(CustomRoles.Egoist) && !(player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
             {
                 if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
             }
@@ -88,14 +88,7 @@ namespace TownOfHost
         }
         public static void Postfix(ShipStatus __instance)
         {
-            Utils.MarkEveryoneDirtySettings();
-            new LateTask(
-                () =>
-                {
-                    Camouflage.CheckCamouflage();
-                    if (!GameStates.IsMeeting)
-                        Utils.NotifyRoles(ForceLoop: true);
-                }, 0.1f, "ShipStatus.RepairSystem");
+            Camouflage.CheckCamouflage();
         }
         public static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max)
         {
@@ -166,7 +159,7 @@ namespace TownOfHost
     {
         public static bool Prefix(ref bool __result)
         {
-            if (Options.DisableTaskWin.GetBool() || Options.NoGameEnd.GetBool() || GameData.Instance.TotalTasks == 0)
+            if (Options.DisableTaskWin.GetBool() || Options.NoGameEnd.GetBool() || TaskState.InitialTotalTasks == 0)
             {
                 __result = false;
                 return false;

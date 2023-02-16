@@ -12,7 +12,7 @@ namespace TownOfHost
                 CustomRoles.BountyHunter or
                 CustomRoles.Vampire or
                 CustomRoles.Witch or
-                //CustomRoles.ShapeMaster or
+                CustomRoles.ShapeMaster or
                 CustomRoles.Warlock or
                 CustomRoles.SerialKiller or
                 CustomRoles.Mare or
@@ -126,9 +126,43 @@ namespace TownOfHost
             {
                 CustomRoles.Shapeshifter => true,
                 CustomRoles.EvilTracker => EvilTracker.CanCreateMadmate.GetBool(),
-                CustomRoles.Egoist => Egoist.CanCreateMadmate.GetBool(),
+                CustomRoles.Egoist => Egoist.CanCreateMadmate,
                 _ => false,
             };
+        public static RoleTypes GetRoleTypes(this CustomRoles role)
+            => role switch
+            {
+                CustomRoles.Sheriff or
+                CustomRoles.Arsonist or
+                CustomRoles.Jackal => RoleTypes.Impostor,
+
+                CustomRoles.Scientist or
+                CustomRoles.Doctor => RoleTypes.Scientist,
+
+                CustomRoles.Engineer or
+                CustomRoles.Madmate or
+                CustomRoles.Terrorist => RoleTypes.Engineer,
+
+                CustomRoles.GuardianAngel or
+                CustomRoles.GM => RoleTypes.GuardianAngel,
+
+                CustomRoles.MadSnitch => Options.MadSnitchCanVent.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
+                CustomRoles.Watcher => Options.IsEvilWatcher ? RoleTypes.Impostor : RoleTypes.Crewmate,
+                CustomRoles.Mayor => Options.MayorHasPortableButton.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
+
+                CustomRoles.Shapeshifter or
+                CustomRoles.BountyHunter or
+                CustomRoles.EvilTracker or
+                CustomRoles.SerialKiller or
+                CustomRoles.FireWorks or
+                CustomRoles.Sniper or
+                CustomRoles.ShapeMaster or
+                CustomRoles.Warlock or
+                CustomRoles.Egoist => RoleTypes.Shapeshifter,
+
+                _ => role.IsImpostor() ? RoleTypes.Impostor : RoleTypes.Crewmate,
+            };
+
     }
     public enum RoleType
     {

@@ -58,9 +58,11 @@ namespace TownOfHost
                 __instance.ColorBlindButton.transform.localScale = Vector3.one * 0.7f;
             }
             if (__instance.StreamerModeButton != null)
+            {
                 if (origin == null) origin = __instance.StreamerModeButton.transform.localPosition;
-            __instance.StreamerModeButton.transform.localPosition = origin.Value + Vector3.right * 1.375f + Vector3.up * 1.071f;
-            __instance.StreamerModeButton.transform.localScale = Vector3.one * 0.7f;
+                __instance.StreamerModeButton.transform.localPosition = origin.Value + Vector3.right * 1.375f + Vector3.up * 1.071f;
+                __instance.StreamerModeButton.transform.localScale = Vector3.one * 0.7f;
+            }
 
             if (ForceJapanese == null || ForceJapanese?.gameObject == null)
             {
