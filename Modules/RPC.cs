@@ -281,9 +281,7 @@ namespace TownOfHost
                         Main.currentDousingTarget = dousingTargetId;
                     break;
                 case CustomRPC.SetEvilTrackerTarget:
-                    byte TrackerId = reader.ReadByte();
-                    int TargetId = reader.ReadInt32();
-                    EvilTracker.RPCSetTarget(TrackerId, TargetId);
+                    EvilTracker.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetRealKiller:
                     byte targetId = reader.ReadByte();
@@ -422,6 +420,9 @@ namespace TownOfHost
                 case CustomRoles.Witch:
                     Witch.Add(targetId);
                     break;
+                case CustomRoles.Vampire:
+                    Vampire.Add(targetId);
+                    break;
                 case CustomRoles.Executioner:
                     Executioner.Add(targetId);
                     break;
@@ -436,6 +437,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.SabotageMaster:
                     SabotageMaster.Add(targetId);
+                    break;
+                case CustomRoles.Snitch:
+                    Snitch.Add(targetId);
                     break;
                 case CustomRoles.AntiAdminer:
                     AntiAdminer.Add(targetId);

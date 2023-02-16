@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Csv;
 using HarmonyLib;
+using UnhollowerBaseLib;
 
 namespace TownOfHost
 {
@@ -82,6 +83,12 @@ namespace TownOfHost
                 {
                     res = $"*{str}";
                 }
+                if (!translateMaps.ContainsKey(str)) //translateMapsにない場合、StringNamesにあれば取得する
+                {
+                    var stringNames = Enum.GetValues(typeof(StringNames)).Cast<StringNames>().Where(x => x.ToString() == str);
+                    if (stringNames != null && stringNames.Count() > 0)
+                        res = GetString(stringNames.FirstOrDefault());
+                }
             }
             catch (Exception Ex)
             {
@@ -90,6 +97,8 @@ namespace TownOfHost
             }
             return res;
         }
+        public static string GetString(StringNames stringName)
+            => DestroyableSingleton<TranslationController>.Instance.GetString(stringName, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
         public static string GetRoleString(string str)
         {
             var CurrentLanguage = TranslationController.Instance.currentLanguage.languageID;
@@ -130,10 +139,9 @@ namespace TownOfHost
 
         private static void CreateTemplateFile()
         {
-            var text = "";
-            foreach (var title in translateMaps) text += $"{title.Key}:{GetString(title.Key)}\n";
-            File.WriteAllText(@$"./{LANGUAGE_FOLDER_NAME}/template.dat", text);
-            text = "";
+            var sb = new StringBuilder();
+            foreach (var title in translateMaps) sb.Append($"{title.Key}:\n");
+            File.WriteAllText(@$"./{LANGUAGE_FOLDER_NAME}/template.dat", sb.ToString());
         }
     }
 }

@@ -69,14 +69,7 @@ namespace TownOfHost
         }
         public static void Postfix(ShipStatus __instance)
         {
-            Utils.MarkEveryoneDirtySettings();
-            new LateTask(
-                () =>
-                {
-                    Camouflage.CheckCamouflage();
-                    if (!GameStates.IsMeeting)
-                        Utils.NotifyRoles(ForceLoop: true);
-                }, 0.1f, "ShipStatus.RepairSystem");
+            Camouflage.CheckCamouflage();
         }
         public static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max)
         {
@@ -147,7 +140,7 @@ namespace TownOfHost
     {
         public static bool Prefix(ref bool __result)
         {
-            if (Options.DisableTaskWin.GetBool() || Options.NoGameEnd.GetBool() || GameData.Instance.TotalTasks == 0)
+            if (Options.DisableTaskWin.GetBool() || Options.NoGameEnd.GetBool() || TaskState.InitialTotalTasks == 0)
             {
                 __result = false;
                 return false;

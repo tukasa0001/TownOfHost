@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
+using TownOfHost.Modules;
 using LogLevel = BepInEx.Logging.LogLevel;
 
 namespace TownOfHost
@@ -119,5 +120,7 @@ namespace TownOfHost
         {
             throw new NotImplementedException();
         }
+        public static LogHandler Handler(string tag)
+            => new(tag);
     }
 }

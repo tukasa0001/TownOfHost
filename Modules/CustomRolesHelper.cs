@@ -7,6 +7,7 @@ namespace TownOfHost
     {
         public static CustomRoles GetVNRole( this CustomRoles role) // 对应原版职业
         {
+            if (role.IsVanilla()) return role;
             return role switch
             {
                 CustomRoles.Sniper => CustomRoles.Shapeshifter,
@@ -55,10 +56,22 @@ namespace TownOfHost
                 CustomRoles.Bomber => CustomRoles.Shapeshifter,
                 CustomRoles.BoobyTrap => CustomRoles.Impostor,
                 CustomRoles.Transporter => CustomRoles.Crewmate,
-                _ => CustomRoles.Crewmate
+                _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
         }
-        public static bool IsDesyncRole(this CustomRoles role) => role.GetDYRole() != RoleTypes.Scientist;
+        public static RoleTypes GetRoleTypes(this CustomRoles role)
+        => GetVNRole(role) switch
+        {
+            CustomRoles.Impostor => RoleTypes.Impostor,
+            CustomRoles.Scientist => RoleTypes.Scientist,
+            CustomRoles.Engineer => RoleTypes.Engineer,
+            CustomRoles.GuardianAngel => RoleTypes.GuardianAngel,
+            CustomRoles.Shapeshifter => RoleTypes.Shapeshifter,
+            CustomRoles.Crewmate => RoleTypes.Crewmate,
+            _ => role.IsImpostor() ? RoleTypes.Impostor : RoleTypes.Crewmate,
+        };
+
+    public static bool IsDesyncRole(this CustomRoles role) => role.GetDYRole() != RoleTypes.Scientist;
         public static RoleTypes GetDYRole(this CustomRoles role) // 对应原版职业（反职业）
         {
             return role switch

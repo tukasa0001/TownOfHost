@@ -309,10 +309,10 @@ namespace TownOfHost
                     {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
                     {CustomRoles.NotAssigned, "#ffffff"},
-                    {CustomRoles.LastImpostor, "#ff0000"},
+                    {CustomRoles.LastImpostor, "#ff1919"},
                     {CustomRoles.Lovers, "#ff6be4"},
                     {CustomRoles.Ntr, "#00a4ff"},
-                    {CustomRoles.Madmate, "#ff0000"},
+                    {CustomRoles.Madmate, "#ff1919"},
                     {CustomRoles.Watcher, "#800080"},
                     {CustomRoles.Flashman, "#ff8400"},
                     {CustomRoles.Lighter, "#eee5be"},
@@ -326,7 +326,7 @@ namespace TownOfHost
                     switch (role.GetRoleType())
                     {
                         case RoleType.Impostor:
-                            roleColors.TryAdd(role, "#ff0000");
+                            roleColors.TryAdd(role, "#ff1919");
                             break;
                         default:
                             break;
@@ -343,13 +343,14 @@ namespace TownOfHost
             }
             TownOfHost.Logger.Info($"{Application.version}", "AmongUs Version");
 
-            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Branch)}: {ThisAssembly.Git.Branch}", "GitVersion");
-            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.BaseTag)}: {ThisAssembly.Git.BaseTag}", "GitVersion");
-            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Commit)}: {ThisAssembly.Git.Commit}", "GitVersion");
-            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Commits)}: {ThisAssembly.Git.Commits}", "GitVersion");
-            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.IsDirty)}: {ThisAssembly.Git.IsDirty}", "GitVersion");
-            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}", "GitVersion");
-            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}", "GitVersion");
+            var handler = TownOfHost.Logger.Handler("GitVersion");
+            handler.Info($"{nameof(ThisAssembly.Git.Branch)}: {ThisAssembly.Git.Branch}");
+            handler.Info($"{nameof(ThisAssembly.Git.BaseTag)}: {ThisAssembly.Git.BaseTag}");
+            handler.Info($"{nameof(ThisAssembly.Git.Commit)}: {ThisAssembly.Git.Commit}");
+            handler.Info($"{nameof(ThisAssembly.Git.Commits)}: {ThisAssembly.Git.Commits}");
+            handler.Info($"{nameof(ThisAssembly.Git.IsDirty)}: {ThisAssembly.Git.IsDirty}");
+            handler.Info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}");
+            handler.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}");
 
             ClassInjector.RegisterTypeInIl2Cpp<ErrorText>();
 

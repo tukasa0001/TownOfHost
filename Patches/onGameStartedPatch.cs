@@ -18,11 +18,18 @@ namespace TownOfHost
             try
             {
                 //注:この時点では役職は設定されていません。
+                Main.NormalOptions.roleOptions.SetRoleRate(RoleTypes.GuardianAngel, 0, 0);
+                if (Options.DisableVanillaRoles.GetBool())
+                {
+                    Main.NormalOptions.roleOptions.SetRoleRate(RoleTypes.Scientist, 0, 0);
+                    Main.NormalOptions.roleOptions.SetRoleRate(RoleTypes.Engineer, 0, 0);
+                    Main.NormalOptions.roleOptions.SetRoleRate(RoleTypes.Shapeshifter, 0, 0);
+                }
+
                 Main.PlayerStates = new();
 
                 Main.AllPlayerKillCooldown = new Dictionary<byte, float>();
                 Main.AllPlayerSpeed = new Dictionary<byte, float>();
-                Main.BitPlayers = new Dictionary<byte, (byte, float)>();
                 Main.WarlockTimer = new Dictionary<byte, float>();
                 Main.AssassinTimer = new Dictionary<byte, float>();
                 Main.isDoused = new Dictionary<(byte, byte), bool>();
@@ -32,7 +39,6 @@ namespace TownOfHost
                 Main.MarkedPlayers = new Dictionary<byte, PlayerControl>();
                 Main.MafiaRevenged = new Dictionary<byte, int>();
                 Main.isCurseAndKill = new Dictionary<byte, bool>();
-                Main.SKMadmateNowCount = 0;
                 Main.isCursed = false;
                 Main.isMarked = false;
                 Main.existAntiAdminer = false;
@@ -71,8 +77,7 @@ namespace TownOfHost
 
                 RandomSpawn.CustomNetworkTransformPatch.NumOfTP = new();
 
-                Main.DiscussionTime = Main.RealOptionsData.GetInt(Int32OptionNames.DiscussionTime);
-                Main.VotingTime = Main.RealOptionsData.GetInt(Int32OptionNames.VotingTime);
+                MeetingTimeManager.Init();
                 Main.DefaultCrewmateVision = Main.RealOptionsData.GetFloat(FloatOptionNames.CrewLightMod);
                 Main.DefaultImpostorVision = Main.RealOptionsData.GetFloat(FloatOptionNames.ImpostorLightMod);
 
@@ -83,6 +88,8 @@ namespace TownOfHost
                 Main.PlayerColors = new();
                 //名前の記録
                 Main.AllPlayerNames = new();
+
+                Camouflage.Init();
 
                 foreach (var target in Main.AllPlayerControls)
                 {
@@ -129,8 +136,12 @@ namespace TownOfHost
                 Sheriff.Init();
                 ChivalrousExpert.Init();
                 EvilTracker.Init();
+                Snitch.Init();
+                Vampire.Init();
                 AntiAdminer.Init();
                 LastImpostor.Init();
+                TargetArrow.Init();
+                DoubleTrigger.Init();
                 CustomWinnerHolder.Reset();
                 AntiBlackout.Reset();
                 IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
@@ -139,9 +150,10 @@ namespace TownOfHost
                 MeetingStates.FirstMeeting = true;
                 GameStates.AlreadyDied = false;
             }
-            catch
+            catch (Exception ex)
             {
                 Utils.ErrorEnd("Change Role Setting Postfix");
+                Logger.Fatal(ex.ToString(), "Change Role Setting Postfix");
             }
         }
     }
@@ -489,7 +501,6 @@ namespace TownOfHost
                         ExtendedPlayerControl.RpcSetCustomRole(pair.Key, subRole);
                 }
 
-                HudManager.Instance.SetHudActive(true);
                 foreach (var pc in Main.AllPlayerControls)
                 {
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
@@ -524,6 +535,9 @@ namespace TownOfHost
                         case CustomRoles.Mare:
                             Mare.Add(pc.PlayerId);
                             break;
+                        case CustomRoles.Vampire:
+                            Vampire.Add(pc.PlayerId);
+                            break;
                         case CustomRoles.ChivalrousExpert:
                             ChivalrousExpert.Add(pc.PlayerId);
                             break;
@@ -555,6 +569,9 @@ namespace TownOfHost
                         case CustomRoles.EvilTracker:
                             EvilTracker.Add(pc.PlayerId);
                             break;
+                        case CustomRoles.Snitch:
+                            Snitch.Add(pc.PlayerId);
+                            break;
                         case CustomRoles.AntiAdminer:
                             AntiAdminer.Add(pc.PlayerId);
                             break;
@@ -565,6 +582,16 @@ namespace TownOfHost
                             Main.MarioVentCount[pc.PlayerId] = 0;
                             break;
                     }
+                    foreach (var subRole in pc.GetCustomSubRoles())
+                    {
+                        switch (subRole)
+                        {
+                            // ここに属性のAddを追加
+                            default:
+                                break;
+                        }
+                    }
+                    HudManager.Instance.SetHudActive(true);
                     pc.ResetKillCooldown();
                 }
 
@@ -599,10 +626,10 @@ namespace TownOfHost
                 Utils.SyncAllSettings();
                 SetColorPatch.IsAntiGlitchDisabled = false;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 Utils.ErrorEnd("Select Role Postfix");
-                Logger.Fatal(e.Message, "Select Role Prefix");
+                Logger.Fatal(ex.ToString(), "Select Role Prefix");
             }
         }
         private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, Dictionary<byte, CustomRpcSender> senders, Dictionary<(byte, byte), RoleTypes> rolesMap, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate, PlayerControl devPlayer = null)

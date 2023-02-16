@@ -103,7 +103,7 @@ namespace TownOfHost
         public static void Prefix(InnerNet.InnerNetClient __instance, int clientId, bool ban)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            if (ban) BanManager.AddBanPlayer(AmongUsClient.Instance.GetClient(clientId));
+            if (ban) BanManager.AddBanPlayer(AmongUsClient.Instance.GetRecentClient(clientId));
         }
     }
     [HarmonyPatch(typeof(ResolutionManager), nameof(ResolutionManager.SetResolution))]

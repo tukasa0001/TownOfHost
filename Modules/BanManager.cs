@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using HarmonyLib;
 using static TownOfHost.Translator;
 namespace TownOfHost
 {
@@ -17,14 +18,16 @@ namespace TownOfHost
         }
         public static void AddBanPlayer(InnerNet.ClientData player)
         {
-            if (!AmongUsClient.Instance.AmHost) return;
-            if (!CheckBanList(player))
+            if (!AmongUsClient.Instance.AmHost || player == null) return;
+            if (!CheckBanList(player) && player.FriendCode != "")
             {
                 File.AppendAllText(BAN_LIST_PATH, $"{player.FriendCode},{player.PlayerName}\n");
+                Logger.SendInGame(string.Format(GetString("Message.AddedPlayerToBanList"), player.PlayerName));
             }
         }
         public static void CheckDenyNamePlayer(InnerNet.ClientData player)
         {
+            if (!AmongUsClient.Instance.AmHost || !Options.ApplyDenyNameList.GetBool()) return;
             if (!AmongUsClient.Instance.AmHost) return;
             try
             {
@@ -52,7 +55,7 @@ namespace TownOfHost
         }
         public static void CheckBanPlayer(InnerNet.ClientData player)
         {
-            if (!AmongUsClient.Instance.AmHost) return;
+            if (!AmongUsClient.Instance.AmHost || !Options.ApplyBanList.GetBool()) return;
             if (CheckBanList(player))
             {
                 AmongUsClient.Instance.KickPlayer(player.Id, true);
@@ -63,6 +66,7 @@ namespace TownOfHost
         }
         public static bool CheckBanList(InnerNet.ClientData player)
         {
+            if (player == null || player?.FriendCode == "") return false;
             try
             {
                 Directory.CreateDirectory("TOH_DATA");
@@ -81,6 +85,16 @@ namespace TownOfHost
                 Logger.Exception(ex, "CheckBanList");
             }
             return false;
+        }
+    }
+    [HarmonyPatch(typeof(BanMenu), nameof(BanMenu.Select))]
+    class BanMenuSelectPatch
+    {
+        public static void Postfix(BanMenu __instance, int clientId)
+        {
+            InnerNet.ClientData recentClient = AmongUsClient.Instance.GetRecentClient(clientId);
+            if (recentClient == null) return;
+            if (!BanManager.CheckBanList(recentClient)) __instance.BanButton.GetComponent<ButtonRolloverHandler>().SetEnabledColors();
         }
 
     }

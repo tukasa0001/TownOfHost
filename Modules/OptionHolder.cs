@@ -86,8 +86,6 @@ namespace TownOfHost
         public static float DefaultKillCooldown = Main.NormalOptions?.KillCooldown ?? 20;
 
         public static OptionItem KillFlashDuration;
-        public static OptionItem KickAndroidPlayer;
-        public static OptionItem KickNonTOHEPlayer;
         public static OptionItem SendCodeToQQ;
         public static OptionItem SendCodeMinPlayer;
         public static OptionItem DisableVanillaRoles;
@@ -110,7 +108,6 @@ namespace TownOfHost
         public static OptionItem EGCanGuessAdt;
         public static OptionItem EGCanGuessTime;
         public static OptionItem EGTryHideMsg;
-        public static OptionItem VampireKillDelay;
         public static OptionItem WarlockCanKillAllies;
         public static OptionItem WarlockCanKillSelf;
         public static OptionItem ZombieKillCooldown;
@@ -127,9 +124,6 @@ namespace TownOfHost
         public static OptionItem MayorNumOfUseButton;
         public static OptionItem MayorHideVote;
         public static OptionItem DoctorTaskCompletedBatteryCharge;
-        public static OptionItem SnitchEnableTargetArrow;
-        public static OptionItem SnitchCanGetArrowColor;
-        public static OptionItem SnitchCanFindNeutralKiller;
         public static OptionItem SpeedBoosterUpSpeed;
         public static OptionItem SpeedBoosterTimes;
         public static OptionItem TrapperBlockMoveTime;
@@ -291,6 +285,11 @@ namespace TownOfHost
         public static OptionItem AutoKickStopWords;
         public static OptionItem AutoKickStopWordsAsBan;
         public static OptionItem AutoKickStopWordsTimes;
+        public static OptionItem KickAndroidPlayer;
+        public static OptionItem KickNonTOHEPlayer;
+        public static OptionItem ApplyDenyNameList;
+        public static OptionItem KickPlayerFriendCodeNotExist;
+        public static OptionItem ApplyBanList;
         public static OptionItem AutoWarnStopWords;
 
         public static OptionItem DIYGameSettings;
@@ -427,9 +426,7 @@ namespace TownOfHost
                 .SetColor(Color.green);
             BountyHunter.SetupCustomOption();
             SerialKiller.SetupCustomOption();
-            SetupRoleOptions(1300, TabGroup.ImpostorRoles, CustomRoles.Vampire);
-            VampireKillDelay = FloatOptionItem.Create(1310, "VampireKillDelay", new(1f, 1000f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Vampire])
-                .SetValueFormat(OptionFormat.Seconds);
+            Vampire.SetupCustomOption();
             SetupRoleOptions(1400, TabGroup.ImpostorRoles, CustomRoles.Warlock);
             WarlockCanKillAllies = BooleanOptionItem.Create(901406, "WarlockCanKillAllies", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Warlock]);
             WarlockCanKillSelf = BooleanOptionItem.Create(901408, "WarlockCanKillSelf", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Warlock]);
@@ -500,12 +497,7 @@ namespace TownOfHost
             CkshowEvil = BooleanOptionItem.Create(8020453, "CrewKillingRed", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic]);
             NBshowEvil = BooleanOptionItem.Create(8020454, "NBareRed", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic]);
             NEshowEvil = BooleanOptionItem.Create(800455, "NEareRed", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic]);
-            SetupRoleOptions(20500, TabGroup.CrewmateRoles, CustomRoles.Snitch);
-            SnitchEnableTargetArrow = BooleanOptionItem.Create(20510, "SnitchEnableTargetArrow", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
-            SnitchCanGetArrowColor = BooleanOptionItem.Create(20511, "SnitchCanGetArrowColor", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
-            SnitchCanFindNeutralKiller = BooleanOptionItem.Create(20512, "SnitchCanFindNeutralKiller", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
-            //20520~20523を使用
-            SnitchTasks = OverrideTasksData.Create(20520, TabGroup.CrewmateRoles, CustomRoles.Snitch);
+            Snitch.SetupCustomOption();
             SetupRoleOptions(20600, TabGroup.CrewmateRoles, CustomRoles.SpeedBooster);
             SpeedBoosterUpSpeed = FloatOptionItem.Create(20610, "SpeedBoosterUpSpeed", new(0.1f, 1.0f, 0.1f), 0.2f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
                 .SetValueFormat(OptionFormat.Multiplier);
@@ -610,8 +602,33 @@ namespace TownOfHost
             #region 系统设置
 
             KickAndroidPlayer = BooleanOptionItem.Create(6090071, "KickAndroidPlayer", false, TabGroup.SystemSettings, false)
+                .SetGameMode(CustomGameMode.All)
                 .SetHeader(true);
-            KickNonTOHEPlayer = BooleanOptionItem.Create(6090073, "KickNonTOHEPlayer", true, TabGroup.SystemSettings, false);
+            KickPlayerFriendCodeNotExist = BooleanOptionItem.Create(1_000_101, "KickPlayerFriendCodeNotExist", false, TabGroup.SystemSettings, true)
+                .SetGameMode(CustomGameMode.All);
+            KickNonTOHEPlayer = BooleanOptionItem.Create(6090073, "KickNonTOHEPlayer", true, TabGroup.SystemSettings, false)
+                .SetGameMode(CustomGameMode.All);
+            ApplyDenyNameList = BooleanOptionItem.Create(1_000_100, "ApplyDenyNameList", true, TabGroup.SystemSettings, true)
+                .SetGameMode(CustomGameMode.All);
+            ApplyBanList = BooleanOptionItem.Create(1_000_110, "ApplyBanList", true, TabGroup.SystemSettings, true)
+                .SetGameMode(CustomGameMode.All);
+            AutoKickStart = BooleanOptionItem.Create(1_000_010, "AutoKickStart", false, TabGroup.SystemSettings, false)
+                .SetHeader(true)
+                .SetGameMode(CustomGameMode.All);
+            AutoKickStartTimes = IntegerOptionItem.Create(1_000_024, "AutoKickStartTimes", new(0, 99, 1), 1, TabGroup.SystemSettings, false).SetParent(AutoKickStart)
+                .SetGameMode(CustomGameMode.All)
+                .SetValueFormat(OptionFormat.Times);
+            AutoKickStartAsBan = BooleanOptionItem.Create(1_000_026, "AutoKickStartAsBan", false, TabGroup.SystemSettings, false).SetParent(AutoKickStart)
+                .SetGameMode(CustomGameMode.All);
+            AutoKickStopWords = BooleanOptionItem.Create(1_000_011, "AutoKickStopWords", false, TabGroup.SystemSettings, false)
+                .SetGameMode(CustomGameMode.All);
+            AutoKickStopWordsTimes = IntegerOptionItem.Create(1_000_022, "AutoKickStopWordsTimes", new(0, 99, 1), 3, TabGroup.SystemSettings, false).SetParent(AutoKickStopWords)
+                .SetGameMode(CustomGameMode.All)
+                .SetValueFormat(OptionFormat.Times);
+            AutoKickStopWordsAsBan = BooleanOptionItem.Create(1_000_028, "AutoKickStopWordsAsBan", false, TabGroup.SystemSettings, false).SetParent(AutoKickStopWords)
+                .SetGameMode(CustomGameMode.All);
+            AutoWarnStopWords = BooleanOptionItem.Create(1_000_012, "AutoWarnStopWords", false, TabGroup.SystemSettings, false)
+                .SetGameMode(CustomGameMode.All);
 
             SendCodeToQQ = BooleanOptionItem.Create(6090065, "SendCodeToQQ", true, TabGroup.SystemSettings, false)
                 .SetHeader(true)
@@ -630,22 +647,7 @@ namespace TownOfHost
             AutoDisplayLastResult = BooleanOptionItem.Create(1_000_000, "AutoDisplayLastResult", true, TabGroup.SystemSettings, false)
                 .SetHeader(true)
                 .SetGameMode(CustomGameMode.All);
-            AutoKickStart = BooleanOptionItem.Create(1_000_010, "AutoKickStart", false, TabGroup.SystemSettings, false)
-                .SetGameMode(CustomGameMode.All);
-            AutoKickStartTimes = IntegerOptionItem.Create(1_000_024, "AutoKickStartTimes", new(0, 99, 1), 1, TabGroup.SystemSettings, false).SetParent(AutoKickStart)
-                .SetGameMode(CustomGameMode.All)
-                .SetValueFormat(OptionFormat.Times);
-            AutoKickStartAsBan = BooleanOptionItem.Create(1_000_026, "AutoKickStartAsBan", false, TabGroup.SystemSettings, false).SetParent(AutoKickStart)
-                .SetGameMode(CustomGameMode.All);
-            AutoKickStopWords = BooleanOptionItem.Create(1_000_011, "AutoKickStopWords", false, TabGroup.SystemSettings, false)
-                .SetGameMode(CustomGameMode.All);
-            AutoKickStopWordsTimes = IntegerOptionItem.Create(1_000_022, "AutoKickStopWordsTimes", new(0, 99, 1), 3, TabGroup.SystemSettings, false).SetParent(AutoKickStopWords)
-                .SetGameMode(CustomGameMode.All)
-                .SetValueFormat(OptionFormat.Times);
-            AutoKickStopWordsAsBan = BooleanOptionItem.Create(1_000_028, "AutoKickStopWordsAsBan", false, TabGroup.SystemSettings, false).SetParent(AutoKickStopWords)
-                .SetGameMode(CustomGameMode.All);
-            AutoWarnStopWords = BooleanOptionItem.Create(1_000_012, "AutoWarnStopWords", false, TabGroup.SystemSettings, false)
-                .SetGameMode(CustomGameMode.All);
+            
             SuffixMode = StringOptionItem.Create(1_000_001, "SuffixMode", suffixModes, 0, TabGroup.SystemSettings, true)
                 .SetGameMode(CustomGameMode.All);
             HideGameSettings = BooleanOptionItem.Create(1_000_002, "HideGameSettings", false, TabGroup.SystemSettings, false)
