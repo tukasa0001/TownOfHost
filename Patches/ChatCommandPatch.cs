@@ -471,12 +471,17 @@ namespace TownOfHost
 
                     case "/xf":
                         canceled = true;
+                        if (!GameStates.IsInGame)
+                        {
+                            Utils.SendMessage("很抱歉，您只能在游戏中使用该指令", PlayerControl.LocalPlayer.PlayerId);
+                            break;
+                        }
                         foreach (var pc in Main.AllPlayerControls)
                         {
                             pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
                         }
                         ChatUpdatePatch.DoBlockChat = false;
-                        Utils.NotifyRoles(isMeeting: true, NoCache: true);
+                        Utils.NotifyRoles(isMeeting: GameStates.IsMeeting, NoCache: true);
                         Utils.SendMessage("已尝试修复名字遮挡", PlayerControl.LocalPlayer.PlayerId);
                         break;
 
@@ -862,12 +867,17 @@ namespace TownOfHost
                     break;
 
                 case "/xf":
+                    if (!GameStates.IsInGame)
+                    {
+                        Utils.SendMessage("很抱歉，您只能在游戏中使用该指令", player.PlayerId);
+                        break;
+                    }
                     foreach (var pc in Main.AllPlayerControls)
                     {
                         pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
                     }
                     ChatUpdatePatch.DoBlockChat = false;
-                    Utils.NotifyRoles(isMeeting: true, NoCache: true);
+                    Utils.NotifyRoles(isMeeting: GameStates.IsMeeting, NoCache: true);
                     Utils.SendMessage("已尝试修复名字遮挡", player.PlayerId);
                     break;
 

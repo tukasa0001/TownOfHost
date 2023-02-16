@@ -2,13 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AmongUs.Data;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
-using TownOfHost.Modules;
 
 namespace TownOfHost
 {
