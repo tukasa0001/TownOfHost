@@ -99,7 +99,7 @@ namespace TownOfHost
                 Main.isChatCommand = true;
                 Utils.ShowActiveSettings();
             }
-            //将 TOH 选项设置为默认值
+            //将 TOHE 选项设置为默认值
             if (GetKeysDown(KeyCode.Delete, KeyCode.LeftControl))
             {
                 OptionItem.AllOptions.ToArray().Where(x => x.Id > 0).Do(x => x.SetValue(x.DefaultValue));
