@@ -65,6 +65,12 @@ namespace TownOfHost
                         Utils.ShowLastResult();
                         break;
 
+                    case "/kl":
+                    case "/killlog":
+                        canceled = true;
+                        Utils.ShowKillLog();
+                        break;
+
                     case "/r":
                     case "/rename":
                         canceled = true;
@@ -264,7 +270,7 @@ namespace TownOfHost
                 { CustomRoles.Mare, "ma" },
                 { CustomRoles.Mafia, "mf" },
                 { CustomRoles.SerialKiller, "sk" },
-                //{ CustomRoles.ShapeMaster, "sha" },
+                { CustomRoles.ShapeMaster, "sha" },
                 { CustomRoles.TimeThief, "tt"},
                 { CustomRoles.Sniper, "snp" },
                 { CustomRoles.Puppeteer, "pup" },
@@ -293,6 +299,7 @@ namespace TownOfHost
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
                 { CustomRoles.Trapper, "tra" },
+                { CustomRoles.TimeManager, "tm"},
                 //Neutral役職
                 { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
                 { CustomRoles.Arsonist, "ar" },
@@ -306,6 +313,7 @@ namespace TownOfHost
                 //属性
                 { (CustomRoles)(-6), $"== {GetString("Addons")} ==" }, //区切り用
                 {CustomRoles.Lovers, "lo" },
+                {CustomRoles.Workhorse, "wh" },
                 //HAS
                 { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
                 { CustomRoles.HASFox, "hfo" },
@@ -354,6 +362,11 @@ namespace TownOfHost
                 case "/l":
                 case "/lastresult":
                     Utils.ShowLastResult(player.PlayerId);
+                    break;
+
+                case "/kl":
+                case "/killlog":
+                    Utils.ShowKillLog(player.PlayerId);
                     break;
 
                 case "/n":

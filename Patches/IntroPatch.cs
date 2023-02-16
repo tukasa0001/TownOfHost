@@ -40,18 +40,19 @@ namespace TownOfHost
     {
         public static void Prefix()
         {
-            Logger.Info("------------名前表示------------", "Info");
+            var logger = Logger.Handler("Info");
+            logger.Info("------------名前表示------------");
             foreach (var pc in Main.AllPlayerControls)
             {
-                Logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc.name.PadRightV2(20)}:{pc.cosmetics.nameText.text}({Palette.ColorNames[pc.Data.DefaultOutfit.ColorId].ToString().Replace("Color", "")})", "Info");
+                logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc.name.PadRightV2(20)}:{pc.cosmetics.nameText.text}({Palette.ColorNames[pc.Data.DefaultOutfit.ColorId].ToString().Replace("Color", "")})");
                 pc.cosmetics.nameText.text = pc.name;
             }
-            Logger.Info("----------役職割り当て----------", "Info");
+            logger.Info("----------役職割り当て----------");
             foreach (var pc in Main.AllPlayerControls)
             {
-                Logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc?.Data?.PlayerName?.PadRightV2(20)}:{pc.GetAllRoleName().RemoveHtmlTags()}", "Info");
+                logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc?.Data?.PlayerName?.PadRightV2(20)}:{pc.GetAllRoleName().RemoveHtmlTags()}");
             }
-            Logger.Info("--------------環境--------------", "Info");
+            logger.Info("--------------環境--------------");
             foreach (var pc in Main.AllPlayerControls)
             {
                 try
@@ -61,23 +62,25 @@ namespace TownOfHost
                     if (Main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
                         text += $":Mod({pv.forkId}/{pv.version}:{pv.tag})";
                     else text += ":Vanilla";
-                    Logger.Info(text, "Info");
+                    logger.Info(text);
                 }
                 catch (Exception ex)
                 {
                     Logger.Exception(ex, "Platform");
                 }
             }
-            Logger.Info("------------基本設定------------", "Info");
+            logger.Info("------------基本設定------------");
             var tmp = GameOptionsManager.Instance.CurrentGameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
-            foreach (var t in tmp) Logger.Info(t, "Info");
-            Logger.Info("------------詳細設定------------", "Info");
+            foreach (var t in tmp) logger.Info(t);
+            logger.Info("------------詳細設定------------");
             foreach (var o in OptionItem.AllOptions)
                 if (!o.IsHiddenOn(Options.CurrentGameMode) && (o.Parent == null ? !o.GetString().Equals("0%") : o.Parent.GetBool()))
-                    Logger.Info($"{(o.Parent == null ? o.Name.PadRightV2(40) : $"┗ {o.Name}".PadRightV2(41))}:{o.GetString().RemoveHtmlTags()}", "Info");
-            Logger.Info("-------------その他-------------", "Info");
-            Logger.Info($"プレイヤー数: {Main.AllPlayerControls.Count()}人", "Info");
+                    logger.Info($"{(o.Parent == null ? o.Name.PadRightV2(40) : $"┗ {o.Name}".PadRightV2(41))}:{o.GetString().RemoveHtmlTags()}");
+            logger.Info("-------------その他-------------");
+            logger.Info($"プレイヤー数: {Main.AllPlayerControls.Count()}人");
             Main.AllPlayerControls.Do(x => Main.PlayerStates[x.PlayerId].InitTask(x));
+            GameData.Instance.RecomputeTaskCounts();
+            TaskState.InitialTotalTasks = GameData.Instance.TotalTasks;
 
             Utils.NotifyRoles();
 
@@ -148,6 +151,12 @@ namespace TownOfHost
                 case CustomRoles.Sheriff:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
+                    __instance.ImpostorText.gameObject.SetActive(true);
+                    var numImpostors = Main.NormalOptions.NumImpostors;
+                    var text = numImpostors == 1
+                        ? GetString(StringNames.NumImpostorsS)
+                        : string.Format(GetString(StringNames.NumImpostorsP), numImpostors);
+                    __instance.ImpostorText.text = text.Replace("[FF1919FF]", "<color=#FF1919FF>").Replace("[]", "</color>");
                     break;
                 case CustomRoles.Arsonist:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);

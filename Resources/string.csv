@@ -54,6 +54,7 @@
 "Trapper","Beartrap","トラッパー","陷阱师","設陷者","Trapper","Armadilheiro"
 "Dictator","Dictator","ディクテーター","独裁者","獨裁主義者","Dictator","Ditador"
 "Seer","Seer","シーア","灵媒","靈媒","Seer","Vidente"
+"TimeManager","TimeManager","タイムマネージャー",,,
 
 "# 第三陣営役職"
 "Jester","Jester","ジェスター","小丑","小丑","Jester","Bobo"
@@ -78,6 +79,7 @@
 
 "# 属性"
 "LastImpostor","Last Impostor","ラストインポスター","绝境者","絕境者","Последний Предатель","Último Impostor"
+"Workhorse","Workhorse","ワークホース"
 
 "# その他"
 "TeamImpostor","Team Impostors","インポスター陣営","内鬼阵营","狼人陣營","Команда Предателей","Time Impostor"
@@ -128,13 +130,14 @@
 "TrapperInfo","Trap your enemies","敵を罠にはめよう","引诱敌人落入你的陷阱当中","讓你的敵人受困於陷阱中","Заставьте заморозить убийцу","Prenda os seus inimigos"
 "DictatorInfo","Decide who to eject","独裁政治をしよう","让我统治世界，拥有无上的权利","讓所有人臣服於你","Проголосуйте за игрока на страх и риск","Escolha quem será exilado"
 "SeerInfo","You see the moment someone dies","他人の死んだ瞬間がわかる","你能感知死亡","你擁有陰陽眼","Вы видите когда умирают игроки","Veja o momento em que alguém morre"
+"TimeManagerInfo","Do the tasks and extend meeting time","タスクをして会議時間を延ばそう",,,
 
 "# 第三陣営役職"
 "ArsonistInfo","Burn them to crisps","燃やせ","火焰给我燃烧起来吧！","燒吧,燒吧,燃燒吧","Облейте и подожгите всех игроков","Queime tudo em pedacinhos"
 "JesterInfo","Get voted out","追放されよう","让他们把你这个假货投出去","想個辦法讓你被投出去","Заставьте игроков изгнать себя","Seja exilado"
 "OpportunistInfo","Just stay alive","とにかく生き残りましょう","苟着吧，苟也是个不错的选择","做點什麼事來讓你存活","Останьтесь в живых","Sobreviva a qualquer custo"
 "SchrodingerCatInfo","Get killed and join your killer's team","殺されて陣営に所属しろ","加入击杀者的阵营","打不過就加入","Дайте убить себя и присоединитесь к команде убийц","Ao morrer entre para o time que lhe matou"
-"CSchrodingerCatInfo","You are now on Team Crewmate","クルーメイトの味方になった","你加入了船员阵营，帮助船员找出内鬼","你現在變成船員了,幫助船員們找出狼和中立帶刀者","Теперь Вы В Команде Членов Экипажа","Você agora é do Time Tripulante"
+"CSchrodingerCatInfo","You are now on Team Crewmate","クルーの味方になった","你加入了船员阵营，帮助船员找出内鬼","你現在變成船員了,幫助船員們找出狼和中立帶刀者","Теперь Вы В Команде Членов Экипажа","Você agora é do Time Tripulante"
 "MSchrodingerCatInfo","You are now on Team Impostor","インポスターの味方になった","你加入了内鬼阵营，掩护自己的内鬼同伴，并且一起胜利","你現在變成狼人了,但是你不能砍人,盡量掩護你的隊友的身分","Теперь Вы В Команде Предателей","Você agora é do Time Impostor"
 "EgoSchrodingerCatInfo","You are now on Team Egoist","エゴイストの味方になった","你成为了野心家的伙伴","你是利己主義者的跟班","Теперь Вы В Команде Egoists","Você agora é do Time Egoísta"
 "JSchrodingerCatInfo","You are now on Team Jackal","ジャッカルの味方になった","你是豺狼的跟班，传宗接代是个好选择","你是豺狼的跟班,打個獻祭流或許是個不錯的選擇","Теперь Вы В Команде Jackal","Você agora é do Time Chacal"
@@ -150,6 +153,9 @@
 
 "# GM"
 "GMInfo","You are the Game Master","ゲームマスターだ","你是管理员，在旁边看戏吧","當吃瓜群眾在一旁看戲吧","Вы Мастер Игры","Você é o Mestre do Jogo (GM)"
+
+"# 属性"
+"WorkhorseInfo","You have Extra tasks","タスクはまだ終わらない"
 
 "## 役職説明ロング"
 
@@ -176,23 +182,24 @@
 "SKMadmateInfoLong","(Impostors):\nThe player closest to a Shapeshifter when they shapeshift will become a Sidekick Madmate. You have no tasks.","(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。","(内鬼阵营):\n一些内鬼职业变形时，其附近的与其距离最近的玩家的职业有概率转化为该职业。\n叛徒跟班与内鬼不互认。","(狼人陣營):\n當狼人變形時\n離狼人變形最近的一個人將有機率轉化為叛徒跟班\n他沒有任務,且叛徒跟班與狼人無法互相知道。","(Предатель):\nРоль, которую может занять ближайший к вам игрок, когда вы используете Морф. Нет заданий.","(Impostores):\nO jogador mais próximo de um Metamorfo quando eles se transformam virará um Tripulante Louco Ajudante. Você não tem tarefas."
 
 "# 両陣営可能役職"
-"WatcherInfoLong","(Impostors or Crewmates):\nYou can see everyone's votes even if anonymous voting is on.","(インポスターorクルーメイト陣営):\n全員の投票先を見ることができる。","(内鬼阵营或船员阵营):\n会议时窥视者可以看到所有人的投票。","(狼人或船員):\n會議時觀察者可以看到所有人的投票。","(Предатель или Член Экипажа):\nWatcher может видеть все цвета голосов несмотря на анонимное голосование.","(Impostores ou Tripulantes):\nVocê consegue ver os votos de todos, mesmo que os votos anônimos estejam ligados."
+"WatcherInfoLong","(Impostors or Crewmates):\nYou can see everyone's votes even if anonymous voting is on.","(インポスターorクルー陣営):\n全員の投票先を見ることができる。","(内鬼阵营或船员阵营):\n会议时窥视者可以看到所有人的投票。","(狼人或船員):\n會議時觀察者可以看到所有人的投票。","(Предатель или Член Экипажа):\nWatcher может видеть все цвета голосов несмотря на анонимное голосование.","(Impostores ou Tripulantes):\nVocê consegue ver os votos de todos, mesmo que os votos anônimos estejam ligados."
 "EvilWatcherInfoLong","(Impostors):\nYou can see everyone's votes even if anonymous voting is on.","(インポスター陣営):\n全員の投票先を見ることができる。","(内鬼阵营:\n会议时窥视者可以看到所有人的投票。","(狼人):\n會議時觀察者可以看到所有人的投票。","(Предатель):\nEvil Watcher может видеть все цвета голосов несмотря на анонимное голосование.","(Impostores):\nVocê consegue ver os votos de todos, mesmo que os votos anônimos estejam ligados."
-"NiceWatcherInfoLong","(Crewmates):\nYou can see everyone's votes even if anonymous voting is on.","(クルーメイト陣営):\n全員の投票先を見ることができる。","(船员阵营:\n会议时窥视者可以看到所有人的投票。","(船員):\n會議時觀察者可以看到所有人的投票。","(Член Экипажа):\nNice Watcher может видеть все цвета голосов несмотря на анонимное голосование.","(Tripulantes):\nVocê consegue ver os votos de todos, mesmo que os votos anônimos estejam ligados."
+"NiceWatcherInfoLong","(Crewmates):\nYou can see everyone's votes even if anonymous voting is on.","(クルー陣営):\n全員の投票先を見ることができる。","(船员阵营:\n会议时窥视者可以看到所有人的投票。","(船員):\n會議時觀察者可以看到所有人的投票。","(Член Экипажа):\nNice Watcher может видеть все цвета голосов несмотря на анонимное голосование.","(Tripulantes):\nVocê consegue ver os votos de todos, mesmo que os votos anônimos estejam ligados."
 
 "# 特殊クルー役職"
-"BaitInfoLong","(Crewmates):\nWhen you are killed, you force your killer to immediately self-report.","(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。","(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告。","(船員):\n當被殺時,兇手將強制自行舉報","(Член Экипажа):\nКогда его убивают, он заставляет убийцу \nмоментально зарепортить труп.","(Tripulantes):\nQuando morrer, você força o seu assassino a reportar o seu corpo imediatamente."
-"LighterInfoLong","(Crewmates):\nOnce you finish all your tasks, your vision will increase.","(クルーメイト陣営):\nタスクを終わらせると、自分の視界を広げることができる。","(船员阵营):\n执灯人完成任务后，视野会扩大，且不受照明破坏影响。","(船員):\n當做完所有任務時可以增大視野且不受關燈影響","(Член Экипажа):\nПосле выполнения всех заданий, Lighter расширяет свое поле зрения и видит во время отключенного света.","(Tripulantes):\nQuando você terminar todas as suas tarefas, sua visão irá aumentar."
-"MayorInfoLong","(Crewmates):\nYou have multiple votes, which will all go towards the one person you vote or skip.","(クルーメイト陣営):\n会議の票を複数持ち、まとめて一人または\nスキップに入れることができる。(設定有)","(船员阵营):\n市长在投票时可投下多票 (票数多寡根据设置)，市长还拥有以跳通风管来召开紧急会议的能力。","(船員):\n可以一次投很多票並可以將它灌到一個人身上或跳過 (可以設定票數)","(Член Экипажа):\nОн может иметь несколько голосов на собрании.\nВ зависимости от настроек, он может созвать срочное собрание когда запрыгнет в вентиляцию.","(Tripulantes):\nVocê tem votos adicionais, todo eles vão para a pessoa em que você votar ou pular."
-"SabotageMasterInfoLong","(Crewmates):\nYou can Fix Reactors, O2, Communications by yourself.\nLights can be fixed with the flick of one switch.\nOpening a door will open all doors to that room.","(クルーメイト陣営):\nリアクター・O2・通信妨害を一人で修理可能。\n停電は一箇所のレバーに触れる事で全て直る。\nドアを開けるとその部屋の全てのドアが開く。","(船员阵营):\n氧气泄露、核反应堆熔毁以及米拉总部的通讯破坏维修大师只需要修复一边则另一边即可同时被修复。\n维修大师只需要按一个开关便可以修复照明破坏。\n维修大师打开波鲁斯与飞艇地图的门时维修大师所在房间的所有门同时打开。","(船員):\n反應堆,氧氣,通訊以及其他破壞可以破壞大師一個人修復\n關燈可以通過拉一根拉桿來\n開門將開啟該房間所有關閉中的的門。","(Член Экипажа):\nОн может в одиночку починить Саботаж Реактора, Саботаж O2 и Саботаж связи. \nОн может починить саботаж электричества коснувшись одного рычага. \nОткрытие двери откроет все двери в этой локации.","(Tripulantes):\nVocê pode consertar Reatores, O2, Comunicações sozinho.\nAs luzes podem ser reparadas apertando apenas um botão.\nAbrir uma porta, abre todas as outras daquela mesma sala."
-"SheriffInfoLong","(Crewmates):\nYou can kill anyone on Team Impostors.\nThe ability to kill Neutrals is a configurable setting.\nIf you try to kill a crew, you will kill yourself instead. You have no tasks.","(クルーメイト陣営):\nインポスター陣営をキルすることができる。\n※第三陣営をキル可能にする設定有。\nｸﾙｰﾒｲﾄをキルすると自殺する。タスクはない。","(船员阵营):\n警长可以击杀内鬼（根据房间设置，警长也可以击杀独立阵营玩家）。\n警长若尝试击杀船员阵营的玩家，警长将会走火自杀。\n警长没有任务。","(船員):\n警長可以殺死狼人陣營的人,\n*可以設定中立陣營是否可以被殺\n警長若槍到好人陣營將會自殺,警長沒有任務。","(Член Экипажа):\nSheriff может убивать Предателей. \nОднако, если он попытается убить Члена Экипажа то он убьет сам себя. \nМогут ли они убивать Madmate товарищей или Нейтралов, зависит от настроек.\nУ него нет заданий.","(Tripulantes):\nVocê pode matar qualquer um, no Time Impostor.\nA habilidade de matar neutros é configurável.\nSe você tentar matar um Tripulante, irá morrer no lugar dele. Você não tem tarefas."
-"SnitchInfoLong","(Crewmates):\nOnce you finish all your tasks, the Impostors' names will be displayed in red to you.\nWhen you have only one task left, a ★ mark will be displayed next to your name and you will be exposed to the Impostors.","(クルーメイト陣営):\nタスク完了と同時にインポスターの名前の色が\n赤く表示され逆に自身のタスクが少なくなると\n名前の横に★が表示されｲﾝﾎﾟｽﾀｰに暴かれる。","(船员阵营):\n告密者完成所有任务后，将可以看到以红色昵称表示的所有内鬼。\n当告密者仅剩一个任务的时候，内鬼将会看到自己以及告密者的昵称旁边有「★」作为提示。\n（注:告密者同时作为恋人时，其技能将失效）","(船員):\n當告密者做完所有任務,狼人的名字將會變成紅色(僅告密者可見),\n但是當他剩下最後一個任務時,\n狼人會看見告密者頭上會有個星號標記。(中立或船員不可見)\n(P.S:戀人告密者技能失效)","(Член Экипажа):\nПосле выполнения всех заданий Snitch может видеть Предателей. \nОн будет отображаться красным цветом, когда у него останется одно задание. \nОн будет виден Предателям и они будут видеть вас со звёздочкой в никнейме","(Tripulantes): \nAssim que você terminar suas tarefas, os nomes dos Impostores serão revelados em vermelho para você. \nQuando estiver com apenas uma tarefa faltando, um símbolo (★) será mostrado no seu nome e você estará exposto aos Impostores."
-"LoversInfoLong","(Neutrals),\nLovers is an additional Neutrals role assigned to 2 random players on top of their defined roles.\nIf you and your lover both survive til the end, you both will win.\nIf one of you dies, the other will also die. If crewmates get a task victory, you both will lose.","(第三陣営):\n全プレイヤーの中からランダムで2人に他の役職と重複して配役される第三陣営。\n恋人が2人とも生き残っている状態で試合終了すれば勝利。\n恋人の片方が死んだときにもう片方も死ぬ。クルーメイトのタスクが完了すると敗北。","恋人为两名玩家的组合。\n恋人存活到游戏结束则恋人独自获胜。\n船员阵营的恋人玩家没有任务。\n从恋人阵营玩家可以看到两名恋人玩家昵称旁有心形标志。\n恋人一同赴死。\n恋人中的一方在会议中被放逐时，另一方将死亡并变为不可以被报告的尸体。","(中立),\n遊戲開始系統會隨機抽取兩人當戀人,該職業可以和其他職業屬於同一個玩家身上\n戀人將獲勝在遊戲結束時如果兩個戀人都活著.\n但是當一個戀人死去,另一個戀人也會跟著死去\n如果船員完成所有任務,戀人即宣告失敗。","(Нейтрал):\nДополнительно с какой-либо ролью Любовники назначается двум случайным игрокам. \nОни выиграют, если оба Любовника останутся живых. \nЕсли один из Любовников умрет, то другой любовник моментально умрет вместе с ним.","(Neutros): \nOs Amantes, é um papel dado a 2 jogadores aleatórios, somado a sua classe já definida. \nSe você e seu amante sobreviverem até o final, vocês ganharão. \nCaso um dos dois morra, o outro também morre. Se os Tripulantes ganharem por tarefas, os dois perdem."
-"SpeedBoosterInfoLong","(Crewmates):\nOnce you finish your tasks, a random living player will get a speed boost.","(クルーメイト陣営):\nタスクを終わらせると、ランダムな生存者のスピードを上げる事ができる。","(船员阵营):\n增速者完成所有任务后，场上任意一名存活玩家的速度将被加快。","(船員):加速器做完任務時可以讓隨機的活著玩家速度加快","(Член Экипажа):\nПри выполнении заданий у случайного живого игрока увеличивается скорость.","(Tripulantes): \nAssim que você finalizar suas tarefas, um jogador vivo aleatório irá receber um aumento de velocidade."
-"DoctorInfoLong","(Crewmates):\nYou can see the cause of death for all players.\nIn addition, you can access vitals wherever you are while you still have battery.","(クルーメイト陣営):\nプレイヤーの死因を知ることができる。\nまた、充電がある限りどこでもバイタルを確認できる。","(船员阵营):\n医生可以查看生命监测装置并确认死亡玩家的死因。\n查看的时间长短与设备的充能数挂钩。","(船員):\n醫生可以知道每個玩家的死因\n還有醫生有一個跟科學家一樣的心電圖,它也需要充電。","(Член Экипажа):\nУ Doctor есть портативные пульсы, точно так же как и роли Ученого. \nНо отличие Ученого от Doctor в том, что он может видеть причину смерти каждого мертвого игрока на голосовании.","(Tripulantes): \nVocê pode ver a causa da morte de todos os jogadores. \nAdicionalmente, você tem acesso aos sinais vitais de todos enquanto tiver bateria."
-"TrapperInfoLong","(Crewmates):\nWhen you are killed, you immobilize your killer for a configurable amount of time.","(クルーメイト陣営):\nキルされると、キルした人を数秒間移動不可にすることができる。(設定有)","(船员阵营):\n陷阱师被击杀时，凶手一段时间内将不能移动。","(船員):\n如果設限者被殺,殺他的兇手將會被困在原地幾秒(可以設定)","(Член Экипажа):\nTrapper запрещает убийце двигаться, длительность заморозки зависит от настроек.","(Tripulantes): \nAo ser morto, imobilize o seu assassino por um certo período. (configurável)"
-"DictatorInfoLong","(Crewmates):\nWhen you vote someone, the meeting will end on the spot and the player you voted will be ejected.\nThe moment you vote someone out, you will also die.\nWhen you vote for someone in a meeting, they forcibly break that meeting and exile the player they vote for.\nAfter exercising the force, the Dictators die just after meeting.","(クルーメイト陣営):\n会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができる。\n投票したタイミングでディクテーターは死ぬ。","(船员阵营):\n当独裁者在会议阶段投票给玩家后，会议会被强制结束并放逐其投票对象。\n该技能发动后独裁者将会死亡。","(船員):\n如果獨裁主義者在會議上投票給某位玩家,\n獨裁主義者將強制結束會議並無視場上票數將獨裁主義者投的那個人投出\n但是獨裁主義者將死於他投票的瞬間。","(Член Экипажа):\nКогда он голосует за любого игрока на голосовании, он сразу же завершает собрание и изгоняет игрока за которого он проголосовал. \nПосле его голоса Dictator умирает сразу же после изгнания его выбранного игрока.","(Tripulantes): \nQuando votar em alguém, durante uma reunião, a reunião será encerrada e a pessoa em que você votou, será exilada. \nAo exilar alguém, você morre-rá."
-"SeerInfoLong","(Crewmates):\nWhenever someone dies, you will see a ""kill flash"".","(クルーメイト陣営):\nプレイヤーが死亡するごとに、シーアはキルフラッシュを見ることができる。","(船员阵营):\n每当玩家死亡时，灵媒将会看到击杀闪烁。","(船員):當有玩家死亡時,靈媒將看到閃光","(Член Экипажа):\nКаждый раз когда игроки умирают, Seer может видеть вспышку убийства.","(Tripulantes): \nQuando alguém morre, você vê um ""clarão de abate"" (a sua tela piscará brevemente)."
+"BaitInfoLong","(Crewmates):\nWhen you are killed, you force your killer to immediately self-report.","(クルー陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。","(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告。","(船員):\n當被殺時,兇手將強制自行舉報","(Член Экипажа):\nКогда его убивают, он заставляет убийцу \nмоментально зарепортить труп.","(Tripulantes):\nQuando morrer, você força o seu assassino a reportar o seu corpo imediatamente."
+"LighterInfoLong","(Crewmates):\nOnce you finish all your tasks, your vision will increase.","(クルー陣営):\nタスクを終わらせると、自分の視界を広げることができる。","(船员阵营):\n执灯人完成任务后，视野会扩大，且不受照明破坏影响。","(船員):\n當做完所有任務時可以增大視野且不受關燈影響","(Член Экипажа):\nПосле выполнения всех заданий, Lighter расширяет свое поле зрения и видит во время отключенного света.","(Tripulantes):\nQuando você terminar todas as suas tarefas, sua visão irá aumentar."
+"MayorInfoLong","(Crewmates):\nYou have multiple votes, which will all go towards the one person you vote or skip.","(クルー陣営):\n会議の票を複数持ち、まとめて一人または\nスキップに入れることができる。(設定有)","(船员阵营):\n市长在投票时可投下多票 (票数多寡根据设置)，市长还拥有以跳通风管来召开紧急会议的能力。","(船員):\n可以一次投很多票並可以將它灌到一個人身上或跳過 (可以設定票數)","(Член Экипажа):\nОн может иметь несколько голосов на собрании.\nВ зависимости от настроек, он может созвать срочное собрание когда запрыгнет в вентиляцию.","(Tripulantes):\nVocê tem votos adicionais, todo eles vão para a pessoa em que você votar ou pular."
+"SabotageMasterInfoLong","(Crewmates):\nYou can Fix Reactors, O2, Communications by yourself.\nLights can be fixed with the flick of one switch.\nOpening a door will open all doors to that room.","(クルー陣営):\nリアクター・O2・通信妨害を一人で修理可能。\n停電は一箇所のレバーに触れる事で全て直る。\nドアを開けるとその部屋の全てのドアが開く。","(船员阵营):\n氧气泄露、核反应堆熔毁以及米拉总部的通讯破坏维修大师只需要修复一边则另一边即可同时被修复。\n维修大师只需要按一个开关便可以修复照明破坏。\n维修大师打开波鲁斯与飞艇地图的门时维修大师所在房间的所有门同时打开。","(船員):\n反應堆,氧氣,通訊以及其他破壞可以破壞大師一個人修復\n關燈可以通過拉一根拉桿來\n開門將開啟該房間所有關閉中的的門。","(Член Экипажа):\nОн может в одиночку починить Саботаж Реактора, Саботаж O2 и Саботаж связи. \nОн может починить саботаж электричества коснувшись одного рычага. \nОткрытие двери откроет все двери в этой локации.","(Tripulantes):\nVocê pode consertar Reatores, O2, Comunicações sozinho.\nAs luzes podem ser reparadas apertando apenas um botão.\nAbrir uma porta, abre todas as outras daquela mesma sala."
+"SheriffInfoLong","(Crewmates):\nYou can kill anyone on Team Impostors.\nThe ability to kill Neutrals is a configurable setting.\nIf you try to kill a crew, you will kill yourself instead. You have no tasks.","(クルー陣営):\nインポスター陣営をキルすることができる。\n※第三陣営をキル可能にする設定有。\nｸﾙｰﾒｲﾄをキルすると自殺する。タスクはない。","(船员阵营):\n警长可以击杀内鬼（根据房间设置，警长也可以击杀独立阵营玩家）。\n警长若尝试击杀船员阵营的玩家，警长将会走火自杀。\n警长没有任务。","(船員):\n警長可以殺死狼人陣營的人,\n*可以設定中立陣營是否可以被殺\n警長若槍到好人陣營將會自殺,警長沒有任務。","(Член Экипажа):\nSheriff может убивать Предателей. \nОднако, если он попытается убить Члена Экипажа то он убьет сам себя. \nМогут ли они убивать Madmate товарищей или Нейтралов, зависит от настроек.\nУ него нет заданий.","(Tripulantes):\nVocê pode matar qualquer um, no Time Impostor.\nA habilidade de matar neutros é configurável.\nSe você tentar matar um Tripulante, irá morrer no lugar dele. Você não tem tarefas."
+"SnitchInfoLong","(Crewmates):\nOnce you finish all your tasks, the Impostors' names will be displayed in red to you.\nWhen you have only one task left, a ★ mark will be displayed next to your name and you will be exposed to the Impostors.","(クルー陣営):\nタスク完了と同時にインポスターの名前の色が\n赤く表示され逆に自身のタスクが少なくなると\n名前の横に★が表示されｲﾝﾎﾟｽﾀｰに暴かれる。","(船员阵营):\n告密者完成所有任务后，将可以看到以红色昵称表示的所有内鬼。\n当告密者仅剩一个任务的时候，内鬼将会看到自己以及告密者的昵称旁边有「★」作为提示。\n（注:告密者同时作为恋人时，其技能将失效）","(船員):\n當告密者做完所有任務,狼人的名字將會變成紅色(僅告密者可見),\n但是當他剩下最後一個任務時,\n狼人會看見告密者頭上會有個星號標記。(中立或船員不可見)\n(P.S:戀人告密者技能失效)","(Член Экипажа):\nПосле выполнения всех заданий Snitch может видеть Предателей. \nОн будет отображаться красным цветом, когда у него останется одно задание. \nОн будет виден Предателям и они будут видеть вас со звёздочкой в никнейме","(Tripulantes): \nAssim que você terminar suas tarefas, os nomes dos Impostores serão revelados em vermelho para você. \nQuando estiver com apenas uma tarefa faltando, um símbolo (★) será mostrado no seu nome e você estará exposto aos Impostores."
+"LoversInfoLong","(Neutrals),\nLovers is an additional Neutrals role assigned to 2 random players on top of their defined roles.\nIf you and your lover both survive til the end, you both will win.\nIf one of you dies, the other will also die. If crewmates get a task victory, you both will lose.","(第三陣営):\n全プレイヤーの中からランダムで2人に他の役職と重複して配役される第三陣営。\n恋人が2人とも生き残っている状態で試合終了すれば勝利。\n恋人の片方が死んだときにもう片方も死ぬ。クルーのタスクが完了すると敗北。","恋人为两名玩家的组合。\n恋人存活到游戏结束则恋人独自获胜。\n船员阵营的恋人玩家没有任务。\n从恋人阵营玩家可以看到两名恋人玩家昵称旁有心形标志。\n恋人一同赴死。\n恋人中的一方在会议中被放逐时，另一方将死亡并变为不可以被报告的尸体。","(中立),\n遊戲開始系統會隨機抽取兩人當戀人,該職業可以和其他職業屬於同一個玩家身上\n戀人將獲勝在遊戲結束時如果兩個戀人都活著.\n但是當一個戀人死去,另一個戀人也會跟著死去\n如果船員完成所有任務,戀人即宣告失敗。","(Нейтрал):\nДополнительно с какой-либо ролью Любовники назначается двум случайным игрокам. \nОни выиграют, если оба Любовника останутся живых. \nЕсли один из Любовников умрет, то другой любовник моментально умрет вместе с ним.","(Neutros): \nOs Amantes, é um papel dado a 2 jogadores aleatórios, somado a sua classe já definida. \nSe você e seu amante sobreviverem até o final, vocês ganharão. \nCaso um dos dois morra, o outro também morre. Se os Tripulantes ganharem por tarefas, os dois perdem."
+"SpeedBoosterInfoLong","(Crewmates):\nOnce you finish your tasks, a random living player will get a speed boost.","(クルー陣営):\nタスクを終わらせると、ランダムな生存者のスピードを上げる事ができる。","(船员阵营):\n增速者完成所有任务后，场上任意一名存活玩家的速度将被加快。","(船員):加速器做完任務時可以讓隨機的活著玩家速度加快","(Член Экипажа):\nПри выполнении заданий у случайного живого игрока увеличивается скорость.","(Tripulantes): \nAssim que você finalizar suas tarefas, um jogador vivo aleatório irá receber um aumento de velocidade."
+"DoctorInfoLong","(Crewmates):\nYou can see the cause of death for all players.\nIn addition, you can access vitals wherever you are while you still have battery.","(クルー陣営):\nプレイヤーの死因を知ることができる。\nまた、充電がある限りどこでもバイタルを確認できる。","(船员阵营):\n医生可以查看生命监测装置并确认死亡玩家的死因。\n查看的时间长短与设备的充能数挂钩。","(船員):\n醫生可以知道每個玩家的死因\n還有醫生有一個跟科學家一樣的心電圖,它也需要充電。","(Член Экипажа):\nУ Doctor есть портативные пульсы, точно так же как и роли Ученого. \nНо отличие Ученого от Doctor в том, что он может видеть причину смерти каждого мертвого игрока на голосовании.","(Tripulantes): \nVocê pode ver a causa da morte de todos os jogadores. \nAdicionalmente, você tem acesso aos sinais vitais de todos enquanto tiver bateria."
+"TrapperInfoLong","(Crewmates):\nWhen you are killed, you immobilize your killer for a configurable amount of time.","(クルー陣営):\nキルされると、キルした人を数秒間移動不可にすることができる。(設定有)","(船员阵营):\n陷阱师被击杀时，凶手一段时间内将不能移动。","(船員):\n如果設限者被殺,殺他的兇手將會被困在原地幾秒(可以設定)","(Член Экипажа):\nTrapper запрещает убийце двигаться, длительность заморозки зависит от настроек.","(Tripulantes): \nAo ser morto, imobilize o seu assassino por um certo período. (configurável)"
+"DictatorInfoLong","(Crewmates):\nWhen you vote someone, the meeting will end on the spot and the player you voted will be ejected.\nThe moment you vote someone out, you will also die.\nWhen you vote for someone in a meeting, they forcibly break that meeting and exile the player they vote for.\nAfter exercising the force, the Dictators die just after meeting.","(クルー陣営):\n会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができる。\n投票したタイミングでディクテーターは死ぬ。","(船员阵营):\n当独裁者在会议阶段投票给玩家后，会议会被强制结束并放逐其投票对象。\n该技能发动后独裁者将会死亡。","(船員):\n如果獨裁主義者在會議上投票給某位玩家,\n獨裁主義者將強制結束會議並無視場上票數將獨裁主義者投的那個人投出\n但是獨裁主義者將死於他投票的瞬間。","(Член Экипажа):\nКогда он голосует за любого игрока на голосовании, он сразу же завершает собрание и изгоняет игрока за которого он проголосовал. \nПосле его голоса Dictator умирает сразу же после изгнания его выбранного игрока.","(Tripulantes): \nQuando votar em alguém, durante uma reunião, a reunião será encerrada e a pessoa em que você votou, será exilada. \nAo exilar alguém, você morre-rá."
+"SeerInfoLong","(Crewmates):\nWhenever someone dies, you will see a ""kill flash"".","(クルー陣営):\nプレイヤーが死亡するごとに、シーアはキルフラッシュを見ることができる。","(船员阵营):\n每当玩家死亡时，灵媒将会看到击杀闪烁。","(船員):當有玩家死亡時,靈媒將看到閃光","(Член Экипажа):\nКаждый раз когда игроки умирают, Seer может видеть вспышку убийства.","(Tripulantes): \nQuando alguém morre, você vê um ""clarão de abate"" (a sua tela piscará brevemente)."
+"TimeManagerInfoLong","(Crewmates):The more tasks you do, the longer your meeting will last. When you die, the meeting time will be restored.","(クルー陣営):\nタスクを終わらせるごとに会議時間が延びる。死亡すると会議時間は元に戻る。",,,
 
 "# 第三陣営役職"
 "ArsonistInfoLong","(Neutrals):\nWhen you use the kill button, you douse your target in oil.\nAfter dousing all living players, you set everything ablaze and win by venting.","(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。","(独立阵营):\n纵火犯可以通过对玩家点击击杀按钮并在跟随其数秒来完成涂油行为。\n当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。","(中立):\n當縱火犯嘗試使用殺人鍵,它將對他身邊最近的一個人澆上油,\n當他對所有玩家澆上油之後,縱火縱火犯點火即勝利。","(Нейтрал):\nОн может обливать игроков, нажав на кнопку 'Убить' и находясь рядом с игроком в течение нескольких секунд. \nПосле того как он обольёт всех живых игроков Arsonist сможет запрыгнуть в вентиляцию, чтобы поджечь всех игроков, что приводит к победе Arsonist.","(Neutros):\nAo apertar o botão de matar, você encharca o seu inimigo em óleo.\nApós ter encharcado todos os jogadores vivos, você coloca tudo em chamas e ganha entrando na ventilação."
@@ -213,6 +220,7 @@
 
 "# 属性"
 "LastImpostorInfoLong","(Add-ons):\nAn Add-on granted to the last Impostor remaining.\nKill cooldown is reduced according to this setting.\nNot granted to Bounty Hunters, Serial Killers, or Vampires.","(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。","（效果）:\n这个效果在内鬼仅剩一人时赋予该内鬼。\n使其击杀冷却缩短。\n该效果对赏金猎人、嗜血杀手以及吸血鬼不适用。","(附加效果):\n該效果給予在場上的最後一隻狼人,擁有該效果的狼人刀人冷卻時間會變短,該效果不會給予:\n賞金獵人,連環殺手或吸血鬼 (可以設定冷卻)","(Атрибут):\nАтрибут, присваивается последнему Предателю. \nВремя отката убийства становится меньше, чем обычно. \nНе назначается BountyHunter, SerialKiller или Vampire.","(Atributos): \nUm Atributo dado ao último Impostor. \nO tempo de recarga (abate) é reduzido segundo a configuração. \nNão é dado para Caçadores de Recompensas, Serial Killers ou Vampiros."
+"WorkhorseInfoLong","(Add-ons):\nAn Add-on granted to the first living Crewmate finishing all the tasks.\nYou are assigned additional tasks necessary for the tasks win.\nNot granted to roles with no tasks or with abilities triggered by finishing tasks.","(属性):\n最初に生きてタスクを終えたクルーに付与される属性。\n追加タスクが割り当てられる。\nクルーメイト以外にも割り当てる設定でもタスクが無い、タスク完了で能力が発動する役職には付与されない。"
 
 "#モードオプション"
 "HideAndSeek","Hide and Seek","かくれんぼ","躲猫猫","躲貓貓","Прятки","Esconde-Esconde"
@@ -257,6 +265,7 @@
 "ModeOptions","Mode Options","モード設定","模组设置","模式設定","Настройка Режима","Opções de Modos"
 "ForceJapanese","Force Japanese","日本語に強制","强制使用日语","強制使用日語","Принудительный Японский","Forçar Japonês"
 "AutoDisplayLastResult","Auto Display Last Result","自動的に試合結果を表示","自动显示最终结果","自動顯示上一回合結果","Отображать Результат Последней Игры","Mostrar Ultimo Resultado"
+"AutoDisplayKillLog","Auto Display KillLog","自動的にキルログを表示","","","",""
 "VoteMode","Voting Mode","投票モード","投票相关设定","投票設定","Режим Голосования","Modo de Votação"
 "WhenSkipVote","When Skip Vote","スキップ時","跳过投票相当于投给自己","當跳過投票時","Когда Пропускаете Голосование","Quando Pular Voto"
 "WhenSkipVoteIgnoreFirstMeeting","Ignore First Meeting","初回会議を除く","忽略首次会议","忽略首次會議","Игнорировать Первую Встречу","Ignorar Primeira Reunião"
@@ -291,7 +300,7 @@
 "IgnoreImpostors","Ignore Impostors","インポスターを除く","忽略内鬼","","Игнорировать Предателей","Ignorar Impostores"
 "IgnoreMadmates","Ignore Madmates","マッドメイト系を除く","忽略叛徒","","Игнорировать Madmates","Ignorar Tripulantes Loucos"
 "IgnoreNeutrals","Ignore Neutrals","第三陣営を除く","忽略独立阵营","","Игнорировать Нейтралов","Ignorar Neutros"
-"IgnoreCrewmates","Ignore Crewmates","クルーメイトを除く","忽略船员","","Игнорировать Членов Экипажа","Ignorar Tripulantes"
+"IgnoreCrewmates","Ignore Crewmates","クルーを除く","忽略船员","","Игнорировать Членов Экипажа","Ignorar Tripulantes"
 "IgnoreAfterAnyoneDied","Ignore After Anyone Has Died","死人が出た後を除く","忽略幽灵","","Игнорировать после того как кто-то умер","Ignorar Depois de Alguém Morrer"
 "LightsOutSpecialSettings","Fix Lights Special Settings","停電の特殊設定","停电特殊设定","","Специальные настройки при отключении света","Configuração Especial de Consertar Luzes"
 "DisableAirshipViewingDeckLightsPanel","Disable Viewing Deck Lights Panel(Airship)","展望の配電盤を無効化（エアシップ）","禁用瞭望台配电箱(飞艇地图)","","Отключить починку света на смотровой палубе на Airship","Desativar Painel de Luzes do Deck Panorâmico(Airship)"
@@ -308,6 +317,9 @@
 "RoleAssigningAlgorithm.HashRandom","HashRandom","HashRandom","哈希随机算法","Hash值隨機算法","HashRandom",""
 "RoleAssigningAlgorithm.Xorshift","Xorshift","Xorshift","Xorshift随机算法","Xorshift隨機算法","Xorshift",""
 "AirShipVariableElectrical","Variable Electrical(AirShip)","電気室の構造変化（エアシップ）","","","Двери В Электрощитовой Закрываются Случайно (Airship)",""
+"ApplyDenyNameList","Apply DenyName List","DenyNameリストを適用する","","","",""
+"KickPlayerFriendCodeNotExist","Kick Players Whose Friend Code Does Not Exist","フレンドコードが存在しないプレイヤーをキックする","","","",""
+"ApplyBanList","Apply BanList","BANリストを適用する","","","",""
 
 "## モード説明"
 "HideAndSeekInfo","Hide and Seek:\nNo emergency meetings. Crewmates (Blue) can only win by finishing tasks\nand impostors (Red) can only win by killing all crewmates.","かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。\nインポスターは赤、クルーは青に体の色が変更される。","躲猫猫:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利；\n内鬼的皮肤颜色将变为红色，船员变为蓝色，以示区分。","躲貓貓:\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色。","Прятки:\nНикто не может созвать срочное собрание, Члены Экипажа могут победить, только выполняя задания. \nПредатели меняют цвет тела на красный, а экипажи на синий.","Esconde-Esconde:\nNão há reuniões de emergência. Tripulantes (Azul) podem ganhar apenas ao completar todas as tarefas,\ne Impostores (Vermelho) ganham apenas quando matarem todos os tripulantes."
@@ -329,6 +341,7 @@
 "BountyTargetChangeTime","Time Until Target Swaps","ターゲット変更時間","赏金目标切换时间","賞金目標切換時間","Время Смены Его Цели","Tempo Para Troca de Alvos"
 "BountySuccessKillCooldown","Kill Cooldown After Killing Bounty","ターゲット殺害時のキルクール","赏金猎人击杀赏金目标的奖励冷却时间","賞金獵人殺死賞金目標冷卻","Перезарядка После Убитой Цели","Tempo de Recarga ao Matar Alvo"
 "BountyFailureKillCooldown","Kill Cooldown After Killing Others","ターゲット以外殺害時のキルクール","赏金猎人击杀赏金目标以外玩家的惩罚冷却时间","賞金獵人殺死非賞金目標冷卻","Перезарядка После Обычного Убийства","Tempo de Recarga ao Matar Outros"
+"BountyShowTargetArrow","Bounty hunter show arrow pointing to target","ターゲットへの矢印を表示する",,,
 "DefaultShapeshiftCooldown","Default Shapeshift Cooldown","デフォルトの変身クールダウン","默认变形冷却时间","預設變身時間","Обычная Перезарядка Оборотня","Tempo de Recarga Padrão (Mutar)"
 "VampireKillDelay","Kill Delay(S)","殺害までの時間(秒)","吸血目标延迟死亡时间","殺人延遲","Длительность Укуса(Секунды)","Atraso do Abate (S)"
 "MareAddSpeedInLightsOut","Mare Add Player Add Speed In Lights Out","停電時のメアーの加速値","梦魇熄灯时的额外速度","關燈時黑暗博士的額外速度","Скорость Mare При Саботаже Света","Velocidade Adicional do Mare em Apagão"
@@ -367,6 +380,7 @@
 "SnitchEnableTargetArrow","Can See Arrow To Target","ターゲットを示す矢印が見える","告密者完成任务后可以通过箭头确认所有被发现目标","告密者完成任務後可以看到目標的箭頭","Может Видеть Стрелку Цели","Pode Ver Seta Para o Alvo"
 "SnitchCanGetArrowColor","Can See Target Team Colored Arrow","矢印の色で陣営がわかる","告密者对不同阵营的目标使用不同颜色的箭头确认","對不同陣營的目標使用不同顏色的箭頭標示","Может Видеть Цвета Стрелок","Pode Ver Seta Colorida Para Time Alvo"
 "SnitchCanFindNeutralKiller","Can Find Neutral Killers","第三陣営のキル可能役職を見つけることが出来る","告密者也可以和拥有击杀能力的独立阵营玩家互相发现","告密者也可以和中立陣營帶刀職業互認","Может Видеть Нейтральных Убийц","Pode Achar Assassinos Neutros"
+"SnitchRemainingTaskFound","Remaining tasks to be found","敵陣営に見つかるタスク残量"
 "SpeedBoosterUpSpeed","Random Player's Speed Boost","加速値","增速者加速时的移动速度","被加速器加速的玩家的移動速度","Повышенная Скорость Игрока","Impulso de Velocidade"
 "SpeedBoosterTaskTrigger","Tasks Until Boost Activated","効果を発動するタスク数","效果发动所需任务数","效果發動所需任務數","Повышенные Триггерные Задания","Tarefas Para Ativar Impulso"
 "MayorAdditionalVote","Additional Votes Count","追加投票の個数","附加票数","附加票數","Дополнительные Голоса","Votos Adicionais"
@@ -374,6 +388,7 @@
 "MayorNumOfUseButton","Number Of Mobile Emergency Button","ポータブルボタンの使用可能回数","市长紧急会议最大次数","隨時拍桌最大次數","Количество Портативных Кнопок","Número de Botões de Emergência"
 "CanBeforeSchrodingerCatWinTheCrewmate","Can Win With Crewmates If No Team","役職変化前であれば、クルー陣営と勝利できる","薛定谔的猫未加入其他阵营前可以跟随船员阵营获胜","薛定諤的貓的陣營轉變前可以和船員一起贏","Без Команды Он Может Победить С Членами Экипажа","Pode Ganhar Com Tripulantes"
 "SchrodingerCatExiledTeamChanges","Team Changes When Ejected","吊られた際、陣営が変化する","薛定谔的猫被放逐时会加入其他阵营","薛定諤的貓被丟出時陣營會改變","Команда может измениться после его изгнания","Time Muda Quando Exilado"
+"SchrodingerCatCanSeeKillableTeammate","Can See Killable Teammate","変化した陣営のキル役職が分かる"
 "ExecutionerCanTargetImpostor","Can Target Impostors","インポスターもターゲットにできる","内鬼阵营玩家可以成为处刑人的目标","劊子手的目標可以是狼人陣營的玩家","Может Иметь Цель Изгнать Предателя","Alvo Pode Ser Impostor"
 "ExecutionerCanTargetNeutralKiller","Can Target Neutrals","キルできる第三陣営もターゲットにできる","独立阵营玩家可以成为处刑人的目标","劊子手的目標可以是中立陣營的玩家","Может Иметь Цель Изгнать Нейтрального Убийцу","Pode Ter Alvo Neutro"
 "ExecutionerChangeRolesAfterTargetKilled","Role Changes When Target Dies","ターゲットがキルされた後に変化する役職","处刑人目标死亡后将变为的职业","劊子手的目標被殺後轉變的職業","Роль После Смерти Его Цели","Mudar Classe Caso Alvo Morra"
@@ -385,6 +400,8 @@
 "FireWorksRadius","Firework Explosion Radius","花火の爆発半径","烟花商人烟花爆炸半径","煙火工匠的煙火爆炸半徑","Радиус Фейерверка","Alcance da Explosão"
 "SniperBulletCount","Ammo","所持弾数","最大子弹数量","子彈最大數量","Количество Пуль у Sniper","Balas"
 "SniperPrecisionShooting","Precision Firing","精密射撃モード","精准射击模式","精準射擊模式","Точный Выстрел","Tiro Com Precisão"
+"SniperAimAssist","Aim Assist","エイムアシスト","","","",""
+"SniperAimAssistOneshot","One shot Assist","単発アシスト","","","",""
 "NumberOfLovers","Number Of Lovers (Pairs)","ラバーズの組数(x2人数)","恋人对数","戀人最大數量(2位玩家)","Количество Lovers (x2участника)","Quantidade de Amantes (Pares)"
 "TimeThiefDecreaseMeetingTime","Time Thief Time Stolen","減少する会議時間","蚀时者每次击杀缩短的会议时间","時間小偷每次殺人減少的會議時間","Уменьшить Длительность Обсуждения На","Tempo Roubado de Reunião"
 "TimeThiefLowerLimitVotingTime","Minimum Voting Time","投票時間の下限","蚀时者存活时会议时间最低下限","時間小偷在場時會議時間最低下限","Уменьшить Длительность Голосования На","Tempo Mínimo de Votação"
@@ -396,6 +413,12 @@
 "WitchModeSwitchAction","Mode Switch Action","モード変更アクション","切换击杀模式","切換模式操作","Действие смены режима",""
 "TriggerKill","Kill","キル","击杀","殺人鍵","Убийство",""
 "TriggerVent","Vent","ベント","通风管","通風口","Вентиляция",""
+"TimeManagerIncreaseMeetingTime","Increase voting time","伸びる会議時間",,,
+"TimeManagerLimitMeetingTime","Increase limit","会議時間の伸びる限界",,,
+"TriggerDouble","Double Click","ダブルクリック","","","",""
+"AssignOnlyTo%role%","Assign Only To %role%","%role%のみに割り当てる"
+"WorkhorseNumLongTasks","Additional Long Tasks","追加ロングタスクの個数"
+"WorkhorseNumShortTasks","Additional Short Tasks","追加ショートタスクの個数"
 
 "## かくれんぼ設定"
 "HideAndSeekOptions","Hide and Seek Settings","かくれんぼの設定","躲猫猫设置","躲貓貓設定","Настройки Пряток","Configurações do Esconde-Esconde"
@@ -444,6 +467,7 @@
 "Command.h_args","Available Args (Clipped)","使用可能な引数 (略称)","可用参数（简写）","可用的參數(簡稱)","Доступные Аргументы (Ограниченные)","Argumentos Disponíveis (Atalho)"
 
 "CantUse.lastresult","Unable to use /lastresult during a game.","試合中に/lastresultを使用することはできません。","不可以在游戏中使用/lastresult命令","不可以在遊戲中使用/lastresult指令","Нельзя использовать /lastresult во время игры","Impossível usar /lastresult durante um jogo."
+"CantUse.killlog","Unable to use /killlog during a game.","試合中に/killlogを使用することはできません。","不可以在游戏中使用/killlog命令","不可以在遊戲中使用/killlog指令","Нельзя использовать /killlog во время игры","Impossível usar /killlog durante um jogo."
 
 "## メッセージ"
 "Message.SetToSeconds","Set to {0} seconds.","{0}秒に設定されました","信息发送冷却时间为{0}秒","訊息發送冷卻已設定為{0}秒","Установить на {0} секунд","Definido para {0} segundos."
@@ -453,10 +477,11 @@
 "Message.SyncButtonLeft","There are {0} more emergency buttons left","緊急会議ボタンはあと{0}回使用できます","剩余紧急会议次数: {0}","全場拍桌數量還剩下{0}次,請謹慎拍桌","Кнопку экстренной встречи можно использовать еще {0} раз","Existem {0} botões de emergência sobrando"
 "Message.Executed","{0} was executed","{0}を処刑しました","{0}被房主处决了","{0}被處刑了","{0} Был казнен","{0} foi executado"
 "Message.HideGameSettings","Game settings have been hidden by the host.","ゲーム設定はホストによって秘匿されています。","游戏设置被房主隐藏。","遊戲設定被房主隱藏。","Настройки игры скрыты хостом","As configurações do jogo foram escondidas pelo anfitrião."
-"Message.AnnounceUsingTOH","This room uses TownOfHost v{0}.\n/now can be used to check the current settings.\nPlease check GitHub for detailed roles descriptions.","この部屋はTownOfHost v{0}を使用しています。\n/nowを使用すると現在の設定が確認できます。\n役職の詳細な説明はGitHubをご確認ください。","本房间使用TownOfHost mod v{0}。\n可以使用/now来查询当前设置。\n请前往本mod的Github页面来获取详细的职业信息。","本房間使用TownOfHost v{0}。\n可以使用/n來查詢目前設定。\n若要獲得進一步的職業介紹(並沒有繁體中文翻譯版本)請前往本模組的Github頁面來獲得。","В этом лобби используется мод TownOfHost v{0}. Используйте команду \n/now чтобы увидеть текущие настройки лобби. \nПожалуйста посетите GitHub для получения подробного описания мода и ролей","Esta sala está usando TownOfHost versão {0} .\nO comando /now pode ser usado para ver as configurações atuais.\nPor favor, verifique o GitHub para descrições detalhadas das classes."
 "Message.NoDescription","No description.","説明はありません。","无描述","","Описание отсутствует","Sem descrição."
 "Message.KickedByDenyName","{0} was kicked because its name matched ""{1}"".","{0}は名前が「{1}」に一致したためキックされました。","{0} 被踢出，因其昵称违规 ""{1}"".","","{0} был исключен, поскольку его имя соответствует ""{1}""",""
 "Message.BanedByBanList","{0} has been banned because it has been banned in the past.","{0}は過去にBAN済みのためBANされました。","{0} 已被封禁，因其之前就被封禁过","","{0} был заблокирован, потому что он Был заблокирован в прошлый раз",""
+"Message.KickedByNoFriendCode","{0} was kicked because the friend code does not exist.","{0}はフレンドコードが存在しないためキックされました。","","","",""
+"Message.AddedPlayerToBanList","Added {0} to the ban list.","{0}をBANリストに追記しました。","","","",""
 
 "## 警告"
 "Warning.EgoistCannotWin","Egoist cannot win","エゴイストが勝利できません","野心家无法获胜","利己主義者無法獲勝","Egoist не может победить!","Egoísta não pode vencer"
@@ -468,6 +493,8 @@
 "Error.MeetingException","Error: {0}\r\nPlease use SHIFT+M+ENTER to end the meeting","エラー: {0}\r\nSHIFT+M+ENTERで会議を強制終了してください","错误: {0}\r\n使用 SHIFT+M+ENTER 来中止会议","錯誤: {0}\r\n按下SHIFT+M+ENTER來結束會議","Ошибка: {0}\r\nПожалуйста используйте SHIFT+M+ENTER чтобы принудительно завершить собрание","Erro: {0}\r\nPor favor use SHIFT+M+ENTER para encerrar a reunião"
 "Error.InvalidRoleAssignment","Error: Invalid role found for a player during role assignment({0})","エラー: 役職設定中に無効な役職のプレイヤーを発見しました({0})","错误：在分配职业时发现职业无效的玩家 ({0})","錯誤:在設定職業時發現{0}持有無效職業","Ошибка: Во время назначения роли для игрока обнаружена недопустимая роль({0})","Erro: Classe inválida encontrada para um jogador no momento de dar as classes ({0})"
 "Error.SpeedBoosterNullException","Error: The speed boost destination is null.\nPlease save the log and create a bug report ticket.","エラー: スピードブースト先がnullです。\nログを保存し、バグ報告チケットを作成してください。","错误：增速者的增速目标为空。 \n请保存日志并创建错误报告票。","錯誤:加速器加速的對象無效,\n請將遊戲輸出記錄保存並在TOH官方DC群組開啟一張支援票","Ошибка: пункт назначения повышения скорости не указан. \nСохраните логи и создайте заявку на отчет об ошибке.","Erro: O destino do Impulso de Velocidade é nulo.\nPor favor, salve o log e crie um ticket de erro (bug report)."
+"Error.InvalidColor","Error: Only default colors are available.","エラー：デフォルトカラー以外は使えません"
+
 "### ErrorText関連"
 "ErrorLevel1","Bugs may occur.","何らかのバグが発生する可能性があります。","可能同时产生多个bug","","Могут возникнуть некоторые ошибки.","Bugs podem acontecer."
 "ErrorLevel2","This may be a bug.","バグが発生している可能性があります。","可能出现bug","","Возможно вы столкнулись с ошибкой.","Talvez isso seja um bug."
@@ -487,7 +514,7 @@
 "DefaultSystemMessageTitle","【===== System Message =====】","【===== システムメッセージ ======】","【===== 系统信息 ======】","","【=== Системное сообщение ===】","【===== Mensagem do Sistema ======】"
 "MessageFromTheHost","【Message From The Host】","【ホストからの伝言】","【房主消息】","","[Сообщение от Хоста]",""
 "TabGroup.MainSettings","Main Settings","メイン設定","主要设置","","Основная Настройка","Configurações Principais"
-"TabGroup.CrewmateRoles","Crewmate Roles","クルーメイト役職","船员阵营职业","","Роли Членов Экипажа","Classes de Tripulante"
+"TabGroup.CrewmateRoles","Crewmate Roles","クルー役職","船员阵营职业","","Роли Членов Экипажа","Classes de Tripulante"
 "TabGroup.NeutralRoles","Neutral Roles","ニュートラル役職","独立阵营职业","","Нейтральные Роли","Classes Neutras"
 "TabGroup.ImpostorRoles","Impostor Roles","インポスター役職","内鬼阵营职业","","Роли Предателей","Classes de Impostor"
 "TabGroup.Addons","Add-Ons","属性","附加效果","","Атрибуты","Atributos"
@@ -521,9 +548,10 @@
 "ColoredOn","<color=#00fefe>ON</color>","<color=#00fefe>オン</color>","<color=#00fefe>开启</color>","<color=#00fefe>開啟</color>","<color=#00fefe>ВКЛ</color>","<color=#00fefe>Ativado</color>"
 "ColoredOff","<color=#ff4c6f>OFF</color>","<color=#ff4c6f>オフ</color>","<color=#ff4c6f>关闭</color>","<color=#ff4c6f>關閉</color>","<color=#ff4c6f>ВЫКЛ</color>","<color=#ff4c6f>Desativado</color>"
 "CurrentActiveSettingsHelp","Current Active Settings Help","現在有効な設定の説明","当前启用设置及帮助","現在設定的模式和職業說明","Справка по текущим активным настройкам","Ajuda com Configurações Ativas"
-"WitchCurrentMode","Current Mode","現在のモード","当前模式","現在模式","Текущий Режим","Modo Atual"
+"WitchCurrentMode","Current Mode:","現在のモード:","当前模式:","現在模式:","Текущий Режим:","Modo Atual:"
 "WitchModeKill","Kill","キル","击杀","殺人","Убить","Matar"
 "WitchModeSpell","Spell","スペル","诅咒","下咒","Заклинать","Feitiço"
+"WitchModeDouble","Double Enable","ダブル有効","","","",""
 "BountyCurrentTarget","Current Target","現在のターゲット","当前目标","目標","Текущая Цель","Alvo Atual"
 "Roles","Roles","役職","职业","職業","Роли","Classes"
 "Settings","Settings","設定","设定","","Настройки","Configurações"

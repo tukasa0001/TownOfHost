@@ -79,8 +79,6 @@ namespace TownOfHost
                     DecidedWinner = true;
                 }
                 Executioner.CheckExileTarget(exiled, DecidedWinner);
-                if (exiled.Object.Is(CustomRoles.TimeThief))
-                    exiled.Object.ResetVotingTime();
                 SchrodingerCat.ChangeTeam(exiled.Object);
 
 
@@ -101,7 +99,6 @@ namespace TownOfHost
                     Main.CursedPlayers[pc.PlayerId] = null;
                     Main.isCurseAndKill[pc.PlayerId] = false;
                 }
-                if (pc.Is(CustomRoles.EvilTracker)) EvilTracker.EnableResetTargetAfterMeeting(pc);
             }
             if (Options.RandomSpawn.GetBool())
             {
@@ -158,8 +155,6 @@ namespace TownOfHost
                             player?.SetRealKiller(player, true);
                         if (Main.ResetCamPlayerList.Contains(x.Key))
                             player?.ResetPlayerCam(1f);
-                        if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.FollowingSuicide)
-                            player?.ResetVotingTime();
                         if (Executioner.Target.ContainsValue(x.Key))
                             Executioner.ChangeRoleByTarget(player);
                     });

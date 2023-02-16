@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -47,7 +47,7 @@ namespace TownOfHost
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "4.0.2";
+        public const string PluginVersion = "4.1.0";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -99,7 +99,6 @@ namespace TownOfHost
         /// </summary>
         public static Dictionary<byte, float> AllPlayerSpeed = new();
         public const float MinSpeed = 0.0001f;
-        public static Dictionary<byte, (byte, float)> BitPlayers = new();
         public static Dictionary<byte, float> WarlockTimer = new();
         public static Dictionary<byte, PlayerControl> CursedPlayers = new();
         public static Dictionary<byte, bool> isCurseAndKill = new();
@@ -120,8 +119,6 @@ namespace TownOfHost
         public static bool VisibleTasksCount;
         public static string nickName = "";
         public static bool introDestroyed = false;
-        public static int DiscussionTime;
-        public static int VotingTime;
         public static byte currentDousingTarget;
         public static float DefaultCrewmateVision;
         public static float DefaultImpostorVision;
@@ -159,7 +156,6 @@ namespace TownOfHost
             // 認証関連-認証
             DebugModeManager.Auth(DebugKeyAuth, DebugKeyInput.Value);
 
-            BitPlayers = new Dictionary<byte, (byte, float)>();
             WarlockTimer = new Dictionary<byte, float>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
             isDoused = new Dictionary<(byte, byte), bool>();
@@ -221,6 +217,7 @@ namespace TownOfHost
                     {CustomRoles.Dictator, "#df9b00"},
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     {CustomRoles.Seer, "#61b26c"},
+                    {CustomRoles.TimeManager, "#6495ed"},
                     //第三陣営役職
                     {CustomRoles.Arsonist, "#ff6633"},
                     {CustomRoles.Jester, "#ec62a5"},
@@ -238,8 +235,9 @@ namespace TownOfHost
                     // GM
                     {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
-                    {CustomRoles.LastImpostor, "#ff0000"},
+                    {CustomRoles.LastImpostor, "#ff1919"},
                     {CustomRoles.Lovers, "#ff6be4"},
+                    {CustomRoles.Workhorse, "#00ffff"},
 
                     {CustomRoles.NotAssigned, "#ffffff"}
                 };
@@ -248,10 +246,10 @@ namespace TownOfHost
                     switch (role.GetRoleType())
                     {
                         case RoleType.Impostor:
-                            roleColors.TryAdd(role, "#ff0000");
+                            roleColors.TryAdd(role, "#ff1919");
                             break;
                         case RoleType.Madmate:
-                            roleColors.TryAdd(role, "#ff0000");
+                            roleColors.TryAdd(role, "#ff1919");
                             break;
                         default:
                             break;
@@ -268,13 +266,14 @@ namespace TownOfHost
             }
             TownOfHost.Logger.Info($"{Application.version}", "AmongUs Version");
 
-            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Branch)}: {ThisAssembly.Git.Branch}", "GitVersion");
-            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.BaseTag)}: {ThisAssembly.Git.BaseTag}", "GitVersion");
-            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Commit)}: {ThisAssembly.Git.Commit}", "GitVersion");
-            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Commits)}: {ThisAssembly.Git.Commits}", "GitVersion");
-            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.IsDirty)}: {ThisAssembly.Git.IsDirty}", "GitVersion");
-            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}", "GitVersion");
-            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}", "GitVersion");
+            var handler = TownOfHost.Logger.Handler("GitVersion");
+            handler.Info($"{nameof(ThisAssembly.Git.Branch)}: {ThisAssembly.Git.Branch}");
+            handler.Info($"{nameof(ThisAssembly.Git.BaseTag)}: {ThisAssembly.Git.BaseTag}");
+            handler.Info($"{nameof(ThisAssembly.Git.Commit)}: {ThisAssembly.Git.Commit}");
+            handler.Info($"{nameof(ThisAssembly.Git.Commits)}: {ThisAssembly.Git.Commits}");
+            handler.Info($"{nameof(ThisAssembly.Git.IsDirty)}: {ThisAssembly.Git.IsDirty}");
+            handler.Info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}");
+            handler.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}");
 
             ClassInjector.RegisterTypeInIl2Cpp<ErrorText>();
 
@@ -294,7 +293,7 @@ namespace TownOfHost
         FireWorks,
         Mafia,
         SerialKiller,
-        //ShapeMaster,
+        ShapeMaster,
         Sniper,
         Vampire,
         Witch,
@@ -328,6 +327,7 @@ namespace TownOfHost
         Dictator,
         Doctor,
         Seer,
+        TimeManager,
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
         //Neutral
         Arsonist,
@@ -349,6 +349,7 @@ namespace TownOfHost
         NotAssigned = 500,
         LastImpostor,
         Lovers,
+        Workhorse,
     }
     //WinData
     public enum CustomWinner

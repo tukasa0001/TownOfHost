@@ -41,9 +41,16 @@ namespace TownOfHost
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
                     case CustomWinner.Impostor:
+                        if (Main.AllAlivePlayerControls.Count(p => p.Is(RoleType.Impostor)) == 0 && Main.AllAlivePlayerControls.Count(p => p.Is(CustomRoles.Egoist)) > 0) //インポスター全滅でエゴイストが生存
+                            goto case CustomWinner.Egoist;
                         Main.AllPlayerControls
                             .Where(pc => (pc.Is(RoleType.Impostor) || pc.Is(RoleType.Madmate)) && !pc.Is(CustomRoles.Lovers))
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
+                        break;
+                    case CustomWinner.Egoist:
+                        CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Egoist);
+                        CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Egoist);
+                        CustomWinnerHolder.WinnerRoles.Add(CustomRoles.EgoSchrodingerCat);
                         break;
                 }
                 if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw and not CustomWinner.None)
@@ -65,11 +72,7 @@ namespace TownOfHost
                             CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
                         }
                         //SchrodingerCat
-                        if (SchrodingerCat.CanWinTheCrewmateBeforeChange.GetBool() && pc.Is(CustomRoles.SchrodingerCat) && CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
-                        {
-                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
-                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.SchrodingerCat);
-                        }
+                        SchrodingerCat.CheckAdditionalWin(pc);
                     }
                 }
                 ShipStatus.Instance.enabled = false;
@@ -202,12 +205,6 @@ namespace TownOfHost
                 {
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
-                    if (Imp == 0) //インポスター全滅ならエゴイスト勝利
-                    {
-                        CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Egoist);
-                        CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Egoist);
-                        CustomWinnerHolder.WinnerRoles.Add(CustomRoles.EgoSchrodingerCat);
-                    }
                 }
                 else if (Imp + Ego == 0 && Crew <= Jackal) //ジャッカル勝利
                 {
@@ -300,7 +297,7 @@ namespace TownOfHost
         public virtual bool CheckGameEndByTask(out GameOverReason reason)
         {
             reason = GameOverReason.ImpostorByKill;
-            if (Options.DisableTaskWin.GetBool() || GameData.Instance.TotalTasks == 0) return false;
+            if (Options.DisableTaskWin.GetBool() || TaskState.InitialTotalTasks == 0) return false;
 
             if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
             {

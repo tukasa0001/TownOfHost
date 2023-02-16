@@ -14,12 +14,12 @@ namespace TownOfHost
             if (__instance.Role.Role == RoleTypes.Scientist)
             {
                 __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.Scientist);
-                if (CustomRoles.Doctor.IsEnable()) forced = true;
+                forced = SelectRolesPatch.GetAdditionalRoleTypesCount(RoleTypes.Scientist) > 0;
             }
             if (__instance.Role.Role == RoleTypes.Engineer)
             {
                 __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.Engineer);
-                if (CustomRoles.Madmate.IsEnable() || CustomRoles.Terrorist.IsEnable()) forced = true;
+                forced = SelectRolesPatch.GetAdditionalRoleTypesCount(RoleTypes.Engineer) > 0;
             }
             if (__instance.Role.Role == RoleTypes.GuardianAngel)
             {
@@ -39,7 +39,7 @@ namespace TownOfHost
             if (__instance.Role.Role == RoleTypes.Shapeshifter)
             {
                 __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.Shapeshifter);
-                if (CustomRoles.SerialKiller.IsEnable() || CustomRoles.Warlock.IsEnable() || CustomRoles.BountyHunter.IsEnable()/* || CustomRoles.ShapeMaster.IsEnable()*/) forced = true;
+                forced = SelectRolesPatch.GetAdditionalRoleTypesCount(RoleTypes.Shapeshifter) > 0;
             }
 
             if (forced)

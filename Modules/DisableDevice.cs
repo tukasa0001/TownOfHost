@@ -137,7 +137,7 @@ namespace TownOfHost
         {
             var player = PlayerControl.LocalPlayer;
             bool ignore = player.Is(CustomRoles.GM) ||
-                player.Data.IsDead ||
+                !player.IsAlive() ||
                 (Options.DisableDevicesIgnoreImpostors.GetBool() && player.Is(RoleType.Impostor)) ||
                 (Options.DisableDevicesIgnoreMadmates.GetBool() && player.Is(RoleType.Madmate)) ||
                 (Options.DisableDevicesIgnoreNeutrals.GetBool() && player.Is(RoleType.Neutral)) ||
