@@ -215,7 +215,7 @@ Example:
 | [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |                               |           |
 | [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |                               |           |
 | [Witch](#Witch)                     | [Beartrap](#Beartrap)             |                                   |                               |           |
-| [Mafia](#Mafia)                     |                                   |                                   |                               |           |
+| [Mafia](#Mafia)                     | [TimeManager](#TimeManager)       |                                   |                               |           |
 | [Madmate](#Madmate)                 |                                   |                                   |                               |           |
 | [MadGuardian](#MadGuardian)         |                                   |                                   |                               |           |
 | [MadSnitch](#MadSnitch)             |                                   |                                   |                               |           |
