@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using AmongUs.Data;
 using AmongUs.GameOptions;
 using HarmonyLib;
@@ -69,6 +68,7 @@ namespace TownOfHost
             RPC.RpcVersionCheck();
 
             if (!AmongUsClient.Instance.AmHost) return;
+            if (__instance.ClientId < 1) return;
             if (Main.LastRPC.ContainsKey(client.Id)) Main.LastRPC.Remove(client.Id);
             if (Main.SayStartTimes.ContainsKey(client.Id)) Main.SayStartTimes.Remove(client.Id);
             if (Main.SayBanwordsTimes.ContainsKey(client.Id)) Main.SayBanwordsTimes.Remove(client.Id);
@@ -120,6 +120,8 @@ namespace TownOfHost
                 Logger.SendInGame($"{data.PlayerName} 在火星和你联机但是断了 (Ping:{AmongUsClient.Instance.Ping}) QwQ");
             }
             Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
+            if (!AmongUsClient.Instance.AmHost) return;
+            if (__instance.ClientId < 1) return;
             if (Main.OriginalName.ContainsKey(__instance.ClientId)) Main.OriginalName.Remove(__instance.ClientId);
             if (Main.LastRPC.ContainsKey(__instance.ClientId)) Main.LastRPC.Remove(__instance.ClientId);
             if (Main.SayStartTimes.ContainsKey(__instance.ClientId)) Main.SayStartTimes.Remove(__instance.ClientId);

@@ -162,13 +162,6 @@ namespace TownOfHost
         public static OptionItem SansMinKillCooldown;
         public static OptionItem BomberRadius;
         public static OptionItem FlashWhenTrapBoobyTrap;
-        
-        // HideAndSeek
-        public static OptionItem AllowCloseDoors;
-        public static OptionItem KillDelay;
-        public static OptionItem IgnoreCosmetics;
-        public static OptionItem IgnoreVent;
-        public static float HideAndSeekKillDelayTimer = 0f;
 
         // タスク無効化
         public static OptionItem DisableTasks;

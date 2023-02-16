@@ -193,14 +193,7 @@ namespace TownOfHost.Modules
             {
                 opt.SetInt(Int32OptionNames.EmergencyCooldown, 3600);
             }
-            if (Options.HideAndSeekKillDelayTimer > 0)
-            {
-                opt.SetFloat(FloatOptionNames.ImpostorLightMod, 0f);
-                if (player.GetCustomRole().IsImpostor())
-                {
-                    opt.SetFloat(FloatOptionNames.PlayerSpeedMod, Main.MinSpeed);
-                }
-            }
+
             opt.SetInt(Int32OptionNames.DiscussionTime, Mathf.Clamp(Main.DiscussionTime, 0, 300));
 
             opt.SetInt(

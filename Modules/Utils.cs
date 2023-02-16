@@ -1233,8 +1233,13 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             if (!IsDev(player)) return;
             string name = DataManager.player.Customization.Name;
-            if (player != PlayerControl.LocalPlayer) name = Main.OriginalName[player.GetClientId()];
-            //string name = DataManager.player.Customization.Name;
+            if (player != PlayerControl.LocalPlayer)
+            {
+                if (!player.IsModClient()) return;
+                if (Main.OriginalName.ContainsKey(player.GetClientId()))
+                    name = Main.OriginalName[player.GetClientId()];
+                else return;
+            }
             if (Main.nickName != "") name = Main.nickName;
             if (AmongUsClient.Instance.IsGameStarted)
             {
@@ -1254,7 +1259,7 @@ namespace TownOfHost
                         name += $"\r\n<color=#be4d16><size=1.7>.exe未响应</size></color>";
                         break;
                     case "heavyclod#2286":
-                        name = $"<color=#FFFF00><size=1.7>小叨不是叼</size></color>\r\n" + name;
+                        name = $"<color=#FFFF00><size=1.7>小叨.exe已停止运行\n</size></color>\r\n" + name;
                         break;
                     case "canneddrum#2370":
                         name = $"<color=#fffcbe><size=1.7>我是喜唉awa</size></color>\r\n" + name;
