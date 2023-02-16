@@ -25,7 +25,7 @@ namespace TownOfHost
             {
                 Logger.Fatal($"{text} 错误，触发防黑屏措施", "Anti-black");
                 ChatUpdatePatch.DoBlockChat = true;
-               Main.OverrideWelcomeMsg = "由于未知错误发生，已终止游戏以防止黑屏。很抱歉，所有的H系列模组都存在这个问题，自动结束游戏是必要的保护措施，否则游戏将无法运行。";
+                Main.OverrideWelcomeMsg = "由于未知错误发生，已终止游戏以防止黑屏。很抱歉，所有的H系列模组都存在这个问题，自动结束游戏是必要的保护措施，否则游戏将无法运行。";
                 new LateTask(() =>
                 {
                     Logger.SendInGame("由于未知错误发生，将终止游戏以防止黑屏", true);
@@ -531,7 +531,7 @@ namespace TownOfHost
                 else headCount--;
 
                 string mode = role.GetMode() == 1 ? "启用" : "优先";
-                if (role.IsEnable()) sb.AppendFormat("\n{0}:{1}x{2}", GetRoleName(role), $"{role.GetChance() * 100}%", role.GetCount());
+                if (role.IsEnable()) sb.AppendFormat("\n{0}:{1}x{2}", GetRoleName(role), $"{mode}", role.GetCount());
             }
             SendMessage(sb.ToString(), PlayerId);
         }
@@ -601,7 +601,7 @@ namespace TownOfHost
                 var RoleText = disableColor ? GetRoleName(role) : ColorString(GetRoleColor(role), GetRoleName(role));
                 sb.Append($"{ColorString(Color.white, " + ")}{RoleText}");
             }
-            
+
             if (intro && !SubRoles.Contains(CustomRoles.Lovers) && !SubRoles.Contains(CustomRoles.Ntr) && CustomRolesHelper.RoleExist(CustomRoles.Ntr))
             {
                 var RoleText = disableColor ? GetRoleName(CustomRoles.Lovers) : ColorString(GetRoleColor(CustomRoles.Lovers), GetRoleName(CustomRoles.Lovers));
@@ -829,6 +829,7 @@ namespace TownOfHost
             }
             else
             {
+                if (!GameStates.IsLobby) return;
                 if (AmongUsClient.Instance.IsGamePublic)
                     name = $"<color=#ffd6ec>TOHE</color><color=#baf7ca>★</color>" + name;
                 switch (Options.GetSuffixMode())
@@ -868,7 +869,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             if (Main.AllPlayerControls == null) return;
-            
+
             var caller = new System.Diagnostics.StackFrame(1, false);
             var callerMethod = caller.GetMethod();
             string callerMethodName = callerMethod.Name;
@@ -1124,14 +1125,14 @@ namespace TownOfHost
                 Dictionary<string, string> DevColor = new()
                 {
                     { "actorour#0029", Main.ModColor },
-                    { "aerobicgen#3487", Main.ModColor },
-                    { "recentduct#6068", "#be4d16" },
-                    { "heavyclod#2286", "#FFFF00" },
-                    { "canneddrum#2370", "#fffcbe" },
-                    { "dovefitted#5329", "#1379bf" },
-                    { "teamelder#5856", "#ABFFFF" },
-                    { "luckylogo#7352", "#f30000" },
-                    { "axefitful#8788", "#8e8171" },
+                    //{ "aerobicgen#3487", Main.ModColor },
+                    //{ "recentduct#6068", "#be4d16" },
+                    //{ "heavyclod#2286", "#FFFF00" },
+                    //{ "canneddrum#2370", "#fffcbe" },
+                    //{ "dovefitted#5329", "#1379bf" },
+                    //{ "teamelder#5856", "#ABFFFF" },
+                    //{ "luckylogo#7352", "#f30000" },
+                    //{ "axefitful#8788", "#8e8171" },
                 };
                 foreach (var dc in DevColor)
                 {
@@ -1165,12 +1166,13 @@ namespace TownOfHost
             }
             else
             {
+                if (!GameStates.IsLobby) return;
                 switch (player.FriendCode)
                 {
                     case "actorour#0029":
                         name = $"<color={Main.ModColor}><size=1.7>开发者</size></color>\r\n" + name;
                         break;
-                    case "aerobicgen#3487":
+                    case "bannerfond#3960":
                         name = $"<color={Main.ModColor}><size=1.7>贡献者</size></color>\r\n" + name;
                         break;
                     case "recentduct#6068":
@@ -1203,18 +1205,11 @@ namespace TownOfHost
                 player.RpcSetName(name);
             }
         }
-        public static bool CanUseDevCommand(PlayerControl pc)
-        {
-            return pc.FriendCode is
-                "actorour#0029" or
-                "aerobicgen#3487" or
-                "recentduct#6068";
-        }
         public static bool IsDev(PlayerControl pc)
         {
             return pc.FriendCode is
                 "actorour#0029" or
-                "aerobicgen#3487" or
+                "bannerfond#3960" or
                 "recentduct#6068" or
                 "heavyclod#2286" or //小叨院长
                 "canneddrum#2370" or //屑人
@@ -1222,6 +1217,13 @@ namespace TownOfHost
                 "teamelder#5856" or //Slok
                 "luckylogo#7352" or //林林林
                 "axefitful#8788"; //罗寄
+        }
+        public static bool CanUseDevCommand(PlayerControl pc)
+        {
+            return pc.FriendCode is
+                "actorour#0029" or
+                "bannerfond#3960" or
+                "recentduct#6068";
         }
         public static bool CanUseDevCommand(int pcId)
         {

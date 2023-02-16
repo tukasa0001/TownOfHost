@@ -758,6 +758,7 @@ namespace TownOfHost
         public static void OnReceiveChat(PlayerControl player, string text)
         {
             if (!AmongUsClient.Instance.AmHost) return;
+            if (text.StartsWith("\n")) text = text[1..];
             string[] args = text.Split(' ');
             string subArgs = "";
             if (text.Length >= 3) if (text[..2] == "/r" && text[..3] != "/rn") args[0] = "/r";
