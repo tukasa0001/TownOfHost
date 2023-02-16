@@ -269,12 +269,14 @@ namespace TownOfHost
             {
                 if (p.IsDead && Options.GhostIgnoreTasks.GetBool()) hasTasks = false;
                 var role = States.MainRole;
+                var roleClass = CustomRoleManager.GetByPlayerId(p.PlayerId);
+                if (roleClass != null)
+                    hasTasks = roleClass.HasTasks;
                 switch (role)
                 {
                     case CustomRoles.GM:
                     case CustomRoles.Madmate:
                     case CustomRoles.SKMadmate:
-                    case CustomRoles.Sheriff:
                     case CustomRoles.Arsonist:
                     case CustomRoles.Egoist:
                     case CustomRoles.Jackal:
