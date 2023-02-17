@@ -5,6 +5,7 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using TownOfHost.Modules;
+using UnityEngine.XR;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -161,7 +162,6 @@ namespace TownOfHost
     class SelectRolesPatch
     {
 
-        public static Dictionary<byte, CustomRoles> devRoleToAssign = new();
         public static List<CustomRoles> addRoleList = new();
         public static List<CustomRoles> rolesToAssign = new();
         public static int addScientistNum = 0;
@@ -193,7 +193,6 @@ namespace TownOfHost
                 int readyRoleNum = 0;
                 int readyNeutralNum = 0;
 
-                devRoleToAssign = new();
                 rolesToAssign = new();
                 addRoleList = new();
 
@@ -238,7 +237,6 @@ namespace TownOfHost
                 while (ImpOnList.Count > 0)
                 {
                     var select = ImpOnList[rd.Next(0, ImpOnList.Count)];
-                    try { foreach (var dr in Main.DevRole) foreach (var role in roleRateList) if (dr.Value == role && !rolesToAssign.Contains(role)) { select = role; devRoleToAssign.Add(dr.Key, dr.Value); Main.DevRole.Remove(dr.Key); } }  catch (Exception e) { Logger.Fatal(e.Message, "Dev Role"); }
                     ImpOnList.Remove(select);
                     rolesToAssign.Add(select);
                     readyRoleNum += select.GetCount();
@@ -253,7 +251,6 @@ namespace TownOfHost
                     while (ImpRateList.Count > 0)
                     {
                         var select = ImpRateList[rd.Next(0, ImpRateList.Count)];
-                        try { foreach (var dr in Main.DevRole) foreach (var role in ImpRateList) if (dr.Value == role && !rolesToAssign.Contains(role)) { select = role; devRoleToAssign.Add(dr.Key, dr.Value); Main.DevRole.Remove(dr.Key); } } catch (Exception e) { Logger.Fatal(e.Message, "Dev Role"); }
                         ImpRateList.Remove(select);
                         rolesToAssign.Add(select);
                         readyRoleNum += select.GetCount();
@@ -267,7 +264,6 @@ namespace TownOfHost
                 while (NeutralOnList.Count > 0 && optNeutralNum > 0)
                 {
                     var select = NeutralOnList[rd.Next(0, NeutralOnList.Count)];
-                    try { foreach (var dr in Main.DevRole) foreach (var role in NeutralOnList) if (dr.Value == role && !rolesToAssign.Contains(role)) { select = role; devRoleToAssign.Add(dr.Key, dr.Value); Main.DevRole.Remove(dr.Key); } } catch (Exception e) { Logger.Fatal(e.Message, "Dev Role"); }
                     NeutralOnList.Remove(select);
                     rolesToAssign.Add(select);
                     readyRoleNum += select.GetCount();
@@ -283,7 +279,6 @@ namespace TownOfHost
                     while (NeutralRateList.Count > 0 && optNeutralNum > 0)
                     {
                         var select = NeutralRateList[rd.Next(0, NeutralRateList.Count)];
-                        try { foreach (var dr in Main.DevRole) foreach (var role in NeutralRateList) if (dr.Value == role && !rolesToAssign.Contains(role)) { select = role; devRoleToAssign.Add(dr.Key, dr.Value); Main.DevRole.Remove(dr.Key); } } catch (Exception e) { Logger.Fatal(e.Message, "Dev Role"); }
                         NeutralRateList.Remove(select);
                         rolesToAssign.Add(select);
                         readyRoleNum += select.GetCount();
@@ -298,7 +293,6 @@ namespace TownOfHost
                 while (roleOnList.Count > 0)
                 {
                     var select = roleOnList[rd.Next(0, roleOnList.Count)];
-                    try { foreach (var dr in Main.DevRole) foreach (var role in roleOnList) if (dr.Value == role && !rolesToAssign.Contains(role)) { select = role; devRoleToAssign.Add(dr.Key, dr.Value); Main.DevRole.Remove(dr.Key); } } catch (Exception e) { Logger.Fatal(e.Message, "Dev Role"); }
                     roleOnList.Remove(select);
                     rolesToAssign.Add(select);
                     readyRoleNum += select.GetCount();
@@ -311,7 +305,6 @@ namespace TownOfHost
                     while (roleRateList.Count > 0)
                     {
                         var select = roleRateList[rd.Next(0, roleRateList.Count)];
-                        try { foreach (var dr in Main.DevRole) foreach (var role in roleRateList) if (dr.Value == role && !rolesToAssign.Contains(role)) { select = role; devRoleToAssign.Add(dr.Key, dr.Value); Main.DevRole.Remove(dr.Key); } } catch (Exception e) { Logger.Fatal(e.Message, "Dev Role"); }
                         roleRateList.Remove(select);
                         rolesToAssign.Add(select);
                         readyRoleNum += select.GetCount();
@@ -337,26 +330,58 @@ namespace TownOfHost
                     }
                 }
 
+                // Dev Roles
+                foreach (var dr in Main.DevRole)
+                {
+                    if (rolesToAssign.Contains(dr.Value))
+                    {
+                        rolesToAssign.Remove(dr.Value);
+                        rolesToAssign.Insert(0, dr.Value);
+                        Logger.Info("职业列表提高优先：" + dr.Value, "Dev Role");
+                        continue;
+                    }
+                    for (int i = 0; i < rolesToAssign.Count; i++)
+                    {
+                        var role = rolesToAssign[i];
+                        if (dr.Value.GetMode() != role.GetMode()) continue;
+                        if (
+                            (dr.Value.IsImpostor() && role.IsImpostor()) ||
+                            (dr.Value.IsNeutral() && role.IsNeutral()) ||
+                            (dr.Value.IsCrewmate() & role.IsCrewmate())
+                            )
+                        {
+                            rolesToAssign.RemoveAt(i);
+                            rolesToAssign.Insert(0, dr.Value);
+
+                            switch (CustomRolesHelper.GetVNRole(role))
+                            {
+                                case CustomRoles.Scientist: addScientistNum--; break;
+                                case CustomRoles.Engineer: addEngineerNum--; break;
+                                case CustomRoles.Shapeshifter: addShapeshifterNum--; break;
+                            }
+                            switch (CustomRolesHelper.GetVNRole(dr.Value))
+                            {
+                                case CustomRoles.Scientist: addScientistNum++; break;
+                                case CustomRoles.Engineer: addEngineerNum++; break;
+                                case CustomRoles.Shapeshifter: addShapeshifterNum++; break;
+                            }
+                            Logger.Info("覆盖职业列表：" + i + " " + role.ToString() + " => " + dr.Value, "Dev Role");
+                            break;
+                        }
+                    }
+                }
+
                 //指定原版特殊职业数量
                 var roleOpt = Main.NormalOptions.roleOptions;
-
                 int ScientistNum = Options.DisableVanillaRoles.GetBool() ? 0 : roleOpt.GetNumPerGame(RoleTypes.Scientist);
-                int AdditionalScientistNum = addScientistNum;
-                roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum + AdditionalScientistNum, AdditionalScientistNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Scientist));
-
+                roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum + addScientistNum, addScientistNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Scientist));
                 int EngineerNum = Options.DisableVanillaRoles.GetBool() ? 0 : roleOpt.GetNumPerGame(RoleTypes.Engineer);
-                int AdditionalEngineerNum = addEngineerNum;
-                roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
-
+                roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + addEngineerNum, addEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
                 int ShapeshifterNum = Options.DisableVanillaRoles.GetBool() ? 0 : roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                int AdditionalShapeshifterNum = addShapeshifterNum;
-                roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
+                roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + addShapeshifterNum, addShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 List<PlayerControl> AllPlayers = new();
-                foreach (var pc in Main.AllPlayerControls)
-                {
-                    AllPlayers.Add(pc);
-                }
+                foreach (var pc in Main.AllPlayerControls) AllPlayers.Add(pc);
 
                 if (Options.EnableGM.GetBool())
                 {
@@ -365,20 +390,15 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Crewmate);
                     PlayerControl.LocalPlayer.Data.IsDead = true;
                 }
+
                 Dictionary<(byte, byte), RoleTypes> rolesMap = new();
 
                 // 注册反职业
                 foreach (var role in rolesToAssign.Where(x => x.IsDesyncRole()))
-                {
-                    byte player = byte.MaxValue;
-                    foreach (var dr in devRoleToAssign)
-                    {
-                        if (dr.Value == role) player = dr.Key; break;
-                    }
-                    AssignDesyncRole(role, AllPlayers, senders, rolesMap, BaseRole: role.GetDYRole(), devPlayer: player == byte.MaxValue ? null : Utils.GetPlayerById(player));
-                }
+                    AssignDesyncRole(role, AllPlayers, senders, rolesMap, BaseRole: role.GetDYRole());
 
                 MakeDesyncSender(senders, rolesMap);
+
             }
             catch (Exception e)
             {
@@ -452,12 +472,6 @@ namespace TownOfHost
                 }
 
                 var rd = IRandom.Instance;
-                if (CustomRoles.Lovers.IsEnable() && rd.Next(1, 100) <= Options.LoverSpawnChances.GetInt()) AssignLoversRolesFromList();
-                foreach (var role in addRoleList)
-                {
-                    if (rd.Next(1, 100) <= (Options.CustomAdtRoleSpawnRate.TryGetValue(role, out var sc) ? sc.GetFloat() : 0))
-                        if (role.IsEnable()) AssignSubRoles(role);
-                }
 
                 foreach (var role in rolesToAssign)
                 {
@@ -484,12 +498,14 @@ namespace TownOfHost
                             Logger.Error(role.ToString() + " 存在于列表但没有被注册", "Assign Roles In List");
                             break;
                     }
-                    byte player = byte.MaxValue;
-                    foreach (var dr in devRoleToAssign)
-                    {
-                        if (dr.Value == role) player = dr.Key; break;
-                    }
-                        AssignCustomRolesFromList(role, playerList, devPlayer: player == byte.MaxValue ? null : Utils.GetPlayerById(player));
+                    AssignCustomRolesFromList(role, playerList);
+                }
+
+                if (CustomRoles.Lovers.IsEnable() && rd.Next(1, 100) <= Options.LoverSpawnChances.GetInt()) AssignLoversRolesFromList();
+                foreach (var role in addRoleList)
+                {
+                    if (rd.Next(1, 100) <= (Options.CustomAdtRoleSpawnRate.TryGetValue(role, out var sc) ? sc.GetFloat() : 0))
+                        if (role.IsEnable()) AssignSubRoles(role);
                 }
 
                 //RPCによる同期
@@ -597,15 +613,12 @@ namespace TownOfHost
 
                 //役職の人数を戻す
                 var roleOpt = Main.NormalOptions.roleOptions;
-
                 int ScientistNum = Options.DisableVanillaRoles.GetBool() ? 0 : roleOpt.GetNumPerGame(RoleTypes.Scientist);
                 ScientistNum -= addScientistNum;
                 roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum, roleOpt.GetChancePerGame(RoleTypes.Scientist));
-
                 int EngineerNum = Options.DisableVanillaRoles.GetBool() ? 0 : roleOpt.GetNumPerGame(RoleTypes.Engineer);
                 EngineerNum -= addEngineerNum;
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
-
                 int ShapeshifterNum = Options.DisableVanillaRoles.GetBool() ? 0 : roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
                 ShapeshifterNum -= addShapeshifterNum;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
@@ -632,7 +645,7 @@ namespace TownOfHost
                 Logger.Fatal(ex.ToString(), "Select Role Prefix");
             }
         }
-        private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, Dictionary<byte, CustomRpcSender> senders, Dictionary<(byte, byte), RoleTypes> rolesMap, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate, PlayerControl devPlayer = null)
+        private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, Dictionary<byte, CustomRpcSender> senders, Dictionary<(byte, byte), RoleTypes> rolesMap, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)
         {
             if (!role.IsEnable()) return;
             if (AllPlayers == null || AllPlayers.Count <= 0) return;
@@ -644,10 +657,36 @@ namespace TownOfHost
             count = Math.Clamp(role.GetCount(), 0, AllPlayers.Count);
             if (count <= 0) return;
 
+            List<byte> pid = new();
+            foreach (var pc in AllPlayers) pid.Add(pc.PlayerId);
             for (var i = 0; i < role.GetCount(); i++)
             {
                 if (AllPlayers.Count <= 0) break;
-                var player = devPlayer ?? AllPlayers[rd.Next(0, AllPlayers.Count)];
+                var player = AllPlayers[rd.Next(0, AllPlayers.Count)];
+                foreach (var dr in Main.DevRole)
+                {
+                    if (pid.Contains(dr.Key))
+                    {
+                        Logger.Test("存在未分配职业的Dev玩家");
+                        if (dr.Value == role)
+                        {
+                            Logger.Test("当前职业：" + role.ToString() + " 已分配给Dev玩家");
+                            player.PlayerId = dr.Key;
+                            break;
+                        }
+                        else
+                        {
+                            Logger.Test("当前职业：" + role.ToString() + " 非Dev职业，将确保Dev玩家不会被分配该职业");
+                            while (player.PlayerId == dr.Key && AllPlayers.Count > 1)
+                            {
+                                player = AllPlayers[rd.Next(0, AllPlayers.Count)];
+                                Logger.Test("当前重选玩家：" + player.GetRealName());
+                            }
+                            Logger.Test("最后选中玩家：" + player.GetRealName());
+                        }
+                    }
+                }
+                Main.DevRole.Remove(player.PlayerId);
                 AllPlayers.Remove(player);
                 Main.PlayerStates[player.PlayerId].MainRole = role;
 
@@ -691,7 +730,7 @@ namespace TownOfHost
             }
         }
 
-        private static List<PlayerControl> AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1, PlayerControl devPlayer = null)
+        private static List<PlayerControl> AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1)
         {
             if (players == null || players.Count <= 0) return null;
             var rd = IRandom.Instance;
@@ -700,9 +739,36 @@ namespace TownOfHost
             if (count <= 0) return null;
             List<PlayerControl> AssignedPlayers = new();
             SetColorPatch.IsAntiGlitchDisabled = true;
+            List<byte> pid= new();
+            foreach (var pc in players) pid.Add(pc.PlayerId);
             for (var i = 0; i < count; i++)
             {
-                var player = devPlayer ?? players[rd.Next(0, players.Count)];
+                if (count <= 0) break;
+                var player = players[rd.Next(0, players.Count)];
+                foreach (var dr in Main.DevRole)
+                {
+                    if (pid.Contains(dr.Key))
+                    {
+                        Logger.Test("存在未分配职业的Dev玩家");
+                        if (dr.Value == role)
+                        {
+                            Logger.Test("当前职业："+role.ToString() +" 已分配给Dev玩家");
+                            player.PlayerId = dr.Key;
+                            break;
+                        }
+                        else
+                        {
+                            Logger.Test("当前职业：" + role.ToString() + " 非Dev职业，将确保Dev玩家不会被分配该职业");
+                            while (player.PlayerId == dr.Key && players.Count > 1)
+                            {
+                                player = players[rd.Next(0, players.Count)];
+                                Logger.Test("当前重选玩家：" + player.GetRealName());
+                            }
+                            Logger.Test("最后选中玩家：" + player.GetRealName());
+                        }
+                    }
+                }
+                Main.DevRole.Remove(player.PlayerId);
                 AssignedPlayers.Add(player);
                 players.Remove(player);
                 Main.PlayerStates[player.PlayerId].MainRole = role;

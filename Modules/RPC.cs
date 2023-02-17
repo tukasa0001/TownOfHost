@@ -180,7 +180,7 @@ namespace TownOfHost
                             }
                             else
                             {
-                                if (GameStates.IsLobby)
+                                if (GameStates.IsLobby && __instance.PlayerId == 0)
                                 {
                                     ErrorText.Instance.ModConflict = true;
                                     ErrorText.Instance.AddError(ErrorCode.TestError1);

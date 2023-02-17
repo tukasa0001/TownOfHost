@@ -721,12 +721,16 @@ namespace TownOfHost
 
                     if (isDev && GameStates.IsLobby)
                     {
-                        string devMark = "";
-                        if (CustomRolesHelper.IsAdditionRole(r.Key)) devMark = "▲";
-                        if (r.Key is CustomRoles.GM) devMark = "▲";
-                        if (Main.DevRole.ContainsKey(player.PlayerId)) Main.DevRole.Remove(player.PlayerId);
-                        Main.DevRole.Add(player.PlayerId, r.Key);
+                        string devMark = "▲";
+                        if (CustomRolesHelper.IsAdditionRole(r.Key)) devMark = "";
+                        if (r.Key is CustomRoles.GM) devMark = "";
+                        if (r.Key.GetCount () < 1 || r.Key.GetMode() == 0) devMark = "";
                         Utils.SendMessage(devMark + GetString(roleName) + GetString($"{roleName}InfoLong"), player.PlayerId);
+                        if (devMark == "▲")
+                        {
+                            if (Main.DevRole.ContainsKey(player.PlayerId)) Main.DevRole.Remove(player.PlayerId);
+                            Main.DevRole.Add(player.PlayerId, r.Key);
+                        }
                     }
                     else
                     {

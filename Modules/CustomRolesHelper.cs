@@ -81,7 +81,7 @@ namespace TownOfHost
                 CustomRoles.Jackal => RoleTypes.Impostor,
                 CustomRoles.ChivalrousExpert => RoleTypes.Impostor,
                 CustomRoles.OpportunistKiller => RoleTypes.Impostor,
-                _ => RoleTypes.Scientist
+                _ => role.IsImpostor() ? RoleTypes.Impostor : RoleTypes.Crewmate
             };
         }
         public static bool IsAdditionRole(this CustomRoles role)

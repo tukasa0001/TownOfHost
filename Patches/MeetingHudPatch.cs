@@ -715,6 +715,10 @@ namespace TownOfHost
                 //呪われている場合
                 sb.Append(Witch.GetSpelledMark(target.PlayerId, true));
 
+                //如果是大明星
+                if (target.Is(CustomRoles.SuperStar) && Options.EveryOneKnowSuperStar.GetBool())
+                    sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.SuperStar), "★"));
+
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
 
                 pva.NameText.text += sb.ToString();
