@@ -43,16 +43,15 @@ public abstract class RoleBase
         var info = Utils.GetPlayerInfoById(playerId);
         var TaskCompleteColor = Utils.HasTasks(info) ? Color.green : Utils.GetRoleColor(info.GetCustomRole()).ShadeColor(0.5f); //タスク完了後の色
         var NonCompleteColor = Utils.HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
-        var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
-        int numCompleted = taskState.CompletedTasksCount;
-        int numAllTasks = taskState.AllTasksCount;
 
         if (Workhorse.IsThisRole(playerId))
-            (NormalColor, numCompleted, numAllTasks) = Workhorse.GetTaskTextData(taskState);
+            NonCompleteColor = Workhorse.RoleColor;
+
+        var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
 
         TextColor = comms ? Color.gray : NormalColor;
-        string Completed = comms ? "?" : $"{numCompleted}";
-        return Utils.ColorString(TextColor, $"({Completed}/{numAllTasks})");
+        string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
+        return Utils.ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})");
     }
     // == CheckMurder関連処理 ==
     public virtual IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target) => null;
