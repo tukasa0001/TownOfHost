@@ -51,8 +51,7 @@ namespace TownOfHost
                             Witch.OnCheckForEndVoting(pva.VotedFor);
                         }
                         Logger.Info($"{voteTarget.GetNameWithRole()}を追放", "Dictator");
-                        FollowingSuicideOnExile(pva.VotedFor);
-                        RevengeOnExile(pva.VotedFor);
+                        CheckForDeathOnExile(pva.VotedFor);
                         Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
                         voteTarget.SetRealKiller(pc);
                         return true;
@@ -200,8 +199,7 @@ namespace TownOfHost
                     Witch.OnCheckForEndVoting(exileId);
                 }
 
-                FollowingSuicideOnExile(exileId);
-                RevengeOnExile(exileId);
+                CheckForDeathOnExile(exileId);
 
                 return false;
             }
@@ -219,18 +217,17 @@ namespace TownOfHost
         public static void TryAddAfterMeetingDeathPlayers(byte playerId, PlayerState.DeathReason deathReason)
         {
             if (Main.AfterMeetingDeathPlayers.TryAdd(playerId, deathReason))
-            {
-                FollowingSuicideOnExile(playerId);
-                RevengeOnExile(playerId, deathReason);
-            }
+                CheckForDeathOnExile(playerId, deathReason);
         }
-        public static void FollowingSuicideOnExile(byte playerId)
+        public static void CheckForDeathOnExile(byte playerId, PlayerState.DeathReason deathReason = PlayerState.DeathReason.Vote)
         {
             //Loversの後追い
             if (CustomRoles.Lovers.IsEnable() && !Main.isLoversDead && Main.LoversPlayers.Find(lp => lp.PlayerId == playerId) != null)
                 FixedUpdatePatch.LoversSuicide(playerId, true);
+            //道連れチェック
+            RevengeOnExile(playerId, deathReason);
         }
-        private static void RevengeOnExile(byte playerId, PlayerState.DeathReason deathReason = PlayerState.DeathReason.Vote)
+        private static void RevengeOnExile(byte playerId, PlayerState.DeathReason deathReason)
         {
             var player = Utils.GetPlayerById(playerId);
             if (player == null) return;
