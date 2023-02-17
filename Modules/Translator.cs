@@ -157,7 +157,7 @@ namespace TownOfHost
             foreach (var title in translateMaps) sb.Append($"{title.Key}:{title.Value[0].Replace("\n", "\\n").Replace("\r", "\\r")}\n");
             File.WriteAllText(@$"./{LANGUAGE_FOLDER_NAME}/template_English.dat", sb.ToString());
         }
-        public static void ExportTemplateFile()
+        public static void ExportCustomTranslation()
         {
             LoadLangs();
             var sb = new StringBuilder();

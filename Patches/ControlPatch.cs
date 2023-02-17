@@ -41,7 +41,7 @@ namespace TownOfHost
             if (GetKeysDown(KeyCode.F5, KeyCode.X))
             {
                 Logger.Info("Export Custom Translation File", "KeyCommand");
-                Translator.ExportTemplateFile();
+                Translator.ExportCustomTranslation();
                 Logger.SendInGame("Exported Custom Translation File");
             }
             //ログファイルのダンプ
