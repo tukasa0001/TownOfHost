@@ -49,7 +49,7 @@ namespace TownOfHost
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "4.0.2";
+        public const string PluginVersion = "4.1.0";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -219,7 +219,7 @@ namespace TownOfHost
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     {CustomRoles.Seer, "#61b26c"},
                     {CustomRoles.TimeManager, "#6495ed"},
-                    //第三陣営役職
+                    //ニュートラル役職
                     {CustomRoles.Arsonist, "#ff6633"},
                     {CustomRoles.Jester, "#ec62a5"},
                     {CustomRoles.Terrorist, "#00ff00"},
@@ -343,7 +343,7 @@ namespace TownOfHost
         EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Jester,
         Opportunist,
-        SchrodingerCat,//第三陣営のシュレディンガーの猫
+        SchrodingerCat,//無所属のシュレディンガーの猫
         Terrorist,
         Executioner,
         Jackal,

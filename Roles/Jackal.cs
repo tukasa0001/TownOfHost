@@ -57,7 +57,6 @@ namespace TownOfHost
         public static void SetHudActive(HudManager __instance, bool isActive)
         {
             __instance.SabotageButton.ToggleVisible(isActive && CanUseSabotage.GetBool());
-            __instance.AbilityButton.ToggleVisible(false);
         }
     }
 }

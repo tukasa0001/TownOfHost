@@ -302,7 +302,6 @@ namespace TownOfHost
                         ExtendedPlayerControl.RpcSetCustomRole(pair.Key, subRole);
                 }
 
-                HudManager.Instance.SetHudActive(true);
                 CustomRoleManager.CreateInstance();
                 foreach (var pc in Main.AllPlayerControls)
                 {
@@ -378,6 +377,7 @@ namespace TownOfHost
                                 break;
                         }
                     }
+                    HudManager.Instance.SetHudActive(true);
                     pc.ResetKillCooldown();
 
                     //通常モードでかくれんぼをする人用
@@ -386,7 +386,7 @@ namespace TownOfHost
                         foreach (var seer in Main.AllPlayerControls)
                         {
                             if (seer == pc) continue;
-                            if (pc.GetCustomRole().IsImpostor() || pc.IsNeutralKiller()) //変更対象がインポスター陣営orキル可能な第三陣営
+                            if (pc.GetCustomRole().IsImpostor() || pc.IsNeutralKiller()) //変更対象がインポスター陣営orキル可能なニュートラル
                                 NameColorManager.Instance.RpcAdd(seer.PlayerId, pc.PlayerId, $"{pc.GetRoleColorCode()}");
                         }
                     }
