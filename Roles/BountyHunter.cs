@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Hazel;
 using UnityEngine;
+using AmongUs.GameOptions;
 
 using TownOfHost.Roles;
 using static TownOfHost.Options;
@@ -83,7 +84,7 @@ namespace TownOfHost
             if (ShowTargetArrow) TargetArrow.Add(Player.PlayerId, targetId);
         }
         //public static void SetKillCooldown(byte id, float amount) => Main.AllPlayerKillCooldown[id] = amount;
-        public override void ApplyGameOptions() => AURoleOptions.ShapeshifterCooldown = TargetChangeTime;
+        public override void ApplyGameOptions(IGameOptions opt) => AURoleOptions.ShapeshifterCooldown = TargetChangeTime;
 
         public override IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target)
         {

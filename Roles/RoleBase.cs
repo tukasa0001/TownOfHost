@@ -30,7 +30,7 @@ public abstract class RoleBase
     public virtual bool CanUseKillButton() => false;
     public virtual void SetKillCooldown()
     { }
-    public virtual void ApplyGameOptions()
+    public virtual void ApplyGameOptions(IGameOptions opt)
     { }
     public virtual string GetProgressText(bool comms = false)
     {
