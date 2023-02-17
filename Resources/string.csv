@@ -188,7 +188,7 @@ GodInfo,一切都在您的掌控,Everything is under your control,Все под 
 LoversInfo,最重要的是，记得照顾好你的另一半,Survive with your Lover,Выживите со своим Любовником
 MadmateInfo,结局掌握在你的手中,Help the Impostors,Помогите Предателям
 NtrInfo,笨蛋，我只爱你亿个人哦,Everyone sees you as their Lover,Вас видят как своего Любовника
-WatcherInfo,窥视到一切的阴暗面,"Gaze upon all votes,Вы видите цвета голосов
+WatcherInfo,窥视到一切的阴暗面,"Gaze upon all votes","Вы видите цвета голосов"
 LastImpostorInfo,你是狼村最后的希望…,You are the last of us,Ты последний предатель
 FlashmanInfo,卡其脱离太！,Your speed is higher!,У вас скорость выше!
 LighterInfo,嘿！你在发光诶！,Your viewing range is many more,Ваш обзор намного больше
@@ -392,9 +392,9 @@ RoleAssigningAlgorithm.HashRandom,哈希随机算法,HashRandom,HashRandom
 RoleAssigningAlgorithm.Xorshift,Xorshift随机算法,Xorshift,Xorshift
 RoleAssigningAlgorithm.MersenneTwister,Twister随机算法,MersenneTwister,MersenneTwister
 AirShipVariableElectrical,电气室门随机关闭（飞艇地图）,Variable Electrical(AirShip),Двери в Электрощитовой меняются случайно (Airship)
-ApplyDenyNameList,踢出使用违规昵称的玩家
-KickPlayerFriendCodeNotExist,踢出没有登录的玩家
-ApplyBanList,踢出被封禁的玩家
+ApplyDenyNameList,踢出使用违规昵称的玩家,Apply DenyName List,Применить файл запрещённых имён (DenyName)
+KickPlayerFriendCodeNotExist,踢出没有登录的玩家,Kick players whose Friend Code does not exist,Кикнуть игроков у которых нет Кода Друга
+ApplyBanList,踢出被封禁的玩家,Apply BanList,Применить файл с забаненными игроками (BanList)
 
 EndWhenPlayerBug,当有玩家因Bug无法游戏时终止游戏,"End the game when the Host has a critical error",Завершить игру когда у Хоста возникла критическая ошибка
 KillFlashDuration,击杀闪烁持续时间,"''Kill Flash'' Duration","Длительность ''Вспышки Убийства''"
@@ -431,7 +431,7 @@ GuesserTryHideMsg,尝试混淆赌怪指令（试验性）,Can confuse a team of 
 BountyTargetChangeTime,赏金目标切换时间,Time Until Target Swaps,Время смены цели
 BountySuccessKillCooldown,赏金猎人击杀赏金目标的奖励冷却时间,Kill Cooldown After Killing Bounty,Перезарядка после убийства цели
 BountyFailureKillCooldown,赏金猎人击杀赏金目标以外玩家的惩罚冷却时间,Kill Cooldown After Killing Others,Перезарядка после обычного Убийства
-BountyShowTargetArrow,赏金猎人显示指向目标的箭头
+BountyShowTargetArrow,赏金猎人显示指向目标的箭头,Bounty hunter show arrow pointing to target,Показывать стрелку указывающую на Цель
 DefaultShapeshiftCooldown,默认变形冷却时间,Default Shapeshift Cooldown,Обычная перезарядка Оборотня
 VampireKillDelay,吸血目标延迟死亡时间,Kill Delay(S),Длительность укуса(Секунды)
 MareAddSpeedInLightsOut,梦魇熄灯时的额外速度,Mare Add Player Add Speed In Lights Out,Скорость Ночного при Саботаже Света
@@ -455,7 +455,7 @@ DoctorTaskCompletedBatteryCharge,每次完成任务增加的设备充能数,Batt
 SnitchEnableTargetArrow,告密者完成任务后可以通过箭头确认所有被发现目标,Can See Arrow To Target,Может видеть стрелку цели
 SnitchCanGetArrowColor,告密者对不同阵营的目标使用不同颜色的箭头确认,Can See Target Team Colored Arrow,Может видеть цвета стрелок
 SnitchCanFindNeutralKiller,告密者也可以和拥有击杀能力的中立阵营玩家互相发现,Can Find Neutral Killers,Может видеть нейтральных убийц
-SnitchRemainingTaskFound,告密者在剩余多少任务时被发现
+SnitchRemainingTaskFound,告密者在剩余多少任务时被发现,Remaining tasks to be found,Оставшиеся задания при которых он будет виден
 SpeedBoosterUpSpeed,增速者每次加速,Random Player's Speed Boost,Повысить скорость игрока на
 SpeedBoosterTimes,最多能增速几次,Tasks Until Boost Activated,На сколько секунд можно ускорить
 MayorAdditionalVote,附加票数,Additional Votes Count,Дополнительные голоса
@@ -472,8 +472,8 @@ FireWorksMaxCount,可放置烟花的最大数量,Fireworks Count,Количес�
 FireWorksRadius,烟花爆炸半径,Firework Explosion Radius,Радиус фейерверка
 SniperBulletCount,最大子弹数量,Ammo,Количество пуль
 SniperPrecisionShooting,精准射击模式,Precision Firing,Точный выстрел
-SniperAimAssist,辅助瞄准模式
-SniperAimAssistOneshot,单发子弹辅助瞄准模式
+SniperAimAssist,辅助瞄准模式,Aim Assist,Помощь в прицеливании
+SniperAimAssistOneshot,单发子弹辅助瞄准模式,One shot Assist,Помощь только с одним выстрелом
 NoLimitAddonsNum,不限制每位玩家的附加职业上限,The number of Add-ons for one player is not limited,Количество Атрибутов для одного игрока не ограничено 
 LoverSpawnChances,出现概率,Spawn Chance of Lovers,Шанс появления Любовников
 AdditionRolesSpawnRate,出现概率,Spawn Chance,Шанс появления
@@ -486,7 +486,7 @@ TrapperBlockMoveTime,陷阱师技能封锁凶手移动时长,Freeze time,Вре�
 TimeThiefDecreaseMeetingTime,每次击杀缩短的会议时间,Time Thief Time Stolen,Уменьшить длительность обсуждения на
 TimeThiefLowerLimitVotingTime,存活时会议时间最低下限,Minimum Voting Time,Уменьшить длительность голосования на
 TimeThiefReturnStolenTimeUponDeath,死亡后会议时间重置,Return Stolen Time After Death,Вернуть украденное время после его смерти
-EvilTrackerCanSeeKillFlash,内鬼进行击杀时可见击杀闪光,"Can See ""Kill Flash"",Может видеть ''Вспышку Убийства''
+EvilTrackerCanSeeKillFlash,内鬼进行击杀时可见击杀闪光,"Can See ''Kill Flash'' ","Может видеть ''Вспышку Убийства'' "
 EvilTrackerResetTargetAfterMeeting,会议后重置追踪目标,Can Reset Target After Meeting,Может сбросить цель после Собрания
 EvilTrackerCanSeeLastRoomInMeeting,追踪者可以看见船员位置,Can See Target's Last Room In Meeting,Может видеть местоположение Целей во время Собрания
 WitchModeSwitchAction,切换击杀模式,Mode Switch Action,Действие для Смены Режима
@@ -515,7 +515,7 @@ NotifyGodAlive,如果神存活则在会议上通知所有人,Inform players at t
 TransporterTeleportMax,传送师传送次数上限,Max numbers of teleports,Максимальное колличество телепортов
 TriggerKill,击杀,Kill,Убийство
 TriggerVent,通风管,Vent,Вентиляция
-TriggerDouble,双击模式
+TriggerDouble,双击模式,Double Click,Двойное нажатие
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
@@ -578,8 +578,8 @@ MafiaKillDead,请选择一个在场的存活角色进行复仇,"Choose a live pl
 MafiaKillSucceed,被黑手党进行了复仇！,Was avenged by the Mafia!,Был отомщен Мафией!
 MafiaKillDisable,很抱歉，根据房主设定，该房不允许黑手党复仇,"Sorry, but according to Host's settings, Mafia revenge is prohibited in this game","Извините, но согласно настройкам Хоста месть Мафии в этой игре запрещена"
 CyberStarDead,震惊！知名网红【{0}】在最近一段时间内不幸遇害！,Shock! Celebrity [{0}] has unfortunately been mercilessly killed in the recent period of time!,"Шок! Знаменитость [{0}], к сожалению была беспощадно убита в недавний период времени!"
-DetectiveNoticeVictim,根据您的调查，【{0}】(被害者) 的职业是 【{1}】,"According to your investigation, [{0}](victim) - Had a role of [{1}]","Согласно вашему расследованию, У [{0}](жертвы) - была роль [{1}]"
-DetectiveNoticeKiller,而凶手的职业则是【{0}】,"The killer who killed the victim, has a role - [{0}]",Убийца который убил жертву имеет роль - [{0}]
+DetectiveNoticeVictim,根据您的调查，【{0}】(被害者) 的职业是 【{1}】,"According to your investigation, \n[{0}](victim) - Had a role of [{1}]","Согласно вашему расследованию, \nУ [{0}](жертвы) - была роль [{1}]"
+DetectiveNoticeKiller,而凶手的职业则是【{0}】,"\nThe killer who killed the victim, has a role - [{0}]","\nУбийца который убил жертву имеет роль - [{0}]"
 GodNoticeAlive,会议中大家感受到了上天的启示，神似乎就在你们的背后陪伴着你们,"During the meeting, each player felt a revelation from heaven, and it turned out that God is still alive!","Во время встречи каждый игрок почувствовал откровение с небес, и оказалось что Бог ещё жив!"
 
 GuessDead,很抱歉，死亡后不能进行猜测,"Sorry, but it's impossible to guess the role after your death","Извините, но угадать роль после вашей смерти нельзя"
@@ -593,21 +593,21 @@ GGGuessMax,您已经达到每次会议的猜测上限，不能再猜测啦！,"Y
 EGGuessMax,您已经达到每次会议的猜测上限，不能再猜测啦！,"You've reached the maximum guessing limit for each encounter, you can't guess anymore!","Вы достигли максимального предела угадывания для каждой встречи, вы больше не можете угадывать!"
 
 ## 信息
-Message.SetToSeconds,信息发送冷却时间为【{0}】秒,Set to {0} seconds.,Установлен на {0} секунды
+Message.SetToSeconds,信息发送冷却时间为【{0}】秒,Set to 【{0}】 seconds.,Установлен на 【{0}】 секунды
 Message.MessageWaitHelp,指定一个数设定秒数,Specify the first argument in seconds.,Укажите первый аргумент в секундах.
 Message.TemplateNotFoundHost,未找到与“{0}”对应的消息,No messages matching ""{0}"" were found.,Сообщения соответствующие "{0}" не найдены
 Message.TemplateNotFoundClient,未找到与“{0}”相关的消息,No messages matching ""{0}"" were found.,Сообщения соответствующие "{0}" не найдены.
 Message.SyncButtonLeft,剩余紧急会议次数: {0}次，少拍桌多做事哦~,There are {0} more emergency buttons left,Кнопку экстренной встречи можно использовать еще {0} раз
-Message.Executed,【{0}】被房主处决了，请不要干坏事哦~,{0} was executed,{0} был казнен
+Message.Executed,【{0}】被房主处决了，请不要干坏事哦~,【{0}】 was executed,【{0}】 был казнен
 Message.HideGameSettings,游戏设置被房主隐藏,Game settings have been hidden by the host.,Настройки игры скрыты хостом
 Message.NowOverrideText,请房主在游戏根目录的 .\Language\SChinese.dat 文件中修改这段文本\n如果您不需要此功能或希望显示普通的/n消息\n请在设置里关掉“显示自定义的/n消息”,Please enter the root folder of the game.\Language\English.dat. Change this text in the dat file \nIf you don't need this feature or want to display regular /n messages. \nPlease disable "Enable only custom /n messages" in the settings.,"Пожалуйста, зайдите корневую папку игры.\Language\Russian.dat. Измените этот текст в файле dat \nЕсли вам не нужна эта функция или вы хотите отображать обычные /n сообщений. \nпожалуйста, отключите “Включить только пользовательские /n сообщения” в настройках."
 Message.AnnounceUsingTOH,本房间使用TownOfHostEdited mod v{0}。\n未安装MOD也可以直接玩\n请前往本mod的Github页面来获取详细的职业信息。,This room uses TownOfHostEdited mod v{0}.\n/now can be used to check the current settings.\nPlease check GitHub for detailed roles descriptions.,В этом лобби используется мод TownOfHost v{0}. Используйте команду \n/now чтобы увидеть текущие настройки лобби. \nПожалуйста посетите GitHub для получения подробного описания мода и ролей
 Message.NoDescription,无描述,No description,Описание отсутствует
-Message.KickedByDenyName,【{0}】被踢出，因其昵称包含违禁词【{1}】,{0} was kicked because its name matched "''{1}''","{0} был кикнут, так как его имя соответствует ''{1}''"
-Message.BanedByBanList,【{0}】已被封禁，老相识了,{0} has been banned because it has been banned in the past.,"{0} был заблокирован, потому что он был заблокирован в прошлый раз"
+Message.KickedByDenyName,【{0}】被踢出，因其昵称包含违禁词【{1}】,【{0}】 was kicked because its name matched 【{1}】","【{0}】 был кикнут, так как его имя соответствует 【{1}】"
+Message.BanedByBanList,【{0}】已被封禁，老相识了,【{0}】 has been banned because it has been banned in the past.,"【{0}】 был заблокирован, потому что он был заблокирован в прошлый раз"
 Message.DumpfileSaved,日志文件已成功保存到桌面上了，文件名为：{0},"The log file was successfully saved to the desktop, filename: {0}","Файл журнала был успешно сохранен на рабочий стол, имя файла: {0}"
-Message.KickedByNoFriendCode,【{0}】被踢出因本房间不允许未登录玩家加入
-Message.AddedPlayerToBanList,【{0}】被添加至黑名单
+Message.KickedByNoFriendCode,【{0}】被踢出因本房间不允许未登录玩家加入,"【{0}】 was kicked because the friend code does not exist.","【{0}】 был кикнут, так как у него нет кода друга"
+Message.AddedPlayerToBanList,【{0}】被添加至黑名单,Added 【{0}】 to the ban list,【{0}】 был добавлен в список забаненых игроков
 
 
 ## 警告
@@ -619,7 +619,7 @@ Warning.NoModHost,非TOHE房,Mod TOHE not installed on the host,У Хоста Л
 Error.MeetingException,错误: {0} 请手动中止会议,Error: {0}\r\nPlease use SHIFT+M+ENTER to end the meeting,Ошибка: {0}\r\nПожалуйста используйте SHIFT+M+ENTER чтобы принудительно завершить собрание
 Error.InvalidRoleAssignment,错误：在分配职业时发现职业无效的玩家 ({0}),Error: Invalid role found for a player during role assignment({0}),Ошибка: Во время назначения роли для игрока обнаружена недопустимая роль({0})
 Error.SpeedBoosterNullException,错误：增速者的增速目标为空,Error: The speed boost destination is null.\nPlease save the log and create a bug report ticket.,Ошибка: пункт назначения повышения скорости не указан. \nСохраните логи и создайте заявку на отчет об ошибке.
-Error.InvalidColor,仅允许使用原版的颜色
+Error.InvalidColor,仅允许使用原版的颜色,"Error: Only default colors are available","Ошибка: Нельзя использовать другие цвета, кроме цветов по умолчанию"
 ### ErrorText関連,
 ErrorLevel1,可能同时产生多个bug,Bugs may occur.,Могут возникнуть некоторые ошибки.
 ErrorLevel2,可能出现bug,This may be a bug.,Возможно вы столкнулись с ошибкой.
@@ -682,12 +682,12 @@ CurrentActiveSettingsHelp,当前启用设置及帮助,Current Active Settings He
 WitchCurrentMode,当前模式,Current Mode,Текущий Режим 
 WitchModeKill,击杀,Kill,Убить
 WitchModeSpell,诅咒,Spell,Заклинать
-WitchModeDouble,单击诅咒&双击击杀
+WitchModeDouble,单击诅咒&双击击杀,Double Enable,Двойной
 BountyCurrentTarget,当前目标,Current Target,Текущая Цель
-AntiAdminerAD,管理室地图警告,Notify about Admin Desk,Оповещать о Админке
-AntiAdminerVI,生命检测仪警告,Notify about Pulse,Оповещать о Пульсах
-AntiAdminerDL,日志警告,Notify about Journals,Оповещать о Журналах
-AntiAdminerCA,摄像头警告,Notify about Cameras,Оповещать о Камерах
+AntiAdminerAD,管理室地图警告,Warning about Admin,Оповещение о Админке
+AntiAdminerVI,生命检测仪警告,Warning about Pulse,Оповещение о Пульсах
+AntiAdminerDL,日志警告,Warning about Journals,Оповещение о Журналах
+AntiAdminerCA,摄像头警告,Warning about Cameras,Оповещение о Камерах
 Roles,职业,Roles,Роли
 Settings,设定,Settings,Настройки
 Addons,附加效果,Add-Ons,Атрибуты
