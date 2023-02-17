@@ -230,28 +230,27 @@ namespace TownOfHost
             if (CustomRoles.Lovers.IsEnable() && !Main.isLoversDead && Main.LoversPlayers.Find(lp => lp.PlayerId == playerId) != null)
                 FixedUpdatePatch.LoversSuicide(playerId, true);
         }
-        public static void RevengeOnExile(byte playerId, PlayerState.DeathReason deathReason = PlayerState.DeathReason.Vote)
+        private static void RevengeOnExile(byte playerId, PlayerState.DeathReason deathReason = PlayerState.DeathReason.Vote)
         {
-            if (deathReason == PlayerState.DeathReason.Suicide) return;
             var player = Utils.GetPlayerById(playerId);
             if (player == null) return;
-            var target = PickRevengeTarget(player);
+            var target = PickRevengeTarget(player, deathReason);
             if (target == null) return;
             TryAddAfterMeetingDeathPlayers(target.PlayerId, PlayerState.DeathReason.Revenge);
             target.SetRealKiller(player);
-            Logger.Info($"{player.GetNameWithRole()}の道連れ先:{target.GetNameWithRole()}", "MadmatesRevengeOnExile");
+            Logger.Info($"{player.GetNameWithRole()}の道連れ先:{target.GetNameWithRole()}", "RevengeOnExile");
         }
-        public static PlayerControl PickRevengeTarget(PlayerControl exiledplayer)//道連れ先選定
+        private static PlayerControl PickRevengeTarget(PlayerControl exiledplayer, PlayerState.DeathReason deathReason)//道連れ先選定
         {
             List<PlayerControl> TargetList = new();
-            foreach (var candidate in Main.AllPlayerControls)
+            foreach (var candidate in Main.AllAlivePlayerControls)
             {
-                if (candidate == exiledplayer || candidate.Data.IsDead || Main.AfterMeetingDeathPlayers.ContainsKey(candidate.PlayerId)) continue;
+                if (candidate == exiledplayer || Main.AfterMeetingDeathPlayers.ContainsKey(candidate.PlayerId)) continue;
                 switch (exiledplayer.GetCustomRole())
                 {
                     //ここに道連れ役職を追加
                     default:
-                        if (exiledplayer.Is(CustomRoleTypes.Madmate) && Options.MadmateRevengeCrewmate.GetBool() //黒猫オプション
+                        if (exiledplayer.Is(CustomRoleTypes.Madmate) && deathReason == PlayerState.DeathReason.Vote && Options.MadmateRevengeCrewmate.GetBool() //黒猫オプション
                         && !candidate.Is(CustomRoleTypes.Impostor))
                             TargetList.Add(candidate);
                         break;
@@ -260,7 +259,6 @@ namespace TownOfHost
             if (TargetList == null || TargetList.Count == 0) return null;
             var rand = IRandom.Instance;
             var target = TargetList[rand.Next(TargetList.Count)];
-            Logger.Info($"{exiledplayer.GetNameWithRole()}の道連れ先:{target.GetNameWithRole()}", "PickRevengeTarget");
             return target;
         }
     }
