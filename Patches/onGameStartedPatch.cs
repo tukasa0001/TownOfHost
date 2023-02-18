@@ -63,6 +63,15 @@ namespace TownOfHost
             Main.AllPlayerNames = new();
 
             Camouflage.Init();
+            var invalidColor = Main.AllPlayerControls.Where(p => p.Data.DefaultOutfit.ColorId < 0 || Palette.PlayerColors.Length <= p.Data.DefaultOutfit.ColorId);
+            if (invalidColor.Count() != 0)
+            {
+                var msg = Translator.GetString("Error.InvalidColor");
+                Logger.SendInGame(msg);
+                msg += "\n" + string.Join(",", invalidColor.Select(p => $"{p.name}({p.Data.DefaultOutfit.ColorId})"));
+                Utils.SendMessage(msg);
+                Logger.Error(msg, "CoStartGame");
+            }
 
             foreach (var target in Main.AllPlayerControls)
             {
@@ -74,11 +83,16 @@ namespace TownOfHost
             }
             foreach (var pc in Main.AllPlayerControls)
             {
-                if (AmongUsClient.Instance.AmHost && Options.ColorNameMode.GetBool()) pc.RpcSetName(Palette.GetColorName(pc.Data.DefaultOutfit.ColorId));
+                var colorId = pc.Data.DefaultOutfit.ColorId;
+                if (colorId < 0 || Palette.PlayerColors.Length <= colorId)
+                {
+                    var msg = Translator.GetString("Error.InvalidColor");
+                    Logger.SendInGame(msg);
+                }
+                if (AmongUsClient.Instance.AmHost && Options.ColorNameMode.GetBool()) pc.RpcSetName(Palette.GetColorName(colorId));
                 Main.PlayerStates[pc.PlayerId] = new(pc.PlayerId);
                 Main.AllPlayerNames[pc.PlayerId] = pc?.Data?.PlayerName;
-
-                Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
+                Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[colorId];
                 Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.GetFloat(FloatOptionNames.PlayerSpeedMod); //移動速度をデフォルトの移動速度に変更
                 ReportDeadBodyPatch.CanReport[pc.PlayerId] = true;
                 ReportDeadBodyPatch.WaitReport[pc.PlayerId] = new();
