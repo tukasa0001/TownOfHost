@@ -676,21 +676,30 @@ namespace TownOfHost
         public static bool GetRoleByName(string name, out CustomRoles role)
         {
             role = new();
-            if (name == "" || name == String.Empty) return false;
-            Regex r = new("[\u4e00-\u9fa5]+$");
-            bool ismatch = r.IsMatch(name);
-            MatchCollection mc = r.Matches(name);
-            string result = string.Empty;
-            for (int i = 0; i < mc.Count; i++)
+            if (name == "" || name == string.Empty) return false;
+
+            if ((TranslationController.InstanceExists ? TranslationController.Instance.currentLanguage.languageID : SupportedLangs.SChinese) == SupportedLangs.SChinese)
             {
-                if (mc[i].ToString() == "是") continue;
-                result += mc[i];//匹配结果是完整的数字，此处可以不做拼接的
+                Regex r = new("[\u4e00-\u9fa5]+$");
+                bool ismatch = r.IsMatch(name);
+                MatchCollection mc = r.Matches(name);
+                string result = string.Empty;
+                for (int i = 0; i < mc.Count; i++)
+                {
+                    if (mc[i].ToString() == "是") continue;
+                    result += mc[i];//匹配结果是完整的数字，此处可以不做拼接的
+                }
+                name = ToSimplified(result.Replace("是", string.Empty).Trim());
             }
-            name = ToSimplified(result.Replace("是", string.Empty).Trim());
+            else
+            {
+                name = name.Trim().ToLower();
+            }
+
             foreach (var rl in roleList)
             {
-                var roleShort = rl.Key.ToString().ToLower();
-                var roleName = rl.Value;
+                var roleShort = rl.Key.ToString().ToLower().Trim();
+                var roleName = rl.Value.ToLower().Trim();
 
                 if (name.Contains(roleShort) || name.Contains(roleName))
                 {

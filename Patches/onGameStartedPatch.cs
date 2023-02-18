@@ -728,7 +728,7 @@ namespace TownOfHost
             {
                 if (count <= 0) break;
                 var player = players[rd.Next(0, players.Count)];
-                foreach (var dr in Main.DevRole) { if (pid.Contains(dr.Key)) { if (dr.Value == role) { player.PlayerId = dr.Key; break; } else { while (player.PlayerId == dr.Key && AllPlayers.Count > 1) { player = AllPlayers[rd.Next(0, AllPlayers.Count)]; } } } }
+                foreach (var dr in Main.DevRole) { if (pid.Contains(dr.Key)) { if (dr.Value == role) { player.PlayerId = dr.Key; break; } else { while (player.PlayerId == dr.Key && players.Count > 1) { player = players[rd.Next(0, players.Count)]; } } } }
                 AssignedPlayers.Add(player);
                 players.Remove(player);
                 Main.PlayerStates[player.PlayerId].MainRole = role;
