@@ -84,11 +84,6 @@ namespace TownOfHost
             foreach (var pc in Main.AllPlayerControls)
             {
                 var colorId = pc.Data.DefaultOutfit.ColorId;
-                if (colorId < 0 || Palette.PlayerColors.Length <= colorId)
-                {
-                    var msg = Translator.GetString("Error.InvalidColor");
-                    Logger.SendInGame(msg);
-                }
                 if (AmongUsClient.Instance.AmHost && Options.ColorNameMode.GetBool()) pc.RpcSetName(Palette.GetColorName(colorId));
                 Main.PlayerStates[pc.PlayerId] = new(pc.PlayerId);
                 Main.AllPlayerNames[pc.PlayerId] = pc?.Data?.PlayerName;
