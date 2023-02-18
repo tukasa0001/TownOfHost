@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Hazel;
+using Il2CppSystem.Text;
 using UnityEngine;
 using static TownOfHost.Translator;
 
@@ -17,7 +18,7 @@ namespace TownOfHost
 
         public static Dictionary<byte, byte> Target = new();
         public static Dictionary<byte, bool> CanSetTarget = new();
-
+        private static Dictionary<byte, HashSet<byte>> ImpostorsId = new();
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.EvilTracker);
@@ -31,12 +32,24 @@ namespace TownOfHost
             playerIdList = new();
             Target = new();
             CanSetTarget = new();
+            ImpostorsId = new();
         }
         public static void Add(byte playerId)
         {
             playerIdList.Add(playerId);
             Target.Add(playerId, byte.MaxValue);
             CanSetTarget.Add(playerId, true);
+            //ImpostorsIdはEvilTracker内で共有
+            ImpostorsId[playerId] = new();
+            foreach (var target in Main.AllAlivePlayerControls)
+            {
+                var targetId = target.PlayerId;
+                if (targetId != playerId && target.Is(RoleType.Impostor))
+                {
+                    ImpostorsId[playerId].Add(targetId);
+                    TargetArrow.Add(playerId, targetId);
+                }
+            }
         }
         public static bool IsEnable => playerIdList.Count > 0;
         public static void ApplyGameOptions(byte playerId)
@@ -138,10 +151,25 @@ namespace TownOfHost
             var trackerId = target.PlayerId;
             if (seer.PlayerId != trackerId) return "";
 
-            var targetId = Target[trackerId];
-            if (targetId == byte.MaxValue) return "";
+            ImpostorsId[trackerId].RemoveWhere(id => Main.PlayerStates[id].IsDead);
 
-            return Utils.ColorString(Color.white, TargetArrow.GetArrows(target, targetId));
+            var sb = new StringBuilder(80);
+            if (ImpostorsId[trackerId].Count > 0)
+            {
+                sb.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>");
+                foreach (var impostorId in ImpostorsId[trackerId])
+                {
+                    sb.Append(TargetArrow.GetArrows(target, impostorId));
+                }
+                sb.Append($"</color>");
+            }
+
+            var targetId = Target[trackerId];
+            if (targetId != byte.MaxValue)
+            {
+                sb.Append(Utils.ColorString(Color.white, TargetArrow.GetArrows(target, targetId)));
+            }
+            return sb.ToString();
         }
         public static string GetArrowAndLastRoom(PlayerControl seer, PlayerControl target)
         {
