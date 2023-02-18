@@ -99,12 +99,12 @@ namespace TownOfHost.Roles.Impostor
         // 値取得の関数
         private static bool CanTarget(byte playerId)
             => !Main.PlayerStates[playerId].IsDead && CanSetTarget.TryGetValue(playerId, out var value) && value;
-        private static byte GetTarget(byte playerId)
+        private static byte GetTargetId(byte playerId)
             => Target.TryGetValue(playerId, out var targetId) ? targetId : byte.MaxValue;
-        public static bool IsTrackTarget(PlayerControl seer, PlayerControl target, bool includeImpostors = true)
-            => seer.IsAlive() && seer.Is(CustomRoles.EvilTracker)
+        public static bool IsTrackTarget(PlayerControl seer, PlayerControl target)
+            => seer.IsAlive() && playerIdList.Contains(seer.PlayerId)
             && target.IsAlive() && seer != target
-            && ((includeImpostors && target.Is(CustomRoleTypes.Impostor)) || GetTarget(seer.PlayerId) == target.PlayerId);
+            && (target.Is(CustomRoleTypes.Impostor) || GetTargetId(seer.PlayerId) == target.PlayerId);
         public static bool KillFlashCheck(PlayerControl killer, PlayerControl target)
         {
             if (!CanSeeKillFlash) return false;
@@ -117,23 +117,11 @@ namespace TownOfHost.Roles.Impostor
         public static void OnShapeshift(PlayerControl shapeshifter, PlayerControl target, bool shapeshifting)
         {
             if (!CanTarget(shapeshifter.PlayerId) || !shapeshifting) return;
-            if (!target.IsAlive() || target.Is(CustomRoleTypes.Impostor)) return;
+            if (target == null || target.Is(CustomRoleTypes.Impostor)) return;
 
             SetTarget(shapeshifter.PlayerId, target.PlayerId);
             Logger.Info($"{shapeshifter.GetNameWithRole()}のターゲットを{target.GetNameWithRole()}に設定", "EvilTrackerTarget");
             shapeshifter.MarkDirtySettings();
-            Utils.NotifyRoles();
-        }
-        public static void FixedUpdate(PlayerControl pc)
-        {
-            if (!pc.Is(CustomRoles.EvilTracker)) return;
-            var targetId = GetTarget(pc.PlayerId);
-            if (targetId == byte.MaxValue) return;
-            var target = Utils.GetPlayerById(targetId);
-            if (pc.IsAlive() && target.IsAlive()) return;
-            //EvilTrackerのターゲット削除
-            SetTarget(pc.PlayerId);
-            Logger.Info($"{pc.GetNameWithRole()}のターゲットが無効だったため、ターゲットを削除しました", "EvilTracker");
             Utils.NotifyRoles();
         }
         public static void AfterMeetingTasks()
@@ -146,6 +134,9 @@ namespace TownOfHost.Roles.Impostor
             foreach (var playerId in playerIdList)
             {
                 var pc = Utils.GetPlayerById(playerId);
+                var target = Utils.GetPlayerById(GetTargetId(playerId));
+                if (!pc.IsAlive() || !target.IsAlive())
+                    SetTarget(playerId);
                 pc?.SyncSettings();
                 pc?.RpcResetAbilityCooldown();
             }
@@ -185,7 +176,7 @@ namespace TownOfHost.Roles.Impostor
 
         // 表示系の関数
         public static string GetMarker(byte playerId) => CanTarget(playerId) ? Utils.ColorString(Palette.ImpostorRed.ShadeColor(0.5f), "◁") : "";
-        public static string GetTargetMark(PlayerControl seer, PlayerControl target) => IsTrackTarget(seer, target, false) ? Utils.ColorString(Palette.ImpostorRed, "◀") : "";
+        public static string GetTargetMark(PlayerControl seer, PlayerControl target) => GetTargetId(seer.PlayerId) == target.PlayerId ? Utils.ColorString(Palette.ImpostorRed, "◀") : "";
         public static string GetTargetArrow(PlayerControl seer, PlayerControl target)
         {
             if (!GameStates.IsInTask || !target.Is(CustomRoles.EvilTracker)) return "";
