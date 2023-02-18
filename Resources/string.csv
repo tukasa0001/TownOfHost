@@ -463,7 +463,7 @@ MayorHasPortableButton,跳通风管触发紧急会议,"Mayor Has Mobile Emergenc
 MayorNumOfUseButton,紧急会议最大次数,"Number Of Mobile Emergency Button","Количество портативных Кнопок"
 MayorHideVote,隐藏市长附加的投票,"Hide additional vote",Скрыть дополнительные голоса
 ExecutionerCanTargetImpostor,内鬼阵营玩家可以成为目标,Can Target Impostors,Может иметь цель изгнать Предателя
-ExecutionerCanTargetNeutralKiller,中立阵营玩家可以成为目标,Can Target Neutrals,Может иметь цель изгнать Нейтрального Убийцу
+ExecutionerCanTargetNeutralKiller,带刀中立玩家可以成为目标,Can Target Neutrals,Может иметь цель изгнать Нейтрального Убийцу
 ExecutionerChangeRolesAfterTargetKilled,目标死亡后将变为,Role Changes When Target Dies,Роль после смерти его цели
 SerialKillerLimit,自杀倒计时,Time Until Suicide,Лимит времени до Самоубийства
 ArsonistDouseTime,涂油所需时间,Time Until Douse Complete,Длительность обливания

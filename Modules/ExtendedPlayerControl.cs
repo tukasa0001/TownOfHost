@@ -523,12 +523,7 @@ namespace TownOfHost
             }
             return rangePlayers;
         }
-        public static bool IsNeutralKiller(this PlayerControl player)
-        {
-            return
-                player.GetCustomRole() is
-                CustomRoles.Jackal;
-        }
+        public static bool IsNeutralKiller(this PlayerControl player) => player.GetCustomRole().IsNK();
         public static bool KnowDeathReason(this PlayerControl seer, PlayerControl target)
             => (seer.Is(CustomRoles.Doctor)
             || (seer.Data.IsDead && Options.GhostCanSeeDeathReason.GetBool()))
