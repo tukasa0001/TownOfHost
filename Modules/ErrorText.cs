@@ -101,7 +101,7 @@ namespace TownOfHost
                 if (!HnSFlag && !ModConflict)
                     text += $"{GetString($"ErrorLevel{maxLevel}")}";
                 if (ModConflict)
-                    text = "您加入了其它模组的房间，这可能引起冲突";
+                    text = "您与房主的模组不同或版本不同，这可能引起冲突";
                 Text.enabled = true;
             }
             if (GameStates.IsInGame && maxLevel != 3)
