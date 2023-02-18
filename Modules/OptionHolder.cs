@@ -433,12 +433,12 @@ namespace TownOfHost
             WarlockCanKillSelf = BooleanOptionItem.Create(901408, "WarlockCanKillSelf", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Warlock]);
             SetupRoleOptions(901455, TabGroup.ImpostorRoles, CustomRoles.Assassin);
             SetupRoleOptions(901585, TabGroup.ImpostorRoles, CustomRoles.Hacker);
-            HackKillCooldown = FloatOptionItem.Create(901587, "KillCooldown", new(5f, 999f, 5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
+            HackKillCooldown = FloatOptionItem.Create(901587, "KillCooldown", new(5f, 990f, 2.5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
                 .SetValueFormat(OptionFormat.Seconds);
             HackUsedMaxTime = IntegerOptionItem.Create(901589, "HackUsedMaxTime", new(1, 15, 1), 3, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
                 .SetValueFormat(OptionFormat.Times);
             SetupRoleOptions(905520, TabGroup.ImpostorRoles, CustomRoles.Scavenger);
-            ScavengerKillCooldown = FloatOptionItem.Create(905522, "KillCooldown", new(10f, 60f, 2.5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Scavenger])
+            ScavengerKillCooldown = FloatOptionItem.Create(905522, "KillCooldown", new(5f, 990f, 2.5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Scavenger])
                 .SetValueFormat(OptionFormat.Seconds);
             SetupRoleOptions(901590, TabGroup.ImpostorRoles, CustomRoles.Miner);
             SetupRoleOptions(901595, TabGroup.ImpostorRoles, CustomRoles.Escapee);
