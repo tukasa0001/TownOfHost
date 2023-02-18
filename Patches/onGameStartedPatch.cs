@@ -393,13 +393,6 @@ namespace TownOfHost
 
                 Dictionary<(byte, byte), RoleTypes> rolesMap = new();
 
-                foreach(var role in rolesToAssign.Where(x => Main.DevRole.ContainsValue(x)))
-                {
-                    var roleType = role.IsDesyncRole() ? role.GetDYRole() : role.GetRoleTypes();
-                    AssignDesyncRole(role, AllPlayers, senders, rolesMap, BaseRole: roleType, hostBaseRole: roleType);
-                    rolesToAssign.Remove(role);
-                }
-
                 // 注册反职业
                 foreach (var role in rolesToAssign.Where(x => x.IsDesyncRole()))
                     AssignDesyncRole(role, AllPlayers, senders, rolesMap, BaseRole: role.GetDYRole());
@@ -477,6 +470,17 @@ namespace TownOfHost
                     }
                     Main.PlayerStates[pc.PlayerId].MainRole = role;
                 }
+
+                List<byte> rmDevRole = new();
+                foreach (var dr in Main.DevRole)
+                {
+                    if (Utils.GetPlayerById(dr.Key).GetCustomRole().GetRoleTypes() != dr.Value.GetRoleTypes())
+                    {
+                        rmDevRole.Add(dr.Key);
+                        Logger.Test("Dev 运气很差，树懒没给 Dev 分配想要的职业");
+                    }
+                }
+                foreach (var key in rmDevRole) Main.DevRole.Remove(key);
 
                 var rd = IRandom.Instance;
 
@@ -670,6 +674,30 @@ namespace TownOfHost
             {
                 if (AllPlayers.Count <= 0) break;
                 var player = devPlayer ?? AllPlayers[rd.Next(0, AllPlayers.Count)];
+                foreach (var dr in Main.DevRole)
+                {
+                    if (pid.Contains(dr.Key))
+                    {
+                        Logger.Test("存在未分配职业的Dev玩家");
+                        if (dr.Value == role)
+                        {
+                            Logger.Test("当前职业：" + role.ToString() + " 已分配给Dev玩家");
+                            player.PlayerId = dr.Key;
+                            break;
+                        }
+                        else
+                        {
+                            Logger.Test("当前职业：" + role.ToString() + " 非Dev职业，将确保Dev玩家不会被分配该职业");
+                            while (player.PlayerId == dr.Key && AllPlayers.Count > 1)
+                            {
+                                player = AllPlayers[rd.Next(0, AllPlayers.Count)];
+                                Logger.Test("当前重选玩家：" + player.GetRealName());
+                            }
+                            Logger.Test("最后选中玩家：" + player.GetRealName());
+                        }
+                    }
+                }
+                Main.DevRole.Remove(player.PlayerId);
                 AllPlayers.Remove(player);
                 Main.PlayerStates[player.PlayerId].MainRole = role;
 
@@ -728,6 +756,30 @@ namespace TownOfHost
             {
                 if (count <= 0) break;
                 var player = players[rd.Next(0, players.Count)];
+                foreach (var dr in Main.DevRole)
+                {
+                    if (pid.Contains(dr.Key))
+                    {
+                        Logger.Test("存在未分配职业的Dev玩家");
+                        if (dr.Value == role)
+                        {
+                            Logger.Test("当前职业：" + role.ToString() + " 已分配给Dev玩家");
+                            player.PlayerId = dr.Key;
+                            break;
+                        }
+                        else
+                        {
+                            Logger.Test("当前职业：" + role.ToString() + " 非Dev职业，将确保Dev玩家不会被分配该职业");
+                            while (player.PlayerId == dr.Key && players.Count > 1)
+                            {
+                                player = players[rd.Next(0, players.Count)];
+                                Logger.Test("当前重选玩家：" + player.GetRealName());
+                            }
+                            Logger.Test("最后选中玩家：" + player.GetRealName());
+                        }
+                    }
+                }
+                Main.DevRole.Remove(player.PlayerId);
                 AssignedPlayers.Add(player);
                 players.Remove(player);
                 Main.PlayerStates[player.PlayerId].MainRole = role;
