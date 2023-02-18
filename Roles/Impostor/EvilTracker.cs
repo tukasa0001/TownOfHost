@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using Hazel;
 using Il2CppSystem.Text;
 using UnityEngine;
-
-using static TownOfHost.Translator;
+using AmongUs.GameOptions;
 using static TownOfHost.Options;
+using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Impostor
 {
@@ -13,10 +13,31 @@ namespace TownOfHost.Roles.Impostor
         private static readonly int Id = 2900;
         private static List<byte> playerIdList = new();
 
-        private static OptionItem CanSeeKillFlash;
-        private static OptionItem CanResetTargetAfterMeeting;
-        public static OptionItem CanSeeLastRoomInMeeting;
-        public static OptionItem CanCreateMadmate;
+        private static OptionItem OptionCanSeeKillFlash;
+        private static OptionItem OptionTargetMode;
+        private static OptionItem OptionCanSeeLastRoomInMeeting;
+        private static OptionItem OptionCanCreateMadmate;
+
+        private static bool CanSeeKillFlash;
+        private static TargetMode CurrentTargetMode;
+        public static RoleTypes RoleTypes;
+        public static bool CanSeeLastRoomInMeeting;
+        public static bool CanCreateMadmate;
+
+        private enum TargetMode
+        {
+            Never,
+            OnceInGame,
+            EveryMeeting,
+            Always,
+        };
+        private static readonly string[] TargetModeText =
+        {
+            "EvilTrackerTargetMode.Never",
+            "EvilTrackerTargetMode.OnceInGame",
+            "EvilTrackerTargetMode.EveryMeeting",
+            "EvilTrackerTargetMode.Always",
+        };
 
         public static Dictionary<byte, byte> Target = new();
         public static Dictionary<byte, bool> CanSetTarget = new();
@@ -24,10 +45,14 @@ namespace TownOfHost.Roles.Impostor
         public static void SetupCustomOption()
         {
             SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.EvilTracker);
-            CanSeeKillFlash = BooleanOptionItem.Create(Id + 10, "EvilTrackerCanSeeKillFlash", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilTracker]);
-            CanResetTargetAfterMeeting = BooleanOptionItem.Create(Id + 11, "EvilTrackerResetTargetAfterMeeting", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilTracker]);
-            CanSeeLastRoomInMeeting = BooleanOptionItem.Create(Id + 12, "EvilTrackerCanSeeLastRoomInMeeting", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilTracker]);
-            CanCreateMadmate = BooleanOptionItem.Create(Id + 20, "CanCreateMadmate", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilTracker]);
+            OptionCanSeeKillFlash = BooleanOptionItem.Create(Id + 10, "EvilTrackerCanSeeKillFlash", true, TabGroup.ImpostorRoles, false)
+                .SetParent(CustomRoleSpawnChances[CustomRoles.EvilTracker]);
+            OptionTargetMode = StringOptionItem.Create(Id + 11, "EvilTrackerTargetMode", TargetModeText, 2, TabGroup.ImpostorRoles, false)
+                .SetParent(CustomRoleSpawnChances[CustomRoles.EvilTracker]);
+            OptionCanCreateMadmate = BooleanOptionItem.Create(Id + 20, "CanCreateMadmate", false, TabGroup.ImpostorRoles, false)
+                .SetParent(OptionTargetMode);
+            OptionCanSeeLastRoomInMeeting = BooleanOptionItem.Create(Id + 12, "EvilTrackerCanSeeLastRoomInMeeting", false, TabGroup.ImpostorRoles, false)
+                .SetParent(CustomRoleSpawnChances[CustomRoles.EvilTracker]);
         }
         public static void Init()
         {
@@ -35,12 +60,18 @@ namespace TownOfHost.Roles.Impostor
             Target = new();
             CanSetTarget = new();
             ImpostorsId = new();
+
+            CanSeeKillFlash = OptionCanSeeKillFlash.GetBool();
+            CurrentTargetMode = (TargetMode)OptionTargetMode.GetValue();
+            RoleTypes = CurrentTargetMode == TargetMode.Never ? RoleTypes.Impostor : RoleTypes.Shapeshifter;
+            CanSeeLastRoomInMeeting = OptionCanSeeLastRoomInMeeting.GetBool();
+            CanCreateMadmate = OptionCanCreateMadmate.GetBool() && CurrentTargetMode != TargetMode.Never;
         }
         public static void Add(byte playerId)
         {
             playerIdList.Add(playerId);
             Target.Add(playerId, byte.MaxValue);
-            CanSetTarget.Add(playerId, true);
+            CanSetTarget.Add(playerId, CurrentTargetMode != TargetMode.Never);
             //ImpostorsIdはEvilTracker内で共有
             ImpostorsId[playerId] = new();
             foreach (var target in Main.AllAlivePlayerControls)
@@ -76,11 +107,10 @@ namespace TownOfHost.Roles.Impostor
             && ((includeImpostors && target.Is(CustomRoleTypes.Impostor)) || GetTarget(seer.PlayerId) == target.PlayerId);
         public static bool KillFlashCheck(PlayerControl killer, PlayerControl target)
         {
-            if (!CanSeeKillFlash.GetBool()) return false;
+            if (!CanSeeKillFlash) return false;
             //インポスターによるキルかどうかの判別
-            if (target.GetRealKiller() != null)
-                killer = target.GetRealKiller();
-            return killer.Is(CustomRoleTypes.Impostor) && killer != target;
+            var realKiller = target.GetRealKiller() ?? killer;
+            return realKiller.Is(CustomRoleTypes.Impostor) && realKiller != target;
         }
 
         // 各所で呼ばれる処理
@@ -108,8 +138,17 @@ namespace TownOfHost.Roles.Impostor
         }
         public static void AfterMeetingTasks()
         {
-            if (CanResetTargetAfterMeeting.GetBool())
+            if (CurrentTargetMode == TargetMode.EveryMeeting)
+            {
                 SetTarget();
+                Utils.MarkEveryoneDirtySettings();
+            }
+            foreach (var playerId in playerIdList)
+            {
+                var pc = Utils.GetPlayerById(playerId);
+                pc?.SyncSettings();
+                pc?.RpcResetAbilityCooldown();
+            }
         }
         ///<summary>
         ///引数が両方空：再設定可能に,
@@ -126,7 +165,8 @@ namespace TownOfHost.Roles.Impostor
             else
             {
                 Target[trackerId] = targetId; // ターゲット設定
-                CanSetTarget[trackerId] = false; // ターゲット再設定不可に
+                if (CurrentTargetMode != TargetMode.Always)
+                    CanSetTarget[trackerId] = false; // ターゲット再設定不可に
                 TargetArrow.Add(trackerId, targetId);
             }
 

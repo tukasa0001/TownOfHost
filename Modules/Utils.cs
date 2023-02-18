@@ -828,7 +828,7 @@ namespace TownOfHost
                         if (seer.Is(CustomRoles.EvilTracker))
                         {
                             TargetMark.Append(EvilTracker.GetTargetMark(seer, target));
-                            if (isMeeting && EvilTracker.IsTrackTarget(seer, target) && EvilTracker.CanSeeLastRoomInMeeting.GetBool())
+                            if (isMeeting && EvilTracker.IsTrackTarget(seer, target) && EvilTracker.CanSeeLastRoomInMeeting)
                                 TargetRoleText = $"<size={fontSize}>{EvilTracker.GetArrowAndLastRoom(seer, target)}</size>\r\n";
                         }
 

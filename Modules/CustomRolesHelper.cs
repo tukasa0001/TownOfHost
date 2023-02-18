@@ -127,7 +127,7 @@ namespace TownOfHost
             => role switch
             {
                 CustomRoles.Shapeshifter => true,
-                CustomRoles.EvilTracker => EvilTracker.CanCreateMadmate.GetBool(),
+                CustomRoles.EvilTracker => EvilTracker.CanCreateMadmate,
                 CustomRoles.Egoist => Egoist.CanCreateMadmate,
                 _ => false,
             };
@@ -154,13 +154,14 @@ namespace TownOfHost
 
                 CustomRoles.Shapeshifter or
                 CustomRoles.BountyHunter or
-                CustomRoles.EvilTracker or
                 CustomRoles.SerialKiller or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
                 CustomRoles.ShapeMaster or
                 CustomRoles.Warlock or
                 CustomRoles.Egoist => RoleTypes.Shapeshifter,
+
+                CustomRoles.EvilTracker => EvilTracker.RoleTypes,
 
                 _ => role.IsImpostor() ? RoleTypes.Impostor : RoleTypes.Crewmate,
             };
