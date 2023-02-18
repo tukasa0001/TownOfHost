@@ -475,8 +475,8 @@ FireWorksMaxCount,可放置烟花的最大数量,Fireworks Count,Количес�
 FireWorksRadius,烟花爆炸半径,Firework Explosion Radius,Радиус фейерверка
 SniperBulletCount,最大子弹数量,Ammo,Количество пуль
 SniperPrecisionShooting,精准射击模式,Precision Firing,Точный выстрел
-SniperAimAssist,辅助瞄准模式,Aim Assist,Помощь в прицеливании
-SniperAimAssistOneshot,单发子弹辅助瞄准模式,One shot Assist,Помощь только с одним выстрелом
+SniperAimAssist,狙击范围内有玩家时提醒狙击手,Aim Assist,Помощь в прицеливании
+SniperAimAssistOneshot,闪烁提示而不是一直显示,One shot Assist,Помощь только с одним выстрелом
 NoLimitAddonsNum,不限制每位玩家的附加职业上限,The number of Add-ons for one player is not limited,Количество Атрибутов для одного игрока не ограничено 
 LoverSpawnChances,出现概率,Spawn Chance of Lovers,Шанс появления Любовников
 AdditionRolesSpawnRate,出现概率,Spawn Chance,Шанс появления
