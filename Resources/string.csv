@@ -56,6 +56,7 @@ EvilGuesser,邪恶赌怪,Evil Guesser,Злой Угадыватель
 AntiAdminer,监管者,Anti Adminer,Анти Админер
 Sans,狂妄杀手,Arrogance,Высокомер
 Bomber,自爆兵,Bomber,Бомбер
+Scavenger,清道夫
 BoobyTrap,诡雷,Booby Trap,Мина Ловушка
 
 # 船员阵营
@@ -145,6 +146,7 @@ AntiAdminerInfo,没什么能逃过你的眼睛,You know that someone is near the
 SansInfo,降下审判！,Cooldown after kill is getting smaller and smaller,Откат после убийства становится все меньше и меньше
 BomberInfo,Creeper? Aww Man..,Creeper? Aww Man...,Криппер? Оу Мэн...
 BoobyTrapInfo,艺术就是爆炸！,Set a trap on body,Установи Мину на труп
+ScavengerInfo,杀人不留痕迹
 EvilGuesserInfo,想来一把吗，伙计,Guess the nice roles of the players,Угадывай добрые роли игроков
 
 # 船员阵营
@@ -225,6 +227,7 @@ EvilGuesserInfoLong,(内鬼阵营):\n邪恶赌怪可以在会议时猜测某位�
 AntiAdminerInfoLong,(内鬼阵营):\n监管者可以随时知道是否有船员阵营玩家或中立阵营玩家靠近监控面板、管理室地图、生命检测、通行记录等设备。请注意：监管者并不知道靠近的人是否真的在使用设备，只是知道有人靠近设备。,"(Impostors):\nAnti Adminer can at any time find out if there are Crewmate or Neutral players near Cameras, Admin Table, Vital, DoorLog and other devices. \nPlease note: Anti Adminer does not know for sure if the player is using the device while near it, it only knows that someone is near the device.","(Предатель):\nАнти Админер может в любое время узнать, есть ли Члены Экипажа или Нейтральные игроки рядом с Камерами, Админским столом, Пульсами, Журналами и с другими устройствами. \nПожалуйста, обратите внимание: Анти Админер не знает наверняка использует ли игрок устройство находясь рядом с ним, а знает только то, что кто-то находится рядом с устройством."
 SansInfoLong,(内鬼阵营):\n狂妄杀手每次成功击杀都会减少他的击杀冷却。请注意：狂妄杀手的首次击杀冷却是相对较短的，从第二次开始的击杀冷却才会由长到短递减。,"(Impostors):\nEach time Arrogant makes a kill, his kill cooldown will decrease. \nPlease note: Arrogant's kill cooldown on the first kill is very low, but the cooldown on the second kill will be reduced from long to short.","(Предатель):\nКаждый раз, когда Высокомер совершает убийство, его откат убийства будет уменьшаться. \nПожалуйста, обратите внимание: Откат убийства у Высокомера при первом убийстве очень маленькое, но откат при втором убийстве уменьшится с длительного до короткого."
 BomberInfoLong,(内鬼阵营):\n自爆兵可以使用变形按钮来进行自爆，炸死一定范围里的玩家。但是作为代价，自爆兵自己也会被炸死。请注意：自爆兵爆炸的时候全体玩家会看到杀戮闪烁，这个闪烁和网红死亡时的闪烁是一样的，请注意甄别。,"(Impostors):\nBomber can use Shapeshift to blow up players who are in the bomb's radius. But as a cost, the Bomber itself will also be blown up. \nPlease note: When the Bomber explodes, all players will see a ''Kill Flash''. This flash is exactly the same as the kill flash when a Celebrity dies. Please always pay attention to the screen","(Предатель):\nБомбер может использовать Морф, чтобы взорвать игроков которые оказались в радиусе бомбы. Но в качестве платы, сам Bomber будет также взорван. \nПожалуйста, обратите внимание: Когда Бомбер взорвётся, все игроки увидят ''Вспышку Убийства''. Эта вспышка точно такая же, как вспышка убийства когда умирает Знаменитость. Пожалуйста, обращайте внимание на экран."
+ScavengerInfoLong,(内鬼阵营):\n清道夫杀死的人，他的尸体无法被别人报告
 BoobyTrapInfoLong,(内鬼阵营):\n诡雷在进行击杀后会在受害者尸体上装上诡雷，报告该尸体的玩家会立刻被炸死，被炸死的玩家也会附带诡雷的效果，以此类推。但作为代价，诡雷在进行击杀后会立刻自杀。请注意：诡雷自身的尸体并不附带诡雷效果。,"(Impostors):\nBooby Trap will place a mine on the corpse of the victim after the kill. A player who tries to report a body with a mine will be immediately killed, and a player who gets caught by the mine will also be followed by the effect of the mine, and so on. But as a payment, Booby Trap will commit suicide immediately after one of the players gets on Mina. \nPlease note: Booby Trap's own corpse will not be accompanied by the Mine's effect.","(Предатель):\nBooby Trap установит Мину на труп жертвы после убийства. Игрок который попытается зарепортить труп с миной будет немедленно убит, и игрок который попался на Мину также будет сопровождаться эффектом Мины, и так далее. Но в качестве платы Booby Trap суициднется сразу же после того как один из игроков попадётся на Мину. \nПожалуйста, обратите внимание: Труп самого Booby Trap не будет сопровождаться эффектом Мины."
 
 # 双阵营

@@ -624,6 +624,7 @@ namespace TownOfHost
                 { CustomRoles.Sans, GetString("Sans") },
                 { CustomRoles.BoobyTrap, GetString("BoobyTrap") },
                 { CustomRoles.EvilGuesser, GetString("EvilGuesser") },
+                { CustomRoles.Scavenger, GetString("Scavenger") },
                 //Crewmate役職
                 { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
                 { CustomRoles.Bait, GetString("Bait") },

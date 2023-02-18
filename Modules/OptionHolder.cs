@@ -110,6 +110,7 @@ namespace TownOfHost
         public static OptionItem EGTryHideMsg;
         public static OptionItem WarlockCanKillAllies;
         public static OptionItem WarlockCanKillSelf;
+        public static OptionItem ScavengerKillCooldown;
         public static OptionItem ZombieKillCooldown;
         public static OptionItem ZombieSpeedReduce;
         
@@ -436,6 +437,9 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Seconds);
             HackUsedMaxTime = IntegerOptionItem.Create(901589, "HackUsedMaxTime", new(1, 15, 1), 3, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
                 .SetValueFormat(OptionFormat.Times);
+            SetupRoleOptions(905520, TabGroup.ImpostorRoles, CustomRoles.Scavenger);
+            ScavengerKillCooldown = FloatOptionItem.Create(905522, "KillCooldown", new(10f, 60f, 2.5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Scavenger])
+                .SetValueFormat(OptionFormat.Seconds);
             SetupRoleOptions(901590, TabGroup.ImpostorRoles, CustomRoles.Miner);
             SetupRoleOptions(901595, TabGroup.ImpostorRoles, CustomRoles.Escapee);
             Witch.SetupCustomOption();

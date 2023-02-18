@@ -448,6 +448,9 @@ namespace TownOfHost
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.ZombieKillCooldown.GetFloat();
                     Main.AllPlayerSpeed[player.PlayerId] -= Options.ZombieSpeedReduce.GetFloat();
                     break;
+                case CustomRoles.Scavenger:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.ScavengerKillCooldown.GetFloat();
+                    break;
                 case CustomRoles.Bomber:
                     Main.AllPlayerKillCooldown[player.PlayerId] = 255;
                     break;

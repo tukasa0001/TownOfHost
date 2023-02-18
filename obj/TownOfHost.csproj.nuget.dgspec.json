@@ -1,24 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Desktop\\TOHE\\TownOfHost.csproj": {}
+    "D:\\桌面\\mishu\\TownOfHost.csproj": {}
   },
   "projects": {
-    "D:\\Desktop\\TOHE\\TownOfHost.csproj": {
+    "D:\\桌面\\mishu\\TownOfHost.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Desktop\\TOHE\\TownOfHost.csproj",
+        "projectUniqueName": "D:\\桌面\\mishu\\TownOfHost.csproj",
         "projectName": "TownOfHost",
-        "projectPath": "D:\\Desktop\\TOHE\\TownOfHost.csproj",
-        "packagesPath": "C:\\Users\\Leever\\.nuget\\packages\\",
-        "outputPath": "D:\\Desktop\\TOHE\\obj\\",
+        "projectPath": "D:\\桌面\\mishu\\TownOfHost.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "D:\\桌面\\mishu\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "F:\\Code\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Leever\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -27,7 +26,8 @@
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {},
-          "https://nuget.bepinex.dev/v3/index.json": {}
+          "https://nuget.bepinex.dev/v3/index.json": {},
+          "https://packagesource": {}
         },
         "frameworks": {
           "netstandard2.1": {

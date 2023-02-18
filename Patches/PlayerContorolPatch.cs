@@ -522,6 +522,9 @@ namespace TownOfHost
             }
             else //报告尸体事件
             {
+                //清道夫击杀
+                var stpc = Utils.GetPlayerById(target.PlayerId);
+                if (stpc.GetRealKiller().Is(CustomRoles.Scavenger)) return (false);
 
                 if (__instance.Is(CustomRoles.Oblivious)) // 胆小鬼不敢报告
                 {

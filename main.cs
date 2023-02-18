@@ -388,6 +388,7 @@ namespace TownOfHost
         Sans,
         Bomber,
         BoobyTrap,
+        Scavenger,
         //Crewmate(Vanilla)
         Engineer,
         GuardianAngel,

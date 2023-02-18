@@ -55,6 +55,7 @@ namespace TownOfHost
                 CustomRoles.Sans => CustomRoles.Impostor,
                 CustomRoles.Bomber => CustomRoles.Shapeshifter,
                 CustomRoles.BoobyTrap => CustomRoles.Impostor,
+                CustomRoles.Scavenger => CustomRoles.Impostor,
                 CustomRoles.Transporter => CustomRoles.Crewmate,
                 _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
@@ -157,6 +158,7 @@ namespace TownOfHost
                 CustomRoles.AntiAdminer or
                 CustomRoles.Sans or
                 CustomRoles.Bomber or
+                CustomRoles.Scavenger or
                 CustomRoles.BoobyTrap;
         }
         public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor();
