@@ -12,7 +12,6 @@ class HashRandomPatch
         if (IRandom.Instance.GetType() == typeof(HashRandomWrapper)) return true;
 
         __result = IRandom.Instance.Next(maxInt);
-        Logger.Info("らんだむ", "FastNext");
 
         return false;
     }
@@ -22,7 +21,6 @@ class HashRandomPatch
         if (IRandom.Instance.GetType() == typeof(HashRandomWrapper)) return true;
 
         __result = IRandom.Instance.Next(maxInt);
-        Logger.Info("らんだむ", "MaxNext");
 
         return false;
     }
@@ -32,7 +30,6 @@ class HashRandomPatch
         if (IRandom.Instance.GetType() == typeof(HashRandomWrapper)) return true;
 
         __result = IRandom.Instance.Next(minInt, maxInt);
-        Logger.Info("らんだむ", "MinMaxNext");
 
         return false;
     }
