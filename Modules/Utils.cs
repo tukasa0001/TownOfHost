@@ -730,8 +730,7 @@ namespace TownOfHost
                 //タスクを終えたSnitchがインポスター/キル可能なニュートラルの方角を確認できる
                 SelfSuffix.Append(Snitch.GetSnitchArrow(seer));
 
-                if (seer.Is(CustomRoles.EvilTracker))
-                    SelfSuffix.Append(EvilTracker.GetTargetArrowForVanilla(isMeeting, seer));
+                SelfSuffix.Append(EvilTracker.GetTargetArrow(seer, seer));
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.GetRealName(isMeeting);
