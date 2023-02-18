@@ -698,18 +698,47 @@ namespace TownOfHost
                     case CustomRoles.EvilTracker:
                         sb.Append(EvilTracker.GetTargetMark(seer, target));
                         break;
+                    case CustomRoles.Psychic:
+                        foreach (var id in Main.PsychicTarget[seer.PlayerId])
+                        {
+                            if (target.PlayerId == id) pva.NameText.text = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), pva.NameText.text);
+                        }
+                        break;
+                    case CustomRoles.Mafia:
+                        if (seer.Data.IsDead && !target.Data.IsDead)
+                        {
+                            pva.NameText.text = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Mafia), target.PlayerId.ToString()) + " " + pva.NameText.text;
+                        }
+                        break;
+                    case CustomRoles.NiceGuesser:
+                    case CustomRoles.EvilGuesser:
+                        if (!seer.Data.IsDead && !target.Data.IsDead)
+                        {
+                            pva.NameText.text = Utils.ColorString(Utils.GetRoleColor(seer.Is(CustomRoles.NiceGuesser) ? CustomRoles.NiceGuesser : CustomRoles.EvilGuesser), target.PlayerId.ToString()) + " " + pva.NameText.text;
+                        }
+                        break;
                 }
 
+                bool isLover = false;
                 foreach (var subRole in target.GetCustomSubRoles())
                 {
                     switch (subRole)
                     {
                         case CustomRoles.Lovers:
                             if (seer.Is(CustomRoles.Lovers) || seer.Data.IsDead)
+                            {
                                 sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Lovers), "♡"));
+                                isLover = true;
+                            }
                             break;
                     }
                 }
+
+                //海王相关显示
+                if ((seer.Is(CustomRoles.Ntr) || target.Is(CustomRoles.Ntr)) && !seer.Data.IsDead && !isLover)
+                    pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Lovers), "♡");
+                else if (seer == target && CustomRolesHelper.RoleExist(CustomRoles.Ntr) && !isLover)
+                    pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Lovers), "♡");
 
                 //呪われている場合
                 sb.Append(Witch.GetSpelledMark(target.PlayerId, true));
