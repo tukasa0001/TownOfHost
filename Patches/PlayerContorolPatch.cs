@@ -522,18 +522,23 @@ namespace TownOfHost
             }
             else //报告尸体事件
             {
-                //清道夫击杀
-                var stpc = Utils.GetPlayerById(target.PlayerId);
-                if (stpc.GetRealKiller().Is(CustomRoles.Scavenger)) return (false);
+                var tpc = Utils.GetPlayerById(target.PlayerId);
 
-                if (__instance.Is(CustomRoles.Oblivious)) // 胆小鬼不敢报告
+                // 被赌杀的尸体无法被报告
+                if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.Gambled) return false;
+
+                // 清道夫的尸体无法被报告
+                if (tpc.GetRealKiller().Is(CustomRoles.Scavenger)) return false;
+
+                // 胆小鬼不敢报告
+                if (__instance.Is(CustomRoles.Oblivious)) 
                 {
-                    var tpc = Utils.GetPlayerById(target.PlayerId);
                     if ((!tpc.GetRealKiller().Is(CustomRoles.Hacker)) && !tpc.Is(CustomRoles.Bait))
                         return false;
                 }
 
-                if (Main.BoobyTrapBody.Contains(target.PlayerId) && __instance.IsAlive()) //报告了诡雷尸体
+                // 报告了诡雷尸体
+                if (Main.BoobyTrapBody.Contains(target.PlayerId) && __instance.IsAlive()) 
                 {
                     var killerID = Main.KillerOfBoobyTrapBody[target.PlayerId];
                     Main.PlayerStates[__instance.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
@@ -546,9 +551,10 @@ namespace TownOfHost
                     if (!Main.KillerOfBoobyTrapBody.ContainsKey(__instance.PlayerId)) Main.KillerOfBoobyTrapBody.Add(__instance.PlayerId, killerID);
                     return false;
                 }
+
+                // 侦探报告
                 if (__instance.Is(CustomRoles.Detective))
                 {
-                    var tpc = Utils.GetPlayerById(target.PlayerId);
                     string msg;
                     msg = string.Format(GetString("DetectiveNoticeVictim"), tpc.GetRealName(), tpc.GetDisplayRoleName());
                     if (Options.DetectiveCanknowKiller.GetBool()) msg += "；" + string.Format(GetString("DetectiveNoticeKiller"), tpc.GetRealKiller().GetDisplayRoleName());

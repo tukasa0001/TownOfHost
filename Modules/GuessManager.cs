@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
 using HarmonyLib;
@@ -184,12 +185,9 @@ namespace TownOfHost
                     new LateTask(() =>
                     {
                         dp.SetRealKiller(pc);
-                        dp.RpcMurderPlayer(dp);
-                        Main.PlayerStates[dp.PlayerId].deathReason = PlayerState.DeathReason.Gambled;
-                        Main.PlayerStates[dp.PlayerId].SetDead();
+                        RpcGuesserMurderPlayer(dp);
                         foreach (var cpc in Main.AllPlayerControls)
                         {
-                            RPC.PlaySoundRPC(cpc.PlayerId, Sounds.KillSound);
                             cpc.RpcSetNameEx(cpc.GetRealName(isMeeting: true));
                         }
                         ChatUpdatePatch.DoBlockChat = false;
@@ -199,6 +197,52 @@ namespace TownOfHost
 
             }
             return true;
+        }
+
+        public static TMPro.TextMeshPro nameText(this PlayerControl p) => p.cosmetics.nameText;
+
+        public static TMPro.TextMeshPro NameText(this PoolablePlayer p) => p.cosmetics.nameText;
+
+
+        public static void RpcGuesserMurderPlayer(this PlayerControl pc, float delay = 0f)//ゲッサー用の殺し方
+        {
+            // DEATH STUFF //
+            var amOwner = pc.AmOwner;
+            pc.Data.IsDead = true;
+            Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Gambled;
+            pc.RpcExileV2();
+            Main.PlayerStates[pc.PlayerId].SetDead();
+            var meetingHud = MeetingHud.Instance;
+            var hudManager = DestroyableSingleton<HudManager>.Instance;
+            SoundManager.Instance.PlaySound(pc.KillSfx, false, 0.8f);
+            hudManager.KillOverlay.ShowKillAnimation(pc.Data, pc.Data);
+            if (amOwner)
+            {
+                hudManager.ShadowQuad.gameObject.SetActive(false);
+                pc.nameText().GetComponent<MeshRenderer>().material.SetInt("_Mask", 0);
+                pc.RpcSetScanner(false);
+                ImportantTextTask importantTextTask = new GameObject("_Player").AddComponent<ImportantTextTask>();
+                importantTextTask.transform.SetParent(AmongUsClient.Instance.transform, false);
+                meetingHud.SetForegroundForDead();
+            }
+            PlayerVoteArea voteArea = MeetingHud.Instance.playerStates.First(
+                x => x.TargetPlayerId == pc.PlayerId
+            );
+            if (voteArea == null) return;
+            if (voteArea.DidVote) voteArea.UnsetVote();
+            voteArea.AmDead = true;
+            voteArea.Overlay.gameObject.SetActive(true);
+            voteArea.Overlay.color = Color.white;
+            voteArea.XMark.gameObject.SetActive(true);
+            voteArea.XMark.transform.localScale = Vector3.one;
+            foreach (var playerVoteArea in meetingHud.playerStates)
+            {
+                if (playerVoteArea.VotedFor != pc.PlayerId) continue;
+                playerVoteArea.UnsetVote();
+                var voteAreaPlayer = Utils.GetPlayerById(playerVoteArea.TargetPlayerId);
+                if (!voteAreaPlayer.AmOwner) continue;
+                meetingHud.ClearVote();
+            }
         }
 
         private static bool MsgToPlayerAndRole(string msg, out byte id, out CustomRoles role, out string error)

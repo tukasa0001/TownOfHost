@@ -649,7 +649,6 @@ namespace TownOfHost
                     {
                         pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
                     }
-                    Utils.NotifyRoles(isMeeting: true, NoCache: true);
                     ChatUpdatePatch.DoBlockChat = false;
                 }, 3f, "SetName To Chat");
             }

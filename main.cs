@@ -222,7 +222,6 @@ namespace TownOfHost
             DebugModeManager.Auth(DebugKeyAuth, DebugKeyInput.Value);
 
             BrakarVoteFor = new List<byte>();
-            BitPlayers = new Dictionary<byte, (byte, float)>();
             WarlockTimer = new Dictionary<byte, float>();
             AssassinTimer = new Dictionary<byte, float>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
