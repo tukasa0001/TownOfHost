@@ -87,13 +87,13 @@ namespace TownOfHost.Roles.Impostor
         public static bool IsEnable => playerIdList.Count > 0;
         public static void ApplyGameOptions(byte playerId)
         {
-            AURoleOptions.ShapeshifterCooldown = CanTarget(playerId) ? 5f : 255f;
+            AURoleOptions.ShapeshifterCooldown = CanTarget(playerId) ? 1f : 255f;
             AURoleOptions.ShapeshifterDuration = 1f;
         }
         public static void GetAbilityButtonText(HudManager __instance, byte playerId)
         {
-            __instance.AbilityButton.ToggleVisible(CanSetTarget[playerId]);
-            __instance.AbilityButton.OverrideText($"{GetString("EvilTrackerChangeButtonText")}");
+            __instance.AbilityButton.ToggleVisible(CanTarget(playerId));
+            __instance.AbilityButton.OverrideText(GetString("EvilTrackerChangeButtonText"));
         }
 
         // 値取得の関数
@@ -208,8 +208,8 @@ namespace TownOfHost.Roles.Impostor
         {
             string text = Utils.ColorString(Palette.ImpostorRed, TargetArrow.GetArrows(seer, target.PlayerId));
             var room = Main.PlayerStates[target.PlayerId].LastRoom;
-            if (room == null) text += Utils.ColorString(Color.gray, $"@{GetString("FailToTrack")}");
-            else text += Utils.ColorString(Palette.ImpostorRed, $"@{room.RoomId.GetRoomName()}");
+            if (room == null) text += Utils.ColorString(Color.gray, "@" + GetString("FailToTrack"));
+            else text += Utils.ColorString(Palette.ImpostorRed, "@" + GetString(room.RoomId.ToString()));
             return text;
         }
     }
