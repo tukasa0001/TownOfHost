@@ -32,7 +32,7 @@ namespace TownOfHost
                     if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pc.PlayerId != pva.VotedFor && pva.VotedFor < 253 && !pc.Data.IsDead)
                     {
                         var voteTarget = Utils.GetPlayerById(pva.VotedFor);
-                        TryAddAfterMeetingDeathPlayers(pc.PlayerId, PlayerState.DeathReason.Suicide);
+                        TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.Suicide, pc.PlayerId);
                         statesList.Add(new()
                         {
                             VoterId = pva.TargetPlayerId,
@@ -46,12 +46,8 @@ namespace TownOfHost
                         }
                         else __instance.RpcVotingComplete(states, voteTarget.Data, false); //通常処理
 
-                        if (CustomRoles.Witch.IsEnable())
-                        {
-                            Witch.OnCheckForEndVoting(pva.VotedFor);
-                        }
                         Logger.Info($"{voteTarget.GetNameWithRole()}を追放", "Dictator");
-                        CheckForDeathOnExile(pva.VotedFor);
+                        CheckForDeathOnExile(PlayerState.DeathReason.Vote, pva.VotedFor);
                         Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
                         voteTarget.SetRealKiller(pc);
                         return true;
@@ -84,7 +80,7 @@ namespace TownOfHost
                             switch (Options.GetWhenSkipVote())
                             {
                                 case VoteMode.Suicide:
-                                    TryAddAfterMeetingDeathPlayers(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
+                                    TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.Suicide, ps.TargetPlayerId);
                                     voteLog.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました");
                                     break;
                                 case VoteMode.SelfVote:
@@ -100,7 +96,7 @@ namespace TownOfHost
                             switch (Options.GetWhenNonVote())
                             {
                                 case VoteMode.Suicide:
-                                    TryAddAfterMeetingDeathPlayers(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
+                                    TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.Suicide, ps.TargetPlayerId);
                                     voteLog.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました");
                                     break;
                                 case VoteMode.SelfVote:
@@ -168,11 +164,10 @@ namespace TownOfHost
                             exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => info.PlayerId == exileId);
                             break;
                         case TieMode.All:
-                            VotingData.DoIf(x => x.Key < 15 && x.Value == max, x =>
-                            {
-                                TryAddAfterMeetingDeathPlayers(x.Key, PlayerState.DeathReason.Vote);
-                                Utils.GetPlayerById(x.Key).SetRealKiller(null);
-                            });
+                            var exileIds = VotingData.Where(x => x.Key < 15 && x.Value == max).Select(kvp => kvp.Key).ToArray();
+                            foreach (var playerId in exileIds)
+                                Utils.GetPlayerById(playerId).SetRealKiller(null);
+                            TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.Vote, exileIds);
                             exiledPlayer = null;
                             break;
                         case TieMode.Random:
@@ -194,12 +189,7 @@ namespace TownOfHost
                 }
                 else __instance.RpcVotingComplete(states, exiledPlayer, tie); //通常処理
 
-                if (CustomRoles.Witch.IsEnable())
-                {
-                    Witch.OnCheckForEndVoting(exileId);
-                }
-
-                CheckForDeathOnExile(exileId);
+                CheckForDeathOnExile(PlayerState.DeathReason.Vote, exileId);
 
                 return false;
             }
@@ -214,18 +204,25 @@ namespace TownOfHost
             var player = Main.AllPlayerControls.Where(pc => pc.PlayerId == id).FirstOrDefault();
             return player != null && player.Is(CustomRoles.Mayor);
         }
-        public static void TryAddAfterMeetingDeathPlayers(byte playerId, PlayerState.DeathReason deathReason)
+        public static void TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason deathReason, params byte[] playerIds)
         {
-            if (Main.AfterMeetingDeathPlayers.TryAdd(playerId, deathReason))
-                CheckForDeathOnExile(playerId, deathReason);
+            var AddedIdList = new List<byte>();
+            foreach (var playerId in playerIds)
+                if (Main.AfterMeetingDeathPlayers.TryAdd(playerId, deathReason))
+                    AddedIdList.Add(playerId);
+            CheckForDeathOnExile(deathReason, AddedIdList.ToArray());
         }
-        public static void CheckForDeathOnExile(byte playerId, PlayerState.DeathReason deathReason = PlayerState.DeathReason.Vote)
+        public static void CheckForDeathOnExile(PlayerState.DeathReason deathReason, params byte[] playerIds)
         {
-            //Loversの後追い
-            if (CustomRoles.Lovers.IsEnable() && !Main.isLoversDead && Main.LoversPlayers.Find(lp => lp.PlayerId == playerId) != null)
-                FixedUpdatePatch.LoversSuicide(playerId, true);
-            //道連れチェック
-            RevengeOnExile(playerId, deathReason);
+            Witch.OnCheckForEndVoting(deathReason, playerIds);
+            foreach (var playerId in playerIds)
+            {
+                //Loversの後追い
+                if (CustomRoles.Lovers.IsEnable() && !Main.isLoversDead && Main.LoversPlayers.Find(lp => lp.PlayerId == playerId) != null)
+                    FixedUpdatePatch.LoversSuicide(playerId, true);
+                //道連れチェック
+                RevengeOnExile(playerId, deathReason);
+            }
         }
         private static void RevengeOnExile(byte playerId, PlayerState.DeathReason deathReason)
         {
@@ -233,7 +230,7 @@ namespace TownOfHost
             if (player == null) return;
             var target = PickRevengeTarget(player, deathReason);
             if (target == null) return;
-            TryAddAfterMeetingDeathPlayers(target.PlayerId, PlayerState.DeathReason.Revenge);
+            TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.Revenge, target.PlayerId);
             target.SetRealKiller(player);
             Logger.Info($"{player.GetNameWithRole()}の道連れ先:{target.GetNameWithRole()}", "RevengeOnExile");
         }
