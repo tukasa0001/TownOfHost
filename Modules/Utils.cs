@@ -1162,7 +1162,7 @@ namespace TownOfHost
             else
             {
                 if (!GameStates.IsLobby) return;
-                if (AmongUsClient.Instance.AmHost && AmongUsClient.Instance.IsGamePublic)
+                if (player.PlayerId == PlayerControl.LocalPlayer.PlayerId && AmongUsClient.Instance.IsGamePublic)
                     name = $"<color=#ffd6ec>TOHE</color><color=#baf7ca>★</color>" + name;
                 switch (player.FriendCode)
                 {
