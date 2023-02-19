@@ -177,8 +177,8 @@ namespace TownOfHost
                 }
                 else if (target.Is(CustomRoles.CyberStar))
                 {
-                    if (!Options.ImpKnowCyberStarDead.GetBool() && CustomRolesHelper.IsImpostor(seer.GetCustomRole())) continue;
-                    if (!Options.NeutralKnowCyberStarDead.GetBool() && CustomRolesHelper.IsNeutral(seer.GetCustomRole())) continue;
+                    if (!target.Is(CustomRoles.Madmate)) if (!Options.ImpKnowCyberStarDead.GetBool() && seer.GetCustomRole().IsImpostor()) continue;
+                    if (!Options.NeutralKnowCyberStarDead.GetBool() && seer.GetCustomRole().IsNeutral()) continue;
                     seer.KillFlash();
                 }
             }
