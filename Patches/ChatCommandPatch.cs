@@ -251,6 +251,7 @@ namespace TownOfHost
             Main.isChatCommand = true;
             Logger.Info(text, "SendChat");
             if (text.Length >= 3) if (text[..2] == "/r" && text[..3] != "/rn") args[0] = "/r";
+            if (text.Length >= 4) if (text[..3] == "/up") args[0] = "/up";
             if (GuessManager.GuesserMsg(PlayerControl.LocalPlayer, text)) goto Canceled;
             if (MafiaMsgCheck(PlayerControl.LocalPlayer, text)) goto Canceled;
             switch (args[0])
@@ -737,7 +738,7 @@ namespace TownOfHost
 
             if (role == "" || role == string.Empty)
             {
-                Utils.ShowActiveRoles();
+                Utils.ShowActiveRoles(player.PlayerId);
                 return;
             }
             role = ToSimplified(role);
