@@ -205,12 +205,8 @@ namespace TownOfHost
                             return false;
                         break;
                     case CustomRoles.ChivalrousExpert:
-                        if (!ChivalrousExpert.IsKilled(killer.PlayerId))
-                        {
-                            ChivalrousExpert.killed.Add(killer.PlayerId);
-                            Utils.NotifyRoles(false, killer);
-                        }
-                        else return false;
+                        if (!ChivalrousExpert.OnCheckMurder(killer))
+                            return false;
                         break;
                     case CustomRoles.Bomber:
                         return false;

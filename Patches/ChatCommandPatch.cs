@@ -729,7 +729,12 @@ namespace TownOfHost
 
         public static void SendRolesInfo(string role, PlayerControl player, bool isDev = false, bool isUp = false)
         {
-            role = role.Trim();
+            role = role.Trim().ToLower();
+            if (role.StartsWith("/r")) role.Replace("/r", string.Empty);
+            if (role.StartsWith("/up")) role.Replace("/up", string.Empty);
+            if (role.EndsWith("\r\n")) role.Replace("\r\n", string.Empty);
+            if (role.EndsWith("\n")) role.Replace("\n", string.Empty);
+
             if (role == "" || role == string.Empty)
             {
                 Utils.ShowActiveRoles();

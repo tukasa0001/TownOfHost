@@ -16,11 +16,12 @@ namespace TownOfHost
 
         public static void Init()
         {
+            killed = new();
             playerIdList = new();
         }
 
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = IsKilled(id) ? 255f : 1f;
-        public static string GetKillLimit(byte id) => Utils.ColorString(IsKilled(id) ?  Color.white: Color.yellow, IsKilled(id)? $"(0)" : "(1)");
+        public static string GetKillLimit(byte id) => Utils.ColorString(IsKilled(id) ?  Color.white: Color.yellow, IsKilled(id) ? "(0)" : "(1)");
         public static bool CanUseKillButton(byte playerId)
             => !Main.PlayerStates[playerId].IsDead
             && !IsKilled(playerId);
@@ -32,6 +33,16 @@ namespace TownOfHost
             if (!Main.ResetCamPlayerList.Contains(playerId)) {
                 Main.ResetCamPlayerList.Add(playerId);
             }
+        }
+
+        public static bool OnCheckMurder(PlayerControl killer)
+        {
+            if (!CanUseKillButton(killer.PlayerId)) return false;
+            killed.Add(killer.PlayerId);
+            Logger.Info($"{killer.GetNameWithRole()} : " + (IsKilled(killer.PlayerId) ? "已使用击杀机会" : "未使用击杀机会")   , "ChivalrousExpert");
+            SetKillCooldown(killer.PlayerId);
+            Utils.NotifyRoles(SpecifySeer: killer);
+            return true;
         }
     }
 }

@@ -67,7 +67,7 @@ namespace TownOfHost
                                 PlayerControl[] lovers = Main.LoversPlayers.ToArray();
                                 CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Lovers);
                                 Main.AllPlayerControls
-                                    .Where(p => p.Is(CustomRoles.Lovers) && p.IsAlive())
+                                    .Where(p => p.Is(CustomRoles.Lovers))
                                     .Do(p => CustomWinnerHolder.WinnerIds.Add(p.PlayerId));
                             }
                         }
