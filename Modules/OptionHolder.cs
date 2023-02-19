@@ -280,6 +280,7 @@ namespace TownOfHost
         public static OptionItem RoleAssigningAlgorithm;
         public static OptionItem EndWhenPlayerBug;
 
+        public static OptionItem EnableUpMode;
         public static OptionItem AutoKickStart;
         public static OptionItem AutoKickStartAsBan;
         public static OptionItem AutoKickStartTimes;
@@ -673,6 +674,12 @@ namespace TownOfHost
                 );
 
             DebugModeManager.SetupCustomOption();
+
+            EnableUpMode = BooleanOptionItem.Create(6090665, "EnableUpMode", false, TabGroup.SystemSettings, false)
+                .SetColor(Color.cyan)
+                .SetGameMode(CustomGameMode.All)
+                .SetHeader(true);
+
             #endregion 
 
             #region 游戏设置

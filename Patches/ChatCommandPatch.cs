@@ -380,6 +380,23 @@ namespace TownOfHost
                         SendRolesInfo(subArgs, PlayerControl.LocalPlayer, Utils.CanUseDevCommand(PlayerControl.LocalPlayer));
                         break;
 
+                    case "/up":
+                        canceled = true;
+                        subArgs = text.Remove(0, 3);
+                        if (!Utils.IsUP(PlayerControl.LocalPlayer)) break;
+                        if (!Options.EnableUpMode.GetBool())
+                        {
+                            Utils.SendMessage($"请在设置启用【{GetString("EnableUpMode")}】");
+                            break;
+                        }
+                        if (!GameStates.IsLobby)
+                        {
+                            Utils.SendMessage("很抱歉，只有在大厅才能使用该指令");
+                            break;
+                        }
+                        SendRolesInfo(subArgs, PlayerControl.LocalPlayer, isUp: true);
+                        break;
+
                     case "/h":
                     case "/help":
                         canceled = true;
@@ -710,7 +727,7 @@ namespace TownOfHost
             return false;
         }
 
-        public static void SendRolesInfo(string role, PlayerControl player, bool isDev = false)
+        public static void SendRolesInfo(string role, PlayerControl player, bool isDev = false, bool isUp = false)
         {
             role = role.Trim();
             if (role == "" || role == string.Empty)
@@ -730,13 +747,21 @@ namespace TownOfHost
                 if (string.Compare(role, roleName, true) == 0 || string.Compare(role, roleShort, true) == 0)
                 {
 
-                    if (isDev && GameStates.IsLobby)
+                    if ((isDev || isUp) && GameStates.IsLobby)
                     {
                         string devMark = "▲";
                         if (CustomRolesHelper.IsAdditionRole(r.Key)) devMark = "";
                         if (r.Key is CustomRoles.GM) devMark = "";
                         if (r.Key.GetCount () < 1 || r.Key.GetMode() == 0) devMark = "";
-                        Utils.SendMessage(devMark + GetString(roleName) + GetString($"{roleName}InfoLong"), player.PlayerId);
+                        if (isUp)
+                        {
+                            if (devMark == "▲") Utils.SendMessage("已提升您成为【" + GetString(roleName) + "】的概率", player.PlayerId);
+                            else Utils.SendMessage("无法提升您成为【" + GetString(roleName) + "】的概率\n可能是因为您没有启用该职业或该职业不支持被指定", player.PlayerId);
+                        }
+                        else
+                        {
+                            Utils.SendMessage(devMark + GetString(roleName) + GetString($"{roleName}InfoLong"), player.PlayerId);
+                        }
                         if (devMark == "▲")
                         {
                             if (Main.DevRole.ContainsKey(player.PlayerId)) Main.DevRole.Remove(player.PlayerId);
@@ -767,7 +792,8 @@ namespace TownOfHost
                 }
             }
 
-            Utils.SendMessage("请正确拼写您要查询的职业哦~\n查看所有职业请直接输入/r", player.PlayerId);
+            if (isUp) Utils.SendMessage("请正确拼写您要指定的职业哦~\n查看所有职业请直接输入/r", player.PlayerId);
+            else Utils.SendMessage("请正确拼写您要查询的职业哦~\n查看所有职业请直接输入/r", player.PlayerId);
             return;
         }
         public static void OnReceiveChat(PlayerControl player, string text)

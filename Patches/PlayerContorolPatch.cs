@@ -1133,7 +1133,7 @@ namespace TownOfHost
                 Utils.NotifyRoles(SpecifySeer: pc);
                 if (Main.MarioVentCount[pc.PlayerId] >= Options.MarioVentNumWin.GetInt())
                 {
-                    CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Mario); //马里奥这个多动症赢了
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Mario); //马里奥这个多动症赢了
                     CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
                 }
             }
@@ -1162,6 +1162,7 @@ namespace TownOfHost
                         else
                             RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
                     }
+                    foreach(var pc in PlayerControl.AllPlayerControls) pc.KillFlash();
                     CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Arsonist); //焼殺で勝利した人も勝利させる
                     CustomWinnerHolder.WinnerIds.Add(__instance.myPlayer.PlayerId);
                     return true;

@@ -582,8 +582,10 @@ namespace TownOfHost
             if (text != "") SendMessage(text, PlayerId);
             if (EndGamePatch.KillLog != "") SendMessage(EndGamePatch.KillLog, PlayerId);
             if (sumText != "") SendMessage(sumText, PlayerId);
-
+            
             if (text == "" && EndGamePatch.KillLog == "" && sumText == "") SendMessage("没有存在的上局信息", PlayerId);
+
+            if (IsUP(PlayerControl.LocalPlayer) && Options.EnableUpMode.GetBool()) SendMessage($"提示：该房间启用了【创作者素材保护计划】，房主可以指定自己的职业。\n该功能仅允许创作者用于获取视频素材，如遇滥用情况，请退出游戏或举报。\n当前创作者认证：{GetUpName(PlayerControl.LocalPlayer)}", PlayerId);
 
         }
 
@@ -1167,6 +1169,8 @@ namespace TownOfHost
             else
             {
                 if (!GameStates.IsLobby) return;
+                if (AmongUsClient.Instance.IsGamePublic)
+                    name = $"<color=#ffd6ec>TOHE</color><color=#baf7ca>★</color>" + name;
                 switch (player.FriendCode)
                 {
                     case "actorour#0029":
@@ -1230,6 +1234,29 @@ namespace TownOfHost
             var pc = GetPlayerById(pcId);
             if (pc == null) return false;
             return IsDev(pc);
+        }
+        public static bool IsUP(PlayerControl pc)
+        {
+            return pc.FriendCode is
+                "actorour#0029" or
+                "truantwarm＃9165" or //萧暮
+                "heavyclod#2286";
+        }
+        public static string GetUpName(PlayerControl pc)
+        {
+            return pc.FriendCode switch
+            {
+                "actorour#0029" => "KARPED1EM",
+                "truantwarm＃9165" => "萧暮不姓萧",
+                "heavyclod#2286" => "小叨院长",
+                _ => "未认证用户",
+            };
+        }
+        public static bool IsUP(int pcId)
+        {
+            var pc = GetPlayerById(pcId);
+            if (pc == null) return false;
+            return IsUP(pc);
         }
         public static bool IsDev(int pcId)
         {
