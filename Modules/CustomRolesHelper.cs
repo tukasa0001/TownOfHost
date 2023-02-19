@@ -120,6 +120,7 @@ namespace TownOfHost
         public static bool IsNeutralKilling(this CustomRoles role) //是否邪恶中立（抢夺或单独胜利的中立）
         {
             return role is
+                CustomRoles.Terrorist or
                 CustomRoles.Arsonist or
                 CustomRoles.Jackal or
                 CustomRoles.God or
