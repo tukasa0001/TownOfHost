@@ -20,7 +20,7 @@ namespace TownOfHost
             if (predicate == null) return false;
 
             //ゲーム終了しないモードで廃村以外の場合は中断
-            if (Options.NoGameEnd.GetBool() && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw) return false;
+            if (Options.NoGameEnd.GetBool() && CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw and not CustomWinner.Error) return false;
 
             //廃村用に初期値を設定
             var reason = GameOverReason.ImpostorByKill;
@@ -47,36 +47,31 @@ namespace TownOfHost
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
                 }
-                if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw and not CustomWinner.None)
+                if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw and not CustomWinner.None and not CustomWinner.Error)
                 {
-                    foreach (var pc in Main.AllPlayerControls)
+
+                    //神抢夺胜利
+                    if (CustomRolesHelper.RoleExist(CustomRoles.God))
                     {
-                        //神抢夺胜利
-                        if (pc.Is(CustomRoles.God) && pc.IsAlive())
-                        {
-                            CustomWinnerHolder.ResetAndSetWinner(CustomWinner.God);
-                            Main.AllPlayerControls
-                                .Where(p => p.Is(CustomRoles.God) && p.IsAlive())
-                                .Do(p => CustomWinnerHolder.WinnerIds.Add(p.PlayerId));
-                        }
+                        CustomWinnerHolder.ResetAndSetWinner(CustomWinner.God);
+                        Main.AllPlayerControls
+                            .Where(p => p.Is(CustomRoles.God) && p.IsAlive())
+                            .Do(p => CustomWinnerHolder.WinnerIds.Add(p.PlayerId));
                     }
-                    if (CustomWinnerHolder.WinnerTeam != CustomWinner.God)
+                    else if (CustomRolesHelper.RoleExist(CustomRoles.Lovers) && !reason.Equals(GameOverReason.HumansByTask))
                     {
-                        if (Main.LoversPlayers.Count > 0 && !reason.Equals(GameOverReason.HumansByTask))
+                        if (!(!Main.LoversPlayers.ToArray().All(p => p.IsAlive()) && Options.LoverSuicide.GetBool()))
                         {
-                            PlayerControl[] lovers = Main.LoversPlayers.ToArray();
-                            foreach (var pc in lovers)
+                            if (!(!Options.LoverSuicide.GetBool() && CustomWinnerHolder.WinnerTeam is CustomWinner.Mario or CustomWinner.Jester or CustomWinner.Executioner))
                             {
-                                if (pc.IsAlive())
-                                {
-                                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Lovers);
-                                    Main.AllPlayerControls
-                                        .Where(p => p.Is(CustomRoles.Lovers) && p.IsAlive())
-                                        .Do(p => CustomWinnerHolder.WinnerIds.Add(p.PlayerId));
-                                    break;
-                                }
+                                PlayerControl[] lovers = Main.LoversPlayers.ToArray();
+                                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Lovers);
+                                Main.AllPlayerControls
+                                    .Where(p => p.Is(CustomRoles.Lovers) && p.IsAlive())
+                                    .Do(p => CustomWinnerHolder.WinnerIds.Add(p.PlayerId));
                             }
                         }
+                    }
                     }
                     //追加勝利陣営
                     foreach (var pc in Main.AllPlayerControls)
