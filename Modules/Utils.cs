@@ -263,13 +263,16 @@ namespace TownOfHost
             var mainRole = Main.PlayerStates[playerId].MainRole;
             var SubRoles = Main.PlayerStates[playerId].SubRoles;
             RoleText = GetRoleName(mainRole);
-            RoleColor = GetRoleColor(mainRole);
+            RoleColor = GetPlayerById(playerId).Is(CustomRoles.Madmate) ? Color.red : GetRoleColor(mainRole);
             foreach (var subRole in Main.PlayerStates[playerId].SubRoles)
             {
                 switch (subRole)
                 {
                     case CustomRoles.LastImpostor:
                         RoleText = GetRoleString("Last-") + RoleText;
+                        break;
+                    case CustomRoles.Madmate:
+                        RoleText = GetRoleString("Mad-") + RoleText;
                         break;
                 }
             }
@@ -288,30 +291,6 @@ namespace TownOfHost
             }
             return deathReason;
         }
-        public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, CustomRoles hRole)
-        {
-            string text = "Invalid";
-            Color color = Color.red;
-            switch (oRole)
-            {
-                case RoleTypes.Impostor:
-                case RoleTypes.Shapeshifter:
-                    text = "Impostor";
-                    color = Palette.ImpostorRed;
-                    break;
-                default:
-                    switch (hRole)
-                    {
-                        case CustomRoles.Crewmate:
-                            text = "Crewmate";
-                            color = Color.white;
-                            break;
-                    }
-                    break;
-            }
-            return (text, color);
-        }
-
         public static bool HasTasks(GameData.PlayerInfo p, bool ForRecompute = true)
         {
             if (GameStates.IsLobby) return false;
@@ -362,6 +341,15 @@ namespace TownOfHost
                         //ラバーズがクルー陣営の場合タスクを付与しない
                         if (role.IsCrewmate() && Options.LoverHasNoTask.GetBool())
                             hasTasks = false;
+                        break;
+                    case CustomRoles.Madmate:
+                        if (role is not CustomRoles.SpeedBooster or CustomRoles.Snitch)
+                            hasTasks = false;
+                        else
+                        {
+                            if (ForRecompute)
+                                hasTasks = false;
+                        }
                         break;
                 }
 
@@ -590,7 +578,7 @@ namespace TownOfHost
         }
 
 
-        public static string GetSubRolesText(byte id, bool disableColor = false, bool intro = false)
+        public static string GetSubRolesText(byte id, bool disableColor = false, bool intro = false, bool summary = false)
         {
             var SubRoles = Main.PlayerStates[id].SubRoles;
             if (SubRoles.Count == 0 && intro == false) return "";
@@ -599,6 +587,7 @@ namespace TownOfHost
             {
                 if (role is CustomRoles.NotAssigned or
                             CustomRoles.LastImpostor) continue;
+                if (summary && role is CustomRoles.Madmate) continue;
 
                 var RoleText = disableColor ? GetRoleName(role) : ColorString(GetRoleColor(role), GetRoleName(role));
                 sb.Append($"{ColorString(Color.white, " + ")}{RoleText}");
@@ -1036,6 +1025,9 @@ namespace TownOfHost
                         if (TargetRoleText == "" && !seer.Data.IsDead && seer.GetCustomRole().IsImpostor() && target.GetCustomRole().IsImpostor() && Options.ImpKnowAlliesRole.GetBool())
                             TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName()}</size>\r\n";
 
+                        if (TargetRoleText == "" && !seer.Data.IsDead && seer.Is(CustomRoles.Madmate) && target.GetCustomRole().IsImpostor())
+                            TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName()}</size>\r\n";
+
                         if (seer.Is(CustomRoles.God) && !seer.Data.IsDead)
                             TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName()}</size>\r\n";
 
@@ -1331,7 +1323,9 @@ namespace TownOfHost
         public static string SummaryTexts(byte id, bool disableColor = true)
         {
             var RolePos = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? 47 : 37;
-            string summary = $"{ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%>{GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {GetDisplayRoleName(id)}{GetSubRolesText(id)}</pos>";
+            var name = Main.AllPlayerNames[id].RemoveHtmlTags().Replace("\r\n", string.Empty);
+            if (id == PlayerControl.LocalPlayer.PlayerId) name = DataManager.player.Customization.Name;
+            string summary = $"{ColorString(Main.PlayerColors[id], name)}<pos=22%>{GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {GetDisplayRoleName(id)}{GetSubRolesText(id, summary: true)}</pos>";
             return disableColor ? summary.RemoveHtmlTags() : summary;
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");

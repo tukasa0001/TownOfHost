@@ -38,12 +38,12 @@ namespace TownOfHost
                 {
                     case CustomWinner.Crewmate:
                         Main.AllPlayerControls
-                            .Where(pc => pc.Is(RoleType.Crewmate) && !pc.Is(CustomRoles.Lovers))
+                            .Where(pc => pc.Is(RoleType.Crewmate) && !pc.Is(CustomRoles.Lovers) && !pc.Is(CustomRoles.Madmate))
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
-                        break;
+                        break;                                                                          
                     case CustomWinner.Impostor:
                         Main.AllPlayerControls
-                            .Where(pc => pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Lovers))
+                            .Where(pc => (pc.Is(RoleType.Impostor) || pc.Is(CustomRoles.Madmate)) && !pc.Is(CustomRoles.Lovers))
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
                 }
@@ -202,7 +202,7 @@ namespace TownOfHost
                 int[] counts = CountLivingPlayersByPredicates(
                     pc => pc.Is(RoleType.Impostor), //インポスター
                     pc => pc.Is(CustomRoles.Jackal), //ジャッカル
-                    pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Jackal) //その他
+                    pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Madmate) && !pc.Is(CustomRoles.Jackal) //その他
                 );
                 int Imp = counts[0], Jackal = counts[1], Crew = counts[2];
 

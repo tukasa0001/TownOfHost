@@ -162,7 +162,7 @@ namespace TownOfHost
                 CustomRoles.Scavenger or
                 CustomRoles.BoobyTrap;
         }
-        public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor();
+        public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role == CustomRoles.Madmate;
         public static bool IsNeutral(this CustomRoles role) // 是否中立
         {
             return role is

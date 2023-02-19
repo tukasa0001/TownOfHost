@@ -560,7 +560,7 @@ namespace TownOfHost
             BewilderVision = FloatOptionItem.Create(6050383, "BewilderVision", new(0f, 5f, 0.05f), 0.65f, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Bewilder])
                 .SetValueFormat(OptionFormat.Multiplier);
 
-            //SetupAdtRoleOptions(6050360, CustomRoles.Madmate, canSetNum: true);
+            SetupAdtRoleOptions(6050390, CustomRoles.Madmate, canSetNum: true);
             LastImpostor.SetupCustomOption();
 
             // 乐子职业

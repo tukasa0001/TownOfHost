@@ -726,7 +726,7 @@ Preset_5,预设5,Preset 5,Сохранение 5
 Standard,标准,Standard,Стандартный
 GameMode,游戏模式,Game Mode,Игровой Режим
 PressTabToNextPage,按下tab键查看更多...,Press Tab or Number for Next Page...,Нажмите Tab или Цифру чтобы перейти на следующую страницу...
-RoleSummaryText,游戏结束时玩家的职业:,Game End Player-Roles List:,Игроки и роли в конце игры:
+RoleSummaryText,复盘信息:,Game End Player-Roles List:,Игроки и роли в конце игры:
 doOverride,特别设置%role%的任务数,Override %role%'s Tasks(At Least 1),Изменить задания у %role%
 assignCommonTasks,%role%的普通任务数,Give %role% Common Tasks,%role% имеет общие задания
 roleLongTasksNum,%role%的长任务数,%role% Long Tasks,%role% долгие задания
@@ -757,6 +757,7 @@ DefaultShapeshiftText,变形,Shift,Превращение
 DisabledBySettings,已在设置被中禁用,Disabled by Settings,Отключено настройкой
 Disabled,禁用,Disabled,Отключено
 FailToTrack,无法追踪,Failed To Track,Не Удалось Отследить
+Mad-,背叛的
 
 ## 作弊
 Cheat.AUM,开挂（使用AUM）,Cheating usage detected (Used by AUM),Обнаружено использование читов (используется AUM)

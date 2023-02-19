@@ -782,6 +782,7 @@ namespace TownOfHost
                 if ((role is CustomRoles.Madmate or CustomRoles.Lighter) && !pc.GetCustomRole().IsCrewmate()) continue;
                 if (role is CustomRoles.Bewilder && pc.GetCustomRole().IsImpostor()) continue;
                 if (role is CustomRoles.Ntr && pc.Is(CustomRoles.Lovers)) continue;
+                if (role is CustomRoles.Madmate && (pc.GetCustomRole().IsImpostorTeam() || pc.Is(CustomRoles.Needy) || pc.Is(CustomRoles.Snitch) || pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Mayor) || pc.Is(CustomRoles.NiceGuesser))) continue;
                 allPlayers.Add(pc);
             }
             var rd = IRandom.Instance;

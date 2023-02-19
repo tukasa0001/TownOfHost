@@ -265,7 +265,7 @@ namespace TownOfHost
                 Main.HackerUsedCount[killer.PlayerId] += 1;
                 List<PlayerControl> playerList = new();
                 foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
-                    if (!pc.Data.IsDead && !(pc.GetCustomRole() == CustomRoles.Hacker) && !(pc.GetCustomRole() == CustomRoles.Needy)) playerList.Add(pc);
+                    if (!pc.Data.IsDead && !(pc.GetCustomRole() == CustomRoles.Hacker) && !(pc.GetCustomRole() is CustomRoles.Needy or CustomRoles.GM)) playerList.Add(pc);
                 if (playerList.Count < 1)
                 {
                     Logger.Info(target?.Data?.PlayerName + "被骇客击杀，但无法找到骇入目标", "MurderPlayer");
@@ -273,7 +273,7 @@ namespace TownOfHost
                 }
                 else
                 {
-                    System.Random rd = new();
+                    var rd = IRandom.Instance;
                     int hackinPlayer = rd.Next(0, playerList.Count);
                     if (playerList[hackinPlayer] == null) hackinPlayer = 0;
                     Logger.Info(target?.Data?.PlayerName + "被骇客击杀，随机报告者：" + playerList[hackinPlayer]?.Data?.PlayerName, "MurderPlayer");
@@ -284,8 +284,30 @@ namespace TownOfHost
             //When Bait is killed
             if (target.GetCustomRole() == CustomRoles.Bait && killer.PlayerId != target.PlayerId && !hackKilled)
             {
-                Logger.Info(target?.Data?.PlayerName + "はBaitだった", "MurderPlayer");
-                new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
+                if (target.Is(CustomRoles.Madmate))
+                {
+                    List<PlayerControl> playerList = new();
+                    foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
+                        if (!pc.Data.IsDead && !(pc.GetCustomRole() is CustomRoles.Needy or CustomRoles.GM) && pc.PlayerId != target.PlayerId) playerList.Add(pc);
+                    if (playerList.Count < 1)
+                    {
+                        Logger.Info(target?.Data?.PlayerName + "是背叛诱饵，但找不到替罪羊", "MurderPlayer");
+                        new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
+                    }
+                    else
+                    {
+                        var rd = IRandom.Instance;
+                        int hackinPlayer = rd.Next(0, playerList.Count);
+                        if (playerList[hackinPlayer] == null) hackinPlayer = 0;
+                        Logger.Info(target?.Data?.PlayerName + "是背叛诱饵，随机报告者：" + playerList[hackinPlayer]?.Data?.PlayerName, "MurderPlayer");
+                        new LateTask(() => playerList[hackinPlayer].CmdReportDeadBody(target.Data), 0.15f, "Bait of MadmateJ Random Report");
+                    }
+                }
+                else
+                {
+                    Logger.Info(target?.Data?.PlayerName + "はBaitだった", "MurderPlayer");
+                    new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
+                }
             }
             else
             //Terrorist
@@ -842,6 +864,7 @@ namespace TownOfHost
                     if (__instance.AmOwner) RoleText.enabled = true; //自分ならロールを表示
                     else if (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) RoleText.enabled = true; //他プレイヤーでVisibleTasksCountが有効なおかつ自分が死んでいるならロールを表示
                     else if (__instance.GetCustomRole().IsImpostor() && PlayerControl.LocalPlayer.GetCustomRole().IsImpostor() && !PlayerControl.LocalPlayer.Data.IsDead && Options.ImpKnowAlliesRole.GetBool()) RoleText.enabled = true;
+                    else if (__instance.GetCustomRole().IsImpostor() && PlayerControl.LocalPlayer.Is(CustomRoles.Madmate) && !PlayerControl.LocalPlayer.Data.IsDead) RoleText.enabled = true;
                     else if (PlayerControl.LocalPlayer.Is(CustomRoles.God) && !PlayerControl.LocalPlayer.Data.IsDead) RoleText.enabled = true;
                     else RoleText.enabled = false; //そうでなければロールを非表示
                     if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay)

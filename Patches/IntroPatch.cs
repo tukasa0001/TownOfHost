@@ -177,6 +177,15 @@ namespace TownOfHost
 
             }
 
+            if (PlayerControl.LocalPlayer.Is(CustomRoles.Madmate))
+            {
+                __instance.TeamTitle.text = GetString("Madmate");
+                __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Madmate);
+                __instance.ImpostorText.text = GetString("TeamImpostor");
+                StartFadeIntro(__instance, Palette.CrewmateBlue, Palette.ImpostorRed);
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
+            }
+
             if (Input.GetKey(KeyCode.RightShift))
             {
                 __instance.TeamTitle.text = "明天就跑路啦";

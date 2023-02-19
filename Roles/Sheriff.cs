@@ -97,7 +97,7 @@ namespace TownOfHost
             ShotLimit[killer.PlayerId]--;
             Logger.Info($"{killer.GetNameWithRole()} : 残り{ShotLimit[killer.PlayerId]}発", "Sheriff");
             SendRPC(killer.PlayerId);
-            if (!target.CanBeKilledBySheriff())
+            if (!target.CanBeKilledBySheriff() || killer.Is(CustomRoles.Madmate))
             {
                 Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
                 killer.RpcMurderPlayer(killer);
@@ -110,11 +110,19 @@ namespace TownOfHost
         public static bool CanBeKilledBySheriff(this PlayerControl player)
         {
             var cRole = player.GetCustomRole();
+            var subRole = player.GetCustomSubRoles();
+            bool IsMadmate = false;
+            foreach (var role in subRole)
+            {
+                if (role == CustomRoles.Madmate)
+                    IsMadmate = KillTargetOptions.TryGetValue(CustomRoles.Madmate, out var option) && option.GetBool();//マッドメイト切れる設定だったらtrue
+            }
+
             return cRole.GetRoleType() switch
             {
                 RoleType.Impostor => true,
                 RoleType.Neutral => CanKillNeutrals.GetValue() == 0 || !KillTargetOptions.TryGetValue(cRole, out var option) || option.GetBool(),
-                _ => false,
+                _ => IsMadmate,//それでもない場合マッドが切れるand重複マッドか調べる
             };
         }
     }
