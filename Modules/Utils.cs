@@ -1232,8 +1232,9 @@ namespace TownOfHost
             return pc.FriendCode is
                 "actorour#0029" or
                 "truantwarm＃9165" or //萧暮
-                "heavyclod#2286" or //西瓜
-                "storeroan#0331";
+                "drilldinky#1386" or //河豚
+                "heavyclod#2286" or //小叨院长
+                "storeroan#0331"; //西瓜
         }
         public static string GetUpName(PlayerControl pc)
         {
@@ -1241,6 +1242,7 @@ namespace TownOfHost
             {
                 "actorour#0029" => "KARPED1EM",
                 "truantwarm＃9165" => "萧暮不姓萧",
+                "drilldinky#1386" => "爱完AU的河豚",
                 "heavyclod#2286" => "小叨院长",
                 "storeroan#0331" => "Night_瓜",
                 _ => "未认证用户",
