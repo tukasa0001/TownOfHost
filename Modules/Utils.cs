@@ -1147,7 +1147,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             if (!IsDev(player)) return;
             string name = DataManager.player.Customization.Name;
-            if (player != PlayerControl.LocalPlayer)
+            if (player.PlayerId != PlayerControl.LocalPlayer.PlayerId)
             {
                 if (!player.IsModClient()) return;
                 if (Main.OriginalName.ContainsKey(player.GetClientId()))
@@ -1162,7 +1162,7 @@ namespace TownOfHost
             else
             {
                 if (!GameStates.IsLobby) return;
-                if (AmongUsClient.Instance.IsGamePublic)
+                if (AmongUsClient.Instance.AmHost && AmongUsClient.Instance.IsGamePublic)
                     name = $"<color=#ffd6ec>TOHE</color><color=#baf7ca>★</color>" + name;
                 switch (player.FriendCode)
                 {
