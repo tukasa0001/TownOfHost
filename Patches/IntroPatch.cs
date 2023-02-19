@@ -52,7 +52,10 @@ namespace TownOfHost
             logger.Info("----------役職割り当て----------");
             foreach (var pc in Main.AllPlayerControls)
             {
-                logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc?.Data?.PlayerName?.PadRightV2(20)}:{pc.GetAllRoleName().RemoveHtmlTags()}");
+                if (DebugModeManager.AmDebugger)
+                {
+                    logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc?.Data?.PlayerName?.PadRightV2(20)}:{pc.GetAllRoleName().RemoveHtmlTags()}");
+                }
             }
             logger.Info("--------------環境--------------");
             foreach (var pc in Main.AllPlayerControls)
