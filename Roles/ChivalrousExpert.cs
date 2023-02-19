@@ -19,12 +19,12 @@ namespace TownOfHost
             playerIdList = new();
         }
 
-        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = isKilled(id) ? 255f : 1f;
-        public static string GetKillLimit(byte id) => Utils.ColorString(CanUseKillButton(id)? Color.yellow : Color.white, isKilled(id)? $"(0)" : "(1)");
+        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = IsKilled(id) ? 255f : 1f;
+        public static string GetKillLimit(byte id) => Utils.ColorString(IsKilled(id) ?  Color.white: Color.yellow, IsKilled(id)? $"(0)" : "(1)");
         public static bool CanUseKillButton(byte playerId)
             => !Main.PlayerStates[playerId].IsDead
-            && !isKilled(playerId);
-        public static bool isKilled(byte playerId) => killed.Contains(playerId);
+            && !IsKilled(playerId);
+        public static bool IsKilled(byte playerId) => killed.Contains(playerId);
 
         public static void Add(byte playerId) {
             playerIdList.Add(playerId);

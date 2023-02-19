@@ -72,7 +72,6 @@ namespace TownOfHost
                             }
                         }
                     }
-                    }
                     //追加勝利陣営
                     foreach (var pc in Main.AllPlayerControls)
                     {

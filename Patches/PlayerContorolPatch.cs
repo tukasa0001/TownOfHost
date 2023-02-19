@@ -109,7 +109,7 @@ namespace TownOfHost
             switch (target.GetCustomRole())
             {
                 case CustomRoles.Luckey:
-                    if (killer.Is(CustomRoles.ChivalrousExpert) && ChivalrousExpert.isKilled(killer.PlayerId)) return false;
+                    if (killer.Is(CustomRoles.ChivalrousExpert) && ChivalrousExpert.IsKilled(killer.PlayerId)) return false;
                     var rd = IRandom.Instance;
                     if (rd.Next(0, 100) < Options.LuckeyProbability.GetInt())
                     {
@@ -205,7 +205,7 @@ namespace TownOfHost
                             return false;
                         break;
                     case CustomRoles.ChivalrousExpert:
-                        if (!ChivalrousExpert.isKilled(killer.PlayerId))
+                        if (!ChivalrousExpert.IsKilled(killer.PlayerId))
                         {
                             ChivalrousExpert.killed.Add(killer.PlayerId);
                             Utils.NotifyRoles(false, killer);
