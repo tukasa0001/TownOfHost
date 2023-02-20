@@ -438,8 +438,7 @@ namespace TownOfHost
             {
                 foreach (var csId in Main.CyberStarDead)
                     {
-                    if (Utils.GetPlayerById(csId).Is(CustomRoles.Madmate))
-                        if (!Options.ImpKnowCyberStarDead.GetBool() && pc.GetCustomRole().IsImpostor()) continue;
+                    if (!Options.ImpKnowCyberStarDead.GetBool() && pc.GetCustomRole().IsImpostor()) continue;
                     if (!Options.NeutralKnowCyberStarDead.GetBool() && pc.GetCustomRole().IsNeutral()) continue;
 
                     var cs = Utils.GetPlayerById(csId);
