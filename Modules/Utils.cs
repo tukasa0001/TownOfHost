@@ -554,11 +554,13 @@ namespace TownOfHost
             List<byte> cloneRoles = new(Main.PlayerStates.Keys);
             foreach (var id in Main.winnerList)
             {
+                if (EndGamePatch.SummaryText[id].RemoveHtmlTags() == "INVALID") continue;
                 text += $"\n★ " + EndGamePatch.SummaryText[id].RemoveHtmlTags();
                 cloneRoles.Remove(id);
             }
             foreach (var id in cloneRoles)
             {
+                if (EndGamePatch.SummaryText[id].RemoveHtmlTags() == "INVALID") continue;
                 text += $"\n　 " + EndGamePatch.SummaryText[id].RemoveHtmlTags();
             }
             if (text == "玩家信息:") text = "";

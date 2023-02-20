@@ -158,6 +158,7 @@ namespace TownOfHost
                 voteLog.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})");
 
                 bool brakar = false;
+                bool tiemode = false;
                 if (tie)
                 {
                     byte target = byte.MaxValue;
@@ -202,8 +203,10 @@ namespace TownOfHost
                             tie = false;
                             break;
                     }
+                    tiemode = true;
                 }
-                else if (!brakar)
+
+                if (!brakar && !tiemode)
                     exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
                 if (exiledPlayer != null)
                     exiledPlayer.Object.SetRealKiller(null);
