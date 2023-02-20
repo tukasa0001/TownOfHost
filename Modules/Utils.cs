@@ -1323,12 +1323,13 @@ namespace TownOfHost
 
             return (doused, all);
         }
-        public static string SummaryTexts(byte id, bool disableColor = true)
+        public static string SummaryTexts(byte id, bool disableColor = true, bool check = false)
         {
             var RolePos = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? 47 : 37;
             var name = Main.AllPlayerNames[id].RemoveHtmlTags().Replace("\r\n", string.Empty);
             if (id == PlayerControl.LocalPlayer.PlayerId) name = DataManager.player.Customization.Name;
-            string summary = $"{ColorString(Main.PlayerColors[id], name)}<pos=22%>{GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {GetDisplayRoleName(id)}{GetSubRolesText(id, summary: true)}</pos>";
+            string summary = $"{ColorString(Main.PlayerColors[id], name)}<pos=22%>{GetProgressText(id)}</pos><pos=31%> {GetVitalText(id)}</pos><pos={RolePos}%> {GetDisplayRoleName(id)}{GetSubRolesText(id, summary: true)}</pos>";
+            if (check && GetDisplayRoleName(id).Contains("NotAssigned")) return "INVALID";
             return disableColor ? summary.RemoveHtmlTags() : summary;
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");

@@ -23,7 +23,10 @@ namespace TownOfHost
             if (!GameStates.IsModHost) return;
             SummaryText = new();
             foreach (var id in Main.PlayerStates.Keys)
-                SummaryText[id] = Utils.SummaryTexts(id, disableColor: false);
+            {
+                if (Utils.SummaryTexts(id, disableColor: false, check: true) == "INVALID")
+                    SummaryText[id] = Utils.SummaryTexts(id, disableColor: false);
+            }
             var sb = new StringBuilder(GetString("KillLog") + ":");
             foreach (var kvp in Main.PlayerStates.OrderBy(x => x.Value.RealKiller.Item1.Ticks))
             {
