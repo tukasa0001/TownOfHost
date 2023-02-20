@@ -447,13 +447,17 @@ namespace TOHE
         }
         public static void ShowActiveSettings(byte PlayerId = byte.MaxValue)
         {
-            var mapId = Main.NormalOptions.MapId;
+            if (Options.DIYGameSettings.GetBool())
+            {
+                SendMessage(GetString("Message.NowOverrideText"), PlayerId);
+                return;
+            }
             if (Options.HideGameSettings.GetBool() && PlayerId != byte.MaxValue)
             {
                 SendMessage(GetString("Message.HideGameSettings"), PlayerId);
                 return;
             }
-
+            var mapId = Main.NormalOptions.MapId;
             var sb = new StringBuilder();
             sb.Append(GetString("Settings")).Append(":");
             foreach (var role in Options.CustomRoleCounts)
@@ -1186,7 +1190,7 @@ namespace TOHE
                         name = $"<color={Main.ModColor}><size=1.7>贡献者</size></color>\r\n" + name;
                         break;
                     case "recentduct#6068":
-                        name += $"\r\n<color=#be4d16><size=1.7>.exe未响应</size></color>";
+                        name = $"<color=#be4d16><size=1.7>新世纪法师</size></color>\r\n" + name;
                         break;
                     case "heavyclod#2286":
                         name = $"<color=#FFFF00><size=1.7>小叨.exe已停止运行</size></color>\r\n" + name;
@@ -1248,7 +1252,8 @@ namespace TOHE
                 "truantwarm＃9165" or //萧暮
                 "drilldinky#1386" or //河豚
                 "heavyclod#2286" or //小叨院长
-                "storeroan#0331"; //西瓜
+                "storeroan#0331" or //西瓜
+                "farardour#6818"; //提米
         }
         public static string GetUpName(PlayerControl pc)
         {
@@ -1259,6 +1264,7 @@ namespace TOHE
                 "drilldinky#1386" => "爱完AU的河豚",
                 "heavyclod#2286" => "小叨院长",
                 "storeroan#0331" => "Night_瓜",
+                "farardour#6818" => "-提米SaMa-",
                 _ => "未认证用户",
             };
         }

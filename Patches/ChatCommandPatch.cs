@@ -324,25 +324,16 @@ namespace TOHE
                     case "/n":
                     case "/now":
                         canceled = true;
-                        if (Options.DIYGameSettings.GetBool())
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        switch (subArgs)
                         {
-                            Utils.SendMessage(GetString("Message.NowOverrideText"), PlayerControl.LocalPlayer.PlayerId);
-                            break;
-                        }
-                        else
-                        {
-                            subArgs = args.Length < 2 ? "" : args[1];
-                            switch (subArgs)
-                            {
-                                case "r":
-                                case "roles":
-                                    Utils.ShowActiveRoles();
-                                    break;
-
-                                default:
-                                    Utils.ShowActiveSettings();
-                                    break;
-                            }
+                            case "r":
+                            case "roles":
+                                Utils.ShowActiveRoles();
+                                break;
+                            default:
+                                Utils.ShowActiveSettings();
+                                break;
                         }
                         break;
 
@@ -821,25 +812,16 @@ namespace TOHE
 
                 case "/n":
                 case "/now":
-                    if (Options.DIYGameSettings.GetBool())
+                    subArgs = args.Length < 2 ? "" : args[1];
+                    switch (subArgs)
                     {
-                        Utils.SendMessage(GetString("Message.NowOverrideText"), player.PlayerId);
-                        break;
-                    }
-                    else
-                    {
-                        subArgs = args.Length < 2 ? "" : args[1];
-                        switch (subArgs)
-                        {
-                            case "r":
-                            case "roles":
-                                Utils.ShowActiveRoles(player.PlayerId);
-                                break;
-
-                            default:
-                                Utils.ShowActiveSettings(player.PlayerId);
-                                break;
-                        }
+                        case "r":
+                        case "roles":
+                            Utils.ShowActiveRoles(player.PlayerId);
+                            break;
+                        default:
+                            Utils.ShowActiveSettings(player.PlayerId);
+                            break;
                     }
                     break;
 
