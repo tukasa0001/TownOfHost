@@ -29,6 +29,7 @@ namespace TownOfHost
         [HarmonyPriority(2)]
         public static void Start_Prefix(MainMenuManager __instance)
         {
+            NewVersionCheck();
             DeleteOldDLL();
             InfoPopup = UnityEngine.Object.Instantiate(Twitch.TwitchManager.Instance.TwitchPopup);
             InfoPopup.name = "InfoPopup";
@@ -156,6 +157,31 @@ namespace TownOfHost
             _ = DownloadDLL(url);
             return;
         }
+        public static bool NewVersionCheck()
+        {
+            try
+            {
+                var fileName = Assembly.GetExecutingAssembly().Location;
+                if (fileName.Contains("TownOfHost.dll"))
+                {
+                    var newFileName = Directory.GetParent(fileName).FullName + @"\TOHE.dll";
+                    File.Move(fileName, newFileName);
+                    Logger.Warn("更名自文件为：TOHE.dll", "NewVersionCheck");
+                }
+                if (Directory.Exists("TOH_DATA") && File.Exists(@"./TOHE_DATA/BanWords.txt"))
+                {
+                    DirectoryInfo di = new("TOH_DATA");
+                    di.Delete(true);
+                    Logger.Warn("删除旧数据：TOH_DATA", "NewVersionCheck");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Exception(ex, "NewVersionCheck");
+                return false;
+            }
+            return true;
+        }
         public static bool BackupDLL()
         {
             try
@@ -175,14 +201,14 @@ namespace TownOfHost
             {
                 foreach (var path in Directory.EnumerateFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.dll"))
                 {
-                    Logger.Info($"{Path.GetFileName(path)}を削除", "DeleteDownloadDLL");
+                    Logger.Info($"{Path.GetFileName(path)}を削除", "BackOldDLL");
                     File.Delete(path);
                 }
                 File.Move(Assembly.GetExecutingAssembly().Location + ".bak", Assembly.GetExecutingAssembly().Location);
             }
             catch
             {
-                Logger.Error("バックアップに失敗しました", "BackupDLL");
+                Logger.Error("回退老版本失败", "BackOldDLL");
                 return false;
             }
             return true;
@@ -191,8 +217,10 @@ namespace TownOfHost
         {
             try
             {
-                foreach (var path in Directory.EnumerateFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.bak"))
+                foreach (var path in Directory.EnumerateFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.*"))
                 {
+                    if (path.EndsWith(Path.GetFileName(Assembly.GetExecutingAssembly().Location))) continue;
+                    if (path.EndsWith("TOHE.dll")) continue;
                     Logger.Info($"{Path.GetFileName(path)}を削除", "DeleteOldDLL");
                     File.Delete(path);
                 }
@@ -209,9 +237,9 @@ namespace TownOfHost
             {
                 using WebClient client = new();
                 client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadCallBack);
-                client.DownloadFileAsync(new Uri(url), "BepInEx/plugins/TownOfHost.dll");
+                client.DownloadFileAsync(new Uri(url), "BepInEx/plugins/TOHE.dll");
                 while (client.IsBusy) await Task.Delay(1);
-                if (GetMD5HashFromFile("BepInEx/plugins/TownOfHost.dll") != MD5)
+                if (GetMD5HashFromFile("BepInEx/plugins/TOHE.dll") != MD5)
                 {
                     BackOldDLL();
                     ShowPopup(GetString("downloadFailed"), true, false);

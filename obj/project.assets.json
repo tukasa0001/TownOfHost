@@ -5872,9 +5872,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Desktop\\TOHE\\TownOfHost.csproj",
-      "projectName": "TownOfHost",
-      "projectPath": "D:\\Desktop\\TOHE\\TownOfHost.csproj",
+      "projectUniqueName": "D:\\Desktop\\TOHE\\TOHE.csproj",
+      "projectName": "TOHE",
+      "projectPath": "D:\\Desktop\\TOHE\\TOHE.csproj",
       "packagesPath": "C:\\Users\\Leever\\.nuget\\packages\\",
       "outputPath": "D:\\Desktop\\TOHE\\obj\\",
       "projectStyle": "PackageReference",
@@ -5954,7 +5954,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.103\\RuntimeIdentifierGraph.json"
       }
     }
   }

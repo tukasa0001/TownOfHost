@@ -14,7 +14,7 @@ using UnityEngine;
 [assembly: AssemblyInformationalVersion(TownOfHost.Main.PluginVersion)]
 namespace TownOfHost
 {
-    [BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
+    [BepInPlugin(PluginGuid, "TOHE", PluginVersion)]
     [BepInIncompatibility("jp.ykundesu.supernewroles")]
     [BepInProcess("Among Us.exe")]
     public class Main : BasePlugin
@@ -48,9 +48,9 @@ namespace TownOfHost
 
         // ==========
         //文件路径
-        public static readonly string BANNEDWORDS_FILE_PATH = "./TOH_DATA/BanWords.txt";
+        public static readonly string BANNEDWORDS_FILE_PATH = "./TOHE_DATA/BanWords.txt";
         //Sorry for many Japanese comments.
-        public const string PluginGuid = "com.karped1em.townofhost";
+        public const string PluginGuid = "com.karped1em.townofhostedited";
         public const string PluginVersion = "1.2.3";
         public const int PluginCreate = 8;
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
@@ -189,7 +189,7 @@ namespace TownOfHost
             DisableTOHE = Config.Bind("Client Options", "DisableTOHE", false);
             DebugKeyInput = Config.Bind("Authentication", "Debug Key", "kpd233");
 
-            Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
+            Logger = BepInEx.Logging.Logger.CreateLogSource("TOHE");
             TownOfHost.Logger.Enable();
             TownOfHost.Logger.Disable("NotifyRoles");
             TownOfHost.Logger.Disable("SendRPC");
