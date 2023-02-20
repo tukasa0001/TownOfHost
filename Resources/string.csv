@@ -1,9 +1,14 @@
 ﻿id,13,0,5
-## 翻译贡献者 / Translators
-#13 TOH SChinese: fivefirex & ZeMing & OH233 &  2T & MC-AS-Huier & xiaojin & xyjx001& Tanakanira
-#13 TOHE SChinese: KARPED1EM
-#0 TOHE English: Tommy-XL
-#5 TOHE Russian: Tommy-XL & Tem (Helper)
+
+### 翻译贡献者 / Translators
+
+## TOH
+#13 SChinese: fivefirex & ZeMing & OH233 &  2T & MC-AS-Huier & xiaojin & xyjx001& Tanakanira
+
+## TOHE
+#13 SChinese: KARPED1EM
+#00 English: Tommy-XL
+#05 Russian: Tommy-XL & Tem (Helper)
 
 ### If you want to translate the mod into other languages -
 ### here is the 'id' of all supported languages:
@@ -25,7 +30,7 @@ TextBelowVersionText,空,"<color=#0FE60F>Dev:</color> KARPED1EM","<color=#0FE60F
 ## 职业
 Neutral,中立阵营,Neutral,Нейтрал
 
-# 原版职业,
+# 原版职业
 Crewmate,船员,Crewmate,Член Экипажа
 Engineer,工程师,Engineer,Инженер
 Scientist,科学家,Scientist,Ученый
@@ -185,7 +190,7 @@ TerroristInfo,多说不宜 Rush B！,"Finish your tasks, THEN die",Умрите 
 ExecutionerInfo,确实，我其实是看他不爽,Get your target voted out,Заставь игроков изгнать свою цель
 EgoistInfo,听说独赢经验多阿,Take over the Impostors' victory,Не дай Предателям победить
 MarioInfo,听说你的公主在管道里,"Live happily ever after, together",Выживите со своим Любовником
-JackalInfo,在TOH，我一般称自己为只狼,Kill Everyone,Убей всех игроков
+JackalInfo,在这里，我一般称自己为只狼,Kill Everyone,Убей всех игроков
 GodInfo,一切都在您的掌控,Everything is under your control,Все под вашим контролем
 LoversInfo,最重要的是，记得照顾好你的另一半,Survive with your Lover,Выживите со своим Любовником
 MadmateInfo,结局掌握在你的手中,Help the Impostors,Помогите Предателям
@@ -608,7 +613,6 @@ Message.SyncButtonLeft,剩余紧急会议次数: {0}次，少拍桌多做事哦~
 Message.Executed,【{0}】被房主处决了，请不要干坏事哦~,【{0}】 was executed,【{0}】 был казнен
 Message.HideGameSettings,游戏设置被房主隐藏,Game settings have been hidden by the host.,Настройки игры скрыты хостом
 Message.NowOverrideText,请房主在游戏根目录的 .\Language\SChinese.dat 文件中修改这段文本\n如果您不需要此功能或希望显示普通的/n消息\n请在设置里关掉“显示自定义的/n消息”,Please enter the root folder of the game.\Language\English.dat. Change this text in the dat file \nIf you don't need this feature or want to display regular /n messages. \nPlease disable "Enable only custom /n messages" in the settings.,"Пожалуйста, зайдите корневую папку игры.\Language\Russian.dat. Измените этот текст в файле dat \nЕсли вам не нужна эта функция или вы хотите отображать обычные /n сообщений. \nпожалуйста, отключите “Включить только пользовательские /n сообщения” в настройках."
-Message.AnnounceUsingTOH,本房间使用TownOfHostEdited mod v{0}。\n未安装MOD也可以直接玩\n请前往本mod的Github页面来获取详细的职业信息。,This room uses TownOfHostEdited mod v{0}.\n/now can be used to check the current settings.\nPlease check GitHub for detailed roles descriptions.,В этом лобби используется мод TownOfHost v{0}. Используйте команду \n/now чтобы увидеть текущие настройки лобби. \nПожалуйста посетите GitHub для получения подробного описания мода и ролей
 Message.NoDescription,无描述,No description,Описание отсутствует
 Message.KickedByDenyName,【{0}】被踢出，因其昵称包含违禁词【{1}】,【{0}】 was kicked because its name matched 【{1}】","【{0}】 был кикнут, так как его имя соответствует 【{1}】"
 Message.BanedByBanList,【{0}】已被封禁，老相识了,【{0}】 has been banned because it has been banned in the past.,"【{0}】 был заблокирован, потому что он был заблокирован в прошлый раз"
@@ -757,8 +761,8 @@ DefaultShapeshiftText,变形,Shift,Превращение
 DisabledBySettings,已在设置被中禁用,Disabled by Settings,Отключено настройкой
 Disabled,禁用,Disabled,Отключено
 FailToTrack,无法追踪,Failed To Track,Не Удалось Отследить
-Mad-,背叛的,Betray,Предать
-KilledBy, ← ,
+Mad-,背叛的,Betray ,Предать 
+KilledBy, ← , ← , ← 
 
 ## 作弊
 Cheat.AUM,开挂（使用AUM）,Cheating usage detected (Used by AUM),Обнаружено использование читов (используется AUM)
