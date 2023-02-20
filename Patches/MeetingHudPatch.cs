@@ -249,8 +249,8 @@ namespace TownOfHost
                 {
                     //ここに道連れ役職を追加
                     default:
-                        if (exiledplayer.Is(RoleType.Madmate) && Options.MadmateRevengeCrewmate.GetBool() //黒猫オプション
-                        && !candidate.Is(RoleType.Impostor))
+                        if (exiledplayer.Is(CustomRoleTypes.Madmate) && Options.MadmateRevengeCrewmate.GetBool() //黒猫オプション
+                        && !candidate.Is(CustomRoleTypes.Impostor))
                             TargetList.Add(candidate);
                         break;
                 }
@@ -374,9 +374,9 @@ namespace TownOfHost
                     sb.Append($"({Utils.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), Utils.GetVitalText(target.PlayerId))})");
 
                 //インポスター表示
-                switch (seer.GetCustomRole().GetRoleType())
+                switch (seer.GetCustomRole().GetCustomRoleTypes())
                 {
-                    case RoleType.Impostor:
+                    case CustomRoleTypes.Impostor:
                         if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
                             sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★")); //変更対象にSnitchマークをつける
                         sb.Append(Snitch.GetWarningMark(seer, target));

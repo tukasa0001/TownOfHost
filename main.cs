@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -117,7 +117,6 @@ namespace TownOfHost
         public static bool isCursed;
         public static Dictionary<byte, bool> CheckShapeshift = new();
         public static Dictionary<byte, byte> ShapeshiftTarget = new();
-        public static Dictionary<(byte, byte), string> targetArrows = new();
         public static bool VisibleTasksCount;
         public static string nickName = "";
         public static bool introDestroyed = false;
@@ -244,12 +243,10 @@ namespace TownOfHost
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
-                    switch (role.GetRoleType())
+                    switch (role.GetCustomRoleTypes())
                     {
-                        case RoleType.Impostor:
-                            roleColors.TryAdd(role, "#ff1919");
-                            break;
-                        case RoleType.Madmate:
+                        case CustomRoleTypes.Impostor:
+                        case CustomRoleTypes.Madmate:
                             roleColors.TryAdd(role, "#ff1919");
                             break;
                         default:

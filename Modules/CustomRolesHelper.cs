@@ -9,7 +9,7 @@ namespace TownOfHost
         {
             var roleInfo = role.GetRoleInfo();
             if (roleInfo != null)
-                return roleInfo.CustomRoleType == RoleType.Impostor;
+                return roleInfo.CustomRoleType == CustomRoleTypes.Impostor;
             return
                 role is CustomRoles.Impostor or
                 CustomRoles.Shapeshifter or
@@ -32,7 +32,7 @@ namespace TownOfHost
         {
             var roleInfo = role.GetRoleInfo();
             if (roleInfo != null)
-                return roleInfo.CustomRoleType == RoleType.Madmate;
+                return roleInfo.CustomRoleType == CustomRoleTypes.Madmate;
             return
                 role is CustomRoles.Madmate or
                 CustomRoles.SKMadmate or
@@ -45,7 +45,7 @@ namespace TownOfHost
         {
             var roleInfo = role.GetRoleInfo();
             if (roleInfo != null)
-                return roleInfo.CustomRoleType == RoleType.Neutral;
+                return roleInfo.CustomRoleType == CustomRoleTypes.Neutral;
             return
                 role is CustomRoles.Jester or
                 CustomRoles.Opportunist or
@@ -60,7 +60,7 @@ namespace TownOfHost
                 CustomRoles.HASTroll or
                 CustomRoles.HASFox;
         }
-        public static bool IsCrewmate(this CustomRoles role) => role.GetRoleInfo()?.CustomRoleType == RoleType.Crewmate || (!role.IsImpostorTeam() && !role.IsNeutral());
+        public static bool IsCrewmate(this CustomRoles role) => role.GetRoleInfo()?.CustomRoleType == CustomRoleTypes.Crewmate || (!role.IsImpostorTeam() && !role.IsNeutral());
         public static bool IsVanilla(this CustomRoles role)
         {
             return
@@ -81,17 +81,17 @@ namespace TownOfHost
                 CustomRoles.JSchrodingerCat;
         }
 
-        public static RoleType GetRoleType(this CustomRoles role)
+        public static CustomRoleTypes GetCustomRoleTypes(this CustomRoles role)
         {
-            RoleType type = RoleType.Crewmate;
+            CustomRoleTypes type = CustomRoleTypes.Crewmate;
 
             var roleInfo = role.GetRoleInfo();
             if (roleInfo != null)
                 return roleInfo.CustomRoleType;
 
-            if (role.IsImpostor()) type = RoleType.Impostor;
-            if (role.IsNeutral()) type = RoleType.Neutral;
-            if (role.IsMadmate()) type = RoleType.Madmate;
+            if (role.IsImpostor()) type = CustomRoleTypes.Impostor;
+            if (role.IsNeutral()) type = CustomRoleTypes.Neutral;
+            if (role.IsMadmate()) type = CustomRoleTypes.Madmate;
             return type;
         }
         public static int GetCount(this CustomRoles role)
@@ -178,7 +178,7 @@ namespace TownOfHost
             };
 
     }
-    public enum RoleType
+    public enum CustomRoleTypes
     {
         Crewmate,
         Impostor,

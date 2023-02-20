@@ -132,11 +132,11 @@ namespace TownOfHost
         public static bool CanBeKilledBy(PlayerControl player)
         {
             var cRole = player.GetCustomRole();
-            return cRole.GetRoleType() switch
+            return cRole.GetCustomRoleTypes() switch
             {
-                RoleType.Impostor => true,
-                RoleType.Madmate => KillTargetOptions.TryGetValue(CustomRoles.Madmate, out var option) && option.GetBool(),
-                RoleType.Neutral => CanKillNeutrals.GetValue() == 0 || !KillTargetOptions.TryGetValue(cRole, out var option) || option.GetBool(),
+                CustomRoleTypes.Impostor => true,
+                CustomRoleTypes.Madmate => KillTargetOptions.TryGetValue(CustomRoles.Madmate, out var option) && option.GetBool(),
+                CustomRoleTypes.Neutral => CanKillNeutrals.GetValue() == 0 || !KillTargetOptions.TryGetValue(cRole, out var option) || option.GetBool(),
                 _ => false,
             };
         }

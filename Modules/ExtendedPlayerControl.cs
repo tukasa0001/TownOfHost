@@ -371,7 +371,7 @@ namespace TownOfHost
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
                 CustomRoles.Egoist or CustomRoles.Jackal => true,
-                _ => (roleClassCanUse.HasValue && roleClassCanUse.Value) || pc.Is(RoleType.Impostor),
+                _ => (roleClassCanUse.HasValue && roleClassCanUse.Value) || pc.Is(CustomRoleTypes.Impostor),
             };
         }
         public static bool CanUseImpostorVentButton(this PlayerControl pc)
@@ -384,7 +384,7 @@ namespace TownOfHost
                 CustomRoles.Egoist => true,
                 CustomRoles.Jackal => Jackal.CanVent.GetBool(),
                 CustomRoles.Arsonist => pc.IsDouseDone(),
-                _ => pc.Is(RoleType.Impostor),
+                _ => pc.Is(CustomRoleTypes.Impostor),
             };
         }
         public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
@@ -517,7 +517,7 @@ namespace TownOfHost
         }
         public static bool KnowDeathReason(this PlayerControl seer, PlayerControl target)
             => (seer.Is(CustomRoles.Doctor)
-            || (seer.Is(RoleType.Madmate) && Options.MadmateCanSeeDeathReason.GetBool())
+            || (seer.Is(CustomRoleTypes.Madmate) && Options.MadmateCanSeeDeathReason.GetBool())
             || (seer.Data.IsDead && Options.GhostCanSeeDeathReason.GetBool()))
             && target.Data.IsDead;
         public static string GetRoleInfo(this PlayerControl player, bool InfoLong = false)
@@ -582,7 +582,7 @@ namespace TownOfHost
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>
             role > CustomRoles.NotAssigned ? target.GetCustomSubRoles().Contains(role) : target.GetCustomRole() == role;
-        public static bool Is(this PlayerControl target, RoleType type) { return target.GetCustomRole().GetRoleType() == type; }
+        public static bool Is(this PlayerControl target, CustomRoleTypes type) { return target.GetCustomRole().GetCustomRoleTypes() == type; }
         public static bool Is(this PlayerControl target, RoleTypes type) { return target.GetCustomRole().GetRoleTypes() == type; }
         public static bool IsAlive(this PlayerControl target)
         {

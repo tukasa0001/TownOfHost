@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Hazel;
+using Il2CppSystem.Text;
 using UnityEngine;
 using static TownOfHost.Translator;
 
@@ -17,7 +18,7 @@ namespace TownOfHost
 
         public static Dictionary<byte, byte> Target = new();
         public static Dictionary<byte, bool> CanSetTarget = new();
-
+        private static Dictionary<byte, HashSet<byte>> ImpostorsId = new();
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.EvilTracker);
@@ -31,12 +32,24 @@ namespace TownOfHost
             playerIdList = new();
             Target = new();
             CanSetTarget = new();
+            ImpostorsId = new();
         }
         public static void Add(byte playerId)
         {
             playerIdList.Add(playerId);
             Target.Add(playerId, byte.MaxValue);
             CanSetTarget.Add(playerId, true);
+            //ImpostorsIdはEvilTracker内で共有
+            ImpostorsId[playerId] = new();
+            foreach (var target in Main.AllAlivePlayerControls)
+            {
+                var targetId = target.PlayerId;
+                if (targetId != playerId && target.Is(CustomRoleTypes.Impostor))
+                {
+                    ImpostorsId[playerId].Add(targetId);
+                    TargetArrow.Add(playerId, targetId);
+                }
+            }
         }
         public static bool IsEnable => playerIdList.Count > 0;
         public static void ApplyGameOptions(byte playerId)
@@ -58,21 +71,21 @@ namespace TownOfHost
         public static bool IsTrackTarget(PlayerControl seer, PlayerControl target, bool includeImpostors = true)
             => seer.IsAlive() && seer.Is(CustomRoles.EvilTracker)
             && target.IsAlive() && seer != target
-            && ((includeImpostors && target.Is(RoleType.Impostor)) || GetTarget(seer.PlayerId) == target.PlayerId);
+            && ((includeImpostors && target.Is(CustomRoleTypes.Impostor)) || GetTarget(seer.PlayerId) == target.PlayerId);
         public static bool KillFlashCheck(PlayerControl killer, PlayerControl target)
         {
             if (!CanSeeKillFlash.GetBool()) return false;
             //インポスターによるキルかどうかの判別
             if (target.GetRealKiller() != null)
                 killer = target.GetRealKiller();
-            return killer.Is(RoleType.Impostor) && killer != target;
+            return killer.Is(CustomRoleTypes.Impostor) && killer != target;
         }
 
         // 各所で呼ばれる処理
         public static void OnShapeshift(PlayerControl shapeshifter, PlayerControl target, bool shapeshifting)
         {
             if (!CanTarget(shapeshifter.PlayerId) || !shapeshifting) return;
-            if (!target.IsAlive() || target.Is(RoleType.Impostor)) return;
+            if (!target.IsAlive() || target.Is(CustomRoleTypes.Impostor)) return;
 
             SetTarget(shapeshifter.PlayerId, target.PlayerId);
             Logger.Info($"{shapeshifter.GetNameWithRole()}のターゲットを{target.GetNameWithRole()}に設定", "EvilTrackerTarget");
@@ -112,6 +125,7 @@ namespace TownOfHost
             {
                 Target[trackerId] = targetId; // ターゲット設定
                 CanSetTarget[trackerId] = false; // ターゲット再設定不可に
+                TargetArrow.Add(trackerId, targetId);
             }
 
             if (!AmongUsClient.Instance.AmHost) return;
@@ -130,46 +144,36 @@ namespace TownOfHost
         // 表示系の関数
         public static string GetMarker(byte playerId) => CanTarget(playerId) ? Utils.ColorString(Palette.ImpostorRed.ShadeColor(0.5f), "◁") : "";
         public static string GetTargetMark(PlayerControl seer, PlayerControl target) => IsTrackTarget(seer, target, false) ? Utils.ColorString(Palette.ImpostorRed, "◀") : "";
-        public static string GetTargetArrowForModClient(PlayerControl seer, PlayerControl target)
+        public static string GetTargetArrow(PlayerControl seer, PlayerControl target)
         {
-            var update = false;
-            string Suffix = "";
-            foreach (var pc in Main.AllPlayerControls)
+            if (!GameStates.IsInTask || !target.Is(CustomRoles.EvilTracker)) return "";
+
+            var trackerId = target.PlayerId;
+            if (seer.PlayerId != trackerId) return "";
+
+            ImpostorsId[trackerId].RemoveWhere(id => Main.PlayerStates[id].IsDead);
+
+            var sb = new StringBuilder(80);
+            if (ImpostorsId[trackerId].Count > 0)
             {
-                //発見対象じゃ無ければ次
-                if (!IsTrackTarget(target, pc)) continue;
-                update = FixedUpdatePatch.CheckArrowUpdate(target, pc, update, pc.Is(RoleType.Impostor));
-                var arrow = Main.targetArrows[(target.PlayerId, pc.PlayerId)];
-                if (IsTrackTarget(target, pc, false)) arrow = Utils.ColorString(Color.white, arrow);
-                if (target.AmOwner)
+                sb.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>");
+                foreach (var impostorId in ImpostorsId[trackerId])
                 {
-                    //MODなら矢印表示
-                    Suffix += arrow;
+                    sb.Append(TargetArrow.GetArrows(target, impostorId));
                 }
+                sb.Append($"</color>");
             }
-            if (AmongUsClient.Instance.AmHost && seer.PlayerId != target.PlayerId && update)
+
+            var targetId = Target[trackerId];
+            if (targetId != byte.MaxValue)
             {
-                //更新があったら非Modに通知
-                Utils.NotifyRoles(SpecifySeer: target);
+                sb.Append(Utils.ColorString(Color.white, TargetArrow.GetArrows(target, targetId)));
             }
-            return Suffix;
-        }
-        public static string GetTargetArrowForVanilla(bool isMeeting, PlayerControl seer)
-        {
-            //ミーティング以外では矢印表示
-            if (isMeeting) return "";
-            string SelfSuffix = "";
-            foreach (var arrow in Main.targetArrows)
-            {
-                var target = Utils.GetPlayerById(arrow.Key.Item2);
-                if (arrow.Key.Item1 == seer.PlayerId && IsTrackTarget(seer, target))
-                    SelfSuffix += Utils.ColorString(target.Is(RoleType.Impostor) ? Palette.ImpostorRed : Color.white, arrow.Value);
-            }
-            return SelfSuffix;
+            return sb.ToString();
         }
         public static string GetArrowAndLastRoom(PlayerControl seer, PlayerControl target)
         {
-            string text = Utils.ColorString(Palette.ImpostorRed, Main.targetArrows[(seer.PlayerId, target.PlayerId)]);
+            string text = Utils.ColorString(Palette.ImpostorRed, TargetArrow.GetArrows(seer, target.PlayerId));
             var room = Main.PlayerStates[target.PlayerId].LastRoom;
             if (room == null) text += Utils.ColorString(Color.gray, $"@{GetString("FailToTrack")}");
             else text += Utils.ColorString(Palette.ImpostorRed, $"@{room.RoomId.GetRoomName()}");

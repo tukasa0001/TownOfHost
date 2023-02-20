@@ -147,7 +147,7 @@ namespace TownOfHost
             Logger.Info($"{Player.GetNameWithRole()}:ターゲットリセット", "BountyHunter");
             Player.RpcResetAbilityCooldown(); ;//タイマー（変身クールダウン）のリセットと
 
-            var cTargets = new List<PlayerControl>(Main.AllAlivePlayerControls.Where(pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Egoist)));
+            var cTargets = new List<PlayerControl>(Main.AllAlivePlayerControls.Where(pc => !pc.Is(CustomRoleTypes.Impostor) && !pc.Is(CustomRoles.Egoist)));
 
             if (cTargets.Count() >= 2)
                 cTargets.RemoveAll(x => x == Target); //前回のターゲットは除外
