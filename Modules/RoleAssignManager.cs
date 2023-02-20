@@ -8,7 +8,7 @@ namespace TownOfHost.Modules
     public static class RoleAssignManager
     {
         private static readonly int idStart = 500;
-        private static Dictionary<RoleType, int> AssignCount;
+        private static Dictionary<CustomRoleTypes, int> AssignCount;
         private static List<CustomRoles> AssignRoleList;
         private static OptionItem ImpostorMin;
         private static OptionItem ImpostorMax;
@@ -20,7 +20,7 @@ namespace TownOfHost.Modules
         private static OptionItem NeutralMax;
 
         private static CustomRoles[] RolesArray = Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().ToArray();
-        private static RoleType[] RoleTypeArray = Enum.GetValues(typeof(RoleType)).Cast<RoleType>().ToArray();
+        private static CustomRoleTypes[] RoleTypesArray = Enum.GetValues(typeof(CustomRoleTypes)).Cast<CustomRoleTypes>().ToArray();
 
         public static void SetupCustomOption()
         {
@@ -67,19 +67,19 @@ namespace TownOfHost.Modules
             //マッド、クルー、ニュートラル合計の限界値
             int numOthers = GameData.Instance.PlayerCount - numImpostors;
 
-            List<RoleType> otherRoleTypeList = new();
+            List<CustomRoleTypes> otherRoleTypesList = new();
             if (numOthers > 0) //マッド、クルー、ニュートラルの人数決定
             {
                 //一旦最少人数を設定
-                otherRoleTypeList.AddRange(Enumerable.Repeat(RoleType.Madmate, MadmateMin.GetInt()).ToList());
-                otherRoleTypeList.AddRange(Enumerable.Repeat(RoleType.Crewmate, CrewmateMin.GetInt()).ToList());
-                otherRoleTypeList.AddRange(Enumerable.Repeat(RoleType.Neutral, NeutralMin.GetInt()).ToList());
+                otherRoleTypesList.AddRange(Enumerable.Repeat(CustomRoleTypes.Madmate, MadmateMin.GetInt()).ToList());
+                otherRoleTypesList.AddRange(Enumerable.Repeat(CustomRoleTypes.Crewmate, CrewmateMin.GetInt()).ToList());
+                otherRoleTypesList.AddRange(Enumerable.Repeat(CustomRoleTypes.Neutral, NeutralMin.GetInt()).ToList());
 
                 //超えている場合はランダムに削除
-                while (otherRoleTypeList.Count > numOthers)
-                    otherRoleTypeList.RemoveAt(rand.Next(otherRoleTypeList.Count));
+                while (otherRoleTypesList.Count > numOthers)
+                    otherRoleTypesList.RemoveAt(rand.Next(otherRoleTypesList.Count));
 
-                int numAdditional = numOthers - otherRoleTypeList.Count;
+                int numAdditional = numOthers - otherRoleTypesList.Count;
                 if (numAdditional > 0) //最少人数で限界値に満たない場合
                 {
                     //追加人数を取得
@@ -87,29 +87,29 @@ namespace TownOfHost.Modules
                     int additionalCrewCount = Math.Max(0, rand.Next(CrewmateMax.GetInt() - CrewmateMin.GetInt() + 1));
                     int additionalNeutralCount = Math.Max(0, rand.Next(NeutralMax.GetInt() - NeutralMin.GetInt() + 1));
 
-                    List<RoleType> additionalList = new();
-                    additionalList.AddRange(Enumerable.Repeat(RoleType.Madmate, additionalMadCount).ToList());
-                    additionalList.AddRange(Enumerable.Repeat(RoleType.Crewmate, additionalCrewCount).ToList());
-                    additionalList.AddRange(Enumerable.Repeat(RoleType.Neutral, additionalNeutralCount).ToList());
+                    List<CustomRoleTypes> additionalList = new();
+                    additionalList.AddRange(Enumerable.Repeat(CustomRoleTypes.Madmate, additionalMadCount).ToList());
+                    additionalList.AddRange(Enumerable.Repeat(CustomRoleTypes.Crewmate, additionalCrewCount).ToList());
+                    additionalList.AddRange(Enumerable.Repeat(CustomRoleTypes.Neutral, additionalNeutralCount).ToList());
 
                     //超えている場合はランダムに削除
                     while (additionalList.Count > numAdditional)
                         additionalList.RemoveAt(rand.Next(additionalList.Count));
 
-                    otherRoleTypeList.AddRange(additionalList);
+                    otherRoleTypesList.AddRange(additionalList);
                 }
             }
 
             //Dictionaryに変換
-            foreach (var roleType in RoleTypeArray)
+            foreach (var roleTypes in RoleTypesArray)
             {
-                if (roleType == RoleType.Impostor)
+                if (roleTypes == CustomRoleTypes.Impostor)
                 {
                     int impAssignCount = Math.Min(numImpostors, rand.Next(ImpostorMin.GetInt(), ImpostorMax.GetInt() + 1));
-                    AssignCount.Add(roleType, impAssignCount);
+                    AssignCount.Add(roleTypes, impAssignCount);
                 }
                 else
-                    AssignCount.Add(roleType, otherRoleTypeList.Count(x => x == roleType));
+                    AssignCount.Add(roleTypes, otherRoleTypesList.Count(x => x == roleTypes));
             }
             Logger.Info($"{String.Join(", ", AssignCount)}", "SetAssignCount");
         }
@@ -136,14 +136,14 @@ namespace TownOfHost.Modules
                 {
                     var targetRoles = role.GetAssignTargetRolesArray();
                     //アサイン枠が足りてない場合
-                    if (RoleTypeArray.Any(type => targetRoles.Count(role => role.GetRoleType() == type) > assignCount[type])) continue;
+                    if (RoleTypesArray.Any(type => targetRoles.Count(role => role.GetCustomRoleTypes() == type) > assignCount[type])) continue;
 
                     if (chance == 100) //100%ならアサイン枠に直接追加
                     {
                         foreach (var targetRole in targetRoles)
                         {
                             AssignRoleList.Add(targetRole);
-                            assignCount[targetRole.GetRoleType()]--;
+                            assignCount[targetRole.GetCustomRoleTypes()]--;
                         }
                     }
                     else //10-90%なら抽選枠にチケット追加
@@ -160,12 +160,12 @@ namespace TownOfHost.Modules
                 var selectedTicket = randomRoleTicketPool[rand.Next(randomRoleTicketPool.Count)];
                 var targetRoles = selectedTicket.Item1.GetAssignTargetRolesArray();
                 //アサイン枠が足りていれば追加
-                if (RoleTypeArray.All(type => targetRoles.Count(role => role.GetRoleType() == type) <= assignCount[type]))
+                if (RoleTypesArray.All(type => targetRoles.Count(role => role.GetCustomRoleTypes() == type) <= assignCount[type]))
                 {
                     foreach (var targetRole in targetRoles)
                     {
                         AssignRoleList.Add(targetRole);
-                        assignCount[targetRole.GetRoleType()]--;
+                        assignCount[targetRole.GetCustomRoleTypes()]--;
                     }
                 }
                 //1-9個ある同じチケットを削除
