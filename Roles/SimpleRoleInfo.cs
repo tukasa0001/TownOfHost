@@ -13,7 +13,7 @@ public class SimpleRoleInfo : RoleInfoBase
 
     public SimpleRoleInfo(
         CustomRoles roleName,
-        RoleType type,
+        CustomRoleTypes type,
         int configId,
         OptionCreatorDelegate optionCreator,
         string colorCode = "",
@@ -31,10 +31,10 @@ public class SimpleRoleInfo : RoleInfoBase
         if (tab == TabGroup.MainSettings)
             tab = CustomRoleType switch
             {
-                RoleType.Impostor => TabGroup.ImpostorRoles,
-                RoleType.Madmate => TabGroup.ImpostorRoles,
-                RoleType.Crewmate => TabGroup.CrewmateRoles,
-                RoleType.Neutral => TabGroup.NeutralRoles,
+                CustomRoleTypes.Impostor => TabGroup.ImpostorRoles,
+                CustomRoleTypes.Madmate => TabGroup.ImpostorRoles,
+                CustomRoleTypes.Crewmate => TabGroup.CrewmateRoles,
+                CustomRoleTypes.Neutral => TabGroup.NeutralRoles,
                 _ => tab
             };
         Tab = tab;

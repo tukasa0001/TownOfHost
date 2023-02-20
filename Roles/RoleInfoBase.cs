@@ -8,12 +8,12 @@ namespace TownOfHost.Roles;
 public abstract class RoleInfoBase
 {
     public CustomRoles RoleName;
-    public RoleType CustomRoleType;
+    public CustomRoleTypes CustomRoleType;
     public Color32 RoleColor;
     public string RoleColorCode;
     public RoleInfoBase(
         CustomRoles roleName,
-        RoleType type,
+        CustomRoleTypes type,
         string colorCode
     )
     {
@@ -23,7 +23,7 @@ public abstract class RoleInfoBase
         if (colorCode == "")
             colorCode = type switch
             {
-                RoleType.Impostor or RoleType.Madmate => "#ff1919",
+                CustomRoleTypes.Impostor or CustomRoleTypes.Madmate => "#ff1919",
                 _ => "#ffffff"
             };
         RoleColorCode = colorCode;

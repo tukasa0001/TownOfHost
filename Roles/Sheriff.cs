@@ -15,7 +15,7 @@ namespace TownOfHost
         public static readonly SimpleRoleInfo RoleInfo =
             new(
                 CustomRoles.Sheriff,
-                RoleType.Crewmate,
+                CustomRoleTypes.Crewmate,
                 20400,
                 SetupOptionItem,
                 "#f8cd46"

@@ -15,7 +15,7 @@ namespace TownOfHost
         public static readonly SimpleRoleInfo RoleInfo =
             new(
                 CustomRoles.BountyHunter,
-                RoleType.Impostor,
+                CustomRoleTypes.Impostor,
                 1000,
                 SetupOptionItem
             );
