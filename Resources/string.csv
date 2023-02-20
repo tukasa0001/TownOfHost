@@ -758,6 +758,7 @@ DisabledBySettings,已在设置被中禁用,Disabled by Settings,Отключе�
 Disabled,禁用,Disabled,Отключено
 FailToTrack,无法追踪,Failed To Track,Не Удалось Отследить
 Mad-,背叛的,Betray,Предать
+KilledBy, ← ,
 
 ## 作弊
 Cheat.AUM,开挂（使用AUM）,Cheating usage detected (Used by AUM),Обнаружено использование читов (используется AUM)

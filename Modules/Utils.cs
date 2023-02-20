@@ -278,7 +278,17 @@ namespace TownOfHost
             }
             return (RoleText, RoleColor);
         }
-
+        public static string GetKillerText(byte playerId)
+        {
+            var state = Main.PlayerStates[playerId];
+            
+            var KillerId = state.GetRealKiller();
+            Color color = KillerId != byte.MaxValue ? Main.PlayerColors[KillerId] : GetRoleColor(CustomRoles.Doctor);
+            string killer = state.IsDead ? (GetString("KilledBy") + Main.AllPlayerNames[KillerId].RemoveHtmlTags().Replace("\r\n", string.Empty)) : "";
+            killer = ColorString(color, killer);
+            
+            return killer;
+        }
         public static string GetVitalText(byte playerId, bool RealKillerColor = false)
         {
             var state = Main.PlayerStates[playerId];
@@ -554,13 +564,13 @@ namespace TownOfHost
             List<byte> cloneRoles = new(Main.PlayerStates.Keys);
             foreach (var id in Main.winnerList)
             {
-                if (EndGamePatch.SummaryText[id].RemoveHtmlTags() == "INVALID") continue;
+                if (EndGamePatch.SummaryText[id].Contains("<INVALID:NotAssigned>")) continue;
                 text += $"\n★ " + EndGamePatch.SummaryText[id].RemoveHtmlTags();
                 cloneRoles.Remove(id);
             }
             foreach (var id in cloneRoles)
             {
-                if (EndGamePatch.SummaryText[id].RemoveHtmlTags() == "INVALID") continue;
+                if (EndGamePatch.SummaryText[id].Contains("<INVALID:NotAssigned>")) continue;
                 text += $"\n　 " + EndGamePatch.SummaryText[id].RemoveHtmlTags();
             }
             if (text == "玩家信息:") text = "";
@@ -899,6 +909,7 @@ namespace TownOfHost
                 //インポスター/キル可能な第三陣営に対するSnitch警告
                 SelfMark.Append(Snitch.GetWarningArrow(seer));
 
+                //愚者初始化红名玩家
                 if (seer.Is(CustomRoles.Psychic)) GetPsychicStuff(seer);
 
                 //ハートマークを付ける(自分に)
@@ -911,6 +922,7 @@ namespace TownOfHost
                 if (seer.Is(CustomRoles.SuperStar) && Options.EveryOneKnowSuperStar.GetBool())
                     SelfMark.Append(ColorString(GetRoleColor(CustomRoles.SuperStar), "★"));
 
+                //銃声が聞こえるかチェック
                 SelfMark.Append(Sniper.GetShotNotify(seer.PlayerId));
                 //Markとは違い、改行してから追記されます。
                 SelfSuffix.Clear();
@@ -1329,8 +1341,8 @@ namespace TownOfHost
             var RolePos = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? 47 : 37;
             var name = Main.AllPlayerNames[id].RemoveHtmlTags().Replace("\r\n", string.Empty);
             if (id == PlayerControl.LocalPlayer.PlayerId) name = DataManager.player.Customization.Name;
-            string summary = $"{ColorString(Main.PlayerColors[id], name)}<pos=22%>{GetProgressText(id)}</pos><pos=31%> {GetVitalText(id)}</pos><pos={RolePos}%> {GetDisplayRoleName(id)}{GetSubRolesText(id, summary: true)}</pos>";
-            if (check && GetDisplayRoleName(id).Contains("NotAssigned")) return "INVALID";
+            string summary = $"{ColorString(Main.PlayerColors[id], name)}<pos=22%>{GetProgressText(id)}</pos><pos=30%>{GetVitalText(id, true)}</pos><pos={RolePos}%> {GetDisplayRoleName(id)}{GetSubRolesText(id, summary: true)}</pos>";
+            if (check && GetDisplayRoleName(id).RemoveHtmlTags().Contains("INVALID:NotAssigned")) return "INVALID";
             return disableColor ? summary.RemoveHtmlTags() : summary;
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");

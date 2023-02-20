@@ -171,13 +171,13 @@ namespace TownOfHost
             List<byte> cloneRoles = new(Main.PlayerStates.Keys);
             foreach (var id in Main.winnerList)
             {
-                if (EndGamePatch.SummaryText[id] == "INVALID") continue;
+                if (EndGamePatch.SummaryText[id].Contains("<INVALID:NotAssigned>")) continue;
                 sb.Append($"\n<color={CustomWinnerColor}>★</color> ").Append(EndGamePatch.SummaryText[id]);
                 cloneRoles.Remove(id);
             }
             foreach (var id in cloneRoles)
             {
-                if (EndGamePatch.SummaryText[id] == "INVALID") continue;
+                if (EndGamePatch.SummaryText[id].Contains("<INVALID:NotAssigned>")) continue;
                 sb.Append($"\n　 ").Append(EndGamePatch.SummaryText[id]);
             }
             var RoleSummary = RoleSummaryObject.GetComponent<TMPro.TextMeshPro>();
