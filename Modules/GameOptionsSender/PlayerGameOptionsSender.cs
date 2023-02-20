@@ -76,13 +76,12 @@ namespace TownOfHost.Modules
             opt.BlackOut(state.IsBlackOut);
 
             CustomRoles role = player.GetCustomRole();
-            RoleType roleType = role.GetRoleType();
-            switch (roleType)
+            switch (role.GetCustomRoleTypes())
             {
-                case RoleType.Impostor:
+                case CustomRoleTypes.Impostor:
                     AURoleOptions.ShapeshifterCooldown = Options.DefaultShapeshiftCooldown.GetFloat();
                     break;
-                case RoleType.Madmate:
+                case CustomRoleTypes.Madmate:
                     AURoleOptions.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
                     AURoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
                     if (Options.MadmateHasImpostorVision.GetBool())
@@ -92,7 +91,7 @@ namespace TownOfHost.Modules
                     break;
             }
 
-            switch (player.GetCustomRole())
+            switch (role)
             {
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
@@ -209,19 +208,7 @@ namespace TownOfHost.Modules
                     opt.SetFloat(FloatOptionNames.PlayerSpeedMod, Main.MinSpeed);
                 }
             }
-            opt.SetInt(Int32OptionNames.DiscussionTime, Mathf.Clamp(Main.DiscussionTime, 0, 300));
-
-            opt.SetInt(
-                Int32OptionNames.VotingTime,
-                Mathf.Clamp(Main.VotingTime, TimeThief.LowerLimitVotingTime.GetInt(), CustomRoles.TimeManager.IsEnable() ? TimeManager.MeetingTimeLimit.GetInt() : 300));
-
-            if (Options.AllAliveMeeting.GetBool() && GameData.Instance.AllPlayers.ToArray().Where(x => !x.Object.Is(CustomRoles.GM)).All(x => !x.IsDead))
-            {
-                opt.SetInt(Int32OptionNames.DiscussionTime, 0);
-                opt.SetInt(
-                Int32OptionNames.VotingTime,
-                Options.AllAliveMeetingTime.GetInt());
-            }
+            MeetingTimeManager.ApplyGameOptions(opt);
 
             AURoleOptions.ShapeshifterCooldown = Mathf.Max(1f, AURoleOptions.ShapeshifterCooldown);
             AURoleOptions.ProtectionDurationSeconds = 0f;

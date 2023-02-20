@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -47,7 +47,7 @@ namespace TownOfHost
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "4.0.2";
+        public const string PluginVersion = "4.1.0";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -115,12 +115,9 @@ namespace TownOfHost
         public static bool isCursed;
         public static Dictionary<byte, bool> CheckShapeshift = new();
         public static Dictionary<byte, byte> ShapeshiftTarget = new();
-        public static Dictionary<(byte, byte), string> targetArrows = new();
         public static bool VisibleTasksCount;
         public static string nickName = "";
         public static bool introDestroyed = false;
-        public static int DiscussionTime;
-        public static int VotingTime;
         public static byte currentDousingTarget;
         public static float DefaultCrewmateVision;
         public static float DefaultImpostorVision;
@@ -220,7 +217,7 @@ namespace TownOfHost
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     {CustomRoles.Seer, "#61b26c"},
                     {CustomRoles.TimeManager, "#6495ed"},
-                    //第三陣営役職
+                    //ニュートラル役職
                     {CustomRoles.Arsonist, "#ff6633"},
                     {CustomRoles.Jester, "#ec62a5"},
                     {CustomRoles.Terrorist, "#00ff00"},
@@ -245,12 +242,10 @@ namespace TownOfHost
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
-                    switch (role.GetRoleType())
+                    switch (role.GetCustomRoleTypes())
                     {
-                        case RoleType.Impostor:
-                            roleColors.TryAdd(role, "#ff1919");
-                            break;
-                        case RoleType.Madmate:
+                        case CustomRoleTypes.Impostor:
+                        case CustomRoleTypes.Madmate:
                             roleColors.TryAdd(role, "#ff1919");
                             break;
                         default:
@@ -337,7 +332,7 @@ namespace TownOfHost
         EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Jester,
         Opportunist,
-        SchrodingerCat,//第三陣営のシュレディンガーの猫
+        SchrodingerCat,//無所属のシュレディンガーの猫
         Terrorist,
         Executioner,
         Jackal,

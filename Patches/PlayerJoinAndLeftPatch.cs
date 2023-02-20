@@ -74,8 +74,6 @@ namespace TownOfHost
             //            main.RealNames.Remove(data.Character.PlayerId);
             if (GameStates.IsInGame)
             {
-                if (data.Character.Is(CustomRoles.TimeThief))
-                    data.Character.ResetVotingTime();
                 if (data.Character.Is(CustomRoles.Lovers) && !data.Character.Data.IsDead)
                     foreach (var lovers in Main.LoversPlayers.ToArray())
                     {
@@ -121,6 +119,17 @@ namespace TownOfHost
                             Utils.ShowLastResult(client.Character.PlayerId);
                         }
                     }, 3f, "DisplayLastRoles");
+                }
+                if (Options.AutoDisplayKillLog.GetBool() && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
+                {
+                    new LateTask(() =>
+                    {
+                        if (!GameStates.IsInGame && client.Character != null)
+                        {
+                            Main.isChatCommand = true;
+                            Utils.ShowKillLog(client.Character.PlayerId);
+                        }
+                    }, 3f, "DisplayKillLog");
                 }
             }
         }
