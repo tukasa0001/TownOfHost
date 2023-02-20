@@ -108,8 +108,7 @@ namespace TownOfHost
                 /* Send SyncSettings RPC */
             }
             //オブジェクト破棄
-            CustomRoleManager.AllActiveRoles.Do(roleClass => roleClass = null);
-            GC.Collect();
+            CustomRoleManager.AllActiveRoles.Do(roleClass => roleClass.Dispose());
         }
     }
     [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.SetEverythingUp))]

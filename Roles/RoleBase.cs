@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Hazel;
@@ -7,7 +8,7 @@ using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles;
 
-public abstract class RoleBase
+public abstract class RoleBase : IDisposable
 {
     public static RoleBase Instance;
     public PlayerControl Player;
@@ -24,6 +25,14 @@ public abstract class RoleBase
         Instance = this;
     }
     public virtual void Add()
+    { }
+    public void Dispose()
+    {
+        Player = null;
+        OnDestroy();
+        CustomRoleManager.AllActiveRoles.Remove(this);
+    }
+    public virtual void OnDestroy()
     { }
     public virtual void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
     { }
