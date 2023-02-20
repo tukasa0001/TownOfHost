@@ -55,10 +55,10 @@ namespace TownOfHost
 
                     bool doComms = false;
                     Vector2 PlayerPos = pc.GetTruePosition();
-                    bool ignore = (Options.DisableDevicesIgnoreImpostors.GetBool() && pc.Is(RoleType.Impostor)) ||
-                            (Options.DisableDevicesIgnoreMadmates.GetBool() && pc.Is(RoleType.Madmate)) ||
-                            (Options.DisableDevicesIgnoreNeutrals.GetBool() && pc.Is(RoleType.Neutral)) ||
-                            (Options.DisableDevicesIgnoreCrewmates.GetBool() && pc.Is(RoleType.Crewmate)) ||
+                    bool ignore = (Options.DisableDevicesIgnoreImpostors.GetBool() && pc.Is(CustomRoleTypes.Impostor)) ||
+                            (Options.DisableDevicesIgnoreMadmates.GetBool() && pc.Is(CustomRoleTypes.Madmate)) ||
+                            (Options.DisableDevicesIgnoreNeutrals.GetBool() && pc.Is(CustomRoleTypes.Neutral)) ||
+                            (Options.DisableDevicesIgnoreCrewmates.GetBool() && pc.Is(CustomRoleTypes.Crewmate)) ||
                             (Options.DisableDevicesIgnoreAfterAnyoneDied.GetBool() && GameStates.AlreadyDied);
 
                     if (pc.IsAlive() && !Utils.IsActive(SystemTypes.Comms))
@@ -138,10 +138,10 @@ namespace TownOfHost
             var player = PlayerControl.LocalPlayer;
             bool ignore = player.Is(CustomRoles.GM) ||
                 !player.IsAlive() ||
-                (Options.DisableDevicesIgnoreImpostors.GetBool() && player.Is(RoleType.Impostor)) ||
-                (Options.DisableDevicesIgnoreMadmates.GetBool() && player.Is(RoleType.Madmate)) ||
-                (Options.DisableDevicesIgnoreNeutrals.GetBool() && player.Is(RoleType.Neutral)) ||
-                (Options.DisableDevicesIgnoreCrewmates.GetBool() && player.Is(RoleType.Crewmate)) ||
+                (Options.DisableDevicesIgnoreImpostors.GetBool() && player.Is(CustomRoleTypes.Impostor)) ||
+                (Options.DisableDevicesIgnoreMadmates.GetBool() && player.Is(CustomRoleTypes.Madmate)) ||
+                (Options.DisableDevicesIgnoreNeutrals.GetBool() && player.Is(CustomRoleTypes.Neutral)) ||
+                (Options.DisableDevicesIgnoreCrewmates.GetBool() && player.Is(CustomRoleTypes.Crewmate)) ||
                 (Options.DisableDevicesIgnoreAfterAnyoneDied.GetBool() && GameStates.AlreadyDied);
             var admins = GameObject.FindObjectsOfType<MapConsole>(true);
             var consoles = GameObject.FindObjectsOfType<SystemConsole>(true);

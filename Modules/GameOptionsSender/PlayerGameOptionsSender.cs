@@ -76,13 +76,12 @@ namespace TownOfHost.Modules
             opt.BlackOut(state.IsBlackOut);
 
             CustomRoles role = player.GetCustomRole();
-            RoleType roleType = role.GetRoleType();
-            switch (roleType)
+            switch (role.GetCustomRoleTypes())
             {
-                case RoleType.Impostor:
+                case CustomRoleTypes.Impostor:
                     AURoleOptions.ShapeshifterCooldown = Options.DefaultShapeshiftCooldown.GetFloat();
                     break;
-                case RoleType.Madmate:
+                case CustomRoleTypes.Madmate:
                     AURoleOptions.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
                     AURoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
                     if (Options.MadmateHasImpostorVision.GetBool())
@@ -92,7 +91,7 @@ namespace TownOfHost.Modules
                     break;
             }
 
-            switch (player.GetCustomRole())
+            switch (role)
             {
                 case CustomRoles.Terrorist:
                     goto InfinityVent;

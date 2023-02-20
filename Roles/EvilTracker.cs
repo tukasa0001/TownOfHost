@@ -44,7 +44,7 @@ namespace TownOfHost
             foreach (var target in Main.AllAlivePlayerControls)
             {
                 var targetId = target.PlayerId;
-                if (targetId != playerId && target.Is(RoleType.Impostor))
+                if (targetId != playerId && target.Is(CustomRoleTypes.Impostor))
                 {
                     ImpostorsId[playerId].Add(targetId);
                     TargetArrow.Add(playerId, targetId);
@@ -71,21 +71,21 @@ namespace TownOfHost
         public static bool IsTrackTarget(PlayerControl seer, PlayerControl target, bool includeImpostors = true)
             => seer.IsAlive() && seer.Is(CustomRoles.EvilTracker)
             && target.IsAlive() && seer != target
-            && ((includeImpostors && target.Is(RoleType.Impostor)) || GetTarget(seer.PlayerId) == target.PlayerId);
+            && ((includeImpostors && target.Is(CustomRoleTypes.Impostor)) || GetTarget(seer.PlayerId) == target.PlayerId);
         public static bool KillFlashCheck(PlayerControl killer, PlayerControl target)
         {
             if (!CanSeeKillFlash.GetBool()) return false;
             //インポスターによるキルかどうかの判別
             if (target.GetRealKiller() != null)
                 killer = target.GetRealKiller();
-            return killer.Is(RoleType.Impostor) && killer != target;
+            return killer.Is(CustomRoleTypes.Impostor) && killer != target;
         }
 
         // 各所で呼ばれる処理
         public static void OnShapeshift(PlayerControl shapeshifter, PlayerControl target, bool shapeshifting)
         {
             if (!CanTarget(shapeshifter.PlayerId) || !shapeshifting) return;
-            if (!target.IsAlive() || target.Is(RoleType.Impostor)) return;
+            if (!target.IsAlive() || target.Is(CustomRoleTypes.Impostor)) return;
 
             SetTarget(shapeshifter.PlayerId, target.PlayerId);
             Logger.Info($"{shapeshifter.GetNameWithRole()}のターゲットを{target.GetNameWithRole()}に設定", "EvilTrackerTarget");
