@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using HarmonyLib;
-using TownOfHost.Modules;
 using UnityEngine;
+
+using TownOfHost.Modules;
+using TownOfHost.Roles;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -105,6 +107,9 @@ namespace TownOfHost
                 GameOptionsSender.AllSenders.Add(new NormalGameOptionsSender());
                 /* Send SyncSettings RPC */
             }
+            //オブジェクト破棄
+            CustomRoleManager.AllActiveRoles.Do(roleClass => roleClass = null);
+            GC.Collect();
         }
     }
     [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.SetEverythingUp))]
