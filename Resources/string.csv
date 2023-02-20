@@ -331,8 +331,8 @@ AutoStart,人满自动开始,Auto start at full lobby,Авто. запуск и�
 DisableTOHE,切换为原版,Disable TOHE,Отключить TOHE
 AutoDisplayLastResult,自动显示最终结果,Auto Display Last Result,Отображать результат последней игры в чате
 
-# This Option is for development so that don't need translation
-EnableUpMode,启用创作者保护计划,启用创作者保护计划,启用创作者保护计划
+# This Option is for development so it dosn't need translation
+EnableUpMode,启用创作者保护计划（试验性）,启用创作者保护计划（试验性）,启用创作者保护计划（试验性）
 
 AutoKickStart,踢出催开始的人,Kick the player who writes start,Кикнуть игрока который пишет start (Только англ)
 AutoKickStartTimes,踢出前警告次数,Number of warnings before kick,Количество предупреждений до кика
