@@ -7,9 +7,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AmongUs.Data;
 using HarmonyLib;
-using static TownOfHost.Translator;
+using static TOHE.Translator;
 
-namespace TownOfHost
+namespace TOHE
 {
     public static class TemplateManager
     {

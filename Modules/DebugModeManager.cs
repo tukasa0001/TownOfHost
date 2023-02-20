@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 
-namespace TownOfHost
+namespace TOHE
 {
     public static class DebugModeManager
     {

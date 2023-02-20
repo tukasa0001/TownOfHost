@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using UnityEngine;
 
-namespace TownOfHost
+namespace TOHE
 {
     [Flags]
     public enum CustomGameMode

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using AmongUs.GameOptions;
 using Hazel;
-using TownOfHost.Modules;
+using TOHE.Modules;
 
-namespace TownOfHost
+namespace TOHE
 {
     public static class AntiBlackout
     {

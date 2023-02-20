@@ -1,6 +1,6 @@
 using System;
 
-namespace TownOfHost
+namespace TOHE
 {
     public class Xorshift : IRandom
     {

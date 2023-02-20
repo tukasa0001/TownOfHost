@@ -6,9 +6,9 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using UnityEngine;
-using static TownOfHost.Translator;
+using static TOHE.Translator;
 
-namespace TownOfHost
+namespace TOHE
 {
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckProtect))]
     class CheckProtectPatch

@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using HarmonyLib;
 using Hazel;
-using UnityEngine;
-using static TownOfHost.Options;
+using static TOHE.Options;
 
-namespace TownOfHost
+namespace TOHE
 {
     public static class Executioner
     {

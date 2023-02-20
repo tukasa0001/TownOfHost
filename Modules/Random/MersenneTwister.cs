@@ -22,7 +22,7 @@
 
 using System;
 
-namespace TownOfHost;
+namespace TOHE;
 
 public class MersenneTwister : IRandom
 {

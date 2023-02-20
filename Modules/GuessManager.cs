@@ -5,9 +5,9 @@ using System.Text.RegularExpressions;
 using HarmonyLib;
 using Hazel;
 using UnityEngine;
-using static TownOfHost.Translator;
+using static TOHE.Translator;
 
-namespace TownOfHost
+namespace TOHE
 {
     public static class GuessManager
     {

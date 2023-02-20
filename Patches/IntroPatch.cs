@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using UnityEngine;
-using static TownOfHost.Translator;
+using static TOHE.Translator;
 
-namespace TownOfHost
+namespace TOHE
 {
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.ShowRole))]
     class SetUpRoleTextPatch

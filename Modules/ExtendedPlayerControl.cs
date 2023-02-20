@@ -5,11 +5,11 @@ using System.Text;
 using AmongUs.GameOptions;
 using Hazel;
 using InnerNet;
-using TownOfHost.Modules;
+using TOHE.Modules;
 using UnityEngine;
-using static TownOfHost.Translator;
+using static TOHE.Translator;
 
-namespace TownOfHost
+namespace TOHE
 {
     static class ExtendedPlayerControl
     {

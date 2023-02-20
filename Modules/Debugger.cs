@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
-using TownOfHost.Modules;
+using TOHE.Modules;
 using LogLevel = BepInEx.Logging.LogLevel;
 
-namespace TownOfHost
+namespace TOHE
 {
     class Webhook
     {

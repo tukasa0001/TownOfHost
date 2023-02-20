@@ -4,7 +4,7 @@ using AmongUs.GameOptions;
 using Hazel;
 using InnerNet;
 
-namespace TownOfHost.Modules
+namespace TOHE.Modules
 {
     public abstract class GameOptionsSender
     {

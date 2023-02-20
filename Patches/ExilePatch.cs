@@ -2,7 +2,7 @@ using System.Linq;
 using AmongUs.Data;
 using HarmonyLib;
 
-namespace TownOfHost
+namespace TOHE
 {
     class ExileControllerWrapUpPatch
     {

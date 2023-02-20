@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Hazel;
 using UnityEngine;
-using static TownOfHost.Translator;
+using static TOHE.Translator;
 
-namespace TownOfHost
+namespace TOHE
 {
     public static class FireWorks
     {

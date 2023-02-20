@@ -2,7 +2,7 @@ using System;
 using HarmonyLib;
 using UnityEngine;
 
-namespace TownOfHost
+namespace TOHE
 {
     [HarmonyPatch]
     public class MainMenuManagerPatch

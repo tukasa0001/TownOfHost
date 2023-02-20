@@ -3,10 +3,10 @@ using AmongUs.Data;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
-using TownOfHost.Modules;
-using static TownOfHost.Translator;
+using TOHE.Modules;
+using static TOHE.Translator;
 
-namespace TownOfHost
+namespace TOHE
 {
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
     class OnGameJoinedPatch

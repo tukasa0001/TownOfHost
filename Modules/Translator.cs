@@ -7,7 +7,7 @@ using Csv;
 using HarmonyLib;
 using UnhollowerBaseLib;
 
-namespace TownOfHost
+namespace TOHE
 {
     public static class Translator
     {

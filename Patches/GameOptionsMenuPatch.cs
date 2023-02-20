@@ -5,10 +5,10 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using UnhollowerBaseLib;
 using UnityEngine;
-using static TownOfHost.Translator;
+using static TOHE.Translator;
 using Object = UnityEngine.Object;
 
-namespace TownOfHost
+namespace TOHE
 {
     [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.InitializeOptions))]
     public static class GameSettingMenuPatch

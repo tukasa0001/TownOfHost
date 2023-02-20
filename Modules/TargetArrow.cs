@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace TownOfHost
+namespace TOHE
 {
     static class TargetArrow
     {

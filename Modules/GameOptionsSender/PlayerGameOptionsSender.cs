@@ -5,7 +5,7 @@ using Il2CppSystem.Linq;
 using InnerNet;
 using Mathf = UnityEngine.Mathf;
 
-namespace TownOfHost.Modules
+namespace TOHE.Modules
 {
     public class PlayerGameOptionsSender : GameOptionsSender
     {

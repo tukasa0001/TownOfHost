@@ -1,7 +1,7 @@
 using AmongUs.GameOptions;
 using Il2CppSystem.Net;
 
-namespace TownOfHost
+namespace TOHE
 {
     static class CustomRolesHelper
     {

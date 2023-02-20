@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using AmongUs.GameOptions;
 
-namespace TownOfHost.Modules
+namespace TOHE.Modules
 {
     public class MeetingTimeManager
     {

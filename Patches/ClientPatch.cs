@@ -1,11 +1,11 @@
 using System.Globalization;
 using HarmonyLib;
 using InnerNet;
-using TownOfHost.Modules;
+using TOHE.Modules;
 using UnityEngine;
-using static TownOfHost.Translator;
+using static TOHE.Translator;
 
-namespace TownOfHost
+namespace TOHE
 {
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.MakePublic))]
     class MakePublicPatch

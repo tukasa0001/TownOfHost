@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Hazel;
-using static TownOfHost.Translator;
+using static TOHE.Translator;
 
-namespace TownOfHost
+namespace TOHE
 {
     public static class Witch
     {

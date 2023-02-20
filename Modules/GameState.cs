@@ -6,7 +6,7 @@ using HarmonyLib;
 using static Rewired.ComponentControls.Effects.RotateAroundAxis;
 using UnityEngine;
 
-namespace TownOfHost
+namespace TOHE
 {
     public class PlayerState
     {

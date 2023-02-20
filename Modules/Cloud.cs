@@ -1,10 +1,10 @@
 using System;
 using System.Threading;
 using System.Net.Sockets;
-using static TownOfHost.Translator;
+using static TOHE.Translator;
 using System.Text;
 
-namespace TownOfHost
+namespace TOHE
 {
     class Cloud
     {

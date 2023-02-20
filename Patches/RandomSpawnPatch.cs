@@ -5,7 +5,7 @@ using HarmonyLib;
 using Hazel;
 using UnityEngine;
 
-namespace TownOfHost
+namespace TOHE
 {
     class RandomSpawn
     {

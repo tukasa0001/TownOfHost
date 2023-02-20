@@ -4,7 +4,7 @@ using System.Linq;
 using BepInEx.Configuration;
 using UnityEngine;
 
-namespace TownOfHost
+namespace TOHE
 {
     public abstract class OptionItem
     {

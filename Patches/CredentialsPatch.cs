@@ -1,9 +1,9 @@
 using System.Text;
 using HarmonyLib;
 using UnityEngine;
-using static TownOfHost.Translator;
+using static TOHE.Translator;
 
-namespace TownOfHost
+namespace TOHE
 {
     [HarmonyPatch(typeof(PingTracker), nameof(PingTracker.Update))]
     class PingTrackerUpdatePatch

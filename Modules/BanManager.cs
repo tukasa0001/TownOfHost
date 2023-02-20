@@ -5,8 +5,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using HarmonyLib;
 using UnityEngine;
-using static TownOfHost.Translator;
-namespace TownOfHost
+using static TOHE.Translator;
+namespace TOHE
 {
     public static class BanManager
     {

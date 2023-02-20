@@ -10,9 +10,9 @@ using HarmonyLib;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 
-[assembly: AssemblyFileVersion(TownOfHost.Main.PluginVersion)]
-[assembly: AssemblyInformationalVersion(TownOfHost.Main.PluginVersion)]
-namespace TownOfHost
+[assembly: AssemblyFileVersion(TOHE.Main.PluginVersion)]
+[assembly: AssemblyInformationalVersion(TOHE.Main.PluginVersion)]
+namespace TOHE
 {
     [BepInPlugin(PluginGuid, "TOHE", PluginVersion)]
     [BepInIncompatibility("jp.ykundesu.supernewroles")]
@@ -190,30 +190,30 @@ namespace TownOfHost
             DebugKeyInput = Config.Bind("Authentication", "Debug Key", "kpd233");
 
             Logger = BepInEx.Logging.Logger.CreateLogSource("TOHE");
-            TownOfHost.Logger.Enable();
-            TownOfHost.Logger.Disable("NotifyRoles");
-            TownOfHost.Logger.Disable("SendRPC");
-            TownOfHost.Logger.Disable("ReceiveRPC");
-            TownOfHost.Logger.Disable("SwitchSystem");
-            TownOfHost.Logger.Disable("CustomRpcSender");
+            TOHE.Logger.Enable();
+            TOHE.Logger.Disable("NotifyRoles");
+            TOHE.Logger.Disable("SendRPC");
+            TOHE.Logger.Disable("ReceiveRPC");
+            TOHE.Logger.Disable("SwitchSystem");
+            TOHE.Logger.Disable("CustomRpcSender");
             if (!DebugModeManager.AmDebugger)
             {
-                //TownOfHost.Logger.Disable("2018k");
-                TownOfHost.Logger.Disable("SetRole");
-                TownOfHost.Logger.Disable("Info.Role");
-                TownOfHost.Logger.Disable("TaskState.Init");
-                TownOfHost.Logger.Disable("PlayerVote");
-                TownOfHost.Logger.Disable("Vote");
-                TownOfHost.Logger.Disable("RpcSetNamePrivate");
-                //TownOfHost.Logger.Disable("SendChat");
-                TownOfHost.Logger.Disable("SetName");
-                TownOfHost.Logger.Disable("AssignRoles");
-                //TownOfHost.Logger.Disable("RepairSystem");
-                TownOfHost.Logger.Disable("MurderPlayer");
-                TownOfHost.Logger.Disable("CheckMurder");
-                TownOfHost.Logger.Disable("PlayerControl.RpcSetRole");
+                //TOHE.Logger.Disable("2018k");
+                TOHE.Logger.Disable("SetRole");
+                TOHE.Logger.Disable("Info.Role");
+                TOHE.Logger.Disable("TaskState.Init");
+                TOHE.Logger.Disable("PlayerVote");
+                TOHE.Logger.Disable("Vote");
+                TOHE.Logger.Disable("RpcSetNamePrivate");
+                //TOHE.Logger.Disable("SendChat");
+                TOHE.Logger.Disable("SetName");
+                TOHE.Logger.Disable("AssignRoles");
+                //TOHE.Logger.Disable("RepairSystem");
+                TOHE.Logger.Disable("MurderPlayer");
+                TOHE.Logger.Disable("CheckMurder");
+                TOHE.Logger.Disable("PlayerControl.RpcSetRole");
             }
-            //TownOfHost.Logger.isDetail = true;
+            //TOHE.Logger.isDetail = true;
 
             // 認証関連-初期化
             DebugKeyAuth = new HashAuth(DebugKeyHash, DebugKeySalt);
@@ -334,15 +334,15 @@ namespace TownOfHost
             }
             catch (ArgumentException ex)
             {
-                TownOfHost.Logger.Error("エラー:Dictionaryの値の重複を検出しました", "LoadDictionary");
-                TownOfHost.Logger.Exception(ex, "LoadDictionary");
+                TOHE.Logger.Error("エラー:Dictionaryの値の重複を検出しました", "LoadDictionary");
+                TOHE.Logger.Exception(ex, "LoadDictionary");
                 hasArgumentException = true;
                 ExceptionMessage = ex.Message;
                 ExceptionMessageIsShown = false;
             }
-            TownOfHost.Logger.Info($"{Application.version}", "AmongUs Version");
+            TOHE.Logger.Info($"{Application.version}", "AmongUs Version");
 
-            var handler = TownOfHost.Logger.Handler("GitVersion");
+            var handler = TOHE.Logger.Handler("GitVersion");
             handler.Info($"{nameof(ThisAssembly.Git.Branch)}: {ThisAssembly.Git.Branch}");
             handler.Info($"{nameof(ThisAssembly.Git.BaseTag)}: {ThisAssembly.Git.BaseTag}");
             handler.Info($"{nameof(ThisAssembly.Git.Commit)}: {ThisAssembly.Git.Commit}");

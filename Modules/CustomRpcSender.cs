@@ -4,7 +4,7 @@ using Hazel;
 using InnerNet;
 using UnhollowerBaseLib;
 
-namespace TownOfHost
+namespace TOHE
 {
     public class CustomRpcSender
     {

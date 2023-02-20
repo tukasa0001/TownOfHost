@@ -4,7 +4,7 @@ using System.Linq;
 using AmongUs.GameOptions;
 
 
-namespace TownOfHost
+namespace TOHE
 {
     public abstract class OptionBackupValue
     {
