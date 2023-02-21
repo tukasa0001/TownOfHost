@@ -176,6 +176,7 @@ namespace TOHE
                     else if(!target.Is(role)) guesserSuicide = true;
 
                     var dp = guesserSuicide ? pc : target;
+                    target = dp;
 
                     string Name = dp.GetRealName();
                     Utils.SendMessage(string.Format(GetString("GuessKill"), Name), 255, Utils.ColorString(Utils.GetRoleColor(CustomRoles.NiceGuesser), GetString("GuessKillTitle")));
@@ -191,13 +192,17 @@ namespace TOHE
                             cpc.RpcSetNameEx(cpc.GetRealName(isMeeting: true));
                         }
                         ChatUpdatePatch.DoBlockChat = false;
-                        Utils.NotifyRoles(isMeeting: true, NoCache: true);
+                        
                         //Terrorist
-                        if (dp.Is(CustomRoles.Terrorist))
+                        if (target.Is(CustomRoles.Terrorist))
                         {
-                            Logger.Info(dp?.Data?.PlayerName + "はTerroristだった", "Guesser Kill");
-                            Utils.CheckTerroristWin(dp.Data);
+                            Logger.Info(target?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
+                            Utils.CheckTerroristWin(target.Data);
                         }
+                        if (Executioner.Target.ContainsValue(target.PlayerId))
+                            Executioner.ChangeRoleByTarget(target);
+
+                        Utils.NotifyRoles(isMeeting: true, NoCache: true);
                     }, 0.2f, "Guesser Kill");
                 }
 
