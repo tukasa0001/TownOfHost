@@ -158,7 +158,7 @@ namespace TOHE.Modules
                         Main.AllPlayerSpeed[player.PlayerId] = Options.FlashmanSpeed.GetFloat();
                         break;
                     case CustomRoles.Lighter:
-                        opt.SetVision(false);
+                        opt.SetVision(true);
                         break;
                     case CustomRoles.Bewilder:
                         opt.SetFloat(FloatOptionNames.CrewLightMod, Options.BewilderVision.GetFloat());
