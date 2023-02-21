@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System;
 using System.Linq;
 using AmongUs.Data;
@@ -79,7 +80,29 @@ namespace TownOfHost
                 if (!AmongUsClient.Instance) return;
 
                 string warningMessage = "";
-                if (!AmongUsClient.Instance.AmHost)
+                if (AmongUsClient.Instance.AmHost)
+                {
+                    bool canStartGame = true;
+                    List<string> mismatchedPlayerNameList = new();
+                    foreach (var client in AmongUsClient.Instance.allClients.ToArray())
+                    {
+                        if (client.Character == null) continue;
+                        var dummyComponent = client.Character.GetComponent<DummyBehaviour>();
+                        if (dummyComponent != null && dummyComponent.enabled)
+                            continue;
+                        if (!MatchVersions(client.Character.PlayerId, true))
+                        {
+                            canStartGame = false;
+                            mismatchedPlayerNameList.Add(Utils.ColorString(Palette.PlayerColors[client.ColorId], client.Character.Data.PlayerName));
+                        }
+                    }
+                    if (!canStartGame)
+                    {
+                        __instance.StartButton.gameObject.SetActive(false);
+                        warningMessage = Utils.ColorString(Color.red, string.Format(GetString("Warning.MismatchedVersion"), String.Join(" ", mismatchedPlayerNameList), $"<color={Main.ModColor}>{Main.ModName}</color>"));
+                    }
+                }
+                else
                 {
                     if (!MatchVersions(0))
                     {
