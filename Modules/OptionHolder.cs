@@ -532,7 +532,7 @@ namespace TOHE
             SetupRoleOptions(50000, TabGroup.NeutralRoles, CustomRoles.Jester);
             JesterCanUseButton = BooleanOptionItem.Create(6050007, "JesterCanUseButton", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Jester]);
             SetupRoleOptions(50100, TabGroup.NeutralRoles, CustomRoles.Opportunist);
-            //SetupRoleOptions(5050100, TabGroup.NeutralRoles, CustomRoles.OpportunistKiller);
+            SetupRoleOptions(5050100, TabGroup.NeutralRoles, CustomRoles.OpportunistKiller);
             OKKillCooldown = FloatOptionItem.Create(5050105, "KillCooldown", new(5f, 999f, 5f), 35f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.OpportunistKiller])
                 .SetValueFormat(OptionFormat.Seconds);
             SetupRoleOptions(50200, TabGroup.NeutralRoles, CustomRoles.Terrorist);
@@ -877,6 +877,7 @@ namespace TOHE
         public static void SetupRoleOptions(int id, TabGroup tab, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesToggle, 0, tab, false).SetColor(Utils.GetRoleColor(role))
+                .SetHidden(role is CustomRoles.OpportunistKiller)
                 .SetHeader(true)
                 .SetGameMode(customGameMode) as StringOptionItem;
             var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 15, 1), 1, tab, false).SetParent(spawnOption)
