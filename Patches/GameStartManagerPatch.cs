@@ -1,9 +1,11 @@
+using System;
 using System.Linq;
 using AmongUs.Data;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
 using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -29,7 +31,7 @@ namespace TownOfHost
                 // Reset lobby countdown timer
                 timer = 600f;
 
-                HideName = Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
+                HideName = UnityEngine.Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
                 HideName.text = ColorUtility.TryParseHtmlString(Main.HideColor.Value, out _)
                         ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
                         : $"<color={Main.ModColor}>{Main.HideName.Value}</color>";
@@ -55,6 +57,7 @@ namespace TownOfHost
         {
             private static bool update = false;
             private static string currentText = "";
+            private static float exitTimer = 0f;
             public static void Prefix(GameStartManager __instance)
             {
                 // Lobby code
@@ -73,6 +76,36 @@ namespace TownOfHost
             }
             public static void Postfix(GameStartManager __instance)
             {
+                if (!AmongUsClient.Instance) return;
+
+                string warningMessage = "";
+                if (!AmongUsClient.Instance.AmHost)
+                {
+                    if (!MatchVersions(0))
+                    {
+                        exitTimer += Time.deltaTime;
+                        if (exitTimer > 10)
+                        {
+                            exitTimer = 0;
+                            AmongUsClient.Instance.ExitGame(DisconnectReasons.ExitGame);
+                            SceneChanger.ChangeScene("MainMenu");
+                        }
+
+                        warningMessage = Utils.ColorString(Color.red, string.Format(GetString("Warning.AutoExitAtMismatchedVersion"), $"<color={Main.ModColor}>{Main.ModName}</color>", Math.Round(10 - exitTimer).ToString()));
+                    }
+                }
+                if (warningMessage != "")
+                {
+                    __instance.GameStartText.text = warningMessage;
+                    __instance.GameStartText.transform.localPosition = __instance.StartButton.transform.localPosition + Vector3.up * 2;
+                }
+                else
+                {
+                    __instance.GameStartText.transform.localPosition = __instance.StartButton.transform.localPosition;
+                    if (!GameStates.IsCountDown)
+                        __instance.GameStartText.text = "";
+                }
+
                 // Lobby timer
                 if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return;
 
@@ -86,6 +119,13 @@ namespace TownOfHost
 
                 __instance.PlayerCounter.text = currentText + suffix;
                 __instance.PlayerCounter.autoSizeTextContainer = true;
+            }
+            private static bool MatchVersions(byte playerId, bool acceptVanilla = false)
+            {
+                if (!Main.playerVersion.TryGetValue(playerId, out var version)) return acceptVanilla;
+                return Main.ForkId == version.forkId
+                    && Main.version.CompareTo(version.version) == 0
+                    && version.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})";
             }
         }
         [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.SetText))]
