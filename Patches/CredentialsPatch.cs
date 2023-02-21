@@ -95,7 +95,7 @@ namespace TOHE
                     if (VisitText == null)
                     {
                         VisitText = Object.Instantiate(__instance.text);
-                        VisitText.text = $"截至今日，TOHE已经被使用 <color={Main.ModColor}>" + ModUpdater.visit.ToString() + "</color>次 啦~";
+                        VisitText.text = string.Format(GetString("TOHEVisitorCount"), Main.ModColor, ModUpdater.visit);
                         VisitText.color = Color.white;
                         VisitText.fontSize = 1.2f;
                         //VisitText.alignment = TMPro.TextAlignmentOptions.Top;

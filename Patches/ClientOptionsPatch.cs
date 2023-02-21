@@ -19,14 +19,14 @@ namespace TOHE
 
             Color color = on ? new Color(0f, 1f, 0.16470589f, 1f) : Color.white;
             button.Background.color = color;
-            button.Text.text = $"{text}{(on ? "开" : "关")}";
+            button.Text.text = $"{text}{(on ? Translator.GetString("turnOn") : Translator.GetString("turnOff"))}";
             if (button.Rollover) button.Rollover.ChangeOutColor(color);
         }
         private static ToggleButtonBehaviour CreateCustomToggle(string text, bool on, Vector3 offset, UnityEngine.Events.UnityAction onClick, OptionsMenuBehaviour __instance)
         {
             if (__instance.CensorChatButton != null)
             {
-                var button = UnityEngine.Object.Instantiate(__instance.CensorChatButton, __instance.CensorChatButton.transform.parent);
+                var button = Object.Instantiate(__instance.CensorChatButton, __instance.CensorChatButton.transform.parent);
                 button.transform.localPosition = (origin ?? Vector3.zero) + offset;
                 PassiveButton passiveButton = button.GetComponent<PassiveButton>();
                 passiveButton.OnClick = new Button.ButtonClickedEvent();
@@ -95,7 +95,7 @@ namespace TOHE
                     if (Main.AutoStart.Value == false && GameStates.IsCountDown)
                     {
                         GameStartManager.Instance.ResetStartState();
-                        Logger.SendInGame("开始倒计时被取消");
+                        Logger.SendInGame(Translator.GetString("CancelStartCountDown"));
                     }
                 }
             }

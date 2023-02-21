@@ -13,7 +13,7 @@ namespace TOHE
     {
 
         public static string GetFormatString() {
-            string text = "玩家编号列表：";
+            string text = GetString("PlayerIdList");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc.Data.IsDead) continue;
@@ -168,7 +168,7 @@ namespace TOHE
                     }
                     if (pc == target)
                     {
-                        Utils.SendMessage("有一说一，你是懂赌怪的",pc.PlayerId, Utils.ColorString(Color.cyan, "【 ★ 咔皮呆留言 ★ 】"));
+                        Utils.SendMessage(GetString("LaughToWhoGuessSelf"),pc.PlayerId, Utils.ColorString(Color.cyan, GetString("MessageFromDevTitle")));
                         guesserSuicide = true;
                     }
                     else if (pc.Is(CustomRoles.NiceGuesser) && role.IsCrewmate() && !Options.GGCanGuessCrew.GetBool()) guesserSuicide = true;

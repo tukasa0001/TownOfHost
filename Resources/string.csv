@@ -576,10 +576,6 @@ Command.level,[等级] → 修改您的游戏等级,[Level] → Change your game
 Command.idlist,→ 显示玩家编号列表,→ Display a list of player IDs,→ Отобразить список идентификаторов игроков
 Command.qq,→ 让车队姬在群里发房号,→ Lobby will be posted on QQ website (China only),→ Лобби будет размещено на сайт QQ (Только для Китая)
 Command.dump,→ 将游戏运行日志输出到桌面,→ Output Log to Desktop,→ Вывод журнала на Рабочий Стол
-CantUse.lastresult,不可以在游戏中使用/l命令,Unable to use /lastresult during a game,Нельзя использовать /lastresult во время игры
-IllegalColor,请输入正确的颜色,Please enter the correct color,Пожалуйста введите правильный цвет
-DisableUseCommand,房主设置不允许使用该指令,Host settings do not allow this command to be used.,Настройки Хоста запрещают использовать эту команду
-SureUse.quit,我们将踢出您并封禁您以防止您再次遇到这个糟糕的房间，此操作不可逆转，如果您真的希望如此请发送 /qt sure,"We will kick you and block you from entering this lobby again. This setting is irreversible. If you really want it, please send the command /qt sure","Мы кикнем  вас и заблокируем, чтобы вы больше не смогли зайти в это лобби. Эта настройка необратима. Если вы действительно этого хотите, пожалуйста, отправьте команду /qt sure"
 
 # 给玩家的技能提示信息
 SkillUsedLeft,您发动技能召开了会议。\n您的技能剩余使用次数：,You have activated a skill to hold a meeting. \nRemaining amount of use of your skill:,Вы активировали навык для проведения собрания. \nОставшееся количество использование вашего навыка:
@@ -593,7 +589,6 @@ CyberStarDead,震惊！知名网红【{0}】在最近一段时间内不幸遇害
 DetectiveNoticeVictim,根据您的调查，【{0}】(被害者) 的职业是 【{1}】,"According to your investigation, \n[{0}](victim) - Had a role of [{1}]","Согласно вашему расследованию, \nУ [{0}](жертвы) - была роль [{1}]"
 DetectiveNoticeKiller,而凶手的职业则是【{0}】,"\nThe killer who killed the victim, has a role - [{0}]","\nУбийца который убил жертву имеет роль - [{0}]"
 GodNoticeAlive,会议中大家感受到了上天的启示，神似乎就在你们的背后陪伴着你们,"During the meeting, each player felt a revelation from heaven, and it turned out that God is still alive!","Во время встречи каждый игрок почувствовал откровение с небес, и оказалось что Бог ещё жив!"
-
 GuessDead,很抱歉，死亡后不能进行猜测,"Sorry, but it's impossible to guess the role after your death","Извините, но угадать роль после вашей смерти нельзя"
 GuessSuperStar,大明星才不会和你赌博，选个别的目标吧？,"Super Star can't be guessed, you thought it would be so easy, right?","Супер Звезда не может быть угадана, ты думал что всё так просто, да?"
 GuessGM,能想出这个也是把你闲的,"Being able to guess the GM is impossible, because he's already dead","Угадать GM невозможно, потому что он уже и так мертв"
@@ -603,6 +598,7 @@ GuessNull,请选择一个在场的存活角色进行赌注,"Please select an ID 
 GuessHelp,指令格式：/bt [玩家编号] [职业名]\n示例：/bt 3 告密者\n您可以在玩家的名字前看到该玩家的编号\n或者使用/id查看玩家编号列表,"Instructions: /bt [Player ID] [Role Name] \nExample: /bt 3 Bait \nYou can see the player ID before the player name \n or use the /id command to list the player IDs","Инструкция: /bt [Идентификатор игрока] [Название Роли] \nПример: /bt 3 Bait \nВы можете увидеть идентификатор игрока перед именем игрока \nили использовав команду /id для просмотра списка идентификаторов игроков"
 GGGuessMax,您已经达到每次会议的猜测上限，不能再猜测啦！,"You've reached the maximum guessing limit for each encounter, you can't guess anymore!","Вы достигли максимального предела угадывания для каждой встречи, вы больше не можете угадывать!"
 EGGuessMax,您已经达到每次会议的猜测上限，不能再猜测啦！,"You've reached the maximum guessing limit for each encounter, you can't guess anymore!","Вы достигли максимального предела угадывания для каждой встречи, вы больше не можете угадывать!"
+LaughToWhoGuessSelf,有一说一，你是懂赌怪的
 
 ## 信息
 Message.SetToSeconds,信息发送冷却时间为【{0}】秒,Set to 【{0}】 seconds.,Установлен на 【{0}】 секунды
@@ -619,7 +615,21 @@ Message.BanedByBanList,【{0}】已被封禁，老相识了,【{0}】 has been b
 Message.DumpfileSaved,日志文件已成功保存到桌面上了，文件名为：{0},"The log file was successfully saved to the desktop, filename: {0}","Файл журнала был успешно сохранен на рабочий стол, имя файла: {0}"
 Message.KickedByNoFriendCode,【{0}】被踢出因本房间不允许未登录玩家加入,"【{0}】 was kicked because the friend code does not exist.","【{0}】 был кикнут, так как у него нет кода друга"
 Message.AddedPlayerToBanList,【{0}】被添加至黑名单,Added 【{0}】 to the ban list,【{0}】 был добавлен в список забаненых игроков
-
+Message.KickWhoSayStart,【{0}】被系统请离\n请不要催开始，可能会被判定为违规信息
+Message.WarnWhoSayStart,【{0}】被警告：{1}次\n请不要催开始，可能会被判定为违规信息
+Message.KickStartAfterWarn,【{0}】达到 {1} 次警告被请离房间\n请不要催开始，可能会被判定为违规信息
+Message.WarnWhoSayBanWord,【{0}】，请友善讨论哦~
+Message.WarnWhoSayBanWordTimes,【{0}】被警告：{1}次\n请友善讨论哦~
+Message.KickWhoSayBanWordAfterWarn,【{0}】达到 {1} 次警告被请离房间\n请友善讨论哦~
+Message.SetLevel,您的等级设置为：{0}
+Message.SetColor,您的颜色设置为：{0}
+Message.AllowLevelRange,等级可设置范围：0 - 100
+Message.OnlyCanUseInLobby,很抱歉，只有在大厅才能使用该指令
+Message.CanNotUseInLobby,很抱歉，在大厅无法使用该指令
+Message.CanNotUseByHost,很抱歉，房主无法使用该指令
+Message.TryFixName,已尝试修复名字遮挡
+Message.CanNotFindRoleThePlayerEnter,请正确拼写您要查询的职业哦~\n查看所有职业请直接输入/r
+Message.PlayerQuitForever,【{0}】选择自愿离开\n很抱歉给大家带来了糟糕的游戏体验\n我们真的很努力地在进步了
 
 ## 警告
 Warning.OverrideExiledPlayer,由于场上仅剩一名内鬼，投票结果无效,All ejects will be displayed as a tie since the total number of impostors is 1.,"Все изгнания будут отображаться как ничья, потому что общее количество Предателей равно 1."
@@ -653,6 +663,7 @@ DetectiveNoticeTitle,【 ★ 侦探线索 ★ 】,【 ★ Message for the Detect
 GuessKillTitle,【 ★ 赌场事件 ★ 】,【 ★ Message about Guessing ★ 】,【 ★ Сообщение о Угадывании ★ 】
 CyberStarNewsTitle,【 ★ 紧急新闻 ★ 】,【 ★ Urgent news ★ 】,【 ★ Срочные Новости ★ 】
 GodAliveTitle,【 ★ 神的共鸣 ★ 】,【 ★ Message about God ★ 】,【 ★ Сообщение о Боге ★ 】
+MessageFromDevTitle,【 ★ 咔皮呆留言 ★ 】
 TabGroup.SystemSettings,系统设置,System Settings,Системные настройки
 TabGroup.GameSettings,游戏设置,Game Settings,Игровые настройки
 TabGroup.BothRoles,双阵营职业,Both Roles,Роли двух команд
@@ -763,6 +774,18 @@ Disabled,禁用,Disabled,Отключено
 FailToTrack,无法追踪,Failed To Track,Не Удалось Отследить
 Mad-,背叛的,Betray ,Предать 
 KilledBy, ← , ← , ← 
+CantUse.lastresult,不可以在游戏中使用/l命令,Unable to use /lastresult during a game,Нельзя использовать /lastresult во время игры
+IllegalColor,请输入正确的颜色,Please enter the correct color,Пожалуйста введите правильный цвет
+DisableUseCommand,房主设置不允许使用该指令,Host settings do not allow this command to be used.,Настройки Хоста запрещают использовать эту команду
+SureUse.quit,我们将踢出您并封禁您以防止您再次遇到这个糟糕的房间，此操作不可逆转，如果您真的希望如此请发送 /qt sure,"We will kick you and block you from entering this lobby again. This setting is irreversible. If you really want it, please send the command /qt sure","Мы кикнем  вас и заблокируем, чтобы вы больше не смогли зайти в это лобби. Эта настройка необратима. Если вы действительно этого хотите, пожалуйста, отправьте команду /qt sure"
+PlayerIdList,玩家编号列表：
+turnOn,开,On,On
+turnOff,关,Off,Off
+CancelStartCountDown,开始倒计时被取消
+RestTOHESetting,已恢复TOHE的默认设置
+HostKillSelfByCommand,房主选择自杀
+SyncCustomSettingsRPC,已同步RPC
+TOHEVisitorCount,截至今日，TOHE已经被使用 <color={0}>{1}</color>次 啦~
 
 ## 作弊
 Cheat.AUM,开挂（使用AUM）,Cheating usage detected (Used by AUM),Обнаружено использование читов (используется AUM)

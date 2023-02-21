@@ -85,7 +85,7 @@ namespace TOHE
             {
                 Logger.Info("Reset CountDownTimer", "KeyCommand");
                 GameStartManager.Instance.ResetStartState();
-                Logger.SendInGame("开始倒计时被取消");
+                Logger.SendInGame(Translator.GetString("CancelStartCountDown"));
             }
             //显示当前有效设置的说明
             if (GetKeysDown(KeyCode.N, KeyCode.LeftShift, KeyCode.LeftControl))
@@ -103,7 +103,7 @@ namespace TOHE
             if (GetKeysDown(KeyCode.Delete, KeyCode.LeftControl))
             {
                 OptionItem.AllOptions.ToArray().Where(x => x.Id > 0).Do(x => x.SetValue(x.DefaultValue));
-                Logger.SendInGame("已恢复TOHE的默认设置");
+                Logger.SendInGame(Translator.GetString("RestTOHESetting"));
             }
             //实名投票
             if (GetKeysDown(KeyCode.Return, KeyCode.V, KeyCode.LeftShift) && GameStates.IsMeeting && !GameStates.IsOnlineGame)
@@ -122,7 +122,7 @@ namespace TOHE
                 Main.PlayerStates[PlayerControl.LocalPlayer.PlayerId].deathReason = PlayerState.DeathReason.etc;
                 PlayerControl.LocalPlayer.RpcExileV2();
                 Main.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SetDead();
-                Utils.SendMessage("房主选择自杀", title: $"<color=#ff0000>{"【 ★ 系统信息 ★ 】"}</color>");
+                Utils.SendMessage(Translator.GetString("HostKillSelfByCommand"), title: $"<color=#ff0000>{Translator.GetString("DefaultSystemMessageTitle")}</color>");
             }
             //切换日志是否也在游戏中输出
             if (GetKeysDown(KeyCode.F2, KeyCode.LeftControl))
@@ -157,7 +157,7 @@ namespace TOHE
             if (Input.GetKeyDown(KeyCode.Y))
             {
                 RPC.SyncCustomSettingsRPC();
-                Logger.SendInGame("已同步RPC");
+                Logger.SendInGame(Translator.GetString("SyncCustomSettingsRPC"));
             }
 
             //--下面是自由模式的命令--//

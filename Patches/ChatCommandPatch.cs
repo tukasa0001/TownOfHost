@@ -38,7 +38,7 @@ namespace TOHE
 
             if (msg == "/rv")
             {
-                string text = "玩家编号：";
+                string text = GetString("PlayerIdList");
                 foreach (var npc in PlayerControl.AllPlayerControls)
                 {
                     if (npc.Data.IsDead) continue;
@@ -177,15 +177,16 @@ namespace TOHE
             {
                 if (ContainsStart(text) && GameStates.IsLobby)
                 {
-                    msg = $"【{name}】被系统请离\n请不要催开始，可能会被判定为违规信息";
+                    msg = string.Format(GetString("Message.KickWhoSayStart"), name);
+                    msg = $"";
                     if (Options.AutoKickStart.GetBool())
                     {
                         if (!Main.SayStartTimes.ContainsKey(player.GetClientId())) Main.SayStartTimes.Add(player.GetClientId(), 0);
                         Main.SayStartTimes[player.GetClientId()]++;
-                        msg = $"【{name}】被警告：{Main.SayStartTimes[player.GetClientId()]}次\n请不要催开始，可能会被判定为违规信息";
+                        msg = string.Format(GetString("Message.WarnWhoSayStart"), name, Main.SayStartTimes[player.GetClientId()]);
                         if (Main.SayStartTimes[player.GetClientId()] > Options.AutoKickStartTimes.GetInt())
                         {
-                            msg = $"【{name}】达到 {Main.SayStartTimes[player.GetClientId()]} 次警告被请离房间\n请不要催开始，可能会被判定为违规信息";
+                            msg = string.Format(GetString("Message.KickStartAfterWarn"), name, Main.SayStartTimes[player.GetClientId()]);
                             kick = true;
                         }
                     }
@@ -209,15 +210,15 @@ namespace TOHE
             }
             if (!banned) return false;
 
-            if (Options.AutoWarnStopWords.GetBool()) msg = $"【{name}】，请友善讨论哦~";
+            if (Options.AutoWarnStopWords.GetBool()) msg = string.Format(GetString("Message.WarnWhoSayBanWord"), name);
             if (Options.AutoKickStopWords.GetBool())
             {
                 if (!Main.SayBanwordsTimes.ContainsKey(player.GetClientId())) Main.SayBanwordsTimes.Add(player.GetClientId(), 0);
                 Main.SayBanwordsTimes[player.GetClientId()]++;
-                msg = $"【{name}】被警告：{Main.SayBanwordsTimes[player.GetClientId()]}次\n请友善讨论哦~";
+                msg = string.Format(GetString("Message.WarnWhoSayBanWordTimes"), name, Main.SayBanwordsTimes[player.GetClientId()]);
                 if (Main.SayBanwordsTimes[player.GetClientId()] > Options.AutoKickStopWordsTimes.GetInt())
                 {
-                    msg = $"【{name}】达到 {Main.SayBanwordsTimes[player.GetClientId()]} 次警告被请离房间\n请友善讨论哦~";
+                    msg = string.Format(GetString("Message.KickWhoSayBanWordAfterWarn"), name, Main.SayBanwordsTimes[player.GetClientId()]);
                     kick = true;
                 }
             }
@@ -310,11 +311,11 @@ namespace TOHE
                     case "/level":
                         canceled = true;
                         subArgs = args.Length < 2 ? "" : args[1];
-                        Utils.SendMessage("您的等级设置为：" + subArgs, PlayerControl.LocalPlayer.PlayerId);
+                        Utils.SendMessage(string.Format(GetString("Message.SetLevel"), subArgs), PlayerControl.LocalPlayer.PlayerId);
                         int.TryParse(subArgs, out int input);
                         if (input is < 1 or > 100)
                         {
-                            Utils.SendMessage("等级可设置范围：0 - 100", PlayerControl.LocalPlayer.PlayerId);
+                            Utils.SendMessage(GetString("Message.AllowLevelRange"), PlayerControl.LocalPlayer.PlayerId);
                             break;
                         }
                         var number = Convert.ToUInt32(input);
@@ -383,7 +384,7 @@ namespace TOHE
                         }
                         if (!GameStates.IsLobby)
                         {
-                            Utils.SendMessage("很抱歉，只有在大厅才能使用该指令");
+                            Utils.SendMessage(GetString("Message.OnlyCanUseInLobby"));
                             break;
                         }
                         SendRolesInfo(subArgs, PlayerControl.LocalPlayer, isUp: true);
@@ -440,7 +441,7 @@ namespace TOHE
                         canceled = true;
                         if (GameStates.IsLobby)
                         {
-                            Utils.SendMessage("准备阶段无法使用执行指令", PlayerControl.LocalPlayer.PlayerId);
+                            Utils.SendMessage(GetString("Message.CanNotUseInLobby"), PlayerControl.LocalPlayer.PlayerId);
                             break;
                         }
                         if (args.Length < 2 || !int.TryParse(args[1], out int id)) break;
@@ -458,7 +459,7 @@ namespace TOHE
                         canceled = true;
                         if (GameStates.IsLobby)
                         {
-                            Utils.SendMessage("准备阶段无法使用击杀指令", PlayerControl.LocalPlayer.PlayerId);
+                            Utils.SendMessage(GetString("Message.CanNotUseInLobby"), PlayerControl.LocalPlayer.PlayerId);
                             break;
                         }
                         if (args.Length < 2 || !int.TryParse(args[1], out int id2)) break;
@@ -476,20 +477,20 @@ namespace TOHE
                             break;
                         }
                         PlayerControl.LocalPlayer.RpcSetColor(color);
-                        Utils.SendMessage("颜色设置为：" + subArgs, PlayerControl.LocalPlayer.PlayerId);
+                        Utils.SendMessage(string.Format(GetString("Message.SetColor"), subArgs), PlayerControl.LocalPlayer.PlayerId);
                         break;
 
                     case "/quit":
                     case "/qt":
                         canceled = true;
-                        Utils.SendMessage("很抱歉，房主无法使用该指令", PlayerControl.LocalPlayer.PlayerId);
+                        Utils.SendMessage(GetString("Message.CanNotUseByHost"), PlayerControl.LocalPlayer.PlayerId);
                         break;
 
                     case "/xf":
                         canceled = true;
                         if (!GameStates.IsInGame)
                         {
-                            Utils.SendMessage("很抱歉，您只能在游戏中使用该指令", PlayerControl.LocalPlayer.PlayerId);
+                            Utils.SendMessage(GetString("Message.CanNotUseInLobby"), PlayerControl.LocalPlayer.PlayerId);
                             break;
                         }
                         foreach (var pc in Main.AllPlayerControls)
@@ -498,12 +499,12 @@ namespace TOHE
                         }
                         ChatUpdatePatch.DoBlockChat = false;
                         Utils.NotifyRoles(isMeeting: GameStates.IsMeeting, NoCache: true);
-                        Utils.SendMessage("已尝试修复名字遮挡", PlayerControl.LocalPlayer.PlayerId);
+                        Utils.SendMessage(GetString("Message.TryFixName"), PlayerControl.LocalPlayer.PlayerId);
                         break;
 
                     case "/id":
                         canceled = true;
-                        string msgText = "玩家编号列表：";
+                        string msgText = GetString("PlayerIdList");
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
                             msgText += "\n" + pc.PlayerId.ToString() + " → " + pc.GetRealName();
@@ -797,7 +798,7 @@ namespace TOHE
             }
 
             if (isUp) Utils.SendMessage("请正确拼写您要指定的职业哦~\n查看所有职业请直接输入/r", player.PlayerId);
-            else Utils.SendMessage("请正确拼写您要查询的职业哦~\n查看所有职业请直接输入/r", player.PlayerId);
+            else Utils.SendMessage(GetString("Message.CanNotFindRoleThePlayerEnter"), player.PlayerId);
             return;
         }
         public static void OnReceiveChat(PlayerControl player, string text)
@@ -880,7 +881,7 @@ namespace TOHE
                             break;
                         }
                         player.RpcSetColor(color);
-                        Utils.SendMessage("颜色设置为：" + subArgs, player.PlayerId);
+                        Utils.SendMessage(string.Format(GetString("Message.SetColor"), subArgs), player.PlayerId);
                     }
                     else
                     {
@@ -894,7 +895,7 @@ namespace TOHE
                     if (subArgs.Equals("sure"))
                     {
                         string name = player.GetRealName();
-                        Utils.SendMessage($"【{name}】选择自愿离开\n很抱歉给大家带来了糟糕的游戏体验\n我们真的很努力地在进步了");
+                        Utils.SendMessage(string.Format(GetString("Message.PlayerQuitForever"), name));
                         AmongUsClient.Instance.KickPlayer(player.GetClientId(), true);
                     }
                     else
@@ -906,7 +907,7 @@ namespace TOHE
                 case "/xf":
                     if (!GameStates.IsInGame)
                     {
-                        Utils.SendMessage("很抱歉，您只能在游戏中使用该指令", player.PlayerId);
+                        Utils.SendMessage(GetString("Message.CanNotUseInLobby"), player.PlayerId);
                         break;
                     }
                     foreach (var pc in Main.AllPlayerControls)
@@ -915,7 +916,7 @@ namespace TOHE
                     }
                     ChatUpdatePatch.DoBlockChat = false;
                     Utils.NotifyRoles(isMeeting: GameStates.IsMeeting, NoCache: true);
-                    Utils.SendMessage("已尝试修复名字遮挡", player.PlayerId);
+                    Utils.SendMessage(GetString("Message.TryFixName"), player.PlayerId);
                     break;
 
                 case "/say":
