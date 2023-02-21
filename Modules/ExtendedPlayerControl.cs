@@ -369,7 +369,6 @@ namespace TOHE
                 CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
                 CustomRoles.ChivalrousExpert => true,
-                CustomRoles.OpportunistKiller => true,
                 CustomRoles.Jackal => true,
                 CustomRoles.Bomber => false,
                 _ => pc.Is(RoleType.Impostor),
@@ -383,7 +382,6 @@ namespace TOHE
             {
                 CustomRoles.Minimalism => false,
                 CustomRoles.Sheriff => false,
-                CustomRoles.OpportunistKiller => false,
                 CustomRoles.ChivalrousExpert => false,
                 CustomRoles.Jackal => Jackal.CanVent.GetBool(),
                 CustomRoles.Arsonist => pc.IsDouseDone(),
@@ -434,9 +432,6 @@ namespace TOHE
                     break;
                 case CustomRoles.Minimalism:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.MNKillCooldown.GetFloat();
-                    break;
-                case CustomRoles.OpportunistKiller:
-                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.OKKillCooldown.GetFloat();
                     break;
                 case CustomRoles.ChivalrousExpert:
                     ChivalrousExpert.SetKillCooldown(player.PlayerId);

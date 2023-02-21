@@ -81,11 +81,6 @@ namespace TOHE
                         {
                             CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
                             CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
-                        }//OpportunistKiller
-                        if (pc.Is(CustomRoles.OpportunistKiller) && pc.IsAlive())
-                        {
-                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
-                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.OpportunistKiller);
                         }
                     }
                 }

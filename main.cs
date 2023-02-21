@@ -300,7 +300,6 @@ namespace TOHE
                     {CustomRoles.Executioner, "#611c3a"},
                     {CustomRoles.God, "#f96464"},
                     {CustomRoles.Opportunist, "#00ff00"},
-                    {CustomRoles.OpportunistKiller, "#51802c"},
                     {CustomRoles.Mario, "#ff6201"},
                     {CustomRoles.Jackal, "#00b4eb"},
                     // GM
@@ -415,7 +414,6 @@ namespace TOHE
         Arsonist,
         Jester,
         God,
-        OpportunistKiller,
         Opportunist,
         Mario,
         Terrorist,
@@ -459,7 +457,6 @@ namespace TOHE
     {
         None = -1,
         Opportunist = CustomRoles.Opportunist,
-        OpportunistKiller = CustomRoles.OpportunistKiller,
         Executioner = CustomRoles.Executioner,
     }
     public enum SuffixModes

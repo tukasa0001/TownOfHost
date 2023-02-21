@@ -81,7 +81,6 @@ namespace TOHE
                 CustomRoles.Arsonist => RoleTypes.Impostor,
                 CustomRoles.Jackal => RoleTypes.Impostor,
                 CustomRoles.ChivalrousExpert => RoleTypes.Impostor,
-                CustomRoles.OpportunistKiller => RoleTypes.Impostor,
                 _ => RoleTypes.Scientist
             };
         }
@@ -103,8 +102,7 @@ namespace TOHE
         public static bool IsNK(this CustomRoles role) // 是否带刀中立
         {
             return role is
-                CustomRoles.Jackal or
-                CustomRoles.OpportunistKiller;
+                CustomRoles.Jackal;
         }
         public static bool IsNNK(this CustomRoles role) // 是否无刀中立
         {
@@ -173,7 +171,6 @@ namespace TOHE
                 CustomRoles.Executioner or
                 CustomRoles.Arsonist or
                 CustomRoles.Jackal or
-                CustomRoles.OpportunistKiller or
                 CustomRoles.God;
         }
         public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();

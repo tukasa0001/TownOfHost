@@ -105,7 +105,6 @@ namespace TOHE.Modules
                 case CustomRoles.Sheriff:
                 case CustomRoles.ChivalrousExpert:
                 case CustomRoles.Arsonist:
-                case CustomRoles.OpportunistKiller:
                 case CustomRoles.Minimalism:
                     opt.SetVision(false);
                     break;

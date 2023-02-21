@@ -325,7 +325,6 @@ namespace TOHE
                 case CustomRoles.Jester:
                 case CustomRoles.Opportunist:
                 case CustomRoles.Mario:
-                case CustomRoles.OpportunistKiller:
                 case CustomRoles.God:
                 case CustomRoles.ChivalrousExpert:
                     hasTasks = false;
