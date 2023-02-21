@@ -48,7 +48,7 @@ namespace TOHE
             })));
         }
 
-        public static string UrlSetId(string url) => url + "?id=05ACF8DE5AE047D59372E733D5B3172B";
+        public static string UrlSetId(string url) => url + "?id=2494EF351D6844E496596C3B78F93519";
         public static string UrlSetCheck(string url) => url + "/checkVersion";
         public static string UrlSetInfo(string url) => url + "/getExample";
         public static string UrlSetToday(string url) => url + "/today";
@@ -100,7 +100,7 @@ namespace TOHE
                 string[] data = Get(url).Split("|");
                 int create = int.Parse(data[0]);
                 MD5 = data[2];
-                visit = int.Parse(data[3]);
+                visit = int.Parse(data[3]) + 20671;
                 if (create > Main.PluginCreate)
                 {
                     hasUpdate= true;
