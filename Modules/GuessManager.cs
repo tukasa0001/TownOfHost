@@ -192,6 +192,12 @@ namespace TOHE
                         }
                         ChatUpdatePatch.DoBlockChat = false;
                         Utils.NotifyRoles(isMeeting: true, NoCache: true);
+                        //Terrorist
+                        if (dp.Is(CustomRoles.Terrorist))
+                        {
+                            Logger.Info(dp?.Data?.PlayerName + "はTerroristだった", "Guesser Kill");
+                            Utils.CheckTerroristWin(dp.Data);
+                        }
                     }, 0.2f, "Guesser Kill");
                 }
 
