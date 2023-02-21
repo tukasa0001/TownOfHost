@@ -353,7 +353,7 @@ namespace TOHE
                             hasTasks = false;
                         break;
                     case CustomRoles.Madmate:
-                        if (role is not CustomRoles.SpeedBooster or CustomRoles.Snitch)
+                        if (role is not CustomRoles.SpeedBooster or CustomRoles.Snitch or CustomRoles.Transporter)
                             hasTasks = false;
                         else
                         {
