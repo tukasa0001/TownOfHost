@@ -118,8 +118,10 @@ namespace TOHE
             //放逐自己
             if (GetKeysDown(KeyCode.Return, KeyCode.E, KeyCode.LeftShift) && GameStates.IsInGame)
             {
-                PlayerControl.LocalPlayer.RpcExile();
                 PlayerControl.LocalPlayer.Data.IsDead = true;
+                Main.PlayerStates[PlayerControl.LocalPlayer.PlayerId].deathReason = PlayerState.DeathReason.etc;
+                PlayerControl.LocalPlayer.RpcExileV2();
+                Main.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SetDead();
                 Utils.SendMessage("房主选择自杀", title: $"<color=#ff0000>{"【 ★ 系统信息 ★ 】"}</color>");
             }
             //切换日志是否也在游戏中输出

@@ -480,7 +480,7 @@ namespace TOHE
             {
                 if (Main.MarkedPlayers[shapeshifter.PlayerId] != null)//确认被标记的人
                 {
-                    if (shapeshifting && !Main.MarkedPlayers[shapeshifter.PlayerId].Data.IsDead)//解除变形时不执行操作
+                    if (shapeshifting && !Main.MarkedPlayers[shapeshifter.PlayerId].IsAlive())//解除变形时不执行操作
                     {
                         PlayerControl targetw = Main.MarkedPlayers[shapeshifter.PlayerId];
                         targetw.SetRealKiller(shapeshifter);

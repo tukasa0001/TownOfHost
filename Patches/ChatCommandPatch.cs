@@ -444,7 +444,14 @@ namespace TOHE
                             break;
                         }
                         if (args.Length < 2 || !int.TryParse(args[1], out int id)) break;
-                        Utils.GetPlayerById(id)?.RpcExileV2();
+                        var player = Utils.GetPlayerById(id);
+                        if (player != null)
+                        {
+                            player.Data.IsDead = true;
+                            Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.etc;
+                            player.RpcExileV2();
+                            Main.PlayerStates[player.PlayerId].SetDead();
+                        }
                         break;
 
                     case "/kill":
@@ -909,6 +916,13 @@ namespace TOHE
                     ChatUpdatePatch.DoBlockChat = false;
                     Utils.NotifyRoles(isMeeting: GameStates.IsMeeting, NoCache: true);
                     Utils.SendMessage("已尝试修复名字遮挡", player.PlayerId);
+                    break;
+
+                case "/say":
+                case "/s":
+                    if (!Utils.IsDev(player)) break;
+                    if (args.Length > 1)
+                        Utils.SendMessage(args.Skip(1).Join(delimiter: " "), title: $"<color={Main.ModColor}>{"开发者消息"}</color>");
                     break;
 
                 default:
