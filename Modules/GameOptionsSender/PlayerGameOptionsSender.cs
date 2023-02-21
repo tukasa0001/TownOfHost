@@ -161,7 +161,9 @@ namespace TOHE.Modules
                         opt.SetVision(true);
                         break;
                     case CustomRoles.Bewilder:
+                        opt.SetVision(false);
                         opt.SetFloat(FloatOptionNames.CrewLightMod, Options.BewilderVision.GetFloat());
+                        opt.SetFloat(FloatOptionNames.ImpostorLightMod, Options.BewilderVision.GetFloat());
                         break;
                 }
             }
