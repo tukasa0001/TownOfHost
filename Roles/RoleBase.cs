@@ -10,7 +10,6 @@ namespace TownOfHost.Roles;
 
 public abstract class RoleBase : IDisposable
 {
-    public static RoleBase Instance;
     public PlayerControl Player;
     public bool HasTasks = false;
     public RoleBase(
@@ -22,7 +21,6 @@ public abstract class RoleBase : IDisposable
         HasTasks = hasTasks;
 
         CustomRoleManager.AllActiveRoles.Add(this);
-        Instance = this;
     }
     public virtual void Add()
     { }
