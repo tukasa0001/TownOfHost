@@ -88,7 +88,7 @@ Transporter,传送师,Transporter,Транспортер
 <<<<<<< HEAD
 TimeManager,时间操控者,Time Manager
 =======
-TimeManager,时间管理者,Time Manager,Мастер Времени
+TimeManager,时间操控者,Time Manager,Мастер Времени
 >>>>>>> a2c07658e9b9bdca63230ec5f0608f079a55df5f
 
 # 中立阵营
@@ -176,7 +176,7 @@ UndercoverInfo,碟中谍了属于是,impostors consider you as one of their own,
 ChivalrousExpertInfo,行侠仗义！,Kill one player per game,Убей одного игрока за игру
 NiceGuesserInfo,生命就是豪赌！,Guess the evil roles of the players,Угадывай злые роли игроков
 TransporterInfo,移形换影，扭转乾坤！,Teleport 2 random players,Телепортируй 2 случайных игроков
-TimeManagerInfo,时间管理大师！,Do the tasks and extend meeting time,Выполняйте задания чтобы увеличить время встречи
+TimeManagerInfo,时间操控大师！,Do the tasks and extend meeting time,Выполняйте задания чтобы увеличить время встречи
 
 # 中立阵营
 ArsonistInfo,乖乖站好！,Burn them to crisps,Облейте и подожгите всех игроков
@@ -261,7 +261,7 @@ TransporterInfoLong,(船员阵营):\n每当传送师完成任务，就会有随�
 <<<<<<< HEAD
 TimeManagerInfoLong(船员阵营):\n时间操控者做的任务越多，会议时间就会越长，当时间操控者死亡则会议时间恢复正常。当时间操控者成为叛徒时则技能变为减少会议时长而不是增加会议时长。,"(Crewmates):The more tasks you do, the longer your meeting will last. When you die, the meeting time will be restored."
 =======
-TimeManagerInfoLong,(船员阵营):\n时间管理者做的任务越多，会议时间就会越长，当时间管理者死亡则会议时间恢复正常。当时间管理者成为叛徒时则技能变为减少会议时长而不是增加会议时长。,"(Crewmates):\nThe more tasks you do, the longer your meeting will last. When you die, the meeting time will be restored.","(Член Экипажа):\nМастер Времени может увеличить время встречи, увеличивается время по мере выполнения заданий. Но когда он умрет, время встречи будет сброшено по умолчанию."
+TimeManagerInfoLong,(船员阵营):\n时间操控者做的任务越多，会议时间就会越长，当时间操控者死亡则会议时间恢复正常。当时间操控者成为叛徒时则技能变为减少会议时长而不是增加会议时长。,"(Crewmates):\nThe more tasks you do, the longer your meeting will last. When you die, the meeting time will be restored.","(Член Экипажа):\nМастер Времени может увеличить время встречи, увеличивается время по мере выполнения заданий. Но когда он умрет, время встречи будет сброшено по умолчанию."
 >>>>>>> a2c07658e9b9bdca63230ec5f0608f079a55df5f
 
 # 中立阵营
@@ -283,7 +283,7 @@ LoversInfoLong,(附加职业):\n恋人为两名玩家的组合。恋人存活到
 <<<<<<< HEAD
 MadmateInfoLong,(附加职业):\n只有船员会成为叛徒，叛徒需要帮助内鬼阵营获得胜利，当内鬼阵营失败时叛徒也会失败。市长、摆烂人、告密者、警长、网红、正义赌怪不会成为叛徒。当诱饵成为叛徒时技能变为随机找人报告尸体；当时间操控者成为叛徒时技能变为做任务减少会议时间。,"(Add-ons):\nOnly Crewmate can become Madmate. The Madmate must help the Impostor team win. When the impostors team fails, the Madmate will also fail.","(Атрибут):\nТолько Члены Экипажа могут стать Безцами. Безумец должен помочь команде Предателей победить. Когда команда Предателей потерпит неудачу, Безумец также потерпит неудачу."
 =======
-MadmateInfoLong,(附加职业):\n只有船员会成为叛徒，叛徒需要帮助内鬼阵营获得胜利，当内鬼阵营失败时叛徒也会失败。市长、摆烂人、告密者、警长、网红、正义赌怪不会成为叛徒。当诱饵成为叛徒时技能变为随机找人报告尸体；当时间管理者成为叛徒时技能变为做任务减少会议时间。,"(Add-ons):\nOnly Crewmate can become Madmate. The Madmate must help the Impostor team win. When the impostors team fails, the Madmate will also fail. Also, when Time Manager becomes a Madmate, his skills will reduce the time of the meeting.","(Атрибут):\nТолько Члены Экипажа могут стать Безцами. Безумец должен помочь команде Предателей победить. Когда команда Предателей потерпит неудачу, Безумец также потерпит неудачу. Так же когда Мастер Времени становится Безумцем, его навыки будут сокращать время проведения встречи"
+MadmateInfoLong,(附加职业):\n只有船员会成为叛徒，叛徒需要帮助内鬼阵营获得胜利，当内鬼阵营失败时叛徒也会失败。市长、摆烂人、告密者、警长、网红、正义赌怪不会成为叛徒。当诱饵成为叛徒时技能变为随机找人报告尸体；当时间操控者成为叛徒时技能变为做任务减少会议时间。,"(Add-ons):\nOnly Crewmate can become Madmate. The Madmate must help the Impostor team win. When the impostors team fails, the Madmate will also fail. Also, when Time Manager becomes a Madmate, his skills will reduce the time of the meeting.","(Атрибут):\nТолько Члены Экипажа могут стать Безцами. Безумец должен помочь команде Предателей победить. Когда команда Предателей потерпит неудачу, Безумец также потерпит неудачу. Так же когда Мастер Времени становится Безумцем, его навыки будут сокращать время проведения встречи"
 >>>>>>> a2c07658e9b9bdca63230ec5f0608f079a55df5f
 NtrInfoLong,(附加职业):\n当场上存在海王时，所有玩家将看到自己与海王为恋人关系，实际并不会一起殉情也不会改变胜利条件。请注意：恋人不会成为海王，海王也不会成为恋人。,"(Add-ons):\nWhen Neptune is in play, all players will see that he and Neptune are Lovers, but they won't actually die together, and Neptune can't change the win condition. Please note: Lovers will not become Neptunes and Neptune will not become Lovers","(Атрибут):\nКогда в игре будет Нептун, все игроки увидят, что они с Нептуном являются Любовниками, но на самом деле они не умрут вместе, и Нептун не может изменить условие победы. Пожалуйста, обратите внимание: Любовники не станут Нептунами, и Нептун не станет Любовником"
 WatcherInfoLong,(附加职业):\n窥视者可以直接看到每个人投的票。,"(Add-ons):\nYou can see everyone's votes even if anonymous voting is on.","(Атрибут):\nНаблюдатель может видеть все цвета голосов несмотря на анонимное голосование."
