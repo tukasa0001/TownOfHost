@@ -11,7 +11,8 @@ namespace TOHE
     public static class GuessManager
     {
 
-        public static string GetFormatString() {
+        public static string GetFormatString()
+        {
             string text = GetString("PlayerIdList");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
@@ -124,7 +125,7 @@ namespace TOHE
             }
             else if (operate == 2)
             {
-                if(!MsgToPlayerAndRole(msg, out byte targetId, out CustomRoles role, out string error))
+                if (!MsgToPlayerAndRole(msg, out byte targetId, out CustomRoles role, out string error))
                 {
                     Utils.SendMessage(error, pc.PlayerId);
                     return true;
@@ -167,12 +168,12 @@ namespace TOHE
                     }
                     if (pc == target)
                     {
-                        Utils.SendMessage(GetString("LaughToWhoGuessSelf"),pc.PlayerId, Utils.ColorString(Color.cyan, GetString("MessageFromDevTitle")));
+                        Utils.SendMessage(GetString("LaughToWhoGuessSelf"), pc.PlayerId, Utils.ColorString(Color.cyan, GetString("MessageFromDevTitle")));
                         guesserSuicide = true;
                     }
                     else if (pc.Is(CustomRoles.NiceGuesser) && role.IsCrewmate() && !Options.GGCanGuessCrew.GetBool()) guesserSuicide = true;
                     else if (pc.Is(CustomRoles.EvilGuesser) && role.IsImpostor() && !Options.EGCanGuessImp.GetBool()) guesserSuicide = true;
-                    else if(!target.Is(role)) guesserSuicide = true;
+                    else if (!target.Is(role)) guesserSuicide = true;
 
                     var dp = guesserSuicide ? pc : target;
                     target = dp;
@@ -180,7 +181,7 @@ namespace TOHE
                     string Name = dp.GetRealName();
                     Utils.SendMessage(string.Format(GetString("GuessKill"), Name), 255, Utils.ColorString(Utils.GetRoleColor(CustomRoles.NiceGuesser), GetString("GuessKillTitle")));
 
-                    Main.GuesserGuessed[pc.PlayerId] ++;
+                    Main.GuesserGuessed[pc.PlayerId]++;
 
                     new LateTask(() =>
                     {
@@ -191,7 +192,7 @@ namespace TOHE
                             cpc.RpcSetNameEx(cpc.GetRealName(isMeeting: true));
                         }
                         ChatUpdatePatch.DoBlockChat = false;
-                        
+
                         //Terrorist
                         if (target.Is(CustomRoles.Terrorist))
                         {
@@ -282,8 +283,8 @@ namespace TOHE
             //判断选择的玩家是否合理
             bool targetIsNull = false;
             PlayerControl target = new();
-            try {target = Utils.GetPlayerById(id);}
-            catch {targetIsNull = true; }
+            try { target = Utils.GetPlayerById(id); }
+            catch { targetIsNull = true; }
             if (targetIsNull || target == null || target.Data.IsDead)
             {
                 error = GetString("GuessNull");
@@ -297,7 +298,7 @@ namespace TOHE
                 return false;
             }
 
-            error= string.Empty;
+            error = string.Empty;
             return true;
         }
 
@@ -307,7 +308,7 @@ namespace TOHE
             Array values = Enum.GetValues(typeof(CustomRoles));
             var rd = IRandom.Instance;
             string msg;
-            string[] command = new string[] { "bet", "bt", "guess", "gs",  "shoot", "st", "赌", "猜" };
+            string[] command = new string[] { "bet", "bt", "guess", "gs", "shoot", "st", "赌", "猜" };
             for (int i = 0; i < 20; i++)
             {
                 msg = "/";

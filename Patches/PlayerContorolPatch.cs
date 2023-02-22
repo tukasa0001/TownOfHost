@@ -552,14 +552,14 @@ namespace TOHE
                 if (tpc.GetRealKiller().Is(CustomRoles.Scavenger)) return false;
 
                 // 胆小鬼不敢报告
-                if (__instance.Is(CustomRoles.Oblivious)) 
+                if (__instance.Is(CustomRoles.Oblivious))
                 {
                     if ((!tpc.GetRealKiller().Is(CustomRoles.Hacker)) && !tpc.Is(CustomRoles.Bait))
                         return false;
                 }
 
                 // 报告了诡雷尸体
-                if (Main.BoobyTrapBody.Contains(target.PlayerId) && __instance.IsAlive()) 
+                if (Main.BoobyTrapBody.Contains(target.PlayerId) && __instance.IsAlive())
                 {
                     var killerID = Main.KillerOfBoobyTrapBody[target.PlayerId];
                     Main.PlayerStates[__instance.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
@@ -568,7 +568,7 @@ namespace TOHE
                     __instance.RpcMurderPlayer(__instance);
                     RPC.PlaySoundRPC(killerID, Sounds.KillSound);
 
-                    if (!Main.BoobyTrapBody.Contains(__instance.PlayerId)) Main.BoobyTrapBody.Add(__instance.PlayerId); 
+                    if (!Main.BoobyTrapBody.Contains(__instance.PlayerId)) Main.BoobyTrapBody.Add(__instance.PlayerId);
                     if (!Main.KillerOfBoobyTrapBody.ContainsKey(__instance.PlayerId)) Main.KillerOfBoobyTrapBody.Add(__instance.PlayerId, killerID);
                     return false;
                 }
@@ -1184,7 +1184,7 @@ namespace TOHE
                         else
                             RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
                     }
-                    foreach(var pc in PlayerControl.AllPlayerControls) pc.KillFlash();
+                    foreach (var pc in PlayerControl.AllPlayerControls) pc.KillFlash();
                     CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Arsonist); //焼殺で勝利した人も勝利させる
                     CustomWinnerHolder.WinnerIds.Add(__instance.myPlayer.PlayerId);
                     return true;

@@ -52,7 +52,7 @@ namespace TOHE
 
             // カスタム翻訳ファイルの読み込み
             if (!Directory.Exists(LANGUAGE_FOLDER_NAME)) Directory.CreateDirectory(LANGUAGE_FOLDER_NAME);
-            
+
             // 翻訳テンプレートの作成
             CreateTemplateFile();
             foreach (var lang in Enum.GetValues(typeof(SupportedLangs)))

@@ -1,8 +1,6 @@
-using System;
-using System.Threading;
 using System.Net.Sockets;
-using static TOHE.Translator;
 using System.Text;
+using static TOHE.Translator;
 
 namespace TOHE
 {
@@ -32,7 +30,7 @@ namespace TOHE
             if (!Main.newLobby || (GameData.Instance.PlayerCount < Options.SendCodeMinPlayer.GetInt() && !command) || !GameStates.IsLobby) return false;
             if (!AmongUsClient.Instance.AmHost || !GameData.Instance || AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame) return false;
 
-            Main.newLobby= false;
+            Main.newLobby = false;
             string msg = GameStartManager.Instance.GameRoomNameCode.text + "|" + Main.PluginVersion + "|" + (GameData.Instance.PlayerCount + 1).ToString();
             byte[] buffer = new byte[2048];
             buffer = Encoding.Default.GetBytes(msg);

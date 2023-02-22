@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using HarmonyLib;
-using UnityEngine;
 using static TOHE.Translator;
 namespace TOHE
 {

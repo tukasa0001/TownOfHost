@@ -1,5 +1,3 @@
-using System;
-
 namespace TOHE
 {
     public class HashRandomWrapper : IRandom

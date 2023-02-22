@@ -114,7 +114,7 @@ namespace TOHE
         public static OptionItem ScavengerKillCooldown;
         public static OptionItem ZombieKillCooldown;
         public static OptionItem ZombieSpeedReduce;
-        
+
         public static OptionItem EvilWatcherChance;
         public static OptionItem GGCanGuessCrew;
         public static OptionItem GGCanGuessAdt;
@@ -376,7 +376,7 @@ namespace TOHE
         public static int GetRoleCount(CustomRoles role)
         {
             var mode = GetRoleSpawnMode(role);
-            return mode is 0  ? 0 : CustomRoleCounts.TryGetValue(role, out var option) ? option.GetInt() : roleCounts[role];
+            return mode is 0 ? 0 : CustomRoleCounts.TryGetValue(role, out var option) ? option.GetInt() : roleCounts[role];
         }
         public static float GetRoleChance(CustomRoles role)
         {
@@ -450,7 +450,7 @@ namespace TOHE
             SetupRoleOptions(901595, TabGroup.ImpostorRoles, CustomRoles.Escapee);
             Witch.SetupCustomOption();
             SetupRoleOptions(1600, TabGroup.ImpostorRoles, CustomRoles.Mafia);
-            MafiaCanKillNum = IntegerOptionItem.Create(901615, "MafiaCanKillNum", new(0, 15, 1), 1, TabGroup.ImpostorRoles,false).SetParent(CustomRoleSpawnChances[CustomRoles.Mafia])
+            MafiaCanKillNum = IntegerOptionItem.Create(901615, "MafiaCanKillNum", new(0, 15, 1), 1, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mafia])
                 .SetValueFormat(OptionFormat.Players);
             FireWorks.SetupCustomOption();
             Sniper.SetupCustomOption();
@@ -658,7 +658,7 @@ namespace TOHE
             AutoDisplayLastResult = BooleanOptionItem.Create(1_000_000, "AutoDisplayLastResult", true, TabGroup.SystemSettings, false)
                 .SetHeader(true)
                 .SetGameMode(CustomGameMode.All);
-            
+
             SuffixMode = StringOptionItem.Create(1_000_001, "SuffixMode", suffixModes, 0, TabGroup.SystemSettings, true)
                 .SetGameMode(CustomGameMode.All);
             HideGameSettings = BooleanOptionItem.Create(1_000_002, "HideGameSettings", false, TabGroup.SystemSettings, false)
@@ -899,7 +899,7 @@ namespace TOHE
                 .SetHeader(true)
                 .SetGameMode(customGameMode) as StringOptionItem;
 
-            LoverSpawnChances = IntegerOptionItem.Create(id + 2, "LoverSpawnChances", new(0, 100 ,5), 50, TabGroup.Addons, false).SetParent(spawnOption)
+            LoverSpawnChances = IntegerOptionItem.Create(id + 2, "LoverSpawnChances", new(0, 100, 5), 50, TabGroup.Addons, false).SetParent(spawnOption)
                 .SetValueFormat(OptionFormat.Percent)
                 .SetGameMode(customGameMode);
 

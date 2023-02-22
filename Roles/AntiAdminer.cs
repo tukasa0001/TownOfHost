@@ -53,7 +53,7 @@ namespace TOHE
                 try
                 {
                     Vector2 PlayerPos = pc.GetTruePosition();
-                    
+
                     switch (Main.NormalOptions.MapId)
                     {
                         case 0:

@@ -230,7 +230,7 @@ namespace TOHE
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
             HackerUsedCount = new Dictionary<byte, int>();
-            ParaUsedButtonCount= new Dictionary<byte, int>();
+            ParaUsedButtonCount = new Dictionary<byte, int>();
             MarioVentCount = new Dictionary<byte, int>();
             MafiaRevenged = new Dictionary<byte, int>();
             GuesserGuessed = new Dictionary<byte, int>();

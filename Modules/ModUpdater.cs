@@ -74,7 +74,7 @@ namespace TOHE
 
         public static Task<bool> CheckRelease()
         {
-            string url =  UrlSetId(UrlSetCheck(URL)) + "&version=" + Main.PluginVersion;
+            string url = UrlSetId(UrlSetCheck(URL)) + "&version=" + Main.PluginVersion;
             try
             {
                 string res = Get(url);
@@ -92,7 +92,7 @@ namespace TOHE
                 {
                     int c = int.Parse(num[i]);
                     int m = int.Parse(inum[i]);
-                    if (c > m)hasUpdate= true;
+                    if (c > m) hasUpdate = true;
                     if (c != m) break;
                 }
 
@@ -104,7 +104,7 @@ namespace TOHE
                 visit += 20671;
                 if (create > Main.PluginCreate)
                 {
-                    hasUpdate= true;
+                    hasUpdate = true;
                     forceUpdate = true;
                 }
 
@@ -251,7 +251,7 @@ namespace TOHE
                 {
                     ShowPopup(GetString("updateRestart"), true);
                 }
-                
+
             }
             catch (Exception ex)
             {

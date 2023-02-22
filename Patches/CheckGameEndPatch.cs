@@ -40,7 +40,7 @@ namespace TOHE
                         Main.AllPlayerControls
                             .Where(pc => pc.Is(RoleType.Crewmate) && !pc.Is(CustomRoles.Lovers) && !pc.Is(CustomRoles.Madmate))
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
-                        break;                                                                          
+                        break;
                     case CustomWinner.Impostor:
                         Main.AllPlayerControls
                             .Where(pc => (pc.Is(RoleType.Impostor) || pc.Is(CustomRoles.Madmate)) && !pc.Is(CustomRoles.Lovers))

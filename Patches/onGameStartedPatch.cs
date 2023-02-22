@@ -726,7 +726,7 @@ namespace TOHE
             if (count <= 0) return null;
             List<PlayerControl> AssignedPlayers = new();
             SetColorPatch.IsAntiGlitchDisabled = true;
-            List<byte> pid= new();
+            List<byte> pid = new();
             foreach (var pc in players) pid.Add(pc.PlayerId);
             for (var i = 0; i < count; i++)
             {

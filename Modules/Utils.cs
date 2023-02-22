@@ -281,12 +281,12 @@ namespace TOHE
         public static string GetKillerText(byte playerId)
         {
             var state = Main.PlayerStates[playerId];
-            
+
             var KillerId = state.GetRealKiller();
             Color color = KillerId != byte.MaxValue ? Main.PlayerColors[KillerId] : GetRoleColor(CustomRoles.Doctor);
             string killer = state.IsDead ? (GetString("KilledBy") + Main.AllPlayerNames[KillerId].RemoveHtmlTags().Replace("\r\n", string.Empty)) : "";
             killer = ColorString(color, killer);
-            
+
             return killer;
         }
         public static string GetVitalText(byte playerId, bool RealKillerColor = false)
@@ -593,7 +593,7 @@ namespace TOHE
             if (text != "") SendMessage(text, PlayerId);
             if (EndGamePatch.KillLog != "") SendMessage(EndGamePatch.KillLog, PlayerId);
             if (sumText != "") SendMessage(sumText, PlayerId);
-            
+
             if (text == "" && EndGamePatch.KillLog == "" && sumText == "") SendMessage("没有存在的上局信息", PlayerId);
 
             if (IsUP(PlayerControl.LocalPlayer) && Options.EnableUpMode.GetBool()) SendMessage($"提示：该房间启用了【创作者素材保护计划】，房主可以指定自己的职业。\n该功能仅允许创作者用于获取视频素材，如遇滥用情况，请退出游戏或举报。\n当前创作者认证：{GetUpName(PlayerControl.LocalPlayer)}", PlayerId);

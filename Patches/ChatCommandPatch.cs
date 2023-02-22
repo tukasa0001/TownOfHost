@@ -83,20 +83,20 @@ namespace TOHE
             string Name = target.GetRealName();
             Utils.SendMessage(Name + " " + GetString("MafiaKillSucceed"), 255, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Mafia), " ★ 特供情报 ★ "));
 
-            new LateTask (() =>
+            new LateTask(() =>
             {
-            target.SetRealKiller(pc);
-            target.RpcMurderPlayer(target);
-            Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Revenge;
-            Main.PlayerStates[target.PlayerId].SetDead();
-            Main.MafiaRevenged[pc.PlayerId]++;
-            foreach (var cpc in Main.AllPlayerControls)
-            {
-                RPC.PlaySoundRPC(cpc.PlayerId, Sounds.KillSound);
-                cpc.RpcSetNameEx(cpc.GetRealName(isMeeting: true));
-            }
-            ChatUpdatePatch.DoBlockChat = false;
-            Utils.NotifyRoles(isMeeting: true, NoCache: true);
+                target.SetRealKiller(pc);
+                target.RpcMurderPlayer(target);
+                Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Revenge;
+                Main.PlayerStates[target.PlayerId].SetDead();
+                Main.MafiaRevenged[pc.PlayerId]++;
+                foreach (var cpc in Main.AllPlayerControls)
+                {
+                    RPC.PlaySoundRPC(cpc.PlayerId, Sounds.KillSound);
+                    cpc.RpcSetNameEx(cpc.GetRealName(isMeeting: true));
+                }
+                ChatUpdatePatch.DoBlockChat = false;
+                Utils.NotifyRoles(isMeeting: true, NoCache: true);
             }, 0.9f, "Mafia Kill");
             return true;
         }
@@ -106,7 +106,7 @@ namespace TOHE
             text = text.Trim().ToLower();
 
             int stNum = 0;
-            for (int i = 0 ; i < text.Length; i++)
+            for (int i = 0; i < text.Length; i++)
             {
                 if (text[i..].Equals("k")) stNum++;
                 if (text[i..].Equals("开")) stNum++;
@@ -365,7 +365,7 @@ namespace TOHE
                     case "/r":
                         canceled = true;
                         subArgs = text.Remove(0, 2);
-                        if(subArgs.Trim() is "赌怪" or "賭怪")
+                        if (subArgs.Trim() is "赌怪" or "賭怪")
                         {
                             Utils.SendMessage(GetString("GuesserInfoLong"), PlayerControl.LocalPlayer.PlayerId);
                             break;
@@ -405,7 +405,7 @@ namespace TOHE
                             {
                                 string mtext = GetString(role.ToString()) + PlayerControl.LocalPlayer.GetRoleInfo(true);
                                 foreach (var subRole in Main.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SubRoles)
-                                    mtext += $"\n\n"+ GetString($"{subRole}") + GetString($"{subRole}InfoLong");
+                                    mtext += $"\n\n" + GetString($"{subRole}") + GetString($"{subRole}InfoLong");
                                 if (CustomRolesHelper.RoleExist(CustomRoles.Ntr) && (role is not CustomRoles.GM and CustomRoles.Ntr))
                                     mtext += $"\n\n" + GetString($"Lovers") + GetString($"LoversInfoLong");
                                 HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, mtext);
@@ -517,20 +517,20 @@ namespace TOHE
                         if (Main.newLobby) Cloud.SendCodeToQQ(true);
                         else Utils.SendMessage("很抱歉，每个房间车队姬只会发一次", PlayerControl.LocalPlayer.PlayerId);
                         break;
-                        
+
                     default:
                         Main.isChatCommand = false;
                         break;
                 }
             }
             goto Skip;
-            Canceled:
+        Canceled:
             Main.isChatCommand = false;
             canceled = true;
-            Skip:
+        Skip:
             if (canceled)
             {
-                
+
                 Logger.Info("Command Canceled", "ChatCommand");
                 __instance.TextArea.Clear();
                 __instance.TextArea.SetText(cancelVal);
@@ -603,7 +603,7 @@ namespace TOHE
                 "神" => "神",
                 "情人" or "愛人" or "链子" => "恋人",
                 "絕境者" or "绝境" => "绝境者",
-                "閃電俠" or"闪电" => "闪电侠",
+                "閃電俠" or "闪电" => "闪电侠",
                 "靈媒" => "灵媒",
                 "破平者" or "破平" => "破平者",
                 "執燈人" or "执灯" or "灯人" => "执灯人",
@@ -740,7 +740,7 @@ namespace TOHE
             if (role.StartsWith("/up")) role.Replace("/up", string.Empty);
             if (role.EndsWith("\r\n")) role.Replace("\r\n", string.Empty);
             if (role.EndsWith("\n")) role.Replace("\n", string.Empty);
-            
+
             if (role == "" || role == string.Empty)
             {
                 Utils.ShowActiveRoles(player.PlayerId);
@@ -763,7 +763,7 @@ namespace TOHE
                         string devMark = "▲";
                         if (CustomRolesHelper.IsAdditionRole(r.Key)) devMark = "";
                         if (r.Key is CustomRoles.GM) devMark = "";
-                        if (r.Key.GetCount () < 1 || r.Key.GetMode() == 0) devMark = "";
+                        if (r.Key.GetCount() < 1 || r.Key.GetMode() == 0) devMark = "";
                         if (isUp)
                         {
                             if (devMark == "▲") Utils.SendMessage("已提升您成为【" + GetString(roleName) + "】的概率", player.PlayerId);

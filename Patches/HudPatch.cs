@@ -1,5 +1,3 @@
-using System;
-using AmongUs.GameOptions;
 using HarmonyLib;
 using UnhollowerBaseLib;
 using UnityEngine;

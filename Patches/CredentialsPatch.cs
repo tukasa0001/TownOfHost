@@ -161,7 +161,7 @@ namespace TOHE
             tohLogo.transform.localScale *= 1.3f;
             var renderer = tohLogo.AddComponent<SpriteRenderer>();
             renderer.sprite = Utils.LoadSprite("TOHE.Resources.TOHE-Logo.png", 300f);
-            
+
             var bq = new GameObject("title_BQ");
             bq.transform.position = new Vector3(4.1f, -2f, 0f);
             bq.transform.localScale *= 1.8f;

@@ -72,7 +72,7 @@ namespace TOHE
                 Main.SetAutoStartToDisable = true;
             }
 
-                if (DisableTOHE == null || DisableTOHE?.gameObject == null)
+            if (DisableTOHE == null || DisableTOHE?.gameObject == null)
             {
                 DisableTOHE = CreateCustomToggle(Translator.GetString("DisableTOHE") + ": ", Main.DisableTOHE.Value, new Vector3(-0.375f, yOffset, 0), (UnityEngine.Events.UnityAction)DisableTOHEButtonToggle, __instance);
 

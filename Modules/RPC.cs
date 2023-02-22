@@ -98,9 +98,9 @@ namespace TOHE
                                     Utils.SendMessage($"检测到 {__instance?.Data?.PlayerName}：{text}", PlayerControl.LocalPlayer.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "【 ★ 作弊检测 ★ 】"));
                                     break;
                                 case 3:
-                                    foreach(var pc in PlayerControl.AllPlayerControls)
+                                    foreach (var pc in PlayerControl.AllPlayerControls)
                                     {
-                                        if(pc != null && pc.PlayerId != __instance?.Data?.PlayerId)
+                                        if (pc != null && pc.PlayerId != __instance?.Data?.PlayerId)
                                         {
                                             Utils.SendMessage($"检测到 {__instance?.Data?.PlayerName}：{text}", pc.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "【 ★ 作弊检测 ★ 】"));
                                         }

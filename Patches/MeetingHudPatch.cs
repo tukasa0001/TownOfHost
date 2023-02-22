@@ -223,7 +223,7 @@ namespace TOHE
                 {
                     Witch.OnCheckForEndVoting(exileId);
                 }
-                
+
                 FollowingSuicideOnExile(exileId);
                 RevengeOnExile(exileId);
 
@@ -304,7 +304,7 @@ namespace TOHE
                     var playerList = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Innocent) && !x.IsAlive() && x.GetRealKiller().PlayerId == exileId);
                     if (playerList.Count() > 0)
                     {
-                        if (DecidedWinner) name += string.Format(GetString("ExiledInnocentTargetAddBelow")) ;
+                        if (DecidedWinner) name += string.Format(GetString("ExiledInnocentTargetAddBelow"));
                         else name = string.Format(GetString("ExiledInnocentTargetInOneLine"), realName, coloredRole);
                         DecidedWinner = true;
                     }
@@ -430,7 +430,7 @@ namespace TOHE
                         {
                             Utils.SendMessage(GetString("MafiaDeadMsg"), pc.PlayerId);
                         }, 5.0f, "Notice Mafia Skill");
-                    break;
+                        break;
                 }
             }
         }
@@ -440,17 +440,17 @@ namespace TOHE
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 foreach (var csId in Main.CyberStarDead)
-                    {
+                {
                     if (!Options.ImpKnowCyberStarDead.GetBool() && pc.GetCustomRole().IsImpostor()) continue;
                     if (!Options.NeutralKnowCyberStarDead.GetBool() && pc.GetCustomRole().IsNeutral()) continue;
 
                     var cs = Utils.GetPlayerById(csId);
                     if (cs == null) continue;
-                        new LateTask(() =>
-                        {
-                            Utils.SendMessage(string.Format(GetString("CyberStarDead"), cs.GetRealName()), pc.PlayerId, Utils.ColorString(    Utils.GetRoleColor(CustomRoles.CyberStar)  , GetString("CyberStarNewsTitle")));
-                        }, 5.0f, "Notice CyberStar Skill");
-                    }
+                    new LateTask(() =>
+                    {
+                        Utils.SendMessage(string.Format(GetString("CyberStarDead"), cs.GetRealName()), pc.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.CyberStar), GetString("CyberStarNewsTitle")));
+                    }, 5.0f, "Notice CyberStar Skill");
+                }
             }
         }
         public static void NoticeDetectiveSkill()
@@ -538,7 +538,7 @@ namespace TOHE
                 }
             }
 
-            if(AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Is(CustomRoles.Psychic))
+            if (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Is(CustomRoles.Psychic))
             {
                 System.Random rd = new();
                 int numOfPsychicBad = 0;

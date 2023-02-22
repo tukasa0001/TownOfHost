@@ -1,11 +1,10 @@
 using AmongUs.GameOptions;
-using Il2CppSystem.Net;
 
 namespace TOHE
 {
     static class CustomRolesHelper
     {
-        public static CustomRoles GetVNRole( this CustomRoles role) // 对应原版职业
+        public static CustomRoles GetVNRole(this CustomRoles role) // 对应原版职业
         {
             if (role.IsVanilla()) return role;
             return role switch
@@ -17,7 +16,7 @@ namespace TOHE
                 CustomRoles.Opportunist => CustomRoles.Crewmate,
                 CustomRoles.Snitch => CustomRoles.Crewmate,
                 CustomRoles.SabotageMaster => CustomRoles.Engineer,
-                CustomRoles.Mafia=> CustomRoles.Impostor,
+                CustomRoles.Mafia => CustomRoles.Impostor,
                 CustomRoles.Terrorist => CustomRoles.Engineer,
                 CustomRoles.Executioner => CustomRoles.Crewmate,
                 CustomRoles.Vampire => CustomRoles.Impostor,
@@ -28,7 +27,7 @@ namespace TOHE
                 CustomRoles.SerialKiller => CustomRoles.Shapeshifter,
                 CustomRoles.FireWorks => CustomRoles.Shapeshifter,
                 CustomRoles.SpeedBooster => CustomRoles.Crewmate,
-                CustomRoles.Trapper =>CustomRoles.Crewmate,
+                CustomRoles.Trapper => CustomRoles.Crewmate,
                 CustomRoles.Dictator => CustomRoles.Crewmate,
                 CustomRoles.Mare => CustomRoles.Impostor,
                 CustomRoles.Doctor => CustomRoles.Scientist,
@@ -50,7 +49,7 @@ namespace TOHE
                 CustomRoles.Detective => CustomRoles.Crewmate,
                 CustomRoles.Minimalism => CustomRoles.Impostor,
                 CustomRoles.God => CustomRoles.Crewmate,
-                CustomRoles.Zombie =>CustomRoles.Impostor,
+                CustomRoles.Zombie => CustomRoles.Impostor,
                 CustomRoles.Mario => CustomRoles.Engineer,
                 CustomRoles.AntiAdminer => CustomRoles.Impostor,
                 CustomRoles.Sans => CustomRoles.Impostor,
@@ -73,7 +72,7 @@ namespace TOHE
             _ => role.IsImpostor() ? RoleTypes.Impostor : RoleTypes.Crewmate,
         };
 
-    public static bool IsDesyncRole(this CustomRoles role) => role.GetDYRole() != RoleTypes.Scientist;
+        public static bool IsDesyncRole(this CustomRoles role) => role.GetDYRole() != RoleTypes.Scientist;
         public static RoleTypes GetDYRole(this CustomRoles role) // 对应原版职业（反职业）
         {
             return role switch
