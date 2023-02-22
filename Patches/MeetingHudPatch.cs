@@ -227,104 +227,8 @@ namespace TOHE
                 FollowingSuicideOnExile(exileId);
                 RevengeOnExile(exileId);
 
-                // 参考：https://github.com/music-discussion/TownOfHost-TheOtherRoles
-                if (exiledPlayer != null)
-                {
-                    var realName = exiledPlayer.Object.GetRealName(isMeeting: true);
-                    Main.LastVotedPlayer = realName;
-                    if (exiledPlayer.PlayerId == exileId)
-                    {
-                        var player = Utils.GetPlayerById(exiledPlayer.PlayerId);
-                        var role = GetString(exiledPlayer.GetCustomRole().ToString());
-                        var crole = exiledPlayer.GetCustomRole();
-                        var coloredRole = Utils.ColorString(Utils.GetRoleColor(exiledPlayer.GetCustomRole()), $"{role}");
-                        var name = "";
-                        int impnum = 0;
-                        int neutralnum = 0;
-                        foreach (var pc in PlayerControl.AllPlayerControls)
-                        {
-                            if (pc == null || pc.Data.IsDead || pc.Data.Disconnected) continue;
-                            var pc_role = pc.GetCustomRole();
-                            if (pc_role.IsImpostor() && pc != exiledPlayer.Object)
-                                impnum++;
-                            else if (pc_role.IsNeutralKilling() && pc != exiledPlayer.Object)
-                                neutralnum++;
-                        }
-                        if (Options.ConfirmEjectionsRoles.GetBool())
-                        {
-                            name = string.Format(GetString("PlayerIsRole"), realName, coloredRole);
-                        }
-                        else if (Options.ConfirmEjections.GetBool())
-                        {
-                            if (CustomRolesHelper.IsImpostor(player.GetCustomRole()))
-                            {
-                                name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
-                            }
-                            else
-                            {
-                                name = string.Format(GetString("IsGood"), realName);
-                            }
-                            if (Options.ConfirmEjectionsNK.GetBool() && CustomRolesHelper.IsNK(player.GetCustomRole()))
-                            {
-                                if (Options.ConfirmEjectionsNKAsImp.GetBool())
-                                {
-                                    name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
-                                }
-                                else
-                                {
-                                    name = $"{realName} 属于 " + Utils.ColorString(Color.cyan, "中立阵营");
-                                }
-                            }
-                            if (Options.ConfirmEjectionsNonNK.GetBool() && CustomRolesHelper.IsNNK(player.GetCustomRole()))
-                            {
-                                if (Options.ConfirmEjectionsNKAsImp.GetBool())
-                                {
-                                    name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
-                                }
-                                else
-                                {
-                                    name = $"{realName} 属于 " + Utils.ColorString(Color.cyan, "中立阵营");
-                                }
-                            }
-                        }
-                        else
-                        {
-                            name = string.Format(GetString("PlayerExiled"), realName);
-                        }
-                        if (crole == CustomRoles.Jester)
-                            name = string.Format(GetString("ExiledJester"), realName, coloredRole) + "<size=0>";
-
-                        if (Executioner.Target.ContainsValue(exileId))
-                            name = string.Format(GetString("ExiledExeTarget"), realName, coloredRole) + "<size=0>";
-                        if (Options.ShowImpRemainOnEject.GetBool() && crole != CustomRoles.Jester && !Executioner.Target.ContainsValue(exileId))
-                        {
-                            name += "\n";
-                            string comma = neutralnum != 0 ? "，" : "";
-                            if (impnum == 0)
-                            {
-                                name += GetString("NoImpRemain") + comma;
-                            }
-                            else
-                            {
-                                name += string.Format(GetString("ImpRemain"), impnum) + comma;
-                            }
-
-                            if (Options.ShowNKRemainOnEject.GetBool() && neutralnum != 0)
-                                name += string.Format(GetString("NeutralRemain"), neutralnum);
-                        }
-                        name += "<size=0>";
-                        new LateTask(() =>
-                        {
-                            Main.DoBlockNameChange = true;
-                            player.RpcSetName(name);
-                        }, 3.0f, "Change Exiled Player Name");
-                        new LateTask(() =>
-                        {
-                            player.RpcSetName(realName);
-                            Main.DoBlockNameChange = false;
-                        }, 11.5f, "Change Exiled Player Name Back");
-                    }
-                }
+                var playerInfo = Utils.GetPlayerInfoById(exileId);
+                if (playerInfo != null) ConfirmEjections(playerInfo);
 
                 return false;
             }
@@ -334,6 +238,110 @@ namespace TOHE
                 throw;
             }
         }
+
+        static void ConfirmEjections(GameData.PlayerInfo exiledPlayer)
+        {
+            // 参考：https://github.com/music-discussion/TownOfHost-TheOtherRoles
+            var exileId = exiledPlayer.PlayerId;
+            if (exiledPlayer != null)
+            {
+                var realName = exiledPlayer.Object.GetRealName(isMeeting: true);
+                Main.LastVotedPlayer = realName;
+                if (exiledPlayer.PlayerId == exileId)
+                {
+                    var player = Utils.GetPlayerById(exiledPlayer.PlayerId);
+                    var role = GetString(exiledPlayer.GetCustomRole().ToString());
+                    var crole = exiledPlayer.GetCustomRole();
+                    var coloredRole = Utils.ColorString(Utils.GetRoleColor(exiledPlayer.GetCustomRole()), $"{role}");
+                    var name = "";
+                    int impnum = 0;
+                    int neutralnum = 0;
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc == null || pc.Data.IsDead || pc.Data.Disconnected) continue;
+                        var pc_role = pc.GetCustomRole();
+                        if (pc_role.IsImpostor() && pc != exiledPlayer.Object)
+                            impnum++;
+                        else if (pc_role.IsNeutralKilling() && pc != exiledPlayer.Object)
+                            neutralnum++;
+                    }
+                    if (Options.ConfirmEjectionsRoles.GetBool())
+                    {
+                        name = string.Format(GetString("PlayerIsRole"), realName, coloredRole);
+                    }
+                    else if (Options.ConfirmEjections.GetBool())
+                    {
+                        if (CustomRolesHelper.IsImpostor(player.GetCustomRole()))
+                        {
+                            name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
+                        }
+                        else
+                        {
+                            name = string.Format(GetString("IsGood"), realName);
+                        }
+                        if (Options.ConfirmEjectionsNK.GetBool() && CustomRolesHelper.IsNK(player.GetCustomRole()))
+                        {
+                            if (Options.ConfirmEjectionsNKAsImp.GetBool())
+                            {
+                                name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
+                            }
+                            else
+                            {
+                                name = $"{realName} 属于 " + Utils.ColorString(Color.cyan, "中立阵营");
+                            }
+                        }
+                        if (Options.ConfirmEjectionsNonNK.GetBool() && CustomRolesHelper.IsNNK(player.GetCustomRole()))
+                        {
+                            if (Options.ConfirmEjectionsNKAsImp.GetBool())
+                            {
+                                name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
+                            }
+                            else
+                            {
+                                name = $"{realName} 属于 " + Utils.ColorString(Color.cyan, "中立阵营");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        name = string.Format(GetString("PlayerExiled"), realName);
+                    }
+                    if (crole == CustomRoles.Jester)
+                        name = string.Format(GetString("ExiledJester"), realName, coloredRole) + "<size=0>";
+
+                    if (Executioner.Target.ContainsValue(exileId))
+                        name = string.Format(GetString("ExiledExeTarget"), realName, coloredRole) + "<size=0>";
+                    if (Options.ShowImpRemainOnEject.GetBool() && crole != CustomRoles.Jester && !Executioner.Target.ContainsValue(exileId))
+                    {
+                        name += "\n";
+                        string comma = neutralnum != 0 ? "，" : "";
+                        if (impnum == 0)
+                        {
+                            name += GetString("NoImpRemain") + comma;
+                        }
+                        else
+                        {
+                            name += string.Format(GetString("ImpRemain"), impnum) + comma;
+                        }
+
+                        if (Options.ShowNKRemainOnEject.GetBool() && neutralnum != 0)
+                            name += string.Format(GetString("NeutralRemain"), neutralnum);
+                    }
+                    name += "<size=0>";
+                    new LateTask(() =>
+                    {
+                        Main.DoBlockNameChange = true;
+                        if (GameStates.IsInGame) player.RpcSetName(name);
+                    }, 3.0f, "Change Exiled Player Name");
+                    new LateTask(() =>
+                    {
+                        if (GameStates.IsInGame) player.RpcSetName(realName);
+                        Main.DoBlockNameChange = false;
+                    }, 11.5f, "Change Exiled Player Name Back");
+                }
+            }
+        }
+
         public static bool IsMayor(byte id)
         {
             var player = Main.AllPlayerControls.Where(pc => pc.PlayerId == id).FirstOrDefault();

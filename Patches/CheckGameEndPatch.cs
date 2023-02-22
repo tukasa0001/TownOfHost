@@ -62,7 +62,7 @@ namespace TOHE
                     {
                         if (!(!Main.LoversPlayers.ToArray().All(p => p.IsAlive()) && Options.LoverSuicide.GetBool()))
                         {
-                            if (!(!Options.LoverSuicide.GetBool() && CustomWinnerHolder.WinnerTeam is CustomWinner.Mario or CustomWinner.Jester or CustomWinner.Executioner))
+                            if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Mario or CustomWinner.Jester or CustomWinner.Executioner or CustomWinner.Innocent or CustomWinner.Terrorist)
                             {
                                 PlayerControl[] lovers = Main.LoversPlayers.ToArray();
                                 CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Lovers);

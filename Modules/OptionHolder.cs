@@ -132,6 +132,7 @@ namespace TOHE
         public static OptionItem DetectiveCanknowKiller;
         public static OptionItem TransporterTeleportMax;
         public static OptionItem CanTerroristSuicideWin;
+        public static OptionItem InnocentCanWinByImp;
         public static OptionItem ArsonistDouseTime;
         public static OptionItem ArsonistCooldown;
         public static OptionItem JesterCanUseButton;
@@ -539,6 +540,7 @@ namespace TOHE
             Executioner.SetupCustomOption();
             Jackal.SetupCustomOption();
             SetupRoleOptions(5050233, TabGroup.NeutralRoles, CustomRoles.Innocent);
+            InnocentCanWinByImp = BooleanOptionItem.Create(5050266, "InnocentCanWinByImp", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Innocent]);
 
             // Add-Ons
             NoLimitAddonsNum = BooleanOptionItem.Create(6050250, "NoLimitAddonsNum", false, TabGroup.Addons, false)

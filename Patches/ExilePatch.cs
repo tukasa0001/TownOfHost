@@ -1,6 +1,8 @@
 using System.Linq;
 using AmongUs.Data;
 using HarmonyLib;
+using UnityEngine;
+using static TOHE.Translator;
 
 namespace TOHE
 {
@@ -56,61 +58,50 @@ namespace TOHE
 
                 exiled.IsDead = true;
                 Main.PlayerStates[exiled.PlayerId].deathReason = PlayerState.DeathReason.Vote;
-                //if (Main.showEjections)
-                //{
-                //    //exiled.Object.Data.PlayerName = Main.LastVotedPlayer;
-                //    //exiled.Object.name = Main.LastVotedPlayer;
-                //    exiled.Object.RpcSetName(Main.LastVotedPlayer);
-                //}
 
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                if (AmongUsClient.Instance.AmHost)
                 {
-                    if (pc.Is(CustomRoles.Innocent) && !pc.IsAlive())
+
+                    var role = exiled.GetCustomRole();
+
+                    //判断冤罪师胜利
+                    var playerList = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Innocent) && !x.IsAlive() && x.GetRealKiller().PlayerId == exiled.PlayerId);
+                    if (playerList.Count() > 0)
                     {
-                        if (pc.GetRealKiller().PlayerId == exiled.PlayerId)
-                        {
-                            CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Innocent);
-                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
-                            //吊られたJesterをターゲットにしているExecutionerも追加勝利
-                            foreach (var executioner in Executioner.playerIdList)
-                            {
-                                var GetValue = Executioner.Target.TryGetValue(executioner, out var targetId);
-                                if (GetValue && exiled.PlayerId == targetId)
-                                {
-                                    CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Executioner);
-                                    CustomWinnerHolder.WinnerIds.Add(executioner);
-                                }
-                            }
-                            DecidedWinner = true;
-                        }
+                        if (DecidedWinner) CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Innocent);
+                        else CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Innocent);
+                        foreach (var pc in playerList) CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                        DecidedWinner = true;
                     }
-                }
 
-                var role = exiled.GetCustomRole();
-                if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
-                {
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jester);
-                    CustomWinnerHolder.WinnerIds.Add(exiled.PlayerId);
-                    //吊られたJesterをターゲットにしているExecutionerも追加勝利
+                    //判断小丑胜利
+                    if (role == CustomRoles.Jester)
+                    {
+                        if (DecidedWinner) CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Jester);
+                        else CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jester);
+                        CustomWinnerHolder.WinnerIds.Add(exiled.PlayerId);
+                        DecidedWinner = true;
+                    }
+
+                    //判断处刑人胜利
+                    Executioner.CheckExileTarget(exiled, DecidedWinner);
                     foreach (var executioner in Executioner.playerIdList)
                     {
                         var GetValue = Executioner.Target.TryGetValue(executioner, out var targetId);
                         if (GetValue && exiled.PlayerId == targetId)
                         {
-                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Executioner);
+                            if (DecidedWinner) CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Executioner);
+                            else CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Executioner);
                             CustomWinnerHolder.WinnerIds.Add(executioner);
                         }
+                        DecidedWinner = true;
                     }
-                    DecidedWinner = true;
-                }
-                if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
-                {
-                    Utils.CheckTerroristWin(exiled);
-                    DecidedWinner = true;
-                }
-                Executioner.CheckExileTarget(exiled, DecidedWinner);
 
-                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) Main.PlayerStates[exiled.PlayerId].SetDead();
+                    //判断恐怖分子胜利
+                    if (role == CustomRoles.Terrorist) Utils.CheckTerroristWin(exiled);
+
+                    if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) Main.PlayerStates[exiled.PlayerId].SetDead();
+                }
             }
             if (AmongUsClient.Instance.AmHost && Main.IsFixedCooldown)
                 Main.RefixCooldownDelay = Options.DefaultKillCooldown - 3f;
