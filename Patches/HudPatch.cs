@@ -115,6 +115,9 @@ namespace TOHE
                         case CustomRoles.EvilTracker:
                             EvilTracker.GetAbilityButtonText(__instance, player.PlayerId);
                             break;
+                        case CustomRoles.Innocent:
+                            __instance.KillButton.OverrideText($"{GetString("InnocentButtonText")}");
+                            break;
                     }
 
                     //バウンティハンターのターゲットテキスト
