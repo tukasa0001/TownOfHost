@@ -497,9 +497,9 @@ EvilTrackerCanSeeKillFlash,内鬼进行击杀时可见击杀闪光,"Can See ''Ki
 EvilTrackerResetTargetAfterMeeting,会议后重置追踪目标,Can Reset Target After Meeting,Может сбросить цель после Собрания
 EvilTrackerCanSeeLastRoomInMeeting,追踪者可以看见船员位置,Can See Target's Last Room In Meeting,Может видеть местоположение Целей во время Собрания
 WitchModeSwitchAction,切换击杀模式,Mode Switch Action,Действие для Смены Режима
-NBareRed,友善中立显示为红色,Nice Neutrals are shown in red,Добрые Нейтралы показываются красным
-NEareRed,邪恶中立显示为红色,Evil Neutrals are shown in red,Злые Нейтралы показываются красным
-CrewKillingRed,带刀船员显示为红色,Crewmate Killer are shown in red,Члены Экипажа убийцы показываются красным
+NBareRed,友善中立视为邪恶,Nice Neutrals are shown in red,Добрые Нейтралы показываются красным
+NEareRed,邪恶中立视为邪恶,Evil Neutrals are shown in red,Злые Нейтралы показываются красным
+CrewKillingRed,带刀船员视为邪恶,Crewmate Killer are shown in red,Члены Экипажа убийцы показываются красным
 PsychicCanSeeNum,可以看到几个红名,Max number of red names,Максимальное количество красных имен
 PsychicFresh,每次会议刷新红名,Red nickname changes at every meeting,Красный никнейм меняется на каждой встрече
 DetectiveCanknowKiller,侦探可以知道凶手的职业,May know the killer's role,Может знать роль убийцы
@@ -595,7 +595,7 @@ GuessDead,很抱歉，死亡后不能进行猜测,"Sorry, but it's impossible to
 GuessSuperStar,大明星才不会和你赌博，选个别的目标吧？,"Super Star can't be guessed, you thought it would be so easy, right?","Супер Звезда не может быть угадана, ты думал что всё так просто, да?"
 GuessGM,能想出这个也是把你闲的,"Being able to guess the GM is impossible, because he's already dead","Угадать GM невозможно, потому что он уже и так мертв"
 GuessAdtRole,很抱歉，该房设置不允许猜测附加职业,"Unfortunately, the Host settings do not allow you to guess add-ons","К сожалению, настройки Хоста не позволяют угадывать Атрибуты"
-GuessKill,很遗憾，【{0}】在赌局中失利了,Player: [{0}] was guessed,Игрок: [{0}] был угадан
+GuessKill,很遗憾，【{0}】\n在赌局中失利了,Player: [{0}] was guessed,Игрок: [{0}] был угадан
 GuessNull,请选择一个在场的存活角色进行赌注,"Please select an ID of a alive player to guess their role","Пожалуйста, выберите индификатор присутствующего выжившего игрока, чтобы угадать его роль"
 GuessHelp,指令格式：/bt [玩家编号] [职业名]\n示例：/bt 3 告密者\n您可以在玩家的名字前看到该玩家的编号\n或者使用/id查看玩家编号列表,"Instructions: /bt [Player ID] [Role Name] \nExample: /bt 3 Bait \nYou can see the player ID before the player name \n or use the /id command to list the player IDs","Инструкция: /bt [Идентификатор игрока] [Название Роли] \nПример: /bt 3 Байт \nВы можете увидеть идентификатор игрока перед именем игрока \nили использовав команду /id для просмотра списка идентификаторов игроков"
 GGGuessMax,您已经达到每次会议的猜测上限，不能再猜测啦！,"You've reached the maximum guessing limit for each encounter, you can't guess anymore!","Вы достигли максимального предела угадывания для каждой встречи, вы больше не можете угадывать!"
