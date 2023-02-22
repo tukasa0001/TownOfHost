@@ -21,6 +21,15 @@ namespace TownOfHost
                 SetupOptionItem,
                 "#f8cd46"
             );
+        public Sheriff(PlayerControl player)
+        : base(
+            player,
+            false
+        )
+        {
+            ShotLimit = ShotLimitOpt.GetInt();
+            CurrentKillCooldown = KillCooldown.GetFloat();
+        }
 
         private static OptionItem KillCooldown;
         private static OptionItem MisfireKillsTarget;
@@ -37,15 +46,6 @@ namespace TownOfHost
             SheriffCanKill,
         }
         public static Dictionary<CustomRoles, OptionItem> KillTargetOptions = new();
-        public Sheriff(PlayerControl player)
-        : base(
-            player,
-            false
-        )
-        {
-            ShotLimit = ShotLimitOpt.GetInt();
-            CurrentKillCooldown = KillCooldown.GetFloat();
-        }
         public int ShotLimit = 0;
         public float CurrentKillCooldown = 30;
         public static readonly string[] KillOption =

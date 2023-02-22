@@ -20,19 +20,6 @@ namespace TownOfHost
                 1000,
                 SetupOptionItem
             );
-
-        private static OptionItem OptionTargetChangeTime;
-        private static OptionItem OptionSuccessKillCooldown;
-        private static OptionItem OptionFailureKillCooldown;
-        private static OptionItem OptionShowTargetArrow;
-        enum OptionName
-        {
-            BountyTargetChangeTime,
-            BountySuccessKillCooldown,
-            BountyFailureKillCooldown,
-            BountyShowTargetArrow,
-        }
-
         public BountyHunter(PlayerControl player)
         : base(
             player,
@@ -45,6 +32,18 @@ namespace TownOfHost
             ShowTargetArrow = OptionShowTargetArrow.GetBool();
 
             ChangeTimer = OptionTargetChangeTime.GetFloat();
+        }
+
+        private static OptionItem OptionTargetChangeTime;
+        private static OptionItem OptionSuccessKillCooldown;
+        private static OptionItem OptionFailureKillCooldown;
+        private static OptionItem OptionShowTargetArrow;
+        enum OptionName
+        {
+            BountyTargetChangeTime,
+            BountySuccessKillCooldown,
+            BountyFailureKillCooldown,
+            BountyShowTargetArrow,
         }
 
         private static float TargetChangeTime;
