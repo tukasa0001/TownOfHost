@@ -47,17 +47,15 @@ namespace TownOfHost
         {
             var id = RoleInfo.ConfigId;
             var tab = RoleInfo.Tab;
-            var roleName = RoleInfo.RoleName;
-            SetupRoleOptions(id, tab, roleName);
-            var roleOption = RoleInfo.RoleOption;
-            KillCooldown = FloatOptionItem.Create(id + 10, "KillCooldown", new(0f, 990f, 1f), 30f, tab, false).SetParent(roleOption)
+            var parent = RoleInfo.RoleOption;
+            KillCooldown = FloatOptionItem.Create(id + 10, "KillCooldown", new(0f, 990f, 1f), 30f, tab, false).SetParent(parent)
                 .SetValueFormat(OptionFormat.Seconds);
-            MisfireKillsTarget = BooleanOptionItem.Create(id + 11, "SheriffMisfireKillsTarget", false, tab, false).SetParent(roleOption);
-            ShotLimitOpt = IntegerOptionItem.Create(id + 12, "SheriffShotLimit", new(1, 15, 1), 15, tab, false).SetParent(roleOption)
+            MisfireKillsTarget = BooleanOptionItem.Create(id + 11, "SheriffMisfireKillsTarget", false, tab, false).SetParent(parent);
+            ShotLimitOpt = IntegerOptionItem.Create(id + 12, "SheriffShotLimit", new(1, 15, 1), 15, tab, false).SetParent(parent)
                 .SetValueFormat(OptionFormat.Times);
-            CanKillAllAlive = BooleanOptionItem.Create(id + 15, "SheriffCanKillAllAlive", true, tab, false).SetParent(roleOption);
+            CanKillAllAlive = BooleanOptionItem.Create(id + 15, "SheriffCanKillAllAlive", true, tab, false).SetParent(parent);
             SetUpKillTargetOption(CustomRoles.Madmate, id + 13);
-            CanKillNeutrals = StringOptionItem.Create(id + 14, "SheriffCanKillNeutrals", KillOption, 0, tab, false).SetParent(roleOption);
+            CanKillNeutrals = StringOptionItem.Create(id + 14, "SheriffCanKillNeutrals", KillOption, 0, tab, false).SetParent(parent);
             SetUpNeutralOptions(id + 30);
         }
         public static void SetUpNeutralOptions(int id)

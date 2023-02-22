@@ -343,7 +343,11 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
 
             // Impostor
-            sortedRoleInfo.Where(role => role.RoleName.IsImpostor()).Do(info => info.OptionCreator());
+            sortedRoleInfo.Where(role => role.RoleName.IsImpostor()).Do(info =>
+            {
+                SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
+                info.OptionCreator();
+            });
             SerialKiller.SetupCustomOption();
             SetupRoleOptions(1200, TabGroup.ImpostorRoles, CustomRoles.ShapeMaster);
             ShapeMasterShapeshiftDuration = FloatOptionItem.Create(1210, "ShapeMasterShapeshiftDuration", new(1, 1000, 1), 10, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
@@ -403,7 +407,11 @@ namespace TownOfHost
             MayorNumOfUseButton = IntegerOptionItem.Create(20212, "MayorNumOfUseButton", new(1, 99, 1), 1, TabGroup.CrewmateRoles, false).SetParent(MayorHasPortableButton)
                 .SetValueFormat(OptionFormat.Times);
             SabotageMaster.SetupCustomOption();
-            sortedRoleInfo.Where(role => role.RoleName.IsCrewmate()).Do(info => info.OptionCreator());
+            sortedRoleInfo.Where(role => role.RoleName.IsCrewmate()).Do(info =>
+            {
+                SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
+                info.OptionCreator();
+            });
             Snitch.SetupCustomOption();
             SetupRoleOptions(20600, TabGroup.CrewmateRoles, CustomRoles.SpeedBooster);
             SpeedBoosterUpSpeed = FloatOptionItem.Create(20610, "SpeedBoosterUpSpeed", new(0.1f, 0.5f, 0.1f), 0.3f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
