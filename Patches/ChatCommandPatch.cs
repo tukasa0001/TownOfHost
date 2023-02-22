@@ -588,6 +588,7 @@ namespace TOHE
                 "警長" => "警长",
                 "告密者" or "告密" => "告密者",
                 "增速者" or "增速" => "增速者",
+                "時間管理者" or "时间管理人" or "时间管理" => "时间管理者",
                 "陷阱師" or "陷阱" or "小奖" => "陷阱师",
                 "傳送師" or "传送" => "传送师",
                 "縱火犯" or "纵火" => "纵火犯",
@@ -596,7 +597,6 @@ namespace TOHE
                 "小丑" or "丑皇" => "小丑",
                 "投機者" or "投机" => "投机者",
                 "馬里奧" => "马里奥",
-                "薛定諤的貓" or "薛定谔猫" or "猫" => "薛定谔的猫",
                 "恐怖分子" or "恐怖" => "恐怖分子",
                 "豺狼" => "豺狼",
                 "神" => "神",
@@ -663,6 +663,7 @@ namespace TOHE
                 { CustomRoles.ChivalrousExpert, GetString("ChivalrousExpert") },
                 { CustomRoles.NiceGuesser, GetString("NiceGuesser") },
                 { CustomRoles.Transporter, GetString("Transporter") },
+                { CustomRoles.TimeManager, GetString("TimeManager") },
                 //Neutral役職
                 { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
                 { CustomRoles.Arsonist, GetString("Arsonist") },

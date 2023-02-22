@@ -5,7 +5,6 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using TOHE.Modules;
-using UnityEngine.XR;
 using static TOHE.Translator;
 
 namespace TOHE
@@ -140,6 +139,7 @@ namespace TOHE
                 Snitch.Init();
                 Vampire.Init();
                 AntiAdminer.Init();
+                TimeManager.Init();
                 LastImpostor.Init();
                 TargetArrow.Init();
                 DoubleTrigger.Init();
@@ -601,6 +601,9 @@ namespace TOHE
                             break;
                         case CustomRoles.Mario:
                             Main.MarioVentCount[pc.PlayerId] = 0;
+                            break;
+                        case CustomRoles.TimeManager:
+                            TimeManager.Add(pc.PlayerId);
                             break;
                     }
                     foreach (var subRole in pc.GetCustomSubRoles())

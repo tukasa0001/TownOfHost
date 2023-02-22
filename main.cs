@@ -293,6 +293,7 @@ namespace TOHE
                     {CustomRoles.ChivalrousExpert, "#f0e68c"},
                     {CustomRoles.NiceGuesser, "#eede26"},
                     {CustomRoles.Transporter, "#42D1FF"},
+                    {CustomRoles.TimeManager, "#6495ed"},
                     //第三陣営役職
                     {CustomRoles.Arsonist, "#ff6633"},
                     {CustomRoles.Jester, "#ec62a5"},
@@ -410,6 +411,7 @@ namespace TOHE
         ChivalrousExpert,
         NiceGuesser,
         Transporter,
+        TimeManager,
         //Neutral
         Arsonist,
         Jester,
