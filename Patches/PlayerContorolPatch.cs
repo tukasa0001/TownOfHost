@@ -445,6 +445,7 @@ namespace TOHE
                 }, 1.5f, "Bomber Suiscide");
             }
 
+            //术士操控击杀
             if (shapeshifter.Is(CustomRoles.Warlock))
             {
                 if (Main.CursedPlayers[shapeshifter.PlayerId] != null)//呪われた人がいるか確認
@@ -480,17 +481,19 @@ namespace TOHE
             {
                 if (Main.MarkedPlayers[shapeshifter.PlayerId] != null)//确认被标记的人
                 {
-                    if (shapeshifting && !Main.MarkedPlayers[shapeshifter.PlayerId].IsAlive())//解除变形时不执行操作
+                    if (shapeshifting && Main.MarkedPlayers[shapeshifter.PlayerId].IsAlive())//解除变形时不执行操作
                     {
                         PlayerControl targetw = Main.MarkedPlayers[shapeshifter.PlayerId];
-                        targetw.SetRealKiller(shapeshifter);
-                        Logger.Info($"{targetw.GetNameWithRole()} was killed", "Assassin");
                         new LateTask(() =>
                         {
-                            if (!GameStates.IsMeeting && !GameStates.IsEnded)
+                            if (!GameStates.IsMeeting && !GameStates.IsEnded && GameStates.IsInTask && GameStates.IsInGame && Main.MarkedPlayers[shapeshifter.PlayerId].IsAlive())
                             {
+                                Logger.Info($"{targetw.GetNameWithRole()} was killed", "Assassin");
+                                targetw.SetRealKiller(shapeshifter);
                                 shapeshifter.RpcMurderPlayer(targetw);//殺す
                             }
+                            else Logger.Info($"{targetw.GetNameWithRole()} 本该被刺客击杀但状态不对劲了", "Assassin");
+                            if (GameStates.IsMeeting && shapeshifter.shapeshifting) shapeshifter.RpcRevertShapeshift(false);
                         }, 1.5f, "Assassin Kill");
                         Main.isMarkAndKill[shapeshifter.PlayerId] = false;
                     }

@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "E:\\program\\Program-project\\tohe\\TOHE.csproj": {}
+    "D:\\Desktop\\TOHE\\TOHE.csproj": {}
   },
   "projects": {
-    "E:\\program\\Program-project\\tohe\\TOHE.csproj": {
+    "D:\\Desktop\\TOHE\\TOHE.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\program\\Program-project\\tohe\\TOHE.csproj",
+        "projectUniqueName": "D:\\Desktop\\TOHE\\TOHE.csproj",
         "projectName": "TOHE",
-        "projectPath": "E:\\program\\Program-project\\tohe\\TOHE.csproj",
-        "packagesPath": "C:\\Users\\NCSIMON\\.nuget\\packages\\",
-        "outputPath": "E:\\program\\Program-project\\tohe\\obj\\",
+        "projectPath": "D:\\Desktop\\TOHE\\TOHE.csproj",
+        "packagesPath": "C:\\Users\\Leever\\.nuget\\packages\\",
+        "outputPath": "D:\\Desktop\\TOHE\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "F:\\Code\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\NCSIMON\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Leever\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
