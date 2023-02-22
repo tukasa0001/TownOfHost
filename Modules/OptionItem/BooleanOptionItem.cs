@@ -1,3 +1,5 @@
+using System;
+
 namespace TownOfHost
 {
     public class BooleanOptionItem : OptionItem
@@ -16,6 +18,14 @@ namespace TownOfHost
         {
             return new BooleanOptionItem(
                 id, name, defaultValue, tab, isSingleValue
+            );
+        }
+        public static BooleanOptionItem Create(
+            int id, Enum name, bool defaultValue, TabGroup tab, bool isSingleValue
+        )
+        {
+            return new BooleanOptionItem(
+                id, name.ToString(), defaultValue, tab, isSingleValue
             );
         }
 
