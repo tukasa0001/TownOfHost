@@ -27,6 +27,15 @@ namespace TownOfHost
         private static OptionItem ShotLimitOpt;
         private static OptionItem CanKillAllAlive;
         public static OptionItem CanKillNeutrals;
+        enum OptionName
+        {
+            KillCooldown,
+            SheriffMisfireKillsTarget,
+            SheriffShotLimit,
+            SheriffCanKillAllAlive,
+            SheriffCanKillNeutrals,
+            SheriffCanKill,
+        }
         public static Dictionary<CustomRoles, OptionItem> KillTargetOptions = new();
         public Sheriff(PlayerControl player)
         : base(
@@ -48,14 +57,14 @@ namespace TownOfHost
             var id = RoleInfo.ConfigId;
             var tab = RoleInfo.Tab;
             var parent = RoleInfo.RoleOption;
-            KillCooldown = FloatOptionItem.Create(id + 10, "KillCooldown", new(0f, 990f, 1f), 30f, tab, false).SetParent(parent)
+            KillCooldown = FloatOptionItem.Create(id + 10, OptionName.KillCooldown, new(0f, 990f, 1f), 30f, tab, false).SetParent(parent)
                 .SetValueFormat(OptionFormat.Seconds);
-            MisfireKillsTarget = BooleanOptionItem.Create(id + 11, "SheriffMisfireKillsTarget", false, tab, false).SetParent(parent);
-            ShotLimitOpt = IntegerOptionItem.Create(id + 12, "SheriffShotLimit", new(1, 15, 1), 15, tab, false).SetParent(parent)
+            MisfireKillsTarget = BooleanOptionItem.Create(id + 11, OptionName.SheriffMisfireKillsTarget, false, tab, false).SetParent(parent);
+            ShotLimitOpt = IntegerOptionItem.Create(id + 12, OptionName.SheriffShotLimit, new(1, 15, 1), 15, tab, false).SetParent(parent)
                 .SetValueFormat(OptionFormat.Times);
-            CanKillAllAlive = BooleanOptionItem.Create(id + 15, "SheriffCanKillAllAlive", true, tab, false).SetParent(parent);
+            CanKillAllAlive = BooleanOptionItem.Create(id + 15, OptionName.SheriffCanKillAllAlive, true, tab, false).SetParent(parent);
             SetUpKillTargetOption(CustomRoles.Madmate, id + 13);
-            CanKillNeutrals = StringOptionItem.Create(id + 14, "SheriffCanKillNeutrals", KillOption, 0, tab, false).SetParent(parent);
+            CanKillNeutrals = StringOptionItem.Create(id + 14, OptionName.SheriffCanKillNeutrals, KillOption, 0, tab, false).SetParent(parent);
             SetUpNeutralOptions(id + 30);
         }
         public static void SetUpNeutralOptions(int id)
@@ -79,7 +88,7 @@ namespace TownOfHost
                 _ => "",
             };
             Dictionary<string, string> replacementDic = new() { { "%role%", Utils.ColorString(Utils.GetRoleColor(role), roleName) } };
-            KillTargetOptions[role] = BooleanOptionItem.Create(id, "SheriffCanKill%role%", defaultValue, RoleInfo.Tab, false).SetParent(parent);
+            KillTargetOptions[role] = BooleanOptionItem.Create(id, OptionName.SheriffCanKill + "%role%", defaultValue, RoleInfo.Tab, false).SetParent(parent);
             KillTargetOptions[role].ReplacementDictionary = replacementDic;
         }
         public override void Add()

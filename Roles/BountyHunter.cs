@@ -25,6 +25,13 @@ namespace TownOfHost
         private static OptionItem OptionSuccessKillCooldown;
         private static OptionItem OptionFailureKillCooldown;
         private static OptionItem OptionShowTargetArrow;
+        enum OptionName
+        {
+            BountyTargetChangeTime,
+            BountySuccessKillCooldown,
+            BountyFailureKillCooldown,
+            BountyShowTargetArrow,
+        }
 
         public BountyHunter(PlayerControl player)
         : base(
@@ -53,13 +60,13 @@ namespace TownOfHost
             var id = RoleInfo.ConfigId;
             var tab = RoleInfo.Tab;
             var parent = RoleInfo.RoleOption;
-            OptionTargetChangeTime = FloatOptionItem.Create(id + 10, "BountyTargetChangeTime", new(10f, 900f, 2.5f), 60f, tab, false).SetParent(parent)
+            OptionTargetChangeTime = FloatOptionItem.Create(id + 10, OptionName.BountyTargetChangeTime, new(10f, 900f, 2.5f), 60f, tab, false).SetParent(parent)
                 .SetValueFormat(OptionFormat.Seconds);
-            OptionSuccessKillCooldown = FloatOptionItem.Create(id + 11, "BountySuccessKillCooldown", new(0f, 180f, 2.5f), 2.5f, tab, false).SetParent(parent)
+            OptionSuccessKillCooldown = FloatOptionItem.Create(id + 11, OptionName.BountySuccessKillCooldown, new(0f, 180f, 2.5f), 2.5f, tab, false).SetParent(parent)
                 .SetValueFormat(OptionFormat.Seconds);
-            OptionFailureKillCooldown = FloatOptionItem.Create(id + 12, "BountyFailureKillCooldown", new(0f, 180f, 2.5f), 50f, tab, false).SetParent(parent)
+            OptionFailureKillCooldown = FloatOptionItem.Create(id + 12, OptionName.BountyFailureKillCooldown, new(0f, 180f, 2.5f), 50f, tab, false).SetParent(parent)
                 .SetValueFormat(OptionFormat.Seconds);
-            OptionShowTargetArrow = BooleanOptionItem.Create(id + 13, "BountyShowTargetArrow", false, tab, false).SetParent(parent);
+            OptionShowTargetArrow = BooleanOptionItem.Create(id + 13, OptionName.BountyShowTargetArrow, false, tab, false).SetParent(parent);
         }
         public override void Add()
         {
