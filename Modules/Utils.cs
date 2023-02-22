@@ -1268,7 +1268,7 @@ namespace TOHE
             {
                 "actorour#0029" => "KARPED1EM",
                 "truantwarm＃9165" => "萧暮不姓萧",
-                "drilldinky#1386" => "爱完AU的河豚",
+                "drilldinky#1386" => "爱玩AU的河豚",
                 "heavyclod#2286" => "小叨院长",
                 "storeroan#0331" => "Night_瓜",
                 "farardour#6818" => "-提米SaMa-",
