@@ -23,7 +23,7 @@ namespace TownOfHost.Roles.AddOns.Impostor
         public static bool CanBeLastImpostor(PlayerControl pc)
             => pc.IsAlive()
             && !pc.Is(CustomRoles.LastImpostor)
-            && pc.Is(RoleType.Impostor)
+            && pc.Is(CustomRoleTypes.Impostor)
             && pc.GetCustomRole()
             is not CustomRoles.Vampire
                 and not CustomRoles.BountyHunter

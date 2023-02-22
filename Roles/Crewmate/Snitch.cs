@@ -72,7 +72,7 @@ namespace TownOfHost.Roles.Crewmate
             var snitchId = pc.PlayerId;
             return IsExposed[snitchId];
         }
-        private static bool IsSnitchTarget(PlayerControl target) => IsEnable && (target.Is(RoleType.Impostor) || (target.IsNeutralKiller() && CanFindNeutralKiller));
+        private static bool IsSnitchTarget(PlayerControl target) => IsEnable && (target.Is(CustomRoleTypes.Impostor) || (target.IsNeutralKiller() && CanFindNeutralKiller));
         public static void CheckTask(PlayerControl snitch)
         {
             if (!snitch.IsAlive()) return;

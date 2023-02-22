@@ -124,7 +124,7 @@ namespace TownOfHost
             {
                 CustomRoles.EvilTracker => EvilTracker.KillFlashCheck(killer, target),
                 CustomRoles.Seer => true,
-                _ => seer.Is(RoleType.Madmate) && Options.MadmateCanSeeKillFlash.GetBool(),
+                _ => seer.Is(CustomRoleTypes.Madmate) && Options.MadmateCanSeeKillFlash.GetBool(),
             };
         }
         public static void KillFlash(this PlayerControl player)
@@ -362,16 +362,15 @@ namespace TownOfHost
                         var info = GetPlayerInfoById(playerId);
                         var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(role).ShadeColor(0.5f); //タスク完了後の色
                         var NonCompleteColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
-                        var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
-                        int numCompleted = taskState.CompletedTasksCount;
-                        int numAllTasks = taskState.AllTasksCount;
 
                         if (Workhorse.IsThisRole(playerId))
-                            (NormalColor, numCompleted, numAllTasks) = Workhorse.GetTaskTextData(taskState);
+                            NonCompleteColor = Workhorse.RoleColor;
+
+                        var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
 
                         TextColor = comms ? Color.gray : NormalColor;
-                        string Completed = comms ? "?" : $"{numCompleted}";
-                        ProgressText.Append(ColorString(TextColor, $"({Completed}/{numAllTasks})"));
+                        string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
+                        ProgressText.Append(ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})"));
                     }
                     break;
             }
@@ -704,7 +703,7 @@ namespace TownOfHost
                 //名前の後ろに付けるマーカー
                 SelfMark.Clear();
 
-                //インポスター/キル可能な第三陣営に対するSnitch警告
+                //インポスター/キル可能なニュートラルに対するSnitch警告
                 SelfMark.Append(Snitch.GetWarningArrow(seer));
 
                 //ハートマークを付ける(自分に)
@@ -734,11 +733,10 @@ namespace TownOfHost
                     SelfSuffix.Append(Witch.GetSpellModeText(seer, false, isMeeting));
                 }
 
-                //タスクを終えたSnitchがインポスター/キル可能な第三陣営の方角を確認できる
+                //タスクを終えたSnitchがインポスター/キル可能なニュートラルの方角を確認できる
                 SelfSuffix.Append(Snitch.GetSnitchArrow(seer));
 
-                if (seer.Is(CustomRoles.EvilTracker))
-                    SelfSuffix.Append(EvilTracker.GetTargetArrowForVanilla(isMeeting, seer));
+                SelfSuffix.Append(EvilTracker.GetTargetArrow(seer, seer));
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.GetRealName(isMeeting);
@@ -769,7 +767,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Executioner)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
-                    || seer.IsNeutralKiller() //seerがキル出来る第三陣営
+                    || seer.IsNeutralKiller() //seerがキル出来るニュートラル
                     || IsActive(SystemTypes.Electrical)
                     || IsActive(SystemTypes.Comms)
                     || NoCache
@@ -846,7 +844,7 @@ namespace TownOfHost
                             var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
                             TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
                         }
-                        if (seer.Is(RoleType.Impostor) && target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
+                        if (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
                             TargetMark.Append(ColorString(GetRoleColor(CustomRoles.MadSnitch), "★"));
                         TargetMark.Append(Executioner.TargetMark(seer, target));
 

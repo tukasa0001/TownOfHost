@@ -102,12 +102,12 @@ namespace TownOfHost
     {
         public static bool Prefix(GameStartManager __instance)
         {
-            var invalidColor = Main.AllPlayerControls.Where(p => p.Data.DefaultOutfit.ColorId >= Palette.PlayerColors.Length);
+            var invalidColor = Main.AllPlayerControls.Where(p => p.Data.DefaultOutfit.ColorId < 0 || Palette.PlayerColors.Length <= p.Data.DefaultOutfit.ColorId);
             if (invalidColor.Count() != 0)
             {
                 var msg = Translator.GetString("Error.InvalidColor");
                 Logger.SendInGame(msg);
-                msg += "\n" + string.Join(",", invalidColor.Select(p => p.name));
+                msg += "\n" + string.Join(",", invalidColor.Select(p => $"{p.name}({p.Data.DefaultOutfit.ColorId})"));
                 Utils.SendMessage(msg);
                 return false;
             }

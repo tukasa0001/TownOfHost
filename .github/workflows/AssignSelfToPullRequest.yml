@@ -1,0 +1,22 @@
+#Reference: https://gist.github.com/taji-taji/732514d4d4ee463a07d87895acf90f35#file-assign-self-to-pr-yml
+
+name: Assign self to Pull Request
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  assign_self_to_pull_request:
+    name: Assign self to Pull Request
+    # dependabot を使っている場合は dependabot の作る PR では動かさない
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      NUMBER: ${{ github.event.pull_request.number }}
+      ASSIGNEE: ${{ github.event.pull_request.user.login }}
+    steps:
+      - name: Assign self to pull request
+        run: gh pr edit $NUMBER --add-assignee $ASSIGNEE

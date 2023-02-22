@@ -54,7 +54,7 @@ namespace TownOfHost.Roles.Neutral
                 foreach (var target in Main.AllPlayerControls)
                 {
                     if (playerId == target.PlayerId) continue;
-                    else if (!CanTargetImpostor.GetBool() && target.Is(RoleType.Impostor)) continue;
+                    else if (!CanTargetImpostor.GetBool() && target.Is(CustomRoleTypes.Impostor)) continue;
                     else if (!CanTargetNeutralKiller.GetBool() && target.IsNeutralKiller()) continue;
                     if (target.Is(CustomRoles.GM)) continue;
 

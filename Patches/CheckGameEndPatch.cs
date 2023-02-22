@@ -39,14 +39,14 @@ namespace TownOfHost
                 {
                     case CustomWinner.Crewmate:
                         Main.AllPlayerControls
-                            .Where(pc => pc.Is(RoleType.Crewmate) && !pc.Is(CustomRoles.Lovers))
+                            .Where(pc => pc.Is(CustomRoleTypes.Crewmate) && !pc.Is(CustomRoles.Lovers))
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
                     case CustomWinner.Impostor:
-                        if (Main.AllAlivePlayerControls.Count(p => p.Is(RoleType.Impostor)) == 0 && Main.AllAlivePlayerControls.Count(p => p.Is(CustomRoles.Egoist)) > 0) //インポスター全滅でエゴイストが生存
+                        if (Main.AllAlivePlayerControls.Count(p => p.Is(CustomRoleTypes.Impostor)) == 0 && Main.AllAlivePlayerControls.Count(p => p.Is(CustomRoles.Egoist)) > 0) //インポスター全滅でエゴイストが生存
                             goto case CustomWinner.Egoist;
                         Main.AllPlayerControls
-                            .Where(pc => (pc.Is(RoleType.Impostor) || pc.Is(RoleType.Madmate)) && !pc.Is(CustomRoles.Lovers))
+                            .Where(pc => (pc.Is(CustomRoleTypes.Impostor) || pc.Is(CustomRoleTypes.Madmate)) && !pc.Is(CustomRoles.Lovers))
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
                     case CustomWinner.Egoist:
@@ -186,10 +186,10 @@ namespace TownOfHost
                 reason = GameOverReason.ImpostorByKill;
 
                 int[] counts = CountLivingPlayersByPredicates(
-                    pc => pc.Is(RoleType.Impostor), //インポスター
+                    pc => pc.Is(CustomRoleTypes.Impostor), //インポスター
                     pc => pc.Is(CustomRoles.Egoist), //エゴイスト
                     pc => pc.Is(CustomRoles.Jackal), //ジャッカル
-                    pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Egoist) && !pc.Is(CustomRoles.Jackal) //その他
+                    pc => !pc.Is(CustomRoleTypes.Impostor) && !pc.Is(CustomRoles.Egoist) && !pc.Is(CustomRoles.Jackal) //その他
                 );
                 int Imp = counts[0], Ego = counts[1], Jackal = counts[2], Crew = counts[3];
 
@@ -245,8 +245,8 @@ namespace TownOfHost
                 reason = GameOverReason.ImpostorByKill;
 
                 int[] counts = CountLivingPlayersByPredicates(
-                    pc => pc.Is(RoleType.Impostor), //インポスター
-                    pc => pc.Is(RoleType.Crewmate) //クルー(Troll,Fox除く)
+                    pc => pc.Is(CustomRoleTypes.Impostor), //インポスター
+                    pc => pc.Is(CustomRoleTypes.Crewmate) //クルー(Troll,Fox除く)
                 );
                 int Imp = counts[0], Crew = counts[1];
 

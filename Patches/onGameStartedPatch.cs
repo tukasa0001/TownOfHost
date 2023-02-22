@@ -45,7 +45,6 @@ namespace TownOfHost
             Main.ShapeshiftTarget = new();
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();
-            Main.targetArrows = new();
 
             ReportDeadBodyPatch.CanReport = new();
 
@@ -69,6 +68,15 @@ namespace TownOfHost
             Main.AllPlayerNames = new();
 
             Camouflage.Init();
+            var invalidColor = Main.AllPlayerControls.Where(p => p.Data.DefaultOutfit.ColorId < 0 || Palette.PlayerColors.Length <= p.Data.DefaultOutfit.ColorId);
+            if (invalidColor.Count() != 0)
+            {
+                var msg = Translator.GetString("Error.InvalidColor");
+                Logger.SendInGame(msg);
+                msg += "\n" + string.Join(",", invalidColor.Select(p => $"{p.name}({p.Data.DefaultOutfit.ColorId})"));
+                Utils.SendMessage(msg);
+                Logger.Error(msg, "CoStartGame");
+            }
 
             foreach (var target in Main.AllPlayerControls)
             {
@@ -80,11 +88,11 @@ namespace TownOfHost
             }
             foreach (var pc in Main.AllPlayerControls)
             {
-                if (AmongUsClient.Instance.AmHost && Options.ColorNameMode.GetBool()) pc.RpcSetName(Palette.GetColorName(pc.Data.DefaultOutfit.ColorId));
+                var colorId = pc.Data.DefaultOutfit.ColorId;
+                if (AmongUsClient.Instance.AmHost && Options.ColorNameMode.GetBool()) pc.RpcSetName(Palette.GetColorName(colorId));
                 Main.PlayerStates[pc.PlayerId] = new(pc.PlayerId);
                 Main.AllPlayerNames[pc.PlayerId] = pc?.Data?.PlayerName;
-
-                Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
+                Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[colorId];
                 Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.GetFloat(FloatOptionNames.PlayerSpeedMod); //移動速度をデフォルトの移動速度に変更
                 ReportDeadBodyPatch.CanReport[pc.PlayerId] = true;
                 ReportDeadBodyPatch.WaitReport[pc.PlayerId] = new();
@@ -254,9 +262,9 @@ namespace TownOfHost
                 SetColorPatch.IsAntiGlitchDisabled = true;
                 foreach (var pc in Main.AllPlayerControls)
                 {
-                    if (pc.Is(RoleType.Impostor))
+                    if (pc.Is(CustomRoleTypes.Impostor))
                         pc.RpcSetColor(0);
-                    else if (pc.Is(RoleType.Crewmate))
+                    else if (pc.Is(CustomRoleTypes.Crewmate))
                         pc.RpcSetColor(1);
                 }
 
@@ -396,7 +404,7 @@ namespace TownOfHost
                         foreach (var seer in Main.AllPlayerControls)
                         {
                             if (seer == pc) continue;
-                            if (pc.GetCustomRole().IsImpostor() || pc.IsNeutralKiller()) //変更対象がインポスター陣営orキル可能な第三陣営
+                            if (pc.GetCustomRole().IsImpostor() || pc.IsNeutralKiller()) //変更対象がインポスター陣営orキル可能なニュートラル
                                 NameColorManager.Instance.RpcAdd(seer.PlayerId, pc.PlayerId, $"{pc.GetRoleColorCode()}");
                         }
                     }

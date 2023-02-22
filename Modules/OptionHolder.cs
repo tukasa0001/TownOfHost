@@ -265,6 +265,7 @@ namespace TownOfHost
             "RoleAssigningAlgorithm.NetRandom",
             "RoleAssigningAlgorithm.HashRandom",
             "RoleAssigningAlgorithm.Xorshift",
+            "RoleAssigningAlgorithm.MersenneTwister",
         };
         public static SuffixModes GetSuffixMode()
         {

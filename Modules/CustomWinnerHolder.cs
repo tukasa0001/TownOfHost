@@ -13,10 +13,10 @@ namespace TownOfHost
         // リザルトの表示に使用されます。
         public static HashSet<AdditionalWinners> AdditionalWinnerTeams;
         // 勝者の役職が格納され、この変数に格納されている役職のプレイヤーは全員勝利となります。
-        // チームとなる第三陣営の処理に最適です。
+        // チームとなるニュートラルの処理に最適です。
         public static HashSet<CustomRoles> WinnerRoles;
         // 勝者のPlayerIDが格納され、このIDを持つプレイヤーは全員勝利します。
-        // 単独勝利する第三陣営の処理に最適です。
+        // 単独勝利するニュートラルの処理に最適です。
         public static HashSet<byte> WinnerIds;
 
         public static void Reset()
