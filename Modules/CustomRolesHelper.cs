@@ -108,18 +108,7 @@ namespace TOHE
             return role is
                 CustomRoles.Jackal;
         }
-        public static bool IsNNK(this CustomRoles role) // 是否无刀中立
-        {
-            return role is
-                CustomRoles.Arsonist or
-                CustomRoles.Opportunist or
-                CustomRoles.Mario or
-                CustomRoles.God or
-                CustomRoles.Jester or
-                CustomRoles.Terrorist or
-                CustomRoles.Executioner or
-                CustomRoles.Innocent;
-        }
+        public static bool IsNNK(this CustomRoles role) => !role.IsNK(); // 是否无刀中立
         public static bool IsNeutralKilling(this CustomRoles role) //是否邪恶中立（抢夺或单独胜利的中立）
         {
             return role is

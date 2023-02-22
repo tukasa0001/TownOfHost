@@ -1,8 +1,6 @@
 using System.Linq;
 using AmongUs.Data;
 using HarmonyLib;
-using UnityEngine;
-using static TOHE.Translator;
 
 namespace TOHE
 {

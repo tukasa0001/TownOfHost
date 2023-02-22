@@ -2,7 +2,6 @@ using System;
 using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
-using HarmonyLib;
 using Hazel;
 using UnityEngine;
 using static TOHE.Translator;
@@ -205,17 +204,13 @@ namespace TOHE
                         Utils.NotifyRoles(isMeeting: true, NoCache: true);
                     }, 0.2f, "Guesser Kill");
                 }
-
             }
             return true;
         }
 
         public static TMPro.TextMeshPro nameText(this PlayerControl p) => p.cosmetics.nameText;
-
         public static TMPro.TextMeshPro NameText(this PoolablePlayer p) => p.cosmetics.nameText;
-
-
-        public static void RpcGuesserMurderPlayer(this PlayerControl pc, float delay = 0f)//ゲッサー用の殺し方
+        public static void RpcGuesserMurderPlayer(this PlayerControl pc, float delay = 0f) //ゲッサー用の殺し方
         {
             // DEATH STUFF //
             var amOwner = pc.AmOwner;
