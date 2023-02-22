@@ -346,7 +346,7 @@ namespace TownOfHost
             sortedRoleInfo.Where(role => role.RoleName.IsImpostor()).Do(info =>
             {
                 SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
-                info.OptionCreator();
+                info.OptionCreator?.Invoke();
             });
             SerialKiller.SetupCustomOption();
             SetupRoleOptions(1200, TabGroup.ImpostorRoles, CustomRoles.ShapeMaster);
@@ -410,7 +410,7 @@ namespace TownOfHost
             sortedRoleInfo.Where(role => role.RoleName.IsCrewmate()).Do(info =>
             {
                 SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
-                info.OptionCreator();
+                info.OptionCreator?.Invoke();
             });
             Snitch.SetupCustomOption();
             SetupRoleOptions(20600, TabGroup.CrewmateRoles, CustomRoles.SpeedBooster);
