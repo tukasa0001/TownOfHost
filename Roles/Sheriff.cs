@@ -14,6 +14,7 @@ namespace TownOfHost
     {
         public static readonly SimpleRoleInfo RoleInfo =
             new(
+                typeof(Sheriff),
                 CustomRoles.Sheriff,
                 CustomRoleTypes.Crewmate,
                 20400,

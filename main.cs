@@ -254,7 +254,8 @@ namespace TownOfHost
                     }
                 }
                 var type = typeof(RoleBase);
-                var roleClassArray = Assembly.GetAssembly(type)
+                var roleClassArray =
+                CustomRoleManager.AllRolesClassType = Assembly.GetAssembly(type)
                     .GetTypes()
                     .Where(x => x.IsSubclassOf(type)).ToArray();
 

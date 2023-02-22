@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using UnityEngine;
 
 using static TownOfHost.Options;
@@ -7,6 +8,7 @@ namespace TownOfHost.Roles;
 
 public class SimpleRoleInfo
 {
+    public Type ClassType;
     public CustomRoles RoleName;
     public CustomRoleTypes CustomRoleType;
     public Color32 RoleColor;
@@ -18,21 +20,23 @@ public class SimpleRoleInfo
     public OptionCreatorDelegate OptionCreator;
 
     public SimpleRoleInfo(
+        Type classType,
         CustomRoles roleName,
-        CustomRoleTypes type,
+        CustomRoleTypes customRoleType,
         int configId,
         OptionCreatorDelegate optionCreator,
         string colorCode = "",
         TabGroup tab = TabGroup.MainSettings
     )
     {
+        ClassType = classType;
         RoleName = roleName;
-        CustomRoleType = type;
+        CustomRoleType = customRoleType;
         ConfigId = configId;
         OptionCreator = optionCreator;
 
         if (colorCode == "")
-            colorCode = type switch
+            colorCode = customRoleType switch
             {
                 CustomRoleTypes.Impostor or CustomRoleTypes.Madmate => "#ff1919",
                 _ => "#ffffff"

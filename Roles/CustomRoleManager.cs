@@ -7,6 +7,7 @@ namespace TownOfHost.Roles;
 
 public static class CustomRoleManager
 {
+    public static Type[] AllRolesClassType;
     public static List<SimpleRoleInfo> AllRolesInfo = new(Enum.GetValues(typeof(CustomRoles)).Length);
     public static List<RoleBase> AllActiveRoles = new(Enum.GetValues(typeof(CustomRoles)).Length);
 
@@ -23,23 +24,14 @@ public static class CustomRoleManager
     }
     public static void CreateInstance()
     {
-        foreach (var pc in Main.AllPlayerControls.ToArray())
+        foreach (var info in AllRolesInfo)
         {
-            RoleBase _ = pc.GetCustomRole() switch
-            {
-                //インポスター役職
-                CustomRoles.BountyHunter => new BountyHunter(pc),
+            if (!info.IsEnable) continue;
 
-                //マッドメイト役職
-                //CustomRoles.Madmate => new Madmate(pc),
-
-                //クルー役職
-                CustomRoles.Sheriff => new Sheriff(pc),
-
-                //第三陣営
-                //CustomRoles.Arsonist => new Arsonist(pc),
-                _ => null
-            };
+            var infoType = info.ClassType;
+            var type = AllRolesClassType.Where(x => x == infoType).FirstOrDefault();
+            foreach (var pc in Main.AllPlayerControls.Where(x => x.GetCustomRole() == info.RoleName).ToArray())
+                Activator.CreateInstance(type, new object[] { pc });
         }
     }
 }

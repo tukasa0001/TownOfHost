@@ -14,6 +14,7 @@ namespace TownOfHost
     {
         public static readonly SimpleRoleInfo RoleInfo =
             new(
+                typeof(BountyHunter),
                 CustomRoles.BountyHunter,
                 CustomRoleTypes.Impostor,
                 1000,
