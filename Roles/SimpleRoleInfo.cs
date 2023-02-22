@@ -1,10 +1,16 @@
+using System;
+using UnityEngine;
 
 using static TownOfHost.Options;
 
 namespace TownOfHost.Roles;
 
-public class SimpleRoleInfo : RoleInfoBase
+public class SimpleRoleInfo
 {
+    public CustomRoles RoleName;
+    public CustomRoleTypes CustomRoleType;
+    public Color32 RoleColor;
+    public string RoleColorCode;
     public int ConfigId;
     public TabGroup Tab;
     public OptionItem RoleOption => CustomRoleSpawnChances[RoleName];
@@ -18,15 +24,22 @@ public class SimpleRoleInfo : RoleInfoBase
         OptionCreatorDelegate optionCreator,
         string colorCode = "",
         TabGroup tab = TabGroup.MainSettings
-    ) :
-    base(
-        roleName,
-        type,
-        colorCode
     )
     {
+        RoleName = roleName;
+        CustomRoleType = type;
         ConfigId = configId;
         OptionCreator = optionCreator;
+
+        if (colorCode == "")
+            colorCode = type switch
+            {
+                CustomRoleTypes.Impostor or CustomRoleTypes.Madmate => "#ff1919",
+                _ => "#ffffff"
+            };
+        RoleColorCode = colorCode;
+
+        RoleColor = Utils.GetRoleColor(roleName);
 
         if (tab == TabGroup.MainSettings)
             tab = CustomRoleType switch
@@ -41,4 +54,5 @@ public class SimpleRoleInfo : RoleInfoBase
 
         CustomRoleManager.AllRolesInfo.Add(this);
     }
+    public delegate void OptionCreatorDelegate();
 }
