@@ -266,64 +266,56 @@ namespace TOHE
                             neutralnum++;
                     }
                     if (Options.ConfirmEjectionsRoles.GetBool())
-                    {
                         name = string.Format(GetString("PlayerIsRole"), realName, coloredRole);
-                    }
                     else if (Options.ConfirmEjections.GetBool())
                     {
                         if (CustomRolesHelper.IsImpostor(player.GetCustomRole()))
-                        {
                             name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
-                        }
-                        else
-                        {
-                            name = string.Format(GetString("IsGood"), realName);
-                        }
+                        else name = string.Format(GetString("IsGood"), realName);
                         if (Options.ConfirmEjectionsNK.GetBool() && CustomRolesHelper.IsNK(player.GetCustomRole()))
                         {
                             if (Options.ConfirmEjectionsNKAsImp.GetBool())
-                            {
                                 name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
-                            }
-                            else
-                            {
-                                name = $"{realName} 属于 " + Utils.ColorString(Color.cyan, "中立阵营");
-                            }
+                            else name = $"{realName} 属于 " + Utils.ColorString(Color.cyan, "中立阵营");
                         }
                         if (Options.ConfirmEjectionsNonNK.GetBool() && CustomRolesHelper.IsNNK(player.GetCustomRole()))
                         {
                             if (Options.ConfirmEjectionsNKAsImp.GetBool())
-                            {
                                 name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
-                            }
-                            else
-                            {
-                                name = $"{realName} 属于 " + Utils.ColorString(Color.cyan, "中立阵营");
-                            }
+                            else name = $"{realName} 属于 " + Utils.ColorString(Color.cyan, "中立阵营");
                         }
                     }
-                    else
-                    {
-                        name = string.Format(GetString("PlayerExiled"), realName);
-                    }
-                    if (crole == CustomRoles.Jester)
-                        name = string.Format(GetString("ExiledJester"), realName, coloredRole) + "<size=0>";
+                    else name = string.Format(GetString("PlayerExiled"), realName);
 
+                    var DecidedWinner = false;
+                    //小丑胜利
+                    if (crole == CustomRoles.Jester)
+                    {
+                        name = string.Format(GetString("ExiledJester"), realName, coloredRole);
+                        DecidedWinner = true;
+                    }
+                    //处刑人胜利
                     if (Executioner.Target.ContainsValue(exileId))
-                        name = string.Format(GetString("ExiledExeTarget"), realName, coloredRole) + "<size=0>";
-                    if (Options.ShowImpRemainOnEject.GetBool() && crole != CustomRoles.Jester && !Executioner.Target.ContainsValue(exileId))
+                    {
+                        name = string.Format(GetString("ExiledExeTarget"), realName, coloredRole);
+                        DecidedWinner = true;
+                    }
+                    //冤罪师胜利
+                    var playerList = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Innocent) && !x.IsAlive() && x.GetRealKiller().PlayerId == exileId);
+                    if (playerList.Count() > 0)
+                    {
+                        if (DecidedWinner) name += string.Format(GetString("ExiledInnocentTargetAddBelow")) ;
+                        else name = string.Format(GetString("ExiledInnocentTargetInOneLine"), realName, coloredRole);
+                        DecidedWinner = true;
+                    }
+
+                    if (DecidedWinner) name += "<size=0>";
+                    if (Options.ShowImpRemainOnEject.GetBool() && !DecidedWinner)
                     {
                         name += "\n";
                         string comma = neutralnum != 0 ? "，" : "";
-                        if (impnum == 0)
-                        {
-                            name += GetString("NoImpRemain") + comma;
-                        }
-                        else
-                        {
-                            name += string.Format(GetString("ImpRemain"), impnum) + comma;
-                        }
-
+                        if (impnum == 0) name += GetString("NoImpRemain") + comma;
+                        else name += string.Format(GetString("ImpRemain"), impnum) + comma;
                         if (Options.ShowNKRemainOnEject.GetBool() && neutralnum != 0)
                             name += string.Format(GetString("NeutralRemain"), neutralnum);
                     }

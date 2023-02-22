@@ -68,10 +68,17 @@ namespace TOHE
                     var playerList = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Innocent) && !x.IsAlive() && x.GetRealKiller().PlayerId == exiled.PlayerId);
                     if (playerList.Count() > 0)
                     {
-                        if (DecidedWinner) CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Innocent);
-                        else CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Innocent);
-                        foreach (var pc in playerList) CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
-                        DecidedWinner = true;
+                        if (Options.InnocentCanWinByImp.GetBool() && role.IsImpostor())
+                        {
+                            Logger.Info("冤罪的目标是内鬼，非常可惜啊", "Exeiled Winner Check");
+                        }
+                        else
+                        {
+                            if (DecidedWinner) CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Innocent);
+                            else CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Innocent);
+                            foreach (var pc in playerList) CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                            DecidedWinner = true;
+                        }
                     }
 
                     //判断小丑胜利
