@@ -85,15 +85,7 @@ Dictator,独裁者,Dictator,Диктатор
 Detective,侦探,Detective,Детектив
 NiceGuesser,正义赌怪,Nice Guesser,Добрый Угадыватель
 Transporter,传送师,Transporter,Транспортер
-<<<<<<< HEAD
 TimeManager,时间操控者,Time Manager,Мастер Времени
-=======
-<<<<<<< HEAD
-TimeManager,时间操控者,Time Manager
-=======
-TimeManager,时间操控者,Time Manager,Мастер Времени
->>>>>>> a2c07658e9b9bdca63230ec5f0608f079a55df5f
->>>>>>> 5a5730b5079b27b01e433682b10ee3af40d2d73f
 
 # 中立阵营
 Jester,小丑,Jester,Джестер
@@ -262,15 +254,8 @@ UndercoverInfoLong,(船员阵营):\n内鬼会将卧底认作自己的队友，�
 NiceGuesserInfoLong,(船员阵营):\n正义赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。,"(Crewmates):\nNice Guesser can guess the roles of certain players during an encounter. If he guesses the role correctly, he will kill that target, and if wrong, he will commit suicide. \nGuessing command: ''/bt [Player ID] [Role Name]'' \nExample: /bt 3 Bait \nYou can see the player ID before the player's nickname, or you can use the ''/id'' command to see the IDs of all players.","(Член Экипажа):\nДобрый Угадыватель может угадывать роли определённого игрока во время встречи. Если он угадает роль правильно, то он убьет эту цель, а если неправильно, то он совершит самоубийство. \nКоманда для угадываний: '/bt [Номер игрока] [Название Роли]'' \nПример: /bt 3 Байт \nВы можете увидеть номер игрока перед его никнеймом, или же для просмотра номеров всех игроков нужно использовать команду ''/id'' ."
 ChivalrousExpertInfoLong,(船员阵营):\n侠客可以正义击杀任何阵营的人，不过机会只有一次。,"(Crewmates):\nKnight can kill any player with any role, but he can only kill once per game.","(Член Экипажа):\nРыцарь может убить любого игрока с любой ролью, но убить он сможет только один раз за игру."
 TransporterInfoLong,(船员阵营):\n每当传送师完成任务，就会有随机两位玩家交换位置，但若剩余玩家不足将什么都不会发生。请注意：管道中的玩家不会被选中。,"(Crewmates):\nWhenever the Transporter completes a task two random players will swap places, but if there aren't enough live players, nothing will happen. \nPlease note that players who are in the air vent will not be selected.","(Член Экипажа):\nВсякий раз, когда Транспортер завершает задание, два случайных игрока меняются местами, но если живых игроков недостаточно, ничего не произойдет. \nПожалуйста, обратите внимание: игроки, которые находятся в вентиляции, выбраны не будут."
-<<<<<<< HEAD
 TimeManagerInfoLong,(船员阵营):\n时间操控者做的任务越多，会议时间就会越长，当时间操控者死亡则会议时间恢复正常。当时间操控者成为叛徒时则技能变为减少会议时长而不是增加会议时长。,"(Crewmates):\nThe more tasks you do, the longer your meeting will last. When you die, the meeting time will be restored.","(Член Экипажа):\nМастер Времени может увеличить время встречи, увеличивается время по мере выполнения заданий. Но когда он умрет, время встречи будет сброшено по умолчанию."
-=======
-<<<<<<< HEAD
-TimeManagerInfoLong(船员阵营):\n时间操控者做的任务越多，会议时间就会越长，当时间操控者死亡则会议时间恢复正常。当时间操控者成为叛徒时则技能变为减少会议时长而不是增加会议时长。,"(Crewmates):The more tasks you do, the longer your meeting will last. When you die, the meeting time will be restored."
-=======
-TimeManagerInfoLong,(船员阵营):\n时间操控者做的任务越多，会议时间就会越长，当时间操控者死亡则会议时间恢复正常。当时间操控者成为叛徒时则技能变为减少会议时长而不是增加会议时长。,"(Crewmates):\nThe more tasks you do, the longer your meeting will last. When you die, the meeting time will be restored.","(Член Экипажа):\nМастер Времени может увеличить время встречи, увеличивается время по мере выполнения заданий. Но когда он умрет, время встречи будет сброшено по умолчанию."
->>>>>>> a2c07658e9b9bdca63230ec5f0608f079a55df5f
->>>>>>> 5a5730b5079b27b01e433682b10ee3af40d2d73f
+
 
 # 中立阵营
 ArsonistInfoLong,(中立阵营):\n纵火犯可以通过对玩家点击击杀按钮并跟随其数秒来完成涂油，开始涂油以及涂油成功时会显示护盾破碎作为提示。当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。\n\n玩家名显示「△」表示涂油中\n玩家名显示「▲」表示已涂油,"(Neutrals):\nWhen you use the kill button, you douse your target in oil.\nAfter dousing all living players, you set everything ablaze and win by venting.","(Нейтрал):\nПоджигатель может обливать игроков, нажав на кнопку 'Убить' и находясь рядом с игроком в течение нескольких секунд. \nПосле того как он обольёт всех живых игроков Поджигатель сможет запрыгнуть в вентиляцию, чтобы поджечь всех игроков, что приводит к победе Поджигателя."
@@ -288,15 +273,7 @@ GMInfoLong,(房主):\n看我干啥，我只是个开局就死的冤魂，静静�
 # 附加职业
 LastImpostorInfoLong,(附加职业):\n这个效果在内鬼仅剩一人时赋予该内鬼。使其击杀冷却缩短。该效果对赏金猎人、嗜血杀手以及吸血鬼等击杀方式特殊的职业不适用。,"(Add-ons):\nAn Add-on granted to the last Impostor remaining.\nKill cooldown is reduced according to this setting.\nNot granted to Bounty Hunters, Serial Killers, or Vampires.","(Атрибут):\nАтрибут, присваивается последнему Предателю. \nВремя отката убийства становится меньше, чем обычно. \nНе назначается Охотнику за головами, Серийному убийце или Вампиру."
 LoversInfoLong,(附加职业):\n恋人为两名玩家的组合。恋人存活到游戏结束则恋人独自获胜。船员阵营的恋人玩家没有任务。从恋人阵营玩家可以看到两名恋人玩家昵称旁有心形标志。恋人其中一人死亡则另一人殉情。恋人中的一方在会议中被放逐时，另一方将死亡并变为不可以被报告的尸体。,"(Add-ons),\nLovers is an assigned to 2 random players on top of their defined roles.\nIf you and your lover both survive til the end, you both will win.\nIf one of you dies, the other will also die. If crewmates get a task victory, you both will lose.","(Атрибут):\nДополнительно с какой-либо ролью Любовники назначаются 2 случайных игрокам. \nЕсли оба любовника останутся живы, то они выиграют. \nКогда умрёт хотя бы один любовник, то моментально умрёт и второй. Они проиграют когда Члены Экипажа выполнят все задания."
-<<<<<<< HEAD
 MadmateInfoLong,(附加职业):\n只有船员会成为叛徒，叛徒需要帮助内鬼阵营获得胜利，当内鬼阵营失败时叛徒也会失败。市长、摆烂人、告密者、警长、网红、正义赌怪不会成为叛徒。当诱饵成为叛徒时技能变为随机找人报告尸体；当时间操控者成为叛徒时技能变为做任务减少会议时间。,"(Add-ons):\nOnly Crewmate can become Madmate. The Madmate must help the Impostor team win. When the impostors team fails, the Madmate will also fail. Also, when Time Manager becomes a Madmate, his skills will reduce the time of the meeting.","(Атрибут):\nТолько Члены Экипажа могут стать Безцами. Безумец должен помочь команде Предателей победить. Когда команда Предателей потерпит неудачу, Безумец также потерпит неудачу. Так же когда Мастер Времени становится Безумцем, его навыки будут сокращать время проведения встречи"
-=======
-<<<<<<< HEAD
-MadmateInfoLong,(附加职业):\n只有船员会成为叛徒，叛徒需要帮助内鬼阵营获得胜利，当内鬼阵营失败时叛徒也会失败。市长、摆烂人、告密者、警长、网红、正义赌怪不会成为叛徒。当诱饵成为叛徒时技能变为随机找人报告尸体；当时间操控者成为叛徒时技能变为做任务减少会议时间。,"(Add-ons):\nOnly Crewmate can become Madmate. The Madmate must help the Impostor team win. When the impostors team fails, the Madmate will also fail.","(Атрибут):\nТолько Члены Экипажа могут стать Безцами. Безумец должен помочь команде Предателей победить. Когда команда Предателей потерпит неудачу, Безумец также потерпит неудачу."
-=======
-MadmateInfoLong,(附加职业):\n只有船员会成为叛徒，叛徒需要帮助内鬼阵营获得胜利，当内鬼阵营失败时叛徒也会失败。市长、摆烂人、告密者、警长、网红、正义赌怪不会成为叛徒。当诱饵成为叛徒时技能变为随机找人报告尸体；当时间操控者成为叛徒时技能变为做任务减少会议时间。,"(Add-ons):\nOnly Crewmate can become Madmate. The Madmate must help the Impostor team win. When the impostors team fails, the Madmate will also fail. Also, when Time Manager becomes a Madmate, his skills will reduce the time of the meeting.","(Атрибут):\nТолько Члены Экипажа могут стать Безцами. Безумец должен помочь команде Предателей победить. Когда команда Предателей потерпит неудачу, Безумец также потерпит неудачу. Так же когда Мастер Времени становится Безумцем, его навыки будут сокращать время проведения встречи"
->>>>>>> a2c07658e9b9bdca63230ec5f0608f079a55df5f
->>>>>>> 5a5730b5079b27b01e433682b10ee3af40d2d73f
 NtrInfoLong,(附加职业):\n当场上存在海王时，所有玩家将看到自己与海王为恋人关系，实际并不会一起殉情也不会改变胜利条件。请注意：恋人不会成为海王，海王也不会成为恋人。,"(Add-ons):\nWhen Neptune is in play, all players will see that he and Neptune are Lovers, but they won't actually die together, and Neptune can't change the win condition. Please note: Lovers will not become Neptunes and Neptune will not become Lovers","(Атрибут):\nКогда в игре будет Нептун, все игроки увидят, что они с Нептуном являются Любовниками, но на самом деле они не умрут вместе, и Нептун не может изменить условие победы. Пожалуйста, обратите внимание: Любовники не станут Нептунами, и Нептун не станет Любовником"
 WatcherInfoLong,(附加职业):\n窥视者可以直接看到每个人投的票。,"(Add-ons):\nYou can see everyone's votes even if anonymous voting is on.","(Атрибут):\nНаблюдатель может видеть все цвета голосов несмотря на анонимное голосование."
 FlashmanInfoLong,(附加职业):\n闪电侠的初始移动速度比其他人快。（具体速度看房主设定）请注意：由于技术限制，闪电侠同理增速者，在其他人眼中为正常速度，所以会以闪现的方式移动。,"(Add-ons):\nAt the beginning of the game, the Flash's speed is higher than that of other players. (Speed depends on settings). Please note: Flash has a high speed, but other players will see normal speed, so Flash players will ping. It is not recommended to enable it.","(Атрибут):\nВ начале игры скорость Флэша выше, чем у других игроков. (Скорость зависит от настроек). Обратите внимание: Флэш имеет высокую скорость, но другие игроки увидят нормальную скорость, поэтому игроки с Флешом будут пинговаться. Не рекомендуется включать его."
