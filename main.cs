@@ -303,7 +303,8 @@ namespace TOHE
                     {CustomRoles.Opportunist, "#00ff00"},
                     {CustomRoles.Mario, "#ff6201"},
                     {CustomRoles.Jackal, "#00b4eb"},
-                    // GM
+                    {CustomRoles.Innocent, "#8f815e"},
+                    // G
                     {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
                     {CustomRoles.NotAssigned, "#ffffff"},
@@ -424,6 +425,7 @@ namespace TOHE
         Terrorist,
         Executioner,
         Jackal,
+        Innocent,
         //GM
         GM,
         // Sub-role after 500
@@ -459,6 +461,7 @@ namespace TOHE
         Jackal = CustomRoles.Jackal,
         God = CustomRoles.God,
         Mario = CustomRoles.Mario,
+        Innocent = CustomRoles.Innocent,
     }
     public enum AdditionalWinners
     {

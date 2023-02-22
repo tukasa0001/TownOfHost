@@ -96,6 +96,7 @@ Opportunist,投机者,Opportunist,Выживший
 Mario,马里奥,Mario,Марио
 Jackal,豺狼,Jackal,Шакал
 God,神,God,Бог
+Innocent,冤罪师
 
 # 附加职业
 LastImpostor,绝境者,Last Impostor,Последний Предатель
@@ -184,6 +185,7 @@ ExecutionerInfo,确实，我其实是看他不爽,Get your target voted out,За
 MarioInfo,听说你的公主在管道里,"Live happily ever after, together",Выживите со своим Любовником
 JackalInfo,在这里，我一般称自己为只狼,Kill Everyone,Убей всех игроков
 GodInfo,一切都在您的掌控,Everything is under your control,Все под вашим контролем
+InnocentInfo,果然碰瓷百试百灵
 
 # 附加职业
 LoversInfo,最重要的是，记得照顾好你的另一半,Survive with your Lover,Выживите со своим Любовником
@@ -267,6 +269,7 @@ OpportunistInfoLong,(中立阵营):\n若投机者在游戏结束时存活，则�
 MarioInfoLong,(中立阵营):\n马里奥跳管达到一定次数就会单独获得胜利。,"(Neutrals):\nMario will win alone if he jumps a certain number of times into the vent.","(Нейтрал):\nМарио победит в одиночку, если прыгнет в вентиляцию определенное количество раз."
 JackalInfoLong,(中立阵营):\n豺狼需要击杀所有人。存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。,"(Neutrals):\nJackal can kill all Crewmates, Impostors and Neutrals.\nTeam Jackal wins when living Jackal outnumbers living Crewmates and when there are no Impostors alive.","(Нейтрал):\nШакал может убить всех Членов Экипажа, Нейтралов и Предателей тоже. \nШакал может победить, когда в живых остался только 1 Шакал и 1 Член Экипажа."
 GodInfoLong,(中立阵营):\n神从一开始就知道所有人的身份，而神只要活到最后就会抢走胜利。,"(Neutrals):\nGod knows the roles of each player from the very beginning of the game, and if God survives until the end of the game, he will win.","(Нейтрал):\nБог знает роли каждого игрока с самого начала игры, и если Бог выживет до конца игры он одержит победу."
+InnocentInfoLong,(中立阵营):\n冤罪师击杀玩家事自己被该玩家击杀，当击杀原罪师的玩家被击杀后原罪师胜利。
 
 # 管理员
 GMInfoLong,(房主):\n看我干啥，我只是个开局就死的冤魂，静静地吃瓜而已。,"(None):\nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game, and all players know who the GM is. The GM role will be assigned to the host, who will automatically become a ghost at the start of the game.","(Никто):\nGM (Мастер Игры) — это роль, которая наблюдает за игрой в роле призрака. \nОн не влияет на игру, и все игроки всегда знают кто Мастер Игры. Всегда назначается только хосту лобби и становится призраком в самом начале игры."

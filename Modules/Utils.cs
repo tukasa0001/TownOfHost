@@ -327,6 +327,7 @@ namespace TOHE
                 case CustomRoles.Mario:
                 case CustomRoles.God:
                 case CustomRoles.ChivalrousExpert:
+                case CustomRoles.Innocent:
                     hasTasks = false;
                     break;
                 case CustomRoles.Terrorist:

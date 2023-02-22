@@ -62,6 +62,30 @@ namespace TOHE
                 //    //exiled.Object.name = Main.LastVotedPlayer;
                 //    exiled.Object.RpcSetName(Main.LastVotedPlayer);
                 //}
+
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (pc.Is(CustomRoles.Innocent) && !pc.IsAlive())
+                    {
+                        if (pc.GetRealKiller().PlayerId == exiled.PlayerId)
+                        {
+                            CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Innocent);
+                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                            //吊られたJesterをターゲットにしているExecutionerも追加勝利
+                            foreach (var executioner in Executioner.playerIdList)
+                            {
+                                var GetValue = Executioner.Target.TryGetValue(executioner, out var targetId);
+                                if (GetValue && exiled.PlayerId == targetId)
+                                {
+                                    CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Executioner);
+                                    CustomWinnerHolder.WinnerIds.Add(executioner);
+                                }
+                            }
+                            DecidedWinner = true;
+                        }
+                    }
+                }
+
                 var role = exiled.GetCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {

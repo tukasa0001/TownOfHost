@@ -538,6 +538,7 @@ namespace TOHE
             TerroristTasks = OverrideTasksData.Create(50220, TabGroup.NeutralRoles, CustomRoles.Terrorist);
             Executioner.SetupCustomOption();
             Jackal.SetupCustomOption();
+            SetupRoleOptions(5050233, TabGroup.NeutralRoles, CustomRoles.Innocent);
 
             // Add-Ons
             NoLimitAddonsNum = BooleanOptionItem.Create(6050250, "NoLimitAddonsNum", false, TabGroup.Addons, false)

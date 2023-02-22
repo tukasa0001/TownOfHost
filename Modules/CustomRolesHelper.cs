@@ -82,6 +82,7 @@ namespace TOHE
                 CustomRoles.Arsonist => RoleTypes.Impostor,
                 CustomRoles.Jackal => RoleTypes.Impostor,
                 CustomRoles.ChivalrousExpert => RoleTypes.Impostor,
+                CustomRoles.Innocent => RoleTypes.Impostor,
                 _ => RoleTypes.Scientist
             };
         }
@@ -116,7 +117,8 @@ namespace TOHE
                 CustomRoles.God or
                 CustomRoles.Jester or
                 CustomRoles.Terrorist or
-                CustomRoles.Executioner;
+                CustomRoles.Executioner or
+                CustomRoles.Innocent;
         }
         public static bool IsNeutralKilling(this CustomRoles role) //是否邪恶中立（抢夺或单独胜利的中立）
         {
@@ -125,7 +127,8 @@ namespace TOHE
                 CustomRoles.Arsonist or
                 CustomRoles.Jackal or
                 CustomRoles.God or
-                CustomRoles.Mario;
+                CustomRoles.Mario or
+                CustomRoles.Innocent;
         }
         public static bool IsCK(this CustomRoles role) // 是否带刀船员
         {
@@ -175,7 +178,8 @@ namespace TOHE
                 CustomRoles.Executioner or
                 CustomRoles.Arsonist or
                 CustomRoles.Jackal or
-                CustomRoles.God;
+                CustomRoles.God or
+                CustomRoles.Innocent;
         }
         public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
         public static bool IsVanilla(this CustomRoles role) // 是否原版职业

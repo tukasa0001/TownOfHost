@@ -610,6 +610,7 @@ namespace TOHE
                 "膽小" or "胆小" => "胆小鬼",
                 "迷惑者" or "迷幻" => "迷幻者",
                 "蠢蛋" or "笨蛋" or "蠢狗" => "蠢蛋",
+                "冤罪師" or "冤罪" => "冤罪师",
                 _ => text,
             };
         }
@@ -677,6 +678,7 @@ namespace TOHE
                 { CustomRoles.Mario, GetString("Mario") },
                 { CustomRoles.Terrorist, GetString("Terrorist") },
                 { CustomRoles.Jackal, GetString("Jackal") },
+                { CustomRoles.Innocent, GetString("Innocent") },
                 //属性
                 { (CustomRoles)(-6), $"== {GetString("Addons")} ==" }, //区切り用
                 {CustomRoles.Lovers, GetString("Lovers") },

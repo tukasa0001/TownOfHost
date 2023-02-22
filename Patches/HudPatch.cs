@@ -266,6 +266,7 @@ namespace TOHE
                 case CustomRoles.Sheriff:
                 case CustomRoles.ChivalrousExpert:
                 case CustomRoles.Arsonist:
+                case CustomRoles.Innocent:
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;

@@ -201,6 +201,9 @@ namespace TOHE
                         return false;
 
                     //==========クルー役職==========//
+                    case CustomRoles.Innocent:
+                        target.RpcMurderPlayer(killer);
+                        return false;
                     case CustomRoles.Sheriff:
                         if (!Sheriff.OnCheckMurder(killer, target))
                             return false;

@@ -160,6 +160,10 @@ namespace TOHE
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     break;
 
+                case CustomRoles.Innocent:
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
+                    break;
+
                 case CustomRoles.Mayor:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     break;

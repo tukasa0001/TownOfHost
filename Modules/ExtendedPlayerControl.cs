@@ -371,6 +371,7 @@ namespace TOHE
                 CustomRoles.ChivalrousExpert => true,
                 CustomRoles.Jackal => true,
                 CustomRoles.Bomber => false,
+                CustomRoles.Innocent => true,
                 _ => pc.Is(RoleType.Impostor),
             }; ;
         }
@@ -382,6 +383,7 @@ namespace TOHE
             {
                 CustomRoles.Minimalism => false,
                 CustomRoles.Sheriff => false,
+                CustomRoles.Innocent => false,
                 CustomRoles.ChivalrousExpert => false,
                 CustomRoles.Jackal => Jackal.CanVent.GetBool(),
                 CustomRoles.Arsonist => pc.IsDouseDone(),
