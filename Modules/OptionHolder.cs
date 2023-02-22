@@ -552,6 +552,7 @@ namespace TOHE
             SetupAdtRoleOptions(6050380, CustomRoles.Bewilder, canSetNum: true);
             BewilderVision = FloatOptionItem.Create(6050383, "BewilderVision", new(0f, 5f, 0.05f), 0.65f, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Bewilder])
                 .SetValueFormat(OptionFormat.Multiplier);
+            SetupAdtRoleOptions(6050440, CustomRoles.Fool, canSetNum: true);
 
             SetupAdtRoleOptions(6050390, CustomRoles.Madmate, canSetNum: true);
             LastImpostor.SetupCustomOption();

@@ -609,6 +609,7 @@ namespace TOHE
                 "執燈人" or "执灯" or "灯人" => "执灯人",
                 "膽小" or "胆小" => "胆小鬼",
                 "迷惑者" or "迷幻" => "迷幻者",
+                "蠢蛋" or "笨蛋" or "蠢狗" => "蠢蛋",
                 _ => text,
             };
         }
@@ -690,6 +691,7 @@ namespace TOHE
                 { CustomRoles.Oblivious,GetString("Oblivious") },
                 { CustomRoles.Bewilder,GetString("Bewilder") },
                 { CustomRoles.Workhorse,GetString("Workhorse") },
+                { CustomRoles.Fool,GetString("Fool") },
             };
 
         public static bool GetRoleByName(string name, out CustomRoles role)

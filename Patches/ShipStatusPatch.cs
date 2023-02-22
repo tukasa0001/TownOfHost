@@ -35,6 +35,10 @@ namespace TOHE
             [HarmonyArgument(1)] PlayerControl player,
             [HarmonyArgument(2)] byte amount)
         {
+
+            // 蠢蛋无法修复破坏
+            if (player.Is(CustomRoles.Fool)) return false;
+
             Logger.Msg("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount, "RepairSystem");
             if (RepairSender.enabled && AmongUsClient.Instance.NetworkMode != NetworkModes.OnlineGame)
             {

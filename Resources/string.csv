@@ -110,6 +110,7 @@ Brakar,破平者,Tiebreaker,Решающий
 Oblivious,胆小鬼,Oblivious,Забывчивый
 Bewilder,迷幻者,Bewilder,Сбитый с Толку
 Workhorse,加班狂（损坏）,Workhorse (Damaged),Работник (Повреждён)
+Fool,蠢蛋
 
 # 管理员
 GM,管理员,GM,GM (Призрак)
@@ -197,6 +198,7 @@ BrakarInfo,打破这无聊的规则,You have another invisible vote,У вас е
 ObliviousInfo,我的天哪，好恐怖,You cannot report body,Вы не можете ркпортить трупы
 BewilderInfo,红伞伞白杆杆，好好吃,He has a small field of vision,У него маленькое поле зрение
 WorkhorseInfo,感觉不如做任务,You have Extra tasks,Теперь у вас дополнительные задания
+FoolInfo,我才不是笨蛋！
 
 # 管理员
 GMInfo,开局死的冤魂隔岸观火,You are the Game Master,Вы Мастер Игры
@@ -256,7 +258,6 @@ ChivalrousExpertInfoLong,(船员阵营):\n侠客可以正义击杀任何阵营�
 TransporterInfoLong,(船员阵营):\n每当传送师完成任务，就会有随机两位玩家交换位置，但若剩余玩家不足将什么都不会发生。请注意：管道中的玩家不会被选中。,"(Crewmates):\nWhenever the Transporter completes a task two random players will swap places, but if there aren't enough live players, nothing will happen. \nPlease note that players who are in the air vent will not be selected.","(Член Экипажа):\nВсякий раз, когда Транспортер завершает задание, два случайных игрока меняются местами, но если живых игроков недостаточно, ничего не произойдет. \nПожалуйста, обратите внимание: игроки, которые находятся в вентиляции, выбраны не будут."
 TimeManagerInfoLong,(船员阵营):\n时间操控者做的任务越多，会议时间就会越长，当时间操控者死亡则会议时间恢复正常。当时间操控者成为叛徒时则技能变为减少会议时长而不是增加会议时长。,"(Crewmates):\nThe more tasks you do, the longer your meeting will last. When you die, the meeting time will be restored.","(Член Экипажа):\nМастер Времени может увеличить время встречи, увеличивается время по мере выполнения заданий. Но когда он умрет, время встречи будет сброшено по умолчанию."
 
-
 # 中立阵营
 ArsonistInfoLong,(中立阵营):\n纵火犯可以通过对玩家点击击杀按钮并跟随其数秒来完成涂油，开始涂油以及涂油成功时会显示护盾破碎作为提示。当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。\n\n玩家名显示「△」表示涂油中\n玩家名显示「▲」表示已涂油,"(Neutrals):\nWhen you use the kill button, you douse your target in oil.\nAfter dousing all living players, you set everything ablaze and win by venting.","(Нейтрал):\nПоджигатель может обливать игроков, нажав на кнопку 'Убить' и находясь рядом с игроком в течение нескольких секунд. \nПосле того как он обольёт всех живых игроков Поджигатель сможет запрыгнуть в вентиляцию, чтобы поджечь всех игроков, что приводит к победе Поджигателя."
 JesterInfoLong,(中立阵营):\n小丑被票出则小丑单独游戏胜利。游戏结束时若小丑仍存活则小丑输掉游戏。,"(Neutrals):\nYou solo victory by getting voted out during a meeting.\nIf the game ends without you getting voted out, or if you are killed, you lose.","(Нейтрал):\nДжестер сможет выиграть игру, если за него проголосуют во время голосования и он будет изгнан.\nВ противном случае Джестер проиграет."
@@ -280,9 +281,10 @@ FlashmanInfoLong,(附加职业):\n闪电侠的初始移动速度比其他人快�
 LighterInfoLong,(附加职业):\n只有船员会成为执灯人，执灯人默认拥有内鬼的视野。,"(Add-ons):\nLighter has the same vision range as Impostors by default","(Атрибут):\nУ Фонарика по умолчанию дальность обзора такое же как и у Предателей."
 SeerInfoLong,(附加职业):\n每当有玩家死亡时，灵媒会看到杀戮闪烁。,"(Add-ons):\nWhenever someone dies, you will see a ""kill flash"".","(Атрибут):\nПровидец видит ''Вспышку Убийства'' каждый раз, когда игроки умирают."
 BrakarInfoLong,(附加职业):\n放逐投票平票时，会优先驱逐破平者投票的目标。若破平者弃票且弃票数与场上票数最高玩家相同时，则优先选择跳过放逐。请注意：若多个破平者同时选择了不同的平票目标，则破平者的技能不会生效。此外，破平者发动技能则不会显示驱逐确认。,"(Add-ons):\nWhen a tie occurs during a vote, the player with the Tiebreaker has more vote priority than the other players, and therefore the player who the Tiebreaker voted for will be ejected in the event of a tie. Please note that if multiple players with a Tiebreaker vote for different goals at the same time in a tie, the Tiebreaker skills will not trigger","(Атрибут):\nКогда во время голосования происходит ничья, то у игрока с атрибутом Решающего приоритет голоса больше чем у остальных игроков, и поэтому при ничье будет изгнан тот, за кого проголосует игрок с атрибутом Решающего. Пожалуйста, обратите внимание: если несколько игроков с Решающим одновременно проголосуют за разные цели при ничье, навыки Решающего не сработают."
-ObliviousInfoLong,(附加职业):\n胆小鬼无法报告尸体。请注意：胆小鬼击杀诱饵还是会自动报告，此外胆小鬼可以照常成为骇客的替罪羊。,"(Add-ons):\nOblivious can't report the body. Please note: If the player has the role of Bait and Oblivious, then Bait's ability will work normally, and he can also be the one to report the body to the Hacker.","(Атрибут):\nЗабывчивый не может репортить трупы. Пожалуйста, обратите внимание: Если у игрока есть роль Байта и атрибут Забывчевого то способность Байта сработает как обычно, и так же он может стать тем кто может зарепортить труп для Хакера."
+ObliviousInfoLong,(附加职业):\n侦探不会成为胆小鬼。胆小鬼无法报告尸体。请注意：胆小鬼击杀诱饵还是会自动报告，此外胆小鬼可以照常成为骇客的替罪羊。,"(Add-ons):\nOblivious can't report the body. Please note: If the player has the role of Bait and Oblivious, then Bait's ability will work normally, and he can also be the one to report the body to the Hacker.","(Атрибут):\nЗабывчивый не может репортить трупы. Пожалуйста, обратите внимание: Если у игрока есть роль Байта и атрибут Забывчевого то способность Байта сработает как обычно, и так же он может стать тем кто может зарепортить труп для Хакера."
 BewilderInfoLong,(附加职业):\n内鬼不会成为迷惑者。迷惑者默认拥有“较”小的视野，当迷惑者被击杀时，凶手的视野将变得跟迷惑者一样小。,"(Add-ons):\nImpostors cannot become Bewilder. The Bewilder player has a small field of view by default. When the Bewilder player is killed, the killer's field of view will become as small as the Bewilder's.","(Атрибут):\nПредатели не могут стать Сбитым с Толку. Сбитый с Толку игрок по умолчанию имеет маленькое поле зрения. Но когда Сбитый с Толку игрок будет убит, то поле зрения убийцы станет таким же маленьким, как и у Сбитого с Толку."
 WorkhorseInfoLong,(附加职业)\n最先完成任务的玩家会成为加班狂，加班狂会拥有更多的任务。,"(Add-ons):\nAn Add-on granted to the first living Crewmate finishing all the tasks.\nYou are assigned additional tasks necessary for the tasks win.\nNot granted to roles with no tasks or with abilities triggered by finishing tasks.","(Атрибут):\nДополнительные задания присваиваются первому живому Члену Экипажа, который выполнит все задания. \nЕму назначаются дополнительные задания, необходимые для победы с помощью заданий. \nНе может присваиваться ролям которые не имеют заданий, или ролям со способностями которые активируются после выполнения заданий."
+FoolInfoLong,(附加职业)\n内鬼和修理工不会成为蠢蛋。蠢蛋无法修复任何破坏。
 
 #模式选项
 NoGameEnd,测试模式,NoGameEnd,Игра Не Закончится

@@ -5,5 +5,6 @@ Img Sources/
 
 FodyWeavers.xsd
 
-obj/*
-!obj/*.json
+/obj
+/obj/project.assets.json
+/obj/TOHE.csproj.nuget.dgspec.json
