@@ -177,7 +177,7 @@ TimeManagerInfo,时间操控大师！,Do the tasks and extend meeting time,Вы�
 # 中立阵营
 ArsonistInfo,乖乖站好！,Burn them to crisps,Облейте и подожгите всех игроков
 JesterInfo,我没有、我不是、我对跳,Get voted out,Заставь игроков изгнать себя
-OpportunistInfo,苟到最后就是胜利！,Just stay alive,Останьтесь в живыхалов
+OpportunistInfo,苟到最后就是胜利！,Just stay alive,Останьтесь в живых
 TerroristInfo,多说不宜 Rush B！,"Finish your tasks, THEN die",Умрите после выполнения всех заданий
 ExecutionerInfo,确实，我其实是看他不爽,Get your target voted out,Заставь игроков изгнать свою цель
 MarioInfo,听说你的公主在管道里,"Live happily ever after, together",Выживите со своим Любовником
@@ -521,9 +521,9 @@ TriggerDouble,双击模式,Double Click,Двойное нажатие
 TimeManagerIncreaseMeetingTime,增加会议时长,Increase voting time,Увеличить время встреч на
 TimeManagerLimitMeetingTime,会议时长上限,Increase limit,Лимит увеличения времени встреч
 ShapeMasterShapeshiftDuration,变形持续时间,Shapeshift duration,Продолжительность морфа
-AssignOnlyTo%role%,只有%role%会成为加班狂,"Assign Only To %role%"
-WorkhorseNumLongTasks,额外的长任务数,"Additional Long Tasks"
-WorkhorseNumShortTasks,额外的短任务数,"Additional Short Tasks"
+AssignOnlyTo%role%,只有%role%会成为加班狂,"Assign Only To %role%","Назначить только для %role%"
+WorkhorseNumLongTasks,额外的长任务数,"Additional Long Tasks","Дополнительные долгие задания"
+WorkhorseNumShortTasks,额外的短任务数,"Additional Short Tasks","Дополнительные короткие задания"
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
