@@ -451,7 +451,7 @@ namespace TOHE
             Sniper.SetupCustomOption();
             SetupRoleOptions(2000, TabGroup.ImpostorRoles, CustomRoles.Puppeteer);
             Mare.SetupCustomOption();
-            //TimeThief.SetupCustomOption();
+            TimeThief.SetupCustomOption();
             EvilTracker.SetupCustomOption();
             AntiAdminer.SetupCustomOption();
             SetupRoleOptions(902055, TabGroup.ImpostorRoles, CustomRoles.Sans);

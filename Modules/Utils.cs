@@ -406,6 +406,9 @@ namespace TOHE
                 case CustomRoles.ChivalrousExpert:
                     ProgressText.Append(ChivalrousExpert.GetKillLimit(playerId));
                     break;
+                case CustomRoles.TimeThief:
+                    ProgressText.Append(TimeThief.GetProgressText(playerId));
+                    break;
                 default:
                     //タスクテキスト
                     var taskState = Main.PlayerStates?[playerId].GetTaskState();

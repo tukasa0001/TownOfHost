@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
+using TOHE.Modules;
 using UnityEngine;
 using static TOHE.Translator;
 
@@ -609,10 +610,10 @@ namespace TOHE
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
 
-
             Main.AllPlayerControls
                 .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
                 .Do(pc => Camouflage.RpcSetSkin(pc, RevertToDefault: true));
+            MeetingTimeManager.OnReportDeadBody();
 
             Utils.SyncAllSettings();
             return true;
