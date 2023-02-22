@@ -506,11 +506,6 @@ namespace TOHE
             NBshowEvil = BooleanOptionItem.Create(8020454, "NBareRed", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic]);
             NEshowEvil = BooleanOptionItem.Create(800455, "NEareRed", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic]);
             Snitch.SetupCustomOption();
-            SetupRoleOptions(20600, TabGroup.CrewmateRoles, CustomRoles.SpeedBooster);
-            SpeedBoosterUpSpeed = FloatOptionItem.Create(20610, "SpeedBoosterUpSpeed", new(0.1f, 1.0f, 0.1f), 0.2f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
-                .SetValueFormat(OptionFormat.Multiplier);
-            SpeedBoosterTimes = IntegerOptionItem.Create(20611, "SpeedBoosterTimes", new(1, 99, 1), 5, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
-                .SetValueFormat(OptionFormat.Times);
             SetupRoleOptions(20700, TabGroup.CrewmateRoles, CustomRoles.Doctor);
             DoctorTaskCompletedBatteryCharge = FloatOptionItem.Create(20710, "DoctorTaskCompletedBatteryCharge", new(0f, 10f, 1f), 5f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Doctor])
                 .SetValueFormat(OptionFormat.Seconds);
@@ -550,9 +545,6 @@ namespace TOHE
                 .SetColor(Color.cyan);
             SetupLoversRoleOptionsToggle(50300);
             SetupAdtRoleOptions(6050320, CustomRoles.Watcher, canSetNum: true);
-            SetupAdtRoleOptions(6050330, CustomRoles.Flashman, canSetNum: true);
-            FlashmanSpeed = FloatOptionItem.Create(6050335, "FlashmanSpeed", new(0.25f, 5f, 0.25f), 2.5f, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Flashman])
-                .SetValueFormat(OptionFormat.Multiplier);
             SetupAdtRoleOptions(6050340, CustomRoles.Lighter, canSetNum: true);
             SetupAdtRoleOptions(6050350, CustomRoles.Seer, canSetNum: true);
             SetupAdtRoleOptions(6050360, CustomRoles.Brakar, canSetNum: true);
@@ -563,7 +555,6 @@ namespace TOHE
 
             SetupAdtRoleOptions(6050390, CustomRoles.Madmate, canSetNum: true);
             LastImpostor.SetupCustomOption();
-            Workhorse.SetupCustomOption();
 
             // 乐子职业
 
@@ -581,11 +572,15 @@ namespace TOHE
                 .SetValueFormat(OptionFormat.Multiplier);
             SetupRoleOptions(902265, TabGroup.OtherRoles, CustomRoles.BoobyTrap);
 
-            //// 船员
-            //_ = BooleanOptionItem.Create(909092, "TabGroup.CrewmateRoles", false, TabGroup.OtherRoles, false)
-            //    .SetHidden(true)s
-            //    .SetHeader(true)
-            //    .SetText(true);
+            // 船员
+            _ = BooleanOptionItem.Create(909092, "TabGroup.CrewmateRoles", false, TabGroup.OtherRoles, false)
+                .SetHeader(true)
+                .SetText(true);
+            SetupRoleOptions(20600, TabGroup.OtherRoles, CustomRoles.SpeedBooster);
+            SpeedBoosterUpSpeed = FloatOptionItem.Create(20610, "SpeedBoosterUpSpeed", new(0.1f, 1.0f, 0.1f), 0.2f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
+                .SetValueFormat(OptionFormat.Multiplier);
+            SpeedBoosterTimes = IntegerOptionItem.Create(20611, "SpeedBoosterTimes", new(1, 99, 1), 5, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
+                .SetValueFormat(OptionFormat.Times);
 
             // 中立
             _ = BooleanOptionItem.Create(909094, "TabGroup.NeutralRoles", false, TabGroup.OtherRoles, false)
@@ -602,7 +597,11 @@ namespace TOHE
                 .SetHeader(true)
                 .SetText(true);
             SetupAdtRoleOptions(6050310, CustomRoles.Ntr, tab: TabGroup.OtherRoles);
-            
+            SetupAdtRoleOptions(6050330, CustomRoles.Flashman, canSetNum: true, tab: TabGroup.OtherRoles);
+            FlashmanSpeed = FloatOptionItem.Create(6050335, "FlashmanSpeed", new(0.25f, 5f, 0.25f), 2.5f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Flashman])
+                .SetValueFormat(OptionFormat.Multiplier);
+            Workhorse.SetupCustomOption();
+
 
             #endregion
 
@@ -920,6 +919,7 @@ namespace TOHE
                 .SetGameMode(customGameMode) as StringOptionItem;
 
             var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, canSetNum ? 3 : 1, 1), 1, tab, false).SetParent(spawnOption)
+                .SetValueFormat(OptionFormat.Players)
                 .SetHidden(!canSetNum)
                 .SetGameMode(customGameMode);
 
