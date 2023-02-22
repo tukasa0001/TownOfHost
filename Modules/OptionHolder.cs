@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using HarmonyLib;
@@ -642,9 +643,11 @@ namespace TOHE
                 .SetGameMode(CustomGameMode.All);
 
             SendCodeToQQ = BooleanOptionItem.Create(6090065, "SendCodeToQQ", true, TabGroup.SystemSettings, false)
+                .SetHidden(CultureInfo.CurrentCulture.Name != "zh-CN")
                 .SetHeader(true)
                 .SetColor(Color.cyan);
             SendCodeMinPlayer = IntegerOptionItem.Create(6090067, "SendCodeMinPlayer", new(3, 12, 1), 5, TabGroup.SystemSettings, false).SetParent(SendCodeToQQ)
+                .SetHidden(CultureInfo.CurrentCulture.Name != "zh-CN")
                 .SetValueFormat(OptionFormat.Players);
 
             EndWhenPlayerBug = BooleanOptionItem.Create(1_000_025, "EndWhenPlayerBug", true, TabGroup.SystemSettings, false)
@@ -682,6 +685,7 @@ namespace TOHE
             DebugModeManager.SetupCustomOption();
 
             EnableUpMode = BooleanOptionItem.Create(6090665, "EnableUpMode", false, TabGroup.SystemSettings, false)
+                .SetHidden(CultureInfo.CurrentCulture.Name != "zh-CN")
                 .SetColor(Color.cyan)
                 .SetGameMode(CustomGameMode.All)
                 .SetHeader(true);
