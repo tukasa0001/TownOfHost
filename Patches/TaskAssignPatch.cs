@@ -71,6 +71,8 @@ namespace TOHE
                 NumShortTasks = 0;
                 NumLongTasks = 0;
             }
+            if (pc.Is(CustomRoles.Workhorse))
+                (hasCommonTasks, NumLongTasks, NumShortTasks) = Workhorse.TaskData;
 
             if (taskTypeIds.Count == 0) hasCommonTasks = false; //タスク再配布時はコモンを0に
             if (!hasCommonTasks && NumLongTasks == 0 && NumShortTasks == 0) NumShortTasks = 1; //タスク0対策

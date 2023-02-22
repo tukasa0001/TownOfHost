@@ -418,6 +418,10 @@ namespace TOHE
                         var info = GetPlayerInfoById(playerId);
                         var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(role).ShadeColor(0.5f); //タスク完了後の色
                         var NonCompleteColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
+
+                        if (Workhorse.IsThisRole(playerId))
+                            NonCompleteColor = Workhorse.RoleColor;
+
                         var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
 
                         TextColor = comms ? Color.gray : NormalColor;

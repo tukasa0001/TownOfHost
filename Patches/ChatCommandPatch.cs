@@ -589,7 +589,7 @@ namespace TOHE
                 "警長" => "警长",
                 "告密者" or "告密" => "告密者",
                 "增速者" or "增速" => "增速者",
-                "時間管理者" or "时间管理人" or "时间管理" => "时间管理者",
+                "時間操控者" or "时间操控人" or "时间操控" => "时间操控者",
                 "陷阱師" or "陷阱" or "小奖" => "陷阱师",
                 "傳送師" or "传送" => "传送师",
                 "縱火犯" or "纵火" => "纵火犯",
@@ -628,6 +628,7 @@ namespace TOHE
                 { CustomRoles.Mafia, GetString("Mafia") },
                 { CustomRoles.Minimalism, GetString("Minimalism") },
                 { CustomRoles.SerialKiller, GetString("SerialKiller") },
+                { CustomRoles.Shapeshifter, GetString("Shapeshifter") },
                 { CustomRoles.TimeThief, GetString("TimeThief")},
                 { CustomRoles.Sniper, GetString("Sniper") },
                 { CustomRoles.Zombie, GetString("Zombie") },
@@ -688,6 +689,7 @@ namespace TOHE
                 { CustomRoles.Brakar,GetString("Brakar") },
                 { CustomRoles.Oblivious,GetString("Oblivious") },
                 { CustomRoles.Bewilder,GetString("Bewilder") },
+                { CustomRoles.Workhorse,GetString("Workhorse") },
             };
 
         public static bool GetRoleByName(string name, out CustomRoles role)

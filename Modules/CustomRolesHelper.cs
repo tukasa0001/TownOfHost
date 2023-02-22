@@ -98,7 +98,8 @@ namespace TOHE
                 CustomRoles.Seer or
                 CustomRoles.Brakar or
                 CustomRoles.Oblivious or
-                CustomRoles.Bewilder;
+                CustomRoles.Bewilder or
+                CustomRoles.Workhorse;
         }
         public static bool IsNK(this CustomRoles role) // 是否带刀中立
         {

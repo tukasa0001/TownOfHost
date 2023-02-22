@@ -318,6 +318,7 @@ namespace TOHE
                     {CustomRoles.Brakar, "#1447af"},
                     {CustomRoles.Oblivious, "#424242"},
                     {CustomRoles.Bewilder, "#c894f5"},
+                    {CustomRoles.Workhorse, "#00ffff"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -437,6 +438,7 @@ namespace TOHE
         Brakar,
         Oblivious,
         Bewilder,
+        Workhorse,
     }
     //WinData
     public enum CustomWinner

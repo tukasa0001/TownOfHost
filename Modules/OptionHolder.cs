@@ -563,6 +563,7 @@ namespace TOHE
 
             SetupAdtRoleOptions(6050390, CustomRoles.Madmate, canSetNum: true);
             LastImpostor.SetupCustomOption();
+            Workhorse.SetupCustomOption();
 
             // 乐子职业
 
@@ -875,9 +876,9 @@ namespace TOHE
             IsLoaded = true;
         }
 
-        public static void SetupRoleOptions(int id, TabGroup tab, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard)
+        public static void SetupRoleOptions(int id, TabGroup tab, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard, bool zeroOne = false)
         {
-            var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesToggle, 0, tab, false).SetColor(Utils.GetRoleColor(role))
+            var spawnOption = StringOptionItem.Create(id, role.ToString(), zeroOne ? ratesZeroOne : ratesToggle, 0, tab, false).SetColor(Utils.GetRoleColor(role))
                 .SetHeader(true)
                 .SetGameMode(customGameMode) as StringOptionItem;
             var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, 15, 1), 1, tab, false).SetParent(spawnOption)

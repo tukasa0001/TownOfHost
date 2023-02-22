@@ -450,6 +450,9 @@ namespace TOHE
                 case CustomRoles.TimeManager:
                     TimeManager.Add(targetId);
                     break;
+                case CustomRoles.Workhorse:
+                    Workhorse.Add(targetId);
+                    break;
             }
             HudManager.Instance.SetHudActive(true);
             if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();
