@@ -104,6 +104,7 @@ namespace TOHE
         public static OptionItem DefaultShapeshiftCooldown;
         public static OptionItem ImpKnowAlliesRole;
 
+        public static OptionItem ShapeMasterShapeshiftDuration;
         public static OptionItem EGCanGuessImp;
         public static OptionItem EGCanGuessAdt;
         public static OptionItem EGCanGuessTime;
@@ -428,6 +429,8 @@ namespace TOHE
                 .SetColor(Color.green);
             BountyHunter.SetupCustomOption();
             SerialKiller.SetupCustomOption();
+            SetupRoleOptions(1200, TabGroup.ImpostorRoles, CustomRoles.ShapeMaster);
+            ShapeMasterShapeshiftDuration = FloatOptionItem.Create(1210, "ShapeMasterShapeshiftDuration", new(1, 1000, 1), 10, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
             Vampire.SetupCustomOption();
             SetupRoleOptions(1400, TabGroup.ImpostorRoles, CustomRoles.Warlock);
             WarlockCanKillAllies = BooleanOptionItem.Create(901406, "WarlockCanKillAllies", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Warlock]);

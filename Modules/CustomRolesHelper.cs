@@ -23,6 +23,7 @@ namespace TOHE
                 CustomRoles.Vampire => CustomRoles.Impostor,
                 CustomRoles.BountyHunter => CustomRoles.Shapeshifter,
                 CustomRoles.Witch => CustomRoles.Impostor,
+                CustomRoles.ShapeMaster => CustomRoles.Shapeshifter,
                 CustomRoles.Warlock => CustomRoles.Shapeshifter,
                 CustomRoles.SerialKiller => CustomRoles.Shapeshifter,
                 CustomRoles.FireWorks => CustomRoles.Shapeshifter,
@@ -138,6 +139,7 @@ namespace TOHE
                 CustomRoles.BountyHunter or
                 CustomRoles.Vampire or
                 CustomRoles.Witch or
+                CustomRoles.ShapeMaster or
                 CustomRoles.Zombie or
                 CustomRoles.Warlock or
                 CustomRoles.Assassin or

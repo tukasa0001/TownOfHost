@@ -90,6 +90,11 @@ namespace TOHE.Modules
                 case CustomRoles.SabotageMaster:
                 case CustomRoles.Mario:
                     goto InfinityVent;
+                case CustomRoles.ShapeMaster:
+                    AURoleOptions.ShapeshifterCooldown = 0f;
+                    AURoleOptions.ShapeshifterLeaveSkin = false;
+                    AURoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
+                    break;
                 case CustomRoles.Warlock:
                     AURoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
                     break;

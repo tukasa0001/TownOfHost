@@ -367,6 +367,7 @@ namespace TOHE
         FireWorks,
         Mafia,
         SerialKiller,
+        ShapeMaster,
         EvilGuesser,
         Minimalism,
         Zombie,

@@ -43,6 +43,7 @@ BountyHunter,赏金猎人,Bounty Hunter,Охотник за Головами
 Mare,梦魇,Mare,Ночной
 FireWorks,烟花商人,Fireworker,Фейерверк
 SerialKiller,嗜血杀手,Serial Killer,Серийный Убийца
+ShapeMaster,千面鬼,ShapeMaster
 Vampire,吸血鬼,Vampire,Вампир
 Warlock,术士,Warlock,Колдун
 Assassin,刺客,Assassin,Ассасин
@@ -125,6 +126,7 @@ BountyHunterInfo,走，去拿下你的目标！,Eliminate your target,Охоть
 MareInfo,在黑暗中作案,Darkness aids you. Kill,Убивайте в темноте
 FireWorksInfo,一起来看最后的烟花吧,Go out with a BANG,Морфитесь чтобы поставить фейерверк
 SerialKillerInfo,这么多人至少得死一两个吧,Unleash your bloodlust,Убивай чтобы ты не умер
+ShapeMasterInfo,猜猜我是谁,
 VampireInfo,快去榨干他们,Bite and annihilate,Укусите всех Членов Экипажа
 WarlockInfo,给你的敌人下咒,Cast your curses,Прокляните всех Членов Экипажа
 AssassinInfo,信仰的一击！,Teleport to the player and kill him!,Телепортируйтесь игроку и убейте его!
@@ -203,6 +205,7 @@ GMInfo,开局死的冤魂隔岸观火,You are the Game Master,Вы Мастер 
 BountyHunterInfoLong,(内鬼阵营):\n如果赏金猎人击杀了赏金目标，击杀冷却缩短。否则冷却增加。,"(Impostors):\nIf you kill your indicated target, your next kill cooldown will be greatly reduced.\nIf you kill anyone other than your target, your next kill cooldown will increase.\nThe target swaps after a configurable amount of time.","(Предатель):\nЕсли Охотник за головами убьет назначенную ему цель, время отката убийства будет намного меньше чем обычно. \n При убийстве игрока который не является его целью, приводит к стандартному времени отката убийства. \nЦели меняются спустя какое-то время"
 FireWorksInfoLong,(内鬼阵营):\n烟花商人可以安放烟花炸弹，造成范围性杀伤。烟花商人使用变形可以安放至多三个烟花炸弹。当存活的内鬼阵营玩家仅剩烟花商人且烟花炸弹安置完毕时，烟花商人可以使用变形下引爆炸弹。烟花炸弹可以同样炸死烟花商人自己。但如果烟花炸弹炸死所有存活玩家，那也算内鬼阵营胜利。,"(Impostors):\nWhenever you shapeshift, you can place a firework.\n After placing all fireworks, you can set them all off at once when you shapeshift once you become the last impostor.\nOnce you start placing fireworks, you cannot kill until the fireworks go off.","(Предатель):\nФейерверк может поставить несколько фейерверков с помощью Морфлинга. \nПосле установки всех фейерверков он может поджечь их все сразу с помощью использования Морфлинга, когда он является последним Предателем. \nТолько после этого он сможет убивать."
 SerialKillerInfoLong,(内鬼阵营):\n嗜血杀手的击杀冷却很短，但是在指定时间内没有杀人的话，嗜血杀手就会自杀。,"(Impostors):\nYou have a shorter kill cooldown than other impostors', but you will die if you don't kill before the end of your shapeshift cooldown.","(Предатель):\nУ Серийного Убийцы еще более короткий откат убийства. \nНо если он не совершит убийство в установленный срок, то он мгновенно убьет сам себя."
+ShapeMasterInfoLong,(内鬼阵营):\n千面鬼没有变形冷却，但千面鬼默认的变形持续时间更短。,
 MareInfoLong,(内鬼阵营):\n梦魇只能在停电时下进行击杀。若梦魇击杀成功，梦魇的击杀冷却将变成原来的一半。此外，停电持续的时间内梦魇的移动速度也会增加，但是请注意，停电时间内内所有玩家都能看到梦魇的名字以红色表示。,"(Impostors):\nYou can only kill during Fix Lights.\nWhen you make a kill, your next kill cooldown will be halved.\nDuring Fix Lights, you can move faster, but your name will also be displayed in red for all.","(Предатель):\nПредатель, который может убивать только при выключенном свете. \nКаждое его убийство вдвое снижает откат убийства. \nСкорость движения также будет выше при выключенном свете, но его никнейм станет красным и будет виден всем игрокам."
 VampireInfoLong,(内鬼阵营):\n在吸血鬼的吸血的对象不会立刻死亡，而是延迟一段时间突然暴毙。若在这段时间内进入会议阶段，该目标将立即死亡。当被击杀目标为诱饵时，吸血鬼还是会被迫报告诱饵的尸体。,"(Impostors):\nYou can make delayed kills by biting others.\n(Bitten players will die either after the delay is over or the moment a meeting is called before then.)\nIf you bite a [Bait](#Bait), there is no delay, and you are forced to self-report.","(Предатель):\nВампир может кусать игроков, а не убивать. \nУкушенный игрок умирает спустя какое-то время, или же умирает сразу как только произойдёт срочное собрание. \nНо если он укусит [Приманку](#Bait) он совершит обычное убийство и он вынужден сразу зарепортить труп."
 WarlockInfoLong,(内鬼阵营):\n术士可以使用击杀键给目标下咒，出现盾牌破碎则是下咒成功（放心，只有你能看见）。当术士变形时，被下咒的玩家会自动击杀离自己最近的玩家。请注意，摆烂人不会替你办事，诅咒摆烂人只会浪费你的时间。\n\n（听说最近误杀队友和自杀的术士越来越多了）,"(Impostors):\nThe Warlocks can curse another players before Shapeshift.\nWhen they Shapeshift after cursing, the player next to the cursed is killed no matter how far away they are.\nWhile Shpashifting, you can perform normal kills.\nAlso, only one player can be cursed per turn.","(Предатель):\nКолдун может проклинать игроков. \nКогда он Морфится после проклинания какого либо игрока, то проклятый игрок убивает любого игрока который находится по близости, независимо от того насколько далеко он находится. \nТак же во время Морфа он совершает обычные убийства."
@@ -323,10 +326,7 @@ ModeOptions,模组设置,Mode Options,Настройка Режима
 AutoStart,人满自动开始,Auto start at full lobby,Авто. запуск игры при полном лобби
 DisableTOHE,切换为原版,Disable TOHE,Отключить TOHE
 AutoDisplayLastResult,自动显示最终结果,Auto Display Last Result,Отображать результат последней игры в чате
-
-# This Option is for development so it dosn't need translation
 EnableUpMode,启用创作者保护计划（试验性）,启用创作者保护计划（试验性）,启用创作者保护计划（试验性）
-
 AutoKickStart,踢出催开始的人,Kick the player who writes start,Кикнуть игрока который пишет start (Только англ)
 AutoKickStartTimes,踢出前警告次数,Number of warnings before kick,Количество предупреждений до кика
 AutoKickStartAsBan,踢出时封禁该玩家,Block a player after they kick,Заблокировать игрока после его кика
@@ -339,7 +339,6 @@ KickNonTOHEPlayer,踢出模组不同或模组版本不同的玩家,Kick players 
 SendCodeToQQ,允许车队姬自动群发您的房号,(Only for China)房间人数达到多少时群发,(Только для Китая)允许车队姬自动群发您的房号
 SendCodeMinPlayer,房间人数达到多少时群发,房间人数达到多少时群发,房间人数达到多少时群发
 DisableVanillaRoles,禁用原版职业,Disable Vanilla Roles,Отключить ванильные Роли
-
 VoteMode,投票相关设定,Voting Mode,Режим Голосования
 WhenSkipVote,跳过投票相当于投给自己,When Skip Vote,Когда пропускаете Голосование
 WhenSkipVoteIgnoreFirstMeeting,忽略首次会议,Ignore First Meeting,Игнорировать первое собрание
@@ -395,7 +394,6 @@ AirShipVariableElectrical,电气室门随机关闭（飞艇地图）,Variable El
 ApplyDenyNameList,踢出使用违规昵称的玩家,Apply DenyName List,Применить файл запрещённых имён (DenyName)
 KickPlayerFriendCodeNotExist,踢出没有登录的玩家,Kick players whose Friend Code does not exist,Кикнуть игроков у которых нет Кода Друга
 ApplyBanList,踢出被封禁的玩家,Apply BanList,Применить файл с забаненными игроками (BanList)
-
 EndWhenPlayerBug,当有玩家因Bug无法游戏时终止游戏,"End the game when the Host has a critical error",Завершить игру когда у Хоста возникла критическая ошибка
 KillFlashDuration,击杀闪烁持续时间,"''Kill Flash'' Duration","Длительность ''Вспышки Убийства''"
 ConfirmEjections,驱逐时确认阵营,Show roles players ejected,Показывать роли изгнаных
@@ -518,6 +516,7 @@ TriggerVent,通风管,Vent,Вентиляция
 TriggerDouble,双击模式,Double Click,Двойное нажатие
 TimeManagerIncreaseMeetingTime,增加会议时长,Increase voting time
 TimeManagerLimitMeetingTime,会议时长上限,Increase limit
+ShapeMasterShapeshiftDuration,变形持续时间
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
