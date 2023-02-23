@@ -3,10 +3,10 @@ using System.Linq;
 using HarmonyLib;
 using UnityEngine;
 
-using TownOfHost.Roles;
+using TownOfHost.Roles.Impostor;
 using static TownOfHost.Options;
 
-namespace TownOfHost
+namespace TownOfHost.Roles.Neutral
 {
     public static class SchrodingerCat
     {

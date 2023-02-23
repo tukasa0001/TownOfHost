@@ -3,7 +3,9 @@ using AmongUs.Data;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
+
 using TownOfHost.Modules;
+using TownOfHost.Roles.Neutral;
 using static TownOfHost.Translator;
 
 namespace TownOfHost

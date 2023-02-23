@@ -5,10 +5,9 @@ using UnityEngine;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles;
-using static TownOfHost.Options;
 using static TownOfHost.Translator;
 
-namespace TownOfHost
+namespace TownOfHost.Roles.Impostor
 {
     public sealed class BountyHunter : RoleBase
     {

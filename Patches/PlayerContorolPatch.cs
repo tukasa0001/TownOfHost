@@ -9,6 +9,10 @@ using UnityEngine;
 
 using TownOfHost.Modules;
 using TownOfHost.Roles;
+using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.Crewmate;
+using TownOfHost.Roles.Neutral;
+using TownOfHost.Roles.AddOns.Crewmate;
 using static TownOfHost.Translator;
 
 namespace TownOfHost

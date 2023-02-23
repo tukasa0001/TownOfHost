@@ -6,6 +6,8 @@ using InnerNet;
 using Mathf = UnityEngine.Mathf;
 
 using TownOfHost.Roles;
+using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.Neutral;
 
 namespace TownOfHost.Modules
 {

@@ -4,11 +4,9 @@ using System.Linq;
 using Hazel;
 using UnityEngine;
 
-using TownOfHost.Roles;
 using static TownOfHost.Translator;
-using static TownOfHost.Options;
 
-namespace TownOfHost
+namespace TownOfHost.Roles.Crewmate
 {
     public sealed class Sheriff : RoleBase
     {

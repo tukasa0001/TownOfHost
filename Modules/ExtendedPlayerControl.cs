@@ -5,9 +5,13 @@ using System.Text;
 using AmongUs.GameOptions;
 using Hazel;
 using InnerNet;
-using TownOfHost.Modules;
 using UnityEngine;
+
+using TownOfHost.Modules;
 using TownOfHost.Roles;
+using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.Neutral;
+using TownOfHost.Roles.AddOns.Impostor;
 using static TownOfHost.Translator;
 
 namespace TownOfHost

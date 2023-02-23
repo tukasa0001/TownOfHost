@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
+
 using static TownOfHost.Options;
 
-namespace TownOfHost
+namespace TownOfHost.Roles.AddOns.Crewmate
 {
     public static class Workhorse
     {

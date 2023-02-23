@@ -1,6 +1,9 @@
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles;
+using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.Neutral;
+
 namespace TownOfHost
 {
     static class CustomRolesHelper
