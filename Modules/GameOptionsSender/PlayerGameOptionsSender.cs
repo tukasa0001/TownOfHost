@@ -128,6 +128,13 @@ namespace TOHE.Modules
                         : 300f;
                     AURoleOptions.EngineerInVentMaxTime = 1;
                     break;
+                case CustomRoles.Paranoia:
+                    AURoleOptions.EngineerCooldown =
+                    Main.ParaUsedButtonCount.TryGetValue(player.PlayerId, out var count2) && count2 >= Options.ParanoiaNumOfUseButton.GetInt()
+                    ? opt.GetInt(Int32OptionNames.EmergencyCooldown)
+                    : 300f;
+                    AURoleOptions.EngineerInVentMaxTime = 1;
+                    break;
                 case CustomRoles.Mare:
                     Mare.ApplyGameOptions(player.PlayerId);
                     break;
@@ -136,6 +143,10 @@ namespace TOHE.Modules
                     break;
                 case CustomRoles.Jackal:
                     Jackal.ApplyGameOptions(opt);
+                    break;
+                case CustomRoles.Veteran:
+                    AURoleOptions.EngineerCooldown = Options.VeteranSkillCooldown.GetFloat();
+                    AURoleOptions.EngineerInVentMaxTime = 1;
                     break;
 
                 InfinityVent:

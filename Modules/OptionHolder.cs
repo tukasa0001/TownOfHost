@@ -139,9 +139,9 @@ namespace TOHE
         public static OptionItem JesterCanUseButton;
         public static OptionItem NotifyGodAlive;
         public static OptionItem MarioVentNumWin;
-        public static OptionItem OKKillCooldown;
+        public static OptionItem VeteranSkillCooldown;
+        public static OptionItem VeteranSkillDuration;
 
-        public static OptionItem ParanoiaVentCooldown;
         public static OptionItem ParanoiaNumOfUseButton;
         public static OptionItem PsychicCanSeeNum;
         public static OptionItem PsychicFresh;
@@ -524,6 +524,11 @@ namespace TOHE
                 .SetValueFormat(OptionFormat.Times);
             TransporterTasks = OverrideTasksData.Create(8021119, TabGroup.CrewmateRoles, CustomRoles.Transporter);
             TimeManager.SetupCustomOption();
+            SetupRoleOptions(8021315, TabGroup.CrewmateRoles, CustomRoles.Veteran);
+            VeteranSkillCooldown = FloatOptionItem.Create(8021325, "VeteranSkillCooldown", new(1f, 180f, 1f), 20f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Veteran])
+                .SetValueFormat(OptionFormat.Seconds);
+            VeteranSkillDuration = FloatOptionItem.Create(8021327, "VeteranSkillDuration", new(5f, 990f, 1f), 20f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Veteran])
+                .SetValueFormat(OptionFormat.Seconds);
 
             // Neutral
             SetupRoleOptions(50500, TabGroup.NeutralRoles, CustomRoles.Arsonist);

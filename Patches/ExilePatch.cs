@@ -120,6 +120,8 @@ namespace TOHE
                     pc.RpcResetAbilityCooldown();
                 if (pc.Is(CustomRoles.Paranoia))
                     pc.RpcResetAbilityCooldown();
+                if (pc.Is(CustomRoles.Veteran))
+                    pc.RpcResetAbilityCooldown();
                 if (pc.Is(CustomRoles.Warlock))
                 {
                     Main.CursedPlayers[pc.PlayerId] = null;

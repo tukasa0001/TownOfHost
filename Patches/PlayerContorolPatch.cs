@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -207,6 +208,17 @@ namespace TOHE
                         killer.RpcGuardAndKill(target);
                         return false;
                     }
+                    break;
+                //击杀老兵
+                case CustomRoles.Veteran:
+                    if (Main.VeteranInProtect.ContainsKey(target.PlayerId))
+                        if (Main.VeteranInProtect[target.PlayerId] + Options.VeteranSkillDuration.GetInt() >= Utils.GetTimeStamp(DateTime.Now))
+                        {
+                            killer.SetRealKiller(target);
+                            target.RpcMurderPlayer(killer);
+                            Logger.Info($"{target.GetRealName()} 老兵反弹击杀：{killer.GetRealName()}", "Veteran Kill");
+                            return false;
+                        }
                     break;
             }
 
@@ -655,6 +667,16 @@ namespace TOHE
                     ReportDeadBodyPatch.WaitReport[__instance.PlayerId].Clear();
                     Logger.Info($"{__instance.GetNameWithRole()}:通報可能になったため通報処理を行います", "ReportDeadbody");
                     __instance.ReportDeadBody(info);
+                }
+
+                //检查老兵技能是否失效
+                var vpList = Main.VeteranInProtect.Where(x => x.Value + Options.VeteranSkillDuration.GetInt() < Utils.GetTimeStamp(DateTime.Now));
+                foreach (var vp in vpList)
+                {
+                    Main.VeteranInProtect.Remove(vp.Key);
+                    var pc = Utils.GetPlayerById(vp.Key);
+                    if (pc != null && GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
+                    break;
                 }
 
                 DoubleTrigger.OnFixedUpdate(player);
@@ -1156,8 +1178,18 @@ namespace TOHE
                     CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
                 }
             }
+            if (pc.Is(CustomRoles.Veteran))
+            {
+                Main.VeteranInProtect.Remove(pc.PlayerId);
+                Main.VeteranInProtect.Add(pc.PlayerId, Utils.GetTimeStamp(DateTime.Now));
+                new LateTask (() =>
+                {
+                    if (GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
+                }, 1.5f, "Veteran Skill Notify");
+            }
         }
     }
+
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoEnterVent))]
     class CoEnterVentPatch
     {
@@ -1186,25 +1218,11 @@ namespace TOHE
                     CustomWinnerHolder.WinnerIds.Add(__instance.myPlayer.PlayerId);
                     return true;
                 }
-                if ((__instance.myPlayer.Data.Role.Role != RoleTypes.Engineer && //エンジニアでなく
-                !__instance.myPlayer.CanUseImpostorVentButton()) || //インポスターベントも使えない
-                (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt())
-                )
-                {
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
-                    writer.WritePacked(127);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    new LateTask(() =>
-                    {
-                        int clientId = __instance.myPlayer.GetClientId();
-                        MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, clientId);
-                        writer2.Write(id);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer2);
-                    }, 0.5f, "Fix DesyncImpostor Stuck");
-                    return false;
-                }
-                if ((__instance.myPlayer.Data.Role.Role != RoleTypes.Engineer && //エンジニアでなく
-                !__instance.myPlayer.CanUseImpostorVentButton()) || //インポスターベントも使えない
+
+                //让玩家滚出通风管
+                if ((__instance.myPlayer.Data.Role.Role != RoleTypes.Engineer && //不是工程师
+                !__instance.myPlayer.CanUseImpostorVentButton()) || //不能使用内鬼的跳管按钮
+                (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt()) ||
                 (__instance.myPlayer.Is(CustomRoles.Paranoia) && Main.ParaUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count2) && count2 >= Options.ParanoiaNumOfUseButton.GetInt())
                 )
                 {

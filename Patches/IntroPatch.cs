@@ -134,9 +134,6 @@ namespace TOHE
                     break;
 
                 case CustomRoles.Executioner:
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
-                    break;
-
                 case CustomRoles.Vampire:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                     break;
@@ -156,19 +153,12 @@ namespace TOHE
                         : string.Format(GetString(StringNames.NumImpostorsP), numImpostors);
                     __instance.ImpostorText.text = text.Replace("[FF1919FF]", "<color=#FF1919FF>").Replace("[]", "</color>");
                     break;
+
                 case CustomRoles.Arsonist:
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
-                    break;
-
                 case CustomRoles.Innocent:
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
-                    break;
-
                 case CustomRoles.Mayor:
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
-                    break;
-
                 case CustomRoles.Paranoia:
+                case CustomRoles.Veteran:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     break;
 

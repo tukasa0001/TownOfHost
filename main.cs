@@ -145,6 +145,7 @@ namespace TOHE
         public static Dictionary<byte, int> MayorUsedButtonCount = new();
         public static Dictionary<byte, int> ParaUsedButtonCount = new();
         public static Dictionary<byte, int> MarioVentCount = new();
+        public static Dictionary<byte, long> VeteranInProtect = new();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static bool isCursed;
@@ -231,6 +232,7 @@ namespace TOHE
             MayorUsedButtonCount = new Dictionary<byte, int>();
             HackerUsedCount = new Dictionary<byte, int>();
             ParaUsedButtonCount = new Dictionary<byte, int>();
+            VeteranInProtect = new Dictionary<byte, long>();
             MarioVentCount = new Dictionary<byte, int>();
             MafiaRevenged = new Dictionary<byte, int>();
             GuesserGuessed = new Dictionary<byte, int>();
@@ -294,6 +296,7 @@ namespace TOHE
                     {CustomRoles.NiceGuesser, "#eede26"},
                     {CustomRoles.Transporter, "#42D1FF"},
                     {CustomRoles.TimeManager, "#6495ed"},
+                    {CustomRoles.Veteran, "#a77738"},
                     //第三陣営役職
                     {CustomRoles.Arsonist, "#ff6633"},
                     {CustomRoles.Jester, "#ec62a5"},
@@ -304,7 +307,7 @@ namespace TOHE
                     {CustomRoles.Mario, "#ff6201"},
                     {CustomRoles.Jackal, "#00b4eb"},
                     {CustomRoles.Innocent, "#8f815e"},
-                    // G
+                    // GM
                     {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
                     {CustomRoles.NotAssigned, "#ffffff"},
@@ -416,6 +419,7 @@ namespace TOHE
         NiceGuesser,
         Transporter,
         TimeManager,
+        Veteran,
         //Neutral
         Arsonist,
         Jester,

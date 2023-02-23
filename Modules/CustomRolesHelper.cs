@@ -57,6 +57,7 @@ namespace TOHE
                 CustomRoles.BoobyTrap => CustomRoles.Impostor,
                 CustomRoles.Scavenger => CustomRoles.Impostor,
                 CustomRoles.Transporter => CustomRoles.Crewmate,
+                CustomRoles.Veteran => CustomRoles.Engineer,
                 _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
         }

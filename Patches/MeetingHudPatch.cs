@@ -500,6 +500,7 @@ namespace TOHE
             Main.AllPlayerControls.Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
             MeetingStates.MeetingCalled = true;
             Main.GuesserGuessed.Clear();
+            Main.VeteranInProtect.Clear();
             NoticeSkill();
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
