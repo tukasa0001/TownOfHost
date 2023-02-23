@@ -46,7 +46,8 @@ public static class CustomRoleManager
         }
         if (!info.IsCanceled)
         {
-            info.AppearanceKiller.RpcMurderPlayer(info.AppearanceTarget);
+            (killer, target) = info.AppearanceTuple;
+            killer.RpcMurderPlayer(target);
         }
     }
     public class CheckMurderInfo
@@ -59,6 +60,10 @@ public static class CustomRoleManager
         public PlayerControl AppearanceKiller { get; set; }
         /// <summary>見た目上でキルされるプレイヤー 可変</summary>
         public PlayerControl AppearanceTarget { get; set; }
+
+        // 分解用 (killer, target) = info.AttemptTuple; のような記述でkillerとtargetをまとめて取り出せる
+        public (PlayerControl killer, PlayerControl target) AttemptTuple => (AttemptKiller, AttemptTarget);
+        public (PlayerControl killer, PlayerControl target) AppearanceTuple => (AppearanceKiller, AppearanceTarget);
 
         /// <summary><para>この値がtrueの状態で終了すると、実際のキルが行われません。</para>
         /// <para>他のRoleBaseのCheckMurder処理は通常通り行われます。</para></summary>
