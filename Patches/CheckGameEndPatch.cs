@@ -5,6 +5,8 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 
+using TownOfHost.Roles.Neutral;
+
 namespace TownOfHost
 {
     [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.CheckEndCriteria))]

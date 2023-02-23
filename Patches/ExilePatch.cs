@@ -2,6 +2,9 @@ using System.Linq;
 using AmongUs.Data;
 using HarmonyLib;
 
+using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.Neutral;
+
 namespace TownOfHost
 {
     class ExileControllerWrapUpPatch

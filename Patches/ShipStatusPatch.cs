@@ -4,6 +4,9 @@ using System.Linq;
 using HarmonyLib;
 using UnityEngine;
 
+using TownOfHost.Roles.Crewmate;
+using TownOfHost.Roles.Neutral;
+
 namespace TownOfHost
 {
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.FixedUpdate))]

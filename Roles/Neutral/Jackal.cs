@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using AmongUs.GameOptions;
 using Hazel;
-using UnityEngine;
+
 using static TownOfHost.Options;
 
-namespace TownOfHost
+namespace TownOfHost.Roles.Neutral
 {
     public static class Jackal
     {
