@@ -58,6 +58,7 @@ namespace TOHE
                 CustomRoles.Scavenger => CustomRoles.Impostor,
                 CustomRoles.Transporter => CustomRoles.Crewmate,
                 CustomRoles.Veteran => CustomRoles.Engineer,
+                CustomRoles.Capitalism => CustomRoles.Impostor,
                 _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
         }
@@ -154,7 +155,8 @@ namespace TOHE
                 CustomRoles.Sans or
                 CustomRoles.Bomber or
                 CustomRoles.Scavenger or
-                CustomRoles.BoobyTrap;
+                CustomRoles.BoobyTrap or
+                CustomRoles.Capitalism;
         }
         public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role == CustomRoles.Madmate;
         public static bool IsNeutral(this CustomRoles role) // 是否中立

@@ -449,7 +449,10 @@ namespace TOHE
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.ScavengerKillCooldown.GetFloat();
                     break;
                 case CustomRoles.Bomber:
-                    Main.AllPlayerKillCooldown[player.PlayerId] = 255;
+                    Main.AllPlayerKillCooldown[player.PlayerId] = 300;
+                    break;
+                case CustomRoles.Capitalism:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.CapitalismSkillCooldown.GetFloat();
                     break;
             }
         }

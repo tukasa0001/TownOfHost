@@ -64,6 +64,7 @@ Sans,狂妄杀手,Arrogance,Высокомер
 Bomber,自爆兵,Bomber,Бомбер
 Scavenger,清道夫,Scavenger,Уборщик
 BoobyTrap,诡雷,Booby Trap,Мина Ловушка
+Capitalism,资本家
 
 # 船员阵营
 Bait,诱饵,Bait,Байт
@@ -153,6 +154,7 @@ BomberInfo,Creeper? Aww Man..,Creeper? Aww Man...,Криппер? Оу Мэн...
 BoobyTrapInfo,艺术就是爆炸！,Set a trap on body,Установи Мину на труп
 ScavengerInfo,杀人不留痕迹,"Kill without leaving a trace","Убивай, не оставляя следов"
 EvilGuesserInfo,想来一把吗，伙计,Guess the nice roles of the players,Угадывай добрые роли игроков
+CapitalismInfo,这可都是劳动力呀
 
 # 船员阵营
 BaitInfo,好消息，杀了我可以吃席,Bait your enemies,Убийца моментально зарепортит ваш труп
@@ -235,6 +237,7 @@ SansInfoLong,(内鬼阵营):\n狂妄杀手每次成功击杀都会减少他的�
 BomberInfoLong,(内鬼阵营):\n自爆兵可以使用变形按钮来进行自爆，炸死一定范围里的玩家。但是作为代价，自爆兵自己也会被炸死。请注意：自爆兵爆炸的时候全体玩家会看到杀戮闪烁，这个闪烁和网红死亡时的闪烁是一样的，请注意甄别。,"(Impostors):\nBomber can use Shapeshift to blow up players who are in the bomb's radius. But as a cost, the Bomber itself will also be blown up. \nPlease note: When the Bomber explodes, all players will see a ''Kill Flash''. This flash is exactly the same as the kill flash when a Celebrity dies. Please always pay attention to the screen","(Предатель):\nБомбер может использовать Морф, чтобы взорвать игроков которые оказались в радиусе бомбы. Но в качестве платы, сам Бомбер будет также взорван. \nПожалуйста, обратите внимание: Когда Бомбер взорвётся, все игроки увидят ''Вспышку Убийства''. Эта вспышка точно такая же, как вспышка убийства когда умирает Знаменитость. Пожалуйста, обращайте внимание на экран."
 ScavengerInfoLong,(内鬼阵营):\n清道夫击杀的尸体无法被报告，若受害者为诱饵，则诱饵的技能不会发动。,(Impostors):\nThe body killed by the Scavenger will be impossible to report.,"(Предатель):\nКогда Уборщик убёт игрока, то зарепортить этот труп будет невозможно."
 BoobyTrapInfoLong,(内鬼阵营):\n诡雷在进行击杀后会在受害者尸体上装上诡雷，报告该尸体的玩家会立刻被炸死，被炸死的玩家也会附带诡雷的效果，以此类推。但作为代价，诡雷在进行击杀后会立刻自杀。请注意：诡雷自身的尸体并不附带诡雷效果。,"(Impostors):\nBooby Trap will place a mine on the corpse of the victim after the kill. A player who tries to report a body with a mine will be immediately killed, and a player who gets caught by the mine will also be followed by the effect of the mine, and so on. But as a payment, Booby Trap will commit suicide immediately after one of the players gets on Mina. \nPlease note: Booby Trap's own corpse will not be accompanied by the Mine's effect.","(Предатель):\nМина Ловушка установит Мину на труп жертвы после убийства. Игрок который попытается зарепортить труп с миной будет немедленно убит, и игрок который попался на Мину также будет сопровождаться эффектом Мины, и так далее. Но в качестве платы Мина Ловушка суициднется сразу же после того как один из игроков попадётся на Мину. \nПожалуйста, обратите внимание: Труп самого Мины Ловушки не будет сопровождаться эффектом Мины."
+CapitalismInfoLong,(内鬼阵营):\n资本家可以通过击杀按键给某位玩家增加一个短任务。请注意：对没有任务或已完成任务的玩家使用技能则不会生效。
 
 # 双阵营
 GuesserInfoLong,(内鬼阵营或船员阵营):\n赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。,"(Impostors or Crewmate):\nGuesser can guess the roles of certain players during an encounter. If he guesses the role correctly, he will kill that target, and if wrong, he will commit suicide. \nGuessing command: ''/bt [Player ID] [Role Name]'' \nExample: /bt 3 Bait \nYou can see the player ID before the player's nickname, or you can use the ''/id'' command to see the IDs of all players.","(Предатель или Член Экипажа):\nУгадыватель может угадывать роли определённого игрока во время встречи. Если он угадает роль правильно, то он убьет эту цель, а если неправильно, то он совершит самоубийство. \nКоманда для угадываний: '/bt [Номер игрока] [Название Роли]'' \nПример: /bt 3 Байт \nВы можете увидеть номер игрока перед его никнеймом, или же для просмотра номеров всех игроков нужно использовать команду ''/id'' ."
@@ -261,7 +264,7 @@ NiceGuesserInfoLong,(船员阵营):\n正义赌怪可以在会议时猜测某位�
 ChivalrousExpertInfoLong,(船员阵营):\n侠客可以正义击杀任何阵营的人，不过机会只有一次。,"(Crewmates):\nKnight can kill any player with any role, but he can only kill once per game.","(Член Экипажа):\nРыцарь может убить любого игрока с любой ролью, но убить он сможет только один раз за игру."
 TransporterInfoLong,(船员阵营):\n每当传送师完成任务，就会有随机两位玩家交换位置，但若剩余玩家不足将什么都不会发生。请注意：管道中的玩家不会被选中。,"(Crewmates):\nWhenever the Transporter completes a task two random players will swap places, but if there aren't enough live players, nothing will happen. \nPlease note that players who are in the air vent will not be selected.","(Член Экипажа):\nВсякий раз, когда Транспортер завершает задание, два случайных игрока меняются местами, но если живых игроков недостаточно, ничего не произойдет. \nПожалуйста, обратите внимание: игроки, которые находятся в вентиляции, выбраны не будут."
 TimeManagerInfoLong,(船员阵营):\n时间操控者做的任务越多，会议时间就会越长，当时间操控者死亡则会议时间恢复正常。当时间操控者成为叛徒时则技能变为减少会议时长而不是增加会议时长。,"(Crewmates):\nThe more tasks you do, the longer your meeting will last. When you die, the meeting time will be restored.","(Член Экипажа):\nМастер Времени может увеличить время встречи, увеличивается время по мере выполнения заданий. Но когда он умрет, время встречи будет сброшено по умолчанию."
-VeteranInfoLong,(船员阵营):\n老兵可以通过使用通风管道进入戒备状态，如果戒备状态下有玩家尝试击杀老兵，则老兵反杀凶手。
+VeteranInfoLong,(船员阵营):\n老兵可以通过使用通风管道进入戒备状态，如果戒备状态下有玩家尝试击杀老兵，则老兵反杀凶手。老兵进入以及退出戒备状态时会看到自己身上有护盾破碎作为提示。
 
 # 中立阵营
 ArsonistInfoLong,(中立阵营):\n纵火犯可以通过对玩家点击击杀按钮并跟随其数秒来完成涂油，开始涂油以及涂油成功时会显示护盾破碎作为提示。当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。\n\n玩家名显示「△」表示涂油中\n玩家名显示「▲」表示已涂油,"(Neutrals):\nWhen you use the kill button, you douse your target in oil.\nAfter dousing all living players, you set everything ablaze and win by venting.","(Нейтрал):\nПоджигатель может обливать игроков, нажав на кнопку 'Убить' и находясь рядом с игроком в течение нескольких секунд. \nПосле того как он обольёт всех живых игроков Поджигатель сможет запрыгнуть в вентиляцию, чтобы поджечь всех игроков, что приводит к победе Поджигателя."
@@ -533,6 +536,7 @@ AssignOnlyTo%role%,只有%role%会成为加班狂,"Assign Only To %role%","На�
 WorkhorseNumLongTasks,额外的长任务数,"Additional Long Tasks","Дополнительные долгие задания"
 WorkhorseNumShortTasks,额外的短任务数,"Additional Short Tasks","Дополнительные короткие задания"
 InnocentCanWinByImp,冤罪师栽赃内鬼时可以获胜,If his target was the Impostor then he win with him,Если его цель был Предателем то он победит вместе с ним
+CapitalismSkillCooldown,技能使用冷却
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
@@ -774,6 +778,7 @@ PuppeteerOperateButtonText,操控,Manipulate,Управлять
 BountyHunterChangeButtonText,变更,Swap,До Смены
 EvilTrackerChangeButtonText,追踪,Track,Отслеживать
 InnocentButtonText,栽赃,To Frame,Подставить
+CapitalismButtonText,压榨
 DefaultShapeshiftText,变形,Shift,Превращение
 DisabledBySettings,已在设置被中禁用,Disabled by Settings,Отключено настройкой
 Disabled,禁用,Disabled,Отключено

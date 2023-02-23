@@ -155,17 +155,24 @@ namespace TOHE
                         if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
                         return false;
                     case CustomRoles.Witch:
-                        if (!Witch.OnCheckMurder(killer, target))
-                        {
-                            //Spellモードの場合は終了
-                            return false;
-                        }
+                        if (!Witch.OnCheckMurder(killer, target)) return false;
                         break;
                     case CustomRoles.Puppeteer:
                         if (target.Is(CustomRoles.Needy)) return false;
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
                         killer.SetKillCooldown();
                         Utils.NotifyRoles(SpecifySeer: killer);
+                        return false;
+                    case CustomRoles.Capitalism:
+                        if (!Main.CapitalismAddTask.ContainsKey(target.PlayerId))
+                            Main.CapitalismAddTask.Add(target.PlayerId, 0);
+                        Main.CapitalismAddTask[target.PlayerId]++;
+                        if (!Main.CapitalismAssignTask.ContainsKey(target.PlayerId))
+                            Main.CapitalismAssignTask.Add(target.PlayerId, 0);
+                        Main.CapitalismAssignTask[target.PlayerId]++;
+                        Logger.Info($"资本主义 {killer.GetRealName()} 又开始祸害人了：{target.GetRealName()}", "Capitalism Add Task");
+                        killer.RpcGuardAndKill(killer);
+                        killer.SetKillCooldown();
                         return false;
 
                     //==========マッドメイト系役職==========//
@@ -786,7 +793,6 @@ namespace TOHE
                                 Logger.Info($"Canceled: {__instance.GetNameWithRole()}", "Arsonist");
                             }
                         }
-
                     }
                 }
                 if (GameStates.IsInTask && Main.PuppeteerList.ContainsKey(player.PlayerId))
@@ -1265,8 +1271,26 @@ namespace TOHE
     {
         public static bool Prefix(PlayerControl __instance)
         {
-            if (Workhorse.OnCompleteTask(__instance)) //タスク勝利をキャンセル
+            var player = __instance;
+
+            //加班狂的任务
+            if (Workhorse.OnCompleteTask(player)) //タスク勝利をキャンセル
                 return false;
+
+            //来自资本主义的任务
+            if (Main.CapitalismAddTask.ContainsKey(player.PlayerId))
+            {
+                Logger.Test("Add Task：" + Main.CapitalismAddTask[player.PlayerId]);
+                var taskState = player.GetPlayerTaskState();
+                taskState.AllTasksCount += Main.CapitalismAddTask[player.PlayerId];
+                Main.CapitalismAddTask.Remove(player.PlayerId);
+                taskState.CompletedTasksCount++;
+                GameData.Instance.RpcSetTasks(player.PlayerId, new byte[0]); //タスクを再配布
+                player.SyncSettings();
+                Utils.NotifyRoles();
+                return false;
+            }
+
             return true;
         }
         public static void Postfix(PlayerControl __instance)

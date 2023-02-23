@@ -134,6 +134,8 @@ namespace TOHE
         public static Dictionary<byte, PlayerControl> MarkedPlayers = new();
         public static Dictionary<byte, int> MafiaRevenged = new();
         public static Dictionary<byte, int> GuesserGuessed = new();
+        public static Dictionary<byte, int> CapitalismAddTask = new();
+        public static Dictionary<byte, int> CapitalismAssignTask = new();
         public static Dictionary<byte, bool> isMarkAndKill = new();
         public static Dictionary<(byte, byte), bool> isDoused = new();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
@@ -236,6 +238,8 @@ namespace TOHE
             MarioVentCount = new Dictionary<byte, int>();
             MafiaRevenged = new Dictionary<byte, int>();
             GuesserGuessed = new Dictionary<byte, int>();
+            CapitalismAddTask = new Dictionary<byte, int>();
+            CapitalismAssignTask = new Dictionary<byte, int>();
             winnerList = new();
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte, string)>();
@@ -394,6 +398,7 @@ namespace TOHE
         Bomber,
         BoobyTrap,
         Scavenger,
+        Capitalism,
         //Crewmate(Vanilla)
         Engineer,
         GuardianAngel,

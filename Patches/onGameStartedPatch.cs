@@ -57,6 +57,8 @@ namespace TOHE
                 Main.ResetCamPlayerList = new();
                 Main.clientIdList = new();
 
+                Main.CapitalismAddTask = new();
+                Main.CapitalismAssignTask = new();
                 Main.SansKillCooldown = new();
                 Main.CheckShapeshift = new();
                 Main.ShapeshiftTarget = new();

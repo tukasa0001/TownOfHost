@@ -116,6 +116,9 @@ namespace TOHE
                         case CustomRoles.Innocent:
                             __instance.KillButton.OverrideText($"{GetString("InnocentButtonText")}");
                             break;
+                        case CustomRoles.Capitalism:
+                            __instance.KillButton.OverrideText($"{GetString("CapitalismButtonText")}");
+                            break;
                     }
 
                     //バウンティハンターのターゲットテキスト

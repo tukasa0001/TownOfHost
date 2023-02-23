@@ -160,6 +160,7 @@ namespace TOHE
         public static OptionItem SansMinKillCooldown;
         public static OptionItem BomberRadius;
         public static OptionItem FlashWhenTrapBoobyTrap;
+        public static OptionItem CapitalismSkillCooldown;
 
         // タスク無効化
         public static OptionItem DisableTasks;
@@ -470,7 +471,7 @@ namespace TOHE
             SetupRoleOptions(902135, TabGroup.ImpostorRoles, CustomRoles.Bomber);
             BomberRadius = FloatOptionItem.Create(902137, "BomberRadius", new(0.5f, 5f, 0.5f), 2f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Bomber])
                 .SetValueFormat(OptionFormat.Multiplier);
-
+            
             // Crewmate
             SetupRoleOptions(102255, TabGroup.CrewmateRoles, CustomRoles.NiceGuesser);
             GGCanGuessTime = IntegerOptionItem.Create(102257, "GuesserCanGuessTimes", new(1, 15, 1), 15, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.NiceGuesser])
@@ -582,6 +583,9 @@ namespace TOHE
             ZombieSpeedReduce = FloatOptionItem.Create(901794, "ZombieSpeedReduce", new(0.0f, 1.0f, 0.1f), 0.1f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Zombie])
                 .SetValueFormat(OptionFormat.Multiplier);
             SetupRoleOptions(902265, TabGroup.OtherRoles, CustomRoles.BoobyTrap);
+            SetupRoleOptions(902555, TabGroup.OtherRoles, CustomRoles.Capitalism);
+            CapitalismSkillCooldown = FloatOptionItem.Create(902558, "CapitalismSkillCooldown", new(2.5f, 900f, 2.5f), 20f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Capitalism])
+                .SetValueFormat(OptionFormat.Seconds);
 
             // 船员
             _ = BooleanOptionItem.Create(909092, "TabGroup.CrewmateRoles", false, TabGroup.OtherRoles, false)
