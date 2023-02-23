@@ -6,6 +6,16 @@ namespace TownOfHost
     {
         private static IGameOptions Opt;
         public static void SetOpt(IGameOptions opt) => Opt = opt;
+        public static float KillCooldown
+        {
+            get => Opt.GetFloat(FloatOptionNames.KillCooldown);
+            set => Opt.SetFloat(FloatOptionNames.KillCooldown, value);
+        }
+        public static float PlayerSpeedMod
+        {
+            get => Opt.GetFloat(FloatOptionNames.PlayerSpeedMod);
+            set => Opt.SetFloat(FloatOptionNames.PlayerSpeedMod, value);
+        }
         public static float ScientistCooldown
         {
             get => Opt.GetFloat(FloatOptionNames.ScientistCooldown);
