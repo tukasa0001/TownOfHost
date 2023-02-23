@@ -303,6 +303,7 @@ namespace TOHE
         //Add-Ons
         public static OptionItem NoLimitAddonsNum;
         public static OptionItem BewilderVision;
+        public static OptionItem ImpCanBeAvanger;
         public static OptionItem FlashmanSpeed;
         public static OptionItem LoverSpawnChances;
         public static OptionItem LoverSuicide;
@@ -563,6 +564,8 @@ namespace TOHE
             BewilderVision = FloatOptionItem.Create(6050383, "BewilderVision", new(0f, 5f, 0.05f), 0.65f, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Bewilder])
                 .SetValueFormat(OptionFormat.Multiplier);
             SetupAdtRoleOptions(6050440, CustomRoles.Fool, canSetNum: true);
+            SetupAdtRoleOptions(6050450, CustomRoles.Avanger, canSetNum: true);
+            ImpCanBeAvanger = BooleanOptionItem.Create(6050455, "ImpCanBeAvanger",false,TabGroup.Addons,false).SetParent(CustomRoleSpawnChances[CustomRoles.Avanger]);
 
             SetupAdtRoleOptions(6050390, CustomRoles.Madmate, canSetNum: true);
             LastImpostor.SetupCustomOption();

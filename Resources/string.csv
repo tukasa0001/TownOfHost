@@ -113,6 +113,7 @@ Oblivious,胆小鬼,Oblivious,Забывчивый
 Bewilder,迷幻者,Bewilder,Сбитый с Толку
 Workhorse,加班狂（损坏）,Workhorse (Damaged),Работник (Повреждён)
 Fool,蠢蛋,Fool,Глупец
+Avanger,复仇者
 
 # 管理员
 GM,管理员,GM,GM (Призрак)
@@ -203,6 +204,7 @@ ObliviousInfo,我的天哪，好恐怖,You cannot report body,Вы не може
 BewilderInfo,红伞伞白杆杆，好好吃,He has a small field of vision,У него маленькое поле зрение
 WorkhorseInfo,感觉不如做任务,You have Extra tasks,Теперь у вас дополнительные задания
 FoolInfo,我才不是笨蛋！,Now you can't fix sabotages,Теперь ты не сможешь чинить саботажи
+AvangerInfo,君子报仇，片刻不能缓！
 
 # 管理员
 GMInfo,开局死的冤魂隔岸观火,You are the Game Master,Вы Мастер Игры
@@ -291,6 +293,7 @@ ObliviousInfoLong,(附加职业):\n侦探不会成为胆小鬼。胆小鬼无法
 BewilderInfoLong,(附加职业):\n内鬼不会成为迷惑者。迷惑者默认拥有“较”小的视野，当迷惑者被击杀时，凶手的视野将变得跟迷惑者一样小。,"(Add-ons):\nImpostors cannot become Bewilder. The Bewilder player has a small field of view by default. When the Bewilder player is killed, the killer's field of view will become as small as the Bewilder's.","(Атрибут):\nПредатели не могут стать Сбитым с Толку. Сбитый с Толку игрок по умолчанию имеет маленькое поле зрения. Но когда Сбитый с Толку игрок будет убит, то поле зрения убийцы станет таким же маленьким, как и у Сбитого с Толку."
 WorkhorseInfoLong,(附加职业)\n最先完成任务的玩家会成为加班狂，加班狂会拥有更多的任务。,"(Add-ons):\nAn Add-on granted to the first living Crewmate finishing all the tasks.\nYou are assigned additional tasks necessary for the tasks win.\nNot granted to roles with no tasks or with abilities triggered by finishing tasks.","(Атрибут):\nДополнительные задания присваиваются первому живому Члену Экипажа, который выполнит все задания. \nЕму назначаются дополнительные задания, необходимые для победы с помощью заданий. \nНе может присваиваться ролям которые не имеют заданий, или ролям со способностями которые активируются после выполнения заданий."
 FoolInfoLong,(附加职业)\n内鬼和修理工不会成为蠢蛋。蠢蛋无法修复任何破坏。,"(Add-ons):\nImpostors and Repairman cannot become fools. A fool can't fix sabotages","(Атрибут):\nПредатели и Ремонтник не могут стать глупцом. Глупец не сможет чинить саботажи"
+AvangerInfoLong,(附加职业)\n可以设定内鬼是否可以成为复仇者。当复仇者被击杀时，复仇者会随机让一名玩家自杀。
 
 #模式选项
 NoGameEnd,测试模式,NoGameEnd,Игра Не Закончится
@@ -533,6 +536,7 @@ AssignOnlyTo%role%,只有%role%会成为加班狂,"Assign Only To %role%","На�
 WorkhorseNumLongTasks,额外的长任务数,"Additional Long Tasks","Дополнительные долгие задания"
 WorkhorseNumShortTasks,额外的短任务数,"Additional Short Tasks","Дополнительные короткие задания"
 InnocentCanWinByImp,冤罪师栽赃内鬼时可以获胜,If his target was the Impostor then he win with him,Если его цель был Предателем то он победит вместе с ним
+ImpCanBeAvanger,内鬼是否可以成为复仇者
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит

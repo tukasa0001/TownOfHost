@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
+using Sentry.Internal.Extensions;
 using TOHE.Modules;
 using UnityEngine;
 using static TOHE.Translator;
+using static UnityEngine.GraphicsBuffer;
 
 namespace TOHE
 {
@@ -354,6 +356,15 @@ namespace TOHE
             if (killer.Is(CustomRoles.ChivalrousExpert) && killer != target)
             {
                 ChivalrousExpert.OnMurder(killer);
+            }
+
+            if (target.Is(CustomRoles.Avanger))
+            {
+                var pcList = Main.AllAlivePlayerControls.Where(x => x.IsAlive() && x.PlayerId != target.PlayerId).ToList();
+                var rp = pcList[IRandom.Instance.Next(0, pcList.Count)];
+                Main.PlayerStates[rp.PlayerId].deathReason = PlayerState.DeathReason.Revenge;
+                rp.SetRealKiller(target);
+                rp.RpcMurderPlayer(rp);
             }
 
             FixedUpdatePatch.LoversSuicide(target.PlayerId);

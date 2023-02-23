@@ -790,6 +790,7 @@ namespace TOHE
                 if (role is CustomRoles.Madmate && (pc.GetCustomRole().IsImpostorTeam() || pc.Is(CustomRoles.Needy) || pc.Is(CustomRoles.Snitch) || pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Mayor) || pc.Is(CustomRoles.CyberStar) || pc.Is(CustomRoles.NiceGuesser))) continue;
                 if (role is CustomRoles.Oblivious && pc.Is(CustomRoles.Detective)) continue;
                 if (role is CustomRoles.Fool && (pc.GetCustomRole().IsImpostor() || pc.Is(CustomRoles.SabotageMaster))) continue;
+                if (role is CustomRoles.Avanger && pc.GetCustomRole().IsImpostor() && !Options.ImpCanBeAvanger.GetBool()) continue;
                 allPlayers.Add(pc);
             }
             var rd = IRandom.Instance;

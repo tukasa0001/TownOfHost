@@ -695,6 +695,7 @@ namespace TOHE
                 { CustomRoles.Bewilder,GetString("Bewilder") },
                 { CustomRoles.Workhorse,GetString("Workhorse") },
                 { CustomRoles.Fool,GetString("Fool") },
+                { CustomRoles.Avanger,GetString("Avanger") },
             };
 
         public static bool GetRoleByName(string name, out CustomRoles role)
