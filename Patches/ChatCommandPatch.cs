@@ -769,7 +769,7 @@ namespace TOHE
                     {
                         string devMark = "▲";
                         if (CustomRolesHelper.IsAdditionRole(r.Key)) devMark = "";
-                        if (r.Key is CustomRoles.GM) devMark = "";
+                        if (r.Key is CustomRoles.GM || r.Key.IsDesyncRole()) devMark = "";
                         if (r.Key.GetCount() < 1 || r.Key.GetMode() == 0) devMark = "";
                         if (isUp)
                         {
