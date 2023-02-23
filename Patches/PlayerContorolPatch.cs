@@ -97,28 +97,8 @@ namespace TOHE
                 return false;
             }
             //実際のキラーとkillerが違う場合の入れ替え処理
-            if (Sniper.IsEnable)
-            {
-                Sniper.TryGetSniper(target.PlayerId, ref killer);
-            }
-            if (killer != __instance)
-            {
-                Logger.Info($"Real Killer={killer.GetNameWithRole()}", "CheckMurder");
-
-            }
-            //キルされた時の特殊判定
-            switch (target.GetCustomRole())
-            {
-                case CustomRoles.Luckey:
-                    if (killer.Is(CustomRoles.ChivalrousExpert) && ChivalrousExpert.IsKilled(killer.PlayerId)) return false;
-                    var rd = IRandom.Instance;
-                    if (rd.Next(0, 100) < Options.LuckeyProbability.GetInt())
-                    {
-                        killer.RpcGuardAndKill(target);
-                        return false;
-                    }
-                    break;
-            }
+            if (Sniper.IsEnable) Sniper.TryGetSniper(target.PlayerId, ref killer);
+            if (killer != __instance) Logger.Info($"Real Killer={killer.GetNameWithRole()}", "CheckMurder");
 
             //キル時の特殊判定
             if (killer.PlayerId != target.PlayerId)
@@ -217,6 +197,19 @@ namespace TOHE
                 }
             }
 
+            switch (target.GetCustomRole())
+            {
+                //击杀幸运儿
+                case CustomRoles.Luckey:
+                    var rd = IRandom.Instance;
+                    if (rd.Next(0, 100) < Options.LuckeyProbability.GetInt())
+                    {
+                        killer.RpcGuardAndKill(target);
+                        return false;
+                    }
+                    break;
+            }
+
             //==キル処理==
             __instance.RpcMurderPlayer(target);
             //============
@@ -286,9 +279,9 @@ namespace TOHE
             }
 
             //When Bait is killed
-            if (target.GetCustomRole() == CustomRoles.Bait && killer.PlayerId != target.PlayerId && !hackKilled)
+            if (target.Is(CustomRoles.Bait) && killer.PlayerId != target.PlayerId && !hackKilled)
             {
-                if (target.Is(CustomRoles.Madmate))
+                if (target.Is(CustomRoles.Madmate)) //背叛诱饵
                 {
                     List<PlayerControl> playerList = new();
                     foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
@@ -307,7 +300,7 @@ namespace TOHE
                         new LateTask(() => playerList[hackinPlayer].CmdReportDeadBody(target.Data), 0.15f, "Bait of MadmateJ Random Report");
                     }
                 }
-                else
+                else //船员诱饵
                 {
                     Logger.Info(target?.Data?.PlayerName + "はBaitだった", "MurderPlayer");
                     new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
@@ -345,6 +338,10 @@ namespace TOHE
                 if (!Main.KillerOfBoobyTrapBody.ContainsKey(target.PlayerId)) Main.KillerOfBoobyTrapBody.Add(target.PlayerId, killer.PlayerId);
                 Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
                 killer.RpcMurderPlayer(killer);
+            }
+            if (killer.Is(CustomRoles.ChivalrousExpert) && killer != target)
+            {
+                ChivalrousExpert.OnMurder(killer);
             }
 
             FixedUpdatePatch.LoversSuicide(target.PlayerId);

@@ -38,14 +38,14 @@ namespace TOHE
             }
         }
 
-        public static bool OnCheckMurder(PlayerControl killer)
+        public static bool OnCheckMurder(PlayerControl killer) => CanUseKillButton(killer.PlayerId);
+
+        public static void OnMurder(PlayerControl killer)
         {
-            if (!CanUseKillButton(killer.PlayerId)) return false;
             killed.Add(killer.PlayerId);
             Logger.Info($"{killer.GetNameWithRole()} : " + (IsKilled(killer.PlayerId) ? "已使用击杀机会" : "未使用击杀机会"), "ChivalrousExpert");
             SetKillCooldown(killer.PlayerId);
             Utils.NotifyRoles(SpecifySeer: killer);
-            return true;
         }
     }
 }
