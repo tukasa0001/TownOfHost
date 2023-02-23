@@ -1197,6 +1197,9 @@ namespace TOHE
                     case "actorour#0029":
                         name = $"<color={Main.ModColor}><size=1.7>开发者</size></color>\r\n" + name;
                         break;
+                    case "pinklaze#1776":
+                        name = $"<color=#30548e><size=1.7>开发者</size></color>\r\n" + name;
+                        break;
                     case "bannerfond#3960":
                         name = $"<color={Main.ModColor}><size=1.7>贡献者</size></color>\r\n" + name;
                         break;
@@ -1234,6 +1237,7 @@ namespace TOHE
         {
             return pc.FriendCode is
                 "actorour#0029" or
+                "pinklaze#1776" or //NCM
                 "bannerfond#3960" or
                 "recentduct#6068" or
                 "heavyclod#2286" or //小叨院长
@@ -1247,6 +1251,7 @@ namespace TOHE
         {
             return pc.FriendCode is
                 "actorour#0029" or
+                "pinklaze#1776" or
                 "bannerfond#3960" or
                 "recentduct#6068";
         }
