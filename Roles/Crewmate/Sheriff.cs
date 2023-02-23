@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Hazel;
 using UnityEngine;
+using AmongUs.GameOptions;
 
 using static TownOfHost.Translator;
 
@@ -14,6 +15,7 @@ namespace TownOfHost.Roles.Crewmate
             new(
                 typeof(Sheriff),
                 CustomRoles.Sheriff,
+                RoleTypes.Impostor,
                 CustomRoleTypes.Crewmate,
                 20400,
                 SetupOptionItem,

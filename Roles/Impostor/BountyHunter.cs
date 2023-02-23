@@ -15,6 +15,7 @@ namespace TownOfHost.Roles.Impostor
             new(
                 typeof(BountyHunter),
                 CustomRoles.BountyHunter,
+                RoleTypes.Shapeshifter,
                 CustomRoleTypes.Impostor,
                 1000,
                 SetupOptionItem

@@ -147,9 +147,12 @@ namespace TownOfHost
                 _ => false,
             };
         public static RoleTypes GetRoleTypes(this CustomRoles role)
-            => role switch
+        {
+            var roleInfo = role.GetRoleInfo();
+            if (roleInfo != null)
+                return roleInfo.BaseRoleType;
+            return role switch
             {
-                CustomRoles.Sheriff or
                 CustomRoles.Arsonist or
                 CustomRoles.Jackal => RoleTypes.Impostor,
 
@@ -168,7 +171,6 @@ namespace TownOfHost
                 CustomRoles.Mayor => Options.MayorHasPortableButton.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
 
                 CustomRoles.Shapeshifter or
-                CustomRoles.BountyHunter or
                 CustomRoles.EvilTracker or
                 CustomRoles.SerialKiller or
                 CustomRoles.FireWorks or
@@ -179,6 +181,6 @@ namespace TownOfHost
 
                 _ => role.IsImpostor() ? RoleTypes.Impostor : RoleTypes.Crewmate,
             };
-
+        }
     }
 }

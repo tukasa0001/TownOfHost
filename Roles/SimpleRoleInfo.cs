@@ -1,6 +1,6 @@
 using System;
-using System.Reflection;
 using UnityEngine;
+using AmongUs.GameOptions;
 
 using static TownOfHost.Options;
 
@@ -10,6 +10,7 @@ public class SimpleRoleInfo
 {
     public Type ClassType;
     public CustomRoles RoleName;
+    public RoleTypes BaseRoleType;
     public CustomRoleTypes CustomRoleType;
     public Color32 RoleColor;
     public string RoleColorCode;
@@ -22,6 +23,7 @@ public class SimpleRoleInfo
     public SimpleRoleInfo(
         Type classType,
         CustomRoles roleName,
+        RoleTypes baseRoleType,
         CustomRoleTypes customRoleType,
         int configId,
         OptionCreatorDelegate optionCreator,
@@ -31,6 +33,7 @@ public class SimpleRoleInfo
     {
         ClassType = classType;
         RoleName = roleName;
+        BaseRoleType = baseRoleType;
         CustomRoleType = customRoleType;
         ConfigId = configId;
         OptionCreator = optionCreator;
