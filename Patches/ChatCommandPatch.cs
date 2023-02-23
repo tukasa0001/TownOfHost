@@ -611,6 +611,10 @@ namespace TOHE
                 "迷惑者" or "迷幻" => "迷幻者",
                 "蠢蛋" or "笨蛋" or "蠢狗" => "蠢蛋",
                 "冤罪師" or "冤罪" => "冤罪师",
+                "資本家" or "资本主义" or "资本" => "资本家",
+                "老兵"  => "老兵",
+                "加班狂" or "加班" => "加班狂",
+                "復仇者" or "复仇" => "复仇者",
                 _ => text,
             };
         }
@@ -646,6 +650,7 @@ namespace TOHE
                 { CustomRoles.BoobyTrap, GetString("BoobyTrap") },
                 { CustomRoles.EvilGuesser, GetString("EvilGuesser") },
                 { CustomRoles.Scavenger, GetString("Scavenger") },
+                { CustomRoles.Capitalism, GetString("Capitalism") },
                 //Crewmate役職
                 { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
                 { CustomRoles.Bait, GetString("Bait") },
