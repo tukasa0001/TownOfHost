@@ -634,7 +634,7 @@ namespace TOHE
                 { CustomRoles.Mafia, GetString("Mafia") },
                 { CustomRoles.Minimalism, GetString("Minimalism") },
                 { CustomRoles.SerialKiller, GetString("SerialKiller") },
-                { CustomRoles.Shapeshifter, GetString("Shapeshifter") },
+                { CustomRoles.ShapeMaster, GetString("ShapeMaster") },
                 { CustomRoles.TimeThief, GetString("TimeThief")},
                 { CustomRoles.Sniper, GetString("Sniper") },
                 { CustomRoles.Zombie, GetString("Zombie") },
