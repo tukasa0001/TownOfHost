@@ -19,6 +19,7 @@ public class SimpleRoleInfo
     public OptionItem RoleOption => CustomRoleSpawnChances[RoleName];
     public bool IsEnable = false;
     public OptionCreatorDelegate OptionCreator;
+    public bool RequireResetCam;
 
     public SimpleRoleInfo(
         Type classType,
@@ -28,6 +29,7 @@ public class SimpleRoleInfo
         int configId,
         OptionCreatorDelegate optionCreator,
         string colorCode = "",
+        bool requireResetCam = false,
         TabGroup tab = TabGroup.MainSettings
     )
     {
@@ -37,6 +39,7 @@ public class SimpleRoleInfo
         CustomRoleType = customRoleType;
         ConfigId = configId;
         OptionCreator = optionCreator;
+        RequireResetCam = requireResetCam;
 
         if (colorCode == "")
             colorCode = customRoleType switch

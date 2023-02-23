@@ -54,13 +54,14 @@ namespace TownOfHost
             AntiBlackout.RestoreIsDead(doSend: false);
             if (exiled != null)
             {
+                var role = exiled.GetCustomRole();
+                var info = role.GetRoleInfo();
                 //霊界用暗転バグ対処
-                if (!AntiBlackout.OverrideExiledPlayer && Main.ResetCamPlayerList.Contains(exiled.PlayerId))
+                if (!AntiBlackout.OverrideExiledPlayer && (Main.ResetCamPlayerList.Contains(exiled.PlayerId) || info.RequireResetCam))
                     exiled.Object?.ResetPlayerCam(1f);
 
                 exiled.IsDead = true;
                 Main.PlayerStates[exiled.PlayerId].deathReason = PlayerState.DeathReason.Vote;
-                var role = exiled.GetCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jester);
@@ -151,13 +152,14 @@ namespace TownOfHost
                     Main.AfterMeetingDeathPlayers.Do(x =>
                     {
                         var player = Utils.GetPlayerById(x.Key);
+                        var requireResetCam = player?.GetCustomRole().GetRoleInfo()?.RequireResetCam;
                         Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
                         Main.PlayerStates[x.Key].deathReason = x.Value;
                         Main.PlayerStates[x.Key].SetDead();
                         player?.RpcExileV2();
                         if (x.Value == PlayerState.DeathReason.Suicide)
                             player?.SetRealKiller(player, true);
-                        if (Main.ResetCamPlayerList.Contains(x.Key))
+                        if (Main.ResetCamPlayerList.Contains(x.Key) || (requireResetCam.HasValue && requireResetCam.Value))
                             player?.ResetPlayerCam(1f);
                         if (Executioner.Target.ContainsValue(x.Key))
                             Executioner.ChangeRoleByTarget(player);

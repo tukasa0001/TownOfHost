@@ -19,7 +19,8 @@ namespace TownOfHost.Roles.Crewmate
                 CustomRoleTypes.Crewmate,
                 20400,
                 SetupOptionItem,
-                "#f8cd46"
+                "#f8cd46",
+                true
             );
         public Sheriff(PlayerControl player)
         : base(
