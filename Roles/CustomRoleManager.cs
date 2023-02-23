@@ -16,7 +16,7 @@ public static class CustomRoleManager
     public static RoleBase GetByPlayerId(byte playerId) => AllActiveRoles.ToArray().Where(roleClass => roleClass.Player.PlayerId == playerId).FirstOrDefault();
     public static void Do<T>(this List<T> list, Action<T> action) => list.ToArray().Do(action);
     // == CheckMurder関連処理 ==
-    public static bool OnCheckMurder(PlayerControl killer, PlayerControl target)
+    public static void OnCheckMurder(PlayerControl killer, PlayerControl target)
     {
         List<(int order, IEnumerator<int> method)> methods = new();
         CheckMurderInfo info = new(killer, target);
@@ -41,8 +41,13 @@ public static class CustomRoleManager
             {
                 methods.Add((method.Current, method));
             }
+
+            if (info.IsAborted) break;
         }
-        return false; //TODO
+        if (!info.IsCanceled)
+        {
+            info.AppearanceKiller.RpcMurderPlayer(info.AppearanceTarget);
+        }
     }
     public class CheckMurderInfo
     {
