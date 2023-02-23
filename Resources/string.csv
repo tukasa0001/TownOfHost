@@ -540,7 +540,7 @@ WorkhorseNumLongTasks,额外的长任务数,"Additional Long Tasks","Допол�
 WorkhorseNumShortTasks,额外的短任务数,"Additional Short Tasks","Дополнительные короткие задания"
 InnocentCanWinByImp,冤罪师栽赃内鬼时可以获胜,If his target was the Impostor then he win with him,Если его цель был Предателем то он победит вместе с ним
 CapitalismSkillCooldown,技能使用冷却
-ImpCanBeAvanger,内鬼是否可以成为复仇者
+ImpCanBeAvanger,内鬼可以成为复仇者
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
