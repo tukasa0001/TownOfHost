@@ -22,7 +22,7 @@ namespace TOHE
         }
 
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = IsKilled(id) ? 255f : 1f;
-        public static string GetKillLimit(byte id) => Utils.ColorString(IsKilled(id) ? Color.white : Color.yellow, IsKilled(id) ? "(0)" : "(1)");
+        public static string GetKillLimit(byte id) => Utils.ColorString(!IsKilled(id) ? Color.yellow : Color.gray, !IsKilled(id) ? "(1)" : "(0)");
         public static bool CanUseKillButton(byte playerId)
             => !Main.PlayerStates[playerId].IsDead
             && !IsKilled(playerId);
