@@ -23,23 +23,48 @@ public abstract class RoleBase : IDisposable
 
         CustomRoleManager.AllActiveRoles.Add(this);
     }
-    public virtual void Add()
-    { }
     public void Dispose()
     {
         Player = null;
         OnDestroy();
         CustomRoleManager.AllActiveRoles.Remove(this);
     }
+    /// <summary>
+    /// インスタンス作成後すぐに呼ばれる関数
+    /// </summary>
+    public virtual void Add()
+    { }
+    /// <summary>
+    /// ロールベースが破棄されるときに呼ばれる関数
+    /// </summary>
     public virtual void OnDestroy()
     { }
+    /// <summary>
+    /// RPCを受け取った時に呼ばれる関数
+    /// </summary>
+    /// <param name="reader">届いたRPCの情報</param>
+    /// <param name="rpcType">届いたCustomRPC</param>
     public virtual void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
     { }
+    /// <summary>
+    /// キルボタンを使えるかどうか
+    /// </summary>
+    /// <returns>trueを返した場合、キルボタンを使える</returns>
     public virtual bool CanUseKillButton() => false;
+    /// <summary>
+    /// キルクールダウンを設定する関数
+    /// </summary>
     public virtual void SetKillCooldown()
     { }
+    /// <summary>
+    /// BuildGameOptionsで呼ばれる関数
+    /// </summary>
     public virtual void ApplyGameOptions(IGameOptions opt)
     { }
+    /// <summary>
+    /// 役職名の横に出るテキスト
+    /// </summary>
+    /// <param name="comms">コミュサボ中扱いするかどうか</param>
     public virtual string GetProgressText(bool comms = false)
     {
         var playerId = Player.PlayerId;
@@ -64,19 +89,50 @@ public abstract class RoleBase : IDisposable
     // == CheckMurder関連処理 ==
     public virtual IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target) => null;
     // ==/CheckMurder関連処理 ==
+    /// <summary>
+    /// キルが実行された直後に呼ばれる関数
+    /// </summary>
+    /// <param name="killer">キルしたプレイヤー</param>
+    /// <param name="target">キルされたプレイヤー</param>
     public virtual void OnMurderPlayer(PlayerControl killer, PlayerControl target)
     { }
+    /// <summary>
+    /// シェイプシフト時に呼ばれる関数
+    /// </summary>
+    /// <param name="shapeshifter">シェイプシフター</param>
+    /// <param name="target">変身先</param>
     public virtual void OnShapeshift(PlayerControl shapeshifter, PlayerControl target)
     { }
+    /// <summary>
+    /// タスクターンに常時呼ばれる関数
+    /// </summary>
     public virtual void OnFixedUpdate()
     { }
+    /// <summary>
+    /// 通報時に呼ばれる関数
+    /// </summary>
+    /// <param name="reporter">通報したプレイヤー</param>
+    /// <param name="target">通報されたプレイヤー</param>
+    /// <returns>falseを返すと通報がキャンセルされます</returns>
     public virtual bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target) => true;
+    /// <summary>
+    /// ミーティングが始まった時に読まれる関数
+    /// </summary>
     public virtual void OnStartMeeting()
     { }
+    /// <summary>
+    /// タスクターンが始まる直前に毎回呼ばれる関数
+    /// </summary>
     public virtual void AfterMeetingTasks()
     { }
     public virtual string GetTargetArrow() => "";
+    /// <summary>
+    /// シェイプシフトボタンを変更します
+    /// </summary>
     public virtual string GetKillButtonText() => GetString(StringNames.KillLabel);
+    /// <summary>
+    /// シェイプシフトボタンのテキストを変更します
+    /// </summary>
     public virtual string GetAbilityButtonText()
     {
         StringNames str = Player.Data.Role.Role switch
