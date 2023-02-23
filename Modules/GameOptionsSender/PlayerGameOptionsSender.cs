@@ -97,7 +97,9 @@ namespace TownOfHost.Modules
             switch (role)
             {
                 case CustomRoles.Terrorist:
-                    goto InfinityVent;
+                    AURoleOptions.EngineerCooldown = 0;
+                    AURoleOptions.EngineerInVentMaxTime = 0;
+                    break;
                 case CustomRoles.ShapeMaster:
                     AURoleOptions.ShapeshifterCooldown = 0f;
                     AURoleOptions.ShapeshifterLeaveSkin = false;
@@ -158,42 +160,22 @@ namespace TownOfHost.Modules
                 case CustomRoles.JSchrodingerCat:
                     Jackal.ApplyGameOptions(opt);
                     break;
-
-
-                InfinityVent:
-                    AURoleOptions.EngineerCooldown = 0;
-                    AURoleOptions.EngineerInVentMaxTime = 0;
-                    break;
             }
-            if (Main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
+            if (Main.AllPlayerKillCooldown.TryGetValue(player.PlayerId, out var killCooldown))
             {
-                foreach (var kc in Main.AllPlayerKillCooldown)
-                {
-                    if (kc.Key == player.PlayerId)
-                    {
-                        opt.SetFloat(
-                            FloatOptionNames.KillCooldown,
-                            kc.Value > 0 ? kc.Value : 0.01f);
-                    }
-                }
+                AURoleOptions.KillCooldown = Mathf.Max(0f, killCooldown);
             }
-            if (Main.AllPlayerSpeed.ContainsKey(player.PlayerId))
+
+            if (Main.AllPlayerSpeed.TryGetValue(player.PlayerId, out var speed))
             {
-                foreach (var speed in Main.AllPlayerSpeed)
-                {
-                    if (speed.Key == player.PlayerId)
-                    {
-                        opt.SetFloat(
-                            FloatOptionNames.PlayerSpeedMod,
-                            Mathf.Clamp(speed.Value, Main.MinSpeed, 3f));
-                    }
-                }
+                AURoleOptions.PlayerSpeedMod = Mathf.Clamp(speed, Main.MinSpeed, 3f);
             }
+
             state.taskState.hasTasks = Utils.HasTasks(player.Data, false);
             if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead)
                 opt.SetBool(BoolOptionNames.AnonymousVotes, false);
             if (Options.AdditionalEmergencyCooldown.GetBool() &&
-                Options.AdditionalEmergencyCooldownThreshold.GetInt() <= Main.AllAlivePlayerControls.Count())
+                Options.AdditionalEmergencyCooldownThreshold.GetInt() <= Main.AllAlivePlayerControls.ToArray().Count())
             {
                 opt.SetInt(
                     Int32OptionNames.EmergencyCooldown,
@@ -208,7 +190,7 @@ namespace TownOfHost.Modules
                 opt.SetFloat(FloatOptionNames.ImpostorLightMod, 0f);
                 if (player.GetCustomRole().IsImpostor() || player.Is(CustomRoles.Egoist))
                 {
-                    opt.SetFloat(FloatOptionNames.PlayerSpeedMod, Main.MinSpeed);
+                    AURoleOptions.PlayerSpeedMod = Main.MinSpeed;
                 }
             }
             MeetingTimeManager.ApplyGameOptions(opt);
