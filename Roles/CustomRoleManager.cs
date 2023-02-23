@@ -16,6 +16,33 @@ public static class CustomRoleManager
     public static RoleBase GetByPlayerId(byte playerId) => AllActiveRoles.ToArray().Where(roleClass => roleClass.Player.PlayerId == playerId).FirstOrDefault();
     public static void Do<T>(this List<T> list, Action<T> action) => list.ToArray().Do(action);
     // == CheckMurder関連処理 ==
+    public static bool OnCheckMurder(PlayerControl killer, PlayerControl target)
+    {
+        List<(int order, IEnumerator<int> method)> methods = new();
+        foreach (var role in AllActiveRoles)
+        {
+            var m = role.OnCheckMurder(killer, target);
+            if (m != null)
+                methods.Add((0, m));
+        }
+
+        while (methods.Count > 0)
+        {
+            var pair = methods.OrderByDescending(pair => pair.order).FirstOrDefault();
+            methods.Remove(pair);
+            (_, var method) = pair;
+            if (method == null) continue;
+
+            // MoveNext() のタイミングで初めて処理が実行される
+            // true: 次の処理順がyield returnされた (= まだ別の処理がある)
+            // false: yield breakされた (= もう処理がない)
+            if (method.MoveNext())
+            {
+                methods.Add((method.Current, method));
+            }
+        }
+        return false; //TODO
+    }
     // ==/CheckMurder関連処理 ==
     public static void Initialize()
     {
