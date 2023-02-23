@@ -96,7 +96,7 @@ Opportunist,投机者,Opportunist,Выживший
 Mario,马里奥,Mario,Марио
 Jackal,豺狼,Jackal,Шакал
 God,神,God,Бог
-Innocent,冤罪师
+Innocent,冤罪师,Innocent,Невинный
 
 # 附加职业
 LastImpostor,绝境者,Last Impostor,Последний Предатель
@@ -111,7 +111,7 @@ Brakar,破平者,Tiebreaker,Решающий
 Oblivious,胆小鬼,Oblivious,Забывчивый
 Bewilder,迷幻者,Bewilder,Сбитый с Толку
 Workhorse,加班狂（损坏）,Workhorse (Damaged),Работник (Повреждён)
-Fool,蠢蛋
+Fool,蠢蛋,Fool,Глупец
 
 # 管理员
 GM,管理员,GM,GM (Призрак)
@@ -185,7 +185,7 @@ ExecutionerInfo,确实，我其实是看他不爽,Get your target voted out,За
 MarioInfo,听说你的公主在管道里,"Live happily ever after, together",Выживите со своим Любовником
 JackalInfo,在这里，我一般称自己为只狼,Kill Everyone,Убей всех игроков
 GodInfo,一切都在您的掌控,Everything is under your control,Все под вашим контролем
-InnocentInfo,果然碰瓷百试百灵
+InnocentInfo,果然碰瓷百试百灵,Let aim of innocent was be ejected,Пусть цель невинного будет изгнана
 
 # 附加职业
 LoversInfo,最重要的是，记得照顾好你的另一半,Survive with your Lover,Выживите со своим Любовником
@@ -200,7 +200,7 @@ BrakarInfo,打破这无聊的规则,You have another invisible vote,У вас е
 ObliviousInfo,我的天哪，好恐怖,You cannot report body,Вы не можете ркпортить трупы
 BewilderInfo,红伞伞白杆杆，好好吃,He has a small field of vision,У него маленькое поле зрение
 WorkhorseInfo,感觉不如做任务,You have Extra tasks,Теперь у вас дополнительные задания
-FoolInfo,我才不是笨蛋！
+FoolInfo,我才不是笨蛋！,Now you can't fix sabotages,Теперь ты не сможешь чинить саботажи
 
 # 管理员
 GMInfo,开局死的冤魂隔岸观火,You are the Game Master,Вы Мастер Игры
@@ -239,7 +239,7 @@ GuesserInfoLong,(内鬼阵营或船员阵营):\n赌怪可以在会议时猜测�
 
 # 船员阵营
 BaitInfoLong,(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告诱饵的尸体。但诱饵被骇客击杀时技能会失效。,"(Crewmates):\nWhen you are killed, you force your killer to immediately self-report.","(Член Экипажа):\nКогда Приманку убивают, он заставляет убившего игрока \nмоментально зарепортить ваш труп."
-LuckeyInfoLong,(船员阵营):\n幸运儿被击杀时，有概率抵挡这次死亡，具体概率根据房主设定。抵挡生效时凶手会看到幸运儿的身上出现护盾破碎的效果，但幸运儿自己什么都不会知道。
+LuckeyInfoLong,(船员阵营):\n幸运儿被击杀时，有概率抵挡这次死亡，具体概率根据房主设定。抵挡生效时凶手会看到幸运儿的身上出现护盾破碎的效果，但幸运儿自己什么都不会知道。,"(Crewmates):\nThe Lucky will have a certain chance that the Killer will not be able to kill the Lucky, the probability is set depending on the Host's settings. The killer will see the effect of breaking the angel's shield on the body of the Lucky, but the Lucky himself will not know anything","(Член Экипажа):\nУ Удачника будет возникать определенная вероятность того, что Убийца не сможет убить Удачника, вероятность устанавливается в зависимости от настроек Хоста. Убийца увидит эффект разрушения щита ангела на теле Удачника, но сам Удачник при этом ничего не узнает."
 NeedyInfoLong,(船员阵营):\n摆烂人只有一个任务。另外，懒得要死的摆烂人并不会参与那些繁琐的事情，比如当黑客的替罪羊、给术士或者傀儡师办事之类的。摆烂人也不会拥有附加职业。,"(Crewmates):\nHe has only one task. In addition, the Lazy Gay, who is too lazy to die, will not participate in tiresome things like being the one to report body for the Hacker, working for the Warlock or the Puppeteer, etc. \nThe Lazy Gay will never become Lover or Neptune.","(Член Экипажа):\nУ него есть только одно задание. Кроме того Ленивому Парню которому слишком лень умирать, не будет участвовать в утомительных вещах, таких как: быть тем кто зарепортит труп для Хакера, не станет работать на Колдуна или на Кукловода и т.д. \nЛенивый Парень никогда не станет Любовником или Нептуном."
 SuperStarInfoLong,(船员阵营):\n明星的名字旁会有星星的标识，所以大家都知道谁是大明星。此外，大明星不会参与赌博这种事情哦。（无法被赌怪赌死）,"(Crewmates):\nThere will be a star logo(★) next to Super Star's nickname to let everyone know who Super Star is. In addition, the Super Star cannot be guessed by all the Guessing Roles. (The Guessers themselves will not die if they try to guess the Super Star)","(Член Экипажа):\nРядом с никнеймом Супер Звезды будет логотип звезды(★), чтобы все знали, кто является Супер Звездой. Кроме того Супер Звезду не смогут угадать все Угадывающие роли. (Сами Угадыватели не будут умирать если попытается угадать Супер Звезду)"
 CyberStarInfoLong,(船员阵营):\n网红死亡时所有船员会看到杀戮闪烁并在下次会议时收到新闻报告，而内鬼则全程什么都不知道。,"(Crewmates):\nWhen a Celebrity dies, all players (or depending on settings, only the Crewmates) will see a ''Kill Flash'' and receive a news message at the next meeting that the Celebrity has died, while Impostors and Neutrals will not learn anything about this event (Also depends from settings).","(Член Экипажа):\nКогда Знаменитость умрёт, все игроки (или в зависимости от настроек только Члены Экипажа) увидят ''Вспышку Убийства'' и получат новостное сообщение на следующей встрече что Знаменитость умерла, в то время как Предатели и Нейтралы ничего не узнают об этом событии (Так же зависит от настроек)."
@@ -262,14 +262,14 @@ TimeManagerInfoLong,(船员阵营):\n时间操控者做的任务越多，会议�
 
 # 中立阵营
 ArsonistInfoLong,(中立阵营):\n纵火犯可以通过对玩家点击击杀按钮并跟随其数秒来完成涂油，开始涂油以及涂油成功时会显示护盾破碎作为提示。当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。\n\n玩家名显示「△」表示涂油中\n玩家名显示「▲」表示已涂油,"(Neutrals):\nWhen you use the kill button, you douse your target in oil.\nAfter dousing all living players, you set everything ablaze and win by venting.","(Нейтрал):\nПоджигатель может обливать игроков, нажав на кнопку 'Убить' и находясь рядом с игроком в течение нескольких секунд. \nПосле того как он обольёт всех живых игроков Поджигатель сможет запрыгнуть в вентиляцию, чтобы поджечь всех игроков, что приводит к победе Поджигателя."
-JesterInfoLong,(中立阵营):\n小丑被票出则小丑单独游戏胜利。游戏结束时若小丑仍存活则小丑输掉游戏。请注意：小丑、处刑人、冤罪师可以共享胜利。,"(Neutrals):\nYou solo victory by getting voted out during a meeting.\nIf the game ends without you getting voted out, or if you are killed, you lose.","(Нейтрал):\nДжестер сможет выиграть игру, если за него проголосуют во время голосования и он будет изгнан.\nВ противном случае Джестер проиграет."
+JesterInfoLong,(中立阵营):\n小丑被票出则小丑单独游戏胜利。游戏结束时若小丑仍存活则小丑输掉游戏。请注意：小丑、处刑人、冤罪师可以共享胜利。,"(Neutrals):\nYou solo victory by getting voted out during a meeting.\nIf the game ends without you getting voted out, or if you are killed, you lose. \nPlease note: the Jester, the Executioner and the Innocent can share the victory","(Нейтрал):\nДжестер сможет выиграть игру, если за него проголосуют во время голосования и он будет изгнан.\nВ противном случае Джестер проиграет. \nПожалуйста, обратите внимание: Джестер, Палач и Невинный могут разделить победу"
 TerroristInfoLong,(中立阵营):\n恐怖分子完成所有任务后死亡，则恐怖分子单独获得胜利。（怎么死都行，包括票死，反正死了就行）,"(Neutrals):\nYou solo victory by getting killed or voted out AFTER you finish your tasks.","(Нейтрал):\nТеррорист побеждает в одиночку, если его убивают или изгоняют. \nНо только если все его задания будут выполнены."
-ExecutionerInfoLong,(中立阵营):\n游戏开始时处刑人会被分配到一个处刑目标，并在其昵称旁用菱形「♦」表示。若处刑目标被击杀，则处刑的职业会根据设置变为船员，小丑或投机者。如果处刑目标在会议中被票出则处刑人胜利。请注意：小丑、处刑人、冤罪师可以共享胜利。,"(Neutrals):\nYou are assigned a target who has a diamond mark only you can see next to their name.\nYou solo victory by having that target voted out. If your target is killed, your own role changes into something else.\nIf your target is Jester, you will win alongside Jester.","(Нейтрал):\nПалач назначается цель с темно-фиолетовым значком «Ромба» рядом с именем игрока.\nОн побеждает когда его цель будет изгнана на голосовании.\nЕсли его цель умирает до того как он был изгнан, Палач меняет свою роль и становится Членом Экипажа, Шутом или Выжившим в зависимости от настроек игры.\nЕсли его цель является Шут, то Палач выиграет вместе с ним."
+ExecutionerInfoLong,(中立阵营):\n游戏开始时处刑人会被分配到一个处刑目标，并在其昵称旁用菱形「♦」表示。若处刑目标被击杀，则处刑的职业会根据设置变为船员，小丑或投机者。如果处刑目标在会议中被票出则处刑人胜利。请注意：小丑、处刑人、冤罪师可以共享胜利。,"(Neutrals):\nYou are assigned a target who has a diamond mark only you can see next to their name.\nYou solo victory by having that target voted out. If your target is killed, your own role changes into something else. \nPlease note: the Jester, the Executioner and the Innocent can share the victory","(Нейтрал):\nПалач назначается цель с темно-фиолетовым значком «Ромба» рядом с именем игрока.\nОн побеждает когда его цель будет изгнана на голосовании.\nЕсли его цель умирает до того как он был изгнан, Палач меняет свою роль и становится Членом Экипажа, Шутом или Выжившим в зависимости от настроек игры. \nПожалуйста, обратите внимание: Джестер, Палач и Невинный могут разделить победу"
 OpportunistInfoLong,(中立阵营):\n若投机者在游戏结束时存活，则投机者跟随获胜玩家一同获得胜利。,"(Neutrals):\nSo long as you are alive at the end of the game, you will win alongside whoever the victor is.","(Нейтрал):\nВыживший выигрывает игру с любыми другими ролями, но только если он выжил."
 MarioInfoLong,(中立阵营):\n马里奥跳管达到一定次数就会单独获得胜利。,"(Neutrals):\nMario will win alone if he jumps a certain number of times into the vent.","(Нейтрал):\nМарио победит в одиночку, если прыгнет в вентиляцию определенное количество раз."
 JackalInfoLong,(中立阵营):\n豺狼需要击杀所有人。存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。,"(Neutrals):\nJackal can kill all Crewmates, Impostors and Neutrals.\nTeam Jackal wins when living Jackal outnumbers living Crewmates and when there are no Impostors alive.","(Нейтрал):\nШакал может убить всех Членов Экипажа, Нейтралов и Предателей тоже. \nШакал может победить, когда в живых остался только 1 Шакал и 1 Член Экипажа."
 GodInfoLong,(中立阵营):\n神从一开始就知道所有人的身份，而神只要活到最后就会抢走胜利。,"(Neutrals):\nGod knows the roles of each player from the very beginning of the game, and if God survives until the end of the game, he will win.","(Нейтрал):\nБог знает роли каждого игрока с самого начала игры, и если Бог выживет до конца игры он одержит победу."
-InnocentInfoLong,(中立阵营):\n冤罪师可以用击杀键栽赃任意一位玩家，被栽赃的目标会立刻击杀冤罪师，若目标在会议上被驱逐则冤罪师获胜。请注意：小丑、处刑人、冤罪师可以共享胜利。
+InnocentInfoLong,(中立阵营):\n冤罪师可以用击杀键栽赃任意一位玩家，被栽赃的目标会立刻击杀冤罪师，若目标在会议上被驱逐则冤罪师获胜。请注意：小丑、处刑人、冤罪师可以共享胜利。,"(Neutrals):\nInnocent can use the ''Kill'' button to tag any player. The marked target will immediately kill the Innocent. If the marked target is ejected during the meetings, the Innocent will win. \nPlease note: the Jester, the Executioner and the Innocent can share the victory.","(Нейтрал):\nНевинный может использовать кнопку ''Убить'', чтобы пометить любого игрока. Помеченная цель немедленно убьет Невинного. Если помеченная цель будет изгнана во время встречи, то Невинный одержит победу. \nПожалуйста, обратите внимание: Джестер, Палач и Невинный могут разделить победу."
 
 # 管理员
 GMInfoLong,(房主):\n看我干啥，我只是个开局就死的冤魂，静静地吃瓜而已。,"(None):\nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game, and all players know who the GM is. The GM role will be assigned to the host, who will automatically become a ghost at the start of the game.","(Никто):\nGM (Мастер Игры) — это роль, которая наблюдает за игрой в роле призрака. \nОн не влияет на игру, и все игроки всегда знают кто Мастер Игры. Всегда назначается только хосту лобби и становится призраком в самом начале игры."
@@ -284,10 +284,10 @@ FlashmanInfoLong,(附加职业):\n闪电侠的初始移动速度比其他人快�
 LighterInfoLong,(附加职业):\n只有船员会成为执灯人，执灯人默认拥有内鬼的视野。,"(Add-ons):\nLighter has the same vision range as Impostors by default","(Атрибут):\nУ Фонарика по умолчанию дальность обзора такое же как и у Предателей."
 SeerInfoLong,(附加职业):\n每当有玩家死亡时，灵媒会看到杀戮闪烁。,"(Add-ons):\nWhenever someone dies, you will see a ""kill flash"".","(Атрибут):\nПровидец видит ''Вспышку Убийства'' каждый раз, когда игроки умирают."
 BrakarInfoLong,(附加职业):\n放逐投票平票时，会优先驱逐破平者投票的目标。若破平者弃票且弃票数与场上票数最高玩家相同时，则优先选择跳过放逐。请注意：若多个破平者同时选择了不同的平票目标，则破平者的技能不会生效。此外，破平者发动技能则不会显示驱逐确认。,"(Add-ons):\nWhen a tie occurs during a vote, the player with the Tiebreaker has more vote priority than the other players, and therefore the player who the Tiebreaker voted for will be ejected in the event of a tie. Please note that if multiple players with a Tiebreaker vote for different goals at the same time in a tie, the Tiebreaker skills will not trigger","(Атрибут):\nКогда во время голосования происходит ничья, то у игрока с атрибутом Решающего приоритет голоса больше чем у остальных игроков, и поэтому при ничье будет изгнан тот, за кого проголосует игрок с атрибутом Решающего. Пожалуйста, обратите внимание: если несколько игроков с Решающим одновременно проголосуют за разные цели при ничье, навыки Решающего не сработают."
-ObliviousInfoLong,(附加职业):\n侦探不会成为胆小鬼。胆小鬼无法报告尸体。请注意：胆小鬼击杀诱饵还是会自动报告，此外胆小鬼可以照常成为骇客的替罪羊。,"(Add-ons):\nOblivious can't report the body. Please note: If the player has the role of Bait and Oblivious, then Bait's ability will work normally, and he can also be the one to report the body to the Hacker.","(Атрибут):\nЗабывчивый не может репортить трупы. Пожалуйста, обратите внимание: Если у игрока есть роль Байта и атрибут Забывчевого то способность Байта сработает как обычно, и так же он может стать тем кто может зарепортить труп для Хакера."
+ObliviousInfoLong,(附加职业):\n侦探不会成为胆小鬼。胆小鬼无法报告尸体。请注意：胆小鬼击杀诱饵还是会自动报告，此外胆小鬼可以照常成为骇客的替罪羊。,"(Add-ons):\nOblivious can't report the body. Please note: If the player has the role of Bait and Oblivious, then Bait's ability will work normally, and he can also be the one to report the body to the Hacker. The Detective cannot become Oblivious. Otherwise, he would not be able to report on the body","(Атрибут):\nЗабывчивый не может репортить трупы. Пожалуйста, обратите внимание: Если у игрока есть роль Байта и атрибут Забывчевого то способность Байта сработает как обычно, и так же он может стать тем кто может зарепортить труп для Хакера. Детектив не может стать Забывчивым. Иначе бы он не смог зарепортить труп."
 BewilderInfoLong,(附加职业):\n内鬼不会成为迷惑者。迷惑者默认拥有“较”小的视野，当迷惑者被击杀时，凶手的视野将变得跟迷惑者一样小。,"(Add-ons):\nImpostors cannot become Bewilder. The Bewilder player has a small field of view by default. When the Bewilder player is killed, the killer's field of view will become as small as the Bewilder's.","(Атрибут):\nПредатели не могут стать Сбитым с Толку. Сбитый с Толку игрок по умолчанию имеет маленькое поле зрения. Но когда Сбитый с Толку игрок будет убит, то поле зрения убийцы станет таким же маленьким, как и у Сбитого с Толку."
 WorkhorseInfoLong,(附加职业)\n最先完成任务的玩家会成为加班狂，加班狂会拥有更多的任务。,"(Add-ons):\nAn Add-on granted to the first living Crewmate finishing all the tasks.\nYou are assigned additional tasks necessary for the tasks win.\nNot granted to roles with no tasks or with abilities triggered by finishing tasks.","(Атрибут):\nДополнительные задания присваиваются первому живому Члену Экипажа, который выполнит все задания. \nЕму назначаются дополнительные задания, необходимые для победы с помощью заданий. \nНе может присваиваться ролям которые не имеют заданий, или ролям со способностями которые активируются после выполнения заданий."
-FoolInfoLong,(附加职业)\n内鬼和修理工不会成为蠢蛋。蠢蛋无法修复任何破坏。
+FoolInfoLong,(附加职业)\n内鬼和修理工不会成为蠢蛋。蠢蛋无法修复任何破坏。,"(Add-ons):\nImpostors and Repairman cannot become fools. A fool can't fix sabotages","(Атрибут):\nПредатели и Ремонтник не могут стать глупцом. Глупец не сможет чинить саботажи"
 
 #模式选项
 NoGameEnd,测试模式,NoGameEnd,Игра Не Закончится
@@ -403,7 +403,7 @@ AirShipVariableElectrical,电气室门随机关闭（飞艇地图）,Variable El
 ApplyDenyNameList,踢出使用违规昵称的玩家,Apply DenyName List,Применить файл запрещённых имён (DenyName)
 KickPlayerFriendCodeNotExist,踢出没有登录的玩家,Kick players whose Friend Code does not exist,Кикнуть игроков у которых нет Кода Друга
 ApplyBanList,踢出被封禁的玩家,Apply BanList,Применить файл с забаненными игроками (BanList)
-EndWhenPlayerBug,当有玩家因Bug无法游戏时终止游戏,"End the game when any player has a critical error",Завершить игру когда у Хоста возникла критическая ошибка
+EndWhenPlayerBug,当有玩家因Bug无法游戏时终止游戏,"End the game when any player has a critical error",Завершить игру когда у любого игрока возникла критическая ошибка
 KillFlashDuration,击杀闪烁持续时间,"''Kill Flash'' Duration","Длительность ''Вспышки Убийства''"
 ConfirmEjections,驱逐时确认阵营,Show roles players ejected,Показывать роли изгнаных
 ConfirmEjectionsNK,确认带刀中立阵营,Show Neutral Killer Roles,Показывать роли Нейтральных Убийц
@@ -529,7 +529,7 @@ ShapeMasterShapeshiftDuration,变形持续时间,Shapeshift duration,Продо�
 AssignOnlyTo%role%,只有%role%会成为加班狂,"Assign Only To %role%","Назначить только для %role%"
 WorkhorseNumLongTasks,额外的长任务数,"Additional Long Tasks","Дополнительные долгие задания"
 WorkhorseNumShortTasks,额外的短任务数,"Additional Short Tasks","Дополнительные короткие задания"
-InnocentCanWinByImp,冤罪师栽赃内鬼时可以获胜
+InnocentCanWinByImp,冤罪师栽赃内鬼时可以获胜,If his target was the Impostor then he win with him,Если его цель был Предателем то он победит вместе с ним
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
@@ -595,7 +595,7 @@ GuessDead,很抱歉，死亡后不能进行猜测,"Sorry, but it's impossible to
 GuessSuperStar,大明星才不会和你赌博，选个别的目标吧？,"Super Star can't be guessed, you thought it would be so easy, right?","Супер Звезда не может быть угадана, ты думал что всё так просто, да?"
 GuessGM,能想出这个也是把你闲的,"Being able to guess the GM is impossible, because he's already dead","Угадать GM невозможно, потому что он уже и так мертв"
 GuessAdtRole,很抱歉，该房设置不允许猜测附加职业,"Unfortunately, the Host settings do not allow you to guess add-ons","К сожалению, настройки Хоста не позволяют угадывать Атрибуты"
-GuessKill,很遗憾，【{0}】\n在赌局中失利了,Player: [{0}] was guessed,Игрок: [{0}] был угадан
+GuessKill,很遗憾，【{0}】\n在赌局中失利了,Player: [{0}] \nwas guessed,Игрок: [{0}] \nбыл угадан
 GuessNull,请选择一个在场的存活角色进行赌注,"Please select an ID of a alive player to guess their role","Пожалуйста, выберите индификатор присутствующего выжившего игрока, чтобы угадать его роль"
 GuessHelp,指令格式：/bt [玩家编号] [职业名]\n示例：/bt 3 告密者\n您可以在玩家的名字前看到该玩家的编号\n或者使用/id查看玩家编号列表,"Instructions: /bt [Player ID] [Role Name] \nExample: /bt 3 Bait \nYou can see the player ID before the player name \n or use the /id command to list the player IDs","Инструкция: /bt [Идентификатор игрока] [Название Роли] \nПример: /bt 3 Байт \nВы можете увидеть идентификатор игрока перед именем игрока \nили использовав команду /id для просмотра списка идентификаторов игроков"
 GGGuessMax,您已经达到每次会议的猜测上限，不能再猜测啦！,"You've reached the maximum guessing limit for each encounter, you can't guess anymore!","Вы достигли максимального предела угадывания для каждой встречи, вы больше не можете угадывать!"
@@ -770,7 +770,7 @@ ArsonistDouseButtonText,涂油,Douse,Облить
 PuppeteerOperateButtonText,操控,Manipulate,Управлять
 BountyHunterChangeButtonText,变更,Swap,До Смены
 EvilTrackerChangeButtonText,追踪,Track,Отслеживать
-InnocentButtonText,栽赃
+InnocentButtonText,栽赃,To Frame,Подставить
 DefaultShapeshiftText,变形,Shift,Превращение
 DisabledBySettings,已在设置被中禁用,Disabled by Settings,Отключено настройкой
 Disabled,禁用,Disabled,Отключено
@@ -798,8 +798,8 @@ PlayerIsRole,{0} 是 {1},{0} was the role {1},{0} был ролью {1}
 PlayerExiled,{0} 被驱逐了...,{0} was ejected...,{0} был изгнан...
 ExiledJester,票出 {0} 让你有种不详的预感\n{1} 在狂笑着...,Ejected by {0} gives you a bad feeling \nbut {1} laughs wildly...,Изгнание {0} вызывает у вас дурное предчувствие \nно {1} дико смеется...
 ExiledExeTarget,票出 {0} 让你有种不详的预感\n他是 {1}，而他的背后传来<color=#611c3a>处刑人</color>阴沉的笑声...,"Ejected by {0} gives you a bad feeling \nit is {1}, and behind it the <color=#611c3a>Executioner's</color> gloomy laughter sounds...","Изгнание {0} вызывает у вас дурное предчувствие \nЭто {1}, а позади него звучит мрачный смех <color=#611c3a>Палача</color>..."
-ExiledInnocentTargetAddBelow,\n回头一看，<color=#8f815e>冤罪师</color> 正数着手里的钱呢
-ExiledInnocentTargetInOneLine,票出 {0} 让你有种不详的预感\n他是 {1}，而回头一看，<color=#8f815e>冤罪师</color> 正数着手里的钱呢
+ExiledInnocentTargetAddBelow,\n回头一看，<color=#8f815e>冤罪师</color> 正数着手里的钱呢,"\nLooking back <color=#8f815e>Innocent</color> counts the money in his hands","\nОглянувшись назад <color=#8f815e>Невинный</color> пересчитывает деньги в своих руках"
+ExiledInnocentTargetInOneLine,票出 {0} 让你有种不详的预感\n他是 {1}，而回头一看，<color=#8f815e>冤罪师</color> 正数着手里的钱呢,"Ejected by {0} gives you a bad feeling \nit is {1}, and looking back <color=#8f815e>Innocent</color> counts the money in his hands","Изгнание {0} вызывает у вас дурное предчувствие \nЭто {1}, и оглянувшись назад <color=#8f815e>Невинный</color> пересчитывает деньги в своих руках"
 NoImpRemain,已经没有内鬼啦,There are no more impostors left,Предателей больше не осталось
 ImpRemain,剩余 {0} 个内鬼,There are {0} Impostors left,Осталось {0} Предателя
 NeutralRemain,剩余 {0} 个邪恶中立,There Are {0} Evil Neutrals Left,Осталось {0} Злых Нейтралов
