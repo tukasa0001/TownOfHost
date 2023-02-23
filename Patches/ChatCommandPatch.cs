@@ -7,6 +7,8 @@ using Assets.CoreScripts;
 using HarmonyLib;
 using Hazel;
 using UnityEngine;
+
+using TownOfHost.Roles;
 using static TownOfHost.Translator;
 
 namespace TownOfHost

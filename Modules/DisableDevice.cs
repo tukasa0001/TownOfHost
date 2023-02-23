@@ -5,6 +5,8 @@ using Hazel;
 using InnerNet;
 using UnityEngine;
 
+using TownOfHost.Roles;
+
 namespace TownOfHost
 {
     //参考元 : https://github.com/ykundesu/SuperNewRoles/blob/master/SuperNewRoles/Mode/SuperHostRoles/BlockTool.cs

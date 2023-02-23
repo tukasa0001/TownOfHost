@@ -4,6 +4,7 @@ using System.Linq;
 using HarmonyLib;
 using UnityEngine;
 
+using TownOfHost.Roles;
 using TownOfHost.Roles.Crewmate;
 using TownOfHost.Roles.Neutral;
 

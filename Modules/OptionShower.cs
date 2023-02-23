@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+
+using TownOfHost.Roles;
 using static TownOfHost.Translator;
 
 namespace TownOfHost

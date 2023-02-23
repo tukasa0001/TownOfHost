@@ -5,6 +5,7 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 
+using TownOfHost.Roles;
 using TownOfHost.Roles.Neutral;
 
 namespace TownOfHost

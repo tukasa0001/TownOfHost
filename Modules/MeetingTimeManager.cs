@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using AmongUs.GameOptions;
 
+using TownOfHost.Roles;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Crewmate;
 

@@ -5,6 +5,7 @@ using HarmonyLib;
 using InnerNet;
 
 using TownOfHost.Modules;
+using TownOfHost.Roles;
 using TownOfHost.Roles.Neutral;
 using static TownOfHost.Translator;
 

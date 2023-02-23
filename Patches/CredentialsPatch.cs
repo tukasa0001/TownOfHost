@@ -2,6 +2,8 @@ using System.Globalization;
 using System.Text;
 using HarmonyLib;
 using UnityEngine;
+
+using TownOfHost.Roles;
 using static TownOfHost.Translator;
 
 namespace TownOfHost

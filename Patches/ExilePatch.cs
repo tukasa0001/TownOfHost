@@ -2,6 +2,7 @@ using System.Linq;
 using AmongUs.Data;
 using HarmonyLib;
 
+using TownOfHost.Roles;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
 

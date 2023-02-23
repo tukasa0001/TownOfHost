@@ -35,3 +35,74 @@ public static class CustomRoleManager
         }
     }
 }
+public enum CustomRoles
+{
+    //Default
+    Crewmate = 0,
+    //Impostor(Vanilla)
+    Impostor,
+    Shapeshifter,
+    //Impostor
+    BountyHunter,
+    EvilWatcher,
+    FireWorks,
+    Mafia,
+    SerialKiller,
+    ShapeMaster,
+    Sniper,
+    Vampire,
+    Witch,
+    Warlock,
+    Mare,
+    Puppeteer,
+    TimeThief,
+    EvilTracker,
+    //Madmate
+    MadGuardian,
+    Madmate,
+    MadSnitch,
+    SKMadmate,
+    MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
+    //両陣営
+    Watcher,
+    //Crewmate(Vanilla)
+    Engineer,
+    GuardianAngel,
+    Scientist,
+    //Crewmate
+    Bait,
+    Lighter,
+    Mayor,
+    NiceWatcher,
+    SabotageMaster,
+    Sheriff,
+    Snitch,
+    SpeedBooster,
+    Trapper,
+    Dictator,
+    Doctor,
+    Seer,
+    TimeManager,
+    CSchrodingerCat,//クルー陣営のシュレディンガーの猫
+    //Neutral
+    Arsonist,
+    Egoist,
+    EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
+    Jester,
+    Opportunist,
+    SchrodingerCat,//無所属のシュレディンガーの猫
+    Terrorist,
+    Executioner,
+    Jackal,
+    JSchrodingerCat,//ジャッカル陣営のシュレディンガーの猫
+    //HideAndSeek
+    HASFox,
+    HASTroll,
+    //GM
+    GM,
+    // Sub-roll after 500
+    NotAssigned = 500,
+    LastImpostor,
+    Lovers,
+    Workhorse,
+}
