@@ -62,7 +62,7 @@ public abstract class RoleBase : IDisposable
         return Utils.ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})");
     }
     // == CheckMurder関連処理 ==
-    public virtual IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target) => null;
+    public virtual IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target, CustomRoleManager.CheckMurderInfo info) => null;
     // ==/CheckMurder関連処理 ==
     public virtual void OnMurderPlayer(PlayerControl killer, PlayerControl target)
     { }

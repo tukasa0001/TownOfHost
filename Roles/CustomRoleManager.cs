@@ -19,9 +19,10 @@ public static class CustomRoleManager
     public static bool OnCheckMurder(PlayerControl killer, PlayerControl target)
     {
         List<(int order, IEnumerator<int> method)> methods = new();
+        CheckMurderInfo info = new(killer, target);
         foreach (var role in AllActiveRoles)
         {
-            var m = role.OnCheckMurder(killer, target);
+            var m = role.OnCheckMurder(killer, target, info);
             if (m != null)
                 methods.Add((0, m));
         }
@@ -42,6 +43,37 @@ public static class CustomRoleManager
             }
         }
         return false; //TODO
+    }
+    public class CheckMurderInfo
+    {
+        /// <summary>キルボタンを押したプレイヤー 不変</summary>
+        public PlayerControl AttemptKiller { get; }
+        /// <summary>キルボタンの対象となったプレイヤー 不変</summary>
+        public PlayerControl AttemptTarget { get; }
+        /// <summary>見た目上でキルを行うプレイヤー 可変</summary>
+        public PlayerControl AppearanceKiller { get; set; }
+        /// <summary>見た目上でキルされるプレイヤー 可変</summary>
+        public PlayerControl AppearanceTarget { get; set; }
+
+        /// <summary><para>この値がtrueの状態で終了すると、実際のキルが行われません。</para>
+        /// <para>他のRoleBaseのCheckMurder処理は通常通り行われます。</para></summary>
+        public bool IsCanceled { get; set; } = false;
+        /// <summary><para>この値がtrueの状態でyield return/breakが行われると、以降の他のRoleBaseのCheckMurderの処理が行われなくなります。</para>
+        /// <para>実際のキルが行われるかどうかはIsCanceledの値に依存します。</para></summary>
+        public bool IsAborted { get; set; } = false;
+
+        public CheckMurderInfo(PlayerControl killer, PlayerControl target)
+        {
+            AttemptKiller = AppearanceKiller = killer;
+            AttemptTarget = AttemptTarget = target;
+        }
+        public CheckMurderInfo(PlayerControl attemptKiller, PlayerControl attemptTarget, PlayerControl appearanceKiller, PlayerControl appearancetarget)
+        {
+            AttemptKiller = attemptKiller;
+            AttemptTarget = attemptTarget;
+            AppearanceKiller = appearanceKiller;
+            AppearanceTarget = appearancetarget;
+        }
     }
     // ==/CheckMurder関連処理 ==
     public static void Initialize()
