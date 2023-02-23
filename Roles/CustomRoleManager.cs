@@ -106,3 +106,10 @@ public enum CustomRoles
     Lovers,
     Workhorse,
 }
+public enum CustomRoleTypes
+{
+    Crewmate,
+    Impostor,
+    Neutral,
+    Madmate
+}

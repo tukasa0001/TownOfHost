@@ -181,11 +181,4 @@ namespace TownOfHost
             };
 
     }
-    public enum CustomRoleTypes
-    {
-        Crewmate,
-        Impostor,
-        Neutral,
-        Madmate
-    }
 }
