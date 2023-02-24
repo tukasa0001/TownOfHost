@@ -37,8 +37,8 @@ namespace TOHE
             int sec = 0;
             foreach (var playerId in playerIdList)
             {
-                if (Utils.GetPlayerById(playerId).Is(CustomRoles.Madmate)) sec += AdditionalTime(playerId);
-                else sec -= AdditionalTime(playerId);
+                if (Utils.GetPlayerById(playerId).Is(CustomRoles.Madmate)) sec -= AdditionalTime(playerId);
+                else sec += AdditionalTime(playerId);
             }
             Logger.Info($"{sec}second", "TimeManager.TotalIncreasedMeetingTime");
             return sec;

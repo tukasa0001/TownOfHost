@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using HarmonyLib;
+using Sentry.Internal.Extensions;
 using UnityEngine;
 using static TOHE.Translator;
 
@@ -52,8 +53,9 @@ namespace TOHE
                         RevengeOnExile(pva.VotedFor);
                         Logger.Info("独裁投票，会议强制结束", "Special Phase");
                         voteTarget.SetRealKiller(pc);
-                        Main.LastVotedPlayerInfo = Utils.GetPlayerInfoById(pva.VotedFor);
-                        ConfirmEjections(Main.LastVotedPlayerInfo);
+                        Main.LastVotedPlayerInfo = voteTarget.Data;
+                        if (Main.LastVotedPlayerInfo != null)
+                            ConfirmEjections(Main.LastVotedPlayerInfo);
                         return true;
                     }
                 }
@@ -160,6 +162,7 @@ namespace TOHE
 
                 voteLog.Info($"决定驱逐玩家: {exileId}({Utils.GetVoteName(exileId)})");
 
+                bool braked = false;
                 if (tie) //破平者判断
                 {
                     byte target = byte.MaxValue;
@@ -178,6 +181,7 @@ namespace TOHE
                         Logger.Info("破平者覆盖驱逐玩家", "Brakar Vote");
                         exiledPlayer = Utils.GetPlayerInfoById(target);
                         tie = false;
+                        braked = true;
                     }
                 }
 
@@ -202,7 +206,7 @@ namespace TOHE
                             break;
                     }
                 }
-                else
+                else if (!braked)
                     exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
                 if (exiledPlayer != null)
                     exiledPlayer.Object.SetRealKiller(null);
@@ -223,8 +227,9 @@ namespace TOHE
                 FollowingSuicideOnExile(exileId);
                 RevengeOnExile(exileId);
 
-                Main.LastVotedPlayerInfo = Utils.GetPlayerInfoById(exileId);
-                ConfirmEjections(Main.LastVotedPlayerInfo);
+                Main.LastVotedPlayerInfo = exiledPlayer;
+                if (Main.LastVotedPlayerInfo != null)
+                    ConfirmEjections(Main.LastVotedPlayerInfo);
 
                 return false;
             }
@@ -238,93 +243,91 @@ namespace TOHE
         static void ConfirmEjections(GameData.PlayerInfo exiledPlayer)
         {
             // 参考：https://github.com/music-discussion/TownOfHost-TheOtherRoles
+            if (exiledPlayer == null) return;
             var exileId = exiledPlayer.PlayerId;
-            if (exiledPlayer != null)
+            if (exileId is < 0 or > 254) return;
+            var realName = exiledPlayer.Object.GetRealName(isMeeting: true);
+            Main.LastVotedPlayer = realName;
+
+            var player = Utils.GetPlayerById(exiledPlayer.PlayerId);
+            var role = GetString(exiledPlayer.GetCustomRole().ToString());
+            var crole = exiledPlayer.GetCustomRole();
+            var coloredRole = Utils.ColorString(Utils.GetRoleColor(exiledPlayer.GetCustomRole()), $"{role}");
+            var name = "";
+            int impnum = 0;
+            int neutralnum = 0;
+            foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                var realName = exiledPlayer.Object.GetRealName(isMeeting: true);
-                Main.LastVotedPlayer = realName;
-                if (exiledPlayer.PlayerId == exileId)
-                {
-                    var player = Utils.GetPlayerById(exiledPlayer.PlayerId);
-                    var role = GetString(exiledPlayer.GetCustomRole().ToString());
-                    var crole = exiledPlayer.GetCustomRole();
-                    var coloredRole = Utils.ColorString(Utils.GetRoleColor(exiledPlayer.GetCustomRole()), $"{role}");
-                    var name = "";
-                    int impnum = 0;
-                    int neutralnum = 0;
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        if (pc == null || pc.Data.IsDead || pc.Data.Disconnected) continue;
-                        var pc_role = pc.GetCustomRole();
-                        if (pc_role.IsImpostor() && pc != exiledPlayer.Object)
-                            impnum++;
-                        else if (pc_role.IsNeutralKilling() && pc != exiledPlayer.Object)
-                            neutralnum++;
-                    }
-                    if (Options.ConfirmEjections.GetBool())
-                    {
-                        if (CustomRolesHelper.IsImpostor(player.GetCustomRole()))
-                            name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
-                        else if (
-                            (Options.ConfirmEjectionsNK.GetBool() && player.GetCustomRole().IsNK()) ||
-                            (Options.ConfirmEjectionsNonNK.GetBool() && player.GetCustomRole().IsNNK())
-                            )
-                        {
-                            if (Options.ConfirmEjectionsNeutralAsImp.GetBool())
-                                name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
-                            else name = $"{realName} 属于 " + Utils.ColorString(Color.cyan, "中立阵营");
-                        }
-                        else name = string.Format(GetString("IsGood"), realName);
-                    }
-                    else if (Options.ConfirmEjectionsRoles.GetBool())
-                        name = string.Format(GetString("PlayerIsRole"), realName, coloredRole);
-                    else name = string.Format(GetString("PlayerExiled"), realName);
-
-                    var DecidedWinner = false;
-                    //小丑胜利
-                    if (crole == CustomRoles.Jester)
-                    {
-                        name = string.Format(GetString("ExiledJester"), realName, coloredRole);
-                        DecidedWinner = true;
-                    }
-                    //处刑人胜利
-                    if (Executioner.Target.ContainsValue(exileId))
-                    {
-                        name = string.Format(GetString("ExiledExeTarget"), realName, coloredRole);
-                        DecidedWinner = true;
-                    }
-                    //冤罪师胜利
-                    var playerList = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Innocent) && !x.IsAlive() && x.GetRealKiller().PlayerId == exileId);
-                    if (playerList.Count() > 0)
-                    {
-                        if (DecidedWinner) name += string.Format(GetString("ExiledInnocentTargetAddBelow"));
-                        else name = string.Format(GetString("ExiledInnocentTargetInOneLine"), realName, coloredRole);
-                        DecidedWinner = true;
-                    }
-
-                    if (DecidedWinner) name += "<size=0>";
-                    if (Options.ShowImpRemainOnEject.GetBool() && !DecidedWinner)
-                    {
-                        name += "\n";
-                        string comma = neutralnum != 0 ? "，" : "";
-                        if (impnum == 0) name += GetString("NoImpRemain") + comma;
-                        else name += string.Format(GetString("ImpRemain"), impnum) + comma;
-                        if (Options.ShowNKRemainOnEject.GetBool() && neutralnum != 0)
-                            name += string.Format(GetString("NeutralRemain"), neutralnum);
-                    }
-                    name += "<size=0>";
-                    new LateTask(() =>
-                    {
-                        Main.DoBlockNameChange = true;
-                        if (GameStates.IsInGame) player.RpcSetName(name);
-                    }, 3.0f, "Change Exiled Player Name");
-                    new LateTask(() =>
-                    {
-                        if (GameStates.IsInGame) player.RpcSetName(realName);
-                        Main.DoBlockNameChange = false;
-                    }, 11.5f, "Change Exiled Player Name Back");
-                }
+                if (pc == null || pc.Data.IsDead || pc.Data.Disconnected) continue;
+                var pc_role = pc.GetCustomRole();
+                if (pc_role.IsImpostor() && pc != exiledPlayer.Object)
+                    impnum++;
+                else if (pc_role.IsNeutralKilling() && pc != exiledPlayer.Object)
+                    neutralnum++;
             }
+            if (Options.ConfirmEjections.GetBool())
+            {
+                if (CustomRolesHelper.IsImpostor(player.GetCustomRole()))
+                    name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
+                else if (
+                    (Options.ConfirmEjectionsNK.GetBool() && player.GetCustomRole().IsNK()) ||
+                    (Options.ConfirmEjectionsNonNK.GetBool() && player.GetCustomRole().IsNNK())
+                    )
+                {
+                    if (Options.ConfirmEjectionsNeutralAsImp.GetBool())
+                        name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
+                    else name = $"{realName} 属于 " + Utils.ColorString(Color.cyan, "中立阵营");
+                }
+                else name = string.Format(GetString("IsGood"), realName);
+            }
+            else if (Options.ConfirmEjectionsRoles.GetBool())
+                name = string.Format(GetString("PlayerIsRole"), realName, coloredRole);
+            else name = string.Format(GetString("PlayerExiled"), realName);
+
+            var DecidedWinner = false;
+            //小丑胜利
+            if (crole == CustomRoles.Jester)
+            {
+                name = string.Format(GetString("ExiledJester"), realName, coloredRole);
+                DecidedWinner = true;
+            }
+            //处刑人胜利
+            if (Executioner.Target.ContainsValue(exileId))
+            {
+                name = string.Format(GetString("ExiledExeTarget"), realName, coloredRole);
+                DecidedWinner = true;
+            }
+            //冤罪师胜利
+            var playerList = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Innocent) && !x.IsAlive() && x.GetRealKiller().PlayerId == exileId);
+            if (playerList.Count() > 0)
+            {
+                if (DecidedWinner) name += string.Format(GetString("ExiledInnocentTargetAddBelow"));
+                else name = string.Format(GetString("ExiledInnocentTargetInOneLine"), realName, coloredRole);
+                DecidedWinner = true;
+            }
+
+            if (DecidedWinner) name += "<size=0>";
+            if (Options.ShowImpRemainOnEject.GetBool() && !DecidedWinner)
+            {
+                name += "\n";
+                string comma = neutralnum != 0 ? "，" : "";
+                if (impnum == 0) name += GetString("NoImpRemain") + comma;
+                else name += string.Format(GetString("ImpRemain"), impnum) + comma;
+                if (Options.ShowNKRemainOnEject.GetBool() && neutralnum != 0)
+                    name += string.Format(GetString("NeutralRemain"), neutralnum);
+            }
+            name += "<size=0>";
+            new LateTask(() =>
+            {
+                Main.DoBlockNameChange = true;
+                if (GameStates.IsInGame) player.RpcSetName(name);
+            }, 3.0f, "Change Exiled Player Name");
+            new LateTask(() =>
+            {
+                if (GameStates.IsInGame) player.RpcSetName(realName);
+                Main.DoBlockNameChange = false;
+            }, 11.5f, "Change Exiled Player Name Back");
+
         }
 
         public static bool IsMayor(byte id)
