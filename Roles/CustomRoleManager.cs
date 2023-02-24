@@ -64,9 +64,9 @@ public static class CustomRoleManager
     }
     public class CheckMurderInfo
     {
-        /// <summary>キルボタンを押したプレイヤー 不変</summary>
+        /// <summary>実際にキルを行ったプレイヤー 不変</summary>
         public PlayerControl AttemptKiller { get; }
-        /// <summary>キルボタンの対象となったプレイヤー 不変</summary>
+        /// <summary>Killerが実際にキルを行おうとしたプレイヤー 不変</summary>
         public PlayerControl AttemptTarget { get; }
         /// <summary>見た目上でキルを行うプレイヤー 可変</summary>
         public PlayerControl AppearanceKiller { get; set; }
