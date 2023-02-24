@@ -16,13 +16,15 @@ public static class CustomRoleManager
     public static RoleBase GetByPlayerId(byte playerId) => AllActiveRoles.ToArray().Where(roleClass => roleClass.Player.PlayerId == playerId).FirstOrDefault();
     public static void Do<T>(this List<T> list, Action<T> action) => list.ToArray().Do(action);
     // == CheckMurder関連処理 ==
-    public static void OnCheckMurder(PlayerControl killer, PlayerControl target)
+    public static void OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget)
+        => OnCheckMurder(attemptKiller, attemptTarget, attemptKiller, attemptTarget);
+    public static void OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget, PlayerControl appearanceKiller, PlayerControl appearanceTarget)
     {
         List<(int order, IEnumerator<int> method, RoleBase role)> methods = new();
-        CheckMurderInfo info = new(killer, target);
+        CheckMurderInfo info = new(attemptKiller, attemptTarget, appearanceKiller, appearanceTarget);
         foreach (var role in AllActiveRoles)
         {
-            var m = role.OnCheckMurder(killer, target, info);
+            var m = role.OnCheckMurder(attemptKiller, attemptTarget, info);
             if (m != null)
                 methods.Add((0, m, role));
         }
@@ -49,7 +51,7 @@ public static class CustomRoleManager
             {
                 var handler = Logger.Handler("CustomRoleManager.OnCheckMurder");
                 handler.Error($"OnCheckMurder関数内でエラーが発生しました (player: {role.Player.name}, order: {pair.order})");
-                handler.Error($"killer: {killer.name}, target: {target.name}");
+                handler.Error($"killer: {attemptKiller.name}, target: {attemptTarget.name}");
                 handler.Exception(ex);
             }
 
@@ -58,7 +60,7 @@ public static class CustomRoleManager
         }
         if (!info.IsCanceled)
         {
-            (killer, target) = info.AppearanceTuple;
+            var (killer, target) = info.AppearanceTuple;
             killer.RpcMurderPlayer(target);
         }
     }
