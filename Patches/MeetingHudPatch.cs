@@ -11,6 +11,7 @@ namespace TOHE
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CheckForEndVoting))]
     class CheckForEndVotingPatch
     {
+        public static int x = 0;
         public static bool Prefix(MeetingHud __instance)
         {
             if (!AmongUsClient.Instance.AmHost) return true;
@@ -46,11 +47,13 @@ namespace TOHE
                         {
                             Witch.OnCheckForEndVoting(pva.VotedFor);
                         }
-                        Logger.Info($"{voteTarget.GetNameWithRole()}を追放", "Dictator");
+                        Logger.Info($"{voteTarget.GetNameWithRole()} 被独裁者驱逐", "Dictator");
                         FollowingSuicideOnExile(pva.VotedFor);
                         RevengeOnExile(pva.VotedFor);
-                        Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
+                        Logger.Info("独裁投票，会议强制结束", "Special Phase");
                         voteTarget.SetRealKiller(pc);
+                        Main.LastVotedPlayerInfo = Utils.GetPlayerInfoById(pva.VotedFor);
+                        ConfirmEjections(Main.LastVotedPlayerInfo);
                         return true;
                     }
                 }
@@ -82,11 +85,11 @@ namespace TOHE
                             {
                                 case VoteMode.Suicide:
                                     TryAddAfterMeetingDeathPlayers(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                    voteLog.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました");
+                                    voteLog.Info($"跳过投票玩家：{voter.GetNameWithRole()} 根据房主设定自杀");
                                     break;
                                 case VoteMode.SelfVote:
                                     ps.VotedFor = ps.TargetPlayerId;
-                                    voteLog.Info($"スキップしたため{voter.GetNameWithRole()}に自投票させました");
+                                    voteLog.Info($"跳过投票玩家：{voter.GetNameWithRole()} 根据房主设定自票");
                                     break;
                                 default:
                                     break;
@@ -98,15 +101,15 @@ namespace TOHE
                             {
                                 case VoteMode.Suicide:
                                     TryAddAfterMeetingDeathPlayers(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                    voteLog.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました");
+                                    voteLog.Info($"未投票玩家：{voter.GetNameWithRole()} 根据房主设定自杀");
                                     break;
                                 case VoteMode.SelfVote:
                                     ps.VotedFor = ps.TargetPlayerId;
-                                    voteLog.Info($"無投票のため{voter.GetNameWithRole()}に自投票させました");
+                                    voteLog.Info($"未投票玩家：{voter.GetNameWithRole()} 根据房主设定自票");
                                     break;
                                 case VoteMode.Skip:
                                     ps.VotedFor = 253;
-                                    voteLog.Info($"無投票のため{voter.GetNameWithRole()}にスキップさせました");
+                                    voteLog.Info($"未投票玩家：{voter.GetNameWithRole()} 根据房主设定跳过");
                                     break;
                                 default:
                                     break;
@@ -135,35 +138,32 @@ namespace TOHE
                 var VotingData = __instance.CustomCalculateVotes();
                 byte exileId = byte.MaxValue;
                 int max = 0;
-                voteLog.Info("===追放者確認処理開始===");
+                voteLog.Info("===驱逐玩家确认处理开始===");
                 foreach (var data in VotingData)
                 {
                     voteLog.Info($"{data.Key}({Utils.GetVoteName(data.Key)}):{data.Value}票");
                     if (data.Value > max)
                     {
-                        voteLog.Info(data.Key + "番が最高値を更新(" + data.Value + ")");
+                        voteLog.Info(data.Key + "存在更高票数：" + data.Value);
                         exileId = data.Key;
                         max = data.Value;
                         tie = false;
                     }
                     else if (data.Value == max)
                     {
-                        voteLog.Info(data.Key + "番が" + exileId + "番と同数(" + data.Value + ")");
+                        voteLog.Info(data.Key + " 的票数与 " + exileId + " 的票数持平：" + data.Value);
                         exileId = byte.MaxValue;
                         tie = true;
                     }
-                    voteLog.Info($"exileId: {exileId}, max: {max}票");
+                    voteLog.Info($"驱逐玩家ID: {exileId}, 最大票数: {max}票");
                 }
 
-                voteLog.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})");
+                voteLog.Info($"决定驱逐玩家: {exileId}({Utils.GetVoteName(exileId)})");
 
-                bool brakar = false;
-                bool tiemode = false;
-                if (tie)
+                if (tie) //破平者判断
                 {
                     byte target = byte.MaxValue;
                     foreach (var data in VotingData)
-                    {
                         if (Main.BrakarVoteFor.Contains(data.Key))
                         {
                             if (target != byte.MaxValue)
@@ -173,17 +173,15 @@ namespace TOHE
                             }
                             target = data.Key;
                         }
-                    }
                     if (target != byte.MaxValue)
                     {
                         Logger.Info("破平者覆盖驱逐玩家", "Brakar Vote");
                         exiledPlayer = Utils.GetPlayerInfoById(target);
                         tie = false;
-                        brakar = true;
                     }
                 }
 
-                if (Options.VoteMode.GetBool() && Options.WhenTie.GetBool() && tie && !brakar)
+                if (Options.VoteMode.GetBool() && Options.WhenTie.GetBool() && tie)
                 {
                     switch ((TieMode)Options.WhenTie.GetValue())
                     {
@@ -203,10 +201,8 @@ namespace TOHE
                             tie = false;
                             break;
                     }
-                    tiemode = true;
                 }
-
-                if (!brakar && !tiemode)
+                else
                     exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
                 if (exiledPlayer != null)
                     exiledPlayer.Object.SetRealKiller(null);
@@ -227,8 +223,8 @@ namespace TOHE
                 FollowingSuicideOnExile(exileId);
                 RevengeOnExile(exileId);
 
-                var playerInfo = Utils.GetPlayerInfoById(exileId);
-                if (playerInfo != null) ConfirmEjections(playerInfo);
+                Main.LastVotedPlayerInfo = Utils.GetPlayerInfoById(exileId);
+                ConfirmEjections(Main.LastVotedPlayerInfo);
 
                 return false;
             }
@@ -265,26 +261,23 @@ namespace TOHE
                         else if (pc_role.IsNeutralKilling() && pc != exiledPlayer.Object)
                             neutralnum++;
                     }
-                    if (Options.ConfirmEjectionsRoles.GetBool())
-                        name = string.Format(GetString("PlayerIsRole"), realName, coloredRole);
-                    else if (Options.ConfirmEjections.GetBool())
+                    if (Options.ConfirmEjections.GetBool())
                     {
                         if (CustomRolesHelper.IsImpostor(player.GetCustomRole()))
                             name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
+                        else if (
+                            (Options.ConfirmEjectionsNK.GetBool() && player.GetCustomRole().IsNK()) ||
+                            (Options.ConfirmEjectionsNonNK.GetBool() && player.GetCustomRole().IsNNK())
+                            )
+                        {
+                            if (Options.ConfirmEjectionsNeutralAsImp.GetBool())
+                                name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
+                            else name = $"{realName} 属于 " + Utils.ColorString(Color.cyan, "中立阵营");
+                        }
                         else name = string.Format(GetString("IsGood"), realName);
-                        if (Options.ConfirmEjectionsNK.GetBool() && CustomRolesHelper.IsNK(player.GetCustomRole()))
-                        {
-                            if (Options.ConfirmEjectionsNKAsImp.GetBool())
-                                name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
-                            else name = $"{realName} 属于 " + Utils.ColorString(Color.cyan, "中立阵营");
-                        }
-                        if (Options.ConfirmEjectionsNonNK.GetBool() && CustomRolesHelper.IsNNK(player.GetCustomRole()))
-                        {
-                            if (Options.ConfirmEjectionsNKAsImp.GetBool())
-                                name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
-                            else name = $"{realName} 属于 " + Utils.ColorString(Color.cyan, "中立阵营");
-                        }
                     }
+                    else if (Options.ConfirmEjectionsRoles.GetBool())
+                        name = string.Format(GetString("PlayerIsRole"), realName, coloredRole);
                     else name = string.Format(GetString("PlayerExiled"), realName);
 
                     var DecidedWinner = false;
@@ -388,7 +381,7 @@ namespace TOHE
     {
         public static Dictionary<byte, int> CustomCalculateVotes(this MeetingHud __instance)
         {
-            Logger.Info("CustomCalculateVotes開始", "Vote");
+            Logger.Info("===计算票数处理开始===", "Vote");
             Dictionary<byte, int> dic = new();
             Main.BrakarVoteFor = new();
             //| 投票された人 | 投票された回数 |
@@ -494,18 +487,17 @@ namespace TOHE
 
         public static void Prefix(MeetingHud __instance)
         {
-            Logger.Info("------------会議開始------------", "Phase");
+            Logger.Info("------------会议开始------------", "Phase");
             ChatUpdatePatch.DoBlockChat = true;
             GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
             Main.AllPlayerControls.Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
             MeetingStates.MeetingCalled = true;
             Main.GuesserGuessed.Clear();
             Main.VeteranInProtect.Clear();
+            Main.LastVotedPlayerInfo = null;
             NoticeSkill();
             foreach (var pc in PlayerControl.AllPlayerControls)
-            {
                 if (pc.shapeshifting) pc.RpcRevertShapeshift(false);
-            }
         }
         public static void Postfix(MeetingHud __instance)
         {
@@ -797,13 +789,14 @@ namespace TOHE
         public static void Postfix()
         {
             MeetingStates.FirstMeeting = false;
-            Logger.Info("------------会議終了------------", "Phase");
+            Logger.Info("------------会议结束------------", "Phase");
             if (AmongUsClient.Instance.AmHost)
             {
                 AntiBlackout.SetIsDead();
                 Main.AllPlayerControls.Do(pc => RandomSpawn.CustomNetworkTransformPatch.NumOfTP[pc.PlayerId] = 0);
                 Main.CyberStarDead.Clear();
                 Main.DetectiveNotify.Clear();
+                Main.LastVotedPlayerInfo = null;
             }
         }
     }

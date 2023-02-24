@@ -415,9 +415,9 @@ ApplyBanList,踢出被封禁的玩家,Apply BanList,Применить файл 
 EndWhenPlayerBug,当有玩家因Bug无法游戏时终止游戏,"End the game when any player has a critical error",Завершить игру когда у любого игрока возникла критическая ошибка
 KillFlashDuration,击杀闪烁持续时间,"''Kill Flash'' Duration","Длительность ''Вспышки Убийства''"
 ConfirmEjections,驱逐时确认阵营,Show roles players ejected,Показывать роли изгнаных
-ConfirmEjectionsNK,确认带刀中立阵营,Show Neutral Killer Roles,Показывать роли Нейтральных Убийц
-ConfirmEjectionsNonNK,确认无刀中立阵营,Show Neutral Roles,Показывать Нейтральные роли
-ConfirmEjectionsNKAsImp,确认时中立阵营视作内鬼阵营,Show Neutral Killer roles as Impostor,Показывать роли Нейтральных убийц как Предателей
+ConfirmEjectionsNK,确认邪恶中立阵营,Show Neutral Killer Roles,Показывать роли Нейтральных Убийц
+ConfirmEjectionsNonNK,确认友善中立阵营,Show Neutral Roles,Показывать Нейтральные роли
+ConfirmEjectionsNeutralAsImp,确认时中立阵营视作内鬼阵营,Show Neutral Killer roles as Impostor,Показывать роли Нейтральных убийц как Предателей
 ConfirmEjectionsRoles,驱逐时确认具体职业,Show specific roles of ejected,Показывать конкректные роли изгнаных
 ShowImpRemainOnEject,驱逐时显示剩余内鬼,Show remaining Impostors after ejected,Отображать оставшихся Предателей при изгнании
 ShowNKRemainOnEject,同时显示剩余中立,Show remaining Neutral Killers after ejected,Отображать оставшихся Нейтральных Убийц при изгнании

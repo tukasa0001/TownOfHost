@@ -51,13 +51,13 @@ namespace TOHE
         {
             if (!isEnable || disableList.Contains(tag)) return;
             var logger = Main.Logger;
-            while (true)
-            {
-                int start = text.IndexOf("(");
-                int end = text.IndexOf(")");
-                if (start > 0 && end > start) text = text.Replace(text.Substring(start, end - start + 1), string.Empty);
-                else break;
-            }
+            //while (true)
+            //{
+            //    int start = text.IndexOf("(");
+            //    int end = text.IndexOf(")");
+            //    if (start > 0 && end > start) text = text.Replace(text.Substring(start, end - start + 1), string.Empty);
+            //    else break;
+            //}
             string t = DateTime.Now.ToString("HH:mm:ss");
             if (sendToGameList.Contains(tag) || isAlsoInGame) SendInGame($"[{tag}]{text}");
             if (escapeCRLF)

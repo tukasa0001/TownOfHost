@@ -93,7 +93,7 @@ namespace TOHE
         public static OptionItem ConfirmEjections;
         public static OptionItem ConfirmEjectionsNK;
         public static OptionItem ConfirmEjectionsNonNK;
-        public static OptionItem ConfirmEjectionsNKAsImp;
+        public static OptionItem ConfirmEjectionsNeutralAsImp;
         public static OptionItem ConfirmEjectionsRoles;
         public static OptionItem ShowImpRemainOnEject;
         public static OptionItem ShowNKRemainOnEject;
@@ -712,7 +712,7 @@ namespace TOHE
                 .SetHeader(true);
             ConfirmEjectionsNK = BooleanOptionItem.Create(6090107, "ConfirmEjectionsNK", true, TabGroup.GameSettings, false).SetParent(ConfirmEjections);
             ConfirmEjectionsNonNK = BooleanOptionItem.Create(6090109, "ConfirmEjectionsNonNK", true, TabGroup.GameSettings, false).SetParent(ConfirmEjections);
-            ConfirmEjectionsNKAsImp = BooleanOptionItem.Create(6090111, "ConfirmEjectionsNKAsImp", false, TabGroup.GameSettings, false).SetParent(ConfirmEjections);
+            ConfirmEjectionsNeutralAsImp = BooleanOptionItem.Create(6090111, "ConfirmEjectionsNeutralAsImp", false, TabGroup.GameSettings, false).SetParent(ConfirmEjections);
             ConfirmEjectionsRoles = BooleanOptionItem.Create(6090113, "ConfirmEjectionsRoles", true, TabGroup.GameSettings, false);
             ShowImpRemainOnEject = BooleanOptionItem.Create(6090115, "ShowImpRemainOnEject", true, TabGroup.GameSettings, false);
             ShowNKRemainOnEject = BooleanOptionItem.Create(6090119, "ShowNKRemainOnEject", true, TabGroup.GameSettings, false).SetParent(ShowImpRemainOnEject);

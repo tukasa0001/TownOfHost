@@ -110,7 +110,7 @@ namespace TOHE
             return role is
                 CustomRoles.Jackal;
         }
-        public static bool IsNNK(this CustomRoles role) => !role.IsNK(); // 是否无刀中立
+        public static bool IsNNK(this CustomRoles role) => role.IsNeutral() && !role.IsNK(); // 是否无刀中立
         public static bool IsNeutralKilling(this CustomRoles role) //是否邪恶中立（抢夺或单独胜利的中立）
         {
             return role is
