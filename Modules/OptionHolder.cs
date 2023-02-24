@@ -472,7 +472,7 @@ namespace TOHE
             SetupRoleOptions(902135, TabGroup.ImpostorRoles, CustomRoles.Bomber);
             BomberRadius = FloatOptionItem.Create(902137, "BomberRadius", new(0.5f, 5f, 0.5f), 2f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Bomber])
                 .SetValueFormat(OptionFormat.Multiplier);
-            
+
             // Crewmate
             SetupRoleOptions(102255, TabGroup.CrewmateRoles, CustomRoles.NiceGuesser);
             GGCanGuessTime = IntegerOptionItem.Create(102257, "GuesserCanGuessTimes", new(1, 15, 1), 15, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.NiceGuesser])
@@ -566,7 +566,7 @@ namespace TOHE
                 .SetValueFormat(OptionFormat.Multiplier);
             SetupAdtRoleOptions(6050440, CustomRoles.Fool, canSetNum: true);
             SetupAdtRoleOptions(6050450, CustomRoles.Avanger, canSetNum: true);
-            ImpCanBeAvanger = BooleanOptionItem.Create(6050455, "ImpCanBeAvanger",false,TabGroup.Addons,false).SetParent(CustomRoleSpawnChances[CustomRoles.Avanger]);
+            ImpCanBeAvanger = BooleanOptionItem.Create(6050455, "ImpCanBeAvanger", false, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Avanger]);
 
             SetupAdtRoleOptions(6050390, CustomRoles.Madmate, canSetNum: true);
             LastImpostor.SetupCustomOption();

@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
-using Sentry.Internal.Extensions;
 using TOHE.Modules;
 using UnityEngine;
 using static TOHE.Translator;
-using static UnityEngine.GraphicsBuffer;
 
 namespace TOHE
 {
@@ -1199,7 +1197,7 @@ namespace TOHE
             {
                 Main.VeteranInProtect.Remove(pc.PlayerId);
                 Main.VeteranInProtect.Add(pc.PlayerId, Utils.GetTimeStamp(DateTime.Now));
-                new LateTask (() =>
+                new LateTask(() =>
                 {
                     if (GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
                 }, 1.5f, "Veteran Skill Notify");

@@ -103,7 +103,7 @@ namespace TOHE
                 CustomRoles.Bewilder or
                 CustomRoles.Workhorse or
                 CustomRoles.Fool or
-                CustomRoles.Avanger;   
+                CustomRoles.Avanger;
         }
         public static bool IsNK(this CustomRoles role) // 是否带刀中立
         {
