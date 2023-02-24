@@ -18,29 +18,41 @@ public static class CustomRoleManager
     // == CheckMurder関連処理 ==
     public static void OnCheckMurder(PlayerControl killer, PlayerControl target)
     {
-        List<(int order, IEnumerator<int> method)> methods = new();
+        List<(int order, IEnumerator<int> method, RoleBase role)> methods = new();
         CheckMurderInfo info = new(killer, target);
         foreach (var role in AllActiveRoles)
         {
             var m = role.OnCheckMurder(killer, target, info);
             if (m != null)
-                methods.Add((0, m));
+                methods.Add((0, m, role));
         }
 
         while (methods.Count > 0)
         {
             var pair = methods.OrderByDescending(pair => pair.order).FirstOrDefault();
             methods.Remove(pair);
-            (_, var method) = pair;
+            (_, var method, var role) = pair;
             if (method == null) continue;
 
-            // MoveNext() のタイミングで初めて処理が実行される
-            // true: 次の処理順がyield returnされた (= まだ別の処理がある)
-            // false: yield breakされた (= もう処理がない)
-            if (method.MoveNext())
+            try
             {
-                methods.Add((method.Current, method));
+                // MoveNext() のタイミングで初めて処理が実行される
+                // true: 次の処理順がyield returnされた (= まだ別の処理がある)
+                // false: yield breakされた (= もう処理がない)
+                if (method.MoveNext())
+                {
+                    methods.Add((method.Current, method, role));
+                }
             }
+            // 例外発生時: プレイヤー名とorderと例外内容を出力してスキップ
+            catch (Exception ex)
+            {
+                var handler = Logger.Handler("CustomRoleManager.OnCheckMurder");
+                handler.Error($"OnCheckMurder関数内でエラーが発生しました (player: {role.Player.name}, order: {pair.order})");
+                handler.Error($"killer: {killer.name}, target: {target.name}");
+                handler.Exception(ex);
+            }
+
 
             if (info.IsAborted) break;
         }
