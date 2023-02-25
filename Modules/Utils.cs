@@ -910,7 +910,7 @@ namespace TownOfHost
                     if (playersCount == 0) continue;
                     sb.Append($"{countTypes}:{AlivePlayersCount(countTypes)}/{playersCount}, ");
                 }
-                sb.Append($"All:{Main.AllAlivePlayerControls.Count()}/{AllPlayersCount}");
+                sb.Append($"All:{Main.AllAlivePlayerControls.Count(pc => !pc.Is(CountTypes.OutOfGame))}/{AllPlayersCount}");
                 Logger.Info(sb.ToString(), "CountAlivePlayers");
             }
         }
