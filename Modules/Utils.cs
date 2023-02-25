@@ -903,7 +903,7 @@ namespace TownOfHost
 
             if (sendLog)
             {
-                StringBuilder sb = new();
+                var sb = new StringBuilder(100);
                 foreach (var countTypes in Enum.GetValues(typeof(CountTypes)).Cast<CountTypes>())
                 {
                     var playersCount = PlayersCount(countTypes);
