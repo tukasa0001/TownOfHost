@@ -238,18 +238,24 @@ namespace TOHE
             }
 
             //保镖保护
-            foreach (var pc in Main.AllAlivePlayerControls)
+            foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.PlayerId != target.PlayerId))
             {
                 var pos = target.transform.position;
                 var dis = Vector2.Distance(pos, pc.transform.position);
                 if (dis > Options.BodyguardProtectRadius.GetFloat()) continue;
                 if (pc.Is(CustomRoles.Bodyguard))
                 {
-                    Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
-                    pc.RpcMurderPlayer(killer);
-                    pc.SetRealKiller(killer);
-                    pc.RpcMurderPlayer(pc);
-                    return false;
+                    if (pc.Is(CustomRoles.Madmate) && killer.GetCustomRole().IsImpostorTeam())
+                        Logger.Info($"{pc.GetRealName()} 是个叛徒，所以他选择无视杀人现场", "Bodyguard");
+                    else
+                    {
+                        Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
+                        pc.RpcMurderPlayer(killer);
+                        pc.SetRealKiller(killer);
+                        pc.RpcMurderPlayer(pc);
+                        Logger.Info($"{pc.GetRealName()} 挺身而出与歹徒 {killer.GetRealName()} 同归于尽", "Bodyguard");
+                        return false;
+                    }
                 }
             }
 
