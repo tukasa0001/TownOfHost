@@ -141,6 +141,7 @@ namespace TOHE
         public static OptionItem MarioVentNumWin;
         public static OptionItem VeteranSkillCooldown;
         public static OptionItem VeteranSkillDuration;
+        public static OptionItem BodyguardProtectRadius;
 
         public static OptionItem ParanoiaNumOfUseButton;
         public static OptionItem PsychicCanSeeNum;
@@ -531,6 +532,9 @@ namespace TOHE
                 .SetValueFormat(OptionFormat.Seconds);
             VeteranSkillDuration = FloatOptionItem.Create(8021327, "VeteranSkillDuration", new(5f, 990f, 1f), 20f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Veteran])
                 .SetValueFormat(OptionFormat.Seconds);
+            SetupRoleOptions(8021515, TabGroup.CrewmateRoles, CustomRoles.Bodyguard);
+            BodyguardProtectRadius = FloatOptionItem.Create(8021525, "BodyguardProtectRadius", new(0.5f, 5f, 0.5f), 2f, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Bodyguard])
+                .SetValueFormat(OptionFormat.Multiplier);
 
             // Neutral
             SetupRoleOptions(50500, TabGroup.NeutralRoles, CustomRoles.Arsonist);

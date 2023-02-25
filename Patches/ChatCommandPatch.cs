@@ -674,6 +674,7 @@ namespace TOHE
                 { CustomRoles.Transporter, GetString("Transporter") },
                 { CustomRoles.TimeManager, GetString("TimeManager") },
                 { CustomRoles.Veteran, GetString("Veteran") },
+                { CustomRoles.Bodyguard, GetString("Bodyguard") },
                 //Neutral役職
                 { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
                 { CustomRoles.Arsonist, GetString("Arsonist") },
