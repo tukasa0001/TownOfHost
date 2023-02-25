@@ -302,6 +302,7 @@ namespace TOHE
                     {CustomRoles.Transporter, "#42D1FF"},
                     {CustomRoles.TimeManager, "#6495ed"},
                     {CustomRoles.Veteran, "#a77738"},
+                    {CustomRoles.Bodyguard, "#185abd"},
                     //第三陣営役職
                     {CustomRoles.Arsonist, "#ff6633"},
                     {CustomRoles.Jester, "#ec62a5"},

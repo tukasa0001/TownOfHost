@@ -236,6 +236,8 @@ namespace TOHE
                         }
                     break;
             }
+
+            //保镖保护
             foreach (var pc in Main.AllAlivePlayerControls)
             {
                 var pos = target.transform.position;
@@ -243,8 +245,9 @@ namespace TOHE
                 if (dis > Options.BodyguardProtectRadius.GetFloat()) continue;
                 if (pc.Is(CustomRoles.Bodyguard))
                 {
-                    Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
+                    Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
                     pc.RpcMurderPlayer(killer);
+                    pc.SetRealKiller(killer);
                     pc.RpcMurderPlayer(pc);
                     return false;
                 }

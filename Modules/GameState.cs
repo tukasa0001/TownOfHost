@@ -96,6 +96,7 @@ namespace TOHE
             Disconnected,
             Fall,
             Eaten,
+            Sacrifice,
             etc = -1
         }
         public byte GetRealKiller()
