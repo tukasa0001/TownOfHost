@@ -358,7 +358,7 @@ namespace TOHE
         }
         public static bool CanUseKillButton(this PlayerControl pc)
         {
-            if (!pc.IsAlive() || pc.Data.Role.Role == RoleTypes.GuardianAngel) return false;
+            if (!pc.IsAlive() || Pelican.IsEaten(pc.PlayerId) || pc.Data.Role.Role == RoleTypes.GuardianAngel) return false;
 
             return pc.GetCustomRole() switch
             {
@@ -367,17 +367,18 @@ namespace TOHE
                 CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
                 CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
+                CustomRoles.Pelican => true,
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
                 CustomRoles.ChivalrousExpert => true,
                 CustomRoles.Jackal => true,
                 CustomRoles.Bomber => false,
                 CustomRoles.Innocent => true,
                 _ => pc.Is(RoleType.Impostor),
-            }; ;
+            };
         }
         public static bool CanUseImpostorVentButton(this PlayerControl pc)
         {
-            if (!pc.IsAlive() || pc.Data.Role.Role == RoleTypes.GuardianAngel) return false;
+            if (!pc.IsAlive() || Pelican.IsEaten(pc.PlayerId) || pc.Data.Role.Role == RoleTypes.GuardianAngel) return false;
 
             return pc.GetCustomRole() switch
             {
@@ -387,8 +388,9 @@ namespace TOHE
                 CustomRoles.ChivalrousExpert => false,
                 CustomRoles.Jackal => Jackal.CanVent.GetBool(),
                 CustomRoles.Arsonist => pc.IsDouseDone(),
+                CustomRoles.Pelican => Pelican.CanVent.GetBool(),
                 _ => pc.Is(RoleType.Impostor),
-            }; ; ; ;
+            };
         }
         public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
         {
@@ -569,7 +571,7 @@ namespace TOHE
         }
         public static PlainShipRoom GetPlainShipRoom(this PlayerControl pc)
         {
-            if (!pc.IsAlive()) return null;
+            if (!pc.IsAlive() || Pelican.IsEaten(pc.PlayerId)) return null;
             var Rooms = ShipStatus.Instance.AllRooms;
             if (Rooms == null) return null;
             foreach (var room in Rooms)

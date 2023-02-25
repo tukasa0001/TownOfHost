@@ -174,6 +174,14 @@ namespace TOHE
                         killer.RpcGuardAndKill(killer);
                         killer.SetKillCooldown();
                         return false;
+                    case CustomRoles.Pelican:
+                        if (Pelican.CanEat(killer, target.PlayerId))
+                        {
+                            Pelican.EatPlayer(killer, target);
+                            killer.RpcGuardAndKill(killer);
+                            killer.SetKillCooldown();
+                        }
+                        return false;
 
                     //==========マッドメイト系役職==========//
 
@@ -281,7 +289,7 @@ namespace TOHE
                 Main.HackerUsedCount[killer.PlayerId] += 1;
                 List<PlayerControl> playerList = new();
                 foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
-                    if (!pc.Data.IsDead && !(pc.GetCustomRole() == CustomRoles.Hacker) && !(pc.GetCustomRole() is CustomRoles.Needy or CustomRoles.GM)) playerList.Add(pc);
+                    if (pc.IsAlive() && !Pelican.IsEaten(pc.PlayerId) && !(pc.GetCustomRole() == CustomRoles.Hacker) && !(pc.GetCustomRole() is CustomRoles.Needy or CustomRoles.GM)) playerList.Add(pc);
                 if (playerList.Count < 1)
                 {
                     Logger.Info(target?.Data?.PlayerName + "被骇客击杀，但无法找到骇入目标", "MurderPlayer");
@@ -304,7 +312,7 @@ namespace TOHE
                 {
                     List<PlayerControl> playerList = new();
                     foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
-                        if (!pc.Data.IsDead && !(pc.GetCustomRole() is CustomRoles.Needy or CustomRoles.GM) && pc.PlayerId != target.PlayerId) playerList.Add(pc);
+                        if (pc.IsAlive() && !Pelican.IsEaten(pc.PlayerId) && !(pc.GetCustomRole() is CustomRoles.Needy or CustomRoles.GM) && pc.PlayerId != target.PlayerId) playerList.Add(pc);
                     if (playerList.Count < 1)
                     {
                         Logger.Info(target?.Data?.PlayerName + "是背叛诱饵，但找不到替罪羊", "MurderPlayer");
@@ -362,14 +370,17 @@ namespace TOHE
             {
                 ChivalrousExpert.OnMurder(killer);
             }
-
             if (target.Is(CustomRoles.Avanger))
             {
-                var pcList = Main.AllAlivePlayerControls.Where(x => x.IsAlive() && x.PlayerId != target.PlayerId).ToList();
+                var pcList = Main.AllAlivePlayerControls.Where(x => x.IsAlive() && !Pelican.IsEaten(x.PlayerId) && x.PlayerId != target.PlayerId).ToList();
                 var rp = pcList[IRandom.Instance.Next(0, pcList.Count)];
                 Main.PlayerStates[rp.PlayerId].deathReason = PlayerState.DeathReason.Revenge;
                 rp.SetRealKiller(target);
                 rp.RpcMurderPlayer(rp);
+            }
+            if (target.Is(CustomRoles.Pelican))
+            {
+                Pelican.OnPelicanDied(target.PlayerId);
             }
 
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
@@ -417,7 +428,7 @@ namespace TOHE
                         var position = Main.EscapeeLocation[shapeshifter.PlayerId];
                         Main.EscapeeLocation.Remove(shapeshifter.PlayerId);
                         Logger.Msg($"{shapeshifter.GetNameWithRole()}:{position}", "EscapeeTeleport");
-                        Utils.TP(shapeshifter.NetTransform, new Vector2(position.x, position.y + 0.3636f));
+                        Utils.TP(shapeshifter.NetTransform, new Vector2(position.x, position.y));
                     }
                     else
                     {
@@ -435,7 +446,7 @@ namespace TOHE
                     var vent = Main.LastEnteredVent[shapeshifter.PlayerId];
                     var position = Main.LastEnteredVentLocation[shapeshifter.PlayerId];
                     Logger.Msg($"{shapeshifter.GetNameWithRole()}:{position}", "MinerTeleport");
-                    Utils.TP(shapeshifter.NetTransform, new Vector2(position.x, position.y + 0.3636f));
+                    Utils.TP(shapeshifter.NetTransform, new Vector2(position.x, position.y));
                 }
             }
 
@@ -449,7 +460,7 @@ namespace TOHE
                     var pos = shapeshifter.transform.position;
                     var dis = Vector2.Distance(pos, tg.transform.position);
 
-                    if (!tg.IsAlive()) continue;
+                    if (!tg.IsAlive() || Pelican.IsEaten(tg.PlayerId)) continue;
                     if (dis > Options.BomberRadius.GetFloat()) continue;
                     if (tg == shapeshifter) continue;
 
@@ -506,12 +517,12 @@ namespace TOHE
             {
                 if (Main.MarkedPlayers[shapeshifter.PlayerId] != null)//确认被标记的人
                 {
-                    if (shapeshifting && Main.MarkedPlayers[shapeshifter.PlayerId].IsAlive())//解除变形时不执行操作
+                    if (shapeshifting && Main.MarkedPlayers[shapeshifter.PlayerId].IsAlive() &&  !Pelican.IsEaten(Main.MarkedPlayers[shapeshifter.PlayerId].PlayerId))//解除变形时不执行操作
                     {
                         PlayerControl targetw = Main.MarkedPlayers[shapeshifter.PlayerId];
                         new LateTask(() =>
                         {
-                            if (!GameStates.IsMeeting && !GameStates.IsEnded && GameStates.IsInTask && GameStates.IsInGame && Main.MarkedPlayers[shapeshifter.PlayerId].IsAlive())
+                            if (!GameStates.IsMeeting && !GameStates.IsEnded && GameStates.IsInTask && GameStates.IsInGame && Main.MarkedPlayers[shapeshifter.PlayerId].IsAlive() && !Pelican.IsEaten(Main.MarkedPlayers[shapeshifter.PlayerId].PlayerId))
                             {
                                 Logger.Info($"{targetw.GetNameWithRole()} was killed", "Assassin");
                                 targetw.SetRealKiller(shapeshifter);
@@ -635,6 +646,7 @@ namespace TOHE
             Main.PuppeteerList.Clear();
             Sniper.OnReportDeadBody();
             Vampire.OnStartMeeting();
+            Pelican.OnReport();
 
             if (__instance.Data.IsDead) return true;
             //=============================================
@@ -695,6 +707,7 @@ namespace TOHE
                     break;
                 }
 
+                Pelican.FixedUpdate();
                 DoubleTrigger.OnFixedUpdate(player);
                 Vampire.OnFixedUpdate(player);
                 if (GameStates.IsInTask && CustomRoles.SerialKiller.IsEnable()) SerialKiller.FixedUpdate(player);
@@ -718,7 +731,7 @@ namespace TOHE
                 }
                 if (GameStates.IsInTask && Main.AssassinTimer.ContainsKey(player.PlayerId))//処理を1秒遅らせる
                 {
-                    if (player.IsAlive())
+                    if (player.IsAlive() && !Pelican.IsEaten(player.PlayerId))
                     {
                         if (Main.AssassinTimer[player.PlayerId] >= 1f)
                         {
@@ -762,7 +775,7 @@ namespace TOHE
 
                 if (GameStates.IsInTask && Main.ArsonistTimer.ContainsKey(player.PlayerId))//アーソニストが誰かを塗っているとき
                 {
-                    if (!player.IsAlive())
+                    if (!player.IsAlive() || Pelican.IsEaten(player.PlayerId))
                     {
                         Main.ArsonistTimer.Remove(player.PlayerId);
                         Utils.NotifyRoles(SpecifySeer: __instance);
@@ -806,7 +819,7 @@ namespace TOHE
                 }
                 if (GameStates.IsInTask && Main.PuppeteerList.ContainsKey(player.PlayerId))
                 {
-                    if (!player.IsAlive())
+                    if (!player.IsAlive() || Pelican.IsEaten(player.PlayerId))
                     {
                         Main.PuppeteerList.Remove(player.PlayerId);
                     }
@@ -931,6 +944,8 @@ namespace TOHE
                         RealName = Utils.ColorString(target.GetRoleColor(), RealName); //名前の色を変更
                         if (target.Is(CustomRoles.Arsonist) && target.IsDouseDone())
                             RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), GetString("EnterVentToWin"));
+                        if (Pelican.IsEaten(target.PlayerId))
+                            RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Pelican), GetString("EatenByPelican"));
                     }
                     else if (target.Is(CustomRoles.Mare) && Utils.IsActive(SystemTypes.Electrical))
                         RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの赤色で表示

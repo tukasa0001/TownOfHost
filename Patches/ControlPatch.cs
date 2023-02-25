@@ -1,6 +1,8 @@
 using System.Linq;
 using HarmonyLib;
+using MS.Internal.Xml.XPath;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 namespace TOHE
 {
@@ -9,6 +11,10 @@ namespace TOHE
     {
         static readonly (int, int)[] resolutions = { (480, 270), (640, 360), (800, 450), (1280, 720), (1600, 900), (1920, 1080) };
         static int resolutionIndex = 0;
+
+        static float tmpSpeed = new();
+        static Vector2 originPosition = new();
+
         public static void Postfix(ControllerManager __instance)
         {
             //切换自定义设置的页面
@@ -72,7 +78,7 @@ namespace TOHE
             if (GetKeysDown(KeyCode.Return, KeyCode.M, KeyCode.LeftShift) && GameStates.IsInGame)
             {
                 if (GameStates.IsMeeting) MeetingHud.Instance.RpcClose();
-                else PlayerControl.LocalPlayer.CmdReportDeadBody(null);
+                else PlayerControl.LocalPlayer.NoCheckStartMeeting(null);
             }
             //立即开始
             if (Input.GetKeyDown(KeyCode.LeftShift) && GameStates.IsCountDown)
@@ -109,11 +115,6 @@ namespace TOHE
             if (GetKeysDown(KeyCode.Return, KeyCode.V, KeyCode.LeftShift) && GameStates.IsMeeting && !GameStates.IsOnlineGame)
             {
                 MeetingHud.Instance.RpcClearVote(AmongUsClient.Instance.ClientId);
-            }
-            //强制报告自己的尸体
-            if (GetKeysDown(KeyCode.Return, KeyCode.R, KeyCode.LeftShift) && GameStates.IsInGame)
-            {
-                PlayerControl.LocalPlayer.NoCheckStartMeeting(PlayerControl.LocalPlayer.Data);
             }
             //放逐自己
             if (GetKeysDown(KeyCode.Return, KeyCode.E, KeyCode.LeftShift) && GameStates.IsInGame)
@@ -159,9 +160,6 @@ namespace TOHE
                 RPC.SyncCustomSettingsRPC();
                 Logger.SendInGame(Translator.GetString("SyncCustomSettingsRPC"));
             }
-
-            //--下面是自由模式的命令--//
-            if (!GameStates.IsFreePlay) return;
 
             //入门测试
             if (Input.GetKeyDown(KeyCode.G))

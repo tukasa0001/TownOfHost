@@ -119,6 +119,9 @@ namespace TOHE
                         case CustomRoles.Capitalism:
                             __instance.KillButton.OverrideText($"{GetString("CapitalismButtonText")}");
                             break;
+                        case CustomRoles.Pelican:
+                            __instance.KillButton.OverrideText($"{GetString("PelicanButtonText")}");
+                            break;
                     }
 
                     //バウンティハンターのターゲットテキスト
@@ -271,6 +274,7 @@ namespace TOHE
                 case CustomRoles.ChivalrousExpert:
                 case CustomRoles.Arsonist:
                 case CustomRoles.Innocent:
+                case CustomRoles.Pelican:
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;

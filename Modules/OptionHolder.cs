@@ -609,6 +609,7 @@ namespace TOHE
             SetupRoleOptions(5050110, TabGroup.OtherRoles, CustomRoles.Mario);
             MarioVentNumWin = IntegerOptionItem.Create(5050112, "MarioVentNumWin", new(5, 900, 5), 55, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mario])
                 .SetValueFormat(OptionFormat.Times);
+            Pelican.SetupCustomOption();
 
             // 副职
             _ = BooleanOptionItem.Create(909096, "TabGroup.Addons", false, TabGroup.OtherRoles, false)

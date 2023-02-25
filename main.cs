@@ -312,6 +312,7 @@ namespace TOHE
                     {CustomRoles.Mario, "#ff6201"},
                     {CustomRoles.Jackal, "#00b4eb"},
                     {CustomRoles.Innocent, "#8f815e"},
+                    {CustomRoles.Pelican, "#34c84b"},
                     // GM
                     {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
@@ -437,6 +438,7 @@ namespace TOHE
         Executioner,
         Jackal,
         Innocent,
+        Pelican,
         //GM
         GM,
         // Sub-role after 500
@@ -474,6 +476,7 @@ namespace TOHE
         God = CustomRoles.God,
         Mario = CustomRoles.Mario,
         Innocent = CustomRoles.Innocent,
+        Pelican = CustomRoles.Pelican,
     }
     public enum AdditionalWinners
     {

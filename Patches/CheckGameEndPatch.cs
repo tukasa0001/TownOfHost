@@ -197,37 +197,44 @@ namespace TOHE
                 int[] counts = CountLivingPlayersByPredicates(
                     pc => pc.Is(RoleType.Impostor), //インポスター
                     pc => pc.Is(CustomRoles.Jackal), //ジャッカル
-                    pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Madmate) && !pc.Is(CustomRoles.Jackal) //その他
+                    pc => pc.Is(CustomRoles.Pelican),
+                    pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Madmate) && !pc.Is(CustomRoles.Jackal) && !pc.Is(CustomRoles.Pelican)//その他
                 );
-                int Imp = counts[0], Jackal = counts[1], Crew = counts[2];
+                int Imp = counts[0], Jackal = counts[1], Pel = counts[2], Crew = counts[3];
 
-                if (Imp == 0 && Crew == 0 && Jackal == 0) //全滅
+                if (Imp == 0 && Crew == 0 && Jackal == 0 && Pel ==0) //全灭
                 {
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.None);
                 }
-                else if (Main.AllAlivePlayerControls.All(p => p.Is(CustomRoles.Lovers))) //ラバーズ勝利
+                else if (Main.AllAlivePlayerControls.All(p => p.Is(CustomRoles.Lovers))) //恋人胜利
                 {
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Lovers);
                 }
-                else if (Jackal == 0 && Crew <= Imp) //インポスター勝利
+                else if (Jackal == 0 && Pel == 0 && Crew <= Imp) //内鬼胜利
                 {
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
                 }
-                else if (Imp == 0 && Crew <= Jackal) //ジャッカル勝利
+                else if (Imp == 0 && Pel == 0 && Crew <= Jackal) //豺狼胜利
                 {
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jackal);
                     CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
                 }
-                else if (Jackal == 0 && Imp == 0) //クルー勝利
+                else if (Imp == 0 && Jackal == 0 && Crew <= Pel) //鹈鹕胜利
+                {
+                    reason = GameOverReason.ImpostorByKill;
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Pelican);
+                    CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Pelican);
+                }
+                else if (Jackal == 0 && Pel == 0  && Imp == 0) //船员胜利
                 {
                     reason = GameOverReason.HumansByVote;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
                 }
-                else return false; //勝利条件未達成
+                else return false; //胜利条件未达成
 
                 return true;
             }

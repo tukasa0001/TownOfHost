@@ -78,6 +78,7 @@ namespace TOHE
 
         public static void TP(CustomNetworkTransform nt, Vector2 location)
         {
+            location += new Vector2(0, 0.3636f);
             if (AmongUsClient.Instance.AmHost) nt.SnapTo(location);
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(nt.NetId, (byte)RpcCalls.SnapTo, SendOption.None);
             //nt.WriteVector2(location, writer);
@@ -332,6 +333,7 @@ namespace TOHE
                 case CustomRoles.God:
                 case CustomRoles.ChivalrousExpert:
                 case CustomRoles.Innocent:
+                case CustomRoles.Pelican:
                     hasTasks = false;
                     break;
                 case CustomRoles.Terrorist:
@@ -413,6 +415,9 @@ namespace TOHE
                     break;
                 case CustomRoles.TimeThief:
                     ProgressText.Append(TimeThief.GetProgressText(playerId));
+                    break;
+                case CustomRoles.Pelican:
+                    ProgressText.Append(Pelican.GetProgressText(playerId));
                     break;
                 default:
                     //タスクテキスト
@@ -982,6 +987,8 @@ namespace TOHE
                 string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
                 if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
                     SelfName = $"</size>\r\n{ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
+                if (Pelican.IsEaten(seer.PlayerId))
+                    SelfName = $"</size>\r\n{ColorString(GetRoleColor(CustomRoles.Pelican), GetString("EatenByPelican"))}";
                 SelfName = SelfRoleName + "\r\n" + SelfName;
                 SelfName += SelfSuffix.ToString() == "" ? "" : "\r\n " + SelfSuffix.ToString();
                 if (!isMeeting) SelfName += "\r\n";

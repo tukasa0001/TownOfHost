@@ -685,6 +685,7 @@ namespace TOHE
                 { CustomRoles.Terrorist, GetString("Terrorist") },
                 { CustomRoles.Jackal, GetString("Jackal") },
                 { CustomRoles.Innocent, GetString("Innocent") },
+                { CustomRoles.Pelican, GetString("Pelican") },
                 //属性
                 { (CustomRoles)(-6), $"== {GetString("Addons")} ==" }, //区切り用
                 {CustomRoles.Lovers, GetString("Lovers") },

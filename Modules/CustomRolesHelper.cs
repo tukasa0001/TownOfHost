@@ -84,6 +84,7 @@ namespace TOHE
                 CustomRoles.Jackal => RoleTypes.Impostor,
                 CustomRoles.ChivalrousExpert => RoleTypes.Impostor,
                 CustomRoles.Innocent => RoleTypes.Impostor,
+                CustomRoles.Pelican => RoleTypes.Impostor,
                 _ => RoleTypes.Scientist
             };
         }
@@ -108,7 +109,8 @@ namespace TOHE
         public static bool IsNK(this CustomRoles role) // 是否带刀中立
         {
             return role is
-                CustomRoles.Jackal;
+                CustomRoles.Jackal or
+                CustomRoles.Pelican;
         }
         public static bool IsNNK(this CustomRoles role) => role.IsNeutral() && !role.IsNK(); // 是否无刀中立
         public static bool IsNeutralKilling(this CustomRoles role) //是否邪恶中立（抢夺或单独胜利的中立）
@@ -171,7 +173,8 @@ namespace TOHE
                 CustomRoles.Arsonist or
                 CustomRoles.Jackal or
                 CustomRoles.God or
-                CustomRoles.Innocent;
+                CustomRoles.Innocent or
+                CustomRoles.Pelican;
         }
         public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
         public static bool IsVanilla(this CustomRoles role) // 是否原版职业

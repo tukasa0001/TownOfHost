@@ -49,7 +49,7 @@ namespace TOHE
             bool Admin = false, Camera = false, DoorLog = false, Vital = false;
             foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
             {
-                if (!pc.IsAlive() || pc.inVent || pc.GetCustomRole().IsImpostor()) continue;
+                if (!pc.IsAlive() || Pelican.IsEaten(pc.PlayerId) || pc.inVent || pc.GetCustomRole().IsImpostor()) continue;
                 try
                 {
                     Vector2 PlayerPos = pc.GetTruePosition();

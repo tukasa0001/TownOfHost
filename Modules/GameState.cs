@@ -95,6 +95,7 @@ namespace TOHE
             Gambled,
             Disconnected,
             Fall,
+            Eaten,
             etc = -1
         }
         public byte GetRealKiller()
@@ -165,15 +166,15 @@ namespace TOHE
                 Logger.Info("传送师触发传送:" + player.cosmetics.nameText.text, "Transporter");
                 var rd = IRandom.Instance;
                 List<PlayerControl> AllAlivePlayer = new();
-                foreach (var pc in PlayerControl.AllPlayerControls) if (pc.IsAlive() && !pc.inVent) AllAlivePlayer.Add(pc);
+                foreach (var pc in PlayerControl.AllPlayerControls) if (pc.IsAlive() && !Pelican.IsEaten(pc.PlayerId) && !pc.inVent) AllAlivePlayer.Add(pc);
                 if (AllAlivePlayer.Count >= 2)
                 {
                     var tar1 = AllAlivePlayer[rd.Next(0, AllAlivePlayer.Count)];
                     AllAlivePlayer.Remove(tar1);
                     var tar2 = AllAlivePlayer[rd.Next(0, AllAlivePlayer.Count)];
                     var pos = tar1.GetTruePosition();
-                    Utils.TP(tar1.NetTransform, new Vector2(tar2.GetTruePosition().x, tar2.GetTruePosition().y + 0.3636f));
-                    Utils.TP(tar2.NetTransform, new Vector2(pos.x, pos.y + 0.3636f));
+                    Utils.TP(tar1.NetTransform, tar2.GetTruePosition());
+                    Utils.TP(tar2.NetTransform, pos);
                 }
             }
 
