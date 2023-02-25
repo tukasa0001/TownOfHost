@@ -549,6 +549,7 @@ CapitalismSkillCooldown,技能使用冷却,Skill cooldown,Откат навык�
 ImpCanBeAvanger,内鬼可以成为复仇者,Impostor can become an Avenger,Предатель может стать Мстителем
 VeteranSkillCooldown,老兵戒备冷却时间,Skill cooldown,Откат навыка
 VeteranSkillDuration,老兵戒备状态持续时间,Skill duration,Продолжительность навыка
+BodyguardProtectRadius,保镖保护范围
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
