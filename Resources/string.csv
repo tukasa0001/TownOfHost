@@ -88,7 +88,7 @@ NiceGuesser,正义赌怪,Nice Guesser,Добрый Угадыватель
 Transporter,传送师,Transporter,Транспортер
 TimeManager,时间操控者,Time Manager,Мастер Времени
 Veteran,老兵,Veteran,Ветеран
-Bodyguard,保镖
+Bodyguard,保镖,Bodyguard,Тело-Хранитель
 
 # 中立阵营
 Jester,小丑,Jester,Джестер
@@ -100,7 +100,7 @@ Mario,马里奥,Mario,Марио
 Jackal,豺狼,Jackal,Шакал
 God,神,God,Бог
 Innocent,冤罪师,Innocent,Невинный
-Pelican,鹈鹕
+Pelican,鹈鹕,Pelican,Пеликан
 
 # 附加职业
 LastImpostor,绝境者,Last Impostor,Последний Предатель
@@ -182,7 +182,7 @@ NiceGuesserInfo,生命就是豪赌！,Guess the evil roles of the players,Уга
 TransporterInfo,移形换影，扭转乾坤！,Teleport 2 random players,Телепортируй 2 случайных игроков
 TimeManagerInfo,时间操控大师！,Do the tasks and extend meeting time,Выполняйте задания чтобы увеличить время встречи
 VeteranInfo,内鬼都没你有经验,Don't let a killer just kill you,Не позволяй убийце просто так убить себя
-BodyguardInfo,想杀人必须先过我这关
+BodyguardInfo,想杀人必须先过我这关,Protect the player from being killed,Защити игрока от убийства
 
 # 中立阵营
 ArsonistInfo,乖乖站好！,Burn them to crisps,Облейте и подожгите всех игроков
@@ -194,7 +194,7 @@ MarioInfo,听说你的公主在管道里,"Live happily ever after, together",В�
 JackalInfo,在这里，我一般称自己为只狼,Kill Everyone,Убей всех игроков
 GodInfo,一切都在您的掌控,Everything is under your control,Все под вашим контролем
 InnocentInfo,果然碰瓷百试百灵,Let aim of innocent was be ejected,Пусть цель невинного будет изгнана
-PelicanInfo,船船，饿饿，饭饭
+PelicanInfo,船船，饿饿，饭饭,Eat all players,Съешьте всех игроков
 
 # 附加职业
 LoversInfo,最重要的是，记得照顾好你的另一半,Survive with your Lover,Выживите со своим Любовником
@@ -271,7 +271,7 @@ ChivalrousExpertInfoLong,(船员阵营):\n侠客可以正义击杀任何阵营�
 TransporterInfoLong,(船员阵营):\n每当传送师完成任务，就会有随机两位玩家交换位置，但若剩余玩家不足将什么都不会发生。请注意：管道中的玩家不会被选中。,"(Crewmates):\nWhenever the Transporter completes a task two random players will swap places, but if there aren't enough live players, nothing will happen. \nPlease note that players who are in the air vent will not be selected.","(Член Экипажа):\nВсякий раз, когда Транспортер завершает задание, два случайных игрока меняются местами, но если живых игроков недостаточно, ничего не произойдет. \nПожалуйста, обратите внимание: игроки, которые находятся в вентиляции, выбраны не будут."
 TimeManagerInfoLong,(船员阵营):\n时间操控者做的任务越多，会议时间就会越长，当时间操控者死亡则会议时间恢复正常。当时间操控者成为叛徒时则技能变为减少会议时长而不是增加会议时长。,"(Crewmates):\nThe more tasks you do, the longer your meeting will last. When you die, the meeting time will be restored.","(Член Экипажа):\nМастер Времени может увеличить время встречи, увеличивается время по мере выполнения заданий. Но когда он умрет, время встречи будет сброшено по умолчанию."
 VeteranInfoLong,(船员阵营):\n老兵可以通过使用通风管道进入戒备状态，如果戒备状态下有玩家尝试击杀老兵，则老兵反杀凶手。老兵进入以及退出戒备状态时会看到自己身上有护盾破碎作为提示。,"(Crewmates):\nThe Veteran can go into combat readiness using the vent. If the player attempts to kill a Veteran while on alert, the veteran will instantly kill the killer. When the Veteran goes into and out of combat readiness, he will see a broken shield on his body as a reminder.","(Член Экипажа):\nВетеран может перейти в состояние боевой готовности, используя вентиляцию. Если игрок попытается убить Ветерана в состоянии боевой готовности, то Ветеран тут же убьет убийцу. Когда Ветеран входят в состояние боевой готовности и выходят из него, он увидит сломанный щит ангела на своем теле в качестве напоминания."
-BodyguardInfoLong,(船员阵营):\n在保镖附近如果有玩家将被击杀，则保镖会阻止这次击杀并与凶手同归于尽。请注意：保镖的技能会作用在任何阵营的玩家上。
+BodyguardInfoLong,(船员阵营):\n在保镖附近如果有玩家将被击杀，则保镖会阻止这次击杀并与凶手同归于尽。请注意：保镖的技能会作用在任何阵营的玩家上。,"(Crewmates):\nIf the killer tries to kill a player near the Bodyguard, the Bodyguard will prevent the kill and die with the killer. Please note: Bodyguard skills will work on players of any team.","(Член Экипажа):\nЕсли убийца попытается убить игрока рядом с Тело-Хранителем, то Тело-Хранитель предотвратит убийство и умрет вместе с убийцей. Пожалуйста, обратите внимание: Навыки Тело-Хранителем будут работать на игроках любой команды."
 
 # 中立阵营
 ArsonistInfoLong,(中立阵营):\n纵火犯可以通过对玩家点击击杀按钮并跟随其数秒来完成涂油，开始涂油以及涂油成功时会显示护盾破碎作为提示。当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。\n\n玩家名显示「△」表示涂油中\n玩家名显示「▲」表示已涂油,"(Neutrals):\nWhen you use the kill button, you douse your target in oil.\nAfter dousing all living players, you set everything ablaze and win by venting.","(Нейтрал):\nПоджигатель может обливать игроков, нажав на кнопку 'Убить' и находясь рядом с игроком в течение нескольких секунд. \nПосле того как он обольёт всех живых игроков Поджигатель сможет запрыгнуть в вентиляцию, чтобы поджечь всех игроков, что приводит к победе Поджигателя."
@@ -283,7 +283,7 @@ MarioInfoLong,(中立阵营):\n马里奥跳管达到一定次数就会单独获�
 JackalInfoLong,(中立阵营):\n豺狼需要击杀所有人。存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。,"(Neutrals):\nJackal can kill all Crewmates, Impostors and Neutrals.\nTeam Jackal wins when living Jackal outnumbers living Crewmates and when there are no Impostors alive.","(Нейтрал):\nШакал может убить всех Членов Экипажа, Нейтралов и Предателей тоже. \nШакал может победить, когда в живых остался только 1 Шакал и 1 Член Экипажа."
 GodInfoLong,(中立阵营):\n神从一开始就知道所有人的身份，而神只要活到最后就会抢走胜利。,"(Neutrals):\nGod knows the roles of each player from the very beginning of the game, and if God survives until the end of the game, he will win.","(Нейтрал):\nБог знает роли каждого игрока с самого начала игры, и если Бог выживет до конца игры он одержит победу."
 InnocentInfoLong,(中立阵营):\n冤罪师可以用击杀键栽赃任意一位玩家，被栽赃的目标会立刻击杀冤罪师，若目标在会议上被驱逐则冤罪师获胜。请注意：小丑、处刑人、冤罪师可以共享胜利。,"(Neutrals):\nInnocent can use the ''Kill'' button to tag any player. The marked target will immediately kill the Innocent. If the marked target is ejected during the meetings, the Innocent will win. \nPlease note: the Jester, the Executioner and the Innocent can share the victory.","(Нейтрал):\nНевинный может использовать кнопку ''Убить'', чтобы пометить любого игрока. Помеченная цель немедленно убьет Невинного. Если помеченная цель будет изгнана во время встречи, то Невинный одержит победу. \nПожалуйста, обратите внимание: Джестер, Палач и Невинный могут разделить победу."
-PelicanInfoLong,(中立阵营):\n鹈鹕需要击杀所有人。存活的玩家只剩鹈鹕和一名其他船员时，鹈鹕获得胜利。鹈鹕可以使用击杀键活吞一位玩家（被活吞的玩家将被传送到地图外且无法与游戏互动），活吞成功后鹈鹕将看到自己身上出现盾牌破碎的动画作为提示。紧急会议或报告尸体会导致鹈鹕吞下的所有玩家立刻死亡。若鹈鹕死亡或掉线，则被吞下的所有玩家立刻回到鹈鹕死亡的位置。
+PelicanInfoLong,(中立阵营):\n鹈鹕需要击杀所有人。存活的玩家只剩鹈鹕和一名其他船员时，鹈鹕获得胜利。鹈鹕可以使用击杀键活吞一位玩家（被活吞的玩家将被传送到地图外且无法与游戏互动），活吞成功后鹈鹕将看到自己身上出现盾牌破碎的动画作为提示。紧急会议或报告尸体会导致鹈鹕吞下的所有玩家立刻死亡。若鹈鹕死亡或掉线，则被吞下的所有玩家立刻回到鹈鹕死亡的位置。,"(Neutrals):\nThe pelican needs to swallow all the players. When only the Pelican and the Crewmate are left alive, the Pelican wins. \nPelican can use the ''Kill'' button to swallow the player alive (This player will be teleported to the very edge of the map and will not be able to interact with the game). After successfully swallowing, Pelican will see a broken shield animation on his body as a reminder. \nAn emergency encounter or report of a corpse will result in the immediate death of all players swallowed by the Pelican. If he is killed, all players who were swallowed by the Pelican will immediately return to the position where the Pelican himself will die","(Нейтрал):\nПеликану нужно проглотить всех игроков. Когда в живых остался только Пеликан и Член Экипажа, то Пеликан победит. \nПеликан может использовать кнопку ''Убить'', чтобы проглотить игрока живьем (Этот игрок, будет телепортирован на самый край карты и не сможет взаимодействовать с игрой). После успешного проглатывания, Пеликан увидит анимацию сломанного щита на своем теле в качестве напоминания. \nЭкстренная встреча или сообщение о трупе приведет к немедленной смерти всех игроков, проглоченных Пеликаном.Если он будет убит, все игроки которые были проглочены Пеликаном, немедленно вернуться на позицию, где умрёт сам Пеликан."
 
 # 管理员
 GMInfoLong,(房主):\n看我干啥，我只是个开局就死的冤魂，静静地吃瓜而已。,"(None):\nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game, and all players know who the GM is. The GM role will be assigned to the host, who will automatically become a ghost at the start of the game.","(Никто):\nGM (Мастер Игры) — это роль, которая наблюдает за игрой в роле призрака. \nОн не влияет на игру, и все игроки всегда знают кто Мастер Игры. Всегда назначается только хосту лобби и становится призраком в самом начале игры."
@@ -549,7 +549,7 @@ CapitalismSkillCooldown,技能使用冷却,Skill cooldown,Откат навык�
 ImpCanBeAvanger,内鬼可以成为复仇者,Impostor can become an Avenger,Предатель может стать Мстителем
 VeteranSkillCooldown,老兵戒备冷却时间,Skill cooldown,Откат навыка
 VeteranSkillDuration,老兵戒备状态持续时间,Skill duration,Продолжительность навыка
-BodyguardProtectRadius,保镖保护范围
+BodyguardProtectRadius,保镖保护范围,Protect Radius,Радиус Защиты
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
@@ -567,8 +567,8 @@ DeathReason.Execution,处决,Execution,Казнен
 DeathReason.Disconnected,断连,Disconnected,Вышел
 DeathReason.Fall,摔死,Fall,Упал
 DeathReason.Revenge,复仇,Revenge,Месть
-DeathReason.Eaten,活吞
-DeathReason.Sacrifice,牺牲
+DeathReason.Eaten,活吞,Eaten,Сьеден
+DeathReason.Sacrifice,牺牲,Victim,Жертва
 DeathReason.etc,其它,Other,Другое
 Alive,存活,Alive,Выжил
 Win,胜利, Wins, Победили
@@ -716,7 +716,7 @@ CanNotJoinPublicRoomNoLatest,我们有一个重要的更新，请更新本模组
 ModBrokenMessage,模组文件损坏，请重启游戏或重装本模组,The MOD file is damaged.\nPlease reinstall.,Мод был поврежден.\nПожалуйста переустановите его снова.
 DisabledByProgram,公开房间的操作已被程序禁用,Public rooms have been disabled by the program,Создание публичного лобби отключена программой
 EnterVentToWin,跳管道来获得胜利！,Enter Vent to Win!!,Запрыгните в вентиляцию чтобы победить!!
-EatenByPelican,您被鹈鹕吞了，请等待鹈鹕死亡或会议...
+EatenByPelican,您被鹈鹕吞了，请等待鹈鹕死亡或会议...,"You have been swallowed by a Pelican, Wait for his death or an emergency meeting...","Вы были проглочены Пеликаном, Дождитесь его смерти или экстренной встречи..."
 FireworksPutPhase,还要安放{0}枚烟花,{0} Fireworks Left,Осталось {0} Фейерверков
 FireworksWaitPhase,耐心等待....,Wait for it...,Подожди время...
 FireworksReadyFirePhase,烟花来咯，大型烟花秀开始！,Fire!,Огонь!
@@ -795,7 +795,7 @@ BountyHunterChangeButtonText,变更,Swap,До Смены
 EvilTrackerChangeButtonText,追踪,Track,Отслеживать
 InnocentButtonText,栽赃,To Frame,Подставить
 CapitalismButtonText,压榨,Issue a task,Выдать задание
-PelicanButtonText,吞下
+PelicanButtonText,吞下,Eat up,Съесть
 DefaultShapeshiftText,变形,Shift,Превращение
 DisabledBySettings,已在设置被中禁用,Disabled by Settings,Отключено настройкой
 Disabled,禁用,Disabled,Отключено
