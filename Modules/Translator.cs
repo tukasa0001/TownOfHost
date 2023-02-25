@@ -157,5 +157,17 @@ namespace TownOfHost
             foreach (var title in translateMaps) sb.Append($"{title.Key}:{title.Value[0].Replace("\n", "\\n").Replace("\r", "\\r")}\n");
             File.WriteAllText(@$"./{LANGUAGE_FOLDER_NAME}/template_English.dat", sb.ToString());
         }
+        public static void ExportCustomTranslation()
+        {
+            LoadLangs();
+            var sb = new StringBuilder();
+            var lang = TranslationController.Instance.currentLanguage.languageID;
+            foreach (var title in translateMaps)
+            {
+                if (!title.Value.TryGetValue((int)lang, out var text)) text = "";
+                sb.Append($"{title.Key}:{text.Replace("\n", "\\n").Replace("\r", "\\r")}\n");
+            }
+            File.WriteAllText(@$"./{LANGUAGE_FOLDER_NAME}/export_{lang}.dat", sb.ToString());
+        }
     }
 }
