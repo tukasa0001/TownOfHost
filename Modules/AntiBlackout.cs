@@ -20,7 +20,7 @@ namespace TOHE
         ///<summary>
         ///AntiBlackout内の処理が必要であるかどうか
         ///</summary>
-        public static bool IsRequired => Options.NoGameEnd.GetBool() || Jackal.IsEnable;
+        public static bool IsRequired => Options.NoGameEnd.GetBool() || Jackal.IsEnable || Pelican.IsEnable;
         ///<summary>
         ///インポスター以外の人数とインポスターの人数の差
         ///</summary>
