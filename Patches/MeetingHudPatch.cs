@@ -294,7 +294,7 @@ namespace TownOfHost
         {
             Logger.Info("------------会議開始------------", "Phase");
             ChatUpdatePatch.DoBlockChat = true;
-            GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
+            GameStates.AlreadyDied |= !Utils.IsAllAlive;
             Main.AllPlayerControls.Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
             Utils.NotifyRoles(isMeeting: true, NoCache: true);
             MeetingStates.MeetingCalled = true;

@@ -910,7 +910,7 @@ namespace TownOfHost
                     if (playersCount == 0) continue;
                     sb.Append($"{countTypes}:{AlivePlayersCount(countTypes)}/{playersCount}, ");
                 }
-                sb.Append($"All:{Main.AllAlivePlayerControls.Count(pc => !pc.Is(CountTypes.OutOfGame))}/{AllPlayersCount}");
+                sb.Append($"All:{AllAlivePlayersCount}/{AllPlayersCount}");
                 Logger.Info(sb.ToString(), "CountAlivePlayers");
             }
         }
@@ -1068,8 +1068,10 @@ namespace TownOfHost
             casted = obj.TryCast<T>();
             return casted != null;
         }
-        public static int AllPlayersCount => Main.PlayerStates.Count(kvp => kvp.Value.countTypes != CountTypes.OutOfGame);
-        public static int PlayersCount(CountTypes countTypes) => Main.PlayerStates.Count(kvp => kvp.Value.countTypes == countTypes);
+        public static int AllPlayersCount => Main.PlayerStates.Values.Count(state => state.countTypes != CountTypes.OutOfGame);
+        public static int AllAlivePlayersCount => Main.AllAlivePlayerControls.Count(pc => !pc.Is(CountTypes.OutOfGame));
+        public static bool IsAllAlive => Main.PlayerStates.Values.All(state => state.countTypes == CountTypes.OutOfGame || !state.IsDead);
+        public static int PlayersCount(CountTypes countTypes) => Main.PlayerStates.Values.Count(state => state.countTypes == countTypes);
         public static int AlivePlayersCount(CountTypes countTypes) => Main.AllAlivePlayerControls.Count(pc => pc.Is(countTypes));
     }
 }
