@@ -47,6 +47,11 @@ namespace TownOfHost
                     _ => CustomRoles.Crewmate,
                 };
         }
+        public void SetMainRole(CustomRoles role)
+        {
+            MainRole = role;
+            countTypes = role.GetCountTypes();
+        }
         public void SetSubRole(CustomRoles role, bool AllReplace = false)
         {
             if (AllReplace)

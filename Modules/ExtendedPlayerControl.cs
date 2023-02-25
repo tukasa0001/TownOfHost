@@ -22,8 +22,7 @@ namespace TownOfHost
         {
             if (role < CustomRoles.NotAssigned)
             {
-                Main.PlayerStates[player.PlayerId].MainRole = role;
-                Main.PlayerStates[player.PlayerId].countTypes = role.GetCountTypes();
+                Main.PlayerStates[player.PlayerId].SetMainRole(role);
             }
             else if (role >= CustomRoles.NotAssigned)   //500:NoSubRole 501~:SubRole
             {
