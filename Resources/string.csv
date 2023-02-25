@@ -88,6 +88,7 @@ NiceGuesser,正义赌怪,Nice Guesser,Добрый Угадыватель
 Transporter,传送师,Transporter,Транспортер
 TimeManager,时间操控者,Time Manager,Мастер Времени
 Veteran,老兵,Veteran,Ветеран
+Bodyguard,保镖
 
 # 中立阵营
 Jester,小丑,Jester,Джестер
@@ -180,6 +181,7 @@ NiceGuesserInfo,生命就是豪赌！,Guess the evil roles of the players,Уга
 TransporterInfo,移形换影，扭转乾坤！,Teleport 2 random players,Телепортируй 2 случайных игроков
 TimeManagerInfo,时间操控大师！,Do the tasks and extend meeting time,Выполняйте задания чтобы увеличить время встречи
 VeteranInfo,内鬼都没你有经验,Don't let a killer just kill you,Не позволяй убийце просто так убить себя
+BodyguardInfo,想杀人必须先过我这关
 
 # 中立阵营
 ArsonistInfo,乖乖站好！,Burn them to crisps,Облейте и подожгите всех игроков
@@ -267,6 +269,7 @@ ChivalrousExpertInfoLong,(船员阵营):\n侠客可以正义击杀任何阵营�
 TransporterInfoLong,(船员阵营):\n每当传送师完成任务，就会有随机两位玩家交换位置，但若剩余玩家不足将什么都不会发生。请注意：管道中的玩家不会被选中。,"(Crewmates):\nWhenever the Transporter completes a task two random players will swap places, but if there aren't enough live players, nothing will happen. \nPlease note that players who are in the air vent will not be selected.","(Член Экипажа):\nВсякий раз, когда Транспортер завершает задание, два случайных игрока меняются местами, но если живых игроков недостаточно, ничего не произойдет. \nПожалуйста, обратите внимание: игроки, которые находятся в вентиляции, выбраны не будут."
 TimeManagerInfoLong,(船员阵营):\n时间操控者做的任务越多，会议时间就会越长，当时间操控者死亡则会议时间恢复正常。当时间操控者成为叛徒时则技能变为减少会议时长而不是增加会议时长。,"(Crewmates):\nThe more tasks you do, the longer your meeting will last. When you die, the meeting time will be restored.","(Член Экипажа):\nМастер Времени может увеличить время встречи, увеличивается время по мере выполнения заданий. Но когда он умрет, время встречи будет сброшено по умолчанию."
 VeteranInfoLong,(船员阵营):\n老兵可以通过使用通风管道进入戒备状态，如果戒备状态下有玩家尝试击杀老兵，则老兵反杀凶手。老兵进入以及退出戒备状态时会看到自己身上有护盾破碎作为提示。,"(Crewmates):\nThe Veteran can go into combat readiness using the vent. If the player attempts to kill a Veteran while on alert, the veteran will instantly kill the killer. When the Veteran goes into and out of combat readiness, he will see a broken shield on his body as a reminder.","(Член Экипажа):\nВетеран может перейти в состояние боевой готовности, используя вентиляцию. Если игрок попытается убить Ветерана в состоянии боевой готовности, то Ветеран тут же убьет убийцу. Когда Ветеран входят в состояние боевой готовности и выходят из него, он увидит сломанный щит ангела на своем теле в качестве напоминания."
+BodyguardInfoLong,(船员阵营):\n在保镖的保护范围内如果有玩家将被击杀，那保镖会阻止这次击杀并与凶手同归于尽。
 
 # 中立阵营
 ArsonistInfoLong,(中立阵营):\n纵火犯可以通过对玩家点击击杀按钮并跟随其数秒来完成涂油，开始涂油以及涂油成功时会显示护盾破碎作为提示。当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。\n\n玩家名显示「△」表示涂油中\n玩家名显示「▲」表示已涂油,"(Neutrals):\nWhen you use the kill button, you douse your target in oil.\nAfter dousing all living players, you set everything ablaze and win by venting.","(Нейтрал):\nПоджигатель может обливать игроков, нажав на кнопку 'Убить' и находясь рядом с игроком в течение нескольких секунд. \nПосле того как он обольёт всех живых игроков Поджигатель сможет запрыгнуть в вентиляцию, чтобы поджечь всех игроков, что приводит к победе Поджигателя."

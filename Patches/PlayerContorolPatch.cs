@@ -228,6 +228,19 @@ namespace TOHE
                         }
                     break;
             }
+            foreach (var pc in Main.AllAlivePlayerControls)
+            {
+                var pos = target.transform.position;
+                var dis = Vector2.Distance(pos, pc.transform.position);
+                if (dis > Options.BodyguardProtectRadius.GetFloat()) continue;
+                if (pc.Is(CustomRoles.Bodyguard))
+                {
+                    Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
+                    pc.RpcMurderPlayer(killer);
+                    pc.RpcMurderPlayer(pc);
+                    return false;
+                }
+            }
 
             //==キル処理==
             __instance.RpcMurderPlayer(target);
