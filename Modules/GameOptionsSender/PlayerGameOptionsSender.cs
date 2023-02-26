@@ -20,7 +20,7 @@ namespace TOHE.Modules
             .ToList().ForEach(sender => sender.SetDirty());
 
         public override IGameOptions BasedGameOptions =>
-            Main.RealOptionsData.Restore(new NormalGameOptionsV07(new UnityLogger().Cast<ILogger>()).Cast<IGameOptions>());
+            Main.RealOptionsData.Restore(new NormalGameOptionsV07(new UnityLogger().Cast<Hazel.ILogger>()).Cast<IGameOptions>());
         public override bool IsDirty { get; protected set; }
 
         public PlayerControl player;
@@ -64,6 +64,8 @@ namespace TOHE.Modules
             sender.player = null;
             AllSenders.Remove(sender);
         }
+
+        static int count = 0;
         public override IGameOptions BuildGameOptions()
         {
             if (Main.RealOptionsData == null)
@@ -190,16 +192,24 @@ namespace TOHE.Modules
             }
 
             //吹笛者的加速
-            foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.Is(CustomRoles.Piper)))
+            count--;
+            if (CustomRoles.Piper.IsEnable() && count <= 0)
             {
-                var pos = pc.transform.position;
-                var dis = Vector2.Distance(pos, player.transform.position);
+                count = 50;
+                foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.Is(CustomRoles.Piper)))
+                {
+                    
+                    var pos = pc.transform.position;
+                    var dis = Vector2.Distance(pos, player.transform.position);
 
-                if (!player.IsAlive() || Pelican.IsEaten(player.PlayerId)) continue;
-                if (dis > Options.PiperAccelerationRadius.GetFloat()) continue;
-                if (player.PlayerId == pc.PlayerId) continue;
+                    if (!player.IsAlive() || Pelican.IsEaten(player.PlayerId)) continue;
+                    if (dis > Options.PiperAccelerationRadius.GetFloat()) continue;
+                    if (player.PlayerId == pc.PlayerId) continue;
+                    if (Main.AllPlayerSpeed[player.PlayerId] == Options.PiperAccelerationSpeed.GetFloat()) break;
+                    Main.AllPlayerSpeed[player.PlayerId] = Options.PiperAccelerationSpeed.GetFloat();
+                }
             }
-
+            
             if (Main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
             {
                 foreach (var kc in Main.AllPlayerKillCooldown)
