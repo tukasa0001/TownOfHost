@@ -3,6 +3,7 @@ using AmongUs.GameOptions;
 using Hazel;
 using Il2CppSystem.Linq;
 using InnerNet;
+using UnityEngine;
 using Mathf = UnityEngine.Mathf;
 
 namespace TOHE.Modules
@@ -182,7 +183,21 @@ namespace TOHE.Modules
                         opt.SetFloat(FloatOptionNames.CrewLightMod, Options.BewilderVision.GetFloat());
                         opt.SetFloat(FloatOptionNames.ImpostorLightMod, Options.BewilderVision.GetFloat());
                         break;
+                    case CustomRoles.Piper:
+                        Main.AllPlayerSpeed[player.PlayerId] = Options.PiperAccelerationSpeed.GetFloat();
+                        break;
                 }
+            }
+
+            //吹笛者的加速
+            foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.Is(CustomRoles.Piper)))
+            {
+                var pos = pc.transform.position;
+                var dis = Vector2.Distance(pos, player.transform.position);
+
+                if (!player.IsAlive() || Pelican.IsEaten(player.PlayerId)) continue;
+                if (dis > Options.PiperAccelerationRadius.GetFloat()) continue;
+                if (player.PlayerId == pc.PlayerId) continue;
             }
 
             if (Main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))

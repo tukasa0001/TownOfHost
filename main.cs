@@ -331,6 +331,7 @@ namespace TOHE
                     {CustomRoles.Avanger, "#ffab1b"},
                     {CustomRoles.Youtuber, "#fb749b"},
                     {CustomRoles.Egoist, "#5600ff"},
+                    {CustomRoles.Piper, "#a3d7a8"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -461,6 +462,7 @@ namespace TOHE
         Avanger,
         Youtuber,
         Egoist,
+        Piper,
     }
     //WinData
     public enum CustomWinner

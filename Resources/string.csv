@@ -120,6 +120,7 @@ Fool,蠢蛋,Fool,Глупец
 Avanger,复仇者,Avenger,Мститель
 Youtuber,UP主
 Egoist,利己主义者
+Piper,吹笛者
 
 # 管理员
 GM,管理员,GM,GM (Призрак)
@@ -217,6 +218,7 @@ FoolInfo,我才不是笨蛋！,Now you can't fix sabotages,Теперь ты н�
 AvangerInfo,君子报仇，片刻不能缓！,Take someone to the next world before you die,Забери кого-нибудь на тот свет прежде чем умереть
 YoutuberInfo,我的素材啊啊啊啊
 EgoistInfo,什么叫做一波三折？
+PiperInfo,嗯↗嗯↘嗯~~
 
 # 管理员
 GMInfo,开局死的冤魂隔岸观火,You are the Game Master,Вы Мастер Игры
@@ -312,6 +314,7 @@ FoolInfoLong,(附加职业)\n内鬼和修理工不会成为蠢蛋。蠢蛋无法
 AvangerInfoLong,(附加职业)\n可以设定内鬼是否可以成为复仇者。当复仇者被击杀时（被票出不算），复仇者会随机带走一名玩家。,"(Add-ons):\nWhen the Avenger is killed, he will allow one random player to commit suicide. Depending on the settings of the Host, the Avenger can be assigned to the Impostor. \nPlease note: Avenger's skill will not trigger after he was ejected.","(Атрибут):\nКогда Мститель будет убит, Он позволит одному случайному игроку совершить самоубийство. В зависимости от настроек Хоста, Мститель может присвоиться Предателю. \nПожалуйста, обратите внимание: Навык Мстителя не сработает после того, как он будет изгнан."
 YoutuberInfoLong,(附加职业)\n只有船员会成为UP主，UP主不会成为叛徒。当UP主是第一个在游戏中被击杀的玩家时，UP主会单独获得胜利，若UP主没有满足胜利条件，则UP主跟随船员阵营胜利。请注意：被放逐、被赌怪猜测等非直接击杀方式不会触发UP主的技能。
 EgoistInfoLong,(附加职业)\n叛徒与中立阵营不会成为利己主义者。利己主义者会抢夺自己阵营的胜利。
+PiperInfoLong,(附加职业)\n吹笛者会将自己附近的人的移动速度变得跟自己一样。（速度根据房主设定）
 
 #模式选项
 NoGameEnd,测试模式,NoGameEnd,Игра Не Закончится

@@ -501,7 +501,7 @@ namespace TOHE
 
                     if (!tg.IsAlive() || Pelican.IsEaten(tg.PlayerId)) continue;
                     if (dis > Options.BomberRadius.GetFloat()) continue;
-                    if (tg == shapeshifter) continue;
+                    if (tg.PlayerId == shapeshifter.PlayerId) continue;
 
                     Main.PlayerStates[tg.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
                     tg.SetRealKiller(shapeshifter);

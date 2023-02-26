@@ -310,6 +310,8 @@ namespace TOHE
         public static OptionItem LoverHasNoTask;
         public static OptionItem ImpCanBeEgoist;
         public static OptionItem CrewCanBeEgoist;
+        public static OptionItem PiperAccelerationSpeed;
+        public static OptionItem PiperAccelerationRadius;
 
         public static readonly string[] suffixModes =
         {
@@ -629,6 +631,11 @@ namespace TOHE
             SetupAdtRoleOptions(6050490, CustomRoles.Egoist, canSetNum: true, tab: TabGroup.OtherRoles);
             ImpCanBeEgoist = BooleanOptionItem.Create(6050495, "ImpCanBeEgoist", true, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Egoist]);
             CrewCanBeEgoist = BooleanOptionItem.Create(6050497, "CrewCanBeEgoist", true, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Egoist]);
+            SetupAdtRoleOptions(6050560, CustomRoles.Piper, canSetNum: true, tab: TabGroup.OtherRoles);
+            PiperAccelerationSpeed = FloatOptionItem.Create(6050570, "PiperAccelerationSpeed", new(0.25f, 5f, 0.25f), 2f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Piper])
+                .SetValueFormat(OptionFormat.Multiplier);
+            PiperAccelerationRadius = FloatOptionItem.Create(6050572, "PiperAccelerationRadius", new(0.5f, 5f, 0.5f), 2f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Piper])
+                .SetValueFormat(OptionFormat.Multiplier);
 
             #endregion
 
