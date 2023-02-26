@@ -303,6 +303,16 @@ namespace TOHE
                 Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Kill;
             }
 
+            //看看UP是不是被首刀了
+            if (target.Is(CustomRoles.Youtuber))
+            {
+                if (PlayerControl.AllPlayerControls.ToArray().Where(x => !x.IsAlive() && !x.Is(CustomRoles.GM)).Count() == 0)
+                {
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Youtuber); //UP主被首刀了，哈哈哈哈哈
+                    CustomWinnerHolder.WinnerIds.Add(target.PlayerId);
+                }
+            }
+
             //骇客击杀
             bool hackKilled = false;
             if (killer.GetCustomRole() == CustomRoles.Hacker && Main.HackerUsedCount.TryGetValue(killer.PlayerId, out var count) && count < Options.HackUsedMaxTime.GetInt())

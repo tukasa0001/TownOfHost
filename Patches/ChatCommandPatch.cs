@@ -541,7 +541,7 @@ namespace TOHE
 
         public static string ToSimplified(string text)
         {
-            text = text.Replace("着", "者").Trim();
+            text = text.Replace("着", "者").Trim().ToLower();
             return text switch
             {
                 "管理員" or "管理" => "管理员",
@@ -617,6 +617,8 @@ namespace TOHE
                 "復仇者" or "复仇" => "复仇者",
                 "鵜鶘"  => "鹈鹕",
                 "保鏢" => "保镖",
+                "up" or "up主" => "UP主",
+                "利己主義者" or "利己主义" or "利己" => "利己主义者",
                 _ => text,
             };
         }
@@ -705,6 +707,8 @@ namespace TOHE
                 { CustomRoles.Workhorse,GetString("Workhorse") },
                 { CustomRoles.Fool,GetString("Fool") },
                 { CustomRoles.Avanger,GetString("Avanger") },
+                { CustomRoles.Youtuber,GetString("Youtuber") },
+                { CustomRoles.Egoist,GetString("Egoist") },
             };
 
         public static bool GetRoleByName(string name, out CustomRoles role)

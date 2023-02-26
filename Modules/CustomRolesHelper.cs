@@ -105,7 +105,8 @@ namespace TOHE
                 CustomRoles.Bewilder or
                 CustomRoles.Workhorse or
                 CustomRoles.Fool or
-                CustomRoles.Avanger;
+                CustomRoles.Avanger or
+                CustomRoles.Youtuber;
         }
         public static bool IsNK(this CustomRoles role) // 是否带刀中立
         {
@@ -122,7 +123,8 @@ namespace TOHE
                 CustomRoles.Jackal or
                 CustomRoles.God or
                 CustomRoles.Mario or
-                CustomRoles.Innocent;
+                CustomRoles.Innocent or
+                CustomRoles.Pelican;
         }
         public static bool IsCK(this CustomRoles role) // 是否带刀船员
         {
@@ -175,7 +177,8 @@ namespace TOHE
                 CustomRoles.Jackal or
                 CustomRoles.God or
                 CustomRoles.Innocent or
-                CustomRoles.Pelican;
+                CustomRoles.Pelican or
+                CustomRoles.Youtuber;
         }
         public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
         public static bool IsVanilla(this CustomRoles role) // 是否原版职业

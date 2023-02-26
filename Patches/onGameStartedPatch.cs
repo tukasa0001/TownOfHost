@@ -793,11 +793,15 @@ namespace TOHE
                 if ((role is CustomRoles.Madmate or CustomRoles.Lighter) && !pc.GetCustomRole().IsCrewmate()) continue;
                 if (role is CustomRoles.Bewilder && pc.GetCustomRole().IsImpostor()) continue;
                 if (role is CustomRoles.Ntr && pc.Is(CustomRoles.Lovers)) continue;
-                if (role is CustomRoles.Madmate && (!pc.GetCustomRole().IsCrewmate() || pc.Is(CustomRoles.Needy) || pc.Is(CustomRoles.Snitch) || pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Mayor) || pc.Is(CustomRoles.CyberStar) || pc.Is(CustomRoles.NiceGuesser))) continue;
+                if (role is CustomRoles.Madmate && (!pc.GetCustomRole().IsCrewmate() || pc.Is(CustomRoles.Needy) || pc.Is(CustomRoles.Snitch) || pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Mayor) || pc.Is(CustomRoles.CyberStar) || pc.Is(CustomRoles.NiceGuesser) || pc.Is(CustomRoles.Youtuber) || pc.Is(CustomRoles.Egoist))) continue;
                 if (role is CustomRoles.Oblivious && pc.Is(CustomRoles.Detective)) continue;
                 if (role is CustomRoles.Fool && (pc.GetCustomRole().IsImpostor() || pc.Is(CustomRoles.SabotageMaster))) continue;
                 if (role is CustomRoles.Avanger && pc.GetCustomRole().IsImpostor() && !Options.ImpCanBeAvanger.GetBool()) continue;
                 if (role is CustomRoles.Brakar && pc.Is(CustomRoles.Dictator)) continue;
+                if (role is CustomRoles.Youtuber && (!pc.GetCustomRole().IsCrewmate() || pc.Is(CustomRoles.Madmate))) continue;
+                if (role is CustomRoles.Egoist && (pc.GetCustomRole().IsNeutral() || pc.Is(CustomRoles.Madmate))) continue;
+                if (role is CustomRoles.Egoist && pc.GetCustomRole().IsImpostor() && !Options.ImpCanBeEgoist.GetBool()) continue;
+                if (role is CustomRoles.Egoist && pc.GetCustomRole().IsCrewmate() && !Options.CrewCanBeEgoist.GetBool()) continue;
                 allPlayers.Add(pc);
             }
             var rd = IRandom.Instance;

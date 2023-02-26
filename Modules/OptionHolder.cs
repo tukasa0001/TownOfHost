@@ -310,6 +310,8 @@ namespace TOHE
         public static OptionItem LoverSpawnChances;
         public static OptionItem LoverSuicide;
         public static OptionItem LoverHasNoTask;
+        public static OptionItem ImpCanBeEgoist;
+        public static OptionItem CrewCanBeEgoist;
 
         public static readonly string[] suffixModes =
         {
@@ -624,7 +626,10 @@ namespace TOHE
             FlashmanSpeed = FloatOptionItem.Create(6050335, "FlashmanSpeed", new(0.25f, 5f, 0.25f), 2.5f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Flashman])
                 .SetValueFormat(OptionFormat.Multiplier);
             Workhorse.SetupCustomOption();
-
+            SetupAdtRoleOptions(6050480, CustomRoles.Youtuber, canSetNum: true, tab: TabGroup.OtherRoles);
+            SetupAdtRoleOptions(6050490, CustomRoles.Egoist, canSetNum: true, tab: TabGroup.OtherRoles);
+            ImpCanBeEgoist = BooleanOptionItem.Create(6050495, "ImpCanBeEgoist", true, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Egoist]);
+            CrewCanBeEgoist = BooleanOptionItem.Create(6050495, "CrewCanBeEgoist", true, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Egoist]);
 
             #endregion
 

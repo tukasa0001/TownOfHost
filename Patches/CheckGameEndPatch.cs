@@ -50,6 +50,28 @@ namespace TOHE
                 if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw and not CustomWinner.None and not CustomWinner.Error)
                 {
 
+                    //利己主义者抢夺胜利（船员）
+                    if (CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
+                    {
+                        foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.GetCustomRole().IsCrewmate()))
+                            if (pc.Is(CustomRoles.Egoist))
+                            {
+                                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Egoist);
+                                CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                            }
+                    }
+
+                    //利己主义者抢夺胜利（内鬼）
+                    if (CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor)
+                    {
+                        foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.GetCustomRole().IsImpostor()))
+                            if (pc.Is(CustomRoles.Egoist))
+                            {
+                                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Egoist);
+                                CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                            }
+                    }
+
                     //神抢夺胜利
                     if (CustomRolesHelper.RoleExist(CustomRoles.God))
                     {

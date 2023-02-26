@@ -332,6 +332,7 @@ namespace TOHE
                     {CustomRoles.Workhorse, "#00ffff"},
                     {CustomRoles.Fool, "#e6e7ff"},
                     {CustomRoles.Avanger, "#ffab1b"},
+                    {CustomRoles.Youtuber, "#fb749b"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -459,6 +460,8 @@ namespace TOHE
         Workhorse,
         Fool,
         Avanger,
+        Youtuber,
+        Egoist,
     }
     //WinData
     public enum CustomWinner
@@ -479,6 +482,8 @@ namespace TOHE
         Mario = CustomRoles.Mario,
         Innocent = CustomRoles.Innocent,
         Pelican = CustomRoles.Pelican,
+        Youtuber = CustomRoles.Youtuber,
+        Egoist = CustomRoles.Egoist,
     }
     public enum AdditionalWinners
     {
