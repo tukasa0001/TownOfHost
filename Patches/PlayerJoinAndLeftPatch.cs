@@ -150,33 +150,23 @@ namespace TOHE
         {
             if (AmongUsClient.Instance.AmHost)
             {
-                if (Main.OverrideWelcomeMsg != "")
+                OptionItem.SyncAllOptions();
+                new LateTask(() =>
                 {
-                    OptionItem.SyncAllOptions();
+                    if (client.Character == null) return;
+                    if (Main.OverrideWelcomeMsg != "") Utils.SendMessage(Main.OverrideWelcomeMsg, client.Character.PlayerId);
+                    else TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
+                }, 3f, "Welcome Message");
+                if (Options.AutoDisplayLastResult.GetBool() && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id) && Main.OverrideWelcomeMsg == "")
+                {
                     new LateTask(() =>
                     {
-                        Utils.SendMessage(Main.OverrideWelcomeMsg, client.Character.PlayerId);
-                    }, 3f, "Override Welcome Message");
-                }
-                else
-                {
-                    new LateTask(() =>
-                    {
-                        if (client.Character == null) return;
-                        //if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(GetString("Message.AnnounceUsingTOH"), Main.PluginVersion), client.Character.PlayerId);
-                        TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
-                    }, 3f, "Welcome Message");
-                    if (Options.AutoDisplayLastResult.GetBool() && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
-                    {
-                        new LateTask(() =>
+                        if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
                         {
-                            if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
-                            {
-                                Main.isChatCommand = true;
-                                Utils.ShowLastResult(client.Character.PlayerId);
-                            }
-                        }, 3f, "DisplayLastRoles");
-                    }
+                            Main.isChatCommand = true;
+                            Utils.ShowLastResult(client.Character.PlayerId);
+                        }
+                    }, 3f, "DisplayLastRoles");
                 }
             }
         }
