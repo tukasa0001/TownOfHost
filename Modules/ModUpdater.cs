@@ -101,7 +101,7 @@ namespace TOHE
                 int create = int.Parse(data[0]);
                 MD5 = data[2];
                 visit = int.TryParse(data[3], out int x) ? x : 0;
-                visit += 21482;
+                visit += 24523;
                 if (create > Main.PluginCreate)
                 {
                     hasUpdate = true;
