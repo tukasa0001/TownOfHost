@@ -729,6 +729,19 @@ namespace TOHE
                     break;
                 }
 
+                if (CustomRoles.Mario.IsEnable())
+                {
+                    foreach(var pc in PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Mario)))
+                    {
+                        if (Main.MarioVentCount[pc.PlayerId] > Options.MarioVentNumWin.GetInt())
+                        {
+                            Main.MarioVentCount[pc.PlayerId] = Options.MarioVentNumWin.GetInt();
+                            CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Mario); //马里奥这个多动症赢了
+                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                        }
+                    }
+                }
+
                 Pelican.FixedUpdate();
                 DoubleTrigger.OnFixedUpdate(player);
                 Vampire.OnFixedUpdate(player);
