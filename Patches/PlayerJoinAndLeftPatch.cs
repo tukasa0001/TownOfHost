@@ -135,12 +135,13 @@ namespace TOHE
                 Logger.SendInGame($"{data.PlayerName} 在火星和你联机但是断了 (Ping:{AmongUsClient.Instance.Ping}) QwQ");
             }
             Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
-            if (!AmongUsClient.Instance.AmHost) return;
-            if (__instance.ClientId < 1) return;
-            if (Main.OriginalName.ContainsKey(__instance.ClientId)) Main.OriginalName.Remove(__instance.ClientId);
-            if (Main.LastRPC.ContainsKey(__instance.ClientId)) Main.LastRPC.Remove(__instance.ClientId);
-            if (Main.SayStartTimes.ContainsKey(__instance.ClientId)) Main.SayStartTimes.Remove(__instance.ClientId);
-            if (Main.SayBanwordsTimes.ContainsKey(__instance.ClientId)) Main.SayBanwordsTimes.Remove(__instance.ClientId);
+            if (AmongUsClient.Instance.AmHost)
+            {
+                if (Main.OriginalName.ContainsKey(__instance.ClientId)) Main.OriginalName.Remove(__instance.ClientId);
+                if (Main.LastRPC.ContainsKey(__instance.ClientId)) Main.LastRPC.Remove(__instance.ClientId);
+                if (Main.SayStartTimes.ContainsKey(__instance.ClientId)) Main.SayStartTimes.Remove(__instance.ClientId);
+                if (Main.SayBanwordsTimes.ContainsKey(__instance.ClientId)) Main.SayBanwordsTimes.Remove(__instance.ClientId);
+            }
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CreatePlayer))]
