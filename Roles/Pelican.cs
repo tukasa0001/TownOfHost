@@ -99,8 +99,8 @@ namespace TOHE
                     if (killer == null || target == null) continue;
                     Main.AllPlayerSpeed[tar] = Main.AllPlayerSpeed[tar] - 0.5f + originalSpeed[tar];
                     ReportDeadBodyPatch.CanReport[tar] = true;
-                    target.Data.IsDead = true;
                     target.SetRealKiller(killer);
+                    target.Data.IsDead = true;
                     Main.PlayerStates[tar].deathReason = PlayerState.DeathReason.Eaten;
                     target.RpcExileV2();
                     Main.PlayerStates[tar].SetDead();
