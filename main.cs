@@ -483,6 +483,7 @@ namespace TOHE
     public enum AdditionalWinners
     {
         None = -1,
+        Lovers = CustomRoles.Lovers,
         Opportunist = CustomRoles.Opportunist,
         Executioner = CustomRoles.Executioner,
     }

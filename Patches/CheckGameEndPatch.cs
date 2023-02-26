@@ -75,12 +75,20 @@ namespace TOHE
                     //追加勝利陣営
                     foreach (var pc in Main.AllPlayerControls)
                     {
-
                         //Opportunist
                         if (pc.Is(CustomRoles.Opportunist) && pc.IsAlive())
                         {
                             CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
                             CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
+                        }
+                        //Lovers follow winner
+                        if (pc.Is(CustomRoles.Lovers) && CustomWinnerHolder.WinnerTeam is not CustomWinner.Lovers or CustomWinner.Crewmate or CustomWinner.Impostor)
+                        {
+                            if (CustomWinnerHolder.WinnerIds.Where(x => Utils.GetPlayerById(x).Is(CustomRoles.Lovers)).Count() > 0)
+                            {
+                                CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                                CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Lovers);
+                            }
                         }
                     }
                 }

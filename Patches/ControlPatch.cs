@@ -12,9 +12,6 @@ namespace TOHE
         static readonly (int, int)[] resolutions = { (480, 270), (640, 360), (800, 450), (1280, 720), (1600, 900), (1920, 1080) };
         static int resolutionIndex = 0;
 
-        static float tmpSpeed = new();
-        static Vector2 originPosition = new();
-
         public static void Postfix(ControllerManager __instance)
         {
             //切换自定义设置的页面
