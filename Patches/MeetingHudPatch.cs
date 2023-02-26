@@ -271,15 +271,15 @@ namespace TOHE
             if (Options.ConfirmEjections.GetBool())
             {
                 if (CustomRolesHelper.IsImpostor(player.GetCustomRole()))
-                    name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
+                    name = string.Format(GetString("BelongTo"), realName, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), GetString("TeamImpostor")));
                 else if (
                     (Options.ConfirmEjectionsNK.GetBool() && player.GetCustomRole().IsNK()) ||
                     (Options.ConfirmEjectionsNonNK.GetBool() && player.GetCustomRole().IsNNK())
                     )
                 {
                     if (Options.ConfirmEjectionsNeutralAsImp.GetBool())
-                        name = $"{realName} 属于 " + Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "内鬼阵营");
-                    else name = $"{realName} 属于 " + Utils.ColorString(Color.cyan, "中立阵营");
+                        name = string.Format(GetString("BelongTo"), realName, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), GetString("TeamImpostor")));
+                    else name = string.Format(GetString("BelongTo"), realName, Utils.ColorString(new Color32(255, 171, 27, 0), GetString("TeamImpostor")));
                 }
                 else name = string.Format(GetString("IsGood"), realName);
             }

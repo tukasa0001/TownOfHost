@@ -846,6 +846,7 @@ NoImpRemain,已经没有内鬼啦,There are no more impostors left,Предат�
 ImpRemain,剩余 {0} 个内鬼,There are {0} Impostors left,Осталось {0} Предателя
 NeutralRemain,剩余 {0} 个邪恶中立,There Are {0} Evil Neutrals Left,Осталось {0} Злых Нейтралов
 IsGood,{0} 是个好人,{0} was a nice guy,{0} был хорошим парнем
+BelongTo,{0} 属于 {1}
 
 ## 游戏结束原因
 GameOverReason.HumansByTask,船员完成了任务,The Crewmates completed the tasks,Члены Экипажа выполнили задания
