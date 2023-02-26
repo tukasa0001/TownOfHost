@@ -82,13 +82,14 @@ namespace TOHE
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
 
-            if (!AmongUsClient.Instance.AmHost) return;
-            if (__instance.ClientId < 1) return;
-            if (Main.LastRPC.ContainsKey(client.Id)) Main.LastRPC.Remove(client.Id);
-            if (Main.SayStartTimes.ContainsKey(client.Id)) Main.SayStartTimes.Remove(client.Id);
-            if (Main.SayBanwordsTimes.ContainsKey(client.Id)) Main.SayBanwordsTimes.Remove(client.Id);
-            if (Main.newLobby && Options.SendCodeToQQ.GetBool()) Cloud.SendCodeToQQ();
-            if (AmongUsClient.Instance.AmHost) Utils.DevNameCheck(client);
+            if (AmongUsClient.Instance.AmHost)
+            {
+                if (Main.LastRPC.ContainsKey(client.Id)) Main.LastRPC.Remove(client.Id);
+                if (Main.SayStartTimes.ContainsKey(client.Id)) Main.SayStartTimes.Remove(client.Id);
+                if (Main.SayBanwordsTimes.ContainsKey(client.Id)) Main.SayBanwordsTimes.Remove(client.Id);
+                if (Main.newLobby && Options.SendCodeToQQ.GetBool()) Cloud.SendCodeToQQ();
+                if (AmongUsClient.Instance.AmHost) Utils.DevNameCheck(client);
+            }
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
