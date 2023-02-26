@@ -211,12 +211,13 @@ Example:
 | [Mare](#Mare)                       | [Mayor](#Mayor)                   | [Jester](#Jester)                 |                               |           |
 | [Puppeteer](#Puppeteer)             | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |                               |           |
 | [SerialKiller](#SerialKiller)       | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |                               |           |
-| [Sniper](#Sniper)                   | [Seer](#Seer)                     | [SchrodingerCat](#SchrodingerCat) |                               |           |
-| [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               |                                   |                               |           |
-| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |                               |           |
-| [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |                               |           |
-| [Witch](#Witch)                     | [Beartrap](#Beartrap)             |                                   |                               |           |
-| [Mafia](#Mafia)                     | [TimeManager](#TimeManager)       |                                   |                               |           |
+| [ShapeMaster](#ShapeMaster)         | [Seer](#Seer)                     | [SchrodingerCat](#SchrodingerCat) |                               |           |
+| [Sniper](#Sniper)                   | [Sheriff](#Sheriff)               |                                   |                               |           |
+| [TimeThief](#TimeThief)             | [Snitch](#Snitch)                 |                                   |                               |           |
+| [Vampire](#Vampire)                 | [SpeedBooster](#SpeedBooster)     |                                   |                               |           |
+| [Warlock](#Warlock)                 | [Beartrap](#Beartrap)             |                                   |                               |           |
+| [Witch](#Witch)                     | [TimeManager](#TimeManager)       |                                   |                               |           |
+| [Mafia](#Mafia)                     |                                   |                                   |                               |           |
 | [Madmate](#Madmate)                 |                                   |                                   |                               |           |
 | [MadGuardian](#MadGuardian)         |                                   |                                   |                               |           |
 | [MadSnitch](#MadSnitch)             |                                   |                                   |                               |           |
