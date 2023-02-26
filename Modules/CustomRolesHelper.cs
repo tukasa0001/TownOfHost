@@ -86,6 +86,7 @@ namespace TOHE
                 CustomRoles.ChivalrousExpert => RoleTypes.Impostor,
                 CustomRoles.Innocent => RoleTypes.Impostor,
                 CustomRoles.Pelican => RoleTypes.Impostor,
+                CustomRoles.Counterfeiter => RoleTypes.Impostor,
                 _ => RoleTypes.Scientist
             };
         }

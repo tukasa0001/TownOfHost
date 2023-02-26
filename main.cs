@@ -276,10 +276,6 @@ namespace TOHE
                     {CustomRoles.Engineer, "#8cffff"},
                     {CustomRoles.Scientist, "#8cffff"},
                     {CustomRoles.GuardianAngel, "#ffffff"},
-                    //インポスター、シェイプシフター
-                    //特殊インポスター役職
-                    //マッドメイト系役職
-                        //後で追加
                     //特殊クルー役職
                     {CustomRoles.Bait, "#00f7ff"},
                     {CustomRoles.Luckey, "#b8d7a3" },
@@ -303,6 +299,7 @@ namespace TOHE
                     {CustomRoles.TimeManager, "#6495ed"},
                     {CustomRoles.Veteran, "#a77738"},
                     {CustomRoles.Bodyguard, "#185abd"},
+                    {CustomRoles.Counterfeiter, "#e0e0e0"},
                     //第三陣営役職
                     {CustomRoles.Arsonist, "#ff6633"},
                     {CustomRoles.Jester, "#ec62a5"},
@@ -432,6 +429,7 @@ namespace TOHE
         TimeManager,
         Veteran,
         Bodyguard,
+        Counterfeiter,
         //Neutral
         Arsonist,
         Jester,

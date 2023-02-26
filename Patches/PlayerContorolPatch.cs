@@ -182,6 +182,10 @@ namespace TOHE
                             killer.SetKillCooldown();
                         }
                         return false;
+                    case CustomRoles.Counterfeiter:
+                        if (Counterfeiter.CanBeClient(target) && Counterfeiter.CanSeel(killer.PlayerId))
+                            Counterfeiter.SeelToClient(killer, target);
+                        return false;
 
                     //==========マッドメイト系役職==========//
 
@@ -236,6 +240,9 @@ namespace TOHE
                         }
                     break;
             }
+
+            //赝品检查
+            if (Counterfeiter.OnClientMurder(killer)) return false;
 
             //保镖保护
             foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.PlayerId != target.PlayerId))

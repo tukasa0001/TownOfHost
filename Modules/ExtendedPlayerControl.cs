@@ -367,12 +367,13 @@ namespace TOHE
                 CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
                 CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
-                CustomRoles.Pelican => true,
+                CustomRoles.Pelican => pc.IsAlive(),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
-                CustomRoles.ChivalrousExpert => true,
-                CustomRoles.Jackal => true,
+                CustomRoles.ChivalrousExpert => pc.IsAlive(),
+                CustomRoles.Jackal => pc.IsAlive(),
                 CustomRoles.Bomber => false,
-                CustomRoles.Innocent => true,
+                CustomRoles.Innocent => pc.IsAlive(),
+                CustomRoles.Counterfeiter => Counterfeiter.CanUseKillButton(pc.PlayerId),
                 _ => pc.Is(RoleType.Impostor),
             };
         }
@@ -455,6 +456,12 @@ namespace TOHE
                     break;
                 case CustomRoles.Capitalism:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.CapitalismSkillCooldown.GetFloat();
+                    break;
+                case CustomRoles.Pelican:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Pelican.KillCooldown.GetFloat();
+                    break;
+                case CustomRoles.Counterfeiter:
+                    Counterfeiter.SetKillCooldown(player.PlayerId);
                     break;
             }
         }

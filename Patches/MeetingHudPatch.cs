@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using HarmonyLib;
+using MS.Internal.Xml.XPath;
 using Sentry.Internal.Extensions;
 using UnityEngine;
 using static TOHE.Translator;
+using static UnityEngine.GraphicsBuffer;
+using static UnityEngine.RemoteConfigSettingsHelper;
 
 namespace TOHE
 {
@@ -765,8 +768,9 @@ namespace TOHE
                 __instance.playerStates.DoIf(x => x.HighlightedFX.enabled, x =>
                 {
                     var player = Utils.GetPlayerById(x.TargetPlayerId);
-                    player.RpcExileV2();
+                    player.Data.IsDead = true;
                     Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Execution;
+                    player.RpcExileV2();
                     Main.PlayerStates[player.PlayerId].SetDead();
                     Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
                     Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
@@ -800,6 +804,7 @@ namespace TOHE
                 Main.CyberStarDead.Clear();
                 Main.DetectiveNotify.Clear();
                 Main.LastVotedPlayerInfo = null;
+                Counterfeiter.OnMeetingDestroy();
             }
         }
     }

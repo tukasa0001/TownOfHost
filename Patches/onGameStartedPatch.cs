@@ -148,6 +148,7 @@ namespace TOHE
                 DoubleTrigger.Init();
                 Workhorse.Init();
                 Pelican.Init();
+                Counterfeiter.Init();
                 CustomWinnerHolder.Reset();
                 AntiBlackout.Reset();
                 IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
@@ -612,6 +613,9 @@ namespace TOHE
                             break;
                         case CustomRoles.Pelican:
                             Pelican.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.Counterfeiter:
+                            Counterfeiter.Add(pc.PlayerId);
                             break;
                     }
                     foreach (var subRole in pc.GetCustomSubRoles())

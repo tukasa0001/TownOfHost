@@ -456,6 +456,9 @@ namespace TOHE
                 case CustomRoles.Pelican:
                     Pelican.Add(targetId);
                     break;
+                case CustomRoles.Counterfeiter:
+                    Counterfeiter.Add(targetId);
+                    break;
             }
             HudManager.Instance.SetHudActive(true);
             if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();

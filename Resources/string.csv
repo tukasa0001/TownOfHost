@@ -89,6 +89,7 @@ Transporter,传送师,Transporter,Транспортер
 TimeManager,时间操控者,Time Manager,Мастер Времени
 Veteran,老兵,Veteran,Ветеран
 Bodyguard,保镖,Bodyguard,Тело-Хранитель
+Counterfeiter,赝品商
 
 # 中立阵营
 Jester,小丑,Jester,Джестер
@@ -185,6 +186,7 @@ TransporterInfo,移形换影，扭转乾坤！,Teleport 2 random players,Тел�
 TimeManagerInfo,时间操控大师！,Do the tasks and extend meeting time,Выполняйте задания чтобы увеличить время встречи
 VeteranInfo,内鬼都没你有经验,Don't let a killer just kill you,Не позволяй убийце просто так убить себя
 BodyguardInfo,想杀人必须先过我这关,Protect the player from being killed,Защити игрока от убийства
+CounterfeiterInfo,谁又能想到是我呢？
 
 # 中立阵营
 ArsonistInfo,乖乖站好！,Burn them to crisps,Облейте и подожгите всех игроков
@@ -276,6 +278,7 @@ TransporterInfoLong,(船员阵营):\n每当传送师完成任务，就会有随�
 TimeManagerInfoLong,(船员阵营):\n时间操控者做的任务越多，会议时间就会越长，当时间操控者死亡则会议时间恢复正常。当时间操控者成为叛徒时则技能变为减少会议时长而不是增加会议时长。,"(Crewmates):\nThe more tasks you do, the longer your meeting will last. When you die, the meeting time will be restored.","(Член Экипажа):\nМастер Времени может увеличить время встречи, увеличивается время по мере выполнения заданий. Но когда он умрет, время встречи будет сброшено по умолчанию."
 VeteranInfoLong,(船员阵营):\n老兵可以通过使用通风管道进入戒备状态，如果戒备状态下有玩家尝试击杀老兵，则老兵反杀凶手。老兵进入以及退出戒备状态时会看到自己身上有护盾破碎作为提示。,"(Crewmates):\nThe Veteran can go into combat readiness using the vent. If the player attempts to kill a Veteran while on alert, the veteran will instantly kill the killer. When the Veteran goes into and out of combat readiness, he will see a broken shield on his body as a reminder.","(Член Экипажа):\nВетеран может перейти в состояние боевой готовности, используя вентиляцию. Если игрок попытается убить Ветерана в состоянии боевой готовности, то Ветеран тут же убьет убийцу. Когда Ветеран входят в состояние боевой готовности и выходят из него, он увидит сломанный щит ангела на своем теле в качестве напоминания."
 BodyguardInfoLong,(船员阵营):\n在保镖附近如果有玩家将被击杀，则保镖会阻止这次击杀并与凶手同归于尽。保镖的技能会作用在任何阵营的玩家上。当保镖成为叛徒且凶手不是内鬼的时候，保镖不会发动技能。,"(Crewmates):\nIf the killer tries to kill a player near the Bodyguard, the Bodyguard will prevent the kill and die with the killer. Please note: Bodyguard skills will work on players of any team.","(Член Экипажа):\nЕсли убийца попытается убить игрока рядом с Тело-Хранителем, то Тело-Хранитель предотвратит убийство и умрет вместе с убийцей. Пожалуйста, обратите внимание: Навыки Тело-Хранителем будут работать на игроках любой команды."
+CounterfeiterInfoLong,(船员阵营):\n赝品商可以通过击杀键将赝品卖给其他玩家，如贩卖成功赝品商将会看到自己身上出现护盾破碎动画作为提示。赝品将在下一次会议结束后生效，若无击杀能力的玩家持有赝品会立刻走火自杀，若有击杀能力的玩家持有赝品将在他下次尝试击杀时走火自杀。
 
 # 中立阵营
 ArsonistInfoLong,(中立阵营):\n纵火犯可以通过对玩家点击击杀按钮并跟随其数秒来完成涂油，开始涂油以及涂油成功时会显示护盾破碎作为提示。当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。\n\n玩家名显示「△」表示涂油中\n玩家名显示「▲」表示已涂油,"(Neutrals):\nWhen you use the kill button, you douse your target in oil.\nAfter dousing all living players, you set everything ablaze and win by venting.","(Нейтрал):\nПоджигатель может обливать игроков, нажав на кнопку 'Убить' и находясь рядом с игроком в течение нескольких секунд. \nПосле того как он обольёт всех живых игроков Поджигатель сможет запрыгнуть в вентиляцию, чтобы поджечь всех игроков, что приводит к победе Поджигателя."
@@ -558,6 +561,8 @@ VeteranSkillDuration,老兵戒备状态持续时间,Skill duration,Продол�
 BodyguardProtectRadius,保镖保护范围,Protect Radius,Радиус Защиты
 ImpCanBeEgoist,内鬼可以成为利己主义者
 CrewCanBeEgoist,船员可以成为利己主义者
+CounterfeiterSkillCooldown,赝品商贩卖赝品冷却
+CounterfeiterSkillLimitTimes,赝品商贩卖赝品次数上限
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит

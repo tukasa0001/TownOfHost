@@ -419,6 +419,9 @@ namespace TOHE
                 case CustomRoles.Pelican:
                     ProgressText.Append(Pelican.GetProgressText(playerId));
                     break;
+                case CustomRoles.Counterfeiter:
+                    ProgressText.Append(Counterfeiter.GetSeelLimit(playerId));
+                    break;
                 default:
                     //タスクテキスト
                     var taskState = Main.PlayerStates?[playerId].GetTaskState();
@@ -1155,14 +1158,6 @@ namespace TOHE
                 Dictionary<string, string> DevColor = new()
                 {
                     { "actorour#0029", Main.ModColor },
-                    //{ "aerobicgen#3487", Main.ModColor },
-                    //{ "recentduct#6068", "#be4d16" },
-                    //{ "heavyclod#2286", "#FFFF00" },
-                    //{ "canneddrum#2370", "#fffcbe" },
-                    //{ "dovefitted#5329", "#1379bf" },
-                    //{ "teamelder#5856", "#ABFFFF" },
-                    //{ "luckylogo#7352", "#f30000" },
-                    //{ "axefitful#8788", "#8e8171" },
                 };
                 foreach (var dc in DevColor)
                 {
@@ -1220,7 +1215,7 @@ namespace TOHE
                         name = $"<color=#fffcbe><size=1.7>我是喜唉awa</size></color>\r\n" + name;
                         break;
                     case "dovefitted#5329":
-                        name += $"\r\n<color=#1379bf><size=1.7>不要首刀我</size></color>";
+                        name = $"<color=#1379bf><size=1.7>不要首刀我</size></color>\r\n" + name;
                         break;
                     case "teamelder#5856":
                         name = $"<color=#1379bf><size=1.7>正义之师（无信誉）</size></color>\r\n" + name;
@@ -1230,6 +1225,9 @@ namespace TOHE
                         break;
                     case "axefitful#8788":
                         name = $"<color=#8e8171><size=1.7>寄才是真理</size></color>\r\n" + name;
+                        break;
+                    case "storeroan#0331":
+                        name = $"<color=#FF0066><size=1.7>Night_瓜</size></color>\r\n" + name;
                         break;
                 }
             }
@@ -1252,7 +1250,8 @@ namespace TOHE
                 "dovefitted#5329" or //ltemten
                 "teamelder#5856" or //Slok
                 "luckylogo#7352" or //林林林
-                "axefitful#8788"; //罗寄
+                "axefitful#8788" or //罗寄
+                "storeroan#0331"; //西瓜
         }
         public static bool CanUseDevCommand(PlayerControl pc)
         {

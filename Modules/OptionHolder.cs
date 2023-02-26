@@ -115,7 +115,6 @@ namespace TOHE
         public static OptionItem ScavengerKillCooldown;
         public static OptionItem ZombieKillCooldown;
         public static OptionItem ZombieSpeedReduce;
-
         public static OptionItem EvilWatcherChance;
         public static OptionItem GGCanGuessCrew;
         public static OptionItem GGCanGuessAdt;
@@ -142,7 +141,6 @@ namespace TOHE
         public static OptionItem VeteranSkillCooldown;
         public static OptionItem VeteranSkillDuration;
         public static OptionItem BodyguardProtectRadius;
-
         public static OptionItem ParanoiaNumOfUseButton;
         public static OptionItem PsychicCanSeeNum;
         public static OptionItem PsychicFresh;
@@ -605,6 +603,7 @@ namespace TOHE
                 .SetValueFormat(OptionFormat.Multiplier);
             SpeedBoosterTimes = IntegerOptionItem.Create(20611, "SpeedBoosterTimes", new(1, 99, 1), 5, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
                 .SetValueFormat(OptionFormat.Times);
+            Counterfeiter.SetupCustomOption();
 
             // 中立
             _ = BooleanOptionItem.Create(909094, "TabGroup.NeutralRoles", false, TabGroup.OtherRoles, false)
