@@ -122,6 +122,9 @@ namespace TOHE
                         case CustomRoles.Pelican:
                             __instance.KillButton.OverrideText($"{GetString("PelicanButtonText")}");
                             break;
+                        case CustomRoles.Counterfeiter:
+                            __instance.KillButton.OverrideText($"{GetString("CounterfeiterButtonText")}");
+                            break;
                     }
 
                     //バウンティハンターのターゲットテキスト
