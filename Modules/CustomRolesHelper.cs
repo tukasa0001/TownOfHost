@@ -106,7 +106,8 @@ namespace TOHE
                 CustomRoles.Workhorse or
                 CustomRoles.Fool or
                 CustomRoles.Avanger or
-                CustomRoles.Youtuber;
+                CustomRoles.Youtuber or
+                CustomRoles.Egoist;
         }
         public static bool IsNK(this CustomRoles role) // 是否带刀中立
         {
@@ -124,7 +125,8 @@ namespace TOHE
                 CustomRoles.God or
                 CustomRoles.Mario or
                 CustomRoles.Innocent or
-                CustomRoles.Pelican;
+                CustomRoles.Pelican or
+                CustomRoles.Egoist;
         }
         public static bool IsCK(this CustomRoles role) // 是否带刀船员
         {
