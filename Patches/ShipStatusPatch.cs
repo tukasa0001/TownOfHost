@@ -135,7 +135,7 @@ namespace TownOfHost
             Logger.CurrentMethod();
             Logger.Info("-----------ゲーム開始-----------", "Phase");
 
-            Utils.CountAliveImpostors();
+            Utils.CountAlivePlayers(true);
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.StartMeeting))]

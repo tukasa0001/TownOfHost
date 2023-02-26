@@ -185,15 +185,11 @@ namespace TownOfHost
             {
                 reason = GameOverReason.ImpostorByKill;
 
-                int[] counts = CountLivingPlayersByPredicates(
-                    pc => pc.Is(CustomRoleTypes.Impostor), //インポスター
-                    pc => pc.Is(CustomRoles.Egoist), //エゴイスト
-                    pc => pc.Is(CustomRoles.Jackal), //ジャッカル
-                    pc => !pc.Is(CustomRoleTypes.Impostor) && !pc.Is(CustomRoles.Egoist) && !pc.Is(CustomRoles.Jackal) //その他
-                );
-                int Imp = counts[0], Ego = counts[1], Jackal = counts[2], Crew = counts[3];
+                int Imp = Utils.AlivePlayersCount(CountTypes.Impostor);
+                int Jackal = Utils.AlivePlayersCount(CountTypes.Jackal);
+                int Crew = Utils.AlivePlayersCount(CountTypes.Crew);
 
-                if (Imp + Ego == 0 && Crew == 0 && Jackal == 0) //全滅
+                if (Imp == 0 && Crew == 0 && Jackal == 0) //全滅
                 {
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.None);
@@ -203,19 +199,19 @@ namespace TownOfHost
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Lovers);
                 }
-                else if (Jackal == 0 && Crew <= Imp + Ego) //インポスター勝利
+                else if (Jackal == 0 && Crew <= Imp) //インポスター勝利
                 {
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
                 }
-                else if (Imp + Ego == 0 && Crew <= Jackal) //ジャッカル勝利
+                else if (Imp == 0 && Crew <= Jackal) //ジャッカル勝利
                 {
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jackal);
                     CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
                     CustomWinnerHolder.WinnerRoles.Add(CustomRoles.JSchrodingerCat);
                 }
-                else if (Jackal == 0 && Imp + Ego == 0) //クルー勝利
+                else if (Jackal == 0 && Imp == 0) //クルー勝利
                 {
                     reason = GameOverReason.HumansByVote;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
@@ -244,11 +240,8 @@ namespace TownOfHost
             {
                 reason = GameOverReason.ImpostorByKill;
 
-                int[] counts = CountLivingPlayersByPredicates(
-                    pc => pc.Is(CustomRoleTypes.Impostor), //インポスター
-                    pc => pc.Is(CustomRoleTypes.Crewmate) //クルー(Troll,Fox除く)
-                );
-                int Imp = counts[0], Crew = counts[1];
+                int Imp = Utils.AlivePlayersCount(CountTypes.Impostor);
+                int Crew = Utils.AlivePlayersCount(CountTypes.Crew);
 
 
                 if (Imp == 0 && Crew == 0) //全滅
@@ -279,21 +272,6 @@ namespace TownOfHost
         /// <params name="reason">バニラのゲーム終了処理に使用するGameOverReason</params>
         /// <returns>ゲーム終了の条件を満たしているかどうか</returns>
         public abstract bool CheckForEndGame(out GameOverReason reason);
-
-        /// <summary>各条件に合ったプレイヤーの人数を取得し、配列に同順で格納します。</summary>
-        public int[] CountLivingPlayersByPredicates(params Predicate<PlayerControl>[] predicates)
-        {
-            int[] counts = new int[predicates.Length];
-            foreach (var pc in Main.AllAlivePlayerControls)
-            {
-                for (int i = 0; i < predicates.Length; i++)
-                {
-                    if (predicates[i](pc)) counts[i]++;
-                }
-            }
-            return counts;
-        }
-
 
         /// <summary>GameData.TotalTasksとCompletedTasksをもとにタスク勝利が可能かを判定します。</summary>
         public virtual bool CheckGameEndByTask(out GameOverReason reason)
