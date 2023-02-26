@@ -797,6 +797,7 @@ namespace TOHE
                 if (role is CustomRoles.Oblivious && pc.Is(CustomRoles.Detective)) continue;
                 if (role is CustomRoles.Fool && (pc.GetCustomRole().IsImpostor() || pc.Is(CustomRoles.SabotageMaster))) continue;
                 if (role is CustomRoles.Avanger && pc.GetCustomRole().IsImpostor() && !Options.ImpCanBeAvanger.GetBool()) continue;
+                if (role is CustomRoles.Brakar && pc.Is(CustomRoles.Dictator)) continue;
                 allPlayers.Add(pc);
             }
             var rd = IRandom.Instance;
