@@ -131,7 +131,7 @@ namespace TOHE
         private static int Count = 0;
         public static void FixedUpdate()
         {
-            if (!GameStates.IsInGame)
+            if (!GameStates.IsInTask)
             {
                 eatenList.Clear();
                 return;
