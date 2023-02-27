@@ -171,12 +171,14 @@ namespace TOHE.Modules
             }
 
             // 投掷傻瓜蛋啦！！！！！
-            if (Main.GrenadierBlinding.Count >= 1)
+            if (
+                (Main.GrenadierBlinding.Count >= 1 &&
+                (player.GetCustomRole().IsImpostor() ||
+                (player.GetCustomRole().IsNeutral() && Options.GrenadierCanAffectNeutral.GetBool()))
+                ) || (
+                Main.MadGrenadierBlinding.Count >= 1 && !player.GetCustomRole().IsImpostorTeam())
+                )
             {
-                if (
-                    player.GetCustomRole().IsImpostor() ||
-                    (player.GetCustomRole().IsNeutral() && Options.GrenadierCanAffectNeutral.GetBool())
-                    )
                 {
                     opt.SetVision(false);
                     opt.SetFloat(FloatOptionNames.CrewLightMod, Options.GrenadierCauseVision.GetFloat());

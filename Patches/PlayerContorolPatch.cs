@@ -763,6 +763,15 @@ namespace TOHE
                         Utils.MarkEveryoneDirtySettings();
                         break;
                     }
+                    var mgbList = Main.MadGrenadierBlinding.Where(x => x.Value + Options.GrenadierSkillDuration.GetInt() < Utils.GetTimeStamp(DateTime.Now));
+                    foreach (var mgb in mgbList)
+                    {
+                        Main.MadGrenadierBlinding.Remove(mgb.Key);
+                        var pc = Utils.GetPlayerById(mgb.Key);
+                        if (pc != null && GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
+                        Utils.MarkEveryoneDirtySettings();
+                        break;
+                    }
                 }
 
                 //吹笛者的加速
@@ -1321,8 +1330,16 @@ namespace TOHE
             }
             if(pc.Is(CustomRoles.Grenadier))
             {
-                Main.GrenadierBlinding.Remove(pc.PlayerId);
-                Main.GrenadierBlinding.Add(pc.PlayerId, Utils.GetTimeStamp(DateTime.Now));
+                if (pc.Is(CustomRoles.Madmate))
+                {
+                    Main.MadGrenadierBlinding.Remove(pc.PlayerId);
+                    Main.MadGrenadierBlinding.Add(pc.PlayerId, Utils.GetTimeStamp(DateTime.Now));
+                }
+                else
+                {
+                    Main.GrenadierBlinding.Remove(pc.PlayerId);
+                    Main.GrenadierBlinding.Add(pc.PlayerId, Utils.GetTimeStamp(DateTime.Now));
+                }
                 new LateTask(() =>
                 {
                     if (GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);

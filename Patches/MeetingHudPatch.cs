@@ -497,6 +497,7 @@ namespace TOHE
             Main.GuesserGuessed.Clear();
             Main.VeteranInProtect.Clear();
             Main.GrenadierBlinding.Clear();
+            Main.MadGrenadierBlinding.Clear();
             Main.LastVotedPlayerInfo = null;
             NoticeSkill();
             foreach (var pc in PlayerControl.AllPlayerControls)
