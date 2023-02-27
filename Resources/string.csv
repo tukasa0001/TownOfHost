@@ -122,7 +122,7 @@ Avanger,复仇者,Avenger,Мститель
 Youtuber,UP主,YouTuber,Ютубер
 Egoist,利己主义者,Egoist,Эгоист
 Piper,吹笛者,Piper,Пайпер
-TicketsStealer,窃票者
+TicketsStealer,窃票者,Reaver,Похититель
 
 # 管理员
 GM,管理员,GM,GM (Призрак)
@@ -222,7 +222,7 @@ AvangerInfo,君子报仇，片刻不能缓！,Take someone to the next world bef
 YoutuberInfo,我的素材啊啊啊啊,Be the very first to be killed,Будьте убитым самым первым
 EgoistInfo,什么叫做一波三折？,Replace victory,Замените победу
 PiperInfo,嗯↗嗯↘嗯~~,Change the players speed,Измените скорость игроков
-TicketsStealerInfo,要懂得珍惜，死者最后的价值
+TicketsStealerInfo,要懂得珍惜，死者最后的价值,Steal player votes,Украдите голоса игроков
 
 # 管理员
 GMInfo,开局死的冤魂隔岸观火,You are the Game Master,Вы Мастер Игры
@@ -320,7 +320,7 @@ AvangerInfoLong,(附加职业)\n可以设定内鬼是否可以成为复仇者。
 YoutuberInfoLong,(附加职业)\n只有船员会成为UP主，UP主不会成为叛徒。当UP主是第一个在游戏中被击杀的玩家时，UP主会单独获得胜利，若UP主没有满足胜利条件，则UP主跟随船员阵营胜利。请注意：被放逐、被赌怪猜测等非直接击杀方式不会触发UP主的技能。,"(Add-ons):\nOnly Crewmate can become Youtubers. When a Youtuber becomes the first player to be killed in a game, they automatically win. If Youtuber does not meet the victory conditions, Youtuber will follow the team to victory. Please note: Ejected, Guessing, etc. do not activate Youtuber's skills","(Атрибут):\nТолько Члены Экипажа могут стать Ютубером. Когда Ютубер становится первым игроком, убитым в игре, то он автоматически побеждает. Если Ютубер не соответствует условиям победы, Ютубер последует за командой к победе. Пожалуйста, обратите внимание: Изгнание, Угадывание и т.д., не активируют навыки Ютубера"
 EgoistInfoLong,(附加职业)\n叛徒与中立阵营不会成为利己主义者。利己主义者会抢夺自己阵营的胜利。,"(Add-ons):\nImpostors and Neutrals cannot become Egoist. Egoist will steal the victory from his own team","(Атрибут):\nПредатели и нейтралы не могут стать эгоистами. Эгоист украдет победу у своей же собственной команды"
 PiperInfoLong,(附加职业)\n吹笛者会将自己附近的人的移动速度变得跟自己一样。（速度根据房主设定）,"(Add-ons):\nPiper will make the movement speed of players near him exactly the same as his own. (The speed depends on the settings of the Host)","(Атрибут):\nПайпер сделает скорость передвижения игроков рядом с ним точно такой же, как у него самого.(Скорость зависит от настроек Хоста)"
-TicketsStealerInfoLong,(附加职业)\n只有内鬼会成为窃票者。窃票者每次击杀一个人都会增加自己本局的票数（增加数量根据房主设定，小数向下取整）。此外，窃票者额外的票是隐藏的。
+TicketsStealerInfoLong,(附加职业)\n只有内鬼会成为窃票者。窃票者每次击杀一个人都会增加自己本局的票数（增加数量根据房主设定，小数向下取整）。此外，窃票者额外的票是隐藏的。,"(Add-ons):\nOnly a Impostors can become a Reaver. Each time the Reaver kills a player, it increases its own number of votes in the game (the increase in votes is set according to the number of votes, and the decimal is rounded down). In addition, additional Reaver voices are hidden","(Атрибут):\nТолько Предатель может стать Похитителем. Каждый раз, когда Похититель убивает игрока, он увеличивает свое собственное количество голосов в игре (увеличение голосов устанавливается в соответствии с количеством голосов, а десятичная дробь округляется в меньшую сторону). Кроме того, дополнительные голоса Похитителя скрыты."
 
 #模式选项
 NoGameEnd,测试模式,NoGameEnd,Игра Не Закончится
@@ -576,7 +576,7 @@ GrenadierSkillCooldown,掷雷兵使用闪光弹冷却时间,Skill cooldown,От�
 GrenadierSkillDuration,掷雷兵闪光弹状态持续时间,Skill duration,Продолжительность навыка
 GrenadierCauseVision,受闪光弹影响后的视野,Vision after activating the stun grenade,Поле зрение после активации светошумовой гранаты
 GrenadierCanAffectNeutral,中立阵营玩家会受到闪光弹影响,Neutrals can be hit by a stun grenade,Нейтралы могут быть поражены светошумовой гранатой
-TicketsPerKill,每次击杀增加票数
+TicketsPerKill,每次击杀增加票数,Increase in votes for kill,Увеличение голосов за убийство
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
