@@ -816,6 +816,7 @@ namespace TOHE
                 if (role is CustomRoles.Egoist && (pc.GetCustomRole().IsNeutral() || pc.Is(CustomRoles.Madmate))) continue;
                 if (role is CustomRoles.Egoist && pc.GetCustomRole().IsImpostor() && !Options.ImpCanBeEgoist.GetBool()) continue;
                 if (role is CustomRoles.Egoist && pc.GetCustomRole().IsCrewmate() && !Options.CrewCanBeEgoist.GetBool()) continue;
+                if (role is CustomRoles.TicketsStealer && !pc.GetCustomRole().IsImpostor()) continue;
                 allPlayers.Add(pc);
             }
             var rd = IRandom.Instance;

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using MS.Internal.Xml.XPath;
 using UnityEngine;
 
 namespace TOHE
@@ -132,6 +131,12 @@ namespace TOHE
         private static int Count = 0;
         public static void FixedUpdate()
         {
+            if (!GameStates.IsInTask)
+            {
+                eatenList.Clear();
+                return;
+            }
+
             if (!IsEnable) return; Count--; if (Count > 0) return; Count = 30;
 
             foreach (var pc in eatenList)

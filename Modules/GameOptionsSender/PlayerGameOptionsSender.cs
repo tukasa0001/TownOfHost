@@ -208,22 +208,6 @@ namespace TOHE.Modules
                         break;
                 }
             }
-
-            //吹笛者的加速
-            if (CustomRoles.Piper.IsEnable())
-            {
-                foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.Is(CustomRoles.Piper)))
-                {
-                    var pos = pc.transform.position;
-                    var dis = Vector2.Distance(pos, player.transform.position);
-
-                    if (!player.IsAlive() || Pelican.IsEaten(player.PlayerId)) continue;
-                    if (dis > Options.PiperAccelerationRadius.GetFloat()) continue;
-                    if (player.PlayerId == pc.PlayerId) continue;
-                    if (Main.AllPlayerSpeed[player.PlayerId] == Options.PiperAccelerationSpeed.GetFloat()) break;
-                    Main.AllPlayerSpeed[player.PlayerId] = Options.PiperAccelerationSpeed.GetFloat();
-                }
-            }
             
             if (Main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
             {

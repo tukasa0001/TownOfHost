@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
+using Sentry.Protocol;
 using TOHE.Modules;
 using UnityEngine;
 using static TOHE.Translator;
@@ -714,6 +715,7 @@ namespace TOHE
     {
         private static StringBuilder Mark = new(20);
         private static StringBuilder Suffix = new(120);
+        private static int BufferTime = 10;
         public static void Postfix(PlayerControl __instance)
         {
             var player = __instance;
@@ -737,29 +739,63 @@ namespace TOHE
                 }
 
                 //检查老兵技能是否失效
-                var vpList = Main.VeteranInProtect.Where(x => x.Value + Options.VeteranSkillDuration.GetInt() < Utils.GetTimeStamp(DateTime.Now));
-                foreach (var vp in vpList)
+                if (GameStates.IsInTask && CustomRoles.Veteran.IsEnable())
                 {
-                    Main.VeteranInProtect.Remove(vp.Key);
-                    var pc = Utils.GetPlayerById(vp.Key);
-                    if (pc != null && GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
-                    break;
+                    var vpList = Main.VeteranInProtect.Where(x => x.Value + Options.VeteranSkillDuration.GetInt() < Utils.GetTimeStamp(DateTime.Now));
+                    foreach (var vp in vpList)
+                    {
+                        Main.VeteranInProtect.Remove(vp.Key);
+                        var pc = Utils.GetPlayerById(vp.Key);
+                        if (pc != null && GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
+                        break;
+                    }
                 }
 
-                var gbList = Main.GrenadierBlinding.Where(x => x.Value + Options.GrenadierSkillDuration.GetInt() < Utils.GetTimeStamp(DateTime.Now));
-                foreach (var gb in gbList)
+                //检查掷雷兵技能是否生效
+                if (GameStates.IsInTask && CustomRoles.Grenadier.IsEnable())
                 {
-                    Main.GrenadierBlinding.Remove(gb.Key);
-                    var pc = Utils.GetPlayerById(gb.Key);
-                    if (pc != null && GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
-                    foreach (var apc in Main.AllPlayerControls)
-                        ExtendedPlayerControl.MarkDirtySettings(apc);
-                    break;
+                    var gbList = Main.GrenadierBlinding.Where(x => x.Value + Options.GrenadierSkillDuration.GetInt() < Utils.GetTimeStamp(DateTime.Now));
+                    foreach (var gb in gbList)
+                    {
+                        Main.GrenadierBlinding.Remove(gb.Key);
+                        var pc = Utils.GetPlayerById(gb.Key);
+                        if (pc != null && GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
+                        Utils.MarkEveryoneDirtySettings();
+                        break;
+                    }
                 }
 
+                //吹笛者的加速
+                if (GameStates.IsInTask && CustomRoles.Piper.IsEnable())
+                {
+                    BufferTime--;
+                    if (BufferTime <= 0)
+                    {
+                        BufferTime = 50;
+                        foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.Is(CustomRoles.Piper)))
+                        {
+                            foreach (var apc in Main.AllAlivePlayerControls.Where(x => x.PlayerId != pc.PlayerId))
+                            {
+                                var pos = pc.transform.position;
+                                var dis = Vector2.Distance(pos, apc.transform.position);
+                                bool acc = true;
 
+                                if (!apc.IsAlive() || Pelican.IsEaten(apc.PlayerId)) acc = false;
+                                if (dis > Options.PiperAccelerationRadius.GetFloat()) acc = false;
+                                if (acc && Main.AllPlayerSpeed[apc.PlayerId] == Options.PiperAccelerationSpeed.GetFloat()) break;
+                                if (acc) Main.AllPlayerSpeed[apc.PlayerId] = Options.PiperAccelerationSpeed.GetFloat();
+                                if (acc || (!acc && Main.AllPlayerSpeed[apc.PlayerId] == Options.PiperAccelerationSpeed.GetFloat()))
+                                {
+                                    ExtendedPlayerControl.MarkDirtySettings(apc);
+                                    Logger.Info($"{apc.GetRealName()} 因靠近吹笛者 {pc.GetRealName()} 速度被改变", "Piper Speed Boost");
+                                }
+                            }
+                        }
+                    }
+                }
 
-                if (CustomRoles.Mario.IsEnable())
+                //检查马里奥是否完成
+                if (GameStates.IsInTask && CustomRoles.Mario.IsEnable())
                 {
                     foreach(var pc in PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Mario)))
                     {
@@ -1305,11 +1341,10 @@ namespace TOHE
             {
                 Main.GrenadierBlinding.Remove(pc.PlayerId);
                 Main.GrenadierBlinding.Add(pc.PlayerId, Utils.GetTimeStamp(DateTime.Now));
-                foreach (var apc in Main.AllPlayerControls)
-                    ExtendedPlayerControl.MarkDirtySettings(apc);
                 new LateTask(() =>
                 {
                     if (GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
+                    Utils.MarkEveryoneDirtySettings();
                 }, 1.5f, "Grenadier Skill Notify");
             }
         }
@@ -1406,7 +1441,7 @@ namespace TOHE
                 taskState.CompletedTasksCount++;
                 GameData.Instance.RpcSetTasks(player.PlayerId, new byte[0]); //タスクを再配布
                 player.SyncSettings();
-                Utils.NotifyRoles();
+                Utils.NotifyRoles(player);
                 return false;
             }
 

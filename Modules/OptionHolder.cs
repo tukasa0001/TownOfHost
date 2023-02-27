@@ -585,6 +585,7 @@ namespace TOHE
             SetupAdtRoleOptions(6050440, CustomRoles.Fool, canSetNum: true);
             SetupAdtRoleOptions(6050450, CustomRoles.Avanger, canSetNum: true);
             ImpCanBeAvanger = BooleanOptionItem.Create(6050455, "ImpCanBeAvanger", false, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Avanger]);
+            SetupAdtRoleOptions(6051660, CustomRoles.TicketsStealer, canSetNum: true, tab: TabGroup.Addons);
 
             SetupAdtRoleOptions(6050390, CustomRoles.Madmate, canSetNum: true);
             LastImpostor.SetupCustomOption();
