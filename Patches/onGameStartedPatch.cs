@@ -67,6 +67,7 @@ namespace TOHE
                 Main.ParaUsedButtonCount = new Dictionary<byte, int>();
                 Main.MarioVentCount = new Dictionary<byte, int>();
                 Main.VeteranInProtect = new Dictionary<byte, long>();
+                Main.GrenadierBlinding = new Dictionary<byte, long>();
                 Main.targetArrows = new();
 
                 ReportDeadBodyPatch.CanReport = new();

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using AmongUs.GameOptions;
 using Hazel;
@@ -152,6 +153,10 @@ namespace TOHE.Modules
                     AURoleOptions.EngineerCooldown = Options.VeteranSkillCooldown.GetFloat();
                     AURoleOptions.EngineerInVentMaxTime = 1;
                     break;
+                case CustomRoles.Grenadier:
+                    AURoleOptions.EngineerCooldown = Options.GrenadierSkillCooldown.GetFloat();
+                    AURoleOptions.EngineerInVentMaxTime = 1;
+                    break;
 
                 InfinityVent:
                     AURoleOptions.EngineerCooldown = 0;
@@ -160,11 +165,25 @@ namespace TOHE.Modules
             }
 
             // 为迷惑者的凶手
-            if (PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Bewilder) && !x.IsAlive() && x.GetRealKiller() == player).Count() > 0)
+            if (PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Bewilder) && !x.IsAlive() && x.GetRealKiller().PlayerId == player.PlayerId).Count() > 0)
             {
                 opt.SetVision(false);
                 opt.SetFloat(FloatOptionNames.CrewLightMod, Options.BewilderVision.GetFloat());
                 opt.SetFloat(FloatOptionNames.ImpostorLightMod, Options.BewilderVision.GetFloat());
+            }
+
+            // 投掷傻瓜蛋啦！！！！！
+            if (Main.GrenadierBlinding.Count >= 1)
+            {
+                if (
+                    player.GetCustomRole().IsImpostor() ||
+                    (player.GetCustomRole().IsNeutral() && Options.GrenadierCanAffectNeutral.GetBool())
+                    )
+                {
+                    opt.SetVision(false);
+                    opt.SetFloat(FloatOptionNames.CrewLightMod, Options.GrenadierCauseVision.GetFloat());
+                    opt.SetFloat(FloatOptionNames.ImpostorLightMod, Options.GrenadierCauseVision.GetFloat());
+                }
             }
 
             foreach (var subRole in Main.PlayerStates[player.PlayerId].SubRoles)

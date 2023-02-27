@@ -149,6 +149,7 @@ namespace TOHE
         public static Dictionary<byte, int> ParaUsedButtonCount = new();
         public static Dictionary<byte, int> MarioVentCount = new();
         public static Dictionary<byte, long> VeteranInProtect = new();
+        public static Dictionary<byte, long> GrenadierBlinding = new();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static bool isCursed;
@@ -236,6 +237,7 @@ namespace TOHE
             HackerUsedCount = new Dictionary<byte, int>();
             ParaUsedButtonCount = new Dictionary<byte, int>();
             VeteranInProtect = new Dictionary<byte, long>();
+            GrenadierBlinding = new Dictionary<byte, long>();
             MarioVentCount = new Dictionary<byte, int>();
             MafiaRevenged = new Dictionary<byte, int>();
             GuesserGuessed = new Dictionary<byte, int>();
@@ -300,6 +302,7 @@ namespace TOHE
                     {CustomRoles.Veteran, "#a77738"},
                     {CustomRoles.Bodyguard, "#185abd"},
                     {CustomRoles.Counterfeiter, "#e0e0e0"},
+                    {CustomRoles.Grenadier, "#3c4a16"},
                     //第三陣営役職
                     {CustomRoles.Arsonist, "#ff6633"},
                     {CustomRoles.Jester, "#ec62a5"},
@@ -431,6 +434,7 @@ namespace TOHE
         Veteran,
         Bodyguard,
         Counterfeiter,
+        Grenadier,
         //Neutral
         Arsonist,
         Jester,

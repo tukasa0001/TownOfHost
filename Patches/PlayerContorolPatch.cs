@@ -746,12 +746,24 @@ namespace TOHE
                     break;
                 }
 
+                var gbList = Main.GrenadierBlinding.Where(x => x.Value + Options.GrenadierSkillDuration.GetInt() < Utils.GetTimeStamp(DateTime.Now));
+                foreach (var gb in gbList)
+                {
+                    Main.GrenadierBlinding.Remove(gb.Key);
+                    var pc = Utils.GetPlayerById(gb.Key);
+                    if (pc != null && GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
+                    foreach (var apc in Main.AllPlayerControls)
+                        ExtendedPlayerControl.MarkDirtySettings(apc);
+                    break;
+                }
+
                 if (CustomRoles.Mario.IsEnable())
                 {
                     foreach(var pc in PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Mario)))
                     {
                         if (Main.MarioVentCount[pc.PlayerId] > Options.MarioVentNumWin.GetInt())
                         {
+
                             Main.MarioVentCount[pc.PlayerId] = Options.MarioVentNumWin.GetInt();
                             CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Mario); //马里奥这个多动症赢了
                             CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
@@ -1268,6 +1280,17 @@ namespace TOHE
                 {
                     if (GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
                 }, 1.5f, "Veteran Skill Notify");
+            }
+            if(pc.Is(CustomRoles.Grenadier))
+            {
+                Main.GrenadierBlinding.Remove(pc.PlayerId);
+                Main.GrenadierBlinding.Add(pc.PlayerId, Utils.GetTimeStamp(DateTime.Now));
+                foreach (var apc in Main.AllPlayerControls)
+                    ExtendedPlayerControl.MarkDirtySettings(apc);
+                new LateTask(() =>
+                {
+                    if (GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
+                }, 1.5f, "Grenadier Skill Notify");
             }
         }
     }

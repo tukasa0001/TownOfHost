@@ -160,6 +160,10 @@ namespace TOHE
         public static OptionItem BomberRadius;
         public static OptionItem FlashWhenTrapBoobyTrap;
         public static OptionItem CapitalismSkillCooldown;
+        public static OptionItem GrenadierSkillCooldown;
+        public static OptionItem GrenadierSkillDuration;
+        public static OptionItem GrenadierCauseVision;
+        public static OptionItem GrenadierCanAffectNeutral;
 
         // タスク無効化
         public static OptionItem DisableTasks;
@@ -537,6 +541,14 @@ namespace TOHE
             SetupRoleOptions(8021515, TabGroup.CrewmateRoles, CustomRoles.Bodyguard);
             BodyguardProtectRadius = FloatOptionItem.Create(8021525, "BodyguardProtectRadius", new(0.5f, 5f, 0.5f), 1.5f, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Bodyguard])
                 .SetValueFormat(OptionFormat.Multiplier);
+            SetupRoleOptions(8021615, TabGroup.CrewmateRoles, CustomRoles.Grenadier);
+            GrenadierSkillCooldown = FloatOptionItem.Create(8021625, "GrenadierSkillCooldown", new(1f, 180f, 1f), 25f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Grenadier])
+                .SetValueFormat(OptionFormat.Seconds);
+            GrenadierSkillDuration = FloatOptionItem.Create(8021627, "GrenadierSkillDuration", new(5f, 990f, 1f), 10f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Grenadier])
+                .SetValueFormat(OptionFormat.Seconds);
+            GrenadierCauseVision = FloatOptionItem.Create(8021637, "GrenadierCauseVision", new(0f, 5f, 0.05f), 0.3f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Grenadier])
+                .SetValueFormat(OptionFormat.Multiplier);
+            GrenadierCanAffectNeutral = BooleanOptionItem.Create(8021647, "GrenadierCanAffectNeutral", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Grenadier]);
 
             // Neutral
             SetupRoleOptions(50500, TabGroup.NeutralRoles, CustomRoles.Arsonist);

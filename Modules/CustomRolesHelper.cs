@@ -60,6 +60,7 @@ namespace TOHE
                 CustomRoles.Veteran => CustomRoles.Engineer,
                 CustomRoles.Capitalism => CustomRoles.Impostor,
                 CustomRoles.Bodyguard => CustomRoles.Crewmate,
+                CustomRoles.Grenadier => CustomRoles.Engineer,
                 _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
         }

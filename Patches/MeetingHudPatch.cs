@@ -500,6 +500,7 @@ namespace TOHE
             MeetingStates.MeetingCalled = true;
             Main.GuesserGuessed.Clear();
             Main.VeteranInProtect.Clear();
+            Main.GrenadierBlinding.Clear();
             Main.LastVotedPlayerInfo = null;
             NoticeSkill();
             foreach (var pc in PlayerControl.AllPlayerControls)
