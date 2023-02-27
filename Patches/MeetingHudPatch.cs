@@ -402,7 +402,7 @@ namespace TOHE
                     }
                     if (CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.Mayor)) VoteNum += Options.MayorAdditionalVote.GetInt();
                     if (CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.TicketsStealer))
-                        VoteNum += PlayerControl.AllPlayerControls.ToArray().Where(x => x.GetRealKiller().PlayerId == ps.TargetPlayerId).Count();
+                        VoteNum += (int)(PlayerControl.AllPlayerControls.ToArray().Where(x => (x.GetRealKiller() == null ? -1 : x.GetRealKiller().PlayerId) == ps.TargetPlayerId).Count() * Options.TicketsPerKill.GetFloat());
                     //投票を1追加 キーが定義されていない場合は1で上書きして定義
                     dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out int num) ? VoteNum : num + VoteNum;
                 }

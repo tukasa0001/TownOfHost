@@ -336,7 +336,7 @@ namespace TOHE
                     {CustomRoles.Youtuber, "#fb749b"},
                     {CustomRoles.Egoist, "#5600ff"},
                     {CustomRoles.Piper, "#a3d7a8"},
-                    {CustomRoles.TicketsStealer, "#a00304"},
+                    {CustomRoles.TicketsStealer, "#ff1919"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
