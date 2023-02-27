@@ -140,6 +140,7 @@ namespace TOHE
         public static Dictionary<byte, int> CapitalismAssignTask = new();
         public static Dictionary<byte, bool> isMarkAndKill = new();
         public static Dictionary<(byte, byte), bool> isDoused = new();
+        public static Dictionary<(byte, byte), bool> isDraw = new();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
         /// <summary>
         /// Key: ターゲットのPlayerId, Value: パペッティアのPlayerId
@@ -315,6 +316,7 @@ namespace TOHE
                     {CustomRoles.Jackal, "#00b4eb"},
                     {CustomRoles.Innocent, "#8f815e"},
                     {CustomRoles.Pelican, "#34c84b"},
+                    {CustomRoles.Revolutionist, "#ba4d06"},
                     // GM
                     {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
@@ -447,6 +449,7 @@ namespace TOHE
         Jackal,
         Innocent,
         Pelican,
+        Revolutionist,
         //GM
         GM,
         // Sub-role after 500
@@ -483,6 +486,7 @@ namespace TOHE
         Lovers = CustomRoles.Lovers,
         Executioner = CustomRoles.Executioner,
         Arsonist = CustomRoles.Arsonist,
+        Revolutionist = CustomRoles.Revolutionist,
         Jackal = CustomRoles.Jackal,
         God = CustomRoles.God,
         Mario = CustomRoles.Mario,

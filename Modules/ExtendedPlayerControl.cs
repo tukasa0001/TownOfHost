@@ -369,6 +369,7 @@ namespace TOHE
                 CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
                 CustomRoles.Pelican => pc.IsAlive(),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
+                CustomRoles.Revolutionist => !pc.IsDouseDone(),
                 CustomRoles.ChivalrousExpert => pc.IsAlive(),
                 CustomRoles.Jackal => pc.IsAlive(),
                 CustomRoles.Bomber => false,
@@ -389,6 +390,7 @@ namespace TOHE
                 CustomRoles.ChivalrousExpert => false,
                 CustomRoles.Jackal => Jackal.CanVent.GetBool(),
                 CustomRoles.Arsonist => pc.IsDouseDone(),
+                CustomRoles.Revolutionist => pc.IsDouseDone(),
                 CustomRoles.Pelican => Pelican.CanVent.GetBool(),
                 _ => pc.Is(RoleType.Impostor),
             };
@@ -427,6 +429,9 @@ namespace TOHE
                     Mare.SetKillCooldown(player.PlayerId);
                     break;
                 case CustomRoles.Arsonist:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
+                    break;
+                case CustomRoles.Revolutionist:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
                     break;
                 case CustomRoles.Jackal:
@@ -483,6 +488,12 @@ namespace TOHE
         public static bool IsDouseDone(this PlayerControl player)
         {
             if (!player.Is(CustomRoles.Arsonist)) return false;
+            var count = Utils.GetDousedPlayerCount(player.PlayerId);
+            return count.Item1 == count.Item2;
+        }
+        public static bool IsDrawDone(this PlayerControl player)//判断是否拉拢
+        {
+            if (!player.Is(CustomRoles.Revolutionist)) return false;
             var count = Utils.GetDousedPlayerCount(player.PlayerId);
             return count.Item1 == count.Item2;
         }

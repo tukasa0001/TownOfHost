@@ -1010,6 +1010,8 @@ namespace TOHE
                         RealName = Utils.ColorString(target.GetRoleColor(), RealName); //名前の色を変更
                         if (target.Is(CustomRoles.Arsonist) && target.IsDouseDone())
                             RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), GetString("EnterVentToWin"));
+                                if (target.Is(CustomRoles.Revolutionist) && target.IsDouseDone())
+                            RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Revolutionist), GetString("EnterVentToWin"));
                         if (Pelican.IsEaten(target.PlayerId))
                             RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Pelican), GetString("EatenByPelican"));
                     }
@@ -1037,6 +1039,22 @@ namespace TOHE
                             Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>△</color>");
                         }
                     }
+
+                    if (seer.Is(CustomRoles.Revolutionist))
+                    {
+                        if (seer.IsDousedPlayer(target))
+                        {
+                            Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Revolutionist)}>▲</color>");
+                        }
+                        else if (
+                            Main.currentDousingTarget != 255 &&
+                            Main.currentDousingTarget == target.PlayerId
+                        )
+                        {
+                            Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Revolutionist)}>△</color>");
+                        }
+                    }
+
                     Mark.Append(Executioner.TargetMark(seer, target));
                     if (seer.Is(CustomRoles.Puppeteer))
                     {

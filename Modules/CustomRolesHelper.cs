@@ -88,6 +88,7 @@ namespace TOHE
                 CustomRoles.Innocent => RoleTypes.Impostor,
                 CustomRoles.Pelican => RoleTypes.Impostor,
                 CustomRoles.Counterfeiter => RoleTypes.Impostor,
+                CustomRoles.Revolutionist => RoleTypes.Impostor,
                 _ => RoleTypes.Scientist
             };
         }
@@ -182,7 +183,8 @@ namespace TOHE
                 CustomRoles.Jackal or
                 CustomRoles.God or
                 CustomRoles.Innocent or
-                CustomRoles.Pelican;
+                CustomRoles.Pelican or
+                CustomRoles.Revolutionist;
         }
         public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
         public static bool IsVanilla(this CustomRoles role) // 是否原版职业

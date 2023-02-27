@@ -838,6 +838,7 @@ RestTOHESetting,已恢复TOHE的默认设置,TOHE settings have been restored to
 HostKillSelfByCommand,房主选择自杀,Host lobby decided to commit suicide,Хост лобби решил покончить с собой
 SyncCustomSettingsRPC,已同步RPC,Synchronized RPC,Синхронизированный RPC
 TOHEVisitorCount,截至今日，TOHE已经被使用 <color={0}>{1}</color>次 啦~,To date TOHE has been used <color={0}>{1}</color> times~,На сегодняшний день TOHE использовался <color={0}>{1}</color> раз~
+RevolutionistDrawButtonText,拉拢
 
 ## 作弊
 Cheat.AUM,开挂（使用AUM）,Cheating usage detected (Used by AUM),Обнаружено использование читов (используется AUM)
@@ -863,3 +864,5 @@ GameOverReason.ImpostorByKill,内鬼人数占优,The Impostor killed everyone,П
 GameOverReason.ImpostorBySabotage,内鬼破坏了设施,Impostors sabotaged the facility,Предатели саботировали обьект
 GameOverReason.ImpostorByVote,船员被驱逐,The Crewmates was ejected,Члены Экипажа были изгнаны
 GameOverReason.ImpostorDisconnect,内鬼断线,Impostors disconnected,Предатели вышли из игры
+
+InnocentButtonText

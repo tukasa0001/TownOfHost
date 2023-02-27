@@ -694,6 +694,10 @@ namespace TOHE
                         if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
                             sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), "▲"));
                         break;
+                    case CustomRoles。Revolutionist:
+                        if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
+                            sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Revolutionist), "▲"));
+                        break;
                     case CustomRoles.Executioner:
                         sb.Append(Executioner.TargetMark(seer, target));
                         break;

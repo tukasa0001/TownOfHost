@@ -334,6 +334,7 @@ namespace TOHE
                 case CustomRoles.ChivalrousExpert:
                 case CustomRoles.Innocent:
                 case CustomRoles.Pelican:
+                case CustomRoles.Revolutionist:
                     hasTasks = false;
                     break;
                 case CustomRoles.Terrorist:
@@ -421,6 +422,10 @@ namespace TOHE
                     break;
                 case CustomRoles.Counterfeiter:
                     ProgressText.Append(Counterfeiter.GetSeelLimit(playerId));
+                    break;
+                case CustomRoles.Revolutionist:
+                    var draw = GetDousedPlayerCount(playerId);
+                    ProgressText.Append(ColorString(GetRoleColor(CustomRoles.Revolutionist).ShadeColor(0.25f), $"({draw.Item1}/{draw.Item2})"));
                     break;
                 default:
                     //タスクテキスト
@@ -990,6 +995,8 @@ namespace TOHE
                 string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
                 if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
                     SelfName = $"</size>\r\n{ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
+                if (seer.Is(CustomRoles.Revolutionist) && seer.IsDrawDone())
+                    SelfName = $"</size>\r\n{ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
                 if (Pelican.IsEaten(seer.PlayerId))
                     SelfName = $"</size>\r\n{ColorString(GetRoleColor(CustomRoles.Pelican), GetString("EatenByPelican"))}";
                 SelfName = SelfRoleName + "\r\n" + SelfName;
@@ -1051,6 +1058,17 @@ namespace TOHE
                             )
                             {
                                 TargetMark.Append($"<color={GetRoleColorCode(CustomRoles.Arsonist)}>△</color>");
+                            }
+                        }
+                        if (seer.Is(CustomRoles.Revolutionist))//seer是革命家时
+                        {
+                            if (seer.IsDousedPlayer(target)) //seer已完成拉拢船员
+                            {
+                                TargetMark.Append($"<color={GetRoleColorCode(CustomRoles.Revolutionist)}>●</color>");
+                            }
+                            if (Main.ArsonistTimer.TryGetValue(seer.PlayerId, out var ar_kvp) && ar_kvp.Item1 == target)//seer正在拉拢船员
+                            {
+                                TargetMark.Append($"<color={GetRoleColorCode(CustomRoles.Revolutionist)}>○</color>");
                             }
                         }
                         if (seer.Is(CustomRoles.Puppeteer) &&
