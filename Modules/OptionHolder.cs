@@ -480,6 +480,11 @@ namespace TOHE
             SetupRoleOptions(902135, TabGroup.ImpostorRoles, CustomRoles.Bomber);
             BomberRadius = FloatOptionItem.Create(902137, "BomberRadius", new(0.5f, 5f, 0.5f), 2f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Bomber])
                 .SetValueFormat(OptionFormat.Multiplier);
+            /*
+            SetupRoleOptions(903355, TabGroup.ImpostorRoles, CustomRoles.Gangster);
+            GangsterSkillMaximum = IntegerOptionItem.Create(903365, "GangsterSkillMaximum", new(1, 15, 1), 1, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gangster])
+                .SetValueFormat(OptionFormat.Times);
+            */
 
             // Crewmate
             SetupRoleOptions(102255, TabGroup.CrewmateRoles, CustomRoles.NiceGuesser);
@@ -703,6 +708,9 @@ namespace TOHE
 
             CheatResponses = StringOptionItem.Create(6090121, "CheatResponses", CheatResponsesName, 0, TabGroup.SystemSettings, false)
                 .SetHeader(true);
+
+            //HighLevelAntiCheat = StringOptionItem.Create(6090123, "HighLevelAntiCheat", CheatResponsesName, 0, TabGroup.SystemSettings, false)
+                //.SetHeader(true);
 
             AutoDisplayLastResult = BooleanOptionItem.Create(1_000_000, "AutoDisplayLastResult", true, TabGroup.SystemSettings, false)
                 .SetHeader(true)

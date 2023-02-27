@@ -79,7 +79,6 @@ namespace TOHE
             //资本主义要祸害人咯~
             if (Main.CapitalismAssignTask.ContainsKey(playerId))
             {
-                Logger.Test("Assign Task：" + Main.CapitalismAssignTask[playerId]);
                 NumShortTasks += Main.CapitalismAssignTask[playerId];
                 Main.CapitalismAssignTask.Remove(playerId);
             }

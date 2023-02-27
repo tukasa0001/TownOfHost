@@ -53,7 +53,7 @@ namespace TOHE
         public const string PluginGuid = "com.karped1em.townofhostedited";
         public const string PluginVersion = "2.0.2";
         public const int PluginCreate = 2;
-        public const bool Dev = true;
+        public const bool Dev = false;
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -410,6 +410,7 @@ namespace TOHE
         BoobyTrap,
         Scavenger,
         Capitalism,
+        Gangster,
         //Crewmate(Vanilla)
         Engineer,
         GuardianAngel,

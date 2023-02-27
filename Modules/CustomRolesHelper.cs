@@ -61,6 +61,7 @@ namespace TOHE
                 CustomRoles.Capitalism => CustomRoles.Impostor,
                 CustomRoles.Bodyguard => CustomRoles.Crewmate,
                 CustomRoles.Grenadier => CustomRoles.Engineer,
+                CustomRoles.Gangster => CustomRoles.Impostor,
                 _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
         }
@@ -168,7 +169,8 @@ namespace TOHE
                 CustomRoles.Bomber or
                 CustomRoles.Scavenger or
                 CustomRoles.BoobyTrap or
-                CustomRoles.Capitalism;
+                CustomRoles.Capitalism or
+                CustomRoles.Gangster;
         }
         public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role == CustomRoles.Madmate;
         public static bool IsNeutral(this CustomRoles role) // 是否中立

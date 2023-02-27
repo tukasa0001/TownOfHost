@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
-using Sentry.Protocol;
 using TOHE.Modules;
 using UnityEngine;
 using static TOHE.Translator;
@@ -81,8 +81,8 @@ namespace TOHE
             }
 
             float minTime = Mathf.Max(0.02f, AmongUsClient.Instance.Ping / 1000f * 6f); //※AmongUsClient.Instance.Pingの値はミリ秒(ms)なので÷1000
-            //TimeSinceLastKillに値が保存されていない || 保存されている時間がminTime以上 => キルを許可
-            //↓許可されない場合
+                                                                                        //TimeSinceLastKillに値が保存されていない || 保存されている時間がminTime以上 => キルを許可
+                                                                                        //↓許可されない場合
             if (TimeSinceLastKill.TryGetValue(killer.PlayerId, out var time) && time < minTime)
             {
                 Logger.Info("前回のキルからの時間が早すぎるため、キルをブロックしました。", "CheckMurder");
@@ -287,6 +287,7 @@ namespace TOHE
         }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
+
             if (target.AmOwner) RemoveDisableDevicesPatch.UpdateDisableDevices();
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost) return;
 
@@ -557,7 +558,7 @@ namespace TOHE
             {
                 if (Main.MarkedPlayers[shapeshifter.PlayerId] != null)//确认被标记的人
                 {
-                    if (shapeshifting && Main.MarkedPlayers[shapeshifter.PlayerId].IsAlive() &&  !Pelican.IsEaten(Main.MarkedPlayers[shapeshifter.PlayerId].PlayerId))//解除变形时不执行操作
+                    if (shapeshifting && Main.MarkedPlayers[shapeshifter.PlayerId].IsAlive() && !Pelican.IsEaten(Main.MarkedPlayers[shapeshifter.PlayerId].PlayerId))//解除变形时不执行操作
                     {
                         PlayerControl targetw = Main.MarkedPlayers[shapeshifter.PlayerId];
                         new LateTask(() =>
@@ -806,7 +807,7 @@ namespace TOHE
                 //检查马里奥是否完成
                 if (GameStates.IsInTask && CustomRoles.Mario.IsEnable())
                 {
-                    foreach(var pc in PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Mario)))
+                    foreach (var pc in PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Mario)))
                     {
                         if (Main.MarioVentCount[pc.PlayerId] > Options.MarioVentNumWin.GetInt())
                         {
@@ -1328,7 +1329,7 @@ namespace TOHE
                     if (GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
                 }, 1.5f, "Veteran Skill Notify");
             }
-            if(pc.Is(CustomRoles.Grenadier))
+            if (pc.Is(CustomRoles.Grenadier))
             {
                 if (pc.Is(CustomRoles.Madmate))
                 {
@@ -1433,7 +1434,6 @@ namespace TOHE
             //来自资本主义的任务
             if (Main.CapitalismAddTask.ContainsKey(player.PlayerId))
             {
-                Logger.Test("Add Task：" + Main.CapitalismAddTask[player.PlayerId]);
                 var taskState = player.GetPlayerTaskState();
                 taskState.AllTasksCount += Main.CapitalismAddTask[player.PlayerId];
                 Main.CapitalismAddTask.Remove(player.PlayerId);
