@@ -110,7 +110,8 @@ namespace TOHE
                 CustomRoles.Avanger or
                 CustomRoles.Youtuber or
                 CustomRoles.Egoist or
-                CustomRoles.Piper;
+                CustomRoles.Piper or
+                CustomRoles.TicketsStealer;
         }
         public static bool IsNK(this CustomRoles role) // 是否带刀中立
         {

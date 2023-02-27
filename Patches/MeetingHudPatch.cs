@@ -126,7 +126,7 @@ namespace TOHE
                         VoterId = ps.TargetPlayerId,
                         VotedForId = ps.VotedFor
                     });
-                    if (IsMayor(ps.TargetPlayerId) && !Options.MayorHideVote.GetBool())//Mayorの投票数
+                    if (CheckRole(ps.TargetPlayerId, CustomRoles.Mayor) && !Options.MayorHideVote.GetBool())//Mayorの投票数
                     {
                         for (var i2 = 0; i2 < Options.MayorAdditionalVote.GetFloat(); i2++)
                         {
@@ -332,16 +332,10 @@ namespace TOHE
             }, 11.5f, "Change Exiled Player Name Back");
 
         }
-
-        public static bool IsMayor(byte id)
+        public static bool CheckRole(byte id, CustomRoles role)
         {
             var player = Main.AllPlayerControls.Where(pc => pc.PlayerId == id).FirstOrDefault();
-            return player != null && player.Is(CustomRoles.Mayor);
-        }
-        public static bool IsBrakar(byte id)
-        {
-            var player = Main.AllPlayerControls.Where(pc => pc.PlayerId == id).FirstOrDefault();
-            return player != null && player.Is(CustomRoles.Brakar);
+            return player != null && player.Is(role);
         }
         public static void TryAddAfterMeetingDeathPlayers(byte playerId, PlayerState.DeathReason deathReason)
         {
@@ -402,11 +396,13 @@ namespace TOHE
                     if (target != null)
                     {
                         if (target.Is(CustomRoles.Zombie)) VoteNum = 0;
-                        if (CheckForEndVotingPatch.IsBrakar(ps.TargetPlayerId))
+                        if (CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.Brakar))
                             if (!Main.BrakarVoteFor.Contains(target.PlayerId))
                                 Main.BrakarVoteFor.Add(target.PlayerId);
                     }
-                    if (CheckForEndVotingPatch.IsMayor(ps.TargetPlayerId)) VoteNum += Options.MayorAdditionalVote.GetInt();
+                    if (CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.Mayor)) VoteNum += Options.MayorAdditionalVote.GetInt();
+                    if (CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.TicketsStealer))
+                        VoteNum += PlayerControl.AllPlayerControls.ToArray().Where(x => x.GetRealKiller().PlayerId == ps.TargetPlayerId).Count();
                     //投票を1追加 キーが定義されていない場合は1で上書きして定義
                     dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out int num) ? VoteNum : num + VoteNum;
                 }
