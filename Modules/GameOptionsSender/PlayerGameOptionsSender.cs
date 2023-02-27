@@ -65,8 +65,6 @@ namespace TOHE.Modules
             sender.player = null;
             AllSenders.Remove(sender);
         }
-
-        static int count = 0;
         public override IGameOptions BuildGameOptions()
         {
             if (Main.RealOptionsData == null)
@@ -211,13 +209,10 @@ namespace TOHE.Modules
             }
 
             //吹笛者的加速
-            count--;
-            if (CustomRoles.Piper.IsEnable() && count <= 0)
+            if (CustomRoles.Piper.IsEnable())
             {
-                count = 50;
                 foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.Is(CustomRoles.Piper)))
                 {
-                    
                     var pos = pc.transform.position;
                     var dis = Vector2.Distance(pos, player.transform.position);
 

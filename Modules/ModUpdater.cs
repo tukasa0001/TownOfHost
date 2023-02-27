@@ -135,8 +135,12 @@ namespace TOHE
                     Logger.Error("获取下载地址失败", "CheckRelease");
                     return Task.FromResult(false);
                 }
+
                 isChecked = true;
-                isBroken = false;
+
+                if (GetMD5HashFromFile("BepInEx/plugins/TOHE.dll") != MD5 && Main.Dev) isBroken = true;
+                else isBroken = false;
+
             }
             catch (Exception ex)
             {
