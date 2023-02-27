@@ -576,6 +576,7 @@ GrenadierSkillCooldown,掷雷兵使用闪光弹冷却时间,Skill cooldown,От�
 GrenadierSkillDuration,掷雷兵闪光弹状态持续时间,Skill duration,Продолжительность навыка
 GrenadierCauseVision,受闪光弹影响后的视野,Vision after activating the stun grenade,Поле зрение после активации светошумовой гранаты
 GrenadierCanAffectNeutral,中立阵营玩家会受到闪光弹影响,Neutrals can be hit by a stun grenade,Нейтралы могут быть поражены светошумовой гранатой
+TicketsPerKill,每次击杀增加票数
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
