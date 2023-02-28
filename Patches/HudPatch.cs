@@ -248,6 +248,7 @@ namespace TownOfHost
             if (!isActive) return;
 
             var player = PlayerControl.LocalPlayer;
+            if (player == null) return;
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Sheriff:
