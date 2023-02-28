@@ -243,6 +243,7 @@ namespace TownOfHost
         public static bool IsActive = false;
         public static void Postfix(HudManager __instance, [HarmonyArgument(2)] bool isActive)
         {
+            __instance.ReportButton.ToggleVisible(!GameStates.IsLobby && isActive);
             if (!GameStates.IsModHost) return;
             IsActive = isActive;
             if (!isActive) return;
