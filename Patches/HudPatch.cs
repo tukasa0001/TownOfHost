@@ -1,11 +1,8 @@
 using System;
-using AmongUs.GameOptions;
 using HarmonyLib;
-using UnhollowerBaseLib;
-using UnityEngine;
-
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
+using UnityEngine;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
