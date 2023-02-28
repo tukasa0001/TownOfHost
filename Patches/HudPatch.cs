@@ -104,6 +104,9 @@ namespace TOHE
                         case CustomRoles.Arsonist:
                             __instance.KillButton.OverrideText($"{GetString("ArsonistDouseButtonText")}");
                             break;
+                        case CustomRoles.Revolutionist:
+                            __instance.KillButton.OverrideText($"{GetString("RevolutionistDrawButtonText")}");
+                            break;
                         case CustomRoles.Puppeteer:
                             __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
                             break;
@@ -278,6 +281,7 @@ namespace TOHE
                 case CustomRoles.Arsonist:
                 case CustomRoles.Innocent:
                 case CustomRoles.Pelican:
+                case CustomRoles.Revolutionist:
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;

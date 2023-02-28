@@ -32,6 +32,7 @@ namespace TOHE
         RemoveExecutionerTarget,
         SendFireWorksState,
         SetCurrentDousingTarget,
+        SetCurrentDrawTarget,
         SetEvilTrackerTarget,
         SetRealKiller,
     }
@@ -279,6 +280,12 @@ namespace TOHE
                     byte dousingTargetId = reader.ReadByte();
                     if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
                         Main.currentDousingTarget = dousingTargetId;
+                    break;
+                case CustomRPC.SetCurrentDrawTarget:
+                    byte arsonistId1 = reader.ReadByte();
+                    byte doTargetId = reader.ReadByte();
+                    if (PlayerControl.LocalPlayer.PlayerId == arsonistId1)
+                        Main.currentDrawTarget = doTargetId;
                     break;
                 case CustomRPC.SetEvilTrackerTarget:
                     EvilTracker.ReceiveRPC(reader);
@@ -529,7 +536,22 @@ namespace TOHE
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
         }
+        public static void SetCurrentDrawTarget(byte arsonistId, byte targetId)
+        {
+            if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
+            {
+                Main.currentDrawTarget = targetId;
+            }
+            else
+            {
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCurrentDrawTarget, Hazel.SendOption.Reliable, -1);
+                writer.Write(arsonistId);
+                writer.Write(targetId);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+            }
+        }
         public static void ResetCurrentDousingTarget(byte arsonistId) => SetCurrentDousingTarget(arsonistId, 255);
+        public static void ResetCurrentDrawTarget(byte arsonistId) => SetCurrentDrawTarget(arsonistId, 255);
         public static void SetRealKiller(byte targetId, byte killerId)
         {
             var state = Main.PlayerStates[targetId];
