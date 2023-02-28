@@ -175,20 +175,16 @@ namespace TOHE
                         killer.RpcGuardAndKill(killer);
                         killer.SetKillCooldown();
                         return false;
-                    case CustomRoles.Pelican:
-                        if (Pelican.CanEat(killer, target.PlayerId))
-                        {
-                            Pelican.EatPlayer(killer, target);
-                            killer.RpcGuardAndKill(killer);
-                            killer.SetKillCooldown();
-                        }
-                        return false;
                     case CustomRoles.Counterfeiter:
                         if (Counterfeiter.CanBeClient(target) && Counterfeiter.CanSeel(killer.PlayerId))
                             Counterfeiter.SeelToClient(killer, target);
                         return false;
-
-                    //==========マッドメイト系役職==========//
+                    case CustomRoles.Bomber:
+                        return false;
+                    case CustomRoles.Gangster:
+                        if (Gangster.OnCheckMurder(killer,target))
+                            return false;
+                        break;
 
                     //==========第三陣営役職==========//
                     case CustomRoles.Arsonist:
@@ -200,11 +196,19 @@ namespace TOHE
                             RPC.SetCurrentDousingTarget(killer.PlayerId, target.PlayerId);
                         }
                         return false;
-
-                    //==========クルー役職==========//
                     case CustomRoles.Innocent:
                         target.RpcMurderPlayer(killer);
                         return false;
+                    case CustomRoles.Pelican:
+                        if (Pelican.CanEat(killer, target.PlayerId))
+                        {
+                            Pelican.EatPlayer(killer, target);
+                            killer.RpcGuardAndKill(killer);
+                            killer.SetKillCooldown();
+                        }
+                        return false;
+
+                    //==========クルー役職==========//
                     case CustomRoles.Sheriff:
                         if (!Sheriff.OnCheckMurder(killer, target))
                             return false;
@@ -213,8 +217,6 @@ namespace TOHE
                         if (!ChivalrousExpert.OnCheckMurder(killer))
                             return false;
                         break;
-                    case CustomRoles.Bomber:
-                        return false;
                 }
             }
 

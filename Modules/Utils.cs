@@ -371,6 +371,20 @@ namespace TOHE
 
             return hasTasks;
         }
+        public static bool CanBeMadmate(this PlayerControl pc)
+        {
+            if (pc == null || !pc.GetCustomRole().IsCrewmate() || pc.Is(CustomRoles.Madmate)) return false;
+            return !(
+                pc.Is(CustomRoles.Needy) ||
+                pc.Is(CustomRoles.Snitch) ||
+                pc.Is(CustomRoles.Sheriff) ||
+                pc.Is(CustomRoles.Mayor) ||
+                pc.Is(CustomRoles.CyberStar) ||
+                pc.Is(CustomRoles.NiceGuesser) ||
+                pc.Is(CustomRoles.Youtuber) ||
+                pc.Is(CustomRoles.Egoist)
+                );
+        }
         public static string GetProgressText(PlayerControl pc)
         {
             if (!Main.playerVersion.ContainsKey(0)) return ""; //ホストがMODを入れていなければ未記入を返す

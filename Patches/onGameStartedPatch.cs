@@ -151,6 +151,7 @@ namespace TOHE
                 Workhorse.Init();
                 Pelican.Init();
                 Counterfeiter.Init();
+                Gangster.Init();
                 CustomWinnerHolder.Reset();
                 AntiBlackout.Reset();
                 IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
@@ -619,6 +620,9 @@ namespace TOHE
                         case CustomRoles.Counterfeiter:
                             Counterfeiter.Add(pc.PlayerId);
                             break;
+                        case CustomRoles.Gangster:
+                            Gangster.Add(pc.PlayerId);
+                            break;
                     }
                     foreach (var subRole in pc.GetCustomSubRoles())
                     {
@@ -799,7 +803,7 @@ namespace TOHE
                 if ((role is CustomRoles.Madmate or CustomRoles.Lighter) && !pc.GetCustomRole().IsCrewmate()) continue;
                 if (role is CustomRoles.Bewilder && pc.GetCustomRole().IsImpostor()) continue;
                 if (role is CustomRoles.Ntr && pc.Is(CustomRoles.Lovers)) continue;
-                if (role is CustomRoles.Madmate && (!pc.GetCustomRole().IsCrewmate() || pc.Is(CustomRoles.Needy) || pc.Is(CustomRoles.Snitch) || pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Mayor) || pc.Is(CustomRoles.CyberStar) || pc.Is(CustomRoles.NiceGuesser) || pc.Is(CustomRoles.Youtuber) || pc.Is(CustomRoles.Egoist))) continue;
+                if (role is CustomRoles.Madmate && !Utils.CanBeMadmate(pc)) continue;
                 if (role is CustomRoles.Oblivious && pc.Is(CustomRoles.Detective)) continue;
                 if (role is CustomRoles.Fool && (pc.GetCustomRole().IsImpostor() || pc.Is(CustomRoles.SabotageMaster))) continue;
                 if (role is CustomRoles.Avanger && pc.GetCustomRole().IsImpostor() && !Options.ImpCanBeAvanger.GetBool()) continue;

@@ -480,11 +480,7 @@ namespace TOHE
             SetupRoleOptions(902135, TabGroup.ImpostorRoles, CustomRoles.Bomber);
             BomberRadius = FloatOptionItem.Create(902137, "BomberRadius", new(0.5f, 5f, 0.5f), 2f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Bomber])
                 .SetValueFormat(OptionFormat.Multiplier);
-            /*
-            SetupRoleOptions(903355, TabGroup.ImpostorRoles, CustomRoles.Gangster);
-            GangsterSkillMaximum = IntegerOptionItem.Create(903365, "GangsterSkillMaximum", new(1, 15, 1), 1, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gangster])
-                .SetValueFormat(OptionFormat.Times);
-            */
+            Gangster.SetupCustomOption();
 
             // Crewmate
             SetupRoleOptions(102255, TabGroup.CrewmateRoles, CustomRoles.NiceGuesser);

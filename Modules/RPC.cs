@@ -461,6 +461,9 @@ namespace TOHE
                 case CustomRoles.Counterfeiter:
                     Counterfeiter.Add(targetId);
                     break;
+                case CustomRoles.Gangster:
+                    Gangster.Add(targetId);
+                    break;
             }
             HudManager.Instance.SetHudActive(true);
             if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();

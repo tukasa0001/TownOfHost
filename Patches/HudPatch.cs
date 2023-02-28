@@ -125,6 +125,9 @@ namespace TOHE
                         case CustomRoles.Counterfeiter:
                             __instance.KillButton.OverrideText($"{GetString("CounterfeiterButtonText")}");
                             break;
+                        case CustomRoles.Gangster:
+                            Gangster.SetKillButtonText(player.PlayerId);
+                            break;
                     }
 
                     //バウンティハンターのターゲットテキスト
