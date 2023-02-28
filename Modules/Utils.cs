@@ -424,7 +424,7 @@ namespace TOHE
                     ProgressText.Append(Counterfeiter.GetSeelLimit(playerId));
                     break;
                 case CustomRoles.Revolutionist:
-                    var draw = GetDousedPlayerCount(playerId);
+                    var draw = GetDrawPlayerCount(playerId);
                     ProgressText.Append(ColorString(GetRoleColor(CustomRoles.Revolutionist).ShadeColor(0.25f), $"({draw.Item1}/{draw.Item2})"));
                     break;
                 default:
@@ -1062,11 +1062,11 @@ namespace TOHE
                         }
                         if (seer.Is(CustomRoles.Revolutionist))//seer是革命家时
                         {
-                            if (seer.IsDousedPlayer(target)) //seer已完成拉拢船员
+                            if (seer.IsDrawPlayer(target)) //seer已完成拉拢船员
                             {
                                 TargetMark.Append($"<color={GetRoleColorCode(CustomRoles.Revolutionist)}>●</color>");
                             }
-                            if (Main.ArsonistTimer.TryGetValue(seer.PlayerId, out var ar_kvp) && ar_kvp.Item1 == target)//seer正在拉拢船员
+                            if (Main.RevolutionistTimer.TryGetValue(seer.PlayerId, out var ar_kvp) && ar_kvp.Item1 == target)//seer正在拉拢船员
                             {
                                 TargetMark.Append($"<color={GetRoleColorCode(CustomRoles.Revolutionist)}>○</color>");
                             }
@@ -1379,8 +1379,22 @@ namespace TOHE
                     //塗れている場合
                     doused++;
             }
-
+            
             return (doused, all);
+        }
+
+        public static (int, int) GetDrawPlayerCount(byte playerId)
+        {
+            int draw = 0;
+            int all = Options.RevolutionistDrawCount.GetInt(); 
+            foreach (var pc in Main.AllPlayerControls)
+            {
+                if (Main.isDraw.TryGetValue((playerId, pc.PlayerId), out var isDraw) && isDraw)
+                {
+                    draw++;
+                }
+            }
+            return (draw, all);
         }
         public static string SummaryTexts(byte id, bool disableColor = true, bool check = false)
         {

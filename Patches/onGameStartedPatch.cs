@@ -33,6 +33,7 @@ namespace TOHE
                 Main.WarlockTimer = new Dictionary<byte, float>();
                 Main.AssassinTimer = new Dictionary<byte, float>();
                 Main.isDoused = new Dictionary<(byte, byte), bool>();
+                Main.isDraw = new Dictionary<(byte, byte), bool>();
                 Main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
                 Main.CursedPlayers = new Dictionary<byte, PlayerControl>();
                 Main.isMarkAndKill = new Dictionary<byte, bool>();
@@ -89,6 +90,7 @@ namespace TOHE
                 Main.LastNotifyNames = new();
 
                 Main.currentDousingTarget = 255;
+                Main.currentDrawTarget = 255;
                 Main.PlayerColors = new();
                 //名前の記録
                 Main.AllPlayerNames = new();
@@ -578,7 +580,7 @@ namespace TOHE
                             break;
                         case CustomRoles.Revolutionist:
                             foreach (var ar in Main.AllPlayerControls)
-                                Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
+                                Main.isDraw.Add((pc.PlayerId, ar.PlayerId), false);
                             break;
                         case CustomRoles.Executioner:
                             Executioner.Add(pc.PlayerId);

@@ -369,7 +369,7 @@ namespace TOHE
                 CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
                 CustomRoles.Pelican => pc.IsAlive(),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
-                CustomRoles.Revolutionist => !pc.IsDouseDone(),
+                CustomRoles.Revolutionist => !pc.IsDrawDone(),
                 CustomRoles.ChivalrousExpert => pc.IsAlive(),
                 CustomRoles.Jackal => pc.IsAlive(),
                 CustomRoles.Bomber => false,
@@ -390,7 +390,7 @@ namespace TOHE
                 CustomRoles.ChivalrousExpert => false,
                 CustomRoles.Jackal => Jackal.CanVent.GetBool(),
                 CustomRoles.Arsonist => pc.IsDouseDone(),
-                CustomRoles.Revolutionist => pc.IsDouseDone(),
+                CustomRoles.Revolutionist => pc.IsDrawDone(),
                 CustomRoles.Pelican => Pelican.CanVent.GetBool(),
                 _ => pc.Is(RoleType.Impostor),
             };
@@ -403,6 +403,15 @@ namespace TOHE
             Main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused);
             return isDoused;
         }
+        public static bool IsDrawPlayer(this PlayerControl arsonist, PlayerControl target)
+        {
+            if (arsonist == null) return false;
+            if (target == null) return false;
+            if (Main.isDraw == null) return false;
+            Main.isDraw.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDraw);
+            return isDraw;
+        }
+        
         public static void RpcSetDousedPlayer(this PlayerControl player, PlayerControl target, bool isDoused)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
@@ -432,7 +441,7 @@ namespace TOHE
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
                     break;
                 case CustomRoles.Revolutionist:
-                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.RevolutionistCooldown.GetFloat(); 
                     break;
                 case CustomRoles.Jackal:
                     Jackal.SetKillCooldown(player.PlayerId);
@@ -491,10 +500,10 @@ namespace TOHE
             var count = Utils.GetDousedPlayerCount(player.PlayerId);
             return count.Item1 == count.Item2;
         }
-        public static bool IsDrawDone(this PlayerControl player)//判断是否拉拢
+        public static bool IsDrawDone(this PlayerControl player)//判断是否拉拢完成
         {
             if (!player.Is(CustomRoles.Revolutionist)) return false;
-            var count = Utils.GetDousedPlayerCount(player.PlayerId);
+            var count = Utils.GetDrawPlayerCount(player.PlayerId);
             return count.Item1 == count.Item2;
         }
         public static void RpcExileV2(this PlayerControl player)
