@@ -615,7 +615,7 @@ namespace TOHE
                 "老兵" => "老兵",
                 "加班狂" or "加班" => "加班狂",
                 "復仇者" or "复仇" => "复仇者",
-                "鵜鶘"  => "鹈鹕",
+                "鵜鶘" => "鹈鹕",
                 "保鏢" => "保镖",
                 "up" or "up主" => "UP主",
                 "利己主義者" or "利己主义" or "利己" => "利己主义者",
@@ -697,7 +697,6 @@ namespace TOHE
                 { CustomRoles.Jackal, GetString("Jackal") },
                 { CustomRoles.Innocent, GetString("Innocent") },
                 { CustomRoles.Pelican, GetString("Pelican") },
-                { CustomRoles.Revolutionist, GetString("Revolutionist") },
                 //属性
                 { (CustomRoles)(-6), $"== {GetString("Addons")} ==" }, //区切り用
                 {CustomRoles.Lovers, GetString("Lovers") },

@@ -15,7 +15,7 @@ namespace TOHE
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, TabGroup.OtherRoles, CustomRoles.Counterfeiter);
-            CounterfeiterSkillCooldown = FloatOptionItem.Create(Id +10, "CounterfeiterSkillCooldown", new(2.5f, 900f, 2.5f), 20f, TabGroup.OtherRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Counterfeiter])
+            CounterfeiterSkillCooldown = FloatOptionItem.Create(Id + 10, "CounterfeiterSkillCooldown", new(2.5f, 900f, 2.5f), 20f, TabGroup.OtherRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Counterfeiter])
                 .SetValueFormat(OptionFormat.Seconds);
             CounterfeiterSkillLimitTimes = IntegerOptionItem.Create(Id + 11, "CounterfeiterSkillLimitTimes", new(1, 99, 1), 2, TabGroup.OtherRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Counterfeiter])
                 .SetValueFormat(OptionFormat.Times);

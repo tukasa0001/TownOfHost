@@ -1,10 +1,7 @@
-using System;
 using System.Linq;
 using AmongUs.GameOptions;
-using Hazel;
 using Il2CppSystem.Linq;
 using InnerNet;
-using UnityEngine;
 using Mathf = UnityEngine.Mathf;
 
 namespace TOHE.Modules
@@ -210,7 +207,7 @@ namespace TOHE.Modules
                         break;
                 }
             }
-            
+
             if (Main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
             {
                 foreach (var kc in Main.AllPlayerKillCooldown)

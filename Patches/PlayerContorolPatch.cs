@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 using AmongUs.GameOptions;
@@ -10,7 +9,6 @@ using Hazel;
 using TOHE.Modules;
 using UnityEngine;
 using static TOHE.Translator;
-using static UnityEngine.GraphicsBuffer;
 
 namespace TOHE
 {
@@ -183,7 +181,7 @@ namespace TOHE
                     case CustomRoles.Bomber:
                         return false;
                     case CustomRoles.Gangster:
-                        if (Gangster.OnCheckMurder(killer,target))
+                        if (Gangster.OnCheckMurder(killer, target))
                             return false;
                         break;
 
@@ -959,7 +957,7 @@ namespace TOHE
                             Utils.NotifyRoles();//更变名字
                             RPC.ResetCurrentDrawTarget(player.PlayerId);
                             var rd = IRandom.Instance;
-                            
+
                         }
                         else
                         {
@@ -1108,7 +1106,7 @@ namespace TOHE
                         RealName = Utils.ColorString(target.GetRoleColor(), RealName); //名前の色を変更
                         if (target.Is(CustomRoles.Arsonist) && target.IsDouseDone())
                             RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), GetString("EnterVentToWin"));
-                                if (target.Is(CustomRoles.Revolutionist) && target.IsDrawDone())
+                        if (target.Is(CustomRoles.Revolutionist) && target.IsDrawDone())
                             RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Revolutionist), GetString("EnterVentToWin"));
                         if (Pelican.IsEaten(target.PlayerId))
                             RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Pelican), GetString("EatenByPelican"));
@@ -1427,7 +1425,7 @@ namespace TOHE
         {
             if (AmongUsClient.Instance.AmHost)
             {
-                if (AmongUsClient.Instance.IsGameStarted &&__instance.myPlayer.IsDouseDone())
+                if (AmongUsClient.Instance.IsGameStarted && __instance.myPlayer.IsDouseDone())
                 {
                     foreach (var pc in Main.AllAlivePlayerControls)
                     {
@@ -1448,7 +1446,7 @@ namespace TOHE
                     return true;
                 }
 
-                if (AmongUsClient.Instance.IsGameStarted &&__instance.myPlayer.IsDrawDone())//完成拉拢任务的玩家跳管后
+                if (AmongUsClient.Instance.IsGameStarted && __instance.myPlayer.IsDrawDone())//完成拉拢任务的玩家跳管后
                 {
                     CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Revolutionist); //革命者胜利
                     CustomWinnerHolder.WinnerIds.Add(__instance.myPlayer.PlayerId);//胜利玩家

@@ -46,7 +46,7 @@ namespace TOHE
             RecruitLimit[killer.PlayerId]--;
             Logger.Info($"{killer.GetNameWithRole()} : 剩余{RecruitLimit[killer.PlayerId]}次招募机会", "Gangster");
 
-            if (RecruitLimit[killer.PlayerId] >=1 && Utils.CanBeMadmate(target))
+            if (RecruitLimit[killer.PlayerId] >= 1 && Utils.CanBeMadmate(target))
             {
                 Main.PlayerStates[target.PlayerId].SetSubRole(CustomRoles.Madmate);
                 Utils.NotifyRoles(target);

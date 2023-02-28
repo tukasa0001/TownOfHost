@@ -1393,14 +1393,14 @@ namespace TOHE
                     //塗れている場合
                     doused++;
             }
-            
+
             return (doused, all);
         }
 
         public static (int, int) GetDrawPlayerCount(byte playerId)
         {
             int draw = 0;
-            int all = Options.RevolutionistDrawCount.GetInt(); 
+            int all = Options.RevolutionistDrawCount.GetInt();
             foreach (var pc in Main.AllPlayerControls)
             {
                 if (Main.isDraw.TryGetValue((playerId, pc.PlayerId), out var isDraw) && isDraw)

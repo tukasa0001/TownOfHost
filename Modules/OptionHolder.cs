@@ -720,7 +720,7 @@ namespace TOHE
                 .SetHeader(true);
 
             //HighLevelAntiCheat = StringOptionItem.Create(6090123, "HighLevelAntiCheat", CheatResponsesName, 0, TabGroup.SystemSettings, false)
-                //.SetHeader(true);
+            //.SetHeader(true);
 
             AutoDisplayLastResult = BooleanOptionItem.Create(1_000_000, "AutoDisplayLastResult", true, TabGroup.SystemSettings, false)
                 .SetHeader(true)

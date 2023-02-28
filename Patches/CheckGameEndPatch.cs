@@ -232,7 +232,7 @@ namespace TOHE
                 );
                 int Imp = counts[0], Jackal = counts[1], Pel = counts[2], Crew = counts[3];
 
-                if (Imp == 0 && Crew == 0 && Jackal == 0 && Pel ==0) //全灭
+                if (Imp == 0 && Crew == 0 && Jackal == 0 && Pel == 0) //全灭
                 {
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.None);
@@ -259,7 +259,7 @@ namespace TOHE
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Pelican);
                     CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Pelican);
                 }
-                else if (Jackal == 0 && Pel == 0  && Imp == 0) //船员胜利
+                else if (Jackal == 0 && Pel == 0 && Imp == 0) //船员胜利
                 {
                     reason = GameOverReason.HumansByVote;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);

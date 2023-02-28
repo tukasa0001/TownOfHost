@@ -3,12 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using HarmonyLib;
-using MS.Internal.Xml.XPath;
-using Sentry.Internal.Extensions;
 using UnityEngine;
 using static TOHE.Translator;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.RemoteConfigSettingsHelper;
 
 namespace TOHE
 {
@@ -690,10 +686,6 @@ namespace TOHE
                     case CustomRoles.Arsonist:
                         if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
                             sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), "▲"));
-                        break;
-                    case CustomRoles.Revolutionist:
-                        if (seer.IsDrawPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
-                            sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Revolutionist), "●"));
                         break;
                     case CustomRoles.Executioner:
                         sb.Append(Executioner.TargetMark(seer, target));

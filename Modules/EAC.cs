@@ -18,7 +18,7 @@ namespace TOHE
                     if ((name.Contains("<size") || name.Contains("size>")) && name.Contains("?") && !name.Contains("color"))
                     {
                         Report(pc, "非法设置游戏名称");
-                        Logger.Fatal($"非法修改玩家【{pc.GetClientId()}:{pc.GetRealName()}】的游戏名称，已驳回","EAC");
+                        Logger.Fatal($"非法修改玩家【{pc.GetClientId()}:{pc.GetRealName()}】的游戏名称，已驳回", "EAC");
                         return true;
                     }
                     break;
@@ -145,7 +145,7 @@ namespace TOHE
             if (pc == null) return;
             string msg = $"{pc.GetClientId()}|{pc.FriendCode}|{pc.Data.PlayerName}|{reason}";
             Cloud.SendData(msg);
-            Logger.Fatal($"EAC报告：{pc.GetRealName()}: {reason}","EAC");
+            Logger.Fatal($"EAC报告：{pc.GetRealName()}: {reason}", "EAC");
         }
         public static bool CheckAUM(byte callId, ref string text)
         {

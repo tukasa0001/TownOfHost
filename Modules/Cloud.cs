@@ -64,7 +64,7 @@ namespace TOHE
         {
             if (EacClientSocket == null || !EacClientSocket.Connected)
             {
-                Logger.Warn("未连接至TOHE服务器，报告被取消","EAC");
+                Logger.Warn("未连接至TOHE服务器，报告被取消", "EAC");
                 return;
             }
             byte[] buffer = new byte[2048];
