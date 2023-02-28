@@ -75,7 +75,7 @@ namespace TownOfHost
                             SerialKiller.GetAbilityButtonText(__instance, player);
                             break;
                         case CustomRoles.Warlock:
-                            if (!Main.CheckShapeshift[player.PlayerId] && !Main.isCurseAndKill[player.PlayerId])
+                            if (!(Main.CheckShapeshift.TryGetValue(player.PlayerId, out bool shapeshifting) && shapeshifting) && !(Main.isCurseAndKill.TryGetValue(player.PlayerId, out bool curse) && curse))
                             {
                                 __instance.KillButton.OverrideText($"{GetString("WarlockCurseButtonText")}");
                             }
