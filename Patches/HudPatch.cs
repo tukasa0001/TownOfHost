@@ -237,11 +237,11 @@ namespace TownOfHost
             ((Renderer)__instance.myRend).material.SetColor("_AddColor", mainTarget ? color : Color.clear);
         }
     }
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive), new Type[] { typeof(PlayerControl), typeof(RoleBehaviour), typeof(bool) })]
     class SetHudActivePatch
     {
         public static bool IsActive = false;
-        public static void Postfix(HudManager __instance, [HarmonyArgument(0)] bool isActive)
+        public static void Postfix(HudManager __instance, [HarmonyArgument(2)] bool isActive)
         {
             if (!GameStates.IsModHost) return;
             IsActive = isActive;
