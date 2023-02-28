@@ -176,7 +176,7 @@ namespace TOHE.Modules
                 (player.GetCustomRole().IsImpostor() ||
                 (player.GetCustomRole().IsNeutral() && Options.GrenadierCanAffectNeutral.GetBool()))
                 ) || (
-                Main.MadGrenadierBlinding.Count >= 1 && !player.GetCustomRole().IsImpostorTeam())
+                Main.MadGrenadierBlinding.Count >= 1 && !player.GetCustomRole().IsImpostorTeam() && !player.Is(CustomRoles.Madmate))
                 )
             {
                 {
