@@ -53,7 +53,7 @@ namespace TOHE
         public const string PluginGuid = "com.karped1em.townofhostedited";
         public const string PluginVersion = "2.0.4";
         public const int PluginCreate = 3;
-        public const bool Dev = false;
+        public const bool Dev = true;
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;

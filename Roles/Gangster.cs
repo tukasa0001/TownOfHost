@@ -16,7 +16,7 @@ namespace TOHE
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Gangster);
             KillCooldown = FloatOptionItem.Create(Id + 10, "GangsterRecruitCooldown", new(2.5f, 180f, 2.5f), 20f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Gangster])
                 .SetValueFormat(OptionFormat.Seconds);
-            RecruitLimitOpt = IntegerOptionItem.Create(Id + 12, "GangsterRecruitLimit", new(1, 15, 1), 1, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Gangster])
+            RecruitLimitOpt = IntegerOptionItem.Create(Id + 12, "GangsterRecruitLimit", new(1, 15, 1), 2, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Gangster])
                 .SetValueFormat(OptionFormat.Times);
         }
         public static void Init()
@@ -43,11 +43,11 @@ namespace TOHE
         }
         public static bool OnCheckMurder(PlayerControl killer, PlayerControl target)
         {
-            RecruitLimit[killer.PlayerId]--;
-            Logger.Info($"{killer.GetNameWithRole()} : 剩余{RecruitLimit[killer.PlayerId]}次招募机会", "Gangster");
-
-            if (RecruitLimit[killer.PlayerId] >= 1 && Utils.CanBeMadmate(target))
+            SetKillCooldown(killer.PlayerId);
+            if (RecruitLimit[killer.PlayerId] < 1) return false;
+            if (Utils.CanBeMadmate(target))
             {
+                RecruitLimit[killer.PlayerId]--;
                 Main.PlayerStates[target.PlayerId].SetSubRole(CustomRoles.Madmate);
                 Utils.NotifyRoles(target);
                 Utils.NotifyRoles(killer);
@@ -56,13 +56,16 @@ namespace TOHE
                 target.RpcGuardAndKill(killer);
                 target.RpcGuardAndKill(target);
                 Logger.Info("役職設定:" + target?.Data?.PlayerName + " = " + target.GetCustomRole().ToString() + " + " + CustomRoles.Madmate.ToString(), "Assign " + CustomRoles.Madmate.ToString());
+                if (RecruitLimit[killer.PlayerId] < 0)
+                    HudManager.Instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
+                Logger.Info($"{killer.GetNameWithRole()} : 剩余{RecruitLimit[killer.PlayerId]}次招募机会", "Gangster");
                 return true;
             }
-            if (RecruitLimit[killer.PlayerId] < 1)
+            if (RecruitLimit[killer.PlayerId] < 0)
                 HudManager.Instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
-            SetKillCooldown(killer.PlayerId);
+            Logger.Info($"{killer.GetNameWithRole()} : 剩余{RecruitLimit[killer.PlayerId]}次招募机会", "Gangster");
             return false;
         }
-        public static string GetShotLimit(byte playerId) => Utils.ColorString(CanUseKillButton(playerId) ? Color.red : Color.gray, RecruitLimit.TryGetValue(playerId, out var recruitLimit) ? $"({recruitLimit})" : "Invalid");
+        public static string GetRecruitLimit(byte playerId) => Utils.ColorString(CanUseKillButton(playerId) ? Color.red : Color.gray, RecruitLimit.TryGetValue(playerId, out var recruitLimit) ? $"({recruitLimit})" : "Invalid");
     }
 }

@@ -441,6 +441,9 @@ namespace TOHE
                     var draw = GetDrawPlayerCount(playerId);
                     ProgressText.Append(ColorString(GetRoleColor(CustomRoles.Revolutionist).ShadeColor(0.25f), $"({draw.Item1}/{draw.Item2})"));
                     break;
+                case CustomRoles.Gangster:
+                    ProgressText.Append(Gangster.GetRecruitLimit(playerId));
+                    break;
                 default:
                     //タスクテキスト
                     var taskState = Main.PlayerStates?[playerId].GetTaskState();
