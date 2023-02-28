@@ -10,6 +10,7 @@ using Hazel;
 using TOHE.Modules;
 using UnityEngine;
 using static TOHE.Translator;
+using static UnityEngine.GraphicsBuffer;
 
 namespace TOHE
 {
@@ -670,6 +671,7 @@ namespace TOHE
             BountyHunter.OnReportDeadBody();
             SerialKiller.OnReportDeadBody();
             Main.ArsonistTimer.Clear();
+            Main.RevolutionistTimer.Clear();
 
             if (Options.SyncButtonMode.GetBool() && target == null)
             {
@@ -931,6 +933,54 @@ namespace TOHE
                         }
                     }
                 }
+
+                if (GameStates.IsInTask && Main.RevolutionistTimer.ContainsKey(player.PlayerId))//当革命家拉拢一个玩家时
+                {
+                    if (!player.IsAlive() || Pelican.IsEaten(player.PlayerId))
+                    {
+                        Main.RevolutionistTimer.Remove(player.PlayerId);
+                        Utils.NotifyRoles(SpecifySeer: __instance);
+                        RPC.ResetCurrentDrawTarget(player.PlayerId);
+                    }
+                    else
+                    {
+                        var ar_target = Main.RevolutionistTimer[player.PlayerId].Item1;//拉拢的人
+                        var ar_time = Main.RevolutionistTimer[player.PlayerId].Item2;//拉拢时间
+                        if (!ar_target.IsAlive())
+                        {
+                            Main.ArsonistTimer.Remove(player.PlayerId);
+                        }
+                        else if (ar_time >= Options.RevolutionistDrawTime.GetFloat())//在一起时间超过多久
+                        {
+                            player.SetKillCooldown();
+                            Main.RevolutionistTimer.Remove(player.PlayerId);//拉拢完成从字典中删除
+                            Main.isDraw[(player.PlayerId, ar_target.PlayerId)] = true;//完成拉拢
+                            player.RpcSetDousedPlayer(ar_target, true);
+                            Utils.NotifyRoles();//更变名字
+                            RPC.ResetCurrentDrawTarget(player.PlayerId);
+                            var rd = IRandom.Instance;
+                            
+                        }
+                        else
+                        {
+                            float dis;
+                            dis = Vector2.Distance(player.transform.position, ar_target.transform.position);//超出距离
+                            if (dis <= 1.75f)//在一定距离内则计算时间
+                            {
+                                Main.RevolutionistTimer[player.PlayerId] = (ar_target, ar_time + Time.fixedDeltaTime);
+                            }
+                            else//否则删除
+                            {
+                                Main.RevolutionistTimer.Remove(player.PlayerId);
+                                Utils.NotifyRoles(SpecifySeer: __instance);
+                                RPC.ResetCurrentDrawTarget(player.PlayerId);
+
+                                Logger.Info($"Canceled: {__instance.GetNameWithRole()}", "Revolutionist");
+                            }
+                        }
+                    }
+                }
+
                 if (GameStates.IsInTask && Main.PuppeteerList.ContainsKey(player.PlayerId))
                 {
                     if (!player.IsAlive() || Pelican.IsEaten(player.PlayerId))
@@ -1058,6 +1108,8 @@ namespace TOHE
                         RealName = Utils.ColorString(target.GetRoleColor(), RealName); //名前の色を変更
                         if (target.Is(CustomRoles.Arsonist) && target.IsDouseDone())
                             RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), GetString("EnterVentToWin"));
+                                if (target.Is(CustomRoles.Revolutionist) && target.IsDrawDone())
+                            RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Revolutionist), GetString("EnterVentToWin"));
                         if (Pelican.IsEaten(target.PlayerId))
                             RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Pelican), GetString("EatenByPelican"));
                     }
@@ -1085,6 +1137,22 @@ namespace TOHE
                             Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>△</color>");
                         }
                     }
+
+                    if (seer.Is(CustomRoles.Revolutionist))
+                    {
+                        if (seer.IsDrawPlayer(target))
+                        {
+                            Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Revolutionist)}>●</color>");
+                        }
+                        else if (
+                            Main.currentDrawTarget != 255 &&
+                            Main.currentDrawTarget == target.PlayerId
+                        )
+                        {
+                            Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Revolutionist)}>○</color>");
+                        }
+                    }
+
                     Mark.Append(Executioner.TargetMark(seer, target));
                     if (seer.Is(CustomRoles.Puppeteer))
                     {
@@ -1359,8 +1427,7 @@ namespace TOHE
         {
             if (AmongUsClient.Instance.AmHost)
             {
-                if (AmongUsClient.Instance.IsGameStarted &&
-                    __instance.myPlayer.IsDouseDone())
+                if (AmongUsClient.Instance.IsGameStarted &&__instance.myPlayer.IsDouseDone())
                 {
                     foreach (var pc in Main.AllAlivePlayerControls)
                     {
@@ -1378,6 +1445,13 @@ namespace TOHE
                     foreach (var pc in PlayerControl.AllPlayerControls) pc.KillFlash();
                     CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Arsonist); //焼殺で勝利した人も勝利させる
                     CustomWinnerHolder.WinnerIds.Add(__instance.myPlayer.PlayerId);
+                    return true;
+                }
+
+                if (AmongUsClient.Instance.IsGameStarted &&__instance.myPlayer.IsDrawDone())//完成拉拢任务的玩家跳管后
+                {
+                    CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Revolutionist); //革命者胜利
+                    CustomWinnerHolder.WinnerIds.Add(__instance.myPlayer.PlayerId);//胜利玩家
                     return true;
                 }
 

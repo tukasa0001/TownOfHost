@@ -51,6 +51,11 @@ namespace TOHE
                     if (pc.Object.IsDouseDone())
                         VentForTrigger = true;
                     break;
+
+                case CustomRoles.Revolutionist://跳管解锁
+                    if (pc.Object.IsDrawDone())
+                        VentForTrigger = true;
+                    break;
                 default:
                     if (pc.Role.Role == RoleTypes.Engineer) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue
                         canUse = couldUse = true;

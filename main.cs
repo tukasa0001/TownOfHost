@@ -140,7 +140,9 @@ namespace TOHE
         public static Dictionary<byte, int> CapitalismAssignTask = new();
         public static Dictionary<byte, bool> isMarkAndKill = new();
         public static Dictionary<(byte, byte), bool> isDoused = new();
+        public static Dictionary<(byte, byte), bool> isDraw = new();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
+        public static Dictionary<byte, (PlayerControl, float)> RevolutionistTimer = new();
         /// <summary>
         /// Key: ターゲットのPlayerId, Value: パペッティアのPlayerId
         /// </summary>
@@ -168,6 +170,7 @@ namespace TOHE
         public static int DiscussionTime;
         public static int VotingTime;
         public static byte currentDousingTarget;
+        public static byte currentDrawTarget;
         public static float DefaultCrewmateVision;
         public static float DefaultImpostorVision;
         public static bool IsInitialRelease = DateTime.Now.Month == 1 && DateTime.Now.Day is 17;
@@ -234,7 +237,9 @@ namespace TOHE
             MarkedPlayers = new Dictionary<byte, PlayerControl>();
             MafiaRevenged = new Dictionary<byte, int>();
             isDoused = new Dictionary<(byte, byte), bool>();
+            isDraw = new Dictionary<(byte, byte), bool>();
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
+            RevolutionistTimer = new Dictionary<byte, (PlayerControl, float)>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
             HackerUsedCount = new Dictionary<byte, int>();
             ParaUsedButtonCount = new Dictionary<byte, int>();
@@ -250,6 +255,7 @@ namespace TOHE
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte, string)>();
             currentDousingTarget = 255;
+            currentDrawTarget = 255;
 
             Preset1 = Config.Bind("Preset Name Options", "Preset1", "Preset_1");
             Preset2 = Config.Bind("Preset Name Options", "Preset2", "Preset_2");
@@ -317,6 +323,7 @@ namespace TOHE
                     {CustomRoles.Jackal, "#00b4eb"},
                     {CustomRoles.Innocent, "#8f815e"},
                     {CustomRoles.Pelican, "#34c84b"},
+                    {CustomRoles.Revolutionist, "#ba4d06"},
                     // GM
                     {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
@@ -451,6 +458,7 @@ namespace TOHE
         Jackal,
         Innocent,
         Pelican,
+        Revolutionist,
         //GM
         GM,
         // Sub-role after 500
@@ -488,6 +496,7 @@ namespace TOHE
         Lovers = CustomRoles.Lovers,
         Executioner = CustomRoles.Executioner,
         Arsonist = CustomRoles.Arsonist,
+        Revolutionist = CustomRoles.Revolutionist,
         Jackal = CustomRoles.Jackal,
         God = CustomRoles.God,
         Mario = CustomRoles.Mario,

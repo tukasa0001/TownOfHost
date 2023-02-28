@@ -61,6 +61,7 @@ namespace TOHE
 
             BountyHunter.ChangeTimer = new();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
+            Main.isDraw = new Dictionary<(byte, byte), bool>();
 
             NameColorManager.Instance.RpcReset();
             Main.VisibleTasksCount = false;

@@ -155,6 +155,7 @@ namespace TOHE
                     break;
 
                 case CustomRoles.Arsonist:
+                case CustomRoles.Revolutionist:
                 case CustomRoles.Innocent:
                 case CustomRoles.Mayor:
                 case CustomRoles.Paranoia:

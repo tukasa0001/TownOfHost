@@ -115,6 +115,7 @@ namespace TOHE.Modules
                 case CustomRoles.Minimalism:
                 case CustomRoles.Innocent:
                 case CustomRoles.Pelican:
+                case CustomRoles.Revolutionist:
                     opt.SetVision(false);
                     break;
                 case CustomRoles.Zombie:
