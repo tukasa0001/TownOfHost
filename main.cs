@@ -51,8 +51,8 @@ namespace TOHE
         public static readonly string BANNEDWORDS_FILE_PATH = "./TOHE_DATA/BanWords.txt";
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.karped1em.townofhostedited";
-        public const string PluginVersion = "2.0.2";
-        public const int PluginCreate = 2;
+        public const string PluginVersion = "2.0.4";
+        public const int PluginCreate = 3;
         public const bool Dev = false;
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
@@ -200,7 +200,7 @@ namespace TOHE
             TOHE.Logger.Enable();
             TOHE.Logger.Disable("NotifyRoles");
             TOHE.Logger.Disable("SendRPC");
-            TOHE.Logger.Disable("ReceiveRPC");
+            //TOHE.Logger.Disable("ReceiveRPC");
             TOHE.Logger.Disable("SwitchSystem");
             TOHE.Logger.Disable("CustomRpcSender");
             if (!DebugModeManager.AmDebugger)

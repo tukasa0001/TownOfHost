@@ -93,7 +93,7 @@ namespace TOHE
             else if (CheckCommond(ref msg, "shoot|guess|bet|st|gs|bt|猜|赌", false)) operate = 2;
             else return false;
 
-            if (pc.Data.IsDead)
+            if (!pc.IsAlive() || pc.Data.IsDead)
             {
                 Utils.SendMessage(GetString("GuessDead"), pc.PlayerId);
                 return true;

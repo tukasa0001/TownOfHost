@@ -46,18 +46,19 @@ namespace TOHE
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
         {
             var rpcType = (RpcCalls)callId;
-            Logger.Info($"{__instance?.Data?.PlayerId}({__instance?.Data?.PlayerName}):{callId}({RPC.GetRpcName(callId)})", "ReceiveRPC");
             MessageReader subReader = MessageReader.Get(reader);
+            if (EAC.Receive(__instance, callId, reader)) return false;
+            Logger.Info($"{__instance?.Data?.PlayerId}({__instance?.Data?.PlayerName}):{callId}({RPC.GetRpcName(callId)})", "ReceiveRPC");
             switch (rpcType)
             {
                 case RpcCalls.SetName: //SetNameRPC
                     string name = subReader.ReadString();
                     if (subReader.BytesRemaining > 0 && subReader.ReadBoolean()) return false;
-                    Logger.Info("修改昵称:" + __instance.GetNameWithRole() + " => " + name, "SetName");
+                    Logger.Info("名称修改:" + __instance.GetNameWithRole() + " => " + name, "SetName");
                     break;
                 case RpcCalls.SetRole: //SetNameRPC
                     var role = (RoleTypes)subReader.ReadUInt16();
-                    Logger.Info("设置职业:" + __instance.GetRealName() + " => " + role, "SetRole");
+                    Logger.Info("设置角色:" + __instance.GetRealName() + " => " + role, "SetRole");
                     break;
                 case RpcCalls.SendChat:
                     var text = subReader.ReadString();
@@ -80,8 +81,9 @@ namespace TOHE
                     {
                         if (Main.LastRPC[__instance.PlayerId] == byte.MaxValue) return false; //已处理
                         string text = "";
-                        if (Main.LastRPC[__instance.PlayerId] == callId && Cloud.CheckCheat(callId, ref text))
+                        if (Main.LastRPC[__instance.PlayerId] == callId && EAC.CheckAUM(callId, ref text))
                         {
+                            EAC.Report(__instance, "AUM");
                             switch (Options.CheatResponses.GetInt())
                             {
                                 case 0:

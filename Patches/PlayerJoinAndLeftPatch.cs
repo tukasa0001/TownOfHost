@@ -13,6 +13,7 @@ namespace TOHE
     {
         public static void Postfix(AmongUsClient __instance)
         {
+            Cloud.StartConnect();
             Main.existAntiAdminer = false;
             while (!Options.IsLoaded) System.Threading.Tasks.Task.Delay(1);
             Main.newLobby = true;
@@ -45,6 +46,7 @@ namespace TOHE
         public static void Prefix(InnerNetClient __instance, DisconnectReasons reason, string stringReason)
         {
             Logger.Info($"切断(理由:{reason}:{stringReason}, ping:{__instance.Ping})", "Session");
+            Cloud.StartConnect();
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
