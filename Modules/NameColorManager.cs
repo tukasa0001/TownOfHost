@@ -9,7 +9,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.IsGameStarted) return name;
 
-            if (!TryGetData(seer.PlayerId, target.PlayerId, out var colorCode))
+            if (!TryGetData(seer, target, out var colorCode))
             {
                 if (KnowTargetRoleColor(seer, target, isMeeting))
                     colorCode = target.GetRoleColorCode();
@@ -31,27 +31,23 @@ namespace TownOfHost
                 || (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoleTypes.Impostor))
                 || Mare.KnowTargetRoleColor(target, isMeeting);
         }
-        private static bool TryGetData(byte seerId, byte targetId, out string colorCode)
+        private static bool TryGetData(PlayerControl seer, PlayerControl target, out string colorCode)
         {
             colorCode = "";
-            var seer = Utils.GetPlayerById(seerId);
-            var target = Utils.GetPlayerById(targetId);
-            if (seer == null || target == null) return false;
-
-            var state = Main.PlayerStates[seerId];
-            if (!state.TargetColorData.TryGetValue(targetId, out var value)) return false;
+            var state = Main.PlayerStates[seer.PlayerId];
+            if (!state.TargetColorData.TryGetValue(target.PlayerId, out var value)) return false;
             colorCode = value;
             return true;
         }
 
         public static void Add(byte seerId, byte targetId, string colorCode = "")
         {
-            var seer = Utils.GetPlayerById(seerId);
-            var target = Utils.GetPlayerById(targetId);
-            if (seer == null || target == null) return;
-
             if (colorCode == "")
+            {
+                var target = Utils.GetPlayerById(targetId);
+                if (target == null) return;
                 colorCode = target.GetRoleColorCode();
+            }
 
             var state = Main.PlayerStates[seerId];
             if (state.TargetColorData.TryGetValue(targetId, out var value) && colorCode == value) return;
@@ -61,22 +57,14 @@ namespace TownOfHost
         }
         public static void Remove(byte seerId, byte targetId)
         {
-            var seer = Utils.GetPlayerById(seerId);
-            var target = Utils.GetPlayerById(targetId);
-            if (seer == null || target == null) return;
-
             var state = Main.PlayerStates[seerId];
             if (!state.TargetColorData.ContainsKey(targetId)) return;
             state.TargetColorData.Remove(targetId);
 
             SendRPC(seerId, targetId);
-
         }
         public static void RemoveAll(byte seerId)
         {
-            var seer = Utils.GetPlayerById(seerId);
-            if (seer == null) return;
-
             Main.PlayerStates[seerId].TargetColorData.Clear();
 
             SendRPC(seerId);
