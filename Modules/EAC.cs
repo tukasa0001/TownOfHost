@@ -37,7 +37,7 @@ namespace TOHE
                 case RpcCalls.StartMeeting:
                 case RpcCalls.ReportDeadBody:
                     var p = Utils.GetPlayerById(sr.ReadByte());
-                    if (GameStates.IsMeeting || GameStates.IsLobby)
+                    if (GameStates.IsMeeting)
                     {
                         Report(pc, "非法召集会议");
                         Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法召集会议：【{p?.GetNameWithRole() ?? "null"}】，已驳回", "EAC");
