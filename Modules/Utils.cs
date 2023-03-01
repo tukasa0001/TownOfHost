@@ -610,7 +610,7 @@ namespace TOHE
                 SendMessage(GetString("CantUse.lastresult"), PlayerId);
                 return;
             }
-            var text = "玩家信息:";
+            var text = $"{GetString("PlayerInfo")}:";
             List<byte> cloneRoles = new(Main.PlayerStates.Keys);
             foreach (var id in Main.winnerList)
             {
@@ -623,7 +623,7 @@ namespace TOHE
                 if (EndGamePatch.SummaryText[id].Contains("<INVALID:NotAssigned>")) continue;
                 text += $"\n　 " + EndGamePatch.SummaryText[id].RemoveHtmlTags();
             }
-            if (text == "玩家信息:") text = "";
+            if (text == $"{GetString("PlayerInfo")}:") text = "";
 
             string sumText = "";
             if (SetEverythingUpPatch.LastWinsText != "") sumText += GetString("LastResult") + ": " + $"{SetEverythingUpPatch.LastWinsText}";
@@ -633,7 +633,7 @@ namespace TOHE
             if (EndGamePatch.KillLog != "") SendMessage(EndGamePatch.KillLog, PlayerId);
             if (sumText != "") SendMessage(sumText, PlayerId);
 
-            if (text == "" && EndGamePatch.KillLog == "" && sumText == "") SendMessage("没有存在的上局信息", PlayerId);
+            if (text == "" && EndGamePatch.KillLog == "" && sumText == "") SendMessage(GetString("NoInfoExists"), PlayerId);
 
             if (IsUP(PlayerControl.LocalPlayer) && Options.EnableUpMode.GetBool()) SendMessage($"提示：该房间启用了【创作者素材保护计划】，房主可以指定自己的职业。\n该功能仅允许创作者用于获取视频素材，如遇滥用情况，请退出游戏或举报。\n当前创作者认证：{GetUpName(PlayerControl.LocalPlayer)}", PlayerId);
 

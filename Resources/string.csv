@@ -857,6 +857,8 @@ SyncCustomSettingsRPC,已同步RPC,Synchronized RPC,Синхронизирова
 TOHEVisitorCount,截至今日，TOHE已经被使用 <color={0}>{1}</color>次 啦~,To date TOHE has been used <color={0}>{1}</color> times~,На сегодняшний день TOHE использовался <color={0}>{1}</color> раз~
 Mode,模式
 Target,目标
+PlayerInfo,玩家信息
+NoInfoExists,没有存在的上局信息
 
 ## 作弊
 Cheat.AUM,开挂（使用AUM）,Cheating usage detected (Used by AUM),Обнаружено использование читов (используется AUM)
