@@ -53,7 +53,7 @@ namespace TOHE
 
             Utils.CountAliveImpostors();
 
-            if (SetHudActivePatch.IsActive)
+            if (GameStates.IsModHost && HudManager.Instance.isActiveAndEnabled)
             {
                 if (player.IsAlive())
                 {
@@ -266,7 +266,7 @@ namespace TOHE
             ((Renderer)__instance.myRend).material.SetColor("_AddColor", mainTarget ? color : Color.clear);
         }
     }
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive), new System.Type[]  {typeof(PlayerControl), typeof(RoleBehaviour), typeof(bool) })]
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive), new System.Type[]  { typeof(bool) })]
     class SetHudActivePatch
     {
         public static bool IsActive = false;
