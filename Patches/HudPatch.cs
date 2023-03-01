@@ -53,7 +53,7 @@ namespace TOHE
 
             Utils.CountAliveImpostors();
 
-            if (GameStates.IsModHost && HudManager.Instance.isActiveAndEnabled)
+            if (SetHudActivePatch.IsActive)
             {
                 if (player.IsAlive())
                 {
