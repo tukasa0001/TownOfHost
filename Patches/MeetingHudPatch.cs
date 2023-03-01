@@ -484,6 +484,7 @@ namespace TOHE
             ChatUpdatePatch.DoBlockChat = true;
             GameStates.AlreadyDied |= !Utils.IsAllAlive;
             Main.AllPlayerControls.Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
+            Utils.NotifyRoles(isMeeting: true, NoCache: true);
             MeetingStates.MeetingCalled = true;
             Main.GuesserGuessed.Clear();
             Main.VeteranInProtect.Clear();
@@ -754,8 +755,8 @@ namespace TOHE
                 {
                     var player = Utils.GetPlayerById(x.TargetPlayerId);
                     player.Data.IsDead = true;
-                    Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Execution;
                     player.RpcExileV2();
+                    Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Execution;
                     Main.PlayerStates[player.PlayerId].SetDead();
                     Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
                     Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
