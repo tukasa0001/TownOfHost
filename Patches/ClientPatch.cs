@@ -84,6 +84,7 @@ namespace TOHE
             __instance.BanButton.gameObject.SetActive(AmongUsClient.Instance.CanBan());
             __instance.KickButton.gameObject.SetActive(AmongUsClient.Instance.CanKick());
             __instance.MenuButton.gameObject.SetActive(show);
+            __instance.ReportButton.gameObject.SetActive(show);
             return false;
         }
     }
