@@ -151,11 +151,11 @@ namespace TOHE
                 var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.None);
                 sender.StartMessage(killer.GetClientId());
                 sender.StartRpc(killer.NetId, (byte)RpcCalls.ProtectPlayer)
-                    .WriteNetObject((InnerNetObject)target)
+                    .WriteNetObject(target)
                     .Write(colorId)
                     .EndRpc();
                 sender.StartRpc(killer.NetId, (byte)RpcCalls.MurderPlayer)
-                    .WriteNetObject((InnerNetObject)target)
+                    .WriteNetObject(target)
                     .EndRpc();
                 sender.EndMessage();
                 sender.SendMessage();
@@ -411,7 +411,7 @@ namespace TOHE
             Main.isDraw.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDraw);
             return isDraw;
         }
-        
+
         public static void RpcSetDousedPlayer(this PlayerControl player, PlayerControl target, bool isDoused)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
@@ -441,7 +441,7 @@ namespace TOHE
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
                     break;
                 case CustomRoles.Revolutionist:
-                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.RevolutionistCooldown.GetFloat(); 
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.RevolutionistCooldown.GetFloat();
                     break;
                 case CustomRoles.Jackal:
                     Jackal.SetKillCooldown(player.PlayerId);

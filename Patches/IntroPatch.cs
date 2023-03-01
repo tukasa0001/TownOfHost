@@ -210,7 +210,7 @@ namespace TOHE
             {
                 await Task.Delay(20);
                 milliseconds += 20;
-                float time = (float)milliseconds / (float)500;
+                float time = milliseconds / (float)500;
                 Color LerpingColor = Color.Lerp(start, end, time);
                 if (__instance == null || milliseconds > 500)
                 {

@@ -385,7 +385,7 @@ namespace TOHE
             {
                 PlayerVoteArea ps = __instance.playerStates[i];
                 if (ps == null) continue;
-                if (ps.VotedFor is not ((byte)252) and not byte.MaxValue and not ((byte)254))
+                if (ps.VotedFor is not 252 and not byte.MaxValue and not 254)
                 {
                     int VoteNum = 1;
                     var target = Utils.GetPlayerById(ps.VotedFor);

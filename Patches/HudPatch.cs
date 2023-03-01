@@ -251,7 +251,7 @@ namespace TOHE
 
             if (player.CanUseKillButton())
             {
-                ((Renderer)__instance.cosmetics.currentBodySprite.BodySprite).material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));
+                __instance.cosmetics.currentBodySprite.BodySprite.material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));
             }
         }
     }
@@ -262,11 +262,11 @@ namespace TOHE
         {
             var player = PlayerControl.LocalPlayer;
             Color color = PlayerControl.LocalPlayer.GetRoleColor();
-            ((Renderer)__instance.myRend).material.SetColor("_OutlineColor", color);
-            ((Renderer)__instance.myRend).material.SetColor("_AddColor", mainTarget ? color : Color.clear);
+            __instance.myRend.material.SetColor("_OutlineColor", color);
+            __instance.myRend.material.SetColor("_AddColor", mainTarget ? color : Color.clear);
         }
     }
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive), new System.Type[]  { typeof(bool) })]
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive), new System.Type[] { typeof(bool) })]
     class SetHudActivePatch
     {
         public static bool IsActive = false;

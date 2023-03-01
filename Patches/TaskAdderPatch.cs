@@ -76,7 +76,7 @@ namespace TOHE
                 {
                     var PlayerCustomRole = PlayerControl.LocalPlayer.GetCustomRole();
                     CustomRoles FileCustomRole = (CustomRoles)__instance.Role.Role - 1000;
-                    ((Renderer)__instance.Overlay).enabled = PlayerCustomRole == FileCustomRole;
+                    __instance.Overlay.enabled = PlayerCustomRole == FileCustomRole;
                 }
             }
             catch { }

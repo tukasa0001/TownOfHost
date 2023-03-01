@@ -44,7 +44,7 @@ namespace TOHE
 
             if (forced)
             {
-                ((TMPro.TMP_Text)__instance.ChanceText).text = "禁用概率";
+                __instance.ChanceText.text = "禁用概率";
             }
         }
     }
