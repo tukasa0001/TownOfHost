@@ -187,7 +187,7 @@ namespace TOHE.Roles.Impostor
         public static string GetTargetText(PlayerControl bounty, bool hud)
         {
             var targetId = GetTarget(bounty);
-            return targetId != 0xff ? $"{(hud ? GetString("BountyCurrentTarget") : "Target")}:{Main.AllPlayerNames[targetId]}" : "";
+            return targetId != 0xff ? $"{(hud ? GetString("BountyCurrentTarget") : GetString("Target"))}:{Main.AllPlayerNames[targetId]}" : "";
         }
         public static string GetTargetArrow(PlayerControl seer, PlayerControl target = null)
         {

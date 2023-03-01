@@ -31,7 +31,7 @@ namespace TOHE.Roles.Impostor
         public static void SetupCustomOption()
         {
             SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Witch);
-            ModeSwitchAction = StringOptionItem.Create(Id + 10, "WitchModeSwitchAction", SwitchTriggerText, 0, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Witch]);
+            ModeSwitchAction = StringOptionItem.Create(Id + 10, "WitchModeSwitchAction", SwitchTriggerText, 2, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Witch]);
         }
         public static void Init()
         {
@@ -216,7 +216,7 @@ namespace TOHE.Roles.Impostor
             }
             else
             {
-                str.Append("Mode:");
+                str.Append($"{GetString("Mode")}:");
             }
             if (NowSwitchTrigger == SwitchTrigger.DoubleTrigger)
             {
