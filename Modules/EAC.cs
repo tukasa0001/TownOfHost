@@ -59,7 +59,10 @@ namespace TOHE
                 case RpcCalls.SetColor:
                 case RpcCalls.CheckColor:
                     var color = sr.ReadByte();
-                    if (!GameStates.IsLobby || color == 18)
+                    var time = 0;
+                    foreach (var apc in PlayerControl.AllPlayerControls)
+                        if (apc.Data.DefaultOutfit.ColorId == color) time++;
+                    if (!GameStates.IsLobby || color == 18 || time >= 3)
                     {
                         Report(pc, "非法设置颜色");
                         Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法设置颜色，已驳回", "EAC");
