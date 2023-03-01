@@ -1,11 +1,9 @@
 
 .vs/
 bin/
+obj/
 Img Sources/
 
 FodyWeavers.xsd
 
-/obj
-/obj/project.assets.json
-/obj/TOHE.csproj.nuget.dgspec.json
 /.editorconfig
