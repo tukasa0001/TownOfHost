@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static TownOfHost.Translator;
 
-namespace TownOfHost
+using static TownOfHost.Translator;
+using static TownOfHost.Options;
+
+namespace TownOfHost.Roles.Impostor
 {
     public static class Vampire
     {
@@ -28,8 +30,8 @@ namespace TownOfHost
         static Dictionary<byte, BittenInfo> BittenPlayers = new();
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Vampire);
-            OptionKillDelay = FloatOptionItem.Create(Id + 10, "VampireKillDelay", new(1f, 1000f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Vampire])
+            SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Vampire);
+            OptionKillDelay = FloatOptionItem.Create(Id + 10, "VampireKillDelay", new(1f, 1000f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Vampire])
                 .SetValueFormat(OptionFormat.Seconds);
         }
         public static void Init()

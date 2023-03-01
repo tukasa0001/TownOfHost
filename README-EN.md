@@ -97,6 +97,7 @@ You can execute chat commands by typing in chat.
 | Command                     | Function                                |
 | --------------------------- | --------------------------------------- |
 | /lastresult<br>/l           | Show game result                        |
+| /killlog<br>/kl             | Show kill log                           |
 | /now<br>/n                  | Show active settings                    |
 | /now roles<br>/n r          | Show active roles settings              |
 | /help now<br>/help n        | Show active setting descriptions        |
@@ -211,12 +212,13 @@ Example:
 | [Mare](#Mare)                       | [Mayor](#Mayor)                   | [Jester](#Jester)                 |                               |           |
 | [Puppeteer](#Puppeteer)             | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |                               |           |
 | [SerialKiller](#SerialKiller)       | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |                               |           |
-| [Sniper](#Sniper)                   | [Seer](#Seer)                     | [SchrodingerCat](#SchrodingerCat) |                               |           |
-| [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               |                                   |                               |           |
-| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |                               |           |
-| [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |                               |           |
-| [Witch](#Witch)                     | [Beartrap](#Beartrap)             |                                   |                               |           |
-| [Mafia](#Mafia)                     | [TimeManager](#TimeManager)       |                                   |                               |           |
+| [ShapeMaster](#ShapeMaster)         | [Seer](#Seer)                     | [SchrodingerCat](#SchrodingerCat) |                               |           |
+| [Sniper](#Sniper)                   | [Sheriff](#Sheriff)               |                                   |                               |           |
+| [TimeThief](#TimeThief)             | [Snitch](#Snitch)                 |                                   |                               |           |
+| [Vampire](#Vampire)                 | [SpeedBooster](#SpeedBooster)     |                                   |                               |           |
+| [Warlock](#Warlock)                 | [Beartrap](#Beartrap)             |                                   |                               |           |
+| [Witch](#Witch)                     | [TimeManager](#TimeManager)       |                                   |                               |           |
+| [Mafia](#Mafia)                     |                                   |                                   |                               |           |
 | [Madmate](#Madmate)                 |                                   |                                   |                               |           |
 | [MadGuardian](#MadGuardian)         |                                   |                                   |                               |           |
 | [MadSnitch](#MadSnitch)             |                                   |                                   |                               |           |
@@ -1223,6 +1225,7 @@ More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire]
 Translate-Chinese : fivefirex, ZeMingOH233<br>
 OptionTab Icon Design by 花海.<br>
 Csv: Copyright (c) 2015 Steve Hansen [MIT License](https://raw.githubusercontent.com/stevehansen/csv/master/LICENSE)<br>
+Mersenne Twister: Copyright (c) 2015 vpmedia [MIT License](https://raw.githubusercontent.com//vpmedia/template-unity/master/LICENSE)<br>
 
 Translated with https://www.deepl.com<br>
 

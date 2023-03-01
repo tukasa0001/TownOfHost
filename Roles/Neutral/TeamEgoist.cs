@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TownOfHost
+namespace TownOfHost.Roles.Neutral
 {
     public static class TeamEgoist
     {
@@ -11,7 +11,7 @@ namespace TownOfHost
         {
             playerIdList.Add(teamEgo);
         }
-        public static bool CompleteWinCondition(byte id) => CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor && !Main.PlayerStates[id].IsDead && !Main.AllAlivePlayerControls.Any(p => p.Is(RoleType.Impostor));
+        public static bool CompleteWinCondition(byte id) => CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor && !Main.PlayerStates[id].IsDead && !Main.AllAlivePlayerControls.Any(p => p.Is(CustomRoleTypes.Impostor));
         public static void SoloWin(List<PlayerControl> winner)
         {
             if (CustomWinnerHolder.WinnerTeam == CustomWinner.Egoist && CustomRoles.Egoist.IsEnable()) //横取り勝利

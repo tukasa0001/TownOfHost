@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Hazel;
-using UnityEngine;
 
-namespace TownOfHost
+using static TownOfHost.Options;
+
+namespace TownOfHost.Roles.Crewmate
 {
     public static class TimeManager
     {
@@ -12,10 +12,10 @@ namespace TownOfHost
         public static OptionItem MeetingTimeLimit;
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.TimeManager);
-            IncreaseMeetingTime = IntegerOptionItem.Create(Id + 10, "TimeManagerIncreaseMeetingTime", new(5, 30, 1), 15, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeManager])
+            SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.TimeManager);
+            IncreaseMeetingTime = IntegerOptionItem.Create(Id + 10, "TimeManagerIncreaseMeetingTime", new(5, 30, 1), 15, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.TimeManager])
                 .SetValueFormat(OptionFormat.Seconds);
-            MeetingTimeLimit = IntegerOptionItem.Create(Id + 11, "TimeManagerLimitMeetingTime", new(200, 900, 10), 300, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.TimeManager])
+            MeetingTimeLimit = IntegerOptionItem.Create(Id + 11, "TimeManagerLimitMeetingTime", new(200, 900, 10), 300, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.TimeManager])
                 .SetValueFormat(OptionFormat.Seconds);
         }
         public static void Init()

@@ -5,8 +5,13 @@ using System.Text;
 using AmongUs.GameOptions;
 using Hazel;
 using InnerNet;
-using TownOfHost.Modules;
 using UnityEngine;
+
+using TownOfHost.Modules;
+using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.Crewmate;
+using TownOfHost.Roles.Neutral;
+using TownOfHost.Roles.AddOns.Impostor;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -17,7 +22,7 @@ namespace TownOfHost
         {
             if (role < CustomRoles.NotAssigned)
             {
-                Main.PlayerStates[player.PlayerId].MainRole = role;
+                Main.PlayerStates[player.PlayerId].SetMainRole(role);
             }
             else if (role >= CustomRoles.NotAssigned)   //500:NoSubRole 501~:SubRole
             {
@@ -87,6 +92,20 @@ namespace TownOfHost
                 return new() { CustomRoles.NotAssigned };
             }
             return Main.PlayerStates[player.PlayerId].SubRoles;
+        }
+        public static CountTypes GetCountTypes(this PlayerControl player)
+        {
+            if (player == null)
+            {
+                var caller = new System.Diagnostics.StackFrame(1, false);
+                var callerMethod = caller.GetMethod();
+                string callerMethodName = callerMethod.Name;
+                string callerClassName = callerMethod.DeclaringType.FullName;
+                Logger.Warn(callerClassName + "." + callerMethodName + "がCountTypesを取得しようとしましたが、対象がnullでした。", "GetCountTypes");
+                return CountTypes.None;
+            }
+
+            return Main.PlayerStates.TryGetValue(player.PlayerId, out var State) ? State.countTypes : CountTypes.None;
         }
         public static void RpcSetNameEx(this PlayerControl player, string name)
         {
@@ -369,7 +388,7 @@ namespace TownOfHost
                 CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
                 CustomRoles.Egoist or CustomRoles.Jackal => true,
-                _ => pc.Is(RoleType.Impostor),
+                _ => pc.Is(CustomRoleTypes.Impostor),
             };
         }
         public static bool CanUseImpostorVentButton(this PlayerControl pc)
@@ -382,7 +401,7 @@ namespace TownOfHost
                 CustomRoles.Egoist => true,
                 CustomRoles.Jackal => Jackal.CanVent.GetBool(),
                 CustomRoles.Arsonist => pc.IsDouseDone(),
-                _ => pc.Is(RoleType.Impostor),
+                _ => pc.Is(CustomRoleTypes.Impostor),
             };
         }
         public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
@@ -517,7 +536,7 @@ namespace TownOfHost
         }
         public static bool KnowDeathReason(this PlayerControl seer, PlayerControl target)
             => (seer.Is(CustomRoles.Doctor)
-            || (seer.Is(RoleType.Madmate) && Options.MadmateCanSeeDeathReason.GetBool())
+            || (seer.Is(CustomRoleTypes.Madmate) && Options.MadmateCanSeeDeathReason.GetBool())
             || (seer.Data.IsDead && Options.GhostCanSeeDeathReason.GetBool()))
             && target.Data.IsDead;
         public static string GetRoleInfo(this PlayerControl player, bool InfoLong = false)
@@ -582,8 +601,9 @@ namespace TownOfHost
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>
             role > CustomRoles.NotAssigned ? target.GetCustomSubRoles().Contains(role) : target.GetCustomRole() == role;
-        public static bool Is(this PlayerControl target, RoleType type) { return target.GetCustomRole().GetRoleType() == type; }
+        public static bool Is(this PlayerControl target, CustomRoleTypes type) { return target.GetCustomRole().GetCustomRoleTypes() == type; }
         public static bool Is(this PlayerControl target, RoleTypes type) { return target.GetCustomRole().GetRoleTypes() == type; }
+        public static bool Is(this PlayerControl target, CountTypes type) { return target.GetCountTypes() == type; }
         public static bool IsAlive(this PlayerControl target)
         {
             //ロビーなら生きている
