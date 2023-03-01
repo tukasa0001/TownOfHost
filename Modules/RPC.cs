@@ -27,9 +27,7 @@ namespace TownOfHost
         SetKillOrSpell,
         SetSheriffShotLimit,
         SetDousedPlayer,
-        AddNameColorData,
-        RemoveNameColorData,
-        ResetNameColorData,
+        SetNameColorData,
         DoSpell,
         SniperSync,
         SetLoversPlayers,
@@ -153,19 +151,8 @@ namespace TownOfHost
                     bool doused = reader.ReadBoolean();
                     Main.isDoused[(ArsonistId, DousedId)] = doused;
                     break;
-                case CustomRPC.AddNameColorData:
-                    byte addSeerId = reader.ReadByte();
-                    byte addTargetId = reader.ReadByte();
-                    string color = reader.ReadString();
-                    RPC.AddNameColorData(addSeerId, addTargetId, color);
-                    break;
-                case CustomRPC.RemoveNameColorData:
-                    byte removeSeerId = reader.ReadByte();
-                    byte removeTargetId = reader.ReadByte();
-                    RPC.RemoveNameColorData(removeSeerId, removeTargetId);
-                    break;
-                case CustomRPC.ResetNameColorData:
-                    RPC.ResetNameColorData();
+                case CustomRPC.SetNameColorData:
+                    NameColorManager.ReceiveRPC(reader);
                     break;
                 case CustomRPC.DoSpell:
                     Witch.ReceiveRPC(reader, true);
@@ -362,18 +349,6 @@ namespace TownOfHost
             }
             HudManager.Instance.SetHudActive(true);
             if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();
-        }
-        public static void AddNameColorData(byte seerId, byte targetId, string color)
-        {
-            NameColorManager.Instance.Add(seerId, targetId, color);
-        }
-        public static void RemoveNameColorData(byte seerId, byte targetId)
-        {
-            NameColorManager.Instance.Remove(seerId, targetId);
-        }
-        public static void ResetNameColorData()
-        {
-            NameColorManager.Begin();
         }
         public static void RpcDoSpell(byte targetId, byte killerId)
         {

@@ -18,6 +18,7 @@ namespace TownOfHost
         public bool IsBlackOut { get; set; }
         public (DateTime, byte) RealKiller;
         public PlainShipRoom LastRoom;
+        public Dictionary<byte, string> TargetColorData;
         public PlayerState(byte playerId)
         {
             MainRole = CustomRoles.NotAssigned;
@@ -30,6 +31,7 @@ namespace TownOfHost
             IsBlackOut = false;
             RealKiller = (DateTime.MinValue, byte.MaxValue);
             LastRoom = null;
+            TargetColorData = new();
         }
         public CustomRoles GetCustomRole()
         {

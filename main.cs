@@ -176,7 +176,6 @@ namespace TownOfHost
             LastKillCooldown = Config.Bind("Other", "LastKillCooldown", (float)30);
             LastShapeshifterCooldown = Config.Bind("Other", "LastShapeshifterCooldown", (float)30);
 
-            NameColorManager.Begin();
             CustomWinnerHolder.Reset();
             Translator.Init();
             BanManager.Init();
