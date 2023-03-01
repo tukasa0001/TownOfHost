@@ -3,7 +3,7 @@ using AmongUs.GameOptions;
 using Hazel;
 using static TOHE.Options;
 
-namespace TOHE
+namespace TOHE.Roles.Neutral
 {
     public static class Jackal
     {

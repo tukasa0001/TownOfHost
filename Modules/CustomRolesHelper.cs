@@ -200,11 +200,11 @@ namespace TOHE
                 CustomRoles.Impostor or
                 CustomRoles.Shapeshifter;
         }
-        public static RoleType GetRoleType(this CustomRoles role)
+        public static CustomRoleTypes GetCustomRoleTypes(this CustomRoles role)
         {
-            RoleType type = RoleType.Crewmate;
-            if (role.IsImpostor()) type = RoleType.Impostor;
-            if (role.IsNeutral()) type = RoleType.Neutral;
+            CustomRoleTypes type = CustomRoleTypes.Crewmate;
+            if (role.IsImpostor()) type = CustomRoleTypes.Impostor;
+            if (role.IsNeutral()) type = CustomRoleTypes.Neutral;
             return type;
         }
         public static bool RoleExist(this CustomRoles role, bool countDead = false)
@@ -258,13 +258,30 @@ namespace TOHE
             }
         }
         public static bool IsEnable(this CustomRoles role) => role.GetCount() > 0;
+        public static CountTypes GetCountTypes(this CustomRoles role)
+           => role switch
+           {
+               CustomRoles.GM => CountTypes.OutOfGame,
+               CustomRoles.Egoist => CountTypes.Impostor,
+               CustomRoles.Jackal => CountTypes.Jackal,
+               _ => role.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew,
+           };
 
         public static bool HasSubRole(this PlayerControl pc) => Main.PlayerStates[pc.PlayerId].SubRoles.Count > 0;
     }
-    public enum RoleType
+    public enum CustomRoleTypes
     {
         Crewmate,
         Impostor,
         Neutral
+    }
+    public enum CountTypes
+    {
+        OutOfGame,
+        None,
+        Crew,
+        Impostor,
+        Jackal,
+        Pelican,
     }
 }

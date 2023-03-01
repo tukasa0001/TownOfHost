@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using AmongUs.GameOptions;
 using Hazel;
 using TOHE.Modules;
+using TOHE.Roles.Neutral;
 
 namespace TOHE
 {

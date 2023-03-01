@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TOHE
+namespace TOHE.Roles.Crewmate
 {
     public static class TimeManager
     {

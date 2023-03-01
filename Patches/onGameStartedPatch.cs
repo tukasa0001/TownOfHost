@@ -5,6 +5,11 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using TOHE.Modules;
+using TOHE.Roles.AddOns.Crewmate;
+using TOHE.Roles.AddOns.Impostor;
+using TOHE.Roles.Crewmate;
+using TOHE.Roles.Impostor;
+using TOHE.Roles.Neutral;
 using static TOHE.Translator;
 
 namespace TOHE
@@ -70,7 +75,6 @@ namespace TOHE
                 Main.VeteranInProtect = new Dictionary<byte, long>();
                 Main.GrenadierBlinding = new Dictionary<byte, long>();
                 Main.MadGrenadierBlinding = new Dictionary<byte, long>();
-                Main.targetArrows = new();
 
                 ReportDeadBodyPatch.CanReport = new();
 
@@ -87,7 +91,6 @@ namespace TOHE
                 Main.DefaultCrewmateVision = Main.RealOptionsData.GetFloat(FloatOptionNames.CrewLightMod);
                 Main.DefaultImpostorVision = Main.RealOptionsData.GetFloat(FloatOptionNames.ImpostorLightMod);
 
-                NameColorManager.Instance.RpcReset();
                 Main.LastNotifyNames = new();
 
                 Main.currentDousingTarget = 255;
@@ -97,6 +100,15 @@ namespace TOHE
                 Main.AllPlayerNames = new();
 
                 Camouflage.Init();
+                var invalidColor = Main.AllPlayerControls.Where(p => p.Data.DefaultOutfit.ColorId < 0 || Palette.PlayerColors.Length <= p.Data.DefaultOutfit.ColorId);
+                if (invalidColor.Count() != 0)
+                {
+                    var msg = Translator.GetString("Error.InvalidColor");
+                    Logger.SendInGame(msg);
+                    msg += "\n" + string.Join(",", invalidColor.Select(p => $"{p.name}({p.Data.DefaultOutfit.ColorId})"));
+                    Utils.SendMessage(msg);
+                    Logger.Error(msg, "CoStartGame");
+                }
 
                 foreach (var target in Main.AllPlayerControls)
                 {
@@ -108,11 +120,12 @@ namespace TOHE
                 }
                 foreach (var pc in Main.AllPlayerControls)
                 {
-                    if (AmongUsClient.Instance.AmHost && Options.ColorNameMode.GetBool()) pc.RpcSetName(Palette.GetColorName(pc.Data.DefaultOutfit.ColorId));
+                    var colorId = pc.Data.DefaultOutfit.ColorId;
+                    if (AmongUsClient.Instance.AmHost && Options.ColorNameMode.GetBool()) pc.RpcSetName(Palette.GetColorName(colorId));
                     Main.PlayerStates[pc.PlayerId] = new(pc.PlayerId);
                     Main.AllPlayerNames[pc.PlayerId] = pc?.Data?.PlayerName;
 
-                    Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
+                    Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[colorId];
                     Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.GetFloat(FloatOptionNames.PlayerSpeedMod); //移動速度をデフォルトの移動速度に変更
                     ReportDeadBodyPatch.CanReport[pc.PlayerId] = true;
                     ReportDeadBodyPatch.WaitReport[pc.PlayerId] = new();
@@ -479,7 +492,7 @@ namespace TOHE
                             Logger.SendInGame(string.Format(GetString("Error.InvalidRoleAssignment"), pc?.Data?.PlayerName));
                             break;
                     }
-                    Main.PlayerStates[pc.PlayerId].MainRole = role;
+                    Main.PlayerStates[pc.PlayerId].SetMainRole(role);
                 }
 
                 // Dev Roles Check
@@ -667,12 +680,8 @@ namespace TOHE
 
                 // ResetCamが必要なプレイヤーのリストにクラス化が済んでいない役職のプレイヤーを追加
                 Main.ResetCamPlayerList.AddRange(Main.AllPlayerControls.Where(p => p.GetCustomRole() is CustomRoles.Arsonist).Select(p => p.PlayerId));
-                Utils.CountAliveImpostors();
-                Utils.SyncAllSettings();
-                SetColorPatch.IsAntiGlitchDisabled = false;
-
                 Main.ResetCamPlayerList.AddRange(Main.AllPlayerControls.Where(p => p.GetCustomRole() is CustomRoles.Revolutionist).Select(p => p.PlayerId));
-                Utils.CountAliveImpostors();
+                Utils.CountAlivePlayers(true);
                 Utils.SyncAllSettings();
                 SetColorPatch.IsAntiGlitchDisabled = false;
             }
@@ -703,7 +712,7 @@ namespace TOHE
                 foreach (var dr in Main.DevRole) { if (pid.Contains(dr.Key)) { if (dr.Value == role) { player.PlayerId = dr.Key; break; } else { while (player.PlayerId == dr.Key && AllPlayers.Count > 1) { player = AllPlayers[rd.Next(0, AllPlayers.Count)]; } } } }
                 Main.DevRole.Remove(player.PlayerId);
                 AllPlayers.Remove(player);
-                Main.PlayerStates[player.PlayerId].MainRole = role;
+                Main.PlayerStates[player.PlayerId].SetMainRole(role);
 
                 var selfRole = player.PlayerId == hostId ? hostBaseRole : BaseRole;
                 var othersRole = player.PlayerId == hostId ? RoleTypes.Crewmate : RoleTypes.Scientist;
@@ -763,7 +772,7 @@ namespace TOHE
                 foreach (var dr in Main.DevRole) { if (pid.Contains(dr.Key)) { if (dr.Value == role) { player.PlayerId = dr.Key; break; } else { while (player.PlayerId == dr.Key && players.Count > 1) { player = players[rd.Next(0, players.Count)]; } } } }
                 AssignedPlayers.Add(player);
                 players.Remove(player);
-                Main.PlayerStates[player.PlayerId].MainRole = role;
+                Main.PlayerStates[player.PlayerId].SetMainRole(role);
                 Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + role.ToString(), "AssignRoles");
             }
             SetColorPatch.IsAntiGlitchDisabled = false;

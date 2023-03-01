@@ -29,9 +29,9 @@ namespace TOHE
         // フォークID / ForkId (Default: OriginalTOH)
         public static readonly string ForkId = "TOHE";
         // Discordボタンを表示するか / Show Discord Button (Default: true)
-        public static readonly bool ShowDiscordButton = false;
+        public static readonly bool ShowDiscordButton = true;
         // Discordサーバーの招待リンク / Discord Server Invite URL (Default: https://discord.gg/W5ug6hXB9V)
-        public static readonly string DiscordInviteUrl = "https://discord.gg/W5ug6hXB9V";
+        public static readonly string DiscordInviteUrl = "https://jq.qq.com/?_wv=1027&k=2RpigaN6";
         // ==========
         public const string OriginalForkId = "OriginalTOH"; // Don't Change The Value. / この値を変更しないでください。
         // == 認証設定 / Authentication Config ==
@@ -268,7 +268,6 @@ namespace TOHE
             LastKillCooldown = Config.Bind("Other", "LastKillCooldown", (float)30);
             LastShapeshifterCooldown = Config.Bind("Other", "LastShapeshifterCooldown", (float)30);
 
-            NameColorManager.Begin();
             CustomWinnerHolder.Reset();
             Translator.Init();
             BanManager.Init();
@@ -349,9 +348,9 @@ namespace TOHE
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
-                    switch (role.GetRoleType())
+                    switch (role.GetCustomRoleTypes())
                     {
-                        case RoleType.Impostor:
+                        case CustomRoleTypes.Impostor:
                             roleColors.TryAdd(role, "#ff1919");
                             break;
                         default:

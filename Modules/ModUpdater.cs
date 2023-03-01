@@ -167,7 +167,7 @@ namespace TOHE
             try
             {
                 var fileName = Assembly.GetExecutingAssembly().Location;
-                if (fileName.Contains("TownOfHost.dll"))
+                if (fileName.Contains("TOHE.dll"))
                 {
                     var newFileName = Directory.GetParent(fileName).FullName + @"\TOHE.dll";
                     File.Move(fileName, newFileName);

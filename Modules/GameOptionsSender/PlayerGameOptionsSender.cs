@@ -2,6 +2,8 @@ using System.Linq;
 using AmongUs.GameOptions;
 using Il2CppSystem.Linq;
 using InnerNet;
+using TOHE.Roles.Impostor;
+using TOHE.Roles.Neutral;
 using Mathf = UnityEngine.Mathf;
 
 namespace TOHE.Modules
@@ -75,20 +77,22 @@ namespace TOHE.Modules
             opt.BlackOut(state.IsBlackOut);
 
             CustomRoles role = player.GetCustomRole();
-            RoleType roleType = role.GetRoleType();
-            switch (roleType)
+            CustomRoleTypes roleType = role.GetCustomRoleTypes();
+            switch (role.GetCustomRoleTypes())
             {
-                case RoleType.Impostor:
+                case CustomRoleTypes.Impostor:
                     AURoleOptions.ShapeshifterCooldown = Options.DefaultShapeshiftCooldown.GetFloat();
                     break;
             }
 
-            switch (player.GetCustomRole())
+            switch (role)
             {
                 case CustomRoles.Terrorist:
                 case CustomRoles.SabotageMaster:
                 case CustomRoles.Mario:
-                    goto InfinityVent;
+                    AURoleOptions.EngineerCooldown = 0;
+                    AURoleOptions.EngineerInVentMaxTime = 0;
+                    break;
                 case CustomRoles.ShapeMaster:
                     AURoleOptions.ShapeshifterCooldown = 0f;
                     AURoleOptions.ShapeshifterLeaveSkin = false;
@@ -153,11 +157,6 @@ namespace TOHE.Modules
                     AURoleOptions.EngineerCooldown = Options.GrenadierSkillCooldown.GetFloat();
                     AURoleOptions.EngineerInVentMaxTime = 1;
                     break;
-
-                InfinityVent:
-                    AURoleOptions.EngineerCooldown = 0;
-                    AURoleOptions.EngineerInVentMaxTime = 0;
-                    break;
             }
 
             // 为迷惑者的凶手
@@ -208,35 +207,21 @@ namespace TOHE.Modules
                 }
             }
 
-            if (Main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
+            if (Main.AllPlayerKillCooldown.TryGetValue(player.PlayerId, out var killCooldown))
             {
-                foreach (var kc in Main.AllPlayerKillCooldown)
-                {
-                    if (kc.Key == player.PlayerId)
-                    {
-                        opt.SetFloat(
-                            FloatOptionNames.KillCooldown,
-                            kc.Value > 0 ? kc.Value : 0.01f);
-                    }
-                }
+                AURoleOptions.KillCooldown = Mathf.Max(0f, killCooldown);
             }
-            if (Main.AllPlayerSpeed.ContainsKey(player.PlayerId))
+
+            if (Main.AllPlayerSpeed.TryGetValue(player.PlayerId, out var speed))
             {
-                foreach (var speed in Main.AllPlayerSpeed)
-                {
-                    if (speed.Key == player.PlayerId)
-                    {
-                        opt.SetFloat(
-                            FloatOptionNames.PlayerSpeedMod,
-                            Mathf.Clamp(speed.Value, Main.MinSpeed, 3f));
-                    }
-                }
+                AURoleOptions.PlayerSpeedMod = Mathf.Clamp(speed, Main.MinSpeed, 3f);
             }
+
             state.taskState.hasTasks = Utils.HasTasks(player.Data, false);
             if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead)
                 opt.SetBool(BoolOptionNames.AnonymousVotes, false);
             if (Options.AdditionalEmergencyCooldown.GetBool() &&
-                Options.AdditionalEmergencyCooldownThreshold.GetInt() <= Main.AllAlivePlayerControls.Count())
+                Options.AdditionalEmergencyCooldownThreshold.GetInt() <= Utils.AllAlivePlayersCount)
             {
                 opt.SetInt(
                     Int32OptionNames.EmergencyCooldown,
@@ -246,7 +231,6 @@ namespace TOHE.Modules
             {
                 opt.SetInt(Int32OptionNames.EmergencyCooldown, 3600);
             }
-
             MeetingTimeManager.ApplyGameOptions(opt);
 
             AURoleOptions.ShapeshifterCooldown = Mathf.Max(1f, AURoleOptions.ShapeshifterCooldown);

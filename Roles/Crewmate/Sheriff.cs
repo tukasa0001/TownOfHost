@@ -4,7 +4,7 @@ using System.Linq;
 using Hazel;
 using UnityEngine;
 
-namespace TOHE
+namespace TOHE.Roles.Crewmate
 {
     public static class Sheriff
     {
@@ -117,10 +117,10 @@ namespace TOHE
                     IsMadmate = KillTargetOptions.TryGetValue(CustomRoles.Madmate, out var option) && option.GetBool();//マッドメイト切れる設定だったらtrue
             }
 
-            return cRole.GetRoleType() switch
+            return cRole.GetCustomRoleTypes() switch
             {
-                RoleType.Impostor => true,
-                RoleType.Neutral => CanKillNeutrals.GetValue() == 0 || !KillTargetOptions.TryGetValue(cRole, out var option) || option.GetBool(),
+                CustomRoleTypes.Impostor => true,
+                CustomRoleTypes.Neutral => CanKillNeutrals.GetValue() == 0 || !KillTargetOptions.TryGetValue(cRole, out var option) || option.GetBool(),
                 _ => IsMadmate,//それでもない場合マッドが切れるand重複マッドか調べる
             };
         }

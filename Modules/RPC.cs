@@ -4,6 +4,11 @@ using System.Threading.Tasks;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
+using TOHE.Roles.AddOns.Crewmate;
+using TOHE.Roles.AddOns.Impostor;
+using TOHE.Roles.Crewmate;
+using TOHE.Roles.Impostor;
+using TOHE.Roles.Neutral;
 using static TOHE.Translator;
 
 namespace TOHE
@@ -22,9 +27,7 @@ namespace TOHE
         SetKillOrSpell,
         SetSheriffShotLimit,
         SetDousedPlayer,
-        AddNameColorData,
-        RemoveNameColorData,
-        ResetNameColorData,
+        SetNameColorData,
         DoSpell,
         SniperSync,
         SetLoversPlayers,
@@ -164,32 +167,8 @@ namespace TOHE
                     {
                         Version version = Version.Parse(reader.ReadString());
                         string tag = reader.ReadString();
-                        //string forkId = 4 <= version.Major ? reader.ReadString() : Main.OriginalForkId;
-                        string forkId = reader.ReadString();
+                        string forkId = 3 <= version.Major ? reader.ReadString() : Main.OriginalForkId;
                         Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag, forkId);
-                        if (tag != $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})")
-                        {
-                            if (AmongUsClient.Instance.AmHost)
-                            {
-                                if (Options.KickNonTOHEPlayer.GetBool())
-                                {
-                                    new LateTask(() =>
-                                    {
-                                        Logger.Warn($"{__instance?.Data?.PlayerName} 安装了与房主版本不同的模组，故将其踢出", "Version Kick");
-                                        Logger.SendInGame($"【{__instance?.Data?.PlayerName}】因安装了与房主版本不同的模组被踢出");
-                                        AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
-                                    }, 3f, "Kick");
-                                }
-                            }
-                            else
-                            {
-                                if (GameStates.IsLobby && __instance.PlayerId == 0)
-                                {
-                                    ErrorText.Instance.ModConflict = true;
-                                    ErrorText.Instance.AddError(ErrorCode.TestError1);
-                                }
-                            }
-                        }
                     }
                     catch
                     {
@@ -242,19 +221,8 @@ namespace TOHE
                     bool doused = reader.ReadBoolean();
                     Main.isDoused[(ArsonistId, DousedId)] = doused;
                     break;
-                case CustomRPC.AddNameColorData:
-                    byte addSeerId = reader.ReadByte();
-                    byte addTargetId = reader.ReadByte();
-                    string color = reader.ReadString();
-                    RPC.AddNameColorData(addSeerId, addTargetId, color);
-                    break;
-                case CustomRPC.RemoveNameColorData:
-                    byte removeSeerId = reader.ReadByte();
-                    byte removeTargetId = reader.ReadByte();
-                    RPC.RemoveNameColorData(removeSeerId, removeTargetId);
-                    break;
-                case CustomRPC.ResetNameColorData:
-                    RPC.ResetNameColorData();
+                case CustomRPC.SetNameColorData:
+                    NameColorManager.ReceiveRPC(reader);
                     break;
                 case CustomRPC.DoSpell:
                     Witch.ReceiveRPC(reader, true);
@@ -397,7 +365,7 @@ namespace TOHE
         {
             if (role < CustomRoles.NotAssigned)
             {
-                Main.PlayerStates[targetId].MainRole = role;
+                Main.PlayerStates[targetId].SetMainRole(role);
             }
             else if (role >= CustomRoles.NotAssigned)   //500:NoSubRole 501~:SubRole
             {
@@ -474,18 +442,6 @@ namespace TOHE
             }
             HudManager.Instance.SetHudActive(true);
             if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();
-        }
-        public static void AddNameColorData(byte seerId, byte targetId, string color)
-        {
-            NameColorManager.Instance.Add(seerId, targetId, color);
-        }
-        public static void RemoveNameColorData(byte seerId, byte targetId)
-        {
-            NameColorManager.Instance.Remove(seerId, targetId);
-        }
-        public static void ResetNameColorData()
-        {
-            NameColorManager.Begin();
         }
         public static void RpcDoSpell(byte targetId, byte killerId)
         {

@@ -28,7 +28,7 @@ namespace TOHE
             discordPassiveButton.OnClick = new();
             discordPassiveButton.OnClick.AddListener((Action)(() => Application.OpenURL(Main.DiscordInviteUrl)));
             discordPassiveButton.OnMouseOut.AddListener((Action)(() => discordButtonSprite.color = discordText.color = discordColor));
-            __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => discordText.SetText("Discord"))));
+            __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => discordText.SetText("QQ群"))));
             discordButtonSprite.color = discordText.color = discordColor;
             discordButton.gameObject.SetActive(Main.ShowDiscordButton);
 
@@ -52,7 +52,7 @@ namespace TOHE
             updateButtonSprite.color = updateText.color = updateColor;
             updateButtonSprite.size *= 1.5f;
             updateButton.SetActive(false);
-
+            /*
 #if RELEASE
             //フリープレイの無効化
             var freeplayButton = GameObject.Find("/MainUI/FreePlayButton");
@@ -63,6 +63,7 @@ namespace TOHE
                 __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => freeplayButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().SetText("QQ群"))));
             }
 #endif
+            */
         }
     }
 }

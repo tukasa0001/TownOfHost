@@ -55,7 +55,6 @@ namespace TOHE
 
                     Color IconColor = Color.white;
                     var roleColor = Utils.GetRoleColor(cRole);
-                    var RoleType = cRole.GetRoleType();
 
                     button.FileImage.color = roleColor;
                     button.RolloverHandler.OutColor = roleColor;

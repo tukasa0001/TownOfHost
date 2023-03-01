@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TOHE
+namespace TOHE.Roles.Crewmate
 {
     public static class ChivalrousExpert
     {

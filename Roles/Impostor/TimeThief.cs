@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TOHE
+namespace TOHE.Roles.Impostor
 {
     public static class TimeThief
     {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static TOHE.Options;
 
-namespace TOHE
+namespace TOHE.Roles.AddOns.Crewmate
 {
     public static class Workhorse
     {

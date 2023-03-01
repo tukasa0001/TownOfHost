@@ -1,4 +1,6 @@
 using HarmonyLib;
+using TOHE.Roles.Impostor;
+using TOHE.Roles.Neutral;
 using UnhollowerBaseLib;
 using UnityEngine;
 using static TOHE.Translator;
@@ -51,7 +53,7 @@ namespace TOHE
             //ゲーム中でなければ以下は実行されない
             if (!AmongUsClient.Instance.IsGameStarted) return;
 
-            Utils.CountAliveImpostors();
+            Utils.CountAlivePlayers();
 
             if (SetHudActivePatch.IsActive)
             {
@@ -73,7 +75,7 @@ namespace TOHE
                             SerialKiller.GetAbilityButtonText(__instance, player);
                             break;
                         case CustomRoles.Warlock:
-                            if (Main.CheckShapeshift.ContainsKey(player.PlayerId) && !Main.CheckShapeshift[player.PlayerId] && !Main.isCurseAndKill[player.PlayerId])
+                            if (!(Main.CheckShapeshift.TryGetValue(player.PlayerId, out bool shapeshifting) && shapeshifting) && !(Main.isCurseAndKill.TryGetValue(player.PlayerId, out bool curse) && curse))
                             {
                                 __instance.KillButton.OverrideText($"{GetString("WarlockCurseButtonText")}");
                             }
@@ -266,17 +268,19 @@ namespace TOHE
             __instance.myRend.material.SetColor("_AddColor", mainTarget ? color : Color.clear);
         }
     }
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive), new System.Type[] { typeof(bool) })]
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive), new System.Type[] { typeof(PlayerControl), typeof(RoleBehaviour), typeof(bool) })]
     class SetHudActivePatch
     {
         public static bool IsActive = false;
-        public static void Postfix(HudManager __instance, [HarmonyArgument(0)] bool isActive)
+        public static void Postfix(HudManager __instance, [HarmonyArgument(2)] bool isActive)
         {
+            __instance.ReportButton.ToggleVisible(!GameStates.IsLobby && isActive);
             if (!GameStates.IsModHost) return;
             IsActive = isActive;
             if (!isActive) return;
 
             var player = PlayerControl.LocalPlayer;
+            if (player == null) return;
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Sheriff:
@@ -311,7 +315,7 @@ namespace TOHE
             if (opts.Mode is MapOptions.Modes.Normal or MapOptions.Modes.Sabotage)
             {
                 var player = PlayerControl.LocalPlayer;
-                if (player.Is(RoleType.Impostor) || (player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
+                if (player.Is(CustomRoleTypes.Impostor) || (player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
                     opts.Mode = MapOptions.Modes.Sabotage;
                 else
                     opts.Mode = MapOptions.Modes.Normal;

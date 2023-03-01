@@ -1,4 +1,4 @@
-namespace TOHE
+namespace TOHE.Roles.AddOns.Impostor
 {
     public static class LastImpostor
     {
@@ -20,7 +20,7 @@ namespace TOHE
         }
         public static bool CanBeLastImpostor(PlayerControl pc)
         {
-            if (!pc.IsAlive() || pc.Is(CustomRoles.LastImpostor) || !pc.Is(RoleType.Impostor)) return false;
+            if (!pc.IsAlive() || pc.Is(CustomRoles.LastImpostor) || !pc.Is(CustomRoleTypes.Impostor)) return false;
             if (Main.AllPlayerKillCooldown[pc.PlayerId] <= KillCooldown.GetFloat()) return false;
             return pc.GetCustomRole()
             is not CustomRoles.Vampire

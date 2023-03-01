@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static TOHE.Translator;
 
-namespace TOHE
+namespace TOHE.Roles.Impostor
 {
     public static class SerialKiller
     {

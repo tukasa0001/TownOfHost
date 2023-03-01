@@ -98,10 +98,8 @@ namespace TOHE
             }
             else
             {
-                if (!HnSFlag && !ModConflict)
+                if (!HnSFlag)
                     text += $"{GetString($"ErrorLevel{maxLevel}")}";
-                if (ModConflict)
-                    text = "您与房主的模组不同或版本不同，这可能引起冲突";
                 Text.enabled = true;
             }
             if (GameStates.IsInGame && maxLevel != 3)
@@ -139,7 +137,6 @@ namespace TOHE
         }
 
         public bool HnSFlag;
-        public bool ModConflict;
     }
     public enum ErrorCode
     {

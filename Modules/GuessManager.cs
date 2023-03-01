@@ -3,6 +3,7 @@ using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Hazel;
+using TOHE.Roles.Neutral;
 using UnityEngine;
 using static TOHE.Translator;
 

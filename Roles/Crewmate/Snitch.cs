@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace TOHE
+using static TOHE.Options;
+
+namespace TOHE.Roles.Crewmate
 {
     public static class Snitch
     {
@@ -28,16 +30,16 @@ namespace TOHE
 
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.Snitch);
-            OptionEnableTargetArrow = BooleanOptionItem.Create(Id + 10, "SnitchEnableTargetArrow", false, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Snitch]);
+            SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.Snitch);
+            OptionEnableTargetArrow = BooleanOptionItem.Create(Id + 10, "SnitchEnableTargetArrow", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
             OptionCanGetColoredArrow = BooleanOptionItem.Create(Id + 11, "SnitchCanGetArrowColor", false, TabGroup.CrewmateRoles, false).SetParent(OptionEnableTargetArrow);
-            OptionCanFindNeutralKiller = BooleanOptionItem.Create(Id + 12, "SnitchCanFindNeutralKiller", false, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Snitch]);
-            OptionRemainingTasks = IntegerOptionItem.Create(Id + 13, "SnitchRemainingTaskFound", new(0, 10, 1), 1, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Snitch]);
-            Options.OverrideTasksData.Create(Id + 20, TabGroup.CrewmateRoles, CustomRoles.Snitch);
+            OptionCanFindNeutralKiller = BooleanOptionItem.Create(Id + 12, "SnitchCanFindNeutralKiller", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
+            OptionRemainingTasks = IntegerOptionItem.Create(Id + 13, "SnitchRemainingTaskFound", new(0, 10, 1), 1, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
+            OverrideTasksData.Create(Id + 20, TabGroup.CrewmateRoles, CustomRoles.Snitch);
         }
         public static void Init()
         {
-            playerIdList = new();
+            playerIdList.Clear();
             IsEnable = false;
 
             EnableTargetArrow = OptionEnableTargetArrow.GetBool();
@@ -45,11 +47,11 @@ namespace TOHE
             CanFindNeutralKiller = OptionCanFindNeutralKiller.GetBool();
             RemainingTasksToBeFound = OptionRemainingTasks.GetInt();
 
-            IsExposed = new();
-            IsComplete = new();
+            IsExposed.Clear();
+            IsComplete.Clear();
 
-            TargetList = new();
-            TargetColorlist = new();
+            TargetList.Clear();
+            TargetColorlist.Clear();
         }
 
         public static void Add(byte playerId)
@@ -70,7 +72,7 @@ namespace TOHE
             var snitchId = pc.PlayerId;
             return IsExposed[snitchId];
         }
-        private static bool IsSnitchTarget(PlayerControl target) => IsEnable && (target.Is(RoleType.Impostor) || (target.IsNeutralKiller() && CanFindNeutralKiller));
+        private static bool IsSnitchTarget(PlayerControl target) => IsEnable && (target.Is(CustomRoleTypes.Impostor) || (target.IsNeutralKiller() && CanFindNeutralKiller));
         public static void CheckTask(PlayerControl snitch)
         {
             if (!snitch.IsAlive()) return;
@@ -96,7 +98,7 @@ namespace TOHE
                 if (!IsSnitchTarget(target)) continue;
 
                 var targetId = target.PlayerId;
-                NameColorManager.Instance.RpcAdd(snitchId, targetId, target.GetRoleColorCode());
+                NameColorManager.Add(snitchId, targetId);
 
                 if (!EnableTargetArrow) continue;
 

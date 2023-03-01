@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using TOHE.Roles.Crewmate;
+using TOHE.Roles.Neutral;
 using UnityEngine;
 
 namespace TOHE
@@ -65,7 +67,7 @@ namespace TOHE
                 }
             }
 
-            if (!player.Is(RoleType.Impostor) && !(player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
+            if (!player.Is(CustomRoleTypes.Impostor) && !(player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
             {
                 if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
             }
@@ -115,9 +117,9 @@ namespace TOHE
         public static void Postfix()
         {
             Logger.CurrentMethod();
-            Logger.Info("-----------ゲーム開始-----------", "Phase");
+            Logger.Info("-----------游戏开始-----------", "Phase");
 
-            Utils.CountAliveImpostors();
+            Utils.CountAlivePlayers(true);
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.StartMeeting))]

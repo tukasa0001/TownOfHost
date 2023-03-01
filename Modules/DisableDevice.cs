@@ -53,9 +53,9 @@ namespace TOHE
 
                     bool doComms = false;
                     Vector2 PlayerPos = pc.GetTruePosition();
-                    bool ignore = (Options.DisableDevicesIgnoreImpostors.GetBool() && pc.Is(RoleType.Impostor)) ||
-                            (Options.DisableDevicesIgnoreNeutrals.GetBool() && pc.Is(RoleType.Neutral)) ||
-                            (Options.DisableDevicesIgnoreCrewmates.GetBool() && pc.Is(RoleType.Crewmate)) ||
+                    bool ignore = (Options.DisableDevicesIgnoreImpostors.GetBool() && pc.Is(CustomRoleTypes.Impostor)) ||
+                            (Options.DisableDevicesIgnoreNeutrals.GetBool() && pc.Is(CustomRoleTypes.Neutral)) ||
+                            (Options.DisableDevicesIgnoreCrewmates.GetBool() && pc.Is(CustomRoleTypes.Crewmate)) ||
                             (Options.DisableDevicesIgnoreAfterAnyoneDied.GetBool() && GameStates.AlreadyDied);
 
                     if (pc.IsAlive() && !Utils.IsActive(SystemTypes.Comms))
@@ -135,9 +135,9 @@ namespace TOHE
             var player = PlayerControl.LocalPlayer;
             bool ignore = player.Is(CustomRoles.GM) ||
                 !player.IsAlive() ||
-                (Options.DisableDevicesIgnoreImpostors.GetBool() && player.Is(RoleType.Impostor)) ||
-                (Options.DisableDevicesIgnoreNeutrals.GetBool() && player.Is(RoleType.Neutral)) ||
-                (Options.DisableDevicesIgnoreCrewmates.GetBool() && player.Is(RoleType.Crewmate)) ||
+                (Options.DisableDevicesIgnoreImpostors.GetBool() && player.Is(CustomRoleTypes.Impostor)) ||
+                (Options.DisableDevicesIgnoreNeutrals.GetBool() && player.Is(CustomRoleTypes.Neutral)) ||
+                (Options.DisableDevicesIgnoreCrewmates.GetBool() && player.Is(CustomRoleTypes.Crewmate)) ||
                 (Options.DisableDevicesIgnoreAfterAnyoneDied.GetBool() && GameStates.AlreadyDied);
             var admins = GameObject.FindObjectsOfType<MapConsole>(true);
             var consoles = GameObject.FindObjectsOfType<SystemConsole>(true);

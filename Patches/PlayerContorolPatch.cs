@@ -7,6 +7,10 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using TOHE.Modules;
+using TOHE.Roles.AddOns.Crewmate;
+using TOHE.Roles.Crewmate;
+using TOHE.Roles.Impostor;
+using TOHE.Roles.Neutral;
 using UnityEngine;
 using static TOHE.Translator;
 
@@ -429,7 +433,7 @@ namespace TOHE
 
             Main.PlayerStates[target.PlayerId].SetDead();
             target.SetRealKiller(killer, true); //既に追加されてたらスキップ
-            Utils.CountAliveImpostors();
+            Utils.CountAlivePlayers(true);
             Utils.SyncAllSettings();
             Utils.NotifyRoles();
             Utils.TargetDies(__instance, target);
@@ -863,7 +867,6 @@ namespace TOHE
                 }
                 //ターゲットのリセット
                 BountyHunter.FixedUpdate(player);
-                EvilTracker.FixedUpdate(player);
                 if (GameStates.IsInTask && player.IsAlive() && Options.LadderDeath.GetBool())
                 {
                     FallFromLadder.FixedUpdate(player);
@@ -992,7 +995,7 @@ namespace TOHE
                         float dis;
                         foreach (var target in Main.AllAlivePlayerControls)
                         {
-                            if (target.PlayerId != player.PlayerId && !target.GetCustomRole().IsImpostor())
+                            if (target.PlayerId != player.PlayerId && !target.Is(CountTypes.Impostor))
                             {
                                 dis = Vector2.Distance(puppeteerPos, target.transform.position);
                                 targetDistance.Add(target.PlayerId, dis);
@@ -1038,7 +1041,7 @@ namespace TOHE
             if (__instance.AmOwner)
             {
                 //キルターゲットの上書き処理
-                if (GameStates.IsInTask && !__instance.Is(RoleType.Impostor) && __instance.CanUseKillButton() && !__instance.Data.IsDead)
+                if (GameStates.IsInTask && !__instance.Is(CustomRoleTypes.Impostor) && __instance.CanUseKillButton() && !__instance.Data.IsDead)
                 {
                     var players = __instance.GetPlayersInAbilityRangeSorted(false);
                     PlayerControl closest = players.Count <= 0 ? null : players[0];
@@ -1103,22 +1106,16 @@ namespace TOHE
                     //自分自身の名前の色を変更
                     if (target.AmOwner && AmongUsClient.Instance.IsGameStarted)
                     { //targetが自分自身
-                        RealName = Utils.ColorString(target.GetRoleColor(), RealName); //名前の色を変更
                         if (target.Is(CustomRoles.Arsonist) && target.IsDouseDone())
                             RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), GetString("EnterVentToWin"));
                         if (target.Is(CustomRoles.Revolutionist) && target.IsDrawDone())
                             RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Revolutionist), GetString("EnterVentToWin"));
-                        if (Pelican.IsEaten(target.PlayerId))
-                            RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Pelican), GetString("EatenByPelican"));
                     }
-                    else if (target.Is(CustomRoles.Mare) && Utils.IsActive(SystemTypes.Electrical))
-                        RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの赤色で表示
 
                     //NameColorManager準拠の処理
-                    var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
-                    if (ncd.color != null) RealName = ncd.OpenTag + RealName + ncd.CloseTag;
+                    RealName = RealName.ApplyNameColorData(seer, target, false);
 
-                    //インポスター/キル可能な第三陣営がタスクが終わりそうなSnitchを確認できる
+                    //インポスター/キル可能なニュートラルがタスクが終わりそうなSnitchを確認できる
                     Mark.Append(Snitch.GetWarningMark(seer, target));
 
                     if (seer.Is(CustomRoles.Arsonist))
@@ -1195,8 +1192,7 @@ namespace TOHE
 
                     Suffix.Append(BountyHunter.GetTargetArrow(seer, target));
 
-                    if (GameStates.IsInTask && target.Is(CustomRoles.EvilTracker))
-                        Suffix.Append(EvilTracker.GetTargetArrowForModClient(seer, target));
+                    Suffix.Append(EvilTracker.GetTargetArrow(seer, target));
 
                     if (GameStates.IsInTask && seer.Is(CustomRoles.AntiAdminer))
                     {
@@ -1262,55 +1258,13 @@ namespace TOHE
                         {
                             Main.PlayerStates[partnerPlayer.PlayerId].deathReason = PlayerState.DeathReason.FollowingSuicide;
                             if (isExiled)
-                                CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(partnerPlayer.PlayerId, PlayerState.DeathReason.FollowingSuicide);
+                                CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.FollowingSuicide, partnerPlayer.PlayerId);
                             else
                                 partnerPlayer.RpcMurderPlayer(partnerPlayer);
                         }
                     }
                 }
             }
-        }
-
-        public static bool CheckArrowUpdate(PlayerControl seer, PlayerControl target, bool updateFlag, bool coloredArrow)
-        {
-            var key = (seer.PlayerId, target.PlayerId);
-            if (!Main.targetArrows.TryGetValue(key, out var oldArrow))
-            {
-                //初回は必ず被らないもの
-                oldArrow = "_";
-            }
-            //初期値は死んでる場合の空白にしておく
-            var arrow = "";
-            if (!Main.PlayerStates[seer.PlayerId].IsDead && !Main.PlayerStates[target.PlayerId].IsDead)
-            {
-                //対象の方角ベクトルを取る
-                var dir = target.transform.position - seer.transform.position;
-                byte index;
-                if (dir.magnitude < 2)
-                {
-                    //近い時はドット表示
-                    index = 8;
-                }
-                else
-                {
-                    //-22.5～22.5度を0とするindexに変換
-                    var angle = Vector3.SignedAngle(Vector3.down, dir, Vector3.back) + 180 + 22.5;
-                    index = (byte)(((int)(angle / 45)) % 8);
-                }
-                arrow = "↑↗→↘↓↙←↖・"[index].ToString();
-                if (coloredArrow)
-                {
-                    arrow = $"<color={target.GetRoleColorCode()}>{arrow}</color>";
-                }
-            }
-            if (oldArrow != arrow)
-            {
-                //前回から変わってたら登録して更新フラグ
-                Main.targetArrows[key] = arrow;
-                updateFlag = true;
-                //Logger.info($"{seer.name}->{target.name}:{arrow}");
-            }
-            return updateFlag;
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Start))]
@@ -1564,9 +1518,9 @@ namespace TOHE
                 foreach (var seer in Main.AllPlayerControls)
                 {
                     var self = seer.PlayerId == target.PlayerId;
-                    var seerIsKiller = seer.Is(RoleType.Impostor) || Main.ResetCamPlayerList.Contains(seer.PlayerId);
-                    var targetIsKiller = target.Is(RoleType.Impostor) || Main.ResetCamPlayerList.Contains(target.PlayerId);
-                    if ((self && targetIsKiller) || (!seerIsKiller && target.Is(RoleType.Impostor)))
+                    var seerIsKiller = seer.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(seer.PlayerId);
+                    var targetIsKiller = target.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(target.PlayerId);
+                    if ((self && targetIsKiller) || (!seerIsKiller && target.Is(CustomRoleTypes.Impostor)))
                     {
                         Logger.Info($"Desync {target.GetNameWithRole()} =>ImpostorGhost for{seer.GetNameWithRole()}", "PlayerControl.RpcSetRole");
                         target.RpcSetRoleDesync(RoleTypes.ImpostorGhost, seer.GetClientId());

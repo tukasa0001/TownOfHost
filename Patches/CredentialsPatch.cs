@@ -110,6 +110,7 @@ namespace TOHE
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
     class TitleLogoPatch
     {
+        public static GameObject Ambience;
         public static GameObject amongUsLogo;
         public static GameObject PlayLocalButton;
         public static GameObject PlayOnlineButton;
@@ -155,7 +156,17 @@ namespace TOHE
                 BottomButtons.transform.position = new Vector3(0f, -2.71f, 0f);
             }
 
-            var tohLogo = new GameObject("titleLogo_TOH");
+            if ((Ambience = GameObject.Find("Ambience")) != null)
+            {
+                Ambience.SetActive(false);
+                var CustomBG = new GameObject("CustomBG");
+                CustomBG.transform.position = new Vector3(0, 0, 520f);
+                var bgRenderer = CustomBG.AddComponent<SpriteRenderer>();
+                bgRenderer.sprite = Utils.LoadSprite("TOHE.Resources.TOHE-BG.jpg", 179f);
+            }
+
+            /**
+            var tohLogo = new GameObject("titleLogo_TOHE");
             tohLogo.transform.position = Vector3.up;
             tohLogo.transform.position -= Vector3.up * 0.20f;
             tohLogo.transform.localScale *= 1.3f;
@@ -167,6 +178,7 @@ namespace TOHE
             bq.transform.localScale *= 1.8f;
             var bqRenderer = bq.AddComponent<SpriteRenderer>();
             bqRenderer.sprite = Utils.LoadSprite("TOHE.Resources.BQ.png", 300f);
+            */
         }
     }
     [HarmonyPatch(typeof(ModManager), nameof(ModManager.LateUpdate))]

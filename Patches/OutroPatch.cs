@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using HarmonyLib;
 using TOHE.Modules;
+using TOHE.Roles.Impostor;
 using UnityEngine;
 using static TOHE.Translator;
 
@@ -63,7 +64,6 @@ namespace TOHE
             Main.isDoused = new Dictionary<(byte, byte), bool>();
             Main.isDraw = new Dictionary<(byte, byte), bool>();
 
-            NameColorManager.Instance.RpcReset();
             Main.VisibleTasksCount = false;
             if (AmongUsClient.Instance.AmHost)
             {

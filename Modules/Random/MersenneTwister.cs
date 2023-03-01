@@ -43,7 +43,7 @@ public class MersenneTwister : IRandom
     private const Int32 N = 624;
     private const Int32 M = 397;
     private const UInt32 MatrixA = 0x9908b0df;
-    private const UInt32 YoutuberMask = 0x80000000;
+    private const UInt32 UpperMask = 0x80000000;
     private const UInt32 LowerMask = 0x7fffffff;
     private const UInt32 TemperingMaskB = 0x9d2c5680;
     private const UInt32 TemperingMaskC = 0xefc60000;
@@ -94,17 +94,17 @@ public class MersenneTwister : IRandom
 
             for (; kk < N - M; ++kk)
             {
-                y = (_mt[kk] & YoutuberMask) | (_mt[kk + 1] & LowerMask);
+                y = (_mt[kk] & UpperMask) | (_mt[kk + 1] & LowerMask);
                 _mt[kk] = _mt[kk + M] ^ (y >> 1) ^ _mag01[y & 0x1];
             }
 
             for (; kk < N - 1; ++kk)
             {
-                y = (_mt[kk] & YoutuberMask) | (_mt[kk + 1] & LowerMask);
+                y = (_mt[kk] & UpperMask) | (_mt[kk + 1] & LowerMask);
                 _mt[kk] = _mt[kk + (M - N)] ^ (y >> 1) ^ _mag01[y & 0x1];
             }
 
-            y = (_mt[N - 1] & YoutuberMask) | (_mt[0] & LowerMask);
+            y = (_mt[N - 1] & UpperMask) | (_mt[0] & LowerMask);
             _mt[N - 1] = _mt[M - 1] ^ (y >> 1) ^ _mag01[y & 0x1];
 
             _mtItems = 0;

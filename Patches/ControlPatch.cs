@@ -39,6 +39,12 @@ namespace TOHE
                 Translator.LoadLangs();
                 Logger.SendInGame("Reloaded Custom Translation File");
             }
+            if (GetKeysDown(KeyCode.F5, KeyCode.X))
+            {
+                Logger.Info("Export Custom Translation File", "KeyCommand");
+                Translator.ExportCustomTranslation();
+                Logger.SendInGame("Exported Custom Translation File");
+            }
             //日志文件转储
             if (GetKeysDown(KeyCode.F1, KeyCode.LeftControl))
             {

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
@@ -38,12 +37,12 @@ namespace TOHE
                 {
                     case CustomWinner.Crewmate:
                         Main.AllPlayerControls
-                            .Where(pc => pc.Is(RoleType.Crewmate) && !pc.Is(CustomRoles.Lovers) && !pc.Is(CustomRoles.Madmate))
+                            .Where(pc => pc.Is(CustomRoleTypes.Crewmate) && !pc.Is(CustomRoles.Lovers) && !pc.Is(CustomRoles.Madmate))
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
                     case CustomWinner.Impostor:
                         Main.AllPlayerControls
-                            .Where(pc => (pc.Is(RoleType.Impostor) || pc.Is(CustomRoles.Madmate)) && !pc.Is(CustomRoles.Lovers))
+                            .Where(pc => (pc.Is(CustomRoleTypes.Impostor) || pc.Is(CustomRoles.Madmate)) && !pc.Is(CustomRoles.Lovers))
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
                 }
@@ -224,13 +223,10 @@ namespace TOHE
             {
                 reason = GameOverReason.ImpostorByKill;
 
-                int[] counts = CountLivingPlayersByPredicates(
-                    pc => pc.Is(RoleType.Impostor), //インポスター
-                    pc => pc.Is(CustomRoles.Jackal), //ジャッカル
-                    pc => pc.Is(CustomRoles.Pelican),
-                    pc => !pc.Is(RoleType.Impostor) && !pc.Is(CustomRoles.Madmate) && !pc.Is(CustomRoles.Jackal) && !pc.Is(CustomRoles.Pelican)//その他
-                );
-                int Imp = counts[0], Jackal = counts[1], Pel = counts[2], Crew = counts[3];
+                int Imp = Utils.AlivePlayersCount(CountTypes.Impostor);
+                int Jackal = Utils.AlivePlayersCount(CountTypes.Jackal);
+                int Pel = Utils.AlivePlayersCount(CountTypes.Pelican);
+                int Crew = Utils.AlivePlayersCount(CountTypes.Crew);
 
                 if (Imp == 0 && Crew == 0 && Jackal == 0 && Pel == 0) //全灭
                 {
@@ -269,6 +265,32 @@ namespace TOHE
                 return true;
             }
         }
+        public bool CheckGameEndByLivingPlayers(out GameOverReason reason)
+        {
+            reason = GameOverReason.ImpostorByKill;
+
+            int Imp = Utils.AlivePlayersCount(CountTypes.Impostor);
+            int Crew = Utils.AlivePlayersCount(CountTypes.Crew);
+
+            if (Imp == 0 && Crew == 0) //全滅
+            {
+                reason = GameOverReason.ImpostorByKill;
+                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.None);
+            }
+            else if (Crew <= 0) //インポスター勝利
+            {
+                reason = GameOverReason.ImpostorByKill;
+                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
+            }
+            else if (Imp == 0) //クルー勝利(インポスター切断など)
+            {
+                reason = GameOverReason.HumansByVote;
+                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
+            }
+            else return false; //勝利条件未達成
+
+            return true;
+        }
     }
 
     public abstract class GameEndPredicate
@@ -277,21 +299,6 @@ namespace TOHE
         /// <params name="reason">バニラのゲーム終了処理に使用するGameOverReason</params>
         /// <returns>ゲーム終了の条件を満たしているかどうか</returns>
         public abstract bool CheckForEndGame(out GameOverReason reason);
-
-        /// <summary>各条件に合ったプレイヤーの人数を取得し、配列に同順で格納します。</summary>
-        public int[] CountLivingPlayersByPredicates(params Predicate<PlayerControl>[] predicates)
-        {
-            int[] counts = new int[predicates.Length];
-            foreach (var pc in Main.AllAlivePlayerControls)
-            {
-                for (int i = 0; i < predicates.Length; i++)
-                {
-                    if (predicates[i](pc)) counts[i]++;
-                }
-            }
-            return counts;
-        }
-
 
         /// <summary>GameData.TotalTasksとCompletedTasksをもとにタスク勝利が可能かを判定します。</summary>
         public virtual bool CheckGameEndByTask(out GameOverReason reason)

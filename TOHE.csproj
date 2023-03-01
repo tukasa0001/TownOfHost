@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include=".\Resources\*.png" />
+    <EmbeddedResource Include=".\Resources\*.jpg" />
     <EmbeddedResource Include=".\Resources\*.txt" />
     <EmbeddedResource Include=".\Resources\string.csv" />
   </ItemGroup>

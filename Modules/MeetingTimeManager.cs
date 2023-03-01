@@ -1,6 +1,7 @@
 using System;
-using System.Linq;
 using AmongUs.GameOptions;
+using TOHE.Roles.Crewmate;
+using TOHE.Roles.Impostor;
 
 namespace TOHE.Modules
 {
@@ -30,7 +31,7 @@ namespace TOHE.Modules
         }
         public static void OnReportDeadBody()
         {
-            if (Options.AllAliveMeeting.GetBool() && GameData.Instance.AllPlayers.ToArray().Where(x => !x.Object.Is(CustomRoles.GM)).All(x => !x.IsDead))
+            if (Options.AllAliveMeeting.GetBool() && Utils.IsAllAlive)
             {
                 DiscussionTime = 0;
                 VotingTime = Options.AllAliveMeetingTime.GetInt();

@@ -4,6 +4,7 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
 using TOHE.Modules;
+using TOHE.Roles.Neutral;
 using static TOHE.Translator;
 
 namespace TOHE
@@ -24,7 +25,6 @@ namespace TOHE
 
             ChatUpdatePatch.DoBlockChat = false;
             GameStates.InGame = false;
-            NameColorManager.Begin();
             ErrorText.Instance.Clear();
             if (AmongUsClient.Instance.AmHost) //以下、ホストのみ実行
             {

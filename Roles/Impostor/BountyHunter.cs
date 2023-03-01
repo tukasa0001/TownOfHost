@@ -4,7 +4,7 @@ using Hazel;
 using UnityEngine;
 using static TOHE.Translator;
 
-namespace TOHE
+namespace TOHE.Roles.Impostor
 {
     public static class BountyHunter
     {
@@ -150,7 +150,7 @@ namespace TOHE
             Logger.Info($"{player.GetNameWithRole()}:ターゲットリセット", "BountyHunter");
             player.RpcResetAbilityCooldown(); ;//タイマー（変身クールダウン）のリセットと
 
-            var cTargets = new List<PlayerControl>(Main.AllAlivePlayerControls.Where(pc => !pc.Is(RoleType.Impostor)));
+            var cTargets = new List<PlayerControl>(Main.AllAlivePlayerControls.Where(pc => !pc.Is(CustomRoleTypes.Impostor)));
 
             if (cTargets.Count() >= 2 && Targets.TryGetValue(player.PlayerId, out var nowTarget))
                 cTargets.RemoveAll(x => x.PlayerId == nowTarget); //前回のターゲットは除外

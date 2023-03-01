@@ -380,7 +380,6 @@ AutoKickStopWordsTimes,踢出前警告次数,Number of warnings for forbidden wo
 AutoKickStopWordsAsBan,踢出时封禁该玩家,Block a player after they kick,Заблокировать игрока после его кика
 AutoWarnStopWords,警告使用违禁词的人,Warning to those who write forbidden words,Предупреждение тем кто пишет запрещенные слова
 KickAndroidPlayer,踢出使用安卓的玩家,Kick players who entered the lobby using the phone,Кикнуть игроков которые зашли в лобби через телефон
-KickNonTOHEPlayer,踢出模组不同或模组版本不同的玩家,Kick players who entered the lobby not with the TOHE mod,Кикнуть игроков которые зашли в лобби не с модом TOHE
 SendCodeToQQ,允许车队姬自动群发您的房号,(Only for China)房间人数达到多少时群发,(Только для Китая)允许车队姬自动群发您的房号
 SendCodeMinPlayer,房间人数达到多少时群发,房间人数达到多少时群发,房间人数达到多少时群发
 DisableVanillaRoles,禁用原版职业,Disable Vanilla Roles,Отключить ванильные Роли
@@ -691,6 +690,8 @@ Message.PlayerQuitForever,【{0}】选择自愿离开\n很抱歉给大家带来�
 Warning.OverrideExiledPlayer,设置内鬼人数为一个时，放逐动画会显示为平票,All ejects will be displayed as a tie since the total number of impostors is 1.,"Все изгнания будут отображаться как ничья, потому что общее количество Предателей равно 1."
 Warning.InvalidRpc,{0} 被踢出，因其 RPC 无效，请确保没有 TOHE 以外的模组。,Kicked {0} because an invalid RPC was received.\nPlease check that no mods other than TOHE installed.,{0} был кикнут так как получен недопустимый RPC. \nУбедитесь что в системе нет других модов кроме TOHE.
 Warning.NoModHost,非TOHE房,Mod TOHE not installed on the host,У Хоста Лобби не установлен TOHE
+Warning.MismatchedVersion,{0}\n安装了其它版本的 {1}
+Warning.AutoExitAtMismatchedVersion,您的 {0} 版本与房主不同\n您将在 {1} 秒内被踢出
 
 ## 错误
 Error.MeetingException,错误: {0} 请手动中止会议,Error: {0}\r\nPlease use SHIFT+M+ENTER to end the meeting,Ошибка: {0}\r\nПожалуйста используйте SHIFT+M+ENTER чтобы принудительно завершить собрание
