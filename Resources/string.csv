@@ -531,6 +531,11 @@ TimeThiefReturnStolenTimeUponDeath,死亡后会议时间重置,Return Stolen Tim
 EvilTrackerCanSeeKillFlash,内鬼进行击杀时可见击杀闪光,"Can See ''Kill Flash'' ","Может видеть ''Вспышку Убийства'' "
 EvilTrackerResetTargetAfterMeeting,会议后重置追踪目标,Can Reset Target After Meeting,Может сбросить цель после Собрания
 EvilTrackerCanSeeLastRoomInMeeting,追踪者可以看见船员位置,Can See Target's Last Room In Meeting,Может видеть местоположение Целей во время Собрания
+EvilTrackerTargetMode,追踪模式
+EvilTrackerTargetMode.Never,禁用追踪
+EvilTrackerTargetMode.OnceInGame,仅限一次
+EvilTrackerTargetMode.EveryMeeting,每次会议
+EvilTrackerTargetMode.Always,永久显示
 WitchModeSwitchAction,切换击杀模式,Mode Switch Action,Действие для Смены Режима
 NBareRed,友善中立视为邪恶,Nice Neutrals are shown in red,Добрые Нейтралы показываются красным
 NEareRed,邪恶中立视为邪恶,Evil Neutrals are shown in red,Злые Нейтралы показываются красным

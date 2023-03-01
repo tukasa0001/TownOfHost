@@ -16,13 +16,11 @@ namespace TOHE.Roles.Impostor
         private static OptionItem OptionCanSeeKillFlash;
         private static OptionItem OptionTargetMode;
         private static OptionItem OptionCanSeeLastRoomInMeeting;
-        private static OptionItem OptionCanCreateMadmate;
 
         private static bool CanSeeKillFlash;
         private static TargetMode CurrentTargetMode;
         public static RoleTypes RoleTypes;
         public static bool CanSeeLastRoomInMeeting;
-        public static bool CanCreateMadmate;
 
         private enum TargetMode
         {
@@ -49,8 +47,6 @@ namespace TOHE.Roles.Impostor
                 .SetParent(CustomRoleSpawnChances[CustomRoles.EvilTracker]);
             OptionTargetMode = StringOptionItem.Create(Id + 11, "EvilTrackerTargetMode", TargetModeText, 2, TabGroup.ImpostorRoles, false)
                 .SetParent(CustomRoleSpawnChances[CustomRoles.EvilTracker]);
-            OptionCanCreateMadmate = BooleanOptionItem.Create(Id + 20, "CanCreateMadmate", false, TabGroup.ImpostorRoles, false)
-                .SetParent(OptionTargetMode);
             OptionCanSeeLastRoomInMeeting = BooleanOptionItem.Create(Id + 12, "EvilTrackerCanSeeLastRoomInMeeting", false, TabGroup.ImpostorRoles, false)
                 .SetParent(CustomRoleSpawnChances[CustomRoles.EvilTracker]);
         }
@@ -65,7 +61,6 @@ namespace TOHE.Roles.Impostor
             CurrentTargetMode = (TargetMode)OptionTargetMode.GetValue();
             RoleTypes = CurrentTargetMode == TargetMode.Never ? RoleTypes.Impostor : RoleTypes.Shapeshifter;
             CanSeeLastRoomInMeeting = OptionCanSeeLastRoomInMeeting.GetBool();
-            CanCreateMadmate = OptionCanCreateMadmate.GetBool() && CurrentTargetMode != TargetMode.Never;
         }
         public static void Add(byte playerId)
         {
