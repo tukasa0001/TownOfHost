@@ -266,7 +266,7 @@ namespace TOHE
             ((Renderer)__instance.myRend).material.SetColor("_AddColor", mainTarget ? color : Color.clear);
         }
     }
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive), new System.Type[]  {typeof(PlayerControl), typeof(RoleBehaviour), typeof(bool) })]
     class SetHudActivePatch
     {
         public static bool IsActive = false;
