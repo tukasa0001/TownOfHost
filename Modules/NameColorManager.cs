@@ -28,6 +28,7 @@ namespace TownOfHost
         {
             return seer == target
                 || target.Is(CustomRoles.GM)
+                || (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoleTypes.Impostor))
                 || Mare.KnowTargetRoleColor(target, isMeeting);
         }
         private static bool TryGetData(byte seerId, byte targetId, out string colorCode)
