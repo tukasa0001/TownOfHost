@@ -138,10 +138,13 @@ namespace TownOfHost
                     if (taskState.IsTaskFinished)
                     {
                         var colorCode = Utils.GetRoleColorCode(CustomRoles.MadGuardian);
-                        NameColorManager.Add(killer.PlayerId, target.PlayerId);
-                        if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
-                            NameColorManager.Add(target.PlayerId, killer.PlayerId, colorCode);
-                        Utils.NotifyRoles();
+                        if (!NameColorManager.TryGetData(killer, target, out var value) || value != colorCode)
+                        {
+                            NameColorManager.Add(killer.PlayerId, target.PlayerId);
+                            if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
+                                NameColorManager.Add(target.PlayerId, killer.PlayerId, colorCode);
+                            Utils.NotifyRoles();
+                        }
                         return false;
                     }
                     break;

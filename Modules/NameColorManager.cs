@@ -31,7 +31,7 @@ namespace TownOfHost
                 || (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoleTypes.Impostor))
                 || Mare.KnowTargetRoleColor(target, isMeeting);
         }
-        private static bool TryGetData(PlayerControl seer, PlayerControl target, out string colorCode)
+        public static bool TryGetData(PlayerControl seer, PlayerControl target, out string colorCode)
         {
             colorCode = "";
             var state = Main.PlayerStates[seer.PlayerId];
