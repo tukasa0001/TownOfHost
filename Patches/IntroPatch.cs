@@ -92,7 +92,7 @@ namespace TownOfHost
     {
         public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
         {
-            if (PlayerControl.LocalPlayer.Is(RoleType.Neutral))
+            if (PlayerControl.LocalPlayer.Is(CustomRoleTypes.Neutral))
             {
                 //ぼっち役職
                 var soloTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
@@ -104,11 +104,10 @@ namespace TownOfHost
         {
             //チーム表示変更
             CustomRoles role = PlayerControl.LocalPlayer.GetCustomRole();
-            RoleType roleType = role.GetRoleType();
 
-            switch (roleType)
+            switch (role.GetCustomRoleTypes())
             {
-                case RoleType.Neutral:
+                case CustomRoleTypes.Neutral:
                     __instance.TeamTitle.text = Utils.GetRoleName(role);
                     __instance.TeamTitle.color = Utils.GetRoleColor(role);
                     __instance.ImpostorText.gameObject.SetActive(true);
@@ -120,7 +119,7 @@ namespace TownOfHost
                     };
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                     break;
-                case RoleType.Madmate:
+                case CustomRoleTypes.Madmate:
                     __instance.TeamTitle.text = GetString("Madmate");
                     __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Madmate);
                     __instance.ImpostorText.text = GetString("TeamImpostor");

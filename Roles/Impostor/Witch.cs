@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using HarmonyLib;
 using Hazel;
-using static TownOfHost.Translator;
 
-namespace TownOfHost
+using static TownOfHost.Translator;
+using static TownOfHost.Options;
+
+namespace TownOfHost.Roles.Impostor
 {
     public static class Witch
     {
@@ -29,8 +31,8 @@ namespace TownOfHost
         public static SwitchTrigger NowSwitchTrigger;
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Witch);
-            ModeSwitchAction = StringOptionItem.Create(Id + 10, "WitchModeSwitchAction", SwitchTriggerText, 0, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Witch]);
+            SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Witch);
+            ModeSwitchAction = StringOptionItem.Create(Id + 10, "WitchModeSwitchAction", SwitchTriggerText, 0, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Witch]);
         }
         public static void Init()
         {
@@ -172,25 +174,29 @@ namespace TownOfHost
             //キル処理終了させる
             return false;
         }
-        public static void OnCheckForEndVoting(byte exiled)
+        public static void OnCheckForEndVoting(PlayerState.DeathReason deathReason, params byte[] exileIds)
         {
-            foreach (var witch in playerIdList)
+            if (!IsEnable || deathReason != PlayerState.DeathReason.Vote) return;
+            foreach (var id in exileIds)
             {
-                if (witch != exiled)
-                {
-                    var witchPc = Utils.GetPlayerById(witch);
-                    foreach (var spelled in SpelledPlayer[witch])
-                    {
-                        if (!Main.PlayerStates[spelled].IsDead)
-                        {
-                            Utils.GetPlayerById(spelled).SetRealKiller(witchPc);
-                            CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(spelled, PlayerState.DeathReason.Spell);
-                        }
-                    }
-                }
-                SendRPC(true, witch);
-                SpelledPlayer[witch].Clear();
+                if (SpelledPlayer.ContainsKey(id))
+                    SpelledPlayer[id].Clear();
             }
+            var spelledIdList = new List<byte>();
+            foreach (var pc in Main.AllAlivePlayerControls)
+            {
+                var dic = SpelledPlayer.Where(x => x.Value.Contains(pc.PlayerId));
+                if (dic.Count() == 0) continue;
+                var whichId = dic.FirstOrDefault().Key;
+                if (!Main.AfterMeetingDeathPlayers.ContainsKey(pc.PlayerId))
+                {
+                    var witch = Utils.GetPlayerById(whichId);
+                    pc.SetRealKiller(witch);
+                    spelledIdList.Add(pc.PlayerId);
+                }
+            }
+            CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.Spell, spelledIdList.ToArray());
+            RemoveSpelledPlayer();
         }
         public static string GetSpelledMark(byte target, bool isMeeting)
         {

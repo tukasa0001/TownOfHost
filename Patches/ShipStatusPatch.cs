@@ -4,6 +4,9 @@ using System.Linq;
 using HarmonyLib;
 using UnityEngine;
 
+using TownOfHost.Roles.Crewmate;
+using TownOfHost.Roles.Neutral;
+
 namespace TownOfHost
 {
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.FixedUpdate))]
@@ -80,7 +83,7 @@ namespace TownOfHost
                 && systemType == SystemTypes.Comms //システムタイプが通信室
                 && amount is 0 or 16 or 17)
                 return false;
-            if (!player.Is(RoleType.Impostor) && !player.Is(CustomRoles.Egoist) && !(player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
+            if (!player.Is(CustomRoleTypes.Impostor) && !player.Is(CustomRoles.Egoist) && !(player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
             {
                 if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
             }
@@ -132,7 +135,7 @@ namespace TownOfHost
             Logger.CurrentMethod();
             Logger.Info("-----------ゲーム開始-----------", "Phase");
 
-            Utils.CountAliveImpostors();
+            Utils.CountAlivePlayers(true);
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.StartMeeting))]

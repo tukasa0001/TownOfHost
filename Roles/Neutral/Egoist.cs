@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace TownOfHost
+using static TownOfHost.Options;
+
+namespace TownOfHost.Roles.Neutral
 {
     public static class Egoist
     {
@@ -18,10 +20,10 @@ namespace TownOfHost
         public static bool CanCreateMadmate;
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Egoist);
-            OptionKillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(2.5f, 180f, 2.5f), 20f, TabGroup.NeutralRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Egoist])
+            SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Egoist);
+            OptionKillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(2.5f, 180f, 2.5f), 20f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Egoist])
                 .SetValueFormat(OptionFormat.Seconds);
-            OptionCanCreateMadmate = BooleanOptionItem.Create(Id + 11, "CanCreateMadmate", false, TabGroup.NeutralRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Egoist]);
+            OptionCanCreateMadmate = BooleanOptionItem.Create(Id + 11, "CanCreateMadmate", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Egoist]);
         }
         public static void Init()
         {
@@ -35,9 +37,9 @@ namespace TownOfHost
             IsEnable = true;
             playerIdList.Add(ego);
             TeamEgoist.Add(ego);
-            foreach (var impostor in Main.AllPlayerControls.Where(pc => pc.Is(RoleType.Impostor)))
+            foreach (var impostor in Main.AllPlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
             {
-                NameColorManager.Instance.RpcAdd(impostor.PlayerId, ego, RoleColorCode);
+                NameColorManager.Add(impostor.PlayerId, ego);
             }
         }
         public static bool IsEnable = false;

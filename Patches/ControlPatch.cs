@@ -38,6 +38,12 @@ namespace TownOfHost
                 Translator.LoadLangs();
                 Logger.SendInGame("Reloaded Custom Translation File");
             }
+            if (GetKeysDown(KeyCode.F5, KeyCode.X))
+            {
+                Logger.Info("Export Custom Translation File", "KeyCommand");
+                Translator.ExportCustomTranslation();
+                Logger.SendInGame("Exported Custom Translation File");
+            }
             //ログファイルのダンプ
             if (GetKeysDown(KeyCode.F1, KeyCode.LeftControl))
             {

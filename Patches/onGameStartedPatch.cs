@@ -4,7 +4,13 @@ using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
+
 using TownOfHost.Modules;
+using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.Crewmate;
+using TownOfHost.Roles.Neutral;
+using TownOfHost.Roles.AddOns.Impostor;
+using TownOfHost.Roles.AddOns.Crewmate;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -39,7 +45,6 @@ namespace TownOfHost
             Main.ShapeshiftTarget = new();
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();
-            Main.targetArrows = new();
 
             ReportDeadBodyPatch.CanReport = new();
 
@@ -54,7 +59,6 @@ namespace TownOfHost
             Main.DefaultCrewmateVision = Main.RealOptionsData.GetFloat(FloatOptionNames.CrewLightMod);
             Main.DefaultImpostorVision = Main.RealOptionsData.GetFloat(FloatOptionNames.ImpostorLightMod);
 
-            NameColorManager.Instance.RpcReset();
             Main.LastNotifyNames = new();
 
             Main.currentDousingTarget = 255;
@@ -63,6 +67,15 @@ namespace TownOfHost
             Main.AllPlayerNames = new();
 
             Camouflage.Init();
+            var invalidColor = Main.AllPlayerControls.Where(p => p.Data.DefaultOutfit.ColorId < 0 || Palette.PlayerColors.Length <= p.Data.DefaultOutfit.ColorId);
+            if (invalidColor.Count() != 0)
+            {
+                var msg = Translator.GetString("Error.InvalidColor");
+                Logger.SendInGame(msg);
+                msg += "\n" + string.Join(",", invalidColor.Select(p => $"{p.name}({p.Data.DefaultOutfit.ColorId})"));
+                Utils.SendMessage(msg);
+                Logger.Error(msg, "CoStartGame");
+            }
 
             foreach (var target in Main.AllPlayerControls)
             {
@@ -74,11 +87,11 @@ namespace TownOfHost
             }
             foreach (var pc in Main.AllPlayerControls)
             {
-                if (AmongUsClient.Instance.AmHost && Options.ColorNameMode.GetBool()) pc.RpcSetName(Palette.GetColorName(pc.Data.DefaultOutfit.ColorId));
+                var colorId = pc.Data.DefaultOutfit.ColorId;
+                if (AmongUsClient.Instance.AmHost && Options.ColorNameMode.GetBool()) pc.RpcSetName(Palette.GetColorName(colorId));
                 Main.PlayerStates[pc.PlayerId] = new(pc.PlayerId);
                 Main.AllPlayerNames[pc.PlayerId] = pc?.Data?.PlayerName;
-
-                Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
+                Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[colorId];
                 Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.GetFloat(FloatOptionNames.PlayerSpeedMod); //移動速度をデフォルトの移動速度に変更
                 ReportDeadBodyPatch.CanReport[pc.PlayerId] = true;
                 ReportDeadBodyPatch.WaitReport[pc.PlayerId] = new();
@@ -241,7 +254,7 @@ namespace TownOfHost
                         Logger.SendInGame(string.Format(GetString("Error.InvalidRoleAssignment"), pc?.Data?.PlayerName));
                         break;
                 }
-                Main.PlayerStates[pc.PlayerId].MainRole = role;
+                Main.PlayerStates[pc.PlayerId].SetMainRole(role);
             }
 
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
@@ -249,9 +262,9 @@ namespace TownOfHost
                 SetColorPatch.IsAntiGlitchDisabled = true;
                 foreach (var pc in Main.AllPlayerControls)
                 {
-                    if (pc.Is(RoleType.Impostor))
+                    if (pc.Is(CustomRoleTypes.Impostor))
                         pc.RpcSetColor(0);
-                    else if (pc.Is(RoleType.Crewmate))
+                    else if (pc.Is(CustomRoleTypes.Crewmate))
                         pc.RpcSetColor(1);
                 }
 
@@ -293,7 +306,9 @@ namespace TownOfHost
                 foreach (var pc in Main.AllPlayerControls)
                 {
                     if (pc.Is(CustomRoles.Watcher))
-                        Main.PlayerStates[pc.PlayerId].MainRole = Options.IsEvilWatcher ? CustomRoles.EvilWatcher : CustomRoles.NiceWatcher;
+                    {
+                        Main.PlayerStates[pc.PlayerId].SetMainRole(Options.IsEvilWatcher ? CustomRoles.EvilWatcher : CustomRoles.NiceWatcher);
+                    }
                 }
                 foreach (var pair in Main.PlayerStates)
                 {
@@ -395,7 +410,7 @@ namespace TownOfHost
                         {
                             if (seer == pc) continue;
                             if (pc.GetCustomRole().IsImpostor() || pc.IsNeutralKiller()) //変更対象がインポスター陣営orキル可能な第三陣営
-                                NameColorManager.Instance.RpcAdd(seer.PlayerId, pc.PlayerId, $"{pc.GetRoleColorCode()}");
+                                NameColorManager.Add(seer.PlayerId, pc.PlayerId);
                         }
                     }
                 }
@@ -429,7 +444,7 @@ namespace TownOfHost
                 }
             }
             */
-            Utils.CountAliveImpostors();
+            Utils.CountAlivePlayers(true);
             Utils.SyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
         }
@@ -445,7 +460,7 @@ namespace TownOfHost
                 if (AllPlayers.Count <= 0) break;
                 var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
                 AllPlayers.Remove(player);
-                Main.PlayerStates[player.PlayerId].MainRole = role;
+                Main.PlayerStates[player.PlayerId].SetMainRole(role);
 
                 var selfRole = player.PlayerId == hostId ? hostBaseRole : BaseRole;
                 var othersRole = player.PlayerId == hostId ? RoleTypes.Crewmate : RoleTypes.Scientist;
@@ -507,7 +522,7 @@ namespace TownOfHost
                 var player = players[rand.Next(0, players.Count)];
                 AssignedPlayers.Add(player);
                 players.Remove(player);
-                Main.PlayerStates[player.PlayerId].MainRole = role;
+                Main.PlayerStates[player.PlayerId].SetMainRole(role);
                 Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + role.ToString(), "AssignRoles");
 
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)

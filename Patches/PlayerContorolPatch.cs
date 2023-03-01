@@ -6,8 +6,13 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using UnityEngine;
-using static TownOfHost.Translator;
+
 using TownOfHost.Modules;
+using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.Crewmate;
+using TownOfHost.Roles.Neutral;
+using TownOfHost.Roles.AddOns.Crewmate;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -132,14 +137,14 @@ namespace TownOfHost
                     var taskState = target.GetPlayerTaskState();
                     if (taskState.IsTaskFinished)
                     {
-                        int dataCountBefore = NameColorManager.Instance.NameColors.Count;
                         var colorCode = Utils.GetRoleColorCode(CustomRoles.MadGuardian);
-                        NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, colorCode);
-                        if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
-                            NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, colorCode);
-
-                        if (dataCountBefore != NameColorManager.Instance.NameColors.Count)
+                        if (!NameColorManager.TryGetData(killer, target, out var value) || value != colorCode)
+                        {
+                            NameColorManager.Add(killer.PlayerId, target.PlayerId);
+                            if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
+                                NameColorManager.Add(target.PlayerId, killer.PlayerId, colorCode);
                             Utils.NotifyRoles();
+                        }
                         return false;
                     }
                     break;
@@ -194,7 +199,7 @@ namespace TownOfHost
 
                     //==========マッドメイト系役職==========//
 
-                    //==========第三陣営役職==========//
+                    //==========ニュートラル役職==========//
                     case CustomRoles.Arsonist:
                         killer.SetKillCooldown(Options.ArsonistDouseTime.GetFloat());
                         if (!Main.isDoused[(killer.PlayerId, target.PlayerId)] && !Main.ArsonistTimer.ContainsKey(killer.PlayerId))
@@ -285,7 +290,7 @@ namespace TownOfHost
 
             Main.PlayerStates[target.PlayerId].SetDead();
             target.SetRealKiller(killer, true); //既に追加されてたらスキップ
-            Utils.CountAliveImpostors();
+            Utils.CountAlivePlayers(true);
             Utils.SyncAllSettings();
             Utils.NotifyRoles();
             Utils.TargetDies(__instance, target);
@@ -361,7 +366,7 @@ namespace TownOfHost
                 float dis;
                 foreach (var p in Main.AllAlivePlayerControls)
                 {
-                    if (p.Data.Role.Role != RoleTypes.Shapeshifter && !p.Is(RoleType.Impostor) && !p.Is(CustomRoles.SKMadmate))
+                    if (p.Data.Role.Role != RoleTypes.Shapeshifter && !p.Is(CustomRoleTypes.Impostor) && !p.Is(CustomRoles.SKMadmate))
                     {
                         dis = Vector2.Distance(shapeshifterPosition, p.transform.position);
                         mpdistance.Add(p, dis);
@@ -517,7 +522,6 @@ namespace TownOfHost
                 }
                 //ターゲットのリセット
                 BountyHunter.FixedUpdate(player);
-                EvilTracker.FixedUpdate(player);
                 if (GameStates.IsInTask && player.IsAlive() && Options.LadderDeath.GetBool())
                 {
                     FallFromLadder.FixedUpdate(player);
@@ -599,7 +603,7 @@ namespace TownOfHost
                         float dis;
                         foreach (var target in Main.AllAlivePlayerControls)
                         {
-                            if (target.PlayerId != player.PlayerId && !target.GetCustomRole().IsImpostor())
+                            if (target.PlayerId != player.PlayerId && !target.Is(CountTypes.Impostor))
                             {
                                 dis = Vector2.Distance(puppeteerPos, target.transform.position);
                                 targetDistance.Add(target.PlayerId, dis);
@@ -639,7 +643,7 @@ namespace TownOfHost
             if (__instance.AmOwner)
             {
                 //キルターゲットの上書き処理
-                if (GameStates.IsInTask && !(__instance.Is(RoleType.Impostor) || __instance.Is(CustomRoles.Egoist)) && __instance.CanUseKillButton() && !__instance.Data.IsDead)
+                if (GameStates.IsInTask && !(__instance.Is(CustomRoleTypes.Impostor) || __instance.Is(CustomRoles.Egoist)) && __instance.CanUseKillButton() && !__instance.Data.IsDead)
                 {
                     var players = __instance.GetPlayersInAbilityRangeSorted(false);
                     PlayerControl closest = players.Count <= 0 ? null : players[0];
@@ -701,23 +705,19 @@ namespace TownOfHost
                     //自分自身の名前の色を変更
                     if (target.AmOwner && AmongUsClient.Instance.IsGameStarted)
                     { //targetが自分自身
-                        RealName = Utils.ColorString(target.GetRoleColor(), RealName); //名前の色を変更
                         if (target.Is(CustomRoles.Arsonist) && target.IsDouseDone())
                             RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), GetString("EnterVentToWin"));
                     }
-                    else if (target.Is(CustomRoles.Mare) && Utils.IsActive(SystemTypes.Electrical))
-                        RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの赤色で表示
 
                     //NameColorManager準拠の処理
-                    var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
-                    if (ncd.color != null) RealName = ncd.OpenTag + RealName + ncd.CloseTag;
+                    RealName = RealName.ApplyNameColorData(seer, target, false);
 
                     if (seer.GetCustomRole().IsImpostor()) //seerがインポスター
                     {
                         if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool()) //targetがタスクを終わらせたマッドスニッチ
                             Mark.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★")); //targetにマーク付与
                     }
-                    //インポスター/キル可能な第三陣営がタスクが終わりそうなSnitchを確認できる
+                    //インポスター/キル可能なニュートラルがタスクが終わりそうなSnitchを確認できる
                     Mark.Append(Snitch.GetWarningMark(seer, target));
 
                     if (seer.Is(CustomRoles.Arsonist))
@@ -749,7 +749,7 @@ namespace TownOfHost
 
                     }
                     if (seer.Is(CustomRoles.EvilTracker)) Mark.Append(EvilTracker.GetTargetMark(seer, target));
-                    //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能な第三陣営に警告が表示される
+                    //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能なニュートラルに警告が表示される
                     Mark.Append(Snitch.GetWarningArrow(seer, target));
 
                     //ハートマークを付ける(会議中MOD視点)
@@ -762,13 +762,13 @@ namespace TownOfHost
                         Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>");
                     }
 
-                    //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能な第三陣営の方角がわかる
+                    //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能なニュートラルの方角がわかる
                     Suffix.Append(Snitch.GetSnitchArrow(seer, target));
 
                     Suffix.Append(BountyHunter.GetTargetArrow(seer, target));
 
-                    if (GameStates.IsInTask && target.Is(CustomRoles.EvilTracker))
-                        Suffix.Append(EvilTracker.GetTargetArrowForModClient(seer, target));
+                    Suffix.Append(EvilTracker.GetTargetArrow(seer, target));
+
                     if (GameStates.IsInTask && target.Is(CustomRoles.EvilHacker) && target.AmOwner)
                         Suffix.Append(EvilHacker.GetMurderSceneText(target));
 
@@ -824,55 +824,13 @@ namespace TownOfHost
                         {
                             Main.PlayerStates[partnerPlayer.PlayerId].deathReason = PlayerState.DeathReason.FollowingSuicide;
                             if (isExiled)
-                                CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(partnerPlayer.PlayerId, PlayerState.DeathReason.FollowingSuicide);
+                                CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.FollowingSuicide, partnerPlayer.PlayerId);
                             else
                                 partnerPlayer.RpcMurderPlayer(partnerPlayer);
                         }
                     }
                 }
             }
-        }
-
-        public static bool CheckArrowUpdate(PlayerControl seer, PlayerControl target, bool updateFlag, bool coloredArrow)
-        {
-            var key = (seer.PlayerId, target.PlayerId);
-            if (!Main.targetArrows.TryGetValue(key, out var oldArrow))
-            {
-                //初回は必ず被らないもの
-                oldArrow = "_";
-            }
-            //初期値は死んでる場合の空白にしておく
-            var arrow = "";
-            if (!Main.PlayerStates[seer.PlayerId].IsDead && !Main.PlayerStates[target.PlayerId].IsDead)
-            {
-                //対象の方角ベクトルを取る
-                var dir = target.transform.position - seer.transform.position;
-                byte index;
-                if (dir.magnitude < 2)
-                {
-                    //近い時はドット表示
-                    index = 8;
-                }
-                else
-                {
-                    //-22.5～22.5度を0とするindexに変換
-                    var angle = Vector3.SignedAngle(Vector3.down, dir, Vector3.back) + 180 + 22.5;
-                    index = (byte)(((int)(angle / 45)) % 8);
-                }
-                arrow = "↑↗→↘↓↙←↖・"[index].ToString();
-                if (coloredArrow)
-                {
-                    arrow = $"<color={target.GetRoleColorCode()}>{arrow}</color>";
-                }
-            }
-            if (oldArrow != arrow)
-            {
-                //前回から変わってたら登録して更新フラグ
-                Main.targetArrows[key] = arrow;
-                updateFlag = true;
-                //Logger.info($"{seer.name}->{target.name}:{arrow}");
-            }
-            return updateFlag;
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Start))]
@@ -1008,9 +966,9 @@ namespace TownOfHost
             var isTaskFinish = pc.GetPlayerTaskState().IsTaskFinished;
             if (isTaskFinish && pc.Is(CustomRoles.MadSnitch))
             {
-                foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.Is(RoleType.Impostor)))
+                foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
                 {
-                    NameColorManager.Instance.RpcAdd(pc.PlayerId, impostor.PlayerId, impostor.GetRoleColorCode());
+                    NameColorManager.Add(pc.PlayerId, impostor.PlayerId);
                 }
                 Utils.NotifyRoles(SpecifySeer: pc);
             }
@@ -1052,9 +1010,9 @@ namespace TownOfHost
                 foreach (var seer in Main.AllPlayerControls)
                 {
                     var self = seer.PlayerId == target.PlayerId;
-                    var seerIsKiller = seer.Is(RoleType.Impostor) || Main.ResetCamPlayerList.Contains(seer.PlayerId);
-                    var targetIsKiller = target.Is(RoleType.Impostor) || Main.ResetCamPlayerList.Contains(target.PlayerId);
-                    if ((self && targetIsKiller) || (!seerIsKiller && target.Is(RoleType.Impostor)))
+                    var seerIsKiller = seer.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(seer.PlayerId);
+                    var targetIsKiller = target.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(target.PlayerId);
+                    if ((self && targetIsKiller) || (!seerIsKiller && target.Is(CustomRoleTypes.Impostor)))
                     {
                         Logger.Info($"Desync {target.GetNameWithRole()} =>ImpostorGhost for{seer.GetNameWithRole()}", "PlayerControl.RpcSetRole");
                         target.RpcSetRoleDesync(RoleTypes.ImpostorGhost, seer.GetClientId());

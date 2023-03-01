@@ -1,7 +1,8 @@
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace TownOfHost
+using static TownOfHost.Options;
+
+namespace TownOfHost.Roles.Impostor
 {
     public static class Mare
     {
@@ -15,10 +16,10 @@ namespace TownOfHost
 
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Mare);
-            SpeedInLightsOut = FloatOptionItem.Create(Id + 10, "MareAddSpeedInLightsOut", new(0.1f, 0.5f, 0.1f), 0.3f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Mare])
+            SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Mare);
+            SpeedInLightsOut = FloatOptionItem.Create(Id + 10, "MareAddSpeedInLightsOut", new(0.1f, 0.5f, 0.1f), 0.3f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mare])
                 .SetValueFormat(OptionFormat.Multiplier);
-            KillCooldownInLightsOut = FloatOptionItem.Create(Id + 11, "MareKillCooldownInLightsOut", new(2.5f, 180f, 2.5f), 15f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Mare])
+            KillCooldownInLightsOut = FloatOptionItem.Create(Id + 11, "MareKillCooldownInLightsOut", new(2.5f, 180f, 2.5f), 15f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mare])
                 .SetValueFormat(OptionFormat.Seconds);
         }
         public static void Init()
@@ -30,7 +31,7 @@ namespace TownOfHost
             playerIdList.Add(mare);
         }
         public static bool IsEnable => playerIdList.Count > 0;
-        public static float GetKillCooldown => Utils.IsActive(SystemTypes.Electrical) ? KillCooldownInLightsOut.GetFloat() : Options.DefaultKillCooldown;
+        public static float GetKillCooldown => Utils.IsActive(SystemTypes.Electrical) ? KillCooldownInLightsOut.GetFloat() : DefaultKillCooldown;
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = GetKillCooldown;
         public static void ApplyGameOptions(byte playerId)
         {
@@ -46,11 +47,7 @@ namespace TownOfHost
             }
         }
 
-        public static void OnCheckMurder(PlayerControl killer)
-        {
-        }
-        public static void FixedUpdate(PlayerControl player)
-        {
-        }
+        public static bool KnowTargetRoleColor(PlayerControl target, bool isMeeting)
+            => !isMeeting && playerIdList.Contains(target.PlayerId) && Utils.IsActive(SystemTypes.Electrical);
     }
 }

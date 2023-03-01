@@ -1,9 +1,12 @@
+using System.Collections.Generic;
+using System;
 using System.Linq;
 using AmongUs.Data;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
 using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -29,10 +32,12 @@ namespace TownOfHost
                 // Reset lobby countdown timer
                 timer = 600f;
 
-                HideName = Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
+                HideName = UnityEngine.Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
                 HideName.text = ColorUtility.TryParseHtmlString(Main.HideColor.Value, out _)
                         ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
                         : $"<color={Main.ModColor}>{Main.HideName.Value}</color>";
+
+                if (!AmongUsClient.Instance.AmHost) return;
 
                 // Make Public Button
                 if (ModUpdater.isBroken || ModUpdater.hasUpdate || !Main.AllowPublicRoom)
@@ -55,6 +60,7 @@ namespace TownOfHost
         {
             private static bool update = false;
             private static string currentText = "";
+            private static float exitTimer = 0f;
             public static void Prefix(GameStartManager __instance)
             {
                 // Lobby code
@@ -73,6 +79,58 @@ namespace TownOfHost
             }
             public static void Postfix(GameStartManager __instance)
             {
+                if (!AmongUsClient.Instance) return;
+
+                string warningMessage = "";
+                if (AmongUsClient.Instance.AmHost)
+                {
+                    bool canStartGame = true;
+                    List<string> mismatchedPlayerNameList = new();
+                    foreach (var client in AmongUsClient.Instance.allClients.ToArray())
+                    {
+                        if (client.Character == null) continue;
+                        var dummyComponent = client.Character.GetComponent<DummyBehaviour>();
+                        if (dummyComponent != null && dummyComponent.enabled)
+                            continue;
+                        if (!MatchVersions(client.Character.PlayerId, true))
+                        {
+                            canStartGame = false;
+                            mismatchedPlayerNameList.Add(Utils.ColorString(Palette.PlayerColors[client.ColorId], client.Character.Data.PlayerName));
+                        }
+                    }
+                    if (!canStartGame)
+                    {
+                        __instance.StartButton.gameObject.SetActive(false);
+                        warningMessage = Utils.ColorString(Color.red, string.Format(GetString("Warning.MismatchedVersion"), String.Join(" ", mismatchedPlayerNameList), $"<color={Main.ModColor}>{Main.ModName}</color>"));
+                    }
+                }
+                else
+                {
+                    if (!MatchVersions(0))
+                    {
+                        exitTimer += Time.deltaTime;
+                        if (exitTimer > 10)
+                        {
+                            exitTimer = 0;
+                            AmongUsClient.Instance.ExitGame(DisconnectReasons.ExitGame);
+                            SceneChanger.ChangeScene("MainMenu");
+                        }
+
+                        warningMessage = Utils.ColorString(Color.red, string.Format(GetString("Warning.AutoExitAtMismatchedVersion"), $"<color={Main.ModColor}>{Main.ModName}</color>", Math.Round(10 - exitTimer).ToString()));
+                    }
+                }
+                if (warningMessage != "")
+                {
+                    __instance.GameStartText.text = warningMessage;
+                    __instance.GameStartText.transform.localPosition = __instance.StartButton.transform.localPosition + Vector3.up * 2;
+                }
+                else
+                {
+                    __instance.GameStartText.transform.localPosition = __instance.StartButton.transform.localPosition;
+                    if (!GameStates.IsCountDown)
+                        __instance.GameStartText.text = "";
+                }
+
                 // Lobby timer
                 if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return;
 
@@ -86,6 +144,13 @@ namespace TownOfHost
 
                 __instance.PlayerCounter.text = currentText + suffix;
                 __instance.PlayerCounter.autoSizeTextContainer = true;
+            }
+            private static bool MatchVersions(byte playerId, bool acceptVanilla = false)
+            {
+                if (!Main.playerVersion.TryGetValue(playerId, out var version)) return acceptVanilla;
+                return Main.ForkId == version.forkId
+                    && Main.version.CompareTo(version.version) == 0
+                    && version.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})";
             }
         }
         [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.SetText))]
@@ -102,12 +167,12 @@ namespace TownOfHost
     {
         public static bool Prefix(GameStartManager __instance)
         {
-            var invalidColor = Main.AllPlayerControls.Where(p => p.Data.DefaultOutfit.ColorId >= Palette.PlayerColors.Length);
+            var invalidColor = Main.AllPlayerControls.Where(p => p.Data.DefaultOutfit.ColorId < 0 || Palette.PlayerColors.Length <= p.Data.DefaultOutfit.ColorId);
             if (invalidColor.Count() != 0)
             {
                 var msg = Translator.GetString("Error.InvalidColor");
                 Logger.SendInGame(msg);
-                msg += "\n" + string.Join(",", invalidColor.Select(p => p.name));
+                msg += "\n" + string.Join(",", invalidColor.Select(p => $"{p.name}({p.Data.DefaultOutfit.ColorId})"));
                 Utils.SendMessage(msg);
                 return false;
             }

@@ -89,7 +89,7 @@ namespace TownOfHost
             StringBuilder messageBuilder = new();
             foreach (var kvp in PlayerCount)
             {
-                var roomName = kvp.Key.GetRoomName();
+                var roomName = GetString(kvp.Key.ToString());
                 if (ImpRooms.Contains(kvp.Key))
                 {
                     messageBuilder.Append("★");
@@ -179,7 +179,7 @@ namespace TownOfHost
                 from tuple in KillerIdsAndRooms
                     // 自身がキルしたものは除外
                 where tuple.killerId != seer.PlayerId
-                select tuple.room.GetRoomName()).ToArray();
+                select GetString(tuple.room.ToString())).ToArray();
             if (roomNames.Length < 1) return "";
             return $"{GetString("EvilHackerMurderOccurred")}: {string.Join(", ", roomNames)}";
         }

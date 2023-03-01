@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
-using HarmonyLib;
 using UnityEngine;
+
+using TownOfHost.Roles.Impostor;
 using static TownOfHost.Options;
 
-namespace TownOfHost
+namespace TownOfHost.Roles.Neutral
 {
     public static class SchrodingerCat
     {
@@ -73,35 +74,34 @@ namespace TownOfHost
                     target.RpcSetCustomRole(CustomRoles.JSchrodingerCat);
                     break;
             }
-            if (killer.Is(RoleType.Impostor))
+            if (killer.Is(CustomRoleTypes.Impostor))
                 target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
 
-            var killerColorCode = killer.GetRoleColorCode();
             if (CanSeeKillableTeammate)
             {
-                var roleType = killer.GetCustomRole().GetRoleType();
+                var roleType = killer.GetCustomRole().GetCustomRoleTypes();
                 System.Func<PlayerControl, bool> isTarget = roleType switch
                 {
-                    RoleType.Impostor => (pc) => pc.GetCustomRole().GetRoleType() == roleType,
+                    CustomRoleTypes.Impostor => (pc) => pc.GetCustomRole().GetCustomRoleTypes() == roleType,
                     _ => (pc) => pc.GetCustomRole() == killer.GetCustomRole()
                 };
                 ;
                 var killerTeam = Main.AllPlayerControls.Where(pc => isTarget(pc));
                 foreach (var member in killerTeam)
                 {
-                    NameColorManager.Instance.RpcAdd(member.PlayerId, target.PlayerId, RoleColorCode);
-                    NameColorManager.Instance.RpcAdd(target.PlayerId, member.PlayerId, killerColorCode);
+                    NameColorManager.Add(member.PlayerId, target.PlayerId, RoleColorCode);
+                    NameColorManager.Add(target.PlayerId, member.PlayerId);
                 }
             }
             else
             {
-                NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, RoleColorCode);
-                NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, killerColorCode);
+                NameColorManager.Add(killer.PlayerId, target.PlayerId, RoleColorCode);
+                NameColorManager.Add(target.PlayerId, killer.PlayerId);
             }
             Utils.NotifyRoles();
             Utils.MarkEveryoneDirtySettings();
             //シュレディンガーの猫の役職変化処理終了
-            //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
+            //ニュートラルのキル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
             return false;
         }
         public static void ChangeTeam(PlayerControl player)

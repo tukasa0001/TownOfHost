@@ -5,6 +5,12 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using UnityEngine;
 
+using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.Crewmate;
+using TownOfHost.Roles.Neutral;
+using TownOfHost.Roles.AddOns.Impostor;
+using TownOfHost.Roles.AddOns.Crewmate;
+
 namespace TownOfHost
 {
     [Flags]
@@ -259,6 +265,7 @@ namespace TownOfHost
             "RoleAssigningAlgorithm.NetRandom",
             "RoleAssigningAlgorithm.HashRandom",
             "RoleAssigningAlgorithm.Xorshift",
+            "RoleAssigningAlgorithm.MersenneTwister",
         };
         public static SuffixModes GetSuffixMode()
         {

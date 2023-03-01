@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using HarmonyLib;
-using TownOfHost.Modules;
 using UnityEngine;
+
+using TownOfHost.Modules;
+using TownOfHost.Roles.Impostor;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -59,12 +61,12 @@ namespace TownOfHost
                 foreach (var pc in Main.AllPlayerControls)
                 {
                     var role = Main.PlayerStates[pc.PlayerId].MainRole;
-                    if (role.GetRoleType() == RoleType.Impostor)
+                    if (role.GetCustomRoleTypes() == CustomRoleTypes.Impostor)
                     {
                         if (CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor)
                             winner.Add(pc);
                     }
-                    else if (role.GetRoleType() == RoleType.Crewmate)
+                    else if (role.GetCustomRoleTypes() == CustomRoleTypes.Crewmate)
                     {
                         if (CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
                             winner.Add(pc);
@@ -97,7 +99,6 @@ namespace TownOfHost
             BountyHunter.ChangeTimer = new();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
 
-            NameColorManager.Instance.RpcReset();
             Main.VisibleTasksCount = false;
             if (AmongUsClient.Instance.AmHost)
             {

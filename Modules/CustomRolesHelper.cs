@@ -1,5 +1,8 @@
 using AmongUs.GameOptions;
 
+using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.Neutral;
+
 namespace TownOfHost
 {
     static class CustomRolesHelper
@@ -72,12 +75,12 @@ namespace TownOfHost
                 CustomRoles.JSchrodingerCat;
         }
 
-        public static RoleType GetRoleType(this CustomRoles role)
+        public static CustomRoleTypes GetCustomRoleTypes(this CustomRoles role)
         {
-            RoleType type = RoleType.Crewmate;
-            if (role.IsImpostor()) type = RoleType.Impostor;
-            if (role.IsNeutral()) type = RoleType.Neutral;
-            if (role.IsMadmate()) type = RoleType.Madmate;
+            CustomRoleTypes type = CustomRoleTypes.Crewmate;
+            if (role.IsImpostor()) type = CustomRoleTypes.Impostor;
+            if (role.IsNeutral()) type = CustomRoleTypes.Neutral;
+            if (role.IsMadmate()) type = CustomRoleTypes.Madmate;
             return type;
         }
         public static int GetCount(this CustomRoles role)
@@ -125,7 +128,7 @@ namespace TownOfHost
             => role switch
             {
                 CustomRoles.Shapeshifter => true,
-                CustomRoles.EvilTracker => EvilTracker.CanCreateMadmate.GetBool(),
+                CustomRoles.EvilTracker => EvilTracker.CanCreateMadmate,
                 CustomRoles.Egoist => Egoist.CanCreateMadmate,
                 _ => false,
             };
@@ -152,7 +155,6 @@ namespace TownOfHost
 
                 CustomRoles.Shapeshifter or
                 CustomRoles.BountyHunter or
-                CustomRoles.EvilTracker or
                 CustomRoles.SerialKiller or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
@@ -160,15 +162,35 @@ namespace TownOfHost
                 CustomRoles.Warlock or
                 CustomRoles.Egoist => RoleTypes.Shapeshifter,
 
+                CustomRoles.EvilTracker => EvilTracker.RoleTypes,
+
                 _ => role.IsImpostor() ? RoleTypes.Impostor : RoleTypes.Crewmate,
             };
 
+        public static CountTypes GetCountTypes(this CustomRoles role)
+            => role switch
+            {
+                CustomRoles.GM => CountTypes.OutOfGame,
+                CustomRoles.Egoist => CountTypes.Impostor,
+                CustomRoles.Jackal => CountTypes.Jackal,
+                CustomRoles.HASFox or
+                CustomRoles.HASTroll => CountTypes.None,
+                _ => role.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew,
+            };
     }
-    public enum RoleType
+    public enum CustomRoleTypes
     {
         Crewmate,
         Impostor,
         Neutral,
         Madmate
+    }
+    public enum CountTypes
+    {
+        OutOfGame,
+        None,
+        Crew,
+        Impostor,
+        Jackal,
     }
 }
