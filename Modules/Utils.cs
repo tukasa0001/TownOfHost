@@ -828,7 +828,7 @@ namespace TownOfHost
                         if (seer.Is(CustomRoles.EvilTracker))
                         {
                             TargetMark.Append(EvilTracker.GetTargetMark(seer, target));
-                            if (isMeeting && EvilTracker.IsTrackTarget(seer, target) && EvilTracker.CanSeeLastRoomInMeeting.GetBool())
+                            if (isMeeting && EvilTracker.IsTrackTarget(seer, target) && EvilTracker.CanSeeLastRoomInMeeting)
                                 TargetRoleText = $"<size={fontSize}>{EvilTracker.GetArrowAndLastRoom(seer, target)}</size>\r\n";
                         }
 
@@ -891,18 +891,28 @@ namespace TownOfHost
             tmp += input;
             ChangeTo = Math.Clamp(tmp, 0, max);
         }
-        public static void CountAliveImpostors()
+        public static void CountAlivePlayers(bool sendLog = false)
         {
-            int AliveImpostorCount = 0;
-            foreach (var pc in Main.AllPlayerControls)
+            int AliveImpostorCount = Main.AllAlivePlayerControls.Count(pc => pc.Is(CustomRoleTypes.Impostor));
+            if (Main.AliveImpostorCount != AliveImpostorCount)
             {
-                CustomRoles pc_role = pc.GetCustomRole();
-                if (pc_role.IsImpostor() && !Main.PlayerStates[pc.PlayerId].IsDead) AliveImpostorCount++;
+                Logger.Info("生存しているインポスター:" + AliveImpostorCount + "人", "CountAliveImpostors");
+                Main.AliveImpostorCount = AliveImpostorCount;
+                LastImpostor.SetSubRole();
             }
-            if (Main.AliveImpostorCount == AliveImpostorCount) return;
-            TownOfHost.Logger.Info("生存しているインポスター:" + AliveImpostorCount + "人", "CountAliveImpostors");
-            Main.AliveImpostorCount = AliveImpostorCount;
-            LastImpostor.SetSubRole();
+
+            if (sendLog)
+            {
+                var sb = new StringBuilder(100);
+                foreach (var countTypes in Enum.GetValues(typeof(CountTypes)).Cast<CountTypes>())
+                {
+                    var playersCount = PlayersCount(countTypes);
+                    if (playersCount == 0) continue;
+                    sb.Append($"{countTypes}:{AlivePlayersCount(countTypes)}/{playersCount}, ");
+                }
+                sb.Append($"All:{AllAlivePlayersCount}/{AllPlayersCount}");
+                Logger.Info(sb.ToString(), "CountAlivePlayers");
+            }
         }
         public static string GetVoteName(byte num)
         {
@@ -1058,6 +1068,10 @@ namespace TownOfHost
             casted = obj.TryCast<T>();
             return casted != null;
         }
-        public static string GetRoomName(this SystemTypes roomId) => DestroyableSingleton<TranslationController>.Instance.GetString(roomId);
+        public static int AllPlayersCount => Main.PlayerStates.Values.Count(state => state.countTypes != CountTypes.OutOfGame);
+        public static int AllAlivePlayersCount => Main.AllAlivePlayerControls.Count(pc => !pc.Is(CountTypes.OutOfGame));
+        public static bool IsAllAlive => Main.PlayerStates.Values.All(state => state.countTypes == CountTypes.OutOfGame || !state.IsDead);
+        public static int PlayersCount(CountTypes countTypes) => Main.PlayerStates.Values.Count(state => state.countTypes == countTypes);
+        public static int AlivePlayersCount(CountTypes countTypes) => Main.AllAlivePlayerControls.Count(pc => pc.Is(countTypes));
     }
 }

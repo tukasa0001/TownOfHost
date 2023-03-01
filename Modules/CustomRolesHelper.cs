@@ -127,7 +127,7 @@ namespace TownOfHost
             => role switch
             {
                 CustomRoles.Shapeshifter => true,
-                CustomRoles.EvilTracker => EvilTracker.CanCreateMadmate.GetBool(),
+                CustomRoles.EvilTracker => EvilTracker.CanCreateMadmate,
                 CustomRoles.Egoist => Egoist.CanCreateMadmate,
                 _ => false,
             };
@@ -154,7 +154,6 @@ namespace TownOfHost
 
                 CustomRoles.Shapeshifter or
                 CustomRoles.BountyHunter or
-                CustomRoles.EvilTracker or
                 CustomRoles.SerialKiller or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
@@ -162,9 +161,21 @@ namespace TownOfHost
                 CustomRoles.Warlock or
                 CustomRoles.Egoist => RoleTypes.Shapeshifter,
 
+                CustomRoles.EvilTracker => EvilTracker.RoleTypes,
+
                 _ => role.IsImpostor() ? RoleTypes.Impostor : RoleTypes.Crewmate,
             };
 
+        public static CountTypes GetCountTypes(this CustomRoles role)
+            => role switch
+            {
+                CustomRoles.GM => CountTypes.OutOfGame,
+                CustomRoles.Egoist => CountTypes.Impostor,
+                CustomRoles.Jackal => CountTypes.Jackal,
+                CustomRoles.HASFox or
+                CustomRoles.HASTroll => CountTypes.None,
+                _ => role.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew,
+            };
     }
     public enum CustomRoleTypes
     {
@@ -172,5 +183,13 @@ namespace TownOfHost
         Impostor,
         Neutral,
         Madmate
+    }
+    public enum CountTypes
+    {
+        OutOfGame,
+        None,
+        Crew,
+        Impostor,
+        Jackal,
     }
 }

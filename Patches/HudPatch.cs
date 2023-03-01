@@ -53,7 +53,7 @@ namespace TownOfHost
             //ゲーム中でなければ以下は実行されない
             if (!AmongUsClient.Instance.IsGameStarted) return;
 
-            Utils.CountAliveImpostors();
+            Utils.CountAlivePlayers();
 
             if (SetHudActivePatch.IsActive)
             {
