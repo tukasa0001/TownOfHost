@@ -65,7 +65,7 @@ Bomber,自爆兵,Bomber,Бомбер
 Scavenger,清道夫,Scavenger,Уборщик
 BoobyTrap,诡雷,Booby Trap,Мина Ловушка
 Capitalism,资本家,Capitalist,Капиталист
-Gangster,教父
+Gangster,教父,Gangster,Гангстер
 
 # 船员阵营
 Bait,诱饵,Bait,Байт
@@ -165,7 +165,7 @@ BoobyTrapInfo,艺术就是爆炸！,Set a trap on body,Установи Мину
 ScavengerInfo,杀人不留痕迹,"Kill without leaving a trace","Убивай, не оставляя следов"
 EvilGuesserInfo,想来一把吗，伙计,Guess the nice roles of the players,Угадывай добрые роли игроков
 CapitalismInfo,这可都是劳动力呀,Add another task to a Crewmate,Добавьте еще одно задание Члену Экипажа
-GangsterInfo,是时候重整旗鼓了！
+GangsterInfo,是时候重整旗鼓了！,,
 
 # 船员阵营
 BaitInfo,好消息，杀了我可以吃席,Bait your enemies,Убийца моментально зарепортит ваш труп
@@ -258,7 +258,7 @@ BomberInfoLong,(内鬼阵营):\n自爆兵可以使用变形按钮来进行自爆
 ScavengerInfoLong,(内鬼阵营):\n清道夫击杀的尸体无法被报告，若受害者为诱饵，则诱饵的技能不会发动。,(Impostors):\nThe body killed by the Scavenger will be impossible to report.,"(Предатель):\nКогда Уборщик убёт игрока, то зарепортить этот труп будет невозможно."
 BoobyTrapInfoLong,(内鬼阵营):\n诡雷在进行击杀后会在受害者尸体上装上诡雷，报告该尸体的玩家会立刻被炸死，被炸死的玩家也会附带诡雷的效果，以此类推。但作为代价，诡雷在进行击杀后会立刻自杀。请注意：诡雷自身的尸体并不附带诡雷效果。,"(Impostors):\nBooby Trap will place a mine on the corpse of the victim after the kill. A player who tries to report a body with a mine will be immediately killed, and a player who gets caught by the mine will also be followed by the effect of the mine, and so on. But as a payment, Booby Trap will commit suicide immediately after one of the players gets on Mina. \nPlease note: Booby Trap's own corpse will not be accompanied by the Mine's effect.","(Предатель):\nМина Ловушка установит Мину на труп жертвы после убийства. Игрок который попытается зарепортить труп с миной будет немедленно убит, и игрок который попался на Мину также будет сопровождаться эффектом Мины, и так далее. Но в качестве платы Мина Ловушка суициднется сразу же после того как один из игроков попадётся на Мину. \nПожалуйста, обратите внимание: Труп самого Мины Ловушки не будет сопровождаться эффектом Мины."
 CapitalismInfoLong,(内鬼阵营):\n资本家可以通过击杀按键给某位玩家增加一个短任务。请注意：对没有任务或已完成任务的玩家使用技能则不会生效。,"(Impostors):\nThe Capitalist can add one short task to the player by clicking on the ''Kill'' button. Please note: the skill will not work if you use the skill on players who do not have tasks or who have already completed all the tasks.","(Предатель):\nКапиталист может добавить игроку одно короткое задание, нажав на кнопку ''Убить''. Пожалуйста, обратите внимание: навык не сработает если использовать навык на игроков, у которых нет заданий или которые уже выполнили все задания."
-GangsterInfoLong,(内鬼阵营):\n教父可以通过击杀键尝试招募一位玩家成为叛徒。剩余可以招募的次数会显示在教父名字旁的括号内（数量根据房主设置）。若教父尝试招募无法被招募的玩家例如中立阵营或一些特殊船员阵营玩家时，则会改为正常击杀目标。当教父没有剩余招募次数时击杀则为正常击杀。
+GangsterInfoLong,(内鬼阵营):\n教父可以通过击杀键尝试招募一位玩家成为叛徒。剩余可以招募的次数会显示在教父名字旁的括号内（数量根据房主设置）。若教父尝试招募无法被招募的玩家例如中立阵营或一些特殊船员阵营玩家时，则会改为正常击杀目标。当教父没有剩余招募次数时击杀则为正常击杀。,"(Impostors):\nGangster can try to lure the player to the side of the impostors by pressing the ''Kill'' button. The remaining number of times that can be scored will be indicated in brackets next to the player's name (the number depends on the Host's settings). If the Ganster tries to lure players that cannot be lured, such as: Neutrals or some players of the special team, then a normal kill will occur. When the Gangster runs out of decoys, he will perform regular kills.","(Предатель):\nГанстер может попытаться переманить игрока, на сторону предателей, нажав на кнопку ''Убить''. Оставшееся количество раз, которое можно набрать, будет указано в скобках рядом с именем игрока (количество зависит от настроек Хоста). Если Ганстер попытается переманить игроков, которые не могут быть приманены, такие как: Нейтралы или некоторые игроки специальной команды, то произойдёт обычное убийство. Когда у Ганстера нет оставшегося количества переманивания, то он будет совершать обычнын убийства."
 
 # 双阵营
 GuesserInfoLong,(内鬼阵营或船员阵营):\n赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。,"(Impostors or Crewmate):\nGuesser can guess the roles of certain players during an encounter. If he guesses the role correctly, he will kill that target, and if wrong, he will commit suicide. \nGuessing command: ''/bt [Player ID] [Role Name]'' \nExample: /bt 3 Bait \nYou can see the player ID before the player's nickname, or you can use the ''/id'' command to see the IDs of all players.","(Предатель или Член Экипажа):\nУгадыватель может угадывать роли определённого игрока во время встречи. Если он угадает роль правильно, то он убьет эту цель, а если неправильно, то он совершит самоубийство. \nКоманда для угадываний: '/bt [Номер игрока] [Название Роли]'' \nПример: /bt 3 Байт \nВы можете увидеть номер игрока перед его никнеймом, или же для просмотра номеров всех игроков нужно использовать команду ''/id'' ."
@@ -580,8 +580,8 @@ GrenadierSkillDuration,掷雷兵闪光弹状态持续时间,Skill duration,Пр�
 GrenadierCauseVision,受闪光弹影响后的视野,Vision after activating the stun grenade,Поле зрение после активации светошумовой гранаты
 GrenadierCanAffectNeutral,中立阵营玩家会受到闪光弹影响,Neutrals can be hit by a stun grenade,Нейтралы могут быть поражены светошумовой гранатой
 TicketsPerKill,每次击杀增加票数,Increase in votes for kill,Увеличение голосов за убийство
-GangsterRecruitCooldown,教父击杀/招募冷却时间
-GangsterRecruitLimit,教父招募玩家数量上限
+GangsterRecruitCooldown,教父击杀/招募冷却时间,Recruit cooldown, Откат переманивания
+GangsterRecruitLimit,教父招募玩家数量上限,Recruit limit,Лимит переманивания
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
@@ -829,8 +829,8 @@ InnocentButtonText,栽赃,To Frame,Подставить
 CapitalismButtonText,压榨,Issue a task,Выдать задание
 PelicanButtonText,吞下,Eat up,Съесть
 CounterfeiterButtonText,贩卖,Cheat,Обмануть
-GangsterButtonText,招募
-RevolutionistDrawButtonText,拉拢
+GangsterButtonText,招募,Poach,Переманить
+RevolutionistDrawButtonText,拉拢,Win over,Покорить
 DefaultShapeshiftText,变形,Shift,Превращение
 DisabledBySettings,已在设置被中禁用,Disabled by Settings,Отключено настройкой
 Disabled,禁用,Disabled,Отключено
