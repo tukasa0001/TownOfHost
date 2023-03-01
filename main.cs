@@ -51,7 +51,7 @@ namespace TOHE
         public static readonly string BANNEDWORDS_FILE_PATH = "./TOHE_DATA/BanWords.txt";
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.karped1em.townofhostedited";
-        public const string PluginVersion = "2.0.4";
+        public const string PluginVersion = "2.1.0";
         public const int PluginCreate = 3;
         public const bool Dev = true;
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
