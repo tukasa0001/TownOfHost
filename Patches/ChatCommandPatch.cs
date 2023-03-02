@@ -623,6 +623,7 @@ namespace TOHE
                 "吹笛者" or "吹笛" => "吹笛者",
                 "擲雷兵" or "掷雷" or "闪光弹" => "掷雷兵",
                 "竊票者" or "偷票" or "偷票者" or "窃票师" or "窃票" => "窃票者",
+                "教父" => "教父",
                 _ => text,
             };
         }
@@ -659,6 +660,7 @@ namespace TOHE
                 { CustomRoles.EvilGuesser, GetString("EvilGuesser") },
                 { CustomRoles.Scavenger, GetString("Scavenger") },
                 { CustomRoles.Capitalism, GetString("Capitalism") },
+                { CustomRoles.Gangster, GetString("Gangster") },
                 //Crewmate役職
                 { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
                 { CustomRoles.Bait, GetString("Bait") },
