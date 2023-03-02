@@ -52,7 +52,7 @@ namespace TOHE
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.karped1em.townofhostedited";
         public const string PluginVersion = "2.1.0";
-        public const int PluginCreate = 3;
+        public const int PluginCreate = 4;
         public const bool Dev = true;
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
