@@ -25,6 +25,8 @@ public static class CustomRoleManager
         => OnCheckMurder(attemptKiller, attemptTarget, attemptKiller, attemptTarget);
     public static void OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget, PlayerControl appearanceKiller, PlayerControl appearanceTarget)
     {
+        attemptKiller.ResetKillCooldown();
+
         // このリストへは、先のorderが前のorder以上の値になるようにオブジェクトを挿入していく
         LinkedList<(int order, IEnumerator<int> method, RoleBase role)> methods = new();
         CheckMurderInfo info = new(attemptKiller, attemptTarget, appearanceKiller, appearanceTarget);
