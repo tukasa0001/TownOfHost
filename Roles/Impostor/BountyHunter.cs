@@ -91,7 +91,7 @@ namespace TownOfHost.Roles.Impostor
         //public static void SetKillCooldown(byte id, float amount) => Main.AllPlayerKillCooldown[id] = amount;
         public override void ApplyGameOptions(IGameOptions opt) => AURoleOptions.ShapeshifterCooldown = TargetChangeTime;
 
-        public override IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target)
+        public override IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target, CustomRoleManager.CheckMurderInfo info)
         {
             if (GetTarget() == target)
             {//ターゲットをキルした場合

@@ -122,7 +122,7 @@ namespace TownOfHost.Roles.Crewmate
             && ShotLimit > 0;
 
         // == CheckMurder関連処理 ==
-        /*public override IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target)
+        /*public override IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target, CustomRoleManager.CheckMurderInfo info)
         {
             ShotLimit[killer.PlayerId]--;
             Logger.Info($"{killer.GetNameWithRole()} : 残り{ShotLimit[killer.PlayerId]}発", "Sheriff");
