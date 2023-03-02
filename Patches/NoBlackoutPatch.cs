@@ -1,22 +1,21 @@
 using HarmonyLib;
 
-namespace TOHE
-{
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcMurderPlayer))]
-    class RpcMurderPlayerPatch
-    {
-        public static void Postfix(PlayerControl __instance)
-        {
-            Utils.NotifyRoles();
-        }
-    }
+namespace TOHE;
 
-    [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.IsGameOverDueToDeath))]
-    class DontBlackoutPatch
+[HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcMurderPlayer))]
+class RpcMurderPlayerPatch
+{
+    public static void Postfix(PlayerControl __instance)
     {
-        public static void Postfix(ref bool __result)
-        {
-            __result = false;
-        }
+        Utils.NotifyRoles();
+    }
+}
+
+[HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.IsGameOverDueToDeath))]
+class DontBlackoutPatch
+{
+    public static void Postfix(ref bool __result)
+    {
+        __result = false;
     }
 }

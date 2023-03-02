@@ -1,14 +1,13 @@
 using HarmonyLib;
 
-namespace TOHE
+namespace TOHE;
+
+//参考元:https://github.com/yukieiji/ExtremeRoles/blob/master/ExtremeRoles/Patches/AirShipStatusPatch.cs
+[HarmonyPatch(typeof(AirshipStatus), nameof(AirshipStatus.PrespawnStep))]
+public static class AirshipStatusPrespawnStepPatch
 {
-    //参考元:https://github.com/yukieiji/ExtremeRoles/blob/master/ExtremeRoles/Patches/AirShipStatusPatch.cs
-    [HarmonyPatch(typeof(AirshipStatus), nameof(AirshipStatus.PrespawnStep))]
-    public static class AirshipStatusPrespawnStepPatch
+    public static bool Prefix()
     {
-        public static bool Prefix()
-        {
-            return !PlayerControl.LocalPlayer.Is(CustomRoles.GM); // GMは湧き画面をスキップ
-        }
+        return !PlayerControl.LocalPlayer.Is(CustomRoles.GM); // GMは湧き画面をスキップ
     }
 }

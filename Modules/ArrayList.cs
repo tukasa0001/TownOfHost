@@ -1,6 +1,5 @@
-﻿namespace TOHE
+﻿namespace TOHE;
+
+internal class ArrayList<T>
 {
-    internal class ArrayList<T>
-    {
-    }
 }

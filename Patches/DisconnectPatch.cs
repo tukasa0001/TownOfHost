@@ -1,13 +1,12 @@
 using HarmonyLib;
 
-namespace TOHE
+namespace TOHE;
+
+[HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnDisconnected))]
+class OnDisconnectedPatch
 {
-    [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnDisconnected))]
-    class OnDisconnectedPatch
+    public static void Postfix(AmongUsClient __instance)
     {
-        public static void Postfix(AmongUsClient __instance)
-        {
-            Main.VisibleTasksCount = false;
-        }
+        Main.VisibleTasksCount = false;
     }
 }
