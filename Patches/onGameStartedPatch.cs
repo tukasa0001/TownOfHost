@@ -531,7 +531,7 @@ class SelectRolesPatch
                 AssignCustomRolesFromList(role, playerList);
             }
 
-            if (CustomRoles.Lovers.IsEnable() && rd.Next(1, 100) <= Options.LoverSpawnChances.GetInt()) AssignLoversRolesFromList();
+            if (CustomRoles.Lovers.IsEnable() && (CustomRoles.FFF.IsEnable() ? -1 : rd.Next(1, 100)) <= Options.LoverSpawnChances.GetInt()) AssignLoversRolesFromList();
             foreach (var role in addRoleList)
             {
                 if (rd.Next(1, 100) <= (Options.CustomAdtRoleSpawnRate.TryGetValue(role, out var sc) ? sc.GetFloat() : 0))
