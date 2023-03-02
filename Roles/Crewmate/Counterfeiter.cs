@@ -93,12 +93,15 @@ namespace TOHE.Roles.Crewmate
                     {
                         var killer = Utils.GetPlayerById(cl.Key);
                         if (killer == null) continue;
-                        target.SetRealKiller(killer);
-                        target.Data.IsDead = true;
-                        Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
-                        target.RpcExileV2();
-                        Main.PlayerStates[target.PlayerId].SetDead();
-                        Logger.Info($"赝品商 {killer.GetRealName()} 的客户 {target.GetRealName()} 因不带刀自杀", "Counterfeiter");
+                        new LateTask(() =>
+                        {
+                            target.SetRealKiller(killer);
+                            target.Data.IsDead = true;
+                            Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
+                            target.MurderPlayer(target);
+                            Main.PlayerStates[target.PlayerId].SetDead();
+                            Logger.Info($"赝品商 {killer.GetRealName()} 的客户 {target.GetRealName()} 因不带刀自杀", "Counterfeiter");
+                        }, 5f, "Counterfeiter Client Suicide");
                     }
                 }
         }
