@@ -625,6 +625,7 @@ class ChatCommands
             "竊票者" or "偷票" or "偷票者" or "窃票师" or "窃票" => "窃票者",
             "教父" => "教父",
             "革命家" or "革命" => "革命家",
+            "fff團" or "fff" or "fff团" => "FFF团",
             _ => text,
         };
     }
@@ -701,6 +702,7 @@ class ChatCommands
             { CustomRoles.Jackal, GetString("Jackal") },
             { CustomRoles.Innocent, GetString("Innocent") },
             { CustomRoles.Pelican, GetString("Pelican") },
+            { CustomRoles.FFF, GetString("FFF") },
             //属性
             { (CustomRoles)(-6), $"== {GetString("Addons")} ==" }, //区切り用
             {CustomRoles.Lovers, GetString("Lovers") },

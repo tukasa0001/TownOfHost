@@ -157,6 +157,9 @@ public class PlayerGameOptionsSender : GameOptionsSender
                 AURoleOptions.EngineerCooldown = Options.GrenadierSkillCooldown.GetFloat();
                 AURoleOptions.EngineerInVentMaxTime = 1;
                 break;
+            case CustomRoles.FFF:
+                opt.SetVision(true);
+                break;
         }
 
         // 为迷惑者的凶手

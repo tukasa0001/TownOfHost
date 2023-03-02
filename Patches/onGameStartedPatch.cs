@@ -821,7 +821,7 @@ class SelectRolesPatch
         foreach (var pc in Main.AllPlayerControls)
         {
             if (pc.Is(CustomRoles.GM) || (pc.HasSubRole() && !Options.NoLimitAddonsNum.GetBool()) || pc.Is(CustomRoles.Needy)) continue;
-            if ((role is CustomRoles.Madmate or CustomRoles.Lighter) && !pc.GetCustomRole().IsCrewmate()) continue;
+            if (role is CustomRoles.Lighter && !pc.GetCustomRole().IsCrewmate()) continue;
             if (role is CustomRoles.Bewilder && pc.GetCustomRole().IsImpostor()) continue;
             if (role is CustomRoles.Ntr && pc.Is(CustomRoles.Lovers)) continue;
             if (role is CustomRoles.Madmate && !Utils.CanBeMadmate(pc)) continue;

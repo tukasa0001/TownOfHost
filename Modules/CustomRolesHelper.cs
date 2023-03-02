@@ -90,6 +90,7 @@ static class CustomRolesHelper
             CustomRoles.Pelican => RoleTypes.Impostor,
             CustomRoles.Counterfeiter => RoleTypes.Impostor,
             CustomRoles.Revolutionist => RoleTypes.Impostor,
+            CustomRoles.FFF => RoleTypes.Impostor,
             _ => RoleTypes.Scientist
         };
     }
@@ -119,7 +120,8 @@ static class CustomRolesHelper
     {
         return role is
             CustomRoles.Jackal or
-            CustomRoles.Pelican;
+            CustomRoles.Pelican or
+            CustomRoles.FFF;
     }
     public static bool IsNNK(this CustomRoles role) => role.IsNeutral() && !role.IsNK(); // 是否无刀中立
     public static bool IsNeutralKilling(this CustomRoles role) //是否邪恶中立（抢夺或单独胜利的中立）
@@ -187,7 +189,8 @@ static class CustomRolesHelper
             CustomRoles.God or
             CustomRoles.Innocent or
             CustomRoles.Pelican or
-            CustomRoles.Revolutionist;
+            CustomRoles.Revolutionist or
+            CustomRoles.FFF;
     }
     public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
     public static bool IsVanilla(this CustomRoles role) // 是否原版职业

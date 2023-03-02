@@ -128,10 +128,13 @@ class HudManagerPatch
                         __instance.KillButton.OverrideText($"{GetString("PelicanButtonText")}");
                         break;
                     case CustomRoles.Counterfeiter:
-                        __instance.KillButton.OverrideText($"{GetString("CounterfeiterButtonText")}");
+                        __instance.KillButton.OverrideText($"{GetString("FFFButtonText")}");
                         break;
                     case CustomRoles.Gangster:
                         Gangster.SetKillButtonText(player.PlayerId);
+                        break;
+                    case CustomRoles.FFF:
+                        __instance.KillButton.OverrideText($"{GetString("CounterfeiterButtonText")}");
                         break;
                 }
 
@@ -289,6 +292,7 @@ class SetHudActivePatch
             case CustomRoles.Innocent:
             case CustomRoles.Pelican:
             case CustomRoles.Revolutionist:
+            case CustomRoles.FFF:
                 __instance.SabotageButton.ToggleVisible(false);
                 __instance.AbilityButton.ToggleVisible(false);
                 break;

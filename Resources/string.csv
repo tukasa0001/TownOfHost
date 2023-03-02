@@ -105,6 +105,7 @@ God,神,God,Бог
 Innocent,冤罪师,Innocent,Невинный
 Pelican,鹈鹕,Pelican,Пеликан
 Revolutionist,革命家,Revolutionist,Революционер
+FFF,FFF团
 
 # 附加职业
 LastImpostor,绝境者,Last Impostor,Последний Предатель
@@ -207,6 +208,7 @@ GodInfo,一切都在您的掌控,Everything is under your control,Все под 
 InnocentInfo,果然碰瓷百试百灵,Let aim of innocent was be ejected,Пусть цель невинного будет изгнана
 PelicanInfo,船船，饿饿，饭饭,Eat all players,Съешьте всех игроков
 RevolutionistInfo,人类的赞歌是勇气的赞歌,Make a Revolution!,Совершите Революцию!
+FFFInfo,该烧还是该审？
 
 # 附加职业
 LoversInfo,最重要的是，记得照顾好你的另一半,Survive with your Lover,Выживите со своим Любовником
@@ -304,6 +306,7 @@ GodInfoLong,(中立阵营):\n神从一开始就知道所有人的身份，而神
 InnocentInfoLong,(中立阵营):\n冤罪师可以用击杀键栽赃任意一位玩家，被栽赃的目标会立刻击杀冤罪师，若目标在会议上被驱逐则冤罪师获胜。请注意：小丑、处刑人、冤罪师可以共享胜利。,"(Neutrals):\nInnocent can use the ''Kill'' button to tag any player. The marked target will immediately kill the Innocent. If the marked target is ejected during the meetings, the Innocent will win. \nPlease note: the Jester, the Executioner and the Innocent can share the victory.","(Нейтрал):\nНевинный может использовать кнопку ''Убить'', чтобы пометить любого игрока. Помеченная цель немедленно убьет Невинного. Если помеченная цель будет изгнана во время встречи, то Невинный одержит победу. \nПожалуйста, обратите внимание: Джестер, Палач и Невинный могут разделить победу."
 PelicanInfoLong,(中立阵营):\n鹈鹕需要击杀所有人。存活的玩家只剩鹈鹕和一名其他船员时，鹈鹕获得胜利。鹈鹕可以使用击杀键活吞一位玩家（被活吞的玩家将被传送到地图外且无法与游戏互动），活吞成功后鹈鹕将看到自己身上出现盾牌破碎的动画作为提示。紧急会议或报告尸体会导致鹈鹕吞下的所有玩家立刻死亡。若鹈鹕死亡或掉线，则被吞下的所有玩家立刻回到鹈鹕死亡的位置。,"(Neutrals):\nThe pelican needs to swallow all the players. When only the Pelican and the Crewmate are left alive, the Pelican wins. \nPelican can use the ''Kill'' button to swallow the player alive (This player will be teleported to the very edge of the map and will not be able to interact with the game). After successfully swallowing, Pelican will see a broken shield animation on his body as a reminder. \nAn emergency encounter or report of a corpse will result in the immediate death of all players swallowed by the Pelican. If he is killed, all players who were swallowed by the Pelican will immediately return to the position where the Pelican himself will die","(Нейтрал):\nПеликану нужно проглотить всех игроков. Когда в живых остался только Пеликан и Член Экипажа, то Пеликан победит. \nПеликан может использовать кнопку ''Убить'', чтобы проглотить игрока живьем (Этот игрок, будет телепортирован на самый край карты и не сможет взаимодействовать с игрой). После успешного проглатывания, Пеликан увидит анимацию сломанного щита на своем теле в качестве напоминания. \nЭкстренная встреча или сообщение о трупе приведет к немедленной смерти всех игроков, проглоченных Пеликаном.Если он будет убит, все игроки которые были проглочены Пеликаном, немедленно вернуться на позицию, где умрёт сам Пеликан."
 RevolutionistInfoLong,(中立阵营):\n革命家可以通过对玩家点击击杀按钮并跟随其数秒来拉拢玩家，开始拉拢以及拉拢成功时会显示护盾破碎的动画作为提示（仅自己可见）。玩家有概率在被拉拢后立刻牺牲（概率根据房主设定）。当达到指定的拉拢人数（人数根据房主设定）后并在规定时间内跳进通风管道，则革命家以及所有被拉拢的玩家获胜；若没有在规定时间内跳进通风管道则革命家以及所有被拉拢的玩家死亡；若革命家被杀，则无事发生。请注意：被拉拢后牺牲的玩家依然可以跟随革命家胜利。,"(Neutrals):\nRevolutionary can win together with the players on whom he pressed the ''Kill'' button, if you follow the player for a few seconds, an animation of a broken shield will be displayed (only you see this shield). The player has a chance to sacrifice himself immediately after he has won (the probability depends on the Host settings). When the specified number of players is reached and the Revolutionary jumps into the vent during the specified time, the Revolutionary and all the players on whom he pressed the ''Kill'' button automatically win. If the Revolutionary does not jump into the vent within the specified time, the Revolutionary and all players who have been marked die. Please note: Players who died before winning can still win together with the Revolutionary.","(Нейтрал):\nРеволюционер может одержать победу вместе с игроками, на которых он нажал кнопку ''Убить'', если следовать за игроком в течение нескольких секунд, то отобразится анимация разбитого щита (Этот щит видите только вы). У игрока есть вероятность пожертвовать собой сразу после того, как он одержал победу (вероятность зависит от настроек Хоста). Когда наберется указанное количество игроков и Революционер прыгнет в вентиляционное отверстие в течение указанного времени, то Революционер и все игроки на которых он нажал кнопку ''Убить'' автоматически выигрывают. Если Революционер не прыгнет в вентиляционное отверстие в течении указанного времени, Революционер и все игроки которые были помечены умирают. Пожалуйста, обратите внимание: Игроки, которые умерли до победы, все еще могут выиграть вместе с Революционером."
+FFFInfoLong,(中立阵营):\nFFF团拥有无限且没有冷却的击杀能力，同时FFF团敏锐的观察力使他默认拥有内鬼的视野。FFF团只能击杀恋人与海王，击杀其他玩家则会立刻牺牲。游戏结束时，没有恋人与海王存活且FFF团曾经击杀过至少一次恋人或海王，则FFF团胜利。请注意：FFF团只会附加胜利不会抢夺原本阵营的胜利。
 
 # 管理员
 GMInfoLong,(房主):\n看我干啥，我只是个开局就死的冤魂，静静地吃瓜而已。,"(None):\nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game, and all players know who the GM is. The GM role will be assigned to the host, who will automatically become a ghost at the start of the game.","(Никто):\nGM (Мастер Игры) — это роль, которая наблюдает за игрой в роле призрака. \nОн не влияет на игру, и все игроки всегда знают кто Мастер Игры. Всегда назначается только хосту лобби и становится призраком в самом начале игры."
@@ -844,6 +847,7 @@ PelicanButtonText,吞下,Eat up,Съесть
 CounterfeiterButtonText,贩卖,Cheat,Обмануть
 GangsterButtonText,招募,Poach,Переманить
 RevolutionistDrawButtonText,拉拢,Win over,Покорить
+FFFButtonText,制裁
 DefaultShapeshiftText,变形,Shift,Превращение
 DisabledBySettings,已在设置被中禁用,Disabled by Settings,Отключено настройкой
 Disabled,禁用,Disabled,Отключено

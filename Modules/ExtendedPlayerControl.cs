@@ -392,6 +392,7 @@ static class ExtendedPlayerControl
             CustomRoles.Bomber => false,
             CustomRoles.Innocent => pc.IsAlive(),
             CustomRoles.Counterfeiter => Counterfeiter.CanUseKillButton(pc.PlayerId),
+            CustomRoles.FFF => pc.IsAlive(),
             _ => pc.Is(CustomRoleTypes.Impostor),
         };
     }
@@ -409,6 +410,7 @@ static class ExtendedPlayerControl
             CustomRoles.Arsonist => pc.IsDouseDone(),
             CustomRoles.Revolutionist => pc.IsDrawDone(),
             CustomRoles.Pelican => Pelican.CanVent.GetBool(),
+            CustomRoles.FFF => false,
             _ => pc.Is(CustomRoleTypes.Impostor),
         };
     }
@@ -499,6 +501,9 @@ static class ExtendedPlayerControl
                 break;
             case CustomRoles.Counterfeiter:
                 Counterfeiter.SetKillCooldown(player.PlayerId);
+                break;
+            case CustomRoles.FFF:
+                Main.AllPlayerKillCooldown[player.PlayerId] = 0;
                 break;
         }
     }

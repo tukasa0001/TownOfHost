@@ -572,6 +572,7 @@ public static class Options
         SetupRoleOptions(50200, TabGroup.NeutralRoles, CustomRoles.Terrorist);
         CanTerroristSuicideWin = BooleanOptionItem.Create(50210, "CanTerroristSuicideWin", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Terrorist])
             .SetGameMode(CustomGameMode.Standard);
+        //50220~50223を使用
         SetupRoleOptions(5050600, TabGroup.NeutralRoles, CustomRoles.Revolutionist);
         RevolutionistDrawTime = FloatOptionItem.Create(5050610, "RevolutionistDrawTime", new(1f, 10f, 1f), 3f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
             .SetValueFormat(OptionFormat.Seconds);
@@ -581,13 +582,12 @@ public static class Options
             .SetValueFormat(OptionFormat.Players);
         RevolutionistKillProbability = IntegerOptionItem.Create(5050619, "RevolutionistKillProbability", new(0, 100, 5), 30, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
             .SetValueFormat(OptionFormat.Percent);
-
-        //50220~50223を使用
         TerroristTasks = OverrideTasksData.Create(50220, TabGroup.NeutralRoles, CustomRoles.Terrorist);
         Executioner.SetupCustomOption();
         Jackal.SetupCustomOption();
         SetupRoleOptions(5050233, TabGroup.NeutralRoles, CustomRoles.Innocent);
         InnocentCanWinByImp = BooleanOptionItem.Create(5050266, "InnocentCanWinByImp", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Innocent]);
+        SetupRoleOptions(5050850, TabGroup.NeutralRoles, CustomRoles.FFF);
 
         // Add-Ons
         NoLimitAddonsNum = BooleanOptionItem.Create(6050250, "NoLimitAddonsNum", false, TabGroup.Addons, false)

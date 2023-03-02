@@ -111,6 +111,15 @@ class GameEndChecker
                             CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Lovers);
                         }
                     }
+                    //FFF
+                    if (pc.Is(CustomRoles.FFF) && CustomWinnerHolder.WinnerTeam != CustomWinner.Lovers && !CustomWinnerHolder.AdditionalWinnerTeams.Contains(AdditionalWinners.Lovers) && !CustomRolesHelper.RoleExist(CustomRoles.Lovers) && !CustomRolesHelper.RoleExist(CustomRoles.Ntr))
+                    {
+                        if (PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(CustomRoles.Lovers) || x.Is(CustomRoles.Ntr)) && (x.GetRealKiller() == null ? -1 : x.GetRealKiller().PlayerId) == pc.PlayerId).Count() > 0)
+                        {
+                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.FFF);
+                        }
+                    }
                 }
             }
             ShipStatus.Instance.enabled = false;

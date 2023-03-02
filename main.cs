@@ -34,7 +34,7 @@ public class Main : BasePlugin
     public static readonly string MainMenuText = "能做出来这个模组，就已经值啦";
     public static readonly string BANNEDWORDS_FILE_PATH = "./TOHE_DATA/BanWords.txt";
     public const string PluginGuid = "com.karped1em.townofhostedited";
-    public const string PluginVersion = "2.1.0";
+    public const string PluginVersion = "2.1.1";
     public const int PluginCreate = 4;
     public const bool Dev = true;
     public Harmony Harmony { get; } = new Harmony(PluginGuid);
@@ -306,6 +306,7 @@ public class Main : BasePlugin
                 {CustomRoles.Innocent, "#8f815e"},
                 {CustomRoles.Pelican, "#34c84b"},
                 {CustomRoles.Revolutionist, "#ba4d06"},
+                {CustomRoles.FFF, "#414b66"},
                 // GM
                 {CustomRoles.GM, "#ff5b70"},
                 //サブ役職
@@ -441,6 +442,7 @@ public enum CustomRoles
     Innocent,
     Pelican,
     Revolutionist,
+    FFF,
     //GM
     GM,
     // Sub-role after 500
@@ -493,6 +495,7 @@ public enum AdditionalWinners
     Lovers = CustomRoles.Lovers,
     Opportunist = CustomRoles.Opportunist,
     Executioner = CustomRoles.Executioner,
+    FFF = CustomRoles.FFF,
 }
 public enum SuffixModes
 {

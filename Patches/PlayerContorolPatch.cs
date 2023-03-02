@@ -13,7 +13,6 @@ using TOHE.Roles.Impostor;
 using TOHE.Roles.Neutral;
 using UnityEngine;
 using static TOHE.Translator;
-
 namespace TOHE;
 
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckProtect))]
@@ -219,6 +218,17 @@ class CheckMurderPatch
                         killer.SetKillCooldown();
                     }
                     return false;
+                case CustomRoles.FFF:
+                    if (!target.Is(CustomRoles.Lovers) && !target.Is(CustomRoles.Ntr))
+                    {
+                        killer.Data.IsDead = true;
+                        Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
+                        killer.RpcMurderPlayer(killer);
+                        Main.PlayerStates[killer.PlayerId].SetDead();
+                        Logger.Info($"{killer.GetRealName()} 击杀了非目标玩家，壮烈牺牲了", "FFF");
+                        return false;
+                    }
+                    return true;
 
                 //==========クルー役職==========//
                 case CustomRoles.Sheriff:
