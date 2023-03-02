@@ -219,8 +219,11 @@ namespace TownOfHost.Roles.Impostor
             {
                 //一番正確な対象がターゲット
                 var snipedTarget = targets.OrderBy(c => c.Value).First().Key;
-                snipeTarget[sniperId] = snipedTarget.PlayerId;
-                snipedTarget.CheckMurder(snipedTarget);
+                CustomRoleManager.OnCheckMurder(
+                    sniper, snipedTarget,       // sniperがsnipedTargetを打ち抜く
+                    snipedTarget, snipedTarget  // 表示上はsnipedTargetの自爆
+                );
+
                 //あたった通知
                 sniper.RpcGuardAndKill();
                 snipeTarget[sniperId] = 0x7F;

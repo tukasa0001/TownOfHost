@@ -58,16 +58,6 @@ namespace TownOfHost
 
             Logger.Info($"{killer.GetNameWithRole()} => {target.GetNameWithRole()}", "CheckMurder");
 
-            //実際のキラーとkillerが違う場合の入れ替え処理
-            if (Sniper.IsEnable)
-            {
-                Sniper.TryGetSniper(target.PlayerId, ref killer);
-            }
-            if (killer != __instance)
-            {
-                Logger.Info($"Real Killer={killer.GetNameWithRole()}", "CheckMurder");
-            }
-
             // 処理は全てCustomRoleManager側で行う
             CustomRoleManager.OnCheckMurder(__instance, target);
 
