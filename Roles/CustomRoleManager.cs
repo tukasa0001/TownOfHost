@@ -19,7 +19,7 @@ public static class CustomRoleManager
     // # 順番メモ #
     // x: orderがxの時に行われる処理 (クラス名)
     // 1_000_000: キルされた側の特殊処理 (CheckMurderPatch)
-    // 2_000_000: キルした側の特殊処理 (CheckMurderPatch)
+    // 2_000_000: キルした側の特殊処理 (CheckMurderPatch, Sheriff, BountyHunter)
 
     public static void OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget)
         => OnCheckMurder(attemptKiller, attemptTarget, attemptKiller, attemptTarget);

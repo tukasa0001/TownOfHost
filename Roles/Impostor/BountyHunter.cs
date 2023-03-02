@@ -93,6 +93,7 @@ namespace TownOfHost.Roles.Impostor
 
         public override IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target, CustomRoleManager.CheckMurderInfo info)
         {
+            yield return 2_000_000;
             if (GetTarget() == target)
             {//ターゲットをキルした場合
                 Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
