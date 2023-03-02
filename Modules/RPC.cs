@@ -168,7 +168,7 @@ namespace TOHE
                     {
                         Version version = Version.Parse(reader.ReadString());
                         string tag = reader.ReadString();
-                        string forkId = 3 <= version.Major ? reader.ReadString() : Main.OriginalForkId;
+                        //string forkId = 4 <= version.Major ? reader.ReadString() : Main.OriginalForkId;
                         Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag, forkId);
                     }
                     catch
