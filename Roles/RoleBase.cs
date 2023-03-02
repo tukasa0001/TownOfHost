@@ -54,8 +54,7 @@ public abstract class RoleBase : IDisposable
     /// <summary>
     /// キルクールダウンを設定する関数
     /// </summary>
-    public virtual void SetKillCooldown()
-    { }
+    public virtual float SetKillCooldown() => 30f;
     /// <summary>
     /// BuildGameOptionsで呼ばれる関数
     /// </summary>

@@ -340,7 +340,7 @@ namespace TownOfHost
             CustomRoleCounts = new();
             CustomRoleSpawnChances = new();
 
-            var sortedRoleInfo = CustomRoleManager.AllRolesInfo.OrderBy(role => role.ConfigId);
+            var sortedRoleInfo = CustomRoleManager.AllRolesInfo.Values.OrderBy(role => role.ConfigId);
             // GM
             EnableGM = BooleanOptionItem.Create(100, "GM", false, TabGroup.MainSettings, false)
                 .SetColor(Utils.GetRoleColor(CustomRoles.GM))

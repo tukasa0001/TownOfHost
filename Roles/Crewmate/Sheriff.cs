@@ -115,7 +115,7 @@ namespace TownOfHost.Roles.Crewmate
 
             ShotLimit = reader.ReadInt32();
         }
-        public override void SetKillCooldown() => Main.AllPlayerKillCooldown[Player.PlayerId] = CanUseKillButton() ? CurrentKillCooldown : 0f;
+        public override float SetKillCooldown() => CanUseKillButton() ? CurrentKillCooldown : 0f;
         public override bool CanUseKillButton()
             => !Main.PlayerStates[Player.PlayerId].IsDead
             && (CanKillAllAlive.GetBool() || GameStates.AlreadyDied)

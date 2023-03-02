@@ -62,7 +62,7 @@ public class SimpleRoleInfo
             };
         Tab = tab;
 
-        CustomRoleManager.AllRolesInfo.Add(this);
+        CustomRoleManager.AllRolesInfo.Add(roleName, this);
     }
     public delegate void OptionCreatorDelegate();
 }
