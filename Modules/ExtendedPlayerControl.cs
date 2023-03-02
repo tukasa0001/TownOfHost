@@ -422,9 +422,7 @@ namespace TOHE
         }
         public static bool IsDrawPlayer(this PlayerControl arsonist, PlayerControl target)
         {
-            if (arsonist == null) return false;
-            if (target == null) return false;
-            if (Main.isDraw == null) return false;
+            if (arsonist == null && target == null && Main.isDraw == null) return false;
             Main.isDraw.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDraw);
             return isDraw;
         }
@@ -432,6 +430,13 @@ namespace TOHE
         public static void RpcSetDousedPlayer(this PlayerControl player, PlayerControl target, bool isDoused)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
+            writer.Write(player.PlayerId);
+            writer.Write(target.PlayerId);
+            writer.Write(isDoused);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }public static void RpcSetDrawPlayer(this PlayerControl player, PlayerControl target, bool isDoused)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDrawPlayer, SendOption.Reliable, -1);//RPCによる同期
             writer.Write(player.PlayerId);
             writer.Write(target.PlayerId);
             writer.Write(isDoused);
@@ -520,7 +525,7 @@ namespace TOHE
         public static bool IsDrawDone(this PlayerControl player)//判断是否拉拢完成
         {
             if (!player.Is(CustomRoles.Revolutionist)) return false;
-            var count = Utils.GetDrawPlayerCount(player.PlayerId);
+            var count = Utils.GetDrawPlayerCount(player.PlayerId, out byte[] x);
             return count.Item1 == count.Item2;
         }
         public static void RpcExileV2(this PlayerControl player)

@@ -572,7 +572,6 @@ namespace TOHE
             SetupRoleOptions(50200, TabGroup.NeutralRoles, CustomRoles.Terrorist);
             CanTerroristSuicideWin = BooleanOptionItem.Create(50210, "CanTerroristSuicideWin", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Terrorist])
                 .SetGameMode(CustomGameMode.Standard);
-            /*
             SetupRoleOptions(50600, TabGroup.NeutralRoles, CustomRoles.Revolutionist);
             RevolutionistDrawTime = FloatOptionItem.Create(50610, "RevolutionistDrawTime", new(1f, 10f, 1f), 3f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
                 .SetValueFormat(OptionFormat.Seconds);
@@ -582,7 +581,6 @@ namespace TOHE
                 .SetValueFormat(OptionFormat.Players);
             RevolutionistKillProbability = IntegerOptionItem.Create(50619, "RevolutionistKillProbability", new(0, 100, 5), 50, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
                 .SetValueFormat(OptionFormat.Percent);
-            */
 
             //50220~50223を使用
             TerroristTasks = OverrideTasksData.Create(50220, TabGroup.NeutralRoles, CustomRoles.Terrorist);

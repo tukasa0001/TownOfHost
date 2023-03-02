@@ -40,6 +40,7 @@ namespace TOHE
                 Main.isDoused = new Dictionary<(byte, byte), bool>();
                 Main.isDraw = new Dictionary<(byte, byte), bool>();
                 Main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
+                Main.RevolutionistTimer = new Dictionary<byte, (PlayerControl, float)>();
                 Main.CursedPlayers = new Dictionary<byte, PlayerControl>();
                 Main.isMarkAndKill = new Dictionary<byte, bool>();
                 Main.MarkedPlayers = new Dictionary<byte, PlayerControl>();

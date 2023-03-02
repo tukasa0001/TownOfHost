@@ -443,7 +443,7 @@ namespace TOHE
                     ProgressText.Append(Counterfeiter.GetSeelLimit(playerId));
                     break;
                 case CustomRoles.Revolutionist:
-                    var draw = GetDrawPlayerCount(playerId);
+                    var draw = GetDrawPlayerCount(playerId, out byte[] x);
                     ProgressText.Append(ColorString(GetRoleColor(CustomRoles.Revolutionist).ShadeColor(0.25f), $"({draw.Item1}/{draw.Item2})"));
                     break;
                 case CustomRoles.Gangster:
@@ -1406,19 +1406,25 @@ namespace TOHE
             return (doused, all);
         }
 
-        public static (int, int) GetDrawPlayerCount(byte playerId)
+        public static (int, int) GetDrawPlayerCount(byte playerId,out byte[] list)
         {
             int draw = 0;
             int all = Options.RevolutionistDrawCount.GetInt();
+            int max = PlayerControl.AllPlayerControls.Count - (CustomRolesHelper.RoleExist(CustomRoles.GM) ? 2 : 1);
+            if (all > max ) all = max;
+            byte[] joinplayer = new byte[Options.RevolutionistDrawCount.GetInt()];
             foreach (var pc in Main.AllPlayerControls)
             {
                 if (Main.isDraw.TryGetValue((playerId, pc.PlayerId), out var isDraw) && isDraw)
                 {
+                    joinplayer[draw] = playerId;
                     draw++;
                 }
             }
+            list = joinplayer;
             return (draw, all);
         }
+        
         public static string SummaryTexts(byte id, bool disableColor = true, bool check = false)
         {
             var RolePos = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? 47 : 37;

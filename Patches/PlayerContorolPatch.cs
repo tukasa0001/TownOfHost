@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
+using MS.Internal.Xml.XPath;
+using Sentry.Internal;
 using TOHE.Modules;
 using TOHE.Roles.AddOns.Crewmate;
 using TOHE.Roles.Crewmate;
@@ -197,6 +199,15 @@ namespace TOHE
                             Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
                             Utils.NotifyRoles(SpecifySeer: __instance);
                             RPC.SetCurrentDousingTarget(killer.PlayerId, target.PlayerId);
+                        }
+                        return false;
+                    case CustomRoles.Revolutionist:
+                        killer.SetKillCooldown(Options.RevolutionistDrawTime.GetFloat());
+                        if (!Main.isDraw[(killer.PlayerId, target.PlayerId)] && !Main.RevolutionistTimer.ContainsKey(killer.PlayerId))
+                        {
+                            Main.RevolutionistTimer.Add(killer.PlayerId, (target, 0f));
+                            Utils.NotifyRoles(SpecifySeer: __instance);
+                            RPC.SetCurrentDrawTarget(killer.PlayerId, target.PlayerId);
                         }
                         return false;
                     case CustomRoles.Innocent:
@@ -949,18 +960,24 @@ namespace TOHE
                         var ar_time = Main.RevolutionistTimer[player.PlayerId].Item2;//拉拢时间
                         if (!ar_target.IsAlive())
                         {
-                            Main.ArsonistTimer.Remove(player.PlayerId);
+                            Main.RevolutionistTimer.Remove(player.PlayerId);
                         }
                         else if (ar_time >= Options.RevolutionistDrawTime.GetFloat())//在一起时间超过多久
                         {
                             player.SetKillCooldown();
                             Main.RevolutionistTimer.Remove(player.PlayerId);//拉拢完成从字典中删除
                             Main.isDraw[(player.PlayerId, ar_target.PlayerId)] = true;//完成拉拢
-                            player.RpcSetDousedPlayer(ar_target, true);
-                            Utils.NotifyRoles();//更变名字
+                            player.RpcSetDrawPlayer(ar_target, true);
+                            Utils.NotifyRoles(SpecifySeer: __instance);
                             RPC.ResetCurrentDrawTarget(player.PlayerId);
-                            var rd = IRandom.Instance;
-
+                            if (IRandom.Instance.Next(1, 100) <= Options.RevolutionistKillProbability.GetInt())
+                            {
+                                ar_target.SetRealKiller(player);
+                                player.RpcMurderPlayer(ar_target);
+                                Main.PlayerStates[ar_target.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
+                                Main.PlayerStates[ar_target.PlayerId].SetDead();
+                                Logger.Info($"Revolutionist: {__instance.GetNameWithRole()} killed {ar_target.GetNameWithRole()}", "Revolutionist");
+                            }
                         }
                         else
                         {
@@ -1377,6 +1394,7 @@ namespace TOHE
     {
         public static bool Prefix(PlayerPhysics __instance, [HarmonyArgument(0)] int id)
         {
+
             if (AmongUsClient.Instance.AmHost)
             {
                 if (AmongUsClient.Instance.IsGameStarted && __instance.myPlayer.IsDouseDone())
@@ -1402,8 +1420,9 @@ namespace TOHE
 
                 if (AmongUsClient.Instance.IsGameStarted && __instance.myPlayer.IsDrawDone())//完成拉拢任务的玩家跳管后
                 {
-                    CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Revolutionist); //革命者胜利
-                    CustomWinnerHolder.WinnerIds.Add(__instance.myPlayer.PlayerId);//胜利玩家
+                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Revolutionist);//革命者胜利
+                    Utils.GetDrawPlayerCount(__instance.myPlayer.PlayerId, out byte[] x);
+                    foreach(var apc in x) CustomWinnerHolder.WinnerIds.Add(apc);//胜利玩家
                     return true;
                 }
 

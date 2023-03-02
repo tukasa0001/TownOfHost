@@ -27,6 +27,7 @@ namespace TOHE
         SetKillOrSpell,
         SetSheriffShotLimit,
         SetDousedPlayer,
+        SetDrawPlayer,
         SetNameColorData,
         DoSpell,
         SniperSync,

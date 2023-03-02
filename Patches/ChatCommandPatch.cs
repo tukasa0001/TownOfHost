@@ -688,6 +688,7 @@ namespace TOHE
                 //Neutral役職
                 { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
                 { CustomRoles.Arsonist, GetString("Arsonist") },
+                { CustomRoles.Revolutionist, GetString("Revolutionist") },
                 { CustomRoles.Executioner, GetString("Executioner")},
                 { CustomRoles.Jester, GetString("Jester") },
                 { CustomRoles.God, GetString("God") },
