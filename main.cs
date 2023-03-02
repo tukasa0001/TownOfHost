@@ -20,36 +20,19 @@ namespace TOHE;
 public class Main : BasePlugin
 {
     // == プログラム設定 / Program Config ==
-    // modの名前 / Mod Name (Default: Town Of Host)
     public static readonly string ModName = "TOHE";
-    // modの色 / Mod Color (Default: #00bfff)
     public static readonly string ModColor = "#ffc0cb";
-    // 公開ルームを許可する / Allow Public Room (Default: true)
     public static readonly bool AllowPublicRoom = true;
-    // フォークID / ForkId (Default: OriginalTOH)
     public static readonly string ForkId = "TOHE";
-    // Discordボタンを表示するか / Show Discord Button (Default: true)
     public static readonly bool ShowDiscordButton = true;
-    // Discordサーバーの招待リンク / Discord Server Invite URL (Default: https://discord.gg/W5ug6hXB9V)
     public static readonly string DiscordInviteUrl = "https://jq.qq.com/?_wv=1027&k=2RpigaN6";
-    // ==========
-    public const string OriginalForkId = "OriginalTOH"; // Don't Change The Value. / この値を変更しないでください。
-    // == 認証設定 / Authentication Config ==
-    // デバッグキーの認証インスタンス
+    public const string OriginalForkId = "OriginalTOH";
     public static HashAuth DebugKeyAuth { get; private set; }
-    // デバッグキーのハッシュ値
     public const string DebugKeyHash = "c0fd562955ba56af3ae20d7ec9e64c664f0facecef4b3e366e109306adeae29d";
-    // デバッグキーのソルト
     public const string DebugKeySalt = "59687b";
-    // デバッグキーのコンフィグ入力
     public static ConfigEntry<string> DebugKeyInput { get; private set; }
-    // 首页右上角的说明文本
     public static readonly string MainMenuText = "能做出来这个模组，就已经值啦";
-
-    // ==========
-    //文件路径
     public static readonly string BANNEDWORDS_FILE_PATH = "./TOHE_DATA/BanWords.txt";
-    //Sorry for many Japanese comments.
     public const string PluginGuid = "com.karped1em.townofhostedited";
     public const string PluginVersion = "2.1.0";
     public const int PluginCreate = 4;
