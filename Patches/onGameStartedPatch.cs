@@ -774,7 +774,7 @@ class SelectRolesPatch
             AssignedPlayers.Add(player);
             players.Remove(player);
             Main.PlayerStates[player.PlayerId].SetMainRole(role);
-            Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + role.ToString(), "AssignRoles");
+            Logger.Info("设置职业:" + player?.Data?.PlayerName + " = " + role.ToString(), "AssignRoles");
         }
         SetColorPatch.IsAntiGlitchDisabled = false;
         if (role == CustomRoles.AntiAdminer) Main.existAntiAdminer = true;
@@ -811,7 +811,7 @@ class SelectRolesPatch
             Main.LoversPlayers.Add(player);
             allPlayers.Remove(player);
             Main.PlayerStates[player.PlayerId].SetSubRole(role);
-            Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + role.ToString(), "AssignLovers");
+            Logger.Info("设置职业:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + role.ToString(), "AssignLovers");
         }
         RPC.SyncLoversPlayers();
     }
@@ -844,7 +844,7 @@ class SelectRolesPatch
         {
             var player = allPlayers[rd.Next(0, allPlayers.Count)];
             Main.PlayerStates[player.PlayerId].SetSubRole(role);
-            Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + role.ToString(), "Assign " + role.ToString());
+            Logger.Info("设置职业:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + role.ToString(), "Assign " + role.ToString());
         }
     }
 
