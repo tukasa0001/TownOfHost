@@ -927,7 +927,7 @@ class ChatCommands
             case "/quit":
             case "/qt":
                 subArgs = args.Length < 2 ? "" : args[1];
-                if (subArgs.Equals("sure"))
+                if (subArgs.Equals(player.PlayerId.ToString()))
                 {
                     string name = player.GetRealName();
                     Utils.SendMessage(string.Format(GetString("Message.PlayerQuitForever"), name));
@@ -935,7 +935,7 @@ class ChatCommands
                 }
                 else
                 {
-                    Utils.SendMessage(GetString("SureUse.quit"), player.PlayerId);
+                    Utils.SendMessage(string.Format(GetString("SureUse.quit"),player.PlayerId.ToString()), player.PlayerId);
                 }
                 break;
 

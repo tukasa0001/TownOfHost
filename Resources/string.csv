@@ -857,7 +857,7 @@ KilledBy, ← , ← , ←
 CantUse.lastresult,不可以在游戏中使用/l命令,Unable to use /lastresult during a game,Нельзя использовать /lastresult во время игры
 IllegalColor,请输入正确的颜色,Please enter the correct color,Пожалуйста введите правильный цвет
 DisableUseCommand,房主设置不允许使用该指令,Host settings do not allow this command to be used.,Настройки Хоста запрещают использовать эту команду
-SureUse.quit,我们将踢出您并封禁您以防止您再次遇到这个糟糕的房间，此操作不可逆转，如果您真的希望如此请发送 /qt sure,"We will kick you and block you from entering this lobby again. This setting is irreversible. If you really want it, please send the command /qt sure","Мы кикнем  вас и заблокируем, чтобы вы больше не смогли зайти в это лобби. Эта настройка необратима. Если вы действительно этого хотите, пожалуйста, отправьте команду /qt sure"
+SureUse.quit,我们将踢出您并封禁您以防止您再次遇到这个糟糕的房间，此操作不可逆转，如果您真的希望如此请发送 /qt {0},"We will kick you and block you from entering this lobby again. This setting is irreversible. If you really want it, please send the command /qt {0}","Мы кикнем  вас и заблокируем, чтобы вы больше не смогли зайти в это лобби. Эта настройка необратима. Если вы действительно этого хотите, пожалуйста, отправьте команду /qt {0}"
 PlayerIdList,玩家编号列表：,List of player IDs: ,Список номеров игроков：
 turnOn,开,On,Вкл
 turnOff,关,Off,Выкл
