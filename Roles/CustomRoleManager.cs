@@ -16,6 +16,8 @@ public static class CustomRoleManager
     public static RoleBase GetByPlayerId(byte playerId) => AllActiveRoles.ToArray().Where(roleClass => roleClass.Player.PlayerId == playerId).FirstOrDefault();
     public static void Do<T>(this List<T> list, Action<T> action) => list.ToArray().Do(action);
     // == CheckMurder関連処理 ==
+    // # 順番メモ #
+    // x: orderがxの時に行われる処理 (クラス名)
     public static void OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget)
         => OnCheckMurder(attemptKiller, attemptTarget, attemptKiller, attemptTarget);
     public static void OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget, PlayerControl appearanceKiller, PlayerControl appearanceTarget)
