@@ -18,7 +18,7 @@ class OnGameJoinedPatch
         Main.existAntiAdminer = false;
         while (!Options.IsLoaded) System.Threading.Tasks.Task.Delay(1);
         Main.newLobby = true;
-        Logger.Info($"{__instance.GameId}に参加", "OnGameJoined");
+        Logger.Info($"{__instance.GameId} 创建房间", "OnGameJoined");
         Main.playerVersion = new Dictionary<byte, PlayerVersion>();
         RPC.RpcVersionCheck();
         SoundManager.Instance.ChangeAmbienceVolume(DataManager.Settings.Audio.AmbienceVolume);
@@ -45,8 +45,8 @@ class DisconnectInternalPatch
 {
     public static void Prefix(InnerNetClient __instance, DisconnectReasons reason, string stringReason)
     {
-        Logger.Info($"切断(理由:{reason}:{stringReason}, ping:{__instance.Ping})", "Session");
-        Cloud.StartConnect();
+        Logger.Info($"断开连接(理由:{reason}:{stringReason}, ping:{__instance.Ping})", "Session");
+        Cloud.StopConnect();
     }
 }
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
@@ -54,7 +54,7 @@ class OnPlayerJoinedPatch
 {
     public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
     {
-        Logger.Info($"{client.PlayerName}(ClientID:{client.Id})が参加", "Session");
+        Logger.Info($"{client.PlayerName}(ClientID:{client.Id}) 加入房间", "Session");
         if (AmongUsClient.Instance.AmHost && client.FriendCode == "" && Options.KickPlayerFriendCodeNotExist.GetBool())
         {
             AmongUsClient.Instance.KickPlayer(client.Id, false);
@@ -137,7 +137,7 @@ class OnPlayerLeftPatch
         {
             Logger.SendInGame($"{data.PlayerName} 在火星和你联机但是断了 (Ping:{AmongUsClient.Instance.Ping}) QwQ");
         }
-        Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
+        Logger.Info($"{data.PlayerName}(ClientID:{data.Id})断开连接(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
         if (AmongUsClient.Instance.AmHost)
         {
             if (Main.OriginalName.ContainsKey(__instance.ClientId)) Main.OriginalName.Remove(__instance.ClientId);

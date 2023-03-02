@@ -160,7 +160,7 @@ class EAC
         if (pc == null) return;
         string msg = $"{pc.GetClientId()}|{pc.FriendCode}|{pc.Data.PlayerName}|{reason}";
         Cloud.SendData(msg);
-        Logger.Fatal($"EAC报告：{pc.GetRealName()}: {reason}", "EAC");
+        Logger.Fatal($"EAC报告：{pc.GetRealName()}: {reason}", "EAC Cloud");
     }
     public static bool CheckAUM(byte callId, ref string text)
     {

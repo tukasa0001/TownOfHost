@@ -21,8 +21,7 @@ class Cloud
 
             Main.newLobby = false;
             string msg = GameStartManager.Instance.GameRoomNameCode.text + "|" + Main.PluginVersion + "|" + (GameData.Instance.PlayerCount + 1).ToString();
-            byte[] buffer = new byte[2048];
-            buffer = Encoding.Default.GetBytes(msg);
+            byte[] buffer = Encoding.Default.GetBytes(msg);
 
             ClientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             ClientSocket.Connect(IP, LOBBY_PORT);
@@ -37,38 +36,45 @@ class Cloud
         }
         return true;
     }
-
+    static bool connecting = false;
     public static void StartConnect()
     {
-        try
+        if (connecting || EacClientSocket != null && EacClientSocket.Connected) return;
+        connecting = true;
+        new LateTask(() =>
         {
-            if (!AmongUsClient.Instance.AmHost || !GameData.Instance || AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame) return;
-            if (EacClientSocket.Connected) return;
-            EacClientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            EacClientSocket.Connect(IP, EAC_PORT);
-        }
-        catch (Exception e)
-        {
-            Logger.Exception(e, "EAC Cloud");
-            throw e;
-        }
+            if (!AmongUsClient.Instance.AmHost || !GameData.Instance || AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame)
+            {
+                connecting = false;
+                return;
+            }
+            try
+            {
+                EacClientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                EacClientSocket.Connect(IP, EAC_PORT);
+                Logger.Warn("已连接至EAC服务器", "EAC Cloud");
+            }
+            catch (Exception e)
+            {
+                connecting = false;
+                Logger.Exception(e, "EAC Cloud");
+                throw e;
+            }
+            connecting = false;
+        }, 3.5f, "EAC Cloud Connect");
     }
     public static void StopConnect()
     {
         if (EacClientSocket != null && EacClientSocket.Connected)
-        {
             EacClientSocket.Close();
-        }
     }
     public static void SendData(string msg)
     {
         if (EacClientSocket == null || !EacClientSocket.Connected)
         {
-            Logger.Warn("未连接至TOHE服务器，报告被取消", "EAC");
+            Logger.Warn("未连接至TOHE服务器，报告被取消", "EAC Cloud");
             return;
         }
-        byte[] buffer = new byte[2048];
-        buffer = Encoding.Default.GetBytes(msg);
-        EacClientSocket.Send(buffer);
+        EacClientSocket.Send(Encoding.Default.GetBytes(msg));
     }
 }
