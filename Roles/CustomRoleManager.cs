@@ -25,19 +25,20 @@ public static class CustomRoleManager
         => OnCheckMurder(attemptKiller, attemptTarget, attemptKiller, attemptTarget);
     public static void OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget, PlayerControl appearanceKiller, PlayerControl appearanceTarget)
     {
-        List<(int order, IEnumerator<int> method, RoleBase role)> methods = new();
+        // このリストへは、先のorderが前のorder以上の値になるようにオブジェクトを挿入していく
+        LinkedList<(int order, IEnumerator<int> method, RoleBase role)> methods = new();
         CheckMurderInfo info = new(attemptKiller, attemptTarget, appearanceKiller, appearanceTarget);
         foreach (var role in AllActiveRoles)
         {
             var m = role.OnCheckMurder(attemptKiller, attemptTarget, info);
             if (m != null)
-                methods.Add((0, m, role));
+                methods.AddFirst((0, m, role));
         }
 
         while (methods.Count > 0)
         {
-            var pair = methods.OrderByDescending(pair => pair.order).FirstOrDefault();
-            methods.Remove(pair);
+            var pair = methods.First.Value; // 最初のオブジェクトは必ず最小のorderを持つ
+            methods.RemoveFirst();
             (_, var method, var role) = pair;
             if (method == null) continue;
 
@@ -48,7 +49,29 @@ public static class CustomRoleManager
                 // false: yield breakされた (= もう処理がない)
                 if (method.MoveNext())
                 {
-                    methods.Add((method.Current, method, role));
+                    var current = new LinkedListNode<(int order, IEnumerator<int> method, RoleBase role)>((method.Current, method, role));
+                    var elem = methods.First;
+
+                    while (true)
+                    {
+                        // current <= elem <= elem.Next
+                        if (current.Value.order <= elem.Value.order)
+                        {
+                            methods.AddBefore(elem, current);
+                            break;
+                        }
+                        // elemが最終オブジェクト || elem < current <= elem.Next
+                        else if (elem.Next == null || current.Value.order <= elem.Next.Value.order)
+                        {
+                            methods.AddAfter(elem, current);
+                            break;
+                        }
+                        // elem <= elem.Next <= current
+                        else
+                        {
+                            elem = elem.Next;
+                        }
+                    }
                 }
             }
             // 例外発生時: プレイヤー名とorderと例外内容を出力してスキップ
