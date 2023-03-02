@@ -572,14 +572,14 @@ namespace TOHE
             SetupRoleOptions(50200, TabGroup.NeutralRoles, CustomRoles.Terrorist);
             CanTerroristSuicideWin = BooleanOptionItem.Create(50210, "CanTerroristSuicideWin", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Terrorist])
                 .SetGameMode(CustomGameMode.Standard);
-            SetupRoleOptions(50600, TabGroup.NeutralRoles, CustomRoles.Revolutionist);
-            RevolutionistDrawTime = FloatOptionItem.Create(50610, "RevolutionistDrawTime", new(1f, 10f, 1f), 3f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
+            SetupRoleOptions(5050600, TabGroup.NeutralRoles, CustomRoles.Revolutionist);
+            RevolutionistDrawTime = FloatOptionItem.Create(5050610, "RevolutionistDrawTime", new(1f, 10f, 1f), 3f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
                 .SetValueFormat(OptionFormat.Seconds);
-            RevolutionistCooldown = FloatOptionItem.Create(50615, "RevolutionistCooldown", new(5f, 100f, 1f), 10f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
+            RevolutionistCooldown = FloatOptionItem.Create(5050615, "RevolutionistCooldown", new(5f, 100f, 1f), 15f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
                 .SetValueFormat(OptionFormat.Seconds);
-            RevolutionistDrawCount = IntegerOptionItem.Create(50617, "RevolutionistDrawCount", new(1, 15, 1), 4, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
+            RevolutionistDrawCount = IntegerOptionItem.Create(5050617, "RevolutionistDrawCount", new(1, 15, 1), 5, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
                 .SetValueFormat(OptionFormat.Players);
-            RevolutionistKillProbability = IntegerOptionItem.Create(50619, "RevolutionistKillProbability", new(0, 100, 5), 50, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
+            RevolutionistKillProbability = IntegerOptionItem.Create(5050619, "RevolutionistKillProbability", new(0, 100, 5), 30, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
                 .SetValueFormat(OptionFormat.Percent);
 
             //50220~50223を使用
