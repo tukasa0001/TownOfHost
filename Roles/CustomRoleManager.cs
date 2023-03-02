@@ -100,6 +100,10 @@ public static class CustomRoleManager
             AppearanceKiller = appearanceKiller;
             AppearanceTarget = appearancetarget;
         }
+
+        public void Cancel() => IsCanceled = true;
+        public void Abort() => IsAborted = true;
+        public void CancelAndAbort() => IsCanceled = IsAborted = true;
     }
     // ==/CheckMurder関連処理 ==
     public static void Initialize()
