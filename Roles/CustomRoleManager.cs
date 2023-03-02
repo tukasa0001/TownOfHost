@@ -35,6 +35,11 @@ public static class CustomRoleManager
                 methods.AddFirst((0, m, role));
         }
 
+        // クラス化されていないOnCheckMurder処理
+        methods.AddFirst((0, CheckMurderPatch.OnCheckMurder(attemptKiller, attemptTarget, info), null));
+        // 無効なキルをブロックする処理 必ず最初に実行する
+        methods.AddFirst((-1, CheckMurderPatch.CheckForInvalidMurdering(attemptKiller, attemptTarget, info), null));
+
         while (methods.Count > 0)
         {
             var pair = methods.First.Value; // 最初のオブジェクトは必ず最小のorderを持つ
@@ -78,7 +83,7 @@ public static class CustomRoleManager
             catch (Exception ex)
             {
                 var handler = Logger.Handler("CustomRoleManager.OnCheckMurder");
-                handler.Error($"OnCheckMurder関数内でエラーが発生しました (player: {role.Player.name}, order: {pair.order})");
+                handler.Error($"OnCheckMurder関数内でエラーが発生しました ({(role != null ? $"player: {role.Player.name}" : "")}, order: {pair.order})");
                 handler.Error($"killer: {attemptKiller.name}, target: {attemptTarget.name}");
                 handler.Exception(ex);
             }
