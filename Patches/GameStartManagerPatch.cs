@@ -60,7 +60,7 @@ public class GameStartManagerPatch
     {
         private static bool update = false;
         private static string currentText = "";
-        private static float exitTimer = 0f;
+        public static float exitTimer = -1f;
         public static void Prefix(GameStartManager __instance)
         {
             // Lobby code
@@ -118,21 +118,21 @@ public class GameStartManagerPatch
                     warningMessage = Utils.ColorString(Color.red, string.Format(GetString("Warning.MismatchedVersion"), String.Join(" ", mismatchedPlayerNameList), $"<color={Main.ModColor}>{Main.ModName}</color>"));
                 }
             }
-            else
+            else if (exitTimer >= 0)
             {
                 if (!MatchVersions(0))
                 {
                     exitTimer += Time.deltaTime;
-                    if (exitTimer > 10)
+                    if (exitTimer > 5)
                     {
                         exitTimer = 0;
                         AmongUsClient.Instance.ExitGame(DisconnectReasons.ExitGame);
                         SceneChanger.ChangeScene("MainMenu");
                     }
-
-                    warningMessage = Utils.ColorString(Color.red, string.Format(GetString("Warning.AutoExitAtMismatchedVersion"), $"<color={Main.ModColor}>{Main.ModName}</color>", Math.Round(10 - exitTimer).ToString()));
+                    warningMessage = Utils.ColorString(Color.red, string.Format(GetString("Warning.AutoExitAtMismatchedVersion"), $"<color={Main.ModColor}>{Main.ModName}</color>", Math.Round(6 - exitTimer).ToString()));
                 }
             }
+
             if (warningMessage != "")
             {
                 __instance.GameStartText.text = warningMessage;

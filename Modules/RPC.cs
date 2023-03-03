@@ -170,6 +170,28 @@ class RPCHandlerPatch
                     string tag = reader.ReadString();
                     string forkId = reader.ReadString();
                     Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag, forkId);
+                    if (tag != $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})")
+                    {
+                        if (AmongUsClient.Instance.AmHost)
+                        {
+                            if (forkId != Main.ForkId)
+                            {
+                                new LateTask(() =>
+                                {
+                                    Logger.Warn($"{__instance?.Data?.PlayerName} 安装了与房主版本不同的模组，故将其踢出", "Version Kick");
+                                    Logger.SendInGame($"【{__instance?.Data?.PlayerName}】因安装了与房主版本不同的模组被踢出");
+                                    AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
+                                }, 5f, "Kick");
+                            }
+                        }
+                        else
+                        {
+                            if (GameStates.IsLobby && __instance.PlayerId == 0)
+                            {
+                                GameStartManagerPatch.GameStartManagerUpdatePatch.exitTimer = 0;
+                            }
+                        }
+                    }
                 }
                 catch
                 {

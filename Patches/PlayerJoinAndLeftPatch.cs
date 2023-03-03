@@ -16,6 +16,7 @@ class OnGameJoinedPatch
     {
         Cloud.StartConnect();
         Main.existAntiAdminer = false;
+        GameStartManagerPatch.GameStartManagerUpdatePatch.exitTimer = -1;
         while (!Options.IsLoaded) System.Threading.Tasks.Task.Delay(1);
         Main.newLobby = true;
         Logger.Info($"{__instance.GameId} 创建房间", "OnGameJoined");
