@@ -1,5 +1,6 @@
 using AmongUs.GameOptions;
 using Hazel;
+using System.Collections.Generic;
 using System.Linq;
 using static TOHE.Translator;
 
@@ -7,6 +8,7 @@ namespace TOHE;
 
 class EAC
 {
+    public static List<string> Msgs;
     public static bool Receive(PlayerControl pc, byte callId, MessageReader reader)
     {
         MessageReader sr = MessageReader.Get(reader);
@@ -26,7 +28,8 @@ class EAC
                     name.Contains("▄") ||
                     name.Contains("█") ||
                     name.Contains("▌") ||
-                    name.Contains("▒")
+                    name.Contains("▒") ||
+                    name.Contains("习近平")
                     )
                 {
                     Report(pc, "非法设置游戏名称");
@@ -45,6 +48,22 @@ class EAC
                 break;
             case RpcCalls.SendChat:
                 var text = sr.ReadString();
+                Msgs.Add(text);
+                if (Msgs.Count > 3) Msgs.Remove(Msgs[0]);
+                if (Msgs.Contains(text)) return true;
+                if (
+                    text.Contains("░") ||
+                    text.Contains("▄") ||
+                    text.Contains("█") ||
+                    text.Contains("▌") ||
+                    text.Contains("▒") ||
+                    text.Contains("习近平")
+                    )
+                {
+                    Report(pc, "非法消息");
+                    Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】发送非法消息，已驳回", "EAC");
+                    return true;
+                }
                 break;
             case RpcCalls.StartMeeting:
             case RpcCalls.ReportDeadBody:
@@ -62,10 +81,20 @@ class EAC
                 var time = 0;
                 foreach (var apc in PlayerControl.AllPlayerControls)
                     if (apc.Data.DefaultOutfit.ColorId == color) time++;
-                if (!GameStates.IsLobby || color == 18 || time >= 3)
+                if (!GameStates.IsLobby || color == 18 || time >= 2)
                 {
                     Report(pc, "非法设置颜色");
                     Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法设置颜色，已驳回", "EAC");
+                    return true;
+                }
+                break;
+            case RpcCalls.MurderPlayer:
+                bool legal = false;
+                if (CustomRolesHelper.RoleExist(CustomRoles.Mafia)) legal = true;
+                if (!legal && (GameStates.IsMeeting || GameStates.IsLobby))
+                {
+                    Report(pc, "非法击杀");
+                    Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法击杀，已驳回", "EAC");
                     return true;
                 }
                 break;

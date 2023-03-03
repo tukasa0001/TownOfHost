@@ -54,7 +54,7 @@ class OnPlayerJoinedPatch
 {
     public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
     {
-        Logger.Info($"{client.PlayerName}(ClientID:{client.Id}) 加入房间", "Session");
+        Logger.Info($"{client.PlayerName}(ClientID:{client.Id}/FriendCode:{client.FriendCode}) 加入房间", "Session");
         if (AmongUsClient.Instance.AmHost && client.FriendCode == "" && Options.KickPlayerFriendCodeNotExist.GetBool())
         {
             AmongUsClient.Instance.KickPlayer(client.Id, false);
@@ -137,7 +137,7 @@ class OnPlayerLeftPatch
         {
             Logger.SendInGame($"{data.PlayerName} 在火星和你联机但是断了 (Ping:{AmongUsClient.Instance.Ping}) QwQ");
         }
-        Logger.Info($"{data.PlayerName}(ClientID:{data.Id})断开连接(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
+        Logger.Info($"{data.PlayerName}(ClientID:{data.Id}/FriendCode:{data.FriendCode})断开连接(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
         if (AmongUsClient.Instance.AmHost)
         {
             if (Main.OriginalName.ContainsKey(__instance.ClientId)) Main.OriginalName.Remove(__instance.ClientId);
