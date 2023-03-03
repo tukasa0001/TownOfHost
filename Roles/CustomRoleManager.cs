@@ -16,10 +16,18 @@ public static class CustomRoleManager
     public static RoleBase GetByPlayerId(byte playerId) => AllActiveRoles.ToArray().Where(roleClass => roleClass.Player.PlayerId == playerId).FirstOrDefault();
     public static void Do<T>(this List<T> list, Action<T> action) => list.ToArray().Do(action);
     // == CheckMurder関連処理 ==
+    // # 順番ルール #
+    // 0_000_001..1_000_000: 先に実行する必要がある特殊処理
+    // 1_000_000..2_000_000: Killer側のキルキャンセル処理
+    // 2_000_000..3_000_000: Target側のキルキャンセル処理
+    // 3_000_000..: その他の処理
     // # 順番メモ #
     // x: orderがxの時に行われる処理 (クラス名)
-    // 1_000_000: キルされた側の特殊処理 (CheckMurderPatch)
-    // 2_000_000: キルした側の特殊処理 (CheckMurderPatch, Sheriff, BountyHunter)
+    // 1_001_000: シェリフのキルキャンセル・自爆処理 (Sheriff)
+    // 1_002_000: アーソニストのキルキャンセル・塗り開始処理 (CheckMurderPatch)
+    // 1_500_000: クラス化されていないキルされた側の処理 (CheckMurderPatch)
+    // 3_001_000: バウンティハンターのターゲット関連の処理 (BountyHunter)
+    // 3_500_000: クラス化されていないキルした側の処理 (CheckMurderPatch)
 
     public static void OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget)
         => OnCheckMurder(attemptKiller, attemptTarget, attemptKiller, attemptTarget);

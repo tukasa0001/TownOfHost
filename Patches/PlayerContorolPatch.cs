@@ -120,8 +120,23 @@ namespace TownOfHost
 
         public static IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target, CustomRoleManager.CheckMurderInfo info)
         {
+            // アーソニストのキルキャンセル・塗り開始
+            if (killer.Is(CustomRoles.Arsonist))
+            {
+                yield return 1_002_000;
+                killer.SetKillCooldown(Options.ArsonistDouseTime.GetFloat());
+                if (!Main.isDoused[(killer.PlayerId, target.PlayerId)] && !Main.ArsonistTimer.ContainsKey(killer.PlayerId))
+                {
+                    Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
+                    Utils.NotifyRoles(SpecifySeer: killer);
+                    RPC.SetCurrentDousingTarget(killer.PlayerId, target.PlayerId);
+                }
+                info.CancelAndAbort();
+                yield break;
+            }
+
             //キルされた時の特殊判定
-            yield return 1_000_000;
+            yield return 1_500_000;
             switch (target.GetCustomRole())
             {
                 case CustomRoles.SchrodingerCat:
@@ -134,9 +149,8 @@ namespace TownOfHost
 
                 //==========マッドメイト系役職==========//
                 case CustomRoles.MadGuardian:
-                    //killerがキルできないインポスター判定役職の場合はスキップ
-                    if (killer.Is(CustomRoles.Arsonist) //アーソニスト
-                    ) break;
+                    // killerがキルできないインポスター判定役職の場合はスキップ
+                    if (killer.Is(CustomRoles.Arsonist)) break;
 
                     //MadGuardianを切れるかの判定処理
                     var taskState = target.GetPlayerTaskState();
@@ -159,7 +173,7 @@ namespace TownOfHost
             //キル時の特殊判定
             if (killer.PlayerId != target.PlayerId)
             {
-                yield return 2_000_000;
+                yield return 2_500_000;
                 var roleClass = killer.GetRoleClass();
                 // if (!roleClass.OnCheckMurder(killer, target))
                 //     return false;
@@ -213,19 +227,9 @@ namespace TownOfHost
                         info.CancelAndAbort();
                         yield break;
 
-                    //==========マッドメイト系役職==========//
+                        //==========マッドメイト系役職==========//
 
-                    //==========ニュートラル役職==========//
-                    case CustomRoles.Arsonist:
-                        killer.SetKillCooldown(Options.ArsonistDouseTime.GetFloat());
-                        if (!Main.isDoused[(killer.PlayerId, target.PlayerId)] && !Main.ArsonistTimer.ContainsKey(killer.PlayerId))
-                        {
-                            Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
-                            Utils.NotifyRoles(SpecifySeer: killer);
-                            RPC.SetCurrentDousingTarget(killer.PlayerId, target.PlayerId);
-                        }
-                        info.CancelAndAbort();
-                        yield break;
+                        //==========ニュートラル役職==========//
                 }
             }
         }
