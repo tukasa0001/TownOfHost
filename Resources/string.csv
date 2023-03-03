@@ -420,9 +420,9 @@ DisableMiraHQDoorLog,禁用米拉总部门禁记录,Disable DoorLog,Отключ
 DisablePolusVital,禁用波鲁斯生命监测装置,Disable Vital,Отключить Пульсы
 DisableAirshipVital,禁用飞艇生命监测装置,Disable Vital,Отключить Пульсы
 IgnoreConditions,忽略条件,Ignore Conditions,Игнорируют условия
-IgnoreImpostors,忽略内鬼,Ignore Impostors,Игнорируют Предатели
-IgnoreNeutrals,忽略中立阵营,Ignore Neutrals,Игнорируют Нейтралы
-IgnoreCrewmates,忽略船员,Ignore Crewmates,Игнорируют Члены Экипажа
+IgnoreImpostors,忽略<color=#ff1919>内鬼</color>,Ignore Impostors,Игнорируют Предатели
+IgnoreNeutrals,忽略<color=#ffab1b>中立</color>,Ignore Neutrals,Игнорируют Нейтралы
+IgnoreCrewmates,忽略<color=#8cffff>船员</color>,Ignore Crewmates,Игнорируют Члены Экипажа
 IgnoreAfterAnyoneDied,忽略幽灵,Ignore After Anyone Has Died,Игнорируют умершие игроки
 LightsOutSpecialSettings,停电特殊设定,Fix Lights Special Settings,Специальные настройки при отключении Света
 DisableAirshipViewingDeckLightsPanel,禁用瞭望台配电箱(飞艇地图),Disable Viewing Deck Lights Panel(Airship),Отключить починку Света на Смотровой Палубе (Airship)
@@ -450,8 +450,8 @@ ConfirmEjectionsMode,驱逐确认模式
 ConfirmEjections.None,不确认
 ConfirmEjections.Team,确认阵营
 ConfirmEjections.Role,确认职业
-ShowImpRemainOnEject,驱逐确认时显示剩余内鬼数量,Show remaining Impostors after ejected,Отображать оставшихся Предателей при изгнании
-ShowNKRemainOnEject,同时显示剩余邪恶中立数量,Show remaining Neutral Killers after ejected,Отображать оставшихся Нейтральных Убийц при изгнании
+ShowImpRemainOnEject,驱逐确认时显示剩余<color=#ff1919>内鬼</color>数量,Show remaining Impostors after ejected,Отображать оставшихся Предателей при изгнании
+ShowNKRemainOnEject,同时显示剩余邪恶<color=#ffab1b>中立</color>数量,Show remaining Neutral Killers after ejected,Отображать оставшихся Нейтральных Убийц при изгнании
 Ban,封禁,Ban,Забанить
 Kick,踢出,Kick,Кикнуть
 NoticeMe,通知我,Notify me,Уведомить меня
@@ -462,15 +462,15 @@ CheatResponses,检测到外挂时,When a breach is discovered,Когда обн�
 Cooldown,冷却时间,Cooldown,Откат
 KillCooldown,击杀冷却时间,Kill Cooldown,Откат убийства
 CanVent,可以使用通风管道,Can Vent,Может использовать Вентиляцию
-ImpostorVision,拥有内鬼视野,Impostor Vision,Имеет дальность Обзора Предателя
+ImpostorVision,拥有<color=#ff1919>内鬼</color>视野,Impostor Vision,Имеет дальность Обзора Предателя
 CanUseSabotage,可以破坏,Can Sabotage,Может использовать Саботаж
-NeutralRolesMinPlayer,中立阵营玩家数量下限,Minimum number of neutral roles,Минимальное количество нейтральных ролей
-NeutralRolesMaxPlayer,中立阵营玩家数量上限,Maximum number of neutral roles,Максимальное количество нейтральных ролей
-ImpKnowAlliesRole,内鬼知道队友的职业,Impostor may know the roles of other impostors,Предатель может знать роли других Предателей
+NeutralRolesMinPlayer,<color=#ffab1b>中立阵营</color>玩家数量下限,Minimum number of neutral roles,Минимальное количество нейтральных ролей
+NeutralRolesMaxPlayer,<color=#ffab1b>中立阵营</color>玩家数量上限,Maximum number of neutral roles,Максимальное количество нейтральных ролей
+ImpKnowAlliesRole,<color=#ff1919>内鬼</color>知道队友的职业,Impostor may know the roles of other impostors,Предатель может знать роли других Предателей
 WarlockCanKillAllies,可以击杀队友,Can kill Crewmate,Может убивать Членов Экипажа
 WarlockCanKillSelf,可以击杀自己,Can kill Self,Может убить себя
-EGCanGuessImp,邪恶赌怪可以猜测内鬼,Can Guess role Impostors,Может угадывать роли Предателей
-GGCanGuessCrew,正义赌怪可以猜测船员,Can Guess role Crewmate,Может угадывать роли Членов Экипажа
+EGCanGuessImp,邪恶赌怪可以猜测<color=#ff1919>内鬼</color>,Can Guess role Impostors,Может угадывать роли Предателей
+GGCanGuessCrew,正义赌怪可以猜测<color=#8cffff>船员</color>,Can Guess role Crewmate,Может угадывать роли Членов Экипажа
 EGCanGuessAdt,邪恶赌怪可以猜测附加职业,Can Guess Add-ons,Может угадывать Атрибуты
 GGCanGuessAdt,正义赌怪可以猜测附加职业,Can Guess Add-ons,Может угадывать Атрибуты
 GuesserCanGuessTimes,每次会议猜测次数上限,Maximum number of guesses,Максимальное количество угадываний
@@ -491,7 +491,7 @@ SabotageMasterFixesOxygens,可以一人修理氧气破坏,Can Fix Both O2,Мож
 SabotageMasterFixesCommunications,可以一人修复通讯破坏（米拉总部地图）,Can Fix Both Comms In MIRA HQ,Может починить саботаж Связи на MiraHQ
 SabotageMasterFixesElectrical,按一个按钮就可以修复照明破坏,Can Fix Lights With One Switch,Может починить саботаж Света одним кликом
 SheriffCanKill%role%,可以执法%role%,Can Kill %role%,Может убить %role%
-SheriffCanKillNeutrals,可以执法中立阵营,Can Kill Neutrals,Может убить Нейтралов
+SheriffCanKillNeutrals,可以执法<color=#ffaa1b>中立阵营</color>,Can Kill Neutrals,Может убить Нейтралов
 SheriffCanKillAll,<color=#00fefe>全开</color>,<color=#00fefe>All ON</color>,<color=#00fefe>Все ВКЛ</color>
 SheriffCanKillSeparately,个别设定,Individual Settings,Выбрать кого
 In%team%,(%team%阵营),(Team %team%),(Команда %team%)
@@ -510,8 +510,8 @@ MayorAdditionalVote,附加票数,Additional Votes Count,Дополнительн
 MayorHasPortableButton,跳通风管触发紧急会议,"Mayor Has Mobile Emergency Button",У Мэра есть портативная Кнопка
 MayorNumOfUseButton,紧急会议最大次数,"Number Of Mobile Emergency Button","Количество портативных Кнопок"
 MayorHideVote,隐藏市长附加的投票,"Hide additional vote",Скрыть дополнительные голоса
-ExecutionerCanTargetImpostor,内鬼阵营玩家可以成为目标,Can Target Impostors,Может иметь цель изгнать Предателя
-ExecutionerCanTargetNeutralKiller,带刀中立玩家可以成为目标,Can Target Neutrals,Может иметь цель изгнать Нейтрального Убийцу
+ExecutionerCanTargetImpostor,<color=#ff1919>内鬼</color>可以成为目标,Can Target Impostors,Может иметь цель изгнать Предателя
+ExecutionerCanTargetNeutralKiller,带刀<color=#ffab1b>中立</color>玩家可以成为目标,Can Target Neutrals,Может иметь цель изгнать Нейтрального Убийцу
 ExecutionerChangeRolesAfterTargetKilled,目标死亡后将变为,Role Changes When Target Dies,Роль после смерти его цели
 SerialKillerLimit,自杀倒计时,Time Until Suicide,Лимит времени до Самоубийства
 ArsonistDouseTime,涂油所需时间,Time Until Douse Complete,Длительность обливания
@@ -528,24 +528,24 @@ AdditionRolesSpawnRate,出现概率,Spawn Chance,Шанс появления
 BewilderVision,迷幻者视野,Bewilder Vision,Дальность обзора Сбитого с Толку
 FlashmanSpeed,闪电侠初始移动速度,Flash Speed,Скорость Флеша
 LoverSuicide,恋人共生死,Lovers can commit suicide,Любовники могут суициднуться
-LoverHasNoTask,船员成为恋人后没有任务,Lovers don't have tasks,Любовники не имеют задания
+LoverHasNoTask,<color=#8cffff>船员</color>成为恋人后没有任务,Lovers don't have tasks,Любовники не имеют задания
 NumberOfLovers,恋人对数,Number of Lovers (x2 members),Количество Любовников (x2 участника)
 TrapperBlockMoveTime,陷阱师技能封锁凶手移动时长,Freeze time,Время заморозки
 TimeThiefDecreaseMeetingTime,每次击杀缩短的会议时间,Time Thief Time Stolen,Уменьшить длительность обсуждения на
 TimeThiefLowerLimitVotingTime,存活时会议时间最低下限,Minimum Voting Time,Уменьшить длительность голосования на
 TimeThiefReturnStolenTimeUponDeath,死亡后会议时间重置,Return Stolen Time After Death,Вернуть украденное время после его смерти
-EvilTrackerCanSeeKillFlash,内鬼进行击杀时可见击杀闪光,"Can See ''Kill Flash'' ","Может видеть ''Вспышку Убийства'' "
+EvilTrackerCanSeeKillFlash,<color=#ff1919>内鬼</color>进行击杀时可见击杀闪光,"Can See ''Kill Flash'' ","Может видеть ''Вспышку Убийства'' "
 EvilTrackerResetTargetAfterMeeting,会议后重置追踪目标,Can Reset Target After Meeting,Может сбросить цель после Собрания
-EvilTrackerCanSeeLastRoomInMeeting,追踪者可以看见船员位置,Can See Target's Last Room In Meeting,Может видеть местоположение Целей во время Собрания
+EvilTrackerCanSeeLastRoomInMeeting,追踪者可以看见<color=#8cffff>船员</color>位置,Can See Target's Last Room In Meeting,Может видеть местоположение Целей во время Собрания
 EvilTrackerTargetMode,追踪模式,Can Set Target,Может установить цель
 EvilTrackerTargetMode.Never,禁用追踪,Never,Никогда
 EvilTrackerTargetMode.OnceInGame,仅限一次,Once in game,В каждой игре
 EvilTrackerTargetMode.EveryMeeting,每次会议,EveryMeeting,На каждой встрече
 EvilTrackerTargetMode.Always,永久显示,Always,Всегда
 WitchModeSwitchAction,切换击杀模式,Mode Switch Action,Действие для Смены Режима
-NBareRed,友善中立视为邪恶,Nice Neutrals are shown in red,Добрые Нейтралы показываются красным
-NEareRed,邪恶中立视为邪恶,Evil Neutrals are shown in red,Злые Нейтралы показываются красным
-CrewKillingRed,带刀船员视为邪恶,Crewmate Killer are shown in red,Члены Экипажа убийцы показываются красным
+NBareRed,友善<color=#ffab1b>中立</color>视为邪恶,Nice Neutrals are shown in red,Добрые Нейтралы показываются красным
+NEareRed,邪恶<color=#ffab1b>中立</color>视为邪恶,Evil Neutrals are shown in red,Злые Нейтралы показываются красным
+CrewKillingRed,带刀<color=#8cffff>船员</color>视为邪恶,Crewmate Killer are shown in red,Члены Экипажа убийцы показываются красным
 PsychicCanSeeNum,可以看到几个红名,Max number of red names,Максимальное количество красных имен
 PsychicFresh,每次会议刷新红名,Red nickname changes at every meeting,Красный никнейм меняется на каждой встрече
 DetectiveCanknowKiller,侦探可以知道凶手的职业,May know the killer's role,Может знать роль убийцы
@@ -555,8 +555,8 @@ EveryOneKnowSuperStar,所有人知道谁是明星,Everyone knows who is a Super 
 HackUsedMaxTime,骇客技能可使用次数,How many times can the ability be used,Сколько раз может использовать способность
 ZombieSpeedReduce,僵尸每次减少移动速度,"After a certain time, down the speed of Zombies by",Скорость Зомби каждый раз снижается на
 MafiaCanKillNum,最大可复仇人数,Maximum number of revenge,Максимальное количество мести
-ImpKnowCyberStarDead,内鬼可以知道网红死亡,Impostor may know the Celebrity is dead,Предатели могут знать что Знаменитость мертва
-NeutralKnowCyberStarDead,中立可以知道网红死亡,Neutrals may know the Celebrity is dead,Нейтралы могут знать что  Знаменитость мертва
+ImpKnowCyberStarDead,<color=#ff1919>内鬼阵营</color>玩家可以知道网红死亡,Impostor may know the Celebrity is dead,Предатели могут знать что Знаменитость мертва
+NeutralKnowCyberStarDead,<color=#ffab1b>中立阵营</color>玩家可以知道网红死亡,Neutrals may know the Celebrity is dead,Нейтралы могут знать что  Знаменитость мертва
 JesterCanUseButton,允许小丑召开紧急会议,Can call an emergency meeting,Может вызвать срочное собрание
 MarioVentNumWin,马里奥胜利需要跳管次数,Number of vent jumps to win,Сколько раз нужно прыгнуть в вентиляцию чтобы выиграть
 CanCheckCamera,可以监视到是否有人使用监控,Can track camera usage,Может отслеживать использует ли кто-либо камеры
@@ -575,20 +575,20 @@ ShapeMasterShapeshiftDuration,变形持续时间,Shapeshift duration,Продо�
 AssignOnlyTo%role%,只有%role%会成为加班狂,"Assign Only To %role%","Назначить только для %role%"
 WorkhorseNumLongTasks,额外的长任务数,"Additional Long Tasks","Дополнительные долгие задания"
 WorkhorseNumShortTasks,额外的短任务数,"Additional Short Tasks","Дополнительные короткие задания"
-InnocentCanWinByImp,冤罪师栽赃内鬼时可以获胜,If his target was the Impostor then he win with him,Если его цель был Предателем то он победит вместе с ним
+InnocentCanWinByImp,冤罪师栽赃<color=#ff1919>内鬼</color>时可以获胜,If his target was the Impostor then he win with him,Если его цель был Предателем то он победит вместе с ним
 CapitalismSkillCooldown,技能使用冷却,Skill cooldown,Откат навыка
-ImpCanBeAvanger,内鬼可以成为复仇者,Impostor can become an Avenger,Предатель может стать Мстителем
+ImpCanBeAvanger,<color=#ff1919>内鬼</color>可以成为复仇者,Impostor can become an Avenger,Предатель может стать Мстителем
 VeteranSkillCooldown,老兵戒备冷却时间,Skill cooldown,Откат навыка
 VeteranSkillDuration,老兵戒备状态持续时间,Skill duration,Продолжительность навыка
 BodyguardProtectRadius,保镖保护范围,Protect Radius,Радиус Защиты
-ImpCanBeEgoist,内鬼可以成为利己主义者,Impostor can become Egoist,Предатель может стать Эгоистом
-CrewCanBeEgoist,船员可以成为利己主义者,Crewmate can become Egoist,Член Экипажа может стать Эгоистом
+ImpCanBeEgoist,<color=#ff1919>内鬼</color>可以成为利己主义者,Impostor can become Egoist,Предатель может стать Эгоистом
+CrewCanBeEgoist,<color=#8cffff>船员</color>可以成为利己主义者,Crewmate can become Egoist,Член Экипажа может стать Эгоистом
 CounterfeiterSkillCooldown,赝品商贩卖赝品冷却,Skill cooldown,Откат навыка
 CounterfeiterSkillLimitTimes,赝品商贩卖赝品次数上限,Number of skills,Количество навыков
 GrenadierSkillCooldown,掷雷兵使用闪光弹冷却时间,Skill cooldown,Откат навыка
 GrenadierSkillDuration,掷雷兵闪光弹状态持续时间,Skill duration,Продолжительность навыка
 GrenadierCauseVision,受闪光弹影响后的视野,Vision after activating the stun grenade,Поле зрение после активации светошумовой гранаты
-GrenadierCanAffectNeutral,中立阵营玩家会受到闪光弹影响,Neutrals can be hit by a stun grenade,Нейтралы могут быть поражены светошумовой гранатой
+GrenadierCanAffectNeutral,<color=#ffab1b>中立阵营</color>玩家会受到闪光弹影响,Neutrals can be hit by a stun grenade,Нейтралы могут быть поражены светошумовой гранатой
 TicketsPerKill,每次击杀增加票数,Increase in votes for kill,Увеличение голосов за убийство
 GangsterRecruitCooldown,教父击杀/招募冷却时间,Recruit cooldown, Откат переманивания
 GangsterRecruitLimit,教父招募玩家数量上限,Recruit limit,Лимит переманивания

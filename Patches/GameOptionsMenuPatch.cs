@@ -158,7 +158,7 @@ public class GameOptionsMenuUpdatePatch
                 TabGroup.SystemSettings => Main.ModColor,
                 TabGroup.GameSettings => "#59ef83",
                 TabGroup.ImpostorRoles => "#f74631",
-                TabGroup.CrewmateRoles => "#29ffce",
+                TabGroup.CrewmateRoles => "#8cffff",
                 TabGroup.NeutralRoles => "#ffab1b",
                 TabGroup.Addons => "#ff9ace",
                 TabGroup.OtherRoles => "#76b8e0",
