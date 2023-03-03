@@ -10,6 +10,11 @@ namespace TOHE;
 class EAC
 {
     public static List<string> Msgs = new();
+    public static void WarnHost()
+    {
+        ErrorText.Instance.SBDetected = true;
+        ErrorText.Instance.AddError(ErrorCode.SBDetected);
+    }
     public static bool Receive(PlayerControl pc, byte callId, MessageReader reader)
     {
         if (pc == null || reader == null) return true;
@@ -36,6 +41,7 @@ class EAC
                         name.Contains("习近平")
                         )
                     {
+                        WarnHost();
                         Report(pc, "非法设置游戏名称");
                         Logger.Fatal($"非法修改玩家【{pc.GetClientId()}:{pc.GetRealName()}】的游戏名称，已驳回", "EAC");
                         return true;
@@ -45,6 +51,7 @@ class EAC
                     var role = (RoleTypes)sr.ReadUInt16();
                     if (GameStates.IsLobby && (role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost))
                     {
+                        WarnHost();
                         Report(pc, "非法设置状态为幽灵");
                         Logger.Fatal($"非法设置玩家【{pc.GetClientId()}:{pc.GetRealName()}】的状态为幽灵，已驳回", "EAC");
                         return true;
@@ -74,6 +81,7 @@ class EAC
                     var p = Utils.GetPlayerById(sr.ReadByte());
                     if (GameStates.IsMeeting || GameStates.IsLobby)
                     {
+                        WarnHost();
                         Report(pc, "非法召集会议");
                         Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法召集会议：【{p?.GetNameWithRole() ?? "null"}】，已驳回", "EAC");
                         return true;
@@ -87,6 +95,7 @@ class EAC
                         if (apc.Data.DefaultOutfit.ColorId == color) time++;
                     if (!GameStates.IsLobby || color == 18 || time >= 2)
                     {
+                        WarnHost();
                         Report(pc, "非法设置颜色");
                         Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法设置颜色，已驳回", "EAC");
                         return true;
@@ -98,6 +107,7 @@ class EAC
                     if (CustomRolesHelper.RoleExist(CustomRoles.Counterfeiter)) legal = true;
                     if (!legal && (GameStates.IsMeeting || GameStates.IsLobby || !pc.IsAlive()))
                     {
+                        WarnHost();
                         Report(pc, "非法击杀");
                         Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法击杀，已驳回", "EAC");
                         return true;
@@ -114,6 +124,7 @@ class EAC
                 case 7:
                     if (GameStates.IsInGame)
                     {
+                        WarnHost();
                         Report(pc, "非法设置颜色");
                         Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法设置颜色，已驳回", "EAC");
                         return true;
@@ -123,6 +134,7 @@ class EAC
                     var p = Utils.GetPlayerById(sr.ReadByte());
                     if (GameStates.IsMeeting || GameStates.IsLobby)
                     {
+                        WarnHost();
                         Report(pc, "非法召集会议");
                         Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法召集会议：【{p?.GetNameWithRole() ?? "null"}】，已驳回", "EAC");
                         return true;

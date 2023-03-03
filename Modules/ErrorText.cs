@@ -101,7 +101,7 @@ public class ErrorText : MonoBehaviour
             if (!HnSFlag)
                 text += $"{GetString($"ErrorLevel{maxLevel}")}";
             if (SBDetected)
-                text = "警告：检测到作弊玩家炸房，请尽快发送日志给开发者";
+                text = "警告：可能存在作弊玩家，请尽快发送日志给开发者";
             Text.enabled = true;
         }
         if (GameStates.IsInGame && maxLevel != 3)

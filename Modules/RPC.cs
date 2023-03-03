@@ -52,12 +52,7 @@ class RPCHandlerPatch
     {
         var rpcType = (RpcCalls)callId;
         MessageReader subReader = MessageReader.Get(reader);
-        if (EAC.Receive(__instance, callId, reader))
-        {
-            ErrorText.Instance.SBDetected = true;
-            ErrorText.Instance.AddError(ErrorCode.SBDetected);
-            return true;
-        }
+        if (EAC.Receive(__instance, callId, reader)) return true;
         Logger.Info($"{__instance?.Data?.PlayerId}({__instance?.Data?.PlayerName}):{callId}({RPC.GetRpcName(callId)})", "ReceiveRPC");
         switch (rpcType)
         {
