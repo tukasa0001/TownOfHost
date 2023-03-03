@@ -74,7 +74,7 @@ public class ErrorText : MonoBehaviour
     {
         var error = new ErrorData(code);
         if (0 < error.ErrorLevel)
-            Logger.Error($"エラー発生: {error}: {error.Message}", "ErrorText");
+            Logger.Error($"发生错误: {error}: {error.Message}", "ErrorText");
 
         if (!AllErrors.Any(e => e.Code == code))
         {
@@ -100,6 +100,8 @@ public class ErrorText : MonoBehaviour
         {
             if (!HnSFlag)
                 text += $"{GetString($"ErrorLevel{maxLevel}")}";
+            if (SBDetected)
+                text = "警告：检测到作弊玩家炸房，请尽快发送日志给开发者";
             Text.enabled = true;
         }
         if (GameStates.IsInGame && maxLevel != 3)
@@ -137,6 +139,7 @@ public class ErrorText : MonoBehaviour
     }
 
     public bool HnSFlag;
+    public bool SBDetected;
 }
 public enum ErrorCode
 {
@@ -159,4 +162,5 @@ public enum ErrorCode
     TestError2 = 0009202, // 000-920-2 Test Error 2
     TestError3 = 0009303, // 000-930-3 Test Error 3
     HnsUnload = 000_804_1, // 000-804-1 Unloaded By HnS
+    SBDetected = 000_666_1, // 000-666-1 傻逼外挂司马东西
 }

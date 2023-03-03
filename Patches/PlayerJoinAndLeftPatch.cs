@@ -47,6 +47,8 @@ class DisconnectInternalPatch
     public static void Prefix(InnerNetClient __instance, DisconnectReasons reason, string stringReason)
     {
         Logger.Info($"断开连接(理由:{reason}:{stringReason}, ping:{__instance.Ping})", "Session");
+        ErrorText.Instance.SBDetected = false;
+        ErrorText.Instance.Clear();
         Cloud.StopConnect();
     }
 }
