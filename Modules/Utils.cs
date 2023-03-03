@@ -762,7 +762,7 @@ public static class Utils
                 List<PlayerControl> goodPlayers = new();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (pc.Data.IsDead || pc.Data.Disconnected || pc == seer || pc == null) continue;
+                    if (pc == null || !pc.IsAlive() || pc.Data.Disconnected || pc == seer) continue;
                     isGood.Add(pc.PlayerId, true);
                     var role = pc.GetCustomRole();
                     switch (role.GetCustomRoleTypes())
