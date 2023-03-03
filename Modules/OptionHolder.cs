@@ -207,7 +207,6 @@ public static class Options
     public static OptionItem DisableAirshipVital;
     public static OptionItem DisableDevicesIgnoreConditions;
     public static OptionItem DisableDevicesIgnoreImpostors;
-    public static OptionItem DisableDevicesIgnoreMadmates;
     public static OptionItem DisableDevicesIgnoreNeutrals;
     public static OptionItem DisableDevicesIgnoreCrewmates;
     public static OptionItem DisableDevicesIgnoreAfterAnyoneDied;
@@ -321,6 +320,8 @@ public static class Options
     public static OptionItem NoLimitAddonsNum;
     public static OptionItem BewilderVision;
     public static OptionItem ImpCanBeAvanger;
+    public static OptionItem SheriffCanBeMadmate;
+    public static OptionItem MayorCanBeMadmate;
     public static OptionItem FlashmanSpeed;
     public static OptionItem LoverSpawnChances;
     public static OptionItem LoverSuicide;
@@ -612,6 +613,8 @@ public static class Options
         ImpCanBeAvanger = BooleanOptionItem.Create(6050455, "ImpCanBeAvanger", false, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Avanger]);
 
         SetupAdtRoleOptions(6050390, CustomRoles.Madmate, canSetNum: true);
+        SheriffCanBeMadmate = BooleanOptionItem.Create(6050395, "SheriffCanBeMadmate", false, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Madmate]);
+        MayorCanBeMadmate = BooleanOptionItem.Create(6050396, "MayorCanBeMadmate", false, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Madmate]);
         LastImpostor.SetupCustomOption();
         SetupAdtRoleOptions(6051660, CustomRoles.TicketsStealer, canSetNum: true, tab: TabGroup.Addons);
         TicketsPerKill = FloatOptionItem.Create(6051666, "TicketsPerKill", new(0.1f, 10f, 0.1f), 0.5f, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.TicketsStealer]);

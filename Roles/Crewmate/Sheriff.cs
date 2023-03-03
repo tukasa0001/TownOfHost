@@ -98,7 +98,7 @@ public static class Sheriff
         ShotLimit[killer.PlayerId]--;
         Logger.Info($"{killer.GetNameWithRole()} : 残り{ShotLimit[killer.PlayerId]}発", "Sheriff");
         SendRPC(killer.PlayerId);
-        if (!target.CanBeKilledBySheriff())
+        if (!killer.Is(CustomRoles.Madmate) && !target.CanBeKilledBySheriff())
         {
             Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
             killer.RpcMurderPlayer(killer);
