@@ -255,25 +255,23 @@ class CheckForEndVotingPatch
             else if (pc_role.IsNeutralKilling() && pc != exiledPlayer.Object)
                 neutralnum++;
         }
-        if (Options.ConfirmEjections.GetBool())
+        switch (Options.CEMode.GetInt())
         {
-            if (CustomRolesHelper.IsImpostor(player.GetCustomRole()))
-                name = string.Format(GetString("BelongTo"), realName, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), GetString("TeamImpostor")));
-            else if (
-                (Options.ConfirmEjectionsNK.GetBool() && player.GetCustomRole().IsNK()) ||
-                (Options.ConfirmEjectionsNonNK.GetBool() && player.GetCustomRole().IsNNK())
-                )
-            {
-                if (Options.ConfirmEjectionsNeutralAsImp.GetBool())
+            case 0:
+                name = string.Format(GetString("PlayerExiled"), realName);
+                break;
+            case 1:
+                if (player.GetCustomRole().IsImpostor())
                     name = string.Format(GetString("BelongTo"), realName, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), GetString("TeamImpostor")));
-                else name = string.Format(GetString("BelongTo"), realName, Utils.ColorString(new Color32(255, 171, 27, 0), GetString("TeamImpostor")));
-            }
-            else name = string.Format(GetString("IsGood"), realName);
+                else if (player.GetCustomRole().IsCrewmate())
+                    name = string.Format(GetString("IsGood"), realName);
+                else if (player.GetCustomRole().IsNeutral())
+                    name = string.Format(GetString("BelongTo"), realName, Utils.ColorString(new Color32(255, 171, 27, 0), GetString("TeamNeutral")));
+                break;
+            case 2:
+                name = string.Format(GetString("PlayerIsRole"), realName, coloredRole);
+                break;
         }
-        else if (Options.ConfirmEjectionsRoles.GetBool())
-            name = string.Format(GetString("PlayerIsRole"), realName, coloredRole);
-        else name = string.Format(GetString("PlayerExiled"), realName);
-
         var DecidedWinner = false;
         //小丑胜利
         if (crole == CustomRoles.Jester)
@@ -317,7 +315,6 @@ class CheckForEndVotingPatch
             if (GameStates.IsInGame) player.RpcSetName(realName);
             Main.DoBlockNameChange = false;
         }, 11.5f, "Change Exiled Player Name Back");
-
     }
     public static bool CheckRole(byte id, CustomRoles role)
     {

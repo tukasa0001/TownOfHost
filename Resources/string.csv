@@ -27,8 +27,13 @@
 ## 生草作者署名（会显示在右上角，不需要请填“空”）
 TextBelowVersionText,空,"<color=#0FE60F>Dev:</color> KARPED1EM","<color=#0FE60F>Разраб:</color> KARPED1EM\n<color=#06DEEC>Перевод:</color> TommyXL & Tem"
 
+# 阵营
+TeamImpostor,内鬼阵营,Team Impostor,Команда Предателей
+TeamNeutral,中立阵营,Neutral,Нейтрал
+TeamJackal,豺狼阵营,Team Jackal,Команда Шакалов
+TeamPelican,鹈鹕阵营
+
 ## 职业
-Neutral,中立阵营,Neutral,Нейтрал
 
 # 原版职业
 Crewmate,船员,Crewmate,Член Экипажа
@@ -129,11 +134,6 @@ TicketsStealer,窃票者,Stealer,Похититель
 
 # 管理员
 GM,管理员,GM,GM (Призрак)
-
-# 其它
-TeamImpostor,内鬼阵营,Team Impostor,Команда Предателей
-TeamEgoist,野心家阵营,Team Egoist,Команда Эгоистов
-TeamJackal,豺狼阵营,Team Jackal,Команда Шакалов
 
 ## 以下是职业简介（显示在开局以及任务栏的文本）
 NeutralInfo,中立阵营,Independent forces unaffiliated with any other teams,Команда которая не принадлежит ни к каким другим командам
@@ -446,13 +446,12 @@ KickPlayerFriendCodeNotExist,踢出没有登录的玩家,Kick players whose Frie
 ApplyBanList,踢出被封禁的玩家,Apply BanList,Применить файл с забаненными игроками (BanList)
 EndWhenPlayerBug,当有玩家因Bug无法游戏时终止游戏,"End the game when any player has a critical error",Завершить игру когда у любого игрока возникла критическая ошибка
 KillFlashDuration,击杀闪烁持续时间,"''Kill Flash'' Duration","Длительность ''Вспышки Убийства''"
-ConfirmEjections,驱逐时确认阵营,Show roles players ejected,Показывать роли изгнаных
-ConfirmEjectionsNK,确认邪恶中立阵营,Show Neutral Killer Roles,Показывать роли Нейтральных Убийц
-ConfirmEjectionsNonNK,确认友善中立阵营,Show Neutral Roles,Показывать Нейтральные роли
-ConfirmEjectionsNeutralAsImp,确认时中立阵营视作内鬼阵营,Show Neutral Killer roles as Impostor,Показывать роли Нейтральных убийц как Предателей
-ConfirmEjectionsRoles,驱逐时确认具体职业,Show specific roles of ejected,Показывать конкректные роли изгнаных
-ShowImpRemainOnEject,驱逐时显示剩余内鬼,Show remaining Impostors after ejected,Отображать оставшихся Предателей при изгнании
-ShowNKRemainOnEject,同时显示剩余中立,Show remaining Neutral Killers after ejected,Отображать оставшихся Нейтральных Убийц при изгнании
+ConfirmEjectionsMode,驱逐确认模式
+ConfirmEjections.None,不确认
+ConfirmEjections.Team,确认阵营
+ConfirmEjections.Role,确认职业
+ShowImpRemainOnEject,驱逐确认时显示剩余内鬼数量,Show remaining Impostors after ejected,Отображать оставшихся Предателей при изгнании
+ShowNKRemainOnEject,同时显示剩余邪恶中立数量,Show remaining Neutral Killers after ejected,Отображать оставшихся Нейтральных Убийц при изгнании
 Ban,封禁,Ban,Забанить
 Kick,踢出,Kick,Кикнуть
 NoticeMe,通知我,Notify me,Уведомить меня

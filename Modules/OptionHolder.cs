@@ -86,6 +86,12 @@ public static class Options
     {
         "Ban", "Kick", "NoticeMe","NoticeEveryone"
     };
+    public static readonly string[] ConfirmEjectionsMode =
+    {
+        "ConfirmEjections.None",
+        "ConfirmEjections.Team",
+        "ConfirmEjections.Role"
+    };
 
     // 各役職の詳細設定
     public static OptionItem EnableGM;
@@ -95,11 +101,10 @@ public static class Options
     public static OptionItem SendCodeToQQ;
     public static OptionItem SendCodeMinPlayer;
     public static OptionItem DisableVanillaRoles;
-    public static OptionItem ConfirmEjections;
+    public static OptionItem CEMode;
     public static OptionItem ConfirmEjectionsNK;
     public static OptionItem ConfirmEjectionsNonNK;
     public static OptionItem ConfirmEjectionsNeutralAsImp;
-    public static OptionItem ConfirmEjectionsRoles;
     public static OptionItem ShowImpRemainOnEject;
     public static OptionItem ShowNKRemainOnEject;
     public static OptionItem CheatResponses;
@@ -762,12 +767,8 @@ public static class Options
         DisableVanillaRoles = BooleanOptionItem.Create(6090069, "DisableVanillaRoles", true, TabGroup.GameSettings, false)
             .SetHeader(true);
 
-        ConfirmEjections = BooleanOptionItem.Create(6090105, "ConfirmEjections", false, TabGroup.GameSettings, false)
+        CEMode = StringOptionItem.Create(6091223, "ConfirmEjectionsMode", ConfirmEjectionsMode, 2, TabGroup.GameSettings,false)
             .SetHeader(true);
-        ConfirmEjectionsNK = BooleanOptionItem.Create(6090107, "ConfirmEjectionsNK", true, TabGroup.GameSettings, false).SetParent(ConfirmEjections);
-        ConfirmEjectionsNonNK = BooleanOptionItem.Create(6090109, "ConfirmEjectionsNonNK", true, TabGroup.GameSettings, false).SetParent(ConfirmEjections);
-        ConfirmEjectionsNeutralAsImp = BooleanOptionItem.Create(6090111, "ConfirmEjectionsNeutralAsImp", false, TabGroup.GameSettings, false).SetParent(ConfirmEjections);
-        ConfirmEjectionsRoles = BooleanOptionItem.Create(6090113, "ConfirmEjectionsRoles", true, TabGroup.GameSettings, false);
         ShowImpRemainOnEject = BooleanOptionItem.Create(6090115, "ShowImpRemainOnEject", true, TabGroup.GameSettings, false);
         ShowNKRemainOnEject = BooleanOptionItem.Create(6090119, "ShowNKRemainOnEject", true, TabGroup.GameSettings, false).SetParent(ShowImpRemainOnEject);
 
