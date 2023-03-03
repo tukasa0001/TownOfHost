@@ -1,4 +1,6 @@
 using Hazel;
+
+using TownOfHost.Roles;
 using TownOfHost.Roles.Impostor;
 
 namespace TownOfHost

@@ -184,13 +184,13 @@ namespace TownOfHost
             };
 
         }
-        public enum CountTypes
-        {
-            OutOfGame,
-            None,
-            Crew,
-            Impostor,
-            Jackal,
-        }
+    }
+    public enum CountTypes
+    {
+        OutOfGame,
+        None,
+        Crew,
+        Impostor,
+        Jackal,
     }
 }
