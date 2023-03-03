@@ -384,10 +384,10 @@ public static class Utils
         return !(
             (pc.Is(CustomRoles.Sheriff) && !Options.SheriffCanBeMadmate.GetBool()) ||
             (pc.Is(CustomRoles.Mayor) && !Options.MayorCanBeMadmate.GetBool()) ||
+            (pc.Is(CustomRoles.NiceGuesser) && !Options.NGuesserCanBeMadmate.GetBool()) ||
             pc.Is(CustomRoles.Needy) ||
             pc.Is(CustomRoles.Snitch) ||
             pc.Is(CustomRoles.CyberStar) ||
-            pc.Is(CustomRoles.NiceGuesser) ||
             pc.Is(CustomRoles.Youtuber) ||
             pc.Is(CustomRoles.Egoist)
             );
