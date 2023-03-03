@@ -95,7 +95,7 @@ class EAC
                 case RpcCalls.MurderPlayer:
                     bool legal = false;
                     if (CustomRolesHelper.RoleExist(CustomRoles.Mafia)) legal = true;
-                    if (!legal && (GameStates.IsMeeting || GameStates.IsLobby))
+                    if (!legal && (GameStates.IsMeeting || GameStates.IsLobby || !pc.IsAlive()))
                     {
                         Report(pc, "非法击杀");
                         Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法击杀，已驳回", "EAC");
