@@ -52,9 +52,9 @@ class EAC
                     break;
                 case RpcCalls.SendChat:
                     var text = sr.ReadString();
+                    if (Msgs.Contains(text)) return true;
                     Msgs.Add(text);
                     if (Msgs.Count > 3) Msgs.Remove(Msgs[0]);
-                    if (Msgs.Contains(text)) return true;
                     if (
                         text.Contains("░") ||
                         text.Contains("▄") ||
