@@ -1,6 +1,7 @@
 using Assets.CoreScripts;
 using HarmonyLib;
 using Hazel;
+using Il2CppSystem.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -471,7 +472,7 @@ class ChatCommands
                     canceled = true;
                     subArgs = args.Length < 2 ? "" : args[1];
                     var color = Utils.MsgToColor(subArgs, true);
-                    if (color == Byte.MaxValue)
+                    if (color == byte.MaxValue)
                     {
                         Utils.SendMessage(GetString("IllegalColor"), PlayerControl.LocalPlayer.PlayerId);
                         break;
@@ -516,6 +517,25 @@ class ChatCommands
                     canceled = true;
                     if (Main.newLobby) Cloud.SendCodeToQQ(true);
                     else Utils.SendMessage("很抱歉，每个房间车队姬只会发一次", PlayerControl.LocalPlayer.PlayerId);
+                    break;
+
+                case "/setrole":
+                    if (!DebugModeManager.AmDebugger) break;
+                    canceled = true;
+                    subArgs = text.Remove(0, 8);
+                    var setRole = ToSimplified(subArgs.Trim());
+                    foreach (var r in roleList)
+                    {
+                        var roleName = r.Key.ToString();
+                        var roleShort = r.Value;
+                        if (string.Compare(setRole, roleName, true) == 0 || string.Compare(setRole, roleShort, true) == 0)
+                        {
+                            PlayerControl.LocalPlayer.RpcSetRole(r.Key.GetRoleTypes());
+                            PlayerControl.LocalPlayer.RpcSetCustomRole(r.Key);
+                            Utils.NotifyRoles();
+                            Utils.MarkEveryoneDirtySettings();
+                        }
+                    }
                     break;
 
                 default:
