@@ -265,8 +265,8 @@ static class CustomRolesHelper
        => role switch
        {
            CustomRoles.GM => CountTypes.OutOfGame,
-           CustomRoles.Egoist => CountTypes.Impostor,
            CustomRoles.Jackal => CountTypes.Jackal,
+           CustomRoles.Pelican => CountTypes.Pelican,
            _ => role.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew,
        };
 
