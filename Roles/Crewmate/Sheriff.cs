@@ -130,14 +130,14 @@ namespace TownOfHost.Roles.Crewmate
             SendRPC();
             if (!CanBeKilledBy(target))
             {
+                killer.RpcMurderPlayer(killer);
                 Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
                 if (!MisfireKillsTarget.GetBool())
                 {
-                    // キルキャンセル
+                    info.CancelAndAbort();
                 }
-                // 自爆
             }
-            SetKillCooldown();
+            killer.SetKillCooldown();
             yield break;
         }
         // ==/CheckMurder関連処理 ==
