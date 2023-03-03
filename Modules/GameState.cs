@@ -13,16 +13,19 @@ namespace TownOfHost
         byte PlayerId;
         public CustomRoles MainRole;
         public List<CustomRoles> SubRoles;
+        public CountTypes countTypes;
         public bool IsDead { get; set; }
         public DeathReason deathReason { get; set; }
         public TaskState taskState;
         public bool IsBlackOut { get; set; }
         public (DateTime, byte) RealKiller;
         public PlainShipRoom LastRoom;
+        public Dictionary<byte, string> TargetColorData;
         public PlayerState(byte playerId)
         {
             MainRole = CustomRoles.NotAssigned;
             SubRoles = new();
+            countTypes = CountTypes.OutOfGame;
             PlayerId = playerId;
             IsDead = false;
             deathReason = DeathReason.etc;
@@ -30,6 +33,7 @@ namespace TownOfHost
             IsBlackOut = false;
             RealKiller = (DateTime.MinValue, byte.MaxValue);
             LastRoom = null;
+            TargetColorData = new();
         }
         public CustomRoles GetCustomRole()
         {
@@ -46,6 +50,11 @@ namespace TownOfHost
                     RoleTypes.Shapeshifter => CustomRoles.Shapeshifter,
                     _ => CustomRoles.Crewmate,
                 };
+        }
+        public void SetMainRole(CustomRoles role)
+        {
+            MainRole = role;
+            countTypes = role.GetCountTypes();
         }
         public void SetSubRole(CustomRoles role, bool AllReplace = false)
         {

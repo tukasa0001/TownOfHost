@@ -408,7 +408,11 @@
 "TimeThiefLowerLimitVotingTime","Minimum Voting Time","投票時間の下限","蚀时者存活时会议时间最低下限","時間小偷在場時會議時間最低下限","Уменьшить длительность голосования на","Tempo Mínimo de Votação"
 "TimeThiefReturnStolenTimeUponDeath","Return Stolen Time After Death","死亡後に盗んだ時間を返す","蚀时者死亡后会议时间重置","時間小偷死亡後將會議時間重設","Вернуть украденное время после его смерти","Devolver Tempo Roubado ao Morrer"
 "EvilTrackerCanSeeKillFlash","Can See ""Kill Flash"" for Impostor Kills","インポスターキル時にフラッシュが見える","内鬼进行击杀时邪恶的追踪者可见击杀闪光","當狼人隊友殺人時邪惡的追蹤者可以看到閃光","Может видеть ''Вспышку Убийства''","Pode Ver ""Clarão"" Quando Impostor Matar"
-"EvilTrackerResetTargetAfterMeeting","Can Reset Target After Meeting","会議後に再度ターゲットを設定できる","会议后重置邪恶的追踪者追踪目标","會議後重置追蹤目標","Может сбросить цель после Собрания","Pode Mudar Alvo Depois de Reunião"
+"EvilTrackerTargetMode","Can Set Target","ターゲットの設定タイミング",
+"EvilTrackerTargetMode.Never","Never","なし"
+"EvilTrackerTargetMode.OnceInGame","Once In Game","試合毎"
+"EvilTrackerTargetMode.EveryMeeting","Every Meeting","ターン毎"
+"EvilTrackerTargetMode.Always","Always","常時"
 "EvilTrackerCanSeeLastRoomInMeeting","Can See Target's Last Room In Meeting","会議中、追跡対象の最終位置を表示する","可以在会议时知晓追踪目标的最后停留房间","可以在會議中看到目標最後位置","Может видеть местоположение Целей во время Собрания",""
 "KillFlashDuration","""Kill Flash"" Duration","キルフラッシュの長さ","击杀闪烁持续时间","殺人閃光持續時間","Длительность ""Вспышки Убийства""","Duração do ""Clarão de Abate"""
 "WitchModeSwitchAction","Mode Switch Action","モード変更アクション","切换击杀模式","切換模式操作","Действие для Смены Режима",""
@@ -610,4 +614,4 @@
 "DefaultShapeshiftText","Shift","変身","变形","變身","Превращение","Mutar"
 "DisabledBySettings","Disabled by Settings","設定で無効化されています","已在设置被中禁用","在設定中被禁用","Отключено настройкой","Desativado Pelas Configurações"
 "Disabled","Disabled","無効","禁用","已被禁用","Отключено","Desativado"
-"FailToTrack","Failed To Track","追跡不可","追踪失败","無法追蹤","Не удалось отследить",""
+"FailToTrack","Failed To Track","追跡失敗","追踪失败","無法追蹤","Не удалось отследить",""

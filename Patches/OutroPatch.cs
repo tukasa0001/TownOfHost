@@ -98,7 +98,6 @@ namespace TownOfHost
 
             Main.isDoused = new Dictionary<(byte, byte), bool>();
 
-            NameColorManager.Instance.RpcReset();
             Main.VisibleTasksCount = false;
             if (AmongUsClient.Instance.AmHost)
             {

@@ -79,7 +79,6 @@ namespace TownOfHost.Roles.Neutral
             if (killer.Is(CustomRoleTypes.Impostor))
                 target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
 
-            var killerColorCode = killer.GetRoleColorCode();
             if (CanSeeKillableTeammate)
             {
                 var roleType = killer.GetCustomRole().GetCustomRoleTypes();
@@ -92,14 +91,14 @@ namespace TownOfHost.Roles.Neutral
                 var killerTeam = Main.AllPlayerControls.Where(pc => isTarget(pc));
                 foreach (var member in killerTeam)
                 {
-                    NameColorManager.Instance.RpcAdd(member.PlayerId, target.PlayerId, RoleColorCode);
-                    NameColorManager.Instance.RpcAdd(target.PlayerId, member.PlayerId, killerColorCode);
+                    NameColorManager.Add(member.PlayerId, target.PlayerId, RoleColorCode);
+                    NameColorManager.Add(target.PlayerId, member.PlayerId);
                 }
             }
             else
             {
-                NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, RoleColorCode);
-                NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, killerColorCode);
+                NameColorManager.Add(killer.PlayerId, target.PlayerId, RoleColorCode);
+                NameColorManager.Add(target.PlayerId, killer.PlayerId);
             }
             Utils.NotifyRoles();
             Utils.MarkEveryoneDirtySettings();

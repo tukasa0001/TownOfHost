@@ -125,7 +125,7 @@ namespace TownOfHost
                 }
             }
             FallFromLadder.Reset();
-            Utils.CountAliveImpostors();
+            Utils.CountAlivePlayers(true);
             Utils.AfterMeetingTasks();
             Utils.SyncAllSettings();
             Utils.NotifyRoles();
@@ -168,7 +168,7 @@ namespace TownOfHost
                 }, 0.5f, "AfterMeetingDeathPlayers Task");
             }
 
-            GameStates.AlreadyDied |= GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
+            GameStates.AlreadyDied |= !Utils.IsAllAlive;
             RemoveDisableDevicesPatch.UpdateDisableDevices();
             SoundManager.Instance.ChangeAmbienceVolume(DataManager.Settings.Audio.AmbienceVolume);
             Logger.Info("タスクフェイズ開始", "Phase");

@@ -13,6 +13,8 @@ namespace TownOfHost
         public static void Prefix(ShipStatus __instance,
             [HarmonyArgument(4)] Il2CppSystem.Collections.Generic.List<NormalPlayerTask> unusedTasks)
         {
+            if (!AmongUsClient.Instance.AmHost) return;
+
             if (!Options.DisableTasks.GetBool()) return;
             List<NormalPlayerTask> disabledTasks = new();
             for (var i = 0; i < unusedTasks.Count; i++)

@@ -34,7 +34,7 @@ namespace TownOfHost.Modules
         }
         public static void OnReportDeadBody()
         {
-            if (Options.AllAliveMeeting.GetBool() && GameData.Instance.AllPlayers.ToArray().Where(x => !x.Object.Is(CustomRoles.GM)).All(x => !x.IsDead))
+            if (Options.AllAliveMeeting.GetBool() && Utils.IsAllAlive)
             {
                 DiscussionTime = 0;
                 VotingTime = Options.AllAliveMeetingTime.GetInt();
