@@ -773,7 +773,7 @@ EatenByPelican,您被鹈鹕吞了，请等待鹈鹕死亡或会议...,"You have 
 FireworksPutPhase,还要安放{0}枚烟花,{0} Fireworks Left,Осталось {0} Фейерверков
 FireworksWaitPhase,耐心等待....,Wait for it...,Подожди время...
 FireworksReadyFirePhase,烟花来咯，大型烟花秀开始！,Fire!,Огонь!
-EnterVentWin,在{0}秒内跳管道胜利！
+EnterVentWinCountDown,在{0}秒内跳管道胜利！
 InvalidArgs,无效参数,Invalid Args,Недопустимые аргументы
 On,开启,ON,ВКЛ
 Off,关闭,OFF,ВЫКЛ

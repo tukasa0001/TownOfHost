@@ -1018,7 +1018,7 @@ public static class Utils
             if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
                 SelfName = $"</size>\r\n{ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
             if (seer.Is(CustomRoles.Revolutionist) && seer.IsDrawDone())
-                SelfName = $"</size>\r\n{ColorString(seer.GetRoleColor(), string.Format(GetString("EnterVentWin"), Main.RevolutionistCountdown[seer.PlayerId]))}";
+                SelfName = $"</size>\r\n{ColorString(seer.GetRoleColor(), string.Format(GetString("EnterVentWinCountDown"), Main.RevolutionistCountdown[seer.PlayerId]))}";
             if (Pelican.IsEaten(seer.PlayerId))
                 SelfName = $"</size>\r\n{ColorString(GetRoleColor(CustomRoles.Pelican), GetString("EatenByPelican"))}";
             SelfName = SelfRoleName + "\r\n" + SelfName;
