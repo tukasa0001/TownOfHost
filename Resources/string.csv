@@ -480,39 +480,39 @@ GGCanGuessAdt,正义赌怪可以猜测附加职业,Can Guess Add-ons,Может 
 GuesserCanGuessTimes,每次会议猜测次数上限,Maximum number of guesses,Максимальное количество угадываний
 GuesserTryHideMsg,尝试混淆赌怪指令（试验性）,Can confuse players in guessing (Experiment),Может запутать игроков в угадывании (Эксперимент)
 BountyTargetChangeTime,赏金目标切换时间,Time Until Target Swaps,Время смены цели
-BountySuccessKillCooldown,赏金猎人击杀赏金目标的奖励冷却时间,Kill Cooldown After Killing Bounty,Перезарядка после убийства цели
-BountyFailureKillCooldown,赏金猎人击杀赏金目标以外玩家的惩罚冷却时间,Kill Cooldown After Killing Others,Перезарядка после обычного Убийства
-BountyShowTargetArrow,赏金猎人显示指向目标的箭头,Bounty hunter show arrow pointing to target,Показывать стрелку указывающую на Цель
+BountySuccessKillCooldown,击杀赏金目标的奖励冷却时间,Kill Cooldown After Killing Bounty,Перезарядка после убийства цели
+BountyFailureKillCooldown,击杀赏金目标以外玩家的惩罚冷却时间,Kill Cooldown After Killing Others,Перезарядка после обычного Убийства
+BountyShowTargetArrow,显示指向目标的箭头,Bounty hunter show arrow pointing to target,Показывать стрелку указывающую на Цель
 DefaultShapeshiftCooldown,默认变形冷却时间,Default Shapeshift Cooldown,Обычная перезарядка Оборотня
 VampireKillDelay,吸血目标延迟死亡时间,Kill Delay(S),Длительность укуса(Секунды)
-MareAddSpeedInLightsOut,梦魇熄灯时的额外速度,Mare Add Player Add Speed In Lights Out,Скорость Ночного при Саботаже Света
-MareKillCooldownInLightsOut,梦魇熄灯时的击杀冷却,Kill Cooldown During Fix Lights,Откат убийства Ночного при Саботаже Света
-SabotageMasterSkillLimit,修理工修理破坏的最大次数,Ability Use Count(Excluding Doors),Лимит способности (Кроме открытия дверей)
+MareAddSpeedInLightsOut,熄灯时的额外速度,Mare Add Player Add Speed In Lights Out,Скорость Ночного при Саботаже Света
+MareKillCooldownInLightsOut,熄灯时的击杀冷却,Kill Cooldown During Fix Lights,Откат убийства Ночного при Саботаже Света
+SabotageMasterSkillLimit,修理修理技能次数上限,Ability Use Count(Excluding Doors),Лимит способности (Кроме открытия дверей)
 LuckeyProbability,触发挡伤的概率,Probability of staying alive,Вероятность остаться в живых
 SabotageMasterFixesDoors,打开多扇关闭的门,Can Open Multiple Doors,Может открыть все двери
-SabotageMasterFixesReactors,可以一人修理核反应堆,Can Fix Both Reactors,Может починить саботаж Реактора
-SabotageMasterFixesOxygens,可以一人修理氧气破坏,Can Fix Both O2,Может починить саботаж O2
-SabotageMasterFixesCommunications,可以一人修复通讯破坏（米拉总部地图）,Can Fix Both Comms In MIRA HQ,Может починить саботаж Связи на MiraHQ
-SabotageMasterFixesElectrical,按一个按钮就可以修复照明破坏,Can Fix Lights With One Switch,Может починить саботаж Света одним кликом
+SabotageMasterFixesReactors,秒修核反应堆,Can Fix Both Reactors,Может починить саботаж Реактора
+SabotageMasterFixesOxygens,秒修氧气破坏,Can Fix Both O2,Может починить саботаж O2
+SabotageMasterFixesCommunications,秒修通讯破坏（米拉总部地图）,Can Fix Both Comms In MIRA HQ,Может починить саботаж Связи на MiraHQ
+SabotageMasterFixesElectrical,秒修照明破坏,Can Fix Lights With One Switch,Может починить саботаж Света одним кликом
 SheriffCanKill%role%,可以执法%role%,Can Kill %role%,Может убить %role%
 SheriffCanKillNeutrals,可以执法<color=#ffaa1b>中立阵营</color>,Can Kill Neutrals,Может убить Нейтралов
 SheriffCanKillAll,<color=#00fefe>全开</color>,<color=#00fefe>All ON</color>,<color=#00fefe>Все ВКЛ</color>
-SheriffCanKillSeparately,个别设定,Individual Settings,Выбрать кого
+SheriffCanKillSeparately,单独设定,Individual Settings,Выбрать кого
 In%team%,(%team%阵营),(Team %team%),(Команда %team%)
-SheriffMisfireKillsTarget,误杀好人会同时击杀目标,Misfire Kills Target,Шериф убивает цель вместе с собой
-SheriffShotLimit,最大执法次数,Ammo,Количество выстрелов
+SheriffMisfireKillsTarget,误杀好人的同时击杀目标,Misfire Kills Target,Шериф убивает цель вместе с собой
+SheriffShotLimit,执法次数上限,Ammo,Количество выстрелов
 SheriffCanKillAllAlive,全员存活时可以执法,Can Kill With All Alive,Может убить всех живых
 SheriffCanKillMadmate,可以执法<color=#ff1919>叛徒</color>
 DoctorTaskCompletedBatteryCharge,每次完成任务增加的设备充能数,Battery Duration,Длительность батарейки
-SnitchEnableTargetArrow,告密者完成任务后可以通过箭头确认所有被发现目标,Can See Arrow To Target,Может видеть стрелку цели
-SnitchCanGetArrowColor,告密者对不同阵营的目标使用不同颜色的箭头确认,Can See Target Team Colored Arrow,Может видеть цвета стрелок
-SnitchCanFindNeutralKiller,告密者也可以和拥有击杀能力的中立阵营玩家互相发现,Can Find Neutral Killers,Может видеть нейтральных убийц
-SnitchRemainingTaskFound,告密者在剩余多少任务时被发现,Remaining tasks to be found,Оставшиеся задания при которых он будет виден
+SnitchEnableTargetArrow,完成任务后显示箭头指向所有目标,Can See Arrow To Target,Может видеть стрелку цели
+SnitchCanGetArrowColor,对不同阵营的目标显示不同颜色的箭头,Can See Target Team Colored Arrow,Может видеть цвета стрелок
+SnitchCanFindNeutralKiller,可以和带刀中立互认,Can Find Neutral Killers,Может видеть нейтральных убийц
+SnitchRemainingTaskFound,在剩余多少任务时被发现,Remaining tasks to be found,Оставшиеся задания при которых он будет виден
 SpeedBoosterUpSpeed,增速者每次加速,Random Player's Speed Boost,Повысить скорость игрока на
-SpeedBoosterTimes,最多能增速几次,Tasks Until Boost Activated,На сколько секунд можно ускорить
+SpeedBoosterTimes,增速次数上限,Tasks Until Boost Activated,На сколько секунд можно ускорить
 MayorAdditionalVote,附加票数,Additional Votes Count,Дополнительные голоса
 MayorHasPortableButton,跳通风管触发紧急会议,"Mayor Has Mobile Emergency Button",У Мэра есть портативная Кнопка
-MayorNumOfUseButton,紧急会议最大次数,"Number Of Mobile Emergency Button","Количество портативных Кнопок"
+MayorNumOfUseButton,紧急会议次数上限,"Number Of Mobile Emergency Button","Количество портативных Кнопок"
 MayorHideVote,隐藏市长附加的投票,"Hide additional vote",Скрыть дополнительные голоса
 ExecutionerCanTargetImpostor,<color=#ff1919>内鬼</color>可以成为目标,Can Target Impostors,Может иметь цель изгнать Предателя
 ExecutionerCanTargetNeutralKiller,带刀<color=#ffab1b>中立</color>玩家可以成为目标,Can Target Neutrals,Может иметь цель изгнать Нейтрального Убийцу
@@ -520,7 +520,7 @@ ExecutionerChangeRolesAfterTargetKilled,目标死亡后将变为,Role Changes Wh
 SerialKillerLimit,自杀倒计时,Time Until Suicide,Лимит времени до Самоубийства
 ArsonistDouseTime,涂油所需时间,Time Until Douse Complete,Длительность обливания
 CanTerroristSuicideWin,恐怖分子可以通过自杀获胜,Can Win By Suicide,Для победы достаточно сделать Суицид
-FireWorksMaxCount,可放置烟花的最大数量,Fireworks Count,Количество фейерверков
+FireWorksMaxCount,可放置烟花的数量上限,Fireworks Count,Количество фейерверков
 FireWorksRadius,烟花爆炸半径,Firework Explosion Radius,Радиус фейерверка
 SniperBulletCount,最大子弹数量,Ammo,Количество пуль
 SniperPrecisionShooting,精准射击模式,Precision Firing,Точный выстрел
@@ -529,18 +529,18 @@ SniperAimAssistOneshot,闪烁提示而不是一直显示,One shot Assist,Пом�
 NoLimitAddonsNum,不限制每位玩家的附加职业上限,The number of Add-ons for one player is not limited,Количество Атрибутов для одного игрока не ограничено 
 LoverSpawnChances,出现概率,Spawn Chance of Lovers,Шанс появления Любовников
 AdditionRolesSpawnRate,出现概率,Spawn Chance,Шанс появления
-BewilderVision,迷幻者视野,Bewilder Vision,Дальность обзора Сбитого с Толку
-FlashmanSpeed,闪电侠初始移动速度,Flash Speed,Скорость Флеша
+BewilderVision,迷幻视野大小,Bewilder Vision,Дальность обзора Сбитого с Толку
+FlashmanSpeed,初始移动速度,Flash Speed,Скорость Флеша
 LoverSuicide,恋人共生死,Lovers can commit suicide,Любовники могут суициднуться
 LoverHasNoTask,<color=#8cffff>船员</color>成为恋人后没有任务,Lovers don't have tasks,Любовники не имеют задания
 NumberOfLovers,恋人对数,Number of Lovers (x2 members),Количество Любовников (x2 участника)
-TrapperBlockMoveTime,陷阱师技能封锁凶手移动时长,Freeze time,Время заморозки
+TrapperBlockMoveTime,封锁凶手移动时长,Freeze time,Время заморозки
 TimeThiefDecreaseMeetingTime,每次击杀缩短的会议时间,Time Thief Time Stolen,Уменьшить длительность обсуждения на
-TimeThiefLowerLimitVotingTime,存活时会议时间最低下限,Minimum Voting Time,Уменьшить длительность голосования на
+TimeThiefLowerLimitVotingTime,存活时会议时间下限,Minimum Voting Time,Уменьшить длительность голосования на
 TimeThiefReturnStolenTimeUponDeath,死亡后会议时间重置,Return Stolen Time After Death,Вернуть украденное время после его смерти
 EvilTrackerCanSeeKillFlash,<color=#ff1919>内鬼</color>进行击杀时可见击杀闪光,"Can See ''Kill Flash'' ","Может видеть ''Вспышку Убийства'' "
 EvilTrackerResetTargetAfterMeeting,会议后重置追踪目标,Can Reset Target After Meeting,Может сбросить цель после Собрания
-EvilTrackerCanSeeLastRoomInMeeting,追踪者可以看见<color=#8cffff>船员</color>位置,Can See Target's Last Room In Meeting,Может видеть местоположение Целей во время Собрания
+EvilTrackerCanSeeLastRoomInMeeting,可以看见<color=#8cffff>船员</color>的位置,Can See Target's Last Room In Meeting,Может видеть местоположение Целей во время Собрания
 EvilTrackerTargetMode,追踪模式,Can Set Target,Может установить цель
 EvilTrackerTargetMode.Never,禁用追踪,Never,Никогда
 EvilTrackerTargetMode.OnceInGame,仅限一次,Once in game,В каждой игре
@@ -552,24 +552,24 @@ NEareRed,邪恶<color=#ffab1b>中立</color>视为邪恶,Evil Neutrals are shown
 CrewKillingRed,带刀<color=#8cffff>船员</color>视为邪恶,Crewmate Killer are shown in red,Члены Экипажа убийцы показываются красным
 PsychicCanSeeNum,可以看到几个红名,Max number of red names,Максимальное количество красных имен
 PsychicFresh,每次会议刷新红名,Red nickname changes at every meeting,Красный никнейм меняется на каждой встрече
-DetectiveCanknowKiller,侦探可以知道凶手的职业,May know the killer's role,Может знать роль убийцы
-ParanoiaVentCooldown,使用通风管冷却时长,Vent Cooldown,Откат вентиляции
-ParanoiaNumOfUseButton,可以使用通风管次数,Number of portable buttons,Количество портативных кнопок
+DetectiveCanknowKiller,可以知道凶手的职业,May know the killer's role,Может знать роль убийцы
+ParanoiaVentCooldown,使用技能冷却时长,Vent Cooldown,Откат вентиляции
+ParanoiaNumOfUseButton,使用技能次数上限,Number of portable buttons,Количество портативных кнопок
 EveryOneKnowSuperStar,所有人知道谁是明星,Everyone knows who is a Super Star,Все знают кто является Супер Звездой
-HackUsedMaxTime,骇客技能可使用次数,How many times can the ability be used,Сколько раз может использовать способность
-ZombieSpeedReduce,僵尸每次减少移动速度,"After a certain time, down the speed of Zombies by",Скорость Зомби каждый раз снижается на
-MafiaCanKillNum,最大可复仇人数,Maximum number of revenge,Максимальное количество мести
+HackUsedMaxTime,使用技能次数上限,How many times can the ability be used,Сколько раз может использовать способность
+ZombieSpeedReduce,每次减少移动速度,"After a certain time, down the speed of Zombies by",Скорость Зомби каждый раз снижается на
+MafiaCanKillNum,复仇人数上限,Maximum number of revenge,Максимальное количество мести
 ImpKnowCyberStarDead,<color=#ff1919>内鬼阵营</color>玩家可以知道网红死亡,Impostor may know the Celebrity is dead,Предатели могут знать что Знаменитость мертва
 NeutralKnowCyberStarDead,<color=#ffab1b>中立阵营</color>玩家可以知道网红死亡,Neutrals may know the Celebrity is dead,Нейтралы могут знать что  Знаменитость мертва
-JesterCanUseButton,允许小丑召开紧急会议,Can call an emergency meeting,Может вызвать срочное собрание
-MarioVentNumWin,马里奥胜利需要跳管次数,Number of vent jumps to win,Сколько раз нужно прыгнуть в вентиляцию чтобы выиграть
+JesterCanUseButton,可以召开紧急会议,Can call an emergency meeting,Может вызвать срочное собрание
+MarioVentNumWin,胜利所需跳管次数,Number of vent jumps to win,Сколько раз нужно прыгнуть в вентиляцию чтобы выиграть
 CanCheckCamera,可以监视到是否有人使用监控,Can track camera usage,Может отслеживать использует ли кто-либо камеры
 SansDefaultKillCooldown,初始击杀冷却,Default kill cooldown,Обычный откат убийства
 SansReduceKillCooldown,击杀成功减少冷却,Reduce kill cooldown,Сократить откат убийства на
 SansMinKillCooldown,击杀冷却下限,Minimum kill cooldown,Минимальный откат убийства
-BomberRadius,自爆兵的爆炸范围（5x能炸半个食堂）,Bomb radius (5x about half a Cafeteria),Радиус бомбы (5x примерно как половина столовой)
+BomberRadius,爆炸范围（5x能炸半个食堂）,Bomb radius (5x about half a Cafeteria),Радиус бомбы (5x примерно как половина столовой)
 NotifyGodAlive,如果神存活则在会议上通知所有人,Inform players at the meeting that God is still alive,Сообщать игрокам на встрече что Бог ещё жив
-TransporterTeleportMax,传送师传送次数上限,Max numbers of teleports,Максимальное колличество телепортов
+TransporterTeleportMax,传送次数上限,Max numbers of teleports,Максимальное колличество телепортов
 TriggerKill,击杀,Kill,Убийство
 TriggerVent,通风管,Vent,Вентиляция
 TriggerDouble,双击模式,Double Click,Двойное нажатие
@@ -582,26 +582,26 @@ WorkhorseNumShortTasks,额外的短任务数,"Additional Short Tasks","Допо�
 InnocentCanWinByImp,冤罪师栽赃<color=#ff1919>内鬼</color>时可以获胜,If his target was the Impostor then he win with him,Если его цель был Предателем то он победит вместе с ним
 CapitalismSkillCooldown,技能使用冷却,Skill cooldown,Откат навыка
 ImpCanBeAvanger,<color=#ff1919>内鬼</color>可以成为复仇者,Impostor can become an Avenger,Предатель может стать Мстителем
-VeteranSkillCooldown,老兵戒备冷却时间,Skill cooldown,Откат навыка
-VeteranSkillDuration,老兵戒备状态持续时间,Skill duration,Продолжительность навыка
-BodyguardProtectRadius,保镖保护范围,Protect Radius,Радиус Защиты
+VeteranSkillCooldown,使用戒备冷却时间,Skill cooldown,Откат навыка
+VeteranSkillDuration,戒备状态持续时间,Skill duration,Продолжительность навыка
+BodyguardProtectRadius,保护范围,Protect Radius,Радиус Защиты
 ImpCanBeEgoist,<color=#ff1919>内鬼</color>可以成为利己主义者,Impostor can become Egoist,Предатель может стать Эгоистом
 CrewCanBeEgoist,<color=#8cffff>船员</color>可以成为利己主义者,Crewmate can become Egoist,Член Экипажа может стать Эгоистом
-CounterfeiterSkillCooldown,赝品商贩卖赝品冷却,Skill cooldown,Откат навыка
-CounterfeiterSkillLimitTimes,赝品商贩卖赝品次数上限,Number of skills,Количество навыков
-GrenadierSkillCooldown,掷雷兵使用闪光弹冷却时间,Skill cooldown,Откат навыка
-GrenadierSkillDuration,掷雷兵闪光弹状态持续时间,Skill duration,Продолжительность навыка
+CounterfeiterSkillCooldown,贩卖赝品冷却,Skill cooldown,Откат навыка
+CounterfeiterSkillLimitTimes,贩卖赝品次数上限,Number of skills,Количество навыков
+GrenadierSkillCooldown,使用闪光弹冷却时间,Skill cooldown,Откат навыка
+GrenadierSkillDuration,闪光弹状态持续时间,Skill duration,Продолжительность навыка
 GrenadierCauseVision,受闪光弹影响后的视野,Vision after activating the stun grenade,Поле зрение после активации светошумовой гранаты
 GrenadierCanAffectNeutral,<color=#ffab1b>中立阵营</color>玩家会受到闪光弹影响,Neutrals can be hit by a stun grenade,Нейтралы могут быть поражены светошумовой гранатой
 TicketsPerKill,每次击杀增加票数,Increase in votes for kill,Увеличение голосов за убийство
-GangsterRecruitCooldown,教父击杀/招募冷却时间,Recruit cooldown, Откат переманивания
-GangsterRecruitLimit,教父招募玩家数量上限,Recruit limit,Лимит переманивания
-RevolutionistDrawTime,革命家拉拢玩家所需时间,Retention duration,Длительность удерживания
-RevolutionistCooldown,革命家拉拢玩家冷却时间,Skill сooldown,Откат навыка
-RevolutionistDrawCount,革命家需要拉拢人数,Number of players he needs to tag,Количество игроков которых ему нужно пометить
+GangsterRecruitCooldown,击杀/招募冷却时间,Recruit cooldown, Откат переманивания
+GangsterRecruitLimit,招募玩家数量上限,Recruit limit,Лимит переманивания
+RevolutionistDrawTime,拉拢玩家所需时间,Retention duration,Длительность удерживания
+RevolutionistCooldown,拉拢玩家冷却时间,Skill сooldown,Откат навыка
+RevolutionistDrawCount,需要拉拢人数,Number of players he needs to tag,Количество игроков которых ему нужно пометить
 RevolutionistKillProbability,被拉拢玩家牺牲概率,Probability of successful retention,Вероятность успешного удерживания
 RevolutionistVentCountDown,达到胜利条件后跳管道时间限制
-PelicanKillCooldown,鹈鹕吞人冷却时间
+PelicanKillCooldown,吞人冷却时间
 SheriffCanBeMadmate,<color=#f8cd46>警长</color>可以成为叛徒
 MayorCanBeMadmate,<color=#204d42>市长</color>可以成为叛徒
 NGuesserCanBeMadmate,<color=#eede26>正义赌怪</color>可以成为叛徒
@@ -800,9 +800,9 @@ LastResult,游戏结果,Match Results,Результат матча
 LastEndReason,结束原因,End Reason,Причина окончания
 KillLog,击杀日志,Kill Log,История убийств
 Maximum,最大人数,Max,Максимум
-RoleRate,<color=#00ff00>启用</color>,<color=#00ff00>Active</color>,<color=#00ff00>Активен</color>
-RoleOn,<color=#ffc51e>优先</color>,<color=#ffc51e>ON</color>,<color=#ffc51e>ВКЛ</color>
-RoleOff,<color=#ff6633>禁用</color>,<color=#ff6633>OFF</color>,<color=#ff6633>ВЫКЛ</color>
+RoleRate,<color=#ffc0cb>启用</color>,<color=#ffc0cb>Active</color>,<color=#ffc0cb>Активен</color>
+RoleOn,<color=#ffbd18>优先</color>,<color=#ffbd18>ON</color>,<color=#ffbd18>ВКЛ</color>
+RoleOff,<color=#54545c>禁用</color>,<color=#54545c>OFF</color>,<color=#54545c>ВЫКЛ</color>
 Rate0,0%,0%,0%
 Rate5,5%,5%,5%
 Rate10,10%,10%,10%
