@@ -1,7 +1,6 @@
 using Assets.CoreScripts;
 using HarmonyLib;
 using Hazel;
-using Il2CppSystem.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -955,7 +954,7 @@ class ChatCommands
                 }
                 else
                 {
-                    Utils.SendMessage(string.Format(GetString("SureUse.quit"),player.PlayerId.ToString()), player.PlayerId);
+                    Utils.SendMessage(string.Format(GetString("SureUse.quit"), player.PlayerId.ToString()), player.PlayerId);
                 }
                 break;
 
