@@ -581,17 +581,6 @@ public static class Options
         CanTerroristSuicideWin = BooleanOptionItem.Create(50210, "CanTerroristSuicideWin", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Terrorist])
             .SetGameMode(CustomGameMode.Standard);
         //50220~50223を使用
-        SetupRoleOptions(5050600, TabGroup.NeutralRoles, CustomRoles.Revolutionist);
-        RevolutionistDrawTime = FloatOptionItem.Create(5050610, "RevolutionistDrawTime", new(1f, 10f, 1f), 3f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
-            .SetValueFormat(OptionFormat.Seconds);
-        RevolutionistCooldown = FloatOptionItem.Create(5050615, "RevolutionistCooldown", new(5f, 100f, 1f), 15f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
-            .SetValueFormat(OptionFormat.Seconds);
-        RevolutionistDrawCount = IntegerOptionItem.Create(5050617, "RevolutionistDrawCount", new(1, 15, 1), 5, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
-            .SetValueFormat(OptionFormat.Players);
-        RevolutionistKillProbability = IntegerOptionItem.Create(5050619, "RevolutionistKillProbability", new(0, 100, 5), 30, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
-            .SetValueFormat(OptionFormat.Percent);
-        RevolutionistVentCountDown = FloatOptionItem.Create(5050621,"RevolutionistVentCountDown", new(1, 100, 1), 10, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
-            .SetValueFormat(OptionFormat.Seconds);
         TerroristTasks = OverrideTasksData.Create(50220, TabGroup.NeutralRoles, CustomRoles.Terrorist);
         Executioner.SetupCustomOption();
         Jackal.SetupCustomOption();
@@ -665,6 +654,17 @@ public static class Options
         MarioVentNumWin = IntegerOptionItem.Create(5050112, "MarioVentNumWin", new(5, 900, 5), 55, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mario])
             .SetValueFormat(OptionFormat.Times);
         Pelican.SetupCustomOption();
+        SetupRoleOptions(5050600, TabGroup.OtherRoles, CustomRoles.Revolutionist);
+        RevolutionistDrawTime = FloatOptionItem.Create(5050610, "RevolutionistDrawTime", new(1f, 10f, 1f), 3f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
+            .SetValueFormat(OptionFormat.Seconds);
+        RevolutionistCooldown = FloatOptionItem.Create(5050615, "RevolutionistCooldown", new(5f, 100f, 1f), 15f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
+            .SetValueFormat(OptionFormat.Seconds);
+        RevolutionistDrawCount = IntegerOptionItem.Create(5050617, "RevolutionistDrawCount", new(1, 15, 1), 5, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
+            .SetValueFormat(OptionFormat.Players);
+        RevolutionistKillProbability = IntegerOptionItem.Create(5050619, "RevolutionistKillProbability", new(0, 100, 5), 30, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
+            .SetValueFormat(OptionFormat.Percent);
+        RevolutionistVentCountDown = FloatOptionItem.Create(5050621, "RevolutionistVentCountDown", new(1, 100, 1), 10, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
+            .SetValueFormat(OptionFormat.Seconds);
 
         // 副职
         _ = BooleanOptionItem.Create(909096, "TabGroup.Addons", false, TabGroup.OtherRoles, false)
