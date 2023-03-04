@@ -178,6 +178,7 @@ public static class Options
     public static OptionItem RevolutionistCooldown;
     public static OptionItem RevolutionistDrawCount;
     public static OptionItem RevolutionistKillProbability;
+    public static OptionItem RevolutionistWineTime;
 
     // タスク無効化
     public static OptionItem DisableTasks;
@@ -589,6 +590,8 @@ public static class Options
             .SetValueFormat(OptionFormat.Players);
         RevolutionistKillProbability = IntegerOptionItem.Create(5050619, "RevolutionistKillProbability", new(0, 100, 5), 30, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
             .SetValueFormat(OptionFormat.Percent);
+        RevolutionistWineTime = IntegerOptionItem.Create(5050621,"RevolutionistWineTime", new(0, 100, 5), 30, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
+            .SetValueFormat(OptionFormat.Seconds);
         TerroristTasks = OverrideTasksData.Create(50220, TabGroup.NeutralRoles, CustomRoles.Terrorist);
         Executioner.SetupCustomOption();
         Jackal.SetupCustomOption();

@@ -126,6 +126,9 @@ public class Main : BasePlugin
     public static Dictionary<(byte, byte), bool> isDraw = new();
     public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
     public static Dictionary<byte, (PlayerControl, float)> RevolutionistTimer = new();
+    public static Dictionary<byte, long> RevolutionistStart = new();
+    public static Dictionary<byte, long> RevolutionistLastTime = new();
+    public static Dictionary<byte, int> RevolutionistCountdown = new();
     /// <summary>
     /// Key: ターゲットのPlayerId, Value: パペッティアのPlayerId
     /// </summary>
@@ -223,6 +226,9 @@ public class Main : BasePlugin
         isDraw = new Dictionary<(byte, byte), bool>();
         ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
         RevolutionistTimer = new Dictionary<byte, (PlayerControl, float)>();
+        RevolutionistStart = new Dictionary<byte, long>();
+        RevolutionistLastTime = new Dictionary<byte, long>();
+        RevolutionistCountdown = new Dictionary<byte, int>();
         MayorUsedButtonCount = new Dictionary<byte, int>();
         HackerUsedCount = new Dictionary<byte, int>();
         ParaUsedButtonCount = new Dictionary<byte, int>();

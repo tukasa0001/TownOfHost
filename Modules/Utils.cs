@@ -444,7 +444,7 @@ public static class Utils
                 ProgressText.Append(Counterfeiter.GetSeelLimit(playerId));
                 break;
             case CustomRoles.Revolutionist:
-                var draw = GetDrawPlayerCount(playerId, out byte[] x);
+                var draw = GetDrawPlayerCount(playerId, out byte[] x, out PlayerControl[] y);
                 ProgressText.Append(ColorString(GetRoleColor(CustomRoles.Revolutionist).ShadeColor(0.25f), $"({draw.Item1}/{draw.Item2})"));
                 break;
             case CustomRoles.Gangster:
@@ -1018,7 +1018,7 @@ public static class Utils
             if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
                 SelfName = $"</size>\r\n{ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
             if (seer.Is(CustomRoles.Revolutionist) && seer.IsDrawDone())
-                SelfName = $"</size>\r\n{ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
+                SelfName = $"</size>\r\n{ColorString(seer.GetRoleColor(), string.Format(GetString("EnterVentWin"), Main.RevolutionistCountdown[seer.PlayerId]))}";
             if (Pelican.IsEaten(seer.PlayerId))
                 SelfName = $"</size>\r\n{ColorString(GetRoleColor(CustomRoles.Pelican), GetString("EatenByPelican"))}";
             SelfName = SelfRoleName + "\r\n" + SelfName;
@@ -1407,22 +1407,25 @@ public static class Utils
         return (doused, all);
     }
 
-    public static (int, int) GetDrawPlayerCount(byte playerId, out byte[] list)
+    public static (int, int) GetDrawPlayerCount(byte playerId, out byte[] list, out PlayerControl[] list1)
     {
         int draw = 0;
         int all = Options.RevolutionistDrawCount.GetInt();
         int max = PlayerControl.AllPlayerControls.Count - (CustomRolesHelper.RoleExist(CustomRoles.GM) ? 2 : 1);
         if (all > max) all = max;
         byte[] joinplayer = new byte[Options.RevolutionistDrawCount.GetInt()];
+        PlayerControl [] joinplayer1 = new PlayerControl[Options.RevolutionistDrawCount.GetInt()];
         foreach (var pc in Main.AllPlayerControls)
         {
             if (Main.isDraw.TryGetValue((playerId, pc.PlayerId), out var isDraw) && isDraw)
             {
                 joinplayer[draw] = playerId;
+                joinplayer1[draw] = pc;
                 draw++;
             }
         }
         list = joinplayer;
+        list1 = joinplayer1;
         return (draw, all);
     }
 
