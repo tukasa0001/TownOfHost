@@ -362,6 +362,10 @@ SuffixMode.Streaming,直播中,Streaming,Стримит
 SuffixMode.Recording,录制中,Recording,Записывает
 SuffixMode.RoomHost,房主,Room Host,Хост Румы
 SuffixMode.OriginalName,玩家名称,OriginalName,Настоящий Никнейм
+SuffixMode.DoNotKillMe,佛祖保佑
+SuffixMode.NoAndroidPlz,安卓别进
+SuffixModeText.DoNotKillMe,别首刀我啊啊啊
+SuffixModeText.NoAndroidPlz,安卓别进求求了
 ColorNameMode,显示颜色名称,Color Name Mode,Режим: Никнейм соответствует цвету
 FixFirstKillCooldown,修正首刀冷却时间,Normalize First Kill Cooldown,Нормализовать откат убийства в начале Игры
 GhostCanSeeOtherRoles,幽灵可见他人职业,Ghosts Can See Other Roles,Призраки могут видеть все Роли

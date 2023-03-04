@@ -342,7 +342,9 @@ public static class Options
         "SuffixMode.Streaming",
         "SuffixMode.Recording",
         "SuffixMode.RoomHost",
-        "SuffixMode.OriginalName"
+        "SuffixMode.OriginalName",
+        "SuffixMode.DoNotKillMe",
+        "SuffixMode.NoAndroidPlz"
     };
     public static readonly string[] RoleAssigningAlgorithms =
     {
@@ -352,12 +354,7 @@ public static class Options
         "RoleAssigningAlgorithm.Xorshift",
         "RoleAssigningAlgorithm.MersenneTwister",
     };
-    public static SuffixModes GetSuffixMode()
-    {
-        return (SuffixModes)SuffixMode.GetValue();
-    }
-
-
+    public static SuffixModes GetSuffixMode() => (SuffixModes)SuffixMode.GetValue();
 
     public static int SnitchExposeTaskLeft = 1;
 

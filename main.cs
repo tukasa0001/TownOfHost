@@ -509,7 +509,9 @@ public enum SuffixModes
     Streaming,
     Recording,
     RoomHost,
-    OriginalName
+    OriginalName,
+    DoNotKillMe,
+    NoAndroidPlz
 }
 public enum VoteMode
 {

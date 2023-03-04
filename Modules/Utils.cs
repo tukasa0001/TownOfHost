@@ -905,6 +905,12 @@ public static class Utils
                 case SuffixModes.OriginalName:
                     name += $"\r\n<color={Main.ModColor}>{DataManager.player.Customization.Name}</color>";
                     break;
+                case SuffixModes.DoNotKillMe:
+                    name += $"\r\n<color={Main.ModColor}>{GetString("SuffixModeText.DoNotKillMe")}</color>";
+                    break;
+                case SuffixModes.NoAndroidPlz:
+                    name += $"\r\n<color={Main.ModColor}>{GetString("SuffixModeText.NoAndroidPlz")}</color>";
+                    break;
             }
         }
         if (name.CompareTo(PlayerControl.LocalPlayer.name) == 0) return;
