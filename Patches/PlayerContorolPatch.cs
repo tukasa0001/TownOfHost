@@ -1483,6 +1483,7 @@ class CoEnterVentPatch
             {
                 CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Revolutionist);//革命者胜利
                 Utils.GetDrawPlayerCount(__instance.myPlayer.PlayerId, out var x);
+                CustomWinnerHolder.WinnerIds.Add(__instance.myPlayer.PlayerId);
                 foreach (var apc in x) CustomWinnerHolder.WinnerIds.Add(apc.PlayerId);//胜利玩家
                 return true;
             }
