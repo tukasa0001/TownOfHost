@@ -22,7 +22,7 @@ public static class Sheriff
     public static Dictionary<byte, float> CurrentKillCooldown = new();
     public static readonly string[] KillOption =
     {
-        "SheriffCanKillAll", "SheriffCanKillSeparately"
+        "SheriffCanKillAll", "SheriffCanKillNone", "SheriffCanKillSeparately"
     };
     public static void SetupCustomOption()
     {
@@ -47,7 +47,7 @@ public static class Sheriff
     }
     public static void SetUpKillTargetOption(CustomRoles role, int Id, bool defaultValue = true, OptionItem parent = null)
     {
-        if (parent == null) parent = Options.CustomRoleSpawnChances[CustomRoles.Sheriff];
+        parent ??= Options.CustomRoleSpawnChances[CustomRoles.Sheriff];
         var roleName = Utils.GetRoleName(role);
         Dictionary<string, string> replacementDic = new() { { "%role%", Utils.ColorString(Utils.GetRoleColor(role), roleName) } };
         KillTargetOptions[role] = BooleanOptionItem.Create(Id, "SheriffCanKill%role%", defaultValue, TabGroup.CrewmateRoles, false).SetParent(parent);
@@ -122,7 +122,7 @@ public static class Sheriff
         return cRole.GetCustomRoleTypes() switch
         {
             CustomRoleTypes.Impostor => true,
-            CustomRoleTypes.Neutral => CanKillNeutrals.GetValue() == 0 || !KillTargetOptions.TryGetValue(cRole, out var option) || option.GetBool(),
+            CustomRoleTypes.Neutral => CanKillNeutrals.GetValue() != 2 && (CanKillNeutrals.GetValue() == 0 || !KillTargetOptions.TryGetValue(cRole, out var option) || option.GetBool()),
             _ => IsMadmate,//それでもない場合マッドが切れるand重複マッドか調べる
         };
     }

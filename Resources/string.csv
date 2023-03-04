@@ -212,7 +212,7 @@ InnocentInfo,果然碰瓷百试百灵,Let aim of innocent was be ejected,Пус�
 PelicanInfo,船船，饿饿，饭饭,Eat all players,Съешьте всех игроков
 RevolutionistInfo,人类的赞歌是勇气的赞歌,Make a Revolution!,Совершите Революцию!
 FFFInfo,该烧还是该审？
-Konan,在一次和小兰的约会中...
+KonanInfo,在一次和小兰的约会中...
 
 # 附加职业
 LoversInfo,最重要的是，记得照顾好你的另一半,Survive with your Lover,Выживите со своим Любовником
@@ -501,7 +501,8 @@ SabotageMasterFixesCommunications,秒修通讯破坏（米拉总部地图）,Can
 SabotageMasterFixesElectrical,秒修照明破坏,Can Fix Lights With One Switch,Может починить саботаж Света одним кликом
 SheriffCanKill%role%,可以执法%role%,Can Kill %role%,Может убить %role%
 SheriffCanKillNeutrals,可以执法<color=#ffaa1b>中立阵营</color>,Can Kill Neutrals,Может убить Нейтралов
-SheriffCanKillAll,<color=#00fefe>全开</color>,<color=#00fefe>All ON</color>,<color=#00fefe>Все ВКЛ</color>
+SheriffCanKillAll,<color=#00fefe>开启</color>,<color=#00fefe>All ON</color>,<color=#00fefe>Все ВКЛ</color>
+SheriffCanKillNone,<color=#ff4c6f>关闭</color>,<color=#ff4c6f>OFF</color>,<color=#ff4c6f>ВЫКЛ</color>
 SheriffCanKillSeparately,单独设定,Individual Settings,Выбрать кого
 In%team%,(%team%阵营),(Team %team%),(Команда %team%)
 SheriffMisfireKillsTarget,误杀好人的同时击杀目标,Misfire Kills Target,Шериф убивает цель вместе с собой
