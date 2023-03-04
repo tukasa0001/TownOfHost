@@ -104,7 +104,7 @@ public static class GameOptionsMenuPatch
                     stringOption.transform.FindChild("Plus_TMP").localPosition += new Vector3(0.3f, option.IsText ? 100f : 0f, 0f);
                     stringOption.transform.FindChild("Minus_TMP").localPosition += new Vector3(0.3f, option.IsText ? 100f : 0f, 0f);
                     stringOption.transform.FindChild("Value_TMP").localPosition += new Vector3(0.3f, option.IsText ? 100f : 0f, 0f);
-                    stringOption.transform.FindChild("Title_TMP").localPosition += new Vector3(option.IsText ? 0.3f : 0.15f, 0f, 0f);
+                    stringOption.transform.FindChild("Title_TMP").localPosition += new Vector3(option.IsText ? 0.3f : 0.15f, option.IsText ? -0.15f : 0f, 0f);
                     stringOption.transform.FindChild("Title_TMP").GetComponent<RectTransform>().sizeDelta = new Vector2(3.5f, 0.37f);
 
                     option.OptionBehaviour = stringOption;

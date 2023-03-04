@@ -747,12 +747,15 @@ GodAliveTitle,【 ★ 神的共鸣 ★ 】,【 ★ Message about God ★ 】,【
 MessageFromDevTitle,【 ★ 咔皮呆留言 ★ 】,【 ★ Self-Guessing ★ 】,【 ★ Само-Угадывание ★ 】
 TabGroup.SystemSettings,系统设置,System Settings,Системные настройки
 TabGroup.GameSettings,游戏设置,Game Settings,Игровые настройки
-TabGroup.BothRoles,双阵营职业,Both Roles,Роли двух команд
 TabGroup.CrewmateRoles,船员阵营职业,Crewmate Roles,Роли Членов Экипажа
 TabGroup.NeutralRoles,中立阵营职业,Neutral Roles,Нейтральные Роли
 TabGroup.ImpostorRoles,内鬼阵营职业,Impostor Roles,Роли Предателей
 TabGroup.Addons,附加职业,Add-Ons,Атрибуты
 TabGroup.OtherRoles,试验性职业（不建议开）,Experimental Roles (Not recommended),Эксперементальные Роли (Не рекомендуется)
+OtherRoles.CrewmateRoles,<color=#8cffff>★ 船员阵营职业</color>,<color=#8cffff>Crewmate Roles</color>,<color=#8cffff>Роли Членов Экипажа</color>
+OtherRoles.NeutralRoles,<color=#ffab1b>★ 中立阵营职业</color>,<color=#ffab1b>Neutral Roles</color>,<color=#ffab1b>Нейтральные Роли</color>
+OtherRoles.ImpostorRoles,<color=#f74631>★ 内鬼阵营职业</color>,<color=#f74631>Impostor Roles</color>,<color=#f74631>Роли Предателей</color>
+OtherRoles.Addons,<color=#ff9ace>★ 附加职业</color>,<color=#ff9ace>Add-Ons</color>,<color=#ff9ace>Атрибуты</color>
 ActiveRolesList,有效职业一览,Active Roles List,Список Активных Ролей
 ForExample,使用例子,Example Use,Например
 ForceEnd,强制结束游戏,Aborted,Игра Окончена

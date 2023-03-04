@@ -617,7 +617,7 @@ public static class Options
         // 乐子职业
 
         // 内鬼
-        _ = BooleanOptionItem.Create(909090, "TabGroup.ImpostorRoles", false, TabGroup.OtherRoles, false)
+        _ = BooleanOptionItem.Create(909090, "OtherRoles.ImpostorRoles", false, TabGroup.OtherRoles, false)
             .SetHeader(true)
             .SetText(true);
         SetupRoleOptions(901635, TabGroup.OtherRoles, CustomRoles.Minimalism);
@@ -634,7 +634,7 @@ public static class Options
             .SetValueFormat(OptionFormat.Seconds);
 
         // 船员
-        _ = BooleanOptionItem.Create(909092, "TabGroup.CrewmateRoles", false, TabGroup.OtherRoles, false)
+        _ = BooleanOptionItem.Create(909092, "OtherRoles.CrewmateRoles", false, TabGroup.OtherRoles, false)
             .SetHeader(true)
             .SetText(true);
         SetupRoleOptions(20600, TabGroup.OtherRoles, CustomRoles.SpeedBooster);
@@ -645,7 +645,7 @@ public static class Options
         Counterfeiter.SetupCustomOption();
 
         // 中立
-        _ = BooleanOptionItem.Create(909094, "TabGroup.NeutralRoles", false, TabGroup.OtherRoles, false)
+        _ = BooleanOptionItem.Create(909094, "OtherRoles.NeutralRoles", false, TabGroup.OtherRoles, false)
             .SetHeader(true)
             .SetText(true);
         SetupRoleOptions(5050965, TabGroup.OtherRoles, CustomRoles.God);
@@ -667,7 +667,7 @@ public static class Options
             .SetValueFormat(OptionFormat.Seconds);
 
         // 副职
-        _ = BooleanOptionItem.Create(909096, "TabGroup.Addons", false, TabGroup.OtherRoles, false)
+        _ = BooleanOptionItem.Create(909096, "OtherRoles.Addons", false, TabGroup.OtherRoles, false)
             .SetHeader(true)
             .SetText(true);
         SetupAdtRoleOptions(6050310, CustomRoles.Ntr, tab: TabGroup.OtherRoles);
