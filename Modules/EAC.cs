@@ -17,6 +17,7 @@ class EAC
     }
     public static bool Receive(PlayerControl pc, byte callId, MessageReader reader)
     {
+        if (!AmongUsClient.Instance.AmHost) return false;
         if (pc == null || reader == null) return true;
         try
         {
