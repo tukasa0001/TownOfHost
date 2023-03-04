@@ -659,7 +659,7 @@ public static class Options
             .SetValueFormat(OptionFormat.Seconds);
         RevolutionistCooldown = FloatOptionItem.Create(5050615, "RevolutionistCooldown", new(5f, 100f, 1f), 15f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
             .SetValueFormat(OptionFormat.Seconds);
-        RevolutionistDrawCount = IntegerOptionItem.Create(5050617, "RevolutionistDrawCount", new(1, 15, 1), 5, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
+        RevolutionistDrawCount = IntegerOptionItem.Create(5050617, "RevolutionistDrawCount", new(1, 14, 1), 6, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
             .SetValueFormat(OptionFormat.Players);
         RevolutionistKillProbability = IntegerOptionItem.Create(5050619, "RevolutionistKillProbability", new(0, 100, 5), 30, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
             .SetValueFormat(OptionFormat.Percent);
