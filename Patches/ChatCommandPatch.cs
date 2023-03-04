@@ -81,7 +81,7 @@ class ChatCommands
         }
 
         string Name = target.GetRealName();
-        Utils.SendMessage(Name + " " + GetString("MafiaKillSucceed"), 255, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Mafia), " ★ 特供情报 ★ "));
+        Utils.SendMessage(string.Format(GetString("MafiaKillSucceed"), Name), 255, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Mafia), " ★ 特供情报 ★ "));
 
         new LateTask(() =>
         {
