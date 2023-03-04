@@ -273,7 +273,7 @@ public class Main : BasePlugin
                 {CustomRoles.Bait, "#00f7ff"},
                 {CustomRoles.Luckey, "#b8d7a3" },
                 {CustomRoles.Needy, "#a4dffe"},
-                {CustomRoles.SabotageMaster, "#0000ff"},
+                {CustomRoles.SabotageMaster, "#3333ff"},
                 {CustomRoles.Snitch, "#b8fb4f"},
                 {CustomRoles.Mayor, "#204d42"},
                 {CustomRoles.Paranoia, "#c993f5"},
@@ -297,16 +297,17 @@ public class Main : BasePlugin
                 //第三陣営役職
                 {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.Jester, "#ec62a5"},
-                {CustomRoles.Terrorist, "#00ff00"},
+                {CustomRoles.Terrorist, "#00e600"},
                 {CustomRoles.Executioner, "#611c3a"},
                 {CustomRoles.God, "#f96464"},
-                {CustomRoles.Opportunist, "#00ff00"},
+                {CustomRoles.Opportunist, "#4dff4d"},
                 {CustomRoles.Mario, "#ff6201"},
                 {CustomRoles.Jackal, "#00b4eb"},
                 {CustomRoles.Innocent, "#8f815e"},
                 {CustomRoles.Pelican, "#34c84b"},
                 {CustomRoles.Revolutionist, "#ba4d06"},
                 {CustomRoles.FFF, "#414b66"},
+                {CustomRoles.Konan, "#4d4dff"},
                 // GM
                 {CustomRoles.GM, "#ff5b70"},
                 //サブ役職
@@ -444,6 +445,7 @@ public enum CustomRoles
     Pelican,
     Revolutionist,
     FFF,
+    Konan,
     //GM
     GM,
     // Sub-role after 500
