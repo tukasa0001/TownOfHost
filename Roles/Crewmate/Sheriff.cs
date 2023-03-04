@@ -138,7 +138,7 @@ namespace TownOfHost.Roles.Crewmate
                     info.CancelAndAbort();
                 }
             }
-            killer.SetKillCooldown();
+            killer.ResetKillCooldown();
             yield break;
         }
         // ==/CheckMurder関連処理 ==
