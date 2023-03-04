@@ -1152,6 +1152,8 @@ public static class Utils
                     //ターゲットのプレイヤー名の色を書き換えます。
                     TargetPlayerName = TargetPlayerName.ApplyNameColorData(seer, target, isMeeting);
 
+                    TargetMark.Append(Executioner.TargetMark(seer, target));
+
                     string TargetDeathReason = "";
                     if (seer.KnowDeathReason(target))
                         TargetDeathReason = $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(target.PlayerId))})";
