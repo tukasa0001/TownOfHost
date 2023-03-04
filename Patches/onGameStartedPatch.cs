@@ -41,6 +41,9 @@ class ChangeRoleSettings
             Main.isDraw = new Dictionary<(byte, byte), bool>();
             Main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             Main.RevolutionistTimer = new Dictionary<byte, (PlayerControl, float)>();
+            Main.RevolutionistStart = new Dictionary<byte, long>();
+            Main.RevolutionistLastTime = new Dictionary<byte, long>();
+            Main.RevolutionistCountdown = new Dictionary<byte, int>();
             Main.CursedPlayers = new Dictionary<byte, PlayerControl>();
             Main.isMarkAndKill = new Dictionary<byte, bool>();
             Main.MarkedPlayers = new Dictionary<byte, PlayerControl>();

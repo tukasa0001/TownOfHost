@@ -596,6 +596,7 @@ RevolutionistDrawTime,革命家拉拢玩家所需时间,Retention duration,Дл�
 RevolutionistCooldown,革命家拉拢玩家冷却时间,Skill сooldown,Откат навыка
 RevolutionistDrawCount,革命家需要拉拢人数,Number of players he needs to tag,Количество игроков которых ему нужно пометить
 RevolutionistKillProbability,被拉拢玩家牺牲概率,Probability of successful retention,Вероятность успешного удерживания
+RevolutionistWineTime,跳管道倒计时
 PelicanKillCooldown,鹈鹕吞人冷却时间
 SheriffCanBeMadmate,<color=#f8cd46>警长</color>可以成为叛徒
 MayorCanBeMadmate,<color=#204d42>市长</color>可以成为叛徒
@@ -772,6 +773,7 @@ EatenByPelican,您被鹈鹕吞了，请等待鹈鹕死亡或会议...,"You have 
 FireworksPutPhase,还要安放{0}枚烟花,{0} Fireworks Left,Осталось {0} Фейерверков
 FireworksWaitPhase,耐心等待....,Wait for it...,Подожди время...
 FireworksReadyFirePhase,烟花来咯，大型烟花秀开始！,Fire!,Огонь!
+EnterVentWin,在{0}秒内跳管道胜利！
 InvalidArgs,无效参数,Invalid Args,Недопустимые аргументы
 On,开启,ON,ВКЛ
 Off,关闭,OFF,ВЫКЛ

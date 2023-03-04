@@ -713,6 +713,18 @@ class ReportDeadBodyPatch
         Sniper.OnReportDeadBody();
         Vampire.OnStartMeeting();
         Pelican.OnReport();
+        foreach (var x in Main.RevolutionistStart)
+        {
+            var tar = Utils.GetPlayerById(x.Key);
+            if (tar == null) continue;
+            tar.Data.IsDead = true;
+            Main.PlayerStates[tar.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
+            tar.RpcExileV2();
+            Main.PlayerStates[tar.PlayerId].SetDead();
+            Logger.Info($"{tar.GetRealName()} 因会议革命失败", "Revolutionist");
+        }
+        Main.RevolutionistStart.Clear();
+        Main.RevolutionistLastTime.Clear();
 
         if (__instance.Data.IsDead) return true;
         //=============================================
@@ -1004,6 +1016,47 @@ class FixedUpdatePatch
                             Logger.Info($"Canceled: {__instance.GetNameWithRole()}", "Revolutionist");
                         }
                     }
+                }
+            }
+            if (GameStates.IsInTask && player.IsDrawDone() && player.IsAlive())
+            {
+
+                if (Main.RevolutionistStart.ContainsKey(player.PlayerId)) //如果存在字典
+                {
+
+                    if (Main.RevolutionistLastTime.ContainsKey(player.PlayerId))
+                    {
+                        long nowtime = Utils.GetTimeStamp(DateTime.Now);
+                        if (Main.RevolutionistLastTime[player.PlayerId] != nowtime) Main.RevolutionistLastTime[player.PlayerId] = nowtime;
+                        int time = (int)(Main.RevolutionistLastTime[player.PlayerId] - Main.RevolutionistStart[player.PlayerId]);
+                        int countdown = Options.RevolutionistWineTime.GetInt() - time;
+                        Main.RevolutionistCountdown.Clear();
+                        Main.RevolutionistCountdown.Add(player.PlayerId, countdown);
+                        Utils.NotifyRoles(player);
+                        if (countdown <= 0)//倒计时结束
+                        {
+                            Utils.GetDrawPlayerCount(player.PlayerId, out byte[] x, out PlayerControl[] y);
+                            foreach (var pc in y.Where(x => x != null && x.IsAlive()))
+                            {
+                                pc.Data.IsDead = true;
+                                pc.RpcMurderPlayer(pc);
+                                Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
+                                Main.PlayerStates[pc.PlayerId].SetDead();
+                            }
+                            player.Data.IsDead = true;
+                            player.RpcMurderPlayer(player);
+                            Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
+                            Main.PlayerStates[player.PlayerId].SetDead();
+                        }
+                    }
+                    else
+                    {
+                        Main.RevolutionistLastTime.Add(player.PlayerId, Main.RevolutionistStart[player.PlayerId]);
+                    }
+                }
+                else //如果不存在字典
+                {
+                    Main.RevolutionistStart.Add(player.PlayerId, Utils.GetTimeStamp(DateTime.Now));
                 }
             }
 
@@ -1429,7 +1482,7 @@ class CoEnterVentPatch
             if (AmongUsClient.Instance.IsGameStarted && __instance.myPlayer.IsDrawDone())//完成拉拢任务的玩家跳管后
             {
                 CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Revolutionist);//革命者胜利
-                Utils.GetDrawPlayerCount(__instance.myPlayer.PlayerId, out byte[] x);
+                Utils.GetDrawPlayerCount(__instance.myPlayer.PlayerId, out byte[] x, out PlayerControl[] y);
                 foreach (var apc in x) CustomWinnerHolder.WinnerIds.Add(apc);//胜利玩家
                 return true;
             }
