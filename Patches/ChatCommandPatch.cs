@@ -645,6 +645,7 @@ class ChatCommands
             "教父" => "教父",
             "革命家" or "革命" => "革命家",
             "fff團" or "fff" or "fff团" => "FFF团",
+            "清理工" or "清潔工" or "清洁工" or "清理" or "清洁" => "清理工",
             _ => text,
         };
     }
@@ -682,6 +683,7 @@ class ChatCommands
             { CustomRoles.Scavenger, GetString("Scavenger") },
             { CustomRoles.Capitalism, GetString("Capitalism") },
             { CustomRoles.Gangster, GetString("Gangster") },
+            { CustomRoles.Cleaner, GetString("Cleaner") },
             //Crewmate役職
             { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
             { CustomRoles.Bait, GetString("Bait") },

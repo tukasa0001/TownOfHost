@@ -58,6 +58,7 @@ class ChangeRoleSettings
             Main.CyberStarDead = new List<byte>();
             Main.BoobyTrapBody = new List<byte>();
             Main.KillerOfBoobyTrapBody = new Dictionary<byte, byte>();
+            Main.CleanerBodies = new List<byte>();
 
             Main.LastEnteredVent = new Dictionary<byte, Vent>();
             Main.LastEnteredVentLocation = new Dictionary<byte, UnityEngine.Vector2>();

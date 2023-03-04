@@ -62,6 +62,7 @@ static class CustomRolesHelper
             CustomRoles.Bodyguard => CustomRoles.Crewmate,
             CustomRoles.Grenadier => CustomRoles.Engineer,
             CustomRoles.Gangster => CustomRoles.Impostor,
+            CustomRoles.Cleaner => CustomRoles.Impostor,
             _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
         };
     }
@@ -173,7 +174,8 @@ static class CustomRolesHelper
             CustomRoles.Scavenger or
             CustomRoles.BoobyTrap or
             CustomRoles.Capitalism or
-            CustomRoles.Gangster;
+            CustomRoles.Gangster or
+            CustomRoles.Cleaner;
     }
     public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role == CustomRoles.Madmate;
     public static bool IsNeutral(this CustomRoles role) // 是否中立

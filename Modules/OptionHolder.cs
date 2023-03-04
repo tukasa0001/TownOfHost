@@ -169,6 +169,7 @@ public static class Options
     public static OptionItem SansReduceKillCooldown;
     public static OptionItem SansMinKillCooldown;
     public static OptionItem BomberRadius;
+    public static OptionItem CleanerKillCooldown;
     public static OptionItem FlashWhenTrapBoobyTrap;
     public static OptionItem CapitalismSkillCooldown;
     public static OptionItem GrenadierSkillCooldown;
@@ -495,6 +496,9 @@ public static class Options
         BomberRadius = FloatOptionItem.Create(902137, "BomberRadius", new(0.5f, 5f, 0.5f), 2f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Bomber])
             .SetValueFormat(OptionFormat.Multiplier);
         Gangster.SetupCustomOption();
+        SetupRoleOptions(902233, TabGroup.ImpostorRoles, CustomRoles.Cleaner);
+        CleanerKillCooldown = FloatOptionItem.Create(902237, "KillCooldown", new(5f, 990f, 2.5f), 30f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Cleaner])
+            .SetValueFormat(OptionFormat.Seconds);
 
         // Crewmate
         SetupRoleOptions(102255, TabGroup.CrewmateRoles, CustomRoles.NiceGuesser);

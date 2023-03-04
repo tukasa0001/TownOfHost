@@ -505,6 +505,9 @@ static class ExtendedPlayerControl
             case CustomRoles.FFF:
                 Main.AllPlayerKillCooldown[player.PlayerId] = 0;
                 break;
+            case CustomRoles.Cleaner:
+                Main.AllPlayerKillCooldown[player.PlayerId] = Options.CleanerKillCooldown.GetFloat();
+                break;
         }
     }
     public static void TrapperKilled(this PlayerControl killer, PlayerControl target)

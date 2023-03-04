@@ -646,11 +646,25 @@ class ReportDeadBodyPatch
         {
             var tpc = Utils.GetPlayerById(target.PlayerId);
 
+            // 清洁工来扫大街咯
+            if (__instance.Is(CustomRoles.Cleaner))
+            {
+                Main.CleanerBodies.Remove(tpc.PlayerId);
+                Main.CleanerBodies.Add(tpc.PlayerId);
+                __instance.RpcGuardAndKill(__instance);
+                __instance.ResetKillCooldown();
+                Logger.Info($"{__instance.GetRealName()} 清理了 {tpc.GetRealName()} 的尸体", "Cleaner");
+                return false;
+            }
+
             // 被赌杀的尸体无法被报告
             if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.Gambled) return false;
 
             // 清道夫的尸体无法被报告
             if (tpc.GetRealKiller().Is(CustomRoles.Scavenger)) return false;
+
+            // 被清理的尸体无法报告
+            if (Main.CleanerBodies.Contains(tpc.PlayerId)) return false;
 
             // 胆小鬼不敢报告
             if (__instance.Is(CustomRoles.Oblivious))
