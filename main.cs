@@ -24,8 +24,8 @@ public class Main : BasePlugin
     public static readonly string ModColor = "#ffc0cb";
     public static readonly bool AllowPublicRoom = true;
     public static readonly string ForkId = "TOHE";
-    public static readonly bool ShowDiscordButton = true;
-    public static readonly string DiscordInviteUrl = "https://jq.qq.com/?_wv=1027&k=2RpigaN6";
+    public static readonly bool ShowQQButton = true;
+    public static readonly string QQInviteUrl = "https://jq.qq.com/?_wv=1027&k=2RpigaN6";
     public const string OriginalForkId = "OriginalTOH";
     public static HashAuth DebugKeyAuth { get; private set; }
     public const string DebugKeyHash = "c0fd562955ba56af3ae20d7ec9e64c664f0facecef4b3e366e109306adeae29d";

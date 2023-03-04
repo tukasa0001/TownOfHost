@@ -8,7 +8,7 @@ namespace TOHE;
 public class MainMenuManagerPatch
 {
     public static GameObject template;
-    public static GameObject discordButton;
+    public static GameObject qqButton;
     public static GameObject updateButton;
 
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPrefix]
@@ -17,20 +17,20 @@ public class MainMenuManagerPatch
         if (template == null) template = GameObject.Find("/MainUI/ExitGameButton");
         if (template == null) return;
         //Discordボタンを生成
-        if (discordButton == null) discordButton = UnityEngine.Object.Instantiate(template, template.transform.parent);
-        discordButton.name = "DiscordButton";
-        discordButton.transform.position = Vector3.Reflect(template.transform.position, Vector3.left);
+        if (qqButton == null) qqButton = UnityEngine.Object.Instantiate(template, template.transform.parent);
+        qqButton.name = "qqButton";
+        qqButton.transform.position = Vector3.Reflect(template.transform.position, Vector3.left);
 
-        var discordText = discordButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
-        Color discordColor = new Color32(88, 101, 242, byte.MaxValue);
-        PassiveButton discordPassiveButton = discordButton.GetComponent<PassiveButton>();
-        SpriteRenderer discordButtonSprite = discordButton.GetComponent<SpriteRenderer>();
-        discordPassiveButton.OnClick = new();
-        discordPassiveButton.OnClick.AddListener((Action)(() => Application.OpenURL(Main.DiscordInviteUrl)));
-        discordPassiveButton.OnMouseOut.AddListener((Action)(() => discordButtonSprite.color = discordText.color = discordColor));
+        var discordText = qqButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
+        Color qqColor = new Color32(255, 102, 153, byte.MaxValue);
+        PassiveButton qqPassiveButton = qqButton.GetComponent<PassiveButton>();
+        SpriteRenderer qqButtonSprite = qqButton.GetComponent<SpriteRenderer>();
+        qqPassiveButton.OnClick = new();
+        qqPassiveButton.OnClick.AddListener((Action)(() => Application.OpenURL(Main.QQInviteUrl)));
+        qqPassiveButton.OnMouseOut.AddListener((Action)(() => qqButtonSprite.color = discordText.color = qqColor));
         __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => discordText.SetText("QQ群"))));
-        discordButtonSprite.color = discordText.color = discordColor;
-        discordButton.gameObject.SetActive(Main.ShowDiscordButton);
+        qqButtonSprite.color = discordText.color = qqColor;
+        qqButton.gameObject.SetActive(Main.ShowQQButton);
 
         //Updateボタンを生成
         if (updateButton == null) updateButton = UnityEngine.Object.Instantiate(template, template.transform.parent);
