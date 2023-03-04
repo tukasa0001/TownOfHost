@@ -36,7 +36,6 @@ public class Main : BasePlugin
     public const string PluginGuid = "com.karped1em.townofhostedited";
     public const string PluginVersion = "2.1.1";
     public const int PluginCreate = 4;
-    public const bool Dev = true;
     public Harmony Harmony { get; } = new Harmony(PluginGuid);
     public static Version version = Version.Parse(PluginVersion);
     public static BepInEx.Logging.ManualLogSource Logger;

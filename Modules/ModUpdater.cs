@@ -101,7 +101,7 @@ public class ModUpdater
             int create = int.Parse(data[0]);
             MD5 = data[2];
             visit = int.TryParse(data[3], out int x) ? x : 0;
-            visit += 25457;
+            visit += 26178;
             if (create > Main.PluginCreate)
             {
                 hasUpdate = true;
@@ -137,10 +137,7 @@ public class ModUpdater
             }
 
             isChecked = true;
-
-            if (GetMD5HashFromFile("BepInEx/plugins/TOHE.dll") != MD5 && Main.Dev) isBroken = true;
-            else isBroken = false;
-
+            isBroken = GetMD5HashFromFile("BepInEx/plugins/TOHE.dll") != MD5;
         }
         catch (Exception ex)
         {
