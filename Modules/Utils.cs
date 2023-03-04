@@ -1043,9 +1043,6 @@ public static class Utils
                     if (target == seer) continue;
                     logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":START");
 
-                    //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                    string TargetTaskText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"{GetProgressText(target)}" : "";
-
                     //名前の後ろに付けるマーカー
                     TargetMark.Clear();
 
@@ -1102,7 +1099,7 @@ public static class Utils
                     if (seer.Is(CustomRoles.Puppeteer) &&
                     Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
                     Main.PuppeteerList.ContainsKey(target.PlayerId))
-                        TargetMark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>");
+                        TargetMark.Append($"<color={GetRoleColorCode(CustomRoles.Impostor)}>◆</color>");
 
                     //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}>{target.GetDisplayRoleName()}{GetProgressText(target)}</size>\r\n" : "";
@@ -1134,18 +1131,18 @@ public static class Utils
                         foreach (var id in Main.PsychicTarget[seer.PlayerId])
                         {
                             if (target.PlayerId == id)
-                                TargetPlayerName = Utils.ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName);
+                                TargetPlayerName = ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName);
                         }
                     }
                     if (seer.Is(CustomRoles.Mafia) && !seer.IsAlive() && target.IsAlive())
                     {
-                        TargetPlayerName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Mafia), target.PlayerId.ToString()) + " " + TargetPlayerName;
+                        TargetPlayerName = ColorString(GetRoleColor(CustomRoles.Mafia), target.PlayerId.ToString()) + " " + TargetPlayerName;
                     }
                     if (seer.Is(CustomRoles.NiceGuesser) || seer.Is(CustomRoles.EvilGuesser))
                     {
                         if (seer.IsAlive() && target.IsAlive() && isMeeting)
                         {
-                            TargetPlayerName = Utils.ColorString(Utils.GetRoleColor(seer.Is(CustomRoles.NiceGuesser) ? CustomRoles.NiceGuesser : CustomRoles.EvilGuesser), target.PlayerId.ToString()) + " " + TargetPlayerName;
+                            TargetPlayerName = ColorString(GetRoleColor(seer.Is(CustomRoles.NiceGuesser) ? CustomRoles.NiceGuesser : CustomRoles.EvilGuesser), target.PlayerId.ToString()) + " " + TargetPlayerName;
                         }
                     }
 
