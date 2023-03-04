@@ -152,6 +152,7 @@ public static class Options
     public static OptionItem VeteranSkillDuration;
     public static OptionItem BodyguardProtectRadius;
     public static OptionItem ParanoiaNumOfUseButton;
+    public static OptionItem ParanoiaVentCooldown;
     public static OptionItem PsychicCanSeeNum;
     public static OptionItem PsychicFresh;
     public static OptionItem CkshowEvil;
@@ -528,6 +529,8 @@ public static class Options
         SetupRoleOptions(8020490, TabGroup.CrewmateRoles, CustomRoles.Paranoia);
         ParanoiaNumOfUseButton = IntegerOptionItem.Create(8020493, "ParanoiaNumOfUseButton", new(1, 99, 1), 3, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Paranoia])
             .SetValueFormat(OptionFormat.Times);
+        ParanoiaVentCooldown = FloatOptionItem.Create(8020495, "ParanoiaVentCooldown", new(0, 990, 1), 10, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Paranoia])
+            .SetValueFormat(OptionFormat.Seconds);
         SetupRoleOptions(8020450, TabGroup.CrewmateRoles, CustomRoles.Psychic);
         PsychicCanSeeNum = IntegerOptionItem.Create(8020452, "PsychicCanSeeNum", new(1, 15, 1), 3, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic])
             .SetValueFormat(OptionFormat.Players);
