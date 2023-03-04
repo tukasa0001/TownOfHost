@@ -1020,10 +1020,8 @@ class FixedUpdatePatch
             }
             if (GameStates.IsInTask && player.IsDrawDone() && player.IsAlive())
             {
-
                 if (Main.RevolutionistStart.ContainsKey(player.PlayerId)) //如果存在字典
                 {
-
                     if (Main.RevolutionistLastTime.ContainsKey(player.PlayerId))
                     {
                         long nowtime = Utils.GetTimeStamp(DateTime.Now);
@@ -1035,7 +1033,7 @@ class FixedUpdatePatch
                         Utils.NotifyRoles(player);
                         if (countdown <= 0)//倒计时结束
                         {
-                            Utils.GetDrawPlayerCount(player.PlayerId, out byte[] x, out PlayerControl[] y);
+                            Utils.GetDrawPlayerCount(player.PlayerId, out var y);
                             foreach (var pc in y.Where(x => x != null && x.IsAlive()))
                             {
                                 pc.Data.IsDead = true;
@@ -1484,8 +1482,8 @@ class CoEnterVentPatch
             if (AmongUsClient.Instance.IsGameStarted && __instance.myPlayer.IsDrawDone())//完成拉拢任务的玩家跳管后
             {
                 CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Revolutionist);//革命者胜利
-                Utils.GetDrawPlayerCount(__instance.myPlayer.PlayerId, out byte[] x, out PlayerControl[] y);
-                foreach (var apc in x) CustomWinnerHolder.WinnerIds.Add(apc);//胜利玩家
+                Utils.GetDrawPlayerCount(__instance.myPlayer.PlayerId, out var x);
+                foreach (var apc in x) CustomWinnerHolder.WinnerIds.Add(apc.PlayerId);//胜利玩家
                 return true;
             }
 
