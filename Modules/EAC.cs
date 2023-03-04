@@ -105,6 +105,7 @@ class EAC
                     bool legal = false;
                     if (CustomRolesHelper.RoleExist(CustomRoles.Mafia)) legal = true;
                     if (CustomRolesHelper.RoleExist(CustomRoles.Counterfeiter)) legal = true;
+                    if (CustomRolesHelper.RoleExist(CustomRoles.Pelican)) legal = true;
                     if (!legal && (GameStates.IsMeeting || GameStates.IsLobby || !pc.IsAlive()))
                     {
                         WarnHost();
@@ -150,8 +151,13 @@ class EAC
                     }
                     break;
                 case 47:
-                    if (GameStates.IsMeeting || GameStates.IsLobby)
+                    bool legal = false;
+                    if (CustomRolesHelper.RoleExist(CustomRoles.Mafia)) legal = true;
+                    if (CustomRolesHelper.RoleExist(CustomRoles.Counterfeiter)) legal = true;
+                    if (CustomRolesHelper.RoleExist(CustomRoles.Pelican)) legal = true;
+                    if (!legal && (GameStates.IsMeeting || GameStates.IsLobby || !pc.IsAlive()))
                     {
+                        WarnHost();
                         Report(pc, "非法击杀");
                         Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法击杀，已驳回", "EAC");
                         return true;
