@@ -142,7 +142,7 @@ class BeginCrewmatePatch
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = ShipStatus.Instance.SabotageSound;
                 break;
 
-            case CustomRoles.ChivalrousExpert:
+            case CustomRoles.SwordsMan:
             case CustomRoles.Sheriff:
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                 __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
@@ -226,7 +226,7 @@ class BeginImpostorPatch
 {
     public static bool Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
     {
-        if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff) || PlayerControl.LocalPlayer.Is(CustomRoles.ChivalrousExpert))
+        if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff) || PlayerControl.LocalPlayer.Is(CustomRoles.SwordsMan))
         {
             //シェリフの場合はキャンセルしてBeginCrewmateに繋ぐ
             yourTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();

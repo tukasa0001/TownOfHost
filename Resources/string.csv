@@ -78,7 +78,7 @@ Luckey,幸运儿,Luckey,Удачник
 Needy,摆烂人,Lazy Guy,Ленивый Парень
 SuperStar,大明星,Super Star,Супер Звезда
 CyberStar,网红,Celebrity,Знаменитость
-ChivalrousExpert,侠客,Knight,Рыцарь
+SwordsMan,侠客,Knight,Рыцарь
 Mayor,市长,Mayor,Мэр
 Paranoia,被害妄想症,Paranoid,Параноик
 Psychic,愚者,Psychic,Экстрасенс
@@ -187,7 +187,7 @@ TrapperInfo,大奖小奖，能记住就是好奖,Trap your enemies,Ловите 
 DictatorInfo,请您不要随意自杀,Decide who to eject,Повесьте своего врага на страх и риск
 DetectiveInfo,我福尔摩斯来辣！,Learn the roles of the body,Узнай роль трупа
 UndercoverInfo,碟中谍了属于是,impostors consider you as one of their own,Предатели считают вас как за своего
-ChivalrousExpertInfo,行侠仗义！,Kill one player per game,Убей одного игрока за игру
+SwordsManInfo,行侠仗义！,Kill one player per game,Убей одного игрока за игру
 NiceGuesserInfo,生命就是豪赌！,Guess the evil roles of the players,Угадывай злые роли игроков
 TransporterInfo,移形换影，扭转乾坤！,Teleport 2 random players,Телепортируй 2 случайных игроков
 TimeManagerInfo,时间操控大师！,Do the tasks and extend meeting time,Выполняйте задания чтобы увеличить время встречи
@@ -286,7 +286,7 @@ DictatorInfoLong,(船员阵营):\n当独裁者在会议阶段投票给玩家后�
 DetectiveInfoLong,(船员阵营):\n侦探报告尸体后，会收到一条线索消息，该消息会告诉侦探被害者的职业是什么，根据房主设定，侦探可能知道凶手的职业是什么。请注意：侦探不会成为胆小鬼。,"(Crewmate):\nAfter the Detective reports the body, it will receive a hint message that will tell the Detective what the role of the body was. Depending on the settings, the Detective may even know what role the victim's killer has.","(Член Экипажа):\nПосле того, как Детектив зарепортит труп, он получит сообщение с подсказкой, которое сообщит Детективу, какая была роль у трупа. В зависимости от настроек Детектив может даже знать, какая роль у убийцы жертвы"
 UndercoverInfoLong,(船员阵营):\n内鬼会将卧底认作自己的队友，但卧底并不知道内鬼是谁。,"(Crewmates):\nThe Impostors knows who Undercover is and sees him as a teammate, but Undercover himself does not know who the Impostors are.","(Член Экипажа):\nПредатели знают кто является Агентом и видят его как своего товарища по команде, но сам Агент не знает, кто является Предателем."
 NiceGuesserInfoLong,(船员阵营):\n正义赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。当正义赌怪成为叛徒时可以猜测船员,"(Crewmates):\nNice Guesser can guess the roles of certain players during an encounter. If he guesses the role correctly, he will kill that target, and if wrong, he will commit suicide. \nGuessing command: ''/bt [Player ID] [Role Name]'' \nExample: /bt 3 Bait \nYou can see the player ID before the player's nickname, or you can use the ''/id'' command to see the IDs of all players.","(Член Экипажа):\nДобрый Угадыватель может угадывать роли определённого игрока во время встречи. Если он угадает роль правильно, то он убьет эту цель, а если неправильно, то он совершит самоубийство. \nКоманда для угадываний: '/bt [Номер игрока] [Название Роли]'' \nПример: /bt 3 Байт \nВы можете увидеть номер игрока перед его никнеймом, или же для просмотра номеров всех игроков нужно использовать команду ''/id'' ."
-ChivalrousExpertInfoLong,(船员阵营):\n侠客可以正义击杀任何阵营的人，不过机会只有一次。,"(Crewmates):\nKnight can kill any player with any role, but he can only kill once per game.","(Член Экипажа):\nРыцарь может убить любого игрока с любой ролью, но убить он сможет только один раз за игру."
+SwordsManInfoLong,(船员阵营):\n侠客可以正义击杀任何阵营的人，不过机会只有一次。,"(Crewmates):\nKnight can kill any player with any role, but he can only kill once per game.","(Член Экипажа):\nРыцарь может убить любого игрока с любой ролью, но убить он сможет только один раз за игру."
 TransporterInfoLong,(船员阵营):\n每当传送师完成任务，就会有随机两位玩家交换位置，但若剩余玩家不足将什么都不会发生。请注意：管道中的玩家不会被选中。,"(Crewmates):\nWhenever the Transporter completes a task two random players will swap places, but if there aren't enough live players, nothing will happen. \nPlease note that players who are in the air vent will not be selected.","(Член Экипажа):\nВсякий раз, когда Транспортер завершает задание, два случайных игрока меняются местами, но если живых игроков недостаточно, ничего не произойдет. \nПожалуйста, обратите внимание: игроки, которые находятся в вентиляции, выбраны не будут."
 TimeManagerInfoLong,(船员阵营):\n时间操控者做的任务越多，会议时间就会越长，当时间操控者死亡则会议时间恢复正常。当时间操控者成为叛徒时则技能变为减少会议时长而不是增加会议时长。,"(Crewmates):\nThe more tasks you do, the longer your meeting will last. When you die, the meeting time will be restored.","(Член Экипажа):\nМастер Времени может увеличить время встречи, увеличивается время по мере выполнения заданий. Но когда он умрет, время встречи будет сброшено по умолчанию."
 VeteranInfoLong,(船员阵营):\n老兵可以通过使用通风管道进入戒备状态，如果戒备状态下有玩家尝试击杀老兵，则老兵反杀凶手。老兵进入以及退出戒备状态时会看到自己身上有护盾破碎作为提示。,"(Crewmates):\nThe Veteran can go into combat readiness using the vent. If the player attempts to kill a Veteran while on alert, the veteran will instantly kill the killer. When the Veteran goes into and out of combat readiness, he will see a broken shield on his body as a reminder.","(Член Экипажа):\nВетеран может перейти в состояние боевой готовности, используя вентиляцию. Если игрок попытается убить Ветерана в состоянии боевой готовности, то Ветеран тут же убьет убийцу. Когда Ветеран входят в состояние боевой готовности и выходят из него, он увидит сломанный щит ангела на своем теле в качестве напоминания."

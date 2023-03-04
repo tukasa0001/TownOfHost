@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TOHE.Roles.Crewmate;
 
-public static class ChivalrousExpert
+public static class SwordsMan
 {
     private static readonly int Id = 8021075;
     public static List<byte> playerIdList = new();
@@ -12,7 +12,7 @@ public static class ChivalrousExpert
 
     public static void SetupCustomOption()
     {
-        Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.ChivalrousExpert);
+        Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.SwordsMan);
     }
 
     public static void Init()
@@ -43,7 +43,7 @@ public static class ChivalrousExpert
     public static void OnMurder(PlayerControl killer)
     {
         killed.Add(killer.PlayerId);
-        Logger.Info($"{killer.GetNameWithRole()} : " + (IsKilled(killer.PlayerId) ? "已使用击杀机会" : "未使用击杀机会"), "ChivalrousExpert");
+        Logger.Info($"{killer.GetNameWithRole()} : " + (IsKilled(killer.PlayerId) ? "已使用击杀机会" : "未使用击杀机会"), "SwordsMan");
         SetKillCooldown(killer.PlayerId);
         Utils.NotifyRoles(SpecifySeer: killer);
     }

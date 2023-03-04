@@ -85,7 +85,7 @@ static class CustomRolesHelper
             CustomRoles.Sheriff => RoleTypes.Impostor,
             CustomRoles.Arsonist => RoleTypes.Impostor,
             CustomRoles.Jackal => RoleTypes.Impostor,
-            CustomRoles.ChivalrousExpert => RoleTypes.Impostor,
+            CustomRoles.SwordsMan => RoleTypes.Impostor,
             CustomRoles.Innocent => RoleTypes.Impostor,
             CustomRoles.Pelican => RoleTypes.Impostor,
             CustomRoles.Counterfeiter => RoleTypes.Impostor,
@@ -139,7 +139,7 @@ static class CustomRolesHelper
     public static bool IsCK(this CustomRoles role) // 是否带刀船员
     {
         return role is
-            CustomRoles.ChivalrousExpert or
+            CustomRoles.SwordsMan or
             CustomRoles.Sheriff;
     }
     public static bool IsImpostor(this CustomRoles role) // 是否内鬼

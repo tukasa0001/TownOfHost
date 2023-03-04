@@ -287,7 +287,7 @@ class SetHudActivePatch
         switch (player.GetCustomRole())
         {
             case CustomRoles.Sheriff:
-            case CustomRoles.ChivalrousExpert:
+            case CustomRoles.SwordsMan:
             case CustomRoles.Arsonist:
             case CustomRoles.Innocent:
             case CustomRoles.Pelican:

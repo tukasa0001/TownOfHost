@@ -545,7 +545,7 @@ public static class Options
         SetupRoleOptions(20900, TabGroup.CrewmateRoles, CustomRoles.Dictator);
         SetupRoleOptions(8021015, TabGroup.CrewmateRoles, CustomRoles.Detective);
         DetectiveCanknowKiller = BooleanOptionItem.Create(8021017, "DetectiveCanknowKiller", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Detective]);
-        ChivalrousExpert.SetupCustomOption();
+        SwordsMan.SetupCustomOption();
         SetupRoleOptions(8021115, TabGroup.CrewmateRoles, CustomRoles.Transporter);
         TransporterTeleportMax = IntegerOptionItem.Create(8021117, "TransporterTeleportMax", new(1, 99, 1), 5, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Transporter])
             .SetValueFormat(OptionFormat.Times);

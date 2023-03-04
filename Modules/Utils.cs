@@ -336,7 +336,7 @@ public static class Utils
             case CustomRoles.Opportunist:
             case CustomRoles.Mario:
             case CustomRoles.God:
-            case CustomRoles.ChivalrousExpert:
+            case CustomRoles.SwordsMan:
             case CustomRoles.Innocent:
             case CustomRoles.Pelican:
             case CustomRoles.Revolutionist:
@@ -431,8 +431,8 @@ public static class Utils
             case CustomRoles.EvilTracker:
                 ProgressText.Append(EvilTracker.GetMarker(playerId));
                 break;
-            case CustomRoles.ChivalrousExpert:
-                ProgressText.Append(ChivalrousExpert.GetKillLimit(playerId));
+            case CustomRoles.SwordsMan:
+                ProgressText.Append(SwordsMan.GetKillLimit(playerId));
                 break;
             case CustomRoles.TimeThief:
                 ProgressText.Append(TimeThief.GetProgressText(playerId));

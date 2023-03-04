@@ -387,7 +387,7 @@ static class ExtendedPlayerControl
             CustomRoles.Pelican => pc.IsAlive(),
             CustomRoles.Arsonist => !pc.IsDouseDone(),
             CustomRoles.Revolutionist => !pc.IsDrawDone(),
-            CustomRoles.ChivalrousExpert => pc.IsAlive(),
+            CustomRoles.SwordsMan => pc.IsAlive(),
             CustomRoles.Jackal => pc.IsAlive(),
             CustomRoles.Bomber => false,
             CustomRoles.Innocent => pc.IsAlive(),
@@ -405,7 +405,7 @@ static class ExtendedPlayerControl
             CustomRoles.Minimalism => false,
             CustomRoles.Sheriff => false,
             CustomRoles.Innocent => false,
-            CustomRoles.ChivalrousExpert => false,
+            CustomRoles.SwordsMan => false,
             CustomRoles.Jackal => Jackal.CanVent.GetBool(),
             CustomRoles.Arsonist => pc.IsDouseDone(),
             CustomRoles.Revolutionist => pc.IsDrawDone(),
@@ -477,8 +477,8 @@ static class ExtendedPlayerControl
             case CustomRoles.Minimalism:
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.MNKillCooldown.GetFloat();
                 break;
-            case CustomRoles.ChivalrousExpert:
-                ChivalrousExpert.SetKillCooldown(player.PlayerId);
+            case CustomRoles.SwordsMan:
+                SwordsMan.SetKillCooldown(player.PlayerId);
                 break;
             case CustomRoles.Hacker:
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.HackKillCooldown.GetFloat();

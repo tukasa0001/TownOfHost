@@ -432,8 +432,8 @@ static class RPC
             case CustomRoles.Sheriff:
                 Sheriff.Add(targetId);
                 break;
-            case CustomRoles.ChivalrousExpert:
-                ChivalrousExpert.Add(targetId);
+            case CustomRoles.SwordsMan:
+                SwordsMan.Add(targetId);
                 break;
             case CustomRoles.SabotageMaster:
                 SabotageMaster.Add(targetId);

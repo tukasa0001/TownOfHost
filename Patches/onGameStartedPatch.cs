@@ -158,7 +158,7 @@ class ChangeRoleSettings
             Executioner.Init();
             Jackal.Init();
             Sheriff.Init();
-            ChivalrousExpert.Init();
+            SwordsMan.Init();
             EvilTracker.Init();
             Snitch.Init();
             Vampire.Init();
@@ -587,8 +587,8 @@ class SelectRolesPatch
                     case CustomRoles.Vampire:
                         Vampire.Add(pc.PlayerId);
                         break;
-                    case CustomRoles.ChivalrousExpert:
-                        ChivalrousExpert.Add(pc.PlayerId);
+                    case CustomRoles.SwordsMan:
+                        SwordsMan.Add(pc.PlayerId);
                         break;
                     case CustomRoles.Hacker:
                         Main.HackerUsedCount[pc.PlayerId] = 0;

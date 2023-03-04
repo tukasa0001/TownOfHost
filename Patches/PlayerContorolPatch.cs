@@ -235,8 +235,8 @@ class CheckMurderPatch
                     if (!Sheriff.OnCheckMurder(killer, target))
                         return false;
                     break;
-                case CustomRoles.ChivalrousExpert:
-                    if (!ChivalrousExpert.OnCheckMurder(killer))
+                case CustomRoles.SwordsMan:
+                    if (!SwordsMan.OnCheckMurder(killer))
                         return false;
                     break;
             }
@@ -431,9 +431,9 @@ class MurderPlayerPatch
             Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
             killer.RpcMurderPlayer(killer);
         }
-        if (killer.Is(CustomRoles.ChivalrousExpert) && killer != target)
+        if (killer.Is(CustomRoles.SwordsMan) && killer != target)
         {
-            ChivalrousExpert.OnMurder(killer);
+            SwordsMan.OnMurder(killer);
         }
         if (target.Is(CustomRoles.Avanger))
         {

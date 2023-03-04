@@ -701,7 +701,7 @@ class ChatCommands
             { CustomRoles.Snitch, GetString("Snitch") },
             { CustomRoles.SpeedBooster, GetString("SpeedBooster") },
             { CustomRoles.Trapper, GetString("Trapper") },
-            { CustomRoles.ChivalrousExpert, GetString("ChivalrousExpert") },
+            { CustomRoles.SwordsMan, GetString("SwordsMan") },
             { CustomRoles.NiceGuesser, GetString("NiceGuesser") },
             { CustomRoles.Transporter, GetString("Transporter") },
             { CustomRoles.TimeManager, GetString("TimeManager") },
