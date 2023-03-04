@@ -63,6 +63,7 @@ static class CustomRolesHelper
             CustomRoles.Grenadier => CustomRoles.Engineer,
             CustomRoles.Gangster => CustomRoles.Impostor,
             CustomRoles.Cleaner => CustomRoles.Impostor,
+            CustomRoles.Konan => CustomRoles.Crewmate,
             _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
         };
     }
@@ -192,7 +193,8 @@ static class CustomRolesHelper
             CustomRoles.Innocent or
             CustomRoles.Pelican or
             CustomRoles.Revolutionist or
-            CustomRoles.FFF;
+            CustomRoles.FFF or
+            CustomRoles.Konan;
     }
     public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
     public static bool IsVanilla(this CustomRoles role) // 是否原版职业
