@@ -1029,7 +1029,7 @@ class FixedUpdatePatch
                         long nowtime = Utils.GetTimeStamp(DateTime.Now);
                         if (Main.RevolutionistLastTime[player.PlayerId] != nowtime) Main.RevolutionistLastTime[player.PlayerId] = nowtime;
                         int time = (int)(Main.RevolutionistLastTime[player.PlayerId] - Main.RevolutionistStart[player.PlayerId]);
-                        int countdown = Options.RevolutionistWineTime.GetInt() - time;
+                        int countdown = Options.RevolutionistVentCountDown.GetInt() - time;
                         Main.RevolutionistCountdown.Clear();
                         Main.RevolutionistCountdown.Add(player.PlayerId, countdown);
                         Utils.NotifyRoles(player);

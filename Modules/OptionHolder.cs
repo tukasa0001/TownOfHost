@@ -178,7 +178,7 @@ public static class Options
     public static OptionItem RevolutionistCooldown;
     public static OptionItem RevolutionistDrawCount;
     public static OptionItem RevolutionistKillProbability;
-    public static OptionItem RevolutionistWineTime;
+    public static OptionItem RevolutionistVentCountDown;
 
     // タスク無効化
     public static OptionItem DisableTasks;
@@ -590,7 +590,7 @@ public static class Options
             .SetValueFormat(OptionFormat.Players);
         RevolutionistKillProbability = IntegerOptionItem.Create(5050619, "RevolutionistKillProbability", new(0, 100, 5), 30, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
             .SetValueFormat(OptionFormat.Percent);
-        RevolutionistWineTime = IntegerOptionItem.Create(5050621,"RevolutionistWineTime", new(0, 100, 5), 30, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
+        RevolutionistVentCountDown = FloatOptionItem.Create(5050621,"RevolutionistVentCountDown", new(1, 100, 1), 10, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
             .SetValueFormat(OptionFormat.Seconds);
         TerroristTasks = OverrideTasksData.Create(50220, TabGroup.NeutralRoles, CustomRoles.Terrorist);
         Executioner.SetupCustomOption();
