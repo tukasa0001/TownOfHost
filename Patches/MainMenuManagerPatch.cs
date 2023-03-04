@@ -22,7 +22,7 @@ public class MainMenuManagerPatch
         qqButton.transform.position = Vector3.Reflect(template.transform.position, Vector3.left);
 
         var discordText = qqButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
-        Color qqColor = new Color32(255, 102, 153, byte.MaxValue);
+        Color qqColor = new Color32(255, 192, 203, byte.MaxValue);
         PassiveButton qqPassiveButton = qqButton.GetComponent<PassiveButton>();
         SpriteRenderer qqButtonSprite = qqButton.GetComponent<SpriteRenderer>();
         qqPassiveButton.OnClick = new();
