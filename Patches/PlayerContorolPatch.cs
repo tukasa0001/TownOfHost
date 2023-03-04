@@ -1185,7 +1185,7 @@ class FixedUpdatePatch
                     if (target.Is(CustomRoles.Arsonist) && target.IsDouseDone())
                         RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), GetString("EnterVentToWin"));
                     if (target.Is(CustomRoles.Revolutionist) && target.IsDrawDone())
-                        RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Revolutionist), string.Format(GetString("EnterVentWinCountDown"), Main.RevolutionistCountdown[seer.PlayerId]));
+                        RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Revolutionist), string.Format(GetString("EnterVentWinCountDown"), Main.RevolutionistCountdown.TryGetValue(seer.PlayerId, out var x) ? x : 10));
                     if (Pelican.IsEaten(seer.PlayerId))
                         RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Pelican), GetString("EatenByPelican"));
                 }
