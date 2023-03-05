@@ -297,6 +297,7 @@ public class Main : BasePlugin
                 {CustomRoles.Counterfeiter, "#e0e0e0"},
                 {CustomRoles.Grenadier, "#3c4a16"},
                 {CustomRoles.Medicaler, "#00a4ff"},
+                {CustomRoles.Divinator, "#882c83"},
                 //第三陣営役職
                 {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.Jester, "#ec62a5"},
@@ -436,6 +437,7 @@ public enum CustomRoles
     Counterfeiter,
     Grenadier,
     Medicaler,
+    Divinator,
     //Neutral
     Arsonist,
     Jester,

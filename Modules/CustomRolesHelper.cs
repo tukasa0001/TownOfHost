@@ -65,6 +65,7 @@ internal static class CustomRolesHelper
                 CustomRoles.Gangster => CustomRoles.Impostor,
                 CustomRoles.Cleaner => CustomRoles.Impostor,
                 CustomRoles.Konan => CustomRoles.Crewmate,
+                CustomRoles.Divinator => CustomRoles.Crewmate,
                 _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
     }
@@ -273,7 +274,7 @@ internal static class CustomRolesHelper
            CustomRoles.GM => CountTypes.OutOfGame,
            CustomRoles.Jackal => CountTypes.Jackal,
            CustomRoles.Pelican => CountTypes.Pelican,
-           _ => role.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew,
+           _ => role.IsImpostorTeam() ? CountTypes.Impostor : CountTypes.Crew,
        };
 
     public static bool HasSubRole(this PlayerControl pc) => Main.PlayerStates[pc.PlayerId].SubRoles.Count > 0;
