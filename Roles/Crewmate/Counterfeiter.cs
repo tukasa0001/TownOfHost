@@ -77,7 +77,7 @@ public static class Counterfeiter
         Logger.Info($"赝品商 {pc.GetRealName()} 的客户 {target.GetRealName()} 因使用赝品走火自杀", "Counterfeiter");
         return true;
     }
-    public static void OnMeetingDestroy()
+    public static void OnMeetingStart()
     {
         notActiveList.Clear();
         foreach (var cl in clientList)
@@ -93,11 +93,7 @@ public static class Counterfeiter
                 {
                     var killer = Utils.GetPlayerById(cl.Key);
                     if (killer == null) continue;
-                    target.SetRealKiller(killer);
-                    target.Data.IsDead = true;
-                    Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
-                    target.MurderPlayer(target);
-                    Main.PlayerStates[target.PlayerId].SetDead();
+                    CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.Misfire, target.PlayerId);
                     Logger.Info($"赝品商 {killer.GetRealName()} 的客户 {target.GetRealName()} 因不带刀自杀", "Counterfeiter");
                 }
             }

@@ -645,6 +645,7 @@ internal class ChatCommands
             "fff團" or "fff" or "fff团" => "FFF团",
             "清理工" or "清潔工" or "清洁工" or "清理" or "清洁" => "清理工",
             "法医" => "法医",
+            "占卜師" or "占卜" => "占卜师",
             _ => text,
         };
     }
@@ -710,6 +711,7 @@ internal class ChatCommands
             { CustomRoles.Counterfeiter, GetString("Counterfeiter") },
             { CustomRoles.Grenadier, GetString("Grenadier") },
             { CustomRoles.Medicaler, GetString("Medicaler") },
+            { CustomRoles.Divinator, GetString("Divinator") },
             //Neutral役職
             { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用s
             { CustomRoles.Arsonist, GetString("Arsonist") },

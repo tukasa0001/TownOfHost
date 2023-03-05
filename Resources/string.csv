@@ -721,6 +721,8 @@ Message.CanNotUseByHost,很抱歉，房主无法使用该指令,"Sorry, Host can
 Message.TryFixName,已尝试修复名字遮挡,An attempt was made to fix hidden message content due to roles,Была предпринята попытка исправить скрытые содержания сообщений из за ролей
 Message.CanNotFindRoleThePlayerEnter,请正确拼写您要查询的职业哦~\n查看所有职业请直接输入/r,"Please write the correct role you want to request ~ \nTo view all roles type /r command","Пожалуйста, правильно напишите роль, которую вы хотите запросить ~\nЧтобы просмотреть все роли, напишите команду /r"
 Message.PlayerQuitForever,【{0}】选择自愿离开\n很抱歉给大家带来了糟糕的游戏体验\n我们真的很努力地在进步了,"【{0}】decided to leave voluntarily \nSorry for the bad gaming experience \nI really worked hard to make progress","【{0}】решил уйти добровольно \nПрошу прощения за плохой игровой опыт \nЯ действительно усердно работал, чтобы добиться прогресса"
+Message.DivinatorCheck,您透过水晶球发现：
+Message.DivinatorCheckLimit,剩余 {0}次 占卜机会
 
 ## 警告
 Warning.OverrideExiledPlayer,设置内鬼人数为一个时，放逐动画会显示为平票,All ejects will be displayed as a tie since the total number of impostors is 1.,"Все изгнания будут отображаться как ничья, потому что общее количество Предателей равно 1."
@@ -921,3 +923,15 @@ GameOverReason.ImpostorByKill,内鬼人数占优,The Impostor killed everyone,П
 GameOverReason.ImpostorBySabotage,内鬼破坏了设施,Impostors sabotaged the facility,Предатели саботировали обьект
 GameOverReason.ImpostorByVote,船员被驱逐,The Crewmates was ejected,Члены Экипажа были изгнаны
 GameOverReason.ImpostorDisconnect,内鬼断线,Impostors disconnected,Предатели вышли из игры
+
+## 占卜师信息
+DivinatorCheck.HideMsg,【{0}】似乎藏着不可告人的秘密
+DivinatorCheck.Honest,【{0}】似乎是个忠厚老实的人
+DivinatorCheck.Impulse,【{0}】正抑制着某种冲动
+DivinatorCheck.Weirdo,【{0}】有些突兀地混在人群中
+DivinatorCheck.Blockbuster【{0}】渴望一鸣惊人而改变些什么
+DivinatorCheck.Strong,【{0}】藏匿着强大的力量却黯淡于社会
+DivinatorCheck.Incomprehensible,【{0}】令人十分难以理解
+DivinatorCheck.Enthusiasm,【{0}】热情似火地与人谈吐着
+DivinatorCheck.Disturbed,【{0}】有些令人感到异样且不详
+DivinatorCheck.None,【{0}】或许会就这么平凡一辈子
