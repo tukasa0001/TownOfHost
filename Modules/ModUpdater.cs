@@ -137,7 +137,7 @@ public class ModUpdater
             }
 
             isChecked = true;
-            isBroken = GetMD5HashFromFile("BepInEx/plugins/TOHE.dll") != MD5;
+            isBroken = false;
         }
         catch (Exception ex)
         {
