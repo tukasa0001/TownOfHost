@@ -10,6 +10,7 @@ namespace TOHE;
 class EAC
 {
     public static List<string> Msgs = new();
+    public static int MeetingTimes = 0;
     public static void WarnHost()
     {
         ErrorText.Instance.SBDetected = true;
@@ -80,7 +81,8 @@ class EAC
                 case RpcCalls.StartMeeting:
                 case RpcCalls.ReportDeadBody:
                     var p = Utils.GetPlayerById(sr.ReadByte());
-                    if (GameStates.IsMeeting || GameStates.IsLobby)
+                    MeetingTimes++;
+                    if ((GameStates.IsMeeting && MeetingTimes > 2) || GameStates.IsLobby)
                     {
                         WarnHost();
                         Report(pc, "非法召集会议");

@@ -732,7 +732,7 @@ Error.InvalidColor,警告：存在使用非法颜色的玩家，可能引起游�
 ErrorLevel1,可能同时产生多个bug,Bugs may occur.,Могут возникнуть некоторые ошибки.
 ErrorLevel2,可能出现bug,This may be a bug.,Возможно вы столкнулись с ошибкой.
 ErrorLevel3,未发布版本,This version shouldn't have been released.,Эта версия никогда не должна быть выпущена.
-TerminateCommand,强制结束游戏命令,Abort Command,Команда устарела
+TerminateCommand,强制结束游戏快捷键,Abort Command,Команда устарела
 #### 000 Test,
 ERR-000-000-0,无错误,No Error,Ошибок не обнаружено
 ERR-000-900-0,测试错误Lv0,Test Error Lv.0,Ошибка теста - Lv0

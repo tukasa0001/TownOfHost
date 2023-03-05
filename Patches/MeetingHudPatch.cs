@@ -792,6 +792,7 @@ class MeetingHudOnDestroyPatch
             Main.DetectiveNotify.Clear();
             Main.LastVotedPlayerInfo = null;
             Counterfeiter.OnMeetingDestroy();
+            EAC.MeetingTimes = 0;
         }
     }
 }
