@@ -94,6 +94,7 @@ public static class Counterfeiter
                     var killer = Utils.GetPlayerById(cl.Key);
                     if (killer == null) continue;
                     CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.Misfire, target.PlayerId);
+                    target.SetRealKiller(Utils.GetPlayerById(pc));
                     Logger.Info($"赝品商 {killer.GetRealName()} 的客户 {target.GetRealName()} 因不带刀自杀", "Counterfeiter");
                 }
             }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using static TOHE.Translator;
 
 namespace TOHE.Roles.Crewmate;
 
@@ -6,6 +7,7 @@ public static class Divinator
 {
     private static readonly int Id = 8022560;
     private static List<byte> playerIdList = new();
+    public static List<byte> didVote = new();
     private static Dictionary<byte, int> CheckLimit = new();
     public static OptionItem CheckLimitOpt;
     public static void SetupCustomOption()
@@ -27,9 +29,25 @@ public static class Divinator
     public static bool IsEnable => playerIdList.Count > 0;
     public static void CheckPlayer(PlayerControl player, PlayerControl target)
     {
-        if ((CheckLimit.TryGetValue(player.PlayerId, out var x) ? x : 0) < 1) return;
+        if (player == null || target == null) return;
+        if (didVote.Contains(player.PlayerId)) return;
+        didVote.Add(player.PlayerId);
+
+        if (CheckLimit[player.PlayerId] < 1)
+        {
+            Utils.SendMessage(GetString("Message.DivinatorCheckReachLimit"), player.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Divinator), GetString("DivinatorCheckMsgTitle")));
+            return;
+        }
+        
         CheckLimit[player.PlayerId]--;
-        string text = player.GetCustomRole() switch
+
+        if (player.PlayerId == target.PlayerId)
+        {
+            Utils.SendMessage(GetString("Message.DivinatorCheckSelfMsg") + "\n\n" + string.Format(GetString("Message.DivinatorCheckLimit")), player.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Divinator), GetString("DivinatorCheckMsgTitle")));
+            return;
+        }
+
+        string text = target.GetCustomRole() switch
         {
             CustomRoles.TimeThief or
             CustomRoles.AntiAdminer or
@@ -112,8 +130,7 @@ public static class Divinator
 
             _ => "None",
         };
-        
-        string msg = string.Format(Translator.GetString("DivinatorCheck." + text), target.GetRealName() + "\n");
-        Utils.SendMessage(Translator.GetString("Message.DivinatorCheck") + msg + "\n\n" + string.Format(Translator.GetString("Message.DivinatorCheckLimit"), CheckLimit[player.PlayerId]), player.PlayerId, "DivinatorCheckMsgTitle");
+        string msg = string.Format(GetString("DivinatorCheck." + text), target.GetRealName());
+        Utils.SendMessage(GetString("Message.DivinatorCheck") + "\n" + msg + "\n\n" + string.Format(GetString("Message.DivinatorCheckLimit"), CheckLimit[player.PlayerId]), player.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Divinator), GetString("DivinatorCheckMsgTitle")));
     }
 }

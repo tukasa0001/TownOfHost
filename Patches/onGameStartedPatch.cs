@@ -173,6 +173,7 @@ internal class ChangeRoleSettings
             Pelican.Init();
             Counterfeiter.Init();
             Gangster.Init();
+            Medicaler.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
@@ -650,6 +651,9 @@ internal class SelectRolesPatch
                         break;
                     case CustomRoles.Medicaler:
                         Medicaler.Add(pc.PlayerId);
+                        break;
+                    case CustomRoles.Divinator:
+                        Divinator.Add(pc.PlayerId);
                         break;
                 }
                 foreach (var subRole in pc.GetCustomSubRoles())

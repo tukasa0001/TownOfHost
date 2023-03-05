@@ -14,7 +14,6 @@ namespace TOHE;
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CheckForEndVoting))]
 internal class CheckForEndVotingPatch
 {
-    public static int x = 0;
     public static bool Prefix(MeetingHud __instance)
     {
         if (!AmongUsClient.Instance.AmHost) return true;
@@ -55,7 +54,7 @@ internal class CheckForEndVotingPatch
                         ConfirmEjections(Main.LastVotedPlayerInfo);
                     return true;
                 }
-                if (pc.Is(CustomRoles.Divinator) && pva.DidVote && pc.PlayerId != pva.VotedFor && pva.VotedFor < 253 && !pc.Data.IsDead)
+                if (pc.Is(CustomRoles.Divinator) && pva.DidVote && pva.VotedFor < 253 && !pc.Data.IsDead)
                 {
                     var voteTarget = Utils.GetPlayerById(pva.VotedFor);
                     Divinator.CheckPlayer(pc, voteTarget);
@@ -493,6 +492,7 @@ internal class MeetingHudStartPatch
         Main.MadGrenadierBlinding.Clear();
         Main.LastVotedPlayerInfo = null;
         Counterfeiter.OnMeetingStart();
+        Divinator.didVote.Clear();
         NoticeSkill();
         foreach (var pc in PlayerControl.AllPlayerControls)
             if (pc.shapeshifting) pc.RpcRevertShapeshift(false);
