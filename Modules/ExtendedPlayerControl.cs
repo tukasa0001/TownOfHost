@@ -389,7 +389,7 @@ namespace TownOfHost
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
                 CustomRoles.Egoist or CustomRoles.Jackal => true,
-                _ => (roleClassCanUse.HasValue && roleClassCanUse.Value) || pc.Is(CustomRoleTypes.Impostor),
+                _ => roleClassCanUse ?? pc.Is(CustomRoleTypes.Impostor)
             };
         }
         public static bool CanUseImpostorVentButton(this PlayerControl pc)
