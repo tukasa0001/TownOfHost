@@ -392,6 +392,7 @@ internal static class ExtendedPlayerControl
     CustomRoles.Innocent => pc.IsAlive(),
     CustomRoles.Counterfeiter => Counterfeiter.CanUseKillButton(pc.PlayerId),
     CustomRoles.FFF => pc.IsAlive(),
+    CustomRoles.Medicaler => Medicaler.CanUseKillButton(pc.PlayerId),
     _ => pc.Is(CustomRoleTypes.Impostor),
 };
     }
@@ -409,6 +410,7 @@ internal static class ExtendedPlayerControl
     CustomRoles.Revolutionist => pc.IsDrawDone(),
     CustomRoles.Pelican => Pelican.CanVent.GetBool(),
     CustomRoles.FFF => false,
+    CustomRoles.Medicaler => false,
     _ => pc.Is(CustomRoleTypes.Impostor),
 };
     }
@@ -505,6 +507,9 @@ internal static class ExtendedPlayerControl
                 break;
             case CustomRoles.Cleaner:
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.CleanerKillCooldown.GetFloat();
+                break;
+            case CustomRoles.Medicaler:
+                Medicaler.SetKillCooldown(player.PlayerId);
                 break;
         }
     }

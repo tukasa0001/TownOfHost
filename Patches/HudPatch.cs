@@ -135,12 +135,15 @@ internal class HudManagerPatch
                     case CustomRoles.FFF:
                         __instance.KillButton.OverrideText($"{GetString("FFFButtonText")}");
                         break;
+                    case CustomRoles.Medicaler:
+                        __instance.KillButton.OverrideText($"{GetString("MedicalerButtonText")}");
+                        break;
                 }
 
                 //バウンティハンターのターゲットテキスト
                 if (LowerInfoText == null)
                 {
-                    LowerInfoText = UnityEngine.Object.Instantiate(__instance.KillButton.buttonLabelText);
+                    LowerInfoText = Object.Instantiate(__instance.KillButton.buttonLabelText);
                     LowerInfoText.transform.parent = __instance.transform;
                     LowerInfoText.transform.localPosition = new Vector3(0, -2f, 0);
                     LowerInfoText.alignment = TMPro.TextAlignmentOptions.Center;
@@ -292,6 +295,7 @@ internal class SetHudActivePatch
             case CustomRoles.Pelican:
             case CustomRoles.Revolutionist:
             case CustomRoles.FFF:
+            case CustomRoles.Medicaler:
                 __instance.SabotageButton.ToggleVisible(false);
                 __instance.AbilityButton.ToggleVisible(false);
                 break;

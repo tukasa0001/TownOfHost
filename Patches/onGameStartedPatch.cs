@@ -648,6 +648,9 @@ internal class SelectRolesPatch
                     case CustomRoles.Gangster:
                         Gangster.Add(pc.PlayerId);
                         break;
+                    case CustomRoles.Medicaler:
+                        Medicaler.Add(pc.PlayerId);
+                        break;
                 }
                 foreach (var subRole in pc.GetCustomSubRoles())
                 {

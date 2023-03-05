@@ -94,6 +94,7 @@ internal static class CustomRolesHelper
             CustomRoles.Counterfeiter => RoleTypes.Impostor,
             CustomRoles.Revolutionist => RoleTypes.Impostor,
             CustomRoles.FFF => RoleTypes.Impostor,
+            CustomRoles.Medicaler => RoleTypes.Impostor,
             _ => RoleTypes.Scientist
         };
     }

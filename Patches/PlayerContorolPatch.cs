@@ -239,8 +239,18 @@ internal class CheckMurderPatch
                     if (!SwordsMan.OnCheckMurder(killer))
                         return false;
                     break;
+                case CustomRoles.Medicaler:
+                    Medicaler.OnCheckMurderFormedicaler(killer, target);
+                    return false;
             }
         }
+
+        //赝品检查
+        if (Counterfeiter.OnClientMurder(killer)) return false;
+
+        //法医护盾检查
+        if (Medicaler.OnCheckMurder(killer, target))
+            return false;
 
         switch (target.GetCustomRole())
         {
@@ -265,9 +275,6 @@ internal class CheckMurderPatch
                     }
                 break;
         }
-
-        //赝品检查
-        if (Counterfeiter.OnClientMurder(killer)) return false;
 
         //保镖保护
         foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.PlayerId != target.PlayerId))
@@ -1242,6 +1249,8 @@ internal class FixedUpdatePatch
                 }
 
                 Mark.Append(Executioner.TargetMark(seer, target));
+                Mark.Append(Medicaler.TargetMark(seer, target));
+
                 if (seer.Is(CustomRoles.Puppeteer))
                 {
                     if (seer.Is(CustomRoles.Puppeteer) &&
@@ -1286,6 +1295,8 @@ internal class FixedUpdatePatch
                 Suffix.Append(BountyHunter.GetTargetArrow(seer, target));
 
                 Suffix.Append(EvilTracker.GetTargetArrow(seer, target));
+
+                Suffix.Append(Medicaler.GetSheildMark(seer));
 
                 if (GameStates.IsInTask && seer.Is(CustomRoles.AntiAdminer))
                 {

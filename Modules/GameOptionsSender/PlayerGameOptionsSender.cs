@@ -117,6 +117,7 @@ public class PlayerGameOptionsSender : GameOptionsSender
             case CustomRoles.Innocent:
             case CustomRoles.Pelican:
             case CustomRoles.Revolutionist:
+            case CustomRoles.Medicaler:
                 opt.SetVision(false);
                 break;
             case CustomRoles.Zombie:

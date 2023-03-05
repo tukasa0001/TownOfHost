@@ -446,6 +446,9 @@ public static class Utils
             case CustomRoles.Gangster:
                 ProgressText.Append(Gangster.GetRecruitLimit(playerId));
                 break;
+            case CustomRoles.Medicaler:
+                ProgressText.Append(Medicaler.GetSkillLimit(playerId));
+                break;
             default:
                 //タスクテキスト
                 var taskState = Main.PlayerStates?[playerId].GetTaskState();
@@ -973,6 +976,9 @@ public static class Utils
             if (seer.Is(CustomRoles.SuperStar) && Options.EveryOneKnowSuperStar.GetBool())
                 SelfMark.Append(ColorString(GetRoleColor(CustomRoles.SuperStar), "★"));
 
+            //法医护盾提示
+            SelfMark.Append(Medicaler.GetSheildMark(seer));
+
             //銃声が聞こえるかチェック
             SelfMark.Append(Sniper.GetShotNotify(seer.PlayerId));
             //Markとは違い、改行してから追記されます。
@@ -1144,6 +1150,8 @@ public static class Utils
                     TargetPlayerName = TargetPlayerName.ApplyNameColorData(seer, target, isMeeting);
 
                     TargetMark.Append(Executioner.TargetMark(seer, target));
+
+                    TargetMark.Append(Medicaler.TargetMark(seer, target));
 
                     string TargetDeathReason = "";
                     if (seer.KnowDeathReason(target))

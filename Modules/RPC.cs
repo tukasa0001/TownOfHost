@@ -463,6 +463,9 @@ internal static class RPC
             case CustomRoles.Gangster:
                 Gangster.Add(targetId);
                 break;
+            case CustomRoles.Medicaler:
+                Medicaler.Add(targetId);
+                break;
         }
         HudManager.Instance.SetHudActive(true);
         if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();

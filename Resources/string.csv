@@ -98,6 +98,7 @@ Veteran,老兵,Veteran,Ветеран
 Bodyguard,保镖,Bodyguard,Телохранитель
 Counterfeiter,赝品商,Deceiver,Обманщик
 Grenadier,掷雷兵,Grenadier,Гренадёр
+Medicaler,法医
 
 # 中立阵营
 Jester,小丑,Jester,Джестер
@@ -198,6 +199,7 @@ VeteranInfo,内鬼都没你有经验,Don't let a killer just kill you,Не по�
 BodyguardInfo,想杀人必须先过我这关,Protect the player from being killed,Защити игрока от убийства
 CounterfeiterInfo,谁又能想到是我呢？,Try to fool the players,Попытайтесь обмануть игроков
 GrenadierInfo,投掷傻瓜蛋！！,Blind the Impostors,Ослепите Предателей
+MedicalerInfo,好像有必要治一治你？
 
 # 中立阵营
 ArsonistInfo,乖乖站好！,Burn them to crisps,Облейте и подожгите всех игроков
@@ -298,6 +300,7 @@ VeteranInfoLong,(船员阵营):\n老兵可以通过使用通风管道进入戒�
 BodyguardInfoLong,(船员阵营):\n在保镖附近如果有玩家将被击杀，则保镖会阻止这次击杀并与凶手同归于尽。保镖的技能会作用在任何阵营的玩家上。当保镖成为叛徒且凶手不是内鬼的时候，保镖不会发动技能。,"(Crewmates):\nIf the killer tries to kill a player near the Bodyguard, the Bodyguard will prevent the kill and die with the killer. Please note: Bodyguard skills will work on players of any team.","(Член Экипажа):\nЕсли убийца попытается убить игрока рядом с Телохранителем, то Тело-Хранитель предотвратит убийство и умрет вместе с убийцей. Пожалуйста, обратите внимание: Навыки Телохранителем будут работать на игроках любой команды."
 CounterfeiterInfoLong,(船员阵营):\n赝品商可以通过击杀键将赝品卖给其他玩家，如贩卖成功赝品商将会看到自己身上出现护盾破碎动画作为提示。赝品将在下一次会议结束后生效，若无击杀能力的玩家持有赝品会立刻走火自杀，若有击杀能力的玩家持有赝品将在他下次尝试击杀时走火自杀。,"(Crewmates):\nThe Deceiver can betray the Deceit to other players using the ''Kill'' button. If the trick is successful, the trickster will see a broken shield animation on his body as a reminder. The deception will take effect after the end of the next meeting. If the player with the trick is without the ability to kill, he will immediately commit suicide. If the player with the deceit has the ability to kill players, they will commit suicide the next time they try to kill the player.","(Член Экипажа):\nОбманщик может прередать Обманку другим игрокам с помощью кнопки ''Убить''. Если обманка пройдет успешно, Обманщик увидит анимацию сломанного щита на своем теле в качестве напоминания. Обман вступит в силу после окончания следующей встречи. Если игрок с обманкой будет без способности убивать, он немедленно совершит самоубийство. Если игрок с обманкой будет со способностью убивать игроков, он совершит самоубийство при следующей попытке убить игрока."
 GrenadierInfoLong,(船员阵营):\n掷雷兵可以通过使用通风管道使用闪光弹，闪光弹会导致内鬼失去大部分视野（根据房主设置闪光弹可能影响到中立阵营玩家）。闪光弹生效以及失效时掷雷兵会看到自己身上有护盾破碎作为提示。当掷雷兵成为叛徒时闪光弹只对船员生效。,"(Crewmates):\nThe Grenadier can use the stun bomb by using the vent. A flashbang will cause the Impostors to lose most of their field of vision (field of view depends on the Host's settings, and stunbombs can also affect Neutrals). When the stun bomb goes off and on, the grenadier will see their shields shattered as a reminder","(Член Экипажа):\nГренадёр может использовать светошумовую бомбу, используя вентиляцию. Светошумовая бомба приведёт к тому, что Предатели потеряют большую часть поля зрения (поле зрение зависит от настроек Хоста, так же светошумовые бомбы могут повлиять на нейтралов). Когда светошумовая бомба сработает и не сработает, гренадер увидит, что их щиты разбиты в качестве напоминания"
+MedicalerInfoLong,(船员阵营):\n法医可以通过使用击杀按键给目标发放一个护盾，若护盾发放成功则法医会看到目标身上出现护盾破碎动画作为提示，同时目标的名字旁会显示一个蓝色的圆圈（仅法医可见）。法医可以发放护盾的数量会显示在法医的名字旁的括号内。每位玩家最多只能持有一个来自法医的护盾。根据房主设定目标可能可以看到自己是否持有护盾（显示在名字旁的蓝色圆圈）。
 
 # 中立阵营
 ArsonistInfoLong,(中立阵营):\n纵火犯可以通过对玩家点击击杀按钮并跟随其数秒来完成涂油，开始涂油以及涂油成功时会显示护盾破碎的动画作为提示（仅自己可见）。当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。\n\n玩家名显示「△」表示涂油中\n玩家名显示「▲」表示已涂油,"(Neutrals):\nWhen you use the kill button, you douse your target in oil.\nAfter dousing all living players, you set everything ablaze and win by venting.","(Нейтрал):\nПоджигатель может обливать игроков, нажав на кнопку 'Убить' и находясь рядом с игроком в течение нескольких секунд. \nПосле того как он обольёт всех живых игроков Поджигатель сможет запрыгнуть в вентиляцию, чтобы поджечь всех игроков, что приводит к победе Поджигателя."
@@ -611,6 +614,9 @@ PelicanKillCooldown,吞人冷却时间,Cooldown Absorption,Откат погло
 SheriffCanBeMadmate,<color=#f8cd46>警长</color>可以成为叛徒,<color=#f8cd46>Sheriff</color> can become Madmate,<color=#f8cd46>Шериф</color> может стать <color=#ff1919>Безумцем</color>
 MayorCanBeMadmate,<color=#204d42>市长</color>可以成为叛徒,<color=#204d42>Mayor</color> can become Madmate,<color=#204d42>Мэр</color> может стать <color=#ff1919>Безумцем</color>
 NGuesserCanBeMadmate,<color=#eede26>正义赌怪</color>可以成为叛徒,<color=#eede26>Nice Guesser</color> can become Madmate,<color=#eede26>Добрый Угадыватель</color> может стать <color=#ff1919>Безумцем</color>
+MedicalerCooldown,法医发放护盾冷却时长
+MedicalerSkillLimit,法医发放护盾次数上限
+MedicalerTargetCanSeeProtect,玩家可以知道自己是否持有护盾
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
@@ -867,6 +873,7 @@ CounterfeiterButtonText,贩卖,Cheat,Обмануть
 GangsterButtonText,招募,Poach,Переманить
 RevolutionistDrawButtonText,拉拢,Win over,Покорить
 FFFButtonText,制裁,Hatred,Ненависть
+MedicalerButtonText,保护
 DefaultShapeshiftText,变形,Shift,Превращение
 DisabledBySettings,已在设置被中禁用,Disabled by Settings,Отключено настройкой
 Disabled,禁用,Disabled,Отключено

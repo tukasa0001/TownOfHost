@@ -571,6 +571,7 @@ public static class Options
         GrenadierCauseVision = FloatOptionItem.Create(8021637, "GrenadierCauseVision", new(0f, 5f, 0.05f), 0.3f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Grenadier])
             .SetValueFormat(OptionFormat.Multiplier);
         GrenadierCanAffectNeutral = BooleanOptionItem.Create(8021647, "GrenadierCanAffectNeutral", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Grenadier]);
+        Medicaler.SetupCustomOption();
 
         // Neutral
         SetupRoleOptions(50500, TabGroup.NeutralRoles, CustomRoles.Arsonist);

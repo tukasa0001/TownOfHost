@@ -71,7 +71,7 @@ public class Main : BasePlugin
     public static Dictionary<(byte, byte), string> LastNotifyNames;
     public static Dictionary<byte, Color32> PlayerColors = new();
     public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
-    public static Dictionary<CustomRoles, String> roleColors;
+    public static Dictionary<CustomRoles, string> roleColors;
     public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
     public static float RefixCooldownDelay = 0f;
     public static GameData.PlayerInfo LastVotedPlayerInfo;
@@ -210,7 +210,7 @@ public class Main : BasePlugin
         // 認証関連-認証
         DebugModeManager.Auth(DebugKeyAuth, DebugKeyInput.Value);
 
-        BrakarVoteFor = new List<byte>();
+        BrakarVoteFor = new List<byte>(); 
         WarlockTimer = new Dictionary<byte, float>();
         AssassinTimer = new Dictionary<byte, float>();
         CursedPlayers = new Dictionary<byte, PlayerControl>();
@@ -296,6 +296,7 @@ public class Main : BasePlugin
                 {CustomRoles.Bodyguard, "#185abd"},
                 {CustomRoles.Counterfeiter, "#e0e0e0"},
                 {CustomRoles.Grenadier, "#3c4a16"},
+                {CustomRoles.Medicaler, "#00a4ff"},
                 //第三陣営役職
                 {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.Jester, "#ec62a5"},
@@ -434,6 +435,7 @@ public enum CustomRoles
     Bodyguard,
     Counterfeiter,
     Grenadier,
+    Medicaler,
     //Neutral
     Arsonist,
     Jester,

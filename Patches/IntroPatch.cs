@@ -163,6 +163,11 @@ internal class BeginCrewmatePatch
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                 break;
 
+            case CustomRoles.Doctor:
+            case CustomRoles.Medicaler:
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Scientist);
+                break;
+
             case CustomRoles.GM:
                 __instance.TeamTitle.text = Utils.GetRoleName(role);
                 __instance.TeamTitle.color = Utils.GetRoleColor(role);

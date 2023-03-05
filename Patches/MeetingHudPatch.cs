@@ -707,6 +707,9 @@ internal class MeetingHudStartPatch
                         pva.NameText.text = Utils.ColorString(Utils.GetRoleColor(seer.Is(CustomRoles.NiceGuesser) ? CustomRoles.NiceGuesser : CustomRoles.EvilGuesser), target.PlayerId.ToString()) + " " + pva.NameText.text;
                     }
                     break;
+                case CustomRoles.Medicaler:
+                    sb.Append(Medicaler.TargetMark(seer, target));
+                    break;
             }
 
             bool isLover = false;
