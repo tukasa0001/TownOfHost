@@ -6,10 +6,11 @@ using static TOHE.Translator;
 namespace TOHE;
 
 [HarmonyPatch(typeof(PingTracker), nameof(PingTracker.Update))]
-class PingTrackerUpdatePatch
+internal class PingTrackerUpdatePatch
 {
-    static StringBuilder sb = new();
-    static void Postfix(PingTracker __instance)
+    private static readonly StringBuilder sb = new();
+
+    private static void Postfix(PingTracker __instance)
     {
         __instance.text.alignment = TMPro.TextAlignmentOptions.TopRight;
 
@@ -30,12 +31,13 @@ class PingTrackerUpdatePatch
     }
 }
 [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
-class VersionShowerStartPatch
+internal class VersionShowerStartPatch
 {
     public static GameObject OVersionShower;
-    static TMPro.TextMeshPro SpecialEventText;
-    static TMPro.TextMeshPro VisitText;
-    static void Postfix(VersionShower __instance)
+    private static TMPro.TextMeshPro SpecialEventText;
+    private static TMPro.TextMeshPro VisitText;
+
+    private static void Postfix(VersionShower __instance)
     {
 
         Main.credentialsText = $"\r\n<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}";
@@ -108,7 +110,7 @@ class VersionShowerStartPatch
 }
 
 [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
-class TitleLogoPatch
+internal class TitleLogoPatch
 {
     public static GameObject Ambience;
     public static GameObject amongUsLogo;
@@ -118,7 +120,7 @@ class TitleLogoPatch
     public static GameObject FreePlayButton;
     public static GameObject BottomButtons;
 
-    static void Postfix(MainMenuManager __instance)
+    private static void Postfix(MainMenuManager __instance)
     {
         if ((amongUsLogo = GameObject.Find("bannerLogo_AmongUs")) != null)
         {
@@ -182,7 +184,7 @@ class TitleLogoPatch
     }
 }
 [HarmonyPatch(typeof(ModManager), nameof(ModManager.LateUpdate))]
-class ModManagerLateUpdatePatch
+internal class ModManagerLateUpdatePatch
 {
     public static void Prefix(ModManager __instance)
     {

@@ -16,7 +16,7 @@ using static TOHE.Translator;
 namespace TOHE;
 
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckProtect))]
-class CheckProtectPatch
+internal class CheckProtectPatch
 {
     public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
     {
@@ -34,7 +34,7 @@ class CheckProtectPatch
     }
 }
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]
-class CheckMurderPatch
+internal class CheckMurderPatch
 {
     public static Dictionary<byte, float> TimeSinceLastKill = new();
     public static void Update()
@@ -299,7 +299,7 @@ class CheckMurderPatch
     }
 }
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MurderPlayer))]
-class MurderPlayerPatch
+internal class MurderPlayerPatch
 {
     public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
     {
@@ -460,7 +460,7 @@ class MurderPlayerPatch
     }
 }
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
-class ShapeshiftPatch
+internal class ShapeshiftPatch
 {
     public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
     {
@@ -618,7 +618,7 @@ class ShapeshiftPatch
     }
 }
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ReportDeadBody))]
-class ReportDeadBodyPatch
+internal class ReportDeadBodyPatch
 {
     public static Dictionary<byte, bool> CanReport;
     public static Dictionary<byte, List<GameData.PlayerInfo>> WaitReport = new();
@@ -764,10 +764,10 @@ class ReportDeadBodyPatch
     }
 }
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
-class FixedUpdatePatch
+internal class FixedUpdatePatch
 {
-    private static StringBuilder Mark = new(20);
-    private static StringBuilder Suffix = new(120);
+    private static readonly StringBuilder Mark = new(20);
+    private static readonly StringBuilder Suffix = new(120);
     private static int BufferTime = 10;
     public static void Postfix(PlayerControl __instance)
     {
@@ -1149,11 +1149,11 @@ class FixedUpdatePatch
             {
                 if (Main.playerVersion.TryGetValue(__instance.PlayerId, out var ver))
                 {
-                    if (Main.ForkId != ver.forkId) // フォークIDが違う場合
-                        __instance.cosmetics.nameText.text = $"<color=#ff0000><size=1.2>{ver.forkId}</size>\n{__instance?.name}</color>";
-                    else if (Main.version.CompareTo(ver.version) == 0)
-                        __instance.cosmetics.nameText.text = ver.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})" ? $"<color=#87cefa>{__instance.name}</color>" : $"<color=#ffff00><size=1.2>{ver.tag}</size>\n{__instance?.name}</color>";
-                    else __instance.cosmetics.nameText.text = $"<color=#ff0000><size=1.2>v{ver.version}</size>\n{__instance?.name}</color>";
+                    __instance.cosmetics.nameText.text = Main.ForkId != ver.forkId
+                        ? $"<color=#ff0000><size=1.2>{ver.forkId}</size>\n{__instance?.name}</color>"
+                        : Main.version.CompareTo(ver.version) == 0
+                        ? ver.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})" ? $"<color=#87cefa>{__instance.name}</color>" : $"<color=#ffff00><size=1.2>{ver.tag}</size>\n{__instance?.name}</color>"
+                        : $"<color=#ff0000><size=1.2>v{ver.version}</size>\n{__instance?.name}</color>";
                 }
                 else __instance.cosmetics.nameText.text = __instance?.Data?.PlayerName;
             }
@@ -1361,7 +1361,7 @@ class FixedUpdatePatch
     }
 }
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Start))]
-class PlayerStartPatch
+internal class PlayerStartPatch
 {
     public static void Postfix(PlayerControl __instance)
     {
@@ -1375,19 +1375,18 @@ class PlayerStartPatch
     }
 }
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.SetColor))]
-class SetColorPatch
+internal class SetColorPatch
 {
     public static bool IsAntiGlitchDisabled = false;
     public static bool Prefix(PlayerControl __instance, int bodyColor)
     {
         //色変更バグ対策
-        if (!AmongUsClient.Instance.AmHost || __instance.CurrentOutfit.ColorId == bodyColor || IsAntiGlitchDisabled) return true;
-        return true;
+        return !AmongUsClient.Instance.AmHost || __instance.CurrentOutfit.ColorId == bodyColor || IsAntiGlitchDisabled || true;
     }
 }
 
 [HarmonyPatch(typeof(Vent), nameof(Vent.EnterVent))]
-class EnterVentPatch
+internal class EnterVentPatch
 {
     public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
     {
@@ -1466,7 +1465,7 @@ class EnterVentPatch
 }
 
 [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoEnterVent))]
-class CoEnterVentPatch
+internal class CoEnterVentPatch
 {
     public static bool Prefix(PlayerPhysics __instance, [HarmonyArgument(0)] int id)
     {
@@ -1528,14 +1527,14 @@ class CoEnterVentPatch
 }
 
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.SetName))]
-class SetNamePatch
+internal class SetNamePatch
 {
     public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] string name)
     {
     }
 }
 [HarmonyPatch(typeof(GameData), nameof(GameData.CompleteTask))]
-class GameDataCompleteTaskPatch
+internal class GameDataCompleteTaskPatch
 {
     public static void Postfix(PlayerControl pc)
     {
@@ -1545,7 +1544,7 @@ class GameDataCompleteTaskPatch
     }
 }
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CompleteTask))]
-class PlayerControlCompleteTaskPatch
+internal class PlayerControlCompleteTaskPatch
 {
     public static bool Prefix(PlayerControl __instance)
     {
@@ -1586,7 +1585,7 @@ class PlayerControlCompleteTaskPatch
     }
 }
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ProtectPlayer))]
-class PlayerControlProtectPlayerPatch
+internal class PlayerControlProtectPlayerPatch
 {
     public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
     {
@@ -1594,7 +1593,7 @@ class PlayerControlProtectPlayerPatch
     }
 }
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RemoveProtection))]
-class PlayerControlRemoveProtectionPatch
+internal class PlayerControlRemoveProtectionPatch
 {
     public static void Postfix(PlayerControl __instance)
     {
@@ -1602,7 +1601,7 @@ class PlayerControlRemoveProtectionPatch
     }
 }
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSetRole))]
-class PlayerControlSetRolePatch
+internal class PlayerControlSetRolePatch
 {
     public static bool Prefix(PlayerControl __instance, ref RoleTypes roleType)
     {

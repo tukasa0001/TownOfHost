@@ -121,7 +121,7 @@ public static class BanManager
     }
 }
 [HarmonyPatch(typeof(BanMenu), nameof(BanMenu.Select))]
-class BanMenuSelectPatch
+internal class BanMenuSelectPatch
 {
     public static void Postfix(BanMenu __instance, int clientId)
     {

@@ -17,18 +17,17 @@ public static class FireWorks
         FireEnd = 16,
         CanUseKill = Initial | FireEnd
     }
-    static readonly int Id = 1700;
 
-    static OptionItem FireWorksCount;
-    static OptionItem FireWorksRadius;
+    private static readonly int Id = 1700;
+    private static OptionItem FireWorksCount;
+    private static OptionItem FireWorksRadius;
 
     public static Dictionary<byte, int> nowFireWorksCount = new();
-    static Dictionary<byte, List<Vector3>> fireWorksPosition = new();
-    static Dictionary<byte, FireWorksState> state = new();
-    static Dictionary<byte, int> fireWorksBombKill = new();
-
-    static int fireWorksCount = 1;
-    static float fireWorksRadius = 1;
+    private static Dictionary<byte, List<Vector3>> fireWorksPosition = new();
+    private static Dictionary<byte, FireWorksState> state = new();
+    private static Dictionary<byte, int> fireWorksBombKill = new();
+    private static int fireWorksCount = 1;
+    private static float fireWorksRadius = 1;
 
     public static void SetupCustomOption()
     {
@@ -99,10 +98,9 @@ public static class FireWorks
                 Logger.Info("花火を一個設置", "FireWorks");
                 fireWorksPosition[pc.PlayerId].Add(pc.transform.position);
                 nowFireWorksCount[pc.PlayerId]--;
-                if (nowFireWorksCount[pc.PlayerId] == 0)
-                    state[pc.PlayerId] = Main.AliveImpostorCount <= 1 ? FireWorksState.ReadyFire : FireWorksState.WaitTime;
-                else
-                    state[pc.PlayerId] = FireWorksState.SettingFireWorks;
+                state[pc.PlayerId] = nowFireWorksCount[pc.PlayerId] == 0
+                    ? Main.AliveImpostorCount <= 1 ? FireWorksState.ReadyFire : FireWorksState.WaitTime
+                    : FireWorksState.SettingFireWorks;
                 break;
             case FireWorksState.ReadyFire:
                 Logger.Info("花火を爆破", "FireWorks");

@@ -13,7 +13,7 @@ using static TOHE.Translator;
 
 namespace TOHE;
 
-enum CustomRPC
+internal enum CustomRPC
 {
     VersionCheck = 60,
     RequestRetryVersionCheck = 61,
@@ -46,7 +46,7 @@ public enum Sounds
     TaskComplete
 }
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc))]
-class RPCHandlerPatch
+internal class RPCHandlerPatch
 {
     public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
     {
@@ -291,7 +291,8 @@ class RPCHandlerPatch
         }
     }
 }
-static class RPC
+
+internal static class RPC
 {
     //SyncCustomSettingsRPC Sender
     public static void SyncCustomSettingsRPC()
@@ -550,7 +551,7 @@ static class RPC
     }
 }
 [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpc))]
-class StartRpcPatch
+internal class StartRpcPatch
 {
     public static void Prefix(InnerNet.InnerNetClient __instance, [HarmonyArgument(0)] uint targetNetId, [HarmonyArgument(1)] byte callId)
     {
@@ -558,7 +559,7 @@ class StartRpcPatch
     }
 }
 [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpcImmediately))]
-class StartRpcImmediatelyPatch
+internal class StartRpcImmediatelyPatch
 {
     public static void Prefix(InnerNet.InnerNetClient __instance, [HarmonyArgument(0)] uint targetNetId, [HarmonyArgument(1)] byte callId, [HarmonyArgument(3)] int targetClientId = -1)
     {

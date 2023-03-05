@@ -6,8 +6,8 @@ namespace TOHE.Roles.Impostor;
 
 public static class Gangster
 {
-    static readonly int Id = 5054525;
-    static List<byte> playerIdList = new();
+    private static readonly int Id = 5054525;
+    private static List<byte> playerIdList = new();
     private static OptionItem RecruitLimitOpt;
     public static OptionItem KillCooldown;
     public static Dictionary<byte, float> RecruitLimit = new();

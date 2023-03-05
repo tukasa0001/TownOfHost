@@ -10,7 +10,7 @@ public class WriterProxy : ICustomWriter
 
     public WriterProxy(MessageWriter writer)
     {
-        this.Writer = writer;
+        Writer = writer;
     }
 
     public void Write(float val) => Writer.Write(val);

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace TOHE;
 
 [HarmonyPatch(typeof(OptionsMenuBehaviour), nameof(OptionsMenuBehaviour.Start))]
-class OptionsMenuBehaviourStartPatch
+internal class OptionsMenuBehaviourStartPatch
 {
     private static Vector3? origin;
     private static ToggleButtonBehaviour AutoStart;

@@ -8,7 +8,7 @@ using static TOHE.Translator;
 namespace TOHE;
 
 [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.CheckEndCriteria))]
-class GameEndChecker
+internal class GameEndChecker
 {
     private static GameEndPredicate predicate;
     public static bool Prefix()
@@ -169,9 +169,7 @@ class GameEndChecker
                     pc.SetRole(RoleTypes.Crewmate);
                 }
             }
-            if (winner is CustomWinner.Crewmate or CustomWinner.Impostor)
-                SetEverythingUpPatch.LastWinsReason = GetString($"GameOverReason.{reason}");
-            else SetEverythingUpPatch.LastWinsReason = "";
+            SetEverythingUpPatch.LastWinsReason = winner is CustomWinner.Crewmate or CustomWinner.Impostor ? GetString($"GameOverReason.{reason}") : "";
         }
 
         // CustomWinnerHolderの情報の同期
@@ -215,17 +213,14 @@ class GameEndChecker
 
     // ===== ゲーム終了条件 =====
     // 通常ゲーム用
-    class NormalGameEndPredicate : GameEndPredicate
+    private class NormalGameEndPredicate : GameEndPredicate
     {
         public override bool CheckForEndGame(out GameOverReason reason)
         {
             reason = GameOverReason.ImpostorByKill;
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return false;
             if (CheckGameEndByLivingPlayers(out reason)) return true;
-            if (CheckGameEndByTask(out reason)) return true;
-            if (CheckGameEndBySabotage(out reason)) return true;
-
-            return false;
+            return CheckGameEndByTask(out reason) || CheckGameEndBySabotage(out reason);
         }
 
         public bool CheckGameEndByLivingPlayers(out GameOverReason reason)

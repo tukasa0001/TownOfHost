@@ -8,28 +8,24 @@ namespace TOHE.Roles.Impostor;
 
 public static class Sniper
 {
-    static readonly int Id = 1800;
-    static List<byte> PlayerIdList = new();
-
-    static OptionItem SniperBulletCount;
-    static OptionItem SniperPrecisionShooting;
-    static OptionItem SniperAimAssist;
-    static OptionItem SniperAimAssistOnshot;
-
-    static Dictionary<byte, byte> snipeTarget = new();
-    static Dictionary<byte, Vector3> snipeBasePosition = new();
-    static Dictionary<byte, Vector3> LastPosition = new();
-    static Dictionary<byte, int> bulletCount = new();
-    static Dictionary<byte, List<byte>> shotNotify = new();
-    static Dictionary<byte, bool> IsAim = new();
-    static Dictionary<byte, float> AimTime = new();
-
-    static bool meetingReset;
-
-    static int maxBulletCount;
-    static bool precisionShooting;
-    static bool AimAssist;
-    static bool AimAssistOneshot;
+    private static readonly int Id = 1800;
+    private static List<byte> PlayerIdList = new();
+    private static OptionItem SniperBulletCount;
+    private static OptionItem SniperPrecisionShooting;
+    private static OptionItem SniperAimAssist;
+    private static OptionItem SniperAimAssistOnshot;
+    private static Dictionary<byte, byte> snipeTarget = new();
+    private static Dictionary<byte, Vector3> snipeBasePosition = new();
+    private static Dictionary<byte, Vector3> LastPosition = new();
+    private static Dictionary<byte, int> bulletCount = new();
+    private static Dictionary<byte, List<byte>> shotNotify = new();
+    private static Dictionary<byte, bool> IsAim = new();
+    private static Dictionary<byte, float> AimTime = new();
+    private static bool meetingReset;
+    private static int maxBulletCount;
+    private static bool precisionShooting;
+    private static bool AimAssist;
+    private static bool AimAssistOneshot;
     public static void SetupCustomOption()
     {
         Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Sniper);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TOHE;
 
-static class PlayerOutfitExtension
+internal static class PlayerOutfitExtension
 {
     public static GameData.PlayerOutfit Set(this GameData.PlayerOutfit instance, string playerName, int colorId, string hatId, string skinId, string visorId, string petId)
     {
@@ -31,7 +31,7 @@ static class PlayerOutfitExtension
 }
 public static class Camouflage
 {
-    static GameData.PlayerOutfit CamouflageOutfit = new GameData.PlayerOutfit().Set("", 15, "", "", "", "");
+    private static readonly GameData.PlayerOutfit CamouflageOutfit = new GameData.PlayerOutfit().Set("", 15, "", "", "", "");
 
     public static bool IsCamouflage;
     public static Dictionary<byte, GameData.PlayerOutfit> PlayerSkins = new();

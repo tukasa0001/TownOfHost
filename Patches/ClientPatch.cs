@@ -8,7 +8,7 @@ using static TOHE.Translator;
 namespace TOHE;
 
 [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.MakePublic))]
-class MakePublicPatch
+internal class MakePublicPatch
 {
     public static bool Prefix(GameStartManager __instance)
     {
@@ -33,7 +33,7 @@ class MakePublicPatch
     }
 }
 [HarmonyPatch(typeof(MMOnlineManager), nameof(MMOnlineManager.Start))]
-class MMOnlineManagerStartPatch
+internal class MMOnlineManagerStartPatch
 {
     public static void Postfix(MMOnlineManager __instance)
     {
@@ -53,7 +53,7 @@ class MMOnlineManagerStartPatch
     }
 }
 [HarmonyPatch(typeof(SplashManager), nameof(SplashManager.Update))]
-class SplashLogoAnimatorPatch
+internal class SplashLogoAnimatorPatch
 {
     public static void Prefix(SplashManager __instance)
     {
@@ -65,7 +65,7 @@ class SplashLogoAnimatorPatch
     }
 }
 [HarmonyPatch(typeof(EOSManager), nameof(EOSManager.IsAllowedOnline))]
-class RunLoginPatch
+internal class RunLoginPatch
 {
     public static void Prefix(ref bool canOnline)
     {
@@ -75,7 +75,7 @@ class RunLoginPatch
     }
 }
 [HarmonyPatch(typeof(BanMenu), nameof(BanMenu.SetVisible))]
-class BanMenuSetVisiblePatch
+internal class BanMenuSetVisiblePatch
 {
     public static bool Prefix(BanMenu __instance, bool show)
     {
@@ -88,7 +88,7 @@ class BanMenuSetVisiblePatch
     }
 }
 [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.CanBan))]
-class InnerNetClientCanBanPatch
+internal class InnerNetClientCanBanPatch
 {
     public static bool Prefix(InnerNet.InnerNetClient __instance, ref bool __result)
     {
@@ -97,7 +97,7 @@ class InnerNetClientCanBanPatch
     }
 }
 [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.KickPlayer))]
-class KickPlayerPatch
+internal class KickPlayerPatch
 {
     public static void Prefix(InnerNet.InnerNetClient __instance, int clientId, bool ban)
     {
@@ -106,7 +106,7 @@ class KickPlayerPatch
     }
 }
 [HarmonyPatch(typeof(ResolutionManager), nameof(ResolutionManager.SetResolution))]
-class SetResolutionManager
+internal class SetResolutionManager
 {
     public static void Postfix()
     {
@@ -118,7 +118,7 @@ class SetResolutionManager
 }
 
 [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.SendAllStreamedObjects))]
-class InnerNetObjectSerializePatch
+internal class InnerNetObjectSerializePatch
 {
     public static void Prefix()
     {

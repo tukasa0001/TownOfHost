@@ -5,11 +5,11 @@ namespace TOHE.Roles.Neutral;
 
 public static class Pelican
 {
-    static readonly int Id = 5053175;
-    static List<byte> playerIdList = new();
-    static Dictionary<byte, List<byte>> eatenList = new();
-    static Dictionary<byte, Vector2> originalPosition = new();
-    static Dictionary<byte, float> originalSpeed = new();
+    private static readonly int Id = 5053175;
+    private static List<byte> playerIdList = new();
+    private static Dictionary<byte, List<byte>> eatenList = new();
+    private static readonly Dictionary<byte, Vector2> originalPosition = new();
+    private static readonly Dictionary<byte, float> originalSpeed = new();
     public static OptionItem KillCooldown;
     public static OptionItem CanVent;
     public static void SetupCustomOption()
@@ -41,9 +41,7 @@ public static class Pelican
     {
         if (!pc.Is(CustomRoles.Pelican) || GameStates.IsMeeting) return false;
         var target = Utils.GetPlayerById(id);
-        if (target == null || !target.IsAlive() || target.inVent || target.Is(CustomRoles.GM)) return false;
-        if (IsEaten(pc, id) || IsEaten(id)) return false;
-        return true;
+        return target != null && target.IsAlive() && !target.inVent && !target.Is(CustomRoles.GM) && !IsEaten(pc, id) && !IsEaten(id);
     }
     public static Vector2 GetBlackRoomPS()
     {

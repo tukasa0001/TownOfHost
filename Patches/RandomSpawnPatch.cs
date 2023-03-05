@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TOHE;
 
-class RandomSpawn
+internal class RandomSpawn
 {
     [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.SnapTo), typeof(Vector2), typeof(ushort))]
     public class CustomNetworkTransformPatch

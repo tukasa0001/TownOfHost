@@ -199,11 +199,7 @@ public static class Witch
     }
     public static string GetSpelledMark(byte target, bool isMeeting)
     {
-        if (isMeeting && IsEnable && IsSpelled(target))
-        {
-            return Utils.ColorString(Palette.ImpostorRed, "†");
-        }
-        return "";
+        return isMeeting && IsEnable && IsSpelled(target) ? Utils.ColorString(Palette.ImpostorRed, "†") : "";
     }
     public static string GetSpellModeText(PlayerControl witch, bool hud, bool isMeeting = false)
     {

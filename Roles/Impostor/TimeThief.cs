@@ -4,8 +4,8 @@ namespace TOHE.Roles.Impostor;
 
 public static class TimeThief
 {
-    static readonly int Id = 2400;
-    static List<byte> playerIdList = new();
+    private static readonly int Id = 2400;
+    private static List<byte> playerIdList = new();
     public static OptionItem KillCooldown;
     public static OptionItem DecreaseMeetingTime;
     public static OptionItem LowerLimitVotingTime;
@@ -33,9 +33,9 @@ public static class TimeThief
     public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown.GetFloat();
     private static int StolenTime(byte id)
     {
-        if (playerIdList.Contains(id) && (Utils.GetPlayerById(id).IsAlive() || !ReturnStolenTimeUponDeath.GetBool()))
-            return DecreaseMeetingTime.GetInt() * Main.PlayerStates[id].GetKillCount(true);
-        return 0;
+        return playerIdList.Contains(id) && (Utils.GetPlayerById(id).IsAlive() || !ReturnStolenTimeUponDeath.GetBool())
+            ? DecreaseMeetingTime.GetInt() * Main.PlayerStates[id].GetKillCount(true)
+            : 0;
     }
     public static int TotalDecreasedMeetingTime()
     {

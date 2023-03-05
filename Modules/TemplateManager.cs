@@ -14,7 +14,7 @@ namespace TOHE;
 public static class TemplateManager
 {
     private static readonly string TEMPLATE_FILE_PATH = @"./TOHE_DATA/template.txt";
-    private static Dictionary<string, Func<string>> _replaceDictionary = new()
+    private static readonly Dictionary<string, Func<string>> _replaceDictionary = new()
     {
         ["RoomCode"] = () => InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId),
         ["PlayerName"] = () => DataManager.Player.Customization.Name,

@@ -15,7 +15,7 @@ using static TOHE.Translator;
 namespace TOHE;
 
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame))]
-class ChangeRoleSettings
+internal class ChangeRoleSettings
 {
     public static void Postfix(AmongUsClient __instance)
     {
@@ -189,7 +189,7 @@ class ChangeRoleSettings
     }
 }
 [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
-class SelectRolesPatch
+internal class SelectRolesPatch
 {
 
     public static List<CustomRoles> addRoleList = new();
@@ -726,8 +726,7 @@ class SelectRolesPatch
             //Desync役職視点
             foreach (var target in Main.AllPlayerControls)
             {
-                if (player.PlayerId != target.PlayerId) rolesMap[(player.PlayerId, target.PlayerId)] = othersRole;
-                else rolesMap[(player.PlayerId, target.PlayerId)] = selfRole;
+                rolesMap[(player.PlayerId, target.PlayerId)] = player.PlayerId != target.PlayerId ? othersRole : selfRole;
             }
 
             //他者視点
@@ -854,7 +853,7 @@ class SelectRolesPatch
     }
 
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSetRole))]
-    class RpcSetRoleReplacer
+    private class RpcSetRoleReplacer
     {
         public static bool doReplace = false;
         public static Dictionary<byte, CustomRpcSender> senders;

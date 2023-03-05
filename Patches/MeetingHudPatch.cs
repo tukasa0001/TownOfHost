@@ -12,7 +12,7 @@ using static TOHE.Translator;
 namespace TOHE;
 
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CheckForEndVoting))]
-class CheckForEndVotingPatch
+internal class CheckForEndVotingPatch
 {
     public static int x = 0;
     public static bool Prefix(MeetingHud __instance)
@@ -204,8 +204,7 @@ class CheckForEndVotingPatch
             }
             else if (!braked)
                 exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
-            if (exiledPlayer != null)
-                exiledPlayer.Object.SetRealKiller(null);
+            exiledPlayer?.Object.SetRealKiller(null);
 
             //RPC
             if (AntiBlackout.OverrideExiledPlayer)
@@ -230,7 +229,7 @@ class CheckForEndVotingPatch
         }
     }
 
-    static void ConfirmEjections(GameData.PlayerInfo exiledPlayer)
+    private static void ConfirmEjections(GameData.PlayerInfo exiledPlayer)
     {
         // 参考：https://github.com/music-discussion/TownOfHost-TheOtherRoles
         if (exiledPlayer == null) return;
@@ -365,7 +364,7 @@ class CheckForEndVotingPatch
     }
 }
 
-static class ExtendedMeetingHud
+internal static class ExtendedMeetingHud
 {
     public static Dictionary<byte, int> CustomCalculateVotes(this MeetingHud __instance)
     {
@@ -399,7 +398,7 @@ static class ExtendedMeetingHud
     }
 }
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
-class MeetingHudStartPatch
+internal class MeetingHudStartPatch
 {
     public static void NoticeMafiaSkill()
     {
@@ -745,7 +744,7 @@ class MeetingHudStartPatch
     }
 }
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
-class MeetingHudUpdatePatch
+internal class MeetingHudUpdatePatch
 {
     public static void Postfix(MeetingHud __instance)
     {
@@ -767,7 +766,7 @@ class MeetingHudUpdatePatch
     }
 }
 [HarmonyPatch(typeof(PlayerVoteArea), nameof(PlayerVoteArea.SetHighlighted))]
-class SetHighlightedPatch
+internal class SetHighlightedPatch
 {
     public static bool Prefix(PlayerVoteArea __instance, bool value)
     {
@@ -778,7 +777,7 @@ class SetHighlightedPatch
     }
 }
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.OnDestroy))]
-class MeetingHudOnDestroyPatch
+internal class MeetingHudOnDestroyPatch
 {
     public static void Postfix()
     {

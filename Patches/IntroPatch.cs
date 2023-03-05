@@ -9,7 +9,7 @@ using static TOHE.Translator;
 namespace TOHE;
 
 [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.ShowRole))]
-class SetUpRoleTextPatch
+internal class SetUpRoleTextPatch
 {
     public static void Postfix(IntroCutscene __instance)
     {
@@ -38,7 +38,7 @@ class SetUpRoleTextPatch
     }
 }
 [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.CoBegin))]
-class CoBeginPatch
+internal class CoBeginPatch
 {
     public static void Prefix()
     {
@@ -93,7 +93,7 @@ class CoBeginPatch
     }
 }
 [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
-class BeginCrewmatePatch
+internal class BeginCrewmatePatch
 {
     public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
     {
@@ -222,7 +222,7 @@ class BeginCrewmatePatch
     }
 }
 [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginImpostor))]
-class BeginImpostorPatch
+internal class BeginImpostorPatch
 {
     public static bool Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
     {
@@ -248,7 +248,7 @@ class BeginImpostorPatch
     }
 }
 [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.OnDestroy))]
-class IntroCutsceneDestroyPatch
+internal class IntroCutsceneDestroyPatch
 {
     public static void Postfix(IntroCutscene __instance)
     {

@@ -7,7 +7,7 @@ using static TOHE.Translator;
 
 namespace TOHE;
 
-class EAC
+internal class EAC
 {
     public static List<string> Msgs = new();
     public static int MeetingTimes = 0;
@@ -231,7 +231,6 @@ class EAC
                 text = GetString("Cheat.AUM");
                 break;
         }
-        if (text == "") return false;
-        else return true;
+        return text != "";
     }
 }

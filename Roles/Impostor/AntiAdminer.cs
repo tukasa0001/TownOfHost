@@ -7,10 +7,10 @@ namespace TOHE.Roles.Impostor;
 
 // 参考 : https://github.com/ykundesu/SuperNewRoles/blob/master/SuperNewRoles/Mode/SuperHostRoles/BlockTool.cs
 // 贡献：https://github.com/Yumenopai/TownOfHost_Y/tree/AntiAdminer
-class AntiAdminer
+internal class AntiAdminer
 {
-    static readonly int Id = 3100;
-    static List<byte> playerIdList = new();
+    private static readonly int Id = 3100;
+    private static List<byte> playerIdList = new();
 
     private static OptionItem CanCheckCamera;
     public static bool IsAdminWatch;

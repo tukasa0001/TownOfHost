@@ -47,7 +47,7 @@ public static class GameOptionsMenuPatch
         if (template == null) return;
 
         var Tint = GameObject.Find("Tint");
-        if (Tint != null) Tint.SetActive(false);
+        Tint?.SetActive(false);
 
         //var Tabs = GameObject.Find("Tabs");
         //if (Tabs != null) Tabs.transform.position = new Vector3(-0.4973f, 5.0121f, -100);

@@ -23,7 +23,7 @@ public enum CustomGameMode
 [HarmonyPatch]
 public static class Options
 {
-    static Task taskOptionsLoad;
+    private static Task taskOptionsLoad;
     [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Initialize)), HarmonyPostfix]
     public static void OptionsLoadStart()
     {
@@ -1044,8 +1044,8 @@ public static class Options
 
         public OverrideTasksData(int idStart, TabGroup tab, CustomRoles role)
         {
-            this.IdStart = idStart;
-            this.Role = role;
+            IdStart = idStart;
+            Role = role;
             Dictionary<string, string> replacementDic = new() { { "%role%", Utils.GetRoleName(role) } };
             doOverride = BooleanOptionItem.Create(idStart++, "doOverride", false, tab, false).SetParent(CustomRoleSpawnChances[role])
                 .SetValueFormat(OptionFormat.None);

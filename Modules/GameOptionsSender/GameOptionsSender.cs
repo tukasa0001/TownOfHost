@@ -9,7 +9,7 @@ namespace TOHE.Modules;
 public abstract class GameOptionsSender
 {
     #region Static
-    public readonly static List<GameOptionsSender> AllSenders = new(15) { new NormalGameOptionsSender() };
+    public static readonly List<GameOptionsSender> AllSenders = new(15) { new NormalGameOptionsSender() };
 
     public static void SendAllGameOptions()
     {
@@ -43,7 +43,7 @@ public abstract class GameOptionsSender
         else
         {
             writer.Recycle();
-            Logger.Error("オプションのキャストに失敗しました", this.ToString());
+            Logger.Error("オプションのキャストに失敗しました", ToString());
         }
         writer.EndMessage();
 

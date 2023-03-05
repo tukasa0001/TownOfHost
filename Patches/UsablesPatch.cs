@@ -5,7 +5,7 @@ using UnityEngine;
 namespace TOHE;
 
 [HarmonyPatch(typeof(Console), nameof(Console.CanUse))]
-class CanUsePatch
+internal class CanUsePatch
 {
     public static bool Prefix(ref float __result, Console __instance, [HarmonyArgument(0)] GameData.PlayerInfo pc, [HarmonyArgument(1)] out bool canUse, [HarmonyArgument(2)] out bool couldUse)
     {
@@ -15,7 +15,7 @@ class CanUsePatch
     }
 }
 [HarmonyPatch(typeof(EmergencyMinigame), nameof(EmergencyMinigame.Update))]
-class EmergencyMinigamePatch
+internal class EmergencyMinigamePatch
 {
     public static void Postfix(EmergencyMinigame __instance)
     {
@@ -23,7 +23,7 @@ class EmergencyMinigamePatch
     }
 }
 [HarmonyPatch(typeof(Vent), nameof(Vent.CanUse))]
-class CanUseVentPatch
+internal class CanUseVentPatch
 {
     public static bool Prefix(Vent __instance, [HarmonyArgument(0)] GameData.PlayerInfo pc,
         [HarmonyArgument(1)] ref bool canUse,

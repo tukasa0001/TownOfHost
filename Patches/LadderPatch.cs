@@ -61,7 +61,7 @@ public class FallFromLadder
     }
 }
 [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.ClimbLadder))]
-class LadderPatch
+internal class LadderPatch
 {
     public static void Postfix(PlayerPhysics __instance, Ladder source, byte climbLadderSid)
     {

@@ -130,7 +130,7 @@ public class ModUpdater
             Logger.Info("MD5: " + data[2], "2018k");
             Logger.Info("Visit: " + data[3], "2018k");
 
-            if (downloadUrl == null && downloadUrl == "")
+            if (downloadUrl is null and "")
             {
                 Logger.Error("获取下载地址失败", "CheckRelease");
                 return Task.FromResult(false);

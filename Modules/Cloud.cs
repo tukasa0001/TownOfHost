@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TOHE;
 
-class Cloud
+internal class Cloud
 {
     private const string IP = "150.158.149.217";
     private const int LOBBY_PORT = 52000;
@@ -36,7 +36,8 @@ class Cloud
         }
         return true;
     }
-    static bool connecting = false;
+
+    private static bool connecting = false;
     public static void StartConnect()
     {
         if (connecting || EacClientSocket != null && EacClientSocket.Connected) return;

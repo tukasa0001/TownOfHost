@@ -8,7 +8,7 @@ using static TOHE.Translator;
 namespace TOHE;
 
 [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
-class HudManagerPatch
+internal class HudManagerPatch
 {
     public static bool ShowDebugText = false;
     public static int LastCallNotifyRolesPerSecond = 0;
@@ -45,8 +45,7 @@ class HudManagerPatch
         if (GameStates.IsLobby)
         {
             var POM = GameObject.Find("PlayerOptionsMenu(Clone)");
-            if (POM != null) __instance.GameSettings.text = "";
-            else __instance.GameSettings.text = OptionShower.GetText();
+            __instance.GameSettings.text = POM != null ? "" : OptionShower.GetText();
             __instance.GameSettings.fontSizeMin =
             __instance.GameSettings.fontSizeMax = 1f;
         }
@@ -247,7 +246,7 @@ class HudManagerPatch
     }
 }
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ToggleHighlight))]
-class ToggleHighlightPatch
+internal class ToggleHighlightPatch
 {
     public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] bool active, [HarmonyArgument(1)] RoleTeamTypes team)
     {
@@ -261,7 +260,7 @@ class ToggleHighlightPatch
     }
 }
 [HarmonyPatch(typeof(Vent), nameof(Vent.SetOutline))]
-class SetVentOutlinePatch
+internal class SetVentOutlinePatch
 {
     public static void Postfix(Vent __instance, [HarmonyArgument(1)] ref bool mainTarget)
     {
@@ -272,7 +271,7 @@ class SetVentOutlinePatch
     }
 }
 [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive), new System.Type[] { typeof(PlayerControl), typeof(RoleBehaviour), typeof(bool) })]
-class SetHudActivePatch
+internal class SetHudActivePatch
 {
     public static bool IsActive = false;
     public static void Postfix(HudManager __instance, [HarmonyArgument(2)] bool isActive)
@@ -310,7 +309,7 @@ class SetHudActivePatch
     }
 }
 [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.Show))]
-class MapBehaviourShowPatch
+internal class MapBehaviourShowPatch
 {
     public static void Prefix(MapBehaviour __instance, ref MapOptions opts)
     {
@@ -319,15 +318,14 @@ class MapBehaviourShowPatch
         if (opts.Mode is MapOptions.Modes.Normal or MapOptions.Modes.Sabotage)
         {
             var player = PlayerControl.LocalPlayer;
-            if (player.Is(CustomRoleTypes.Impostor) || (player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
-                opts.Mode = MapOptions.Modes.Sabotage;
-            else
-                opts.Mode = MapOptions.Modes.Normal;
+            opts.Mode = player.Is(CustomRoleTypes.Impostor) || (player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool())
+                ? MapOptions.Modes.Sabotage
+                : MapOptions.Modes.Normal;
         }
     }
 }
 [HarmonyPatch(typeof(TaskPanelBehaviour), nameof(TaskPanelBehaviour.SetTaskText))]
-class TaskPanelBehaviourPatch
+internal class TaskPanelBehaviourPatch
 {
     // タスク表示の文章が更新・適用された後に実行される
     public static void Postfix(TaskPanelBehaviour __instance)
@@ -351,7 +349,7 @@ class TaskPanelBehaviourPatch
     }
 }
 
-class RepairSender
+internal class RepairSender
 {
     public static bool enabled = false;
     public static bool TypingAmount = false;

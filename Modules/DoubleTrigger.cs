@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TOHE;
 
-static class DoubleTrigger
+internal static class DoubleTrigger
 {
     public static List<byte> PlayerIdList = new();
 

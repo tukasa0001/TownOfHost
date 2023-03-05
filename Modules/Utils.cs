@@ -24,7 +24,7 @@ namespace TOHE;
 
 public static class Utils
 {
-    private static DateTime timeStampStartTime = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+    private static readonly DateTime timeStampStartTime = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
     /// <param name="dateTime">现在的时间</param>
     /// <returns></returns>
     public static long GetTimeStamp(DateTime dateTime) => (long)(dateTime.ToUniversalTime() - timeStampStartTime).TotalSeconds;
@@ -197,20 +197,18 @@ public static class Utils
     public static bool KillFlashCheck(PlayerControl killer, PlayerControl target, PlayerControl seer)
     {
         if (seer.Is(CustomRoles.GM)) return true;
-        if (seer.Is(CustomRoles.Seer)) return true;
-        if (seer.Data.IsDead || killer == seer || target == seer) return false;
-        return seer.GetCustomRole() switch
-        {
-            CustomRoles.EvilTracker => EvilTracker.KillFlashCheck(killer, target),
-            _ => false
-        };
+        return seer.Is(CustomRoles.Seer)
+|| !seer.Data.IsDead && killer != seer && target != seer
+&& seer.GetCustomRole() switch
+{
+    CustomRoles.EvilTracker => EvilTracker.KillFlashCheck(killer, target),
+    _ => false
+};
     }
     public static void KillFlash(this PlayerControl player)
     {
         //キルフラッシュ(ブラックアウト+リアクターフラッシュ)の処理
-        bool ReactorCheck = false; //リアクターフラッシュの確認
-        if (Main.NormalOptions.MapId == 2) ReactorCheck = IsActive(SystemTypes.Laboratory);
-        else ReactorCheck = IsActive(SystemTypes.Reactor);
+        bool ReactorCheck = Main.NormalOptions.MapId == 2 ? IsActive(SystemTypes.Laboratory) : IsActive(SystemTypes.Reactor); //リアクターフラッシュの確認
 
         var Duration = Options.KillFlashDuration.GetFloat();
         if (ReactorCheck) Duration += 0.2f; //リアクター中はブラックアウトを長くする
@@ -348,9 +346,7 @@ public static class Utils
                     hasTasks = false;
                 break;
             case CustomRoles.Executioner:
-                if (Executioner.ChangeRolesAfterTargetKilled.GetValue() == 0)
-                    hasTasks = !ForRecompute;
-                else hasTasks = false;
+                hasTasks = Executioner.ChangeRolesAfterTargetKilled.GetValue() == 0 && !ForRecompute;
                 break;
             default:
                 if (role.IsImpostor()) hasTasks = false;
@@ -380,8 +376,8 @@ public static class Utils
     }
     public static bool CanBeMadmate(this PlayerControl pc)
     {
-        if (pc == null || !pc.GetCustomRole().IsCrewmate() || pc.Is(CustomRoles.Madmate)) return false;
-        return !(
+        return pc != null && pc.GetCustomRole().IsCrewmate() && !pc.Is(CustomRoles.Madmate)
+&& !(
             (pc.Is(CustomRoles.Sheriff) && !Options.SheriffCanBeMadmate.GetBool()) ||
             (pc.Is(CustomRoles.Mayor) && !Options.MayorCanBeMadmate.GetBool()) ||
             (pc.Is(CustomRoles.NiceGuesser) && !Options.NGuesserCanBeMadmate.GetBool()) ||
@@ -693,9 +689,7 @@ public static class Utils
             case "17": case "珊瑚": case "coral": color = 17; break;
             case "18": case "隐藏": case "?": color = 18; break;
         }
-        if (!isHost && color == 18) return byte.MaxValue;
-        if (color is < 0 or > 18) return byte.MaxValue;
-        return Convert.ToByte(color);
+        return !isHost && color == 18 ? byte.MaxValue : color is < 0 or > 18 ? byte.MaxValue : Convert.ToByte(color);
     }
 
     public static void ShowHelpToClient(byte ID)
@@ -922,9 +916,9 @@ public static class Utils
     }
     public static GameData.PlayerInfo GetPlayerInfoById(int PlayerId) =>
         GameData.Instance.AllPlayers.ToArray().Where(info => info.PlayerId == PlayerId).FirstOrDefault();
-    private static StringBuilder SelfSuffix = new();
-    private static StringBuilder SelfMark = new(20);
-    private static StringBuilder TargetMark = new(20);
+    private static readonly StringBuilder SelfSuffix = new();
+    private static readonly StringBuilder SelfMark = new(20);
+    private static readonly StringBuilder TargetMark = new(20);
     public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false, bool ForceLoop = false)
     {
         if (!AmongUsClient.Instance.AmHost) return;
@@ -1301,8 +1295,7 @@ public static class Utils
     public static bool CanUseDevCommand(int pcId)
     {
         var pc = GetPlayerById(pcId);
-        if (pc == null) return false;
-        return IsDev(pc);
+        return pc != null && IsDev(pc);
     }
     public static bool IsUP(PlayerControl pc)
     {
@@ -1330,14 +1323,12 @@ public static class Utils
     public static bool IsUP(int pcId)
     {
         var pc = GetPlayerById(pcId);
-        if (pc == null) return false;
-        return IsUP(pc);
+        return pc != null && IsUP(pc);
     }
     public static bool IsDev(int pcId)
     {
         var pc = GetPlayerById(pcId);
-        if (pc == null) return false;
-        return IsDev(pc);
+        return pc != null && IsDev(pc);
     }
     public static void ChangeInt(ref int ChangeTo, int input, int max)
     {
@@ -1436,8 +1427,9 @@ public static class Utils
         var name = Main.AllPlayerNames[id].RemoveHtmlTags().Replace("\r\n", string.Empty);
         if (id == PlayerControl.LocalPlayer.PlayerId) name = DataManager.player.Customization.Name;
         string summary = $"{ColorString(Main.PlayerColors[id], name)}<pos=22%>{GetProgressText(id)}</pos><pos=30%>{GetVitalText(id, true)}</pos><pos={RolePos}%> {GetDisplayRoleName(id)}{GetSubRolesText(id, summary: true)}</pos>";
-        if (check && GetDisplayRoleName(id).RemoveHtmlTags().Contains("INVALID:NotAssigned")) return "INVALID";
-        return disableColor ? summary.RemoveHtmlTags() : summary;
+        return check && GetDisplayRoleName(id).RemoveHtmlTags().Contains("INVALID:NotAssigned")
+            ? "INVALID"
+            : disableColor ? summary.RemoveHtmlTags() : summary;
     }
     public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");
     public static bool CanMafiaKill()

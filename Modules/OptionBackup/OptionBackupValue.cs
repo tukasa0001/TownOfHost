@@ -70,7 +70,7 @@ public class RoleRateBackupValue : OptionBackupValue
 
     public RoleRateBackupValue(RoleTypes type, int maxCount, int chance)
     {
-        this.roleType = type;
+        roleType = type;
         this.maxCount = maxCount;
         this.chance = chance;
     }

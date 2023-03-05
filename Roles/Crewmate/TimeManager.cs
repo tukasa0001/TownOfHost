@@ -4,8 +4,8 @@ namespace TOHE.Roles.Crewmate;
 
 public static class TimeManager
 {
-    static readonly int Id = 21500;
-    static List<byte> playerIdList = new();
+    private static readonly int Id = 21500;
+    private static List<byte> playerIdList = new();
     public static OptionItem IncreaseMeetingTime;
     public static OptionItem MeetingTimeLimit;
     public static void SetupCustomOption()
@@ -28,9 +28,7 @@ public static class TimeManager
     private static int AdditionalTime(byte id)
     {
         var pc = Utils.GetPlayerById(id);
-        if (playerIdList.Contains(id) && pc.IsAlive())
-            return IncreaseMeetingTime.GetInt() * pc.GetPlayerTaskState().CompletedTasksCount;
-        return 0;
+        return playerIdList.Contains(id) && pc.IsAlive() ? IncreaseMeetingTime.GetInt() * pc.GetPlayerTaskState().CompletedTasksCount : 0;
     }
     public static int TotalIncreasedMeetingTime()
     {

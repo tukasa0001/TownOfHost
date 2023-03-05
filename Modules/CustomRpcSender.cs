@@ -39,7 +39,7 @@ public class CustomRpcSender
         this.name = name;
         this.sendOption = sendOption;
         this.isUnsafe = isUnsafe;
-        this.currentRpcTarget = -2;
+        currentRpcTarget = -2;
         onSendDelegate = () => Logger.Info($"{this.name}'s onSendDelegate =>", "CustomRpcSender");
 
         currentState = State.Ready;
@@ -174,9 +174,9 @@ public class CustomRpcSender
         {
             //StartMessage処理
             if (currentState == State.InRootMessage) EndMessage();
-            this.StartMessage(targetClientId);
+            StartMessage(targetClientId);
         }
-        this.StartRpc(targetNetId, callId);
+        StartRpc(targetNetId, callId);
 
         return this;
     }

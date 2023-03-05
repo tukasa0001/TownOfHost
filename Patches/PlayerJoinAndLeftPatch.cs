@@ -10,7 +10,7 @@ using static TOHE.Translator;
 namespace TOHE;
 
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
-class OnGameJoinedPatch
+internal class OnGameJoinedPatch
 {
     public static void Postfix(AmongUsClient __instance)
     {
@@ -42,7 +42,7 @@ class OnGameJoinedPatch
     }
 }
 [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.DisconnectInternal))]
-class DisconnectInternalPatch
+internal class DisconnectInternalPatch
 {
     public static void Prefix(InnerNetClient __instance, DisconnectReasons reason, string stringReason)
     {
@@ -53,7 +53,7 @@ class DisconnectInternalPatch
     }
 }
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
-class OnPlayerJoinedPatch
+internal class OnPlayerJoinedPatch
 {
     public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
     {
@@ -98,7 +98,7 @@ class OnPlayerJoinedPatch
     }
 }
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
-class OnPlayerLeftPatch
+internal class OnPlayerLeftPatch
 {
     public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData data, [HarmonyArgument(1)] DisconnectReasons reason)
     {
@@ -151,7 +151,7 @@ class OnPlayerLeftPatch
     }
 }
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CreatePlayer))]
-class CreatePlayerPatch
+internal class CreatePlayerPatch
 {
     public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
     {

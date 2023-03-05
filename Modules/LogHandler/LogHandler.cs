@@ -2,7 +2,7 @@ using System;
 
 namespace TOHE.Modules;
 
-class LogHandler : ILogHandler
+internal class LogHandler : ILogHandler
 {
     public string Tag { get; }
     public LogHandler(string tag)

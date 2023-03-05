@@ -9,7 +9,7 @@ namespace TOHE;
 
 public class PlayerState
 {
-    byte PlayerId;
+    private readonly byte PlayerId;
     public CustomRoles MainRole;
     public List<CustomRoles> SubRoles;
     public CountTypes countTypes;
@@ -130,9 +130,9 @@ public class TaskState
     public bool IsTaskFinished => RemainingTasksCount <= 0 && hasTasks;
     public TaskState()
     {
-        this.AllTasksCount = -1;
-        this.CompletedTasksCount = 0;
-        this.hasTasks = false;
+        AllTasksCount = -1;
+        CompletedTasksCount = 0;
+        hasTasks = false;
     }
 
     public void Init(PlayerControl player)

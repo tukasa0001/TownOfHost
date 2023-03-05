@@ -11,7 +11,7 @@ using static TOHE.Translator;
 namespace TOHE;
 
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameEnd))]
-class EndGamePatch
+internal class EndGamePatch
 {
     public static Dictionary<byte, string> SummaryText = new();
     public static string KillLog = "";
@@ -75,7 +75,7 @@ class EndGamePatch
     }
 }
 [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.SetEverythingUp))]
-class SetEverythingUpPatch
+internal class SetEverythingUpPatch
 {
     public static string LastWinsText = "";
     public static string LastWinsReason = "";

@@ -3,7 +3,7 @@ using HarmonyLib;
 namespace TOHE;
 
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcMurderPlayer))]
-class RpcMurderPlayerPatch
+internal class RpcMurderPlayerPatch
 {
     public static void Postfix(PlayerControl __instance)
     {
@@ -12,7 +12,7 @@ class RpcMurderPlayerPatch
 }
 
 [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.IsGameOverDueToDeath))]
-class DontBlackoutPatch
+internal class DontBlackoutPatch
 {
     public static void Postfix(ref bool __result)
     {

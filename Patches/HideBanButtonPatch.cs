@@ -3,7 +3,7 @@ using HarmonyLib;
 namespace TOHE;
 
 [HarmonyPatch(typeof(ChatController), nameof(ChatController.Toggle))]
-class CancelBanMenuStuckPatch
+internal class CancelBanMenuStuckPatch
 {
     public static void Prefix(ChatController __instance)
     {

@@ -7,7 +7,7 @@ using UnityEngine;
 namespace TOHE;
 
 [HarmonyPatch(typeof(TaskAdderGame), nameof(TaskAdderGame.ShowFolder))]
-class ShowFolderPatch
+internal class ShowFolderPatch
 {
     private static TaskFolder CustomRolesFolder;
     public static void Prefix(TaskAdderGame __instance, [HarmonyArgument(0)] TaskFolder taskFolder)
@@ -65,7 +65,7 @@ class ShowFolderPatch
 }
 
 [HarmonyPatch(typeof(TaskAddButton), nameof(TaskAddButton.Update))]
-class TaskAddButtonUpdatePatch
+internal class TaskAddButtonUpdatePatch
 {
     public static bool Prefix(TaskAddButton __instance)
     {
@@ -83,7 +83,7 @@ class TaskAddButtonUpdatePatch
     }
 }
 [HarmonyPatch(typeof(TaskAddButton), nameof(TaskAddButton.AddTask))]
-class AddTaskButtonPatch
+internal class AddTaskButtonPatch
 {
     public static bool Prefix(TaskAddButton __instance)
     {

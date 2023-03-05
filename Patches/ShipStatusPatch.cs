@@ -9,7 +9,7 @@ using UnityEngine;
 namespace TOHE;
 
 [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.FixedUpdate))]
-class ShipFixedUpdatePatch
+internal class ShipFixedUpdatePatch
 {
     public static void Postfix(ShipStatus __instance)
     {
@@ -29,7 +29,7 @@ class ShipFixedUpdatePatch
     }
 }
 [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RepairSystem))]
-class RepairSystemPatch
+internal class RepairSystemPatch
 {
     public static bool IsComms;
     public static bool Prefix(ShipStatus __instance,
@@ -95,7 +95,7 @@ class RepairSystemPatch
     }
 }
 [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CloseDoorsOfType))]
-class CloseDoorsPatch
+internal class CloseDoorsPatch
 {
     public static bool Prefix(ShipStatus __instance)
     {
@@ -103,7 +103,7 @@ class CloseDoorsPatch
     }
 }
 [HarmonyPatch(typeof(SwitchSystem), nameof(SwitchSystem.RepairDamage))]
-class SwitchSystemRepairPatch
+internal class SwitchSystemRepairPatch
 {
     public static void Postfix(SwitchSystem __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] byte amount)
     {
@@ -112,7 +112,7 @@ class SwitchSystemRepairPatch
     }
 }
 [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Start))]
-class StartPatch
+internal class StartPatch
 {
     public static void Postfix()
     {
@@ -123,7 +123,7 @@ class StartPatch
     }
 }
 [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.StartMeeting))]
-class StartMeetingPatch
+internal class StartMeetingPatch
 {
     public static void Prefix(ShipStatus __instance, PlayerControl reporter, GameData.PlayerInfo target)
     {
@@ -132,7 +132,7 @@ class StartMeetingPatch
     }
 }
 [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]
-class BeginPatch
+internal class BeginPatch
 {
     public static void Postfix()
     {
@@ -142,7 +142,7 @@ class BeginPatch
     }
 }
 [HarmonyPatch(typeof(GameManager), nameof(GameManager.CheckTaskCompletion))]
-class CheckTaskCompletionPatch
+internal class CheckTaskCompletionPatch
 {
     public static bool Prefix(ref bool __result)
     {

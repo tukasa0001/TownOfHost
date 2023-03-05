@@ -13,7 +13,7 @@ using static TOHE.Translator;
 namespace TOHE;
 
 [HarmonyPatch(typeof(ChatController), nameof(ChatController.SendChat))]
-class ChatCommands
+internal class ChatCommands
 {
     public static List<string> ChatHistory = new();
 
@@ -161,9 +161,7 @@ class ChatCommands
         if (text.Contains("start")) return true;
         if (text.Contains("s t a r t")) return true;
         if (text.Contains("begin")) return true;
-        if (text.Contains("开")) return true;
-        if (text.Contains("kai")) return true;
-        return false;
+        return text.Contains("开") || text.Contains("kai");
     }
 
     public static bool ProhibitedCheck(PlayerControl player, string text)
@@ -1023,7 +1021,7 @@ class ChatCommands
     }
 }
 [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]
-class ChatUpdatePatch
+internal class ChatUpdatePatch
 {
     public static bool DoBlockChat = false;
     public static void Postfix(ChatController __instance)
@@ -1060,7 +1058,7 @@ class ChatUpdatePatch
 }
 
 [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
-class AddChatPatch
+internal class AddChatPatch
 {
     public static void Postfix(string chatText)
     {
@@ -1073,7 +1071,7 @@ class AddChatPatch
     }
 }
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSendChat))]
-class RpcSendChatPatch
+internal class RpcSendChatPatch
 {
     public static bool Prefix(PlayerControl __instance, string chatText, ref bool __result)
     {

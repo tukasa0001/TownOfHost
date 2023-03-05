@@ -5,7 +5,7 @@ using static TOHE.Translator;
 namespace TOHE;
 
 [HarmonyPatch(typeof(RoleOptionSetting), nameof(RoleOptionSetting.UpdateValuesAndText))]
-class ChanceChangePatch
+internal class ChanceChangePatch
 {
     public static void Postfix(RoleOptionSetting __instance)
     {
@@ -50,7 +50,7 @@ class ChanceChangePatch
 }
 
 [HarmonyPatch(typeof(GameOptionsManager), nameof(GameOptionsManager.SwitchGameMode))]
-class SwitchGameModePatch
+internal class SwitchGameModePatch
 {
     public static void Postfix(GameModes gameMode)
     {

@@ -161,8 +161,9 @@ public class GameStartManagerPatch
         }
         private static bool MatchVersions(byte playerId, bool acceptVanilla = false)
         {
-            if (!Main.playerVersion.TryGetValue(playerId, out var version)) return acceptVanilla;
-            return Main.ForkId == version.forkId
+            return !Main.playerVersion.TryGetValue(playerId, out var version)
+                ? acceptVanilla
+                : Main.ForkId == version.forkId
                 && Main.version.CompareTo(version.version) == 0
                 && version.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})";
         }
@@ -232,7 +233,7 @@ public class GameStartRandomMap
     }
 }
 [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.ResetStartState))]
-class ResetStartStatePatch
+internal class ResetStartStatePatch
 {
     public static void Prefix()
     {
@@ -244,7 +245,7 @@ class ResetStartStatePatch
     }
 }
 [HarmonyPatch(typeof(IGameOptionsExtensions), nameof(IGameOptionsExtensions.GetAdjustedNumImpostors))]
-class UnrestrictedNumImpostorsPatch
+internal class UnrestrictedNumImpostorsPatch
 {
     public static bool Prefix(ref int __result)
     {

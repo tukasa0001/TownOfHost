@@ -6,7 +6,7 @@ using TOHE.Roles.AddOns.Crewmate;
 namespace TOHE;
 
 [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.AddTasksFromList))]
-class AddTasksFromListPatch
+internal class AddTasksFromListPatch
 {
     public static void Prefix(ShipStatus __instance,
         [HarmonyArgument(4)] Il2CppSystem.Collections.Generic.List<NormalPlayerTask> unusedTasks)
@@ -34,7 +34,7 @@ class AddTasksFromListPatch
 }
 
 [HarmonyPatch(typeof(GameData), nameof(GameData.RpcSetTasks))]
-class RpcSetTasksPatch
+internal class RpcSetTasksPatch
 {
     //タスクを割り当ててRPCを送る処理が行われる直前にタスクを上書きするPatch
     //バニラのタスク割り当て処理自体には干渉しない

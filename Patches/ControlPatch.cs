@@ -5,10 +5,10 @@ using UnityEngine;
 namespace TOHE;
 
 [HarmonyPatch(typeof(ControllerManager), nameof(ControllerManager.Update))]
-class ControllerManagerUpdatePatch
+internal class ControllerManagerUpdatePatch
 {
-    static readonly (int, int)[] resolutions = { (480, 270), (640, 360), (800, 450), (1280, 720), (1600, 900), (1920, 1080) };
-    static int resolutionIndex = 0;
+    private static readonly (int, int)[] resolutions = { (480, 270), (640, 360), (800, 450), (1280, 720), (1600, 900), (1920, 1080) };
+    private static int resolutionIndex = 0;
 
     public static void Postfix(ControllerManager __instance)
     {
@@ -207,7 +207,8 @@ class ControllerManagerUpdatePatch
         }*/
         //マスゲーム用コード終わり
     }
-    static bool GetKeysDown(params KeyCode[] keys)
+
+    private static bool GetKeysDown(params KeyCode[] keys)
     {
         if (keys.Any(k => Input.GetKeyDown(k)) && keys.All(k => Input.GetKey(k)))
         {
@@ -216,11 +217,12 @@ class ControllerManagerUpdatePatch
         }
         return false;
     }
-    static bool ORGetKeysDown(params KeyCode[] keys) => keys.Any(k => Input.GetKeyDown(k));
+
+    private static bool ORGetKeysDown(params KeyCode[] keys) => keys.Any(k => Input.GetKeyDown(k));
 }
 
 [HarmonyPatch(typeof(ConsoleJoystick), nameof(ConsoleJoystick.HandleHUD))]
-class ConsoleJoystickHandleHUDPatch
+internal class ConsoleJoystickHandleHUDPatch
 {
     public static void Postfix()
     {
@@ -228,14 +230,15 @@ class ConsoleJoystickHandleHUDPatch
     }
 }
 [HarmonyPatch(typeof(KeyboardJoystick), nameof(KeyboardJoystick.HandleHud))]
-class KeyboardJoystickHandleHUDPatch
+internal class KeyboardJoystickHandleHUDPatch
 {
     public static void Postfix()
     {
         HandleHUDPatch.Postfix(KeyboardJoystick.player);
     }
 }
-class HandleHUDPatch
+
+internal class HandleHUDPatch
 {
     public static void Postfix(Rewired.Player player)
     {

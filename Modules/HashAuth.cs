@@ -8,7 +8,7 @@ public class HashAuth
     public readonly string HashValue;
 
     private readonly string salt;
-    private HashAlgorithm algorithm;
+    private readonly HashAlgorithm algorithm;
     public HashAuth(string hashValue, string salt = null, HashAlgorithm algorithm = null)
     {
         HashValue = hashValue;

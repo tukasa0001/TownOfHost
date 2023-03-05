@@ -20,9 +20,9 @@ public static class LastImpostor
     }
     public static bool CanBeLastImpostor(PlayerControl pc)
     {
-        if (!pc.IsAlive() || pc.Is(CustomRoles.LastImpostor) || !pc.Is(CustomRoleTypes.Impostor)) return false;
-        if (Main.AllPlayerKillCooldown[pc.PlayerId] <= KillCooldown.GetFloat()) return false;
-        return pc.GetCustomRole()
+        return pc.IsAlive() && !pc.Is(CustomRoles.LastImpostor) && pc.Is(CustomRoleTypes.Impostor)
+&& Main.AllPlayerKillCooldown[pc.PlayerId] > KillCooldown.GetFloat()
+&& pc.GetCustomRole()
         is not CustomRoles.Vampire
             and not CustomRoles.BountyHunter
             and not CustomRoles.SerialKiller

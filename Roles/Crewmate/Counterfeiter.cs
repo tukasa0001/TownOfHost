@@ -5,10 +5,10 @@ namespace TOHE.Roles.Crewmate;
 
 public static class Counterfeiter
 {
-    static readonly int Id = 8035600;
-    static List<byte> playerIdList = new();
-    static Dictionary<byte, List<byte>> clientList = new();
-    static List<byte> notActiveList = new();
+    private static readonly int Id = 8035600;
+    private static List<byte> playerIdList = new();
+    private static Dictionary<byte, List<byte>> clientList = new();
+    private static List<byte> notActiveList = new();
     public static Dictionary<byte, int> seelLimit = new();
     public static OptionItem CounterfeiterSkillCooldown;
     public static OptionItem CounterfeiterSkillLimitTimes;

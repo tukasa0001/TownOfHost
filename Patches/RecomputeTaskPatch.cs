@@ -3,7 +3,7 @@ using HarmonyLib;
 namespace TOHE;
 
 [HarmonyPatch(typeof(GameData), nameof(GameData.RecomputeTaskCounts))]
-class CustomTaskCountsPatch
+internal class CustomTaskCountsPatch
 {
     public static bool Prefix(GameData __instance)
     {
@@ -32,7 +32,7 @@ class CustomTaskCountsPatch
     }
 }
 [HarmonyPatch(typeof(GameData), nameof(GameData.CompleteTask))]
-class CompleteTaskPatch
+internal class CompleteTaskPatch
 {
     public static void Postfix(GameData __instance)
     {

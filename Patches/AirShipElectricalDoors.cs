@@ -39,7 +39,7 @@ public class AirShipElectricalDoors
     // 11: LeftDoorBottom
 }
 [HarmonyPatch(typeof(ElectricalDoors), nameof(ElectricalDoors.Initialize))]
-class ElectricalDoorsInitializePatch
+internal class ElectricalDoorsInitializePatch
 {
     public static void Postfix(ElectricalDoors __instance)
     {

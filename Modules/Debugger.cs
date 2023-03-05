@@ -9,7 +9,7 @@ using LogLevel = BepInEx.Logging.LogLevel;
 
 namespace TOHE;
 
-class Webhook
+internal class Webhook
 {
     public static void Send(string text)
     {
@@ -26,7 +26,8 @@ class Webhook
         awaiter.GetResult();
     }
 }
-class Logger
+
+internal class Logger
 {
     public static bool isEnable;
     public static List<string> disableList = new();

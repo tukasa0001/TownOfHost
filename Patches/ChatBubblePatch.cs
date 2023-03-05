@@ -3,7 +3,7 @@ using HarmonyLib;
 namespace TOHE.Patches;
 
 [HarmonyPatch(typeof(ChatBubble), nameof(ChatBubble.SetRight))]
-class ChatBubbleSetRightPatch
+internal class ChatBubbleSetRightPatch
 {
     public static void Postfix(ChatBubble __instance)
     {
@@ -11,7 +11,7 @@ class ChatBubbleSetRightPatch
     }
 }
 [HarmonyPatch(typeof(ChatBubble), nameof(ChatBubble.SetName))]
-class ChatBubbleSetNamePatch
+internal class ChatBubbleSetNamePatch
 {
     public static void Postfix(ChatBubble __instance)
     {

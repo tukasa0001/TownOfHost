@@ -6,11 +6,11 @@ using TOHE.Roles.Neutral;
 
 namespace TOHE;
 
-class ExileControllerWrapUpPatch
+internal class ExileControllerWrapUpPatch
 {
     public static GameData.PlayerInfo AntiBlackout_LastExiled;
     [HarmonyPatch(typeof(ExileController), nameof(ExileController.WrapUp))]
-    class BaseExileControllerPatch
+    private class BaseExileControllerPatch
     {
         public static void Postfix(ExileController __instance)
         {
@@ -26,7 +26,7 @@ class ExileControllerWrapUpPatch
     }
 
     [HarmonyPatch(typeof(AirshipExileController), nameof(AirshipExileController.WrapUpAndSpawn))]
-    class AirshipExileControllerPatch
+    private class AirshipExileControllerPatch
     {
         public static void Postfix(AirshipExileController __instance)
         {
@@ -40,7 +40,8 @@ class ExileControllerWrapUpPatch
             }
         }
     }
-    static void WrapUpPostfix(GameData.PlayerInfo exiled)
+
+    private static void WrapUpPostfix(GameData.PlayerInfo exiled)
     {
         if (AntiBlackout.OverrideExiledPlayer)
         {
@@ -161,7 +162,7 @@ class ExileControllerWrapUpPatch
         Utils.NotifyRoles();
     }
 
-    static void WrapUpFinalizer(GameData.PlayerInfo exiled)
+    private static void WrapUpFinalizer(GameData.PlayerInfo exiled)
     {
         //WrapUpPostfixで例外が発生しても、この部分だけは確実に実行されます。
         if (AmongUsClient.Instance.AmHost)
@@ -205,7 +206,7 @@ class ExileControllerWrapUpPatch
 }
 
 [HarmonyPatch(typeof(PbExileController), nameof(PbExileController.PlayerSpin))]
-class PolusExileHatFixPatch
+internal class PolusExileHatFixPatch
 {
     public static void Prefix(PbExileController __instance)
     {

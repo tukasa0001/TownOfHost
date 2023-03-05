@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace TOHE;
 
-static class TargetArrow
+internal static class TargetArrow
 {
-    class ArrowInfo
+    private class ArrowInfo
     {
         public byte From;
         public byte To;
@@ -26,8 +26,8 @@ static class TargetArrow
         }
     }
 
-    static Dictionary<ArrowInfo, string> TargetArrows = new();
-    static readonly string[] Arrows = {
+    private static readonly Dictionary<ArrowInfo, string> TargetArrows = new();
+    private static readonly string[] Arrows = {
         "↑",
         "↗",
         "→",
