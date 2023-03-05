@@ -154,6 +154,7 @@ public class Main : BasePlugin
     public static float DefaultImpostorVision;
     public static bool IsInitialRelease = DateTime.Now.Month == 1 && DateTime.Now.Day is 17;
     public static bool SetAutoStartToDisable = false;
+    public static byte FirstDied;
 
     public static Dictionary<byte, CustomRoles> DevRole = new();
 
@@ -239,6 +240,7 @@ public class Main : BasePlugin
         MessagesToSend = new List<(string, byte, string)>();
         currentDousingTarget = 255;
         currentDrawTarget = 255;
+        FirstDied = 255;
 
         Preset1 = Config.Bind("Preset Name Options", "Preset1", "Preset_1");
         Preset2 = Config.Bind("Preset Name Options", "Preset2", "Preset_2");

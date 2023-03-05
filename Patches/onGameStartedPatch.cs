@@ -80,6 +80,7 @@ class ChangeRoleSettings
             Main.VeteranInProtect = new Dictionary<byte, long>();
             Main.GrenadierBlinding = new Dictionary<byte, long>();
             Main.MadGrenadierBlinding = new Dictionary<byte, long>();
+            Main.FirstDied = 255;
 
             ReportDeadBodyPatch.CanReport = new();
 

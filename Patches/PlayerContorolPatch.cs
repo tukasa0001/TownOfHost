@@ -337,14 +337,15 @@ class MurderPlayerPatch
         }
 
         //看看UP是不是被首刀了
-        if (target.Is(CustomRoles.Youtuber))
+        if (Main.FirstDied == 255 && target.Is(CustomRoles.Youtuber))
         {
-            if (PlayerControl.AllPlayerControls.ToArray().Where(x => !x.IsAlive() && !x.Is(CustomRoles.GM)).Count() == 0)
-            {
-                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Youtuber); //UP主被首刀了，哈哈哈哈哈
-                CustomWinnerHolder.WinnerIds.Add(target.PlayerId);
-            }
+            CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Youtuber); //UP主被首刀了，哈哈哈哈哈
+            CustomWinnerHolder.WinnerIds.Add(target.PlayerId);
         }
+
+        //记录首刀
+        if (Main.FirstDied == 255)
+            Main.FirstDied = target.PlayerId;
 
         //骇客击杀
         bool hackKilled = false;
