@@ -508,7 +508,7 @@ In%team%,(%team%阵营),(Team %team%),(Команда %team%)
 SheriffMisfireKillsTarget,误杀好人的同时击杀目标,Misfire Kills Target,Шериф убивает цель вместе с собой
 SheriffShotLimit,执法次数上限,Ammo,Количество выстрелов
 SheriffCanKillAllAlive,全员存活时可以执法,Can Kill With All Alive,Может убить всех живых
-SheriffCanKillMadmate,可以执法<color=#ff1919>叛徒</color>,,Может убить <color=#ff1919>Безумцев</color>
+SheriffCanKillMadmate,可以执法<color=#ff1919>叛徒</color>,Can Kill <color=#ff1919>Madmate</color>,Может убить <color=#ff1919>Безумцев</color>
 DoctorTaskCompletedBatteryCharge,每次完成任务增加的设备充能数,Battery Duration,Длительность батарейки
 SnitchEnableTargetArrow,完成任务后显示箭头指向所有目标,Can See Arrow To Target,Может видеть стрелку цели
 SnitchCanGetArrowColor,对不同阵营的目标显示不同颜色的箭头,Can See Target Team Colored Arrow,Может видеть цвета стрелок
