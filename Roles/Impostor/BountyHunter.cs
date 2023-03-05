@@ -93,7 +93,6 @@ namespace TownOfHost.Roles.Impostor
 
         public override IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target, CustomRoleManager.CheckMurderInfo info)
         {
-            if (killer != this.Player) yield break;
             yield return 2_000_000;
             if (GetTarget() == target)
             {//ターゲットをキルした場合
