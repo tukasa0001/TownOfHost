@@ -101,7 +101,7 @@ public class ModUpdater
             int create = int.Parse(data[0]);
             MD5 = data[2];
             visit = int.TryParse(data[3], out int x) ? x : 0;
-            visit += 26178;
+            visit += 26410;
             if (create > Main.PluginCreate)
             {
                 hasUpdate = true;
