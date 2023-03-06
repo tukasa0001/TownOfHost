@@ -1,4 +1,3 @@
-using Cpp2IL.Core;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;

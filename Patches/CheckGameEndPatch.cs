@@ -218,9 +218,8 @@ internal class GameEndChecker
         public override bool CheckForEndGame(out GameOverReason reason)
         {
             reason = GameOverReason.ImpostorByKill;
-            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return false;
-            if (CheckGameEndByLivingPlayers(out reason)) return true;
-            return CheckGameEndByTask(out reason) || CheckGameEndBySabotage(out reason);
+            return CustomWinnerHolder.WinnerTeam == CustomWinner.Default
+&& (CheckGameEndByLivingPlayers(out reason) || CheckGameEndByTask(out reason) || CheckGameEndBySabotage(out reason));
         }
 
         public bool CheckGameEndByLivingPlayers(out GameOverReason reason)

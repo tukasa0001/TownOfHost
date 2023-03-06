@@ -38,7 +38,7 @@ public static class Divinator
             Utils.SendMessage(GetString("Message.DivinatorCheckReachLimit"), player.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Divinator), GetString("DivinatorCheckMsgTitle")));
             return;
         }
-        
+
         CheckLimit[player.PlayerId]--;
 
         if (player.PlayerId == target.PlayerId)

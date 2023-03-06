@@ -62,7 +62,7 @@ public static class Medicaler
     {
         if (killer == null || target == null) return false;
         if (!ProtectList.Contains(target.PlayerId)) return false;
-        
+
         ProtectList.Remove(target.PlayerId);
         killer.RpcGuardAndKill(target);
         if (TargetCanSeeProtect.GetBool())
@@ -75,8 +75,9 @@ public static class Medicaler
     }
     public static string TargetMark(PlayerControl seer, PlayerControl target)
     {
-        if (!seer.Is(CustomRoles.Medicaler) && seer.PlayerId != target.PlayerId) return "";
-        return InProtect(target.PlayerId) ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Medicaler), "●") : "";
+        return !seer.Is(CustomRoles.Medicaler) && seer.PlayerId != target.PlayerId
+            ? ""
+            : InProtect(target.PlayerId) ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Medicaler), "●") : "";
     }
     public static string GetSheildMark(PlayerControl seer)
         => InProtect(seer.PlayerId) && TargetCanSeeProtect.GetBool() ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Medicaler), "●") : "";

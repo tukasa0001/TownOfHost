@@ -12,7 +12,6 @@ using TOHE.Roles.Crewmate;
 using TOHE.Roles.Impostor;
 using TOHE.Roles.Neutral;
 using UnityEngine;
-using UnityEngine.UI;
 using static TOHE.Translator;
 namespace TOHE;
 
@@ -1165,15 +1164,13 @@ internal class FixedUpdatePatch
         {
             if (GameStates.IsLobby)
             {
-                if (Main.playerVersion.TryGetValue(__instance.PlayerId, out var ver))
-                {
-                    __instance.cosmetics.nameText.text = Main.ForkId != ver.forkId
+                __instance.cosmetics.nameText.text = Main.playerVersion.TryGetValue(__instance.PlayerId, out var ver)
+                    ? Main.ForkId != ver.forkId
                         ? $"<color=#ff0000><size=1.2>{ver.forkId}</size>\n{__instance?.name}</color>"
                         : Main.version.CompareTo(ver.version) == 0
                         ? ver.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})" ? $"<color=#87cefa>{__instance.name}</color>" : $"<color=#ffff00><size=1.2>{ver.tag}</size>\n{__instance?.name}</color>"
-                        : $"<color=#ff0000><size=1.2>v{ver.version}</size>\n{__instance?.name}</color>";
-                }
-                else __instance.cosmetics.nameText.text = __instance?.Data?.PlayerName;
+                        : $"<color=#ff0000><size=1.2>v{ver.version}</size>\n{__instance?.name}</color>"
+                    : (__instance?.Data?.PlayerName);
             }
             if (GameStates.IsInGame)
             {

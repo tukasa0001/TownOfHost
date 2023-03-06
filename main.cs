@@ -210,7 +210,7 @@ public class Main : BasePlugin
         // 認証関連-認証
         DebugModeManager.Auth(DebugKeyAuth, DebugKeyInput.Value);
 
-        BrakarVoteFor = new List<byte>(); 
+        BrakarVoteFor = new List<byte>();
         WarlockTimer = new Dictionary<byte, float>();
         AssassinTimer = new Dictionary<byte, float>();
         CursedPlayers = new Dictionary<byte, PlayerControl>();

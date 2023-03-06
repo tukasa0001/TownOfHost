@@ -195,8 +195,8 @@ public static class Utils
     }
     public static bool KillFlashCheck(PlayerControl killer, PlayerControl target, PlayerControl seer)
     {
-        if (seer.Is(CustomRoles.GM)) return true;
-        return seer.Is(CustomRoles.Seer)
+        return seer.Is(CustomRoles.GM)
+|| seer.Is(CustomRoles.Seer)
 || !seer.Data.IsDead && killer != seer && target != seer
 && seer.GetCustomRole() switch
 {
