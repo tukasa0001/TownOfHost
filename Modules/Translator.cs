@@ -42,10 +42,11 @@ public static class Translator
                     dic[id] = line.Values[i].Replace("\\n", "\n").Replace("\\r", "\r");
                 }
                 if (!translateMaps.TryAdd(line.Values[0], dic))
-                    Logger.Warn($"待翻译的 CSV 文件中存在重复项。{line.Index}行: \"{line.Values[0]}\"", "Translator");
+                    Logger.Warn($"待翻译的 CSV 文件中存在重复项：第{line.Index}行 => \"{line.Values[0]}\"", "Translator");
             }
             catch (Exception ex)
             {
+                Logger.Warn($"翻译文件错误：第{line.Index}行 => \"{line.Values[0]}\"", "Translator");
                 Logger.Warn(ex.ToString(), "Translator");
             }
         }
@@ -111,7 +112,7 @@ public static class Translator
         string path = @$"./{LANGUAGE_FOLDER_NAME}/{filename}";
         if (File.Exists(path))
         {
-            Logger.Info($"カスタム翻訳ファイル「{filename}」を読み込み", "LoadCustomTranslation");
+            Logger.Info($"加载自定义翻译文件：{filename}", "LoadCustomTranslation");
             using StreamReader sr = new(path, Encoding.GetEncoding("UTF-8"));
             string text;
             string[] tmp = { };
@@ -126,14 +127,14 @@ public static class Translator
                     }
                     catch (KeyNotFoundException)
                     {
-                        Logger.Warn($"「{tmp[0]}」は有効なキーではありません。", "LoadCustomTranslation");
+                        Logger.Warn($"无效密钥：{tmp[0]}", "LoadCustomTranslation");
                     }
                 }
             }
         }
         else
         {
-            Logger.Error($"カスタム翻訳ファイル「{filename}」が見つかりませんでした", "LoadCustomTranslation");
+            Logger.Error($"找不到自定义翻译文件：{filename}", "LoadCustomTranslation");
         }
     }
 
