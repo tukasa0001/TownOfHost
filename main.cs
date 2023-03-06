@@ -334,6 +334,7 @@ public class Main : BasePlugin
                 {CustomRoles.Egoist, "#5600ff"},
                 {CustomRoles.Piper, "#a3d7a8"},
                 {CustomRoles.TicketsStealer, "#ff1919"},
+                {CustomRoles.DualPersonality, "#3a648f"},
             };
             foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
             {
@@ -474,6 +475,7 @@ public enum CustomRoles
     Egoist,
     Piper,
     TicketsStealer,
+    DualPersonality,
 }
 //WinData
 public enum CustomWinner

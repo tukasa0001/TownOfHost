@@ -12,6 +12,7 @@ using TOHE.Roles.Crewmate;
 using TOHE.Roles.Impostor;
 using TOHE.Roles.Neutral;
 using UnityEngine;
+using UnityEngine.UI;
 using static TOHE.Translator;
 namespace TOHE;
 
@@ -1249,6 +1250,7 @@ internal class FixedUpdatePatch
                 }
 
                 Mark.Append(Executioner.TargetMark(seer, target));
+
                 Mark.Append(Medicaler.TargetMark(seer, target));
 
                 if (seer.Is(CustomRoles.Puppeteer))
@@ -1295,8 +1297,6 @@ internal class FixedUpdatePatch
                 Suffix.Append(BountyHunter.GetTargetArrow(seer, target));
 
                 Suffix.Append(EvilTracker.GetTargetArrow(seer, target));
-
-                Suffix.Append(Medicaler.GetSheildMark(seer));
 
                 if (GameStates.IsInTask && seer.Is(CustomRoles.AntiAdminer))
                 {

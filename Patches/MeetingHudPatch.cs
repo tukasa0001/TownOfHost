@@ -608,7 +608,7 @@ internal class MeetingHudStartPatch
         }
         if (AntiBlackout.OverrideExiledPlayer)
         {
-            Utils.SendMessage(Translator.GetString("Warning.OverrideExiledPlayer"));
+            Utils.SendMessage(GetString("Warning.OverrideExiledPlayer"));
         }
         if (MeetingStates.FirstMeeting) TemplateManager.SendTemplate("OnFirstMeeting", noErr: true);
         TemplateManager.SendTemplate("OnMeeting", noErr: true);
@@ -711,9 +711,9 @@ internal class MeetingHudStartPatch
 
             //海王相关显示
             if ((seer.Is(CustomRoles.Ntr) || target.Is(CustomRoles.Ntr)) && !seer.Data.IsDead && !isLover)
-                pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Lovers), "♡");
+                sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Lovers), "♡"));
             else if (seer == target && CustomRolesHelper.RoleExist(CustomRoles.Ntr) && !isLover)
-                pva.NameText.text += Utils.ColorString(Utils.GetRoleColor(CustomRoles.Lovers), "♡");
+                sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Lovers), "♡"));
 
             //呪われている場合
             sb.Append(Witch.GetSpelledMark(target.PlayerId, true));
@@ -721,6 +721,10 @@ internal class MeetingHudStartPatch
             //如果是大明星
             if (target.Is(CustomRoles.SuperStar) && Options.EveryOneKnowSuperStar.GetBool())
                 sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.SuperStar), "★"));
+
+            //法医护盾提示
+            if (seer.PlayerId == target.PlayerId)
+                sb.Append(Medicaler.GetSheildMark(seer));
 
             //会議画面ではインポスター自身の名前にSnitchマークはつけません。
 
