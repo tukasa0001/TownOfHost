@@ -498,7 +498,7 @@ DefaultShapeshiftCooldown,默认变形冷却时间,Default Shapeshift Cooldown,�
 VampireKillDelay,吸血目标延迟死亡时间,Kill Delay(S),Длительность укуса(Секунды)
 MareAddSpeedInLightsOut,熄灯时的额外速度,Mare Add Player Add Speed In Lights Out,Скорость Ночного при Саботаже Света
 MareKillCooldownInLightsOut,熄灯时的击杀冷却,Kill Cooldown During Fix Lights,Откат убийства Ночного при Саботаже Света
-SabotageMasterSkillLimit,修理修理技能次数上限,Ability Use Count(Excluding Doors),Лимит способности (Кроме открытия дверей)
+SabotageMasterSkillLimit,修理技能次数上限,Ability Use Count(Excluding Doors),Лимит способности (Кроме открытия дверей)
 LuckeyProbability,触发挡伤的概率,Probability of staying alive,Вероятность остаться в живых
 SabotageMasterFixesDoors,打开多扇关闭的门,Can Open Multiple Doors,Может открыть все двери
 SabotageMasterFixesReactors,秒修核反应堆,Can Fix Both Reactors,Может починить саботаж Реактора
@@ -594,7 +594,7 @@ WorkhorseNumShortTasks,额外的短任务数,"Additional Short Tasks","Допо�
 InnocentCanWinByImp,冤罪师栽赃<color=#ff1919>内鬼</color>时可以获胜,If his target was the <color=#ff1919>Impostor</color> then he win with him,Если его цель был <color=#ff1919>Предателем</color> то он победит вместе с ним
 CapitalismSkillCooldown,技能使用冷却,Skill cooldown,Откат навыка
 ImpCanBeAvanger,<color=#ff1919>内鬼</color>可以成为复仇者,<color=#ff1919>Impostor</color> can become an Avenger,<color=#ff1919>Предатель</color> может стать Мстителем
-VeteranSkillCooldown,使用戒备冷却时间,Skill cooldown,Откат навыка
+VeteranSkillCooldown,发动戒备冷却时间,Skill cooldown,Откат навыка
 VeteranSkillDuration,戒备状态持续时间,Skill duration,Продолжительность навыка
 BodyguardProtectRadius,保护范围,Protect Radius,Радиус Защиты
 ImpCanBeEgoist,<color=#ff1919>内鬼</color>可以成为利己主义者,<color=#ff1919>Impostor</color> can become Egoist,<color=#ff1919>Предатель</color> может стать Эгоистом
