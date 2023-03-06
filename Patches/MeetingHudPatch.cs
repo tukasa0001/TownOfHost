@@ -1,3 +1,4 @@
+using Cpp2IL.Core;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -269,7 +270,7 @@ internal class CheckForEndVotingPatch
                 else if (player.GetCustomRole().IsCrewmate())
                     name = string.Format(GetString("IsGood"), realName);
                 else if (player.GetCustomRole().IsNeutral())
-                    name = string.Format(GetString("BelongTo"), realName, Utils.ColorString(new Color32(255, 171, 27, 100), GetString("TeamNeutral")));
+                    name = string.Format(GetString("BelongTo"), realName, Utils.ColorString(new Color32(255, 171, 27, byte.MaxValue), GetString("TeamNeutral")));
                 break;
             case 2:
                 name = string.Format(GetString("PlayerIsRole"), realName, coloredRole);
@@ -691,6 +692,9 @@ internal class MeetingHudStartPatch
                     break;
                 case CustomRoles.Medicaler:
                     sb.Append(Medicaler.TargetMark(seer, target));
+                    break;
+                case CustomRoles.Gamer:
+                    sb.Append(Gamer.TargetMark(seer, target));
                     break;
             }
 

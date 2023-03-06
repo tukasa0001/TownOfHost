@@ -139,6 +139,9 @@ internal class HudManagerPatch
                     case CustomRoles.Medicaler:
                         __instance.KillButton.OverrideText($"{GetString("MedicalerButtonText")}");
                         break;
+                    case CustomRoles.Gamer:
+                        __instance.KillButton.OverrideText($"{GetString("GamerButtonText")}");
+                        break;
                 }
 
                 //バウンティハンターのターゲットテキスト

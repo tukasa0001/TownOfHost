@@ -226,10 +226,14 @@ internal class CheckMurderPatch
                         Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
                         killer.RpcMurderPlayer(killer);
                         Main.PlayerStates[killer.PlayerId].SetDead();
-                        Logger.Info($"{killer.GetRealName()} 击杀了非目标玩家，壮烈牺牲了", "FFF");
+                        Logger.Info($"{killer.GetRealName()} 击杀了非目标玩家，壮烈牺牲了（bushi）", "FFF");
                         return false;
                     }
                     return true;
+                case CustomRoles.Gamer:
+                    if (Gamer.CheckGamerMurder(killer, target))
+                        return false;
+                    break;
 
                 //==========クルー役職==========//
                 case CustomRoles.Sheriff:
@@ -297,6 +301,11 @@ internal class CheckMurderPatch
                     return false;
                 }
             }
+
+            //玩家被击杀事件
+            if (Gamer.CheckMurder(killer, target))
+                return false;
+
         }
 
         //==キル処理==
@@ -432,6 +441,7 @@ internal class MurderPlayerPatch
             Main.SansKillCooldown[killer.PlayerId] -= Options.SansReduceKillCooldown.GetFloat();
             if (Main.SansKillCooldown[killer.PlayerId] < Options.SansMinKillCooldown.GetFloat())
                 Main.SansKillCooldown[killer.PlayerId] = Options.SansMinKillCooldown.GetFloat();
+            killer.SetKillCooldown();
         }
         if (killer.Is(CustomRoles.BoobyTrap) && killer != target)
         {
@@ -1250,6 +1260,8 @@ internal class FixedUpdatePatch
                 }
 
                 Mark.Append(Executioner.TargetMark(seer, target));
+
+                Mark.Append(Gamer.TargetMark(seer, target));
 
                 Mark.Append(Medicaler.TargetMark(seer, target));
 

@@ -174,6 +174,7 @@ internal class ChangeRoleSettings
             Counterfeiter.Init();
             Gangster.Init();
             Medicaler.Init();
+            Gamer.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
@@ -715,8 +716,7 @@ internal class SelectRolesPatch
         var hostId = PlayerControl.LocalPlayer.PlayerId;
         var rd = IRandom.Instance;
 
-        var count = Math.Clamp(-1, 0, AllPlayers.Count);
-        count = Math.Clamp(role.GetCount(), 0, AllPlayers.Count);
+        var count = Math.Clamp(role.GetCount(), 0, AllPlayers.Count);
         if (count <= 0) return;
 
         List<byte> pid = new();
@@ -755,7 +755,6 @@ internal class SelectRolesPatch
     }
     public static void MakeDesyncSender(Dictionary<byte, CustomRpcSender> senders, Dictionary<(byte, byte), RoleTypes> rolesMap)
     {
-        var hostId = PlayerControl.LocalPlayer.PlayerId;
         foreach (var seer in Main.AllPlayerControls)
         {
             var sender = senders[seer.PlayerId];

@@ -51,7 +51,7 @@ public static class Medicaler
         ProtectLimit[killer.PlayerId]--;
         ProtectList.Add(target.PlayerId);
         killer.RpcGuardAndKill(target);
-        killer.ResetKillCooldown();
+        killer.SetKillCooldown();
 
         Utils.NotifyRoles(killer);
         Utils.NotifyRoles(target);
@@ -67,7 +67,7 @@ public static class Medicaler
         killer.RpcGuardAndKill(target);
         if (TargetCanSeeProtect.GetBool())
             target.RpcGuardAndKill(target);
-        killer.ResetKillCooldown();
+        killer.SetKillCooldown();
         Utils.NotifyRoles();
 
         Logger.Info($"{target.GetNameWithRole()} : 来自法医的盾破碎", "medicaler");

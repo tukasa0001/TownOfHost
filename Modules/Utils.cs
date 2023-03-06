@@ -19,7 +19,6 @@ using TOHE.Roles.Neutral;
 using UnhollowerBaseLib;
 using UnityEngine;
 using static TOHE.Translator;
-
 namespace TOHE;
 
 public static class Utils
@@ -980,6 +979,9 @@ public static class Utils
             //法医护盾提示
             SelfMark.Append(Medicaler.GetSheildMark(seer));
 
+            //玩家自身血量提示
+            SelfMark.Append(Gamer.TargetMark(seer, seer));
+
             //銃声が聞こえるかチェック
             SelfMark.Append(Sniper.GetShotNotify(seer.PlayerId));
             //Markとは違い、改行してから追記されます。
@@ -1151,6 +1153,8 @@ public static class Utils
                     TargetPlayerName = TargetPlayerName.ApplyNameColorData(seer, target, isMeeting);
 
                     TargetMark.Append(Executioner.TargetMark(seer, target));
+
+                    TargetMark.Append(Gamer.TargetMark(seer, target));
 
                     TargetMark.Append(Medicaler.TargetMark(seer, target));
 
