@@ -335,6 +335,8 @@ public static class Options
     public static OptionItem PiperAccelerationSpeed;
     public static OptionItem PiperAccelerationRadius;
     public static OptionItem TicketsPerKill;
+    public static OptionItem ImpCanBeDualPersonality;
+    public static OptionItem CrewCanBeDualPersonality;
 
     public static readonly string[] suffixModes =
     {
@@ -610,6 +612,9 @@ public static class Options
         SetupAdtRoleOptions(6050440, CustomRoles.Fool, canSetNum: true);
         SetupAdtRoleOptions(6050450, CustomRoles.Avanger, canSetNum: true);
         ImpCanBeAvanger = BooleanOptionItem.Create(6050455, "ImpCanBeAvanger", false, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Avanger]);
+        SetupAdtRoleOptions(6052333, CustomRoles.DualPersonality, canSetNum: true);
+        ImpCanBeDualPersonality = BooleanOptionItem.Create(6052338, "ImpCanBeDualPersonality", true, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.DualPersonality]);
+        CrewCanBeDualPersonality = BooleanOptionItem.Create(6052340, "CrewCanBeDualPersonality", true, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.DualPersonality]);
 
         SetupAdtRoleOptions(6050390, CustomRoles.Madmate, canSetNum: true);
         SheriffCanBeMadmate = BooleanOptionItem.Create(6050395, "SheriffCanBeMadmate", false, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Madmate]);
@@ -618,7 +623,6 @@ public static class Options
         LastImpostor.SetupCustomOption();
         SetupAdtRoleOptions(6051660, CustomRoles.TicketsStealer, canSetNum: true, tab: TabGroup.Addons);
         TicketsPerKill = FloatOptionItem.Create(6051666, "TicketsPerKill", new(0.1f, 10f, 0.1f), 0.5f, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.TicketsStealer]);
-
 
         // 乐子职业
 

@@ -646,6 +646,7 @@ internal class ChatCommands
             "清理工" or "清潔工" or "清洁工" or "清理" or "清洁" => "清理工",
             "法医" => "法医",
             "占卜師" or "占卜" => "占卜师",
+            "雙重人格" or "双重" or "双人格" or "人格" => "双重人格",
             _ => text,
         };
     }
@@ -746,6 +747,7 @@ internal class ChatCommands
             { CustomRoles.Egoist,GetString("Egoist") },
             { CustomRoles.Piper,GetString("Piper") },
             { CustomRoles.TicketsStealer,GetString("TicketsStealer") },
+            { CustomRoles.DualPersonality,GetString("DualPersonality") },
         };
 
     public static bool GetRoleByName(string name, out CustomRoles role)

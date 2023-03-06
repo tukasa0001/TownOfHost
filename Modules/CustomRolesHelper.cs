@@ -119,7 +119,8 @@ internal static class CustomRolesHelper
             CustomRoles.Youtuber or
             CustomRoles.Egoist or
             CustomRoles.Piper or
-            CustomRoles.TicketsStealer;
+            CustomRoles.TicketsStealer or
+            CustomRoles.DualPersonality;
     }
     public static bool IsNK(this CustomRoles role) // 是否带刀中立
     {

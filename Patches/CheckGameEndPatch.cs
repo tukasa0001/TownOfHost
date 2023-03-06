@@ -232,6 +232,9 @@ internal class GameEndChecker
             int Pel = Utils.AlivePlayersCount(CountTypes.Pelican);
             int Crew = Utils.AlivePlayersCount(CountTypes.Crew);
 
+            Imp += Main.AllAlivePlayerControls.Where(x => x.GetCustomRole().IsImpostor() && x.Is(CustomRoles.DualPersonality)).Count();
+            Crew += Main.AllAlivePlayerControls.Where(x => x.GetCustomRole().IsCrewmate() && x.Is(CustomRoles.DualPersonality)).Count();
+
             if (Imp == 0 && Crew == 0 && Jackal == 0 && Pel == 0) //全灭
             {
                 reason = GameOverReason.ImpostorByKill;

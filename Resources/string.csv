@@ -135,6 +135,7 @@ Youtuber,UP主,YouTuber,Ютубер
 Egoist,利己主义者,Egoist,Эгоист
 Piper,吹笛者,Piper,Пайпер
 TicketsStealer,窃票者,Stealer,Похититель
+DualPersonality,双重人格
 
 # 管理员
 GM,管理员,GM,GM (Призрак)
@@ -237,6 +238,7 @@ YoutuberInfo,我的素材啊啊啊啊,Be the very first to be killed,Будьт�
 EgoistInfo,什么叫做一波三折？,Replace victory,Замените победу
 PiperInfo,嗯↗嗯↘嗯~~,Change the players speed,Измените скорость игроков
 TicketsStealerInfo,要懂得珍惜，死者最后的价值,Steal player votes,Украдите голоса игроков
+DualPersonalityInfo,我真的很...奇怪吗？
 
 # 管理员
 GMInfo,开局死的冤魂隔岸观火,You are the Game Master,Вы Мастер Игры
@@ -341,6 +343,7 @@ YoutuberInfoLong,(附加职业)\n只有船员会成为UP主，UP主不会成为�
 EgoistInfoLong,(附加职业)\n叛徒与中立阵营不会成为利己主义者。利己主义者会抢夺自己阵营的胜利。,"(Add-ons):\nImpostors and Neutrals cannot become Egoist. Egoist will steal the victory from his own team","(Атрибут):\nПредатели и нейтралы не могут стать эгоистами. Эгоист украдет победу у своей же собственной команды"
 PiperInfoLong,(附加职业)\n吹笛者会将自己附近的人的移动速度变得跟自己一样。（速度根据房主设定）,"(Add-ons):\nPiper will make the movement speed of players near him exactly the same as his own. (The speed depends on the settings of the Host)","(Атрибут):\nПайпер сделает скорость передвижения игроков рядом с ним точно такой же, как у него самого.(Скорость зависит от настроек Хоста)"
 TicketsStealerInfoLong,(附加职业)\n只有内鬼会成为窃票者。窃票者每次击杀一个人都会增加自己本局的票数（增加数量根据房主设定，小数向下取整）。此外，窃票者额外的票是隐藏的。,"(Add-ons):\nOnly a Impostors can become a Stealer. Each time the Stealer kills a player, it increases its own number of votes in the game (the increase in votes is set according to the number of votes, and the decimal is rounded down). In addition, additional Stealer voices are hidden","(Атрибут):\nТолько Предатель может стать Похитителем. Каждый раз, когда Похититель убивает игрока, он увеличивает свое собственное количество голосов в игре (увеличение голосов устанавливается в соответствии с количеством голосов, а десятичная дробь округляется в меньшую сторону). Кроме того, дополнительные голоса Похитителя скрыты."
+DualPersonalityInfoLong,(附加职业)\n中立和叛徒不会成为双重人格，计算其阵营人数时双重人格被视为两人。例如场上剩余一个内鬼和一个双重人格船员，则视为两名船员和一名内鬼，因此游戏不会结束。
 
 #模式选项
 NoGameEnd,测试模式,NoGameEnd,Игра Не Закончится
@@ -594,6 +597,8 @@ WorkhorseNumShortTasks,额外的短任务数,"Additional Short Tasks","Допо�
 InnocentCanWinByImp,冤罪师栽赃<color=#ff1919>内鬼</color>时可以获胜,If his target was the <color=#ff1919>Impostor</color> then he win with him,Если его цель был <color=#ff1919>Предателем</color> то он победит вместе с ним
 CapitalismSkillCooldown,技能使用冷却,Skill cooldown,Откат навыка
 ImpCanBeAvanger,<color=#ff1919>内鬼</color>可以成为复仇者,<color=#ff1919>Impostor</color> can become an Avenger,<color=#ff1919>Предатель</color> может стать Мстителем
+ImpCanBeDualPersonality,<color=#ff1919>内鬼</color>可以成为双重人格
+CrewCanBeDualPersonality,<color=#8cffff>船员</color>可以成为双重人格
 VeteranSkillCooldown,发动戒备冷却时间,Skill cooldown,Откат навыка
 VeteranSkillDuration,戒备状态持续时间,Skill duration,Продолжительность навыка
 BodyguardProtectRadius,保护范围,Protect Radius,Радиус Защиты
