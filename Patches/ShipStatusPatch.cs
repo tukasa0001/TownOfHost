@@ -67,7 +67,7 @@ internal class RepairSystemPatch
             }
         }
 
-        if (!player.Is(CustomRoleTypes.Impostor) && !(player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
+        if (!(player.Is(CustomRoleTypes.Impostor) && !player.Is(CustomRoles.Minimalism)) && !(player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
         {
             if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
         }

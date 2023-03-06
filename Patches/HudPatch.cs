@@ -1,3 +1,4 @@
+using AmongUs.GameOptions;
 using HarmonyLib;
 using TOHE.Roles.Impostor;
 using TOHE.Roles.Neutral;
@@ -308,6 +309,17 @@ internal class SetHudActivePatch
                 Jackal.SetHudActive(__instance, isActive);
                 break;
         }
+
+        foreach (var subRole in Main.PlayerStates[player.PlayerId].SubRoles)
+        {
+            switch (subRole)
+            {
+                case CustomRoles.Oblivious:
+                    __instance.ReportButton.ToggleVisible(false);
+                    break;
+            }
+        }
+
         __instance.KillButton.ToggleVisible(player.CanUseKillButton());
         __instance.ImpostorVentButton.ToggleVisible(player.CanUseImpostorVentButton());
     }
