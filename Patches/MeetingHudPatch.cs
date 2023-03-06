@@ -404,27 +404,25 @@ internal static class ExtendedMeetingHud
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
 internal class MeetingHudStartPatch
 {
-    public static void NoticeMafiaSkill()
+    public static void NotifyRoleSkillOnMeetingStart()
     {
         if (!AmongUsClient.Instance.AmHost) return;
         foreach (var pc in PlayerControl.AllPlayerControls)
         {
+            //黑手党死后技能提示
             switch (pc.GetCustomRole())
             {
                 case CustomRoles.Mafia:
-                    new LateTask(() =>
+                    if (!pc.IsAlive())
                     {
-                        Utils.SendMessage(GetString("MafiaDeadMsg"), pc.PlayerId);
-                    }, 5.0f, "Notice Mafia Skill");
+                        new LateTask(() =>
+                        {
+                            Utils.SendMessage(GetString("MafiaDeadMsg"), pc.PlayerId);
+                        }, 5.0f, "Notice Mafia Skill");
+                    }
                     break;
             }
-        }
-    }
-    public static void NoticeCyberStarSkill()
-    {
-        if (!AmongUsClient.Instance.AmHost) return;
-        foreach (var pc in PlayerControl.AllPlayerControls)
-        {
+            //网红死亡消息提示
             foreach (var csId in Main.CyberStarDead)
             {
                 if (!Options.ImpKnowCyberStarDead.GetBool() && pc.GetCustomRole().IsImpostor()) continue;
@@ -437,13 +435,7 @@ internal class MeetingHudStartPatch
                     Utils.SendMessage(string.Format(GetString("CyberStarDead"), cs.GetRealName()), pc.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.CyberStar), GetString("CyberStarNewsTitle")));
                 }, 5.0f, "Notice CyberStar Skill");
             }
-        }
-    }
-    public static void NoticeDetectiveSkill()
-    {
-        if (!AmongUsClient.Instance.AmHost) return;
-        foreach (var pc in PlayerControl.AllPlayerControls)
-        {
+            //侦探报告线索
             if (Main.DetectiveNotify.ContainsKey(pc.PlayerId))
             {
                 new LateTask(() =>
@@ -451,13 +443,7 @@ internal class MeetingHudStartPatch
                     Utils.SendMessage(Main.DetectiveNotify[pc.PlayerId], pc.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Detective), GetString("DetectiveNoticeTitle")));
                 }, 5.0f, "Notice Detective Skill");
             }
-        }
-    }
-
-    public static void NoticeGodAlive()
-    {
-        foreach (var pc in PlayerControl.AllPlayerControls)
-        {
+            //提示神存活
             if (pc.Is(CustomRoles.God) && pc.IsAlive())
             {
                 new LateTask(() =>
@@ -468,16 +454,6 @@ internal class MeetingHudStartPatch
             }
         }
     }
-
-    public static void NoticeSkill()
-    {
-        if (!AmongUsClient.Instance.AmHost) return;
-        if (Options.MafiaCanKillNum.GetInt() > 0) NoticeMafiaSkill();
-        if (Main.CyberStarDead.Count > 0) NoticeCyberStarSkill();
-        if (Main.DetectiveNotify.Count > 0) NoticeDetectiveSkill();
-        if (Options.NotifyGodAlive.GetBool()) NoticeGodAlive();
-    }
-
     public static void Prefix(MeetingHud __instance)
     {
         Logger.Info("------------会议开始------------", "Phase");
@@ -493,7 +469,7 @@ internal class MeetingHudStartPatch
         Main.LastVotedPlayerInfo = null;
         Counterfeiter.OnMeetingStart();
         Divinator.didVote.Clear();
-        NoticeSkill();
+        NotifyRoleSkillOnMeetingStart();
         foreach (var pc in PlayerControl.AllPlayerControls)
             if (pc.shapeshifting) pc.RpcRevertShapeshift(false);
     }
