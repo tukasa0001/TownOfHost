@@ -845,6 +845,7 @@ internal class SelectRolesPatch
             if (role is CustomRoles.Egoist && pc.GetCustomRole().IsImpostor() && !Options.ImpCanBeEgoist.GetBool()) continue;
             if (role is CustomRoles.Egoist && pc.GetCustomRole().IsCrewmate() && !Options.CrewCanBeEgoist.GetBool()) continue;
             if (role is CustomRoles.TicketsStealer && !pc.GetCustomRole().IsImpostor()) continue;
+            if ((role is CustomRoles.Lovers or CustomRoles.Ntr) && pc.Is(CustomRoles.FFF)) continue;
             allPlayers.Add(pc);
         }
         var rd = IRandom.Instance;
