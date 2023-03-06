@@ -948,7 +948,7 @@ public static class Options
             .SetHeader(true);
 
         // その他
-        FixFirstKillCooldown = BooleanOptionItem.Create(900_000, "FixFirstKillCooldown", false, TabGroup.GameSettings, false)
+        FixFirstKillCooldown = BooleanOptionItem.Create(50_900_667, "FixFirstKillCooldown", true, TabGroup.GameSettings, false)
             .SetHeader(true)
             .SetGameMode(CustomGameMode.All);
         DisableTaskWin = BooleanOptionItem.Create(900_001, "DisableTaskWin", false, TabGroup.GameSettings, false)
