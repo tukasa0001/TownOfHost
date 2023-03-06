@@ -159,7 +159,9 @@ internal class ChatCommands
         if (text.Contains("？")) return false;
         if (text.Length >= 3) return false;
         if (text.Contains("start")) return true;
-        return text.Contains("s t a r t") || text.Contains("begin") || text.Contains("开") || text.Contains("kai");
+        if (text.Contains("s t a r t")) return true;
+        if (text.Contains("begin")) return true;
+        return text.Contains("开") || text.Contains("kai");
     }
 
     public static bool ProhibitedCheck(PlayerControl player, string text)

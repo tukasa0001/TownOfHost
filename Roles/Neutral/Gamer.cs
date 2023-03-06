@@ -129,6 +129,8 @@ public static class Gamer
         if (rate <= 60) return new Color32(253, 255, 4, byte.MaxValue);
         if (rate <= 70) return new Color32(206, 255, 0, byte.MaxValue);
         if (rate <= 80) return new Color32(154, 255, 0, byte.MaxValue);
-        return rate <= 90 ? new Color32(101, 255, 0, byte.MaxValue) : rate <= 100 ? new Color32(53, 255, 0, byte.MaxValue) : new Color32();
+        if (rate <= 90) return new Color32(101, 255, 0, byte.MaxValue);
+        if (rate <= 100) return new Color32(53, 255, 0, byte.MaxValue);
+        return new Color32();
     }
 }
