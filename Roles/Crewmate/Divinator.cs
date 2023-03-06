@@ -43,7 +43,7 @@ public static class Divinator
 
         if (player.PlayerId == target.PlayerId)
         {
-            Utils.SendMessage(GetString("Message.DivinatorCheckSelfMsg") + "\n\n" + string.Format(GetString("Message.DivinatorCheckLimit")), player.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Divinator), GetString("DivinatorCheckMsgTitle")));
+            Utils.SendMessage(GetString("Message.DivinatorCheckSelfMsg") + "\n\n" + string.Format(GetString("Message.DivinatorCheckLimit"), CheckLimit[player.PlayerId]), player.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Divinator), GetString("DivinatorCheckMsgTitle")));
             return;
         }
 
@@ -65,7 +65,8 @@ public static class Divinator
             CustomRoles.Needy or
             CustomRoles.SabotageMaster or
             CustomRoles.Jackal or
-            CustomRoles.Mario
+            CustomRoles.Mario or
+            CustomRoles.Cleaner
             => "Honest",
 
             CustomRoles.SerialKiller or
@@ -75,7 +76,8 @@ public static class Divinator
             CustomRoles.SpeedBooster or
             CustomRoles.Sheriff or
             CustomRoles.Arsonist or
-            CustomRoles.Innocent
+            CustomRoles.Innocent or
+            CustomRoles.FFF
             => "Impulse",
 
             CustomRoles.Vampire or
@@ -94,7 +96,8 @@ public static class Divinator
             CustomRoles.NiceGuesser or
             CustomRoles.Trapper or
             CustomRoles.Grenadier or
-            CustomRoles.Terrorist
+            CustomRoles.Terrorist or
+            CustomRoles.Revolutionist
             => "Blockbuster",
 
             CustomRoles.Warlock or
@@ -102,7 +105,8 @@ public static class Divinator
             CustomRoles.Mafia or
             CustomRoles.Doctor or
             CustomRoles.Transporter or
-            CustomRoles.Veteran
+            CustomRoles.Veteran or
+            CustomRoles.Divinator
             => "Strong",
 
             CustomRoles.Witch or
@@ -125,7 +129,8 @@ public static class Divinator
             CustomRoles.Mare or
             CustomRoles.Detective or
             CustomRoles.TimeManager or
-            CustomRoles.Jester
+            CustomRoles.Jester or
+            CustomRoles.Medicaler
             => "Disturbed",
 
             _ => "None",
