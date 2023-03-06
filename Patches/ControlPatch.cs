@@ -35,20 +35,20 @@ internal class ControllerManagerUpdatePatch
         //重新加载自定义翻译
         if (GetKeysDown(KeyCode.F5, KeyCode.T))
         {
-            Logger.Info("Reload Custom Translation File", "KeyCommand");
+            Logger.Info("加载自定义翻译文件", "KeyCommand");
             Translator.LoadLangs();
             Logger.SendInGame("Reloaded Custom Translation File");
         }
         if (GetKeysDown(KeyCode.F5, KeyCode.X))
         {
-            Logger.Info("Export Custom Translation File", "KeyCommand");
+            Logger.Info("导出自定义翻译文件", "KeyCommand");
             Translator.ExportCustomTranslation();
             Logger.SendInGame("Exported Custom Translation File");
         }
         //日志文件转储
         if (GetKeysDown(KeyCode.F1, KeyCode.LeftControl))
         {
-            Logger.Info("Dump Logs", "KeyCommand");
+            Logger.Info("输出日志", "KeyCommand");
             Utils.DumpLog();
         }
         //将当前设置复制为文本
@@ -84,13 +84,13 @@ internal class ControllerManagerUpdatePatch
         //立即开始
         if (Input.GetKeyDown(KeyCode.LeftShift) && GameStates.IsCountDown)
         {
-            Logger.Info("CountDownTimer set to 0", "KeyCommand");
+            Logger.Info("倒计时修改为0", "KeyCommand");
             GameStartManager.Instance.countDownTimer = 0;
         }
         //倒计时取消
         if (Input.GetKeyDown(KeyCode.C) && GameStates.IsCountDown)
         {
-            Logger.Info("Reset CountDownTimer", "KeyCommand");
+            Logger.Info("重置倒计时", "KeyCommand");
             GameStartManager.Instance.ResetStartState();
             Logger.SendInGame(Translator.GetString("CancelStartCountDown"));
         }
@@ -130,7 +130,7 @@ internal class ControllerManagerUpdatePatch
         if (GetKeysDown(KeyCode.F2, KeyCode.LeftControl))
         {
             Logger.isAlsoInGame = !Logger.isAlsoInGame;
-            Logger.SendInGame($"ログのゲーム内出力: {Logger.isAlsoInGame}");
+            Logger.SendInGame($"游戏中输出日志：{Logger.isAlsoInGame}");
         }
         //打开飞艇所有的门
         if (GetKeysDown(KeyCode.Return, KeyCode.D, KeyCode.LeftShift) && GameStates.IsInGame)
@@ -212,7 +212,7 @@ internal class ControllerManagerUpdatePatch
     {
         if (keys.Any(k => Input.GetKeyDown(k)) && keys.All(k => Input.GetKey(k)))
         {
-            Logger.Info($"KeyDown:{keys.Where(k => Input.GetKeyDown(k)).First()} in [{string.Join(",", keys)}]", "GetKeysDown");
+            Logger.Info($"快捷键：{keys.Where(k => Input.GetKeyDown(k)).First()} in [{string.Join(",", keys)}]", "GetKeysDown");
             return true;
         }
         return false;

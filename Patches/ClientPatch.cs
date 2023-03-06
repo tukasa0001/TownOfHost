@@ -43,7 +43,7 @@ internal class MMOnlineManagerStartPatch
         {
             obj?.SetActive(false);
             var parentObj = obj.transform.parent.gameObject;
-            var textObj = Object.Instantiate<TMPro.TextMeshPro>(obj.transform.FindChild("Text_TMP").GetComponent<TMPro.TextMeshPro>());
+            var textObj = Object.Instantiate(obj.transform.FindChild("Text_TMP").GetComponent<TMPro.TextMeshPro>());
             textObj.transform.position = new Vector3(1f, -0.3f, 0);
             textObj.name = "CanNotJoinPublic";
             var message = ModUpdater.isBroken ? $"<size=2>{Utils.ColorString(Color.red, GetString("ModBrokenMessage"))}</size>"
@@ -87,7 +87,7 @@ internal class BanMenuSetVisiblePatch
         return false;
     }
 }
-[HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.CanBan))]
+[HarmonyPatch(typeof(InnerNetClient), nameof(InnerNet.InnerNetClient.CanBan))]
 internal class InnerNetClientCanBanPatch
 {
     public static bool Prefix(InnerNet.InnerNetClient __instance, ref bool __result)
