@@ -120,6 +120,7 @@ internal class BeginCrewmatePatch
                 {
                     CustomRoles.Jackal => GetString("TeamJackal"),
                     CustomRoles.Pelican => GetString("TeamPelican"),
+                    CustomRoles.Gamer => GetString("TeamGamer"),
                     _ => GetString("NeutralInfo"),
                 };
                 __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);

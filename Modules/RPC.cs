@@ -469,6 +469,9 @@ internal static class RPC
             case CustomRoles.Divinator:
                 Divinator.Add(targetId);
                 break;
+            case CustomRoles.Gamer:
+                Gamer.Add(targetId);
+                break;
         }
         HudManager.Instance.SetHudActive(true);
         if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();

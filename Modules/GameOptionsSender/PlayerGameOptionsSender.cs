@@ -161,6 +161,9 @@ public class PlayerGameOptionsSender : GameOptionsSender
             case CustomRoles.FFF:
                 opt.SetVision(true);
                 break;
+            case CustomRoles.Gamer:
+                Gamer.ApplyGameOptions(opt);
+                break;
         }
 
         // 为迷惑者的凶手

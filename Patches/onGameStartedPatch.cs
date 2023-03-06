@@ -655,6 +655,9 @@ internal class SelectRolesPatch
                     case CustomRoles.Divinator:
                         Divinator.Add(pc.PlayerId);
                         break;
+                    case CustomRoles.Gamer:
+                        Gamer.Add(pc.PlayerId);
+                        break;
                 }
                 foreach (var subRole in pc.GetCustomSubRoles())
                 {

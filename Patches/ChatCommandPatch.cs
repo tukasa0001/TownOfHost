@@ -647,6 +647,7 @@ internal class ChatCommands
             "法医" => "法医",
             "占卜師" or "占卜" => "占卜师",
             "雙重人格" or "双重" or "双人格" or "人格" => "双重人格",
+            "玩家" => "玩家",
             _ => text,
         };
     }
@@ -727,6 +728,7 @@ internal class ChatCommands
             { CustomRoles.Innocent, GetString("Innocent") },
             { CustomRoles.Pelican, GetString("Pelican") },
             { CustomRoles.FFF, GetString("FFF") },
+            { CustomRoles.Gamer, GetString("Gamer") },
             //属性
             { (CustomRoles)(-6), $"== {GetString("Addons")} ==" }, //区切り用
             {CustomRoles.Lovers, GetString("Lovers") },

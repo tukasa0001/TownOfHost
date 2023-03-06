@@ -339,6 +339,7 @@ public static class Utils
             case CustomRoles.Pelican:
             case CustomRoles.Revolutionist:
             case CustomRoles.FFF:
+            case CustomRoles.Gamer:
                 hasTasks = false;
                 break;
             case CustomRoles.Terrorist:

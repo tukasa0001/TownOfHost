@@ -96,6 +96,7 @@ internal static class CustomRolesHelper
             CustomRoles.Revolutionist => RoleTypes.Impostor,
             CustomRoles.FFF => RoleTypes.Impostor,
             CustomRoles.Medicaler => RoleTypes.Impostor,
+            CustomRoles.Gamer => RoleTypes.Impostor,
             _ => RoleTypes.Scientist
         };
     }
@@ -127,7 +128,8 @@ internal static class CustomRolesHelper
         return role is
             CustomRoles.Jackal or
             CustomRoles.Pelican or
-            CustomRoles.FFF;
+            CustomRoles.FFF or
+            CustomRoles.Gamer;
     }
     public static bool IsNNK(this CustomRoles role) => role.IsNeutral() && !role.IsNK(); // 是否无刀中立
     public static bool IsNeutralKilling(this CustomRoles role) //是否邪恶中立（抢夺或单独胜利的中立）
@@ -140,7 +142,8 @@ internal static class CustomRolesHelper
             CustomRoles.Mario or
             CustomRoles.Innocent or
             CustomRoles.Pelican or
-            CustomRoles.Egoist;
+            CustomRoles.Egoist or
+            CustomRoles.Gamer;
     }
     public static bool IsCK(this CustomRoles role) // 是否带刀船员
     {
@@ -198,7 +201,8 @@ internal static class CustomRolesHelper
             CustomRoles.Pelican or
             CustomRoles.Revolutionist or
             CustomRoles.FFF or
-            CustomRoles.Konan;
+            CustomRoles.Konan or
+            CustomRoles.Gamer;
     }
     public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
     public static bool IsVanilla(this CustomRoles role) // 是否原版职业
@@ -275,6 +279,7 @@ internal static class CustomRolesHelper
            CustomRoles.GM => CountTypes.OutOfGame,
            CustomRoles.Jackal => CountTypes.Jackal,
            CustomRoles.Pelican => CountTypes.Pelican,
+           CustomRoles.Gamer => CountTypes.Gamer,
            _ => role.IsImpostorTeam() ? CountTypes.Impostor : CountTypes.Crew,
        };
 
@@ -294,4 +299,5 @@ public enum CountTypes
     Impostor,
     Jackal,
     Pelican,
+    Gamer,
 }

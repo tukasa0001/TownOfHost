@@ -312,6 +312,7 @@ public class Main : BasePlugin
                 {CustomRoles.Revolutionist, "#ba4d06"},
                 {CustomRoles.FFF, "#414b66"},
                 {CustomRoles.Konan, "#4d4dff"},
+                {CustomRoles.Gamer, "#68bc71"},
                 // GM
                 {CustomRoles.GM, "#ff5b70"},
                 //サブ役職
@@ -453,6 +454,7 @@ public enum CustomRoles
     Revolutionist,
     FFF,
     Konan,
+    Gamer,
     //GM
     GM,
     // Sub-role after 500
@@ -499,6 +501,7 @@ public enum CustomWinner
     Pelican = CustomRoles.Pelican,
     Youtuber = CustomRoles.Youtuber,
     Egoist = CustomRoles.Egoist,
+    Gamer = CustomRoles.Gamer,
 }
 public enum AdditionalWinners
 {
