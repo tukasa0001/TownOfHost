@@ -45,6 +45,7 @@ internal enum CustomRPC
     SwordsManKill,
     SetCounterfeiterSellLimit,
     SetMedicalerProtectLimit,
+    SetGangsterRecruitLimit,
 }
 public enum Sounds
 {
@@ -312,6 +313,9 @@ internal class RPCHandlerPatch
                 break;
             case CustomRPC.SetMedicalerProtectLimit:
                 Medicaler.ReceiveRPC(reader);
+                break;
+            case CustomRPC.SetGangsterRecruitLimit:
+                Gangster.ReceiveRPC(reader);
                 break;
         }
     }

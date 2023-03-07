@@ -1,3 +1,4 @@
+using Hazel;
 using System.Collections.Generic;
 using UnityEngine;
 using static TOHE.Translator;
@@ -30,6 +31,22 @@ public static class Gangster
         RecruitLimit.TryAdd(playerId, RecruitLimitOpt.GetInt());
     }
     public static bool IsEnable => playerIdList.Count > 0;
+    private static void SendRPC(byte playerId)
+    {
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetGangsterRecruitLimit, SendOption.Reliable, -1);
+        writer.Write(playerId);
+        writer.Write(RecruitLimit[playerId]);
+        AmongUsClient.Instance.FinishRpcImmediately(writer);
+    }
+    public static void ReceiveRPC(MessageReader reader)
+    {
+        byte PlayerId = reader.ReadByte();
+        int Limit = reader.ReadInt32();
+        if (RecruitLimit.ContainsKey(PlayerId))
+            RecruitLimit[PlayerId] = Limit;
+        else
+            RecruitLimit.Add(PlayerId, RecruitLimitOpt.GetInt());
+    }
     public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CanUseKillButton(id) ? KillCooldown.GetFloat() : 0f;
     public static bool CanUseKillButton(byte playerId)
         => !Main.PlayerStates[playerId].IsDead
@@ -48,10 +65,10 @@ public static class Gangster
         if (Utils.CanBeMadmate(target))
         {
             RecruitLimit[killer.PlayerId]--;
+            SendRPC(killer.PlayerId);
             Main.PlayerStates[target.PlayerId].SetSubRole(CustomRoles.Madmate);
             Utils.NotifyRoles(target);
             Utils.NotifyRoles(killer);
-            killer.RpcGuardAndKill(killer);
             killer.RpcGuardAndKill(target);
             target.RpcGuardAndKill(killer);
             target.RpcGuardAndKill(target);
