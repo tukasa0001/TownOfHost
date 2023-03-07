@@ -40,7 +40,7 @@ internal enum CustomRPC
     SetEvilTrackerTarget,
     SetRealKiller,
     SyncMessengerScenes,
-    GamerAttack,
+    SetGamerHealth,
     SetPelicanEtenNum,
     SwordsManKill,
     SetCounterfeiterSellLimit,
@@ -299,7 +299,7 @@ internal class RPCHandlerPatch
             case CustomRPC.SyncMessengerScenes:
                 Messenger.ReceiveRPC(reader);
                 break;
-            case CustomRPC.GamerAttack:
+            case CustomRPC.SetGamerHealth:
                 Gamer.ReceiveRPC(reader);
                 break;
             case CustomRPC.SetPelicanEtenNum:
