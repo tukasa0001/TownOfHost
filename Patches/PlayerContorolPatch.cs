@@ -417,6 +417,9 @@ namespace TownOfHost
             }
             if (!AmongUsClient.Instance.AmHost) return true;
 
+            //通報者が死んでいる場合、本処理で会議がキャンセルされるのでここで止める
+            if (__instance.Data.IsDead) return false;
+
             if (Options.SyncButtonMode.GetBool() && target == null)
             {
                 Logger.Info("最大:" + Options.SyncedButtonCount.GetInt() + ", 現在:" + Options.UsedButtonCount, "ReportDeadBody");
@@ -432,12 +435,10 @@ namespace TownOfHost
                 }
             }
 
-            //通報者が死んでいる場合、本処理で会議がキャンセルされるのでここで止める
-            if (__instance.Data.IsDead) return false;
-
             //=============================================
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
+
 
             if (target == null) //ボタン
             {
