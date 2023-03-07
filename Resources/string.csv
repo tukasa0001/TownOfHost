@@ -506,7 +506,7 @@ BountyShowTargetArrow,显示指向目标的箭头,Bounty hunter show arrow point
 DefaultShapeshiftCooldown,默认变形冷却时间,Default Shapeshift Cooldown,Обычная перезарядка Оборотня
 VampireKillDelay,吸血目标延迟死亡时间,Kill Delay(S),Длительность укуса(Секунды)
 MareAddSpeedInLightsOut,熄灯时的额外速度,Mare Add Player Add Speed In Lights Out,Скорость Ночного при Саботаже Света
-MareKillCooldownInLightsOut,熄灯时的击杀冷却,Kill Cooldown During Fix Lights,Откат убийства Ночного при Саботаже Света
+MareKillCooldownInLightsOut,熄灯时的击杀冷却时间,Kill Cooldown During Fix Lights,Откат убийства Ночного при Саботаже Света
 SabotageMasterSkillLimit,修理技能次数上限,Ability Use Count(Excluding Doors),Лимит способности (Кроме открытия дверей)
 LuckeyProbability,触发挡伤的概率,Probability of staying alive,Вероятность остаться в живых
 SabotageMasterFixesDoors,打开多扇关闭的门,Can Open Multiple Doors,Может открыть все двери
@@ -574,10 +574,10 @@ CrewKillingRed,带刀<color=#8cffff>船员</color>视为邪恶,<color=#8cffff>Cr
 PsychicCanSeeNum,可以看到几个红名,Max number of red names,Максимальное количество красных имен
 PsychicFresh,每次会议刷新红名,Red nickname changes at every meeting,Красный никнейм меняется на каждой встрече
 DetectiveCanknowKiller,可以知道凶手的职业,May know the killer's role,Может знать роль убийцы
-ParanoiaVentCooldown,使用技能冷却时长,Vent Cooldown,Откат вентиляции
-ParanoiaNumOfUseButton,使用技能次数上限,Number of portable buttons,Количество портативных кнопок
+ParanoiaVentCooldown,召开会议冷却时间,Vent Cooldown,Откат вентиляции
+ParanoiaNumOfUseButton,召开会议次数上限,Number of portable buttons,Количество портативных кнопок
 EveryOneKnowSuperStar,所有人知道谁是明星,Everyone knows who is a Super Star,Все знают кто является Супер Звездой
-HackUsedMaxTime,使用技能次数上限,How many times can the ability be used,Сколько раз может использовать способность
+HackUsedMaxTime,骇入次数上限,How many times can the ability be used,Сколько раз может использовать способность
 ZombieSpeedReduce,每次减少移动速度,"After a certain time, down the speed of Zombies by",Скорость Зомби каждый раз снижается на
 MafiaCanKillNum,复仇人数上限,Maximum number of revenge,Максимальное количество мести
 ImpKnowCyberStarDead,<color=#ff1919>内鬼阵营</color>玩家可以知道网红死亡,<color=#ff1919>Impostor</color> may know the Celebrity is dead,<color=#ff1919>Предатели</color> могут знать что Знаменитость мертва
@@ -585,9 +585,9 @@ NeutralKnowCyberStarDead,<color=#ffab1b>中立阵营</color>玩家可以知道�
 JesterCanUseButton,可以召开紧急会议,Can call an emergency meeting,Может вызвать срочное собрание
 MarioVentNumWin,胜利所需跳管次数,Number of vent jumps to win,Сколько раз нужно прыгнуть в вентиляцию чтобы выиграть
 CanCheckCamera,可以监视到是否有人使用监控,Can track camera usage,Может отслеживать использует ли кто-либо камеры
-SansDefaultKillCooldown,初始击杀冷却,Default kill cooldown,Обычный откат убийства
-SansReduceKillCooldown,击杀成功减少冷却,Reduce kill cooldown,Сократить откат убийства на
-SansMinKillCooldown,击杀冷却下限,Minimum kill cooldown,Минимальный откат убийства
+SansDefaultKillCooldown,初始击杀冷却时间,Default kill cooldown,Обычный откат убийства
+SansReduceKillCooldown,击杀成功减少冷却时间,Reduce kill cooldown,Сократить откат убийства на
+SansMinKillCooldown,击杀冷却时间下限,Minimum kill cooldown,Минимальный откат убийства
 BomberRadius,爆炸范围（5x能炸半个食堂）,Bomb radius (5x about half a Cafeteria),Радиус бомбы (5x примерно как половина столовой)
 NotifyGodAlive,如果神存活则在会议上通知所有人,Inform players at the meeting that God is still alive,Сообщать игрокам на встрече что Бог ещё жив
 TransporterTeleportMax,传送次数上限,Max numbers of teleports,Максимальное колличество телепортов
@@ -628,7 +628,7 @@ PelicanKillCooldown,吞人冷却时间,Cooldown Absorption,Откат погло
 SheriffCanBeMadmate,<color=#f8cd46>警长</color>可以成为叛徒,<color=#f8cd46>Sheriff</color> can become Madmate,<color=#f8cd46>Шериф</color> может стать <color=#ff1919>Безумцем</color>
 MayorCanBeMadmate,<color=#204d42>市长</color>可以成为叛徒,<color=#204d42>Mayor</color> can become Madmate,<color=#204d42>Мэр</color> может стать <color=#ff1919>Безумцем</color>
 NGuesserCanBeMadmate,<color=#eede26>正义赌怪</color>可以成为叛徒,<color=#eede26>Nice Guesser</color> can become Madmate,<color=#eede26>Добрый Угадыватель</color> может стать <color=#ff1919>Безумцем</color>
-MedicalerCooldown,发放护盾冷却时长,Shield Cooldown,Откат Щита
+MedicalerCooldown,发放护盾冷却时间,Shield Cooldown,Откат Щита
 MedicalerSkillLimit,发放护盾次数上限,Skill Limit,Лимит Способности
 MedicalerTargetCanSeeProtect,玩家可以知道自己是否持有护盾,Target can see Protection,Цель может видеть Защиту
 DivinatorSkillLimit,占卜次数上限,Skill Limit,Лимит Способности
@@ -640,6 +640,7 @@ MadmateSpawnMode,叛徒生成模式
 MadmateSpawnMode.Assign,开局分配
 MadmateSpawnMode.FirstKill,首刀叛变
 MadmateSpawnMode.SelfVote,主动叛变
+GamerKillCooldown,攻击冷却时间
 GamerHealthMax,其他人血量
 GamerDamage,造成伤害值
 GamerSelfHealthMax,玩家自身血量
