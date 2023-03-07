@@ -7,7 +7,7 @@ public static class Pelican
 {
     private static readonly int Id = 5053175;
     private static List<byte> playerIdList = new();
-    private static Dictionary<byte, int> EatenNum = new();
+    private static readonly Dictionary<byte, int> EatenNum = new();
     private static Dictionary<byte, List<byte>> eatenList = new();
     private static readonly Dictionary<byte, Vector2> originalPosition = new();
     private static readonly Dictionary<byte, float> originalSpeed = new();

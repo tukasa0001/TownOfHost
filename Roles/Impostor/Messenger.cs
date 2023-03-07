@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using HarmonyLib;
+using Hazel;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using HarmonyLib;
 using UnityEngine;
-using Hazel;
 using static TOHE.Options;
 using static TOHE.Translator;
 
@@ -182,8 +182,7 @@ public static class Messenger
                 // 自身がキルしたものは除外
             where tuple.killerId != seer.PlayerId
             select GetString(tuple.room.ToString())).ToArray();
-        if (roomNames.Length < 1) return "";
-        return $"{GetString("MessengerMurderOccurred")}: {string.Join(", ", roomNames)}";
+        return roomNames.Length < 1 ? "" : $"{GetString("MessengerMurderOccurred")}: {string.Join(", ", roomNames)}";
     }
     public static bool KillFlashCheck(PlayerControl killer, PlayerControl target) =>
         CanSeeKillFlash && Utils.IsImpostorKill(killer, target);
