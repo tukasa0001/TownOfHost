@@ -626,7 +626,7 @@ public static class Options
         ImpCanBeDualPersonality = BooleanOptionItem.Create(6052338, "ImpCanBeDualPersonality", true, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.DualPersonality]);
         CrewCanBeDualPersonality = BooleanOptionItem.Create(6052340, "CrewCanBeDualPersonality", true, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.DualPersonality]);
 
-        SetupAdtRoleOptions(6050390, CustomRoles.Madmate, canSetNum: true);
+        SetupAdtRoleOptions(6050390, CustomRoles.Madmate, canSetNum: true, canSetChance: false);
         MadmateSpawnMode = StringOptionItem.Create(6060444, "MadmateSpawnMode", madmateSpawnMode, 0, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Madmate]);
         SheriffCanBeMadmate = BooleanOptionItem.Create(6050395, "SheriffCanBeMadmate", false, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Madmate]);
         MayorCanBeMadmate = BooleanOptionItem.Create(6050396, "MayorCanBeMadmate", false, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Madmate]);
@@ -1017,19 +1017,20 @@ public static class Options
         CustomRoleCounts.Add(role, countOption);
     }
 
-    private static void SetupAdtRoleOptions(int id, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard, bool canSetNum = false, TabGroup tab = TabGroup.Addons)
+    private static void SetupAdtRoleOptions(int id, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard, bool canSetNum = false, TabGroup tab = TabGroup.Addons, bool canSetChance = true)
     {
         var spawnOption = StringOptionItem.Create(id, role.ToString(), ratesZeroOne, 0, tab, false).SetColor(Utils.GetRoleColor(role))
             .SetHeader(true)
             .SetGameMode(customGameMode) as StringOptionItem;
 
-        var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, canSetNum ? 3 : 1, 1), 1, tab, false).SetParent(spawnOption)
+        var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(1, canSetNum ? 6 : 1, 1), 1, tab, false).SetParent(spawnOption)
             .SetValueFormat(OptionFormat.Players)
             .SetHidden(!canSetNum)
             .SetGameMode(customGameMode);
 
-        var spawnRateOption = IntegerOptionItem.Create(id + 2, "AdditionRolesSpawnRate", new(0, 100, 5), 65, tab, false).SetParent(spawnOption)
+        var spawnRateOption = IntegerOptionItem.Create(id + 2, "AdditionRolesSpawnRate", new(0, 100, 5), canSetChance ? 65 : 100, tab, false).SetParent(spawnOption)
             .SetValueFormat(OptionFormat.Percent)
+            .SetHidden(!canSetChance)
             .SetGameMode(customGameMode) as IntegerOptionItem;
 
         CustomAdtRoleSpawnRate.Add(role, spawnRateOption);
