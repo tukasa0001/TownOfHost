@@ -44,6 +44,7 @@ internal enum CustomRPC
     SetPelicanEtenNum,
     SwordsManKill,
     SetCounterfeiterSellLimit,
+    SetMedicalerProtectLimit,
 }
 public enum Sounds
 {
@@ -308,6 +309,9 @@ internal class RPCHandlerPatch
                 break;
             case CustomRPC.SetCounterfeiterSellLimit:
                 Counterfeiter.ReceiveRPC(reader);
+                break;
+            case CustomRPC.SetMedicalerProtectLimit:
+                Medicaler.ReceiveRPC(reader);
                 break;
         }
     }

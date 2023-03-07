@@ -1,3 +1,4 @@
+using Hazel;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,6 +37,22 @@ public static class Medicaler
         Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : 剩余{ProtectLimit[playerId]}个护盾", "medicaler");
     }
     public static bool IsEnable => playerIdList.Count > 0;
+    private static void SendRPC(byte playerId)
+    {
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetMedicalerProtectLimit, SendOption.Reliable, -1);
+        writer.Write(playerId);
+        writer.Write(ProtectLimit[playerId]);
+        AmongUsClient.Instance.FinishRpcImmediately(writer);
+    }
+    public static void ReceiveRPC(MessageReader reader)
+    {
+        byte PlayerId = reader.ReadByte();
+        int Limit = reader.ReadInt32();
+        if (ProtectLimit.ContainsKey(PlayerId))
+            ProtectLimit[PlayerId] = Limit;
+        else
+            ProtectLimit.Add(PlayerId, SkillLimitOpt.GetInt());
+    }
     public static bool CanUseKillButton(byte playerId)
         => !Main.PlayerStates[playerId].IsDead
         && (ProtectLimit.TryGetValue(playerId, out var x) ? x : 1) >= 1;
@@ -49,6 +66,7 @@ public static class Medicaler
         if (ProtectList.Contains(target.PlayerId)) return;
 
         ProtectLimit[killer.PlayerId]--;
+        SendRPC(killer.PlayerId);
         ProtectList.Add(target.PlayerId);
         killer.RpcGuardAndKill(target);
         killer.SetKillCooldown();
