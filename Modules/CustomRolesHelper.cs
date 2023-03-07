@@ -183,7 +183,8 @@ internal static class CustomRolesHelper
             CustomRoles.BoobyTrap or
             CustomRoles.Capitalism or
             CustomRoles.Gangster or
-            CustomRoles.Cleaner;
+            CustomRoles.Cleaner or
+            CustomRoles.Messenger;
     }
     public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role == CustomRoles.Madmate;
     public static bool IsNeutral(this CustomRoles role) // 是否中立

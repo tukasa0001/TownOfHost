@@ -408,6 +408,7 @@ public enum CustomRoles
     Capitalism,
     Gangster,
     Cleaner,
+    Messenger,
     //Crewmate(Vanilla)
     Engineer,
     GuardianAngel,

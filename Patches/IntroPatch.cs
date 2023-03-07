@@ -292,6 +292,7 @@ internal class IntroCutsceneDestroyPatch
                         break;
                 }
             }
+            Roles.Impostor.Messenger.InitDeadCount();
         }
         Logger.Info("OnDestroy", "IntroCutscene");
     }

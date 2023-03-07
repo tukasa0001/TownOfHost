@@ -39,6 +39,7 @@ internal enum CustomRPC
     SetCurrentDrawTarget,
     SetEvilTrackerTarget,
     SetRealKiller,
+    SyncMessengerScenes,
 }
 public enum Sounds
 {
@@ -288,6 +289,9 @@ internal class RPCHandlerPatch
                 byte killerId = reader.ReadByte();
                 RPC.SetRealKiller(targetId, killerId);
                 break;
+            case CustomRPC.SyncMessengerScenes:
+                Messenger.ReceiveRPC(reader);
+                break;
         }
     }
 }
@@ -417,6 +421,9 @@ internal static class RPC
                 break;
             case CustomRoles.EvilTracker:
                 EvilTracker.Add(targetId);
+                break;
+            case CustomRoles.Messenger:
+                Messenger.Add(targetId);
                 break;
             case CustomRoles.Witch:
                 Witch.Add(targetId);

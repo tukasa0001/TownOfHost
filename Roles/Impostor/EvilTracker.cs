@@ -102,10 +102,7 @@ public static class EvilTracker
         && (target.Is(CustomRoleTypes.Impostor) || GetTargetId(seer.PlayerId) == target.PlayerId);
     public static bool KillFlashCheck(PlayerControl killer, PlayerControl target)
     {
-        if (!CanSeeKillFlash) return false;
-        //インポスターによるキルかどうかの判別
-        var realKiller = target.GetRealKiller() ?? killer;
-        return realKiller.Is(CustomRoleTypes.Impostor) && realKiller != target;
+        return CanSeeKillFlash && Utils.IsImpostorKill(killer, target);
     }
 
     // 各所で呼ばれる処理
