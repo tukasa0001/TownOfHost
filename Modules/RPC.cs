@@ -252,6 +252,12 @@ internal class RPCHandlerPatch
                 bool doused = reader.ReadBoolean();
                 Main.isDoused[(ArsonistId, DousedId)] = doused;
                 break;
+            case CustomRPC.SetDrawPlayer:
+                byte RevolutionistId = reader.ReadByte();
+                byte DrawId = reader.ReadByte();
+                bool drawed = reader.ReadBoolean();
+                Main.isDraw[(RevolutionistId, DrawId)] = drawed;
+                break;
             case CustomRPC.SetNameColorData:
                 NameColorManager.ReceiveRPC(reader);
                 break;
