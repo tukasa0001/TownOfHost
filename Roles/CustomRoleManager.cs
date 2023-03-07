@@ -173,13 +173,13 @@ public static class CustomRoleManager
         }
         else
         {
-            OtherRollAdds(player);
+            OtherRolesAdd(player);
         }
+        if (player.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(player.PlayerId, false);
 
     }
-    public static void OtherRollAdds(PlayerControl pc)
+    public static void OtherRolesAdd(PlayerControl pc)
     {
-        if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
         switch (pc.GetCustomRole())
         {
             case CustomRoles.SerialKiller:
