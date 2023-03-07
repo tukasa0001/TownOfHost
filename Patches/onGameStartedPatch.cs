@@ -172,8 +172,8 @@ namespace TownOfHost
                 foreach (var roleTypes in RoleTypesList)
                 {
                     var roleOpt = Main.NormalOptions.roleOptions;
-                    int additionalNum = GetAdditionalRoleTypesCount(roleTypes);
-                    roleOpt.SetRoleRate(roleTypes, roleOpt.GetNumPerGame(roleTypes) + additionalNum, additionalNum > 0 ? 100 : roleOpt.GetChancePerGame(roleTypes));
+                    int numRoleTypes = GetRoleTypesCount(roleTypes);
+                    roleOpt.SetRoleRate(roleTypes, numRoleTypes, numRoleTypes > 0 ? 100 : 0);
                 }
 
                 List<PlayerControl> AllPlayers = new();
@@ -416,7 +416,7 @@ namespace TownOfHost
                 foreach (var roleTypes in RoleTypesList)
                 {
                     var roleOpt = Main.NormalOptions.roleOptions;
-                    roleOpt.SetRoleRate(roleTypes, roleOpt.GetNumPerGame(roleTypes) - GetAdditionalRoleTypesCount(roleTypes), roleOpt.GetChancePerGame(roleTypes));
+                    roleOpt.SetRoleRate(roleTypes, 0, 0);
                 }
                 GameEndChecker.SetPredicateToNormal();
 
@@ -592,12 +592,11 @@ namespace TownOfHost
             }
             RPC.SyncLoversPlayers();
         }
-        public static int GetAdditionalRoleTypesCount(RoleTypes roleTypes)
+        public static int GetRoleTypesCount(RoleTypes roleTypes)
         {
             int count = 0;
             foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x < CustomRoles.NotAssigned))
             {
-                if (role.IsVanilla()) continue;
                 if (role is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.Jackal) continue;
                 if (role == CustomRoles.Egoist && Main.NormalOptions.GetInt(Int32OptionNames.NumImpostors) <= 1) continue;
                 if (role.GetRoleTypes() == roleTypes)

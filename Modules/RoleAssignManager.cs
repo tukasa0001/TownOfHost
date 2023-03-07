@@ -52,7 +52,7 @@ namespace TownOfHost.Modules
             SetAssignRoleList();
             SetAddOnsList();
             AssignRoleList.Sort();
-            Logger.Info($"{String.Join(", ", AssignRoleList)}", "SelectAssignRoles");
+            Logger.Info($"{string.Join(", ", AssignRoleList)}", "SelectAssignRoles");
         }
         ///<summary>
         ///設定と実際の人数から各役職のアサイン数を決定
@@ -111,7 +111,7 @@ namespace TownOfHost.Modules
                 else
                     AssignCount.Add(roleTypes, otherRoleTypesList.Count(x => x == roleTypes));
             }
-            Logger.Info($"{String.Join(", ", AssignCount)}", "SetAssignCount");
+            Logger.Info($"{string.Join(", ", AssignCount)}", "SetAssignCount");
         }
         ///<summary>
         ///役職のアサイン抽選
@@ -122,11 +122,11 @@ namespace TownOfHost.Modules
             AssignRoleList = new();
             List<(CustomRoles, int)> randomRoleTicketPool = new(); //ランダム抽選時のプール
             var rand = IRandom.Instance;
-            var assignCount = AssignCount; //アサイン枠のDictionary
+            var assignCount = new Dictionary<CustomRoleTypes, int>(AssignCount); //アサイン枠のDictionary
 
             foreach (var role in RolesArray.Where(role => role < CustomRoles.NotAssigned).OrderBy(x => Guid.NewGuid())) //確定枠が偏らないようにシャッフル
             {
-                if (role.IsVanilla()) continue;
+                if (role == CustomRoles.Crewmate) continue;
 
                 var chance = role.GetChance();
                 var count = role.GetCount();
@@ -202,7 +202,7 @@ namespace TownOfHost.Modules
                 CustomRoles.Lovers => new CustomRoles[2] { CustomRoles.Lovers, CustomRoles.Lovers },
                 _ => new CustomRoles[1] { role },
             };
-        public static bool IsExist(this CustomRoles role) => AssignRoleList.Any(x => x == role);
+        public static bool DoExist(this CustomRoles role) => AssignRoleList.Any(x => x == role);
         public static int GetRealCount(this CustomRoles role) => AssignRoleList.Count(x => x == role);
     }
 }
