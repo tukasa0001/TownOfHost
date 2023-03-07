@@ -11,9 +11,12 @@ internal class EAC
 {
     public static List<string> Msgs = new();
     public static int MeetingTimes = 0;
+    public static int DeNum = 0;
     public static void WarnHost()
     {
-        ErrorText.Instance.SBDetected = true;
+        DeNum++;
+        ErrorText.Instance.CheatDetected = true;
+        ErrorText.Instance.SBDetected = DeNum > 10;
         ErrorText.Instance.AddError(ErrorCode.SBDetected);
     }
     public static bool Receive(PlayerControl pc, byte callId, MessageReader reader)
