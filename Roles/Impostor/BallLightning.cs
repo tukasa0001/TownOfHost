@@ -19,7 +19,7 @@ public static class BallLightning
     public static void SetupCustomOption()
     {
         SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.BallLightning);
-        KillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(2.5f, 180f, 2.5f), 20f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.BallLightning])
+        KillCooldown = FloatOptionItem.Create(Id + 10, "BallLightningKillCooldown", new(2.5f, 180f, 2.5f), 30f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.BallLightning])
             .SetValueFormat(OptionFormat.Seconds);
         ConvertTime = FloatOptionItem.Create(Id + 12, "BallLightningConvertTime", new(2.5f, 180f, 2.5f), 10f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.BallLightning])
             .SetValueFormat(OptionFormat.Seconds);

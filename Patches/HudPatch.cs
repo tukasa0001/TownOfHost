@@ -141,6 +141,9 @@ internal class HudManagerPatch
                     case CustomRoles.Gamer:
                         __instance.KillButton.OverrideText($"{GetString("GamerButtonText")}");
                         break;
+                    case CustomRoles.BallLightning:
+                        __instance.KillButton.OverrideText($"{GetString("BallLightningButtonText")}");
+                        break;
                 }
 
                 //バウンティハンターのターゲットテキスト

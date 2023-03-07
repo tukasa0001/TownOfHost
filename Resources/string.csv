@@ -650,6 +650,7 @@ GamerDamage,造成伤害值
 GamerSelfHealthMax,玩家自身血量
 GamerSelfDamage,自身收到的伤害值
 BallLightningConvertTime,转化为量子幽灵的时间
+BallLightningKillCooldown,转化冷却时间
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
@@ -915,6 +916,7 @@ RevolutionistDrawButtonText,拉拢,Win over,Покорить
 FFFButtonText,制裁,Hatred,Ненависть
 MedicalerButtonText,保护,Protect,Защитить
 GamerButtonText,攻击
+BallLightningButtonText,转化
 DefaultShapeshiftText,变形,Shift,Превращение
 DisabledBySettings,已在设置被中禁用,Disabled by Settings,Отключено настройкой
 Disabled,禁用,Disabled,Отключено
