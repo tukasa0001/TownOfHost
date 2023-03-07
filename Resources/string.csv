@@ -640,6 +640,10 @@ MadmateSpawnMode,叛徒生成模式
 MadmateSpawnMode.Assign,开局分配
 MadmateSpawnMode.FirstKill,首刀叛变
 MadmateSpawnMode.SelfVote,主动叛变
+GamerHealthMax,其他人血量
+GamerDamage,造成伤害值
+GamerSelfHealthMax,玩家自身血量
+GamerSelfDamage,自身收到的伤害值
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
