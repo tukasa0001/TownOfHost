@@ -131,6 +131,7 @@ namespace TownOfHost.Modules
                 var chance = role.GetChance();
                 var count = role.GetCount();
                 if (chance == 0 || count == 0) continue;
+                if (role == CustomRoles.Egoist && Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) <= 1) continue;
 
                 for (var i = 0; i < count; i++)
                 {

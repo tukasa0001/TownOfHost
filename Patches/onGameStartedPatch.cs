@@ -286,9 +286,7 @@ namespace TownOfHost
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x < CustomRoles.NotAssigned))
                 {
                     if (role.IsVanilla()) continue;
-                    if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                     if (role is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.Jackal) continue;
-                    if (role == CustomRoles.Egoist && Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) <= 1) continue;
                     var baseRoleTypes = role.GetRoleTypes() switch
                     {
                         RoleTypes.Impostor => Impostors,
