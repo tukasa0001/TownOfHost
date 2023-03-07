@@ -132,13 +132,11 @@ public static class Gamer
         if (seer.PlayerId == target.PlayerId)
         {
             var GetValue = GamerHealth.TryGetValue(target.PlayerId, out var value);
-            Logger.Test(value);
             return GetValue && value > 0 ? Utils.ColorString(GetColor(value, true), $"【{value}/{SelfHealthMax.GetInt()}】") : "";
         }
         else
         {
             var GetValue = PlayerHealth.TryGetValue(target.PlayerId, out var value);
-            Logger.Test(value);
             return GetValue && value > 0 ? Utils.ColorString(GetColor(value), $"【{value}/{HealthMax.GetInt()}】") : "";
         }
     }
