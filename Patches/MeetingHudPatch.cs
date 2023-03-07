@@ -5,6 +5,7 @@ using System.Text;
 using HarmonyLib;
 using UnityEngine;
 
+using TownOfHost.Modules;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Crewmate;
 using TownOfHost.Roles.Neutral;
@@ -218,7 +219,7 @@ namespace TownOfHost
             foreach (var playerId in playerIds)
             {
                 //Loversの後追い
-                if (CustomRoles.Lovers.IsEnable() && !Main.isLoversDead && Main.LoversPlayers.Find(lp => lp.PlayerId == playerId) != null)
+                if (CustomRoles.Lovers.IsPresent() && !Main.isLoversDead && Main.LoversPlayers.Find(lp => lp.PlayerId == playerId) != null)
                     FixedUpdatePatch.LoversSuicide(playerId, true);
                 //道連れチェック
                 RevengeOnExile(playerId, deathReason);

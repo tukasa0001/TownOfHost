@@ -447,7 +447,7 @@ namespace TownOfHost
         }
         private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, Dictionary<byte, CustomRpcSender> senders, Dictionary<(byte, byte), RoleTypes> rolesMap, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)
         {
-            if (!role.IsEnable()) return;
+            if (!role.IsPresent()) return;
 
             var hostId = PlayerControl.LocalPlayer.PlayerId;
             var rand = IRandom.Instance;
@@ -536,13 +536,13 @@ namespace TownOfHost
 
         private static void AssignCustomSubRolesFromList(CustomRoles role, int RawCount = -1)
         {
-            if (!role.IsEnable()) return;
+            if (!role.IsPresent()) return;
             var allPlayers = new List<PlayerControl>();
             foreach (var pc in Main.AllPlayerControls)
                 if (IsAssignTarget(pc, role))
                     allPlayers.Add(pc);
 
-            if (RawCount == -1) RawCount = role.GetCount();
+            if (RawCount == -1) RawCount = role.GetRealCount();
             int count = Math.Clamp(RawCount, 0, allPlayers.Count);
             if (count <= 0) return;
 
@@ -566,7 +566,7 @@ namespace TownOfHost
         }
         private static void AssignLoversRoles(int RawCount = -1)
         {
-            if (!CustomRoles.Lovers.IsEnable()) return;
+            if (!CustomRoles.Lovers.IsPresent()) return;
             //Loversを初期化
             Main.LoversPlayers.Clear();
             Main.isLoversDead = false;
@@ -579,7 +579,7 @@ namespace TownOfHost
             var loversRole = CustomRoles.Lovers;
             var rand = IRandom.Instance;
             var count = Math.Clamp(RawCount, 0, allPlayers.Count);
-            if (RawCount == -1) count = Math.Clamp(loversRole.GetCount(), 0, allPlayers.Count);
+            if (RawCount == -1) count = Math.Clamp(loversRole.GetRealCount(), 0, allPlayers.Count);
             if (count <= 0) return;
 
             for (var i = 0; i < count; i++)

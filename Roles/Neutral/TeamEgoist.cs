@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using TownOfHost.Modules;
 
 namespace TownOfHost.Roles.Neutral
 {
@@ -14,7 +15,7 @@ namespace TownOfHost.Roles.Neutral
         public static bool CompleteWinCondition(byte id) => CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor && !Main.PlayerStates[id].IsDead && !Main.AllAlivePlayerControls.Any(p => p.Is(CustomRoleTypes.Impostor));
         public static void SoloWin(List<PlayerControl> winner)
         {
-            if (CustomWinnerHolder.WinnerTeam == CustomWinner.Egoist && CustomRoles.Egoist.IsEnable()) //横取り勝利
+            if (CustomWinnerHolder.WinnerTeam == CustomWinner.Egoist && CustomRoles.Egoist.IsPresent()) //横取り勝利
             {
                 winner.Clear();
                 foreach (var id in playerIdList)

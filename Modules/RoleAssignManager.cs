@@ -202,7 +202,7 @@ namespace TownOfHost.Modules
                 CustomRoles.Lovers => new CustomRoles[2] { CustomRoles.Lovers, CustomRoles.Lovers },
                 _ => new CustomRoles[1] { role },
             };
-        public static bool DoExist(this CustomRoles role) => AssignRoleList.Any(x => x == role);
+        public static bool IsPresent(this CustomRoles role) => AssignRoleList.Any(x => x == role);
         public static int GetRealCount(this CustomRoles role) => AssignRoleList.Count(x => x == role);
     }
 }

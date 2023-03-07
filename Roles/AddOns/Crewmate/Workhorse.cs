@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using TownOfHost.Modules;
 
 using static TownOfHost.Options;
 
@@ -53,7 +54,7 @@ namespace TownOfHost.Roles.AddOns.Crewmate
         }
         public static bool OnCompleteTask(PlayerControl pc)
         {
-            if (!CustomRoles.Workhorse.IsEnable() || playerIdList.Count >= CustomRoles.Workhorse.GetCount()) return false;
+            if (!CustomRoles.Workhorse.IsPresent() || playerIdList.Count >= CustomRoles.Workhorse.GetRealCount()) return false;
             if (!IsAssignTarget(pc)) return false;
 
             pc.RpcSetCustomRole(CustomRoles.Workhorse);
