@@ -646,9 +646,9 @@ MadmateSpawnMode.FirstKill,首刀叛变
 MadmateSpawnMode.SelfVote,主动叛变
 GamerKillCooldown,攻击冷却时间
 GamerHealthMax,其他人血量
-GamerDamage,造成伤害值
-GamerSelfHealthMax,玩家自身血量
-GamerSelfDamage,自身收到的伤害值
+GamerDamage,造成的伤害值
+GamerSelfHealthMax,自身血量
+GamerSelfDamage,受到的伤害值
 BallLightningConvertTime,转化为量子幽灵的时间
 BallLightningKillCooldown,转化冷却时间
 
