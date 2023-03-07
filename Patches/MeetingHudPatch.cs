@@ -494,6 +494,7 @@ internal class MeetingHudStartPatch
         Main.MadGrenadierBlinding.Clear();
         Main.LastVotedPlayerInfo = null;
         Counterfeiter.OnMeetingStart();
+        BallLightning.OnMeetingStart();
         Divinator.didVote.Clear();
         NotifyRoleSkillOnMeetingStart();
         foreach (var pc in PlayerControl.AllPlayerControls)

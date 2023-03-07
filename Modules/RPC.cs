@@ -480,6 +480,9 @@ internal static class RPC
             case CustomRoles.Gamer:
                 Gamer.Add(targetId);
                 break;
+            case CustomRoles.BallLightning:
+                BallLightning.Add(targetId);
+                break;
         }
         HudManager.Instance.SetHudActive(true);
         if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();

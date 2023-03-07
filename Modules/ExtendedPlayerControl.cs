@@ -516,6 +516,9 @@ internal static class ExtendedPlayerControl
             case CustomRoles.Gamer:
                 Gamer.SetKillCooldown(player.PlayerId);
                 break;
+            case CustomRoles.BallLightning:
+                BallLightning.SetKillCooldown(player.PlayerId);
+                break;
         }
     }
     public static void TrapperKilled(this PlayerControl killer, PlayerControl target)

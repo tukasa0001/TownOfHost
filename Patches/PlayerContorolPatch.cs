@@ -100,9 +100,14 @@ internal class CheckMurderPatch
             Logger.Info(killer.GetNameWithRole() + "はKillできないので、キルはキャンセルされました。", "CheckMurder");
             return false;
         }
+
         //実際のキラーとkillerが違う場合の入れ替え処理
         if (Sniper.IsEnable) Sniper.TryGetSniper(target.PlayerId, ref killer);
         if (killer != __instance) Logger.Info($"Real Killer={killer.GetNameWithRole()}", "CheckMurder");
+
+        //阻止对量子幽灵的操作
+        if (BallLightning.CheckMurder(target))
+            return false;
 
         //キル時の特殊判定
         if (killer.PlayerId != target.PlayerId)
@@ -187,6 +192,10 @@ internal class CheckMurderPatch
                     if (Gangster.OnCheckMurder(killer, target))
                         return false;
                     break;
+                case CustomRoles.BallLightning:
+                    if (BallLightning.CheckBallLightningMurder(killer, target))
+                        return false;
+                    break;
 
                 //==========第三陣営役職==========//
                 case CustomRoles.Arsonist:
@@ -269,7 +278,7 @@ internal class CheckMurderPatch
                 break;
             //击杀老兵
             case CustomRoles.Veteran:
-                if (Main.VeteranInProtect.ContainsKey(target.PlayerId))
+                if (Main.VeteranInProtect.ContainsKey(target.PlayerId) && killer.PlayerId != target.PlayerId)
                     if (Main.VeteranInProtect[target.PlayerId] + Options.VeteranSkillDuration.GetInt() >= Utils.GetTimeStamp(DateTime.Now))
                     {
                         killer.SetRealKiller(target);
@@ -281,23 +290,26 @@ internal class CheckMurderPatch
         }
 
         //保镖保护
-        foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.PlayerId != target.PlayerId))
+        if (killer.PlayerId != target.PlayerId)
         {
-            var pos = target.transform.position;
-            var dis = Vector2.Distance(pos, pc.transform.position);
-            if (dis > Options.BodyguardProtectRadius.GetFloat()) continue;
-            if (pc.Is(CustomRoles.Bodyguard))
+            foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.PlayerId != target.PlayerId))
             {
-                if (pc.Is(CustomRoles.Madmate) && killer.GetCustomRole().IsImpostorTeam())
-                    Logger.Info($"{pc.GetRealName()} 是个叛徒，所以他选择无视杀人现场", "Bodyguard");
-                else
+                var pos = target.transform.position;
+                var dis = Vector2.Distance(pos, pc.transform.position);
+                if (dis > Options.BodyguardProtectRadius.GetFloat()) continue;
+                if (pc.Is(CustomRoles.Bodyguard))
                 {
-                    Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
-                    pc.RpcMurderPlayer(killer);
-                    pc.SetRealKiller(killer);
-                    pc.RpcMurderPlayer(pc);
-                    Logger.Info($"{pc.GetRealName()} 挺身而出与歹徒 {killer.GetRealName()} 同归于尽", "Bodyguard");
-                    return false;
+                    if (pc.Is(CustomRoles.Madmate) && killer.GetCustomRole().IsImpostorTeam())
+                        Logger.Info($"{pc.GetRealName()} 是个叛徒，所以他选择无视杀人现场", "Bodyguard");
+                    else
+                    {
+                        Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
+                        pc.RpcMurderPlayer(killer);
+                        pc.SetRealKiller(killer);
+                        pc.RpcMurderPlayer(pc);
+                        Logger.Info($"{pc.GetRealName()} 挺身而出与歹徒 {killer.GetRealName()} 同归于尽", "Bodyguard");
+                        return false;
+                    }
                 }
             }
         }
@@ -907,6 +919,7 @@ internal class FixedUpdatePatch
             Pelican.FixedUpdate();
             DoubleTrigger.OnFixedUpdate(player);
             Vampire.OnFixedUpdate(player);
+            BallLightning.FixedUpdate();
             if (GameStates.IsInTask && CustomRoles.SerialKiller.IsEnable()) SerialKiller.FixedUpdate(player);
             if (GameStates.IsInTask && Main.WarlockTimer.ContainsKey(player.PlayerId))//処理を1秒遅らせる
             {
