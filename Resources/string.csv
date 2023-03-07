@@ -72,7 +72,7 @@ BoobyTrap,诡雷,Booby Trap,Мина Ловушка
 Capitalism,资本家,Capitalist,Капиталист
 Gangster,教父,Gangster,Гангстер
 Cleaner,清理工,Cleaner,Очиститель
-Messenger,邪恶黑客
+Messenger,情报贩子
 
 # 船员阵营
 Bait,诱饵,Bait,Байт
@@ -176,7 +176,7 @@ EvilGuesserInfo,想来一把吗，伙计,Guess the nice roles of the players,У�
 CapitalismInfo,这可都是劳动力呀,Add another task to a Crewmate,Добавьте еще одно задание Члену Экипажа
 GangsterInfo,是时候重整旗鼓了！,Get players on your side,Перемани игроков на свою сторону
 CleanerInfo,从世界上抹除掉他们！,Cleanse body,Очисти труп
-MessengerInfo,黑掉所有设备
+MessengerInfo,倒不如说整个AU都是个阴谋
 
 # 船员阵营
 BaitInfo,好消息，杀了我可以吃席,Bait your enemies,Убийца моментально зарепортит ваш труп

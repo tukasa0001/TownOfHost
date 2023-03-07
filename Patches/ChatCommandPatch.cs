@@ -648,6 +648,7 @@ internal class ChatCommands
             "占卜師" or "占卜" => "占卜师",
             "雙重人格" or "双重" or "双人格" or "人格" => "双重人格",
             "玩家" => "玩家",
+            "情報販子" or "情报" or "贩子" => "情报贩子",
             _ => text,
         };
     }
@@ -686,6 +687,7 @@ internal class ChatCommands
             { CustomRoles.Capitalism, GetString("Capitalism") },
             { CustomRoles.Gangster, GetString("Gangster") },
             { CustomRoles.Cleaner, GetString("Cleaner") },
+            { CustomRoles.Messenger, GetString("Messenger") },
             //Crewmate役職
             { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
             { CustomRoles.Bait, GetString("Bait") },
