@@ -48,7 +48,7 @@ public static class BallLightning
 
         new LateTask(() =>
         {
-            if (GameStates.IsInTask && !GameStates.IsMeeting)
+            if (GameStates.IsInTask && !GameStates.IsMeeting && target.IsAlive() && !Pelican.IsEaten(target.PlayerId))
             {
                 GhostPlayer.Add(target.PlayerId);
                 RealKiller.TryAdd(target.PlayerId, killer);

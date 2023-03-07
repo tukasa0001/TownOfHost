@@ -41,6 +41,7 @@ internal enum CustomRPC
     SetRealKiller,
     SyncMessengerScenes,
     GamerAttack,
+    SetPelicanEtenNum,
 }
 public enum Sounds
 {
@@ -296,6 +297,9 @@ internal class RPCHandlerPatch
                 break;
             case CustomRPC.GamerAttack:
                 Gamer.ReceiveRPC(reader);
+                break;
+            case CustomRPC.SetPelicanEtenNum:
+                Pelican.ReceiveRPC(reader);
                 break;
         }
     }
