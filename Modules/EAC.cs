@@ -86,7 +86,7 @@ internal class EAC
                 case RpcCalls.ReportDeadBody:
                     var p = Utils.GetPlayerById(sr.ReadByte());
                     MeetingTimes++;
-                    if ((GameStates.IsMeeting && MeetingTimes > 4) || GameStates.IsLobby)
+                    if ((GameStates.IsMeeting && MeetingTimes > 20) || GameStates.IsLobby)
                     {
                         WarnHost();
                         Report(pc, "非法召集会议");
