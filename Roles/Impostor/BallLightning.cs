@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Hazel;
+using System.Collections.Generic;
 using System.Linq;
 using TOHE.Roles.Neutral;
 using UnityEngine;
@@ -13,16 +14,18 @@ public static class BallLightning
 
     private static OptionItem KillCooldown;
     private static OptionItem ConvertTime;
+    private static OptionItem KillerConvertGhost;
 
     private static List<byte> GhostPlayer;
     private static Dictionary<byte, PlayerControl> RealKiller;
     public static void SetupCustomOption()
     {
-        SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.BallLightning);
-        KillCooldown = FloatOptionItem.Create(Id + 10, "BallLightningKillCooldown", new(2.5f, 180f, 2.5f), 30f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.BallLightning])
+        SetupRoleOptions(Id, TabGroup.OtherRoles, CustomRoles.BallLightning);
+        KillCooldown = FloatOptionItem.Create(Id + 10, "BallLightningKillCooldown", new(2.5f, 180f, 2.5f), 30f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.BallLightning])
             .SetValueFormat(OptionFormat.Seconds);
-        ConvertTime = FloatOptionItem.Create(Id + 12, "BallLightningConvertTime", new(2.5f, 180f, 2.5f), 10f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.BallLightning])
+        ConvertTime = FloatOptionItem.Create(Id + 12, "BallLightningConvertTime", new(2.5f, 180f, 2.5f), 10f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.BallLightning])
             .SetValueFormat(OptionFormat.Seconds);
+        KillerConvertGhost = BooleanOptionItem.Create(Id + 14, "BallLightningKillerConvertGhost", true, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.BallLightning]);
     }
     public static void Init()
     {
@@ -35,29 +38,57 @@ public static class BallLightning
         playerIdList.Add(playerId);
     }
     public static bool IsEnable => playerIdList.Count > 0;
+    private static void SendRPC(byte playerId)
+    {
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetGhostPlayer, SendOption.Reliable, -1);
+        writer.Write(playerId);
+        writer.Write(IsGhost(playerId));
+        AmongUsClient.Instance.FinishRpcImmediately(writer);
+    }
+    public static void ReceiveRPC(MessageReader reader)
+    {
+        byte GhostId = reader.ReadByte();
+        bool isGhost = reader.ReadBoolean();
+        if (GhostId == byte.MaxValue)
+        {
+            GhostPlayer = new();
+            return;
+        }
+        GhostPlayer.Remove(GhostId);
+        if (isGhost) GhostPlayer.Add(GhostId);
+    }
     public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown.GetFloat();
     public static bool IsGhost(PlayerControl player) => GhostPlayer.Contains(player.PlayerId);
+    public static bool IsGhost(byte id) => GhostPlayer.Contains(id);
     public static bool CheckMurder(PlayerControl target) => IsGhost(target);
     public static bool CheckBallLightningMurder(PlayerControl killer, PlayerControl target)
     {
         if (killer == null || target == null || !killer.Is(CustomRoles.BallLightning)) return false;
         if (IsGhost(target)) return false;
-
         killer.SetKillCooldown();
-        killer.RpcGuardAndKill(killer);
-
+        StartConvertCountDown(killer, target);
+        return true;
+    }
+    private static void StartConvertCountDown(PlayerControl killer, PlayerControl target)
+    {
         new LateTask(() =>
         {
             if (GameStates.IsInTask && !GameStates.IsMeeting && target.IsAlive() && !Pelican.IsEaten(target.PlayerId))
             {
                 GhostPlayer.Add(target.PlayerId);
+                SendRPC(target.PlayerId);
                 RealKiller.TryAdd(target.PlayerId, killer);
                 if (!killer.inVent) killer.RpcGuardAndKill(killer);
                 Logger.Info($"{target.GetNameWithRole()} 转化为量子幽灵", "BallLightning");
             }
         }, ConvertTime.GetFloat(), "BallLightning Convert Player To Ghost");
-
-        return true;
+    }
+    public static void MurderPlayer(PlayerControl killer, PlayerControl target)
+    {
+        if (killer == null || target == null || !target.Is(CustomRoles.BallLightning)) return;
+        if (!KillerConvertGhost.GetBool() || IsGhost(killer)) return;
+        RealKiller.TryAdd(killer.PlayerId, target);
+        StartConvertCountDown(target, killer);
     }
     public static void FixedUpdate()
     {
@@ -84,6 +115,7 @@ public static class BallLightning
             }
         }
         GhostPlayer.RemoveAll(deList.Contains);
+        foreach (var gs in deList) SendRPC(gs);
     }
     public static void OnMeetingStart()
     {
@@ -96,5 +128,6 @@ public static class BallLightning
             Logger.Info($"{gs.GetNameWithRole()} 作为量子幽灵参与会议，将在会议后死亡", "BallLightning");
         }
         GhostPlayer = new();
+        SendRPC(byte.MaxValue);
     }
 }

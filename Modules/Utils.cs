@@ -18,7 +18,10 @@ using TOHE.Roles.Impostor;
 using TOHE.Roles.Neutral;
 using UnhollowerBaseLib;
 using UnityEngine;
+using UnityEngine.UI;
 using static TOHE.Translator;
+using static UnityEngine.GraphicsBuffer;
+
 namespace TOHE;
 
 public static class Utils
@@ -983,6 +986,10 @@ public static class Utils
             if (seer.Is(CustomRoles.SuperStar) && Options.EveryOneKnowSuperStar.GetBool())
                 SelfMark.Append(ColorString(GetRoleColor(CustomRoles.SuperStar), "★"));
 
+            //球状闪电提示
+            if (BallLightning.IsGhost(seer))
+                SelfMark.Append(ColorString(GetRoleColor(CustomRoles.BallLightning), "■"));
+
             //法医护盾提示
             SelfMark.Append(Medicaler.GetSheildMark(seer));
 
@@ -1065,6 +1072,10 @@ public static class Utils
                     //如果是大明星
                     if (target.Is(CustomRoles.SuperStar) && Options.EveryOneKnowSuperStar.GetBool())
                         TargetMark.Append(ColorString(GetRoleColor(CustomRoles.SuperStar), "★"));
+
+                    //球状闪电提示
+                    if (BallLightning.IsGhost(target))
+                        TargetMark.Append(ColorString(GetRoleColor(CustomRoles.BallLightning), "■"));
 
                     //タスク完了直前のSnitchにマークを表示
                     TargetMark.Append(Snitch.GetWarningMark(seer, target));

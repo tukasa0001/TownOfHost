@@ -491,6 +491,10 @@ internal class MurderPlayerPatch
         {
             Pelican.OnPelicanDied(target.PlayerId);
         }
+        if (target.Is(CustomRoles.BallLightning))
+        {
+            BallLightning.MurderPlayer(killer, target);
+        }
 
         FixedUpdatePatch.LoversSuicide(target.PlayerId);
         Messenger.OnMurder(killer, target);
@@ -1310,6 +1314,9 @@ internal class FixedUpdatePatch
 
                 if (target.Is(CustomRoles.SuperStar) && Options.EveryOneKnowSuperStar.GetBool())
                     Mark.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.SuperStar), "★"));
+
+                if (BallLightning.IsGhost(target))
+                    Mark.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.BallLightning), "■"));
 
                 //ハートマークを付ける(会議中MOD視点)
                 if (__instance.Is(CustomRoles.Lovers) && PlayerControl.LocalPlayer.Is(CustomRoles.Lovers))

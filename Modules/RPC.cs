@@ -46,6 +46,7 @@ internal enum CustomRPC
     SetCounterfeiterSellLimit,
     SetMedicalerProtectLimit,
     SetGangsterRecruitLimit,
+    SetGhostPlayer,
 }
 public enum Sounds
 {
