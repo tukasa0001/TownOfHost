@@ -414,8 +414,8 @@ AutoKickStopWordsTimes,踢出前警告次数,Number of warnings for forbidden wo
 AutoKickStopWordsAsBan,踢出时封禁该玩家,Block a player after they kick,Заблокировать игрока после его кика
 AutoWarnStopWords,警告使用违禁词的人,Warning to those who write forbidden words,Предупреждение тем кто пишет запрещенные слова
 KickAndroidPlayer,踢出使用安卓的玩家,Kick players who entered the lobby using the phone,Кикнуть игроков которые зашли в лобби через телефон
-SendCodeToQQ,允许车队姬自动群发您的房号,(Only for China)房间人数达到多少时群发,(Только для Китая)允许车队姬自动群发您的房号
-SendCodeMinPlayer,房间人数达到多少时群发,房间人数达到多少时群发,房间人数达到多少时群发
+SendCodeToQQ,允许车队姬自动群发您的房号,(Only for China)允许车队姬自动群发您的房号,(Только для Китая)允许车队姬自动群发您的房号
+SendCodeMinPlayer,房间人数达到多少时群发,(Only for China)房间人数达到多少时群发,(Только для Китая)房间人数达到多少时群发
 DisableVanillaRoles,禁用原版职业,Disable Vanilla Roles,Отключить ванильные Роли
 VoteMode,投票相关设定,Voting Mode,Режим Голосования
 WhenSkipVote,跳过投票相当于投给自己,When Skip Vote,Когда пропускаете Голосование
