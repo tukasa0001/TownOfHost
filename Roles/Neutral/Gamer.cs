@@ -142,17 +142,9 @@ public static class Gamer
     }
     private static Color32 GetColor(float Health, bool self = false)
     {
-        var rate = (Health / (self ? SelfHealthMax.GetInt() : HealthMax.GetInt())) * 100;
-        if (rate <= 10) return new Color32(255, 3, 1, byte.MaxValue);
-        if (rate <= 20) return new Color32(254, 51, 0, byte.MaxValue);
-        if (rate <= 30) return new Color32(255, 101, 0, byte.MaxValue);
-        if (rate <= 40) return new Color32(255, 150, 3, byte.MaxValue);
-        if (rate <= 50) return new Color32(254, 202, 1, byte.MaxValue);
-        if (rate <= 60) return new Color32(253, 255, 4, byte.MaxValue);
-        if (rate <= 70) return new Color32(206, 255, 0, byte.MaxValue);
-        if (rate <= 80) return new Color32(154, 255, 0, byte.MaxValue);
-        if (rate <= 90) return new Color32(101, 255, 0, byte.MaxValue);
-        if (rate <= 100) return new Color32(53, 255, 0, byte.MaxValue);
-        return new Color32();
+        var x = (int)(Health / (self ? SelfHealthMax.GetInt() : HealthMax.GetInt()) * 10 * 50 - 50);
+        int R = 255; int G = 255; int B = 0;
+        if (x > 255) R -= (x - 255); else G = x;
+        return new Color32((byte)R, (byte)G, (byte)B, byte.MaxValue);
     }
 }
