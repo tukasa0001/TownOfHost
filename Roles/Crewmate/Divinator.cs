@@ -115,14 +115,16 @@ public static class Divinator
             CustomRoles.ShapeMaster or
             CustomRoles.Paranoia or
             CustomRoles.Psychic or
-            CustomRoles.Executioner
+            CustomRoles.Executioner or
+            CustomRoles.BallLightning
             => "Incomprehensible",
 
             CustomRoles.FireWorks or
             CustomRoles.EvilTracker or
             CustomRoles.Gangster or
             CustomRoles.Dictator or
-            CustomRoles.CyberStar
+            CustomRoles.CyberStar or
+            CustomRoles.Messenger
             => "Enthusiasm",
 
             CustomRoles.BoobyTrap or
