@@ -14,6 +14,7 @@ namespace TownOfHost.Roles.Impostor
         public static readonly SimpleRoleInfo RoleInfo =
             new(
                 typeof(BountyHunter),
+                player => new BountyHunter(player),
                 CustomRoles.BountyHunter,
                 RoleTypes.Shapeshifter,
                 CustomRoleTypes.Impostor,

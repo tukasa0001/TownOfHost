@@ -14,6 +14,7 @@ namespace TownOfHost.Roles.Crewmate
         public static readonly SimpleRoleInfo RoleInfo =
             new(
                 typeof(Sheriff),
+                player => new Sheriff(player),
                 CustomRoles.Sheriff,
                 RoleTypes.Impostor,
                 CustomRoleTypes.Crewmate,

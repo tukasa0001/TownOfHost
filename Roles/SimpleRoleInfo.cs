@@ -9,6 +9,7 @@ namespace TownOfHost.Roles;
 public class SimpleRoleInfo
 {
     public Type ClassType;
+    public Func<PlayerControl, RoleBase> CreateInstance;
     public CustomRoles RoleName;
     public RoleTypes BaseRoleType;
     public CustomRoleTypes CustomRoleType;
@@ -23,6 +24,7 @@ public class SimpleRoleInfo
 
     public SimpleRoleInfo(
         Type classType,
+        Func<PlayerControl, RoleBase> createInstance,
         CustomRoles roleName,
         RoleTypes baseRoleType,
         CustomRoleTypes customRoleType,
@@ -34,6 +36,7 @@ public class SimpleRoleInfo
     )
     {
         ClassType = classType;
+        CreateInstance = createInstance;
         RoleName = roleName;
         BaseRoleType = baseRoleType;
         CustomRoleType = customRoleType;

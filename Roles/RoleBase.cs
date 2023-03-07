@@ -33,7 +33,7 @@ public abstract class RoleBase : IDisposable
     /// インスタンス作成後すぐに呼ばれる関数
     /// </summary>
     public virtual void Add()
-    { }
+    { Logger.Info("Base Add", "RoleBase"); }
     /// <summary>
     /// ロールベースが破棄されるときに呼ばれる関数
     /// </summary>
