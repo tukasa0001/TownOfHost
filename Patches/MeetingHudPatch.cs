@@ -398,6 +398,7 @@ internal static class ExtendedMeetingHud
             {
                 int VoteNum = 1;
                 var target = Utils.GetPlayerById(ps.VotedFor);
+                
                 if (target != null)
                 {
                     if (target.Is(CustomRoles.Zombie)) VoteNum = 0;
@@ -405,7 +406,10 @@ internal static class ExtendedMeetingHud
                         if (!Main.BrakarVoteFor.Contains(target.PlayerId))
                             Main.BrakarVoteFor.Add(target.PlayerId);
                 }
-                if (CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.Mayor)) VoteNum += Options.MayorAdditionalVote.GetInt();
+                if (CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.Mayor)
+                    && !CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.Madmate)
+                    && ps.TargetPlayerId == target.PlayerId
+                    ) VoteNum += Options.MayorAdditionalVote.GetInt();
                 if (CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.TicketsStealer))
                     VoteNum += (int)(PlayerControl.AllPlayerControls.ToArray().Where(x => (x.GetRealKiller() == null ? -1 : x.GetRealKiller().PlayerId) == ps.TargetPlayerId).Count() * Options.TicketsPerKill.GetFloat());
                 //投票を1追加 キーが定義されていない場合は1で上書きして定義
