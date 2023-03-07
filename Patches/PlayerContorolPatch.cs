@@ -300,11 +300,25 @@ internal class CheckMurderPatch
                     return false;
                 }
             }
+        }
 
-            //玩家被击杀事件
-            if (Gamer.CheckMurder(killer, target))
-                return false;
+        //玩家被击杀事件
+        if (Gamer.CheckMurder(killer, target))
+            return false;
 
+        //首刀叛变
+        if (Options.MadmateSpawnMode.GetInt() == 1 && Main.MadmateNum < CustomRoles.Madmate.GetCount() && Utils.CanBeMadmate(target))
+        {
+            Main.MadmateNum++;
+            Main.PlayerStates[target.PlayerId].SetSubRole(CustomRoles.Madmate);
+            Utils.NotifyRoles(target);
+            Utils.NotifyRoles(killer);
+            killer.RpcGuardAndKill(killer);
+            killer.RpcGuardAndKill(target);
+            target.RpcGuardAndKill(killer);
+            target.RpcGuardAndKill(target);
+            Logger.Info("役職設定:" + target?.Data?.PlayerName + " = " + target.GetCustomRole().ToString() + " + " + CustomRoles.Madmate.ToString(), "Assign " + CustomRoles.Madmate.ToString());
+            return false;
         }
 
         //==キル処理==

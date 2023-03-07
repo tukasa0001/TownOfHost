@@ -1,4 +1,5 @@
 using HarmonyLib;
+using MS.Internal.Xml.XPath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,19 @@ internal class CheckForEndVotingPatch
                 PlayerControl pc = Utils.GetPlayerById(pva.TargetPlayerId);
                 if (pc == null) continue;
                 //死んでいないディクテーターが投票済み
+
+                //主动叛变
+                if (pva.DidVote && pc.PlayerId == pva.VotedFor && pva.VotedFor < 253 && !pc.Data.IsDead)
+                {
+                    if (Options.MadmateSpawnMode.GetInt() == 2 && Main.MadmateNum < CustomRoles.Madmate.GetCount() && Utils.CanBeMadmate(pc))
+                    {
+                        Main.MadmateNum++;
+                        Main.PlayerStates[pc.PlayerId].SetSubRole(CustomRoles.Madmate);
+                        Utils.NotifyRoles(true, pc, true);
+                        Logger.Info("役職設定:" + pc?.Data?.PlayerName + " = " + pc.GetCustomRole().ToString() + " + " + CustomRoles.Madmate.ToString(), "Assign " + CustomRoles.Madmate.ToString());
+                    }
+                }
+
                 if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pc.PlayerId != pva.VotedFor && pva.VotedFor < 253 && !pc.Data.IsDead)
                 {
                     var voteTarget = Utils.GetPlayerById(pva.VotedFor);
@@ -409,6 +423,14 @@ internal class MeetingHudStartPatch
         if (!AmongUsClient.Instance.AmHost) return;
         foreach (var pc in PlayerControl.AllPlayerControls)
         {
+            //主动叛变模式提示
+            if (Options.MadmateSpawnMode.GetInt() == 2 && CustomRoles.Madmate.GetCount() > 0 && pc.IsAlive())
+            {
+                new LateTask(() =>
+                {
+                    Utils.SendMessage(string.Format(GetString("Message.MadmateSelfVoteModeNotify"), GetString("MadmateSpawnMode.SelfVote")), pc.PlayerId);
+                }, 5.0f, "Notice MadmateVoteself Mode");
+            }
             //黑手党死后技能提示
             switch (pc.GetCustomRole())
             {

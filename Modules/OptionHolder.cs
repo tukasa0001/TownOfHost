@@ -242,6 +242,12 @@ public static class Options
     {
         "TieMode.Default", "TieMode.All", "TieMode.Random"
     };
+    public static readonly string[] madmateSpawnMode =
+    {
+        "MadmateSpawnMode.Assign",
+        "MadmateSpawnMode.FirstKill",
+        "MadmateSpawnMode.SelfVote",
+    };
     public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetValue();
     public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetValue();
 
@@ -323,6 +329,7 @@ public static class Options
     public static OptionItem NoLimitAddonsNum;
     public static OptionItem BewilderVision;
     public static OptionItem ImpCanBeAvanger;
+    public static OptionItem MadmateSpawnMode;
     public static OptionItem SheriffCanBeMadmate;
     public static OptionItem MayorCanBeMadmate;
     public static OptionItem NGuesserCanBeMadmate;
@@ -619,6 +626,7 @@ public static class Options
         CrewCanBeDualPersonality = BooleanOptionItem.Create(6052340, "CrewCanBeDualPersonality", true, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.DualPersonality]);
 
         SetupAdtRoleOptions(6050390, CustomRoles.Madmate, canSetNum: true);
+        MadmateSpawnMode = StringOptionItem.Create(6060444, "MadmateSpawnMode", madmateSpawnMode, 0, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Madmate]);
         SheriffCanBeMadmate = BooleanOptionItem.Create(6050395, "SheriffCanBeMadmate", false, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Madmate]);
         MayorCanBeMadmate = BooleanOptionItem.Create(6050396, "MayorCanBeMadmate", false, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Madmate]);
         NGuesserCanBeMadmate = BooleanOptionItem.Create(6050397, "NGuesserCanBeMadmate", false, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Madmate]);

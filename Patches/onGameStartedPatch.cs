@@ -81,6 +81,7 @@ internal class ChangeRoleSettings
             Main.GrenadierBlinding = new Dictionary<byte, long>();
             Main.MadGrenadierBlinding = new Dictionary<byte, long>();
             Main.FirstDied = 255;
+            Main.MadmateNum = 0;
 
             ReportDeadBodyPatch.CanReport = new();
 
@@ -242,6 +243,7 @@ internal class SelectRolesPatch
                 CustomRoles role = (CustomRoles)Enum.Parse(typeof(CustomRoles), cr.ToString());
                 if (CustomRolesHelper.IsAdditionRole(role))
                 {
+                    if (role is CustomRoles.Madmate && Options.MadmateSpawnMode.GetInt() != 0) continue;
                     if (role is CustomRoles.LastImpostor or CustomRoles.Lovers) continue;
                     addRoleList.Add(role);
                     continue;
