@@ -386,8 +386,7 @@ namespace TownOfHost
             //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換え
             if (!shapeshifting)
             {
-                new LateTask(() =>
-                {
+                new LateTask(() => {
                     Utils.NotifyRoles(NoCache: true);
                 },
                 1.2f, "ShapeShiftNotify");
@@ -417,16 +416,6 @@ namespace TownOfHost
                 kvp.Value.LastRoom = pc.GetPlainShipRoom();
             }
             if (!AmongUsClient.Instance.AmHost) return true;
-            BountyHunter.OnReportDeadBody();
-            SerialKiller.OnReportDeadBody();
-            Main.ArsonistTimer.Clear();
-            if (target == null) //ボタン
-            {
-                if (__instance.Is(CustomRoles.Mayor))
-                {
-                    Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
-                }
-            }
 
             if (Options.SyncButtonMode.GetBool() && target == null)
             {
@@ -443,14 +432,27 @@ namespace TownOfHost
                 }
             }
 
-            Main.PuppeteerList.Clear();
-            Sniper.OnReportDeadBody();
-            Vampire.OnStartMeeting();
+            //通報者が死んでいる場合、本処理で会議がキャンセルされるのでここで止める
+            if (__instance.Data.IsDead) return false;
 
-            if (__instance.Data.IsDead) return true;
             //=============================================
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
+
+            if (target == null) //ボタン
+            {
+                if (__instance.Is(CustomRoles.Mayor))
+                {
+                    Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
+                }
+            }
+            Main.ArsonistTimer.Clear();
+            Main.PuppeteerList.Clear();
+
+            BountyHunter.OnReportDeadBody();
+            SerialKiller.OnReportDeadBody();
+            Sniper.OnReportDeadBody();
+            Vampire.OnStartMeeting();
 
             Main.AllPlayerControls
                 .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
@@ -913,8 +915,7 @@ namespace TownOfHost
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
                     writer.WritePacked(127);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    new LateTask(() =>
-                    {
+                    new LateTask(() => {
                         int clientId = __instance.myPlayer.GetClientId();
                         MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, clientId);
                         writer2.Write(id);
