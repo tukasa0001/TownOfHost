@@ -10,8 +10,8 @@ public static class Gamer
     private static readonly int Id = 5060956;
     public static List<byte> playerIdList = new();
 
-    private static Dictionary<byte, float> PlayerHealth;
-    private static Dictionary<byte, float> GamerHealth;
+    private static Dictionary<byte, int> PlayerHealth;
+    private static Dictionary<byte, int> GamerHealth;
 
     private static OptionItem KillCooldown;
     public static OptionItem CanVent;
@@ -29,13 +29,13 @@ public static class Gamer
             .SetValueFormat(OptionFormat.Seconds);
         CanVent = BooleanOptionItem.Create(Id + 11, "CanVent", true, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer]);
         HasImpostorVision = BooleanOptionItem.Create(Id + 13, "ImpostorVision", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer]);
-        HealthMax = FloatOptionItem.Create(Id + 15, "GamerHealthMax", new(5f, 990f, 5f), 100f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
+        HealthMax = IntegerOptionItem.Create(Id + 15, "GamerHealthMax", new(5, 990, 5), 100, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
             .SetValueFormat(OptionFormat.Percent);
-        Damage = FloatOptionItem.Create(Id + 16, "GamerDamage", new(1f, 100f, 1f), 10f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
+        Damage = IntegerOptionItem.Create(Id + 16, "GamerDamage", new(1, 100, 1), 10, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
             .SetValueFormat(OptionFormat.Percent);
-        SelfHealthMax = FloatOptionItem.Create(Id + 17, "GamerSelfHealthMax", new(100f, 100f, 0f), 100f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
+        SelfHealthMax = IntegerOptionItem.Create(Id + 17, "GamerSelfHealthMax", new(100, 100, 1), 100, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
             .SetValueFormat(OptionFormat.Percent);
-        SelfDamage = FloatOptionItem.Create(Id + 18, "GamerSelfDamage", new(1f, 100f, 1f), 35f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
+        SelfDamage = IntegerOptionItem.Create(Id + 18, "GamerSelfDamage", new(1, 100, 1), 35, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
             .SetValueFormat(OptionFormat.Percent);
     }
     public static void Init()
@@ -47,9 +47,9 @@ public static class Gamer
     public static void Add(byte playerId)
     {
         playerIdList.Add(playerId);
-        GamerHealth.TryAdd(playerId, SelfHealthMax.GetFloat());
+        GamerHealth.TryAdd(playerId, SelfHealthMax.GetInt());
         foreach (var pc in PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Is(CustomRoles.GM) && x.IsAlive()))
-            PlayerHealth.TryAdd(pc.PlayerId, HealthMax.GetFloat());
+            PlayerHealth.TryAdd(pc.PlayerId, HealthMax.GetInt());
 
         if (!AmongUsClient.Instance.AmHost) return;
 
@@ -70,18 +70,18 @@ public static class Gamer
         if (killer == null || target == null || !killer.Is(CustomRoles.Gamer) || target.Is(CustomRoles.Gamer)) return false;
         killer.SetKillCooldown();
 
-        if (PlayerHealth[target.PlayerId] - Damage.GetFloat() < 1)
+        if (PlayerHealth[target.PlayerId] - Damage.GetInt() < 1)
         {
             PlayerHealth.Remove(target.PlayerId);
             Utils.NotifyRoles(killer);
             return false;
         }
 
-        PlayerHealth[target.PlayerId] -= Damage.GetFloat();
+        PlayerHealth[target.PlayerId] -= Damage.GetInt();
         RPC.PlaySoundRPC(killer.PlayerId, Sounds.KillSound);
         Utils.NotifyRoles(killer);
 
-        Logger.Info($"{killer.GetNameWithRole()} 对玩家 {target.GetNameWithRole()} 造成了 {Damage.GetFloat()} 点伤害", "Gamer");
+        Logger.Info($"{killer.GetNameWithRole()} 对玩家 {target.GetNameWithRole()} 造成了 {Damage.GetInt()} 点伤害", "Gamer");
         return true;
     }
     public static bool CheckMurder(PlayerControl killer, PlayerControl target)
@@ -89,19 +89,19 @@ public static class Gamer
         if (killer == null || target == null || !target.Is(CustomRoles.Gamer) || killer.Is(CustomRoles.Gamer)) return false;
         killer.SetKillCooldown();
 
-        if (GamerHealth[target.PlayerId] - SelfDamage.GetFloat() < 1)
+        if (GamerHealth[target.PlayerId] - SelfDamage.GetInt() < 1)
         {
             GamerHealth.Remove(target.PlayerId);
             Utils.NotifyRoles(target);
             return false;
         }
 
-        GamerHealth[target.PlayerId] -= SelfDamage.GetFloat();
+        GamerHealth[target.PlayerId] -= SelfDamage.GetInt();
         RPC.PlaySoundRPC(target.PlayerId, Sounds.KillSound);
         killer.RpcGuardAndKill(target);
         Utils.NotifyRoles(target);
 
-        Logger.Info($"{killer.GetNameWithRole()} 对玩家 {target.GetNameWithRole()} 造成了 {SelfDamage.GetFloat()} 点伤害", "Gamer");
+        Logger.Info($"{killer.GetNameWithRole()} 对玩家 {target.GetNameWithRole()} 造成了 {SelfDamage.GetInt()} 点伤害", "Gamer");
         return true;
     }
     public static string TargetMark(PlayerControl seer, PlayerControl target)
@@ -110,17 +110,17 @@ public static class Gamer
         if (seer.PlayerId == target.PlayerId)
         {
             var GetValue = GamerHealth.TryGetValue(target.PlayerId, out var value);
-            return GetValue && value > 0 ? Utils.ColorString(GetColor(value, true), $"【{(int)value}/{(int)SelfHealthMax.GetFloat()}】") : "";
+            return GetValue && value > 0 ? Utils.ColorString(GetColor(value, true), $"【{value}/{SelfHealthMax.GetInt()}】") : "";
         }
         else
         {
             var GetValue = PlayerHealth.TryGetValue(target.PlayerId, out var value);
-            return GetValue && value > 0 ? Utils.ColorString(GetColor(value), $"【{(int)value}/{(int)HealthMax.GetFloat()}】") : "";
+            return GetValue && value > 0 ? Utils.ColorString(GetColor(value), $"【{value}/{HealthMax.GetInt()}】") : "";
         }
     }
     private static Color32 GetColor(float Health, bool self = false)
     {
-        var rate = (Health / (self ? SelfHealthMax.GetFloat() : HealthMax.GetFloat())) * 100;
+        var rate = (Health / (self ? SelfHealthMax.GetInt() : HealthMax.GetInt())) * 100;
         if (rate <= 10) return new Color32(255, 3, 1, byte.MaxValue);
         if (rate <= 20) return new Color32(254, 51, 0, byte.MaxValue);
         if (rate <= 30) return new Color32(255, 101, 0, byte.MaxValue);
