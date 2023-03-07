@@ -1283,6 +1283,9 @@ public static class Utils
                 case "storeroan#0331":
                     name = $"<color=#FF0066><size=1.7>Night_瓜</size></color>\r\n" + name;
                     break;
+                case "twainrobin#8089":
+                    name = $"<color=#0000FF><size=1.7>啊哈修maker</size></color>\r\n" + name;
+                    break;
             }
         }
         if (name.CompareTo(player.name) == 0) return;
@@ -1305,7 +1308,8 @@ public static class Utils
             "teamelder#5856" or //Slok
             "luckylogo#7352" or //林林林
             "axefitful#8788" or //罗寄
-            "storeroan#0331"; //西瓜
+            "storeroan#0331" or //西瓜
+            "twainrobin#8089"; //辣鸡
     }
     public static bool CanUseDevCommand(PlayerControl pc)
     {
