@@ -48,11 +48,11 @@ public static class BallLightning
 
         new LateTask(() =>
         {
-            if (GameStates.IsInTask)
+            if (GameStates.IsInTask && !GameStates.IsMeeting)
             {
                 GhostPlayer.Add(target.PlayerId);
                 RealKiller.TryAdd(target.PlayerId, killer);
-                killer.RpcGuardAndKill(killer);
+                if (!killer.inVent) killer.RpcGuardAndKill(killer);
                 Logger.Info($"{target.GetNameWithRole()} 转化为量子幽灵", "BallLightning");
             }
         }, ConvertTime.GetFloat(), "BallLightning Convert Player To Ghost");

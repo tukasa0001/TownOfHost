@@ -1,4 +1,5 @@
 using AmongUs.GameOptions;
+using Hazel;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -65,6 +66,25 @@ public static class Gamer
         DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(gamer_canUse && !player.Data.IsDead);
         player.Data.Role.CanVent = gamer_canUse;
     }
+    private static void SendRPC(byte playerId)
+    {
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.GamerAttack, SendOption.Reliable, -1);
+        writer.Write(playerId);
+        if (GamerHealth.ContainsKey(playerId))
+            writer.Write(GamerHealth[playerId]);
+        else
+            writer.Write(PlayerHealth[playerId]);
+        AmongUsClient.Instance.FinishRpcImmediately(writer);
+    }
+    public static void ReceiveRPC(MessageReader reader)
+    {
+        byte PlayerId = reader.ReadByte();
+        int Health = reader.ReadInt32();
+        if (GamerHealth.ContainsKey(PlayerId))
+            GamerHealth[PlayerId] = Health;
+        else
+            PlayerHealth[PlayerId] = Health;
+    }
     public static bool CheckGamerMurder(PlayerControl killer, PlayerControl target)
     {
         if (killer == null || target == null || !killer.Is(CustomRoles.Gamer) || target.Is(CustomRoles.Gamer)) return false;
@@ -78,6 +98,7 @@ public static class Gamer
         }
 
         PlayerHealth[target.PlayerId] -= Damage.GetInt();
+        SendRPC(target.PlayerId);
         RPC.PlaySoundRPC(killer.PlayerId, Sounds.KillSound);
         Utils.NotifyRoles(killer);
 
@@ -97,6 +118,7 @@ public static class Gamer
         }
 
         GamerHealth[target.PlayerId] -= SelfDamage.GetInt();
+        SendRPC(target.PlayerId);
         RPC.PlaySoundRPC(target.PlayerId, Sounds.KillSound);
         killer.RpcGuardAndKill(target);
         Utils.NotifyRoles(target);
@@ -110,11 +132,13 @@ public static class Gamer
         if (seer.PlayerId == target.PlayerId)
         {
             var GetValue = GamerHealth.TryGetValue(target.PlayerId, out var value);
+            Logger.Test(value);
             return GetValue && value > 0 ? Utils.ColorString(GetColor(value, true), $"【{value}/{SelfHealthMax.GetInt()}】") : "";
         }
         else
         {
             var GetValue = PlayerHealth.TryGetValue(target.PlayerId, out var value);
+            Logger.Test(value);
             return GetValue && value > 0 ? Utils.ColorString(GetColor(value), $"【{value}/{HealthMax.GetInt()}】") : "";
         }
     }
