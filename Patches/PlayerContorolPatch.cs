@@ -175,8 +175,6 @@ namespace TownOfHost
             {
                 yield return 2_500_000;
                 var roleClass = killer.GetRoleClass();
-                // if (!roleClass.OnCheckMurder(killer, target))
-                //     return false;
                 //自殺でない場合のみ役職チェック
                 switch (killer.GetCustomRole())
                 {
