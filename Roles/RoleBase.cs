@@ -115,7 +115,7 @@ public abstract class RoleBase : IDisposable
     /// <returns>falseを返すと通報がキャンセルされます</returns>
     public virtual bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target) => true;
     /// <summary>
-    /// ミーティングが始まった時に読まれる関数
+    /// ミーティングが始まった時に呼ばれる関数
     /// </summary>
     public virtual void OnStartMeeting()
     { }
