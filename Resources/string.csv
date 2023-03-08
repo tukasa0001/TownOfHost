@@ -671,6 +671,7 @@ DeathReason.Fall,摔死,Fall,Упал
 DeathReason.Revenge,复仇,Revenge,Месть
 DeathReason.Eaten,活吞,Eaten,Сьеден
 DeathReason.Sacrifice,牺牲,Victim,Жертва
+DeathReason.Quantization,量子化
 DeathReason.etc,其它,Other,Другое
 Alive,存活,Alive,Выжил
 Win,胜利, Wins, Победили

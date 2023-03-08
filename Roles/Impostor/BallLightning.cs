@@ -106,7 +106,7 @@ public static class BallLightning
 
                 deList.Add(gs.PlayerId);
                 Main.PlayerStates[gs.PlayerId].IsDead = true;
-                Main.PlayerStates[gs.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
+                Main.PlayerStates[gs.PlayerId].deathReason = PlayerState.DeathReason.Quantization;
                 gs.SetRealKiller(RealKiller[gs.PlayerId]);
                 gs.RpcMurderPlayer(gs);
 
@@ -123,7 +123,7 @@ public static class BallLightning
         {
             var gs = Utils.GetPlayerById(ghost);
             if (gs == null) continue;
-            CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.Bombed, gs.PlayerId);
+            CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.Quantization, gs.PlayerId);
             gs.SetRealKiller(RealKiller[gs.PlayerId]);
             Logger.Info($"{gs.GetNameWithRole()} 作为量子幽灵参与会议，将在会议后死亡", "BallLightning");
         }

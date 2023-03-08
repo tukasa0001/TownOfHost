@@ -106,6 +106,7 @@ public class PlayerState
         Fall,
         Eaten,
         Sacrifice,
+        Quantization,
         etc = -1
     }
     public byte GetRealKiller()
