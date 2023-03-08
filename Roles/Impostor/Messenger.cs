@@ -110,9 +110,9 @@ public static class Messenger
         new LateTask(() =>
         {
             aliveMessengerIds.Do(id => Utils.SendMessage(
-            message,
+            $"{GetString("Message.LastAdminInfo")}:\n{message}",
             id,
-            Utils.ColorString(Color.green, $"{GetString("Message.LastAdminInfo")}")));
+            Utils.ColorString(Color.green, $"{GetString("Messenger")}")));
         }, 5f, "Messenger LastAdminInfo");
 
         InitDeadCount();

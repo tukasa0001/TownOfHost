@@ -281,7 +281,7 @@ BoobyTrapInfoLong,(内鬼阵营):\n诡雷在进行击杀后会在受害者尸体
 CapitalismInfoLong,(内鬼阵营):\n资本家可以通过击杀按键给某位玩家增加一个短任务。请注意：对没有任务或已完成任务的玩家使用技能则不会生效。,"(Impostors):\nThe Capitalist can add one short task to the player by clicking on the ''Kill'' button. Please note: the skill will not work if you use the skill on players who do not have tasks or who have already completed all the tasks.","(Предатель):\nКапиталист может добавить игроку одно короткое задание, нажав на кнопку ''Убить''. Пожалуйста, обратите внимание: навык не сработает если использовать навык на игроков, у которых нет заданий или которые уже выполнили все задания."
 GangsterInfoLong,(内鬼阵营):\n教父可以通过击杀键尝试招募一位玩家成为叛徒。若招募成功，双方都会看到彼此身上出现护盾破碎的动画作为提示（仅互相可见）。剩余可以招募的次数会显示在教父名字旁的括号内（数量根据房主设置）。若教父尝试招募无法被招募的玩家例如中立阵营或一些特殊船员阵营玩家时，则会改为正常击杀目标。当教父没有剩余招募次数时击杀则为正常击杀。,"(Impostors):\nGangster can try to lure the player to the side of the impostors by pressing the ''Kill'' button. The remaining number of times that can be scored will be indicated in brackets next to the player's name (the number depends on the Host's settings). If the Ganster tries to lure players that cannot be lured, such as: Neutrals or some players of the special team, then a normal kill will occur. When the Gangster runs out of decoys, he will perform regular kills.","(Предатель):\nГанстер может попытаться переманить игрока, на сторону предателей, нажав на кнопку ''Убить''. Оставшееся количество раз, которое можно набрать, будет указано в скобках рядом с именем игрока (количество зависит от настроек Хоста). Если Ганстер попытается переманить игроков, которые не могут быть приманены, такие как: Нейтралы или некоторые игроки специальной команды, то произойдёт обычное убийство. Когда у Ганстера нет оставшегося количества переманивания, то он будет совершать обычнын убийства."
 CleanerInfoLong,(内鬼阵营):\n清理工可以通过报告尸体按钮以清理一具尸体，若清理成功则清理工会看到自己身上出现护盾破碎动画作为提示（仅自己可见），被清理的尸体无法被报告。清理工清理尸体后会重置击杀冷却时间。,"(Impostors):\nCleaner can press the ''report'' button to purify the body. If the cleanse is successful, the Cleaner will see a broken shield animation on his body (visible only to himself), and the cleansed body cannot be reported. After the Cleaner removes the body, the kill cooldown will be reset.","(Предатель):\nОчиститель может нажать кнопку ''сообщить'', чтобы очистить труп. Если очистка прошла успешно, Очиститель увидит анимацию сломанного щита на своем теле (видимого только ему самому), и сообщить об очищенном трупе нельзя. После того, как Очиститель уберёт труп, то откат убийства будет сброшен."
-MessengerInfoLong,(内鬼阵营):\n情报贩子可以在会议上得到最后一分钟的管理面板信息，「★」标记代表存在内鬼，此外会显示每个房间的尸体数量。
+MessengerInfoLong,(内鬼阵营):\n情报贩子可以在会议上知道最后所有房间的人数、尸体数量。房间名前有「★」标记代表该房间存在内鬼。
 BallLightningInfoLong,(内鬼阵营):\n球状闪电无法进行常规击杀。球状闪电对目标使用击杀按键后，目标会在设定时间后汽化为量子幽灵，所有人都可以看到量子幽灵的名字旁有「■」作为提示。若期间有非球状闪电且非量子幽灵的玩家接触量子幽灵，量子幽灵会立刻量子化而死亡。若量子幽灵存活到会议则会在会议结束后死亡。任何对量子幽灵的主动互动（击杀按键）均无效。根据房主设定，击杀球状闪电可能导致凶手汽化为量子幽灵。
 
 # 双阵营
@@ -761,7 +761,7 @@ Message.DivinatorCheck,您透过水晶球发现：,"You're looking through a cry
 Message.DivinatorCheckLimit,提示：剩余【{0}】次占卜机会,"Reminder: You have 【{0}】 guesses left","Напоминание: У тебя осталось 【{0}】 угадываний"
 Message.DivinatorCheckSelfMsg,哇靠，您查到了一位举世人才！目标太过耀眼，已经看不到任何东西啦！,"Wow, you found yourself... All you see is a reflection.","Вау, ты нашёл сам себя... Всё что ты видишь это отражение."
 Message.DivinatorCheckReachLimit,水晶球也是会累哒，接下来就算没有水晶球，也要好好努力呀！（占卜次数达到上限）,"You are tired of using a crystal ball for too much. You should retire for now. (The number of divination reaches the limit)","Вы устали от слишком частого использования хрустального шара. Вы должны уйти в отставку. (Количество гаданий достиг предела)"
-Message.LastAdminInfo,最近一分钟的管理信息：
+Message.LastAdminInfo,各地点人数（「★」代表存在内鬼）
 Message.MadmateSelfVoteModeNotify,请注意：当前叛徒生成模式为【{0}】\n投票给自己代表您希望成为叛徒。若您符合成为叛徒的条件且还有剩余名额，将立刻成为叛徒。
 
 ## 警告
@@ -800,6 +800,7 @@ CyberStarNewsTitle,【 ★ 紧急新闻 ★ 】,【 ★ Urgent news ★ 】,【 
 GodAliveTitle,【 ★ 神的共鸣 ★ 】,【 ★ Message about God ★ 】,【 ★ Сообщение о Боге ★ 】
 MessageFromDevTitle,【 ★ 咔皮呆留言 ★ 】,【 ★ Self-Guessing ★ 】,【 ★ Само-Угадывание ★ 】
 DivinatorCheckMsgTitle,【 ★ 水晶球 ★ 】,【 ★ Crystall Ball ★ 】,【 ★ Хрустальный Шар ★ 】
+MessengerMsgTitle,【 ★ 情报网 ★ 】
 TabGroup.SystemSettings,系统设置,System Settings,Системные настройки
 TabGroup.GameSettings,游戏设置,Game Settings,Игровые настройки
 TabGroup.CrewmateRoles,船员阵营职业,Crewmate Roles,Роли Членов Экипажа
