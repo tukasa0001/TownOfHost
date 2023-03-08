@@ -106,10 +106,14 @@ public static class Messenger
         // 生存イビルハッカーに送信
         var aliveMessengerIds = playerIdList.Where(player => Utils.GetPlayerById(player).IsAlive()).ToArray();
         var message = messageBuilder.ToString();
-        aliveMessengerIds.Do(id => Utils.SendMessage(
+
+        new LateTask(() =>
+        {
+            aliveMessengerIds.Do(id => Utils.SendMessage(
             message,
             id,
             Utils.ColorString(Color.green, $"{GetString("Message.LastAdminInfo")}")));
+        }, 5f, "Messenger LastAdminInfo");
 
         InitDeadCount();
         ImpRooms = new();
