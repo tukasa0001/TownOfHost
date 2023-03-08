@@ -305,9 +305,12 @@ internal class CheckForEndVotingPatch
         var playerList = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Innocent) && !x.IsAlive() && x.GetRealKiller().PlayerId == exileId);
         if (playerList.Count() > 0)
         {
-            if (DecidedWinner) name += string.Format(GetString("ExiledInnocentTargetAddBelow"));
-            else name = string.Format(GetString("ExiledInnocentTargetInOneLine"), realName, coloredRole);
-            DecidedWinner = true;
+            if (!(!Options.InnocentCanWinByImp.GetBool() && crole.IsImpostor()))
+            {
+                if (DecidedWinner) name += string.Format(GetString("ExiledInnocentTargetAddBelow"));
+                else name = string.Format(GetString("ExiledInnocentTargetInOneLine"), realName, coloredRole);
+                DecidedWinner = true;
+            }
         }
 
         if (DecidedWinner) name += "<size=0>";
