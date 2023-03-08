@@ -744,6 +744,25 @@ namespace TownOfHost
 
                 SelfSuffix.Append(EvilTracker.GetTargetArrow(seer, seer));
 
+                //RealNameを取得 なければ現在の名前をRealNamesに書き込む
+                string SeerRealName = seer.GetRealName(isForMeeting);
+
+                if (!isForMeeting && MeetingStates.FirstMeeting && Options.ChangeNameToRoleInfo.GetBool())
+                    SeerRealName = seer.GetRoleInfo();
+
+                //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
+                string SelfRoleName = $"<size={fontSize}>{seer.GetDisplayRoleName()}{SelfTaskText}</size>";
+                string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(seer.PlayerId))})" : "";
+                string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
+                if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
+                    SelfName = $"</size>\r\n{ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
+                SelfName = SelfRoleName + "\r\n" + SelfName;
+                SelfName += SelfSuffix.ToString() == "" ? "" : "\r\n " + SelfSuffix.ToString();
+                if (!isForMeeting) SelfName += "\r\n";
+
+                //適用
+                seer.RpcSetNamePrivate(SelfName, true, force: NoCache);
+
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
                     || seer.GetCustomRole().IsImpostor() //seerがインポスター
@@ -847,26 +866,6 @@ namespace TownOfHost
                         logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":END");
                     }
                 }
-                //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                string SeerRealName = seer.GetRealName(isForMeeting);
-
-                if (!isForMeeting && MeetingStates.FirstMeeting && Options.ChangeNameToRoleInfo.GetBool())
-                    SeerRealName = seer.GetRoleInfo();
-
-                //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
-                string SelfRoleName = $"<size={fontSize}>{seer.GetDisplayRoleName()}{SelfTaskText}</size>";
-                string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(seer.PlayerId))})" : "";
-                string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
-                if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
-                    SelfName = $"</size>\r\n{ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
-                SelfName = SelfRoleName + "\r\n" + SelfName;
-                SelfName += SelfSuffix.ToString() == "" ? "" : "\r\n " + SelfSuffix.ToString();
-                if (!isForMeeting) SelfName += "\r\n";
-
-                //適用
-                seer.RpcSetNamePrivate(SelfName, true, force: NoCache);
-
-
                 logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":END");
             }
         }
