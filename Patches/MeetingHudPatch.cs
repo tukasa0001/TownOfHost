@@ -487,15 +487,21 @@ internal class MeetingHudStartPatch
         Main.AllPlayerControls.Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
         Utils.NotifyRoles(isMeeting: true, NoCache: true);
         MeetingStates.MeetingCalled = true;
+
+        if (!AmongUsClient.Instance.AmHost) return;
+
+        Main.LastVotedPlayerInfo = null;
         Main.GuesserGuessed.Clear();
         Main.VeteranInProtect.Clear();
         Main.GrenadierBlinding.Clear();
         Main.MadGrenadierBlinding.Clear();
-        Main.LastVotedPlayerInfo = null;
+
         Counterfeiter.OnMeetingStart();
         BallLightning.OnMeetingStart();
         Divinator.didVote.Clear();
+
         NotifyRoleSkillOnMeetingStart();
+
         foreach (var pc in PlayerControl.AllPlayerControls)
             if (pc.shapeshifting) pc.RpcRevertShapeshift(false);
     }
