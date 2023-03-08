@@ -32,13 +32,13 @@ TeamImpostor,内鬼阵营,Team Impostor,Команда Предателей
 TeamNeutral,中立阵营,Neutral,Нейтрал
 TeamJackal,豺狼阵营,Team Jackal,Команда Шакалов
 TeamPelican,鹈鹕阵营,Team Pelican,Команда Пеликанов
-TeamGamer,玩家阵营
+TeamGamer,玩家阵营,Team Demons,Команда Демонов
 
 ## 职业
 
 # 其它
 GM,管理员,GM,GM (Призрак)
-NotAssigned,无效
+NotAssigned,无效,Not Assigned,Не назначен
 
 # 原版职业
 Crewmate,船员,Crewmate,Член Экипажа
@@ -77,8 +77,8 @@ BoobyTrap,诡雷,Booby Trap,Мина Ловушка
 Capitalism,资本家,Capitalist,Капиталист
 Gangster,教父,Gangster,Гангстер
 Cleaner,清理工,Cleaner,Очиститель
-Messenger,情报贩子
-BallLightning,球状闪电
+Messenger,情报贩子,Informant,Информатор
+BallLightning,球状闪电,Lightning,Молния
 
 # 船员阵营
 Bait,诱饵,Bait,Байт
@@ -122,7 +122,7 @@ Pelican,鹈鹕,Pelican,Пеликан
 Revolutionist,革命家,Revolutionist,Революционер
 FFF,FFF团,Hater,Ненавистник
 Konan,柯南,Konan,Конан
-Gamer,玩家
+Gamer,玩家,Demon,Демон
 
 # 附加职业
 LastImpostor,绝境者,Last Impostor,Последний Предатель
@@ -143,7 +143,7 @@ Youtuber,UP主,YouTuber,Ютубер
 Egoist,利己主义者,Egoist,Эгоист
 Piper,吹笛者,Piper,Пайпер
 TicketsStealer,窃票者,Stealer,Похититель
-DualPersonality,双重人格
+DualPersonality,双重人格,Schizophrenic,Шизофреник
 
 ## 以下是职业简介（显示在开局以及任务栏的文本）
 NeutralInfo,中立阵营,Independent forces unaffiliated with any other teams,Команда которая не принадлежит ни к каким другим командам
@@ -179,8 +179,8 @@ EvilGuesserInfo,想来一把吗，伙计,Guess the nice roles of the players,У�
 CapitalismInfo,这可都是劳动力呀,Add another task to a Crewmate,Добавьте еще одно задание Члену Экипажа
 GangsterInfo,是时候重整旗鼓了！,Get players on your side,Перемани игроков на свою сторону
 CleanerInfo,从世界上抹除掉他们！,Cleanse body,Очисти труп
-MessengerInfo,倒不如说整个AU都是个阴谋
-BallLightningInfo,量子轰炸！
+MessengerInfo,倒不如说整个AU都是个阴谋,Find out the number of dead bodies in the rooms,Узнай количество трупов в комнатах
+BallLightningInfo,量子轰炸！,Turn the player into a quantum ghost,Превратите игрока в квантового призрака
 
 # 船员阵营
 BaitInfo,好消息，杀了我可以吃席,Bait your enemies,Убийца моментально зарепортит ваш труп
@@ -225,7 +225,7 @@ PelicanInfo,船船，饿饿，饭饭,Eat all players,Съешьте всех и�
 RevolutionistInfo,人类的赞歌是勇气的赞歌,Make a Revolution!,Совершите Революцию!
 FFFInfo,该烧还是该审？,You hate Lovers and Neptunes,Вы ненавидите Любовников и Нептунов
 KonanInfo,在一次和小兰的约会中...,,
-GamerInfo,Lv又增加了捏~
+GamerInfo,Lv又增加了捏~,Drink all the blood of the players,Выпейте всю кровь игроков
 
 # 附加职业
 LoversInfo,最重要的是，记得照顾好你的另一半,Survive with your Lover,Выживите со своим Любовником
@@ -246,11 +246,11 @@ YoutuberInfo,我的素材啊啊啊啊,Be the very first to be killed,Будьт�
 EgoistInfo,什么叫做一波三折？,Replace victory,Замените победу
 PiperInfo,嗯↗嗯↘嗯~~,Change the players speed,Измените скорость игроков
 TicketsStealerInfo,要懂得珍惜，死者最后的价值,Steal player votes,Украдите голоса игроков
-DualPersonalityInfo,我真的很...奇怪吗？
+DualPersonalityInfo,我真的很...奇怪吗？,You now have Schizophrenia,У вас теперь Шизофриния
 
 # 其它
 GMInfo,开局死的冤魂隔岸观火,You are the Game Master,Вы Мастер Игры
-NotAssignedInfo,未被分配职业
+NotAssignedInfo,未被分配职业,No assigned role,Нет назначенной роли
 
 ## 以下是职业描述（使用/m或/r指令后得到的文本）
 
@@ -283,8 +283,8 @@ BoobyTrapInfoLong,(内鬼阵营):\n诡雷在进行击杀后会在受害者尸体
 CapitalismInfoLong,(内鬼阵营):\n资本家可以通过击杀按键给某位玩家增加一个短任务。请注意：对没有任务或已完成任务的玩家使用技能则不会生效。,"(Impostors):\nThe Capitalist can add one short task to the player by clicking on the ''Kill'' button. Please note: the skill will not work if you use the skill on players who do not have tasks or who have already completed all the tasks.","(Предатель):\nКапиталист может добавить игроку одно короткое задание, нажав на кнопку ''Убить''. Пожалуйста, обратите внимание: навык не сработает если использовать навык на игроков, у которых нет заданий или которые уже выполнили все задания."
 GangsterInfoLong,(内鬼阵营):\n教父可以通过击杀键尝试招募一位玩家成为叛徒。若招募成功，双方都会看到彼此身上出现护盾破碎的动画作为提示（仅互相可见）。剩余可以招募的次数会显示在教父名字旁的括号内（数量根据房主设置）。若教父尝试招募无法被招募的玩家例如中立阵营或一些特殊船员阵营玩家时，则会改为正常击杀目标。当教父没有剩余招募次数时击杀则为正常击杀。,"(Impostors):\nGangster can try to lure the player to the side of the impostors by pressing the ''Kill'' button. The remaining number of times that can be scored will be indicated in brackets next to the player's name (the number depends on the Host's settings). If the Ganster tries to lure players that cannot be lured, such as: Neutrals or some players of the special team, then a normal kill will occur. When the Gangster runs out of decoys, he will perform regular kills.","(Предатель):\nГанстер может попытаться переманить игрока, на сторону предателей, нажав на кнопку ''Убить''. Оставшееся количество раз, которое можно набрать, будет указано в скобках рядом с именем игрока (количество зависит от настроек Хоста). Если Ганстер попытается переманить игроков, которые не могут быть приманены, такие как: Нейтралы или некоторые игроки специальной команды, то произойдёт обычное убийство. Когда у Ганстера нет оставшегося количества переманивания, то он будет совершать обычнын убийства."
 CleanerInfoLong,(内鬼阵营):\n清理工可以通过报告尸体按钮以清理一具尸体，若清理成功则清理工会看到自己身上出现护盾破碎动画作为提示（仅自己可见），被清理的尸体无法被报告。清理工清理尸体后会重置击杀冷却时间。,"(Impostors):\nCleaner can press the ''report'' button to purify the body. If the cleanse is successful, the Cleaner will see a broken shield animation on his body (visible only to himself), and the cleansed body cannot be reported. After the Cleaner removes the body, the kill cooldown will be reset.","(Предатель):\nОчиститель может нажать кнопку ''сообщить'', чтобы очистить труп. Если очистка прошла успешно, Очиститель увидит анимацию сломанного щита на своем теле (видимого только ему самому), и сообщить об очищенном трупе нельзя. После того, как Очиститель уберёт труп, то откат убийства будет сброшен."
-MessengerInfoLong,(内鬼阵营):\n情报贩子可以在会议上知道最后所有房间的人数、尸体数量。房间名前有「★」标记代表该房间存在内鬼。
-BallLightningInfoLong,(内鬼阵营):\n球状闪电无法进行常规击杀。球状闪电对目标使用击杀按键后，目标会在设定时间后汽化为量子幽灵，所有人都可以看到量子幽灵的名字旁有「■」作为提示。若期间有非球状闪电且非量子幽灵的玩家接触量子幽灵，量子幽灵会立刻量子化而死亡。若量子幽灵存活到会议则会在会议结束后死亡。任何对量子幽灵的主动互动（击杀按键）均无效。根据房主设定，击杀球状闪电可能导致凶手汽化为量子幽灵。
+MessengerInfoLong,(内鬼阵营):\n情报贩子可以在会议上知道最后所有房间的人数、尸体数量。房间名前有「★」标记代表该房间存在内鬼。,"(Impostors):\nInformant can know the number of players and the number of corpses in all rooms during the meeting. The sign 「★」 before the name of the room indicates that there is a Impostor there","(Предатель):\nИнформатор может знать количество игроков и количество трупов во всех комнатах во время встречи. Знак 「★」 перед названием комнаты указывает на то, что там есть Предатель."
+BallLightningInfoLong,(内鬼阵营):\n球状闪电无法进行常规击杀。球状闪电对目标使用击杀按键后，目标会在设定时间后汽化为量子幽灵，所有人都可以看到量子幽灵的名字旁有「■」作为提示。若期间有非球状闪电且非量子幽灵的玩家接触量子幽灵，量子幽灵会立刻量子化而死亡。若量子幽灵存活到会议则会在会议结束后死亡。任何对量子幽灵的主动互动（击杀按键）均无效。根据房主设定，击杀球状闪电可能导致凶手汽化为量子幽灵。,"(Impostors):\nLightning cannot perform regular kills. After he uses the ''Kill'' button on a target, the target will turn into a quantum ghost after a set amount of time. All players will see 「■」 next to the Quantum Ghost's name. If Lightning and any player contacts the Quantum Ghost during the period, the Quantum Ghost will be killed immediately. If the quantum ghost survives to meet, it will die immediately after the meeting. Any active interaction (''Kill'' button) with a quantum ghost is not allowed. Depending on the settings, Lightning can cause the killer to turn into a quantum ghost","(Предатель):\nМолния не может совершать обычные убийства. После того, как он использует кнопку ''Убить'' на цели, то цель превратится в квантового призрака через установленное время. Все игроки увидят 「■」 рядом с именем квантового призрака. Если Молния и любой игрок свяжется с квантовым призраком в течение периода, квантовый призрак будет немедленно убит. Если квантовый призрак доживет до встречи, он умрет сразу же после встречи. Любое активное взаимодействие (кнопка ''Убить'') с квантовым призраком недопустимо. В зависимости от настроек, Молния может заставить убийцу превратить в квантового призрака"
 
 # 双阵营
 GuesserInfoLong,(内鬼阵营或船员阵营):\n赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。,"(Impostors or Crewmate):\nGuesser can guess the roles of certain players during an encounter. If he guesses the role correctly, he will kill that target, and if wrong, he will commit suicide. \nGuessing command: ''/bt [Player ID] [Role Name]'' \nExample: /bt 3 Bait \nYou can see the player ID before the player's nickname, or you can use the ''/id'' command to see the IDs of all players.","(Предатель или Член Экипажа):\nУгадыватель может угадывать роли определённого игрока во время встречи. Если он угадает роль правильно, то он убьет эту цель, а если неправильно, то он совершит самоубийство. \nКоманда для угадываний: '/bt [Номер игрока] [Название Роли]'' \nПример: /bt 3 Байт \nВы можете увидеть номер игрока перед его никнеймом, или же для просмотра номеров всех игроков нужно использовать команду ''/id'' ."
@@ -331,7 +331,7 @@ InnocentInfoLong,(中立阵营):\n冤罪师可以用击杀键栽赃任意一位�
 PelicanInfoLong,(中立阵营):\n仅剩鹈鹕阵营与船员阵营且鹈鹕阵营人数大于船员人数，鹈鹕获得胜利。鹈鹕可以使用击杀键活吞一位玩家（被活吞的玩家将被传送到地图外且无法与游戏互动），活吞成功后鹈鹕将看到自己身上出现盾牌破碎的动画作为提示。紧急会议或报告尸体会导致鹈鹕吞下的所有玩家立刻死亡。若鹈鹕死亡或掉线，则被吞下的所有玩家立刻回到鹈鹕死亡的位置。请注意：鹈鹕吞人不是正常击杀方式，因此保镖、老兵等职业技能不会生效。,"(Neutrals):\nThe pelican needs to swallow all the players. When only the Pelican and the Crewmate are left alive, the Pelican wins. \nPelican can use the ''Kill'' button to swallow the player alive (This player will be teleported to the very edge of the map and will not be able to interact with the game). After successfully swallowing, Pelican will see a broken shield animation on his body as a reminder. \nAn emergency encounter or report of a corpse will result in the immediate death of all players swallowed by the Pelican. If he is killed, all players who were swallowed by the Pelican will immediately return to the position where the Pelican himself will die","(Нейтрал):\nПеликану нужно проглотить всех игроков. Когда в живых остался только Пеликан и Член Экипажа, то Пеликан победит. \nПеликан может использовать кнопку ''Убить'', чтобы проглотить игрока живьем (Этот игрок, будет телепортирован на самый край карты и не сможет взаимодействовать с игрой). После успешного проглатывания, Пеликан увидит анимацию сломанного щита на своем теле в качестве напоминания. \nЭкстренная встреча или сообщение о трупе приведет к немедленной смерти всех игроков, проглоченных Пеликаном.Если он будет убит, все игроки которые были проглочены Пеликаном, немедленно вернуться на позицию, где умрёт сам Пеликан."
 RevolutionistInfoLong,(中立阵营):\n革命家可以通过对玩家点击击杀按钮并跟随其数秒来拉拢玩家，开始拉拢以及拉拢成功时会显示护盾破碎的动画作为提示（仅自己可见）。玩家有概率在被拉拢后立刻牺牲（概率根据房主设定）。当达到指定的拉拢人数（人数根据房主设定）后并在规定时间内跳进通风管道，则革命家以及所有被拉拢的玩家获胜；若没有在规定时间内跳进通风管道则革命家以及所有被拉拢的玩家死亡；倒计时期间若革命家被杀，则无事发生；若召开了紧急会议，则革命家死亡。请注意：被拉拢后牺牲的玩家依然可以跟随革命家胜利。,"(Neutrals):\nRevolutionary can win together with the players on whom he pressed the ''Kill'' button, if you follow the player for a few seconds, an animation of a broken shield will be displayed (only you see this shield). The player has a chance to sacrifice himself immediately after he has won (the probability depends on the Host settings). When the specified number of players is reached and the Revolutionary jumps into the vent during the specified time, the Revolutionary and all the players on whom he pressed the ''Kill'' button automatically win. If the Revolutionary does not jump into the vent within the specified time, the Revolutionary and all players who have been marked die. Please note: Players who died before winning can still win together with the Revolutionary.","(Нейтрал):\nРеволюционер может одержать победу вместе с игроками, на которых он нажал кнопку ''Убить'', если следовать за игроком в течение нескольких секунд, то отобразится анимация разбитого щита (Этот щит видите только вы). У игрока есть вероятность пожертвовать собой сразу после того, как он одержал победу (вероятность зависит от настроек Хоста). Когда наберется указанное количество игроков и Революционер прыгнет в вентиляционное отверстие в течение указанного времени, то Революционер и все игроки на которых он нажал кнопку ''Убить'' автоматически выигрывают. Если Революционер не прыгнет в вентиляционное отверстие в течении указанного времени, Революционер и все игроки которые были помечены умирают. Пожалуйста, обратите внимание: Игроки, которые умерли до победы, все еще могут выиграть вместе с Революционером."
 FFFInfoLong,(中立阵营):\nFFF团不会成为恋人或海王。FFF团拥有无限且没有冷却的击杀能力，同时FFF团敏锐的观察力使他默认拥有内鬼的视野。FFF团只能击杀恋人与海王，击杀其他玩家则会立刻牺牲。游戏结束时，没有恋人与海王存活且FFF团曾经击杀过至少一次恋人或海王，则FFF团胜利。请注意：FFF团只会附加胜利不会抢夺原本阵营的胜利。此外，FFF团的胜利条件不包括存活。,"(Neutrals):\nThe Hater has an unlimited kill cooldown, while the Hater has Impostor vision range by default. The hater can only kill Lovers and Neptune, and killing other players will immediately result in suicide. At the end of the game, if none of the Lovers or Neptunes survive and the Hater has killed at least one of them, then the Hater wins. Please note: The hater will only claim wins and will not take the win from the original team.","(Нейтрал):\nНенавистник обладает неограниченным откатом убийства, и в то же время Ненавистник по умолчанию имеет дальность обзора Предателей. Ненавистник может убивать только Любовников и Нептуна, а убийство других игроков будет немедленно приведёт к суициду. В конце игры, если ни один из Любовников или Нептунов не выживет и Ненавистник убил хотя бы одного из них то, Ненавистник побеждает. Пожалуйста, обратите внимание: Ненавистник будет присваивать только победы и не будет отбирать победу у первоначальной команды."
-GamerInfoLong,(中立阵营):\n仅剩玩家阵营与船员阵营且玩家阵营人数大于船员人数，玩家获得胜利。玩家的击杀规则与其他人不同，玩家视角下所有人拥有血量，玩家击杀以及被击杀改为消耗血量，当血量耗空时击杀才会生效。请注意：若其他人消耗玩家血量但没有成功击杀玩家时，凶手会看到玩家身上出现护盾破碎动画作为提示。
+GamerInfoLong,(中立阵营):\n仅剩玩家阵营与船员阵营且玩家阵营人数大于船员人数，玩家获得胜利。玩家的击杀规则与其他人不同，玩家视角下所有人拥有血量，玩家击杀以及被击杀改为消耗血量，当血量耗空时击杀才会生效。请注意：若其他人消耗玩家血量但没有成功击杀玩家时，凶手会看到玩家身上出现护盾破碎动画作为提示。,"(Neutrals):\nIf the number of Demons in the team is greater than the number of crewmates or the Demon is left with one crewmate, then the Demons win. The rules for killing a player are different. Each player has a blood volume. The kill will only occur when the Demon has exhausted all of the player's blood volume. Please note: If someone else drinks the player's blood volume but fails to successfully kill the player, the killer will see a broken shield animation on the player as a hint","(Нейтрал):\nЕсли количество Демонов в команде больше, чем количество Членов Экипажа или Демон остаётся с одним членом экипажа, то Демоны выигрывают. Правила убийства игрока отличаются.У каждого игрока есть объем крови. Убийство произойдёт только тогда, когда Демон исчерпет весь объем крови у игрока. Пожалуйста, обратите внимание: Если кто-то другой выпьет объем крови игрока, но не сможет успешно убить игрока, то убийца увидит анимацию сломанного щита на игроке в качестве подсказки."
 
 # 附加职业
 LastImpostorInfoLong,(附加职业):\n这个效果在内鬼仅剩一人时赋予该内鬼。使其击杀冷却缩短。该效果对赏金猎人、嗜血杀手以及吸血鬼等击杀方式特殊的职业不适用。,"(Add-ons):\nAn Add-on granted to the last Impostor remaining.\nKill cooldown is reduced according to this setting.\nNot granted to Bounty Hunters, Serial Killers, or Vampires.","(Атрибут):\nАтрибут, присваивается последнему Предателю. \nВремя отката убийства становится меньше, чем обычно. \nНе назначается Охотнику за головами, Серийному убийце или Вампиру."
@@ -352,7 +352,7 @@ YoutuberInfoLong,(附加职业)\n只有船员会成为UP主，UP主不会成为�
 EgoistInfoLong,(附加职业)\n叛徒与中立阵营不会成为利己主义者。利己主义者会抢夺自己阵营的胜利。,"(Add-ons):\nImpostors and Neutrals cannot become Egoist. Egoist will steal the victory from his own team","(Атрибут):\nПредатели и нейтралы не могут стать эгоистами. Эгоист украдет победу у своей же собственной команды"
 PiperInfoLong,(附加职业)\n吹笛者会将自己附近的人的移动速度变得跟自己一样。（速度根据房主设定）,"(Add-ons):\nPiper will make the movement speed of players near him exactly the same as his own. (The speed depends on the settings of the Host)","(Атрибут):\nПайпер сделает скорость передвижения игроков рядом с ним точно такой же, как у него самого.(Скорость зависит от настроек Хоста)"
 TicketsStealerInfoLong,(附加职业)\n只有内鬼会成为窃票者。窃票者每次击杀一个人都会增加自己本局的票数（增加数量根据房主设定，小数向下取整）。此外，窃票者额外的票是隐藏的。,"(Add-ons):\nOnly a Impostors can become a Stealer. Each time the Stealer kills a player, it increases its own number of votes in the game (the increase in votes is set according to the number of votes, and the decimal is rounded down). In addition, additional Stealer voices are hidden","(Атрибут):\nТолько Предатель может стать Похитителем. Каждый раз, когда Похититель убивает игрока, он увеличивает свое собственное количество голосов в игре (увеличение голосов устанавливается в соответствии с количеством голосов, а десятичная дробь округляется в меньшую сторону). Кроме того, дополнительные голоса Похитителя скрыты."
-DualPersonalityInfoLong,(附加职业)\n中立和叛徒不会成为双重人格，计算其阵营人数时双重人格被视为两人。例如场上剩余一个内鬼和一个双重人格船员，则视为两名船员和一名内鬼，因此游戏不会结束。
+DualPersonalityInfoLong,(附加职业)\n中立和叛徒不会成为双重人格，计算其阵营人数时双重人格被视为两人。例如场上剩余一个内鬼和一个双重人格船员，则视为两名船员和一名内鬼，因此游戏不会结束。,"(Add-ons):\nNeutrals and Impostors cannot be with Schizophrenia. When counting the number of players on their team, the Schizophrenic counts as two players. For example: if there is one Impostors and one team with Schizophrenia left in the game, then this will be treated as two Crewmate and one Impostors, so the game will not end until the Schizophrenic is killed","(Атрибут):\nНейтралы и Предатели не могут быть с Шизофринией. При подсчете количества игроков в их команде Шизофреник рассматривает как два игрока. Например, если в игре останется один Предатель и одна команда с Шизофринией, то это будет рассматриваться как два Члена Экипажа и один Предатель, поэтому игра не закончится пока Шизофреник не будет убит."
 
 # 其它
 GMInfoLong,(房主):\n看我干啥，我只是个开局就死的冤魂，静静地吃瓜而已。,"(None):\nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game, and all players know who the GM is. The GM role will be assigned to the host, who will automatically become a ghost at the start of the game.","(Никто):\nGM (Мастер Игры) — это роль, которая наблюдает за игрой в роле призрака. \nОн не влияет на игру, и все игроки всегда знают кто Мастер Игры. Всегда назначается только хосту лобби и становится призраком в самом начале игры."
@@ -610,8 +610,8 @@ WorkhorseNumShortTasks,额外的短任务数,"Additional Short Tasks","Допо�
 InnocentCanWinByImp,冤罪师栽赃<color=#ff1919>内鬼</color>时可以获胜,If his target was the <color=#ff1919>Impostor</color> then he win with him,Если его цель был <color=#ff1919>Предателем</color> то он победит вместе с ним
 CapitalismSkillCooldown,技能使用冷却,Skill cooldown,Откат навыка
 ImpCanBeAvanger,<color=#ff1919>内鬼</color>可以成为复仇者,<color=#ff1919>Impostor</color> can become an Avenger,<color=#ff1919>Предатель</color> может стать Мстителем
-ImpCanBeDualPersonality,<color=#ff1919>内鬼</color>可以成为双重人格
-CrewCanBeDualPersonality,<color=#8cffff>船员</color>可以成为双重人格
+ImpCanBeDualPersonality,<color=#ff1919>内鬼</color>可以成为双重人格,<color=#ff1919>Impostors</color> can become Schizophrenic,<color=#ff1919>Предатели</color> могут стать Шизофреником
+CrewCanBeDualPersonality,<color=#8cffff>船员</color>可以成为双重人格,<color=#8cffff>Crewmates</color> can become Schizophrenic,<color=#8cffff>Члены Экипажа</color> могут стать Шизофреником
 VeteranSkillCooldown,发动戒备冷却时间,Skill cooldown,Откат навыка
 VeteranSkillDuration,戒备状态持续时间,Skill duration,Продолжительность навыка
 BodyguardProtectRadius,保护范围,Protect Radius,Радиус Защиты
@@ -639,22 +639,22 @@ MedicalerCooldown,发放护盾冷却时间,Shield Cooldown,Откат Щита
 MedicalerSkillLimit,发放护盾次数上限,Skill Limit,Лимит Способности
 MedicalerTargetCanSeeProtect,玩家可以知道自己是否持有护盾,Target can see Protection,Цель может видеть Защиту
 DivinatorSkillLimit,占卜次数上限,Skill Limit,Лимит Способности
-CanSeeDeadPos,可以看到尸体位置
-CanSeeOtherImp,可以看到<color=#ff1919>内鬼</color>位置
-CanSeeKillFlash,可以看到来自队友的杀戮闪烁
-CanSeeMurderScene,同时可以看到发生命案的位置
-MadmateSpawnMode,叛徒生成模式
-MadmateSpawnMode.Assign,开局分配
-MadmateSpawnMode.FirstKill,首刀叛变
-MadmateSpawnMode.SelfVote,主动叛变
-GamerKillCooldown,攻击冷却时间
-GamerHealthMax,其他人血量
-GamerDamage,造成的伤害值
-GamerSelfHealthMax,自身血量
-GamerSelfDamage,受到的伤害值
-BallLightningConvertTime,汽化为量子幽灵的延迟
-BallLightningKillCooldown,汽化冷却时间
-BallLightningKillerConvertGhost,被击杀时凶手汽化为量子幽灵
+CanSeeDeadPos,可以看到尸体位置,Can see the position dead body,Может видеть позицию трупов
+CanSeeOtherImp,可以看到<color=#ff1919>内鬼</color>位置,Can see other <color=#ff1919>Impostors</color>,Может видеть остальных <color=#ff1919>Предателей</color>
+CanSeeKillFlash,可以看到来自队友的杀戮闪烁,Can see ''Kill Flash'',Может видеть ''Вспышку Убийства''
+CanSeeMurderScene,同时可以看到发生命案的位置,Can see murder scene,Может видеть место убийства
+MadmateSpawnMode,叛徒生成模式,Spawn Mode Madmate,Режим появления Безумца
+MadmateSpawnMode.Assign,开局分配,Assign,Назначать
+MadmateSpawnMode.FirstKill,首刀叛变,First Kill,Первое Убийство
+MadmateSpawnMode.SelfVote,主动叛变,Self Vote,Само Голос
+GamerKillCooldown,攻击冷却时间,Attack Cooldown,Откат Атаки
+GamerHealthMax,其他人血量,Player blood volume,Объем крови игроков
+GamerDamage,造成的伤害值,The amount of damage caused,Величина причиненного ущерба
+GamerSelfHealthMax,自身血量,Demon blood volume,Объем крови Демона
+GamerSelfDamage,受到的伤害值,Demon damage received,Полученная величина ущерба Демону
+BallLightningConvertTime,汽化为量子幽灵的延迟,Duration of the transformation in Quantum Ghost,Длительность превращения в Квантового Призрака
+BallLightningKillCooldown,汽化冷却时间,Lightning Cooldown,Откат молнии
+BallLightningKillerConvertGhost,被击杀时凶手汽化为量子幽灵,Killer can transformation in quantum ghost,Убийца может превратиться в квантового призрака
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
@@ -674,7 +674,7 @@ DeathReason.Fall,摔死,Fall,Упал
 DeathReason.Revenge,复仇,Revenge,Месть
 DeathReason.Eaten,活吞,Eaten,Сьеден
 DeathReason.Sacrifice,牺牲,Victim,Жертва
-DeathReason.Quantization,量子化
+DeathReason.Quantization,量子化,Quantization,Квантование
 DeathReason.etc,其它,Other,Другое
 Alive,存活,Alive,Выжил
 Win,胜利, Wins, Победили
@@ -764,8 +764,8 @@ Message.DivinatorCheck,您透过水晶球发现：,"You're looking through a cry
 Message.DivinatorCheckLimit,提示：剩余【{0}】次占卜机会,"Reminder: You have 【{0}】 guesses left","Напоминание: У тебя осталось 【{0}】 угадываний"
 Message.DivinatorCheckSelfMsg,哇靠，您查到了一位举世人才！目标太过耀眼，已经看不到任何东西啦！,"Wow, you found yourself... All you see is a reflection.","Вау, ты нашёл сам себя... Всё что ты видишь это отражение."
 Message.DivinatorCheckReachLimit,水晶球也是会累哒，接下来就算没有水晶球，也要好好努力呀！（占卜次数达到上限）,"You are tired of using a crystal ball for too much. You should retire for now. (The number of divination reaches the limit)","Вы устали от слишком частого использования хрустального шара. Вы должны уйти в отставку. (Количество гаданий достиг предела)"
-Message.LastAdminInfo,各地点人数（「★」代表存在内鬼）
-Message.MadmateSelfVoteModeNotify,请注意：当前叛徒生成模式为【{0}】\n投票给自己代表您希望成为叛徒。若您符合成为叛徒的条件且还有剩余名额，将立刻成为叛徒。
+Message.LastAdminInfo,各地点人数（「★」代表存在内鬼）,"Number of players in each location (''★'' means there is a Impostor)","Количество игроков в каждой локации (''★'' означает, что есть Предатель)"
+Message.MadmateSelfVoteModeNotify,请注意：当前叛徒生成模式为【{0}】\n投票给自己代表您希望成为叛徒。若您符合成为叛徒的条件且还有剩余名额，将立刻成为叛徒。,"Please note: The current Madness generation mode is [{0}]\n Voting for yourself means you want to be Madmate. If you meet the conditions to become Madmate and there are still spaces left, you will immediately become Madmate","Пожалуйста, обратите внимание: Текущий режим появления Безумцев - [{0}]\n Голосование за себя означает, что вы хотите быть Безумцем. Если вы соответствуете условиям, чтобы стать Безумцем и еще остались места, вы немедленно станете Безумцем"
 
 ## 警告
 Warning.OverrideExiledPlayer,设置内鬼人数为一个时，放逐动画会显示为平票,All ejects will be displayed as a tie since the total number of impostors is 1.,"Все изгнания будут отображаться как ничья, потому что общее количество Предателей равно 1."
@@ -921,8 +921,8 @@ GangsterButtonText,招募,Poach,Переманить
 RevolutionistDrawButtonText,拉拢,Win over,Покорить
 FFFButtonText,制裁,Hatred,Ненависть
 MedicalerButtonText,保护,Protect,Защитить
-GamerButtonText,攻击
-BallLightningButtonText,汽化
+GamerButtonText,攻击,Attack,Атаковать
+BallLightningButtonText,汽化,Evaporation,Испарение
 DefaultShapeshiftText,变形,Shift,Превращение
 DisabledBySettings,已在设置被中禁用,Disabled by Settings,Отключено настройкой
 Disabled,禁用,Disabled,Отключено
@@ -945,8 +945,8 @@ Mode,模式,Mode,Режим
 Target,目标,Target,Цель
 PlayerInfo,玩家信息,Player Info,Информация о игроке
 NoInfoExists,没有存在的上局信息,No Info Exists,Нет информации
-MessengerMurderOccurred,发生命案警告
-Deadbody,尸体
+MessengerMurderOccurred,发生命案警告,Occurred Kill,Произошло убийство
+Deadbody,尸体,Dead body,Труп
 
 ## 作弊
 Cheat.AUM,开挂（使用AUM）,Cheating usage detected (Used by AUM),Обнаружено использование читов (используется AUM)
