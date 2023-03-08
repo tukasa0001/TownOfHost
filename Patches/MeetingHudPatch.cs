@@ -405,9 +405,9 @@ internal static class ExtendedMeetingHud
                         if (!Main.BrakarVoteFor.Contains(target.PlayerId))
                             Main.BrakarVoteFor.Add(target.PlayerId);
                 }
-                if (CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.Mayor)
-                    && !(CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.Madmate)
-                    && ps.TargetPlayerId == target.PlayerId)
+                if (
+                    CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.Mayor)
+                    && ps.TargetPlayerId != target.PlayerId
                     ) VoteNum += Options.MayorAdditionalVote.GetInt();
                 if (CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.TicketsStealer))
                     VoteNum += (int)(PlayerControl.AllPlayerControls.ToArray().Where(x => (x.GetRealKiller() == null ? -1 : x.GetRealKiller().PlayerId) == ps.TargetPlayerId).Count() * Options.TicketsPerKill.GetFloat());
