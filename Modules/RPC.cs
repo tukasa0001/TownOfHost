@@ -333,6 +333,9 @@ internal class RPCHandlerPatch
             case CustomRPC.PlayCustomSoundAll:
                 CustomSoundsManager.ReceiveRPCAll(reader);
                 break;
+            case CustomRPC.SetGhostPlayer:
+                BallLightning.ReceiveRPC(reader);
+                break;
         }
     }
 }
