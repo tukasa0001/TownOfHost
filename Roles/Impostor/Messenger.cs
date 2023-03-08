@@ -71,6 +71,7 @@ public static class Messenger
     public static void OnReportDeadbody()
     {
         if (!AmongUsClient.Instance.AmHost) return;
+        if (!IsEnable) return;
         // 全生存プレイヤーの位置を取得
         foreach (var room in ShipStatus.Instance.AllRooms)
         {
@@ -120,6 +121,7 @@ public static class Messenger
     }
     public static void OnMurder(PlayerControl killer, PlayerControl target)
     {
+        if (!IsEnable) return;
         var room = target.GetPlainShipRoom()?.RoomId ?? default;
         DeadCount[room]++;
         if (CanSeeOtherImp && target.GetCustomRole().IsImpostor() && !ImpRooms.Contains(room))
