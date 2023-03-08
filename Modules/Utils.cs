@@ -18,9 +18,7 @@ using TOHE.Roles.Impostor;
 using TOHE.Roles.Neutral;
 using UnhollowerBaseLib;
 using UnityEngine;
-using UnityEngine.UI;
 using static TOHE.Translator;
-using static UnityEngine.GraphicsBuffer;
 
 namespace TOHE;
 
