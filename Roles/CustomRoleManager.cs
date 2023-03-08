@@ -3,6 +3,11 @@ using System.Linq;
 using System.Collections.Generic;
 using HarmonyLib;
 
+using AmongUs.GameOptions;
+using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.Neutral;
+using TownOfHost.Roles.Crewmate;
+
 namespace TownOfHost.Roles;
 
 public static class CustomRoleManager
@@ -155,15 +160,97 @@ public static class CustomRoleManager
     }
     public static void CreateInstance()
     {
-        foreach (var (role, info) in AllRolesInfo)
+        foreach (var pc in Main.AllPlayerControls)
         {
-            if (!info.IsEnable) continue;
-
-            var infoType = info.ClassType;
-            var type = AllRolesClassType.Where(x => x == infoType).FirstOrDefault();
-            foreach (var pc in Main.AllPlayerControls.Where(x => x.GetCustomRole() == role).ToArray())
-                Activator.CreateInstance(type, new object[] { pc });
+            CreateInstance(pc.GetCustomRole(), pc);
         }
+    }
+    public static void CreateInstance(CustomRoles role, PlayerControl player)
+    {
+        if (AllRolesInfo.TryGetValue(role, out var roleInfo))
+        {
+            roleInfo.CreateInstance(player).Add();
+        }
+        else
+        {
+            OtherRolesAdd(player);
+        }
+        if (player.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(player.PlayerId, false);
+
+    }
+    public static void OtherRolesAdd(PlayerControl pc)
+    {
+        switch (pc.GetCustomRole())
+        {
+            case CustomRoles.SerialKiller:
+                SerialKiller.Add(pc.PlayerId);
+                break;
+            case CustomRoles.Witch:
+                Witch.Add(pc.PlayerId);
+                break;
+            case CustomRoles.Warlock:
+                Main.CursedPlayers.Add(pc.PlayerId, null);
+                Main.isCurseAndKill.Add(pc.PlayerId, false);
+                break;
+            case CustomRoles.FireWorks:
+                FireWorks.Add(pc.PlayerId);
+                break;
+            case CustomRoles.TimeThief:
+                TimeThief.Add(pc.PlayerId);
+                break;
+            case CustomRoles.Sniper:
+                Sniper.Add(pc.PlayerId);
+                break;
+            case CustomRoles.Mare:
+                Mare.Add(pc.PlayerId);
+                break;
+            case CustomRoles.Vampire:
+                Vampire.Add(pc.PlayerId);
+                break;
+
+            case CustomRoles.Arsonist:
+                foreach (var ar in Main.AllPlayerControls)
+                    Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
+                break;
+            case CustomRoles.Executioner:
+                Executioner.Add(pc.PlayerId);
+                break;
+            case CustomRoles.Egoist:
+                Egoist.Add(pc.PlayerId);
+                break;
+            case CustomRoles.Jackal:
+                Jackal.Add(pc.PlayerId);
+                break;
+
+            case CustomRoles.Mayor:
+                Main.MayorUsedButtonCount[pc.PlayerId] = 0;
+                break;
+            case CustomRoles.SabotageMaster:
+                SabotageMaster.Add(pc.PlayerId);
+                break;
+            case CustomRoles.EvilTracker:
+                EvilTracker.Add(pc.PlayerId);
+                break;
+            case CustomRoles.Snitch:
+                Snitch.Add(pc.PlayerId);
+                break;
+            case CustomRoles.SchrodingerCat:
+                SchrodingerCat.Add(pc.PlayerId);
+                break;
+            case CustomRoles.TimeManager:
+                TimeManager.Add(pc.PlayerId);
+                break;
+        }
+        foreach (var subRole in pc.GetCustomSubRoles())
+        {
+            switch (subRole)
+            {
+                // ここに属性のAddを追加
+                default:
+                    break;
+            }
+        }
+
     }
 }
 public enum CustomRoles

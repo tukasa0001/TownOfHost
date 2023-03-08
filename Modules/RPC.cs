@@ -274,72 +274,13 @@ namespace TownOfHost
             if (role < CustomRoles.NotAssigned)
             {
                 Main.PlayerStates[targetId].SetMainRole(role);
+                CustomRoleManager.CreateInstance(role, Utils.GetPlayerById(targetId));
             }
             else if (role >= CustomRoles.NotAssigned)   //500:NoSubRole 501~:SubRole
             {
                 Main.PlayerStates[targetId].SetSubRole(role);
             }
 
-            CustomRoleManager.GetByPlayerId(targetId)?.Add();
-            switch (role)
-            {
-                case CustomRoles.SerialKiller:
-                    SerialKiller.Add(targetId);
-                    break;
-                case CustomRoles.FireWorks:
-                    FireWorks.Add(targetId);
-                    break;
-                case CustomRoles.TimeThief:
-                    TimeThief.Add(targetId);
-                    break;
-                case CustomRoles.Sniper:
-                    Sniper.Add(targetId);
-                    break;
-                case CustomRoles.Mare:
-                    Mare.Add(targetId);
-                    break;
-                case CustomRoles.EvilTracker:
-                    EvilTracker.Add(targetId);
-                    break;
-                case CustomRoles.Witch:
-                    Witch.Add(targetId);
-                    break;
-                case CustomRoles.Vampire:
-                    Vampire.Add(targetId);
-                    break;
-
-                case CustomRoles.Egoist:
-                    Egoist.Add(targetId);
-                    break;
-                case CustomRoles.SchrodingerCat:
-                    SchrodingerCat.Add(targetId);
-                    break;
-                case CustomRoles.EgoSchrodingerCat:
-                    TeamEgoist.Add(targetId);
-                    break;
-                case CustomRoles.Executioner:
-                    Executioner.Add(targetId);
-                    break;
-                case CustomRoles.Jackal:
-                    Jackal.Add(targetId);
-                    break;
-
-                case CustomRoles.SabotageMaster:
-                    SabotageMaster.Add(targetId);
-                    break;
-                case CustomRoles.Snitch:
-                    Snitch.Add(targetId);
-                    break;
-                case CustomRoles.LastImpostor:
-                    LastImpostor.Add(targetId);
-                    break;
-                case CustomRoles.TimeManager:
-                    TimeManager.Add(targetId);
-                    break;
-                case CustomRoles.Workhorse:
-                    Workhorse.Add(targetId);
-                    break;
-            }
             HudManager.Instance.SetHudActive(true);
             if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();
         }
