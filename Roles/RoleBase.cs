@@ -124,7 +124,7 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     public virtual void AfterMeetingTasks()
     { }
-    public virtual string GetTargetArrow() => "";
+    public virtual string GetTargetArrow(PlayerControl target) => "";
     /// <summary>
     /// シェイプシフトボタンを変更します
     /// </summary>

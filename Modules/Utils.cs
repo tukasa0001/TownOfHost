@@ -725,7 +725,6 @@ namespace TownOfHost
                 {
                     SelfSuffix.Append(((BountyHunter)seer.GetRoleClass()).GetTargetText(false));
                 }
-                SelfSuffix.Append(seer.GetRoleClass()?.GetTargetArrow());
 
                 if (seer.Is(CustomRoles.FireWorks))
                 {
@@ -741,25 +740,6 @@ namespace TownOfHost
                 SelfSuffix.Append(Snitch.GetSnitchArrow(seer));
 
                 SelfSuffix.Append(EvilTracker.GetTargetArrow(seer, seer));
-
-                //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                string SeerRealName = seer.GetRealName(isMeeting);
-
-                if (!isMeeting && MeetingStates.FirstMeeting && Options.ChangeNameToRoleInfo.GetBool())
-                    SeerRealName = seer.GetRoleInfo();
-
-                //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
-                string SelfRoleName = $"<size={fontSize}>{seer.GetDisplayRoleName()}{SelfTaskText}</size>";
-                string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(seer.PlayerId))})" : "";
-                string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
-                if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
-                    SelfName = $"</size>\r\n{ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
-                SelfName = SelfRoleName + "\r\n" + SelfName;
-                SelfName += SelfSuffix.ToString() == "" ? "" : "\r\n " + SelfSuffix.ToString();
-                if (!isMeeting) SelfName += "\r\n";
-
-                //適用
-                seer.RpcSetNamePrivate(SelfName, true, force: NoCache);
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
@@ -783,6 +763,8 @@ namespace TownOfHost
                         //targetがseer自身の場合は何もしない
                         if (target == seer) continue;
                         logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":START");
+
+                        SelfSuffix.Append(seer.GetRoleClass()?.GetTargetArrow(target));
 
                         //名前の後ろに付けるマーカー
                         TargetMark.Clear();
@@ -862,6 +844,26 @@ namespace TownOfHost
                         logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":END");
                     }
                 }
+                //RealNameを取得 なければ現在の名前をRealNamesに書き込む
+                string SeerRealName = seer.GetRealName(isMeeting);
+
+                if (!isMeeting && MeetingStates.FirstMeeting && Options.ChangeNameToRoleInfo.GetBool())
+                    SeerRealName = seer.GetRoleInfo();
+
+                //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
+                string SelfRoleName = $"<size={fontSize}>{seer.GetDisplayRoleName()}{SelfTaskText}</size>";
+                string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(seer.PlayerId))})" : "";
+                string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
+                if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
+                    SelfName = $"</size>\r\n{ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
+                SelfName = SelfRoleName + "\r\n" + SelfName;
+                SelfName += SelfSuffix.ToString() == "" ? "" : "\r\n " + SelfSuffix.ToString();
+                if (!isMeeting) SelfName += "\r\n";
+
+                //適用
+                seer.RpcSetNamePrivate(SelfName, true, force: NoCache);
+
+
                 logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":END");
             }
         }

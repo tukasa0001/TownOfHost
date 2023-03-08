@@ -778,7 +778,7 @@ namespace TownOfHost
                     //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能なニュートラルの方角がわかる
                     Suffix.Append(Snitch.GetSnitchArrow(seer, target));
 
-                    Suffix.Append(seer.GetRoleClass()?.GetTargetArrow());
+                    Suffix.Append(seer.GetRoleClass()?.GetTargetArrow(target));
 
                     Suffix.Append(EvilTracker.GetTargetArrow(seer, target));
 

@@ -189,9 +189,9 @@ namespace TownOfHost.Roles.Impostor
             var target = GetTarget();
             return target != null ? $"{(hud ? GetString("BountyCurrentTarget") : "Target")}:{Main.AllPlayerNames[target.PlayerId]}" : "";
         }
-        public override string GetTargetArrow()
+        public override string GetTargetArrow(PlayerControl target)
         {
-            if (Target != null) return "";
+            if (target == null) return "";
             if (!ShowTargetArrow || GameStates.IsMeeting) return "";
 
             //seerがtarget自身でBountyHunterのとき、
