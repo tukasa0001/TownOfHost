@@ -282,7 +282,7 @@ CapitalismInfoLong,(内鬼阵营):\n资本家可以通过击杀按键给某位�
 GangsterInfoLong,(内鬼阵营):\n教父可以通过击杀键尝试招募一位玩家成为叛徒。若招募成功，双方都会看到彼此身上出现护盾破碎的动画作为提示（仅互相可见）。剩余可以招募的次数会显示在教父名字旁的括号内（数量根据房主设置）。若教父尝试招募无法被招募的玩家例如中立阵营或一些特殊船员阵营玩家时，则会改为正常击杀目标。当教父没有剩余招募次数时击杀则为正常击杀。,"(Impostors):\nGangster can try to lure the player to the side of the impostors by pressing the ''Kill'' button. The remaining number of times that can be scored will be indicated in brackets next to the player's name (the number depends on the Host's settings). If the Ganster tries to lure players that cannot be lured, such as: Neutrals or some players of the special team, then a normal kill will occur. When the Gangster runs out of decoys, he will perform regular kills.","(Предатель):\nГанстер может попытаться переманить игрока, на сторону предателей, нажав на кнопку ''Убить''. Оставшееся количество раз, которое можно набрать, будет указано в скобках рядом с именем игрока (количество зависит от настроек Хоста). Если Ганстер попытается переманить игроков, которые не могут быть приманены, такие как: Нейтралы или некоторые игроки специальной команды, то произойдёт обычное убийство. Когда у Ганстера нет оставшегося количества переманивания, то он будет совершать обычнын убийства."
 CleanerInfoLong,(内鬼阵营):\n清理工可以通过报告尸体按钮以清理一具尸体，若清理成功则清理工会看到自己身上出现护盾破碎动画作为提示（仅自己可见），被清理的尸体无法被报告。清理工清理尸体后会重置击杀冷却时间。,"(Impostors):\nCleaner can press the ''report'' button to purify the body. If the cleanse is successful, the Cleaner will see a broken shield animation on his body (visible only to himself), and the cleansed body cannot be reported. After the Cleaner removes the body, the kill cooldown will be reset.","(Предатель):\nОчиститель может нажать кнопку ''сообщить'', чтобы очистить труп. Если очистка прошла успешно, Очиститель увидит анимацию сломанного щита на своем теле (видимого только ему самому), и сообщить об очищенном трупе нельзя. После того, как Очиститель уберёт труп, то откат убийства будет сброшен."
 MessengerInfoLong,(内鬼阵营):\n情报贩子可以在会议上得到最后一分钟的管理面板信息，「★」标记代表存在内鬼，此外会显示每个房间的尸体数量。
-BallLightningInfoLong,(内鬼阵营):\n球状闪电无法进行常规击杀。球状闪电对目标使用击杀按键后，目标会在设定时间后变为量子幽灵，所有人都可以看到量子幽灵的名字旁有「■」作为提示。若期间有非球状闪电且非量子幽灵的玩家接触量子幽灵，量子幽灵会立刻爆炸死亡。若量子幽灵存活到会议则会在会议结束后死亡。任何对量子幽灵的主动互动（击杀按键）均无效。根据房主设定，击杀球状闪电可能导致凶手变为量子幽灵。
+BallLightningInfoLong,(内鬼阵营):\n球状闪电无法进行常规击杀。球状闪电对目标使用击杀按键后，目标会在设定时间后汽化为量子幽灵，所有人都可以看到量子幽灵的名字旁有「■」作为提示。若期间有非球状闪电且非量子幽灵的玩家接触量子幽灵，量子幽灵会立刻量子化而死亡。若量子幽灵存活到会议则会在会议结束后死亡。任何对量子幽灵的主动互动（击杀按键）均无效。根据房主设定，击杀球状闪电可能导致凶手汽化为量子幽灵。
 
 # 双阵营
 GuesserInfoLong,(内鬼阵营或船员阵营):\n赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。,"(Impostors or Crewmate):\nGuesser can guess the roles of certain players during an encounter. If he guesses the role correctly, he will kill that target, and if wrong, he will commit suicide. \nGuessing command: ''/bt [Player ID] [Role Name]'' \nExample: /bt 3 Bait \nYou can see the player ID before the player's nickname, or you can use the ''/id'' command to see the IDs of all players.","(Предатель или Член Экипажа):\nУгадыватель может угадывать роли определённого игрока во время встречи. Если он угадает роль правильно, то он убьет эту цель, а если неправильно, то он совершит самоубийство. \nКоманда для угадываний: '/bt [Номер игрока] [Название Роли]'' \nПример: /bt 3 Байт \nВы можете увидеть номер игрока перед его никнеймом, или же для просмотра номеров всех игроков нужно использовать команду ''/id'' ."
@@ -649,9 +649,9 @@ GamerHealthMax,其他人血量
 GamerDamage,造成的伤害值
 GamerSelfHealthMax,自身血量
 GamerSelfDamage,受到的伤害值
-BallLightningConvertTime,转化为量子幽灵的延迟
-BallLightningKillCooldown,转化冷却时间
-BallLightningKillerConvertGhost,被击杀时凶手转化为量子幽灵
+BallLightningConvertTime,汽化为量子幽灵的延迟
+BallLightningKillCooldown,汽化冷却时间
+BallLightningKillerConvertGhost,被击杀时凶手汽化为量子幽灵
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
@@ -917,7 +917,7 @@ RevolutionistDrawButtonText,拉拢,Win over,Покорить
 FFFButtonText,制裁,Hatred,Ненависть
 MedicalerButtonText,保护,Protect,Защитить
 GamerButtonText,攻击
-BallLightningButtonText,转化
+BallLightningButtonText,汽化
 DefaultShapeshiftText,变形,Shift,Превращение
 DisabledBySettings,已在设置被中禁用,Disabled by Settings,Отключено настройкой
 Disabled,禁用,Disabled,Отключено
