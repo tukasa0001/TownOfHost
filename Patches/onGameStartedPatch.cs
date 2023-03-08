@@ -163,7 +163,6 @@ internal class ChangeRoleSettings
             Sheriff.Init();
             SwordsMan.Init();
             EvilTracker.Init();
-            Messenger.Init();
             Snitch.Init();
             Vampire.Init();
             AntiAdminer.Init();
@@ -629,9 +628,6 @@ internal class SelectRolesPatch
                         break;
                     case CustomRoles.EvilTracker:
                         EvilTracker.Add(pc.PlayerId);
-                        break;
-                    case CustomRoles.Messenger:
-                        Messenger.Add(pc.PlayerId);
                         break;
                     case CustomRoles.Snitch:
                         Snitch.Add(pc.PlayerId);

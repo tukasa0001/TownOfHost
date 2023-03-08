@@ -40,7 +40,7 @@ internal enum CustomRPC
     SetCurrentDrawTarget,
     SetEvilTrackerTarget,
     SetRealKiller,
-    SyncMessengerScenes,
+
     SetGamerHealth,
     SetPelicanEtenNum,
     SwordsManKill,
@@ -306,9 +306,6 @@ internal class RPCHandlerPatch
                 byte killerId = reader.ReadByte();
                 RPC.SetRealKiller(targetId, killerId);
                 break;
-            case CustomRPC.SyncMessengerScenes:
-                Messenger.ReceiveRPC(reader);
-                break;
             case CustomRPC.SetGamerHealth:
                 Gamer.ReceiveRPC(reader);
                 break;
@@ -465,9 +462,6 @@ internal static class RPC
                 break;
             case CustomRoles.EvilTracker:
                 EvilTracker.Add(targetId);
-                break;
-            case CustomRoles.Messenger:
-                Messenger.Add(targetId);
                 break;
             case CustomRoles.Witch:
                 Witch.Add(targetId);

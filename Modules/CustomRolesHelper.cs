@@ -185,7 +185,6 @@ internal static class CustomRolesHelper
             CustomRoles.Capitalism or
             CustomRoles.Gangster or
             CustomRoles.Cleaner or
-            CustomRoles.Messenger or
             CustomRoles.BallLightning;
     }
     public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role == CustomRoles.Madmate;

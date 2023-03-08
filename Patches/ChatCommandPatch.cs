@@ -534,12 +534,14 @@ internal class ChatCommands
                         }
                     }
                     break;
+                    /*
                 case "/cs":
                     canceled = true;
                     subArgs = text.Remove(0, 3);
                     if (args.Length < 1 || !int.TryParse(args[1], out int sound)) break;
                     CustomSoundsManager.RPCPlay(PlayerControl.LocalPlayer.PlayerId, (CustomSounds)sound);
                     break;
+                    */
 
                 default:
                     Main.isChatCommand = false;

@@ -497,7 +497,6 @@ internal class MurderPlayerPatch
         }
 
         FixedUpdatePatch.LoversSuicide(target.PlayerId);
-        Messenger.OnMurder(killer, target);
 
         Main.PlayerStates[target.PlayerId].SetDead();
         target.SetRealKiller(killer, true); //既に追加されてたらスキップ
@@ -775,7 +774,6 @@ internal class ReportDeadBodyPatch
         Main.PuppeteerList.Clear();
         Sniper.OnReportDeadBody();
         Vampire.OnStartMeeting();
-        Messenger.OnReportDeadbody();
         Pelican.OnReport();
         foreach (var x in Main.RevolutionistStart)
         {
@@ -1342,9 +1340,6 @@ internal class FixedUpdatePatch
                 Suffix.Append(BountyHunter.GetTargetArrow(seer, target));
 
                 Suffix.Append(EvilTracker.GetTargetArrow(seer, target));
-
-                if (GameStates.IsInTask && target.Is(CustomRoles.Messenger) && target.AmOwner)
-                    Suffix.Append(Messenger.GetMurderSceneText(target));
 
                 if (GameStates.IsInTask && seer.Is(CustomRoles.AntiAdminer))
                 {

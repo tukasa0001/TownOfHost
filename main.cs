@@ -35,7 +35,7 @@ public class Main : BasePlugin
     public static readonly string BANNEDWORDS_FILE_PATH = "./TOHE_DATA/BanWords.txt";
     public const string PluginGuid = "com.karped1em.townofhostedited";
     public const string PluginVersion = "2.1.2";
-    public const int PluginCreate = 6;
+    public const int PluginCreate = 7;
     public Harmony Harmony { get; } = new Harmony(PluginGuid);
     public static Version version = Version.Parse(PluginVersion);
     public static BepInEx.Logging.ManualLogSource Logger;
@@ -182,13 +182,12 @@ public class Main : BasePlugin
         Logger = BepInEx.Logging.Logger.CreateLogSource("TOHE");
         TOHE.Logger.Enable();
         TOHE.Logger.Disable("NotifyRoles");
-        TOHE.Logger.Disable("SendRPC");
-        //TOHE.Logger.Disable("ReceiveRPC");
         TOHE.Logger.Disable("SwitchSystem");
-        TOHE.Logger.Disable("CustomRpcSender");
         if (!DebugModeManager.AmDebugger)
         {
-            //TOHE.Logger.Disable("2018k");
+            TOHE.Logger.Disable("CustomRpcSender");
+            TOHE.Logger.Disable("ReceiveRPC");
+            TOHE.Logger.Disable("SendRPC");
             TOHE.Logger.Disable("SetRole");
             TOHE.Logger.Disable("Info.Role");
             TOHE.Logger.Disable("TaskState.Init");
@@ -410,7 +409,6 @@ public enum CustomRoles
     Capitalism,
     Gangster,
     Cleaner,
-    Messenger,
     BallLightning,
     //Crewmate(Vanilla)
     Engineer,

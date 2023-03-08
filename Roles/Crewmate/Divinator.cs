@@ -123,8 +123,7 @@ public static class Divinator
             CustomRoles.EvilTracker or
             CustomRoles.Gangster or
             CustomRoles.Dictator or
-            CustomRoles.CyberStar or
-            CustomRoles.Messenger
+            CustomRoles.CyberStar
             => "Enthusiasm",
 
             CustomRoles.BoobyTrap or
