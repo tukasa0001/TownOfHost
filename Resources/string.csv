@@ -36,6 +36,10 @@ TeamGamer,玩家阵营
 
 ## 职业
 
+# 其它
+GM,管理员,GM,GM (Призрак)
+NotAssigned,无效
+
 # 原版职业
 Crewmate,船员,Crewmate,Член Экипажа
 Engineer,工程师,Engineer,Инженер
@@ -141,9 +145,6 @@ Piper,吹笛者,Piper,Пайпер
 TicketsStealer,窃票者,Stealer,Похититель
 DualPersonality,双重人格
 
-# 管理员
-GM,管理员,GM,GM (Призрак)
-
 ## 以下是职业简介（显示在开局以及任务栏的文本）
 NeutralInfo,中立阵营,Independent forces unaffiliated with any other teams,Команда которая не принадлежит ни к каким другим командам
 
@@ -247,8 +248,9 @@ PiperInfo,嗯↗嗯↘嗯~~,Change the players speed,Измените скоро
 TicketsStealerInfo,要懂得珍惜，死者最后的价值,Steal player votes,Украдите голоса игроков
 DualPersonalityInfo,我真的很...奇怪吗？
 
-# 管理员
+# 其它
 GMInfo,开局死的冤魂隔岸观火,You are the Game Master,Вы Мастер Игры
+NotAssignedInfo,未被分配职业
 
 ## 以下是职业描述（使用/m或/r指令后得到的文本）
 
@@ -331,9 +333,6 @@ RevolutionistInfoLong,(中立阵营):\n革命家可以通过对玩家点击击�
 FFFInfoLong,(中立阵营):\nFFF团不会成为恋人或海王。FFF团拥有无限且没有冷却的击杀能力，同时FFF团敏锐的观察力使他默认拥有内鬼的视野。FFF团只能击杀恋人与海王，击杀其他玩家则会立刻牺牲。游戏结束时，没有恋人与海王存活且FFF团曾经击杀过至少一次恋人或海王，则FFF团胜利。请注意：FFF团只会附加胜利不会抢夺原本阵营的胜利。此外，FFF团的胜利条件不包括存活。,"(Neutrals):\nThe Hater has an unlimited kill cooldown, while the Hater has Impostor vision range by default. The hater can only kill Lovers and Neptune, and killing other players will immediately result in suicide. At the end of the game, if none of the Lovers or Neptunes survive and the Hater has killed at least one of them, then the Hater wins. Please note: The hater will only claim wins and will not take the win from the original team.","(Нейтрал):\nНенавистник обладает неограниченным откатом убийства, и в то же время Ненавистник по умолчанию имеет дальность обзора Предателей. Ненавистник может убивать только Любовников и Нептуна, а убийство других игроков будет немедленно приведёт к суициду. В конце игры, если ни один из Любовников или Нептунов не выживет и Ненавистник убил хотя бы одного из них то, Ненавистник побеждает. Пожалуйста, обратите внимание: Ненавистник будет присваивать только победы и не будет отбирать победу у первоначальной команды."
 GamerInfoLong,(中立阵营):\n仅剩玩家阵营与船员阵营且玩家阵营人数大于船员人数，玩家获得胜利。玩家的击杀规则与其他人不同，玩家视角下所有人拥有血量，玩家击杀以及被击杀改为消耗血量，当血量耗空时击杀才会生效。请注意：若其他人消耗玩家血量但没有成功击杀玩家时，凶手会看到玩家身上出现护盾破碎动画作为提示。
 
-# 管理员
-GMInfoLong,(房主):\n看我干啥，我只是个开局就死的冤魂，静静地吃瓜而已。,"(None):\nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game, and all players know who the GM is. The GM role will be assigned to the host, who will automatically become a ghost at the start of the game.","(Никто):\nGM (Мастер Игры) — это роль, которая наблюдает за игрой в роле призрака. \nОн не влияет на игру, и все игроки всегда знают кто Мастер Игры. Всегда назначается только хосту лобби и становится призраком в самом начале игры."
-
 # 附加职业
 LastImpostorInfoLong,(附加职业):\n这个效果在内鬼仅剩一人时赋予该内鬼。使其击杀冷却缩短。该效果对赏金猎人、嗜血杀手以及吸血鬼等击杀方式特殊的职业不适用。,"(Add-ons):\nAn Add-on granted to the last Impostor remaining.\nKill cooldown is reduced according to this setting.\nNot granted to Bounty Hunters, Serial Killers, or Vampires.","(Атрибут):\nАтрибут, присваивается последнему Предателю. \nВремя отката убийства становится меньше, чем обычно. \nНе назначается Охотнику за головами, Серийному убийце или Вампиру."
 LoversInfoLong,(附加职业):\n恋人为两名玩家的组合。恋人存活到游戏结束则恋人抢夺胜利，恋人有中立阵营玩家且满足胜利条件时则该中立与恋人一起胜利。但恋人不会抢夺持有特殊胜利条件的中立阵营玩家的胜利。其中。大部分船员阵营的恋人玩家没有任务。恋人可以看到自己恋人昵称旁有心形标志。恋人其中一人死亡则另一人殉情（根据房主设置可能不会殉情）。恋人中的一方在会议中被放逐时，另一方将死亡并变为不可以被报告的尸体。,"(Add-ons),\nLovers is an assigned to 2 random players on top of their defined roles.\nIf you and your lover both survive til the end, you both will win.\nIf one of you dies, the other will also die. If crewmates get a task victory, you both will lose.","(Атрибут):\nДополнительно с какой-либо ролью Любовники назначаются 2 случайных игрокам. \nЕсли оба любовника останутся живы, то они выиграют. \nКогда умрёт хотя бы один любовник, то моментально умрёт и второй. Они проиграют когда Члены Экипажа выполнят все задания."
@@ -355,7 +354,11 @@ PiperInfoLong,(附加职业)\n吹笛者会将自己附近的人的移动速度�
 TicketsStealerInfoLong,(附加职业)\n只有内鬼会成为窃票者。窃票者每次击杀一个人都会增加自己本局的票数（增加数量根据房主设定，小数向下取整）。此外，窃票者额外的票是隐藏的。,"(Add-ons):\nOnly a Impostors can become a Stealer. Each time the Stealer kills a player, it increases its own number of votes in the game (the increase in votes is set according to the number of votes, and the decimal is rounded down). In addition, additional Stealer voices are hidden","(Атрибут):\nТолько Предатель может стать Похитителем. Каждый раз, когда Похититель убивает игрока, он увеличивает свое собственное количество голосов в игре (увеличение голосов устанавливается в соответствии с количеством голосов, а десятичная дробь округляется в меньшую сторону). Кроме того, дополнительные голоса Похитителя скрыты."
 DualPersonalityInfoLong,(附加职业)\n中立和叛徒不会成为双重人格，计算其阵营人数时双重人格被视为两人。例如场上剩余一个内鬼和一个双重人格船员，则视为两名船员和一名内鬼，因此游戏不会结束。
 
-#模式选项
+# 其它
+GMInfoLong,(房主):\n看我干啥，我只是个开局就死的冤魂，静静地吃瓜而已。,"(None):\nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game, and all players know who the GM is. The GM role will be assigned to the host, who will automatically become a ghost at the start of the game.","(Никто):\nGM (Мастер Игры) — это роль, которая наблюдает за игрой в роле призрака. \nОн не влияет на игру, и все игроки всегда знают кто Мастер Игры. Всегда назначается только хосту лобби и становится призраком в самом начале игры."
+
+
+## 模式选项
 NoGameEnd,测试模式,NoGameEnd,Игра Не Закончится
 DebugMode,调试模式,Debug Mode,Режим отладки
 SyncButtonMode,所有船员共享会议次数,SyncButtonMode,Общая кнопка встреч

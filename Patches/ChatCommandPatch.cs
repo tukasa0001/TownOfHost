@@ -521,15 +521,14 @@ internal class ChatCommands
                     if (!DebugModeManager.AmDebugger) break;
                     canceled = true;
                     subArgs = text.Remove(0, 8);
-                    var setRole = ToSimplified(subArgs.Trim());
-                    foreach (var r in roleList)
+                    var setRole = FixRoleNameInput(subArgs.Trim());
+                    foreach (CustomRoles rl in Enum.GetValues(typeof(CustomRoles)))
                     {
-                        var roleName = r.Key.ToString();
-                        var roleShort = r.Value;
-                        if (string.Compare(setRole, roleName, true) == 0 || string.Compare(setRole, roleShort, true) == 0)
+                        var roleName = GetString(rl.ToString()).ToLower().Trim();
+                        if (setRole.Contains(roleName))
                         {
-                            PlayerControl.LocalPlayer.RpcSetRole(r.Key.GetRoleTypes());
-                            PlayerControl.LocalPlayer.RpcSetCustomRole(r.Key);
+                            PlayerControl.LocalPlayer.RpcSetRole(rl.GetRoleTypes());
+                            PlayerControl.LocalPlayer.RpcSetCustomRole(rl);
                             Utils.NotifyRoles();
                             Utils.MarkEveryoneDirtySettings();
                         }
@@ -563,205 +562,103 @@ internal class ChatCommands
         return !canceled;
     }
 
-    public static string ToSimplified(string text)
+    public static string FixRoleNameInput(string text)
     {
         text = text.Replace("着", "者").Trim().ToLower();
         return text switch
         {
-            "管理員" or "管理" => "管理员",
-            "賞金獵人" or "赏金" => "赏金猎人",
-            "自爆兵" or "自爆" => "自爆兵",
-            "邪惡的追踪者" or "邪恶追踪者" => "追踪者",
-            "煙花商人" or "烟花" => "烟花商人",
-            "夢魘" => "梦魇",
-            "詭雷" => "诡雷",
-            "黑手黨" or "黑手" => "黑手党",
-            "嗜血殺手" or "嗜血" => "嗜血杀手",
-            "千面鬼" or "千面" => "千面鬼",
-            "狂妄殺手" or "狂妄" => "狂妄杀手",
-            "殺戮機器" or "杀戮" or "机器" => "杀戮机器",
-            "蝕時者" or "蚀时" => "蚀时者",
-            "狙擊手" or "狙击" => "狙击手",
-            "傀儡師" or "傀儡" => "傀儡师",
-            "殭屍" or "丧尸" => "僵尸",
-            "吸血鬼" or "吸血" => "吸血鬼",
-            "術士" => "术士",
-            "駭客" or "黑客" => "骇客",
-            "刺客" => "刺客",
-            "礦工" => "矿工",
-            "逃逸者" or "逃逸" => "逃逸者",
-            "女巫" => "女巫",
-            "監視者" or "监管" => "监管者",
-            "清道夫" or "清道" => "清道夫",
-            "窺視者" or "窥视" => "窥视者",
-            "誘餌" or "大奖" or "头奖" => "诱饵",
-            "擺爛人" or "摆烂" => "摆烂人",
-            "獨裁者" or "独裁" => "独裁者",
-            "醫生" => "医生",
-            "偵探" => "侦探",
-            "幸運兒" or "幸运" => "幸运儿",
-            "大明星" or "明星" => "大明星",
-            "網紅" => "网红",
-            "俠客" => "侠客",
-            "正義賭怪" or "正义的赌怪" or "好赌" => "正义赌怪",
-            "邪惡賭怪" or "邪恶的赌怪" or "坏赌" or "恶赌" => "邪恶赌怪",
-            "工程師" or "工程" => "工程师",
-            "市長" => "市长",
-            "被害妄想症" or "被害妄想" or "被迫害妄想症" or "被害" or "妄想" or "妄想症" => "被害妄想症",
-            "愚者" or "愚" => "愚者",
-            "修理大师" or "修理" or "维修" => "修理工",
-            "警長" => "警长",
-            "告密者" or "告密" => "告密者",
-            "增速者" or "增速" => "增速者",
-            "時間操控者" or "时间操控人" or "时间操控" => "时间操控者",
-            "陷阱師" or "陷阱" or "小奖" => "陷阱师",
-            "傳送師" or "传送" => "传送师",
-            "縱火犯" or "纵火" => "纵火犯",
-            "野心家" or "野心" => "野心家",
-            "處刑人" or "处刑" => "处刑人",
-            "小丑" or "丑皇" => "小丑",
-            "投機者" or "投机" => "投机者",
-            "馬里奧" => "马里奥",
-            "恐怖分子" or "恐怖" => "恐怖分子",
-            "豺狼" => "豺狼",
-            "神" => "神",
-            "情人" or "愛人" or "链子" => "恋人",
-            "絕境者" or "绝境" => "绝境者",
-            "閃電俠" or "闪电" => "闪电侠",
-            "靈媒" => "灵媒",
-            "破平者" or "破平" => "破平者",
-            "執燈人" or "执灯" or "灯人" => "执灯人",
-            "膽小" or "胆小" => "胆小鬼",
-            "迷惑者" or "迷幻" => "迷幻者",
-            "蠢蛋" or "笨蛋" or "蠢狗" => "蠢蛋",
-            "冤罪師" or "冤罪" => "冤罪师",
-            "資本家" or "资本主义" or "资本" => "资本家",
-            "老兵" => "老兵",
-            "加班狂" or "加班" => "加班狂",
-            "復仇者" or "复仇" => "复仇者",
-            "鵜鶘" => "鹈鹕",
-            "保鏢" => "保镖",
-            "up" or "up主" => "UP主",
-            "利己主義者" or "利己主义" or "利己" => "利己主义者",
-            "贗品商" or "赝品" => "赝品商",
-            "吹笛者" or "吹笛" => "吹笛者",
-            "擲雷兵" or "掷雷" or "闪光弹" => "掷雷兵",
-            "竊票者" or "偷票" or "偷票者" or "窃票师" or "窃票" => "窃票者",
-            "教父" => "教父",
-            "革命家" or "革命" => "革命家",
-            "fff團" or "fff" or "fff团" => "FFF团",
-            "清理工" or "清潔工" or "清洁工" or "清理" or "清洁" => "清理工",
-            "法医" => "法医",
-            "占卜師" or "占卜" => "占卜师",
-            "雙重人格" or "双重" or "双人格" or "人格" => "双重人格",
-            "玩家" => "玩家",
-            "情報販子" or "情报" or "贩子" => "情报贩子",
-            "球狀閃電" or "球闪" or "球状" => "球状闪电",
+            "管理員" or "管理" => GetString("GM"),
+            "賞金獵人" or "赏金" => GetString("BountyHunter"),
+            "自爆兵" or "自爆" => GetString("Bomber"),
+            "邪惡的追踪者" or "邪恶追踪者" or "追踪" => GetString("EvilTracker"),
+            "煙花商人" or "烟花" => GetString("FireWorks"),
+            "夢魘" => GetString("Mare"),
+            "詭雷" => GetString("BoobyTrap"),
+            "黑手黨" or "黑手" => GetString("Mafia"),
+            "嗜血殺手" or "嗜血" => GetString(""),
+            "千面鬼" or "千面" => GetString(""),
+            "狂妄殺手" or "狂妄" => GetString(""),
+            "殺戮機器" or "杀戮" or "机器" => GetString(""),
+            "蝕時者" or "蚀时" => GetString(""),
+            "狙擊手" or "狙击" => GetString(""),
+            "傀儡師" or "傀儡" => GetString(""),
+            "殭屍" or "丧尸" => GetString(""),
+            "吸血鬼" or "吸血" => GetString(""),
+            "術士" => GetString(""),
+            "駭客" or "黑客" => GetString(""),
+            "刺客" => GetString(""),
+            "礦工" => GetString(""),
+            "逃逸者" or "逃逸" => GetString(""),
+            "女巫" => GetString(""),
+            "監視者" or "监管" => GetString(""),
+            "清道夫" or "清道" => GetString(""),
+            "窺視者" or "窥视" => GetString(""),
+            "誘餌" or "大奖" or "头奖" => GetString(""),
+            "擺爛人" or "摆烂" => GetString(""),
+            "獨裁者" or "独裁" => GetString(""),
+            "醫生" => GetString(""),
+            "偵探" => GetString(""),
+            "幸運兒" or "幸运" => GetString(""),
+            "大明星" or "明星" => GetString(""),
+            "網紅" => GetString(""),
+            "俠客" => GetString(""),
+            "正義賭怪" or "正义的赌怪" or "好赌" => GetString(""),
+            "邪惡賭怪" or "邪恶的赌怪" or "坏赌" or "恶赌" => GetString(""),
+            "工程師" or "工程" => GetString(""),
+            "市長" => GetString(""),
+            "被害妄想症" or "被害妄想" or "被迫害妄想症" or "被害" or "妄想" or "妄想症" => GetString(""),
+            "愚者" or "愚" => GetString(""),
+            "修理大师" or "修理" or "维修" => GetString(""),
+            "警長" => GetString(""),
+            "告密者" or "告密" => GetString(""),
+            "增速者" or "增速" => GetString(""),
+            "時間操控者" or "时间操控人" or "时间操控" => GetString(""),
+            "陷阱師" or "陷阱" or "小奖" => GetString(""),
+            "傳送師" or "传送" => GetString(""),
+            "縱火犯" or "纵火" => GetString(""),
+            "野心家" or "野心" => GetString(""),
+            "處刑人" or "处刑" => GetString(""),
+            "小丑" or "丑皇" => GetString(""),
+            "投機者" or "投机" => GetString(""),
+            "馬里奧" => GetString(""),
+            "恐怖分子" or "恐怖" => GetString(""),
+            "豺狼" => GetString(""),
+            "神" => GetString(""),
+            "情人" or "愛人" or "链子" => GetString(""),
+            "絕境者" or "绝境" => GetString(""),
+            "閃電俠" or "闪电" => GetString(""),
+            "靈媒" => GetString(""),
+            "破平者" or "破平" => GetString(""),
+            "執燈人" or "执灯" or "灯人" => GetString(""),
+            "膽小" or "胆小" => GetString(""),
+            "迷惑者" or "迷幻" => GetString(""),
+            "蠢蛋" or "笨蛋" or "蠢狗" => GetString(""),
+            "冤罪師" or "冤罪" => GetString(""),
+            "資本家" or "资本主义" or "资本" => GetString(""),
+            "老兵" => GetString(""),
+            "加班狂" or "加班" => GetString(""),
+            "復仇者" or "复仇" => GetString(""),
+            "鵜鶘" => GetString(""),
+            "保鏢" => GetString(""),
+            "up" or "up主" => GetString(""),
+            "利己主義者" or "利己主义" or "利己" => GetString(""),
+            "贗品商" or "赝品" => GetString(""),
+            "吹笛者" or "吹笛" => GetString(""),
+            "擲雷兵" or "掷雷" or "闪光弹" => GetString(""),
+            "竊票者" or "偷票" or "偷票者" or "窃票师" or "窃票" => GetString(""),
+            "教父" => GetString(""),
+            "革命家" or "革命" => GetString(""),
+            "fff團" or "fff" or "fff团" => GetString(""),
+            "清理工" or "清潔工" or "清洁工" or "清理" or "清洁" => GetString(""),
+            "法医" => GetString(""),
+            "占卜師" or "占卜" => GetString(""),
+            "雙重人格" or "双重" or "双人格" or "人格" => GetString(""),
+            "玩家" => GetString(""),
+            "情報販子" or "情报" or "贩子" => GetString(""),
+            "球狀閃電" or "球闪" or "球状" => GetString(""),
             _ => text,
         };
     }
-
-    private static readonly Dictionary<CustomRoles, string> roleList = new()
-    {
-            //GM
-            { CustomRoles.GM, GetString("GM") },
-            //Impostor役職
-            { (CustomRoles)(-1), $"== {GetString("Impostor")} ==" }, //区切り用
-            { CustomRoles.AntiAdminer, GetString("AntiAdminer") },
-            { CustomRoles.Bomber, GetString("Bomber") },
-            { CustomRoles.BountyHunter, GetString("BountyHunter") },
-            { CustomRoles.EvilTracker,GetString("EvilTracker") },
-            { CustomRoles.FireWorks, GetString("FireWorks") },
-            { CustomRoles.Mare, GetString("Mare") },
-            { CustomRoles.Mafia, GetString("Mafia") },
-            { CustomRoles.Minimalism, GetString("Minimalism") },
-            { CustomRoles.SerialKiller, GetString("SerialKiller") },
-            { CustomRoles.ShapeMaster, GetString("ShapeMaster") },
-            { CustomRoles.TimeThief, GetString("TimeThief")},
-            { CustomRoles.Sniper, GetString("Sniper") },
-            { CustomRoles.Zombie, GetString("Zombie") },
-            { CustomRoles.Puppeteer, GetString("Puppeteer") },
-            { CustomRoles.Vampire, GetString("Vampire") },
-            { CustomRoles.Warlock, GetString("Warlock") },
-            { CustomRoles.Assassin, GetString("Assassin") },
-            { CustomRoles.Hacker, GetString("Hacker") },
-            { CustomRoles.Miner, GetString("Miner") },
-            { CustomRoles.Escapee, GetString("Escapee") },
-            { CustomRoles.Witch, GetString("Witch") },
-            { CustomRoles.Sans, GetString("Sans") },
-            { CustomRoles.BoobyTrap, GetString("BoobyTrap") },
-            { CustomRoles.EvilGuesser, GetString("EvilGuesser") },
-            { CustomRoles.Scavenger, GetString("Scavenger") },
-            { CustomRoles.Capitalism, GetString("Capitalism") },
-            { CustomRoles.Gangster, GetString("Gangster") },
-            { CustomRoles.Cleaner, GetString("Cleaner") },
-            { CustomRoles.Messenger, GetString("Messenger") },
-            { CustomRoles.BallLightning, GetString("BallLightning") },
-            //Crewmate役職
-            { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
-            { CustomRoles.Bait, GetString("Bait") },
-            { CustomRoles.Luckey, GetString("Luckey") },
-            { CustomRoles.Needy, GetString("Needy") },
-            { CustomRoles.Dictator, GetString("Dictator") },
-            { CustomRoles.Doctor, GetString("Doctor") },
-            { CustomRoles.SuperStar, GetString("SuperStar") },
-            { CustomRoles.CyberStar, GetString("CyberStar") },
-            { CustomRoles.Mayor, GetString("Mayor") },
-            { CustomRoles.Paranoia, GetString("Paranoia") },
-            { CustomRoles.Psychic, GetString("Psychic") },
-            { CustomRoles.SabotageMaster, GetString("SabotageMaster") },
-            { CustomRoles.Detective,GetString("Detective") },
-            { CustomRoles.Sheriff, GetString("Sheriff") },
-            { CustomRoles.Snitch, GetString("Snitch") },
-            { CustomRoles.SpeedBooster, GetString("SpeedBooster") },
-            { CustomRoles.Trapper, GetString("Trapper") },
-            { CustomRoles.SwordsMan, GetString("SwordsMan") },
-            { CustomRoles.NiceGuesser, GetString("NiceGuesser") },
-            { CustomRoles.Transporter, GetString("Transporter") },
-            { CustomRoles.TimeManager, GetString("TimeManager") },
-            { CustomRoles.Veteran, GetString("Veteran") },
-            { CustomRoles.Bodyguard, GetString("Bodyguard") },
-            { CustomRoles.Counterfeiter, GetString("Counterfeiter") },
-            { CustomRoles.Grenadier, GetString("Grenadier") },
-            { CustomRoles.Medicaler, GetString("Medicaler") },
-            { CustomRoles.Divinator, GetString("Divinator") },
-            //Neutral役職
-            { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用s
-            { CustomRoles.Arsonist, GetString("Arsonist") },
-            { CustomRoles.Revolutionist, GetString("Revolutionist") },
-            { CustomRoles.Executioner, GetString("Executioner")},
-            { CustomRoles.Jester, GetString("Jester") },
-            { CustomRoles.God, GetString("God") },
-            { CustomRoles.Opportunist, GetString("Opportunist") },
-            { CustomRoles.Mario, GetString("Mario") },
-            { CustomRoles.Terrorist, GetString("Terrorist") },
-            { CustomRoles.Jackal, GetString("Jackal") },
-            { CustomRoles.Innocent, GetString("Innocent") },
-            { CustomRoles.Pelican, GetString("Pelican") },
-            { CustomRoles.FFF, GetString("FFF") },
-            { CustomRoles.Gamer, GetString("Gamer") },
-            //属性
-            { (CustomRoles)(-6), $"== {GetString("Addons")} ==" }, //区切り用
-            {CustomRoles.Lovers, GetString("Lovers") },
-            {CustomRoles.Ntr, GetString("Ntr") },
-            {CustomRoles.LastImpostor, GetString("LastImpostor") },
-            {CustomRoles.Madmate, GetString("Madmate") },
-            {CustomRoles.Watcher, GetString("Watcher") },
-            {CustomRoles.Flashman, GetString("Flashman") },
-            { CustomRoles.Lighter, GetString("Lighter") },
-            { CustomRoles.Seer,GetString("Seer") },
-            { CustomRoles.Brakar,GetString("Brakar") },
-            { CustomRoles.Oblivious,GetString("Oblivious") },
-            { CustomRoles.Bewilder,GetString("Bewilder") },
-            { CustomRoles.Workhorse,GetString("Workhorse") },
-            { CustomRoles.Fool,GetString("Fool") },
-            { CustomRoles.Avanger,GetString("Avanger") },
-            { CustomRoles.Youtuber,GetString("Youtuber") },
-            { CustomRoles.Egoist,GetString("Egoist") },
-            { CustomRoles.Piper,GetString("Piper") },
-            { CustomRoles.TicketsStealer,GetString("TicketsStealer") },
-            { CustomRoles.DualPersonality,GetString("DualPersonality") },
-        };
 
     public static bool GetRoleByName(string name, out CustomRoles role)
     {
@@ -779,27 +676,24 @@ internal class ChatCommands
                 if (mc[i].ToString() == "是") continue;
                 result += mc[i];//匹配结果是完整的数字，此处可以不做拼接的
             }
-            name = ToSimplified(result.Replace("是", string.Empty).Trim());
+            name = FixRoleNameInput(result.Replace("是", string.Empty).Trim());
         }
         else
         {
             name = name.Trim().ToLower();
         }
 
-        foreach (var rl in roleList)
+        foreach (CustomRoles rl in Enum.GetValues(typeof(CustomRoles)))
         {
-            var roleShort = rl.Key.ToString().ToLower().Trim();
-            var roleName = rl.Value.ToLower().Trim();
-
-            if (name.Contains(roleShort) || name.Contains(roleName))
+            var roleName = GetString(rl.ToString()).ToLower().Trim();
+            if (name.Contains(roleName))
             {
-                role = rl.Key;
+                role = rl;
                 return true;
             }
         }
         return false;
     }
-
     public static void SendRolesInfo(string role, PlayerControl player, bool isDev = false, bool isUp = false)
     {
         role = role.Trim().ToLower();
@@ -813,63 +707,41 @@ internal class ChatCommands
             Utils.ShowActiveRoles(player.PlayerId);
             return;
         }
-        role = ToSimplified(role);
+        role = FixRoleNameInput(role);
 
-        var msg = "";
-        var rolemsg = $"{GetString("Command.h_args")}";
-        foreach (var r in roleList)
+        foreach (CustomRoles rl in Enum.GetValues(typeof(CustomRoles)))
         {
-            var roleName = r.Key.ToString();
-            var roleShort = r.Value;
-
-            if (string.Compare(role, roleName, true) == 0 || string.Compare(role, roleShort, true) == 0)
+            var roleName = GetString(rl.ToString());
+            if (role.Contains(roleName))
             {
-
                 if ((isDev || isUp) && GameStates.IsLobby)
                 {
                     string devMark = "▲";
-                    if (CustomRolesHelper.IsAdditionRole(r.Key)) devMark = "";
-                    if (r.Key is CustomRoles.GM || r.Key.IsDesyncRole()) devMark = "";
-                    if (r.Key.GetCount() < 1 || r.Key.GetMode() == 0) devMark = "";
+                    if (CustomRolesHelper.IsAdditionRole(rl)) devMark = "";
+                    if (rl is CustomRoles.GM || rl.IsDesyncRole()) devMark = "";
+                    if (rl.GetCount() < 1 || rl.GetMode() == 0) devMark = "";
                     if (isUp)
                     {
-                        if (devMark == "▲") Utils.SendMessage("已提升您成为【" + GetString(roleName) + "】的概率", player.PlayerId);
-                        else Utils.SendMessage("无法提升您成为【" + GetString(roleName) + "】的概率\n可能是因为您没有启用该职业或该职业不支持被指定", player.PlayerId);
+                        if (devMark == "▲") Utils.SendMessage("已提升您成为【" + roleName + "】的概率", player.PlayerId);
+                        else Utils.SendMessage("无法提升您成为【" + roleName + "】的概率\n可能是因为您没有启用该职业或该职业不支持被指定", player.PlayerId);
                     }
                     else
                     {
-                        Utils.SendMessage(devMark + GetString(roleName) + GetString($"{roleName}InfoLong"), player.PlayerId);
+                        Utils.SendMessage(devMark + roleName + GetString($"{rl}InfoLong"), player.PlayerId);
                     }
                     if (devMark == "▲")
                     {
                         if (Main.DevRole.ContainsKey(player.PlayerId)) Main.DevRole.Remove(player.PlayerId);
-                        Main.DevRole.Add(player.PlayerId, r.Key);
+                        Main.DevRole.Add(player.PlayerId, rl);
                     }
                 }
                 else
                 {
-                    Utils.SendMessage(GetString(roleName) + GetString($"{roleName}InfoLong"), player.PlayerId);
+                    Utils.SendMessage(roleName + GetString($"{rl}InfoLong"), player.PlayerId);
                 }
                 return;
             }
-
-            var roleText = $"{roleName.ToLower()}({roleShort.ToLower()}), ";
-            if ((int)r.Key < 0)
-            {
-                msg += rolemsg + "\n" + roleShort + "\n";
-                rolemsg = "";
-            }
-            else if ((rolemsg.Length + roleText.Length) > 40)
-            {
-                msg += rolemsg + "\n";
-                rolemsg = roleText;
-            }
-            else
-            {
-                rolemsg += roleText;
-            }
         }
-
         if (isUp) Utils.SendMessage("请正确拼写您要指定的职业哦~\n查看所有职业请直接输入/r", player.PlayerId);
         else Utils.SendMessage(GetString("Message.CanNotFindRoleThePlayerEnter"), player.PlayerId);
         return;
