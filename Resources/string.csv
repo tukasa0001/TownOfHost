@@ -145,9 +145,6 @@ Piper,吹笛者,Piper,Пайпер
 TicketsStealer,窃票者,Stealer,Похититель
 DualPersonality,双重人格,Schizophrenic,Шизофреник
 
-# 管理员
-GM,管理员,GM,GM (Призрак)
-
 ## 以下是职业简介（显示在开局以及任务栏的文本）
 NeutralInfo,中立阵营,Independent forces unaffiliated with any other teams,Команда которая не принадлежит ни к каким другим командам
 
