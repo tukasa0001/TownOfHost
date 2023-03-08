@@ -4,6 +4,7 @@ using Hazel;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using TOHE.Modules;
 using TOHE.Roles.AddOns.Crewmate;
 using TOHE.Roles.AddOns.Impostor;
 using TOHE.Roles.Crewmate;
@@ -47,6 +48,8 @@ internal enum CustomRPC
     SetMedicalerProtectLimit,
     SetGangsterRecruitLimit,
     SetGhostPlayer,
+    PlayCustomSound,
+    PlayCustomSoundAll,
 }
 public enum Sounds
 {
@@ -323,6 +326,12 @@ internal class RPCHandlerPatch
                 break;
             case CustomRPC.SetGangsterRecruitLimit:
                 Gangster.ReceiveRPC(reader);
+                break;
+            case CustomRPC.PlayCustomSound:
+                CustomSoundsManager.ReceiveRPC(reader);
+                break;
+            case CustomRPC.PlayCustomSoundAll:
+                CustomSoundsManager.ReceiveRPCAll(reader);
                 break;
         }
     }
