@@ -429,15 +429,9 @@ namespace TownOfHost
                 kvp.Value.LastRoom = pc.GetPlainShipRoom();
             }
             if (!AmongUsClient.Instance.AmHost) return true;
-            SerialKiller.OnReportDeadBody();
-            Main.ArsonistTimer.Clear();
-            if (target == null) //ボタン
-            {
-                if (__instance.Is(CustomRoles.Mayor))
-                {
-                    Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
-                }
-            }
+
+            //通報者が死んでいる場合、本処理で会議がキャンセルされるのでここで止める
+            if (__instance.Data.IsDead) return false;
 
             if (Options.SyncButtonMode.GetBool() && target == null)
             {
@@ -454,21 +448,33 @@ namespace TownOfHost
                 }
             }
 
-            __instance.GetRoleClass()?.OnReportDeadBody(__instance, target);
-
-            Main.PuppeteerList.Clear();
-            Sniper.OnReportDeadBody();
-            Vampire.OnStartMeeting();
-
-            if (__instance.Data.IsDead) return true;
             //=============================================
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
+
+
+            if (target == null) //ボタン
+            {
+                if (__instance.Is(CustomRoles.Mayor))
+                {
+                    Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
+                }
+            }
+            Main.ArsonistTimer.Clear();
+            Main.PuppeteerList.Clear();
+
+            __instance.GetRoleClass()?.OnReportDeadBody(__instance, target);
+
+            SerialKiller.OnReportDeadBody();
+            Sniper.OnReportDeadBody();
+            Vampire.OnStartMeeting();
 
             Main.AllPlayerControls
                 .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
                 .Do(pc => Camouflage.RpcSetSkin(pc, RevertToDefault: true));
             MeetingTimeManager.OnReportDeadBody();
+
+            Utils.NotifyRoles(isForMeeting: true, NoCache: true);
 
             Utils.SyncAllSettings();
             return true;
