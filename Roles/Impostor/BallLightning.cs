@@ -54,8 +54,16 @@ public static class BallLightning
             GhostPlayer = new();
             return;
         }
-        GhostPlayer.Remove(GhostId);
-        if (isGhost) GhostPlayer.Add(GhostId);
+        if (isGhost)
+        {
+            if (!GhostPlayer.Contains(GhostId))
+                GhostPlayer.Add(GhostId);
+        }
+        else
+        {
+            if (GhostPlayer.Contains(GhostId))
+                GhostPlayer.Remove(GhostId);
+        }
     }
     public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown.GetFloat();
     public static bool IsGhost(PlayerControl player) => GhostPlayer.Contains(player.PlayerId);
@@ -73,12 +81,13 @@ public static class BallLightning
     {
         new LateTask(() =>
         {
-            if (GameStates.IsInTask && !GameStates.IsMeeting && target.IsAlive() && !Pelican.IsEaten(target.PlayerId))
+            if (GameStates.IsInGame && GameStates.IsInTask && !GameStates.IsMeeting && target.IsAlive() && !Pelican.IsEaten(target.PlayerId))
             {
                 GhostPlayer.Add(target.PlayerId);
                 SendRPC(target.PlayerId);
                 RealKiller.TryAdd(target.PlayerId, killer);
                 if (!killer.inVent) killer.RpcGuardAndKill(killer);
+                Utils.NotifyRoles();
                 Logger.Info($"{target.GetNameWithRole()} 转化为量子幽灵", "BallLightning");
             }
         }, ConvertTime.GetFloat(), "BallLightning Convert Player To Ghost");
@@ -92,12 +101,16 @@ public static class BallLightning
     }
     public static void FixedUpdate()
     {
-        if (!IsEnable || GhostPlayer.Count < 1 || !GameStates.IsInTask) return;
+        if (!IsEnable || GhostPlayer.Count < 1 || !GameStates.IsInTask || GameStates.IsMeeting) return;
         List<byte> deList = new();
         foreach (var ghost in GhostPlayer)
         {
             var gs = Utils.GetPlayerById(ghost);
-            if (gs == null) continue;
+            if (gs == null || !gs.IsAlive() || gs.Data.Disconnected)
+            {
+                deList.Add(gs.PlayerId);
+                continue;
+            }
             foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.PlayerId != gs.PlayerId && x.IsAlive() && !x.Is(CustomRoles.BallLightning) && !IsGhost(x) && !Pelican.IsEaten(x.PlayerId)))
             {
                 var pos = gs.transform.position;
@@ -114,8 +127,12 @@ public static class BallLightning
                 break;
             }
         }
-        GhostPlayer.RemoveAll(deList.Contains);
-        foreach (var gs in deList) SendRPC(gs);
+        if (deList.Count > 0)
+        {
+            GhostPlayer.RemoveAll(deList.Contains);
+            foreach (var gs in deList) SendRPC(gs);
+            Utils.NotifyRoles();
+        }
     }
     public static void OnMeetingStart()
     {
@@ -129,5 +146,6 @@ public static class BallLightning
         }
         GhostPlayer = new();
         SendRPC(byte.MaxValue);
+        Utils.NotifyRoles();
     }
 }
