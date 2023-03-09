@@ -132,7 +132,46 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     public virtual void AfterMeetingTasks()
     { }
-    public virtual string GetTargetArrow(PlayerControl target) => "";
+
+    // NameSystem
+    // 名前は下記の構成で表示される
+    // [Role][Progress]
+    // [Name][Mark]
+    // [Lower][suffix]
+    // Progress:タスク進捗/残弾等の状態表示
+    // Mark:役職能力によるターゲットマークなど
+    // Lower:役職用追加文字情報。Modの場合画面下に表示される。
+    // Suffix:ターゲット矢印などの追加情報。
+
+    /// <summary>
+    /// 役職名の横に出るテキスト
+    /// </summary>
+    /// <param name="comms">コミュサボ中扱いするかどうか</param>
+    public virtual string GetProgressText(bool comms = false)
+    {
+        var playerId = Player.PlayerId;
+        //タスクテキスト
+        var taskState = Main.PlayerStates?[playerId].GetTaskState();
+        if (!taskState.hasTasks) return "";
+
+        Color TextColor = Color.yellow;
+        var info = Utils.GetPlayerInfoById(playerId);
+        var TaskCompleteColor = Utils.HasTasks(info) ? Color.green : Utils.GetRoleColor(info.GetCustomRole()).ShadeColor(0.5f); //タスク完了後の色
+        var NonCompleteColor = Utils.HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
+
+        if (Workhorse.IsThisRole(playerId))
+            NonCompleteColor = Workhorse.RoleColor;
+
+        var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
+
+        TextColor = comms ? Color.gray : NormalColor;
+        string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
+        return Utils.ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})");
+    }
+    public virtual string GetMark(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false) => "";
+    public virtual string GetLowerText(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false, bool isForHud = false) => "";
+    public virtual string GetSuffix(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false) => "";
+
     /// <summary>
     /// シェイプシフトボタンを変更します
     /// </summary>
