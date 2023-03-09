@@ -90,6 +90,7 @@ namespace TownOfHost.Roles.Impostor
             if (ShowTargetArrow) TargetArrow.Add(Player.PlayerId, targetId);
         }
         //public static void SetKillCooldown(byte id, float amount) => Main.AllPlayerKillCooldown[id] = amount;
+        public override bool CanUseKillButton() => true;
         public override void ApplyGameOptions(IGameOptions opt) => AURoleOptions.ShapeshifterCooldown = TargetChangeTime;
 
         public override IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target, CustomRoleManager.CheckMurderInfo info)
