@@ -666,9 +666,10 @@ namespace TownOfHost
         }
         public static GameData.PlayerInfo GetPlayerInfoById(int PlayerId) =>
             GameData.Instance.AllPlayers.ToArray().Where(info => info.PlayerId == PlayerId).FirstOrDefault();
-        private static StringBuilder SelfSuffix = new();
         private static StringBuilder SelfMark = new(20);
+        private static StringBuilder SelfSuffix = new(20);
         private static StringBuilder TargetMark = new(20);
+        private static StringBuilder TargetSuffix = new(20);
         public static void NotifyRoles(bool isForMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false, bool ForceLoop = false)
         {
             if (!AmongUsClient.Instance.AmHost) return;
@@ -707,8 +708,11 @@ namespace TownOfHost
                 //タスクなど進行状況を含むテキスト
                 string SelfTaskText = GetProgressText(seer);
 
+                var seerRole = seer.GetRoleClass();
+
                 //名前の後ろに付けるマーカー
                 SelfMark.Clear();
+                SelfMark.Append(CustomRoleManager.GetMark(seer, isForMeeting: isForMeeting));
 
                 //インポスター/キル可能なニュートラルに対するSnitch警告
                 SelfMark.Append(Snitch.GetWarningArrow(seer));
@@ -721,13 +725,10 @@ namespace TownOfHost
 
                 //銃声が聞こえるかチェック
                 SelfMark.Append(Sniper.GetShotNotify(seer.PlayerId));
+
                 //Markとは違い、改行してから追記されます。
                 SelfSuffix.Clear();
-
-                if (seer.Is(CustomRoles.BountyHunter))
-                {
-                    SelfSuffix.Append(((BountyHunter)seer.GetRoleClass()).GetTargetText(false));
-                }
+                SelfSuffix.Append(CustomRoleManager.GetLowerText(seer, isForMeeting: isForMeeting));
 
                 if (seer.Is(CustomRoles.FireWorks))
                 {
@@ -738,6 +739,8 @@ namespace TownOfHost
                 {
                     SelfSuffix.Append(Witch.GetSpellModeText(seer, false, isForMeeting));
                 }
+
+                SelfSuffix.Append(CustomRoleManager.GetSuffix(seer, isForMeeting: isForMeeting));
 
                 //タスクを終えたSnitchがインポスター/キル可能なニュートラルの方角を確認できる
                 SelfSuffix.Append(Snitch.GetSnitchArrow(seer));
@@ -786,10 +789,9 @@ namespace TownOfHost
                         if (target == seer) continue;
                         logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":START");
 
-                        SelfSuffix.Append(seer.GetRoleClass()?.GetTargetArrow(target));
-
                         //名前の後ろに付けるマーカー
                         TargetMark.Clear();
+                        TargetMark.Append(CustomRoleManager.GetMark(seer, target, isForMeeting));
 
                         //呪われている人
                         TargetMark.Append(Witch.GetSpelledMark(target.PlayerId, isForMeeting));
@@ -839,6 +841,10 @@ namespace TownOfHost
                             if (isForMeeting && EvilTracker.IsTrackTarget(seer, target) && EvilTracker.CanSeeLastRoomInMeeting)
                                 TargetRoleText = $"<size={fontSize}>{EvilTracker.GetArrowAndLastRoom(seer, target)}</size>\r\n";
                         }
+                        //
+                        TargetSuffix.Clear();
+                        TargetSuffix.Append(CustomRoleManager.GetLowerText(seer, target, isForMeeting: isForMeeting));
+                        TargetSuffix.Append(CustomRoleManager.GetSuffix(seer, target, isForMeeting: isForMeeting));
 
                         //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                         string TargetPlayerName = target.GetRealName(isForMeeting);

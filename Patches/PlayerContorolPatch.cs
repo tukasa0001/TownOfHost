@@ -712,7 +712,6 @@ namespace TownOfHost
                     //変数定義
                     var seer = PlayerControl.LocalPlayer;
                     var target = __instance;
-
                     string RealName;
                     Mark.Clear();
                     Suffix.Clear();
@@ -730,6 +729,8 @@ namespace TownOfHost
 
                     //NameColorManager準拠の処理
                     RealName = RealName.ApplyNameColorData(seer, target, false);
+
+                    Mark.Append(CustomRoleManager.GetMark(seer, target, false));
 
                     if (seer.GetCustomRole().IsImpostor()) //seerがインポスター
                     {
@@ -784,7 +785,7 @@ namespace TownOfHost
                     //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能なニュートラルの方角がわかる
                     Suffix.Append(Snitch.GetSnitchArrow(seer, target));
 
-                    Suffix.Append(seer.GetRoleClass()?.GetTargetArrow(target));
+                    Suffix.Append(CustomRoleManager.GetSuffix(seer, target));
 
                     Suffix.Append(EvilTracker.GetTargetArrow(seer, target));
 
