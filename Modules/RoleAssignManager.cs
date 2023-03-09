@@ -22,7 +22,7 @@ namespace TownOfHost.Modules
         private static CustomRoles[] RolesArray = Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().ToArray();
         private static CustomRoleTypes[] RoleTypesArray = Enum.GetValues(typeof(CustomRoleTypes)).Cast<CustomRoleTypes>().ToArray();
 
-        public static void SetupCustomOption()
+        public static void SetupOptionItem()
         {
             ImpostorMin = IntegerOptionItem.Create(idStart, "ImpostorRolesMin", new(0, 3, 1), 0, TabGroup.ImpostorRoles, false)
                 .SetHeader(true)
