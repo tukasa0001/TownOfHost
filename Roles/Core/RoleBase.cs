@@ -33,6 +33,10 @@ public abstract class RoleBase : IDisposable
         OnDestroy();
         CustomRoleManager.AllActiveRoles.Remove(this);
     }
+    public bool Is(PlayerControl player)
+    {
+        return player.PlayerId == Player.PlayerId;
+    }
     /// <summary>
     /// インスタンス作成後すぐに呼ばれる関数
     /// </summary>
