@@ -132,6 +132,7 @@ public class Main : BasePlugin
     public static Dictionary<byte, long> VeteranInProtect = new();
     public static Dictionary<byte, long> GrenadierBlinding = new();
     public static Dictionary<byte, long> MadGrenadierBlinding = new();
+    public static Dictionary<byte, int> CursedWolfSpellCount = new();
     public static int AliveImpostorCount;
     public static int SKMadmateNowCount;
     public static bool isCursed;
@@ -234,6 +235,7 @@ public class Main : BasePlugin
         CleanerBodies = new List<byte>();
         CapitalismAddTask = new Dictionary<byte, int>();
         CapitalismAssignTask = new Dictionary<byte, int>();
+        CursedWolfSpellCount = new Dictionary<byte, int>();
         winnerList = new();
         VisibleTasksCount = false;
         MessagesToSend = new List<(string, byte, string)>();
@@ -413,6 +415,7 @@ public enum CustomRoles
     Cleaner,
     BallLightning,
     Greedier,
+    CursedWolf,
     //Crewmate(Vanilla)
     Engineer,
     GuardianAngel,

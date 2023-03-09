@@ -457,6 +457,10 @@ public static class Utils
             case CustomRoles.Medicaler:
                 ProgressText.Append(Medicaler.GetSkillLimit(playerId));
                 break;
+            case CustomRoles.CursedWolf:
+                int SpellCount = Main.CursedWolfSpellCount[playerId];
+                ProgressText.Append(ColorString(GetRoleColor(CustomRoles.CursedWolf), $"({SpellCount})"));
+                break;
             default:
                 //タスクテキスト
                 var taskState = Main.PlayerStates?[playerId].GetTaskState();

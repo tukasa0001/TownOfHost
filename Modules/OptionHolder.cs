@@ -172,6 +172,7 @@ public static class Options
     public static OptionItem SansMinKillCooldown;
     public static OptionItem BomberRadius;
     public static OptionItem CleanerKillCooldown;
+    public static OptionItem GuardSpellTimes;
     public static OptionItem FlashWhenTrapBoobyTrap;
     public static OptionItem CapitalismSkillCooldown;
     public static OptionItem GrenadierSkillCooldown;
@@ -511,7 +512,10 @@ public static class Options
         SetupRoleOptions(902233, TabGroup.ImpostorRoles, CustomRoles.Cleaner);
         CleanerKillCooldown = FloatOptionItem.Create(902237, "KillCooldown", new(5f, 990f, 2.5f), 30f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Cleaner])
             .SetValueFormat(OptionFormat.Seconds);
-        Greedier.SetupCustomOption();
+        Greedier.SetupCustomOption(); //TOH_Y
+        SetupRoleOptions(3200, TabGroup.ImpostorRoles, CustomRoles.CursedWolf); //TOH_Y
+        GuardSpellTimes = IntegerOptionItem.Create(3210, "GuardSpellTimes", new(1, 15, 1), 3, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.CursedWolf])
+            .SetValueFormat(OptionFormat.Times);
 
         // Crewmate
         SetupRoleOptions(102255, TabGroup.CrewmateRoles, CustomRoles.NiceGuesser);
@@ -607,8 +611,8 @@ public static class Options
         InnocentCanWinByImp = BooleanOptionItem.Create(5050266, "InnocentCanWinByImp", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Innocent]);
         SetupRoleOptions(5050850, TabGroup.NeutralRoles, CustomRoles.FFF);
         Gamer.SetupCustomOption();
-        DarkHide.SetupCustomOption();
-        SetupRoleOptions(60100, TabGroup.NeutralRoles, CustomRoles.Workaholic);
+        DarkHide.SetupCustomOption(); //TOH_Y
+        SetupRoleOptions(60100, TabGroup.NeutralRoles, CustomRoles.Workaholic); //TOH_Y
         WorkaholicCannotWinAtDeath = BooleanOptionItem.Create(60113, "WorkaholicCannotWinAtDeath", true, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Workaholic]);
         WorkaholicVentCooldown = FloatOptionItem.Create(60112, "VentCooldown", new(0f, 180f, 2.5f), 0f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Workaholic])
             .SetValueFormat(OptionFormat.Seconds);

@@ -80,6 +80,7 @@ internal class ChangeRoleSettings
             Main.VeteranInProtect = new Dictionary<byte, long>();
             Main.GrenadierBlinding = new Dictionary<byte, long>();
             Main.MadGrenadierBlinding = new Dictionary<byte, long>();
+            Main.CursedWolfSpellCount = new Dictionary<byte, int>();
             Main.FirstDied = 255;
             Main.MadmateNum = 0;
 
@@ -672,6 +673,9 @@ internal class SelectRolesPatch
                         break;
                     case CustomRoles.Greedier:
                         Greedier.Add(pc.PlayerId);
+                        break;
+                    case CustomRoles.CursedWolf:
+                        Main.CursedWolfSpellCount[pc.PlayerId] = Options.GuardSpellTimes.GetInt();
                         break;
                 }
                 foreach (var subRole in pc.GetCustomSubRoles())

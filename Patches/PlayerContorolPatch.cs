@@ -240,7 +240,7 @@ internal class CheckMurderPatch
                         Logger.Info($"{killer.GetRealName()} 击杀了非目标玩家，壮烈牺牲了（bushi）", "FFF");
                         return false;
                     }
-                    return true;
+                    break;
                 case CustomRoles.Gamer:
                     if (Gamer.CheckGamerMurder(killer, target))
                         return false;
@@ -273,6 +273,11 @@ internal class CheckMurderPatch
 
         switch (target.GetCustomRole())
         {
+            //击杀呪狼
+            case CustomRoles.CursedWolf:
+                if (Main.CursedWolfSpellCount[target.PlayerId] <= 0) break;
+                CurseWolfGuard(killer, target);
+                return false;
             //击杀幸运儿
             case CustomRoles.Luckey:
                 var rd = IRandom.Instance;
@@ -344,6 +349,16 @@ internal class CheckMurderPatch
         //============
 
         return false;
+    }
+    static void CurseWolfGuard(PlayerControl killer, PlayerControl target)
+    {
+        killer.RpcGuardAndKill(target);
+        target.RpcGuardAndKill(target);
+        Main.CursedWolfSpellCount[target.PlayerId] -= 1;
+        RPC.SendRPCCursedWolfSpellCount(target.PlayerId);
+        Logger.Info($"{target.GetNameWithRole()} : {Main.CursedWolfSpellCount[target.PlayerId]}回目", "CursedWolf");
+        Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Spell;
+        killer.RpcMurderPlayer(killer);
     }
 }
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MurderPlayer))]

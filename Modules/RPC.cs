@@ -52,6 +52,7 @@ internal enum CustomRPC
     PlayCustomSoundAll,
     SetDarkHiderKillCount,
     SetGreedierOE,
+    SetCursedWolfSpellCount,
 }
 public enum Sounds
 {
@@ -341,6 +342,14 @@ internal class RPCHandlerPatch
             case CustomRPC.SetGreedierOE:
                 Greedier.ReceiveRPC(reader);
                 break;
+            case CustomRPC.SetCursedWolfSpellCount:
+                byte CursedWolfId = reader.ReadByte();
+                int GuardNum = reader.ReadInt32();
+                if (Main.CursedWolfSpellCount.ContainsKey(CursedWolfId))
+                    Main.CursedWolfSpellCount[CursedWolfId] = GuardNum;
+                else
+                    Main.CursedWolfSpellCount.Add(CursedWolfId, Options.GuardSpellTimes.GetInt());
+                break;
         }
     }
 }
@@ -605,6 +614,13 @@ internal static class RPC
             writer.Write(targetId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+    }
+    public static void SendRPCCursedWolfSpellCount(byte playerId)
+    {
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCursedWolfSpellCount, SendOption.Reliable, -1);
+        writer.Write(playerId);
+        writer.Write(Main.CursedWolfSpellCount[playerId]);
+        AmongUsClient.Instance.FinishRpcImmediately(writer);
     }
     public static void ResetCurrentDousingTarget(byte arsonistId) => SetCurrentDousingTarget(arsonistId, 255);
     public static void ResetCurrentDrawTarget(byte arsonistId) => SetCurrentDrawTarget(arsonistId, 255);

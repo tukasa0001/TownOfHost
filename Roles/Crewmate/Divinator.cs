@@ -135,7 +135,8 @@ public static class Divinator
             CustomRoles.TimeManager or
             CustomRoles.Jester or
             CustomRoles.Medicaler or
-            CustomRoles.DarkHide
+            CustomRoles.DarkHide or
+            CustomRoles.CursedWolf
             => "Disturbed",
 
             _ => "None",

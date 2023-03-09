@@ -68,7 +68,8 @@ internal static class CustomRolesHelper
                 CustomRoles.Divinator => CustomRoles.Crewmate,
                 CustomRoles.BallLightning => CustomRoles.Impostor,
                 CustomRoles.Greedier => CustomRoles.Impostor,
-                CustomRoles.Workaholic=> CustomRoles.Engineer,
+                CustomRoles.Workaholic => CustomRoles.Engineer,
+                CustomRoles.CursedWolf => CustomRoles.Impostor,
                 _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
     }
@@ -192,7 +193,8 @@ internal static class CustomRolesHelper
             CustomRoles.Gangster or
             CustomRoles.Cleaner or
             CustomRoles.BallLightning or
-            CustomRoles.Greedier;
+            CustomRoles.Greedier or
+            CustomRoles.CursedWolf;
     }
     public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role == CustomRoles.Madmate;
     public static bool IsNeutral(this CustomRoles role) // 是否中立
