@@ -7,6 +7,7 @@ using AmongUs.GameOptions;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.Crewmate;
+using Il2CppSystem.Text;
 
 namespace TownOfHost.Roles.Core;
 
@@ -157,6 +158,9 @@ public static class CustomRoleManager
     {
         AllRolesInfo.Do(kvp => kvp.Value.IsEnable = kvp.Key.IsEnable());
         AllActiveRoles.Clear();
+        MarkerList.Clear();
+        LowerList.Clear();
+        SuffixList.Clear();
     }
     public static void CreateInstance()
     {
@@ -250,7 +254,45 @@ public static class CustomRoleManager
                     break;
             }
         }
+    }
+    public static void Dispose()
+    {
+        MarkerList.Clear();
+        LowerList.Clear();
+        SuffixList.Clear();
+        CustomRoleManager.AllActiveRoles.Do(roleClass => roleClass.Dispose());
+    }
+    //NameSystem
+    public static HashSet<Func<PlayerControl, PlayerControl, bool, string>> MarkerList = new();
+    public static HashSet<Func<PlayerControl, PlayerControl, bool, bool, string>> LowerList = new();
+    public static HashSet<Func<PlayerControl, PlayerControl, bool, string>> SuffixList = new();
+    public static string GetMark(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false)
+    {
+        var sb = new StringBuilder(100);
+        foreach (var marker in MarkerList)
+        {
+            sb.Append(marker(seer, seen, isForMeeting));
+        }
+        return sb.ToString();
+    }
+    public static string GetLowerText(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false, bool isForHud = false)
+    {
+        var sb = new StringBuilder(100);
+        foreach (var lower in LowerList)
+        {
+            sb.Append(lower(seer, seen, isForMeeting, isForHud));
+        }
+        return sb.ToString();
+    }
 
+    public static string GetSuffix(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false)
+    {
+        var sb = new StringBuilder(100);
+        foreach (var suffix in SuffixList)
+        {
+            sb.Append(suffix(seer, seen, isForMeeting));
+        }
+        return sb.ToString();
     }
 }
 public enum CustomRoles

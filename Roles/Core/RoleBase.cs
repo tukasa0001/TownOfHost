@@ -26,6 +26,9 @@ public abstract class RoleBase : IDisposable
         CanKill = canKill ?? roleInfo.BaseRoleType is RoleTypes.Impostor or RoleTypes.Shapeshifter;
 
         CustomRoleManager.AllActiveRoles.Add(this);
+        CustomRoleManager.MarkerList.Add(GetMark);
+        CustomRoleManager.LowerList.Add(GetLowerText);
+        CustomRoleManager.SuffixList.Add(GetSuffix);
     }
     public void Dispose()
     {
@@ -68,31 +71,6 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     public virtual void ApplyGameOptions(IGameOptions opt)
     { }
-    /// <summary>
-    /// 役職名の横に出るテキスト
-    /// </summary>
-    /// <param name="comms">コミュサボ中扱いするかどうか</param>
-    public virtual string GetProgressText(bool comms = false)
-    {
-        var playerId = Player.PlayerId;
-        //タスクテキスト
-        var taskState = Main.PlayerStates?[playerId].GetTaskState();
-        if (!taskState.hasTasks) return "";
-
-        Color TextColor = Color.yellow;
-        var info = Utils.GetPlayerInfoById(playerId);
-        var TaskCompleteColor = Utils.HasTasks(info) ? Color.green : Utils.GetRoleColor(info.GetCustomRole()).ShadeColor(0.5f); //タスク完了後の色
-        var NonCompleteColor = Utils.HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
-
-        if (Workhorse.IsThisRole(playerId))
-            NonCompleteColor = Workhorse.RoleColor;
-
-        var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
-
-        TextColor = comms ? Color.gray : NormalColor;
-        string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-        return Utils.ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})");
-    }
     // == CheckMurder関連処理 ==
     public virtual IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target, CustomRoleManager.CheckMurderInfo info) => null;
     // ==/CheckMurder関連処理 ==
