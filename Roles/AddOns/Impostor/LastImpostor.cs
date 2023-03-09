@@ -1,4 +1,3 @@
-using TownOfHost.Modules;
 using static TownOfHost.Options;
 
 namespace TownOfHost.Roles.AddOns.Impostor

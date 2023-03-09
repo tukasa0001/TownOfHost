@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 
-namespace TownOfHost.Modules
+namespace TownOfHost.Roles
 {
     public static class RoleAssignManager
     {

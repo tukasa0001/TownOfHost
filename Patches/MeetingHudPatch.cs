@@ -5,7 +5,7 @@ using System.Text;
 using HarmonyLib;
 using UnityEngine;
 
-using TownOfHost.Modules;
+using TownOfHost.Roles;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Crewmate;
 using TownOfHost.Roles.Neutral;

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using TownOfHost.Modules;
 
 using static TownOfHost.Options;
 

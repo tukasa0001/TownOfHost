@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.Modules;
 
 namespace TownOfHost.Roles.Neutral
 {
