@@ -77,7 +77,8 @@ public static class Divinator
             CustomRoles.Sheriff or
             CustomRoles.Arsonist or
             CustomRoles.Innocent or
-            CustomRoles.FFF
+            CustomRoles.FFF or
+            CustomRoles.Greedier
             => "Impulse",
 
             CustomRoles.Vampire or

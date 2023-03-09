@@ -51,6 +51,7 @@ internal enum CustomRPC
     PlayCustomSound,
     PlayCustomSoundAll,
     SetDarkHiderKillCount,
+    SetGreedierOE,
 }
 public enum Sounds
 {
@@ -337,6 +338,9 @@ internal class RPCHandlerPatch
             case CustomRPC.SetDarkHiderKillCount:
                 DarkHide.ReceiveRPC(reader);
                 break;
+            case CustomRPC.SetGreedierOE:
+                Greedier.ReceiveRPC(reader);
+                break;
         }
     }
 }
@@ -526,6 +530,9 @@ internal static class RPC
                 break;
             case CustomRoles.DarkHide:
                 DarkHide.Add(targetId);
+                break;
+            case CustomRoles.Greedier:
+                Greedier.Add(targetId);
                 break;
         }
         HudManager.Instance.SetHudActive(true);

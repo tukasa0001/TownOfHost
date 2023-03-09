@@ -411,6 +411,7 @@ public enum CustomRoles
     Gangster,
     Cleaner,
     BallLightning,
+    Greedier,
     //Crewmate(Vanilla)
     Engineer,
     GuardianAngel,

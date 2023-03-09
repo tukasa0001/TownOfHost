@@ -196,6 +196,9 @@ internal class CheckMurderPatch
                     if (BallLightning.CheckBallLightningMurder(killer, target))
                         return false;
                     break;
+                case CustomRoles.Greedier:
+                    Greedier.OnCheckMurder(killer);
+                    break;
 
                 //==========第三陣営役職==========//
                 case CustomRoles.Arsonist:

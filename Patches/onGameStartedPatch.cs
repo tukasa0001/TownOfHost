@@ -178,6 +178,7 @@ internal class ChangeRoleSettings
             Gamer.Init();
             BallLightning.Init();
             DarkHide.Init();
+            Greedier.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
@@ -668,6 +669,9 @@ internal class SelectRolesPatch
                         break;
                     case CustomRoles.DarkHide:
                         DarkHide.Add(pc.PlayerId);
+                        break;
+                    case CustomRoles.Greedier:
+                        Greedier.Add(pc.PlayerId);
                         break;
                 }
                 foreach (var subRole in pc.GetCustomSubRoles())

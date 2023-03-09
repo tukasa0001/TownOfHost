@@ -67,6 +67,7 @@ internal static class CustomRolesHelper
                 CustomRoles.Konan => CustomRoles.Crewmate,
                 CustomRoles.Divinator => CustomRoles.Crewmate,
                 CustomRoles.BallLightning => CustomRoles.Impostor,
+                CustomRoles.Greedier => CustomRoles.Impostor,
                 _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
     }
@@ -188,7 +189,8 @@ internal static class CustomRolesHelper
             CustomRoles.Capitalism or
             CustomRoles.Gangster or
             CustomRoles.Cleaner or
-            CustomRoles.BallLightning;
+            CustomRoles.BallLightning or
+            CustomRoles.Greedier;
     }
     public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role == CustomRoles.Madmate;
     public static bool IsNeutral(this CustomRoles role) // 是否中立
