@@ -186,19 +186,19 @@ public class Main : BasePlugin
         if (!DebugModeManager.AmDebugger)
         {
             TOHE.Logger.Disable("CustomRpcSender");
-            TOHE.Logger.Disable("ReceiveRPC");
+            //TOHE.Logger.Disable("ReceiveRPC");
             TOHE.Logger.Disable("SendRPC");
             TOHE.Logger.Disable("SetRole");
             TOHE.Logger.Disable("Info.Role");
             TOHE.Logger.Disable("TaskState.Init");
-            TOHE.Logger.Disable("Vote");
+            //TOHE.Logger.Disable("Vote");
             TOHE.Logger.Disable("RpcSetNamePrivate");
             //TOHE.Logger.Disable("SendChat");
             TOHE.Logger.Disable("SetName");
-            TOHE.Logger.Disable("AssignRoles");
+            //TOHE.Logger.Disable("AssignRoles");
             //TOHE.Logger.Disable("RepairSystem");
-            TOHE.Logger.Disable("MurderPlayer");
-            TOHE.Logger.Disable("CheckMurder");
+            //TOHE.Logger.Disable("MurderPlayer");
+            //TOHE.Logger.Disable("CheckMurder");
             TOHE.Logger.Disable("PlayerControl.RpcSetRole");
         }
         //TOHE.Logger.isDetail = true;
