@@ -386,7 +386,6 @@ public static class Utils
             pc.Is(CustomRoles.Needy) ||
             pc.Is(CustomRoles.Snitch) ||
             pc.Is(CustomRoles.CyberStar) ||
-            pc.Is(CustomRoles.Youtuber) ||
             pc.Is(CustomRoles.Egoist)
             );
     }
