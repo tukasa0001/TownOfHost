@@ -132,7 +132,8 @@ public static class Divinator
             CustomRoles.Detective or
             CustomRoles.TimeManager or
             CustomRoles.Jester or
-            CustomRoles.Medicaler
+            CustomRoles.Medicaler or
+            CustomRoles.DarkHide
             => "Disturbed",
 
             _ => "None",

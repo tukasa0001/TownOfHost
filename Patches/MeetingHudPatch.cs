@@ -699,6 +699,8 @@ internal class MeetingHudStartPatch
                     sb.Append(Executioner.TargetMark(seer, target));
                     break;
                 case CustomRoles.Jackal:
+                case CustomRoles.Pelican:
+                case CustomRoles.DarkHide:
                     sb.Append(Snitch.GetWarningMark(seer, target));
                     break;
                 case CustomRoles.EvilTracker:
@@ -728,6 +730,7 @@ internal class MeetingHudStartPatch
                     break;
                 case CustomRoles.Gamer:
                     sb.Append(Gamer.TargetMark(seer, target));
+                    sb.Append(Snitch.GetWarningMark(seer, target));
                     break;
             }
 

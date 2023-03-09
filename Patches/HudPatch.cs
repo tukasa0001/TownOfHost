@@ -303,6 +303,7 @@ internal class SetHudActivePatch
             case CustomRoles.FFF:
             case CustomRoles.Medicaler:
             case CustomRoles.Gamer:
+            case CustomRoles.DarkHide:
                 __instance.SabotageButton.ToggleVisible(false);
                 __instance.AbilityButton.ToggleVisible(false);
                 break;

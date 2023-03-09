@@ -394,6 +394,7 @@ internal static class ExtendedPlayerControl
     CustomRoles.FFF => pc.IsAlive(),
     CustomRoles.Medicaler => Medicaler.CanUseKillButton(pc.PlayerId),
     CustomRoles.Gamer => pc.IsAlive(),
+    CustomRoles.DarkHide => DarkHide.CanUseKillButton(pc),
     _ => pc.Is(CustomRoleTypes.Impostor),
 };
     }
@@ -413,6 +414,7 @@ internal static class ExtendedPlayerControl
     CustomRoles.FFF => false,
     CustomRoles.Medicaler => false,
     CustomRoles.Gamer => Gamer.CanVent.GetBool(),
+    CustomRoles.DarkHide => false,
     _ => pc.Is(CustomRoleTypes.Impostor),
 };
     }
@@ -518,6 +520,9 @@ internal static class ExtendedPlayerControl
                 break;
             case CustomRoles.BallLightning:
                 BallLightning.SetKillCooldown(player.PlayerId);
+                break;
+            case CustomRoles.DarkHide:
+                DarkHide.SetKillCooldown(player.PlayerId);
                 break;
         }
     }

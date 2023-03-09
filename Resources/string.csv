@@ -123,6 +123,7 @@ Revolutionist,革命家,Revolutionist,Революционер
 FFF,FFF团,Hater,Ненавистник
 Konan,柯南,Konan,Конан
 Gamer,玩家,Demon,Демон
+DarkHide,潜藏者
 
 # 附加职业
 LastImpostor,绝境者,Last Impostor,Последний Предатель
@@ -226,6 +227,7 @@ RevolutionistInfo,人类的赞歌是勇气的赞歌,Make a Revolution!,Сове�
 FFFInfo,该烧还是该审？,You hate Lovers and Neptunes,Вы ненавидите Любовников и Нептунов
 KonanInfo,在一次和小兰的约会中...,,
 GamerInfo,Lv又增加了捏~,Drink all the blood of the players,Выпейте всю кровь игроков
+DarkHideInfo,降下黑暗，释放恐惧！
 
 # 附加职业
 LoversInfo,最重要的是，记得照顾好你的另一半,Survive with your Lover,Выживите со своим Любовником
@@ -332,6 +334,7 @@ PelicanInfoLong,(中立阵营):\n仅剩鹈鹕阵营与船员阵营且鹈鹕阵�
 RevolutionistInfoLong,(中立阵营):\n革命家可以通过对玩家点击击杀按钮并跟随其数秒来拉拢玩家，开始拉拢以及拉拢成功时会显示护盾破碎的动画作为提示（仅自己可见）。玩家有概率在被拉拢后立刻牺牲（概率根据房主设定）。当达到指定的拉拢人数（人数根据房主设定）后并在规定时间内跳进通风管道，则革命家以及所有被拉拢的玩家获胜；若没有在规定时间内跳进通风管道则革命家以及所有被拉拢的玩家死亡；倒计时期间若革命家被杀，则无事发生；若召开了紧急会议，则革命家死亡。请注意：被拉拢后牺牲的玩家依然可以跟随革命家胜利。并单独获得胜利。\n\n玩家名显示「○」表示拉拢中\n玩家名显示「●」表示已拉拢。,"(Neutrals):\nRevolutionary can win together with the players on whom he pressed the ''Kill'' button, if you follow the player for a few seconds, an animation of a broken shield will be displayed (only you see this shield). The player has a chance to sacrifice himself immediately after he has won (the probability depends on the Host settings). When the specified number of players is reached and the Revolutionary jumps into the vent during the specified time, the Revolutionary and all the players on whom he pressed the ''Kill'' button automatically win. If the Revolutionary does not jump into the vent within the specified time, the Revolutionary and all players who have been marked die. Please note: Players who died before winning can still win together with the Revolutionary.","(Нейтрал):\nРеволюционер может одержать победу вместе с игроками, на которых он нажал кнопку ''Убить'', если следовать за игроком в течение нескольких секунд, то отобразится анимация разбитого щита (Этот щит видите только вы). У игрока есть вероятность пожертвовать собой сразу после того, как он одержал победу (вероятность зависит от настроек Хоста). Когда наберется указанное количество игроков и Революционер прыгнет в вентиляционное отверстие в течение указанного времени, то Революционер и все игроки на которых он нажал кнопку ''Убить'' автоматически выигрывают. Если Революционер не прыгнет в вентиляционное отверстие в течении указанного времени, Революционер и все игроки которые были помечены умирают. Пожалуйста, обратите внимание: Игроки, которые умерли до победы, все еще могут выиграть вместе с Революционером."
 FFFInfoLong,(中立阵营):\nFFF团不会成为恋人或海王。FFF团拥有无限且没有冷却的击杀能力，同时FFF团敏锐的观察力使他默认拥有内鬼的视野。FFF团只能击杀恋人与海王，击杀其他玩家则会立刻牺牲。游戏结束时，没有恋人与海王存活且FFF团曾经击杀过至少一次恋人或海王，则FFF团胜利。请注意：FFF团只会附加胜利不会抢夺原本阵营的胜利。此外，FFF团的胜利条件不包括存活。,"(Neutrals):\nThe Hater has an unlimited kill cooldown, while the Hater has Impostor vision range by default. The hater can only kill Lovers and Neptune, and killing other players will immediately result in suicide. At the end of the game, if none of the Lovers or Neptunes survive and the Hater has killed at least one of them, then the Hater wins. Please note: The hater will only claim wins and will not take the win from the original team.","(Нейтрал):\nНенавистник обладает неограниченным откатом убийства, и в то же время Ненавистник по умолчанию имеет дальность обзора Предателей. Ненавистник может убивать только Любовников и Нептуна, а убийство других игроков будет немедленно приведёт к суициду. В конце игры, если ни один из Любовников или Нептунов не выживет и Ненавистник убил хотя бы одного из них то, Ненавистник побеждает. Пожалуйста, обратите внимание: Ненавистник будет присваивать только победы и не будет отбирать победу у первоначальной команды."
 GamerInfoLong,(中立阵营):\n仅剩玩家阵营与船员阵营且玩家阵营人数大于船员人数，玩家获得胜利。玩家的击杀规则与其他人不同，玩家视角下所有人拥有血量，玩家击杀以及被击杀改为消耗血量，当血量耗空时击杀才会生效。请注意：若其他人消耗玩家血量但没有成功击杀玩家时，凶手会看到玩家身上出现护盾破碎动画作为提示。,"(Neutrals):\nIf the number of Demons in the team is greater than the number of crewmates or the Demon is left with one crewmate, then the Demons win. The rules for killing a player are different. Each player has a blood volume. The kill will only occur when the Demon has exhausted all of the player's blood volume. Please note: If someone else drinks the player's blood volume but fails to successfully kill the player, the killer will see a broken shield animation on the player as a hint","(Нейтрал):\nЕсли количество Демонов в команде больше, чем количество Членов Экипажа или Демон остаётся с одним членом экипажа, то Демоны выигрывают. Правила убийства игрока отличаются.У каждого игрока есть объем крови. Убийство произойдёт только тогда, когда Демон исчерпет весь объем крови у игрока. Пожалуйста, обратите внимание: Если кто-то другой выпьет объем крови игрока, но не сможет успешно убить игрока, то убийца увидит анимацию сломанного щита на игроке в качестве подсказки."
+DarkHideInfoLong,(中立阵营):\n潜藏者可以击杀任何人，且每次击杀都会立刻造成电力破坏（若电力已经被破坏则无事发生）。潜藏者无法使用通风管道。若潜藏者存活时内鬼胜利或船员通过击杀内鬼胜利（根据房主设定船员击杀中立玩家胜利时潜藏者也可能抢夺胜利），则潜藏者抢夺胜利。
 
 # 附加职业
 LastImpostorInfoLong,(附加职业):\n这个效果在内鬼仅剩一人时赋予该内鬼。使其击杀冷却缩短。该效果对赏金猎人、嗜血杀手以及吸血鬼等击杀方式特殊的职业不适用。,"(Add-ons):\nAn Add-on granted to the last Impostor remaining.\nKill cooldown is reduced according to this setting.\nNot granted to Bounty Hunters, Serial Killers, or Vampires.","(Атрибут):\nАтрибут, присваивается последнему Предателю. \nВремя отката убийства становится меньше, чем обычно. \nНе назначается Охотнику за головами, Серийному убийце или Вампиру."
@@ -639,10 +642,6 @@ MedicalerCooldown,发放护盾冷却时间,Shield Cooldown,Откат Щита
 MedicalerSkillLimit,发放护盾次数上限,Skill Limit,Лимит Способности
 MedicalerTargetCanSeeProtect,玩家可以知道自己是否持有护盾,Target can see Protection,Цель может видеть Защиту
 DivinatorSkillLimit,占卜次数上限,Skill Limit,Лимит Способности
-CanSeeDeadPos,可以看到尸体位置,Can see the position dead body,Может видеть позицию трупов
-CanSeeOtherImp,可以看到<color=#ff1919>内鬼</color>位置,Can see other <color=#ff1919>Impostors</color>,Может видеть остальных <color=#ff1919>Предателей</color>
-CanSeeKillFlash,可以看到来自队友的杀戮闪烁,Can see ''Kill Flash'',Может видеть ''Вспышку Убийства''
-CanSeeMurderScene,同时可以看到发生命案的位置,Can see murder scene,Может видеть место убийства
 MadmateSpawnMode,叛徒生成模式,Spawn Mode Madmate,Режим появления Безумца
 MadmateSpawnMode.Assign,开局分配,Assign,Назначать
 MadmateSpawnMode.FirstKill,首刀叛变,First Kill,Первое Убийство
@@ -655,6 +654,7 @@ GamerSelfDamage,受到的伤害值,Demon damage received,Полученная в
 BallLightningConvertTime,汽化为量子幽灵的延迟,Duration of the transformation in Quantum Ghost,Длительность превращения в Квантового Призрака
 BallLightningKillCooldown,汽化冷却时间,Lightning Cooldown,Откат молнии
 BallLightningKillerConvertGhost,被击杀时凶手汽化为量子幽灵,Killer can transformation in quantum ghost,Убийца может превратиться в квантового призрака
+CanCountNeutralKiller,当<color=#8cffff>船员</color>通过击杀中立玩家胜利时可以抢夺胜利
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит

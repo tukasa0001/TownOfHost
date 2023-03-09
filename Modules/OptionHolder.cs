@@ -603,6 +603,7 @@ public static class Options
         InnocentCanWinByImp = BooleanOptionItem.Create(5050266, "InnocentCanWinByImp", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Innocent]);
         SetupRoleOptions(5050850, TabGroup.NeutralRoles, CustomRoles.FFF);
         Gamer.SetupCustomOption();
+        DarkHide.SetupCustomOption();
 
         // Add-Ons
         NoLimitAddonsNum = BooleanOptionItem.Create(6050250, "NoLimitAddonsNum", false, TabGroup.Addons, false)

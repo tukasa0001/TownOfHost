@@ -242,6 +242,9 @@ internal class CheckMurderPatch
                     if (Gamer.CheckGamerMurder(killer, target))
                         return false;
                     break;
+                case CustomRoles.DarkHide:
+                    DarkHide.OnCheckMurder(killer, target);
+                    break;
 
                 //==========クルー役職==========//
                 case CustomRoles.Sheriff:

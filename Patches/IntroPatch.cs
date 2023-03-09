@@ -136,6 +136,8 @@ internal class BeginCrewmatePatch
 
             case CustomRoles.Executioner:
             case CustomRoles.Vampire:
+            case CustomRoles.Opportunist:
+            case CustomRoles.DarkHide:
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                 break;
 
@@ -174,6 +176,7 @@ internal class BeginCrewmatePatch
                 __instance.TeamTitle.color = Utils.GetRoleColor(role);
                 __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                 __instance.ImpostorText.gameObject.SetActive(false);
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = DestroyableSingleton<HudManager>.Instance.TaskCompleteSound;
                 break;
 
         }

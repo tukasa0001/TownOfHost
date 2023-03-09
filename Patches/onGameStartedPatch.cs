@@ -177,6 +177,7 @@ internal class ChangeRoleSettings
             Medicaler.Init();
             Gamer.Init();
             BallLightning.Init();
+            DarkHide.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
@@ -664,6 +665,9 @@ internal class SelectRolesPatch
                         break;
                     case CustomRoles.BallLightning:
                         BallLightning.Add(pc.PlayerId);
+                        break;
+                    case CustomRoles.DarkHide:
+                        DarkHide.Add(pc.PlayerId);
                         break;
                 }
                 foreach (var subRole in pc.GetCustomSubRoles())

@@ -50,6 +50,7 @@ internal enum CustomRPC
     SetGhostPlayer,
     PlayCustomSound,
     PlayCustomSoundAll,
+    SetDarkHiderKillCount,
 }
 public enum Sounds
 {
@@ -333,6 +334,9 @@ internal class RPCHandlerPatch
             case CustomRPC.SetGhostPlayer:
                 BallLightning.ReceiveRPC(reader);
                 break;
+            case CustomRPC.SetDarkHiderKillCount:
+                DarkHide.ReceiveRPC(reader);
+                break;
         }
     }
 }
@@ -519,6 +523,9 @@ internal static class RPC
                 break;
             case CustomRoles.BallLightning:
                 BallLightning.Add(targetId);
+                break;
+            case CustomRoles.DarkHide:
+                DarkHide.Add(targetId);
                 break;
         }
         HudManager.Instance.SetHudActive(true);

@@ -656,6 +656,7 @@ internal class ChatCommands
             "玩家" => GetString("Gamer"),
             "情報販子" or "情报" or "贩子" => GetString("Messenger"),
             "球狀閃電" or "球闪" or "球状" => GetString("BallLightning"),
+            "潛藏者" or "潜藏" => GetString("DarkHide"),
             _ => text,
         };
     }

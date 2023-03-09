@@ -341,6 +341,7 @@ public static class Utils
             case CustomRoles.Revolutionist:
             case CustomRoles.FFF:
             case CustomRoles.Gamer:
+            case CustomRoles.DarkHide:
                 hasTasks = false;
                 break;
             case CustomRoles.Terrorist:

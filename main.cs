@@ -313,6 +313,7 @@ public class Main : BasePlugin
                 {CustomRoles.FFF, "#414b66"},
                 {CustomRoles.Konan, "#4d4dff"},
                 {CustomRoles.Gamer, "#68bc71"},
+                {CustomRoles.DarkHide, "#483d8b"},
                 // GM
                 {CustomRoles.GM, "#ff5b70"},
                 //サブ役職
@@ -456,6 +457,7 @@ public enum CustomRoles
     FFF,
     Konan,
     Gamer,
+    DarkHide,
     //GM
     GM,
     // Sub-role after 500
@@ -503,6 +505,7 @@ public enum CustomWinner
     Youtuber = CustomRoles.Youtuber,
     Egoist = CustomRoles.Egoist,
     Gamer = CustomRoles.Gamer,
+    DarkHide = CustomRoles.DarkHide,
 }
 public enum AdditionalWinners
 {

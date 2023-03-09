@@ -164,6 +164,9 @@ public class PlayerGameOptionsSender : GameOptionsSender
             case CustomRoles.Gamer:
                 Gamer.ApplyGameOptions(opt);
                 break;
+            case CustomRoles.DarkHide:
+                DarkHide.ApplyGameOptions(opt);
+                break;
         }
 
         // 为迷惑者的凶手
