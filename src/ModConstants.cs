@@ -1,4 +1,4 @@
-namespace TownOfHost;
+namespace TOHTOR;
 
 public static class ModConstants
 {

@@ -1,19 +1,19 @@
 #nullable enable
 using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Factions;
-using TownOfHost.GUI;
-using TownOfHost.Options;
-using VentLib.Options;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Factions;
+using TOHTOR.GUI;
+using TOHTOR.Options;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
+using VentLib.Options.Game;
 using VentLib.Utilities;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class BountyHunter: Impostor
 {
@@ -70,7 +70,7 @@ public class BountyHunter: Impostor
         DesyncOptions.SendModifiedOptions(modifiedCooldown, MyPlayer);
     }
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Color(RoleColor)
             .SubOption(sub => sub

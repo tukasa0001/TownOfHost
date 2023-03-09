@@ -1,141 +1,138 @@
-/*using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.Extensions;
-using TownOfHost.Gamemodes.Standard;
-using TownOfHost.Managers;
-using TownOfHost.Roles;
-using UnityEngine;
+using HarmonyLib;
 using VentLib.Localization.Attributes;
+using VentLib.Logging;
 using VentLib.Options;
-using VentLib.Utilities;
+using VentLib.Options.Events;
+using VentLib.Options.Interfaces;
+using VentLib.Utilities.Optionals;
 
-namespace TownOfHost.Options;
+namespace TOHTOR.Options;
 
 [Localized(Group = "OptionShower")]
-public static class OptionShower
+public class OptionShower
 {
+    private static Optional<OptionShower> Instance = Optional<OptionShower>.Null();
 
     [Localized("ActiveRolesList")]
     private static string ActiveRolesList;
     [Localized("NextPage")]
     private static string NextPageString;
 
-    public static int currentPage = 0;
-    public static List<string> pages = new();
+    private List<ShowerPage> pages = new();
+    private List<string> pageContent;
 
-    public static string GetText()
+    private int currentPage;
+    private bool updated;
+
+    public static OptionShower GetOptionShower()
     {
-        /#1#/初期化
-        string text = "";
-        pages = new()
+        return Instance.OrElseSet(() =>
         {
-            //1ページに基本ゲーム設定を格納
-            GameOptionsManager.Instance.CurrentGameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10) + "\n\n"
-        };
-        // TODO: localize gamemode
-        text += $"Gamemode: {Game.CurrentGamemode.GetName()}\n\n";
-
-        //Standardの時のみ実行
-        if (Game.CurrentGamemode is StandardGamemode)
-        {
-            text += ActiveRolesList + "\n";
-            foreach (CustomRole role in CustomRoleManager.AllRoles)
+            var shower = new OptionShower();
+            OptionManager.GetAllManagers().ForEach(manager =>
             {
-                Option matchingHolder = TOHPlugin.OptionManager.PreviewOptions().FirstOrDefault(h => h.Name == role.RoleName);
-                string chance = role.Chance + "%";
-                string count = role.Count.ToString();
-
-                if (matchingHolder?.Pseudo ?? false)
+                manager.RegisterEventHandler(ioe =>
                 {
-                    chance = matchingHolder.GetValueAsString();
-                    count = matchingHolder.SubOptions[0].GetValueAsString();
-                }
-
-                if (chance != "0%" && count != "0")
-                    text += $"{role.RoleColor.Colorize(role.RoleName)}: {chance}×{count}\n";
-            }
-
-            pages.Add(text + "\n\n");
-            text = "";
-        }
-        //有効な役職と詳細設定一覧
-        pages.Add("");
-        if (Game.CurrentGamemode.EnabledTabs().Contains(DefaultTabs.GeneralTab))
-            text += $"{CustomRoleManager.Special.GM.RoleColor.Colorize("GM")}: {Utils.GetOnOffColored(StaticOptions.EnableGM)}\n";
-        HashSet<Option> roleHolders = new();
-        foreach (CustomRole role in CustomRoleManager.AllRoles)
-        {
-            string chance = role.Chance + "%";
-            string count = role.Count.ToString();
-            Option matchingHolder = TOHPlugin.OptionManager.PreviewOptions().FirstOrDefault(h => h.Name == role.RoleName);
-            if (matchingHolder != null) roleHolders.Add(matchingHolder);
-
-            if (matchingHolder?.Pseudo ?? false)
-            {
-                if (matchingHolder.GetValueAsString() == "0%") continue;
-                chance = matchingHolder.GetValueAsString();
-                count = matchingHolder.SubOptions[0].GetValueAsString();
-            }
-            else if (!role.IsEnable() || role is GM) continue;
-            text += "\n";
-            text += $"{role.RoleColor.Colorize(role.RoleName)}: {chance}×{count}\n";
-
-            if (matchingHolder != null)
-                ShowChildren(matchingHolder, ref text, role.RoleColor.ShadeColor(-0.5f), 1);
-
-            string rule = Utils.ColorString(Palette.ImpostorRed.ShadeColor(-0.5f), "┣ ");
-            string ruleFooter = Utils.ColorString(Palette.ImpostorRed.ShadeColor(-0.5f), "┗ ");
-            /*if (kvp.Key.GetReduxRole().IsMadmate()) //マッドメイトの時に追加する詳細設定
-                {
-                    text += $"{rule}{OldOptions.MadmateCanFixLightsOut.GetName()}: {OldOptions.MadmateCanFixLightsOut.GetString()}\n";
-                    text += $"{rule}{OldOptions.MadmateCanFixComms.GetName()}: {OldOptions.MadmateCanFixComms.GetString()}\n";
-                    text += $"{rule}{OldOptions.MadmateHasImpostorVision.GetName()}: {OldOptions.MadmateHasImpostorVision.GetString()}\n";
-                    text += $"{rule}{OldOptions.MadmateCanSeeKillFlash.GetName()}: {OldOptions.MadmateCanSeeKillFlash.GetString()}\n";
-                    text += $"{rule}{OldOptions.MadmateCanSeeOtherVotes.GetName()}: {OldOptions.MadmateCanSeeOtherVotes.GetString()}\n";
-                    text += $"{rule}{OldOptions.MadmateCanSeeDeathReason.GetName()}: {OldOptions.MadmateCanSeeDeathReason.GetString()}\n";
-                    text += $"{rule}{OldOptions.MadmateRevengeCrewmate.GetName()}: {OldOptions.MadmateRevengeCrewmate.GetString()}\n";
-                    text += $"{rule}{OldOptions.MadmateVentCooldown.GetName()}: {OldOptions.MadmateVentCooldown.GetString()}\n";
-                    text += $"{ruleFooter}{OldOptions.MadmateVentMaxTime.GetName()}: {OldOptions.MadmateVentMaxTime.GetString()}\n";
-                }#2#
-            /*if (kvp.Key.GetReduxRole().CanMakeMadmate()) //シェイプシフター役職の時に追加する詳細設定
-                {
-                    text += $"{ruleFooter}{OldOptions.CanMakeMadmateCount.GetName()}: {OldOptions.CanMakeMadmateCount.GetString()}\n";
-                }#2#
-        }
-
-        foreach (Option holder in TOHPlugin.OptionManager.PreviewOptions().Where(o => !roleHolders.Contains(o) && Game.CurrentGamemode.EnabledTabs().Contains(o.Tab)))
-        {
-            if (holder.Name == "Host GM") continue;
-            if (holder.IsHeader) text += "\n";
-            text += $"{holder.Name}: {holder.GetValueAsString()}\n";
-            if (holder.MatchesPredicate())
-                ShowChildren(holder, ref text, Color.white, 1);
-        }
-
-        List<string> tmp = new(text.Split("\n\n"));
-        for (var i = 0; i < tmp.Count; i++)
-        {
-            if (pages[^1].Count(c => c == '\n') + 1 + tmp[i].Count(c => c == '\n') + 1 > 35)
-                pages.Add(tmp[i] + "\n\n");
-            else pages[^1] += tmp[i] + "\n\n";
-        }
-        if (currentPage >= pages.Count) currentPage = pages.Count - 1; //現在のページが最大ページ数を超えていれば最後のページに修正#1#
-        return $"{pages[currentPage]}{NextPageString}({currentPage + 1}/{pages.Count})";
+                    if (ioe is not IOptionValueEvent) return;
+                    shower.Update();
+                });
+            });
+            return shower;
+        });
     }
-    public static void Next()
+
+    public void Update()
+    {
+        updated = false;
+        pages.Do(p => p.Updated = false);
+    }
+
+    public string GetPage()
+    {
+        if (!updated)
+        {
+            pageContent = pages.SelectMany(p => p.GetPages()).ToList();
+            updated = true;
+        }
+
+        string bottomText = $"\n{NextPageString} ({currentPage + 1}/{pageContent.Count + 1})";
+        return pageContent[currentPage] + bottomText;
+    }
+
+    public void AddPage(Func<string> contentSupplier)
+    {
+        updated = false;
+        pages.Add(new ShowerPage(contentSupplier));
+    }
+
+    public void Next()
     {
         currentPage++;
-        if (currentPage >= pages.Count) currentPage = 0; //現在のページが最大ページを超えていれば最初のページに
+        if (currentPage >= pageContent.Count) currentPage = 0;
     }
-    private static void ShowChildren(Option option, ref string text, Color color, int deep = 0)
+
+    public void Previous()
     {
-        foreach (var opt in option.SubOptions.Select((v, i) => new { Value = v, Index = i + 1 }))
-        {
-            if (opt.Value.Name == "Maximum") continue; //Maximumの項目は飛ばす
-            text += string.Concat(Enumerable.Repeat(color.Colorize("┃"), deep - 1));
-            text += color.Colorize(opt.Index == option.SubOptions.Count ? "┗ " : "┣ ");
-            text += $"{opt.Value.Name}: {opt.Value.GetValueAsString()}\n";
-            if (opt.Value.MatchesPredicate()) ShowChildren(opt.Value, ref text, color, deep + 1);
-        }
+        currentPage--;
+        if (currentPage < 0) currentPage = pageContent.Count - 1;
     }
-}*/
+}
+
+public class ShowerPage
+{
+    public static int MaxLines = 30;
+
+    private Func<string> supplier;
+    private Optional<List<string>> pages = Optional<List<string>>.Null();
+    internal bool Updated;
+
+    public ShowerPage(Func<string> supplier)
+    {
+        this.supplier = supplier;
+    }
+
+    public List<string> GetPages()
+    {
+        if (!Updated) pages = Optional<List<string>>.Of(UpdatePages());
+        return pages.OrElseSet(UpdatePages);
+    }
+
+    private List<string> UpdatePages()
+    {
+        string content = supplier();
+        List<string> p = new();
+        string[] lines = content.Split("\n");
+        if (lines.Length < MaxLines) {
+            Updated = true;
+            p.Add(content);
+            return p;
+        }
+
+        List<string> lineBuffer = new();
+        int i = 0;
+        while (i < lines.Length)
+        {
+            bool flush = false;
+            string line = lines[i];
+            if (line == "")
+            {
+                flush = true;
+                for (int j = i + 1; j < lines.Length && (j-i-1) + lineBuffer.Count < MaxLines && flush; j++)
+                    if (lines[j] == "") flush = false;
+            }
+            lineBuffer.Add(lines[i++]);
+
+            if (!flush) continue;
+            p.Add(lineBuffer.Join(delimiter: "\n"));
+            lineBuffer.Clear();
+
+        }
+
+        Updated = true;
+
+        return p;
+    }
+}

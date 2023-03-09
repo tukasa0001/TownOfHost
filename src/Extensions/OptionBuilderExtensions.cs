@@ -1,12 +1,20 @@
-using VentLib.Options;
+using VentLib.Options.Game;
 
-namespace TownOfHost.Extensions;
+namespace TOHTOR.Extensions;
 
-public static class OptionBuilderExtensions
+public static class GameOptionBuilderExtensions
 {
-    public static OptionBuilder IsHeader(this OptionBuilder builder, bool isHeader)
+    public static GameOptionBuilder AddOnOffValues(this GameOptionBuilder builder, bool defaultOn = true)
     {
-        builder.Attribute("IsHeader", isHeader);
-        return builder;
+        return builder.Value(val =>
+                    val.Text(defaultOn ? "ON" : "OFF")
+                        .Value(defaultOn)
+                        .Color(defaultOn ? UnityEngine.Color.cyan : UnityEngine.Color.red)
+                        .Build())
+                .Value(val =>
+                    val.Text(defaultOn ? "OFF" : "ON")
+                        .Value(!defaultOn)
+                        .Color(defaultOn ? UnityEngine.Color.red : UnityEngine.Color.cyan)
+                        .Build());
     }
 }

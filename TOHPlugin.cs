@@ -5,28 +5,33 @@ using HarmonyLib;
 using UnityEngine;
 using AmongUs.GameOptions;
 using BepInEx.Unity.IL2CPP;
-using TownOfHost.Addons;
-using TownOfHost.Roles;
-using TownOfHost.Gamemodes;
-using TownOfHost.Managers;
-using TownOfHost.Managers.Date;
-using TownOfHost.Options;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.Addons;
+using TOHTOR.Roles;
+using TOHTOR.Gamemodes;
+using TOHTOR.Managers;
+using TOHTOR.Managers.Date;
+using TOHTOR.Options;
+using TOHTOR.Roles.Internals.Attributes;
+using TOHTOR.RPC;
 using VentLib;
 using VentLib.Logging;
-using VentLib.Options.OptionElement;
+using VentLib.Networking.Handshake;
+using VentLib.Networking.RPC;
+using VentLib.Options;
+using VentLib.Options.Game;
+using VentLib.Options.Game.Tabs;
+using VentLib.Utilities;
+using VentLib.Utilities.Collections;
 using VentLib.Utilities.Extensions;
 using VentLib.Version;
 using VentLib.Version.Git;
-using VentLib.Version.Handshake;
-using OptionManager = TownOfHost.Options.OptionManager;
 using Version = VentLib.Version.Version;
 
-[assembly: AssemblyFileVersion(TownOfHost.TOHPlugin.PluginVersion)]
-[assembly: AssemblyInformationalVersion(TownOfHost.TOHPlugin.PluginVersion)]
-namespace TownOfHost;
+[assembly: AssemblyFileVersion(TOHTOR.TOHPlugin.PluginVersion)]
+[assembly: AssemblyInformationalVersion(TOHTOR.TOHPlugin.PluginVersion)]
+namespace TOHTOR;
 
-[BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
+[BepInPlugin(PluginGuid, "TOHTOR", PluginVersion)]
 [BepInProcess("Among Us.exe")]
 public class TOHPlugin : BasePlugin, IGitVersionEmitter
 {
@@ -52,26 +57,19 @@ public class TOHPlugin : BasePlugin, IGitVersionEmitter
     {
         Instance = this;
         Vents.Initialize();
-        Vents.VersionControl.DisableHandshake();
         Vents.VersionControl.For(this);
-        Vents.VersionControl.AddVersionReceiver(
-            (ver, player) => playerVersion[player.PlayerId] = (GitVersion)ver,
-            ReceiveExecutionFlag.OnSuccessfulHandshake);
-
-        VentLogger.Configuration.SetLevel(LogLevel.Trace);
-        Option.SetTransformAssigner(AssignTransform);
+        Vents.VersionControl.AddVersionReceiver(ReceiveVersion);
     }
 
 
     public static NormalGameOptionsV07 NormalOptions => GameOptionsManager.Instance.currentNormalGameOptions;
 
 
-    public static Dictionary<byte, GitVersion> playerVersion = new();
+    public static Dictionary<byte, Version> PlayerVersion = new();
 
 
     public static float RefixCooldownDelay = 0f;
-    public static List<byte> ResetCamPlayerList;
-    public static bool isChatCommand = false;
+    public static List<byte> ResetCamPlayerList = null!;
     public static Dictionary<byte, float> AllPlayerKillCooldown = new();
 
     /// <summary>
@@ -82,26 +80,22 @@ public class TOHPlugin : BasePlugin, IGitVersionEmitter
 
     public static PluginDataManager PluginDataManager;
     public static GamemodeManager GamemodeManager;
-    public static OptionManager OptionManager;
-    public static TOHPlugin Instance;
+    public static TOHPlugin Instance = null!;
 
-    public static Option TestOption;
+    public static GameOptionTab TestTab = new("Test Tab", () => Utils.LoadSprite("TOHTOR.assets.Tabs.TabIcon_MiscRoles.png"));
 
 
     public override void Load()
     {
-        var d = SpecialDate.Christmas;
-        OptionManager = new OptionManager();
-        GameOptionTab __ = DefaultTabs.GeneralTab;
+        GameOptionController.Enable();
         GamemodeManager = new GamemodeManager();
         PluginDataManager = new PluginDataManager();
 
         VisibleTasksCount = false;
 
-        VentLogger.Fatal($"Test: {new string[] { "a", "b", "c", "d" }.Indexed().StrJoin()})");
+        VentLogger.Fatal($"Test: {new[] { "a", "b", "c", "d" }.Indexed().StrJoin()})");
 
         BanManager.Init();
-        TemplateManager.Init();
 
         VentLogger.Info($"{Application.version}", "AmongUs Version");
         VentLogger.Info(CurrentVersion.ToString(), "GitVersion");
@@ -115,6 +109,7 @@ public class TOHPlugin : BasePlugin, IGitVersionEmitter
 
         GamemodeManager.Setup();
         StaticOptions.AddStaticOptions();
+        ShowerPages.InitPages();
         //OptionManager.AllHolders.AddRange(OptionManager.Options().SelectMany(opt => opt.GetHoldersRecursive()));
         Initialized = true;
     }
@@ -129,11 +124,16 @@ public class TOHPlugin : BasePlugin, IGitVersionEmitter
         return HandshakeResult.PassDoNothing;
     }
 
-
-    private static Transform AssignTransform(Option option)
+    private static void ReceiveVersion(Version version, PlayerControl player)
     {
-        if (option.Tab is not GameOptionTab got) return Option.SharedGameObject.transform;
-        VentLogger.Log(LogLevel.All, $"Assigning Transformer: {option} - {got.Menu}");
-        return got.Menu == null ? Option.SharedGameObject.transform : got.Menu.transform;
+        PlayerVersion[player.PlayerId] = version;
+
+        if (version is not NoVersion)
+        {
+            ModRPC rpc = Vents.FindRPC((uint)ModCalls.SendOptionPreview)!;
+            rpc.Send(new[] { player.GetClientId() }, new BatchList<Option>(VentLib.Options.OptionManager.GetManager().GetOptions()));
+        }
+
+        if (PluginDataManager.TemplateManager.TryFormat(player, "lobby-join", out string message)) Utils.SendMessage(message, player.PlayerId);
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using TownOfHost.API;
+using TOHTOR.API;
 
-namespace TownOfHost.Victory.Conditions;
+namespace TOHTOR.Victory.Conditions;
 
 /// <summary>
 /// Creates a ManualWin which upon calling Activate() causes a game win

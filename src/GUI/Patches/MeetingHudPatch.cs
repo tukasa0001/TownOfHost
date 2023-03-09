@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Managers;
-using TownOfHost.Options;
-using TownOfHost.Roles;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
-using TownOfHost.RPC;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Managers;
+using TOHTOR.Options;
+using TOHTOR.Roles;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
+using TOHTOR.RPC;
 using UnityEngine;
 using VentLib.Localization;
 using VentLib.Logging;
 using VentLib.Utilities;
 
-namespace TownOfHost.GUI.Patches;
+namespace TOHTOR.GUI.Patches;
 
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CheckForEndVoting))]
 class CheckForEndVotingPatch
@@ -124,7 +124,7 @@ static class ExtendedMeetingHud
         {
             PlayerVoteArea ps = __instance.playerStates[i];
             if (ps == null) continue;
-            if (ps.VotedFor is not ((byte)252) and not byte.MaxValue and not ((byte)254))
+            if (ps.VotedFor is not 252 and not byte.MaxValue and not ((byte)254))
             {
                 int VoteNum = 1;
                 //投票を1追加 キーが定義されていない場合は1で上書きして定義
@@ -143,7 +143,6 @@ class MeetingHudStartPatch
         VentLogger.Old("------------会議開始------------", "Phase");
         ActionHandle handle = ActionHandle.NoInit();
         Game.TriggerForAll(RoleActionType.RoundEnd, ref handle, false);
-        GameData.Instance.AllPlayers.ToArray().Any(x => x.IsDead);
         Game.RenderAllForAll(force: true);
         "Meeting Call Done".DebugLog();
         Game.GetAlivePlayers().Do(p =>
@@ -155,7 +154,7 @@ class MeetingHudStartPatch
                 Utils.SendMessage(message, p.PlayerId);
         });
         Game.GameStates.MeetingCalled++;
-        Async.Schedule(() => Game.GetAllPlayers().Do(p => p.RpcSetName(p.GetRawName())), NetUtils.DeriveDelay(0.4f));
+        Async.Schedule(() => Game.GetAllPlayers().Do(p => p.RpcSetName(p.GetRawName())), NetUtils.DeriveDelay(1.25f));
     }
     public static void Postfix(MeetingHud __instance)
     {

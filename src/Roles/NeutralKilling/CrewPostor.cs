@@ -1,12 +1,12 @@
-using TownOfHost.Factions;
-using TownOfHost.Extensions;
-using VentLib.Options;
+using TOHTOR.Factions;
+using TOHTOR.Extensions;
 using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.Options;
+using TOHTOR.Options;
+using VentLib.Options.Game;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class CrewPostor : Crewmate
 {
@@ -17,7 +17,7 @@ public class CrewPostor : Crewmate
         if (inRangePlayers.Count == 0) return;
         MyPlayer.RpcMurderPlayer(inRangePlayers.GetRandom());
     }
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
         .Tab(DefaultTabs.NeutralTab)
             .SubOption(sub => sub

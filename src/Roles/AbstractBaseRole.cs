@@ -5,21 +5,21 @@ using System.Linq;
 using System.Reflection;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using TownOfHost.Extensions;
-using TownOfHost.Factions;
-using TownOfHost.GUI;
-using TownOfHost.Options;
-using VentLib.Options;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.Extensions;
+using TOHTOR.Factions;
+using TOHTOR.GUI;
+using TOHTOR.Options;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.Localization;
 using VentLib.Localization.Attributes;
 using VentLib.Logging;
-using VentLib.Options.OptionElement;
+using VentLib.Options;
+using VentLib.Options.Game;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 // Some people hate using "Base" and "Abstract" in class names but I used both so now I'm a war-criminal :)
 [Localized(Group = "Roles")]
@@ -63,7 +63,7 @@ public abstract class AbstractBaseRole
     public int AdditionalChance { get; private set; }
     protected bool BaseCanVent;
 
-    private Option options;
+    internal GameOption Options;
 
     public string EnglishRoleName { get; private set; }
     private readonly Dictionary<Type, List<MethodInfo>> roleInteractions = new();
@@ -72,8 +72,8 @@ public abstract class AbstractBaseRole
 
     protected List<GameOptionOverride> roleSpecificGameOptionOverrides = new();
 
-    private static OptionBuilder RoleOptionsBuilder => roleOptionsBuilder.Clone();
-    private static OptionBuilder roleOptionsBuilder = new OptionBuilder()
+    private static GameOptionBuilder RoleOptionsBuilder => roleOptionsBuilder.Clone();
+    private static GameOptionBuilder roleOptionsBuilder = new GameOptionBuilder()
         .AddIntRange(0, 100, 10, 0, "%")
         .ShowSubOptionPredicate(value => ((int)value) > 0);
 
@@ -92,24 +92,24 @@ public abstract class AbstractBaseRole
         } catch { }
         this.roleSpecificGameOptionOverrides.Clear();
 
-        options = _editors.Aggregate(GetOptionBuilder(), (current, editor) => editor.HookOptions(current)).Build();
-        if (options.Name != null || options.GetValueAsString() != "N/A")
+        Options = _editors.Aggregate(GetGameOptionBuilder(), (current, editor) => editor.HookOptions(current)).Build();
+        if (Options.GetValueText() != "N/A")
         {
-            if (options.Tab == null)
+            if (Options.Tab == null)
             {
                 if (this is GM) { /*ignored*/ }
                 if (this is Subrole)
-                    options.Tab = DefaultTabs.MiscTab;
+                    Options.Tab = DefaultTabs.MiscTab;
                 else if (this.Factions.IsImpostor())
-                    options.Tab = DefaultTabs.ImpostorsTab;
+                    Options.Tab = DefaultTabs.ImpostorsTab;
                 else if (this.Factions.IsCrewmate())
-                    options.Tab = DefaultTabs.CrewmateTab;
+                    Options.Tab = DefaultTabs.CrewmateTab;
                 else if (this.SpecialType is SpecialType.NeutralKilling or SpecialType.Neutral)
-                    options.Tab = DefaultTabs.NeutralTab;
+                    Options.Tab = DefaultTabs.NeutralTab;
                 else
-                    options.Tab = DefaultTabs.MiscTab;
+                    Options.Tab = DefaultTabs.MiscTab;
             }
-            options.Register();
+            Options.Register(OptionManager.GetManager(file: "role_options.txt"), OptionLoadMode.LoadOrCreate);
         }
 
         SetupRoleActions();
@@ -257,8 +257,8 @@ public abstract class AbstractBaseRole
     protected abstract RoleModifier Modify(RoleModifier roleModifier);
 
 
-    public OptionBuilder GetOptionBuilder() {
-        OptionBuilder b = RoleOptionsBuilder.Color(RoleColor).Bind(val => this.Chance = (int)val)
+    public GameOptionBuilder GetGameOptionBuilder() {
+        GameOptionBuilder b = RoleOptionsBuilder.Color(RoleColor).Bind(val => this.Chance = (int)val)
             .SubOption(s => s.Name("Maximum")
                 .AddIntRange(1, 15)
                 .Bind(val => this.Count = (int)val)
@@ -273,9 +273,9 @@ public abstract class AbstractBaseRole
         return RegisterOptions(b);
     }
 
-    protected virtual OptionBuilder RegisterOptions(OptionBuilder optionStream)
+    protected virtual GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream)
     {
-        optionStream.LocaleName($"Roles.{EnglishRoleName}.RoleName").IsHeader(true);
+        optionStream.LocaleName($"Roles.{EnglishRoleName}.RoleName").Key(EnglishRoleName).Description(Localizer.Get($"Roles.{EnglishRoleName}.Blurb")).IsHeader(true);
         return optionStream;
     }
 
@@ -408,7 +408,7 @@ public abstract class AbstractBaseRole
             return modifier;
         }
 
-        public virtual OptionBuilder HookOptions(OptionBuilder optionStream) {
+        public virtual GameOptionBuilder HookOptions(GameOptionBuilder optionStream) {
             return optionStream;
         }
 

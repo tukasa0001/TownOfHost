@@ -1,6 +1,6 @@
 using System;
 
-namespace TownOfHost.GUI;
+namespace TOHTOR.GUI;
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Method)]
 public class DynElement: Attribute

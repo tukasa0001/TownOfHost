@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.Extensions;
-using TownOfHost.Factions;
-using TownOfHost.Roles;
+using TOHTOR.Extensions;
+using TOHTOR.Factions;
+using TOHTOR.Roles;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Gamemodes.Standard;
+namespace TOHTOR.Gamemodes.Standard;
 
 public static class RoleDistributor
 {

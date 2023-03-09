@@ -1,7 +1,7 @@
 using HarmonyLib;
-using TownOfHost.Options;
+using TOHTOR.Options;
 
-namespace TownOfHost.Patches.Systems;
+namespace TOHTOR.Patches.Systems;
 //参考
 //https://github.com/Koke1024/Town-Of-Moss/blob/main/TownOfMoss/Patches/MeltDownBoost.cs
 

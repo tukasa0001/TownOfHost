@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost;
+namespace TOHTOR;
 
 public class RandomSpawn
 {

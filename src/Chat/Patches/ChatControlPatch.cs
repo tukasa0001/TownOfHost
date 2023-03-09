@@ -1,9 +1,9 @@
 /*using HarmonyLib;
 using UnityEngine;
 using AmongUs.Data;
-using TownOfHost.Patches.Chat;
+using TOHTOR.Patches.Chat;
 
-namespace TownOfHost;
+namespace TOHTOR;
 
 [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]
 class ChatControllerUpdatePatch

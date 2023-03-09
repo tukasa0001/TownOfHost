@@ -1,7 +1,7 @@
 using System.Reflection;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.Roles.Internals.Attributes;
 
-namespace TownOfHost.Roles.Internals;
+namespace TOHTOR.Roles.Internals;
 
 public class ModifiedAction: RoleAction
 {

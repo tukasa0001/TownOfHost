@@ -1,10 +1,10 @@
-using TownOfHost.Extensions;
-using VentLib.Options;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.Extensions;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
+using VentLib.Options.Game;
 using VentLib.Utilities;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Trapper : Crewmate
 {
@@ -19,7 +19,7 @@ public class Trapper : Crewmate
         Async.Schedule(() => killer.GetCustomRole().SyncOptions(), trappedDuration);
     }
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .SubOption(sub => sub
                 .Name("Trapped Duration")

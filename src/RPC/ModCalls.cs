@@ -1,4 +1,4 @@
-namespace TownOfHost.RPC;
+namespace TOHTOR.RPC;
 
 public enum ModCalls: uint
 {

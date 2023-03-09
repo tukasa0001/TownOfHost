@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using TownOfHost.Extensions;
-using TownOfHost.Factions;
-using TownOfHost.Roles;
+using TOHTOR.Extensions;
+using TOHTOR.Factions;
+using TOHTOR.Roles;
+using VentLib.Options.Announcement;
 
-namespace TownOfHost.Addons;
+namespace TOHTOR.Addons;
 
 public abstract class TOHAddon
 {
@@ -13,23 +14,25 @@ public abstract class TOHAddon
     internal readonly List<Faction> Factions = new();
     internal readonly List<Type> Gamemodes = new();
 
-    internal Assembly bundledAssembly = Assembly.GetCallingAssembly();
-    internal ulong UUID;
+    internal readonly Assembly BundledAssembly = Assembly.GetCallingAssembly();
+    internal readonly ulong Uuid;
 
     public TOHAddon()
     {
-        UUID = (bundledAssembly?.GetIdentity(false)?.SemiConsistentHash() ?? 0ul + AddonName().SemiConsistentHash());
+        Uuid = (BundledAssembly.GetIdentity(false)?.SemiConsistentHash() ?? 0ul + AddonName().SemiConsistentHash());
     }
 
     internal string GetName(bool fullName = false) => !fullName
         ? AddonName()
-        : $"{bundledAssembly.FullName}::{AddonName()}-{AddonVersion()}";
+        : $"{BundledAssembly.FullName}::{AddonName()}-{AddonVersion()}";
 
     public abstract void Initialize();
 
     public abstract string AddonName();
 
     public abstract string AddonVersion();
+
+    public abstract List<AnnouncementOption> PluginOptions();
 
     public void RegisterRole(CustomRole customRole) => CustomRoles.Add(customRole);
 

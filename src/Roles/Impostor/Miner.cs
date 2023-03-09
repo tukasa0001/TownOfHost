@@ -1,12 +1,12 @@
 using System;
-using TownOfHost.GUI;
-using VentLib.Options;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.GUI;
+using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.Logging;
+using VentLib.Options.Game;
 
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Miner : Impostor
 {
@@ -36,7 +36,7 @@ public class Miner : Impostor
 
 
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream).SubOption(sub =>
             sub.Name("Miner Ability Cooldown")
                 .Bind(v => minerAbilityCooldown.Duration = Convert.ToSingle(v))

@@ -1,21 +1,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.GUI;
-using TownOfHost.Managers.Date;
-using TownOfHost.Options;
-using VentLib.Options;
-using TownOfHost.Roles;
-using TownOfHost.Victory;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.GUI;
+using TOHTOR.Managers.Date;
+using TOHTOR.Options;
+using TOHTOR.Roles;
+using TOHTOR.Victory;
 using UnityEngine;
 using VentLib.Anticheat;
 using VentLib.Logging;
-using VentLib.RPC;
+using VentLib.Networking.RPC;
+using VentLib.Options.Game;
+using VentLib.Options.Game.Tabs;
 using VentLib.Utilities;
 
-namespace TownOfHost.Gamemodes.CaptureTheFlag;
+namespace TOHTOR.Gamemodes.CaptureTheFlag;
 
 public class CTFGamemode: Gamemode
 {
@@ -26,7 +27,7 @@ public class CTFGamemode: Gamemode
     public static int[] TeamPoints = { 0, 0 };
     public static byte[] Carriers = { 255, 255 };
 
-    public static GameOptionTab CTFTab = new("Capture The Flag", "TownOfHost.assets.Tabs.TabIcon_CaptureTheFlag.png");
+    public static GameOptionTab CTFTab = new("Capture The Flag", () => Utils.LoadSprite("TOHTOR.assets.Tabs.TabIcon_CaptureTheFlag.png"));
     public override string GetName() => "Capture The Flag";
     public override IEnumerable<GameOptionTab> EnabledTabs() => new[] { CTFTab };
     public override GameAction IgnoredActions() => GameAction.CallSabotage | GameAction.CallMeeting;
@@ -35,14 +36,9 @@ public class CTFGamemode: Gamemode
 
     public CTFGamemode()
     {
-        if (!SpecialDate.ShiftyBirthday.IsDate())
-        {
-            Async.Schedule(() => TOHPlugin.GamemodeManager.SetGamemode(0), 0.05f);
-            return;
-        }
         this.BindAction(GameAction.GameStart, SetupNames);
 
-        AddOption(new OptionBuilder()
+        AddOption(new GameOptionBuilder()
             .Name("Game Length")
             .Tab(CTFTab)
             .IsHeader(true)

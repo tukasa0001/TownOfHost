@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.GUI;
+namespace TOHTOR.GUI;
 
 public static class Template
 {

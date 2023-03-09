@@ -1,7 +1,7 @@
-using TownOfHost.API;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.API;
+using TOHTOR.Roles.Internals.Attributes;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Mafia: Impostor
 {

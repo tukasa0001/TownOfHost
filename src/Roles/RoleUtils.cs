@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.GUI;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.GUI;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
-using VentLib.RPC;
+using VentLib.Networking.RPC;
 using VentLib.Utilities;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class RoleUtils
 {

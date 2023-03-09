@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 using AmongUs.GameOptions;
 using Il2CppSystem;
-using TownOfHost.Extensions;
-using TownOfHost.Factions;
-using TownOfHost.GUI;
-using VentLib.Options;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
-using TownOfHost.Roles.Neutral;
+using TOHTOR.Extensions;
+using TOHTOR.Factions;
+using TOHTOR.GUI;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
+using TOHTOR.Roles.Neutral;
 using UnityEngine;
+using VentLib.Options.Game;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Sheriff : Crewmate
 {
@@ -110,7 +110,7 @@ public class Sheriff : Crewmate
 
     // OPTIONS
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Color(RoleColor)
             .SubOption(sub => sub

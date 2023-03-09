@@ -1,7 +1,7 @@
 using System;
 using VentLib.Logging;
 
-namespace TownOfHost.Extensions;
+namespace TOHTOR.Extensions;
 
 public static class DebugExtensions
 {

@@ -1,9 +1,9 @@
 /*using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.Extensions;
-using TownOfHost.Roles;
+using TOHTOR.Extensions;
+using TOHTOR.Roles;
 
-namespace TownOfHost
+namespace TOHTOR
 {
     public static class TeamEgoist
     {

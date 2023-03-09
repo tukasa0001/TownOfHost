@@ -1,14 +1,14 @@
 using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
-using TownOfHost.Options;
+using TOHTOR.Options;
 using UnityEngine;
 using VentLib.Utilities.Extensions;
 using VentLib.Logging;
 using VentLib.Utilities;
-using GameStates = TownOfHost.API.GameStates;
+using GameStates = TOHTOR.API.GameStates;
 
-namespace TownOfHost.Patches;
+namespace TOHTOR.Patches;
 
 [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Update))]
 public static class GameStartManagerUpdatePatch

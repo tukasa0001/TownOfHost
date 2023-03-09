@@ -1,13 +1,13 @@
 using AmongUs.GameOptions;
-using TownOfHost.Extensions;
-using TownOfHost.GUI;
-using TownOfHost.Options;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.Extensions;
+using TOHTOR.GUI;
+using TOHTOR.Options;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.Utilities;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Diseased: Subrole
 {

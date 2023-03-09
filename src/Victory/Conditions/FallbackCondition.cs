@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.API;
+using TOHTOR.API;
 
-namespace TownOfHost.Victory.Conditions;
+namespace TOHTOR.Victory.Conditions;
 
 public class FallbackCondition: IWinCondition
 {

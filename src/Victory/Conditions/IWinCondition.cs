@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TownOfHost.Victory.Conditions;
+namespace TOHTOR.Victory.Conditions;
 
 public interface IWinCondition: IComparable<IWinCondition>
 {

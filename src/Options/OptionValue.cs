@@ -2,7 +2,7 @@ using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using VentLib.Utilities;
 
-namespace TownOfHost.Options;
+namespace TOHTOR.Options;
 
 public class OptionValue
 {

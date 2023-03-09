@@ -2,7 +2,7 @@
 using System;
 using AmongUs.GameOptions;
 
-namespace TownOfHost.Extensions;
+namespace TOHTOR.Extensions;
 
 public static class GameOptionsExtensions
 {

@@ -1,8 +1,8 @@
-using TownOfHost.Managers;
-using VentLib.RPC;
+using TOHTOR.Managers;
+using VentLib.Networking.RPC;
 using VentLib.Utilities;
 
-namespace TownOfHost.RPC;
+namespace TOHTOR.RPC;
 
 public static class ComplexRPC
 {

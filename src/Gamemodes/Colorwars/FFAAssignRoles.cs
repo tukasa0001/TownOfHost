@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Roles;
-using VentLib.RPC;
+using TOHTOR.API;
+using TOHTOR.Roles;
+using VentLib.Networking.RPC;
 using VentLib.Utilities;
 
-namespace TownOfHost.Gamemodes.FFA;
+namespace TOHTOR.Gamemodes.FFA;
 
 // ReSharper disable once InconsistentNaming
 public static class FFAAssignRoles

@@ -1,12 +1,12 @@
 using System;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using VentLib.Options;
-using TownOfHost.Roles;
-using TownOfHost.Roles.Internals.Attributes;
-using static TownOfHost.Roles.SerialKiller;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Roles;
+using TOHTOR.Roles.Internals.Attributes;
+using VentLib.Options.Game;
+using static TOHTOR.Roles.SerialKiller;
 
-namespace TownOfHost.Gamemodes.Colorwars;
+namespace TOHTOR.Gamemodes.Colorwars;
 
 public class CwPainter: SerialKillerModifier
 {
@@ -46,7 +46,7 @@ public class CwPainter: SerialKillerModifier
         this.DeathTimer.Start();
     }
 
-    public override OptionBuilder HookOptions(OptionBuilder optionStream) =>
+    public override GameOptionBuilder HookOptions(GameOptionBuilder optionStream) =>
         base.HookOptions(optionStream)
             .Tab(ColorwarsGamemode.ColorwarsTab);
 

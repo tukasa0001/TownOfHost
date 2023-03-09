@@ -1,7 +1,7 @@
 using HarmonyLib;
 using UnityEngine;
 
-namespace TownOfHost
+namespace TOHTOR
 {
     [HarmonyPatch(typeof(Console), nameof(Console.CanUse))]
     class CanUsePatch

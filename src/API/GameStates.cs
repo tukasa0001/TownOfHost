@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.Extensions;
+using TOHTOR.Extensions;
 
-namespace TownOfHost.API;
+namespace TOHTOR.API;
 
 public class GameStates
 {

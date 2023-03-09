@@ -1,18 +1,18 @@
 #nullable enable
 using System.Collections.Generic;
-using TownOfHost.Extensions;
+using TOHTOR.Extensions;
 using UnityEngine;
-using VentLib.Options;
 using System.Linq;
-using TownOfHost.API;
-using TownOfHost.GUI;
-using TownOfHost.Options;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.API;
+using TOHTOR.GUI;
+using TOHTOR.Options;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
+using VentLib.Options.Game;
 using VentLib.Utilities;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Archangel : CustomRole
 {
@@ -98,7 +98,7 @@ public class Archangel : CustomRole
         target.RpcProtectPlayer(target, 0);
     }
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Tab(DefaultTabs.NeutralTab)
             .SubOption(sub => sub

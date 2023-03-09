@@ -1,12 +1,12 @@
-using TownOfHost.Extensions;
+using TOHTOR.Extensions;
 using System.Collections.Generic;
-using TownOfHost.GUI;
-using VentLib.Options;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.GUI;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
+using VentLib.Options.Game;
 using VentLib.Utilities;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Vampiress : Impostor
 {
@@ -67,7 +67,7 @@ public class Vampiress : Impostor
         ? InteractionResult.Halt
         : InteractionResult.Proceed;*/
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .SubOption(sub => sub
                 .Name("Kill Delay")

@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-namespace TownOfHost.Extensions;
+namespace TOHTOR.Extensions;
 
 public static class StringExtension
 {

@@ -2,20 +2,19 @@ using System;
 using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Options;
-using TownOfHost.Roles;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Options;
+using TOHTOR.Roles;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.Anticheat;
 using VentLib.Localization;
 using VentLib.Logging;
 using VentLib.Utilities;
-using VentLib.Version.Git;
 
-namespace TownOfHost.Patches;
+namespace TOHTOR.Patches;
 
 [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.ShowRole))]
 class SetUpRoleTextPatch
@@ -65,8 +64,8 @@ class CoBeginPatch
             {
                 var text = pc.AmOwner ? "[*]" : "   ";
                 text += $"{pc.PlayerId,-2}:{pc.Data?.PlayerName?.PadRightV2(20)}:{PlayerControlExtensions.GetClient(pc)?.PlatformData?.Platform.ToString()?.Replace("Standalone", ""),-11}";
-                if (TOHPlugin.playerVersion.TryGetValue(pc.PlayerId, out GitVersion pv))
-                    text += $":Mod({pv.MajorVersion}.{pv.MinorVersion}:{pv.Tag})";
+                if (TOHPlugin.PlayerVersion.TryGetValue(pc.PlayerId, out VentLib.Version.Version? pv))
+                    text += $":Mod({pv})";
                 else text += ":Vanilla";
                 VentLogger.Old(text, "Info");
             }
@@ -180,7 +179,7 @@ class BeginCrewmatePatch
         {
             __instance.TeamTitle.text = "Town Of Host:\nThe Other Roles";
             __instance.ImpostorText.gameObject.SetActive(true);
-            __instance.ImpostorText.text = "https://github.com/music-discussion/TownOfHost-TheOtherRoles--TOH-TOR" +
+            __instance.ImpostorText.text = "https://github.com/music-discussion/TOHTOR-TheOtherRoles--TOH-TOR" +
                                            "\r\nv0.9.4 - Out Now on Github";
             __instance.TeamTitle.color = Utils.ConvertHexToColor("#73fa73");
             StartFadeIntro(__instance, Color.cyan, Color.yellow);
@@ -189,7 +188,7 @@ class BeginCrewmatePatch
         {
             __instance.TeamTitle.text = "Town Of Host:\nThe Other Roles";
             __instance.ImpostorText.gameObject.SetActive(true);
-            __instance.ImpostorText.text = "https://github.com/music-discussion/TownOfHost-TheOtherRoles--TOH-TOR" +
+            __instance.ImpostorText.text = "https://github.com/music-discussion/TOHTOR-TheOtherRoles--TOH-TOR" +
                                            "\r\nv0.9.4 - Coming Soon on Github";
             __instance.TeamTitle.color = Utils.ConvertHexToColor("#73fa73");
             StartFadeIntro(__instance, Color.cyan, Color.yellow);

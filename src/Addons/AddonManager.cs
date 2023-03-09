@@ -5,16 +5,17 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
-using TownOfHost.Extensions;
-using TownOfHost.Factions;
-using TownOfHost.Roles;
-using TownOfHost.RPC;
+using TOHTOR.Extensions;
+using TOHTOR.Factions;
+using TOHTOR.Roles;
+using TOHTOR.RPC;
 using VentLib;
 using VentLib.Logging;
-using VentLib.RPC.Attributes;
+using VentLib.Networking.RPC.Attributes;
+using VentLib.Options.Announcement;
 using VentLib.Utilities;
 
-namespace TownOfHost.Addons;
+namespace TOHTOR.Addons;
 
 public class AddonManager
 {
@@ -36,7 +37,7 @@ public class AddonManager
             Assembly assembly = Assembly.LoadFile(file.FullName);
             Type tohType = assembly.GetTypes().FirstOrDefault(t => t.IsAssignableTo(typeof(TOHAddon)));
             if (tohType == null)
-                throw new ConstraintException("TownOfHost Addons requires ONE class file that extends TOHAddon");
+                throw new ConstraintException("TOHTOR Addons requires ONE class file that extends TOHAddon");
             TOHAddon addon = (TOHAddon)tohType.GetConstructor(new Type[] { })!.Invoke(null);
             VentLogger.Log(AddonLL,$"Loading Addon [{addon.AddonName()} {addon.AddonVersion()}]", "AddonManager");
             Vents.Register(assembly);
@@ -47,6 +48,10 @@ public class AddonManager
             addon.Factions.Do(f => FactionConstraintValidator.ValidateAndAdd(f, file.Name));
             CustomRoleManager.AllRoles.AddRange(addon.CustomRoles);
             TOHPlugin.GamemodeManager.GamemodeTypes.AddRange(addon.Gamemodes);
+
+            AnnouncementTab announcementTab = new(addon.AddonName(), addon.AddonVersion());
+            addon.PluginOptions().ForEach(announcementTab.AddOption);
+            AnnouncementOptionController.AddTab(announcementTab);
         }
         catch (Exception e)
         {
@@ -68,7 +73,7 @@ public class AddonManager
             if (matchingAddon == null)
             {
                 haInfo.Mismatches = Mismatch.ClientMissingAddon;
-                Vents.BlockClient(hostAddon.bundledAssembly, senderId[0]);
+                Vents.BlockClient(hostAddon.BundledAssembly, senderId[0]);
                 return haInfo;
             }
 

@@ -1,12 +1,13 @@
 using System;
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.API;
-using VentLib.Options;
-using TownOfHost.Roles.Internals.Attributes;
-using TownOfHost.RPC;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Roles.Internals.Attributes;
+using TOHTOR.RPC;
+using VentLib.Options.Game;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Camouflager: Morphling
 {
@@ -34,7 +35,7 @@ public class Camouflager: Morphling
         Game.GetAlivePlayers().Where(p => p.PlayerId != MyPlayer.PlayerId).Do(p => p.CRpcRevertShapeshift(true));
     }
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .SubOption(sub => sub
                 .Name("Camouflage Cooldown")

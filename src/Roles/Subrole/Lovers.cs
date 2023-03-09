@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.GUI;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.GUI;
+using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.Utilities;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Lovers: Subrole
 {

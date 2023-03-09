@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.API;
-using TownOfHost.Extensions;
+using TOHTOR.API;
+using TOHTOR.Extensions;
 
-namespace TownOfHost.Factions;
+namespace TOHTOR.Factions;
 
 public enum Faction: ulong
 {

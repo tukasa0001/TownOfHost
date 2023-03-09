@@ -1,11 +1,12 @@
 using HarmonyLib;
 using Hazel;
-using TownOfHost.Extensions;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.Extensions;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
+using VentLib.Networking.RPC;
 using VentLib.Utilities;
 
-namespace TownOfHost.Patches.Actions;
+namespace TOHTOR.Patches.Actions;
 
 
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.TryPet))]
@@ -41,10 +42,10 @@ class ExternalRpcPetPatch
 
         if (AmongUsClient.Instance.AmHost)
             __instance.CancelPet();
-        foreach (PlayerControl player in PlayerControl.AllPlayerControls)
-            AmongUsClient.Instance.FinishRpcImmediately(
-                AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, 50, SendOption.None,
-                    player.GetClientId()));
+
+        RpcV2.Immediate(__instance.NetId, RpcCalls.CancelPet)
+            .SendExclusive(__instance.myPlayer.GetClientId());
+        Async.Schedule(() => RpcV2.Immediate(__instance.NetId, RpcCalls.CancelPet).SendInclusive(__instance.myPlayer.GetClientId()), NetUtils.DeriveDelay(0.5f));
 
         ActionHandle handle = ActionHandle.NoInit();
         playerControl.Trigger(RoleActionType.OnPet, ref handle, __instance);

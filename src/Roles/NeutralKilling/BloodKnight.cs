@@ -1,13 +1,13 @@
-using TownOfHost.Extensions;
-using TownOfHost.Factions;
-using TownOfHost.GUI;
-using TownOfHost.Options;
-using VentLib.Options;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.Extensions;
+using TOHTOR.Factions;
+using TOHTOR.GUI;
+using TOHTOR.Options;
+using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
+using VentLib.Options.Game;
 using VentLib.Utilities;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class BloodKnight : NeutralKillingBase
 {
@@ -41,7 +41,7 @@ public class BloodKnight : NeutralKillingBase
         return killed;
     }
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
          base.RegisterOptions(optionStream)
              .Tab(DefaultTabs.NeutralTab)
              .SubOption(opt =>

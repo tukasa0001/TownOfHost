@@ -1,8 +1,8 @@
-using TownOfHost.Extensions;
-using TownOfHost.Options;
+using TOHTOR.Extensions;
+using TOHTOR.Options;
 using VentLib.Localization.Attributes;
 
-namespace TownOfHost.Managers.History;
+namespace TOHTOR.Managers.History;
 
 [Localized(Group = "HistoryEvent", Subgroup = "Death")]
 public class DeathEvent: HistoryEvent

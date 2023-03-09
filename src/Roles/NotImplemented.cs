@@ -1,6 +1,6 @@
 using VentLib.Logging;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class NotImplemented: CustomRole
 {

@@ -1,7 +1,7 @@
 using System;
 using HarmonyLib;
 
-namespace TownOfHost.GUI.Patches;
+namespace TOHTOR.GUI.Patches;
 
 [HarmonyPatch(typeof(KillOverlay), nameof(KillOverlay.ShowKillAnimation))]
 public class KillOverlayPatch

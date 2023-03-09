@@ -1,12 +1,13 @@
-using TownOfHost.GUI;
-using VentLib.Options;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
-using TownOfHost.Roles.Internals.Interfaces;
+using TOHTOR.GUI;
+using TOHTOR.Options;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
+using TOHTOR.Roles.Internals.Interfaces;
 using UnityEngine;
+using VentLib.Options.Game;
 using VentLib.Utilities;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public partial class SerialKiller : Impostor, IModdable
 {
@@ -42,8 +43,9 @@ public partial class SerialKiller : Impostor, IModdable
     [RoleAction(RoleActionType.RoundEnd)]
     private void StopDeathTimer() => paused = true;
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
+            .Tab(DefaultTabs.GeneralTab)
             .SubOption(sub => sub
                 .Name("Kill Cooldown")
                 .Bind(v => killCooldown = (float)v)

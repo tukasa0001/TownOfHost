@@ -1,7 +1,7 @@
 using System;
-using TownOfHost.Factions;
+using TOHTOR.Factions;
 
-namespace TownOfHost.Roles.Internals.Attributes;
+namespace TOHTOR.Roles.Internals.Attributes;
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
 public class RoleInteraction: Attribute

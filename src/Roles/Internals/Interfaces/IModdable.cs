@@ -1,4 +1,4 @@
-namespace TownOfHost.Roles.Internals.Interfaces;
+namespace TOHTOR.Roles.Internals.Interfaces;
 
 public interface IModdable {
 }

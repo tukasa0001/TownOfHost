@@ -1,9 +1,9 @@
 using HarmonyLib;
-using TownOfHost.Extensions;
+using TOHTOR.Extensions;
 using UnityEngine;
 using VentLib.Logging;
 
-namespace TownOfHost.Patches;
+namespace TOHTOR.Patches;
 
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckProtect))]
 class CheckProtectPatch

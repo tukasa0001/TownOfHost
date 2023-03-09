@@ -1,4 +1,4 @@
-namespace TownOfHost.Victory.Conditions;
+namespace TOHTOR.Victory.Conditions;
 
 public enum WinReason
 {

@@ -1,4 +1,4 @@
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Dictator: NotImplemented
 {

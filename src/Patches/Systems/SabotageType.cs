@@ -1,6 +1,6 @@
 using System;
 
-namespace TownOfHost.Patches.Systems;
+namespace TOHTOR.Patches.Systems;
 
 [Flags]
 public enum SabotageType

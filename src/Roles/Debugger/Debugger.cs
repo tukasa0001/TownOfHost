@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using VentLib.Options;
-using TownOfHost.Roles.Internals.Attributes;
-using TownOfHost.Victory.Conditions;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Roles.Internals.Attributes;
+using TOHTOR.Victory.Conditions;
 using UnityEngine;
 using VentLib.Logging;
+using VentLib.Options.Game;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Debugger: CustomRole
 {
@@ -27,8 +27,8 @@ public class Debugger: CustomRole
     {
         VentLogger.Old("OnPet Called", "DebuggerCall");
         LogStats();
-
         counter++;
+        TestTest();
     }
 
     private void CustomWinTest()
@@ -42,6 +42,11 @@ public class Debugger: CustomRole
         Vector2 location = MyPlayer.GetTruePosition();
         foreach (PlayerControl player in Game.GetAlivePlayers().Where(p => p.PlayerId != MyPlayer.PlayerId))
             VentLogger.Old($"Distance from {MyPlayer.GetRawName()} to {player.GetRawName()} :: {Vector2.Distance(location, player.GetTruePosition())}", "DebuggerDistance");
+    }
+
+    private void TestTest()
+    {
+        MyPlayer.RpcSetRole(RoleTypes.Impostor);
     }
 
     private void LogStats()
@@ -63,7 +68,7 @@ public class Debugger: CustomRole
     }
 
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Name("<b><color=#FF0000>D</color><color=#FFBF00>e</color><color=#7FFF00>b</color><color=#00FF3F>u</color><color=#00FEFF>g</color><color=#003FFF>g</color><color=#7F00FF>e</color><color=#FF00BF>r</color></b>")
             .SubOption(sub => sub
@@ -90,6 +95,6 @@ public class Debugger: CustomRole
             .RoleName(
                 "<b><color=#FF0000>D</color><color=#FFBF00>e</color><color=#7FFF00>b</color><color=#00FF3F>u</color><color=#00FEFF>g</color><color=#003FFF>g</color><color=#7F00FF>e</color><color=#FF00BF>r</color></b>")
             .RoleColor(new Color(0.84f, 1f, 0.64f))
-            .VanillaRole(baseRole);
+            .VanillaRole(RoleTypes.Crewmate);
 
 }

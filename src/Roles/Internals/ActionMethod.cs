@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Roles.Internals;
+namespace TOHTOR.Roles.Internals;
 
 
 public static class MethodInfoExtension

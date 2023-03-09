@@ -1,12 +1,12 @@
-using VentLib.Options;
 using System.Collections.Generic;
-using TownOfHost.API;
-using TownOfHost.Options;
-using TownOfHost.Patches.Systems;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.API;
+using TOHTOR.Options;
+using TOHTOR.Patches.Systems;
+using TOHTOR.Roles.Internals.Attributes;
+using VentLib.Options.Game;
 using VentLib.Utilities;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Demolitionist : Crewmate
 {
@@ -41,7 +41,7 @@ public class Demolitionist : Crewmate
         }
     }
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Tab(DefaultTabs.CrewmateTab)
             .SubOption(sub => sub

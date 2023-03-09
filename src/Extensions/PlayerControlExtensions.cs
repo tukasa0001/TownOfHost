@@ -5,20 +5,21 @@ using System.Linq;
 using AmongUs.GameOptions;
 using Hazel;
 using InnerNet;
-using TownOfHost.API;
-using TownOfHost.GUI;
-using TownOfHost.Options;
+using TOHTOR.API;
+using TOHTOR.GUI;
+using TOHTOR.Options;
 using UnityEngine;
-using TownOfHost.Roles;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
-using TownOfHost.RPC;
+using TOHTOR.Roles;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
+using TOHTOR.RPC;
+using VentLib;
 using VentLib.Utilities.Extensions;
 using VentLib.Logging;
 using VentLib.Utilities;
-using GameStates = TownOfHost.API.GameStates;
+using GameStates = TOHTOR.API.GameStates;
 
-namespace TownOfHost.Extensions;
+namespace TOHTOR.Extensions;
 
 public static class PlayerControlExtensions
 {
@@ -127,7 +128,7 @@ public static class PlayerControlExtensions
             player.SetRole(role);
             return;
         }
-        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetRole, Hazel.SendOption.Reliable, clientId);
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetRole, SendOption.Reliable, clientId);
         writer.Write((ushort)role);
         AmongUsClient.Instance.FinishRpcImmediately(writer);
     }
@@ -175,9 +176,7 @@ public static class PlayerControlExtensions
     {
         if (target == null) target = killer;
         if (killer.AmOwner)
-        {
             killer.MurderPlayer(target);
-        }
         else
         {
             MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable, killer.GetClientId());
@@ -352,7 +351,7 @@ public static class PlayerControlExtensions
         DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(reporter);
         reporter.RpcStartMeeting(target);
     }
-    public static bool IsModClient(this PlayerControl player) => TOHPlugin.playerVersion.ContainsKey(player.PlayerId);
+    public static bool IsModClient(this PlayerControl player) => TOHPlugin.PlayerVersion.ContainsKey(player.PlayerId);
     ///<summary>
     ///プレイヤーのRoleBehaviourのGetPlayersInAbilityRangeSortedを実行し、戻り値を返します。
     ///</summary>
@@ -390,11 +389,11 @@ public static class PlayerControlExtensions
             || (seer.Data.IsDead && StaticOptions.GhostCanSeeDeathReason))
            && target.Data.IsDead;
 
+    public static bool IsModded(this PlayerControl player) => Vents.VersionControl.IsModdedClient(player.GetClientId());
 
     //汎用
     public static bool Is(this PlayerControl target, CustomRole role) =>
         role.IsSubrole ? target.GetCustomSubRoles().Contains(role) : target.GetCustomRole() == role;
-    public static bool Is(this PlayerControl target, Roles.RoleType type) { return target.GetCustomRole().GetRoleType() == type; }
+    public static bool Is(this PlayerControl target, RoleType type) { return target.GetCustomRole().GetRoleType() == type; }
     public static bool IsAlive(this PlayerControl target) => target != null && !target.Data.IsDead && !target.Data.Disconnected;
-
 }

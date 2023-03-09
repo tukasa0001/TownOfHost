@@ -6,20 +6,21 @@ using System.Reflection;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Factions;
-using TownOfHost.GUI;
-using TownOfHost.Options;
-using TownOfHost.Roles.Internals;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Factions;
+using TOHTOR.GUI;
+using TOHTOR.Options;
+using TOHTOR.Roles.Internals;
 using UnityEngine;
 using VentLib.Logging;
-using VentLib.RPC;
-using VentLib.RPC.Interfaces;
+using VentLib.Networking.Interfaces;
+using VentLib.Networking.Managers;
+using VentLib.Networking.RPC;
 using VentLib.Utilities;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
 {
@@ -217,5 +218,23 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
     public void Write(MessageWriter writer)
     {
         writer.Write(CustomRoleManager.GetRoleId(this));
+    }
+
+
+    public static bool operator ==(CustomRole? a, CustomRole? b)
+    {
+        if (a is null) return b is null;
+        return a.Equals(b);
+    }
+
+    public static bool operator !=(CustomRole a, CustomRole b)
+    {
+        return !(a == b);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is not CustomRole role) return false;
+        return role.GetType() == this.GetType();
     }
 }

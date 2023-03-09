@@ -7,17 +7,17 @@ using System.Text;
 using System.Text.Json;
 using AmongUs.Data;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Patches.Actions;
-using TownOfHost.Player;
-using TownOfHost.Roles;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Patches.Actions;
+using TOHTOR.Player;
+using TOHTOR.Roles;
 using UnityEngine;
+using VentLib.Networking.RPC;
 using VentLib.Utilities.Extensions;
-using VentLib.RPC;
 using VentLib.Utilities;
 
-namespace TownOfHost.GUI;
+namespace TOHTOR.GUI;
 
 public class DynamicName
 {
@@ -321,7 +321,7 @@ public class DynamicName
         if (!AmongUsClient.Instance.AmHost) return;
         float durationSinceLast = (float)(DateTime.Now - lastRender).TotalSeconds;
         if (!force && durationSinceLast < ModConstants.DynamicNameTimeBetweenRenders && Game.State is not GameState.InMeeting) return;
-        string str = GetName();
+        string str = GetRender(myPlayer);
 
         if (myPlayer.IsShapeshifted())
             str = GetRender(Utils.GetPlayerById(myPlayer.GetShapeshifted()));
@@ -338,7 +338,7 @@ public class DynamicName
         if (!AmongUsClient.Instance.AmHost) return;
         float durationSinceLast = (float)(DateTime.Now - lastRender).TotalSeconds;
         if (!force && durationSinceLast < ModConstants.DynamicNameTimeBetweenRenders) return;
-        string str = GetName(state, forceColor);
+        string str = GetRender(myPlayer, state);
 
         if (myPlayer.IsShapeshifted())
             str = GetRender(Utils.GetPlayerById(myPlayer.GetShapeshifted()), state);
@@ -387,8 +387,8 @@ public class DynamicName
             foreach (UI component in components)
             {
                 Tuple<UI, DynamicString>? specificOverride = allowedComponents?.FirstOrDefault(p => p.Item1 == component);
-                if (specificOverride == null) continue;
-                string overrideValue = specificOverride.Item2.Value;
+                if (specificOverride == null && player.PlayerId != myPlayer.PlayerId) continue;
+                string overrideValue = specificOverride?.Item2.Value ?? "";
                 int spaces = SpacesDictionary[component];
                 float size = sizeDictionary[component];
                 string text;

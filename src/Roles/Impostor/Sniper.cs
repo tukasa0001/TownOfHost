@@ -1,18 +1,18 @@
 using System.Linq;
 using AmongUs.GameOptions;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.GUI;
-using TownOfHost.Options;
-using VentLib.Options;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.GUI;
+using TOHTOR.Options;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
+using VentLib.Options.Game;
 using VentLib.Utilities;
 using VentLib.Utilities.Extensions;
 using Convert = System.Convert;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Sniper: Morphling
 {
@@ -124,12 +124,12 @@ public class Sniper: Morphling
 
 
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .SubOption(sub => sub
                 .Name("Sniper Bullet Count")
                 .Bind(v => totalBulletCount = (int)v)
-                .Values(5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+                .AddIntRange(1, 30, 5, 5)
                 .Build())
             .SubOption(sub => sub
                 .Name("Precise Shooting")
@@ -150,17 +150,14 @@ public class Sniper: Morphling
                 .SubOption(sub2 => sub2
                     .Name("Load Bullet Cooldown")
                     .Bind(v => loadBulletCooldown.Duration = Convert.ToSingle(v))
-                    .Values(5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30)
+                    .AddFloatRange(5, 120, 2.5f, 5, "s")
                     .Build())
                 .SubOption(sub2 => sub2
                     .Name("Max Loaded Bullets")
                     .Bind(v => maxLoadedBullets = (int)v)
-                    .Values(0, 1, 2, 3, 4, 5)
+                    .AddIntRange(1, 10, 1)
                     .Build())
                 .Build());
-
-    protected override RoleModifier Modify(RoleModifier roleModifier) =>
-        base.Modify(roleModifier).RoleName("Sniper");
 
     private enum SniperMode
     {

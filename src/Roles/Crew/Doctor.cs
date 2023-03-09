@@ -1,6 +1,6 @@
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.Roles.Internals.Attributes;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Doctor : Scientist
 {

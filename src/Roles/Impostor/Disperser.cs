@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.GUI;
-using VentLib.Options;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.API;
+using TOHTOR.GUI;
+using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
+using VentLib.Options.Game;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Disperser: Impostor
 {
@@ -34,7 +34,7 @@ public class Disperser: Impostor
             });
     }
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .SubOption(sub => sub
                 .Name("Disperse Cooldown")

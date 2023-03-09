@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.API;
-using TownOfHost.Victory.Conditions;
+using TOHTOR.API;
+using TOHTOR.Victory.Conditions;
 
-namespace TownOfHost.Gamemodes.CaptureTheFlag;
+namespace TOHTOR.Gamemodes.CaptureTheFlag;
 
 public class CTFMostPointWinCondition: IWinCondition
 {

@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
-using TownOfHost.RPC;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
+using TOHTOR.RPC;
 using VentLib.Logging;
 using VentLib.Utilities;
 using Priority = HarmonyLib.Priority;
 
-namespace TownOfHost.Patches.Actions;
+namespace TOHTOR.Patches.Actions;
 
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
 public class ShapeshiftPatch

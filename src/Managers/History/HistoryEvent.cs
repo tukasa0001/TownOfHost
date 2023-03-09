@@ -1,7 +1,7 @@
 using System;
-using TownOfHost.API;
+using TOHTOR.API;
 
-namespace TownOfHost.Managers.History;
+namespace TOHTOR.Managers.History;
 
 //[Localization(Group = "Hello")]
 public abstract class HistoryEvent

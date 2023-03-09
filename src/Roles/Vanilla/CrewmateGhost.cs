@@ -1,8 +1,8 @@
 using AmongUs.GameOptions;
-using VentLib.Options;
 using VentLib.Logging;
+using VentLib.Options.Game;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class CrewmateGhost : GuardianAngel
 {
@@ -14,8 +14,8 @@ public class CrewmateGhost : GuardianAngel
         return roleModifier;
     }
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream)
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream)
     {
-        return new OptionBuilder();
+        return new GameOptionBuilder();
     }
 }

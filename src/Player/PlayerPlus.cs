@@ -1,8 +1,8 @@
-using TownOfHost.Extensions;
-using TownOfHost.GUI;
-using TownOfHost.Roles;
+using TOHTOR.Extensions;
+using TOHTOR.GUI;
+using TOHTOR.Roles;
 
-namespace TownOfHost.Player;
+namespace TOHTOR.Player;
 
 public class PlayerPlus
 {

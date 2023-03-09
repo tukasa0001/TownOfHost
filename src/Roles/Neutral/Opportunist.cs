@@ -1,12 +1,12 @@
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Options;
-using VentLib.Options;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Victory;
-using TownOfHost.Victory.Conditions;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Options;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Victory;
+using TOHTOR.Victory.Conditions;
+using VentLib.Options.Game;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Opportunist : CustomRole
 {
@@ -25,6 +25,6 @@ public class Opportunist : CustomRole
         .SpecialType(SpecialType.Neutral);
     }
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
          base.RegisterOptions(optionStream).Tab(DefaultTabs.NeutralTab);
 }

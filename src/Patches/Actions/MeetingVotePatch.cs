@@ -1,22 +1,46 @@
-using System;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Extensions;
+using Hazel;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
 using VentLib.Logging;
-using VentLib.RPC;
 using VentLib.Utilities;
+using VentLib.Utilities.Optionals;
 
-namespace TownOfHost.Patches.Actions;
+namespace TOHTOR.Patches.Actions;
 
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CastVote))]
 public class MeetingVotePatch
 {
-    public static void Postfix(MeetingHud __instance)
+
+    public static void Postfix(MeetingHud __instance, byte srcPlayerId, byte suspectPlayerId)
     {
-        PlayerControl player = Game.GetAllPlayers().Random(p => !p.IsHost());
-        VentLogger.Fatal($"Calling meeting for: {player.GetRawName()}");
-        PlayerControl.LocalPlayer.RpcSetName("DUMB PERSON!!");
-        Async.Schedule(() => RpcV2.Immediate(player.PlayerId, RpcCalls.StartMeeting).Write(Byte.MaxValue).Send(), 1f);
+        PlayerControl voter = Utils.GetPlayerById(srcPlayerId)!;
+        Optional<PlayerControl> voted = Optional<PlayerControl>.Of(Utils.GetPlayerById(suspectPlayerId));
+
+        ActionHandle handle = ActionHandle.NoInit();
+        voter.Trigger(RoleActionType.MyVote, ref handle, voted);
+        Game.TriggerForAll(RoleActionType.AnyVote, ref handle, voter, voted);
+
+        if (!handle.IsCanceled) return;
+        Async.Schedule(() => ClearVote(__instance, voter), NetUtils.DeriveDelay(0.4f));
+        Async.Schedule(() => ClearVote(__instance, voter), NetUtils.DeriveDelay(0.6f));
     }
 
+    private static void ClearVote(MeetingHud hud, PlayerControl target)
+    {
+        VentLogger.Trace($"Clearing vote for: {target.GetNameWithRole()}");
+        MessageWriter writer = MessageWriter.Get(SendOption.Reliable);
+        writer.StartMessage(6);
+        writer.Write(AmongUsClient.Instance.GameId);
+        writer.WritePacked(target.GetClientId());
+        {
+            writer.StartMessage(2);
+            writer.WritePacked(hud.NetId);
+            writer.WritePacked((uint)RpcCalls.ClearVote);
+        }
+
+        AmongUsClient.Instance.FinishRpcImmediately(writer);
+    }
 }

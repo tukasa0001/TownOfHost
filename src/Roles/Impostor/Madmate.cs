@@ -1,7 +1,7 @@
 
 using VentLib.Logging;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Madmate: Impostor
 {

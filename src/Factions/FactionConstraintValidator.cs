@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using HarmonyLib;
 
-namespace TownOfHost.Factions;
+namespace TOHTOR.Factions;
 
 // Used to validate that all factions have unique long IDs
 public class FactionConstraintValidator

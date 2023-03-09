@@ -1,9 +1,9 @@
-using TownOfHost.Extensions;
-using TownOfHost.Options;
-using TownOfHost.Roles;
+using TOHTOR.Extensions;
+using TOHTOR.Options;
+using TOHTOR.Roles;
 using VentLib.Localization.Attributes;
 
-namespace TownOfHost.Managers.History;
+namespace TOHTOR.Managers.History;
 
 [Localized(Group = "HistoryEvent")]
 public class RoleChangeEvent: HistoryEvent

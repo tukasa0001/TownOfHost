@@ -1,6 +1,6 @@
 using HarmonyLib;
 
-namespace TownOfHost;
+namespace TOHTOR;
 
 [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.IsGameOverDueToDeath))]
 class DontBlackoutPatch

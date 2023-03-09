@@ -2,15 +2,16 @@ using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Roles;
-using TownOfHost.Victory.Conditions;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Options;
+using TOHTOR.Roles;
+using TOHTOR.Victory.Conditions;
 using UnityEngine;
 using VentLib.Localization;
 using VentLib.Logging;
 
-namespace TownOfHost.Patches.Client;
+namespace TOHTOR.Patches.Client;
 
 [HarmonyPatch(typeof(ControllerManager), nameof(ControllerManager.Update))]
 class ControllerManagerUpdatePatch
@@ -23,10 +24,18 @@ class ControllerManagerUpdatePatch
         //カスタム設定切り替え
         if (GameStates.IsLobby)
         {
-            if (Input.GetKeyDown(KeyCode.Tab))
+            if (GetKeysDown(KeyCode.RightControl, KeyCode.Tab))
             {
+                OptionShower.GetOptionShower().Previous();
+            }
+
+            else if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                OptionShower.GetOptionShower().Next();
                 //OptionShower.Next();
             }
+
+
             for (var i = 0; i < 9; i++)
             {
                 /*if (ORGetKeysDown(KeyCode.Alpha1 + i, KeyCode.Keypad1 + i) && OptionShower.pages.Count >= i + 1)
@@ -137,13 +146,11 @@ class ControllerManagerUpdatePatch
         //現在の有効な設定の説明を表示
         if (GetKeysDown(KeyCode.N, KeyCode.LeftShift, KeyCode.LeftControl))
         {
-            TOHPlugin.isChatCommand = true;
             Utils.ShowActiveSettingsHelp();
         }
         //現在の有効な設定を表示
         if (GetKeysDown(KeyCode.N, KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift))
         {
-            TOHPlugin.isChatCommand = true;
             /*Utils.ShowActiveSettings();*/
         }
         //TOHオプションをデフォルトに設定

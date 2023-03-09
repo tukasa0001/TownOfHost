@@ -1,10 +1,10 @@
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.Managers;
+using TOHTOR.Managers;
 using VentLib.Commands;
 using VentLib.Commands.Attributes;
 
-namespace TownOfHost.Chat.Commands;
+namespace TOHTOR.Chat.Commands;
 
 [Command(new[] { "wordlist", "wl" }, user: CommandUser.Host)]
 public class WordListCommands

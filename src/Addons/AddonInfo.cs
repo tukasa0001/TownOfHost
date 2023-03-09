@@ -1,8 +1,8 @@
 using System;
 using Hazel;
-using VentLib.RPC.Interfaces;
+using VentLib.Networking.Interfaces;
 
-namespace TownOfHost.Addons;
+namespace TOHTOR.Addons;
 
 public class AddonInfo: IRpcSendable<AddonInfo>
 {
@@ -40,9 +40,9 @@ public class AddonInfo: IRpcSendable<AddonInfo>
     {
         return new AddonInfo
         {
-            UUID = addon.UUID,
-            AssemblyShortName = addon.bundledAssembly.GetName().Name,
-            AssemblyFullName = addon.bundledAssembly.GetName().FullName,
+            UUID = addon.Uuid,
+            AssemblyShortName = addon.BundledAssembly.GetName().Name,
+            AssemblyFullName = addon.BundledAssembly.GetName().FullName,
             Name = addon.AddonName(),
             Version = addon.AddonVersion()
         };

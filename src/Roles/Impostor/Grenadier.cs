@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.Extensions;
-using TownOfHost.GUI;
-using VentLib.Options;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.Extensions;
+using TOHTOR.GUI;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
+using VentLib.Options.Game;
 using VentLib.Utilities;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Grenadier : Impostor
 {
@@ -48,7 +48,7 @@ public class Grenadier : Impostor
     [RoleAction(RoleActionType.RoundStart)]
     private void SetGrenadeAmount() => grenadesLeft = grenadeAmount;
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .SubOption(sub => sub
                 .Name("Amount of Grenades")

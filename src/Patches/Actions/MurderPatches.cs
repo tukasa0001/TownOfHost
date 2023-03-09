@@ -1,13 +1,13 @@
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Gamemodes;
-using TownOfHost.Managers.History;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Gamemodes;
+using TOHTOR.Managers.History;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
 using VentLib.Logging;
 
-namespace TownOfHost.Patches.Actions;
+namespace TOHTOR.Patches.Actions;
 
 public static class MurderPatches
 {

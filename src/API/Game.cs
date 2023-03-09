@@ -2,24 +2,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.Extensions;
-using TownOfHost.Factions;
-using TownOfHost.Gamemodes;
-using TownOfHost.GUI;
-using TownOfHost.Managers.History;
-using TownOfHost.Options;
-using TownOfHost.Player;
-using TownOfHost.Roles;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
-using TownOfHost.RPC;
-using TownOfHost.Victory;
+using TOHTOR.Extensions;
+using TOHTOR.Factions;
+using TOHTOR.Gamemodes;
+using TOHTOR.GUI;
+using TOHTOR.Managers.History;
+using TOHTOR.Options;
+using TOHTOR.Player;
+using TOHTOR.Roles;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
+using TOHTOR.RPC;
+using TOHTOR.Victory;
 using VentLib.Logging;
-using VentLib.RPC;
-using VentLib.RPC.Attributes;
+using VentLib.Networking.RPC;
+using VentLib.Networking.RPC.Attributes;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.API;
+namespace TOHTOR.API;
 
 public static class Game
 {

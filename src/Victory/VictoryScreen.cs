@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.RPC;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.RPC;
 using VentLib.Logging;
 using VentLib.Utilities.Extensions;
 
 // ReSharper disable ConvertIfStatementToSwitchStatement
 
-namespace TownOfHost.Victory;
+namespace TOHTOR.Victory;
 
 public static class VictoryScreen
 {

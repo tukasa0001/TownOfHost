@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Gamemodes;
-using TownOfHost.Roles;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Gamemodes;
+using TOHTOR.Roles;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.Logging;
 
-namespace TownOfHost.Patches.Actions;
+namespace TOHTOR.Patches.Actions;
 
 [HarmonyPatch(typeof(Vent), nameof(Vent.EnterVent))]
 class EnterVentPatch

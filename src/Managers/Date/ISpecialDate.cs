@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 
-namespace TownOfHost.Managers.Date;
+namespace TOHTOR.Managers.Date;
 
 public interface ISpecialDate
 {

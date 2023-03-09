@@ -1,6 +1,7 @@
 using System;
+// ReSharper disable InvalidXmlDocComment
 
-namespace TownOfHost.Roles.Internals.Attributes;
+namespace TOHTOR.Roles.Internals.Attributes;
 
 [AttributeUsage(AttributeTargets.Method)]
 public class RoleActionAttribute: Attribute
@@ -62,6 +63,10 @@ public enum RoleActionType
     MyDeath,
     SelfExiled,
     OtherExiled,
+    /// <summary>
+    /// Triggers on Round Start (end of meetings, and start of game)
+    /// Parameters: (bool isRoundOne)
+    /// </summary>
     RoundStart,
     RoundEnd,
     SelfReportBody,
@@ -72,5 +77,15 @@ public enum RoleActionType
     TaskComplete,
     FixedUpdate,
     AnyDeath,
-
+    /// <summary>
+    /// Triggers when my player votes for someone (or skips)
+    /// </summary>
+    /// <param name="voted"><see cref="PlayerControl"/> the player voted for, or null if skipped</param>
+    MyVote,
+    /// <summary>
+    /// Triggers when any player votes for someone (or skips)
+    /// </summary>
+    /// <param name="voter"><see cref="PlayerControl"/> the player voting</param>
+    /// <param name="voted"><see cref="PlayerControl"/> the player voted for, or null if skipped</param>
+    AnyVote
 }

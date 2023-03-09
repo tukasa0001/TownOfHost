@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Extensions;
+namespace TOHTOR.Extensions;
 
 public static class EnumerableExtensions
 {

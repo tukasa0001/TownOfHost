@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace TownOfHost.GUI;
+namespace TOHTOR.GUI;
 
 public class Cooldown
 {

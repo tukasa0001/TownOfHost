@@ -1,15 +1,13 @@
-using HarmonyLib;
-
-namespace TownOfHost.Chat.Patches
+namespace TOHTOR.Chat.Patches
 {
-    [HarmonyPatch(typeof(ChatBubble), nameof(ChatBubble.SetRight))]
+    /*[HarmonyPatch(typeof(ChatBubble), nameof(ChatBubble.SetRight))]
     class ChatBubbleSetRightPatch
     {
         public static void Postfix(ChatBubble __instance)
         {
-            if (TOHPlugin.isChatCommand) __instance.SetLeft();
+            if (TOHPlugin.IsChatCommand) __instance.SetLeft();
         }
-    }
+    }*/
     /*[HarmonyPatch(typeof(ChatBubble), nameof(ChatBubble.SetName))]
     class ChatBubbleSetNamePatch
     {

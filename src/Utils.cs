@@ -5,18 +5,18 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using TownOfHost.Extensions;
-using TownOfHost.Roles;
+using TOHTOR.Extensions;
+using TOHTOR.Roles;
 using Hazel;
-using TownOfHost.API;
-using TownOfHost.Chat.Patches;
-using TownOfHost.GUI;
-using TownOfHost.Options;
+using TOHTOR.API;
+using TOHTOR.Chat.Patches;
+using TOHTOR.GUI;
+using TOHTOR.Options;
 using VentLib.Localization;
 using VentLib.Logging;
 using VentLib.Utilities;
 
-namespace TownOfHost;
+namespace TOHTOR;
 
 public static class Utils
 {
@@ -229,7 +229,7 @@ public static class Utils
     {
         string t = DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss");
         string filename =
-            $"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/TownOfHost-v{TOHPlugin.PluginVersion}{(TOHPlugin.DevVersion ? TOHPlugin.DevVersionStr : "")}-{t}.log";
+            $"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/TOHTOR-v{TOHPlugin.PluginVersion}{(TOHPlugin.DevVersion ? TOHPlugin.DevVersionStr : "")}-{t}.log";
         FileInfo file = new(@$"{System.Environment.CurrentDirectory}/BepInEx/LogOutput.log");
         file.CopyTo(@filename);
         System.Diagnostics.Process.Start(
@@ -321,7 +321,7 @@ public static class Utils
         return null;
 
         /* Usage example:
-        AudioClip exampleClip = Helpers.loadAudioClipFromResources("TownOfHost.assets.exampleClip.raw");
+        AudioClip exampleClip = Helpers.loadAudioClipFromResources("TOHTOR.assets.exampleClip.raw");
         if (Constants.ShouldPlaySfx()) SoundManager.Instance.PlaySound(exampleClip, false, 0.8f);
         */
     }

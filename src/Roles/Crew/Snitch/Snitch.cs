@@ -1,9 +1,10 @@
-using TownOfHost.API;
-using TownOfHost.GUI;
-using VentLib.Options;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.GUI;
+using TOHTOR.Roles.Internals.Attributes;
+using VentLib.Options.Game;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Snitch: CustomRole
 {
@@ -98,7 +99,7 @@ public class Snitch: CustomRole
     protected override RoleModifier Modify(RoleModifier roleModifier) =>
         roleModifier.RoleColor("#b8fb4f");
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .SubOption(s => s.Name("Enable Arrow")
                 .Bind(v => enableTargetArrow = (bool)v)

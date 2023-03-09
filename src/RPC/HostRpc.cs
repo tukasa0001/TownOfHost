@@ -1,23 +1,20 @@
-using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.Extensions;
+using TOHTOR.Extensions;
 using VentLib;
 using VentLib.Utilities.Extensions;
 using VentLib.Logging;
-using VentLib.Options.OptionElement;
-using VentLib.RPC.Attributes;
+using VentLib.Networking.RPC.Attributes;
+using VentLib.Options;
+using VentLib.Utilities.Collections;
 
-namespace TownOfHost.RPC;
+namespace TOHTOR.RPC;
 
 public static class HostRpc
 {
     [ModRPC((uint) ModCalls.SendOptionPreview, RpcActors.Host, RpcActors.NonHosts)]
-    public static void RpcSendOptions(List<Option> options)
+    public static void RpcSendOptions(BatchList<Option> options)
     {
-        if (TOHPlugin.OptionManager.ReceivedOptions == null)
-            VentLogger.Old($"Received {options.Count} Options From Host", "HostOptions");
-
-        TOHPlugin.OptionManager.ReceivedOptions = options;
+        VentLogger.Debug($"Received {options.Count} Options from Host");
     }
 
     [ModRPC((uint) ModCalls.Debug, RpcActors.Host, RpcActors.NonHosts)]

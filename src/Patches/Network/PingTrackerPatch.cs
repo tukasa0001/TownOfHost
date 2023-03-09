@@ -1,12 +1,12 @@
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Options;
-using TownOfHost.Patches.Client;
+using TOHTOR.API;
+using TOHTOR.Options;
+using TOHTOR.Patches.Client;
 using UnityEngine;
 using VentLib.Localization;
 
 
-namespace TownOfHost.Patches.Network;
+namespace TOHTOR.Patches.Network;
 
 [HarmonyPatch(typeof(PingTracker), nameof(PingTracker.Update))]
 class PingTrackerPatch

@@ -1,9 +1,10 @@
 using System.Collections.Generic;
-using TownOfHost.Options;
-using TownOfHost.Victory;
-using TownOfHost.Victory.Conditions;
+using TOHTOR.Options;
+using TOHTOR.Victory;
+using TOHTOR.Victory.Conditions;
+using VentLib.Options.Game.Tabs;
 
-namespace TownOfHost.Gamemodes.Standard;
+namespace TOHTOR.Gamemodes.Standard;
 
 public class StandardGamemode: Gamemode
 {

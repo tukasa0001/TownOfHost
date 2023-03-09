@@ -5,7 +5,7 @@ using VentLib.Commands;
 using VentLib.Commands.Attributes;
 using VentLib.Commands.Interfaces;
 
-namespace TownOfHost.Chat.Commands;
+namespace TOHTOR.Chat.Commands;
 
 [Command(new[] { "template", "t" }, user: CommandUser.Host)]
 public class TemplateCommands: ICommandReceiver
@@ -64,5 +64,5 @@ public class TemplateCommands: ICommandReceiver
         if (context.Args.Length == 0) Utils.SendMessage("Incorrect usage", source.PlayerId);
     }
 
-    private TemplateManager2 templateManager => TOHPlugin.PluginDataManager.TemplateManager;
+    private TemplateManager templateManager => TOHPlugin.PluginDataManager.TemplateManager;
 }

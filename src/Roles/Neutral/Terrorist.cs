@@ -1,10 +1,11 @@
-using TownOfHost.Factions;
-using TownOfHost.Options;
+using TOHTOR.Extensions;
+using TOHTOR.Factions;
+using TOHTOR.Options;
 using UnityEngine;
-using VentLib.Options;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.Roles.Internals.Attributes;
+using VentLib.Options.Game;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 // Inherits from crewmate because crewmate has task setup
 public class Terrorist : Crewmate
@@ -31,7 +32,7 @@ public class Terrorist : Crewmate
         //OldRPC.TerroristWin(MyPlayer.PlayerId);
     }
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
         .Tab(DefaultTabs.NeutralTab)
             .SubOption(sub => sub

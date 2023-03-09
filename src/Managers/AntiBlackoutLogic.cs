@@ -1,11 +1,11 @@
 using System.Linq;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Roles;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Roles;
 using VentLib.Logging;
 using VentLib.Utilities;
 
-namespace TownOfHost.Managers;
+namespace TOHTOR.Managers;
 
 public static class AntiBlackoutLogic
 {

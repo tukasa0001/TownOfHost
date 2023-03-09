@@ -1,6 +1,6 @@
-namespace TownOfHost.Managers;
+namespace TOHTOR.Managers;
 
 public class TimeoutManager
 {
-    
+
 }

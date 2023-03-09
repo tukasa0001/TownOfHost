@@ -1,9 +1,9 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
-using TownOfHost.Extensions;
+using TOHTOR.Extensions;
 using VentLib.Logging;
 
-namespace TownOfHost.Patches;
+namespace TOHTOR.Patches;
 
 [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.AssignRoleOnDeath))]
 public class AssignRoleOnDeathPatch

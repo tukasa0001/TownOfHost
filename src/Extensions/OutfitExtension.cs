@@ -1,4 +1,4 @@
-namespace TownOfHost.Extensions;
+namespace TOHTOR.Extensions;
 
 public static class OutfitExtension
 {

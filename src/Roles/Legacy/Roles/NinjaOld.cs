@@ -1,8 +1,8 @@
 /*using System.Collections.Generic;
-using TownOfHost.Extensions;
-using TownOfHost.Roles;
+using TOHTOR.Extensions;
+using TOHTOR.Roles;
 
-namespace TownOfHost
+namespace TOHTOR
 {
     public static class NinjaOld
     {

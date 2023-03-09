@@ -1,6 +1,6 @@
 using AmongUs.GameOptions;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class GuardianAngel: CustomRole
 {

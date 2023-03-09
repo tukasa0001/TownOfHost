@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Gamemodes.FFA;
-using TownOfHost.Roles;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Gamemodes.FFA;
+using TOHTOR.Roles;
+using VentLib.Networking.RPC;
 using VentLib.Utilities.Extensions;
-using VentLib.RPC;
 using VentLib.Utilities;
 
-namespace TownOfHost.Gamemodes.Colorwars;
+namespace TOHTOR.Gamemodes.Colorwars;
 
 public static class ColorwarsAssignRoles
 {

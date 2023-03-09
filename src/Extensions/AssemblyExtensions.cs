@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace TownOfHost.Extensions;
+namespace TOHTOR.Extensions;
 
 public static class AssemblyExtensions
 {

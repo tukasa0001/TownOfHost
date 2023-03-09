@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TownOfHost.Managers.History;
+namespace TOHTOR.Managers.History;
 
 public class GameHistory
 {

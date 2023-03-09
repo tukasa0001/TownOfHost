@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using TownOfHost.Extensions;
-using TownOfHost.Options;
-using TownOfHost.Roles;
+using TOHTOR.Extensions;
+using TOHTOR.Options;
+using TOHTOR.Roles;
 using VentLib.Logging;
 
-namespace TownOfHost.Patches.Systems;
+namespace TOHTOR.Patches.Systems;
 
 [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.AddTasksFromList))]
 class AddTasksFromListPatch

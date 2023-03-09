@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.GUI.Patches;
-using TownOfHost.Options;
-using TownOfHost.Roles;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.GUI.Patches;
+using TOHTOR.Options;
+using TOHTOR.Roles;
 using UnityEngine;
 using VentLib.Logging;
 
-namespace TownOfHost.Patches.Network;
+namespace TOHTOR.Patches.Network;
 
 [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.FixedUpdate))]
 class ShipFixedUpdatePatch

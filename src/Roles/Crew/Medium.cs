@@ -1,13 +1,13 @@
 using System.Linq;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Managers.History;
-using TownOfHost.Roles.Internals.Attributes;
-using TownOfHost.Roles.Internals.Interfaces;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Managers.History;
+using TOHTOR.Roles.Internals.Attributes;
+using TOHTOR.Roles.Internals.Interfaces;
 using VentLib.Localization.Attributes;
 using VentLib.Utilities;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 [Localized(Group = "Roles", Subgroup = "Medium")]
 public partial class Medium: Crewmate, IModdable

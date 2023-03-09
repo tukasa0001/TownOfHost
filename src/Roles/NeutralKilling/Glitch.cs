@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Factions;
-using VentLib.Options;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
-using TownOfHost.Victory;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Factions;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
+using TOHTOR.Victory;
 using UnityEngine;
+using VentLib.Options.Game;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Glitch: Morphling
 {
@@ -141,7 +141,7 @@ public class Glitch: Morphling
         throw new NotImplementedException("Implement hack");
     }
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream).Color(Color.green);
 
     protected override RoleModifier Modify(RoleModifier roleModifier) =>

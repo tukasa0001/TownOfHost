@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using HarmonyLib;
 using Hazel;
 using InnerNet;
-using TownOfHost.Extensions;
+using TOHTOR.Extensions;
 using VentLib.Options;
-using TownOfHost.Roles;
+using TOHTOR.Roles;
 using UnityEngine;
 using VentLib.Logging;
 
-namespace TownOfHost;
+namespace TOHTOR;
 
 //参考元 : https://github.com/ykundesu/SuperNewRoles/blob/master/SuperNewRoles/Mode/SuperHostRoles/BlockTool.cs
 class DisableDevice

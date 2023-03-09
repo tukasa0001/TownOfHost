@@ -1,4 +1,4 @@
-namespace TownOfHost.Player;
+namespace TOHTOR.Player;
 
 public struct PlayerState
 {

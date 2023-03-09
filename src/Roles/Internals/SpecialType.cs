@@ -1,4 +1,4 @@
-namespace TownOfHost.Roles.Internals;
+namespace TOHTOR.Roles.Internals;
 
 public enum SpecialType
 {

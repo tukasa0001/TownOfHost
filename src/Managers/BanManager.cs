@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using VentLib.Localization;
 using VentLib.Logging;
 
-namespace TownOfHost.Managers;
+namespace TOHTOR.Managers;
 
 public static class BanManager
 {

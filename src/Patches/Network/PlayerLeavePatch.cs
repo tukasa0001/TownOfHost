@@ -1,11 +1,11 @@
 using HarmonyLib;
 using InnerNet;
-using TownOfHost.API;
-using TownOfHost.Gamemodes;
-using TownOfHost.Managers;
+using TOHTOR.API;
+using TOHTOR.Gamemodes;
+using TOHTOR.Managers;
 using VentLib.Logging;
 
-namespace TownOfHost.Patches.Network;
+namespace TOHTOR.Patches.Network;
 
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnDisconnected))]
 class OnDisconnectedPatch

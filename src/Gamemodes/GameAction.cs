@@ -1,6 +1,6 @@
 using System;
 
-namespace TownOfHost.Gamemodes;
+namespace TOHTOR.Gamemodes;
 
 [Flags]
 public enum GameAction

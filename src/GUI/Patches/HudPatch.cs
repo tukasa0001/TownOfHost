@@ -1,15 +1,16 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Roles;
-using TownOfHost.Roles.Neutral;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Options;
+using TOHTOR.Roles;
+using TOHTOR.Roles.Neutral;
 using UnityEngine;
 using VentLib.Localization;
 using VentLib.Utilities;
 
-namespace TownOfHost.GUI.Patches;
+namespace TOHTOR.GUI.Patches;
 
 [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
 class HudManagerPatch
@@ -45,7 +46,8 @@ class HudManagerPatch
                 player.Collider.offset = new Vector2(0f, -0.3636f);
             }
         }
-        //__instance.GameSettings.text = OptionShower.GetText();
+
+        __instance.GameSettings.text = OptionShower.GetOptionShower().GetPage();
         //ゲーム中でなければ以下は実行されない
         if (!AmongUsClient.Instance.IsGameStarted) return;
 
@@ -197,7 +199,7 @@ class SetVentOutlinePatch
         __instance.myRend.material.SetColor(AddColor, mainTarget ? color : Color.clear);
     }
 }
-[HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]
+[HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive), typeof(bool))]
 class SetHudActivePatch
 {
     public static bool IsActive;

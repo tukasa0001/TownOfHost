@@ -1,8 +1,8 @@
 using AmongUs.GameOptions;
-using TownOfHost.Extensions;
+using TOHTOR.Extensions;
 using VentLib.Logging;
 
-namespace TownOfHost.RPC;
+namespace TOHTOR.RPC;
 
 public static class CheckedRpc
 {

@@ -1,15 +1,16 @@
 using System.Linq;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Roles;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Roles;
 using VentLib.Commands;
 using VentLib.Commands.Attributes;
 using VentLib.Commands.Interfaces;
-using VentLib.Options.OptionElement;
+using VentLib.Options;
+using VentLib.Options.Game;
 using VentLib.Utilities;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Chat.Commands;
+namespace TOHTOR.Chat.Commands;
 
 [Command("m", "myrole")]
 public class RoleInfoCommand: ICommandReceiver
@@ -41,23 +42,21 @@ public class RoleInfoCommand: ICommandReceiver
         CustomRole role = source.GetCustomRole();
         string output = $"{role} {role.Factions.StrJoin()}:";
 
-        Option? optionMatch = TOHPlugin.OptionManager.Options().FirstOrDefault(h => h.Name == role.RoleName);
+        Option? optionMatch = OptionManager.GetManager(file: "role_options.txt").GetOptions().FirstOrDefault(h => h.Name().RemoveHtmlTags() == role.RoleName);
         if (optionMatch == null) { ShowRoleDescription(source); return; }
 
-        /*foreach (var child in optionMatch.GetHoldersRecursive().Where(child => child != optionMatch))
-            UpdateOutput(ref output, child);*/
+        foreach (var child in optionMatch.Children) UpdateOutput(ref output, child);
 
         Utils.SendMessage(output, source.PlayerId);
     }
 
     private void UpdateOutput(ref string output, Option options)
     {
-        if (options.Level < previousLevel)
+        if (options is not GameOption gameOption) return;
+        if (gameOption.Level < previousLevel)
             output += "\n";
-        previousLevel = options.Level;
-        if (options.Color != null)
-            output += $"\n{options.Name} => {options.Color.Colorize(options.GetValueAsString())}";
-        else
-            output += $"\n{options.Name} => {options.GetValueAsString()}";
+        previousLevel = gameOption.Level;
+        output += $"\n{gameOption.Name()} => {gameOption.Color.Colorize(options.GetValueText())}";
+
     }
 }

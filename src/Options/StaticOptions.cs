@@ -1,12 +1,14 @@
-using TownOfHost.Extensions;
-using TownOfHost.Roles;
+using TOHTOR.Extensions;
+using TOHTOR.Roles;
 using UnityEngine;
 using VentLib.Localization;
 using VentLib.Localization.Attributes;
 using VentLib.Logging;
 using VentLib.Options;
+using VentLib.Options.Game;
+using VentLib.Utilities.Collections;
 
-namespace TownOfHost.Options;
+namespace TOHTOR.Options;
 
 // TODO: This whole class needs to be looked over and refactored, a lot of this is old TOH-TOR code and a lot of it is new TOH code
 // TODO: Ideally all of TOH "static" options should end up in here with the use of the new options system
@@ -76,7 +78,7 @@ public static class StaticOptions
 
     //////////////////////////////////////
 
-    public static bool AllowCustomizeCommands = false;
+    public static bool AllowCustomizeCommands = true;
     public static object WhichDisableAdmin { get; set; }
     public static int SyncedButtonCount = 1;
     public static int UsedButtonCount = 0;
@@ -180,7 +182,7 @@ public static class StaticOptions
     public static bool AllowMultipleSubroles;
 
     public static bool ShowHistoryTimestamp;
-    public static bool NoGameEnd;
+    public static bool NoGameEnd = true;
     public static bool MayhemOptions;
     public static bool DebugOptions;
     public static bool AllRolesCanVent;
@@ -189,8 +191,9 @@ public static class StaticOptions
 
     public static void AddStaticOptions()
     {
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.EnableGM"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.EnableGM")
+			.Key("EnableGM")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v => EnableGM = v)
@@ -198,8 +201,10 @@ public static class StaticOptions
             .Color(CustomRoleManager.Special.GM.RoleColor)
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.AutoKick"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.AutoKick")
+			.Key("AutoKick")
+			.Key("AutoKick")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v => AutoKick = v)
@@ -212,35 +217,40 @@ public static class StaticOptions
                 .Build())
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.KillFlashDuration"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.KillFlashDuration")
+			.Key("KillFlashDuration")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindFloat(v => KillFlashDuration = v)
             .AddFloatRange(0.1f, 0.45f, 0.05f)
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.SabotageTimeControl.Enable"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.SabotageTimeControl.Enable")
+			.Key("Enable Sabotage Time Control")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .ShowSubOptionPredicate(v => (bool)v)
             .BindBool(v => SabotageTimeControl = v)
             .AddOnOffValues(false)
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.SabotageTimeControl.PolusReactorTime"))
+                .LocaleName("StaticOptions.SabotageTimeControl.PolusReactorTime")
+			    .Key("PolusReactorTime")
                 .AddFloatRange(1f, 60f, 1f)
                 .BindFloat(v => PolusReactorTimeLimit = v)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.SabotageTimeControl.AirshipReactorTime"))
+                .LocaleName("StaticOptions.SabotageTimeControl.AirshipReactorTime")
+			    .Key("AirshipReactorTime")
                 .AddFloatRange(1f, 90f, 1f)
                 .BindFloat(v => AirshipReactorTimeLimit = v)
                 .Build())
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.TOSOptions.Enable"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.TOSOptions.Enable")
+			.Key("Enable TOS Options")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .Color(Color.yellow)
@@ -248,109 +258,128 @@ public static class StaticOptions
             .ShowSubOptionPredicate(v => (bool)v)
             .AddOnOffValues(false)
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.TOSOptions.AttackDefense"))
+                .LocaleName("StaticOptions.TOSOptions.AttackDefense")
+			    .Key("AttackDefense")
                 .BindBool(v => AttackDefenseValues = v)
                 .AddOnOffValues(false)
                 .ShowSubOptionPredicate(v => (bool)v)
                 .SubOption(sub2 => sub2
-                .Name(Localizer.Get("StaticOptions.TOSOptions.ResetKillcooldown"))
+                .LocaleName("StaticOptions.TOSOptions.ResetKillcooldown")
+			    .Key("ResetKillcooldown")
                 .BindBool(v => ResetKillCooldown = v)
                 .AddOnOffValues(false)
                 .Build())
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.TOSOptions.SkKillsRB"))
+                .LocaleName("StaticOptions.TOSOptions.SkKillsRB")
+			    .Key("SkKillsRB")
                 .BindBool(v => SKkillsRoleblockers = v)
                 .AddOnOffValues(false)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.TOSOptions.AutoGameProgress"))
+                .LocaleName("StaticOptions.TOSOptions.AutoGameProgress")
+			    .Key("AutoGameProgress")
                 .BindBool(v => GameProgression = v)
                 .AddOnOffValues(false)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.TOSOptions.RoundReview"))
+                .LocaleName("StaticOptions.TOSOptions.RoundReview")
+			    .Key("RoundReview")
                 .BindBool(v => RoundReview = v)
                 .AddOnOffValues(false)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.TOSOptions.AmnesiacRememberAnnouncement"))
+                .LocaleName("StaticOptions.TOSOptions.AmnesiacRememberAnnouncement")
+			    .Key("AmnesiacRememberAnnouncement")
                 .BindBool(v => AmneRemember = v)
                 .AddOnOffValues(false)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.TOSOptions.GAVoteImmunity"))
+                .LocaleName("StaticOptions.TOSOptions.GAVoteImmunity")
+			    .Key("GAVoteImmunity")
                 .BindBool(v => GuardianAngelVoteImmunity = v)
                 .AddOnOffValues(false)
                 .Build())
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.LightsPanelSettings.Enable"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.LightsPanelSettings.Enable")
+			.Key("Enable Lights Panel Settings")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .ShowSubOptionPredicate(v => (bool)v)
             .BindBool(v => LightsOutSpecialSettings = v)
             .AddOnOffValues(false)
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.LightsPanelSettings.AirshipViewingDeck"))
+                .LocaleName("StaticOptions.LightsPanelSettings.AirshipViewingDeck")
+			    .Key("AirshipViewingDeck")
                 .BindBool(v => DisableAirshipViewingDeckLightsPanel = v)
                 .AddOnOffValues(false)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.LightsPanelSettings.AirshipGapRoom"))
+                .LocaleName("StaticOptions.LightsPanelSettings.AirshipGapRoom")
+			    .Key("AirshipGapRoom")
                 .BindBool(v => DisableAirshipGapRoomLightsPanel = v)
                 .AddOnOffValues(false)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.LightsPanelSettings.AirshipCargoRoom"))
+                .LocaleName("StaticOptions.LightsPanelSettings.AirshipCargoRoom")
+			    .Key("AirshipCargoRoom")
                 .BindBool(v => DisableAirshipCargoLightsPanel = v)
                 .AddOnOffValues(false)
                 .Build())
             .BuildAndRegister();
 
-        new OptionBuilder()
-           .Name(Localizer.Get("StaticOptions.PlayerAppearanceCommands"))
+        new GameOptionBuilder()
+           .LocaleName("StaticOptions.PlayerAppearanceCommands")
+           .Key("PlayerAppearanceCommands")
            .Tab(DefaultTabs.GeneralTab)
            .IsHeader(true)
            .BindBool(v => AllowCustomizeCommands = v)
            .AddOnOffValues(false)
            .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.DisableTasks.Enable"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.DisableTasks.Enable")
+			.Key("Disable Tasks")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v => DisableTasks = v)
             .ShowSubOptionPredicate(v => (bool)v)
             .AddOnOffValues(false)
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.DisableTasks.CardSwipe"))
+                .LocaleName("StaticOptions.DisableTasks.CardSwipe")
+			    .Key("CardSwipe")
                 .BindBool(v => DisableSwipeCard = v)
                 .AddOnOffValues(false)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.DisableTasks.CardScan"))
+                .LocaleName("StaticOptions.DisableTasks.CardScan")
+			    .Key("CardScan")
                 .BindBool(v => DisableSubmitScan = v)
                 .AddOnOffValues(false)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.DisableTasks.UnlockSafe"))
+                .LocaleName("StaticOptions.DisableTasks.UnlockSafe")
+			    .Key("UnlockSafe")
                 .BindBool(v => DisableUnlockSafe = v)
                 .AddOnOffValues(false)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.DisableTasks.UploadData"))
+                .LocaleName("StaticOptions.DisableTasks.UploadData")
+			    .Key("UploadData")
                 .BindBool(v => DisableUploadData = v)
                 .AddOnOffValues(false)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.DisableTasks.StartReactor"))
+                .LocaleName("StaticOptions.DisableTasks.StartReactor")
+			    .Key("StartReactor")
                 .BindBool(v => DisableStartReactor = v)
                 .AddOnOffValues(false)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.DisableTasks.ResetBreaker"))
+                .LocaleName("StaticOptions.DisableTasks.ResetBreaker")
+			    .Key("ResetBreaker")
                 .BindBool(v => DisableResetBreaker = v)
                 .AddOnOffValues(false)
                 .Build())
@@ -358,72 +387,83 @@ public static class StaticOptions
 
         // TODO: DISABLE DEVICES CODE
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.RandomMap.Enable"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.RandomMap.Enable")
+			.Key("Enable Random Maps")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v => DisableTasks = v)
             .ShowSubOptionPredicate(v => (bool)v)
             .AddOnOffValues(false)
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.RandomMap.Skeld"))
+                .LocaleName("StaticOptions.RandomMap.Skeld")
+			    .Key("Skeld")
                 .BindBool(v => AddedTheSkeld = v)
                 .AddOnOffValues(false)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.RandomMap.Mira"))
+                .LocaleName("StaticOptions.RandomMap.Mira")
+			    .Key("Mira")
                 .BindBool(v => AddedMiraHQ = v)
                 .AddOnOffValues(false)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.RandomMap.Polus"))
+                .LocaleName("StaticOptions.RandomMap.Polus")
+			    .Key("Polus")
                 .BindBool(v => AddedPolus = v)
                 .AddOnOffValues(false)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.RandomMap.Airship"))
+                .LocaleName("StaticOptions.RandomMap.Airship")
+			    .Key("Airship")
                 .BindBool(v => AddedTheAirShip = v)
                 .AddOnOffValues(false)
                 .Build())
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.RandomSpawn.Enable"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.RandomSpawn.Enable")
+			.Key("Enable Random Spawn")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v => RandomSpawn = v)
             .ShowSubOptionPredicate(v => (bool)v)
             .AddOnOffValues(false)
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.RandomSpawn.AirshipExtraSpawn"))
+                .LocaleName("StaticOptions.RandomSpawn.AirshipExtraSpawn")
+			    .Key("Airship Extra Spawn")
                 .BindBool(v => AirshipAdditionalSpawn = v)
                 .AddOnOffValues(false)
                 .Build())
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.SyncButton.Enable"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.SyncButton.Enable")
+			.Key("Enable Sync Button Mode")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v => SyncButtonMode = v)
             .ShowSubOptionPredicate(v => (bool)v)
             .AddOnOffValues(false)
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.SyncButton.Count"))
+                .LocaleName("StaticOptions.SyncButton.Count")
+			    .Key("Count")
                 .AddIntRange(0, 100, 1)
                 .BindInt(v => SyncedButtonCount = v)
                 .Build())
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.VoteMode.Enable"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.VoteMode.Enable")
+			.Key("Enable Custom Vote Mode")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v => VoteMode = v)
             .ShowSubOptionPredicate(v => (bool)v)
             .AddOnOffValues(false)
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.VoteMode.SkipMode"))
+                .LocaleName("StaticOptions.VoteMode.SkipMode")
+		    	.Key("SkipMode")
                 .Value(v => v.Text(Localizer.Get("StaticOptions.VoteMode.Mode.Default")).Value("Default").Build())
                 .Value(v => v.Text(Localizer.Get("StaticOptions.VoteMode.Mode.Suicide")).Value("Suicide").Build())
                 .Value(v => v.Text(Localizer.Get("StaticOptions.VoteMode.Mode.SelfVote")).Value("Self Vote").Build())
@@ -431,22 +471,26 @@ public static class StaticOptions
                 .Bind(v => VoteModeStr = (string)v)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.VoteMode.SkipFirstMeeting"))
+                .LocaleName("StaticOptions.VoteMode.SkipFirstMeeting")
+			    .Key("SkipFirstMeeting")
                 .BindBool(v => WhenSkipVoteIgnoreFirstMeeting = v)
                 .AddOnOffValues(false)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.VoteMode.IgnoreNoBody"))
+                .LocaleName("StaticOptions.VoteMode.IgnoreNoBody")
+			    .Key("IgnoreNoBody")
                 .BindBool(v => WhenSkipVoteIgnoreNoDeadBody = v)
                 .AddOnOffValues(false)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.VoteMode.IgnoreEmergencyMeeting"))
+                .LocaleName("StaticOptions.VoteMode.IgnoreEmergencyMeeting")
+		    	.Key("IgnoreEmergencyMeeting")
                 .BindBool(v => WhenSkipVoteIgnoreFirstMeeting = v)
                 .AddOnOffValues(false)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.VoteMode.NonVote"))
+                .LocaleName("StaticOptions.VoteMode.NonVote")
+		    	.Key("NonVote")
                 .Value(v => v.Text(Localizer.Get("StaticOptions.VoteMode.Mode.Default")).Value("Default").Build())
                 .Value(v => v.Text(Localizer.Get("StaticOptions.VoteMode.Mode.Suicide")).Value("Suicide").Build())
                 .Value(v => v.Text(Localizer.Get("StaticOptions.VoteMode.Mode.SelfVote")).Value("Self Vote").Build())
@@ -454,7 +498,8 @@ public static class StaticOptions
                 .Bind(v => WhenNonVote = (string)v)
                 .Build())
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.VoteMode.Tie"))
+                .LocaleName("StaticOptions.VoteMode.Tie")
+		    	.Key("Tie")
                 .Value(v => v.Text(Localizer.Get("StaticOptions.VoteMode.TieMode.Default")).Value("Default").Build())
                 .Value(v => v.Text(Localizer.Get("StaticOptions.VoteMode.TieMode.All")).Value("All").Build())
                 .Value(v => v.Text(Localizer.Get("StaticOptions.VoteMode.TieMode.Random")).Value("Random").Build())
@@ -462,22 +507,25 @@ public static class StaticOptions
                 .Build())
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.AllAliveMeeting.Enable"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.AllAliveMeeting.Enable")
+			.Key("Enable All Alive Meeting")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .ShowSubOptionPredicate(v => (bool)v)
             .BindBool(v => AllAliveMeeting = v)
             .AddOnOffValues(false)
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.AllAliveMeeting.Time"))
+                .LocaleName("StaticOptions.AllAliveMeeting.Time")
+			    .Key("Time")
                 .AddFloatRange(1f, 300f, 1f)
                 .BindFloat(v => AllAliveMeetingTime = v)
                 .Build())
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.AdditionalEmergencyCooldown.Enable"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.AdditionalEmergencyCooldown.Enable")
+			.Key("Enable Additional Emergency Cooldown")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .ShowSubOptionPredicate(v => (bool)v)
@@ -495,15 +543,17 @@ public static class StaticOptions
                 .Build())
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.LadderDeath.Enable"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.LadderDeath.Enable")
+			.Key("Enable Ladder Death Customizations")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v => LadderDeath = v)
             .ShowSubOptionPredicate(v => (bool)v)
             .AddOnOffValues(false)
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.LadderDeath.Chance"))
+                .LocaleName("StaticOptions.LadderDeath.Chance")
+		    	.Key("Chance")
                 .AddIntRange(0, 100, 10)
                 .BindInt(v => LadderDeathChance = v)
                 .Build())
@@ -511,134 +561,151 @@ public static class StaticOptions
 
         // TODO: STANDARDHAS STUFF
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.FixFirstCooldown"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.FixFirstCooldown")
+			.Key("FixFirstCooldown")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v => FixFirstKillCooldown = v)
             .AddOnOffValues(false)
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.DisableTaskWin"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.DisableTaskWin")
+			.Key("DisableTaskWin")
             .Tab(DefaultTabs.GeneralTab)
             .BindBool(v => DisableTaskWin = v)
             .AddOnOffValues(false)
             .BuildAndRegister();
 
         // MIN / MAX STUFF //
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.MinMax.MinNeutralKiller"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.MinMax.MinNeutralKiller")
+			.Key("MinNeutralKiller")
             .Tab(DefaultTabs.GeneralTab)
             .AddIntRange(0, 11, 1)
             .BindInt(v => MinNK = v)
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.MinMax.MaxNeutralKiller"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.MinMax.MaxNeutralKiller")
+			.Key("MaxNeutralKiller")
             .Tab(DefaultTabs.GeneralTab)
             .AddIntRange(0, 11, 1)
             .BindInt(v => MaxNK = v)
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.MinMax.MinNeutralNonKiller"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.MinMax.MinNeutralNonKiller")
+			.Key("MinNeutralNonKiller")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .AddIntRange(0, 11, 1)
             .BindInt(v => MinNK = v)
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.MinMax.MaxNeutralNonKiller"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.MinMax.MaxNeutralNonKiller")
+			.Key("MaxNeutralNonKiller")
             .Tab(DefaultTabs.GeneralTab)
             .AddIntRange(0, 11, 1)
             .BindInt(v => MaxNonNK = v)
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.MadMates.MinMadmates"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.MadMates.MinMadmates")
+			.Key("MinMadmates")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .AddIntRange(0, 4, 1)
             .BindInt(v => MinMadmates = v)
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.MadMates.MaxMadmates"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.MadMates.MaxMadmates")
+			.Key("MaxMadmates")
             .Tab(DefaultTabs.GeneralTab)
             .AddIntRange(0, 4, 1)
             .BindInt(v => MaxMadmates = v)
             .BuildAndRegister();
         // DONE //
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.NoGameEnd"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.NoGameEnd")
+			.Key("NoGameEnd")
             .Tab(DefaultTabs.GeneralTab)
             .IsHeader(true)
             .BindBool(v =>
             {
-                NoGameEnd = v;
+                // TODO: fix
+                NoGameEnd = true;
             })
             .AddOnOffValues(false)
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.GhostsCanSeeRoles"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.GhostsCanSeeRoles")
+			.Key("GhostsCanSeeRoles")
             .Tab(DefaultTabs.GeneralTab)
         //    .IsHeader(true)
             .BindBool(v => GhostsCanSeeOtherRoles = v)
             .AddOnOffValues(true)
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.GhostsCanSeeVotes"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.GhostsCanSeeVotes")
+			.Key("GhostsCanSeeVotes")
             .Tab(DefaultTabs.GeneralTab)
         //    .IsHeader(true)
             .BindBool(v => GhostsCanSeeOtherVotes = v)
-            .AddOnOffValues(true)
+            .AddOnOffValues()
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.GhostIgnoreTasks"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.GhostIgnoreTasks")
+			.Key("GhostIgnoreTasks")
             .Tab(DefaultTabs.GeneralTab)
         //    .IsHeader(true)
             .BindBool(v => GhostIgnoreTasks = v)
             .AddOnOffValues(false)
             .BuildAndRegister();
 
-        new OptionBuilder()
-           .Name(Localizer.Get("StaticOptions.CamoComms"))
+        new GameOptionBuilder()
+           .LocaleName("StaticOptions.CamoComms")
+			.Key("CamoComms")
            .Tab(DefaultTabs.GeneralTab)
            //    .IsHeader(true)
            .BindBool(v => CamoComms = v)
            .AddOnOffValues(false)
            .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.AutoDisplayResult"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.AutoDisplayResult")
+			.Key("AutoDisplayResult")
             .Tab(DefaultTabs.GeneralTab)
            .IsHeader(true)
             .BindBool(v => AutoDisplayLastResult = v)
             .AddOnOffValues(false)
             .BuildAndRegister();
 
-        new OptionBuilder()
-           .Name(Localizer.Get("StaticOptions.SuffixMode"))
+        new GameOptionBuilder()
+           .LocaleName("StaticOptions.SuffixMode")
+			.Key("SuffixMode")
            .Tab(DefaultTabs.GeneralTab)
            //    .IsHeader(true)
            .Values(suffixModes)
            .Bind(v => SuffixStr = (string)v)
            .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.ColorNameMode"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.ColorNameMode")
+			.Key("ColorNameMode")
             .Tab(DefaultTabs.GeneralTab)
             //    .IsHeader(true)
             .BindBool(v => ColorNameMode = v)
             .AddOnOffValues(false)
             .BuildAndRegister();
 
-        new OptionBuilder()
+        new GameOptionBuilder()
             .Name("Players Can Have Multiple Modifiers")
             // .IsHeader(true)
             .Tab(DefaultTabs.GeneralTab)
@@ -647,35 +714,39 @@ public static class StaticOptions
             .BuildAndRegister();
 
         // Another option I hate that exists. I have seen multiple complaints about this option.
-        new OptionBuilder()
-           .Name(Localizer.Get("StaticOptions.ChangeNameToRoleInfo"))
+        new GameOptionBuilder()
+           .LocaleName("StaticOptions.ChangeNameToRoleInfo")
+			.Key("ChangeNameToRoleInfo")
            .Tab(DefaultTabs.GeneralTab)
            //    .IsHeader(true)
            .BindBool(v => ChangeNameToRoleInfo = v)
            .AddOnOffValues(false)
            .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.ShowHistoryTimestamp"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.ShowHistoryTimestamp")
+			.Key("ShowHistoryTimestamp")
             .Tab(DefaultTabs.GeneralTab)
             .BindBool(v => ShowHistoryTimestamp = v)
             .AddOnOffValues()
             .BuildAndRegister();
 
-        new OptionBuilder()
-            .Name(Localizer.Get("StaticOptions.MayhemOptions.Enable"))
+        new GameOptionBuilder()
+            .LocaleName("StaticOptions.MayhemOptions.Enable")
+			.Key("Enable Mayhem Options")
             .IsHeader(false)
             .ShowSubOptionPredicate(v => (bool)v)
             .BindBool(v => MayhemOptions = v)
             .AddOnOffValues(false)
             .SubOption(sub => sub
-                .Name(Localizer.Get("StaticOptions.MayhemOptions.AllRolesVent"))
+                .LocaleName("StaticOptions.MayhemOptions.AllRolesVent")
+		    	.Key("AllRolesVent")
                 .BindBool(v => AllRolesCanVent = v && MayhemOptions)
                 .AddOnOffValues(false)
                 .Build())
             .BuildAndRegister();
 
-        new OptionBuilder()
+        new GameOptionBuilder()
             .Name("Debug Options")
             .IsHeader(true)
             .Tab(DefaultTabs.GeneralTab)
@@ -689,14 +760,19 @@ public static class StaticOptions
                 .Build())
             .BuildAndRegister();
 
-        new OptionBuilder()
-               .Name(Localizer.Get("StaticOptions.CustomServerMode"))
+        new GameOptionBuilder()
+               .LocaleName("StaticOptions.CustomServerMode")
+		    	.Key("CustomServerMode")
                .Tab(DefaultTabs.GeneralTab)
                .IsHeader(true)
                .BindBool(v => CustomServerMode = v)
                .AddOnOffValues(false)
                .BuildAndRegister();
     }
+
+
+    private static bool sending;
+    private static BatchList<Option> changedOptions = new();
 
 
     // Keys

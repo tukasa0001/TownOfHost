@@ -20,7 +20,7 @@ public class REGenerator: ISourceGenerator
         foreach (var type in roleTypes) GenerateSource(type, context);
     }
 
-    //namespace TownOfHost.Roles.Modifiers.{type.Name}Modifier;
+    //namespace TOHTOR.Roles.Modifiers.{type.Name}Modifier;
 
     private void GenerateSource(INamedTypeSymbol type, GeneratorExecutionContext context)
     {

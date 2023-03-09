@@ -1,10 +1,10 @@
 using System;
 using AmongUs.GameOptions;
-using TownOfHost.Factions;
-using TownOfHost.GUI;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.Factions;
+using TOHTOR.GUI;
+using TOHTOR.Roles.Internals.Attributes;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Crewmate : CustomRole
 {

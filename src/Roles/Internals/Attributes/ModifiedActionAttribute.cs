@@ -1,4 +1,4 @@
-namespace TownOfHost.Roles.Internals.Attributes;
+namespace TOHTOR.Roles.Internals.Attributes;
 
 public class ModifiedActionAttribute: RoleActionAttribute
 {

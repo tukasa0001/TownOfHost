@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.Extensions;
+using TOHTOR.Extensions;
 using AmongUs.GameOptions;
-using TownOfHost.GUI;
-using VentLib.Options;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.GUI;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
+using VentLib.Options.Game;
 using VentLib.Utilities;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Ninja : Impostor
 {
@@ -85,7 +85,7 @@ public class Ninja : Impostor
         playerList.Clear();
     }
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
         .SubOption(sub => sub
             .Name("Players Teleport to Ninja")

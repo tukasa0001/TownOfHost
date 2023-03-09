@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using Hazel;
-using TownOfHost.RPC;
+using TOHTOR.RPC;
 using VentLib.Utilities;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Chat.Patches;
+namespace TOHTOR.Chat.Patches;
 
 [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]
 public class ChatUpdatePatch

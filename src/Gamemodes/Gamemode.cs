@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
-using TownOfHost.Options;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Victory;
-using VentLib.Options.OptionElement;
+using TOHTOR.Options;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Victory;
+using VentLib.Options;
+using VentLib.Options.Game.Tabs;
 
-namespace TownOfHost.Gamemodes;
+namespace TOHTOR.Gamemodes;
 
 public abstract class Gamemode: IGamemode
 {

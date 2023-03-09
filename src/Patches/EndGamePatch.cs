@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Options;
+using TOHTOR.API;
+using TOHTOR.Options;
 using VentLib.Logging;
 
-namespace TownOfHost.Patches;
+namespace TOHTOR.Patches;
 
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameEnd))]
 class EndGamePatch

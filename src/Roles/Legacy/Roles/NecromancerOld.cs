@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using TownOfHost.Extensions;
-using TownOfHost.Options;
-using TownOfHost.Roles;
+using TOHTOR.Extensions;
+using TOHTOR.Options;
+using TOHTOR.Roles;
 using VentLib.Logging;
 
 
-namespace TownOfHost
+namespace TOHTOR
 {
     public static class NecromancerOld
     {

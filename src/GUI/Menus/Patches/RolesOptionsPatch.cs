@@ -2,7 +2,7 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using UnityEngine;
 
-namespace TownOfHost.GUI.Menus.Patches;
+namespace TOHTOR.GUI.Menus.Patches;
 
 [HarmonyPatch(typeof(RolesSettingsMenu), nameof(RolesSettingsMenu.Start))]
 public static class RolesSettingsMenuPatch

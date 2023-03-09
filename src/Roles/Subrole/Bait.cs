@@ -1,9 +1,9 @@
-using TownOfHost.GUI;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.GUI;
+using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.Utilities;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Bait: Subrole
 {

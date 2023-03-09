@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using HarmonyLib;
 
-namespace TownOfHost.Patches.Systems;
+namespace TOHTOR.Patches.Systems;
 
 [HarmonyPatch(typeof(GameData), nameof(GameData.RecomputeTaskCounts))]
 public class RecomputeTaskPatch

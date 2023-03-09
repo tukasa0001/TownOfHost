@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Managers;
+namespace TOHTOR.Managers;
 
 public class ChatManager
 {

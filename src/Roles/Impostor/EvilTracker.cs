@@ -1,5 +1,5 @@
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class EvilTracker : Morphling
 {

@@ -1,11 +1,13 @@
 using System;
 using TMPro;
-using TownOfHost.Extensions;
-using TownOfHost.Patches.Network;
+using TOHTOR.Extensions;
+using TOHTOR.Patches.Network;
 using UnityEngine;
+using VentLib.Utilities.Attributes;
 
-namespace TownOfHost.Managers.Date;
+namespace TOHTOR.Managers.Date;
 
+[LoadStatic]
 public class SpecialDate: ISpecialDate
 {
     public static SpecialDate Christmas = new((12, 24), (12, 25));

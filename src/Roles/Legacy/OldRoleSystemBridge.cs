@@ -1,8 +1,8 @@
 using AmongUs.GameOptions;
-using TownOfHost.Extensions;
-using TownOfHost.Roles.Internals;
+using TOHTOR.Extensions;
+using TOHTOR.Roles.Internals;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public static class OldRoleSystemBridge
 {

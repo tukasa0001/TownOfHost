@@ -3,20 +3,17 @@ using System.Linq;
 using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
-using TownOfHost.Addons;
-using TownOfHost.API;
-using TownOfHost.Gamemodes;
-using TownOfHost.Managers;
-using TownOfHost.RPC;
-using VentLib;
-using VentLib.Localization;
+using TOHTOR.Addons;
+using TOHTOR.API;
+using TOHTOR.Gamemodes;
+using TOHTOR.Managers;
 using VentLib.Logging;
 using VentLib.Utilities;
-using VentLib.Version.Git;
-using GameStates = TownOfHost.API.GameStates;
+using VentLib.Version;
+using GameStates = TOHTOR.API.GameStates;
 
 
-namespace TownOfHost.Patches.Network;
+namespace TOHTOR.Patches.Network;
 
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
 class OnGameJoinedPatch
@@ -26,7 +23,7 @@ class OnGameJoinedPatch
     {
         /*while (!OldOptions.IsLoaded) System.Threading.Tasks.Task.Delay(1);*/
         VentLogger.Old($"{__instance.GameId}に参加", "OnGameJoined");
-        TOHPlugin.playerVersion = new Dictionary<byte, GitVersion>();
+        TOHPlugin.PlayerVersion = new Dictionary<byte, Version>();
         SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
         /*ChatCommands.ChatHistoryDictionary = new();*/
 
@@ -49,27 +46,7 @@ class OnPlayerJoinedPatch
         }
         BanManager.CheckBanPlayer(client);
         BanManager.CheckDenyNamePlayer(client);
-        TOHPlugin.playerVersion = new Dictionary<byte, GitVersion>();
-        Async.Schedule(() => Vents.FindRPC((uint)ModCalls.SendOptionPreview)!.Send(new[] { client.Character.GetClientId() }, TOHPlugin.OptionManager.Options()), NetUtils.DeriveDelay(1f));
-        Async.Schedule(() =>
-        {
-            if (TOHPlugin.PluginDataManager.TemplateManager.TryFormat(client.Character, "lobby-join", out string message)) Utils.SendMessage(message, client.Character.PlayerId);
-        }, NetUtils.DeriveDelay(1f));
+        TOHPlugin.PlayerVersion = new Dictionary<byte, Version>();
         Game.CurrentGamemode.Trigger(GameAction.GameJoin, client);
-    }
-}
-
-[HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CreatePlayer))]
-class CreatePlayerPatch
-{
-    public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
-    {
-        if (!AmongUsClient.Instance.AmHost) return;
-        Async.Schedule(() =>
-        {
-            if (client.Character == null) return;
-            if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(Localizer.Get("Announcements.UsingTOH"), TOHPlugin.PluginVersion + (TOHPlugin.DevVersion ? " " + TOHPlugin.DevVersionStr : "")), client.Character.PlayerId);
-            TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
-        }, 3f);
     }
 }

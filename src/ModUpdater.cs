@@ -9,12 +9,12 @@ using VentLib.Localization;
 using VentLib.Logging;
 
 
-namespace TownOfHost;
+namespace TOHTOR;
 
 [HarmonyPatch]
 public class ModUpdater
 {
-    private static readonly string URL = "https://api.github.com/repos/music-discussion/TownOfHost-TheOtherRoles--TOH-TOR";
+    private static readonly string URL = "https://api.github.com/repos/music-discussion/TOHTOR-TheOtherRoles--TOH-TOR";
     public static bool hasUpdate = false;
     public static bool isBroken = false;
     public static bool isChecked = true;
@@ -71,7 +71,7 @@ public class ModUpdater
             string result;
             using (HttpClient client = new())
             {
-                client.DefaultRequestHeaders.Add("User-Agent", "TownOfHost Updater");
+                client.DefaultRequestHeaders.Add("User-Agent", "TOHTOR Updater");
                 using var response = await client.GetAsync(new Uri(url), HttpCompletionOption.ResponseContentRead);
                 if (!response.IsSuccessStatusCode || response.Content == null)
                 {
@@ -94,17 +94,17 @@ public class ModUpdater
                 JArray assets = data["assets"].Cast<JArray>();
                 for (int i = 0; i < assets.Count; i++)
                 {
-                    if (assets[i]["name"].ToString() == "TownOfHost_Steam.dll" && Constants.GetPlatformType() == Platforms.StandaloneSteamPC)
+                    if (assets[i]["name"].ToString() == "TOHTOR_Steam.dll" && Constants.GetPlatformType() == Platforms.StandaloneSteamPC)
                     {
                         downloadUrl = assets[i]["browser_download_url"].ToString();
                         break;
                     }
-                    if (assets[i]["name"].ToString() == "TownOfHost_Epic.dll" && Constants.GetPlatformType() == Platforms.StandaloneEpicPC)
+                    if (assets[i]["name"].ToString() == "TOHTOR_Epic.dll" && Constants.GetPlatformType() == Platforms.StandaloneEpicPC)
                     {
                         downloadUrl = assets[i]["browser_download_url"].ToString();
                         break;
                     }
-                    if (assets[i]["name"].ToString() == "TownOfHost.dll")
+                    if (assets[i]["name"].ToString() == "TOHTOR.dll")
                         downloadUrl = assets[i]["browser_download_url"].ToString();
                 }
                 /*hasUpdate = latestVersion.CompareTo(TOHPlugin) > 0;#1#
@@ -180,7 +180,7 @@ public class ModUpdater
         {
             using WebClient client = new();
             client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadCallBack);
-            client.DownloadFileAsync(new Uri(url), "BepInEx/plugins/TownOfHost.dll");
+            client.DownloadFileAsync(new Uri(url), "BepInEx/plugins/TOHTOR.dll");
             while (client.IsBusy) await System.Threading.Tasks.Task.Delay(1);
             ShowPopup(Localizer.Get("ModUpater.UpdateRestart"), true);
         }

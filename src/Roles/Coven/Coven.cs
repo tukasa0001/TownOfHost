@@ -1,7 +1,7 @@
 
-using TownOfHost.Roles.Internals;
+using TOHTOR.Roles.Internals;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Coven: Impostor
 {

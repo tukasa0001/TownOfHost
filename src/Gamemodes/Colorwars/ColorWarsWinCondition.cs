@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.API;
-using TownOfHost.Victory.Conditions;
+using TOHTOR.API;
+using TOHTOR.Victory.Conditions;
 
-namespace TownOfHost.Gamemodes.Colorwars;
+namespace TOHTOR.Gamemodes.Colorwars;
 
 public class ColorWarsWinCondition: IWinCondition
 {

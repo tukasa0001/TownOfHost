@@ -1,14 +1,14 @@
 using AmongUs.Data;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Managers;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Managers;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
 using VentLib.Logging;
 using VentLib.Utilities;
 
-namespace TownOfHost.Patches;
+namespace TOHTOR.Patches;
 
 static class ExileControllerWrapUpPatch
 {

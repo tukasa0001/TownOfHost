@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Options;
-using TownOfHost.Victory.Conditions;
+using TOHTOR.API;
+using TOHTOR.Options;
+using TOHTOR.Victory.Conditions;
 using VentLib.Logging;
 using VentLib.Utilities;
 
-namespace TownOfHost.Victory;
+namespace TOHTOR.Victory;
 
 [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.CheckEndCriteria))]
 public class CheckEndGamePatch2

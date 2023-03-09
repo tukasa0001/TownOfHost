@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Roles;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Roles;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Gamemodes.Standard;
+namespace TOHTOR.Gamemodes.Standard;
 
 class StandardAssignRoles
 {

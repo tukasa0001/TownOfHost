@@ -1,6 +1,6 @@
 using HarmonyLib;
 using InnerNet;
-using TownOfHost.Managers;
+using TOHTOR.Managers;
 using UnityEngine;
 using VentLib.Localization.Attributes;
 using VentLib.Logging;
@@ -10,7 +10,7 @@ using VentLib.Utilities;
 // ReSharper disable InconsistentNaming
 
 
-namespace TownOfHost.Patches.Client;
+namespace TOHTOR.Patches.Client;
 
 [Localized(Group = "ModUpdater")]
 [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.MakePublic))]
@@ -64,7 +64,7 @@ class BanMenuSetVisiblePatch
         __instance.BanButton.gameObject.SetActive(AmongUsClient.Instance.CanBan());
         __instance.KickButton.gameObject.SetActive(AmongUsClient.Instance.CanKick());
         __instance.MenuButton.gameObject.SetActive(show);
-        __instance.hotkeyGlyph.SetActive(show);
+        /*__instance.hotkeyGlyph.SetActive(show);*/
         return false;
     }
 }

@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using HarmonyLib;
-using TownOfHost.Options;
-using TownOfHost.Victory;
+using TOHTOR.Options;
+using TOHTOR.Victory;
+using VentLib.Options.Game;
+using VentLib.Options.Game.Tabs;
+using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Gamemodes;
+namespace TOHTOR.Gamemodes;
 
 public interface IGamemode
 {
@@ -26,13 +29,13 @@ public interface IGamemode
     internal void InternalActivate()
     {
         Activate();
-        TOHPlugin.OptionManager.SetTabs(EnabledTabs());
+        EnabledTabs().ForEach(GameOptionController.AddTab);
     }
 
     internal void InternalDeactivate()
     {
         Deactivate();
-        EnabledTabs().Do(tab => tab.SetActive(false));
+        EnabledTabs().ForEach(GameOptionController.RemoveTab);
     }
 
     public void Trigger(GameAction action, params object[] args);

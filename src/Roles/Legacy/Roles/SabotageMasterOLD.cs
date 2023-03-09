@@ -1,10 +1,10 @@
 /*using System.Collections.Generic;
 using System.Linq;
 using Hazel;
-using TownOfHost.Extensions;
+using TOHTOR.Extensions;
 using UnityEngine;
 
-namespace TownOfHost
+namespace TOHTOR
 {
     public static class SabotageMasterOLD
     {

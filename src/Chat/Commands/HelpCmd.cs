@@ -1,13 +1,13 @@
 using System;
 using System.Linq;
-using TownOfHost.Roles;
+using TOHTOR.Roles;
 using VentLib.Commands;
 using VentLib.Commands.Attributes;
 using VentLib.Commands.Interfaces;
 using VentLib.Localization;
 using VentLib.Localization.Attributes;
 
-namespace TownOfHost.Chat.Commands;
+namespace TOHTOR.Chat.Commands;
 
 [Localized(Group = "Commands", Subgroup = "Help")]
 [Command(new[] {"Commands.Help.Alias"}, "h", "help")]

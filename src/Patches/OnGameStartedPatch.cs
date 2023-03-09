@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Gamemodes;
-using TownOfHost.Managers;
-using TownOfHost.Options;
-using TownOfHost.Patches;
-using TownOfHost.Roles;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Gamemodes;
+using TOHTOR.Managers;
+using TOHTOR.Options;
+using TOHTOR.Patches;
+using TOHTOR.Roles;
 using VentLib.Logging;
 
-namespace TownOfHost
+namespace TOHTOR
 {
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame))]
     class ChangeRoleSettings

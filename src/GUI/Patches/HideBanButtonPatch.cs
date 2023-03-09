@@ -1,6 +1,6 @@
 using HarmonyLib;
 
-namespace TownOfHost.GUI.Patches;
+namespace TOHTOR.GUI.Patches;
 
 [HarmonyPatch(typeof(ChatController), nameof(ChatController.Toggle))]
 class CancelBanMenuStuckPatch

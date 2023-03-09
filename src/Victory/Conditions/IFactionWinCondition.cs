@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Factions;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Factions;
 
-namespace TownOfHost.Victory.Conditions;
+namespace TOHTOR.Victory.Conditions;
 
 public interface IFactionWinCondition: IWinCondition
 {

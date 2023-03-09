@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Factions;
-using TownOfHost.GUI;
-using VentLib.Options;
-using TownOfHost.Roles.Internals.Attributes;
-using TownOfHost.Roles.Neutral;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Factions;
+using TOHTOR.GUI;
+using TOHTOR.Roles.Internals.Attributes;
+using TOHTOR.Roles.Neutral;
 using UnityEngine;
 using VentLib.Logging;
+using VentLib.Options.Game;
 using VentLib.Utilities;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 // This is going to be the longest option list :(
 public class Investigator : Crewmate
@@ -123,37 +123,37 @@ public class Investigator : Crewmate
 
 
     // This is the most complicated options because of all the individual settings
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream)
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream)
     {
-        OptionBuilder neutPassiveBuilder = new OptionBuilder()
+        GameOptionBuilder neutPassiveBuilder = new GameOptionBuilder()
             .Name("Neutral Passive are Red")
             .BindInt(v => neutralPassiveRed = (NIOpt)v)
             .ShowSubOptionPredicate(v => (int)v >= 2)
             .Value(v => v.Text("None").Value(1).Color(Color.red).Build())
             .Value(v => v.Text("All").Value(0).Color(Color.cyan).Build())
             .Value(v => v.Text("Individual").Value(2).Color(new Color(0.73f, 0.58f, 1f)).Build());
-        OptionBuilder neutKillBuilder = new OptionBuilder()
+        GameOptionBuilder neutKillBuilder = new GameOptionBuilder()
             .Name("Neutral Killing are Red")
             .BindInt(v => neutralKillingRed = (NIOpt)v)
             .ShowSubOptionPredicate(v => (int)v >= 2)
             .Value(v => v.Text("None").Value(1).Color(Color.red).Build())
             .Value(v => v.Text("All").Value(0).Color(Color.cyan).Build())
             .Value(v => v.Text("Individual").Value(2).Color(new Color(0.73f, 0.58f, 1f)).Build());
-        OptionBuilder crewmateKillBuilder = new OptionBuilder()
+        GameOptionBuilder crewmateKillBuilder = new GameOptionBuilder()
             .Name("Crewmate Killing are Red")
             .BindInt(v => crewmateKillingRed = (NIOpt)v)
             .ShowSubOptionPredicate(v => (int)v >= 2)
             .Value(v => v.Text("None").Value(1).Color(Color.red).Build())
             .Value(v => v.Text("All").Value(0).Color(Color.cyan).Build())
             .Value(v => v.Text("Individual").Value(2).Color(new Color(0.73f, 0.58f, 1f)).Build());
-        OptionBuilder covenBuilder = new OptionBuilder()
+        GameOptionBuilder covenBuilder = new GameOptionBuilder()
             .Name("Coven are Purple")
             .BindInt(v => covenPurple = (NIOpt)v)
             .ShowSubOptionPredicate(v => (int)v >= 2)
             .Value(v => v.Text("None").Value(1).Color(Color.red).Build())
             .Value(v => v.Text("All").Value(0).Color(Color.cyan).Build())
             .Value(v => v.Text("Individual").Value(2).Color(new Color(0.73f, 0.58f, 1f)).Build());
-        OptionBuilder madmateBuilder = new OptionBuilder()
+        GameOptionBuilder madmateBuilder = new GameOptionBuilder()
             .Name("Madmate are Red")
             .BindInt(v => madmateRed = (NIOpt)v)
             .ShowSubOptionPredicate(v => (int)v >= 2)
@@ -161,12 +161,12 @@ public class Investigator : Crewmate
             .Value(v => v.Text("All").Value(0).Color(Color.cyan).Build())
             .Value(v => v.Text("Individual").Value(2).Color(new Color(0.73f, 0.58f, 1f)).Build());
 
-        OptionBuilder[] builders = { neutPassiveBuilder, neutKillBuilder, crewmateKillBuilder, covenBuilder, madmateBuilder };
+        GameOptionBuilder[] builders = { neutPassiveBuilder, neutKillBuilder, crewmateKillBuilder, covenBuilder, madmateBuilder };
 
         for (int i = 0; i < InvestCategoryList.Count; i++)
         {
             Tuple<Type, Color, InvestOptCategory> item = InvestCategoryList[i];
-            OptionBuilder builder = builders[(int)item.Item3 - 1];
+            GameOptionBuilder builder = builders[(int)item.Item3 - 1];
 
             var i1 = i;
             builder.SubOption(sub => sub

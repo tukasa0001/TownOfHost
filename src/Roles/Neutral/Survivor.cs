@@ -1,15 +1,15 @@
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.GUI;
-using TownOfHost.Options;
-using VentLib.Options;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
-using TownOfHost.Victory;
-using TownOfHost.Victory.Conditions;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.GUI;
+using TOHTOR.Options;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
+using TOHTOR.Victory;
+using TOHTOR.Victory.Conditions;
+using VentLib.Options.Game;
 using VentLib.Utilities;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Survivor : CustomRole
 {
@@ -46,7 +46,7 @@ public class Survivor : CustomRole
         winDelegate.GetWinners().Add(MyPlayer);
     }
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Tab(DefaultTabs.NeutralTab)
             .SubOption(sub => sub

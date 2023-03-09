@@ -2,11 +2,11 @@ using System;
 using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using TownOfHost.Roles;
+using TOHTOR.Roles;
 using UnityEngine;
 using VentLib.Logging;
 
-namespace TownOfHost.Patches.Systems;
+namespace TOHTOR.Patches.Systems;
 
 [HarmonyPatch(typeof(TaskAdderGame), nameof(TaskAdderGame.ShowFolder))]
 class ShowFolderPatch

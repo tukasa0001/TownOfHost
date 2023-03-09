@@ -1,14 +1,14 @@
 using System.Collections.Generic;
-using TownOfHost.Extensions;
-using VentLib.Options;
+using TOHTOR.Extensions;
 using AmongUs.GameOptions;
-using TownOfHost.API;
-using TownOfHost.Options;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
-using TownOfHost.Victory.Conditions;
+using TOHTOR.API;
+using TOHTOR.Options;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
+using TOHTOR.Victory.Conditions;
+using VentLib.Options.Game;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Vulture : CustomRole
 {
@@ -40,7 +40,7 @@ public class Vulture : CustomRole
         isEatMode = !isEatMode;
     }
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
         .Tab(DefaultTabs.NeutralTab)
             .SubOption(sub => sub

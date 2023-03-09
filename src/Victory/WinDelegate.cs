@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.Extensions;
-using TownOfHost.Options;
-using TownOfHost.Victory.Conditions;
+using TOHTOR.Extensions;
+using TOHTOR.Options;
+using TOHTOR.Victory.Conditions;
 using VentLib.Utilities.Extensions;
 using VentLib.Logging;
 
-namespace TownOfHost.Victory;
+namespace TOHTOR.Victory;
 
 public class WinDelegate
 {

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 
-namespace TownOfHost.Roles.Internals.Attributes;
+namespace TOHTOR.Roles.Internals.Attributes;
 
 /// <summary>
 /// Marks any role editor class for automatically linking at the start of the runtime.

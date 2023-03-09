@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class GM : Crewmate
 {

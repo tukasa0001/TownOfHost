@@ -1,8 +1,8 @@
 using AmongUs.GameOptions;
-using TownOfHost.Factions;
-using TownOfHost.Roles.Internals;
+using TOHTOR.Factions;
+using TOHTOR.Roles.Internals;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class NeutralKillingBase: Impostor
 {

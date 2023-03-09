@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.Extensions;
-using TownOfHost.Roles;
+using TOHTOR.Extensions;
+using TOHTOR.Roles;
 using VentLib.Utilities.Extensions;
 using VentLib.Logging;
 
-namespace TownOfHost.Gamemodes.Standard;
+namespace TOHTOR.Gamemodes.Standard;
 
 public static class RoleAssignments
 {

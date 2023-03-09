@@ -1,15 +1,15 @@
 using System.Linq;
 using AmongUs.GameOptions;
-using TownOfHost.Extensions;
-using TownOfHost.GUI;
-using VentLib.Options;
-using TownOfHost.Roles;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.Extensions;
+using TOHTOR.GUI;
+using TOHTOR.Roles;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
+using VentLib.Options.Game;
 using VentLib.Utilities;
 
-namespace TownOfHost.Gamemodes.CaptureTheFlag;
+namespace TOHTOR.Gamemodes.CaptureTheFlag;
 
 public class Striker: Impostor
 {
@@ -83,7 +83,7 @@ public class Striker: Impostor
         if (inEnemySpawn && CTFGamemode.Carriers[myTeam] == 255) CTFGamemode.GrabFlag(MyPlayer);
     }
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Tab(CTFGamemode.CTFTab)
             .SubOption(sub => sub

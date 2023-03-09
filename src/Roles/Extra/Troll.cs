@@ -1,7 +1,7 @@
-using TownOfHost.Gamemodes;
-using VentLib.Options;
+using TOHTOR.Gamemodes;
+using VentLib.Options.Game;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 // I HAVE NO CLUE HOW TOH HNS WORKS LOL
 public class Troll : NotImplemented
@@ -9,7 +9,7 @@ public class Troll : NotImplemented
 
 
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Tab(TestHnsGamemode.HnsTab);
 }

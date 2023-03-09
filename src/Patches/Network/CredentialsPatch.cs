@@ -1,12 +1,12 @@
 using HarmonyLib;
 using TMPro;
-using TownOfHost.Addons;
-using TownOfHost.Managers.Date;
+using TOHTOR.Addons;
+using TOHTOR.Managers.Date;
 using UnityEngine;
 using VentLib.Localization.Attributes;
 using VentLib.Utilities;
 
-namespace TownOfHost.Patches.Network;
+namespace TOHTOR.Patches.Network;
 
 [Localized("PingDisplay")]
 [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
@@ -69,7 +69,7 @@ class TitleLogoPatch
         tohLogo.transform.position = Vector3.up;
         tohLogo.transform.localScale *= 1.2f;
         var renderer = tohLogo.AddComponent<SpriteRenderer>();
-        renderer.sprite = Utils.LoadSprite("TownOfHost.assets.tohtor-logo-rold.png", 300f);
+        renderer.sprite = Utils.LoadSprite("TOHTOR.assets.tohtor-logo-rold.png", 300f);
     }
 }
 [HarmonyPatch(typeof(ModManager), nameof(ModManager.LateUpdate))]

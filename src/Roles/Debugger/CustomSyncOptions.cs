@@ -1,7 +1,7 @@
 using AmongUs.GameOptions;
-using TownOfHost.Options;
+using TOHTOR.Options;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class CustomSyncOptions
 {

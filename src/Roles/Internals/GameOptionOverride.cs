@@ -1,11 +1,11 @@
 #nullable enable
 using System;
 using AmongUs.GameOptions;
-using TownOfHost.Extensions;
-using TownOfHost.Options;
+using TOHTOR.Extensions;
+using TOHTOR.Options;
 using VentLib.Logging;
 
-namespace TownOfHost.Roles.Internals;
+namespace TOHTOR.Roles.Internals;
 
 public class GameOptionOverride
 {

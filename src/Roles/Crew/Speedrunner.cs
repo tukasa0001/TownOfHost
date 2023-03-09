@@ -1,11 +1,11 @@
-using TownOfHost.Extensions;
-using TownOfHost.Options;
-using VentLib.Options;
-using TownOfHost.Roles.Internals;
+using TOHTOR.Extensions;
+using TOHTOR.Options;
+using TOHTOR.Roles.Internals;
 using UnityEngine;
+using VentLib.Options.Game;
 using VentLib.Utilities;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Speedrunner : Crewmate
 {
@@ -40,7 +40,7 @@ public class Speedrunner : Crewmate
         SyncOptions();
     }
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .SubOption(sub => sub
                 .Name("Small Boost When Finishing a Task")

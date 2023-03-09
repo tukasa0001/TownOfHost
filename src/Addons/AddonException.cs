@@ -1,7 +1,7 @@
 #nullable enable
 using System;
 
-namespace TownOfHost.Addons;
+namespace TOHTOR.Addons;
 
 public class AddonException : Exception
 {

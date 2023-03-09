@@ -1,24 +1,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Options;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Options;
 using VentLib.Options;
-using TownOfHost.Victory;
+using TOHTOR.Victory;
 using UnityEngine;
 using VentLib.Localization.Attributes;
-using VentLib.Options.OptionElement;
+using VentLib.Logging;
+using VentLib.Options.Game;
+using VentLib.Options.Game.Tabs;
+using VentLib.Ranges;
 using VentLib.Utilities;
 using OptionValue = VentLib.Options.OptionValue;
 
-namespace TownOfHost.Gamemodes.Colorwars;
+namespace TOHTOR.Gamemodes.Colorwars;
 
 // TODO add option to convert killed to same color, last color standing = win AND/OR traditional mode
 [Localized(Group = "Gamemodes", Subgroup = "Colorwars")]
 public class ColorwarsGamemode: Gamemode
 {
-    public static GameOptionTab ColorwarsTab = new("Colorwars", "TownOfHost.assets.Tabs.TabIcon_ColorWars.png");
+    public static GameOptionTab ColorwarsTab = new("Colorwars", () => Utils.LoadSprite("TOHTOR.assets.Tabs.TabIcon_ColorWars.png"));
     public static int TeamSize = 2;
     public static bool ConvertColorMode;
     public static bool ManualTeams;
@@ -44,37 +47,40 @@ public class ColorwarsGamemode: Gamemode
 
     public ColorwarsGamemode()
     {
-       new OptionBuilder()
+        OptionManager colorwarsManager = OptionManager.GetManager(file: "colorwars_options.txt");
+        new GameOptionBuilder()
             .Name("Team Size")
+            .Description("Number of players per team in color wars.")
             .IsHeader(true)
             .Tab(ColorwarsTab)
             .BindInt(v => TeamSize = v)
             .AddIntRange(1, 8, 1, 2)
-            .BuildAndRegister();
+            .BuildAndRegister(colorwarsManager);
 
 
-        new OptionBuilder()
+        new GameOptionBuilder()
             .Name("Convert Color Mode")
             .Tab(ColorwarsTab)
             .IsHeader(true)
             .BindBool(v => ConvertColorMode = v)
             .AddOnOffValues(false)
-            .BuildAndRegister();
+            .BuildAndRegister(colorwarsManager);
 
-        new OptionBuilder()
+        new GameOptionBuilder()
             .LocaleName("Gamemodes.Colorwars.Options.GracePeriod")
             .Tab(ColorwarsTab)
             .IsHeader(true)
             .AddFloatRange(0, 30, 1f, 5, "s")
             .BindFloat(v => GracePeriod = v)
-            .BuildAndRegister();
+            .BuildAndRegister(colorwarsManager);
 
-        new OptionBuilder()
+        new GameOptionBuilder()
             .LocaleName("StaticOptions.RandomSpawn.Enable")
+            .Key("Colorwars Random Spawn")
             .Tab(ColorwarsTab)
             .BindBool(v => randomSpawnLocations = v)
             .AddOnOffValues()
-            .BuildAndRegister();
+            .BuildAndRegister(colorwarsManager);
 
         BindAction(GameAction.GameJoin, () => Async.Schedule(RefreshOptions, 1f));
         BindAction(GameAction.GameLeave, () => Async.Schedule(RefreshOptions, 1f));
@@ -83,27 +89,26 @@ public class ColorwarsGamemode: Gamemode
     private void RefreshOptions()
     {
         List<PlayerControl> allPlayers = PlayerControl.AllPlayerControls.ToArray().ToList();
-        playerOptions.Do(opt => opt.Delete());
+        /*playerOptions.Do(opt => opt.Delete());*/ // TODO
         playerOptions.Clear();
 
         int playerCount = allPlayers.Count;
         int teams = Mathf.CeilToInt((float)playerCount / TeamSize);
 
-        List<OptionValue> teamOptions = new VentLib.Ranges.IntRange(1, teams)
+        List<OptionValue> teamOptions = new IntRangeGen(1, teams)
             .AsEnumerable()
             .Select(i => new OptionValue.OptionValueBuilder().Text($"Team {i}").Value(i-1).Build())
             .ToList();
 
         allPlayers.Do(p =>
         {
-            var newOption = new OptionBuilder()
+            var newOption = new GameOptionBuilder()
                 .Name(p.GetRawName())
                 .Tab(ColorwarsTab)
                 .Color(_colors[p.cosmetics.bodyMatProperties.ColorId])
                 .Values(teamOptions)
                 .Build();
-            newOption.SaveOnChange = false;
-            newOption.Register();
+            //TODO: Save on change
             playerOptions.Add(newOption);
         });
     }
@@ -145,7 +150,7 @@ public class ColorwarsGamemode: Gamemode
         for (int i = 0; i < totalTeams; i++)
         {
             var i1 = i;
-            Option option = new OptionBuilder()
+            Option option = new GameOptionBuilder()
                 .Name($"Team {i + 1} Color")
                 .IsHeader(true)
                 .Value(v => v.Text("Random").Color(new Color(0.61f, 0.67f, 1f)).Value(-1).Build())
@@ -175,7 +180,7 @@ public class ColorwarsGamemode: Gamemode
 
             for (int j = 0; j < teamSize; j++)
             {
-                OptionBuilder builder = new OptionBuilder().Name($"Player {j + 1}");
+                GameOptionBuilder builder = new GameOptionBuilder().Name($"Player {j + 1}");
                 foreach (PlayerControl player in PlayerControl.AllPlayerControls)
                     builder.Value(v => v.Text(player.GetRawName()).Value((int)player.PlayerId).Build());
                 option = builder.Build();

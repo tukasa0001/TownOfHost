@@ -1,10 +1,10 @@
 using AmongUs.GameOptions;
-using TownOfHost.Factions;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.Factions;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Morphling : Impostor
 {

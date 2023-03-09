@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Factions;
-using TownOfHost.Roles;
-using TownOfHost.Victory.Conditions;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Factions;
+using TOHTOR.Roles;
+using TOHTOR.Victory.Conditions;
 
-namespace TownOfHost.Gamemodes.Standard;
+namespace TOHTOR.Gamemodes.Standard;
 
 public static class StandardWinConditions
 {

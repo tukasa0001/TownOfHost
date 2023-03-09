@@ -1,24 +1,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Options;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Options;
 using VentLib.Options;
-using TownOfHost.Roles;
-using TownOfHost.Victory;
+using TOHTOR.Roles;
+using TOHTOR.Victory;
 using VentLib.Logging;
-using VentLib.Options.OptionElement;
+using VentLib.Options.Game;
+using VentLib.Options.Game.Tabs;
 using VentLib.Utilities;
 
-namespace TownOfHost.Gamemodes.Debug;
+namespace TOHTOR.Gamemodes.Debug;
 
 public class DebugGamemode: Gamemode
 {
     private List<Option> specificOptions = new();
     private readonly Dictionary<byte, string> _roleAssignments = new();
 
-    internal static GameOptionTab DebugTab = new("Debug Tab", "TownOfHost.assets.Tabs.Debug_Tab.png");
+    internal static GameOptionTab DebugTab = new("Debug Tab", () => Utils.LoadSprite("TOHTOR.assets.Tabs.Debug_Tab.png"));
 
     public override string GetName() => "Debug";
     public override IEnumerable<GameOptionTab> EnabledTabs() => new[] { DebugTab };
@@ -42,7 +43,7 @@ public class DebugGamemode: Gamemode
     {
         foreach (PlayerControl player in PlayerControl.AllPlayerControls)
         {
-            Option option = new OptionBuilder()
+            Option option = new GameOptionBuilder()
                 .Name(player.GetRawName())
                 .IsHeader(true)
                 .Bind(v => _roleAssignments[player.PlayerId] = ((string)v).RemoveHtmlTags())
@@ -50,7 +51,6 @@ public class DebugGamemode: Gamemode
                 .Tab(DebugTab)
                 .Build();
             specificOptions.Add(option);
-            TOHPlugin.OptionManager.Add(option);
         }
     }
 

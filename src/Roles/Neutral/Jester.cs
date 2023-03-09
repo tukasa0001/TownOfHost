@@ -1,13 +1,13 @@
 using AmongUs.GameOptions;
-using TownOfHost.Extensions;
-using TownOfHost.Options;
-using VentLib.Options;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
-using TownOfHost.Victory.Conditions;
+using TOHTOR.Extensions;
+using TOHTOR.Options;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
+using TOHTOR.Victory.Conditions;
 using UnityEngine;
+using VentLib.Options.Game;
 
-namespace TownOfHost.Roles.Neutral;
+namespace TOHTOR.Roles.Neutral;
 
 public class Jester : CustomRole
 {
@@ -21,7 +21,7 @@ public class Jester : CustomRole
         jesterWin.Activate();
     }
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .Tab(DefaultTabs.NeutralTab)
             .SubOption(opt =>

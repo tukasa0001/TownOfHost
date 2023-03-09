@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using VentLib.Options;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.Roles.Internals.Attributes;
+using VentLib.Options.Game;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Bastion: Engineer
 {
@@ -35,7 +35,7 @@ public class Bastion: Engineer
     [RoleAction(RoleActionType.RoundEnd)]
     private void ClearVents() => bombedVents.Clear();
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
             .SubOption(sub => sub
                 .Name("Plant Bomb Cooldown")

@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using TownOfHost.API;
-using VentLib.RPC;
+using TOHTOR.API;
+using VentLib.Networking.RPC;
 using VentLib.Utilities;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Gamemodes.CaptureTheFlag;
+namespace TOHTOR.Gamemodes.CaptureTheFlag;
 
 public class CTFAssignRoles
 {

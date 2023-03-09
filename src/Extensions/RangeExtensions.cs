@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TownOfHost.Extensions;
+namespace TOHTOR.Extensions;
 
 public static class RangeExtensions
 {

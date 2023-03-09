@@ -5,13 +5,13 @@ using Hazel;
 using UnityEngine;
 using System;
 using AmongUs.GameOptions;
-using TownOfHost.Extensions;
-using TownOfHost.ReduxOptions;
-using TownOfHost.Roles;
-using TownOfHost.RPC;
-using static TownOfHost.Translator;
+using TOHTOR.Extensions;
+using TOHTOR.ReduxOptions;
+using TOHTOR.Roles;
+using TOHTOR.RPC;
+using static TOHTOR.Translator;
 
-namespace TownOfHost
+namespace TOHTOR
 {
     public static class Guesser
     {

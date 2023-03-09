@@ -1,20 +1,20 @@
 #nullable enable
 using System.Collections.Generic;
 using System.Linq;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Factions;
-using TownOfHost.GUI;
-using TownOfHost.Options;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Factions;
+using TOHTOR.GUI;
+using TOHTOR.Options;
 using UnityEngine;
-using VentLib.Options;
-using TownOfHost.Roles.Internals.Attributes;
-using TownOfHost.Roles.Neutral;
-using TownOfHost.Victory.Conditions;
+using TOHTOR.Roles.Internals.Attributes;
+using TOHTOR.Roles.Neutral;
+using TOHTOR.Victory.Conditions;
+using VentLib.Options.Game;
 using VentLib.Utilities;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Executioner : CustomRole
 {
@@ -78,7 +78,7 @@ public class Executioner : CustomRole
         MyPlayer.GetDynamicName().Render();
     }
 
-    protected override OptionBuilder RegisterOptions(OptionBuilder optionStream) =>
+    protected override GameOptionBuilder RegisterOptions(GameOptionBuilder optionStream) =>
         base.RegisterOptions(optionStream)
         .Tab(DefaultTabs.NeutralTab)
             .SubOption(sub => sub

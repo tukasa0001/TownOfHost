@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using TownOfHost.Roles.Neutral;
+using TOHTOR.Roles.Neutral;
+using VentLib.Utilities.Attributes;
 using VentLib.Utilities.Extensions;
-using static TownOfHost.Roles.AbstractBaseRole;
+using static TOHTOR.Roles.AbstractBaseRole;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
+[LoadStatic]
 public static class CustomRoleManager
 {
     public static Dictionary<byte, CustomRole> PlayersCustomRolesRedux = new();
@@ -140,6 +142,7 @@ public static class CustomRoleManager
         public LastImpostor LastImpostor = new LastImpostor();
         public Ninja Ninja = new Ninja();
 
+        public Vigilante Vigilante = new Vigilante();
         public Crewmate Crewmate = new Crewmate();
         public Engineer Engineer = new Engineer();
         public Scientist Scientist = new Scientist();

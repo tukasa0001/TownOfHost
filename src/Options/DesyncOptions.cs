@@ -3,12 +3,12 @@ using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
-using TownOfHost.API;
-using TownOfHost.Extensions;
-using TownOfHost.Roles.Internals;
+using TOHTOR.API;
+using TOHTOR.Extensions;
+using TOHTOR.Roles.Internals;
 using VentLib.Logging;
 
-namespace TownOfHost.Options;
+namespace TOHTOR.Options;
 
 public static class DesyncOptions
 {
@@ -64,7 +64,7 @@ public static class DesyncOptions
     {
         int clientId = -1;
         var allClients = AmongUsClient.Instance.allObjectsFast;
-        var allClientIds = allClients.Keys;
+        var allClientIds = allClients.keys;
 
         foreach (uint id in allClientIds)
             if (clientId == -1 && allClients[id].name.Contains(name))

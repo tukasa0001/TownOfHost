@@ -1,12 +1,12 @@
 using AmongUs.GameOptions;
-using TownOfHost.Extensions;
-using TownOfHost.Factions;
-using TownOfHost.Options;
-using TownOfHost.Roles.Internals;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.Extensions;
+using TOHTOR.Factions;
+using TOHTOR.Options;
+using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Impostor : CustomRole
 {

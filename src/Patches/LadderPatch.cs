@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using HarmonyLib;
-using TownOfHost.Options;
-using TownOfHost.RPC;
+using TOHTOR.Options;
+using TOHTOR.RPC;
 using UnityEngine;
 using VentLib.Utilities;
 
-namespace TownOfHost.Patches
+namespace TOHTOR.Patches
 {
     public class FallFromLadder
     {

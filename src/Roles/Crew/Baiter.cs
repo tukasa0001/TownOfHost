@@ -1,7 +1,7 @@
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class Baiter: Crewmate
 {

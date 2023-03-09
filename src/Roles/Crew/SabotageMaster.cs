@@ -1,7 +1,7 @@
-using TownOfHost.Patches.Systems;
-using TownOfHost.Roles.Internals.Attributes;
+using TOHTOR.Patches.Systems;
+using TOHTOR.Roles.Internals.Attributes;
 
-namespace TownOfHost.Roles;
+namespace TOHTOR.Roles;
 
 public class SabotageMaster: Crewmate
 {
