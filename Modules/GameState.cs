@@ -234,6 +234,10 @@ public static class GameStates
     public static bool IsInTask => InGame && !MeetingHud.Instance;
     public static bool IsMeeting => InGame && MeetingHud.Instance;
     public static bool IsCountDown => GameStartManager.InstanceExists && GameStartManager.Instance.startState == GameStartManager.StartingStates.Countdown;
+    /**********TOP ZOOM.cs***********/
+    public static bool IsShip => ShipStatus.Instance != null;
+    public static bool IsCanMove => PlayerControl.LocalPlayer?.CanMove is true;
+    public static bool IsDead => PlayerControl.LocalPlayer?.Data?.IsDead is true;
 }
 public static class MeetingStates
 {
