@@ -68,6 +68,7 @@ internal static class CustomRolesHelper
                 CustomRoles.Divinator => CustomRoles.Crewmate,
                 CustomRoles.BallLightning => CustomRoles.Impostor,
                 CustomRoles.Greedier => CustomRoles.Impostor,
+                CustomRoles.Workaholic=> CustomRoles.Engineer,
                 _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
     }
@@ -148,7 +149,8 @@ internal static class CustomRolesHelper
             CustomRoles.Pelican or
             CustomRoles.Egoist or
             CustomRoles.Gamer or
-            CustomRoles.DarkHide;
+            CustomRoles.DarkHide or
+            CustomRoles.Workaholic;
     }
     public static bool IsCK(this CustomRoles role) // 是否带刀船员
     {
@@ -210,7 +212,8 @@ internal static class CustomRolesHelper
             CustomRoles.FFF or
             CustomRoles.Konan or
             CustomRoles.Gamer or
-            CustomRoles.DarkHide;
+            CustomRoles.DarkHide or
+            CustomRoles.Workaholic;
     }
     public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
     public static bool IsVanilla(this CustomRoles role) // 是否原版职业

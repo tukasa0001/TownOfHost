@@ -107,6 +107,8 @@ public class PlayerState
         Eaten,
         Sacrifice,
         Quantization,
+        Overtired,
+        Ashamed,
         etc = -1
     }
     public byte GetRealKiller()
@@ -187,6 +189,29 @@ public class TaskState
                 Utils.TP(tar1.NetTransform, tar2.GetTruePosition());
                 Utils.TP(tar2.NetTransform, pos);
             }
+        }
+
+        //工作狂做完了
+        if (player.Is(CustomRoles.Workaholic) && (CompletedTasksCount + 1) >= AllTasksCount
+                && !(Options.WorkaholicCannotWinAtDeath.GetBool() && !player.IsAlive()))
+        {
+            foreach (var pc in Main.AllAlivePlayerControls)
+            {
+                if (pc != player)
+                {
+                    pc.SetRealKiller(player);
+                    pc.RpcMurderPlayer(pc);
+                    Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Ashamed;
+                    Main.PlayerStates[pc.PlayerId].SetDead();
+                }
+                else
+                {
+                    RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
+                    Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Overtired;
+                }
+            }
+            CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Workaholic); //爆破で勝利した人も勝利させる
+            CustomWinnerHolder.WinnerIds.Add(player.PlayerId);
         }
 
         //クリアしてたらカウントしない

@@ -658,6 +658,7 @@ internal class ChatCommands
             "球狀閃電" or "球闪" or "球状" => GetString("BallLightning"),
             "潛藏者" or "潜藏" => GetString("DarkHide"),
             "貪婪者" or "贪婪" => GetString("Greedier"),
+            "工作狂" or "工作" => GetString("Workaholic"),
             _ => text,
         };
     }

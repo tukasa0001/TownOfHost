@@ -143,6 +143,8 @@ public static class Options
     public static OptionItem TransporterTeleportMax;
     public static OptionItem CanTerroristSuicideWin;
     public static OptionItem InnocentCanWinByImp;
+    public static OptionItem WorkaholicVentCooldown;
+    public static OptionItem WorkaholicCannotWinAtDeath;
     public static OptionItem ArsonistDouseTime;
     public static OptionItem ArsonistCooldown;
     public static OptionItem JesterCanUseButton;
@@ -288,6 +290,7 @@ public static class Options
     public static OverrideTasksData SnitchTasks;
     public static OverrideTasksData TransporterTasks;
     public static OverrideTasksData MadSnitchTasks;
+    public static OverrideTasksData WorkaholicTasks;
 
     // その他
     public static OptionItem FixFirstKillCooldown;
@@ -605,6 +608,11 @@ public static class Options
         SetupRoleOptions(5050850, TabGroup.NeutralRoles, CustomRoles.FFF);
         Gamer.SetupCustomOption();
         DarkHide.SetupCustomOption();
+        SetupRoleOptions(60100, TabGroup.NeutralRoles, CustomRoles.Workaholic);
+        WorkaholicCannotWinAtDeath = BooleanOptionItem.Create(60113, "WorkaholicCannotWinAtDeath", true, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Workaholic]);
+        WorkaholicVentCooldown = FloatOptionItem.Create(60112, "VentCooldown", new(0f, 180f, 2.5f), 0f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Workaholic])
+            .SetValueFormat(OptionFormat.Seconds);
+        WorkaholicTasks = OverrideTasksData.Create(60114, TabGroup.NeutralRoles, CustomRoles.Workaholic);
 
         // Add-Ons
         NoLimitAddonsNum = BooleanOptionItem.Create(6050250, "NoLimitAddonsNum", false, TabGroup.Addons, false)

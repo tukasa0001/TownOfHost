@@ -125,6 +125,7 @@ FFF,FFF团,Hater,Ненавистник
 Konan,柯南,Konan,Конан
 Gamer,玩家,Demon,Демон
 DarkHide,潜藏者
+Workaholic,工作狂
 
 # 附加职业
 LastImpostor,绝境者,Last Impostor,Последний Предатель
@@ -230,6 +231,7 @@ FFFInfo,该烧还是该审？,You hate Lovers and Neptunes,Вы ненавиди
 KonanInfo,在一次和小兰的约会中...,,
 GamerInfo,Lv又增加了捏~,Drink all the blood of the players,Выпейте всю кровь игроков
 DarkHideInfo,降下黑暗，释放恐惧！
+WorkaholicInfo,卷死他们！
 
 # 附加职业
 LoversInfo,最重要的是，记得照顾好你的另一半,Survive with your Lover,Выживите со своим Любовником
@@ -338,6 +340,7 @@ RevolutionistInfoLong,(中立阵营):\n革命家可以通过对玩家点击击�
 FFFInfoLong,(中立阵营):\nFFF团不会成为恋人或海王。FFF团拥有无限且没有冷却的击杀能力，同时FFF团敏锐的观察力使他默认拥有内鬼的视野。FFF团只能击杀恋人与海王，击杀其他玩家则会立刻牺牲。游戏结束时，没有恋人与海王存活且FFF团曾经击杀过至少一次恋人或海王，则FFF团胜利。请注意：FFF团只会附加胜利不会抢夺原本阵营的胜利。此外，FFF团的胜利条件不包括存活。,"(Neutrals):\nThe Hater has an unlimited kill cooldown, while the Hater has Impostor vision range by default. The hater can only kill Lovers and Neptune, and killing other players will immediately result in suicide. At the end of the game, if none of the Lovers or Neptunes survive and the Hater has killed at least one of them, then the Hater wins. Please note: The hater will only claim wins and will not take the win from the original team.","(Нейтрал):\nНенавистник обладает неограниченным откатом убийства, и в то же время Ненавистник по умолчанию имеет дальность обзора Предателей. Ненавистник может убивать только Любовников и Нептуна, а убийство других игроков будет немедленно приведёт к суициду. В конце игры, если ни один из Любовников или Нептунов не выживет и Ненавистник убил хотя бы одного из них то, Ненавистник побеждает. Пожалуйста, обратите внимание: Ненавистник будет присваивать только победы и не будет отбирать победу у первоначальной команды."
 GamerInfoLong,(中立阵营):\n仅剩玩家阵营与船员阵营且玩家阵营人数大于船员人数，玩家获得胜利。玩家的击杀规则与其他人不同，玩家视角下所有人拥有血量，玩家击杀以及被击杀改为消耗血量，当血量耗空时击杀才会生效。请注意：若其他人消耗玩家血量但没有成功击杀玩家时，凶手会看到玩家身上出现护盾破碎动画作为提示。,"(Neutrals):\nIf the number of Demons in the team is greater than the number of crewmates or the Demon is left with one crewmate, then the Demons win. The rules for killing a player are different. Each player has a blood volume. The kill will only occur when the Demon has exhausted all of the player's blood volume. Please note: If someone else drinks the player's blood volume but fails to successfully kill the player, the killer will see a broken shield animation on the player as a hint","(Нейтрал):\nЕсли количество Демонов в команде больше, чем количество Членов Экипажа или Демон остаётся с одним членом экипажа, то Демоны выигрывают. Правила убийства игрока отличаются.У каждого игрока есть объем крови. Убийство произойдёт только тогда, когда Демон исчерпет весь объем крови у игрока. Пожалуйста, обратите внимание: Если кто-то другой выпьет объем крови игрока, но не сможет успешно убить игрока, то убийца увидит анимацию сломанного щита на игроке в качестве подсказки."
 DarkHideInfoLong,(中立阵营):\n潜藏者可以击杀任何人，且每次击杀都会立刻造成电力破坏（若电力已经被破坏则无事发生）。潜藏者无法使用通风管道。若潜藏者存活时内鬼胜利或船员通过击杀内鬼胜利（根据房主设定船员击杀中立玩家胜利时潜藏者也可能抢夺胜利），则潜藏者抢夺胜利。
+WorkaholicInfoLong,(中立阵营):\n工作狂拥有更多的任务，当工作狂完成所有任务后单独胜利。（根据房主设定，工作狂死后完成任务也可能胜利）
 
 # 附加职业
 LastImpostorInfoLong,(附加职业):\n这个效果在内鬼仅剩一人时赋予该内鬼。使其击杀冷却缩短。该效果对赏金猎人、嗜血杀手以及吸血鬼等击杀方式特殊的职业不适用。,"(Add-ons):\nAn Add-on granted to the last Impostor remaining.\nKill cooldown is reduced according to this setting.\nNot granted to Bounty Hunters, Serial Killers, or Vampires.","(Атрибут):\nАтрибут, присваивается последнему Предателю. \nВремя отката убийства становится меньше, чем обычно. \nНе назначается Охотнику за головами, Серийному убийце или Вампиру."
@@ -498,6 +501,7 @@ CheatResponses,检测到外挂时,When a breach is discovered,Когда обн�
 ## 详细设定
 Cooldown,冷却时间,Cooldown,Откат
 KillCooldown,击杀冷却时间,Kill Cooldown,Откат убийства
+VentCooldown,使用通风管道冷却时间
 CanVent,可以使用通风管道,Can Vent,Может использовать Вентиляцию
 ImpostorVision,拥有<color=#ff1919>内鬼</color>视野,<color=#ff1919>Impostor</color> Vision,Имеет дальность Обзора <color=#ff1919>Предателя</color>
 CanUseSabotage,可以破坏,Can Sabotage,Может использовать Саботаж
@@ -660,7 +664,7 @@ BallLightningKillerConvertGhost,被击杀时凶手汽化为量子幽灵,Killer c
 CanCountNeutralKiller,当<color=#8cffff>船员</color>通过击杀中立玩家胜利时可以抢夺胜利
 OddKillCooldown,单数击杀冷却时间
 EvenKillCooldown,双数击杀冷却时间
-
+WorkaholicCannotWinAtDeath,死亡后无法胜利
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
@@ -681,6 +685,8 @@ DeathReason.Revenge,复仇,Revenge,Месть
 DeathReason.Eaten,活吞,Eaten,Сьеден
 DeathReason.Sacrifice,牺牲,Victim,Жертва
 DeathReason.Quantization,量子化,Quantization,Квантование
+DeathReason.Overtired,过度疲劳
+DeathReason.Ashamed,羞愧而死
 DeathReason.etc,其它,Other,Другое
 Alive,存活,Alive,Выжил
 Win,胜利, Wins, Победили
