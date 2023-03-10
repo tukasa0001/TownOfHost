@@ -347,6 +347,7 @@ public static class Utils
             case CustomRoles.Revolutionist:
             case CustomRoles.FFF:
             case CustomRoles.Gamer:
+            case CustomRoles.Collectors:
                 hasTasks = false;
                 break;
             case CustomRoles.Terrorist:
@@ -456,6 +457,9 @@ public static class Utils
                 break;
             case CustomRoles.Medicaler:
                 ProgressText.Append(Medicaler.GetSkillLimit(playerId));
+                break;
+            case CustomRoles.Collectors:
+                ProgressText.Append(Collectors.GetProgressText(playerId));
                 break;
             default:
                 //タスクテキスト

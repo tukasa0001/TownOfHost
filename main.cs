@@ -314,6 +314,7 @@ public class Main : BasePlugin
                 {CustomRoles.FFF, "#414b66"},
                 {CustomRoles.Konan, "#4d4dff"},
                 {CustomRoles.Gamer, "#68bc71"},
+                {CustomRoles.Collectors, "#9d8892"},
                 // GM
                 {CustomRoles.GM, "#ff5b70"},
                 //サブ役職
@@ -458,6 +459,7 @@ public enum CustomRoles
     FFF,
     Konan,
     Gamer,
+    Collectors,
     //GM
     GM,
     // Sub-role after 500
