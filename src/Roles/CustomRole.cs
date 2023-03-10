@@ -29,12 +29,15 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
         AbstractConstructors.Register(typeof(CustomRole), r => CustomRoleManager.GetRoleFromId(r.ReadInt32()));
     }
 
+
     public virtual bool CanVent() => BaseCanVent || StaticOptions.AllRolesCanVent;
-    public virtual bool CanBeKilled() => true;
+    public virtual bool CanBeKilled() => !Invincible;
     public virtual bool CanBeKilledBySheriff() => this.VirtualRole is RoleTypes.Impostor or RoleTypes.Shapeshifter;
     public virtual bool HasTasks() => this is Crewmate;
     public bool IsDesyncRole() => this.DesyncRole != null;
     public virtual bool IsAllied(PlayerControl player) => this.Factions.Any(f => f.IsAllied(player.GetCustomRole().Factions)) && player.GetCustomRole().Factions.Any(f => f.IsAllied(this.Factions));
+
+    public bool Invincible;
 
     private HashSet<GameOptionOverride> currentOverrides = new();
     private List<RoleEditor> injections;

@@ -60,6 +60,11 @@ public enum RoleActionType
     Shapeshift,
     Unshapeshift,
     AttemptKill,
+    /// <summary>
+    /// Triggered when a killer attempts to kill another player. Cancelling causes the kill to not go through
+    /// Parameters: (PlayerControl killer, PlayerControl target)
+    /// </summary>
+    AnyMurder,
     MyDeath,
     SelfExiled,
     OtherExiled,

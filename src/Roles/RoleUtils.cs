@@ -100,4 +100,28 @@ public class RoleUtils
         RpcV2.Immediate(target.NetId, RpcCalls.ProtectPlayer).Write(target).Write(0).Send(target.GetClientId());
         Async.Schedule(() => RpcV2.Immediate(randomPlayer.NetId, RpcCalls.MurderPlayer).Write(target).Send(target.GetClientId()), NetUtils.DeriveDelay(0.1f));
     }
+
+    public static void SwapPositions(PlayerControl player1, PlayerControl player2)
+    {
+        if (player1.inVent) player1.MyPhysics.ExitAllVents();
+        if (player2.inVent) player2.MyPhysics.ExitAllVents();
+
+        player1.MyPhysics.ResetMoveState();
+        player2.MyPhysics.ResetMoveState();
+
+        Vector2 player1Position = player1.GetTruePosition();
+        Vector2 player2Position = player2.GetTruePosition();
+
+        if (player1.IsAlive())
+            Utils.Teleport(player1.NetTransform, new Vector2(player2Position.x, player2Position.y + 0.3636f));
+        if (player2.IsAlive())
+            Utils.Teleport(player2.NetTransform, new Vector2(player1Position.x, player1Position.y + 0.3636f));
+
+        player1.moveable = true;
+        player2.moveable = true;
+        player1.Collider.enabled = true;
+        player2.Collider.enabled = true;
+        player1.NetTransform.enabled = true;
+        player2.NetTransform.enabled = true;
+    }
 }

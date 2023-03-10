@@ -46,7 +46,11 @@ public static class MurderPatches
             }
 
             if (killer.PlayerId == target.PlayerId) return false;
+
             ActionHandle handle = ActionHandle.NoInit();
+            Game.TriggerForAll(RoleActionType.AnyMurder, ref handle, killer, target);
+            if (handle.IsCanceled) return false;
+
             killer.Trigger(RoleActionType.AttemptKill, ref handle, target);
             return false;
         }

@@ -13,6 +13,8 @@ public class ManualWin: IWinCondition
     private WinReason winReason;
     private int priority;
 
+    public static void Activate(PlayerControl player, WinReason reason, int priority = 0) => new ManualWin(player, reason, priority).Activate();
+
     public ManualWin(PlayerControl player, WinReason reason, int priority = 0) : this(new List<PlayerControl> { player }, reason, priority) {}
 
     public ManualWin(List<PlayerControl> players, WinReason reason, int priority = 0)

@@ -19,7 +19,7 @@ using VentLib.Utilities;
 namespace TOHTOR.GUI.Patches;
 
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CheckForEndVoting))]
-class CheckForEndVotingPatch
+public class CheckForEndVotingPatch
 {
     public static bool Prefix(MeetingHud __instance)
     {
@@ -84,20 +84,9 @@ class CheckForEndVotingPatch
             VentLogger.Old($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})", "Vote");
 
             exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
-            AntiBlackout.SaveCosmetics();
-            GameData.PlayerInfo? fakeExiled = AntiBlackout.CreateFakePlayer(exiledPlayer);
-
-            if (AntiBlackout.OverrideExiledPlayer)
-                AntiBlackout.ExiledPlayer = exiledPlayer;
-
-            if (fakeExiled == null)
-            {
-                __instance.RpcVotingComplete(states, null, true);
-                return false;
-            }
-
-            __instance.ComplexVotingComplete(states, fakeExiled, tie); //通常処理
+            EndVoting(__instance, states, exiledPlayer, tie);
             return false;
+
         }
         catch (Exception ex)
         {
@@ -105,6 +94,25 @@ class CheckForEndVotingPatch
             throw;
         }
     }
+
+    public static void EndVoting(MeetingHud meetingHud, MeetingHud.VoterState[] voterStates, GameData.PlayerInfo? exiledPlayer, bool tie)
+    {
+        AntiBlackout.SaveCosmetics();
+        GameData.PlayerInfo? fakeExiled = AntiBlackout.CreateFakePlayer(exiledPlayer);
+
+        if (AntiBlackout.OverrideExiledPlayer)
+            AntiBlackout.ExiledPlayer = exiledPlayer;
+
+        if (fakeExiled == null)
+        {
+            meetingHud.RpcVotingComplete(voterStates, null, true);
+            return;
+        }
+
+        meetingHud.ComplexVotingComplete(voterStates, fakeExiled, tie); //通常処理
+    }
+
+
     public static bool IsMayor(byte id)
     {
         var player = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(pc => pc.PlayerId == id);

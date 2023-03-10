@@ -149,7 +149,12 @@ public static class CustomRoleManager
 
         public Baiter Baiter = new Baiter();
         public Bastion Bastion = new Bastion();
+        public Bodyguard Bodyguard = new Bodyguard();
+        public Child Child = new Child();
+        public Crusader Crusader = new Crusader();
+        public Dictator Dictator = new Dictator();
         public Observer Observer = new Observer();
+        public Oracle Oracle = new Oracle();
         public Sheriff Sheriff = new Sheriff();
         public Transporter Transporter = new Transporter();
         public Veteran Veteran = new Veteran();
