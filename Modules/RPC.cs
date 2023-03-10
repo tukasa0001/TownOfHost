@@ -7,11 +7,7 @@ using Hazel;
 
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Crewmate;
 using TownOfHost.Roles.Neutral;
-using TownOfHost.Roles.AddOns.Impostor;
-using TownOfHost.Roles.AddOns.Crewmate;
-
 using static TownOfHost.Translator;
 
 namespace TownOfHost
