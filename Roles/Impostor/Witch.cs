@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using Hazel;
 
+using TownOfHost.Roles.Core;
 using static TownOfHost.Translator;
 using static TownOfHost.Options;
 

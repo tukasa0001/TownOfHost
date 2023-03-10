@@ -4,7 +4,7 @@ using AmongUs.GameOptions;
 
 using static TownOfHost.Options;
 
-namespace TownOfHost.Roles;
+namespace TownOfHost.Roles.Core;
 
 public class SimpleRoleInfo
 {

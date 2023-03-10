@@ -4,7 +4,7 @@ using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
 
-using TownOfHost.Roles;
+using TownOfHost.Roles.Core;
 
 namespace TownOfHost
 {

@@ -1,6 +1,6 @@
 using HarmonyLib;
 
-using TownOfHost.Roles;
+using TownOfHost.Roles.Core;
 
 namespace TownOfHost
 {

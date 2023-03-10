@@ -3,6 +3,7 @@ using System.Linq;
 using HarmonyLib;
 using UnityEngine;
 
+using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
 using static TownOfHost.Options;
 

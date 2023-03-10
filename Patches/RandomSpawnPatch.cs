@@ -5,7 +5,7 @@ using HarmonyLib;
 using Hazel;
 using UnityEngine;
 
-using TownOfHost.Roles;
+using TownOfHost.Roles.Core;
 
 namespace TownOfHost
 {

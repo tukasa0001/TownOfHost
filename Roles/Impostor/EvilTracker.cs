@@ -3,6 +3,8 @@ using Hazel;
 using Il2CppSystem.Text;
 using UnityEngine;
 using AmongUs.GameOptions;
+
+using TownOfHost.Roles.Core;
 using static TownOfHost.Options;
 using static TownOfHost.Translator;
 

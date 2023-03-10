@@ -5,6 +5,7 @@ using Hazel;
 using UnityEngine;
 using AmongUs.GameOptions;
 
+using TownOfHost.Roles.Core;
 using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Crewmate

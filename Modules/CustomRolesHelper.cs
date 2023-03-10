@@ -1,6 +1,6 @@
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles;
+using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
 

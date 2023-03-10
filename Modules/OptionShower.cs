@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-using TownOfHost.Roles;
+using TownOfHost.Roles.Core;
 using static TownOfHost.Translator;
 
 namespace TownOfHost

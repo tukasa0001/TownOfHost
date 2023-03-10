@@ -8,7 +8,7 @@ using InnerNet;
 using UnityEngine;
 
 using TownOfHost.Modules;
-using TownOfHost.Roles;
+using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.AddOns.Impostor;

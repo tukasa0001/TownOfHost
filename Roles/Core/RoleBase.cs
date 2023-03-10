@@ -7,7 +7,7 @@ using AmongUs.GameOptions;
 using TownOfHost.Roles.AddOns.Crewmate;
 using static TownOfHost.Translator;
 
-namespace TownOfHost.Roles;
+namespace TownOfHost.Roles.Core;
 
 public abstract class RoleBase : IDisposable
 {

@@ -5,7 +5,7 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using UnityEngine;
 
-using TownOfHost.Roles;
+using TownOfHost.Roles.Core;
 using static TownOfHost.Translator;
 
 namespace TownOfHost

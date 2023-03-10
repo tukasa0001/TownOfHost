@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Hazel;
 
-using TownOfHost.Roles;
+using TownOfHost.Roles.Core;
 
 namespace TownOfHost
 {

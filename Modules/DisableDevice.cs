@@ -5,7 +5,7 @@ using Hazel;
 using InnerNet;
 using UnityEngine;
 
-using TownOfHost.Roles;
+using TownOfHost.Roles.Core;
 
 namespace TownOfHost
 {

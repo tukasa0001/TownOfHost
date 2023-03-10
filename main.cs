@@ -10,7 +10,7 @@ using HarmonyLib;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 
-using TownOfHost.Roles;
+using TownOfHost.Roles.Core;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]

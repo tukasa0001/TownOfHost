@@ -6,7 +6,7 @@ using HarmonyLib;
 using Hazel;
 
 using TownOfHost.Modules;
-using TownOfHost.Roles;
+using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Crewmate;
 using TownOfHost.Roles.Neutral;

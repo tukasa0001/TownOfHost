@@ -1,7 +1,7 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
 
-using TownOfHost.Roles;
+using TownOfHost.Roles.Core;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
