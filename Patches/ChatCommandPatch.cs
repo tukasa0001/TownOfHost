@@ -534,12 +534,14 @@ internal class ChatCommands
                         }
                     }
                     break;
+                    /*
                 case "/cs":
                     canceled = true;
                     subArgs = text.Remove(0, 3);
                     if (args.Length < 1 || !int.TryParse(args[1], out int sound)) break;
                     CustomSoundsManager.RPCPlay(PlayerControl.LocalPlayer.PlayerId, (CustomSounds)sound);
                     break;
+                    */
 
                 default:
                     Main.isChatCommand = false;
@@ -654,6 +656,9 @@ internal class ChatCommands
             "玩家" => GetString("Gamer"),
             "情報販子" or "情报" or "贩子" => GetString("Messenger"),
             "球狀閃電" or "球闪" or "球状" => GetString("BallLightning"),
+            "潛藏者" or "潜藏" => GetString("DarkHide"),
+            "貪婪者" or "贪婪" => GetString("Greedier"),
+            "工作狂" or "工作" => GetString("Workaholic"),
             "蒐集者" or "搜集" => GetString("Collectors"),
             _ => text,
         };

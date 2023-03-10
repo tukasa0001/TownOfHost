@@ -196,6 +196,9 @@ internal class CheckMurderPatch
                     if (BallLightning.CheckBallLightningMurder(killer, target))
                         return false;
                     break;
+                case CustomRoles.Greedier:
+                    Greedier.OnCheckMurder(killer);
+                    break;
 
                 //==========第三陣営役職==========//
                 case CustomRoles.Arsonist:
@@ -241,6 +244,9 @@ internal class CheckMurderPatch
                 case CustomRoles.Gamer:
                     if (Gamer.CheckGamerMurder(killer, target))
                         return false;
+                    break;
+                case CustomRoles.DarkHide:
+                    DarkHide.OnCheckMurder(killer, target);
                     break;
 
                 //==========クルー役職==========//
@@ -497,7 +503,6 @@ internal class MurderPlayerPatch
         }
 
         FixedUpdatePatch.LoversSuicide(target.PlayerId);
-        Messenger.OnMurder(killer, target);
 
         Main.PlayerStates[target.PlayerId].SetDead();
         target.SetRealKiller(killer, true); //既に追加されてたらスキップ
@@ -775,7 +780,6 @@ internal class ReportDeadBodyPatch
         Main.PuppeteerList.Clear();
         Sniper.OnReportDeadBody();
         Vampire.OnStartMeeting();
-        Messenger.OnReportDeadbody();
         Pelican.OnReport();
         foreach (var x in Main.RevolutionistStart)
         {
@@ -1342,9 +1346,6 @@ internal class FixedUpdatePatch
                 Suffix.Append(BountyHunter.GetTargetArrow(seer, target));
 
                 Suffix.Append(EvilTracker.GetTargetArrow(seer, target));
-
-                if (GameStates.IsInTask && target.Is(CustomRoles.Messenger) && target.AmOwner)
-                    Suffix.Append(Messenger.GetMurderSceneText(target));
 
                 if (GameStates.IsInTask && seer.Is(CustomRoles.AntiAdminer))
                 {

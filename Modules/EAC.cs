@@ -83,14 +83,23 @@ internal class EAC
                     }
                     break;
                 case RpcCalls.StartMeeting:
-                case RpcCalls.ReportDeadBody:
                     var p = Utils.GetPlayerById(sr.ReadByte());
                     MeetingTimes++;
-                    if ((GameStates.IsMeeting && MeetingTimes > 20) || GameStates.IsLobby)
+                    if ((GameStates.IsMeeting && MeetingTimes > 3) || GameStates.IsLobby)
                     {
                         WarnHost();
                         Report(pc, "非法召集会议");
                         Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法召集会议：【{p?.GetNameWithRole() ?? "null"}】，已驳回", "EAC");
+                        return true;
+                    }
+                    break;
+                case RpcCalls.ReportDeadBody:
+                    var p1 = Utils.GetPlayerById(sr.ReadByte());
+                    if (p1 == null || (p1.IsAlive() && !p1.Is(CustomRoles.Paranoia)))
+                    {
+                        WarnHost();
+                        Report(pc, "非法报告尸体");
+                        Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法报告尸体：【{p1?.GetNameWithRole() ?? "null"}】，已驳回", "EAC");
                         return true;
                     }
                     break;

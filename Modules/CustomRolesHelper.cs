@@ -67,6 +67,8 @@ internal static class CustomRolesHelper
                 CustomRoles.Konan => CustomRoles.Crewmate,
                 CustomRoles.Divinator => CustomRoles.Crewmate,
                 CustomRoles.BallLightning => CustomRoles.Impostor,
+                CustomRoles.Greedier => CustomRoles.Impostor,
+                CustomRoles.Workaholic=> CustomRoles.Engineer,
                 _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
     }
@@ -98,6 +100,7 @@ internal static class CustomRolesHelper
             CustomRoles.FFF => RoleTypes.Impostor,
             CustomRoles.Medicaler => RoleTypes.Impostor,
             CustomRoles.Gamer => RoleTypes.Impostor,
+            CustomRoles.DarkHide => RoleTypes.Impostor,
             _ => RoleTypes.Scientist
         };
     }
@@ -130,7 +133,8 @@ internal static class CustomRolesHelper
             CustomRoles.Jackal or
             CustomRoles.Pelican or
             CustomRoles.FFF or
-            CustomRoles.Gamer;
+            CustomRoles.Gamer or
+            CustomRoles.DarkHide;
     }
     public static bool IsNNK(this CustomRoles role) => role.IsNeutral() && !role.IsNK(); // 是否无刀中立
     public static bool IsNeutralKilling(this CustomRoles role) //是否邪恶中立（抢夺或单独胜利的中立）
@@ -144,7 +148,9 @@ internal static class CustomRolesHelper
             CustomRoles.Innocent or
             CustomRoles.Pelican or
             CustomRoles.Egoist or
-            CustomRoles.Gamer;
+            CustomRoles.Gamer or
+            CustomRoles.DarkHide or
+            CustomRoles.Workaholic;
     }
     public static bool IsCK(this CustomRoles role) // 是否带刀船员
     {
@@ -185,8 +191,8 @@ internal static class CustomRolesHelper
             CustomRoles.Capitalism or
             CustomRoles.Gangster or
             CustomRoles.Cleaner or
-            CustomRoles.Messenger or
-            CustomRoles.BallLightning;
+            CustomRoles.BallLightning or
+            CustomRoles.Greedier;
     }
     public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role == CustomRoles.Madmate;
     public static bool IsNeutral(this CustomRoles role) // 是否中立
@@ -205,7 +211,9 @@ internal static class CustomRolesHelper
             CustomRoles.Revolutionist or
             CustomRoles.FFF or
             CustomRoles.Konan or
-            CustomRoles.Gamer;
+            CustomRoles.Gamer or
+            CustomRoles.DarkHide or
+            CustomRoles.Workaholic;
     }
     public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
     public static bool IsVanilla(this CustomRoles role) // 是否原版职业

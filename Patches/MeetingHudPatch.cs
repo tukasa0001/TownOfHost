@@ -307,9 +307,12 @@ internal class CheckForEndVotingPatch
         var playerList = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Innocent) && !x.IsAlive() && x.GetRealKiller().PlayerId == exileId);
         if (playerList.Count() > 0)
         {
-            if (DecidedWinner) name += string.Format(GetString("ExiledInnocentTargetAddBelow"));
-            else name = string.Format(GetString("ExiledInnocentTargetInOneLine"), realName, coloredRole);
-            DecidedWinner = true;
+            if (!(!Options.InnocentCanWinByImp.GetBool() && crole.IsImpostor()))
+            {
+                if (DecidedWinner) name += string.Format(GetString("ExiledInnocentTargetAddBelow"));
+                else name = string.Format(GetString("ExiledInnocentTargetInOneLine"), realName, coloredRole);
+                DecidedWinner = true;
+            }
         }
 
         if (DecidedWinner) name += "<size=0>";
@@ -701,6 +704,8 @@ internal class MeetingHudStartPatch
                     sb.Append(Executioner.TargetMark(seer, target));
                     break;
                 case CustomRoles.Jackal:
+                case CustomRoles.Pelican:
+                case CustomRoles.DarkHide:
                     sb.Append(Snitch.GetWarningMark(seer, target));
                     break;
                 case CustomRoles.EvilTracker:
@@ -730,6 +735,7 @@ internal class MeetingHudStartPatch
                     break;
                 case CustomRoles.Gamer:
                     sb.Append(Gamer.TargetMark(seer, target));
+                    sb.Append(Snitch.GetWarningMark(seer, target));
                     break;
             }
 
@@ -764,7 +770,7 @@ internal class MeetingHudStartPatch
             //球状闪电提示
             if (BallLightning.IsGhost(target))
                 sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.BallLightning), "■"));
-            
+
             //法医护盾提示
             if (seer.PlayerId == target.PlayerId)
                 sb.Append(Medicaler.GetSheildMark(seer));

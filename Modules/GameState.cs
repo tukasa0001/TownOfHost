@@ -107,6 +107,8 @@ public class PlayerState
         Eaten,
         Sacrifice,
         Quantization,
+        Overtired,
+        Ashamed,
         etc = -1
     }
     public byte GetRealKiller()
@@ -189,6 +191,29 @@ public class TaskState
             }
         }
 
+        //工作狂做完了
+        if (player.Is(CustomRoles.Workaholic) && (CompletedTasksCount + 1) >= AllTasksCount
+                && !(Options.WorkaholicCannotWinAtDeath.GetBool() && !player.IsAlive()))
+        {
+            foreach (var pc in Main.AllAlivePlayerControls)
+            {
+                if (pc != player)
+                {
+                    pc.SetRealKiller(player);
+                    pc.RpcMurderPlayer(pc);
+                    Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Ashamed;
+                    Main.PlayerStates[pc.PlayerId].SetDead();
+                }
+                else
+                {
+                    RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
+                    Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Overtired;
+                }
+            }
+            CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Workaholic); //爆破で勝利した人も勝利させる
+            CustomWinnerHolder.WinnerIds.Add(player.PlayerId);
+        }
+
         //クリアしてたらカウントしない
         if (CompletedTasksCount >= AllTasksCount) return;
 
@@ -234,6 +259,10 @@ public static class GameStates
     public static bool IsInTask => InGame && !MeetingHud.Instance;
     public static bool IsMeeting => InGame && MeetingHud.Instance;
     public static bool IsCountDown => GameStartManager.InstanceExists && GameStartManager.Instance.startState == GameStartManager.StartingStates.Countdown;
+    /**********TOP ZOOM.cs***********/
+    public static bool IsShip => ShipStatus.Instance != null;
+    public static bool IsCanMove => PlayerControl.LocalPlayer?.CanMove is true;
+    public static bool IsDead => PlayerControl.LocalPlayer?.Data?.IsDead is true;
 }
 public static class MeetingStates
 {

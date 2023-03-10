@@ -27,7 +27,8 @@ public static class LastImpostor
             and not CustomRoles.BountyHunter
             and not CustomRoles.SerialKiller
             and not CustomRoles.Sans
-            and not CustomRoles.Mare;
+            and not CustomRoles.Mare
+            and not CustomRoles.Greedier;
     }
 
     public static void SetSubRole()

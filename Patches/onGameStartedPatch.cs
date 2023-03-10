@@ -163,7 +163,6 @@ internal class ChangeRoleSettings
             Sheriff.Init();
             SwordsMan.Init();
             EvilTracker.Init();
-            Messenger.Init();
             Snitch.Init();
             Vampire.Init();
             AntiAdminer.Init();
@@ -178,6 +177,8 @@ internal class ChangeRoleSettings
             Medicaler.Init();
             Gamer.Init();
             BallLightning.Init();
+            DarkHide.Init();
+            Greedier.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
@@ -630,9 +631,6 @@ internal class SelectRolesPatch
                     case CustomRoles.EvilTracker:
                         EvilTracker.Add(pc.PlayerId);
                         break;
-                    case CustomRoles.Messenger:
-                        Messenger.Add(pc.PlayerId);
-                        break;
                     case CustomRoles.Snitch:
                         Snitch.Add(pc.PlayerId);
                         break;
@@ -668,6 +666,12 @@ internal class SelectRolesPatch
                         break;
                     case CustomRoles.BallLightning:
                         BallLightning.Add(pc.PlayerId);
+                        break;
+                    case CustomRoles.DarkHide:
+                        DarkHide.Add(pc.PlayerId);
+                        break;
+                    case CustomRoles.Greedier:
+                        Greedier.Add(pc.PlayerId);
                         break;
                 }
                 foreach (var subRole in pc.GetCustomSubRoles())

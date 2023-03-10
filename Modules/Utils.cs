@@ -201,7 +201,6 @@ public static class Utils
 || !seer.Data.IsDead && killer != seer && target != seer
 && seer.GetCustomRole() switch
 {
-    CustomRoles.Messenger => Messenger.KillFlashCheck(killer, target),
     CustomRoles.EvilTracker => EvilTracker.KillFlashCheck(killer, target),
     CustomRoles.Seer => true,
     _ => false
@@ -240,11 +239,6 @@ public static class Utils
             opt.SetFloat(FloatOptionNames.CrewLightMod, 0);
         }
         return;
-    }
-    public static bool IsImpostorKill(PlayerControl killer, PlayerControl target)
-    {
-        var realKiller = target.GetRealKiller() ?? killer;
-        return realKiller.Is(CustomRoleTypes.Impostor) && realKiller != target;
     }
     public static string GetDisplayRoleName(byte playerId)
     {
@@ -347,6 +341,7 @@ public static class Utils
             case CustomRoles.Revolutionist:
             case CustomRoles.FFF:
             case CustomRoles.Gamer:
+            case CustomRoles.DarkHide:
             case CustomRoles.Collectors:
                 hasTasks = false;
                 break;
@@ -356,6 +351,12 @@ public static class Utils
                 break;
             case CustomRoles.Executioner:
                 hasTasks = Executioner.ChangeRolesAfterTargetKilled.GetValue() == 0 && !ForRecompute;
+                break;
+            case CustomRoles.Workaholic:
+                if (ForRecompute || (Options.WorkaholicCannotWinAtDeath.GetBool() && p.IsDead))
+                    hasTasks = false;
+                else
+                    hasTasks = true;
                 break;
             default:
                 if (role.IsImpostor()) hasTasks = false;
@@ -393,7 +394,6 @@ public static class Utils
             pc.Is(CustomRoles.Needy) ||
             pc.Is(CustomRoles.Snitch) ||
             pc.Is(CustomRoles.CyberStar) ||
-            pc.Is(CustomRoles.Youtuber) ||
             pc.Is(CustomRoles.Egoist)
             );
     }
@@ -1029,9 +1029,6 @@ public static class Utils
             SelfSuffix.Append(Snitch.GetSnitchArrow(seer));
 
             SelfSuffix.Append(EvilTracker.GetTargetArrow(seer, seer));
-
-            if (seer.Is(CustomRoles.Messenger) && !isMeeting)
-                SelfSuffix.Append(Messenger.GetMurderSceneText(seer));
 
             //RealNameを取得 なければ現在の名前をRealNamesに書き込む
             string SeerRealName = seer.GetRealName(isMeeting);

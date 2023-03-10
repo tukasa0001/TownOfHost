@@ -35,7 +35,7 @@ public class Main : BasePlugin
     public static readonly string BANNEDWORDS_FILE_PATH = "./TOHE_DATA/BanWords.txt";
     public const string PluginGuid = "com.karped1em.townofhostedited";
     public const string PluginVersion = "2.1.2";
-    public const int PluginCreate = 5;
+    public const int PluginCreate = 8;
     public Harmony Harmony { get; } = new Harmony(PluginGuid);
     public static Version version = Version.Parse(PluginVersion);
     public static BepInEx.Logging.ManualLogSource Logger;
@@ -182,24 +182,23 @@ public class Main : BasePlugin
         Logger = BepInEx.Logging.Logger.CreateLogSource("TOHE");
         TOHE.Logger.Enable();
         TOHE.Logger.Disable("NotifyRoles");
-        TOHE.Logger.Disable("SendRPC");
-        //TOHE.Logger.Disable("ReceiveRPC");
         TOHE.Logger.Disable("SwitchSystem");
-        TOHE.Logger.Disable("CustomRpcSender");
         if (!DebugModeManager.AmDebugger)
         {
-            //TOHE.Logger.Disable("2018k");
+            TOHE.Logger.Disable("CustomRpcSender");
+            //TOHE.Logger.Disable("ReceiveRPC");
+            TOHE.Logger.Disable("SendRPC");
             TOHE.Logger.Disable("SetRole");
             TOHE.Logger.Disable("Info.Role");
             TOHE.Logger.Disable("TaskState.Init");
-            TOHE.Logger.Disable("Vote");
+            //TOHE.Logger.Disable("Vote");
             TOHE.Logger.Disable("RpcSetNamePrivate");
             //TOHE.Logger.Disable("SendChat");
             TOHE.Logger.Disable("SetName");
-            TOHE.Logger.Disable("AssignRoles");
+            //TOHE.Logger.Disable("AssignRoles");
             //TOHE.Logger.Disable("RepairSystem");
-            TOHE.Logger.Disable("MurderPlayer");
-            TOHE.Logger.Disable("CheckMurder");
+            //TOHE.Logger.Disable("MurderPlayer");
+            //TOHE.Logger.Disable("CheckMurder");
             TOHE.Logger.Disable("PlayerControl.RpcSetRole");
         }
         //TOHE.Logger.isDetail = true;
@@ -314,6 +313,8 @@ public class Main : BasePlugin
                 {CustomRoles.FFF, "#414b66"},
                 {CustomRoles.Konan, "#4d4dff"},
                 {CustomRoles.Gamer, "#68bc71"},
+                {CustomRoles.DarkHide, "#483d8b"},
+                {CustomRoles.Workaholic, "#008b8b"},
                 {CustomRoles.Collectors, "#9d8892"},
                 // GM
                 {CustomRoles.GM, "#ff5b70"},
@@ -411,8 +412,8 @@ public enum CustomRoles
     Capitalism,
     Gangster,
     Cleaner,
-    Messenger,
     BallLightning,
+    Greedier,
     //Crewmate(Vanilla)
     Engineer,
     GuardianAngel,
@@ -459,6 +460,8 @@ public enum CustomRoles
     FFF,
     Konan,
     Gamer,
+    DarkHide,
+    Workaholic,
     Collectors,
     //GM
     GM,
@@ -507,6 +510,8 @@ public enum CustomWinner
     Youtuber = CustomRoles.Youtuber,
     Egoist = CustomRoles.Egoist,
     Gamer = CustomRoles.Gamer,
+    DarkHide = CustomRoles.DarkHide,
+    Workaholic = CustomRoles.Workaholic,
 }
 public enum AdditionalWinners
 {

@@ -49,6 +49,18 @@ internal class GameEndChecker
             if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw and not CustomWinner.None and not CustomWinner.Error)
             {
 
+                //潜藏者抢夺胜利
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (pc.Is(CustomRoles.DarkHide) && !pc.Data.IsDead
+                        && ((CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor && !reason.Equals(GameOverReason.ImpostorBySabotage)) || CustomWinnerHolder.WinnerTeam == CustomWinner.DarkHide
+                        || (CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate && !reason.Equals(GameOverReason.HumansByTask) && DarkHide.IsWinKill[pc.PlayerId] == true)))
+                    {
+                        CustomWinnerHolder.ResetAndSetWinner(CustomWinner.DarkHide);
+                        CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                    }
+                }
+
                 //利己主义者抢夺胜利（船员）
                 if (CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate)
                 {
@@ -79,6 +91,8 @@ internal class GameEndChecker
                         .Where(p => p.Is(CustomRoles.God) && p.IsAlive())
                         .Do(p => CustomWinnerHolder.WinnerIds.Add(p.PlayerId));
                 }
+
+                //恋人抢夺胜利
                 else if (CustomRolesHelper.RoleExist(CustomRoles.Lovers) && !reason.Equals(GameOverReason.HumansByTask))
                 {
                     if (!(!Main.LoversPlayers.ToArray().All(p => p.IsAlive()) && Options.LoverSuicide.GetBool()))
@@ -93,7 +107,8 @@ internal class GameEndChecker
                         }
                     }
                 }
-                //追加勝利陣営
+
+                //追加胜利
                 foreach (var pc in Main.AllPlayerControls)
                 {
                     //Opportunist

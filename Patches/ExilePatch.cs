@@ -69,7 +69,7 @@ internal class ExileControllerWrapUpPatch
                 var playerList = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Innocent) && !x.IsAlive() && x.GetRealKiller().PlayerId == exiled.PlayerId);
                 if (playerList.Count() > 0)
                 {
-                    if (Options.InnocentCanWinByImp.GetBool() && role.IsImpostor())
+                    if (!Options.InnocentCanWinByImp.GetBool() && role.IsImpostor())
                     {
                         Logger.Info("冤罪的目标是内鬼，非常可惜啊", "Exeiled Winner Check");
                     }
