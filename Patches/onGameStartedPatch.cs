@@ -247,7 +247,7 @@ internal class SelectRolesPatch
                 if (CustomRolesHelper.IsAdditionRole(role))
                 {
                     if (role is CustomRoles.Madmate && Options.MadmateSpawnMode.GetInt() != 0) continue;
-                    if (role is CustomRoles.LastImpostor or CustomRoles.Lovers) continue;
+                    if (role is CustomRoles.LastImpostor or CustomRoles.Lovers or CustomRoles.Workhorse) continue;
                     addRoleList.Add(role);
                     continue;
                 }

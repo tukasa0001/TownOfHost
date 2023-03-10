@@ -416,6 +416,7 @@ public enum CustomRoles
     BallLightning,
     Greedier,
     CursedWolf,
+    NormalImpostor,
     //Crewmate(Vanilla)
     Engineer,
     GuardianAngel,
