@@ -45,7 +45,7 @@ public static class CustomRoleManager
         CheckMurderInfo info = new(attemptKiller, attemptTarget, appearanceKiller, appearanceTarget);
         foreach (var role in AllActiveRoles)
         {
-            if (attemptKiller != role.Player || attemptTarget != role.Player) continue;
+            //if (attemptKiller != role.Player || attemptTarget != role.Player) continue;
             var m = role.OnCheckMurder(attemptKiller, attemptTarget, info);
             if (m != null)
                 methods.AddFirst((0, m, role));
