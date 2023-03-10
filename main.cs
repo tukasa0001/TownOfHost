@@ -322,7 +322,7 @@ public class Main : BasePlugin
                 //サブ役職
                 {CustomRoles.NotAssigned, "#ffffff"},
                 {CustomRoles.LastImpostor, "#ff1919"},
-                {CustomRoles.Lovers, "#ff6be4"},
+                {CustomRoles.Lovers, "#ff9ace"},
                 {CustomRoles.Ntr, "#00a4ff"},
                 {CustomRoles.Madmate, "#ff1919"},
                 {CustomRoles.Watcher, "#800080"},
