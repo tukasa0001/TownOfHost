@@ -12,14 +12,19 @@ namespace TownOfHost.Roles.Core;
 public abstract class RoleBase : IDisposable
 {
     public PlayerControl Player;
-    public bool HasTasks = false;
+    public bool HasTasks;
+    public bool CanKill;
     public RoleBase(
+        SimpleRoleInfo roleInfo,
         PlayerControl player,
-        bool hasTasks
+        bool? hasTasks = null,
+        bool? canKill = null
     )
     {
+
         Player = player;
-        HasTasks = hasTasks;
+        HasTasks = hasTasks ?? roleInfo.CustomRoleType == CustomRoleTypes.Crewmate;
+        CanKill = canKill ?? roleInfo.BaseRoleType is RoleTypes.Impostor or RoleTypes.Shapeshifter;
 
         CustomRoleManager.AllActiveRoles.Add(this);
     }
@@ -50,7 +55,7 @@ public abstract class RoleBase : IDisposable
     /// キルボタンを使えるかどうか
     /// </summary>
     /// <returns>trueを返した場合、キルボタンを使える</returns>
-    public virtual bool CanUseKillButton() => false;
+    public virtual bool CanUseKillButton() => CanKill;
     /// <summary>
     /// キルクールダウンを設定する関数
     /// </summary>

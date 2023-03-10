@@ -23,8 +23,8 @@ namespace TownOfHost.Roles.Impostor
             );
         public BountyHunter(PlayerControl player)
         : base(
-            player,
-            false
+            RoleInfo,
+            player
         )
         {
             TargetChangeTime = OptionTargetChangeTime.GetFloat();

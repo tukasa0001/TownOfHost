@@ -26,6 +26,7 @@ namespace TownOfHost.Roles.Crewmate
             );
         public Sheriff(PlayerControl player)
         : base(
+            RoleInfo,
             player,
             false
         )
