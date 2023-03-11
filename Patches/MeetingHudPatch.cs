@@ -374,7 +374,6 @@ namespace TownOfHost
                     case CustomRoleTypes.Impostor:
                         if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
                             sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★")); //変更対象にSnitchマークをつける
-                        sb.Append(Snitch.GetWarningMark(seer, target));
                         break;
                 }
                 switch (seer.GetCustomRole())
@@ -385,10 +384,6 @@ namespace TownOfHost
                         break;
                     case CustomRoles.Executioner:
                         sb.Append(Executioner.TargetMark(seer, target));
-                        break;
-                    case CustomRoles.Egoist:
-                    case CustomRoles.Jackal:
-                        sb.Append(Snitch.GetWarningMark(seer, target));
                         break;
                     case CustomRoles.EvilTracker:
                         sb.Append(EvilTracker.GetTargetMark(seer, target));

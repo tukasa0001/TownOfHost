@@ -342,45 +342,48 @@ namespace TownOfHost
             var roleClass = CustomRoleManager.GetByPlayerId(playerId);
             ProgressText.Append(roleClass?.GetProgressText(comms));
             // switch (role.RoleName)
-            switch (role)
+            if (ProgressText.Length == 0)
             {
-                case CustomRoles.Arsonist:
-                    var doused = GetDousedPlayerCount(playerId);
-                    ProgressText.Append(ColorString(GetRoleColor(CustomRoles.Arsonist).ShadeColor(0.25f), $"({doused.Item1}/{doused.Item2})"));
-                    break;
-                case CustomRoles.Sniper:
-                    ProgressText.Append(Sniper.GetBulletCount(playerId));
-                    break;
-                case CustomRoles.EvilTracker:
-                    ProgressText.Append(EvilTracker.GetMarker(playerId));
-                    break;
-                case CustomRoles.TimeThief:
-                    ProgressText.Append(TimeThief.GetProgressText(playerId));
-                    break;
-                default:
-                    //タスクテキスト
-                    var taskState = Main.PlayerStates?[playerId].GetTaskState();
-                    if (taskState.hasTasks)
-                    {
-                        Color TextColor = Color.yellow;
-                        var info = GetPlayerInfoById(playerId);
-                        var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(role).ShadeColor(0.5f); //タスク完了後の色
-                        var NonCompleteColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
+                switch (role)
+                {
+                    case CustomRoles.Arsonist:
+                        var doused = GetDousedPlayerCount(playerId);
+                        ProgressText.Append(ColorString(GetRoleColor(CustomRoles.Arsonist).ShadeColor(0.25f), $"({doused.Item1}/{doused.Item2})"));
+                        break;
+                    case CustomRoles.Sniper:
+                        ProgressText.Append(Sniper.GetBulletCount(playerId));
+                        break;
+                    case CustomRoles.EvilTracker:
+                        ProgressText.Append(EvilTracker.GetMarker(playerId));
+                        break;
+                    case CustomRoles.TimeThief:
+                        ProgressText.Append(TimeThief.GetProgressText(playerId));
+                        break;
+                    default:
+                        //タスクテキスト
+                        var taskState = Main.PlayerStates?[playerId].GetTaskState();
+                        if (taskState.hasTasks)
+                        {
+                            Color TextColor = Color.yellow;
+                            var info = GetPlayerInfoById(playerId);
+                            var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(role).ShadeColor(0.5f); //タスク完了後の色
+                            var NonCompleteColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
 
-                        if (Workhorse.IsThisRole(playerId))
-                            NonCompleteColor = Workhorse.RoleColor;
+                            if (Workhorse.IsThisRole(playerId))
+                                NonCompleteColor = Workhorse.RoleColor;
 
-                        var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
+                            var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
 
-                        TextColor = comms ? Color.gray : NormalColor;
-                        string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-                        ProgressText.Append(ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})"));
-                    }
-                    break;
+                            TextColor = comms ? Color.gray : NormalColor;
+                            string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
+                            ProgressText.Append(ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})"));
+                        }
+                        break;
+                }
+                if (ProgressText.Length != 0)
+                    ProgressText.Insert(0, " "); //空じゃなければ空白を追加
+                if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText.Append(ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]"));
             }
-            if (ProgressText.Length != 0)
-                ProgressText.Insert(0, " "); //空じゃなければ空白を追加
-            if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText.Append(ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]"));
 
             return ProgressText.ToString();
         }
@@ -712,7 +715,6 @@ namespace TownOfHost
 
                 //名前の後ろに付けるマーカー
                 SelfMark.Clear();
-                SelfMark.Append(CustomRoleManager.GetMark(seer, isForMeeting: isForMeeting));
 
                 //seer役職が対象のMark
                 SelfMark.Append(seerRole?.GetMark(seer, isForMeeting: isForMeeting));
@@ -750,9 +752,6 @@ namespace TownOfHost
                 SelfSuffix.Append(seerRole?.GetSuffix(seer, isForMeeting: isForMeeting));
                 //seerに関わらず発動するSuffix
                 SelfSuffix.Append(CustomRoleManager.GetSuffixOthers(seer, isForMeeting: isForMeeting));
-
-                //タスクを終えたSnitchがインポスター/キル可能なニュートラルの方角を確認できる
-                SelfSuffix.Append(Snitch.GetSnitchArrow(seer));
 
                 SelfSuffix.Append(EvilTracker.GetTargetArrow(seer, seer));
 
@@ -808,9 +807,6 @@ namespace TownOfHost
 
                         //呪われている人
                         TargetMark.Append(Witch.GetSpelledMark(target.PlayerId, isForMeeting));
-
-                        //タスク完了直前のSnitchにマークを表示
-                        TargetMark.Append(Snitch.GetWarningMark(seer, target));
 
                         //ハートマークを付ける(相手に)
                         if (seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers))

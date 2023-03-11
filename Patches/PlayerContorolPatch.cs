@@ -711,6 +711,7 @@ namespace TownOfHost
 
                     //変数定義
                     var seer = PlayerControl.LocalPlayer;
+                    var seerRole = seer.GetRoleClass();
                     var target = __instance;
                     string RealName;
                     Mark.Clear();
@@ -730,15 +731,16 @@ namespace TownOfHost
                     //NameColorManager準拠の処理
                     RealName = RealName.ApplyNameColorData(seer, target, false);
 
-                    Mark.Append(CustomRoleManager.GetMark(seer, target, false));
+                    //seer役職が対象のMark
+                    Mark.Append(seerRole?.GetMark(seer, target, false));
+                    //seerに関わらず発動するMark
+                    Mark.Append(CustomRoleManager.GetMarkOthers(seer, target, false));
 
                     if (seer.GetCustomRole().IsImpostor()) //seerがインポスター
                     {
                         if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool()) //targetがタスクを終わらせたマッドスニッチ
                             Mark.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★")); //targetにマーク付与
                     }
-                    //インポスター/キル可能なニュートラルがタスクが終わりそうなSnitchを確認できる
-                    Mark.Append(Snitch.GetWarningMark(seer, target));
 
                     if (seer.Is(CustomRoles.Arsonist))
                     {
@@ -769,8 +771,6 @@ namespace TownOfHost
 
                     }
                     if (seer.Is(CustomRoles.EvilTracker)) Mark.Append(EvilTracker.GetTargetMark(seer, target));
-                    //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能なニュートラルに警告が表示される
-                    Mark.Append(Snitch.GetWarningArrow(seer, target));
 
                     //ハートマークを付ける(会議中MOD視点)
                     if (__instance.Is(CustomRoles.Lovers) && PlayerControl.LocalPlayer.Is(CustomRoles.Lovers))
@@ -782,10 +782,14 @@ namespace TownOfHost
                         Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>");
                     }
 
-                    //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能なニュートラルの方角がわかる
-                    Suffix.Append(Snitch.GetSnitchArrow(seer, target));
+                    //seerに関わらず発動するLowerText
+                    Suffix.Append(CustomRoleManager.GetLowerTextOthers(seer, target));
 
-                    Suffix.Append(CustomRoleManager.GetSuffix(seer, target));
+                    //seer役職が対象のSuffix
+                    Suffix.Append(seerRole?.GetSuffix(seer, target));
+
+                    //seerに関わらず発動するSuffix
+                    Suffix.Append(CustomRoleManager.GetSuffixOthers(seer, target));
 
                     Suffix.Append(EvilTracker.GetTargetArrow(seer, target));
 

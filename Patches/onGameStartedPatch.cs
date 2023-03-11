@@ -130,7 +130,6 @@ namespace TownOfHost
             Executioner.Init();
             Jackal.Init();
             EvilTracker.Init();
-            Snitch.Init();
             SchrodingerCat.Init();
             Vampire.Init();
             TimeManager.Init();
