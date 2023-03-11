@@ -1,7 +1,6 @@
-﻿using System;
+﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
-using HarmonyLib;
-using Il2CppSystem.Diagnostics;
 using UnityEngine;
 
 namespace TOHE;
@@ -70,25 +69,25 @@ public static class Zoom
 
 public static class Flag
 {
-private static List<string> OneTimeList = new();
-private static List<string> FirstRunList = new();
-public static void Run(Action action, string type, bool firstrun = false)
-{
-    if (OneTimeList.Contains(type) || (firstrun && !FirstRunList.Contains(type)))
+    private static List<string> OneTimeList = new();
+    private static List<string> FirstRunList = new();
+    public static void Run(Action action, string type, bool firstrun = false)
     {
-        if (!FirstRunList.Contains(type)) FirstRunList.Add(type);
-        OneTimeList.Remove(type);
-        action();
+        if (OneTimeList.Contains(type) || (firstrun && !FirstRunList.Contains(type)))
+        {
+            if (!FirstRunList.Contains(type)) FirstRunList.Add(type);
+            OneTimeList.Remove(type);
+            action();
+        }
+
+    }
+    public static void NewFlag(string type)
+    {
+        if (!OneTimeList.Contains(type)) OneTimeList.Add(type);
     }
 
-}
-public static void NewFlag(string type)
-{
-    if (!OneTimeList.Contains(type)) OneTimeList.Add(type);
-}
-
-public static void DeleteFlag(string type)
-{
-    if (OneTimeList.Contains(type)) OneTimeList.Remove(type);
-}
+    public static void DeleteFlag(string type)
+    {
+        if (OneTimeList.Contains(type)) OneTimeList.Remove(type);
+    }
 }
