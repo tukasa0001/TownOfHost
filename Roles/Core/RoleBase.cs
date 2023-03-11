@@ -26,9 +26,6 @@ public abstract class RoleBase : IDisposable
         CanKill = canKill ?? roleInfo.BaseRoleType is RoleTypes.Impostor or RoleTypes.Shapeshifter;
 
         CustomRoleManager.AllActiveRoles.Add(this);
-        CustomRoleManager.MarkerList.Add(GetMark);
-        CustomRoleManager.LowerList.Add(GetLowerText);
-        CustomRoleManager.SuffixList.Add(GetSuffix);
     }
     public void Dispose()
     {
@@ -110,6 +107,7 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     public virtual void AfterMeetingTasks()
     { }
+    /// <summary>
     /// タスクが一個完了するごとに呼ばれる関数
     /// </summary>
     public virtual void OnCompleteTask()
@@ -150,8 +148,36 @@ public abstract class RoleBase : IDisposable
         string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
         return Utils.ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})");
     }
+    /// <summary>
+    /// seerもしくはseenが自分であるときのMark
+    /// seer,seenともに自分以外であるときに表示したい場合は同じ引数でstaticとして実装し
+    /// CustomRoleManager.MarkOthersに登録する
+    /// </summary>
+    /// <param name="seer">見る側</param>
+    /// <param name="seen">見られる側</param>
+    /// <param name="isForMeeting">会議中フラグ</param>
+    /// <returns>構築したMark</returns>
     public virtual string GetMark(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false) => "";
+    /// <summary>
+    /// seerもしくはseenが自分であるときのLowerTex
+    /// seer,seenともに自分以外であるときに表示したい場合は同じ引数でstaticとして実装し
+    /// CustomRoleManager.LowerOthersに登録する
+    /// </summary>
+    /// <param name="seer">見る側</param>
+    /// <param name="seen">見られる側</param>
+    /// <param name="isForMeeting">会議中フラグ</param>
+    /// <param name="isForHud">ModでHudとして表示する場合</param>
+    /// <returns>構築したLowerText</returns>
     public virtual string GetLowerText(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false, bool isForHud = false) => "";
+    /// <summary>
+    /// seerもしくはseenが自分であるときのSuffix
+    /// seer,seenともに自分以外であるときに表示したい場合は同じ引数でstaticとして実装し
+    /// CustomRoleManager.SuffixOthersに登録する
+    /// </summary>
+    /// <param name="seer">見る側</param>
+    /// <param name="seen">見られる側</param>
+    /// <param name="isForMeeting">会議中フラグ</param>
+    /// <returns>構築したMark</returns>
     public virtual string GetSuffix(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false) => "";
 
     /// <summary>

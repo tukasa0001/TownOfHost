@@ -158,9 +158,9 @@ public static class CustomRoleManager
     {
         AllRolesInfo.Do(kvp => kvp.Value.IsEnable = kvp.Key.IsEnable());
         AllActiveRoles.Clear();
-        MarkerList.Clear();
-        LowerList.Clear();
-        SuffixList.Clear();
+        MarkOthers.Clear();
+        LowerOthers.Clear();
+        SuffixOthers.Clear();
     }
     public static void CreateInstance()
     {
@@ -235,9 +235,6 @@ public static class CustomRoleManager
             case CustomRoles.EvilTracker:
                 EvilTracker.Add(pc.PlayerId);
                 break;
-            case CustomRoles.Snitch:
-                Snitch.Add(pc.PlayerId);
-                break;
             case CustomRoles.SchrodingerCat:
                 SchrodingerCat.Add(pc.PlayerId);
                 break;
@@ -257,38 +254,62 @@ public static class CustomRoleManager
     }
     public static void Dispose()
     {
-        MarkerList.Clear();
-        LowerList.Clear();
-        SuffixList.Clear();
+        MarkOthers.Clear();
+        LowerOthers.Clear();
+        SuffixOthers.Clear();
         CustomRoleManager.AllActiveRoles.Do(roleClass => roleClass.Dispose());
     }
     //NameSystem
-    public static HashSet<Func<PlayerControl, PlayerControl, bool, string>> MarkerList = new();
-    public static HashSet<Func<PlayerControl, PlayerControl, bool, bool, string>> LowerList = new();
-    public static HashSet<Func<PlayerControl, PlayerControl, bool, string>> SuffixList = new();
-    public static string GetMark(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false)
+    public static HashSet<Func<PlayerControl, PlayerControl, bool, string>> MarkOthers = new();
+    public static HashSet<Func<PlayerControl, PlayerControl, bool, bool, string>> LowerOthers = new();
+    public static HashSet<Func<PlayerControl, PlayerControl, bool, string>> SuffixOthers = new();
+    /// <summary>
+    /// seer,seenが役職であるかに関わらず発動するMark
+    /// 登録されたすべてを結合する。
+    /// </summary>
+    /// <param name="seer">見る側</param>
+    /// <param name="seen">見られる側</param>
+    /// <param name="isForMeeting">会議中フラグ</param>
+    /// <returns>結合したMark</returns>
+    public static string GetMarkOthers(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false)
     {
         var sb = new StringBuilder(100);
-        foreach (var marker in MarkerList)
+        foreach (var marker in MarkOthers)
         {
             sb.Append(marker(seer, seen, isForMeeting));
         }
         return sb.ToString();
     }
-    public static string GetLowerText(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false, bool isForHud = false)
+    /// <summary>
+    /// seer,seenが役職であるかに関わらず発動するLowerText
+    /// 登録されたすべてを結合する。
+    /// </summary>
+    /// <param name="seer">見る側</param>
+    /// <param name="seen">見られる側</param>
+    /// <param name="isForMeeting">会議中フラグ</param>
+    /// <param name="isForHud">ModでHudとして表示する場合</param>
+    /// <returns>結合したLowerText</returns>
+    public static string GetLowerTextOthers(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false, bool isForHud = false)
     {
         var sb = new StringBuilder(100);
-        foreach (var lower in LowerList)
+        foreach (var lower in LowerOthers)
         {
             sb.Append(lower(seer, seen, isForMeeting, isForHud));
         }
         return sb.ToString();
     }
-
-    public static string GetSuffix(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false)
+    /// <summary>
+    /// seer,seenが役職であるかに関わらず発動するSuffix
+    /// 登録されたすべてを結合する。
+    /// </summary>
+    /// <param name="seer">見る側</param>
+    /// <param name="seen">見られる側</param>
+    /// <param name="isForMeeting">会議中フラグ</param>
+    /// <returns>結合したSuffix</returns>
+    public static string GetSuffixOthers(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false)
     {
         var sb = new StringBuilder(100);
-        foreach (var suffix in SuffixList)
+        foreach (var suffix in SuffixOthers)
         {
             sb.Append(suffix(seer, seen, isForMeeting));
         }
