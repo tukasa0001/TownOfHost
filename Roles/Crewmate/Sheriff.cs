@@ -108,7 +108,8 @@ namespace TownOfHost.Roles.Crewmate
         }
         private void SendRPC()
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetSheriffShotLimit, SendOption.Reliable, -1);
+            if (!AmongUsClient.Instance.AmHost) return;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(Player.NetId, (byte)CustomRPC.SetSheriffShotLimit, SendOption.Reliable, -1);
             writer.Write(ShotLimit);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
@@ -129,19 +130,22 @@ namespace TownOfHost.Roles.Crewmate
         {
             if (killer != this.Player) yield break;
             yield return 1_001_000;
-            ShotLimit--;
-            Logger.Info($"{killer.GetNameWithRole()} : 残り{ShotLimit}発", "Sheriff");
-            SendRPC();
-            if (!CanBeKilledBy(target))
+            if (Is(killer))
             {
-                killer.RpcMurderPlayer(killer);
-                Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
-                if (!MisfireKillsTarget.GetBool())
+                ShotLimit--;
+                Logger.Info($"{killer.GetNameWithRole()} : 残り{ShotLimit}発", "Sheriff");
+                SendRPC();
+                if (!CanBeKilledBy(target))
                 {
-                    info.CancelAndAbort();
+                    killer.RpcMurderPlayer(killer);
+                    Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
+                    if (!MisfireKillsTarget.GetBool())
+                    {
+                        info.CancelAndAbort();
+                    }
                 }
+                killer.ResetKillCooldown();
             }
-            killer.ResetKillCooldown();
             yield break;
         }
         // ==/CheckMurder関連処理 ==
