@@ -98,7 +98,7 @@ public class ErrorText : MonoBehaviour
                 text = SBDetected ? "警告：EAC正在抵御炸房外挂，可能的话请发送日志给开发者" : "警告：可能存在作弊玩家，请尽快发送日志给开发者";
             Text.enabled = true;
         }
-        if (GameStates.IsInGame && maxLevel != 3)
+        if (GameStates.IsInGame && maxLevel != 3 && !CheatDetected)
             text += $"\n{GetString("TerminateCommand")}: Shift+L+Enter";
         Text.text = text;
     }
