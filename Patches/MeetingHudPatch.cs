@@ -132,12 +132,15 @@ internal class CheckForEndVotingPatch
                         }
                     }
                 }
-                statesList.Add(new MeetingHud.VoterState()
+                if (ps.TargetPlayerId != ps.VotedFor || Options.MadmateSpawnMode.GetInt() != 2) //主动叛变模式下自票无效
                 {
-                    VoterId = ps.TargetPlayerId,
-                    VotedForId = ps.VotedFor
-                });
-                if (CheckRole(ps.TargetPlayerId, CustomRoles.Mayor) && !Options.MayorHideVote.GetBool())//Mayorの投票数
+                    statesList.Add(new MeetingHud.VoterState()
+                    {
+                        VoterId = ps.TargetPlayerId,
+                        VotedForId = ps.VotedFor
+                    });
+                }
+                if (CheckRole(ps.TargetPlayerId, CustomRoles.Mayor) && !Options.MayorHideVote.GetBool()) //Mayorの投票数
                 {
                     for (var i2 = 0; i2 < Options.MayorAdditionalVote.GetFloat(); i2++)
                     {
@@ -413,6 +416,9 @@ internal static class ExtendedMeetingHud
                     ) VoteNum += Options.MayorAdditionalVote.GetInt();
                 if (CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.TicketsStealer))
                     VoteNum += (int)(PlayerControl.AllPlayerControls.ToArray().Where(x => (x.GetRealKiller() == null ? -1 : x.GetRealKiller().PlayerId) == ps.TargetPlayerId).Count() * Options.TicketsPerKill.GetFloat());
+                
+                //主动叛变模式下自票无效
+                if (ps.TargetPlayerId == ps.VotedFor || Options.MadmateSpawnMode.GetInt() == 2) VoteNum = 0;
                 //投票を1追加 キーが定義されていない場合は1で上書きして定義
                 dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out int num) ? VoteNum : num + VoteNum;
             }
