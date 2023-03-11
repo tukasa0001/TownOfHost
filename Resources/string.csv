@@ -661,7 +661,7 @@ DivinatorSkillLimit,占卜次数上限,Skill Limit,Лимит Способнос
 MadmateSpawnMode,叛徒生成模式,Spawn Mode Madmate,Режим появления Безумца
 MadmateSpawnMode.Assign,开局分配,Assign,Назначать
 MadmateSpawnMode.FirstKill,首刀叛变,First Kill,Первое Убийство
-MadmateSpawnMode.SelfVote,主动叛变,Self Vote,Само Голос
+MadmateSpawnMode.SelfVote,自票叛变,Self Vote,Само Голос
 GamerKillCooldown,攻击冷却时间,Attack Cooldown,Откат Атаки
 GamerHealthMax,其他人血量,Player blood volume,Объем крови игроков
 GamerDamage,造成的伤害值,The amount of damage caused,Величина причиненного ущерба
@@ -841,7 +841,7 @@ OtherRoles.Addons,<color=#ff9ace>★ 附加职业</color>,<color=#ff9ace>Add-Ons
 ActiveRolesList,有效职业一览,Active Roles List,Список Активных Ролей
 ForExample,使用例子,Example Use,Например
 ForceEnd,强制结束游戏,Aborted,Игра Окончена
-EveryoneDied,没有人存活,No One Left,Все Мертвы
+EveryoneDied,无人生还,No One Left,Все Мертвы
 ForceEndText,房主强制结束了游戏,Host has aborted the game,Хост завершил игру
 HideGameCodes,直播模式,Hide Game Code,Скрыть Игровой Код
 updateButton,一键更新,Update,Обновление
