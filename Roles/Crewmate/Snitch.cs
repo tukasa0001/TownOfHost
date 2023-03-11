@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using AmongUs.GameOptions;
-using TownOfHost.Roles.Impostor;
 using UnityEngine;
+using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
-using static TownOfHost.Options;
 
 namespace TownOfHost.Roles.Crewmate
 {
@@ -24,8 +22,7 @@ namespace TownOfHost.Roles.Crewmate
         public Snitch(PlayerControl player)
         : base(
             RoleInfo,
-            player,
-            true
+            player
         )
         {
             EnableTargetArrow = OptionEnableTargetArrow.GetBool();
@@ -66,11 +63,11 @@ namespace TownOfHost.Roles.Crewmate
             var id = RoleInfo.ConfigId;
             var tab = RoleInfo.Tab;
             var parent = RoleInfo.RoleOption;
-            OptionEnableTargetArrow = BooleanOptionItem.Create(id + 10, OptionName.SnitchEnableTargetArrow, false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
+            OptionEnableTargetArrow = BooleanOptionItem.Create(id + 10, OptionName.SnitchEnableTargetArrow, false, TabGroup.CrewmateRoles, false).SetParent(parent);
             OptionCanGetColoredArrow = BooleanOptionItem.Create(id + 11, OptionName.SnitchCanGetArrowColor, false, TabGroup.CrewmateRoles, false).SetParent(OptionEnableTargetArrow);
-            OptionCanFindNeutralKiller = BooleanOptionItem.Create(id + 12, OptionName.SnitchEnableTargetArrow, false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
-            OptionRemainingTasks = IntegerOptionItem.Create(id + 13, OptionName.SnitchRemainingTaskFound, new(0, 10, 1), 1, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Snitch]);
-            OverrideTasksData.Create(id + 20, TabGroup.CrewmateRoles, CustomRoles.Snitch);
+            OptionCanFindNeutralKiller = BooleanOptionItem.Create(id + 12, OptionName.SnitchEnableTargetArrow, false, TabGroup.CrewmateRoles, false).SetParent(parent);
+            OptionRemainingTasks = IntegerOptionItem.Create(id + 13, OptionName.SnitchRemainingTaskFound, new(0, 10, 1), 1, TabGroup.CrewmateRoles, false).SetParent(parent);
+            Options.OverrideTasksData.Create(id + 20, TabGroup.CrewmateRoles, CustomRoles.Snitch);
         }
 
         public override void Add()
