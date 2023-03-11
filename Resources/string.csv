@@ -149,6 +149,7 @@ Egoist,利己主义者,Egoist,Эгоист
 Piper,吹笛者,Piper,Пайпер
 TicketsStealer,窃票者,Stealer,Похититель
 DualPersonality,双重人格,Schizophrenic,Шизофреник
+Mimic,宝箱怪
 
 ## 以下是职业简介（显示在开局以及任务栏的文本）
 NeutralInfo,中立阵营,Independent forces unaffiliated with any other teams,Команда которая не принадлежит ни к каким другим командам
@@ -257,6 +258,7 @@ EgoistInfo,什么叫做一波三折？,Replace victory,Замените побе
 PiperInfo,嗯↗嗯↘嗯~~,Change the players speed,Измените скорость игроков
 TicketsStealerInfo,要懂得珍惜，死者最后的价值,Steal player votes,Украдите голоса игроков
 DualPersonalityInfo,我真的很...奇怪吗？,You now have Schizophrenia,У вас теперь Шизофриния
+MimicInfo,噔↗噔↗噔→当↘当→当↗
 
 # 其它
 GMInfo,开局死的冤魂隔岸观火,You are the Game Master,Вы Мастер Игры
@@ -368,6 +370,7 @@ EgoistInfoLong,(附加职业)\n叛徒与中立阵营不会成为利己主义者�
 PiperInfoLong,(附加职业)\n吹笛者会将自己附近的人的移动速度变得跟自己一样。（速度根据房主设定）,"(Add-ons):\nPiper will make the movement speed of players near him exactly the same as his own. (The speed depends on the settings of the Host)","(Атрибут):\nПайпер сделает скорость передвижения игроков рядом с ним точно такой же, как у него самого.(Скорость зависит от настроек Хоста)"
 TicketsStealerInfoLong,(附加职业)\n只有内鬼会成为窃票者。窃票者每次击杀一个人都会增加自己本局的票数（增加数量根据房主设定，小数向下取整）。此外，窃票者额外的票是隐藏的。,"(Add-ons):\nOnly a Impostors can become a Stealer. Each time the Stealer kills a player, it increases its own number of votes in the game (the increase in votes is set according to the number of votes, and the decimal is rounded down). In addition, additional Stealer voices are hidden","(Атрибут):\nТолько Предатель может стать Похитителем. Каждый раз, когда Похититель убивает игрока, он увеличивает свое собственное количество голосов в игре (увеличение голосов устанавливается в соответствии с количеством голосов, а десятичная дробь округляется в меньшую сторону). Кроме того, дополнительные голоса Похитителя скрыты."
 DualPersonalityInfoLong,(附加职业)\n中立和叛徒不会成为双重人格，计算其阵营人数时双重人格被视为两人。例如场上剩余一个内鬼和一个双重人格船员，则视为两名船员和一名内鬼，因此游戏不会结束。,"(Add-ons):\nNeutrals and Impostors cannot be with Schizophrenia. When counting the number of players on their team, the Schizophrenic counts as two players. For example: if there is one Impostors and one team with Schizophrenia left in the game, then this will be treated as two Crewmate and one Impostors, so the game will not end until the Schizophrenic is killed","(Атрибут):\nНейтралы и Предатели не могут быть с Шизофринией. При подсчете количества игроков в их команде Шизофреник рассматривает как два игрока. Например, если в игре останется один Предатель и одна команда с Шизофринией, то это будет рассматриваться как два Члена Экипажа и один Предатель, поэтому игра не закончится пока Шизофреник не будет убит."
+MimicInfo,(附加职业)\n只有内鬼会成为宝箱怪。宝箱怪死后，其他内鬼可以在会议上收到信息。信息包含了宝箱怪生前击杀的所有人的职业。
 
 # 其它
 GMInfoLong,(房主):\n看我干啥，我只是个开局就死的冤魂，静静地吃瓜而已。,"(None):\nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game, and all players know who the GM is. The GM role will be assigned to the host, who will automatically become a ghost at the start of the game.","(Никто):\nGM (Мастер Игры) — это роль, которая наблюдает за игрой в роле призрака. \nОн не влияет на игру, и все игроки всегда знают кто Мастер Игры. Всегда назначается только хосту лобби и становится призраком в самом начале игры."

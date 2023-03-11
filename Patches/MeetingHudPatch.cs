@@ -486,7 +486,8 @@ internal class MeetingHudStartPatch
             MimicMsg = GetString("MimicDeadMsg") + "\n" + MimicMsg;
             new LateTask(() =>
             {
-                Utils.SendMessage(MimicMsg, 255, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Mimic), GetString("MimicMsgTitle")));
+                foreach (var ipc in PlayerControl.AllPlayerControls.ToArray().Where(x => x.GetCustomRole().IsImpostorTeam()))
+                    Utils.SendMessage(MimicMsg, ipc.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Mimic), GetString("MimicMsgTitle")));
             }, 5.0f, "Notice Mimic Dead Msg");
         }
     }
