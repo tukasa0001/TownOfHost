@@ -87,7 +87,7 @@ namespace TownOfHost.Roles.Crewmate
         private static bool IsSnitchTarget(PlayerControl target)
         {
             return target.Is(CustomRoleTypes.Impostor)
-                || (target.IsNeutralKiller() && CanFindNeutralKiller);
+                || (CanFindNeutralKiller && target.IsNeutralKiller());
         }
 
         /// <summary>
