@@ -73,9 +73,10 @@ namespace TownOfHost.Roles.Impostor
             if (AmongUsClient.Instance.AmHost)
                 ResetTarget();
         }
-        private static void SendRPC(byte targetId)
+        private void SendRPC(byte targetId)
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetBountyTarget, SendOption.Reliable, -1);
+            if (!AmongUsClient.Instance.AmHost) return;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(Player.NetId, (byte)CustomRPC.SetBountyTarget, SendOption.Reliable, -1);
             writer.Write(targetId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
@@ -88,6 +89,7 @@ namespace TownOfHost.Roles.Impostor
 
             Target = Utils.GetPlayerById(targetId);
             if (ShowTargetArrow) TargetArrow.Add(Player.PlayerId, targetId);
+            Logger.Info($"{Player.GetNameWithRole()}のターゲットを{Target.GetNameWithRole()}に変更", "BountyHunter");
         }
         //public static void SetKillCooldown(byte id, float amount) => Main.AllPlayerKillCooldown[id] = amount;
         public override bool CanUseKillButton() => true;
@@ -97,18 +99,21 @@ namespace TownOfHost.Roles.Impostor
         {
             if (killer != this.Player) yield break;
             yield return 2_000_000;
-            if (GetTarget() == target)
-            {//ターゲットをキルした場合
-                Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
-                Main.AllPlayerKillCooldown[killer.PlayerId] = SuccessKillCooldown;
-                killer.SyncSettings();//キルクール処理を同期
-                ResetTarget();
-            }
-            else
+            if (Is(killer))
             {
-                Logger.Info($"{killer?.Data?.PlayerName}:ターゲット以外をキル", "BountyHunter");
-                Main.AllPlayerKillCooldown[killer.PlayerId] = FailureKillCooldown;
-                killer.SyncSettings();//キルクール処理を同期
+                if (GetTarget() == target)
+                {//ターゲットをキルした場合
+                    Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
+                    Main.AllPlayerKillCooldown[killer.PlayerId] = SuccessKillCooldown;
+                    killer.SyncSettings();//キルクール処理を同期
+                    ResetTarget();
+                }
+                else
+                {
+                    Logger.Info($"{killer?.Data?.PlayerName}:ターゲット以外をキル", "BountyHunter");
+                    Main.AllPlayerKillCooldown[killer.PlayerId] = FailureKillCooldown;
+                    killer.SyncSettings();//キルクール処理を同期
+                }
             }
             yield break;
         }
@@ -172,7 +177,7 @@ namespace TownOfHost.Roles.Impostor
             var targetId = target.PlayerId;
             Target = target;
             if (ShowTargetArrow) TargetArrow.Add(playerId, targetId);
-            Logger.Info($"{Player.GetNameWithRole()}のターゲットを{target.GetNameWithRole()}に変更", "BountyHunter");
+            Logger.Info($"{Player.GetNameWithRole()}のターゲットを{Target.GetNameWithRole()}に変更", "BountyHunter");
 
             //RPCによる同期
             SendRPC(targetId);
