@@ -257,7 +257,7 @@ public static class CustomRoleManager
         MarkOthers.Clear();
         LowerOthers.Clear();
         SuffixOthers.Clear();
-        CustomRoleManager.AllActiveRoles.Do(roleClass => roleClass.Dispose());
+        AllActiveRoles.Do(roleClass => roleClass.Dispose());
     }
     //NameSystem
     public static HashSet<Func<PlayerControl, PlayerControl, bool, string>> MarkOthers = new();
