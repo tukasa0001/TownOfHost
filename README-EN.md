@@ -152,14 +152,14 @@ Users are free to create and use their own translations.<br>
 - Open the "Language" folder created in the Among Us folder.
 - Create a file named `{language name}.dat` in the folder
   - For example: English.dat
-  - You can also rename `template.dat` or `template_English.dat` and use.
+  - You can also rename `template.dat` or `template_English.dat` and use it.
 - In the file, enter like `before translation:after translation`.
   - For example: Command.rename:Change Host Name
   - See `template.dat` for the `before translation` string.
 
 You can also reload the translation by pressing key `T`+`F5`.
 
-#### List of Valid Languages
+#### Supported Languages
 
 | Language Name |
 | ------------- |
@@ -181,9 +181,9 @@ You can also reload the translation by pressing key `T`+`F5`.
 
 ### BAN Function
 The host can ban players even during the game without requiring other players to vote. <br>
-Also, if you ban, that player will not be able to enter the room you host from now on. <br>
+If a player is banned, they will not be able to enter the room until it is closed. <br>
 Players who have already left can also be added to the ban list by selecting them and pressing the ban button.<br>
-Banned players are recorded in `./TOH_DATA/BanList.txt` as `friend code, player name`, and you can remove the ban by deleting the corresponding line. <br>
+Banned players are recorded in `./TOH_DATA/BanList.txt` as `friend code, player name`. You can remove the ban by deleting the corresponding line. <br>
 Even if you block it with a friend list, it will automatically ban. <br>
 
 ### Kick Function
@@ -300,7 +300,7 @@ Idea by Kihi
 Team : Impostors<br>
 Basis : Impostor<br>
 
-They can kill only in lights out, but next kill cooldown will be half.<br>
+The Mare can kill only in lights out, but next kill cooldown will be half.<br>
 While lights are out they can move faster, but everyone sees their name in red.<br>
 
 #### Game Options
@@ -315,7 +315,7 @@ While lights are out they can move faster, but everyone sees their name in red.<
 Team : Impostors<br>
 Basis : Impostor<br>
 
-The puppeteer can curse a crewmate and force them to kill the next non-impostor they come near.<br>
+The Puppeteer can curse a crewmate and force them to kill the next non-impostor they come near.<br>
 The cursed crewmate can also kill a mad role.<br>
 It is not possible for puppeteer to perform a normal kill.<br>
 
