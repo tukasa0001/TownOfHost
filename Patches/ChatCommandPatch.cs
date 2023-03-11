@@ -523,6 +523,7 @@ internal class ChatCommands
                     var setRole = FixRoleNameInput(subArgs.Trim());
                     foreach (CustomRoles rl in Enum.GetValues(typeof(CustomRoles)))
                     {
+                        if (rl.IsVanilla()) continue;
                         var roleName = GetString(rl.ToString()).ToLower().Trim();
                         if (setRole.Contains(roleName))
                         {
@@ -702,6 +703,7 @@ internal class ChatCommands
 
         foreach (CustomRoles rl in Enum.GetValues(typeof(CustomRoles)))
         {
+            if (rl.IsVanilla()) continue;
             var roleName = GetString(rl.ToString()).ToLower().Trim();
             if (name.Contains(roleName))
             {
@@ -728,6 +730,7 @@ internal class ChatCommands
 
         foreach (CustomRoles rl in Enum.GetValues(typeof(CustomRoles)))
         {
+            if (rl.IsVanilla()) continue;
             var roleName = GetString(rl.ToString());
             if (role.Contains(roleName))
             {
