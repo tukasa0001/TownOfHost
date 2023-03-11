@@ -856,7 +856,7 @@ internal class SelectRolesPatch
             if (role is CustomRoles.Bewilder && (pc.GetCustomRole().IsImpostor() || pc.Is(CustomRoles.Lighter))) continue;
             if (role is CustomRoles.Ntr && pc.Is(CustomRoles.Lovers)) continue;
             if (role is CustomRoles.Madmate && !Utils.CanBeMadmate(pc)) continue;
-            if (role is CustomRoles.Oblivious && pc.Is(CustomRoles.Detective)) continue;
+            if (role is CustomRoles.Oblivious && (pc.Is(CustomRoles.Detective) || pc.Is(CustomRoles.Cleaner))) continue;
             if (role is CustomRoles.Fool && (pc.GetCustomRole().IsImpostor() || pc.Is(CustomRoles.SabotageMaster))) continue;
             if (role is CustomRoles.Avanger && pc.GetCustomRole().IsImpostor() && !Options.ImpCanBeAvanger.GetBool()) continue;
             if (role is CustomRoles.Brakar && pc.Is(CustomRoles.Dictator)) continue;
