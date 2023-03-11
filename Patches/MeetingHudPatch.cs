@@ -426,6 +426,7 @@ internal class MeetingHudStartPatch
     public static void NotifyRoleSkillOnMeetingStart()
     {
         if (!AmongUsClient.Instance.AmHost) return;
+        string MimicMsg = "";
         foreach (var pc in PlayerControl.AllPlayerControls)
         {
             //主动叛变模式提示
@@ -437,17 +438,12 @@ internal class MeetingHudStartPatch
                 }, 5.0f, "Notice MadmateVoteself Mode");
             }
             //黑手党死后技能提示
-            switch (pc.GetCustomRole())
+            if (pc.Is(CustomRoles.Mafia) && !pc.IsAlive())
             {
-                case CustomRoles.Mafia:
-                    if (!pc.IsAlive())
-                    {
-                        new LateTask(() =>
-                        {
-                            Utils.SendMessage(GetString("MafiaDeadMsg"), pc.PlayerId);
-                        }, 5.0f, "Notice Mafia Skill");
-                    }
-                    break;
+                new LateTask(() =>
+                {
+                    Utils.SendMessage(GetString("MafiaDeadMsg"), pc.PlayerId);
+                }, 5.0f, "Notice Mafia Skill");
             }
             //网红死亡消息提示
             foreach (var csId in Main.CyberStarDead)
@@ -477,8 +473,21 @@ internal class MeetingHudStartPatch
                 {
                     Utils.SendMessage(GetString("GodNoticeAlive"), 255, Utils.ColorString(Utils.GetRoleColor(CustomRoles.God), GetString("GodAliveTitle")));
                 }, 5.0f, "Notice God Alive");
-                return;
             }
+            //宝箱怪的消息
+            if (pc.Is(CustomRoles.Mimic) && !pc.IsAlive())
+            {
+                foreach (var dpc in PlayerControl.AllPlayerControls.ToArray().Where(x => (x.GetRealKiller() == null ? -1 : x.GetRealKiller().PlayerId) == pc.PlayerId))
+                    MimicMsg += $"\n{dpc.GetNameWithRole()}";
+            }
+        }
+        if (MimicMsg != "")
+        {
+            MimicMsg = GetString("MimicDeadMsg") + "\n" + MimicMsg;
+            new LateTask(() =>
+            {
+                Utils.SendMessage(MimicMsg, 255, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Mimic), GetString("MimicMsgTitle")));
+            }, 5.0f, "Notice Mimic Dead Msg");
         }
     }
     public static void Prefix(MeetingHud __instance)
