@@ -21,7 +21,6 @@ public abstract class RoleBase : IDisposable
         bool? canKill = null
     )
     {
-
         Player = player;
         HasTasks = hasTasks ?? roleInfo.CustomRoleType == CustomRoleTypes.Crewmate;
         CanKill = canKill ?? roleInfo.BaseRoleType is RoleTypes.Impostor or RoleTypes.Shapeshifter;
