@@ -2,12 +2,12 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using HarmonyLib;
+using Il2CppSystem.Text;
 
 using AmongUs.GameOptions;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.Crewmate;
-using Il2CppSystem.Text;
 
 namespace TownOfHost.Roles.Core;
 
