@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TOHE.Roles.Neutral;
+using UnityEngine;
 
 namespace TOHE;
 
@@ -172,7 +173,7 @@ public class TaskState
         }
 
         //传送师完成任务
-        if (!player.Data.IsDead
+        if (player.IsAlive()
         && player.Is(CustomRoles.Transporter)
         && ((CompletedTasksCount + 1) <= Options.TransporterTeleportMax.GetInt()))
         {

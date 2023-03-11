@@ -10,6 +10,7 @@ internal static class CustomRolesHelper
             ? role
             : role switch
             {
+                CustomRoles.NormalImpostor => CustomRoles.Impostor,
                 CustomRoles.Sniper => CustomRoles.Shapeshifter,
                 CustomRoles.Jester => CustomRoles.Crewmate,
                 CustomRoles.Bait => CustomRoles.Crewmate,
@@ -70,7 +71,6 @@ internal static class CustomRolesHelper
                 CustomRoles.Greedier => CustomRoles.Impostor,
                 CustomRoles.Workaholic => CustomRoles.Engineer,
                 CustomRoles.CursedWolf => CustomRoles.Impostor,
-                CustomRoles.NormalImpostor => CustomRoles.Impostor,
                 _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
     }

@@ -386,6 +386,7 @@ public enum CustomRoles
     Impostor,
     Shapeshifter,
     //Impostor
+    NormalImpostor,
     BountyHunter,
     FireWorks,
     Mafia,
@@ -417,7 +418,6 @@ public enum CustomRoles
     BallLightning,
     Greedier,
     CursedWolf,
-    NormalImpostor,
     //Crewmate(Vanilla)
     Engineer,
     GuardianAngel,
