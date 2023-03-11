@@ -240,7 +240,7 @@ internal static class CustomRolesHelper
     }
     public static bool RoleExist(this CustomRoles role, bool countDead = false)
     {
-        foreach (var pc in PlayerControl.AllPlayerControls)
+        foreach (var pc in Main.AllPlayerControls)
         {
             if (pc.Is(role) && (pc.IsAlive() || countDead)) return true;
         }

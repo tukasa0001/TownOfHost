@@ -265,9 +265,8 @@ internal class CheckForEndVotingPatch
         var name = "";
         int impnum = 0;
         int neutralnum = 0;
-        foreach (var pc in PlayerControl.AllPlayerControls)
+        foreach (var pc in Main.AllAlivePlayerControls)
         {
-            if (pc == null || pc.Data.IsDead || pc.Data.Disconnected) continue;
             var pc_role = pc.GetCustomRole();
             if (pc_role.IsImpostor() && pc != exiledPlayer.Object)
                 impnum++;
@@ -305,7 +304,7 @@ internal class CheckForEndVotingPatch
             DecidedWinner = true;
         }
         //冤罪师胜利
-        var playerList = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Innocent) && !x.IsAlive() && x.GetRealKiller().PlayerId == exileId);
+        var playerList = Main.AllPlayerControls.Where(x => x.Is(CustomRoles.Innocent) && !x.IsAlive() && x.GetRealKiller().PlayerId == exileId);
         if (playerList.Count() > 0)
         {
             if (!(!Options.InnocentCanWinByImp.GetBool() && crole.IsImpostor()))
@@ -415,7 +414,7 @@ internal static class ExtendedMeetingHud
                     && ps.TargetPlayerId != target.PlayerId
                     ) VoteNum += Options.MayorAdditionalVote.GetInt();
                 if (CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.TicketsStealer))
-                    VoteNum += (int)(PlayerControl.AllPlayerControls.ToArray().Where(x => (x.GetRealKiller() == null ? -1 : x.GetRealKiller().PlayerId) == ps.TargetPlayerId).Count() * Options.TicketsPerKill.GetFloat());
+                    VoteNum += (int)(Main.AllPlayerControls.Where(x => (x.GetRealKiller() == null ? -1 : x.GetRealKiller().PlayerId) == ps.TargetPlayerId).Count() * Options.TicketsPerKill.GetFloat());
                 
                 //主动叛变模式下自票无效
                 if (ps.TargetPlayerId == ps.VotedFor || Options.MadmateSpawnMode.GetInt() == 2) VoteNum = 0;
@@ -433,7 +432,7 @@ internal class MeetingHudStartPatch
     {
         if (!AmongUsClient.Instance.AmHost) return;
         string MimicMsg = "";
-        foreach (var pc in PlayerControl.AllPlayerControls)
+        foreach (var pc in Main.AllPlayerControls)
         {
             //主动叛变模式提示
             if (Options.MadmateSpawnMode.GetInt() == 2 && CustomRoles.Madmate.GetCount() > 0 && pc.IsAlive())
@@ -483,7 +482,7 @@ internal class MeetingHudStartPatch
             //宝箱怪的消息
             if (pc.Is(CustomRoles.Mimic) && !pc.IsAlive())
             {
-                foreach (var dpc in PlayerControl.AllPlayerControls.ToArray().Where(x => (x.GetRealKiller() == null ? -1 : x.GetRealKiller().PlayerId) == pc.PlayerId))
+                foreach (var dpc in Main.AllPlayerControls.Where(x => (x.GetRealKiller() == null ? -1 : x.GetRealKiller().PlayerId) == pc.PlayerId))
                     MimicMsg += $"\n{dpc.GetNameWithRole()}";
             }
         }
@@ -492,7 +491,7 @@ internal class MeetingHudStartPatch
             MimicMsg = GetString("MimicDeadMsg") + "\n" + MimicMsg;
             new LateTask(() =>
             {
-                foreach (var ipc in PlayerControl.AllPlayerControls.ToArray().Where(x => x.GetCustomRole().IsImpostorTeam()))
+                foreach (var ipc in Main.AllPlayerControls.Where(x => x.GetCustomRole().IsImpostorTeam()))
                     Utils.SendMessage(MimicMsg, ipc.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Mimic), GetString("MimicMsgTitle")));
             }, 5.0f, "Notice Mimic Dead Msg");
         }
@@ -520,7 +519,7 @@ internal class MeetingHudStartPatch
 
         NotifyRoleSkillOnMeetingStart();
 
-        foreach (var pc in PlayerControl.AllPlayerControls)
+        foreach (var pc in Main.AllPlayerControls)
             if (pc.shapeshifting) pc.RpcRevertShapeshift(false);
     }
     public static void Postfix(MeetingHud __instance)
@@ -576,9 +575,8 @@ internal class MeetingHudStartPatch
                     {
                         List<PlayerControl> badPlayers = new();
                         List<PlayerControl> goodPlayers = new();
-                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.PlayerId != PlayerControl.LocalPlayer.PlayerId))
                         {
-                            if (pc == null || pc.Data.IsDead || pc.Data.Disconnected || pc.PlayerId == PlayerControl.LocalPlayer.PlayerId) continue;
                             isGood.Add(pc.PlayerId, true);
                             var role = pc.GetCustomRole();
                             switch (role.GetCustomRoleTypes())

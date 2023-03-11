@@ -180,7 +180,7 @@ public class TaskState
             Logger.Info("传送师触发传送:" + player.cosmetics.nameText.text, "Transporter");
             var rd = IRandom.Instance;
             List<PlayerControl> AllAlivePlayer = new();
-            foreach (var pc in PlayerControl.AllPlayerControls) if (pc.IsAlive() && !Pelican.IsEaten(pc.PlayerId) && !pc.inVent) AllAlivePlayer.Add(pc);
+            foreach (var pc in Main.AllAlivePlayerControls.Where(x => !Pelican.IsEaten(x.PlayerId) && !x.inVent)) AllAlivePlayer.Add(pc);
             if (AllAlivePlayer.Count >= 2)
             {
                 var tar1 = AllAlivePlayer[rd.Next(0, AllAlivePlayer.Count)];

@@ -74,11 +74,8 @@ public static class Utils
     }
     public static void TPAll(Vector2 location)
     {
-        foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
-        {
-            if (!pc.IsAlive()) break;
-            TP(pc.NetTransform, new Vector2(location.x, location.y + 0.3636f));
-        }
+        foreach (PlayerControl pc in Main.AllAlivePlayerControls)
+            TP(pc.NetTransform, location);
     }
 
     public static void TP(CustomNetworkTransform nt, Vector2 location)
@@ -769,9 +766,8 @@ public static class Utils
             {
                 List<PlayerControl> badPlayers = new();
                 List<PlayerControl> goodPlayers = new();
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.PlayerId != seer.PlayerId))
                 {
-                    if (pc == null || !pc.IsAlive() || pc.Data.Disconnected || pc == seer) continue;
                     isGood.Add(pc.PlayerId, true);
                     var role = pc.GetCustomRole();
                     switch (role.GetCustomRoleTypes())
@@ -1444,7 +1440,7 @@ public static class Utils
     {
         int draw = 0;
         int all = Options.RevolutionistDrawCount.GetInt();
-        int max = PlayerControl.AllPlayerControls.Count - (CustomRolesHelper.RoleExist(CustomRoles.GM) ? 2 : 1);
+        int max = Main.AllAlivePlayerControls.Count() - 1;
         winnerList = new();
         if (all > max) all = max;
         foreach (var pc in Main.AllPlayerControls)

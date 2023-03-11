@@ -15,9 +15,8 @@ public static class GuessManager
     public static string GetFormatString()
     {
         string text = GetString("PlayerIdList");
-        foreach (var pc in PlayerControl.AllPlayerControls)
+        foreach (var pc in Main.AllAlivePlayerControls)
         {
-            if (pc.Data.IsDead) continue;
             string id = pc.PlayerId.ToString();
             string name = pc.GetRealName();
             text += $"\n{id} → {name}";

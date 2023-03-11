@@ -49,7 +49,7 @@ public static class Gamer
     {
         playerIdList.Add(playerId);
         GamerHealth.TryAdd(playerId, SelfHealthMax.GetInt());
-        foreach (var pc in PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Is(CustomRoles.GM) && x.IsAlive()))
+        foreach (var pc in Main.AllAlivePlayerControls)
             PlayerHealth.TryAdd(pc.PlayerId, HealthMax.GetInt());
 
         if (!AmongUsClient.Instance.AmHost) return;

@@ -417,8 +417,8 @@ internal class MurderPlayerPatch
             hackKilled = true;
             Main.HackerUsedCount[killer.PlayerId] += 1;
             List<PlayerControl> playerList = new();
-            foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
-                if (pc.IsAlive() && !Pelican.IsEaten(pc.PlayerId) && !(pc.GetCustomRole() == CustomRoles.Hacker) && !(pc.GetCustomRole() is CustomRoles.Needy or CustomRoles.GM)) playerList.Add(pc);
+            foreach (PlayerControl pc in Main.AllAlivePlayerControls)
+                if (!Pelican.IsEaten(pc.PlayerId) && !(pc.PlayerId != killer.PlayerId) && !(pc.GetCustomRole() is CustomRoles.Needy or CustomRoles.GM)) playerList.Add(pc);
             if (playerList.Count < 1)
             {
                 Logger.Info(target?.Data?.PlayerName + "被骇客击杀，但无法找到骇入目标", "MurderPlayer");
@@ -440,8 +440,8 @@ internal class MurderPlayerPatch
             if (target.Is(CustomRoles.Madmate)) //背叛诱饵
             {
                 List<PlayerControl> playerList = new();
-                foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
-                    if (pc.IsAlive() && !Pelican.IsEaten(pc.PlayerId) && !(pc.GetCustomRole() is CustomRoles.Needy or CustomRoles.GM) && pc.PlayerId != target.PlayerId) playerList.Add(pc);
+                foreach (PlayerControl pc in Main.AllAlivePlayerControls)
+                    if (!Pelican.IsEaten(pc.PlayerId) && !(pc.GetCustomRole() is CustomRoles.Needy or CustomRoles.GM) && pc.PlayerId != target.PlayerId) playerList.Add(pc);
                 if (playerList.Count < 1)
                 {
                     Logger.Info(target?.Data?.PlayerName + "是背叛诱饵，但找不到替罪羊", "MurderPlayer");
@@ -927,7 +927,7 @@ internal class FixedUpdatePatch
             //检查马里奥是否完成
             if (GameStates.IsInTask && CustomRoles.Mario.IsEnable())
             {
-                foreach (var pc in PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Mario)))
+                foreach (var pc in Main.AllPlayerControls.Where(x => x.Is(CustomRoles.Mario)))
                 {
                     if (Main.MarioVentCount[pc.PlayerId] > Options.MarioVentNumWin.GetInt())
                     {
@@ -1562,7 +1562,7 @@ internal class CoEnterVentPatch
                     else
                         RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
                 }
-                foreach (var pc in PlayerControl.AllPlayerControls) pc.KillFlash();
+                foreach (var pc in Main.AllPlayerControls) pc.KillFlash();
                 CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Arsonist); //焼殺で勝利した人も勝利させる
                 CustomWinnerHolder.WinnerIds.Add(__instance.myPlayer.PlayerId);
                 return true;

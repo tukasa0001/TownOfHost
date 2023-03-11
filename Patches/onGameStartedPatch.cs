@@ -222,7 +222,7 @@ internal class SelectRolesPatch
 
             // 开始职业抽取
             var rd = IRandom.Instance;
-            int playerCount = Options.EnableGM.GetBool() ? PlayerControl.AllPlayerControls.Count - 1 : PlayerControl.AllPlayerControls.Count;
+            int playerCount = Main.AllPlayerControls.Count() - (Options.EnableGM.GetBool() ?  1 : 0);
             int optImpNum = Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors);
             int optNeutralNum = 0;
             if (Options.NeutralRolesMaxPlayer.GetInt() > 0 && Options.NeutralRolesMaxPlayer.GetInt() >= Options.NeutralRolesMinPlayer.GetInt())

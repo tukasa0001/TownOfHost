@@ -39,11 +39,8 @@ internal class ChatCommands
         if (msg == "/rv")
         {
             string text = GetString("PlayerIdList");
-            foreach (var npc in PlayerControl.AllPlayerControls)
-            {
-                if (npc.Data.IsDead) continue;
+            foreach (var npc in Main.AllAlivePlayerControls)
                 text += "\n" + npc.PlayerId.ToString() + " → (" + npc.GetDisplayRoleName() + ") " + npc.GetRealName();
-            }
             Utils.SendMessage(text, pc.PlayerId);
             return true;
         }
@@ -226,10 +223,9 @@ internal class ChatCommands
             if (kick || !GameStates.IsInGame) Utils.SendMessage(msg);
             else
             {
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (pc != null && pc.IsAlive() == player.IsAlive()) Utils.SendMessage(msg, pc.PlayerId);
-                }
+                foreach (var pc in Main.AllPlayerControls)
+                    if (pc.IsAlive() == player.IsAlive())
+                        Utils.SendMessage(msg, pc.PlayerId);
             }
         }
         if (kick) AmongUsClient.Instance.KickPlayer(player.GetClientId(), Options.AutoKickStopWordsAsBan.GetBool());
@@ -503,10 +499,8 @@ internal class ChatCommands
                 case "/id":
                     canceled = true;
                     string msgText = GetString("PlayerIdList");
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
+                    foreach (var pc in Main.AllPlayerControls)
                         msgText += "\n" + pc.PlayerId.ToString() + " → " + pc.GetRealName();
-                    }
                     Utils.SendMessage(msgText, PlayerControl.LocalPlayer.PlayerId);
                     break;
 
