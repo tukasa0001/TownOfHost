@@ -592,10 +592,15 @@ public static class Utils
         }
         SendMessage(sb.ToString(), PlayerId);
     }
-    public static void ShowChildrenSettings(OptionItem option, ref StringBuilder sb, int deep = 0)
+    public static void ShowChildrenSettings(OptionItem option, ref StringBuilder sb, int deep = 0, bool command = false)
     {
         foreach (var opt in option.Children.Select((v, i) => new { Value = v, Index = i + 1 }))
         {
+            if (command)
+            {
+                sb.Append("\n\n");
+                command = false;
+            }
             if (opt.Value.Name == "Maximum") continue; //Maximumの項目は飛ばす
             if (opt.Value.Name == "DisableSkeldDevices" && !Options.IsActiveSkeld) continue;
             if (opt.Value.Name == "DisableMiraHQDevices" && !Options.IsActiveMiraHQ) continue;

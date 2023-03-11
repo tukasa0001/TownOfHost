@@ -261,9 +261,9 @@ internal class ChatCommands
                 string version_text = "";
                 foreach (var kvp in Main.playerVersion.OrderBy(pair => pair.Key))
                 {
-                    version_text += $"{kvp.Key}:{Utils.GetPlayerById(kvp.Key)?.Data?.PlayerName}:{kvp.Value.forkId}/{kvp.Value.version}({kvp.Value.tag})\n";
+                    version_text += $"{kvp.Key}:{Utils.GetPlayerById(kvp.Key)?.Data?.PlayerName.RemoveHtmlTags().Replace("\r\n", string.Empty)}:{kvp.Value.forkId}/{kvp.Value.version}({kvp.Value.tag})\n";
                 }
-                if (version_text != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, version_text);
+                if (version_text != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, (Utils.IsDev(PlayerControl.LocalPlayer) ? "\n" : string.Empty) + version_text);
                 break;
             default:
                 Main.isChatCommand = false;
@@ -395,22 +395,28 @@ internal class ChatCommands
                     canceled = true;
                     var role = PlayerControl.LocalPlayer.GetCustomRole();
                     if (GameStates.IsInGame)
-                        if (GameStates.IsInGame)
-                        {
-                            string mtext = GetString(role.ToString()) + PlayerControl.LocalPlayer.GetRoleInfo(true);
-                            foreach (var subRole in Main.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SubRoles)
-                                mtext += $"\n\n" + GetString($"{subRole}") + GetString($"{subRole}InfoLong");
-                            if (CustomRolesHelper.RoleExist(CustomRoles.Ntr) && (role is not CustomRoles.GM and CustomRoles.Ntr))
-                                mtext += $"\n\n" + GetString($"Lovers") + GetString($"LoversInfoLong");
-                            HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, mtext);
-                        }
+                    {
+                        var lp = PlayerControl.LocalPlayer;
+                        var sb = new StringBuilder();
+                        sb.Append(GetString(role.ToString()) + lp.GetRoleInfo(true));
+                        Utils.ShowChildrenSettings(Options.CustomRoleSpawnChances[role], ref sb, command: true);
+                        var txt = sb.ToString();
+                        sb.Clear().Append(txt.RemoveHtmlTags());
+                        foreach (var subRole in Main.PlayerStates[lp.PlayerId].SubRoles)
+                            sb.Append($"\n\n" + GetString($"{subRole}") + GetString($"{subRole}InfoLong"));
+                        if (CustomRolesHelper.RoleExist(CustomRoles.Ntr) && (role is not CustomRoles.GM and CustomRoles.Ntr))
+                            sb.Append($"\n\n" + GetString($"Lovers") + GetString($"LoversInfoLong"));
+                        Utils.SendMessage(sb.ToString(), lp.PlayerId);
+                    }
+                    else
+                        HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, (Utils.IsDev(PlayerControl.LocalPlayer) ? "\n" : string.Empty) + GetString("Message.CanNotUseInLobby"));
                     break;
 
                 case "/t":
                 case "/template":
                     canceled = true;
                     if (args.Length > 1) TemplateManager.SendTemplate(args[1]);
-                    else HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"{GetString("ForExample")}:\n{args[0]} test");
+                    else HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, (Utils.IsDev(PlayerControl.LocalPlayer) ? "\n" : string.Empty) + $"{GetString("ForExample")}:\n{args[0]} test");
                     break;
 
                 case "/mw":
@@ -814,13 +820,19 @@ internal class ChatCommands
                 var role = player.GetCustomRole();
                 if (GameStates.IsInGame)
                 {
-                    string mtext = GetString(role.ToString()) + player.GetRoleInfo(true);
+                    var sb = new StringBuilder();
+                    sb.Append(GetString(role.ToString()) + player.GetRoleInfo(true));
+                    Utils.ShowChildrenSettings(Options.CustomRoleSpawnChances[role], ref sb, command: true);
+                    var txt = sb.ToString();
+                    sb.Clear().Append(txt.RemoveHtmlTags());
                     foreach (var subRole in Main.PlayerStates[player.PlayerId].SubRoles)
-                        mtext += $"\n\n" + GetString($"{subRole}") + GetString($"{subRole}InfoLong");
+                        sb.Append($"\n\n" + GetString($"{subRole}") + GetString($"{subRole}InfoLong"));
                     if (CustomRolesHelper.RoleExist(CustomRoles.Ntr) && (role is not CustomRoles.GM and CustomRoles.Ntr))
-                        mtext += $"\n\n" + GetString($"Lovers") + GetString($"LoversInfoLong");
-                    Utils.SendMessage(mtext, player.PlayerId);
+                        sb.Append($"\n\n" + GetString($"Lovers") + GetString($"LoversInfoLong"));
+                    Utils.SendMessage(sb.ToString(), player.PlayerId);
                 }
+                else
+                    Utils.SendMessage(GetString("Message.CanNotUseInLobby"), player.PlayerId);
                 break;
 
             case "/t":
@@ -896,7 +908,7 @@ internal class ChatCommands
         // Logger.Info($"Checking lines in directory {filename}.", "ReturnAllNewLinesInFile (ChatCommands)");
         if (!File.Exists(filename))
         {
-            HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"No {filename} file found.");
+            HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, (Utils.IsDev(PlayerControl.LocalPlayer) ? "\n" : string.Empty) + $"No {filename} file found.");
             File.WriteAllText(filename, "Enter the desired stuff here.");
             return new List<string>();
         }
@@ -916,7 +928,7 @@ internal class ChatCommands
         if (sendList.Count == 0 && !noErr)
         {
             if (playerId == 0xff)
-                HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, string.Format(GetString("Message.TemplateNotFoundHost"), Main.BANNEDWORDS_FILE_PATH, tags.Join(delimiter: ", ")));
+                HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, (Utils.IsDev(PlayerControl.LocalPlayer) ? "\n" : string.Empty) + string.Format(GetString("Message.TemplateNotFoundHost"), Main.BANNEDWORDS_FILE_PATH, tags.Join(delimiter: ", ")));
             else Utils.SendMessage(string.Format(GetString("Message.TemplateNotFoundClient"), Main.BANNEDWORDS_FILE_PATH), playerId);
             return new List<string>();
         }
