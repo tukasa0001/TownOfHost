@@ -978,7 +978,7 @@ namespace TownOfHost
         public static void Postfix(PlayerControl __instance)
         {
             var pc = __instance;
-            Snitch.OnCompleteTask(pc);
+            pc.GetRoleClass().OnCompleteTask();
 
             var isTaskFinish = pc.GetPlayerTaskState().IsTaskFinished;
             if (isTaskFinish && pc.Is(CustomRoles.MadSnitch))

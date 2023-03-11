@@ -110,6 +110,10 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     public virtual void AfterMeetingTasks()
     { }
+    /// タスクが一個完了するごとに呼ばれる関数
+    /// </summary>
+    public virtual void OnCompleteTask()
+    { }
 
     // NameSystem
     // 名前は下記の構成で表示される
