@@ -14,7 +14,7 @@ namespace TownOfHost.Roles.Impostor
         public static readonly SimpleRoleInfo RoleInfo =
             new(
                 typeof(BountyHunter),
-                pc => new BountyHunter(pc),
+                player => new BountyHunter(player),
                 CustomRoles.BountyHunter,
                 RoleTypes.Shapeshifter,
                 CustomRoleTypes.Impostor,
@@ -92,28 +92,24 @@ namespace TownOfHost.Roles.Impostor
             Logger.Info($"{Player.GetNameWithRole()}のターゲットを{Target.GetNameWithRole()}に変更", "BountyHunter");
         }
         //public static void SetKillCooldown(byte id, float amount) => Main.AllPlayerKillCooldown[id] = amount;
-        public override bool CanUseKillButton() => true;
         public override void ApplyGameOptions(IGameOptions opt) => AURoleOptions.ShapeshifterCooldown = TargetChangeTime;
 
         public override IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target, CustomRoleManager.CheckMurderInfo info)
         {
             if (killer != this.Player) yield break;
             yield return 2_000_000;
-            if (Is(killer))
+            if (GetTarget() == target)
+            {//ターゲットをキルした場合
+                Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
+                Main.AllPlayerKillCooldown[killer.PlayerId] = SuccessKillCooldown;
+                killer.SyncSettings();//キルクール処理を同期
+                ResetTarget();
+            }
+            else
             {
-                if (GetTarget() == target)
-                {//ターゲットをキルした場合
-                    Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
-                    Main.AllPlayerKillCooldown[killer.PlayerId] = SuccessKillCooldown;
-                    killer.SyncSettings();//キルクール処理を同期
-                    ResetTarget();
-                }
-                else
-                {
-                    Logger.Info($"{killer?.Data?.PlayerName}:ターゲット以外をキル", "BountyHunter");
-                    Main.AllPlayerKillCooldown[killer.PlayerId] = FailureKillCooldown;
-                    killer.SyncSettings();//キルクール処理を同期
-                }
+                Logger.Info($"{killer?.Data?.PlayerName}:ターゲット以外をキル", "BountyHunter");
+                Main.AllPlayerKillCooldown[killer.PlayerId] = FailureKillCooldown;
+                killer.SyncSettings();//キルクール処理を同期
             }
             yield break;
         }

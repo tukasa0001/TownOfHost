@@ -130,22 +130,19 @@ namespace TownOfHost.Roles.Crewmate
         {
             if (killer != this.Player) yield break;
             yield return 1_001_000;
-            if (Is(killer))
+            ShotLimit--;
+            Logger.Info($"{killer.GetNameWithRole()} : 残り{ShotLimit}発", "Sheriff");
+            SendRPC();
+            if (!CanBeKilledBy(target))
             {
-                ShotLimit--;
-                Logger.Info($"{killer.GetNameWithRole()} : 残り{ShotLimit}発", "Sheriff");
-                SendRPC();
-                if (!CanBeKilledBy(target))
+                killer.RpcMurderPlayer(killer);
+                Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
+                if (!MisfireKillsTarget.GetBool())
                 {
-                    killer.RpcMurderPlayer(killer);
-                    Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
-                    if (!MisfireKillsTarget.GetBool())
-                    {
-                        info.CancelAndAbort();
-                    }
+                    info.CancelAndAbort();
                 }
-                killer.ResetKillCooldown();
             }
+            killer.ResetKillCooldown();
             yield break;
         }
         // ==/CheckMurder関連処理 ==
