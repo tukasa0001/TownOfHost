@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using HarmonyLib;
+using Il2CppSystem.Diagnostics;
 using UnityEngine;
 
 namespace TOHE;
@@ -25,7 +26,8 @@ public static class Zoom
             }
             if (Input.mouseScrollDelta.y < 0)
             {
-                if (GameStates.IsDead || GameStates.IsFreePlay || Utils.CanUseDevCommand(PlayerControl.LocalPlayer))
+                if (GameStates.IsDead || GameStates.IsFreePlay || DebugModeManager.AmDebugger ||
+                    Utils.CanUseDevCommand(PlayerControl.LocalPlayer))
                 {
                     if (Camera.main.orthographicSize < 18.0f)
                     {
