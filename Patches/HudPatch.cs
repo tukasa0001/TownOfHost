@@ -120,7 +120,7 @@ namespace TownOfHost
                         LowerInfoText.fontSizeMax = 2.0f;
                     }
 
-                    LowerInfoText.text = CustomRoleManager.GetLowerText(player, isForHud: true) ?? "";
+                    LowerInfoText.text = roleClass?.GetLowerText(player, isForHud: true) ?? "";
 
                     if (player.Is(CustomRoles.Witch))
                     {
@@ -128,8 +128,7 @@ namespace TownOfHost
                     }
                     else if (player.Is(CustomRoles.FireWorks))
                     {
-                        var stateText = FireWorks.GetStateText(player);
-                        LowerInfoText.text = stateText;
+                        LowerInfoText.text = FireWorks.GetStateText(player);
                     }
                     LowerInfoText.enabled = LowerInfoText.text != "";
 

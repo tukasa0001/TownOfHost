@@ -347,8 +347,10 @@ namespace TownOfHost
             foreach (var pva in __instance.playerStates)
             {
                 if (pva == null) continue;
-                PlayerControl seer = PlayerControl.LocalPlayer;
-                PlayerControl target = Utils.GetPlayerById(pva.TargetPlayerId);
+                var seer = PlayerControl.LocalPlayer;
+                var seerRole = seer.GetRoleClass();
+
+                var target = Utils.GetPlayerById(pva.TargetPlayerId);
                 if (target == null) continue;
 
                 var sb = new StringBuilder();
@@ -363,6 +365,9 @@ namespace TownOfHost
                 if (seer.KnowDeathReason(target))
                     sb.Append($"({Utils.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), Utils.GetVitalText(target.PlayerId))})");
 
+
+                sb.Append(seerRole.GetMark(seer, target, true));
+                sb.Append(CustomRoleManager.GetMarkOthers(seer, target, true));
                 //インポスター表示
                 switch (seer.GetCustomRole().GetCustomRoleTypes())
                 {

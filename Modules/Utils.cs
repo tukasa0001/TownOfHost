@@ -714,8 +714,10 @@ namespace TownOfHost
                 SelfMark.Clear();
                 SelfMark.Append(CustomRoleManager.GetMark(seer, isForMeeting: isForMeeting));
 
-                //インポスター/キル可能なニュートラルに対するSnitch警告
-                SelfMark.Append(Snitch.GetWarningArrow(seer));
+                //seer役職が対象のMark
+                SelfMark.Append(seerRole?.GetMark(seer, isForMeeting: isForMeeting));
+                //seerに関わらず発動するMark
+                SelfMark.Append(CustomRoleManager.GetMarkOthers(seer, isForMeeting: isForMeeting));
 
                 //ハートマークを付ける(自分に)
                 if (seer.Is(CustomRoles.Lovers)) SelfMark.Append(ColorString(GetRoleColor(CustomRoles.Lovers), "♡"));
@@ -728,7 +730,11 @@ namespace TownOfHost
 
                 //Markとは違い、改行してから追記されます。
                 SelfSuffix.Clear();
-                SelfSuffix.Append(CustomRoleManager.GetLowerText(seer, isForMeeting: isForMeeting));
+
+                //seer役職が対象のLowerText
+                SelfSuffix.Append(seerRole?.GetLowerText(seer, isForMeeting: isForMeeting));
+                //seerに関わらず発動するLowerText
+                SelfSuffix.Append(CustomRoleManager.GetLowerTextOthers(seer, isForMeeting: isForMeeting));
 
                 if (seer.Is(CustomRoles.FireWorks))
                 {
@@ -740,7 +746,10 @@ namespace TownOfHost
                     SelfSuffix.Append(Witch.GetSpellModeText(seer, false, isForMeeting));
                 }
 
-                SelfSuffix.Append(CustomRoleManager.GetSuffix(seer, isForMeeting: isForMeeting));
+                //seer役職が対象のSuffix
+                SelfSuffix.Append(seerRole?.GetSuffix(seer, isForMeeting: isForMeeting));
+                //seerに関わらず発動するSuffix
+                SelfSuffix.Append(CustomRoleManager.GetSuffixOthers(seer, isForMeeting: isForMeeting));
 
                 //タスクを終えたSnitchがインポスター/キル可能なニュートラルの方角を確認できる
                 SelfSuffix.Append(Snitch.GetSnitchArrow(seer));
@@ -791,7 +800,11 @@ namespace TownOfHost
 
                         //名前の後ろに付けるマーカー
                         TargetMark.Clear();
-                        TargetMark.Append(CustomRoleManager.GetMark(seer, target, isForMeeting));
+
+                        //seer役職が対象のMark
+                        TargetMark.Append(seerRole?.GetMark(seer, target, isForMeeting));
+                        //seerに関わらず発動するMark
+                        TargetMark.Append(CustomRoleManager.GetMarkOthers(seer, target, isForMeeting));
 
                         //呪われている人
                         TargetMark.Append(Witch.GetSpelledMark(target.PlayerId, isForMeeting));
@@ -843,8 +856,13 @@ namespace TownOfHost
                         }
                         //
                         TargetSuffix.Clear();
-                        TargetSuffix.Append(CustomRoleManager.GetLowerText(seer, target, isForMeeting: isForMeeting));
-                        TargetSuffix.Append(CustomRoleManager.GetSuffix(seer, target, isForMeeting: isForMeeting));
+                        //seerに関わらず発動するLowerText
+                        TargetSuffix.Append(CustomRoleManager.GetLowerTextOthers(seer, target, isForMeeting: isForMeeting));
+
+                        //seer役職が対象のSuffix
+                        TargetSuffix.Append(seerRole?.GetSuffix(seer, target, isForMeeting: isForMeeting));
+                        //seerに関わらず発動するSuffix
+                        TargetSuffix.Append(CustomRoleManager.GetSuffixOthers(seer, target, isForMeeting: isForMeeting));
 
                         //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                         string TargetPlayerName = target.GetRealName(isForMeeting);
