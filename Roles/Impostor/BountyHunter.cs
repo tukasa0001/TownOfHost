@@ -75,9 +75,8 @@ namespace TownOfHost.Roles.Impostor
         }
         private void SendRPC(byte targetId)
         {
-            MessageWriter writer = CreateSendRPC(CustomRPC.SetBountyTarget);
-            writer.Write(targetId);
-            EndSendRPC(writer);
+            using var sender = CreateSender(CustomRPC.SetBountyTarget);
+            sender.Writer.Write(targetId);
         }
 
         public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)

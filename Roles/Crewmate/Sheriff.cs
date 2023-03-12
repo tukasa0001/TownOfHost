@@ -108,9 +108,8 @@ namespace TownOfHost.Roles.Crewmate
         }
         private void SendRPC()
         {
-            MessageWriter writer = CreateSendRPC(CustomRPC.SetSheriffShotLimit);
-            writer.Write(ShotLimit);
-            EndSendRPC(writer);
+            using var sender = CreateSender(CustomRPC.SetSheriffShotLimit);
+            sender.Writer.Write(ShotLimit);
         }
         public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
         {
