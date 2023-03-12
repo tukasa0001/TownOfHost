@@ -12,9 +12,9 @@ internal class EAC
     public static List<string> Msgs = new();
     public static int MeetingTimes = 0;
     public static int DeNum = 0;
-    public static void WarnHost()
+    public static void WarnHost(int denum = 1)
     {
-        DeNum++;
+        DeNum += denum;
         ErrorText.Instance.CheatDetected = DeNum > 3;
         ErrorText.Instance.SBDetected = DeNum > 10;
         if (ErrorText.Instance.CheatDetected)
