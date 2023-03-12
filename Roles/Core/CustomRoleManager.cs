@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using HarmonyLib;
+using Hazel;
 
 using AmongUs.GameOptions;
 using TownOfHost.Roles.Impostor;
@@ -250,7 +251,16 @@ public static class CustomRoleManager
                     break;
             }
         }
-
+    }
+    /// <summary>
+    /// 受信したRPCから送信先を読み取ってRoleClassに配信する
+    /// </summary>
+    /// <param name="reader"></param>
+    /// <param name="rpcType"></param>
+    public static void DispatchRpc(MessageReader reader, CustomRPC rpcType)
+    {
+        var playerId = reader.ReadByte();
+        AllActiveRoles.FirstOrDefault(r => r.Player.PlayerId == playerId)?.ReceiveRPC(reader, rpcType);
     }
 }
 public enum CustomRoles

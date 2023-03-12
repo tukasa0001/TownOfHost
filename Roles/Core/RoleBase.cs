@@ -44,6 +44,26 @@ public abstract class RoleBase : IDisposable
     public virtual void OnDestroy()
     { }
     /// <summary>
+    /// RPC送信の開始
+    /// 誰宛てに送るかをRPCに自動的に含める。
+    /// </summary>
+    /// <param name="rpcType"></param>
+    /// <returns></returns>
+    public MessageWriter CreateSendRPC(CustomRPC rpcType)
+    {
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)rpcType, SendOption.Reliable, -1);
+        writer.Write(Player.PlayerId);
+        return writer;
+    }
+    /// <summary>
+    /// RPC送信の完了
+    /// </summary>
+    /// <param name="writer"></param>
+    public void EndSendRPC(MessageWriter writer)
+    {
+        AmongUsClient.Instance.FinishRpcImmediately(writer);
+    }
+    /// <summary>
     /// RPCを受け取った時に呼ばれる関数
     /// </summary>
     /// <param name="reader">届いたRPCの情報</param>

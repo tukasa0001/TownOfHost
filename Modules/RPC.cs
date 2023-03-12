@@ -181,8 +181,10 @@ namespace TownOfHost
                     byte killerId = reader.ReadByte();
                     RPC.SetRealKiller(targetId, killerId);
                     break;
+                default:
+                    CustomRoleManager.DispatchRpc(reader, rpcType);
+                    break;
             }
-            __instance.GetRoleClass()?.ReceiveRPC(reader, rpcType);
         }
     }
     static class RPC
