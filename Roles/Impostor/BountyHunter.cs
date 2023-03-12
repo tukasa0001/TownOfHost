@@ -73,11 +73,10 @@ namespace TownOfHost.Roles.Impostor
             if (AmongUsClient.Instance.AmHost)
                 ResetTarget();
         }
-        private static void SendRPC(byte targetId)
+        private void SendRPC(byte targetId)
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetBountyTarget, SendOption.Reliable, -1);
-            writer.Write(targetId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            using var sender = CreateSender(CustomRPC.SetBountyTarget);
+            sender.Writer.Write(targetId);
         }
 
         public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)

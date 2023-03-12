@@ -87,6 +87,9 @@ namespace TownOfHost
         }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
         {
+            //CustomRPC以外は処理しない
+            if (callId < (byte)CustomRPC.VersionCheck) return;
+
             var rpcType = (CustomRPC)callId;
             switch (rpcType)
             {
@@ -181,8 +184,10 @@ namespace TownOfHost
                     byte killerId = reader.ReadByte();
                     RPC.SetRealKiller(targetId, killerId);
                     break;
+                default:
+                    CustomRoleManager.DispatchRpc(reader, rpcType);
+                    break;
             }
-            __instance.GetRoleClass()?.ReceiveRPC(reader, rpcType);
         }
     }
     static class RPC

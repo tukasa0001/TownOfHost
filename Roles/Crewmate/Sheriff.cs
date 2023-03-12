@@ -108,9 +108,8 @@ namespace TownOfHost.Roles.Crewmate
         }
         private void SendRPC()
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetSheriffShotLimit, SendOption.Reliable, -1);
-            writer.Write(ShotLimit);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            using var sender = CreateSender(CustomRPC.SetSheriffShotLimit);
+            sender.Writer.Write(ShotLimit);
         }
         public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
         {
