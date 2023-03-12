@@ -223,19 +223,19 @@ internal class RPCHandlerPatch
                 RPC.RpcVersionCheck();
                 break;
             case CustomRPC.SyncCustomSettings:
-                    List<OptionItem> list = OptionItem.Options;
-                    var startAmount = reader.ReadInt32();
-                    var lastAmount = reader.ReadInt32();
-                    for (var i = 0; i < list.Count; i++)
-                    {
-                        if (i < startAmount || i > lastAmount)
-                            list.Remove(list[i]);
-                    }
-                    foreach (var co in list)
-                    {
-                        co.SetValue(reader.ReadInt32());
-                    }
-                    break;
+                List<OptionItem> list = OptionItem.Options;
+                var startAmount = reader.ReadInt32();
+                var lastAmount = reader.ReadInt32();
+                for (var i = 0; i < list.Count; i++)
+                {
+                    if (i < startAmount || i > lastAmount)
+                        list.Remove(list[i]);
+                }
+                foreach (var co in list)
+                {
+                    co.SetValue(reader.ReadInt32());
+                }
+                break;
             case CustomRPC.SetDeathReason:
                 RPC.GetDeathReason(reader);
                 break;

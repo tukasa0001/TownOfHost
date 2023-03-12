@@ -12,7 +12,6 @@ using System.Reflection;
 using System.Text;
 using UnhollowerBaseLib;
 using UnityEngine;
-using static UnityEngine.RemoteConfigSettingsHelper;
 using static UnityEngine.UI.Button;
 using Object = UnityEngine.Object;
 
