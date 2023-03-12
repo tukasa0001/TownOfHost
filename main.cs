@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using TOHE.Modules;
 using TOHE.Roles.Neutral;
 using UnhollowerRuntimeLib;
 using UnityEngine;
@@ -258,6 +259,7 @@ public class Main : BasePlugin
         LastShapeshifterCooldown = Config.Bind("Other", "LastShapeshifterCooldown", (float)30);
 
         CustomWinnerHolder.Reset();
+        //CustomSoundsManager.Load();
         Translator.Init();
         BanManager.Init();
         TemplateManager.Init();

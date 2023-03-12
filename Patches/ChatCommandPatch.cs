@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using TOHE.Modules;
 using UnityEngine;
 using static TOHE.Translator;
 
@@ -548,14 +549,12 @@ internal class ChatCommands
                     else PlayerControl.LocalPlayer.NoCheckStartMeeting(null);
                     break;
 
-                /*
             case "/cs":
                 canceled = true;
                 subArgs = text.Remove(0, 3);
                 if (args.Length < 1 || !int.TryParse(args[1], out int sound)) break;
                 CustomSoundsManager.RPCPlay(PlayerControl.LocalPlayer.PlayerId, (CustomSounds)sound);
                 break;
-                */
 
                 default:
                     Main.isChatCommand = false;
