@@ -190,7 +190,7 @@ public abstract class OptionItem
 
         CallUpdateValueEvent(beforeValue, afterValue);
         Refresh();
-        RPC.SyncCustomSettingsRPCforOneOption(this);
+        SyncAllOptions();
     }
 
     // 演算子オーバーロード
