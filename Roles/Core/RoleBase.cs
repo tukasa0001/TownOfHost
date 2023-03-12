@@ -72,7 +72,7 @@ public abstract class RoleBase : IDisposable
     }
     /// <summary>
     /// RPCを受け取った時に呼ばれる関数
-    /// RoleRPCSenderで送信されたPlayerIdは削除されて渡されるため
+    /// RoleRPCSenderで送信されたPlayerIdは削除されて渡されるため意識しなくてもよい。
     /// </summary>
     /// <param name="reader">届いたRPCの情報</param>
     /// <param name="rpcType">届いたCustomRPC</param>
