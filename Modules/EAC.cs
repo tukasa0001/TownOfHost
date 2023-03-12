@@ -17,12 +17,16 @@ internal class EAC
         DeNum++;
         ErrorText.Instance.CheatDetected = DeNum > 3;
         ErrorText.Instance.SBDetected = DeNum > 10;
-        ErrorText.Instance.AddError(ErrorCode.SBDetected);
+        if (ErrorText.Instance.CheatDetected)
+            ErrorText.Instance.AddError(ErrorText.Instance.SBDetected ? ErrorCode.SBDetected : ErrorCode.CheatDetected);
+        else
+            ErrorText.Instance.Clear();
     }
     public static bool Receive(PlayerControl pc, byte callId, MessageReader reader)
     {
         if (!AmongUsClient.Instance.AmHost) return false;
         if (pc == null || reader == null) return true;
+        if (pc.GetClient().PlatformData.Platform is Platforms.Android or Platforms.Android or Platforms.Switch or Platforms.Playstation or Platforms.Xbox or Platforms.StandaloneMac) return false;
         try
         {
             MessageReader sr = MessageReader.Get(reader);
@@ -136,7 +140,7 @@ internal class EAC
                     var AUMChat = sr.ReadString();
                     Report(pc, "AUM");
                     Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法使用AUM发送消息", "EAC");
-                    break;
+                    return true;
                 case 7:
                     if (GameStates.IsInGame)
                     {

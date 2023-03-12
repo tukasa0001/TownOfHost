@@ -157,5 +157,6 @@ public enum ErrorCode
     TestError2 = 0009202, // 000-920-2 Test Error 2
     TestError3 = 0009303, // 000-930-3 Test Error 3
     HnsUnload = 000_804_1, // 000-804-1 Unloaded By HnS
+    CheatDetected = 000_666_2, // 000-666-2 疑似存在作弊玩家
     SBDetected = 000_666_1, // 000-666-1 傻逼外挂司马东西
 }
