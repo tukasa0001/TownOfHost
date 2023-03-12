@@ -350,7 +350,8 @@ internal class CheckMurderPatch
 
         return false;
     }
-    static void CurseWolfGuard(PlayerControl killer, PlayerControl target)
+
+    private static void CurseWolfGuard(PlayerControl killer, PlayerControl target)
     {
         killer.RpcGuardAndKill(target);
         target.RpcGuardAndKill(target);

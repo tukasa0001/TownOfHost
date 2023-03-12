@@ -1,18 +1,17 @@
-using System;
-using System.Collections.Generic;
-using HarmonyLib;
-using UnityEngine;
 using AmongUs.Data;
-using Assets.InnerNet;
 using AmongUs.Data.Player;
-using System.Linq;
-using System.Collections;
-using UnhollowerBaseLib;
+using Assets.InnerNet;
 using BepInEx.IL2CPP.Utils.Collections;
-using System.Reflection;
+using HarmonyLib;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text;
-using static PlayerMaterial;
+using UnhollowerBaseLib;
+using UnityEngine;
 
 namespace TOHE;
 
@@ -126,10 +125,7 @@ public class ModNewsHistory
 
             var fileNames = Assembly.GetExecutingAssembly().GetManifestResourceNames().Where(x => x.StartsWith("TOHE.Resources.ModNews."));
             foreach (var file in fileNames)
-            {
-                var news = GetContentFromRes(file);
-                AllModNews.Add(news);
-            }
+                AllModNews.Add(GetContentFromRes(file));
 
             AnnouncementPopUp.UpdateState = AnnouncementPopUp.AnnounceState.NotStarted;
         }
@@ -155,7 +151,7 @@ public class ModNewsHistory
             else if (line.StartsWith("#---")) continue;
             else
             {
-                
+
                 if (line.StartsWith("## ")) line = line.Replace("## ", "<b>") + "</b>";
                 else if (line.StartsWith("- ")) line = line.Replace("- ", "・");
                 text += $"\n{line}";

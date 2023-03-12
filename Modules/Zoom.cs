@@ -46,7 +46,8 @@ public static class Zoom
     }
 
     public static GameObject ShadowQuad;
-    static void SetZoomSize(bool times = false, bool reset = false)
+
+    private static void SetZoomSize(bool times = false, bool reset = false)
     {
         var size = 1.5f;
         if (!times) size = 1 / size;
@@ -69,8 +70,8 @@ public static class Zoom
 
 public static class Flag
 {
-    private static List<string> OneTimeList = new();
-    private static List<string> FirstRunList = new();
+    private static readonly List<string> OneTimeList = new();
+    private static readonly List<string> FirstRunList = new();
     public static void Run(Action action, string type, bool firstrun = false)
     {
         if (OneTimeList.Contains(type) || (firstrun && !FirstRunList.Contains(type)))

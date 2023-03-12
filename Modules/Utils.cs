@@ -349,10 +349,7 @@ public static class Utils
                 hasTasks = Executioner.ChangeRolesAfterTargetKilled.GetValue() == 0 && !ForRecompute;
                 break;
             case CustomRoles.Workaholic:
-                if (ForRecompute || (Options.WorkaholicCannotWinAtDeath.GetBool() && p.IsDead))
-                    hasTasks = false;
-                else
-                    hasTasks = true;
+                hasTasks = !ForRecompute && (!Options.WorkaholicCannotWinAtDeath.GetBool() || !p.IsDead);
                 break;
             default:
                 if (role.IsImpostor()) hasTasks = false;
