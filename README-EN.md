@@ -945,12 +945,12 @@ If your lover dies, you die.<br>
 If the crewmates win by tasks, the lovers lose.<br>
 The lovers can also win if both are still alive at the end of the game and the crewmates don't win by tasks.<br>
 If the lovers win, everyone else loses.<br>
-Crewmate lovers do not have tasks assigned. <br>
+Crewmate lovers are assigned tasks, but are not counted in task completion. Abilities can be used.<br>
 
 Example of overlapping Roles: <br>
 - [Terrorist](#terrorist) Lover: You have tasks and If you die after completing the task, you will win as a terrorist. <br>
 - [MadSnitch](#madsnitch) Lover: You have tasks, and you can see the Impostor after completing the task. <br>
-- [Snitch](#snitch) Lover: No tasks, Impostor remains unknown. <br>
+- [Snitch](#snitch) Lover: You have tasks, and you can see the Impostor after completing the task. <br>
 - [Sheriff](#sheriff) Lover: You can kill Impostors as usual. Whether or not you can kill depends on Roles and Options. (Impostor Lover can be killed. Crewmate Lover cannot be killed) <br>
 - [Opportunist](#opportunist) Lover: Win if you survive. <br>
 - [Jester](#jester) Lover: If you are voted out, you will win as Jester. If the other Lover is voted out, you are defeated. <br>

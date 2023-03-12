@@ -306,9 +306,8 @@ namespace TownOfHost
                     switch (subRole)
                     {
                         case CustomRoles.Lovers:
-                            //ラバーズがクルー陣営の場合タスクを付与しない
-                            if (role.IsCrewmate())
-                                hasTasks = false;
+                            //ラバーズはタスクを勝利用にカウントしない
+                            hasTasks &= !ForRecompute;
                             break;
                     }
             }
