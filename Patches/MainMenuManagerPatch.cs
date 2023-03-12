@@ -152,8 +152,14 @@ public class ModNewsHistory
             else if (line.StartsWith("#SubTitle:")) mn.SubTitle = line.Replace("#SubTitle:", string.Empty);
             else if (line.StartsWith("#ShortTitle:")) mn.ShortTitle = line.Replace("#ShortTitle:", string.Empty);
             else if (line.StartsWith("#Date:")) mn.Date = line.Replace("#Date:", string.Empty);
-            else if (line.StartsWith("#")) continue;
-            else text += $"\n{line}";
+            else if (line.StartsWith("#---")) continue;
+            else
+            {
+                
+                if (line.StartsWith("## ")) line = line.Replace("## ", "<b>") + "</b>";
+                else if (line.StartsWith("- ")) line = line.Replace("- ", "・");
+                text += $"\n{line}";
+            }
         }
         mn.Text = text;
         Logger.Info($"Number:{mn.Number}", "ModNews");

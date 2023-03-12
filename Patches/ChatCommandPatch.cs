@@ -893,9 +893,16 @@ internal class ChatCommands
 
             case "/say":
             case "/s":
-                if (!Utils.IsDev(player)) break;
-                if (args.Length > 1)
-                    Utils.SendMessage(args.Skip(1).Join(delimiter: " "), title: $"<color={Main.ModColor}>{"【 ★ 开发者消息 ★ 】"}</color>");
+                if (Utils.CanUseDevCommand(player))
+                {
+                    if (args.Length > 1)
+                        Utils.SendMessage(args.Skip(1).Join(delimiter: " "), title: $"<color={Main.ModColor}>{"【 ★ 开发者消息 ★ 】"}</color>");
+                }
+                else if (Utils.IsDev(player))
+                {
+                    if (args.Length > 1)
+                        Utils.SendMessage(args.Skip(1).Join(delimiter: " "), title: $"<color=#4bc9b0>{"【 ★ 贡献者消息 ★ 】"}</color>");
+                }
                 break;
 
             default:
