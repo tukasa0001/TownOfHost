@@ -417,7 +417,7 @@ internal static class ExtendedMeetingHud
                     VoteNum += (int)(Main.AllPlayerControls.Where(x => (x.GetRealKiller() == null ? -1 : x.GetRealKiller().PlayerId) == ps.TargetPlayerId).Count() * Options.TicketsPerKill.GetFloat());
 
                 //主动叛变模式下自票无效
-                if (ps.TargetPlayerId == ps.VotedFor || Options.MadmateSpawnMode.GetInt() == 2) VoteNum = 0;
+                if (ps.TargetPlayerId == ps.VotedFor && Options.MadmateSpawnMode.GetInt() == 2) VoteNum = 0;
                 //投票を1追加 キーが定義されていない場合は1で上書きして定義
                 dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out int num) ? VoteNum : num + VoteNum;
             }
