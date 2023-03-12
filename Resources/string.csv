@@ -1008,3 +1008,20 @@ DivinatorCheck.Incomprehensible,【{0}】令人十分难以理解,Looks like 【
 DivinatorCheck.Enthusiasm,【{0}】热情似火地与人谈吐着,Looks like 【{0}】 speaks with everyone very enthusiastic.,"Похоже, 【{0}】 разговаривает со всеми довольно позитивно."
 DivinatorCheck.Disturbed,【{0}】有些令人感到异样且不详,Looks like 【{0}】 is disturbed by something.,"Похоже, 【{0}】 что-то беспокоит."
 DivinatorCheck.None,【{0}】或许会就这么平凡一辈子,"Looks like 【{0}】 has just an ordinary life.","Похоже, 【{0}】 имеет спокойную жизнь."
+
+## 模组信息
+DevAndSpnTitle,TOHE大家族
+Developer,开发者,Developer,Developer
+Sponsor,金主爹爹,Sponsor,Sponsor
+Translator,翻译支持,Translator,Translator
+
+MainDev,主要开发者
+Art,美术
+RoleDev,角色制作
+TechSup,技术指导
+FeatureDev,功能开发
+
+TranEN,英语
+TranRU,俄语
+
+OnlyShowPart,仅显示部分

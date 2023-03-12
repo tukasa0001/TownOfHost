@@ -12,6 +12,9 @@ using System.Reflection;
 using System.Text;
 using UnhollowerBaseLib;
 using UnityEngine;
+using static UnityEngine.RemoteConfigSettingsHelper;
+using static UnityEngine.UI.Button;
+using Object = UnityEngine.Object;
 
 namespace TOHE;
 
@@ -63,20 +66,24 @@ public class MainMenuManagerPatch
         updateButtonSprite.color = updateText.color = updateColor;
         updateButtonSprite.size *= 1.5f;
         updateButton.SetActive(false);
-        /*
-#if RELEASE
-        //フリープレイの無効化
-        var freeplayButton = GameObject.Find("/MainUI/FreePlayButton");
-        if (freeplayButton != null)
+
+        var bottomTemplate = GameObject.Find("InventoryButton");
+        if (bottomTemplate == null) return;
+
+        var CreditsButton = Object.Instantiate(bottomTemplate, bottomTemplate.transform.parent);
+        var passiveCreditsButton = CreditsButton.GetComponent<PassiveButton>();
+        var spriteCreditsButton = CreditsButton.GetComponent<SpriteRenderer>();
+
+        spriteCreditsButton.sprite = Utils.LoadSprite($"TOHE.Resources.CreditsButton.png", 75f);
+        passiveCreditsButton.OnClick = new ButtonClickedEvent();
+        passiveCreditsButton.OnClick.AddListener((Action)(() =>
         {
-            freeplayButton.GetComponent<PassiveButton>().OnClick = new();
-            freeplayButton.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.OpenURL("https://jq.qq.com/?_wv=1027&k=2RpigaN6")));
-            __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => freeplayButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().SetText("QQ群"))));
-        }
-#endif
-        */
+            CredentialsPatch.LogoPatch.CreditsPopup?.SetActive(true);
+        }));
     }
 }
+
+
 
 // 来源：https://github.com/Yumenopai/TownOfHost_Y
 public class ModNews

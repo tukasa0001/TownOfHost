@@ -38,3 +38,7 @@
 ### :star: [RHR](https://github.com/sansaaaaai/Revolutionary-host-roles) :
 > 
 > - Reference: Modify settings menu
+> 
+### :star: [SNR](https://github.com/ykundesu/SuperNewRoles) :
+> 
+> - Reference: Credentials menu
