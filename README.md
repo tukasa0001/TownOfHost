@@ -23,6 +23,7 @@
 > 
 > - Many role ideas
 > - Provided role: AntiAdminer, CursedWolf, Workaholic, Greedier, DarkHide
+> - Provided feature: Modify game announcement
 > 
 ### :star: [TOH:TOR](https://github.com/music-discussion/TownOfHost-TheOtherRoles) :
 > 
