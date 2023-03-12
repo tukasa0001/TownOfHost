@@ -29,6 +29,7 @@
 > 
 > - Many role ideas
 > - Provided feature: Exile Confirm
+> - Provided feature: Split RPC Pack
 > 
 ### :star: [TOP](https://github.com/tugaru1975/TownOfPlus) :
 > 

@@ -2,6 +2,7 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TOHE.Modules;
@@ -222,12 +223,19 @@ internal class RPCHandlerPatch
                 RPC.RpcVersionCheck();
                 break;
             case CustomRPC.SyncCustomSettings:
-                foreach (var co in OptionItem.AllOptions)
-                {
-                    //すべてのカスタムオプションについてインデックス値で受信
-                    co.SetValue(reader.ReadInt32());
-                }
-                break;
+                    List<OptionItem> list = OptionItem.Options;
+                    var startAmount = reader.ReadInt32();
+                    var lastAmount = reader.ReadInt32();
+                    for (var i = 0; i < list.Count; i++)
+                    {
+                        if (i < startAmount || i > lastAmount)
+                            list.Remove(list[i]);
+                    }
+                    foreach (var co in list)
+                    {
+                        co.SetValue(reader.ReadInt32());
+                    }
+                    break;
             case CustomRPC.SetDeathReason:
                 RPC.GetDeathReason(reader);
                 break;
@@ -356,14 +364,40 @@ internal class RPCHandlerPatch
 
 internal static class RPC
 {
-    //SyncCustomSettingsRPC Sender
+    //来源：https://github.com/music-discussion/TownOfHost-TheOtherRoles/blob/main/Modules/RPC.cs
     public static void SyncCustomSettingsRPC()
     {
-        if (!AmongUsClient.Instance.AmHost) return;
-        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
-        foreach (var co in OptionItem.AllOptions)
+        if (!AmongUsClient.Instance.AmHost || PlayerControl.AllPlayerControls.Count <= 1 || (AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null)) return;
+        var amount = OptionItem.AllOptions.Count;
+        int divideBy = amount / 5;
+        for (var i = 0; i <= 5; i++)
         {
-            //すべてのカスタムオプションについてインデックス値で送信
+            SyncOptionsBetween(i * divideBy, (i + 1) * divideBy);
+        }
+    }
+    public static void SyncCustomSettingsRPCforOneOption(OptionItem option)
+    {
+        var placement = OptionItem.Options.IndexOf(option);
+        if (placement != -1)
+            SyncOptionsBetween(placement - 1, placement + 1);
+    }
+    static void SyncOptionsBetween(int startAmount, int lastAmount)
+    {
+        if (!AmongUsClient.Instance.AmHost || PlayerControl.AllPlayerControls.Count <= 1 || (AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null)) return;
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
+        writer.Write(startAmount);
+        writer.Write(lastAmount);
+        List<OptionItem> list = new();
+        List<OptionItem> allOptions = OptionItem.Options;
+        for (var i = 0; i <= allOptions.Count; i++)
+        {
+            if (i < startAmount || i > lastAmount) break;
+            if (i > allOptions.Count) break;
+            list.Add(allOptions[i]);
+        }
+
+        foreach (var co in list)
+        {
             writer.Write(co.GetValue());
         }
         AmongUsClient.Instance.FinishRpcImmediately(writer);
