@@ -732,7 +732,7 @@ internal class ChatCommands
         {
             if (rl.IsVanilla()) continue;
             var roleName = GetString(rl.ToString());
-            if (role.Contains(roleName))
+            if (role.Contains(roleName.ToLower().Trim()))
             {
                 if ((isDev || isUp) && GameStates.IsLobby)
                 {
