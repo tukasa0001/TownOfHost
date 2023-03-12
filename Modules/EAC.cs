@@ -26,7 +26,7 @@ internal class EAC
     {
         if (!AmongUsClient.Instance.AmHost) return false;
         if (pc == null || reader == null) return true;
-        if (pc.GetClient().PlatformData.Platform is Platforms.Android or Platforms.Android or Platforms.Switch or Platforms.Playstation or Platforms.Xbox or Platforms.StandaloneMac) return false;
+        if (pc.GetClient()?.PlatformData?.Platform is Platforms.Android or Platforms.Android or Platforms.Switch or Platforms.Playstation or Platforms.Xbox or Platforms.StandaloneMac) return false;
         try
         {
             MessageReader sr = MessageReader.Get(reader);
