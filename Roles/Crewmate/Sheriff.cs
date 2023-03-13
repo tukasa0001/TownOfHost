@@ -127,7 +127,7 @@ namespace TownOfHost.Roles.Crewmate
         public override IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target, CustomRoleManager.CheckMurderInfo info)
         {
             if (killer != this.Player) yield break;
-            yield return 1_001_000;
+            yield return 0x0100_8031;
             ShotLimit--;
             Logger.Info($"{killer.GetNameWithRole()} : 残り{ShotLimit}発", "Sheriff");
             SendRPC();

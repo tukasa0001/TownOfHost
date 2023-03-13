@@ -123,7 +123,7 @@ namespace TownOfHost
             // アーソニストのキルキャンセル・塗り開始
             if (killer.Is(CustomRoles.Arsonist))
             {
-                yield return 1_002_000;
+                yield return 0x0100_8040;
                 killer.SetKillCooldown(Options.ArsonistDouseTime.GetFloat());
                 if (!Main.isDoused[(killer.PlayerId, target.PlayerId)] && !Main.ArsonistTimer.ContainsKey(killer.PlayerId))
                 {
@@ -136,7 +136,7 @@ namespace TownOfHost
             }
 
             //キルされた時の特殊判定
-            yield return 1_500_000;
+            yield return 0x0100_8800;
             switch (target.GetCustomRole())
             {
                 case CustomRoles.SchrodingerCat:
@@ -173,7 +173,7 @@ namespace TownOfHost
             //キル時の特殊判定
             if (killer.PlayerId != target.PlayerId)
             {
-                yield return 2_500_000;
+                yield return 0x0300_8800;
                 var roleClass = killer.GetRoleClass();
                 //自殺でない場合のみ役職チェック
                 switch (killer.GetCustomRole())
