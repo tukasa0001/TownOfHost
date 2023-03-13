@@ -200,6 +200,8 @@ internal class CheckForEndVotingPatch
                     braked = true;
                 }
             }
+            
+            Collectors.CollectAmount(VotingData, __instance);
 
             if (Options.VoteMode.GetBool() && Options.WhenTie.GetBool() && tie)
             {
@@ -314,6 +316,8 @@ internal class CheckForEndVotingPatch
                 DecidedWinner = true;
             }
         }
+        //集票者胜利
+        DecidedWinner = Collectors.CollectDone();
 
         if (DecidedWinner) name += "<size=0>";
         if (Options.ShowImpRemainOnEject.GetBool() && !DecidedWinner)
@@ -421,7 +425,6 @@ internal static class ExtendedMeetingHud
                 dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out int num) ? VoteNum : num + VoteNum;//统计该玩家被投的数量
             }
         }
-        Collectors.CollectAmount(dic, __instance);
         return dic;
     }
 }
