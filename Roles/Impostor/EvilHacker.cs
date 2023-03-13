@@ -181,7 +181,7 @@ namespace TownOfHost.Roles.Impostor
                 where tuple.killerId != seer.PlayerId
                 select GetString(tuple.room.ToString())).ToArray();
             if (roomNames.Length < 1) return "";
-            return $"{GetString("EvilHackerMurderOccurred")}: {string.Join(", ", roomNames)}";
+            return Utils.ColorString(Color.green, $"{GetString("EvilHackerMurderOccurred")}: {string.Join(", ", roomNames)}");
         }
         public static bool KillFlashCheck(PlayerControl killer, PlayerControl target) =>
             CanSeeKillFlash && Utils.IsImpostorKill(killer, target);
