@@ -342,8 +342,7 @@ public static class Utils
                 hasTasks = false;
                 break;
             case CustomRoles.Terrorist:
-                if (ForRecompute)
-                    hasTasks = false;
+                hasTasks = !ForRecompute;
                 break;
             case CustomRoles.Executioner:
                 hasTasks = Executioner.ChangeRolesAfterTargetKilled.GetValue() == 0 && !ForRecompute;
@@ -367,11 +366,7 @@ public static class Utils
                 case CustomRoles.Madmate:
                     if (role is not CustomRoles.SpeedBooster or CustomRoles.Snitch or CustomRoles.Transporter or CustomRoles.TimeManager)
                         hasTasks = false;
-                    else
-                    {
-                        if (ForRecompute)
-                            hasTasks = false;
-                    }
+                    else hasTasks = !ForRecompute;
                     break;
             }
 
