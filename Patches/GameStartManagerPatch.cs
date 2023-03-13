@@ -85,6 +85,7 @@ namespace TownOfHost
                 if (AmongUsClient.Instance.AmHost)
                 {
                     bool canStartGame = true;
+                    bool versionChecked = false;
                     List<string> mismatchedPlayerNameList = new();
                     foreach (var client in AmongUsClient.Instance.allClients.ToArray())
                     {
@@ -98,7 +99,7 @@ namespace TownOfHost
                             mismatchedPlayerNameList.Add(Utils.ColorString(Palette.PlayerColors[client.ColorId], client.Character.Data.PlayerName));
                         }
                     }
-                    if (!canStartGame)
+                    if (!canStartGame && versionChecked == false)
                     {
                         __instance.StartButton.gameObject.SetActive(false);
                         warningMessage = Utils.ColorString(Color.red, string.Format(GetString("Warning.MismatchedVersion"), String.Join(" ", mismatchedPlayerNameList), $"<color={Main.ModColor}>{Main.ModName}</color>"));
@@ -106,7 +107,7 @@ namespace TownOfHost
                 }
                 else
                 {
-                    if (!MatchVersions(0))
+                    if (!MatchVersions(0) && versionChecked == false)
                     {
                         exitTimer += Time.deltaTime;
                         if (exitTimer > 10)
@@ -114,9 +115,16 @@ namespace TownOfHost
                             exitTimer = 0;
                             AmongUsClient.Instance.ExitGame(DisconnectReasons.ExitGame);
                             SceneChanger.ChangeScene("MainMenu");
+                            versionChecked = false;
                         }
 
+
                         warningMessage = Utils.ColorString(Color.red, string.Format(GetString("Warning.AutoExitAtMismatchedVersion"), $"<color={Main.ModColor}>{Main.ModName}</color>", Math.Round(10 - exitTimer).ToString()));
+                    }
+                    else
+                    {
+                        exitTimer = 0;
+                        versionChecked = true;
                     }
                 }
                 if (warningMessage != "")
