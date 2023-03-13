@@ -63,7 +63,6 @@ namespace TownOfHost
             }
             BanManager.CheckBanPlayer(client);
             BanManager.CheckDenyNamePlayer(client);
-            Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
         }
     }

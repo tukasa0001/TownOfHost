@@ -1019,29 +1019,46 @@ namespace TownOfHost
         public static bool Prefix(PlayerControl __instance, ref RoleTypes roleType)
         {
             var target = __instance;
-            Logger.Info($"{__instance.GetNameWithRole()} =>{roleType}", "PlayerControl.RpcSetRole");
+            var targetName = __instance.GetNameWithRole();
+            Logger.Info($"{targetName} =>{roleType}", "PlayerControl.RpcSetRole");
             if (!ShipStatus.Instance.enabled) return true;
             if (roleType is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost)
             {
+                var targetRequireResetCam = target.GetCustomRole().GetRoleInfo()?.RequireResetCam ?? false;
+                var targetIsKiller = target.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(target.PlayerId) || targetRequireResetCam;
+                var ghostRoles = new Dictionary<PlayerControl, RoleTypes>();
                 foreach (var seer in Main.AllPlayerControls)
                 {
                     var self = seer.PlayerId == target.PlayerId;
-                    var seerRequireResetCam = seer.GetCustomRole().GetRoleInfo()?.RequireResetCam;
-                    var targetRequireResetCam = target.GetCustomRole().GetRoleInfo()?.RequireResetCam;
-                    var seerIsKiller = seer.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(seer.PlayerId) || (seerRequireResetCam.HasValue && seerRequireResetCam.Value);
-                    var targetIsKiller = target.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(target.PlayerId) || (targetRequireResetCam.HasValue && targetRequireResetCam.Value);
+                    var seerRequireResetCam = seer.GetCustomRole().GetRoleInfo()?.RequireResetCam ?? false;
+                    var seerIsKiller = seer.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(seer.PlayerId) || seerRequireResetCam;
+
                     if ((self && targetIsKiller) || (!seerIsKiller && target.Is(CustomRoleTypes.Impostor)))
                     {
-                        Logger.Info($"Desync {target.GetNameWithRole()} =>ImpostorGhost for{seer.GetNameWithRole()}", "PlayerControl.RpcSetRole");
-                        target.RpcSetRoleDesync(RoleTypes.ImpostorGhost, seer.GetClientId());
+                        ghostRoles[seer] = RoleTypes.ImpostorGhost;
                     }
                     else
                     {
-                        Logger.Info($"Desync {target.GetNameWithRole()} =>CrewmateGhost for{seer.GetNameWithRole()}", "PlayerControl.RpcSetRole");
-                        target.RpcSetRoleDesync(RoleTypes.CrewmateGhost, seer.GetClientId());
+                        ghostRoles[seer] = RoleTypes.CrewmateGhost;
                     }
                 }
-                return false;
+                if (ghostRoles.All(kvp => kvp.Value == RoleTypes.CrewmateGhost))
+                {
+                    roleType = RoleTypes.CrewmateGhost;
+                }
+                else if (ghostRoles.All(kvp => kvp.Value == RoleTypes.ImpostorGhost))
+                {
+                    roleType = RoleTypes.ImpostorGhost;
+                }
+                else
+                {
+                    foreach ((var seer, var role) in ghostRoles)
+                    {
+                        Logger.Info($"Desync {targetName} =>{role} for{seer.GetNameWithRole()}", "PlayerControl.RpcSetRole");
+                        target.RpcSetRoleDesync(role, seer.GetClientId());
+                    }
+                    return false;
+                }
             }
             return true;
         }
