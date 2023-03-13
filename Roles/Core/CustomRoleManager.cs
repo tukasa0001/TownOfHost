@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using HarmonyLib;
+using Hazel;
 using Il2CppSystem.Text;
 
 using AmongUs.GameOptions;
@@ -252,12 +253,15 @@ public static class CustomRoleManager
             }
         }
     }
-    public static void Dispose()
+    /// <summary>
+    /// 受信したRPCから送信先を読み取ってRoleClassに配信する
+    /// </summary>
+    /// <param name="reader"></param>
+    /// <param name="rpcType"></param>
+    public static void DispatchRpc(MessageReader reader, CustomRPC rpcType)
     {
-        MarkOthers.Clear();
-        LowerOthers.Clear();
-        SuffixOthers.Clear();
-        AllActiveRoles.Do(roleClass => roleClass.Dispose());
+        var playerId = reader.ReadByte();
+        AllActiveRoles.FirstOrDefault(r => r.Player.PlayerId == playerId)?.ReceiveRPC(reader, rpcType);
     }
     //NameSystem
     public static HashSet<Func<PlayerControl, PlayerControl, bool, string>> MarkOthers = new();
@@ -315,7 +319,18 @@ public static class CustomRoleManager
         }
         return sb.ToString();
     }
+    /// <summary>
+    /// オブジェクトの破棄
+    /// </summary>
+    public static void Dispose()
+    {
+        MarkOthers.Clear();
+        LowerOthers.Clear();
+        SuffixOthers.Clear();
+        AllActiveRoles.Do(roleClass => roleClass.Dispose());
+    }
 }
+
 public enum CustomRoles
 {
     //Default

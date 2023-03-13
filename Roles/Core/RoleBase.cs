@@ -48,7 +48,35 @@ public abstract class RoleBase : IDisposable
     public virtual void OnDestroy()
     { }
     /// <summary>
+    /// RoleBase専用のRPC送信クラス
+    /// 自身のPlayerIdを自動的に送信する
+    /// </summary>
+    protected class RoleRPCSender : IDisposable
+    {
+        public MessageWriter Writer;
+        public RoleRPCSender(RoleBase role, CustomRPC rpcType)
+        {
+            Writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)rpcType, SendOption.Reliable, -1);
+            Writer.Write(role.Player.PlayerId);
+        }
+        public void Dispose()
+        {
+            AmongUsClient.Instance.FinishRpcImmediately(Writer);
+        }
+    }
+    /// <summary>
+    /// RPC送信クラスの作成
+    /// PlayerIdは自動的に追記されるので意識しなくてもよい。
+    /// </summary>
+    /// <param name="rpcType">送信するCustomRPC</param>
+    /// <returns>送信に使用するRoleRPCSender</returns>
+    protected RoleRPCSender CreateSender(CustomRPC rpcType)
+    {
+        return new RoleRPCSender(this, rpcType);
+    }
+    /// <summary>
     /// RPCを受け取った時に呼ばれる関数
+    /// RoleRPCSenderで送信されたPlayerIdは削除されて渡されるため意識しなくてもよい。
     /// </summary>
     /// <param name="reader">届いたRPCの情報</param>
     /// <param name="rpcType">届いたCustomRPC</param>
