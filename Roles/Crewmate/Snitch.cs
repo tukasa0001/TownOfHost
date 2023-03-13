@@ -33,6 +33,10 @@ namespace TownOfHost.Roles.Crewmate
             //他視点用のMarkメソッド登録
             CustomRoleManager.MarkOthers.Add(GetMarkOthers);
 
+            TargetList.Clear();
+            TargetColorlist.Clear();
+            ExposedList.Clear();
+
         }
 
         private static OptionItem OptionEnableTargetArrow;
@@ -52,31 +56,24 @@ namespace TownOfHost.Roles.Crewmate
         private static bool CanFindNeutralKiller;
         private static int RemainingTasksToBeFound;
 
-        private bool IsExposed;
-        private bool IsComplete;
+        private bool IsExposed = false;
+        private bool IsComplete = false;
 
-        private HashSet<byte> TargetList = new();
-        private Dictionary<byte, Color> TargetColorlist = new();
+        //複数Snitchで共有するためstatic
+        private static HashSet<byte> TargetList = new();
+        private static Dictionary<byte, Color> TargetColorlist = new();
+        private static HashSet<byte> ExposedList = new();
 
         private static void SetupOptionItem()
         {
             var id = RoleInfo.ConfigId;
             var tab = RoleInfo.Tab;
             var parent = RoleInfo.RoleOption;
-            OptionEnableTargetArrow = BooleanOptionItem.Create(id + 10, OptionName.SnitchEnableTargetArrow, false, TabGroup.CrewmateRoles, false).SetParent(parent);
-            OptionCanGetColoredArrow = BooleanOptionItem.Create(id + 11, OptionName.SnitchCanGetArrowColor, false, TabGroup.CrewmateRoles, false).SetParent(OptionEnableTargetArrow);
-            OptionCanFindNeutralKiller = BooleanOptionItem.Create(id + 12, OptionName.SnitchEnableTargetArrow, false, TabGroup.CrewmateRoles, false).SetParent(parent);
-            OptionRemainingTasks = IntegerOptionItem.Create(id + 13, OptionName.SnitchRemainingTaskFound, new(0, 10, 1), 1, TabGroup.CrewmateRoles, false).SetParent(parent);
-            Options.OverrideTasksData.Create(id + 20, TabGroup.CrewmateRoles, CustomRoles.Snitch);
-        }
-
-        public override void Add()
-        {
-            TargetList.Clear();
-            TargetColorlist.Clear();
-
-            IsExposed = false;
-            IsComplete = false;
+            OptionEnableTargetArrow = BooleanOptionItem.Create(id + 10, OptionName.SnitchEnableTargetArrow, false, tab, false).SetParent(parent);
+            OptionCanGetColoredArrow = BooleanOptionItem.Create(id + 11, OptionName.SnitchCanGetArrowColor, false, tab, false).SetParent(OptionEnableTargetArrow);
+            OptionCanFindNeutralKiller = BooleanOptionItem.Create(id + 12, OptionName.SnitchEnableTargetArrow, false, tab, false).SetParent(parent);
+            OptionRemainingTasks = IntegerOptionItem.Create(id + 13, OptionName.SnitchRemainingTaskFound, new(0, 10, 1), 1, tab, false).SetParent(parent);
+            Options.OverrideTasksData.Create(id + 20, tab, CustomRoles.Snitch);
         }
         /// <summary>
         /// スニッチのターゲットであるかの判定
@@ -88,21 +85,6 @@ namespace TownOfHost.Roles.Crewmate
         {
             return target.Is(CustomRoleTypes.Impostor)
                 || (CanFindNeutralKiller && target.IsNeutralKiller());
-        }
-
-        /// <summary>
-        /// タスクが終わりそうかの判定
-        /// Others系でも使うためstatic実装
-        /// </summary>
-        /// <param name="pc">スニッチである場合判定</param>
-        /// <returns>タスク終わりそうなスニッチであればtrue</returns>
-        private static bool GetExpose(PlayerControl pc)
-        {
-            if (pc.GetRoleClass() is Snitch snitch)
-            {
-                return snitch.IsExposed;
-            }
-            return false;
         }
 
         /// <summary>
@@ -119,34 +101,29 @@ namespace TownOfHost.Roles.Crewmate
             //seenが省略の場合seer
             seen ??= seer;
 
-            //seerがキラーでなければ関係なし
+            //キラーじゃなければ無し
             if (!IsSnitchTarget(seer)) return "";
+            //タスクが進んでいなければ無し
+            if (ExposedList.Count == 0) return "";
 
-            string mark = null;
             if (seer.PlayerId == seen.PlayerId)
             {
                 //キラー自身がseenのとき
+                var mark = "★";
                 if (!isForMeeting && EnableTargetArrow)
                 {
-                    var exposedSnitch = Main.AllAlivePlayerControls
-                        .Where(p => p.Is(CustomRoles.Snitch) && GetExpose(p))
-                        .Select(p => p.PlayerId)
-                        .ToArray();
-                    if (exposedSnitch.Length > 0)
-                    {
-                        mark = "★" + TargetArrow.GetArrows(seer, exposedSnitch);
-                    }
+                    mark += TargetArrow.GetArrows(seer, ExposedList.ToArray());
                 }
+                return Utils.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), mark);
             }
-            else
+            else if (seen.GetRoleClass() is Snitch snitch && snitch.IsExposed)
             {
-                var seenRole = seen.GetRoleClass();
-                if (seenRole is Snitch snitch)
-                {
-                    if (snitch.IsExposed) mark = "★";
-                }
+                //seenがタスク終わりそうなスニッチの時
+                return Utils.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), "★");
+
             }
-            return mark == null ? "" : Utils.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), mark);
+            //その他seenなら無し
+            return "";
         }
 
         /// <summary>
@@ -157,11 +134,16 @@ namespace TownOfHost.Roles.Crewmate
         /// <returns></returns>
         public override string GetSuffix(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false)
         {
+            //矢印表示する必要がなければ無し
+            if (!EnableTargetArrow || isForMeeting) return "";
+
             //seenが省略の場合seer
             seen ??= seer;
+
+            //ともにスニッチでなければ無し
             if (!Is(seer) && !Is(seen)) return "";
+            //タスク終わってなければ無し
             if (!IsComplete) return "";
-            if (!EnableTargetArrow || isForMeeting) return "";
 
             var arrows = "";
             foreach (var targetId in TargetList)
@@ -171,41 +153,49 @@ namespace TownOfHost.Roles.Crewmate
             }
             return arrows;
         }
+        /// <summary>
+        /// タスクの進行状況の管理
+        /// </summary>
         public override void OnCompleteTask()
         {
             var update = false;
-            var snitchTask = Player.GetPlayerTaskState();
-            if (!IsExposed && snitchTask.RemainingTasksCount <= RemainingTasksToBeFound)
+            if (TargetList.Count == 0)
             {
-                foreach (var target in Main.AllAlivePlayerControls)
-                {
-                    if (!IsSnitchTarget(target)) continue;
-
-                    TargetArrow.Add(target.PlayerId, Player.PlayerId);
-                }
-                IsExposed = true;
-                update = true;
-            }
-
-            if (!IsComplete && snitchTask.IsTaskFinished)
-            {
+                //TargetListが未作成ならここで作る
                 foreach (var target in Main.AllAlivePlayerControls)
                 {
                     if (!IsSnitchTarget(target)) continue;
 
                     var targetId = target.PlayerId;
+                    TargetList.Add(targetId);
+                    TargetColorlist.Add(targetId, target.GetRoleColor());
+                }
+            }
+            var snitchTask = Player.GetPlayerTaskState();
+            if (!IsExposed && snitchTask.RemainingTasksCount <= RemainingTasksToBeFound)
+            {
+                IsExposed = true;
+                ExposedList.Add(Player.PlayerId);
+                if (EnableTargetArrow)
+                {
+                    foreach (var targetId in TargetList)
+                    {
+                        TargetArrow.Add(targetId, Player.PlayerId);
+                    }
+                }
+                update = true;
+            }
+
+            if (!IsComplete && snitchTask.IsTaskFinished)
+            {
+                IsComplete = true;
+                foreach (var targetId in TargetList)
+                {
                     NameColorManager.Add(Player.PlayerId, targetId);
 
-                    if (!EnableTargetArrow) continue;
-
-                    TargetArrow.Add(Player.PlayerId, targetId);
-
-                    TargetList.Add(targetId);
-
-                    if (CanGetColoredArrow)
-                        TargetColorlist.Add(targetId, target.GetRoleColor());
+                    if (EnableTargetArrow)
+                        TargetArrow.Add(Player.PlayerId, targetId);
                 }
-                IsComplete = true;
                 update = true;
             }
             if (update) Utils.NotifyRoles();
