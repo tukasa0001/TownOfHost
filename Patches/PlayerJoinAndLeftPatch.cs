@@ -41,6 +41,7 @@ namespace TownOfHost
         public static void Prefix(InnerNetClient __instance, DisconnectReasons reason, string stringReason)
         {
             Logger.Info($"切断(理由:{reason}:{stringReason}, ping:{__instance.Ping})", "Session");
+            versionChecked = false;
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
