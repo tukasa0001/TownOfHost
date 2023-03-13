@@ -177,7 +177,7 @@ public abstract class RoleBase : IDisposable
         return Utils.ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})");
     }
     /// <summary>
-    /// seerもしくはseenが自分であるときのMark
+    /// seerが自分であるときのMark
     /// seer,seenともに自分以外であるときに表示したい場合は同じ引数でstaticとして実装し
     /// CustomRoleManager.MarkOthersに登録する
     /// </summary>
@@ -187,7 +187,7 @@ public abstract class RoleBase : IDisposable
     /// <returns>構築したMark</returns>
     public virtual string GetMark(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false) => "";
     /// <summary>
-    /// seerもしくはseenが自分であるときのLowerTex
+    /// seerが自分であるときのLowerTex
     /// seer,seenともに自分以外であるときに表示したい場合は同じ引数でstaticとして実装し
     /// CustomRoleManager.LowerOthersに登録する
     /// </summary>
@@ -198,7 +198,7 @@ public abstract class RoleBase : IDisposable
     /// <returns>構築したLowerText</returns>
     public virtual string GetLowerText(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false, bool isForHud = false) => "";
     /// <summary>
-    /// seerもしくはseenが自分であるときのSuffix
+    /// seer自分であるときのSuffix
     /// seer,seenともに自分以外であるときに表示したい場合は同じ引数でstaticとして実装し
     /// CustomRoleManager.SuffixOthersに登録する
     /// </summary>
