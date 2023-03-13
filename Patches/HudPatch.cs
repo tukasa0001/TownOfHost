@@ -120,23 +120,15 @@ namespace TownOfHost
                         LowerInfoText.fontSizeMax = 2.0f;
                     }
 
-                    if (player.Is(CustomRoles.BountyHunter))
-                    {
-                        var bountyHunter = (BountyHunter)roleClass;
-                        LowerInfoText.text = bountyHunter.GetTargetText(true);
-                    }
-                    else if (player.Is(CustomRoles.Witch))
+                    LowerInfoText.text = roleClass?.GetLowerText(player, isForHud: true) ?? "";
+
+                    if (player.Is(CustomRoles.Witch))
                     {
                         LowerInfoText.text = Witch.GetSpellModeText(player, true);
                     }
                     else if (player.Is(CustomRoles.FireWorks))
                     {
-                        var stateText = FireWorks.GetStateText(player);
-                        LowerInfoText.text = stateText;
-                    }
-                    else
-                    {
-                        LowerInfoText.text = "";
+                        LowerInfoText.text = FireWorks.GetStateText(player);
                     }
                     LowerInfoText.enabled = LowerInfoText.text != "";
 

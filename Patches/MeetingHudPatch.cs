@@ -347,8 +347,10 @@ namespace TownOfHost
             foreach (var pva in __instance.playerStates)
             {
                 if (pva == null) continue;
-                PlayerControl seer = PlayerControl.LocalPlayer;
-                PlayerControl target = Utils.GetPlayerById(pva.TargetPlayerId);
+                var seer = PlayerControl.LocalPlayer;
+                var seerRole = seer.GetRoleClass();
+
+                var target = Utils.GetPlayerById(pva.TargetPlayerId);
                 if (target == null) continue;
 
                 var sb = new StringBuilder();
@@ -363,13 +365,15 @@ namespace TownOfHost
                 if (seer.KnowDeathReason(target))
                     sb.Append($"({Utils.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), Utils.GetVitalText(target.PlayerId))})");
 
+
+                sb.Append(seerRole.GetMark(seer, target, true));
+                sb.Append(CustomRoleManager.GetMarkOthers(seer, target, true));
                 //インポスター表示
                 switch (seer.GetCustomRole().GetCustomRoleTypes())
                 {
                     case CustomRoleTypes.Impostor:
                         if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
                             sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★")); //変更対象にSnitchマークをつける
-                        sb.Append(Snitch.GetWarningMark(seer, target));
                         break;
                 }
                 switch (seer.GetCustomRole())
@@ -380,10 +384,6 @@ namespace TownOfHost
                         break;
                     case CustomRoles.Executioner:
                         sb.Append(Executioner.TargetMark(seer, target));
-                        break;
-                    case CustomRoles.Egoist:
-                    case CustomRoles.Jackal:
-                        sb.Append(Snitch.GetWarningMark(seer, target));
                         break;
                     case CustomRoles.EvilTracker:
                         sb.Append(EvilTracker.GetTargetMark(seer, target));

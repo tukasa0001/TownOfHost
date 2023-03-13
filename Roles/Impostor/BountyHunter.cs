@@ -87,6 +87,7 @@ namespace TownOfHost.Roles.Impostor
 
             Target = Utils.GetPlayerById(targetId);
             if (ShowTargetArrow) TargetArrow.Add(Player.PlayerId, targetId);
+            Logger.Info($"{Player.GetNameWithRole()}のターゲットを{Target.GetNameWithRole()}に変更", "BountyHunter");
         }
         //public static void SetKillCooldown(byte id, float amount) => Main.AllPlayerKillCooldown[id] = amount;
         public override void ApplyGameOptions(IGameOptions opt) => AURoleOptions.ShapeshifterCooldown = TargetChangeTime;
@@ -170,7 +171,7 @@ namespace TownOfHost.Roles.Impostor
             var targetId = target.PlayerId;
             Target = target;
             if (ShowTargetArrow) TargetArrow.Add(playerId, targetId);
-            Logger.Info($"{Player.GetNameWithRole()}のターゲットを{target.GetNameWithRole()}に変更", "BountyHunter");
+            Logger.Info($"{Player.GetNameWithRole()}のターゲットを{Target.GetNameWithRole()}に変更", "BountyHunter");
 
             //RPCによる同期
             SendRPC(targetId);
@@ -185,19 +186,30 @@ namespace TownOfHost.Roles.Impostor
                 ChangeTimer = 0f;
             }
         }
-        public string GetTargetText(bool hud)
+        public override string GetLowerText(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false, bool isForHud = false)
         {
-            var target = GetTarget();
-            return target != null ? $"{(hud ? GetString("BountyCurrentTarget") : "Target")}:{Main.AllPlayerNames[target.PlayerId]}" : "";
-        }
-        public override string GetTargetArrow(PlayerControl target)
-        {
-            if (target == null) return "";
-            if (!ShowTargetArrow || GameStates.IsMeeting) return "";
+            //seenが省略の場合seer
+            seen ??= seer;
+            //seeおよびseenが自分である場合以外は関係なし
+            if (!Is(seer) || !Is(seen)) return "";
 
+            var target = GetTarget();
+            return target != null ? $"{(isForHud ? GetString("BountyCurrentTarget") : "Target")}:{Main.AllPlayerNames[target.PlayerId]}" : "";
+        }
+        public override string GetSuffix(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false)
+        {
+            //seenが省略の場合seer
+            seen ??= seer;
+            //seeおよびseenが自分である場合以外は関係なし
+            if (!Is(seer) || !Is(seen)) return "";
+
+            if (!ShowTargetArrow || isForMeeting) return "";
+
+            var target = GetTarget();
+            if (target == null) return "";
             //seerがtarget自身でBountyHunterのとき、
             //矢印オプションがありミーティング以外で矢印表示
-            return TargetArrow.GetArrows(Player, Target.PlayerId);
+            return TargetArrow.GetArrows(Player, target.PlayerId);
         }
     }
 }
