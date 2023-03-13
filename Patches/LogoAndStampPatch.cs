@@ -67,9 +67,9 @@ public static class CredentialsPatch
         static void ViewBoosterPatch(MainMenuManager __instance)
         {
             var template = __instance.transform.FindChild("StatsPopup");
-            var obj = UnityEngine.Object.Instantiate(template, template.transform.parent).gameObject;
+            var obj = Object.Instantiate(template, template.transform.parent).gameObject;
             CreditsPopup = obj;
-            UnityEngine.Object.Destroy(obj.GetComponent<StatsPopup>());
+            Object.Destroy(obj.GetComponent<StatsPopup>());
             var devtitletext = obj.transform.FindChild("StatNumsText_TMP");
             devtitletext.GetComponent<TextMeshPro>().text = GetString("Developer");
             devtitletext.localPosition = new Vector3(-3.25f, -0.65f, -2f);
@@ -79,28 +79,28 @@ public static class CredentialsPatch
             devtext.localScale = new Vector3(0.7f, 0.7f, 1f);
             devtext.GetComponent<TextMeshPro>().text = DevsData;
 
-            var boostertitletext = UnityEngine.Object.Instantiate(devtitletext, obj.transform);
+            var boostertitletext = Object.Instantiate(devtitletext, obj.transform);
             boostertitletext.GetComponent<TextMeshPro>().text = GetString("Sponsor");
             boostertitletext.localPosition = new Vector3(0.45f, -1.15f, -2f);
             boostertitletext.localScale = new Vector3(1f, 1f, 1f);
 
-            var boostertext = UnityEngine.Object.Instantiate(devtext, obj.transform);
+            var boostertext = Object.Instantiate(devtext, obj.transform);
             boostertext.localPosition = new Vector3(1.5f, -0.85f, -2f);
             boostertext.localScale = new Vector3(0.7f, 0.7f, 1f);
             boostertext.GetComponent<TextMeshPro>().text = SponsersData;
 
-            var transtitletext = UnityEngine.Object.Instantiate(devtitletext, obj.transform);
+            var transtitletext = Object.Instantiate(devtitletext, obj.transform);
             transtitletext.GetComponent<TextMeshPro>().text = GetString("Translator");
             transtitletext.localPosition = new Vector3(-3f, -3.5f, -2f);
             transtitletext.localScale = new Vector3(1f, 1f, 1f);
 
-            var transtext = UnityEngine.Object.Instantiate(devtext, obj.transform);
+            var transtext = Object.Instantiate(devtext, obj.transform);
             transtext.localPosition = new Vector3(-2f, -3.2f, -2f);
             transtext.localScale = new Vector3(0.7f, 0.7f, 1f);
             transtext.GetComponent<TextMeshPro>().text = TransData;
 
             var textobj = obj.transform.FindChild("Title_TMP");
-            UnityEngine.Object.Destroy(textobj.GetComponent<TextTranslatorTMP>());
+            Object.Destroy(textobj.GetComponent<TextTranslatorTMP>());
             textobj.GetComponent<TextMeshPro>().text = GetString("DevAndSpnTitle");
             textobj.localScale = new Vector3(1.2f, 1.2f, 1f);
             obj.transform.FindChild("Background").localScale = new Vector3(1.5f, 1f, 1f);
