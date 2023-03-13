@@ -24,17 +24,18 @@ public static class CustomRoleManager
     public static void Do<T>(this List<T> list, Action<T> action) => list.ToArray().Do(action);
     // == CheckMurder関連処理 ==
     // # 順番ルール #
-    // 0_000_001..1_000_000: 先に実行する必要がある特殊処理
-    // 1_000_000..2_000_000: Killer側のキルキャンセル処理
-    // 2_000_000..3_000_000: Target側のキルキャンセル処理
-    // 3_000_000..: その他の処理
+    // 0x0a00_nbbb
+    // a: 実行順(0で先に実行する必要がある特殊処理, 1でKiller側のキルキャンセル処理, 2でTarget側のキルキャンセル処理, 3でその他の処理)
+    // bbb: CustomRolesの値
+    // n: 何らかの調整用(標準値:8)
+    // 0: 予備
     // # 順番メモ #
     // x: orderがxの時に行われる処理 (クラス名)
-    // 1_001_000: シェリフのキルキャンセル・自爆処理 (Sheriff)
-    // 1_002_000: アーソニストのキルキャンセル・塗り開始処理 (CheckMurderPatch)
-    // 1_500_000: クラス化されていないキルされた側の処理 (CheckMurderPatch)
-    // 3_001_000: バウンティハンターのターゲット関連の処理 (BountyHunter)
-    // 3_500_000: クラス化されていないキルした側の処理 (CheckMurderPatch)
+    // 0x0100_8031: シェリフのキルキャンセル・自爆処理 (Sheriff)
+    // 0x0100_8040: アーソニストのキルキャンセル・塗り開始処理 (CheckMurderPatch)
+    // 0x0100_8800: クラス化されていないキルされた側の処理 (CheckMurderPatch) 全役職クラス化後削除
+    // 0x0300_8003: バウンティハンターのターゲット関連の処理 (BountyHunter)
+    // 0x0300_8800: クラス化されていないキルした側の処理 (CheckMurderPatch) 全役職クラス化後削除
 
     public static void OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget)
         => OnCheckMurder(attemptKiller, attemptTarget, attemptKiller, attemptTarget);
