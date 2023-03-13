@@ -66,7 +66,7 @@ internal class ExileControllerWrapUpPatch
                 var role = exiled.GetCustomRole();
 
                 //判断冤罪师胜利
-                var playerList = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(CustomRoles.Innocent) && !x.IsAlive() && x.GetRealKiller().PlayerId == exiled.PlayerId);
+                var playerList = Main.AllPlayerControls.Where(x => x.Is(CustomRoles.Innocent) && !x.IsAlive() && x.GetRealKiller().PlayerId == exiled.PlayerId);
                 if (playerList.Count() > 0)
                 {
                     if (!Options.InnocentCanWinByImp.GetBool() && role.IsImpostor())

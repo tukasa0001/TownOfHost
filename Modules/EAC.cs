@@ -12,17 +12,21 @@ internal class EAC
     public static List<string> Msgs = new();
     public static int MeetingTimes = 0;
     public static int DeNum = 0;
-    public static void WarnHost()
+    public static void WarnHost(int denum = 1)
     {
-        DeNum++;
-        ErrorText.Instance.CheatDetected = true;
+        DeNum += denum;
+        ErrorText.Instance.CheatDetected = DeNum > 3;
         ErrorText.Instance.SBDetected = DeNum > 10;
-        ErrorText.Instance.AddError(ErrorCode.SBDetected);
+        if (ErrorText.Instance.CheatDetected)
+            ErrorText.Instance.AddError(ErrorText.Instance.SBDetected ? ErrorCode.SBDetected : ErrorCode.CheatDetected);
+        else
+            ErrorText.Instance.Clear();
     }
     public static bool Receive(PlayerControl pc, byte callId, MessageReader reader)
     {
         if (!AmongUsClient.Instance.AmHost) return false;
         if (pc == null || reader == null) return true;
+        if (pc.GetClient()?.PlatformData?.Platform is Platforms.Android or Platforms.Android or Platforms.Switch or Platforms.Playstation or Platforms.Xbox or Platforms.StandaloneMac) return false;
         try
         {
             MessageReader sr = MessageReader.Get(reader);
@@ -106,10 +110,9 @@ internal class EAC
                 case RpcCalls.SetColor:
                 case RpcCalls.CheckColor:
                     var color = sr.ReadByte();
-                    var time = 0;
-                    foreach (var apc in PlayerControl.AllPlayerControls)
-                        if (apc.Data.DefaultOutfit.ColorId == color) time++;
-                    if (!GameStates.IsLobby || color == 18 || time >= 2)
+                    if (
+                        Main.AllPlayerControls.Where(x => x.Data.DefaultOutfit.ColorId == color).Count() >= 2
+                        || !GameStates.IsLobby || color == 18)
                     {
                         WarnHost();
                         Report(pc, "非法设置颜色");
@@ -137,7 +140,7 @@ internal class EAC
                     var AUMChat = sr.ReadString();
                     Report(pc, "AUM");
                     Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法使用AUM发送消息", "EAC");
-                    break;
+                    return true;
                 case 7:
                     if (GameStates.IsInGame)
                     {

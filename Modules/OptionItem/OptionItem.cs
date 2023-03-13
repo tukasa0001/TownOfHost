@@ -9,6 +9,7 @@ namespace TOHE;
 public abstract class OptionItem
 {
     #region static
+    public static List<OptionItem> Options => _allOptions;
     public static IReadOnlyList<OptionItem> AllOptions => _allOptions;
     private static readonly List<OptionItem> _allOptions = new();
     public static int CurrentPreset { get; set; }

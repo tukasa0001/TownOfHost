@@ -74,11 +74,8 @@ public static class Utils
     }
     public static void TPAll(Vector2 location)
     {
-        foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
-        {
-            if (!pc.IsAlive()) break;
-            TP(pc.NetTransform, new Vector2(location.x, location.y + 0.3636f));
-        }
+        foreach (PlayerControl pc in Main.AllAlivePlayerControls)
+            TP(pc.NetTransform, location);
     }
 
     public static void TP(CustomNetworkTransform nt, Vector2 location)
@@ -353,10 +350,7 @@ public static class Utils
                 hasTasks = Executioner.ChangeRolesAfterTargetKilled.GetValue() == 0 && !ForRecompute;
                 break;
             case CustomRoles.Workaholic:
-                if (ForRecompute || (Options.WorkaholicCannotWinAtDeath.GetBool() && p.IsDead))
-                    hasTasks = false;
-                else
-                    hasTasks = true;
+                hasTasks = !ForRecompute && (!Options.WorkaholicCannotWinAtDeath.GetBool() || !p.IsDead);
                 break;
             default:
                 if (role.IsImpostor()) hasTasks = false;
@@ -457,6 +451,10 @@ public static class Utils
                 break;
             case CustomRoles.Medicaler:
                 ProgressText.Append(Medicaler.GetSkillLimit(playerId));
+                break;
+            case CustomRoles.CursedWolf:
+                int SpellCount = Main.CursedWolfSpellCount[playerId];
+                ProgressText.Append(ColorString(GetRoleColor(CustomRoles.CursedWolf), $"({SpellCount})"));
                 break;
             case CustomRoles.Collectors:
                 ProgressText.Append(Collectors.GetProgressText(playerId));
@@ -595,10 +593,15 @@ public static class Utils
         }
         SendMessage(sb.ToString(), PlayerId);
     }
-    public static void ShowChildrenSettings(OptionItem option, ref StringBuilder sb, int deep = 0)
+    public static void ShowChildrenSettings(OptionItem option, ref StringBuilder sb, int deep = 0, bool command = false)
     {
         foreach (var opt in option.Children.Select((v, i) => new { Value = v, Index = i + 1 }))
         {
+            if (command)
+            {
+                sb.Append("\n\n");
+                command = false;
+            }
             if (opt.Value.Name == "Maximum") continue; //Maximumの項目は飛ばす
             if (opt.Value.Name == "DisableSkeldDevices" && !Options.IsActiveSkeld) continue;
             if (opt.Value.Name == "DisableMiraHQDevices" && !Options.IsActiveMiraHQ) continue;
@@ -769,9 +772,8 @@ public static class Utils
             {
                 List<PlayerControl> badPlayers = new();
                 List<PlayerControl> goodPlayers = new();
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.PlayerId != seer.PlayerId))
                 {
-                    if (pc == null || !pc.IsAlive() || pc.Data.Disconnected || pc == seer) continue;
                     isGood.Add(pc.PlayerId, true);
                     var role = pc.GetCustomRole();
                     switch (role.GetCustomRoleTypes())
@@ -1444,7 +1446,7 @@ public static class Utils
     {
         int draw = 0;
         int all = Options.RevolutionistDrawCount.GetInt();
-        int max = PlayerControl.AllPlayerControls.Count - (CustomRolesHelper.RoleExist(CustomRoles.GM) ? 2 : 1);
+        int max = Main.AllAlivePlayerControls.Count() - 1;
         winnerList = new();
         if (all > max) all = max;
         foreach (var pc in Main.AllPlayerControls)

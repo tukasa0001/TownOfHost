@@ -80,6 +80,7 @@ internal class ChangeRoleSettings
             Main.VeteranInProtect = new Dictionary<byte, long>();
             Main.GrenadierBlinding = new Dictionary<byte, long>();
             Main.MadGrenadierBlinding = new Dictionary<byte, long>();
+            Main.CursedWolfSpellCount = new Dictionary<byte, int>();
             Main.FirstDied = 255;
             Main.MadmateNum = 0;
 
@@ -221,7 +222,7 @@ internal class SelectRolesPatch
 
             // 开始职业抽取
             var rd = IRandom.Instance;
-            int playerCount = Options.EnableGM.GetBool() ? PlayerControl.AllPlayerControls.Count - 1 : PlayerControl.AllPlayerControls.Count;
+            int playerCount = Main.AllPlayerControls.Count() - (Options.EnableGM.GetBool() ? 1 : 0);
             int optImpNum = Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors);
             int optNeutralNum = 0;
             if (Options.NeutralRolesMaxPlayer.GetInt() > 0 && Options.NeutralRolesMaxPlayer.GetInt() >= Options.NeutralRolesMinPlayer.GetInt())
@@ -246,7 +247,7 @@ internal class SelectRolesPatch
                 if (CustomRolesHelper.IsAdditionRole(role))
                 {
                     if (role is CustomRoles.Madmate && Options.MadmateSpawnMode.GetInt() != 0) continue;
-                    if (role is CustomRoles.LastImpostor or CustomRoles.Lovers) continue;
+                    if (role is CustomRoles.LastImpostor or CustomRoles.Lovers or CustomRoles.Workhorse) continue;
                     addRoleList.Add(role);
                     continue;
                 }
@@ -673,6 +674,9 @@ internal class SelectRolesPatch
                     case CustomRoles.Greedier:
                         Greedier.Add(pc.PlayerId);
                         break;
+                    case CustomRoles.CursedWolf:
+                        Main.CursedWolfSpellCount[pc.PlayerId] = Options.GuardSpellTimes.GetInt();
+                        break;
                 }
                 foreach (var subRole in pc.GetCustomSubRoles())
                 {
@@ -824,7 +828,7 @@ internal class SelectRolesPatch
         var allPlayers = new List<PlayerControl>();
         foreach (var pc in Main.AllPlayerControls)
         {
-            if (pc.Is(CustomRoles.GM) || (pc.HasSubRole() && !Options.NoLimitAddonsNum.GetBool()) || pc.Is(CustomRoles.Needy) || pc.Is(CustomRoles.Ntr) || pc.Is(CustomRoles.God)) continue;
+            if (pc.Is(CustomRoles.GM) || (pc.HasSubRole() && !Options.NoLimitAddonsNum.GetBool()) || pc.Is(CustomRoles.Needy) || pc.Is(CustomRoles.Ntr) || pc.Is(CustomRoles.God) || pc.Is(CustomRoles.FFF)) continue;
             allPlayers.Add(pc);
         }
         var role = CustomRoles.Lovers;
@@ -850,9 +854,9 @@ internal class SelectRolesPatch
             if (pc.Is(CustomRoles.GM) || (pc.HasSubRole() && !Options.NoLimitAddonsNum.GetBool()) || pc.Is(CustomRoles.Needy)) continue;
             if (role is CustomRoles.Lighter && (!pc.GetCustomRole().IsCrewmate() || pc.Is(CustomRoles.Bewilder))) continue;
             if (role is CustomRoles.Bewilder && (pc.GetCustomRole().IsImpostor() || pc.Is(CustomRoles.Lighter))) continue;
-            if (role is CustomRoles.Ntr && pc.Is(CustomRoles.Lovers)) continue;
+            if (role is CustomRoles.Ntr && (pc.Is(CustomRoles.Lovers) || pc.Is(CustomRoles.FFF))) continue;
             if (role is CustomRoles.Madmate && !Utils.CanBeMadmate(pc)) continue;
-            if (role is CustomRoles.Oblivious && pc.Is(CustomRoles.Detective)) continue;
+            if (role is CustomRoles.Oblivious && (pc.Is(CustomRoles.Detective) || pc.Is(CustomRoles.Cleaner))) continue;
             if (role is CustomRoles.Fool && (pc.GetCustomRole().IsImpostor() || pc.Is(CustomRoles.SabotageMaster))) continue;
             if (role is CustomRoles.Avanger && pc.GetCustomRole().IsImpostor() && !Options.ImpCanBeAvanger.GetBool()) continue;
             if (role is CustomRoles.Brakar && pc.Is(CustomRoles.Dictator)) continue;
@@ -860,8 +864,8 @@ internal class SelectRolesPatch
             if (role is CustomRoles.Egoist && (pc.GetCustomRole().IsNeutral() || pc.Is(CustomRoles.Madmate))) continue;
             if (role is CustomRoles.Egoist && pc.GetCustomRole().IsImpostor() && !Options.ImpCanBeEgoist.GetBool()) continue;
             if (role is CustomRoles.Egoist && pc.GetCustomRole().IsCrewmate() && !Options.CrewCanBeEgoist.GetBool()) continue;
-            if (role is CustomRoles.TicketsStealer && !pc.GetCustomRole().IsImpostor()) continue;
-            if ((role is CustomRoles.Lovers or CustomRoles.Ntr) && pc.Is(CustomRoles.FFF)) continue;
+            if (role is CustomRoles.TicketsStealer or CustomRoles.Mimic && !pc.GetCustomRole().IsImpostor()) continue;
+            if (role is CustomRoles.TicketsStealer && (pc.Is(CustomRoles.Bomber) || pc.Is(CustomRoles.BoobyTrap))) continue;
             if (role is CustomRoles.DualPersonality && ((!pc.GetCustomRole().IsImpostor() && !pc.GetCustomRole().IsCrewmate()) || pc.Is(CustomRoles.Madmate))) continue;
             if (role is CustomRoles.DualPersonality && pc.GetCustomRole().IsImpostor() && !Options.ImpCanBeDualPersonality.GetBool()) continue;
             if (role is CustomRoles.DualPersonality && pc.GetCustomRole().IsCrewmate() && !Options.CrewCanBeDualPersonality.GetBool()) continue;

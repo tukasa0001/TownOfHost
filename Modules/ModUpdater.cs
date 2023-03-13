@@ -1,5 +1,6 @@
 using HarmonyLib;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -101,7 +102,7 @@ public class ModUpdater
             int create = int.Parse(data[0]);
             MD5 = data[2];
             visit = int.TryParse(data[3], out int x) ? x : 0;
-            visit += 26457;
+            visit += 26610;
             if (create > Main.PluginCreate)
             {
                 hasUpdate = true;
@@ -141,8 +142,16 @@ public class ModUpdater
         }
         catch (Exception ex)
         {
-            isChecked = false;
-            isBroken = true;
+            if (CultureInfo.CurrentCulture.Name == "zh-CN")
+            {
+                isChecked = false;
+                isBroken = true;
+            }
+            else
+            {
+                isChecked = true;
+                isBroken = false;
+            }
             Logger.Error($"检查更新时发生错误\n{ex}", "CheckRelease", false);
             return Task.FromResult(false);
         }

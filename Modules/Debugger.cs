@@ -52,13 +52,6 @@ internal class Logger
     {
         if (!isEnable || disableList.Contains(tag)) return;
         var logger = Main.Logger;
-        //while (true)
-        //{
-        //    int start = text.IndexOf("(");
-        //    int end = text.IndexOf(")");
-        //    if (start > 0 && end > start) text = text.Replace(text.Substring(start, end - start + 1), string.Empty);
-        //    else break;
-        //}
         string t = DateTime.Now.ToString("HH:mm:ss");
         if (sendToGameList.Contains(tag) || isAlsoInGame) SendInGame($"[{tag}]{text}");
         if (escapeCRLF)
@@ -116,10 +109,6 @@ internal class Logger
     {
         StackFrame stack = new(1);
         Logger.Msg($"\"{stack.GetMethod().ReflectedType.Name}.{stack.GetMethod().Name}\" Called in \"{Path.GetFileName(fileName)}({lineNumber})\"", "Method");
-    }
-    internal static void Error(int numOfPsychicBad, string v)
-    {
-        throw new NotImplementedException();
     }
     public static LogHandler Handler(string tag)
         => new(tag);

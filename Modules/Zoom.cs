@@ -1,6 +1,6 @@
-﻿using System;
+﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
-using HarmonyLib;
 using UnityEngine;
 
 namespace TOHE;
@@ -25,7 +25,8 @@ public static class Zoom
             }
             if (Input.mouseScrollDelta.y < 0)
             {
-                if (GameStates.IsDead || GameStates.IsFreePlay || Utils.CanUseDevCommand(PlayerControl.LocalPlayer))
+                if (GameStates.IsDead || GameStates.IsFreePlay || DebugModeManager.AmDebugger ||
+                    Utils.CanUseDevCommand(PlayerControl.LocalPlayer))
                 {
                     if (Camera.main.orthographicSize < 18.0f)
                     {
@@ -45,7 +46,8 @@ public static class Zoom
     }
 
     public static GameObject ShadowQuad;
-    static void SetZoomSize(bool times = false, bool reset = false)
+
+    private static void SetZoomSize(bool times = false, bool reset = false)
     {
         var size = 1.5f;
         if (!times) size = 1 / size;
@@ -68,25 +70,25 @@ public static class Zoom
 
 public static class Flag
 {
-private static List<string> OneTimeList = new();
-private static List<string> FirstRunList = new();
-public static void Run(Action action, string type, bool firstrun = false)
-{
-    if (OneTimeList.Contains(type) || (firstrun && !FirstRunList.Contains(type)))
+    private static readonly List<string> OneTimeList = new();
+    private static readonly List<string> FirstRunList = new();
+    public static void Run(Action action, string type, bool firstrun = false)
     {
-        if (!FirstRunList.Contains(type)) FirstRunList.Add(type);
-        OneTimeList.Remove(type);
-        action();
+        if (OneTimeList.Contains(type) || (firstrun && !FirstRunList.Contains(type)))
+        {
+            if (!FirstRunList.Contains(type)) FirstRunList.Add(type);
+            OneTimeList.Remove(type);
+            action();
+        }
+
+    }
+    public static void NewFlag(string type)
+    {
+        if (!OneTimeList.Contains(type)) OneTimeList.Add(type);
     }
 
-}
-public static void NewFlag(string type)
-{
-    if (!OneTimeList.Contains(type)) OneTimeList.Add(type);
-}
-
-public static void DeleteFlag(string type)
-{
-    if (OneTimeList.Contains(type)) OneTimeList.Remove(type);
-}
+    public static void DeleteFlag(string type)
+    {
+        if (OneTimeList.Contains(type)) OneTimeList.Remove(type);
+    }
 }

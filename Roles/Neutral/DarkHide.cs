@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using AmongUs.GameOptions;
+﻿using AmongUs.GameOptions;
 using Hazel;
 using InnerNet;
+using System.Collections.Generic;
 
 namespace TOHE;
 

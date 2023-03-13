@@ -144,6 +144,9 @@ internal class HudManagerPatch
                     case CustomRoles.BallLightning:
                         __instance.KillButton.OverrideText($"{GetString("BallLightningButtonText")}");
                         break;
+                    case CustomRoles.Bomber:
+                        __instance.AbilityButton.OverrideText($"{GetString("BomberShapeshiftText")}");
+                        break;
                 }
 
                 //バウンティハンターのターゲットテキスト
@@ -314,6 +317,9 @@ internal class SetHudActivePatch
                 break;
             case CustomRoles.Jackal:
                 Jackal.SetHudActive(__instance, isActive);
+                break;
+            case CustomRoles.Bomber:
+                __instance.KillButton.ToggleVisible(false);
                 break;
         }
 

@@ -2,6 +2,7 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TOHE.Modules;
@@ -52,6 +53,7 @@ internal enum CustomRPC
     PlayCustomSoundAll,
     SetDarkHiderKillCount,
     SetGreedierOE,
+    SetCursedWolfSpellCount,
 }
 public enum Sounds
 {
@@ -66,7 +68,7 @@ internal class RPCHandlerPatch
         var rpcType = (RpcCalls)callId;
         MessageReader subReader = MessageReader.Get(reader);
         if (EAC.Receive(__instance, callId, reader)) return true;
-        if (EAC.DeNum > 0) EAC.DeNum--;
+        EAC.WarnHost(-1);
         Logger.Info($"{__instance?.Data?.PlayerId}({__instance?.Data?.PlayerName}):{callId}({RPC.GetRpcName(callId)})", "ReceiveRPC");
         switch (rpcType)
         {
@@ -119,7 +121,7 @@ internal class RPCHandlerPatch
                                 Utils.SendMessage($"检测到 {__instance?.Data?.PlayerName}：{text}", PlayerControl.LocalPlayer.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "【 ★ 作弊检测 ★ 】"));
                                 break;
                             case 3:
-                                foreach (var pc in PlayerControl.AllPlayerControls)
+                                foreach (var pc in Main.AllPlayerControls)
                                 {
                                     if (pc != null && pc.PlayerId != __instance?.Data?.PlayerId)
                                     {
@@ -221,9 +223,16 @@ internal class RPCHandlerPatch
                 RPC.RpcVersionCheck();
                 break;
             case CustomRPC.SyncCustomSettings:
-                foreach (var co in OptionItem.AllOptions)
+                List<OptionItem> list = OptionItem.Options;
+                var startAmount = reader.ReadInt32();
+                var lastAmount = reader.ReadInt32();
+                for (var i = 0; i < list.Count; i++)
                 {
-                    //すべてのカスタムオプションについてインデックス値で受信
+                    if (i < startAmount || i > lastAmount)
+                        list.Remove(list[i]);
+                }
+                foreach (var co in list)
+                {
                     co.SetValue(reader.ReadInt32());
                 }
                 break;
@@ -341,20 +350,54 @@ internal class RPCHandlerPatch
             case CustomRPC.SetGreedierOE:
                 Greedier.ReceiveRPC(reader);
                 break;
+            case CustomRPC.SetCursedWolfSpellCount:
+                byte CursedWolfId = reader.ReadByte();
+                int GuardNum = reader.ReadInt32();
+                if (Main.CursedWolfSpellCount.ContainsKey(CursedWolfId))
+                    Main.CursedWolfSpellCount[CursedWolfId] = GuardNum;
+                else
+                    Main.CursedWolfSpellCount.Add(CursedWolfId, Options.GuardSpellTimes.GetInt());
+                break;
         }
     }
 }
 
 internal static class RPC
 {
-    //SyncCustomSettingsRPC Sender
+    //来源：https://github.com/music-discussion/TownOfHost-TheOtherRoles/blob/main/Modules/RPC.cs
     public static void SyncCustomSettingsRPC()
     {
-        if (!AmongUsClient.Instance.AmHost) return;
-        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
-        foreach (var co in OptionItem.AllOptions)
+        if (!AmongUsClient.Instance.AmHost || (Main.AllPlayerControls.Where(x => x.IsModClient()).Count() <= 1) || (AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null)) return;
+        var amount = OptionItem.AllOptions.Count;
+        int divideBy = amount / 5;
+        for (var i = 0; i <= 5; i++)
         {
-            //すべてのカスタムオプションについてインデックス値で送信
+            SyncOptionsBetween(i * divideBy, (i + 1) * divideBy);
+        }
+    }
+    public static void SyncCustomSettingsRPCforOneOption(OptionItem option)
+    {
+        var placement = OptionItem.Options.IndexOf(option);
+        if (placement != -1)
+            SyncOptionsBetween(placement - 1, placement + 1);
+    }
+    static void SyncOptionsBetween(int startAmount, int lastAmount)
+    {
+        if (!AmongUsClient.Instance.AmHost || (Main.AllPlayerControls.Where(x => x.IsModClient()).Count() <= 1) || (AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null)) return;
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, SendOption.Reliable, -1);
+        writer.Write(startAmount);
+        writer.Write(lastAmount);
+        List<OptionItem> list = new();
+        List<OptionItem> allOptions = OptionItem.Options;
+        for (var i = 0; i <= allOptions.Count; i++)
+        {
+            if (i < startAmount || i > lastAmount) break;
+            if (i > allOptions.Count) break;
+            list.Add(allOptions[i]);
+        }
+
+        foreach (var co in list)
+        {
             writer.Write(co.GetValue());
         }
         AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -362,15 +405,15 @@ internal static class RPC
     public static void PlaySoundRPC(byte PlayerID, Sounds sound)
     {
         if (AmongUsClient.Instance.AmHost)
-            RPC.PlaySound(PlayerID, sound);
-        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.PlaySound, Hazel.SendOption.Reliable, -1);
+            PlaySound(PlayerID, sound);
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.PlaySound, SendOption.Reliable, -1);
         writer.Write(PlayerID);
         writer.Write((byte)sound);
         AmongUsClient.Instance.FinishRpcImmediately(writer);
     }
     public static void ExileAsync(PlayerControl player)
     {
-        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.Exiled, Hazel.SendOption.Reliable, -1);
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.Exiled, SendOption.Reliable, -1);
         AmongUsClient.Instance.FinishRpcImmediately(writer);
         player.Exiled();
     }
@@ -386,7 +429,7 @@ internal static class RPC
     }
     public static void SendDeathReason(byte playerId, PlayerState.DeathReason deathReason)
     {
-        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDeathReason, Hazel.SendOption.Reliable, -1);
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDeathReason, SendOption.Reliable, -1);
         writer.Write(playerId);
         writer.Write((int)deathReason);
         AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -605,6 +648,13 @@ internal static class RPC
             writer.Write(targetId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+    }
+    public static void SendRPCCursedWolfSpellCount(byte playerId)
+    {
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCursedWolfSpellCount, SendOption.Reliable, -1);
+        writer.Write(playerId);
+        writer.Write(Main.CursedWolfSpellCount[playerId]);
+        AmongUsClient.Instance.FinishRpcImmediately(writer);
     }
     public static void ResetCurrentDousingTarget(byte arsonistId) => SetCurrentDousingTarget(arsonistId, 255);
     public static void ResetCurrentDrawTarget(byte arsonistId) => SetCurrentDrawTarget(arsonistId, 255);
