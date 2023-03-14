@@ -674,7 +674,7 @@ internal class ChatCommands
             "工作狂" or "工作" => GetString("Workaholic"),
             "呪狼" or "咒狼" => GetString("CursedWolf"),
             "寶箱怪" or "宝箱" => GetString("Mimic"),
-            "蒐集者" or "搜集" => GetString("Collectors"),
+            "蒐集者" or "搜集" => GetString("Collector"),
             _ => text,
         };
     }

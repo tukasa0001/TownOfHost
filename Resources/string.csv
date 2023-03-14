@@ -128,7 +128,7 @@ Konan,柯南,Konan,Конан
 Gamer,玩家,Demon,Демон
 DarkHide,潜藏者,Stalker,Сталкер
 Workaholic,工作狂,Workaholic,Трудоголик
-Collectors,集票者
+Collector,集票者
 
 # 附加职业
 LastImpostor,绝境者,Last Impostor,Последний Предатель
@@ -238,7 +238,8 @@ KonanInfo,在一次和小兰的约会中...,,
 GamerInfo,Lv又增加了捏~,Drink all the blood of the players,Выпейте всю кровь игроков
 DarkHideInfo,降下黑暗，释放恐惧！,"Descend into the darkness, release Fear!","Спускайся во тьму, освободи Страх!"
 WorkaholicInfo,卷死他们！,Do your tasks and win!,Сделай свои задания и победи!
-Collectors,收集癖的胜利
+CollectorInfo,是收集癖的胜利！
+
 # 附加职业
 LoversInfo,最重要的是，记得照顾好你的另一半,Survive with your Lover,Выживите со своим Любовником
 MadmateInfo,结局掌握在你的手中,Help the Impostors,Помогите Предателям
@@ -350,7 +351,7 @@ FFFInfoLong,(中立阵营):\nFFF团不会成为恋人或海王。FFF团拥有无
 GamerInfoLong,(中立阵营):\n仅剩玩家阵营与船员阵营且玩家阵营人数大于船员人数，玩家获得胜利。玩家的击杀规则与其他人不同，玩家视角下所有人拥有血量，玩家击杀以及被击杀改为消耗血量，当血量耗空时击杀才会生效。请注意：若其他人消耗玩家血量但没有成功击杀玩家时，凶手会看到玩家身上出现护盾破碎动画作为提示。,"(Neutrals):\nIf the number of Demons in the team is greater than the number of crewmates or the Demon is left with one crewmate, then the Demons win. The rules for killing a player are different. Each player has a blood volume. The kill will only occur when the Demon has exhausted all of the player's blood volume. Please note: If someone else drinks the player's blood volume but fails to successfully kill the player, the killer will see a broken shield animation on the player as a hint","(Нейтрал):\nЕсли количество Демонов в команде больше, чем количество Членов Экипажа или Демон остаётся с одним членом экипажа, то Демоны выигрывают. Правила убийства игрока отличаются.У каждого игрока есть объем крови. Убийство произойдёт только тогда, когда Демон исчерпет весь объем крови у игрока. Пожалуйста, обратите внимание: Если кто-то другой выпьет объем крови игрока, но не сможет успешно убить игрока, то убийца увидит анимацию сломанного щита на игроке в качестве подсказки."
 DarkHideInfoLong,(中立阵营):\n潜藏者可以击杀任何人，且每次击杀都会立刻造成电力破坏（若电力已经被破坏则无事发生）。潜藏者无法使用通风管道。若潜藏者存活时内鬼胜利或船员通过击杀内鬼胜利（根据房主设定船员击杀中立玩家胜利时潜藏者也可能抢夺胜利），则潜藏者抢夺胜利。,"(Neutrals):\nA stalker can kill anyone, and can kill through a shield. The stalker cannot jump on hatches. If the stalker survives and the impostors or Crewmates win (and the neutrals, by the Host's setting), he takes the victory for himself.","(Нейтрал)\nСталкер может убить кого угодно, и может убить сквозь щит. Сталкер не может прыгать по люкам. Если сталкер выживает, а предатели или члены экипажа побеждают (и нейтралы, по настройке Хоста), он забирает победу себе."
 WorkaholicInfoLong,(中立阵营):\n工作狂拥有更多的任务，当工作狂完成所有任务后单独胜利。（根据房主设定，工作狂死后完成任务也可能胜利）,"(Neutrals):\nWorkaholics have more tasks, when the Workaholic has done all his tasks, he wins himself. (Can be set by the Host, making a quest after the death of the Workaholic also grants a chance to win.)","(Нейтрал)\nТрудоголики имеют больше заданий, когда Трудоголик сделает все свои задания, он побеждает сам. (Может быть установлено Хостом, сделая залания после смерти Трудоголика также даёт возможность победить.)"
-CollectorsInfoLong,(中立阵营):\n
+CollectorInfoLong,(中立阵营):\n集票者投票给一名玩家后，可以收集到本次会议该玩家被投的所有票数。当集票者收集到指定数量的票后，则集票者单独胜利。请注意：集票者的胜利优先于驱逐玩家。
 
 # 附加职业
 LastImpostorInfoLong,(附加职业):\n这个效果在内鬼仅剩一人时赋予该内鬼。使其击杀冷却缩短。该效果对赏金猎人、嗜血杀手以及吸血鬼等击杀方式特殊的职业不适用。,"(Add-ons):\nAn Add-on granted to the last Impostor remaining.\nKill cooldown is reduced according to this setting.\nNot granted to Bounty Hunters, Serial Killers, or Vampires.","(Атрибут):\nАтрибут, присваивается последнему Предателю. \nВремя отката убийства становится меньше, чем обычно. \nНе назначается Охотнику за головами, Серийному убийце или Вампиру."
@@ -677,7 +678,7 @@ OddKillCooldown,单数击杀冷却时间,Odd kill cooldown,Откат Нечёт
 EvenKillCooldown,双数击杀冷却时间,Even kill cooldown,Откат Чётного убийства
 WorkaholicCannotWinAtDeath,死亡后无法胜利,Doesn't win at death,Не может победить когда он мёртв
 GuardSpellTimes,反杀次数上限,Number of Cursed Shields,Количество проклятых щитов
-CollectorsCollectAmount,集票数量
+CollectorCollectAmount,需要集票数量
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит

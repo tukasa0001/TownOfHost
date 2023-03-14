@@ -48,15 +48,16 @@ internal class ExileControllerWrapUpPatch
             exiled = AntiBlackout_LastExiled;
         }
 
-        bool DecidedWinner = false;
         if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
         AntiBlackout.RestoreIsDead(doSend: false);
-        if (exiled != null)
+        
+        if (!Collector.CollectorWin(false) && exiled != null) //判断集票者胜利
         {
             //霊界用暗転バグ対処
             if (!AntiBlackout.OverrideExiledPlayer && Main.ResetCamPlayerList.Contains(exiled.PlayerId))
                 exiled.Object?.ResetPlayerCam(1f);
 
+            bool DecidedWinner = false;
             exiled.IsDead = true;
             Main.PlayerStates[exiled.PlayerId].deathReason = PlayerState.DeathReason.Vote;
 
@@ -110,11 +111,6 @@ internal class ExileControllerWrapUpPatch
 
                 if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) Main.PlayerStates[exiled.PlayerId].SetDead();
             }
-        }
-
-        if (Collectors.CollectorsWin(DecidedWinner))
-        {
-            DecidedWinner = true;
         }
 
         if (AmongUsClient.Instance.AmHost && Main.IsFixedCooldown)

@@ -339,7 +339,7 @@ public static class Utils
             case CustomRoles.FFF:
             case CustomRoles.Gamer:
             case CustomRoles.DarkHide:
-            case CustomRoles.Collectors:
+            case CustomRoles.Collector:
                 hasTasks = false;
                 break;
             case CustomRoles.Terrorist:
@@ -451,8 +451,8 @@ public static class Utils
                 int SpellCount = Main.CursedWolfSpellCount[playerId];
                 ProgressText.Append(ColorString(GetRoleColor(CustomRoles.CursedWolf), $"({SpellCount})"));
                 break;
-            case CustomRoles.Collectors:
-                ProgressText.Append(Collectors.GetProgressText(playerId));
+            case CustomRoles.Collector:
+                ProgressText.Append(Collector.GetProgressText(playerId));
                 break;
             default:
                 //タスクテキスト

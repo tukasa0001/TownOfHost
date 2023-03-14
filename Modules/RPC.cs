@@ -361,7 +361,7 @@ internal class RPCHandlerPatch
                     Main.CursedWolfSpellCount.Add(CursedWolfId, Options.GuardSpellTimes.GetInt());
                 break;
             case CustomRPC.SetCollectorVotes:
-                Collectors.ReceiveRPC(reader);
+                Collector.ReceiveRPC(reader);
                 break;
         }
     }
@@ -581,6 +581,9 @@ internal static class RPC
                 break;
             case CustomRoles.Greedier:
                 Greedier.Add(targetId);
+                break;
+            case CustomRoles.Collector:
+                Collector.Add(targetId);
                 break;
         }
         HudManager.Instance.SetHudActive(true);

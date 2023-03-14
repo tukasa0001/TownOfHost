@@ -180,7 +180,7 @@ internal class ChangeRoleSettings
             BallLightning.Init();
             DarkHide.Init();
             Greedier.Init();
-            Collectors.Init();
+            Collector.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
@@ -675,8 +675,8 @@ internal class SelectRolesPatch
                     case CustomRoles.Greedier:
                         Greedier.Add(pc.PlayerId);
                         break;
-                    case CustomRoles.Collectors:
-                        Collectors.Add(pc.PlayerId);
+                    case CustomRoles.Collector:
+                        Collector.Add(pc.PlayerId);
                         break;
                     case CustomRoles.CursedWolf:
                         Main.CursedWolfSpellCount[pc.PlayerId] = Options.GuardSpellTimes.GetInt();

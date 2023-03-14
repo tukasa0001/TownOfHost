@@ -203,8 +203,8 @@ internal class CheckForEndVotingPatch
                     braked = true;
                 }
             }
-            
-            Collectors.CollectAmount(VotingData, __instance);
+
+            Collector.CollectAmount(VotingData, __instance);
 
             if (Options.VoteMode.GetBool() && Options.WhenTie.GetBool() && tie)
             {
@@ -397,7 +397,7 @@ internal static class ExtendedMeetingHud
         Logger.Info("===计算票数处理开始===", "Vote");
         Dictionary<byte, int> dic = new();
         Main.BrakarVoteFor = new();
-        Collectors.CollectorsVoteFor = new();
+        Collector.CollectorVoteFor = new();
         //| 投票された人 | 投票された回数 |
         for (int i = 0; i < __instance.playerStates.Length; i++)
         {
@@ -414,7 +414,7 @@ internal static class ExtendedMeetingHud
                     if (CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.Brakar))
                         if (!Main.BrakarVoteFor.Contains(target.PlayerId))
                             Main.BrakarVoteFor.Add(target.PlayerId);
-                    Collectors.CollectorsVotes(target, ps);
+                    Collector.CollectorVotes(target, ps);
                 }
                 if (CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.Mayor)
                     && ps.TargetPlayerId != target.PlayerId
