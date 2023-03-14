@@ -369,8 +369,8 @@ internal static class RPC
     {
         if (!AmongUsClient.Instance.AmHost || PlayerControl.AllPlayerControls.Count <= 1 || (AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null)) return;
         var amount = OptionItem.AllOptions.Count;
-        int divideBy = amount / 5;
-        for (var i = 0; i <= 5; i++)
+        int divideBy = amount / 10;
+        for (var i = 0; i <= 10; i++)
         {
             SyncOptionsBetween(i * divideBy, (i + 1) * divideBy);
         }
