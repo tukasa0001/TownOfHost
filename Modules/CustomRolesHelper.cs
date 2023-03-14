@@ -153,7 +153,8 @@ internal static class CustomRolesHelper
             CustomRoles.Egoist or
             CustomRoles.Gamer or
             CustomRoles.DarkHide or
-            CustomRoles.Workaholic;
+            CustomRoles.Workaholic or
+            CustomRoles.Collector;
     }
     public static bool IsCK(this CustomRoles role) // 是否带刀船员
     {
