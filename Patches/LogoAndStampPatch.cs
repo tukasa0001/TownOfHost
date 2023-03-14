@@ -72,7 +72,8 @@ public static class CredentialsPatch
             Object.Destroy(obj.GetComponent<StatsPopup>());
             var devtitletext = obj.transform.FindChild("StatNumsText_TMP");
             devtitletext.GetComponent<TextMeshPro>().text = GetString("Developer");
-            devtitletext.localPosition = new Vector3(-3.25f, -0.65f, -2f);
+            devtitletext.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
+            devtitletext.localPosition = new Vector3(-2.75f, 1.73f, - 2f);
             devtitletext.localScale = new Vector3(1f, 1f, 1f);
             var devtext = obj.transform.FindChild("StatsText_TMP");
             devtext.localPosition = new Vector3(-2f, -0.35f, -2f);
@@ -81,7 +82,8 @@ public static class CredentialsPatch
 
             var boostertitletext = Object.Instantiate(devtitletext, obj.transform);
             boostertitletext.GetComponent<TextMeshPro>().text = GetString("Sponsor");
-            boostertitletext.localPosition = new Vector3(0.45f, -1.15f, -2f);
+            boostertitletext.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
+            boostertitletext.localPosition = new Vector3(0.7f, 1.25f, -2f);
             boostertitletext.localScale = new Vector3(1f, 1f, 1f);
 
             var boostertext = Object.Instantiate(devtext, obj.transform);
@@ -91,7 +93,8 @@ public static class CredentialsPatch
 
             var transtitletext = Object.Instantiate(devtitletext, obj.transform);
             transtitletext.GetComponent<TextMeshPro>().text = GetString("Translator");
-            transtitletext.localPosition = new Vector3(-3f, -3.5f, -2f);
+            transtitletext.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
+            transtitletext.localPosition = new Vector3(-2.75f, -1.1f, -2f);
             transtitletext.localScale = new Vector3(1f, 1f, 1f);
 
             var transtext = Object.Instantiate(devtext, obj.transform);
