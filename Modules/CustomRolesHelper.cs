@@ -1,5 +1,4 @@
 using AmongUs.GameOptions;
-
 namespace TOHE;
 
 internal static class CustomRolesHelper
@@ -71,6 +70,7 @@ internal static class CustomRolesHelper
                 CustomRoles.Greedier => CustomRoles.Impostor,
                 CustomRoles.Workaholic => CustomRoles.Engineer,
                 CustomRoles.CursedWolf => CustomRoles.Impostor,
+                CustomRoles.Collectors => CustomRoles.Crewmate,
                 _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
     }
@@ -218,7 +218,8 @@ internal static class CustomRolesHelper
             CustomRoles.Konan or
             CustomRoles.Gamer or
             CustomRoles.DarkHide or
-            CustomRoles.Workaholic;
+            CustomRoles.Workaholic or
+            CustomRoles.Collectors;
     }
     public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
     public static bool IsVanilla(this CustomRoles role) // 是否原版职业

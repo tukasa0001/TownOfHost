@@ -318,8 +318,6 @@ internal class CheckForEndVotingPatch
                 DecidedWinner = true;
             }
         }
-        //集票者胜利
-        DecidedWinner = Collectors.CollectDone();
 
         if (DecidedWinner) name += "<size=0>";
         if (Options.ShowImpRemainOnEject.GetBool() && !DecidedWinner)

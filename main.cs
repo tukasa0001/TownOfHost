@@ -521,6 +521,7 @@ public enum CustomWinner
     Gamer = CustomRoles.Gamer,
     DarkHide = CustomRoles.DarkHide,
     Workaholic = CustomRoles.Workaholic,
+    Collectors = CustomRoles.Collectors,
 }
 public enum AdditionalWinners
 {
