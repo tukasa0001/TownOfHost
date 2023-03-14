@@ -71,6 +71,7 @@ internal static class CustomRolesHelper
                 CustomRoles.Workaholic => CustomRoles.Engineer,
                 CustomRoles.CursedWolf => CustomRoles.Impostor,
                 CustomRoles.Collector => CustomRoles.Crewmate,
+                CustomRoles.Glitch => CustomRoles.Crewmate,
                 _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
     }

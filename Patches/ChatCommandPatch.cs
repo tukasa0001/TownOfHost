@@ -675,6 +675,7 @@ internal class ChatCommands
             "呪狼" or "咒狼" => GetString("CursedWolf"),
             "寶箱怪" or "宝箱" => GetString("Mimic"),
             "集票者" or "集票" or "寄票" or "机票" => GetString("Collector"),
+            "活死人" or "活死人" => GetString("Glitch"),
             _ => text,
         };
     }

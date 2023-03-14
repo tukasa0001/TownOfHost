@@ -109,6 +109,10 @@ internal class CheckMurderPatch
         if (BallLightning.CheckMurder(target))
             return false;
 
+        //阻止对活死人的操作
+        if (target.Is(CustomRoles.Glitch))
+            return false;
+
         //キル時の特殊判定
         if (killer.PlayerId != target.PlayerId)
         {

@@ -140,6 +140,9 @@ public static class Divinator
             CustomRoles.CursedWolf
             => "Disturbed",
 
+            CustomRoles.Glitch
+            => "Glitch",
+
             _ => "None",
         };
         string msg = string.Format(GetString("DivinatorCheck." + text), target.GetRealName());
