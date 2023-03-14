@@ -1,16 +1,14 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Hazel;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Unity.Services.Authentication.Internal;
-using static UnityEngine.GraphicsBuffer;
 
 namespace TOHE.Roles.Neutral
 {
     public static class Collectors
     {
-        private static readonly int Id = 51000;
+        private static readonly int Id = 5051123;
         public static OptionItem CollectorsCollectAmount;
         private static List<byte> playerIdList = new();
         public static Dictionary<byte, byte> CollectorsVoteFor = new();
@@ -34,6 +32,22 @@ namespace TOHE.Roles.Neutral
             CollectVote.TryAdd(playerId, 0);
         }
         public static bool IsEnable => playerIdList.Count > 0;
+        private static void SendRPC(byte playerId)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCollectorVotes, SendOption.Reliable, -1);
+            writer.Write(playerId);
+            writer.Write(CollectVote[playerId]);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void ReceiveRPC(MessageReader reader)
+        {
+            byte PlayerId = reader.ReadByte();
+            int Num = reader.ReadInt32();
+            if (CollectVote.ContainsKey(PlayerId))
+                CollectVote[PlayerId] = Num;
+            else
+                CollectVote.Add(PlayerId, 0);
+        }
         public static string GetProgressText(byte playerId)
         {
             int VoteAmount = CollectVote[playerId];
@@ -60,7 +74,6 @@ namespace TOHE.Roles.Neutral
                 int CollectNum = CollectorsCollectAmount.GetInt();
                 if (VoteAmount == CollectNum) return true;
             }
-
             return false;
         }
         public static void CollectorsVotes(PlayerControl target , PlayerVoteArea ps)//集票者投票给谁
@@ -86,6 +99,7 @@ namespace TOHE.Roles.Neutral
                         VoteAmount = data.Value;
                         if(!CollectVote.ContainsKey(pc.PlayerId))CollectVote.TryAdd(pc.PlayerId, 0);
                         CollectVote[pc.PlayerId] = CollectVote[pc.PlayerId] + VoteAmount;
+                        SendRPC(pc.PlayerId);
                     }
             }
         }

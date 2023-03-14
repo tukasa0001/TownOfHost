@@ -42,6 +42,7 @@ internal enum CustomRPC
     SetEvilTrackerTarget,
     SetRealKiller,
 
+    //TOHE
     SetGamerHealth,
     SetPelicanEtenNum,
     SwordsManKill,
@@ -54,6 +55,7 @@ internal enum CustomRPC
     SetDarkHiderKillCount,
     SetGreedierOE,
     SetCursedWolfSpellCount,
+    SetCollectorVotes,
 }
 public enum Sounds
 {
@@ -357,6 +359,9 @@ internal class RPCHandlerPatch
                     Main.CursedWolfSpellCount[CursedWolfId] = GuardNum;
                 else
                     Main.CursedWolfSpellCount.Add(CursedWolfId, Options.GuardSpellTimes.GetInt());
+                break;
+            case CustomRPC.SetCollectorVotes:
+                Collectors.ReceiveRPC(reader);
                 break;
         }
     }
