@@ -682,7 +682,7 @@ internal class ShapeshiftPatch
         {
             new LateTask(() =>
             {
-                if (!GameStates.IsInTask || GameStates.IsMeeting || !shapeshifter.IsAlive() || !target.IsAlive() || shapeshifter.inVent || target.inVent)
+                if (!GameStates.IsInTask || GameStates.IsMeeting || !shapeshifter.IsAlive() || !target.IsAlive() || shapeshifter.inVent || target.inVent || Pelican.IsEaten(target.PlayerId) || Pelican.IsEaten(shapeshifter.PlayerId))
                 {
                     var originPs = target.GetTruePosition();
                     Utils.TP(target.NetTransform, shapeshifter.GetTruePosition());
