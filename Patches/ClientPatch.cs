@@ -111,9 +111,9 @@ internal class SetResolutionManager
     public static void Postfix()
     {
         if (MainMenuManagerPatch.qqButton != null)
-            MainMenuManagerPatch.qqButton.transform.position = Vector3.Reflect(MainMenuManagerPatch.template.transform.position, Vector3.left);
+            MainMenuManagerPatch.qqButton.transform.localPosition = Vector3.Reflect(MainMenuManagerPatch.template.transform.localPosition, Vector3.left);
         if (MainMenuManagerPatch.updateButton != null)
-            MainMenuManagerPatch.updateButton.transform.position = MainMenuManagerPatch.template.transform.position + new Vector3(0.25f, 0.75f);
+            MainMenuManagerPatch.updateButton.transform.localPosition = MainMenuManagerPatch.template.transform.localPosition + new Vector3(0.25f, 0.75f);
     }
 }
 

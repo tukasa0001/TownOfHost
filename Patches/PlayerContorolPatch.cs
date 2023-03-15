@@ -569,7 +569,7 @@ internal class ShapeshiftPatch
                     var position = Main.EscapeeLocation[shapeshifter.PlayerId];
                     Main.EscapeeLocation.Remove(shapeshifter.PlayerId);
                     Logger.Msg($"{shapeshifter.GetNameWithRole()}:{position}", "EscapeeTeleport");
-                    Utils.TP(shapeshifter.NetTransform, new Vector2(position.x, position.y));
+                    Utils.TP(shapeshifter.NetTransform, position);
                 }
                 else
                 {
