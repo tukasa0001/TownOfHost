@@ -203,6 +203,7 @@ public class Main : BasePlugin
             //TOHE.Logger.Disable("MurderPlayer");
             //TOHE.Logger.Disable("CheckMurder");
             TOHE.Logger.Disable("PlayerControl.RpcSetRole");
+            TOHE.Logger.Disable("SyncCustomSettings");
         }
         //TOHE.Logger.isDetail = true;
 
