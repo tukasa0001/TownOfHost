@@ -22,7 +22,6 @@ public static class CustomRoleManager
     public static RoleBase GetByPlayerId(byte playerId) => AllActiveRoles.ToArray().Where(roleClass => roleClass.Player.PlayerId == playerId).FirstOrDefault();
     public static void Do<T>(this List<T> list, Action<T> action) => list.ToArray().Do(action);
     // == CheckMurder関連処理 ==
-    public static List<Func<PlayerControl, PlayerControl, bool>> OnCheckMurderAsTargets = new();
     /// <summary>
     /// 
     /// </summary>
@@ -46,15 +45,20 @@ public static class CustomRoleManager
 
         //キラーがキル能力持ちでなければターゲットのキルチェック処理実行
         var killerRole = appearanceKiller.GetRoleClass();
+        var targetRole = appearanceTarget.GetRoleClass();
         if (killerRole?.IsKiller ?? false || !appearanceKiller.Is(CustomRoles.Arsonist))
         {
-            foreach (var asTarget in OnCheckMurderAsTargets)
+            if (targetRole != null)
             {
-                if (!asTarget(appearanceKiller, attemptTarget))
+                if (!targetRole.OnCheckMurderAsTarget(appearanceKiller, attemptTarget))
                     return;
             }
-            //RoleBase化されていないターゲット処理
-            if (!CheckMurderPatch.OnCheckMurderAsTarget(appearanceKiller, attemptTarget)) return;
+            else
+            {
+                //RoleBase化されていないターゲット処理
+                if (!CheckMurderPatch.OnCheckMurderAsTarget(appearanceKiller, attemptTarget)) return;
+
+            }
 
         }
         //キラーのキルチェック処理実行
@@ -80,7 +84,6 @@ public static class CustomRoleManager
     {
         AllRolesInfo.Do(kvp => kvp.Value.IsEnable = kvp.Key.IsEnable());
         AllActiveRoles.Clear();
-        OnCheckMurderAsTargets.Clear();
         MarkOthers.Clear();
         LowerOthers.Clear();
         SuffixOthers.Clear();

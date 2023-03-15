@@ -38,14 +38,12 @@ public abstract class RoleBase : IDisposable
         IsKiller = CanKill;
 
         CustomRoleManager.AllActiveRoles.Add(this);
-        CustomRoleManager.OnCheckMurderAsTargets.Add(OnCheckMurderAsTarget);
     }
     public void Dispose()
     {
         Player = null;
         OnDestroy();
         CustomRoleManager.AllActiveRoles.Remove(this);
-        CustomRoleManager.OnCheckMurderAsTargets.Remove(OnCheckMurderAsTarget);
     }
     public bool Is(PlayerControl player)
     {
