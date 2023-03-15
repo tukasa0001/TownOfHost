@@ -157,6 +157,7 @@ public class Main : BasePlugin
     public static bool SetAutoStartToDisable = false;
     public static byte FirstDied;
     public static int MadmateNum;
+    public static Dictionary<byte, byte> Provoked = new();
 
     public static Dictionary<byte, CustomRoles> DevRole = new();
 
@@ -323,6 +324,7 @@ public class Main : BasePlugin
                 {CustomRoles.DarkHide, "#483d8b"},
                 {CustomRoles.Workaholic, "#008b8b"},
                 {CustomRoles.Collector, "#9d8892"},
+                {CustomRoles.Provocateur, "#74ba43"},
                 // GM
                 {CustomRoles.GM, "#ff5b70"},
                 //サブ役職
@@ -475,6 +477,7 @@ public enum CustomRoles
     DarkHide,
     Workaholic,
     Collector,
+    Provocateur,
     //GM
     GM,
     // Sub-role after 500
@@ -534,6 +537,7 @@ public enum AdditionalWinners
     Opportunist = CustomRoles.Opportunist,
     Executioner = CustomRoles.Executioner,
     FFF = CustomRoles.FFF,
+    Provocateur = CustomRoles.Provocateur,
 }
 public enum SuffixModes
 {

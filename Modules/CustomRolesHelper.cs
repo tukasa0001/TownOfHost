@@ -105,6 +105,7 @@ internal static class CustomRolesHelper
             CustomRoles.Medicaler => RoleTypes.Impostor,
             CustomRoles.Gamer => RoleTypes.Impostor,
             CustomRoles.DarkHide => RoleTypes.Impostor,
+            CustomRoles.Provocateur => RoleTypes.Impostor,
             _ => RoleTypes.Scientist
         };
     }
@@ -139,7 +140,8 @@ internal static class CustomRolesHelper
             CustomRoles.Pelican or
             CustomRoles.FFF or
             CustomRoles.Gamer or
-            CustomRoles.DarkHide;
+            CustomRoles.DarkHide or
+            CustomRoles.Provocateur;
     }
     public static bool IsNNK(this CustomRoles role) => role.IsNeutral() && !role.IsNK(); // 是否无刀中立
     public static bool IsNeutralKilling(this CustomRoles role) //是否邪恶中立（抢夺或单独胜利的中立）
@@ -223,7 +225,8 @@ internal static class CustomRolesHelper
             CustomRoles.Gamer or
             CustomRoles.DarkHide or
             CustomRoles.Workaholic or
-            CustomRoles.Collector;
+            CustomRoles.Collector or
+            CustomRoles.Provocateur;
     }
     public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
     public static bool IsVanilla(this CustomRoles role) // 是否原版职业

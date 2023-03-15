@@ -677,6 +677,7 @@ internal class ChatCommands
             "集票者" or "集票" or "寄票" or "机票" => GetString("Collector"),
             "活死人" or "活死" => GetString("Glitch"),
             "奪魂者" or "多混" or "夺魂" => GetString("ImperiusCurse"),
+            "自爆卡車" or "自爆" or "卡车" => GetString("Provocateur"),
             _ => text,
         };
     }

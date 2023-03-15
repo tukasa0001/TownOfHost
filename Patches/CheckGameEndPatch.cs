@@ -135,6 +135,15 @@ internal class GameEndChecker
                             CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.FFF);
                         }
                     }
+                    //自爆卡车来咯
+                    if (pc.Is(CustomRoles.Provocateur) && Main.Provoked.TryGetValue(pc.PlayerId, out var tar))
+                    {
+                        if (!CustomWinnerHolder.WinnerIds.Contains(tar))
+                        {
+                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Provocateur);
+                        }
+                    }
                 }
             }
             ShipStatus.Instance.enabled = false;
