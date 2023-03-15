@@ -669,7 +669,6 @@ internal class ShapeshiftPatch
                             targetw.SetRealKiller(shapeshifter);
                             shapeshifter.RpcMurderPlayer(targetw);//殺す
                         }
-                        else Logger.Info($"{targetw.GetNameWithRole()} 本该被刺客击杀但状态不对劲了", "Assassin");
                         if (GameStates.IsMeeting && shapeshifter.shapeshifting) shapeshifter.RpcRevertShapeshift(false);
                     }, 1.5f, "Assassin Kill");
                     Main.isMarkAndKill[shapeshifter.PlayerId] = false;
