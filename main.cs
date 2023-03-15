@@ -203,6 +203,7 @@ public class Main : BasePlugin
             //TOHE.Logger.Disable("MurderPlayer");
             //TOHE.Logger.Disable("CheckMurder");
             TOHE.Logger.Disable("PlayerControl.RpcSetRole");
+            TOHE.Logger.Disable("SyncCustomSettings");
         }
         //TOHE.Logger.isDetail = true;
 
@@ -303,6 +304,7 @@ public class Main : BasePlugin
                 {CustomRoles.Grenadier, "#3c4a16"},
                 {CustomRoles.Medicaler, "#00a4ff"},
                 {CustomRoles.Divinator, "#882c83"},
+                {CustomRoles.Glitch, "#dcdcdc"},
                 //第三陣営役職
                 {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.Jester, "#ec62a5"},
@@ -454,6 +456,7 @@ public enum CustomRoles
     Grenadier,
     Medicaler,
     Divinator,
+    Glitch,
     //Neutral
     Arsonist,
     Jester,

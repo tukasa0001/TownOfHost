@@ -111,6 +111,7 @@ Counterfeiter,赝品商,Deceiver,Обманщик
 Grenadier,掷雷兵,Grenadier,Гренадёр
 Medicaler,法医,Medic,Медик
 Divinator,占卜师,Fortune Teller,Гадалка
+Glitch,活死人
 
 # 中立阵营
 Jester,小丑,Jester,Джестер
@@ -222,6 +223,7 @@ CounterfeiterInfo,谁又能想到是我呢？,Try to fool the players,Попыт
 GrenadierInfo,投掷傻瓜蛋！！,Blind the Impostors,Ослепите Предателей
 MedicalerInfo,好像有必要治一治你？,Protect the Crew,Защитите Члена Экипажа
 DivinatorInfo,水晶球球，求求了,Check people by voting them,Проверяй игроков голосуя за них
+GlitchInfo,wDJwFPMNMm
 
 # 中立阵营
 ArsonistInfo,乖乖站好！,Burn them to crisps,Облейте и подожгите всех игроков
@@ -337,6 +339,7 @@ CounterfeiterInfoLong,(船员阵营):\n赝品商可以通过击杀键将赝品�
 GrenadierInfoLong,(船员阵营):\n掷雷兵可以通过使用通风管道使用闪光弹，闪光弹会导致内鬼失去大部分视野（根据房主设置闪光弹可能影响到中立阵营玩家）。闪光弹生效以及失效时掷雷兵会看到自己身上有护盾破碎作为提示。当掷雷兵成为叛徒时闪光弹只对船员生效。,"(Crewmates):\nThe Grenadier can use the stun bomb by using the vent. A flashbang will cause the Impostors to lose most of their field of vision (field of view depends on the Host's settings, and stunbombs can also affect Neutrals). When the stun bomb goes off and on, the grenadier will see their shields shattered as a reminder","(Член Экипажа):\nГренадёр может использовать светошумовую бомбу, используя вентиляцию. Светошумовая бомба приведёт к тому, что Предатели потеряют большую часть поля зрения (поле зрение зависит от настроек Хоста, так же светошумовые бомбы могут повлиять на нейтралов). Когда светошумовая бомба сработает и не сработает, гренадер увидит, что их щиты разбиты в качестве напоминания"
 MedicalerInfoLong,(船员阵营):\n法医可以通过使用击杀按键给目标发放一个护盾，若护盾发放成功则法医会看到目标身上出现护盾破碎动画作为提示，同时目标的名字旁会显示一个蓝色的「●」（仅法医可见）。法医可以发放护盾的数量会显示在法医的名字旁的括号内。每位玩家最多只能持有一个来自法医的护盾。根据房主设定目标可能可以看到自己是否持有护盾（显示在名字旁的蓝色「●」）。,"(Crewmates):\nMedic can create a shield, by using the kill button. If the shield is destroyed, Medic will see the shield breaking animation on the target as a reminder, and a blue circle will be displayed next to the target's name colored circle (visible only for Medic). The amount of shields a Medic is shown in brackets next to the Medic's name. Each player can hold at most one shield from Medic. Depending on the host setting the target may be able to see if they have a shield (shown in a blue circle next to their name).","(Член Экипажа):\nМедик может наложить на цель щит, нажав кнопку ''Убить''. Если щит снят, Медик увидит анимацию разрушения щита на цели в качестве напоминания, и синий кружек появится рядом с именем цели (виден только для Медика). Количество щитов, которые может дать Медик, написано в скобках рядом с именем Медика. Каждый игрок может иметь не более одного щита от Медика. В зависимости от настроек хоста цель может видеть, есть ли у нее щит (показан синим кружком рядом с ее именем)."
 DivinatorInfoLong,(船员阵营):\n占卜师可以通过在会议上投票给一位玩家以获得该玩家的相关信息，信息与该玩家的主职业关联。占卜师每次会议只能占卜一次，占卜次数根据房主设定。,"(Crewmates):\nA Fortune Teller can vote for a player at the meeting to obtain relevant information about the player, and the information is associated with the player's main occupation. Fortune Teller can only do one fortune-telling per meeting, and the number of fortune-tellings is set by the host.","(Член Экипажа):\nГадалка может проголосовать за игрока на собрании, чтобы получить актуальную информацию об игроке, и эта информация связана с основным занятием игрока. Гадалка может сделать только одно гадание за встречу, а количество гаданий устанавливает хост."
+GlitchInfoLong,(船员阵营):\n模组的程序不会将活死人视为存活状态，不过我不知道这样会导致什么。
 
 # 中立阵营
 ArsonistInfoLong,(中立阵营):\n纵火犯可以通过对玩家点击击杀按钮并跟随其数秒来完成涂油，开始涂油以及涂油成功时会显示护盾破碎的动画作为提示（仅自己可见）。当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。\n\n玩家名显示「△」表示涂油中\n玩家名显示「▲」表示已涂油。,"(Neutrals):\nWhen you use the kill button, you douse your target in oil.\nAfter dousing all living players, you set everything ablaze and win by venting.","(Нейтрал):\nПоджигатель может обливать игроков, нажав на кнопку 'Убить' и находясь рядом с игроком в течение нескольких секунд. \nПосле того как он обольёт всех живых игроков Поджигатель сможет запрыгнуть в вентиляцию, чтобы поджечь всех игроков, что приводит к победе Поджигателя."
@@ -376,7 +379,7 @@ EgoistInfoLong,(附加职业)\n叛徒与中立阵营不会成为利己主义者�
 PiperInfoLong,(附加职业)\n吹笛者会将自己附近的人的移动速度变得跟自己一样。（速度根据房主设定）,"(Add-ons):\nPiper will make the movement speed of players near him exactly the same as his own. (The speed depends on the settings of the Host)","(Атрибут):\nПайпер сделает скорость передвижения игроков рядом с ним точно такой же, как у него самого.(Скорость зависит от настроек Хоста)"
 TicketsStealerInfoLong,(附加职业)\n只有除自爆兵和诡雷以外的内鬼会成为窃票者。窃票者每次击杀一个人都会增加自己本局的票数（增加数量根据房主设定，小数向下取整）。此外，窃票者额外的票是隐藏的。,"(Add-ons):\nOnly a Impostors can become a Stealer. Each time the Stealer kills a player, it increases its own number of votes in the game (the increase in votes is set according to the number of votes, and the decimal is rounded down). In addition, additional Stealer voices are hidden","(Атрибут):\nТолько Предатель может стать Похитителем. Каждый раз, когда Похититель убивает игрока, он увеличивает свое собственное количество голосов в игре (увеличение голосов устанавливается в соответствии с количеством голосов, а десятичная дробь округляется в меньшую сторону). Кроме того, дополнительные голоса Похитителя скрыты."
 DualPersonalityInfoLong,(附加职业)\n中立和叛徒不会成为双重人格，计算其阵营人数时双重人格被视为两人。例如场上剩余一个内鬼和一个双重人格船员，则视为两名船员和一名内鬼，因此游戏不会结束。,"(Add-ons):\nNeutrals and Impostors cannot be with Schizophrenia. When counting the number of players on their team, the Schizophrenic counts as two players. For example: if there is one Impostors and one team with Schizophrenia left in the game, then this will be treated as two Crewmate and one Impostors, so the game will not end until the Schizophrenic is killed","(Атрибут):\nНейтралы и Предатели не могут быть с Шизофринией. При подсчете количества игроков в их команде Шизофреник рассматривает как два игрока. Например, если в игре останется один Предатель и одна команда с Шизофринией, то это будет рассматриваться как два Члена Экипажа и один Предатель, поэтому игра не закончится пока Шизофреник не будет убит."
-MimicInfoLong,(附加职业)\n只有内鬼会成为宝箱怪。宝箱怪死后，其他内鬼可以在会议上收到信息。信息包含了宝箱怪生前击杀的所有人的职业。,"(Add-ons):\nOnly Impostors can become a Mimic. After the Mimic dies, the ghosts will receive a message at the meeting. The message contains the roles of everyone Mimic killed while he was alive.","(Атрибут):\nТолько Предатели могут стать Мимиком. После того как Мимик умрёт, призраки получат сообщение на собрании. Сообщение содержит роли всех кого убил Мимик пока он был жив."
+MimicInfoLong,(附加职业)\n只有除黑手党以外的内鬼会成为宝箱怪。宝箱怪死后，其他内鬼可以在会议上收到信息。信息包含了宝箱怪生前击杀的所有人的职业。,"(Add-ons):\nOnly Impostors can become a Mimic. After the Mimic dies, the ghosts will receive a message at the meeting. The message contains the roles of everyone Mimic killed while he was alive.","(Атрибут):\nТолько Предатели могут стать Мимиком. После того как Мимик умрёт, призраки получат сообщение на собрании. Сообщение содержит роли всех кого убил Мимик пока он был жив."
 
 # 其它
 GMInfoLong,(房主):\n看我干啥，我只是个开局就死的冤魂，静静地吃瓜而已。,"(None):\nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game, and all players know who the GM is. The GM role will be assigned to the host, who will automatically become a ghost at the start of the game.","(Никто):\nGM (Мастер Игры) — это роль, которая наблюдает за игрой в роле призрака. \nОн не влияет на игру, и все игроки всегда знают кто Мастер Игры. Всегда назначается только хосту лобби и становится призраком в самом начале игры."
@@ -682,6 +685,7 @@ EvenKillCooldown,双数击杀冷却时间,Even kill cooldown,Откат Чётн
 WorkaholicCannotWinAtDeath,死亡后无法胜利,Doesn't win at death,Не может победить когда он мёртв
 GuardSpellTimes,反杀次数上限,Number of Cursed Shields,Количество проклятых щитов
 CollectorCollectAmount,需要集票数量
+GlitchCanVote,可以投票
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
@@ -1015,6 +1019,8 @@ DivinatorCheck.Incomprehensible,【{0}】令人十分难以理解,Looks like 【
 DivinatorCheck.Enthusiasm,【{0}】热情似火地与人谈吐着,Looks like 【{0}】 speaks with everyone very enthusiastic.,"Похоже, 【{0}】 разговаривает со всеми довольно позитивно."
 DivinatorCheck.Disturbed,【{0}】有些令人感到异样且不详,Looks like 【{0}】 is disturbed by something.,"Похоже, 【{0}】 что-то беспокоит."
 DivinatorCheck.None,【{0}】或许会就这么平凡一辈子,"Looks like 【{0}】 has just an ordinary life.","Похоже, 【{0}】 имеет спокойную жизнь."
+
+DivinatorCheck.Glitch,TV2gPZ4wUJWYr{0}05gA6T5PKzBG17
 
 ## 模组信息
 DevAndSpnTitle,TOHE大家族

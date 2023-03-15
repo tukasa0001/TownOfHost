@@ -23,17 +23,17 @@
 > 
 > - Many role ideas
 > - Provided role: AntiAdminer, CursedWolf, Workaholic, Greedier, DarkHide
-> - Provided feature: Modify game announcement
+> - Reference: Modify game announcement
 > 
 ### :star: [TOH:TOR](https://github.com/music-discussion/TownOfHost-TheOtherRoles) :
 > 
 > - Many role ideas
-> - Provided feature: Exile Confirm
-> - Provided feature: Split RPC Pack
+> - Reference: Exile Confirm
+> - Reference: Split RPC Pack
 > 
 ### :star: [TOP](https://github.com/tugaru1975/TownOfPlus) :
 > 
-> - Provided feature: Zoom
+> - Reference: Zoom
 > 
 ### :star: [RHR](https://github.com/sansaaaaai/Revolutionary-host-roles) :
 > 

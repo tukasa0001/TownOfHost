@@ -71,6 +71,7 @@ internal static class CustomRolesHelper
                 CustomRoles.Workaholic => CustomRoles.Engineer,
                 CustomRoles.CursedWolf => CustomRoles.Impostor,
                 CustomRoles.Collector => CustomRoles.Crewmate,
+                CustomRoles.Glitch => CustomRoles.Crewmate,
                 CustomRoles.ImperiusCurse => CustomRoles.Shapeshifter,
                 _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
@@ -154,7 +155,8 @@ internal static class CustomRolesHelper
             CustomRoles.Egoist or
             CustomRoles.Gamer or
             CustomRoles.DarkHide or
-            CustomRoles.Workaholic;
+            CustomRoles.Workaholic or
+            CustomRoles.Collector;
     }
     public static bool IsCK(this CustomRoles role) // 是否带刀船员
     {
