@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
 using TOHE.Modules;
 using TOHE.Roles.AddOns.Crewmate;
 using TOHE.Roles.Crewmate;
@@ -677,18 +678,18 @@ internal class ShapeshiftPatch
             }
         }
 
+        //夺魂者传送
         if (shapeshifter.Is(CustomRoles.ImperiusCurse))
         {
             new LateTask(() =>
             {
-                var pcposition = target.GetTruePosition();
-                var targetposition = shapeshifter.GetTruePosition();
-                if (!(target.inVent) && target.IsAlive())
+                if (!GameStates.IsInTask || GameStates.IsMeeting || !shapeshifter.IsAlive() || !target.IsAlive() || shapeshifter.inVent || target.inVent)
                 {
-                    Utils.TP(shapeshifter.NetTransform, new Vector2(pcposition.x, pcposition.y));
-                    Utils.TP(target.NetTransform, new Vector2(targetposition.x, targetposition.y));
+                    var originPs = target.GetTruePosition();
+                    Utils.TP(target.NetTransform, shapeshifter.GetTruePosition());
+                    Utils.TP(shapeshifter.NetTransform, originPs);
                 }
-            }, 2f, "Take Soul");
+            }, 2f, "ImperiusCurse TP");
         }
 
         if (shapeshifter.Is(CustomRoles.EvilTracker)) EvilTracker.OnShapeshift(shapeshifter, target, shapeshifting);
