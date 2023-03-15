@@ -688,7 +688,7 @@ internal class ShapeshiftPatch
                     Utils.TP(target.NetTransform, shapeshifter.GetTruePosition());
                     Utils.TP(shapeshifter.NetTransform, originPs);
                 }
-            }, 2f, "ImperiusCurse TP");
+            }, 1.5f, "ImperiusCurse TP");
         }
 
         if (shapeshifter.Is(CustomRoles.EvilTracker)) EvilTracker.OnShapeshift(shapeshifter, target, shapeshifting);
