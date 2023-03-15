@@ -569,7 +569,7 @@ internal class ShapeshiftPatch
                     var position = Main.EscapeeLocation[shapeshifter.PlayerId];
                     Main.EscapeeLocation.Remove(shapeshifter.PlayerId);
                     Logger.Msg($"{shapeshifter.GetNameWithRole()}:{position}", "EscapeeTeleport");
-                    Utils.TP(shapeshifter.NetTransform, new Vector2(position.x, position.y));
+                    Utils.TP(shapeshifter.NetTransform, position);
                 }
                 else
                 {
@@ -669,7 +669,6 @@ internal class ShapeshiftPatch
                             targetw.SetRealKiller(shapeshifter);
                             shapeshifter.RpcMurderPlayer(targetw);//殺す
                         }
-                        else Logger.Info($"{targetw.GetNameWithRole()} 本该被刺客击杀但状态不对劲了", "Assassin");
                         if (GameStates.IsMeeting && shapeshifter.shapeshifting) shapeshifter.RpcRevertShapeshift(false);
                     }, 1.5f, "Assassin Kill");
                     Main.isMarkAndKill[shapeshifter.PlayerId] = false;
@@ -689,7 +688,7 @@ internal class ShapeshiftPatch
                     Utils.TP(target.NetTransform, shapeshifter.GetTruePosition());
                     Utils.TP(shapeshifter.NetTransform, originPs);
                 }
-            }, 2f, "ImperiusCurse TP");
+            }, 1.5f, "ImperiusCurse TP");
         }
 
         if (shapeshifter.Is(CustomRoles.EvilTracker)) EvilTracker.OnShapeshift(shapeshifter, target, shapeshifting);

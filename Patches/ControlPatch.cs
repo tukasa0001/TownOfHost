@@ -25,12 +25,18 @@ internal class ControllerManagerUpdatePatch
                     OptionShower.currentPage = i;
             }
         }
+        //捕捉全屏快捷键
+        if (GetKeysDown(KeyCode.LeftAlt, KeyCode.Return))
+        {
+            new LateTask(SetResolutionManager.Postfix,0.01f, "Fix Button Position");
+        }
         //更改分辨率
         if (Input.GetKeyDown(KeyCode.F11))
         {
             resolutionIndex++;
             if (resolutionIndex >= resolutions.Length) resolutionIndex = 0;
             ResolutionManager.SetResolution(resolutions[resolutionIndex].Item1, resolutions[resolutionIndex].Item2, false);
+            SetResolutionManager.Postfix();
         }
         //重新加载自定义翻译
         if (GetKeysDown(KeyCode.F5, KeyCode.T))
