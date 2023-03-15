@@ -185,6 +185,8 @@ public static class Options
     public static OptionItem RevolutionistDrawCount;
     public static OptionItem RevolutionistKillProbability;
     public static OptionItem RevolutionistVentCountDown;
+    public static OptionItem ShapeImperiusCurseShapeshiftDuration;
+    public static OptionItem ImperiusCurseShapeshiftCooldown;
 
     // タスク無効化
     public static OptionItem DisableTasks;
@@ -472,7 +474,7 @@ public static class Options
         BountyHunter.SetupCustomOption();
         SerialKiller.SetupCustomOption();
         SetupRoleOptions(1200, TabGroup.ImpostorRoles, CustomRoles.ShapeMaster);
-        ShapeMasterShapeshiftDuration = FloatOptionItem.Create(1210, "ShapeMasterShapeshiftDuration", new(1, 1000, 1), 10, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.ShapeMaster])
+        ShapeMasterShapeshiftDuration = FloatOptionItem.Create(1210, "ShapeshiftDuration", new(1, 1000, 1), 10, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.ShapeMaster])
             .SetValueFormat(OptionFormat.Seconds);
         Vampire.SetupCustomOption();
         SetupRoleOptions(1400, TabGroup.ImpostorRoles, CustomRoles.Warlock);
@@ -519,6 +521,10 @@ public static class Options
         GuardSpellTimes = IntegerOptionItem.Create(3210, "GuardSpellTimes", new(1, 15, 1), 3, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.CursedWolf])
             .SetValueFormat(OptionFormat.Times);
         SetupRoleOptions(902422, TabGroup.ImpostorRoles, CustomRoles.ImperiusCurse);
+        ShapeImperiusCurseShapeshiftDuration = FloatOptionItem.Create(902433, "ShapeshiftDuration", new(2.5f, 990f, 2.5f), 300, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.ImperiusCurse])
+            .SetValueFormat(OptionFormat.Seconds);
+        ImperiusCurseShapeshiftCooldown = FloatOptionItem.Create(902435, "ShapeshiftCooldown", new(1f, 990f, 1f), 15f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.ImperiusCurse])
+            .SetValueFormat(OptionFormat.Seconds);
 
         // Crewmate
         SetupRoleOptions(102255, TabGroup.CrewmateRoles, CustomRoles.NiceGuesser);

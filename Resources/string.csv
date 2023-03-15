@@ -631,7 +631,6 @@ TriggerVent,通风管,Vent,Вентиляция
 TriggerDouble,双击模式,Double Click,Двойное нажатие
 TimeManagerIncreaseMeetingTime,增加会议时长,Increase voting time,Увеличить время встреч на
 TimeManagerLimitMeetingTime,会议时长上限,Increase limit,Лимит увеличения времени встреч
-ShapeMasterShapeshiftDuration,变形持续时间,Shapeshift duration,Продолжительность морфа
 AssignOnlyTo%role%,只有%role%会成为加班狂,"Assign Only To %role%","Назначить только для %role%"
 WorkhorseNumLongTasks,额外的长任务数,"Additional Long Tasks","Дополнительные долгие задания"
 WorkhorseNumShortTasks,额外的短任务数,"Additional Short Tasks","Дополнительные короткие задания"
@@ -686,6 +685,8 @@ WorkaholicCannotWinAtDeath,死亡后无法胜利,Doesn't win at death,Не мо�
 GuardSpellTimes,反杀次数上限,Number of Cursed Shields,Количество проклятых щитов
 CollectorCollectAmount,需要集票数量,Required number of votes,Необходимое количество голосов
 GlitchCanVote,可以投票,Can vote,Может голосовать
+ShapeshiftDuration,变形持续时间,Shapeshift duration,Продолжительность морфа
+ShapeshiftCooldown,变形冷却时间
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
@@ -956,6 +957,7 @@ RevolutionistDrawButtonText,拉拢,Win over,Покорить
 FFFButtonText,制裁,Hatred,Ненависть
 MedicalerButtonText,保护,Protect,Защитить
 GamerButtonText,攻击,Attack,Атаковать
+ImperiusCurseButtonText,夺魂
 BallLightningButtonText,汽化,Evaporation,Испарение
 BomberShapeshiftText,自爆,Explode,Взорваться
 DefaultShapeshiftText,变形,Shift,Превращение

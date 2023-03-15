@@ -171,6 +171,11 @@ public class PlayerGameOptionsSender : GameOptionsSender
                 AURoleOptions.EngineerCooldown = Options.WorkaholicVentCooldown.GetFloat();
                 AURoleOptions.EngineerInVentMaxTime = 0.0f;
                 break;
+            case CustomRoles.ImperiusCurse:
+                AURoleOptions.ShapeshifterCooldown = Options.ImperiusCurseShapeshiftCooldown.GetFloat();
+                AURoleOptions.ShapeshifterLeaveSkin = false;
+                AURoleOptions.ShapeshifterDuration = Options.ShapeImperiusCurseShapeshiftDuration.GetFloat();
+                break;
         }
 
         // 为迷惑者的凶手
