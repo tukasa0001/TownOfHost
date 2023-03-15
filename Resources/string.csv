@@ -1046,3 +1046,9 @@ TranEN,英语,English Translator,Английский Переводчик
 TranRU,俄语,Russian Translator,Русский Переводчик
 
 OnlyShowPart,仅显示部分,Show only part,Показать только часть
+
+## 断连提示
+DCNotify.Hacking,您被AmongUs官方反作弊系统踢出
+DCNotify.Banned,您被该房间封禁
+DCNotify.Kicked,您被该房间踢出
+DCNotify.BadNet,您因网络不稳定与服务器断连\r\n这也可能是AmongUs官方服务器的问题
