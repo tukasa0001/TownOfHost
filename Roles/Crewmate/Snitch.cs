@@ -17,7 +17,8 @@ namespace TownOfHost.Roles.Crewmate
                 RoleTypes.Crewmate,
                 CustomRoleTypes.Crewmate,
                 20500,
-                SetupOptionItem
+                SetupOptionItem,
+                "#b8fb4f"
             );
         public Snitch(PlayerControl player)
         : base(
@@ -114,12 +115,12 @@ namespace TownOfHost.Roles.Crewmate
                 {
                     mark += TargetArrow.GetArrows(seer, ExposedList.ToArray());
                 }
-                return Utils.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), mark);
+                return Utils.ColorString(RoleInfo.RoleColor, mark);
             }
             else if (seen.GetRoleClass() is Snitch snitch && snitch.IsExposed)
             {
                 //seenがタスク終わりそうなスニッチの時
-                return Utils.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), "★");
+                return Utils.ColorString(RoleInfo.RoleColor, "★");
 
             }
             //その他seenなら無し
