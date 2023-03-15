@@ -348,7 +348,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
 
             // Impostor
-            sortedRoleInfo.Where(role => role.RoleName.IsImpostor()).Do(info =>
+            sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Impostor).Do(info =>
             {
                 SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
                 info.OptionCreator?.Invoke();
@@ -412,7 +412,7 @@ namespace TownOfHost
             MayorNumOfUseButton = IntegerOptionItem.Create(20212, "MayorNumOfUseButton", new(1, 99, 1), 1, TabGroup.CrewmateRoles, false).SetParent(MayorHasPortableButton)
                 .SetValueFormat(OptionFormat.Times);
             SabotageMaster.SetupCustomOption();
-            sortedRoleInfo.Where(role => role.RoleName.IsCrewmate()).Do(info =>
+            sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Crewmate).Do(info =>
             {
                 SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
                 info.OptionCreator?.Invoke();
@@ -445,9 +445,13 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
             //50220~50223を使用
             TerroristTasks = OverrideTasksData.Create(50220, TabGroup.NeutralRoles, CustomRoles.Terrorist);
+            sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Neutral).Do(info =>
+            {
+                SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
+                info.OptionCreator?.Invoke();
+            });
             SetupLoversRoleOptionsToggle(50300);
 
-            SchrodingerCat.SetupCustomOption();
             Egoist.SetupCustomOption();
             Executioner.SetupCustomOption();
             Jackal.SetupCustomOption();

@@ -6,16 +6,34 @@ using UnityEngine;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
 using static TownOfHost.Options;
+using AmongUs.GameOptions;
 
 namespace TownOfHost.Roles.Neutral
 {
-    public static class SchrodingerCat
+    public sealed class SchrodingerCat : RoleBase
     {
-        static readonly int Id = 50400;
-        static List<byte> playerIdList = new();
-        static Color RoleColor = Utils.GetRoleColor(CustomRoles.SchrodingerCat);
-        static string RoleColorCode = Utils.GetRoleColorCode(CustomRoles.SchrodingerCat);
-
+        public static readonly SimpleRoleInfo RoleInfo =
+            new(
+                typeof(SchrodingerCat),
+                player => new SchrodingerCat(player),
+                CustomRoles.SchrodingerCat,
+                RoleTypes.Crewmate,
+                CustomRoleTypes.Neutral,
+                50400,
+                SetupOptionItem,
+                "#696969"
+            );
+        public SchrodingerCat(PlayerControl player)
+        : base(
+            RoleInfo,
+            player,
+            false
+        )
+        {
+            CanWinTheCrewmateBeforeChange = OptionCanWinTheCrewmateBeforeChange.GetBool();
+            ChangeTeamWhenExile = OptionChangeTeamWhenExile.GetBool();
+            CanSeeKillableTeammate = OptionCanSeeKillableTeammate.GetBool();
+        }
         static OptionItem OptionCanWinTheCrewmateBeforeChange;
         static OptionItem OptionChangeTeamWhenExile;
         static OptionItem OptionCanSeeKillableTeammate;
@@ -24,36 +42,26 @@ namespace TownOfHost.Roles.Neutral
         static bool ChangeTeamWhenExile;
         static bool CanSeeKillableTeammate;
 
-        public static void SetupCustomOption()
+        public static void SetupOptionItem()
         {
-            SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.SchrodingerCat);
-            OptionCanWinTheCrewmateBeforeChange = BooleanOptionItem.Create(Id + 10, "CanBeforeSchrodingerCatWinTheCrewmate", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
-            OptionChangeTeamWhenExile = BooleanOptionItem.Create(Id + 11, "SchrodingerCatExiledTeamChanges", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
-            OptionCanSeeKillableTeammate = BooleanOptionItem.Create(Id + 12, "SchrodingerCatCanSeeKillableTeammate", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
-        }
-        public static void Init()
-        {
-            IsEnable = false;
-            playerIdList.Clear();
+            var id = RoleInfo.ConfigId;
+            var tab = RoleInfo.Tab;
+            var parent = RoleInfo.RoleOption;
 
-            CanWinTheCrewmateBeforeChange = OptionCanWinTheCrewmateBeforeChange.GetBool();
-            ChangeTeamWhenExile = OptionChangeTeamWhenExile.GetBool();
-            CanSeeKillableTeammate = OptionCanSeeKillableTeammate.GetBool();
+            OptionCanWinTheCrewmateBeforeChange = BooleanOptionItem.Create(id + 10, "CanBeforeSchrodingerCatWinTheCrewmate", false, tab, false).SetParent(parent);
+            OptionChangeTeamWhenExile = BooleanOptionItem.Create(id + 11, "SchrodingerCatExiledTeamChanges", false, tab, false).SetParent(parent);
+            OptionCanSeeKillableTeammate = BooleanOptionItem.Create(id + 12, "SchrodingerCatCanSeeKillableTeammate", false, tab, false).SetParent(parent);
         }
-        public static void Add(byte playerId)
+        public override bool OnCheckMurderAsTarget(PlayerControl killer, PlayerControl target)
         {
-            IsEnable = true;
-            playerIdList.Add(playerId);
-        }
-        public static bool IsEnable = false;
-        public static bool IsThisRole(byte playerId) => playerIdList.Contains(playerId);
-        public static bool OnCheckMurder(PlayerControl killer, PlayerControl target)
-        {
+            //シュレディンガーの猫でなければスルー
+            if (!Is(target)) return true;
+            //自殺ならスルー
+            if (Is(killer)) return true;
+            //既に変化していたらスルー
+            if (target.GetCustomRole() != CustomRoles.SchrodingerCat) return true;
+
             //シュレディンガーの猫が切られた場合の役職変化スタート
-            //直接キル出来る役職チェック
-            // Sniperなど自殺扱いのものもあるので追加するときは注意
-            if (killer.Is(CustomRoles.Arsonist)) return true;
-
             killer.RpcGuardAndKill(target);
 
             switch (killer.GetCustomRole())
@@ -92,13 +100,13 @@ namespace TownOfHost.Roles.Neutral
                 var killerTeam = Main.AllPlayerControls.Where(pc => isTarget(pc));
                 foreach (var member in killerTeam)
                 {
-                    NameColorManager.Add(member.PlayerId, target.PlayerId, RoleColorCode);
+                    NameColorManager.Add(member.PlayerId, target.PlayerId, RoleInfo.RoleColorCode);
                     NameColorManager.Add(target.PlayerId, member.PlayerId);
                 }
             }
             else
             {
-                NameColorManager.Add(killer.PlayerId, target.PlayerId, RoleColorCode);
+                NameColorManager.Add(killer.PlayerId, target.PlayerId, RoleInfo.RoleColorCode);
                 NameColorManager.Add(target.PlayerId, killer.PlayerId);
             }
             Utils.NotifyRoles();
