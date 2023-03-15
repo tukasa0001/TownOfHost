@@ -517,6 +517,7 @@ public static class Options
         SetupRoleOptions(3200, TabGroup.ImpostorRoles, CustomRoles.CursedWolf); //TOH_Y
         GuardSpellTimes = IntegerOptionItem.Create(3210, "GuardSpellTimes", new(1, 15, 1), 3, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.CursedWolf])
             .SetValueFormat(OptionFormat.Times);
+        SetupRoleOptions(902422, TabGroup.ImpostorRoles, CustomRoles.ImperiusCurse);
 
         // Crewmate
         SetupRoleOptions(102255, TabGroup.CrewmateRoles, CustomRoles.NiceGuesser);

@@ -1,6 +1,7 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
+using Mono.Cecil;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -670,6 +671,20 @@ internal class ShapeshiftPatch
                 }
                 Main.MarkedPlayers[shapeshifter.PlayerId] = null;
             }
+        }
+
+        if (shapeshifter.Is(CustomRoles.ImperiusCurse))
+        {
+            new LateTask(() =>
+            {
+                var pcposition = target.GetTruePosition();
+                var targetposition = shapeshifter.GetTruePosition();
+                if (!(target.inVent) && target.IsAlive())
+                {
+                    Utils.TP(shapeshifter.NetTransform, new Vector2(pcposition.x, pcposition.y));
+                    Utils.TP(target.NetTransform, new Vector2(targetposition.x, targetposition.y));
+                }
+            }, 2f, "Take Soul");
         }
 
         if (shapeshifter.Is(CustomRoles.EvilTracker)) EvilTracker.OnShapeshift(shapeshifter, target, shapeshifting);

@@ -73,6 +73,7 @@ public static class Collector
             int CollectNum = CollectorCollectAmount.GetInt();
             if (VoteAmount == CollectNum) return true;
         }
+
         return false;
     }
     public static void CollectorVotes(PlayerControl target, PlayerVoteArea ps)//集票者投票给谁

@@ -422,6 +422,7 @@ public enum CustomRoles
     BallLightning,
     Greedier,
     CursedWolf,
+    ImperiusCurse,
     //Crewmate(Vanilla)
     Engineer,
     GuardianAngel,
