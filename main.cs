@@ -49,6 +49,7 @@ public class Main : BasePlugin
     //Client Options
     public static ConfigEntry<string> HideName { get; private set; }
     public static ConfigEntry<string> HideColor { get; private set; }
+    public static ConfigEntry<bool> UnlockFPS { get; private set; }
     public static ConfigEntry<bool> AutoStart { get; private set; }
     public static ConfigEntry<bool> DisableTOHE { get; private set; }
     public static ConfigEntry<int> MessageWait { get; private set; }
@@ -179,6 +180,7 @@ public class Main : BasePlugin
         HideName = Config.Bind("Client Options", "Hide Game Code Name", "TOHE");
         HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{ModColor}");
         AutoStart = Config.Bind("Client Options", "AutoStart", false);
+        UnlockFPS = Config.Bind("Client Options", "UnlockFPS", true);
         DisableTOHE = Config.Bind("Client Options", "DisableTOHE", false);
         DebugKeyInput = Config.Bind("Authentication", "Debug Key", "kpd233");
 
