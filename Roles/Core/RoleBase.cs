@@ -12,8 +12,19 @@ namespace TownOfHost.Roles.Core;
 public abstract class RoleBase : IDisposable
 {
     public PlayerControl Player;
+    /// <summary>
+    /// タスクは持っているか。
+    /// 初期値はクルー役職のみ持つ
+    /// </summary>
     public bool HasTasks;
+    /// <summary>
+    /// キル能力を持っているか
+    /// </summary>
     public bool CanKill;
+    /// <summary>
+    /// キル動作 == キルの役職か
+    /// </summary>
+    public bool IsKiller;
     public RoleBase(
         SimpleRoleInfo roleInfo,
         PlayerControl player,
@@ -24,14 +35,17 @@ public abstract class RoleBase : IDisposable
         Player = player;
         HasTasks = hasTasks ?? roleInfo.CustomRoleType == CustomRoleTypes.Crewmate;
         CanKill = canKill ?? roleInfo.BaseRoleType is RoleTypes.Impostor or RoleTypes.Shapeshifter;
+        IsKiller = CanKill;
 
         CustomRoleManager.AllActiveRoles.Add(this);
+        CustomRoleManager.OnCheckMurderAsTargets.Add(OnCheckMurderAsTarget);
     }
     public void Dispose()
     {
         Player = null;
         OnDestroy();
         CustomRoleManager.AllActiveRoles.Remove(this);
+        CustomRoleManager.OnCheckMurderAsTargets.Remove(OnCheckMurderAsTarget);
     }
     public bool Is(PlayerControl player)
     {
@@ -97,8 +111,21 @@ public abstract class RoleBase : IDisposable
     public virtual void ApplyGameOptions(IGameOptions opt)
     { }
     // == CheckMurder関連処理 ==
-    public virtual IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target, CustomRoleManager.CheckMurderInfo info) => null;
-    // ==/CheckMurder関連処理 ==
+    /// <summary>
+    /// キラーとしてのCheckMurder処理
+    /// </summary>
+    /// <param name="killer">キルしたプレイヤー</param>
+    /// <param name="target">キルされたプレイヤー</param>
+    /// <returns>false:キルをキャンセルする</returns>
+    public virtual bool OnCheckMurderAsKiller(PlayerControl killer, PlayerControl target) => true;
+    /// <summary>
+    /// ターゲットとしてのCheckMurder処理
+    /// </summary>
+    /// <param name="killer">キルしたプレイヤー</param>
+    /// <param name="target">キルされたプレイヤー</param>
+    /// <returns>false:キルをキャンセルする</returns>
+    public virtual bool OnCheckMurderAsTarget(PlayerControl killer, PlayerControl target) => true;
+    // ==MurderPlayer関連処理 ==
     /// <summary>
     /// キルが実行された直後に呼ばれる関数
     /// </summary>
