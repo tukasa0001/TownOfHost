@@ -92,10 +92,8 @@ namespace TownOfHost.Roles.Impostor
         //public static void SetKillCooldown(byte id, float amount) => Main.AllPlayerKillCooldown[id] = amount;
         public override void ApplyGameOptions(IGameOptions opt) => AURoleOptions.ShapeshifterCooldown = TargetChangeTime;
 
-        public override IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target, CustomRoleManager.CheckMurderInfo info)
+        public override bool OnCheckMurderAsKiller(PlayerControl killer, PlayerControl target)
         {
-            if (killer != this.Player) yield break;
-            yield return 0x0300_8003;
             if (GetTarget() == target)
             {//ターゲットをキルした場合
                 Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
@@ -109,7 +107,7 @@ namespace TownOfHost.Roles.Impostor
                 Main.AllPlayerKillCooldown[killer.PlayerId] = FailureKillCooldown;
                 killer.SyncSettings();//キルクール処理を同期
             }
-            yield break;
+            return true;
         }
         public override void OnFixedUpdate()
         {

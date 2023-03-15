@@ -124,12 +124,14 @@ namespace TownOfHost.Roles.Crewmate
             && ShotLimit > 0;
 
         // == CheckMurder関連処理 ==
-        public override IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target, CustomRoleManager.CheckMurderInfo info)
+        public override bool OnCheckMurderAsKiller(PlayerControl killer, PlayerControl target)
         {
-            if (killer != this.Player) yield break;
-            yield return 0x0100_8031;
-            ShotLimit--;
             Logger.Info($"{killer.GetNameWithRole()} : 残り{ShotLimit}発", "Sheriff");
+            if (ShotLimit <= 0)
+            {
+                return false;
+            }
+            ShotLimit--;
             SendRPC();
             if (!CanBeKilledBy(target))
             {
@@ -137,11 +139,11 @@ namespace TownOfHost.Roles.Crewmate
                 Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
                 if (!MisfireKillsTarget.GetBool())
                 {
-                    info.CancelAndAbort();
+                    return false;
                 }
             }
             killer.ResetKillCooldown();
-            yield break;
+            return true;
         }
         // ==/CheckMurder関連処理 ==
         public override string GetProgressText(bool comms = false) => Utils.ColorString(CanUseKillButton() ? Color.yellow : Color.gray, $"({ShotLimit})");
