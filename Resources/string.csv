@@ -787,7 +787,7 @@ Message.WarnWhoSayBanWord,【{0}】，请友善讨论哦~,【{0}】was kicked fo
 Message.WarnWhoSayBanWordTimes,【{0}】被警告：{1}次\n请友善讨论哦~,"[{0}] has been warned:{1} times \nif you continue you will be kicked","[{0}] был предупреждён:{1} раз \nесли продожите, вы будете кикнуты"
 Message.KickWhoSayBanWordAfterWarn,【{0}】达到 {1} 次警告被请离房间\n请友善讨论哦~,[{0}] received {1} warnings.\nHe was expelled for forbidden words,"[{0}] набрал {1} предупреждений.\nОн был исключен за запретные слова"
 Message.SetLevel,您的等级设置为：{0},Your game level is set to: {0},Ваш игровой уровень установлен на: {0}
-Message.SetColor,您的颜色设置为：{0},Your game color is set to: {0},Ваш игровой цвет установлен на: {0}
+Message.SetColor,您的颜色设置为：{0},Your color is set to: {0},Ваш игровой цвет установлен на: {0}
 Message.AllowLevelRange,等级可设置范围：0 - 100,"The game level can be set in the range: 0-100","Игровой уровень может быть установлен в диапазоне: 0-100"
 Message.OnlyCanUseInLobby,很抱歉，只有在大厅才能使用该指令,"Sorry, this command can only be used in the lobby","Извините, эта команда может быть использована только в лобби"
 Message.CanNotUseInLobby,很抱歉，在大厅无法使用该指令,"Sorry, this command cannot be used in the lobby","Извините, эта команда не может быть использована в лобби"
@@ -986,7 +986,7 @@ MessengerMurderOccurred,发生命案警告,Occurred Kill,Произошло уб
 Deadbody,尸体,Dead body,Труп
 
 ## 作弊
-Cheat.AUM,开挂（使用AUM）,Cheating usage detected (Used by AUM),Обнаружено использование читов (используется AUM)
+Cheat.AUM,开挂（使用AUM）,Cheating usage detected (Using AUM),Обнаружено использование читов (используется AUM)
 
 ## 驱逐确认
 PlayerIsRole,{0} 是 {1},{0} was the role {1},{0} был ролью {1}
@@ -1025,7 +1025,7 @@ DivinatorCheck.None,【{0}】或许会就这么平凡一辈子,"Looks like 【{0
 DivinatorCheck.Glitch,TV2gPZ4wUJWYr{0}05gA6T5PKzBG17,TV2gPZ4wUJWYr{0}05gA6T5PKzBG17,TV2gPZ4wUJWYr{0}05gA6T5PKzBG17
 
 ## 模组信息
-DevAndSpnTitle,TOHE大家族,"TOHE" family,Семья "TOHE"
+DevAndSpnTitle,TOHE大家族,"""TOHE"" family","Семья ""TOHE"""
 Developer,开发者,Developer,Разрабочик
 Sponsor,金主爹爹,Sponsor,Спонсор
 Translator,翻译支持,Translator,Переводчик
