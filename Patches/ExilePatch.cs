@@ -57,7 +57,7 @@ namespace TownOfHost
                 var role = exiled.GetCustomRole();
                 var info = role.GetRoleInfo();
                 //霊界用暗転バグ対処
-                if (!AntiBlackout.OverrideExiledPlayer && (Main.ResetCamPlayerList.Contains(exiled.PlayerId) || info.RequireResetCam))
+                if (!AntiBlackout.OverrideExiledPlayer && (Main.ResetCamPlayerList.Contains(exiled.PlayerId) || (info?.RequireResetCam ?? false)))
                     exiled.Object?.ResetPlayerCam(1f);
 
                 exiled.IsDead = true;
