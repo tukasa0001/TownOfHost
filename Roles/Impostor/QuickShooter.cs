@@ -10,7 +10,8 @@ namespace TOHE.Roles.Impostor
         private static readonly int Id = 902522;
         public static List<byte> playerIdList = new();
         private static OptionItem KillCooldown;
-        private static OptionItem MeetReserved;
+        private static OptionItem MeetingReserved;
+        public static OptionItem ShapeshiftCooldown;
         public static Dictionary<byte, int> ShotLimit = new();
         
         public static void SetupCustomOption()
@@ -18,8 +19,10 @@ namespace TOHE.Roles.Impostor
             Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.QuickShooter);
             KillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(0f, 990f, 1f), 15f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.QuickShooter])
                 .SetValueFormat(OptionFormat.Seconds);
-            MeetReserved = IntegerOptionItem.Create(Id + 12, "MeetReserved", new(0, 100, 1), 1, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.QuickShooter])
+            MeetingReserved = IntegerOptionItem.Create(Id + 12, "MeetingReserved", new(0, 100, 1), 1, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.QuickShooter])
                 .SetValueFormat(OptionFormat.Times);
+            ShapeshiftCooldown = FloatOptionItem.Create(Id + 14, "QuickShooterShapeshiftCooldown", new(5f, 990f, 1f), 15f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.QuickShooter])
+                .SetValueFormat(OptionFormat.Seconds);
         }
         public static void Init()
         {
@@ -75,7 +78,7 @@ namespace TOHE.Roles.Impostor
         {
             foreach (var sl in ShotLimit)
             {
-                ShotLimit[sl.Key] = Math.Clamp(sl.Value, 0, MeetReserved.GetInt());
+                ShotLimit[sl.Key] = Math.Clamp(sl.Value, 0, MeetingReserved.GetInt());
                 SendRPC(sl.Key);
             }
         }

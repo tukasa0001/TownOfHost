@@ -176,6 +176,9 @@ public class PlayerGameOptionsSender : GameOptionsSender
                 AURoleOptions.ShapeshifterLeaveSkin = false;
                 AURoleOptions.ShapeshifterDuration = Options.ShapeImperiusCurseShapeshiftDuration.GetFloat();
                 break;
+            case CustomRoles.QuickShooter:
+                AURoleOptions.ShapeshifterCooldown = QuickShooter.ShapeshiftCooldown.GetFloat();
+                break;
         }
 
         // 为迷惑者的凶手

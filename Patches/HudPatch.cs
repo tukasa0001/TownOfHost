@@ -150,6 +150,9 @@ internal class HudManagerPatch
                     case CustomRoles.ImperiusCurse:
                         __instance.AbilityButton.OverrideText($"{GetString("ImperiusCurseButtonText")}");
                         break;
+                    case CustomRoles.QuickShooter:
+                        __instance.AbilityButton.OverrideText($"{GetString("QuickShooterShapeshiftText")}");
+                        break;
                 }
 
                 //バウンティハンターのターゲットテキスト
