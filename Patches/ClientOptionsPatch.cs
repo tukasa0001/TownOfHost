@@ -109,7 +109,7 @@ internal class OptionsMenuBehaviourStartPatch
                 Main.UnlockFPS.Value = !Main.UnlockFPS.Value;
                 UpdateToggle(UnlockFPS, Translator.GetString("UnlockFPS") + ": ", Main.UnlockFPS.Value);
                 Application.targetFrameRate = Main.UnlockFPS.Value ? 165 : 60;
-                Logger.SendInGame(string.Format(Translator.GetString("FPSSetTo") + ": ", Application.targetFrameRate));
+                Logger.SendInGame(string.Format(Translator.GetString("FPSSetTo"), Application.targetFrameRate));
             }
         }
     }
