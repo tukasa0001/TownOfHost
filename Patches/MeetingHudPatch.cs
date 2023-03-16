@@ -521,6 +521,7 @@ internal class MeetingHudStartPatch
 
         Counterfeiter.OnMeetingStart();
         BallLightning.OnMeetingStart();
+        QuickShooter.OnMeetingStart();
         Divinator.didVote.Clear();
 
         NotifyRoleSkillOnMeetingStart();

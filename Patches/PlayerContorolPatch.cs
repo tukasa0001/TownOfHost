@@ -701,7 +701,7 @@ internal class ShapeshiftPatch
 
         if (shapeshifter.Is(CustomRoles.EvilTracker)) EvilTracker.OnShapeshift(shapeshifter, target, shapeshifting);
         if (shapeshifter.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
-        if (shapeshifter.Is(CustomRoles.QuickShooter)) QuickShooter.KillStorage(shapeshifter, shapeshifting);
+        if (shapeshifter.Is(CustomRoles.QuickShooter)) QuickShooter.OnShapeshift(shapeshifter, shapeshifting);
 
         //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換え
         if (!shapeshifting)
@@ -825,7 +825,7 @@ internal class ReportDeadBodyPatch
         Sniper.OnReportDeadBody();
         Vampire.OnStartMeeting();
         Pelican.OnReport();
-        QuickShooter.MeetCleanLimit(__instance);
+        
         foreach (var x in Main.RevolutionistStart)
         {
             var tar = Utils.GetPlayerById(x.Key);

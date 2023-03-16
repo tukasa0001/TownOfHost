@@ -509,7 +509,7 @@ internal static class ExtendedPlayerControl
                 Counterfeiter.SetKillCooldown(player.PlayerId);
                 break;
             case CustomRoles.FFF:
-                Main.AllPlayerKillCooldown[player.PlayerId] = 0;
+                Main.AllPlayerKillCooldown[player.PlayerId] = 0.01f;
                 break;
             case CustomRoles.Cleaner:
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.CleanerKillCooldown.GetFloat();
