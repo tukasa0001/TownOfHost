@@ -1544,7 +1544,7 @@ internal class EnterVentPatch
             new LateTask(() =>
             {
                 if (GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
-            }, 1.5f, "Veteran Skill Notify");
+            }, 0.4f, "Veteran Skill Notify");
         }
         if (pc.Is(CustomRoles.Grenadier))
         {
@@ -1562,7 +1562,7 @@ internal class EnterVentPatch
             {
                 if (GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
                 Utils.MarkEveryoneDirtySettings();
-            }, 1.5f, "Grenadier Skill Notify");
+            }, 0.4f, "Grenadier Skill Notify");
         }
     }
 }
