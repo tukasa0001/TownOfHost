@@ -109,6 +109,7 @@ public class PlayerState
         Quantization,
         Overtired,
         Ashamed,
+        PissedOff,
         etc = -1
     }
     public byte GetRealKiller()

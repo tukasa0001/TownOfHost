@@ -79,6 +79,8 @@ public class MainMenuManagerPatch
         {
             CredentialsPatch.LogoPatch.CreditsPopup?.SetActive(true);
         }));
+
+        Application.targetFrameRate = Main.UnlockFPS.Value ? 165 : 60;
     }
 }
 

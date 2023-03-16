@@ -81,6 +81,7 @@ internal class ChangeRoleSettings
             Main.GrenadierBlinding = new Dictionary<byte, long>();
             Main.MadGrenadierBlinding = new Dictionary<byte, long>();
             Main.CursedWolfSpellCount = new Dictionary<byte, int>();
+            Main.Provoked = new Dictionary<byte, byte>();
             Main.FirstDied = 255;
             Main.MadmateNum = 0;
 

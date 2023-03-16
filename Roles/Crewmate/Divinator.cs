@@ -119,7 +119,8 @@ public static class Divinator
             CustomRoles.Psychic or
             CustomRoles.Executioner or
             CustomRoles.BallLightning or
-            CustomRoles.Workaholic
+            CustomRoles.Workaholic or
+            CustomRoles.Provocateur
             => "Incomprehensible",
 
             CustomRoles.FireWorks or

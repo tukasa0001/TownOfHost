@@ -194,14 +194,14 @@ public static class Utils
     public static bool KillFlashCheck(PlayerControl killer, PlayerControl target, PlayerControl seer)
     {
         return seer.Is(CustomRoles.GM)
-|| seer.Is(CustomRoles.Seer)
-|| !seer.Data.IsDead && killer != seer && target != seer
-&& seer.GetCustomRole() switch
-{
-    CustomRoles.EvilTracker => EvilTracker.KillFlashCheck(killer, target),
-    CustomRoles.Seer => true,
-    _ => false
-};
+            || seer.Is(CustomRoles.Seer)
+            || !seer.Data.IsDead && killer != seer && target != seer
+            && seer.GetCustomRole() switch
+            {
+                CustomRoles.EvilTracker => EvilTracker.KillFlashCheck(killer, target),
+                CustomRoles.Seer => true,
+                _ => false
+            };
     }
     public static void KillFlash(this PlayerControl player)
     {
@@ -263,11 +263,10 @@ public static class Utils
     }
     public static (string, Color) GetRoleText(byte playerId)
     {
-        string RoleText = "Invalid Role";
-        Color RoleColor = Color.red;
+        string RoleText;
+        Color RoleColor;
 
         var mainRole = Main.PlayerStates[playerId].MainRole;
-        var SubRoles = Main.PlayerStates[playerId].SubRoles;
         RoleText = GetRoleName(mainRole);
         RoleColor = GetPlayerById(playerId).Is(CustomRoles.Madmate) ? Color.red : GetRoleColor(mainRole);
         foreach (var subRole in Main.PlayerStates[playerId].SubRoles)
@@ -1328,7 +1327,8 @@ public static class Utils
             "actorour#0029" or
             "pinklaze#1776" or
             "bannerfond#3960" or
-            "recentduct#6068";
+            "recentduct#6068" or
+            "radarright#2509";
     }
     public static bool CanUseDevCommand(int pcId)
     {

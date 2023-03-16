@@ -46,6 +46,8 @@ internal class DisconnectInternalPatch
 {
     public static void Prefix(InnerNetClient __instance, DisconnectReasons reason, string stringReason)
     {
+        ShowDisconnectPopupPatch.Reason = reason;
+        ShowDisconnectPopupPatch.StringReason = stringReason;
         Logger.Info($"断开连接(理由:{reason}:{stringReason}, ping:{__instance.Ping})", "Session");
         ErrorText.Instance.CheatDetected = false;
         ErrorText.Instance.SBDetected = false;

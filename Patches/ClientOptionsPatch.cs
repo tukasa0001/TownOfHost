@@ -8,6 +8,7 @@ namespace TOHE;
 internal class OptionsMenuBehaviourStartPatch
 {
     private static Vector3? origin;
+    private static ToggleButtonBehaviour UnlockFPS;
     private static ToggleButtonBehaviour AutoStart;
     private static ToggleButtonBehaviour DisableTOHE;
     public static float xOffset = 1.75f;
@@ -22,11 +23,11 @@ internal class OptionsMenuBehaviourStartPatch
         button.Text.text = $"{text}{(on ? Translator.GetString("turnOn") : Translator.GetString("turnOff"))}";
         if (button.Rollover) button.Rollover.ChangeOutColor(color);
     }
-    private static ToggleButtonBehaviour CreateCustomToggle(string text, bool on, Vector3 offset, UnityEngine.Events.UnityAction onClick, OptionsMenuBehaviour __instance)
+    private static ToggleButtonBehaviour CreateCustomToggle(string text, bool on, Vector3 offset, UnityEngine.Events.UnityAction onClick, OptionsMenuBehaviour __instance, ToggleButtonBehaviour tb)
     {
-        if (__instance.CensorChatButton != null)
+        if (tb != null)
         {
-            var button = Object.Instantiate(__instance.CensorChatButton, __instance.CensorChatButton.transform.parent);
+            var button = Object.Instantiate(tb, tb.transform.parent);
             button.transform.localPosition = (origin ?? Vector3.zero) + offset;
             PassiveButton passiveButton = button.GetComponent<PassiveButton>();
             passiveButton.OnClick = new Button.ButtonClickedEvent();
@@ -74,7 +75,7 @@ internal class OptionsMenuBehaviourStartPatch
 
         if (DisableTOHE == null || DisableTOHE?.gameObject == null)
         {
-            DisableTOHE = CreateCustomToggle(Translator.GetString("DisableTOHE") + ": ", Main.DisableTOHE.Value, new Vector3(-0.375f, yOffset, 0), (UnityEngine.Events.UnityAction)DisableTOHEButtonToggle, __instance);
+            DisableTOHE = CreateCustomToggle(Translator.GetString("DisableTOHE") + ": ", Main.DisableTOHE.Value, new Vector3(-0.375f, yOffset, 0), (UnityEngine.Events.UnityAction)DisableTOHEButtonToggle, __instance, __instance.CensorChatButton);
 
             void DisableTOHEButtonToggle()
             {
@@ -86,9 +87,9 @@ internal class OptionsMenuBehaviourStartPatch
         }
         if (AutoStart == null || AutoStart.gameObject == null)
         {
-            AutoStart = CreateCustomToggle(Translator.GetString("AutoStart") + ": ", Main.AutoStart.Value, new Vector3(1.375f, yOffset, 0), (UnityEngine.Events.UnityAction)LangModeButtonToggle, __instance);
+            AutoStart = CreateCustomToggle(Translator.GetString("AutoStart") + ": ", Main.AutoStart.Value, new Vector3(1.375f, yOffset, 0), (UnityEngine.Events.UnityAction)AutoStartButtonToggle, __instance, __instance.CensorChatButton);
 
-            void LangModeButtonToggle()
+            void AutoStartButtonToggle()
             {
                 Main.AutoStart.Value = !Main.AutoStart.Value;
                 UpdateToggle(AutoStart, Translator.GetString("AutoStart") + ": ", Main.AutoStart.Value);
@@ -97,6 +98,18 @@ internal class OptionsMenuBehaviourStartPatch
                     GameStartManager.Instance.ResetStartState();
                     Logger.SendInGame(Translator.GetString("CancelStartCountDown"));
                 }
+            }
+        }
+        if (UnlockFPS == null || UnlockFPS.gameObject == null)
+        {
+            UnlockFPS = CreateCustomToggle(Translator.GetString("UnlockFPS") + ": ", Main.UnlockFPS.Value, new Vector3(1.375f, yOffset - 0.33f, 0), (UnityEngine.Events.UnityAction)UnlockFPSButtonToggle, __instance, __instance.CensorChatButton);
+
+            void UnlockFPSButtonToggle()
+            {
+                Main.UnlockFPS.Value = !Main.UnlockFPS.Value;
+                UpdateToggle(UnlockFPS, Translator.GetString("UnlockFPS") + ": ", Main.UnlockFPS.Value);
+                Application.targetFrameRate = Main.UnlockFPS.Value ? 165 : 60;
+                Logger.SendInGame(string.Format(Translator.GetString("FPSSetTo") + ": ", Application.targetFrameRate));
             }
         }
     }

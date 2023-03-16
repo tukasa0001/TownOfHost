@@ -131,6 +131,7 @@ Gamer,玩家,Demon,Демон
 DarkHide,潜藏者,Stalker,Сталкер
 Workaholic,工作狂,Workaholic,Трудоголик
 Collector,集票者,Collector,Коллектор
+Provocateur,自爆卡车
 
 # 附加职业
 LastImpostor,绝境者,Last Impostor,Последний Предатель
@@ -243,6 +244,7 @@ GamerInfo,Lv又增加了捏~,Drink all the blood of the players,Выпейте �
 DarkHideInfo,降下黑暗，释放恐惧！,"Descend into the darkness, release Fear!","Спускайся во тьму, освободи Страх!"
 WorkaholicInfo,卷死他们！,Do your tasks and win!,Сделай свои задания и победи!
 CollectorInfo,是收集癖的胜利！,Collect enough votes,Соберите достаточное количество голосов
+ProvocateurInfo,你急了，你寄了
 
 # 附加职业
 LoversInfo,最重要的是，记得照顾好你的另一半,Survive with your Lover,Выживите со своим Любовником
@@ -358,6 +360,7 @@ GamerInfoLong,(中立阵营):\n仅剩玩家阵营与船员阵营且玩家阵营�
 DarkHideInfoLong,(中立阵营):\n潜藏者可以击杀任何人，且每次击杀都会立刻造成电力破坏（若电力已经被破坏则无事发生）。潜藏者无法使用通风管道。若潜藏者存活时内鬼胜利或船员通过击杀内鬼胜利（根据房主设定船员击杀中立玩家胜利时潜藏者也可能抢夺胜利），则潜藏者抢夺胜利。,"(Neutrals):\nA stalker can kill anyone, and can kill through a shield. The stalker cannot jump on hatches. If the stalker survives and the impostors or Crewmates win (and the neutrals, by the Host's setting), he takes the victory for himself.","(Нейтрал)\nСталкер может убить кого угодно, и может убить сквозь щит. Сталкер не может прыгать по люкам. Если сталкер выживает, а предатели или члены экипажа побеждают (и нейтралы, по настройке Хоста), он забирает победу себе."
 WorkaholicInfoLong,(中立阵营):\n工作狂拥有更多的任务，当工作狂完成所有任务后单独胜利。（根据房主设定，工作狂死后完成任务也可能胜利）,"(Neutrals):\nWorkaholics have more tasks, when the Workaholic has done all his tasks, he wins himself. (Can be set by the Host, making a quest after the death of the Workaholic also grants a chance to win.)","(Нейтрал)\nТрудоголики имеют больше заданий, когда Трудоголик сделает все свои задания, он побеждает сам. (Может быть установлено Хостом, сделая залания после смерти Трудоголика также даёт возможность победить.)"
 CollectorInfoLong,(中立阵营):\n集票者投票给一名玩家后，可以收集到本次会议该玩家被投的所有票数。当集票者收集到指定数量的票后，则集票者单独胜利。请注意：集票者的胜利优先于驱逐玩家。,"(Neutrals):\nAfter the Collector votes for a player, he can collect all the votes cast by the player in that meeting. When the Collector reaches the specified number of votes, the Collector wins individually. Please note: the Collector's victory takes precedence over the ejected player.","(Нейтрал):\nПосле того, как Коллектор проголосует за игрока, он может собрать все голоса, поданные игроком на этой встрече. Когда Коллектор собирает указанное количество голосов, Коллектор выигрывает отдельно. Пожалуйста, обратите внимание: победа Коллектора имеет приоритет перед исключением игрока."
+ProvocateurInfoLong,(中立阵营):\n自爆卡车可以用击杀键与任意目标同归于尽。若游戏结束时目标输了，则自爆卡车与胜利阵营一起胜利。
 
 # 附加职业
 LastImpostorInfoLong,(附加职业):\n这个效果在内鬼仅剩一人时赋予该内鬼。使其击杀冷却缩短。该效果对赏金猎人、嗜血杀手以及吸血鬼等击杀方式特殊的职业不适用。,"(Add-ons):\nAn Add-on granted to the last Impostor remaining.\nKill cooldown is reduced according to this setting.\nNot granted to Bounty Hunters, Serial Killers, or Vampires.","(Атрибут):\nАтрибут, присваивается последнему Предателю. \nВремя отката убийства становится меньше, чем обычно. \nНе назначается Охотнику за головами, Серийному убийце или Вампиру."
@@ -434,6 +437,7 @@ RoleOptions,职业设置,Role Options,Настройка Ролей
 ModeOptions,模组设置,Mode Options,Настройка Режима
 AutoStart,人满自动开始,Auto start at full lobby,Авто. запуск игры при полном лобби
 DisableTOHE,切换为原版,Disable TOHE,Отключить TOHE
+UnlockFPS,解锁帧数限制
 AutoDisplayLastResult,自动显示最终结果,Auto Display Last Result,Отображать результат последней игры в чате
 EnableUpMode,启用创作者保护计划（试验性）,启用创作者保护计划（试验性）,启用创作者保护计划（试验性）
 AutoKickStart,踢出催开始的人,Kick the player who writes start,Кикнуть игрока который пишет start (Только англ)
@@ -708,7 +712,8 @@ DeathReason.Eaten,活吞,Eaten,Сьеден
 DeathReason.Sacrifice,牺牲,Victim,Жертва
 DeathReason.Quantization,量子化,Quantization,Квантование
 DeathReason.Overtired,猝死,Overtired,Переработал
-DeathReason.Ashamed,被卷死,Ashamed,Пристыженный
+DeathReason.Ashamed,卷死,Ashamed,Пристыженный
+DeathReason.PissedOff,气死
 DeathReason.etc,其它,Other,Другое
 Alive,存活,Alive,Выжил
 Win,胜利, Wins, Победили
@@ -787,7 +792,7 @@ Message.WarnWhoSayBanWord,【{0}】，请友善讨论哦~,【{0}】was kicked fo
 Message.WarnWhoSayBanWordTimes,【{0}】被警告：{1}次\n请友善讨论哦~,"[{0}] has been warned:{1} times \nif you continue you will be kicked","[{0}] был предупреждён:{1} раз \nесли продожите, вы будете кикнуты"
 Message.KickWhoSayBanWordAfterWarn,【{0}】达到 {1} 次警告被请离房间\n请友善讨论哦~,[{0}] received {1} warnings.\nHe was expelled for forbidden words,"[{0}] набрал {1} предупреждений.\nОн был исключен за запретные слова"
 Message.SetLevel,您的等级设置为：{0},Your game level is set to: {0},Ваш игровой уровень установлен на: {0}
-Message.SetColor,您的颜色设置为：{0},Your game color is set to: {0},Ваш игровой цвет установлен на: {0}
+Message.SetColor,您的颜色设置为：{0},Your color is set to: {0},Ваш игровой цвет установлен на: {0}
 Message.AllowLevelRange,等级可设置范围：0 - 100,"The game level can be set in the range: 0-100","Игровой уровень может быть установлен в диапазоне: 0-100"
 Message.OnlyCanUseInLobby,很抱歉，只有在大厅才能使用该指令,"Sorry, this command can only be used in the lobby","Извините, эта команда может быть использована только в лобби"
 Message.CanNotUseInLobby,很抱歉，在大厅无法使用该指令,"Sorry, this command cannot be used in the lobby","Извините, эта команда не может быть использована в лобби"
@@ -975,6 +980,7 @@ turnOn,开,On,Вкл
 turnOff,关,Off,Выкл
 CancelStartCountDown,开始倒计时被取消,The countdown to the start of the game has been cancelled,Обратный отсчет до начала игры был отменён
 RestTOHESetting,已恢复TOHE的默认设置,TOHE settings have been restored to default,Настройки TOHE были восстановлены по умолчанию
+FPSSetTo,帧数上限设置为{0}
 HostKillSelfByCommand,房主选择自杀,Host lobby decided to commit suicide,Хост лобби решил покончить с собой
 SyncCustomSettingsRPC,已同步RPC,Synchronized RPC,Синхронизированный RPC
 TOHEVisitorCount,截至今日，TOHE已经被使用 <color={0}>{1}</color>次 啦~,To date TOHE has been used <color={0}>{1}</color> times~,На сегодняшний день TOHE использовался <color={0}>{1}</color> раз~
@@ -986,7 +992,7 @@ MessengerMurderOccurred,发生命案警告,Occurred Kill,Произошло уб
 Deadbody,尸体,Dead body,Труп
 
 ## 作弊
-Cheat.AUM,开挂（使用AUM）,Cheating usage detected (Used by AUM),Обнаружено использование читов (используется AUM)
+Cheat.AUM,开挂（使用AUM）,Cheating usage detected (Using AUM),Обнаружено использование читов (используется AUM)
 
 ## 驱逐确认
 PlayerIsRole,{0} 是 {1},{0} was the role {1},{0} был ролью {1}
@@ -1025,7 +1031,7 @@ DivinatorCheck.None,【{0}】或许会就这么平凡一辈子,"Looks like 【{0
 DivinatorCheck.Glitch,TV2gPZ4wUJWYr{0}05gA6T5PKzBG17,TV2gPZ4wUJWYr{0}05gA6T5PKzBG17,TV2gPZ4wUJWYr{0}05gA6T5PKzBG17
 
 ## 模组信息
-DevAndSpnTitle,TOHE大家族,"TOHE" family,Семья "TOHE"
+DevAndSpnTitle,TOHE大家族,"""TOHE"" family","Семья ""TOHE"""
 Developer,开发者,Developer,Разрабочик
 Sponsor,金主爹爹,Sponsor,Спонсор
 Translator,翻译支持,Translator,Переводчик
@@ -1040,3 +1046,13 @@ TranEN,英语,English Translator,Английский Переводчик
 TranRU,俄语,Russian Translator,Русский Переводчик
 
 OnlyShowPart,仅显示部分,Show only part,Показать только часть
+
+## 断连提示
+DCNotify.Hacking,您被AmongUs官方反作弊系统踢出\r\n（使用模组可能被误当作作弊）
+DCNotify.Banned,您被该房间封禁
+DCNotify.Kicked,您被该房间踢出
+DCNotify.DCFromServer,您与服务器的连接已中断\r\n这可能是因为您的网络不稳定\r\n也可能是因为服务器不稳定或拒绝了您的访问
+DCNotify.GameNotFound,未找到指定房间，可能是房间已解散\r\n或检查您是否选择了与房间不同的服务器
+DCNotify.GameStarted,该房间正在游戏中，请等待游戏结束后加入
+DCNotify.GameFull,该房间已满人，请稍后重试
+DCNotify.IncorrectVersion,您的AmongUs版本与该房间不同
