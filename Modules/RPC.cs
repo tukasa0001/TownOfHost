@@ -57,6 +57,7 @@ internal enum CustomRPC
     SetCursedWolfSpellCount,
     SetCollectorVotes,
     SetQuickShooterShotLimit,
+    RestTOHESetting,
 }
 public enum Sounds
 {
@@ -361,6 +362,10 @@ internal class RPCHandlerPatch
                 break;
             case CustomRPC.SetQuickShooterShotLimit:
                 QuickShooter.ReceiveRPC(reader);
+                break;
+            case CustomRPC.RestTOHESetting:
+                OptionItem.AllOptions.ToArray().Where(x => x.Id > 0).Do(x => x.SetValue(x.DefaultValue, true));
+                Logger.SendInGame(GetString("RestTOHESettingFromHost"));
                 break;
         }
     }

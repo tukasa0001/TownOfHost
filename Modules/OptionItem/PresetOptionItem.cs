@@ -35,7 +35,7 @@ public class PresetOptionItem : OptionItem
         => Rule.RepeatIndex(base.GetValue());
 
     // Setter
-    public override void SetValue(int value)
+    public override void SetValue(int value, bool noRpc = false)
     {
         base.SetValue(Rule.RepeatIndex(value));
         SwitchPreset(Rule.RepeatIndex(value));
