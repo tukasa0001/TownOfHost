@@ -50,7 +50,7 @@ internal class ExileControllerWrapUpPatch
 
         if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
         AntiBlackout.RestoreIsDead(doSend: false);
-        
+
         if (!Collector.CollectorWin(false) && exiled != null) //判断集票者胜利
         {
             //霊界用暗転バグ対処

@@ -1,13 +1,11 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
-using Mono.Cecil;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TMPro;
 using TOHE.Modules;
 using TOHE.Roles.AddOns.Crewmate;
 using TOHE.Roles.Crewmate;
@@ -114,7 +112,7 @@ internal class CheckMurderPatch
         //阻止对活死人的操作
         if (target.Is(CustomRoles.Glitch))
             return false;
-     
+
         //キル時の特殊判定
         if (killer.PlayerId != target.PlayerId)
         {
@@ -825,7 +823,7 @@ internal class ReportDeadBodyPatch
         Sniper.OnReportDeadBody();
         Vampire.OnStartMeeting();
         Pelican.OnReport();
-        
+
         foreach (var x in Main.RevolutionistStart)
         {
             var tar = Utils.GetPlayerById(x.Key);

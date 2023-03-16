@@ -28,7 +28,7 @@ internal class ControllerManagerUpdatePatch
         //捕捉全屏快捷键
         if (GetKeysDown(KeyCode.LeftAlt, KeyCode.Return))
         {
-            new LateTask(SetResolutionManager.Postfix,0.01f, "Fix Button Position");
+            new LateTask(SetResolutionManager.Postfix, 0.01f, "Fix Button Position");
         }
         //更改分辨率
         if (Input.GetKeyDown(KeyCode.F11))

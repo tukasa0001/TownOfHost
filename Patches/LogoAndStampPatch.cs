@@ -73,7 +73,7 @@ public static class CredentialsPatch
             var devtitletext = obj.transform.FindChild("StatNumsText_TMP");
             devtitletext.GetComponent<TextMeshPro>().text = GetString("Developer");
             devtitletext.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
-            devtitletext.localPosition = new Vector3(-2.75f, 1.73f, - 2f);
+            devtitletext.localPosition = new Vector3(-2.75f, 1.73f, -2f);
             devtitletext.localScale = new Vector3(1f, 1f, 1f);
             var devtext = obj.transform.FindChild("StatsText_TMP");
             devtext.localPosition = new Vector3(-2f, -0.35f, -2f);
