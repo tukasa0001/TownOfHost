@@ -992,7 +992,7 @@ public static class Utils
             if (BallLightning.IsGhost(seer))
                 SelfMark.Append(ColorString(GetRoleColor(CustomRoles.BallLightning), "■"));
 
-            //法医护盾提示
+            //医生护盾提示
             SelfMark.Append(Medicaler.GetSheildMark(seer));
 
             //玩家自身血量提示

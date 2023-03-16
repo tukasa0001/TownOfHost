@@ -88,7 +88,7 @@ public static class Medicaler
         killer.SetKillCooldown();
         Utils.NotifyRoles();
 
-        Logger.Info($"{target.GetNameWithRole()} : 来自法医的盾破碎", "medicaler");
+        Logger.Info($"{target.GetNameWithRole()} : 来自医生的盾破碎", "medicaler");
         return true;
     }
     public static string TargetMark(PlayerControl seer, PlayerControl target)

@@ -281,7 +281,7 @@ internal class CheckMurderPatch
         //赝品检查
         if (Counterfeiter.OnClientMurder(killer)) return false;
 
-        //法医护盾检查
+        //医生护盾检查
         if (Medicaler.OnCheckMurder(killer, target))
             return false;
 

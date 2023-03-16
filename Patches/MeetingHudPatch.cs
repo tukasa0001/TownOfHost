@@ -787,7 +787,7 @@ internal class MeetingHudStartPatch
             if (BallLightning.IsGhost(target))
                 sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.BallLightning), "■"));
 
-            //法医护盾提示
+            //医生护盾提示
             if (seer.PlayerId == target.PlayerId)
                 sb.Append(Medicaler.GetSheildMark(seer));
 
