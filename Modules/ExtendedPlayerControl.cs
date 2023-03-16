@@ -386,7 +386,6 @@ namespace TownOfHost
                 CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
                 CustomRoles.Mafia => Utils.CanMafiaKill(),
                 CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
-                CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
                 CustomRoles.Egoist or CustomRoles.Jackal => true,
                 _ => roleClassCanUse ?? pc.Is(CustomRoleTypes.Impostor)

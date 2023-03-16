@@ -240,8 +240,8 @@ namespace TownOfHost
             //以降ホストしか処理しない
             // 処理は全てCustomRoleManager側で行う
             CustomRoleManager.OnMurderPlayer(__instance, target);
-            }
-            }
+        }
+    }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
     class ShapeshiftPatch
     {
@@ -260,8 +260,6 @@ namespace TownOfHost
 
             Main.CheckShapeshift[shapeshifter.PlayerId] = shapeshifting;
             Main.ShapeshiftTarget[shapeshifter.PlayerId] = target.PlayerId;
-
-            Sniper.OnShapeshift(shapeshifter, shapeshifting);
 
             if (!AmongUsClient.Instance.AmHost) return;
 
@@ -407,7 +405,6 @@ namespace TownOfHost
             }
 
             SerialKiller.OnReportDeadBody();
-            Sniper.OnReportDeadBody();
             Vampire.OnStartMeeting();
 
             Main.AllPlayerControls
@@ -457,9 +454,6 @@ namespace TownOfHost
                     Logger.Info($"{__instance.GetNameWithRole()}:通報可能になったため通報処理を行います", "ReportDeadbody");
                     __instance.ReportDeadBody(info);
                 }
-
-                if (GameStates.IsInTask)
-                    __instance.GetRoleClass()?.OnFixedUpdate();
 
                 DoubleTrigger.OnFixedUpdate(player);
                 Vampire.OnFixedUpdate(player);
@@ -706,12 +700,6 @@ namespace TownOfHost
                         Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
                         Main.PuppeteerList.ContainsKey(target.PlayerId))
                             Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>");
-                    }
-                    if (Sniper.IsEnable && target.AmOwner)
-                    {
-                        //銃声が聞こえるかチェック
-                        Mark.Append(Sniper.GetShotNotify(target.PlayerId));
-
                     }
                     if (seer.Is(CustomRoles.EvilTracker)) Mark.Append(EvilTracker.GetTargetMark(seer, target));
 

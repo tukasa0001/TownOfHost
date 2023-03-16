@@ -70,14 +70,14 @@ public static class CustomRoleManager
             if (!killerRole.OnCheckMurderAsKiller(info)) return;
         }
         else
-            {
+        {
             //RoleBase化されていないキラー処理
             if (!CheckMurderPatch.OnCheckMurderAsKiller(info)) return;
-            }
+        }
         //MurderPlayer用にinfoを保存
         CheckMurderInfos[appearanceKiller.PlayerId] = info;
         appearanceKiller.RpcMurderPlayer(appearanceTarget);
-        }
+    }
     /// <summary>
     /// 
     /// </summary>
@@ -118,13 +118,13 @@ public static class CustomRoleManager
         CheckMurderInfos.Remove(appearanceKiller.PlayerId);
     }
     public static void OnMurderPlayerAsTarget(PlayerControl attemptKiller, PlayerControl attemptTarget, bool suicide)
-            {
+    {
         //RoleClass非対応の処理
         if (attemptTarget.Is(CustomRoles.Bait) && !suicide)
         {
             Logger.Info(attemptTarget?.Data?.PlayerName + "はBaitだった", "MurderPlayer");
             new LateTask(() => attemptKiller.CmdReportDeadBody(attemptTarget.Data), 0.15f, "Bait Self Report");
-            }
+        }
         else if (attemptTarget.Is(CustomRoles.Terrorist))
         {
             Logger.Info(attemptTarget?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
@@ -138,7 +138,7 @@ public static class CustomRoleManager
         {
             Executioner.Target.Remove(attemptTarget.PlayerId);
             Executioner.SendRPC(attemptTarget.PlayerId);
-    }
+        }
 
         FixedUpdatePatch.LoversSuicide(attemptTarget.PlayerId);
 
@@ -193,9 +193,6 @@ public static class CustomRoleManager
                 break;
             case CustomRoles.TimeThief:
                 TimeThief.Add(pc.PlayerId);
-                break;
-            case CustomRoles.Sniper:
-                Sniper.Add(pc.PlayerId);
                 break;
             case CustomRoles.Mare:
                 Mare.Add(pc.PlayerId);

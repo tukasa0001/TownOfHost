@@ -349,9 +349,6 @@ namespace TownOfHost
                         var doused = GetDousedPlayerCount(playerId);
                         ProgressText.Append(ColorString(GetRoleColor(CustomRoles.Arsonist).ShadeColor(0.25f), $"({doused.Item1}/{doused.Item2})"));
                         break;
-                    case CustomRoles.Sniper:
-                        ProgressText.Append(Sniper.GetBulletCount(playerId));
-                        break;
                     case CustomRoles.EvilTracker:
                         ProgressText.Append(EvilTracker.GetMarker(playerId));
                         break;
@@ -725,9 +722,6 @@ namespace TownOfHost
 
                 //呪われている場合
                 SelfMark.Append(Witch.GetSpelledMark(seer.PlayerId, isForMeeting));
-
-                //銃声が聞こえるかチェック
-                SelfMark.Append(Sniper.GetShotNotify(seer.PlayerId));
 
                 //Markとは違い、改行してから追記されます。
                 SelfSuffix.Clear();
