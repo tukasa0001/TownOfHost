@@ -1048,7 +1048,11 @@ TranRU,俄语,Russian Translator,Русский Переводчик
 OnlyShowPart,仅显示部分,Show only part,Показать только часть
 
 ## 断连提示
-DCNotify.Hacking,您被AmongUs官方反作弊系统踢出
+DCNotify.Hacking,您被AmongUs官方反作弊系统踢出\r\n（使用模组可能被误当作作弊）
 DCNotify.Banned,您被该房间封禁
 DCNotify.Kicked,您被该房间踢出
-DCNotify.BadNet,您因网络不稳定与服务器断连\r\n这也可能是AmongUs官方服务器的问题
+DCNotify.DCFromServer,您与服务器的连接已中断\r\n这可能是因为您的网络不稳定\r\n也可能是因为服务器不稳定或拒绝了您的访问
+DCNotify.GameNotFound,未找到指定房间，可能是房间已解散\r\n或检查您是否选择了与房间不同的服务器
+DCNotify.GameStarted,该房间正在游戏中，请等待游戏结束后加入
+DCNotify.GameFull,该房间已满人，请稍后重试
+DCNotify.IncorrectVersion,您的AmongUs版本与该房间不同
