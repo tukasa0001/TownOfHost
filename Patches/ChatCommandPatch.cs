@@ -678,6 +678,7 @@ internal class ChatCommands
             "活死人" or "活死" => GetString("Glitch"),
             "奪魂者" or "多混" or "夺魂" => GetString("ImperiusCurse"),
             "自爆卡車" or "自爆" or "卡车" => GetString("Provocateur"),
+            "快槍手" or "快枪" => GetString("QuickShooter"),
             _ => text,
         };
     }

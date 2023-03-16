@@ -109,7 +109,8 @@ public static class Divinator
             CustomRoles.Doctor or
             CustomRoles.Transporter or
             CustomRoles.Veteran or
-            CustomRoles.Divinator
+            CustomRoles.Divinator or
+            CustomRoles.QuickShooter
             => "Strong",
 
             CustomRoles.Witch or
