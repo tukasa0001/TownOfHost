@@ -124,25 +124,30 @@ namespace TownOfHost.Roles.Crewmate
             && ShotLimit > 0;
 
         // == CheckMurder関連処理 ==
-        public override bool OnCheckMurderAsKiller(PlayerControl killer, PlayerControl target)
+        public override bool OnCheckMurderAsKiller(MurderInfo info)
         {
-            Logger.Info($"{killer.GetNameWithRole()} : 残り{ShotLimit}発", "Sheriff");
-            if (ShotLimit <= 0)
+            if (Is(info.AttemptKiller) && !info.IsSuicide)
             {
-                return false;
-            }
-            ShotLimit--;
-            SendRPC();
-            if (!CanBeKilledBy(target))
-            {
-                killer.RpcMurderPlayer(killer);
-                Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
-                if (!MisfireKillsTarget.GetBool())
+                var killer = info.AttemptKiller;
+                var target = info.AttemptTarget;
+                Logger.Info($"{killer.GetNameWithRole()} : 残り{ShotLimit}発", "Sheriff");
+                if (ShotLimit <= 0)
                 {
                     return false;
                 }
+                ShotLimit--;
+                SendRPC();
+                if (!CanBeKilledBy(target))
+                {
+                    killer.RpcMurderPlayer(killer);
+                    Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
+                    if (!MisfireKillsTarget.GetBool())
+                    {
+                        return false;
+                    }
+                }
+                killer.ResetKillCooldown();
             }
-            killer.ResetKillCooldown();
             return true;
         }
         // ==/CheckMurder関連処理 ==
