@@ -142,6 +142,7 @@ public abstract class RoleBase : IDisposable
     /// <summary>
     /// シェイプシフト時に呼ばれる関数
     /// 自分自身について呼ばれるため本人確認不要
+    /// Host以外も呼ばれるので注意
     /// </summary>
     /// <param name="target">変身先</param>
     public virtual void OnShapeshift(PlayerControl target)

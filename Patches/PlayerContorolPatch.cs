@@ -261,9 +261,9 @@ namespace TownOfHost
             Main.CheckShapeshift[shapeshifter.PlayerId] = shapeshifting;
             Main.ShapeshiftTarget[shapeshifter.PlayerId] = target.PlayerId;
 
-            if (!AmongUsClient.Instance.AmHost) return;
-
             shapeshifter.GetRoleClass()?.OnShapeshift(target);
+
+            if (!AmongUsClient.Instance.AmHost) return;
 
             if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
 
