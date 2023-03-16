@@ -153,6 +153,9 @@ internal class HudManagerPatch
                     case CustomRoles.QuickShooter:
                         __instance.AbilityButton.OverrideText($"{GetString("QuickShooterShapeshiftText")}");
                         break;
+                    case CustomRoles.Provocateur:
+                        __instance.KillButton.OverrideText($"{GetString("ProvocateurButtonText")}");
+                        break;
                 }
 
                 //バウンティハンターのターゲットテキスト
@@ -313,6 +316,7 @@ internal class SetHudActivePatch
             case CustomRoles.Medicaler:
             case CustomRoles.Gamer:
             case CustomRoles.DarkHide:
+            case CustomRoles.Provocateur:
                 __instance.SabotageButton.ToggleVisible(false);
                 __instance.AbilityButton.ToggleVisible(false);
                 break;

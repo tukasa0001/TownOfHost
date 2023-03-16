@@ -340,6 +340,7 @@ public static class Utils
             case CustomRoles.DarkHide:
             case CustomRoles.Collector:
             case CustomRoles.ImperiusCurse:
+            case CustomRoles.Provocateur:
                 hasTasks = false;
                 break;
             case CustomRoles.Terrorist:
