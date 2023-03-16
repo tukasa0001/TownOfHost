@@ -34,7 +34,6 @@ namespace TownOfHost.Roles.Impostor
             AimAssist = SniperAimAssist.GetBool();
             AimAssistOneshot = SniperAimAssistOnshot.GetBool();
 
-            MeetingReset = false;
             CustomRoleManager.MarkOthers.Add(GetMarkOthers);
 
 
@@ -51,13 +50,14 @@ namespace TownOfHost.Roles.Impostor
         bool IsAim;
         float AimTime;
 
-        static bool MeetingReset;
         static HashSet<Sniper> Snipers = new();
 
         int MaxBulletCount;
         bool PrecisionShooting;
         bool AimAssist;
         bool AimAssistOneshot;
+
+        bool MeetingReset;
         public static void SetupOptionItem()
         {
             var id = RoleInfo.ConfigId;
@@ -79,6 +79,7 @@ namespace TownOfHost.Roles.Impostor
             ShotNotify.Clear();
             IsAim = false;
             AimTime = 0f;
+            MeetingReset = false;
 
             Snipers.Add(this);
         }
@@ -109,11 +110,7 @@ namespace TownOfHost.Roles.Impostor
         }
         public override bool CanUseKillButton()
         {
-            if (!Player.IsAlive()) return false;
-
-            var canUse = BulletCount <= 0;
-            Logger.Info($" CanUseKillButton:{canUse}", "Sniper");
-            return canUse;
+            return Player.IsAlive() && BulletCount <= 0;
         }
         /// <summary>
         /// 狙撃の場合死因設定
@@ -121,7 +118,10 @@ namespace TownOfHost.Roles.Impostor
         /// <param name="info"></param>
         public override void OnMurderPlayerAsKiller(MurderInfo info)
         {
-            if (Is(info.AttemptKiller) && info.IsFakeSuicide)
+            //AttemptKillerは自分確定
+            //スナイパーがAppearanceKillerだった場合は狙撃じゃない
+            //ターゲットが自殺扱いなら狙撃
+            if (!Is(info.AppearanceKiller) && info.IsFakeSuicide)
             {
                 Main.PlayerStates[info.AttemptTarget.PlayerId].deathReason = PlayerState.DeathReason.Sniped;
             }
@@ -316,9 +316,10 @@ namespace TownOfHost.Roles.Impostor
         }
         public static string GetMarkOthers(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false)
         {
-            //射撃音が聞こえるプレイヤー
+            //各スナイパーから
             foreach (var sniper in Snipers)
             {
+                //射撃音が聞こえるプレイヤー
                 var snList = sniper.ShotNotify;
                 if (snList.Count() > 0 && snList.Contains(seer.PlayerId))
                 {
