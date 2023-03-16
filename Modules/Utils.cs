@@ -383,7 +383,8 @@ public static class Utils
             pc.Is(CustomRoles.Needy) ||
             pc.Is(CustomRoles.Snitch) ||
             pc.Is(CustomRoles.CyberStar) ||
-            pc.Is(CustomRoles.Egoist)
+            pc.Is(CustomRoles.Egoist) ||
+            pc.Is(CustomRoles.DualPersonality)
             );
     }
     public static string GetProgressText(PlayerControl pc)
