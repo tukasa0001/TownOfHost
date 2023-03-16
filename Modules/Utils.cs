@@ -420,6 +420,9 @@ public static class Utils
             case CustomRoles.Sheriff:
                 ProgressText.Append(Sheriff.GetShotLimit(playerId));
                 break;
+            case CustomRoles.QuickShooter:
+                ProgressText.Append(QuickShooter.GetShotLimit(playerId));
+                break;
             case CustomRoles.Sniper:
                 ProgressText.Append(Sniper.GetBulletCount(playerId));
                 break;

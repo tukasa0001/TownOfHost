@@ -425,6 +425,7 @@ public enum CustomRoles
     Greedier,
     CursedWolf,
     ImperiusCurse,
+    QuickShooter,
     //Crewmate(Vanilla)
     Engineer,
     GuardianAngel,

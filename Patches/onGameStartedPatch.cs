@@ -181,6 +181,7 @@ internal class ChangeRoleSettings
             DarkHide.Init();
             Greedier.Init();
             Collector.Init();
+            QuickShooter.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
@@ -620,6 +621,9 @@ internal class SelectRolesPatch
                         break;
                     case CustomRoles.Sheriff:
                         Sheriff.Add(pc.PlayerId);
+                        break;
+                    case CustomRoles.QuickShooter:
+                        QuickShooter.Add(pc.PlayerId);
                         break;
                     case CustomRoles.Mayor:
                         Main.MayorUsedButtonCount[pc.PlayerId] = 0;

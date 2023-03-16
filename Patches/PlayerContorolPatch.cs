@@ -114,7 +114,7 @@ internal class CheckMurderPatch
         //阻止对活死人的操作
         if (target.Is(CustomRoles.Glitch))
             return false;
-
+     
         //キル時の特殊判定
         if (killer.PlayerId != target.PlayerId)
         {
@@ -204,6 +204,9 @@ internal class CheckMurderPatch
                     break;
                 case CustomRoles.Greedier:
                     Greedier.OnCheckMurder(killer);
+                    break;
+                case CustomRoles.QuickShooter:
+                    QuickShooter.QuickShooterKill(killer);
                     break;
 
                 //==========第三陣営役職==========//
@@ -693,6 +696,7 @@ internal class ShapeshiftPatch
 
         if (shapeshifter.Is(CustomRoles.EvilTracker)) EvilTracker.OnShapeshift(shapeshifter, target, shapeshifting);
         if (shapeshifter.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
+        if (shapeshifter.Is(CustomRoles.QuickShooter)) QuickShooter.KillStorage(shapeshifter, shapeshifting);
 
         //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換え
         if (!shapeshifting)
@@ -816,6 +820,7 @@ internal class ReportDeadBodyPatch
         Sniper.OnReportDeadBody();
         Vampire.OnStartMeeting();
         Pelican.OnReport();
+        QuickShooter.MeetCleanLimit(__instance);
         foreach (var x in Main.RevolutionistStart)
         {
             var tar = Utils.GetPlayerById(x.Key);

@@ -529,6 +529,9 @@ internal static class ExtendedPlayerControl
             case CustomRoles.Greedier:
                 Greedier.SetKillCooldown(player.PlayerId);
                 break;
+            case CustomRoles.QuickShooter:
+                QuickShooter.SetKillCooldown(player.PlayerId);
+                break;
         }
     }
     public static void TrapperKilled(this PlayerControl killer, PlayerControl target)

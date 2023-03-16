@@ -56,6 +56,7 @@ internal enum CustomRPC
     SetGreedierOE,
     SetCursedWolfSpellCount,
     SetCollectorVotes,
+    SetQuickShooterShotLimit
 }
 public enum Sounds
 {
@@ -257,6 +258,9 @@ internal class RPCHandlerPatch
                 break;
             case CustomRPC.SetSheriffShotLimit:
                 Sheriff.ReceiveRPC(reader);
+                break;
+            case CustomRPC.SetQuickShooterShotLimit:
+                QuickShooter.ReceiveRPC(reader);
                 break;
             case CustomRPC.SetDousedPlayer:
                 byte ArsonistId = reader.ReadByte();
@@ -521,6 +525,9 @@ internal static class RPC
                 break;
             case CustomRoles.Sheriff:
                 Sheriff.Add(targetId);
+                break;
+            case CustomRoles.QuickShooter:
+                QuickShooter.Add(targetId);
                 break;
             case CustomRoles.SwordsMan:
                 SwordsMan.Add(targetId);
