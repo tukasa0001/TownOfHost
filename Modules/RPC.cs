@@ -364,8 +364,7 @@ internal class RPCHandlerPatch
                 QuickShooter.ReceiveRPC(reader);
                 break;
             case CustomRPC.RestTOHESetting:
-                OptionItem.AllOptions.ToArray().Where(x => x.Id > 0).Do(x => x.SetValue(x.DefaultValue, true));
-                Logger.SendInGame(GetString("RestTOHESettingFromHost"));
+                OptionItem.AllOptions.ToArray().Where(x => x.Id > 0).Do(x => x.SetValueNoRpc(x.DefaultValue));
                 break;
         }
     }

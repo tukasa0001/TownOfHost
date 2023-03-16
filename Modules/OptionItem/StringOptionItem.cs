@@ -47,8 +47,12 @@ public class StringOptionItem : OptionItem
         => Rule.RepeatIndex(base.GetValue());
 
     // Setter
-    public override void SetValue(int value, bool noRpc = false)
+    public override void SetValue(int value)
     {
         base.SetValue(Rule.RepeatIndex(value));
+    }
+    public override void SetValueNoRpc(int value)
+    {
+        base.SetValueNoRpc(Rule.RepeatIndex(value));
     }
 }

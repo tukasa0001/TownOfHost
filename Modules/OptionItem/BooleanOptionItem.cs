@@ -26,8 +26,12 @@ public class BooleanOptionItem : OptionItem
     }
 
     // Setter
-    public override void SetValue(int value, bool noRpc = false)
+    public override void SetValue(int value)
     {
         base.SetValue(value % 2 == 0 ? 0 : 1);
+    }
+    public override void SetValueNoRpc(int value)
+    {
+        base.SetValueNoRpc(value % 2 == 0 ? 0 : 1);
     }
 }

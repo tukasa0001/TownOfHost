@@ -116,7 +116,7 @@ internal class ControllerManagerUpdatePatch
         //将 TOHE 选项设置为默认值
         if (GetKeysDown(KeyCode.Delete, KeyCode.LeftControl))
         {
-            OptionItem.AllOptions.ToArray().Where(x => x.Id > 0).Do(x => x.SetValue(x.DefaultValue, true));
+            OptionItem.AllOptions.ToArray().Where(x => x.Id > 0).Do(x => x.SetValueNoRpc(x.DefaultValue));
             Logger.SendInGame(Translator.GetString("RestTOHESetting"));
             if (!(!AmongUsClient.Instance.AmHost || PlayerControl.AllPlayerControls.Count <= 1 || (AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null)))
             {
