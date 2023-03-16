@@ -613,7 +613,6 @@ public static class Options
         SetupRoleOptions(50200, TabGroup.NeutralRoles, CustomRoles.Terrorist);
         CanTerroristSuicideWin = BooleanOptionItem.Create(50210, "CanTerroristSuicideWin", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Terrorist])
             .SetGameMode(CustomGameMode.Standard);
-        Collector.SetupCustomOption();
         //50220~50223を使用
         TerroristTasks = OverrideTasksData.Create(50220, TabGroup.NeutralRoles, CustomRoles.Terrorist);
         Executioner.SetupCustomOption();
@@ -628,6 +627,7 @@ public static class Options
         WorkaholicVentCooldown = FloatOptionItem.Create(60112, "VentCooldown", new(0f, 180f, 2.5f), 0f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Workaholic])
             .SetValueFormat(OptionFormat.Seconds);
         WorkaholicTasks = OverrideTasksData.Create(60114, TabGroup.NeutralRoles, CustomRoles.Workaholic);
+        Collector.SetupCustomOption();
 
         // Add-Ons
         NoLimitAddonsNum = BooleanOptionItem.Create(6050250, "NoLimitAddonsNum", false, TabGroup.Addons, false)
