@@ -65,10 +65,13 @@ namespace TownOfHost
         }
 
         // 不正キル防止チェック
-        public static bool CheckForInvalidMurdering(PlayerControl killer, PlayerControl target)
+        public static bool CheckForInvalidMurdering(MurderInfo info)
         {
+            var killer = info.AttemptKiller;
+            var target = info.AttemptTarget;
+
             // Killerが既に死んでいないかどうか
-            if (killer.Data.IsDead)
+            if (!killer.IsAlive())
             {
                 Logger.Info($"{killer.GetNameWithRole()}は死亡しているためキャンセルされました。", "CheckMurder");
                 return false;
@@ -81,7 +84,7 @@ namespace TownOfHost
                 return false;
             }
             // targetが既に死んでいないか
-            if (target.Data.IsDead)
+            if (!target.IsAlive())
             {
                 Logger.Info("targetは既に死んでいたため、キルをキャンセルしました。", "CheckMurder");
                 return false;
@@ -111,7 +114,7 @@ namespace TownOfHost
                 return false;
             }
             // キルが可能なプレイヤーか
-            if (killer.PlayerId != target.PlayerId && !killer.CanUseKillButton())
+            if (!info.IsFakeSuicide && !killer.CanUseKillButton())
             {
                 Logger.Info(killer.GetNameWithRole() + "はKillできないので、キルはキャンセルされました。", "CheckMurder");
                 return false;
@@ -119,8 +122,11 @@ namespace TownOfHost
             return true;
         }
 
-        public static bool OnCheckMurderAsKiller(PlayerControl killer, PlayerControl target)
+        public static bool OnCheckMurderAsKiller(MurderInfo info)
         {
+            var killer = info.AppearanceKiller;
+            var target = info.AppearanceTarget;
+
             //キル時の特殊判定
             if (killer.PlayerId != target.PlayerId)
             {
@@ -186,8 +192,11 @@ namespace TownOfHost
             }
             return true;
         }
-        public static bool OnCheckMurderAsTarget(PlayerControl killer, PlayerControl target)
+        public static bool OnCheckMurderAsTarget(MurderInfo info)
         {
+            var killer = info.AppearanceKiller;
+            var target = info.AppearanceTarget;
+
             //キルされた時の特殊判定
             switch (target.GetCustomRole())
             {
@@ -228,18 +237,9 @@ namespace TownOfHost
         {
             if (target.AmOwner) RemoveDisableDevicesPatch.UpdateDisableDevices();
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost) return;
-
-            PlayerControl killer = __instance; //読み替え変数
-
-            killer.GetRoleClass()?.OnMurderPlayer(killer, target);
-
-            //実際のキラーとkillerが違う場合の入れ替え処理
-            if (Sniper.IsEnable)
-            {
-                if (Sniper.TryGetSniper(target.PlayerId, ref killer))
-                {
-                    Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Sniped;
-                }
+            //以降ホストしか処理しない
+            // 処理は全てCustomRoleManager側で行う
+            CustomRoleManager.OnMurderPlayer(__instance, target);
             }
             if (killer != __instance)
             {

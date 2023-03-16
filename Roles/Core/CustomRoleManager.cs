@@ -22,6 +22,7 @@ public static class CustomRoleManager
     public static RoleBase GetByPlayerId(byte playerId) => AllActiveRoles.ToArray().Where(roleClass => roleClass.Player.PlayerId == playerId).FirstOrDefault();
     public static void Do<T>(this List<T> list, Action<T> action) => list.ToArray().Do(action);
     // == CheckMurder関連処理 ==
+    public static Dictionary<byte, MurderInfo> CheckMurderInfos = new();
     /// <summary>
     /// 
     /// </summary>
@@ -38,47 +39,110 @@ public static class CustomRoleManager
     /// <param name="appearanceTarget">見た目上でキルされるプレイヤー 可変</param>
     public static void OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget, PlayerControl appearanceKiller, PlayerControl appearanceTarget)
     {
-        attemptKiller.ResetKillCooldown();
+        var info = new MurderInfo(attemptKiller, attemptTarget, appearanceKiller, appearanceTarget);
+
+        appearanceKiller.ResetKillCooldown();
 
         // 無効なキルをブロックする処理 必ず最初に実行する
-        CheckMurderPatch.CheckForInvalidMurdering(attemptKiller, attemptTarget);
+        if (!CheckMurderPatch.CheckForInvalidMurdering(info)) return;
+
+        var killerRole = attemptKiller.GetRoleClass();
+        var targetRole = attemptTarget.GetRoleClass();
 
         //キラーがキル能力持ちでなければターゲットのキルチェック処理実行
-        var killerRole = appearanceKiller.GetRoleClass();
-        var targetRole = appearanceTarget.GetRoleClass();
-        if (killerRole?.IsKiller ?? false || !appearanceKiller.Is(CustomRoles.Arsonist))
+        if ((killerRole?.IsKiller ?? false) || !attemptKiller.Is(CustomRoles.Arsonist))
         {
             if (targetRole != null)
             {
-                if (!targetRole.OnCheckMurderAsTarget(appearanceKiller, attemptTarget))
-                    return;
+                if (!targetRole.OnCheckMurderAsTarget(info)) return;
             }
             else
             {
                 //RoleBase化されていないターゲット処理
-                if (!CheckMurderPatch.OnCheckMurderAsTarget(appearanceKiller, attemptTarget)) return;
-
+                if (!CheckMurderPatch.OnCheckMurderAsTarget(info)) return;
             }
 
         }
         //キラーのキルチェック処理実行
         if (killerRole != null)
         {
-            if (!killerRole.OnCheckMurderAsKiller(appearanceKiller, attemptTarget))
-            {
-                return;
-            }
+            if (!killerRole.OnCheckMurderAsKiller(info)) return;
         }
         else
-        {
-            //RoleBase化されていないキラー処理
-            if (!CheckMurderPatch.OnCheckMurderAsKiller(appearanceKiller, attemptTarget))
             {
-                return;
+            //RoleBase化されていないキラー処理
+            if (!CheckMurderPatch.OnCheckMurderAsKiller(info)) return;
             }
+        //MurderPlayer用にinfoを保存
+        CheckMurderInfos[appearanceKiller.PlayerId] = info;
+        appearanceKiller.RpcMurderPlayer(appearanceTarget);
         }
-        attemptKiller.RpcMurderPlayer(attemptTarget);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="appearanceKiller">見た目上でキルを行うプレイヤー 可変</param>
+    /// <param name="appearanceTarget">見た目上でキルされるプレイヤー 可変</param>
+    public static void OnMurderPlayer(PlayerControl appearanceKiller, PlayerControl appearanceTarget)
+    {
+        //MurderInfoの取得
+        //CheckMurderを経由していない場合はappearanceで処理
+        CheckMurderInfos.TryGetValue(appearanceKiller.PlayerId, out var info);
+
+        var attemptKiller = info?.AttemptKiller ?? appearanceKiller;
+        var attemptTarget = info?.AttemptTarget ?? appearanceTarget;
+
+        Logger.Info($"Real Killer={attemptKiller.GetNameWithRole()}", "MurderPlayer");
+
+        attemptKiller.GetRoleClass()?.OnMurderPlayerAsKiller(info);
+        var targetRole = attemptTarget.GetRoleClass();
+        if (targetRole != null)
+            targetRole.OnMurderPlayerAsTarget(info);
+        else
+            OnMurderPlayerAsTarget(attemptKiller, attemptTarget, info.IsSuicide);
+
+        //以降共通処理
+        if (Main.PlayerStates[attemptTarget.PlayerId].deathReason == PlayerState.DeathReason.etc)
+        {
+            //死因が設定されていない場合は死亡判定
+            Main.PlayerStates[attemptTarget.PlayerId].deathReason = PlayerState.DeathReason.Kill;
+        }
+
+        Main.PlayerStates[attemptTarget.PlayerId].SetDead();
+        attemptTarget.SetRealKiller(attemptKiller, true); //既に追加されてたらスキップ
+        Utils.CountAlivePlayers(true);
+        Utils.SyncAllSettings();
+        Utils.NotifyRoles();
+        Utils.TargetDies(appearanceKiller, attemptTarget);
+
+        CheckMurderInfos.Remove(appearanceKiller.PlayerId);
     }
+    public static void OnMurderPlayerAsTarget(PlayerControl attemptKiller, PlayerControl attemptTarget, bool suicide)
+            {
+        //RoleClass非対応の処理
+        if (attemptTarget.Is(CustomRoles.Bait) && !suicide)
+        {
+            Logger.Info(attemptTarget?.Data?.PlayerName + "はBaitだった", "MurderPlayer");
+            new LateTask(() => attemptKiller.CmdReportDeadBody(attemptTarget.Data), 0.15f, "Bait Self Report");
+            }
+        else if (attemptTarget.Is(CustomRoles.Terrorist))
+        {
+            Logger.Info(attemptTarget?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
+            Utils.CheckTerroristWin(attemptTarget.Data);
+        }
+        else if (attemptTarget.Is(CustomRoles.Trapper) && !suicide)
+            attemptKiller.TrapperKilled(attemptTarget);
+        else if (Executioner.Target.ContainsValue(attemptTarget.PlayerId))
+            Executioner.ChangeRoleByTarget(attemptTarget);
+        else if (attemptTarget.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(attemptTarget.PlayerId))
+        {
+            Executioner.Target.Remove(attemptTarget.PlayerId);
+            Executioner.SendRPC(attemptTarget.PlayerId);
+    }
+
+        FixedUpdatePatch.LoversSuicide(attemptTarget.PlayerId);
+
+    }
+
     // ==初期化関連処理 ==
     public static void Initialize()
     {
@@ -87,6 +151,7 @@ public static class CustomRoleManager
         MarkOthers.Clear();
         LowerOthers.Clear();
         SuffixOthers.Clear();
+        CheckMurderInfos.Clear();
     }
     public static void CreateInstance()
     {
@@ -249,7 +314,38 @@ public static class CustomRoleManager
         MarkOthers.Clear();
         LowerOthers.Clear();
         SuffixOthers.Clear();
+        CheckMurderInfos.Clear();
         AllActiveRoles.Do(roleClass => roleClass.Dispose());
+    }
+}
+public class MurderInfo
+{
+    /// <summary>実際にキルを行ったプレイヤー 不変</summary>
+    public PlayerControl AttemptKiller { get; }
+    /// <summary>Killerが実際にキルを行おうとしたプレイヤー 不変</summary>
+    public PlayerControl AttemptTarget { get; }
+    /// <summary>見た目上でキルを行うプレイヤー 可変</summary>
+    public PlayerControl AppearanceKiller { get; set; }
+    /// <summary>見た目上でキルされるプレイヤー 可変</summary>
+    public PlayerControl AppearanceTarget { get; set; }
+
+    // 分解用 (killer, target) = info.AttemptTuple; のような記述でkillerとtargetをまとめて取り出せる
+    public (PlayerControl killer, PlayerControl target) AttemptTuple => (AttemptKiller, AttemptTarget);
+    public (PlayerControl killer, PlayerControl target) AppearanceTuple => (AppearanceKiller, AppearanceTarget);
+    /// <summary>
+    /// 本来の自殺
+    /// </summary>
+    public bool IsSuicide => AttemptKiller.PlayerId == AttemptTarget.PlayerId;
+    /// <summary>
+    /// 遠距離キル代わりの疑似自殺
+    /// </summary>
+    public bool IsFakeSuicide => AppearanceKiller.PlayerId == AppearanceTarget.PlayerId;
+    public MurderInfo(PlayerControl attemptKiller, PlayerControl attemptTarget, PlayerControl appearanceKiller, PlayerControl appearancetarget)
+    {
+        AttemptKiller = attemptKiller;
+        AttemptTarget = attemptTarget;
+        AppearanceKiller = appearanceKiller;
+        AppearanceTarget = appearancetarget;
     }
 }
 

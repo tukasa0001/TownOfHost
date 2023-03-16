@@ -108,29 +108,37 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     public virtual void ApplyGameOptions(IGameOptions opt)
     { }
+
     // == CheckMurder関連処理 ==
     /// <summary>
     /// キラーとしてのCheckMurder処理
     /// </summary>
-    /// <param name="killer">キルしたプレイヤー</param>
-    /// <param name="target">キルされたプレイヤー</param>
+    /// <param name="info">キル関係者情報</param>
     /// <returns>false:キルをキャンセルする</returns>
-    public virtual bool OnCheckMurderAsKiller(PlayerControl killer, PlayerControl target) => true;
+    public virtual bool OnCheckMurderAsKiller(MurderInfo info) => true;
+
     /// <summary>
     /// ターゲットとしてのCheckMurder処理
     /// </summary>
-    /// <param name="killer">キルしたプレイヤー</param>
-    /// <param name="target">キルされたプレイヤー</param>
+    /// <param name="info">キル関係者情報</param>
     /// <returns>false:キルをキャンセルする</returns>
-    public virtual bool OnCheckMurderAsTarget(PlayerControl killer, PlayerControl target) => true;
+    public virtual bool OnCheckMurderAsTarget(MurderInfo info) => true;
     // ==MurderPlayer関連処理 ==
+
     /// <summary>
-    /// キルが実行された直後に呼ばれる関数
+    /// キラーとしてのMurderPlayer処理
     /// </summary>
-    /// <param name="killer">キルしたプレイヤー</param>
-    /// <param name="target">キルされたプレイヤー</param>
-    public virtual void OnMurderPlayer(PlayerControl killer, PlayerControl target)
+    /// <param name="info">キル関係者情報</param>
+    public virtual void OnMurderPlayerAsKiller(MurderInfo info)
     { }
+
+    /// <summary>
+    /// ターゲットとしてのMurderPlayer処理
+    /// </summary>
+    /// <param name="info">キル関係者情報</param>
+    public virtual void OnMurderPlayerAsTarget(MurderInfo info)
+    { }
+
     /// <summary>
     /// シェイプシフト時に呼ばれる関数
     /// </summary>
