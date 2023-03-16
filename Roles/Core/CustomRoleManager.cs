@@ -9,6 +9,7 @@ using AmongUs.GameOptions;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.Crewmate;
+
 namespace TownOfHost.Roles.Core;
 
 public static class CustomRoleManager

@@ -141,33 +141,41 @@ public abstract class RoleBase : IDisposable
 
     /// <summary>
     /// シェイプシフト時に呼ばれる関数
+    /// 自分自身について呼ばれるため本人確認不要
     /// </summary>
-    /// <param name="shapeshifter">シェイプシフター</param>
     /// <param name="target">変身先</param>
-    public virtual void OnShapeshift(PlayerControl shapeshifter, PlayerControl target)
+    public virtual void OnShapeshift(PlayerControl target)
     { }
+
     /// <summary>
     /// タスクターンに常時呼ばれる関数
+    /// 自分自身について呼ばれるため本人確認不要
+    /// Host以外も呼ばれるので注意
     /// </summary>
     public virtual void OnFixedUpdate()
     { }
+
     /// <summary>
     /// 通報時に呼ばれる関数
+    /// 通報に関係ないプレイヤーも呼ばれる
     /// </summary>
     /// <param name="reporter">通報したプレイヤー</param>
     /// <param name="target">通報されたプレイヤー</param>
     /// <returns>falseを返すと通報がキャンセルされます</returns>
     public virtual bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target) => true;
+
     /// <summary>
     /// ミーティングが始まった時に呼ばれる関数
     /// </summary>
     public virtual void OnStartMeeting()
     { }
+
     /// <summary>
     /// タスクターンが始まる直前に毎回呼ばれる関数
     /// </summary>
     public virtual void AfterMeetingTasks()
     { }
+
     /// <summary>
     /// タスクが一個完了するごとに呼ばれる関数
     /// </summary>

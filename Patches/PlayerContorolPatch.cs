@@ -241,50 +241,7 @@ namespace TownOfHost
             // 処理は全てCustomRoleManager側で行う
             CustomRoleManager.OnMurderPlayer(__instance, target);
             }
-            if (killer != __instance)
-            {
-                Logger.Info($"Real Killer={killer.GetNameWithRole()}", "MurderPlayer");
-
             }
-            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.etc)
-            {
-                //死因が設定されていない場合は死亡判定
-                Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Kill;
-            }
-
-            //When Bait is killed
-            if (target.GetCustomRole() == CustomRoles.Bait && killer.PlayerId != target.PlayerId)
-            {
-                Logger.Info(target?.Data?.PlayerName + "はBaitだった", "MurderPlayer");
-                new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
-            }
-            else
-            //Terrorist
-            if (target.Is(CustomRoles.Terrorist))
-            {
-                Logger.Info(target?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
-                Utils.CheckTerroristWin(target.Data);
-            }
-            if (target.Is(CustomRoles.Trapper) && !killer.Is(CustomRoles.Trapper))
-                killer.TrapperKilled(target);
-            if (Executioner.Target.ContainsValue(target.PlayerId))
-                Executioner.ChangeRoleByTarget(target);
-            if (target.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(target.PlayerId))
-            {
-                Executioner.Target.Remove(target.PlayerId);
-                Executioner.SendRPC(target.PlayerId);
-            }
-
-            FixedUpdatePatch.LoversSuicide(target.PlayerId);
-
-            Main.PlayerStates[target.PlayerId].SetDead();
-            target.SetRealKiller(killer, true); //既に追加されてたらスキップ
-            Utils.CountAlivePlayers(true);
-            Utils.SyncAllSettings();
-            Utils.NotifyRoles();
-            Utils.TargetDies(__instance, target);
-        }
-    }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
     class ShapeshiftPatch
     {
@@ -308,7 +265,7 @@ namespace TownOfHost
 
             if (!AmongUsClient.Instance.AmHost) return;
 
-            shapeshifter.GetRoleClass()?.OnShapeshift(shapeshifter, target);
+            shapeshifter.GetRoleClass()?.OnShapeshift(target);
 
             if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
 
@@ -444,7 +401,10 @@ namespace TownOfHost
             Main.ArsonistTimer.Clear();
             Main.PuppeteerList.Clear();
 
-            __instance.GetRoleClass()?.OnReportDeadBody(__instance, target);
+            foreach (var role in CustomRoleManager.AllActiveRoles)
+            {
+                role.OnReportDeadBody(__instance, target);
+            }
 
             SerialKiller.OnReportDeadBody();
             Sniper.OnReportDeadBody();
@@ -481,7 +441,9 @@ namespace TownOfHost
             if (!GameStates.IsModHost) return;
 
             TargetArrow.OnFixedUpdate(player);
-            Sniper.OnFixedUpdate(player);
+
+            if (GameStates.IsInTask)
+                __instance.GetRoleClass()?.OnFixedUpdate();
 
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
