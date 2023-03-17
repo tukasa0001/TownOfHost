@@ -186,10 +186,6 @@ internal class CheckMurderPatch
                     killer.RpcGuardAndKill(killer);
                     killer.SetKillCooldown();
                     return false;
-                case CustomRoles.Counterfeiter:
-                    if (Counterfeiter.CanBeClient(target) && Counterfeiter.CanSeel(killer.PlayerId))
-                        Counterfeiter.SeelToClient(killer, target);
-                    return false;
                 case CustomRoles.Bomber:
                     return false;
                 case CustomRoles.Gangster:
@@ -202,9 +198,6 @@ internal class CheckMurderPatch
                     break;
                 case CustomRoles.Greedier:
                     Greedier.OnCheckMurder(killer);
-                    break;
-                case CustomRoles.QuickShooter:
-                    QuickShooter.QuickShooterKill(killer);
                     break;
 
                 //==========第三陣営役職==========//
@@ -273,6 +266,13 @@ internal class CheckMurderPatch
                 case CustomRoles.Medicaler:
                     Medicaler.OnCheckMurderFormedicaler(killer, target);
                     return false;
+                case CustomRoles.Counterfeiter:
+                    if (Counterfeiter.CanBeClient(target) && Counterfeiter.CanSeel(killer.PlayerId))
+                        Counterfeiter.SeelToClient(killer, target);
+                    return false;
+                case CustomRoles.QuickShooter:
+                    QuickShooter.QuickShooterKill(killer);
+                    break;
             }
         }
 
