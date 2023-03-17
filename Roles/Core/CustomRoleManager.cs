@@ -80,7 +80,7 @@ public static class CustomRoleManager
         appearanceKiller.RpcMurderPlayer(appearanceTarget);
     }
     /// <summary>
-    /// 
+    /// MurderPlayer実行後の各役職処理
     /// </summary>
     /// <param name="appearanceKiller">見た目上でキルを行うプレイヤー 可変</param>
     /// <param name="appearanceTarget">見た目上でキルされるプレイヤー 可変</param>
@@ -88,19 +88,24 @@ public static class CustomRoleManager
     {
         //MurderInfoの取得
         //CheckMurderを経由していない場合はappearanceで処理
-        CheckMurderInfos.TryGetValue(appearanceKiller.PlayerId, out var info);
+        if (!CheckMurderInfos.TryGetValue(appearanceKiller.PlayerId, out var info))
+        {
+            info = new MurderInfo(appearanceKiller, appearanceTarget, appearanceKiller, appearanceTarget);
+        }
 
-        var attemptKiller = info?.AttemptKiller ?? appearanceKiller;
-        var attemptTarget = info?.AttemptTarget ?? appearanceTarget;
+        (var attemptKiller, var attemptTarget) = info.AttemptTuple;
 
         Logger.Info($"Real Killer={attemptKiller.GetNameWithRole()}", "MurderPlayer");
 
+        //キラーの処理
         attemptKiller.GetRoleClass()?.OnMurderPlayerAsKiller(info);
+
+        //ターゲットの処理
         var targetRole = attemptTarget.GetRoleClass();
         if (targetRole != null)
             targetRole.OnMurderPlayerAsTarget(info);
         else
-            OnMurderPlayerAsTarget(attemptKiller, attemptTarget, info.IsSuicide);
+            OnMurderPlayerAsTarget(info);
 
         //以降共通処理
         if (Main.PlayerStates[attemptTarget.PlayerId].deathReason == PlayerState.DeathReason.etc)
@@ -110,7 +115,8 @@ public static class CustomRoleManager
         }
 
         Main.PlayerStates[attemptTarget.PlayerId].SetDead();
-        attemptTarget.SetRealKiller(attemptKiller, true); //既に追加されてたらスキップ
+        attemptTarget.SetRealKiller(attemptKiller, true);
+
         Utils.CountAlivePlayers(true);
         Utils.SyncAllSettings();
         Utils.NotifyRoles();
@@ -118,8 +124,14 @@ public static class CustomRoleManager
 
         CheckMurderInfos.Remove(appearanceKiller.PlayerId);
     }
-    public static void OnMurderPlayerAsTarget(PlayerControl attemptKiller, PlayerControl attemptTarget, bool suicide)
+    /// <summary>
+    /// RoleBase未実装のMurderPlayer処理
+    /// </summary>
+    /// <param name="info"></param>
+    public static void OnMurderPlayerAsTarget(MurderInfo info)
     {
+        (var attemptKiller, var attemptTarget) = info.AttemptTuple;
+        var suicide = info.IsSuicide;
         //RoleClass非対応の処理
         if (attemptTarget.Is(CustomRoles.Bait) && !suicide)
         {
