@@ -4,7 +4,6 @@
     <Description>Town Of Host: The Other Roles</Description>
     <Authors>Discussions, Tealeaf</Authors>
     <langVersion>latest</langVersion>
-    <AmongUs>E:\SteamLibrary\steamapps\common\Among Us</AmongUs>
     <RootNamespace>TOHTOR</RootNamespace>
     
     <Nullable>enable</Nullable>
@@ -12,26 +11,15 @@
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
   </PropertyGroup>
   
-  <PropertyGroup>
-    <debug>true</debug>
-  </PropertyGroup>
-  
   <ItemGroup>
-    <Reference Include="E:\SteamLibrary\steamapps\common\Among Us\dump\Assembly-CSharp-2023.2.28.dll" />
-    <PackageReference Include="AmongUs.GameLibs.Steam" Version="2023.2.28" PrivateAssets="all" />
     <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.663" PrivateAssets="all" />
+    <PackageReference Include="AmongUs.GameLibs.Steam" Version="2023.2.28" PrivateAssets="all" />
 
     <PackageReference Include="BepInEx.AutoPlugin" Version="1.1.0" PrivateAssets="all" />
     <PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="2.0.1" PrivateAssets="all" />
-    
-    <PackageReference Condition="$(Debug) == 'false'" Include="VentFramework" Version="1.1.0.58" />
 
+    <PackageReference Include="VentFramework" Version="1.2.0.23" />
     <PackageReference Include="GitInfo" Version="3.0.4" />
-    
-    <Reference Condition="$(Debug) == 'true'" Include="../VentFramework/bin/Debug/net6.0/VentFramework.dll">
-      <IncludeAssets>runtime; compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>
@@ -52,11 +40,5 @@
   
   <ItemGroup>
     <Folder Include="src\Options\Generators" />
-    <Folder Include="src\Roles\RoleGroups" />
   </ItemGroup>
-  
-  <Target Name="Copy" AfterTargets="Build" Condition="'$(AmongUs)' != ''">
-    <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(AmongUs)/BepInEx/plugins/" Condition="'$(Configuration)' == 'Debug'" />
-    <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(AmongUs) - Copy/BepInEx/plugins/" Condition="'$(Configuration)' == 'Debug'" />
-  </Target>
 </Project>
