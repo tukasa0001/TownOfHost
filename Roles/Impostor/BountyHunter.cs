@@ -96,8 +96,8 @@ namespace TownOfHost.Roles.Impostor
         {
             if (!info.IsSuicide)
             {
-                var killer = info.AttemptKiller;
-                var target = info.AttemptTarget;
+                (var killer, var target) = info.AttemptTuple;
+
                 if (GetTarget() == target)
                 {//ターゲットをキルした場合
                     Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");

@@ -67,8 +67,7 @@ namespace TownOfHost
         // 不正キル防止チェック
         public static bool CheckForInvalidMurdering(MurderInfo info)
         {
-            var killer = info.AttemptKiller;
-            var target = info.AttemptTarget;
+            (var killer, var target) = info.AttemptTuple;
 
             // Killerが既に死んでいないかどうか
             if (!killer.IsAlive())
@@ -113,7 +112,7 @@ namespace TownOfHost
                 Logger.Info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。", "CheckMurder");
                 return false;
             }
-            // キルが可能なプレイヤーか
+            // キルが可能なプレイヤーか(遠隔は除く)
             if (!info.IsFakeSuicide && !killer.CanUseKillButton())
             {
                 Logger.Info(killer.GetNameWithRole() + "はKillできないので、キルはキャンセルされました。", "CheckMurder");
@@ -124,8 +123,7 @@ namespace TownOfHost
 
         public static bool OnCheckMurderAsKiller(MurderInfo info)
         {
-            var killer = info.AppearanceKiller;
-            var target = info.AppearanceTarget;
+            (var killer, var target) = info.AttemptTuple;
 
             //キル時の特殊判定
             if (killer.PlayerId != target.PlayerId)
@@ -194,8 +192,7 @@ namespace TownOfHost
         }
         public static bool OnCheckMurderAsTarget(MurderInfo info)
         {
-            var killer = info.AppearanceKiller;
-            var target = info.AppearanceTarget;
+            (var killer, var target) = info.AttemptTuple;
 
             //キルされた時の特殊判定
             switch (target.GetCustomRole())

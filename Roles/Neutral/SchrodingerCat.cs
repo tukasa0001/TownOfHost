@@ -56,8 +56,8 @@ namespace TownOfHost.Roles.Neutral
         {
             if (Is(info.AttemptTarget))
             {
-                var killer = info.AttemptKiller;
-                var target = info.AttemptTarget;
+                (var killer, var target) = info.AttemptTuple;
+
                 //自殺ならスルー
                 if (info.IsSuicide) return true;
                 //既に変化していたらスルー

@@ -128,8 +128,8 @@ namespace TownOfHost.Roles.Crewmate
         {
             if (Is(info.AttemptKiller) && !info.IsSuicide)
             {
-                var killer = info.AttemptKiller;
-                var target = info.AttemptTarget;
+                (var killer, var target) = info.AttemptTuple;
+
                 Logger.Info($"{killer.GetNameWithRole()} : 残り{ShotLimit}発", "Sheriff");
                 if (ShotLimit <= 0)
                 {
