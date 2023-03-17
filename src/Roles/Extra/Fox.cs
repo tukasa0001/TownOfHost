@@ -1,7 +1,7 @@
 using TOHTOR.Gamemodes;
 using VentLib.Options.Game;
 
-namespace TOHTOR.Roles;
+namespace TOHTOR.Roles.Extra;
 
 public class Fox : NotImplemented
 {

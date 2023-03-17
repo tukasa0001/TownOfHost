@@ -6,13 +6,12 @@ using System.Text.RegularExpressions;
 using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
-using TOHTOR;
 using TOHTOR.API;
 using TOHTOR.Extensions;
 using VentLib.Options;
 using VentLib.Utilities.Extensions;
 
-namespace TownOfHost.Managers;
+namespace TOHTOR.Managers;
 
 public class TemplateManager
 {

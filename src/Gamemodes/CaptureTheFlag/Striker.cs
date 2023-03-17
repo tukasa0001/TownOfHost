@@ -8,6 +8,7 @@ using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.Options.Game;
 using VentLib.Utilities;
+using Impostor = TOHTOR.Roles.RoleGroups.Vanilla.Impostor;
 
 namespace TOHTOR.Gamemodes.CaptureTheFlag;
 
@@ -28,7 +29,7 @@ public class Striker: Impostor
         this.gameTimer.Start();
     }
 
-    [RoleAction(RoleActionType.AttemptKill)]
+    [RoleAction(RoleActionType.Attack)]
     private void SendBackToSpawn(PlayerControl target)
     {
         int targetTeam = target.cosmetics.bodyMatProperties.ColorId;

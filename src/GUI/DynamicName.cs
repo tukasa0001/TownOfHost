@@ -9,6 +9,7 @@ using AmongUs.Data;
 using HarmonyLib;
 using TOHTOR.API;
 using TOHTOR.Extensions;
+using TOHTOR.Managers;
 using TOHTOR.Patches.Actions;
 using TOHTOR.Player;
 using TOHTOR.Roles;
@@ -223,6 +224,8 @@ public class DynamicName
     }
 
     public void SetComponentValue(UI component, DynamicString value) => valueDictionary[component] = value;
+
+    public void RemoveComponentValue(UI component) => valueDictionary[component] = new DynamicString("");
 
     public void IncrementSize(UI component) => sizeDictionary[component] += 0.25f;
     public void DecrementSize(UI component) => sizeDictionary[component] -= 0.25f;

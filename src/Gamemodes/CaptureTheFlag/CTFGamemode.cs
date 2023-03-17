@@ -4,6 +4,7 @@ using HarmonyLib;
 using TOHTOR.API;
 using TOHTOR.Extensions;
 using TOHTOR.GUI;
+using TOHTOR.Managers;
 using TOHTOR.Managers.Date;
 using TOHTOR.Options;
 using TOHTOR.Roles;

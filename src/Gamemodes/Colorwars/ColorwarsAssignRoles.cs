@@ -5,11 +5,12 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using TOHTOR.API;
 using TOHTOR.Extensions;
-using TOHTOR.Gamemodes.FFA;
+using TOHTOR.Managers;
 using TOHTOR.Roles;
 using VentLib.Networking.RPC;
 using VentLib.Utilities.Extensions;
 using VentLib.Utilities;
+using SerialKiller = TOHTOR.Roles.RoleGroups.Impostors.SerialKiller;
 
 namespace TOHTOR.Gamemodes.Colorwars;
 

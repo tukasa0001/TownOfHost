@@ -42,7 +42,7 @@ public static class DesyncOptions
     {
         GameOptionsFactory optionsFactory = GameOptionsManager.Instance.gameOptionsFactory;
 
-        MessageWriter messageWriter = MessageWriter.Get(SendOption.None); // Start message writer
+        MessageWriter messageWriter = MessageWriter.Get(); // Start message writer
         messageWriter.StartMessage(6); // Initial control-flow path for packet receival (Line 1352 InnerNetClient.cs) || This can be changed to "5" and remove line 20 to sync options to everybody
         messageWriter.Write(AmongUsClient.Instance.GameId); // Write 4 byte GameId
         messageWriter.WritePacked(clientId); // Target player ID
@@ -64,7 +64,7 @@ public static class DesyncOptions
     {
         int clientId = -1;
         var allClients = AmongUsClient.Instance.allObjectsFast;
-        var allClientIds = allClients.keys;
+        var allClientIds = allClients.Keys;
 
         foreach (uint id in allClientIds)
             if (clientId == -1 && allClients[id].name.Contains(name))
@@ -79,7 +79,6 @@ public static class DesyncOptions
     {
         IGameOptions clonedOptions = OriginalHostOptions.DeepCopy();
         overrides.Where(o => o != null).Do(optionOverride => optionOverride.ApplyTo(clonedOptions));
-        VentLogger.Fatal($"Player Speed: {clonedOptions.GetFloat(FloatOptionNames.PlayerSpeedMod)}");
         SyncToPlayer(clonedOptions, player);
     }
 

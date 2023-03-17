@@ -3,7 +3,10 @@ using System.Linq;
 using HarmonyLib;
 using TOHTOR.API;
 using TOHTOR.Extensions;
+using TOHTOR.Managers;
 using TOHTOR.Roles;
+using TOHTOR.Roles.RoleGroups.Vanilla;
+using TOHTOR.Roles.Subrole;
 using VentLib.Utilities.Extensions;
 
 namespace TOHTOR.Gamemodes.Standard;

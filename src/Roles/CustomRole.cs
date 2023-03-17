@@ -10,8 +10,12 @@ using TOHTOR.API;
 using TOHTOR.Extensions;
 using TOHTOR.Factions;
 using TOHTOR.GUI;
+using TOHTOR.Managers;
 using TOHTOR.Options;
+using TOHTOR.Roles.Interactions;
+using TOHTOR.Roles.Interactions.Interfaces;
 using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.RoleGroups.Vanilla;
 using UnityEngine;
 using VentLib.Logging;
 using VentLib.Networking.Interfaces;
@@ -76,6 +80,11 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
 
     public virtual void OnGameStart() { }
 
+    public virtual void HandleInteraction(Interaction interaction)
+    {
+
+    }
+
     /// <summary>
     /// Adds a GameOverride that continuously modifies this instances game options until removed
     /// </summary>
@@ -112,7 +121,7 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
     public void Assign(bool desync = false)
     {
         // Here we do a "lazy" check for (all?) conditions that'd cause a role to need to be desync
-        if (this.DesyncRole != null || this is Impostor)
+        if (this.DesyncRole != null || this is RoleGroups.Vanilla.Impostor)
         {
 
             // Get the ACTUAL role to assign the player
@@ -177,7 +186,7 @@ public abstract class CustomRole : AbstractBaseRole, IRpcSendable<CustomRole>
     {
         Dictionary<UI, Type> declaringComponents = new();
 
-        CreateCooldowns();
+        CreateInstanceBasedVariables();
         this.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic)
             .Where(f => f.GetCustomAttribute<DynElement>() != null)
             .Do(f =>

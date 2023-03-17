@@ -4,7 +4,8 @@ using TOHTOR.Extensions;
 using TOHTOR.Roles;
 using TOHTOR.Roles.Internals.Attributes;
 using VentLib.Options.Game;
-using static TOHTOR.Roles.SerialKiller;
+using static TOHTOR.Roles.RoleGroups.Impostors.SerialKiller;
+using SerialKiller = TOHTOR.Roles.RoleGroups.Impostors.SerialKiller;
 
 namespace TOHTOR.Gamemodes.Colorwars;
 
@@ -24,7 +25,7 @@ public class CwPainter: SerialKillerModifier
         CheckForSuicide();
     }
 
-    [ModifiedAction(RoleActionType.AttemptKill)]
+    [ModifiedAction(RoleActionType.Attack)]
     public void ColorwarsKill(PlayerControl target)
     {
         double timeElapsed = ((DateTime.Now - Game.StartTime).TotalSeconds);

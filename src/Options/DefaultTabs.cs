@@ -20,6 +20,8 @@ public class DefaultTabs
 
     public static GameOptionTab MiscTab = new("Misc Settings", () => Utils.LoadSprite("TOHTOR.assets.Tabs.TabIcon_MiscRoles.png"));
 
+    public static GameOptionTab HiddenTab = new("Hidden", () => Utils.LoadSprite("TOHTOR.assets.TabIcon_Addons.png"));
+
     public static List<GameOptionTab> All = new() { GeneralTab, ImpostorsTab, CrewmateTab, NeutralTab, MiscTab };
 
     static DefaultTabs()

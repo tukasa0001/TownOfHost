@@ -2,12 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using TOHTOR.Roles.Neutral;
+using TOHTOR.Roles;
+using TOHTOR.Roles.Debugger;
+using TOHTOR.Roles.Extra;
+using TOHTOR.Roles.RoleGroups.Coven;
+using TOHTOR.Roles.RoleGroups.Crew;
+using TOHTOR.Roles.RoleGroups.Crew.Snitch;
+using TOHTOR.Roles.RoleGroups.Impostors;
+using TOHTOR.Roles.RoleGroups.Neutral;
+using TOHTOR.Roles.RoleGroups.NeutralKilling;
+using TOHTOR.Roles.RoleGroups.Vanilla;
+using TOHTOR.Roles.Subrole;
 using VentLib.Utilities.Attributes;
 using VentLib.Utilities.Extensions;
 using static TOHTOR.Roles.AbstractBaseRole;
+using Impostor = TOHTOR.Roles.RoleGroups.Vanilla.Impostor;
+using Medium = TOHTOR.Roles.RoleGroups.Crew.Medium;
+using SerialKiller = TOHTOR.Roles.RoleGroups.Impostors.SerialKiller;
 
-namespace TOHTOR.Roles;
+namespace TOHTOR.Managers;
 
 [LoadStatic]
 public static class CustomRoleManager
@@ -130,6 +143,7 @@ public static class CustomRoleManager
         public Puppeteer Puppeteer = new Puppeteer();
         public Vampire Vampire = new Vampire();
         public SerialKiller SerialKiller = new SerialKiller();
+        public Swooper Swooper = new Swooper();
         public Mare Mare = new Mare();
         public Camouflager Camouflager = new Camouflager();
         public Grenadier Grenadier = new Grenadier();
@@ -158,8 +172,10 @@ public static class CustomRoleManager
         public Sheriff Sheriff = new Sheriff();
         public Transporter Transporter = new Transporter();
         public Veteran Veteran = new Veteran();
+        public Medic Medic = new Medic();
         public Investigator Investigator = new Investigator();
         public Mystic Mystic = new Mystic();
+        public Mayor Mayor = new Mayor();
         public Jester Jester = new Jester();
         public CrewPostor CrewPostor = new CrewPostor();
         public Opportunist Opportunist = new Opportunist();
@@ -171,6 +187,8 @@ public static class CustomRoleManager
         public Arsonist Arsonist = new Arsonist();
         public Terrorist Terrorist = new Terrorist();
         public Executioner Executioner = new Executioner();
+        public PlagueBearer PlagueBearer = new PlagueBearer();
+        public Pestilence Pestilence = new Pestilence();
 
 
 

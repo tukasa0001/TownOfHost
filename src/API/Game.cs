@@ -6,12 +6,14 @@ using TOHTOR.Extensions;
 using TOHTOR.Factions;
 using TOHTOR.Gamemodes;
 using TOHTOR.GUI;
+using TOHTOR.Managers;
 using TOHTOR.Managers.History;
 using TOHTOR.Options;
 using TOHTOR.Player;
 using TOHTOR.Roles;
 using TOHTOR.Roles.Internals;
 using TOHTOR.Roles.Internals.Attributes;
+using TOHTOR.Roles.Subrole;
 using TOHTOR.RPC;
 using TOHTOR.Victory;
 using VentLib.Logging;
@@ -28,6 +30,7 @@ public static class Game
     public static GameHistory GameHistory = null!;
     public static GameStates GameStates = null!;
     public static RandomSpawn RandomSpawn = null!;
+    private static Dictionary<byte, string> playerNames = new();
 
     [ModRPC((uint) ModCalls.SetCustomRole, RpcActors.Host, RpcActors.NonHosts, MethodInvocation.ExecuteBefore)]
     public static void AssignRole(PlayerControl player, CustomRole role, bool sendToClient = false)
@@ -62,9 +65,39 @@ public static class Game
         GetAllPlayers()
             .Where(p => roles.Any(r => r.Is(p.GetCustomRole()) || p.GetSubroles().Any(s => s.Is(r))));
 
+    public static string GetName(PlayerControl player) => playerNames.GetValueOrDefault(player.PlayerId, "Unknown");
 
     public static void SyncAll() => GetAllPlayers().Do(p => p.GetCustomRole().SyncOptions());
     public static void TriggerForAll(RoleActionType action, ref ActionHandle handle, params object[] parameters)
+    {
+        if (action == RoleActionType.FixedUpdate)
+            foreach (PlayerControl player in GetAllPlayers()) player.Trigger(action, ref handle, parameters);
+        // Using a new Trigger algorithm to deal with ordering of triggers
+        else
+        {
+            handle.ActionType = action;
+            parameters = parameters.AddToArray(handle);
+            List<(RoleAction, AbstractBaseRole)> actionList = GetAllPlayers().SelectMany(p => p.GetCustomRole().GetActions(action)).ToList();
+            actionList.AddRange(GetAllPlayers().SelectMany(p => p.GetSubroles().SelectMany(r => r.GetActions(action))));
+            actionList.Sort((a1, a2) => a1.Item1.Priority.CompareTo(a2.Item1.Priority));
+            foreach ((RoleAction roleAction, AbstractBaseRole role) in actionList)
+            {
+                VentLogger.Fatal($"Role Action: {roleAction}, {role}");
+                bool inBlockList = role.MyPlayer != null && CustomRoleManager.RoleBlockedPlayers.Contains(role.MyPlayer.PlayerId);
+                if (StaticOptions.LogAllActions)
+                {
+                    VentLogger.Trace($"{role.MyPlayer.GetNameWithRole()} => {roleAction}", "ActionLog");
+                    VentLogger.Trace($"Parameters: {parameters.StrJoin()} :: Blocked? {roleAction.Blockable && inBlockList}", "ActionLog");
+                }
+
+                if (role.MyPlayer != null && !role.MyPlayer.IsAlive() && !roleAction.WorksAfterDeath) return;
+                if (!roleAction.Blockable || !inBlockList) roleAction.Execute(role, parameters);
+            }
+
+        }
+    }
+
+    public static void Trigger(this IEnumerable<PlayerControl> players, RoleActionType action, ref ActionHandle handle, params object[] parameters)
     {
         if (action == RoleActionType.FixedUpdate)
             foreach (PlayerControl player in GetAllPlayers()) player.Trigger(action, ref handle, parameters);
@@ -85,8 +118,8 @@ public static class Game
                     VentLogger.Trace($"Parameters: {parameters.StrJoin()} :: Blocked? {roleAction.Blockable && inBlockList}", "ActionLog");
                 }
 
-                if (!roleAction.Blockable || !inBlockList)
-                    roleAction.Execute(role, parameters);
+                if (role.MyPlayer != null && !role.MyPlayer.IsAlive() && !roleAction.WorksAfterDeath) return;
+                if (!roleAction.Blockable || !inBlockList) roleAction.Execute(role, parameters);
             }
 
         }
@@ -108,6 +141,8 @@ public static class Game
         GameStates = new();
         Players.Clear();
         GetAllPlayers().Do(p => Players.Add(p.PlayerId, new PlayerPlus(p)));
+        playerNames.Clear();
+        PlayerControl.AllPlayerControls.ToArray().ForEach(p => playerNames[p.PlayerId] = p.GetRawName());
         _winDelegate = new WinDelegate();
         CurrentGamemode.SetupWinConditions(_winDelegate);
     }

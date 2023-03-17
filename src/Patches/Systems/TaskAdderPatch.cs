@@ -2,7 +2,9 @@ using System;
 using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
+using TOHTOR.Managers;
 using TOHTOR.Roles;
+using TOHTOR.Roles.Legacy;
 using UnityEngine;
 using VentLib.Logging;
 

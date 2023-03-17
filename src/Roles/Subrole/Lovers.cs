@@ -8,7 +8,7 @@ using UnityEngine;
 using VentLib.Utilities;
 using VentLib.Utilities.Extensions;
 
-namespace TOHTOR.Roles;
+namespace TOHTOR.Roles.Subrole;
 
 public class Lovers: Subrole
 {

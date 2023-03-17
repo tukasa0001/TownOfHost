@@ -31,6 +31,11 @@ public class Cooldown
         Start(duration);
     }
 
+    public void SetDuration(float duration)
+    {
+        this.Duration = duration;
+    }
+
     public float TimeRemaining()
     {
         remaining = Mathf.Clamp(remaining - TimeElapsed(), 0, float.MaxValue);

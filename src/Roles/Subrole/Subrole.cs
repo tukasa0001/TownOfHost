@@ -1,4 +1,4 @@
-namespace TOHTOR.Roles;
+namespace TOHTOR.Roles.Subrole;
 
 public class Subrole: CustomRole
 {

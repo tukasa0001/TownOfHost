@@ -11,10 +11,15 @@ using Hazel;
 using TOHTOR.API;
 using TOHTOR.Chat.Patches;
 using TOHTOR.GUI;
+using TOHTOR.Managers;
 using TOHTOR.Options;
+using TOHTOR.Roles.Extra;
+using TOHTOR.Roles.Legacy;
 using VentLib.Localization;
 using VentLib.Logging;
 using VentLib.Utilities;
+using VentLib.Utilities.Extensions;
+using VentLib.Utilities.Optionals;
 
 namespace TOHTOR;
 
@@ -206,6 +211,8 @@ public static class Utils
 
     public static PlayerControl? GetPlayerById(int playerId) => PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(pc => pc.PlayerId == playerId);
 
+    public static Optional<PlayerControl> PlayerById(int playerId) => PlayerControl.AllPlayerControls.ToArray().FirstOrOptional(pc => pc.PlayerId == playerId);
+
     public static string GetVoteName(byte num)
     {
         string name = "invalid";
@@ -331,4 +338,33 @@ public static class Utils
 
     public static string GetOnOffColored(bool value) =>
         value ? Color.cyan.Colorize("ON") : Color.red.Colorize("OFF");
+
+    public static void RunUntilSuccess(Action action, float waitTime, Func<bool>? predicate = null)
+    {
+        Action moddedAction = action;
+        if (predicate == null)
+        {
+            bool localPredicate = false;
+            moddedAction = () =>
+            {
+                try {
+                    action();
+                    localPredicate = true;
+                }
+                catch { }
+            };
+            predicate = () => localPredicate;
+        }
+
+        void SuccessMethod()
+        {
+            Async.Schedule(() =>
+            {
+                moddedAction();
+                if (!predicate()) SuccessMethod();
+            }, waitTime);
+        }
+
+        SuccessMethod();
+    }
 }

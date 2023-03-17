@@ -29,8 +29,9 @@ public static class AntiBlackout
         GameData.Instance.AllPlayers.ToArray().Where(i => i != null).Do(i => cosmeticsCache[i.PlayerId] = (i.PlayerName, i.Outfits));
     }
 
-    public static void LoadCosmetics()
+    public static void LoadCosmetics([CallerMemberName] string callerMethodName = "")
     {
+        VentLogger.Trace($"Load Cosmetics Called From: {callerMethodName}");
         GameData.PlayerInfo[] playerInfos = GameData.Instance.AllPlayers.ToArray();
         foreach (byte playerId in cosmeticsCache.Keys)
         {
@@ -107,8 +108,7 @@ public static class AntiBlackout
         writer.StartMessage((byte)(clientId == -1 ? 5 : 6)); //0x05 GameData
         {
             writer.Write(AmongUsClient.Instance.GameId);
-            if (clientId != -1)
-                writer.WritePacked(clientId);
+            if (clientId != -1) writer.WritePacked(clientId);
             writer.StartMessage(1); //0x01 Data
             {
                 writer.WritePacked(GameData.Instance.NetId);

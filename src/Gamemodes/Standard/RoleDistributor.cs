@@ -3,6 +3,7 @@ using System.Linq;
 using HarmonyLib;
 using TOHTOR.Extensions;
 using TOHTOR.Factions;
+using TOHTOR.Managers;
 using TOHTOR.Roles;
 using VentLib.Utilities.Extensions;
 

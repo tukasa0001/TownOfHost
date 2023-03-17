@@ -2,7 +2,7 @@ using System;
 using HarmonyLib;
 using UnityEngine;
 
-namespace TOHTOR;
+namespace TOHTOR.Patches;
 
 [HarmonyPatch]
 public class MainMenuManagerPatch

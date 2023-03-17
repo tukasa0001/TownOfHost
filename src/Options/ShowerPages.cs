@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using HarmonyLib;
 using TOHTOR.API;
+using TOHTOR.Managers;
 using TOHTOR.Roles;
 using UnityEngine;
 using VentLib.Localization.Attributes;

@@ -6,6 +6,7 @@ using TOHTOR.Factions;
 using TOHTOR.Patches.Systems;
 using TOHTOR.Roles;
 using VentLib.Utilities.Extensions;
+using Impostor = TOHTOR.Roles.RoleGroups.Vanilla.Impostor;
 
 namespace TOHTOR.Victory.Conditions;
 

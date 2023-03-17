@@ -3,10 +3,11 @@ using System;
 
 namespace TOHTOR.Roles.Internals.Attributes;
 
-[AttributeUsage(AttributeTargets.Method)]
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
 public class RoleActionAttribute: Attribute
 {
     public RoleActionType ActionType { get; }
+    public bool WorksAfterDeath { get; }
     public Priority Priority { get; }
     public bool Blockable { set; get; }
     /// <summary>
@@ -18,9 +19,10 @@ public class RoleActionAttribute: Attribute
     /// </summary>
     public bool Subclassing = true;
 
-    public RoleActionAttribute(RoleActionType actionType, Priority priority = Priority.NoPriority)
+    public RoleActionAttribute(RoleActionType actionType, bool worksAfterDeath = false, Priority priority = Priority.NoPriority)
     {
         this.ActionType = actionType;
+        this.WorksAfterDeath = worksAfterDeath;
         this.Priority = priority;
         this.Blockable = actionType is not RoleActionType.AnyDeath or RoleActionType.FixedUpdate or RoleActionType.Unshapeshift or RoleActionType.RoundStart or RoleActionType.RoundEnd;
     }
@@ -37,6 +39,10 @@ public enum Priority
 
 public enum RoleActionType
 {
+    /// <summary>
+    /// Represents no action
+    /// </summary>
+    None,
     OnPet,
     /// <summary>
     /// Triggers whenever the player enters a vent (this INCLUDES vent activation)
@@ -59,12 +65,12 @@ public enum RoleActionType
     SabotageFixed,
     Shapeshift,
     Unshapeshift,
-    AttemptKill,
+    Attack,
     /// <summary>
     /// Triggered when a killer attempts to kill another player. Cancelling causes the kill to not go through
-    /// Parameters: (PlayerControl killer, PlayerControl target)
+    /// Parameters: (PlayerControl killer, PlayerControl target, Optional<IDeathEvent> deathEvent)
     /// </summary>
-    AnyMurder,
+    PlayerAttacked,
     MyDeath,
     SelfExiled,
     OtherExiled,
@@ -92,5 +98,18 @@ public enum RoleActionType
     /// </summary>
     /// <param name="voter"><see cref="PlayerControl"/> the player voting</param>
     /// <param name="voted"><see cref="PlayerControl"/> the player voted for, or null if skipped</param>
-    AnyVote
+    AnyVote,
+    /// <summary>
+    /// Triggers whenever another player interacts with THIS role
+    /// </summary>
+    /// <param name="interactor"><see cref="PlayerControl"/> the player starting the interaction</param>
+    /// <param name="interaction"><see cref="Interaction"/> the interaction</param>
+    Interaction,
+    /// <summary>
+    /// Triggers whenever another player interacts with any other player
+    /// </summary>
+    /// <param name="interactor"><see cref="PlayerControl"/> the player starting the interaction</param>
+    /// <param name="target"><see cref="PlayerControl"/> the player being interacted with</param>
+    /// <param name="interaction"><see cref="Interaction"/> the interaction</param>
+    AnyInteraction
 }

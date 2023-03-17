@@ -3,7 +3,7 @@ using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.Utilities;
 
-namespace TOHTOR.Roles;
+namespace TOHTOR.Roles.Subrole;
 
 public class Bait: Subrole
 {

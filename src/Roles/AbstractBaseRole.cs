@@ -5,10 +5,13 @@ using System.Linq;
 using System.Reflection;
 using AmongUs.GameOptions;
 using HarmonyLib;
+using Il2CppSystem.Text.Json;
 using TOHTOR.Extensions;
 using TOHTOR.Factions;
 using TOHTOR.GUI;
+using TOHTOR.Managers;
 using TOHTOR.Options;
+using TOHTOR.Roles.Extra;
 using TOHTOR.Roles.Internals;
 using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
@@ -18,6 +21,7 @@ using VentLib.Logging;
 using VentLib.Options;
 using VentLib.Options.Game;
 using VentLib.Utilities.Extensions;
+using VentLib.Utilities.Optionals;
 
 namespace TOHTOR.Roles;
 
@@ -81,7 +85,7 @@ public abstract class AbstractBaseRole
     {
         this.EnglishRoleName = this.GetType().Name.Replace("CRole", "").Replace("Role", "");
         VentLogger.Debug($"Role Name: {EnglishRoleName}");
-        CreateCooldowns();
+        CreateInstanceBasedVariables();
         // Why? Modify may reference uncreated options, yet when setting up options developers may try to reference
         // RoleColor (which is white until after Modify)
         // To solve this we call Modify to TRY to setup the role color, crashing once it requires uncreated options
@@ -98,7 +102,7 @@ public abstract class AbstractBaseRole
             if (Options.Tab == null)
             {
                 if (this is GM) { /*ignored*/ }
-                if (this is Subrole)
+                if (this is Subrole.Subrole)
                     Options.Tab = DefaultTabs.MiscTab;
                 else if (this.Factions.IsImpostor())
                     Options.Tab = DefaultTabs.ImpostorsTab;
@@ -113,7 +117,6 @@ public abstract class AbstractBaseRole
         }
 
         SetupRoleActions();
-        SetupRoleInteractions();
         //options.valueHolder?.UpdateBinding();
         _ = _editors.Aggregate(Modify(new RoleModifier(this)), (current, editor) => editor.HookModifier(current));
         //options. = RoleName;
@@ -122,10 +125,10 @@ public abstract class AbstractBaseRole
     private void SetupRoleActions()
     {
         Enum.GetValues<RoleActionType>().Do(action => this.roleActions.Add(action, new List<RoleAction>()));
-
         this.GetType().GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-            .SelectWhere(method => (method.GetCustomAttribute<RoleActionAttribute>(), method), t => t.Item1 != null)
-            .Select(t => new RoleAction(t.Item1!, t.method))
+            .SelectMany(method => method.GetCustomAttributes<RoleActionAttribute>().Select(a => (a, method)))
+            .Where(t => t.a.Subclassing || t.method.DeclaringType == this.GetType())
+            .Select(t => new RoleAction(t.Item1, t.method))
             .Do(AddRoleAction);
     }
 
@@ -140,7 +143,7 @@ public abstract class AbstractBaseRole
             return;
         }
 
-        VentLogger.Log(LogLevel.All, $"Registering Action {this.GetType()} || {action.ActionType} => {action.method.Name}");
+        VentLogger.Log(LogLevel.All, $"Registering Action {action.ActionType} => {action.method.Name} (from: \"{action.method.DeclaringType}\")", "RegisterAction");
         if (action.ActionType is RoleActionType.FixedUpdate &&
             currentActions.Count > 0)
             throw new ConstraintException("RoleActionType.FixedUpdate is limited to one per class. If you're inheriting a class that uses FixedUpdate you can add Override=METHOD_NAME to your annotation to override its Update method.");
@@ -149,29 +152,6 @@ public abstract class AbstractBaseRole
             currentActions.Add(action);
 
         this.roleActions[action.ActionType] = currentActions;
-    }
-
-    private void SetupRoleInteractions()
-    {
-        this.GetType().GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-            .Where(method => method.GetCustomAttributes<RoleInteraction>().Any())
-            .Do(method =>
-            {
-                if (method.ReturnType != typeof(InteractionResult))
-                    throw new ArgumentException("Methods annotated with RoleInteraction must have a return type of InteractionResult");
-
-                method.GetCustomAttributes<RoleInteraction>().Do(interaction => {
-                    if (interaction.RoleType != null)
-                    {
-                        if (!this.roleInteractions.ContainsKey(interaction.RoleType)) roleInteractions.Add(interaction.RoleType, new List<MethodInfo>());
-                        this.roleInteractions[interaction.RoleType].Add(method);
-                    } else if (interaction.RoleFaction != null)
-                    {
-                        if (!this.factionInteractions.ContainsKey(interaction.RoleFaction)) factionInteractions.Add(interaction.RoleFaction, new List<MethodInfo>());
-                        this.factionInteractions[interaction.RoleFaction].Add(method);
-                    }
-                });
-            });
     }
 
     public void Trigger(RoleActionType actionType, ref ActionHandle handle, params object[] parameters)
@@ -198,6 +178,7 @@ public abstract class AbstractBaseRole
                 VentLogger.Trace($"{MyPlayer.GetNameWithRole()} :: {actionType.ToString()}", "ActionLog");
                 VentLogger.Trace($"Parameters: {parameters.StrJoin()} :: Blocked? {inBlockList && action.Blockable}", "ActionLog");
             }
+            if (MyPlayer != null && !MyPlayer.IsAlive() && !action.WorksAfterDeath) return;
             if (!inBlockList || !action.Blockable)
                 action.Execute(this, parameters);
         });
@@ -229,17 +210,43 @@ public abstract class AbstractBaseRole
             : InteractionResult.Halt;
     }
 
-    protected void CreateCooldowns()
+    protected void CreateInstanceBasedVariables()
     {
+
+
         this.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-            .Where(f => f.FieldType == typeof(Cooldown))
+            .Where(f => f.FieldType == typeof(Cooldown) || (f.FieldType.IsGenericType && typeof(Optional<>).IsAssignableFrom(f.FieldType.GetGenericTypeDefinition())))
             .Do(f =>
             {
-                Cooldown value = (Cooldown)f.GetValue(this);
-                Cooldown setValue = value == null ? new Cooldown() : value.Clone();
-                value?.TimeRemaining();
-                f.SetValue(this, setValue);
+                if (f.FieldType == typeof(Cooldown)) CreateCooldown(f);
+                else CreateOptional(f);
             });
+    }
+
+    private void CreateCooldown(FieldInfo fieldInfo)
+    {
+        Cooldown? value = (Cooldown)fieldInfo.GetValue(this);
+        Cooldown setValue = value == null ? new Cooldown() : value.Clone();
+        value?.TimeRemaining();
+        fieldInfo.SetValue(this, setValue);
+    }
+
+    private void CreateOptional(FieldInfo fieldInfo)
+    {
+        ConstructorInfo GetConstructor(Type[] parameters) => AccessTools.Constructor(fieldInfo.FieldType, parameters);
+
+        object? optional = fieldInfo.GetValue(this);
+        ConstructorInfo constructor = GetOptionalConstructor(fieldInfo, optional == null);
+        object? setValue = constructor.Invoke(optional == null ? Array.Empty<object>() : new[] { optional });
+        fieldInfo.SetValue(this, setValue);
+    }
+
+    private ConstructorInfo GetOptionalConstructor(FieldInfo info, bool isNull)
+    {
+        if (isNull) return AccessTools.Constructor(info.FieldType, Array.Empty<Type>());
+        return info.FieldType.GetConstructors().First(c =>
+            c.GetParameters().SelectWhere(p => p.ParameterType, t => t!.IsGenericType).Any(tt =>
+                tt!.GetGenericTypeDefinition().IsAssignableTo(typeof(Optional<>))));
     }
 
     /// <summary>
@@ -431,7 +438,8 @@ public abstract class AbstractBaseRole
         private void SetupActions()
         {
             this.GetType().GetMethods(BindingFlags.Default | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                .SelectWhere(method => (method.GetCustomAttribute<RoleActionAttribute>(), method), t => t.Item1 != null)
+                .SelectMany(method => method.GetCustomAttributes<RoleActionAttribute>().Select(a => (a, method)))
+                .Where(t => t.a.Subclassing || t.method.DeclaringType == this.GetType())
                 .Select(t => t.Item1 is ModifiedActionAttribute modded ? new ModifiedAction(modded, t.method) : new RoleAction(t.Item1!, t.method))
                 .Do(action =>
                 {

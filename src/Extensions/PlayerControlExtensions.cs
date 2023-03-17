@@ -7,17 +7,26 @@ using Hazel;
 using InnerNet;
 using TOHTOR.API;
 using TOHTOR.GUI;
+using TOHTOR.Managers;
 using TOHTOR.Options;
 using UnityEngine;
 using TOHTOR.Roles;
 using TOHTOR.Roles.Internals;
 using TOHTOR.Roles.Internals.Attributes;
+using TOHTOR.Roles.Legacy;
+using TOHTOR.Roles.RoleGroups.Coven;
+using TOHTOR.Roles.RoleGroups.Crew;
+using TOHTOR.Roles.RoleGroups.Impostors;
+using TOHTOR.Roles.RoleGroups.Neutral;
+using TOHTOR.Roles.RoleGroups.NeutralKilling;
+using TOHTOR.Roles.Subrole;
 using TOHTOR.RPC;
 using VentLib;
 using VentLib.Utilities.Extensions;
 using VentLib.Logging;
 using VentLib.Utilities;
 using GameStates = TOHTOR.API.GameStates;
+using Impostor = TOHTOR.Roles.RoleGroups.Vanilla.Impostor;
 
 namespace TOHTOR.Extensions;
 
@@ -114,6 +123,9 @@ public static class PlayerControlExtensions
 
     public static string GetRawName(this PlayerControl? player)
     {
+        try { player = Utils.GetPlayerById(player!.PlayerId); }
+        catch { /* ignored */ }
+
         try { return player != null ? player.GetDynamicName().RawName : "Unknown"; }
         catch { return player != null ? player.Data.PlayerName : "Unknown"; }
     }
@@ -385,7 +397,7 @@ public static class PlayerControlExtensions
     // this is new
     public static bool KnowDeathReason(this PlayerControl seer, PlayerControl target)
        => (seer.Is(Doctor.Ref<Doctor>())
-            || (seer.Is(Roles.RoleType.Madmate) && StaticOptions.MadmateCanSeeDeathReason)
+            || (seer.Is(RoleType.Madmate) && StaticOptions.MadmateCanSeeDeathReason)
             || (seer.Data.IsDead && StaticOptions.GhostCanSeeDeathReason))
            && target.Data.IsDead;
 

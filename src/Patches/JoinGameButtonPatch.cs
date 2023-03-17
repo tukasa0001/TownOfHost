@@ -3,7 +3,7 @@ using HarmonyLib;
 using UnityEngine;
 using VentLib.Logging;
 
-namespace TOHTOR
+namespace TOHTOR.Patches
 {
     [HarmonyPatch(typeof(JoinGameButton), nameof(JoinGameButton.OnClick))]
     class JoinGameButtonPatch

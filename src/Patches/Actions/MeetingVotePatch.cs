@@ -1,3 +1,4 @@
+using System.Linq;
 using HarmonyLib;
 using Hazel;
 using TOHTOR.API;
@@ -23,6 +24,7 @@ public class MeetingVotePatch
         voter.Trigger(RoleActionType.MyVote, ref handle, voted);
         Game.TriggerForAll(RoleActionType.AnyVote, ref handle, voter, voted);
 
+        VentLogger.High($"Canceled: {handle.IsCanceled}");
         if (!handle.IsCanceled) return;
         Async.Schedule(() => ClearVote(__instance, voter), NetUtils.DeriveDelay(0.4f));
         Async.Schedule(() => ClearVote(__instance, voter), NetUtils.DeriveDelay(0.6f));
@@ -31,6 +33,8 @@ public class MeetingVotePatch
     private static void ClearVote(MeetingHud hud, PlayerControl target)
     {
         VentLogger.Trace($"Clearing vote for: {target.GetNameWithRole()}");
+        PlayerVoteArea voteArea = hud.playerStates.ToArray().FirstOrDefault(state => state.TargetPlayerId == target.PlayerId)!;
+        voteArea.UnsetVote();
         MessageWriter writer = MessageWriter.Get(SendOption.Reliable);
         writer.StartMessage(6);
         writer.Write(AmongUsClient.Instance.GameId);

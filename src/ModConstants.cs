@@ -19,4 +19,21 @@ public static class ModConstants
         "Red", "Blue", "Green", "Pink", "Orange", "Yellow", "Black", "White", "Purple", "Brown", "Cyan", "Lime",
         "Maroon", "Rose", "Banana", "Gray", "Tan", "Coral"
     };
+
+    public static class DeathNames
+    {
+        public const string Killed = "Killed";
+
+        public const string Suicide = "Suicide";
+
+        public const string Exiled = "Exiled";
+
+        public const string Bombed = "Bombed";
+
+        public const string Bitten = "Bitten";
+
+        public const string Cursed = "Cursed";
+
+        public const string Incinerated = "Incinerated";
+    }
 }

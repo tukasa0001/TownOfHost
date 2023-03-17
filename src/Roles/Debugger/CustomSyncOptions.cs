@@ -1,7 +1,7 @@
 using AmongUs.GameOptions;
 using TOHTOR.Options;
 
-namespace TOHTOR.Roles;
+namespace TOHTOR.Roles.Debugger;
 
 public class CustomSyncOptions
 {

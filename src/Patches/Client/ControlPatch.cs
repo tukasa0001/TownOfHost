@@ -6,6 +6,8 @@ using TOHTOR.API;
 using TOHTOR.Extensions;
 using TOHTOR.Options;
 using TOHTOR.Roles;
+using TOHTOR.Roles.RoleGroups.Crew;
+using TOHTOR.Roles.RoleGroups.NeutralKilling;
 using TOHTOR.Victory.Conditions;
 using UnityEngine;
 using VentLib.Localization;

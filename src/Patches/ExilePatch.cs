@@ -65,16 +65,24 @@ static class ExileControllerWrapUpPatch
             GameData.PlayerInfo? exiled = AntiBlackout.ExiledPlayer;
             AntiBlackout.LoadCosmetics();
             AntiBlackout.RestoreIsDead(doSend: true);
-            if (AntiBlackout.OverrideExiledPlayer && exiled?.Object != null)
-                exiled.Object.RpcExileV2();
-        }, NetUtils.DeriveDelay(1.2f));
+            if (AntiBlackout.OverrideExiledPlayer && exiled?.Object != null) exiled.Object.RpcExileV2();
+        }, NetUtils.DeriveDelay(0.8f));
 
         /*RemoveDisableDevicesPatch.UpdateDisableDevices();*/
         SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
-        VentLogger.Old("タスクフェイズ開始", "Phase");
+        VentLogger.Debug("Start Task Phase", "Phase");
 
-        AntiBlackout.LoadCosmetics();
+        //AntiBlackout.LoadCosmetics();
         AntiBlackout.FakeExiled = null;
+
+        Game.State = GameState.Roaming;
+        Async.Schedule(() =>
+        {
+            ActionHandle handle = ActionHandle.NoInit();
+            Game.TriggerForAll(RoleActionType.RoundStart, ref handle, false);
+            Game.RenderAllForAll(force: true);
+        }, 0.5f);
+
     }
 }
 

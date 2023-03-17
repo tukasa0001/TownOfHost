@@ -1,9 +1,10 @@
 using System.Linq;
 using TOHTOR.API;
 using TOHTOR.Extensions;
-using TOHTOR.Roles;
+using TOHTOR.Roles.Legacy;
 using VentLib.Logging;
 using VentLib.Utilities;
+using VentLib.Utilities.Extensions;
 
 namespace TOHTOR.Managers;
 
@@ -27,7 +28,7 @@ public static class AntiBlackoutLogic
         //if (aliveCrew > aliveImpostors) AntiBlackoutManager.RestoreIsDead();
         GameData.PlayerInfo[] allPlayers = GameData.Instance.AllPlayers.ToArray();
 
-        foreach (PlayerControl player in Game.GetAllPlayers())
+        foreach (PlayerControl player in Game.GetAllPlayers().Sorted(p => p.IsHost()))
         {
             int localImpostors = aliveImpostors;
             /*CustomRole playerRole = player.GetCustomRole();
@@ -35,12 +36,12 @@ public static class AntiBlackoutLogic
                 localImpostors = Math.Max(localImpostors, playerRole.Factions.GetAllies().Count);*/
             ReviveEveryone();
             VentLogger.Trace($"Patching for {player.GetRawName()}");
-            foreach (var info in allPlayers.Where(p => AntiBlackout.FakeExiled != p))
+            foreach (var info in allPlayers.Where(p => AntiBlackout.FakeExiled != p).Sorted(p => p.Object.IsHost()))
             {
                 if (localImpostors < aliveCrew) continue;
                 if (player.PlayerId == info.PlayerId) continue;
 
-                if (info.Object.GetCustomRole().IsCrewmate()) continue;
+                if (info.Object.GetCustomRole().RealRole.IsCrewmate() || !info.Object.GetCustomRole().IsAllied(player)) continue;
                 if (info.Object.IsHost())
                 {
                     VentLogger.Trace($"Set {info.Object.GetRawName()} => isDead = true");

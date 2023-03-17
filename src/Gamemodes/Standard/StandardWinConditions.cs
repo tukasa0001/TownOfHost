@@ -3,7 +3,10 @@ using System.Linq;
 using TOHTOR.API;
 using TOHTOR.Extensions;
 using TOHTOR.Factions;
+using TOHTOR.Managers;
 using TOHTOR.Roles;
+using TOHTOR.Roles.Legacy;
+using TOHTOR.Roles.Subrole;
 using TOHTOR.Victory.Conditions;
 
 namespace TOHTOR.Gamemodes.Standard;

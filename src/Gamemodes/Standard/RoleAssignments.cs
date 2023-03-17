@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TOHTOR.Extensions;
+using TOHTOR.Managers;
 using TOHTOR.Roles;
+using TOHTOR.Roles.RoleGroups.Vanilla;
 using VentLib.Utilities.Extensions;
 using VentLib.Logging;
 

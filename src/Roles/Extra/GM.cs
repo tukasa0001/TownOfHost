@@ -1,6 +1,7 @@
+using TOHTOR.Roles.RoleGroups.Vanilla;
 using UnityEngine;
 
-namespace TOHTOR.Roles;
+namespace TOHTOR.Roles.Extra;
 
 public class GM : Crewmate
 {

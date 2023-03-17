@@ -4,6 +4,7 @@ using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using TOHTOR.Extensions;
 using TOHTOR.Options;
 using TOHTOR.Roles;
+using TOHTOR.Roles.RoleGroups.Vanilla;
 using VentLib.Logging;
 
 namespace TOHTOR.Patches.Systems;
@@ -110,7 +111,7 @@ class RpcSetTasksPatch
         {
             T obj = list[i];
             int rand = UnityEngine.Random.Range(i, list.Count);
-            list[i] = list[rand];
+            list[i] = list[ rand];
             list[rand] = obj;
         }
     }

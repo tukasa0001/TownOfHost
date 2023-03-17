@@ -8,6 +8,7 @@ using TOHTOR.Roles.Internals;
 using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.Logging;
+using VentLib.Utilities;
 
 namespace TOHTOR.Patches.Actions;
 
@@ -24,16 +25,16 @@ class EnterVentPatch
         ActionHandle vented = ActionHandle.NoInit();
         role.Trigger(RoleActionType.MyEnterVent, ref vented, __instance);
 
-        if (!role.CanVent()) {
-            pc.MyPhysics.RpcBootFromVent(__instance.Id);
+        if (!role.CanVent() || vented.IsCanceled) {
+            Async.Schedule(() => pc.MyPhysics.RpcBootFromVent(__instance.Id), 0.4f);
             return;
         }
 
         vented = ActionHandle.NoInit();
         Game.TriggerForAll(RoleActionType.AnyEnterVent, ref vented, __instance, pc);
         if (vented.IsCanceled)
-            pc.MyPhysics.RpcBootFromVent(__instance.Id);
-        else lastVentLocation.Add(pc.PlayerId, new Vector2(__instance.Offset.x, __instance.Offset.y));
+            Async.Schedule(() => pc.MyPhysics.RpcBootFromVent(__instance.Id), 0.4f);
+        else lastVentLocation[pc.PlayerId] = new Vector2(__instance.Offset.x, __instance.Offset.y);
     }
 
     public static void CheckVentSwap(PlayerControl player)
@@ -54,6 +55,10 @@ class ExitVentPatch
 {
     public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
     {
-        EnterVentPatch.lastVentLocation.Remove(pc.PlayerId);
+
+        ActionHandle exitVent = ActionHandle.NoInit();
+        pc.GetCustomRole().Trigger(RoleActionType.VentExit, ref exitVent, __instance);
+        if (exitVent.IsCanceled) Async.Schedule(() => pc.MyPhysics.RpcEnterVent(__instance.Id), 0.0f);
+        else EnterVentPatch.lastVentLocation.Remove(pc.PlayerId);
     }
 }

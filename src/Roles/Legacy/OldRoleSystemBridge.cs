@@ -1,8 +1,11 @@
 using AmongUs.GameOptions;
 using TOHTOR.Extensions;
+using TOHTOR.Managers;
 using TOHTOR.Roles.Internals;
+using TOHTOR.Roles.RoleGroups.Impostors;
+using TOHTOR.Roles.RoleGroups.Vanilla;
 
-namespace TOHTOR.Roles;
+namespace TOHTOR.Roles.Legacy;
 
 public static class OldRoleSystemBridge
 {

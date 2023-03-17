@@ -6,6 +6,7 @@ using HarmonyLib;
 using TOHTOR.API;
 using TOHTOR.Extensions;
 using TOHTOR.Managers;
+using TOHTOR.Managers.History.Events;
 using TOHTOR.Options;
 using TOHTOR.Roles;
 using TOHTOR.Roles.Internals;
@@ -15,6 +16,7 @@ using UnityEngine;
 using VentLib.Localization;
 using VentLib.Logging;
 using VentLib.Utilities;
+using VentLib.Utilities.Extensions;
 
 namespace TOHTOR.GUI.Patches;
 
@@ -36,7 +38,7 @@ public class CheckForEndVotingPatch
             {
                 PlayerVoteArea ps = __instance.playerStates[i];
                 if (ps == null) continue;
-                VentLogger.Old(string.Format("{0,-2}{1}:{2,-3}{3}", ps.TargetPlayerId, Utils.PadRightV2($"({Utils.GetVoteName(ps.TargetPlayerId)})", 40), ps.VotedFor, $"({Utils.GetVoteName(ps.VotedFor)})"), "Vote");
+                VentLogger.Old(string.Format("{0,-2}{1}:{2,-3}{3}", ps.TargetPlayerId, $"({Utils.GetVoteName(ps.TargetPlayerId)})".PadRightV2(40), ps.VotedFor, $"({Utils.GetVoteName(ps.VotedFor)})"), "Vote");
                 var voter = Utils.GetPlayerById(ps.TargetPlayerId);
                 if (voter == null || voter.Data == null || voter.Data.Disconnected) continue;
                 statesList.Add(new MeetingHud.VoterState()
@@ -110,13 +112,20 @@ public class CheckForEndVotingPatch
         }
 
         meetingHud.ComplexVotingComplete(voterStates, fakeExiled, tie); //通常処理
+        List<PlayerControl> voters = voterStates.Where(s => s.VotedForId == exiledPlayer!.PlayerId)
+            .Filter(s => Utils.PlayerById(s.VoterId))
+            .ToList();
+        List<PlayerControl> abstainers = voterStates.Where(s => s.VotedForId != exiledPlayer!.PlayerId)
+            .Filter(s => Utils.PlayerById(s.VoterId))
+            .ToList();
+        Game.GameHistory.AddEvent(new ExiledEvent(exiledPlayer!.Object, voters, abstainers));
     }
 
 
     public static bool IsMayor(byte id)
     {
         var player = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(pc => pc.PlayerId == id);
-        return player != null && player.Is(Mayor.Ref<Mayor>());
+        return player != null && player.Is(CustomRoleManager.Static.Mayor);
     }
 }
 
@@ -147,12 +156,12 @@ class MeetingHudStartPatch
 {
     public static void Prefix(MeetingHud __instance)
     {
+        if (!AmongUsClient.Instance.AmHost) return;
         Game.State = GameState.InMeeting;
-        VentLogger.Old("------------会議開始------------", "Phase");
+        VentLogger.Info("------------Meeting Start------------", "Phase");
         ActionHandle handle = ActionHandle.NoInit();
         Game.TriggerForAll(RoleActionType.RoundEnd, ref handle, false);
         Game.RenderAllForAll(force: true);
-        "Meeting Call Done".DebugLog();
         Game.GetAlivePlayers().Do(p =>
         {
             if (Game.GameStates.MeetingCalled == 0 && TOHPlugin.PluginDataManager.TemplateManager.TryFormat(p, "meeting-first", out string msg))
@@ -162,7 +171,14 @@ class MeetingHudStartPatch
                 Utils.SendMessage(message, p.PlayerId);
         });
         Game.GameStates.MeetingCalled++;
-        Async.Schedule(() => Game.GetAllPlayers().Do(p => p.RpcSetName(p.GetRawName())), NetUtils.DeriveDelay(1.25f));
+        Async.Schedule(() => PlayerControl.LocalPlayer.RpcSetName(PlayerControl.LocalPlayer.GetRawName()), NetUtils.DeriveDelay(0f));
+        Async.Schedule(() => PlayerControl.LocalPlayer.RpcSetName(PlayerControl.LocalPlayer.GetRawName()), NetUtils.DeriveDelay(0.1f));
+        Async.Schedule(() => PlayerControl.LocalPlayer.RpcSetName(PlayerControl.LocalPlayer.GetRawName()), NetUtils.DeriveDelay(0.2f));
+        Async.Schedule(() => PlayerControl.LocalPlayer.RpcSetName(PlayerControl.LocalPlayer.GetRawName()), NetUtils.DeriveDelay(0.3f));
+        Async.Schedule(() => PlayerControl.LocalPlayer.RpcSetName(PlayerControl.LocalPlayer.GetRawName()), NetUtils.DeriveDelay(0.4f));
+        Async.Schedule(() => PlayerControl.LocalPlayer.RpcSetName(PlayerControl.LocalPlayer.GetRawName()), NetUtils.DeriveDelay(0.5f));
+        Async.Schedule(() => PlayerControl.LocalPlayer.RpcSetName(PlayerControl.LocalPlayer.GetRawName()), NetUtils.DeriveDelay(0.6f));
+        Async.Schedule(() => PlayerControl.LocalPlayer.RpcSetName(PlayerControl.LocalPlayer.GetRawName()), NetUtils.DeriveDelay(0.7f));
     }
     public static void Postfix(MeetingHud __instance)
     {
@@ -221,22 +237,14 @@ class SetHighlightedPatch
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.OnDestroy))]
 class MeetingHudOnDestroyPatch
 {
-    public static void Prefix()
-    {
-        AntiBlackout.SetIsDead();
-        Thread.Sleep(300);
-    }
-
     public static void Postfix()
     {
-        Game.State = GameState.Roaming;
-        VentLogger.Old("------------会議終了------------", "Phase");
+        if (!AmongUsClient.Instance.AmHost) return;
+        AntiBlackout.SetIsDead();
+        VentLogger.Debug("------------End of Meeting------------", "Phase");
         /*if (AmongUsClient.Instance.AmHost)
         {
             Game.GetAllPlayers().Do(pc => RandomSpawn.CustomNetworkTransformPatch.NumOfTP[pc.PlayerId] = 0);
         }*/
-        ActionHandle handle = ActionHandle.NoInit();
-        Game.TriggerForAll(RoleActionType.RoundStart, ref handle, false);
-        Game.RenderAllForAll(force: true);
     }
 }

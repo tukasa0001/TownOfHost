@@ -4,13 +4,14 @@ using System.Linq;
 using AmongUs.GameOptions;
 using TOHTOR.API;
 using TOHTOR.Extensions;
+using TOHTOR.Managers;
 using TOHTOR.Roles.Internals.Attributes;
 using TOHTOR.Victory.Conditions;
 using UnityEngine;
 using VentLib.Logging;
 using VentLib.Options.Game;
 
-namespace TOHTOR.Roles;
+namespace TOHTOR.Roles.Debugger;
 
 public class Debugger: CustomRole
 {

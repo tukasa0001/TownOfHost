@@ -5,10 +5,15 @@ using TOHTOR.API;
 using TOHTOR.Extensions;
 using TOHTOR.Options;
 using TOHTOR.Roles;
-using TOHTOR.Roles.Neutral;
+using TOHTOR.Roles.Legacy;
+using TOHTOR.Roles.RoleGroups.Crew;
+using TOHTOR.Roles.RoleGroups.Impostors;
+using TOHTOR.Roles.RoleGroups.Neutral;
+using TOHTOR.Roles.RoleGroups.NeutralKilling;
 using UnityEngine;
 using VentLib.Localization;
 using VentLib.Utilities;
+using Impostor = TOHTOR.Roles.RoleGroups.Vanilla.Impostor;
 
 namespace TOHTOR.GUI.Patches;
 

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
+using TOHTOR.Managers;
 
 namespace TOHTOR.Roles.Internals.Attributes;
 

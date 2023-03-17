@@ -3,11 +3,11 @@ using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using TOHTOR.API;
-using TOHTOR.Roles;
+using TOHTOR.Managers;
 using VentLib.Networking.RPC;
 using VentLib.Utilities;
 
-namespace TOHTOR.Gamemodes.FFA;
+namespace TOHTOR.Gamemodes.Colorwars;
 
 // ReSharper disable once InconsistentNaming
 public static class FFAAssignRoles

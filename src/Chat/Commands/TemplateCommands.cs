@@ -1,6 +1,6 @@
 using System.Linq;
 using HarmonyLib;
-using TownOfHost.Managers;
+using TOHTOR.Managers;
 using VentLib.Commands;
 using VentLib.Commands.Attributes;
 using VentLib.Commands.Interfaces;

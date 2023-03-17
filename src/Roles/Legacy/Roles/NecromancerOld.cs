@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using TOHTOR.Extensions;
 using TOHTOR.Options;
-using TOHTOR.Roles;
+using TOHTOR.Roles.RoleGroups.Coven;
+using TOHTOR.Roles.RoleGroups.Crew;
+using TOHTOR.Roles.RoleGroups.Impostors;
+using TOHTOR.Roles.RoleGroups.NeutralKilling;
 using VentLib.Logging;
 
-
-namespace TOHTOR
+namespace TOHTOR.Roles.Legacy.Roles
 {
     public static class NecromancerOld
     {

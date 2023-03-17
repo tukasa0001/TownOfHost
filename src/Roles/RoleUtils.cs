@@ -1,17 +1,23 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TOHTOR.API;
 using TOHTOR.Extensions;
 using TOHTOR.GUI;
+using TOHTOR.Managers.History.Events;
+using TOHTOR.Patches.Systems;
+using TOHTOR.Roles.Interactions;
+using TOHTOR.Roles.Interactions.Interfaces;
 using TOHTOR.Roles.Internals;
 using TOHTOR.Roles.Internals.Attributes;
 using UnityEngine;
 using VentLib.Networking.RPC;
 using VentLib.Utilities;
+using VentLib.Utilities.Optionals;
 
 namespace TOHTOR.Roles;
 
-public class RoleUtils
+public static class RoleUtils
 {
     public static string Arrows = "→↗↑↖←↙↓↘・";
 
@@ -52,6 +58,7 @@ public class RoleUtils
 
     public static void PlayReactorsForPlayer(PlayerControl player)
     {
+        if (SabotagePatch.CurrentSabotage is SabotageType.Reactor) return;
         byte reactorId = GameOptionsManager.Instance.CurrentGameOptions.MapId == 2 ? (byte)21 : (byte)3;
         RpcV2.Immediate(ShipStatus.Instance.NetId, RpcCalls.RepairSystem).Write(reactorId)
             .Write(player).Write((byte)128).Send(player.GetClientId());
@@ -59,6 +66,7 @@ public class RoleUtils
 
     public static void EndReactorsForPlayer(PlayerControl player)
     {
+        if (SabotagePatch.CurrentSabotage is SabotageType.Reactor) return;
         byte reactorId = GameOptionsManager.Instance.CurrentGameOptions.MapId == 2 ? (byte)21 : (byte)3;
         RpcV2.Immediate(ShipStatus.Instance.NetId, RpcCalls.RepairSystem).Write(reactorId)
             .Write(player).Write((byte)16).Send(player.GetClientId());
@@ -74,23 +82,49 @@ public class RoleUtils
             : Color.white.Colorize("(" + color.Value.Colorize($"{numerator}/{denominator}") + ")");
     }
 
-    public static string Cooldown(Cooldown cooldown)
+    public static string Cooldown(Cooldown cooldown, Color? color1 = null, Color? color2 = null)
     {
-        return cooldown.ToString() == "0" ? "" : $"<color=#ed9247>CD:</color> {Color.white.Colorize(cooldown + "s")}";
+        color1 ??= new Color(0.93f, 0.57f, 0.28f);
+        color2 ??= Color.white;
+        return cooldown.ToString() == "0" ? "" : $"{color1.Value.Colorize("CD:")} {color2.Value.Colorize(cooldown + "s")}";
     }
 
-    public static bool RoleCheckedMurder(PlayerControl killer, PlayerControl target)
+    public static bool Attack(this PlayerControl killer, PlayerControl target, Func<IDeathEvent>? causeOfDeath = null)
     {
         if (!target.IsAlive()) return false;
+        ActionHandle handle = ActionHandle.NoInit();
+        Optional<IDeathEvent> deathEvent = Optional<IDeathEvent>.Of(causeOfDeath?.Invoke());
+        Game.TriggerForAll(RoleActionType.PlayerAttacked, ref handle, killer, target, deathEvent);
+
+        if (handle.IsCanceled)
+        {
+            Game.GameHistory.AddEvent(new KillEvent(killer, target, false));
+            killer.RpcGuardAndKill(target);
+            return false;
+        }
+
         if (!target.GetCustomRole().CanBeKilled()) {
             ShowGuardianShield(target);
             return false;
         }
 
+        Optional<IDeathEvent> currentDeathEvent = Game.GameHistory.GetCauseOfDeath(target.PlayerId);
+        deathEvent.IfPresent(death => Game.GameHistory.SetCauseOfDeath(target.PlayerId, death));
         killer.RpcMurderPlayer(target);
         ActionHandle ignored = ActionHandle.NoInit();
         if (target.IsAlive()) Game.TriggerForAll(RoleActionType.SuccessfulAngelProtect, ref ignored, target, killer);
+        else currentDeathEvent.IfPresent(de => Game.GameHistory.SetCauseOfDeath(target.PlayerId, de));
         return true;
+    }
+
+    public static InteractionResult InteractWith(this PlayerControl player, PlayerControl target, Interaction interaction)
+    {
+        ActionHandle handle = ActionHandle.NoInit();
+        PlayerControl.AllPlayerControls.ToArray().Where(p => p.PlayerId != interaction.Emitter().MyPlayer.PlayerId).Trigger(RoleActionType.AnyInteraction, ref handle, player, target, interaction);
+        if (player.PlayerId != target.PlayerId) target.GetCustomRole().Trigger(RoleActionType.Interaction, ref handle, player, interaction);
+        if (!handle.IsCanceled || interaction is IUnblockedInteraction) interaction.Intent().Action(player, target);
+        if (handle.IsCanceled) interaction.Intent().Halted(player, target);
+        return handle.IsCanceled ? InteractionResult.Halt : InteractionResult.Proceed;
     }
 
     public static void ShowGuardianShield(PlayerControl target) {
@@ -123,5 +157,14 @@ public class RoleUtils
         player2.Collider.enabled = true;
         player1.NetTransform.enabled = true;
         player2.NetTransform.enabled = true;
+    }
+
+    public static Action<bool> BindOnOffListSetting<T>(List<T> list, T obj)
+    {
+        return b =>
+        {
+            if (!b) list.Remove(obj);
+            else if (!list.Contains(obj)) list.Add(obj);
+        };
     }
 }

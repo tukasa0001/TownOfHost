@@ -4,15 +4,23 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using TOHTOR.API;
 using TOHTOR.Extensions;
+using TOHTOR.Managers;
 using TOHTOR.Options;
 using TOHTOR.Roles;
+using TOHTOR.Roles.Extra;
 using TOHTOR.Roles.Internals;
 using TOHTOR.Roles.Internals.Attributes;
+using TOHTOR.Roles.Legacy;
+using TOHTOR.Roles.RoleGroups.Crew;
+using TOHTOR.Roles.RoleGroups.Impostors;
+using TOHTOR.Roles.RoleGroups.Neutral;
+using TOHTOR.Roles.RoleGroups.NeutralKilling;
 using UnityEngine;
 using VentLib.Anticheat;
 using VentLib.Localization;
 using VentLib.Logging;
 using VentLib.Utilities;
+using Impostor = TOHTOR.Roles.RoleGroups.Vanilla.Impostor;
 
 namespace TOHTOR.Patches;
 
@@ -95,7 +103,7 @@ class BeginCrewmatePatch
 {
     public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
     {
-        if (PlayerControl.LocalPlayer.Is(Roles.RoleType.Neutral))
+        if (PlayerControl.LocalPlayer.Is(RoleType.Neutral))
         {
             //ぼっち役職
             var soloTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
@@ -274,8 +282,7 @@ class IntroCutsceneDestroyPatch
                 }, 2f);
         }
 
-        if (PlayerControl.LocalPlayer.Is(CustomRoleManager.Special.GM))
-            PlayerControl.LocalPlayer.RpcExileV2();
+        if (PlayerControl.LocalPlayer.Is(CustomRoleManager.Special.GM)) PlayerControl.LocalPlayer.RpcExileV2();
 
         if (StaticOptions.RandomSpawn) Game.GetAllPlayers().Do(p => Game.RandomSpawn.Spawn(p));
 

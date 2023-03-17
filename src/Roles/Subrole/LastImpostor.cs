@@ -1,6 +1,6 @@
 using VentLib.Logging;
 
-namespace TOHTOR.Roles;
+namespace TOHTOR.Roles.Subrole;
 
 public class LastImpostor : Subrole
 {

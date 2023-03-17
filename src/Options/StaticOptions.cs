@@ -1,4 +1,5 @@
 using TOHTOR.Extensions;
+using TOHTOR.Managers;
 using TOHTOR.Roles;
 using UnityEngine;
 using VentLib.Localization;
@@ -186,7 +187,7 @@ public static class StaticOptions
     public static bool MayhemOptions;
     public static bool DebugOptions;
     public static bool AllRolesCanVent;
-    public static bool LogAllActions;
+    public static bool LogAllActions = true;
 
 
     public static void AddStaticOptions()

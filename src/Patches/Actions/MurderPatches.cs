@@ -3,6 +3,7 @@ using TOHTOR.API;
 using TOHTOR.Extensions;
 using TOHTOR.Gamemodes;
 using TOHTOR.Managers.History;
+using TOHTOR.Managers.History.Events;
 using TOHTOR.Roles.Internals;
 using TOHTOR.Roles.Internals.Attributes;
 using VentLib.Logging;
@@ -48,10 +49,7 @@ public static class MurderPatches
             if (killer.PlayerId == target.PlayerId) return false;
 
             ActionHandle handle = ActionHandle.NoInit();
-            Game.TriggerForAll(RoleActionType.AnyMurder, ref handle, killer, target);
-            if (handle.IsCanceled) return false;
-
-            killer.Trigger(RoleActionType.AttemptKill, ref handle, target);
+            killer.Trigger(RoleActionType.Attack, ref handle, target);
             return false;
         }
     }
@@ -61,11 +59,22 @@ public static class MurderPatches
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             VentLogger.Old($"{__instance.GetNameWithRole()} => {target.GetNameWithRole()}{(target.protectedByGuardian ? "(Protected)" : "")}", "MurderPlayer");
-            Game.GameHistory.AddEvent(new DeathEvent(target, __instance.PlayerId == target.PlayerId ? null : __instance));
         }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             if (!target.Data.IsDead) return;
+
+            VentLogger.Info($"Murder Patch: {Game.GameHistory.GetCauseOfDeath(target.PlayerId)}");
+            IDeathEvent deathEvent = Game.GameHistory.GetCauseOfDeath(target.PlayerId)
+                .OrElseGet(() => __instance.PlayerId == target.PlayerId
+                    ? new SuicideEvent(__instance)
+                    : new DeathEvent(target, __instance)
+                );
+
+            Game.GameHistory.AddEvent(deathEvent);
+            Game.GameHistory.SetCauseOfDeath(target.PlayerId, deathEvent);
+
+
             ActionHandle ignored = ActionHandle.NoInit();
             target.Trigger(RoleActionType.MyDeath, ref ignored, __instance);
             Game.TriggerForAll(RoleActionType.AnyDeath, ref ignored, target, __instance);

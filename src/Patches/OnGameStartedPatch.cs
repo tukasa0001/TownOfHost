@@ -7,11 +7,11 @@ using TOHTOR.Extensions;
 using TOHTOR.Gamemodes;
 using TOHTOR.Managers;
 using TOHTOR.Options;
-using TOHTOR.Patches;
 using TOHTOR.Roles;
+using TOHTOR.Roles.RoleGroups.NeutralKilling;
 using VentLib.Logging;
 
-namespace TOHTOR
+namespace TOHTOR.Patches
 {
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame))]
     class ChangeRoleSettings
