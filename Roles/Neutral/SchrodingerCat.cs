@@ -38,6 +38,12 @@ namespace TownOfHost.Roles.Neutral
         static OptionItem OptionChangeTeamWhenExile;
         static OptionItem OptionCanSeeKillableTeammate;
 
+        enum OptionName
+        {
+            CanBeforeSchrodingerCatWinTheCrewmate,
+            SchrodingerCatExiledTeamChanges,
+            SchrodingerCatCanSeeKillableTeammate,
+        }
         static bool CanWinTheCrewmateBeforeChange;
         static bool ChangeTeamWhenExile;
         static bool CanSeeKillableTeammate;
@@ -48,9 +54,9 @@ namespace TownOfHost.Roles.Neutral
             var tab = RoleInfo.Tab;
             var parent = RoleInfo.RoleOption;
 
-            OptionCanWinTheCrewmateBeforeChange = BooleanOptionItem.Create(id + 10, "CanBeforeSchrodingerCatWinTheCrewmate", false, tab, false).SetParent(parent);
-            OptionChangeTeamWhenExile = BooleanOptionItem.Create(id + 11, "SchrodingerCatExiledTeamChanges", false, tab, false).SetParent(parent);
-            OptionCanSeeKillableTeammate = BooleanOptionItem.Create(id + 12, "SchrodingerCatCanSeeKillableTeammate", false, tab, false).SetParent(parent);
+            OptionCanWinTheCrewmateBeforeChange = BooleanOptionItem.Create(id + 10, OptionName.CanBeforeSchrodingerCatWinTheCrewmate, false, tab, false).SetParent(parent);
+            OptionChangeTeamWhenExile = BooleanOptionItem.Create(id + 11, OptionName.SchrodingerCatExiledTeamChanges, false, tab, false).SetParent(parent);
+            OptionCanSeeKillableTeammate = BooleanOptionItem.Create(id + 12, OptionName.SchrodingerCatCanSeeKillableTeammate, false, tab, false).SetParent(parent);
         }
         public override bool OnCheckMurderAsTarget(MurderInfo info)
         {

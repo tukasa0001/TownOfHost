@@ -42,7 +42,13 @@ namespace TownOfHost.Roles.Impostor
         static OptionItem SniperPrecisionShooting;
         static OptionItem SniperAimAssist;
         static OptionItem SniperAimAssistOnshot;
-
+        enum OptionName
+        {
+            SniperBulletCount,
+            SniperPrecisionShooting,
+            SniperAimAssist,
+            SniperAimAssistOneshot
+        }
         Vector3 SnipeBasePosition;
         Vector3 LastPosition;
         int BulletCount;
@@ -63,11 +69,11 @@ namespace TownOfHost.Roles.Impostor
             var id = RoleInfo.ConfigId;
             var tab = RoleInfo.Tab;
             var parent = RoleInfo.RoleOption;
-            SniperBulletCount = IntegerOptionItem.Create(id + 10, "SniperBulletCount", new(1, 5, 1), 2, tab, false).SetParent(parent)
+            SniperBulletCount = IntegerOptionItem.Create(id + 10, OptionName.SniperBulletCount, new(1, 5, 1), 2, tab, false).SetParent(parent)
                 .SetValueFormat(OptionFormat.Pieces);
-            SniperPrecisionShooting = BooleanOptionItem.Create(id + 11, "SniperPrecisionShooting", false, tab, false).SetParent(parent);
-            SniperAimAssist = BooleanOptionItem.Create(id + 12, "SniperAimAssist", false, tab, false).SetParent(parent);
-            SniperAimAssistOnshot = BooleanOptionItem.Create(id + 13, "SniperAimAssistOneshot", false, tab, false).SetParent(SniperAimAssist);
+            SniperPrecisionShooting = BooleanOptionItem.Create(id + 11, OptionName.SniperPrecisionShooting, false, tab, false).SetParent(parent);
+            SniperAimAssist = BooleanOptionItem.Create(id + 12, OptionName.SniperAimAssist, false, tab, false).SetParent(parent);
+            SniperAimAssistOnshot = BooleanOptionItem.Create(id + 13, OptionName.SniperBulletCount, false, tab, false).SetParent(SniperAimAssist);
         }
         public override void Add()
         {
