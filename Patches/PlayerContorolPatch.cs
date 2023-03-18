@@ -290,9 +290,11 @@ namespace TownOfHost
             Main.PlayerStates[target.PlayerId].SetDead();
             target.SetRealKiller(killer, true); //既に追加されてたらスキップ
             Utils.CountAlivePlayers(true);
+
+            Utils.TargetDies(__instance, target);
+
             Utils.SyncAllSettings();
             Utils.NotifyRoles();
-            Utils.TargetDies(__instance, target);
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
