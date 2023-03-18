@@ -75,9 +75,12 @@ internal static class QuickShooter
     }
     public static void OnMeetingStart()
     {
+        Dictionary<byte, int> NewSL = new();
         foreach (var sl in ShotLimit)
+            NewSL.Add(sl.Key, Math.Clamp(sl.Value, 0, MeetingReserved.GetInt()));
+        foreach (var sl in NewSL)
         {
-            ShotLimit[sl.Key] = Math.Clamp(sl.Value, 0, MeetingReserved.GetInt());
+            ShotLimit[sl.Key] = sl.Value;
             SendRPC(sl.Key);
         }
     }
