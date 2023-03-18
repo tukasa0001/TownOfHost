@@ -169,6 +169,7 @@ public class Main : BasePlugin
 
     //一些很新的东东
 
+    public static GameObject ShadowQuad;
     public static Dictionary<int, byte> LastRPC = new();
     public static string OverrideWelcomeMsg = "";
 

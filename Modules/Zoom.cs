@@ -30,6 +30,7 @@ public static class Zoom
                 {
                     if (Camera.main.orthographicSize < 18.0f)
                     {
+                        if ((Main.ShadowQuad = GameObject.Find("ShadowQuad")) != null) Main.ShadowQuad.SetActive(false);
                         SetZoomSize(times: true);
                     }
                 }
@@ -40,18 +41,16 @@ public static class Zoom
         {
             Flag.Run(() =>
             {
+                if ((Main.ShadowQuad = GameObject.Find("ShadowQuad")) != null) Main.ShadowQuad.SetActive(true);
                 SetZoomSize(reset: true);
             }, "Zoom");
         }
     }
 
-    public static GameObject ShadowQuad;
-
     private static void SetZoomSize(bool times = false, bool reset = false)
     {
         var size = 1.5f;
         if (!times) size = 1 / size;
-        if ((ShadowQuad = GameObject.Find("ShadowQuad")) != null) ShadowQuad.SetActive(!times || reset);
         if (reset)
         {
             Camera.main.orthographicSize = 3.0f;
