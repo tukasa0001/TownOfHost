@@ -153,11 +153,11 @@ public class PlayerGameOptionsSender : GameOptionsSender
                 break;
             case CustomRoles.Veteran:
                 AURoleOptions.EngineerCooldown = Options.VeteranSkillCooldown.GetFloat();
-                AURoleOptions.EngineerInVentMaxTime = 0.01f;
+                AURoleOptions.EngineerInVentMaxTime = 1;
                 break;
             case CustomRoles.Grenadier:
                 AURoleOptions.EngineerCooldown = Options.GrenadierSkillCooldown.GetFloat();
-                AURoleOptions.EngineerInVentMaxTime = 0.01f;
+                AURoleOptions.EngineerInVentMaxTime = 1;
                 break;
             case CustomRoles.FFF:
                 opt.SetVision(true);
