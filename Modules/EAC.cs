@@ -99,7 +99,7 @@ internal class EAC
                     break;
                 case RpcCalls.ReportDeadBody:
                     var p1 = Utils.GetPlayerById(sr.ReadByte());
-                    if (p1 == null || (p1.IsAlive() && !p1.Is(CustomRoles.Paranoia)))
+                    if (p1 != null && p1.IsAlive() && !p1.Is(CustomRoles.Paranoia) && !p1.Is(CustomRoles.GM))
                     {
                         WarnHost();
                         Report(pc, "非法报告尸体");
