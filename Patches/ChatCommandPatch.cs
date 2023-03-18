@@ -88,11 +88,8 @@ internal class ChatCommands
             Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Revenge;
             Main.PlayerStates[target.PlayerId].SetDead();
             Main.MafiaRevenged[pc.PlayerId]++;
-            foreach (var cpc in Main.AllPlayerControls)
-            {
-                RPC.PlaySoundRPC(cpc.PlayerId, Sounds.KillSound);
-                cpc.RpcSetNameEx(cpc.GetRealName(isMeeting: true));
-            }
+            foreach (var pc in Main.AllPlayerControls)
+                RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
             ChatUpdatePatch.DoBlockChat = false;
             Utils.NotifyRoles(isMeeting: true, NoCache: true);
         }, 0.9f, "Mafia Kill");
@@ -885,10 +882,6 @@ internal class ChatCommands
                 {
                     Utils.SendMessage(GetString("Message.CanNotUseInLobby"), player.PlayerId);
                     break;
-                }
-                foreach (var pc in Main.AllPlayerControls)
-                {
-                    pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
                 }
                 ChatUpdatePatch.DoBlockChat = false;
                 Utils.NotifyRoles(isMeeting: GameStates.IsMeeting, NoCache: true);

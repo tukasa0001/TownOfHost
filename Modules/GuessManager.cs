@@ -186,13 +186,9 @@ public static class GuessManager
                 {
                     dp.SetRealKiller(pc);
                     RpcGuesserMurderPlayer(dp);
-                    foreach (var cpc in Main.AllPlayerControls)
-                    {
-                        cpc.RpcSetNameEx(cpc.GetRealName(isMeeting: true));
-                    }
-                    ChatUpdatePatch.DoBlockChat = false;
 
-                    //Terrorist
+                    //死者检查
+                    FixedUpdatePatch.LoversSuicide(target.PlayerId);
                     if (target.Is(CustomRoles.Terrorist))
                     {
                         Logger.Info(target?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");

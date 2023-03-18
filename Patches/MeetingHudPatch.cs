@@ -673,9 +673,7 @@ internal class MeetingHudStartPatch
             _ = new LateTask(() =>
             {
                 foreach (var pc in Main.AllPlayerControls)
-                {
                     pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
-                }
                 ChatUpdatePatch.DoBlockChat = false;
             }, 3f, "SetName To Chat");
         }
