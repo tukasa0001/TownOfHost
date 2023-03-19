@@ -81,8 +81,8 @@ BallLightning,球状闪电,Lightning,Молния
 Greedier,贪婪者,Greedy,Жадина
 CursedWolf,呪狼,Cursed Wolf,Проклятый Волк
 ImperiusCurse,夺魂者,Soul Catcher,Ловец Душ
-QuickShooter,快枪手
-Concealer,隐蔽者
+QuickShooter,快枪手,Quick Shooter,Стрелок
+Concealer,隐蔽者,Concealer,Консилер
 
 # 船员阵营
 Bait,诱饵,Bait,Байт
@@ -131,7 +131,7 @@ Gamer,玩家,Demon,Демон
 DarkHide,潜藏者,Stalker,Сталкер
 Workaholic,工作狂,Workaholic,Трудоголик
 Collector,集票者,Collector,Коллектор
-Provocateur,自爆卡车
+Provocateur,自爆卡车,Provocateur,Провокатор
 
 # 附加职业
 LastImpostor,绝境者,Last Impostor,Последний Предатель
@@ -194,8 +194,8 @@ BallLightningInfo,量子轰炸！,Turn the player into a quantum ghost,Прев�
 GreedierInfo,再多杀一个吧,Kill another and another...,Убей ещё одного и ещё одного...
 CursedWolfInfo,杀我是你做过最愚蠢的决定,Killing me is the worst idea.,Убивать меня - худшая идея
 ImperiusCurseInfo,啊对啊，我是红色，那我还能是谁呢,Change position,Изменяй положение
-QuickShooterInfo,I have a big PLAN！
-ConcealerInfo,当所有人戴上面具，一切都自由了！
+QuickShooterInfo,I have a big PLAN！,I have a big PLAN!,У меня есть большой ПЛАН!
+ConcealerInfo,当所有人戴上面具，一切都自由了！,Change the appearance of all players,Измени облик всех игроков
 
 # 船员阵营
 BaitInfo,好消息，杀了我可以吃席,Bait your enemies,Убийца моментально зарепортит ваш труп
@@ -245,7 +245,7 @@ GamerInfo,Lv又增加了捏~,Drink all the blood of the players,Выпейте �
 DarkHideInfo,降下黑暗，释放恐惧！,"Descend into the darkness, release Fear!","Спускайся во тьму, освободи Страх!"
 WorkaholicInfo,卷死他们！,Do your tasks and win!,Сделай свои задания и победи!
 CollectorInfo,是收集癖的胜利！,Collect enough votes,Соберите достаточное количество голосов
-ProvocateurInfo,你急了，你寄了
+ProvocateurInfo,你急了，你寄了,Victory with help target,Победите с помощью цели
 
 # 附加职业
 LoversInfo,最重要的是，记得照顾好你的另一半,Survive with your Lover,Выживите со своим Любовником
@@ -308,9 +308,9 @@ MessengerInfoLong,(内鬼阵营):\n情报贩子可以在会议上知道最后所
 BallLightningInfoLong,(内鬼阵营):\n球状闪电无法进行常规击杀。球状闪电对目标使用击杀按键后，目标会在设定时间后汽化为量子幽灵，所有人都可以看到量子幽灵的名字旁有「■」作为提示。若期间有非球状闪电且非量子幽灵的玩家接触量子幽灵，量子幽灵会立刻量子化而死亡。若量子幽灵存活到会议则会在会议结束后死亡。任何对量子幽灵的主动互动（击杀按键）均无效。根据房主设定，击杀球状闪电可能导致凶手汽化为量子幽灵。,"(Impostors):\nLightning cannot perform regular kills. After he uses the ''Kill'' button on a target, the target will turn into a quantum ghost after a set amount of time. All players will see 「■」 next to the Quantum Ghost's name. If Lightning and any player contacts the Quantum Ghost during the period, the Quantum Ghost will be killed immediately. If the quantum ghost survives to meet, it will die immediately after the meeting. Any active interaction (''Kill'' button) with a quantum ghost is not allowed. Depending on the settings, Lightning can cause the killer to turn into a quantum ghost","(Предатель):\nМолния не может совершать обычные убийства. После того, как он использует кнопку ''Убить'' на цели, то цель превратится в квантового призрака через установленное время. Все игроки увидят 「■」 рядом с именем квантового призрака. Если Молния и любой игрок свяжется с квантовым призраком в течение периода, квантовый призрак будет немедленно убит. Если квантовый призрак доживет до встречи, он умрет сразу же после встречи. Любое активное взаимодействие (кнопка ''Убить'') с квантовым призраком недопустимо. В зависимости от настроек, Молния может заставить убийцу превратить в квантового призрака"
 GreedierInfoLong,(内鬼阵营):\n贪婪者奇数次和偶数次的击杀，会拥有不同的击杀冷却。每次开会都会重置贪婪者的击杀冷却，贪婪者的第一次击杀永远是奇数击杀。,"(Impostors):\nEven and odd kills will have different kill cooldowns. Kill cooldown resets every match, first kill always counts as an odd kill","(Предатель):\nЧетные и нечетные убийства будут иметь разные откаты убийст. Время отката убийства сбрасывается каждую встерчу, первое убийство всегда считается нечетным убийством."
 CursedWolfInfoLong,(内鬼阵营):\n当呪狼即将被击杀时，呪狼会将凶手诅咒致死。（可以反击的次数根据房主设定）,"(Impostors):\nWhen the Cursed Wolf is attempted to be killed, the Cursed Wolf will curse the killer to death. (Number of counterattack is configurable by the Host.)","(Предатель):\nКогда Проклятого Волка попытаются убить, Проклятый Волк прокляст убийцу до смерти. (Количество контраттаки настраивается Хостом.)"
-ImperiusCurseInfoLong,(内鬼阵营):\n夺魂者完成变形后可以与变形目标交换位置。（若目标处于非正常状态例如死亡、被吞、管道内等则无事发生）,"(Impostors):\nUse the player's Shapeshift and Shapeshift to reposition while keeping his Shapeshift","(Предатель):\nИспользуйте Морф и Морф игрока, чтобы изменить положение, сохраняя при этом его Морф."
-QuickShooterInfoLong,(内鬼阵营):\n当击杀冷却结束时，快枪手可以通过变形重置击杀冷却并储存一颗子弹（储存成功时快枪手身上会出现仅自己可见的护盾破碎动画作为提示）。快枪手完成击杀后可以用子弹抵消击杀冷却，直到子弹耗尽。每次会议开始快枪手只能保留一定数量的子弹（数量根据房主设定）。
-ConcealerInfoLong,(内鬼阵营):\n隐蔽者变形后会让所有人变成小黑人，这个状态下所有人都看起来得一模一样。技能持续时间根据房主设定。请注意：通讯破坏小黑人与隐蔽者的技能可以叠加。
+ImperiusCurseInfoLong,(内鬼阵营):\n夺魂者完成变形后可以与变形目标交换位置。（若目标处于非正常状态例如死亡、被吞、管道内等则无事发生）,"(Impostors):\nAfter the Soul Catcher completes shapehift, it can swap positions with the target it has chosen. (If the target is in an abnormal state such as dying, being swallowed, and being in a vent, etc., nothing will happen)","(Предатель):\nПосле того, как Ловец Душ завершит Морф, он может поменяться позициями с целью которую он выбрал.(Если цель находится в ненормальном состоянии, таком как: смерть, проглатывание, нахождение в вентиляции и т.д. то ничего не произойдет)."
+QuickShooterInfoLong,(内鬼阵营):\n当击杀冷却结束时，快枪手可以通过变形重置击杀冷却并储存一颗子弹（储存成功时快枪手身上会出现仅自己可见的护盾破碎动画作为提示）。快枪手完成击杀后可以用子弹抵消击杀冷却，直到子弹耗尽。每次会议开始快枪手只能保留一定数量的子弹（数量根据房主设定）。,"(Impostors):\nWhen the kill cooldown is up, the fast shooter can reset the kill cooldown by shapeshifting and saving the bullet (when the save is successful, it will have a shield break animation visible only to itself). After Quick Shooter makes a kill, he can offset the kill reload time with bullets until he runs out of bullets. At the beginning of each encounter, the Quick Shooter can only leave a certain amount of ammo (the amount is set by the Host).","(Предатель):\nКогда откат убийства истекло, быстрый стрелок может сбросить откат убийства морфом и сохранив пулю (когда хранение прошло успешно, на нём появится анимация разрушения щита, видимая только ему самому). После того, как Стрелок совершит убийство, он может компенсировать время отката убийства пулями, пока у него не закончатся пули. В начале каждой встречи  Стрелок может оставить только определенное количество патронов (количество устанавливается Хостом)."
+ConcealerInfoLong,(内鬼阵营):\n隐蔽者变形后会让所有人变成小黑人，这个状态下所有人都看起来得一模一样。技能持续时间根据房主设定。请注意：通讯破坏小黑人与隐蔽者的技能可以叠加。,"(Impostors):\nAfter the shapeshift Concealer, everyone will turn into little black men, and everyone in this state will look exactly the same. The duration of the skill is set by the Host. Please note: When everyone becomes a little black man and camouflage works at the same time, they can be stacked on top of each other.","(Предатель):\nПосле того, как Консилер Морфанётся, все превратятся в маленьких черных человечков, и все в этом состоянии будут выглядеть совершенно одинаково. Продолжительность действия навыка устанавливается Хостом. Пожалуйста, обратите внимание: Когда все становятся маленькими черными человечками и одновременно работает камуфляж, они могут быть наложены друг на друга."
 
 # 双阵营
 GuesserInfoLong,(内鬼阵营或船员阵营):\n赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。,"(Impostors or Crewmate):\nGuesser can guess the roles of certain players during an encounter. If he guesses the role correctly, he will kill that target, and if wrong, he will commit suicide. \nGuessing command: ''/bt [Player ID] [Role Name]'' \nExample: /bt 3 Bait \nYou can see the player ID before the player's nickname, or you can use the ''/id'' command to see the IDs of all players.","(Предатель или Член Экипажа):\nУгадыватель может угадывать роли определённого игрока во время встречи. Если он угадает роль правильно, то он убьет эту цель, а если неправильно, то он совершит самоубийство. \nКоманда для угадываний: '/bt [Номер игрока] [Название Роли]'' \nПример: /bt 3 Байт \nВы можете увидеть номер игрока перед его никнеймом, или же для просмотра номеров всех игроков нужно использовать команду ''/id'' ."
@@ -362,7 +362,7 @@ GamerInfoLong,(中立阵营):\n仅剩玩家阵营与船员阵营且玩家阵营�
 DarkHideInfoLong,(中立阵营):\n潜藏者可以击杀任何人，且每次击杀都会立刻造成电力破坏（若电力已经被破坏则无事发生）。潜藏者无法使用通风管道。若潜藏者存活时内鬼胜利或船员通过击杀内鬼胜利（根据房主设定船员击杀中立玩家胜利时潜藏者也可能抢夺胜利），则潜藏者抢夺胜利。,"(Neutrals):\nA stalker can kill anyone, and can kill through a shield. The stalker cannot jump on hatches. If the stalker survives and the impostors or Crewmates win (and the neutrals, by the Host's setting), he takes the victory for himself.","(Нейтрал)\nСталкер может убить кого угодно, и может убить сквозь щит. Сталкер не может прыгать по люкам. Если сталкер выживает, а предатели или члены экипажа побеждают (и нейтралы, по настройке Хоста), он забирает победу себе."
 WorkaholicInfoLong,(中立阵营):\n工作狂拥有更多的任务，当工作狂完成所有任务后单独胜利。（根据房主设定，工作狂死后完成任务也可能胜利）,"(Neutrals):\nWorkaholics have more tasks, when the Workaholic has done all his tasks, he wins himself. (Can be set by the Host, making a quest after the death of the Workaholic also grants a chance to win.)","(Нейтрал)\nТрудоголики имеют больше заданий, когда Трудоголик сделает все свои задания, он побеждает сам. (Может быть установлено Хостом, сделая залания после смерти Трудоголика также даёт возможность победить.)"
 CollectorInfoLong,(中立阵营):\n集票者投票给一名玩家后，可以收集到本次会议该玩家被投的所有票数。当集票者收集到指定数量的票后，则集票者单独胜利。请注意：集票者的胜利优先于驱逐玩家。,"(Neutrals):\nAfter the Collector votes for a player, he can collect all the votes cast by the player in that meeting. When the Collector reaches the specified number of votes, the Collector wins individually. Please note: the Collector's victory takes precedence over the ejected player.","(Нейтрал):\nПосле того, как Коллектор проголосует за игрока, он может собрать все голоса, поданные игроком на этой встрече. Когда Коллектор собирает указанное количество голосов, Коллектор выигрывает отдельно. Пожалуйста, обратите внимание: победа Коллектора имеет приоритет перед исключением игрока."
-ProvocateurInfoLong,(中立阵营):\n自爆卡车可以用击杀键与任意目标同归于尽。若游戏结束时目标输了，则自爆卡车与胜利阵营一起胜利。
+ProvocateurInfoLong,(中立阵营):\n自爆卡车可以用击杀键与任意目标同归于尽。若游戏结束时目标输了，则自爆卡车与胜利阵营一起胜利。,"(Neutrals):\nThe Provocateur can use the kill button to kill any target. If the target loses at the end of the game, Provocateur will win along with the winning team.","(Нейтрал)\nПровокатор может использовать кнопку уничтожения, чтобы погибнуть вместе с любой целью. Если цель проиграет в конце игры, Провокатор выиграет вместе с победной командой."
 
 # 附加职业
 LastImpostorInfoLong,(附加职业):\n这个效果在内鬼仅剩一人时赋予该内鬼。使其击杀冷却缩短。该效果对赏金猎人、嗜血杀手以及吸血鬼等击杀方式特殊的职业不适用。,"(Add-ons):\nAn Add-on granted to the last Impostor remaining.\nKill cooldown is reduced according to this setting.\nNot granted to Bounty Hunters, Serial Killers, or Vampires.","(Атрибут):\nАтрибут, присваивается последнему Предателю. \nВремя отката убийства становится меньше, чем обычно. \nНе назначается Охотнику за головами, Серийному убийце или Вампиру."
@@ -439,7 +439,7 @@ RoleOptions,职业设置,Role Options,Настройка Ролей
 ModeOptions,模组设置,Mode Options,Настройка Режима
 AutoStart,人满自动开始,Auto start at full lobby,Авто. запуск игры при полном лобби
 DisableTOHE,切换为原版,Disable TOHE,Отключить TOHE
-UnlockFPS,解锁帧数限制
+UnlockFPS,解锁帧数限制,Unlock FPS,Убрать ограничение FPS
 AutoDisplayLastResult,自动显示最终结果,Auto Display Last Result,Отображать результат последней игры в чате
 EnableUpMode,启用创作者保护计划（试验性）,启用创作者保护计划（试验性）,启用创作者保护计划（试验性）
 AutoKickStart,踢出催开始的人,Kick the player who writes start,Кикнуть игрока который пишет start (Только англ)
@@ -692,12 +692,12 @@ GuardSpellTimes,反杀次数上限,Number of Cursed Shields,Количество
 CollectorCollectAmount,需要集票数量,Required number of votes,Необходимое количество голосов
 GlitchCanVote,可以投票,Can vote,Может голосовать
 ShapeshiftDuration,变形持续时间,Shapeshift duration,Продолжительность морфа
-ShapeshiftCooldown,变形冷却时间
-QuickShooterShapeshiftCooldown,储存子弹冷却时间
-MeetingReserved,会议保留子弹数量
-AccurateCheckMode,未完成任务时可占卜准确职业
-ConcealerSkillCooldown,隐蔽冷却时间
-ConcealerSkillDuration,隐蔽持续时间
+ShapeshiftCooldown,变形冷却时间,Shapeshift cooldown,Откат морфа
+QuickShooterShapeshiftCooldown,储存子弹冷却时间,Shapeshift cooldown,Откат морфа
+MeetingReserved,会议保留子弹数量,"Number of bullets reserved for the meeting","Количество пуль, зарезервированных для встречи"
+AccurateCheckMode,未完成任务时可占卜准确职业,"Exact lesson for divination when all tasks are not completed","Точное занятие для гадания, когда все задания не выполнены"
+ConcealerSkillCooldown,隐蔽冷却时间,Skill cooldown,Откат навыка
+ConcealerSkillDuration,隐蔽持续时间,Skill duration,Длительность навыка
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
@@ -720,7 +720,7 @@ DeathReason.Sacrifice,牺牲,Victim,Жертва
 DeathReason.Quantization,量子化,Quantization,Квантование
 DeathReason.Overtired,猝死,Overtired,Переработал
 DeathReason.Ashamed,卷死,Ashamed,Пристыженный
-DeathReason.PissedOff,气死
+DeathReason.PissedOff,气死,Destroyed,Уничтожен
 DeathReason.etc,其它,Other,Другое
 Alive,存活,Alive,Выжил
 Win,胜利, Wins, Победили
@@ -826,7 +826,7 @@ Error.MeetingException,错误: {0}\n请立刻按下 Shift+M+Enter 强制结束�
 Error.InvalidRoleAssignment,错误：在分配职业时发现职业无效的玩家 ({0}),Error: Invalid role found for a player during role assignment({0}),Ошибка: Во время назначения роли для игрока обнаружена недопустимая роль({0})
 Error.SpeedBoosterNullException,错误：增速者的增速目标为空,Error: The speed boost destination is null.\nPlease save the log and create a bug report ticket.,Ошибка: пункт назначения повышения скорости не указан. \nСохраните логи и создайте заявку на отчет об ошибке.
 Error.InvalidColor,警告：存在使用非法颜色的玩家，可能引起游戏错误,"Error: Only default colors are available","Ошибка: Нельзя использовать другие цвета, кроме цветов по умолчанию"
-Error.InvalidColorPreventStart,其他玩家加载中时不允许开始游戏，否则会引起严重错误
+Error.InvalidColorPreventStart,其他玩家加载中时不允许开始游戏，否则会引起严重错误,"Other players are not allowed to use other colors, otherwise it will result in a serious error","Другим игрокам не разрешается использовать другие цвета, в противном случае это приведет к серьезной ошибке"
 ### ErrorText関連,
 ErrorLevel1,可能同时产生多个bug,Bugs may occur.,Могут возникнуть некоторые ошибки.
 ErrorLevel2,可能出现bug,This may be a bug.,Возможно вы столкнулись с ошибкой.
@@ -970,15 +970,15 @@ RevolutionistDrawButtonText,拉拢,Win over,Покорить
 FFFButtonText,制裁,Hatred,Ненависть
 MedicalerButtonText,保护,Protect,Защитить
 GamerButtonText,攻击,Attack,Атаковать
-ImperiusCurseButtonText,夺舍
+ImperiusCurseButtonText,夺舍,Teleport,Переместится
 BallLightningButtonText,汽化,Evaporation,Испарение
-ProvocateurButtonText,问候
-AssassinShapeshiftText,刺杀
+ProvocateurButtonText,问候,Greet,Приветствовать
+AssassinShapeshiftText,刺杀,Kill,Убить
 BomberShapeshiftText,自爆,Explode,Взорваться
-QuickShooterShapeshiftText,储存
-ConcealerShapeshiftText,隐蔽
+QuickShooterShapeshiftText,储存,Keep,Хранить
+ConcealerShapeshiftText,隐蔽,Disguise,Маскироваться
 DefaultShapeshiftText,变形,Shift,Превращение
-DefaultRevertShapeshiftText,解除
+DefaultRevertShapeshiftText,解除,Rever,Отменить
 DisabledBySettings,已在设置被中禁用,Disabled by Settings,Отключено настройкой
 Disabled,禁用,Disabled,Отключено
 FailToTrack,无法追踪,Failed To Track,Не Удалось Отследить
@@ -993,7 +993,7 @@ turnOn,开,On,Вкл
 turnOff,关,Off,Выкл
 CancelStartCountDown,开始倒计时被取消,The countdown to the start of the game has been cancelled,Обратный отсчет до начала игры был отменён
 RestTOHESetting,已恢复TOHE的默认设置,TOHE settings have been restored to default,Настройки TOHE были восстановлены по умолчанию
-FPSSetTo,帧数上限设置为: {0}
+FPSSetTo,帧数上限设置为: {0},FPS Set To: {0},FPS Установлен на: {0}
 HostKillSelfByCommand,房主选择自杀,Host lobby decided to commit suicide,Хост лобби решил покончить с собой
 SyncCustomSettingsRPC,已同步RPC,Synchronized RPC,Синхронизированный RPC
 TOHEVisitorCount,截至今日，TOHE已经被使用 <color={0}>{1}</color>次 啦~,To date TOHE has been used <color={0}>{1}</color> times~,На сегодняшний день TOHE использовался <color={0}>{1}</color> раз~
@@ -1043,7 +1043,7 @@ DivinatorCheck.None,【{0}】或许会就这么平凡一辈子,"Looks like 【{0
 
 DivinatorCheck.Glitch,TV2gPZ4wUJWYr{0}05gA6T5PKzBG17,TV2gPZ4wUJWYr{0}05gA6T5PKzBG17,TV2gPZ4wUJWYr{0}05gA6T5PKzBG17
 
-DivinatorCheck.TaskDone,【{0}】的职业是【{1}】
+DivinatorCheck.TaskDone,【{0}】的职业是【{1}】,【{0}】Role -【{1}】,【{0}】Роль -【{1}】
 
 ## 模组信息
 DevAndSpnTitle,TOHE大家族,"""TOHE"" family","Семья ""TOHE"""
@@ -1063,11 +1063,11 @@ TranRU,俄语,Russian Translator,Русский Переводчик
 OnlyShowPart,仅显示部分,Show only part,Показать только часть
 
 ## 断连提示
-DCNotify.Hacking,您被AmongUs官方反作弊系统踢出\r\n（使用模组可能被误当作作弊）
-DCNotify.Banned,您被该房间封禁
-DCNotify.Kicked,您被该房间踢出
-DCNotify.DCFromServer,您与服务器的连接已中断\r\n这可能是因为您的网络不稳定\r\n也可能是因为服务器不稳定或拒绝了您的访问
-DCNotify.GameNotFound,未找到指定房间，可能是房间已解散\r\n或检查您是否选择了与房间不同的服务器
-DCNotify.GameStarted,该房间正在游戏中，请等待游戏结束后加入
-DCNotify.GameFull,该房间已满人，请稍后重试
-DCNotify.IncorrectVersion,您的AmongUs版本与该房间不同
+DCNotify.Hacking,您被AmongUs官方反作弊系统踢出\r\n（使用模组可能被误当作作弊）,You have been kicked out of the official anti-hacking system Among Us\r\n (module use may be mistaken for cheats),Вас выгнала из официальная система борьбы с хакерством Among Us\r\n (использование модуля может быть ошибочно принято за читы)
+DCNotify.Banned,您被该房间封禁,You are not allowed to enter this room,Вам запрещено входить в эту комнату
+DCNotify.Kicked,您被该房间踢出,You are kicked out of the room,Вас кикнули из комнаты
+DCNotify.DCFromServer,您与服务器的连接已中断\r\n这可能是因为您的网络不稳定\r\n也可能是因为服务器不稳定或拒绝了您的访问,Your connection to the server has been lost\r\n This may be due to instability in your network\r\n This may also be due to server instability,Ваше соединение с сервером было разорвано\r\n Это может быть связано с нестабильностью вашей сети\r\n Это также может быть связано с нестабильностью сервера
+DCNotify.GameNotFound,未找到指定房间，可能是房间已解散\r\n或检查您是否选择了与房间不同的服务器,"The assigned room was not found, the room may have been disbanded\r\n or check if you have selected a different server from the room","Назначенная комната не была найдена, возможно, комната была расформирована\r\n или проверьте, не выбрали ли вы другой сервер из комнаты"
+DCNotify.GameStarted,该房间正在游戏中，请等待游戏结束后加入,"Room in the game, please wait until the end of the game","Комната в игре, пожалуйста, дождитесь окончания игры"
+DCNotify.GameFull,该房间已满人，请稍后重试,"The room is full, please try again later","Комната переполнена, пожалуйста, попробуйте еще раз позже"
+DCNotify.IncorrectVersion,您的AmongUs版本与该房间不同,Your version of Among Us is different from this room,Ваша версия Among Us отличается от этой комнаты
