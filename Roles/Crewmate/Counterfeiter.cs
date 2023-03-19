@@ -32,6 +32,10 @@ public static class Counterfeiter
     {
         playerIdList.Add(playerId);
         SeelLimit.Add(playerId, CounterfeiterSkillLimitTimes.GetInt());
+
+        if (!AmongUsClient.Instance.AmHost) return;
+        if (!Main.ResetCamPlayerList.Contains(playerId))
+            Main.ResetCamPlayerList.Add(playerId);
     }
     public static bool IsEnable => playerIdList.Count > 0;
     private static void SendRPC(byte playerId)

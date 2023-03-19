@@ -180,6 +180,9 @@ public class PlayerGameOptionsSender : GameOptionsSender
             case CustomRoles.QuickShooter:
                 AURoleOptions.ShapeshifterCooldown = QuickShooter.ShapeshiftCooldown.GetFloat();
                 break;
+            case CustomRoles.Concealer:
+                AURoleOptions.ShapeshifterCooldown = Concealer.SkillCooldown.GetFloat();
+                break;
         }
 
         // 为迷惑者的凶手

@@ -159,6 +159,9 @@ internal class HudManagerPatch
                     case CustomRoles.Provocateur:
                         __instance.KillButton.OverrideText($"{GetString("ProvocateurButtonText")}");
                         break;
+                    case CustomRoles.Concealer:
+                        __instance.AbilityButton.OverrideText($"{GetString("ConcealerShapeshiftText")}");
+                        break;
                 }
 
                 //バウンティハンターのターゲットテキスト

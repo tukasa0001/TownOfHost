@@ -1,5 +1,6 @@
 using HarmonyLib;
 using System.Collections.Generic;
+using TOHE.Roles.Impostor;
 
 namespace TOHE;
 
@@ -43,20 +44,20 @@ public static class Camouflage
     }
     public static void CheckCamouflage()
     {
-        if (!(AmongUsClient.Instance.AmHost && Options.CommsCamouflage.GetBool())) return;
+        if (!(AmongUsClient.Instance.AmHost && (Options.CommsCamouflage.GetBool() || Concealer.IsHidding))) return;
 
         var oldIsCamouflage = IsCamouflage;
 
-        IsCamouflage = Utils.IsActive(SystemTypes.Comms);
+        IsCamouflage = Utils.IsActive(SystemTypes.Comms) || Concealer.IsHidding;
 
         if (oldIsCamouflage != IsCamouflage)
         {
-            Main.AllPlayerControls.Do(pc => Camouflage.RpcSetSkin(pc));
+            Main.AllPlayerControls.Do(pc => RpcSetSkin(pc));
         }
     }
     public static void RpcSetSkin(PlayerControl target, bool ForceRevert = false, bool RevertToDefault = false)
     {
-        if (!(AmongUsClient.Instance.AmHost && Options.CommsCamouflage.GetBool())) return;
+        if (!(AmongUsClient.Instance.AmHost && (Options.CommsCamouflage.GetBool() || Concealer.IsHidding))) return;
         if (target == null) return;
 
         var id = target.PlayerId;

@@ -52,7 +52,6 @@ public static class Gamer
             PlayerHealth.TryAdd(pc.PlayerId, HealthMax.GetInt());
 
         if (!AmongUsClient.Instance.AmHost) return;
-
         if (!Main.ResetCamPlayerList.Contains(playerId))
             Main.ResetCamPlayerList.Add(playerId);
     }

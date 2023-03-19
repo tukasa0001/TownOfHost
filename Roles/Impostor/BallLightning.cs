@@ -99,7 +99,7 @@ public static class BallLightning
         RealKiller.TryAdd(killer.PlayerId, target);
         StartConvertCountDown(target, killer);
     }
-    public static void FixedUpdate()
+    public static void OnFixedUpdate()
     {
         if (!IsEnable || GhostPlayer.Count < 1 || !GameStates.IsInTask || GameStates.IsMeeting) return;
         List<byte> deList = new();

@@ -712,6 +712,7 @@ internal class ShapeshiftPatch
         if (shapeshifter.Is(CustomRoles.EvilTracker)) EvilTracker.OnShapeshift(shapeshifter, target, shapeshifting);
         if (shapeshifter.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
         if (shapeshifter.Is(CustomRoles.QuickShooter)) QuickShooter.OnShapeshift(shapeshifter, shapeshifting);
+        if (shapeshifter.Is(CustomRoles.Concealer)) Concealer.OnShapeshift(shapeshifter, shapeshifting);
 
         //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換え
         if (!shapeshifting)
@@ -743,7 +744,7 @@ internal class ReportDeadBodyPatch
         //杀戮机器无法报告或拍灯
         if (__instance.Is(CustomRoles.Minimalism)) return false;
         //禁止小黑人报告
-        if (Utils.IsActive(SystemTypes.Comms) && Options.CommsCamouflage.GetBool() && Options.DisableReportWhenCC.GetBool()) return false;
+        if (((Utils.IsActive(SystemTypes.Comms) && Options.CommsCamouflage.GetBool()) || Concealer.IsHidding) && Options.DisableReportWhenCC.GetBool()) return false;
 
         if (target == null) //拍灯事件
         {
@@ -979,10 +980,12 @@ internal class FixedUpdatePatch
                 }
             }
 
-            Pelican.FixedUpdate();
+            Pelican.OnFixedUpdate();
             DoubleTrigger.OnFixedUpdate(player);
             Vampire.OnFixedUpdate(player);
-            BallLightning.FixedUpdate();
+            BallLightning.OnFixedUpdate();
+            Concealer.OnFixedUpdate();
+
             if (GameStates.IsInTask && CustomRoles.SerialKiller.IsEnable()) SerialKiller.FixedUpdate(player);
             if (GameStates.IsInTask && Main.WarlockTimer.ContainsKey(player.PlayerId))//処理を1秒遅らせる
             {
@@ -1417,7 +1420,7 @@ internal class FixedUpdatePatch
                 /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(target.PlayerId, out var isBlocked)) {
                     Mark = isBlocked ? "(true)" : "(false)";
                 }*/
-                if (Utils.IsActive(SystemTypes.Comms) && Options.CommsCamouflage.GetBool())
+                if ((Utils.IsActive(SystemTypes.Comms) && Options.CommsCamouflage.GetBool()) || Concealer.IsHidding)
                     RealName = $"<size=0>{RealName}</size> ";
 
                 string DeathReason = seer.Data.IsDead && seer.KnowDeathReason(target) ? $"({Utils.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), Utils.GetVitalText(target.PlayerId))})" : "";

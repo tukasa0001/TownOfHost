@@ -82,6 +82,7 @@ Greedier,贪婪者,Greedy,Жадина
 CursedWolf,呪狼,Cursed Wolf,Проклятый Волк
 ImperiusCurse,夺魂者,Soul Catcher,Ловец Душ
 QuickShooter,快枪手
+Concealer,隐蔽者
 
 # 船员阵营
 Bait,诱饵,Bait,Байт
@@ -194,6 +195,7 @@ GreedierInfo,再多杀一个吧,Kill another and another...,Убей ещё од
 CursedWolfInfo,杀我是你做过最愚蠢的决定,Killing me is the worst idea.,Убивать меня - худшая идея
 ImperiusCurseInfo,啊对啊，我是红色，那我还能是谁呢,Change position,Изменяй положение
 QuickShooterInfo,I have a big PLAN！
+ConcealerInfo,当所有人戴上面具，一切都自由了！
 
 # 船员阵营
 BaitInfo,好消息，杀了我可以吃席,Bait your enemies,Убийца моментально зарепортит ваш труп
@@ -308,6 +310,7 @@ GreedierInfoLong,(内鬼阵营):\n贪婪者奇数次和偶数次的击杀，会�
 CursedWolfInfoLong,(内鬼阵营):\n当呪狼即将被击杀时，呪狼会将凶手诅咒致死。（可以反击的次数根据房主设定）,"(Impostors):\nWhen the Cursed Wolf is attempted to be killed, the Cursed Wolf will curse the killer to death. (Number of counterattack is configurable by the Host.)","(Предатель):\nКогда Проклятого Волка попытаются убить, Проклятый Волк прокляст убийцу до смерти. (Количество контраттаки настраивается Хостом.)"
 ImperiusCurseInfoLong,(内鬼阵营):\n夺魂者完成变形后可以与变形目标交换位置。（若目标处于非正常状态例如死亡、被吞、管道内等则无事发生）,"(Impostors):\nUse the player's Shapeshift and Shapeshift to reposition while keeping his Shapeshift","(Предатель):\nИспользуйте Морф и Морф игрока, чтобы изменить положение, сохраняя при этом его Морф."
 QuickShooterInfoLong,(内鬼阵营):\n当击杀冷却结束时，快枪手可以通过变形重置击杀冷却并储存一颗子弹（储存成功时快枪手身上会出现仅自己可见的护盾破碎动画作为提示）。快枪手完成击杀后可以用子弹抵消击杀冷却，直到子弹耗尽。每次会议开始快枪手只能保留一定数量的子弹（数量根据房主设定）。
+ConcealerInfoLong,(内鬼阵营):\n隐蔽者变形后会让所有人变成小黑人，这个状态下所有人都看起来得一模一样。技能持续时间根据房主设定。请注意：通讯破坏小黑人与隐蔽者的技能可以叠加。
 
 # 双阵营
 GuesserInfoLong,(内鬼阵营或船员阵营):\n赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。,"(Impostors or Crewmate):\nGuesser can guess the roles of certain players during an encounter. If he guesses the role correctly, he will kill that target, and if wrong, he will commit suicide. \nGuessing command: ''/bt [Player ID] [Role Name]'' \nExample: /bt 3 Bait \nYou can see the player ID before the player's nickname, or you can use the ''/id'' command to see the IDs of all players.","(Предатель или Член Экипажа):\nУгадыватель может угадывать роли определённого игрока во время встречи. Если он угадает роль правильно, то он убьет эту цель, а если неправильно, то он совершит самоубийство. \nКоманда для угадываний: '/bt [Номер игрока] [Название Роли]'' \nПример: /bt 3 Байт \nВы можете увидеть номер игрока перед его никнеймом, или же для просмотра номеров всех игроков нужно использовать команду ''/id'' ."
@@ -693,6 +696,8 @@ ShapeshiftCooldown,变形冷却时间
 QuickShooterShapeshiftCooldown,储存子弹冷却时间
 MeetingReserved,会议保留子弹数量
 AccurateCheckMode,未完成任务时可占卜准确职业
+ConcealerSkillCooldown,隐蔽冷却时间
+ConcealerSkillDuration,隐蔽持续时间
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
@@ -971,6 +976,7 @@ ProvocateurButtonText,问候
 AssassinShapeshiftText,刺杀
 BomberShapeshiftText,自爆,Explode,Взорваться
 QuickShooterShapeshiftText,储存
+ConcealerShapeshiftText,隐蔽
 DefaultShapeshiftText,变形,Shift,Превращение
 DefaultRevertShapeshiftText,解除
 DisabledBySettings,已在设置被中禁用,Disabled by Settings,Отключено настройкой

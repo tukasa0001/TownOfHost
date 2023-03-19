@@ -584,6 +584,9 @@ internal static class RPC
             case CustomRoles.Collector:
                 Collector.Add(targetId);
                 break;
+            case CustomRoles.Concealer:
+                Concealer.Add(targetId);
+                break;
         }
         HudManager.Instance.SetHudActive(true);
         if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();
