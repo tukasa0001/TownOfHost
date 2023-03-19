@@ -360,24 +360,23 @@ public static class Utils
         foreach (var subRole in States.SubRoles)
             switch (subRole)
             {
+                case CustomRoles.Madmate:
+                    if (role is CustomRoles.SpeedBooster or CustomRoles.Snitch or CustomRoles.Transporter or CustomRoles.TimeManager or CustomRoles.SabotageMaster)
+                        hasTasks = !ForRecompute;
+                    else hasTasks = false;
+                    break;
                 case CustomRoles.Lovers:
                     //ラバーズがクルー陣営の場合タスクを付与しない
-                    if (role.IsCrewmate() && Options.LoverHasNoTask.GetBool())
+                    if (role.IsCrewmate() && (Options.LoverHasNoTask.GetBool() || ForRecompute))
                         hasTasks = false;
-                    break;
-                case CustomRoles.Madmate:
-                    if (role is not CustomRoles.SpeedBooster or CustomRoles.Snitch or CustomRoles.Transporter or CustomRoles.TimeManager)
-                        hasTasks = false;
-                    else hasTasks = !ForRecompute;
                     break;
             }
-
         return hasTasks;
     }
     public static bool CanBeMadmate(this PlayerControl pc)
     {
         return pc != null && pc.GetCustomRole().IsCrewmate() && !pc.Is(CustomRoles.Madmate)
-&& !(
+        && !(
             (pc.Is(CustomRoles.Sheriff) && !Options.SheriffCanBeMadmate.GetBool()) ||
             (pc.Is(CustomRoles.Mayor) && !Options.MayorCanBeMadmate.GetBool()) ||
             (pc.Is(CustomRoles.NiceGuesser) && !Options.NGuesserCanBeMadmate.GetBool()) ||

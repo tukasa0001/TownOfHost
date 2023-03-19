@@ -1,5 +1,8 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
+using Hazel;
+using InnerNet;
+using MS.Internal.Xml.XPath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -164,12 +167,42 @@ public class TaskState
         if (!hasTasks) return;
 
         //FIXME:SpeedBooster class transplant
-        if (!player.Data.IsDead
+        if (player.IsAlive()
         && player.Is(CustomRoles.SpeedBooster)
         && ((CompletedTasksCount + 1) <= Options.SpeedBoosterTimes.GetInt()))
         {
-            Logger.Info("增速者触发加速:" + player.cosmetics.nameText.text, "SpeedBooster");
+            Logger.Info("增速者触发加速:" + player.GetNameWithRole(), "SpeedBooster");
             Main.AllPlayerSpeed[player.PlayerId] += Options.SpeedBoosterUpSpeed.GetFloat();
+        }
+
+        //叛徒修理搞破坏
+        if (player.IsAlive()
+        && player.Is(CustomRoles.SabotageMaster)
+        && player.Is(CustomRoles.Madmate))
+        {
+            List<SystemTypes> SysList = new();
+            foreach (SystemTypes sys in Enum.GetValues(typeof(SystemTypes)))
+                if (Utils.IsActive(sys)) SysList.Add(sys);
+
+            if (SysList.Count > 0)
+            {
+                var SbSys = SysList[IRandom.Instance.Next(0, SysList.Count)];
+
+                MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, player.GetClientId());
+                SabotageFixWriter.Write((byte)SbSys);
+                MessageExtensions.WriteNetObject(SabotageFixWriter, player);
+                AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+
+                foreach (var target in Main.AllPlayerControls)
+                {
+                    if (target == player || target.Data.Disconnected) continue;
+                    SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, target.GetClientId());
+                    SabotageFixWriter.Write((byte)SbSys);
+                    MessageExtensions.WriteNetObject(SabotageFixWriter, target);
+                    AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+                }
+                Logger.Info("叛徒修理工造成破坏:" + player.cosmetics.nameText.text, "SabotageMaster");
+            }
         }
 
         //传送师完成任务
@@ -177,7 +210,7 @@ public class TaskState
         && player.Is(CustomRoles.Transporter)
         && ((CompletedTasksCount + 1) <= Options.TransporterTeleportMax.GetInt()))
         {
-            Logger.Info("传送师触发传送:" + player.cosmetics.nameText.text, "Transporter");
+            Logger.Info("传送师触发传送:" + player.GetNameWithRole(), "Transporter");
             var rd = IRandom.Instance;
             List<PlayerControl> AllAlivePlayer = new();
             foreach (var pc in Main.AllAlivePlayerControls.Where(x => !Pelican.IsEaten(x.PlayerId) && !x.inVent)) AllAlivePlayer.Add(pc);
