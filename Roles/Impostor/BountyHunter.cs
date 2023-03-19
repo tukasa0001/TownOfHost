@@ -92,7 +92,7 @@ namespace TownOfHost.Roles.Impostor
         //public static void SetKillCooldown(byte id, float amount) => Main.AllPlayerKillCooldown[id] = amount;
         public override void ApplyGameOptions(IGameOptions opt) => AURoleOptions.ShapeshifterCooldown = TargetChangeTime;
 
-        public override bool OnCheckMurderAsKiller(MurderInfo info)
+        public override void OnCheckMurderAsKiller(MurderInfo info)
         {
             if (!info.IsSuicide)
             {
@@ -112,7 +112,7 @@ namespace TownOfHost.Roles.Impostor
                     killer.SyncSettings();//キルクール処理を同期
                 }
             }
-            return true;
+            return;
         }
         public override void OnFixedUpdate()
         {

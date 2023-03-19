@@ -40,6 +40,10 @@ public static class CustomRoleManager
     /// <param name="appearanceTarget">見た目上でキルされるプレイヤー 可変</param>
     public static void OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget, PlayerControl appearanceKiller, PlayerControl appearanceTarget)
     {
+        Logger.Info($"Attempt  :{attemptKiller.GetNameWithRole()} => {attemptTarget.GetNameWithRole()}", "CheckMurder");
+        if (appearanceKiller != attemptKiller || appearanceTarget != attemptTarget)
+            Logger.Info($"Apperance:{appearanceKiller.GetNameWithRole()} => {appearanceTarget.GetNameWithRole()}", "CheckMurder");
+
         var info = new MurderInfo(attemptKiller, attemptTarget, appearanceKiller, appearanceTarget);
 
         appearanceKiller.ResetKillCooldown();
@@ -68,16 +72,26 @@ public static class CustomRoleManager
         //キラーのキルチェック処理実行
         if (killerRole != null)
         {
-            if (!killerRole.OnCheckMurderAsKiller(info)) return;
+            killerRole.OnCheckMurderAsKiller(info);
         }
         else
         {
             //RoleBase化されていないキラー処理
-            if (!CheckMurderPatch.OnCheckMurderAsKiller(info)) return;
+            CheckMurderPatch.OnCheckMurderAsKiller(info);
         }
-        //MurderPlayer用にinfoを保存
-        CheckMurderInfos[appearanceKiller.PlayerId] = info;
-        appearanceKiller.RpcMurderPlayer(appearanceTarget);
+
+        //キル可能だった場合のみMurderPlayerに進む
+        if (info.CanKill && info.DoKill)
+        {
+            //MurderPlayer用にinfoを保存
+            CheckMurderInfos[appearanceKiller.PlayerId] = info;
+            appearanceKiller.RpcMurderPlayer(appearanceTarget);
+        }
+        else
+        {
+            if (!info.CanKill) Logger.Info($"{appearanceTarget.GetNameWithRole()}をキル出来ない。", "CheckMurder");
+            if (!info.DoKill) Logger.Info($"{appearanceKiller.GetNameWithRole()}はキルしない。", "CheckMurder");
+        }
     }
     /// <summary>
     /// MurderPlayer実行後の各役職処理
@@ -339,6 +353,19 @@ public class MurderInfo
     public PlayerControl AppearanceKiller { get; set; }
     /// <summary>見た目上でキルされるプレイヤー 可変</summary>
     public PlayerControl AppearanceTarget { get; set; }
+
+    /// <summary>
+    /// targetがキル出来るか
+    /// </summary>
+    public bool CanKill = true;
+    /// <summary>
+    /// Killerが実際にキルするか
+    /// </summary>
+    public bool DoKill = true;
+    /// <summary>
+    ///転落死など事故の場合(キラー不在)
+    /// </summary>
+    public bool IsAccident = false;
 
     // 分解用 (killer, target) = info.AttemptTuple; のような記述でkillerとtargetをまとめて取り出せる
     public (PlayerControl killer, PlayerControl target) AttemptTuple => (AttemptKiller, AttemptTarget);

@@ -54,10 +54,6 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return false;
 
-            var killer = __instance; //読み替え変数
-
-            Logger.Info($"{killer.GetNameWithRole()} => {target.GetNameWithRole()}", "CheckMurder");
-
             // 処理は全てCustomRoleManager側で行う
             CustomRoleManager.OnCheckMurder(__instance, target);
 
@@ -121,7 +117,7 @@ namespace TownOfHost
             return true;
         }
 
-        public static bool OnCheckMurderAsKiller(MurderInfo info)
+        public static void OnCheckMurderAsKiller(MurderInfo info)
         {
             (var killer, var target) = info.AttemptTuple;
 
@@ -137,10 +133,7 @@ namespace TownOfHost
                         SerialKiller.OnCheckMurder(killer);
                         break;
                     case CustomRoles.Vampire:
-                        if (!Vampire.OnCheckMurder(killer, target))
-                        {
-                            return false;
-                        }
+                        info.DoKill = Vampire.OnCheckMurder(info);
                         break;
                     case CustomRoles.Warlock:
                         if (!Main.CheckShapeshift[killer.PlayerId] && !Main.isCurseAndKill[killer.PlayerId])
@@ -150,28 +143,26 @@ namespace TownOfHost
                             Main.CursedPlayers[killer.PlayerId] = target;
                             Main.WarlockTimer.Add(killer.PlayerId, 0f);
                             Main.isCurseAndKill[killer.PlayerId] = true;
-                            return false;
+                            info.DoKill = false;
+                            return;
                         }
                         if (Main.CheckShapeshift[killer.PlayerId])
                         {//呪われてる人がいないくて変身してるときに通常キルになる
-                            killer.RpcMurderPlayer(target);
                             killer.RpcGuardAndKill(target);
-                            return false;
+                            return;
                         }
                         if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
-                        return false;
+                        info.DoKill = false;
+                        break;
                     case CustomRoles.Witch:
-                        if (!Witch.OnCheckMurder(killer, target))
-                        {
-                            //Spellモードの場合は終了
-                            return false;
-                        }
+                        info.DoKill = Witch.OnCheckMurder(info);
                         break;
                     case CustomRoles.Puppeteer:
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
                         killer.SetKillCooldown();
                         Utils.NotifyRoles(SpecifySeer: killer);
-                        return false;
+                        info.DoKill = false;
+                        break;
 
                     //==========マッドメイト系役職==========//
 
@@ -185,10 +176,10 @@ namespace TownOfHost
                             Utils.NotifyRoles(SpecifySeer: killer);
                             RPC.SetCurrentDousingTarget(killer.PlayerId, target.PlayerId);
                         }
-                        return false;
+                        info.DoKill = false;
+                        break;
                 }
             }
-            return true;
         }
         public static bool OnCheckMurderAsTarget(MurderInfo info)
         {
@@ -203,6 +194,7 @@ namespace TownOfHost
                     var taskState = target.GetPlayerTaskState();
                     if (taskState.IsTaskFinished)
                     {
+                        info.CanKill = false;
                         var colorCode = Utils.GetRoleColorCode(CustomRoles.MadGuardian);
                         if (!NameColorManager.TryGetData(killer, target, out var value) || value != colorCode)
                         {
@@ -211,7 +203,7 @@ namespace TownOfHost
                                 NameColorManager.Add(target.PlayerId, killer.PlayerId, colorCode);
                             Utils.NotifyRoles();
                         }
-                        return false;
+                        return true;
                     }
                     break;
             }

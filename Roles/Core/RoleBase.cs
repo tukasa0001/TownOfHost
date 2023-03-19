@@ -112,19 +112,24 @@ public abstract class RoleBase : IDisposable
     // == CheckMurder関連処理 ==
     /// <summary>
     /// キラーとしてのCheckMurder処理
+    /// 通常キルはブロックされることを考慮しなくてもよい。
+    /// 通常キル以外の能力はinfo.CanKill=falseの場合は効果発揮しないよう実装する。
+    /// キルを行わない場合はinfo.DoKill=falseとする。
     /// </summary>
     /// <param name="info">キル関係者情報</param>
-    /// <returns>false:キルをキャンセルする</returns>
-    public virtual bool OnCheckMurderAsKiller(MurderInfo info) => true;
+    public virtual void OnCheckMurderAsKiller(MurderInfo info) { }
 
     /// <summary>
     /// ターゲットとしてのCheckMurder処理
+    /// キラーより先に判定
+    /// キル出来ない状態(無敵など)はinfo.CanKill=falseとしてtrueを返す
+    /// キル行為自体をなかったことにする場合はfalseを返す。
     /// </summary>
     /// <param name="info">キル関係者情報</param>
-    /// <returns>false:キルをキャンセルする</returns>
+    /// <returns>false:キル行為を起こさせない</returns>
     public virtual bool OnCheckMurderAsTarget(MurderInfo info) => true;
-    // ==MurderPlayer関連処理 ==
 
+    // ==MurderPlayer関連処理 ==
     /// <summary>
     /// キラーとしてのMurderPlayer処理
     /// </summary>

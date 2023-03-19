@@ -68,7 +68,7 @@ namespace TownOfHost.Roles.Neutral
 
                 //シュレディンガーの猫が切られた場合の役職変化スタート
                 killer.RpcGuardAndKill(target);
-
+                info.CanKill = false;
                 switch (killer.GetCustomRole())
                 {
                     case CustomRoles.BountyHunter:
