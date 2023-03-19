@@ -969,9 +969,11 @@ GamerButtonText,攻击,Attack,Атаковать
 ImperiusCurseButtonText,夺舍
 BallLightningButtonText,汽化,Evaporation,Испарение
 ProvocateurButtonText,问候
+AssassinShapeshiftText,刺杀
 BomberShapeshiftText,自爆,Explode,Взорваться
 QuickShooterShapeshiftText,储存
 DefaultShapeshiftText,变形,Shift,Превращение
+DefaultRevertShapeshiftText,解除
 DisabledBySettings,已在设置被中禁用,Disabled by Settings,Отключено настройкой
 Disabled,禁用,Disabled,Отключено
 FailToTrack,无法追踪,Failed To Track,Не Удалось Отследить

@@ -74,23 +74,26 @@ internal class HudManagerPatch
                         SerialKiller.GetAbilityButtonText(__instance, player);
                         break;
                     case CustomRoles.Warlock:
-                        if (!(Main.CheckShapeshift.TryGetValue(player.PlayerId, out bool shapeshifting) && shapeshifting) && !(Main.isCurseAndKill.TryGetValue(player.PlayerId, out bool curse) && curse))
-                        {
+                        if (!(Main.CheckShapeshift.TryGetValue(player.PlayerId, out bool shapeshiftingw) && shapeshiftingw) && !(Main.isCurseAndKill.TryGetValue(player.PlayerId, out bool curse) && curse))
                             __instance.KillButton.OverrideText($"{GetString("WarlockCurseButtonText")}");
-                        }
                         else
-                        {
                             __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
-                        }
                         break;
                     case CustomRoles.Assassin:
-                        if (Main.CheckShapeshift.ContainsKey(player.PlayerId) && !Main.CheckShapeshift[player.PlayerId] && !Main.isMarkAndKill[player.PlayerId])
+                        bool shifting = Main.CheckShapeshift.TryGetValue(player.PlayerId, out bool shapeshiftinga) && shapeshiftinga;
+                        bool hasMarked = Main.MarkedPlayers.TryGetValue(player.PlayerId, out PlayerControl marked) && marked.IsAlive() && !Pelican.IsEaten(marked.PlayerId);
+                        if (!shifting)
                         {
                             __instance.KillButton.OverrideText($"{GetString("AssassinMarkButtonText")}");
+                            __instance.AbilityButton.OverrideText(hasMarked ?
+                                $"{GetString("AssassinShapeshiftText")}" :
+                                $"{GetString("DefaultShapeshiftText")}"
+                                );
                         }
                         else
                         {
                             __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
+                            __instance.AbilityButton.OverrideText($"{GetString("DefaultRevertShapeshiftText")}");
                         }
                         break;
                     case CustomRoles.Miner:
