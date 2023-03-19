@@ -8,7 +8,7 @@ public static class LastImpostor
     public static void SetupCustomOption()
     {
         Options.SetupSingleRoleOptions(Id, TabGroup.Addons, CustomRoles.LastImpostor, 1);
-        KillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(0f, 180f, 1f), 15f, TabGroup.Addons, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.LastImpostor])
+        KillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(0f, 180f, 1f), 8f, TabGroup.Addons, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.LastImpostor])
             .SetValueFormat(OptionFormat.Seconds);
     }
     public static void Init() => currentId = byte.MaxValue;
@@ -24,11 +24,13 @@ public static class LastImpostor
 && Main.AllPlayerKillCooldown[pc.PlayerId] > KillCooldown.GetFloat()
 && pc.GetCustomRole()
         is not CustomRoles.Vampire
-            and not CustomRoles.BountyHunter
-            and not CustomRoles.SerialKiller
-            and not CustomRoles.Sans
-            and not CustomRoles.Mare
-            and not CustomRoles.Greedier;
+            or CustomRoles.BountyHunter
+            or CustomRoles.SerialKiller
+            or CustomRoles.Sans
+            or CustomRoles.Mare
+            or CustomRoles.Greedier
+            or CustomRoles.Bomber
+            or CustomRoles.QuickShooter;
     }
 
     public static void SetSubRole()
