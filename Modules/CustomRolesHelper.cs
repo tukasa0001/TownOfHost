@@ -9,7 +9,6 @@ internal static class CustomRolesHelper
             ? role
             : role switch
             {
-                CustomRoles.NormalImpostor => CustomRoles.Impostor,
                 CustomRoles.Sniper => CustomRoles.Shapeshifter,
                 CustomRoles.Jester => CustomRoles.Crewmate,
                 CustomRoles.Bait => CustomRoles.Crewmate,
@@ -203,7 +202,6 @@ internal static class CustomRolesHelper
             CustomRoles.BallLightning or
             CustomRoles.Greedier or
             CustomRoles.CursedWolf or
-            CustomRoles.NormalImpostor or
             CustomRoles.ImperiusCurse or
             CustomRoles.QuickShooter;
     }

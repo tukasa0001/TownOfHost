@@ -463,7 +463,6 @@ public static class Options
             .SetGameMode(CustomGameMode.Standard);
 
         // Impostor
-        SetupRoleOptions(4900, TabGroup.ImpostorRoles, CustomRoles.NormalImpostor);
         SetupRoleOptions(901065, TabGroup.ImpostorRoles, CustomRoles.EvilGuesser);
         EGCanGuessTime = IntegerOptionItem.Create(901067, "GuesserCanGuessTimes", new(1, 15, 1), 15, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser])
             .SetValueFormat(OptionFormat.Times);

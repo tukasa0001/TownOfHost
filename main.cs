@@ -397,7 +397,6 @@ public enum CustomRoles
     Impostor,
     Shapeshifter,
     //Impostor
-    NormalImpostor,
     BountyHunter,
     FireWorks,
     Mafia,
