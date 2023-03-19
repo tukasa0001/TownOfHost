@@ -158,14 +158,8 @@ internal class CheckMurderPatch
                         Main.isMarkAndKill[killer.PlayerId] = true;
                         return false;
                     }
-                    if (Main.CheckShapeshift[killer.PlayerId])
-                    {//呪われてる人がいないくて変身してるときに通常キルになる
-                        killer.RpcMurderPlayer(target);
-                        killer.RpcGuardAndKill(target);
-                        return false;
-                    }
-                    if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
-                    return false;
+                    if (!Main.CheckShapeshift[killer.PlayerId]) return false;
+                    break;
                 case CustomRoles.Witch:
                     if (!Witch.OnCheckMurder(killer, target)) return false;
                     break;
@@ -338,7 +332,7 @@ internal class CheckMurderPatch
         }
 
         //玩家被击杀事件
-        if (Gamer.CheckMurder(killer, target))
+        if (!Gamer.CheckMurder(killer, target))
             return false;
 
         //首刀叛变
@@ -661,7 +655,7 @@ internal class ShapeshiftPatch
                     }
                     var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
                     PlayerControl targetw = min.Key;
-                    if (!Gamer.CheckMurder(cp, targetw))
+                    if (Gamer.CheckMurder(cp, targetw))
                     {
                         targetw.SetRealKiller(shapeshifter);
                         Logger.Info($"{targetw.GetNameWithRole()} was killed", "Warlock");
@@ -679,18 +673,18 @@ internal class ShapeshiftPatch
         {
             if (Main.MarkedPlayers[shapeshifter.PlayerId] != null)//确认被标记的人
             {
-                if (shapeshifting && Main.MarkedPlayers[shapeshifter.PlayerId].IsAlive() && !Pelican.IsEaten(Main.MarkedPlayers[shapeshifter.PlayerId].PlayerId))//解除变形时不执行操作
+                if (shapeshifting && !Pelican.IsEaten(shapeshifter.PlayerId))//解除变形时不执行操作
                 {
-                    PlayerControl targetw = Main.MarkedPlayers[shapeshifter.PlayerId];
+                    PlayerControl targeta = Main.MarkedPlayers[shapeshifter.PlayerId];
                     new LateTask(() =>
                     {
-                        if (!GameStates.IsMeeting && !GameStates.IsEnded && GameStates.IsInTask && GameStates.IsInGame && Main.MarkedPlayers[shapeshifter.PlayerId].IsAlive() && !Pelican.IsEaten(Main.MarkedPlayers[shapeshifter.PlayerId].PlayerId))
+                        if (!GameStates.IsMeeting && GameStates.IsInTask && targeta.IsAlive() && !Pelican.IsEaten(targeta.PlayerId))
                         {
-                            if (!Gamer.CheckMurder(shapeshifter, targetw))
+                            if (Gamer.CheckMurder(shapeshifter, targeta))
                             {
-                                Logger.Info($"{targetw.GetNameWithRole()} was killed", "Assassin");
-                                targetw.SetRealKiller(shapeshifter);
-                                shapeshifter.RpcMurderPlayer(targetw);//殺す
+                                Logger.Info($"{targeta.GetNameWithRole()} was killed", "Assassin");
+                                targeta.SetRealKiller(shapeshifter);
+                                shapeshifter.RpcMurderPlayer(targeta);//殺す
                             }
                         }
                         if (GameStates.IsMeeting && shapeshifter.shapeshifting) shapeshifter.RpcRevertShapeshift(false);

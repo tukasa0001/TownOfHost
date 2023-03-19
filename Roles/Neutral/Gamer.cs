@@ -106,15 +106,16 @@ public static class Gamer
     }
     public static bool CheckMurder(PlayerControl killer, PlayerControl target)
     {
-        if (killer == null || target == null || !target.Is(CustomRoles.Gamer) || killer.Is(CustomRoles.Gamer)) return false;
-        killer.SetKillCooldown();
-
+        if (killer == null || target == null || !target.Is(CustomRoles.Gamer) || killer.Is(CustomRoles.Gamer)) return true;
+        
         if (GamerHealth[target.PlayerId] - SelfDamage.GetInt() < 1)
         {
             GamerHealth.Remove(target.PlayerId);
             Utils.NotifyRoles(target);
-            return false;
+            return true;
         }
+
+        killer.SetKillCooldown();
 
         GamerHealth[target.PlayerId] -= SelfDamage.GetInt();
         SendRPC(target.PlayerId);
@@ -123,7 +124,7 @@ public static class Gamer
         Utils.NotifyRoles(target);
 
         Logger.Info($"{killer.GetNameWithRole()} 对玩家 {target.GetNameWithRole()} 造成了 {SelfDamage.GetInt()} 点伤害", "Gamer");
-        return true;
+        return false;
     }
     public static string TargetMark(PlayerControl seer, PlayerControl target)
     {
