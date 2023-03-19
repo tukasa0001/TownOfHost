@@ -736,9 +736,10 @@ internal class ChatCommands
             var roleName = GetString(rl.ToString());
             if (role.Contains(roleName.ToLower().Trim()))
             {
+                string devMark = "";
                 if ((isDev || isUp) && GameStates.IsLobby)
                 {
-                    string devMark = "▲";
+                    devMark = "▲";
                     if (CustomRolesHelper.IsAdditionRole(rl)) devMark = "";
                     if (rl is CustomRoles.GM || rl.IsDesyncRole()) devMark = "";
                     if (rl.GetCount() < 1 || rl.GetMode() == 0) devMark = "";
@@ -747,20 +748,18 @@ internal class ChatCommands
                         if (devMark == "▲") Utils.SendMessage("已提升您成为【" + roleName + "】的概率", player.PlayerId);
                         else Utils.SendMessage("无法提升您成为【" + roleName + "】的概率\n可能是因为您没有启用该职业或该职业不支持被指定", player.PlayerId);
                     }
-                    else
-                    {
-                        Utils.SendMessage(devMark + roleName + GetString($"{rl}InfoLong"), player.PlayerId);
-                    }
                     if (devMark == "▲")
                     {
                         if (Main.DevRole.ContainsKey(player.PlayerId)) Main.DevRole.Remove(player.PlayerId);
                         Main.DevRole.Add(player.PlayerId, rl);
                     }
                 }
-                else
-                {
-                    Utils.SendMessage(roleName + GetString($"{rl}InfoLong"), player.PlayerId);
-                }
+                var sb = new StringBuilder();
+                sb.Append(devMark + roleName + GetString($"{rl}InfoLong"));
+                Utils.ShowChildrenSettings(Options.CustomRoleSpawnChances[rl], ref sb, command: true);
+                var txt = sb.ToString();
+                sb.Clear().Append(txt.RemoveHtmlTags());
+                Utils.SendMessage(sb.ToString(), player.PlayerId);
                 return;
             }
         }
