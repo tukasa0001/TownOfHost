@@ -695,6 +695,7 @@ ShapeshiftDuration,变形持续时间,Shapeshift duration,Продолжител
 ShapeshiftCooldown,变形冷却时间
 QuickShooterShapeshiftCooldown,储存子弹冷却时间
 MeetingReserved,会议保留子弹数量
+AccurateCheckMode,未完成任务时可占卜准确职业
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит

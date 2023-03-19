@@ -11,11 +11,13 @@ public static class Divinator
     public static List<byte> didVote = new();
     private static Dictionary<byte, int> CheckLimit = new();
     public static OptionItem CheckLimitOpt;
+    public static OptionItem AccurateCheckMode;
     public static void SetupCustomOption()
     {
         SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.Divinator);
         CheckLimitOpt = IntegerOptionItem.Create(Id + 10, "DivinatorSkillLimit", new(1, 990, 1), 5, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Divinator])
             .SetValueFormat(OptionFormat.Times);
+        AccurateCheckMode = BooleanOptionItem.Create(Id + 12, "AccurateCheckMode", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Divinator]);
         OverrideTasksData.Create(Id + 20, TabGroup.CrewmateRoles, CustomRoles.Divinator);
     }
     public static void Init()
@@ -49,10 +51,10 @@ public static class Divinator
             return;
         }
 
-        
+
         string msg;
 
-        if (player.AllTasksCompleted())
+        if (player.AllTasksCompleted() || AccurateCheckMode.GetBool())
         {
             msg = string.Format(GetString("DivinatorCheck.TaskDone"), target.GetRealName(), target.GetCustomRole());
         }
