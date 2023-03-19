@@ -198,7 +198,7 @@ internal class RPCHandlerPatch
                             {
                                 new LateTask(() =>
                                 {
-                                    if (__instance?.Data?.Disconnected is not null or true)
+                                    if (__instance?.Data?.Disconnected is not null and not true)
                                     {
                                         Logger.Warn($"{__instance?.Data?.PlayerName} 安装了与房主版本不同的模组，故将其踢出", "Version Kick");
                                         Logger.SendInGame($"【{__instance?.Data?.PlayerName}】因安装了与房主版本不同的模组被踢出");

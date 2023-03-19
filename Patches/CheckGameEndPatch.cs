@@ -118,7 +118,7 @@ internal class GameEndChecker
                         CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
                     }
                     //Lovers follow winner
-                    if (pc.Is(CustomRoles.Lovers) && CustomWinnerHolder.WinnerTeam is not CustomWinner.Lovers or CustomWinner.Crewmate or CustomWinner.Impostor)
+                    if (pc.Is(CustomRoles.Lovers) && CustomWinnerHolder.WinnerTeam is not CustomWinner.Lovers and not CustomWinner.Crewmate and not CustomWinner.Impostor)
                     {
                         if (CustomWinnerHolder.WinnerIds.Where(x => Utils.GetPlayerById(x).Is(CustomRoles.Lovers)).Count() > 0)
                         {

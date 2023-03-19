@@ -54,7 +54,7 @@ internal class EndGamePatch
         Main.winnerList = new();
         foreach (var pc in winner)
         {
-            if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw && pc.Is(CustomRoles.GM)) continue;
+            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Draw && pc.Is(CustomRoles.GM)) continue;
 
             TempData.winners.Add(new WinningPlayerData(pc.Data));
             Main.winnerList.Add(pc.PlayerId);
