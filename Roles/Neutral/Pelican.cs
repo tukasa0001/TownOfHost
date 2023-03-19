@@ -1,4 +1,5 @@
 using Hazel;
+using Il2CppSystem.Linq.Expressions;
 using System.Collections.Generic;
 using UnityEngine;
 namespace TOHE.Roles.Neutral;
@@ -7,7 +8,6 @@ public static class Pelican
 {
     private static readonly int Id = 5053175;
     private static List<byte> playerIdList = new();
-    private static readonly Dictionary<byte, int> EatenNum = new();
     private static Dictionary<byte, List<byte>> eatenList = new();
     private static readonly Dictionary<byte, Vector2> originalPosition = new();
     private static readonly Dictionary<byte, float> originalSpeed = new();
@@ -28,53 +28,48 @@ public static class Pelican
     public static void Add(byte playerId)
     {
         playerIdList.Add(playerId);
-        EatenNum.TryAdd(playerId, 0);
     }
     public static bool IsEnable => playerIdList.Count > 0;
-    private static void SyncEatenNum(byte playerId)
+    private static void SyncEatenList(byte playerId)
     {
-        var eatenNum = 0;
-        if (eatenList.ContainsKey(playerId))
-            eatenNum = eatenList[playerId].Count;
-        if (EatenNum.ContainsKey(playerId))
-            EatenNum[playerId] = eatenNum;
-        else
-            EatenNum.TryAdd(playerId, eatenNum);
-        SendRPC(playerId);
+        SendRPC(byte.MaxValue);
+        foreach (var el in eatenList)
+            SendRPC(el.Key);
     }
     private static void SendRPC(byte playerId)
     {
         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetPelicanEtenNum, SendOption.Reliable, -1);
         writer.Write(playerId);
-        writer.Write(EatenNum[playerId]);
+        if (playerId != byte.MaxValue)
+        {
+            writer.Write(eatenList[playerId].Count);
+            foreach (var el in eatenList[playerId])
+                writer.Write(el);
+        }
         AmongUsClient.Instance.FinishRpcImmediately(writer);
     }
     public static void ReceiveRPC(MessageReader reader)
     {
-        byte PlayerId = reader.ReadByte();
-        int Num = reader.ReadInt32();
-        if (EatenNum.ContainsKey(PlayerId))
-            EatenNum[PlayerId] = Num;
+        byte playerId = reader.ReadByte();
+        if (playerId == byte.MaxValue)
+        {
+            eatenList.Clear();
+        }
         else
-            EatenNum.Add(PlayerId, 0);
+        {
+            int eatenNum = reader.ReadInt16();
+            eatenList.Remove(playerId);
+            eatenList.Add(playerId, new List<byte>());
+            for (int i = 0; i < eatenNum; i++)
+                eatenList[playerId].Add(reader.ReadByte());
+        }
     }
     public static bool IsEaten(PlayerControl pc, byte id) => eatenList.ContainsKey(pc.PlayerId) && eatenList[pc.PlayerId].Contains(id);
     public static bool IsEaten(byte id)
     {
-        if (AmongUsClient.Instance.AmHost)
-        {
-            foreach (var el in eatenList)
-                if (el.Value.Contains(id))
-                    return true;
-        }
-        else
-        {
-            var target = Utils.GetPlayerById(id);
-            if (target == null) return false;
-            var pos = GetBlackRoomPS();
-            var dis = Vector2.Distance(pos, target.GetTruePosition());
-            if (dis < 1.5f) return true;
-        }
+        foreach (var el in eatenList)
+            if (el.Value.Contains(id))
+                return true;
         return false;
     }
     public static bool CanEat(PlayerControl pc, byte id)
@@ -101,8 +96,6 @@ public static class Pelican
         var eatenNum = 0;
         if (eatenList.ContainsKey(playerId))
             eatenNum = eatenList[playerId].Count;
-        if (!AmongUsClient.Instance.AmHost && EatenNum.ContainsKey(playerId))
-            eatenNum = EatenNum[playerId];
         return Utils.ColorString(Utils.GetRoleColor(CustomRoles.Pelican), $"({eatenNum})");
     }
     public static void EatPlayer(PlayerControl pc, PlayerControl target)
@@ -110,6 +103,8 @@ public static class Pelican
         if (pc == null || target == null || !CanEat(pc, target.PlayerId)) return;
         if (!eatenList.ContainsKey(pc.PlayerId)) eatenList.Add(pc.PlayerId, new());
         eatenList[pc.PlayerId].Add(target.PlayerId);
+
+        SyncEatenList(pc.PlayerId);
 
         originalPosition.Remove(target.PlayerId);
         originalPosition.Add(target.PlayerId, target.GetTruePosition());
@@ -124,7 +119,6 @@ public static class Pelican
 
         Utils.NotifyRoles(SpecifySeer: pc);
         Utils.NotifyRoles(SpecifySeer: target);
-        SyncEatenNum(pc.PlayerId);
         Logger.Info($"{pc.GetRealName()} 吞掉了 {target.GetRealName()}", "Pelican");
     }
 
@@ -148,8 +142,7 @@ public static class Pelican
             }
         }
         eatenList.Clear();
-        foreach (var pc in playerIdList)
-            SyncEatenNum(pc);
+        SyncEatenList(byte.MaxValue);
     }
 
     public static void OnPelicanDied(byte pc)
@@ -169,7 +162,7 @@ public static class Pelican
             Logger.Info($"{Utils.GetPlayerById(pc).GetRealName()} 吐出了 {target.GetRealName()}", "Pelican");
         }
         eatenList.Remove(pc);
-        SyncEatenNum(pc);
+        SyncEatenList(pc);
     }
 
     private static int Count = 0;
@@ -177,7 +170,11 @@ public static class Pelican
     {
         if (!GameStates.IsInTask)
         {
-            eatenList.Clear();
+            if (eatenList.Count > 0)
+            {
+                eatenList.Clear();
+                SyncEatenList(byte.MaxValue);
+            }
             return;
         }
 

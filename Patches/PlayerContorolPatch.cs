@@ -356,6 +356,18 @@ internal class CheckMurderPatch
             return false;
         }
 
+        // 清道夫清理尸体
+        if (killer.Is(CustomRoles.Scavenger))
+        {
+            Utils.TP(target.NetTransform, Pelican.GetBlackRoomPS());
+            target.SetRealKiller(killer);
+            Main.PlayerStates[target.PlayerId].SetDead();
+            target.RpcMurderPlayer(target);
+            killer.SetKillCooldown();
+            RPC.PlaySoundRPC(killer.PlayerId, Sounds.KillSound);
+            return false;
+        }
+
         //==キル処理==
         __instance.RpcMurderPlayer(target);
         //============
