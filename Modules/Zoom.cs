@@ -25,7 +25,7 @@ public static class Zoom
             }
             if (Input.mouseScrollDelta.y < 0)
             {
-                if (GameStates.IsDead || GameStates.IsFreePlay || DebugModeManager.AmDebugger || GameStates.IsLobby || 
+                if (GameStates.IsDead || GameStates.IsFreePlay || DebugModeManager.AmDebugger || GameStates.IsLobby ||
                     Utils.CanUseDevCommand(PlayerControl.LocalPlayer))
                 {
                     if (Camera.main.orthographicSize < 18.0f)

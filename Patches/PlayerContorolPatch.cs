@@ -1,7 +1,6 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
-using MS.Internal.Xml.XPath;
 using System;
 using System.Collections.Generic;
 using System.Linq;

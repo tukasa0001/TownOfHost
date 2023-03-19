@@ -377,52 +377,52 @@ internal static class ExtendedPlayerControl
     {
         return pc.IsAlive() && !Pelican.IsEaten(pc.PlayerId) && pc.Data.Role.Role != RoleTypes.GuardianAngel
             && pc.GetCustomRole() switch
-                {
-                    CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
-                    CustomRoles.Mafia => Utils.CanMafiaKill(),
-                    CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
-                    CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
-                    CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
-                    CustomRoles.Pelican => pc.IsAlive(),
-                    CustomRoles.Arsonist => !pc.IsDouseDone(),
-                    CustomRoles.Revolutionist => !pc.IsDrawDone(),
-                    CustomRoles.SwordsMan => pc.IsAlive(),
-                    CustomRoles.Jackal => pc.IsAlive(),
-                    CustomRoles.Bomber => false,
-                    CustomRoles.Innocent => pc.IsAlive(),
-                    CustomRoles.Counterfeiter => Counterfeiter.CanUseKillButton(pc.PlayerId),
-                    CustomRoles.FFF => pc.IsAlive(),
-                    CustomRoles.Medicaler => Medicaler.CanUseKillButton(pc.PlayerId),
-                    CustomRoles.Gamer => pc.IsAlive(),
-                    CustomRoles.DarkHide => DarkHide.CanUseKillButton(pc),
-                    CustomRoles.Provocateur => pc.IsAlive(),
-                    _ => pc.Is(CustomRoleTypes.Impostor),
-                };
+            {
+                CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
+                CustomRoles.Mafia => Utils.CanMafiaKill(),
+                CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
+                CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
+                CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
+                CustomRoles.Pelican => pc.IsAlive(),
+                CustomRoles.Arsonist => !pc.IsDouseDone(),
+                CustomRoles.Revolutionist => !pc.IsDrawDone(),
+                CustomRoles.SwordsMan => pc.IsAlive(),
+                CustomRoles.Jackal => pc.IsAlive(),
+                CustomRoles.Bomber => false,
+                CustomRoles.Innocent => pc.IsAlive(),
+                CustomRoles.Counterfeiter => Counterfeiter.CanUseKillButton(pc.PlayerId),
+                CustomRoles.FFF => pc.IsAlive(),
+                CustomRoles.Medicaler => Medicaler.CanUseKillButton(pc.PlayerId),
+                CustomRoles.Gamer => pc.IsAlive(),
+                CustomRoles.DarkHide => DarkHide.CanUseKillButton(pc),
+                CustomRoles.Provocateur => pc.IsAlive(),
+                _ => pc.Is(CustomRoleTypes.Impostor),
+            };
     }
     public static bool CanUseImpostorVentButton(this PlayerControl pc)
     {
         return pc.IsAlive() && !Pelican.IsEaten(pc.PlayerId) && pc.Data.Role.Role != RoleTypes.GuardianAngel
             && pc.GetCustomRole() switch
-                {
-                    CustomRoles.Minimalism or
-                    CustomRoles.Sheriff or
-                    CustomRoles.Innocent or
-                    CustomRoles.SwordsMan or
-                    CustomRoles.FFF or
-                    CustomRoles.Medicaler or
-                    CustomRoles.DarkHide or
-                    CustomRoles.Provocateur
-                    => false,
+            {
+                CustomRoles.Minimalism or
+                CustomRoles.Sheriff or
+                CustomRoles.Innocent or
+                CustomRoles.SwordsMan or
+                CustomRoles.FFF or
+                CustomRoles.Medicaler or
+                CustomRoles.DarkHide or
+                CustomRoles.Provocateur
+                => false,
 
-                    CustomRoles.Jackal => Jackal.CanVent.GetBool(),
-                    CustomRoles.Pelican => Pelican.CanVent.GetBool(),
-                    CustomRoles.Gamer => Gamer.CanVent.GetBool(),
+                CustomRoles.Jackal => Jackal.CanVent.GetBool(),
+                CustomRoles.Pelican => Pelican.CanVent.GetBool(),
+                CustomRoles.Gamer => Gamer.CanVent.GetBool(),
 
-                    CustomRoles.Arsonist => pc.IsDouseDone(),
-                    CustomRoles.Revolutionist => pc.IsDrawDone(),
+                CustomRoles.Arsonist => pc.IsDouseDone(),
+                CustomRoles.Revolutionist => pc.IsDrawDone(),
 
-                    _ => pc.Is(CustomRoleTypes.Impostor),
-                };
+                _ => pc.Is(CustomRoleTypes.Impostor),
+            };
     }
     public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
     {

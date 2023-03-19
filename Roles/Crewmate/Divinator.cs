@@ -163,7 +163,7 @@ public static class Divinator
             };
             msg = string.Format(GetString("DivinatorCheck." + text), target.GetRealName());
         }
-        
+
         Utils.SendMessage(GetString("Message.DivinatorCheck") + "\n" + msg + "\n\n" + string.Format(GetString("Message.DivinatorCheckLimit"), CheckLimit[player.PlayerId]), player.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Divinator), GetString("DivinatorCheckMsgTitle")));
     }
 }
