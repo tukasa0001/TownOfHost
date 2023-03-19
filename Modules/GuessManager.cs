@@ -86,35 +86,16 @@ public static class GuessManager
         if (!GameStates.IsInGame || pc == null) return false;
         if (!pc.Is(CustomRoles.NiceGuesser) && !pc.Is(CustomRoles.EvilGuesser)) return false;
 
-        int operate = 0; // 1:ID 2:下注
+        int operate = 0; // 1:ID 2:猜测
         msg = msg.ToLower().TrimStart().TrimEnd();
         if (CheckCommond(ref msg, "id|guesslist|gl编号|玩家编号|玩家id|id列表|玩家列表|列表|所有id|全部id")) operate = 1;
         else if (CheckCommond(ref msg, "shoot|guess|bet|st|gs|bt|猜|赌", false)) operate = 2;
         else return false;
 
-        if (!pc.IsAlive() || pc.Data.IsDead)
+        if (!pc.IsAlive())
         {
             Utils.SendMessage(GetString("GuessDead"), pc.PlayerId);
             return true;
-        }
-
-        if (
-            (pc.Is(CustomRoles.NiceGuesser) && Options.GGTryHideMsg.GetBool()) ||
-            (pc.Is(CustomRoles.EvilGuesser) && Options.EGTryHideMsg.GetBool())
-            )
-        {
-            new LateTask(() =>
-            {
-                TryHideMsg(true);
-            }, 0.01f, "Hide Guesser Messgae To Host");
-            TryHideMsg();
-        }
-        else
-        {
-            if (pc == PlayerControl.LocalPlayer) //房主的消息会被撤销，所以这里强制发送一条一样的消息补上
-            {
-                Utils.SendMessage(originMsg, 255, pc.GetRealName());
-            }
         }
 
         if (operate == 1)
@@ -124,6 +105,25 @@ public static class GuessManager
         }
         else if (operate == 2)
         {
+            if (
+            (pc.Is(CustomRoles.NiceGuesser) && Options.GGTryHideMsg.GetBool()) ||
+            (pc.Is(CustomRoles.EvilGuesser) && Options.EGTryHideMsg.GetBool())
+            )
+            {
+                new LateTask(() =>
+                {
+                    TryHideMsg(true);
+                }, 0.01f, "Hide Guesser Messgae To Host");
+                TryHideMsg();
+            }
+            else
+            {
+                if (pc == PlayerControl.LocalPlayer) //房主的消息会被撤销，所以这里强制发送一条一样的消息补上
+                {
+                    Utils.SendMessage(originMsg, 255, pc.GetRealName());
+                }
+            }
+
             if (!MsgToPlayerAndRole(msg, out byte targetId, out CustomRoles role, out string error))
             {
                 Utils.SendMessage(error, pc.PlayerId);
