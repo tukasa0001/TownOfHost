@@ -25,15 +25,15 @@ public static class Gamer
     {
         //玩家只能有一人
         SetupSingleRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Gamer, 1, zeroOne: false);
-        KillCooldown = FloatOptionItem.Create(Id + 10, "GamerKillCooldown", new(1f, 180f, 1f), 3f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
+        KillCooldown = FloatOptionItem.Create(Id + 10, "GamerKillCooldown", new(1f, 180f, 1f), 2f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
             .SetValueFormat(OptionFormat.Seconds);
         CanVent = BooleanOptionItem.Create(Id + 11, "CanVent", true, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer]);
         HasImpostorVision = BooleanOptionItem.Create(Id + 13, "ImpostorVision", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer]);
         HealthMax = IntegerOptionItem.Create(Id + 15, "GamerHealthMax", new(5, 990, 5), 100, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
             .SetValueFormat(OptionFormat.Percent);
-        Damage = IntegerOptionItem.Create(Id + 16, "GamerDamage", new(1, 100, 1), 10, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
+        Damage = IntegerOptionItem.Create(Id + 16, "GamerDamage", new(1, 100, 1), 15, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
             .SetValueFormat(OptionFormat.Percent);
-        SelfHealthMax = IntegerOptionItem.Create(Id + 17, "GamerSelfHealthMax", new(100, 100, 1), 100, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
+        SelfHealthMax = IntegerOptionItem.Create(Id + 17, "GamerSelfHealthMax", new(100, 100, 5), 100, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
             .SetValueFormat(OptionFormat.Percent);
         SelfDamage = IntegerOptionItem.Create(Id + 18, "GamerSelfDamage", new(1, 100, 1), 35, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
             .SetValueFormat(OptionFormat.Percent);
