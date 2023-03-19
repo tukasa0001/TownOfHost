@@ -73,7 +73,7 @@ public static class DarkHide
     {
         var targetRole = Ktarget.GetCustomRole();
         var succeeded = targetRole.IsImpostor();
-        if (CanCountNeutralKiller.GetBool() && !Ktarget.Is(CustomRoles.Arsonist))
+        if (CanCountNeutralKiller.GetBool() && !Ktarget.Is(CustomRoles.Arsonist) && !Ktarget.Is(CustomRoles.Revolutionist))
         {
             succeeded = succeeded || ExtendedPlayerControl.IsNeutralKiller(Ktarget);
         }
@@ -88,7 +88,7 @@ public static class DarkHide
 
         foreach (var target in Main.AllPlayerControls)
         {
-            if (target == killer || target.Data.Disconnected) continue;
+            if (target.PlayerId == killer.PlayerId || target.Data.Disconnected) continue;
             SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, target.GetClientId());
             SabotageFixWriter.Write((byte)SystemTypes.Electrical);
             MessageExtensions.WriteNetObject(SabotageFixWriter, target);
