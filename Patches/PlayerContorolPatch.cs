@@ -1,6 +1,7 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
+using MS.Internal.Xml.XPath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -661,10 +662,13 @@ internal class ShapeshiftPatch
                     }
                     var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
                     PlayerControl targetw = min.Key;
-                    targetw.SetRealKiller(shapeshifter);
-                    Logger.Info($"{targetw.GetNameWithRole()} was killed", "Warlock");
-                    cp.RpcMurderPlayerV2(targetw);//殺す
-                    shapeshifter.RpcGuardAndKill(shapeshifter);
+                    if (!Gamer.CheckMurder(cp, targetw))
+                    {
+                        targetw.SetRealKiller(shapeshifter);
+                        Logger.Info($"{targetw.GetNameWithRole()} was killed", "Warlock");
+                        cp.RpcMurderPlayerV2(targetw);//殺す
+                        shapeshifter.RpcGuardAndKill(shapeshifter);
+                    }
                     Main.isCurseAndKill[shapeshifter.PlayerId] = false;
                 }
                 Main.CursedPlayers[shapeshifter.PlayerId] = null;
@@ -683,9 +687,12 @@ internal class ShapeshiftPatch
                     {
                         if (!GameStates.IsMeeting && !GameStates.IsEnded && GameStates.IsInTask && GameStates.IsInGame && Main.MarkedPlayers[shapeshifter.PlayerId].IsAlive() && !Pelican.IsEaten(Main.MarkedPlayers[shapeshifter.PlayerId].PlayerId))
                         {
-                            Logger.Info($"{targetw.GetNameWithRole()} was killed", "Assassin");
-                            targetw.SetRealKiller(shapeshifter);
-                            shapeshifter.RpcMurderPlayer(targetw);//殺す
+                            if (!Gamer.CheckMurder(shapeshifter, targetw))
+                            {
+                                Logger.Info($"{targetw.GetNameWithRole()} was killed", "Assassin");
+                                targetw.SetRealKiller(shapeshifter);
+                                shapeshifter.RpcMurderPlayer(targetw);//殺す
+                            }
                         }
                         if (GameStates.IsMeeting && shapeshifter.shapeshifting) shapeshifter.RpcRevertShapeshift(false);
                     }, 1.5f, "Assassin Kill");
