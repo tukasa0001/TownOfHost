@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Hazel;
@@ -6,8 +7,6 @@ using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
 using static TownOfHost.Translator;
-using static TownOfHost.Options;
-using System;
 
 namespace TownOfHost.Roles.Impostor
 {
