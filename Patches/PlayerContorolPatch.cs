@@ -688,7 +688,7 @@ internal class ShapeshiftPatch
                             }
                         }
                         if (GameStates.IsMeeting && shapeshifter.shapeshifting) shapeshifter.RpcRevertShapeshift(false);
-                    }, 1.5f, "Assassin Kill");
+                    }, 1.3f, "Assassin Kill");
                     Main.isMarkAndKill[shapeshifter.PlayerId] = false;
                 }
                 Main.MarkedPlayers[shapeshifter.PlayerId] = null;
@@ -706,7 +706,7 @@ internal class ShapeshiftPatch
                     Utils.TP(target.NetTransform, shapeshifter.GetTruePosition());
                     Utils.TP(shapeshifter.NetTransform, originPs);
                 }
-            }, 1.5f, "ImperiusCurse TP");
+            }, 1.3f, "ImperiusCurse TP");
         }
 
         if (shapeshifter.Is(CustomRoles.EvilTracker)) EvilTracker.OnShapeshift(shapeshifter, target, shapeshifting);
