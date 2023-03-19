@@ -7,8 +7,8 @@ namespace TOHE;
 internal class Cloud
 {
     private const string IP = "150.158.149.217";
-    private const int LOBBY_PORT = 52000;
-    private const int EAC_PORT = 52005;
+    private const int LOBBY_PORT = 52100;
+    private const int EAC_PORT = 52105;
     private static Socket ClientSocket;
     private static Socket EacClientSocket;
     public static bool SendCodeToQQ(bool command = false)
@@ -31,6 +31,7 @@ internal class Cloud
         }
         catch (Exception e)
         {
+            Utils.SendMessage("车队姬似乎不在线捏", PlayerControl.LocalPlayer.PlayerId);
             Logger.Exception(e, "SentLobbyToQQ");
             throw e;
         }
