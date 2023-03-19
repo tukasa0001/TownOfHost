@@ -361,7 +361,7 @@ public static class Utils
             switch (subRole)
             {
                 case CustomRoles.Madmate:
-                    if (role is CustomRoles.SpeedBooster or CustomRoles.Snitch or CustomRoles.Transporter or CustomRoles.TimeManager or CustomRoles.SabotageMaster)
+                    if (role is CustomRoles.SpeedBooster or CustomRoles.Snitch or CustomRoles.Transporter or CustomRoles.TimeManager)
                         hasTasks = !ForRecompute;
                     else hasTasks = false;
                     break;
