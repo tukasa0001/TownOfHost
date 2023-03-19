@@ -210,8 +210,8 @@ namespace TownOfHost
                             if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
                                 NameColorManager.Add(target.PlayerId, killer.PlayerId, colorCode);
                             Utils.NotifyRoles();
-                            return false;
                         }
+                        return false;
                     }
                     break;
             }
