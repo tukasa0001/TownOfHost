@@ -732,7 +732,6 @@ internal class SelectRolesPatch
             Utils.CountAlivePlayers(true);
             Utils.SyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
-            Main.ShadowQuad?.SetActive(true);
         }
         catch (Exception ex)
         {

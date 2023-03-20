@@ -837,7 +837,6 @@ internal class MeetingHudOnDestroyPatch
         Logger.Info("------------会议结束------------", "Phase");
         if (AmongUsClient.Instance.AmHost)
         {
-            Main.ShadowQuad?.SetActive(true);
             AntiBlackout.SetIsDead();
             Main.AllPlayerControls.Do(pc => RandomSpawn.CustomNetworkTransformPatch.NumOfTP[pc.PlayerId] = 0);
             Main.CyberStarDead.Clear();
