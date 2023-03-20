@@ -1,6 +1,7 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
+using InnerNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,17 +69,17 @@ internal class CheckMurderPatch
             target.inVent || target.inMovingPlat //targetの状態をチェック
         )
         {
-            Logger.Info("targetは現在キルできない状態です。", "CheckMurder");
+            Logger.Info("目标处于无法被击杀状态，击杀被取消", "CheckMurder");
             return false;
         }
         if (target.Data.IsDead) //同じtargetへの同時キルをブロック
         {
-            Logger.Info("targetは既に死んでいたため、キルをキャンセルしました。", "CheckMurder");
+            Logger.Info("目标处于死亡状态，击杀被取消", "CheckMurder");
             return false;
         }
         if (MeetingHud.Instance != null) //会議中でないかの判定
         {
-            Logger.Info("会議が始まっていたため、キルをキャンセルしました。", "CheckMurder");
+            Logger.Info("会议中，击杀被取消", "CheckMurder");
             return false;
         }
 
@@ -87,7 +88,7 @@ internal class CheckMurderPatch
                                                                                     //↓許可されない場合
         if (TimeSinceLastKill.TryGetValue(killer.PlayerId, out var time) && time < minTime)
         {
-            Logger.Info("前回のキルからの時間が早すぎるため、キルをブロックしました。", "CheckMurder");
+            Logger.Info("击杀间隔过短，击杀被取消", "CheckMurder");
             return false;
         }
         TimeSinceLastKill[killer.PlayerId] = 0f;
@@ -97,7 +98,7 @@ internal class CheckMurderPatch
         //キル可能判定
         if (killer.PlayerId != target.PlayerId && !killer.CanUseKillButton())
         {
-            Logger.Info(killer.GetNameWithRole() + "はKillできないので、キルはキャンセルされました。", "CheckMurder");
+            Logger.Info(killer.GetNameWithRole() + "击杀者不被允许使用击杀键，击杀被取消", "CheckMurder");
             return false;
         }
 
@@ -529,7 +530,17 @@ internal class MurderPlayerPatch
             Pelican.OnPelicanDied(target.PlayerId);
         if (target.Is(CustomRoles.BallLightning) && killer != target)
             BallLightning.MurderPlayer(killer, target);
-
+        if (killer.Is(CustomRoles.OverKiller))
+        {
+            Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Dismembered;
+            for (int i = 0; i < 20; i++)
+            {
+                killer.MurderPlayer(target);
+                MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.None, -1);
+                messageWriter.WriteNetObject(target);
+                AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+            }
+        }
         FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
         Main.PlayerStates[target.PlayerId].SetDead();

@@ -678,6 +678,7 @@ internal class ChatCommands
             "快槍手" or "快枪" => GetString("QuickShooter"),
             "隱蔽者" or "隐蔽" or "小黑人" => GetString("Concealer"),
             "抹除者" or "抹除" => GetString("Eraser"),
+            "肢解者" or "肢解" => GetString("OverKiller"),
             _ => text,
         };
     }

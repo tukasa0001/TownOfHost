@@ -112,6 +112,7 @@ public class PlayerState
         Overtired,
         Ashamed,
         PissedOff,
+        Dismembered,
         etc = -1
     }
     public byte GetRealKiller()
