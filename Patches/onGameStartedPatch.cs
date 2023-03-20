@@ -163,8 +163,6 @@ namespace TownOfHost
             }
             RpcSetRoleReplacer.StartReplace(senders);
 
-            //ウォッチャーの陣営抽選
-            Options.SetWatcherTeam();
             RoleAssignManager.SelectAssignRoles();
 
             if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
@@ -301,14 +299,6 @@ namespace TownOfHost
                 }
                 AssignLoversRoles();
 
-                //RPCによる同期
-                foreach (var pc in Main.AllPlayerControls)
-                {
-                    if (pc.Is(CustomRoles.Watcher))
-                    {
-                        Main.PlayerStates[pc.PlayerId].SetMainRole(Options.IsEvilWatcher ? CustomRoles.EvilWatcher : CustomRoles.NiceWatcher);
-                    }
-                }
                 foreach (var pair in Main.PlayerStates)
                 {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value.MainRole);

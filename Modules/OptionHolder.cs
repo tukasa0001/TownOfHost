@@ -270,12 +270,6 @@ namespace TownOfHost
 
         public static int SnitchExposeTaskLeft = 1;
 
-
-        public static bool IsEvilWatcher = false;
-        public static void SetWatcherTeam()
-        {
-            IsEvilWatcher = IRandom.Instance.Next(100) < EvilWatcherChance.GetInt();
-        }
         public static bool IsLoaded = false;
         public static int GetRoleCount(CustomRoles role)
         {

@@ -149,7 +149,6 @@ namespace TownOfHost
                 CustomRoles.GM => RoleTypes.GuardianAngel,
 
                 CustomRoles.MadSnitch => Options.MadSnitchCanVent.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
-                CustomRoles.Watcher => Options.IsEvilWatcher ? RoleTypes.Impostor : RoleTypes.Crewmate,
                 CustomRoles.Mayor => Options.MayorHasPortableButton.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
 
                 CustomRoles.Shapeshifter or
