@@ -759,9 +759,12 @@ internal class ChatCommands
                 }
                 var sb = new StringBuilder();
                 sb.Append(devMark + roleName + GetString($"{rl}InfoLong"));
-                Utils.ShowChildrenSettings(Options.CustomRoleSpawnChances[rl], ref sb, command: true);
-                var txt = sb.ToString();
-                sb.Clear().Append(txt.RemoveHtmlTags());
+                if (Options.CustomRoleSpawnChances.ContainsKey(rl))
+                {
+                    Utils.ShowChildrenSettings(Options.CustomRoleSpawnChances[rl], ref sb, command: true);
+                    var txt = sb.ToString();
+                    sb.Clear().Append(txt.RemoveHtmlTags());
+                }
                 Utils.SendMessage(sb.ToString(), player.PlayerId);
                 return;
             }
