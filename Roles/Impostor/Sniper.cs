@@ -13,15 +13,15 @@ namespace TownOfHost.Roles.Impostor
     public sealed class Sniper : RoleBase
     {
         public static readonly SimpleRoleInfo RoleInfo =
-          new(
-              typeof(Sniper),
-              player => new Sniper(player),
-              CustomRoles.Sniper,
-              RoleTypes.Shapeshifter,
-              CustomRoleTypes.Impostor,
-              1800,
-              SetupOptionItem
-          );
+            new(
+                typeof(Sniper),
+                player => new Sniper(player),
+                CustomRoles.Sniper,
+                RoleTypes.Shapeshifter,
+                CustomRoleTypes.Impostor,
+                1800,
+                SetupOptionItem
+            );
         public Sniper(PlayerControl player)
         : base(
             RoleInfo,

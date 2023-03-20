@@ -25,14 +25,14 @@ public static class CustomRoleManager
     // == CheckMurder関連処理 ==
     public static Dictionary<byte, MurderInfo> CheckMurderInfos = new();
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="attemptKiller">実際にキルを行ったプレイヤー 不変</param>
     /// <param name="attemptTarget">>Killerが実際にキルを行おうとしたプレイヤー 不変</param>
     public static void OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget)
         => OnCheckMurder(attemptKiller, attemptTarget, attemptKiller, attemptTarget);
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="attemptKiller">実際にキルを行ったプレイヤー 不変</param>
     /// <param name="attemptTarget">>Killerが実際にキルを行おうとしたプレイヤー 不変</param>
