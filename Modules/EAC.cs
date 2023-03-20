@@ -121,11 +121,7 @@ internal class EAC
                     }
                     break;
                 case RpcCalls.MurderPlayer:
-                    bool legal = false;
-                    if (CustomRolesHelper.RoleExist(CustomRoles.Mafia)) legal = true;
-                    if (CustomRolesHelper.RoleExist(CustomRoles.Counterfeiter)) legal = true;
-                    if (CustomRolesHelper.RoleExist(CustomRoles.Pelican)) legal = true;
-                    if (!legal && (GameStates.IsMeeting || GameStates.IsLobby || !pc.IsAlive()))
+                    if (GameStates.IsLobby)
                     {
                         WarnHost();
                         Report(pc, "非法击杀");
@@ -170,11 +166,7 @@ internal class EAC
                     }
                     break;
                 case 47:
-                    bool legal = false;
-                    if (CustomRolesHelper.RoleExist(CustomRoles.Mafia)) legal = true;
-                    if (CustomRolesHelper.RoleExist(CustomRoles.Counterfeiter)) legal = true;
-                    if (CustomRolesHelper.RoleExist(CustomRoles.Pelican)) legal = true;
-                    if (!legal && (GameStates.IsMeeting || GameStates.IsLobby || !pc.IsAlive()))
+                    if (GameStates.IsLobby)
                     {
                         WarnHost();
                         Report(pc, "非法击杀");
