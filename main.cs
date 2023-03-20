@@ -36,7 +36,7 @@ public class Main : BasePlugin
     public static readonly string BANNEDWORDS_FILE_PATH = "./TOHE_DATA/BanWords.txt";
     public const string PluginGuid = "com.karped1em.townofhostedited";
     public const string PluginVersion = "2.1.7";
-    public const int PluginCreate = 10;
+    public const int PluginCreate = 11;
     public Harmony Harmony { get; } = new Harmony(PluginGuid);
     public static Version version = Version.Parse(PluginVersion);
     public static BepInEx.Logging.ManualLogSource Logger;
