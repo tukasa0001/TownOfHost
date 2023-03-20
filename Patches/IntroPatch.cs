@@ -128,16 +128,24 @@ internal class BeginCrewmatePatch
         }
         switch (role)
         {
+            case CustomRoles.Provocateur:
             case CustomRoles.Terrorist:
                 var sound = ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault()
                 .MinigamePrefab.OpenSound;
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
                 break;
 
+            case CustomRoles.Arsonist:
             case CustomRoles.Executioner:
             case CustomRoles.Vampire:
             case CustomRoles.Opportunist:
             case CustomRoles.DarkHide:
+            case CustomRoles.Innocent:
+            case CustomRoles.Mario:
+            case CustomRoles.God:
+            case CustomRoles.Workaholic:
+            case CustomRoles.Collector:
+            case CustomRoles.Jester:
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                 break;
 
@@ -157,9 +165,7 @@ internal class BeginCrewmatePatch
                 __instance.ImpostorText.text = text.Replace("[FF1919FF]", "<color=#FF1919FF>").Replace("[]", "</color>");
                 break;
 
-            case CustomRoles.Arsonist:
             case CustomRoles.Revolutionist:
-            case CustomRoles.Innocent:
             case CustomRoles.Mayor:
             case CustomRoles.Paranoia:
             case CustomRoles.Veteran:
