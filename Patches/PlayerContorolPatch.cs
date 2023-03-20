@@ -535,8 +535,8 @@ internal class MurderPlayerPatch
             Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Dismembered;
             for (int i = 0; i < 20; i++)
             {
-                killer.MurderPlayer(target);
-                MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.None, -1);
+                target.MurderPlayer(target);
+                MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(target.NetId, (byte)RpcCalls.MurderPlayer, SendOption.None, -1);
                 messageWriter.WriteNetObject(target);
                 AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
             }
