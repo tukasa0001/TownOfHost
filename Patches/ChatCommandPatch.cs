@@ -677,6 +677,7 @@ internal class ChatCommands
             "自爆卡車" or "自爆" or "卡车" => GetString("Provocateur"),
             "快槍手" or "快枪" => GetString("QuickShooter"),
             "隱蔽者" or "隐蔽" or "小黑人" => GetString("Concealer"),
+            "抹除者" or "抹除" => GetString("Eraser"),
             _ => text,
         };
     }

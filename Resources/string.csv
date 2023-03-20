@@ -83,6 +83,7 @@ CursedWolf,呪狼,Cursed Wolf,Проклятый Волк
 ImperiusCurse,夺魂者,Soul Catcher,Ловец Душ
 QuickShooter,快枪手,Quick Shooter,Стрелок
 Concealer,隐蔽者,Concealer,Консилер
+Eraser,抹除者
 
 # 船员阵营
 Bait,诱饵,Bait,Байт
@@ -196,6 +197,7 @@ CursedWolfInfo,杀我是你做过最愚蠢的决定,Killing me is the worst idea
 ImperiusCurseInfo,啊对啊，我是红色，那我还能是谁呢,Change position,Изменяй положение
 QuickShooterInfo,I have a big PLAN！,I have a big PLAN!,У меня есть большой ПЛАН!
 ConcealerInfo,当所有人戴上面具，一切都自由了！,Change the appearance of all players,Измени облик всех игроков
+EraserInfo,恕我直言，你不配拥有能力
 
 # 船员阵营
 BaitInfo,好消息，杀了我可以吃席,Bait your enemies,Убийца моментально зарепортит ваш труп
@@ -311,6 +313,7 @@ CursedWolfInfoLong,(内鬼阵营):\n当呪狼即将被击杀时，呪狼会将�
 ImperiusCurseInfoLong,(内鬼阵营):\n夺魂者完成变形后可以与变形目标交换位置。（若目标处于非正常状态例如死亡、被吞、管道内等则无事发生）,"(Impostors):\nAfter the Soul Catcher completes shapehift, it can swap positions with the target it has chosen. (If the target is in an abnormal state such as dying, being swallowed, and being in a vent, etc., nothing will happen)","(Предатель):\nПосле того, как Ловец Душ завершит Морф, он может поменяться позициями с целью которую он выбрал.(Если цель находится в ненормальном состоянии, таком как: смерть, проглатывание, нахождение в вентиляции и т.д. то ничего не произойдет)."
 QuickShooterInfoLong,(内鬼阵营):\n当击杀冷却结束时，快枪手可以通过变形重置击杀冷却并储存一颗子弹（储存成功时快枪手身上会出现仅自己可见的护盾破碎动画作为提示）。快枪手完成击杀后可以用子弹抵消击杀冷却，直到子弹耗尽。每次会议开始快枪手只能保留一定数量的子弹（数量根据房主设定）。,"(Impostors):\nWhen the kill cooldown is up, the fast shooter can reset the kill cooldown by shapeshifting and saving the bullet (when the save is successful, it will have a shield break animation visible only to itself). After Quick Shooter makes a kill, he can offset the kill reload time with bullets until he runs out of bullets. At the beginning of each encounter, the Quick Shooter can only leave a certain amount of ammo (the amount is set by the Host).","(Предатель):\nКогда откат убийства истекло, быстрый стрелок может сбросить откат убийства морфом и сохранив пулю (когда хранение прошло успешно, на нём появится анимация разрушения щита, видимая только ему самому). После того, как Стрелок совершит убийство, он может компенсировать время отката убийства пулями, пока у него не закончатся пули. В начале каждой встречи  Стрелок может оставить только определенное количество патронов (количество устанавливается Хостом)."
 ConcealerInfoLong,(内鬼阵营):\n隐蔽者变形后会让所有人变成小黑人，这个状态下所有人都看起来得一模一样。技能持续时间根据房主设定。请注意：通讯破坏小黑人与隐蔽者的技能可以叠加。,"(Impostors):\nAfter the shapeshift Concealer, everyone will turn into little black men, and everyone in this state will look exactly the same. The duration of the skill is set by the Host. Please note: When everyone becomes a little black man and camouflage works at the same time, they can be stacked on top of each other.","(Предатель):\nПосле того, как Консилер Морфанётся, все превратятся в маленьких черных человечков, и все в этом состоянии будут выглядеть совершенно одинаково. Продолжительность действия навыка устанавливается Хостом. Пожалуйста, обратите внимание: Когда все становятся маленькими черными человечками и одновременно работает камуфляж, они могут быть наложены друг на друга."
+EraserInfoLong,(内鬼阵营):\n抹除者可以在会议上投票给任意目标以抹除目标的职业技能，抹除将在会议结束后生效。请注意：被抹除技能的玩家将被永远视为白板，包括游戏结算页面。
 
 # 双阵营
 GuesserInfoLong,(内鬼阵营或船员阵营):\n赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。,"(Impostors or Crewmate):\nGuesser can guess the roles of certain players during an encounter. If he guesses the role correctly, he will kill that target, and if wrong, he will commit suicide. \nGuessing command: ''/bt [Player ID] [Role Name]'' \nExample: /bt 3 Bait \nYou can see the player ID before the player's nickname, or you can use the ''/id'' command to see the IDs of all players.","(Предатель или Член Экипажа):\nУгадыватель может угадывать роли определённого игрока во время встречи. Если он угадает роль правильно, то он убьет эту цель, а если неправильно, то он совершит самоубийство. \nКоманда для угадываний: '/bt [Номер игрока] [Название Роли]'' \nПример: /bt 3 Байт \nВы можете увидеть номер игрока перед его никнеймом, или же для просмотра номеров всех игроков нужно использовать команду ''/id'' ."
@@ -698,6 +701,7 @@ MeetingReserved,会议保留子弹数量,"Number of bullets reserved for the mee
 AccurateCheckMode,未完成任务时可占卜准确职业,"Exact lesson for divination when all tasks are not completed","Точное занятие для гадания, когда все задания не выполнены"
 ConcealerSkillCooldown,隐蔽冷却时间,Skill cooldown,Откат навыка
 ConcealerSkillDuration,隐蔽持续时间,Skill duration,Длительность навыка
+EraseLimit,抹除次数上限
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
@@ -776,6 +780,11 @@ GGGuessMax,您已经达到每次会议的猜测上限，不能再猜测啦！,"Y
 EGGuessMax,您已经达到每次会议的猜测上限，不能再猜测啦！,"You've reached the maximum guessing limit for each encounter, you can't guess anymore!","Вы достигли максимального предела угадывания для каждой встречи, вы больше не можете угадывать!"
 LaughToWhoGuessSelf,有一说一，你是懂赌怪的,"Try to guess, who tried to self-guessed! It's you! Ahah!","Попробуйте угадать, кто попытался себя угадать! Это ты! Ахах!"
 MimicDeadMsg,来自宝箱怪的线索：,Mimic's hint:,Подсказка от Мимика:
+DivinatorCheck,您透过水晶球发现：,"You're looking through a crystal ball","Ты смотришь сквозь хрустальный шар"
+DivinatorCheckLimit,提示：剩余【{0}】次占卜机会,"Reminder: You have 【{0}】 guesses left","Напоминание: У тебя осталось 【{0}】 угадываний"
+DivinatorCheckSelfMsg,哇靠，您查到了一位举世人才！目标太过耀眼，已经看不到任何东西啦！,"Wow, you found yourself... All you see is a reflection.","Вау, ты нашёл сам себя... Всё что ты видишь это отражение."
+DivinatorCheckReachLimit,水晶球也是会累哒，接下来就算没有水晶球，也要好好努力呀！（占卜次数达到上限）,"You are tired of using a crystal ball for too much. You should retire for now. (The number of divination reaches the limit)","Вы устали от слишком частого использования хрустального шара. Вы должны уйти в отставку. (Количество гаданий достиг предела)"
+EraserEraseNotice,您发动了抹除技能\n【{0}】的技能将在会议结束后失效。
 
 ## 信息
 Message.SetToSeconds,信息发送冷却时间为【{0}】秒,Set to 【{0}】 seconds.,Установлен на 【{0}】 секунды
@@ -807,11 +816,6 @@ Message.CanNotUseByHost,很抱歉，房主无法使用该指令,"Sorry, Host can
 Message.TryFixName,已尝试修复名字遮挡,An attempt was made to fix hidden message content due to roles,Была предпринята попытка исправить скрытые содержания сообщений из за ролей
 Message.CanNotFindRoleThePlayerEnter,请正确拼写您要查询的职业哦~\n查看所有职业请直接输入/r,"Please write the correct role you want to request ~ \nTo view all roles type /r command","Пожалуйста, правильно напишите роль, которую вы хотите запросить ~\nЧтобы просмотреть все роли, напишите команду /r"
 Message.PlayerQuitForever,【{0}】选择自愿离开\n很抱歉给大家带来了糟糕的游戏体验\n我们真的很努力地在进步了,"【{0}】decided to leave voluntarily \nSorry for the bad gaming experience \nI really worked hard to make progress","【{0}】решил уйти добровольно \nПрошу прощения за плохой игровой опыт \nЯ действительно усердно работал, чтобы добиться прогресса"
-Message.DivinatorCheck,您透过水晶球发现：,"You're looking through a crystal ball","Ты смотришь сквозь хрустальный шар"
-Message.DivinatorCheckLimit,提示：剩余【{0}】次占卜机会,"Reminder: You have 【{0}】 guesses left","Напоминание: У тебя осталось 【{0}】 угадываний"
-Message.DivinatorCheckSelfMsg,哇靠，您查到了一位举世人才！目标太过耀眼，已经看不到任何东西啦！,"Wow, you found yourself... All you see is a reflection.","Вау, ты нашёл сам себя... Всё что ты видишь это отражение."
-Message.DivinatorCheckReachLimit,水晶球也是会累哒，接下来就算没有水晶球，也要好好努力呀！（占卜次数达到上限）,"You are tired of using a crystal ball for too much. You should retire for now. (The number of divination reaches the limit)","Вы устали от слишком частого использования хрустального шара. Вы должны уйти в отставку. (Количество гаданий достиг предела)"
-Message.LastAdminInfo,各地点人数（「★」代表存在内鬼）,"Number of players in each location (''★'' means there is a Impostor)","Количество игроков в каждой локации (''★'' означает, что есть Предатель)"
 Message.MadmateSelfVoteModeNotify,请注意：当前叛徒生成模式为【{0}】\n投票给自己代表您希望成为叛徒。若您符合成为叛徒的条件且还有剩余名额，将立刻成为叛徒。,"Please note: The current Madness generation mode is [{0}]\n Voting for yourself means you want to be Madmate. If you meet the conditions to become Madmate and there are still spaces left, you will immediately become Madmate","Пожалуйста, обратите внимание: Текущий режим появления Безумцев - [{0}]\n Голосование за себя означает, что вы хотите быть Безумцем. Если вы соответствуете условиям, чтобы стать Безумцем и еще остались места, вы немедленно станете Безумцем"
 
 ## 警告
@@ -852,6 +856,7 @@ GodAliveTitle,【 ★ 神的共鸣 ★ 】,【 ★ Message about God ★ 】,【
 MessageFromDevTitle,【 ★ 咔皮呆留言 ★ 】,【 ★ Self-Guessing ★ 】,【 ★ Само-Угадывание ★ 】
 DivinatorCheckMsgTitle,【 ★ 水晶球 ★ 】,【 ★ Crystall Ball ★ 】,【 ★ Хрустальный Шар ★ 】
 MimicMsgTitle,【 ★ 宝箱怪 ★ 】,【 ★ Mimic ★ 】,【 ★ Мимик ★ 】
+EraserEraseMsgTitle,【 ★ 抹除者 ★ 】
 TabGroup.SystemSettings,系统设置,System Settings,Системные настройки
 TabGroup.GameSettings,游戏设置,Game Settings,Игровые настройки
 TabGroup.CrewmateRoles,船员阵营职业,Crewmate Roles,Роли Членов Экипажа

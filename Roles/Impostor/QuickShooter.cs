@@ -31,8 +31,6 @@ internal static class QuickShooter
     public static void Add(byte playerId)
     {
         playerIdList.Add(playerId);
-        if (!Main.ResetCamPlayerList.Contains(playerId))
-            Main.ResetCamPlayerList.Add(playerId);
         ShotLimit.TryAdd(playerId, 0);
         Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : 残り{ShotLimit[playerId]}発", "QuickShooter");
     }

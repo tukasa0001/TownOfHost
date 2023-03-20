@@ -430,6 +430,7 @@ public enum CustomRoles
     ImperiusCurse,
     QuickShooter,
     Concealer,
+    Eraser,
     //Crewmate(Vanilla)
     Engineer,
     GuardianAngel,

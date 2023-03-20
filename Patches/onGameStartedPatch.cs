@@ -184,6 +184,8 @@ internal class ChangeRoleSettings
             Collector.Init();
             QuickShooter.Init();
             Concealer.Init();
+            Divinator.Init();
+            Eraser.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
@@ -689,6 +691,9 @@ internal class SelectRolesPatch
                         break;
                     case CustomRoles.Concealer:
                         Concealer.Add(pc.PlayerId);
+                        break;
+                    case CustomRoles.Eraser:
+                        Eraser.Add(pc.PlayerId);
                         break;
                 }
                 foreach (var subRole in pc.GetCustomSubRoles())

@@ -458,6 +458,9 @@ public static class Utils
             case CustomRoles.Collector:
                 ProgressText.Append(Collector.GetProgressText(playerId));
                 break;
+            case CustomRoles.Eraser:
+                ProgressText.Append(Eraser.GetProgressText(playerId));
+                break;
             default:
                 //タスクテキスト
                 var taskState = Main.PlayerStates?[playerId].GetTaskState();

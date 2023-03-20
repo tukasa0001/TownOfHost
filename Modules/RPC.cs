@@ -58,6 +58,7 @@ internal enum CustomRPC
     SetCollectorVotes,
     SetQuickShooterShotLimit,
     RestTOHESetting,
+    SetEraseLimit,
 }
 public enum Sounds
 {
@@ -366,6 +367,9 @@ internal class RPCHandlerPatch
             case CustomRPC.RestTOHESetting:
                 OptionItem.AllOptions.ToArray().Where(x => x.Id > 0).Do(x => x.SetValueNoRpc(x.DefaultValue));
                 break;
+            case CustomRPC.SetEraseLimit:
+                Eraser.ReceiveRPC(reader);
+                break;
         }
     }
 }
@@ -586,6 +590,9 @@ internal static class RPC
                 break;
             case CustomRoles.Concealer:
                 Concealer.Add(targetId);
+                break;
+            case CustomRoles.Eraser:
+                Eraser.Add(targetId);
                 break;
         }
         HudManager.Instance.SetHudActive(true);

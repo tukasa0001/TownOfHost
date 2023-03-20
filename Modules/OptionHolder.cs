@@ -678,6 +678,7 @@ public static class Options
             .SetValueFormat(OptionFormat.Seconds);
         BallLightning.SetupCustomOption();
         Concealer.SetupCustomOption();
+        Eraser.SetupCustomOption();
 
         // 船员
         _ = BooleanOptionItem.Create(909092, "OtherRoles.CrewmateRoles", false, TabGroup.OtherRoles, false)

@@ -67,10 +67,21 @@ internal class CheckForEndVotingPatch
                         ConfirmEjections(Main.LastVotedPlayerInfo);
                     return true;
                 }
-                if (pc.Is(CustomRoles.Divinator) && pva.DidVote && pva.VotedFor < 253 && !pc.Data.IsDead)
+                if (pva.DidVote && pva.VotedFor < 253 && !pc.Data.IsDead)
                 {
                     var voteTarget = Utils.GetPlayerById(pva.VotedFor);
-                    Divinator.CheckPlayer(pc, voteTarget);
+                    if (voteTarget != null)
+                    {
+                        switch (pc.GetCustomRole())
+                        {
+                            case CustomRoles.Divinator:
+                                Divinator.OnVote(pc, voteTarget);
+                                break;
+                            case CustomRoles.Eraser:
+                                Eraser.OnVote(pc, voteTarget);
+                                break;
+                        }
+                    }
                 }
             }
             foreach (var ps in __instance.playerStates)
@@ -522,6 +533,7 @@ internal class MeetingHudStartPatch
         Counterfeiter.OnMeetingStart();
         BallLightning.OnMeetingStart();
         QuickShooter.OnMeetingStart();
+        Eraser.OnMeetingStart();
         Divinator.didVote.Clear();
 
         NotifyRoleSkillOnMeetingStart();
@@ -843,6 +855,8 @@ internal class MeetingHudOnDestroyPatch
             Main.DetectiveNotify.Clear();
             Main.LastVotedPlayerInfo = null;
             EAC.MeetingTimes = 0;
+
+            Eraser.OnMeetingDestroy();
         }
     }
 }

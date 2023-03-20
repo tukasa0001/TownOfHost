@@ -10,8 +10,8 @@ public static class Divinator
     private static List<byte> playerIdList = new();
     public static List<byte> didVote = new();
     private static Dictionary<byte, int> CheckLimit = new();
-    public static OptionItem CheckLimitOpt;
-    public static OptionItem AccurateCheckMode;
+    private static OptionItem CheckLimitOpt;
+    private static OptionItem AccurateCheckMode;
     public static void SetupCustomOption()
     {
         SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.Divinator);
@@ -35,7 +35,7 @@ public static class Divinator
             Main.ResetCamPlayerList.Add(playerId);
     }
     public static bool IsEnable => playerIdList.Count > 0;
-    public static void CheckPlayer(PlayerControl player, PlayerControl target)
+    public static void OnVote(PlayerControl player, PlayerControl target)
     {
         if (player == null || target == null) return;
         if (didVote.Contains(player.PlayerId)) return;
@@ -43,7 +43,7 @@ public static class Divinator
 
         if (CheckLimit[player.PlayerId] < 1)
         {
-            Utils.SendMessage(GetString("Message.DivinatorCheckReachLimit"), player.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Divinator), GetString("DivinatorCheckMsgTitle")));
+            Utils.SendMessage(GetString("DivinatorCheckReachLimit"), player.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Divinator), GetString("DivinatorCheckMsgTitle")));
             return;
         }
 
@@ -51,7 +51,7 @@ public static class Divinator
 
         if (player.PlayerId == target.PlayerId)
         {
-            Utils.SendMessage(GetString("Message.DivinatorCheckSelfMsg") + "\n\n" + string.Format(GetString("Message.DivinatorCheckLimit"), CheckLimit[player.PlayerId]), player.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Divinator), GetString("DivinatorCheckMsgTitle")));
+            Utils.SendMessage(GetString("DivinatorCheckSelfMsg") + "\n\n" + string.Format(GetString("DivinatorCheckLimit"), CheckLimit[player.PlayerId]), player.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Divinator), GetString("DivinatorCheckMsgTitle")));
             return;
         }
 
@@ -169,6 +169,6 @@ public static class Divinator
             msg = string.Format(GetString("DivinatorCheck." + text), target.GetRealName());
         }
 
-        Utils.SendMessage(GetString("Message.DivinatorCheck") + "\n" + msg + "\n\n" + string.Format(GetString("Message.DivinatorCheckLimit"), CheckLimit[player.PlayerId]), player.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Divinator), GetString("DivinatorCheckMsgTitle")));
+        Utils.SendMessage(GetString("DivinatorCheck") + "\n" + msg + "\n\n" + string.Format(GetString("DivinatorCheckLimit"), CheckLimit[player.PlayerId]), player.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Divinator), GetString("DivinatorCheckMsgTitle")));
     }
 }
