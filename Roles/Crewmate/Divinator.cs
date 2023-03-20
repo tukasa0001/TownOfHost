@@ -117,7 +117,8 @@ public static class Divinator
                 CustomRoles.Grenadier or
                 CustomRoles.Terrorist or
                 CustomRoles.Revolutionist or
-                CustomRoles.Gamer
+                CustomRoles.Gamer or
+                CustomRoles.Eraser
                 => "Blockbuster",
 
                 CustomRoles.Warlock or
