@@ -12,8 +12,19 @@ namespace TownOfHost.Roles.Core;
 public abstract class RoleBase : IDisposable
 {
     public PlayerControl Player;
+    /// <summary>
+    /// タスクは持っているか。
+    /// 初期値はクルー役職のみ持つ
+    /// </summary>
     public bool HasTasks;
+    /// <summary>
+    /// キル能力を持っているか
+    /// </summary>
     public bool CanKill;
+    /// <summary>
+    /// キル動作 == キルの役職か
+    /// </summary>
+    public bool IsKiller;
     public RoleBase(
         SimpleRoleInfo roleInfo,
         PlayerControl player,
@@ -24,6 +35,7 @@ public abstract class RoleBase : IDisposable
         Player = player;
         HasTasks = hasTasks ?? roleInfo.CustomRoleType == CustomRoleTypes.Crewmate;
         CanKill = canKill ?? roleInfo.BaseRoleType is RoleTypes.Impostor or RoleTypes.Shapeshifter;
+        IsKiller = CanKill;
 
         CustomRoleManager.AllActiveRoles.Add(this);
     }
@@ -96,45 +108,80 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     public virtual void ApplyGameOptions(IGameOptions opt)
     { }
+
     // == CheckMurder関連処理 ==
-    public virtual IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target, CustomRoleManager.CheckMurderInfo info) => null;
-    // ==/CheckMurder関連処理 ==
     /// <summary>
-    /// キルが実行された直後に呼ばれる関数
+    /// キラーとしてのCheckMurder処理
+    /// 通常キルはブロックされることを考慮しなくてもよい。
+    /// 通常キル以外の能力はinfo.CanKill=falseの場合は効果発揮しないよう実装する。
+    /// キルを行わない場合はinfo.DoKill=falseとする。
     /// </summary>
-    /// <param name="killer">キルしたプレイヤー</param>
-    /// <param name="target">キルされたプレイヤー</param>
-    public virtual void OnMurderPlayer(PlayerControl killer, PlayerControl target)
+    /// <param name="info">キル関係者情報</param>
+    public virtual void OnCheckMurderAsKiller(MurderInfo info) { }
+
+    /// <summary>
+    /// ターゲットとしてのCheckMurder処理
+    /// キラーより先に判定
+    /// キル出来ない状態(無敵など)はinfo.CanKill=falseとしてtrueを返す
+    /// キル行為自体をなかったことにする場合はfalseを返す。
+    /// </summary>
+    /// <param name="info">キル関係者情報</param>
+    /// <returns>false:キル行為を起こさせない</returns>
+    public virtual bool OnCheckMurderAsTarget(MurderInfo info) => true;
+
+    // ==MurderPlayer関連処理 ==
+    /// <summary>
+    /// キラーとしてのMurderPlayer処理
+    /// </summary>
+    /// <param name="info">キル関係者情報</param>
+    public virtual void OnMurderPlayerAsKiller(MurderInfo info)
     { }
+
+    /// <summary>
+    /// ターゲットとしてのMurderPlayer処理
+    /// </summary>
+    /// <param name="info">キル関係者情報</param>
+    public virtual void OnMurderPlayerAsTarget(MurderInfo info)
+    { }
+
     /// <summary>
     /// シェイプシフト時に呼ばれる関数
+    /// 自分自身について呼ばれるため本人確認不要
+    /// Host以外も呼ばれるので注意
     /// </summary>
-    /// <param name="shapeshifter">シェイプシフター</param>
     /// <param name="target">変身先</param>
-    public virtual void OnShapeshift(PlayerControl shapeshifter, PlayerControl target)
+    public virtual void OnShapeshift(PlayerControl target)
     { }
+
     /// <summary>
     /// タスクターンに常時呼ばれる関数
+    /// 自分自身について呼ばれるため本人確認不要
+    /// Host以外も呼ばれるので注意
     /// </summary>
     public virtual void OnFixedUpdate()
     { }
+
     /// <summary>
     /// 通報時に呼ばれる関数
+    /// 通報に関係ないプレイヤーも呼ばれる
     /// </summary>
     /// <param name="reporter">通報したプレイヤー</param>
     /// <param name="target">通報されたプレイヤー</param>
     /// <returns>falseを返すと通報がキャンセルされます</returns>
     public virtual bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target) => true;
+
     /// <summary>
     /// ミーティングが始まった時に呼ばれる関数
     /// </summary>
     public virtual void OnStartMeeting()
     { }
+
     /// <summary>
     /// タスクターンが始まる直前に毎回呼ばれる関数
     /// </summary>
     public virtual void AfterMeetingTasks()
     { }
+
     /// <summary>
     /// タスクが一個完了するごとに呼ばれる関数
     /// </summary>

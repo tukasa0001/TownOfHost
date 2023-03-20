@@ -124,24 +124,33 @@ namespace TownOfHost.Roles.Crewmate
             && ShotLimit > 0;
 
         // == CheckMurder関連処理 ==
-        public override IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target, CustomRoleManager.CheckMurderInfo info)
+        public override void OnCheckMurderAsKiller(MurderInfo info)
         {
-            if (killer != this.Player) yield break;
-            yield return 0x0100_8031;
-            ShotLimit--;
-            Logger.Info($"{killer.GetNameWithRole()} : 残り{ShotLimit}発", "Sheriff");
-            SendRPC();
-            if (!CanBeKilledBy(target))
+            if (Is(info.AttemptKiller) && !info.IsSuicide)
             {
-                killer.RpcMurderPlayer(killer);
-                Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
-                if (!MisfireKillsTarget.GetBool())
+                (var killer, var target) = info.AttemptTuple;
+
+                Logger.Info($"{killer.GetNameWithRole()} : 残り{ShotLimit}発", "Sheriff");
+                if (ShotLimit <= 0)
                 {
-                    info.CancelAndAbort();
+                    info.DoKill = false;
+                    return;
                 }
+                ShotLimit--;
+                SendRPC();
+                if (!CanBeKilledBy(target))
+                {
+                    killer.RpcMurderPlayer(killer);
+                    Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
+                    if (!MisfireKillsTarget.GetBool())
+                    {
+                        info.DoKill = false;
+                        return;
+                    }
+                }
+                killer.ResetKillCooldown();
             }
-            killer.ResetKillCooldown();
-            yield break;
+            return;
         }
         // ==/CheckMurder関連処理 ==
         public override string GetProgressText(bool comms = false) => Utils.ColorString(CanUseKillButton() ? Color.yellow : Color.gray, $"({ShotLimit})");

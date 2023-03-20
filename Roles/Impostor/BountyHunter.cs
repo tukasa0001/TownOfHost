@@ -92,37 +92,39 @@ namespace TownOfHost.Roles.Impostor
         //public static void SetKillCooldown(byte id, float amount) => Main.AllPlayerKillCooldown[id] = amount;
         public override void ApplyGameOptions(IGameOptions opt) => AURoleOptions.ShapeshifterCooldown = TargetChangeTime;
 
-        public override IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target, CustomRoleManager.CheckMurderInfo info)
+        public override void OnCheckMurderAsKiller(MurderInfo info)
         {
-            if (killer != this.Player) yield break;
-            yield return 0x0300_8003;
-            if (GetTarget() == target)
-            {//ターゲットをキルした場合
-                Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
-                Main.AllPlayerKillCooldown[killer.PlayerId] = SuccessKillCooldown;
-                killer.SyncSettings();//キルクール処理を同期
-                ResetTarget();
-            }
-            else
+            if (!info.IsSuicide)
             {
-                Logger.Info($"{killer?.Data?.PlayerName}:ターゲット以外をキル", "BountyHunter");
-                Main.AllPlayerKillCooldown[killer.PlayerId] = FailureKillCooldown;
-                killer.SyncSettings();//キルクール処理を同期
+                (var killer, var target) = info.AttemptTuple;
+
+                if (GetTarget() == target)
+                {//ターゲットをキルした場合
+                    Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
+                    Main.AllPlayerKillCooldown[killer.PlayerId] = SuccessKillCooldown;
+                    killer.SyncSettings();//キルクール処理を同期
+                    ResetTarget();
+                }
+                else
+                {
+                    Logger.Info($"{killer?.Data?.PlayerName}:ターゲット以外をキル", "BountyHunter");
+                    Main.AllPlayerKillCooldown[killer.PlayerId] = FailureKillCooldown;
+                    killer.SyncSettings();//キルクール処理を同期
+                }
             }
-            yield break;
+            return;
         }
         public override void OnFixedUpdate()
         {
-            if (GameStates.IsInTask)
+            if (AmongUsClient.Instance.AmHost)
             {
-                var player = Player;
-                if (player.IsAlive())
+                if (Player.IsAlive())
                 {
                     var targetId = GetTarget().PlayerId;
                     if (ChangeTimer >= TargetChangeTime)//時間経過でターゲットをリセットする処理
                     {
                         ResetTarget();//ターゲットの選びなおし
-                        Utils.NotifyRoles(SpecifySeer: player);
+                        Utils.NotifyRoles(SpecifySeer: Player);
                     }
                     if (ChangeTimer >= 0)
                         ChangeTimer += Time.fixedDeltaTime;
@@ -131,8 +133,8 @@ namespace TownOfHost.Roles.Impostor
                     if (Main.PlayerStates[targetId].IsDead)
                     {
                         ResetTarget();
-                        Logger.Info($"{player.GetNameWithRole()}のターゲットが無効だったため、ターゲットを更新しました", "BountyHunter");
-                        Utils.NotifyRoles(SpecifySeer: player);
+                        Logger.Info($"{Player.GetNameWithRole()}のターゲットが無効だったため、ターゲットを更新しました", "BountyHunter");
+                        Utils.NotifyRoles(SpecifySeer: Player);
                     }
                 }
             }

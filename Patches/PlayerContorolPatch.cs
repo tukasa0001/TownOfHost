@@ -54,10 +54,6 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return false;
 
-            var killer = __instance; //読み替え変数
-
-            Logger.Info($"{killer.GetNameWithRole()} => {target.GetNameWithRole()}", "CheckMurder");
-
             // 処理は全てCustomRoleManager側で行う
             CustomRoleManager.OnCheckMurder(__instance, target);
 
@@ -65,32 +61,34 @@ namespace TownOfHost
         }
 
         // 不正キル防止チェック
-        public static IEnumerator<int> CheckForInvalidMurdering(PlayerControl killer, PlayerControl target, CustomRoleManager.CheckMurderInfo info)
+        public static bool CheckForInvalidMurdering(MurderInfo info)
         {
+            (var killer, var target) = info.AttemptTuple;
+
             // Killerが既に死んでいないかどうか
-            if (killer.Data.IsDead)
+            if (!killer.IsAlive())
             {
                 Logger.Info($"{killer.GetNameWithRole()}は死亡しているためキャンセルされました。", "CheckMurder");
-                info.CancelAndAbort(); yield break;
+                return false;
             }
             // targetがキル可能な状態か
             if (target.Data == null || //PlayerDataがnullじゃないか確認
                 target.inVent || target.inMovingPlat) //targetの状態をチェック
             {
                 Logger.Info("targetは現在キルできない状態です。", "CheckMurder");
-                info.CancelAndAbort(); yield break;
+                return false;
             }
             // targetが既に死んでいないか
-            if (target.Data.IsDead)
+            if (!target.IsAlive())
             {
                 Logger.Info("targetは既に死んでいたため、キルをキャンセルしました。", "CheckMurder");
-                info.CancelAndAbort(); yield break;
+                return false;
             }
             // 会議中のキルでないか
             if (MeetingHud.Instance != null)
             {
                 Logger.Info("会議が始まっていたため、キルをキャンセルしました。", "CheckMurder");
-                info.CancelAndAbort(); yield break;
+                return false;
             }
 
             // 連打キルでないか
@@ -100,7 +98,7 @@ namespace TownOfHost
             if (TimeSinceLastKill.TryGetValue(killer.PlayerId, out var time) && time < minTime)
             {
                 Logger.Info("前回のキルからの時間が早すぎるため、キルをブロックしました。", "CheckMurder");
-                info.CancelAndAbort(); yield break;
+                return false;
             }
             TimeSinceLastKill[killer.PlayerId] = 0f;
 
@@ -108,72 +106,24 @@ namespace TownOfHost
             if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
             {
                 Logger.Info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。", "CheckMurder");
-                info.CancelAndAbort(); yield break;
+                return false;
             }
-            // キルが可能なプレイヤーか
-            if (killer.PlayerId != target.PlayerId && !killer.CanUseKillButton())
+            // キルが可能なプレイヤーか(遠隔は除く)
+            if (!info.IsFakeSuicide && !killer.CanUseKillButton())
             {
                 Logger.Info(killer.GetNameWithRole() + "はKillできないので、キルはキャンセルされました。", "CheckMurder");
-                info.CancelAndAbort(); yield break;
+                return false;
             }
+            return true;
         }
 
-        public static IEnumerator<int> OnCheckMurder(PlayerControl killer, PlayerControl target, CustomRoleManager.CheckMurderInfo info)
+        public static void OnCheckMurderAsKiller(MurderInfo info)
         {
-            // アーソニストのキルキャンセル・塗り開始
-            if (killer.Is(CustomRoles.Arsonist))
-            {
-                yield return 0x0100_8040;
-                killer.SetKillCooldown(Options.ArsonistDouseTime.GetFloat());
-                if (!Main.isDoused[(killer.PlayerId, target.PlayerId)] && !Main.ArsonistTimer.ContainsKey(killer.PlayerId))
-                {
-                    Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
-                    Utils.NotifyRoles(SpecifySeer: killer);
-                    RPC.SetCurrentDousingTarget(killer.PlayerId, target.PlayerId);
-                }
-                info.CancelAndAbort();
-                yield break;
-            }
-
-            //キルされた時の特殊判定
-            yield return 0x0100_8800;
-            switch (target.GetCustomRole())
-            {
-                case CustomRoles.SchrodingerCat:
-                    if (!SchrodingerCat.OnCheckMurder(killer, target))
-                    {
-                        info.CancelAndAbort();
-                        yield break;
-                    }
-                    break;
-
-                //==========マッドメイト系役職==========//
-                case CustomRoles.MadGuardian:
-                    // killerがキルできないインポスター判定役職の場合はスキップ
-                    if (killer.Is(CustomRoles.Arsonist)) break;
-
-                    //MadGuardianを切れるかの判定処理
-                    var taskState = target.GetPlayerTaskState();
-                    if (taskState.IsTaskFinished)
-                    {
-                        var colorCode = Utils.GetRoleColorCode(CustomRoles.MadGuardian);
-                        if (!NameColorManager.TryGetData(killer, target, out var value) || value != colorCode)
-                        {
-                            NameColorManager.Add(killer.PlayerId, target.PlayerId);
-                            if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
-                                NameColorManager.Add(target.PlayerId, killer.PlayerId, colorCode);
-                            Utils.NotifyRoles();
-                            info.CancelAndAbort();
-                            yield break;
-                        }
-                    }
-                    break;
-            }
+            (var killer, var target) = info.AttemptTuple;
 
             //キル時の特殊判定
             if (killer.PlayerId != target.PlayerId)
             {
-                yield return 0x0300_8800;
                 var roleClass = killer.GetRoleClass();
                 //自殺でない場合のみ役職チェック
                 switch (killer.GetCustomRole())
@@ -183,11 +133,7 @@ namespace TownOfHost
                         SerialKiller.OnCheckMurder(killer);
                         break;
                     case CustomRoles.Vampire:
-                        if (!Vampire.OnCheckMurder(killer, target))
-                        {
-                            info.CancelAndAbort();
-                            yield break;
-                        }
+                        info.DoKill = Vampire.OnCheckMurder(info);
                         break;
                     case CustomRoles.Warlock:
                         if (!Main.CheckShapeshift[killer.PlayerId] && !Main.isCurseAndKill[killer.PlayerId])
@@ -197,39 +143,72 @@ namespace TownOfHost
                             Main.CursedPlayers[killer.PlayerId] = target;
                             Main.WarlockTimer.Add(killer.PlayerId, 0f);
                             Main.isCurseAndKill[killer.PlayerId] = true;
-                            info.CancelAndAbort();
-                            yield break;
+                            info.DoKill = false;
+                            return;
                         }
                         if (Main.CheckShapeshift[killer.PlayerId])
                         {//呪われてる人がいないくて変身してるときに通常キルになる
-                            killer.RpcMurderPlayer(target);
                             killer.RpcGuardAndKill(target);
-                            info.CancelAndAbort();
-                            yield break;
+                            return;
                         }
                         if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
-                        info.CancelAndAbort();
-                        yield break;
+                        info.DoKill = false;
+                        break;
                     case CustomRoles.Witch:
-                        if (!Witch.OnCheckMurder(killer, target))
-                        {
-                            //Spellモードの場合は終了
-                            info.CancelAndAbort();
-                            yield break;
-                        }
+                        info.DoKill = Witch.OnCheckMurder(info);
                         break;
                     case CustomRoles.Puppeteer:
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
                         killer.SetKillCooldown();
                         Utils.NotifyRoles(SpecifySeer: killer);
-                        info.CancelAndAbort();
-                        yield break;
+                        info.DoKill = false;
+                        break;
 
-                        //==========マッドメイト系役職==========//
+                    //==========マッドメイト系役職==========//
 
-                        //==========ニュートラル役職==========//
+                    //==========ニュートラル役職==========//
+                    case CustomRoles.Arsonist:
+                        Logger.Info("Arsonist start douse", "OnCheckMurderAsKiller");
+                        killer.SetKillCooldown(Options.ArsonistDouseTime.GetFloat());
+                        if (!Main.isDoused[(killer.PlayerId, target.PlayerId)] && !Main.ArsonistTimer.ContainsKey(killer.PlayerId))
+                        {
+                            Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
+                            Utils.NotifyRoles(SpecifySeer: killer);
+                            RPC.SetCurrentDousingTarget(killer.PlayerId, target.PlayerId);
+                        }
+                        info.DoKill = false;
+                        break;
                 }
             }
+        }
+        public static bool OnCheckMurderAsTarget(MurderInfo info)
+        {
+            (var killer, var target) = info.AttemptTuple;
+
+            //キルされた時の特殊判定
+            switch (target.GetCustomRole())
+            {
+                //==========マッドメイト系役職==========//
+                case CustomRoles.MadGuardian:
+                    //MadGuardianを切れるかの判定処理
+                    var taskState = target.GetPlayerTaskState();
+                    if (taskState.IsTaskFinished)
+                    {
+                        info.CanKill = false;
+                        var colorCode = Utils.GetRoleColorCode(CustomRoles.MadGuardian);
+                        if (!NameColorManager.TryGetData(killer, target, out var value) || value != colorCode)
+                        {
+                            NameColorManager.Add(killer.PlayerId, target.PlayerId);
+                            if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
+                                NameColorManager.Add(target.PlayerId, killer.PlayerId, colorCode);
+                            Utils.NotifyRoles();
+                        }
+                        return true;
+                    }
+                    break;
+            }
+            return true;
+
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MurderPlayer))]
@@ -247,61 +226,9 @@ namespace TownOfHost
         {
             if (target.AmOwner) RemoveDisableDevicesPatch.UpdateDisableDevices();
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost) return;
-
-            PlayerControl killer = __instance; //読み替え変数
-
-            killer.GetRoleClass()?.OnMurderPlayer(killer, target);
-
-            //実際のキラーとkillerが違う場合の入れ替え処理
-            if (Sniper.IsEnable)
-            {
-                if (Sniper.TryGetSniper(target.PlayerId, ref killer))
-                {
-                    Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Sniped;
-                }
-            }
-            if (killer != __instance)
-            {
-                Logger.Info($"Real Killer={killer.GetNameWithRole()}", "MurderPlayer");
-
-            }
-            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.etc)
-            {
-                //死因が設定されていない場合は死亡判定
-                Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Kill;
-            }
-
-            //When Bait is killed
-            if (target.GetCustomRole() == CustomRoles.Bait && killer.PlayerId != target.PlayerId)
-            {
-                Logger.Info(target?.Data?.PlayerName + "はBaitだった", "MurderPlayer");
-                new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
-            }
-            else
-            //Terrorist
-            if (target.Is(CustomRoles.Terrorist))
-            {
-                Logger.Info(target?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
-                Utils.CheckTerroristWin(target.Data);
-            }
-            if (target.Is(CustomRoles.Trapper) && !killer.Is(CustomRoles.Trapper))
-                killer.TrapperKilled(target);
-            if (Executioner.Target.ContainsValue(target.PlayerId))
-                Executioner.ChangeRoleByTarget(target);
-            if (target.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(target.PlayerId))
-            {
-                Executioner.Target.Remove(target.PlayerId);
-                Executioner.SendRPC(target.PlayerId);
-            }
-
-            FixedUpdatePatch.LoversSuicide(target.PlayerId);
-
-            Main.PlayerStates[target.PlayerId].SetDead();
-            target.SetRealKiller(killer, true); //既に追加されてたらスキップ
-            Utils.CountAlivePlayers(true);
-            Utils.SyncAllSettings();
-            Utils.NotifyRoles();
-            Utils.TargetDies(__instance, target);
+            //以降ホストしか処理しない
+            // 処理は全てCustomRoleManager側で行う
+            CustomRoleManager.OnMurderPlayer(__instance, target);
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
@@ -323,11 +250,9 @@ namespace TownOfHost
             Main.CheckShapeshift[shapeshifter.PlayerId] = shapeshifting;
             Main.ShapeshiftTarget[shapeshifter.PlayerId] = target.PlayerId;
 
-            Sniper.OnShapeshift(shapeshifter, shapeshifting);
+            shapeshifter.GetRoleClass()?.OnShapeshift(target);
 
             if (!AmongUsClient.Instance.AmHost) return;
-
-            shapeshifter.GetRoleClass()?.OnShapeshift(shapeshifter, target);
 
             if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
 
@@ -463,10 +388,12 @@ namespace TownOfHost
             Main.ArsonistTimer.Clear();
             Main.PuppeteerList.Clear();
 
-            __instance.GetRoleClass()?.OnReportDeadBody(__instance, target);
+            foreach (var role in CustomRoleManager.AllActiveRoles)
+            {
+                role.OnReportDeadBody(__instance, target);
+            }
 
             SerialKiller.OnReportDeadBody();
-            Sniper.OnReportDeadBody();
             Vampire.OnStartMeeting();
 
             Main.AllPlayerControls
@@ -500,7 +427,9 @@ namespace TownOfHost
             if (!GameStates.IsModHost) return;
 
             TargetArrow.OnFixedUpdate(player);
-            Sniper.OnFixedUpdate(player);
+
+            if (GameStates.IsInTask)
+                __instance.GetRoleClass()?.OnFixedUpdate();
 
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
@@ -514,9 +443,6 @@ namespace TownOfHost
                     Logger.Info($"{__instance.GetNameWithRole()}:通報可能になったため通報処理を行います", "ReportDeadbody");
                     __instance.ReportDeadBody(info);
                 }
-
-                if (GameStates.IsInTask)
-                    __instance.GetRoleClass()?.OnFixedUpdate();
 
                 DoubleTrigger.OnFixedUpdate(player);
                 Vampire.OnFixedUpdate(player);
@@ -763,12 +689,6 @@ namespace TownOfHost
                         Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
                         Main.PuppeteerList.ContainsKey(target.PlayerId))
                             Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>");
-                    }
-                    if (Sniper.IsEnable && target.AmOwner)
-                    {
-                        //銃声が聞こえるかチェック
-                        Mark.Append(Sniper.GetShotNotify(target.PlayerId));
-
                     }
                     if (seer.Is(CustomRoles.EvilTracker)) Mark.Append(EvilTracker.GetTargetMark(seer, target));
 

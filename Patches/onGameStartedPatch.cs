@@ -121,7 +121,6 @@ namespace TownOfHost
             FallFromLadder.Reset();
             SerialKiller.Init();
             FireWorks.Init();
-            Sniper.Init();
             TimeThief.Init();
             Mare.Init();
             Witch.Init();
@@ -130,7 +129,6 @@ namespace TownOfHost
             Executioner.Init();
             Jackal.Init();
             EvilTracker.Init();
-            SchrodingerCat.Init();
             Vampire.Init();
             TimeManager.Init();
             LastImpostor.Init();
