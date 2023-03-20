@@ -60,7 +60,7 @@ public static class Divinator
 
         if (player.AllTasksCompleted() || AccurateCheckMode.GetBool())
         {
-            msg = string.Format(GetString("DivinatorCheck.TaskDone"), target.GetRealName(), target.GetCustomRole());
+            msg = string.Format(GetString("DivinatorCheck.TaskDone"), target.GetRealName(), GetString(target.GetCustomRole().ToString()));
         }
         else
         {
