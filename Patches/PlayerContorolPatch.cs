@@ -488,7 +488,7 @@ internal class MurderPlayerPatch
             Logger.Info(target?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
             Utils.CheckTerroristWin(target.Data);
         }
-        if (target.Is(CustomRoles.Trapper) && !killer.Is(CustomRoles.Trapper))
+        if (target.Is(CustomRoles.Trapper) && killer != target)
             killer.TrapperKilled(target);
         if (Executioner.Target.ContainsValue(target.PlayerId))
             Executioner.ChangeRoleByTarget(target);
@@ -499,7 +499,7 @@ internal class MurderPlayerPatch
         }
         if (target.Is(CustomRoles.CyberStar) && Main.CyberStarDead.Contains(target.PlayerId))
             Main.CyberStarDead.Add(target.PlayerId);
-        if (killer.Is(CustomRoles.Sans))
+        if (killer.Is(CustomRoles.Sans) && killer != target)
         {
             if (!Main.SansKillCooldown.ContainsKey(killer.PlayerId))
                 Main.SansKillCooldown.Add(killer.PlayerId, Options.SansDefaultKillCooldown.GetFloat());
@@ -516,9 +516,7 @@ internal class MurderPlayerPatch
             killer.RpcMurderPlayer(killer);
         }
         if (killer.Is(CustomRoles.SwordsMan) && killer != target)
-        {
             SwordsMan.OnMurder(killer);
-        }
         if (target.Is(CustomRoles.Avanger))
         {
             var pcList = Main.AllAlivePlayerControls.Where(x => x.IsAlive() && !Pelican.IsEaten(x.PlayerId) && x.PlayerId != target.PlayerId).ToList();
@@ -527,14 +525,10 @@ internal class MurderPlayerPatch
             rp.SetRealKiller(target);
             rp.RpcMurderPlayer(rp);
         }
-        if (target.Is(CustomRoles.Pelican))
-        {
+        if (target.Is(CustomRoles.Pelican) && killer != target)
             Pelican.OnPelicanDied(target.PlayerId);
-        }
-        if (target.Is(CustomRoles.BallLightning))
-        {
+        if (target.Is(CustomRoles.BallLightning) && killer != target)
             BallLightning.MurderPlayer(killer, target);
-        }
 
         FixedUpdatePatch.LoversSuicide(target.PlayerId);
 

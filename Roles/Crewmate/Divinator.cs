@@ -158,7 +158,8 @@ public static class Divinator
                 CustomRoles.Jester or
                 CustomRoles.Medicaler or
                 CustomRoles.DarkHide or
-                CustomRoles.CursedWolf
+                CustomRoles.CursedWolf or
+                CustomRoles.OverKiller
                 => "Disturbed",
 
                 CustomRoles.Glitch or

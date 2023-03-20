@@ -431,6 +431,7 @@ public enum CustomRoles
     QuickShooter,
     Concealer,
     Eraser,
+    OverKiller,
     //Crewmate(Vanilla)
     Engineer,
     GuardianAngel,

@@ -75,6 +75,7 @@ internal static class CustomRolesHelper
                 CustomRoles.QuickShooter => CustomRoles.Shapeshifter,
                 CustomRoles.Concealer => CustomRoles.Shapeshifter,
                 CustomRoles.Eraser => CustomRoles.Impostor,
+                CustomRoles.OverKiller => CustomRoles.Impostor,
                 _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
     }
@@ -207,7 +208,8 @@ internal static class CustomRolesHelper
             CustomRoles.ImperiusCurse or
             CustomRoles.QuickShooter or
             CustomRoles.Concealer or
-            CustomRoles.Eraser;
+            CustomRoles.Eraser or
+            CustomRoles.OverKiller;
     }
     public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role == CustomRoles.Madmate;
     public static bool IsNeutral(this CustomRoles role) // 是否中立

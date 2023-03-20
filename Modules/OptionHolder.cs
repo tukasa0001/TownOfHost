@@ -679,6 +679,7 @@ public static class Options
         BallLightning.SetupCustomOption();
         Concealer.SetupCustomOption();
         Eraser.SetupCustomOption();
+        SetupRoleOptions(902622, TabGroup.OtherRoles, CustomRoles.OverKiller);
 
         // 船员
         _ = BooleanOptionItem.Create(909092, "OtherRoles.CrewmateRoles", false, TabGroup.OtherRoles, false)
