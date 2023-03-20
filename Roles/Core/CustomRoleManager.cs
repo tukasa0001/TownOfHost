@@ -132,9 +132,11 @@ public static class CustomRoleManager
         attemptTarget.SetRealKiller(attemptKiller, true);
 
         Utils.CountAlivePlayers(true);
+
+        Utils.TargetDies(appearanceKiller, attemptTarget);
+
         Utils.SyncAllSettings();
         Utils.NotifyRoles();
-        Utils.TargetDies(appearanceKiller, attemptTarget);
 
         CheckMurderInfos.Remove(appearanceKiller.PlayerId);
     }

@@ -146,11 +146,11 @@ namespace TownOfHost
                 if (Constants.ShouldPlaySfx()) RPC.PlaySound(player.PlayerId, Sounds.KillSound);
             }
             else if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
-            ExtendedPlayerControl.MarkDirtySettings(player);
+            player.MarkDirtySettings();
             new LateTask(() =>
             {
                 Main.PlayerStates[player.PlayerId].IsBlackOut = false; //ブラックアウト解除
-                ExtendedPlayerControl.MarkDirtySettings(player);
+                player.MarkDirtySettings();
             }, Options.KillFlashDuration.GetFloat(), "RemoveKillFlash");
         }
         public static void BlackOut(this IGameOptions opt, bool IsBlackOut)
