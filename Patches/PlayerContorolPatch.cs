@@ -880,46 +880,44 @@ namespace TownOfHost
         {
         }
     }
-    [HarmonyPatch(typeof(GameData), nameof(GameData.CompleteTask))]
-    class GameDataCompleteTaskPatch
-    {
-        public static void Postfix(PlayerControl pc)
-        {
-            Logger.Info($"TaskComplete:{pc.GetNameWithRole()}", "CompleteTask");
-            Main.PlayerStates[pc.PlayerId].UpdateTask(pc);
-            Utils.NotifyRoles();
-        }
-    }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CompleteTask))]
     class PlayerControlCompleteTaskPatch
     {
         public static bool Prefix(PlayerControl __instance)
         {
-            if (Workhorse.OnCompleteTask(__instance)) //タスク勝利をキャンセル
-                return false;
-            return true;
-        }
-        public static void Postfix(PlayerControl __instance)
-        {
             var pc = __instance;
-            pc?.GetRoleClass()?.OnCompleteTask();
 
-            var isTaskFinish = pc.GetPlayerTaskState().IsTaskFinished;
-            if (isTaskFinish && pc.Is(CustomRoles.MadSnitch))
+            Logger.Info($"TaskComplete:{pc.GetNameWithRole()}", "CompleteTask");
+            Main.PlayerStates[pc.PlayerId].UpdateTask(pc);
+
+            var roleClass = pc.GetRoleClass();
+            var ret = true;
+            if (roleClass != null)
             {
-                foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
+                ret = roleClass.OnCompleteTask();
+            }
+            else
+            {
+                ret = Workhorse.OnCompleteTask(pc);
+
+                var isTaskFinish = pc.GetPlayerTaskState().IsTaskFinished;
+                if (isTaskFinish && pc.Is(CustomRoles.MadSnitch))
                 {
-                    NameColorManager.Add(pc.PlayerId, impostor.PlayerId);
+                    foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
+                    {
+                        NameColorManager.Add(pc.PlayerId, impostor.PlayerId);
+                    }
                 }
-                Utils.NotifyRoles(SpecifySeer: pc);
+                if ((isTaskFinish &&
+                    pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor) ||
+                    pc.GetCustomRole() is CustomRoles.SpeedBooster)
+                {
+                    //ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
+                    Utils.MarkEveryoneDirtySettings();
+                }
             }
-            if ((isTaskFinish &&
-                pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor) ||
-                pc.GetCustomRole() is CustomRoles.SpeedBooster)
-            {
-                //ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
-                Utils.MarkEveryoneDirtySettings();
-            }
+            Utils.NotifyRoles();
+            return ret;
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ProtectPlayer))]
