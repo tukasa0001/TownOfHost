@@ -125,7 +125,7 @@ public static class Pelican
         Logger.Info($"{pc.GetRealName()} 吞掉了 {target.GetRealName()}", "Pelican");
     }
 
-    public static void OnReport()
+    public static void OnReportDeadBody()
     {
         foreach (var pc in eatenList)
         {

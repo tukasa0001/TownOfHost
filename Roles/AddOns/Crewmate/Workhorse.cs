@@ -56,13 +56,17 @@ public static class Workhorse
         if (!IsAssignTarget(pc)) return false;
 
         pc.RpcSetCustomRole(CustomRoles.Workhorse);
-        Add(pc.PlayerId);
         var taskState = pc.GetPlayerTaskState();
         taskState.AllTasksCount += NumLongTasks + NumShortTasks;
         taskState.CompletedTasksCount++; //今回の完了分加算
-        GameData.Instance.RpcSetTasks(pc.PlayerId, new byte[0]); //タスクを再配布
-        pc.SyncSettings();
-        Utils.NotifyRoles();
+
+        if (AmongUsClient.Instance.AmHost)
+        {
+            Add(pc.PlayerId);
+            GameData.Instance.RpcSetTasks(pc.PlayerId, new byte[0]); //タスクを再配布
+            pc.SyncSettings();
+            Utils.NotifyRoles();
+        }
 
         return true;
     }

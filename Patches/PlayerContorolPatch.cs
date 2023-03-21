@@ -546,9 +546,11 @@ internal class MurderPlayerPatch
         Main.PlayerStates[target.PlayerId].SetDead();
         target.SetRealKiller(killer, true); //既に追加されてたらスキップ
         Utils.CountAlivePlayers(true);
+
+        Utils.TargetDies(__instance, target);
+
         Utils.SyncAllSettings();
         Utils.NotifyRoles();
-        Utils.TargetDies(__instance, target);
     }
 }
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
@@ -745,6 +747,19 @@ internal class ReportDeadBodyPatch
             Logger.Warn($"{__instance.GetNameWithRole()}:通報禁止中のため可能になるまで待機します", "ReportDeadBody");
             return false;
         }
+        foreach (var kvp in Main.PlayerStates)
+        {
+            var pc = Utils.GetPlayerById(kvp.Key);
+            kvp.Value.LastRoom = pc.GetPlainShipRoom();
+        }
+        if (!AmongUsClient.Instance.AmHost) return true;
+
+        //通報者が死んでいる場合、本処理で会議がキャンセルされるのでここで止める
+        if (__instance.Data.IsDead) return false;
+
+        //=============================================
+        //以下、检查是否允许本次会议
+        //=============================================
 
         //杀戮机器无法报告或拍灯
         if (__instance.Is(CustomRoles.Minimalism)) return false;
@@ -753,7 +768,6 @@ internal class ReportDeadBodyPatch
 
         if (target == null) //拍灯事件
         {
-            if (__instance.Is(CustomRoles.Mayor)) Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
             if (__instance.Is(CustomRoles.Jester) && !Options.JesterCanUseButton.GetBool()) return false;
         }
         else //报告尸体事件
@@ -801,26 +815,7 @@ internal class ReportDeadBodyPatch
                 if (!Main.KillerOfBoobyTrapBody.ContainsKey(__instance.PlayerId)) Main.KillerOfBoobyTrapBody.Add(__instance.PlayerId, killerID);
                 return false;
             }
-
-            // 侦探报告
-            if (__instance.Is(CustomRoles.Detective))
-            {
-                string msg;
-                msg = string.Format(GetString("DetectiveNoticeVictim"), tpc.GetRealName(), tpc.GetDisplayRoleName());
-                if (Options.DetectiveCanknowKiller.GetBool()) msg += "；" + string.Format(GetString("DetectiveNoticeKiller"), tpc.GetRealKiller().GetDisplayRoleName());
-                Main.DetectiveNotify.Add(__instance.PlayerId, msg);
-            }
         }
-        foreach (var kvp in Main.PlayerStates)
-        {
-            var pc = Utils.GetPlayerById(kvp.Key);
-            kvp.Value.LastRoom = pc.GetPlainShipRoom();
-        }
-        if (!AmongUsClient.Instance.AmHost) return true;
-        BountyHunter.OnReportDeadBody();
-        SerialKiller.OnReportDeadBody();
-        Main.ArsonistTimer.Clear();
-        Main.RevolutionistTimer.Clear();
 
         if (Options.SyncButtonMode.GetBool() && target == null)
         {
@@ -837,10 +832,39 @@ internal class ReportDeadBodyPatch
             }
         }
 
+        //=============================================
+        //以下、ボタンが押されることが確定したものとする。
+        //=============================================
+
+        if (target == null) //ボタン
+        {
+            if (__instance.Is(CustomRoles.Mayor))
+            {
+                Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
+            }
+        }
+        else
+        {
+            var tpc = Utils.GetPlayerById(target.PlayerId);
+
+            // 侦探报告
+            if (__instance.Is(CustomRoles.Detective))
+            {
+                string msg;
+                msg = string.Format(GetString("DetectiveNoticeVictim"), tpc.GetRealName(), tpc.GetDisplayRoleName());
+                if (Options.DetectiveCanknowKiller.GetBool()) msg += "；" + string.Format(GetString("DetectiveNoticeKiller"), tpc.GetRealKiller().GetDisplayRoleName());
+                Main.DetectiveNotify.Add(__instance.PlayerId, msg);
+            }
+        }
+
+        Main.ArsonistTimer.Clear();
         Main.PuppeteerList.Clear();
+
+        BountyHunter.OnReportDeadBody();
+        SerialKiller.OnReportDeadBody();
         Sniper.OnReportDeadBody();
         Vampire.OnStartMeeting();
-        Pelican.OnReport();
+        Pelican.OnReportDeadBody();
 
         foreach (var x in Main.RevolutionistStart)
         {
@@ -852,18 +876,16 @@ internal class ReportDeadBodyPatch
             Main.PlayerStates[tar.PlayerId].SetDead();
             Logger.Info($"{tar.GetRealName()} 因会议革命失败", "Revolutionist");
         }
+        Main.RevolutionistTimer.Clear();
         Main.RevolutionistStart.Clear();
         Main.RevolutionistLastTime.Clear();
-
-        if (__instance.Data.IsDead) return true;
-        //=============================================
-        //以下、ボタンが押されることが確定したものとする。
-        //=============================================
 
         Main.AllPlayerControls
             .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
             .Do(pc => Camouflage.RpcSetSkin(pc, RevertToDefault: true));
         MeetingTimeManager.OnReportDeadBody();
+
+        Utils.NotifyRoles(isForMeeting: true, NoCache: true);
 
         Utils.SyncAllSettings();
         return true;
@@ -1729,27 +1751,43 @@ internal class PlayerControlSetRolePatch
     public static bool Prefix(PlayerControl __instance, ref RoleTypes roleType)
     {
         var target = __instance;
-        Logger.Info($"{__instance.GetNameWithRole()} =>{roleType}", "PlayerControl.RpcSetRole");
+        var targetName = __instance.GetNameWithRole();
+        Logger.Info($"{targetName} =>{roleType}", "PlayerControl.RpcSetRole");
         if (!ShipStatus.Instance.enabled) return true;
         if (roleType is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost)
         {
+            var targetIsKiller = target.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(target.PlayerId);
+            var ghostRoles = new Dictionary<PlayerControl, RoleTypes>();
             foreach (var seer in Main.AllPlayerControls)
             {
                 var self = seer.PlayerId == target.PlayerId;
                 var seerIsKiller = seer.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(seer.PlayerId);
-                var targetIsKiller = target.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(target.PlayerId);
                 if ((self && targetIsKiller) || (!seerIsKiller && target.Is(CustomRoleTypes.Impostor)))
                 {
-                    Logger.Info($"Desync {target.GetNameWithRole()} =>ImpostorGhost for{seer.GetNameWithRole()}", "PlayerControl.RpcSetRole");
-                    target.RpcSetRoleDesync(RoleTypes.ImpostorGhost, seer.GetClientId());
+                    ghostRoles[seer] = RoleTypes.ImpostorGhost;
                 }
                 else
                 {
-                    Logger.Info($"Desync {target.GetNameWithRole()} =>CrewmateGhost for{seer.GetNameWithRole()}", "PlayerControl.RpcSetRole");
-                    target.RpcSetRoleDesync(RoleTypes.CrewmateGhost, seer.GetClientId());
+                    ghostRoles[seer] = RoleTypes.CrewmateGhost;
                 }
             }
-            return false;
+            if (ghostRoles.All(kvp => kvp.Value == RoleTypes.CrewmateGhost))
+            {
+                roleType = RoleTypes.CrewmateGhost;
+            }
+            else if (ghostRoles.All(kvp => kvp.Value == RoleTypes.ImpostorGhost))
+            {
+                roleType = RoleTypes.ImpostorGhost;
+            }
+            else
+            {
+                foreach ((var seer, var role) in ghostRoles)
+                {
+                    Logger.Info($"Desync {targetName} =>{role} for{seer.GetNameWithRole()}", "PlayerControl.RpcSetRole");
+                    target.RpcSetRoleDesync(role, seer.GetClientId());
+                }
+                return false;
+            }
         }
         return true;
     }

@@ -20,7 +20,6 @@ internal class OnGameJoinedPatch
         while (!Options.IsLoaded) System.Threading.Tasks.Task.Delay(1);
         Main.newLobby = true;
         Logger.Info($"{__instance.GameId} 创建房间", "OnGameJoined");
-        Main.playerVersion = new Dictionary<byte, PlayerVersion>();
         RPC.RpcVersionCheck();
         SoundManager.Instance.ChangeAmbienceVolume(DataManager.Settings.Audio.AmbienceVolume);
 

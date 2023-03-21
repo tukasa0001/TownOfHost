@@ -197,7 +197,7 @@ public static class GuessManager
                     if (Executioner.Target.ContainsValue(target.PlayerId))
                         Executioner.ChangeRoleByTarget(target);
 
-                    Utils.NotifyRoles(isMeeting: true, NoCache: true);
+                    Utils.NotifyRoles(isForMeeting: true, NoCache: true);
                 }, 0.2f, "Guesser Kill");
             }
         }

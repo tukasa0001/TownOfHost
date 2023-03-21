@@ -219,11 +219,11 @@ public static class Utils
             if (Constants.ShouldPlaySfx()) RPC.PlaySound(player.PlayerId, Sounds.KillSound);
         }
         else if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
-        ExtendedPlayerControl.MarkDirtySettings(player);
+        player.MarkDirtySettings();
         new LateTask(() =>
         {
             Main.PlayerStates[player.PlayerId].IsBlackOut = false; //ブラックアウト解除
-            ExtendedPlayerControl.MarkDirtySettings(player);
+            player.MarkDirtySettings();
         }, Options.KillFlashDuration.GetFloat(), "RemoveKillFlash");
     }
     public static void BlackOut(this IGameOptions opt, bool IsBlackOut)
@@ -366,9 +366,8 @@ public static class Utils
                     else hasTasks = false;
                     break;
                 case CustomRoles.Lovers:
-                    //ラバーズがクルー陣営の場合タスクを付与しない
-                    if (role.IsCrewmate() && (Options.LoverHasNoTask.GetBool() || ForRecompute))
-                        hasTasks = false;
+                    //ラバーズはタスクを勝利用にカウントしない
+                    hasTasks &= !(ForRecompute || Options.LoverHasNoTask.GetBool());
                     break;
             }
         return hasTasks;
@@ -938,7 +937,7 @@ public static class Utils
     private static readonly StringBuilder SelfSuffix = new();
     private static readonly StringBuilder SelfMark = new(20);
     private static readonly StringBuilder TargetMark = new(20);
-    public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false, bool ForceLoop = false)
+    public static void NotifyRoles(bool isForMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false, bool ForceLoop = false)
     {
         if (!AmongUsClient.Instance.AmHost) return;
         if (Main.AllPlayerControls == null) return;
@@ -967,7 +966,7 @@ public static class Utils
 
             if (seer.IsModClient()) continue;
             string fontSize = "1.5";
-            if (isMeeting && (seer.GetClient().PlatformData.Platform.ToString() == "Playstation" || seer.GetClient().PlatformData.Platform.ToString() == "Switch")) fontSize = "70%";
+            if (isForMeeting && (seer.GetClient().PlatformData.Platform.ToString() == "Playstation" || seer.GetClient().PlatformData.Platform.ToString() == "Switch")) fontSize = "70%";
             logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":START");
 
             //タスクなど進行状況を含むテキスト
@@ -986,7 +985,7 @@ public static class Utils
             if (seer.Is(CustomRoles.Lovers) || CustomRolesHelper.RoleExist(CustomRoles.Ntr)) SelfMark.Append(ColorString(GetRoleColor(CustomRoles.Lovers), "♡"));
 
             //呪われている場合
-            SelfMark.Append(Witch.GetSpelledMark(seer.PlayerId, isMeeting));
+            SelfMark.Append(Witch.GetSpelledMark(seer.PlayerId, isForMeeting));
 
             //如果是大明星
             if (seer.Is(CustomRoles.SuperStar) && Options.EveryOneKnowSuperStar.GetBool())
@@ -1019,7 +1018,7 @@ public static class Utils
             }
             if (seer.Is(CustomRoles.Witch))
             {
-                SelfSuffix.Append(Witch.GetSpellModeText(seer, false, isMeeting));
+                SelfSuffix.Append(Witch.GetSpellModeText(seer, false, isForMeeting));
             }
             if (seer.Is(CustomRoles.AntiAdminer))
             {
@@ -1035,9 +1034,9 @@ public static class Utils
             SelfSuffix.Append(EvilTracker.GetTargetArrow(seer, seer));
 
             //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-            string SeerRealName = seer.GetRealName(isMeeting);
+            string SeerRealName = seer.GetRealName(isForMeeting);
 
-            if (!isMeeting && MeetingStates.FirstMeeting && Options.ChangeNameToRoleInfo.GetBool())
+            if (!isForMeeting && MeetingStates.FirstMeeting && Options.ChangeNameToRoleInfo.GetBool())
                 SeerRealName = seer.GetRoleInfo();
 
             //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
@@ -1052,7 +1051,7 @@ public static class Utils
                 SelfName = $"</size>\r\n{ColorString(GetRoleColor(CustomRoles.Pelican), GetString("EatenByPelican"))}";
             SelfName = SelfRoleName + "\r\n" + SelfName;
             SelfName += SelfSuffix.ToString() == "" ? "" : "\r\n " + SelfSuffix.ToString();
-            if (!isMeeting) SelfName += "\r\n";
+            if (!isForMeeting) SelfName += "\r\n";
 
             //適用
             seer.RpcSetNamePrivate(SelfName, true, force: NoCache);
@@ -1070,7 +1069,7 @@ public static class Utils
                     TargetMark.Clear();
 
                     //呪われている人
-                    TargetMark.Append(Witch.GetSpelledMark(target.PlayerId, isMeeting));
+                    TargetMark.Append(Witch.GetSpelledMark(target.PlayerId, isForMeeting));
 
                     //如果是大明星
                     if (target.Is(CustomRoles.SuperStar) && Options.EveryOneKnowSuperStar.GetBool())
@@ -1146,12 +1145,12 @@ public static class Utils
                     if (seer.Is(CustomRoles.EvilTracker))
                     {
                         TargetMark.Append(EvilTracker.GetTargetMark(seer, target));
-                        if (isMeeting && EvilTracker.IsTrackTarget(seer, target) && EvilTracker.CanSeeLastRoomInMeeting)
+                        if (isForMeeting && EvilTracker.IsTrackTarget(seer, target) && EvilTracker.CanSeeLastRoomInMeeting)
                             TargetRoleText = $"<size={fontSize}>{EvilTracker.GetArrowAndLastRoom(seer, target)}</size>\r\n";
                     }
 
                     //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                    string TargetPlayerName = target.GetRealName(isMeeting);
+                    string TargetPlayerName = target.GetRealName(isForMeeting);
 
                     if (seer.Is(CustomRoles.Psychic))
                     {
@@ -1167,14 +1166,14 @@ public static class Utils
                     }
                     if (seer.Is(CustomRoles.NiceGuesser) || seer.Is(CustomRoles.EvilGuesser))
                     {
-                        if (seer.IsAlive() && target.IsAlive() && isMeeting)
+                        if (seer.IsAlive() && target.IsAlive() && isForMeeting)
                         {
                             TargetPlayerName = ColorString(GetRoleColor(seer.Is(CustomRoles.NiceGuesser) ? CustomRoles.NiceGuesser : CustomRoles.EvilGuesser), target.PlayerId.ToString()) + " " + TargetPlayerName;
                         }
                     }
 
                     //ターゲットのプレイヤー名の色を書き換えます。
-                    TargetPlayerName = TargetPlayerName.ApplyNameColorData(seer, target, isMeeting);
+                    TargetPlayerName = TargetPlayerName.ApplyNameColorData(seer, target, isForMeeting);
 
                     TargetMark.Append(Executioner.TargetMark(seer, target));
 
@@ -1186,7 +1185,7 @@ public static class Utils
                     if (seer.KnowDeathReason(target))
                         TargetDeathReason = $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(target.PlayerId))})";
 
-                    if (((IsActive(SystemTypes.Comms) && Options.CommsCamouflage.GetBool()) || Concealer.IsHidding) && !isMeeting)
+                    if (((IsActive(SystemTypes.Comms) && Options.CommsCamouflage.GetBool()) || Concealer.IsHidding) && !isForMeeting)
                         TargetPlayerName = $"<size=0%>{TargetPlayerName}</size>";
 
                     //全てのテキストを合成します。

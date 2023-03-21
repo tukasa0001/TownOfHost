@@ -91,7 +91,7 @@ internal class ChatCommands
             foreach (var pc in Main.AllPlayerControls)
                 RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
             ChatUpdatePatch.DoBlockChat = false;
-            Utils.NotifyRoles(isMeeting: true, NoCache: true);
+            Utils.NotifyRoles(isForMeeting: true, NoCache: true);
         }, 0.9f, "Mafia Kill");
         return true;
     }
@@ -496,7 +496,7 @@ internal class ChatCommands
                         pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
                     }
                     ChatUpdatePatch.DoBlockChat = false;
-                    Utils.NotifyRoles(isMeeting: GameStates.IsMeeting, NoCache: true);
+                    Utils.NotifyRoles(isForMeeting: GameStates.IsMeeting, NoCache: true);
                     Utils.SendMessage(GetString("Message.TryFixName"), PlayerControl.LocalPlayer.PlayerId);
                     break;
 
@@ -889,7 +889,7 @@ internal class ChatCommands
                     break;
                 }
                 ChatUpdatePatch.DoBlockChat = false;
-                Utils.NotifyRoles(isMeeting: GameStates.IsMeeting, NoCache: true);
+                Utils.NotifyRoles(isForMeeting: GameStates.IsMeeting, NoCache: true);
                 Utils.SendMessage(GetString("Message.TryFixName"), player.PlayerId);
                 break;
 

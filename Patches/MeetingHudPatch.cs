@@ -519,7 +519,6 @@ internal class MeetingHudStartPatch
         ChatUpdatePatch.DoBlockChat = true;
         GameStates.AlreadyDied |= !Utils.IsAllAlive;
         Main.AllPlayerControls.Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
-        Utils.NotifyRoles(isMeeting: true, NoCache: true);
         MeetingStates.MeetingCalled = true;
 
         if (!AmongUsClient.Instance.AmHost) return;
