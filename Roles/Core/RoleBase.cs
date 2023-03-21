@@ -185,8 +185,8 @@ public abstract class RoleBase : IDisposable
     /// <summary>
     /// タスクが一個完了するごとに呼ばれる関数
     /// </summary>
-    public virtual void OnCompleteTask()
-    { }
+    /// <returns>falseを返すとバニラ処理をキャンセルする</returns>
+    public virtual bool OnCompleteTask() => true;
 
     // NameSystem
     // 名前は下記の構成で表示される
