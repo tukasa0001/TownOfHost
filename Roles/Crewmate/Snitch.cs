@@ -72,7 +72,7 @@ namespace TownOfHost.Roles.Crewmate
             var parent = RoleInfo.RoleOption;
             OptionEnableTargetArrow = BooleanOptionItem.Create(id + 10, OptionName.SnitchEnableTargetArrow, false, tab, false).SetParent(parent);
             OptionCanGetColoredArrow = BooleanOptionItem.Create(id + 11, OptionName.SnitchCanGetArrowColor, false, tab, false).SetParent(OptionEnableTargetArrow);
-            OptionCanFindNeutralKiller = BooleanOptionItem.Create(id + 12, OptionName.SnitchEnableTargetArrow, false, tab, false).SetParent(parent);
+            OptionCanFindNeutralKiller = BooleanOptionItem.Create(id + 12, OptionName.SnitchCanFindNeutralKiller, false, tab, false).SetParent(parent);
             OptionRemainingTasks = IntegerOptionItem.Create(id + 13, OptionName.SnitchRemainingTaskFound, new(0, 10, 1), 1, tab, false).SetParent(parent);
             Options.OverrideTasksData.Create(id + 20, tab, CustomRoles.Snitch);
         }
@@ -157,7 +157,7 @@ namespace TownOfHost.Roles.Crewmate
         /// <summary>
         /// タスクの進行状況の管理
         /// </summary>
-        public override void OnCompleteTask()
+        public override bool OnCompleteTask()
         {
             var update = false;
             if (TargetList.Count == 0)
@@ -200,6 +200,7 @@ namespace TownOfHost.Roles.Crewmate
                 update = true;
             }
             if (update) Utils.NotifyRoles();
+            return true;
         }
     }
 }
