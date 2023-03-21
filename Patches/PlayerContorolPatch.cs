@@ -685,7 +685,7 @@ internal class ShapeshiftPatch
                     PlayerControl targeta = Main.MarkedPlayers[shapeshifter.PlayerId];
                     new LateTask(() =>
                     {
-                        if (!GameStates.IsMeeting && GameStates.IsInTask && targeta.IsAlive() && !Pelican.IsEaten(targeta.PlayerId))
+                        if (!GameStates.IsMeeting && targeta.IsAlive() && !Pelican.IsEaten(targeta.PlayerId))
                         {
                             if (Gamer.CheckMurder(shapeshifter, targeta))
                             {
@@ -707,7 +707,7 @@ internal class ShapeshiftPatch
         {
             new LateTask(() =>
             {
-                if (!(!GameStates.IsInTask || GameStates.IsMeeting || !shapeshifter.IsAlive() || !target.IsAlive() || shapeshifter.inVent || target.inVent))
+                if (!(!GameStates.IsInTask || !shapeshifter.IsAlive() || !target.IsAlive() || shapeshifter.inVent || target.inVent))
                 {
                     var originPs = target.GetTruePosition();
                     Utils.TP(target.NetTransform, shapeshifter.GetTruePosition());
@@ -935,7 +935,7 @@ internal class FixedUpdatePatch
                 {
                     Main.VeteranInProtect.Remove(vp.Key);
                     var pc = Utils.GetPlayerById(vp.Key);
-                    if (pc != null && GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
+                    if (pc != null && GameStates.IsInTask) pc.RpcGuardAndKill(pc);
                     break;
                 }
             }
@@ -948,7 +948,7 @@ internal class FixedUpdatePatch
                 {
                     Main.GrenadierBlinding.Remove(gb.Key);
                     var pc = Utils.GetPlayerById(gb.Key);
-                    if (pc != null && GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
+                    if (pc != null && GameStates.IsInTask) pc.RpcGuardAndKill(pc);
                     Utils.MarkEveryoneDirtySettings();
                     break;
                 }
@@ -957,7 +957,7 @@ internal class FixedUpdatePatch
                 {
                     Main.MadGrenadierBlinding.Remove(mgb.Key);
                     var pc = Utils.GetPlayerById(mgb.Key);
-                    if (pc != null && GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
+                    if (pc != null && GameStates.IsInTask) pc.RpcGuardAndKill(pc);
                     Utils.MarkEveryoneDirtySettings();
                     break;
                 }
@@ -1007,11 +1007,14 @@ internal class FixedUpdatePatch
                 }
             }
 
-            Pelican.OnFixedUpdate();
-            DoubleTrigger.OnFixedUpdate(player);
-            Vampire.OnFixedUpdate(player);
-            BallLightning.OnFixedUpdate();
-            Concealer.OnFixedUpdate();
+            if (GameStates.IsInTask)
+            {
+                Pelican.OnFixedUpdate();
+                DoubleTrigger.OnFixedUpdate(player);
+                Vampire.OnFixedUpdate(player);
+                BallLightning.OnFixedUpdate();
+                Concealer.OnFixedUpdate();
+            }
 
             if (GameStates.IsInTask && CustomRoles.SerialKiller.IsEnable()) SerialKiller.FixedUpdate(player);
             if (GameStates.IsInTask && Main.WarlockTimer.ContainsKey(player.PlayerId))//処理を1秒遅らせる
@@ -1051,7 +1054,7 @@ internal class FixedUpdatePatch
                 }
             }
             //ターゲットのリセット
-            BountyHunter.FixedUpdate(player);
+            if (GameStates.IsInTask) BountyHunter.FixedUpdate(player);
             if (GameStates.IsInTask && player.IsAlive() && Options.LadderDeath.GetBool())
             {
                 FallFromLadder.FixedUpdate(player);
@@ -1585,7 +1588,7 @@ internal class EnterVentPatch
             Main.VeteranInProtect.Add(pc.PlayerId, Utils.GetTimeStamp(DateTime.Now));
             new LateTask(() =>
             {
-                if (GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
+                if (GameStates.IsInTask) pc.RpcGuardAndKill(pc);
             }, 1.5f, "Veteran Skill Notify");
         }
         if (pc.Is(CustomRoles.Grenadier))
@@ -1602,7 +1605,7 @@ internal class EnterVentPatch
             }
             new LateTask(() =>
             {
-                if (GameStates.IsInTask && !GameStates.IsMeeting) pc.RpcGuardAndKill(pc);
+                if (GameStates.IsInTask) pc.RpcGuardAndKill(pc);
                 Utils.MarkEveryoneDirtySettings();
             }, 1.5f, "Grenadier Skill Notify");
         }
