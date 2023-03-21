@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using static TOHE.Translator;
+
 namespace TOHE;
 
 public static class BanManager
@@ -61,7 +62,6 @@ public static class BanManager
     public static void CheckDenyNamePlayer(InnerNet.ClientData player)
     {
         if (!AmongUsClient.Instance.AmHost || !Options.ApplyDenyNameList.GetBool()) return;
-        if (!AmongUsClient.Instance.AmHost) return;
         try
         {
             Directory.CreateDirectory("TOHE_DATA");
@@ -108,8 +108,8 @@ public static class BanManager
             string line;
             while ((line = sr.ReadLine()) != null)
             {
-                if (line.Contains("actorour#0029")) continue;
                 if (line == "") continue;
+                if (line.Contains("actorour#0029")) continue;
                 if (player.FriendCode == line.Split(",")[0]) return true;
             }
         }
@@ -121,7 +121,7 @@ public static class BanManager
     }
 }
 [HarmonyPatch(typeof(BanMenu), nameof(BanMenu.Select))]
-internal class BanMenuSelectPatch
+class BanMenuSelectPatch
 {
     public static void Postfix(BanMenu __instance, int clientId)
     {
@@ -129,5 +129,4 @@ internal class BanMenuSelectPatch
         if (recentClient == null) return;
         if (!BanManager.CheckBanList(recentClient)) __instance.BanButton.GetComponent<ButtonRolloverHandler>().SetEnabledColors();
     }
-
 }

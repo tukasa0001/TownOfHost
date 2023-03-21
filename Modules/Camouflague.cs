@@ -4,7 +4,7 @@ using TOHE.Roles.Impostor;
 
 namespace TOHE;
 
-internal static class PlayerOutfitExtension
+static class PlayerOutfitExtension
 {
     public static GameData.PlayerOutfit Set(this GameData.PlayerOutfit instance, string playerName, int colorId, string hatId, string skinId, string visorId, string petId)
     {
@@ -32,7 +32,7 @@ internal static class PlayerOutfitExtension
 }
 public static class Camouflage
 {
-    private static readonly GameData.PlayerOutfit CamouflageOutfit = new GameData.PlayerOutfit().Set("", 15, "", "", "", "");
+    static GameData.PlayerOutfit CamouflageOutfit = new GameData.PlayerOutfit().Set("", 15, "", "", "", "");
 
     public static bool IsCamouflage;
     public static Dictionary<byte, GameData.PlayerOutfit> PlayerSkins = new();
@@ -52,7 +52,7 @@ public static class Camouflage
 
         if (oldIsCamouflage != IsCamouflage)
         {
-            Main.AllPlayerControls.Do(pc => RpcSetSkin(pc));
+            Main.AllPlayerControls.Do(pc => Camouflage.RpcSetSkin(pc));
         }
     }
     public static void RpcSetSkin(PlayerControl target, bool ForceRevert = false, bool RevertToDefault = false)

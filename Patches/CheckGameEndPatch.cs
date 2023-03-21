@@ -8,7 +8,7 @@ using static TOHE.Translator;
 namespace TOHE;
 
 [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.CheckEndCriteria))]
-internal class GameEndChecker
+class GameEndChecker
 {
     private static GameEndPredicate predicate;
     public static bool Prefix()
@@ -237,13 +237,17 @@ internal class GameEndChecker
 
     // ===== ゲーム終了条件 =====
     // 通常ゲーム用
-    private class NormalGameEndPredicate : GameEndPredicate
+    class NormalGameEndPredicate : GameEndPredicate
     {
         public override bool CheckForEndGame(out GameOverReason reason)
         {
             reason = GameOverReason.ImpostorByKill;
-            return CustomWinnerHolder.WinnerTeam == CustomWinner.Default
-&& (CheckGameEndByLivingPlayers(out reason) || CheckGameEndByTask(out reason) || CheckGameEndBySabotage(out reason));
+            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return false;
+            if (CheckGameEndByLivingPlayers(out reason)) return true;
+            if (CheckGameEndByTask(out reason)) return true;
+            if (CheckGameEndBySabotage(out reason)) return true;
+
+            return false;
         }
 
         public bool CheckGameEndByLivingPlayers(out GameOverReason reason)
@@ -301,32 +305,6 @@ internal class GameEndChecker
 
             return true;
         }
-    }
-    public bool CheckGameEndByLivingPlayers(out GameOverReason reason)
-    {
-        reason = GameOverReason.ImpostorByKill;
-
-        int Imp = Utils.AlivePlayersCount(CountTypes.Impostor);
-        int Crew = Utils.AlivePlayersCount(CountTypes.Crew);
-
-        if (Imp == 0 && Crew == 0) //全滅
-        {
-            reason = GameOverReason.ImpostorByKill;
-            CustomWinnerHolder.ResetAndSetWinner(CustomWinner.None);
-        }
-        else if (Crew <= 0) //インポスター勝利
-        {
-            reason = GameOverReason.ImpostorByKill;
-            CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
-        }
-        else if (Imp == 0) //クルー勝利(インポスター切断など)
-        {
-            reason = GameOverReason.HumansByVote;
-            CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
-        }
-        else return false; //勝利条件未達成
-
-        return true;
     }
 }
 

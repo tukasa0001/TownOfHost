@@ -20,7 +20,8 @@ public class NormalGameOptionsSender : GameOptionsSender
         }
         protected set
         {
-            _logicOptions?.ClearDirtyFlag();
+            if (_logicOptions != null)
+                _logicOptions.ClearDirtyFlag();
         }
     }
     private LogicOptions _logicOptions;

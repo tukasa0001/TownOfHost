@@ -5,7 +5,7 @@ using UnityEngine;
 namespace TOHE;
 
 [HarmonyPatch(typeof(JoinGameButton), nameof(JoinGameButton.OnClick))]
-internal class JoinGameButtonPatch
+class JoinGameButtonPatch
 {
     public static void Prefix(JoinGameButton __instance)
     {

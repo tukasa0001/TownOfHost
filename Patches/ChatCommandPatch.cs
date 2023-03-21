@@ -405,7 +405,7 @@ internal class ChatCommands
                         Utils.SendMessage(sb.ToString(), lp.PlayerId);
                     }
                     else
-                        HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, (Utils.IsDev(PlayerControl.LocalPlayer) ? "\n" : string.Empty) + GetString("Message.CanNotUseInLobby"));
+                        Utils.SendMessage((Utils.IsDev(PlayerControl.LocalPlayer) ? "\n" : string.Empty) + GetString("Message.CanNotUseInLobby"), PlayerControl.LocalPlayer.PlayerId);
                     break;
 
                 case "/t":
@@ -577,7 +577,7 @@ internal class ChatCommands
         text = text.Replace("着", "者").Trim().ToLower();
         return text switch
         {
-            "管理員" or "管理" => GetString("GM"),
+            "管理員" or "管理" or "gm" => GetString("GM"),
             "賞金獵人" or "赏金" => GetString("BountyHunter"),
             "自爆兵" or "自爆" => GetString("Bomber"),
             "邪惡的追踪者" or "邪恶追踪者" or "追踪" => GetString("EvilTracker"),

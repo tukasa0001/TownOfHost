@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using TOHE.Roles.Neutral;
 using UnityEngine;
@@ -40,12 +40,9 @@ internal class AntiAdminer
     private static int Count = 0;
     public static void FixedUpdate()
     {
-        if (!Main.existAntiAdminer) return;
-        if (CustomRoles.AntiAdminer.GetCount() < 1) return;
+        if (!IsEnable()) return;
 
-        Count--;
-        if (Count > 0) return;
-        Count = 5;
+        Count--; if (Count > 0) return; Count = 5;
 
         bool Admin = false, Camera = false, DoorLog = false, Vital = false;
         foreach (PlayerControl pc in Main.AllAlivePlayerControls)

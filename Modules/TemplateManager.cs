@@ -13,8 +13,8 @@ namespace TOHE;
 
 public static class TemplateManager
 {
-    private static readonly string TEMPLATE_FILE_PATH = @"./TOHE_DATA/template.txt";
-    private static readonly Dictionary<string, Func<string>> _replaceDictionary = new()
+    private static readonly string TEMPLATE_FILE_PATH = "./TOHE_DATA/template.txt";
+    private static Dictionary<string, Func<string>> _replaceDictionary = new()
     {
         ["RoomCode"] = () => InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId),
         ["PlayerName"] = () => DataManager.Player.Customization.Name,
@@ -47,7 +47,7 @@ public static class TemplateManager
         {
             try
             {
-                if (!Directory.Exists("TOHE_DATA")) Directory.CreateDirectory("TOHE_DATA");
+                if (!Directory.Exists(@"TOHE_DATA")) Directory.CreateDirectory(@"TOHE_DATA");
                 if (File.Exists(@"./template.txt"))
                 {
                     File.Move(@"./template.txt", TEMPLATE_FILE_PATH);
@@ -64,6 +64,7 @@ public static class TemplateManager
             }
         }
     }
+
     private static string GetResourcesTxt(string path)
     {
         var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path);

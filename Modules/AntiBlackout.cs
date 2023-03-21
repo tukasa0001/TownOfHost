@@ -41,7 +41,8 @@ public static class AntiBlackout
     }
     public static bool IsCached { get; private set; } = false;
     private static Dictionary<byte, (bool isDead, bool Disconnected)> isDeadCache = new();
-    private static readonly LogHandler logger = Logger.Handler("AntiBlackout");
+    private readonly static LogHandler logger = Logger.Handler("AntiBlackout");
+
     public static void SetIsDead(bool doSend = true, [CallerMemberName] string callerMethodName = "")
     {
         logger.Info($"SetIsDead is called from {callerMethodName}");

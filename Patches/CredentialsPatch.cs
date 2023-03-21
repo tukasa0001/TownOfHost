@@ -166,21 +166,6 @@ internal class TitleLogoPatch
             var bgRenderer = CustomBG.AddComponent<SpriteRenderer>();
             bgRenderer.sprite = Utils.LoadSprite("TOHE.Resources.TOHE-BG.jpg", 179f);
         }
-
-        /**
-        var tohLogo = new GameObject("titleLogo_TOHE");
-        tohLogo.transform.position = Vector3.up;
-        tohLogo.transform.position -= Vector3.up * 0.20f;
-        tohLogo.transform.localScale *= 1.3f;
-        var renderer = tohLogo.AddComponent<SpriteRenderer>();
-        renderer.sprite = Utils.LoadSprite("TOHE.Resources.TOHE-Logo.png", 300f);
-
-        var bq = new GameObject("title_BQ");
-        bq.transform.position = new Vector3(4.1f, -2f, 0f);
-        bq.transform.localScale *= 1.8f;
-        var bqRenderer = bq.AddComponent<SpriteRenderer>();
-        bqRenderer.sprite = Utils.LoadSprite("TOHE.Resources.BQ.png", 300f);
-        */
     }
 }
 [HarmonyPatch(typeof(ModManager), nameof(ModManager.LateUpdate))]

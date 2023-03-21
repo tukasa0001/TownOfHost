@@ -3,7 +3,7 @@ using HarmonyLib;
 namespace TOHE;
 
 [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.IsGameOverDueToDeath))]
-internal class DontBlackoutPatch
+class DontBlackoutPatch
 {
     public static void Postfix(ref bool __result)
     {

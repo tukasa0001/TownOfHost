@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TOHE;
 
-internal class RandomSpawn
+class RandomSpawn
 {
     [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.SnapTo), typeof(Vector2), typeof(ushort))]
     public class CustomNetworkTransformPatch
@@ -153,7 +153,7 @@ internal class RandomSpawn
             ["ViewingDeck"] = new(-13.7f, -12.6f),
             ["Security"] = new(5.8f, -10.8f),
             ["Electrical"] = new(16.3f, -8.8f),
-            ["medicaler"] = new(29.0f, -6.2f),
+            ["Medical"] = new(29.0f, -6.2f),
             ["Toilet"] = new(30.9f, 6.8f),
             ["Showers"] = new(21.2f, -0.8f)
         };

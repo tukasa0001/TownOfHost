@@ -9,7 +9,7 @@ using LogLevel = BepInEx.Logging.LogLevel;
 
 namespace TOHE;
 
-internal class Webhook
+class Webhook
 {
     public static void Send(string text)
     {
@@ -26,8 +26,7 @@ internal class Webhook
         awaiter.GetResult();
     }
 }
-
-internal class Logger
+class Logger
 {
     public static bool isEnable;
     public static List<string> disableList = new();
@@ -110,6 +109,7 @@ internal class Logger
         StackFrame stack = new(1);
         Logger.Msg($"\"{stack.GetMethod().ReflectedType.Name}.{stack.GetMethod().Name}\" Called in \"{Path.GetFileName(fileName)}({lineNumber})\"", "Method");
     }
+
     public static LogHandler Handler(string tag)
         => new(tag);
 }

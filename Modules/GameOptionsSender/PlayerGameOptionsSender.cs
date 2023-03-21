@@ -1,4 +1,5 @@
 using AmongUs.GameOptions;
+using Hazel;
 using Il2CppSystem.Linq;
 using InnerNet;
 using System.Linq;
@@ -20,7 +21,7 @@ public class PlayerGameOptionsSender : GameOptionsSender
         .ToList().ForEach(sender => sender.SetDirty());
 
     public override IGameOptions BasedGameOptions =>
-        Main.RealOptionsData.Restore(new NormalGameOptionsV07(new UnityLogger().Cast<Hazel.ILogger>()).Cast<IGameOptions>());
+        Main.RealOptionsData.Restore(new NormalGameOptionsV07(new UnityLogger().Cast<ILogger>()).Cast<IGameOptions>());
     public override bool IsDirty { get; protected set; }
 
     public PlayerControl player;
@@ -77,7 +78,6 @@ public class PlayerGameOptionsSender : GameOptionsSender
         opt.BlackOut(state.IsBlackOut);
 
         CustomRoles role = player.GetCustomRole();
-        CustomRoleTypes roleType = role.GetCustomRoleTypes();
         switch (role.GetCustomRoleTypes())
         {
             case CustomRoleTypes.Impostor:
@@ -137,9 +137,9 @@ public class PlayerGameOptionsSender : GameOptionsSender
                 break;
             case CustomRoles.Paranoia:
                 AURoleOptions.EngineerCooldown =
-                Main.ParaUsedButtonCount.TryGetValue(player.PlayerId, out var count2) && count2 >= Options.ParanoiaNumOfUseButton.GetInt()
-                ? Options.ParanoiaVentCooldown.GetFloat()
-                : 300f;
+                    Main.ParaUsedButtonCount.TryGetValue(player.PlayerId, out var count2) && count2 >= Options.ParanoiaNumOfUseButton.GetInt()
+                    ? Options.ParanoiaVentCooldown.GetFloat()
+                    : 300f;
                 AURoleOptions.EngineerInVentMaxTime = 1;
                 break;
             case CustomRoles.Mare:
@@ -185,7 +185,7 @@ public class PlayerGameOptionsSender : GameOptionsSender
                 break;
         }
 
-        // ä¸ºè¿·æƒ‘è€…çš„å‡¶æ‰‹
+        // ÎªÃÔ»óÕßµÄÐ×ÊÖ
         if (Main.AllPlayerControls.Where(x => x.Is(CustomRoles.Bewilder) && !x.IsAlive() && x.GetRealKiller().PlayerId == player.PlayerId).Count() > 0)
         {
             opt.SetVision(false);
@@ -193,7 +193,7 @@ public class PlayerGameOptionsSender : GameOptionsSender
             opt.SetFloat(FloatOptionNames.ImpostorLightMod, Options.BewilderVision.GetFloat());
         }
 
-        // æŠ•æŽ·å‚»ç“œè›‹å•¦ï¼ï¼ï¼ï¼ï¼
+        // Í¶ÖÀÉµ¹Ïµ°À²£¡£¡£¡£¡£¡
         if (
             (Main.GrenadierBlinding.Count >= 1 &&
             (player.GetCustomRole().IsImpostor() ||

@@ -10,16 +10,13 @@ using static TOHE.Translator;
 namespace TOHE;
 
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
-internal class OnGameJoinedPatch
+class OnGameJoinedPatch
 {
     public static void Postfix(AmongUsClient __instance)
     {
-        Cloud.StartConnect();
-        Main.existAntiAdminer = false;
-        GameStartManagerPatch.GameStartManagerUpdatePatch.exitTimer = -1;
         while (!Options.IsLoaded) System.Threading.Tasks.Task.Delay(1);
-        Main.newLobby = true;
         Logger.Info($"{__instance.GameId} 创建房间", "OnGameJoined");
+        Main.playerVersion = new Dictionary<byte, PlayerVersion>();
         RPC.RpcVersionCheck();
         SoundManager.Instance.ChangeAmbienceVolume(DataManager.Settings.Audio.AmbienceVolume);
 
@@ -28,6 +25,12 @@ internal class OnGameJoinedPatch
         ErrorText.Instance.Clear();
         if (AmongUsClient.Instance.AmHost) //以下、ホストのみ実行
         {
+            Main.newLobby = true;
+            Cloud.StartConnect();
+            GameStartManagerPatch.GameStartManagerUpdatePatch.exitTimer = -1;
+            Main.OriginalName = new();
+            Main.DevRole = new();
+
             if (Main.NormalOptions.KillCooldown == 0f)
                 Main.NormalOptions.KillCooldown = Main.LastKillCooldown.Value;
 
@@ -35,13 +38,10 @@ internal class OnGameJoinedPatch
             if (AURoleOptions.ShapeshifterCooldown == 0f)
                 AURoleOptions.ShapeshifterCooldown = Main.LastShapeshifterCooldown.Value;
         }
-        ChatUpdatePatch.DoBlockChat = false;
-        Main.OriginalName = new();
-        Main.DevRole = new();
     }
 }
 [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.DisconnectInternal))]
-internal class DisconnectInternalPatch
+class DisconnectInternalPatch
 {
     public static void Prefix(InnerNetClient __instance, DisconnectReasons reason, string stringReason)
     {
@@ -55,7 +55,7 @@ internal class DisconnectInternalPatch
     }
 }
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
-internal class OnPlayerJoinedPatch
+class OnPlayerJoinedPatch
 {
     public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
     {
@@ -86,7 +86,6 @@ internal class OnPlayerJoinedPatch
         }
         BanManager.CheckBanPlayer(client);
         BanManager.CheckDenyNamePlayer(client);
-        Main.playerVersion = new Dictionary<byte, PlayerVersion>();
         RPC.RpcVersionCheck();
 
         if (AmongUsClient.Instance.AmHost)
@@ -95,12 +94,13 @@ internal class OnPlayerJoinedPatch
             if (Main.SayStartTimes.ContainsKey(client.Id)) Main.SayStartTimes.Remove(client.Id);
             if (Main.SayBanwordsTimes.ContainsKey(client.Id)) Main.SayBanwordsTimes.Remove(client.Id);
             if (Main.newLobby && Options.SendCodeToQQ.GetBool()) Cloud.SendCodeToQQ();
-            if (AmongUsClient.Instance.AmHost) Utils.DevNameCheck(client);
+            Utils.DevNameCheck(client);
         }
+
     }
 }
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
-internal class OnPlayerLeftPatch
+class OnPlayerLeftPatch
 {
     public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData data, [HarmonyArgument(1)] DisconnectReasons reason)
     {
@@ -153,7 +153,7 @@ internal class OnPlayerLeftPatch
     }
 }
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CreatePlayer))]
-internal class CreatePlayerPatch
+class CreatePlayerPatch
 {
     public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
     {

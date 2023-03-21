@@ -193,20 +193,17 @@ public static class Utils
     }
     public static bool KillFlashCheck(PlayerControl killer, PlayerControl target, PlayerControl seer)
     {
-        return seer.Is(CustomRoles.GM)
-            || seer.Is(CustomRoles.Seer)
-            || !seer.Data.IsDead && killer != seer && target != seer
-            && seer.GetCustomRole() switch
-            {
-                CustomRoles.EvilTracker => EvilTracker.KillFlashCheck(killer, target),
-                CustomRoles.Seer => true,
-                _ => false
-            };
+        if (seer.Is(CustomRoles.GM) || seer.Is(CustomRoles.Seer)) return true;
+        if (seer.Data.IsDead || killer == seer || target == seer) return false;
+        if (seer.Is(CustomRoles.EvilTracker)) return EvilTracker.KillFlashCheck(killer, target);
+        return false;
     }
     public static void KillFlash(this PlayerControl player)
     {
         //キルフラッシュ(ブラックアウト+リアクターフラッシュ)の処理
-        bool ReactorCheck = Main.NormalOptions.MapId == 2 ? IsActive(SystemTypes.Laboratory) : IsActive(SystemTypes.Reactor); //リアクターフラッシュの確認
+        bool ReactorCheck = false; //リアクターフラッシュの確認
+        if (Main.NormalOptions.MapId == 2) ReactorCheck = IsActive(SystemTypes.Laboratory);
+        else ReactorCheck = IsActive(SystemTypes.Reactor);
 
         var Duration = Options.KillFlashDuration.GetFloat();
         if (ReactorCheck) Duration += 0.2f; //リアクター中はブラックアウトを長くする
@@ -263,10 +260,11 @@ public static class Utils
     }
     public static (string, Color) GetRoleText(byte playerId, bool pure = false)
     {
-        string RoleText;
-        Color RoleColor;
+        string RoleText = "Invalid Role";
+        Color RoleColor = Color.red;
 
         var mainRole = Main.PlayerStates[playerId].MainRole;
+        var SubRoles = Main.PlayerStates[playerId].SubRoles;
         RoleText = GetRoleName(mainRole);
         RoleColor = GetPlayerById(playerId).Is(CustomRoles.Madmate) ? new(255, 25, 25, byte.MaxValue) : GetRoleColor(mainRole);
 
@@ -282,6 +280,7 @@ public static class Utils
             if (Main.PlayerStates[playerId].SubRoles.Contains(CustomRoles.Madmate))
                 RoleText = GetRoleString("Mad-") + RoleText;
         }
+
         return (RoleText, RoleColor);
     }
     public static string GetKillerText(byte playerId)
@@ -307,6 +306,7 @@ public static class Utils
         }
         return deathReason;
     }
+
     public static bool HasTasks(GameData.PlayerInfo p, bool ForRecompute = true)
     {
         if (GameStates.IsLobby) return false;
@@ -345,13 +345,13 @@ public static class Utils
                 hasTasks = false;
                 break;
             case CustomRoles.Terrorist:
-                hasTasks = !ForRecompute;
+                if (ForRecompute)
+                    hasTasks = false;
                 break;
             case CustomRoles.Executioner:
-                hasTasks = Executioner.ChangeRolesAfterTargetKilled.GetValue() == 0 && !ForRecompute;
-                break;
-            case CustomRoles.Workaholic:
-                hasTasks = !ForRecompute && (!Options.WorkaholicCannotWinAtDeath.GetBool() || !p.IsDead);
+                if (Executioner.ChangeRolesAfterTargetKilled.GetValue() == 0)
+                    hasTasks = !ForRecompute;
+                else hasTasks = false;
                 break;
             default:
                 if (role.IsImpostor()) hasTasks = false;
@@ -362,15 +362,12 @@ public static class Utils
             switch (subRole)
             {
                 case CustomRoles.Madmate:
-                    if (role is CustomRoles.SpeedBooster or CustomRoles.Snitch or CustomRoles.Transporter or CustomRoles.TimeManager)
-                        hasTasks = !ForRecompute;
-                    else hasTasks = false;
-                    break;
                 case CustomRoles.Lovers:
                     //ラバーズはタスクを勝利用にカウントしない
                     hasTasks &= !ForRecompute;
                     break;
             }
+
         return hasTasks;
     }
     public static bool CanBeMadmate(this PlayerControl pc)
@@ -410,9 +407,6 @@ public static class Utils
         var role = Main.PlayerStates[playerId].MainRole;
         switch (role)
         {
-            case CustomRoles.Mario:
-                ProgressText.Append(ColorString(GetRoleColor(CustomRoles.Mario).ShadeColor(0.25f), $"({(Main.MarioVentCount.TryGetValue(playerId, out var count) ? count : 0)}/{Options.MarioVentNumWin.GetInt()})"));
-                break;
             case CustomRoles.Arsonist:
                 var doused = GetDousedPlayerCount(playerId);
                 ProgressText.Append(ColorString(GetRoleColor(CustomRoles.Arsonist).ShadeColor(0.25f), $"({doused.Item1}/{doused.Item2})"));
@@ -420,20 +414,23 @@ public static class Utils
             case CustomRoles.Sheriff:
                 ProgressText.Append(Sheriff.GetShotLimit(playerId));
                 break;
-            case CustomRoles.QuickShooter:
-                ProgressText.Append(QuickShooter.GetShotLimit(playerId));
-                break;
             case CustomRoles.Sniper:
                 ProgressText.Append(Sniper.GetBulletCount(playerId));
                 break;
             case CustomRoles.EvilTracker:
                 ProgressText.Append(EvilTracker.GetMarker(playerId));
                 break;
-            case CustomRoles.SwordsMan:
-                ProgressText.Append(SwordsMan.GetKillLimit(playerId));
-                break;
             case CustomRoles.TimeThief:
                 ProgressText.Append(TimeThief.GetProgressText(playerId));
+                break;
+            case CustomRoles.Mario:
+                ProgressText.Append(ColorString(GetRoleColor(CustomRoles.Mario).ShadeColor(0.25f), $"({(Main.MarioVentCount.TryGetValue(playerId, out var count) ? count : 0)}/{Options.MarioVentNumWin.GetInt()})"));
+                break;
+            case CustomRoles.QuickShooter:
+                ProgressText.Append(QuickShooter.GetShotLimit(playerId));
+                break;
+            case CustomRoles.SwordsMan:
+                ProgressText.Append(SwordsMan.GetKillLimit(playerId));
                 break;
             case CustomRoles.Pelican:
                 ProgressText.Append(Pelican.GetProgressText(playerId));
@@ -505,18 +502,19 @@ public static class Utils
     }
     public static void ShowActiveSettings(byte PlayerId = byte.MaxValue)
     {
-        if (Options.DIYGameSettings.GetBool())
-        {
-            SendMessage(GetString("Message.NowOverrideText"), PlayerId);
-            return;
-        }
+        var mapId = Main.NormalOptions.MapId;
         if (Options.HideGameSettings.GetBool() && PlayerId != byte.MaxValue)
         {
             SendMessage(GetString("Message.HideGameSettings"), PlayerId);
             return;
         }
-        var mapId = Main.NormalOptions.MapId;
+        if (Options.DIYGameSettings.GetBool())
+        {
+            SendMessage(GetString("Message.NowOverrideText"), PlayerId);
+            return;
+        }
         var sb = new StringBuilder();
+
         sb.Append(GetString("Settings")).Append(":");
         foreach (var role in Options.CustomRoleCounts)
         {
@@ -537,6 +535,7 @@ public static class Utils
             var text = sb.ToString();
             sb.Clear().Append(text.RemoveHtmlTags());
         }
+
         SendMessage(sb.ToString(), PlayerId);
     }
     public static void CopyCurrentSettings()
@@ -604,6 +603,7 @@ public static class Utils
                 sb.Append("\n\n");
                 command = false;
             }
+
             if (opt.Value.Name == "Maximum") continue; //Maximumの項目は飛ばす
             if (opt.Value.Name == "DisableSkeldDevices" && !Options.IsActiveSkeld) continue;
             if (opt.Value.Name == "DisableMiraHQDevices" && !Options.IsActiveMiraHQ) continue;
@@ -655,8 +655,6 @@ public static class Utils
         if (IsUP(PlayerControl.LocalPlayer) && Options.EnableUpMode.GetBool()) SendMessage($"提示：该房间启用了【创作者素材保护计划】，房主可以指定自己的职业。\n该功能仅允许创作者用于获取视频素材，如遇滥用情况，请退出游戏或举报。\n当前创作者认证：{GetUpName(PlayerControl.LocalPlayer)}", PlayerId);
 
     }
-
-
     public static string GetSubRolesText(byte id, bool disableColor = false, bool intro = false, bool summary = false)
     {
         var SubRoles = Main.PlayerStates[id].SubRoles;
@@ -727,7 +725,6 @@ public static class Utils
             + $"\n  ○ /qt {GetString("Command.quit")}"
             , ID);
     }
-
     public static void ShowHelp(byte ID)
     {
         SendMessage(
@@ -754,7 +751,6 @@ public static class Utils
             + $"\n  ○ /dump {GetString("Command.dump")}"
             , ID);
     }
-
     public static void GetPsychicStuff(PlayerControl seer)
     {
         if (Options.PsychicFresh.GetBool() || !Main.PsychicTarget.ContainsKey(seer.PlayerId))
@@ -926,7 +922,6 @@ public static class Utils
                     break;
             }
         }
-        if (name.CompareTo(PlayerControl.LocalPlayer.name) == 0) return;
         if (name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
     }
     public static PlayerControl GetPlayerById(int PlayerId)
@@ -935,13 +930,16 @@ public static class Utils
     }
     public static GameData.PlayerInfo GetPlayerInfoById(int PlayerId) =>
         GameData.Instance.AllPlayers.ToArray().Where(info => info.PlayerId == PlayerId).FirstOrDefault();
-    private static readonly StringBuilder SelfSuffix = new();
-    private static readonly StringBuilder SelfMark = new(20);
-    private static readonly StringBuilder TargetMark = new(20);
+    private static StringBuilder SelfSuffix = new();
+    private static StringBuilder SelfMark = new(20);
+    private static StringBuilder TargetMark = new(20);
     public static void NotifyRoles(bool isForMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false, bool ForceLoop = false)
     {
         if (!AmongUsClient.Instance.AmHost) return;
         if (Main.AllPlayerControls == null) return;
+
+        //ミーティング中の呼び出しは不正
+        if (GameStates.IsMeeting) return;
 
         var caller = new System.Diagnostics.StackFrame(1, false);
         var callerMethod = caller.GetMethod();
@@ -1012,6 +1010,7 @@ public static class Utils
                 SelfSuffix.Append(BountyHunter.GetTargetText(seer, false));
                 SelfSuffix.Append(BountyHunter.GetTargetArrow(seer));
             }
+
             if (seer.Is(CustomRoles.FireWorks))
             {
                 string stateText = FireWorks.GetStateText(seer);
@@ -1058,7 +1057,9 @@ public static class Utils
             seer.RpcSetNamePrivate(SelfName, true, force: NoCache);
 
             //seerが死んでいる場合など、必要なときのみ第二ループを実行する
-            if (true)
+            if (
+                true
+            )
             {
                 foreach (var target in Main.AllPlayerControls)
                 {
@@ -1126,7 +1127,7 @@ public static class Utils
                     if (seer.Is(CustomRoles.Puppeteer) &&
                     Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
                     Main.PuppeteerList.ContainsKey(target.PlayerId))
-                        TargetMark.Append($"<color={GetRoleColorCode(CustomRoles.Impostor)}>◆</color>");
+                        TargetMark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>");
 
                     //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}>{target.GetDisplayRoleName()}{GetProgressText(target)}</size>\r\n" : "";
@@ -1181,6 +1182,7 @@ public static class Utils
                     TargetMark.Append(Gamer.TargetMark(seer, target));
 
                     TargetMark.Append(Medicaler.TargetMark(seer, target));
+
 
                     string TargetDeathReason = "";
                     if (seer.KnowDeathReason(target))
@@ -1371,6 +1373,7 @@ public static class Utils
         var pc = GetPlayerById(pcId);
         return pc != null && IsDev(pc);
     }
+
     public static void ChangeInt(ref int ChangeTo, int input, int max)
     {
         var tmp = ChangeTo * 10;
@@ -1443,7 +1446,6 @@ public static class Utils
 
         return (doused, all);
     }
-
     public static (int, int) GetDrawPlayerCount(byte playerId, out List<PlayerControl> winnerList)
     {
         int draw = 0;
@@ -1461,7 +1463,6 @@ public static class Utils
         }
         return (draw, all);
     }
-
     public static string SummaryTexts(byte id, bool disableColor = true, bool check = false)
     {
         var RolePos = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? 47 : 37;

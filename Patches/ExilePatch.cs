@@ -6,11 +6,11 @@ using TOHE.Roles.Neutral;
 
 namespace TOHE;
 
-internal class ExileControllerWrapUpPatch
+class ExileControllerWrapUpPatch
 {
     public static GameData.PlayerInfo AntiBlackout_LastExiled;
     [HarmonyPatch(typeof(ExileController), nameof(ExileController.WrapUp))]
-    private class BaseExileControllerPatch
+    class BaseExileControllerPatch
     {
         public static void Postfix(ExileController __instance)
         {
@@ -26,7 +26,7 @@ internal class ExileControllerWrapUpPatch
     }
 
     [HarmonyPatch(typeof(AirshipExileController), nameof(AirshipExileController.WrapUpAndSpawn))]
-    private class AirshipExileControllerPatch
+    class AirshipExileControllerPatch
     {
         public static void Postfix(AirshipExileController __instance)
         {
@@ -40,79 +40,71 @@ internal class ExileControllerWrapUpPatch
             }
         }
     }
-
-    private static void WrapUpPostfix(GameData.PlayerInfo exiled)
+    static void WrapUpPostfix(GameData.PlayerInfo exiled)
     {
         if (AntiBlackout.OverrideExiledPlayer)
         {
             exiled = AntiBlackout_LastExiled;
         }
 
+        bool DecidedWinner = false;
         if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
         AntiBlackout.RestoreIsDead(doSend: false);
-
         if (!Collector.CollectorWin(false) && exiled != null) //判断集票者胜利
         {
             //霊界用暗転バグ対処
             if (!AntiBlackout.OverrideExiledPlayer && Main.ResetCamPlayerList.Contains(exiled.PlayerId))
                 exiled.Object?.ResetPlayerCam(1f);
 
-            bool DecidedWinner = false;
             exiled.IsDead = true;
             Main.PlayerStates[exiled.PlayerId].deathReason = PlayerState.DeathReason.Vote;
+            var role = exiled.GetCustomRole();
 
-            if (AmongUsClient.Instance.AmHost)
+            //判断冤罪师胜利
+            var playerList = Main.AllPlayerControls.Where(x => x.Is(CustomRoles.Innocent) && !x.IsAlive() && x.GetRealKiller().PlayerId == exiled.PlayerId);
+            if (playerList.Count() > 0)
             {
-
-                var role = exiled.GetCustomRole();
-
-                //判断冤罪师胜利
-                var playerList = Main.AllPlayerControls.Where(x => x.Is(CustomRoles.Innocent) && !x.IsAlive() && x.GetRealKiller().PlayerId == exiled.PlayerId);
-                if (playerList.Count() > 0)
+                if (!Options.InnocentCanWinByImp.GetBool() && role.IsImpostor())
                 {
-                    if (!Options.InnocentCanWinByImp.GetBool() && role.IsImpostor())
-                    {
-                        Logger.Info("冤罪的目标是内鬼，非常可惜啊", "Exeiled Winner Check");
-                    }
-                    else
-                    {
-                        if (DecidedWinner) CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Innocent);
-                        else CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Innocent);
-                        foreach (var pc in playerList) CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
-                        DecidedWinner = true;
-                    }
+                    Logger.Info("冤罪的目标是内鬼，非常可惜啊", "Exeiled Winner Check");
                 }
-
-                //判断小丑胜利
-                if (role == CustomRoles.Jester)
+                else
                 {
-                    if (DecidedWinner) CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Jester);
-                    else CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jester);
-                    CustomWinnerHolder.WinnerIds.Add(exiled.PlayerId);
+                    if (DecidedWinner) CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Innocent);
+                    else CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Innocent);
+                    foreach (var pc in playerList) CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
                     DecidedWinner = true;
                 }
-
-                //判断处刑人胜利
-                Executioner.CheckExileTarget(exiled, DecidedWinner);
-                foreach (var executioner in Executioner.playerIdList)
-                {
-                    var GetValue = Executioner.Target.TryGetValue(executioner, out var targetId);
-                    if (GetValue && exiled.PlayerId == targetId)
-                    {
-                        if (DecidedWinner) CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Executioner);
-                        else CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Executioner);
-                        CustomWinnerHolder.WinnerIds.Add(executioner);
-                    }
-                    DecidedWinner = true;
-                }
-
-                //判断恐怖分子胜利
-                if (role == CustomRoles.Terrorist) Utils.CheckTerroristWin(exiled);
-
-                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) Main.PlayerStates[exiled.PlayerId].SetDead();
             }
-        }
 
+            //判断小丑胜利
+            if (role == CustomRoles.Jester)
+            {
+                if (DecidedWinner) CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Jester);
+                else CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jester);
+                CustomWinnerHolder.WinnerIds.Add(exiled.PlayerId);
+                DecidedWinner = true;
+            }
+
+            //判断处刑人胜利
+            Executioner.CheckExileTarget(exiled, DecidedWinner);
+            foreach (var executioner in Executioner.playerIdList)
+            {
+                var GetValue = Executioner.Target.TryGetValue(executioner, out var targetId);
+                if (GetValue && exiled.PlayerId == targetId)
+                {
+                    if (DecidedWinner) CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Executioner);
+                    else CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Executioner);
+                    CustomWinnerHolder.WinnerIds.Add(executioner);
+                }
+                DecidedWinner = true;
+            }
+
+            //判断恐怖分子胜利
+            if (role == CustomRoles.Terrorist) Utils.CheckTerroristWin(exiled);
+
+            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) Main.PlayerStates[exiled.PlayerId].SetDead();
+        }
         if (AmongUsClient.Instance.AmHost && Main.IsFixedCooldown)
             Main.RefixCooldownDelay = Options.DefaultKillCooldown - 3f;
 
@@ -122,10 +114,6 @@ internal class ExileControllerWrapUpPatch
         {
             pc.ResetKillCooldown();
             if (Options.MayorHasPortableButton.GetBool() && pc.Is(CustomRoles.Mayor))
-                pc.RpcResetAbilityCooldown();
-            if (pc.Is(CustomRoles.Paranoia))
-                pc.RpcResetAbilityCooldown();
-            if (pc.Is(CustomRoles.Veteran))
                 pc.RpcResetAbilityCooldown();
             if (pc.Is(CustomRoles.Warlock))
             {
@@ -137,6 +125,12 @@ internal class ExileControllerWrapUpPatch
                 Main.MarkedPlayers[pc.PlayerId] = null;
                 Main.isMarkAndKill[pc.PlayerId] = false;
             }
+            if (pc.Is(CustomRoles.Paranoia))
+                pc.RpcResetAbilityCooldown();
+            if (pc.Is(CustomRoles.Veteran))
+                pc.RpcResetAbilityCooldown();
+            if (pc.Is(CustomRoles.Grenadier))
+                pc.RpcResetAbilityCooldown();
         }
         if (Options.RandomSpawn.GetBool())
         {
@@ -164,7 +158,7 @@ internal class ExileControllerWrapUpPatch
         Utils.NotifyRoles();
     }
 
-    private static void WrapUpFinalizer(GameData.PlayerInfo exiled)
+    static void WrapUpFinalizer(GameData.PlayerInfo exiled)
     {
         //WrapUpPostfixで例外が発生しても、この部分だけは確実に実行されます。
         if (AmongUsClient.Instance.AmHost)
@@ -208,7 +202,7 @@ internal class ExileControllerWrapUpPatch
 }
 
 [HarmonyPatch(typeof(PbExileController), nameof(PbExileController.PlayerSpin))]
-internal class PolusExileHatFixPatch
+class PolusExileHatFixPatch
 {
     public static void Prefix(PbExileController __instance)
     {

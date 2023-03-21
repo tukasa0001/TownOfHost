@@ -15,11 +15,10 @@ using static TOHE.Translator;
 
 namespace TOHE;
 
-internal enum CustomRPC
+enum CustomRPC
 {
     VersionCheck = 60,
     RequestRetryVersionCheck = 61,
-    AntiBlack = 62,
     SyncCustomSettings = 80,
     SetDeathReason,
     EndGame,
@@ -29,7 +28,6 @@ internal enum CustomRPC
     SetKillOrSpell,
     SetSheriffShotLimit,
     SetDousedPlayer,
-    SetDrawPlayer,
     SetNameColorData,
     DoSpell,
     SniperSync,
@@ -38,11 +36,16 @@ internal enum CustomRPC
     RemoveExecutionerTarget,
     SendFireWorksState,
     SetCurrentDousingTarget,
-    SetCurrentDrawTarget,
     SetEvilTrackerTarget,
     SetRealKiller,
 
-    //TOHE
+    // TOHE
+    AntiBlack,
+    RestTOHESetting,
+    PlayCustomSound,
+    PlayCustomSoundAll,
+    SetDrawPlayer,
+    SetCurrentDrawTarget,
     SetGamerHealth,
     SetPelicanEtenNum,
     SwordsManKill,
@@ -50,16 +53,14 @@ internal enum CustomRPC
     SetMedicalerProtectLimit,
     SetGangsterRecruitLimit,
     SetGhostPlayer,
-    PlayCustomSound,
-    PlayCustomSoundAll,
     SetDarkHiderKillCount,
     SetGreedierOE,
     SetCursedWolfSpellCount,
     SetCollectorVotes,
     SetQuickShooterShotLimit,
-    RestTOHESetting,
     SetEraseLimit,
     Guess,
+
 }
 public enum Sounds
 {

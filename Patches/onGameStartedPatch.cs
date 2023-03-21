@@ -51,7 +51,6 @@ internal class ChangeRoleSettings
             Main.isCurseAndKill = new Dictionary<byte, bool>();
             Main.isCursed = false;
             Main.isMarked = false;
-            Main.existAntiAdminer = false;
             Main.PuppeteerList = new Dictionary<byte, byte>();
             Main.DetectiveNotify = new Dictionary<byte, string>();
             Main.HackerUsedCount = new Dictionary<byte, int>();
@@ -826,7 +825,6 @@ internal class SelectRolesPatch
             Logger.Info("设置职业:" + player?.Data?.PlayerName + " = " + role.ToString(), "AssignRoles");
         }
         SetColorPatch.IsAntiGlitchDisabled = false;
-        if (role == CustomRoles.AntiAdminer) Main.existAntiAdminer = true;
         return AssignedPlayers;
     }
 

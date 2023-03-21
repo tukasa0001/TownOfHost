@@ -5,7 +5,7 @@ using UnityEngine;
 namespace TOHE;
 
 [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]
-internal class ChatControllerUpdatePatch
+class ChatControllerUpdatePatch
 {
     public static int CurrentHistorySelection = -1;
     public static void Prefix()

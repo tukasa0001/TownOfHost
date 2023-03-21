@@ -11,7 +11,7 @@ namespace TOHE;
 
 public class PlayerState
 {
-    private readonly byte PlayerId;
+    byte PlayerId;
     public CustomRoles MainRole;
     public List<CustomRoles> SubRoles;
     public CountTypes countTypes;
@@ -103,9 +103,11 @@ public class PlayerState
         Sniped,
         Revenge,
         Execution,
-        Gambled,
         Disconnected,
         Fall,
+
+        // TOHE
+        Gambled,
         Eaten,
         Sacrifice,
         Quantization,
@@ -113,6 +115,7 @@ public class PlayerState
         Ashamed,
         PissedOff,
         Dismembered,
+
         etc = -1
     }
     public byte GetRealKiller()
@@ -137,9 +140,9 @@ public class TaskState
     public bool IsTaskFinished => RemainingTasksCount <= 0 && hasTasks;
     public TaskState()
     {
-        AllTasksCount = -1;
-        CompletedTasksCount = 0;
-        hasTasks = false;
+        this.AllTasksCount = -1;
+        this.CompletedTasksCount = 0;
+        this.hasTasks = false;
     }
 
     public void Init(PlayerControl player)

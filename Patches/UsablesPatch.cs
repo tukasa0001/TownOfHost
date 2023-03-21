@@ -5,7 +5,7 @@ using UnityEngine;
 namespace TOHE;
 
 [HarmonyPatch(typeof(Console), nameof(Console.CanUse))]
-internal class CanUsePatch
+class CanUsePatch
 {
     public static bool Prefix(ref float __result, Console __instance, [HarmonyArgument(0)] GameData.PlayerInfo pc, [HarmonyArgument(1)] out bool canUse, [HarmonyArgument(2)] out bool couldUse)
     {
@@ -15,15 +15,15 @@ internal class CanUsePatch
     }
 }
 [HarmonyPatch(typeof(EmergencyMinigame), nameof(EmergencyMinigame.Update))]
-internal class EmergencyMinigamePatch
+class EmergencyMinigamePatch
 {
     public static void Postfix(EmergencyMinigame __instance)
     {
-        //if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) __instance.Close();
+        return;
     }
 }
 [HarmonyPatch(typeof(Vent), nameof(Vent.CanUse))]
-internal class CanUseVentPatch
+class CanUseVentPatch
 {
     public static bool Prefix(Vent __instance, [HarmonyArgument(0)] GameData.PlayerInfo pc,
         [HarmonyArgument(1)] ref bool canUse,
@@ -51,7 +51,6 @@ internal class CanUseVentPatch
                 if (pc.Object.IsDouseDone())
                     VentForTrigger = true;
                 break;
-
             case CustomRoles.Revolutionist://跳管解锁
                 if (pc.Object.IsDrawDone())
                     VentForTrigger = true;

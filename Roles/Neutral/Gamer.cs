@@ -1,4 +1,4 @@
-using AmongUs.GameOptions;
+﻿using AmongUs.GameOptions;
 using Hazel;
 using System.Collections.Generic;
 using UnityEngine;
@@ -106,7 +106,7 @@ public static class Gamer
     public static bool CheckMurder(PlayerControl killer, PlayerControl target)
     {
         if (killer == null || target == null || !target.Is(CustomRoles.Gamer) || killer.Is(CustomRoles.Gamer)) return true;
-        
+
         if (GamerHealth[target.PlayerId] - SelfDamage.GetInt() < 1)
         {
             GamerHealth.Remove(target.PlayerId);

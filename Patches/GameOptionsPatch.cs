@@ -5,21 +5,19 @@ using static TOHE.Translator;
 namespace TOHE;
 
 [HarmonyPatch(typeof(RoleOptionSetting), nameof(RoleOptionSetting.UpdateValuesAndText))]
-internal class ChanceChangePatch
+class ChanceChangePatch
 {
     public static void Postfix(RoleOptionSetting __instance)
     {
-        bool forced = false;
+        bool forced = true;
         string DisableText = $" ({GetString("Disabled")})";
         if (__instance.Role.Role == RoleTypes.Scientist)
         {
             __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.Scientist);
-            if (CustomRoles.Doctor.IsEnable()) forced = true;
         }
         if (__instance.Role.Role == RoleTypes.Engineer)
         {
             __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.Engineer);
-            if (CustomRoles.Terrorist.IsEnable()) forced = true;
         }
         if (__instance.Role.Role == RoleTypes.GuardianAngel)
         {
@@ -39,7 +37,6 @@ internal class ChanceChangePatch
         if (__instance.Role.Role == RoleTypes.Shapeshifter)
         {
             __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.Shapeshifter);
-            forced = true;
         }
 
         if (forced)
@@ -50,7 +47,7 @@ internal class ChanceChangePatch
 }
 
 [HarmonyPatch(typeof(GameOptionsManager), nameof(GameOptionsManager.SwitchGameMode))]
-internal class SwitchGameModePatch
+class SwitchGameModePatch
 {
     public static void Postfix(GameModes gameMode)
     {

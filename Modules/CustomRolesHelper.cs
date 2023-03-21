@@ -3,7 +3,7 @@ namespace TOHE;
 
 internal static class CustomRolesHelper
 {
-    public static CustomRoles GetVNRole(this CustomRoles role) // å¯¹åº”åŸç‰ˆèŒä¸š
+    public static CustomRoles GetVNRole(this CustomRoles role) // ¶ÔÓ¦Ô­°æÖ°Òµ
     {
         return role.IsVanilla()
             ? role
@@ -92,7 +92,7 @@ internal static class CustomRolesHelper
     };
 
     public static bool IsDesyncRole(this CustomRoles role) => role.GetDYRole() != RoleTypes.Scientist;
-    public static RoleTypes GetDYRole(this CustomRoles role) // å¯¹åº”åŸç‰ˆèŒä¸šï¼ˆåèŒä¸šï¼‰
+    public static RoleTypes GetDYRole(this CustomRoles role) // ¶ÔÓ¦Ô­°æÖ°Òµ£¨·´Ö°Òµ£©
     {
         return role switch
         {
@@ -136,7 +136,7 @@ internal static class CustomRolesHelper
             CustomRoles.DualPersonality or
             CustomRoles.Mimic;
     }
-    public static bool IsNK(this CustomRoles role) // æ˜¯å¦å¸¦åˆ€ä¸­ç«‹
+    public static bool IsNK(this CustomRoles role) // ÊÇ·ñ´øµ¶ÖĞÁ¢
     {
         return role is
             CustomRoles.Jackal or
@@ -146,8 +146,8 @@ internal static class CustomRolesHelper
             CustomRoles.DarkHide or
             CustomRoles.Provocateur;
     }
-    public static bool IsNNK(this CustomRoles role) => role.IsNeutral() && !role.IsNK(); // æ˜¯å¦æ— åˆ€ä¸­ç«‹
-    public static bool IsNeutralKilling(this CustomRoles role) //æ˜¯å¦é‚ªæ¶ä¸­ç«‹ï¼ˆæŠ¢å¤ºæˆ–å•ç‹¬èƒœåˆ©çš„ä¸­ç«‹ï¼‰
+    public static bool IsNNK(this CustomRoles role) => role.IsNeutral() && !role.IsNK(); // ÊÇ·ñÎŞµ¶ÖĞÁ¢
+    public static bool IsNeutralKilling(this CustomRoles role) //ÊÇ·ñĞ°¶ñÖĞÁ¢£¨ÇÀ¶á»òµ¥¶ÀÊ¤ÀûµÄÖĞÁ¢£©
     {
         return role is
             CustomRoles.Terrorist or
@@ -163,13 +163,13 @@ internal static class CustomRolesHelper
             CustomRoles.Workaholic or
             CustomRoles.Collector;
     }
-    public static bool IsCK(this CustomRoles role) // æ˜¯å¦å¸¦åˆ€èˆ¹å‘˜
+    public static bool IsCK(this CustomRoles role) // ÊÇ·ñ´øµ¶´¬Ô±
     {
         return role is
             CustomRoles.SwordsMan or
             CustomRoles.Sheriff;
     }
-    public static bool IsImpostor(this CustomRoles role) // æ˜¯å¦å†…é¬¼
+    public static bool IsImpostor(this CustomRoles role) // ÊÇ·ñÄÚ¹í
     {
         return role is
             CustomRoles.Impostor or
@@ -212,7 +212,7 @@ internal static class CustomRolesHelper
             CustomRoles.OverKiller;
     }
     public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role == CustomRoles.Madmate;
-    public static bool IsNeutral(this CustomRoles role) // æ˜¯å¦ä¸­ç«‹
+    public static bool IsNeutral(this CustomRoles role) // ÊÇ·ñÖĞÁ¢
     {
         return role is
             CustomRoles.Jester or
@@ -235,7 +235,7 @@ internal static class CustomRolesHelper
             CustomRoles.Provocateur;
     }
     public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
-    public static bool IsVanilla(this CustomRoles role) // æ˜¯å¦åŸç‰ˆèŒä¸š
+    public static bool IsVanilla(this CustomRoles role) // ÊÇ·ñÔ­°æÖ°Òµ
     {
         return role is
             CustomRoles.Crewmate or

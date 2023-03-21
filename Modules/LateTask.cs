@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TOHE;
 
-internal class LateTask
+class LateTask
 {
     public string name;
     public float timer;
@@ -22,7 +22,7 @@ internal class LateTask
     public LateTask(Action action, float time, string name = "No Name Task")
     {
         this.action = action;
-        timer = time;
+        this.timer = time;
         this.name = name;
         Tasks.Add(this);
         if (name != "")

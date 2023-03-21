@@ -12,7 +12,7 @@ using static TOHE.Translator;
 namespace TOHE;
 
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CheckForEndVoting))]
-internal class CheckForEndVotingPatch
+class CheckForEndVotingPatch
 {
     public static bool Prefix(MeetingHud __instance)
     {
@@ -67,6 +67,7 @@ internal class CheckForEndVotingPatch
                         ConfirmEjections(Main.LastVotedPlayerInfo);
                     return true;
                 }
+
                 if (pva.DidVote && pva.VotedFor < 253 && !pc.Data.IsDead)
                 {
                     var voteTarget = Utils.GetPlayerById(pva.VotedFor);
@@ -83,6 +84,7 @@ internal class CheckForEndVotingPatch
                         }
                     }
                 }
+
             }
             foreach (var ps in __instance.playerStates)
             {
@@ -112,11 +114,11 @@ internal class CheckForEndVotingPatch
                         {
                             case VoteMode.Suicide:
                                 TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.Suicide, ps.TargetPlayerId);
-                                voteLog.Info($"跳过投票玩家：{voter.GetNameWithRole()} 根据房主设定自杀");
+                                voteLog.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました");
                                 break;
                             case VoteMode.SelfVote:
                                 ps.VotedFor = ps.TargetPlayerId;
-                                voteLog.Info($"跳过投票玩家：{voter.GetNameWithRole()} 根据房主设定自票");
+                                voteLog.Info($"スキップしたため{voter.GetNameWithRole()}に自投票させました");
                                 break;
                             default:
                                 break;
@@ -128,15 +130,15 @@ internal class CheckForEndVotingPatch
                         {
                             case VoteMode.Suicide:
                                 TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.Suicide, ps.TargetPlayerId);
-                                voteLog.Info($"未投票玩家：{voter.GetNameWithRole()} 根据房主设定自杀");
+                                voteLog.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました");
                                 break;
                             case VoteMode.SelfVote:
                                 ps.VotedFor = ps.TargetPlayerId;
-                                voteLog.Info($"未投票玩家：{voter.GetNameWithRole()} 根据房主设定自票");
+                                voteLog.Info($"無投票のため{voter.GetNameWithRole()}に自投票させました");
                                 break;
                             case VoteMode.Skip:
                                 ps.VotedFor = 253;
-                                voteLog.Info($"未投票玩家：{voter.GetNameWithRole()} 根据房主设定跳过");
+                                voteLog.Info($"無投票のため{voter.GetNameWithRole()}にスキップさせました");
                                 break;
                             default:
                                 break;
@@ -168,27 +170,27 @@ internal class CheckForEndVotingPatch
             var VotingData = __instance.CustomCalculateVotes();
             byte exileId = byte.MaxValue;
             int max = 0;
-            voteLog.Info("===驱逐玩家确认处理开始===");
+            voteLog.Info("===追放者確認処理開始===");
             foreach (var data in VotingData)
             {
                 voteLog.Info($"{data.Key}({Utils.GetVoteName(data.Key)}):{data.Value}票");
                 if (data.Value > max)
                 {
-                    voteLog.Info(data.Key + "存在更高票数：" + data.Value);
+                    voteLog.Info(data.Key + "番が最高値を更新(" + data.Value + ")");
                     exileId = data.Key;
                     max = data.Value;
                     tie = false;
                 }
                 else if (data.Value == max)
                 {
-                    voteLog.Info(data.Key + " 的票数与 " + exileId + " 的票数持平：" + data.Value);
+                    voteLog.Info(data.Key + "番が" + exileId + "番と同数(" + data.Value + ")");
                     exileId = byte.MaxValue;
                     tie = true;
                 }
-                voteLog.Info($"驱逐玩家ID: {exileId}, 最大票数: {max}票");
+                voteLog.Info($"exileId: {exileId}, max: {max}票");
             }
 
-            voteLog.Info($"决定驱逐玩家: {exileId}({Utils.GetVoteName(exileId)})");
+            voteLog.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})");
 
             bool braked = false;
             if (tie) //破平者判断
@@ -263,7 +265,6 @@ internal class CheckForEndVotingPatch
             throw;
         }
     }
-
     private static void ConfirmEjections(GameData.PlayerInfo exiledPlayer)
     {
         // 参考：https://github.com/music-discussion/TownOfHost-TheOtherRoles
@@ -401,7 +402,7 @@ internal class CheckForEndVotingPatch
     }
 }
 
-internal static class ExtendedMeetingHud
+static class ExtendedMeetingHud
 {
     public static Dictionary<byte, int> CustomCalculateVotes(this MeetingHud __instance)
     {
@@ -443,7 +444,7 @@ internal static class ExtendedMeetingHud
     }
 }
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
-internal class MeetingHudStartPatch
+class MeetingHudStartPatch
 {
     public static void NotifyRoleSkillOnMeetingStart()
     {
@@ -536,9 +537,6 @@ internal class MeetingHudStartPatch
         Divinator.didVote.Clear();
 
         NotifyRoleSkillOnMeetingStart();
-
-        foreach (var pc in Main.AllPlayerControls)
-            if (pc.shapeshifting) pc.RpcRevertShapeshift(false);
     }
     public static void Postfix(MeetingHud __instance)
     {
@@ -674,7 +672,7 @@ internal class MeetingHudStartPatch
         }
         if (AntiBlackout.OverrideExiledPlayer)
         {
-            Utils.SendMessage(GetString("Warning.OverrideExiledPlayer"));
+            Utils.SendMessage(Translator.GetString("Warning.OverrideExiledPlayer"));
         }
         if (MeetingStates.FirstMeeting) TemplateManager.SendTemplate("OnFirstMeeting", noErr: true);
         TemplateManager.SendTemplate("OnMeeting", noErr: true);
@@ -684,7 +682,9 @@ internal class MeetingHudStartPatch
             _ = new LateTask(() =>
             {
                 foreach (var pc in Main.AllPlayerControls)
+                {
                     pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
+                }
                 ChatUpdatePatch.DoBlockChat = false;
             }, 3f, "SetName To Chat");
         }
@@ -721,10 +721,6 @@ internal class MeetingHudStartPatch
                     if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
                         sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), "▲"));
                     break;
-                case CustomRoles.Revolutionist:
-                    if (seer.IsDrawPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
-                        sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Revolutionist), "●"));
-                    break;
                 case CustomRoles.Executioner:
                     sb.Append(Executioner.TargetMark(seer, target));
                     break;
@@ -735,6 +731,10 @@ internal class MeetingHudStartPatch
                     break;
                 case CustomRoles.EvilTracker:
                     sb.Append(EvilTracker.GetTargetMark(seer, target));
+                    break;
+                case CustomRoles.Revolutionist:
+                    if (seer.IsDrawPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
+                        sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Revolutionist), "●"));
                     break;
                 case CustomRoles.Psychic:
                     foreach (var id in Main.PsychicTarget[seer.PlayerId])
@@ -807,7 +807,7 @@ internal class MeetingHudStartPatch
     }
 }
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
-internal class MeetingHudUpdatePatch
+class MeetingHudUpdatePatch
 {
     public static void Postfix(MeetingHud __instance)
     {
@@ -817,7 +817,6 @@ internal class MeetingHudUpdatePatch
             __instance.playerStates.DoIf(x => x.HighlightedFX.enabled, x =>
             {
                 var player = Utils.GetPlayerById(x.TargetPlayerId);
-                player.Data.IsDead = true;
                 player.RpcExileV2();
                 Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Execution;
                 Main.PlayerStates[player.PlayerId].SetDead();
@@ -829,7 +828,7 @@ internal class MeetingHudUpdatePatch
     }
 }
 [HarmonyPatch(typeof(PlayerVoteArea), nameof(PlayerVoteArea.SetHighlighted))]
-internal class SetHighlightedPatch
+class SetHighlightedPatch
 {
     public static bool Prefix(PlayerVoteArea __instance, bool value)
     {
@@ -840,7 +839,7 @@ internal class SetHighlightedPatch
     }
 }
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.OnDestroy))]
-internal class MeetingHudOnDestroyPatch
+class MeetingHudOnDestroyPatch
 {
     public static void Postfix()
     {
@@ -850,6 +849,7 @@ internal class MeetingHudOnDestroyPatch
         {
             AntiBlackout.SetIsDead();
             Main.AllPlayerControls.Do(pc => RandomSpawn.CustomNetworkTransformPatch.NumOfTP[pc.PlayerId] = 0);
+
             Main.CyberStarDead.Clear();
             Main.DetectiveNotify.Clear();
             Main.LastVotedPlayerInfo = null;

@@ -4,7 +4,7 @@ using Hazel;
 namespace TOHE;
 
 [HarmonyPatch(typeof(GameManager), nameof(GameManager.Serialize))]
-internal class GameManagerSerializeFix
+class GameManagerSerializeFix
 {
     public static bool Prefix(GameManager __instance, [HarmonyArgument(0)] MessageWriter writer, [HarmonyArgument(1)] bool initialState, ref bool __result)
     {
@@ -28,7 +28,7 @@ internal class GameManagerSerializeFix
     }
 }
 [HarmonyPatch(typeof(LogicOptions), nameof(LogicOptions.Serialize))]
-internal class LogicOptionsSerializePatch
+class LogicOptionsSerializePatch
 {
     public static bool Prefix(LogicOptions __instance, ref bool __result, MessageWriter writer, bool initialState)
     {

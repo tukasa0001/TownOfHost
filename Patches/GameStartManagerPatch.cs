@@ -132,7 +132,6 @@ public class GameStartManagerPatch
                     warningMessage = Utils.ColorString(Color.red, string.Format(GetString("Warning.AutoExitAtMismatchedVersion"), $"<color={Main.ModColor}>{Main.ModName}</color>", Math.Round(6 - exitTimer).ToString()));
                 }
             }
-
             if (warningMessage != "")
             {
                 __instance.GameStartText.text = warningMessage;
@@ -161,9 +160,8 @@ public class GameStartManagerPatch
         }
         private static bool MatchVersions(byte playerId, bool acceptVanilla = false)
         {
-            return !Main.playerVersion.TryGetValue(playerId, out var version)
-                ? acceptVanilla
-                : Main.ForkId == version.forkId
+            if (!Main.playerVersion.TryGetValue(playerId, out var version)) return acceptVanilla;
+            return Main.ForkId == version.forkId
                 && Main.version.CompareTo(version.version) == 0
                 && version.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})";
         }
@@ -233,7 +231,7 @@ public class GameStartRandomMap
     }
 }
 [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.ResetStartState))]
-internal class ResetStartStatePatch
+class ResetStartStatePatch
 {
     public static void Prefix()
     {
@@ -245,7 +243,7 @@ internal class ResetStartStatePatch
     }
 }
 [HarmonyPatch(typeof(IGameOptionsExtensions), nameof(IGameOptionsExtensions.GetAdjustedNumImpostors))]
-internal class UnrestrictedNumImpostorsPatch
+class UnrestrictedNumImpostorsPatch
 {
     public static bool Prefix(ref int __result)
     {

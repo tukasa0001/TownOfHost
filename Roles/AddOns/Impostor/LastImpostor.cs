@@ -19,19 +19,17 @@ public static class LastImpostor
         Main.AllPlayerKillCooldown[currentId] = KillCooldown.GetFloat();
     }
     public static bool CanBeLastImpostor(PlayerControl pc)
-    {
-        return pc.IsAlive() && !pc.Is(CustomRoles.LastImpostor) && pc.Is(CustomRoleTypes.Impostor)
+        => pc.IsAlive() && !pc.Is(CustomRoles.LastImpostor) && pc.Is(CustomRoleTypes.Impostor)
             && Main.AllPlayerKillCooldown[pc.PlayerId] > KillCooldown.GetFloat()
             && pc.GetCustomRole()
                 is not CustomRoles.Vampire
-                    and not CustomRoles.BountyHunter
-                    and not CustomRoles.SerialKiller
-                    and not CustomRoles.Sans
-                    and not CustomRoles.Mare
-                    and not CustomRoles.Greedier
-                    and not CustomRoles.Bomber
-                    and not CustomRoles.QuickShooter;
-    }
+                and not CustomRoles.BountyHunter
+                and not CustomRoles.SerialKiller
+                and not CustomRoles.Sans
+                and not CustomRoles.Mare
+                and not CustomRoles.Greedier
+                and not CustomRoles.Bomber
+                and not CustomRoles.QuickShooter;
 
     public static void SetSubRole()
     {

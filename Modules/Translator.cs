@@ -80,9 +80,9 @@ public static class Translator
         var res = $"<INVALID:{str}>";
         try
         {
-            if (translateMaps.TryGetValue(str, out var dic) && (!dic.TryGetValue((int)langId, out res) || res == "")) //匹配 str & 无效的 langId 或 res 为空
+            if (translateMaps.TryGetValue(str, out var dic) && (!dic.TryGetValue((int)langId, out res) || res == "")) //strに該当する&無効なlangIdかresが空
             {
-                res = $"*{str}";
+                res = $"*{dic[0]}";
             }
             if (!translateMaps.ContainsKey(str)) //translateMapsにない場合、StringNamesにあれば取得する
             {
@@ -144,7 +144,6 @@ public static class Translator
         foreach (var title in translateMaps) sb.Append($"{title.Key}:\n");
         File.WriteAllText(@$"./{LANGUAGE_FOLDER_NAME}/template.dat", sb.ToString());
     }
-
     public static void ExportCustomTranslation()
     {
         LoadLangs();

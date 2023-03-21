@@ -9,7 +9,7 @@ using static TOHE.Translator;
 namespace TOHE;
 
 [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.ShowRole))]
-internal class SetUpRoleTextPatch
+class SetUpRoleTextPatch
 {
     public static void Postfix(IntroCutscene __instance)
     {
@@ -38,7 +38,7 @@ internal class SetUpRoleTextPatch
     }
 }
 [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.CoBegin))]
-internal class CoBeginPatch
+class CoBeginPatch
 {
     public static void Prefix()
     {
@@ -93,7 +93,7 @@ internal class CoBeginPatch
     }
 }
 [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
-internal class BeginCrewmatePatch
+class BeginCrewmatePatch
 {
     public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
     {
@@ -128,15 +128,18 @@ internal class BeginCrewmatePatch
         }
         switch (role)
         {
-            case CustomRoles.Provocateur:
             case CustomRoles.Terrorist:
+            case CustomRoles.Provocateur:
                 var sound = ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault()
                 .MinigamePrefab.OpenSound;
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
                 break;
 
-            case CustomRoles.Arsonist:
             case CustomRoles.Executioner:
+            case CustomRoles.Arsonist:
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                break;
+
             case CustomRoles.Vampire:
             case CustomRoles.Opportunist:
             case CustomRoles.DarkHide:
@@ -153,8 +156,8 @@ internal class BeginCrewmatePatch
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = ShipStatus.Instance.SabotageSound;
                 break;
 
-            case CustomRoles.SwordsMan:
             case CustomRoles.Sheriff:
+            case CustomRoles.SwordsMan:
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                 __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
                 __instance.ImpostorText.gameObject.SetActive(true);
@@ -237,7 +240,7 @@ internal class BeginCrewmatePatch
     }
 }
 [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginImpostor))]
-internal class BeginImpostorPatch
+class BeginImpostorPatch
 {
     public static bool Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
     {
@@ -263,7 +266,7 @@ internal class BeginImpostorPatch
     }
 }
 [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.OnDestroy))]
-internal class IntroCutsceneDestroyPatch
+class IntroCutsceneDestroyPatch
 {
     public static void Postfix(IntroCutscene __instance)
     {

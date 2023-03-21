@@ -9,7 +9,7 @@ using UnityEngine;
 namespace TOHE;
 
 [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.FixedUpdate))]
-internal class ShipFixedUpdatePatch
+class ShipFixedUpdatePatch
 {
     public static void Postfix(ShipStatus __instance)
     {
@@ -29,7 +29,7 @@ internal class ShipFixedUpdatePatch
     }
 }
 [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RepairSystem))]
-internal class RepairSystemPatch
+class RepairSystemPatch
 {
     public static bool IsComms;
     public static bool Prefix(ShipStatus __instance,
@@ -51,6 +51,7 @@ internal class RepairSystemPatch
             if (task.TaskType == TaskTypes.FixComms) IsComms = true;
 
         if (!AmongUsClient.Instance.AmHost) return true; //以下、ホストのみ実行
+
         //SabotageMaster
         if (player.Is(CustomRoles.SabotageMaster))
             SabotageMaster.RepairSystem(__instance, systemType, amount);
@@ -67,7 +68,7 @@ internal class RepairSystemPatch
             }
         }
 
-        if (!(player.Is(CustomRoleTypes.Impostor) && !player.Is(CustomRoles.Minimalism)) && !(player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
+        if (!player.Is(CustomRoleTypes.Impostor) && !(player.Is(CustomRoles.Jackal) && !player.Is(CustomRoles.Minimalism)) && Jackal.CanUseSabotage.GetBool())
         {
             if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
         }
@@ -95,7 +96,7 @@ internal class RepairSystemPatch
     }
 }
 [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CloseDoorsOfType))]
-internal class CloseDoorsPatch
+class CloseDoorsPatch
 {
     public static bool Prefix(ShipStatus __instance)
     {
@@ -103,7 +104,7 @@ internal class CloseDoorsPatch
     }
 }
 [HarmonyPatch(typeof(SwitchSystem), nameof(SwitchSystem.RepairDamage))]
-internal class SwitchSystemRepairPatch
+class SwitchSystemRepairPatch
 {
     public static void Postfix(SwitchSystem __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] byte amount)
     {
@@ -112,7 +113,7 @@ internal class SwitchSystemRepairPatch
     }
 }
 [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Start))]
-internal class StartPatch
+class StartPatch
 {
     public static void Postfix()
     {
@@ -123,7 +124,7 @@ internal class StartPatch
     }
 }
 [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.StartMeeting))]
-internal class StartMeetingPatch
+class StartMeetingPatch
 {
     public static void Prefix(ShipStatus __instance, PlayerControl reporter, GameData.PlayerInfo target)
     {
@@ -132,7 +133,7 @@ internal class StartMeetingPatch
     }
 }
 [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]
-internal class BeginPatch
+class BeginPatch
 {
     public static void Postfix()
     {
@@ -142,7 +143,7 @@ internal class BeginPatch
     }
 }
 [HarmonyPatch(typeof(GameManager), nameof(GameManager.CheckTaskCompletion))]
-internal class CheckTaskCompletionPatch
+class CheckTaskCompletionPatch
 {
     public static bool Prefix(ref bool __result)
     {

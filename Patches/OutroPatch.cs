@@ -11,7 +11,7 @@ using static TOHE.Translator;
 namespace TOHE;
 
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameEnd))]
-internal class EndGamePatch
+class EndGamePatch
 {
     public static Dictionary<byte, string> SummaryText = new();
     public static string KillLog = "";
@@ -25,6 +25,7 @@ internal class EndGamePatch
         SummaryText = new();
         foreach (var id in Main.PlayerStates.Keys)
             SummaryText[id] = Utils.SummaryTexts(id, disableColor: false);
+
         var sb = new StringBuilder(GetString("KillLog") + ":");
         foreach (var kvp in Main.PlayerStates.OrderBy(x => x.Value.RealKiller.Item1.Ticks))
         {
@@ -38,6 +39,7 @@ internal class EndGamePatch
         }
         KillLog = sb.ToString();
         if (KillLog == GetString("KillLog") + ":") KillLog = "";
+
         Main.NormalOptions.KillCooldown = Options.DefaultKillCooldown;
         //winnerListリセット
         TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
@@ -54,7 +56,7 @@ internal class EndGamePatch
         Main.winnerList = new();
         foreach (var pc in winner)
         {
-            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Draw && pc.Is(CustomRoles.GM)) continue;
+            if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw && pc.Is(CustomRoles.GM)) continue;
 
             TempData.winners.Add(new WinningPlayerData(pc.Data));
             Main.winnerList.Add(pc.PlayerId);
@@ -75,7 +77,7 @@ internal class EndGamePatch
     }
 }
 [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.SetEverythingUp))]
-internal class SetEverythingUpPatch
+class SetEverythingUpPatch
 {
     public static string LastWinsText = "";
     public static string LastWinsReason = "";

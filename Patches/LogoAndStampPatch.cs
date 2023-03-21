@@ -1,4 +1,4 @@
-using BepInEx.IL2CPP.Utils;
+﻿using BepInEx.IL2CPP.Utils;
 using HarmonyLib;
 using System.Collections;
 using TMPro;

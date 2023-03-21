@@ -49,9 +49,6 @@ public static class GameOptionsMenuPatch
         var Tint = GameObject.Find("Tint");
         Tint?.SetActive(false);
 
-        //var Tabs = GameObject.Find("Tabs");
-        //if (Tabs != null) Tabs.transform.position = new Vector3(-0.4973f, 5.0121f, -100);
-
         var gameSettings = GameObject.Find("Game Settings");
         if (gameSettings == null) return;
         gameSettings.transform.FindChild("GameGroup").GetComponent<Scroller>().ScrollWheelSpeed = 1f;
@@ -95,7 +92,7 @@ public static class GameOptionsMenuPatch
                 {
                     var stringOption = Object.Instantiate(template, tohMenu.transform);
                     scOptions.Add(stringOption);
-                    stringOption.OnValueChanged = new Action<OptionBehaviour>((o) => { });
+                    stringOption.OnValueChanged = new System.Action<OptionBehaviour>((o) => { });
                     stringOption.TitleText.text = option.Name;
                     stringOption.Value = stringOption.oldValue = option.CurrentValue;
                     stringOption.ValueText.text = option.GetString();
@@ -214,6 +211,7 @@ public class GameOptionsMenuUpdatePatch
                         }
                     }
                 }
+
                 if (!option.IsText) option.OptionBehaviour.gameObject.SetActive(enabled);
                 if (enabled)
                 {

@@ -10,7 +10,7 @@ public abstract class OptionItem
 {
     #region static
     public static IReadOnlyList<OptionItem> AllOptions => _allOptions;
-    private static readonly List<OptionItem> _allOptions = new();
+    private static List<OptionItem> _allOptions = new();
     public static int CurrentPreset { get; set; }
     #endregion
 
@@ -53,8 +53,8 @@ public abstract class OptionItem
     // 内部情報 (外部から参照することを想定していない情報)
     public ConfigEntry<int> CurrentEntry =>
         IsSingleValue ? singleEntry : AllConfigEntries[CurrentPreset];
-    private readonly ConfigEntry<int>[] AllConfigEntries;
-    private readonly ConfigEntry<int> singleEntry;
+    private ConfigEntry<int>[] AllConfigEntries;
+    private ConfigEntry<int> singleEntry;
 
 
     public OptionBehaviour OptionBehaviour;
@@ -169,7 +169,8 @@ public abstract class OptionItem
 
     public string ApplyFormat(string value)
     {
-        return ValueFormat == OptionFormat.None ? value : string.Format(Translator.GetString("Format." + ValueFormat), value);
+        if (ValueFormat == OptionFormat.None) return value;
+        return string.Format(Translator.GetString("Format." + ValueFormat), value);
     }
 
     // 外部からの操作
