@@ -59,6 +59,7 @@ internal enum CustomRPC
     SetQuickShooterShotLimit,
     RestTOHESetting,
     SetEraseLimit,
+    Guess,
 }
 public enum Sounds
 {
@@ -369,6 +370,9 @@ internal class RPCHandlerPatch
                 break;
             case CustomRPC.SetEraseLimit:
                 Eraser.ReceiveRPC(reader);
+                break;
+            case CustomRPC.Guess:
+                GuessManager.RpcClientGuess(Utils.GetPlayerById(reader.ReadByte()));
                 break;
         }
     }

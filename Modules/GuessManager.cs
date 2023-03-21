@@ -211,8 +211,8 @@ public static class GuessManager
         // DEATH STUFF //
         var amOwner = pc.AmOwner;
         pc.Data.IsDead = true;
-        Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Gambled;
         pc.RpcExileV2();
+        Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Gambled;
         Main.PlayerStates[pc.PlayerId].SetDead();
         var meetingHud = MeetingHud.Instance;
         var hudManager = DestroyableSingleton<HudManager>.Instance;
@@ -245,8 +245,46 @@ public static class GuessManager
             if (!voteAreaPlayer.AmOwner) continue;
             meetingHud.ClearVote();
         }
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.Guess, SendOption.Reliable, -1);
+        writer.Write(pc.PlayerId);
+        AmongUsClient.Instance.FinishRpcImmediately(writer);
     }
-
+    public static void RpcClientGuess(PlayerControl pc)
+    {
+        var amOwner = pc.AmOwner;
+        var meetingHud = MeetingHud.Instance;
+        var hudManager = DestroyableSingleton<HudManager>.Instance;
+        SoundManager.Instance.PlaySound(pc.KillSfx, false, 0.8f);
+        hudManager.KillOverlay.ShowKillAnimation(pc.Data, pc.Data);
+        if (amOwner)
+        {
+            hudManager.ShadowQuad.gameObject.SetActive(false);
+            pc.nameText().GetComponent<MeshRenderer>().material.SetInt("_Mask", 0);
+            pc.RpcSetScanner(false);
+            ImportantTextTask importantTextTask = new GameObject("_Player").AddComponent<ImportantTextTask>();
+            importantTextTask.transform.SetParent(AmongUsClient.Instance.transform, false);
+            meetingHud.SetForegroundForDead();
+        }
+        PlayerVoteArea voteArea = MeetingHud.Instance.playerStates.First(
+            x => x.TargetPlayerId == pc.PlayerId
+        );
+        //pc.Die(DeathReason.Kill);
+        if (voteArea == null) return;
+        if (voteArea.DidVote) voteArea.UnsetVote();
+        voteArea.AmDead = true;
+        voteArea.Overlay.gameObject.SetActive(true);
+        voteArea.Overlay.color = Color.white;
+        voteArea.XMark.gameObject.SetActive(true);
+        voteArea.XMark.transform.localScale = Vector3.one;
+        foreach (var playerVoteArea in meetingHud.playerStates)
+        {
+            if (playerVoteArea.VotedFor != pc.PlayerId) continue;
+            playerVoteArea.UnsetVote();
+            var voteAreaPlayer = Utils.GetPlayerById(playerVoteArea.TargetPlayerId);
+            if (!voteAreaPlayer.AmOwner) continue;
+            meetingHud.ClearVote();
+        }
+    }
     private static bool MsgToPlayerAndRole(string msg, out byte id, out CustomRoles role, out string error)
     {
         if (msg.StartsWith("/")) msg = msg.Replace("/", string.Empty);
