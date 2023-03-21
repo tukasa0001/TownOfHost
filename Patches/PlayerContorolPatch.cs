@@ -880,46 +880,72 @@ namespace TownOfHost
         {
         }
     }
-    [HarmonyPatch(typeof(GameData), nameof(GameData.CompleteTask))]
-    class GameDataCompleteTaskPatch
-    {
-        public static void Postfix(PlayerControl pc)
-        {
-            Logger.Info($"TaskComplete:{pc.GetNameWithRole()}", "CompleteTask");
-            Main.PlayerStates[pc.PlayerId].UpdateTask(pc);
-            Utils.NotifyRoles();
-        }
-    }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CompleteTask))]
     class PlayerControlCompleteTaskPatch
     {
         public static bool Prefix(PlayerControl __instance)
         {
-            if (Workhorse.OnCompleteTask(__instance)) //タスク勝利をキャンセル
-                return false;
-            return true;
-        }
-        public static void Postfix(PlayerControl __instance)
-        {
             var pc = __instance;
-            pc?.GetRoleClass()?.OnCompleteTask();
 
-            var isTaskFinish = pc.GetPlayerTaskState().IsTaskFinished;
-            if (isTaskFinish && pc.Is(CustomRoles.MadSnitch))
+            Logger.Info($"TaskComplete:{pc.GetNameWithRole()}", "CompleteTask");
+            var taskState = pc.GetPlayerTaskState();
+            taskState.Update(pc);
+
+            var roleClass = pc.GetRoleClass();
+            var ret = true;
+            if (roleClass != null)
             {
-                foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
+                ret = roleClass.OnCompleteTask();
+            }
+            else
+            {
+                ret = Workhorse.OnCompleteTask(pc);
+                var isTaskFinish = taskState.IsTaskFinished;
+                if (isTaskFinish && pc.Is(CustomRoles.MadSnitch))
                 {
-                    NameColorManager.Add(pc.PlayerId, impostor.PlayerId);
+                    foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
+                    {
+                        NameColorManager.Add(pc.PlayerId, impostor.PlayerId);
+                    }
                 }
-                Utils.NotifyRoles(SpecifySeer: pc);
+                if (pc.Is(CustomRoles.SpeedBooster))
+                {
+                    //FIXME:SpeedBooster class transplant
+                    if (pc.IsAlive()
+                    && (isTaskFinish || (taskState.CompletedTasksCount) >= Options.SpeedBoosterTaskTrigger.GetInt())
+                    && !Main.SpeedBoostTarget.ContainsKey(pc.PlayerId))
+                    {   //ｽﾋﾟﾌﾞが生きていて、全タスク完了orトリガー数までタスクを完了していて、SpeedBoostTargetに登録済みでない場合
+                        var rand = IRandom.Instance;
+                        List<PlayerControl> targetPlayers = new();
+                        //切断者と死亡者を除外
+                        foreach (var p in Main.AllAlivePlayerControls)
+                        {
+                            if (!Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetPlayers.Add(p);
+                        }
+                        //ターゲットが0ならアップ先をプレイヤーをnullに
+                        if (targetPlayers.Count >= 1)
+                        {
+                            PlayerControl target = targetPlayers[rand.Next(0, targetPlayers.Count)];
+                            Logger.Info("スピードブースト先:" + target.cosmetics.nameText.text, "SpeedBooster");
+                            Main.SpeedBoostTarget.Add(pc.PlayerId, target.PlayerId);
+                            Main.AllPlayerSpeed[Main.SpeedBoostTarget[pc.PlayerId]] += Options.SpeedBoosterUpSpeed.GetFloat();
+                            target.MarkDirtySettings();
+                        }
+                        else
+                        {
+                            Main.SpeedBoostTarget.Add(pc.PlayerId, 255);
+                            Logger.SendInGame("Error.SpeedBoosterNullException");
+                            Logger.Warn("スピードブースト先がnullです。", "SpeedBooster");
+                        }
+                    }
+                }
+                if (isTaskFinish && pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor)
+                {
+                    Utils.MarkEveryoneDirtySettings();
+                }
             }
-            if ((isTaskFinish &&
-                pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor) ||
-                pc.GetCustomRole() is CustomRoles.SpeedBooster)
-            {
-                //ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
-                Utils.MarkEveryoneDirtySettings();
-            }
+            Utils.NotifyRoles();
+            return ret;
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ProtectPlayer))]
