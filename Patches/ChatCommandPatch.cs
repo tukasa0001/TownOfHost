@@ -171,7 +171,6 @@ internal class ChatCommands
             if (ContainsStart(text) && GameStates.IsLobby)
             {
                 msg = string.Format(GetString("Message.KickWhoSayStart"), name);
-                msg = $"";
                 if (Options.AutoKickStart.GetBool())
                 {
                     if (!Main.SayStartTimes.ContainsKey(player.GetClientId())) Main.SayStartTimes.Add(player.GetClientId(), 0);
@@ -191,12 +190,11 @@ internal class ChatCommands
 
         var list = ReturnAllNewLinesInFile(Main.BANNEDWORDS_FILE_PATH, noErr: true);
         bool banned = false;
-        var banedWord = "";
         foreach (var word in list)
         {
             if (word != null && text.Contains(word))
             {
-                banedWord = word;
+                string banedWord = word;
                 banned = true;
                 break;
             }
