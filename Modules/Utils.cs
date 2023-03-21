@@ -237,9 +237,9 @@ public static class Utils
         }
         return;
     }
-    public static string GetDisplayRoleName(byte playerId)
+    public static string GetDisplayRoleName(byte playerId, bool pure = false)
     {
-        var TextData = GetRoleText(playerId);
+        var TextData = GetRoleText(playerId, pure);
         return ColorString(TextData.Item2, TextData.Item1);
     }
     public static string GetRoleName(CustomRoles role)
@@ -261,7 +261,7 @@ public static class Utils
         if (!Main.roleColors.TryGetValue(role, out var hexColor)) hexColor = "#ffffff";
         return hexColor;
     }
-    public static (string, Color) GetRoleText(byte playerId)
+    public static (string, Color) GetRoleText(byte playerId, bool pure = false)
     {
         string RoleText;
         Color RoleColor;
@@ -269,17 +269,18 @@ public static class Utils
         var mainRole = Main.PlayerStates[playerId].MainRole;
         RoleText = GetRoleName(mainRole);
         RoleColor = GetPlayerById(playerId).Is(CustomRoles.Madmate) ? new(255, 25, 25, byte.MaxValue) : GetRoleColor(mainRole);
-        foreach (var subRole in Main.PlayerStates[playerId].SubRoles)
+
+        if (Main.PlayerStates[playerId].SubRoles.Contains(CustomRoles.LastImpostor))
+            RoleText = GetRoleString("Last-") + RoleText;
+
+        if (!pure)
         {
-            switch (subRole)
-            {
-                case CustomRoles.LastImpostor:
-                    RoleText = GetRoleString("Last-") + RoleText;
-                    break;
-                case CustomRoles.Madmate:
-                    RoleText = GetRoleString("Mad-") + RoleText;
-                    break;
-            }
+            if (Options.NameDisplayAddons.GetBool())
+                foreach (var subRole in Main.PlayerStates[playerId].SubRoles.Where(x => x is not CustomRoles.LastImpostor and not CustomRoles.Madmate))
+                    RoleText = ColorString(GetRoleColor(subRole), GetString(subRole.ToString())) + RoleText;
+
+            if (Main.PlayerStates[playerId].SubRoles.Contains(CustomRoles.Madmate))
+                RoleText = GetRoleString("Mad-") + RoleText;
         }
         return (RoleText, RoleColor);
     }
@@ -1466,8 +1467,8 @@ public static class Utils
         var RolePos = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? 47 : 37;
         var name = Main.AllPlayerNames[id].RemoveHtmlTags().Replace("\r\n", string.Empty);
         if (id == PlayerControl.LocalPlayer.PlayerId) name = DataManager.player.Customization.Name;
-        string summary = $"{ColorString(Main.PlayerColors[id], name)}<pos=22%>{GetProgressText(id)}</pos><pos=30%>{GetVitalText(id, true)}</pos><pos={RolePos}%> {GetDisplayRoleName(id)}{GetSubRolesText(id, summary: true)}</pos>";
-        return check && GetDisplayRoleName(id).RemoveHtmlTags().Contains("INVALID:NotAssigned")
+        string summary = $"{ColorString(Main.PlayerColors[id], name)}<pos=22%>{GetProgressText(id)}</pos><pos=30%>{GetVitalText(id, true)}</pos><pos={RolePos}%> {GetDisplayRoleName(id, true)}{GetSubRolesText(id, summary: true)}</pos>";
+        return check && GetDisplayRoleName(id, true).RemoveHtmlTags().Contains("INVALID:NotAssigned")
             ? "INVALID"
             : disableColor ? summary.RemoveHtmlTags() : summary;
     }

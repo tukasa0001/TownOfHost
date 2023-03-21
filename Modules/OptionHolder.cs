@@ -333,6 +333,7 @@ public static class Options
     public static OptionItem PlayerCanSerColor;
 
     //Add-Ons
+    public static OptionItem NameDisplayAddons;
     public static OptionItem NoLimitAddonsNum;
     public static OptionItem BewilderVision;
     public static OptionItem ImpCanBeAvanger;
@@ -628,9 +629,10 @@ public static class Options
         Collector.SetupCustomOption();
 
         // Add-Ons
-        NoLimitAddonsNum = BooleanOptionItem.Create(6050250, "NoLimitAddonsNum", false, TabGroup.Addons, false)
-            .SetHeader(true)
-            .SetColor(Color.cyan);
+
+        NameDisplayAddons = BooleanOptionItem.Create(6050248, "NameDisplayAddons", false, TabGroup.Addons, false)
+            .SetHeader(true);
+        NoLimitAddonsNum = BooleanOptionItem.Create(6050250, "NoLimitAddonsNum", false, TabGroup.Addons, false);
         SetupLoversRoleOptionsToggle(50300);
         SetupAdtRoleOptions(6050320, CustomRoles.Watcher, canSetNum: true);
         SetupAdtRoleOptions(6050340, CustomRoles.Lighter, canSetNum: true);
