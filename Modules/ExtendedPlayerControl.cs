@@ -290,9 +290,9 @@ static class ExtendedPlayerControl
         return GameOptionsData.FromBytes(optByte);
     }*/
 
-    public static string GetDisplayRoleName(this PlayerControl player)
+    public static string GetDisplayRoleName(this PlayerControl player, bool pure = false)
     {
-        return Utils.GetDisplayRoleName(player.PlayerId);
+        return Utils.GetDisplayRoleName(player.PlayerId, pure);
     }
     public static string GetSubRoleName(this PlayerControl player)
     {

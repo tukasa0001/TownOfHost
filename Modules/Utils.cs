@@ -274,7 +274,7 @@ public static class Utils
         if (!pure)
         {
             if (Options.NameDisplayAddons.GetBool())
-                foreach (var subRole in Main.PlayerStates[playerId].SubRoles.Where(x => x is not CustomRoles.LastImpostor and not CustomRoles.Madmate))
+                foreach (var subRole in Main.PlayerStates[playerId].SubRoles.Where(x => x is not CustomRoles.LastImpostor and not CustomRoles.Madmate and not CustomRoles.Lovers))
                     RoleText = ColorString(GetRoleColor(subRole), GetString(subRole.ToString())) + RoleText;
 
             if (Main.PlayerStates[playerId].SubRoles.Contains(CustomRoles.Madmate))
@@ -1132,8 +1132,8 @@ public static class Utils
                     //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}>{target.GetDisplayRoleName()}{GetProgressText(target)}</size>\r\n" : "";
 
-                    if (TargetRoleText == "" && !seer.Data.IsDead && seer.GetCustomRole().IsImpostor() && target.GetCustomRole().IsImpostor() && Options.ImpKnowAlliesRole.GetBool())
-                        TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName()}</size>\r\n";
+                    if (TargetRoleText == "" && seer.GetCustomRole().IsImpostor() && target.GetCustomRole().IsImpostor() && Options.ImpKnowAlliesRole.GetBool())
+                        TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName(!seer.Data.IsDead)}</size>\r\n";
 
                     if (TargetRoleText == "" && !seer.Data.IsDead && seer.Is(CustomRoles.Madmate) && target.GetCustomRole().IsImpostor())
                         TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName()}</size>\r\n";
