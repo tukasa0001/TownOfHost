@@ -291,9 +291,11 @@ namespace TownOfHost
             Main.PlayerStates[target.PlayerId].SetDead();
             target.SetRealKiller(killer, true); //既に追加されてたらスキップ
             Utils.CountAlivePlayers(true);
+
+            Utils.TargetDies(__instance, target);
+
             Utils.SyncAllSettings();
             Utils.NotifyRoles();
-            Utils.TargetDies(__instance, target);
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
@@ -418,16 +420,9 @@ namespace TownOfHost
                 kvp.Value.LastRoom = pc.GetPlainShipRoom();
             }
             if (!AmongUsClient.Instance.AmHost) return true;
-            BountyHunter.OnReportDeadBody();
-            SerialKiller.OnReportDeadBody();
-            Main.ArsonistTimer.Clear();
-            if (target == null) //ボタン
-            {
-                if (__instance.Is(CustomRoles.Mayor))
-                {
-                    Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
-                }
-            }
+
+            //通報者が死んでいる場合、本処理で会議がキャンセルされるのでここで止める
+            if (__instance.Data.IsDead) return false;
 
             if (Options.SyncButtonMode.GetBool() && target == null)
             {
@@ -444,20 +439,33 @@ namespace TownOfHost
                 }
             }
 
-            Main.PuppeteerList.Clear();
-            Sniper.OnReportDeadBody();
-            Vampire.OnStartMeeting();
-            EvilHacker.OnReportDeadbody();
-
-            if (__instance.Data.IsDead) return true;
             //=============================================
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
+
+
+            if (target == null) //ボタン
+            {
+                if (__instance.Is(CustomRoles.Mayor))
+                {
+                    Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
+                }
+            }
+            Main.ArsonistTimer.Clear();
+            Main.PuppeteerList.Clear();
+
+            BountyHunter.OnReportDeadBody();
+            SerialKiller.OnReportDeadBody();
+            Sniper.OnReportDeadBody();
+            Vampire.OnStartMeeting();
+            EvilHacker.OnReportDeadbody();
 
             Main.AllPlayerControls
                 .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
                 .Do(pc => Camouflage.RpcSetSkin(pc, RevertToDefault: true));
             MeetingTimeManager.OnReportDeadBody();
+
+            Utils.NotifyRoles(isForMeeting: true, NoCache: true);
 
             Utils.SyncAllSettings();
             return true;
@@ -1003,27 +1011,43 @@ namespace TownOfHost
         public static bool Prefix(PlayerControl __instance, ref RoleTypes roleType)
         {
             var target = __instance;
-            Logger.Info($"{__instance.GetNameWithRole()} =>{roleType}", "PlayerControl.RpcSetRole");
+            var targetName = __instance.GetNameWithRole();
+            Logger.Info($"{targetName} =>{roleType}", "PlayerControl.RpcSetRole");
             if (!ShipStatus.Instance.enabled) return true;
             if (roleType is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost)
             {
+                var targetIsKiller = target.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(target.PlayerId);
+                var ghostRoles = new Dictionary<PlayerControl, RoleTypes>();
                 foreach (var seer in Main.AllPlayerControls)
                 {
                     var self = seer.PlayerId == target.PlayerId;
                     var seerIsKiller = seer.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(seer.PlayerId);
-                    var targetIsKiller = target.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(target.PlayerId);
                     if ((self && targetIsKiller) || (!seerIsKiller && target.Is(CustomRoleTypes.Impostor)))
                     {
-                        Logger.Info($"Desync {target.GetNameWithRole()} =>ImpostorGhost for{seer.GetNameWithRole()}", "PlayerControl.RpcSetRole");
-                        target.RpcSetRoleDesync(RoleTypes.ImpostorGhost, seer.GetClientId());
+                        ghostRoles[seer] = RoleTypes.ImpostorGhost;
                     }
                     else
                     {
-                        Logger.Info($"Desync {target.GetNameWithRole()} =>CrewmateGhost for{seer.GetNameWithRole()}", "PlayerControl.RpcSetRole");
-                        target.RpcSetRoleDesync(RoleTypes.CrewmateGhost, seer.GetClientId());
+                        ghostRoles[seer] = RoleTypes.CrewmateGhost;
                     }
                 }
-                return false;
+                if (ghostRoles.All(kvp => kvp.Value == RoleTypes.CrewmateGhost))
+                {
+                    roleType = RoleTypes.CrewmateGhost;
+                }
+                else if (ghostRoles.All(kvp => kvp.Value == RoleTypes.ImpostorGhost))
+                {
+                    roleType = RoleTypes.ImpostorGhost;
+                }
+                else
+                {
+                    foreach ((var seer, var role) in ghostRoles)
+                    {
+                        Logger.Info($"Desync {targetName} =>{role} for{seer.GetNameWithRole()}", "PlayerControl.RpcSetRole");
+                        target.RpcSetRoleDesync(role, seer.GetClientId());
+                    }
+                    return false;
+                }
             }
             return true;
         }

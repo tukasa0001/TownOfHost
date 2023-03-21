@@ -146,11 +146,11 @@ namespace TownOfHost
                 if (Constants.ShouldPlaySfx()) RPC.PlaySound(player.PlayerId, Sounds.KillSound);
             }
             else if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
-            ExtendedPlayerControl.MarkDirtySettings(player);
+            player.MarkDirtySettings();
             new LateTask(() =>
             {
                 Main.PlayerStates[player.PlayerId].IsBlackOut = false; //ブラックアウト解除
-                ExtendedPlayerControl.MarkDirtySettings(player);
+                player.MarkDirtySettings();
             }, Options.KillFlashDuration.GetFloat(), "RemoveKillFlash");
         }
         public static void BlackOut(this IGameOptions opt, bool IsBlackOut)
@@ -312,9 +312,8 @@ namespace TownOfHost
                     switch (subRole)
                     {
                         case CustomRoles.Lovers:
-                            //ラバーズがクルー陣営の場合タスクを付与しない
-                            if (role.IsCrewmate())
-                                hasTasks = false;
+                            //ラバーズはタスクを勝利用にカウントしない
+                            hasTasks &= !ForRecompute;
                             break;
                     }
             }
@@ -671,10 +670,13 @@ namespace TownOfHost
         private static StringBuilder SelfSuffix = new();
         private static StringBuilder SelfMark = new(20);
         private static StringBuilder TargetMark = new(20);
-        public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false, bool ForceLoop = false)
+        public static void NotifyRoles(bool isForMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false, bool ForceLoop = false)
         {
             if (!AmongUsClient.Instance.AmHost) return;
             if (Main.AllPlayerControls == null) return;
+
+            //ミーティング中の呼び出しは不正
+            if (GameStates.IsMeeting) return;
 
             var caller = new System.Diagnostics.StackFrame(1, false);
             var callerMethod = caller.GetMethod();
@@ -700,7 +702,7 @@ namespace TownOfHost
 
                 if (seer.IsModClient()) continue;
                 string fontSize = "1.5";
-                if (isMeeting && (seer.GetClient().PlatformData.Platform.ToString() == "Playstation" || seer.GetClient().PlatformData.Platform.ToString() == "Switch")) fontSize = "70%";
+                if (isForMeeting && (seer.GetClient().PlatformData.Platform.ToString() == "Playstation" || seer.GetClient().PlatformData.Platform.ToString() == "Switch")) fontSize = "70%";
                 logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":START");
 
                 //タスクなど進行状況を含むテキスト
@@ -716,7 +718,7 @@ namespace TownOfHost
                 if (seer.Is(CustomRoles.Lovers)) SelfMark.Append(ColorString(GetRoleColor(CustomRoles.Lovers), "♡"));
 
                 //呪われている場合
-                SelfMark.Append(Witch.GetSpelledMark(seer.PlayerId, isMeeting));
+                SelfMark.Append(Witch.GetSpelledMark(seer.PlayerId, isForMeeting));
 
                 //銃声が聞こえるかチェック
                 SelfMark.Append(Sniper.GetShotNotify(seer.PlayerId));
@@ -736,7 +738,7 @@ namespace TownOfHost
                 }
                 if (seer.Is(CustomRoles.Witch))
                 {
-                    SelfSuffix.Append(Witch.GetSpellModeText(seer, false, isMeeting));
+                    SelfSuffix.Append(Witch.GetSpellModeText(seer, false, isForMeeting));
                 }
 
                 //タスクを終えたSnitchがインポスター/キル可能なニュートラルの方角を確認できる
@@ -744,13 +746,13 @@ namespace TownOfHost
 
                 SelfSuffix.Append(EvilTracker.GetTargetArrow(seer, seer));
 
-                if (seer.Is(CustomRoles.EvilHacker) && !isMeeting)
+                if (seer.Is(CustomRoles.EvilHacker) && !isForMeeting)
                     SelfSuffix.Append(EvilHacker.GetMurderSceneText(seer));
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                string SeerRealName = seer.GetRealName(isMeeting);
+                string SeerRealName = seer.GetRealName(isForMeeting);
 
-                if (!isMeeting && MeetingStates.FirstMeeting && Options.ChangeNameToRoleInfo.GetBool())
+                if (!isForMeeting && MeetingStates.FirstMeeting && Options.ChangeNameToRoleInfo.GetBool())
                     SeerRealName = seer.GetRoleInfo();
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
@@ -761,7 +763,7 @@ namespace TownOfHost
                     SelfName = $"</size>\r\n{ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
                 SelfName = SelfRoleName + "\r\n" + SelfName;
                 SelfName += SelfSuffix.ToString() == "" ? "" : "\r\n " + SelfSuffix.ToString();
-                if (!isMeeting) SelfName += "\r\n";
+                if (!isForMeeting) SelfName += "\r\n";
 
                 //適用
                 seer.RpcSetNamePrivate(SelfName, true, force: NoCache);
@@ -793,7 +795,7 @@ namespace TownOfHost
                         TargetMark.Clear();
 
                         //呪われている人
-                        TargetMark.Append(Witch.GetSpelledMark(target.PlayerId, isMeeting));
+                        TargetMark.Append(Witch.GetSpelledMark(target.PlayerId, isForMeeting));
 
                         //タスク完了直前のSnitchにマークを表示
                         TargetMark.Append(Snitch.GetWarningMark(seer, target));
@@ -837,15 +839,15 @@ namespace TownOfHost
                         if (seer.Is(CustomRoles.EvilTracker))
                         {
                             TargetMark.Append(EvilTracker.GetTargetMark(seer, target));
-                            if (isMeeting && EvilTracker.IsTrackTarget(seer, target) && EvilTracker.CanSeeLastRoomInMeeting)
+                            if (isForMeeting && EvilTracker.IsTrackTarget(seer, target) && EvilTracker.CanSeeLastRoomInMeeting)
                                 TargetRoleText = $"<size={fontSize}>{EvilTracker.GetArrowAndLastRoom(seer, target)}</size>\r\n";
                         }
 
                         //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                        string TargetPlayerName = target.GetRealName(isMeeting);
+                        string TargetPlayerName = target.GetRealName(isForMeeting);
 
                         //ターゲットのプレイヤー名の色を書き換えます。
-                        TargetPlayerName = TargetPlayerName.ApplyNameColorData(seer, target, isMeeting);
+                        TargetPlayerName = TargetPlayerName.ApplyNameColorData(seer, target, isForMeeting);
 
                         if (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
                             TargetMark.Append(ColorString(GetRoleColor(CustomRoles.MadSnitch), "★"));
@@ -855,7 +857,7 @@ namespace TownOfHost
                         if (seer.KnowDeathReason(target))
                             TargetDeathReason = $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(target.PlayerId))})";
 
-                        if (IsActive(SystemTypes.Comms) && Options.CommsCamouflage.GetBool() && !isMeeting)
+                        if (IsActive(SystemTypes.Comms) && Options.CommsCamouflage.GetBool() && !isForMeeting)
                             TargetPlayerName = $"<size=0%>{TargetPlayerName}</size>";
 
                         //全てのテキストを合成します。

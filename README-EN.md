@@ -152,14 +152,14 @@ Users are free to create and use their own translations.<br>
 - Open the "Language" folder created in the Among Us folder.
 - Create a file named `{language name}.dat` in the folder
   - For example: English.dat
-  - You can also rename `template.dat` or `template_English.dat` and use.
+  - You can also rename `template.dat` or `template_English.dat` and use it.
 - In the file, enter like `before translation:after translation`.
   - For example: Command.rename:Change Host Name
   - See `template.dat` for the `before translation` string.
 
 You can also reload the translation by pressing key `T`+`F5`.
 
-#### List of Valid Languages
+#### Supported Languages
 
 | Language Name |
 | ------------- |
@@ -181,9 +181,9 @@ You can also reload the translation by pressing key `T`+`F5`.
 
 ### BAN Function
 The host can ban players even during the game without requiring other players to vote. <br>
-Also, if you ban, that player will not be able to enter the room you host from now on. <br>
+If a player is banned, they will not be able to enter the room until it is closed. <br>
 Players who have already left can also be added to the ban list by selecting them and pressing the ban button.<br>
-Banned players are recorded in `./TOH_DATA/BanList.txt` as `friend code, player name`, and you can remove the ban by deleting the corresponding line. <br>
+Banned players are recorded in `./TOH_DATA/BanList.txt` as `friend code, player name`. You can remove the ban by deleting the corresponding line. <br>
 Even if you block it with a friend list, it will automatically ban. <br>
 
 ### Kick Function
@@ -320,7 +320,7 @@ Idea by Kihi
 Team : Impostors<br>
 Basis : Impostor<br>
 
-They can kill only in lights out, but next kill cooldown will be half.<br>
+The Mare can kill only in lights out, but next kill cooldown will be half.<br>
 While lights are out they can move faster, but everyone sees their name in red.<br>
 
 #### Game Options
@@ -335,7 +335,7 @@ While lights are out they can move faster, but everyone sees their name in red.<
 Team : Impostors<br>
 Basis : Impostor<br>
 
-The puppeteer can curse a crewmate and force them to kill the next non-impostor they come near.<br>
+The Puppeteer can curse a crewmate and force them to kill the next non-impostor they come near.<br>
 The cursed crewmate can also kill a mad role.<br>
 It is not possible for puppeteer to perform a normal kill.<br>
 
@@ -966,12 +966,12 @@ If your lover dies, you die.<br>
 If the crewmates win by tasks, the lovers lose.<br>
 The lovers can also win if both are still alive at the end of the game and the crewmates don't win by tasks.<br>
 If the lovers win, everyone else loses.<br>
-Crewmate lovers do not have tasks assigned. <br>
+Crewmate lovers are assigned tasks, but are not counted in task completion. Abilities can be used.<br>
 
 Example of overlapping Roles: <br>
 - [Terrorist](#terrorist) Lover: You have tasks and If you die after completing the task, you will win as a terrorist. <br>
 - [MadSnitch](#madsnitch) Lover: You have tasks, and you can see the Impostor after completing the task. <br>
-- [Snitch](#snitch) Lover: No tasks, Impostor remains unknown. <br>
+- [Snitch](#snitch) Lover: You have tasks, and you can see the Impostor after completing the task. <br>
 - [Sheriff](#sheriff) Lover: You can kill Impostors as usual. Whether or not you can kill depends on Roles and Options. (Impostor Lover can be killed. Crewmate Lover cannot be killed) <br>
 - [Opportunist](#opportunist) Lover: Win if you survive. <br>
 - [Jester](#jester) Lover: If you are voted out, you will win as Jester. If the other Lover is voted out, you are defeated. <br>
