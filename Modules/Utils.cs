@@ -268,7 +268,7 @@ public static class Utils
 
         var mainRole = Main.PlayerStates[playerId].MainRole;
         RoleText = GetRoleName(mainRole);
-        RoleColor = GetPlayerById(playerId).Is(CustomRoles.Madmate) ? Color.red : GetRoleColor(mainRole);
+        RoleColor = GetPlayerById(playerId).Is(CustomRoles.Madmate) ? new(255, 25, 25, byte.MaxValue) : GetRoleColor(mainRole);
         foreach (var subRole in Main.PlayerStates[playerId].SubRoles)
         {
             switch (subRole)
