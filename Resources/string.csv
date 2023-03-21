@@ -599,7 +599,6 @@ AdditionRolesSpawnRate,出现概率,Spawn Chance,Шанс появления
 BewilderVision,迷幻视野大小,Bewilder Vision,Дальность обзора Сбитого с Толку
 FlashmanSpeed,初始移动速度,Flash Speed,Скорость Флеша
 LoverSuicide,恋人共生死,Lovers can commit suicide,Любовники могут суициднуться
-LoverHasNoTask,<color=#8cffff>船员</color>成为恋人后没有任务,Lovers don't have tasks,Любовники не имеют задания
 NumberOfLovers,恋人对数,Number of Lovers (x2 members),Количество Любовников (x2 участника)
 TrapperBlockMoveTime,封锁凶手移动时长,Freeze time,Время заморозки
 TimeThiefDecreaseMeetingTime,每次击杀缩短的会议时间,Time Thief Time Stolen,Уменьшить длительность обсуждения на

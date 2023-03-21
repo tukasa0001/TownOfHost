@@ -367,7 +367,7 @@ public static class Utils
                     break;
                 case CustomRoles.Lovers:
                     //ラバーズはタスクを勝利用にカウントしない
-                    hasTasks &= !(ForRecompute || Options.LoverHasNoTask.GetBool());
+                    hasTasks &= !ForRecompute;
                     break;
             }
         return hasTasks;

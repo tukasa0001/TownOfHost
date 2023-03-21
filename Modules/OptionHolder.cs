@@ -343,7 +343,6 @@ public static class Options
     public static OptionItem FlashmanSpeed;
     public static OptionItem LoverSpawnChances;
     public static OptionItem LoverSuicide;
-    public static OptionItem LoverHasNoTask;
     public static OptionItem ImpCanBeEgoist;
     public static OptionItem CrewCanBeEgoist;
     public static OptionItem PiperAccelerationSpeed;
@@ -1034,9 +1033,6 @@ public static class Options
             .SetGameMode(customGameMode);
 
         LoverSuicide = BooleanOptionItem.Create(id + 3, "LoverSuicide", true, TabGroup.Addons, false).SetParent(spawnOption)
-            .SetGameMode(customGameMode);
-
-        LoverHasNoTask = BooleanOptionItem.Create(id + 4, "LoverHasNoTask", false, TabGroup.Addons, false).SetParent(spawnOption)
             .SetGameMode(customGameMode);
 
         var countOption = IntegerOptionItem.Create(id + 1, "NumberOfLovers", new(2, 2, 1), 2, TabGroup.Addons, false).SetParent(spawnOption)
