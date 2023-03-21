@@ -1251,7 +1251,6 @@ public static class Utils
                 name = Main.OriginalName[player.GetClientId()];
             else return;
         }
-        if (Main.nickName != "") name = Main.nickName;
         if (AmongUsClient.Instance.IsGameStarted)
         {
             if (Options.ColorNameMode.GetBool() && Main.nickName == "") name = Palette.GetColorName(player.Data.DefaultOutfit.ColorId);
