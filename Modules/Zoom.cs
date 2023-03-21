@@ -61,7 +61,7 @@ public static class Zoom
             Camera.main.orthographicSize *= size;
             HudManager.Instance.UICamera.orthographicSize *= size;
         }
-        DestroyableSingleton<HudManager>.Instance?.ShadowQuad?.gameObject?.SetActive(reset || Camera.main.orthographicSize == 3.0f);
+        DestroyableSingleton<HudManager>.Instance?.ShadowQuad?.gameObject?.SetActive((reset || Camera.main.orthographicSize == 3.0f) && PlayerControl.LocalPlayer.IsAlive());
         ResolutionManager.ResolutionChanged.Invoke((float)Screen.width / Screen.height);
     }
 }
