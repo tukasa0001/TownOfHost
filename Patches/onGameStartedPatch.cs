@@ -82,7 +82,7 @@ internal class ChangeRoleSettings
             Main.MadGrenadierBlinding = new Dictionary<byte, long>();
             Main.CursedWolfSpellCount = new Dictionary<byte, int>();
             Main.Provoked = new Dictionary<byte, byte>();
-            Main.FirstDied = 255;
+            Main.FirstDied = byte.MaxValue;
             Main.MadmateNum = 0;
 
             ReportDeadBodyPatch.CanReport = new();
@@ -102,8 +102,8 @@ internal class ChangeRoleSettings
 
             Main.LastNotifyNames = new();
 
-            Main.currentDousingTarget = 255;
-            Main.currentDrawTarget = 255;
+            Main.currentDousingTarget = byte.MaxValue;
+            Main.currentDrawTarget = byte.MaxValue;
             Main.PlayerColors = new();
             //名前の記録
             Main.AllPlayerNames = new();

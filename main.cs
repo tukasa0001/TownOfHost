@@ -245,9 +245,9 @@ public class Main : BasePlugin
         winnerList = new();
         VisibleTasksCount = false;
         MessagesToSend = new List<(string, byte, string)>();
-        currentDousingTarget = 255;
-        currentDrawTarget = 255;
-        FirstDied = 255;
+        currentDousingTarget = byte.MaxValue;
+        currentDrawTarget = byte.MaxValue;
+        FirstDied = byte.MaxValue;
         MadmateNum = 0;
 
         Preset1 = Config.Bind("Preset Name Options", "Preset1", "Preset_1");

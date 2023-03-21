@@ -420,14 +420,14 @@ internal class MurderPlayerPatch
         }
 
         //看看UP是不是被首刀了
-        if (Main.FirstDied == 255 && target.Is(CustomRoles.Youtuber))
+        if (Main.FirstDied == byte.MaxValue && target.Is(CustomRoles.Youtuber))
         {
             CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Youtuber); //UP主被首刀了，哈哈哈哈哈
             CustomWinnerHolder.WinnerIds.Add(target.PlayerId);
         }
 
         //记录首刀
-        if (Main.FirstDied == 255)
+        if (Main.FirstDied == byte.MaxValue)
             Main.FirstDied = target.PlayerId;
 
         //骇客击杀
@@ -1358,7 +1358,7 @@ internal class FixedUpdatePatch
                         Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>");
                     }
                     else if (
-                        Main.currentDousingTarget != 255 &&
+                        Main.currentDousingTarget != byte.MaxValue &&
                         Main.currentDousingTarget == target.PlayerId
                     )
                     {
@@ -1373,7 +1373,7 @@ internal class FixedUpdatePatch
                         Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Revolutionist)}>●</color>");
                     }
                     else if (
-                        Main.currentDrawTarget != 255 &&
+                        Main.currentDrawTarget != byte.MaxValue &&
                         Main.currentDrawTarget == target.PlayerId
                     )
                     {
