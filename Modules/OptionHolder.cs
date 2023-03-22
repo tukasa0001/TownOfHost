@@ -156,11 +156,6 @@ public static class Options
     public static OptionItem BodyguardProtectRadius;
     public static OptionItem ParanoiaNumOfUseButton;
     public static OptionItem ParanoiaVentCooldown;
-    public static OptionItem PsychicCanSeeNum;
-    public static OptionItem PsychicFresh;
-    public static OptionItem CkshowEvil;
-    public static OptionItem NBshowEvil;
-    public static OptionItem NEshowEvil;
     public static OptionItem ImpKnowCyberStarDead;
     public static OptionItem NeutralKnowCyberStarDead;
     public static OptionItem EveryOneKnowSuperStar;
@@ -549,13 +544,7 @@ public static class Options
             .SetValueFormat(OptionFormat.Times);
         ParanoiaVentCooldown = FloatOptionItem.Create(8020495, "ParanoiaVentCooldown", new(0, 990, 1), 10, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Paranoia])
             .SetValueFormat(OptionFormat.Seconds);
-        SetupRoleOptions(8020450, TabGroup.CrewmateRoles, CustomRoles.Psychic);
-        PsychicCanSeeNum = IntegerOptionItem.Create(8020452, "PsychicCanSeeNum", new(1, 15, 1), 3, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic])
-            .SetValueFormat(OptionFormat.Players);
-        PsychicFresh = BooleanOptionItem.Create(8020456, "PsychicFresh", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic]);
-        CkshowEvil = BooleanOptionItem.Create(8020453, "CrewKillingRed", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic]);
-        NBshowEvil = BooleanOptionItem.Create(8020454, "NBareRed", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic]);
-        NEshowEvil = BooleanOptionItem.Create(800455, "NEareRed", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Psychic]);
+        Psychic.SetupCustomOption();
         Snitch.SetupCustomOption();
         SetupRoleOptions(20700, TabGroup.CrewmateRoles, CustomRoles.Doctor);
         DoctorTaskCompletedBatteryCharge = FloatOptionItem.Create(20710, "DoctorTaskCompletedBatteryCharge", new(0f, 10f, 1f), 5f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Doctor])

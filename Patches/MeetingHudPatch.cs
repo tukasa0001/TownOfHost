@@ -522,6 +522,8 @@ class MeetingHudStartPatch
         Main.AllPlayerControls.Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
         MeetingStates.MeetingCalled = true;
 
+        Psychic.OnMeetingStart();
+
         if (!AmongUsClient.Instance.AmHost) return;
 
         Main.LastVotedPlayerInfo = null;
@@ -529,12 +531,12 @@ class MeetingHudStartPatch
         Main.VeteranInProtect.Clear();
         Main.GrenadierBlinding.Clear();
         Main.MadGrenadierBlinding.Clear();
+        Divinator.didVote.Clear();
 
         Counterfeiter.OnMeetingStart();
         BallLightning.OnMeetingStart();
         QuickShooter.OnMeetingStart();
         Eraser.OnMeetingStart();
-        Divinator.didVote.Clear();
 
         NotifyRoleSkillOnMeetingStart();
     }
@@ -568,101 +570,6 @@ class MeetingHudStartPatch
             {
                 roleTextMeeting.text = EvilTracker.GetArrowAndLastRoom(PlayerControl.LocalPlayer, pc);
                 roleTextMeeting.enabled = true;
-            }
-        }
-
-        if (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Is(CustomRoles.Psychic))
-        {
-            System.Random rd = new();
-            int numOfPsychicBad = 0;
-            for (int i = 0; i < Options.PsychicCanSeeNum.GetInt(); i++)
-            {
-                if (rd.Next(1, 100) < 18) numOfPsychicBad++;
-            }
-            if (numOfPsychicBad > Options.PsychicCanSeeNum.GetInt() || numOfPsychicBad < 1) numOfPsychicBad = 1;
-
-            List<byte> goodids = new();
-            List<byte> badids = new();
-            Dictionary<byte, bool> isGood = new();
-            if (!PlayerControl.LocalPlayer.Data.IsDead)
-            {
-                if (PlayerControl.LocalPlayer.Is(CustomRoles.Psychic))
-                {
-                    if (Options.PsychicFresh.GetBool() || !Main.PsychicTarget.ContainsKey(PlayerControl.LocalPlayer.PlayerId))
-                    {
-                        List<PlayerControl> badPlayers = new();
-                        List<PlayerControl> goodPlayers = new();
-                        foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.PlayerId != PlayerControl.LocalPlayer.PlayerId))
-                        {
-                            isGood.Add(pc.PlayerId, true);
-                            var role = pc.GetCustomRole();
-                            switch (role.GetCustomRoleTypes())
-                            {
-                                case CustomRoleTypes.Crewmate:
-                                    if (Options.CkshowEvil.GetBool())
-                                        if (!role.IsCK())
-                                        {
-                                            badPlayers.Add(pc);
-                                            isGood[pc.PlayerId] = false;
-                                        }
-                                    break;
-                                case CustomRoleTypes.Impostor:
-                                    badPlayers.Add(pc); isGood[pc.PlayerId] = false;
-                                    break;
-                                case CustomRoleTypes.Neutral:
-                                    if (Options.NBshowEvil.GetBool())
-                                        if (!role.IsNeutralKilling())
-                                        {
-                                            badPlayers.Add(pc);
-                                            isGood[pc.PlayerId] = false;
-                                        }
-                                    if (Options.NEshowEvil.GetBool())
-                                    {
-                                        if (role.IsNeutralKilling())
-                                        {
-                                            badPlayers.Add(pc);
-                                            isGood[pc.PlayerId] = false;
-                                        }
-                                    }
-                                    break;
-                            }
-                            if (isGood[pc.PlayerId]) goodPlayers.Add(pc);
-                        }
-                        List<byte> badpcids = new();
-                        foreach (var p in badPlayers)
-                        {
-                            badpcids.Add(p.PlayerId);
-                        }
-                        if (numOfPsychicBad > Options.PsychicCanSeeNum.GetInt() || numOfPsychicBad < 1) numOfPsychicBad = 1;
-                        int goodPeople = Options.PsychicCanSeeNum.GetInt() - numOfPsychicBad;
-
-                        if (numOfPsychicBad != 0)
-                            for (var i = 0; i < numOfPsychicBad; i++)
-                            {
-                                if (badPlayers.Count <= 0) break;
-                                var rando = new System.Random();
-                                var player = badPlayers[rando.Next(0, badPlayers.Count)];
-                                badPlayers.Remove(player);
-                                badids.Add(player.PlayerId);
-                            }
-                        if (goodPeople != 0)
-                            for (var i = 0; i < goodPeople; i++)
-                            {
-                                if (goodPlayers.Count <= 0) break;
-                                var rando = new System.Random();
-                                var player = goodPlayers[rando.Next(0, goodPlayers.Count)];
-                                goodPlayers.Remove(player);
-                                goodids.Add(player.PlayerId);
-                            }
-
-                        byte pcid = PlayerControl.LocalPlayer.PlayerId;
-                        if (!Main.PsychicTarget.ContainsKey(pcid)) Main.PsychicTarget.Add(pcid, new List<byte>());
-                        Main.PsychicTarget[pcid] = new();
-                        Main.PsychicTarget[pcid].AddRange(goodids);
-                        Main.PsychicTarget[pcid].AddRange(badids);
-                    }
-
-                }
             }
         }
 
@@ -738,10 +645,8 @@ class MeetingHudStartPatch
                         sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Revolutionist), "●"));
                     break;
                 case CustomRoles.Psychic:
-                    foreach (var id in Main.PsychicTarget[seer.PlayerId])
-                    {
-                        if (target.PlayerId == id) pva.NameText.text = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), pva.NameText.text);
-                    }
+                    if (target.IsRedForPsy())
+                        pva.NameText.text = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), pva.NameText.text);
                     break;
                 case CustomRoles.Mafia:
                     if (seer.Data.IsDead && !target.Data.IsDead)

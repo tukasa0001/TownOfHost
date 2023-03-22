@@ -640,9 +640,6 @@ internal class SelectRolesPatch
                     case CustomRoles.AntiAdminer:
                         AntiAdminer.Add(pc.PlayerId);
                         break;
-                    case CustomRoles.Psychic:
-                        Main.PsychicTarget.Clear();
-                        break;
                     case CustomRoles.Mario:
                         Main.MarioVentCount[pc.PlayerId] = 0;
                         break;

@@ -751,94 +751,6 @@ public static class Utils
             + $"\n  ○ /dump {GetString("Command.dump")}"
             , ID);
     }
-    public static void GetPsychicStuff(PlayerControl seer)
-    {
-        if (Options.PsychicFresh.GetBool() || !Main.PsychicTarget.ContainsKey(seer.PlayerId))
-        {
-            var rd = IRandom.Instance;
-            int numOfPsychicBad = 0;
-            for (int i = 0; i < Options.PsychicCanSeeNum.GetInt(); i++)
-            {
-                if (rd.Next(1, 100) < 18) numOfPsychicBad++;
-            }
-            if (numOfPsychicBad > Options.PsychicCanSeeNum.GetInt() || numOfPsychicBad < 1) numOfPsychicBad = 1;
-
-            List<byte> goodids = new();
-            List<byte> badids = new();
-            Dictionary<byte, bool> isGood = new();
-            if (!seer.Data.IsDead)
-            {
-                List<PlayerControl> badPlayers = new();
-                List<PlayerControl> goodPlayers = new();
-                foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.PlayerId != seer.PlayerId))
-                {
-                    isGood.Add(pc.PlayerId, true);
-                    var role = pc.GetCustomRole();
-                    switch (role.GetCustomRoleTypes())
-                    {
-                        case CustomRoleTypes.Crewmate:
-                            if (Options.CkshowEvil.GetBool())
-                                if (!role.IsCK())
-                                {
-                                    badPlayers.Add(pc);
-                                    isGood[pc.PlayerId] = false;
-                                }
-                            break;
-                        case CustomRoleTypes.Impostor:
-                            badPlayers.Add(pc); isGood[pc.PlayerId] = false;
-                            break;
-                        case CustomRoleTypes.Neutral:
-                            if (Options.NBshowEvil.GetBool())
-                                if (!role.IsNeutralKilling())
-                                {
-                                    badPlayers.Add(pc);
-                                    isGood[pc.PlayerId] = false;
-                                }
-                            if (Options.NEshowEvil.GetBool())
-                            {
-                                if (role.IsNeutralKilling())
-                                {
-                                    badPlayers.Add(pc);
-                                    isGood[pc.PlayerId] = false;
-                                }
-                            }
-                            break;
-                    }
-                    if (isGood[pc.PlayerId]) goodPlayers.Add(pc);
-                }
-                List<byte> badpcids = new();
-                foreach (var p in badPlayers)
-                {
-                    badpcids.Add(p.PlayerId);
-                }
-                if (numOfPsychicBad > Options.PsychicCanSeeNum.GetInt() || numOfPsychicBad < 1) numOfPsychicBad = 1;
-                int goodPeople = Options.PsychicCanSeeNum.GetInt() - numOfPsychicBad;
-
-                if (numOfPsychicBad != 0)
-                    for (var i = 0; i < numOfPsychicBad; i++)
-                    {
-                        if (badPlayers.Count <= 0) break;
-                        var rando = new System.Random();
-                        var player = badPlayers[rando.Next(0, badPlayers.Count)];
-                        badPlayers.Remove(player);
-                        badids.Add(player.PlayerId);
-                    }
-                if (goodPeople != 0)
-                    for (var i = 0; i < goodPeople; i++)
-                    {
-                        if (goodPlayers.Count <= 0) break;
-                        var rando = new System.Random();
-                        var player = goodPlayers[rando.Next(0, goodPlayers.Count)];
-                        goodPlayers.Remove(player);
-                        goodids.Add(player.PlayerId);
-                    }
-                if (!Main.PsychicTarget.ContainsKey(seer.PlayerId)) Main.PsychicTarget.Add(seer.PlayerId, new List<byte>());
-                Main.PsychicTarget[seer.PlayerId] = new();
-                Main.PsychicTarget[seer.PlayerId].AddRange(goodids);
-                Main.PsychicTarget[seer.PlayerId].AddRange(badids);
-            }
-        }
-    }
     public static void CheckTerroristWin(GameData.PlayerInfo Terrorist)
     {
         if (!AmongUsClient.Instance.AmHost) return;
@@ -976,9 +888,6 @@ public static class Utils
 
             //インポスター/キル可能なニュートラルに対するSnitch警告
             SelfMark.Append(Snitch.GetWarningArrow(seer));
-
-            //愚者初始化红名玩家
-            if (seer.Is(CustomRoles.Psychic)) GetPsychicStuff(seer);
 
             //ハートマークを付ける(自分に)
             if (seer.Is(CustomRoles.Lovers) || CustomRolesHelper.RoleExist(CustomRoles.Ntr)) SelfMark.Append(ColorString(GetRoleColor(CustomRoles.Lovers), "♡"));
@@ -1154,13 +1063,9 @@ public static class Utils
                     //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                     string TargetPlayerName = target.GetRealName(isForMeeting);
 
-                    if (seer.Is(CustomRoles.Psychic))
+                    if (seer.Is(CustomRoles.Psychic) && seer.IsAlive() && target.IsRedForPsy() && isForMeeting)
                     {
-                        foreach (var id in Main.PsychicTarget[seer.PlayerId])
-                        {
-                            if (target.PlayerId == id)
-                                TargetPlayerName = ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName);
-                        }
+                        TargetPlayerName = ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName);
                     }
                     if (seer.Is(CustomRoles.Mafia) && !seer.IsAlive() && target.IsAlive())
                     {
