@@ -61,6 +61,7 @@ enum CustomRPC
     SetEraseLimit,
     Guess,
     SetMarkedPlayer,
+    SetConcealerTimer,
 
 }
 public enum Sounds
@@ -378,6 +379,9 @@ internal class RPCHandlerPatch
                 break;
             case CustomRPC.SetMarkedPlayer:
                 Assassin.ReceiveRPC(reader);
+                break;
+            case CustomRPC.SetConcealerTimer:
+                Concealer.ReceiveRPC(reader);
                 break;
         }
     }
