@@ -265,6 +265,16 @@ class CheckMurderPatch
         //赝品检查
         if (Counterfeiter.OnClientMurder(killer)) return false;
 
+        //检查明星附近是否有人
+        if (target.Is(CustomRoles.SuperStar))
+        {
+            if (Main.AllAlivePlayerControls.Where(x =>
+            x.PlayerId != killer.PlayerId &&
+            x.PlayerId != target.PlayerId &&
+            Vector2.Distance(x.GetTruePosition(), target.GetTruePosition()) < 2f
+            ).ToList().Count >= 1) return false;
+        }
+
         //医生护盾检查
         if (Medicaler.OnCheckMurder(killer, target))
             return false;
