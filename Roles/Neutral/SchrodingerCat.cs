@@ -76,7 +76,8 @@ public sealed class SchrodingerCat : RoleBase
                         bountyHunter.ResetTarget();//ターゲットの選びなおし
                     break;
                 case CustomRoles.SerialKiller:
-                    SerialKiller.OnCheckMurder(killer, false);
+                    var serialKiller = (SerialKiller)killer.GetRoleClass();
+                    serialKiller.SuicideTimer = null;
                     break;
                 case CustomRoles.Sheriff:
                     target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);

@@ -21,7 +21,6 @@ namespace TownOfHost
                 CustomRoles.Witch or
                 CustomRoles.ShapeMaster or
                 CustomRoles.Warlock or
-                CustomRoles.SerialKiller or
                 CustomRoles.Mare or
                 CustomRoles.Puppeteer or
                 CustomRoles.EvilWatcher or
@@ -170,7 +169,6 @@ namespace TownOfHost
                 CustomRoles.Mayor => Options.MayorHasPortableButton.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
 
                 CustomRoles.Shapeshifter or
-                CustomRoles.SerialKiller or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
                 CustomRoles.ShapeMaster or

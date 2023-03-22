@@ -129,9 +129,6 @@ namespace TownOfHost
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
-                    case CustomRoles.SerialKiller:
-                        SerialKiller.OnCheckMurder(killer);
-                        break;
                     case CustomRoles.Vampire:
                         info.DoKill = Vampire.OnCheckMurder(info);
                         break;
@@ -393,7 +390,6 @@ namespace TownOfHost
                 role.OnReportDeadBody(__instance, target);
             }
 
-            SerialKiller.OnReportDeadBody();
             Vampire.OnStartMeeting();
 
             Main.AllPlayerControls
@@ -447,7 +443,6 @@ namespace TownOfHost
                 DoubleTrigger.OnFixedUpdate(player);
                 Vampire.OnFixedUpdate(player);
 
-                if (GameStates.IsInTask && CustomRoles.SerialKiller.IsPresent()) SerialKiller.FixedUpdate(player);
                 if (GameStates.IsInTask && Main.WarlockTimer.ContainsKey(player.PlayerId))//処理を1秒遅らせる
                 {
                     if (player.IsAlive())
