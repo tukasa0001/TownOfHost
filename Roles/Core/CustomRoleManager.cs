@@ -149,12 +149,7 @@ public static class CustomRoleManager
         (var attemptKiller, var attemptTarget) = info.AttemptTuple;
         var suicide = info.IsSuicide;
         //RoleClass非対応の処理
-        if (attemptTarget.Is(CustomRoles.Bait) && !suicide)
-        {
-            Logger.Info(attemptTarget?.Data?.PlayerName + "はBaitだった", "MurderPlayer");
-            new LateTask(() => attemptKiller.CmdReportDeadBody(attemptTarget.Data), 0.15f, "Bait Self Report");
-        }
-        else if (attemptTarget.Is(CustomRoles.Terrorist))
+        if (attemptTarget.Is(CustomRoles.Terrorist))
         {
             Logger.Info(attemptTarget?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
             Utils.CheckTerroristWin(attemptTarget.Data);
