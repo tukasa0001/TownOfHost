@@ -526,6 +526,8 @@ Kick,踢出,Kick,Кикнуть
 NoticeMe,通知我,Notify me,Уведомить меня
 NoticeEveryone,通知所有人（除了它）,Notify everyone,Уведомить всех
 CheatResponses,检测到外挂时,When a breach is discovered,Когда обнаружен взлом
+NeutralRoleWinTogether,同种职业<color=#ffab1b>中立</color>玩家共同胜利
+NeutralWinTogether,全体<color=#ffab1b>中立</color>阵营玩家共同胜利
 
 ## 详细设定
 Cooldown,冷却时间,Cooldown,Откат

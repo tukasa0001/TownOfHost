@@ -111,6 +111,8 @@ public static class Options
 
     public static OptionItem NeutralRolesMinPlayer;
     public static OptionItem NeutralRolesMaxPlayer;
+    public static OptionItem NeutralRoleWinTogether;
+    public static OptionItem NeutralWinTogether;
 
     public static OptionItem DefaultShapeshiftCooldown;
     public static OptionItem ImpKnowAlliesRole;
@@ -447,6 +449,9 @@ public static class Options
             .SetValueFormat(OptionFormat.Players);
         NeutralRolesMaxPlayer = IntegerOptionItem.Create(505009, "NeutralRolesMaxPlayer", new(0, 15, 1), 0, TabGroup.NeutralRoles, false)
             .SetValueFormat(OptionFormat.Players);
+        NeutralRoleWinTogether = BooleanOptionItem.Create(505011, "NeutralRoleWinTogether", false, TabGroup.NeutralRoles, false)
+           .SetHeader(true);
+        NeutralWinTogether = BooleanOptionItem.Create(505013, "NeutralWinTogether", false, TabGroup.NeutralRoles, false).SetParent(NeutralRoleWinTogether);
 
         // GM
         EnableGM = BooleanOptionItem.Create(100, "GM", false, TabGroup.GameSettings, false)

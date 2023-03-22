@@ -145,6 +145,25 @@ class GameEndChecker
                         }
                     }
                 }
+
+                //中立共同胜利
+                if (Options.NeutralWinTogether.GetBool() && CustomWinnerHolder.WinnerIds.Where(x => Utils.GetPlayerById(x) != null && Utils.GetPlayerById(x).GetCustomRole().IsNeutral()).Count() >= 1)
+                {
+                    foreach (var pc in Main.AllPlayerControls)
+                        if (pc.GetCustomRole().IsNeutral() && !CustomWinnerHolder.WinnerIds.Contains(pc.PlayerId))
+                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                }
+                else if (Options.NeutralRoleWinTogether.GetBool())
+                {
+                    foreach (var id in CustomWinnerHolder.WinnerIds)
+                    {
+                        var pc = Utils.GetPlayerById(id);
+                        if (pc == null || !pc.GetCustomRole().IsNeutral()) continue;
+                        foreach (var tar in Main.AllPlayerControls)
+                            if (!CustomWinnerHolder.WinnerIds.Contains(tar.PlayerId) && tar.GetCustomRole() == pc.GetCustomRole())
+                                CustomWinnerHolder.WinnerIds.Add(tar.PlayerId);
+                    }
+                }
             }
             ShipStatus.Instance.enabled = false;
             StartEndGame(reason);
