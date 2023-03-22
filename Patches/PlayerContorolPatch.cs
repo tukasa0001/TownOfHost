@@ -275,13 +275,12 @@ class CheckMurderPatch
         if (Medicaler.OnCheckMurder(killer, target))
             return false;
 
+        //玩家被击杀事件
+        if (!Gamer.CheckMurder(killer, target))
+            return false;
+
         switch (target.GetCustomRole())
         {
-            //击杀呪狼
-            case CustomRoles.CursedWolf:
-                if (Main.CursedWolfSpellCount[target.PlayerId] <= 0) break;
-                CurseWolfGuard(killer, target);
-                return false;
             //击杀幸运儿
             case CustomRoles.Luckey:
                 var rd = IRandom.Instance;
@@ -291,6 +290,11 @@ class CheckMurderPatch
                     return false;
                 }
                 break;
+            //击杀呪狼
+            case CustomRoles.CursedWolf:
+                if (Main.CursedWolfSpellCount[target.PlayerId] <= 0) break;
+                CurseWolfGuard(killer, target);
+                return false;
             //击杀老兵
             case CustomRoles.Veteran:
                 if (Main.VeteranInProtect.ContainsKey(target.PlayerId) && killer.PlayerId != target.PlayerId)
@@ -328,10 +332,6 @@ class CheckMurderPatch
                 }
             }
         }
-
-        //玩家被击杀事件
-        if (!Gamer.CheckMurder(killer, target))
-            return false;
 
         //首刀叛变
         if (Options.MadmateSpawnMode.GetInt() == 1 && Main.MadmateNum < CustomRoles.Madmate.GetCount() && Utils.CanBeMadmate(target))
