@@ -110,12 +110,10 @@ public class Main : BasePlugin
     public static Dictionary<byte, float> AssassinTimer = new();
     public static Dictionary<byte, PlayerControl> CursedPlayers = new();
     public static Dictionary<byte, bool> isCurseAndKill = new();
-    public static Dictionary<byte, PlayerControl> MarkedPlayers = new();
     public static Dictionary<byte, int> MafiaRevenged = new();
     public static Dictionary<byte, int> GuesserGuessed = new();
     public static Dictionary<byte, int> CapitalismAddTask = new();
     public static Dictionary<byte, int> CapitalismAssignTask = new();
-    public static Dictionary<byte, bool> isMarkAndKill = new();
     public static Dictionary<(byte, byte), bool> isDoused = new();
     public static Dictionary<(byte, byte), bool> isDraw = new();
     public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
@@ -138,7 +136,6 @@ public class Main : BasePlugin
     public static int AliveImpostorCount;
     public static int SKMadmateNowCount;
     public static bool isCursed;
-    public static bool isMarked;
     public static bool existAntiAdminer;
     public static Dictionary<byte, float> SansKillCooldown = new();
     public static Dictionary<byte, bool> CheckShapeshift = new();
@@ -218,9 +215,7 @@ public class Main : BasePlugin
 
         BrakarVoteFor = new List<byte>();
         WarlockTimer = new Dictionary<byte, float>();
-        AssassinTimer = new Dictionary<byte, float>();
         CursedPlayers = new Dictionary<byte, PlayerControl>();
-        MarkedPlayers = new Dictionary<byte, PlayerControl>();
         MafiaRevenged = new Dictionary<byte, int>();
         isDoused = new Dictionary<(byte, byte), bool>();
         isDraw = new Dictionary<(byte, byte), bool>();

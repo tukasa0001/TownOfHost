@@ -479,7 +479,7 @@ public static class Options
         SetupRoleOptions(1400, TabGroup.ImpostorRoles, CustomRoles.Warlock);
         WarlockCanKillAllies = BooleanOptionItem.Create(901406, "WarlockCanKillAllies", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Warlock]);
         WarlockCanKillSelf = BooleanOptionItem.Create(901408, "WarlockCanKillSelf", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Warlock]);
-        SetupRoleOptions(901455, TabGroup.ImpostorRoles, CustomRoles.Assassin);
+        Assassin.SetupCustomOption();
         SetupRoleOptions(901585, TabGroup.ImpostorRoles, CustomRoles.Hacker);
         HackKillCooldown = FloatOptionItem.Create(901587, "KillCooldown", new(5f, 990f, 2.5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
             .SetValueFormat(OptionFormat.Seconds);

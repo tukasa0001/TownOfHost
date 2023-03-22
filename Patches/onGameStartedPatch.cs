@@ -45,12 +45,9 @@ internal class ChangeRoleSettings
             Main.RevolutionistLastTime = new Dictionary<byte, long>();
             Main.RevolutionistCountdown = new Dictionary<byte, int>();
             Main.CursedPlayers = new Dictionary<byte, PlayerControl>();
-            Main.isMarkAndKill = new Dictionary<byte, bool>();
-            Main.MarkedPlayers = new Dictionary<byte, PlayerControl>();
             Main.MafiaRevenged = new Dictionary<byte, int>();
             Main.isCurseAndKill = new Dictionary<byte, bool>();
             Main.isCursed = false;
-            Main.isMarked = false;
             Main.PuppeteerList = new Dictionary<byte, byte>();
             Main.DetectiveNotify = new Dictionary<byte, string>();
             Main.HackerUsedCount = new Dictionary<byte, int>();
@@ -185,6 +182,7 @@ internal class ChangeRoleSettings
             Concealer.Init();
             Divinator.Init();
             Eraser.Init();
+            Assassin.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
@@ -583,10 +581,6 @@ internal class SelectRolesPatch
                         Main.CursedPlayers.Add(pc.PlayerId, null);
                         Main.isCurseAndKill.Add(pc.PlayerId, false);
                         break;
-                    case CustomRoles.Assassin:
-                        Main.MarkedPlayers.Add(pc.PlayerId, null);
-                        Main.isMarkAndKill.Add(pc.PlayerId, false);
-                        break;
                     case CustomRoles.FireWorks:
                         FireWorks.Add(pc.PlayerId);
                         break;
@@ -693,6 +687,9 @@ internal class SelectRolesPatch
                         break;
                     case CustomRoles.Eraser:
                         Eraser.Add(pc.PlayerId);
+                        break;
+                    case CustomRoles.Assassin:
+                        Assassin.Add(pc.PlayerId);
                         break;
                 }
                 foreach (var subRole in pc.GetCustomSubRoles())

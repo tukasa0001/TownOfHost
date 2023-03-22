@@ -398,6 +398,7 @@ static class ExtendedPlayerControl
             CustomRoles.Gamer => pc.IsAlive(),
             CustomRoles.DarkHide => DarkHide.CanUseKillButton(pc),
             CustomRoles.Provocateur => pc.IsAlive(),
+            CustomRoles.Assassin => Assassin.CanUseKillButton(pc),
             _ => pc.Is(CustomRoleTypes.Impostor),
         };
     }
@@ -535,6 +536,9 @@ static class ExtendedPlayerControl
                 break;
             case CustomRoles.Provocateur:
                 Main.AllPlayerKillCooldown[player.PlayerId] = 0.01f;
+                break;
+            case CustomRoles.Assassin:
+                Assassin.SetKillCooldown(player.PlayerId);
                 break;
         }
         if (player.PlayerId == LastImpostor.currentId)

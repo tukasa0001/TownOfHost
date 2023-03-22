@@ -60,6 +60,7 @@ enum CustomRPC
     SetQuickShooterShotLimit,
     SetEraseLimit,
     Guess,
+    SetMarkedPlayer,
 
 }
 public enum Sounds
@@ -375,6 +376,9 @@ internal class RPCHandlerPatch
             case CustomRPC.Guess:
                 GuessManager.RpcClientGuess(Utils.GetPlayerById(reader.ReadByte()));
                 break;
+            case CustomRPC.SetMarkedPlayer:
+                Assassin.ReceiveRPC(reader);
+                break;
         }
     }
 }
@@ -598,6 +602,9 @@ internal static class RPC
                 break;
             case CustomRoles.Eraser:
                 Eraser.Add(targetId);
+                break;
+            case CustomRoles.Assassin:
+                Assassin.Add(targetId);
                 break;
         }
         HudManager.Instance.SetHudActive(true);

@@ -101,9 +101,6 @@ public class PlayerGameOptionsSender : GameOptionsSender
             case CustomRoles.Warlock:
                 AURoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
                 break;
-            case CustomRoles.Assassin:
-                AURoleOptions.ShapeshifterCooldown = Main.isMarked ? 1f : Options.DefaultKillCooldown;
-                break;
             case CustomRoles.SerialKiller:
                 SerialKiller.ApplyGameOptions(player);
                 break;
@@ -182,6 +179,9 @@ public class PlayerGameOptionsSender : GameOptionsSender
                 break;
             case CustomRoles.Concealer:
                 AURoleOptions.ShapeshifterCooldown = Concealer.SkillCooldown.GetFloat();
+                break;
+            case CustomRoles.Assassin:
+                Assassin.ApplyGameOptions();
                 break;
         }
 

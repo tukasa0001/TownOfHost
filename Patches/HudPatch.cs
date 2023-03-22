@@ -77,23 +77,6 @@ class HudManagerPatch
                         else
                             __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
                         break;
-                    case CustomRoles.Assassin:
-                        bool shifting = Main.CheckShapeshift.TryGetValue(player.PlayerId, out bool shapeshiftinga) && shapeshiftinga;
-                        bool hasMarked = Main.MarkedPlayers.TryGetValue(player.PlayerId, out PlayerControl marked) && marked.IsAlive() && !Pelican.IsEaten(marked.PlayerId);
-                        if (!shifting)
-                        {
-                            __instance.KillButton.OverrideText($"{GetString("AssassinMarkButtonText")}");
-                            __instance.AbilityButton.OverrideText(hasMarked ?
-                                $"{GetString("AssassinShapeshiftText")}" :
-                                $"{GetString("DefaultShapeshiftText")}"
-                                );
-                        }
-                        else
-                        {
-                            __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
-                            __instance.AbilityButton.OverrideText($"{GetString("DefaultRevertShapeshiftText")}");
-                        }
-                        break;
                     case CustomRoles.Miner:
                         __instance.AbilityButton.OverrideText($"{GetString("MinerTeleButtonText")}");
                         break;
@@ -162,6 +145,10 @@ class HudManagerPatch
                         break;
                     case CustomRoles.OverKiller:
                         __instance.KillButton.OverrideText($"{GetString("OverKillerButtonText")}");
+                        break;
+                    case CustomRoles.Assassin:
+                        Assassin.SetKillButtonText(player.PlayerId);
+                        Assassin.GetAbilityButtonText(__instance, player.PlayerId);
                         break;
                 }
 

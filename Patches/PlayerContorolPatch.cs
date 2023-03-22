@@ -147,16 +147,7 @@ class CheckMurderPatch
                     if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
                     return false;
                 case CustomRoles.Assassin:
-                    if (!Main.CheckShapeshift[killer.PlayerId] && !Main.isMarkAndKill[killer.PlayerId])
-                    { //Assassinが変身時以外にキルしたら
-                        Main.isMarked = true;
-                        killer.SetKillCooldown();
-                        Main.MarkedPlayers[killer.PlayerId] = target;
-                        Main.AssassinTimer.Add(killer.PlayerId, 0f);
-                        Main.isMarkAndKill[killer.PlayerId] = true;
-                        return false;
-                    }
-                    if (!Main.CheckShapeshift[killer.PlayerId]) return false;
+                    if (!Assassin.OnCheckMurder(killer, target)) return false;
                     break;
                 case CustomRoles.Witch:
                     if (!Witch.OnCheckMurder(killer, target)) return false;
@@ -672,28 +663,7 @@ class ShapeshiftPatch
                 }
                 break;
             case CustomRoles.Assassin:
-                if (Main.MarkedPlayers[shapeshifter.PlayerId] != null)//确认被标记的人
-                {
-                    if (shapeshifting && !Pelican.IsEaten(shapeshifter.PlayerId))//解除变形时不执行操作
-                    {
-                        PlayerControl targeta = Main.MarkedPlayers[shapeshifter.PlayerId];
-                        new LateTask(() =>
-                        {
-                            if (!GameStates.IsMeeting && targeta.IsAlive() && !Pelican.IsEaten(targeta.PlayerId))
-                            {
-                                if (Gamer.CheckMurder(shapeshifter, targeta))
-                                {
-                                    Logger.Info($"{targeta.GetNameWithRole()} was killed", "Assassin");
-                                    targeta.SetRealKiller(shapeshifter);
-                                    shapeshifter.RpcMurderPlayer(targeta);//殺す
-                                }
-                            }
-                            if (GameStates.IsMeeting && shapeshifter.shapeshifting) shapeshifter.RpcRevertShapeshift(false);
-                        }, 1.3f, "Assassin Kill");
-                        Main.isMarkAndKill[shapeshifter.PlayerId] = false;
-                    }
-                    Main.MarkedPlayers[shapeshifter.PlayerId] = null;
-                }
+                Assassin.OnShapeshift(shapeshifter, shapeshifting);
                 break;
             case CustomRoles.ImperiusCurse:
                 if (shapeshifting)
@@ -1030,24 +1000,6 @@ class FixedUpdatePatch
                 else
                 {
                     Main.WarlockTimer.Remove(player.PlayerId);
-                }
-            }
-            if (GameStates.IsInTask && Main.AssassinTimer.ContainsKey(player.PlayerId))//処理を1秒遅らせる
-            {
-                if (player.IsAlive() && !Pelican.IsEaten(player.PlayerId))
-                {
-                    if (Main.AssassinTimer[player.PlayerId] >= 1f)
-                    {
-                        player.RpcResetAbilityCooldown();
-                        Main.isMarked = false;//変身クールを１秒に変更
-                        player.SyncSettings();
-                        Main.AssassinTimer.Remove(player.PlayerId);
-                    }
-                    else Main.AssassinTimer[player.PlayerId] = Main.AssassinTimer[player.PlayerId] + Time.fixedDeltaTime;//時間をカウント
-                }
-                else
-                {
-                    Main.AssassinTimer.Remove(player.PlayerId);
                 }
             }
             //ターゲットのリセット
