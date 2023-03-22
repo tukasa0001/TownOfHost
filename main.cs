@@ -134,10 +134,7 @@ public class Main : BasePlugin
     public static Dictionary<byte, long> MadGrenadierBlinding = new();
     public static Dictionary<byte, int> CursedWolfSpellCount = new();
     public static int AliveImpostorCount;
-    public static int SKMadmateNowCount;
     public static bool isCursed;
-    public static bool existAntiAdminer;
-    public static Dictionary<byte, float> SansKillCooldown = new();
     public static Dictionary<byte, bool> CheckShapeshift = new();
     public static Dictionary<byte, byte> ShapeshiftTarget = new();
     public static Dictionary<(byte, byte), string> targetArrows = new();

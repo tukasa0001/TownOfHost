@@ -185,6 +185,9 @@ class CheckMurderPatch
                 case CustomRoles.QuickShooter:
                     QuickShooter.QuickShooterKill(killer);
                     break;
+                case CustomRoles.Sans:
+                    Sans.OnCheckMurder(killer);
+                    break;
 
                 //==========中立阵营==========//
                 case CustomRoles.Arsonist:
@@ -200,7 +203,7 @@ class CheckMurderPatch
                     killer.SetKillCooldown(Options.RevolutionistDrawTime.GetFloat());
                     if (!Main.isDraw[(killer.PlayerId, target.PlayerId)] && !Main.RevolutionistTimer.ContainsKey(killer.PlayerId))
                     {
-                        Main.RevolutionistTimer.Add(killer.PlayerId, (target, 0f));
+                        Main.RevolutionistTimer.TryAdd(killer.PlayerId, (target, 0f));
                         Utils.NotifyRoles(SpecifySeer: __instance);
                         RPC.SetCurrentDrawTarget(killer.PlayerId, target.PlayerId);
                     }
@@ -488,15 +491,6 @@ class MurderPlayerPatch
         }
         if (target.Is(CustomRoles.CyberStar) && Main.CyberStarDead.Contains(target.PlayerId))
             Main.CyberStarDead.Add(target.PlayerId);
-        if (killer.Is(CustomRoles.Sans) && killer != target)
-        {
-            if (!Main.SansKillCooldown.ContainsKey(killer.PlayerId))
-                Main.SansKillCooldown.Add(killer.PlayerId, Options.SansDefaultKillCooldown.GetFloat());
-            Main.SansKillCooldown[killer.PlayerId] -= Options.SansReduceKillCooldown.GetFloat();
-            if (Main.SansKillCooldown[killer.PlayerId] < Options.SansMinKillCooldown.GetFloat())
-                Main.SansKillCooldown[killer.PlayerId] = Options.SansMinKillCooldown.GetFloat();
-            killer.SetKillCooldown();
-        }
         if (killer.Is(CustomRoles.BoobyTrap) && killer != target)
         {
             if (!Main.BoobyTrapBody.Contains(target.PlayerId)) Main.BoobyTrapBody.Add(target.PlayerId);
@@ -1032,7 +1026,7 @@ class FixedUpdatePatch
                 if (!player.IsAlive() || Pelican.IsEaten(player.PlayerId))
                 {
                     Main.ArsonistTimer.Remove(player.PlayerId);
-                    Utils.NotifyRoles(SpecifySeer: __instance);
+                    Utils.NotifyRoles(__instance);
                     RPC.ResetCurrentDousingTarget(player.PlayerId);
                 }
                 else
@@ -1049,7 +1043,7 @@ class FixedUpdatePatch
                         Main.ArsonistTimer.Remove(player.PlayerId);//塗が完了したのでDictionaryから削除
                         Main.isDoused[(player.PlayerId, ar_target.PlayerId)] = true;//塗り完了
                         player.RpcSetDousedPlayer(ar_target, true);
-                        Utils.NotifyRoles();//名前変更
+                        Utils.NotifyRoles(player);//名前変更
                         RPC.ResetCurrentDousingTarget(player.PlayerId);
                     }
                     else
@@ -1063,10 +1057,10 @@ class FixedUpdatePatch
                         else//それ以外は削除
                         {
                             Main.ArsonistTimer.Remove(player.PlayerId);
-                            Utils.NotifyRoles(SpecifySeer: __instance);
+                            Utils.NotifyRoles(player);
                             RPC.ResetCurrentDousingTarget(player.PlayerId);
 
-                            Logger.Info($"Canceled: {__instance.GetNameWithRole()}", "Arsonist");
+                            Logger.Info($"Canceled: {player.GetNameWithRole()}", "Arsonist");
                         }
                     }
                 }
@@ -1077,7 +1071,7 @@ class FixedUpdatePatch
                 if (!player.IsAlive() || Pelican.IsEaten(player.PlayerId))
                 {
                     Main.RevolutionistTimer.Remove(player.PlayerId);
-                    Utils.NotifyRoles(SpecifySeer: __instance);
+                    Utils.NotifyRoles(player);
                     RPC.ResetCurrentDrawTarget(player.PlayerId);
                 }
                 else
@@ -1094,7 +1088,7 @@ class FixedUpdatePatch
                         Main.RevolutionistTimer.Remove(player.PlayerId);//拉拢完成从字典中删除
                         Main.isDraw[(player.PlayerId, ar_target.PlayerId)] = true;//完成拉拢
                         player.RpcSetDrawPlayer(ar_target, true);
-                        Utils.NotifyRoles(SpecifySeer: __instance);
+                        Utils.NotifyRoles(player);
                         RPC.ResetCurrentDrawTarget(player.PlayerId);
                         if (IRandom.Instance.Next(1, 100) <= Options.RevolutionistKillProbability.GetInt())
                         {
@@ -1102,7 +1096,7 @@ class FixedUpdatePatch
                             player.RpcMurderPlayer(ar_target);
                             Main.PlayerStates[ar_target.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
                             Main.PlayerStates[ar_target.PlayerId].SetDead();
-                            Logger.Info($"Revolutionist: {__instance.GetNameWithRole()} killed {ar_target.GetNameWithRole()}", "Revolutionist");
+                            Logger.Info($"Revolutionist: {player.GetNameWithRole()} killed {ar_target.GetNameWithRole()}", "Revolutionist");
                         }
                     }
                     else
@@ -1116,7 +1110,7 @@ class FixedUpdatePatch
                         else//否则删除
                         {
                             Main.RevolutionistTimer.Remove(player.PlayerId);
-                            Utils.NotifyRoles(SpecifySeer: __instance);
+                            Utils.NotifyRoles(__instance);
                             RPC.ResetCurrentDrawTarget(player.PlayerId);
 
                             Logger.Info($"Canceled: {__instance.GetNameWithRole()}", "Revolutionist");
@@ -1155,12 +1149,12 @@ class FixedUpdatePatch
                     }
                     else
                     {
-                        Main.RevolutionistLastTime.Add(player.PlayerId, Main.RevolutionistStart[player.PlayerId]);
+                        Main.RevolutionistLastTime.TryAdd(player.PlayerId, Main.RevolutionistStart[player.PlayerId]);
                     }
                 }
                 else //如果不存在字典
                 {
-                    Main.RevolutionistStart.Add(player.PlayerId, Utils.GetTimeStamp(DateTime.Now));
+                    Main.RevolutionistStart.TryAdd(player.PlayerId, Utils.GetTimeStamp(DateTime.Now));
                 }
             }
 

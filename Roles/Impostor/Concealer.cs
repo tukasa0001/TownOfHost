@@ -16,7 +16,7 @@ public static class Concealer
         Options.SetupRoleOptions(Id, TabGroup.OtherRoles, CustomRoles.Concealer);
         SkillCooldown = FloatOptionItem.Create(Id + 10, "ConcealerSkillCooldown", new(1f, 180f, 1f), 35f, TabGroup.OtherRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Concealer])
             .SetValueFormat(OptionFormat.Seconds);
-        SkillDuration = FloatOptionItem.Create(Id + 12, "ConcealerSkillDuration", new(5f, 990f, 1f), 15f, TabGroup.OtherRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Concealer])
+        SkillDuration = FloatOptionItem.Create(Id + 12, "ConcealerSkillDuration", new(1f, 180f, 1f), 15f, TabGroup.OtherRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Concealer])
             .SetValueFormat(OptionFormat.Seconds);
     }
     public static void Init()

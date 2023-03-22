@@ -606,6 +606,9 @@ internal static class RPC
             case CustomRoles.Assassin:
                 Assassin.Add(targetId);
                 break;
+            case CustomRoles.Sans:
+                Sans.Add(targetId);
+                break;
         }
         HudManager.Instance.SetHudActive(true);
         if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();

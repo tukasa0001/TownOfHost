@@ -838,7 +838,7 @@ Error.MeetingException,错误: {0}\n请立刻按下 Shift+M+Enter 强制结束�
 Error.InvalidRoleAssignment,错误：在分配职业时发现职业无效的玩家 ({0}),Error: Invalid role found for a player during role assignment({0}),Ошибка: Во время назначения роли для игрока обнаружена недопустимая роль({0})
 Error.SpeedBoosterNullException,错误：增速者的增速目标为空,Error: The speed boost destination is null.\nPlease save the log and create a bug report ticket.,Ошибка: пункт назначения повышения скорости не указан. \nСохраните логи и создайте заявку на отчет об ошибке.
 Error.InvalidColor,警告：存在使用非法颜色的玩家，可能引起游戏错误,"Error: Only default colors are available","Ошибка: Нельзя использовать другие цвета, кроме цветов по умолчанию"
-Error.InvalidColorPreventStart,请等待其他玩家加载完毕后开始游戏（或存在非法颜色无法开始游戏）,"Other players are not allowed to use other colors, otherwise it will result in a serious error","Другим игрокам не разрешается использовать другие цвета, в противном случае это приведет к серьезной ошибке"
+Error.InvalidColorPreventStart,请等待其他玩家加载完毕后开始游戏\n（或存在非法颜色无法开始游戏）,"Other players are not allowed to use other colors, otherwise it will result in a serious error","Другим игрокам не разрешается использовать другие цвета, в противном случае это приведет к серьезной ошибке"
 ### ErrorText関連,
 ErrorLevel1,可能同时产生多个bug,Bugs may occur.,Могут возникнуть некоторые ошибки.
 ErrorLevel2,可能出现bug,This may be a bug.,Возможно вы столкнулись с ошибкой.

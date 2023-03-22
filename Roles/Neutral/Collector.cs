@@ -15,7 +15,7 @@ public static class Collector
     public static void SetupCustomOption()
     {
         Options.SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Collector);
-        CollectorCollectAmount = IntegerOptionItem.Create(Id + 13, "CollectorCollectAmount", new(1, 225, 1), 30, TabGroup.NeutralRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Collector])
+        CollectorCollectAmount = IntegerOptionItem.Create(Id + 13, "CollectorCollectAmount", new(1, 999, 1), 30, TabGroup.NeutralRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Collector])
             .SetValueFormat(OptionFormat.Votes);
     }
     public static void Init()
@@ -73,16 +73,12 @@ public static class Collector
             int CollectNum = CollectorCollectAmount.GetInt();
             if (VoteAmount == CollectNum) return true;
         }
-
         return false;
     }
     public static void CollectorVotes(PlayerControl target, PlayerVoteArea ps)//集票者投票给谁
     {
         if (CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.Collector))
-        {
-            if (!CollectorVoteFor.ContainsKey(target.PlayerId))
-                CollectorVoteFor.Add(target.PlayerId, ps.TargetPlayerId);
-        }
+            CollectorVoteFor.TryAdd(target.PlayerId, ps.TargetPlayerId);
     }
     public static void CollectAmount(Dictionary<byte, int> VotingData, MeetingHud __instance)//得到集票者收集到的票
     {
@@ -96,7 +92,7 @@ public static class Collector
                 if (CollectorVoteFor.ContainsKey(data.Key) && pc.PlayerId == CollectorVoteFor[data.Key] && pc.Is(CustomRoles.Collector))
                 {
                     VoteAmount = data.Value;
-                    if (!CollectVote.ContainsKey(pc.PlayerId)) CollectVote.TryAdd(pc.PlayerId, 0);
+                    CollectVote.TryAdd(pc.PlayerId, 0);
                     CollectVote[pc.PlayerId] = CollectVote[pc.PlayerId] + VoteAmount;
                     SendRPC(pc.PlayerId);
                 }

@@ -168,9 +168,6 @@ public static class Options
     public static OptionItem MNKillCooldown;
     public static OptionItem HackKillCooldown;
     public static OptionItem MafiaCanKillNum;
-    public static OptionItem SansDefaultKillCooldown;
-    public static OptionItem SansReduceKillCooldown;
-    public static OptionItem SansMinKillCooldown;
     public static OptionItem BomberRadius;
     public static OptionItem CleanerKillCooldown;
     public static OptionItem GuardSpellTimes;
@@ -481,12 +478,12 @@ public static class Options
         WarlockCanKillSelf = BooleanOptionItem.Create(901408, "WarlockCanKillSelf", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Warlock]);
         Assassin.SetupCustomOption();
         SetupRoleOptions(901585, TabGroup.ImpostorRoles, CustomRoles.Hacker);
-        HackKillCooldown = FloatOptionItem.Create(901587, "KillCooldown", new(5f, 990f, 2.5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
+        HackKillCooldown = FloatOptionItem.Create(901587, "KillCooldown", new(5f, 999f, 2.5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
             .SetValueFormat(OptionFormat.Seconds);
         HackUsedMaxTime = IntegerOptionItem.Create(901589, "HackUsedMaxTime", new(1, 15, 1), 3, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
             .SetValueFormat(OptionFormat.Times);
         SetupRoleOptions(905520, TabGroup.ImpostorRoles, CustomRoles.Scavenger);
-        ScavengerKillCooldown = FloatOptionItem.Create(905522, "KillCooldown", new(5f, 990f, 2.5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Scavenger])
+        ScavengerKillCooldown = FloatOptionItem.Create(905522, "KillCooldown", new(5f, 999f, 2.5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Scavenger])
             .SetValueFormat(OptionFormat.Seconds);
         SetupRoleOptions(901590, TabGroup.ImpostorRoles, CustomRoles.Miner);
         SetupRoleOptions(901595, TabGroup.ImpostorRoles, CustomRoles.Escapee);
@@ -501,28 +498,22 @@ public static class Options
         TimeThief.SetupCustomOption();
         EvilTracker.SetupCustomOption();
         AntiAdminer.SetupCustomOption();
-        SetupRoleOptions(902055, TabGroup.ImpostorRoles, CustomRoles.Sans);
-        SansDefaultKillCooldown = FloatOptionItem.Create(902057, "SansDefaultKillCooldown", new(2.5f, 900f, 2.5f), 65f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Sans])
-            .SetValueFormat(OptionFormat.Seconds);
-        SansReduceKillCooldown = FloatOptionItem.Create(902059, "SansReduceKillCooldown", new(0f, 120f, 2.5f), 15f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Sans])
-            .SetValueFormat(OptionFormat.Seconds);
-        SansMinKillCooldown = FloatOptionItem.Create(902061, "SansMinKillCooldown", new(0f, 900f, 2.5f), 2.5f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Sans])
-            .SetValueFormat(OptionFormat.Seconds);
+        Sans.SetupCustomOption();
         SetupRoleOptions(902135, TabGroup.ImpostorRoles, CustomRoles.Bomber);
         BomberRadius = FloatOptionItem.Create(902137, "BomberRadius", new(0.5f, 5f, 0.5f), 2f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Bomber])
             .SetValueFormat(OptionFormat.Multiplier);
         Gangster.SetupCustomOption();
         SetupRoleOptions(902233, TabGroup.ImpostorRoles, CustomRoles.Cleaner);
-        CleanerKillCooldown = FloatOptionItem.Create(902237, "KillCooldown", new(5f, 990f, 2.5f), 30f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Cleaner])
+        CleanerKillCooldown = FloatOptionItem.Create(902237, "KillCooldown", new(5f, 999f, 2.5f), 30f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Cleaner])
             .SetValueFormat(OptionFormat.Seconds);
         Greedier.SetupCustomOption(); //TOH_Y
         SetupRoleOptions(3200, TabGroup.ImpostorRoles, CustomRoles.CursedWolf); //TOH_Y
         GuardSpellTimes = IntegerOptionItem.Create(3210, "GuardSpellTimes", new(1, 15, 1), 3, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.CursedWolf])
             .SetValueFormat(OptionFormat.Times);
         SetupRoleOptions(902422, TabGroup.ImpostorRoles, CustomRoles.ImperiusCurse);
-        ShapeImperiusCurseShapeshiftDuration = FloatOptionItem.Create(902433, "ShapeshiftDuration", new(2.5f, 990f, 2.5f), 300, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.ImperiusCurse])
+        ShapeImperiusCurseShapeshiftDuration = FloatOptionItem.Create(902433, "ShapeshiftDuration", new(2.5f, 999f, 2.5f), 300, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.ImperiusCurse])
             .SetValueFormat(OptionFormat.Seconds);
-        ImperiusCurseShapeshiftCooldown = FloatOptionItem.Create(902435, "ShapeshiftCooldown", new(1f, 990f, 1f), 15f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.ImperiusCurse])
+        ImperiusCurseShapeshiftCooldown = FloatOptionItem.Create(902435, "ShapeshiftCooldown", new(1f, 999f, 1f), 15f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.ImperiusCurse])
             .SetValueFormat(OptionFormat.Seconds);
         QuickShooter.SetupCustomOption();
 
@@ -584,7 +575,7 @@ public static class Options
         SetupRoleOptions(8021315, TabGroup.CrewmateRoles, CustomRoles.Veteran);
         VeteranSkillCooldown = FloatOptionItem.Create(8021325, "VeteranSkillCooldown", new(1f, 180f, 1f), 20f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Veteran])
             .SetValueFormat(OptionFormat.Seconds);
-        VeteranSkillDuration = FloatOptionItem.Create(8021327, "VeteranSkillDuration", new(5f, 990f, 1f), 20f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Veteran])
+        VeteranSkillDuration = FloatOptionItem.Create(8021327, "VeteranSkillDuration", new(1f, 999f, 1f), 20f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Veteran])
             .SetValueFormat(OptionFormat.Seconds);
         SetupRoleOptions(8021515, TabGroup.CrewmateRoles, CustomRoles.Bodyguard);
         BodyguardProtectRadius = FloatOptionItem.Create(8021525, "BodyguardProtectRadius", new(0.5f, 5f, 0.5f), 1.5f, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Bodyguard])
@@ -592,7 +583,7 @@ public static class Options
         SetupRoleOptions(8021615, TabGroup.CrewmateRoles, CustomRoles.Grenadier);
         GrenadierSkillCooldown = FloatOptionItem.Create(8021625, "GrenadierSkillCooldown", new(1f, 180f, 1f), 25f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Grenadier])
             .SetValueFormat(OptionFormat.Seconds);
-        GrenadierSkillDuration = FloatOptionItem.Create(8021627, "GrenadierSkillDuration", new(5f, 990f, 1f), 10f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Grenadier])
+        GrenadierSkillDuration = FloatOptionItem.Create(8021627, "GrenadierSkillDuration", new(1f, 999f, 1f), 10f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Grenadier])
             .SetValueFormat(OptionFormat.Seconds);
         GrenadierCauseVision = FloatOptionItem.Create(8021637, "GrenadierCauseVision", new(0f, 5f, 0.05f), 0.3f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Grenadier])
             .SetValueFormat(OptionFormat.Multiplier);

@@ -66,7 +66,6 @@ internal class ChangeRoleSettings
 
             Main.CapitalismAddTask = new();
             Main.CapitalismAssignTask = new();
-            Main.SansKillCooldown = new();
             Main.CheckShapeshift = new();
             Main.ShapeshiftTarget = new();
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
@@ -183,6 +182,7 @@ internal class ChangeRoleSettings
             Divinator.Init();
             Eraser.Init();
             Assassin.Init();
+            Sans.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
@@ -690,6 +690,9 @@ internal class SelectRolesPatch
                         break;
                     case CustomRoles.Assassin:
                         Assassin.Add(pc.PlayerId);
+                        break;
+                    case CustomRoles.Sans:
+                        Sans.Add(pc.PlayerId);
                         break;
                 }
                 foreach (var subRole in pc.GetCustomSubRoles())

@@ -17,7 +17,7 @@ internal static class Eraser
     public static void SetupCustomOption()
     {
         Options.SetupRoleOptions(Id, TabGroup.OtherRoles, CustomRoles.Eraser);
-        EraseLimitOpt = IntegerOptionItem.Create(Id + 10, "EraseLimit", new(1, 990, 1), 2, TabGroup.OtherRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Eraser])
+        EraseLimitOpt = IntegerOptionItem.Create(Id + 10, "EraseLimit", new(1, 15, 1), 2, TabGroup.OtherRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Eraser])
             .SetValueFormat(OptionFormat.Times);
     }
     public static void Init()

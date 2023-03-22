@@ -540,6 +540,9 @@ static class ExtendedPlayerControl
             case CustomRoles.Assassin:
                 Assassin.SetKillCooldown(player.PlayerId);
                 break;
+            case CustomRoles.Sans:
+                Sans.SetKillCooldown(player.PlayerId);
+                break;
         }
         if (player.PlayerId == LastImpostor.currentId)
             LastImpostor.SetKillCooldown();

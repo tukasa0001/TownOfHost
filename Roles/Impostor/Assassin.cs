@@ -19,9 +19,9 @@ internal static class Assassin
     public static void SetupCustomOption()
     {
         SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Assassin);
-        MarkCooldown = FloatOptionItem.Create(Id + 10, "AssassinMarkCooldown", new(2.5f, 180f, 2.5f), 20f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Assassin])
+        MarkCooldown = FloatOptionItem.Create(Id + 10, "AssassinMarkCooldown", new(0f, 180f, 2.5f), 20f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Assassin])
             .SetValueFormat(OptionFormat.Seconds);
-        AssassinateCooldown = FloatOptionItem.Create(Id + 11, "AssassinAssassinateCooldown", new(2.5f, 180f, 2.5f), 10f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Assassin])
+        AssassinateCooldown = FloatOptionItem.Create(Id + 11, "AssassinAssassinateCooldown", new(0f, 180f, 2.5f), 10f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Assassin])
             .SetValueFormat(OptionFormat.Seconds);
         CanKillAfterAssassinate = BooleanOptionItem.Create(Id + 12, "AssassinCanKillAfterAssassinate", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Assassin]);
     }
