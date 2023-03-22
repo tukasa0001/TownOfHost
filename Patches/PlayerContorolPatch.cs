@@ -111,14 +111,14 @@ class CheckMurderPatch
         if (target.Is(CustomRoles.Glitch))
             return false;
 
-        //キル時の特殊判定
+        //判定凶手技能
         if (killer.PlayerId != target.PlayerId)
         {
-            //自殺でない場合のみ役職チェック
+            //非自杀场景下才会触发
             switch (killer.GetCustomRole())
             {
-                //==========インポスター役職==========//
-                case CustomRoles.BountyHunter: //キルが発生する前にここの処理をしないとバグる
+                //==========内鬼阵营==========//
+                case CustomRoles.BountyHunter: //必须在击杀发生前处理
                     BountyHunter.OnCheckMurder(killer, target);
                     break;
                 case CustomRoles.SerialKiller:
@@ -191,8 +191,11 @@ class CheckMurderPatch
                 case CustomRoles.Greedier:
                     Greedier.OnCheckMurder(killer);
                     break;
+                case CustomRoles.QuickShooter:
+                    QuickShooter.QuickShooterKill(killer);
+                    break;
 
-                //==========第三陣営役職==========//
+                //==========中立阵营==========//
                 case CustomRoles.Arsonist:
                     killer.SetKillCooldown(Options.ArsonistDouseTime.GetFloat());
                     if (!Main.isDoused[(killer.PlayerId, target.PlayerId)] && !Main.ArsonistTimer.ContainsKey(killer.PlayerId))
@@ -246,7 +249,7 @@ class CheckMurderPatch
                     Main.Provoked.TryAdd(killer.PlayerId, target.PlayerId);
                     break;
 
-                //==========クルー役職==========//
+                //==========船员职业==========//
                 case CustomRoles.Sheriff:
                     if (!Sheriff.OnCheckMurder(killer, target))
                         return false;
@@ -262,9 +265,6 @@ class CheckMurderPatch
                     if (Counterfeiter.CanBeClient(target) && Counterfeiter.CanSeel(killer.PlayerId))
                         Counterfeiter.SeelToClient(killer, target);
                     return false;
-                case CustomRoles.QuickShooter:
-                    QuickShooter.QuickShooterKill(killer);
-                    break;
             }
         }
 
