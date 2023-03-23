@@ -159,7 +159,7 @@ class BeginCrewmatePatch
             case CustomRoles.Sheriff:
             case CustomRoles.SwordsMan:
             case CustomRoles.Medicaler:
-                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound( role == CustomRoles.Medicaler ? RoleTypes.Scientist  : RoleTypes.Crewmate);
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(role == CustomRoles.Medicaler ? RoleTypes.Scientist : RoleTypes.Crewmate);
                 __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
                 __instance.ImpostorText.gameObject.SetActive(true);
                 var numImpostors = Main.NormalOptions.NumImpostors;

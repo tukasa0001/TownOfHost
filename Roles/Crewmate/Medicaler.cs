@@ -113,11 +113,11 @@ public static class Medicaler
         return true;
     }
     public static string TargetMark(PlayerControl seer, PlayerControl target)
-        =>((
+        => ((
             seer.Is(CustomRoles.Medicaler) ||
             (seer.PlayerId == target.PlayerId && TargetCanSeeProtect.GetBool())
             ) && InProtect(target.PlayerId)) ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Medicaler), "●") : "";
-    
+
     public static string GetSheildMark(PlayerControl seer)
         => ((
             seer.Is(CustomRoles.Medicaler) ||
