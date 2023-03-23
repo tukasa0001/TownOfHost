@@ -124,35 +124,31 @@ class BeginCrewmatePatch
                     _ => GetString("NeutralInfo"),
                 };
                 __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                break;
+            case CustomRoleTypes.Crewmate:
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
+                break;
+            case CustomRoleTypes.Impostor:
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                 break;
         }
         switch (role)
         {
             case CustomRoles.Terrorist:
-            case CustomRoles.Provocateur:
                 var sound = ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault()
                 .MinigamePrefab.OpenSound;
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
                 break;
 
-            case CustomRoles.Executioner:
-            case CustomRoles.Arsonist:
-                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
-                break;
-
-            case CustomRoles.Vampire:
             case CustomRoles.Opportunist:
-            case CustomRoles.DarkHide:
-            case CustomRoles.Innocent:
-            case CustomRoles.Mario:
-            case CustomRoles.God:
-            case CustomRoles.Workaholic:
-            case CustomRoles.Collector:
-            case CustomRoles.Jester:
-                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+            case CustomRoles.FFF:
+            case CustomRoles.Revolutionist:
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                 break;
 
             case CustomRoles.SabotageMaster:
+            case CustomRoles.Provocateur:
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = ShipStatus.Instance.SabotageSound;
                 break;
 
@@ -169,13 +165,6 @@ class BeginCrewmatePatch
                 __instance.ImpostorText.text = text.Replace("[FF1919FF]", "<color=#FF1919FF>").Replace("[]", "</color>");
                 break;
 
-            case CustomRoles.Revolutionist:
-            case CustomRoles.Mayor:
-            case CustomRoles.Paranoia:
-            case CustomRoles.Veteran:
-                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
-                break;
-
             case CustomRoles.Doctor:
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Scientist);
                 break;
@@ -187,7 +176,6 @@ class BeginCrewmatePatch
                 __instance.ImpostorText.gameObject.SetActive(false);
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = DestroyableSingleton<HudManager>.Instance.TaskCompleteSound;
                 break;
-
         }
 
         if (PlayerControl.LocalPlayer.Is(CustomRoles.Madmate))
