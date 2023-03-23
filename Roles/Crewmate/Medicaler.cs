@@ -1,5 +1,4 @@
-﻿using AssemblyUnhollower.Extensions;
-using Hazel;
+﻿using Hazel;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,7 +34,7 @@ public static class Medicaler
         playerIdList.Add(playerId);
         ProtectLimit.TryAdd(playerId, SkillLimitOpt.GetInt());
 
-        Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : 剩余{ProtectLimit[playerId]}个护盾", "medicaler");
+        Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : 剩余{ProtectLimit[playerId]}个护盾", "Medicaler");
 
         if (!AmongUsClient.Instance.AmHost) return;
         if (!Main.ResetCamPlayerList.Contains(playerId))
@@ -95,7 +94,7 @@ public static class Medicaler
         Utils.NotifyRoles(killer);
         Utils.NotifyRoles(target);
 
-        Logger.Info($"{killer.GetNameWithRole()} : 剩余{ProtectLimit[killer.PlayerId]}个护盾", "medicaler");
+        Logger.Info($"{killer.GetNameWithRole()} : 剩余{ProtectLimit[killer.PlayerId]}个护盾", "Medicaler");
     }
     public static bool OnCheckMurder(PlayerControl killer, PlayerControl target)
     {
@@ -110,15 +109,18 @@ public static class Medicaler
         killer.SetKillCooldown();
         Utils.NotifyRoles();
 
-        Logger.Info($"{target.GetNameWithRole()} : 来自医生的盾破碎", "medicaler");
+        Logger.Info($"{target.GetNameWithRole()} : 来自医生的盾破碎", "Medicaler");
         return true;
     }
     public static string TargetMark(PlayerControl seer, PlayerControl target)
-    {
-        return !seer.Is(CustomRoles.Medicaler) && seer.PlayerId != target.PlayerId
-            ? ""
-            : InProtect(target.PlayerId) ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Medicaler), "●") : "";
-    }
+        =>((
+            seer.Is(CustomRoles.Medicaler) ||
+            (seer.PlayerId == target.PlayerId && TargetCanSeeProtect.GetBool())
+            ) && InProtect(target.PlayerId)) ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Medicaler), "●") : "";
+    
     public static string GetSheildMark(PlayerControl seer)
-        => InProtect(seer.PlayerId) && TargetCanSeeProtect.GetBool() ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Medicaler), "●") : "";
+        => ((
+            seer.Is(CustomRoles.Medicaler) ||
+            TargetCanSeeProtect.GetBool()
+            ) && InProtect(seer.PlayerId)) ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Medicaler), "●") : "";
 }
