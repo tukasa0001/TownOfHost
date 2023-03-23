@@ -18,7 +18,7 @@ public static class Sheriff
     public static OptionItem CanKillNeutrals;
     public static OptionItem CanKillMadmate;
     public static Dictionary<CustomRoles, OptionItem> KillTargetOptions = new();
-    public static Dictionary<byte, float> ShotLimit = new();
+    public static Dictionary<byte, int> ShotLimit = new();
     public static Dictionary<byte, float> CurrentKillCooldown = new();
     public static readonly string[] KillOption =
     {
@@ -67,7 +67,7 @@ public static class Sheriff
         if (!Main.ResetCamPlayerList.Contains(playerId))
             Main.ResetCamPlayerList.Add(playerId);
 
-        ShotLimit.TryAdd(playerId, ShotLimitOpt.GetFloat());
+        ShotLimit.TryAdd(playerId, ShotLimitOpt.GetInt());
         Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : 残り{ShotLimit[playerId]}発", "Sheriff");
     }
     public static bool IsEnable => playerIdList.Count > 0;
@@ -81,11 +81,11 @@ public static class Sheriff
     public static void ReceiveRPC(MessageReader reader)
     {
         byte SheriffId = reader.ReadByte();
-        float Limit = reader.ReadSingle();
+        int Limit = reader.ReadInt32();
         if (ShotLimit.ContainsKey(SheriffId))
             ShotLimit[SheriffId] = Limit;
         else
-            ShotLimit.Add(SheriffId, ShotLimitOpt.GetFloat());
+            ShotLimit.Add(SheriffId, ShotLimitOpt.GetInt());
     }
     public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CanUseKillButton(id) ? CurrentKillCooldown[id] : 0f;
     public static bool CanUseKillButton(byte playerId)
