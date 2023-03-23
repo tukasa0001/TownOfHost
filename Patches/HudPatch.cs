@@ -150,6 +150,9 @@ class HudManagerPatch
                         Assassin.SetKillButtonText(player.PlayerId);
                         Assassin.GetAbilityButtonText(__instance, player.PlayerId);
                         break;
+                    case CustomRoles.Hacker:
+                        Hacker.GetAbilityButtonText(__instance, player.PlayerId);
+                        break;
                 }
 
                 //バウンティハンターのターゲットテキスト

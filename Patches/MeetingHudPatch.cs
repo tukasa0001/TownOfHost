@@ -537,7 +537,8 @@ class MeetingHudStartPatch
         BallLightning.OnMeetingStart();
         QuickShooter.OnMeetingStart();
         Eraser.OnMeetingStart();
-        
+        Hacker.OnMeetingStart();
+
         NotifyRoleSkillOnMeetingStart();
     }
     public static void Postfix(MeetingHud __instance)

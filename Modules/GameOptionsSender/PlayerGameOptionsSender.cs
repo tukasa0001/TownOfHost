@@ -183,6 +183,9 @@ public class PlayerGameOptionsSender : GameOptionsSender
             case CustomRoles.Assassin:
                 Assassin.ApplyGameOptions();
                 break;
+            case CustomRoles.Hacker:
+                Hacker.ApplyGameOptions();
+                break;
         }
 
         // 为迷惑者的凶手

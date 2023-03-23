@@ -63,7 +63,7 @@ enum CustomRPC
     SetMarkedPlayer,
     SetConcealerTimer,
     SetMedicalerProtectList,
-
+    SetHackerHackLimit,
 }
 public enum Sounds
 {
@@ -387,6 +387,9 @@ internal class RPCHandlerPatch
             case CustomRPC.SetMedicalerProtectList:
                 Medicaler.ReceiveRPCForProtectList(reader);
                 break;
+            case CustomRPC.SetHackerHackLimit:
+                Hacker.ReceiveRPC(reader);
+                break;
         }
     }
 }
@@ -616,6 +619,9 @@ internal static class RPC
                 break;
             case CustomRoles.Sans:
                 Sans.Add(targetId);
+                break;
+            case CustomRoles.Hacker:
+                Hacker.Add(targetId);
                 break;
         }
         HudManager.Instance.SetHudActive(true);

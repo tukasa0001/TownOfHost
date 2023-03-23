@@ -431,39 +431,15 @@ class MurderPlayerPatch
         if (Main.FirstDied == byte.MaxValue)
             Main.FirstDied = target.PlayerId;
 
-        //骇客击杀
-        bool hackKilled = false;
-        if (killer.GetCustomRole() == CustomRoles.Hacker && Main.HackerUsedCount.TryGetValue(killer.PlayerId, out var count) && count < Options.HackUsedMaxTime.GetInt())
-        {
-            hackKilled = true;
-            Main.HackerUsedCount[killer.PlayerId] += 1;
-            List<PlayerControl> playerList = new();
-            foreach (PlayerControl pc in Main.AllAlivePlayerControls)
-                if (pc.PlayerId != killer.PlayerId && pc.GetCustomRole() is not CustomRoles.Needy and not CustomRoles.GM)
-                    playerList.Add(pc);
-            if (playerList.Count < 1)
-            {
-                Logger.Info(target?.Data?.PlayerName + "被骇客击杀，但无法找到骇入目标", "MurderPlayer");
-                new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Hacker Self Report");
-            }
-            else
-            {
-                var rd = IRandom.Instance;
-                int hackinPlayer = rd.Next(0, playerList.Count);
-                if (playerList[hackinPlayer] == null) hackinPlayer = 0;
-                Logger.Info(target?.Data?.PlayerName + "被骇客击杀，随机报告者：" + playerList[hackinPlayer]?.Data?.PlayerName, "MurderPlayer");
-                new LateTask(() => playerList[hackinPlayer].CmdReportDeadBody(target.Data), 0.15f, "Hacker Hackin Report");
-            }
-        }
-
         //When Bait is killed
-        if (target.Is(CustomRoles.Bait) && killer.PlayerId != target.PlayerId && !hackKilled)
+        if (target.Is(CustomRoles.Bait) && killer.PlayerId != target.PlayerId)
         {
             if (target.Is(CustomRoles.Madmate)) //背叛诱饵
             {
                 List<PlayerControl> playerList = new();
                 foreach (PlayerControl pc in Main.AllAlivePlayerControls)
-                    if (!Pelican.IsEaten(pc.PlayerId) && !(pc.GetCustomRole() is CustomRoles.Needy or CustomRoles.GM) && pc.PlayerId != target.PlayerId) playerList.Add(pc);
+                    if (!(pc.GetCustomRole() is CustomRoles.Needy or CustomRoles.GM) && pc.PlayerId != target.PlayerId)
+                        playerList.Add(pc);
                 if (playerList.Count < 1)
                 {
                     Logger.Info(target?.Data?.PlayerName + "是背叛诱饵，但找不到替罪羊", "MurderPlayer");
@@ -534,6 +510,7 @@ class MurderPlayerPatch
                 AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
             }
         }
+        Hacker.AddDeadBody(target);
 
         FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
@@ -689,6 +666,9 @@ class ShapeshiftPatch
                 break;
             case CustomRoles.Concealer:
                 Concealer.OnShapeshift(shapeshifter, shapeshifting);
+                break;
+            case CustomRoles.Hacker:
+                Hacker.OnShapeshift(shapeshifter, shapeshifting, target);
                 break;
         }
 

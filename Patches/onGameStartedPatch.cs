@@ -50,7 +50,6 @@ internal class ChangeRoleSettings
             Main.isCursed = false;
             Main.PuppeteerList = new Dictionary<byte, byte>();
             Main.DetectiveNotify = new Dictionary<byte, string>();
-            Main.HackerUsedCount = new Dictionary<byte, int>();
             Main.CyberStarDead = new List<byte>();
             Main.BoobyTrapBody = new List<byte>();
             Main.KillerOfBoobyTrapBody = new Dictionary<byte, byte>();
@@ -183,6 +182,7 @@ internal class ChangeRoleSettings
             Eraser.Init();
             Assassin.Init();
             Sans.Init();
+            Hacker.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
@@ -599,9 +599,6 @@ internal class SelectRolesPatch
                     case CustomRoles.SwordsMan:
                         SwordsMan.Add(pc.PlayerId);
                         break;
-                    case CustomRoles.Hacker:
-                        Main.HackerUsedCount[pc.PlayerId] = 0;
-                        break;
                     case CustomRoles.Arsonist:
                         foreach (var ar in Main.AllPlayerControls)
                             Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
@@ -690,6 +687,9 @@ internal class SelectRolesPatch
                         break;
                     case CustomRoles.Sans:
                         Sans.Add(pc.PlayerId);
+                        break;
+                    case CustomRoles.Hacker:
+                        Hacker.Add(pc.PlayerId);
                         break;
                 }
                 foreach (var subRole in pc.GetCustomSubRoles())

@@ -488,9 +488,6 @@ static class ExtendedPlayerControl
             case CustomRoles.SwordsMan:
                 SwordsMan.SetKillCooldown(player.PlayerId);
                 break;
-            case CustomRoles.Hacker:
-                Main.AllPlayerKillCooldown[player.PlayerId] = Options.HackKillCooldown.GetFloat();
-                break;
             case CustomRoles.Zombie:
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.ZombieKillCooldown.GetFloat();
                 Main.AllPlayerSpeed[player.PlayerId] -= Options.ZombieSpeedReduce.GetFloat();
@@ -542,6 +539,9 @@ static class ExtendedPlayerControl
                 break;
             case CustomRoles.Sans:
                 Sans.SetKillCooldown(player.PlayerId);
+                break;
+            case CustomRoles.Hacker:
+                Hacker.SetKillCooldown(player.PlayerId);
                 break;
         }
         if (player.PlayerId == LastImpostor.currentId)

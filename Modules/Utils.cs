@@ -460,6 +460,9 @@ public static class Utils
             case CustomRoles.Eraser:
                 ProgressText.Append(Eraser.GetProgressText(playerId));
                 break;
+            case CustomRoles.Hacker:
+                ProgressText.Append(Hacker.GetHackLimit(playerId));
+                break;
             default:
                 //タスクテキスト
                 var taskState = Main.PlayerStates?[playerId].GetTaskState();

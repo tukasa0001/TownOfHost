@@ -166,9 +166,7 @@ public static class Options
     public static OptionItem ImpKnowCyberStarDead;
     public static OptionItem NeutralKnowCyberStarDead;
     public static OptionItem EveryOneKnowSuperStar;
-    public static OptionItem HackUsedMaxTime;
     public static OptionItem MNKillCooldown;
-    public static OptionItem HackKillCooldown;
     public static OptionItem MafiaCanKillNum;
     public static OptionItem BomberRadius;
     public static OptionItem CleanerKillCooldown;
@@ -481,11 +479,7 @@ public static class Options
         WarlockCanKillAllies = BooleanOptionItem.Create(901406, "WarlockCanKillAllies", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Warlock]);
         WarlockCanKillSelf = BooleanOptionItem.Create(901408, "WarlockCanKillSelf", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Warlock]);
         Assassin.SetupCustomOption();
-        SetupRoleOptions(901585, TabGroup.ImpostorRoles, CustomRoles.Hacker);
-        HackKillCooldown = FloatOptionItem.Create(901587, "KillCooldown", new(5f, 999f, 2.5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
-            .SetValueFormat(OptionFormat.Seconds);
-        HackUsedMaxTime = IntegerOptionItem.Create(901589, "HackUsedMaxTime", new(1, 15, 1), 3, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Hacker])
-            .SetValueFormat(OptionFormat.Times);
+        Hacker.SetupCustomOption();
         SetupRoleOptions(905520, TabGroup.ImpostorRoles, CustomRoles.Scavenger);
         ScavengerKillCooldown = FloatOptionItem.Create(905522, "KillCooldown", new(5f, 999f, 2.5f), 40f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Scavenger])
             .SetValueFormat(OptionFormat.Seconds);

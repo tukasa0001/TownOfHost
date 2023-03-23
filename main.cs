@@ -87,7 +87,6 @@ public class Main : BasePlugin
     public static Dictionary<byte, float> AllPlayerKillCooldown = new();
     public static Dictionary<byte, Vent> LastEnteredVent = new();
     public static Dictionary<byte, Vector2> LastEnteredVentLocation = new();
-    public static Dictionary<byte, int> HackerUsedCount = new();
     public static List<byte> CyberStarDead = new();
     public static List<byte> BoobyTrapBody = new();
     public static Dictionary<byte, byte> KillerOfBoobyTrapBody = new();
@@ -221,7 +220,6 @@ public class Main : BasePlugin
         RevolutionistLastTime = new Dictionary<byte, long>();
         RevolutionistCountdown = new Dictionary<byte, int>();
         MayorUsedButtonCount = new Dictionary<byte, int>();
-        HackerUsedCount = new Dictionary<byte, int>();
         ParaUsedButtonCount = new Dictionary<byte, int>();
         VeteranInProtect = new Dictionary<byte, long>();
         GrenadierBlinding = new Dictionary<byte, long>();
