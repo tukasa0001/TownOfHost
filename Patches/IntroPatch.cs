@@ -158,6 +158,7 @@ class BeginCrewmatePatch
 
             case CustomRoles.Sheriff:
             case CustomRoles.SwordsMan:
+            case CustomRoles.Medicaler:
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                 __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
                 __instance.ImpostorText.gameObject.SetActive(true);
