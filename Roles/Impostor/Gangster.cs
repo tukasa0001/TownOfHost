@@ -11,7 +11,7 @@ public static class Gangster
     private static List<byte> playerIdList = new();
     private static OptionItem RecruitLimitOpt;
     public static OptionItem KillCooldown;
-    public static Dictionary<byte, float> RecruitLimit = new();
+    public static Dictionary<byte, int> RecruitLimit = new();
     public static void SetupCustomOption()
     {
         Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Gangster);
