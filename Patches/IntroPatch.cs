@@ -159,7 +159,7 @@ class BeginCrewmatePatch
             case CustomRoles.Sheriff:
             case CustomRoles.SwordsMan:
             case CustomRoles.Medicaler:
-                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound( role == CustomRoles.Medicaler ? RoleTypes.Scientist  : RoleTypes.Crewmate);
                 __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
                 __instance.ImpostorText.gameObject.SetActive(true);
                 var numImpostors = Main.NormalOptions.NumImpostors;
@@ -177,7 +177,6 @@ class BeginCrewmatePatch
                 break;
 
             case CustomRoles.Doctor:
-            case CustomRoles.Medicaler:
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Scientist);
                 break;
 
@@ -245,7 +244,8 @@ class BeginImpostorPatch
 {
     public static bool Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
     {
-        if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff) || PlayerControl.LocalPlayer.Is(CustomRoles.SwordsMan))
+        var role = PlayerControl.LocalPlayer.GetCustomRole();
+        if (role is CustomRoles.Sheriff or CustomRoles.SwordsMan or CustomRoles.Medicaler)
         {
             //シェリフの場合はキャンセルしてBeginCrewmateに繋ぐ
             yourTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
