@@ -62,6 +62,7 @@ enum CustomRPC
     Guess,
     SetMarkedPlayer,
     SetConcealerTimer,
+    SetMedicalerProtectList,
 
 }
 public enum Sounds
@@ -382,6 +383,9 @@ internal class RPCHandlerPatch
                 break;
             case CustomRPC.SetConcealerTimer:
                 Concealer.ReceiveRPC(reader);
+                break;
+            case CustomRPC.SetMedicalerProtectList:
+                Medicaler.ReceiveRPCForProtectList(reader);
                 break;
         }
     }

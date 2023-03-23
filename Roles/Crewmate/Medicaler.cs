@@ -1,4 +1,5 @@
-﻿using Hazel;
+﻿using AssemblyUnhollower.Extensions;
+using Hazel;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -57,6 +58,21 @@ public static class Medicaler
         else
             ProtectLimit.Add(PlayerId, SkillLimitOpt.GetInt());
     }
+    private static void SendRPCForProtectList()
+    {
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetMedicalerProtectList, SendOption.Reliable, -1);
+        writer.Write(ProtectList.Count);
+        for (int i = 0; i < ProtectList.Count; i++)
+            writer.Write(ProtectList[i]);
+        AmongUsClient.Instance.FinishRpcImmediately(writer);
+    }
+    public static void ReceiveRPCForProtectList(MessageReader reader)
+    {
+        int count = reader.ReadInt32();
+        ProtectList = new();
+        for (int i = 0; i < ProtectList.Count; i++)
+            ProtectList.Add(reader.ReadByte());
+    }
     public static bool CanUseKillButton(byte playerId)
         => !Main.PlayerStates[playerId].IsDead
         && (ProtectLimit.TryGetValue(playerId, out var x) ? x : 1) >= 1;
@@ -72,6 +88,7 @@ public static class Medicaler
         ProtectLimit[killer.PlayerId]--;
         SendRPC(killer.PlayerId);
         ProtectList.Add(target.PlayerId);
+        SendRPCForProtectList();
         killer.RpcGuardAndKill(target);
         killer.SetKillCooldown();
 
@@ -86,6 +103,7 @@ public static class Medicaler
         if (!ProtectList.Contains(target.PlayerId)) return false;
 
         ProtectList.Remove(target.PlayerId);
+        SendRPCForProtectList();
         killer.RpcGuardAndKill(target);
         if (TargetCanSeeProtect.GetBool())
             target.RpcGuardAndKill(target);
