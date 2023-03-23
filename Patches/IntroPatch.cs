@@ -52,10 +52,7 @@ class CoBeginPatch
         logger.Info("------------职业分配------------");
         foreach (var pc in Main.AllPlayerControls)
         {
-            if (DebugModeManager.AmDebugger)
-            {
-                logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc?.Data?.PlayerName?.PadRightV2(20)}:{pc.GetAllRoleName().RemoveHtmlTags()}");
-            }
+            logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc?.Data?.PlayerName?.PadRightV2(20)}:{pc.GetAllRoleName().RemoveHtmlTags()}");
         }
         logger.Info("------------运行环境------------");
         foreach (var pc in Main.AllPlayerControls)
