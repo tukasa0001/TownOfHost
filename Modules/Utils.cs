@@ -342,6 +342,7 @@ public static class Utils
             case CustomRoles.Collector:
             case CustomRoles.ImperiusCurse:
             case CustomRoles.Provocateur:
+            case CustomRoles.Medicaler:
                 hasTasks = false;
                 break;
             case CustomRoles.Terrorist:
