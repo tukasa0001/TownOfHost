@@ -70,7 +70,7 @@ public static class Medicaler
     {
         int count = reader.ReadInt32();
         ProtectList = new();
-        for (int i = 0; i < ProtectList.Count; i++)
+        for (int i = 0; i < count; i++)
             ProtectList.Add(reader.ReadByte());
     }
     public static bool CanUseKillButton(byte playerId)
