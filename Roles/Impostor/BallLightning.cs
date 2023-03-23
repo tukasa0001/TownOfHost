@@ -101,7 +101,7 @@ public static class BallLightning
     }
     public static void OnFixedUpdate()
     {
-        if (!IsEnable || GhostPlayer.Count < 1 || !GameStates.IsInTask || GameStates.IsMeeting) return;
+        if (!IsEnable || GhostPlayer.Count < 1 || !GameStates.IsInTask) return;
         List<byte> deList = new();
         foreach (var ghost in GhostPlayer)
         {

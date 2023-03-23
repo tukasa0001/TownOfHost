@@ -961,10 +961,11 @@ class FixedUpdatePatch
                 }
             }
 
+            DoubleTrigger.OnFixedUpdate(player);
+
             if (GameStates.IsInTask)
             {
                 Pelican.OnFixedUpdate();
-                DoubleTrigger.OnFixedUpdate(player);
                 Vampire.OnFixedUpdate(player);
                 BallLightning.OnFixedUpdate();
                 Concealer.OnFixedUpdate();
@@ -995,22 +996,6 @@ class FixedUpdatePatch
             {
                 FallFromLadder.FixedUpdate(player);
             }
-            /*if (GameStates.isInGame && main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId)) //会議後すぐにここの処理をするため不要になったコードです。今後#465で変更した仕様がバグって、ここの処理が必要になった時のために残してコメントアウトしています
-            {
-                if (main.AirshipMeetingTimer[__instance.PlayerId] >= 9f && !main.AirshipMeetingCheck)
-                {
-                    main.AirshipMeetingCheck = true;
-                    Utils.CustomSyncAllSettings();
-                }
-                if (main.AirshipMeetingTimer[__instance.PlayerId] >= 10f)
-                {
-                    Utils.AfterMeetingTasks();
-                    main.AirshipMeetingTimer.Remove(__instance.PlayerId);
-                }
-                else
-                    main.AirshipMeetingTimer[__instance.PlayerId] = (main.AirshipMeetingTimer[__instance.PlayerId] + Time.fixedDeltaTime);
-                }
-            }*/
 
             if (GameStates.IsInGame) LoversSuicide();
 
