@@ -138,6 +138,10 @@ class BeginCrewmatePatch
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
                 break;
 
+            case CustomRoles.Workaholic:
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = DestroyableSingleton<HudManager>.Instance.TaskCompleteSound;
+                break;
+
             case CustomRoles.Opportunist:
             case CustomRoles.FFF:
             case CustomRoles.Revolutionist:
