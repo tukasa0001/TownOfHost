@@ -178,6 +178,7 @@ public class TaskState
             Main.AllPlayerSpeed[player.PlayerId] += Options.SpeedBoosterUpSpeed.GetFloat();
         }
 
+        /*
         //叛徒修理搞破坏
         if (player.IsAlive()
         && player.Is(CustomRoles.SabotageMaster)
@@ -207,6 +208,7 @@ public class TaskState
                 Logger.Info("叛徒修理工造成破坏:" + player.cosmetics.nameText.text, "SabotageMaster");
             }
         }
+        */
 
         //传送师完成任务
         if (player.IsAlive()
