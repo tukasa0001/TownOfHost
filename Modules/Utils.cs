@@ -345,6 +345,7 @@ public static class Utils
             case CustomRoles.Medicaler:
                 hasTasks = false;
                 break;
+            case CustomRoles.Workaholic:
             case CustomRoles.Terrorist:
                 if (ForRecompute)
                     hasTasks = false;
