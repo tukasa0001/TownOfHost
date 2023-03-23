@@ -56,11 +56,16 @@ public static class CredentialsPatch
             SponsersData += $"罗寄";
             SponsersData += $"\n屑人";
             SponsersData += $"\n小叨院长";
-            SponsersData += $"\n沐煊";
             SponsersData += $"\n波奇酱";
             SponsersData += $"\n法师";
+            SponsersData += $"\n沐煊";
+            SponsersData += $"\n林林林";
             SponsersData += $"\nltemten";
-            SponsersData += $"\n\n<size=60%>({GetString("OnlyShowPart")})</size>";
+            SponsersData += $"\nSlok";
+            SponsersData += $"\n辣鸡";
+            SponsersData += $"\n湛蓝色";
+            SponsersData += $"\n斯卡蒂Skadi";
+            SponsersData += $"\n<size=60%>({GetString("OnlyShowPart")})</size>";
         }
 
         public static GameObject CreditsPopup;
@@ -83,11 +88,11 @@ public static class CredentialsPatch
             var boostertitletext = Object.Instantiate(devtitletext, obj.transform);
             boostertitletext.GetComponent<TextMeshPro>().text = GetString("Sponsor");
             boostertitletext.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
-            boostertitletext.localPosition = new Vector3(0.7f, 1.25f, -2f);
+            boostertitletext.localPosition = new Vector3(0.7f, 1.45f, -2f);
             boostertitletext.localScale = new Vector3(1f, 1f, 1f);
 
             var boostertext = Object.Instantiate(devtext, obj.transform);
-            boostertext.localPosition = new Vector3(1.5f, -0.85f, -2f);
+            boostertext.localPosition = new Vector3(1.5f, -0.65f, -2f);
             boostertext.localScale = new Vector3(0.7f, 0.7f, 1f);
             boostertext.GetComponent<TextMeshPro>().text = SponsersData;
 
