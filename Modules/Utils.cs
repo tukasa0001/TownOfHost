@@ -1182,7 +1182,7 @@ public static class Utils
                     name = $"<color={Main.ModColor}><size=1.7>贡献者</size></color>\r\n" + name;
                     break;
                 case "recentduct#6068":
-                    name = $"<color=#be4d16><size=1.7>新世纪法师</size></color>\r\n" + name;
+                    name = $"<color=#FF00FF><size=1.7>高冷男模法师</size></color>\r\n" + name;
                     break;
                 case "heavyclod#2286":
                     name = $"<color=#FFFF00><size=1.7>小叨.exe已停止运行</size></color>\r\n" + name;
