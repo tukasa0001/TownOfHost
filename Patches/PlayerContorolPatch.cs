@@ -1522,15 +1522,17 @@ class EnterVentPatch
         }
         if (pc.Is(CustomRoles.Veteran))
         {
+            pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
             Main.VeteranInProtect.Remove(pc.PlayerId);
             Main.VeteranInProtect.Add(pc.PlayerId, Utils.GetTimeStamp(DateTime.Now));
             new LateTask(() =>
             {
                 if (GameStates.IsInTask) pc.RpcGuardAndKill(pc);
-            }, 1.5f, "Veteran Skill Notify");
+            }, 0.7f, "Veteran Skill Notify");
         }
         if (pc.Is(CustomRoles.Grenadier))
         {
+            pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
             if (pc.Is(CustomRoles.Madmate))
             {
                 Main.MadGrenadierBlinding.Remove(pc.PlayerId);
@@ -1545,7 +1547,7 @@ class EnterVentPatch
             {
                 if (GameStates.IsInTask) pc.RpcGuardAndKill(pc);
                 Utils.MarkEveryoneDirtySettings();
-            }, 1.5f, "Grenadier Skill Notify");
+            }, 0.7f, "Grenadier Skill Notify");
         }
     }
 }
