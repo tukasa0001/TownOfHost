@@ -710,6 +710,7 @@ class ReportDeadBodyPatch
     public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo target)
     {
         if (GameStates.IsMeeting) return false;
+        if (Options.DisableMeeting.GetBool()) return false;
         Logger.Info($"{__instance.GetNameWithRole()} => {target?.Object?.GetNameWithRole() ?? "null"}", "ReportDeadBody");
         if (!CanReport[__instance.PlayerId])
         {

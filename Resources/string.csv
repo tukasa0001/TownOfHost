@@ -396,6 +396,9 @@ GMInfoLong,(房主):\n看我干啥，我只是个开局就死的冤魂，静静�
 
 
 ## 模式选项
+DisableMeeting,禁用会议与报告尸体
+DisableCloseDoor,禁用关门
+DisableSabotage,禁用破坏
 NoGameEnd,测试模式,NoGameEnd,Игра Не Закончится
 DebugMode,调试模式,Debug Mode,Режим отладки
 SyncButtonMode,所有船员共享会议次数,SyncButtonMode,Общая кнопка встреч
@@ -412,7 +415,7 @@ AdditionalEmergencyCooldownThreshold,适用存活人数,Applied Living Player Co
 AdditionalEmergencyCooldownTime,附加冷却时间,Additional Cooldown,Дополнительный откат
 LadderDeath,从梯子上下滑时有可能摔死,Fall From Ladders,Падение с Лестницы
 LadderDeathChance,从梯子上摔死的概率,Fall To Death Chance,Шанс разбиться насмерть
-DisableTasks,禁用某些任务,Disable Tasks,Отключить Задания
+DisableTasks,禁用指定任务,Disable Tasks,Отключить Задания
 DisableSwipeCardTask,禁用刷卡任务,Disable SwipeCard Tasks,Отключить Задание ''Провести Карту''
 DisableSubmitScanTask,禁用扫描任务,Disable SubmitScan Tasks,Отключить Задание ''Сканирование''
 DisableUnlockSafeTask,禁用解除歧管任务,Disable UnlockSafe Tasks,Отключить Задание ''Открытие Сейфа''
@@ -435,7 +438,7 @@ FixFirstKillCooldown,修正首刀冷却时间,Normalize First Kill Cooldown,Но
 GhostCanSeeOtherRoles,幽灵可见他人职业,Ghosts Can See Other Roles,Призраки могут видеть все Роли
 GhostCanSeeOtherVotes,幽灵可见投票情况,Ghosts Can See Other Votes,Призраки могут видеть цвета Голосов
 GhostCanSeeDeathReason,幽灵可以看见死因,Ghost Can See Cause Of Death,Призраки могут видеть Причины Смерти
-GhostIgnoreTasks,幽灵无视任务,Ghosts Exempt From Tasks,Призраки игнорируют Задания
+GhostIgnoreTasks,幽灵没有任务,Ghosts Exempt From Tasks,Призраки игнорируют Задания
 DisableTaskWin,禁用任务胜利,Disable Task Win,Отключить победу по Заданиям
 HideGameSettings,隐藏游戏设置,Hide Game Settings,Скрыть настройки Игры
 DIYGameSettings,显示自定义的/n消息,Enable only custom /n messages,Включить только пользовательские /n сообщения
@@ -492,11 +495,11 @@ IgnoreConditions,忽略条件,Ignore Conditions,Игнорируют услов�
 IgnoreImpostors,忽略<color=#ff1919>内鬼</color>,Ignore <color=#ff1919>Impostors</color>,Игнорируют <color=#ff1919>Предатели</color>
 IgnoreNeutrals,忽略<color=#ffab1b>中立</color>,Ignore <color=#ffab1b>Neutrals</color>,Игнорируют <color=#ffab1b>Нейтралы</color>
 IgnoreCrewmates,忽略<color=#8cffff>船员</color>,Ignore <color=#8cffff>Crewmates</color>,Игнорируют <color=#8cffff>Члены Экипажа</color>
-IgnoreAfterAnyoneDied,忽略幽灵,Ignore After Anyone Has Died,Игнорируют умершие игроки
-LightsOutSpecialSettings,停电特殊设定,Fix Lights Special Settings,Специальные настройки при отключении Света
-DisableAirshipViewingDeckLightsPanel,禁用瞭望台配电箱(飞艇地图),Disable Viewing Deck Lights Panel(Airship),Отключить починку Света на Смотровой Палубе (Airship)
-DisableAirshipGapRoomLightsPanel,禁用升降机配电箱(飞艇地图),Disable Gap Room Lights Panel(Airship),Отключить починку Света в Комнате Пролета (Airship)
-DisableAirshipCargoLightsPanel,禁用货舱配电箱(飞艇地图),Disable Cargo Lights Panel(Airship),Отключить починку Света в Грузовом Отсеке (Airship)
+IgnoreAfterAnyoneDied,忽略<color=#d9daff>幽灵</color>,Ignore After Anyone Has Died,Игнорируют умершие игроки
+LightsOutSpecialSettings,停电特殊设定（飞艇地图）,Fix Lights Special Settings,Специальные настройки при отключении Света
+DisableAirshipViewingDeckLightsPanel,禁用瞭望台配电箱,Disable Viewing Deck Lights Panel(Airship),Отключить починку Света на Смотровой Палубе (Airship)
+DisableAirshipGapRoomLightsPanel,禁用升降机配电箱,Disable Gap Room Lights Panel(Airship),Отключить починку Света в Комнате Пролета (Airship)
+DisableAirshipCargoLightsPanel,禁用货舱配电箱,Disable Cargo Lights Panel(Airship),Отключить починку Света в Грузовом Отсеке (Airship)
 RandomSpawn,随机出生点,Random Spawn,Случайный спавн
 AirshipAdditionalSpawn,额外出生点（飞艇地图）,Additional Spawn(Airship),Дополнительный спавн(Airship)
 CommsCamouflage,通信破坏时小黑人（有Bug慎开）,Camouflage During Comms,Камуфляж при Саботаже Связи
@@ -528,6 +531,12 @@ NoticeEveryone,通知所有人（除了它）,Notify everyone,Уведомить
 CheatResponses,检测到外挂时,When a breach is discovered,Когда обнаружен взлом
 NeutralRoleWinTogether,同种职业<color=#ffab1b>中立</color>玩家共同胜利
 NeutralWinTogether,全体<color=#ffab1b>中立</color>阵营玩家共同胜利
+MenuTitle.Disable,★ 禁用相关设定
+MenuTitle.Sabotage,★ 破坏相关设定
+MenuTitle.Meeting,★ 会议相关设定
+MenuTitle.Ghost,★ 幽灵相关设定
+MenuTitle.Other,★ 其它设定
+MenuTitle.Ejections,★ 驱逐相关设定
 
 ## 详细设定
 Cooldown,冷却时间,Cooldown,Откат
@@ -874,10 +883,10 @@ TabGroup.NeutralRoles,中立阵营职业,Neutral Roles,Нейтральные Р
 TabGroup.ImpostorRoles,内鬼阵营职业,Impostor Roles,Роли Предателей
 TabGroup.Addons,附加职业,Add-Ons,Атрибуты
 TabGroup.OtherRoles,试验性职业（不建议开）,Experimental Roles (Not recommended),Эксперементальные Роли (Не рекомендуется)
-OtherRoles.CrewmateRoles,<color=#8cffff>★ 船员阵营职业</color>,<color=#8cffff>Crewmate Roles</color>,<color=#8cffff>Роли Членов Экипажа</color>
-OtherRoles.NeutralRoles,<color=#ffab1b>★ 中立阵营职业</color>,<color=#ffab1b>Neutral Roles</color>,<color=#ffab1b>Нейтральные Роли</color>
-OtherRoles.ImpostorRoles,<color=#f74631>★ 内鬼阵营职业</color>,<color=#f74631>Impostor Roles</color>,<color=#f74631>Роли Предателей</color>
-OtherRoles.Addons,<color=#ff9ace>★ 附加职业</color>,<color=#ff9ace>Add-Ons</color>,<color=#ff9ace>Атрибуты</color>
+OtherRoles.CrewmateRoles,★ 船员阵营职业,Crewmate Roles,Роли Членов Экипажа
+OtherRoles.NeutralRoles,★ 中立阵营职业,Neutral Roles,Нейтральные Роли
+OtherRoles.ImpostorRoles,★ 内鬼阵营职业,Impostor Roles,Роли Предателей
+OtherRoles.Addons,★ 附加职业,Add-Ons,Атрибуты
 ActiveRolesList,有效职业一览,Active Roles List,Список Активных Ролей
 ForExample,使用例子,Example Use,Например
 ForceEnd,强制结束游戏,Aborted,Игра Окончена

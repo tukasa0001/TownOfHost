@@ -97,6 +97,11 @@ public static class Options
     public static OptionItem EnableGM;
     public static float DefaultKillCooldown = Main.NormalOptions?.KillCooldown ?? 20;
 
+    public static OptionItem DisableMeeting;
+    public static OptionItem DisableCloseDoor;
+    public static OptionItem DisableSabotage;
+    public static OptionItem DisableTaskWin;
+
     public static OptionItem KillFlashDuration;
     public static OptionItem SendCodeToQQ;
     public static OptionItem SendCodeMinPlayer;
@@ -292,7 +297,6 @@ public static class Options
 
     // その他
     public static OptionItem FixFirstKillCooldown;
-    public static OptionItem DisableTaskWin;
     public static OptionItem GhostCanSeeOtherRoles;
     public static OptionItem GhostCanSeeOtherVotes;
     public static OptionItem GhostCanSeeDeathReason;
@@ -423,7 +427,7 @@ public static class Options
         if (IsLoaded) return;
         // 预设
         _ = PresetOptionItem.Create(0, TabGroup.SystemSettings)
-            .SetColor(new Color32(204, 204, 0, 255))
+            .SetColor(new Color32(255, 235, 4, byte.MaxValue))
             .SetHeader(true)
             .SetGameMode(CustomGameMode.All);
 
@@ -649,6 +653,7 @@ public static class Options
         // 内鬼
         _ = BooleanOptionItem.Create(909090, "OtherRoles.ImpostorRoles", false, TabGroup.OtherRoles, false)
             .SetHeader(true)
+            .SetColor(new Color32(247, 70, 49, byte.MaxValue))
             .SetText(true);
         SetupRoleOptions(901635, TabGroup.OtherRoles, CustomRoles.Minimalism);
         MNKillCooldown = FloatOptionItem.Create(901638, "KillCooldown", new(2.5f, 999f, 2.5f), 10f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Minimalism])
@@ -670,6 +675,7 @@ public static class Options
         // 船员
         _ = BooleanOptionItem.Create(909092, "OtherRoles.CrewmateRoles", false, TabGroup.OtherRoles, false)
             .SetHeader(true)
+            .SetColor(new Color32(140, 255, 255, byte.MaxValue))
             .SetText(true);
         SetupRoleOptions(20600, TabGroup.OtherRoles, CustomRoles.SpeedBooster);
         SpeedBoosterUpSpeed = FloatOptionItem.Create(20610, "SpeedBoosterUpSpeed", new(0.1f, 1.0f, 0.1f), 0.2f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
@@ -683,6 +689,7 @@ public static class Options
         // 中立
         _ = BooleanOptionItem.Create(909094, "OtherRoles.NeutralRoles", false, TabGroup.OtherRoles, false)
             .SetHeader(true)
+            .SetColor(new Color32(255, 171, 27, byte.MaxValue))
             .SetText(true);
         SetupRoleOptions(5050965, TabGroup.OtherRoles, CustomRoles.God);
         NotifyGodAlive = BooleanOptionItem.Create(5050967, "NotifyGodAlive", true, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.God]);
@@ -706,6 +713,7 @@ public static class Options
         // 副职
         _ = BooleanOptionItem.Create(909096, "OtherRoles.Addons", false, TabGroup.OtherRoles, false)
             .SetHeader(true)
+            .SetColor(new Color32(255, 154, 206, byte.MaxValue))
             .SetText(true);
         SetupAdtRoleOptions(6050310, CustomRoles.Ntr, tab: TabGroup.OtherRoles);
         SetupAdtRoleOptions(6050330, CustomRoles.Flashman, canSetNum: true, tab: TabGroup.OtherRoles);
@@ -809,43 +817,37 @@ public static class Options
         #endregion 
 
         #region 游戏设置
-        DisableVanillaRoles = BooleanOptionItem.Create(6090069, "DisableVanillaRoles", true, TabGroup.GameSettings, false)
-            .SetHeader(true);
+
+        //驱逐相关设定
+        _ = BooleanOptionItem.Create(66_123_126, "MenuTitle.Ejections", false, TabGroup.GameSettings, false)
+            .SetHeader(true)
+            .SetColor(new Color32(255, 238, 232, byte.MaxValue))
+            .SetText(true);
 
         CEMode = StringOptionItem.Create(6091223, "ConfirmEjectionsMode", ConfirmEjectionsMode, 2, TabGroup.GameSettings, false)
-            .SetHeader(true);
-        ShowImpRemainOnEject = BooleanOptionItem.Create(6090115, "ShowImpRemainOnEject", true, TabGroup.GameSettings, false);
+            .SetHeader(true)
+            .SetColor(new Color32(255, 238, 232, byte.MaxValue));
+        ShowImpRemainOnEject = BooleanOptionItem.Create(6090115, "ShowImpRemainOnEject", true, TabGroup.GameSettings, false)
+            .SetColor(new Color32(255, 238, 232, byte.MaxValue));
         ShowNKRemainOnEject = BooleanOptionItem.Create(6090119, "ShowNKRemainOnEject", true, TabGroup.GameSettings, false).SetParent(ShowImpRemainOnEject);
 
-        KillFlashDuration = FloatOptionItem.Create(90000, "KillFlashDuration", new(0.1f, 0.45f, 0.05f), 0.2f, TabGroup.GameSettings, false)
+        //禁用相关设定
+        _ = BooleanOptionItem.Create(66_123_120, "MenuTitle.Disable", false, TabGroup.GameSettings, false)
             .SetHeader(true)
-            .SetValueFormat(OptionFormat.Seconds)
-            .SetGameMode(CustomGameMode.Standard);
+            .SetColor(new Color32(255, 153, 153, byte.MaxValue))
+            .SetText(true);
 
-        // リアクターの時間制御
-        SabotageTimeControl = BooleanOptionItem.Create(100800, "SabotageTimeControl", false, TabGroup.GameSettings, false)
+        DisableVanillaRoles = BooleanOptionItem.Create(6090069, "DisableVanillaRoles", true, TabGroup.GameSettings, false)
             .SetHeader(true)
-            .SetGameMode(CustomGameMode.Standard);
-        PolusReactorTimeLimit = FloatOptionItem.Create(100801, "PolusReactorTimeLimit", new(1f, 60f, 1f), 30f, TabGroup.GameSettings, false).SetParent(SabotageTimeControl)
-            .SetValueFormat(OptionFormat.Seconds)
-            .SetGameMode(CustomGameMode.Standard);
-        AirshipReactorTimeLimit = FloatOptionItem.Create(100802, "AirshipReactorTimeLimit", new(1f, 90f, 1f), 60f, TabGroup.GameSettings, false).SetParent(SabotageTimeControl)
-            .SetValueFormat(OptionFormat.Seconds)
-            .SetGameMode(CustomGameMode.Standard);
+            .SetColor(new Color32(255, 153, 153, byte.MaxValue))
+            .SetGameMode(CustomGameMode.All);
+        DisableTaskWin = BooleanOptionItem.Create(66_900_001, "DisableTaskWin", false, TabGroup.GameSettings, false)
+            .SetColor(new Color32(255, 153, 153, byte.MaxValue))
+            .SetGameMode(CustomGameMode.All);
 
-        // 停電の特殊設定
-        LightsOutSpecialSettings = BooleanOptionItem.Create(101500, "LightsOutSpecialSettings", false, TabGroup.GameSettings, false)
-            .SetGameMode(CustomGameMode.Standard);
-        DisableAirshipViewingDeckLightsPanel = BooleanOptionItem.Create(101511, "DisableAirshipViewingDeckLightsPanel", false, TabGroup.GameSettings, false).SetParent(LightsOutSpecialSettings)
-            .SetGameMode(CustomGameMode.Standard);
-        DisableAirshipGapRoomLightsPanel = BooleanOptionItem.Create(101512, "DisableAirshipGapRoomLightsPanel", false, TabGroup.GameSettings, false).SetParent(LightsOutSpecialSettings)
-            .SetGameMode(CustomGameMode.Standard);
-        DisableAirshipCargoLightsPanel = BooleanOptionItem.Create(101513, "DisableAirshipCargoLightsPanel", false, TabGroup.GameSettings, false).SetParent(LightsOutSpecialSettings)
-            .SetGameMode(CustomGameMode.Standard);
-
-        // タスク無効化
+        // 禁用任务
         DisableTasks = BooleanOptionItem.Create(100300, "DisableTasks", false, TabGroup.GameSettings, false)
-            .SetHeader(true)
+            .SetColor(new Color32(255, 153, 153, byte.MaxValue))
             .SetGameMode(CustomGameMode.All);
         DisableSwipeCard = BooleanOptionItem.Create(100301, "DisableSwipeCardTask", false, TabGroup.GameSettings, false).SetParent(DisableTasks)
             .SetGameMode(CustomGameMode.All);
@@ -860,9 +862,19 @@ public static class Options
         DisableResetBreaker = BooleanOptionItem.Create(100306, "DisableResetBreakerTask", false, TabGroup.GameSettings, false).SetParent(DisableTasks)
             .SetGameMode(CustomGameMode.All);
 
-        //デバイス無効化
+        DisableMeeting = BooleanOptionItem.Create(66_900_002, "DisableMeeting", false, TabGroup.GameSettings, false)
+            .SetColor(new Color32(255, 153, 153, byte.MaxValue))
+            .SetGameMode(CustomGameMode.All);
+        DisableCloseDoor = BooleanOptionItem.Create(66_900_003, "DisableCloseDoor", false, TabGroup.GameSettings, false)
+            .SetColor(new Color32(255, 153, 153, byte.MaxValue))
+            .SetGameMode(CustomGameMode.All);
+        DisableSabotage = BooleanOptionItem.Create(66_900_004, "DisableSabotage", false, TabGroup.GameSettings, false)
+            .SetColor(new Color32(255, 153, 153, byte.MaxValue))
+            .SetGameMode(CustomGameMode.All);
+
+        //禁用设备
         DisableDevices = BooleanOptionItem.Create(101200, "DisableDevices", false, TabGroup.GameSettings, false)
-            .SetHeader(true)
+            .SetColor(new Color32(255, 153, 153, byte.MaxValue))
             .SetGameMode(CustomGameMode.Standard);
         DisableSkeldDevices = BooleanOptionItem.Create(101210, "DisableSkeldDevices", false, TabGroup.GameSettings, false).SetParent(DisableDevices)
             .SetGameMode(CustomGameMode.Standard);
@@ -905,39 +917,38 @@ public static class Options
         DisableDevicesIgnoreAfterAnyoneDied = BooleanOptionItem.Create(101295, "IgnoreAfterAnyoneDied", false, TabGroup.GameSettings, false).SetParent(DisableDevicesIgnoreConditions)
             .SetGameMode(CustomGameMode.Standard);
 
-        // ランダムマップ
-        RandomMapsMode = BooleanOptionItem.Create(100400, "RandomMapsMode", false, TabGroup.GameSettings, false)
+        //会议相关设定
+        _ = BooleanOptionItem.Create(66_123_122, "MenuTitle.Meeting", false, TabGroup.GameSettings, false)
             .SetHeader(true)
-            .SetGameMode(CustomGameMode.All);
-        AddedTheSkeld = BooleanOptionItem.Create(100401, "AddedTheSkeld", false, TabGroup.GameSettings, false).SetParent(RandomMapsMode)
-            .SetGameMode(CustomGameMode.All);
-        AddedMiraHQ = BooleanOptionItem.Create(100402, "AddedMIRAHQ", false, TabGroup.GameSettings, false).SetParent(RandomMapsMode)
-            .SetGameMode(CustomGameMode.All);
-        AddedPolus = BooleanOptionItem.Create(100403, "AddedPolus", false, TabGroup.GameSettings, false).SetParent(RandomMapsMode)
-            .SetGameMode(CustomGameMode.All);
-        AddedTheAirShip = BooleanOptionItem.Create(100404, "AddedTheAirShip", false, TabGroup.GameSettings, false).SetParent(RandomMapsMode)
-            .SetGameMode(CustomGameMode.All);
-        // MapDleks = CustomOption.Create(100405, Color.white, "AddedDleks", false, RandomMapMode)
-        //     .SetGameMode(CustomGameMode.All);
+            .SetColor(new Color32(147, 241, 240, byte.MaxValue))
+            .SetText(true);
 
-        // ランダムスポーン
-        RandomSpawn = BooleanOptionItem.Create(101300, "RandomSpawn", false, TabGroup.GameSettings, false)
-            .SetHeader(true)
-            .SetGameMode(CustomGameMode.All);
-        AirshipAdditionalSpawn = BooleanOptionItem.Create(101301, "AirshipAdditionalSpawn", false, TabGroup.GameSettings, false).SetParent(RandomSpawn)
-            .SetGameMode(CustomGameMode.All);
-
-        // ボタン回数同期
+        // 会议限制次数
         SyncButtonMode = BooleanOptionItem.Create(100200, "SyncButtonMode", false, TabGroup.GameSettings, false)
             .SetHeader(true)
+            .SetColor(new Color32(147, 241, 240, byte.MaxValue))
             .SetGameMode(CustomGameMode.Standard);
         SyncedButtonCount = IntegerOptionItem.Create(100201, "SyncedButtonCount", new(0, 100, 1), 10, TabGroup.GameSettings, false).SetParent(SyncButtonMode)
             .SetValueFormat(OptionFormat.Times)
             .SetGameMode(CustomGameMode.Standard);
 
-        // 投票モード
+        // 全员存活时的会议时间
+        AllAliveMeeting = BooleanOptionItem.Create(100900, "AllAliveMeeting", false, TabGroup.GameSettings, false)
+            .SetColor(new Color32(147, 241, 240, byte.MaxValue));
+        AllAliveMeetingTime = FloatOptionItem.Create(100901, "AllAliveMeetingTime", new(1f, 300f, 1f), 10f, TabGroup.GameSettings, false).SetParent(AllAliveMeeting)
+            .SetValueFormat(OptionFormat.Seconds);
+
+        // 附加紧急会议
+        AdditionalEmergencyCooldown = BooleanOptionItem.Create(101400, "AdditionalEmergencyCooldown", false, TabGroup.GameSettings, false)
+            .SetColor(new Color32(147, 241, 240, byte.MaxValue));
+        AdditionalEmergencyCooldownThreshold = IntegerOptionItem.Create(101401, "AdditionalEmergencyCooldownThreshold", new(1, 15, 1), 1, TabGroup.GameSettings, false).SetParent(AdditionalEmergencyCooldown)
+            .SetValueFormat(OptionFormat.Players);
+        AdditionalEmergencyCooldownTime = FloatOptionItem.Create(101402, "AdditionalEmergencyCooldownTime", new(1f, 60f, 1f), 1f, TabGroup.GameSettings, false).SetParent(AdditionalEmergencyCooldown)
+            .SetValueFormat(OptionFormat.Seconds);
+
+        // 投票相关设定
         VoteMode = BooleanOptionItem.Create(100500, "VoteMode", false, TabGroup.GameSettings, false)
-            .SetHeader(true)
+            .SetColor(new Color32(147, 241, 240, byte.MaxValue))
             .SetGameMode(CustomGameMode.Standard);
         WhenSkipVote = StringOptionItem.Create(100510, "WhenSkipVote", voteModes[0..3], 0, TabGroup.GameSettings, false).SetParent(VoteMode)
             .SetGameMode(CustomGameMode.Standard);
@@ -952,45 +963,112 @@ public static class Options
         WhenTie = StringOptionItem.Create(100530, "WhenTie", tieModes, 0, TabGroup.GameSettings, false).SetParent(VoteMode)
             .SetGameMode(CustomGameMode.Standard);
 
-        // 全員生存時の会議時間
-        AllAliveMeeting = BooleanOptionItem.Create(100900, "AllAliveMeeting", false, TabGroup.GameSettings, false);
-        AllAliveMeetingTime = FloatOptionItem.Create(100901, "AllAliveMeetingTime", new(1f, 300f, 1f), 10f, TabGroup.GameSettings, false).SetParent(AllAliveMeeting)
-            .SetValueFormat(OptionFormat.Seconds);
-
-        // 生存人数ごとの緊急会議
-        AdditionalEmergencyCooldown = BooleanOptionItem.Create(101400, "AdditionalEmergencyCooldown", false, TabGroup.GameSettings, false);
-        AdditionalEmergencyCooldownThreshold = IntegerOptionItem.Create(101401, "AdditionalEmergencyCooldownThreshold", new(1, 15, 1), 1, TabGroup.GameSettings, false).SetParent(AdditionalEmergencyCooldown)
-            .SetValueFormat(OptionFormat.Players);
-        AdditionalEmergencyCooldownTime = FloatOptionItem.Create(101402, "AdditionalEmergencyCooldownTime", new(1f, 60f, 1f), 1f, TabGroup.GameSettings, false).SetParent(AdditionalEmergencyCooldown)
-            .SetValueFormat(OptionFormat.Seconds);
-
-        // 転落死
-        LadderDeath = BooleanOptionItem.Create(101100, "LadderDeath", false, TabGroup.GameSettings, false)
-            .SetHeader(true);
-        LadderDeathChance = StringOptionItem.Create(101110, "LadderDeathChance", rates[1..], 0, TabGroup.GameSettings, false).SetParent(LadderDeath);
-
-        //エレキ構造変化
-        AirShipVariableElectrical = BooleanOptionItem.Create(101600, "AirShipVariableElectrical", false, TabGroup.GameSettings, false)
-            .SetHeader(true);
-
-        // その他
-        FixFirstKillCooldown = BooleanOptionItem.Create(50_900_667, "FixFirstKillCooldown", true, TabGroup.GameSettings, false)
+        // 破坏相关设定
+        _ = BooleanOptionItem.Create(66_123_121, "MenuTitle.Sabotage", false, TabGroup.GameSettings, false)
             .SetHeader(true)
-            .SetGameMode(CustomGameMode.All);
-        DisableTaskWin = BooleanOptionItem.Create(900_001, "DisableTaskWin", false, TabGroup.GameSettings, false)
-            .SetGameMode(CustomGameMode.All);
-        GhostCanSeeOtherRoles = BooleanOptionItem.Create(900_010, "GhostCanSeeOtherRoles", true, TabGroup.GameSettings, false)
-            .SetGameMode(CustomGameMode.All);
-        GhostCanSeeOtherVotes = BooleanOptionItem.Create(900_011, "GhostCanSeeOtherVotes", true, TabGroup.GameSettings, false)
-            .SetGameMode(CustomGameMode.All);
-        GhostCanSeeDeathReason = BooleanOptionItem.Create(900_014, "GhostCanSeeDeathReason", true, TabGroup.GameSettings, false)
-            .SetGameMode(CustomGameMode.All);
-        GhostIgnoreTasks = BooleanOptionItem.Create(900_012, "GhostIgnoreTasks", false, TabGroup.GameSettings, false)
-            .SetGameMode(CustomGameMode.All);
+            .SetColor(new Color32(241, 212, 227, byte.MaxValue))
+            .SetText(true);
+
+        // 通讯破坏小黑人
         CommsCamouflage = BooleanOptionItem.Create(900_013, "CommsCamouflage", false, TabGroup.GameSettings, false)
+            .SetHeader(true)
+            .SetColor(new Color32(241, 212, 227, byte.MaxValue))
             .SetGameMode(CustomGameMode.All);
         DisableReportWhenCC = BooleanOptionItem.Create(900_015, "DisableReportWhenCC", false, TabGroup.GameSettings, false).SetParent(CommsCamouflage)
             .SetGameMode(CustomGameMode.All);
+
+        // 破坏时间设定
+        SabotageTimeControl = BooleanOptionItem.Create(100800, "SabotageTimeControl", false, TabGroup.GameSettings, false)
+           .SetColor(new Color32(241, 212, 227, byte.MaxValue))
+            .SetGameMode(CustomGameMode.Standard);
+        PolusReactorTimeLimit = FloatOptionItem.Create(100801, "PolusReactorTimeLimit", new(1f, 60f, 1f), 30f, TabGroup.GameSettings, false).SetParent(SabotageTimeControl)
+            .SetValueFormat(OptionFormat.Seconds)
+            .SetGameMode(CustomGameMode.Standard);
+        AirshipReactorTimeLimit = FloatOptionItem.Create(100802, "AirshipReactorTimeLimit", new(1f, 90f, 1f), 60f, TabGroup.GameSettings, false).SetParent(SabotageTimeControl)
+            .SetValueFormat(OptionFormat.Seconds)
+            .SetGameMode(CustomGameMode.Standard);
+
+        // 停电特殊设定（飞艇）
+        LightsOutSpecialSettings = BooleanOptionItem.Create(101500, "LightsOutSpecialSettings", false, TabGroup.GameSettings, false)
+          .SetColor(new Color32(241, 212, 227, byte.MaxValue))
+            .SetGameMode(CustomGameMode.Standard);
+        DisableAirshipViewingDeckLightsPanel = BooleanOptionItem.Create(101511, "DisableAirshipViewingDeckLightsPanel", false, TabGroup.GameSettings, false).SetParent(LightsOutSpecialSettings)
+            .SetGameMode(CustomGameMode.Standard);
+        DisableAirshipGapRoomLightsPanel = BooleanOptionItem.Create(101512, "DisableAirshipGapRoomLightsPanel", false, TabGroup.GameSettings, false).SetParent(LightsOutSpecialSettings)
+            .SetGameMode(CustomGameMode.Standard);
+        DisableAirshipCargoLightsPanel = BooleanOptionItem.Create(101513, "DisableAirshipCargoLightsPanel", false, TabGroup.GameSettings, false).SetParent(LightsOutSpecialSettings)
+            .SetGameMode(CustomGameMode.Standard);
+
+        // 飞艇地图随机关闭配电门
+        AirShipVariableElectrical = BooleanOptionItem.Create(101600, "AirShipVariableElectrical", false, TabGroup.GameSettings, false)
+            .SetColor(new Color32(241, 212, 227, byte.MaxValue));
+
+        //其它设定
+        _ = BooleanOptionItem.Create(66_123_123, "MenuTitle.Other", false, TabGroup.GameSettings, false)
+            .SetHeader(true)
+            .SetColor(new Color32(193, 255, 209, byte.MaxValue))
+            .SetText(true);
+
+        // 随机地图模式
+        RandomMapsMode = BooleanOptionItem.Create(100400, "RandomMapsMode", false, TabGroup.GameSettings, false)
+            .SetHeader(true)
+            .SetColor(new Color32(193, 255, 209, byte.MaxValue))
+            .SetGameMode(CustomGameMode.All);
+        AddedTheSkeld = BooleanOptionItem.Create(100401, "AddedTheSkeld", false, TabGroup.GameSettings, false).SetParent(RandomMapsMode)
+            .SetGameMode(CustomGameMode.All);
+        AddedMiraHQ = BooleanOptionItem.Create(100402, "AddedMIRAHQ", false, TabGroup.GameSettings, false).SetParent(RandomMapsMode)
+            .SetGameMode(CustomGameMode.All);
+        AddedPolus = BooleanOptionItem.Create(100403, "AddedPolus", false, TabGroup.GameSettings, false).SetParent(RandomMapsMode)
+            .SetGameMode(CustomGameMode.All);
+        AddedTheAirShip = BooleanOptionItem.Create(100404, "AddedTheAirShip", false, TabGroup.GameSettings, false).SetParent(RandomMapsMode)
+            .SetGameMode(CustomGameMode.All);
+        // MapDleks = CustomOption.Create(100405, Color.white, "AddedDleks", false, RandomMapMode)
+        //     .SetGameMode(CustomGameMode.All);
+
+        // 随机出生点
+        RandomSpawn = BooleanOptionItem.Create(101300, "RandomSpawn", false, TabGroup.GameSettings, false)
+           .SetColor(new Color32(193, 255, 209, byte.MaxValue))
+            .SetGameMode(CustomGameMode.All);
+        AirshipAdditionalSpawn = BooleanOptionItem.Create(101301, "AirshipAdditionalSpawn", false, TabGroup.GameSettings, false).SetParent(RandomSpawn)
+            .SetGameMode(CustomGameMode.All);
+
+        // 梯子摔死
+        LadderDeath = BooleanOptionItem.Create(101100, "LadderDeath", false, TabGroup.GameSettings, false)
+           .SetColor(new Color32(193, 255, 209, byte.MaxValue));
+        LadderDeathChance = StringOptionItem.Create(101110, "LadderDeathChance", rates[1..], 0, TabGroup.GameSettings, false).SetParent(LadderDeath);
+        
+        // 修正首刀时间
+        FixFirstKillCooldown = BooleanOptionItem.Create(50_900_667, "FixFirstKillCooldown", true, TabGroup.GameSettings, false)
+           .SetColor(new Color32(193, 255, 209, byte.MaxValue))
+            .SetGameMode(CustomGameMode.All);
+
+        //杀戮闪烁持续
+        KillFlashDuration = FloatOptionItem.Create(90000, "KillFlashDuration", new(0.1f, 0.45f, 0.05f), 0.2f, TabGroup.GameSettings, false)
+           .SetColor(new Color32(193, 255, 209, byte.MaxValue))
+            .SetValueFormat(OptionFormat.Seconds)
+            .SetGameMode(CustomGameMode.Standard);
+
+        //幽灵相关设定
+        _ = BooleanOptionItem.Create(66_123_124, "MenuTitle.Ghost", false, TabGroup.GameSettings, false)
+            .SetHeader(true)
+            .SetColor(new Color32(217, 218, 255, byte.MaxValue))
+            .SetText(true);
+
+        // 幽灵设置
+        GhostIgnoreTasks = BooleanOptionItem.Create(900_012, "GhostIgnoreTasks", false, TabGroup.GameSettings, false)
+            .SetHeader(true)
+            .SetColor(new Color32(217, 218, 255, byte.MaxValue))
+            .SetGameMode(CustomGameMode.All);
+        GhostCanSeeOtherRoles = BooleanOptionItem.Create(900_010, "GhostCanSeeOtherRoles", true, TabGroup.GameSettings, false)
+            .SetColor(new Color32(217, 218, 255, byte.MaxValue))
+            .SetGameMode(CustomGameMode.All);
+        GhostCanSeeOtherVotes = BooleanOptionItem.Create(900_011, "GhostCanSeeOtherVotes", true, TabGroup.GameSettings, false)
+             .SetColor(new Color32(217, 218, 255, byte.MaxValue))
+            .SetGameMode(CustomGameMode.All);
+        GhostCanSeeDeathReason = BooleanOptionItem.Create(900_014, "GhostCanSeeDeathReason", true, TabGroup.GameSettings, false)
+           .SetColor(new Color32(217, 218, 255, byte.MaxValue))
+            .SetGameMode(CustomGameMode.All);
+
         #endregion 
 
         IsLoaded = true;

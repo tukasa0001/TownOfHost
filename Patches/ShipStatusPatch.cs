@@ -38,6 +38,8 @@ class RepairSystemPatch
         [HarmonyArgument(2)] byte amount)
     {
 
+        if (Options.DisableSabotage.GetBool()) return false;
+
         // 蠢蛋无法修复破坏
         if (player.Is(CustomRoles.Fool)) return false;
 
@@ -100,7 +102,7 @@ class CloseDoorsPatch
 {
     public static bool Prefix(ShipStatus __instance)
     {
-        return true;
+        return !Options.DisableSabotage.GetBool();
     }
 }
 [HarmonyPatch(typeof(SwitchSystem), nameof(SwitchSystem.RepairDamage))]
