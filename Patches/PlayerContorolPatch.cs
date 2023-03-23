@@ -439,7 +439,8 @@ class MurderPlayerPatch
             Main.HackerUsedCount[killer.PlayerId] += 1;
             List<PlayerControl> playerList = new();
             foreach (PlayerControl pc in Main.AllAlivePlayerControls)
-                if (!Pelican.IsEaten(pc.PlayerId) && !(pc.PlayerId != killer.PlayerId) && !(pc.GetCustomRole() is CustomRoles.Needy or CustomRoles.GM)) playerList.Add(pc);
+                if (pc.PlayerId != killer.PlayerId && pc.GetCustomRole() is not CustomRoles.Needy and not CustomRoles.GM)
+                    playerList.Add(pc);
             if (playerList.Count < 1)
             {
                 Logger.Info(target?.Data?.PlayerName + "被骇客击杀，但无法找到骇入目标", "MurderPlayer");
