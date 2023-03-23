@@ -60,11 +60,12 @@ public static class Pelican
         }
         else
         {
-            int eatenNum = reader.ReadInt16();
+            int eatenNum = reader.ReadInt32();
             eatenList.Remove(playerId);
-            eatenList.Add(playerId, new List<byte>());
+            List<byte> list = new();
             for (int i = 0; i < eatenNum; i++)
-                eatenList[playerId].Add(reader.ReadByte());
+                list.Add(reader.ReadByte());
+            eatenList.Add(playerId, list);
         }
     }
     public static bool IsEaten(PlayerControl pc, byte id) => eatenList.ContainsKey(pc.PlayerId) && eatenList[pc.PlayerId].Contains(id);
