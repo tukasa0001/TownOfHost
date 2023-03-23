@@ -258,6 +258,16 @@ class BeginImpostorPatch
             __instance.overlayHandle.color = Palette.CrewmateBlue;
             return false;
         }
+        if (PlayerControl.LocalPlayer.Is(CustomRoles.Madmate))
+        {
+            yourTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+            yourTeam.Add(PlayerControl.LocalPlayer);
+            foreach (var pc in Main.AllPlayerControls)
+                if (!pc.AmOwner && pc.GetCustomRole().IsImpostorTeam())
+                    yourTeam.Add(pc);
+            __instance.BeginCrewmate(yourTeam);
+            return false;
+        }
         BeginCrewmatePatch.Prefix(__instance, ref yourTeam);
         return true;
     }
