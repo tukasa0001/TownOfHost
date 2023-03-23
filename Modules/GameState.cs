@@ -247,7 +247,7 @@ public class TaskState
                     Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Overtired;
                 }
             }
-            CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Workaholic); //爆破で勝利した人も勝利させる
+            CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Workaholic); //爆破で勝利した人も勝利させる
             CustomWinnerHolder.WinnerIds.Add(player.PlayerId);
         }
 
