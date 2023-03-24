@@ -27,7 +27,7 @@ public static class Vampire
     public static void SetupCustomOption()
     {
         Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Vampire);
-        OptionKillDelay = FloatOptionItem.Create(Id + 10, "VampireKillDelay", new(1f, 1000f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Vampire])
+        OptionKillDelay = FloatOptionItem.Create(Id + 10, "VampireKillDelay", new(1f, 999f, 1f), 10f, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Vampire])
             .SetValueFormat(OptionFormat.Seconds);
     }
     public static void Init()
