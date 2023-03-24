@@ -87,7 +87,6 @@ internal class EAC
                     }
                     break;
                 case RpcCalls.StartMeeting:
-                    var p = Utils.GetPlayerById(sr.ReadByte());
                     MeetingTimes++;
                     if ((GameStates.IsMeeting && MeetingTimes > 3) || GameStates.IsLobby)
                     {
@@ -147,8 +146,8 @@ internal class EAC
                     }
                     break;
                 case 11:
-                    var p = Utils.GetPlayerById(sr.ReadByte());
-                    if (GameStates.IsMeeting || GameStates.IsLobby)
+                    MeetingTimes++;
+                    if ((GameStates.IsMeeting && MeetingTimes > 3) || GameStates.IsLobby)
                     {
                         WarnHost();
                         Report(pc, "非法召集会议");
