@@ -92,7 +92,7 @@ internal class EAC
                     {
                         WarnHost();
                         Report(pc, "非法召集会议");
-                        Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法召集会议：【{p?.GetNameWithRole() ?? "null"}】，已驳回", "EAC");
+                        Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法召集会议：【null】，已驳回", "EAC");
                         return true;
                     }
                     break;
@@ -151,7 +151,7 @@ internal class EAC
                     {
                         WarnHost();
                         Report(pc, "非法召集会议");
-                        Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法召集会议：【{p?.GetNameWithRole() ?? "null"}】，已驳回", "EAC");
+                        Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法召集会议：【null】，已驳回", "EAC");
                         return true;
                     }
                     break;

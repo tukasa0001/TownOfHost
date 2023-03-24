@@ -303,7 +303,7 @@ public static class Utils
         {
             var KillerId = state.GetRealKiller();
             Color color = KillerId != byte.MaxValue ? Main.PlayerColors[KillerId] : GetRoleColor(CustomRoles.Doctor);
-            if (state.deathReason == PlayerState.DeathReason.Disconnected) color = new Color(255, 255, 255, 100);
+            if (state.deathReason == PlayerState.DeathReason.Disconnected) color = new Color(255, 255, 255, 50);
             deathReason = ColorString(color, deathReason);
         }
         return deathReason;
