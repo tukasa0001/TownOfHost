@@ -524,7 +524,7 @@ class MurderPlayerPatch
                 }
                 break;
         }
-        
+
         if (target.Is(CustomRoles.Avanger))
         {
             var pcList = Main.AllAlivePlayerControls.Where(x => x.IsAlive() && !Pelican.IsEaten(x.PlayerId) && x.PlayerId != target.PlayerId).ToList();

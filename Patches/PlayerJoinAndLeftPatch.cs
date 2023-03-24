@@ -6,7 +6,6 @@ using InnerNet;
 using System.Collections.Generic;
 using TOHE.Modules;
 using TOHE.Roles.Neutral;
-using static Il2CppMono.Security.X509.X520;
 using static TOHE.Translator;
 
 namespace TOHE;

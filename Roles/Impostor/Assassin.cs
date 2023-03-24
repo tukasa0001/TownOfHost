@@ -1,5 +1,4 @@
 ﻿using Hazel;
-using MS.Internal.Xml.XPath;
 using System.Collections.Generic;
 using TOHE.Roles.Neutral;
 using static TOHE.Options;
@@ -114,4 +113,4 @@ internal static class Assassin
         if (MarkedPlayer.ContainsKey(playerId) && !playerId.Shapeshifting())
             __instance.AbilityButton.OverrideText($"{GetString("AssassinShapeshiftText")}");
     }
-}   
+}

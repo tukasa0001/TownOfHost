@@ -1,5 +1,4 @@
 using AmongUs.Data;
-using AmongUs.Data.Player;
 using AmongUs.GameOptions;
 using Hazel;
 using InnerNet;
