@@ -663,7 +663,7 @@ class ShapeshiftPatch
                             Utils.TP(target.NetTransform, shapeshifter.GetTruePosition());
                             Utils.TP(shapeshifter.NetTransform, originPs);
                         }
-                    }, 1.3f, "ImperiusCurse TP");
+                    }, 1.5f, "ImperiusCurse TP");
                 }
                 break;
             case CustomRoles.QuickShooter:
