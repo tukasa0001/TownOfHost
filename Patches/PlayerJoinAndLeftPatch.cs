@@ -92,9 +92,6 @@ class OnPlayerJoinedPatch
         BanManager.CheckDenyNamePlayer(client);
         RPC.RpcVersionCheck();
 
-        if (GameStates.IsModHost)
-            Main.HostClientId = Utils.GetPlayerById(0)?.GetClientId() ?? -1;
-
         if (AmongUsClient.Instance.AmHost)
         {
             if (Main.LastRPC.ContainsKey(client.Id)) Main.LastRPC.Remove(client.Id);
