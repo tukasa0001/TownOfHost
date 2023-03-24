@@ -1536,7 +1536,6 @@ class EnterVentPatch
         }
         if (pc.Is(CustomRoles.Veteran))
         {
-            pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
             Main.VeteranInProtect.Remove(pc.PlayerId);
             Main.VeteranInProtect.Add(pc.PlayerId, Utils.GetTimeStamp(DateTime.Now));
             new LateTask(() =>
@@ -1546,7 +1545,6 @@ class EnterVentPatch
         }
         if (pc.Is(CustomRoles.Grenadier))
         {
-            pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
             if (pc.Is(CustomRoles.Madmate))
             {
                 Main.MadGrenadierBlinding.Remove(pc.PlayerId);
@@ -1603,7 +1601,7 @@ class CoEnterVentPatch
                 return true;
             }
 
-            //让玩家滚出通风管
+            //处理弹出管道的阻塞（不处理会被树懒反作弊踢出）
             if ((__instance.myPlayer.Data.Role.Role != RoleTypes.Engineer && //不是工程师
             !__instance.myPlayer.CanUseImpostorVentButton()) || //不能使用内鬼的跳管按钮
             (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt()) ||
