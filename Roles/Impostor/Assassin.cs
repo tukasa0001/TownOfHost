@@ -1,4 +1,5 @@
 ﻿using Hazel;
+using MS.Internal.Xml.XPath;
 using System.Collections.Generic;
 using TOHE.Roles.Neutral;
 using static TOHE.Options;
@@ -51,9 +52,9 @@ internal static class Assassin
         if (targetId != byte.MaxValue)
             MarkedPlayer.Add(playerId, targetId);
     }
-    private static bool shapeshifting(this PlayerControl pc) => pc.PlayerId.shapeshifting();
-    private static bool shapeshifting(this byte id) => Main.CheckShapeshift.TryGetValue(id, out var x) && x;
-    public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = id.shapeshifting() ? DefaultKillCooldown : MarkCooldown.GetFloat();
+    private static bool Shapeshifting(this PlayerControl pc) => pc.PlayerId.Shapeshifting();
+    private static bool Shapeshifting(this byte id) => Main.CheckShapeshift.TryGetValue(id, out bool shapeshifting) && shapeshifting;
+    public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = id.Shapeshifting() ? DefaultKillCooldown : MarkCooldown.GetFloat();
     public static void ApplyGameOptions() => AURoleOptions.ShapeshifterCooldown = AssassinateCooldown.GetFloat();
     public static bool CanUseKillButton(PlayerControl pc)
     {
@@ -63,7 +64,7 @@ internal static class Assassin
     }
     public static bool OnCheckMurder(PlayerControl killer, PlayerControl target)
     {
-        if (killer.shapeshifting)
+        if (killer.Shapeshifting())
         {
             return CanUseKillButton(killer);
         }
@@ -80,7 +81,12 @@ internal static class Assassin
     }
     public static void OnShapeshift(PlayerControl pc, bool shapeshifting)
     {
-        if (!shapeshifting || !pc.IsAlive() || Pelican.IsEaten(pc.PlayerId)) return;
+        if (!pc.IsAlive() || Pelican.IsEaten(pc.PlayerId)) return;
+        if (!shapeshifting)
+        {
+            pc.SetKillCooldown();
+            return;
+        }
         if (MarkedPlayer.ContainsKey(pc.PlayerId))
         {
             var target = Utils.GetPlayerById(MarkedPlayer[pc.PlayerId]);
@@ -98,14 +104,14 @@ internal static class Assassin
     }
     public static void SetKillButtonText(byte playerId)
     {
-        if (!playerId.shapeshifting())
+        if (!playerId.Shapeshifting())
             HudManager.Instance.KillButton.OverrideText($"{GetString("AssassinMarkButtonText")}");
         else
             HudManager.Instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
     }
     public static void GetAbilityButtonText(HudManager __instance, byte playerId)
     {
-        if (MarkedPlayer.ContainsKey(playerId))
+        if (MarkedPlayer.ContainsKey(playerId) && !playerId.Shapeshifting())
             __instance.AbilityButton.OverrideText($"{GetString("AssassinShapeshiftText")}");
     }
-}
+}   
