@@ -1,10 +1,12 @@
 using AmongUs.Data;
 using AmongUs.GameOptions;
 using HarmonyLib;
+using Hazel;
 using InnerNet;
 using System.Collections.Generic;
 using TOHE.Modules;
 using TOHE.Roles.Neutral;
+using static Il2CppMono.Security.X509.X520;
 using static TOHE.Translator;
 
 namespace TOHE;
@@ -19,6 +21,9 @@ class OnGameJoinedPatch
         Main.playerVersion = new Dictionary<byte, PlayerVersion>();
         RPC.RpcVersionCheck();
         SoundManager.Instance.ChangeAmbienceVolume(DataManager.Settings.Audio.AmbienceVolume);
+
+        if (GameStates.IsModHost)
+            Main.HostClientId = Utils.GetPlayerById(0)?.GetClientId() ?? -1;
 
         ChatUpdatePatch.DoBlockChat = false;
         GameStates.InGame = false;
@@ -88,6 +93,9 @@ class OnPlayerJoinedPatch
         BanManager.CheckDenyNamePlayer(client);
         RPC.RpcVersionCheck();
 
+        if (GameStates.IsModHost)
+            Main.HostClientId = Utils.GetPlayerById(0)?.GetClientId() ?? -1;
+
         if (AmongUsClient.Instance.AmHost)
         {
             if (Main.LastRPC.ContainsKey(client.Id)) Main.LastRPC.Remove(client.Id);
@@ -129,6 +137,41 @@ class OnPlayerLeftPatch
             AntiBlackout.OnDisconnect(data.Character.Data);
             PlayerGameOptionsSender.RemoveSender(data.Character);
         }
+
+        if (Main.HostClientId == __instance.ClientId)
+        {
+            var clientId = -1;
+            var player = PlayerControl.LocalPlayer;
+            var title = "<color=#aaaaff>" + GetString("DefaultSystemMessageTitle") + "</color>";
+            var name = player.Data.PlayerName;
+            var msg = "";
+            if (GameStates.IsInGame)
+            {
+                Utils.ErrorEnd("房主退出游戏");
+                msg = "警告：房主已退出游戏，接下来游戏将无法正常运行，请各位退出游戏，或等待新房主重开游戏。";
+            }
+            else if (GameStates.IsLobby)
+                msg = "警告：房主已退出游戏，接下来游戏将无法正常运行，若新房主已安装TOHE，需要至少重开一次房间才能正常游戏。";
+
+            player.SetName(title);
+            DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, msg);
+            player.SetName(name);
+
+            var writer = CustomRpcSender.Create("MessagesToSend", SendOption.None);
+            writer.StartMessage(clientId);
+            writer.StartRpc(player.NetId, (byte)RpcCalls.SetName)
+                .Write(title)
+                .EndRpc();
+            writer.StartRpc(player.NetId, (byte)RpcCalls.SendChat)
+                .Write(msg)
+                .EndRpc();
+            writer.StartRpc(player.NetId, (byte)RpcCalls.SetName)
+                .Write(player.Data.PlayerName)
+                .EndRpc();
+            writer.EndMessage();
+            writer.SendMessage();
+        }
+
         switch (reason)
         {
             case DisconnectReasons.Hacking:

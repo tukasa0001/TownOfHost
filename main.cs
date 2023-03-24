@@ -163,6 +163,7 @@ public class Main : BasePlugin
 
     public static Dictionary<int, byte> LastRPC = new();
     public static string OverrideWelcomeMsg = "";
+    public static int HostClientId;
 
     public override void Load()
     {
