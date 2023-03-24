@@ -608,6 +608,9 @@ internal static class RPC
             case CustomRoles.Collector:
                 Collector.Add(targetId);
                 break;
+            case CustomRoles.CursedWolf:
+                Main.CursedWolfSpellCount[targetId] = Options.GuardSpellTimes.GetInt();
+                break;
             case CustomRoles.Concealer:
                 Concealer.Add(targetId);
                 break;
