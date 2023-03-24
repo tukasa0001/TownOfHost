@@ -436,62 +436,95 @@ class MurderPlayerPatch
         if (Main.FirstDied == byte.MaxValue)
             Main.FirstDied = target.PlayerId;
 
-        //When Bait is killed
-        if (target.Is(CustomRoles.Bait) && killer.PlayerId != target.PlayerId)
+        switch (target.GetCustomRole())
         {
-            if (target.Is(CustomRoles.Madmate)) //背叛诱饵
-            {
-                List<PlayerControl> playerList = new();
-                foreach (PlayerControl pc in Main.AllAlivePlayerControls)
-                    if (!(pc.GetCustomRole() is CustomRoles.Needy or CustomRoles.GM) && pc.PlayerId != target.PlayerId)
-                        playerList.Add(pc);
-                if (playerList.Count < 1)
+            //When Bait is killed
+            case CustomRoles.Bait:
+                if (killer.PlayerId != target.PlayerId)
                 {
-                    Logger.Info(target?.Data?.PlayerName + "是背叛诱饵，但找不到替罪羊", "MurderPlayer");
-                    new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
+                    if (target.Is(CustomRoles.Madmate)) //背叛诱饵
+                    {
+                        List<PlayerControl> playerList = new();
+                        foreach (PlayerControl pc in Main.AllAlivePlayerControls)
+                            if (!(pc.GetCustomRole() is CustomRoles.Needy or CustomRoles.GM) && pc.PlayerId != target.PlayerId)
+                                playerList.Add(pc);
+                        if (playerList.Count < 1)
+                        {
+                            Logger.Info(target?.Data?.PlayerName + "是背叛诱饵，但找不到替罪羊", "MurderPlayer");
+                            new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
+                        }
+                        else
+                        {
+                            var rd = IRandom.Instance;
+                            int hackinPlayer = rd.Next(0, playerList.Count);
+                            if (playerList[hackinPlayer] == null) hackinPlayer = 0;
+                            Logger.Info(target?.Data?.PlayerName + "是背叛诱饵，随机报告者：" + playerList[hackinPlayer]?.Data?.PlayerName, "MurderPlayer");
+                            new LateTask(() => playerList[hackinPlayer].CmdReportDeadBody(target.Data), 0.15f, "Bait of MadmateJ Random Report");
+                        }
+                    }
+                    else //船员诱饵
+                    {
+                        Logger.Info(target?.Data?.PlayerName + "はBaitだった", "MurderPlayer");
+                        new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
+                    }
                 }
-                else
+                break;
+            //Terrorist
+            case CustomRoles.Terrorist:
+                Logger.Info(target?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
+                Utils.CheckTerroristWin(target.Data);
+                break;
+            case CustomRoles.Trapper:
+                if (killer != target)
+                    killer.TrapperKilled(target);
+                break;
+            case CustomRoles.Executioner:
+                if (Executioner.Target.ContainsKey(target.PlayerId))
                 {
-                    var rd = IRandom.Instance;
-                    int hackinPlayer = rd.Next(0, playerList.Count);
-                    if (playerList[hackinPlayer] == null) hackinPlayer = 0;
-                    Logger.Info(target?.Data?.PlayerName + "是背叛诱饵，随机报告者：" + playerList[hackinPlayer]?.Data?.PlayerName, "MurderPlayer");
-                    new LateTask(() => playerList[hackinPlayer].CmdReportDeadBody(target.Data), 0.15f, "Bait of MadmateJ Random Report");
+                    Executioner.Target.Remove(target.PlayerId);
+                    Executioner.SendRPC(target.PlayerId);
                 }
-            }
-            else //船员诱饵
-            {
-                Logger.Info(target?.Data?.PlayerName + "はBaitだった", "MurderPlayer");
-                new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
-            }
+                break;
+            case CustomRoles.CyberStar:
+                if (!Main.CyberStarDead.Contains(target.PlayerId))
+                    Main.CyberStarDead.Add(target.PlayerId);
+                break;
+            case CustomRoles.Pelican:
+                Pelican.OnPelicanDied(target.PlayerId);
+                break;
+            case CustomRoles.BallLightning:
+                if (killer != target)
+                    BallLightning.MurderPlayer(killer, target);
+                break;
         }
-        else
-        //Terrorist
-        if (target.Is(CustomRoles.Terrorist))
+
+        switch (killer.GetCustomRole())
         {
-            Logger.Info(target?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
-            Utils.CheckTerroristWin(target.Data);
+            case CustomRoles.BoobyTrap:
+                if (killer != target)
+                {
+                    if (!Main.BoobyTrapBody.Contains(target.PlayerId)) Main.BoobyTrapBody.Add(target.PlayerId);
+                    if (!Main.KillerOfBoobyTrapBody.ContainsKey(target.PlayerId)) Main.KillerOfBoobyTrapBody.Add(target.PlayerId, killer.PlayerId);
+                    Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
+                    killer.RpcMurderPlayer(killer);
+                }
+                break;
+            case CustomRoles.SwordsMan:
+                if (killer != target)
+                    SwordsMan.OnMurder(killer);
+                break;
+            case CustomRoles.OverKiller:
+                Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Dismembered;
+                for (int i = 0; i < 20; i++)
+                {
+                    target.MurderPlayer(target);
+                    MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(target.NetId, (byte)RpcCalls.MurderPlayer, SendOption.None, -1);
+                    messageWriter.WriteNetObject(target);
+                    AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+                }
+                break;
         }
-        if (target.Is(CustomRoles.Trapper) && killer != target)
-            killer.TrapperKilled(target);
-        if (Executioner.Target.ContainsValue(target.PlayerId))
-            Executioner.ChangeRoleByTarget(target);
-        if (target.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(target.PlayerId))
-        {
-            Executioner.Target.Remove(target.PlayerId);
-            Executioner.SendRPC(target.PlayerId);
-        }
-        if (target.Is(CustomRoles.CyberStar) && Main.CyberStarDead.Contains(target.PlayerId))
-            Main.CyberStarDead.Add(target.PlayerId);
-        if (killer.Is(CustomRoles.BoobyTrap) && killer != target)
-        {
-            if (!Main.BoobyTrapBody.Contains(target.PlayerId)) Main.BoobyTrapBody.Add(target.PlayerId);
-            if (!Main.KillerOfBoobyTrapBody.ContainsKey(target.PlayerId)) Main.KillerOfBoobyTrapBody.Add(target.PlayerId, killer.PlayerId);
-            Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
-            killer.RpcMurderPlayer(killer);
-        }
-        if (killer.Is(CustomRoles.SwordsMan) && killer != target)
-            SwordsMan.OnMurder(killer);
+        
         if (target.Is(CustomRoles.Avanger))
         {
             var pcList = Main.AllAlivePlayerControls.Where(x => x.IsAlive() && !Pelican.IsEaten(x.PlayerId) && x.PlayerId != target.PlayerId).ToList();
@@ -500,21 +533,9 @@ class MurderPlayerPatch
             rp.SetRealKiller(target);
             rp.RpcMurderPlayer(rp);
         }
-        if (target.Is(CustomRoles.Pelican) && killer != target)
-            Pelican.OnPelicanDied(target.PlayerId);
-        if (target.Is(CustomRoles.BallLightning) && killer != target)
-            BallLightning.MurderPlayer(killer, target);
-        if (killer.Is(CustomRoles.OverKiller))
-        {
-            Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Dismembered;
-            for (int i = 0; i < 20; i++)
-            {
-                target.MurderPlayer(target);
-                MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(target.NetId, (byte)RpcCalls.MurderPlayer, SendOption.None, -1);
-                messageWriter.WriteNetObject(target);
-                AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
-            }
-        }
+
+        if (Executioner.Target.ContainsValue(target.PlayerId))
+            Executioner.ChangeRoleByTarget(target);
         Hacker.AddDeadBody(target);
 
         FixedUpdatePatch.LoversSuicide(target.PlayerId);
