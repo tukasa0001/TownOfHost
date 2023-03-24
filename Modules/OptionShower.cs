@@ -56,7 +56,7 @@ public static class OptionShower
                 string ruleFooter = Utils.ColorString(Palette.ImpostorRed.ShadeColor(-0.5f), "┗ ");
             }
 
-            foreach (var opt in OptionItem.AllOptions.Where(x => x.Id >= 90000 && !x.IsHiddenOn(Options.CurrentGameMode) && x.Parent == null))
+            foreach (var opt in OptionItem.AllOptions.Where(x => x.Id >= 90000 && !x.IsHiddenOn(Options.CurrentGameMode) && x.Parent == null && !x.IsText))
             {
                 if (opt.IsHeader) sb.Append("\n");
                 sb.Append($"{opt.GetName()}: {opt.GetString()}\n");

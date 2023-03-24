@@ -455,6 +455,10 @@ public static class Options
            .SetHeader(true);
         NeutralWinTogether = BooleanOptionItem.Create(505013, "NeutralWinTogether", false, TabGroup.NeutralRoles, false).SetParent(NeutralRoleWinTogether);
 
+        NameDisplayAddons = BooleanOptionItem.Create(6050248, "NameDisplayAddons", false, TabGroup.Addons, false)
+            .SetHeader(true);
+        NoLimitAddonsNum = BooleanOptionItem.Create(6050250, "NoLimitAddonsNum", false, TabGroup.Addons, false);
+
         // GM
         EnableGM = BooleanOptionItem.Create(100, "GM", false, TabGroup.GameSettings, false)
             .SetColor(Utils.GetRoleColor(CustomRoles.GM))
@@ -612,10 +616,6 @@ public static class Options
         Collector.SetupCustomOption();
 
         // Add-Ons
-
-        NameDisplayAddons = BooleanOptionItem.Create(6050248, "NameDisplayAddons", false, TabGroup.Addons, false)
-            .SetHeader(true);
-        NoLimitAddonsNum = BooleanOptionItem.Create(6050250, "NoLimitAddonsNum", false, TabGroup.Addons, false);
         SetupLoversRoleOptionsToggle(50300);
         SetupAdtRoleOptions(6050320, CustomRoles.Watcher, canSetNum: true);
         SetupAdtRoleOptions(6050340, CustomRoles.Lighter, canSetNum: true);
