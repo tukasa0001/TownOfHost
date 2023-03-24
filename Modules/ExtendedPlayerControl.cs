@@ -157,6 +157,9 @@ namespace TownOfHost
 
         public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
         {
+            //killerが死んでいる場合は実行しない
+            if (!killer.IsAlive()) return;
+
             if (target == null) target = killer;
             // Host
             if (killer.AmOwner)

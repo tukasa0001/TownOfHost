@@ -352,8 +352,7 @@ namespace TownOfHost
                             targetw.SetRealKiller(shapeshifter);
                             Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
                             cp.RpcMurderPlayerV2(targetw);//殺す
-                            if (target.PlayerId != shapeshifter.PlayerId)
-                                shapeshifter.RpcGuardAndKill(shapeshifter);
+                            shapeshifter.RpcGuardAndKill(shapeshifter);
                             Main.isCurseAndKill[shapeshifter.PlayerId] = false;
                         }
                         Main.CursedPlayers[shapeshifter.PlayerId] = null;
