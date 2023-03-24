@@ -140,8 +140,7 @@ class CheckMurderPatch
                     }
                     if (Main.CheckShapeshift[killer.PlayerId])
                     {//呪われてる人がいないくて変身してるときに通常キルになる
-                        killer.RpcMurderPlayer(target);
-                        killer.RpcGuardAndKill(target);
+                        killer.RpcCheckAndMurder(target);
                         return false;
                     }
                     if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
@@ -262,25 +261,39 @@ class CheckMurderPatch
             }
         }
 
-        //赝品检查
+        // 赝品检查
         if (Counterfeiter.OnClientMurder(killer)) return false;
 
-        //检查明星附近是否有人
-        if (target.Is(CustomRoles.SuperStar))
+        // 击杀前检查
+        if (!killer.RpcCheckAndMurder(target, true))
+            return false;
+
+        // 清道夫清理尸体
+        if (killer.Is(CustomRoles.Scavenger))
         {
-            if (Main.AllAlivePlayerControls.Where(x =>
-            x.PlayerId != killer.PlayerId &&
-            x.PlayerId != target.PlayerId &&
-            Vector2.Distance(x.GetTruePosition(), target.GetTruePosition()) < 2f
-            ).ToList().Count >= 1) return false;
+            Utils.TP(target.NetTransform, Pelican.GetBlackRoomPS());
+            target.SetRealKiller(killer);
+            Main.PlayerStates[target.PlayerId].SetDead();
+            target.RpcMurderPlayer(target);
+            killer.SetKillCooldown();
+            RPC.PlaySoundRPC(killer.PlayerId, Sounds.KillSound);
+            return false;
         }
+
+        //==キル処理==
+        __instance.RpcMurderPlayer(target);
+        //============
+
+        return false;
+    }
+
+    public static bool RpcCheckAndMurder(PlayerControl killer, PlayerControl target, bool check = false)
+    {
+        if (!AmongUsClient.Instance.AmHost) return false;
+        if (target == null) target = killer;
 
         //医生护盾检查
         if (Medicaler.OnCheckMurder(killer, target))
-            return false;
-
-        //玩家被击杀事件
-        if (!Gamer.CheckMurder(killer, target))
             return false;
 
         switch (target.GetCustomRole())
@@ -297,7 +310,13 @@ class CheckMurderPatch
             //击杀呪狼
             case CustomRoles.CursedWolf:
                 if (Main.CursedWolfSpellCount[target.PlayerId] <= 0) break;
-                CurseWolfGuard(killer, target);
+                killer.RpcGuardAndKill(target);
+                target.RpcGuardAndKill(target);
+                Main.CursedWolfSpellCount[target.PlayerId] -= 1;
+                RPC.SendRPCCursedWolfSpellCount(target.PlayerId);
+                Logger.Info($"{target.GetNameWithRole()} : {Main.CursedWolfSpellCount[target.PlayerId]}回目", "CursedWolf");
+                Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Spell;
+                killer.RpcMurderPlayer(killer);
                 return false;
             //击杀老兵
             case CustomRoles.Veteran:
@@ -309,6 +328,19 @@ class CheckMurderPatch
                         Logger.Info($"{target.GetRealName()} 老兵反弹击杀：{killer.GetRealName()}", "Veteran Kill");
                         return false;
                     }
+                break;
+            //检查明星附近是否有人
+            case CustomRoles.SuperStar:
+                if (Main.AllAlivePlayerControls.Where(x =>
+                    x.PlayerId != killer.PlayerId &&
+                    x.PlayerId != target.PlayerId &&
+                    Vector2.Distance(x.GetTruePosition(), target.GetTruePosition()) < 2f
+                    ).ToList().Count >= 1) return false;
+                break;
+            //玩家被击杀事件
+            case CustomRoles.Gamer:
+                if (!Gamer.CheckMurder(killer, target))
+                    return false;
                 break;
         }
 
@@ -352,36 +384,9 @@ class CheckMurderPatch
             return false;
         }
 
-        // 清道夫清理尸体
-        if (killer.Is(CustomRoles.Scavenger))
-        {
-            Utils.TP(target.NetTransform, Pelican.GetBlackRoomPS());
-            target.SetRealKiller(killer);
-            Main.PlayerStates[target.PlayerId].SetDead();
-            target.RpcMurderPlayer(target);
-            killer.SetKillCooldown();
-            RPC.PlaySoundRPC(killer.PlayerId, Sounds.KillSound);
-            return false;
-        }
-
-        //==キル処理==
-        __instance.RpcMurderPlayer(target);
-        //============
-
-        return false;
+        if (!check) killer.RpcMurderPlayer(target);
+        return true;
     }
-
-    private static void CurseWolfGuard(PlayerControl killer, PlayerControl target)
-    {
-        killer.RpcGuardAndKill(target);
-        target.RpcGuardAndKill(target);
-        Main.CursedWolfSpellCount[target.PlayerId] -= 1;
-        RPC.SendRPCCursedWolfSpellCount(target.PlayerId);
-        Logger.Info($"{target.GetNameWithRole()} : {Main.CursedWolfSpellCount[target.PlayerId]}回目", "CursedWolf");
-        Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Spell;
-        killer.RpcMurderPlayer(killer);
-    }
-
 }
 [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MurderPlayer))]
 class MurderPlayerPatch
@@ -575,7 +580,7 @@ class ShapeshiftPatch
                         }
                         var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
                         PlayerControl targetw = min.Key;
-                        if (Gamer.CheckMurder(cp, targetw))
+                        if (cp.RpcCheckAndMurder(targetw, true))
                         {
                             targetw.SetRealKiller(shapeshifter);
                             Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
@@ -1162,13 +1167,16 @@ class FixedUpdatePatch
                         var KillRange = NormalGameOptionsV07.KillDistances[Mathf.Clamp(Main.NormalOptions.KillDistance, 0, 2)];
                         if (min.Value <= KillRange && player.CanMove && target.CanMove)
                         {
-                            var puppeteerId = Main.PuppeteerList[player.PlayerId];
-                            RPC.PlaySoundRPC(puppeteerId, Sounds.KillSound);
-                            target.SetRealKiller(Utils.GetPlayerById(puppeteerId));
-                            player.RpcMurderPlayer(target);
-                            Utils.MarkEveryoneDirtySettings();
-                            Main.PuppeteerList.Remove(player.PlayerId);
-                            Utils.NotifyRoles();
+                            if (player.RpcCheckAndMurder(target, true))
+                            {
+                                var puppeteerId = Main.PuppeteerList[player.PlayerId];
+                                RPC.PlaySoundRPC(puppeteerId, Sounds.KillSound);
+                                target.SetRealKiller(Utils.GetPlayerById(puppeteerId));
+                                player.RpcMurderPlayer(target);
+                                Utils.MarkEveryoneDirtySettings();
+                                Main.PuppeteerList.Remove(player.PlayerId);
+                                Utils.NotifyRoles();
+                            }
                         }
                     }
                 }

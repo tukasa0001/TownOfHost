@@ -90,7 +90,7 @@ internal static class Assassin
             {
                 if (!(target == null || !target.IsAlive() || Pelican.IsEaten(target.PlayerId) || target.inVent || !GameStates.IsInTask))
                 {
-                    if (Gamer.CheckMurder(pc, target))
+                    if (pc.RpcCheckAndMurder(target, true))
                     {
                         target.SetRealKiller(pc);
                         pc.RpcMurderPlayer(target);

@@ -592,6 +592,7 @@ static class ExtendedPlayerControl
         AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
         Utils.NotifyRoles();
     }
+    public static bool RpcCheckAndMurder(this PlayerControl killer, PlayerControl target, bool check = false) => CheckMurderPatch.RpcCheckAndMurder(killer, target, check);
     public static void NoCheckStartMeeting(this PlayerControl reporter, GameData.PlayerInfo target)
     { /*サボタージュ中でも関係なしに会議を起こせるメソッド
         targetがnullの場合はボタンとなる*/
