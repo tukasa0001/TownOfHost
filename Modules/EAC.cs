@@ -111,8 +111,8 @@ internal class EAC
                 case RpcCalls.CheckColor:
                     var color = sr.ReadByte();
                     if (
-                        Main.AllPlayerControls.Where(x => x.Data.DefaultOutfit.ColorId == color).Count() >= 6
-                        || !GameStates.IsLobby || color == 18)
+                        Main.AllPlayerControls.Where(x => x.Data.DefaultOutfit.ColorId == color).Count() >= 5
+                        || !GameStates.IsLobby || color < 0 || color > 18)
                     {
                         WarnHost();
                         Report(pc, "非法设置颜色");
@@ -138,7 +138,7 @@ internal class EAC
                     Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法使用AUM发送消息", "EAC");
                     return true;
                 case 7:
-                    if (GameStates.IsInGame)
+                    if (!GameStates.IsLobby)
                     {
                         WarnHost();
                         Report(pc, "非法设置颜色");
