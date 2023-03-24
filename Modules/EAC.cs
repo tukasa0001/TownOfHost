@@ -109,9 +109,9 @@ internal class EAC
                 case RpcCalls.SetColor:
                 case RpcCalls.CheckColor:
                     var color = sr.ReadByte();
-                    if (
-                        Main.AllPlayerControls.Where(x => x.Data.DefaultOutfit.ColorId == color).Count() >= 5
-                        || !GameStates.IsLobby || color < 0 || color > 18)
+                    if ( pc.Data.DefaultOutfit.ColorId != -1 &&
+                        (Main.AllPlayerControls.Where(x => x.Data.DefaultOutfit.ColorId == color).Count() >= 5
+                        || !GameStates.IsLobby || color < 0 || color > 18))
                     {
                         WarnHost();
                         Report(pc, "非法设置颜色");
