@@ -90,13 +90,10 @@ internal static class Assassin
             {
                 if (!(target == null || !target.IsAlive() || Pelican.IsEaten(target.PlayerId) || target.inVent || !GameStates.IsInTask))
                 {
-                    if (pc.RpcCheckAndMurder(target, true))
-                    {
-                        target.SetRealKiller(pc);
-                        pc.RpcMurderPlayer(target);
-                    }
+                    Utils.TP(pc.NetTransform, target.GetTruePosition());
+                    pc.RpcCheckAndMurder(target);
                 }
-            }, 1.3f, "Assassin Assassinate");
+            }, 1.5f, "Assassin Assassinate");
         }
     }
     public static void SetKillButtonText(byte playerId)
