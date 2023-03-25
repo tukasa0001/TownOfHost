@@ -266,7 +266,7 @@ public static class Utils
         var mainRole = Main.PlayerStates[playerId].MainRole;
         var SubRoles = Main.PlayerStates[playerId].SubRoles;
         RoleText = GetRoleName(mainRole);
-        RoleColor = GetPlayerById(playerId).Is(CustomRoles.Madmate) ? new(255, 25, 25, byte.MaxValue) : GetRoleColor(mainRole);
+        RoleColor = SubRoles.Contains(CustomRoles.Madmate) ? GetRoleColor(CustomRoles.Madmate) : GetRoleColor(mainRole);
 
         if (Main.PlayerStates[playerId].SubRoles.Contains(CustomRoles.LastImpostor))
             RoleText = GetRoleString("Last-") + RoleText;
