@@ -111,6 +111,9 @@ class CheckMurderPatch
         if (target.Is(CustomRoles.Glitch))
             return false;
 
+        // 赝品检查
+        if (Counterfeiter.OnClientMurder(killer)) return false;
+
         //判定凶手技能
         if (killer.PlayerId != target.PlayerId)
         {
@@ -230,9 +233,8 @@ class CheckMurderPatch
                     }
                     break;
                 case CustomRoles.Gamer:
-                    if (Gamer.CheckGamerMurder(killer, target))
-                        return false;
-                    break;
+                    Gamer.CheckGamerMurder(killer, target);
+                    return false;
                 case CustomRoles.DarkHide:
                     DarkHide.OnCheckMurder(killer, target);
                     break;
@@ -260,9 +262,6 @@ class CheckMurderPatch
                     return false;
             }
         }
-
-        // 赝品检查
-        if (Counterfeiter.OnClientMurder(killer)) return false;
 
         // 击杀前检查
         if (!killer.RpcCheckAndMurder(target, true))
