@@ -455,7 +455,7 @@ public static class Options
            .SetHeader(true);
         NeutralWinTogether = BooleanOptionItem.Create(505013, "NeutralWinTogether", false, TabGroup.NeutralRoles, false).SetParent(NeutralRoleWinTogether);
 
-        NameDisplayAddons = BooleanOptionItem.Create(6050248, "NameDisplayAddons", false, TabGroup.Addons, false)
+        NameDisplayAddons = BooleanOptionItem.Create(6050248, "NameDisplayAddons", true, TabGroup.Addons, false)
             .SetHeader(true);
         NoLimitAddonsNum = BooleanOptionItem.Create(6050250, "NoLimitAddonsNum", false, TabGroup.Addons, false);
 

@@ -157,6 +157,25 @@ TicketsStealer,窃票者,Stealer,Похититель
 DualPersonality,双重人格,Schizophrenic,Шизофреник
 Mimic,宝箱怪,Mimic,Мимик
 
+## 附加职业作为前缀时
+Prefix.Ntr,海王,Neptune,Нептун
+Prefix.Watcher,窥视
+Prefix.Flashman,闪电
+Prefix.Lighter,执灯
+Prefix.Seer,灵媒
+Prefix.Brakar,破平
+Prefix.Oblivious,胆小
+Prefix.Bewilder,迷幻
+Prefix.Workhorse,加班狂,Workhorse,Работник
+Prefix.Fool,蠢蛋
+Prefix.Avanger,复仇
+Prefix.Youtuber,UP主
+Prefix.Egoist,利己主义
+Prefix.Piper,吹笛
+Prefix.TicketsStealer,窃票
+Prefix.DualPersonality,双重人格
+Prefix.Mimic,宝箱怪
+
 ## 以下是职业简介（显示在开局以及任务栏的文本）
 NeutralInfo,中立阵营,Independent forces unaffiliated with any other teams,Команда которая не принадлежит ни к каким другим командам
 
