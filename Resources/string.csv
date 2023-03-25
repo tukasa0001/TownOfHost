@@ -1088,7 +1088,7 @@ TranRU,俄语,Russian Translator,Русский Переводчик
 OnlyShowPart,仅显示部分,Show only part,Показать только часть
 
 ## 断连提示
-DCNotify.Hacking,您被AmongUs官方反作弊系统踢出\r\n（使用模组可能被误当作作弊）,You have been kicked out of the official anti-hacking system Among Us\r\n (module use may be mistaken for cheats),Вас выгнала из официальная система борьбы с хакерством Among Us\r\n (использование модуля может быть ошибочно принято за читы)
+DCNotify.Hacking,您被树懒的反作弊系统踢了\r\n（树懒还在持续发疯）,You have been kicked out of the official anti-hacking system Among Us\r\n (module use may be mistaken for cheats),Вас выгнала из официальная система борьбы с хакерством Among Us\r\n (использование модуля может быть ошибочно принято за читы)
 DCNotify.Banned,您被该房间封禁,You are not allowed to enter this room,Вам запрещено входить в эту комнату
 DCNotify.Kicked,您被该房间踢出,You are kicked out of the room,Вас кикнули из комнаты
 DCNotify.DCFromServer,您与服务器的连接已中断\r\n这可能是因为您的网络不稳定\r\n也可能是因为服务器不稳定或拒绝了您的访问,Your connection to the server has been lost\r\n This may be due to instability in your network\r\n This may also be due to server instability,Ваше соединение с сервером было разорвано\r\n Это может быть связано с нестабильностью вашей сети\r\n Это также может быть связано с нестабильностью сервера

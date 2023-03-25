@@ -179,7 +179,7 @@ class OnPlayerLeftPatch
         }
         if (AmongUsClient.Instance.Ping > 700)
         {
-            Logger.SendInGame($"{data.PlayerName} 在火星和你联机但是断了 (Ping:{AmongUsClient.Instance.Ping}) QwQ");
+            Logger.SendInGame($"{data.PlayerName} 无响应，失去连接");
         }
         Logger.Info($"{data.PlayerName}(ClientID:{data.Id}/FriendCode:{data.FriendCode})断开连接(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
         if (AmongUsClient.Instance.AmHost)
