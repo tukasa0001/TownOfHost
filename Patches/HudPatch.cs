@@ -158,7 +158,7 @@ class HudManagerPatch
                 //バウンティハンターのターゲットテキスト
                 if (LowerInfoText == null)
                 {
-                    LowerInfoText = UnityEngine.Object.Instantiate(__instance.KillButton.buttonLabelText);
+                    LowerInfoText = Object.Instantiate(__instance.KillButton.buttonLabelText);
                     LowerInfoText.transform.parent = __instance.transform;
                     LowerInfoText.transform.localPosition = new Vector3(0, -2f, 0);
                     LowerInfoText.alignment = TMPro.TextAlignmentOptions.Center;

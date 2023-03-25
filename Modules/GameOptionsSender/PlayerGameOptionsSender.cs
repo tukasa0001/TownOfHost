@@ -90,8 +90,8 @@ public class PlayerGameOptionsSender : GameOptionsSender
             case CustomRoles.Terrorist:
             case CustomRoles.SabotageMaster:
             case CustomRoles.Mario:
-                AURoleOptions.EngineerCooldown = 0;
-                AURoleOptions.EngineerInVentMaxTime = 0;
+                AURoleOptions.EngineerCooldown = 0f;
+                AURoleOptions.EngineerInVentMaxTime = 0f;
                 break;
             case CustomRoles.ShapeMaster:
                 AURoleOptions.ShapeshifterCooldown = 0f;
@@ -167,7 +167,7 @@ public class PlayerGameOptionsSender : GameOptionsSender
                 break;
             case CustomRoles.Workaholic:
                 AURoleOptions.EngineerCooldown = Options.WorkaholicVentCooldown.GetFloat();
-                AURoleOptions.EngineerInVentMaxTime = 0.0f;
+                AURoleOptions.EngineerInVentMaxTime = 0f;
                 break;
             case CustomRoles.ImperiusCurse:
                 AURoleOptions.ShapeshifterCooldown = Options.ImperiusCurseShapeshiftCooldown.GetFloat();
@@ -189,7 +189,7 @@ public class PlayerGameOptionsSender : GameOptionsSender
         }
 
         // 为迷惑者的凶手
-        if (Main.AllPlayerControls.Where(x => x.Is(CustomRoles.Bewilder) && !x.IsAlive() && x.GetRealKiller().PlayerId == player.PlayerId).Count() > 0)
+        if (Main.AllPlayerControls.Where(x => x.Is(CustomRoles.Bewilder) && !x.IsAlive() && x.GetRealKiller()?.PlayerId == player.PlayerId).Count() > 0)
         {
             opt.SetVision(false);
             opt.SetFloat(FloatOptionNames.CrewLightMod, Options.BewilderVision.GetFloat());
@@ -235,6 +235,9 @@ public class PlayerGameOptionsSender : GameOptionsSender
                     break;
             }
         }
+
+        // 当工程跳管冷却为0时无法正常显示图标
+        AURoleOptions.EngineerCooldown = Mathf.Min(0.01f, AURoleOptions.EngineerCooldown);
 
         if (Main.AllPlayerKillCooldown.TryGetValue(player.PlayerId, out var killCooldown))
         {
