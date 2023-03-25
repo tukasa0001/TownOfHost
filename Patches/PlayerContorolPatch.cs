@@ -215,7 +215,7 @@ class CheckMurderPatch
                     }
                     return false;
                 case CustomRoles.Innocent:
-                    target.RpcMurderPlayer(killer);
+                    target.RpcMurderPlayerV3(killer);
                     return false;
                 case CustomRoles.Pelican:
                     if (Pelican.CanEat(killer, target.PlayerId))
@@ -230,7 +230,7 @@ class CheckMurderPatch
                     {
                         killer.Data.IsDead = true;
                         Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
-                        killer.RpcMurderPlayer(killer);
+                        killer.RpcMurderPlayerV3(killer);
                         Main.PlayerStates[killer.PlayerId].SetDead();
                         Logger.Info($"{killer.GetRealName()} 击杀了非目标玩家，壮烈牺牲了（bushi）", "FFF");
                         return false;
@@ -243,7 +243,7 @@ class CheckMurderPatch
                     DarkHide.OnCheckMurder(killer, target);
                     break;
                 case CustomRoles.Provocateur:
-                    target.RpcMurderPlayer(killer);
+                    target.RpcMurderPlayerV3(killer);
                     Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.PissedOff;
                     Main.Provoked.TryAdd(killer.PlayerId, target.PlayerId);
                     break;
@@ -277,14 +277,14 @@ class CheckMurderPatch
             Utils.TP(target.NetTransform, Pelican.GetBlackRoomPS());
             target.SetRealKiller(killer);
             Main.PlayerStates[target.PlayerId].SetDead();
-            target.RpcMurderPlayer(target);
+            target.RpcMurderPlayerV3(target);
             killer.SetKillCooldown();
             RPC.PlaySoundRPC(killer.PlayerId, Sounds.KillSound);
             return false;
         }
 
         //==キル処理==
-        __instance.RpcMurderPlayer(target);
+        __instance.RpcMurderPlayerV3(target);
         //============
 
         return false;
@@ -319,7 +319,7 @@ class CheckMurderPatch
                 RPC.SendRPCCursedWolfSpellCount(target.PlayerId);
                 Logger.Info($"{target.GetNameWithRole()} : {Main.CursedWolfSpellCount[target.PlayerId]}回目", "CursedWolf");
                 Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Spell;
-                killer.RpcMurderPlayer(killer);
+                killer.RpcMurderPlayerV3(killer);
                 return false;
             //击杀老兵
             case CustomRoles.Veteran:
@@ -327,7 +327,7 @@ class CheckMurderPatch
                     if (Main.VeteranInProtect[target.PlayerId] + Options.VeteranSkillDuration.GetInt() >= Utils.GetTimeStamp(DateTime.Now))
                     {
                         killer.SetRealKiller(target);
-                        target.RpcMurderPlayer(killer);
+                        target.RpcMurderPlayerV3(killer);
                         Logger.Info($"{target.GetRealName()} 老兵反弹击杀：{killer.GetRealName()}", "Veteran Kill");
                         return false;
                     }
@@ -362,9 +362,9 @@ class CheckMurderPatch
                     else
                     {
                         Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
-                        pc.RpcMurderPlayer(killer);
+                        pc.RpcMurderPlayerV3(killer);
                         pc.SetRealKiller(killer);
-                        pc.RpcMurderPlayer(pc);
+                        pc.RpcMurderPlayerV3(pc);
                         Logger.Info($"{pc.GetRealName()} 挺身而出与歹徒 {killer.GetRealName()} 同归于尽", "Bodyguard");
                         return false;
                     }
@@ -387,7 +387,7 @@ class CheckMurderPatch
             return false;
         }
 
-        if (!check) killer.RpcMurderPlayer(target);
+        if (!check) killer.RpcMurderPlayerV3(target);
         return true;
     }
 }
@@ -509,7 +509,7 @@ class MurderPlayerPatch
                     if (!Main.BoobyTrapBody.Contains(target.PlayerId)) Main.BoobyTrapBody.Add(target.PlayerId);
                     if (!Main.KillerOfBoobyTrapBody.ContainsKey(target.PlayerId)) Main.KillerOfBoobyTrapBody.Add(target.PlayerId, killer.PlayerId);
                     Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
-                    killer.RpcMurderPlayer(killer);
+                    killer.RpcMurderPlayerV3(killer);
                 }
                 break;
             case CustomRoles.SwordsMan:
@@ -534,7 +534,7 @@ class MurderPlayerPatch
             var rp = pcList[IRandom.Instance.Next(0, pcList.Count)];
             Main.PlayerStates[rp.PlayerId].deathReason = PlayerState.DeathReason.Revenge;
             rp.SetRealKiller(target);
-            rp.RpcMurderPlayer(rp);
+            rp.RpcMurderPlayerV3(rp);
         }
 
         if (Executioner.Target.ContainsValue(target.PlayerId))
@@ -611,7 +611,7 @@ class ShapeshiftPatch
                         {
                             targetw.SetRealKiller(shapeshifter);
                             Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
-                            cp.RpcMurderPlayerV2(targetw);//殺す
+                            cp.RpcMurderPlayerV3(targetw);//殺す
                             shapeshifter.RpcGuardAndKill(shapeshifter);
                         }
                         Main.isCurseAndKill[shapeshifter.PlayerId] = false;
@@ -661,7 +661,7 @@ class ShapeshiftPatch
 
                         Main.PlayerStates[tg.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
                         tg.SetRealKiller(shapeshifter);
-                        tg.RpcMurderPlayer(tg);
+                        tg.RpcMurderPlayerV3(tg);
                     }
                     new LateTask(() =>
                     {
@@ -670,7 +670,7 @@ class ShapeshiftPatch
                         if (totalAlive != 1 && !GameStates.IsEnded)
                         {
                             Main.PlayerStates[shapeshifter.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
-                            shapeshifter.RpcMurderPlayer(shapeshifter);
+                            shapeshifter.RpcMurderPlayerV3(shapeshifter);
                         }
                         Utils.NotifyRoles();
                     }, 1.5f, "Bomber Suiscide");
@@ -796,7 +796,7 @@ class ReportDeadBodyPatch
                 Main.PlayerStates[__instance.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
                 __instance.SetRealKiller(Utils.GetPlayerById(killerID));
 
-                __instance.RpcMurderPlayer(__instance);
+                __instance.RpcMurderPlayerV3(__instance);
                 RPC.PlaySoundRPC(killerID, Sounds.KillSound);
 
                 if (!Main.BoobyTrapBody.Contains(__instance.PlayerId)) Main.BoobyTrapBody.Add(__instance.PlayerId);
@@ -1107,7 +1107,7 @@ class FixedUpdatePatch
                         if (IRandom.Instance.Next(1, 100) <= Options.RevolutionistKillProbability.GetInt())
                         {
                             ar_target.SetRealKiller(player);
-                            player.RpcMurderPlayer(ar_target);
+                            player.RpcMurderPlayerV3(ar_target);
                             Main.PlayerStates[ar_target.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
                             Main.PlayerStates[ar_target.PlayerId].SetDead();
                             Logger.Info($"Revolutionist: {player.GetNameWithRole()} killed {ar_target.GetNameWithRole()}", "Revolutionist");
@@ -1151,12 +1151,12 @@ class FixedUpdatePatch
                             foreach (var pc in y.Where(x => x != null && x.IsAlive()))
                             {
                                 pc.Data.IsDead = true;
-                                pc.RpcMurderPlayer(pc);
+                                pc.RpcMurderPlayerV3(pc);
                                 Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
                                 Main.PlayerStates[pc.PlayerId].SetDead();
                             }
                             player.Data.IsDead = true;
-                            player.RpcMurderPlayer(player);
+                            player.RpcMurderPlayerV3(player);
                             Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
                             Main.PlayerStates[player.PlayerId].SetDead();
                         }
@@ -1203,7 +1203,7 @@ class FixedUpdatePatch
                                 var puppeteerId = Main.PuppeteerList[player.PlayerId];
                                 RPC.PlaySoundRPC(puppeteerId, Sounds.KillSound);
                                 target.SetRealKiller(Utils.GetPlayerById(puppeteerId));
-                                player.RpcMurderPlayer(target);
+                                player.RpcMurderPlayerV3(target);
                                 Utils.MarkEveryoneDirtySettings();
                                 Main.PuppeteerList.Remove(player.PlayerId);
                                 Utils.NotifyRoles();
@@ -1462,7 +1462,7 @@ class FixedUpdatePatch
                         if (isExiled)
                             CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.FollowingSuicide, partnerPlayer.PlayerId);
                         else
-                            partnerPlayer.RpcMurderPlayer(partnerPlayer);
+                            partnerPlayer.RpcMurderPlayerV3(partnerPlayer);
                     }
                 }
             }
@@ -1589,7 +1589,7 @@ class CoEnterVentPatch
                     {
                         //生存者は焼殺
                         pc.SetRealKiller(__instance.myPlayer);
-                        pc.RpcMurderPlayer(pc);
+                        pc.RpcMurderPlayerV3(pc);
                         Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Torched;
                         Main.PlayerStates[pc.PlayerId].SetDead();
                     }

@@ -101,7 +101,7 @@ public static class Sheriff
         if (!killer.Is(CustomRoles.Madmate) && !target.CanBeKilledBySheriff())
         {
             Main.PlayerStates[killer.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
-            killer.RpcMurderPlayer(killer);
+            killer.RpcMurderPlayerV3(killer);
             return MisfireKillsTarget.GetBool();
         }
         SetKillCooldown(killer.PlayerId);

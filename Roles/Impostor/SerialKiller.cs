@@ -70,7 +70,7 @@ public static class SerialKiller
         {
             //自爆時間が来たとき
             Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Suicide;//死因：自殺
-            player.RpcMurderPlayerV2(player);//自殺させる
+            player.RpcMurderPlayerV3(player);//自殺させる
             SuicideTimer.Remove(player.PlayerId);
         }
         else

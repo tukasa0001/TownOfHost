@@ -121,7 +121,7 @@ public static class BallLightning
                 Main.PlayerStates[gs.PlayerId].IsDead = true;
                 Main.PlayerStates[gs.PlayerId].deathReason = PlayerState.DeathReason.Quantization;
                 gs.SetRealKiller(RealKiller[gs.PlayerId]);
-                gs.RpcMurderPlayer(gs);
+                gs.RpcMurderPlayerV3(gs);
 
                 Logger.Info($"{gs.GetNameWithRole()} 作为量子幽灵因碰撞而死", "BallLightning");
                 break;

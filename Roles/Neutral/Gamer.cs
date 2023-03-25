@@ -91,7 +91,7 @@ public static class Gamer
         if (PlayerHealth[target.PlayerId] - Damage.GetInt() < 1)
         {
             PlayerHealth.Remove(target.PlayerId);
-            killer.RpcMurderPlayer(target);
+            killer.RpcMurderPlayerV3(target);
             Utils.NotifyRoles(killer);
             return false;
         }

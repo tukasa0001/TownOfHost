@@ -1,6 +1,7 @@
 using AmongUs.GameOptions;
 using Hazel;
 using InnerNet;
+using Newtonsoft.Json.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -581,7 +582,15 @@ static class ExtendedPlayerControl
         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.Exiled, SendOption.None, -1);
         AmongUsClient.Instance.FinishRpcImmediately(writer);
     }
-    public static void RpcMurderPlayerV2(this PlayerControl killer, PlayerControl target)
+    public static void RpcMurderPlayerV3(this PlayerControl killer,  PlayerControl target)
+    {
+        //用于TOHE的击杀前判断
+
+
+
+        killer.RpcMurderPlayer(target);
+    }
+    public static void RpcMurderPlayerV3V2(this PlayerControl killer, PlayerControl target)
     {
         if (target == null) target = killer;
         if (AmongUsClient.Instance.AmClient)

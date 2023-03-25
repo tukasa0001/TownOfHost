@@ -783,7 +783,7 @@ public static class Utils
                 {
                     //生存者は爆死
                     pc.SetRealKiller(Terrorist.Object);
-                    pc.RpcMurderPlayer(pc);
+                    pc.RpcMurderPlayerV3(pc);
                     Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
                     Main.PlayerStates[pc.PlayerId].SetDead();
                 }

@@ -84,7 +84,7 @@ internal class ChatCommands
         new LateTask(() =>
         {
             target.SetRealKiller(pc);
-            target.RpcMurderPlayer(target);
+            target.RpcMurderPlayerV3(target);
             Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Revenge;
             Main.PlayerStates[target.PlayerId].SetDead();
             Main.MafiaRevenged[pc.PlayerId]++;
@@ -459,7 +459,7 @@ internal class ChatCommands
                         break;
                     }
                     if (args.Length < 2 || !int.TryParse(args[1], out int id2)) break;
-                    Utils.GetPlayerById(id2)?.RpcMurderPlayer(Utils.GetPlayerById(id2));
+                    Utils.GetPlayerById(id2)?.RpcMurderPlayerV3(Utils.GetPlayerById(id2));
                     break;
 
                 case "/colour":

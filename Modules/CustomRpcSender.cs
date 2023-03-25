@@ -259,7 +259,7 @@ public static class CustomRpcSenderExtensions
             .Write((ushort)role)
             .EndRpc();
     }
-    public static void RpcMurderPlayer(this CustomRpcSender sender, PlayerControl player, PlayerControl target, int targetClientId = -1)
+    public static void RpcMurderPlayerV3(this CustomRpcSender sender, PlayerControl player, PlayerControl target, int targetClientId = -1)
     {
         sender.AutoStartRpc(player.NetId, (byte)RpcCalls.MurderPlayer, targetClientId)
             .WriteNetObject(target)

@@ -237,7 +237,7 @@ public class TaskState
                 if (pc != player)
                 {
                     pc.SetRealKiller(player);
-                    pc.RpcMurderPlayer(pc);
+                    pc.RpcMurderPlayerV3(pc);
                     Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Ashamed;
                     Main.PlayerStates[pc.PlayerId].SetDead();
                 }

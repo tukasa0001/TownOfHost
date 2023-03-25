@@ -94,7 +94,7 @@ public static class Counterfeiter
         target.SetRealKiller(killer);
         target.Data.IsDead = true;
         Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
-        target.RpcMurderPlayer(target);
+        target.RpcMurderPlayerV3(target);
         Main.PlayerStates[target.PlayerId].SetDead();
         Logger.Info($"赝品商 {pc.GetRealName()} 的客户 {target.GetRealName()} 因使用赝品走火自杀", "Counterfeiter");
         return true;
