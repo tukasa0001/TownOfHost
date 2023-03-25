@@ -109,7 +109,7 @@ internal class EAC
                 case RpcCalls.SetColor:
                 case RpcCalls.CheckColor:
                     var color = sr.ReadByte();
-                    if ( pc.Data.DefaultOutfit.ColorId != -1 &&
+                    if (pc.Data.DefaultOutfit.ColorId != -1 &&
                         (Main.AllPlayerControls.Where(x => x.Data.DefaultOutfit.ColorId == color).Count() >= 5
                         || !GameStates.IsLobby || color < 0 || color > 18))
                     {

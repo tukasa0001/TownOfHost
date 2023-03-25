@@ -10,8 +10,8 @@ using TOHE.Roles.AddOns.Impostor;
 using TOHE.Roles.Crewmate;
 using TOHE.Roles.Impostor;
 using TOHE.Roles.Neutral;
-using static TOHE.Translator;
 using static TOHE.Modules.CustomRoleSelector;
+using static TOHE.Translator;
 namespace TOHE;
 
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame))]
@@ -532,7 +532,7 @@ internal class SelectRolesPatch
 
         //他者視点
         foreach (var seer in Main.AllPlayerControls.Where(x => player.PlayerId != x.PlayerId))
-                rolesMap[(seer.PlayerId, player.PlayerId)] = othersRole;
+            rolesMap[(seer.PlayerId, player.PlayerId)] = othersRole;
 
         RpcSetRoleReplacer.OverriddenSenderList.Add(senders[player.PlayerId]);
         //ホスト視点はロール決定

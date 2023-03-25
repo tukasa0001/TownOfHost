@@ -70,7 +70,7 @@ class OnPlayerJoinedPatch
             Logger.SendInGame(string.Format(GetString("Message.KickedByNoFriendCode"), client.PlayerName));
             Logger.Info($"フレンドコードがないプレイヤーを{client?.PlayerName}をキックしました。", "Kick");
         }
-        if (AmongUsClient.Instance.AmHost && client.PlatformData.Platform == Platforms.Android  && Options.KickAndroidPlayer.GetBool())
+        if (AmongUsClient.Instance.AmHost && client.PlatformData.Platform == Platforms.Android && Options.KickAndroidPlayer.GetBool())
         {
             AmongUsClient.Instance.KickPlayer(client.Id, false);
             Logger.SendInGame($"【{client?.PlayerName}】因该房禁止安卓被踢出");

@@ -704,7 +704,7 @@ class ShapeshiftPatch
                 break;
         }
 
-        End:
+    End:
 
         //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換え
         if (!shapeshifting)
