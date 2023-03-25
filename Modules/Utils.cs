@@ -276,10 +276,10 @@ public static class Utils
             if (Options.NameDisplayAddons.GetBool())
                 foreach (var subRole in Main.PlayerStates[playerId].SubRoles.Where(x => x is not CustomRoles.LastImpostor and not CustomRoles.Madmate and not CustomRoles.Lovers))
                     RoleText = ColorString(GetRoleColor(subRole), GetString(subRole.ToString())) + RoleText;
-
-            if (Main.PlayerStates[playerId].SubRoles.Contains(CustomRoles.Madmate))
-                RoleText = GetRoleString("Mad-") + RoleText;
         }
+
+        if (Main.PlayerStates[playerId].SubRoles.Contains(CustomRoles.Madmate))
+            RoleText = GetRoleString("Mad-") + RoleText;
 
         return (RoleText, RoleColor);
     }
