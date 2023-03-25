@@ -724,12 +724,15 @@ class MeetingHudUpdatePatch
             __instance.playerStates.DoIf(x => x.HighlightedFX.enabled, x =>
             {
                 var player = Utils.GetPlayerById(x.TargetPlayerId);
-                player.RpcExileV2();
-                Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Execution;
-                Main.PlayerStates[player.PlayerId].SetDead();
-                Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
-                Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
-                __instance.CheckForEndVoting();
+                if (player != null && !player.Data.IsDead)
+                {
+                    player.RpcExileV2();
+                    Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Execution;
+                    Main.PlayerStates[player.PlayerId].SetDead();
+                    Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
+                    Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
+                    __instance.CheckForEndVoting();
+                }
             });
         }
     }
