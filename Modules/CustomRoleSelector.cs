@@ -140,15 +140,63 @@ internal class CustomRoleSelector
     // 职业抽取结束
     EndOfAssign:
 
+        // Dev Roles List Edit
+        foreach (var dr in Main.DevRole)
+        {
+            if (rolesToAssign.Contains(dr.Value))
+            {
+                rolesToAssign.Remove(dr.Value);
+                rolesToAssign.Insert(0, dr.Value);
+                Logger.Info("职业列表提高优先：" + dr.Value, "Dev Role");
+                continue;
+            }
+            for (int i = 0; i < rolesToAssign.Count; i++)
+            {
+                var role = rolesToAssign[i];
+                if (dr.Value.GetMode() != role.GetMode()) continue;
+                if (
+                    (dr.Value.IsImpostor() && role.IsImpostor()) ||
+                    (dr.Value.IsNeutral() && role.IsNeutral()) ||
+                    (dr.Value.IsCrewmate() & role.IsCrewmate())
+                    )
+                {
+                    rolesToAssign.RemoveAt(i);
+                    rolesToAssign.Insert(0, dr.Value);
+                    Logger.Info("覆盖职业列表：" + i + " " + role.ToString() + " => " + dr.Value, "Dev Role");
+                    break;
+                }
+            }
+        }
+
         var AllPlayer = Main.AllAlivePlayerControls.ToList();
 
         while (AllPlayer.Count() > 0 && rolesToAssign.Count > 0)
         {
+            PlayerControl delPc = null;
+            foreach (var pc in AllPlayer)
+                foreach (var dr in Main.DevRole.Where(x => pc.PlayerId == x.Key))
+                {
+                    var id = rolesToAssign.IndexOf(dr.Value);
+                    if (id == -1) continue;
+                    RoleResult.Add(pc, rolesToAssign[id]);
+                    Logger.Info($"职业优先分配：{AllPlayer[0].GetRealName()} => {rolesToAssign[id]}", "CustomRoleSelector");
+                    delPc = pc;
+                    rolesToAssign.RemoveAt(id);
+                    goto EndOfWhile;
+                }
+
             var roleId = rd.Next(0, rolesToAssign.Count);
             RoleResult.Add(AllPlayer[0], rolesToAssign[roleId]);
             Logger.Info($"职业分配：{AllPlayer[0].GetRealName()} => {rolesToAssign[roleId]}", "CustomRoleSelector");
             AllPlayer.RemoveAt(0);
             rolesToAssign.RemoveAt(roleId);
+
+        EndOfWhile:;
+            if (delPc != null)
+            {
+                AllPlayer.Remove(delPc);
+                Main.DevRole.Remove(delPc.PlayerId);
+            }
         }
 
         if (AllPlayer.Count() > 0)
