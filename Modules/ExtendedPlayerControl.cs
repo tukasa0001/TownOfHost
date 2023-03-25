@@ -57,6 +57,7 @@ static class ExtendedPlayerControl
     }
     public static int GetClientId(this PlayerControl player)
     {
+        if (player == null) return -1;
         var client = player.GetClient();
         return client == null ? -1 : client.Id;
     }
