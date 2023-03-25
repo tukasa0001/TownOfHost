@@ -159,7 +159,6 @@ internal class RPCHandlerPatch
     }
     public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
     {
-
         var rpcType = (CustomRPC)callId;
         switch (rpcType)
         {
@@ -403,9 +402,7 @@ internal static class RPC
         var amount = OptionItem.AllOptions.Count;
         int divideBy = amount / 10;
         for (var i = 0; i <= 10; i++)
-        {
             SyncOptionsBetween(i * divideBy, (i + 1) * divideBy);
-        }
     }
     public static void SyncCustomSettingsRPCforOneOption(OptionItem option)
     {
