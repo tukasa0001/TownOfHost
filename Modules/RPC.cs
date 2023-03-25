@@ -199,6 +199,7 @@ internal class RPCHandlerPatch
                     list.Add(OptionItem.AllOptions[i]);
                 Logger.Info($"{startAmount}-{lastAmount}:{list.Count}/{OptionItem.AllOptions.Count}", "SyncCustomSettings");
                 foreach (var co in list) co.SetValue(reader.ReadInt32());
+                OptionShower.GetText();
                 break;
             case CustomRPC.SetDeathReason:
                 RPC.GetDeathReason(reader);
@@ -330,6 +331,7 @@ internal class RPCHandlerPatch
                 break;
             case CustomRPC.RestTOHESetting:
                 OptionItem.AllOptions.ToArray().Where(x => x.Id > 0).Do(x => x.SetValueNoRpc(x.DefaultValue));
+                OptionShower.GetText();
                 break;
             case CustomRPC.SetEraseLimit:
                 Eraser.ReceiveRPC(reader);

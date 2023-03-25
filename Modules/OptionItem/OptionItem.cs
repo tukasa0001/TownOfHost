@@ -182,7 +182,6 @@ public abstract class OptionItem
             opt.ValueText.text = GetString();
             opt.oldValue = opt.Value = CurrentValue;
         }
-        OptionShower.GetText();
     }
     public virtual void SetValue(int value)
     {

@@ -337,7 +337,6 @@ class SetHudActivePatch
                     break;
             }
         }
-
         __instance.KillButton.ToggleVisible(player.CanUseKillButton());
         __instance.ImpostorVentButton.ToggleVisible(player.CanUseImpostorVentButton());
     }
