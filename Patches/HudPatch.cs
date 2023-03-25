@@ -43,7 +43,7 @@ class HudManagerPatch
         if (GameStates.IsLobby)
         {
             var POM = GameObject.Find("PlayerOptionsMenu(Clone)");
-            __instance.GameSettings.text = POM != null ? "" : OptionShower.GetText();
+            __instance.GameSettings.text = POM != null ? "" : OptionShower.GetTextNoFresh();
             __instance.GameSettings.fontSizeMin =
             __instance.GameSettings.fontSizeMax = 1f;
         }

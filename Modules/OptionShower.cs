@@ -14,6 +14,11 @@ public static class OptionShower
     {
 
     }
+    public static string GetTextNoFresh()
+    {
+        if (pages.Count < 3) GetText();
+        return $"{pages[currentPage]}{GetString("PressTabToNextPage")}({currentPage + 1}/{pages.Count})";
+    }
     public static string GetText()
     {
         //初期化
