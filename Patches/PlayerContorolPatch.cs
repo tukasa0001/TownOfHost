@@ -107,6 +107,10 @@ class CheckMurderPatch
         if (Sniper.IsEnable) Sniper.TryGetSniper(target.PlayerId, ref killer);
         if (killer != __instance) Logger.Info($"Real Killer={killer.GetNameWithRole()}", "CheckMurder");
 
+        //鹈鹕肚子里的人无法击杀
+        if (Pelican.IsEaten(target.PlayerId))
+            return false;
+
         //阻止对活死人的操作
         if (target.Is(CustomRoles.Glitch))
             return false;
@@ -573,6 +577,9 @@ class ShapeshiftPatch
         if (!AmongUsClient.Instance.AmHost) return;
         if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
 
+        if (Pelican.IsEaten(shapeshifter.PlayerId))
+            goto End;
+
         switch (shapeshifter.GetCustomRole())
         {
             case CustomRoles.EvilTracker:
@@ -696,6 +703,8 @@ class ShapeshiftPatch
                 Hacker.OnShapeshift(shapeshifter, shapeshifting, target);
                 break;
         }
+
+        End:
 
         //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換え
         if (!shapeshifting)
