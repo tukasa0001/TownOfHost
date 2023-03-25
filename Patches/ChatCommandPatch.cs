@@ -746,14 +746,15 @@ internal class ChatCommands
                     if (rl.GetCount() < 1 || rl.GetMode() == 0) devMark = "";
                     if (isUp)
                     {
-                        if (devMark == "▲") Utils.SendMessage("已提升您成为【" + roleName + "】的概率", player.PlayerId);
-                        else Utils.SendMessage("无法提升您成为【" + roleName + "】的概率\n可能是因为您没有启用该职业或该职业不支持被指定", player.PlayerId);
+                        if (devMark == "▲") Utils.SendMessage("您下一局将被分配为【" + roleName + "】", player.PlayerId);
+                        else Utils.SendMessage("无法将您分配为【" + roleName + "】\n可能是因为您没有启用该职业或该职业不支持被指定", player.PlayerId);
                     }
                     if (devMark == "▲")
                     {
                         if (Main.DevRole.ContainsKey(player.PlayerId)) Main.DevRole.Remove(player.PlayerId);
                         Main.DevRole.Add(player.PlayerId, rl);
                     }
+                    if (isUp) return;
                 }
                 var sb = new StringBuilder();
                 sb.Append(devMark + roleName + GetString($"{rl}InfoLong"));
