@@ -11,7 +11,7 @@ using TOHE.Roles.Crewmate;
 using TOHE.Roles.Impostor;
 using TOHE.Roles.Neutral;
 using static TOHE.Translator;
-
+using static TOHE.Modules.CustomRoleSelector;
 namespace TOHE;
 
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame))]
@@ -201,13 +201,6 @@ internal class ChangeRoleSettings
 [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
 internal class SelectRolesPatch
 {
-
-    public static List<CustomRoles> addRoleList = new();
-    public static List<CustomRoles> rolesToAssign = new();
-    public static int addScientistNum = 0;
-    public static int addEngineerNum = 0;
-    public static int addShapeshifterNum = 0;
-
     public static void Prefix()
     {
         if (!AmongUsClient.Instance.AmHost) return;
@@ -223,194 +216,16 @@ internal class SelectRolesPatch
             }
             RpcSetRoleReplacer.StartReplace(senders);
 
-            // 开始职业抽取
-            var rd = IRandom.Instance;
-            int playerCount = Main.AllPlayerControls.Count() - (Options.EnableGM.GetBool() ? 1 : 0);
-            int optImpNum = Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors);
-            int optNeutralNum = 0;
-            if (Options.NeutralRolesMaxPlayer.GetInt() > 0 && Options.NeutralRolesMaxPlayer.GetInt() >= Options.NeutralRolesMinPlayer.GetInt())
-                optNeutralNum = rd.Next(Options.NeutralRolesMinPlayer.GetInt(), Options.NeutralRolesMaxPlayer.GetInt() + 1);
-            int readyRoleNum = 0;
-            int readyNeutralNum = 0;
-
-            rolesToAssign = new();
-            addRoleList = new();
-
-            List<CustomRoles> roleList = new();
-            List<CustomRoles> roleOnList = new();
-            List<CustomRoles> ImpOnList = new();
-            List<CustomRoles> NeutralOnList = new();
-            List<CustomRoles> roleRateList = new();
-            List<CustomRoles> ImpRateList = new();
-            List<CustomRoles> NeutralRateList = new();
-
-            foreach (var cr in Enum.GetValues(typeof(CustomRoles)))
+            if (Options.EnableGM.GetBool())
             {
-                CustomRoles role = (CustomRoles)Enum.Parse(typeof(CustomRoles), cr.ToString());
-                if (CustomRolesHelper.IsAdditionRole(role))
-                {
-                    if (role is CustomRoles.Madmate && Options.MadmateSpawnMode.GetInt() != 0) continue;
-                    if (role is CustomRoles.LastImpostor or CustomRoles.Lovers or CustomRoles.Workhorse) continue;
-                    addRoleList.Add(role);
-                    continue;
-                }
-                if (CustomRolesHelper.IsVanilla(role)) continue;
-                if (role is CustomRoles.GM or CustomRoles.NotAssigned) continue;
-                roleList.Add(role);
+                PlayerControl.LocalPlayer.RpcSetCustomRole(CustomRoles.GM);
+                PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Crewmate);
+                PlayerControl.LocalPlayer.Data.IsDead = true;
             }
 
-            // 职业设置为：优先
-            foreach (var role in roleList) if (role.GetMode() == 2)
-                {
-                    if (role.IsImpostor()) ImpOnList.Add(role);
-                    else if (role.IsNeutral()) NeutralOnList.Add(role);
-                    else roleOnList.Add(role);
-                }
-            // 职业设置为：启用
-            foreach (var role in roleList) if (role.GetMode() == 1)
-                {
-                    if (role.IsImpostor()) ImpRateList.Add(role);
-                    else if (role.IsNeutral()) NeutralRateList.Add(role);
-                    else roleRateList.Add(role);
-                }
-
-            // 抽取优先职业（内鬼）
-            while (ImpOnList.Count > 0)
-            {
-                var select = ImpOnList[rd.Next(0, ImpOnList.Count)];
-                ImpOnList.Remove(select);
-                rolesToAssign.Add(select);
-                readyRoleNum += select.GetCount();
-                Logger.Info(select.ToString() + " 加入内鬼职业待选列表（优先）", "Role Assign Function");
-                if (readyRoleNum >= playerCount) goto EndOfAssign;
-                if (readyRoleNum >= optImpNum) break;
-            }
-
-            // 优先职业不足以分配，开始分配启用的职业（内鬼）
-            if (readyRoleNum < playerCount && readyRoleNum < optImpNum)
-            {
-                while (ImpRateList.Count > 0)
-                {
-                    var select = ImpRateList[rd.Next(0, ImpRateList.Count)];
-                    ImpRateList.Remove(select);
-                    rolesToAssign.Add(select);
-                    readyRoleNum += select.GetCount();
-                    Logger.Info(select.ToString() + " 加入内鬼职业待选列表", "Role Assign Function");
-                    if (readyRoleNum >= playerCount) goto EndOfAssign;
-                    if (readyRoleNum >= optImpNum) break;
-                }
-            }
-
-            // 抽取优先职业（中立）
-            while (NeutralOnList.Count > 0 && optNeutralNum > 0)
-            {
-                var select = NeutralOnList[rd.Next(0, NeutralOnList.Count)];
-                NeutralOnList.Remove(select);
-                rolesToAssign.Add(select);
-                readyRoleNum += select.GetCount();
-                readyNeutralNum += select.GetCount();
-                Logger.Info(select.ToString() + " 加入中立职业待选列表（优先）", "Role Assign Function");
-                if (readyRoleNum >= playerCount) goto EndOfAssign;
-                if (readyNeutralNum >= optNeutralNum) break;
-            }
-
-            // 优先职业不足以分配，开始分配启用的职业（中立）
-            if (readyRoleNum < playerCount && readyNeutralNum < optNeutralNum)
-            {
-                while (NeutralRateList.Count > 0 && optNeutralNum > 0)
-                {
-                    var select = NeutralRateList[rd.Next(0, NeutralRateList.Count)];
-                    NeutralRateList.Remove(select);
-                    rolesToAssign.Add(select);
-                    readyRoleNum += select.GetCount();
-                    readyNeutralNum += select.GetCount();
-                    Logger.Info(select.ToString() + " 加入中立职业待选列表", "Role Assign Function");
-                    if (readyRoleNum >= playerCount) goto EndOfAssign;
-                    if (readyNeutralNum >= optNeutralNum) break;
-                }
-            }
-
-            // 抽取优先职业
-            while (roleOnList.Count > 0)
-            {
-                var select = roleOnList[rd.Next(0, roleOnList.Count)];
-                roleOnList.Remove(select);
-                rolesToAssign.Add(select);
-                readyRoleNum += select.GetCount();
-                Logger.Info(select.ToString() + " 加入船员职业待选列表（优先）", "Role Assign Function");
-                if (readyRoleNum >= playerCount) goto EndOfAssign;
-            }
-            // 优先职业不足以分配，开始分配启用的职业
-            if (readyRoleNum < playerCount)
-            {
-                while (roleRateList.Count > 0)
-                {
-                    var select = roleRateList[rd.Next(0, roleRateList.Count)];
-                    roleRateList.Remove(select);
-                    rolesToAssign.Add(select);
-                    readyRoleNum += select.GetCount();
-                    Logger.Info(select.ToString() + " 加入船员职业待选列表", "Role Assign Function");
-                    if (readyRoleNum >= playerCount) goto EndOfAssign;
-                }
-            }
-
-        // 职业抽取结束
-        EndOfAssign:
-
-            // 计算原版特殊职业数量
-            addEngineerNum = 0;
-            addScientistNum = 0;
-            addShapeshifterNum = 0;
-            foreach (var role in rolesToAssign)
-            {
-                switch (CustomRolesHelper.GetVNRole(role))
-                {
-                    case CustomRoles.Scientist: addScientistNum++; break;
-                    case CustomRoles.Engineer: addEngineerNum++; break;
-                    case CustomRoles.Shapeshifter: addShapeshifterNum++; break;
-                }
-            }
-
-            // Dev Roles List Edit
-            foreach (var dr in Main.DevRole)
-            {
-                if (rolesToAssign.Contains(dr.Value))
-                {
-                    rolesToAssign.Remove(dr.Value);
-                    rolesToAssign.Insert(0, dr.Value);
-                    Logger.Info("职业列表提高优先：" + dr.Value, "Dev Role");
-                    continue;
-                }
-                for (int i = 0; i < rolesToAssign.Count; i++)
-                {
-                    var role = rolesToAssign[i];
-                    if (dr.Value.GetMode() != role.GetMode()) continue;
-                    if (
-                        (dr.Value.IsImpostor() && role.IsImpostor()) ||
-                        (dr.Value.IsNeutral() && role.IsNeutral()) ||
-                        (dr.Value.IsCrewmate() & role.IsCrewmate())
-                        )
-                    {
-                        rolesToAssign.RemoveAt(i);
-                        rolesToAssign.Insert(0, dr.Value);
-
-                        switch (CustomRolesHelper.GetVNRole(role))
-                        {
-                            case CustomRoles.Scientist: addScientistNum--; break;
-                            case CustomRoles.Engineer: addEngineerNum--; break;
-                            case CustomRoles.Shapeshifter: addShapeshifterNum--; break;
-                        }
-                        switch (CustomRolesHelper.GetVNRole(dr.Value))
-                        {
-                            case CustomRoles.Scientist: addScientistNum++; break;
-                            case CustomRoles.Engineer: addEngineerNum++; break;
-                            case CustomRoles.Shapeshifter: addShapeshifterNum++; break;
-                        }
-                        Logger.Info("覆盖职业列表：" + i + " " + role.ToString() + " => " + dr.Value, "Dev Role");
-                        break;
-                    }
-                }
-            }
+            SelectCustomRoles();
+            SelectAddonRoles();
+            CalculateVanillaRoleCount();
 
             //指定原版特殊职业数量
             var roleOpt = Main.NormalOptions.roleOptions;
@@ -421,22 +236,11 @@ internal class SelectRolesPatch
             int ShapeshifterNum = Options.DisableVanillaRoles.GetBool() ? 0 : roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
             roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + addShapeshifterNum, addShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
-            List<PlayerControl> AllPlayers = new();
-            foreach (var pc in Main.AllPlayerControls) AllPlayers.Add(pc);
-
-            if (Options.EnableGM.GetBool())
-            {
-                AllPlayers.RemoveAll(x => x == PlayerControl.LocalPlayer);
-                PlayerControl.LocalPlayer.RpcSetCustomRole(CustomRoles.GM);
-                PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Crewmate);
-                PlayerControl.LocalPlayer.Data.IsDead = true;
-            }
-
             Dictionary<(byte, byte), RoleTypes> rolesMap = new();
 
             // 注册反职业
-            foreach (var role in rolesToAssign.Where(x => x.IsDesyncRole()))
-                AssignDesyncRole(role, AllPlayers, senders, rolesMap, BaseRole: role.GetDYRole());
+            foreach (var kv in RoleResult.Where(x => x.Value.IsDesyncRole()))
+                AssignDesyncRole(kv.Value, kv.Key, senders, rolesMap, BaseRole: kv.Value.GetDYRole());
 
             MakeDesyncSender(senders, rolesMap);
 
@@ -455,6 +259,19 @@ internal class SelectRolesPatch
 
         try
         {
+            List<(PlayerControl, RoleTypes)> newList = new();
+            foreach (var sd in RpcSetRoleReplacer.StoragedData)
+            {
+                var kp = RoleResult.Where(x => x.Key.PlayerId == sd.Item1.PlayerId).FirstOrDefault();
+                if (kp.Value.IsDesyncRole()) continue;
+                newList.Add((sd.Item1, kp.Value.GetRoleTypes()));
+                if (sd.Item2 == kp.Value.GetRoleTypes())
+                    Logger.Warn($"注册原版职业 => {sd.Item1.GetRealName()}: {sd.Item2}", "Override Role Select");
+                else
+                    Logger.Warn($"覆盖原版职业 => {sd.Item1.GetRealName()}: {sd.Item2} => {kp.Value.GetRoleTypes()}", "Override Role Select");
+            }
+            RpcSetRoleReplacer.StoragedData = newList;
+
             RpcSetRoleReplacer.Release(); //保存していたSetRoleRpcを一気に書く
             RpcSetRoleReplacer.senders.Do(kvp => kvp.Value.SendMessage());
 
@@ -465,15 +282,6 @@ internal class SelectRolesPatch
 
             //Utils.ApplySuffix();
 
-            var rand = IRandom.Instance;
-
-            List<PlayerControl> Crewmates = new();
-            List<PlayerControl> Impostors = new();
-            List<PlayerControl> Scientists = new();
-            List<PlayerControl> Engineers = new();
-            List<PlayerControl> GuardianAngels = new();
-            List<PlayerControl> Shapeshifters = new();
-
             foreach (var pc in Main.AllPlayerControls)
             {
                 pc.Data.IsDead = false; //プレイヤーの死を解除する
@@ -482,27 +290,21 @@ internal class SelectRolesPatch
                 switch (pc.Data.Role.Role)
                 {
                     case RoleTypes.Crewmate:
-                        Crewmates.Add(pc);
                         role = CustomRoles.Crewmate;
                         break;
                     case RoleTypes.Impostor:
-                        Impostors.Add(pc);
                         role = CustomRoles.Impostor;
                         break;
                     case RoleTypes.Scientist:
-                        Scientists.Add(pc);
                         role = CustomRoles.Scientist;
                         break;
                     case RoleTypes.Engineer:
-                        Engineers.Add(pc);
                         role = CustomRoles.Engineer;
                         break;
                     case RoleTypes.GuardianAngel:
-                        GuardianAngels.Add(pc);
                         role = CustomRoles.GuardianAngel;
                         break;
                     case RoleTypes.Shapeshifter:
-                        Shapeshifters.Add(pc);
                         role = CustomRoles.Shapeshifter;
                         break;
                     default:
@@ -512,43 +314,16 @@ internal class SelectRolesPatch
                 Main.PlayerStates[pc.PlayerId].SetMainRole(role);
             }
 
-            // Dev Roles Check
-            List<byte> rmDevRole = new();
-            foreach (var dr in Main.DevRole) if (Utils.GetPlayerById(dr.Key).GetCustomRole().GetRoleTypes() != dr.Value.GetRoleTypes()) rmDevRole.Add(dr.Key);
-            foreach (var key in rmDevRole) Main.DevRole.Remove(key);
-
             var rd = IRandom.Instance;
 
-            foreach (var role in rolesToAssign)
+            foreach (var kv in RoleResult)
             {
-                if (role.IsDesyncRole()) continue;
-                List<PlayerControl> playerList = new();
-                switch (CustomRolesHelper.GetVNRole(role))
-                {
-                    case CustomRoles.Crewmate:
-                        playerList = Crewmates;
-                        break;
-                    case CustomRoles.Engineer:
-                        playerList = Engineers;
-                        break;
-                    case CustomRoles.Scientist:
-                        playerList = Scientists;
-                        break;
-                    case CustomRoles.Impostor:
-                        playerList = Impostors;
-                        break;
-                    case CustomRoles.Shapeshifter:
-                        playerList = Shapeshifters;
-                        break;
-                    default:
-                        Logger.Error(role.ToString() + " 存在于列表但没有被注册", "Assign Roles In List");
-                        break;
-                }
-                AssignCustomRolesFromList(role, playerList);
+                if (kv.Value.IsDesyncRole()) continue;
+                AssignCustomRolesFromList(kv.Value, kv.Key);
             }
 
             if (CustomRoles.Lovers.IsEnable() && (CustomRoles.FFF.IsEnable() ? -1 : rd.Next(1, 100)) <= Options.LoverSpawnChances.GetInt()) AssignLoversRolesFromList();
-            foreach (var role in addRoleList)
+            foreach (var role in AddonRolesList)
             {
                 if (rd.Next(1, 100) <= (Options.CustomAdtRoleSpawnRate.TryGetValue(role, out var sc) ? sc.GetFloat() : 0))
                     if (role.IsEnable()) AssignSubRoles(role);
@@ -740,50 +515,31 @@ internal class SelectRolesPatch
             Logger.Fatal(ex.ToString(), "Select Role Prefix");
         }
     }
-    private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, Dictionary<byte, CustomRpcSender> senders, Dictionary<(byte, byte), RoleTypes> rolesMap, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate, PlayerControl devPlayer = null)
+    private static void AssignDesyncRole(CustomRoles role, PlayerControl player, Dictionary<byte, CustomRpcSender> senders, Dictionary<(byte, byte), RoleTypes> rolesMap, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)
     {
-        if (!role.IsEnable()) return;
-        if (AllPlayers == null || AllPlayers.Count <= 0) return;
+        if (player == null) return;
 
         var hostId = PlayerControl.LocalPlayer.PlayerId;
-        var rd = IRandom.Instance;
 
-        var count = Math.Clamp(role.GetCount(), 0, AllPlayers.Count);
-        if (count <= 0) return;
+        Main.PlayerStates[player.PlayerId].SetMainRole(role);
 
-        List<byte> pid = new();
-        foreach (var pc in AllPlayers) pid.Add(pc.PlayerId);
-        for (var i = 0; i < role.GetCount(); i++)
-        {
-            if (AllPlayers.Count <= 0) break;
-            var player = devPlayer ?? AllPlayers[rd.Next(0, AllPlayers.Count)];
-            foreach (var dr in Main.DevRole) { if (pid.Contains(dr.Key)) { if (dr.Value == role) { player.PlayerId = dr.Key; break; } else { while (player.PlayerId == dr.Key && AllPlayers.Count > 1) { player = AllPlayers[rd.Next(0, AllPlayers.Count)]; } } } }
-            Main.DevRole.Remove(player.PlayerId);
-            AllPlayers.Remove(player);
-            Main.PlayerStates[player.PlayerId].SetMainRole(role);
+        var selfRole = player.PlayerId == hostId ? hostBaseRole : BaseRole;
+        var othersRole = player.PlayerId == hostId ? RoleTypes.Crewmate : RoleTypes.Scientist;
 
-            var selfRole = player.PlayerId == hostId ? hostBaseRole : BaseRole;
-            var othersRole = player.PlayerId == hostId ? RoleTypes.Crewmate : RoleTypes.Scientist;
+        //Desync役職視点
+        foreach (var target in Main.AllPlayerControls)
+            rolesMap[(player.PlayerId, target.PlayerId)] = player.PlayerId != target.PlayerId ? othersRole : selfRole;
 
-            //Desync役職視点
-            foreach (var target in Main.AllPlayerControls)
-            {
-                rolesMap[(player.PlayerId, target.PlayerId)] = player.PlayerId != target.PlayerId ? othersRole : selfRole;
-            }
+        //他者視点
+        foreach (var seer in Main.AllPlayerControls.Where(x => player.PlayerId != x.PlayerId))
+                rolesMap[(seer.PlayerId, player.PlayerId)] = othersRole;
 
-            //他者視点
-            foreach (var seer in Main.AllPlayerControls)
-            {
-                if (player.PlayerId != seer.PlayerId)
-                {
-                    rolesMap[(seer.PlayerId, player.PlayerId)] = othersRole;
-                }
-            }
-            RpcSetRoleReplacer.OverriddenSenderList.Add(senders[player.PlayerId]);
-            //ホスト視点はロール決定
-            player.SetRole(othersRole);
-            player.Data.IsDead = true;
-        }
+        RpcSetRoleReplacer.OverriddenSenderList.Add(senders[player.PlayerId]);
+        //ホスト視点はロール決定
+        player.SetRole(othersRole);
+        player.Data.IsDead = true;
+
+        Logger.Info($"注册模组职业：{player?.Data?.PlayerName} => {role}", "AssignRoles");
     }
     public static void MakeDesyncSender(Dictionary<byte, CustomRpcSender> senders, Dictionary<(byte, byte), RoleTypes> rolesMap)
     {
@@ -800,29 +556,15 @@ internal class SelectRolesPatch
         }
     }
 
-    private static List<PlayerControl> AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1)
+    private static void AssignCustomRolesFromList(CustomRoles role, PlayerControl player)
     {
-        if (players == null || players.Count <= 0) return null;
-        var rd = IRandom.Instance;
-        var count = Math.Clamp(RawCount, 0, players.Count);
-        if (RawCount == -1) count = Math.Clamp(role.GetCount(), 0, players.Count);
-        if (count <= 0) return null;
-        List<PlayerControl> AssignedPlayers = new();
+        if (player == null) return;
         SetColorPatch.IsAntiGlitchDisabled = true;
-        List<byte> pid = new();
-        foreach (var pc in players) pid.Add(pc.PlayerId);
-        for (var i = 0; i < count; i++)
-        {
-            if (count <= 0) break;
-            var player = players[rd.Next(0, players.Count)];
-            foreach (var dr in Main.DevRole) { if (pid.Contains(dr.Key)) { if (dr.Value == role) { player.PlayerId = dr.Key; break; } else { while (player.PlayerId == dr.Key && players.Count > 1) { player = players[rd.Next(0, players.Count)]; } } } }
-            AssignedPlayers.Add(player);
-            players.Remove(player);
-            Main.PlayerStates[player.PlayerId].SetMainRole(role);
-            Logger.Info("设置职业:" + player?.Data?.PlayerName + " = " + role.ToString(), "AssignRoles");
-        }
+
+        Main.PlayerStates[player.PlayerId].SetMainRole(role);
+        Logger.Info($"注册模组职业：{player?.Data?.PlayerName} => {role}", "AssignRoles");
+
         SetColorPatch.IsAntiGlitchDisabled = false;
-        return AssignedPlayers;
     }
 
     private static void AssignLoversRolesFromList()
@@ -855,45 +597,21 @@ internal class SelectRolesPatch
             Main.LoversPlayers.Add(player);
             allPlayers.Remove(player);
             Main.PlayerStates[player.PlayerId].SetSubRole(role);
-            Logger.Info("设置职业:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + role.ToString(), "AssignLovers");
+            Logger.Info("注册恋人:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + role.ToString(), "AssignLovers");
         }
         RPC.SyncLoversPlayers();
     }
     private static void AssignSubRoles(CustomRoles role, int RawCount = -1)
     {
-        var allPlayers = new List<PlayerControl>();
-        foreach (var pc in Main.AllPlayerControls)
-        {
-            if (pc.Is(CustomRoles.GM) || (pc.HasSubRole() && !Options.NoLimitAddonsNum.GetBool()) || pc.Is(CustomRoles.Needy)) continue;
-            if (role is CustomRoles.Lighter && (!pc.GetCustomRole().IsCrewmate() || pc.Is(CustomRoles.Bewilder))) continue;
-            if (role is CustomRoles.Bewilder && (pc.GetCustomRole().IsImpostor() || pc.Is(CustomRoles.Lighter))) continue;
-            if (role is CustomRoles.Ntr && (pc.Is(CustomRoles.Lovers) || pc.Is(CustomRoles.FFF))) continue;
-            if (role is CustomRoles.Madmate && !Utils.CanBeMadmate(pc)) continue;
-            if (role is CustomRoles.Oblivious && (pc.Is(CustomRoles.Detective) || pc.Is(CustomRoles.Cleaner))) continue;
-            if (role is CustomRoles.Fool && (pc.GetCustomRole().IsImpostor() || pc.Is(CustomRoles.SabotageMaster))) continue;
-            if (role is CustomRoles.Avanger && pc.GetCustomRole().IsImpostor() && !Options.ImpCanBeAvanger.GetBool()) continue;
-            if (role is CustomRoles.Brakar && pc.Is(CustomRoles.Dictator)) continue;
-            if (role is CustomRoles.Youtuber && (!pc.GetCustomRole().IsCrewmate() || pc.Is(CustomRoles.Madmate))) continue;
-            if (role is CustomRoles.Egoist && (pc.GetCustomRole().IsNeutral() || pc.Is(CustomRoles.Madmate))) continue;
-            if (role is CustomRoles.Egoist && pc.GetCustomRole().IsImpostor() && !Options.ImpCanBeEgoist.GetBool()) continue;
-            if (role is CustomRoles.Egoist && pc.GetCustomRole().IsCrewmate() && !Options.CrewCanBeEgoist.GetBool()) continue;
-            if (role is CustomRoles.TicketsStealer or CustomRoles.Mimic && !pc.GetCustomRole().IsImpostor()) continue;
-            if (role is CustomRoles.TicketsStealer && (pc.Is(CustomRoles.Bomber) || pc.Is(CustomRoles.BoobyTrap))) continue;
-            if (role is CustomRoles.Mimic && pc.Is(CustomRoles.Mafia)) continue;
-            if (role is CustomRoles.DualPersonality && ((!pc.GetCustomRole().IsImpostor() && !pc.GetCustomRole().IsCrewmate()) || pc.Is(CustomRoles.Madmate))) continue;
-            if (role is CustomRoles.DualPersonality && pc.GetCustomRole().IsImpostor() && !Options.ImpCanBeDualPersonality.GetBool()) continue;
-            if (role is CustomRoles.DualPersonality && pc.GetCustomRole().IsCrewmate() && !Options.CrewCanBeDualPersonality.GetBool()) continue;
-            allPlayers.Add(pc);
-        }
-        var rd = IRandom.Instance;
+        var allPlayers = Main.AllAlivePlayerControls.Where(x => CustomRolesHelper.CheckAddonConfilct(role, x)).ToList();
         var count = Math.Clamp(RawCount, 0, allPlayers.Count);
         if (RawCount == -1) count = Math.Clamp(role.GetCount(), 0, allPlayers.Count);
         if (count <= 0) return;
         for (var i = 0; i < count; i++)
         {
-            var player = allPlayers[rd.Next(0, allPlayers.Count)];
+            var player = allPlayers[IRandom.Instance.Next(0, allPlayers.Count)];
             Main.PlayerStates[player.PlayerId].SetSubRole(role);
-            Logger.Info("设置职业:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + role.ToString(), "Assign " + role.ToString());
+            Logger.Info("注册附加职业:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + role.ToString(), "Assign " + role.ToString());
         }
     }
 
