@@ -739,6 +739,9 @@ class ReportDeadBodyPatch
         //以下、检查是否允许本次会议
         //=============================================
 
+        var killer = __instance.GetRealKiller();
+        var killerRole = killer?.GetCustomRole();
+
         //杀戮机器无法报告或拍灯
         if (__instance.Is(CustomRoles.Minimalism)) return false;
         //禁止小黑人报告
@@ -750,16 +753,15 @@ class ReportDeadBodyPatch
         }
         else //报告尸体事件
         {
-            var tpc = Utils.GetPlayerById(target.PlayerId);
 
             // 清洁工来扫大街咯
             if (__instance.Is(CustomRoles.Cleaner))
             {
-                Main.CleanerBodies.Remove(tpc.PlayerId);
-                Main.CleanerBodies.Add(tpc.PlayerId);
+                Main.CleanerBodies.Remove(target.PlayerId);
+                Main.CleanerBodies.Add(target.PlayerId);
                 __instance.RpcGuardAndKill(__instance);
                 __instance.ResetKillCooldown();
-                Logger.Info($"{__instance.GetRealName()} 清理了 {tpc.GetRealName()} 的尸体", "Cleaner");
+                Logger.Info($"{__instance.GetRealName()} 清理了 {target.PlayerName} 的尸体", "Cleaner");
                 return false;
             }
 
@@ -767,15 +769,15 @@ class ReportDeadBodyPatch
             if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.Gambled) return false;
 
             // 清道夫的尸体无法被报告
-            if (tpc.GetRealKiller().Is(CustomRoles.Scavenger)) return false;
+            if (killerRole == CustomRoles.Scavenger) return false;
 
             // 被清理的尸体无法报告
-            if (Main.CleanerBodies.Contains(tpc.PlayerId)) return false;
+            if (Main.CleanerBodies.Contains(target.PlayerId)) return false;
 
             // 胆小鬼不敢报告
             if (__instance.Is(CustomRoles.Oblivious))
             {
-                if ((!tpc.GetRealKiller().Is(CustomRoles.Hacker)) && !tpc.Is(CustomRoles.Bait))
+                if (killerRole != CustomRoles.Hacker && target.GetCustomRole() != CustomRoles.Bait)
                     return false;
             }
 
