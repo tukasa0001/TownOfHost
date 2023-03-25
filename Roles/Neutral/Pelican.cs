@@ -8,7 +8,6 @@ public static class Pelican
     private static readonly int Id = 5053175;
     private static List<byte> playerIdList = new();
     private static Dictionary<byte, List<byte>> eatenList = new();
-    private static readonly Dictionary<byte, Vector2> originalPosition = new();
     private static readonly Dictionary<byte, float> originalSpeed = new();
     public static OptionItem KillCooldown;
     public static OptionItem CanVent;
@@ -110,9 +109,6 @@ public static class Pelican
 
         SyncEatenList(pc.PlayerId);
 
-        originalPosition.Remove(target.PlayerId);
-        originalPosition.Add(target.PlayerId, target.GetTruePosition());
-
         originalSpeed.Remove(target.PlayerId);
         originalSpeed.Add(target.PlayerId, Main.AllPlayerSpeed[target.PlayerId]);
 
@@ -137,10 +133,9 @@ public static class Pelican
                 if (killer == null || target == null) continue;
                 Main.AllPlayerSpeed[tar] = Main.AllPlayerSpeed[tar] - 0.5f + originalSpeed[tar];
                 ReportDeadBodyPatch.CanReport[tar] = true;
-                target.SetRealKiller(killer);
-                target.Data.IsDead = true;
-                Main.PlayerStates[tar].deathReason = PlayerState.DeathReason.Eaten;
                 target.RpcExileV2();
+                target.SetRealKiller(killer);
+                Main.PlayerStates[tar].deathReason = PlayerState.DeathReason.Eaten;
                 Main.PlayerStates[tar].SetDead();
                 Logger.Info($"{killer.GetRealName()} 消化了 {target.GetRealName()}", "Pelican");
             }
