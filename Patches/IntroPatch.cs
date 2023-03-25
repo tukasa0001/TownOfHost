@@ -77,7 +77,7 @@ class CoBeginPatch
         logger.Info("------------详细设置------------");
         foreach (var o in OptionItem.AllOptions)
             if (!o.IsHiddenOn(Options.CurrentGameMode) && (o.Parent == null ? !o.GetString().Equals("0%") : o.Parent.GetBool()))
-                logger.Info($"{(o.Parent == null ? o.Name.PadRightV2(40) : $"┗ {o.Name}".PadRightV2(41))}:{o.GetString().RemoveHtmlTags()}");
+                logger.Info($"{(o.Parent == null ? o.GetName(true).PadRightV2(40) : $"┗ {o.GetName(true).RemoveHtmlTags()}".PadRightV2(41))}:{o.GetString().RemoveHtmlTags()}");
         logger.Info("-------------其它信息-------------");
         logger.Info($"玩家人数: {Main.AllPlayerControls.Count()}");
         Main.AllPlayerControls.Do(x => Main.PlayerStates[x.PlayerId].InitTask(x));
