@@ -412,7 +412,6 @@ namespace TownOfHost
             MayorHasPortableButton = BooleanOptionItem.Create(20211, "MayorHasPortableButton", false, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mayor]);
             MayorNumOfUseButton = IntegerOptionItem.Create(20212, "MayorNumOfUseButton", new(1, 99, 1), 1, TabGroup.CrewmateRoles, false).SetParent(MayorHasPortableButton)
                 .SetValueFormat(OptionFormat.Times);
-            SabotageMaster.SetupCustomOption();
             sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Crewmate).Do(info =>
             {
                 SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
