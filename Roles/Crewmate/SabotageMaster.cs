@@ -41,48 +41,61 @@ namespace TownOfHost.Roles.Crewmate
             playerIdList.Add(playerId);
         }
         public static bool IsEnable() => playerIdList.Count > 0;
-        public static void RepairSystem(ShipStatus __instance, SystemTypes systemType, byte amount)
+        public static void RepairSystem(SystemTypes systemType, byte amount)
         {
+            var shipStatus = ShipStatus.Instance;
             switch (systemType)
             {
                 case SystemTypes.Reactor:
                     if (!FixesReactors.GetBool()) break;
                     if (SkillLimit.GetFloat() > 0 && UsedSkillCount >= SkillLimit.GetFloat()) break;
-                    if (amount is 64 or 65)
+                    if (amount.HasAnyBit(64))
                     {
-                        ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 16);
-                        ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 17);
+                        shipStatus.RpcRepairSystem(SystemTypes.Reactor, 16);
                         UsedSkillCount++;
                     }
                     break;
                 case SystemTypes.Laboratory:
                     if (!FixesReactors.GetBool()) break;
                     if (SkillLimit.GetFloat() > 0 && UsedSkillCount >= SkillLimit.GetFloat()) break;
-                    if (amount is 64 or 65)
+                    if (amount.HasAnyBit(64))
                     {
-                        ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 67);
-                        ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 66);
+                        shipStatus.RpcRepairSystem(SystemTypes.Laboratory, 16);
                         UsedSkillCount++;
                     }
                     break;
                 case SystemTypes.LifeSupp:
                     if (!FixesOxygens.GetBool()) break;
                     if (SkillLimit.GetFloat() > 0 && UsedSkillCount >= SkillLimit.GetFloat()) break;
-                    if (amount is 64 or 65)
+                    if (amount.HasAnyBit(64))
                     {
-                        ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 67);
-                        ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 66);
+                        shipStatus.RpcRepairSystem(SystemTypes.LifeSupp, 16);
                         UsedSkillCount++;
                     }
                     break;
                 case SystemTypes.Comms:
                     if (!FixesComms.GetBool()) break;
                     if (SkillLimit.GetFloat() > 0 && UsedSkillCount >= SkillLimit.GetFloat()) break;
-                    if (amount is 64 or 65)
+                    if (amount.HasAnyBit(64))
                     {
-                        ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 16);
-                        ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 17);
+                        shipStatus.RpcRepairSystem(SystemTypes.Comms, 16);
+                        shipStatus.RpcRepairSystem(SystemTypes.Comms, 17);
                         UsedSkillCount++;
+                    }
+                    break;
+                case SystemTypes.Electrical:
+                    if (!FixesElectrical.GetBool()) break;
+                    if (SkillLimit.GetFloat() > 0 && UsedSkillCount >= SkillLimit.GetFloat()) break;
+                    if (!amount.HasAnyBit(128))
+                    {
+                        var sw = shipStatus.Systems[SystemTypes.Electrical].TryCast<SwitchSystem>();
+                        if (sw != null)
+                        {
+                            //現在のスイッチ状態を正解から今から動かすスイッチ以外を正解にする
+                            var fixbit = amount.HasAnyBit(32) ? amount & 31 : 1 << amount;
+                            sw.ActualSwitches = (byte)(sw.ExpectedSwitches ^ fixbit);
+                            UsedSkillCount++;
+                        }
                     }
                     break;
                 case SystemTypes.Doors:
@@ -96,37 +109,23 @@ namespace TownOfHost.Roles.Crewmate
                     if (mapId == 2)
                     {
                         //Polus
-                        RepairSystemPatch.CheckAndOpenDoorsRange(__instance, amount, 71, 72);
-                        RepairSystemPatch.CheckAndOpenDoorsRange(__instance, amount, 67, 68);
-                        RepairSystemPatch.CheckAndOpenDoorsRange(__instance, amount, 64, 66);
-                        RepairSystemPatch.CheckAndOpenDoorsRange(__instance, amount, 73, 74);
+                        RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 71, 72);
+                        RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 67, 68);
+                        RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 64, 66);
+                        RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 73, 74);
                     }
                     else if (mapId == 4)
                     {
                         //Airship
-                        RepairSystemPatch.CheckAndOpenDoorsRange(__instance, amount, 64, 67);
-                        RepairSystemPatch.CheckAndOpenDoorsRange(__instance, amount, 71, 73);
-                        RepairSystemPatch.CheckAndOpenDoorsRange(__instance, amount, 74, 75);
-                        RepairSystemPatch.CheckAndOpenDoorsRange(__instance, amount, 76, 78);
-                        RepairSystemPatch.CheckAndOpenDoorsRange(__instance, amount, 68, 70);
-                        RepairSystemPatch.CheckAndOpenDoorsRange(__instance, amount, 83, 84);
+                        RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 64, 67);
+                        RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 71, 73);
+                        RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 74, 75);
+                        RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 76, 78);
+                        RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 68, 70);
+                        RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 83, 84);
                     }
                     DoorsProgressing = false;
                     break;
-            }
-        }
-        public static void SwitchSystemRepair(SwitchSystem __instance, byte amount)
-        {
-            if (!FixesElectrical.GetBool()) return;
-            if (SkillLimit.GetFloat() > 0 &&
-                UsedSkillCount >= SkillLimit.GetFloat())
-                return;
-
-            if (amount is >= 0 and <= 4)
-            {
-                __instance.ActualSwitches = 0;
-                __instance.ExpectedSwitches = 0;
-                UsedSkillCount++;
             }
         }
     }

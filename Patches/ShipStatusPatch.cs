@@ -57,38 +57,19 @@ namespace TownOfHost
             {
                 Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount);
             }
-            IsComms = false;
-            foreach (PlayerTask task in PlayerControl.LocalPlayer.myTasks)
-                if (task.TaskType == TaskTypes.FixComms) IsComms = true;
-
+            if (systemType == SystemTypes.Comms)
+            {
+                //32or33:MiraのComms完了コード
+                //0:それ以外のComms完了コード
+                if (amount is 32 or 33 or 0)
+                    IsComms = false;
+                else
+                    IsComms = true;
+            }
             if (!AmongUsClient.Instance.AmHost) return true; //以下、ホストのみ実行
+
             if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && systemType == SystemTypes.Sabotage) return false;
-            //SabotageMaster
-            if (player.Is(CustomRoles.SabotageMaster))
-                SabotageMaster.RepairSystem(__instance, systemType, amount);
-
-            if (systemType == SystemTypes.Electrical && 0 <= amount && amount <= 4)
-            {
-                if (!Options.MadmateCanFixLightsOut.GetBool() && player.GetCustomRole().IsMadmate()) return false; //Madmateが停電を直せる設定がオフ
-                switch (Main.NormalOptions.MapId)
-                {
-                    case 4:
-                        if (Options.DisableAirshipViewingDeckLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(-12.93f, -11.28f)) <= 2f) return false;
-                        if (Options.DisableAirshipGapRoomLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(13.92f, 6.43f)) <= 2f) return false;
-                        if (Options.DisableAirshipCargoLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(30.56f, 2.12f)) <= 2f) return false;
-                        break;
-                }
-            }
-
-            if (!Options.MadmateCanFixComms.GetBool() && player.GetCustomRole().IsMadmate() //Madmateがコミュサボを直せる設定がオフ
-                && systemType == SystemTypes.Comms //システムタイプが通信室
-                && amount is 0 or 16 or 17)
-                return false;
-            if (!player.Is(CustomRoleTypes.Impostor) && !player.Is(CustomRoles.Egoist) && !(player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
-            {
-                if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
-            }
-            return true;
+            return OnRepairSystem(player, systemType, amount);
         }
         public static void Postfix(ShipStatus __instance)
         {
@@ -110,6 +91,48 @@ namespace TownOfHost
                     __instance.RpcRepairSystem(SystemTypes.Doors, id);
                 }
         }
+        private static bool OnRepairSystem(PlayerControl player, SystemTypes systemType, byte amount)
+        {
+            if (player.Is(CustomRoles.SabotageMaster))
+            {
+                SabotageMaster.RepairSystem(systemType, amount);
+            }
+            if (player.Is(CustomRoleTypes.Madmate))
+            {
+                if (systemType == SystemTypes.Comms)
+                {
+                    //直せてしまったらキャンセル
+                    return !(!Options.MadmateCanFixComms.GetBool() && amount is 0 or 16 or 17);
+                }
+                if (systemType == SystemTypes.Electrical)
+                {
+                    if (!Options.MadmateCanFixLightsOut.GetBool())
+                        return false;
+                    //Airshipの特定の停電を直せない
+                    switch (Main.NormalOptions.MapId)
+                    {
+                        case 4:
+                            var console = player.closest.Cast<Console>();
+                            if (console != null)
+                            {
+                                Logger.Info($"{console.GetType()}", "sabo");
+                                Logger.Info($"{console.tag}", "sabo");
+                            }
+                            if (Options.DisableAirshipViewingDeckLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(-12.93f, -11.28f)) <= 2f) return false;
+                            if (Options.DisableAirshipGapRoomLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(13.92f, 6.43f)) <= 2f) return false;
+                            if (Options.DisableAirshipCargoLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(30.56f, 2.12f)) <= 2f) return false;
+                            break;
+                    }
+                }
+                //サボタージュ出来ないキラー役職はサボタージュ自体をキャンセル
+                if (!player.Is(CustomRoleTypes.Impostor) && !player.Is(CustomRoles.Egoist) && !(player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
+                {
+                    if (systemType == SystemTypes.Sabotage) return false;
+                }
+
+            }
+            return true;
+        }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CloseDoorsOfType))]
     class CloseDoorsPatch
@@ -117,15 +140,6 @@ namespace TownOfHost
         public static bool Prefix(ShipStatus __instance)
         {
             return !(Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) || Options.AllowCloseDoors.GetBool();
-        }
-    }
-    [HarmonyPatch(typeof(SwitchSystem), nameof(SwitchSystem.RepairDamage))]
-    class SwitchSystemRepairPatch
-    {
-        public static void Postfix(SwitchSystem __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] byte amount)
-        {
-            if (player.Is(CustomRoles.SabotageMaster))
-                SabotageMaster.SwitchSystemRepair(__instance, amount);
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Start))]
