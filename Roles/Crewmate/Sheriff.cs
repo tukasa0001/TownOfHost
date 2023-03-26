@@ -121,6 +121,7 @@ public sealed class Sheriff : RoleBase
         => !Main.PlayerStates[Player.PlayerId].IsDead
         && (CanKillAllAlive.GetBool() || GameStates.AlreadyDied)
         && ShotLimit > 0;
+    public override bool CanSabotage(SystemTypes systemType) => false;
 
     // == CheckMurder関連処理 ==
     public override void OnCheckMurderAsKiller(MurderInfo info)
