@@ -522,8 +522,6 @@ class MeetingHudStartPatch
         Main.AllPlayerControls.Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
         MeetingStates.MeetingCalled = true;
 
-        Psychic.OnMeetingStart();
-
         if (!AmongUsClient.Instance.AmHost) return;
 
         Main.LastVotedPlayerInfo = null;

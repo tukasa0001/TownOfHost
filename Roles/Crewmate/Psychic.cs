@@ -1,3 +1,4 @@
+using Hazel;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -38,17 +39,31 @@ public static class Psychic
         playerIdList.Add(playerId);
     }
     public static bool IsEnable => playerIdList.Count > 0;
+    private static void SendRPC()
+    {
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SyncPsychicRedList, SendOption.Reliable, -1);
+        writer.Write(RedPlayer.Count);
+        foreach(var pc in RedPlayer)
+            writer.Write(pc);
+        AmongUsClient.Instance.FinishRpcImmediately(writer);
+    }
+    public static void ReceiveRPC(MessageReader reader)
+    {
+        int count = reader.ReadInt32();
+        RedPlayer = new();
+        for (int i = 0; i < count; i++)
+            RedPlayer.Add(reader.ReadByte());
+    }
     public static bool IsRedForPsy(this byte id) => RedPlayer != null && RedPlayer.Count != 0 && RedPlayer.Contains(id);
     public static bool IsRedForPsy(this PlayerControl pc) => RedPlayer != null && RedPlayer.Count != 0 && RedPlayer.Contains(pc.PlayerId);
-    public static void OnMeetingStart()
+    public static void OnReportDeadBody()
     {
-        if (Fresh.GetBool() || RedPlayer == null || RedPlayer.Count == 0)
+        if (Fresh.GetBool() || RedPlayer == null || RedPlayer.Count < 1)
             GetRedName();
     }
     public static void GetRedName()
     {
-        if (!IsEnable) return;
-        if (!PlayerControl.LocalPlayer.Is(CustomRoles.Psychic) && !AmongUsClient.Instance.AmHost) return;
+        if (!IsEnable || !AmongUsClient.Instance.AmHost) return;
 
         List<PlayerControl> BadListPc = Main.AllAlivePlayerControls.Where(x =>
         x.GetCustomRole().IsImpostor() ||
@@ -60,7 +75,7 @@ public static class Psychic
         List<byte> BadList = new();
         foreach (var pc in BadListPc) BadList.Add(pc.PlayerId);
         List<byte> AllList = new();
-        foreach (var pc in Main.AllAlivePlayerControls.Where(x => !BadList.Contains(x.PlayerId) && x.PlayerId != PlayerControl.LocalPlayer.PlayerId))
+        foreach (var pc in Main.AllAlivePlayerControls.Where(x => !BadList.Contains(x.PlayerId) && !x.Is(CustomRoles.Psychic)))
             AllList.Add(pc.PlayerId);
 
         int ENum = 1;
@@ -80,6 +95,9 @@ public static class Psychic
             if (list.Count < 1) break;
             RedPlayer.Add(list[IRandom.Instance.Next(0, AllList.Count)]);
         }
+
         Logger.Info($"需要{CanSeeNum.GetInt()}个红名，其中{ENum}个邪恶，计算后显示红名{RedPlayer.Count}个", "Psychic");
+        SendRPC(); //RPC同步红名名单
+
     }
 }

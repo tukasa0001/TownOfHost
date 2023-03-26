@@ -64,6 +64,7 @@ enum CustomRPC
     SetConcealerTimer,
     SetMedicalerProtectList,
     SetHackerHackLimit,
+    SyncPsychicRedList,
 }
 public enum Sounds
 {
@@ -351,6 +352,9 @@ internal class RPCHandlerPatch
             case CustomRPC.SetHackerHackLimit:
                 Hacker.ReceiveRPC(reader);
                 break;
+            case CustomRPC.SyncPsychicRedList:
+                Psychic.ReceiveRPC(reader);
+                break;
         }
     }
 }
@@ -584,6 +588,9 @@ internal static class RPC
                 break;
             case CustomRoles.Hacker:
                 Hacker.Add(targetId);
+                break;
+            case CustomRoles.Psychic:
+                Psychic.Add(targetId);
                 break;
         }
         HudManager.Instance.SetHudActive(true);

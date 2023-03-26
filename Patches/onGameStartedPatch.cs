@@ -183,6 +183,7 @@ internal class ChangeRoleSettings
             Assassin.Init();
             Sans.Init();
             Hacker.Init();
+            Psychic.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
@@ -469,6 +470,9 @@ internal class SelectRolesPatch
                         break;
                     case CustomRoles.Hacker:
                         Hacker.Add(pc.PlayerId);
+                        break;
+                    case CustomRoles.Psychic:
+                        Psychic.Add(pc.PlayerId);
                         break;
                 }
                 foreach (var subRole in pc.GetCustomSubRoles())

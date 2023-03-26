@@ -91,7 +91,7 @@ public static class Sheriff
     public static bool CanUseKillButton(byte playerId)
         => !Main.PlayerStates[playerId].IsDead
         && (CanKillAllAlive.GetBool() || GameStates.AlreadyDied)
-        && ShotLimit[playerId] > 0;
+        && (!ShotLimit.TryGetValue(playerId, out var x) || x > 0);
 
     public static bool OnCheckMurder(PlayerControl killer, PlayerControl target)
     {
