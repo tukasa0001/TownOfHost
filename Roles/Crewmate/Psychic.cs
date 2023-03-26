@@ -56,7 +56,7 @@ public static class Psychic
     }
     public static bool IsRedForPsy(this byte id) => RedPlayer != null && RedPlayer.Count != 0 && RedPlayer.Contains(id);
     public static bool IsRedForPsy(this PlayerControl pc) => RedPlayer != null && RedPlayer.Count != 0 && RedPlayer.Contains(pc.PlayerId);
-    public static void OnReportDeadBody()
+    public static void OnMeetingStart()
     {
         if (Fresh.GetBool() || RedPlayer == null || RedPlayer.Count < 1)
             GetRedName();
@@ -66,7 +66,7 @@ public static class Psychic
         if (!IsEnable || !AmongUsClient.Instance.AmHost) return;
 
         List<PlayerControl> BadListPc = Main.AllAlivePlayerControls.Where(x =>
-        x.GetCustomRole().IsImpostor() ||
+        x.GetCustomRole().IsImpostorTeam() || x.Is(CustomRoles.Madmate) ||
         (x.GetCustomRole().IsCK() && CkshowEvil.GetBool()) ||
         (x.GetCustomRole().IsNeutralKilling() && NEshowEvil.GetBool()) ||
         (x.GetCustomRole().IsNeutral() && !x.GetCustomRole().IsNeutralKilling() && NBshowEvil.GetBool())
@@ -80,23 +80,24 @@ public static class Psychic
 
         int ENum = 1;
         for (int i = 1; i < CanSeeNum.GetInt(); i++)
-            if (IRandom.Instance.Next(0, 100) < 20) ENum++;
+            if (IRandom.Instance.Next(0, 100) < 18) ENum++;
         int BNum = CanSeeNum.GetInt() - ENum;
 
         RedPlayer = new();
-        for (int i = 0; i < ENum; i++)
+        for (int i = 0; i < ENum && BadList.Count >= 1; i++)
         {
-            if (BadList.Count < 1) break;
             RedPlayer.Add(BadList[IRandom.Instance.Next(0, BadList.Count)]);
-        }
-        for (int i = 0; i < BNum; i++)
-        {
-            var list = AllList.Where(x => !RedPlayer.Contains(x)).ToList();
-            if (list.Count < 1) break;
-            RedPlayer.Add(list[IRandom.Instance.Next(0, AllList.Count)]);
+            BadList.RemoveAll(RedPlayer.Contains);
         }
 
-        Logger.Info($"需要{CanSeeNum.GetInt()}个红名，其中{ENum}个邪恶，计算后显示红名{RedPlayer.Count}个", "Psychic");
+        AllList.RemoveAll(RedPlayer.Contains);
+        for (int i = 0; i < BNum && AllList.Count >= 1; i++)
+        {
+            RedPlayer.Add(AllList[IRandom.Instance.Next(0, AllList.Count)]);
+            AllList.RemoveAll(RedPlayer.Contains);
+        }
+
+        Logger.Info($"需要{CanSeeNum.GetInt()}个红名，其中需要{ENum}个邪恶。计算后显示红名{RedPlayer.Count}个", "Psychic");
         SendRPC(); //RPC同步红名名单
 
     }

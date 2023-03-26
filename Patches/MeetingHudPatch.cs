@@ -536,6 +536,7 @@ class MeetingHudStartPatch
         QuickShooter.OnMeetingStart();
         Eraser.OnMeetingStart();
         Hacker.OnMeetingStart();
+        Psychic.OnMeetingStart();
 
         NotifyRoleSkillOnMeetingStart();
     }

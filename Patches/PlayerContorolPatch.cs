@@ -855,7 +855,6 @@ class ReportDeadBodyPatch
         Vampire.OnStartMeeting();
         Pelican.OnReportDeadBody();
         Concealer.OnReportDeadBody();
-        Psychic.OnReportDeadBody();
 
         foreach (var x in Main.RevolutionistStart)
         {
