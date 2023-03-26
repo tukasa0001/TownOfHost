@@ -46,30 +46,45 @@ namespace TownOfHost
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RepairSystem))]
     class RepairSystemPatch
     {
-        public static bool IsComms;
         public static bool Prefix(ShipStatus __instance,
             [HarmonyArgument(0)] SystemTypes systemType,
             [HarmonyArgument(1)] PlayerControl player,
             [HarmonyArgument(2)] byte amount)
         {
-            Logger.Msg("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount, "RepairSystem");
+            if (systemType == SystemTypes.Sabotage)
+            {
+                Logger.Msg("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", SabotageType: " + (SystemTypes)amount, "RepairSystem");
+            }
+            else
+            {
+                Logger.Msg("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount, "RepairSystem");
+            }
+
             if (RepairSender.enabled && AmongUsClient.Instance.NetworkMode != NetworkModes.OnlineGame)
             {
                 Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount);
             }
-            if (systemType == SystemTypes.Comms)
-            {
-                //32or33:MiraのComms完了コード
-                //0:それ以外のComms完了コード
-                if (amount is 32 or 33 or 0)
-                    IsComms = false;
-                else
-                    IsComms = true;
-            }
             if (!AmongUsClient.Instance.AmHost) return true; //以下、ホストのみ実行
 
-            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && systemType == SystemTypes.Sabotage) return false;
-            return OnRepairSystem(player, systemType, amount);
+            if (systemType == SystemTypes.Sabotage)
+            {
+                var nextSabotage = (SystemTypes)amount;
+                //HASモードではサボタージュ不可
+                if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS)) return false;
+                var roleClass = player.GetRoleClass();
+                if (roleClass != null)
+                {
+                    return roleClass.CanSabotage(nextSabotage);
+                }
+                else
+                {
+                    return CanSabotage(player, nextSabotage);
+                }
+            }
+            else
+            {
+                return CustomRoleManager.OnSabotage(player, systemType, amount);
+            }
         }
         public static void Postfix(ShipStatus __instance)
         {
@@ -91,12 +106,17 @@ namespace TownOfHost
                     __instance.RpcRepairSystem(SystemTypes.Doors, id);
                 }
         }
-        private static bool OnRepairSystem(PlayerControl player, SystemTypes systemType, byte amount)
+        private static bool CanSabotage(PlayerControl player, SystemTypes systemType)
         {
-            if (player.Is(CustomRoles.SabotageMaster))
+            //サボタージュ出来ないキラー役職はサボタージュ自体をキャンセル
+            if (!player.Is(CustomRoleTypes.Impostor) && !player.Is(CustomRoles.Egoist) && !(player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
             {
-                SabotageMaster.RepairSystem(systemType, amount);
+                return false;
             }
+            return true;
+        }
+        public static bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount)
+        {
             if (player.Is(CustomRoleTypes.Madmate))
             {
                 if (systemType == SystemTypes.Comms)
@@ -106,13 +126,18 @@ namespace TownOfHost
                 }
                 if (systemType == SystemTypes.Electrical)
                 {
+                    //初回は関係なし(なぜかホスト名義で飛んでくるため誤爆注意)
+                    if (amount.HasAnyBit(128)) return true;
+
+                    //直せないならキャンセル
                     if (!Options.MadmateCanFixLightsOut.GetBool())
                         return false;
-                    //Airshipの特定の停電を直せない
+
+                    //Airshipの特定の停電を直せないならキャンセル
                     switch (Main.NormalOptions.MapId)
                     {
                         case 4:
-                            var console = player.closest.Cast<Console>();
+                            var console = player.closest.TryCast<Console>();
                             if (console != null)
                             {
                                 Logger.Info($"{console.GetType()}", "sabo");
@@ -124,12 +149,6 @@ namespace TownOfHost
                             break;
                     }
                 }
-                //サボタージュ出来ないキラー役職はサボタージュ自体をキャンセル
-                if (!player.Is(CustomRoleTypes.Impostor) && !player.Is(CustomRoles.Egoist) && !(player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
-                {
-                    if (systemType == SystemTypes.Sabotage) return false;
-                }
-
             }
             return true;
         }

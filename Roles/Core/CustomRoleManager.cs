@@ -173,6 +173,22 @@ public static class CustomRoleManager
 
     }
 
+    public static bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount)
+    {
+        bool cancel = false;
+        foreach (var roleClass in AllActiveRoles)
+        {
+            if (!roleClass.OnSabotage(player, systemType, amount))
+            {
+                cancel = true;
+            }
+        }
+        if (!RepairSystemPatch.OnSabotage(player, systemType, amount))
+        {
+            cancel = true;
+        }
+        return !cancel;
+    }
     // ==初期化関連処理 ==
     public static void Initialize()
     {
@@ -223,9 +239,6 @@ public static class CustomRoleManager
             case CustomRoles.TimeThief:
                 TimeThief.Add(pc.PlayerId);
                 break;
-            case CustomRoles.Mare:
-                Mare.Add(pc.PlayerId);
-                break;
             case CustomRoles.Vampire:
                 Vampire.Add(pc.PlayerId);
                 break;
@@ -246,9 +259,6 @@ public static class CustomRoleManager
 
             case CustomRoles.Mayor:
                 Main.MayorUsedButtonCount[pc.PlayerId] = 0;
-                break;
-            case CustomRoles.SabotageMaster:
-                SabotageMaster.Add(pc.PlayerId);
                 break;
             case CustomRoles.EvilTracker:
                 EvilTracker.Add(pc.PlayerId);
