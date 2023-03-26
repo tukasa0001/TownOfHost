@@ -314,7 +314,7 @@ public static class Utils
 
         var hasTasks = true;
         var States = Main.PlayerStates[p.PlayerId];
-        if (p.Disconnected) hasTasks = false;
+        if (p.Disconnected) return false;
         if (p.Role.IsImpostor)
             hasTasks = false; //タスクはCustomRoleを元に判定する
 
