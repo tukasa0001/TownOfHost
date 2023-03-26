@@ -15,7 +15,7 @@ internal class CustomRoleSelector
         // 开始职业抽取
         RoleResult = new();
         var rd = IRandom.Instance;
-        int playerCount = Main.AllPlayerControls.Count() - (Options.EnableGM.GetBool() ? 1 : 0);
+        int playerCount = Main.AllAlivePlayerControls.Count();
         int optImpNum = Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors);
         int optNeutralNum = 0;
         if (Options.NeutralRolesMaxPlayer.GetInt() > 0 && Options.NeutralRolesMaxPlayer.GetInt() >= Options.NeutralRolesMinPlayer.GetInt())
@@ -143,6 +143,7 @@ internal class CustomRoleSelector
         // Dev Roles List Edit
         foreach (var dr in Main.DevRole)
         {
+            if (dr.Key == PlayerControl.LocalPlayer.PlayerId && Options.EnableGM.GetBool()) continue;
             if (rolesToAssign.Contains(dr.Value))
             {
                 rolesToAssign.Remove(dr.Value);
@@ -167,7 +168,7 @@ internal class CustomRoleSelector
                 }
             }
         }
-
+        
         var AllPlayer = Main.AllAlivePlayerControls.ToList();
 
         while (AllPlayer.Count() > 0 && rolesToAssign.Count > 0)
@@ -176,6 +177,7 @@ internal class CustomRoleSelector
             foreach (var pc in AllPlayer)
                 foreach (var dr in Main.DevRole.Where(x => pc.PlayerId == x.Key))
                 {
+                    if (dr.Key == PlayerControl.LocalPlayer.PlayerId && Options.EnableGM.GetBool()) continue;
                     var id = rolesToAssign.IndexOf(dr.Value);
                     if (id == -1) continue;
                     RoleResult.Add(pc, rolesToAssign[id]);

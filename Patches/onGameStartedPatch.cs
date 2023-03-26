@@ -222,6 +222,7 @@ internal class SelectRolesPatch
                 PlayerControl.LocalPlayer.RpcSetCustomRole(CustomRoles.GM);
                 PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Crewmate);
                 PlayerControl.LocalPlayer.Data.IsDead = true;
+                Main.PlayerStates[PlayerControl.LocalPlayer.PlayerId].SetDead();
             }
 
             SelectCustomRoles();
@@ -275,6 +276,7 @@ internal class SelectRolesPatch
                 else
                     Logger.Warn($"覆盖原版职业 => {sd.Item1.GetRealName()}: {sd.Item2} => {kp.Value.GetRoleTypes()}", "Override Role Select");
             }
+            if (Options.EnableGM.GetBool()) newList.Add((PlayerControl.LocalPlayer, RoleTypes.Crewmate));
             RpcSetRoleReplacer.StoragedData = newList;
 
             RpcSetRoleReplacer.Release(); //保存していたSetRoleRpcを一気に書く

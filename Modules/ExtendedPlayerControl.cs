@@ -699,7 +699,8 @@ static class ExtendedPlayerControl
         //ロビーなら生きている
         //targetがnullならば切断者なので生きていない
         //targetがnullでなく取得できない場合は登録前なので生きているとする
-        return GameStates.IsLobby || (target != null && (!Main.PlayerStates.TryGetValue(target.PlayerId, out var ps) || !ps.IsDead || target.Is(CustomRoles.Glitch)));
+        if (target == null || target.Is(CustomRoles.GM) || target.Is(CustomRoles.Glitch)) return false;
+        return GameStates.IsLobby || (target != null && (!Main.PlayerStates.TryGetValue(target.PlayerId, out var ps) || !ps.IsDead));
     }
 
 }
