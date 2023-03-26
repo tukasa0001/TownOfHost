@@ -42,7 +42,7 @@ internal class CustomRoleSelector
             if (role is CustomRoles.GM or CustomRoles.NotAssigned) continue;
             for (int i = 0; i < role.GetCount(); i++)
                 roleList.Add(role);
-        }
+        } 
 
         // 职业设置为：优先
         foreach (var role in roleList) if (role.GetMode() == 2)
@@ -65,7 +65,7 @@ internal class CustomRoleSelector
             var select = ImpOnList[rd.Next(0, ImpOnList.Count)];
             ImpOnList.Remove(select);
             rolesToAssign.Add(select);
-            readyRoleNum += select.GetCount();
+            readyRoleNum++;
             Logger.Info(select.ToString() + " 加入内鬼职业待选列表（优先）", "CustomRoleSelector");
             if (readyRoleNum >= playerCount) goto EndOfAssign;
             if (readyRoleNum >= optImpNum) break;
@@ -78,7 +78,7 @@ internal class CustomRoleSelector
                 var select = ImpRateList[rd.Next(0, ImpRateList.Count)];
                 ImpRateList.Remove(select);
                 rolesToAssign.Add(select);
-                readyRoleNum += select.GetCount();
+                readyRoleNum++;
                 Logger.Info(select.ToString() + " 加入内鬼职业待选列表", "CustomRoleSelector");
                 if (readyRoleNum >= playerCount) goto EndOfAssign;
                 if (readyRoleNum >= optImpNum) break;
@@ -91,7 +91,7 @@ internal class CustomRoleSelector
             var select = NeutralOnList[rd.Next(0, NeutralOnList.Count)];
             NeutralOnList.Remove(select);
             rolesToAssign.Add(select);
-            readyRoleNum += select.GetCount();
+            readyRoleNum++;
             readyNeutralNum += select.GetCount();
             Logger.Info(select.ToString() + " 加入中立职业待选列表（优先）", "CustomRoleSelector");
             if (readyRoleNum >= playerCount) goto EndOfAssign;
@@ -105,7 +105,7 @@ internal class CustomRoleSelector
                 var select = NeutralRateList[rd.Next(0, NeutralRateList.Count)];
                 NeutralRateList.Remove(select);
                 rolesToAssign.Add(select);
-                readyRoleNum += select.GetCount();
+                readyRoleNum++;
                 readyNeutralNum += select.GetCount();
                 Logger.Info(select.ToString() + " 加入中立职业待选列表", "CustomRoleSelector");
                 if (readyRoleNum >= playerCount) goto EndOfAssign;
@@ -119,7 +119,7 @@ internal class CustomRoleSelector
             var select = roleOnList[rd.Next(0, roleOnList.Count)];
             roleOnList.Remove(select);
             rolesToAssign.Add(select);
-            readyRoleNum += select.GetCount();
+            readyRoleNum++;
             Logger.Info(select.ToString() + " 加入船员职业待选列表（优先）", "CustomRoleSelector");
             if (readyRoleNum >= playerCount) goto EndOfAssign;
         }
@@ -131,7 +131,7 @@ internal class CustomRoleSelector
                 var select = roleRateList[rd.Next(0, roleRateList.Count)];
                 roleRateList.Remove(select);
                 rolesToAssign.Add(select);
-                readyRoleNum += select.GetCount();
+                readyRoleNum++;
                 Logger.Info(select.ToString() + " 加入船员职业待选列表", "CustomRoleSelector");
                 if (readyRoleNum >= playerCount) goto EndOfAssign;
             }
