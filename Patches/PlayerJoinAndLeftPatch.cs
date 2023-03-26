@@ -30,7 +30,6 @@ class OnGameJoinedPatch
         if (AmongUsClient.Instance.AmHost) //以下、ホストのみ実行
         {
             Main.newLobby = true;
-            Cloud.StartConnect();
             GameStartManagerPatch.GameStartManagerUpdatePatch.exitTimer = -1;
             Main.OriginalName = new();
             Main.DevRole = new();

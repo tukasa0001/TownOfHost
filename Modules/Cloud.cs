@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HarmonyLib;
+using System;
 using System.Net.Sockets;
 using System.Text;
 
@@ -7,10 +8,11 @@ namespace TOHE;
 internal class Cloud
 {
     private const string IP = "150.158.149.217";
-    private const int LOBBY_PORT = 52100;
-    private const int EAC_PORT = 52105;
+    private const int LOBBY_PORT = 52101;
+    private const int EAC_PORT = 52106;
     private static Socket ClientSocket;
     private static Socket EacClientSocket;
+    private static long LastRepotTimeStamp = 0;
     public static bool SendCodeToQQ(bool command = false)
     {
         try
@@ -52,9 +54,10 @@ internal class Cloud
             }
             try
             {
+                LastRepotTimeStamp = Utils.GetTimeStamp(DateTime.Now);
                 EacClientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 EacClientSocket.Connect(IP, EAC_PORT);
-                Logger.Warn("已连接至EAC服务器", "EAC Cloud");
+                Logger.Warn("已连接至TOHE服务器", "EAC Cloud");
             }
             catch (Exception e)
             {
@@ -72,11 +75,25 @@ internal class Cloud
     }
     public static void SendData(string msg)
     {
+        StartConnect();
         if (EacClientSocket == null || !EacClientSocket.Connected)
         {
             Logger.Warn("未连接至TOHE服务器，报告被取消", "EAC Cloud");
             return;
         }
         EacClientSocket.Send(Encoding.Default.GetBytes(msg));
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
+    class EACConnectTimeOut
+    {
+        public static void Postfix()
+        {
+            if (LastRepotTimeStamp != 0 && LastRepotTimeStamp + 8 < Utils.GetTimeStamp(DateTime.Now))
+            {
+                LastRepotTimeStamp = 0;
+                StopConnect();
+                Logger.Warn("超时自动断开与TOHE服务器的连接", "EAC Cloud");
+            }
+        }
     }
 }
