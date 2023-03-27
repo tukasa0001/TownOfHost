@@ -41,7 +41,7 @@ class ChanceChangePatch
 
         if (forced)
         {
-            __instance.ChanceText.text = "禁用概率";
+            __instance.ChanceText.text = DisableText;
         }
     }
 }
