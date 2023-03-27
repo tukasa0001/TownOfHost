@@ -82,7 +82,8 @@ public static class Translator
         {
             if (translateMaps.TryGetValue(str, out var dic) && (!dic.TryGetValue((int)langId, out res) || res == "")) //strに該当する&無効なlangIdかresが空
             {
-                res = $"*{str}";
+                if (res == "" || langId == SupportedLangs.English) res = $"*{str}";
+                else res = GetString(str, SupportedLangs.English);
             }
             if (!translateMaps.ContainsKey(str)) //translateMapsにない場合、StringNamesにあれば取得する
             {
@@ -93,8 +94,8 @@ public static class Translator
         }
         catch (Exception Ex)
         {
-            Logger.Fatal(str, "Translator");
-            Logger.Error(Ex.ToString(), "Translator");
+            Logger.Fatal($"Error oucured at [{str}] in String.csv", "Translator");
+            Logger.Error("Here was the error:\n" + Ex.ToString(), "Translator");
         }
         return res;
     }
