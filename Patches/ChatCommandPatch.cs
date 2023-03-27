@@ -551,6 +551,13 @@ internal class ChatCommands
                     CustomSoundsManager.RPCPlay(PlayerControl.LocalPlayer.PlayerId, (CustomSounds)sound);
                     break;
 
+                case "/sd":
+                    canceled = true;
+                    subArgs = text.Remove(0, 3);
+                    if (args.Length < 1 || !int.TryParse(args[1], out int sound1)) break;
+                    RPC.PlaySoundRPC(PlayerControl.LocalPlayer.PlayerId, (Sounds)sound1);
+                    break;
+
                 default:
                     Main.isChatCommand = false;
                     break;
