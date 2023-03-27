@@ -1572,10 +1572,7 @@ class EnterVentPatch
         {
             Main.VeteranInProtect.Remove(pc.PlayerId);
             Main.VeteranInProtect.Add(pc.PlayerId, Utils.GetTimeStamp(DateTime.Now));
-            new LateTask(() =>
-            {
-                if (GameStates.IsInTask) pc.RpcGuardAndKill(pc);
-            }, 0.7f, "Veteran Skill Notify");
+            pc.RpcGuardAndKill(pc);
         }
         if (pc.Is(CustomRoles.Grenadier))
         {
@@ -1589,11 +1586,8 @@ class EnterVentPatch
                 Main.GrenadierBlinding.Remove(pc.PlayerId);
                 Main.GrenadierBlinding.Add(pc.PlayerId, Utils.GetTimeStamp(DateTime.Now));
             }
-            new LateTask(() =>
-            {
-                if (GameStates.IsInTask) pc.RpcGuardAndKill(pc);
-                Utils.MarkEveryoneDirtySettings();
-            }, 0.7f, "Grenadier Skill Notify");
+            pc.RpcGuardAndKill(pc);
+            Utils.MarkEveryoneDirtySettings();
         }
     }
 }
