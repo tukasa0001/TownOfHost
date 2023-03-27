@@ -548,8 +548,8 @@ Kick,踢出,Kick,Кикнуть
 NoticeMe,通知我,Notify me,Уведомить меня
 NoticeEveryone,通知所有人（除了它）,Notify everyone,Уведомить всех
 CheatResponses,检测到外挂时,When a breach is discovered,Когда обнаружен взлом
-NeutralRoleWinTogether,同种职业<color=#ffab1b>中立</color>玩家共同胜利,<color=#ffab1b>Neutrals</color> win,<color=#ffab1b>Нейтральные</color> побеждают
-NeutralWinTogether,全体<color=#ffab1b>中立</color>阵营玩家共同胜利,All <color=#ffab1b>Neutrals</color> win,Все <color=#ffab1b>Нейтральные</color> побеждают
+NeutralRoleWinTogether,同种职业<color=#ffab1b>中立</color>玩家共同胜利,<color=#ffab1b>Neutrals</color> win togeter,<color=#ffab1b>Нейтральные</color> побеждают
+NeutralWinTogether,全体<color=#ffab1b>中立</color>阵营玩家共同胜利,All <color=#ffab1b>Neutrals</color> win togeter,Все <color=#ffab1b>Нейтральные</color> побеждают
 MenuTitle.Disable,★ 禁用相关设定,★Disable★,★Отключить★
 MenuTitle.Sabotage,★ 破坏相关设定,★Sabotage★,★Саботаж★
 MenuTitle.Meeting,★ 会议相关设定,★Meeting★,★Собрание★
