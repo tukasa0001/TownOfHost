@@ -102,7 +102,7 @@ namespace TownOfHost
                 return Options.GetRoleCount(role);
             }
         }
-        public static float GetChance(this CustomRoles role)
+        public static int GetChance(this CustomRoles role)
         {
             if (role.IsVanilla())
             {
@@ -115,7 +115,7 @@ namespace TownOfHost
                     CustomRoles.GuardianAngel => roleOpt.GetChancePerGame(RoleTypes.GuardianAngel),
                     CustomRoles.Crewmate => roleOpt.GetChancePerGame(RoleTypes.Crewmate),
                     _ => 0
-                } / 100f;
+                };
             }
             else
             {
@@ -149,7 +149,6 @@ namespace TownOfHost
                 CustomRoles.GM => RoleTypes.GuardianAngel,
 
                 CustomRoles.MadSnitch => Options.MadSnitchCanVent.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
-                CustomRoles.Watcher => Options.IsEvilWatcher ? RoleTypes.Impostor : RoleTypes.Crewmate,
                 CustomRoles.Mayor => Options.MayorHasPortableButton.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
 
                 CustomRoles.Shapeshifter or

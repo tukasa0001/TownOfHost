@@ -6,6 +6,7 @@ using HarmonyLib;
 using Hazel;
 
 using TownOfHost.Modules;
+using TownOfHost.Roles;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Crewmate;
 using TownOfHost.Roles.Neutral;
@@ -162,8 +163,7 @@ namespace TownOfHost
             }
             RpcSetRoleReplacer.StartReplace(senders);
 
-            //ウォッチャーの陣営抽選
-            Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
+            RoleAssignManager.SelectAssignRoles();
 
             if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
             {
@@ -171,8 +171,8 @@ namespace TownOfHost
                 foreach (var roleTypes in RoleTypesList)
                 {
                     var roleOpt = Main.NormalOptions.roleOptions;
-                    int additionalNum = GetAdditionalRoleTypesCount(roleTypes);
-                    roleOpt.SetRoleRate(roleTypes, roleOpt.GetNumPerGame(roleTypes) + additionalNum, additionalNum > 0 ? 100 : roleOpt.GetChancePerGame(roleTypes));
+                    int numRoleTypes = GetRoleTypesCount(roleTypes);
+                    roleOpt.SetRoleRate(roleTypes, numRoleTypes, numRoleTypes > 0 ? 100 : 0);
                 }
 
                 List<PlayerControl> AllPlayers = new();
@@ -285,9 +285,7 @@ namespace TownOfHost
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x < CustomRoles.NotAssigned))
                 {
                     if (role.IsVanilla()) continue;
-                    if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                     if (role is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.Jackal) continue;
-                    if (role == CustomRoles.Egoist && Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) <= 1) continue;
                     var baseRoleTypes = role.GetRoleTypes() switch
                     {
                         RoleTypes.Impostor => Impostors,
@@ -301,14 +299,6 @@ namespace TownOfHost
                 }
                 AssignLoversRoles();
 
-                //RPCによる同期
-                foreach (var pc in Main.AllPlayerControls)
-                {
-                    if (pc.Is(CustomRoles.Watcher))
-                    {
-                        Main.PlayerStates[pc.PlayerId].SetMainRole(Options.IsEvilWatcher ? CustomRoles.EvilWatcher : CustomRoles.NiceWatcher);
-                    }
-                }
                 foreach (var pair in Main.PlayerStates)
                 {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value.MainRole);
@@ -415,7 +405,7 @@ namespace TownOfHost
                 foreach (var roleTypes in RoleTypesList)
                 {
                     var roleOpt = Main.NormalOptions.roleOptions;
-                    roleOpt.SetRoleRate(roleTypes, roleOpt.GetNumPerGame(roleTypes) - GetAdditionalRoleTypesCount(roleTypes), roleOpt.GetChancePerGame(roleTypes));
+                    roleOpt.SetRoleRate(roleTypes, 0, 0);
                 }
                 GameEndChecker.SetPredicateToNormal();
 
@@ -446,12 +436,12 @@ namespace TownOfHost
         }
         private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, Dictionary<byte, CustomRpcSender> senders, Dictionary<(byte, byte), RoleTypes> rolesMap, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)
         {
-            if (!role.IsEnable()) return;
+            if (!role.IsPresent()) return;
 
             var hostId = PlayerControl.LocalPlayer.PlayerId;
             var rand = IRandom.Instance;
 
-            for (var i = 0; i < role.GetCount(); i++)
+            for (var i = 0; i < role.GetRealCount(); i++)
             {
                 if (AllPlayers.Count <= 0) break;
                 var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
@@ -509,7 +499,7 @@ namespace TownOfHost
             if (players == null || players.Count <= 0) return null;
             var rand = IRandom.Instance;
             var count = Math.Clamp(RawCount, 0, players.Count);
-            if (RawCount == -1) count = Math.Clamp(role.GetCount(), 0, players.Count);
+            if (RawCount == -1) count = Math.Clamp(role.GetRealCount(), 0, players.Count);
             if (count <= 0) return null;
             List<PlayerControl> AssignedPlayers = new();
             SetColorPatch.IsAntiGlitchDisabled = true;
@@ -535,13 +525,13 @@ namespace TownOfHost
 
         private static void AssignCustomSubRolesFromList(CustomRoles role, int RawCount = -1)
         {
-            if (!role.IsEnable()) return;
+            if (!role.IsPresent()) return;
             var allPlayers = new List<PlayerControl>();
             foreach (var pc in Main.AllPlayerControls)
                 if (IsAssignTarget(pc, role))
                     allPlayers.Add(pc);
 
-            if (RawCount == -1) RawCount = role.GetCount();
+            if (RawCount == -1) RawCount = role.GetRealCount();
             int count = Math.Clamp(RawCount, 0, allPlayers.Count);
             if (count <= 0) return;
 
@@ -565,7 +555,7 @@ namespace TownOfHost
         }
         private static void AssignLoversRoles(int RawCount = -1)
         {
-            if (!CustomRoles.Lovers.IsEnable()) return;
+            if (!CustomRoles.Lovers.IsPresent()) return;
             //Loversを初期化
             Main.LoversPlayers.Clear();
             Main.isLoversDead = false;
@@ -578,7 +568,7 @@ namespace TownOfHost
             var loversRole = CustomRoles.Lovers;
             var rand = IRandom.Instance;
             var count = Math.Clamp(RawCount, 0, allPlayers.Count);
-            if (RawCount == -1) count = Math.Clamp(loversRole.GetCount(), 0, allPlayers.Count);
+            if (RawCount == -1) count = Math.Clamp(loversRole.GetRealCount(), 0, allPlayers.Count);
             if (count <= 0) return;
 
             for (var i = 0; i < count; i++)
@@ -591,16 +581,15 @@ namespace TownOfHost
             }
             RPC.SyncLoversPlayers();
         }
-        public static int GetAdditionalRoleTypesCount(RoleTypes roleTypes)
+        public static int GetRoleTypesCount(RoleTypes roleTypes)
         {
             int count = 0;
             foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x < CustomRoles.NotAssigned))
             {
-                if (role.IsVanilla()) continue;
                 if (role is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.Jackal) continue;
                 if (role == CustomRoles.Egoist && Main.NormalOptions.GetInt(Int32OptionNames.NumImpostors) <= 1) continue;
                 if (role.GetRoleTypes() == roleTypes)
-                    count += role.GetCount();
+                    count += role.GetRealCount();
             }
             return count;
         }
