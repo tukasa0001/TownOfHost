@@ -83,8 +83,8 @@ CursedWolf,呪狼,Cursed Wolf,Проклятый Волк
 ImperiusCurse,夺魂者,Soul Catcher,Ловец Душ
 QuickShooter,快枪手,Quick Shooter,Стрелок
 Concealer,隐蔽者,Concealer,Консилер
-Eraser,抹除者
-OverKiller,肢解者
+Eraser,抹除者,Eraser,Стирачка
+OverKiller,肢解者,Butcher,Мясник
 
 # 船员阵营
 Bait,诱饵,Bait,Байт
@@ -159,22 +159,22 @@ Mimic,宝箱怪,Mimic,Мимик
 
 ## 附加职业作为前缀时
 Prefix.Ntr,海王,Neptune,Нептун
-Prefix.Watcher,窥视
-Prefix.Flashman,闪电
-Prefix.Lighter,执灯
-Prefix.Seer,灵媒
-Prefix.Brakar,破平
-Prefix.Oblivious,胆小
-Prefix.Bewilder,迷幻
+Prefix.Watcher,窥视,Watcher,Наблюдатель
+Prefix.Flashman,闪电,Flash,Флэш
+Prefix.Lighter,执灯,Lighter,Фонарик
+Prefix.Seer,灵媒,Seer,Провидец
+Prefix.Brakar,破平,Tiebreaker,Решающий
+Prefix.Oblivious,胆小,Oblivious,Забывчивый
+Prefix.Bewilder,迷幻,Bewilder,Сбитый с Толку
 Prefix.Workhorse,加班狂,Workhorse,Работник
-Prefix.Fool,蠢蛋
-Prefix.Avanger,复仇
-Prefix.Youtuber,UP主
-Prefix.Egoist,利己主义
-Prefix.Piper,吹笛
-Prefix.TicketsStealer,窃票
-Prefix.DualPersonality,双重人格
-Prefix.Mimic,宝箱怪
+Prefix.Fool,蠢蛋,Fool,Глупец
+Prefix.Avanger,复仇,Avenger,Мститель
+Prefix.Youtuber,UP主,YouTuber,Ютубер
+Prefix.Egoist,利己主义,Egoist,Эгоист
+Prefix.Piper,吹笛,Piper,Пайпер
+Prefix.TicketsStealer,窃票,Stealer,Похититель
+Prefix.DualPersonality,双重人格,Schizophrenic,Шизофреник
+Prefix.Mimic,宝箱怪,Mimic,Мимик
 
 ## 以下是职业简介（显示在开局以及任务栏的文本）
 NeutralInfo,中立阵营,Independent forces unaffiliated with any other teams,Команда которая не принадлежит ни к каким другим командам
@@ -216,8 +216,8 @@ CursedWolfInfo,杀我是你做过最愚蠢的决定,Killing me is the worst idea
 ImperiusCurseInfo,啊对啊，我是红色，那我还能是谁呢,Change position,Изменяй положение
 QuickShooterInfo,I have a big PLAN！,I have a big PLAN!,У меня есть большой ПЛАН!
 ConcealerInfo,当所有人戴上面具，一切都自由了,Change the appearance of all players,Измени облик всех игроков
-EraserInfo,恕我直言，你不配拥有能力
-OverKillerInfo,且欣赏我美丽的作品
+EraserInfo,恕我直言，你不配拥有能力,Im sorry，but you don't deserve that.,Простите，вы этого не заслужили.
+OverKillerInfo,且欣赏我美丽的作品,Enjoy my beautiful work,Наслаждайтесь моей работой
 
 # 船员阵营
 BaitInfo,好消息，杀了我可以吃席,Bait your enemies,Убийца моментально зарепортит ваш труп
@@ -289,7 +289,7 @@ EgoistInfo,什么叫做一波三折？,Replace victory,Замените побе
 PiperInfo,嗯↗嗯↘嗯~~,Change the players speed,Измените скорость игроков
 TicketsStealerInfo,要懂得珍惜，死者最后的价值,Steal player votes,Украдите голоса игроков
 DualPersonalityInfo,我真的很...奇怪吗？,You now have Schizophrenia,У вас теперь Шизофриния
-MimicInfo,噔↗噔↗当→当↘当→当↗,imitate others,Имитируй других
+MimicInfo,噔↗噔↗当→当↘当→当↗,Imitate others,Имитируй других
 
 # 其它
 GMInfo,开局死的冤魂隔岸观火,You are the Game Master,Вы Мастер Игры
@@ -333,8 +333,8 @@ CursedWolfInfoLong,(内鬼阵营):\n当呪狼即将被击杀时，呪狼会将�
 ImperiusCurseInfoLong,(内鬼阵营):\n夺魂者完成变形后可以与变形目标交换位置。（若目标处于非正常状态例如死亡、被吞、管道内等则无事发生）,"(Impostors):\nAfter the Soul Catcher completes shapehift, it can swap positions with the target it has chosen. (If the target is in an abnormal state such as dying, being swallowed, and being in a vent, etc., nothing will happen)","(Предатель):\nПосле того, как Ловец Душ завершит Морф, он может поменяться позициями с целью которую он выбрал.(Если цель находится в ненормальном состоянии, таком как: смерть, проглатывание, нахождение в вентиляции и т.д. то ничего не произойдет)."
 QuickShooterInfoLong,(内鬼阵营):\n当击杀冷却结束时，快枪手可以通过变形重置击杀冷却并储存一颗子弹（储存成功时快枪手身上会出现仅自己可见的护盾破碎动画作为提示）。快枪手完成击杀后可以用子弹抵消击杀冷却，直到子弹耗尽。每次会议开始快枪手只能保留一定数量的子弹（数量根据房主设定）。,"(Impostors):\nWhen the kill cooldown is up, the fast shooter can reset the kill cooldown by shapeshifting and saving the bullet (when the save is successful, it will have a shield break animation visible only to itself). After Quick Shooter makes a kill, he can offset the kill reload time with bullets until he runs out of bullets. At the beginning of each encounter, the Quick Shooter can only leave a certain amount of ammo (the amount is set by the Host).","(Предатель):\nКогда откат убийства истекло, быстрый стрелок может сбросить откат убийства морфом и сохранив пулю (когда хранение прошло успешно, на нём появится анимация разрушения щита, видимая только ему самому). После того, как Стрелок совершит убийство, он может компенсировать время отката убийства пулями, пока у него не закончатся пули. В начале каждой встречи  Стрелок может оставить только определенное количество патронов (количество устанавливается Хостом)."
 ConcealerInfoLong,(内鬼阵营):\n隐蔽者变形后会让所有人变成小黑人，这个状态下所有人都看起来得一模一样。技能持续时间根据房主设定。请注意：通讯破坏小黑人与隐蔽者的技能可以叠加。请注意：隐蔽者发动技能期间召开会议则技能失效。,"(Impostors):\nAfter the shapeshift Concealer, everyone will turn into little black men, and everyone in this state will look exactly the same. The duration of the skill is set by the Host. Please note: When everyone becomes a little black man and camouflage works at the same time, they can be stacked on top of each other.","(Предатель):\nПосле того, как Консилер Морфанётся, все превратятся в маленьких черных человечков, и все в этом состоянии будут выглядеть совершенно одинаково. Продолжительность действия навыка устанавливается Хостом. Пожалуйста, обратите внимание: Когда все становятся маленькими черными человечками и одновременно работает камуфляж, они могут быть наложены друг на друга."
-EraserInfoLong,(内鬼阵营):\n抹除者可以在会议上投票给任意船员阵营目标以抹除目标的职业技能，抹除将在会议结束后生效。请注意：被抹除技能的玩家将被永远视为白板，包括游戏结算页面。
-OverKillerInfoLong,(内鬼阵营):\n肢解者击杀的目标会被视为多具尸体，以至于报告尸体时无法识别其它受害者。请注意：被击杀的目标可能会不断重复地显示自己被击杀的动画，此动画无法跳过且期间无法参与会议，必须等待动画结束才能正常参与游戏。
+EraserInfoLong,(内鬼阵营):\n抹除者可以在会议上投票给任意船员阵营目标以抹除目标的职业技能，抹除将在会议结束后生效。请注意：被抹除技能的玩家将被永远视为白板，包括游戏结算页面。,"(Impostors):\nErasers can vote for any crewmate at the meeting to erase the target's skills, and the removal will take effect after the meeting. Please note: Players with erased skills will always be treated as whiteboards, including game results.","(Предатель):\nСтирачка может проголосовать за любого Члена Экипажа на собрании, чтобы стереть профессиональные навыки цели, и удаление вступит в силу после собрания. Пожалуйста, обратите внимание: Игроки со стертыми навыками всегда будут рассматриваться как белые доски, включая резкльтат игры"
+OverKillerInfoLong,(内鬼阵营):\n肢解者击杀的目标会被视为多具尸体，以至于报告尸体时无法识别其它受害者。请注意：被击杀的目标可能会不断重复地显示自己被击杀的动画，此动画无法跳过且期间无法参与会议，必须等待动画结束才能正常参与游戏。,"(Impostors):\nA target killed by Butcher will be treated as a set of dead bodies, so other dead bodies cannot be shown when reporting dead. Please note: A killed target may repeatedly display its kill animation. This animation cannot be skipped and cannot participate in the meeting during the period. You must wait for the animation to finish before you can participate normally in the game.","(Предатель):\nЦель, убитая Мясником, будет рассматриваться как множество трупов, так что другие трупы не могут быть показаны при сообщении о мёртвых. Пожалуйста, обратите внимание: Убитая цель может неоднократно отображать анимацию своего убийства. Эта анимация не может быть пропущена и не может участвовать во встрече в течение периода. Вы должны дождаться окончания анимации, прежде чем сможете нормально участвовать в игре."
 
 # 双阵营
 GuesserInfoLong,(内鬼阵营或船员阵营):\n赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。,"(Impostors or Crewmate):\nGuesser can guess the roles of certain players during an encounter. If he guesses the role correctly, he will kill that target, and if wrong, he will commit suicide. \nGuessing command: ''/bt [Player ID] [Role Name]'' \nExample: /bt 3 Bait \nYou can see the player ID before the player's nickname, or you can use the ''/id'' command to see the IDs of all players.","(Предатель или Член Экипажа):\nУгадыватель может угадывать роли определённого игрока во время встречи. Если он угадает роль правильно, то он убьет эту цель, а если неправильно, то он совершит самоубийство. \nКоманда для угадываний: '/bt [Номер игрока] [Название Роли]'' \nПример: /bt 3 Байт \nВы можете увидеть номер игрока перед его никнеймом, или же для просмотра номеров всех игроков нужно использовать команду ''/id'' ."
@@ -415,9 +415,9 @@ GMInfoLong,(房主):\n看我干啥，我只是个开局就死的冤魂，静静�
 
 
 ## 模式选项
-DisableMeeting,禁用会议与报告尸体
-DisableCloseDoor,禁用关门
-DisableSabotage,禁用破坏
+DisableMeeting,禁用会议与报告尸体,Turn off Meetings,Отключить Собрания
+DisableCloseDoor,禁用关门,Disable Doors sabotage,Отключить саботаж дверей
+DisableSabotage,禁用破坏,Disable Sabotage,Отключить Саботаж
 NoGameEnd,测试模式,NoGameEnd,Игра Не Закончится
 DebugMode,调试模式,Debug Mode,Режим отладки
 SyncButtonMode,所有船员共享会议次数,SyncButtonMode,Общая кнопка встреч
@@ -548,19 +548,19 @@ Kick,踢出,Kick,Кикнуть
 NoticeMe,通知我,Notify me,Уведомить меня
 NoticeEveryone,通知所有人（除了它）,Notify everyone,Уведомить всех
 CheatResponses,检测到外挂时,When a breach is discovered,Когда обнаружен взлом
-NeutralRoleWinTogether,同种职业<color=#ffab1b>中立</color>玩家共同胜利
-NeutralWinTogether,全体<color=#ffab1b>中立</color>阵营玩家共同胜利
-MenuTitle.Disable,★ 禁用相关设定
-MenuTitle.Sabotage,★ 破坏相关设定
-MenuTitle.Meeting,★ 会议相关设定
-MenuTitle.Ghost,★ 幽灵相关设定
-MenuTitle.Other,★ 其它设定
-MenuTitle.Ejections,★ 驱逐相关设定
+NeutralRoleWinTogether,同种职业<color=#ffab1b>中立</color>玩家共同胜利,<color=#ffab1b>Neutrals</color> win,<color=#ffab1b>Нейтральные</color> побеждают
+NeutralWinTogether,全体<color=#ffab1b>中立</color>阵营玩家共同胜利,All <color=#ffab1b>Neutrals</color> win,Все <color=#ffab1b>Нейтральные</color> побеждают
+MenuTitle.Disable,★ 禁用相关设定,★Disable★,★Отключить★
+MenuTitle.Sabotage,★ 破坏相关设定,★Sabotage★,★Саботаж★
+MenuTitle.Meeting,★ 会议相关设定,★Meeting★,★Собрание★
+MenuTitle.Ghost,★ 幽灵相关设定,★Ghost★,★Призраки★
+MenuTitle.Other,★ 其它设定,★Different★,★Другое★
+MenuTitle.Ejections,★ 驱逐相关设定,★Ejection★,★Выбрасивание★
 
 ## 详细设定
 Cooldown,冷却时间,Cooldown,Откат
 KillCooldown,击杀冷却时间,Kill Cooldown,Откат убийства
-VentCooldown,使用通风管道冷却时间
+VentCooldown,使用通风管道冷却时间,Vent Cooldown,Откат Вентиляции
 CanVent,可以使用通风管道,Can Vent,Может использовать Вентиляцию
 ImpostorVision,拥有<color=#ff1919>内鬼</color>视野,<color=#ff1919>Impostor</color> Vision,Имеет дальность Обзора <color=#ff1919>Предателя</color>
 CanUseSabotage,可以破坏,Can Sabotage,Может использовать Саботаж
@@ -623,7 +623,7 @@ SniperBulletCount,最大子弹数量,Ammo,Количество пуль
 SniperPrecisionShooting,精准射击模式,Precision Firing,Точный выстрел
 SniperAimAssist,狙击范围内有玩家时提醒狙击手,Aim Assist,Помощь в прицеливании
 SniperAimAssistOneshot,闪烁提示而不是一直显示,One shot Assist,Помощь только с одним выстрелом
-NameDisplayAddons,显示职业同时显示附加职业
+NameDisplayAddons,显示职业同时显示附加职业,Dispay Add-ons,Показывать Атрибуты
 NoLimitAddonsNum,不限制每位玩家的附加职业上限,The number of Add-ons for one player is not limited,Количество Атрибутов для одного игрока не ограничено 
 LoverSpawnChances,出现概率,Spawn Chance of Lovers,Шанс появления Любовников
 AdditionRolesSpawnRate,出现概率,Spawn Chance,Шанс появления
@@ -733,10 +733,10 @@ MeetingReserved,会议保留子弹数量,"Number of bullets reserved for the mee
 AccurateCheckMode,未完成任务时可占卜准确职业,"Exact lesson for divination when all tasks are not completed","Точное занятие для гадания, когда все задания не выполнены"
 ConcealerSkillCooldown,隐蔽冷却时间,Skill cooldown,Откат навыка
 ConcealerSkillDuration,隐蔽持续时间,Skill duration,Длительность навыка
-EraseLimit,抹除次数上限
-AssassinMarkCooldown,标记冷却时间
-AssassinAssassinateCooldown,刺杀冷却时间
-AssassinCanKillAfterAssassinate,可以在刺杀后进行常规击杀
+EraseLimit,抹除次数上限,Limit of Erasing,Лимит Стираний
+AssassinMarkCooldown,标记冷却时间,Mark Cooldown,Откат метки
+AssassinAssassinateCooldown,刺杀冷却时间,Assassinate Cooldown,Откат Ассасированния
+AssassinCanKillAfterAssassinate,可以在刺杀后进行常规击杀,Can kill after Assassinating,Может убивать после Ассасирования
 
 
 ## 死因
@@ -761,7 +761,7 @@ DeathReason.Quantization,量子化,Quantization,Квантование
 DeathReason.Overtired,猝死,Overtired,Переработал
 DeathReason.Ashamed,卷死,Ashamed,Пристыженный
 DeathReason.PissedOff,气死,Destroyed,Уничтожен
-DeathReason.Dismembered,肢解
+DeathReason.Dismembered,肢解,Dismembered,Расчленен
 DeathReason.etc,其它,Other,Другое
 Alive,存活,Alive,Выжил
 Win,胜利, Wins, Победили
@@ -821,8 +821,8 @@ DivinatorCheck,您透过水晶球发现：,"You're looking through a crystal bal
 DivinatorCheckLimit,提示：剩余【{0}】次占卜机会,"Reminder: You have 【{0}】 guesses left","Напоминание: У тебя осталось 【{0}】 угадываний"
 DivinatorCheckSelfMsg,哇靠，您查到了一位举世人才！目标太过耀眼，已经看不到任何东西啦！,"Wow, you found yourself... All you see is a reflection.","Вау, ты нашёл сам себя... Всё что ты видишь это отражение."
 DivinatorCheckReachLimit,水晶球也是会累哒，接下来就算没有水晶球，也要好好努力呀！（占卜次数达到上限）,"You are tired of using a crystal ball for too much. You should retire for now. (The number of divination reaches the limit)","Вы устали от слишком частого использования хрустального шара. Вы должны уйти в отставку. (Количество гаданий достиг предела)"
-EraserEraseNotice,您发动了抹除技能\n【{0}】的技能将在会议结束后失效。
-EraserEraseNeutralNotice,很抱歉，您发动技能的目标属于中立阵营，无法被抹除。
+EraserEraseNotice,您发动了抹除技能\n【{0}】的技能将在会议结束后失效。,You erased 【{0}】.\nHis role will be deactivated after a meeting.,Ты стёр 【{0}】.\nЕго роль будет неактивна после собрания.
+EraserEraseNeutralNotice,很抱歉，您发动技能的目标属于中立阵营，无法被抹除。,Oops， your target is Neutral and can't be erased!,Упс， твоя цель Нейтральна и не может быть стёрта!
 
 ## 信息
 Message.SetToSeconds,信息发送冷却时间为【{0}】秒,Set to 【{0}】 seconds.,Установлен на 【{0}】 секунды
@@ -894,7 +894,7 @@ GodAliveTitle,【 ★ 神的共鸣 ★ 】,【 ★ Message about God ★ 】,【
 MessageFromDevTitle,【 ★ 咔皮呆留言 ★ 】,【 ★ Self-Guessing ★ 】,【 ★ Само-Угадывание ★ 】
 DivinatorCheckMsgTitle,【 ★ 水晶球 ★ 】,【 ★ Crystall Ball ★ 】,【 ★ Хрустальный Шар ★ 】
 MimicMsgTitle,【 ★ 宝箱怪 ★ 】,【 ★ Mimic ★ 】,【 ★ Мимик ★ 】
-EraserEraseMsgTitle,【 ★ 抹除者 ★ 】
+EraserEraseMsgTitle,【 ★ 抹除者 ★ 】,【 ★ Eraser ★ 】,【 ★ Стирачка ★ 】
 TabGroup.SystemSettings,系统设置,System Settings,Системные настройки
 TabGroup.GameSettings,游戏设置,Game Settings,Игровые настройки
 TabGroup.CrewmateRoles,船员阵营职业,Crewmate Roles,Роли Членов Экипажа
@@ -1015,12 +1015,12 @@ GamerButtonText,攻击,Attack,Атаковать
 ImperiusCurseButtonText,夺舍,Teleport,Переместится
 BallLightningButtonText,汽化,Evaporation,Испарение
 ProvocateurButtonText,问候,Greet,Приветствовать
-OverKillerButtonText,肢解
+OverKillerButtonText,肢解,Dismember,Расчленить
 AssassinShapeshiftText,刺杀,Kill,Убить
 BomberShapeshiftText,自爆,Explode,Взорваться
 QuickShooterShapeshiftText,储存,Keep,Хранить
 ConcealerShapeshiftText,隐蔽,Disguise,Маскироваться
-HackerShapeshiftText,骇入
+HackerShapeshiftText,骇入,Hack,Взломать
 DefaultShapeshiftText,变形,Shift,Превращение
 DefaultRevertShapeshiftText,解除,Rever,Отменить
 DisabledBySettings,已在设置被中禁用,Disabled by Settings,Отключено настройкой
