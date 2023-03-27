@@ -537,7 +537,7 @@ KickPlayerFriendCodeNotExist,踢出没有登录的玩家,Kick players whose Frie
 ApplyBanList,踢出被封禁的玩家,Apply BanList,Применить файл с забаненными игроками (BanList)
 EndWhenPlayerBug,当有玩家因Bug无法游戏时终止游戏,"End the game when any player has a critical error",Завершить игру когда у любого игрока возникла критическая ошибка
 KillFlashDuration,击杀闪烁持续时间,"''Kill Flash'' Duration","Длительность ''Вспышки Убийства''"
-ConfirmEjectionsMode,驱逐确认模式,,Режим: Показать роли изгнаных
+ConfirmEjectionsMode,驱逐确认模式,Confirm Ejections Mode,Режим: Показать роли изгнаных
 ConfirmEjections.None,不确认,None,Ничего
 ConfirmEjections.Team,确认阵营,Team,Команду
 ConfirmEjections.Role,确认职业,Role,Роль
