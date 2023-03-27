@@ -303,6 +303,7 @@ public static class Options
     public static OptionItem DisableReportWhenCC;
 
     // プリセット対象外
+    public static OptionItem AllowConsole;
     public static OptionItem NoGameEnd;
     public static OptionItem AutoDisplayLastResult;
     public static OptionItem SuffixMode;
@@ -793,6 +794,8 @@ public static class Options
         ChangeNameToRoleInfo = BooleanOptionItem.Create(1_000_004, "ChangeNameToRoleInfo", false, TabGroup.SystemSettings, false)
             .SetGameMode(CustomGameMode.All);
         NoGameEnd = BooleanOptionItem.Create(900_002, "NoGameEnd", false, TabGroup.SystemSettings, false)
+            .SetGameMode(CustomGameMode.All);
+        AllowConsole = BooleanOptionItem.Create(900_005, "AllowConsole", false, TabGroup.SystemSettings, false)
             .SetGameMode(CustomGameMode.All);
         RoleAssigningAlgorithm = StringOptionItem.Create(1_000_005, "RoleAssigningAlgorithm", RoleAssigningAlgorithms, 4, TabGroup.SystemSettings, true)
             .SetGameMode(CustomGameMode.All)

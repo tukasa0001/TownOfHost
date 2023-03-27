@@ -123,6 +123,20 @@ class StartPatch
         Logger.Info("-----------游戏开始-----------", "Phase");
 
         Utils.CountAlivePlayers(true);
+
+        if (Options.AllowConsole.GetBool())
+        {
+            if (!BepInEx.ConsoleManager.ConsoleActive && BepInEx.ConsoleManager.ConsoleEnabled)
+                BepInEx.ConsoleManager.CreateConsole();
+        }
+        else
+        {
+            if (BepInEx.ConsoleManager.ConsoleActive && !DebugModeManager.AmDebugger)
+            {
+                BepInEx.ConsoleManager.DetachConsole();
+                Logger.SendInGame("很抱歉，本房间禁止使用控制台，因此已将您的控制台关闭");
+            }
+        }
     }
 }
 [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.StartMeeting))]
