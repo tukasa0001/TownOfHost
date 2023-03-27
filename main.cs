@@ -183,6 +183,7 @@ public class Main : BasePlugin
         TOHE.Logger.Disable("SwitchSystem");
         if (!DebugModeManager.AmDebugger)
         {
+            TOHE.Logger.Disable("2018K");
             TOHE.Logger.Disable("ModNews");
             TOHE.Logger.Disable("CustomRpcSender");
             //TOHE.Logger.Disable("ReceiveRPC");
