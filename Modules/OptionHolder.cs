@@ -646,10 +646,8 @@ public static class Options
         // 乐子职业
 
         // 内鬼
-        _ = BooleanOptionItem.Create(909090, "OtherRoles.ImpostorRoles", false, TabGroup.OtherRoles, false)
-            .SetHeader(true)
-            .SetColor(new Color32(247, 70, 49, byte.MaxValue))
-            .SetText(true);
+        TextOptionItem.Create(909090, "OtherRoles.ImpostorRoles", TabGroup.OtherRoles)
+            .SetColor(new Color32(247, 70, 49, byte.MaxValue));
         SetupRoleOptions(901635, TabGroup.OtherRoles, CustomRoles.Minimalism);
         MNKillCooldown = FloatOptionItem.Create(901638, "KillCooldown", new(2.5f, 999f, 2.5f), 10f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Minimalism])
             .SetValueFormat(OptionFormat.Seconds);
@@ -668,10 +666,8 @@ public static class Options
         SetupRoleOptions(902622, TabGroup.OtherRoles, CustomRoles.OverKiller);
 
         // 船员
-        _ = BooleanOptionItem.Create(909092, "OtherRoles.CrewmateRoles", false, TabGroup.OtherRoles, false)
-            .SetHeader(true)
-            .SetColor(new Color32(140, 255, 255, byte.MaxValue))
-            .SetText(true);
+        TextOptionItem.Create(909092, "OtherRoles.CrewmateRoles",TabGroup.OtherRoles)
+            .SetColor(new Color32(140, 255, 255, byte.MaxValue));
         SetupRoleOptions(20600, TabGroup.OtherRoles, CustomRoles.SpeedBooster);
         SpeedBoosterUpSpeed = FloatOptionItem.Create(20610, "SpeedBoosterUpSpeed", new(0.1f, 1.0f, 0.1f), 0.2f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
             .SetValueFormat(OptionFormat.Multiplier);
@@ -682,10 +678,8 @@ public static class Options
         GlitchCanVote = BooleanOptionItem.Create(8023489, "GlitchCanVote", true, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Glitch]);
 
         // 中立
-        _ = BooleanOptionItem.Create(909094, "OtherRoles.NeutralRoles", false, TabGroup.OtherRoles, false)
-            .SetHeader(true)
-            .SetColor(new Color32(255, 171, 27, byte.MaxValue))
-            .SetText(true);
+        TextOptionItem.Create(909094, "OtherRoles.NeutralRoles", TabGroup.OtherRoles)
+            .SetColor(new Color32(255, 171, 27, byte.MaxValue));
         SetupRoleOptions(5050965, TabGroup.OtherRoles, CustomRoles.God);
         NotifyGodAlive = BooleanOptionItem.Create(5050967, "NotifyGodAlive", true, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.God]);
         SetupRoleOptions(5050110, TabGroup.OtherRoles, CustomRoles.Mario);
@@ -706,10 +700,8 @@ public static class Options
         SetupRoleOptions(5051412, TabGroup.OtherRoles, CustomRoles.Provocateur);
 
         // 副职
-        _ = BooleanOptionItem.Create(909096, "OtherRoles.Addons", false, TabGroup.OtherRoles, false)
-            .SetHeader(true)
-            .SetColor(new Color32(255, 154, 206, byte.MaxValue))
-            .SetText(true);
+        TextOptionItem.Create(909096, "OtherRoles.Addons", TabGroup.OtherRoles)
+            .SetColor(new Color32(255, 154, 206, byte.MaxValue));
         SetupAdtRoleOptions(6050310, CustomRoles.Ntr, tab: TabGroup.OtherRoles);
         SetupAdtRoleOptions(6050330, CustomRoles.Flashman, canSetNum: true, tab: TabGroup.OtherRoles);
         FlashmanSpeed = FloatOptionItem.Create(6050335, "FlashmanSpeed", new(0.25f, 5f, 0.25f), 2.5f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Flashman])
@@ -816,10 +808,8 @@ public static class Options
         #region 游戏设置
 
         //驱逐相关设定
-        _ = BooleanOptionItem.Create(66_123_126, "MenuTitle.Ejections", false, TabGroup.GameSettings, false)
-            .SetHeader(true)
-            .SetColor(new Color32(255, 238, 232, byte.MaxValue))
-            .SetText(true);
+        TextOptionItem.Create(66_123_126, "MenuTitle.Ejections", TabGroup.GameSettings)
+            .SetColor(new Color32(255, 238, 232, byte.MaxValue));
 
         CEMode = StringOptionItem.Create(6091223, "ConfirmEjectionsMode", ConfirmEjectionsMode, 2, TabGroup.GameSettings, false)
             .SetHeader(true)
@@ -829,10 +819,8 @@ public static class Options
         ShowNKRemainOnEject = BooleanOptionItem.Create(6090119, "ShowNKRemainOnEject", true, TabGroup.GameSettings, false).SetParent(ShowImpRemainOnEject);
 
         //禁用相关设定
-        _ = BooleanOptionItem.Create(66_123_120, "MenuTitle.Disable", false, TabGroup.GameSettings, false)
-            .SetHeader(true)
-            .SetColor(new Color32(255, 153, 153, byte.MaxValue))
-            .SetText(true);
+        TextOptionItem.Create(66_123_120, "MenuTitle.Disable",TabGroup.GameSettings)
+            .SetColor(new Color32(255, 153, 153, byte.MaxValue));
 
         DisableVanillaRoles = BooleanOptionItem.Create(6090069, "DisableVanillaRoles", true, TabGroup.GameSettings, false)
             .SetHeader(true)
@@ -915,10 +903,8 @@ public static class Options
             .SetGameMode(CustomGameMode.Standard);
 
         //会议相关设定
-        _ = BooleanOptionItem.Create(66_123_122, "MenuTitle.Meeting", false, TabGroup.GameSettings, false)
-            .SetHeader(true)
-            .SetColor(new Color32(147, 241, 240, byte.MaxValue))
-            .SetText(true);
+        TextOptionItem.Create(66_123_122, "MenuTitle.Meeting", TabGroup.GameSettings)
+            .SetColor(new Color32(147, 241, 240, byte.MaxValue));
 
         // 会议限制次数
         SyncButtonMode = BooleanOptionItem.Create(100200, "SyncButtonMode", false, TabGroup.GameSettings, false)
@@ -961,10 +947,8 @@ public static class Options
             .SetGameMode(CustomGameMode.Standard);
 
         // 破坏相关设定
-        _ = BooleanOptionItem.Create(66_123_121, "MenuTitle.Sabotage", false, TabGroup.GameSettings, false)
-            .SetHeader(true)
-            .SetColor(new Color32(241, 212, 227, byte.MaxValue))
-            .SetText(true);
+        TextOptionItem.Create(66_123_121, "MenuTitle.Sabotage", TabGroup.GameSettings)
+            .SetColor(new Color32(241, 212, 227, byte.MaxValue));
 
         // 通讯破坏小黑人
         CommsCamouflage = BooleanOptionItem.Create(900_013, "CommsCamouflage", false, TabGroup.GameSettings, false)
@@ -1001,10 +985,8 @@ public static class Options
             .SetColor(new Color32(241, 212, 227, byte.MaxValue));
 
         //其它设定
-        _ = BooleanOptionItem.Create(66_123_123, "MenuTitle.Other", false, TabGroup.GameSettings, false)
-            .SetHeader(true)
-            .SetColor(new Color32(193, 255, 209, byte.MaxValue))
-            .SetText(true);
+        TextOptionItem.Create(66_123_123, "MenuTitle.Other", TabGroup.GameSettings)
+            .SetColor(new Color32(193, 255, 209, byte.MaxValue));
 
         // 随机地图模式
         RandomMapsMode = BooleanOptionItem.Create(100400, "RandomMapsMode", false, TabGroup.GameSettings, false)
@@ -1046,10 +1028,8 @@ public static class Options
             .SetGameMode(CustomGameMode.Standard);
 
         //幽灵相关设定
-        _ = BooleanOptionItem.Create(66_123_124, "MenuTitle.Ghost", false, TabGroup.GameSettings, false)
-            .SetHeader(true)
-            .SetColor(new Color32(217, 218, 255, byte.MaxValue))
-            .SetText(true);
+        TextOptionItem.Create(66_123_124, "MenuTitle.Ghost", TabGroup.GameSettings)
+            .SetColor(new Color32(217, 218, 255, byte.MaxValue));
 
         // 幽灵设置
         GhostIgnoreTasks = BooleanOptionItem.Create(900_012, "GhostIgnoreTasks", false, TabGroup.GameSettings, false)
