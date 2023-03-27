@@ -58,7 +58,7 @@ public class CustomSoundsManager
             Logger.Warn($"声音不存在：{sound}", "CustomSounds");
     }
 
-    //以下全部代码来源：https://github.com/music-discussion/TownOfHost-TheOtherRoles/blob/main/Modules/SoundEffectsManager.cs
+    //参考：https://github.com/music-discussion/TownOfHost-TheOtherRoles/blob/main/Modules/SoundEffectsManager.cs
     private static Dictionary<string, AudioClip> soundEffects;
     public static void Load()
     {
