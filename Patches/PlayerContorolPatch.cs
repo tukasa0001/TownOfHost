@@ -283,8 +283,27 @@ class CheckMurderPatch
             return false;
         }
 
+        // 肢解者肢解受害者
+        if (killer.Is(CustomRoles.OverKiller))
+        {
+            Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Dismembered;
+            new LateTask(() =>
+            {
+                var ops = target.GetTruePosition();
+                var rd = IRandom.Instance;
+                for (int i = 0; i < 20; i++)
+                {
+                    Utils.TP(target.NetTransform, new(ops.x + ((float)(rd.Next(0, 201) - 100) / 100), ops.y + ((float)(rd.Next(0, 201) - 100) / 100)));
+                    killer.MurderPlayer(target);
+                    MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.None, -1);
+                    messageWriter.WriteNetObject(target);
+                    AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+                }
+            }, 0.01f, "OverKiller Murder");
+        }
+
         //==キル処理==
-        __instance.RpcMurderPlayerV3(target);
+        __instance.RpcMurderPlayer(target);
         //============
 
         return false;
@@ -515,16 +534,6 @@ class MurderPlayerPatch
             case CustomRoles.SwordsMan:
                 if (killer != target)
                     SwordsMan.OnMurder(killer);
-                break;
-            case CustomRoles.OverKiller:
-                Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Dismembered;
-                for (int i = 0; i < 20; i++)
-                {
-                    target.MurderPlayer(target);
-                    MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(target.NetId, (byte)RpcCalls.MurderPlayer, SendOption.None, -1);
-                    messageWriter.WriteNetObject(target);
-                    AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
-                }
                 break;
         }
 
