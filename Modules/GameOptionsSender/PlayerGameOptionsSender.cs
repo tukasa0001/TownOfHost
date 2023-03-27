@@ -241,7 +241,7 @@ public class PlayerGameOptionsSender : GameOptionsSender
 
         if (Main.AllPlayerKillCooldown.TryGetValue(player.PlayerId, out var killCooldown))
         {
-            AURoleOptions.KillCooldown = Mathf.Max(0f, killCooldown);
+            AURoleOptions.KillCooldown = Mathf.Max(0.01f, killCooldown);
         }
 
         if (Main.AllPlayerSpeed.TryGetValue(player.PlayerId, out var speed))

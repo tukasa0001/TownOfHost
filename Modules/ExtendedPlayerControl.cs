@@ -504,7 +504,7 @@ static class ExtendedPlayerControl
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.ScavengerKillCooldown.GetFloat();
                 break;
             case CustomRoles.Bomber:
-                Main.AllPlayerKillCooldown[player.PlayerId] = 0;
+                Main.AllPlayerKillCooldown[player.PlayerId] = 300f;
                 break;
             case CustomRoles.Capitalism:
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.CapitalismSkillCooldown.GetFloat();
@@ -516,7 +516,7 @@ static class ExtendedPlayerControl
                 Counterfeiter.SetKillCooldown(player.PlayerId);
                 break;
             case CustomRoles.FFF:
-                Main.AllPlayerKillCooldown[player.PlayerId] = 0.01f;
+                Main.AllPlayerKillCooldown[player.PlayerId] = 0f;
                 break;
             case CustomRoles.Cleaner:
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.CleanerKillCooldown.GetFloat();
@@ -540,7 +540,7 @@ static class ExtendedPlayerControl
                 QuickShooter.SetKillCooldown(player.PlayerId);
                 break;
             case CustomRoles.Provocateur:
-                Main.AllPlayerKillCooldown[player.PlayerId] = 0.01f;
+                Main.AllPlayerKillCooldown[player.PlayerId] = 0f;
                 break;
             case CustomRoles.Assassin:
                 Assassin.SetKillCooldown(player.PlayerId);
