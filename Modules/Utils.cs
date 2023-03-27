@@ -880,7 +880,7 @@ public static class Utils
 
             if (seer.IsModClient()) continue;
             string fontSize = "1.5";
-            if (isForMeeting && (seer.GetClient().PlatformData.Platform.ToString() == "Playstation" || seer.GetClient().PlatformData.Platform.ToString() == "Switch")) fontSize = "70%";
+            if (isForMeeting && (seer.GetClient().PlatformData.Platform == Platforms.Playstation || seer.GetClient().PlatformData.Platform == Platforms.Switch)) fontSize = "70%";
             logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":START");
 
             //タスクなど進行状況を含むテキスト

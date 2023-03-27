@@ -50,10 +50,17 @@ static class ExtendedPlayerControl
     {
         RPC.ExileAsync(player);
     }
-    public static InnerNet.ClientData GetClient(this PlayerControl player)
+    public static ClientData GetClient(this PlayerControl player)
     {
-        var client = AmongUsClient.Instance.allClients.ToArray().Where(cd => cd.Character.PlayerId == player.PlayerId).FirstOrDefault();
-        return client;
+        try
+        {
+            var client = AmongUsClient.Instance.allClients.ToArray().Where(cd => cd.Character.PlayerId == player.PlayerId).FirstOrDefault();
+            return client;
+        }
+        catch
+        {
+            return null;
+        }
     }
     public static int GetClientId(this PlayerControl player)
     {
