@@ -237,7 +237,7 @@ public class PlayerGameOptionsSender : GameOptionsSender
         }
 
         // 当工程跳管冷却为0时无法正常显示图标
-        AURoleOptions.EngineerCooldown = Mathf.Min(0.01f, AURoleOptions.EngineerCooldown);
+        AURoleOptions.EngineerCooldown = Mathf.Max(0.01f, AURoleOptions.EngineerCooldown);
 
         if (Main.AllPlayerKillCooldown.TryGetValue(player.PlayerId, out var killCooldown))
         {
