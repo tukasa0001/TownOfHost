@@ -107,7 +107,7 @@ public abstract class OptionItem
 
         if (AllOptions.Any(op => op.Id == id))
         {
-            Logger.Error($"ID:{id}が重複しています", "OptionItem");
+            Logger.Error($"重复出现选项ID:{id}", "OptionItem");
         }
         _allOptions.Add(this);
     }
