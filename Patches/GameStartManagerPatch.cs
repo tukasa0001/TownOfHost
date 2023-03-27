@@ -183,9 +183,9 @@ public class GameStartRandomMap
         var invalidColor = Main.AllPlayerControls.Where(p => p.Data.DefaultOutfit.ColorId < 0 || Palette.PlayerColors.Length <= p.Data.DefaultOutfit.ColorId);
         if (invalidColor.Count() != 0)
         {
-            var msg = GetString("Error.InvalidColorPreventStart");
-            Logger.SendInGame(msg);
-            msg += "\n" + string.Join(",", invalidColor.Select(p => $"{p.name}({p.Data.DefaultOutfit.ColorId})"));
+            Logger.SendInGame("Error.InvalidColorPreventStart");
+            var msg = GetString("Error.InvalidColor");
+            msg += "\n" + string.Join(",", invalidColor.Select(p => $"{p.GetRealName()}"));
             Utils.SendMessage(msg);
             return false;
         }
@@ -210,7 +210,7 @@ public class GameStartRandomMap
         if (Options.RandomMapsMode.GetBool())
         {
             var rand = IRandom.Instance;
-            System.Collections.Generic.List<byte> RandomMaps = new();
+            List<byte> RandomMaps = new();
             /*TheSkeld   = 0
             MIRAHQ     = 1
             Polus      = 2
