@@ -1511,31 +1511,9 @@ class EnterVentPatch
 {
     public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
     {
-        if (AmongUsClient.Instance.AmHost)
-        {
-            if (Main.LastEnteredVent.ContainsKey(pc.PlayerId))
-                Main.LastEnteredVent.Remove(pc.PlayerId);
-            Main.LastEnteredVent.Add(pc.PlayerId, __instance);
-            if (Main.LastEnteredVentLocation.ContainsKey(pc.PlayerId))
-                Main.LastEnteredVentLocation.Remove(pc.PlayerId);
-            Main.LastEnteredVentLocation.Add(pc.PlayerId, pc.GetTruePosition());
-        }
 
         Witch.OnEnterVent(pc);
 
-        if (pc.Is(CustomRoles.Paranoia))
-        {
-            if (Main.ParaUsedButtonCount.TryGetValue(pc.PlayerId, out var count) && count < Options.ParanoiaNumOfUseButton.GetInt())
-            {
-                Main.ParaUsedButtonCount[pc.PlayerId] += 1;
-                new LateTask(() =>
-                {
-                    Utils.SendMessage(GetString("SkillUsedLeft") + (Options.ParanoiaNumOfUseButton.GetInt() - Main.ParaUsedButtonCount[pc.PlayerId]).ToString(), pc.PlayerId);
-                }, 4.0f, "Skill Remain Message");
-                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                pc?.NoCheckStartMeeting(pc?.Data);
-            }
-        }
         if (pc.Is(CustomRoles.Mayor))
         {
             if (Main.MayorUsedButtonCount.TryGetValue(pc.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt())
@@ -1544,17 +1522,45 @@ class EnterVentPatch
                 pc?.ReportDeadBody(null);
             }
         }
+
+        if (pc.Is(CustomRoles.Paranoia))
+        {
+            if (Main.ParaUsedButtonCount.TryGetValue(pc.PlayerId, out var count) && count < Options.ParanoiaNumOfUseButton.GetInt())
+            {
+                Main.ParaUsedButtonCount[pc.PlayerId] += 1;
+                if (AmongUsClient.Instance.AmHost)
+                {
+                    new LateTask(() =>
+                    {
+                        Utils.SendMessage(GetString("SkillUsedLeft") + (Options.ParanoiaNumOfUseButton.GetInt() - Main.ParaUsedButtonCount[pc.PlayerId]).ToString(), pc.PlayerId);
+                    }, 4.0f, "Skill Remain Message");
+                }
+                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                pc?.NoCheckStartMeeting(pc?.Data);
+            }
+        }
+
         if (pc.Is(CustomRoles.Mario))
         {
-            if (!Main.MarioVentCount.ContainsKey(pc.PlayerId)) Main.MarioVentCount.Add(pc.PlayerId, 0);
+            Main.MarioVentCount.TryAdd(pc.PlayerId, 0);
             Main.MarioVentCount[pc.PlayerId]++;
             Utils.NotifyRoles(pc);
-            if (Main.MarioVentCount[pc.PlayerId] >= Options.MarioVentNumWin.GetInt())
+            if (Main.MarioVentCount[pc.PlayerId] >= Options.MarioVentNumWin.GetInt() && AmongUsClient.Instance.AmHost)
             {
                 CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Mario); //马里奥这个多动症赢了
                 CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
             }
         }
+
+        if (!AmongUsClient.Instance.AmHost) return;
+
+        if (Main.LastEnteredVent.ContainsKey(pc.PlayerId))
+            Main.LastEnteredVent.Remove(pc.PlayerId);
+        Main.LastEnteredVent.Add(pc.PlayerId, __instance);
+        if (Main.LastEnteredVentLocation.ContainsKey(pc.PlayerId))
+            Main.LastEnteredVentLocation.Remove(pc.PlayerId);
+        Main.LastEnteredVentLocation.Add(pc.PlayerId, pc.GetTruePosition());
+
         if (pc.Is(CustomRoles.Veteran))
         {
             Main.VeteranInProtect.Remove(pc.PlayerId);
@@ -1589,59 +1595,59 @@ class CoEnterVentPatch
 {
     public static bool Prefix(PlayerPhysics __instance, [HarmonyArgument(0)] int id)
     {
-        if (AmongUsClient.Instance.AmHost)
+        if (!AmongUsClient.Instance.AmHost) return true;
+
+        if (AmongUsClient.Instance.IsGameStarted &&
+            __instance.myPlayer.IsDouseDone())
         {
-            if (AmongUsClient.Instance.IsGameStarted &&
-                __instance.myPlayer.IsDouseDone())
+            foreach (var pc in Main.AllAlivePlayerControls)
             {
-                foreach (var pc in Main.AllAlivePlayerControls)
+                if (pc != __instance.myPlayer)
                 {
-                    if (pc != __instance.myPlayer)
-                    {
-                        //生存者は焼殺
-                        pc.SetRealKiller(__instance.myPlayer);
-                        pc.RpcMurderPlayerV3(pc);
-                        Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Torched;
-                        Main.PlayerStates[pc.PlayerId].SetDead();
-                    }
-                    else
-                        RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
+                    //生存者は焼殺
+                    pc.SetRealKiller(__instance.myPlayer);
+                    pc.RpcMurderPlayerV3(pc);
+                    Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Torched;
+                    Main.PlayerStates[pc.PlayerId].SetDead();
                 }
-                foreach (var pc in Main.AllPlayerControls) pc.KillFlash();
-                CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Arsonist); //焼殺で勝利した人も勝利させる
-                CustomWinnerHolder.WinnerIds.Add(__instance.myPlayer.PlayerId);
-                return true;
+                else
+                    RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
             }
-
-            if (AmongUsClient.Instance.IsGameStarted && __instance.myPlayer.IsDrawDone())//完成拉拢任务的玩家跳管后
-            {
-                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Revolutionist);//革命者胜利
-                Utils.GetDrawPlayerCount(__instance.myPlayer.PlayerId, out var x);
-                CustomWinnerHolder.WinnerIds.Add(__instance.myPlayer.PlayerId);
-                foreach (var apc in x) CustomWinnerHolder.WinnerIds.Add(apc.PlayerId);//胜利玩家
-                return true;
-            }
-
-            //处理弹出管道的阻塞（不处理会被树懒反作弊踢出）
-            if ((__instance.myPlayer.Data.Role.Role != RoleTypes.Engineer && //不是工程师
-            !__instance.myPlayer.CanUseImpostorVentButton()) || //不能使用内鬼的跳管按钮
-            (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt()) ||
-            (__instance.myPlayer.Is(CustomRoles.Paranoia) && Main.ParaUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count2) && count2 >= Options.ParanoiaNumOfUseButton.GetInt())
-            )
-            {
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
-                writer.WritePacked(127);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-                new LateTask(() =>
-                {
-                    int clientId = __instance.myPlayer.GetClientId();
-                    MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, clientId);
-                    writer2.Write(id);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer2);
-                }, 0.5f, "Fix DesyncImpostor Stuck");
-                return false;
-            }
+            foreach (var pc in Main.AllPlayerControls) pc.KillFlash();
+            CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Arsonist); //焼殺で勝利した人も勝利させる
+            CustomWinnerHolder.WinnerIds.Add(__instance.myPlayer.PlayerId);
+            return true;
         }
+
+        if (AmongUsClient.Instance.IsGameStarted && __instance.myPlayer.IsDrawDone())//完成拉拢任务的玩家跳管后
+        {
+            CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Revolutionist);//革命者胜利
+            Utils.GetDrawPlayerCount(__instance.myPlayer.PlayerId, out var x);
+            CustomWinnerHolder.WinnerIds.Add(__instance.myPlayer.PlayerId);
+            foreach (var apc in x) CustomWinnerHolder.WinnerIds.Add(apc.PlayerId);//胜利玩家
+            return true;
+        }
+
+        //处理弹出管道的阻塞
+        if ((__instance.myPlayer.Data.Role.Role != RoleTypes.Engineer && //不是工程师
+        !__instance.myPlayer.CanUseImpostorVentButton()) || //不能使用内鬼的跳管按钮
+        (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt()) ||
+        (__instance.myPlayer.Is(CustomRoles.Paranoia) && Main.ParaUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count2) && count2 >= Options.ParanoiaNumOfUseButton.GetInt())
+        )
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
+            writer.WritePacked(127);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            new LateTask(() =>
+            {
+                int clientId = __instance.myPlayer.GetClientId();
+                MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, clientId);
+                writer2.Write(id);
+                AmongUsClient.Instance.FinishRpcImmediately(writer2);
+            }, 0.5f, "Fix DesyncImpostor Stuck");
+            return false;
+        }
+
         return true;
     }
 }
