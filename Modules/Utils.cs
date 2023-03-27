@@ -1176,6 +1176,9 @@ public static class Utils
                 case "actorour#0029":
                     name = $"<color={Main.ModColor}><size=1.7>开发者</size></color>\r\n" + name;
                     break;
+                case "keepchirpy#6354":
+                    name = $"<color=#E42217><size=1.7>{GetString("Developer")}</size></color>\r\n" + name;
+                    break;
                 case "pinklaze#1776":
                     name = $"<color=#30548e><size=1.7>开发者</size></color>\r\n" + name;
                     break;
@@ -1223,6 +1226,7 @@ public static class Utils
         return pc.FriendCode is
             "actorour#0029" or
             "pinklaze#1776" or //NCM
+            "keepchirpy#6354" or //Tommy
             "bannerfond#3960" or
             "recentduct#6068" or
             "heavyclod#2286" or //小叨院长
@@ -1238,7 +1242,8 @@ public static class Utils
     {
         return pc.FriendCode is
             "actorour#0029" or
-            "pinklaze#1776" or
+            "pinklaze#1776" or //NCM
+            "keepchirpy#6354" or //Tommy
             "bannerfond#3960" or
             "recentduct#6068" or
             "radarright#2509";
