@@ -82,7 +82,7 @@ public static class Translator
         {
             if (translateMaps.TryGetValue(str, out var dic) && (!dic.TryGetValue((int)langId, out res) || res == "")) //strに該当する&無効なlangIdかresが空
             {
-                res = $"*{dic[0]}";
+                res = $"*{str}";
             }
             if (!translateMaps.ContainsKey(str)) //translateMapsにない場合、StringNamesにあれば取得する
             {
