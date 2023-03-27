@@ -1563,11 +1563,9 @@ class EnterVentPatch
 
         if (!AmongUsClient.Instance.AmHost) return;
 
-        if (Main.LastEnteredVent.ContainsKey(pc.PlayerId))
-            Main.LastEnteredVent.Remove(pc.PlayerId);
+        Main.LastEnteredVent.Remove(pc.PlayerId);
         Main.LastEnteredVent.Add(pc.PlayerId, __instance);
-        if (Main.LastEnteredVentLocation.ContainsKey(pc.PlayerId))
-            Main.LastEnteredVentLocation.Remove(pc.PlayerId);
+        Main.LastEnteredVentLocation.Remove(pc.PlayerId);
         Main.LastEnteredVentLocation.Add(pc.PlayerId, pc.GetTruePosition());
 
         if (pc.Is(CustomRoles.Veteran))
@@ -1656,7 +1654,6 @@ class CoEnterVentPatch
             }, 0.5f, "Fix DesyncImpostor Stuck");
             return false;
         }
-
         return true;
     }
 }
