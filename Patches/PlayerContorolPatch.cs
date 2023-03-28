@@ -1331,6 +1331,11 @@ class FixedUpdatePatch
                 //NameColorManager準拠の処理
                 RealName = RealName.ApplyNameColorData(seer, target, false);
 
+                if (seer.GetCustomRole().IsImpostor()) //seerがインポスター
+                {
+                    if (target.Is(CustomRoles.Snitch) && target.Is(CustomRoles.Madmate) && target.GetPlayerTaskState().IsTaskFinished) //targetがタスクを終わらせたマッドスニッチ
+                        Mark.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "★")); //targetにマーク付与
+                }
                 //インポスター/キル可能なニュートラルがタスクが終わりそうなSnitchを確認できる
                 Mark.Append(Snitch.GetWarningMark(seer, target));
 
@@ -1701,9 +1706,16 @@ class PlayerControlCompleteTaskPatch
         Snitch.OnCompleteTask(pc);
 
         var isTaskFinish = pc.GetPlayerTaskState().IsTaskFinished;
-
+        if (isTaskFinish && pc.Is(CustomRoles.Snitch) && pc.Is(CustomRoles.Madmate))
+        {
+            foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
+            {
+                NameColorManager.Add(pc.PlayerId, impostor.PlayerId);
+            }
+            Utils.NotifyRoles(SpecifySeer: pc);
+        }
         if ((isTaskFinish &&
-            pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor) ||
+            pc.GetCustomRole() is CustomRoles.Doctor) ||
             pc.GetCustomRole() is CustomRoles.SpeedBooster)
         {
             //ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する

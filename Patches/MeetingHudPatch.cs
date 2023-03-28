@@ -634,6 +634,8 @@ class MeetingHudStartPatch
             switch (seer.GetCustomRole().GetCustomRoleTypes())
             {
                 case CustomRoleTypes.Impostor:
+                    if (target.Is(CustomRoles.Snitch) && target.Is(CustomRoles.Madmate) && target.GetPlayerTaskState().IsTaskFinished)
+                        sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "★")); //変更対象にSnitchマークをつける
                     sb.Append(Snitch.GetWarningMark(seer, target));
                     break;
             }

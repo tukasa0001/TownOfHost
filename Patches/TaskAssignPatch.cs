@@ -68,6 +68,15 @@ class RpcSetTasksPatch
                                                          // ロングとショートは常時再割り当てが行われる。
         }
 
+        //背叛告密的任务覆盖
+        if (pc.Is(CustomRoles.Snitch) && pc.Is(CustomRoles.Madmate))
+        {
+            hasCommonTasks = false;
+            NumLongTasks = 0;
+            NumShortTasks = Options.MadSnitchTasks.GetInt();
+        }
+
+        //管理员和摆烂人没有任务
         if (pc.Is(CustomRoles.GM) || pc.Is(CustomRoles.Needy))
         {
             hasCommonTasks = false;

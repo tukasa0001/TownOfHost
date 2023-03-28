@@ -67,7 +67,7 @@ public static class Snitch
     public static bool IsThisRole(byte playerId) => playerIdList.Contains(playerId);
     private static bool GetExpose(PlayerControl pc)
     {
-        if (!IsThisRole(pc.PlayerId) || !pc.IsAlive()) return false;
+        if (!IsThisRole(pc.PlayerId) || !pc.IsAlive() || pc.Is(CustomRoles.Madmate)) return false;
 
         var snitchId = pc.PlayerId;
         return IsExposed[snitchId];
@@ -75,7 +75,7 @@ public static class Snitch
     private static bool IsSnitchTarget(PlayerControl target) => IsEnable && (target.Is(CustomRoleTypes.Impostor) || (target.IsNeutralKiller() && CanFindNeutralKiller));
     public static void CheckTask(PlayerControl snitch)
     {
-        if (!snitch.IsAlive()) return;
+        if (!snitch.IsAlive() || snitch.Is(CustomRoles.Madmate)) return;
 
         var snitchId = snitch.PlayerId;
         var snitchTask = snitch.GetPlayerTaskState();
@@ -153,7 +153,7 @@ public static class Snitch
     /// <returns></returns>
     public static string GetSnitchArrow(PlayerControl seer, PlayerControl target = null)
     {
-        if (!IsThisRole(seer.PlayerId)) return "";
+        if (!IsThisRole(seer.PlayerId) || seer.Is(CustomRoles.Madmate)) return "";
         if (!EnableTargetArrow || GameStates.IsMeeting) return "";
         if (target != null && seer.PlayerId != target.PlayerId) return "";
         var arrows = "";
@@ -166,7 +166,7 @@ public static class Snitch
     }
     public static void OnCompleteTask(PlayerControl player)
     {
-        if (!IsThisRole(player.PlayerId)) return;
+        if (!IsThisRole(player.PlayerId) || player.Is(CustomRoles.Madmate)) return;
         CheckTask(player);
     }
 }
