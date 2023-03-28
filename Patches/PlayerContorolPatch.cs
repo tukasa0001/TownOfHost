@@ -8,6 +8,7 @@ using Hazel;
 using UnityEngine;
 
 using TownOfHost.Modules;
+using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
@@ -446,7 +447,7 @@ namespace TownOfHost
                 DoubleTrigger.OnFixedUpdate(player);
                 Vampire.OnFixedUpdate(player);
 
-                if (GameStates.IsInTask && CustomRoles.SerialKiller.IsEnable()) SerialKiller.FixedUpdate(player);
+                if (GameStates.IsInTask && CustomRoles.SerialKiller.IsPresent()) SerialKiller.FixedUpdate(player);
                 if (GameStates.IsInTask && Main.WarlockTimer.ContainsKey(player.PlayerId))//処理を1秒遅らせる
                 {
                     if (player.IsAlive())
@@ -745,7 +746,7 @@ namespace TownOfHost
         //FIXME: 役職クラス化のタイミングで、このメソッドは移動予定
         public static void LoversSuicide(byte deathId = 0x7f, bool isExiled = false)
         {
-            if (CustomRoles.Lovers.IsEnable() && Main.isLoversDead == false)
+            if (CustomRoles.Lovers.IsPresent() && Main.isLoversDead == false)
             {
                 foreach (var loversPlayer in Main.LoversPlayers)
                 {

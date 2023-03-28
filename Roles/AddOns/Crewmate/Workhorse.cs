@@ -54,7 +54,7 @@ namespace TownOfHost.Roles.AddOns.Crewmate
         }
         public static bool OnCompleteTask(PlayerControl pc)
         {
-            if (!CustomRoles.Workhorse.IsEnable() || playerIdList.Count >= CustomRoles.Workhorse.GetCount()) return true;
+            if (!CustomRoles.Workhorse.IsPresent() || playerIdList.Count >= CustomRoles.Workhorse.GetRealCount()) return true;
             if (!IsAssignTarget(pc)) return true;
 
             pc.RpcSetCustomRole(CustomRoles.Workhorse);

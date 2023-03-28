@@ -339,6 +339,15 @@
 "CanUseSabotage","Can Sabotage","サボタージュを使用できる","可以破坏","可以破壞","Может использовать Саботаж","Pode Sabotar"
 "CanCreateMadmate","Can Make SideKick Madmate","マッドメイトを指名できる","可以指名叛徒","可以招募叛徒","Он может назначить Безумцев",""
 
+"ImpostorRolesMin","Minimum Impostor Roles","インポスター役職の最小人数"
+"ImpostorRolesMax","Maximum Impostor Roles","インポスター役職の最大人数"
+"MadRolesMin","Minimum Madmate Roles","マッド役職の最小人数"
+"MadRolesMax","Maximum Madmate Roles","マッド役職の最大人数"
+"CrewmateRolesMin","Minimum Crewmate Roles","クルー役職の最小人数"
+"CrewmateRolesMax","Maximum Crewmate Roles","クルー役職の最大人数"
+"NeutralRolesMin","Minimum Neutral Roles","ニュートラル役職の最小人数"
+"NeutralRolesMax","Maximum Neutral Roles","ニュートラル役職の最大人数"
+
 "BountyTargetChangeTime","Time Until Target Swaps","ターゲット変更時間","赏金目标切换时间","賞金目標切換時間","Время смены цели","Tempo Para Troca de Alvos"
 "BountySuccessKillCooldown","Kill Cooldown After Killing Bounty","ターゲット殺害時のキルクール","赏金猎人击杀赏金目标的奖励冷却时间","賞金獵人殺死賞金目標冷卻","Перезарядка после убийства цели","Tempo de Recarga ao Matar Alvo"
 "BountyFailureKillCooldown","Kill Cooldown After Killing Others","ターゲット以外殺害時のキルクール","赏金猎人击杀赏金目标以外玩家的惩罚冷却时间","賞金獵人殺死非賞金目標冷卻","Перезарядка после обычного Убийства","Tempo de Recarga ao Matar Outros"
