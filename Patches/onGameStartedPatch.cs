@@ -108,7 +108,7 @@ internal class ChangeRoleSettings
             {
                 var msg = GetString("Error.InvalidColor");
                 Logger.SendInGame(msg);
-                msg += "\n" + string.Join(",", invalidColor.Select(p => $"{p.name}({p.Data.DefaultOutfit.ColorId})"));
+                msg += "\n" + string.Join(",", invalidColor.Select(p => $"{p.name}"));
                 Utils.SendMessage(msg);
                 Logger.Error(msg, "CoStartGame");
             }
