@@ -632,6 +632,7 @@ BewilderVision,迷幻视野大小,Bewilder Vision,Дальность обзор�
 FlashmanSpeed,初始移动速度,Flash Speed,Скорость Флеша
 LoverSuicide,恋人共生死,Lovers can commit suicide,Любовники могут суициднуться
 NumberOfLovers,恋人对数,Number of Lovers (x2 members),Количество Любовников (x2 участника)
+LoverKnowRoles,恋人知道对方的职业
 TrapperBlockMoveTime,封锁凶手移动时长,Freeze time,Время заморозки
 TimeThiefDecreaseMeetingTime,每次击杀缩短的会议时间,Time Thief Time Stolen,Уменьшить длительность обсуждения на
 TimeThiefLowerLimitVotingTime,存活时会议时间下限,Minimum Voting Time,Уменьшить длительность голосования на

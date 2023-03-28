@@ -1042,19 +1042,16 @@ public static class Utils
                         TargetMark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>");
 
                     //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                    string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}>{target.GetDisplayRoleName()}{GetProgressText(target)}</size>\r\n" : "";
+                    string TargetRoleText = 
+                        (seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) ||
+                        (!seer.Data.IsDead && seer.Is(CustomRoles.Madmate) && target.GetCustomRole().IsImpostor()) ||
+                        (seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers)) ||
+                        (seer.Is(CustomRoles.God) && !seer.Data.IsDead) ||
+                        (target.Is(CustomRoles.GM))
+                        ? $"<size={fontSize}>{target.GetDisplayRoleName()}{GetProgressText(target)}</size>\r\n" : "";
 
-                    if (TargetRoleText == "" && seer.GetCustomRole().IsImpostor() && target.GetCustomRole().IsImpostor() && Options.ImpKnowAlliesRole.GetBool())
+                    if (seer.GetCustomRole().IsImpostor() && target.GetCustomRole().IsImpostor() && Options.ImpKnowAlliesRole.GetBool())
                         TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName(!seer.Data.IsDead)}</size>\r\n";
-
-                    if (TargetRoleText == "" && !seer.Data.IsDead && seer.Is(CustomRoles.Madmate) && target.GetCustomRole().IsImpostor())
-                        TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName()}</size>\r\n";
-
-                    if (seer.Is(CustomRoles.God) && !seer.Data.IsDead)
-                        TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName()}</size>\r\n";
-
-                    if (target.Is(CustomRoles.GM))
-                        TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName()}</size>\r\n";
 
                     if (seer.Is(CustomRoles.EvilTracker))
                     {

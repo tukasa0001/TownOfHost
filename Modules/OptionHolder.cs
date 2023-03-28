@@ -340,6 +340,7 @@ public static class Options
     public static OptionItem NGuesserCanBeMadmate;
     public static OptionItem FlashmanSpeed;
     public static OptionItem LoverSpawnChances;
+    public static OptionItem LoverKnowRoles;
     public static OptionItem LoverSuicide;
     public static OptionItem ImpCanBeEgoist;
     public static OptionItem CrewCanBeEgoist;
@@ -1019,6 +1020,9 @@ public static class Options
 
         LoverSpawnChances = IntegerOptionItem.Create(id + 2, "LoverSpawnChances", new(0, 100, 5), 50, TabGroup.Addons, false).SetParent(spawnOption)
             .SetValueFormat(OptionFormat.Percent)
+            .SetGameMode(customGameMode);
+
+        LoverKnowRoles = BooleanOptionItem.Create(id + 4, "LoverKnowRoles", true, TabGroup.Addons, false).SetParent(spawnOption)
             .SetGameMode(customGameMode);
 
         LoverSuicide = BooleanOptionItem.Create(id + 3, "LoverSuicide", true, TabGroup.Addons, false).SetParent(spawnOption)
