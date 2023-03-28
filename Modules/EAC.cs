@@ -139,7 +139,6 @@ internal class EAC
                     WarnHost();
                     Report(pc, "AUM");
                     HandleCheat(pc, GetString("EAC.CheatDetected.EAC"));
-                    Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法使用AUM发送消息", "EAC");
                     return true;
                 case 7:
                     if (!GameStates.IsLobby)
@@ -241,14 +240,14 @@ internal class EAC
         Cloud.SendData(msg);
         Logger.Fatal($"EAC报告：{pc.GetRealName()}: {reason}", "EAC Cloud");
     }
-    public static bool ReceiveInvalidRpc(PlayerControl __instance, byte callId)
+    public static bool ReceiveInvalidRpc(PlayerControl pc, byte callId)
     {
         switch (callId)
         {
-            case 85:
-                Report(__instance, "AUM");
-                HandleCheat(__instance, GetString("EAC.CheatDetected.EAC"));
-                return false;
+            case unchecked((byte)42069):
+                Report(pc, "AUM");
+                HandleCheat(pc, GetString("EAC.CheatDetected.EAC"));
+                return true;
         }
         return true;
     }
