@@ -16,7 +16,7 @@ class OnGameJoinedPatch
     public static void Postfix(AmongUsClient __instance)
     {
         while (!Options.IsLoaded) System.Threading.Tasks.Task.Delay(1);
-        Logger.Info($"{__instance.GameId} 创建房间", "OnGameJoined");
+        Logger.Info($"{__instance.GameId} 加入房间", "OnGameJoined");
         Main.playerVersion = new Dictionary<byte, PlayerVersion>();
         RPC.RpcVersionCheck();
         SoundManager.Instance.ChangeAmbienceVolume(DataManager.Settings.Audio.AmbienceVolume);
@@ -51,7 +51,7 @@ class DisconnectInternalPatch
     {
         ShowDisconnectPopupPatch.Reason = reason;
         ShowDisconnectPopupPatch.StringReason = stringReason;
-        Logger.Info($"断开连接(理由:{reason}:{stringReason}, ping:{__instance.Ping})", "Session");
+        Logger.Info($"断开连接(理由:{reason}:{stringReason}，Ping:{__instance.Ping})", "Session");
         ErrorText.Instance.CheatDetected = false;
         ErrorText.Instance.SBDetected = false;
         ErrorText.Instance.Clear();
@@ -73,8 +73,9 @@ class OnPlayerJoinedPatch
         if (AmongUsClient.Instance.AmHost && client.PlatformData.Platform == Platforms.Android && Options.KickAndroidPlayer.GetBool())
         {
             AmongUsClient.Instance.KickPlayer(client.Id, false);
-            Logger.SendInGame($"【{client?.PlayerName}】因该房禁止安卓被踢出");
-            Logger.Info($"{client?.PlayerName} 因该房禁止安卓被踢出", "Android Kick");
+            string msg = string.Format(GetString("KickAndriodPlayer"), client?.PlayerName);
+            Logger.SendInGame(msg);
+            Logger.Info(msg, "Android Kick");
         }
         if (!Main.OriginalName.ContainsKey(client.Id)) Main.OriginalName.Add(client.Id, client.PlayerName);
         if (DestroyableSingleton<FriendsListManager>.Instance.IsPlayerBlockedUsername(client.FriendCode) && AmongUsClient.Instance.AmHost)
@@ -138,10 +139,10 @@ class OnPlayerLeftPatch
             if (GameStates.IsInGame)
             {
                 Utils.ErrorEnd("房主退出游戏");
-                msg = "警告：房主已退出游戏，接下来游戏将无法正常运行，请各位退出游戏，或等待新房主重开游戏。";
+                msg = GetString("Message.HostLeftGameInGame");
             }
             else if (GameStates.IsLobby)
-                msg = "警告：房主已退出游戏，接下来游戏将无法正常运行，若新房主已安装TOHE，需要至少重开一次房间才能正常游戏。";
+                msg = GetString("Message.HostLeftGameInLobby");
 
             player.SetName(title);
             DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, msg);
@@ -162,20 +163,20 @@ class OnPlayerLeftPatch
             writer.SendMessage();
         }
 
+        // 附加描述掉线原因
         switch (reason)
         {
             case DisconnectReasons.Hacking:
-                Logger.SendInGame($"{data.PlayerName} 被树懒超级厉害的反作弊踢出去啦~ QwQ");
+                Logger.SendInGame(string.Format(GetString("PlayerLeftByAU-Anticheat"), data?.PlayerName));
                 break;
-            case DisconnectReasons.Destroy:
-                Logger.SendInGame($"{data.PlayerName} 很不幸地遇到Bug卡退了~ QwQ");
+            default:
+                if (AmongUsClient.Instance.Ping > 700)
+                    Logger.SendInGame(string.Format(GetString("PlayerLeftByBadNet"), data?.PlayerName, __instance?.Ping ?? AmongUsClient.Instance.Ping));
                 break;
         }
-        if (AmongUsClient.Instance.Ping > 700)
-        {
-            Logger.SendInGame($"{data.PlayerName} 无响应，失去连接");
-        }
-        Logger.Info($"{data.PlayerName}(ClientID:{data.Id}/FriendCode:{data.FriendCode})断开连接(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
+        
+        Logger.Info($"{data?.PlayerName}(ClientID:{data?.Id}/FriendCode:{data?.FriendCode})断开连接(理由:{reason}，Ping:{__instance?.Ping ?? AmongUsClient.Instance.Ping})", "Session");
+
         if (AmongUsClient.Instance.AmHost)
         {
             Main.OriginalName.Remove(__instance.ClientId);

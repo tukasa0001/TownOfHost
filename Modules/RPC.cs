@@ -82,7 +82,7 @@ internal class RPCHandlerPatch
     {
         var rpcType = (RpcCalls)callId;
         MessageReader subReader = MessageReader.Get(reader);
-        if (EAC.Receive(__instance, callId, reader)) return false;
+        if (EAC.ReceiveRpc(__instance, callId, reader)) return false;
         Logger.Info($"{__instance?.Data?.PlayerId}({__instance?.Data?.PlayerName}):{callId}({RPC.GetRpcName(callId)})", "ReceiveRPC");
         switch (rpcType)
         {
@@ -112,7 +112,7 @@ internal class RPCHandlerPatch
             Logger.Warn($"{__instance?.Data?.PlayerName}:{callId}({RPC.GetRpcName(callId)}) 已取消，因为它是由主机以外的其他人发送的。", "CustomRPC");
             if (AmongUsClient.Instance.AmHost)
             {
-                if (!EAC.CheckInvalidRpc(__instance, callId)) return false;
+                if (!EAC.ReceiveInvalidRpc(__instance, callId)) return false;
                 AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
                 Logger.Warn($"多次收到来自 {__instance?.Data?.PlayerName} 的不受信用的RPC，因此将其踢出。", "Kick");
                 Logger.SendInGame(string.Format(GetString("Warning.InvalidRpc"), __instance?.Data?.PlayerName));
