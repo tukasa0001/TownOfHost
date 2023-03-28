@@ -541,7 +541,7 @@ internal class ChatCommands
                 case "/hy":
                     canceled = true;
                     if (GameStates.IsMeeting) MeetingHud.Instance.RpcClose();
-                    else PlayerControl.LocalPlayer.NoCheckStartMeeting(null);
+                    else PlayerControl.LocalPlayer.NoCheckStartMeeting(null, true);
                     break;
 
                 case "/cs":
