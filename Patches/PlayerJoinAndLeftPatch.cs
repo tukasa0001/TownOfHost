@@ -169,13 +169,9 @@ class OnPlayerLeftPatch
             case DisconnectReasons.Hacking:
                 Logger.SendInGame(string.Format(GetString("PlayerLeftByAU-Anticheat"), data?.PlayerName));
                 break;
-            default:
-                if (AmongUsClient.Instance.Ping > 700)
-                    Logger.SendInGame(string.Format(GetString("PlayerLeftByBadNet"), data?.PlayerName, __instance?.Ping ?? AmongUsClient.Instance.Ping));
-                break;
         }
 
-        Logger.Info($"{data?.PlayerName}(ClientID:{data?.Id}/FriendCode:{data?.FriendCode})断开连接(理由:{reason}，Ping:{__instance?.Ping ?? AmongUsClient.Instance.Ping})", "Session");
+        Logger.Info($"{data?.PlayerName}(ClientID:{data?.Id}/FriendCode:{data?.FriendCode})断开连接(理由:{reason}，Ping:{AmongUsClient.Instance.Ping})", "Session");
 
         if (AmongUsClient.Instance.AmHost)
         {
