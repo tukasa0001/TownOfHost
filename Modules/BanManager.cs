@@ -1,6 +1,8 @@
 using HarmonyLib;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -13,7 +15,7 @@ public static class BanManager
     private static readonly string DENY_NAME_LIST_PATH = @"./TOHE_DATA/DenyName.txt";
     private static readonly string BAN_LIST_PATH = @"./TOHE_DATA/BanList.txt";
     private static readonly string BAN_WORDS_PATH = @"./TOHE_DATA/BanWords.txt";
-
+    private static List<string> EACList = new();
     public static void Init()
     {
         try
@@ -37,6 +39,19 @@ public static class BanManager
                 File.Create(BAN_WORDS_PATH).Close();
                 File.WriteAllText(BAN_WORDS_PATH, GetResourcesTxt("TOHE.Resources.BanWords.txt"));
             }
+
+            //读取EAC名单
+            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("TOHE.Resources.EACList.txt");
+            stream.Position = 0;
+            using StreamReader sr = new(stream, Encoding.UTF8);
+            string line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                if (line == "" || line.StartsWith("#")) continue;
+                if (line.Contains("actorour#0029")) continue;
+                EACList.Add(line);
+            }
+
         }
         catch (Exception ex)
         {
@@ -110,14 +125,19 @@ public static class BanManager
             {
                 if (line == "") continue;
                 if (line.Contains("actorour#0029")) continue;
-                if (player.FriendCode == line.Split(",")[0]) return true;
+                if (line.Contains(player.FriendCode)) return true;
             }
         }
         catch (Exception ex)
         {
             Logger.Exception(ex, "CheckBanList");
         }
-        return false;
+        return CheckEACList(player.FriendCode);
+    }
+    public static bool CheckEACList(string code)
+    {
+        if (code == "") return false;
+        return EACList.Where(x => x.Contains(code)).Count() > 0;
     }
 }
 [HarmonyPatch(typeof(BanMenu), nameof(BanMenu.Select))]

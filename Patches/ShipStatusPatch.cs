@@ -1,4 +1,5 @@
 using HarmonyLib;
+using InnerNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -124,7 +125,7 @@ class StartPatch
 
         Utils.CountAlivePlayers(true);
 
-        if (Options.AllowConsole.GetBool())
+        if (Options.AllowConsole.GetBool() || Utils.CanUseDevCommand(PlayerControl.LocalPlayer))
         {
             if (!BepInEx.ConsoleManager.ConsoleActive && BepInEx.ConsoleManager.ConsoleEnabled)
                 BepInEx.ConsoleManager.CreateConsole();

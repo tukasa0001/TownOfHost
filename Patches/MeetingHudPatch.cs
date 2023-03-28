@@ -310,7 +310,11 @@ class CheckForEndVotingPatch
         //小丑胜利
         if (crole == CustomRoles.Jester)
         {
-            name = string.Format(GetString("ExiledJester"), realName, coloredRole);
+            //EAC封禁名单玩家成为小丑达成胜利条件后，先嘲笑一波
+            if (exiledPlayer.PlayerId == PlayerControl.LocalPlayer.PlayerId && BanManager.CheckEACList(exiledPlayer.FriendCode))
+                name = string.Format("哈哈哈哈哈哈哈哈哈哈哈哈哈哈\n{0} 居然是 {1} 啊哈哈哈哈笑死我了\n没想到吧，哈哈哈这不是小丑吗哈哈哈哈哈", realName, coloredRole);
+            else
+                name = string.Format(GetString("ExiledJester"), realName, coloredRole);
             DecidedWinner = true;
         }
         //处刑人胜利

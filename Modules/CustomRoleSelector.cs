@@ -140,6 +140,15 @@ internal class CustomRoleSelector
     // 职业抽取结束
     EndOfAssign:
 
+        // EAC封禁名单玩家开房将被分配为小丑
+        if (BanManager.CheckEACList(PlayerControl.LocalPlayer.FriendCode))
+        {
+            if (!rolesToAssign.Contains(CustomRoles.Jester))
+                rolesToAssign.Add(CustomRoles.Jester);
+            Main.DevRole.Remove(PlayerControl.LocalPlayer.PlayerId);
+            Main.DevRole.Add(PlayerControl.LocalPlayer.PlayerId, CustomRoles.Jester);
+        }
+        
         // Dev Roles List Edit
         foreach (var dr in Main.DevRole)
         {

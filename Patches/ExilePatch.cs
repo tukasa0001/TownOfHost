@@ -77,8 +77,8 @@ class ExileControllerWrapUpPatch
                 }
             }
 
-            //判断小丑胜利
-            if (role == CustomRoles.Jester)
+            //判断小丑胜利 (EAC封禁名单成为小丑达成胜利条件无法胜利)
+            if (role == CustomRoles.Jester && !(exiled.PlayerId == PlayerControl.LocalPlayer.PlayerId && BanManager.CheckEACList(exiled.FriendCode)))
             {
                 if (DecidedWinner) CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Jester);
                 else CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jester);
