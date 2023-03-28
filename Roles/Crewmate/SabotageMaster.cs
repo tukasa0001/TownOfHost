@@ -150,7 +150,7 @@ public sealed class SabotageMaster : RoleBase
                 break;
             case SystemTypes.Doors:
                 if (!FixesDoors) break;
-                if (DoorsProgressing == true) break;
+                if (DoorsProgressing) break;
 
                 int mapId = Main.NormalOptions.MapId;
                 if (AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay) mapId = AmongUsClient.Instance.TutorialMapId;
