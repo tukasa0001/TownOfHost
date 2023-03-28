@@ -83,7 +83,6 @@ class OnPlayerJoinedPatch
         }
         BanManager.CheckBanPlayer(client);
         BanManager.CheckDenyNamePlayer(client);
-        Main.playerVersion.Remove(client.Character.PlayerId);
         RPC.RpcVersionCheck();
 
         if (AmongUsClient.Instance.AmHost)
@@ -178,10 +177,11 @@ class OnPlayerLeftPatch
         Logger.Info($"{data.PlayerName}(ClientID:{data.Id}/FriendCode:{data.FriendCode})断开连接(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
         if (AmongUsClient.Instance.AmHost)
         {
-            if (Main.OriginalName.ContainsKey(__instance.ClientId)) Main.OriginalName.Remove(__instance.ClientId);
-            if (Main.LastRPC.ContainsKey(__instance.ClientId)) Main.LastRPC.Remove(__instance.ClientId);
-            if (Main.SayStartTimes.ContainsKey(__instance.ClientId)) Main.SayStartTimes.Remove(__instance.ClientId);
-            if (Main.SayBanwordsTimes.ContainsKey(__instance.ClientId)) Main.SayBanwordsTimes.Remove(__instance.ClientId);
+            Main.OriginalName.Remove(__instance.ClientId);
+            Main.LastRPC.Remove(__instance.ClientId);
+            Main.SayStartTimes.Remove(__instance.ClientId);
+            Main.SayBanwordsTimes.Remove(__instance.ClientId);
+            Main.playerVersion.Remove(data.Character.PlayerId);
         }
     }
 }
