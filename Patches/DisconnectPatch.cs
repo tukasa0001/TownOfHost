@@ -27,7 +27,6 @@ internal class ShowDisconnectPopupPatch
                     __instance.SetText(GetString("DCNotify.Hacking"));
                     break;
                 case DisconnectReasons.Banned:
-                case DisconnectReasons.IncorrectGame:
                     __instance.SetText(GetString("DCNotify.Banned"));
                     break;
                 case DisconnectReasons.Kicked:

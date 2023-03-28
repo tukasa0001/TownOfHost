@@ -1708,7 +1708,7 @@ class PlayerControlCompleteTaskPatch
         var isTaskFinish = pc.GetPlayerTaskState().IsTaskFinished;
         if (isTaskFinish && pc.Is(CustomRoles.Snitch) && pc.Is(CustomRoles.Madmate))
         {
-            foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
+            foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.GetCustomRole().IsImpostor()))
             {
                 NameColorManager.Add(pc.PlayerId, impostor.PlayerId);
             }

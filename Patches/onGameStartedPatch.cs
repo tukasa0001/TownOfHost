@@ -482,6 +482,10 @@ internal class SelectRolesPatch
                     switch (subRole)
                     {
                         // ここに属性のAddを追加
+                        case CustomRoles.Madmate:
+                            foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.GetCustomRole().IsImpostor()))
+                                NameColorManager.Add(pc.PlayerId, impostor.PlayerId);
+                            break;
                         default:
                             break;
                     }
