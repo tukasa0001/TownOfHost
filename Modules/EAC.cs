@@ -28,7 +28,7 @@ internal class EAC
     public static bool ReceiveRpc(PlayerControl pc, byte callId, MessageReader reader)
     {
         if (!AmongUsClient.Instance.AmHost) return false;
-        if (pc == null || reader == null) return true;
+        if (pc == null || reader == null) return false;
         if (pc.GetClient()?.PlatformData?.Platform is Platforms.Android or Platforms.IPhone or Platforms.Switch or Platforms.Playstation or Platforms.Xbox or Platforms.StandaloneMac) return false;
         try
         {
@@ -243,21 +243,12 @@ internal class EAC
     }
     public static bool ReceiveInvalidRpc(PlayerControl __instance, byte callId)
     {
-        if (Main.LastRPC.ContainsKey(__instance.PlayerId))
+        switch (callId)
         {
-            if (Main.LastRPC[__instance.PlayerId] == byte.MaxValue) return false; //已处理
-            if (Main.LastRPC[__instance.PlayerId] == callId && callId == 85)
-            {
+            case 85:
                 Report(__instance, "AUM");
                 HandleCheat(__instance, GetString("EAC.CheatDetected.EAC"));
-                Main.LastRPC[__instance.PlayerId] = byte.MaxValue;
                 return false;
-            }
-        }
-        else
-        {
-            Main.LastRPC.Add(__instance.PlayerId, callId);
-            return false;
         }
         return true;
     }

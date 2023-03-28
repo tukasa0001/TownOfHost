@@ -89,7 +89,6 @@ class OnPlayerJoinedPatch
 
         if (AmongUsClient.Instance.AmHost)
         {
-            if (Main.LastRPC.ContainsKey(client.Id)) Main.LastRPC.Remove(client.Id);
             if (Main.SayStartTimes.ContainsKey(client.Id)) Main.SayStartTimes.Remove(client.Id);
             if (Main.SayBanwordsTimes.ContainsKey(client.Id)) Main.SayBanwordsTimes.Remove(client.Id);
             if (Main.newLobby && Options.SendCodeToQQ.GetBool()) Cloud.SendCodeToQQ();
@@ -176,7 +175,6 @@ class OnPlayerLeftPatch
         if (AmongUsClient.Instance.AmHost)
         {
             Main.OriginalName.Remove(__instance.ClientId);
-            Main.LastRPC.Remove(__instance.ClientId);
             Main.SayStartTimes.Remove(__instance.ClientId);
             Main.SayBanwordsTimes.Remove(__instance.ClientId);
             Main.playerVersion.Remove(data?.Character?.PlayerId ?? byte.MaxValue);
