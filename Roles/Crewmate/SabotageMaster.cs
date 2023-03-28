@@ -158,7 +158,7 @@ public sealed class SabotageMaster : RoleBase
                 DoorsProgressing = true;
                 if (mapId == 2)
                 {
-                    //Polus()
+                    //Polus
                     RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 71, 72);
                     RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 67, 68);
                     RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 64, 66);

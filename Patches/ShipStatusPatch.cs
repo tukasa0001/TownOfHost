@@ -70,7 +70,7 @@ namespace TownOfHost
             {
                 var nextSabotage = (SystemTypes)amount;
                 //HASモードではサボタージュ不可
-                if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS)) return false;
+                if (Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) return false;
                 var roleClass = player.GetRoleClass();
                 if (roleClass != null)
                 {
@@ -140,8 +140,8 @@ namespace TownOfHost
                             var console = player.closest.TryCast<Console>();
                             if (console != null)
                             {
-                                Logger.Info($"{console.GetType()}", "sabo");
-                                Logger.Info($"{console.tag}", "sabo");
+                                Logger.Info($"{console.GetType()}", "RepairSystemPatch.OnSabotage");
+                                Logger.Info($"{console.tag}", "RepairSystemPatch.OnSabotage");
                             }
                             if (Options.DisableAirshipViewingDeckLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(-12.93f, -11.28f)) <= 2f) return false;
                             if (Options.DisableAirshipGapRoomLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(13.92f, 6.43f)) <= 2f) return false;
