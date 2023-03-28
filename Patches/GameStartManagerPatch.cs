@@ -183,7 +183,7 @@ public class GameStartRandomMap
         var invalidColor = Main.AllPlayerControls.Where(p => p.Data.DefaultOutfit.ColorId < 0 || Palette.PlayerColors.Length <= p.Data.DefaultOutfit.ColorId);
         if (invalidColor.Count() != 0)
         {
-            Logger.SendInGame("Error.InvalidColorPreventStart");
+            Logger.SendInGame(GetString("Error.InvalidColorPreventStart"));
             var msg = GetString("Error.InvalidColor");
             msg += "\n" + string.Join(",", invalidColor.Select(p => $"{p.GetRealName()}"));
             Utils.SendMessage(msg);
