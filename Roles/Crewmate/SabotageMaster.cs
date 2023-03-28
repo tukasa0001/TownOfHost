@@ -15,8 +15,7 @@ public sealed class SabotageMaster : RoleBase
             CustomRoleTypes.Crewmate,
             20300,
             SetupOptionItem,
-            "#0000ff",
-            true
+            "#0000ff"
         );
     public SabotageMaster(PlayerControl player)
     : base(
