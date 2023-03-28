@@ -83,6 +83,7 @@ class OnPlayerJoinedPatch
         }
         BanManager.CheckBanPlayer(client);
         BanManager.CheckDenyNamePlayer(client);
+        Main.playerVersion.Remove(client.Character.PlayerId);
         RPC.RpcVersionCheck();
 
         if (AmongUsClient.Instance.AmHost)
