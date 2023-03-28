@@ -134,7 +134,7 @@ class OnPlayerLeftPatch
             var clientId = -1;
             var player = PlayerControl.LocalPlayer;
             var title = "<color=#aaaaff>" + GetString("DefaultSystemMessageTitle") + "</color>";
-            var name = player.Data.PlayerName;
+            var name = player?.Data?.PlayerName;
             var msg = "";
             if (GameStates.IsInGame)
             {
@@ -183,7 +183,7 @@ class OnPlayerLeftPatch
             Main.LastRPC.Remove(__instance.ClientId);
             Main.SayStartTimes.Remove(__instance.ClientId);
             Main.SayBanwordsTimes.Remove(__instance.ClientId);
-            Main.playerVersion.Remove(data.Character.PlayerId);
+            Main.playerVersion.Remove(data?.Character?.PlayerId ?? byte.MaxValue);
         }
     }
 }
