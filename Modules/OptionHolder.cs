@@ -663,7 +663,7 @@ public static class Options
         SetupRoleOptions(902622, TabGroup.OtherRoles, CustomRoles.OverKiller);
 
         // 船员
-        TextOptionItem.Create(909092, "OtherRoles.CrewmateRoles",TabGroup.OtherRoles)
+        TextOptionItem.Create(909092, "OtherRoles.CrewmateRoles", TabGroup.OtherRoles)
             .SetColor(new Color32(140, 255, 255, byte.MaxValue));
         SetupRoleOptions(20600, TabGroup.OtherRoles, CustomRoles.SpeedBooster);
         SpeedBoosterUpSpeed = FloatOptionItem.Create(20610, "SpeedBoosterUpSpeed", new(0.1f, 1.0f, 0.1f), 0.2f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
@@ -793,7 +793,7 @@ public static class Options
         ShowNKRemainOnEject = BooleanOptionItem.Create(6090119, "ShowNKRemainOnEject", true, TabGroup.GameSettings, false).SetParent(ShowImpRemainOnEject);
 
         //禁用相关设定
-        TextOptionItem.Create(66_123_120, "MenuTitle.Disable",TabGroup.GameSettings)
+        TextOptionItem.Create(66_123_120, "MenuTitle.Disable", TabGroup.GameSettings)
             .SetColor(new Color32(255, 153, 153, byte.MaxValue));
 
         DisableVanillaRoles = BooleanOptionItem.Create(6090069, "DisableVanillaRoles", true, TabGroup.GameSettings, false)

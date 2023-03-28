@@ -17,7 +17,7 @@ public class TextOptionItem : OptionItem
     )
     {
         return new TextOptionItem(
-            id, name, 0 ,tab, isSingleValue
+            id, name, 0, tab, isSingleValue
         );
     }
 

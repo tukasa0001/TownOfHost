@@ -174,7 +174,7 @@ class OnPlayerLeftPatch
                     Logger.SendInGame(string.Format(GetString("PlayerLeftByBadNet"), data?.PlayerName, __instance?.Ping ?? AmongUsClient.Instance.Ping));
                 break;
         }
-        
+
         Logger.Info($"{data?.PlayerName}(ClientID:{data?.Id}/FriendCode:{data?.FriendCode})断开连接(理由:{reason}，Ping:{__instance?.Ping ?? AmongUsClient.Instance.Ping})", "Session");
 
         if (AmongUsClient.Instance.AmHost)

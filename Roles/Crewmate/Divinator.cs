@@ -55,7 +55,6 @@ public static class Divinator
             return;
         }
 
-
         string msg;
 
         if (player.AllTasksCompleted() || AccurateCheckMode.GetBool())

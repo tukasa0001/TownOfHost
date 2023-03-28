@@ -42,7 +42,7 @@ internal class CustomRoleSelector
             if (role is CustomRoles.GM or CustomRoles.NotAssigned) continue;
             for (int i = 0; i < role.GetCount(); i++)
                 roleList.Add(role);
-        } 
+        }
 
         // 职业设置为：优先
         foreach (var role in roleList) if (role.GetMode() == 2)
@@ -168,7 +168,7 @@ internal class CustomRoleSelector
                 }
             }
         }
-        
+
         var AllPlayer = Main.AllAlivePlayerControls.ToList();
 
         while (AllPlayer.Count() > 0 && rolesToAssign.Count > 0)
