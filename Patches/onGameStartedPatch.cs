@@ -123,9 +123,7 @@ namespace TownOfHost
             SerialKiller.Init();
             FireWorks.Init();
             TimeThief.Init();
-            Mare.Init();
             Witch.Init();
-            SabotageMaster.Init();
             Egoist.Init();
             Executioner.Init();
             Jackal.Init();

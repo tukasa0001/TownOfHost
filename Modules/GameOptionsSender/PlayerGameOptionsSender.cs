@@ -149,9 +149,6 @@ namespace TownOfHost.Modules
                         : 300f;
                     AURoleOptions.EngineerInVentMaxTime = 1;
                     break;
-                case CustomRoles.Mare:
-                    Mare.ApplyGameOptions(player.PlayerId);
-                    break;
                 case CustomRoles.EvilTracker:
                     EvilTracker.ApplyGameOptions(player.PlayerId);
                     break;

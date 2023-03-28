@@ -187,6 +187,26 @@ public abstract class RoleBase : IDisposable
     /// <returns>falseを返すとバニラ処理をキャンセルする</returns>
     public virtual bool OnCompleteTask() => true;
 
+    // == Sabotage関連処理 ==
+    /// <summary>
+    /// サボタージュを起すことが出来るか判定する。
+    /// ドア閉めには関与できない
+    /// </summary>
+    /// <param name="systemType">サボタージュの種類</param>
+    /// <returns>falseでサボタージュをキャンセル</returns>
+    public virtual bool CanSabotage(SystemTypes systemType) => true;
+
+    /// <summary>
+    /// 誰かがサボタージュが発生させたときに呼ばれる
+    /// amount&0x80!=0がサボタージュ開始タイミング
+    /// その他の値は修理情報など
+    /// </summary>
+    /// <param name="player">アクションを起こしたプレイヤー</param>
+    /// <param name="systemType">サボタージュの種類</param>
+    /// <param name="amount">現在の状態など</param>
+    /// <returns>falseで修理活動等のキャンセル</returns>
+    public virtual bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount) => true;
+
     // NameSystem
     // 名前は下記の構成で表示される
     // [Role][Progress]
