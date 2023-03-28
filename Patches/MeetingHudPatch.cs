@@ -417,25 +417,34 @@ static class ExtendedMeetingHud
             if (ps == null) continue;
             if (ps.VotedFor is not 252 and not byte.MaxValue and not 254)//该玩家面板里是否投了该玩家
             {
+                // 默认票数1票
                 int VoteNum = 1;
-                var target = Utils.GetPlayerById(ps.VotedFor);//玩家投的玩家
 
+                // 投票给有效玩家时才进行的判断
+                var target = Utils.GetPlayerById(ps.VotedFor);
                 if (target != null)
                 {
+                    // 僵尸、活死人无法被票
                     if (target.Is(CustomRoles.Zombie) || target.Is(CustomRoles.Glitch)) VoteNum = 0;
+                    // 记录破平者投票
                     if (CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.Brakar))
                         if (!Main.BrakarVoteFor.Contains(target.PlayerId))
                             Main.BrakarVoteFor.Add(target.PlayerId);
+                    // 集票者记录数据
                     Collector.CollectorVotes(target, ps);
                 }
+
+                //市长附加票数
                 if (CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.Mayor)
-                    && ps.TargetPlayerId != target.PlayerId
+                    && ps.TargetPlayerId != ps.VotedFor
                     ) VoteNum += Options.MayorAdditionalVote.GetInt();
+                //窃票者附加票数
                 if (CheckForEndVotingPatch.CheckRole(ps.TargetPlayerId, CustomRoles.TicketsStealer))
                     VoteNum += (int)(Main.AllPlayerControls.Where(x => (x.GetRealKiller() == null ? -1 : x.GetRealKiller().PlayerId) == ps.TargetPlayerId).Count() * Options.TicketsPerKill.GetFloat());
 
-                //主动叛变模式下自票无效
+                // 主动叛变模式下自票无效
                 if (ps.TargetPlayerId == ps.VotedFor && Options.MadmateSpawnMode.GetInt() == 2) VoteNum = 0;
+
                 //投票を1追加 キーが定義されていない場合は1で上書きして定義
                 dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out int num) ? VoteNum : num + VoteNum;//统计该玩家被投的数量
             }
