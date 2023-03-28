@@ -27,6 +27,7 @@ class OnGameJoinedPatch
         ChatUpdatePatch.DoBlockChat = false;
         GameStates.InGame = false;
         ErrorText.Instance.Clear();
+        EAC.DeNum = new();
         if (AmongUsClient.Instance.AmHost) //以下、ホストのみ実行
         {
             Main.newLobby = true;

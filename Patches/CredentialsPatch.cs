@@ -60,9 +60,7 @@ internal class VersionShowerStartPatch
 
         ErrorText.Create(__instance.text);
         if (Main.hasArgumentException && ErrorText.Instance != null)
-        {
             ErrorText.Instance.AddError(ErrorCode.Main_DictionaryError);
-        }
 
         if (SpecialEventText == null)
         {

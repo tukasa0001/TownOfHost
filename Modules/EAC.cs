@@ -15,12 +15,15 @@ internal class EAC
     public static void WarnHost(int denum = 1)
     {
         DeNum += denum;
-        ErrorText.Instance.CheatDetected = DeNum > 3;
-        ErrorText.Instance.SBDetected = DeNum > 10;
-        if (ErrorText.Instance.CheatDetected)
-            ErrorText.Instance.AddError(ErrorText.Instance.SBDetected ? ErrorCode.SBDetected : ErrorCode.CheatDetected);
-        else
-            ErrorText.Instance.Clear();
+        if (ErrorText.Instance != null)
+        {
+            ErrorText.Instance.CheatDetected = DeNum > 3;
+            ErrorText.Instance.SBDetected = DeNum > 10;
+            if (ErrorText.Instance.CheatDetected)
+                ErrorText.Instance.AddError(ErrorText.Instance.SBDetected ? ErrorCode.SBDetected : ErrorCode.CheatDetected);
+            else
+                ErrorText.Instance.Clear();
+        }
     }
     public static bool Receive(PlayerControl pc, byte callId, MessageReader reader)
     {
@@ -133,6 +136,7 @@ internal class EAC
             {
                 case 101:
                     var AUMChat = sr.ReadString();
+                    WarnHost();
                     Report(pc, "AUM");
                     Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法使用AUM发送消息", "EAC");
                     return true;
@@ -159,6 +163,7 @@ internal class EAC
                     string name = sr.ReadString();
                     if (GameStates.IsInGame)
                     {
+                        WarnHost();
                         Report(pc, "非法设置游戏名称");
                         Logger.Fatal($"非法修改玩家【{pc.GetClientId()}:{pc.GetRealName()}】的游戏名称，已驳回", "EAC");
                         return true;
@@ -176,6 +181,7 @@ internal class EAC
                 case 41:
                     if (GameStates.IsInGame)
                     {
+                        WarnHost();
                         Report(pc, "非法设置宠物");
                         Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法设置宠物，已驳回", "EAC");
                         return true;
@@ -184,6 +190,7 @@ internal class EAC
                 case 40:
                     if (GameStates.IsInGame)
                     {
+                        WarnHost();
                         Report(pc, "非法设置皮肤");
                         Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法设置皮肤，已驳回", "EAC");
                         return true;
@@ -192,6 +199,7 @@ internal class EAC
                 case 42:
                     if (GameStates.IsInGame)
                     {
+                        WarnHost();
                         Report(pc, "非法设置面部装扮");
                         Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法设置面部装扮，已驳回", "EAC");
                         return true;
@@ -200,6 +208,7 @@ internal class EAC
                 case 39:
                     if (GameStates.IsInGame)
                     {
+                        WarnHost();
                         Report(pc, "非法设置帽子");
                         Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法设置帽子，已驳回", "EAC");
                         return true;
@@ -209,6 +218,7 @@ internal class EAC
                     if (sr.BytesRemaining > 0 && sr.ReadBoolean()) return false;
                     if (GameStates.IsInGame)
                     {
+                        WarnHost();
                         Report(pc, "非法设置游戏名称");
                         Logger.Fatal($"玩家【{pc.GetClientId()}:{pc.GetRealName()}】非法设置名称，已驳回", "EAC");
                         return true;
@@ -221,6 +231,7 @@ internal class EAC
             Logger.Exception(e, "EAC");
             throw e;
         }
+        WarnHost(-1);
         return false;
     }
     public static void Report(PlayerControl pc, string reason)
