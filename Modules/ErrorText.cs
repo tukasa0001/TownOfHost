@@ -101,7 +101,7 @@ public class ErrorText : MonoBehaviour
             if (!HnSFlag)
                 text += $"{GetString($"ErrorLevel{maxLevel}")}";
             if (CheatDetected)
-                text = SBDetected ? "警告：EAC正在抵御炸房外挂，可能的话请发送日志给开发者" : "警告：可能存在作弊玩家，请尽快发送日志给开发者";
+                text = SBDetected ? GetString("EAC.CheatDetected.HighLevel") : GetString("EAC.CheatDetected.LowLevel");
             Text.enabled = true;
         }
         if (GameStates.IsInGame && maxLevel != 3 && !CheatDetected)

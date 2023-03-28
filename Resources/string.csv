@@ -1051,6 +1051,8 @@ Deadbody,尸体,Dead body,Труп
 
 ## 作弊
 Cheat.AUM,开挂（使用AUM）,Cheating usage detected (Using AUM),Обнаружено использование читов (используется AUM)
+EAC.CheatDetected.HighLevel,警告：EAC正在抵御炸房外挂
+EAC.CheatDetected.LowLevel,警告：EAC检测到可能存在作弊玩家
 
 ## 驱逐确认
 PlayerIsRole,{0} 是 {1},{0} was the role {1},{0} был ролью {1}
@@ -1085,9 +1087,7 @@ DivinatorCheck.Incomprehensible,【{0}】令人十分难以理解,Looks like 【
 DivinatorCheck.Enthusiasm,【{0}】热情似火地与人谈吐着,Looks like 【{0}】 speaks with everyone very enthusiastic.,"Похоже, 【{0}】 разговаривает со всеми довольно позитивно."
 DivinatorCheck.Disturbed,【{0}】有些令人感到异样且不详,Looks like 【{0}】 is disturbed by something.,"Похоже, 【{0}】 что-то беспокоит."
 DivinatorCheck.None,【{0}】或许会就这么平凡一辈子,"Looks like 【{0}】 has just an ordinary life.","Похоже, 【{0}】 имеет спокойную жизнь."
-
 DivinatorCheck.Glitch,TV2gPZ4wUJWYr{0}05gA6T5PKzBG17,TV2gPZ4wUJWYr{0}05gA6T5PKzBG17,TV2gPZ4wUJWYr{0}05gA6T5PKzBG17
-
 DivinatorCheck.TaskDone,【{0}】的职业是【{1}】,【{0}】Role -【{1}】,【{0}】Роль -【{1}】
 
 ## 模组信息
