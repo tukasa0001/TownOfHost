@@ -72,6 +72,7 @@ public class MainMenuManagerPatch
         var HorseButton = Object.Instantiate(bottomTemplate, bottomTemplate.transform.parent);
         var passiveHorseButton = HorseButton.GetComponent<PassiveButton>();
         var spriteHorseButton = HorseButton.GetComponent<SpriteRenderer>();
+        if (HorseModePatch.isHorseMode) spriteHorseButton.transform.localScale *= -1;
 
         spriteHorseButton.sprite = Utils.LoadSprite($"TOHE.Resources.HorseButton.png", 75f);
         passiveHorseButton.OnClick = new ButtonClickedEvent();
