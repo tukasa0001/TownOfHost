@@ -252,6 +252,7 @@ class GameEndChecker
     }
 
     public static void SetPredicateToNormal() => predicate = new NormalGameEndPredicate();
+    public static void SetPredicateToSoloKombat() => predicate = new SoloKombatGameEndPredicate();
 
     // ===== ゲーム終了条件 =====
     // 通常ゲーム用
@@ -320,6 +321,49 @@ class GameEndChecker
                 CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
             }
             else return false; //胜利条件未达成
+
+            return true;
+        }
+    }
+
+    // 个人竞技模式用
+    class SoloKombatGameEndPredicate : GameEndPredicate
+    {
+        public override bool CheckForEndGame(out GameOverReason reason)
+        {
+            reason = GameOverReason.ImpostorByKill;
+            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return false;
+
+            if (CheckGameEndByLivingPlayers(out reason)) return true;
+            if (CheckGameEndByTask(out reason)) return true;
+
+            return false;
+        }
+
+        public bool CheckGameEndByLivingPlayers(out GameOverReason reason)
+        {
+            reason = GameOverReason.ImpostorByKill;
+
+            int Imp = Utils.AlivePlayersCount(CountTypes.Impostor);
+            int Crew = Utils.AlivePlayersCount(CountTypes.Crew);
+
+
+            if (Imp == 0 && Crew == 0) //全滅
+            {
+                reason = GameOverReason.ImpostorByKill;
+                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.None);
+            }
+            else if (Crew <= 0) //インポスター勝利
+            {
+                reason = GameOverReason.ImpostorByKill;
+                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
+            }
+            else if (Imp == 0) //クルー勝利(インポスター切断など)
+            {
+                reason = GameOverReason.HumansByVote;
+                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
+            }
+            else return false; //勝利条件未達成
 
             return true;
         }

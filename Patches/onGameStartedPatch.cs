@@ -321,6 +321,18 @@ internal class SelectRolesPatch
                 Main.PlayerStates[pc.PlayerId].SetMainRole(role);
             }
 
+            // 个人竞技模式用
+            if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
+            {
+
+                foreach (var pair in Main.PlayerStates)
+                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value.MainRole);
+
+                GameEndChecker.SetPredicateToSoloKombat();
+
+                goto EndOfSelectRolePatch;
+            }
+
             var rd = IRandom.Instance;
 
             foreach (var kv in RoleResult)
@@ -515,6 +527,8 @@ internal class SelectRolesPatch
                     new PlayerGameOptionsSender(pc)
                 );
             }
+
+        EndOfSelectRolePatch:
 
             // ResetCamが必要なプレイヤーのリストにクラス化が済んでいない役職のプレイヤーを追加
             Main.ResetCamPlayerList.AddRange(Main.AllPlayerControls.Where(p => p.GetCustomRole() is CustomRoles.Arsonist).Select(p => p.PlayerId));

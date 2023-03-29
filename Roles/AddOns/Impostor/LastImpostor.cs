@@ -25,7 +25,8 @@ public static class LastImpostor
     {
         //ラストインポスターがすでにいれば処理不要
         if (currentId != byte.MaxValue) return;
-        if (!CustomRoles.LastImpostor.IsEnable() || Main.AliveImpostorCount != 1)
+        if (Options.CurrentGameMode == CustomGameMode.SoloKombat
+        || !CustomRoles.LastImpostor.IsEnable() || Main.AliveImpostorCount != 1)
             return;
         foreach (var pc in Main.AllAlivePlayerControls)
         {
