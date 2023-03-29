@@ -195,16 +195,52 @@ class CreatePlayerPatch
                 if (Main.OverrideWelcomeMsg != "") Utils.SendMessage(Main.OverrideWelcomeMsg, client.Character.PlayerId);
                 else TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
             }, 3f, "Welcome Message");
-            if (Options.AutoDisplayLastResult.GetBool() && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id) && Main.OverrideWelcomeMsg == "")
+            if (Main.OverrideWelcomeMsg == "" && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
             {
-                new LateTask(() =>
+                if (Options.AutoDisplayKillLog.GetBool() && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
                 {
-                    if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
+                    new LateTask(() =>
                     {
-                        Main.isChatCommand = true;
-                        Utils.ShowLastResult(client.Character.PlayerId);
-                    }
-                }, 3f, "DisplayLastRoles");
+                        if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
+                        {
+                            Main.isChatCommand = true;
+                            Utils.ShowKillLog(client.Character.PlayerId);
+                        }
+                    }, 3f, "DisplayKillLog");
+                }
+                if (Options.AutoDisplayLastRoles.GetBool())
+                {
+                    new LateTask(() =>
+                    {
+                        if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
+                        {
+                            Main.isChatCommand = true;
+                            Utils.ShowLastRoles(client.Character.PlayerId);
+                        }
+                    }, 3.1f, "DisplayLastRoles");
+                }
+                if (Options.AutoDisplayLastResult.GetBool())
+                {
+                    new LateTask(() =>
+                    {
+                        if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
+                        {
+                            Main.isChatCommand = true;
+                            Utils.ShowLastResult(client.Character.PlayerId);
+                        }
+                    }, 3.2f, "DisplayLastResult");
+                }
+                if (Utils.IsUP(PlayerControl.LocalPlayer) && Options.EnableUpMode.GetBool())
+                {
+                    new LateTask(() =>
+                    {
+                        if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
+                        {
+                            Main.isChatCommand = true;
+                            Utils.SendMessage($"提示：该房间启用了【创作者素材保护计划】，房主可以指定自己的职业。\n该功能仅允许创作者用于获取视频素材，如遇滥用情况，请退出游戏或举报。\n当前创作者认证：{Utils.GetUpName(PlayerControl.LocalPlayer)}", client.Character.PlayerId);
+                        }
+                    }, 3.3f, "DisplayUpWarnning");
+                }
             }
         }
     }

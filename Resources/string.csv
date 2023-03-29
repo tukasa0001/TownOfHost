@@ -468,7 +468,9 @@ ModeOptions,模组设置,Mode Options,Настройка Режима
 AutoStart,人满自动开始,Auto start at full lobby,Авто. запуск игры при полном лобби
 DisableTOHE,切换为原版,Disable TOHE,Отключить TOHE
 UnlockFPS,解锁帧数限制,Unlock FPS,Убрать ограничение FPS
-AutoDisplayLastResult,自动显示最终结果,Auto Display Last Result,Отображать результат последней игры в чате
+AutoDisplayKillLog,结束后自动显示击杀记录
+AutoDisplayLastRoles,结束后自动显示上局职业
+AutoDisplayLastResult,结束后自动显示最终结果,Auto Display Last Result,Отображать результат последней игры в чате
 EnableUpMode,启用创作者保护计划（试验性）,启用创作者保护计划（试验性）,启用创作者保护计划（试验性）
 AutoKickStart,踢出催开始的人,Kick the player who writes start,Кикнуть игрока который пишет start (Только англ)
 AutoKickStartTimes,踢出前警告次数,Number of warnings before kick,Количество предупреждений до кика
@@ -1038,7 +1040,9 @@ Disabled,禁用,Disabled,Отключено
 FailToTrack,无法追踪,Failed To Track,Не Удалось Отследить
 Mad-,背叛的,Mad ,Безумный 
 KilledBy, ← , ← , ← 
-CantUse.lastresult,不可以在游戏中使用/l命令,Unable to use /lastresult during a game,Нельзя использовать /lastresult во время игры
+CantUse.lastroles,不可以在游戏中查看上局职业,Unable to use /lastresult during a game,Нельзя использовать /lastresult во время игры
+CantUse.killlog,不可以在游戏中查看击杀记录
+CantUse.lastresult,不可以在游戏中查看游戏结果
 IllegalColor,请输入正确的颜色,Please enter the correct color,Пожалуйста введите правильный цвет
 DisableUseCommand,房主设置不允许使用该指令,Host settings do not allow this command to be used.,Настройки Хоста запрещают использовать эту команду
 SureUse.quit,我们将踢出您并封禁您以防止您再次遇到这个糟糕的房间，此操作不可逆转，如果您真的希望如此请发送 /qt {0},"We will kick you and block you from entering this lobby again. This setting is irreversible. If you really want it, please send the command /qt {0}","Мы кикнем  вас и заблокируем, чтобы вы больше не смогли зайти в это лобби. Эта настройка необратима. Если вы действительно этого хотите, пожалуйста, отправьте команду /qt {0}"
@@ -1053,7 +1057,7 @@ SyncCustomSettingsRPC,已同步RPC,Synchronized RPC,Синхронизирова
 TOHEVisitorCount,截至今日，TOHE已经被使用 <color={0}>{1}</color>次 啦~,To date TOHE has been used <color={0}>{1}</color> times~,На сегодняшний день TOHE использовался <color={0}>{1}</color> раз~
 Mode,模式,Mode,Режим
 Target,目标,Target,Цель
-PlayerInfo,玩家信息,Player Info,Информация о игроке
+PlayerInfo,上局所有玩家信息,Player Info,Информация о игроке
 NoInfoExists,没有存在的上局信息,No Info Exists,Нет информации
 MessengerMurderOccurred,发生命案警告,Occurred Kill,Произошло убийство
 Deadbody,尸体,Dead body,Труп

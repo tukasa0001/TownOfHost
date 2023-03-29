@@ -623,40 +623,50 @@ public static class Utils
             if (opt.Value.GetBool()) ShowChildrenSettings(opt.Value, ref sb, deep + 1);
         }
     }
-    public static void ShowLastResult(byte PlayerId = byte.MaxValue)
+    public static void ShowLastRoles(byte PlayerId = byte.MaxValue)
     {
         if (AmongUsClient.Instance.IsGameStarted)
         {
-            SendMessage(GetString("CantUse.lastresult"), PlayerId);
+            SendMessage(GetString("CantUse.lastroles"), PlayerId);
             return;
         }
-        var text = $"{GetString("PlayerInfo")}:";
+        var sb = new StringBuilder();
+
+        sb.Append(GetString("PlayerInfo")).Append(":");
         List<byte> cloneRoles = new(Main.PlayerStates.Keys);
         foreach (var id in Main.winnerList)
         {
             if (EndGamePatch.SummaryText[id].Contains("<INVALID:NotAssigned>")) continue;
-            text += $"\n★ " + EndGamePatch.SummaryText[id].RemoveHtmlTags();
+            sb.Append($"\n★ ").Append(EndGamePatch.SummaryText[id].RemoveHtmlTags());
             cloneRoles.Remove(id);
         }
         foreach (var id in cloneRoles)
         {
             if (EndGamePatch.SummaryText[id].Contains("<INVALID:NotAssigned>")) continue;
-            text += $"\n　 " + EndGamePatch.SummaryText[id].RemoveHtmlTags();
+            sb.Append($"\n　 ").Append(EndGamePatch.SummaryText[id].RemoveHtmlTags());
         }
-        if (text == $"{GetString("PlayerInfo")}:") text = "";
-
-        string sumText = "";
-        if (SetEverythingUpPatch.LastWinsText != "") sumText += GetString("LastResult") + ": " + $"{SetEverythingUpPatch.LastWinsText}";
-        if (SetEverythingUpPatch.LastWinsReason != "") sumText += "\n" + GetString("LastEndReason") + ": " + $"{SetEverythingUpPatch.LastWinsReason}";
-
-        if (text != "") SendMessage(text, PlayerId);
-        if (EndGamePatch.KillLog != "") SendMessage(EndGamePatch.KillLog, PlayerId);
-        if (sumText != "") SendMessage(sumText, PlayerId);
-
-        if (text == "" && EndGamePatch.KillLog == "" && sumText == "") SendMessage(GetString("NoInfoExists"), PlayerId);
-
-        if (IsUP(PlayerControl.LocalPlayer) && Options.EnableUpMode.GetBool()) SendMessage($"提示：该房间启用了【创作者素材保护计划】，房主可以指定自己的职业。\n该功能仅允许创作者用于获取视频素材，如遇滥用情况，请退出游戏或举报。\n当前创作者认证：{GetUpName(PlayerControl.LocalPlayer)}", PlayerId);
-
+        SendMessage(sb.ToString(), PlayerId);
+    }
+    public static void ShowKillLog(byte PlayerId = byte.MaxValue)
+    {
+        if (GameStates.IsInGame)
+        {
+            SendMessage(GetString("CantUse.killlog"), PlayerId);
+            return;
+        }
+        if(EndGamePatch.KillLog != "") SendMessage(EndGamePatch.KillLog, PlayerId);
+    }
+    public static void ShowLastResult(byte PlayerId = byte.MaxValue)
+    {
+        if (GameStates.IsInGame)
+        {
+            SendMessage(GetString("CantUse.lastresult"), PlayerId);
+            return;
+        }
+        var sb = new StringBuilder();
+        if (SetEverythingUpPatch.LastWinsText != "") sb.Append($"{GetString("LastResult")}: {SetEverythingUpPatch.LastWinsText}");
+        if (SetEverythingUpPatch.LastWinsReason != "") sb.Append($"\n{GetString("LastEndReason")}: {SetEverythingUpPatch.LastWinsReason}");
+        if (sb.Length > 0) SendMessage(sb.ToString(), PlayerId);
     }
     public static string GetSubRolesText(byte id, bool disableColor = false, bool intro = false, bool summary = false)
     {
