@@ -822,7 +822,7 @@ public static class Utils
             {
                 name = $"<color=#ffd6ec>TOHE</color><color=#baf7ca>★</color>" + name;
                 if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
-                    name = $"<color=#f55252>{GetString("SoloKombat")}</color>\r\n" + name;
+                    name = $"<color=#f55252>{GetString("NamePrefix.SoloKombat")}</color>\r\n" + name;
             }
             name = Options.GetSuffixMode() switch
             {
@@ -1173,7 +1173,7 @@ public static class Utils
             {
                 name = $"<color=#ffd6ec>TOHE</color><color=#baf7ca>★</color>" + name;
                 if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
-                    name = $"<color=#f55252>{GetString("SoloKombat")}</color>\r\n" + name;
+                    name = $"<color=#f55252>{GetString("NamePrefix.SoloKombat")}</color>\r\n" + name;
             }
             name = player.FriendCode switch
             {
