@@ -128,18 +128,18 @@ public static class Executioner
         var GetValue = Target.TryGetValue(seer.PlayerId, out var targetId);
         return GetValue && targetId == target.PlayerId ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Executioner), "♦") : "";
     }
-    public static void CheckExileTarget(GameData.PlayerInfo exiled, bool DecidedWinner)
+    public static bool CheckExileTarget(GameData.PlayerInfo exiled, bool DecidedWinner)
     {
         foreach (var kvp in Target)
         {
             var executioner = Utils.GetPlayerById(kvp.Key);
-            if (executioner == null) continue;
-            if (executioner.Data.IsDead || executioner.Data.Disconnected) continue; //Keyが死んでいたらor切断していたらこのforeach内の処理を全部スキップ
-            if (kvp.Value == exiled.PlayerId && AmongUsClient.Instance.AmHost && !DecidedWinner)
+            if (executioner == null || !executioner.IsAlive()) continue;
+            if (kvp.Value == exiled.PlayerId && !DecidedWinner)
             {
                 SendRPC(kvp.Key, Progress: "WinCheck");
-                break; //脱ループ
+                return true;
             }
         }
+        return false;
     }
 }

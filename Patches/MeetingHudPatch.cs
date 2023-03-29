@@ -339,10 +339,10 @@ class CheckForEndVotingPatch
         if (Options.ShowImpRemainOnEject.GetBool() && !DecidedWinner)
         {
             name += "\n";
-            string comma = neutralnum != 0 ? "，" : "";
+            string comma = neutralnum > 0 ? "，" : "";
             if (impnum == 0) name += GetString("NoImpRemain") + comma;
             else name += string.Format(GetString("ImpRemain"), impnum) + comma;
-            if (Options.ShowNKRemainOnEject.GetBool() && neutralnum != 0)
+            if (Options.ShowNKRemainOnEject.GetBool() && neutralnum > 0)
                 name += string.Format(GetString("NeutralRemain"), neutralnum);
         }
         name += "<size=0>";
