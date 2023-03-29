@@ -42,7 +42,7 @@ class RepairSystemPatch
         if (Options.DisableSabotage.GetBool()) return false;
 
         // 蠢蛋无法修复破坏
-        if (player.Is(CustomRoles.Fool)) return false;
+        if (player.Is(CustomRoles.Fool) && systemType is SystemTypes.Sabotage or SystemTypes.Comms or SystemTypes.Electrical or SystemTypes.Reactor) return false;
 
         Logger.Msg("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount, "RepairSystem");
         if (RepairSender.enabled && AmongUsClient.Instance.NetworkMode != NetworkModes.OnlineGame)
