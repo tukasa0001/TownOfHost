@@ -183,8 +183,7 @@ public class GameOptionsMenuUpdatePatch
                     !option.IsHiddenOn(Options.CurrentGameMode);
 
                 var opt = option.OptionBehaviour.transform.Find("Background").GetComponent<SpriteRenderer>();
-                if (option.IsText) opt.enabled = false;
-                else opt.size = new(5.0f, 0.45f);
+                opt.size = new(5.0f, 0.45f);
                 while (parent != null && enabled)
                 {
                     enabled = parent.GetBool();
@@ -211,8 +210,13 @@ public class GameOptionsMenuUpdatePatch
                         }
                     }
                 }
+                if (option.IsText)
+                {
+                    opt.color = new(0, 0, 0);
+                    opt.transform.localPosition = new(100f, 100f, 100f);
+                }
 
-                if (!option.IsText) option.OptionBehaviour.gameObject.SetActive(enabled);
+                option.OptionBehaviour.gameObject.SetActive(enabled);
                 if (enabled)
                 {
                     offset -= option.IsHeader ? 0.7f : 0.5f;

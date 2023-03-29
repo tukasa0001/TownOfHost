@@ -819,35 +819,25 @@ public static class Utils
         {
             if (!GameStates.IsLobby) return;
             if (AmongUsClient.Instance.IsGamePublic)
-                name = $"<color=#ffd6ec>TOHE</color><color=#baf7ca>★</color>" + name;
-            switch (Options.GetSuffixMode())
             {
-                case SuffixModes.None:
-                    break;
-                case SuffixModes.TOHE:
-                    name += $"\r\n<color={Main.ModColor}>TOHE v{Main.PluginVersion}</color>";
-                    break;
-                case SuffixModes.Streaming:
-                    name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Streaming")}</color>";
-                    break;
-                case SuffixModes.Recording:
-                    name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Recording")}</color>";
-                    break;
-                case SuffixModes.RoomHost:
-                    name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.RoomHost")}</color>";
-                    break;
-                case SuffixModes.OriginalName:
-                    name += $"\r\n<color={Main.ModColor}>{DataManager.player.Customization.Name}</color>";
-                    break;
-                case SuffixModes.DoNotKillMe:
-                    name += $"\r\n<color={Main.ModColor}>{GetString("SuffixModeText.DoNotKillMe")}</color>";
-                    break;
-                case SuffixModes.NoAndroidPlz:
-                    name += $"\r\n<color={Main.ModColor}>{GetString("SuffixModeText.NoAndroidPlz")}</color>";
-                    break;
+                name = $"<color=#ffd6ec>TOHE</color><color=#baf7ca>★</color>" + name;
+                if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
+                    name = $"<color=#f55252>{GetString("SoloKombat")}</color>\r\n" + name;
             }
+            name = Options.GetSuffixMode() switch
+            {
+                SuffixModes.TOHE => name += $"\r\n<color={Main.ModColor}>TOHE v{Main.PluginVersion}</color>",
+                SuffixModes.Streaming => name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Streaming")}</color>",
+                SuffixModes.Recording => name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Recording")}</color>",
+                SuffixModes.RoomHost => name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.RoomHost")}</color>",
+                SuffixModes.OriginalName => name += $"\r\n<color={Main.ModColor}>{DataManager.player.Customization.Name}</color>",
+                SuffixModes.DoNotKillMe => name += $"\r\n<color={Main.ModColor}>{GetString("SuffixModeText.DoNotKillMe")}</color>",
+                SuffixModes.NoAndroidPlz => name += $"\r\n<color={Main.ModColor}>{GetString("SuffixModeText.NoAndroidPlz")}</color>",
+                _ => name
+            };
         }
-        if (name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
+        if (name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default)
+            PlayerControl.LocalPlayer.RpcSetName(name);
     }
     public static PlayerControl GetPlayerById(int PlayerId)
     {
@@ -1179,57 +1169,32 @@ public static class Utils
         else
         {
             if (!GameStates.IsLobby) return;
-            if (player.PlayerId == PlayerControl.LocalPlayer.PlayerId && AmongUsClient.Instance.IsGamePublic)
-                name = $"<color=#ffd6ec>TOHE</color><color=#baf7ca>★</color>" + name;
-            switch (player.FriendCode)
+            if (AmongUsClient.Instance.IsGamePublic)
             {
-                case "actorour#0029":
-                    name = $"<color={Main.ModColor}><size=1.7>开发者</size></color>\r\n" + name;
-                    break;
-                case "keepchirpy#6354":
-                    name = $"<color=#E42217><size=1.7>{GetString("Developer")}</size></color>\r\n" + name;
-                    break;
-                case "pinklaze#1776":
-                    name = $"<color=#30548e><size=1.7>开发者</size></color>\r\n" + name;
-                    break;
-                case "bannerfond#3960":
-                    name = $"<color={Main.ModColor}><size=1.7>贡献者</size></color>\r\n" + name;
-                    break;
-                case "recentduct#6068":
-                    name = $"<color=#FF00FF><size=1.7>高冷男模法师</size></color>\r\n" + name;
-                    break;
-                case "heavyclod#2286":
-                    name = $"<color=#FFFF00><size=1.7>小叨.exe已停止运行</size></color>\r\n" + name;
-                    break;
-                case "canneddrum#2370":
-                    name = $"<color=#fffcbe><size=1.7>我是喜唉awa</size></color>\r\n" + name;
-                    break;
-                case "dovefitted#5329":
-                    name = $"<color=#1379bf><size=1.7>不要首刀我</size></color>\r\n" + name;
-                    break;
-                case "teamelder#5856":
-                    name = $"<color=#1379bf><size=1.7>正义之师（无信誉）</size></color>\r\n" + name;
-                    break;
-                case "luckylogo#7352":
-                    name = $"<color=#f30000><size=1.7>林@林</size></color>\r\n" + name;
-                    break;
-                case "axefitful#8788":
-                    name = $"<color=#8e8171><size=1.7>寄才是真理</size></color>\r\n" + name;
-                    break;
-                case "storeroan#0331":
-                    name = $"<color=#FF0066><size=1.7>Night_瓜</size></color>\r\n" + name;
-                    break;
-                case "twainrobin#8089":
-                    name = $"<color=#0000FF><size=1.7>啊哈修maker</size></color>\r\n" + name;
-                    break;
+                name = $"<color=#ffd6ec>TOHE</color><color=#baf7ca>★</color>" + name;
+                if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
+                    name = $"<color=#f55252>{GetString("SoloKombat")}</color>\r\n" + name;
             }
+            name = player.FriendCode switch
+            {
+                "actorour#0029" => $"<color={Main.ModColor}><size=1.7>{GetString("Developer")}</size></color>\r\n" + name,
+                "keepchirpy#6354" => $"<color=#E42217><size=1.7>{GetString("Developer")}</size></color>\r\n" + name,
+                "pinklaze#1776" => $"<color=#30548e><size=1.7>{GetString("Developer")}</size></color>\r\n" + name,
+
+                "recentduct#6068" => $"<color=#FF00FF><size=1.7>高冷男模法师</size></color>\r\n" + name,
+                "heavyclod#2286" => $"<color=#FFFF00><size=1.7>小叨.exe已停止运行</size></color>\r\n" + name,
+                "canneddrum#2370" => $"<color=#fffcbe><size=1.7>我是喜唉awa</size></color>\r\n" + name,
+                "dovefitted#5329" => $"<color=#1379bf><size=1.7>不要首刀我</size></color>\r\n" + name,
+                "teamelder#5856" => $"<color=#1379bf><size=1.7>正义之师（无信誉）</size></color>\r\n" + name,
+                "luckylogo#7352" => $"<color=#f30000><size=1.7>林@林</size></color>\r\n" + name,
+                "axefitful#8788" => $"<color=#8e8171><size=1.7>寄才是真理</size></color>\r\n" + name,
+                "storeroan#0331" => $"<color=#FF0066><size=1.7>Night_瓜</size></color>\r\n" + name,
+                "twainrobin#8089" => $"<color=#0000FF><size=1.7>啊哈修maker</size></color>\r\n" + name,
+                _ => name,
+            };
         }
-        if (name.CompareTo(player.name) == 0) return;
-        if (name != player.name && player.CurrentOutfitType == PlayerOutfitType.Default)
-        {
-            Logger.Info("设置玩家名字后缀", "ApplyDevSuffix");
-            player.RpcSetName(name);
-        }
+        if (name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default)
+            PlayerControl.LocalPlayer.RpcSetName(name);
     }
     public static bool IsDev(PlayerControl pc)
     {
@@ -1245,6 +1210,7 @@ public static class Utils
             "teamelder#5856" or //Slok
             "luckylogo#7352" or //林林林
             "axefitful#8788" or //罗寄
+            "raltzonal#8893" or
             "storeroan#0331" or //西瓜
             "twainrobin#8089"; //辣鸡
     }

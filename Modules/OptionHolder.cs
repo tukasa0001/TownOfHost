@@ -17,6 +17,7 @@ namespace TOHE;
 public enum CustomGameMode
 {
     Standard = 0x01,
+    SoloKombat = 0x02,
     All = int.MaxValue
 }
 
@@ -49,11 +50,15 @@ public static class Options
     // ゲームモード
     public static OptionItem GameMode;
     public static CustomGameMode CurrentGameMode
-        => CustomGameMode.Standard;
+        => GameMode.GetInt() switch
+        {
+            1 => CustomGameMode.SoloKombat,
+            _ => CustomGameMode.Standard
+        };
 
     public static readonly string[] gameModes =
     {
-        "Standard"
+        "Standard", "SoloKombat"
     };
 
     // MapActive
@@ -433,7 +438,7 @@ public static class Options
 
         // 游戏模式
         GameMode = StringOptionItem.Create(1, "GameMode", gameModes, 0, TabGroup.GameSettings, false)
-            .SetHidden(true)
+            .SetHidden(!DebugModeManager.AmDebugger)
             .SetHeader(true);
 
         #region 职业详细设置
@@ -443,28 +448,35 @@ public static class Options
 
         // 各职业的总体设定
         ImpKnowAlliesRole = BooleanOptionItem.Create(900045, "ImpKnowAlliesRole", true, TabGroup.ImpostorRoles, false)
+            .SetGameMode(CustomGameMode.Standard)
            .SetHeader(true);
         DefaultShapeshiftCooldown = FloatOptionItem.Create(5011, "DefaultShapeshiftCooldown", new(5f, 999f, 5f), 15f, TabGroup.ImpostorRoles, false)
+            .SetGameMode(CustomGameMode.Standard)
             .SetValueFormat(OptionFormat.Seconds);
 
         NeutralRolesMinPlayer = IntegerOptionItem.Create(505007, "NeutralRolesMinPlayer", new(0, 15, 1), 0, TabGroup.NeutralRoles, false)
+            .SetGameMode(CustomGameMode.Standard)
             .SetHeader(true)
             .SetValueFormat(OptionFormat.Players);
         NeutralRolesMaxPlayer = IntegerOptionItem.Create(505009, "NeutralRolesMaxPlayer", new(0, 15, 1), 0, TabGroup.NeutralRoles, false)
+            .SetGameMode(CustomGameMode.Standard)
             .SetValueFormat(OptionFormat.Players);
         NeutralRoleWinTogether = BooleanOptionItem.Create(505011, "NeutralRoleWinTogether", false, TabGroup.NeutralRoles, false)
+            .SetGameMode(CustomGameMode.Standard)
            .SetHeader(true);
-        NeutralWinTogether = BooleanOptionItem.Create(505013, "NeutralWinTogether", false, TabGroup.NeutralRoles, false).SetParent(NeutralRoleWinTogether);
+        NeutralWinTogether = BooleanOptionItem.Create(505013, "NeutralWinTogether", false, TabGroup.NeutralRoles, false).SetParent(NeutralRoleWinTogether)
+            .SetGameMode(CustomGameMode.Standard);
 
         NameDisplayAddons = BooleanOptionItem.Create(6050248, "NameDisplayAddons", true, TabGroup.Addons, false)
+            .SetGameMode(CustomGameMode.Standard)
             .SetHeader(true);
-        NoLimitAddonsNum = BooleanOptionItem.Create(6050250, "NoLimitAddonsNum", false, TabGroup.Addons, false);
+        NoLimitAddonsNum = BooleanOptionItem.Create(6050250, "NoLimitAddonsNum", false, TabGroup.Addons, false)
+            .SetGameMode(CustomGameMode.Standard);
 
         // GM
         EnableGM = BooleanOptionItem.Create(100, "GM", false, TabGroup.GameSettings, false)
             .SetColor(Utils.GetRoleColor(CustomRoles.GM))
-            .SetHeader(true)
-            .SetGameMode(CustomGameMode.Standard);
+            .SetHeader(true);
 
         // Impostor
         SetupRoleOptions(901065, TabGroup.ImpostorRoles, CustomRoles.EvilGuesser);
@@ -790,40 +802,57 @@ public static class Options
 
         //驱逐相关设定
         TextOptionItem.Create(66_123_126, "MenuTitle.Ejections", TabGroup.GameSettings)
+            .SetGameMode(CustomGameMode.Standard)
             .SetColor(new Color32(255, 238, 232, byte.MaxValue));
 
         CEMode = StringOptionItem.Create(6091223, "ConfirmEjectionsMode", ConfirmEjectionsMode, 2, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.Standard)
             .SetHeader(true)
             .SetColor(new Color32(255, 238, 232, byte.MaxValue));
         ShowImpRemainOnEject = BooleanOptionItem.Create(6090115, "ShowImpRemainOnEject", true, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.Standard)
             .SetColor(new Color32(255, 238, 232, byte.MaxValue));
-        ShowNKRemainOnEject = BooleanOptionItem.Create(6090119, "ShowNKRemainOnEject", true, TabGroup.GameSettings, false).SetParent(ShowImpRemainOnEject);
+        ShowNKRemainOnEject = BooleanOptionItem.Create(6090119, "ShowNKRemainOnEject", true, TabGroup.GameSettings, false).SetParent(ShowImpRemainOnEject)
+            .SetGameMode(CustomGameMode.Standard);
 
         //禁用相关设定
         TextOptionItem.Create(66_123_120, "MenuTitle.Disable", TabGroup.GameSettings)
+            .SetGameMode(CustomGameMode.Standard)
             .SetColor(new Color32(255, 153, 153, byte.MaxValue));
 
         DisableVanillaRoles = BooleanOptionItem.Create(6090069, "DisableVanillaRoles", true, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.Standard)
             .SetHeader(true)
             .SetColor(new Color32(255, 153, 153, byte.MaxValue));
         DisableTaskWin = BooleanOptionItem.Create(66_900_001, "DisableTaskWin", false, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.Standard)
             .SetColor(new Color32(255, 153, 153, byte.MaxValue));
 
         // 禁用任务
         DisableTasks = BooleanOptionItem.Create(100300, "DisableTasks", false, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.Standard)
             .SetColor(new Color32(255, 153, 153, byte.MaxValue));
-        DisableSwipeCard = BooleanOptionItem.Create(100301, "DisableSwipeCardTask", false, TabGroup.GameSettings, false).SetParent(DisableTasks);
-        DisableSubmitScan = BooleanOptionItem.Create(100302, "DisableSubmitScanTask", false, TabGroup.GameSettings, false).SetParent(DisableTasks);
-        DisableUnlockSafe = BooleanOptionItem.Create(100303, "DisableUnlockSafeTask", false, TabGroup.GameSettings, false).SetParent(DisableTasks);
-        DisableUploadData = BooleanOptionItem.Create(100304, "DisableUploadDataTask", false, TabGroup.GameSettings, false).SetParent(DisableTasks);
-        DisableStartReactor = BooleanOptionItem.Create(100305, "DisableStartReactorTask", false, TabGroup.GameSettings, false).SetParent(DisableTasks);
-        DisableResetBreaker = BooleanOptionItem.Create(100306, "DisableResetBreakerTask", false, TabGroup.GameSettings, false).SetParent(DisableTasks);
+        DisableSwipeCard = BooleanOptionItem.Create(100301, "DisableSwipeCardTask", false, TabGroup.GameSettings, false).SetParent(DisableTasks)
+            .SetGameMode(CustomGameMode.Standard);
+        DisableSubmitScan = BooleanOptionItem.Create(100302, "DisableSubmitScanTask", false, TabGroup.GameSettings, false).SetParent(DisableTasks)
+            .SetGameMode(CustomGameMode.Standard);
+        DisableUnlockSafe = BooleanOptionItem.Create(100303, "DisableUnlockSafeTask", false, TabGroup.GameSettings, false).SetParent(DisableTasks)
+            .SetGameMode(CustomGameMode.Standard);
+        DisableUploadData = BooleanOptionItem.Create(100304, "DisableUploadDataTask", false, TabGroup.GameSettings, false).SetParent(DisableTasks)
+            .SetGameMode(CustomGameMode.Standard);
+        DisableStartReactor = BooleanOptionItem.Create(100305, "DisableStartReactorTask", false, TabGroup.GameSettings, false).SetParent(DisableTasks)
+            .SetGameMode(CustomGameMode.Standard);
+        DisableResetBreaker = BooleanOptionItem.Create(100306, "DisableResetBreakerTask", false, TabGroup.GameSettings, false).SetParent(DisableTasks)
+            .SetGameMode(CustomGameMode.Standard);
 
         DisableMeeting = BooleanOptionItem.Create(66_900_002, "DisableMeeting", false, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.Standard)
             .SetColor(new Color32(255, 153, 153, byte.MaxValue));
         DisableCloseDoor = BooleanOptionItem.Create(66_900_003, "DisableCloseDoor", false, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.Standard)
             .SetColor(new Color32(255, 153, 153, byte.MaxValue));
         DisableSabotage = BooleanOptionItem.Create(66_900_004, "DisableSabotage", false, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.Standard)
             .SetColor(new Color32(255, 153, 153, byte.MaxValue));
 
         //禁用设备
@@ -873,6 +902,7 @@ public static class Options
 
         //会议相关设定
         TextOptionItem.Create(66_123_122, "MenuTitle.Meeting", TabGroup.GameSettings)
+            .SetGameMode(CustomGameMode.Standard)
             .SetColor(new Color32(147, 241, 240, byte.MaxValue));
 
         // 会议限制次数
@@ -886,16 +916,20 @@ public static class Options
 
         // 全员存活时的会议时间
         AllAliveMeeting = BooleanOptionItem.Create(100900, "AllAliveMeeting", false, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.Standard)
             .SetColor(new Color32(147, 241, 240, byte.MaxValue));
         AllAliveMeetingTime = FloatOptionItem.Create(100901, "AllAliveMeetingTime", new(1f, 300f, 1f), 10f, TabGroup.GameSettings, false).SetParent(AllAliveMeeting)
             .SetValueFormat(OptionFormat.Seconds);
 
         // 附加紧急会议
         AdditionalEmergencyCooldown = BooleanOptionItem.Create(101400, "AdditionalEmergencyCooldown", false, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.Standard)
             .SetColor(new Color32(147, 241, 240, byte.MaxValue));
         AdditionalEmergencyCooldownThreshold = IntegerOptionItem.Create(101401, "AdditionalEmergencyCooldownThreshold", new(1, 15, 1), 1, TabGroup.GameSettings, false).SetParent(AdditionalEmergencyCooldown)
+            .SetGameMode(CustomGameMode.Standard)
             .SetValueFormat(OptionFormat.Players);
         AdditionalEmergencyCooldownTime = FloatOptionItem.Create(101402, "AdditionalEmergencyCooldownTime", new(1f, 60f, 1f), 1f, TabGroup.GameSettings, false).SetParent(AdditionalEmergencyCooldown)
+            .SetGameMode(CustomGameMode.Standard)
             .SetValueFormat(OptionFormat.Seconds);
 
         // 投票相关设定
@@ -917,13 +951,16 @@ public static class Options
 
         // 破坏相关设定
         TextOptionItem.Create(66_123_121, "MenuTitle.Sabotage", TabGroup.GameSettings)
+            .SetGameMode(CustomGameMode.Standard)
             .SetColor(new Color32(241, 212, 227, byte.MaxValue));
 
         // 通讯破坏小黑人
         CommsCamouflage = BooleanOptionItem.Create(900_013, "CommsCamouflage", false, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.Standard)
             .SetHeader(true)
             .SetColor(new Color32(241, 212, 227, byte.MaxValue));
-        DisableReportWhenCC = BooleanOptionItem.Create(900_015, "DisableReportWhenCC", false, TabGroup.GameSettings, false).SetParent(CommsCamouflage);
+        DisableReportWhenCC = BooleanOptionItem.Create(900_015, "DisableReportWhenCC", false, TabGroup.GameSettings, false).SetParent(CommsCamouflage)
+            .SetGameMode(CustomGameMode.Standard);
 
         // 破坏时间设定
         SabotageTimeControl = BooleanOptionItem.Create(100800, "SabotageTimeControl", false, TabGroup.GameSettings, false)
@@ -953,6 +990,7 @@ public static class Options
 
         //其它设定
         TextOptionItem.Create(66_123_123, "MenuTitle.Other", TabGroup.GameSettings)
+            .SetGameMode(CustomGameMode.Standard)
             .SetColor(new Color32(193, 255, 209, byte.MaxValue));
 
         // 随机地图模式
@@ -987,17 +1025,22 @@ public static class Options
 
         //幽灵相关设定
         TextOptionItem.Create(66_123_124, "MenuTitle.Ghost", TabGroup.GameSettings)
+            .SetGameMode(CustomGameMode.Standard)
             .SetColor(new Color32(217, 218, 255, byte.MaxValue));
 
         // 幽灵设置
         GhostIgnoreTasks = BooleanOptionItem.Create(900_012, "GhostIgnoreTasks", false, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.Standard)
             .SetHeader(true)
             .SetColor(new Color32(217, 218, 255, byte.MaxValue));
         GhostCanSeeOtherRoles = BooleanOptionItem.Create(900_010, "GhostCanSeeOtherRoles", true, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.Standard)
             .SetColor(new Color32(217, 218, 255, byte.MaxValue));
         GhostCanSeeOtherVotes = BooleanOptionItem.Create(900_011, "GhostCanSeeOtherVotes", true, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.Standard)
              .SetColor(new Color32(217, 218, 255, byte.MaxValue));
         GhostCanSeeDeathReason = BooleanOptionItem.Create(900_014, "GhostCanSeeDeathReason", true, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.Standard)
            .SetColor(new Color32(217, 218, 255, byte.MaxValue));
 
         #endregion 

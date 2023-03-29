@@ -243,10 +243,12 @@ class CheckMurderPatch
                     DarkHide.OnCheckMurder(killer, target);
                     break;
                 case CustomRoles.Provocateur:
-                    target.RpcMurderPlayerV3(killer);
+                    killer.RpcMurderPlayerV3(target);
+                    killer.RpcMurderPlayerV3(killer);
+                    killer.SetRealKiller(target);
                     Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.PissedOff;
                     Main.Provoked.TryAdd(killer.PlayerId, target.PlayerId);
-                    break;
+                    return false;
 
                 //==========船员职业==========//
                 case CustomRoles.Sheriff:
