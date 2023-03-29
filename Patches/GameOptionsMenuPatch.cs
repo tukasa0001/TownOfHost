@@ -316,7 +316,7 @@ public static class SetRecommendationsPatch
     public static bool Prefix(NormalGameOptionsV07 __instance, int numPlayers, bool isOnline)
     {
         numPlayers = Mathf.Clamp(numPlayers, 4, 15);
-        __instance.PlayerSpeedMod = __instance.MapId == 4 ? 1.25f : 1f; //AirShipなら1.25、それ以外は1
+        __instance.PlayerSpeedMod = __instance.MapId == 4 ? 1.5f : 1.25f;
         __instance.CrewLightMod = 1.0f;
         __instance.ImpostorLightMod = 1.75f;
         __instance.KillCooldown = 27.5f;

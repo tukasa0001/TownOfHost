@@ -69,6 +69,24 @@ public class MainMenuManagerPatch
         var bottomTemplate = GameObject.Find("InventoryButton");
         if (bottomTemplate == null) return;
 
+        var HorseButton = Object.Instantiate(bottomTemplate, bottomTemplate.transform.parent);
+        var passiveHorseButton = HorseButton.GetComponent<PassiveButton>();
+        var spriteHorseButton = HorseButton.GetComponent<SpriteRenderer>();
+
+        spriteHorseButton.sprite = Utils.LoadSprite($"TOHE.Resources.HorseButton.png", 75f);
+        passiveHorseButton.OnClick = new ButtonClickedEvent();
+        passiveHorseButton.OnClick.AddListener((Action)(() =>
+        {
+            spriteHorseButton.transform.localScale *= -1;
+            HorseModePatch.isHorseMode = !HorseModePatch.isHorseMode;
+            var particles = Object.FindObjectOfType<PlayerParticles>();
+            if (particles != null)
+            {
+                particles.pool.ReclaimAll();
+                particles.Start();
+            }
+        }));
+
         var CreditsButton = Object.Instantiate(bottomTemplate, bottomTemplate.transform.parent);
         var passiveCreditsButton = CreditsButton.GetComponent<PassiveButton>();
         var spriteCreditsButton = CreditsButton.GetComponent<SpriteRenderer>();
@@ -84,9 +102,19 @@ public class MainMenuManagerPatch
     }
 }
 
+// 来源：https://github.com/ykundesu/SuperNewRoles/blob/master/SuperNewRoles/Patches/HorseModePatch.cs
+[HarmonyPatch(typeof(Constants), nameof(Constants.ShouldHorseAround))]
+public static class HorseModePatch
+{
+    public static bool isHorseMode = false;
+    public static bool Prefix(ref bool __result)
+    {
+        __result = isHorseMode;
+        return false;
+    }
+}
 
-
-// 来源：https://github.com/Yumenopai/TownOfHost_Y
+// 参考：https://github.com/Yumenopai/TownOfHost_Y
 public class ModNews
 {
     public int Number;
