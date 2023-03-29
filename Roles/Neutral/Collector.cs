@@ -15,7 +15,7 @@ public static class Collector
     public static void SetupCustomOption()
     {
         Options.SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Collector);
-        CollectorCollectAmount = IntegerOptionItem.Create(Id + 13, "CollectorCollectAmount", new(1, 999, 1), 30, TabGroup.NeutralRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Collector])
+        CollectorCollectAmount = IntegerOptionItem.Create(Id + 13, "CollectorCollectAmount", new(1, 999, 1), 20, TabGroup.NeutralRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Collector])
             .SetValueFormat(OptionFormat.Votes);
     }
     public static void Init()
@@ -41,10 +41,8 @@ public static class Collector
     {
         byte PlayerId = reader.ReadByte();
         int Num = reader.ReadInt32();
-        if (CollectVote.ContainsKey(PlayerId))
-            CollectVote[PlayerId] = Num;
-        else
-            CollectVote.Add(PlayerId, 0);
+        CollectVote.TryAdd(PlayerId, 0);
+        CollectVote[PlayerId] = Num;
     }
     public static string GetProgressText(byte playerId)
     {
@@ -71,7 +69,7 @@ public static class Collector
             var pcid = player.PlayerId;
             int VoteAmount = CollectVote[pcid];
             int CollectNum = CollectorCollectAmount.GetInt();
-            if (VoteAmount == CollectNum) return true;
+            if (VoteAmount >= CollectNum) return true;
         }
         return false;
     }
