@@ -99,7 +99,6 @@ class GameEndChecker
                     {
                         if (CustomWinnerHolder.WinnerTeam is CustomWinner.Crewmate or CustomWinner.Impostor or CustomWinner.Jackal or CustomWinner.Pelican)
                         {
-                            PlayerControl[] lovers = Main.LoversPlayers.ToArray();
                             CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Lovers);
                             Main.AllPlayerControls
                                 .Where(p => p.Is(CustomRoles.Lovers))
