@@ -1172,7 +1172,7 @@ public static class Utils
         else
         {
             if (!GameStates.IsLobby) return;
-            if (AmongUsClient.Instance.AmHost)
+            if (player.AmOwner)
             {
                 if (AmongUsClient.Instance.IsGamePublic)
                     name = $"<color=#ffd6ec>TOHE</color><color=#baf7ca>★</color>" + name;
