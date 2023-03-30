@@ -30,7 +30,7 @@ class GameEndChecker
         // SoloKombat
         if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
         {
-            if (CustomWinnerHolder.WinnerIds.Count > 0)
+            if (CustomWinnerHolder.WinnerIds.Count > 0 || CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
             {
                 ShipStatus.Instance.enabled = false;
                 StartEndGame(reason);
