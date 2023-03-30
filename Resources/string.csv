@@ -422,7 +422,7 @@ GMInfoLong,(房主):\n看我干啥，我只是个开局就死的冤魂，静静�
 DisableMeeting,禁用会议与报告尸体,Turn off Meetings,Отключить Собрания
 DisableCloseDoor,禁用关门,Disable Doors sabotage,Отключить саботаж дверей
 DisableSabotage,禁用破坏,Disable Sabotage,Отключить Саботаж
-NoGameEnd,测试模式,NoGameEnd,Игра Не Закончится
+NoGameEnd,测试模式（游戏不结束）,NoGameEnd,Игра Не Закончится
 AllowConsole,允许控制台
 DebugMode,调试模式,Debug Mode,Режим отладки
 SyncButtonMode,所有船员共享会议次数,SyncButtonMode,Общая кнопка встреч
