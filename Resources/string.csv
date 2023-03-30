@@ -967,14 +967,14 @@ WitchModeSpell,诅咒,Spell,Заклинать
 WitchModeDouble,单击诅咒&双击击杀,Double Enable,Двойной
 BountyCurrentTarget,当前目标,Current Target,Текущая Цель
 AntiAdminerAD,管理室地图警告,Warning about Admin,Оповещение о Админке
-AntiAdminerVI,生命检测仪警告,Warning about Pulse,Оповещение о Пульсах
+AntiAdminerVI,生命检测仪警告,Warning about Pulse,Оповещение о Пульсах 
 AntiAdminerDL,日志警告,Warning about Journals,Оповещение о Журналах
 AntiAdminerCA,摄像头警告,Warning about Cameras,Оповещение о Камерах
 Roles,职业,Roles,Роли
 Settings,设定,Settings,Настройки
 Addons,附加效果,Add-Ons,Атрибуты
-LastResult,游戏结果,Match Results,Результат матча
-LastEndReason,结束原因,End Reason,Причина окончания
+LastResult, ★ 游戏结果,Match Results,Результат матча
+LastEndReason, ★ 结束原因,End Reason,Причина окончания
 KillLog,击杀日志,Kill Log,История убийств
 Maximum,最大人数,Max,Максимум
 RoleRate,<color=#ffc0cb>启用</color>,<color=#ffc0cb>Active</color>,<color=#ffc0cb>Активен</color>
