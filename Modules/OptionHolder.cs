@@ -357,6 +357,14 @@ public static class Options
     public static OptionItem ImpCanBeDualPersonality;
     public static OptionItem CrewCanBeDualPersonality;
 
+    //SoloKombat
+    public static OptionItem KB_GameTime;
+    public static OptionItem KB_HPMax;
+    public static OptionItem KB_ATK;
+    public static OptionItem KB_RecoverAfterSecond;
+    public static OptionItem KB_RecoverPerSecond;
+    public static OptionItem KB_ResurrectionWaitingTime;
+
     public static readonly string[] suffixModes =
     {
         "SuffixMode.None",
@@ -805,6 +813,30 @@ public static class Options
         #endregion 
 
         #region 游戏设置
+
+        //SoloKombat
+        KB_GameTime = IntegerOptionItem.Create(66_233_001, "KB_GameTime", new(30, 300, 5), 180, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.SoloKombat)
+            .SetColor(new Color32(245, 82, 82, byte.MaxValue))
+            .SetValueFormat(OptionFormat.Seconds)
+            .SetHeader(true);
+        KB_HPMax = FloatOptionItem.Create(66_233_002, "KB_HPMax", new(10f, 990f, 5f), 100f, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.SoloKombat)
+            .SetColor(new Color32(245, 82, 82, byte.MaxValue));
+        KB_ATK = FloatOptionItem.Create(66_233_003, "KB_ATK", new(1f, 100f, 1f), 8f, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.SoloKombat)
+            .SetColor(new Color32(245, 82, 82, byte.MaxValue));
+        KB_RecoverAfterSecond = IntegerOptionItem.Create(66_233_004, "KB_RecoverAfterSecond", new(0, 60, 1), 8, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.SoloKombat)
+            .SetColor(new Color32(245, 82, 82, byte.MaxValue))
+            .SetValueFormat(OptionFormat.Seconds);
+        KB_RecoverPerSecond = FloatOptionItem.Create(66_233_005, "KB_RecoverPerSecond", new(1f, 180f, 1f), 2f, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.SoloKombat)
+            .SetColor(new Color32(245, 82, 82, byte.MaxValue));
+        KB_ResurrectionWaitingTime = IntegerOptionItem.Create(66_233_006, "KB_ResurrectionWaitingTime", new(3, 990, 1), 15, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.SoloKombat)
+            .SetColor(new Color32(245, 82, 82, byte.MaxValue))
+            .SetValueFormat(OptionFormat.Seconds);
 
         //驱逐相关设定
         TextOptionItem.Create(66_123_126, "MenuTitle.Ejections", TabGroup.GameSettings)

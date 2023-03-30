@@ -43,14 +43,14 @@ internal static class SoloKombatManager
         originalSpeed = new();
         BackCountdown = new();
         KBScore = new();
-        RoundTime = 60 * 2 + 10;
+        RoundTime = Options.KB_GameTime.GetInt() + 8;
 
         foreach (var pc in Main.AllAlivePlayerControls)
         {
-            PlayerHPMax.TryAdd(pc.PlayerId, 100f);
-            PlayerHP.TryAdd(pc.PlayerId, 100f);
-            PlayerHPReco.TryAdd(pc.PlayerId, 2f);
-            PlayerATK.TryAdd(pc.PlayerId, 8f);
+            PlayerHPMax.TryAdd(pc.PlayerId, Options.KB_HPMax.GetFloat());
+            PlayerHP.TryAdd(pc.PlayerId, Options.KB_HPMax.GetFloat());
+            PlayerHPReco.TryAdd(pc.PlayerId, Options.KB_RecoverPerSecond.GetFloat());
+            PlayerATK.TryAdd(pc.PlayerId, Options.KB_ATK.GetFloat());
             PlayerDF.TryAdd(pc.PlayerId, 0f);
 
             KBScore.TryAdd(pc.PlayerId, 0);
@@ -207,7 +207,7 @@ internal static class SoloKombatManager
         Main.AllPlayerSpeed[target.PlayerId] = 0.5f;
         target.MarkDirtySettings();
 
-        BackCountdown.TryAdd(target.PlayerId, 15);
+        BackCountdown.TryAdd(target.PlayerId, Options.KB_ResurrectionWaitingTime.GetInt());
         SendRPCSyncKBBackCountdown(target);
     }
     public static void OnPlayerKill(PlayerControl killer)
@@ -240,7 +240,7 @@ internal static class SoloKombatManager
             foreach (var pc in Main.AllPlayerControls)
             {
                 // 每秒回复血量
-                if (LastHurt[pc.PlayerId] + 8 < Utils.GetTimeStamp(DateTime.Now) && pc.HP() < pc.HPMAX() && pc.SoloAlive() && !pc.inVent)
+                if (LastHurt[pc.PlayerId] + Options.KB_RecoverAfterSecond.GetInt() < Utils.GetTimeStamp(DateTime.Now) && pc.HP() < pc.HPMAX() && pc.SoloAlive() && !pc.inVent)
                 {
                     PlayerHP[pc.PlayerId] += pc.HPRECO();
                     PlayerHP[pc.PlayerId] = Math.Min(pc.HPMAX(), pc.HP());

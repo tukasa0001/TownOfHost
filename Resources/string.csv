@@ -748,7 +748,12 @@ EraseLimit,抹除次数上限,Limit of Erasing,Лимит Стираний
 AssassinMarkCooldown,标记冷却时间,Mark Cooldown,Откат метки
 AssassinAssassinateCooldown,刺杀冷却时间,Assassinate Cooldown,Откат Ассасированния
 AssassinCanKillAfterAssassinate,可以在刺杀后进行常规击杀,Can kill after Assassinating,Может убивать после Ассасирования
-
+KB_GameTime,游戏持续时间
+KB_HPMax,初始血量上限
+KB_ATK,初始攻击力
+KB_RecoverAfterSecond,脱离战斗几秒后开始回复血量
+KB_RecoverPerSecond,每秒回复血量
+KB_ResurrectionWaitingTime,死亡后复活等待时间
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
