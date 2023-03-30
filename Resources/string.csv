@@ -1149,4 +1149,4 @@ DCNotify.GameFull,该房间已满人，请稍后重试,"The room is full, please
 DCNotify.IncorrectVersion,您的AmongUs版本与该房间不同,Your version of Among Us is different from this room,Ваша версия Among Us отличается от этой комнаты
 
 ## 模式描述
-ModeDescribe.SoloKombat,本房间模式为【个人竞技模式】，没有职业分配，所有人拥有血量，可以使用击杀键对其他人造成伤害。游戏结束时击杀数量最多的玩家获胜。
+ModeDescribe.SoloKombat,本房间模式为【个人竞技模式】\n没有职业分配，所有人拥有血量，可以使用击杀键对其他人造成伤害。游戏结束时击杀数量最多的玩家获胜。
