@@ -265,9 +265,11 @@ class CheckForEndVotingPatch
             throw;
         }
     }
+
+    // 参考：https://github.com/music-discussion/TownOfHost-TheOtherRoles
     private static void ConfirmEjections(GameData.PlayerInfo exiledPlayer)
     {
-        // 参考：https://github.com/music-discussion/TownOfHost-TheOtherRoles
+        if (!AmongUsClient.Instance.AmHost) return;
         if (exiledPlayer == null) return;
         var exileId = exiledPlayer.PlayerId;
         if (exileId is < 0 or > 254) return;
@@ -353,8 +355,11 @@ class CheckForEndVotingPatch
         }, 3.0f, "Change Exiled Player Name");
         new LateTask(() =>
         {
-            if (GameStates.IsInGame) player.RpcSetName(realName);
-            Main.DoBlockNameChange = false;
+            if (GameStates.IsInGame)
+            {
+                player.RpcSetName(realName);
+                Main.DoBlockNameChange = false;
+            }
         }, 11.5f, "Change Exiled Player Name Back");
     }
     public static bool CheckRole(byte id, CustomRoles role)

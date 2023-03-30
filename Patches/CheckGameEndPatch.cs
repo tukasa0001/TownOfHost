@@ -27,6 +27,18 @@ class GameEndChecker
         //ゲーム終了判定
         predicate.CheckForEndGame(out reason);
 
+        // SoloKombat
+        if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
+        {
+            if (CustomWinnerHolder.WinnerIds.Count > 0)
+            {
+                ShipStatus.Instance.enabled = false;
+                StartEndGame(reason);
+                predicate = null;
+            }
+            return false;
+        }
+
         //ゲーム終了時
         if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
         {
@@ -332,11 +344,8 @@ class GameEndChecker
         public override bool CheckForEndGame(out GameOverReason reason)
         {
             reason = GameOverReason.ImpostorByKill;
-            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return false;
-
+            if (CustomWinnerHolder.WinnerIds.Count > 0) return false;
             if (CheckGameEndByLivingPlayers(out reason)) return true;
-            if (CheckGameEndByTask(out reason)) return true;
-
             return false;
         }
 
@@ -344,26 +353,17 @@ class GameEndChecker
         {
             reason = GameOverReason.ImpostorByKill;
 
-            int Imp = Utils.AlivePlayersCount(CountTypes.Impostor);
-            int Crew = Utils.AlivePlayersCount(CountTypes.Crew);
+            if (SoloKombatManager.RoundTime > 0) return false;
 
+            var list = Main.AllPlayerControls.Where(x => !x.Is(CustomRoles.GM) && SoloKombatManager.GetRankOfScore(x.PlayerId) == 1);
+            var winner = list.FirstOrDefault();
 
-            if (Imp == 0 && Crew == 0) //全滅
+            CustomWinnerHolder.WinnerIds = new()
             {
-                reason = GameOverReason.ImpostorByKill;
-                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.None);
-            }
-            else if (Crew <= 0) //インポスター勝利
-            {
-                reason = GameOverReason.ImpostorByKill;
-                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Impostor);
-            }
-            else if (Imp == 0) //クルー勝利(インポスター切断など)
-            {
-                reason = GameOverReason.HumansByVote;
-                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Crewmate);
-            }
-            else return false; //勝利条件未達成
+                winner.PlayerId
+            };
+
+            Main.DoBlockNameChange = true;
 
             return true;
         }

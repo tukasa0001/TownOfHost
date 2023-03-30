@@ -34,7 +34,7 @@ class RandomSpawn
                     if (Main.NormalOptions.MapId != 4) return; //マップがエアシップじゃなかったらreturn
                     player.RpcResetAbilityCooldown();
                     if (Options.FixFirstKillCooldown.GetBool() && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
-                    if (!Options.RandomSpawn.GetBool()) return; //ランダムスポーンが無効ならreturn
+                    if (!Options.RandomSpawn.GetBool() && Options.CurrentGameMode != CustomGameMode.SoloKombat) return; //ランダムスポーンが無効ならreturn
                     new AirshipSpawnMap().RandomTeleport(player);
                 }
             }

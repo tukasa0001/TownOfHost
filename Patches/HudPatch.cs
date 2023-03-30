@@ -153,6 +153,9 @@ class HudManagerPatch
                     case CustomRoles.Hacker:
                         Hacker.GetAbilityButtonText(__instance, player.PlayerId);
                         break;
+                    case CustomRoles.KB_Normal:
+                        __instance.KillButton.OverrideText($"{GetString("GamerButtonText")}");
+                        break;
                 }
 
                 //バウンティハンターのターゲットテキスト
@@ -169,7 +172,11 @@ class HudManagerPatch
                     LowerInfoText.fontSizeMax = 2.0f;
                 }
 
-                if (player.Is(CustomRoles.BountyHunter))
+                if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
+                {
+                    LowerInfoText.text = SoloKombatManager.GetHudText();
+                }
+                else if (player.Is(CustomRoles.BountyHunter))
                 {
                     LowerInfoText.text = BountyHunter.GetTargetText(player, true);
                 }

@@ -355,7 +355,7 @@ public static class SetRecommendationsPatch
             __instance.NumCommonTasks = 0;
             __instance.NumLongTasks = 0;
             __instance.NumShortTasks = 0;
-            __instance.KillCooldown = 5f;
+            __instance.KillCooldown = 0f;
         }
         return false;
     }

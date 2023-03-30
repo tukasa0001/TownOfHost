@@ -69,7 +69,7 @@ public class Main : BasePlugin
     public static ConfigEntry<float> LastShapeshifterCooldown { get; private set; }
     public static OptionBackupData RealOptionsData;
     public static Dictionary<byte, PlayerState> PlayerStates = new();
-    public static Dictionary<byte, string> AllPlayerNames;
+    public static Dictionary<byte, string> AllPlayerNames = new();
     public static Dictionary<(byte, byte), string> LastNotifyNames;
     public static Dictionary<byte, Color32> PlayerColors = new();
     public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
@@ -96,7 +96,6 @@ public class Main : BasePlugin
     public static bool DoBlockNameChange = false;
     public static int updateTime;
     public static bool newLobby = false;
-    public static Dictionary<int, string> OriginalName = new();
     public static Dictionary<int, int> SayStartTimes = new();
     public static Dictionary<int, int> SayBanwordsTimes = new();
 
@@ -181,10 +180,10 @@ public class Main : BasePlugin
         TOHE.Logger.Enable();
         TOHE.Logger.Disable("NotifyRoles");
         TOHE.Logger.Disable("SwitchSystem");
+        TOHE.Logger.Disable("ModNews");
         if (!DebugModeManager.AmDebugger)
         {
             TOHE.Logger.Disable("2018K");
-            TOHE.Logger.Disable("ModNews");
             TOHE.Logger.Disable("CustomRpcSender");
             //TOHE.Logger.Disable("ReceiveRPC");
             TOHE.Logger.Disable("SendRPC");
@@ -342,6 +341,8 @@ public class Main : BasePlugin
                 {CustomRoles.TicketsStealer, "#ff1919"},
                 {CustomRoles.DualPersonality, "#3a648f"},
                 {CustomRoles.Mimic, "#ff1919"},
+                //SoloKombat
+                {CustomRoles.KB_Normal, "#f55252"}
             };
             foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
             {
@@ -474,8 +475,13 @@ public enum CustomRoles
     Workaholic,
     Collector,
     Provocateur,
+
+    //SoloKombat
+    KB_Normal,
+
     //GM
     GM,
+
     // Sub-role after 500
     NotAssigned = 500,
     LastImpostor,

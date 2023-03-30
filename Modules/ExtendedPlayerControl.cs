@@ -204,6 +204,30 @@ static class ExtendedPlayerControl
         player.RpcGuardAndKill();
         player.ResetKillCooldown();
     }
+    public static void SetKillCooldownV2(this PlayerControl player, float time = -1f, PlayerControl target = null)
+    {
+        if (player == null) return;
+        if (!player.CanUseKillButton()) return;
+        if (time >= 0f)
+        {
+            Main.AllPlayerKillCooldown[player.PlayerId] = time * 2;
+        }
+        else
+        {
+            Main.AllPlayerKillCooldown[player.PlayerId] *= 2;
+        }
+        player.SyncSettings();
+        if (player.AmOwner)
+            PlayerControl.LocalPlayer.SetKillTimer(time);
+        else if (player.IsModClient())
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetKillTimer, SendOption.Reliable, -1);
+            writer.Write(time);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        else player.RpcGuardAndKill(target, 11);
+        player.ResetKillCooldown();
+    }
     public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
     {
         if (target == null) target = killer;
@@ -388,6 +412,9 @@ static class ExtendedPlayerControl
 
         return pc.GetCustomRole() switch
         {
+            //SoloKombat
+            CustomRoles.KB_Normal => pc.SoloAlive(),
+            //Standard
             CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
             CustomRoles.Mafia => Utils.CanMafiaKill(),
             CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
@@ -432,6 +459,9 @@ static class ExtendedPlayerControl
 
             CustomRoles.Arsonist => pc.IsDouseDone(),
             CustomRoles.Revolutionist => pc.IsDrawDone(),
+
+            //SoloKombat
+            CustomRoles.KB_Normal => true,
 
             _ => pc.Is(CustomRoleTypes.Impostor),
         };
@@ -551,6 +581,9 @@ static class ExtendedPlayerControl
             case CustomRoles.Hacker:
                 Hacker.SetKillCooldown(player.PlayerId);
                 break;
+            case CustomRoles.KB_Normal:
+                Main.AllPlayerKillCooldown[player.PlayerId] = 1f;
+                break;
         }
         if (player.PlayerId == LastImpostor.currentId)
             LastImpostor.SetKillCooldown();
@@ -592,11 +625,11 @@ static class ExtendedPlayerControl
     {
         //用于TOHE的击杀前判断
 
-
+        if (Options.CurrentGameMode == CustomGameMode.SoloKombat) return;
 
         killer.RpcMurderPlayer(target);
     }
-    public static void RpcMurderPlayerV3V2(this PlayerControl killer, PlayerControl target)
+    public static void RpcMurderPlayerV2(this PlayerControl killer, PlayerControl target)
     {
         if (target == null) target = killer;
         if (AmongUsClient.Instance.AmClient)

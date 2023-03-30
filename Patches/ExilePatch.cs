@@ -129,7 +129,7 @@ class ExileControllerWrapUpPatch
             if (pc.Is(CustomRoles.Grenadier))
                 pc.RpcResetAbilityCooldown();
         }
-        if (Options.RandomSpawn.GetBool())
+        if (Options.RandomSpawn.GetBool() || Options.CurrentGameMode == CustomGameMode.SoloKombat)
         {
             RandomSpawn.SpawnMap map;
             switch (Main.NormalOptions.MapId)

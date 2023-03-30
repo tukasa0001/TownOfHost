@@ -19,6 +19,7 @@ using TOHE.Roles.Neutral;
 using UnhollowerBaseLib;
 using UnityEngine;
 using static TOHE.Translator;
+using static UnityEngine.GraphicsBuffer;
 
 namespace TOHE;
 
@@ -461,6 +462,9 @@ public static class Utils
             case CustomRoles.Hacker:
                 ProgressText.Append(Hacker.GetHackLimit(playerId));
                 break;
+            case CustomRoles.KB_Normal:
+                ProgressText.Append(SoloKombatManager.GetDisplayScore(playerId));
+                break;
             default:
                 //タスクテキスト
                 var taskState = Main.PlayerStates?[playerId].GetTaskState();
@@ -522,7 +526,7 @@ public static class Utils
         foreach (var role in Options.CustomRoleCounts)
         {
             if (!role.Key.IsEnable()) continue;
-            string mode = role.Key.GetMode() == 1 ? "启用" : "优先";
+            string mode = role.Key.GetMode() == 1 ? GetString("RoleRateNoColor") : GetString("RoleOnNoColor");
             sb.Append($"\n【{GetRoleName(role.Key)}:{mode}×{role.Key.GetCount()}】\n");
             ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref sb);
             var text = sb.ToString();
@@ -553,7 +557,7 @@ public static class Utils
         foreach (var role in Options.CustomRoleCounts)
         {
             if (!role.Key.IsEnable()) continue;
-            string mode = role.Key.GetMode() == 1 ? "启用" : "优先";
+            string mode = role.Key.GetMode() == 1 ? GetString("RoleRateNoColor") : GetString("RoleOnNoColor");
             sb.Append($"\n【{GetRoleName(role.Key)}:{mode}×{role.Key.GetCount()}】\n");
             ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref sb);
             var text = sb.ToString();
@@ -592,7 +596,7 @@ public static class Utils
             else if (role.IsAdditionRole() && headCount == 3) sb.Append("\n\n● " + GetString("TabGroup.Addons"));
             else headCount--;
 
-            string mode = role.GetMode() == 1 ? "启用" : "优先";
+            string mode = role.GetMode() == 1 ? GetString("RoleRateNoColor") : GetString("RoleOnNoColor");
             if (role.IsEnable()) sb.AppendFormat("\n{0}:{1}x{2}", GetRoleName(role), $"{mode}", role.GetCount());
         }
         SendMessage(sb.ToString(), PlayerId);
@@ -640,10 +644,21 @@ public static class Utils
             sb.Append($"\n★ ").Append(EndGamePatch.SummaryText[id].RemoveHtmlTags());
             cloneRoles.Remove(id);
         }
-        foreach (var id in cloneRoles)
+        if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
         {
-            if (EndGamePatch.SummaryText[id].Contains("<INVALID:NotAssigned>")) continue;
-            sb.Append($"\n　 ").Append(EndGamePatch.SummaryText[id].RemoveHtmlTags());
+            List<(int, byte)> list = new();
+            foreach (var id in cloneRoles) list.Add((SoloKombatManager.GetRankOfScore(id), id));
+            list.Sort();
+            foreach (var id in list)
+                sb.Append($"\n　 ").Append(EndGamePatch.SummaryText[id.Item2]);
+        }
+        else
+        {
+            foreach (var id in cloneRoles)
+            {
+                if (EndGamePatch.SummaryText[id].Contains("<INVALID:NotAssigned>")) continue;
+                sb.Append($"\n　 ").Append(EndGamePatch.SummaryText[id].RemoveHtmlTags());
+            }
         }
         SendMessage(sb.ToString(), PlayerId);
     }
@@ -666,7 +681,7 @@ public static class Utils
         var sb = new StringBuilder();
         if (SetEverythingUpPatch.LastWinsText != "") sb.Append($"{GetString("LastResult")}: {SetEverythingUpPatch.LastWinsText}");
         if (SetEverythingUpPatch.LastWinsReason != "") sb.Append($"\n{GetString("LastEndReason")}: {SetEverythingUpPatch.LastWinsReason}");
-        if (sb.Length > 0) SendMessage(sb.ToString(), PlayerId);
+        if (sb.Length > 0 && Options.CurrentGameMode != CustomGameMode.SoloKombat) SendMessage(sb.ToString(), PlayerId);
     }
     public static string GetSubRolesText(byte id, bool disableColor = false, bool intro = false, bool summary = false)
     {
@@ -807,8 +822,7 @@ public static class Utils
     }
     public static void ApplySuffix()
     {
-        if (!AmongUsClient.Instance.AmHost) return;
-        if (IsDev(PlayerControl.LocalPlayer)) return;
+        if (!AmongUsClient.Instance.AmHost || IsDev(PlayerControl.LocalPlayer)) return;
         string name = DataManager.player.Customization.Name;
         if (Main.nickName != "") name = Main.nickName;
         if (AmongUsClient.Instance.IsGameStarted)
@@ -819,11 +833,9 @@ public static class Utils
         {
             if (!GameStates.IsLobby) return;
             if (AmongUsClient.Instance.IsGamePublic)
-            {
                 name = $"<color=#ffd6ec>TOHE</color><color=#baf7ca>★</color>" + name;
-                if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
-                    name = $"<color=#f55252>{GetString("NamePrefix.SoloKombat")}</color>\r\n" + name;
-            }
+            if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
+                name = $"<color=#f55252><size=1.9>{GetString("ModeSoloKombat")}</size></color>\r\n" + name;
             name = Options.GetSuffixMode() switch
             {
                 SuffixModes.TOHE => name += $"\r\n<color={Main.ModColor}>TOHE v{Main.PluginVersion}</color>",
@@ -847,6 +859,7 @@ public static class Utils
         GameData.Instance.AllPlayers.ToArray().Where(info => info.PlayerId == PlayerId).FirstOrDefault();
     private static StringBuilder SelfSuffix = new();
     private static StringBuilder SelfMark = new(20);
+    private static StringBuilder TargetSuffix = new();
     private static StringBuilder TargetMark = new(20);
     public static void NotifyRoles(bool isForMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false, bool ForceLoop = false)
     {
@@ -945,6 +958,11 @@ public static class Utils
 
             SelfSuffix.Append(EvilTracker.GetTargetArrow(seer, seer));
 
+            //KB自身名字后缀
+
+            if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
+                SelfSuffix.Append(SoloKombatManager.GetDisplayHealth(seer));
+
             //RealNameを取得 なければ現在の名前をRealNamesに書き込む
             string SeerRealName = seer.GetRealName(isForMeeting);
 
@@ -961,7 +979,12 @@ public static class Utils
                 SelfName = $"</size>\r\n{ColorString(seer.GetRoleColor(), string.Format(GetString("EnterVentWinCountDown"), Main.RevolutionistCountdown.TryGetValue(seer.PlayerId, out var x) ? x : 10))}";
             if (Pelican.IsEaten(seer.PlayerId))
                 SelfName = $"</size>\r\n{ColorString(GetRoleColor(CustomRoles.Pelican), GetString("EatenByPelican"))}";
-            SelfName = SelfRoleName + "\r\n" + SelfName;
+            if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
+            {
+                SoloKombatManager.GetNameNotify(seer, ref SelfName);
+                SelfName = $"<size={fontSize}>{SelfTaskText}</size>\r\n{SelfName}";
+            }
+            else SelfName = SelfRoleName + "\r\n" + SelfName;
             SelfName += SelfSuffix.ToString() == "" ? "" : "\r\n " + SelfSuffix.ToString();
             if (!isForMeeting) SelfName += "\r\n";
 
@@ -1053,6 +1076,9 @@ public static class Utils
                     if (seer.GetCustomRole().IsImpostor() && target.GetCustomRole().IsImpostor() && Options.ImpKnowAlliesRole.GetBool())
                         TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName(!seer.Data.IsDead)}</size>\r\n";
 
+                    if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
+                        TargetRoleText = $"<size={fontSize}>{GetProgressText(target)}</size>\r\n";
+
                     if (seer.Is(CustomRoles.EvilTracker))
                     {
                         TargetMark.Append(EvilTracker.GetTargetMark(seer, target));
@@ -1091,6 +1117,11 @@ public static class Utils
 
                     TargetMark.Append(Medicaler.TargetMark(seer, target));
 
+                    //KB目标玩家名字后缀
+                    TargetSuffix.Clear();
+
+                    if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
+                        TargetSuffix.Append(SoloKombatManager.GetDisplayHealth(target));
 
                     string TargetDeathReason = "";
                     if (seer.KnowDeathReason(target))
@@ -1101,6 +1132,7 @@ public static class Utils
 
                     //全てのテキストを合成します。
                     string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
+                    TargetName += (TargetSuffix.ToString() == "" ? "" : ("\r\n" + TargetSuffix.ToString()));
 
                     //適用
                     target.RpcSetNamePrivate(TargetName, true, seer, force: NoCache);
@@ -1128,40 +1160,11 @@ public static class Utils
         if (Options.AirShipVariableElectrical.GetBool())
             AirShipElectricalDoors.Initialize();
     }
-    public static void DevNameCheck(ClientData client)
-    {
-        new LateTask(() =>
-        {
-            if (client.Character == null) return;
-            Dictionary<string, string> DevColor = new()
-            {
-                { "actorour#0029", Main.ModColor },
-            };
-            foreach (var dc in DevColor)
-            {
-                if (client.FriendCode.Equals(dc.Key))
-                {
-                    string t1 = $"<color={dc.Value}>";
-                    string t2 = client.PlayerName;
-                    string t3 = "</color>";
-                    string name = t1 + t2 + t3;
-                    client.Character.RpcSetName(name);
-                }
-            }
-        }, 3f, "Dev Name Check");
-    }
     public static void ApplyDevSuffix(PlayerControl player)
     {
-        if (!AmongUsClient.Instance.AmHost) return;
-        if (!IsDev(player)) return;
-        string name = DataManager.player.Customization.Name;
-        if (player.PlayerId != PlayerControl.LocalPlayer.PlayerId)
-        {
-            if (!player.IsModClient()) return;
-            if (Main.OriginalName.ContainsKey(player.GetClientId()))
-                name = Main.OriginalName[player.GetClientId()];
-            else return;
-        }
+        if (!AmongUsClient.Instance.AmHost || !player.IsModClient() || !IsDev(player)) return;
+        string name = Main.AllPlayerNames.TryGetValue(player.PlayerId, out var n) ? n : "";
+        if (name == "") return;
         if (AmongUsClient.Instance.IsGameStarted)
         {
             if (Options.ColorNameMode.GetBool() && Main.nickName == "") name = Palette.GetColorName(player.Data.DefaultOutfit.ColorId);
@@ -1169,29 +1172,31 @@ public static class Utils
         else
         {
             if (!GameStates.IsLobby) return;
-            if (AmongUsClient.Instance.IsGamePublic)
+            if (AmongUsClient.Instance.AmHost)
             {
-                name = $"<color=#ffd6ec>TOHE</color><color=#baf7ca>★</color>" + name;
+                if (AmongUsClient.Instance.IsGamePublic)
+                    name = $"<color=#ffd6ec>TOHE</color><color=#baf7ca>★</color>" + name;
                 if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
-                    name = $"<color=#f55252>{GetString("NamePrefix.SoloKombat")}</color>\r\n" + name;
+                    name = $"<color=#f55252><size=1.9>{GetString("ModeSoloKombat")}</size></color>\r\n" + name;
             }
-            name = player.FriendCode switch
-            {
-                "actorour#0029" => $"<color={Main.ModColor}><size=1.7>{GetString("Developer")}</size></color>\r\n" + name,
-                "keepchirpy#6354" => $"<color=#E42217><size=1.7>{GetString("Developer")}</size></color>\r\n" + name,
-                "pinklaze#1776" => $"<color=#30548e><size=1.7>{GetString("Developer")}</size></color>\r\n" + name,
+            if (!name.Contains("\r"))
+                name = player.FriendCode switch
+                {
+                    "actorour#0029" => $"<color={Main.ModColor}><size=1.7>{GetString("Developer")}</size></color>\r\n" + name,
+                    "keepchirpy#6354" => $"<color=#E42217><size=1.7>{GetString("Developer")}</size></color>\r\n" + name,
+                    "pinklaze#1776" => $"<color=#30548e><size=1.7>{GetString("Developer")}</size></color>\r\n" + name,
 
-                "recentduct#6068" => $"<color=#FF00FF><size=1.7>高冷男模法师</size></color>\r\n" + name,
-                "heavyclod#2286" => $"<color=#FFFF00><size=1.7>小叨.exe已停止运行</size></color>\r\n" + name,
-                "canneddrum#2370" => $"<color=#fffcbe><size=1.7>我是喜唉awa</size></color>\r\n" + name,
-                "dovefitted#5329" => $"<color=#1379bf><size=1.7>不要首刀我</size></color>\r\n" + name,
-                "teamelder#5856" => $"<color=#1379bf><size=1.7>正义之师（无信誉）</size></color>\r\n" + name,
-                "luckylogo#7352" => $"<color=#f30000><size=1.7>林@林</size></color>\r\n" + name,
-                "axefitful#8788" => $"<color=#8e8171><size=1.7>寄才是真理</size></color>\r\n" + name,
-                "storeroan#0331" => $"<color=#FF0066><size=1.7>Night_瓜</size></color>\r\n" + name,
-                "twainrobin#8089" => $"<color=#0000FF><size=1.7>啊哈修maker</size></color>\r\n" + name,
-                _ => name,
-            };
+                    "recentduct#6068" => $"<color=#FF00FF><size=1.7>高冷男模法师</size></color>\r\n" + name,
+                    "heavyclod#2286" => $"<color=#FFFF00><size=1.7>小叨.exe已停止运行</size></color>\r\n" + name,
+                    "canneddrum#2370" => $"<color=#fffcbe><size=1.7>我是喜唉awa</size></color>\r\n" + name,
+                    "dovefitted#5329" => $"<color=#1379bf><size=1.7>不要首刀我</size></color>\r\n" + name,
+                    "teamelder#5856" => $"<color=#1379bf><size=1.7>正义之师（无信誉）</size></color>\r\n" + name,
+                    "luckylogo#7352" => $"<color=#f30000><size=1.7>林@林</size></color>\r\n" + name,
+                    "axefitful#8788" => $"<color=#8e8171><size=1.7>寄才是真理</size></color>\r\n" + name,
+                    "storeroan#0331" => $"<color=#FF0066><size=1.7>Night_瓜</size></color>\r\n" + name,
+                    "twainrobin#8089" => $"<color=#0000FF><size=1.7>啊哈修maker</size></color>\r\n" + name,
+                    _ => name,
+                };
         }
         if (name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default)
             PlayerControl.LocalPlayer.RpcSetName(name);
@@ -1359,6 +1364,8 @@ public static class Utils
         if (id == PlayerControl.LocalPlayer.PlayerId) name = DataManager.player.Customization.Name;
         else name = GetPlayerById(id)?.Data.PlayerName ?? name;
         string summary = $"{ColorString(Main.PlayerColors[id], name)}<pos=22%>{GetProgressText(id)}</pos><pos=30%>{GetVitalText(id, true)}</pos><pos={RolePos}%> {GetDisplayRoleName(id, true)}{GetSubRolesText(id, summary: true)}</pos>";
+        if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
+            summary = $"{GetProgressText(id)}\t<pos=22%>{ColorString(Main.PlayerColors[id], name)}</pos>";
         return check && GetDisplayRoleName(id, true).RemoveHtmlTags().Contains("INVALID:NotAssigned")
             ? "INVALID"
             : disableColor ? summary.RemoveHtmlTags() : summary;

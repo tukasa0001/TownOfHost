@@ -4,6 +4,8 @@ using HarmonyLib;
 using Hazel;
 using InnerNet;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using TOHE.Modules;
 using TOHE.Roles.Neutral;
 using static TOHE.Translator;
@@ -27,13 +29,15 @@ class OnGameJoinedPatch
         ChatUpdatePatch.DoBlockChat = false;
         GameStates.InGame = false;
         ErrorText.Instance.Clear();
-        EAC.DeNum = new();
+        
         if (AmongUsClient.Instance.AmHost) //以下、ホストのみ実行
         {
-            Main.newLobby = true;
             GameStartManagerPatch.GameStartManagerUpdatePatch.exitTimer = -1;
-            Main.OriginalName = new();
+            Main.DoBlockNameChange = false;
+            Main.newLobby = true;
             Main.DevRole = new();
+            EAC.DeNum = new();
+            Main.AllPlayerNames = new();
 
             if (Main.NormalOptions.KillCooldown == 0f)
                 Main.NormalOptions.KillCooldown = Main.LastKillCooldown.Value;
@@ -77,7 +81,6 @@ class OnPlayerJoinedPatch
             Logger.SendInGame(msg);
             Logger.Info(msg, "Android Kick");
         }
-        if (!Main.OriginalName.ContainsKey(client.Id)) Main.OriginalName.Add(client.Id, client.PlayerName);
         if (DestroyableSingleton<FriendsListManager>.Instance.IsPlayerBlockedUsername(client.FriendCode) && AmongUsClient.Instance.AmHost)
         {
             AmongUsClient.Instance.KickPlayer(client.Id, true);
@@ -92,9 +95,7 @@ class OnPlayerJoinedPatch
             if (Main.SayStartTimes.ContainsKey(client.Id)) Main.SayStartTimes.Remove(client.Id);
             if (Main.SayBanwordsTimes.ContainsKey(client.Id)) Main.SayBanwordsTimes.Remove(client.Id);
             if (Main.newLobby && Options.SendCodeToQQ.GetBool()) Cloud.SendCodeToQQ();
-            Utils.DevNameCheck(client);
         }
-
     }
 }
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
@@ -174,7 +175,6 @@ class OnPlayerLeftPatch
 
         if (AmongUsClient.Instance.AmHost)
         {
-            Main.OriginalName.Remove(__instance.ClientId);
             Main.SayStartTimes.Remove(__instance.ClientId);
             Main.SayBanwordsTimes.Remove(__instance.ClientId);
             Main.playerVersion.Remove(data?.Character?.PlayerId ?? byte.MaxValue);
@@ -188,6 +188,28 @@ class CreatePlayerPatch
     {
         if (AmongUsClient.Instance.AmHost)
         {
+            Logger.Msg($"创建玩家数据：ID{client.Character.PlayerId}: {client.PlayerName}", "CreatePlayer");
+
+            //规范昵称
+            var name = client.PlayerName;
+            name = name.RemoveHtmlTags().Replace(@"\", string.Empty).Replace("/", string.Empty);
+            if (Options.DisableEmojiName.GetBool())
+                name = Regex.Replace(name, @"\p{Cs}", string.Empty);
+            if (name.Length > 10) name = name[..10];
+            var TempName = new List<string> { "冰激凌", "奶茶", "巧克力", "蛋糕", "甜甜圈", "可乐", "柠檬水", "冰糖葫芦", "果冻", "糖果", "牛奶", "抹茶", "烧仙草" };
+            if (name.Length < 1) name = TempName[IRandom.Instance.Next(0, TempName.Count)];
+            if (!name.Equals(client.PlayerName))
+            {
+                new LateTask (() => 
+                {
+                    Logger.Warn($"规范昵称：{client.PlayerName} => {name}", "Name Format");
+                    Main.AllPlayerControls.Where(x => x.PlayerId == client.Character.PlayerId).FirstOrDefault().RpcSetName(name);
+                }, 1.3f, "Name Format");
+            }
+
+            Main.AllPlayerNames.Remove(client.Character.PlayerId);
+            Main.AllPlayerNames.TryAdd(client.Character.PlayerId, name);
+
             OptionItem.SyncAllOptions();
             new LateTask(() =>
             {

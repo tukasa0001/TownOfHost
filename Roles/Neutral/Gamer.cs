@@ -142,7 +142,7 @@ public static class Gamer
     }
     private static Color32 GetColor(float Health, bool self = false)
     {
-        var x = (int)(Health / (self ? SelfHealthMax.GetInt() : HealthMax.GetInt()) * 10 * 50 - 50);
+        var x = (int)(Health / (self ? SelfHealthMax.GetInt() : HealthMax.GetInt()) * 10 * 50);
         int R = 255; int G = 255; int B = 0;
         if (x > 255) R -= (x - 255); else G = x;
         return new Color32((byte)R, (byte)G, (byte)B, byte.MaxValue);

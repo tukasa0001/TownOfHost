@@ -257,7 +257,7 @@ internal class ChatCommands
                 string version_text = "";
                 foreach (var kvp in Main.playerVersion.OrderBy(pair => pair.Key))
                 {
-                    version_text += $"{kvp.Key}:{Utils.GetPlayerById(kvp.Key)?.Data?.PlayerName.RemoveHtmlTags().Replace("\r\n", string.Empty)}:{kvp.Value.forkId}/{kvp.Value.version}({kvp.Value.tag})\n";
+                    version_text += $"{kvp.Key}:{Main.AllPlayerNames[kvp.Key]}:{kvp.Value.forkId}/{kvp.Value.version}({kvp.Value.tag})\n";
                 }
                 if (version_text != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, (Utils.IsDev(PlayerControl.LocalPlayer) ? "\n" : string.Empty) + version_text);
                 break;
@@ -285,7 +285,10 @@ internal class ChatCommands
                 case "/rn":
                 case "/rename":
                     canceled = true;
-                    Main.nickName = args.Length > 1 ? Main.nickName = args[1] : "";
+                    if (args.Length < 1) break;
+                    if (args[1].Length is > 10 or < 1)
+                        Utils.SendMessage(GetString("Message.AllowNameLength"), PlayerControl.LocalPlayer.PlayerId);
+                    else Main.nickName = args[1];
                     break;
 
                 case "/hn":
@@ -502,7 +505,7 @@ internal class ChatCommands
                     canceled = true;
                     string msgText = GetString("PlayerIdList");
                     foreach (var pc in Main.AllPlayerControls)
-                        msgText += "\n" + pc.PlayerId.ToString() + " → " + pc.GetRealName();
+                        msgText += "\n" + pc.PlayerId.ToString() + " → " + Main.AllPlayerNames[pc.PlayerId];
                     Utils.SendMessage(msgText, PlayerControl.LocalPlayer.PlayerId);
                     break;
 

@@ -117,8 +117,8 @@ public static class Pelican
         ReportDeadBodyPatch.CanReport[target.PlayerId] = false;
         target.MarkDirtySettings();
 
-        Utils.NotifyRoles(SpecifySeer: pc);
-        Utils.NotifyRoles(SpecifySeer: target);
+        Utils.NotifyRoles(pc);
+        Utils.NotifyRoles(target);
         Logger.Info($"{pc.GetRealName()} 吞掉了 {target.GetRealName()}", "Pelican");
     }
 

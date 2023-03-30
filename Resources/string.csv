@@ -34,6 +34,10 @@ TeamJackal,豺狼阵营,Team Jackal,Команда Шакалов
 TeamPelican,鹈鹕阵营,Team Pelican,Команда Пеликанов
 TeamGamer,玩家阵营,Team Demons,Команда Демонов
 
+## 个人竞技模式
+KB_Normal,挑战者
+KB_NormalInfo,击败所有人！
+
 ## 职业
 
 # 其它
@@ -454,6 +458,7 @@ SuffixMode.NoAndroidPlz,安卓别进,No phones,Без телефонов
 SuffixModeText.DoNotKillMe,别首刀我啊啊啊,Do not kill me,Не убивайте меня
 SuffixModeText.NoAndroidPlz,安卓别进求求了,No phones please,Без телефонов пожалуйста
 ColorNameMode,显示颜色名称,Color Name Mode,Режим: Никнейм соответствует цвету
+DisableEmojiName,禁止玩家使用表情符号作为名字
 FixFirstKillCooldown,修正首刀冷却时间,Normalize First Kill Cooldown,Нормализовать откат убийства в начале Игры
 GhostCanSeeOtherRoles,幽灵可见他人职业,Ghosts Can See Other Roles,Призраки могут видеть все Роли
 GhostCanSeeOtherVotes,幽灵可见投票情况,Ghosts Can See Other Votes,Призраки могут видеть цвета Голосов
@@ -857,6 +862,7 @@ Message.NoticeByEAC,检测到【{0}】：{1}
 Message.SetLevel,您的等级设置为：{0},Your game level is set to: {0},Ваш игровой уровень установлен на: {0}
 Message.SetColor,您的颜色设置为：{0},Your color is set to: {0},Ваш игровой цвет установлен на: {0}
 Message.AllowLevelRange,等级可设置范围：0 - 100,"The game level can be set in the range: 0-100","Игровой уровень может быть установлен в диапазоне: 0-100"
+Message.AllowNameLength,昵称可设置长度：1-10
 Message.OnlyCanUseInLobby,很抱歉，只有在大厅才能使用该指令,"Sorry, this command can only be used in the lobby","Извините, эта команда может быть использована только в лобби"
 Message.CanNotUseInLobby,很抱歉，在大厅无法使用该指令,"Sorry, this command cannot be used in the lobby","Извините, эта команда не может быть использована в лобби"
 Message.CanNotUseByHost,很抱歉，房主无法使用该指令,"Sorry, Host can't use this command","Извините, но Хост не может воспользоваться этой командой"
@@ -939,6 +945,7 @@ ModBrokenMessage,模组文件损坏，请重启游戏或重装本模组,The MOD 
 DisabledByProgram,公开房间的操作已被程序禁用,Public rooms have been disabled by the program,Создание публичного лобби отключена программой
 EnterVentToWin,跳管道来获得胜利！,Enter Vent to Win!!,Запрыгните в вентиляцию чтобы победить!!
 EatenByPelican,您被鹈鹕吞了，请等待鹈鹕死亡或会议...,"You have been swallowed by a Pelican, Wait for his death or an emergency meeting...","Вы были проглочены Пеликаном, Дождитесь его смерти или экстренной встречи..."
+KBBackCountDown,您已阵亡，等待{0}秒后复活...
 FireworksPutPhase,还要安放{0}枚烟花,{0} Fireworks Left,Осталось {0} Фейерверков
 FireworksWaitPhase,耐心等待....,Wait for it...,Подожди время...
 FireworksReadyFirePhase,烟花来咯，大型烟花秀开始！,Fire!,Огонь!
@@ -968,6 +975,9 @@ Maximum,最大人数,Max,Максимум
 RoleRate,<color=#ffc0cb>启用</color>,<color=#ffc0cb>Active</color>,<color=#ffc0cb>Активен</color>
 RoleOn,<color=#ffbd18>优先</color>,<color=#ffbd18>ON</color>,<color=#ffbd18>ВКЛ</color>
 RoleOff,<color=#54545c>禁用</color>,<color=#54545c>OFF</color>,<color=#54545c>ВЫКЛ</color>
+RoleRateNoColor,启用,Active,Активен
+RoleOnNoColor,优先,ON,ВКЛ
+RoleOffNoColor,禁用,OFF,ВЫКЛ
 Rate0,0%,0%,0%
 Rate5,5%,5%,5%
 Rate10,10%,10%,10%
@@ -988,7 +998,7 @@ Preset_4,预设4,Preset 4,Сохранение 4
 Preset_5,预设5,Preset 5,Сохранение 5
 Standard,标准,Standard,Стандартный
 SoloKombat,个人竞技
-NamePrefix.SoloKombat,个人竞技模式
+ModeSoloKombat,个人竞技模式
 GameMode,游戏模式,Game Mode,Игровой Режим
 PressTabToNextPage,按下tab键查看更多...,Press Tab or Number for Next Page...,Нажмите Tab или Цифру чтобы перейти на следующую страницу...
 RoleSummaryText,复盘信息:,Game End Player-Roles List:,Игроки и роли в конце игры:
@@ -1065,6 +1075,8 @@ MessengerMurderOccurred,发生命案警告,Occurred Kill,Произошло уб
 Deadbody,尸体,Dead body,Труп
 PlayerLeftByAU-Anticheat,【{0}】被树懒超级厉害的反作弊踢出去啦~ QwQ
 KickAndriodPlayer,【{0}】因该房禁止安卓被请离房间
+KBDisplayScore,第{0}名：{1}分
+KBTimeRemain,剩余时间：{0} 秒
 
 ## 作弊
 EAC.CheatDetected.EAC,开挂（使用AUM）,Cheating usage detected (Using AUM),Обнаружено использование читов (используется AUM)

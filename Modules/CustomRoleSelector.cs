@@ -35,6 +35,14 @@ internal class CustomRoleSelector
         List<CustomRoles> ImpRateList = new();
         List<CustomRoles> NeutralRateList = new();
 
+        if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
+        {
+            RoleResult = new();
+            foreach(var pc in Main.AllAlivePlayerControls)
+                RoleResult.Add(pc, CustomRoles.KB_Normal);
+            return;
+        }
+
         foreach (var cr in Enum.GetValues(typeof(CustomRoles)))
         {
             CustomRoles role = (CustomRoles)Enum.Parse(typeof(CustomRoles), cr.ToString());
@@ -148,7 +156,7 @@ internal class CustomRoleSelector
             Main.DevRole.Remove(PlayerControl.LocalPlayer.PlayerId);
             Main.DevRole.Add(PlayerControl.LocalPlayer.PlayerId, CustomRoles.Jester);
         }
-        
+
         // Dev Roles List Edit
         foreach (var dr in Main.DevRole)
         {
@@ -240,6 +248,8 @@ internal class CustomRoleSelector
     public static List<CustomRoles> AddonRolesList = new();
     public static void SelectAddonRoles()
     {
+        if (Options.CurrentGameMode == CustomGameMode.SoloKombat) return;
+
         AddonRolesList = new();
         foreach (var cr in Enum.GetValues(typeof(CustomRoles)))
         {
