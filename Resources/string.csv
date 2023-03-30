@@ -1147,3 +1147,6 @@ DCNotify.GameNotFound,未找到指定房间，可能是房间已解散\r\n或检
 DCNotify.GameStarted,该房间正在游戏中，请等待游戏结束后加入,"Room in the game, please wait until the end of the game","Комната в игре, пожалуйста, дождитесь окончания игры"
 DCNotify.GameFull,该房间已满人，请稍后重试,"The room is full, please try again later","Комната переполнена, пожалуйста, попробуйте еще раз позже"
 DCNotify.IncorrectVersion,您的AmongUs版本与该房间不同,Your version of Among Us is different from this room,Ваша версия Among Us отличается от этой комнаты
+
+## 模式描述
+ModeDescribe.SoloKombat,本房间模式为【个人竞技模式】，没有职业分配，所有人拥有血量，可以使用击杀键对其他人造成伤害。游戏结束时击杀数量最多的玩家获胜。

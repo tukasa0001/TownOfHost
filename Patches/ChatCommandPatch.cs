@@ -728,6 +728,12 @@ internal class ChatCommands
     }
     public static void SendRolesInfo(string role, PlayerControl player, bool isDev = false, bool isUp = false)
     {
+        if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
+        {
+            Utils.SendMessage(GetString("ModeDescribe.SoloKombat"), player.PlayerId);
+            return;
+        }
+
         role = role.Trim().ToLower();
         if (role.StartsWith("/r")) role.Replace("/r", string.Empty);
         if (role.StartsWith("/up")) role.Replace("/up", string.Empty);
