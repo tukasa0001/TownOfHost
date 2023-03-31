@@ -98,6 +98,22 @@ internal static class SoloKombatManager
         PlayerDF[PlayerId] = reader.ReadSingle();
         KBScore[PlayerId] = reader.ReadInt32();
     }
+    public static void SendRPCSyncNameNotify(PlayerControl pc)
+    {
+        if (pc.AmOwner || !pc.IsModClient()) return;
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SyncKBNameNotify, SendOption.Reliable, pc.GetClientId());
+        if (NameNotify.ContainsKey(pc.PlayerId))
+            writer.Write(NameNotify[pc.PlayerId].Item1);
+        else writer.Write("");
+        AmongUsClient.Instance.FinishRpcImmediately(writer);
+    }
+    public static void ReceiveRPCSyncNameNotify(MessageReader reader)
+    {
+        var name = reader.ReadString();
+        NameNotify.Remove(PlayerControl.LocalPlayer.PlayerId);
+        if (name != null && name != "")
+            NameNotify.Add(PlayerControl.LocalPlayer.PlayerId, (name, 0));
+    }
     public static string GetDisplayHealth(PlayerControl pc)
         => pc.SoloAlive() ? Utils.ColorString(GetHealthColor(pc), $"{(int)pc.HP()}/{(int)pc.HPMAX()}") : "";
     private static Color32 GetHealthColor(PlayerControl pc)
@@ -254,6 +270,7 @@ internal static class SoloKombatManager
     {
         NameNotify.Remove(pc.PlayerId);
         NameNotify.Add(pc.PlayerId, (text, Utils.GetTimeStamp(DateTime.Now) + time));
+        SendRPCSyncNameNotify(pc);
         SendRPCSyncKBPlayer(pc.PlayerId);
         Utils.NotifyRoles(pc);
     }
@@ -321,6 +338,7 @@ internal static class SoloKombatManager
                     if (NameNotify.ContainsKey(pc.PlayerId) && NameNotify[pc.PlayerId].Item2 < Utils.GetTimeStamp(DateTime.Now))
                     {
                         NameNotify.Remove(pc.PlayerId);
+                        SendRPCSyncNameNotify(pc);
                         notifyRoles = true;
                     }
                     // 必要时刷新玩家名字

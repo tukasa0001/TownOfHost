@@ -73,6 +73,7 @@ enum CustomRPC
     //SoloKombat
     SyncKBPlayer,
     SyncKBBackCountdown,
+    SyncKBNameNotify,
 }
 public enum Sounds
 {
@@ -380,6 +381,9 @@ internal class RPCHandlerPatch
                 break;
             case CustomRPC.SyncKBBackCountdown:
                 SoloKombatManager.ReceiveRPCSyncBackCountdown(reader);
+                break;
+            case CustomRPC.SyncKBNameNotify:
+                SoloKombatManager.ReceiveRPCSyncNameNotify(reader);
                 break;
         }
     }
