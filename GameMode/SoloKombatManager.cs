@@ -228,7 +228,7 @@ internal static class SoloKombatManager
             PlayerControl.LocalPlayer.KillFlash();
 
         KBScore[killer.PlayerId]++;
-        
+
         float addRate = IRandom.Instance.Next(3, 5 + GetRankOfScore(killer.PlayerId)) / 100f;
         float addin;
         switch (IRandom.Instance.Next(0, 3))
@@ -257,7 +257,7 @@ internal static class SoloKombatManager
         SendRPCSyncKBPlayer(pc.PlayerId);
         Utils.NotifyRoles(pc);
     }
-    
+
     private static Dictionary<byte, int> BackCountdown = new();
     private static Dictionary<byte, long> LastHurt = new();
 

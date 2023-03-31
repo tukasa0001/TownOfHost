@@ -29,7 +29,7 @@ class OnGameJoinedPatch
         ChatUpdatePatch.DoBlockChat = false;
         GameStates.InGame = false;
         ErrorText.Instance.Clear();
-        
+
         if (AmongUsClient.Instance.AmHost) //以下、ホストのみ実行
         {
             GameStartManagerPatch.GameStartManagerUpdatePatch.exitTimer = -1;
@@ -202,7 +202,7 @@ class CreatePlayerPatch
             Main.AllPlayerNames.TryAdd(client.Character.PlayerId, name);
             if (!name.Equals(client.PlayerName))
             {
-                new LateTask (() => 
+                new LateTask(() =>
                 {
                     Logger.Warn($"规范昵称：{client.PlayerName} => {name}", "Name Format");
                     Main.AllPlayerControls.Where(x => x.PlayerId == client.Character.PlayerId).FirstOrDefault().RpcSetName(name);

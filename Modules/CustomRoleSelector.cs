@@ -38,7 +38,7 @@ internal class CustomRoleSelector
         if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
         {
             RoleResult = new();
-            foreach(var pc in Main.AllAlivePlayerControls)
+            foreach (var pc in Main.AllAlivePlayerControls)
                 RoleResult.Add(pc, CustomRoles.KB_Normal);
             return;
         }

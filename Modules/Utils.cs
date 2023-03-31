@@ -662,7 +662,7 @@ public static class Utils
             SendMessage(GetString("CantUse.killlog"), PlayerId);
             return;
         }
-        if(EndGamePatch.KillLog != "") SendMessage(EndGamePatch.KillLog, PlayerId);
+        if (EndGamePatch.KillLog != "") SendMessage(EndGamePatch.KillLog, PlayerId);
     }
     public static void ShowLastResult(byte PlayerId = byte.MaxValue)
     {
@@ -1066,7 +1066,7 @@ public static class Utils
                         TargetMark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>");
 
                     //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                    string TargetRoleText = 
+                    string TargetRoleText =
                         (seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) ||
                         (!seer.Data.IsDead && seer.Is(CustomRoles.Madmate) && target.GetCustomRole().IsImpostor()) ||
                         (seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers)) ||
