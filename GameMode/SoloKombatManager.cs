@@ -107,12 +107,19 @@ internal static class SoloKombatManager
         if (x > 255) R -= (x - 255); else G = x;
         return new Color32((byte)R, (byte)G, (byte)B, byte.MaxValue);
     }
+    public static Dictionary<byte, (string, long)> NameNotify = new();
     public static void GetNameNotify(PlayerControl player, ref string name)
     {
         if (Options.CurrentGameMode != CustomGameMode.SoloKombat || player == null) return;
         if (BackCountdown.ContainsKey(player.PlayerId))
         {
             name = string.Format(Translator.GetString("KBBackCountDown"), BackCountdown[player.PlayerId]);
+            NameNotify.Remove(player.PlayerId);
+            return;
+        }
+        if (NameNotify.ContainsKey(player.PlayerId))
+        {
+            name = NameNotify[player.PlayerId].Item1;
             return;
         }
     }
@@ -213,9 +220,38 @@ internal static class SoloKombatManager
     public static void OnPlayerKill(PlayerControl killer)
     {
         killer.KillFlash();
+        if (PlayerControl.LocalPlayer.Is(CustomRoles.GM))
+            PlayerControl.LocalPlayer.KillFlash();
+
         KBScore[killer.PlayerId]++;
-        SendRPCSyncKBPlayer(killer.PlayerId);
-        Utils.NotifyRoles();
+        
+        float addRate = IRandom.Instance.Next(3, 5 + GetRankOfScore(killer.PlayerId)) / 100f;
+        float addin;
+        switch (IRandom.Instance.Next(0, 3))
+        {
+            case 0:
+                addin = killer.HPMAX() * addRate;
+                PlayerHPMax[killer.PlayerId] += addin;
+                AddNameNotify(killer, string.Format(Translator.GetString("KB_Buff_HPMax"), addin));
+                break;
+            case 1:
+                addin = killer.HPRECO() * addRate * 2;
+                PlayerHPReco[killer.PlayerId] += addin;
+                AddNameNotify(killer, string.Format(Translator.GetString("KB_Buff_HPReco"), addin));
+                break;
+            case 2:
+                addin = killer.ATK() * addRate;
+                PlayerATK[killer.PlayerId] += addin;
+                AddNameNotify(killer, string.Format(Translator.GetString("KB_Buff_ATK"), addin));
+                break;
+        }
+    }
+    public static void AddNameNotify(PlayerControl pc, string text, int time = 5)
+    {
+        NameNotify.Remove(pc.PlayerId);
+        NameNotify.Add(pc.PlayerId, (text, Utils.GetTimeStamp(DateTime.Now) + time));
+        SendRPCSyncKBPlayer(pc.PlayerId);
+        Utils.NotifyRoles(pc);
     }
     
     private static Dictionary<byte, int> BackCountdown = new();
@@ -239,13 +275,14 @@ internal static class SoloKombatManager
 
             foreach (var pc in Main.AllPlayerControls)
             {
+                bool notifyRoles = false;
                 // 每秒回复血量
                 if (LastHurt[pc.PlayerId] + Options.KB_RecoverAfterSecond.GetInt() < Utils.GetTimeStamp(DateTime.Now) && pc.HP() < pc.HPMAX() && pc.SoloAlive() && !pc.inVent)
                 {
                     PlayerHP[pc.PlayerId] += pc.HPRECO();
                     PlayerHP[pc.PlayerId] = Math.Min(pc.HPMAX(), pc.HP());
                     SendRPCSyncKBPlayer(pc.PlayerId);
-                    Utils.NotifyRoles(pc);
+                    notifyRoles = true;
                 }
                 // 死亡锁定玩家在小黑屋
                 if (!pc.SoloAlive() && !pc.inVent)
@@ -261,8 +298,16 @@ internal static class SoloKombatManager
                     if (BackCountdown[pc.PlayerId] <= 0)
                         OnPlayerBack(pc);
                     SendRPCSyncKBBackCountdown(pc);
-                    Utils.NotifyRoles(pc);
+                    notifyRoles = true;
                 }
+                // 清除过期的提示信息
+                if (NameNotify.ContainsKey(pc.PlayerId) && NameNotify[pc.PlayerId].Item2 < Utils.GetTimeStamp(DateTime.Now))
+                {
+                    NameNotify.Remove(pc.PlayerId);
+                    notifyRoles = true;
+                }
+                // 必要时刷新玩家名字
+                if (notifyRoles) Utils.NotifyRoles(pc);
             }
         }
     }
