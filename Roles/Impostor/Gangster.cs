@@ -47,7 +47,7 @@ public static class Gangster
         else
             RecruitLimit.Add(PlayerId, RecruitLimitOpt.GetInt());
     }
-    public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = (CanRecruit(id) ? KillCooldown.GetFloat() : Options.DefaultKillCooldown;
+    public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CanRecruit(id) ? KillCooldown.GetFloat() : Options.DefaultKillCooldown;
     public static bool CanRecruit(byte id) => RecruitLimit.TryGetValue(id, out var x) && x > 0;
     public static void SetKillButtonText(byte plaeryId)
     {
