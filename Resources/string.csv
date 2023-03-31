@@ -35,8 +35,8 @@ TeamPelican,鹈鹕阵营,Team Pelican,Команда Пеликанов
 TeamGamer,玩家阵营,Team Demons,Команда Демонов
 
 ## 个人竞技模式
-KB_Normal,挑战者
-KB_NormalInfo,击败所有人！
+KB_Normal,挑战者,Challenger
+KB_NormalInfo,击败所有人！,Kill all of them!
 
 ## 职业
 
@@ -748,12 +748,12 @@ EraseLimit,抹除次数上限,Limit of Erasing,Лимит Стираний
 AssassinMarkCooldown,标记冷却时间,Mark Cooldown,Откат метки
 AssassinAssassinateCooldown,刺杀冷却时间,Assassinate Cooldown,Откат Ассасированния
 AssassinCanKillAfterAssassinate,可以在刺杀后进行常规击杀,Can kill after Assassinating,Может убивать после Ассасирования
-KB_GameTime,游戏持续时间
-KB_HPMax,初始血量上限
-KB_ATK,初始攻击力
-KB_RecoverAfterSecond,脱离战斗几秒后开始回复血量
-KB_RecoverPerSecond,每秒回复血量
-KB_ResurrectionWaitingTime,死亡后复活等待时间
+KB_GameTime,游戏持续时间,Game duration
+KB_HPMax,初始血量上限,Default HP
+KB_ATK,初始攻击力,Default Attack
+KB_RecoverAfterSecond,脱离战斗几秒后开始回复血量,Recover Cooldown
+KB_RecoverPerSecond,每秒回复血量,Recover Per Second
+KB_ResurrectionWaitingTime,死亡后复活等待时间,Resurrection waiting time
 
 ## 死因
 DeathReason.Kill,被杀,Kill,Убит
@@ -839,9 +839,9 @@ DivinatorCheckSelfMsg,哇靠，您查到了一位举世人才！目标太过耀�
 DivinatorCheckReachLimit,水晶球也是会累哒，接下来就算没有水晶球，也要好好努力呀！（占卜次数达到上限）,"You are tired of using a crystal ball for too much. You should retire for now. (The number of divination reaches the limit)","Вы устали от слишком частого использования хрустального шара. Вы должны уйти в отставку. (Количество гаданий достиг предела)"
 EraserEraseNotice,您发动了抹除技能\n【{0}】的技能将在会议结束后失效。,You erased 【{0}】.\nHis role will be deactivated after a meeting.,Ты стёр 【{0}】.\nЕго роль будет неактивна после собрания.
 EraserEraseNeutralNotice,很抱歉，您发动技能的目标属于中立阵营，无法被抹除。,Oops， your target is Neutral and can't be erased!,Упс， твоя цель Нейтральна и не может быть стёрта!
-KB_Buff_HPMax,奖励：血量上限 +{0}
-KB_Buff_HPReco,奖励：每秒血量回复 +{0}
-KB_Buff_ATK,奖励：攻击力 +{0}
+KB_Buff_HPMax,奖励：血量上限 +{0},Gain: HP Max +{0}
+KB_Buff_HPReco,奖励：每秒血量回复 +{0},Gain: Recover HP Per Second +{0}
+KB_Buff_ATK,奖励：攻击力 +{0},Gain: Attack +{0}
 
 ## 信息
 Message.SetToSeconds,信息发送冷却时间为【{0}】秒,Set to 【{0}】 seconds.,Установлен на 【{0}】 секунды
@@ -953,7 +953,7 @@ ModBrokenMessage,模组文件损坏，请重启游戏或重装本模组,The MOD 
 DisabledByProgram,公开房间的操作已被程序禁用,Public rooms have been disabled by the program,Создание публичного лобби отключена программой
 EnterVentToWin,跳管道来获得胜利！,Enter Vent to Win!!,Запрыгните в вентиляцию чтобы победить!!
 EatenByPelican,您被鹈鹕吞了，请等待鹈鹕死亡或会议...,"You have been swallowed by a Pelican, Wait for his death or an emergency meeting...","Вы были проглочены Пеликаном, Дождитесь его смерти или экстренной встречи..."
-KBBackCountDown,您已阵亡，等待{0}秒后复活...
+KBBackCountDown,您已阵亡，等待{0}秒后复活...,Wait for {0} seconds to revive
 FireworksPutPhase,还要安放{0}枚烟花,{0} Fireworks Left,Осталось {0} Фейерверков
 FireworksWaitPhase,耐心等待....,Wait for it...,Подожди время...
 FireworksReadyFirePhase,烟花来咯，大型烟花秀开始！,Fire!,Огонь!
@@ -1005,8 +1005,8 @@ Preset_3,预设3,Preset 3,Сохранение 3
 Preset_4,预设4,Preset 4,Сохранение 4
 Preset_5,预设5,Preset 5,Сохранение 5
 Standard,标准,Standard,Стандартный
-SoloKombat,个人竞技
-ModeSoloKombat,个人竞技模式
+SoloKombat,个人竞技,Solo Kombat
+ModeSoloKombat,个人竞技模式,Mode Solo Kombat
 GameMode,游戏模式,Game Mode,Игровой Режим
 PressTabToNextPage,按下tab键查看更多...,Press Tab or Number for Next Page...,Нажмите Tab или Цифру чтобы перейти на следующую страницу...
 RoleSummaryText,复盘信息:,Game End Player-Roles List:,Игроки и роли в конце игры:
@@ -1083,8 +1083,8 @@ MessengerMurderOccurred,发生命案警告,Occurred Kill,Произошло уб
 Deadbody,尸体,Dead body,Труп
 PlayerLeftByAU-Anticheat,【{0}】被树懒超级厉害的反作弊踢出去啦~ QwQ
 KickAndriodPlayer,【{0}】因该房禁止安卓被请离房间
-KBDisplayScore,第{0}名：{1}分
-KBTimeRemain,剩余时间：{0} 秒
+KBDisplayScore,第{0}名：{1}分,Ranking: {0} Score: {1}
+KBTimeRemain,剩余时间：{0} 秒,Time Remain: {0} Second
 
 ## 作弊
 EAC.CheatDetected.EAC,开挂（使用AUM）,Cheating usage detected (Using AUM),Обнаружено использование читов (используется AUM)
@@ -1152,4 +1152,4 @@ DCNotify.GameFull,该房间已满人，请稍后重试,"The room is full, please
 DCNotify.IncorrectVersion,您的AmongUs版本与该房间不同,Your version of Among Us is different from this room,Ваша версия Among Us отличается от этой комнаты
 
 ## 模式描述
-ModeDescribe.SoloKombat,本房间模式为【个人竞技模式】\n没有职业分配，所有人拥有血量，可以使用击杀键对其他人造成伤害。游戏结束时击杀数量最多的玩家获胜。
+ModeDescribe.SoloKombat,本房间模式为【个人竞技模式】\n没有职业分配，所有人拥有血量，可以使用击杀键对其他人造成伤害。游戏结束时击杀数量最多的玩家获胜。,"Current mode is [Solo Kombat]\nNo roles assignments. Everyone has HP and can use the kill button to cause damage to other players. The player with the highest number of kills wins at the end of the game."
