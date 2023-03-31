@@ -236,17 +236,17 @@ internal static class SoloKombatManager
             case 0:
                 addin = killer.HPMAX() * addRate;
                 PlayerHPMax[killer.PlayerId] += addin;
-                AddNameNotify(killer, string.Format(Translator.GetString("KB_Buff_HPMax"), (double)addin));
+                AddNameNotify(killer, string.Format(Translator.GetString("KB_Buff_HPMax"), addin.ToString("0.0#####")));
                 break;
             case 1:
                 addin = killer.HPRECO() * addRate * 2;
                 PlayerHPReco[killer.PlayerId] += addin;
-                AddNameNotify(killer, string.Format(Translator.GetString("KB_Buff_HPReco"), (double)addin));
+                AddNameNotify(killer, string.Format(Translator.GetString("KB_Buff_HPReco"), addin.ToString("0.0#####")));
                 break;
             case 2:
                 addin = killer.ATK() * addRate;
                 PlayerATK[killer.PlayerId] += addin;
-                AddNameNotify(killer, string.Format(Translator.GetString("KB_Buff_ATK"), (double)addin));
+                AddNameNotify(killer, string.Format(Translator.GetString("KB_Buff_ATK"), addin.ToString("0.0#####")));
                 break;
         }
     }
