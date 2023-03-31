@@ -152,7 +152,7 @@ internal static class SoloKombatManager
     public static void OnPlayerAttack(PlayerControl killer, PlayerControl target)
     {
         if (killer == null || target == null || Options.CurrentGameMode != CustomGameMode.SoloKombat) return;
-        if (!killer.SoloAlive() || !target.SoloAlive()) return;
+        if (!killer.SoloAlive() || !target.SoloAlive() || target.inVent) return;
 
         var dmg = killer.ATK() - target.DF();
         PlayerHP[target.PlayerId] = Math.Max(0f, target.HP() - dmg);
@@ -182,12 +182,16 @@ internal static class SoloKombatManager
         SendRPCSyncKBPlayer(pc.PlayerId);
 
         LastHurt[pc.PlayerId] = Utils.GetTimeStamp(DateTime.Now);
-        Main.AllPlayerSpeed[pc.PlayerId] = Main.AllPlayerSpeed[pc.PlayerId] - 0.5f + originalSpeed[pc.PlayerId];
+        Main.AllPlayerSpeed[pc.PlayerId] = Main.AllPlayerSpeed[pc.PlayerId] - 0.3f + originalSpeed[pc.PlayerId];
         pc.MarkDirtySettings();
 
         RPC.PlaySoundRPC(pc.PlayerId, Sounds.TaskComplete);
         pc.RpcGuardAndKill(colorId: 1);
 
+        PlayerRandomSpwan(pc);
+    }
+    public static void PlayerRandomSpwan(PlayerControl pc)
+    {
         SpawnMap map;
         switch (Main.NormalOptions.MapId)
         {
@@ -211,7 +215,7 @@ internal static class SoloKombatManager
         originalSpeed.Add(target.PlayerId, Main.AllPlayerSpeed[target.PlayerId]);
 
         Utils.TP(target.NetTransform, Pelican.GetBlackRoomPS());
-        Main.AllPlayerSpeed[target.PlayerId] = 0.5f;
+        Main.AllPlayerSpeed[target.PlayerId] = 0.3f;
         target.MarkDirtySettings();
 
         BackCountdown.TryAdd(target.PlayerId, Options.KB_ResurrectionWaitingTime.GetInt());
@@ -232,17 +236,17 @@ internal static class SoloKombatManager
             case 0:
                 addin = killer.HPMAX() * addRate;
                 PlayerHPMax[killer.PlayerId] += addin;
-                AddNameNotify(killer, string.Format(Translator.GetString("KB_Buff_HPMax"), addin));
+                AddNameNotify(killer, string.Format(Translator.GetString("KB_Buff_HPMax"), (double)addin));
                 break;
             case 1:
                 addin = killer.HPRECO() * addRate * 2;
                 PlayerHPReco[killer.PlayerId] += addin;
-                AddNameNotify(killer, string.Format(Translator.GetString("KB_Buff_HPReco"), addin));
+                AddNameNotify(killer, string.Format(Translator.GetString("KB_Buff_HPReco"), (double)addin));
                 break;
             case 2:
                 addin = killer.ATK() * addRate;
                 PlayerATK[killer.PlayerId] += addin;
-                AddNameNotify(killer, string.Format(Translator.GetString("KB_Buff_ATK"), addin));
+                AddNameNotify(killer, string.Format(Translator.GetString("KB_Buff_ATK"), (double)addin));
                 break;
         }
     }
@@ -264,7 +268,21 @@ internal static class SoloKombatManager
         public static void Postfix(PlayerControl __instance)
         {
             if (!GameStates.IsInTask || Options.CurrentGameMode != CustomGameMode.SoloKombat) return;
-            
+
+            if (AmongUsClient.Instance.AmHost)
+            {
+                foreach (var pc in Main.AllPlayerControls)
+                {
+                    // 死亡锁定玩家在小黑屋
+                    if (!pc.SoloAlive() && !pc.inVent)
+                    {
+                        var pos = Pelican.GetBlackRoomPS();
+                        var dis = Vector2.Distance(pos, pc.GetTruePosition());
+                        if (dis > 1f) Utils.TP(pc.NetTransform, pos);
+                    }
+                }
+            }
+
             if (LastFixedUpdate == Utils.GetTimeStamp(DateTime.Now)) return;
             LastFixedUpdate = Utils.GetTimeStamp(DateTime.Now);
 
@@ -284,12 +302,12 @@ internal static class SoloKombatManager
                     SendRPCSyncKBPlayer(pc.PlayerId);
                     notifyRoles = true;
                 }
-                // 死亡锁定玩家在小黑屋
+                // 复活玩家随机复活（二次确认）
                 if (!pc.SoloAlive() && !pc.inVent)
                 {
                     var pos = Pelican.GetBlackRoomPS();
                     var dis = Vector2.Distance(pos, pc.GetTruePosition());
-                    if (dis > 1f) Utils.TP(pc.NetTransform, pos);
+                    if (dis < 1.1f) PlayerRandomSpwan(pc);
                 }
                 // 复活倒计时
                 if (BackCountdown.ContainsKey(pc.PlayerId))

@@ -221,7 +221,7 @@ static class ExtendedPlayerControl
             PlayerControl.LocalPlayer.SetKillTimer(time);
         else if (player.IsModClient())
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetKillTimer, SendOption.Reliable, -1);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetKillTimer, SendOption.Reliable, player.GetClientId());
             writer.Write(time);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
