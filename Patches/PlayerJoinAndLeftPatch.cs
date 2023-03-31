@@ -198,6 +198,8 @@ class CreatePlayerPatch
             if (name.Length > 10) name = name[..10];
             var TempName = new List<string> { "冰激凌", "奶茶", "巧克力", "蛋糕", "甜甜圈", "可乐", "柠檬水", "冰糖葫芦", "果冻", "糖果", "牛奶", "抹茶", "烧仙草" };
             if (name.Length < 1) name = TempName[IRandom.Instance.Next(0, TempName.Count)];
+            Main.AllPlayerNames.Remove(client.Character.PlayerId);
+            Main.AllPlayerNames.TryAdd(client.Character.PlayerId, name);
             if (!name.Equals(client.PlayerName))
             {
                 new LateTask (() => 
@@ -206,9 +208,6 @@ class CreatePlayerPatch
                     Main.AllPlayerControls.Where(x => x.PlayerId == client.Character.PlayerId).FirstOrDefault().RpcSetName(name);
                 }, 1.3f, "Name Format");
             }
-
-            Main.AllPlayerNames.Remove(client.Character.PlayerId);
-            Main.AllPlayerNames.TryAdd(client.Character.PlayerId, name);
 
             OptionItem.SyncAllOptions();
             new LateTask(() =>
