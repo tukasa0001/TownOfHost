@@ -42,6 +42,7 @@ internal class VersionShowerStartPatch
     {
 
         Main.credentialsText = $"\r\n<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}";
+        if (Main.IsAprilFools) Main.credentialsText = $"\r\n<color=#00bfff>Town Of Host</color> v11.45.14";
 #if DEBUG
         Main.credentialsText += $"\r\n<color={Main.ModColor}>内测({ThisAssembly.Git.Commit})</color>";
 #endif
@@ -78,7 +79,7 @@ internal class VersionShowerStartPatch
             ColorUtility.TryParseHtmlString(Main.ModColor, out var col);
             SpecialEventText.color = col;
         }
-        else
+        else if (!Main.IsAprilFools)
         {
             SpecialEventText.text = $"{Main.MainMenuText}";
             SpecialEventText.fontSize = 0.9f;
@@ -87,7 +88,7 @@ internal class VersionShowerStartPatch
             SpecialEventText.transform.position = new Vector3(4.6f, 2.725f, 0);
         }
 
-        if ((OVersionShower = GameObject.Find("VersionShower")) != null)
+        if ((OVersionShower = GameObject.Find("VersionShower")) != null && !Main.IsAprilFools)
         {
             OVersionShower.transform.localScale = new Vector3(0.6f, 0.6f, 1f);
             OVersionShower.transform.position = new Vector3(-5.3f, 2.9f, 0f);
@@ -121,6 +122,23 @@ internal class TitleLogoPatch
 
     private static void Postfix(MainMenuManager __instance)
     {
+        if (Main.IsAprilFools)
+        {
+            if ((amongUsLogo = GameObject.Find("bannerLogo_AmongUs")) != null)
+            {
+                amongUsLogo.transform.localScale *= 0.4f;
+                amongUsLogo.transform.position += Vector3.up * 0.25f;
+            }
+
+            var tohLogo = new GameObject("titleLogo_TOH");
+            tohLogo.transform.position = Vector3.up;
+            tohLogo.transform.localScale *= 1.2f;
+            var renderer = tohLogo.AddComponent<SpriteRenderer>();
+            renderer.sprite = Utils.LoadSprite("TOHE.Resources.TownOfHost-Logo.png", 300f);
+
+            return;
+        }
+
         if ((amongUsLogo = GameObject.Find("bannerLogo_AmongUs")) != null)
         {
             amongUsLogo.transform.localScale *= 0.4f;

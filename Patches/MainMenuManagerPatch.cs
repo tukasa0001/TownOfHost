@@ -43,10 +43,10 @@ public class MainMenuManagerPatch
         qqPassiveButton.OnMouseOut.AddListener((Action)(() => qqButtonSprite.color = discordText.color = qqColor));
         __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => discordText.SetText("QQ群"))));
         qqButtonSprite.color = discordText.color = qqColor;
-        qqButton.gameObject.SetActive(Main.ShowQQButton);
+        qqButton.gameObject.SetActive(Main.ShowQQButton && !Main.IsAprilFools);
 
         //Updateボタンを生成
-        if (updateButton == null) updateButton = UnityEngine.Object.Instantiate(template, template.transform.parent);
+        if (updateButton == null) updateButton = Object.Instantiate(template, template.transform.parent);
         updateButton.name = "UpdateButton";
         updateButton.transform.position = template.transform.position + new Vector3(0.25f, 0.75f);
         updateButton.transform.GetChild(0).GetComponent<RectTransform>().localScale *= 1.5f;
@@ -65,6 +65,8 @@ public class MainMenuManagerPatch
         updateButtonSprite.color = updateText.color = updateColor;
         updateButtonSprite.size *= 1.5f;
         updateButton.SetActive(false);
+
+        if (Main.IsAprilFools) return;
 
         var bottomTemplate = GameObject.Find("InventoryButton");
         if (bottomTemplate == null) return;
