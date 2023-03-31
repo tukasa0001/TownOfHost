@@ -234,7 +234,7 @@ internal static class SoloKombatManager
         switch (IRandom.Instance.Next(0, 3))
         {
             case 0:
-                addin = killer.HPMAX() * addRate;
+                addin = killer.HPMAX() * addRate;   
                 PlayerHPMax[killer.PlayerId] += addin;
                 AddNameNotify(killer, string.Format(Translator.GetString("KB_Buff_HPMax"), addin.ToString("0.0#####")));
                 break;
@@ -303,7 +303,7 @@ internal static class SoloKombatManager
                     notifyRoles = true;
                 }
                 // 复活玩家随机复活（二次确认）
-                if (!pc.SoloAlive() && !pc.inVent)
+                if (pc.SoloAlive() && !pc.inVent)
                 {
                     var pos = Pelican.GetBlackRoomPS();
                     var dis = Vector2.Distance(pos, pc.GetTruePosition());
