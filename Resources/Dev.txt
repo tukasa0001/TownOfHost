@@ -1,0 +1,19 @@
+## Dev
+actorour#0029,#ffc0cb,{Developer},true,true,KARPED1EM
+pinklaze#1776,#30548e,{Developer},true,true,NCSIMON
+keepchirpy#6354,#E42217,{Developer},false,false
+
+## Booster
+truantwarm#9165,null,null,true,false,萧暮不姓萧
+drilldinky#1386,null,null,true,false,爱玩AU的河豚
+farardour#6818,null,null,true,false,-提米SaMa-
+recentduct#6068,#FF00FF,高冷男模法师,false,true
+heavyclod#2286,#FFFF00,小叨.exe已停止运行,true,false,小叨院长
+canneddrum#2370,#fffcbe,我是喜唉awa,false,false
+dovefitted#5329,#1379bf,不要首刀我,false,true
+teamelder#5856,#1379bf,正义之师（无信誉）,false,false
+luckylogo#7352,#f30000.林@林,false,false
+axefitful#8788,#8e8171,寄才是真理,false,false
+raltzonal#8893,#8e8171,寄才是真理,false,false
+storeroan#0331,#FF0066,Night_瓜,true,false,Night_瓜
+twainrobin#8089,#0000FF,啊哈修maker,false,false

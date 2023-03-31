@@ -1,3 +1,4 @@
+using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
 using System;
@@ -125,7 +126,7 @@ class StartPatch
 
         Utils.CountAlivePlayers(true);
 
-        if (Options.AllowConsole.GetBool() || Utils.CanUseDevCommand(PlayerControl.LocalPlayer))
+        if (Options.AllowConsole.GetBool() || PlayerControl.LocalPlayer.FriendCode.GetDevUser().IsDev)
         {
             if (!BepInEx.ConsoleManager.ConsoleActive && BepInEx.ConsoleManager.ConsoleEnabled)
                 BepInEx.ConsoleManager.CreateConsole();

@@ -1,7 +1,6 @@
 using AmongUs.Data;
 using AmongUs.GameOptions;
 using Hazel;
-using InnerNet;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,7 +18,6 @@ using TOHE.Roles.Neutral;
 using UnhollowerBaseLib;
 using UnityEngine;
 using static TOHE.Translator;
-using static UnityEngine.GraphicsBuffer;
 
 namespace TOHE;
 
@@ -815,36 +813,44 @@ public static class Utils
         if (title == "") title = "<color=#aaaaff>" + GetString("DefaultSystemMessageTitle") + "</color>";
         Main.MessagesToSend.Add((text.RemoveHtmlTags(), sendTo, title));
     }
-    public static void ApplySuffix()
+    public static void ApplySuffix(PlayerControl player)
     {
-        if (!AmongUsClient.Instance.AmHost || IsDev(PlayerControl.LocalPlayer)) return;
-        string name = DataManager.player.Customization.Name;
-        if (Main.nickName != "") name = Main.nickName;
+        if (!AmongUsClient.Instance.AmHost || player == null) return;
+        if (!(player.AmOwner || (!player.IsModClient() && player.FriendCode.GetDevUser().HasTag()))) return;
+        string name = Main.AllPlayerNames.TryGetValue(player.PlayerId, out var n) ? n : "";
+        if (Main.nickName != "" && player.AmOwner) name = Main.nickName;
+        if (name == "") return;
         if (AmongUsClient.Instance.IsGameStarted)
         {
-            if (Options.ColorNameMode.GetBool() && Main.nickName == "") name = Palette.GetColorName(PlayerControl.LocalPlayer.Data.DefaultOutfit.ColorId);
+            if (Options.ColorNameMode.GetBool() && Main.nickName == "") name = Palette.GetColorName(player.Data.DefaultOutfit.ColorId);
         }
         else
         {
             if (!GameStates.IsLobby) return;
-            if (AmongUsClient.Instance.IsGamePublic)
-                name = $"<color=#ffd6ec>TOHE</color><color=#baf7ca>★</color>" + name;
-            if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
-                name = $"<color=#f55252><size=1.9>{GetString("ModeSoloKombat")}</size></color>\r\n" + name;
-            name = Options.GetSuffixMode() switch
+            if (player.AmOwner)
             {
-                SuffixModes.TOHE => name += $"\r\n<color={Main.ModColor}>TOHE v{Main.PluginVersion}</color>",
-                SuffixModes.Streaming => name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Streaming")}</color>",
-                SuffixModes.Recording => name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Recording")}</color>",
-                SuffixModes.RoomHost => name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.RoomHost")}</color>",
-                SuffixModes.OriginalName => name += $"\r\n<color={Main.ModColor}>{DataManager.player.Customization.Name}</color>",
-                SuffixModes.DoNotKillMe => name += $"\r\n<color={Main.ModColor}>{GetString("SuffixModeText.DoNotKillMe")}</color>",
-                SuffixModes.NoAndroidPlz => name += $"\r\n<color={Main.ModColor}>{GetString("SuffixModeText.NoAndroidPlz")}</color>",
-                _ => name
-            };
+                if (AmongUsClient.Instance.IsGamePublic)
+                    name = $"<color=#ffd6ec>TOHE</color><color=#baf7ca>★</color>" + name;
+                if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
+                    name = $"<color=#f55252><size=1.9>{GetString("ModeSoloKombat")}</size></color>\r\n" + name;
+            }
+            if (!name.Contains("\r") && player.FriendCode.GetDevUser().HasTag())
+                name = player.FriendCode.GetDevUser().GetTag() + name;
+            else
+                name = Options.GetSuffixMode() switch
+                {
+                    SuffixModes.TOHE => name += $"\r\n<color={Main.ModColor}>TOHE v{Main.PluginVersion}</color>",
+                    SuffixModes.Streaming => name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Streaming")}</color>",
+                    SuffixModes.Recording => name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Recording")}</color>",
+                    SuffixModes.RoomHost => name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.RoomHost")}</color>",
+                    SuffixModes.OriginalName => name += $"\r\n<color={Main.ModColor}>{DataManager.player.Customization.Name}</color>",
+                    SuffixModes.DoNotKillMe => name += $"\r\n<color={Main.ModColor}>{GetString("SuffixModeText.DoNotKillMe")}</color>",
+                    SuffixModes.NoAndroidPlz => name += $"\r\n<color={Main.ModColor}>{GetString("SuffixModeText.NoAndroidPlz")}</color>",
+                    _ => name
+                };
         }
-        if (name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default)
-            PlayerControl.LocalPlayer.RpcSetName(name);
+        if (name != player.name && player.CurrentOutfitType == PlayerOutfitType.Default)
+            player.RpcSetName(name);
     }
     public static PlayerControl GetPlayerById(int PlayerId)
     {
@@ -1155,114 +1161,6 @@ public static class Utils
         if (Options.AirShipVariableElectrical.GetBool())
             AirShipElectricalDoors.Initialize();
     }
-    public static void ApplyDevSuffix(PlayerControl player)
-    {
-        if (!AmongUsClient.Instance.AmHost || !player.IsModClient() || !IsDev(player)) return;
-        string name = Main.AllPlayerNames.TryGetValue(player.PlayerId, out var n) ? n : "";
-        if (name == "") return;
-        if (AmongUsClient.Instance.IsGameStarted)
-        {
-            if (Options.ColorNameMode.GetBool() && Main.nickName == "") name = Palette.GetColorName(player.Data.DefaultOutfit.ColorId);
-        }
-        else
-        {
-            if (!GameStates.IsLobby) return;
-            if (player.AmOwner)
-            {
-                if (AmongUsClient.Instance.IsGamePublic)
-                    name = $"<color=#ffd6ec>TOHE</color><color=#baf7ca>★</color>" + name;
-                if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
-                    name = $"<color=#f55252><size=1.9>{GetString("ModeSoloKombat")}</size></color>\r\n" + name;
-            }
-            if (!name.Contains("\r"))
-                name = player.FriendCode switch
-                {
-                    "actorour#0029" => $"<color={Main.ModColor}><size=1.7>{GetString("Developer")}</size></color>\r\n" + name,
-                    "keepchirpy#6354" => $"<color=#E42217><size=1.7>{GetString("Developer")}</size></color>\r\n" + name,
-                    "pinklaze#1776" => $"<color=#30548e><size=1.7>{GetString("Developer")}</size></color>\r\n" + name,
-
-                    "recentduct#6068" => $"<color=#FF00FF><size=1.7>高冷男模法师</size></color>\r\n" + name,
-                    "heavyclod#2286" => $"<color=#FFFF00><size=1.7>小叨.exe已停止运行</size></color>\r\n" + name,
-                    "canneddrum#2370" => $"<color=#fffcbe><size=1.7>我是喜唉awa</size></color>\r\n" + name,
-                    "dovefitted#5329" => $"<color=#1379bf><size=1.7>不要首刀我</size></color>\r\n" + name,
-                    "teamelder#5856" => $"<color=#1379bf><size=1.7>正义之师（无信誉）</size></color>\r\n" + name,
-                    "luckylogo#7352" => $"<color=#f30000><size=1.7>林@林</size></color>\r\n" + name,
-                    "axefitful#8788" => $"<color=#8e8171><size=1.7>寄才是真理</size></color>\r\n" + name,
-                    "storeroan#0331" => $"<color=#FF0066><size=1.7>Night_瓜</size></color>\r\n" + name,
-                    "twainrobin#8089" => $"<color=#0000FF><size=1.7>啊哈修maker</size></color>\r\n" + name,
-                    _ => name,
-                };
-        }
-        if (name != player.name && player.CurrentOutfitType == PlayerOutfitType.Default)
-            player.RpcSetName(name);
-    }
-    public static bool IsDev(PlayerControl pc)
-    {
-        return pc.FriendCode is
-            "actorour#0029" or
-            "pinklaze#1776" or //NCM
-            "keepchirpy#6354" or //Tommy
-            "bannerfond#3960" or
-            "recentduct#6068" or
-            "heavyclod#2286" or //小叨院长
-            "canneddrum#2370" or //屑人
-            "dovefitted#5329" or //ltemten
-            "teamelder#5856" or //Slok
-            "luckylogo#7352" or //林林林
-            "axefitful#8788" or //罗寄
-            "raltzonal#8893" or
-            "storeroan#0331" or //西瓜
-            "twainrobin#8089"; //辣鸡
-    }
-    public static bool CanUseDevCommand(PlayerControl pc)
-    {
-        return pc.FriendCode is
-            "actorour#0029" or
-            "pinklaze#1776" or //NCM
-            "keepchirpy#6354" or //Tommy
-            "bannerfond#3960" or
-            "recentduct#6068" or
-            "radarright#2509";
-    }
-    public static bool CanUseDevCommand(int pcId)
-    {
-        var pc = GetPlayerById(pcId);
-        return pc != null && IsDev(pc);
-    }
-    public static bool IsUP(PlayerControl pc)
-    {
-        return pc.FriendCode is
-            "actorour#0029" or
-            "truantwarm＃9165" or //萧暮
-            "drilldinky#1386" or //河豚
-            "heavyclod#2286" or //小叨院长
-            "storeroan#0331" or //西瓜
-            "farardour#6818"; //提米
-    }
-    public static string GetUpName(PlayerControl pc)
-    {
-        return pc.FriendCode switch
-        {
-            "actorour#0029" => "KARPED1EM",
-            "truantwarm＃9165" => "萧暮不姓萧",
-            "drilldinky#1386" => "爱玩AU的河豚",
-            "heavyclod#2286" => "小叨院长",
-            "storeroan#0331" => "Night_瓜",
-            "farardour#6818" => "-提米SaMa-",
-            _ => "未认证用户",
-        };
-    }
-    public static bool IsUP(int pcId)
-    {
-        var pc = GetPlayerById(pcId);
-        return pc != null && IsUP(pc);
-    }
-    public static bool IsDev(int pcId)
-    {
-        var pc = GetPlayerById(pcId);
-        return pc != null && IsDev(pc);
-    }
-
     public static void ChangeInt(ref int ChangeTo, int input, int max)
     {
         var tmp = ChangeTo * 10;

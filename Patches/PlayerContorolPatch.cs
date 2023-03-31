@@ -1255,10 +1255,7 @@ class FixedUpdatePatch
                 }
 
             if (!Main.DoBlockNameChange && AmongUsClient.Instance.AmHost)
-            {
-                if (Utils.IsDev(PlayerControl.LocalPlayer)) Utils.ApplyDevSuffix(__instance);
-                else Utils.ApplySuffix();
-            }
+                Utils.ApplySuffix(__instance);
         }
         //LocalPlayer専用
         if (__instance.AmOwner)

@@ -259,7 +259,7 @@ internal class ChatCommands
                 {
                     version_text += $"{kvp.Key}:{Main.AllPlayerNames[kvp.Key]}:{kvp.Value.forkId}/{kvp.Value.version}({kvp.Value.tag})\n";
                 }
-                if (version_text != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, (Utils.IsDev(PlayerControl.LocalPlayer) ? "\n" : string.Empty) + version_text);
+                if (version_text != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, (PlayerControl.LocalPlayer.FriendCode.GetDevUser().HasTag() ? "\n" : string.Empty) + version_text);
                 break;
             default:
                 Main.isChatCommand = false;
@@ -363,13 +363,13 @@ internal class ChatCommands
                         Utils.SendMessage(GetString("GuesserInfoLong"), PlayerControl.LocalPlayer.PlayerId);
                         break;
                     }
-                    SendRolesInfo(subArgs, PlayerControl.LocalPlayer, Utils.CanUseDevCommand(PlayerControl.LocalPlayer));
+                    SendRolesInfo(subArgs, PlayerControl.LocalPlayer, PlayerControl.LocalPlayer.FriendCode.GetDevUser().IsDev);
                     break;
 
                 case "/up":
                     canceled = true;
                     subArgs = text.Remove(0, 3);
-                    if (!Utils.IsUP(PlayerControl.LocalPlayer)) break;
+                    if (!PlayerControl.LocalPlayer.FriendCode.GetDevUser().IsUp) break;
                     if (!Options.EnableUpMode.GetBool())
                     {
                         Utils.SendMessage($"请在设置启用【{GetString("EnableUpMode")}】");
@@ -408,14 +408,14 @@ internal class ChatCommands
                         Utils.SendMessage(sb.ToString(), lp.PlayerId);
                     }
                     else
-                        Utils.SendMessage((Utils.IsDev(PlayerControl.LocalPlayer) ? "\n" : string.Empty) + GetString("Message.CanNotUseInLobby"), PlayerControl.LocalPlayer.PlayerId);
+                        Utils.SendMessage((PlayerControl.LocalPlayer.FriendCode.GetDevUser().HasTag() ? "\n" : string.Empty) + GetString("Message.CanNotUseInLobby"), PlayerControl.LocalPlayer.PlayerId);
                     break;
 
                 case "/t":
                 case "/template":
                     canceled = true;
                     if (args.Length > 1) TemplateManager.SendTemplate(args[1]);
-                    else HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, (Utils.IsDev(PlayerControl.LocalPlayer) ? "\n" : string.Empty) + $"{GetString("ForExample")}:\n{args[0]} test");
+                    else HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, (PlayerControl.LocalPlayer.FriendCode.GetDevUser().HasTag() ? "\n" : string.Empty) + $"{GetString("ForExample")}:\n{args[0]} test");
                     break;
 
                 case "/mw":
@@ -827,7 +827,7 @@ internal class ChatCommands
                     Utils.SendMessage(GetString("GuesserInfoLong"), player.PlayerId);
                     break;
                 }
-                SendRolesInfo(subArgs, player, Utils.CanUseDevCommand(player));
+                SendRolesInfo(subArgs, player, player.FriendCode.GetDevUser().IsDev);
                 break;
 
             case "/h":
@@ -910,12 +910,12 @@ internal class ChatCommands
 
             case "/say":
             case "/s":
-                if (Utils.CanUseDevCommand(player))
+                if (player.FriendCode.GetDevUser().IsDev)
                 {
                     if (args.Length > 1)
                         Utils.SendMessage(args.Skip(1).Join(delimiter: " "), title: $"<color={Main.ModColor}>{"【 ★ 开发者消息 ★ 】"}</color>");
                 }
-                else if (Utils.IsDev(player))
+                else if (player.FriendCode.IsDevUser())
                 {
                     if (args.Length > 1)
                         Utils.SendMessage(args.Skip(1).Join(delimiter: " "), title: $"<color=#4bc9b0>{"【 ★ 贡献者消息 ★ 】"}</color>");
@@ -932,7 +932,7 @@ internal class ChatCommands
         // Logger.Info($"Checking lines in directory {filename}.", "ReturnAllNewLinesInFile (ChatCommands)");
         if (!File.Exists(filename))
         {
-            HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, (Utils.IsDev(PlayerControl.LocalPlayer) ? "\n" : string.Empty) + $"No {filename} file found.");
+            HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, (PlayerControl.LocalPlayer.FriendCode.GetDevUser().HasTag() ? "\n" : string.Empty) + $"No {filename} file found.");
             File.WriteAllText(filename, "Enter the desired stuff here.");
             return new List<string>();
         }
@@ -952,7 +952,7 @@ internal class ChatCommands
         if (sendList.Count == 0 && !noErr)
         {
             if (playerId == 0xff)
-                HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, (Utils.IsDev(PlayerControl.LocalPlayer) ? "\n" : string.Empty) + string.Format(GetString("Message.TemplateNotFoundHost"), Main.BANNEDWORDS_FILE_PATH, tags.Join(delimiter: ", ")));
+                HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, (PlayerControl.LocalPlayer.FriendCode.GetDevUser().HasTag() ? "\n" : string.Empty) + string.Format(GetString("Message.TemplateNotFoundHost"), Main.BANNEDWORDS_FILE_PATH, tags.Join(delimiter: ", ")));
             else Utils.SendMessage(string.Format(GetString("Message.TemplateNotFoundClient"), Main.BANNEDWORDS_FILE_PATH), playerId);
             return new List<string>();
         }
