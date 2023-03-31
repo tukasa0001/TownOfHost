@@ -134,7 +134,7 @@ public class PlayerGameOptionsSender : GameOptionsSender
                 break;
             case CustomRoles.Paranoia:
                 AURoleOptions.EngineerCooldown =
-                    Main.ParaUsedButtonCount.TryGetValue(player.PlayerId, out var count2) && count2 >= Options.ParanoiaNumOfUseButton.GetInt()
+                    Main.ParaUsedButtonCount.TryGetValue(player.PlayerId, out var count2) && count2 < Options.ParanoiaNumOfUseButton.GetInt()
                     ? Options.ParanoiaVentCooldown.GetFloat()
                     : 300f;
                 AURoleOptions.EngineerInVentMaxTime = 1;
