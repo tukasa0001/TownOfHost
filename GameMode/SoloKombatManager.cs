@@ -234,7 +234,7 @@ internal static class SoloKombatManager
         switch (IRandom.Instance.Next(0, 3))
         {
             case 0:
-                addin = killer.HPMAX() * addRate;   
+                addin = killer.HPMAX() * addRate;
                 PlayerHPMax[killer.PlayerId] += addin;
                 AddNameNotify(killer, string.Format(Translator.GetString("KB_Buff_HPMax"), addin.ToString("0.0#####")));
                 break;
@@ -273,7 +273,7 @@ internal static class SoloKombatManager
             {
                 foreach (var pc in Main.AllPlayerControls)
                 {
-                    // 死亡锁定玩家在小黑屋
+                    // 锁定死亡玩家在小黑屋
                     if (!pc.SoloAlive() && !pc.inVent)
                     {
                         var pos = Pelican.GetBlackRoomPS();
@@ -281,51 +281,71 @@ internal static class SoloKombatManager
                         if (dis > 1f) Utils.TP(pc.NetTransform, pos);
                     }
                 }
+
+                if (LastFixedUpdate == Utils.GetTimeStamp(DateTime.Now)) return;
+                LastFixedUpdate = Utils.GetTimeStamp(DateTime.Now);
+
+                // 减少全局倒计时
+                RoundTime--;
+
+                if (!AmongUsClient.Instance.AmHost) return;
+
+                foreach (var pc in Main.AllPlayerControls)
+                {
+                    bool notifyRoles = false;
+                    // 每秒回复血量
+                    if (LastHurt[pc.PlayerId] + Options.KB_RecoverAfterSecond.GetInt() < Utils.GetTimeStamp(DateTime.Now) && pc.HP() < pc.HPMAX() && pc.SoloAlive() && !pc.inVent)
+                    {
+                        PlayerHP[pc.PlayerId] += pc.HPRECO();
+                        PlayerHP[pc.PlayerId] = Math.Min(pc.HPMAX(), pc.HP());
+                        SendRPCSyncKBPlayer(pc.PlayerId);
+                        notifyRoles = true;
+                    }
+                    // 复活玩家随机复活（二次确认）
+                    if (pc.SoloAlive() && !pc.inVent)
+                    {
+                        var pos = Pelican.GetBlackRoomPS();
+                        var dis = Vector2.Distance(pos, pc.GetTruePosition());
+                        if (dis < 1.1f) PlayerRandomSpwan(pc);
+                    }
+                    // 复活倒计时
+                    if (BackCountdown.ContainsKey(pc.PlayerId))
+                    {
+                        BackCountdown[pc.PlayerId]--;
+                        if (BackCountdown[pc.PlayerId] <= 0)
+                            OnPlayerBack(pc);
+                        SendRPCSyncKBBackCountdown(pc);
+                        notifyRoles = true;
+                    }
+                    // 清除过期的提示信息
+                    if (NameNotify.ContainsKey(pc.PlayerId) && NameNotify[pc.PlayerId].Item2 < Utils.GetTimeStamp(DateTime.Now))
+                    {
+                        NameNotify.Remove(pc.PlayerId);
+                        notifyRoles = true;
+                    }
+                    // 必要时刷新玩家名字
+                    if (notifyRoles) Utils.NotifyRoles(pc);
+                }
             }
+        }
 
-            if (LastFixedUpdate == Utils.GetTimeStamp(DateTime.Now)) return;
-            LastFixedUpdate = Utils.GetTimeStamp(DateTime.Now);
-
-            // 减少全局倒计时
-            RoundTime--;
-
-            if (!AmongUsClient.Instance.AmHost) return;
-
-            foreach (var pc in Main.AllPlayerControls)
+        [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoEnterVent))]
+        class KBCoEnterVentPatch
+        {
+            public static bool Prefix(PlayerPhysics __instance, [HarmonyArgument(0)] int id)
             {
-                bool notifyRoles = false;
-                // 每秒回复血量
-                if (LastHurt[pc.PlayerId] + Options.KB_RecoverAfterSecond.GetInt() < Utils.GetTimeStamp(DateTime.Now) && pc.HP() < pc.HPMAX() && pc.SoloAlive() && !pc.inVent)
-                {
-                    PlayerHP[pc.PlayerId] += pc.HPRECO();
-                    PlayerHP[pc.PlayerId] = Math.Min(pc.HPMAX(), pc.HP());
-                    SendRPCSyncKBPlayer(pc.PlayerId);
-                    notifyRoles = true;
-                }
-                // 复活玩家随机复活（二次确认）
-                if (pc.SoloAlive() && !pc.inVent)
-                {
-                    var pos = Pelican.GetBlackRoomPS();
-                    var dis = Vector2.Distance(pos, pc.GetTruePosition());
-                    if (dis < 1.1f) PlayerRandomSpwan(pc);
-                }
-                // 复活倒计时
-                if (BackCountdown.ContainsKey(pc.PlayerId))
-                {
-                    BackCountdown[pc.PlayerId]--;
-                    if (BackCountdown[pc.PlayerId] <= 0)
-                        OnPlayerBack(pc);
-                    SendRPCSyncKBBackCountdown(pc);
-                    notifyRoles = true;
-                }
-                // 清除过期的提示信息
-                if (NameNotify.ContainsKey(pc.PlayerId) && NameNotify[pc.PlayerId].Item2 < Utils.GetTimeStamp(DateTime.Now))
-                {
-                    NameNotify.Remove(pc.PlayerId);
-                    notifyRoles = true;
-                }
-                // 必要时刷新玩家名字
-                if (notifyRoles) Utils.NotifyRoles(pc);
+                if (!AmongUsClient.Instance.AmHost || Options.CurrentGameMode != CustomGameMode.SoloKombat) return true;
+                return __instance.myPlayer.SoloAlive();
+            }
+        }
+        [HarmonyPatch(typeof(Vent), nameof(Vent.EnterVent))]
+        class KBEnterVentPatch
+        {
+            public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
+            {
+                if (!AmongUsClient.Instance.AmHost || Options.CurrentGameMode != CustomGameMode.SoloKombat) return;
+                if (!pc.SoloAlive())
+                    pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
             }
         }
     }
