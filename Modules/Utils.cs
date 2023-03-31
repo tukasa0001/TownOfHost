@@ -1193,8 +1193,8 @@ public static class Utils
                     _ => name,
                 };
         }
-        if (name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default)
-            PlayerControl.LocalPlayer.RpcSetName(name);
+        if (name != player.name && player.CurrentOutfitType == PlayerOutfitType.Default)
+            player.RpcSetName(name);
     }
     public static bool IsDev(PlayerControl pc)
     {
