@@ -607,13 +607,13 @@ static class ExtendedPlayerControl
     {
         if (!player.Is(CustomRoles.Arsonist)) return false;
         var count = Utils.GetDousedPlayerCount(player.PlayerId);
-        return count.Item1 == count.Item2;
+        return count.Item1 >= count.Item2;
     }
     public static bool IsDrawDone(this PlayerControl player)//判断是否拉拢完成
     {
         if (!player.Is(CustomRoles.Revolutionist)) return false;
         var count = Utils.GetDrawPlayerCount(player.PlayerId, out var _);
-        return count.Item1 == count.Item2;
+        return count.Item1 >= count.Item2;
     }
     public static void RpcExileV2(this PlayerControl player)
     {
