@@ -99,7 +99,7 @@ internal static class SoloKombatManager
         KBScore[PlayerId] = reader.ReadInt32();
     }
     public static string GetDisplayHealth(PlayerControl pc)
-        => pc.SoloAlive() ? Utils.ColorString(GetHealthColor(pc), $"{pc.HP()}/{pc.HPMAX()}") : "";
+        => pc.SoloAlive() ? Utils.ColorString(GetHealthColor(pc), $"{(int)pc.HP()}/{(int)pc.HPMAX()}") : "";
     private static Color32 GetHealthColor(PlayerControl pc)
     {
         var x = (int)(pc.HP() / pc.HPMAX() * 10 * 50);
