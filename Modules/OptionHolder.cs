@@ -447,7 +447,6 @@ public static class Options
 
         // 游戏模式
         GameMode = StringOptionItem.Create(1, "GameMode", gameModes, 0, TabGroup.GameSettings, false)
-            .SetHidden(!DebugModeManager.AmDebugger)
             .SetHeader(true);
 
         #region 职业详细设置
