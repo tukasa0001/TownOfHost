@@ -36,7 +36,7 @@ public class Main : BasePlugin
     public static readonly string MainMenuText = "开源社区项目，仅供交流学习";
     public static readonly string BANNEDWORDS_FILE_PATH = "./TOHE_DATA/BanWords.txt";
     public const string PluginGuid = "com.karped1em.townofhostedited";
-    public const string PluginVersion = "2.2.3";
+    public const string PluginVersion = "2.2.4";
     public const int PluginCreate = 15;
     public Harmony Harmony { get; } = new Harmony(PluginGuid);
     public static Version version = Version.Parse(PluginVersion);
