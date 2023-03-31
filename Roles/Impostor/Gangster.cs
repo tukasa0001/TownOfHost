@@ -47,13 +47,11 @@ public static class Gangster
         else
             RecruitLimit.Add(PlayerId, RecruitLimitOpt.GetInt());
     }
-    public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CanUseKillButton(id) ? KillCooldown.GetFloat() : 0f;
-    public static bool CanUseKillButton(byte playerId)
-        => !Main.PlayerStates[playerId].IsDead
-        && RecruitLimit[playerId] > 0;
+    public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = (CanRecruit(id) ? KillCooldown.GetFloat() : Options.DefaultKillCooldown;
+    public static bool CanRecruit(byte id) => RecruitLimit.TryGetValue(id, out var x) && x > 0;
     public static void SetKillButtonText(byte plaeryId)
     {
-        if (CanUseKillButton(plaeryId))
+        if (CanRecruit(plaeryId))
             HudManager.Instance.KillButton.OverrideText($"{GetString("GangsterButtonText")}");
         else
             HudManager.Instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
@@ -83,5 +81,5 @@ public static class Gangster
         Logger.Info($"{killer.GetNameWithRole()} : 剩余{RecruitLimit[killer.PlayerId]}次招募机会", "Gangster");
         return false;
     }
-    public static string GetRecruitLimit(byte playerId) => Utils.ColorString(CanUseKillButton(playerId) ? Color.red : Color.gray, RecruitLimit.TryGetValue(playerId, out var recruitLimit) ? $"({recruitLimit})" : "Invalid");
+    public static string GetRecruitLimit(byte playerId) => Utils.ColorString(CanRecruit(playerId) ? Color.red : Color.gray, RecruitLimit.TryGetValue(playerId, out var recruitLimit) ? $"({recruitLimit})" : "Invalid");
 }
