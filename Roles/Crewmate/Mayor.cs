@@ -57,10 +57,11 @@ public sealed class Mayor : RoleBase
     }
     public override void ApplyGameOptions(IGameOptions opt)
     {
+        Logger.Warn($"{LeftButtonCount} <= 0", "Mayor.ApplyGameOptions");
         AURoleOptions.EngineerCooldown =
             LeftButtonCount <= 0
-            ? opt.GetInt(Int32OptionNames.EmergencyCooldown)
-            : 300f;
+            ? 300f
+            : opt.GetInt(Int32OptionNames.EmergencyCooldown);
         AURoleOptions.EngineerInVentMaxTime = 1;
     }
     public override bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
@@ -72,7 +73,6 @@ public sealed class Mayor : RoleBase
     }
     public override bool OnEnterVent(PlayerPhysics physics, int ventId)
     {
-        Logger.Info($"{LeftButtonCount}", "Mayor.OnEnterVent");
         if (LeftButtonCount > 0)
         {
             var user = physics.myPlayer;
