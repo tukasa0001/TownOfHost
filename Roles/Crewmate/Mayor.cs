@@ -70,21 +70,22 @@ public sealed class Mayor : RoleBase
 
         return true;
     }
-    public override void OnEnterVent(Vent vent, PlayerControl pc)
+    public override bool OnEnterVent(PlayerPhysics physics, int ventId)
     {
-        if (UsedButtonCount < NumOfUseButton)
+        if (UsedButtonCount >= NumOfUseButton)
         {
-            pc?.MyPhysics?.RpcBootFromVent(vent.Id);
-            pc?.ReportDeadBody(null);
+            var user = physics.myPlayer;
+            physics.RpcBootFromVent(ventId);
+            user?.ReportDeadBody(null);
+
+            return false;
         }
-    }
-    public override bool OnCOEnterVent(PlayerPhysics physics, int id)
-    {
-        return UsedButtonCount >= NumOfUseButton;
+
+        return true;
     }
     public override bool OnCheckForEndVoting(ref List<MeetingHud.VoterState> statesList, PlayerVoteArea pva)
     {
-        for (var i2 = 0; i2 < AdditionalVote; i2++)
+        for (var i = 0; i < AdditionalVote; i++)
         {
             statesList.Add(new MeetingHud.VoterState()
             {

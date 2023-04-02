@@ -172,21 +172,12 @@ public abstract class RoleBase : IDisposable
 
     /// <summary>
     /// <para>ベントに入ったときに呼ばれる関数</para>
-    /// <para>キャンセル不可</para>
-    /// </summary>
-    /// <param name="vent"></param>
-    /// <param name="pc"></param>
-    public virtual void OnEnterVent(Vent vent, PlayerControl pc)
-    { }
-
-    /// <summary>
-    /// <para>ベントに入ったときに呼ばれる関数</para>
     /// <para>キャンセル可</para>
     /// </summary>
     /// <param name="physics"></param>
     /// <param name="id"></param>
     /// <returns>falseを返すとベントから追い出され、他人からアニメーションも見られません</returns>
-    public virtual bool OnCOEnterVent(PlayerPhysics physics, int id) => true;
+    public virtual bool OnEnterVent(PlayerPhysics physics, int ventId) => true;
 
     /// <summary>
     /// ミーティングが始まった時に呼ばれる関数
