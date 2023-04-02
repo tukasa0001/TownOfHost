@@ -43,22 +43,26 @@ public sealed class FireWorks : RoleBase
 
     static OptionItem OptionFireWorksCount;
     static OptionItem OptionFireWorksRadius;
+    enum OptionName
+    {
+        FireWorksMaxCount,
+        FireWorksRadius,
+    }
 
     int FireWorksCount;
     float FireWorksRadius;
     int NowFireWorksCount;
     List<Vector3> FireWorksPosition = new();
     FireWorksState State = FireWorksState.Initial;
-    int FireWorksBombKill;
 
     public static void SetupCustomOption()
     {
         var id = RoleInfo.ConfigId;
         var tab = RoleInfo.Tab;
         var parent = RoleInfo.RoleOption;
-        OptionFireWorksCount = IntegerOptionItem.Create(id + 10, "FireWorksMaxCount", new(1, 3, 1), 1, tab, false).SetParent(parent)
+        OptionFireWorksCount = IntegerOptionItem.Create(id + 10, OptionName.FireWorksMaxCount, new(1, 3, 1), 1, tab, false).SetParent(parent)
             .SetValueFormat(OptionFormat.Pieces);
-        OptionFireWorksRadius = FloatOptionItem.Create(id + 11, "FireWorksRadius", new(0.5f, 3f, 0.5f), 1f, tab, false).SetParent(parent)
+        OptionFireWorksRadius = FloatOptionItem.Create(id + 11, OptionName.FireWorksRadius, new(0.5f, 3f, 0.5f), 1f, tab, false).SetParent(parent)
             .SetValueFormat(OptionFormat.Multiplier);
     }
 
@@ -67,7 +71,6 @@ public sealed class FireWorks : RoleBase
         NowFireWorksCount = FireWorksCount;
         FireWorksPosition.Clear();
         State = FireWorksState.Initial;
-        FireWorksBombKill = 0;
     }
 
     public void SendRPC()
@@ -94,7 +97,7 @@ public sealed class FireWorks : RoleBase
     }
     public override void ApplyGameOptions(IGameOptions opt)
     {
-        AURoleOptions.ShapeshifterDuration = 1;
+        AURoleOptions.ShapeshifterDuration = State != FireWorksState.FireEnd ? 1f : 30f;
     }
 
     public override void OnShapeshift(PlayerControl target)
@@ -148,6 +151,7 @@ public sealed class FireWorks : RoleBase
                     }
                 }
                 State = FireWorksState.FireEnd;
+                Player.MarkDirtySettings();
                 break;
             default:
                 break;
@@ -186,7 +190,7 @@ public sealed class FireWorks : RoleBase
     }
     public override string GetAbilityButtonText()
     {
-        if (NowFireWorksCount == 0)
+        if (State == FireWorksState.ReadyFire)
             return GetString("FireWorksExplosionButtonText");
         else
             return GetString("FireWorksInstallAtionButtonText");
