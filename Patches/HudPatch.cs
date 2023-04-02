@@ -67,12 +67,6 @@ namespace TownOfHost
                     //MOD入り用のボタン下テキスト変更
                     switch (player.GetCustomRole())
                     {
-                        case CustomRoles.FireWorks:
-                            if (FireWorks.nowFireWorksCount[player.PlayerId] == 0)
-                                __instance.AbilityButton.OverrideText($"{GetString("FireWorksExplosionButtonText")}");
-                            else
-                                __instance.AbilityButton.OverrideText($"{GetString("FireWorksInstallAtionButtonText")}");
-                            break;
                         case CustomRoles.SerialKiller:
                             SerialKiller.GetAbilityButtonText(__instance, player);
                             break;
@@ -122,10 +116,6 @@ namespace TownOfHost
                     if (player.Is(CustomRoles.Witch))
                     {
                         LowerInfoText.text = Witch.GetSpellModeText(player, true);
-                    }
-                    else if (player.Is(CustomRoles.FireWorks))
-                    {
-                        LowerInfoText.text = FireWorks.GetStateText(player);
                     }
                     LowerInfoText.enabled = LowerInfoText.text != "";
 

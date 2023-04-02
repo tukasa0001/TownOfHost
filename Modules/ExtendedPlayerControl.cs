@@ -386,7 +386,6 @@ namespace TownOfHost
 
             return pc.GetCustomRole() switch
             {
-                CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
                 CustomRoles.Mafia => Utils.CanMafiaKill(),
                 CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
