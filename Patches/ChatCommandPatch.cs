@@ -365,7 +365,7 @@ internal class ChatCommands
                         Utils.SendMessage(GetString("GuesserInfoLong"), PlayerControl.LocalPlayer.PlayerId);
                         break;
                     }
-                    SendRolesInfo(subArgs, PlayerControl.LocalPlayer, PlayerControl.LocalPlayer.FriendCode.GetDevUser().IsDev);
+                    SendRolesInfo(subArgs, 255, PlayerControl.LocalPlayer.FriendCode.GetDevUser().IsDev);
                     break;
 
                 case "/up":
@@ -382,7 +382,7 @@ internal class ChatCommands
                         Utils.SendMessage(GetString("Message.OnlyCanUseInLobby"));
                         break;
                     }
-                    SendRolesInfo(subArgs, PlayerControl.LocalPlayer, isUp: true);
+                    SendRolesInfo(subArgs, PlayerControl.LocalPlayer.PlayerId, isUp: true);
                     break;
 
                 case "/h":
@@ -728,11 +728,11 @@ internal class ChatCommands
         }
         return false;
     }
-    public static void SendRolesInfo(string role, PlayerControl player, bool isDev = false, bool isUp = false)
+    public static void SendRolesInfo(string role, byte playerId, bool isDev = false, bool isUp = false)
     {
         if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
         {
-            Utils.SendMessage(GetString("ModeDescribe.SoloKombat"), player.PlayerId);
+            Utils.SendMessage(GetString("ModeDescribe.SoloKombat"), playerId);
             return;
         }
 
@@ -744,7 +744,7 @@ internal class ChatCommands
 
         if (role == "" || role == string.Empty)
         {
-            Utils.ShowActiveRoles(player.PlayerId);
+            Utils.ShowActiveRoles(playerId);
             return;
         }
         role = FixRoleNameInput(role);
@@ -764,13 +764,14 @@ internal class ChatCommands
                     if (rl.GetCount() < 1 || rl.GetMode() == 0) devMark = "";
                     if (isUp)
                     {
-                        if (devMark == "▲") Utils.SendMessage("您下一局将被分配为【" + roleName + "】", player.PlayerId);
-                        else Utils.SendMessage("无法将您分配为【" + roleName + "】\n可能是因为您没有启用该职业或该职业不支持被指定", player.PlayerId);
+                        if (devMark == "▲") Utils.SendMessage("您下一局将被分配为【" + roleName + "】", playerId);
+                        else Utils.SendMessage("无法将您分配为【" + roleName + "】\n可能是因为您没有启用该职业或该职业不支持被指定", playerId);
                     }
                     if (devMark == "▲")
                     {
-                        if (Main.DevRole.ContainsKey(player.PlayerId)) Main.DevRole.Remove(player.PlayerId);
-                        Main.DevRole.Add(player.PlayerId, rl);
+                        byte pid = playerId == 255 ? (byte)0 : playerId;
+                        Main.DevRole.Remove(pid);
+                        Main.DevRole.Add(pid, rl);
                     }
                     if (isUp) return;
                 }
@@ -782,12 +783,12 @@ internal class ChatCommands
                     var txt = sb.ToString();
                     sb.Clear().Append(txt.RemoveHtmlTags());
                 }
-                Utils.SendMessage(sb.ToString(), player.PlayerId);
+                Utils.SendMessage(sb.ToString(), playerId);
                 return;
             }
         }
-        if (isUp) Utils.SendMessage("请正确拼写您要指定的职业哦~\n查看所有职业请直接输入/r", player.PlayerId);
-        else Utils.SendMessage(GetString("Message.CanNotFindRoleThePlayerEnter"), player.PlayerId);
+        if (isUp) Utils.SendMessage("请正确拼写您要指定的职业哦~\n查看所有职业请直接输入/r", playerId);
+        else Utils.SendMessage(GetString("Message.CanNotFindRoleThePlayerEnter"), playerId);
         return;
     }
     public static void OnReceiveChat(PlayerControl player, string text)
@@ -831,7 +832,7 @@ internal class ChatCommands
                     Utils.SendMessage(GetString("GuesserInfoLong"), player.PlayerId);
                     break;
                 }
-                SendRolesInfo(subArgs, player, player.FriendCode.GetDevUser().IsDev);
+                SendRolesInfo(subArgs, player.PlayerId, player.FriendCode.GetDevUser().IsDev);
                 break;
 
             case "/h":
