@@ -477,6 +477,7 @@ AutoDisplayKillLog,结束后自动显示击杀记录,Display Killlog,Показ�
 AutoDisplayLastRoles,结束后自动显示上局职业,Display Last Roles,Показывать роли в прошлой игре
 AutoDisplayLastResult,结束后自动显示最终结果,Auto Display Last Result,Отображать результат последней игры в чате
 EnableUpMode,启用创作者保护计划（试验性）,启用创作者保护计划（试验性）,启用创作者保护计划（试验性）
+KickLowLevelPlayer,踢出没有达到指定等级的玩家
 AutoKickStart,踢出催开始的人,Kick the player who writes start,Кикнуть игрока который пишет start (Только англ)
 AutoKickStartTimes,踢出前警告次数,Number of warnings before kick,Количество предупреждений до кика
 AutoKickStartAsBan,踢出时封禁该玩家,Block a player after they kick,Заблокировать игрока после его кика
@@ -1084,6 +1085,7 @@ MessengerMurderOccurred,发生命案警告,Occurred Kill,Произошло уб
 Deadbody,尸体,Dead body,Труп
 PlayerLeftByAU-Anticheat,【{0}】被树懒超级厉害的反作弊踢出去啦~ QwQ,【{0}】Kicked out by Innersloth's super powerful anti-cheating~ QwQ
 KickAndriodPlayer,【{0}】因该房禁止安卓被请离房间,【{0}】 was kicked because of No Phone setting,【{0}】 был кикнут из-за настройки Никаких Телефонов
+KickBecauseLowLevel,【{0}】因未达到房主规定的等级限制被请离房间
 KBDisplayScore,第{0}名：{1}分,Ranking: {0} Score: {1},Место: {1} Счёт: {1}
 KBTimeRemain,剩余时间：{0} 秒,Time Remain: {0} Second
 

@@ -186,82 +186,94 @@ class CreatePlayerPatch
 {
     public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
     {
-        if (AmongUsClient.Instance.AmHost)
+        if (!AmongUsClient.Instance.AmHost) return;
+
+        new LateTask(() =>
         {
-            Logger.Msg($"创建玩家数据：ID{client.Character.PlayerId}: {client.PlayerName}", "CreatePlayer");
-
-            //规范昵称
-            var name = client.PlayerName;
-            name = name.RemoveHtmlTags().Replace(@"\", string.Empty).Replace("/", string.Empty);
-            if (Options.DisableEmojiName.GetBool())
-                name = Regex.Replace(name, @"\p{Cs}", string.Empty);
-            if (name.Length > 10) name = name[..10];
-            var TempName = new List<string> { "冰激凌", "奶茶", "巧克力", "蛋糕", "甜甜圈", "可乐", "柠檬水", "冰糖葫芦", "果冻", "糖果", "牛奶", "抹茶", "烧仙草" };
-            if (name.Length < 1) name = TempName[IRandom.Instance.Next(0, TempName.Count)];
-            Main.AllPlayerNames.Remove(client.Character.PlayerId);
-            Main.AllPlayerNames.TryAdd(client.Character.PlayerId, name);
-            if (!name.Equals(client.PlayerName))
+            if (client.Character == null) return;
+            if (client.Character.Data.PlayerLevel != 0 && client.Character.Data.PlayerLevel < Options.KickLowLevelPlayer.GetInt())
             {
-                new LateTask(() =>
-                {
-                    Logger.Warn($"规范昵称：{client.PlayerName} => {name}", "Name Format");
-                    Main.AllPlayerControls.Where(x => x.PlayerId == client.Character.PlayerId).FirstOrDefault().RpcSetName(name);
-                }, 1.3f, "Name Format");
+                AmongUsClient.Instance.KickPlayer(client.Id, false);
+                string msg = string.Format(GetString("KickBecauseLowLevel"), client?.PlayerName);
+                Logger.SendInGame(msg);
+                Logger.Info(msg, "LowLevel Kick");
             }
+        }, 1f, "LowLevel Kick Check");
+        
+        Logger.Msg($"创建玩家数据：ID{client.Character.PlayerId}: {client.PlayerName}", "CreatePlayer");
 
-            OptionItem.SyncAllOptions();
+        //规范昵称
+        var name = client.PlayerName;
+        name = name.RemoveHtmlTags().Replace(@"\", string.Empty).Replace("/", string.Empty);
+        if (Options.DisableEmojiName.GetBool())
+            name = Regex.Replace(name, @"\p{Cs}", string.Empty);
+        if (name.Length > 10) name = name[..10];
+        var TempName = new List<string> { "冰激凌", "奶茶", "巧克力", "蛋糕", "甜甜圈", "可乐", "柠檬水", "冰糖葫芦", "果冻", "糖果", "牛奶", "抹茶", "烧仙草" };
+        if (name.Length < 1) name = TempName[IRandom.Instance.Next(0, TempName.Count)];
+        Main.AllPlayerNames.Remove(client.Character.PlayerId);
+        Main.AllPlayerNames.TryAdd(client.Character.PlayerId, name);
+        if (!name.Equals(client.PlayerName))
+        {
             new LateTask(() =>
             {
                 if (client.Character == null) return;
-                if (Main.OverrideWelcomeMsg != "") Utils.SendMessage(Main.OverrideWelcomeMsg, client.Character.PlayerId);
-                else TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
-            }, 3f, "Welcome Message");
-            if (Main.OverrideWelcomeMsg == "" && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
+                Logger.Warn($"规范昵称：{client.PlayerName} => {name}", "Name Format");
+                client.Character.RpcSetName(name);
+            }, 1f, "Name Format");
+        }
+
+        OptionItem.SyncAllOptions();
+        new LateTask(() =>
+        {
+            if (client.Character == null) return;
+            if (Main.OverrideWelcomeMsg != "") Utils.SendMessage(Main.OverrideWelcomeMsg, client.Character.PlayerId);
+            else TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
+        }, 3f, "Welcome Message");
+        if (Main.OverrideWelcomeMsg == "" && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
+        {
+            if (Options.AutoDisplayKillLog.GetBool() && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
             {
-                if (Options.AutoDisplayKillLog.GetBool() && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
+                new LateTask(() =>
                 {
-                    new LateTask(() =>
+                    if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
                     {
-                        if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
-                        {
-                            Main.isChatCommand = true;
-                            Utils.ShowKillLog(client.Character.PlayerId);
-                        }
-                    }, 3f, "DisplayKillLog");
-                }
-                if (Options.AutoDisplayLastRoles.GetBool())
+                        Main.isChatCommand = true;
+                        Utils.ShowKillLog(client.Character.PlayerId);
+                    }
+                }, 3f, "DisplayKillLog");
+            }
+            if (Options.AutoDisplayLastRoles.GetBool())
+            {
+                new LateTask(() =>
                 {
-                    new LateTask(() =>
+                    if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
                     {
-                        if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
-                        {
-                            Main.isChatCommand = true;
-                            Utils.ShowLastRoles(client.Character.PlayerId);
-                        }
-                    }, 3.1f, "DisplayLastRoles");
-                }
-                if (Options.AutoDisplayLastResult.GetBool())
+                        Main.isChatCommand = true;
+                        Utils.ShowLastRoles(client.Character.PlayerId);
+                    }
+                }, 3.1f, "DisplayLastRoles");
+            }
+            if (Options.AutoDisplayLastResult.GetBool())
+            {
+                new LateTask(() =>
                 {
-                    new LateTask(() =>
+                    if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
                     {
-                        if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
-                        {
-                            Main.isChatCommand = true;
-                            Utils.ShowLastResult(client.Character.PlayerId);
-                        }
-                    }, 3.2f, "DisplayLastResult");
-                }
-                if (PlayerControl.LocalPlayer.FriendCode.GetDevUser().IsUp && Options.EnableUpMode.GetBool())
+                        Main.isChatCommand = true;
+                        Utils.ShowLastResult(client.Character.PlayerId);
+                    }
+                }, 3.2f, "DisplayLastResult");
+            }
+            if (PlayerControl.LocalPlayer.FriendCode.GetDevUser().IsUp && Options.EnableUpMode.GetBool())
+            {
+                new LateTask(() =>
                 {
-                    new LateTask(() =>
+                    if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
                     {
-                        if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
-                        {
-                            Main.isChatCommand = true;
-                            Utils.SendMessage($"提示：该房间启用了【创作者素材保护计划】，房主可以指定自己的职业。\n该功能仅允许创作者用于获取视频素材，如遇滥用情况，请退出游戏或举报。\n当前创作者认证：{PlayerControl.LocalPlayer.FriendCode.GetDevUser().UpName}", client.Character.PlayerId);
-                        }
-                    }, 3.3f, "DisplayUpWarnning");
-                }
+                        Main.isChatCommand = true;
+                        Utils.SendMessage($"提示：该房间启用了【创作者素材保护计划】，房主可以指定自己的职业。\n该功能仅允许创作者用于获取视频素材，如遇滥用情况，请退出游戏或举报。\n当前创作者认证：{PlayerControl.LocalPlayer.FriendCode.GetDevUser().UpName}", client.Character.PlayerId);
+                    }
+                }, 3.3f, "DisplayUpWarnning");
             }
         }
     }
