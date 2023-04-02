@@ -66,14 +66,11 @@ public class Snitch : RoleBase
 
     private static void SetupOptionItem()
     {
-        var id = RoleInfo.ConfigId;
-        var tab = RoleInfo.Tab;
-        var parent = RoleInfo.RoleOption;
-        OptionEnableTargetArrow = BooleanOptionItem.Create(id + 10, OptionName.SnitchEnableTargetArrow, false, tab, false).SetParent(parent);
-        OptionCanGetColoredArrow = BooleanOptionItem.Create(id + 11, OptionName.SnitchCanGetArrowColor, false, tab, false).SetParent(OptionEnableTargetArrow);
-        OptionCanFindNeutralKiller = BooleanOptionItem.Create(id + 12, OptionName.SnitchCanFindNeutralKiller, false, tab, false).SetParent(parent);
-        OptionRemainingTasks = IntegerOptionItem.Create(id + 13, OptionName.SnitchRemainingTaskFound, new(0, 10, 1), 1, tab, false).SetParent(parent);
-        Options.OverrideTasksData.Create(id + 20, tab, CustomRoles.Snitch);
+        OptionEnableTargetArrow = BooleanOptionItem.Create(RoleInfo, 10, OptionName.SnitchEnableTargetArrow, false, false);
+        OptionCanGetColoredArrow = BooleanOptionItem.Create(RoleInfo, 11, OptionName.SnitchCanGetArrowColor, false, false);
+        OptionCanFindNeutralKiller = BooleanOptionItem.Create(RoleInfo, 12, OptionName.SnitchCanFindNeutralKiller, false, false);
+        OptionRemainingTasks = IntegerOptionItem.Create(RoleInfo, 13, OptionName.SnitchRemainingTaskFound, new(0, 10, 1), 1, false);
+        Options.OverrideTasksData.Create(RoleInfo, 20);
     }
     /// <summary>
     /// スニッチのターゲットであるかの判定
