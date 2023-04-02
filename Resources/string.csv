@@ -24,8 +24,8 @@
 ### 或许我们在未来的路上会经历许多坎坷，或许TOHE的昙花一现就此落幕
 ### 但感谢有你，感谢TOHE短暂的生命中的每一位过客
 
-## 生草作者署名（会显示在右上角，不需要请填“空”）/ A sign of an author (Change to "empty" if not needed)
-TextBelowVersionText,空,"<color=#0FE60F>Dev:</color> KARPED1EM","<color=#0FE60F>Разраб:</color> KARPED1EM\n<color=#06DEEC>Перевод:</color> TommyXL & Tem"
+## 作者署名（会显示在右上角，不需要请留空）/ A sign of an author (Please leave blank when not needed)
+TextBelowVersionText,,"<color=#0FE60F>Dev:</color> KARPED1EM","<color=#0FE60F>Разраб:</color> KARPED1EM\n<color=#06DEEC>Перевод:</color> TommyXL & Tem"
 
 # 阵营 / Teams
 TeamImpostor,内鬼阵营,Team Impostor,Команда Предателей
