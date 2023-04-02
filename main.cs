@@ -165,6 +165,9 @@ public class Main : BasePlugin
     public static string OverrideWelcomeMsg = "";
     public static int HostClientId;
 
+    public static List<string> TName_Snacks = new() { "冰激凌", "奶茶", "巧克力", "蛋糕", "甜甜圈", "可乐", "柠檬水", "冰糖葫芦", "果冻", "糖果", "牛奶", "抹茶", "烧仙草", "菠萝包", "布丁", "椰子冻", "曲奇", "红豆土司", "三彩团子", "艾草团子", "泡芙", "可丽饼", "桃酥", "麻薯", "鸡蛋仔", "马卡龙", "雪梅娘", "炒酸奶", "蛋挞", "松饼", "西米露", "奶冻", "奶酥", "可颂", "奶糖" };
+    public static string Get_TName_Snacks => TName_Snacks[IRandom.Instance.Next(0, TName_Snacks.Count)];
+
     public override void Load()
     {
         Instance = this;

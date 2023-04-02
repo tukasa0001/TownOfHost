@@ -207,8 +207,7 @@ class CreatePlayerPatch
         if (Options.DisableEmojiName.GetBool())
             name = Regex.Replace(name, @"\p{Cs}", string.Empty);
         if (name.Length > 10) name = name[..10];
-        var TempName = new List<string> { "冰激凌", "奶茶", "巧克力", "蛋糕", "甜甜圈", "可乐", "柠檬水", "冰糖葫芦", "果冻", "糖果", "牛奶", "抹茶", "烧仙草" };
-        if (name.Length < 1) name = TempName[IRandom.Instance.Next(0, TempName.Count)];
+        if (name.Length < 1) name = Main.Get_TName_Snacks;
         Main.AllPlayerNames.Remove(client.Character.PlayerId);
         Main.AllPlayerNames.TryAdd(client.Character.PlayerId, name);
         if (!name.Equals(client.PlayerName))
