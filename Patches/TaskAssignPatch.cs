@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using AmongUs.GameOptions;
 using HarmonyLib;
 
+using TownOfHost.Roles.Core;
 using TownOfHost.Roles.AddOns.Crewmate;
 
 namespace TownOfHost

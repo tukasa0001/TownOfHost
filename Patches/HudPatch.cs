@@ -1,8 +1,10 @@
 using System;
 using HarmonyLib;
+using UnityEngine;
+
+using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
-using UnityEngine;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -56,12 +58,15 @@ namespace TownOfHost
             {
                 if (player.IsAlive())
                 {
+                    var roleClass = player.GetRoleClass();
+                    if (roleClass != null)
+                    {
+                        __instance.KillButton.OverrideText(roleClass.GetKillButtonText());
+                        __instance.AbilityButton.OverrideText(roleClass.GetAbilityButtonText());
+                    }
                     //MOD入り用のボタン下テキスト変更
                     switch (player.GetCustomRole())
                     {
-                        case CustomRoles.Sniper:
-                            Sniper.OverrideShapeText(player.PlayerId);
-                            break;
                         case CustomRoles.FireWorks:
                             if (FireWorks.nowFireWorksCount[player.PlayerId] == 0)
                                 __instance.AbilityButton.OverrideText($"{GetString("FireWorksExplosionButtonText")}");
@@ -93,9 +98,6 @@ namespace TownOfHost
                         case CustomRoles.Puppeteer:
                             __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
                             break;
-                        case CustomRoles.BountyHunter:
-                            BountyHunter.SetAbilityButtonText(__instance);
-                            break;
                         case CustomRoles.EvilTracker:
                             EvilTracker.GetAbilityButtonText(__instance, player.PlayerId);
                             break;
@@ -115,22 +117,15 @@ namespace TownOfHost
                         LowerInfoText.fontSizeMax = 2.0f;
                     }
 
-                    if (player.Is(CustomRoles.BountyHunter))
-                    {
-                        LowerInfoText.text = BountyHunter.GetTargetText(player, true);
-                    }
-                    else if (player.Is(CustomRoles.Witch))
+                    LowerInfoText.text = roleClass?.GetLowerText(player, isForHud: true) ?? "";
+
+                    if (player.Is(CustomRoles.Witch))
                     {
                         LowerInfoText.text = Witch.GetSpellModeText(player, true);
                     }
                     else if (player.Is(CustomRoles.FireWorks))
                     {
-                        var stateText = FireWorks.GetStateText(player);
-                        LowerInfoText.text = stateText;
-                    }
-                    else
-                    {
-                        LowerInfoText.text = "";
+                        LowerInfoText.text = FireWorks.GetStateText(player);
                     }
                     LowerInfoText.enabled = LowerInfoText.text != "";
 

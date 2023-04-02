@@ -9,8 +9,8 @@ using UnityEngine;
 
 using TownOfHost.Modules;
 using TownOfHost.Roles;
+using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Crewmate;
 using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.AddOns.Crewmate;
 using static TownOfHost.Translator;
@@ -54,36 +54,44 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return false;
 
-            var killer = __instance; //読み替え変数
+            // 処理は全てCustomRoleManager側で行う
+            CustomRoleManager.OnCheckMurder(__instance, target);
 
-            Logger.Info($"{killer.GetNameWithRole()} => {target.GetNameWithRole()}", "CheckMurder");
+            return false;
+        }
 
-            //死人はキルできない
-            if (killer.Data.IsDead)
+        // 不正キル防止チェック
+        public static bool CheckForInvalidMurdering(MurderInfo info)
+        {
+            (var killer, var target) = info.AttemptTuple;
+
+            // Killerが既に死んでいないかどうか
+            if (!killer.IsAlive())
             {
                 Logger.Info($"{killer.GetNameWithRole()}は死亡しているためキャンセルされました。", "CheckMurder");
                 return false;
             }
-
-            //不正キル防止処理
+            // targetがキル可能な状態か
             if (target.Data == null || //PlayerDataがnullじゃないか確認
-                target.inVent || target.inMovingPlat //targetの状態をチェック
-            )
+                target.inVent || target.inMovingPlat) //targetの状態をチェック
             {
                 Logger.Info("targetは現在キルできない状態です。", "CheckMurder");
                 return false;
             }
-            if (target.Data.IsDead) //同じtargetへの同時キルをブロック
+            // targetが既に死んでいないか
+            if (!target.IsAlive())
             {
                 Logger.Info("targetは既に死んでいたため、キルをキャンセルしました。", "CheckMurder");
                 return false;
             }
-            if (MeetingHud.Instance != null) //会議中でないかの判定
+            // 会議中のキルでないか
+            if (MeetingHud.Instance != null)
             {
                 Logger.Info("会議が始まっていたため、キルをキャンセルしました。", "CheckMurder");
                 return false;
             }
 
+            // 連打キルでないか
             float minTime = Mathf.Max(0.02f, AmongUsClient.Instance.Ping / 1000f * 6f); //※AmongUsClient.Instance.Pingの値はミリ秒(ms)なので÷1000
             //TimeSinceLastKillに値が保存されていない || 保存されている時間がminTime以上 => キルを許可
             //↓許可されない場合
@@ -94,78 +102,38 @@ namespace TownOfHost
             }
             TimeSinceLastKill[killer.PlayerId] = 0f;
 
-            killer.ResetKillCooldown();
-
-            //キルボタンを使えない場合の判定
+            // HideAndSeek_キルボタンが使用可能か
             if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
             {
                 Logger.Info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。", "CheckMurder");
                 return false;
             }
-
-            //キル可能判定
-            if (killer.PlayerId != target.PlayerId && !killer.CanUseKillButton())
+            // キルが可能なプレイヤーか(遠隔は除く)
+            if (!info.IsFakeSuicide && !killer.CanUseKillButton())
             {
                 Logger.Info(killer.GetNameWithRole() + "はKillできないので、キルはキャンセルされました。", "CheckMurder");
                 return false;
             }
+            return true;
+        }
 
-            //実際のキラーとkillerが違う場合の入れ替え処理
-            if (Sniper.IsEnable)
-            {
-                Sniper.TryGetSniper(target.PlayerId, ref killer);
-            }
-            if (killer != __instance)
-            {
-                Logger.Info($"Real Killer={killer.GetNameWithRole()}", "CheckMurder");
-
-            }
-            //キルされた時の特殊判定
-            switch (target.GetCustomRole())
-            {
-                case CustomRoles.SchrodingerCat:
-                    if (!SchrodingerCat.OnCheckMurder(killer, target))
-                        return false;
-                    break;
-
-                //==========マッドメイト系役職==========//
-                case CustomRoles.MadGuardian:
-                    //killerがキルできないインポスター判定役職の場合はスキップ
-                    if (killer.Is(CustomRoles.Arsonist) //アーソニスト
-                    ) break;
-
-                    //MadGuardianを切れるかの判定処理
-                    var taskState = target.GetPlayerTaskState();
-                    if (taskState.IsTaskFinished)
-                    {
-                        var colorCode = Utils.GetRoleColorCode(CustomRoles.MadGuardian);
-                        if (!NameColorManager.TryGetData(killer, target, out var value) || value != colorCode)
-                        {
-                            NameColorManager.Add(killer.PlayerId, target.PlayerId);
-                            if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
-                                NameColorManager.Add(target.PlayerId, killer.PlayerId, colorCode);
-                            Utils.NotifyRoles();
-                        }
-                        return false;
-                    }
-                    break;
-            }
+        public static void OnCheckMurderAsKiller(MurderInfo info)
+        {
+            (var killer, var target) = info.AttemptTuple;
 
             //キル時の特殊判定
             if (killer.PlayerId != target.PlayerId)
             {
+                var roleClass = killer.GetRoleClass();
                 //自殺でない場合のみ役職チェック
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
-                    case CustomRoles.BountyHunter: //キルが発生する前にここの処理をしないとバグる
-                        BountyHunter.OnCheckMurder(killer, target);
-                        break;
                     case CustomRoles.SerialKiller:
                         SerialKiller.OnCheckMurder(killer);
                         break;
                     case CustomRoles.Vampire:
-                        if (!Vampire.OnCheckMurder(killer, target)) return false;
+                        info.DoKill = Vampire.OnCheckMurder(info);
                         break;
                     case CustomRoles.Warlock:
                         if (!Main.CheckShapeshift[killer.PlayerId] && !Main.isCurseAndKill[killer.PlayerId])
@@ -175,55 +143,72 @@ namespace TownOfHost
                             Main.CursedPlayers[killer.PlayerId] = target;
                             Main.WarlockTimer.Add(killer.PlayerId, 0f);
                             Main.isCurseAndKill[killer.PlayerId] = true;
-                            return false;
+                            info.DoKill = false;
+                            return;
                         }
                         if (Main.CheckShapeshift[killer.PlayerId])
                         {//呪われてる人がいないくて変身してるときに通常キルになる
-                            killer.RpcMurderPlayer(target);
                             killer.RpcGuardAndKill(target);
-                            return false;
+                            return;
                         }
                         if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
-                        return false;
+                        info.DoKill = false;
+                        break;
                     case CustomRoles.Witch:
-                        if (!Witch.OnCheckMurder(killer, target))
-                        {
-                            //Spellモードの場合は終了
-                            return false;
-                        }
+                        info.DoKill = Witch.OnCheckMurder(info);
                         break;
                     case CustomRoles.Puppeteer:
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
                         killer.SetKillCooldown();
                         Utils.NotifyRoles(SpecifySeer: killer);
-                        return false;
+                        info.DoKill = false;
+                        break;
 
                     //==========マッドメイト系役職==========//
 
                     //==========ニュートラル役職==========//
                     case CustomRoles.Arsonist:
+                        Logger.Info("Arsonist start douse", "OnCheckMurderAsKiller");
                         killer.SetKillCooldown(Options.ArsonistDouseTime.GetFloat());
                         if (!Main.isDoused[(killer.PlayerId, target.PlayerId)] && !Main.ArsonistTimer.ContainsKey(killer.PlayerId))
                         {
                             Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
-                            Utils.NotifyRoles(SpecifySeer: __instance);
+                            Utils.NotifyRoles(SpecifySeer: killer);
                             RPC.SetCurrentDousingTarget(killer.PlayerId, target.PlayerId);
                         }
-                        return false;
-
-                    //==========クルー役職==========//
-                    case CustomRoles.Sheriff:
-                        if (!Sheriff.OnCheckMurder(killer, target))
-                            return false;
+                        info.DoKill = false;
                         break;
                 }
             }
+        }
+        public static bool OnCheckMurderAsTarget(MurderInfo info)
+        {
+            (var killer, var target) = info.AttemptTuple;
 
-            //==キル処理==
-            __instance.RpcMurderPlayer(target);
-            //============
+            //キルされた時の特殊判定
+            switch (target.GetCustomRole())
+            {
+                //==========マッドメイト系役職==========//
+                case CustomRoles.MadGuardian:
+                    //MadGuardianを切れるかの判定処理
+                    var taskState = target.GetPlayerTaskState();
+                    if (taskState.IsTaskFinished)
+                    {
+                        info.CanKill = false;
+                        var colorCode = Utils.GetRoleColorCode(CustomRoles.MadGuardian);
+                        if (!NameColorManager.TryGetData(killer, target, out var value) || value != colorCode)
+                        {
+                            NameColorManager.Add(killer.PlayerId, target.PlayerId);
+                            if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
+                                NameColorManager.Add(target.PlayerId, killer.PlayerId, colorCode);
+                            Utils.NotifyRoles();
+                        }
+                        return true;
+                    }
+                    break;
+            }
+            return true;
 
-            return false;
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MurderPlayer))]
@@ -241,61 +226,9 @@ namespace TownOfHost
         {
             if (target.AmOwner) RemoveDisableDevicesPatch.UpdateDisableDevices();
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost) return;
-
-            PlayerControl killer = __instance; //読み替え変数
-
-            //実際のキラーとkillerが違う場合の入れ替え処理
-            if (Sniper.IsEnable)
-            {
-                if (Sniper.TryGetSniper(target.PlayerId, ref killer))
-                {
-                    Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Sniped;
-                }
-            }
-            if (killer != __instance)
-            {
-                Logger.Info($"Real Killer={killer.GetNameWithRole()}", "MurderPlayer");
-
-            }
-            if (Main.PlayerStates[target.PlayerId].deathReason == PlayerState.DeathReason.etc)
-            {
-                //死因が設定されていない場合は死亡判定
-                Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Kill;
-            }
-
-            //When Bait is killed
-            if (target.GetCustomRole() == CustomRoles.Bait && killer.PlayerId != target.PlayerId)
-            {
-                Logger.Info(target?.Data?.PlayerName + "はBaitだった", "MurderPlayer");
-                new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
-            }
-            else
-            //Terrorist
-            if (target.Is(CustomRoles.Terrorist))
-            {
-                Logger.Info(target?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
-                Utils.CheckTerroristWin(target.Data);
-            }
-            if (target.Is(CustomRoles.Trapper) && !killer.Is(CustomRoles.Trapper))
-                killer.TrapperKilled(target);
-            if (Executioner.Target.ContainsValue(target.PlayerId))
-                Executioner.ChangeRoleByTarget(target);
-            if (target.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(target.PlayerId))
-            {
-                Executioner.Target.Remove(target.PlayerId);
-                Executioner.SendRPC(target.PlayerId);
-            }
-
-            FixedUpdatePatch.LoversSuicide(target.PlayerId);
-
-            Main.PlayerStates[target.PlayerId].SetDead();
-            target.SetRealKiller(killer, true); //既に追加されてたらスキップ
-            Utils.CountAlivePlayers(true);
-
-            Utils.TargetDies(__instance, target);
-
-            Utils.SyncAllSettings();
-            Utils.NotifyRoles();
+            //以降ホストしか処理しない
+            // 処理は全てCustomRoleManager側で行う
+            CustomRoleManager.OnMurderPlayer(__instance, target);
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
@@ -317,9 +250,10 @@ namespace TownOfHost
             Main.CheckShapeshift[shapeshifter.PlayerId] = shapeshifting;
             Main.ShapeshiftTarget[shapeshifter.PlayerId] = target.PlayerId;
 
-            Sniper.OnShapeshift(shapeshifter, shapeshifting);
+            shapeshifter.GetRoleClass()?.OnShapeshift(target);
 
             if (!AmongUsClient.Instance.AmHost) return;
+
             if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
 
             switch (shapeshifter.GetCustomRole())
@@ -454,9 +388,12 @@ namespace TownOfHost
             Main.ArsonistTimer.Clear();
             Main.PuppeteerList.Clear();
 
-            BountyHunter.OnReportDeadBody();
+            foreach (var role in CustomRoleManager.AllActiveRoles)
+            {
+                role.OnReportDeadBody(__instance, target);
+            }
+
             SerialKiller.OnReportDeadBody();
-            Sniper.OnReportDeadBody();
             Vampire.OnStartMeeting();
 
             Main.AllPlayerControls
@@ -490,7 +427,9 @@ namespace TownOfHost
             if (!GameStates.IsModHost) return;
 
             TargetArrow.OnFixedUpdate(player);
-            Sniper.OnFixedUpdate(player);
+
+            if (GameStates.IsInTask)
+                __instance.GetRoleClass()?.OnFixedUpdate();
 
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
@@ -528,7 +467,6 @@ namespace TownOfHost
                     }
                 }
                 //ターゲットのリセット
-                BountyHunter.FixedUpdate(player);
                 if (GameStates.IsInTask && player.IsAlive() && Options.LadderDeath.GetBool())
                 {
                     FallFromLadder.FixedUpdate(player);
@@ -699,8 +637,8 @@ namespace TownOfHost
 
                     //変数定義
                     var seer = PlayerControl.LocalPlayer;
+                    var seerRole = seer.GetRoleClass();
                     var target = __instance;
-
                     string RealName;
                     Mark.Clear();
                     Suffix.Clear();
@@ -719,13 +657,16 @@ namespace TownOfHost
                     //NameColorManager準拠の処理
                     RealName = RealName.ApplyNameColorData(seer, target, false);
 
+                    //seer役職が対象のMark
+                    Mark.Append(seerRole?.GetMark(seer, target, false));
+                    //seerに関わらず発動するMark
+                    Mark.Append(CustomRoleManager.GetMarkOthers(seer, target, false));
+
                     if (seer.GetCustomRole().IsImpostor()) //seerがインポスター
                     {
                         if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool()) //targetがタスクを終わらせたマッドスニッチ
                             Mark.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★")); //targetにマーク付与
                     }
-                    //インポスター/キル可能なニュートラルがタスクが終わりそうなSnitchを確認できる
-                    Mark.Append(Snitch.GetWarningMark(seer, target));
 
                     if (seer.Is(CustomRoles.Arsonist))
                     {
@@ -749,15 +690,7 @@ namespace TownOfHost
                         Main.PuppeteerList.ContainsKey(target.PlayerId))
                             Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>");
                     }
-                    if (Sniper.IsEnable && target.AmOwner)
-                    {
-                        //銃声が聞こえるかチェック
-                        Mark.Append(Sniper.GetShotNotify(target.PlayerId));
-
-                    }
                     if (seer.Is(CustomRoles.EvilTracker)) Mark.Append(EvilTracker.GetTargetMark(seer, target));
-                    //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能なニュートラルに警告が表示される
-                    Mark.Append(Snitch.GetWarningArrow(seer, target));
 
                     //ハートマークを付ける(会議中MOD視点)
                     if (__instance.Is(CustomRoles.Lovers) && PlayerControl.LocalPlayer.Is(CustomRoles.Lovers))
@@ -769,10 +702,14 @@ namespace TownOfHost
                         Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>");
                     }
 
-                    //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能なニュートラルの方角がわかる
-                    Suffix.Append(Snitch.GetSnitchArrow(seer, target));
+                    //seerに関わらず発動するLowerText
+                    Suffix.Append(CustomRoleManager.GetLowerTextOthers(seer, target));
 
-                    Suffix.Append(BountyHunter.GetTargetArrow(seer, target));
+                    //seer役職が対象のSuffix
+                    Suffix.Append(seerRole?.GetSuffix(seer, target));
+
+                    //seerに関わらず発動するSuffix
+                    Suffix.Append(CustomRoleManager.GetSuffixOthers(seer, target));
 
                     Suffix.Append(EvilTracker.GetTargetArrow(seer, target));
 
@@ -943,46 +880,72 @@ namespace TownOfHost
         {
         }
     }
-    [HarmonyPatch(typeof(GameData), nameof(GameData.CompleteTask))]
-    class GameDataCompleteTaskPatch
-    {
-        public static void Postfix(PlayerControl pc)
-        {
-            Logger.Info($"TaskComplete:{pc.GetNameWithRole()}", "CompleteTask");
-            Main.PlayerStates[pc.PlayerId].UpdateTask(pc);
-            Utils.NotifyRoles();
-        }
-    }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CompleteTask))]
     class PlayerControlCompleteTaskPatch
     {
         public static bool Prefix(PlayerControl __instance)
         {
-            if (Workhorse.OnCompleteTask(__instance)) //タスク勝利をキャンセル
-                return false;
-            return true;
-        }
-        public static void Postfix(PlayerControl __instance)
-        {
             var pc = __instance;
-            Snitch.OnCompleteTask(pc);
 
-            var isTaskFinish = pc.GetPlayerTaskState().IsTaskFinished;
-            if (isTaskFinish && pc.Is(CustomRoles.MadSnitch))
+            Logger.Info($"TaskComplete:{pc.GetNameWithRole()}", "CompleteTask");
+            var taskState = pc.GetPlayerTaskState();
+            taskState.Update(pc);
+
+            var roleClass = pc.GetRoleClass();
+            var ret = true;
+            if (roleClass != null)
             {
-                foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
+                ret = roleClass.OnCompleteTask();
+            }
+            else
+            {
+                ret = Workhorse.OnCompleteTask(pc);
+                var isTaskFinish = taskState.IsTaskFinished;
+                if (isTaskFinish && pc.Is(CustomRoles.MadSnitch))
                 {
-                    NameColorManager.Add(pc.PlayerId, impostor.PlayerId);
+                    foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
+                    {
+                        NameColorManager.Add(pc.PlayerId, impostor.PlayerId);
+                    }
                 }
-                Utils.NotifyRoles(SpecifySeer: pc);
+                if (pc.Is(CustomRoles.SpeedBooster))
+                {
+                    //FIXME:SpeedBooster class transplant
+                    if (pc.IsAlive()
+                    && (isTaskFinish || (taskState.CompletedTasksCount) >= Options.SpeedBoosterTaskTrigger.GetInt())
+                    && !Main.SpeedBoostTarget.ContainsKey(pc.PlayerId))
+                    {   //ｽﾋﾟﾌﾞが生きていて、全タスク完了orトリガー数までタスクを完了していて、SpeedBoostTargetに登録済みでない場合
+                        var rand = IRandom.Instance;
+                        List<PlayerControl> targetPlayers = new();
+                        //切断者と死亡者を除外
+                        foreach (var p in Main.AllAlivePlayerControls)
+                        {
+                            if (!Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetPlayers.Add(p);
+                        }
+                        //ターゲットが0ならアップ先をプレイヤーをnullに
+                        if (targetPlayers.Count >= 1)
+                        {
+                            PlayerControl target = targetPlayers[rand.Next(0, targetPlayers.Count)];
+                            Logger.Info("スピードブースト先:" + target.cosmetics.nameText.text, "SpeedBooster");
+                            Main.SpeedBoostTarget.Add(pc.PlayerId, target.PlayerId);
+                            Main.AllPlayerSpeed[Main.SpeedBoostTarget[pc.PlayerId]] += Options.SpeedBoosterUpSpeed.GetFloat();
+                            target.MarkDirtySettings();
+                        }
+                        else
+                        {
+                            Main.SpeedBoostTarget.Add(pc.PlayerId, 255);
+                            Logger.SendInGame("Error.SpeedBoosterNullException");
+                            Logger.Warn("スピードブースト先がnullです。", "SpeedBooster");
+                        }
+                    }
+                }
+                if (isTaskFinish && pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor)
+                {
+                    Utils.MarkEveryoneDirtySettings();
+                }
             }
-            if ((isTaskFinish &&
-                pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor) ||
-                pc.GetCustomRole() is CustomRoles.SpeedBooster)
-            {
-                //ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
-                Utils.MarkEveryoneDirtySettings();
-            }
+            Utils.NotifyRoles();
+            return ret;
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ProtectPlayer))]
@@ -1012,12 +975,15 @@ namespace TownOfHost
             if (!ShipStatus.Instance.enabled) return true;
             if (roleType is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost)
             {
-                var targetIsKiller = target.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(target.PlayerId);
+                var targetRequireResetCam = target.GetCustomRole().GetRoleInfo()?.RequireResetCam ?? false;
+                var targetIsKiller = target.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(target.PlayerId) || targetRequireResetCam;
                 var ghostRoles = new Dictionary<PlayerControl, RoleTypes>();
                 foreach (var seer in Main.AllPlayerControls)
                 {
                     var self = seer.PlayerId == target.PlayerId;
-                    var seerIsKiller = seer.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(seer.PlayerId);
+                    var seerRequireResetCam = seer.GetCustomRole().GetRoleInfo()?.RequireResetCam ?? false;
+                    var seerIsKiller = seer.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(seer.PlayerId) || seerRequireResetCam;
+
                     if ((self && targetIsKiller) || (!seerIsKiller && target.Is(CustomRoleTypes.Impostor)))
                     {
                         ghostRoles[seer] = RoleTypes.ImpostorGhost;

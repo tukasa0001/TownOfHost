@@ -5,16 +5,14 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 
+using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Crewmate;
 using TownOfHost.Roles.Neutral;
-using TownOfHost.Roles.AddOns.Impostor;
-using TownOfHost.Roles.AddOns.Crewmate;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    enum CustomRPC
+    public enum CustomRPC
     {
         VersionCheck = 60,
         RequestRetryVersionCheck = 61,
@@ -89,6 +87,9 @@ namespace TownOfHost
         }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
         {
+            //CustomRPC以外は処理しない
+            if (callId < (byte)CustomRPC.VersionCheck) return;
+
             var rpcType = (CustomRPC)callId;
             switch (rpcType)
             {
@@ -136,14 +137,8 @@ namespace TownOfHost
                     CustomRoles role = (CustomRoles)reader.ReadPackedInt32();
                     RPC.SetCustomRole(CustomRoleTargetId, role);
                     break;
-                case CustomRPC.SetBountyTarget:
-                    BountyHunter.ReceiveRPC(reader);
-                    break;
                 case CustomRPC.SetKillOrSpell:
                     Witch.ReceiveRPC(reader, false);
-                    break;
-                case CustomRPC.SetSheriffShotLimit:
-                    Sheriff.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();
@@ -156,9 +151,6 @@ namespace TownOfHost
                     break;
                 case CustomRPC.DoSpell:
                     Witch.ReceiveRPC(reader, true);
-                    break;
-                case CustomRPC.SniperSync:
-                    Sniper.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetLoversPlayers:
                     Main.LoversPlayers.Clear();
@@ -188,6 +180,9 @@ namespace TownOfHost
                     byte targetId = reader.ReadByte();
                     byte killerId = reader.ReadByte();
                     RPC.SetRealKiller(targetId, killerId);
+                    break;
+                default:
+                    CustomRoleManager.DispatchRpc(reader, rpcType);
                     break;
             }
         }
@@ -277,76 +272,13 @@ namespace TownOfHost
             if (role < CustomRoles.NotAssigned)
             {
                 Main.PlayerStates[targetId].SetMainRole(role);
+                CustomRoleManager.CreateInstance(role, Utils.GetPlayerById(targetId));
             }
             else if (role >= CustomRoles.NotAssigned)   //500:NoSubRole 501~:SubRole
             {
                 Main.PlayerStates[targetId].SetSubRole(role);
             }
-            switch (role)
-            {
-                case CustomRoles.BountyHunter:
-                    BountyHunter.Add(targetId);
-                    break;
-                case CustomRoles.SerialKiller:
-                    SerialKiller.Add(targetId);
-                    break;
-                case CustomRoles.FireWorks:
-                    FireWorks.Add(targetId);
-                    break;
-                case CustomRoles.TimeThief:
-                    TimeThief.Add(targetId);
-                    break;
-                case CustomRoles.Sniper:
-                    Sniper.Add(targetId);
-                    break;
-                case CustomRoles.Mare:
-                    Mare.Add(targetId);
-                    break;
-                case CustomRoles.EvilTracker:
-                    EvilTracker.Add(targetId);
-                    break;
-                case CustomRoles.Witch:
-                    Witch.Add(targetId);
-                    break;
-                case CustomRoles.Vampire:
-                    Vampire.Add(targetId);
-                    break;
 
-                case CustomRoles.Egoist:
-                    Egoist.Add(targetId);
-                    break;
-                case CustomRoles.SchrodingerCat:
-                    SchrodingerCat.Add(targetId);
-                    break;
-                case CustomRoles.EgoSchrodingerCat:
-                    TeamEgoist.Add(targetId);
-                    break;
-                case CustomRoles.Executioner:
-                    Executioner.Add(targetId);
-                    break;
-                case CustomRoles.Jackal:
-                    Jackal.Add(targetId);
-                    break;
-
-                case CustomRoles.Sheriff:
-                    Sheriff.Add(targetId);
-                    break;
-                case CustomRoles.SabotageMaster:
-                    SabotageMaster.Add(targetId);
-                    break;
-                case CustomRoles.Snitch:
-                    Snitch.Add(targetId);
-                    break;
-                case CustomRoles.LastImpostor:
-                    LastImpostor.Add(targetId);
-                    break;
-                case CustomRoles.TimeManager:
-                    TimeManager.Add(targetId);
-                    break;
-                case CustomRoles.Workhorse:
-                    Workhorse.Add(targetId);
-                    break;
-            }
             HudManager.Instance.SetHudActive(true);
             if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();
         }

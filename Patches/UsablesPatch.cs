@@ -2,6 +2,7 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using UnityEngine;
 
+using TownOfHost.Roles.Core;
 namespace TownOfHost
 {
     [HarmonyPatch(typeof(Console), nameof(Console.CanUse))]

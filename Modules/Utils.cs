@@ -12,8 +12,8 @@ using UnhollowerBaseLib;
 using UnityEngine;
 
 using TownOfHost.Modules;
+using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Crewmate;
 using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.AddOns.Impostor;
 using TownOfHost.Roles.AddOns.Crewmate;
@@ -178,13 +178,13 @@ namespace TownOfHost
         }
         public static Color GetRoleColor(CustomRoles role)
         {
-            if (!Main.roleColors.TryGetValue(role, out var hexColor)) hexColor = "#ffffff";
+            if (!Main.roleColors.TryGetValue(role, out var hexColor)) hexColor = role.GetRoleInfo()?.RoleColorCode;
             ColorUtility.TryParseHtmlString(hexColor, out Color c);
             return c;
         }
         public static string GetRoleColorCode(CustomRoles role)
         {
-            if (!Main.roleColors.TryGetValue(role, out var hexColor)) hexColor = "#ffffff";
+            if (!Main.roleColors.TryGetValue(role, out var hexColor)) hexColor = role.GetRoleInfo()?.RoleColorCode;
             return hexColor;
         }
         public static (string, Color) GetRoleText(byte playerId)
@@ -273,12 +273,14 @@ namespace TownOfHost
             {
                 if (p.IsDead && Options.GhostIgnoreTasks.GetBool()) hasTasks = false;
                 var role = States.MainRole;
+                var roleClass = CustomRoleManager.GetByPlayerId(p.PlayerId);
+                if (roleClass != null)
+                    hasTasks = roleClass.HasTasks;
                 switch (role)
                 {
                     case CustomRoles.GM:
                     case CustomRoles.Madmate:
                     case CustomRoles.SKMadmate:
-                    case CustomRoles.Sheriff:
                     case CustomRoles.Arsonist:
                     case CustomRoles.Egoist:
                     case CustomRoles.Jackal:
@@ -333,49 +335,50 @@ namespace TownOfHost
         {
             if (!Main.playerVersion.ContainsKey(0)) return ""; //ホストがMODを入れていなければ未記入を返す
             var ProgressText = new StringBuilder();
-            var role = Main.PlayerStates[playerId].MainRole;
-            switch (role)
+            var State = Main.PlayerStates[playerId];
+            var role = State.MainRole;
+            var roleClass = CustomRoleManager.GetByPlayerId(playerId);
+            ProgressText.Append(roleClass?.GetProgressText(comms));
+            // switch (role.RoleName)
+            if (ProgressText.Length == 0)
             {
-                case CustomRoles.Arsonist:
-                    var doused = GetDousedPlayerCount(playerId);
-                    ProgressText.Append(ColorString(GetRoleColor(CustomRoles.Arsonist).ShadeColor(0.25f), $"({doused.Item1}/{doused.Item2})"));
-                    break;
-                case CustomRoles.Sheriff:
-                    ProgressText.Append(Sheriff.GetShotLimit(playerId));
-                    break;
-                case CustomRoles.Sniper:
-                    ProgressText.Append(Sniper.GetBulletCount(playerId));
-                    break;
-                case CustomRoles.EvilTracker:
-                    ProgressText.Append(EvilTracker.GetMarker(playerId));
-                    break;
-                case CustomRoles.TimeThief:
-                    ProgressText.Append(TimeThief.GetProgressText(playerId));
-                    break;
-                default:
-                    //タスクテキスト
-                    var taskState = Main.PlayerStates?[playerId].GetTaskState();
-                    if (taskState.hasTasks)
-                    {
-                        Color TextColor = Color.yellow;
-                        var info = GetPlayerInfoById(playerId);
-                        var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(role).ShadeColor(0.5f); //タスク完了後の色
-                        var NonCompleteColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
+                switch (role)
+                {
+                    case CustomRoles.Arsonist:
+                        var doused = GetDousedPlayerCount(playerId);
+                        ProgressText.Append(ColorString(GetRoleColor(CustomRoles.Arsonist).ShadeColor(0.25f), $"({doused.Item1}/{doused.Item2})"));
+                        break;
+                    case CustomRoles.EvilTracker:
+                        ProgressText.Append(EvilTracker.GetMarker(playerId));
+                        break;
+                    case CustomRoles.TimeThief:
+                        ProgressText.Append(TimeThief.GetProgressText(playerId));
+                        break;
+                    default:
+                        //タスクテキスト
+                        var taskState = Main.PlayerStates?[playerId].GetTaskState();
+                        if (taskState.hasTasks)
+                        {
+                            Color TextColor = Color.yellow;
+                            var info = GetPlayerInfoById(playerId);
+                            var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(role).ShadeColor(0.5f); //タスク完了後の色
+                            var NonCompleteColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
 
-                        if (Workhorse.IsThisRole(playerId))
-                            NonCompleteColor = Workhorse.RoleColor;
+                            if (Workhorse.IsThisRole(playerId))
+                                NonCompleteColor = Workhorse.RoleColor;
 
-                        var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
+                            var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
 
-                        TextColor = comms ? Color.gray : NormalColor;
-                        string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-                        ProgressText.Append(ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})"));
-                    }
-                    break;
+                            TextColor = comms ? Color.gray : NormalColor;
+                            string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
+                            ProgressText.Append(ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})"));
+                        }
+                        break;
+                }
+                if (ProgressText.Length != 0)
+                    ProgressText.Insert(0, " "); //空じゃなければ空白を追加
+                if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText.Append(ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]"));
             }
-            if (ProgressText.Length != 0)
-                ProgressText.Insert(0, " "); //空じゃなければ空白を追加
-            if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText.Append(ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]"));
 
             return ProgressText.ToString();
         }
@@ -661,9 +664,10 @@ namespace TownOfHost
         }
         public static GameData.PlayerInfo GetPlayerInfoById(int PlayerId) =>
             GameData.Instance.AllPlayers.ToArray().Where(info => info.PlayerId == PlayerId).FirstOrDefault();
-        private static StringBuilder SelfSuffix = new();
         private static StringBuilder SelfMark = new(20);
+        private static StringBuilder SelfSuffix = new(20);
         private static StringBuilder TargetMark = new(20);
+        private static StringBuilder TargetSuffix = new(20);
         public static void NotifyRoles(bool isForMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false, bool ForceLoop = false)
         {
             if (!AmongUsClient.Instance.AmHost) return;
@@ -702,11 +706,15 @@ namespace TownOfHost
                 //タスクなど進行状況を含むテキスト
                 string SelfTaskText = GetProgressText(seer);
 
+                var seerRole = seer.GetRoleClass();
+
                 //名前の後ろに付けるマーカー
                 SelfMark.Clear();
 
-                //インポスター/キル可能なニュートラルに対するSnitch警告
-                SelfMark.Append(Snitch.GetWarningArrow(seer));
+                //seer役職が対象のMark
+                SelfMark.Append(seerRole?.GetMark(seer, isForMeeting: isForMeeting));
+                //seerに関わらず発動するMark
+                SelfMark.Append(CustomRoleManager.GetMarkOthers(seer, isForMeeting: isForMeeting));
 
                 //ハートマークを付ける(自分に)
                 if (seer.Is(CustomRoles.Lovers)) SelfMark.Append(ColorString(GetRoleColor(CustomRoles.Lovers), "♡"));
@@ -714,16 +722,13 @@ namespace TownOfHost
                 //呪われている場合
                 SelfMark.Append(Witch.GetSpelledMark(seer.PlayerId, isForMeeting));
 
-                //銃声が聞こえるかチェック
-                SelfMark.Append(Sniper.GetShotNotify(seer.PlayerId));
                 //Markとは違い、改行してから追記されます。
                 SelfSuffix.Clear();
 
-                if (seer.Is(CustomRoles.BountyHunter))
-                {
-                    SelfSuffix.Append(BountyHunter.GetTargetText(seer, false));
-                    SelfSuffix.Append(BountyHunter.GetTargetArrow(seer));
-                }
+                //seer役職が対象のLowerText
+                SelfSuffix.Append(seerRole?.GetLowerText(seer, isForMeeting: isForMeeting));
+                //seerに関わらず発動するLowerText
+                SelfSuffix.Append(CustomRoleManager.GetLowerTextOthers(seer, isForMeeting: isForMeeting));
 
                 if (seer.Is(CustomRoles.FireWorks))
                 {
@@ -735,8 +740,10 @@ namespace TownOfHost
                     SelfSuffix.Append(Witch.GetSpellModeText(seer, false, isForMeeting));
                 }
 
-                //タスクを終えたSnitchがインポスター/キル可能なニュートラルの方角を確認できる
-                SelfSuffix.Append(Snitch.GetSnitchArrow(seer));
+                //seer役職が対象のSuffix
+                SelfSuffix.Append(seerRole?.GetSuffix(seer, isForMeeting: isForMeeting));
+                //seerに関わらず発動するSuffix
+                SelfSuffix.Append(CustomRoleManager.GetSuffixOthers(seer, isForMeeting: isForMeeting));
 
                 SelfSuffix.Append(EvilTracker.GetTargetArrow(seer, seer));
 
@@ -785,11 +792,13 @@ namespace TownOfHost
                         //名前の後ろに付けるマーカー
                         TargetMark.Clear();
 
+                        //seer役職が対象のMark
+                        TargetMark.Append(seerRole?.GetMark(seer, target, isForMeeting));
+                        //seerに関わらず発動するMark
+                        TargetMark.Append(CustomRoleManager.GetMarkOthers(seer, target, isForMeeting));
+
                         //呪われている人
                         TargetMark.Append(Witch.GetSpelledMark(target.PlayerId, isForMeeting));
-
-                        //タスク完了直前のSnitchにマークを表示
-                        TargetMark.Append(Snitch.GetWarningMark(seer, target));
 
                         //ハートマークを付ける(相手に)
                         if (seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers))
@@ -833,6 +842,15 @@ namespace TownOfHost
                             if (isForMeeting && EvilTracker.IsTrackTarget(seer, target) && EvilTracker.CanSeeLastRoomInMeeting)
                                 TargetRoleText = $"<size={fontSize}>{EvilTracker.GetArrowAndLastRoom(seer, target)}</size>\r\n";
                         }
+                        //
+                        TargetSuffix.Clear();
+                        //seerに関わらず発動するLowerText
+                        TargetSuffix.Append(CustomRoleManager.GetLowerTextOthers(seer, target, isForMeeting: isForMeeting));
+
+                        //seer役職が対象のSuffix
+                        TargetSuffix.Append(seerRole?.GetSuffix(seer, target, isForMeeting: isForMeeting));
+                        //seerに関わらず発動するSuffix
+                        TargetSuffix.Append(CustomRoleManager.GetSuffixOthers(seer, target, isForMeeting: isForMeeting));
 
                         //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                         string TargetPlayerName = target.GetRealName(isForMeeting);
@@ -874,7 +892,7 @@ namespace TownOfHost
         }
         public static void AfterMeetingTasks()
         {
-            BountyHunter.AfterMeetingTasks();
+            CustomRoleManager.AllActiveRoles.Do(roleClass => roleClass.AfterMeetingTasks());
             EvilTracker.AfterMeetingTasks();
             SerialKiller.AfterMeetingTasks();
             if (Options.AirShipVariableElectrical.GetBool())

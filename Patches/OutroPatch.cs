@@ -6,7 +6,7 @@ using HarmonyLib;
 using UnityEngine;
 
 using TownOfHost.Modules;
-using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.Core;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -96,7 +96,6 @@ namespace TownOfHost
                 Main.winnerList.Add(pc.PlayerId);
             }
 
-            BountyHunter.ChangeTimer = new();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
 
             Main.VisibleTasksCount = false;
@@ -107,6 +106,8 @@ namespace TownOfHost
                 GameOptionsSender.AllSenders.Add(new NormalGameOptionsSender());
                 /* Send SyncSettings RPC */
             }
+            //オブジェクト破棄
+            CustomRoleManager.Dispose();
         }
     }
     [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.SetEverythingUp))]

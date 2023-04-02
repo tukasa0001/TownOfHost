@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 
+using TownOfHost.Roles.Core;
+
 namespace TownOfHost.Roles
 {
     public static class RoleAssignManager

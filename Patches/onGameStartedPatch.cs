@@ -7,6 +7,7 @@ using Hazel;
 
 using TownOfHost.Modules;
 using TownOfHost.Roles;
+using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Crewmate;
 using TownOfHost.Roles.Neutral;
@@ -117,22 +118,16 @@ namespace TownOfHost
                     Options.HideAndSeekKillDelayTimer = Options.StandardHASWaitingTime.GetFloat();
                 }
             }
+            CustomRoleManager.Initialize();
             FallFromLadder.Reset();
-            BountyHunter.Init();
             SerialKiller.Init();
             FireWorks.Init();
-            Sniper.Init();
             TimeThief.Init();
-            Mare.Init();
             Witch.Init();
-            SabotageMaster.Init();
             Egoist.Init();
             Executioner.Init();
             Jackal.Init();
-            Sheriff.Init();
             EvilTracker.Init();
-            Snitch.Init();
-            SchrodingerCat.Init();
             Vampire.Init();
             TimeManager.Init();
             LastImpostor.Init();
@@ -307,85 +302,9 @@ namespace TownOfHost
                         ExtendedPlayerControl.RpcSetCustomRole(pair.Key, subRole);
                 }
 
+                CustomRoleManager.CreateInstance();
                 foreach (var pc in Main.AllPlayerControls)
                 {
-                    if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
-                    switch (pc.GetCustomRole())
-                    {
-                        case CustomRoles.BountyHunter:
-                            BountyHunter.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.SerialKiller:
-                            SerialKiller.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.Witch:
-                            Witch.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.Warlock:
-                            Main.CursedPlayers.Add(pc.PlayerId, null);
-                            Main.isCurseAndKill.Add(pc.PlayerId, false);
-                            break;
-                        case CustomRoles.FireWorks:
-                            FireWorks.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.TimeThief:
-                            TimeThief.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.Sniper:
-                            Sniper.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.Mare:
-                            Mare.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.Vampire:
-                            Vampire.Add(pc.PlayerId);
-                            break;
-
-                        case CustomRoles.Arsonist:
-                            foreach (var ar in Main.AllPlayerControls)
-                                Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
-                            break;
-                        case CustomRoles.Executioner:
-                            Executioner.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.Egoist:
-                            Egoist.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.Jackal:
-                            Jackal.Add(pc.PlayerId);
-                            break;
-
-                        case CustomRoles.Sheriff:
-                            Sheriff.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.Mayor:
-                            Main.MayorUsedButtonCount[pc.PlayerId] = 0;
-                            break;
-                        case CustomRoles.SabotageMaster:
-                            SabotageMaster.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.EvilTracker:
-                            EvilTracker.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.Snitch:
-                            Snitch.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.SchrodingerCat:
-                            SchrodingerCat.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.TimeManager:
-                            TimeManager.Add(pc.PlayerId);
-                            break;
-                    }
-                    foreach (var subRole in pc.GetCustomSubRoles())
-                    {
-                        switch (subRole)
-                        {
-                            // ここに属性のAddを追加
-                            default:
-                                break;
-                        }
-                    }
                     HudManager.Instance.SetHudActive(true);
                     pc.ResetKillCooldown();
 

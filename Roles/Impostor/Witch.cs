@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using Hazel;
 
+using TownOfHost.Roles.Core;
 using static TownOfHost.Translator;
 using static TownOfHost.Options;
 
@@ -155,20 +156,23 @@ namespace TownOfHost.Roles.Impostor
                 SendRPC(true, witch);
             }
         }
-        public static bool OnCheckMurder(PlayerControl killer, PlayerControl target)
+        public static bool OnCheckMurder(MurderInfo info)
         {
-            if (NowSwitchTrigger == SwitchTrigger.DoubleTrigger)
+            var (killer, target) = info.AttemptTuple;
+            if (info.CanKill)
             {
-                return killer.CheckDoubleTrigger(target, () => { SetSpelled(killer, target); });
+                if (NowSwitchTrigger == SwitchTrigger.DoubleTrigger)
+                {
+                    return killer.CheckDoubleTrigger(target, () => { SetSpelled(killer, target); });
+                }
+                if (!IsSpellMode(killer.PlayerId))
+                {
+                    SwitchSpellMode(killer.PlayerId, true);
+                    //キルモードなら通常処理に戻る
+                    return true;
+                }
+                SetSpelled(killer, target);
             }
-            if (!IsSpellMode(killer.PlayerId))
-            {
-                SwitchSpellMode(killer.PlayerId, true);
-                //キルモードなら通常処理に戻る
-                return true;
-            }
-            SetSpelled(killer, target);
-
             //スペルに失敗してもスイッチ判定
             SwitchSpellMode(killer.PlayerId, true);
             //キル処理終了させる

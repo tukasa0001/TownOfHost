@@ -1,3 +1,5 @@
+using System;
+
 namespace TownOfHost
 {
     public class IntegerOptionItem : OptionItem
@@ -17,6 +19,14 @@ namespace TownOfHost
         {
             return new IntegerOptionItem(
                 id, name, defaultValue, tab, isSingleValue, rule
+            );
+        }
+        public static IntegerOptionItem Create(
+            int id, Enum name, IntegerValueRule rule, int defaultValue, TabGroup tab, bool isSingleValue
+        )
+        {
+            return new IntegerOptionItem(
+                id, name.ToString(), defaultValue, tab, isSingleValue, rule
             );
         }
 

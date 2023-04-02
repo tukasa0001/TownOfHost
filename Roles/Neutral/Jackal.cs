@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using AmongUs.GameOptions;
 using Hazel;
 
+using TownOfHost.Roles.Core;
 using static TownOfHost.Options;
 
 namespace TownOfHost.Roles.Neutral

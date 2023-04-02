@@ -5,6 +5,8 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using UnityEngine;
 
+using TownOfHost.Roles.Core;
+
 namespace TownOfHost
 {
     [HarmonyPatch(typeof(TaskAdderGame), nameof(TaskAdderGame.ShowFolder))]

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+using TownOfHost.Roles.Core;
 using static TownOfHost.Translator;
 using static TownOfHost.Options;
 
@@ -52,12 +53,17 @@ namespace TownOfHost.Roles.Impostor
         public static bool IsEnable = false;
         public static bool IsThisRole(byte playerId) => PlayerIdList.Contains(playerId);
 
-        public static bool OnCheckMurder(PlayerControl killer, PlayerControl target)
+        public static bool OnCheckMurder(MurderInfo info)
         {
+            var (killer, target) = info.AttemptTuple;
+
             if (!IsThisRole(killer.PlayerId)) return true;
             if (target.Is(CustomRoles.Bait)) return true;
 
             killer.SetKillCooldown();
+
+            //キル出来ない相手には無効
+            if (!info.CanKill) return false;
 
             //誰かに噛まれていなければ登録
             if (!BittenPlayers.ContainsKey(target.PlayerId))

@@ -10,6 +10,8 @@ using HarmonyLib;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 
+using TownOfHost.Roles.Core;
+
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
 namespace TownOfHost
@@ -207,7 +209,6 @@ namespace TownOfHost
                     {CustomRoles.SabotageMaster, "#0000ff"},
                     {CustomRoles.Snitch, "#b8fb4f"},
                     {CustomRoles.Mayor, "#204d42"},
-                    {CustomRoles.Sheriff, "#f8cd46"},
                     {CustomRoles.Lighter, "#eee5be"},
                     {CustomRoles.SpeedBooster, "#00ffff"},
                     {CustomRoles.Doctor, "#80ffdd"},
@@ -251,6 +252,14 @@ namespace TownOfHost
                             break;
                     }
                 }
+                var type = typeof(RoleBase);
+                var roleClassArray =
+                CustomRoleManager.AllRolesClassType = Assembly.GetAssembly(type)
+                    .GetTypes()
+                    .Where(x => x.IsSubclassOf(type)).ToArray();
+
+                foreach (var roleClassType in roleClassArray)
+                    roleClassType.GetField("RoleInfo")?.GetValue(type);
             }
             catch (ArgumentException ex)
             {
@@ -275,77 +284,6 @@ namespace TownOfHost
 
             Harmony.PatchAll();
         }
-    }
-    public enum CustomRoles
-    {
-        //Default
-        Crewmate = 0,
-        //Impostor(Vanilla)
-        Impostor,
-        Shapeshifter,
-        //Impostor
-        BountyHunter,
-        EvilWatcher,
-        FireWorks,
-        Mafia,
-        SerialKiller,
-        ShapeMaster,
-        Sniper,
-        Vampire,
-        Witch,
-        Warlock,
-        Mare,
-        Puppeteer,
-        TimeThief,
-        EvilTracker,
-        //Madmate
-        MadGuardian,
-        Madmate,
-        MadSnitch,
-        SKMadmate,
-        MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
-        //両陣営
-        Watcher,
-        //Crewmate(Vanilla)
-        Engineer,
-        GuardianAngel,
-        Scientist,
-        //Crewmate
-        Bait,
-        Lighter,
-        Mayor,
-        NiceWatcher,
-        SabotageMaster,
-        Sheriff,
-        Snitch,
-        SpeedBooster,
-        Trapper,
-        Dictator,
-        Doctor,
-        Seer,
-        TimeManager,
-        CSchrodingerCat,//クルー陣営のシュレディンガーの猫
-        //Neutral
-        Arsonist,
-        Egoist,
-        EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
-        Jester,
-        Opportunist,
-        SchrodingerCat,//無所属のシュレディンガーの猫
-        Terrorist,
-        Executioner,
-        Jackal,
-        JSchrodingerCat,//ジャッカル陣営のシュレディンガーの猫
-        //HideAndSeek
-        HASFox,
-        HASTroll,
-        //GM
-        GM,
-        // Sub-roll after 500
-        NotAssigned = 500,
-        LastImpostor,
-        Lovers,
-        Workhorse,
     }
     //WinData
     public enum CustomWinner

@@ -5,6 +5,7 @@ using Il2CppSystem.Linq;
 using InnerNet;
 using Mathf = UnityEngine.Mathf;
 
+using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
 
@@ -94,6 +95,7 @@ namespace TownOfHost.Modules
                     break;
             }
 
+            player.GetRoleClass()?.ApplyGameOptions(opt);
             switch (role)
             {
                 case CustomRoles.Terrorist:
@@ -110,9 +112,6 @@ namespace TownOfHost.Modules
                     break;
                 case CustomRoles.SerialKiller:
                     SerialKiller.ApplyGameOptions(player);
-                    break;
-                case CustomRoles.BountyHunter:
-                    BountyHunter.ApplyGameOptions();
                     break;
                 case CustomRoles.EvilWatcher:
                 case CustomRoles.NiceWatcher:
@@ -149,9 +148,6 @@ namespace TownOfHost.Modules
                         ? opt.GetInt(Int32OptionNames.EmergencyCooldown)
                         : 300f;
                     AURoleOptions.EngineerInVentMaxTime = 1;
-                    break;
-                case CustomRoles.Mare:
-                    Mare.ApplyGameOptions(player.PlayerId);
                     break;
                 case CustomRoles.EvilTracker:
                     EvilTracker.ApplyGameOptions(player.PlayerId);

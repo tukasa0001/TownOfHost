@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using HarmonyLib;
-using Hazel;
-using InnerNet;
 using UnityEngine;
+
+using TownOfHost.Roles.Core;
 
 namespace TownOfHost
 {

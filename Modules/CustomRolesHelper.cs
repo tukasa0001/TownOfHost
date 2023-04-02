@@ -1,5 +1,6 @@
 using AmongUs.GameOptions;
 
+using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
 
@@ -9,6 +10,9 @@ namespace TownOfHost
     {
         public static bool IsImpostor(this CustomRoles role)
         {
+            var roleInfo = role.GetRoleInfo();
+            if (roleInfo != null)
+                return roleInfo.CustomRoleType == CustomRoleTypes.Impostor;
             return
                 role is CustomRoles.Impostor or
                 CustomRoles.Shapeshifter or
@@ -29,6 +33,9 @@ namespace TownOfHost
         }
         public static bool IsMadmate(this CustomRoles role)
         {
+            var roleInfo = role.GetRoleInfo();
+            if (roleInfo != null)
+                return roleInfo.CustomRoleType == CustomRoleTypes.Madmate;
             return
                 role is CustomRoles.Madmate or
                 CustomRoles.SKMadmate or
@@ -39,6 +46,9 @@ namespace TownOfHost
         public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role.IsMadmate();
         public static bool IsNeutral(this CustomRoles role)
         {
+            var roleInfo = role.GetRoleInfo();
+            if (roleInfo != null)
+                return roleInfo.CustomRoleType == CustomRoleTypes.Neutral;
             return
                 role is CustomRoles.Jester or
                 CustomRoles.Opportunist or
@@ -53,7 +63,7 @@ namespace TownOfHost
                 CustomRoles.HASTroll or
                 CustomRoles.HASFox;
         }
-        public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
+        public static bool IsCrewmate(this CustomRoles role) => role.GetRoleInfo()?.CustomRoleType == CustomRoleTypes.Crewmate || (!role.IsImpostorTeam() && !role.IsNeutral());
         public static bool IsVanilla(this CustomRoles role)
         {
             return
@@ -77,6 +87,11 @@ namespace TownOfHost
         public static CustomRoleTypes GetCustomRoleTypes(this CustomRoles role)
         {
             CustomRoleTypes type = CustomRoleTypes.Crewmate;
+
+            var roleInfo = role.GetRoleInfo();
+            if (roleInfo != null)
+                return roleInfo.CustomRoleType;
+
             if (role.IsImpostor()) type = CustomRoleTypes.Impostor;
             if (role.IsNeutral()) type = CustomRoleTypes.Neutral;
             if (role.IsMadmate()) type = CustomRoleTypes.Madmate;
@@ -132,9 +147,12 @@ namespace TownOfHost
                 _ => false,
             };
         public static RoleTypes GetRoleTypes(this CustomRoles role)
-            => role switch
+        {
+            var roleInfo = role.GetRoleInfo();
+            if (roleInfo != null)
+                return roleInfo.BaseRoleType;
+            return role switch
             {
-                CustomRoles.Sheriff or
                 CustomRoles.Arsonist or
                 CustomRoles.Jackal => RoleTypes.Impostor,
 
@@ -152,7 +170,6 @@ namespace TownOfHost
                 CustomRoles.Mayor => Options.MayorHasPortableButton.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
 
                 CustomRoles.Shapeshifter or
-                CustomRoles.BountyHunter or
                 CustomRoles.SerialKiller or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
@@ -164,7 +181,7 @@ namespace TownOfHost
 
                 _ => role.IsImpostor() ? RoleTypes.Impostor : RoleTypes.Crewmate,
             };
-
+        }
         public static CountTypes GetCountTypes(this CustomRoles role)
             => role switch
             {
@@ -175,13 +192,6 @@ namespace TownOfHost
                 CustomRoles.HASTroll => CountTypes.None,
                 _ => role.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew,
             };
-    }
-    public enum CustomRoleTypes
-    {
-        Crewmate,
-        Impostor,
-        Neutral,
-        Madmate
     }
     public enum CountTypes
     {

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using TownOfHost.Roles.Core;
 using static TownOfHost.Translator;
 using static TownOfHost.Options;
 

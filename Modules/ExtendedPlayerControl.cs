@@ -8,8 +8,8 @@ using InnerNet;
 using UnityEngine;
 
 using TownOfHost.Modules;
+using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Crewmate;
 using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.AddOns.Impostor;
 using static TownOfHost.Translator;
@@ -382,16 +382,16 @@ namespace TownOfHost
         {
             if (!pc.IsAlive() || pc.Data.Role.Role == RoleTypes.GuardianAngel) return false;
 
+            var roleClassCanUse = pc.GetRoleClass()?.CanUseKillButton();
+
             return pc.GetCustomRole() switch
             {
                 CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
                 CustomRoles.Mafia => Utils.CanMafiaKill(),
                 CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
-                CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
-                CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc.PlayerId),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
                 CustomRoles.Egoist or CustomRoles.Jackal => true,
-                _ => pc.Is(CustomRoleTypes.Impostor),
+                _ => roleClassCanUse ?? pc.Is(CustomRoleTypes.Impostor)
             };
         }
         public static bool CanUseImpostorVentButton(this PlayerControl pc)
@@ -425,7 +425,7 @@ namespace TownOfHost
         }
         public static void ResetKillCooldown(this PlayerControl player)
         {
-            Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
+            Main.AllPlayerKillCooldown[player.PlayerId] = player.GetRoleClass()?.SetKillCooldown() ?? Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
             switch (player.GetCustomRole())
             {
                 case CustomRoles.SerialKiller:
@@ -433,9 +433,6 @@ namespace TownOfHost
                     break;
                 case CustomRoles.TimeThief:
                     TimeThief.SetKillCooldown(player.PlayerId); //タイムシーフはタイムシーフのキルクールに。
-                    break;
-                case CustomRoles.Mare:
-                    Mare.SetKillCooldown(player.PlayerId);
                     break;
                 case CustomRoles.Arsonist:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
@@ -445,9 +442,6 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Jackal:
                     Jackal.SetKillCooldown(player.PlayerId);
-                    break;
-                case CustomRoles.Sheriff:
-                    Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
                     break;
             }
             if (player.PlayerId == LastImpostor.currentId)

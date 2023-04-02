@@ -1,3 +1,5 @@
+using System;
+
 namespace TownOfHost
 {
     public class FloatOptionItem : OptionItem
@@ -17,6 +19,14 @@ namespace TownOfHost
         {
             return new FloatOptionItem(
                 id, name, defaultValue, tab, isSingleValue, rule
+            );
+        }
+        public static FloatOptionItem Create(
+            int id, Enum name, FloatValueRule rule, float defaultValue, TabGroup tab, bool isSingleValue
+        )
+        {
+            return new FloatOptionItem(
+                id, name.ToString(), defaultValue, tab, isSingleValue, rule
             );
         }
 

@@ -1,3 +1,5 @@
+using System;
+
 namespace TownOfHost
 {
     public class StringOptionItem : OptionItem
@@ -19,6 +21,14 @@ namespace TownOfHost
         {
             return new StringOptionItem(
                 id, name, defaultIndex, tab, isSingleValue, selections
+            );
+        }
+        public static StringOptionItem Create(
+            int id, Enum name, string[] selections, int defaultIndex, TabGroup tab, bool isSingleValue
+        )
+        {
+            return new StringOptionItem(
+                id, name.ToString(), defaultIndex, tab, isSingleValue, selections
             );
         }
 

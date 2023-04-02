@@ -1,3 +1,4 @@
+using TownOfHost.Roles.Core;
 using static TownOfHost.Options;
 
 namespace TownOfHost.Roles.AddOns.Impostor
