@@ -246,6 +246,7 @@ internal static class SoloKombatManager
         KBScore[killer.PlayerId]++;
 
         float addRate = IRandom.Instance.Next(3, 5 + GetRankOfScore(killer.PlayerId)) / 100f;
+        addRate *= Options.KB_KillBonusMultiplier.GetFloat();
         float addin;
         switch (IRandom.Instance.Next(0, 3))
         {

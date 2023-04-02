@@ -364,6 +364,7 @@ public static class Options
     public static OptionItem KB_RecoverAfterSecond;
     public static OptionItem KB_RecoverPerSecond;
     public static OptionItem KB_ResurrectionWaitingTime;
+    public static OptionItem KB_KillBonusMultiplier;
 
     public static readonly string[] suffixModes =
     {
@@ -836,6 +837,10 @@ public static class Options
             .SetGameMode(CustomGameMode.SoloKombat)
             .SetColor(new Color32(245, 82, 82, byte.MaxValue))
             .SetValueFormat(OptionFormat.Seconds);
+        KB_KillBonusMultiplier = FloatOptionItem.Create(66_233_007, "KB_KillBonusMultiplier", new(0.25f, 5f, 0.25f), 1.25f, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.SoloKombat)
+            .SetColor(new Color32(245, 82, 82, byte.MaxValue))
+            .SetValueFormat(OptionFormat.Multiplier);
 
         //驱逐相关设定
         TextOptionItem.Create(66_123_126, "MenuTitle.Ejections", TabGroup.GameSettings)

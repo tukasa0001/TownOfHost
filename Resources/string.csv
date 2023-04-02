@@ -753,7 +753,8 @@ KB_HPMax,初始血量上限,Default HP,Здоровье
 KB_ATK,初始攻击力,Default Attack,Атака
 KB_RecoverAfterSecond,脱离战斗几秒后开始回复血量,Recover Cooldown,Откат восстановления
 KB_RecoverPerSecond,每秒回复血量,Recover Per Second,Восстановления каждую секунду
-KB_ResurrectionWaitingTime,死亡后复活等待时间,Resurrection waiting time,Время возрождения 
+KB_ResurrectionWaitingTime,死亡后复活等待时间,Resurrection waiting time,Время возрождения
+KB_KillBonusMultiplier,击杀奖励倍率
 
 ## 死因 / Death Reasons
 DeathReason.Kill,被杀,Kill,Убит
