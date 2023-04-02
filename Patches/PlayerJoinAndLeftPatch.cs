@@ -4,7 +4,6 @@ using HarmonyLib;
 using Hazel;
 using InnerNet;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using TOHE.Modules;
 using TOHE.Roles.Neutral;

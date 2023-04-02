@@ -118,18 +118,21 @@ public class GameStartManagerPatch
                     warningMessage = Utils.ColorString(Color.red, string.Format(GetString("Warning.MismatchedVersion"), String.Join(" ", mismatchedPlayerNameList), $"<color={Main.ModColor}>{Main.ModName}</color>"));
                 }
             }
-            else if (exitTimer >= 0)
+            else
             {
-                if (!MatchVersions(0))
+                if (MatchVersions(0, true))
+                    exitTimer = 0;
+                else
                 {
                     exitTimer += Time.deltaTime;
-                    if (exitTimer > 5)
+                    if (exitTimer >= 5)
                     {
                         exitTimer = 0;
                         AmongUsClient.Instance.ExitGame(DisconnectReasons.ExitGame);
                         SceneChanger.ChangeScene("MainMenu");
                     }
-                    warningMessage = Utils.ColorString(Color.red, string.Format(GetString("Warning.AutoExitAtMismatchedVersion"), $"<color={Main.ModColor}>{Main.ModName}</color>", Math.Round(6 - exitTimer).ToString()));
+                    if (exitTimer != 0)
+                        warningMessage = Utils.ColorString(Color.red, string.Format(GetString("Warning.AutoExitAtMismatchedVersion"), $"<color={Main.ModColor}>{Main.ModName}</color>", Math.Round(5 - exitTimer).ToString()));
                 }
             }
             if (warningMessage != "")
