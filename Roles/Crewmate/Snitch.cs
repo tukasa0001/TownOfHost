@@ -13,7 +13,7 @@ public class Snitch : RoleBase
             typeof(Snitch),
             pc => new Snitch(pc),
             CustomRoles.Snitch,
-            RoleTypes.Crewmate,
+            () => RoleTypes.Crewmate,
             CustomRoleTypes.Crewmate,
             20500,
             SetupOptionItem,

@@ -13,7 +13,7 @@ public sealed class SchrodingerCat : RoleBase
             typeof(SchrodingerCat),
             player => new SchrodingerCat(player),
             CustomRoles.SchrodingerCat,
-            RoleTypes.Crewmate,
+            () => RoleTypes.Crewmate,
             CustomRoleTypes.Neutral,
             50400,
             SetupOptionItem,

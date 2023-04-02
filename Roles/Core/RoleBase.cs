@@ -33,7 +33,7 @@ public abstract class RoleBase : IDisposable
     {
         Player = player;
         HasTasks = hasTasks ?? roleInfo.CustomRoleType == CustomRoleTypes.Crewmate;
-        CanKill = canKill ?? roleInfo.BaseRoleType is RoleTypes.Impostor or RoleTypes.Shapeshifter;
+        CanKill = canKill ?? roleInfo.BaseRoleType.Invoke() is RoleTypes.Impostor or RoleTypes.Shapeshifter;
         IsKiller = CanKill;
 
         CustomRoleManager.AllActiveRoles.Add(this);

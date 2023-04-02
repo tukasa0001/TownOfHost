@@ -16,7 +16,7 @@ public sealed class Sheriff : RoleBase
             typeof(Sheriff),
             player => new Sheriff(player),
             CustomRoles.Sheriff,
-            RoleTypes.Impostor,
+            () => RoleTypes.Impostor,
             CustomRoleTypes.Crewmate,
             20400,
             SetupOptionItem,

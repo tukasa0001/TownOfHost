@@ -150,7 +150,7 @@ namespace TownOfHost
         {
             var roleInfo = role.GetRoleInfo();
             if (roleInfo != null)
-                return roleInfo.BaseRoleType;
+                return roleInfo.BaseRoleType.Invoke();
             return role switch
             {
                 CustomRoles.Arsonist or

@@ -15,7 +15,7 @@ public sealed class Sniper : RoleBase
             typeof(Sniper),
             player => new Sniper(player),
             CustomRoles.Sniper,
-            RoleTypes.Shapeshifter,
+            () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
             1800,
             SetupOptionItem
