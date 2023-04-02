@@ -7,8 +7,8 @@
 
 ## TOHE
 #13 SChinese: KARPED1EM
-#00 English: Tommy-XL
-#05 Russian: Tommy-XL & Tem (Helper)
+#00 English: Tommy-XL (@Tommy-XL)
+#05 Russian: Tommy-XL (@Tommy-XL) & Tem (@mogekonik1)
 
 ### If you want to translate the mod into other languages -
 ### here is the 'id' of all supported languages:
@@ -24,26 +24,26 @@
 ### 或许我们在未来的路上会经历许多坎坷，或许TOHE的昙花一现就此落幕
 ### 但感谢有你，感谢TOHE短暂的生命中的每一位过客
 
-## 生草作者署名（会显示在右上角，不需要请填“空”）
+## 生草作者署名（会显示在右上角，不需要请填“空”）/ A sign of an author (Change to "empty" if not needed)
 TextBelowVersionText,空,"<color=#0FE60F>Dev:</color> KARPED1EM","<color=#0FE60F>Разраб:</color> KARPED1EM\n<color=#06DEEC>Перевод:</color> TommyXL & Tem"
 
-# 阵营
+# 阵营 / Teams
 TeamImpostor,内鬼阵营,Team Impostor,Команда Предателей
 TeamNeutral,中立阵营,Neutral,Нейтрал
 TeamJackal,豺狼阵营,Team Jackal,Команда Шакалов
 TeamPelican,鹈鹕阵营,Team Pelican,Команда Пеликанов
 TeamGamer,玩家阵营,Team Demons,Команда Демонов
 
-## 个人竞技模式
+## 个人竞技模式 / PVP
 KB_Normal,挑战者,Challenger
 KB_NormalInfo,击败所有人！,Kill all of them!
 
-## 职业
+## 职业 / Roles
 
-# 其它
+# 其它 / Other
 GM,管理员,GM,GM (Призрак)
 
-# 原版职业
+# 原版职业 / Vanilla
 Crewmate,船员,Crewmate,Член Экипажа
 Engineer,工程师,Engineer,Инженер
 Scientist,科学家,Scientist,Ученый
@@ -51,7 +51,7 @@ GuardianAngel,守护天使,Guardian Angel,Ангел-хранитель
 Impostor,内鬼,Impostor,Предатель
 Shapeshifter,变形者,Shapeshifter,Оборотень
 
-# 内鬼阵营
+# 内鬼阵营 / Impostors
 BountyHunter,赏金猎人,Bounty Hunter,Охотник за Головами
 Mare,梦魇,Mare,Ночной
 FireWorks,烟花商人,Fireworker,Фейерверк
@@ -86,11 +86,11 @@ Greedier,贪婪者,Greedy,Жадина
 CursedWolf,呪狼,Cursed Wolf,Проклятый Волк
 ImperiusCurse,夺魂者,Soul Catcher,Ловец Душ
 QuickShooter,快枪手,Quick Shooter,Стрелок
-Concealer,隐蔽者（损坏）,Concealer (Broken),Консилер
+Concealer,隐蔽者（损坏）,Concealer (Broken),Консилер (Сломан)
 Eraser,抹除者,Eraser,Стирачка
 OverKiller,肢解者,Butcher,Мясник
 
-# 船员阵营
+# 船员阵营 / Crewmates
 Bait,诱饵,Bait,Байт
 Luckey,幸运儿,Luckey,Удачник
 Needy,摆烂人,Lazy Guy,Ленивый Парень
@@ -119,7 +119,7 @@ Medicaler,医生,Medic,Медик
 Divinator,占卜师,Fortune Teller,Гадалка
 Glitch,活死人,The Glitch,Глитч
 
-# 中立阵营
+# 中立阵营 / Neutrals
 Jester,小丑,Jester,Джестер
 Arsonist,纵火犯,Arsonist,Поджигатель
 Terrorist,恐怖分子,Terrorist,Террорист
@@ -139,7 +139,7 @@ Workaholic,工作狂,Workaholic,Трудоголик
 Collector,集票者,Collector,Коллектор
 Provocateur,自爆卡车,Provocateur,Провокатор
 
-# 附加职业
+# 附加职业 / Add-ons
 LastImpostor,绝境者,Last Impostor,Последний Предатель
 Lovers,恋人,Lovers,Любовники
 Madmate,叛徒,Madmate,Безумец
@@ -161,7 +161,7 @@ TicketsStealer,窃票者,Stealer,Похититель
 DualPersonality,双重人格,Schizophrenic,Шизофреник
 Mimic,宝箱怪,Mimic,Мимик
 
-## 附加职业作为前缀时
+## 附加职业作为前缀时 / Prefixes for Add-ons
 Prefix.Ntr,海王,Neptune,Нептун
 Prefix.Watcher,窥视,Watcher,Наблюдатель
 Prefix.Flashman,闪电,Flash,Флэш
@@ -180,10 +180,10 @@ Prefix.TicketsStealer,窃票,Stealer,Похититель
 Prefix.DualPersonality,双重人格,Schizophrenic,Шизофреник
 Prefix.Mimic,宝箱怪,Mimic,Мимик
 
-## 以下是职业简介（显示在开局以及任务栏的文本）
+## 以下是职业简介（显示在开局以及任务栏的文本）/ Shows at "Impostor/Crewmate" screen
 NeutralInfo,中立阵营,Independent forces unaffiliated with any other teams,Команда которая не принадлежит ни к каким другим командам
 
-# 内鬼阵营
+# 内鬼阵营 / Impostor descriptions
 BountyHunterInfo,走，去拿下你的目标！,Eliminate your target,Охотьтесь за своей целью
 MareInfo,Good Night~,Darkness aids you. Kill,Убивайте в темноте
 FireWorksInfo,一起来看最后的烟花吧,Go out with a BANG,Морфитесь чтобы поставить фейерверк
@@ -223,7 +223,7 @@ ConcealerInfo,当所有人戴上面具，一切都自由了,Change the appearanc
 EraserInfo,恕我直言，你不配拥有能力,Im sorry，but you don't deserve that.,Простите，вы этого не заслужили.
 OverKillerInfo,且欣赏我美丽的作品,Enjoy my beautiful work,Наслаждайтесь моей работой
 
-# 船员阵营
+# 船员阵营 / Crewmate descriptions
 BaitInfo,好消息，杀了我可以吃席,Bait your enemies,Убийца моментально зарепортит ваш труп
 LuckeyInfo,你擅长治疗内鬼的低血压,There is a chance that you will survive,Есть шанс что вы выживете
 NeedyInfo,摆烂快乐！摆烂万岁！,You are too lazy,Ты слишком ленивый
@@ -253,13 +253,13 @@ MedicalerInfo,好像有必要治一治你？,Protect the Crew,Защитите �
 DivinatorInfo,水晶球球，求求了,Check people by voting them,Проверяй игроков голосуя за них
 GlitchInfo,wDJwFPMNMm,wDJwFPMNMm,wDJwFPMNMm
 
-# 中立阵营
+# 中立阵营 / Neutral descriptions
 ArsonistInfo,乖乖站好！,Burn them to crisps,Облейте и подожгите всех игроков
 JesterInfo,我没有、我不是、我对跳,Get voted out,Заставь игроков изгнать себя
 OpportunistInfo,苟到最后就是胜利！,Just stay alive,Останьтесь в живых
 TerroristInfo,多说不宜 Rush B！,"Finish your tasks, THEN die",Умрите после выполнения всех заданий
 ExecutionerInfo,确实，我其实是看他不爽,Get your target voted out,Заставь игроков изгнать свою цель
-MarioInfo,听说你的公主在管道里,"Live happily ever after, together",Выживите со своим Любовником
+MarioInfo,听说你的公主在管道里,Jump in! Jump out!,"Прыг, скок, прыг, скок!"
 JackalInfo,在这里，我一般称自己为只狼,Kill Everyone,Убей всех игроков
 GodInfo,一切都在您的掌控,Everything is under your control,Все под вашим контролем
 InnocentInfo,果然碰瓷百试百灵,Let aim of innocent was be ejected,Пусть цель невинного будет изгнана
@@ -273,7 +273,7 @@ WorkaholicInfo,卷死他们！,Do your tasks and win!,Сделай свои за
 CollectorInfo,是收集癖的胜利！,Collect enough votes,Соберите достаточное количество голосов
 ProvocateurInfo,你急了，你寄了,Victory with help target,Победите с помощью цели
 
-# 附加职业
+# 附加职业 / Add-ons descriptions
 LoversInfo,最重要的是，记得照顾好你的另一半,Survive with your Lover,Выживите со своим Любовником
 MadmateInfo,结局掌握在你的手中,Help the Impostors,Помогите Предателям
 NtrInfo,笨蛋，我只爱你亿个人哦,Everyone sees you as their Lover,Вас видят как своего Любовника
@@ -295,13 +295,13 @@ TicketsStealerInfo,要懂得珍惜，死者最后的价值,Steal player votes,У
 DualPersonalityInfo,我真的很...奇怪吗？,You now have Schizophrenia,У вас теперь Шизофриния
 MimicInfo,噔↗噔↗当→当↘当→当↗,Imitate others,Имитируй других
 
-# 其它
+# 其它 / Other descriptions
 GMInfo,开局死的冤魂隔岸观火,You are the Game Master,Вы Мастер Игры
 NotAssignedInfo,未被分配职业,No assigned role,Нет назначенной роли
 
 ## 以下是职业描述（使用/m或/r指令后得到的文本）
 
-# 内鬼阵营
+# 内鬼阵营 / Long Impostors descriptions
 BountyHunterInfoLong,(内鬼阵营):\n赏金猎人会被随机分配一个悬赏目标，若在规定时间内击杀了悬赏目标，则击杀CD会变得很短，能立刻进行下一次击杀。若赏金猎人击杀的人不是赏金目标，则击杀CD会被延长。若赏金猎人在规定时间内没有完成任何击杀，则目标会被随机切换为另一个人。,"(Impostors):\nIf you kill your indicated target, your next kill cooldown will be greatly reduced.\nIf you kill anyone other than your target, your next kill cooldown will increase.\nThe target swaps after a configurable amount of time.","(Предатель):\nЕсли Охотник за головами убьет назначенную ему цель, время отката убийства будет намного меньше чем обычно. \n При убийстве игрока который не является его целью, приводит к стандартному времени отката убийства. \nЦели меняются спустя какое-то время"
 FireWorksInfoLong,(内鬼阵营):\n烟花商人可以安放烟花炸弹，造成范围性杀伤。烟花商人使用变形可以安放至多三个烟花炸弹。当存活的内鬼阵营玩家仅剩烟花商人且烟花炸弹安置完毕时，烟花商人可以使用变形下引爆炸弹。烟花炸弹可以同样炸死烟花商人自己。但如果烟花炸弹炸死所有存活玩家，那也算内鬼阵营胜利。,"(Impostors):\nWhenever you shapeshift, you can place a firework.\n After placing all fireworks, you can set them all off at once when you shapeshift once you become the last impostor.\nOnce you start placing fireworks, you cannot kill until the fireworks go off.","(Предатель):\nФейерверк может поставить несколько фейерверков с помощью Морфлинга. \nПосле установки всех фейерверков он может поджечь их все сразу с помощью использования Морфлинга, когда он является последним Предателем. \nТолько после этого он сможет убивать."
 SerialKillerInfoLong,(内鬼阵营):\n嗜血杀手的击杀冷却很短，但是在指定时间内没有杀人的话，嗜血杀手就会自杀。,"(Impostors):\nYou have a shorter kill cooldown than other impostors', but you will die if you don't kill before the end of your shapeshift cooldown.","(Предатель):\nУ Серийного Убийцы еще более короткий откат убийства. \nНо если он не совершит убийство в установленный срок, то он мгновенно убьет сам себя."
@@ -340,10 +340,10 @@ ConcealerInfoLong,(内鬼阵营):\n隐蔽者变形后会让所有人变成小黑
 EraserInfoLong,(内鬼阵营):\n抹除者可以在会议上投票给任意船员阵营目标以抹除目标的职业技能，抹除将在会议结束后生效。请注意：被抹除技能的玩家将被永远视为白板，包括游戏结算页面。,"(Impostors):\nErasers can vote for any crewmate at the meeting to erase the target's skills, and the removal will take effect after the meeting. Please note: Players with erased skills will always be treated as whiteboards, including game results.","(Предатель):\nСтирачка может проголосовать за любого Члена Экипажа на собрании, чтобы стереть профессиональные навыки цели, и удаление вступит в силу после собрания. Пожалуйста, обратите внимание: Игроки со стертыми навыками всегда будут рассматриваться как белые доски, включая резкльтат игры"
 OverKillerInfoLong,(内鬼阵营):\n肢解者击杀的目标会被视为多具尸体，以至于报告尸体时无法识别其它受害者。请注意：因实现原理，被击杀的目标不得不重复地显示自己被击杀的动画，此动画无法跳过且期间无法参与会议，必须等待动画结束才能正常参与游戏。\n\n该职业在发动技能时可能造成房主严重卡顿，请谨慎开启。,"(Impostors):\nA target killed by Butcher will be treated as a set of dead bodies, so other dead bodies cannot be shown when reporting dead. Please note: A killed target may repeatedly display its kill animation. This animation cannot be skipped and cannot participate in the meeting during the period. You must wait for the animation to finish before you can participate normally in the game.","(Предатель):\nЦель, убитая Мясником, будет рассматриваться как множество трупов, так что другие трупы не могут быть показаны при сообщении о мёртвых. Пожалуйста, обратите внимание: Убитая цель может неоднократно отображать анимацию своего убийства. Эта анимация не может быть пропущена и не может участвовать во встрече в течение периода. Вы должны дождаться окончания анимации, прежде чем сможете нормально участвовать в игре."
 
-# 双阵营
+# 双阵营 / Crew/Imp description
 GuesserInfoLong,(内鬼阵营或船员阵营):\n赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。,"(Impostors or Crewmate):\nGuesser can guess the roles of certain players during an encounter. If he guesses the role correctly, he will kill that target, and if wrong, he will commit suicide. \nGuessing command: ''/bt [Player ID] [Role Name]'' \nExample: /bt 3 Bait \nYou can see the player ID before the player's nickname, or you can use the ''/id'' command to see the IDs of all players.","(Предатель или Член Экипажа):\nУгадыватель может угадывать роли определённого игрока во время встречи. Если он угадает роль правильно, то он убьет эту цель, а если неправильно, то он совершит самоубийство. \nКоманда для угадываний: '/bt [Номер игрока] [Название Роли]'' \nПример: /bt 3 Байт \nВы можете увидеть номер игрока перед его никнеймом, или же для просмотра номеров всех игроков нужно использовать команду ''/id'' ."
 
-# 船员阵营
+# 船员阵营 / Crewmates descriptions
 BaitInfoLong,(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告诱饵的尸体。但诱饵被清道夫击杀时技能会失效。,"(Crewmates):\nWhen you are killed, you force your killer to immediately self-report.","(Член Экипажа):\nКогда Приманку убивают, он заставляет убившего игрока \nмоментально зарепортить ваш труп."
 LuckeyInfoLong,(船员阵营):\n幸运儿被击杀时，有概率抵挡这次死亡，具体概率根据房主设定。抵挡生效时凶手会看到幸运儿的身上出现护盾破碎的效果，但幸运儿自己什么都不会知道。,"(Crewmates):\nThe Lucky will have a certain chance that the Killer will not be able to kill the Lucky, the probability is set depending on the Host's settings. The killer will see the effect of breaking the angel's shield on the body of the Lucky, but the Lucky himself will not know anything","(Член Экипажа):\nУ Удачника будет возникать определенная вероятность того, что Убийца не сможет убить Удачника, вероятность устанавливается в зависимости от настроек Хоста. Убийца увидит эффект разрушения щита ангела на теле Удачника, но сам Удачник при этом ничего не узнает."
 NeedyInfoLong,(船员阵营):\n摆烂人只有一个任务。另外，懒得要死的摆烂人并不会参与那些繁琐的事情，比如当黑客的替罪羊、给术士或者傀儡师办事之类的。摆烂人也不会拥有附加职业。,"(Crewmates):\nHe has only one task. In addition, the Lazy Gay, who is too lazy to die, will not participate in tiresome things like being the one to report body for the Hacker, working for the Warlock or the Puppeteer, etc. \nThe Lazy Gay will never become Lover or Neptune.","(Член Экипажа):\nУ него есть только одно задание. Кроме того Ленивому Парню которому слишком лень умирать, не будет участвовать в утомительных вещах, таких как: быть тем кто зарепортит труп для Хакера, не станет работать на Колдуна или на Кукловода и т.д. \nЛенивый Парень никогда не станет Любовником или Нептуном."
@@ -373,7 +373,7 @@ MedicalerInfoLong,(船员阵营):\n医生可以通过使用击杀按键给目标
 DivinatorInfoLong,(船员阵营):\n占卜师可以通过在会议上投票给一位玩家以获得该玩家的相关信息，信息与该玩家的主职业关联。若占卜师完成所有任务，占卜时可以直接知道该玩家的具体职业。占卜师每次会议只能占卜一次，占卜次数根据房主设定。,"(Crewmates):\nA Fortune Teller can vote for a player at the meeting to obtain relevant information about the player, and the information is associated with the player's main occupation. Fortune Teller can only do one fortune-telling per meeting, and the number of fortune-tellings is set by the host.","(Член Экипажа):\nГадалка может проголосовать за игрока на собрании, чтобы получить актуальную информацию об игроке, и эта информация связана с основным занятием игрока. Гадалка может сделать только одно гадание за встречу, а количество гаданий устанавливает хост."
 GlitchInfoLong,(船员阵营):\n模组的程序不会将活死人视为存活状态，不过我不知道这样会导致什么。,"(Crewmates):\nThe Glitch doesn't treat the living dead as living, but I don't know where that will lead","(Член Экипажа):\nГлитч не рассматривает живых мертвецов как живых, но я не знаю, к чему это приведет."
 
-# 中立阵营
+# 中立阵营 / Neutrals descriptions
 ArsonistInfoLong,(中立阵营):\n纵火犯可以通过对玩家点击击杀按钮并跟随其数秒来完成涂油，开始涂油以及涂油成功时会显示护盾破碎的动画作为提示（仅自己可见）。当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。\n\n玩家名显示「△」表示涂油中\n玩家名显示「▲」表示已涂油。,"(Neutrals):\nWhen you use the kill button, you douse your target in oil.\nAfter dousing all living players, you set everything ablaze and win by venting.","(Нейтрал):\nПоджигатель может обливать игроков, нажав на кнопку 'Убить' и находясь рядом с игроком в течение нескольких секунд. \nПосле того как он обольёт всех живых игроков Поджигатель сможет запрыгнуть в вентиляцию, чтобы поджечь всех игроков, что приводит к победе Поджигателя."
 JesterInfoLong,(中立阵营):\n小丑被票出则小丑单独游戏胜利。游戏结束时若小丑仍存活则小丑输掉游戏。请注意：小丑、处刑人、冤罪师可以共享胜利。,"(Neutrals):\nYou solo victory by getting voted out during a meeting.\nIf the game ends without you getting voted out, or if you are killed, you lose. \nPlease note: the Jester, the Executioner and the Innocent can share the victory","(Нейтрал):\nДжестер сможет выиграть игру, если за него проголосуют во время голосования и он будет изгнан.\nВ противном случае Джестер проиграет. \nПожалуйста, обратите внимание: Джестер, Палач и Невинный могут разделить победу"
 TerroristInfoLong,(中立阵营):\n恐怖分子完成所有任务后死亡，则恐怖分子单独获得胜利。（怎么死都行，包括票死，反正死了就行）,"(Neutrals):\nYou solo victory by getting killed or voted out AFTER you finish your tasks.","(Нейтрал):\nТеррорист побеждает в одиночку, если его убивают или изгоняют. \nНо только если все его задания будут выполнены."
@@ -392,7 +392,7 @@ WorkaholicInfoLong,(中立阵营):\n工作狂拥有更多的任务，当工作�
 CollectorInfoLong,(中立阵营):\n集票者投票给一名玩家后，可以收集到本次会议该玩家被投的所有票数。当集票者收集到指定数量的票后，则集票者单独胜利。请注意：集票者的胜利优先于驱逐玩家。,"(Neutrals):\nAfter the Collector votes for a player, he can collect all the votes cast by the player in that meeting. When the Collector reaches the specified number of votes, the Collector wins individually. Please note: the Collector's victory takes precedence over the ejected player.","(Нейтрал):\nПосле того, как Коллектор проголосует за игрока, он может собрать все голоса, поданные игроком на этой встрече. Когда Коллектор собирает указанное количество голосов, Коллектор выигрывает отдельно. Пожалуйста, обратите внимание: победа Коллектора имеет приоритет перед исключением игрока."
 ProvocateurInfoLong,(中立阵营):\n自爆卡车可以用击杀键与任意目标同归于尽。若游戏结束时目标输了，则自爆卡车与胜利阵营一起胜利。,"(Neutrals):\nThe Provocateur can use the kill button to kill any target. If the target loses at the end of the game, Provocateur will win along with the winning team.","(Нейтрал)\nПровокатор может использовать кнопку уничтожения, чтобы погибнуть вместе с любой целью. Если цель проиграет в конце игры, Провокатор выиграет вместе с победной командой."
 
-# 附加职业
+# 附加职业 / Add-ons descriptions
 LastImpostorInfoLong,(附加职业):\n这个效果在内鬼仅剩一人时赋予该内鬼。使其击杀冷却缩短。该效果对赏金猎人、嗜血杀手以及吸血鬼等击杀方式特殊的职业不适用。,"(Add-ons):\nAn Add-on granted to the last Impostor remaining.\nKill cooldown is reduced according to this setting.\nNot granted to Bounty Hunters, Serial Killers, or Vampires.","(Атрибут):\nАтрибут, присваивается последнему Предателю. \nВремя отката убийства становится меньше, чем обычно. \nНе назначается Охотнику за головами, Серийному убийце или Вампиру."
 LoversInfoLong,(附加职业):\n恋人为两名玩家的组合。场上仅剩恋人时恋人获胜。恋人其中一人胜利时另一人也一起胜利。恋人可以看到对方名字旁有「♡」标志。恋人其中一人死亡则另一人殉情（根据房主设置可能不会殉情）。恋人其中一人在会议中被放逐时，另一人将死亡并变为不可以被报告的尸体。,"(Add-ons),\nLovers is an assigned to 2 random players on top of their defined roles.\nIf you and your lover both survive til the end, you both will win.\nIf one of you dies, the other will also die. If crewmates get a task victory, you both will lose.","(Атрибут):\nДополнительно с какой-либо ролью Любовники назначаются 2 случайных игрокам. \nЕсли оба любовника останутся живы, то они выиграют. \nКогда умрёт хотя бы один любовник, то моментально умрёт и второй. Они проиграют когда Члены Экипажа выполнят все задания."
 MadmateInfoLong,(附加职业):\n只有船员会成为叛徒，叛徒需要帮助内鬼阵营获得胜利，当内鬼阵营失败时叛徒也会失败。叛徒可以知道所有内鬼，但内鬼不知道谁是叛徒。摆烂人、告密者、网红不会成为叛徒。当诱饵成为叛徒时技能变为随机找人报告尸体；当时间操控者成为叛徒时技能变为做任务减少会议时间；当保镖成为叛徒且凶手不是内鬼的时候，保镖不会发动技能；当掷雷兵成为叛徒时闪光弹只对船员生效；当警长成为叛徒时可以击杀任何人；当正义赌怪成为叛徒时可以猜测船员；当告密者成为叛徒时可以做任务与内鬼互认。,"(Add-ons):\nOnly Crewmate can become Madmate. The Madmate must help the Impostor team win. When the impostors team fails, the Madmate will also fail. Also, when Time Manager becomes a Madmate, his skills will reduce the time of the meeting.","(Атрибут):\nТолько Члены Экипажа могут стать Безцами. Безумец должен помочь команде Предателей победить. Когда команда Предателей потерпит неудачу, Безумец также потерпит неудачу. Так же когда Мастер Времени становится Безумцем, его навыки будут сокращать время проведения встречи"
@@ -414,16 +414,16 @@ TicketsStealerInfoLong,(附加职业)\n只有除自爆兵和诡雷以外的内�
 DualPersonalityInfoLong,(附加职业)\n中立和叛徒不会成为双重人格，计算其阵营人数时双重人格被视为两人。例如场上剩余一个内鬼和一个双重人格船员，则视为两名船员和一名内鬼，因此游戏不会结束。,"(Add-ons):\nNeutrals and Impostors cannot be with Schizophrenia. When counting the number of players on their team, the Schizophrenic counts as two players. For example: if there is one Impostors and one team with Schizophrenia left in the game, then this will be treated as two Crewmate and one Impostors, so the game will not end until the Schizophrenic is killed","(Атрибут):\nНейтралы и Предатели не могут быть с Шизофринией. При подсчете количества игроков в их команде Шизофреник рассматривает как два игрока. Например, если в игре останется один Предатель и одна команда с Шизофринией, то это будет рассматриваться как два Члена Экипажа и один Предатель, поэтому игра не закончится пока Шизофреник не будет убит."
 MimicInfoLong,(附加职业)\n只有除黑手党以外的内鬼会成为宝箱怪。宝箱怪死后，其他内鬼可以在会议上收到信息。信息包含了宝箱怪生前击杀的所有人的职业。,"(Add-ons):\nOnly Impostors can become a Mimic. After the Mimic dies, the ghosts will receive a message at the meeting. The message contains the roles of everyone Mimic killed while he was alive.","(Атрибут):\nТолько Предатели могут стать Мимиком. После того как Мимик умрёт, призраки получат сообщение на собрании. Сообщение содержит роли всех кого убил Мимик пока он был жив."
 
-# 其它
+# 其它 / Other long description
 GMInfoLong,(房主):\n看我干啥，我只是个开局就死的冤魂，静静地吃瓜而已。,"(None):\nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game, and all players know who the GM is. The GM role will be assigned to the host, who will automatically become a ghost at the start of the game.","(Никто):\nGM (Мастер Игры) — это роль, которая наблюдает за игрой в роле призрака. \nОн не влияет на игру, и все игроки всегда знают кто Мастер Игры. Всегда назначается только хосту лобби и становится призраком в самом начале игры."
 
 
-## 模式选项
+## 模式选项 / Settings
 DisableMeeting,禁用会议与报告尸体,Turn off Meetings,Отключить Собрания
 DisableCloseDoor,禁用关门,Disable Doors sabotage,Отключить саботаж дверей
 DisableSabotage,禁用破坏,Disable Sabotage,Отключить Саботаж
 NoGameEnd,测试模式（游戏不结束）,NoGameEnd,Игра Не Закончится
-AllowConsole,允许控制台
+AllowConsole,允许控制台,Console,Консоль
 DebugMode,调试模式,Debug Mode,Режим отладки
 SyncButtonMode,所有船员共享会议次数,SyncButtonMode,Общая кнопка встреч
 RandomMapsMode,随机地图模式,RandomMapsMode,Случайная карта
@@ -458,7 +458,7 @@ SuffixMode.NoAndroidPlz,安卓别进,No phones,Без телефонов
 SuffixModeText.DoNotKillMe,别首刀我啊啊啊,Do not kill me,Не убивайте меня
 SuffixModeText.NoAndroidPlz,安卓别进求求了,No phones please,Без телефонов пожалуйста
 ColorNameMode,显示颜色名称,Color Name Mode,Режим: Никнейм соответствует цвету
-DisableEmojiName,禁止玩家使用表情符号作为名字
+DisableEmojiName,禁止玩家使用表情符号作为名字, Disable Emoji in names, Отключить Эмодзи в именах
 FixFirstKillCooldown,修正首刀冷却时间,Normalize First Kill Cooldown,Нормализовать откат убийства в начале Игры
 GhostCanSeeOtherRoles,幽灵可见他人职业,Ghosts Can See Other Roles,Призраки могут видеть все Роли
 GhostCanSeeOtherVotes,幽灵可见投票情况,Ghosts Can See Other Votes,Призраки могут видеть цвета Голосов
@@ -473,8 +473,8 @@ ModeOptions,模组设置,Mode Options,Настройка Режима
 AutoStart,人满自动开始,Auto start at full lobby,Авто. запуск игры при полном лобби
 DisableTOHE,切换为原版,Disable TOHE,Отключить TOHE
 UnlockFPS,解锁帧数限制,Unlock FPS,Убрать ограничение FPS
-AutoDisplayKillLog,结束后自动显示击杀记录
-AutoDisplayLastRoles,结束后自动显示上局职业
+AutoDisplayKillLog,结束后自动显示击杀记录,Display Killlog,Показывать убийства
+AutoDisplayLastRoles,结束后自动显示上局职业,Display Last Roles,Показывать роли в прошлой игре
 AutoDisplayLastResult,结束后自动显示最终结果,Auto Display Last Result,Отображать результат последней игры в чате
 EnableUpMode,启用创作者保护计划（试验性）,启用创作者保护计划（试验性）,启用创作者保护计划（试验性）
 AutoKickStart,踢出催开始的人,Kick the player who writes start,Кикнуть игрока который пишет start (Только англ)
@@ -565,7 +565,7 @@ MenuTitle.Ghost,★ 幽灵相关设定,★Ghost★,★Призраки★
 MenuTitle.Other,★ 其它设定,★Different★,★Другое★
 MenuTitle.Ejections,★ 驱逐相关设定,★Ejection★,★Выбрасивание★
 
-## 详细设定
+## 详细设定 / Advanced Settings
 Cooldown,冷却时间,Cooldown,Откат
 KillCooldown,击杀冷却时间,Kill Cooldown,Откат убийства
 VentCooldown,使用通风管道冷却时间,Vent Cooldown,Откат Вентиляции
@@ -639,7 +639,7 @@ BewilderVision,迷幻视野大小,Bewilder Vision,Дальность обзор�
 FlashmanSpeed,初始移动速度,Flash Speed,Скорость Флеша
 LoverSuicide,恋人共生死,Lovers can commit suicide,Любовники могут суициднуться
 NumberOfLovers,恋人对数,Number of Lovers (x2 members),Количество Любовников (x2 участника)
-LoverKnowRoles,恋人知道对方的职业
+LoverKnowRoles,恋人知道对方的职业,Lovers know roles of eachother,Любовники знают роли друг-друга
 TrapperBlockMoveTime,封锁凶手移动时长,Freeze time,Время заморозки
 TimeThiefDecreaseMeetingTime,每次击杀缩短的会议时间,Time Thief Time Stolen,Уменьшить длительность обсуждения на
 TimeThiefLowerLimitVotingTime,存活时会议时间下限,Minimum Voting Time,Уменьшить длительность голосования на
@@ -713,7 +713,7 @@ SheriffCanBeMadmate,<color=#f8cd46>警长</color>可以成为叛徒,<color=#f8cd
 MayorCanBeMadmate,<color=#204d42>市长</color>可以成为叛徒,<color=#204d42>Mayor</color> can become Madmate,<color=#204d42>Мэр</color> может стать <color=#ff1919>Безумцем</color>
 NGuesserCanBeMadmate,<color=#eede26>正义赌怪</color>可以成为叛徒,<color=#eede26>Nice Guesser</color> can become Madmate,<color=#eede26>Добрый Угадыватель</color> может стать <color=#ff1919>Безумцем</color>
 SnitchCanBeMadmate,<color=#b8fb4f>告密者</color>可以成为叛徒
-MadSnitchTasks,背叛的告密者的任务数
+MadSnitchTasks,背叛的告密者的任务数,<color=#b8fb4f>Snitch</color> Tasks,Задания <color=#b8fb4f>Стукача</color> 
 MedicalerCooldown,发放护盾冷却时间,Shield Cooldown,Откат Щита
 MedicalerSkillLimit,发放护盾次数上限,Skill Limit,Лимит Способности
 MedicalerTargetCanSeeProtect,玩家可以知道自己是否持有护盾,Target can see Protection,Цель может видеть Защиту
@@ -748,14 +748,14 @@ EraseLimit,抹除次数上限,Limit of Erasing,Лимит Стираний
 AssassinMarkCooldown,标记冷却时间,Mark Cooldown,Откат метки
 AssassinAssassinateCooldown,刺杀冷却时间,Assassinate Cooldown,Откат Ассасированния
 AssassinCanKillAfterAssassinate,可以在刺杀后进行常规击杀,Can kill after Assassinating,Может убивать после Ассасирования
-KB_GameTime,游戏持续时间,Game duration
-KB_HPMax,初始血量上限,Default HP
-KB_ATK,初始攻击力,Default Attack
-KB_RecoverAfterSecond,脱离战斗几秒后开始回复血量,Recover Cooldown
-KB_RecoverPerSecond,每秒回复血量,Recover Per Second
-KB_ResurrectionWaitingTime,死亡后复活等待时间,Resurrection waiting time
+KB_GameTime,游戏持续时间,Game duration,Время игры
+KB_HPMax,初始血量上限,Default HP,Здоровье
+KB_ATK,初始攻击力,Default Attack,Атака
+KB_RecoverAfterSecond,脱离战斗几秒后开始回复血量,Recover Cooldown,Откат восстановления
+KB_RecoverPerSecond,每秒回复血量,Recover Per Second,Восстановления каждую секунду
+KB_ResurrectionWaitingTime,死亡后复活等待时间,Resurrection waiting time,Время возрождения 
 
-## 死因
+## 死因 / Death Reasons
 DeathReason.Kill,被杀,Kill,Убит
 DeathReason.Vote,票出,Ejected,Изгнан
 DeathReason.Suicide,自杀,Suicide,Суицид
@@ -783,12 +783,12 @@ Alive,存活,Alive,Выжил
 Win,胜利, Wins, Победили
 Last-,仅存,Last ,Последний 
 
-## 反应时间控制
+## 反应时间控制 / Sabotages
 SabotageTimeControl,更改修理时限,Sabotage Duration Control,Изменить время Саботажа
 PolusReactorTimeLimit,波鲁斯抗震稳定器修理时限,Polus Reactor Duration,Polus время саботажа Реактора
 AirshipReactorTimeLimit,飞艇坠毁路线修理时限,Airship Reactor Duration,Airship время саботажа Реактора
 
-## 指令帮助
+## 指令帮助 / Commands
 CommandList,★ 主要指令:,★ Command list:,★ Список команд:
 Command.now,→ 显示当前设置,→ Display active Settings,→ Показать активные настройки
 Command.roles,[职业名] → 显示职业介绍,[RoleName] → Display Role description,[ИмяРоли] → Показать описание Роли
@@ -810,7 +810,7 @@ Command.idlist,→ 显示玩家编号列表,→ Display a list of player IDs,→
 Command.qq,→ 让车队姬在群里发房号,→ Lobby will be posted on QQ website (China only),→ Лобби будет размещено на сайт QQ (Только для Китая)
 Command.dump,→ 将游戏运行日志输出到桌面,→ Output Log to Desktop,→ Вывод журнала на Рабочий Стол
 
-# 给玩家的技能提示信息
+# 给玩家的技能提示信息 / Skills in Meeting
 SkillUsedLeft,您发动技能召开了会议。\n您的技能剩余使用次数：,You have activated a skill to hold a meeting. \nRemaining amount of use of your skill:,Вы активировали навык для проведения собрания. \nОставшееся количество использование вашего навыка:
 MafiaDeadMsg,黑手党的死亡，意味着复仇的开始\n请使用/rv + [玩家编号] 以击杀指定玩家\n您可以在玩家名字前看到该玩家的编号\n或输入/rv获取玩家编号列表,The death of the Mafia means the beginning of revenge \nPlease use /rv + [player id] to kill the specified player \nYou can see the player id in front of his name \nOr type /rv to get a list of player id,"Смерть Мафии означает начало мести \nПожалуйста, используйте /rv + [номер игрока], чтобы убить указанного игрока \nВы можете увидеть номер игрока перед его именем \nИли введите команду /rv, чтобы получить список номеров игроков"
 MafiaAliveKill,黑手党的复仇只能在死亡后发动,Revenge for the Mafia can only begin after his death.,Месть за Мафию может начаться только после его смерти
@@ -839,11 +839,11 @@ DivinatorCheckSelfMsg,哇靠，您查到了一位举世人才！目标太过耀�
 DivinatorCheckReachLimit,水晶球也是会累哒，接下来就算没有水晶球，也要好好努力呀！（占卜次数达到上限）,"You are tired of using a crystal ball for too much. You should retire for now. (The number of divination reaches the limit)","Вы устали от слишком частого использования хрустального шара. Вы должны уйти в отставку. (Количество гаданий достиг предела)"
 EraserEraseNotice,您发动了抹除技能\n【{0}】的技能将在会议结束后失效。,You erased 【{0}】.\nHis role will be deactivated after a meeting.,Ты стёр 【{0}】.\nЕго роль будет неактивна после собрания.
 EraserEraseNeutralNotice,很抱歉，您发动技能的目标属于中立阵营，无法被抹除。,Oops， your target is Neutral and can't be erased!,Упс， твоя цель Нейтральна и не может быть стёрта!
-KB_Buff_HPMax,奖励：血量上限 +{0},Gain: HP Max +{0}
-KB_Buff_HPReco,奖励：每秒血量回复 +{0},Gain: Recover HP Per Second +{0}
-KB_Buff_ATK,奖励：攻击力 +{0},Gain: Attack +{0}
+KB_Buff_HPMax,奖励：血量上限 +{0},Gain: HP Max +{0},Дано: Макс Здоровья +{0}
+KB_Buff_HPReco,奖励：每秒血量回复 +{0},Gain: Recover HP Per Second +{0},Дано: Восстановление хп кажду секунду +{0}
+KB_Buff_ATK,奖励：攻击力 +{0},Gain: Attack +{0}, Дано: Урон +{0}
 
-## 信息
+## 信息 / Message
 Message.SetToSeconds,信息发送冷却时间为【{0}】秒,Set to 【{0}】 seconds.,Установлен на 【{0}】 секунды
 Message.MessageWaitHelp,指定一个数设定秒数,Specify the first argument in seconds.,Укажите первый аргумент в секундах.
 Message.TemplateNotFoundHost,未找到与“{0}”对应的消息,No messages matching ""{0}"" were found.,Сообщения соответствующие "{0}" не найдены
@@ -864,13 +864,13 @@ Message.KickStartAfterWarn,【{0}】达到 {1} 次警告被请离房间\n请不�
 Message.WarnWhoSayBanWord,【{0}】，请友善讨论哦~,【{0}】was kicked for a Banword,【{0}】был исключен за запретное слово
 Message.WarnWhoSayBanWordTimes,【{0}】被警告：{1}次\n请友善讨论哦~,"[{0}] has been warned:{1} times \nif you continue you will be kicked","[{0}] был предупреждён:{1} раз \nесли продожите, вы будете кикнуты"
 Message.KickWhoSayBanWordAfterWarn,【{0}】达到 {1} 次警告被请离房间\n请友善讨论哦~,[{0}] received {1} warnings.\nHe was expelled for forbidden words,"[{0}] набрал {1} предупреждений.\nОн был исключен за запретные слова"
-Message.KickedByEAC,【{0}】被EAC踢出，理由：{1}
-Message.BanedByEAC,【{0}】被EAC封禁，理由：{1}
-Message.NoticeByEAC,检测到【{0}】：{1}
+Message.KickedByEAC,【{0}】被EAC踢出，理由：{1},"【{0}】Kicked by EAC, reason:{1}","【{0}】Кикнут EAC-ом, причина:{1}
+Message.BanedByEAC,【{0}】被EAC封禁，理由：{1},"【{0}】Kicked by EAC, reason:{1}","【{0}】Забанен EAC-ом, причина:{1}"
+Message.NoticeByEAC,检测到【{0}】：{1},【{0}】Detected:{1},【{0}】Обнаружено{1
 Message.SetLevel,您的等级设置为：{0},Your game level is set to: {0},Ваш игровой уровень установлен на: {0}
 Message.SetColor,您的颜色设置为：{0},Your color is set to: {0},Ваш игровой цвет установлен на: {0}
 Message.AllowLevelRange,等级可设置范围：0 - 100,"The game level can be set in the range: 0-100","Игровой уровень может быть установлен в диапазоне: 0-100"
-Message.AllowNameLength,昵称可设置长度：1-10
+Message.AllowNameLength,昵称可设置长度：1-10,"Nickname can be set length: 1-10""Имя может быть в длинну примерно 1-10"
 Message.OnlyCanUseInLobby,很抱歉，只有在大厅才能使用该指令,"Sorry, this command can only be used in the lobby","Извините, эта команда может быть использована только в лобби"
 Message.CanNotUseInLobby,很抱歉，在大厅无法使用该指令,"Sorry, this command cannot be used in the lobby","Извините, эта команда не может быть использована в лобби"
 Message.CanNotUseByHost,很抱歉，房主无法使用该指令,"Sorry, Host can't use this command","Извините, но Хост не может воспользоваться этой командой"
@@ -878,23 +878,23 @@ Message.TryFixName,已尝试修复名字遮挡,An attempt was made to fix hidden
 Message.CanNotFindRoleThePlayerEnter,请正确拼写您要查询的职业哦~\n查看所有职业请直接输入/r,"Please write the correct role you want to request ~ \nTo view all roles type /r command","Пожалуйста, правильно напишите роль, которую вы хотите запросить ~\nЧтобы просмотреть все роли, напишите команду /r"
 Message.PlayerQuitForever,【{0}】选择自愿离开\n很抱歉给大家带来了糟糕的游戏体验\n我们真的很努力地在进步了,"【{0}】decided to leave voluntarily \nSorry for the bad gaming experience \nI really worked hard to make progress","【{0}】решил уйти добровольно \nПрошу прощения за плохой игровой опыт \nЯ действительно усердно работал, чтобы добиться прогресса"
 Message.MadmateSelfVoteModeNotify,请注意：当前叛徒生成模式为【{0}】\n投票给自己代表您希望成为叛徒。若您符合成为叛徒的条件且还有剩余名额，将立刻成为叛徒。,"Please note: The current Madness generation mode is [{0}]\n Voting for yourself means you want to be Madmate. If you meet the conditions to become Madmate and there are still spaces left, you will immediately become Madmate","Пожалуйста, обратите внимание: Текущий режим появления Безумцев - [{0}]\n Голосование за себя означает, что вы хотите быть Безумцем. Если вы соответствуете условиям, чтобы стать Безумцем и еще остались места, вы немедленно станете Безумцем"
-Message.HostLeftGameInGame,警告：房主已退出游戏，接下来游戏将无法正常运行，请各位退出游戏，或等待新房主重开游戏。
-Message.HostLeftGameInLobby,警告：房主已退出游戏，接下来游戏将无法正常运行，若新房主已安装TOHE，需要至少重开一次房间才能正常游戏。
+Message.HostLeftGameInGame,警告：房主已退出游戏，接下来游戏将无法正常运行，请各位退出游戏，或等待新房主重开游戏。,"★Warning★ Host left the game, in next time game wouldn't start normally. Please, exit the lobby or wait until new Host opens a lobby.","★Предупреждение★ Хост покинул игру, и в следуйщий раз игра не запуститься нормально. Пожайлуста, выйдите из лобби или подождите пока новый Хост начнёт игру."
+Message.HostLeftGameInLobby,警告：房主已退出游戏，接下来游戏将无法正常运行，若新房主已安装TOHE，需要至少重开一次房间才能正常游戏。,"★Warning★ Host left the game, in next time game wouldn't start normally. If new host has TOHE, you need to re-enter the lobby to play normally.",""★Предупреждение★ Хост покинул игру, и в следуйщий раз игра не запуститься нормально. Если у нового Хоста есть TOHE, вам нужно перезайти чтобы играть нормально."
 
-## 警告
+## 警告 / Warnings
 Warning.OverrideExiledPlayer,设置内鬼人数为一个时，放逐动画会显示为平票,All ejects will be displayed as a tie since the total number of impostors is 1.,"Все изгнания будут отображаться как ничья, потому что общее количество Предателей равно 1."
 Warning.InvalidRpc,{0} 被踢出，因其 RPC 无效，请确保没有 TOHE 以外的模组。,Kicked {0} because an invalid RPC was received.\nPlease check that no mods other than TOHE installed.,{0} был кикнут так как получен недопустимый RPC. \nУбедитесь что в системе нет других модов кроме TOHE.
 Warning.NoModHost,非TOHE房,Mod TOHE not installed on the host,У Хоста Лобби не установлен TOHE
 Warning.MismatchedVersion,{0}\n安装了其它版本的 {1},{0}\nhave a different version of {1},{0} Версия \nне соответствует версии Хоста лобби {1}
 Warning.AutoExitAtMismatchedVersion,您的 {0} 版本与房主不同\n您将在 {1} 秒内被踢出,The host has no or a different version of {0}\nYou will be kicked in {1},Версия {0} не соответствует Хосту лобби. \nВы будете исключены через {1} секунды
 
-## 错误
+## 错误 / Error
 Error.MeetingException,错误: {0}\n请立刻按下 Shift+M+Enter 强制结束会议，否则游戏将会卡退,Error: {0}\r\nPlease use SHIFT+M+ENTER to end the meeting,Ошибка: {0}\r\nПожалуйста используйте SHIFT+M+ENTER чтобы принудительно завершить собрание
 Error.InvalidRoleAssignment,错误：在分配职业时发现职业无效的玩家 ({0}),Error: Invalid role found for a player during role assignment({0}),Ошибка: Во время назначения роли для игрока обнаружена недопустимая роль({0})
 Error.SpeedBoosterNullException,错误：增速者的增速目标为空,Error: The speed boost destination is null.\nPlease save the log and create a bug report ticket.,Ошибка: пункт назначения повышения скорости не указан. \nСохраните логи и создайте заявку на отчет об ошибке.
 Error.InvalidColor,警告：存在使用非法颜色的玩家，可能引起游戏错误,"Error: Only default colors are available","Ошибка: Нельзя использовать другие цвета, кроме цветов по умолчанию"
 Error.InvalidColorPreventStart,请等待其他玩家加载完毕后开始游戏\n（或存在非法颜色无法开始游戏）,"Other players are not allowed to use other colors, otherwise it will result in a serious error","Другим игрокам не разрешается использовать другие цвета, в противном случае это приведет к серьезной ошибке"
-### ErrorText関連,
+### ErrorText関連, / Error Levels
 ErrorLevel1,可能同时产生多个bug,Bugs may occur.,Могут возникнуть некоторые ошибки.
 ErrorLevel2,可能出现bug,This may be a bug.,Возможно вы столкнулись с ошибкой.
 ErrorLevel3,未发布版本,This version shouldn't have been released.,Эта версия никогда не должна быть выпущена.
@@ -909,10 +909,10 @@ ERR-000-804-1,测试错误未知,"TownOfHostEdited does not support the Vanilla 
 #### 001 Main,
 ERR-001-000-3,在主目录出现重复密钥,Main dictionary has duplicated keys.,Дублирование ключей происходит в основном словаре.
 
-## 其它
+## 其它 / Other things
 DefaultSystemMessageTitle,【 ★ 系统消息 ★ 】,【 ★ System message ★ 】,【 ★ Системное сообщение ★ 】
 MessageFromTheHost,【 ★ 房主消息 ★ 】,【 ★ Host message ★ 】,【 ★ Сообщение от Хоста ★ 】
-MessageFromEAC,【 ★ EAC ★ 】
+MessageFromEAC,【 ★ EAC ★ 】,【 ★ EAC ★ 】,【 ★ EAC ★ 】
 DetectiveNoticeTitle,【 ★ 侦探线索 ★ 】,【 ★ Message for the Detective ★ 】,【 ★ Сообщение для Детектива ★ 】
 GuessKillTitle,【 ★ 赌场事件 ★ 】,【 ★ Message about Guessing ★ 】,【 ★ Сообщение о Угадывании ★ 】
 CyberStarNewsTitle,【 ★ 紧急新闻 ★ 】,【 ★ Urgent news ★ 】,【 ★ Срочные Новости ★ 】
@@ -1081,17 +1081,17 @@ PlayerInfo,上局所有玩家信息,Player Info,Информация о игро
 NoInfoExists,没有存在的上局信息,No Info Exists,Нет информации
 MessengerMurderOccurred,发生命案警告,Occurred Kill,Произошло убийство
 Deadbody,尸体,Dead body,Труп
-PlayerLeftByAU-Anticheat,【{0}】被树懒超级厉害的反作弊踢出去啦~ QwQ
-KickAndriodPlayer,【{0}】因该房禁止安卓被请离房间
-KBDisplayScore,第{0}名：{1}分,Ranking: {0} Score: {1}
+PlayerLeftByAU-Anticheat,【{0}】被树懒超级厉害的反作弊踢出去啦~ QwQ,【{0}】Kicked out by Innersloth's super powerful anti-cheating~ QwQ
+KickAndriodPlayer,【{0}】因该房禁止安卓被请离房间,【{0}】 was kicked because of No Phone setting,【{0}】 был кикнут из-за настройки Никаких Телефонов
+KBDisplayScore,第{0}名：{1}分,Ranking: {0} Score: {1},Место: {1} Счёт: {1}
 KBTimeRemain,剩余时间：{0} 秒,Time Remain: {0} Second
 
-## 作弊
+## 作弊 / EAC
 EAC.CheatDetected.EAC,开挂（使用AUM）,Cheating usage detected (Using AUM),Обнаружено использование читов (используется AUM)
-EAC.CheatDetected.HighLevel,警告：EAC正在抵御炸房外挂
-EAC.CheatDetected.LowLevel,警告：EAC检测到可能存在作弊玩家
+EAC.CheatDetected.HighLevel,警告：EAC正在抵御炸房外挂,Warning: EAC detected High Level of cheats.,Предупреждение: EAC обнаружил высокий уровень читов.
+EAC.CheatDetected.LowLevel,警告：EAC检测到可能存在作弊玩家,Warning: EAC detected Low Level of cheats. One of player is hacking.,Предупреждение: EAC обнаружил низкий уровень читов. Один из игроков читерит.
 
-## 驱逐确认
+## 驱逐确认 / Ejections
 PlayerIsRole,{0} 是 {1},{0} was the role {1},{0} был ролью {1}
 PlayerExiled,{0} 被驱逐了...,{0} was ejected...,{0} был изгнан...
 ExiledJester,票出 {0} 让你有种不详的预感\n{1} 在狂笑着...,Ejected by {0} gives you a bad feeling \nbut {1} laughs wildly...,Изгнание {0} вызывает у вас дурное предчувствие \nно {1} дико смеется...
@@ -1104,7 +1104,7 @@ NeutralRemain,剩余 {0} 个邪恶中立,There Are {0} Evil Neutrals Left,Ост
 IsGood,{0} 是个好人,{0} was a nice guy,{0} был хорошим парнем
 BelongTo,{0} 属于 {1},{0} belong to {1},{0} принадлежит {1}
 
-## 游戏结束原因
+## 游戏结束原因 / Game Overs
 GameOverReason.HumansByTask,船员完成了任务,The Crewmates completed the tasks,Члены Экипажа выполнили задания
 GameOverReason.HumansByVote,内鬼被驱逐,The Impostors was ejected,Предатели были изгнаны
 GameOverReason.HumansDisconnect,船员断线,Crewmates disconnected,Члены Экипажа вышли из игры
@@ -1113,7 +1113,7 @@ GameOverReason.ImpostorBySabotage,内鬼破坏了设施,Impostors sabotaged the 
 GameOverReason.ImpostorByVote,船员被驱逐,The Crewmates was ejected,Члены Экипажа были изгнаны
 GameOverReason.ImpostorDisconnect,内鬼断线,Impostors disconnected,Предатели вышли из игры
 
-## 占卜师信息
+## 占卜师信息 / Divinator Checks
 DivinatorCheck.HideMsg,【{0}】似乎藏着不可告人的秘密,Looks like 【{0}】 hides secrets.,"Похоже, 【{0}】 скрывает секреты."
 DivinatorCheck.Honest,【{0}】似乎是个忠厚老实的人,Looks like 【{0}】 being honest.,"Похоже, 【{0}】 просто честный гражданин."
 DivinatorCheck.Impulse,【{0}】正抑制着某种冲动,Looks like 【{0}】 is suppressing some kind of impulse.,"Похоже, 【{0}】 подавляет импульсы."
@@ -1127,7 +1127,7 @@ DivinatorCheck.None,【{0}】或许会就这么平凡一辈子,"Looks like 【{0
 DivinatorCheck.Glitch,TV2gPZ4wUJWYr{0}05gA6T5PKzBG17,TV2gPZ4wUJWYr{0}05gA6T5PKzBG17,TV2gPZ4wUJWYr{0}05gA6T5PKzBG17
 DivinatorCheck.TaskDone,【{0}】的职业是【{1}】,【{0}】Role -【{1}】,【{0}】Роль -【{1}】
 
-## 模组信息
+## 模组信息 / 
 DevAndSpnTitle,TOHE大家族,"""TOHE"" family","Семья ""TOHE"""
 Developer,开发者,Developer,Разрабочик
 Sponsor,金主爹爹,Sponsor,Спонсор
@@ -1139,9 +1139,9 @@ TechSup,技术指导,Tech. Support,Тех. Поддержка
 FeatureDev,功能开发,Feature Developer,Разрабочик Функций
 TranEN,英语,English Translator,Английский Переводчик
 TranRU,俄语,Russian Translator,Русский Переводчик
-OnlyShowPart,仅显示部分,Show only part,Показать только часть
+OnlyShowPart,仅显示部分,Shown only part,Показана только часть
 
-## 断连提示
+## 断连提示 / Disconect reasons
 DCNotify.Hacking,您被树懒的反作弊系统踢了\r\n（树懒还在持续发疯）,You have been kicked out of the official anti-hacking system Among Us\r\n (module use may be mistaken for cheats),Вас выгнала из официальная система борьбы с хакерством Among Us\r\n (использование модуля может быть ошибочно принято за читы)
 DCNotify.Banned,您被该房间封禁,You are not allowed to enter this room,Вам запрещено входить в эту комнату
 DCNotify.Kicked,您被该房间踢出,You are kicked out of the room,Вас кикнули из комнаты
@@ -1151,5 +1151,5 @@ DCNotify.GameStarted,该房间正在游戏中，请等待游戏结束后加入,"
 DCNotify.GameFull,该房间已满人，请稍后重试,"The room is full, please try again later","Комната переполнена, пожалуйста, попробуйте еще раз позже"
 DCNotify.IncorrectVersion,您的AmongUs版本与该房间不同,Your version of Among Us is different from this room,Ваша версия Among Us отличается от этой комнаты
 
-## 模式描述
+## 模式描述 / Mode Decription
 ModeDescribe.SoloKombat,本房间模式为【个人竞技模式】\n没有职业分配，所有人拥有血量，可以使用击杀键对其他人造成伤害。游戏结束时击杀数量最多的玩家获胜。,"Current mode is [Solo Kombat]\nNo roles assignments. Everyone has HP and can use the kill button to cause damage to other players. The player with the highest number of kills wins at the end of the game."
