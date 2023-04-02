@@ -11,6 +11,7 @@ using TownOfHost.Modules;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.Crewmate;
 using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.AddOns.Crewmate;
 using static TownOfHost.Translator;
@@ -378,13 +379,6 @@ namespace TownOfHost
             //=============================================
 
 
-            if (target == null) //ボタン
-            {
-                if (__instance.Is(CustomRoles.Mayor))
-                {
-                    Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
-                }
-            }
             Main.ArsonistTimer.Clear();
             Main.PuppeteerList.Clear();
 
@@ -816,7 +810,7 @@ namespace TownOfHost
             Witch.OnEnterVent(pc);
             if (pc.Is(CustomRoles.Mayor))
             {
-                if (Main.MayorUsedButtonCount.TryGetValue(pc.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt())
+                if (pc.GetRoleClass() is Mayor mayor && mayor.UsedButtonCount < Mayor.NumOfUseButton)
                 {
                     pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                     pc?.ReportDeadBody(null);
@@ -853,7 +847,7 @@ namespace TownOfHost
                 }
                 if ((__instance.myPlayer.Data.Role.Role != RoleTypes.Engineer && //エンジニアでなく
                 !__instance.myPlayer.CanUseImpostorVentButton()) || //インポスターベントも使えない
-                (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt())
+                (__instance.myPlayer.GetRoleClass() is Mayor mayor && mayor.UsedButtonCount >= Mayor.NumOfUseButton)
                 )
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);

@@ -8,6 +8,7 @@ using UnityEngine;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.Crewmate;
 using TownOfHost.Roles.Neutral;
 using static TownOfHost.Translator;
 
@@ -120,7 +121,7 @@ namespace TownOfHost
                     });
                     if (IsMayor(ps.TargetPlayerId))//Mayorの投票数
                     {
-                        for (var i2 = 0; i2 < Options.MayorAdditionalVote.GetFloat(); i2++)
+                        for (var i2 = 0; i2 < Mayor.AdditionalVote; i2++)
                         {
                             statesList.Add(new MeetingHud.VoterState()
                             {
@@ -202,8 +203,8 @@ namespace TownOfHost
         }
         public static bool IsMayor(byte id)
         {
-            var player = Main.AllPlayerControls.Where(pc => pc.PlayerId == id).FirstOrDefault();
-            return player != null && player.Is(CustomRoles.Mayor);
+            var result = Utils.GetPlayerById(id)?.Is(CustomRoles.Mayor);
+            return result ?? false;
         }
         public static void TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason deathReason, params byte[] playerIds)
         {
@@ -272,7 +273,7 @@ namespace TownOfHost
                 if (ps.VotedFor is not ((byte)252) and not byte.MaxValue and not ((byte)254))
                 {
                     int VoteNum = 1;
-                    if (CheckForEndVotingPatch.IsMayor(ps.TargetPlayerId)) VoteNum += Options.MayorAdditionalVote.GetInt();
+                    if (CheckForEndVotingPatch.IsMayor(ps.TargetPlayerId)) VoteNum += Mayor.AdditionalVote;
                     //投票を1追加 キーが定義されていない場合は1で上書きして定義
                     dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out int num) ? VoteNum : num + VoteNum;
                 }
