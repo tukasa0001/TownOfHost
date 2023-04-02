@@ -404,11 +404,11 @@ class CheckMurderPatch
         if (Options.MadmateSpawnMode.GetInt() == 1 && Main.MadmateNum < CustomRoles.Madmate.GetCount() && Utils.CanBeMadmate(target))
         {
             Main.MadmateNum++;
-            Main.PlayerStates[target.PlayerId].SetSubRole(CustomRoles.Madmate);
+            target.RpcSetCustomRole(CustomRoles.Madmate);
+            ExtendedPlayerControl.RpcSetCustomRole(target.PlayerId, CustomRoles.Madmate);
             foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.GetCustomRole().IsImpostor()))
                 NameColorManager.Add(target.PlayerId, impostor.PlayerId);
             Utils.NotifyRoles(target);
-            Utils.NotifyRoles(killer);
             killer.RpcGuardAndKill(killer);
             killer.RpcGuardAndKill(target);
             target.RpcGuardAndKill(killer);

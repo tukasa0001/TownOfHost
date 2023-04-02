@@ -28,6 +28,7 @@ public static class NameColorManager
     {
         return seer == target
             || target.Is(CustomRoles.GM)
+            || target.Is(CustomRoles.God)
             || (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoleTypes.Impostor))
             || Mare.KnowTargetRoleColor(target, isMeeting);
     }

@@ -341,7 +341,7 @@ internal class SelectRolesPatch
             foreach (var kv in RoleResult)
             {
                 if (kv.Value.IsDesyncRole()) continue;
-                AssignCustomRolesFromList(kv.Value, kv.Key);
+                AssignCustomRole(kv.Value, kv.Key);
             }
 
             if (CustomRoles.Lovers.IsEnable() && (CustomRoles.FFF.IsEnable() ? -1 : rd.Next(1, 100)) <= Options.LoverSpawnChances.GetInt()) AssignLoversRolesFromList();
@@ -591,7 +591,7 @@ internal class SelectRolesPatch
         }
     }
 
-    private static void AssignCustomRolesFromList(CustomRoles role, PlayerControl player)
+    private static void AssignCustomRole(CustomRoles role, PlayerControl player)
     {
         if (player == null) return;
         SetColorPatch.IsAntiGlitchDisabled = true;

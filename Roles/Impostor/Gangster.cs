@@ -65,7 +65,7 @@ public static class Gangster
         {
             RecruitLimit[killer.PlayerId]--;
             SendRPC(killer.PlayerId);
-            Main.PlayerStates[target.PlayerId].SetSubRole(CustomRoles.Madmate);
+            target.RpcSetCustomRole(CustomRoles.Madmate);
             foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.GetCustomRole().IsImpostor()))
                 NameColorManager.Add(target.PlayerId, impostor.PlayerId);
             Utils.NotifyRoles(target);

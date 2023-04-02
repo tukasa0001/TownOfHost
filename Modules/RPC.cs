@@ -12,7 +12,6 @@ using TOHE.Roles.Crewmate;
 using TOHE.Roles.Impostor;
 using TOHE.Roles.Neutral;
 using static TOHE.Translator;
-
 namespace TOHE;
 
 enum CustomRPC

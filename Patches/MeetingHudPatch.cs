@@ -8,6 +8,8 @@ using TOHE.Roles.Impostor;
 using TOHE.Roles.Neutral;
 using UnityEngine;
 using static TOHE.Translator;
+using static UnityEngine.GraphicsBuffer;
+
 namespace TOHE;
 
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CheckForEndVoting))]
@@ -34,7 +36,8 @@ class CheckForEndVotingPatch
                     if (Options.MadmateSpawnMode.GetInt() == 2 && Main.MadmateNum < CustomRoles.Madmate.GetCount() && Utils.CanBeMadmate(pc))
                     {
                         Main.MadmateNum++;
-                        Main.PlayerStates[pc.PlayerId].SetSubRole(CustomRoles.Madmate);
+                        pc.RpcSetCustomRole(CustomRoles.Madmate);
+                        ExtendedPlayerControl.RpcSetCustomRole(pc.PlayerId, CustomRoles.Madmate);
                         foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.GetCustomRole().IsImpostor()))
                             NameColorManager.Add(pc.PlayerId, impostor.PlayerId);
                         Utils.NotifyRoles(true, pc, true);
