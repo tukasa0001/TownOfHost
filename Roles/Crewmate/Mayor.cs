@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
@@ -68,5 +69,34 @@ public sealed class Mayor : RoleBase
             UsedButtonCount++;
 
         return true;
+    }
+    public override void OnEnterVent(Vent vent, PlayerControl pc)
+    {
+        if (UsedButtonCount < NumOfUseButton)
+        {
+            pc?.MyPhysics?.RpcBootFromVent(vent.Id);
+            pc?.ReportDeadBody(null);
+        }
+    }
+    public override bool OnCOEnterVent(PlayerPhysics physics, int id)
+    {
+        return UsedButtonCount >= NumOfUseButton;
+    }
+    public override bool OnCheckForEndVoting(ref List<MeetingHud.VoterState> statesList, PlayerVoteArea pva)
+    {
+        for (var i2 = 0; i2 < AdditionalVote; i2++)
+        {
+            statesList.Add(new MeetingHud.VoterState()
+            {
+                VoterId = pva.TargetPlayerId,
+                VotedForId = pva.VotedFor
+            });
+        }
+        return true;
+    }
+    public override void AfterMeetingTasks()
+    {
+        if (HasPortableButton)
+            Player.RpcResetAbilityCooldown();
     }
 }

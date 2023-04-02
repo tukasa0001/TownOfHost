@@ -97,8 +97,6 @@ namespace TownOfHost
             foreach (var pc in Main.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
-                if (Mayor.HasPortableButton && pc.Is(CustomRoles.Mayor))
-                    pc.RpcResetAbilityCooldown();
                 if (pc.Is(CustomRoles.Warlock))
                 {
                     Main.CursedPlayers[pc.PlayerId] = null;

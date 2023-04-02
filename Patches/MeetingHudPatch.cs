@@ -30,6 +30,8 @@ namespace TownOfHost
                     if (pva == null) continue;
                     PlayerControl pc = Utils.GetPlayerById(pva.TargetPlayerId);
                     if (pc == null) continue;
+
+                    pc.GetRoleClass()?.OnCheckForEndVoting(ref statesList, pva);
                     //死んでいないディクテーターが投票済み
                     if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pc.PlayerId != pva.VotedFor && pva.VotedFor < 253 && !pc.Data.IsDead)
                     {
@@ -119,17 +121,6 @@ namespace TownOfHost
                         VoterId = ps.TargetPlayerId,
                         VotedForId = ps.VotedFor
                     });
-                    if (IsMayor(ps.TargetPlayerId))//Mayorの投票数
-                    {
-                        for (var i2 = 0; i2 < Mayor.AdditionalVote; i2++)
-                        {
-                            statesList.Add(new MeetingHud.VoterState()
-                            {
-                                VoterId = ps.TargetPlayerId,
-                                VotedForId = ps.VotedFor
-                            });
-                        }
-                    }
                 }
                 states = statesList.ToArray();
 
@@ -201,11 +192,6 @@ namespace TownOfHost
                 throw;
             }
         }
-        public static bool IsMayor(byte id)
-        {
-            var result = Utils.GetPlayerById(id)?.Is(CustomRoles.Mayor);
-            return result ?? false;
-        }
         public static void TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason deathReason, params byte[] playerIds)
         {
             var AddedIdList = new List<byte>();
@@ -273,7 +259,7 @@ namespace TownOfHost
                 if (ps.VotedFor is not ((byte)252) and not byte.MaxValue and not ((byte)254))
                 {
                     int VoteNum = 1;
-                    if (CheckForEndVotingPatch.IsMayor(ps.TargetPlayerId)) VoteNum += Mayor.AdditionalVote;
+                    if (CustomRoleManager.GetByPlayerId(ps.TargetPlayerId) is Mayor) VoteNum += Mayor.AdditionalVote;
                     //投票を1追加 キーが定義されていない場合は1で上書きして定義
                     dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out int num) ? VoteNum : num + VoteNum;
                 }

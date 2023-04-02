@@ -807,15 +807,9 @@ namespace TownOfHost
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
 
+            pc.GetRoleClass()?.OnEnterVent(__instance, pc);
+
             Witch.OnEnterVent(pc);
-            if (pc.Is(CustomRoles.Mayor))
-            {
-                if (pc.GetRoleClass() is Mayor mayor && mayor.UsedButtonCount < Mayor.NumOfUseButton)
-                {
-                    pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                    pc?.ReportDeadBody(null);
-                }
-            }
         }
     }
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoEnterVent))]
@@ -847,7 +841,7 @@ namespace TownOfHost
                 }
                 if ((__instance.myPlayer.Data.Role.Role != RoleTypes.Engineer && //エンジニアでなく
                 !__instance.myPlayer.CanUseImpostorVentButton()) || //インポスターベントも使えない
-                (__instance.myPlayer.GetRoleClass() is Mayor mayor && mayor.UsedButtonCount >= Mayor.NumOfUseButton)
+                (!__instance.myPlayer.GetRoleClass()?.OnCOEnterVent(__instance, id) ?? false)
                 )
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
