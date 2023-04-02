@@ -43,12 +43,9 @@ namespace TownOfHost.Roles.Impostor
 
         private static void SetUpOptionItem()
         {
-            var id = RoleInfo.ConfigId;
-            var tab = RoleInfo.Tab;
-            var parent = RoleInfo.RoleOption;
-            OptionKillCooldown = FloatOptionItem.Create(id + 10, OptionName.KillCooldown, new(2.5f, 180f, 2.5f), 20f, tab, false).SetParent(parent)
+            OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, OptionName.KillCooldown, new(2.5f, 180f, 2.5f), 20f, false)
                 .SetValueFormat(OptionFormat.Seconds);
-            OptionTimeLimit = FloatOptionItem.Create(id + 11, OptionName.SerialKillerLimit, new(5f, 900f, 5f), 60f, tab, false).SetParent(parent)
+            OptionTimeLimit = FloatOptionItem.Create(RoleInfo, 11, OptionName.SerialKillerLimit, new(5f, 900f, 5f), 60f, false)
                 .SetValueFormat(OptionFormat.Seconds);
         }
         public override float SetKillCooldown() => KillCooldown;
