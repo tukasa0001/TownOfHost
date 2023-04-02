@@ -719,6 +719,10 @@ namespace TownOfHost
             {
                 return new OverrideTasksData(idStart, tab, role);
             }
+            public static OverrideTasksData Create(SimpleRoleInfo roleInfo, int idOffset)
+            {
+                return new OverrideTasksData(roleInfo.ConfigId + idOffset, roleInfo.Tab, roleInfo.RoleName);
+            }
         }
     }
 }
