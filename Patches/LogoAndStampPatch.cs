@@ -17,9 +17,6 @@ public static class CredentialsPatch
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
     public static class LogoPatch
     {
-        public static SpriteRenderer renderer;
-        public static Sprite bannerSprite;
-        public static Sprite horseBannerSprite;
         static IEnumerator ViewBoosterCoro(MainMenuManager __instance)
         {
             while (true)
