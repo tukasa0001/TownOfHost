@@ -128,7 +128,7 @@ public static class Gamer
     }
     public static string TargetMark(PlayerControl seer, PlayerControl target)
     {
-        if (!seer.Is(CustomRoles.Gamer)) return "";
+        if (!seer.Is(CustomRoles.Gamer) || !seer.IsAlive()) return "";
         if (seer.PlayerId == target.PlayerId)
         {
             var GetValue = GamerHealth.TryGetValue(target.PlayerId, out var value);
