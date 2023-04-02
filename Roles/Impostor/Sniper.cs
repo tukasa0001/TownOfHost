@@ -63,14 +63,11 @@ public sealed class Sniper : RoleBase
     bool MeetingReset;
     public static void SetupOptionItem()
     {
-        var id = RoleInfo.ConfigId;
-        var tab = RoleInfo.Tab;
-        var parent = RoleInfo.RoleOption;
-        SniperBulletCount = IntegerOptionItem.Create(id + 10, OptionName.SniperBulletCount, new(1, 5, 1), 2, tab, false).SetParent(parent)
+        SniperBulletCount = IntegerOptionItem.Create(RoleInfo, 10, OptionName.SniperBulletCount, new(1, 5, 1), 2, false)
             .SetValueFormat(OptionFormat.Pieces);
-        SniperPrecisionShooting = BooleanOptionItem.Create(id + 11, OptionName.SniperPrecisionShooting, false, tab, false).SetParent(parent);
-        SniperAimAssist = BooleanOptionItem.Create(id + 12, OptionName.SniperAimAssist, false, tab, false).SetParent(parent);
-        SniperAimAssistOnshot = BooleanOptionItem.Create(id + 13, OptionName.SniperBulletCount, false, tab, false).SetParent(SniperAimAssist);
+        SniperPrecisionShooting = BooleanOptionItem.Create(RoleInfo, 11, OptionName.SniperPrecisionShooting, false, false);
+        SniperAimAssist = BooleanOptionItem.Create(RoleInfo, 12, OptionName.SniperAimAssist, false, false);
+        SniperAimAssistOnshot = BooleanOptionItem.Create(RoleInfo, 13, OptionName.SniperBulletCount, false, false, SniperAimAssist);
     }
     public override void Add()
     {

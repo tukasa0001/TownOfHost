@@ -46,13 +46,9 @@ public sealed class SchrodingerCat : RoleBase
 
     public static void SetupOptionItem()
     {
-        var id = RoleInfo.ConfigId;
-        var tab = RoleInfo.Tab;
-        var parent = RoleInfo.RoleOption;
-
-        OptionCanWinTheCrewmateBeforeChange = BooleanOptionItem.Create(id + 10, OptionName.CanBeforeSchrodingerCatWinTheCrewmate, false, tab, false).SetParent(parent);
-        OptionChangeTeamWhenExile = BooleanOptionItem.Create(id + 11, OptionName.SchrodingerCatExiledTeamChanges, false, tab, false).SetParent(parent);
-        OptionCanSeeKillableTeammate = BooleanOptionItem.Create(id + 12, OptionName.SchrodingerCatCanSeeKillableTeammate, false, tab, false).SetParent(parent);
+        OptionCanWinTheCrewmateBeforeChange = BooleanOptionItem.Create(RoleInfo, 10, OptionName.CanBeforeSchrodingerCatWinTheCrewmate, false, false);
+        OptionChangeTeamWhenExile = BooleanOptionItem.Create(RoleInfo, 11, OptionName.SchrodingerCatExiledTeamChanges, false, false);
+        OptionCanSeeKillableTeammate = BooleanOptionItem.Create(RoleInfo, 12, OptionName.SchrodingerCatCanSeeKillableTeammate, false, false);
     }
     public override bool OnCheckMurderAsTarget(MurderInfo info)
     {
