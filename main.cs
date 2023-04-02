@@ -184,7 +184,7 @@ public class Main : BasePlugin
         TOHE.Logger.Disable("ModNews");
         if (!DebugModeManager.AmDebugger)
         {
-            TOHE.Logger.Disable("2018K");
+            TOHE.Logger.Disable("2018k");
             TOHE.Logger.Disable("CustomRpcSender");
             //TOHE.Logger.Disable("ReceiveRPC");
             TOHE.Logger.Disable("SendRPC");
@@ -360,7 +360,7 @@ public class Main : BasePlugin
         }
         catch (ArgumentException ex)
         {
-            TOHE.Logger.Error("エラー:Dictionaryの値の重複を検出しました", "LoadDictionary");
+            TOHE.Logger.Error("错误：字典出现重复项", "LoadDictionary");
             TOHE.Logger.Exception(ex, "LoadDictionary");
             hasArgumentException = true;
             ExceptionMessage = ex.Message;
