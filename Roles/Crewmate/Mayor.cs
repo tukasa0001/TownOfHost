@@ -46,13 +46,10 @@ public sealed class Mayor : RoleBase
     public int LeftButtonCount;
     private static void SetupOptionItem()
     {
-        var id = RoleInfo.ConfigId;
-        var tab = RoleInfo.Tab;
-        var parent = RoleInfo.RoleOption;
-        OptionAdditionalVote = IntegerOptionItem.Create(id + 10, OptionName.MayorAdditionalVote, new(1, 99, 1), 1, tab, false).SetParent(parent)
+        OptionAdditionalVote = IntegerOptionItem.Create(RoleInfo, 10, OptionName.MayorAdditionalVote, new(1, 99, 1), 1, false)
             .SetValueFormat(OptionFormat.Votes);
-        OptionHasPortableButton = BooleanOptionItem.Create(id + 11, OptionName.MayorHasPortableButton, false, tab, false).SetParent(parent);
-        OptionNumOfUseButton = IntegerOptionItem.Create(id + 12, OptionName.MayorNumOfUseButton, new(1, 99, 1), 1, tab, false).SetParent(OptionHasPortableButton)
+        OptionHasPortableButton = BooleanOptionItem.Create(RoleInfo, 11, OptionName.MayorHasPortableButton, false, false);
+        OptionNumOfUseButton = IntegerOptionItem.Create(RoleInfo, 12, OptionName.MayorNumOfUseButton, new(1, 99, 1), 1, false, OptionHasPortableButton)
             .SetValueFormat(OptionFormat.Times);
     }
     public override void ApplyGameOptions(IGameOptions opt)
