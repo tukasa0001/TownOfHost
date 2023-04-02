@@ -27,7 +27,7 @@ public sealed class Mayor : RoleBase
         HasPortableButton = OptionHasPortableButton.GetBool();
         NumOfUseButton = OptionNumOfUseButton.GetInt();
 
-        UsedButtonCount = 0;
+        LeftButtonCount = Main.NormalOptions.NumEmergencyMeetings + NumOfUseButton;
     }
 
     private static OptionItem OptionAdditionalVote;
@@ -43,7 +43,7 @@ public sealed class Mayor : RoleBase
     public static bool HasPortableButton;
     public static int NumOfUseButton;
 
-    public int UsedButtonCount;
+    public int LeftButtonCount;
     private static void SetupOptionItem()
     {
         var id = RoleInfo.ConfigId;
@@ -58,7 +58,7 @@ public sealed class Mayor : RoleBase
     public override void ApplyGameOptions(IGameOptions opt)
     {
         AURoleOptions.EngineerCooldown =
-            UsedButtonCount < NumOfUseButton
+            LeftButtonCount <= 0
             ? opt.GetInt(Int32OptionNames.EmergencyCooldown)
             : 300f;
         AURoleOptions.EngineerInVentMaxTime = 1;
@@ -66,13 +66,14 @@ public sealed class Mayor : RoleBase
     public override bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
     {
         if (reporter.Is(CustomRoles.Mayor) && target == null) //ボタン
-            UsedButtonCount++;
+            LeftButtonCount--;
 
         return true;
     }
     public override bool OnEnterVent(PlayerPhysics physics, int ventId)
     {
-        if (UsedButtonCount >= NumOfUseButton)
+        Logger.Info($"{LeftButtonCount}", "Mayor.OnEnterVent");
+        if (LeftButtonCount > 0)
         {
             var user = physics.myPlayer;
             physics.RpcBootFromVent(ventId);

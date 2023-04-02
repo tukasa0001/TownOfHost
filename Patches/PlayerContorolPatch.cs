@@ -830,9 +830,9 @@ namespace TownOfHost
                     CustomWinnerHolder.WinnerIds.Add(user.PlayerId);
                     return true;
                 }
-                if ((user.Data.Role.Role != RoleTypes.Engineer && //エンジニアでなく
-                !user.CanUseImpostorVentButton()) || //インポスターベントも使えない
-                (!user.GetRoleClass()?.OnEnterVent(__instance, id) ?? false)
+                if ((!user.GetRoleClass()?.OnEnterVent(__instance, id) ?? false) ||
+                    (user.Data.Role.Role != RoleTypes.Engineer && //エンジニアでなく
+                !user.CanUseImpostorVentButton()) //インポスターベントも使えない
                 )
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
