@@ -405,6 +405,8 @@ class CheckMurderPatch
         {
             Main.MadmateNum++;
             Main.PlayerStates[target.PlayerId].SetSubRole(CustomRoles.Madmate);
+            foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.GetCustomRole().IsImpostor()))
+                NameColorManager.Add(target.PlayerId, impostor.PlayerId);
             Utils.NotifyRoles(target);
             Utils.NotifyRoles(killer);
             killer.RpcGuardAndKill(killer);
@@ -1723,9 +1725,7 @@ class PlayerControlCompleteTaskPatch
         if (isTaskFinish && pc.Is(CustomRoles.Snitch) && pc.Is(CustomRoles.Madmate))
         {
             foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.GetCustomRole().IsImpostor()))
-            {
                 NameColorManager.Add(pc.PlayerId, impostor.PlayerId);
-            }
             Utils.NotifyRoles(SpecifySeer: pc);
         }
         if ((isTaskFinish &&

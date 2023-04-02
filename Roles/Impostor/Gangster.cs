@@ -1,5 +1,6 @@
 ﻿using Hazel;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static TOHE.Translator;
 
@@ -65,6 +66,8 @@ public static class Gangster
             RecruitLimit[killer.PlayerId]--;
             SendRPC(killer.PlayerId);
             Main.PlayerStates[target.PlayerId].SetSubRole(CustomRoles.Madmate);
+            foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.GetCustomRole().IsImpostor()))
+                NameColorManager.Add(target.PlayerId, impostor.PlayerId);
             Utils.NotifyRoles(target);
             Utils.NotifyRoles(killer);
             killer.RpcGuardAndKill(target);
