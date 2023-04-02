@@ -279,6 +279,8 @@ internal class ChatCommands
                 case "/l":
                 case "/lastresult":
                     canceled = true;
+                    Utils.ShowKillLog();
+                    Utils.ShowLastRoles();
                     Utils.ShowLastResult();
                     break;
 
@@ -802,6 +804,8 @@ internal class ChatCommands
         {
             case "/l":
             case "/lastresult":
+                Utils.ShowKillLog(player.PlayerId);
+                Utils.ShowLastRoles(player.PlayerId);
                 Utils.ShowLastResult(player.PlayerId);
                 break;
 
