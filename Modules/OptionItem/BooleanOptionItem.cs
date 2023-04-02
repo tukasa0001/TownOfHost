@@ -1,4 +1,5 @@
 using System;
+using TownOfHost.Roles.Core;
 
 namespace TownOfHost
 {
@@ -27,6 +28,16 @@ namespace TownOfHost
             return new BooleanOptionItem(
                 id, name.ToString(), defaultValue, tab, isSingleValue
             );
+        }
+        public static BooleanOptionItem Create(
+            SimpleRoleInfo roleInfo, int idOffset, Enum name, bool defaultValue, bool isSingleValue, OptionItem parent = null
+        )
+        {
+            var opt = new BooleanOptionItem(
+                roleInfo.ConfigId + idOffset, name.ToString(), defaultValue, roleInfo.Tab, isSingleValue
+            );
+            opt.SetParent(parent ?? roleInfo.RoleOption);
+            return opt;
         }
 
         // Getter
