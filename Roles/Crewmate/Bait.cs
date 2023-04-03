@@ -10,7 +10,7 @@ public sealed class Bait : RoleBase
             typeof(Bait),
             player => new Bait(player),
             CustomRoles.Bait,
-            RoleTypes.Crewmate,
+            () => RoleTypes.Crewmate,
             CustomRoleTypes.Crewmate,
             20000,
             null,
