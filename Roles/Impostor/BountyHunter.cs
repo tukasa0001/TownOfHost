@@ -15,7 +15,7 @@ public sealed class BountyHunter : RoleBase
             typeof(BountyHunter),
             player => new BountyHunter(player),
             CustomRoles.BountyHunter,
-            RoleTypes.Shapeshifter,
+            () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
             1000,
             SetupOptionItem
@@ -56,16 +56,13 @@ public sealed class BountyHunter : RoleBase
 
     private static void SetupOptionItem()
     {
-        var id = RoleInfo.ConfigId;
-        var tab = RoleInfo.Tab;
-        var parent = RoleInfo.RoleOption;
-        OptionTargetChangeTime = FloatOptionItem.Create(id + 10, OptionName.BountyTargetChangeTime, new(10f, 900f, 2.5f), 60f, tab, false).SetParent(parent)
+        OptionTargetChangeTime = FloatOptionItem.Create(RoleInfo, 10, OptionName.BountyTargetChangeTime, new(10f, 900f, 2.5f), 60f, false)
             .SetValueFormat(OptionFormat.Seconds);
-        OptionSuccessKillCooldown = FloatOptionItem.Create(id + 11, OptionName.BountySuccessKillCooldown, new(0f, 180f, 2.5f), 2.5f, tab, false).SetParent(parent)
+        OptionSuccessKillCooldown = FloatOptionItem.Create(RoleInfo, 11, OptionName.BountySuccessKillCooldown, new(0f, 180f, 2.5f), 2.5f, false)
             .SetValueFormat(OptionFormat.Seconds);
-        OptionFailureKillCooldown = FloatOptionItem.Create(id + 12, OptionName.BountyFailureKillCooldown, new(0f, 180f, 2.5f), 50f, tab, false).SetParent(parent)
+        OptionFailureKillCooldown = FloatOptionItem.Create(RoleInfo, 12, OptionName.BountyFailureKillCooldown, new(0f, 180f, 2.5f), 50f, false)
             .SetValueFormat(OptionFormat.Seconds);
-        OptionShowTargetArrow = BooleanOptionItem.Create(id + 13, OptionName.BountyShowTargetArrow, false, tab, false).SetParent(parent);
+        OptionShowTargetArrow = BooleanOptionItem.Create(RoleInfo, 13, OptionName.BountyShowTargetArrow, false, false);
     }
     public override void Add()
     {

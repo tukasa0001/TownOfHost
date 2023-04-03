@@ -150,7 +150,7 @@ namespace TownOfHost
         {
             var roleInfo = role.GetRoleInfo();
             if (roleInfo != null)
-                return roleInfo.BaseRoleType;
+                return roleInfo.BaseRoleType.Invoke();
             return role switch
             {
                 CustomRoles.Arsonist or
@@ -167,7 +167,6 @@ namespace TownOfHost
                 CustomRoles.GM => RoleTypes.GuardianAngel,
 
                 CustomRoles.MadSnitch => Options.MadSnitchCanVent.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
-                CustomRoles.Mayor => Options.MayorHasPortableButton.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
 
                 CustomRoles.Shapeshifter or
                 CustomRoles.SerialKiller or

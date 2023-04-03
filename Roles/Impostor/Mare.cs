@@ -13,7 +13,7 @@ public sealed class Mare : RoleBase
             typeof(Mare),
             player => new Mare(player),
             CustomRoles.Mare,
-            RoleTypes.Impostor,
+            () => RoleTypes.Impostor,
             CustomRoleTypes.Impostor,
             2300,
             SetupCustomOption
@@ -46,11 +46,8 @@ public sealed class Mare : RoleBase
 
     public static void SetupCustomOption()
     {
-        var id = RoleInfo.ConfigId;
-        var tab = RoleInfo.Tab;
-        var parent = RoleInfo.RoleOption;
-        OptionSpeedInLightsOut = FloatOptionItem.Create(id + 10, OptionName.MareAddSpeedInLightsOut, new(0.1f, 0.5f, 0.1f), 0.3f, tab, false).SetParent(parent);
-        OptionKillCooldownInLightsOut = FloatOptionItem.Create(id + 11, OptionName.MareKillCooldownInLightsOut, new(2.5f, 180f, 2.5f), 15f, tab, false).SetParent(parent)
+        OptionSpeedInLightsOut = FloatOptionItem.Create(RoleInfo, 10, OptionName.MareAddSpeedInLightsOut, new(0.1f, 0.5f, 0.1f), 0.3f, false);
+        OptionKillCooldownInLightsOut = FloatOptionItem.Create(RoleInfo, 11, OptionName.MareKillCooldownInLightsOut, new(2.5f, 180f, 2.5f), 15f, false)
             .SetValueFormat(OptionFormat.Seconds);
     }
     public override bool CanUseKillButton() => IsActivateKill;

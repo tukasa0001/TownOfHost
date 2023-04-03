@@ -111,7 +111,6 @@ namespace TownOfHost
         /// </summary>
         public static Dictionary<byte, byte> PuppeteerList = new();
         public static Dictionary<byte, byte> SpeedBoostTarget = new();
-        public static Dictionary<byte, int> MayorUsedButtonCount = new();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static bool isCursed;
@@ -161,7 +160,6 @@ namespace TownOfHost
             CursedPlayers = new Dictionary<byte, PlayerControl>();
             isDoused = new Dictionary<(byte, byte), bool>();
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
-            MayorUsedButtonCount = new Dictionary<byte, int>();
             winnerList = new();
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte, string)>();
@@ -207,7 +205,6 @@ namespace TownOfHost
                     {CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
                     {CustomRoles.SabotageMaster, "#0000ff"},
                     {CustomRoles.Snitch, "#b8fb4f"},
-                    {CustomRoles.Mayor, "#204d42"},
                     {CustomRoles.Lighter, "#eee5be"},
                     {CustomRoles.SpeedBooster, "#00ffff"},
                     {CustomRoles.Doctor, "#80ffdd"},

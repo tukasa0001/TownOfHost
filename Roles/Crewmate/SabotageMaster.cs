@@ -11,7 +11,7 @@ public sealed class SabotageMaster : RoleBase
             typeof(SabotageMaster),
             player => new SabotageMaster(player),
             CustomRoles.SabotageMaster,
-            RoleTypes.Crewmate,
+            () => RoleTypes.Crewmate,
             CustomRoleTypes.Crewmate,
             20300,
             SetupOptionItem,
@@ -61,16 +61,13 @@ public sealed class SabotageMaster : RoleBase
 
     public static void SetupOptionItem()
     {
-        var id = RoleInfo.ConfigId;
-        var tab = RoleInfo.Tab;
-        var parent = RoleInfo.RoleOption;
-        OptionSkillLimit = IntegerOptionItem.Create(id + 10, OptionName.SabotageMasterSkillLimit, new(0, 99, 1), 1, tab, false).SetParent(parent)
+        OptionSkillLimit = IntegerOptionItem.Create(RoleInfo, 10, OptionName.SabotageMasterSkillLimit, new(0, 99, 1), 1, false)
             .SetValueFormat(OptionFormat.Times);
-        OptionFixesDoors = BooleanOptionItem.Create(id + 11, OptionName.SabotageMasterFixesDoors, false, tab, false).SetParent(parent);
-        OptionFixesReactors = BooleanOptionItem.Create(id + 12, OptionName.SabotageMasterFixesReactors, false, tab, false).SetParent(parent);
-        OptionFixesOxygens = BooleanOptionItem.Create(id + 13, OptionName.SabotageMasterFixesOxygens, false, tab, false).SetParent(parent);
-        OptionFixesComms = BooleanOptionItem.Create(id + 14, OptionName.SabotageMasterFixesCommunications, false, tab, false).SetParent(parent);
-        OptionFixesElectrical = BooleanOptionItem.Create(id + 15, OptionName.SabotageMasterFixesElectrical, false, tab, false).SetParent(parent);
+        OptionFixesDoors = BooleanOptionItem.Create(RoleInfo, 11, OptionName.SabotageMasterFixesDoors, false, false);
+        OptionFixesReactors = BooleanOptionItem.Create(RoleInfo, 12, OptionName.SabotageMasterFixesReactors, false, false);
+        OptionFixesOxygens = BooleanOptionItem.Create(RoleInfo, 13, OptionName.SabotageMasterFixesOxygens, false, false);
+        OptionFixesComms = BooleanOptionItem.Create(RoleInfo, 14, OptionName.SabotageMasterFixesCommunications, false, false);
+        OptionFixesElectrical = BooleanOptionItem.Create(RoleInfo, 15, OptionName.SabotageMasterFixesElectrical, false, false);
     }
     public override bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount)
     {

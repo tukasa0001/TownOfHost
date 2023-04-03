@@ -16,7 +16,7 @@ public sealed class Sheriff : RoleBase
             typeof(Sheriff),
             player => new Sheriff(player),
             CustomRoles.Sheriff,
-            RoleTypes.Impostor,
+            () => RoleTypes.Impostor,
             CustomRoleTypes.Crewmate,
             20400,
             SetupOptionItem,
@@ -57,32 +57,30 @@ public sealed class Sheriff : RoleBase
         };
     private static void SetupOptionItem()
     {
-        var id = RoleInfo.ConfigId;
-        var tab = RoleInfo.Tab;
-        var parent = RoleInfo.RoleOption;
-        KillCooldown = FloatOptionItem.Create(id + 10, OptionName.KillCooldown, new(0f, 990f, 1f), 30f, tab, false).SetParent(parent)
+        KillCooldown = FloatOptionItem.Create(RoleInfo, 10, OptionName.KillCooldown, new(0f, 990f, 1f), 30f, false)
             .SetValueFormat(OptionFormat.Seconds);
-        MisfireKillsTarget = BooleanOptionItem.Create(id + 11, OptionName.SheriffMisfireKillsTarget, false, tab, false).SetParent(parent);
-        ShotLimitOpt = IntegerOptionItem.Create(id + 12, OptionName.SheriffShotLimit, new(1, 15, 1), 15, tab, false).SetParent(parent)
+        MisfireKillsTarget = BooleanOptionItem.Create(RoleInfo, 11, OptionName.SheriffMisfireKillsTarget, false, false);
+        ShotLimitOpt = IntegerOptionItem.Create(RoleInfo, 12, OptionName.SheriffShotLimit, new(1, 15, 1), 15, false)
             .SetValueFormat(OptionFormat.Times);
-        CanKillAllAlive = BooleanOptionItem.Create(id + 15, OptionName.SheriffCanKillAllAlive, true, tab, false).SetParent(parent);
-        SetUpKillTargetOption(CustomRoles.Madmate, id + 13);
-        CanKillNeutrals = StringOptionItem.Create(id + 14, OptionName.SheriffCanKillNeutrals, KillOption, 0, tab, false).SetParent(parent);
-        SetUpNeutralOptions(id + 30);
+        CanKillAllAlive = BooleanOptionItem.Create(RoleInfo, 15, OptionName.SheriffCanKillAllAlive, true, false);
+        SetUpKillTargetOption(CustomRoles.Madmate, 13);
+        CanKillNeutrals = StringOptionItem.Create(RoleInfo, 14, OptionName.SheriffCanKillNeutrals, KillOption, 0, false);
+        SetUpNeutralOptions(30);
     }
-    public static void SetUpNeutralOptions(int id)
+    public static void SetUpNeutralOptions(int idOffset)
     {
         foreach (var neutral in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x.IsNeutral()).ToArray())
         {
             if (neutral is CustomRoles.SchrodingerCat
                         or CustomRoles.HASFox
                         or CustomRoles.HASTroll) continue;
-            SetUpKillTargetOption(neutral, id, true, CanKillNeutrals);
-            id++;
+            SetUpKillTargetOption(neutral, idOffset, true, CanKillNeutrals);
+            idOffset++;
         }
     }
-    public static void SetUpKillTargetOption(CustomRoles role, int id, bool defaultValue = true, OptionItem parent = null)
+    public static void SetUpKillTargetOption(CustomRoles role, int idOffset, bool defaultValue = true, OptionItem parent = null)
     {
+        var id = RoleInfo.ConfigId + idOffset;
         if (parent == null) parent = RoleInfo.RoleOption;
         var roleName = Utils.GetRoleName(role) + role switch
         {
