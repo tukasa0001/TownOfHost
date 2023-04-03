@@ -13,7 +13,7 @@ namespace TownOfHost.Roles.Impostor
                 typeof(SerialKiller),
                 player => new SerialKiller(player),
                 CustomRoles.SerialKiller,
-                RoleTypes.Shapeshifter,
+                () => RoleTypes.Shapeshifter,
                 CustomRoleTypes.Impostor,
                 1100,
                 SetUpOptionItem
