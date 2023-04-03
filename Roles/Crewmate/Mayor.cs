@@ -75,11 +75,9 @@ public sealed class Mayor : RoleBase
             var user = physics.myPlayer;
             physics.RpcBootFromVent(ventId);
             user?.ReportDeadBody(null);
-
-            return false;
         }
 
-        return true;
+        return false;
     }
     public override bool OnCheckForEndVoting(ref List<MeetingHud.VoterState> statesList, PlayerVoteArea pva)
     {
