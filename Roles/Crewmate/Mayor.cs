@@ -57,7 +57,7 @@ public sealed class Mayor : RoleBase
         Logger.Warn($"{LeftButtonCount} <= 0", "Mayor.ApplyGameOptions");
         AURoleOptions.EngineerCooldown =
             LeftButtonCount <= 0
-            ? 300f
+            ? 255f
             : opt.GetInt(Int32OptionNames.EmergencyCooldown);
         AURoleOptions.EngineerInVentMaxTime = 1;
     }
