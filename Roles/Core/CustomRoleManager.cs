@@ -257,9 +257,6 @@ public static class CustomRoleManager
                 Jackal.Add(pc.PlayerId);
                 break;
 
-            case CustomRoles.Mayor:
-                Main.MayorUsedButtonCount[pc.PlayerId] = 0;
-                break;
             case CustomRoles.EvilTracker:
                 EvilTracker.Add(pc.PlayerId);
                 break;

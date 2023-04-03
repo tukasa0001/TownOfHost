@@ -11,7 +11,7 @@ public sealed class SabotageMaster : RoleBase
             typeof(SabotageMaster),
             player => new SabotageMaster(player),
             CustomRoles.SabotageMaster,
-            RoleTypes.Crewmate,
+            () => RoleTypes.Crewmate,
             CustomRoleTypes.Crewmate,
             20300,
             SetupOptionItem,

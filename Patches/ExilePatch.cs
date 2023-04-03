@@ -3,6 +3,7 @@ using HarmonyLib;
 
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.Crewmate;
 using TownOfHost.Roles.Neutral;
 
 namespace TownOfHost
@@ -96,8 +97,6 @@ namespace TownOfHost
             foreach (var pc in Main.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
-                if (Options.MayorHasPortableButton.GetBool() && pc.Is(CustomRoles.Mayor))
-                    pc.RpcResetAbilityCooldown();
                 if (pc.Is(CustomRoles.Warlock))
                 {
                     Main.CursedPlayers[pc.PlayerId] = null;

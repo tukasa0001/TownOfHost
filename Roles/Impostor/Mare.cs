@@ -13,7 +13,7 @@ public sealed class Mare : RoleBase
             typeof(Mare),
             player => new Mare(player),
             CustomRoles.Mare,
-            RoleTypes.Impostor,
+            () => RoleTypes.Impostor,
             CustomRoleTypes.Impostor,
             2300,
             SetupCustomOption

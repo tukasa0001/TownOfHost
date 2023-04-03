@@ -11,7 +11,7 @@ public class SimpleRoleInfo
     public Type ClassType;
     public Func<PlayerControl, RoleBase> CreateInstance;
     public CustomRoles RoleName;
-    public RoleTypes BaseRoleType;
+    public Func<RoleTypes> BaseRoleType;
     public CustomRoleTypes CustomRoleType;
     public Color32 RoleColor;
     public string RoleColorCode;
@@ -26,7 +26,7 @@ public class SimpleRoleInfo
         Type classType,
         Func<PlayerControl, RoleBase> createInstance,
         CustomRoles roleName,
-        RoleTypes baseRoleType,
+        Func<RoleTypes> baseRoleType,
         CustomRoleTypes customRoleType,
         int configId,
         OptionCreatorDelegate optionCreator,
