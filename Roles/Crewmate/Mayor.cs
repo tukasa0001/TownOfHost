@@ -61,13 +61,13 @@ public sealed class Mayor : RoleBase
             : opt.GetInt(Int32OptionNames.EmergencyCooldown);
         AURoleOptions.EngineerInVentMaxTime = 1;
     }
-    /*public override bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
+    public override bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
     {
         if (reporter.Is(CustomRoles.Mayor) && target == null) //ボタン
             LeftButtonCount--;
 
         return true;
-    }*/
+    }
     public override bool OnEnterVent(PlayerPhysics physics, int ventId)
     {
         if (LeftButtonCount > 0)
@@ -75,7 +75,6 @@ public sealed class Mayor : RoleBase
             var user = physics.myPlayer;
             physics.RpcBootFromVent(ventId);
             user?.ReportDeadBody(null);
-            LeftButtonCount--;
 
             return false;
         }
