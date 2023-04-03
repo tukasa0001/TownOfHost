@@ -11,6 +11,7 @@ using TownOfHost.Modules;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.Crewmate;
 using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.AddOns.Crewmate;
 using static TownOfHost.Translator;
@@ -375,13 +376,6 @@ namespace TownOfHost
             //=============================================
 
 
-            if (target == null) //ボタン
-            {
-                if (__instance.Is(CustomRoles.Mayor))
-                {
-                    Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
-                }
-            }
             Main.ArsonistTimer.Clear();
             Main.PuppeteerList.Clear();
 
@@ -799,26 +793,6 @@ namespace TownOfHost
             return true;
         }
     }
-
-    [HarmonyPatch(typeof(Vent), nameof(Vent.EnterVent))]
-    class EnterVentPatch
-    {
-        public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
-        {
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
-                pc.MyPhysics.RpcBootFromVent(__instance.Id);
-
-            Witch.OnEnterVent(pc);
-            if (pc.Is(CustomRoles.Mayor))
-            {
-                if (Main.MayorUsedButtonCount.TryGetValue(pc.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt())
-                {
-                    pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                    pc?.ReportDeadBody(null);
-                }
-            }
-        }
-    }
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoEnterVent))]
     class CoEnterVentPatch
     {
@@ -826,15 +800,20 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.AmHost)
             {
+                var user = __instance.myPlayer;
+                if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
+                    __instance.RpcBootFromVent(id);
+
+                Witch.OnEnterVent(user);
                 if (AmongUsClient.Instance.IsGameStarted &&
-                    __instance.myPlayer.IsDouseDone())
+                    user.IsDouseDone())
                 {
                     foreach (var pc in Main.AllAlivePlayerControls)
                     {
-                        if (pc != __instance.myPlayer)
+                        if (pc != user)
                         {
                             //生存者は焼殺
-                            pc.SetRealKiller(__instance.myPlayer);
+                            pc.SetRealKiller(user);
                             pc.RpcMurderPlayer(pc);
                             Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Torched;
                             Main.PlayerStates[pc.PlayerId].SetDead();
@@ -843,12 +822,12 @@ namespace TownOfHost
                             RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
                     }
                     CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Arsonist); //焼殺で勝利した人も勝利させる
-                    CustomWinnerHolder.WinnerIds.Add(__instance.myPlayer.PlayerId);
+                    CustomWinnerHolder.WinnerIds.Add(user.PlayerId);
                     return true;
                 }
-                if ((__instance.myPlayer.Data.Role.Role != RoleTypes.Engineer && //エンジニアでなく
-                !__instance.myPlayer.CanUseImpostorVentButton()) || //インポスターベントも使えない
-                (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt())
+                if ((!user.GetRoleClass()?.OnEnterVent(__instance, id) ?? false) ||
+                    (user.Data.Role.Role != RoleTypes.Engineer && //エンジニアでなく
+                !user.CanUseImpostorVentButton()) //インポスターベントも使えない
                 )
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
@@ -856,7 +835,7 @@ namespace TownOfHost
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     new LateTask(() =>
                     {
-                        int clientId = __instance.myPlayer.GetClientId();
+                        int clientId = user.GetClientId();
                         MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, clientId);
                         writer2.Write(id);
                         AmongUsClient.Instance.FinishRpcImmediately(writer2);

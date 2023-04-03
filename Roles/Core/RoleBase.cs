@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Hazel;
 using AmongUs.GameOptions;
@@ -33,7 +34,7 @@ public abstract class RoleBase : IDisposable
     {
         Player = player;
         HasTasks = hasTasks ?? roleInfo.CustomRoleType == CustomRoleTypes.Crewmate;
-        CanKill = canKill ?? roleInfo.BaseRoleType is RoleTypes.Impostor or RoleTypes.Shapeshifter;
+        CanKill = canKill ?? roleInfo.BaseRoleType.Invoke() is RoleTypes.Impostor or RoleTypes.Shapeshifter;
         IsKiller = CanKill;
 
         CustomRoleManager.AllActiveRoles.Add(this);
@@ -170,10 +171,27 @@ public abstract class RoleBase : IDisposable
     public virtual bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target) => true;
 
     /// <summary>
+    /// <para>ベントに入ったときに呼ばれる関数</para>
+    /// <para>キャンセル可</para>
+    /// </summary>
+    /// <param name="physics"></param>
+    /// <param name="id"></param>
+    /// <returns>falseを返すとベントから追い出され、他人からアニメーションも見られません</returns>
+    public virtual bool OnEnterVent(PlayerPhysics physics, int ventId) => true;
+
+    /// <summary>
     /// ミーティングが始まった時に呼ばれる関数
     /// </summary>
     public virtual void OnStartMeeting()
     { }
+
+    /// <summary>
+    /// プレイヤーが投票した瞬間に呼ばれる関数
+    /// </summary>
+    /// <param name="statesList">投票情報を保存しておくリスト</param>
+    /// <param name="pva">プレイヤー</param>
+    /// <returns>falseを返すと会議終了判定をキャンセルする</returns>
+    public virtual bool OnCheckForEndVoting(ref List<MeetingHud.VoterState> statesList, PlayerVoteArea pva) => true;
 
     /// <summary>
     /// タスクターンが始まる直前に毎回呼ばれる関数
