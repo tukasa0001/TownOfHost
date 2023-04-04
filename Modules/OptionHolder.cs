@@ -10,6 +10,7 @@ using TOHE.Roles.Crewmate;
 using TOHE.Roles.Impostor;
 using TOHE.Roles.Neutral;
 using UnityEngine;
+using static Rewired.Utils.Classes.Data.SerializedObject;
 
 namespace TOHE;
 
@@ -297,6 +298,7 @@ public static class Options
 
     // その他
     public static OptionItem FixFirstKillCooldown;
+    public static OptionItem ShieldPersonDiedFirst;
     public static OptionItem GhostCanSeeOtherRoles;
     public static OptionItem GhostCanSeeOtherVotes;
     public static OptionItem GhostCanSeeDeathReason;
@@ -1064,6 +1066,10 @@ public static class Options
 
         // 修正首刀时间
         FixFirstKillCooldown = BooleanOptionItem.Create(50_900_667, "FixFirstKillCooldown", true, TabGroup.GameSettings, false)
+            .SetGameMode(CustomGameMode.Standard)
+           .SetColor(new Color32(193, 255, 209, byte.MaxValue));
+
+        ShieldPersonDiedFirst = BooleanOptionItem.Create(50_900_676, "ShieldPersonDiedFirst", false, TabGroup.GameSettings, false)
             .SetGameMode(CustomGameMode.Standard)
            .SetColor(new Color32(193, 255, 209, byte.MaxValue));
 

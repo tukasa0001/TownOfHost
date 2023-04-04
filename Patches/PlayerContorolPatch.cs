@@ -400,6 +400,16 @@ class CheckMurderPatch
             }
         }
 
+        //首刀保护
+        if (Main.ShieldPlayer != byte.MaxValue && Main.ShieldPlayer == target.PlayerId)
+        {
+            Main.ShieldPlayer = byte.MaxValue;
+            killer.SetKillCooldown();
+            killer.RpcGuardAndKill(target);
+            target.RpcGuardAndKill();
+            return false;
+        }
+
         //首刀叛变
         if (Options.MadmateSpawnMode.GetInt() == 1 && Main.MadmateNum < CustomRoles.Madmate.GetCount() && Utils.CanBeMadmate(target))
         {

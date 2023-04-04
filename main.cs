@@ -150,6 +150,7 @@ public class Main : BasePlugin
     public static bool IsAprilFools = DateTime.Now.Month == 4 && DateTime.Now.Day is 1;
     public static bool SetAutoStartToDisable = false;
     public static byte FirstDied;
+    public static byte ShieldPlayer;
     public static int MadmateNum;
     public static Dictionary<byte, byte> Provoked = new();
 
@@ -241,6 +242,7 @@ public class Main : BasePlugin
         MessagesToSend = new List<(string, byte, string)>();
         currentDousingTarget = byte.MaxValue;
         currentDrawTarget = byte.MaxValue;
+        ShieldPlayer = byte.MaxValue;
         FirstDied = byte.MaxValue;
         MadmateNum = 0;
 

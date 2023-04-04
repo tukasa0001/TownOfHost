@@ -76,6 +76,7 @@ internal class ChangeRoleSettings
             Main.MadGrenadierBlinding = new Dictionary<byte, long>();
             Main.CursedWolfSpellCount = new Dictionary<byte, int>();
             Main.Provoked = new Dictionary<byte, byte>();
+            Main.ShieldPlayer = Options.ShieldPersonDiedFirst.GetBool() ? Main.FirstDied : byte.MaxValue;
             Main.FirstDied = byte.MaxValue;
             Main.MadmateNum = 0;
 

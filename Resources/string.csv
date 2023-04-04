@@ -565,6 +565,7 @@ MenuTitle.Meeting,★ 会议相关设定,★Meeting★,★Собрание★
 MenuTitle.Ghost,★ 幽灵相关设定,★Ghost★,★Призраки★
 MenuTitle.Other,★ 其它设定,★Different★,★Другое★
 MenuTitle.Ejections,★ 驱逐相关设定,★Ejection★,★Выбрасивание★
+ShieldPersonDiedFirst,首刀保护（仅限被杀）,Shield for the person who got killed first in last game
 
 ## 详细设定 / Advanced Settings
 Cooldown,冷却时间,Cooldown,Откат
