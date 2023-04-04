@@ -75,7 +75,6 @@ namespace TownOfHost.Roles.Impostor
         }
         public override void OnFixedUpdate()
         {
-            var player = Player;
             if (!HasKilled())
             {
                 SuicideTimer = null;
@@ -84,13 +83,13 @@ namespace TownOfHost.Roles.Impostor
             if (SuicideTimer == null) //タイマーがない
             {
                 SuicideTimer = 0f;
-                player.RpcResetAbilityCooldown();
+                Player.RpcResetAbilityCooldown();
             }
             else if (SuicideTimer >= TimeLimit)
             {
                 //自爆時間が来たとき
-                Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Suicide;//死因：自殺
-                player.RpcMurderPlayerV2(player);//自殺させる
+                Main.PlayerStates[Player.PlayerId].deathReason = PlayerState.DeathReason.Suicide;//死因：自殺
+                Player.RpcMurderPlayer(Player);//自殺させる
                 SuicideTimer = null;
             }
             else
