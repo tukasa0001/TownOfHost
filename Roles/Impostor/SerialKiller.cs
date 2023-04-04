@@ -62,10 +62,8 @@ namespace TownOfHost.Roles.Impostor
         public override void OnCheckMurderAsKiller(MurderInfo info)
         {
             var killer = info.AttemptKiller;
-            if (!killer.Is(CustomRoles.SerialKiller)) return;
             SuicideTimer = null;
-            if (info.CanKill)
-                killer.MarkDirtySettings();
+            killer.MarkDirtySettings();
         }
         public override bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
         {
