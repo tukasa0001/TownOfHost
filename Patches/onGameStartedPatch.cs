@@ -328,12 +328,8 @@ internal class SelectRolesPatch
             // 个人竞技模式用
             if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
             {
-
                 foreach (var pair in Main.PlayerStates)
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value.MainRole);
-
-                GameEndChecker.SetPredicateToSoloKombat();
-
                 goto EndOfSelectRolePatch;
             }
 
@@ -527,8 +523,15 @@ internal class SelectRolesPatch
             ShapeshifterNum -= addShapeshifterNum;
             roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
-            if (Options.CurrentGameMode == CustomGameMode.Standard)
-                GameEndChecker.SetPredicateToNormal();
+            switch (Options.CurrentGameMode)
+            {
+                case CustomGameMode.Standard:
+                    GameEndChecker.SetPredicateToNormal();
+                    break;
+                case CustomGameMode.SoloKombat:
+                    GameEndChecker.SetPredicateToSoloKombat();
+                    break;
+            }
 
             GameOptionsSender.AllSenders.Clear();
             foreach (var pc in Main.AllPlayerControls)
@@ -539,8 +542,7 @@ internal class SelectRolesPatch
             }
 
             // ResetCamが必要なプレイヤーのリストにクラス化が済んでいない役職のプレイヤーを追加
-            Main.ResetCamPlayerList.AddRange(Main.AllPlayerControls.Where(p => p.GetCustomRole() is CustomRoles.Arsonist).Select(p => p.PlayerId));
-            Main.ResetCamPlayerList.AddRange(Main.AllPlayerControls.Where(p => p.GetCustomRole() is CustomRoles.Revolutionist).Select(p => p.PlayerId));
+            Main.ResetCamPlayerList.AddRange(Main.AllPlayerControls.Where(p => p.GetCustomRole() is CustomRoles.Arsonist or CustomRoles.Revolutionist or CustomRoles.KB_Normal).Select(p => p.PlayerId));
             Utils.CountAlivePlayers(true);
             Utils.SyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
