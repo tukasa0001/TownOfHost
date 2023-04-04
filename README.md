@@ -1,4 +1,4 @@
-<img src="Resources/TOHE-BG.jpg" alt="Cover-Img"  />
+[![Cover](Resources/TOHE-BG.jpg)](https://www.bilibili.com/video/BV1TM411T7UW/ "TOHE")
 
 > ## 声明
 >
@@ -9,12 +9,6 @@
 ##  :sparkles: 最新版本下载：[点我](https://github.com/KARPED1EM/TownOfHostEdited/releases/latest)
 
 ---
-
-<br>
-
-<iframe src="//player.bilibili.com/player.html?aid=527037322&bvid=BV1TM411T7UW&page=1&high_quality=1&danmaku=1" allowfullscreen="allowfullscreen" width="100%" height="500" scrolling="no" frameborder="0" sandbox="allow-top-navigation allow-same-origin allow-forms allow-scripts"></iframe>
-
-<br>
 
 **This is a project for me to learn C#.**
 
