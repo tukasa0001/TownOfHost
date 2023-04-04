@@ -186,6 +186,9 @@ public class PlayerGameOptionsSender : GameOptionsSender
             case CustomRoles.Hacker:
                 Hacker.ApplyGameOptions();
                 break;
+            case CustomRoles.Hangman:
+                Hangman.ApplyGameOptions();
+                break;
         }
 
         // 为迷惑者的凶手

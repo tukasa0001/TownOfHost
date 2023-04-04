@@ -689,6 +689,7 @@ internal class ChatCommands
             "隱蔽者" or "隐蔽" or "小黑人" => GetString("Concealer"),
             "抹除者" or "抹除" => GetString("Eraser"),
             "肢解者" or "肢解" => GetString("OverKiller"),
+            "儈子手" or "侩子" or "筷子" or "筷子手" => GetString("Hangman"),
             _ => text,
         };
     }

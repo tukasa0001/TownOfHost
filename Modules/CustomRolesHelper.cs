@@ -76,6 +76,7 @@ internal static class CustomRolesHelper
                 CustomRoles.Concealer => CustomRoles.Shapeshifter,
                 CustomRoles.Eraser => CustomRoles.Impostor,
                 CustomRoles.OverKiller => CustomRoles.Impostor,
+                CustomRoles.Hangman => CustomRoles.Shapeshifter,
                 _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
     }
@@ -198,7 +199,8 @@ internal static class CustomRolesHelper
             CustomRoles.QuickShooter or
             CustomRoles.Concealer or
             CustomRoles.Eraser or
-            CustomRoles.OverKiller;
+            CustomRoles.OverKiller or
+            CustomRoles.Hangman;
     }
     public static bool IsNeutral(this CustomRoles role) //  «∑Ò÷–¡¢
     {

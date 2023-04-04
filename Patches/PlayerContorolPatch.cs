@@ -201,6 +201,9 @@ class CheckMurderPatch
                 case CustomRoles.Sans:
                     Sans.OnCheckMurder(killer);
                     break;
+                case CustomRoles.Hangman:
+                    if (!Hangman.OnCheckMurder(killer, target)) return false;
+                    break;
 
                 //==========中立阵营==========//
                 case CustomRoles.Arsonist:

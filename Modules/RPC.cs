@@ -634,6 +634,9 @@ internal static class RPC
             case CustomRoles.Psychic:
                 Psychic.Add(targetId);
                 break;
+            case CustomRoles.Hangman:
+                Hangman.Add(targetId);
+                break;
         }
         HudManager.Instance.SetHudActive(true);
         if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();

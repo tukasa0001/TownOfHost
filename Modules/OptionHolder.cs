@@ -501,7 +501,7 @@ public static class Options
         BountyHunter.SetupCustomOption();
         SerialKiller.SetupCustomOption();
         SetupRoleOptions(1200, TabGroup.ImpostorRoles, CustomRoles.ShapeMaster);
-        ShapeMasterShapeshiftDuration = FloatOptionItem.Create(1210, "ShapeshiftDuration", new(1, 1000, 1), 10, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.ShapeMaster])
+        ShapeMasterShapeshiftDuration = FloatOptionItem.Create(1210, "ShapeshiftDuration", new(1, 999, 1), 10, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.ShapeMaster])
             .SetValueFormat(OptionFormat.Seconds);
         Vampire.SetupCustomOption();
         SetupRoleOptions(1400, TabGroup.ImpostorRoles, CustomRoles.Warlock);
@@ -543,6 +543,7 @@ public static class Options
         ImperiusCurseShapeshiftCooldown = FloatOptionItem.Create(902435, "ShapeshiftCooldown", new(1f, 999f, 1f), 15f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.ImperiusCurse])
             .SetValueFormat(OptionFormat.Seconds);
         QuickShooter.SetupCustomOption();
+        Hangman.SetupCustomOption();
 
         // Crewmate
         SetupRoleOptions(102255, TabGroup.CrewmateRoles, CustomRoles.NiceGuesser);
@@ -1035,7 +1036,7 @@ public static class Options
             .SetGameMode(CustomGameMode.Standard)
             .SetColor(new Color32(241, 212, 227, byte.MaxValue));
 
-        //其它设定
+        // 其它设定
         TextOptionItem.Create(66_123_123, "MenuTitle.Other", TabGroup.GameSettings)
             .SetGameMode(CustomGameMode.Standard)
             .SetColor(new Color32(193, 255, 209, byte.MaxValue));
@@ -1069,17 +1070,18 @@ public static class Options
             .SetGameMode(CustomGameMode.Standard)
            .SetColor(new Color32(193, 255, 209, byte.MaxValue));
 
+        // 首刀保护
         ShieldPersonDiedFirst = BooleanOptionItem.Create(50_900_676, "ShieldPersonDiedFirst", false, TabGroup.GameSettings, false)
             .SetGameMode(CustomGameMode.Standard)
            .SetColor(new Color32(193, 255, 209, byte.MaxValue));
 
-        //杀戮闪烁持续
+        // 杀戮闪烁持续
         KillFlashDuration = FloatOptionItem.Create(90000, "KillFlashDuration", new(0.1f, 0.45f, 0.05f), 0.2f, TabGroup.GameSettings, false)
            .SetColor(new Color32(193, 255, 209, byte.MaxValue))
             .SetValueFormat(OptionFormat.Seconds)
             .SetGameMode(CustomGameMode.Standard);
 
-        //幽灵相关设定
+        // 幽灵相关设定
         TextOptionItem.Create(66_123_124, "MenuTitle.Ghost", TabGroup.GameSettings)
             .SetGameMode(CustomGameMode.Standard)
             .SetColor(new Color32(217, 218, 255, byte.MaxValue));

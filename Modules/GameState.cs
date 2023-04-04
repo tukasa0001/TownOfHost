@@ -113,6 +113,7 @@ public class PlayerState
         Ashamed,
         PissedOff,
         Dismembered,
+        LossOfHead,
 
         etc = -1
     }

@@ -187,6 +187,7 @@ internal class ChangeRoleSettings
             Sans.Init();
             Hacker.Init();
             Psychic.Init();
+            Hangman.Init();
             SoloKombatManager.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
@@ -487,6 +488,9 @@ internal class SelectRolesPatch
                         break;
                     case CustomRoles.Psychic:
                         Psychic.Add(pc.PlayerId);
+                        break;
+                    case CustomRoles.Hangman:
+                        Hangman.Add(pc.PlayerId);
                         break;
                 }
                 foreach (var subRole in pc.GetCustomSubRoles())
