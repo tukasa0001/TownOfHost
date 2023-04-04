@@ -84,8 +84,8 @@ internal class ChatCommands
         new LateTask(() =>
         {
             target.SetRealKiller(pc);
-            target.RpcMurderPlayerV3(target);
             Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Revenge;
+            target.RpcMurderPlayerV3(target);
             Main.PlayerStates[target.PlayerId].SetDead();
             Main.MafiaRevenged[pc.PlayerId]++;
             foreach (var pc in Main.AllPlayerControls)

@@ -253,10 +253,10 @@ class CheckMurderPatch
                     DarkHide.OnCheckMurder(killer, target);
                     break;
                 case CustomRoles.Provocateur:
+                    Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.PissedOff;
                     killer.RpcMurderPlayerV3(target);
                     killer.RpcMurderPlayerV3(killer);
                     killer.SetRealKiller(target);
-                    Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.PissedOff;
                     Main.Provoked.TryAdd(killer.PlayerId, target.PlayerId);
                     return false;
 
@@ -1152,8 +1152,8 @@ class FixedUpdatePatch
                         if (IRandom.Instance.Next(1, 100) <= Options.RevolutionistKillProbability.GetInt())
                         {
                             ar_target.SetRealKiller(player);
-                            player.RpcMurderPlayerV3(ar_target);
                             Main.PlayerStates[ar_target.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
+                            player.RpcMurderPlayerV3(ar_target);
                             Main.PlayerStates[ar_target.PlayerId].SetDead();
                             Logger.Info($"Revolutionist: {player.GetNameWithRole()} killed {ar_target.GetNameWithRole()}", "Revolutionist");
                         }
@@ -1196,13 +1196,13 @@ class FixedUpdatePatch
                             foreach (var pc in y.Where(x => x != null && x.IsAlive()))
                             {
                                 pc.Data.IsDead = true;
-                                pc.RpcMurderPlayerV3(pc);
                                 Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
+                                pc.RpcMurderPlayerV3(pc);
                                 Main.PlayerStates[pc.PlayerId].SetDead();
                             }
                             player.Data.IsDead = true;
-                            player.RpcMurderPlayerV3(player);
                             Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
+                            player.RpcMurderPlayerV3(player);
                             Main.PlayerStates[player.PlayerId].SetDead();
                         }
                     }
@@ -1642,8 +1642,8 @@ class CoEnterVentPatch
                 {
                     //生存者は焼殺
                     pc.SetRealKiller(__instance.myPlayer);
-                    pc.RpcMurderPlayerV3(pc);
                     Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Torched;
+                    pc.RpcMurderPlayerV3(pc);
                     Main.PlayerStates[pc.PlayerId].SetDead();
                 }
                 else
