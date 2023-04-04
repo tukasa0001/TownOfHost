@@ -62,22 +62,8 @@ namespace TownOfHost
 
                 exiled.IsDead = true;
                 Main.PlayerStates[exiled.PlayerId].deathReason = PlayerState.DeathReason.Vote;
-                if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
-                {
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jester);
-                    CustomWinnerHolder.WinnerIds.Add(exiled.PlayerId);
-                    //吊られたJesterをターゲットにしているExecutionerも追加勝利
-                    foreach (var executioner in Executioner.playerIdList)
-                    {
-                        var GetValue = Executioner.Target.TryGetValue(executioner, out var targetId);
-                        if (GetValue && exiled.PlayerId == targetId)
-                        {
-                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Executioner);
-                            CustomWinnerHolder.WinnerIds.Add(executioner);
-                        }
-                    }
-                    DecidedWinner = true;
-                }
+
+                CustomRoleManager.GetByPlayerId(exiled.PlayerId).OnExileWrapUp(exiled, ref DecidedWinner);
                 if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
                 {
                     Utils.CheckTerroristWin(exiled);

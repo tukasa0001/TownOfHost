@@ -388,7 +388,6 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Seconds);
             ArsonistCooldown = FloatOptionItem.Create(50511, "Cooldown", new(5f, 100f, 1f), 10f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Arsonist])
                 .SetValueFormat(OptionFormat.Seconds);
-            SetupRoleOptions(50000, TabGroup.NeutralRoles, CustomRoles.Jester);
             SetupRoleOptions(50100, TabGroup.NeutralRoles, CustomRoles.Opportunist);
             SetupRoleOptions(50200, TabGroup.NeutralRoles, CustomRoles.Terrorist);
             CanTerroristSuicideWin = BooleanOptionItem.Create(50210, "CanTerroristSuicideWin", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Terrorist])

@@ -216,7 +216,6 @@ namespace TownOfHost
                     {CustomRoles.TimeManager, "#6495ed"},
                     //ニュートラル役職
                     {CustomRoles.Arsonist, "#ff6633"},
-                    {CustomRoles.Jester, "#ec62a5"},
                     {CustomRoles.Terrorist, "#00ff00"},
                     {CustomRoles.Executioner, "#611c3a"},
                     {CustomRoles.Opportunist, "#00ff00"},
