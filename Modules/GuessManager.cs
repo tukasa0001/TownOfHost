@@ -149,7 +149,7 @@ public static class GuessManager
                     Utils.SendMessage(GetString("GuessSuperStar"), pc.PlayerId);
                     return true;
                 }
-                if (role == CustomRoles.GM)
+                if (role == CustomRoles.GM || target.Is(CustomRoles.GM))
                 {
                     Utils.SendMessage(GetString("GuessGM"), pc.PlayerId);
                     return true;
