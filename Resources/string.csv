@@ -1089,6 +1089,7 @@ KickBecauseLowLevel,【{0}】因未达到房主规定的等级限制被请离房
 KickBecauseDiffrentVersionOrMod,【{0}】因安装了不同版本的模组被请离房间
 KBDisplayScore,第{0}名：{1}分,Ranking: {0} Score: {1},Место: {1} Счёт: {1}
 KBTimeRemain,剩余时间：{0} 秒,Time Remain: {0} Second
+GameOver,游戏结束
 
 ## 作弊 / EAC
 EAC.CheatDetected.EAC,开挂（使用AUM）,Cheating usage detected (Using AUM),Обнаружено использование читов (используется AUM)

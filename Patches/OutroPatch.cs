@@ -125,7 +125,7 @@ class SetEverythingUpPatch
         }
         if (AmongUsClient.Instance.AmHost && Main.PlayerStates[0].MainRole == CustomRoles.GM)
         {
-            __instance.WinText.text = "Game Over";
+            __instance.WinText.text = GetString("GameOver");
             __instance.WinText.color = Utils.GetRoleColor(CustomRoles.GM);
             __instance.BackgroundBar.material.color = Utils.GetRoleColor(CustomRoles.GM);
         }
