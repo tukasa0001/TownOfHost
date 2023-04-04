@@ -512,7 +512,7 @@ class MeetingHudStartPatch
                 }, 5.0f, "Notice Detective Skill");
             }
             //提示神存活
-            if (pc.Is(CustomRoles.God) && pc.IsAlive())
+            if (pc.Is(CustomRoles.God) && pc.IsAlive() && Options.NotifyGodAlive.GetBool())
             {
                 new LateTask(() =>
                 {
