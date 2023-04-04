@@ -49,7 +49,7 @@ internal class VersionShowerStartPatch
 
 #if RELEASE
         string additionalCredentials = GetString("TextBelowVersionText");
-        if (additionalCredentials != null && additionalCredentials != "")
+        if (additionalCredentials != null && additionalCredentials != "*TextBelowVersionText")
         {
             Main.credentialsText += $"\n{additionalCredentials}";
         }
