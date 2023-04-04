@@ -267,14 +267,14 @@ public static class Utils
         RoleText = GetRoleName(mainRole);
         RoleColor = SubRoles.Contains(CustomRoles.Madmate) ? GetRoleColor(CustomRoles.Madmate) : GetRoleColor(mainRole);
 
-        if (Main.PlayerStates[playerId].SubRoles.Contains(CustomRoles.LastImpostor))
+        if (LastImpostor.currentId == playerId)
             RoleText = GetRoleString("Last-") + RoleText;
 
         if (Options.NameDisplayAddons.GetBool() && !pure)
-            foreach (var subRole in Main.PlayerStates[playerId].SubRoles.Where(x => x is not CustomRoles.LastImpostor and not CustomRoles.Madmate and not CustomRoles.Lovers))
+            foreach (var subRole in SubRoles.Where(x => x is not CustomRoles.LastImpostor and not CustomRoles.Madmate and not CustomRoles.Lovers))
                 RoleText = ColorString(GetRoleColor(subRole), GetString("Prefix." + subRole.ToString())) + RoleText;
 
-        if (Main.PlayerStates[playerId].SubRoles.Contains(CustomRoles.Madmate))
+        if (SubRoles.Contains(CustomRoles.Madmate))
             RoleText = GetRoleString("Mad-") + RoleText;
 
         return (RoleText, RoleColor);
