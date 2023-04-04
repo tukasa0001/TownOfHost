@@ -704,6 +704,9 @@ GrenadierCanAffectNeutral,<color=#ffab1b>中立阵营</color>玩家会受到闪�
 TicketsPerKill,每次击杀增加票数,Increase in votes for kill,Увеличение голосов за убийство
 GangsterRecruitCooldown,击杀/招募冷却时间,Recruit cooldown, Откат переманивания
 GangsterRecruitLimit,招募玩家数量上限,Recruit limit,Лимит переманивания
+GanSheriffCanBeMadmate,可以招募<color=#f8cd46>警长</color>
+GanMayorCanBeMadmate,可以招募<color=#204d42>市长</color>
+GanNGuesserCanBeMadmate,可以招募<color=#eede26>正义赌怪</color>
 RevolutionistDrawTime,拉拢玩家所需时间,Retention duration,Длительность удерживания
 RevolutionistCooldown,拉拢玩家冷却时间,Skill сooldown,Откат навыка
 RevolutionistDrawCount,需要拉拢人数,Number of players he needs to tag,Количество игроков которых ему нужно пометить

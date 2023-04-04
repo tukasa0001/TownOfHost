@@ -10,8 +10,14 @@ public static class Gangster
 {
     private static readonly int Id = 5054525;
     private static List<byte> playerIdList = new();
+    
     private static OptionItem RecruitLimitOpt;
     public static OptionItem KillCooldown;
+
+    public static OptionItem SheriffCanBeMadmate;
+    public static OptionItem MayorCanBeMadmate;
+    public static OptionItem NGuesserCanBeMadmate;
+
     public static Dictionary<byte, int> RecruitLimit = new();
     public static void SetupCustomOption()
     {
@@ -20,6 +26,10 @@ public static class Gangster
             .SetValueFormat(OptionFormat.Seconds);
         RecruitLimitOpt = IntegerOptionItem.Create(Id + 12, "GangsterRecruitLimit", new(1, 15, 1), 2, TabGroup.ImpostorRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Gangster])
             .SetValueFormat(OptionFormat.Times);
+
+        SheriffCanBeMadmate = BooleanOptionItem.Create(Id + 14, "GanSheriffCanBeMadmate", false, TabGroup.Addons, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Gangster]);
+        MayorCanBeMadmate = BooleanOptionItem.Create(Id + 15, "GanMayorCanBeMadmate", false, TabGroup.Addons, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Gangster]);
+        NGuesserCanBeMadmate = BooleanOptionItem.Create(Id + 16, "GanNGuesserCanBeMadmate", false, TabGroup.Addons, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Gangster]);
     }
     public static void Init()
     {
@@ -61,7 +71,7 @@ public static class Gangster
     {
         SetKillCooldown(killer.PlayerId);
         if (RecruitLimit[killer.PlayerId] < 1) return false;
-        if (Utils.CanBeMadmate(target))
+        if (CanBeMadmate(target))
         {
             RecruitLimit[killer.PlayerId]--;
             SendRPC(killer.PlayerId);
@@ -85,4 +95,19 @@ public static class Gangster
         return false;
     }
     public static string GetRecruitLimit(byte playerId) => Utils.ColorString(CanRecruit(playerId) ? Color.red : Color.gray, RecruitLimit.TryGetValue(playerId, out var recruitLimit) ? $"({recruitLimit})" : "Invalid");
+
+    public static bool CanBeMadmate(this PlayerControl pc)
+    {
+        return pc != null && pc.GetCustomRole().IsCrewmate() && !pc.Is(CustomRoles.Madmate)
+        && !(
+            (pc.Is(CustomRoles.Sheriff) && !SheriffCanBeMadmate.GetBool()) ||
+            (pc.Is(CustomRoles.Mayor) && !MayorCanBeMadmate.GetBool()) ||
+            (pc.Is(CustomRoles.NiceGuesser) && !NGuesserCanBeMadmate.GetBool()) ||
+            pc.Is(CustomRoles.Snitch) ||
+            pc.Is(CustomRoles.Needy) ||
+            pc.Is(CustomRoles.CyberStar) ||
+            pc.Is(CustomRoles.Egoist) ||
+            pc.Is(CustomRoles.DualPersonality)
+            );
+    }
 }
