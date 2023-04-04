@@ -7,6 +7,7 @@ using HarmonyLib;
 using InnerNet;
 using UnityEngine;
 using static TownOfHost.Translator;
+using TownOfHost.Roles;
 
 namespace TownOfHost
 {
@@ -178,6 +179,8 @@ namespace TownOfHost
                 Utils.SendMessage(msg);
                 return false;
             }
+
+            RoleAssignManager.CheckRoleCount();
 
             Options.DefaultKillCooldown = Main.NormalOptions.KillCooldown;
             Main.LastKillCooldown.Value = Main.NormalOptions.KillCooldown;

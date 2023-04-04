@@ -504,6 +504,8 @@
 "Warning.NoModHost","No mod installed on the host","ホストにMODが導入されていません","该房主并未安装mod","該房房主沒有安裝Town Of Host模組","У Хоста Лобби не установлен Town of Host",""
 "Warning.MismatchedVersion",""{0}\nhave a different version of {1}","{0} の\n{1} のバージョンがホストと合致しません。"
 "Warning.AutoExitAtMismatchedVersion","The host has no or a different version of {0}\nYou will be kicked in {1}","{0} のバージョンがホストと合致しません。\nあと {1} 秒で切断されます。"
+"Warning.NotMatchImpostorCount","Max/min number of Impostor roles is greater than the number of Impostors.","インポスター役職の最小/最大割り当て人数がインポスターより多すぎます。"
+"Warning.NotMatchRoleCount","The role is not cast correctly because the minimum number of roles is greater than the number of players.","ロールの最少人数合計がプレイヤーより多いため正常に配役されません。"
 
 "## エラー"
 "Error.MeetingException","Error: {0}\r\nPlease use SHIFT+M+ENTER to end the meeting","エラー: {0}\r\nSHIFT+M+ENTERで会議を強制終了してください","错误: {0}\r\n使用 SHIFT+M+ENTER 来中止会议","錯誤: {0}\r\n按下SHIFT+M+ENTER來結束會議","Ошибка: {0}\r\nПожалуйста используйте SHIFT+M+ENTER чтобы принудительно завершить собрание","Erro: {0}\r\nPor favor use SHIFT+M+ENTER para encerrar a reunião"
