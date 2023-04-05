@@ -13,8 +13,9 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<Reference Include="$(AmongUs)\BepInEx\core\*.dll" />
-		<Reference Include="$(AmongUs)\BepInEx\unhollowed\*.dll" />
+		<PackageReference Include="AmongUs.GameLibs.Steam" Version="2023.3.28" />
+		<PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="1.1.1" />
+		<PackageReference Include="BepInEx.IL2CPP" Version="6.0.0-be.577" />
 	</ItemGroup>
 
   <ItemGroup>
