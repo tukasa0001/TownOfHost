@@ -38,7 +38,7 @@ class RepairSystemPatch
         [HarmonyArgument(2)] byte amount)
     {
 
-        if (Options.DisableSabotage.GetBool()) return false;
+        if (Options.DisableSabotage.GetBool() && systemType == SystemTypes.Sabotage) return false;
 
         // 蠢蛋无法修复破坏
         if (player.Is(CustomRoles.Fool) && systemType is SystemTypes.Sabotage or SystemTypes.Comms or SystemTypes.Electrical or SystemTypes.Reactor) return false;
