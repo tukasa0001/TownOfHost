@@ -1070,9 +1070,9 @@ Disabled,禁用,Disabled,Отключено
 FailToTrack,无法追踪,Failed To Track,Не Удалось Отследить
 Mad-,背叛的,Mad ,Безумный 
 KilledBy, ← , ← , ← 
-CantUse.lastroles,不可以在游戏中查看上局职业,Unable to get last roles during a game,Нельзя использовать /lastroles во время игры
-CantUse.killlog,不可以在游戏中查看击杀记录,Unable to get killlog during a game,Нельзя использовать /killlog во время игры
-CantUse.lastresult,不可以在游戏中查看游戏结果,Unable to get last results during a game,Нельзя использовать /lastresult во время игры
+CantUse.lastroles,不可以在游戏中查看上局职业,Unable to use /lastroles during a game.,Нельзя использовать /lastroles во время игры.
+CantUse.killlog,不可以在游戏中查看击杀记录,Unable to use /killlog during a game.,Нельзя использовать /killlog во время игры.
+CantUse.lastresult,不可以在游戏中查看游戏结果,Unable to use /lastresult during a game.,Нельзя использовать /lastresult во время игры.
 IllegalColor,请输入正确的颜色,Please enter the correct color,Пожалуйста введите правильный цвет
 DisableUseCommand,房主设置不允许使用该指令,Host settings do not allow this command to be used.,Настройки Хоста запрещают использовать эту команду
 SureUse.quit,我们将踢出您并封禁您以防止您再次遇到这个糟糕的房间，此操作不可逆转，如果您真的希望如此请发送 /qt {0},"We will kick you and block you from entering this lobby again. This setting is irreversible. If you really want it, please send the command /qt {0}","Мы кикнем  вас и заблокируем, чтобы вы больше не смогли зайти в это лобби. Эта настройка необратима. Если вы действительно этого хотите, пожалуйста, отправьте команду /qt {0}"
