@@ -76,6 +76,7 @@ public static class Gangster
             RecruitLimit[killer.PlayerId]--;
             SendRPC(killer.PlayerId);
             target.RpcSetCustomRole(CustomRoles.Madmate);
+            NameColorManager.Add(killer.PlayerId, target.PlayerId, "#ff1919");
             Utils.NotifyRoles(target);
             Utils.NotifyRoles(killer);
             killer.RpcGuardAndKill(target);
