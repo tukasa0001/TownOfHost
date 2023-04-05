@@ -121,7 +121,6 @@ namespace TownOfHost
             FallFromLadder.Reset();
             SerialKiller.Init();
             FireWorks.Init();
-            TimeThief.Init();
             Witch.Init();
             Egoist.Init();
             Executioner.Init();

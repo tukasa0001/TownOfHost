@@ -431,9 +431,6 @@ namespace TownOfHost
                 case CustomRoles.SerialKiller:
                     SerialKiller.ApplyKillCooldown(player.PlayerId); //シリアルキラーはシリアルキラーのキルクールに。
                     break;
-                case CustomRoles.TimeThief:
-                    TimeThief.SetKillCooldown(player.PlayerId); //タイムシーフはタイムシーフのキルクールに。
-                    break;
                 case CustomRoles.Arsonist:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
                     break;

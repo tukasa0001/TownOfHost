@@ -231,9 +231,6 @@ public static class CustomRoleManager
             case CustomRoles.FireWorks:
                 FireWorks.Add(pc.PlayerId);
                 break;
-            case CustomRoles.TimeThief:
-                TimeThief.Add(pc.PlayerId);
-                break;
             case CustomRoles.Vampire:
                 Vampire.Add(pc.PlayerId);
                 break;
