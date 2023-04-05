@@ -54,7 +54,7 @@ public static class Psychic
         for (int i = 0; i < count; i++)
             RedPlayer.Add(reader.ReadByte());
     }
-    public static bool IsRedFor(this PlayerControl target, PlayerControl seer)
+    public static bool IsRedForPsy(this PlayerControl target, PlayerControl seer)
     {
         if (target == null || seer == null || RedPlayer == null) return false;
         if (seer.Is(CustomRoles.Madmate)) return target.GetCustomRole().IsNeutral() || target.GetCustomRole().IsCK();
