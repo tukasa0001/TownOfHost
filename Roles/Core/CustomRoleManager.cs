@@ -101,9 +101,14 @@ public static class CustomRoleManager
     public static void OnMurderPlayer(PlayerControl appearanceKiller, PlayerControl appearanceTarget)
     {
         //MurderInfoの取得
-        //CheckMurderを経由していない場合はappearanceで処理
-        if (!CheckMurderInfos.TryGetValue(appearanceKiller.PlayerId, out var info))
+        if (CheckMurderInfos.TryGetValue(appearanceKiller.PlayerId, out var info))
         {
+            //参照出来たら削除
+            CheckMurderInfos.Remove(appearanceKiller.PlayerId);
+        }
+        else
+        {
+            //CheckMurderを経由していない場合はappearanceで処理
             info = new MurderInfo(appearanceKiller, appearanceTarget, appearanceKiller, appearanceTarget);
         }
 
@@ -137,8 +142,6 @@ public static class CustomRoleManager
 
         Utils.SyncAllSettings();
         Utils.NotifyRoles();
-
-        CheckMurderInfos.Remove(appearanceKiller.PlayerId);
     }
     /// <summary>
     /// RoleBase未実装のMurderPlayer処理
