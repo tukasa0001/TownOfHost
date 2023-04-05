@@ -276,4 +276,5 @@ public enum OptionFormat
     Multiplier,
     Votes,
     Pieces,
+    Health,
 }

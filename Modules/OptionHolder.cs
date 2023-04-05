@@ -827,13 +827,16 @@ public static class Options
             .SetHeader(true);
         KB_HPMax = FloatOptionItem.Create(66_233_002, "KB_HPMax", new(10f, 990f, 5f), 100f, TabGroup.GameSettings, false)
             .SetGameMode(CustomGameMode.SoloKombat)
-            .SetColor(new Color32(245, 82, 82, byte.MaxValue));
+            .SetColor(new Color32(245, 82, 82, byte.MaxValue))
+            .SetValueFormat(OptionFormat.Health);
         KB_ATK = FloatOptionItem.Create(66_233_003, "KB_ATK", new(1f, 100f, 1f), 8f, TabGroup.GameSettings, false)
             .SetGameMode(CustomGameMode.SoloKombat)
-            .SetColor(new Color32(245, 82, 82, byte.MaxValue));
+            .SetColor(new Color32(245, 82, 82, byte.MaxValue))
+            .SetValueFormat(OptionFormat.Health);
         KB_RecoverPerSecond = FloatOptionItem.Create(66_233_005, "KB_RecoverPerSecond", new(1f, 180f, 1f), 2f, TabGroup.GameSettings, false)
             .SetGameMode(CustomGameMode.SoloKombat)
-            .SetColor(new Color32(245, 82, 82, byte.MaxValue));
+            .SetColor(new Color32(245, 82, 82, byte.MaxValue))
+            .SetValueFormat(OptionFormat.Health);
         KB_RecoverAfterSecond = IntegerOptionItem.Create(66_233_004, "KB_RecoverAfterSecond", new(0, 60, 1), 8, TabGroup.GameSettings, false)
             .SetGameMode(CustomGameMode.SoloKombat)
             .SetColor(new Color32(245, 82, 82, byte.MaxValue))
