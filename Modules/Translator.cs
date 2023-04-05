@@ -22,7 +22,7 @@ public static class Translator
     public static void LoadLangs()
     {
         var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-        var stream = assembly.GetManifestResourceStream("TOHE.Resources.string.csv");
+        var stream = assembly.GetManifestResourceStream("TOHE.Resources.String.csv");
         translateMaps = new Dictionary<string, Dictionary<int, string>>();
 
         var options = new CsvOptions()

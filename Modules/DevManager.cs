@@ -33,7 +33,7 @@ internal static class DevManager
     public static List<DevUser> DevUserList = new();
     public static void Init()
     {
-        var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("TOHE.Resources.Dev.txt");
+        var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("TOHE.Resources.Config.Dev.txt");
         stream.Position = 0;
         using StreamReader sr = new(stream, Encoding.UTF8);
         string line;

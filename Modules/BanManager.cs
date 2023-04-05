@@ -31,17 +31,17 @@ public static class BanManager
             {
                 Logger.Warn("创建新的 DenyName.txt 文件", "BanManager");
                 File.Create(DENY_NAME_LIST_PATH).Close();
-                File.WriteAllText(DENY_NAME_LIST_PATH, GetResourcesTxt("TOHE.Resources.DenyName.txt"));
+                File.WriteAllText(DENY_NAME_LIST_PATH, GetResourcesTxt("TOHE.Resources.Config.DenyName.txt"));
             }
             if (!File.Exists(BAN_WORDS_PATH))
             {
                 Logger.Warn("创建新的 BanWords.txt 文件", "BanManager");
                 File.Create(BAN_WORDS_PATH).Close();
-                File.WriteAllText(BAN_WORDS_PATH, GetResourcesTxt("TOHE.Resources.BanWords.txt"));
+                File.WriteAllText(BAN_WORDS_PATH, GetResourcesTxt("TOHE.Resources.Config.BanWords.txt"));
             }
 
             //读取EAC名单
-            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("TOHE.Resources.EACList.txt");
+            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("TOHE.Resources.Config.EACList.txt");
             stream.Position = 0;
             using StreamReader sr = new(stream, Encoding.UTF8);
             string line;

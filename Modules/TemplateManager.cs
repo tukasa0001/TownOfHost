@@ -55,7 +55,7 @@ public static class TemplateManager
                 else
                 {
                     Logger.Warn("创建新的 Template 文件", "TemplateManager");
-                    File.WriteAllText(TEMPLATE_FILE_PATH, GetResourcesTxt("TOHE.Resources.template.txt"));
+                    File.WriteAllText(TEMPLATE_FILE_PATH, GetResourcesTxt("TOHE.Resources.Config.template.txt"));
                 }
             }
             catch (Exception ex)

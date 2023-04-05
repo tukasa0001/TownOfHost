@@ -113,7 +113,7 @@ public static class GameOptionsMenuPatch
             menus.Add(tohSettings.gameObject);
 
             var tohTab = Object.Instantiate(roleTab, roleTab.transform.parent);
-            tohTab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Utils.LoadSprite($"TOHE.Resources.TabIcon_{tab}.png", 100f);
+            tohTab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Utils.LoadSprite($"TOHE.Resources.Images.TabIcon_{tab}.png", 100f);
             tabs.Add(tohTab);
             var tohTabHighlight = tohTab.transform.FindChild("Hat Button").FindChild("Tab Background").GetComponent<SpriteRenderer>();
             highlights.Add(tohTabHighlight);

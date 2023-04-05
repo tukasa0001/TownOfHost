@@ -134,7 +134,7 @@ internal class TitleLogoPatch
             tohLogo.transform.position = Vector3.up;
             tohLogo.transform.localScale *= 1.2f;
             var renderer = tohLogo.AddComponent<SpriteRenderer>();
-            renderer.sprite = Utils.LoadSprite("TOHE.Resources.TownOfHost-Logo.png", 300f);
+            renderer.sprite = Utils.LoadSprite("TOHE.Resources.Images.TownOfHost-Logo.png", 300f);
 
             return;
         }
@@ -181,7 +181,7 @@ internal class TitleLogoPatch
             var CustomBG = new GameObject("CustomBG");
             CustomBG.transform.position = new Vector3(0, 0, 520f);
             var bgRenderer = CustomBG.AddComponent<SpriteRenderer>();
-            bgRenderer.sprite = Utils.LoadSprite("TOHE.Resources.TOHE-BG.jpg", 179f);
+            bgRenderer.sprite = Utils.LoadSprite("TOHE.Resources.Images.TOHE-BG.jpg", 179f);
         }
     }
 }
