@@ -168,88 +168,88 @@ public class TaskState
 
         if (!hasTasks) return;
 
-        //FIXME:SpeedBooster class transplant
-        if (player.IsAlive()
-        && player.Is(CustomRoles.SpeedBooster)
-        && ((CompletedTasksCount + 1) <= Options.SpeedBoosterTimes.GetInt()))
+        if (AmongUsClient.Instance.AmHost)
         {
-            Logger.Info("增速者触发加速:" + player.GetNameWithRole(), "SpeedBooster");
-            Main.AllPlayerSpeed[player.PlayerId] += Options.SpeedBoosterUpSpeed.GetFloat();
-        }
-
-        /*
-        //叛徒修理搞破坏
-        if (player.IsAlive()
-        && player.Is(CustomRoles.SabotageMaster)
-        && player.Is(CustomRoles.Madmate))
-        {
-            List<SystemTypes> SysList = new();
-            foreach (SystemTypes sys in Enum.GetValues(typeof(SystemTypes)))
-                if (Utils.IsActive(sys)) SysList.Add(sys);
-
-            if (SysList.Count > 0)
+            //FIXME:SpeedBooster class transplant
+            if (player.IsAlive()
+            && player.Is(CustomRoles.SpeedBooster)
+            && ((CompletedTasksCount + 1) <= Options.SpeedBoosterTimes.GetInt()))
             {
-                var SbSys = SysList[IRandom.Instance.Next(0, SysList.Count)];
+                Logger.Info("增速者触发加速:" + player.GetNameWithRole(), "SpeedBooster");
+                Main.AllPlayerSpeed[player.PlayerId] += Options.SpeedBoosterUpSpeed.GetFloat();
+            }
 
-                MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, player.GetClientId());
-                SabotageFixWriter.Write((byte)SbSys);
-                MessageExtensions.WriteNetObject(SabotageFixWriter, player);
-                AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+            /*
+            //叛徒修理搞破坏
+            if (player.IsAlive()
+            && player.Is(CustomRoles.SabotageMaster)
+            && player.Is(CustomRoles.Madmate))
+            {
+                List<SystemTypes> SysList = new();
+                foreach (SystemTypes sys in Enum.GetValues(typeof(SystemTypes)))
+                    if (Utils.IsActive(sys)) SysList.Add(sys);
 
-                foreach (var target in Main.AllPlayerControls)
+                if (SysList.Count > 0)
                 {
-                    if (target == player || target.Data.Disconnected) continue;
-                    SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, target.GetClientId());
+                    var SbSys = SysList[IRandom.Instance.Next(0, SysList.Count)];
+
+                    MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, player.GetClientId());
                     SabotageFixWriter.Write((byte)SbSys);
-                    MessageExtensions.WriteNetObject(SabotageFixWriter, target);
+                    MessageExtensions.WriteNetObject(SabotageFixWriter, player);
                     AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
-                }
-                Logger.Info("叛徒修理工造成破坏:" + player.cosmetics.nameText.text, "SabotageMaster");
-            }
-        }
-        */
 
-        //传送师完成任务
-        if (player.IsAlive()
-        && player.Is(CustomRoles.Transporter)
-        && ((CompletedTasksCount + 1) <= Options.TransporterTeleportMax.GetInt()))
-        {
-            Logger.Info("传送师触发传送:" + player.GetNameWithRole(), "Transporter");
-            var rd = IRandom.Instance;
-            List<PlayerControl> AllAlivePlayer = new();
-            foreach (var pc in Main.AllAlivePlayerControls.Where(x => !Pelican.IsEaten(x.PlayerId) && !x.inVent)) AllAlivePlayer.Add(pc);
-            if (AllAlivePlayer.Count >= 2)
-            {
-                var tar1 = AllAlivePlayer[rd.Next(0, AllAlivePlayer.Count)];
-                AllAlivePlayer.Remove(tar1);
-                var tar2 = AllAlivePlayer[rd.Next(0, AllAlivePlayer.Count)];
-                var pos = tar1.GetTruePosition();
-                Utils.TP(tar1.NetTransform, tar2.GetTruePosition());
-                Utils.TP(tar2.NetTransform, pos);
+                    foreach (var target in Main.AllPlayerControls)
+                    {
+                        if (target == player || target.Data.Disconnected) continue;
+                        SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, target.GetClientId());
+                        SabotageFixWriter.Write((byte)SbSys);
+                        MessageExtensions.WriteNetObject(SabotageFixWriter, target);
+                        AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+                    }
+                    Logger.Info("叛徒修理工造成破坏:" + player.cosmetics.nameText.text, "SabotageMaster");
+                }
             }
-        }
+            */
 
-        //工作狂做完了
-        if (player.Is(CustomRoles.Workaholic) && (CompletedTasksCount + 1) >= AllTasksCount
-                && !(Options.WorkaholicCannotWinAtDeath.GetBool() && !player.IsAlive()))
-        {
-            foreach (var pc in Main.AllAlivePlayerControls)
+            //传送师完成任务
+            if (player.IsAlive()
+            && player.Is(CustomRoles.Transporter)
+            && ((CompletedTasksCount + 1) <= Options.TransporterTeleportMax.GetInt()))
             {
-                if (pc != player)
+                Logger.Info("传送师触发传送:" + player.GetNameWithRole(), "Transporter");
+                var rd = IRandom.Instance;
+                List<PlayerControl> AllAlivePlayer = new();
+                foreach (var pc in Main.AllAlivePlayerControls.Where(x => !Pelican.IsEaten(x.PlayerId) && !x.inVent)) AllAlivePlayer.Add(pc);
+                if (AllAlivePlayer.Count >= 2)
                 {
-                    pc.SetRealKiller(player);
-                    pc.RpcMurderPlayerV3(pc);
-                    Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Ashamed;
-                    Main.PlayerStates[pc.PlayerId].SetDead();
-                }
-                else
-                {
-                    RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
-                    Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Overtired;
+                    var tar1 = AllAlivePlayer[rd.Next(0, AllAlivePlayer.Count)];
+                    AllAlivePlayer.Remove(tar1);
+                    var tar2 = AllAlivePlayer[rd.Next(0, AllAlivePlayer.Count)];
+                    var pos = tar1.GetTruePosition();
+                    Utils.TP(tar1.NetTransform, tar2.GetTruePosition());
+                    Utils.TP(tar2.NetTransform, pos);
                 }
             }
-            CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Workaholic); //爆破で勝利した人も勝利させる
-            CustomWinnerHolder.WinnerIds.Add(player.PlayerId);
+
+            //工作狂做完了
+            if (player.Is(CustomRoles.Workaholic) && (CompletedTasksCount + 1) >= AllTasksCount
+                    && !(Options.WorkaholicCannotWinAtDeath.GetBool() && !player.IsAlive()))
+            {
+                RPC.PlaySoundRPC(player.PlayerId, Sounds.KillSound);
+                foreach (var pc in Main.AllAlivePlayerControls)
+                {
+                    if (pc.PlayerId != player.PlayerId)
+                    {
+                        Main.PlayerStates[pc.PlayerId].deathReason = pc.PlayerId == player.PlayerId ?
+                            PlayerState.DeathReason.Overtired : PlayerState.DeathReason.Ashamed;
+                        pc.RpcMurderPlayerV3(pc);
+                        Main.PlayerStates[pc.PlayerId].SetDead();
+                        pc.SetRealKiller(player);
+                    }
+                }
+                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Workaholic); //爆破で勝利した人も勝利させる
+                CustomWinnerHolder.WinnerIds.Add(player.PlayerId);
+            }
         }
 
         //クリアしてたらカウントしない
