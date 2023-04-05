@@ -189,7 +189,7 @@ class CreatePlayerPatch
 
         new LateTask(() =>
         {
-            if (client.Character == null) return;
+            if (client.Character == null || AmongUsClient.Instance.AmHost) return;
             if (client.Character.Data.PlayerLevel != 0 && client.Character.Data.PlayerLevel < Options.KickLowLevelPlayer.GetInt())
             {
                 AmongUsClient.Instance.KickPlayer(client.Id, false);
