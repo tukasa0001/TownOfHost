@@ -1,12 +1,24 @@
-[![Cover](Resources/Images/TOHE-BG.jpg)](https://www.bilibili.com/video/BV1TM411T7UW/ "TOHE")
 
-> ## 声明
+<h1 align="center">~ TownofHost Edited ~</h1>
+
+<br>
+
+<img align="left" alt="Cover" src="Resources/Images/TOHE-BG.jpg" width="50%" height="auto" /> 
+
+<p>
+  
+> ### 声明
 >
 > 该模组不隶属于我们之中或 Innersloth LLC，其中包含的内容未经 Innersloth LLC 认可或以其他方式赞助。 此处包含的部分材料是 Innersloth LLC 的财产。 © Innersloth LLC。
 >
 
-##  :zap: 更多信息请移步：[**tohe.cc**](https://tohe.cc)
-##  :sparkles: 最新版本下载：[点我](https://github.com/KARPED1EM/TownOfHostEdited/releases/latest)
+###  :zap: 更多信息请移步：[**tohe.cc**](https://tohe.cc)
+###  :sparkles: 最新版本下载：[点我](https://github.com/KARPED1EM/TownOfHostEdited/releases/latest)
+
+</p>
+  
+<br>
+<br>
 
 ---
 
