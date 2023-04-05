@@ -126,6 +126,9 @@ public static class CustomRoleManager
         else
             OnMurderPlayerAsTarget(info);
 
+        //サブロール処理ができるまではラバーズをここで処理
+        FixedUpdatePatch.LoversSuicide(attemptTarget.PlayerId);
+
         //以降共通処理
         if (Main.PlayerStates[attemptTarget.PlayerId].deathReason == PlayerState.DeathReason.etc)
         {
@@ -166,9 +169,6 @@ public static class CustomRoleManager
             Executioner.Target.Remove(attemptTarget.PlayerId);
             Executioner.SendRPC(attemptTarget.PlayerId);
         }
-
-        FixedUpdatePatch.LoversSuicide(attemptTarget.PlayerId);
-
     }
 
     public static bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount)
