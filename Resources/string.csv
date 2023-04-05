@@ -89,7 +89,7 @@ QuickShooter,快枪手,Quick Shooter,Стрелок
 Concealer,隐蔽者（损坏）,Concealer (Broken),Консилер (Сломан)
 Eraser,抹除者,Eraser,Стирачка
 OverKiller,肢解者,Butcher,Мясник
-Hangman,侩子手
+Hangman,侩子手,Hangman,Вешатель
 
 # 船员阵营 / Crewmates
 Bait,诱饵,Bait,Байт
@@ -223,7 +223,7 @@ QuickShooterInfo,I have a big PLAN！,I have a big PLAN!,У меня есть б
 ConcealerInfo,当所有人戴上面具，一切都自由了,Change the appearance of all players,Измени облик всех игроков
 EraserInfo,恕我直言，你不配拥有能力,Im sorry，but you don't deserve that.,Простите，вы этого не заслужили.
 OverKillerInfo,且欣赏我美丽的作品,Enjoy my beautiful work,Наслаждайтесь моей работой
-HangmanInfo,就由我，来结束你的生命
+HangmanInfo,就由我，来结束你的生命,I will choice when your live will end,Это Я выбираю когда ты умрешь
 
 # 船员阵营 / Crewmate descriptions
 BaitInfo,好消息，杀了我可以吃席,Bait your enemies,Убийца моментально зарепортит ваш труп
@@ -341,7 +341,7 @@ QuickShooterInfoLong,(内鬼阵营):\n当击杀冷却结束时，快枪手可以
 ConcealerInfoLong,(内鬼阵营):\n隐蔽者变形后会让所有人变成小黑人，这个状态下所有人都看起来得一模一样。技能持续时间根据房主设定。请注意：通讯破坏小黑人与隐蔽者的技能可以叠加。请注意：隐蔽者发动技能期间召开会议则技能失效。,"(Impostors):\nAfter the shapeshift Concealer, everyone will turn into little black men, and everyone in this state will look exactly the same. The duration of the skill is set by the Host. Please note: When everyone becomes a little black man and camouflage works at the same time, they can be stacked on top of each other.","(Предатель):\nПосле того, как Консилер Морфанётся, все превратятся в маленьких черных человечков, и все в этом состоянии будут выглядеть совершенно одинаково. Продолжительность действия навыка устанавливается Хостом. Пожалуйста, обратите внимание: Когда все становятся маленькими черными человечками и одновременно работает камуфляж, они могут быть наложены друг на друга."
 EraserInfoLong,(内鬼阵营):\n抹除者可以在会议上投票给任意船员阵营目标以抹除目标的职业技能，抹除将在会议结束后生效。请注意：被抹除技能的玩家将被永远视为白板，包括游戏结算页面。,"(Impostors):\nErasers can vote for any crewmate at the meeting to erase the target's skills, and the removal will take effect after the meeting. Please note: Players with erased skills will always be treated as whiteboards, including game results.","(Предатель):\nСтирачка может проголосовать за любого Члена Экипажа на собрании, чтобы стереть профессиональные навыки цели, и удаление вступит в силу после собрания. Пожалуйста, обратите внимание: Игроки со стертыми навыками всегда будут рассматриваться как белые доски, включая резкльтат игры"
 OverKillerInfoLong,(内鬼阵营):\n肢解者击杀（包括被动击杀）的目标会出现多具尸体，以至于报告尸体时无法准确分辨其他受害者。请注意：因实现原理，被击杀的目标不得不重复地显示自己被击杀的动画，此动画无法跳过且期间无法正常参与会议。此外，若肢解者肢解了复仇者，则复仇者会因愤怒带走全场所有人。\n\n该职业在发动技能时可能造成房主严重卡顿，请谨慎开启。,"(Impostors):\nA target killed by Butcher will be treated as a set of dead bodies, so other dead bodies cannot be shown when reporting dead. Please note: A killed target may repeatedly display its kill animation. This animation cannot be skipped and cannot participate in the meeting during the period. You must wait for the animation to finish before you can participate normally in the game.","(Предатель):\nЦель, убитая Мясником, будет рассматриваться как множество трупов, так что другие трупы не могут быть показаны при сообщении о мёртвых. Пожалуйста, обратите внимание: Убитая цель может неоднократно отображать анимацию своего убийства. Эта анимация не может быть пропущена и не может участвовать во встрече в течение периода. Вы должны дождаться окончания анимации, прежде чем сможете нормально участвовать в игре."
-HangmanInfoLong,(内鬼阵营):\n侩子手在变形期间的击杀方式为绞杀，绞杀无视目标的任何状态例如医生的护盾、保镖的守护、大明星的技能等，被绞杀的玩家不会留下尸体，也不会触发其任何技能例如老兵反杀、幸运儿挡伤等（包括附加职业），此外，灵媒也不会得到提示。
+HangmanInfoLong,(内鬼阵营):\n侩子手在变形期间的击杀方式为绞杀，绞杀无视目标的任何状态例如医生的护盾、保镖的守护、大明星的技能等，被绞杀的玩家不会留下尸体，也不会触发其任何技能例如老兵反杀、幸运儿挡伤等（包括附加职业），此外，灵媒也不会得到提示。,"(Impostor):\nKills people by strangling them. Strangling ignores any kind of protection, like shield of a Medic, protection of Bodyguard and so on. Player who got stragnled will leave no body nor will activate any of perks, like Veteran's alert, the luck of Luckey. Doesn't appear for psychic.","(Предатель):\nВешатель убивает игроков, душа их. Удушение игнорирует любой вид защиты, такой как щит Медика, защита Телохранителя и тд. Игрок, которого задушили, не оставит тела и не активирует ни одну из способностей, таких как самозащита Ветерана, удача Удачника. Не появляется для Экстрасенса."
 
 # 双阵营 / Crew/Imp description
 GuesserInfoLong,(内鬼阵营或船员阵营):\n赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。,"(Impostors or Crewmate):\nGuesser can guess the roles of certain players during an encounter. If he guesses the role correctly, he will kill that target, and if wrong, he will commit suicide. \nGuessing command: ''/bt [Player ID] [Role Name]'' \nExample: /bt 3 Bait \nYou can see the player ID before the player's nickname, or you can use the ''/id'' command to see the IDs of all players.","(Предатель или Член Экипажа):\nУгадыватель может угадывать роли определённого игрока во время встречи. Если он угадает роль правильно, то он убьет эту цель, а если неправильно, то он совершит самоубийство. \nКоманда для угадываний: '/bt [Номер игрока] [Название Роли]'' \nПример: /bt 3 Байт \nВы можете увидеть номер игрока перед его никнеймом, или же для просмотра номеров всех игроков нужно использовать команду ''/id'' ."
@@ -480,7 +480,7 @@ AutoDisplayKillLog,结束后自动显示击杀记录,Display Killlog,Показ�
 AutoDisplayLastRoles,结束后自动显示上局职业,Display Last Roles,Показывать роли в прошлой игре
 AutoDisplayLastResult,结束后自动显示最终结果,Auto Display Last Result,Отображать результат последней игры в чате
 EnableUpMode,启用创作者保护计划（试验性）,启用创作者保护计划（试验性）,启用创作者保护计划（试验性）
-KickLowLevelPlayer,踢出没有达到指定等级的玩家
+KickLowLevelPlayer,踢出没有达到指定等级的玩家,Kick players lower than,Выгнать игроков с уровнем ниже
 AutoKickStart,踢出催开始的人,Kick the player who writes start,Кикнуть игрока который пишет start (Только англ)
 AutoKickStartTimes,踢出前警告次数,Number of warnings before kick,Количество предупреждений до кика
 AutoKickStartAsBan,踢出时封禁该玩家,Block a player after they kick,Заблокировать игрока после его кика
@@ -568,7 +568,7 @@ MenuTitle.Meeting,★ 会议相关设定,★Meeting★,★Собрание★
 MenuTitle.Ghost,★ 幽灵相关设定,★Ghost★,★Призраки★
 MenuTitle.Other,★ 其它设定,★Different★,★Другое★
 MenuTitle.Ejections,★ 驱逐相关设定,★Ejection★,★Выбрасивание★
-ShieldPersonDiedFirst,首刀保护（仅限被杀）,Shield for the person who got killed first in last game
+ShieldPersonDiedFirst,首刀保护（仅限被杀）,Shield for the person who got killed first in last game,Щит для первого убитого в прошлой игре
 
 ## 详细设定 / Advanced Settings
 Cooldown,冷却时间,Cooldown,Откат
@@ -710,14 +710,14 @@ GrenadierCanAffectNeutral,<color=#ffab1b>中立阵营</color>玩家会受到闪�
 TicketsPerKill,每次击杀增加票数,Increase in votes for kill,Увеличение голосов за убийство
 GangsterRecruitCooldown,击杀/招募冷却时间,Recruit cooldown, Откат переманивания
 GangsterRecruitLimit,招募玩家数量上限,Recruit limit,Лимит переманивания
-GanSheriffCanBeMadmate,可以招募<color=#f8cd46>警长</color>
-GanMayorCanBeMadmate,可以招募<color=#204d42>市长</color>
-GanNGuesserCanBeMadmate,可以招募<color=#eede26>正义赌怪</color>
+GanSheriffCanBeMadmate,可以招募<color=#f8cd46>警长</color>,<color=#f8cd46>Sheriff</color> can be converted,<color=#f8cd46>Шериф</color> может быть превращен
+GanMayorCanBeMadmate,可以招募<color=#204d42>市长</color>,<color=#204d42>Mayor</color> can be converted,<color=#204d42>Мэр</color> может быть превращен
+GanNGuesserCanBeMadmate,可以招募<color=#eede26>正义赌怪</color>,<color=#eede26>Nice Guesser</color> can be converted,<color=#eede26>Добрый Угадыватель</color> может быть превращен
 RevolutionistDrawTime,拉拢玩家所需时间,Retention duration,Длительность удерживания
 RevolutionistCooldown,拉拢玩家冷却时间,Skill сooldown,Откат навыка
 RevolutionistDrawCount,需要拉拢人数,Number of players he needs to tag,Количество игроков которых ему нужно пометить
 RevolutionistKillProbability,被拉拢玩家牺牲概率,Probability of successful retention,Вероятность успешного удерживания
-RevolutionistVentCountDown,达到胜利条件后跳管道时间限制,To enter vent he is given:,Чтобы пргуныть вентиляцию ему даётся:
+RevolutionistVentCountDown,达到胜利条件后跳管道时间限制,To enter vent he is given:,Чтобы прыгнуть в вентиляцию ему даётся:
 PelicanKillCooldown,吞人冷却时间,Cooldown Absorption,Откат поглощения
 SheriffCanBeMadmate,<color=#f8cd46>警长</color>可以成为叛徒,<color=#f8cd46>Sheriff</color> can become Madmate,<color=#f8cd46>Шериф</color> может стать <color=#ff1919>Безумцем</color>
 MayorCanBeMadmate,<color=#204d42>市长</color>可以成为叛徒,<color=#204d42>Mayor</color> can become Madmate,<color=#204d42>Мэр</color> может стать <color=#ff1919>Безумцем</color>
@@ -762,7 +762,7 @@ KB_ATK,初始攻击力,Default Attack,Атака
 KB_RecoverAfterSecond,脱离战斗几秒后开始回复血量,Recover Cooldown,Откат восстановления
 KB_RecoverPerSecond,每秒回复血量,Recover Per Second,Восстановления каждую секунду
 KB_ResurrectionWaitingTime,死亡后复活等待时间,Resurrection waiting time,Время возрождения
-KB_KillBonusMultiplier,击杀奖励倍率
+KB_KillBonusMultiplier,击杀奖励倍率,Kill bonus multiplier,Множитель бонуса за убийство
 
 ## 死因 / Death Reasons
 DeathReason.Kill,被杀,Kill,Убит
@@ -787,7 +787,7 @@ DeathReason.Overtired,猝死,Overtired,Переработал
 DeathReason.Ashamed,卷死,Ashamed,Пристыженный
 DeathReason.PissedOff,气死,Destroyed,Уничтожен
 DeathReason.Dismembered,肢解,Dismembered,Расчленен
-DeathReason.LossOfHead,绞杀
+DeathReason.LossOfHead,绞杀,Strangled,Задушен
 DeathReason.etc,其它,Other,Другое
 Alive,存活,Alive,Выжил
 Win,胜利, Wins, Победили
@@ -1015,8 +1015,8 @@ Preset_3,预设3,Preset 3,Сохранение 3
 Preset_4,预设4,Preset 4,Сохранение 4
 Preset_5,预设5,Preset 5,Сохранение 5
 Standard,标准,Standard,Стандартный
-SoloKombat,个人竞技,Solo Kombat
-ModeSoloKombat,个人竞技模式,Mode Solo Kombat
+SoloKombat,个人竞技,Solo Kombat,ПВП
+ModeSoloKombat,个人竞技模式,Mode Solo Kombat,Режим ПВП
 GameMode,游戏模式,Game Mode,Игровой Режим
 PressTabToNextPage,按下tab键查看更多...,Press Tab or Number for Next Page...,Нажмите Tab или Цифру чтобы перейти на следующую страницу...
 RoleSummaryText,复盘信息:,Game End Player-Roles List:,Игроки и роли в конце игры:
@@ -1070,9 +1070,9 @@ Disabled,禁用,Disabled,Отключено
 FailToTrack,无法追踪,Failed To Track,Не Удалось Отследить
 Mad-,背叛的,Mad ,Безумный 
 KilledBy, ← , ← , ← 
-CantUse.lastroles,不可以在游戏中查看上局职业,Unable to use /lastresult during a game,Нельзя использовать /lastresult во время игры
-CantUse.killlog,不可以在游戏中查看击杀记录
-CantUse.lastresult,不可以在游戏中查看游戏结果
+CantUse.lastroles,不可以在游戏中查看上局职业,Unable to get last roles during a game,Нельзя использовать /lastroles во время игры
+CantUse.killlog,不可以在游戏中查看击杀记录,Unable to get killlog during a game,Нельзя использовать /killlog во время игры
+CantUse.lastresult,不可以在游戏中查看游戏结果,Unable to get last results during a game,Нельзя использовать /lastresult во время игры
 IllegalColor,请输入正确的颜色,Please enter the correct color,Пожалуйста введите правильный цвет
 DisableUseCommand,房主设置不允许使用该指令,Host settings do not allow this command to be used.,Настройки Хоста запрещают использовать эту команду
 SureUse.quit,我们将踢出您并封禁您以防止您再次遇到这个糟糕的房间，此操作不可逆转，如果您真的希望如此请发送 /qt {0},"We will kick you and block you from entering this lobby again. This setting is irreversible. If you really want it, please send the command /qt {0}","Мы кикнем  вас и заблокируем, чтобы вы больше не смогли зайти в это лобби. Эта настройка необратима. Если вы действительно этого хотите, пожалуйста, отправьте команду /qt {0}"
@@ -1096,8 +1096,8 @@ KickAndriodPlayer,【{0}】因该房禁止安卓被请离房间,【{0}】 was ki
 KickBecauseLowLevel,【{0}】因未达到房主规定的等级限制被请离房间
 KickBecauseDiffrentVersionOrMod,【{0}】因安装了不同版本的模组被请离房间
 KBDisplayScore,第{0}名：{1}分,Ranking: {0} Score: {1},Место: {1} Счёт: {1}
-KBTimeRemain,剩余时间：{0} 秒,Time Remain: {0} Second
-GameOver,游戏结束
+KBTimeRemain,剩余时间：{0} 秒,Time Remain: {0} second,Осталось времени: {0} секунд
+GameOver,游戏结束,Game Over,Конец игры
 
 ## 作弊 / EAC
 EAC.CheatDetected.EAC,开挂（使用AUM）,Cheating usage detected (Using AUM),Обнаружено использование читов (используется AUM)
@@ -1165,4 +1165,4 @@ DCNotify.GameFull,该房间已满人，请稍后重试,"The room is full, please
 DCNotify.IncorrectVersion,您的AmongUs版本与该房间不同,Your version of Among Us is different from this room,Ваша версия Among Us отличается от этой комнаты
 
 ## 模式描述 / Mode Decription
-ModeDescribe.SoloKombat,本房间模式为【个人竞技模式】\n没有职业分配，所有人拥有血量，可以使用击杀键对其他人造成伤害。游戏结束时击杀数量最多的玩家获胜。,"Current mode is [Solo Kombat]\nNo roles assignments. Everyone has HP and can use the kill button to cause damage to other players. The player with the highest number of kills wins at the end of the game."
+ModeDescribe.SoloKombat,本房间模式为【个人竞技模式】\n没有职业分配，所有人拥有血量，可以使用击杀键对其他人造成伤害。游戏结束时击杀数量最多的玩家获胜。,"Current mode is [Solo Kombat]\nNo roles assignments. Everyone has HP and can use the kill button to cause damage to other players. The player with the highest number of kills wins at the end of the game.","Текущий режим - [ПВП]. У каждого есть здоровье, и может использовать кнопку 'Убить', чтобы нанести урон другим игрокам. Игрок, совершивший наибольшее количество убийств, выигрывает в конце игры."
