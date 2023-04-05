@@ -15,7 +15,7 @@ dovefitted#5329,#1379bf,不要首刀我,false,false
 teamelder#5856,#1379bf,正义之师（无信誉）,false,false
 luckylogo#7352,#f30000.林@林,false,false
 axefitful#8788,#8e8171,寄才是真理,false,false
-raltzonal#8893,#8e8171,寄才是真理,false,false
+raftzonal#8893,#8e8171,寄才是真理,false,false
 storeroan#0331,#FF0066,Night_瓜,true,false,Night_瓜
 twainrobin#8089,#0000FF,啊哈修maker,false,false
 mallcasual#6075,#f89ccb,波奇酱,false,false
