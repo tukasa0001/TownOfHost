@@ -54,8 +54,12 @@ public static class Psychic
         for (int i = 0; i < count; i++)
             RedPlayer.Add(reader.ReadByte());
     }
-    public static bool IsRedForPsy(this byte id) => RedPlayer != null && RedPlayer.Count != 0 && RedPlayer.Contains(id);
-    public static bool IsRedForPsy(this PlayerControl pc) => RedPlayer != null && RedPlayer.Count != 0 && RedPlayer.Contains(pc.PlayerId);
+    public static bool IsRedFor(this PlayerControl target, PlayerControl seer)
+    {
+        if (target == null || seer == null || RedPlayer == null) return false;
+        if (seer.Is(CustomRoles.Madmate)) return target.GetCustomRole().IsNeutral() || target.GetCustomRole().IsCK();
+        else return RedPlayer.Contains(seer.PlayerId);
+    }
     public static void OnMeetingStart()
     {
         if (Fresh.GetBool() || RedPlayer == null || RedPlayer.Count < 1)
