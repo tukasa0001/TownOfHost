@@ -460,7 +460,10 @@ SuffixMode.DoNotKillMe,佛祖保佑,Do not kill me,Не убивайте мен�
 SuffixMode.NoAndroidPlz,安卓别进,No phones,Без телефонов
 SuffixModeText.DoNotKillMe,别首刀我啊啊啊,Do not kill me,Не убивайте меня
 SuffixModeText.NoAndroidPlz,安卓别进求求了,No phones please,Без телефонов пожалуйста
-ColorNameMode,显示颜色名称,Color Name Mode,Режим: Никнейм соответствует цвету
+FormatNameMode,玩家名字同步模式
+FormatNameModes.None,无
+FormatNameModes.Color,颜色
+FormatNameModes.Snacks,随机
 DisableEmojiName,禁止玩家使用表情符号作为名字, Disable Emoji in names, Отключить Эмодзи в именах
 FixFirstKillCooldown,修正首刀冷却时间,Normalize First Kill Cooldown,Нормализовать откат убийства в начале Игры
 GhostCanSeeOtherRoles,幽灵可见他人职业,Ghosts Can See Other Roles,Призраки могут видеть все Роли

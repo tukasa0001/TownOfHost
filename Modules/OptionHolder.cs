@@ -313,6 +313,7 @@ public static class Options
     public static OptionItem AutoDisplayLastResult;
     public static OptionItem SuffixMode;
     public static OptionItem HideGameSettings;
+    public static OptionItem FormatNameMode;
     public static OptionItem ColorNameMode;
     public static OptionItem DisableEmojiName;
     public static OptionItem ChangeNameToRoleInfo;
@@ -379,13 +380,19 @@ public static class Options
         "SuffixMode.DoNotKillMe",
         "SuffixMode.NoAndroidPlz"
     };
-    public static readonly string[] RoleAssigningAlgorithms =
+    public static readonly string[] roleAssigningAlgorithms =
     {
         "RoleAssigningAlgorithm.Default",
         "RoleAssigningAlgorithm.NetRandom",
         "RoleAssigningAlgorithm.HashRandom",
         "RoleAssigningAlgorithm.Xorshift",
         "RoleAssigningAlgorithm.MersenneTwister",
+    };
+    public static readonly string[] formatNameModes =
+    {
+        "FormatNameModes.None",
+        "FormatNameModes.Color",
+        "FormatNameModes.Snacks",
     };
     public static SuffixModes GetSuffixMode() => (SuffixModes)SuffixMode.GetValue();
 
@@ -798,12 +805,12 @@ public static class Options
         HideGameSettings = BooleanOptionItem.Create(1_000_002, "HideGameSettings", false, TabGroup.SystemSettings, false);
         DIYGameSettings = BooleanOptionItem.Create(1_000_013, "DIYGameSettings", false, TabGroup.SystemSettings, false);
         PlayerCanSerColor = BooleanOptionItem.Create(1_000_014, "PlayerCanSerColor", false, TabGroup.SystemSettings, false);
-        ColorNameMode = BooleanOptionItem.Create(1_000_003, "ColorNameMode", false, TabGroup.SystemSettings, false);
+        FormatNameMode = StringOptionItem.Create(1_000_003, "FormatNameMode", formatNameModes, 0, TabGroup.SystemSettings, false);
         DisableEmojiName = BooleanOptionItem.Create(1_000_016, "DisableEmojiName", true, TabGroup.SystemSettings, false);
         ChangeNameToRoleInfo = BooleanOptionItem.Create(1_000_004, "ChangeNameToRoleInfo", false, TabGroup.SystemSettings, false);
         NoGameEnd = BooleanOptionItem.Create(900_002, "NoGameEnd", false, TabGroup.SystemSettings, false);
         AllowConsole = BooleanOptionItem.Create(900_005, "AllowConsole", false, TabGroup.SystemSettings, false);
-        RoleAssigningAlgorithm = StringOptionItem.Create(1_000_005, "RoleAssigningAlgorithm", RoleAssigningAlgorithms, 4, TabGroup.SystemSettings, true)
+        RoleAssigningAlgorithm = StringOptionItem.Create(1_000_005, "RoleAssigningAlgorithm", roleAssigningAlgorithms, 4, TabGroup.SystemSettings, true)
            .RegisterUpdateValueEvent(
                 (object obj, OptionItem.UpdateValueEventArgs args) => IRandom.SetInstanceById(args.CurrentValue)
             );

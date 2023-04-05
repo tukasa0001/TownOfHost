@@ -187,27 +187,35 @@ class CreatePlayerPatch
     {
         if (!AmongUsClient.Instance.AmHost) return;
 
-        new LateTask(() =>
+        if (client.Id != AmongUsClient.Instance.ClientId)
         {
-            if (client.Character == null || AmongUsClient.Instance.AmHost) return;
-            if (client.Character.Data.PlayerLevel != 0 && client.Character.Data.PlayerLevel < Options.KickLowLevelPlayer.GetInt())
+            new LateTask(() =>
             {
-                AmongUsClient.Instance.KickPlayer(client.Id, false);
-                string msg = string.Format(GetString("KickBecauseLowLevel"), client?.PlayerName);
-                Logger.SendInGame(msg);
-                Logger.Info(msg, "LowLevel Kick");
-            }
-        }, 1f, "LowLevel Kick Check");
+                if (client.Character == null) return;
+                if (client.Character.Data.PlayerLevel != 0 && client.Character.Data.PlayerLevel < Options.KickLowLevelPlayer.GetInt())
+                {
+                    AmongUsClient.Instance.KickPlayer(client.Id, false);
+                    string msg = string.Format(GetString("KickBecauseLowLevel"), client?.PlayerName);
+                    Logger.SendInGame(msg);
+                    Logger.Info(msg, "LowLevel Kick");
+                }
+            }, 1f, "LowLevel Kick Check");
+        }
 
         Logger.Msg($"创建玩家数据：ID{client.Character.PlayerId}: {client.PlayerName}", "CreatePlayer");
 
         //规范昵称
         var name = client.PlayerName;
-        name = name.RemoveHtmlTags().Replace(@"\", string.Empty).Replace("/", string.Empty);
-        if (Options.DisableEmojiName.GetBool())
-            name = Regex.Replace(name, @"\p{Cs}", string.Empty);
-        if (name.Length > 10) name = name[..10];
-        if (name.Length < 1) name = Main.Get_TName_Snacks;
+        if (Options.FormatNameMode.GetInt() == 2 && client.Id != AmongUsClient.Instance.ClientId)
+            name = Main.Get_TName_Snacks;
+        else
+        {
+            name = name.RemoveHtmlTags().Replace(@"\", string.Empty).Replace("/", string.Empty);
+            if (Options.DisableEmojiName.GetBool())
+                name = Regex.Replace(name, @"\p{Cs}", string.Empty);
+            if (name.Length > 10) name = name[..10];
+            if (name.Length < 1) name = Main.Get_TName_Snacks;
+        }
         Main.AllPlayerNames.Remove(client.Character.PlayerId);
         Main.AllPlayerNames.TryAdd(client.Character.PlayerId, name);
         if (!name.Equals(client.PlayerName))
