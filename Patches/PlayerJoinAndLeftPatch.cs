@@ -198,7 +198,7 @@ class CreatePlayerPatch
                 Logger.Info(msg, "LowLevel Kick");
             }
         }, 1f, "LowLevel Kick Check");
-        
+
         Logger.Msg($"创建玩家数据：ID{client.Character.PlayerId}: {client.PlayerName}", "CreatePlayer");
 
         //规范昵称

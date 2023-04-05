@@ -1,6 +1,5 @@
 ﻿using Hazel;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using static TOHE.Translator;
 
@@ -10,7 +9,7 @@ public static class Gangster
 {
     private static readonly int Id = 5054525;
     private static List<byte> playerIdList = new();
-    
+
     private static OptionItem RecruitLimitOpt;
     public static OptionItem KillCooldown;
 

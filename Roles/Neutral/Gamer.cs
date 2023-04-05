@@ -30,16 +30,12 @@ public static class Gamer
         CanVent = BooleanOptionItem.Create(Id + 11, "CanVent", true, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer]);
         HasImpostorVision = BooleanOptionItem.Create(Id + 13, "ImpostorVision", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer]);
         HealthMax = IntegerOptionItem.Create(Id + 15, "GamerHealthMax", new(5, 990, 5), 100, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
-            .SetValueFormat(OptionFormat.Percent)
             .SetValueFormat(OptionFormat.Health);
         Damage = IntegerOptionItem.Create(Id + 16, "GamerDamage", new(1, 100, 1), 15, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
-            .SetValueFormat(OptionFormat.Percent)
             .SetValueFormat(OptionFormat.Health);
         SelfHealthMax = IntegerOptionItem.Create(Id + 17, "GamerSelfHealthMax", new(100, 100, 5), 100, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
-            .SetValueFormat(OptionFormat.Percent)
             .SetValueFormat(OptionFormat.Health);
         SelfDamage = IntegerOptionItem.Create(Id + 18, "GamerSelfDamage", new(1, 100, 1), 35, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Gamer])
-            .SetValueFormat(OptionFormat.Percent)
             .SetValueFormat(OptionFormat.Health);
     }
     public static void Init()

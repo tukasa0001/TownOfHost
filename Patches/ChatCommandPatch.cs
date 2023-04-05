@@ -625,7 +625,7 @@ internal class ChatCommands
             "網紅" => GetString("CyberStar"),
             "俠客" => GetString("SwordsMan"),
             "正義賭怪" or "正义的赌怪" or "好赌" or "正义赌" => GetString("NiceGuesser"),
-            "邪惡賭怪" or "邪恶的赌怪" or "坏赌" or "恶赌" or "邪恶赌" or  "赌怪" => GetString("EvilGuesser"),
+            "邪惡賭怪" or "邪恶的赌怪" or "坏赌" or "恶赌" or "邪恶赌" or "赌怪" => GetString("EvilGuesser"),
             "市長" or "逝长" => GetString("Mayor"),
             "被害妄想症" or "被害妄想" or "被迫害妄想症" or "被害" or "妄想" or "妄想症" => GetString("Paranoia"),
             "愚者" or "愚" => GetString("Psychic"),
