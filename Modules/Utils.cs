@@ -1068,14 +1068,12 @@ public static class Utils
                     //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetRoleText =
                         (seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) ||
-                        (seer.Is(CustomRoles.Madmate) && target.GetCustomRole().IsImpostor()) ||
                         (seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers) && Options.LoverKnowRoles.GetBool()) ||
+                        (seer.GetCustomRole().IsImpostor() && target.GetCustomRole().IsImpostor() && Options.ImpKnowAlliesRole.GetBool()) ||
+                        (seer.Is(CustomRoles.Madmate) && target.GetCustomRole().IsImpostor()) ||
                         (seer.Is(CustomRoles.God)) ||
                         (target.Is(CustomRoles.GM))
-                        ? $"<size={fontSize}>{target.GetDisplayRoleName()}{GetProgressText(target)}</size>\r\n" : "";
-
-                    if (seer.GetCustomRole().IsImpostor() && target.GetCustomRole().IsImpostor() && Options.ImpKnowAlliesRole.GetBool())
-                        TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName(!seer.Data.IsDead)}</size>\r\n";
+                        ? $"<size={fontSize}>{target.GetDisplayRoleName(seer.PlayerId != target.PlayerId && !seer.Data.IsDead)}</size>\r\n" : "";
 
                     if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
                         TargetRoleText = $"<size={fontSize}>{GetProgressText(target)}</size>\r\n";
