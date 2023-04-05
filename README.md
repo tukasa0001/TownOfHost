@@ -16,8 +16,6 @@
 ###  :sparkles: 最新版本下载：[点我](https://github.com/KARPED1EM/TownOfHostEdited/releases/latest)
 
 </p>
-  
-<br>
 
 ---
 
