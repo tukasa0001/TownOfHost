@@ -1033,6 +1033,7 @@ Format.Multiplier,{0}x,{0}x,{0}х
 Format.Votes,{0}票,{0},{0}
 Format.Pieces,{0}个,{0},{0}
 Format.Health,{0}点,{0},{0}
+Format.Level,{0}级,{0},{0}
 KillButtonText,击杀,Kill,Убить
 SniperSnipeButtonText,狙击,Snipe,Застрелить
 FireWorksExplosionButtonText,引爆,Fire,Зажечь
