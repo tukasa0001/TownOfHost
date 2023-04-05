@@ -89,7 +89,7 @@ QuickShooter,快枪手,Quick Shooter,Стрелок
 Concealer,隐蔽者（损坏）,Concealer (Broken),Консилер (Сломан)
 Eraser,抹除者,Eraser,Стирачка
 OverKiller,肢解者,Butcher,Мясник
-Hangman,侩子手
+Hangman,刽子手
 
 # 船员阵营 / Crewmates
 Bait,诱饵,Bait,Байт
@@ -163,6 +163,7 @@ DualPersonality,双重人格,Schizophrenic,Шизофреник
 Mimic,宝箱怪,Mimic,Мимик
 
 ## 附加职业作为前缀时 / Prefixes for Add-ons
+
 Prefix.Ntr,海王,Neptune,Нептун
 Prefix.Watcher,窥视,Watcher,Наблюдатель
 Prefix.Flashman,闪电,Flash,Флэш
@@ -182,6 +183,8 @@ Prefix.DualPersonality,双重人格,Schizophrenic,Шизофреник
 Prefix.Mimic,宝箱怪,Mimic,Мимик
 
 ## 以下是职业简介（显示在开局以及任务栏的文本）/ Shows at "Impostor/Crewmate" screen
+
+# 中立阵营 / Neutral descriptions
 NeutralInfo,中立阵营,Independent forces unaffiliated with any other teams,Команда которая не принадлежит ни к каким другим командам
 
 # 内鬼阵营 / Impostor descriptions
@@ -341,10 +344,7 @@ QuickShooterInfoLong,(内鬼阵营):\n当击杀冷却结束时，快枪手可以
 ConcealerInfoLong,(内鬼阵营):\n隐蔽者变形后会让所有人变成小黑人，这个状态下所有人都看起来得一模一样。技能持续时间根据房主设定。请注意：通讯破坏小黑人与隐蔽者的技能可以叠加。请注意：隐蔽者发动技能期间召开会议则技能失效。,"(Impostors):\nAfter the shapeshift Concealer, everyone will turn into little black men, and everyone in this state will look exactly the same. The duration of the skill is set by the Host. Please note: When everyone becomes a little black man and camouflage works at the same time, they can be stacked on top of each other.","(Предатель):\nПосле того, как Консилер Морфанётся, все превратятся в маленьких черных человечков, и все в этом состоянии будут выглядеть совершенно одинаково. Продолжительность действия навыка устанавливается Хостом. Пожалуйста, обратите внимание: Когда все становятся маленькими черными человечками и одновременно работает камуфляж, они могут быть наложены друг на друга."
 EraserInfoLong,(内鬼阵营):\n抹除者可以在会议上投票给任意船员阵营目标以抹除目标的职业技能，抹除将在会议结束后生效。请注意：被抹除技能的玩家将被永远视为白板，包括游戏结算页面。,"(Impostors):\nErasers can vote for any crewmate at the meeting to erase the target's skills, and the removal will take effect after the meeting. Please note: Players with erased skills will always be treated as whiteboards, including game results.","(Предатель):\nСтирачка может проголосовать за любого Члена Экипажа на собрании, чтобы стереть профессиональные навыки цели, и удаление вступит в силу после собрания. Пожалуйста, обратите внимание: Игроки со стертыми навыками всегда будут рассматриваться как белые доски, включая резкльтат игры"
 OverKillerInfoLong,(内鬼阵营):\n肢解者击杀（包括被动击杀）的目标会出现多具尸体，以至于报告尸体时无法准确分辨其他受害者。请注意：因实现原理，被击杀的目标不得不重复地显示自己被击杀的动画，此动画无法跳过且期间无法正常参与会议。此外，若肢解者肢解了复仇者，则复仇者会因愤怒带走全场所有人。\n\n该职业在发动技能时可能造成房主严重卡顿，请谨慎开启。,"(Impostors):\nA target killed by Butcher will be treated as a set of dead bodies, so other dead bodies cannot be shown when reporting dead. Please note: A killed target may repeatedly display its kill animation. This animation cannot be skipped and cannot participate in the meeting during the period. You must wait for the animation to finish before you can participate normally in the game.","(Предатель):\nЦель, убитая Мясником, будет рассматриваться как множество трупов, так что другие трупы не могут быть показаны при сообщении о мёртвых. Пожалуйста, обратите внимание: Убитая цель может неоднократно отображать анимацию своего убийства. Эта анимация не может быть пропущена и не может участвовать во встрече в течение периода. Вы должны дождаться окончания анимации, прежде чем сможете нормально участвовать в игре."
-HangmanInfoLong,(内鬼阵营):\n侩子手在变形期间的击杀方式为绞杀，绞杀无视目标的任何状态例如医生的护盾、保镖的守护、大明星的技能等，被绞杀的玩家不会留下尸体，也不会触发其任何技能例如老兵反杀、幸运儿挡伤等（包括附加职业），此外，灵媒也不会得到提示。
-
-# 双阵营 / Crew/Imp description
-GuesserInfoLong,(内鬼阵营或船员阵营):\n赌怪可以在会议时猜测某位玩家的职业，正确则击杀目标，错误则会自杀。\n猜测指令为：/bt [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。,"(Impostors or Crewmate):\nGuesser can guess the roles of certain players during an encounter. If he guesses the role correctly, he will kill that target, and if wrong, he will commit suicide. \nGuessing command: ''/bt [Player ID] [Role Name]'' \nExample: /bt 3 Bait \nYou can see the player ID before the player's nickname, or you can use the ''/id'' command to see the IDs of all players.","(Предатель или Член Экипажа):\nУгадыватель может угадывать роли определённого игрока во время встречи. Если он угадает роль правильно, то он убьет эту цель, а если неправильно, то он совершит самоубийство. \nКоманда для угадываний: '/bt [Номер игрока] [Название Роли]'' \nПример: /bt 3 Байт \nВы можете увидеть номер игрока перед его никнеймом, или же для просмотра номеров всех игроков нужно использовать команду ''/id'' ."
+HangmanInfoLong,(内鬼阵营):\n刽子手在变形期间的击杀方式为绞杀，绞杀无视目标的任何状态例如医生的护盾、保镖的守护、大明星的技能等，被绞杀的玩家不会留下尸体，也不会触发其任何技能例如老兵反杀、幸运儿挡伤等（包括附加职业），此外，灵媒也不会得到提示。
 
 # 船员阵营 / Crewmates descriptions
 BaitInfoLong,(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告诱饵的尸体。但诱饵被清道夫击杀时技能会失效。,"(Crewmates):\nWhen you are killed, you force your killer to immediately self-report.","(Член Экипажа):\nКогда Приманку убивают, он заставляет убившего игрока \nмоментально зарепортить ваш труп."
