@@ -17,19 +17,11 @@ namespace TownOfHost
 
             if (ForceJapanese == null || ForceJapanese.ToggleButton == null)
             {
-                ForceJapanese = ClientOptionItem.Create(
-                    Translator.GetString("ForceJapanese"),
-                    "ForceJapanese",
-                    Main.ForceJapanese,
-                    __instance);
+                ForceJapanese = ClientOptionItem.Create("ForceJapanese", Main.ForceJapanese, __instance);
             }
             if (JapaneseRoleName == null || JapaneseRoleName.ToggleButton == null)
             {
-                JapaneseRoleName = ClientOptionItem.Create(
-                    Translator.GetString("JapaneseRoleName"),
-                    "JapaneseRoleName",
-                    Main.JapaneseRoleName,
-                    __instance);
+                JapaneseRoleName = ClientOptionItem.Create("JapaneseRoleName", Main.JapaneseRoleName, __instance);
             }
         }
     }
