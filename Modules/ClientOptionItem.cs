@@ -14,8 +14,7 @@ namespace TownOfHost
         private static int numOptions = 0;
 
         private ClientOptionItem(
-            string label,
-            string objectName,
+            string name,
             ConfigEntry<bool> config,
             OptionsMenuBehaviour optionsMenuBehaviour,
             Action additionalOnClickAction = null)
@@ -99,8 +98,8 @@ namespace TownOfHost
                     numOptions % 2 == 0 ? -1.3f : 1.3f,
                     2.2f - (0.5f * (numOptions / 2)),
                     -6f);
-                ToggleButton.name = objectName;
-                ToggleButton.Text.text = label;
+                ToggleButton.name = name;
+                ToggleButton.Text.text = Translator.GetString(name);
                 var passiveButton = ToggleButton.GetComponent<PassiveButton>();
                 passiveButton.OnClick = new();
                 passiveButton.OnClick.AddListener(new Action(() =>
@@ -118,13 +117,12 @@ namespace TownOfHost
         }
 
         public static ClientOptionItem Create(
-            string label,
-            string objectName,
+            string name,
             ConfigEntry<bool> config,
             OptionsMenuBehaviour optionsMenuBehaviour,
             Action additionalOnClickAction = null)
         {
-            return new(label, objectName, config, optionsMenuBehaviour, additionalOnClickAction);
+            return new(name, config, optionsMenuBehaviour, additionalOnClickAction);
         }
 
         public void UpdateToggle()
