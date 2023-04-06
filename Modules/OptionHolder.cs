@@ -98,8 +98,6 @@ namespace TownOfHost
         public static OptionItem LighterTaskCompletedVision;
         public static OptionItem LighterTaskCompletedDisableLightOut;
         public static OptionItem DoctorTaskCompletedBatteryCharge;
-        public static OptionItem SpeedBoosterUpSpeed; //加速値
-        public static OptionItem SpeedBoosterTaskTrigger; //効果を発動するタスク完了数
         public static OptionItem TrapperBlockMoveTime;
         public static OptionItem CanTerroristSuicideWin;
         public static OptionItem ArsonistDouseTime;
@@ -366,11 +364,6 @@ namespace TownOfHost
                 SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
                 info.OptionCreator?.Invoke();
             });
-            SetupRoleOptions(20600, TabGroup.CrewmateRoles, CustomRoles.SpeedBooster);
-            SpeedBoosterUpSpeed = FloatOptionItem.Create(20610, "SpeedBoosterUpSpeed", new(0.1f, 0.5f, 0.1f), 0.3f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
-                .SetValueFormat(OptionFormat.Multiplier);
-            SpeedBoosterTaskTrigger = IntegerOptionItem.Create(20611, "SpeedBoosterTaskTrigger", new(1, 99, 1), 5, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SpeedBooster])
-                .SetValueFormat(OptionFormat.Pieces);
             SetupRoleOptions(20700, TabGroup.CrewmateRoles, CustomRoles.Doctor);
             DoctorTaskCompletedBatteryCharge = FloatOptionItem.Create(20710, "DoctorTaskCompletedBatteryCharge", new(0f, 10f, 1f), 5f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Doctor])
                 .SetValueFormat(OptionFormat.Seconds);
