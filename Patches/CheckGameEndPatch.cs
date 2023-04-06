@@ -134,15 +134,6 @@ class GameEndChecker
                         CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
                         CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Sunnyboy);
                     }
-                    //FFF
-                    if (pc.Is(CustomRoles.FFF) && CustomWinnerHolder.WinnerTeam != CustomWinner.Lovers && !CustomWinnerHolder.AdditionalWinnerTeams.Contains(AdditionalWinners.Lovers) && !CustomRolesHelper.RoleExist(CustomRoles.Lovers) && !CustomRolesHelper.RoleExist(CustomRoles.Ntr))
-                    {
-                        if (Main.AllPlayerControls.Where(x => (x.Is(CustomRoles.Lovers) || x.Is(CustomRoles.Ntr)) && (x.GetRealKiller() == null ? -1 : x.GetRealKiller().PlayerId) == pc.PlayerId).Count() > 0)
-                        {
-                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
-                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.FFF);
-                        }
-                    }
                     //自爆卡车来咯
                     if (pc.Is(CustomRoles.Provocateur) && Main.Provoked.TryGetValue(pc.PlayerId, out var tar))
                     {
@@ -163,6 +154,19 @@ class GameEndChecker
                         {
                             CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
                             CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Lovers);
+                        }
+                    }
+                }
+
+                //FFF
+                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Lovers && !CustomWinnerHolder.AdditionalWinnerTeams.Contains(AdditionalWinners.Lovers) && !CustomRolesHelper.RoleExist(CustomRoles.Lovers) && !CustomRolesHelper.RoleExist(CustomRoles.Ntr))
+                {
+                    foreach (var pc in Main.AllPlayerControls.Where(x => x.Is(CustomRoles.FFF)))
+                    {
+                        if (Main.AllPlayerControls.Where(x => (x.Is(CustomRoles.Lovers) || x.Is(CustomRoles.Ntr)) && (x.GetRealKiller() == null ? -1 : x.GetRealKiller().PlayerId) == pc.PlayerId).Count() > 0)
+                        {
+                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.FFF);
                         }
                     }
                 }
