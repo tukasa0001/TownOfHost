@@ -1105,6 +1105,7 @@ KBDisplayScore,第{0}名：{1}分,Ranking: {0} Score: {1},Место: {1} Счё
 KBTimeRemain,剩余时间：{0} 秒,Time Remain: {0} second,Осталось времени: {0} секунд
 GameOver,游戏结束,Game Over,Конец игры
 TOHEOptions,TOHE 选项
+Back,返回
 
 ## 作弊 / EAC
 EAC.CheatDetected.EAC,开挂（使用AUM）,Cheating usage detected (Using AUM),Обнаружено использование читов (используется AUM)

@@ -38,8 +38,8 @@ public class ClientOptionItem
 
                 var closeButton = Object.Instantiate(mouseMoveToggle, CustomBackground.transform);
                 closeButton.transform.localPosition = new(1.3f, -2.3f, -6f);
-                closeButton.name = "Close";
-                closeButton.Text.text = Translator.GetString("Close");
+                closeButton.name = "Back";
+                closeButton.Text.text = Translator.GetString("Back");
                 closeButton.Background.color = Palette.DisabledGrey;
                 var closePassiveButton = closeButton.GetComponent<PassiveButton>();
                 closePassiveButton.OnClick = new();
@@ -54,19 +54,12 @@ public class ClientOptionItem
                 for (int i = 0; i < selectableButtons.Length; i++)
                 {
                     var button = selectableButtons[i];
-                    if (button == null)
-                    {
-                        continue;
-                    }
+                    if (button == null) continue;
 
                     if (button.name == "LeaveGameButton")
-                    {
                         leaveButton = button.GetComponent<PassiveButton>();
-                    }
                     else if (button.name == "ReturnToGameButton")
-                    {
                         returnButton = button.GetComponent<PassiveButton>();
-                    }
                 }
                 var generalTab = mouseMoveToggle.transform.parent.parent.parent;
 
@@ -74,7 +67,7 @@ public class ClientOptionItem
                 modOptionsButton.transform.localPosition = leaveButton?.transform?.localPosition ?? new(0f, -2.4f, 1f);
                 modOptionsButton.name = "TOHEOptions";
                 modOptionsButton.Text.text = Translator.GetString("TOHEOptions");
-                modOptionsButton.Background.color = new Color32(0x00, 0xbf, 0xff, 0xff);
+                modOptionsButton.Background.color = new Color32(255, 192, 203, byte.MaxValue);
                 var modOptionsPassiveButton = modOptionsButton.GetComponent<PassiveButton>();
                 modOptionsPassiveButton.OnClick = new();
                 modOptionsPassiveButton.OnClick.AddListener(new Action(() =>
@@ -83,13 +76,9 @@ public class ClientOptionItem
                 }));
 
                 if (leaveButton != null)
-                {
                     leaveButton.transform.localPosition = new(-1.35f, -2.411f, -1f);
-                }
                 if (returnButton != null)
-                {
                     returnButton.transform.localPosition = new(1.35f, -2.411f, -1f);
-                }
             }
 
             // ボタン生成
@@ -111,10 +100,7 @@ public class ClientOptionItem
             }));
             UpdateToggle();
         }
-        finally
-        {
-            numOptions++;
-        }
+        finally { numOptions++; }
     }
 
     public static ClientOptionItem Create(
@@ -128,16 +114,10 @@ public class ClientOptionItem
 
     public void UpdateToggle()
     {
-        if (ToggleButton == null)
-        {
-            return;
-        }
+        if (ToggleButton == null) return;
 
-        var color = Config.Value ? Color.green : Color.red;
+        var color = Config.Value ? new Color32(255, 192, 203, byte.MaxValue) : new Color32(77, 77, 77, byte.MaxValue);
         ToggleButton.Background.color = color;
-        if (ToggleButton.Rollover != null)
-        {
-            ToggleButton.Rollover.ChangeOutColor(color);
-        }
+        ToggleButton.Rollover?.ChangeOutColor(color);
     }
 }
