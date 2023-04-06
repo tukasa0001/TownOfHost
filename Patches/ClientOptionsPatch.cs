@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TOHE;
 
-//来源：https://github.com/tukasa0001/TownOfHost/pull/1265/files
+//来源：https://github.com/tukasa0001/TownOfHost/pull/1265
 [HarmonyPatch(typeof(OptionsMenuBehaviour), nameof(OptionsMenuBehaviour.Start))]
 public static class OptionsMenuBehaviourStartPatch
 {
@@ -13,10 +13,7 @@ public static class OptionsMenuBehaviourStartPatch
 
     public static void Postfix(OptionsMenuBehaviour __instance)
     {
-        if (__instance.DisableMouseMovement == null)
-        {
-            return;
-        }
+        if (__instance.DisableMouseMovement == null) return;
 
         Main.DisableTOHE.Value = false;
         if (!Main.SetAutoStartToDisable)
